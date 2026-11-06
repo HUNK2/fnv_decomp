@@ -26,7 +26,7 @@ public:
     {
         CreditSceneNode* data;
         void FUN_0066b0d0(CreditSceneNode*);
-        CreditSceneNode* FUN_00559450();
+        CreditSceneNode* Modelloader_GetReferencedThis();
     };
 
     struct NiFixedStringArray

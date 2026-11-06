@@ -196,7 +196,7 @@ void FUN_00d08a40_class::ProcessFlaggedEntries(void* arg)
 }
 
 struct FUN_00cd2a00_class {
-    void __thiscall FUN_00cd2a00();
+    void __thiscall GetValue_00cd2a00();
 };
 
 // @fnv 0x00d083e0
@@ -205,7 +205,7 @@ void __stdcall hkpAabbTreeWorldManager_getNodeIdx(void* arg)
 {
     FUN_00cd2a00_class* p = reinterpret_cast<FUN_00cd2a00_class*>(
         reinterpret_cast<char*>(arg) + reinterpret_cast<signed char*>(arg)[0x10]);
-    p->FUN_00cd2a00();
+    p->GetValue_00cd2a00();
 }
 
 struct FUN_00d08a90_class {
@@ -283,13 +283,13 @@ struct PrimaryBase
 
 struct SecondaryBase
 {
-    virtual void FUN_00d089c0();
+    virtual void HkpAabbTreeWorldManager_removeObjectFromTree_Thunk();
 };
 
 struct Derived : PrimaryBase, SecondaryBase
 {
     Derived();
-    virtual void FUN_00d089c0();
+    virtual void HkpAabbTreeWorldManager_removeObjectFromTree_Thunk();
 };
 
 Derived::Derived()
@@ -297,7 +297,8 @@ Derived::Derived()
 }
 
 // @fnv 0x00d089c0
-void Derived::FUN_00d089c0()
+// src: GUESS 0x00d089c0 (confidence: medium)
+void Derived::HkpAabbTreeWorldManager_removeObjectFromTree_Thunk()
 {
     this->PrimaryBase::hkpAabbTreeWorldManager_removeObjectFromTree();
 }
@@ -315,13 +316,13 @@ struct PrimaryBase
 
 struct SecondaryBase
 {
-    virtual void FUN_00d089d0();
+    virtual void ForwardCall_00d089d0();
 };
 
 struct Derived : PrimaryBase, SecondaryBase
 {
     Derived();
-    virtual void FUN_00d089d0();
+    virtual void ForwardCall_00d089d0();
 };
 
 Derived::Derived()
@@ -329,7 +330,8 @@ Derived::Derived()
 }
 
 // @fnv 0x00d089d0
-void Derived::FUN_00d089d0()
+// src: GUESS 0x00d089d0 (confidence: low)
+void Derived::ForwardCall_00d089d0()
 {
     this->PrimaryBase::hkpAabbTreeWorldManager_removeObjectFromTree();
 }
@@ -341,11 +343,12 @@ struct Base {
 };
 
 struct Derived {
-    void __thiscall FUN_00d089e0();
+    void __thiscall HkpAabbTreeWorldManager_removeObjectFromTree_Thunk_00d089e0();
 };
 
 // @fnv 0x00d089e0
-void __thiscall Derived::FUN_00d089e0()
+// src: GUESS 0x00d089e0 (confidence: medium)
+void __thiscall Derived::HkpAabbTreeWorldManager_removeObjectFromTree_Thunk_00d089e0()
 {
     ((Base*)((char*)this - 0x18))->hkpAabbTreeWorldManager_removeObjectFromTree();
 }
@@ -752,7 +755,7 @@ struct MyBase1
 
 struct MyBase2
 {
-    virtual void FUN_00d089c0();
+    virtual void HkpAabbTreeWorldManager_removeObjectFromTree_Thunk();
     virtual void vfunc2_1();
     virtual void vfunc2_2();
     virtual void vfunc2_3();
@@ -762,7 +765,7 @@ struct MyBase2
 
 struct MyBase3
 {
-    virtual void FUN_00d089e0();
+    virtual void HkpAabbTreeWorldManager_removeObjectFromTree_Thunk_00d089e0();
     virtual void vfunc3_1();
     virtual void vfunc3_2();
     virtual void vfunc3_3();
@@ -814,8 +817,8 @@ struct FUN_00d08cf0 : MyBase1, MyBase2, MyBase3, MyBase4, MyBase5
 
     FUN_00d08cf0(ListenerManager* a1, int a2, float a3);
     virtual void hkpAabbTreeWorldManager_removeObjectFromTree();
-    virtual void FUN_00d089c0();
-    virtual void FUN_00d089e0();
+    virtual void HkpAabbTreeWorldManager_removeObjectFromTree_Thunk();
+    virtual void HkpAabbTreeWorldManager_removeObjectFromTree_Thunk_00d089e0();
     virtual void vfunc4_0();
     virtual void vfunc5_0();
 
@@ -935,10 +938,11 @@ struct FUN_00d0a1e0_class {
     int unk60;
     int unk64;
     char unk68;
-    char __thiscall FUN_00d0a1e0();
+    char __thiscall GetUnk68_00d0a1e0();
 };
 // @fnv 0x00d0a1e0
-char __thiscall FUN_00d0a1e0_class::FUN_00d0a1e0() {
+// src: GUESS 0x00d0a1e0 (confidence: low)
+char __thiscall FUN_00d0a1e0_class::GetUnk68_00d0a1e0() {
     return unk68;
 }
 
@@ -1000,8 +1004,8 @@ __declspec(align(16)) struct S00d08740_coll {
     int unk78;
     int unk7c;
     float m_80;
-    void FUN_00d984b0(void* a0, void* a1, void* a2, void* a3, void* a4, void* a5, void* a6, void* a7);
-    void FUN_00d9a2a0(void* a0, void* a1, void* a2, void* a3, void* a4, void* a5, void* a6, void* a7);
+    void ComputeValues_00d984b0(void* a0, void* a1, void* a2, void* a3, void* a4, void* a5, void* a6, void* a7);
+    void ProcessAndReturnValue_00d9a2a0(void* a0, void* a1, void* a2, void* a3, void* a4, void* a5, void* a6, void* a7);
 };
 struct S00d08740_cls {
     void* m_00;
@@ -1028,7 +1032,7 @@ void S00d08740_cls::Collect(void* kFrom, void* kTo, void* pkRoot, void* pkFilter
         kCollector.m_00 = (int)&DAT_010ccfcc;
         kCollector.m_24 = 0;
         kCollector.m_80 = DAT_0104da4c;
-        kCollector.FUN_00d984b0(m_10, kFrom, kTo, pkRoot, pkFilter, pkShapeFilter, pkOutput, pkCollector);
+        kCollector.ComputeValues_00d984b0(m_10, kFrom, kTo, pkRoot, pkFilter, pkShapeFilter, pkOutput, pkCollector);
     }
     if (m_24) {
         S00d08740_coll kCollector;
@@ -1036,7 +1040,7 @@ void S00d08740_cls::Collect(void* kFrom, void* kTo, void* pkRoot, void* pkFilter
         kCollector.m_04 = (int)&DAT_010ccfe0;
         kCollector.m_24 = 0;
         kCollector.m_80 = DAT_0104da4c;
-        kCollector.FUN_00d9a2a0(m_0c, kFrom, kTo, pkRoot, pkFilter, pkShapeFilter, pkOutput, pkCollector);
+        kCollector.ProcessAndReturnValue_00d9a2a0(m_0c, kFrom, kTo, pkRoot, pkFilter, pkShapeFilter, pkOutput, pkCollector);
     }
 }
 
@@ -1105,7 +1109,7 @@ public:
 class hkpIslandListenerD08 {
 public:
     virtual void islandAddedCallback(hkpSimulationIsland* island);
-    virtual void FUN_00d089f0(hkpSimulationIsland* island);
+    virtual void MarkAndProcessIslandCollidables(hkpSimulationIsland* island);
 };
 
 class TrackerD08 : public hkpPrimaryD08, public hkpIslandListenerD08 {
@@ -1134,12 +1138,13 @@ public:
     bool m_needsUpdate;
 
     void hkpAabbTreeWorldManager_queueInactivated(hkpCollidable* collidable);
-    virtual void FUN_00d089f0(hkpSimulationIsland* island);
+    virtual void MarkAndProcessIslandCollidables(hkpSimulationIsland* island);
 };
 
 // When enabled, marks the tracker for update and calls FUN_00d08980 on each broad-phase-type-1 collidable in the island's actor entries.
 // @fnv 0x00d089f0
-void TrackerD08::FUN_00d089f0(hkpSimulationIsland* island)
+// src: GUESS 0x00d089f0 (confidence: medium)
+void TrackerD08::MarkAndProcessIslandCollidables(hkpSimulationIsland* island)
 {
     if (m_enabled) {
         m_needsUpdate = true;
@@ -1171,9 +1176,9 @@ struct Cls_00c917f0 { void __thiscall hkpWorld_removePhantomListener(void*); };
 struct Cls_00c91840 { void __thiscall RemovePointer(void*); };
 struct Cls_00c918e0 { void __thiscall ClearValue(void*); };
 struct Cls_00d97850 { void __thiscall ClearBuffers(); };
-struct Cls_00d04370 { void __thiscall FUN_00d04370(); };
+struct Cls_00d04370 { void __thiscall ForwardCall_00d04370(); };
 struct Cls_00cb1a90 { void __thiscall ProcessArgument(hkMemoryAllocator*); };
-struct Cls_00a29680 { void __thiscall FUN_00a29680(); };
+struct Cls_00a29680 { void __thiscall Object_DoNothing(); };
 
 struct Virt_d08e80 {
     virtual ~Virt_d08e80();
@@ -1256,12 +1261,12 @@ void Tgt_d08e80::Destructor()
 
     Cls_00d04370* pBlock6C = unk6C;
     if (pBlock6C) {
-        pBlock6C->FUN_00d04370();
+        pBlock6C->ForwardCall_00d04370();
         heap<hkMemoryAllocator>(*fnvc_adapt::hkMemoryRouter_getInstance()).blockFree(pBlock6C, 4);
     }
 
     ((Cls_00cb1a90*)&unk50)->ProcessArgument(reinterpret_cast<hkMemoryAllocator*>(fnvc_adapt::hkMemoryRouter_getInstance()->m_heap));
-    ((Cls_00a29680*)&unk50)->FUN_00a29680();
+    ((Cls_00a29680*)&unk50)->Object_DoNothing();
 
     m_aiIndexedValues.destroy();
 
@@ -1312,7 +1317,7 @@ __declspec(align(16)) struct S00d0a490_Obj {
     int m_84;
     int m_88;
     int m_8c;
-    int FUN_00d984b0(int, int, int, int, int, int, int, int);
+    int ComputeValues_00d984b0(int, int, int, int, int, int, int, int);
 };
 struct S00d0a490_cls {
     int m_00;
@@ -1330,11 +1335,12 @@ int S00d0a490_cls::CallSubroutine(int a0, int a1, int a2, int a3, int a4, int a5
     o.m_00 = (int)&DAT_010ccfcc;
     o.m_80 = DAT_0104da4c;
     o.m_24 = 0;
-    return o.FUN_00d984b0(m_10, a0, a1, a2, a3, a4, a5, a6);
+    return o.ComputeValues_00d984b0(m_10, a0, a1, a2, a3, a4, a5, a6);
 }
 
 // @fnv 0x00d083c0
-void __cdecl FUN_00d083c0()
+// src: GUESS 0x00d083c0 (confidence: high)
+void __cdecl Object_DoNothing_00d083c0()
 {
 }
 
@@ -1466,18 +1472,19 @@ Derived::Derived()
 // FUN_00d0a200 : MSVC this-adjusting thunk  (sub ecx, 0x14 ; jmp <impl>)
 struct A1_00d0a200 {
     A1_00d0a200();
-    virtual void FUN_00d0a200();
+    virtual void AdjustThisAndForward_00d0a200();
     char pad[0x10];
 };
 struct A2_00d0a200 {
     A2_00d0a200();
-    virtual void FUN_00d0a200();
+    virtual void AdjustThisAndForward_00d0a200();
 };
 struct Own_00d0a200 : A1_00d0a200, A2_00d0a200 {
     Own_00d0a200();
     virtual void key_fn();
 // @fnv 0x00d0a200
-    void FUN_00d0a200();
+// src: GUESS 0x00d0a200 (confidence: low)
+    void AdjustThisAndForward_00d0a200();
 };
 Own_00d0a200::Own_00d0a200() { }
 void Own_00d0a200::key_fn() { }
@@ -1518,7 +1525,7 @@ namespace fnv_00d0a220 {
 // declare, so the second base's vtable gets a thunk that moves `this` back by the first base's size (0x1c).
 struct PrimaryBase
 {
-    virtual void FUN_00d0a220();
+    virtual void AdjustThisAndForward_00d0a220();
     int unk04;
     int unk08;
     int unk0C;
@@ -1529,14 +1536,15 @@ struct PrimaryBase
 
 struct SecondaryBase
 {
-    virtual void FUN_00d0a220();
+    virtual void AdjustThisAndForward_00d0a220();
 };
 
 struct Derived : PrimaryBase, SecondaryBase
 {
     Derived();
 // @fnv 0x00d0a220
-    virtual void FUN_00d0a220();
+// src: GUESS 0x00d0a220 (confidence: low)
+    virtual void AdjustThisAndForward_00d0a220();
 };
 
 Derived::Derived()
@@ -2091,7 +2099,7 @@ extern char DAT_010cd214;
 extern char DAT_01076f38;
 
 struct D9bed0Cls {
-    void __thiscall FUN_00d9bed0();
+    void __thiscall UpdateState_00d9bed0();
 };
 struct D09020Cls {
     void __thiscall hkpAabbTreeWorldManager_buildInactiveTree(int* p, void* a, void* b);
@@ -2183,7 +2191,7 @@ void __thiscall EntListSelf::hkpAabbTreeWorldManager_fullBuild(void* p1, void* p
         arr.m_iElementCount = 0;
         hkpAabbTreeWorldManager_gatherInactiveCollidablesFromWorld(*reinterpret_cast<hkArray<int*>*>(&arr), reinterpret_cast<hkpWorld*>(m_28));
         mark12(getBuf(DAT_0126835c), &DAT_010cd14c, &stamp);
-        m_0c->FUN_00d9bed0();
+        m_0c->UpdateState_00d9bed0();
         mark12(getBuf(DAT_0126835c), &DAT_010cd140, &stamp);
         ((D09020Cls*)this)->hkpAabbTreeWorldManager_buildInactiveTree((int*)&arr, p1, p2);
         mark12(getBuf(DAT_0126835c), &DAT_01076f38, (volatile unsigned int*)&p2);

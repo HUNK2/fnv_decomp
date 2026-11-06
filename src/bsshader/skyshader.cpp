@@ -510,7 +510,7 @@ FUN_00b8a1f0::FUN_00b8a1f0()
 
 extern void* g_011f9508;
 void* __cdecl NiDX9ShaderDeclaration_Create(void*, int, int);
-void* __cdecl FUN_00aa13e0(unsigned int);
+void* __cdecl Object_DispatchCommandFour(unsigned int);
 
 struct SpawnedMgr
 {
@@ -567,7 +567,7 @@ struct SpawnedObject
     SpawnedObject();
     void* operator new(unsigned int sz)
     {
-        return FUN_00aa13e0(sz);
+        return Object_DispatchCommandFour(sz);
     }
     void operator delete(void*)
     {}
@@ -1603,7 +1603,7 @@ struct Shape_b899a0 : NiRefObject
                  unsigned int a7, unsigned short a8, unsigned short* indices);
     void* operator new(unsigned int size)
     {
-        return FUN_00aa13e0(size);
+        return Object_DispatchCommandFour(size);
     }
     void operator delete(void*)
     {}

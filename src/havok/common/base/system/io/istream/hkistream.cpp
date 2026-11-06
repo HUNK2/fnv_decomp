@@ -20,14 +20,14 @@ struct Record
 {
     void* vtable00;
     unsigned short unk04;
-    void FUN_00dcc160();
+    void SetVirtualTable_00dcc160();
     Record* FUN_00dcca30(unsigned int flags);
 };
 // Calls FUN_00dcc160, then if bit 0 of flags is set frees this through the manager's allocator using unk04 as size, and returns this.
 // @fnv 0x00dcca30
 Record* Record::FUN_00dcca30(unsigned int flags)
 {
-    FUN_00dcc160();
+    SetVirtualTable_00dcc160();
     if (flags & 1)
     {
         Manager* manager = hkMemoryRouter_getInstance();

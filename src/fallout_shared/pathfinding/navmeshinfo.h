@@ -6,7 +6,7 @@ bool NavMeshInfo::ResolveNavMesh(NavMeshPtr& out)
     if (NavMeshInfo_GetDisabled())
         return false;
     ProcessWithScopedRef(out, m_pLocationNavMesh);
-    return out.FUN_00559450() ? true : false;
+    return out.Modelloader_GetReferencedThis() ? true : false;
 }
 // @fnv 0x006dd6a0
 bool PathingLocation::HasValidTriangle()

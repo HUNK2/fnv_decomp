@@ -204,7 +204,8 @@ struct Pt_c268
 extern const Pt_c268 _NiPoint3_ZERO;
 
 // @fnv 0x00c26820
-Pt_c268 __stdcall FUN_00c26820(const Pt_c268& origin, const Pt_c268& direction, const Pt_c268& point)
+// src: GUESS 0x00c26820 (confidence: low)
+Pt_c268 __stdcall Object_ProcessAndReturnValue_00c26820(const Pt_c268& origin, const Pt_c268& direction, const Pt_c268& point)
 {
     Pt_c268 vDifference = point - origin;
     float dot = vDifference * direction;
@@ -299,13 +300,14 @@ struct VortexModifier
     int unk2c;
     NiPoint3 m_kLightVector;
 
-    NiPoint3 FUN_00c26820(const NiPoint3& akStart, const NiPoint3& kDirection, const NiPoint3& kPoint);
-    void FUN_00c269b0(float fTime, PSysData* pkData);
+    NiPoint3 Object_ProcessAndReturnValue_00c26820(const NiPoint3& akStart, const NiPoint3& kDirection, const NiPoint3& kPoint);
+    void ApplyVortexVelocityWithinDistance(float fTime, PSysData* pkData);
 };
 
 // For each active particle with nonzero time delta, adds a scaled vector to its velocity when distance is at most m_fDistanceLimit squared.
 // @fnv 0x00c269b0
-void VortexModifier::FUN_00c269b0(float fTime, PSysData* pkData)
+// src: GUESS 0x00c269b0 (confidence: medium)
+void VortexModifier::ApplyVortexVelocityWithinDistance(float fTime, PSysData* pkData)
 {
     NiTransform kField;
     kField = m_pkFieldObject->m_kWorldSpaceTransform;
@@ -332,7 +334,7 @@ void VortexModifier::FUN_00c269b0(float fTime, PSysData* pkData)
                 float fDistance = static_cast<const NiPoint3&>(kParticlePosition - (*(NiPoint3*)&kFieldToPSys.m_Translate)).Length();  // the inline const body, as the stand-in had only that one
                 if (fDistance != 0.0f && fDistance <= fMaxDistanceSqr)
                 {
-                    NiPoint3 kDeltaV = FUN_00c26820(kPosition, kDirection, kParticlePosition);
+                    NiPoint3 kDeltaV = Object_ProcessAndReturnValue_00c26820(kPosition, kDirection, kParticlePosition);
                     kDeltaV *= m_fInfluence * fDeltaT;
                     pkCurrentParticle->m_kValue += kDeltaV;
                 }
@@ -454,7 +456,7 @@ struct ForceOwner
     int unk28;
     int unk2c;
     NiPoint3 m_dir;
-    void FUN_00c26c00(float, ParticleList*);
+    void ApplyParticleForces(float, ParticleList*);
     NiPoint3 ComputeForce(const NiPoint3& origin, const NiPoint3& axis, const NiPoint3& point);
     NiPoint3 Force(const NiPoint3& origin, const NiPoint3& axis, NiPoint3 point)
     {
@@ -464,7 +466,8 @@ struct ForceOwner
 };
 // Computes the force on each particle in list from node10's transform and m_dir, scaled by age, and adds it to each particle's velocity.
 // @fnv 0x00c26c00
-void ForceOwner::FUN_00c26c00(float delta, ParticleList* list)
+// src: GUESS 0x00c26c00 (confidence: medium)
+void ForceOwner::ApplyParticleForces(float delta, ParticleList* list)
 {
     NiTransform transformB;
     NiTransform transformA;

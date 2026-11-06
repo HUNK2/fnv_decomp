@@ -248,7 +248,8 @@ static inline void hkDeallocate(void* p, int size) throw()
 }
 
 // @fnv 0x00cf40b0
-__declspec(noinline) void __fastcall FUN_00cf40b0(hkpConstraintInstance* self)
+// src: GUESS 0x00cf40b0 (confidence: low)
+__declspec(noinline) void __fastcall hkpConstraintInstance_ProcessEntries_00cf40b0(hkpConstraintInstance* self)
 {
     *(void**)self = &DAT_010cc040;
     hkpConstraintCallbackUtil_fireConstraintDeleted(self);
@@ -284,7 +285,7 @@ namespace fnv_00cf4160 {
 // @fnv 0x00cf4160
 hkpConstraintInstance* __fastcall FUN_00cf4160(hkpConstraintInstance* self, int, unsigned int uiFlags) throw()
 {
-    fnv_00cf40b0::FUN_00cf40b0(self);
+    fnv_00cf40b0::hkpConstraintInstance_ProcessEntries_00cf40b0(self);
     if (uiFlags & 1)
         hkMemoryRouter::getInstance().heap().blockFree(self, self->m_usMemSizeAndFlags);
     return self;
@@ -384,8 +385,8 @@ struct ConstraintReference : ConstraintReferencedBase
     Matrix4f a, b, c, d;
     unsigned unk120;
     ConstraintReference* hkpMalleableConstraintData_getWrappedConstraintData();
-    void FUN_00d541b0(CVector*, CVector*);
-    void FUN_00cbe400(CVector*, CVector*, CVector*, CVector*);
+    void InitializeFields_00d541b0(CVector*, CVector*);
+    void SetConstraintPivotFrames(CVector*, CVector*, CVector*, CVector*);
     void FUN_00cb8da0(CVector*, CVector*, CVector*, CVector*, CVector*, CVector*);
     void SetBasis(CVector*, CVector*, CVector*);
     void FUN_00d4fba0(CVector*, CVector*, CVector*, CVector*, CVector*, CVector*);
@@ -413,7 +414,7 @@ struct CInstance
     unsigned unk00, unk04, unk08;
     ConstraintReference* data;
     hkBool isConstrainedToWorld();
-    void FUN_00cf30f0(Matrix4f*);
+    void ApplyTransformToWorldConstraint(Matrix4f*);
 };
 static __forceinline void point(CVector& v, Matrix4f* t)
 {
@@ -438,7 +439,8 @@ static __forceinline void copyTransform(Matrix4f& d, const Matrix4f& s)
 
 // Applies the given Matrix4f transform to the constraint data referenced by this instance, dispatching on the constraint type.
 // @fnv 0x00cf30f0
-void CInstance::FUN_00cf30f0(Matrix4f* apTransform)
+// src: GUESS 0x00cf30f0 (confidence: medium)
+void CInstance::ApplyTransformToWorldConstraint(Matrix4f* apTransform)
 {
     if (!isConstrainedToWorld())
         return;
@@ -454,7 +456,7 @@ void CInstance::FUN_00cf30f0(Matrix4f* apTransform)
             break;
         case 0:
             point(p->a.c1, apTransform);
-            p->FUN_00d541b0(&p->a.c0, &p->a.c1);
+            p->InitializeFields_00d541b0(&p->a.c0, &p->a.c1);
             return;
         case 1: {
             Matrix4f a, b;
@@ -463,7 +465,7 @@ void CInstance::FUN_00cf30f0(Matrix4f* apTransform)
             CVector ax = a.c0, bx = b.c0;
             point(b.c3, apTransform);
             rotate(bx, apTransform);
-            p->FUN_00cbe400(&a.c3, &b.c3, &ax, &bx);
+            p->SetConstraintPivotFrames(&a.c3, &b.c3, &ax, &bx);
             return;
         }
         case 2: {

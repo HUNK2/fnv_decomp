@@ -49,7 +49,8 @@ extern int DAT_010d7c80;
 // (RTTI 0x010d7c80, base hkReferencedObject), releases m_streamReader at +8 and
 // restores hkBaseObject's vftable (0x0102e388), i.e. the hkIArchive destructor body.
 // @fnv 0x00dd91f0
-void hkIArchive::FUN_00dd91f0()
+// src: GUESS 0x00dd91f0 (confidence: medium)
+void hkIArchive::ReleaseArchiveReader()
 {
     *(int**)this = (int*)&DAT_010d7c80;
     if (m_streamReader)
@@ -263,7 +264,8 @@ struct ListTarget
 
 // Sets the vtable, walks the m_a4 list calling m_98->v10 on each node, then sets the second vtable.
 // @fnv 0x00dd7ec0
-void hkLargeBlockAllocator::FUN_00dd7ec0()
+// src: GUESS 0x00dd7ec0 (confidence: low)
+void hkLargeBlockAllocator::ProcessEntries_00dd7ec0()
 {
     *(int**)this = &DAT_010d7c34;
     ::HklargeblockallocatorListNodeView* sentinel = (::HklargeblockallocatorListNodeView*)&m_a4;
@@ -733,9 +735,10 @@ hkLargeBlockAllocator::PageRange hkLargeBlockAllocator::getIterator()
 }
 
 // @fnv 0x00dd8df0
-hkLargeBlockAllocator* hkLargeBlockAllocator::FUN_00dd8df0(int arg)
+// src: GUESS 0x00dd8df0 (confidence: low)
+hkLargeBlockAllocator* hkLargeBlockAllocator::EvaluateValue_00dd8df0(int arg)
 {
-    FUN_00dd7ec0();
+    ProcessEntries_00dd7ec0();
     return this;
 }
 

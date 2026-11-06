@@ -150,7 +150,7 @@ extern AllocatorContext* __cdecl hkMemoryRouter_getInstance();
 extern void __cdecl ResizeAudioStream(void*, void*, int);
 extern unsigned char DAT_01269cbc;
 extern void __cdecl ValidateHavokKeyCode(unsigned char*);
-struct ErrorText { char* data; int length; int capacity; void FUN_00cb1600(char*,int); void FUN_00cc01c0(const char*); void FUN_00cc00e0(); };
+struct ErrorText { char* data; int length; int capacity; void FUN_00cb1600(char*,int); void ProcessAndReturnValue_00cc01c0(const char*); void FUN_00cc00e0(); };
 struct ErrorReporter { virtual void ReportDiagnostic(); virtual void unused1(); virtual void unused2(); virtual int report(int,unsigned,const char*,const char*,int); };
 extern ErrorReporter* DAT_01268360;
 struct VirtualMachine {
@@ -288,7 +288,7 @@ void VirtualMachine::Execute(const QueryState* apQueryState,unsigned char* __res
         default:
         badCommand:
             {unsigned int errorBuffer[128];ErrorText errorText;errorText.FUN_00cb1600(reinterpret_cast<char*>(errorBuffer),512);
-            errorText.FUN_00cc01c0("Unknown command - This mopp data has been corrupted (check for memory trashing), or an hkpMoppBvTreeShape has been pointed at invalid mopp data.\n");
+            errorText.ProcessAndReturnValue_00cc01c0("Unknown command - This mopp data has been corrupted (check for memory trashing), or an hkpMoppBvTreeShape has been pointed at invalid mopp data.\n");
             if(DAT_01268360->report(3,0x1298fedd,reinterpret_cast<char*>(errorBuffer),".\\Collide\\Mopp\\Machine\\hkpMoppObbVirtualMachine.cpp",459)) __debugbreak();
             errorText.FUN_00cc00e0();}break;
         emit:

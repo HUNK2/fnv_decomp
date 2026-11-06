@@ -368,7 +368,7 @@ bool TESForm_QEndianSwapOnSave();
 void TESWaterForm::SaveWaterForm()
 {
     unsigned int auiFormIds[3];
-    TESForm::FUN_004855a0();
+    TESForm::BeginFormRecord();
     TESFullName::Save_00487010();
     TESForm_AddChunkArray(0x4d414e4e, (void*)m_kNoiseMapTexture.GetTextureResourceName(),
                  m_kNoiseMapTexture.GetTextureNameLength() + 1);
@@ -399,7 +399,7 @@ void TESWaterForm::SaveWaterForm()
             auiFormIds[i] = 0;
     }
     TESForm_AddChunkArray_00485710(0x4d414e47, auiFormIds, 3);
-    TESForm::FUN_00485680();
+    TESForm::FinishFormRecord();
 }
 
 

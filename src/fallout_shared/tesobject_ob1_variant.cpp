@@ -69,7 +69,8 @@ inline const unsigned& GetMaxX(const unsigned& a, const unsigned& b)
     return a < b ? b : a;
 }
 // @fnv 0x00ac6a30
-bool __cdecl FUN_00ac6a30(StrX s, StrX* pA, StrX* pB, StrX* pC)
+// src: GUESS 0x00ac6a30 (confidence: low)
+bool __cdecl TESObject_UpdateState_00ac6a30(StrX s, StrX* pA, StrX* pB, StrX* pC)
 {
     unsigned uiLen_da = s.size;
     unsigned i1 = s.rfind("\\");
@@ -143,7 +144,7 @@ struct StrX
 };
 struct SrcX
 {
-    StrX FUN_00ad3e60();
+    StrX GetKName();
 };
 struct FUN_00ad3ca0
 {
@@ -216,12 +217,13 @@ struct ObjX : B1
     }
 };
 // @fnv 0x00ad3aa0
-int FUN_00ad3aa0(B0** out, SrcX* src)
+// src: GUESS 0x00ad3aa0 (confidence: low)
+int Object_ProcessAndReturnValue_00ad3aa0(B0** out, SrcX* src)
 {
     if (out && !*out)
     {
         DeadA();
-        *out = new ObjX(FUN_00ad3ca0(src->FUN_00ad3e60()));
+        *out = new ObjX(FUN_00ad3ca0(src->GetKName()));
     }
     DeadB();
     return 2;
@@ -256,11 +258,12 @@ struct S00aaec10_Obj
     int unk18;
     int unk1c;
     S00aaec10_Sub sub;
-    S00aaec10_Obj* FUN_00aaec10(const void* src);
+    S00aaec10_Obj* UpdateState_00aaec10(const void* src);
 };
 
 // @fnv 0x00aaec10
-S00aaec10_Obj* S00aaec10_Obj::FUN_00aaec10(const void* src)
+// src: GUESS 0x00aaec10 (confidence: low)
+S00aaec10_Obj* S00aaec10_Obj::UpdateState_00aaec10(const void* src)
 {
     unsigned int u00;
     unsigned int u01;
@@ -342,7 +345,8 @@ struct FileReader
 };
 bool fffWriteTriFile(FileReader*, void*);
 // @fnv 0x00ab7e30
-bool FUN_00ab7e30(const FileString& fileName, void* output)
+// src: GUESS 0x00ab7e30 (confidence: high)
+bool TESObject_WriteTriFile(const FileString& fileName, void* output)
 {
     FileReader reader(FileString("FRTRI003"));
     if (!reader.FutBinaryFileC_openForOverwrite(fileName))
@@ -529,7 +533,7 @@ struct GameVector
     }
     void func_0x00abeb00(GameConstIterator, unsigned int, const GameRecord&);
     GameIterator func_0x00abb5f0(GameConstIterator, GameConstIterator);
-    void FUN_00abb3c0(unsigned int count, GameRecord value);
+    void ProcessState_00abb3c0(unsigned int count, GameRecord value);
 };
 inline GameConstIterator& GameConstIterator::func_0x00ac0c40(int count)
 {
@@ -628,7 +632,8 @@ inline GameIterator GameVector::func_0x00abb5f0(GameConstIterator firstArg, Game
     return firstIt;
 }
 // @fnv 0x00abb3c0
-void GameVector::FUN_00abb3c0(unsigned int count, GameRecord value)
+// src: GUESS 0x00abb3c0 (confidence: low)
+void GameVector::ProcessState_00abb3c0(unsigned int count, GameRecord value)
 {
     if (size() < count)
         func_0x00abeb00(end(), count - size(), value);
@@ -685,13 +690,14 @@ struct FUN_00ac0530_cls
     FUN_00ac0640_cls m_1c;
     void fopen_0044a730(int a, int b);
     void AssignSubstring(int a, int b, int c);
-    FUN_00ac0530_cls* FUN_00ac0530(int a);
+    FUN_00ac0530_cls* EvaluateValue_00ac0530(int a);
 };
 
 extern int DAT_010173f0;
 
 // @fnv 0x00ac0530
-FUN_00ac0530_cls* FUN_00ac0530_cls::FUN_00ac0530(int a)
+// src: GUESS 0x00ac0530 (confidence: low)
+FUN_00ac0530_cls* FUN_00ac0530_cls::EvaluateValue_00ac0530(int a)
 {
     this->fopen_0044a730(0, 0);
     this->AssignSubstring(a, 0, DAT_010173f0);
@@ -3036,8 +3042,8 @@ template <class C, class Traits = char_traits<C> > class basic_ofstream : public
 typedef basic_ofstream<char> ofstream;
 }
 void __cdecl futSetLastError(int, std::string);
-std::ostream& __cdecl FUN_00ad47f0(std::ostream&, const char*);
-std::ostream& __cdecl FUN_00ad4ba0(std::ostream&, const std::string&);
+std::ostream& __cdecl Runtime_ProcessEntries_00ad47f0(std::ostream&, const char*);
+std::ostream& __cdecl Object_ProcessEntries_00ad4ba0(std::ostream&, const std::string&);
 extern "C" char DAT_010a3028;
 extern "C" char DAT_01021184;
 extern "C" char DAT_01063cd8;
@@ -3061,7 +3067,7 @@ bool __cdecl futSaveCsvFile(const std::string& path, const std::vector<std::vect
         unsigned int childCount = sections[i].size();
         for (unsigned int j = 0; j < childCount; ++j)
         {
-            FUN_00ad47f0(FUN_00ad4ba0(FUN_00ad47f0(output, &DAT_01021184), sections[i][j]), &DAT_01021184);
+            Runtime_ProcessEntries_00ad47f0(Object_ProcessEntries_00ad4ba0(Runtime_ProcessEntries_00ad47f0(output, &DAT_01021184), sections[i][j]), &DAT_01021184);
             if (j == childCount - 1)
             {
                 output.put(10);
@@ -3070,7 +3076,7 @@ bool __cdecl futSaveCsvFile(const std::string& path, const std::vector<std::vect
             }
             else
             {
-                FUN_00ad47f0(output, &DAT_01063cd8);
+                Runtime_ProcessEntries_00ad47f0(output, &DAT_01063cd8);
             }
         }
         if (output.fail())
@@ -3995,11 +4001,12 @@ struct Named_ad3e
 struct NameHolder_ad3e
 {
     Named_ad3e* m_pkNamed;
-    String FUN_00ad3e60() const;
+    String GetKName() const;
 };
 
 // @fnv 0x00ad3e60
-String NameHolder_ad3e::FUN_00ad3e60() const
+// src: GUESS 0x00ad3e60 (confidence: medium)
+String NameHolder_ad3e::GetKName() const
 {
     return m_pkNamed->m_kName;
 }
@@ -4073,10 +4080,11 @@ struct StrQ_ad6bb0
     {
         _Tidy(true, 0);
     }
-    void FUN_00ad6bb0(StrQ_ad6bb0& _Right);
+    void UpdateState_00ad6bb0(StrQ_ad6bb0& _Right);
 };
 // @fnv 0x00ad6bb0
-void StrQ_ad6bb0::FUN_00ad6bb0(StrQ_ad6bb0& _Right)
+// src: GUESS 0x00ad6bb0 (confidence: low)
+void StrQ_ad6bb0::UpdateState_00ad6bb0(StrQ_ad6bb0& _Right)
 {
     if (this == &_Right)
         ;
@@ -4109,7 +4117,8 @@ struct IdName_ac34
     String m_kName;
 };
 // @fnv 0x00ac34c0
-void __cdecl FUN_00ac34c0(IdName_ac34* pPtr, const IdName_ac34& kVal)
+// src: GUESS 0x00ac34c0 (confidence: low)
+void __cdecl Object_UpdateFields_00ac34c0(IdName_ac34* pPtr, const IdName_ac34& kVal)
 {
     void* pvPtr = pPtr;
     ::new (pvPtr) IdName_ac34(kVal);
@@ -4139,7 +4148,7 @@ FUN_00b2e740::FUN_00b2e740(const FUN_00b2e740& kOther)
       m_kName(kOther.m_kName), m_kPoint1(kOther.m_kPoint1), m_kPoint2(kOther.m_kPoint2), m_kPoint3(kOther.m_kPoint3)
 {}
 
-void* __cdecl FUN_00ad5370(int count, int flags);
+void* __cdecl Runtime_AllocateElementArray72Checked(int count, int flags);
 void __cdecl FormHeapFreeAndLog_00401030(void* p);
 
 struct SubObj0C
@@ -4174,13 +4183,14 @@ struct Entry48
 
 struct Owner
 {
-    Entry48* __thiscall FUN_00ad1960(int a, int b, int c, int d, bool e);
+    Entry48* __thiscall CreateEntryInAllocatedStorage(int a, int b, int c, int d, bool e);
 };
 
 // @fnv 0x00ad1960
-Entry48* Owner::FUN_00ad1960(int a, int b, int c, int d, bool e)
+// src: GUESS 0x00ad1960 (confidence: medium)
+Entry48* Owner::CreateEntryInAllocatedStorage(int a, int b, int c, int d, bool e)
 {
-    void* mem = FUN_00ad5370(1, 0);
+    void* mem = Runtime_AllocateElementArray72Checked(1, 0);
 
     try
     {
@@ -4264,7 +4274,8 @@ struct CopyStr
 };
 
 // @fnv 0x00ad6990
-void FUN_00ad6990(CopyStr* ptr, const CopyStr& val)
+// src: GUESS 0x00ad6990 (confidence: medium)
+void TESObject_ConstructStringCopyInPlace(CopyStr* ptr, const CopyStr& val)
 {
     void* vptr = ptr;
     ::new (vptr) CopyStr(val);
@@ -4353,7 +4364,7 @@ struct MM
     void Deallocate(void*);
 };
 extern MM _g_memoryManager;
-extern "C" void* __cdecl FUN_0065e4c0(unsigned int, int);
+extern "C" void* __cdecl Object_AllocateElementStorage(unsigned int, int);
 extern const char DAT_010173c4[];
 struct ErrorText
 {
@@ -4441,7 +4452,7 @@ template <> struct GvAlloc<InsertItem>
     }
     pointer allocate(size_type n, const void* = 0)
     {
-        return (pointer)FUN_0065e4c0(n, 0);
+        return (pointer)Object_AllocateElementStorage(n, 0);
     }
     void deallocate(pointer p, size_type)
     {
@@ -4475,28 +4486,30 @@ inline void FillInsertRange(InsertItem* first, InsertItem* last, const InsertIte
     for (; first != last; ++first)
         *first = value;
 }
-inline void FUN_00ac1600(InsertItem* first, InsertItem* last, const InsertItem& value)
+// src: GUESS 0x00ac1600 (confidence: medium)
+inline void Object_FillRecordRange(InsertItem* first, InsertItem* last, const InsertItem& value)
 {
     FillInsertRange(GvCheckedBase(first), GvCheckedBase(last), value);
 }
-extern InsertItem* __cdecl FUN_00ac1e20(InsertItem*, InsertItem*, InsertItem*, GvAlloc<InsertItem>&);
-extern InsertItem* __cdecl FUN_00ac3730(InsertItem*, InsertItem*, InsertItem*, GvAlloc<InsertItem>&);
+extern InsertItem* __cdecl Object_ProcessAndReturnValue_00ac1e20(InsertItem*, InsertItem*, InsertItem*, GvAlloc<InsertItem>&);
+extern InsertItem* __cdecl Runtime_EvaluateValue_00ac3730(InsertItem*, InsertItem*, InsertItem*, GvAlloc<InsertItem>&);
 __forceinline InsertItem* DispatchInsertMove(InsertItem* f, InsertItem* l, InsertItem* d, GvAlloc<InsertItem>& a,
                                              InsertMoveTag, GvRangeCheckedTag)
 {
-    return FUN_00ac3730(f, l, d, a);
+    return Runtime_EvaluateValue_00ac3730(f, l, d, a);
 }
 __forceinline InsertItem* PrepareInsertMove(InsertItem* f, InsertItem* l, InsertItem* d, GvAlloc<InsertItem>& a)
 {
     return DispatchInsertMove(GvCheckedBase(f), GvCheckedBase(l), d, a, InsertMoveCat(d), GvRangeCheckedTag());
 }
-extern InsertItem* __cdecl FUN_00ac1ea0(InsertItem*, InsertItem*, InsertItem*, GvRandomTag, InsertMoveTag,
+extern InsertItem* __cdecl Object_UpdateFields_00ac1ea0(InsertItem*, InsertItem*, InsertItem*, GvRandomTag, InsertMoveTag,
                                         GvRangeCheckedTag);
 struct TextAssignment
 {
     InsertText& AssignSubstring(const InsertText&, unsigned int, unsigned int);
 };
-inline InsertItem* __cdecl FUN_00ac1ea0(InsertItem* f, InsertItem* l, InsertItem* d, GvRandomTag, InsertMoveTag,
+// src: GUESS 0x00ac1ea0 (confidence: low)
+inline InsertItem* __cdecl Object_UpdateFields_00ac1ea0(InsertItem* f, InsertItem* l, InsertItem* d, GvRandomTag, InsertMoveTag,
                                         GvRangeCheckedTag)
 {
     const int length = l - f;
@@ -4518,7 +4531,7 @@ inline InsertItem* __cdecl FUN_00ac1ea0(InsertItem* f, InsertItem* l, InsertItem
 }
 __forceinline InsertItem* InsertMoveBackward(InsertItem* f, InsertItem* l, InsertItem* d)
 {
-    return FUN_00ac1ea0(GvCheckedBase(f), GvCheckedBase(l), d, GvIterRandom(f, d), InsertMoveCat(d),
+    return Object_UpdateFields_00ac1ea0(GvCheckedBase(f), GvCheckedBase(l), d, GvIterRandom(f, d), InsertMoveCat(d),
                         GvRangeCheckedTag());
 }
 struct ItemVector : GvVector<InsertItem>
@@ -4527,7 +4540,8 @@ struct ItemVector : GvVector<InsertItem>
     typedef InsertItem value_type;
     typedef unsigned int size_type;
     typedef GvConstIterator<InsertItem> const_iterator;
-    void FUN_0065dd90(pointer a, pointer b)
+// src: GUESS 0x0065dd90 (confidence: low)
+    void ForwardCall_0065dd90(pointer a, pointer b)
     {
         GvDestroyRange(a, b, this->_Alval);
     }
@@ -4537,12 +4551,13 @@ struct ItemVector : GvVector<InsertItem>
     }
     pointer MoveTail(pointer f, pointer l, pointer d)
     {
-        return FUN_00ac1e20(f, l, d, this->_Alval);
+        return Object_ProcessAndReturnValue_00ac1e20(f, l, d, this->_Alval);
     }
-    void FUN_00abeb00(const_iterator _Where, size_type _Count, InsertionSource _Val);
+    void InsertFilledElements_00abeb00(const_iterator _Where, size_type _Count, InsertionSource _Val);
 };
 // @fnv 0x00abeb00
-void ItemVector::FUN_00abeb00(const_iterator _Where, size_type _Count, InsertionSource _Val)
+// src: GUESS 0x00abeb00 (confidence: medium)
+void ItemVector::InsertFilledElements_00abeb00(const_iterator _Where, size_type _Count, InsertionSource _Val)
 {
     size_type _Capacity = capacity();
     if (_Count == 0)
@@ -4564,14 +4579,14 @@ void ItemVector::FUN_00abeb00(const_iterator _Where, size_type _Count, Insertion
         }
         catch (...)
         {
-            FUN_0065dd90(_Newvec, _Ptr);
+            ForwardCall_0065dd90(_Newvec, _Ptr);
             this->_Alval.deallocate(_Newvec, _Capacity);
             throw;
         }
         _Count += size();
         if (_Myfirst != 0)
         {
-            FUN_0065dd90(_Myfirst, _Mylast);
+            ForwardCall_0065dd90(_Myfirst, _Mylast);
             this->_Alval.deallocate(_Myfirst, _Myend - _Myfirst);
         }
         _Myend = _Newvec + _Capacity;
@@ -4588,11 +4603,11 @@ void ItemVector::FUN_00abeb00(const_iterator _Where, size_type _Count, Insertion
         }
         catch (...)
         {
-            FUN_0065dd90(_Where._Myptr + _Count, _Mylast + _Count);
+            ForwardCall_0065dd90(_Where._Myptr + _Count, _Mylast + _Count);
             throw;
         }
         _Mylast += _Count;
-        FUN_00ac1600(_Where._Myptr, _Mylast - _Count, _Tmp);
+        Object_FillRecordRange(_Where._Myptr, _Mylast - _Count, _Tmp);
     }
     else
     {
@@ -4600,15 +4615,15 @@ void ItemVector::FUN_00abeb00(const_iterator _Where, size_type _Count, Insertion
         pointer _Oldend = _Mylast;
         _Mylast = MoveTail(_Oldend - _Count, _Oldend, _Mylast);
         InsertMoveBackward(_Where._Myptr, _Oldend - _Count, _Oldend);
-        FUN_00ac1600(_Where._Myptr, _Where._Myptr + _Count, _Tmp);
+        Object_FillRecordRange(_Where._Myptr, _Where._Myptr + _Count, _Tmp);
     }
 }
 
 extern "C" int __cdecl sprintf(char* buffer, const char* format, ...);
 
 bool CanOpenFile(const String& path);
-String FUN_00ad4210(const String&, const char*);
-String FUN_00ad42e0(const String&, const String&);
+String TESObject_ConcatenateStrings(const String&, const char*);
+String Object_ProcessAndReturnValue_00ad42e0(const String&, const String&);
 
 inline String& updateCandidate(String& destination, const String& source)
 {
@@ -4616,15 +4631,16 @@ inline String& updateCandidate(String& destination, const String& source)
 }
 
 // @fnv 0x00ac6fa0
-String FUN_00ac6fa0(const String& directory, const String& baseName, const String& extension)
+// src: GUESS 0x00ac6fa0 (confidence: low)
+String Object_ProcessEntries_00ac6fa0(const String& directory, const String& baseName, const String& extension)
 {
-    String candidateName = FUN_00ad42e0(FUN_00ad4210(baseName, "."), extension);
+    String candidateName = Object_ProcessAndReturnValue_00ad42e0(TESObject_ConcatenateStrings(baseName, "."), extension);
     int retryIndex = 0;
-    while (CanOpenFile(FUN_00ad42e0(directory, candidateName)))
+    while (CanOpenFile(Object_ProcessAndReturnValue_00ad42e0(directory, candidateName)))
     {
         char number[12];
         sprintf(number, "%d", ++retryIndex);
-        updateCandidate(candidateName, FUN_00ad42e0(FUN_00ad4210(FUN_00ad4210(baseName, number), "."), extension));
+        updateCandidate(candidateName, Object_ProcessAndReturnValue_00ad42e0(TESObject_ConcatenateStrings(TESObject_ConcatenateStrings(baseName, number), "."), extension));
     }
     return candidateName;
 }
@@ -4683,11 +4699,13 @@ class FUN_0044a4c0 : public BxStringVal
     {
         return 16 <= capacity ? storage._Ptr : storage._Buf;
     }
-    int FUN_00ac9da0(const FUN_0044a4c0& right) const
+// src: GUESS 0x00ac9da0 (confidence: low)
+    int UpdateFields_00ac9da0(const FUN_0044a4c0& right) const
     {
-        return FUN_00ac6100(0, length, right.data(), right.size());
+        return ProcessAndReturnValue_00ac6100(0, length, right.data(), right.size());
     }
-    int FUN_00ac6100(unsigned int off, unsigned int count, const char* text, unsigned int size) const
+// src: GUESS 0x00ac6100 (confidence: low)
+    int ProcessAndReturnValue_00ac6100(unsigned int off, unsigned int count, const char* text, unsigned int size) const
     {
         if (length < off)
             StringBase::_Xran();
@@ -4698,12 +4716,12 @@ class FUN_0044a4c0 : public BxStringVal
     }
     int compare(const char* s) const
     {
-        return FUN_00ac6100(0, length, s, BxStrTraits::length(s));
+        return ProcessAndReturnValue_00ac6100(0, length, s, BxStrTraits::length(s));
     }
 };
 inline bool operator==(const FUN_0044a4c0& a, const FUN_0044a4c0& b)
 {
-    return a.FUN_00ac9da0(b) == 0;
+    return a.UpdateFields_00ac9da0(b) == 0;
 }
 inline bool operator==(const FUN_0044a4c0& a, const char* b)
 {
@@ -4745,7 +4763,8 @@ class ParserIos : public basic_iosDEB0
         return (rdstate() & 6) != 0;
     }
     localeDEB0 GetLocale() const;
-    char FUN_00ad30c0(char ch) const
+// src: GUESS 0x00ad30c0 (confidence: low)
+    char ProcessAndReturnValue_00ad30c0(char ch) const
     {
         const ParserCtype& facet = ParserUseFacet(GetLocale());
         return facet.widen(ch);
@@ -4756,14 +4775,14 @@ class ParserStream : virtual public ParserIos
   public:
     virtual ~ParserStream();
     int count;
-    int FUN_00aca7a0();
-    int FUN_00aca560();
+    int ProcessAndReturnValue_00aca7a0();
+    int ProcessAndReturnValue_00aca560();
 };
-extern ParserStream& __cdecl FUN_00ad43a0(ParserStream&, FUN_0044a4c0&);
-extern ParserStream& __cdecl FUN_00ad5770(ParserStream&, FUN_0044a4c0&, char);
+extern ParserStream& __cdecl Object_ProcessEntries_00ad43a0(ParserStream&, FUN_0044a4c0&);
+extern ParserStream& __cdecl Runtime_ProcessEntries_00ad5770(ParserStream&, FUN_0044a4c0&, char);
 inline ParserStream& ReadParserLine(ParserStream& stream, FUN_0044a4c0& value)
 {
-    return FUN_00ad5770(stream, value, stream.FUN_00ad30c0('\n'));
+    return Runtime_ProcessEntries_00ad5770(stream, value, stream.ProcessAndReturnValue_00ad30c0('\n'));
 }
 namespace pairparser {
 struct FUN_00acb310
@@ -4775,7 +4794,8 @@ struct FUN_00acb310
 }
 struct ParserPairs : GvVector<pairparser::FUN_00acb310>
 {
-    void FUN_00acb3c0(const pairparser::FUN_00acb310& value)
+// src: GUESS 0x00acb3c0 (confidence: low)
+    void UpdateFields_00acb3c0(const pairparser::FUN_00acb310& value)
     {
         if (size() < capacity())
             _Mylast = _Ufill(_Mylast, 1, value);
@@ -4784,23 +4804,24 @@ struct ParserPairs : GvVector<pairparser::FUN_00acb310>
     }
 };
 // @fnv 0x00ac7f50
-bool __cdecl FUN_00ac7f50(ParserStream* stream, ParserPairs* result, const FUN_0044a4c0* excluded, int limit)
+// src: GUESS 0x00ac7f50 (confidence: low)
+bool __cdecl TESObject_ProcessEntries_00ac7f50(ParserStream* stream, ParserPairs* result, const FUN_0044a4c0* excluded, int limit)
 {
     FUN_0044a4c0 key;
     int entries = 0;
     while (!stream->eof() && !stream->fail() && (!limit || entries < limit))
     {
-        FUN_00ad43a0(*stream, key);
+        Object_ProcessEntries_00ad43a0(*stream, key);
         if (stream->eof() || stream->fail())
             break;
         char next;
         while (!stream->eof() && !stream->fail())
         {
-            next = stream->FUN_00aca7a0();
+            next = stream->ProcessAndReturnValue_00aca7a0();
             if (next == '\n' || stream->eof() || stream->fail())
                 break;
             else if (next == ' ' || next == '\t')
-                next = stream->FUN_00aca560();
+                next = stream->ProcessAndReturnValue_00aca560();
             else
                 break;
         }
@@ -4809,7 +4830,7 @@ bool __cdecl FUN_00ac7f50(ParserStream* stream, ParserPairs* result, const FUN_0
             ReadParserLine(*stream, value);
         if (key == *excluded && *excluded != "")
             continue;
-        result->FUN_00acb3c0(pairparser::FUN_00acb310(key, value));
+        result->UpdateFields_00acb3c0(pairparser::FUN_00acb310(key, value));
         ++entries;
     }
     if (stream->fail() && !stream->eof())
@@ -4866,7 +4887,7 @@ template <class E, class T, class A> class basic_string : public _String_val<E, 
         E* ptr;
     } storage;
     unsigned len, res;
-    int FUN_00ac9da0(const basic_string&) const;
+    int UpdateFields_00ac9da0(const basic_string&) const;
 
     basic_string(const E* p) : Base()
     {
@@ -4929,7 +4950,7 @@ namespace ac8parse {
 typedef string Str;
 inline bool operator==(const Str& a, const Str& b)
 {
-    return a.FUN_00ac9da0(b) == 0;
+    return a.UpdateFields_00ac9da0(b) == 0;
 }
 inline bool operator!=(const Str& a, const Str& b)
 {
@@ -4951,10 +4972,10 @@ struct TokVector
     Tok* first;
     Tok* last;
     Tok* end;
-    void FUN_00acf580(unsigned, Tok);
+    void ProcessState_00acf580(unsigned, Tok);
     inline void resize(unsigned n)
     {
-        FUN_00acf580(n, Tok());
+        ProcessState_00acf580(n, Tok());
     }
     inline Tok& operator[](unsigned i)
     {
@@ -4980,7 +5001,7 @@ struct VB
         return (rdstate() & 6) != 0;
     }
     void FUN_00acc8c0();
-    void FUN_00aca4b0();
+    void SetVtableAndProcessState_00aca4b0();
 };
 struct FileBuf
 {
@@ -5012,12 +5033,13 @@ struct Big : Input
 };
 
 void futSetLastError(int, Str);  // -> 0x00ac6430  SetError(int, string)
-bool FUN_00ac7f50(Big*, TokVector*, const Str&, int);
+bool TESObject_ProcessEntries_00ac7f50(Big*, TokVector*, const Str&, int);
 
 }
 
 // @fnv 0x00ac8c50
-bool FUN_00ac8c50(const Str& name, const Str& arg2, TokVector* pVec)
+// src: GUESS 0x00ac8c50 (confidence: low)
+bool TESObject_EvaluateValue_00ac8c50(const Str& name, const Str& arg2, TokVector* pVec)
 {
     Str msg5;
     Big kObj(name.c_str(), 1, 0x40);
@@ -5027,7 +5049,7 @@ bool FUN_00ac8c50(const Str& name, const Str& arg2, TokVector* pVec)
         return false;
     }
     pVec->resize(0);
-    if (!FUN_00ac7f50(&kObj, pVec, "//", 1))
+    if (!TESObject_ProcessEntries_00ac7f50(&kObj, pVec, "//", 1))
     {
         ac8parse::futSetLastError(4, name);
         return false;
@@ -5038,7 +5060,7 @@ bool FUN_00ac8c50(const Str& name, const Str& arg2, TokVector* pVec)
         return false;
     }
     pVec->resize(0);
-    if (!FUN_00ac7f50(&kObj, pVec, "//", 0))
+    if (!TESObject_ProcessEntries_00ac7f50(&kObj, pVec, "//", 0))
     {
         ac8parse::futSetLastError(4, name);
         return false;
@@ -5101,7 +5123,8 @@ template <class E, class Tr> class basic_ios : public ios_base
   public:
     virtual ~basic_ios()
     {}
-    E FUN_00ad30c0(char c) const
+// src: GUESS 0x00ad30c0 (confidence: low)
+    E ProcessAndReturnValue_00ad30c0(char c) const
     {
         const CsvCtype<E>& facet = CsvUseFacet<E>(getloc());
         return facet.widen(c);
@@ -5137,14 +5160,15 @@ template <class E, class Tr> class basic_ifstream : public basic_istream<E, Tr>
     basic_filebufDEB0 filebuf;
 };
 typedef basic_ifstream<char, char_traits<char> > ifstream;
-basic_istream<char, char_traits<char> >& FUN_00ad5770(basic_istream<char, char_traits<char> >&, BxString&, char);
+basic_istream<char, char_traits<char> >& Runtime_ProcessEntries_00ad5770(basic_istream<char, char_traits<char> >&, BxString&, char);
 inline basic_istream<char, char_traits<char> >& getline(basic_istream<char, char_traits<char> >& input, BxString& line)
 {
-    return FUN_00ad5770(input, line, input.FUN_00ad30c0('\n'));
+    return Runtime_ProcessEntries_00ad5770(input, line, input.ProcessAndReturnValue_00ad30c0('\n'));
 }
 }
 // @fnv 0x00ac9120
-bool __cdecl FUN_00ac9120(const BxString& path, CsvArray<CsvRow>& table)
+// src: GUESS 0x00ac9120 (confidence: low)
+bool __cdecl Object_ProcessEntries_00ac9120(const BxString& path, CsvArray<CsvRow>& table)
 {
 
     table.clear();
@@ -5310,7 +5334,7 @@ class ios_base
         virtual ~failure()
         {}
     };
-    void FUN_00ac9ff0(int _State, bool _Reraise);
+    void UpdateState_00ac9ff0(int _State, bool _Reraise);
     int unk00;
     int unk04;
     int _Mystate;
@@ -5318,7 +5342,8 @@ class ios_base
 };
 
 // @fnv 0x00ac9ff0
-void ios_base::FUN_00ac9ff0(int _State, bool _Reraise)
+// src: GUESS 0x00ac9ff0 (confidence: low)
+void ios_base::UpdateState_00ac9ff0(int _State, bool _Reraise)
 {
     _Mystate = _State & 0x17;
     if ((_Mystate & _Except) == 0)
@@ -5511,11 +5536,11 @@ class InsertionText : public BxStringVal
     }
 };
 
-InsertionText* __cdecl FUN_00ad5310(unsigned int, InsertionText*);
+InsertionText* __cdecl Runtime_AllocateElementArray28Checked(unsigned int, InsertionText*);
 namespace wrac52 {
 template <> inline InsertionText* BxAllocT<InsertionText>::allocate(unsigned int count)
 {
-    return FUN_00ad5310(count, (InsertionText*)0);
+    return Runtime_AllocateElementArray28Checked(count, (InsertionText*)0);
 }
 }
 struct InsertAlloc : BxAllocT<InsertionText>
@@ -5525,22 +5550,22 @@ struct InsertAlloc : BxAllocT<InsertionText>
         GvDestroyOne(p);
     }
 };
-void __cdecl FUN_00ad5b00(InsertionText*, unsigned int, const InsertionText&, InsertAlloc&, GvNonscalarTag,
+void __cdecl Object_DestroyElementRange_00ad5b00(InsertionText*, unsigned int, const InsertionText&, InsertAlloc&, GvNonscalarTag,
                           GvRangeCheckedTag);
 namespace wrac52 {
 template <>
 inline void GvUncheckedFillN<InsertionText, InsertAlloc>(InsertionText* first, unsigned int count,
                                                          const InsertionText& value, InsertAlloc& al)
 {
-    FUN_00ad5b00(first, count, value, al, GvPtrCat(first, first), GvRangeCheckedTag());
+    Object_DestroyElementRange_00ad5b00(first, count, value, al, GvPtrCat(first, first), GvRangeCheckedTag());
 }
 }
-InsertionText* __cdecl FUN_00ad66e0(InsertionText*, InsertionText*, InsertionText*, InsertAlloc&, InsertMoveTag,
+InsertionText* __cdecl Object_DestroyElementRange_00ad66e0(InsertionText*, InsertionText*, InsertionText*, InsertAlloc&, InsertMoveTag,
                                     GvRangeCheckedTag);
-InsertionText* __cdecl FUN_00ad5dd0(InsertionText*, InsertionText*, InsertionText*, InsertAlloc&);
+InsertionText* __cdecl Runtime_UpdateState_00ad5dd0(InsertionText*, InsertionText*, InsertionText*, InsertAlloc&);
 inline InsertionText* InsertMove(InsertionText* first, InsertionText* last, InsertionText* dest, InsertAlloc& al)
 {
-    return FUN_00ad66e0(GvCheckedBase(first), GvCheckedBase(last), dest, al, InsertMoveCat(dest), GvRangeCheckedTag());
+    return Object_DestroyElementRange_00ad66e0(GvCheckedBase(first), GvCheckedBase(last), dest, al, InsertMoveCat(dest), GvRangeCheckedTag());
 }
 inline void __cdecl InsertionSwap(InsertionText& left, InsertionText& right)
 {
@@ -5563,7 +5588,8 @@ inline O BackwardOpt(I first, I last, O dest, GvRandomTag, InsertMoveTag cat, Gv
     BackwardOpt(first, last, GvCheckedBase(dest), GvForwardTag(), cat, GvRangeCheckedTag());
     return result;
 }
-inline InsertionText* __cdecl FUN_00ad5250(InsertionText* first, InsertionText* last, InsertionText* dest)
+// src: GUESS 0x00ad5250 (confidence: low)
+inline InsertionText* __cdecl Runtime_EvaluateValue_00ad5250(InsertionText* first, InsertionText* last, InsertionText* dest)
 {
     return BackwardOpt(GvCheckedBase(first), GvCheckedBase(last), dest, GvIterRandom(first, dest), InsertMoveCat(dest),
                        GvRangeCheckedTag());
@@ -5604,7 +5630,7 @@ struct InsertStrings : GvAuxBase<InsertAlloc>
     }
     pointer _MoveSuffix(pointer first, pointer last, pointer dest)
     {
-        return FUN_00ad5dd0(first, last, dest, _Alval);
+        return Runtime_UpdateState_00ad5dd0(first, last, dest, _Alval);
     }
     pointer _Umove(pointer first, pointer last, pointer dest)
     {
@@ -5615,20 +5641,22 @@ struct InsertStrings : GvAuxBase<InsertAlloc>
         GvUncheckedFillN(ptr, count, value, _Alval);
         return ptr + count;
     }
-    static void FUN_00ac0b00()
+// src: GUESS 0x00ac0b00 (confidence: medium)
+    static void Object_Length_error_Thunk()
     {
         throw BxLengthError("vector<T> too long");
     }
-    void FUN_00ad07c0(const_iterator, size_type, const InsertionText&);
+    void InsertFilledElements_00ad07c0(const_iterator, size_type, const InsertionText&);
 };
 // @fnv 0x00ad07c0
-void InsertStrings::FUN_00ad07c0(const_iterator _Where, size_type _Count, const InsertionText& _Val)
+// src: GUESS 0x00ad07c0 (confidence: medium)
+void InsertStrings::InsertFilledElements_00ad07c0(const_iterator _Where, size_type _Count, const InsertionText& _Val)
 {
     size_type _Capacity = capacity();
     if (_Count == 0)
         ;
     else if (max_size() - size() < _Count)
-        FUN_00ac0b00();
+        Object_Length_error_Thunk();
     else if (_Capacity < size() + _Count)
     {
         _Capacity = max_size() - _Capacity / 2 < _Capacity ? 0 : _Capacity + _Capacity / 2;
@@ -5679,7 +5707,7 @@ void InsertStrings::FUN_00ad07c0(const_iterator _Where, size_type _Count, const 
         value_type _Tmp = _Val;
         pointer _Oldend = _Mylast;
         _Mylast = _Umove(_Oldend - _Count, _Oldend, _Mylast);
-        FUN_00ad5250(_Where._Myptr, _Oldend - _Count, _Oldend);
+        Runtime_EvaluateValue_00ad5250(_Where._Myptr, _Oldend - _Count, _Oldend);
         InsertFill(_Where._Myptr, _Where._Myptr + _Count, _Tmp);
     }
 }
@@ -5732,16 +5760,16 @@ template <class K, class V> struct PairRecord
 typedef PairRecord<unsigned int, BxString> PointPair;
 
 void ThrowVectorTooLong();
-extern "C" PointPair* __cdecl FUN_0065e430(unsigned int, PointPair*);
+extern "C" PointPair* __cdecl Runtime_UpdateState_0065e430(unsigned int, PointPair*);
 PointPair* CallWithIterators(PointPair*, PointPair*, PointPair*, GvAlloc<PointPair>&);
-PointPair* FUN_00ac1da0(PointPair*, PointPair*, PointPair*, GvAlloc<PointPair>&);
-PointPair* FUN_00ac1580(PointPair*, PointPair*, PointPair*);
+PointPair* Object_ProcessAndReturnValue_00ac1da0(PointPair*, PointPair*, PointPair*, GvAlloc<PointPair>&);
+PointPair* Object_ProcessAndReturnValue_00ac1580(PointPair*, PointPair*, PointPair*);
 
 template <class T> struct PairAllocator : GvAlloc<T>
 {
     T* allocate(unsigned int count)
     {
-        return FUN_0065e430(count, (T*)0);
+        return Runtime_UpdateState_0065e430(count, (T*)0);
     }
 };
 template <class T> struct PairVectorVal : GvAuxBase<PairAllocator<T> >
@@ -5797,7 +5825,8 @@ inline O PairMoveBackward(I first, I last, O dest, C cat, M, GvRangeCheckedTag)
 {
     return PairCopyBackward(first, last, dest, cat, GvPtrCat(first, dest), GvRangeCheckedTag());
 }
-inline PointPair* FUN_00ac1580(PointPair* first, PointPair* last, PointPair* dest)
+// src: GUESS 0x00ac1580 (confidence: low)
+inline PointPair* Object_ProcessAndReturnValue_00ac1580(PointPair* first, PointPair* last, PointPair* dest)
 {
     return PairMoveBackward(GvCheckedBase(first), GvCheckedBase(last), dest, GvIterRandom(first, dest),
                             PairMoveCategory(dest), GvRangeCheckedTag());
@@ -5842,26 +5871,28 @@ template <class T> struct PairInsertionVector : PairVectorVal<T>
         return p + n;
     }
 
-    void FUN_0065dc60(T*, T*);
+    void ForwardCall_0065dc60(T*, T*);
     template <class I> T* _Umove(I first, I last, T* dest)
     {
         return PairUncheckedMove(first, last, dest, this->_Alval);
     }
     T* _UmoveSuffix(T* first, T* last, T* dest)
     {
-        return FUN_00ac1da0(first, last, dest, this->_Alval);
+        return Object_ProcessAndReturnValue_00ac1da0(first, last, dest, this->_Alval);
     }
-    void FUN_00abe310(GvConstIterator<T> _Where, unsigned int _Count, const T& _Val);
+    void UpdateState_00abe310(GvConstIterator<T> _Where, unsigned int _Count, const T& _Val);
 };
 
-template <class T> inline void PairInsertionVector<T>::FUN_0065dc60(T* first, T* last)
+// src: GUESS 0x0065dc60 (confidence: low)
+template <class T> inline void PairInsertionVector<T>::ForwardCall_0065dc60(T* first, T* last)
 {
     GvDestroyRange(first, last, this->_Alval);
 }
 
 // @fnv 0x00abe310
 template <class T>
-void PairInsertionVector<T>::FUN_00abe310(GvConstIterator<T> _Where, unsigned int _Count, const T& _Val)
+// src: GUESS 0x00abe310 (confidence: low)
+void PairInsertionVector<T>::UpdateState_00abe310(GvConstIterator<T> _Where, unsigned int _Count, const T& _Val)
 {
     unsigned int _Capacity = capacity();
     if (_Count == 0)
@@ -5886,14 +5917,14 @@ void PairInsertionVector<T>::FUN_00abe310(GvConstIterator<T> _Where, unsigned in
         }
         catch (...)
         {
-            FUN_0065dc60(_Newvec, _Ptr);
+            ForwardCall_0065dc60(_Newvec, _Ptr);
             this->_Alval.deallocate(_Newvec, _Capacity);
             throw;
         }
         _Count += size();
         if (_Myfirst != 0)
         {
-            FUN_0065dc60(_Myfirst, _Mylast);
+            ForwardCall_0065dc60(_Myfirst, _Mylast);
             this->_Alval.deallocate(_Myfirst, _Myend - _Myfirst);
         }
         _Myend = _Newvec + _Capacity;
@@ -5910,7 +5941,7 @@ void PairInsertionVector<T>::FUN_00abe310(GvConstIterator<T> _Where, unsigned in
         }
         catch (...)
         {
-            FUN_0065dc60(_Where._Myptr + _Count, _Mylast + _Count);
+            ForwardCall_0065dc60(_Where._Myptr + _Count, _Mylast + _Count);
             throw;
         }
         _Mylast += _Count;
@@ -5921,12 +5952,12 @@ void PairInsertionVector<T>::FUN_00abe310(GvConstIterator<T> _Where, unsigned in
         T _Tmp = _Val;
         T* _Oldend = _Mylast;
         _Mylast = _Umove(_Oldend - _Count, _Oldend, _Mylast);
-        FUN_00ac1580(_Where._Myptr, _Oldend - _Count, _Oldend);
+        Object_ProcessAndReturnValue_00ac1580(_Where._Myptr, _Oldend - _Count, _Oldend);
         LastFill(_Where._Myptr, _Where._Myptr + _Count, _Tmp);
     }
 }
 
-template void PairInsertionVector<PointPair>::FUN_00abe310(GvConstIterator<PointPair>, unsigned int, const PointPair&);
+template void PairInsertionVector<PointPair>::UpdateState_00abe310(GvConstIterator<PointPair>, unsigned int, const PointPair&);
 
 // inline copy of the unit's StrQ_ad6bb0::FUN_00ad6bb0 (string swap): the original inlined it here
 struct StrQSwap_ad6bb0 : StrQ_ad6bb0
@@ -5958,7 +5989,8 @@ inline void swap(BxString& _Left, BxString& _Right)
     ((StrQSwap_ad6bb0*)&_Left)->Swap(*(StrQ_ad6bb0*)&_Right);
 }
 // @fnv 0x00ad66e0
-BxString* __cdecl FUN_00ad66e0(BxString* _First, BxString* _Last, BxString* _Dest, GvAlloc<BxString>& _Al)
+// src: GUESS 0x00ad66e0 (confidence: medium)
+BxString* __cdecl Object_DestroyElementRange_00ad66e0(BxString* _First, BxString* _Last, BxString* _Dest, GvAlloc<BxString>& _Al)
 {
     BxString* _Next = _Dest;
     BxString _Val;
@@ -5981,7 +6013,7 @@ BxString* __cdecl FUN_00ad66e0(BxString* _First, BxString* _Last, BxString* _Des
 
 namespace Insert52Detail {
 
-extern "C" void* __cdecl FUN_0065e550(unsigned int, int);
+extern "C" void* __cdecl Runtime_AllocateElementArray52Checked(unsigned int, int);
 extern const char DAT_010173c4[];
 struct ErrorText
 {
@@ -6031,7 +6063,7 @@ template <class T> struct InsertAllocator
     {}
     pointer allocate(unsigned int n)
     {
-        return (pointer)FUN_0065e550(n, 0);
+        return (pointer)Runtime_AllocateElementArray52Checked(n, 0);
     }
     void deallocate(pointer p, unsigned int)
     {
@@ -6163,11 +6195,12 @@ struct ElementVector : InsertVectorVal<Element52>
     {
         ThrowVectorTooLong();
     }
-    void FUN_00abf210(const_iterator, size_type, const Element52&);
+    void UpdateState_00abf210(const_iterator, size_type, const Element52&);
 };
 
 // @fnv 0x00abf210
-void ElementVector::FUN_00abf210(const_iterator _Where, size_type _Count, const Element52& _Val)
+// src: GUESS 0x00abf210 (confidence: low)
+void ElementVector::UpdateState_00abf210(const_iterator _Where, size_type _Count, const Element52& _Val)
 {
     size_type _Capacity = capacity();
 
@@ -6296,7 +6329,7 @@ struct ResizeConstIterator : GvIterBase
         _Set_container(container);
         _Myptr = ptr;
     }
-    ResizeConstIterator& FUN_00ac0b80(int offset);
+    ResizeConstIterator& ProcessAndReturnValue_00ac0b80(int offset);
     bool operator==(const ResizeConstIterator& other) const
     {
         if (!(_Has_container() && _Same_container(other)))
@@ -6314,7 +6347,7 @@ struct ResizeIterator : ResizeConstIterator
     {}
     ResizeIterator& operator+=(int offset)
     {
-        static_cast<ResizeConstIterator&>(*this).FUN_00ac0b80(offset);
+        static_cast<ResizeConstIterator&>(*this).ProcessAndReturnValue_00ac0b80(offset);
         return *this;
     }
     ResizeIterator operator+(int offset) const
@@ -6333,12 +6366,13 @@ struct ResizeEntries : GvVector<ResizeEntry>
     {
         return ResizeIterator(_Mylast, this);
     }
-    void FUN_00abe310(ResizeConstIterator, unsigned int, const ResizeEntry&);
+    void UpdateState_00abe310(ResizeConstIterator, unsigned int, const ResizeEntry&);
     ResizeIterator makeIterator(ResizeConstIterator where) const
     {
         return ResizeIterator(where._Myptr, this);
     }
-    ResizeIterator FUN_00abb280(ResizeConstIterator firstArg, ResizeConstIterator lastArg)
+// src: GUESS 0x00abb280 (confidence: low)
+    ResizeIterator ProcessAndReturnValue_00abb280(ResizeConstIterator firstArg, ResizeConstIterator lastArg)
     {
         ResizeIterator first = makeIterator(firstArg);
         ResizeIterator last = makeIterator(lastArg);
@@ -6350,16 +6384,17 @@ struct ResizeEntries : GvVector<ResizeEntry>
         }
         return first;
     }
-    void FUN_00abb060(unsigned int count, ResizeEntry value);
+    void ProcessState_00abb060(unsigned int count, ResizeEntry value);
 };
 
 // @fnv 0x00abb060
-void ResizeEntries::FUN_00abb060(unsigned int count, ResizeEntry value)
+// src: GUESS 0x00abb060 (confidence: low)
+void ResizeEntries::ProcessState_00abb060(unsigned int count, ResizeEntry value)
 {
     if (size() < count)
-        FUN_00abe310(end(), count - size(), value);
+        UpdateState_00abe310(end(), count - size(), value);
     else if (count < size())
-        FUN_00abb280(begin() + count, end());
+        ProcessAndReturnValue_00abb280(begin() + count, end());
 }
 
 namespace fnv_00ad5500 {
@@ -6435,7 +6470,7 @@ class TmpCls
 class SrcCls
 {
   public:
-    GameString FUN_00ad3e60();
+    GameString GetKName();
 };
 
 class ObjBase
@@ -6467,10 +6502,11 @@ class ObjNew : public ObjMid
 };
 
 // @fnv 0x00ad5500
-int FUN_00ad5500(ObjNew** output, SrcCls* source)
+// src: GUESS 0x00ad5500 (confidence: low)
+int Object_ProcessAndReturnValue_00ad5500(ObjNew** output, SrcCls* source)
 {
     if (output && !*output)
-        *output = new ObjNew(TmpCls(source->FUN_00ad3e60()));
+        *output = new ObjNew(TmpCls(source->GetKName()));
     return 2;
 }
 }  // namespace fnv_00ad5500
@@ -7861,7 +7897,8 @@ template <class T> struct GvVector : GvVectorVal<T>
 }
 
 // @fnv 0x00ad4210
-plusad42::BxString FUN_00ad4210(const plusad42::BxString& _Left, const char* _Right)
+// src: GUESS 0x00ad4210 (confidence: medium)
+plusad42::BxString TESObject_ConcatenateStrings(const plusad42::BxString& _Left, const char* _Right)
 {
     return plusad42::BxString(_Left) += _Right;
 }
@@ -10076,7 +10113,8 @@ template <class T> struct GvVector : GvVectorVal<T>
 }
 
 // @fnv 0x00ad42e0
-plus2ad4::BxString FUN_00ad42e0(const plus2ad4::BxString& _Left, const plus2ad4::BxString& _Right)
+// src: GUESS 0x00ad42e0 (confidence: low)
+plus2ad4::BxString Object_ProcessAndReturnValue_00ad42e0(const plus2ad4::BxString& _Left, const plus2ad4::BxString& _Right)
 {
     return plus2ad4::BxString(_Left) += _Right;
 }
@@ -10123,11 +10161,12 @@ struct StateOperations
         width = 0;
         array = 0;
         callbacks = 0;
-        FUN_00ac9ff0(0, false);
+        UpdateState_00ac9ff0(0, false);
         locale = new localeDEB0;
     }
     static void addStandard(StateOperations*);
-    void FUN_00ac9ff0(int value, bool reraise)
+// src: GUESS 0x00ac9ff0 (confidence: low)
+    void UpdateState_00ac9ff0(int value, bool reraise)
     {
         state = value & 0x17;
         if ((state & exceptions) == 0)
@@ -10160,7 +10199,8 @@ struct InputIos : StateOperations
     {
         return ParserUseFacet(getloc()).widen(value);
     }
-    void FUN_00ad0470(InputStreambuf<char>* buffer, bool standard)
+// src: GUESS 0x00ad0470 (confidence: low)
+    void UpdateState_00ad0470(InputStreambuf<char>* buffer, bool standard)
     {
         initializeBase();
         streambuf = buffer;
@@ -10175,7 +10215,7 @@ struct InputIos : StateOperations
     }
     void clear(int value = 0, bool reraise = false)
     {
-        StateOperations::FUN_00ac9ff0(streambuf == 0 ? value | 4 : value, reraise);
+        StateOperations::UpdateState_00ac9ff0(streambuf == 0 ? value | 4 : value, reraise);
     }
     void setstate(int value, bool reraise = false)
     {
@@ -10187,7 +10227,7 @@ struct VersionedDataBlock : virtual InputIos
 {
     VersionedDataBlock(InputStreambuf<char>* buffer, bool standard = false) : count(0)
     {
-        FUN_00ad0470(buffer, standard);
+        UpdateState_00ad0470(buffer, standard);
     }
     virtual ~VersionedDataBlock()
     {}
@@ -10306,7 +10346,8 @@ template <class C> struct InputFilebuf : InputStreambuf<C>
             _InitSB();
         }
     }
-    InputFilebuf* FUN_00acfab0(const char* name, int mode, int prot)
+// src: GUESS 0x00acfab0 (confidence: low)
+    InputFilebuf* UpdateState_00acfab0(const char* name, int mode, int prot)
     {
         _iobuf* opened;
         if (file != 0 || (opened = OpenStream(name, mode, prot)) == 0)
@@ -10327,6 +10368,6 @@ class FUN_00acc6c0 : public input_ctor::VersionedDataBlock
 // @fnv 0x00acc6c0
 FUN_00acc6c0::FUN_00acc6c0(const char* filename, int mode, int protection) : input_ctor::VersionedDataBlock(&filebuf)
 {
-    if (filebuf.FUN_00acfab0(filename, mode | 1, protection) == 0)
+    if (filebuf.UpdateState_00acfab0(filename, mode | 1, protection) == 0)
         setstate(2);
 }

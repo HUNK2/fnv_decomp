@@ -5,7 +5,7 @@
 
 #include "../../../../include/NiBillboardNode.h"
 
-void* __cdecl FUN_00aa13e0(unsigned int);
+void* __cdecl Object_DispatchCommandFour(unsigned int);
 
 
 inline NiBillboardNode::NiBillboardNode() : NiNode(0)

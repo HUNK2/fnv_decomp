@@ -448,10 +448,10 @@ template <class T> struct SplitArray : SplitArrayBase<T>
 struct SplitName
 {
     char* text;
-    SplitName& FUN_00cb0c10(const char*);
+    SplitName& UpdateState_00cb0c10(const char*);
     __forceinline SplitName& operator=(const char* str)
     {
-        return FUN_00cb0c10(str);
+        return UpdateState_00cb0c10(str);
     }
 };
 struct SplitBody;

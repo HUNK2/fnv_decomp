@@ -145,7 +145,7 @@ void* __cdecl NiVertexColorProperty_GetRTTI();
 extern "C" int g_011f443c;
 int __cdecl NiZBufferProperty_GetRTTI();
 int __cdecl NiZBufferProperty_GetType_0();
-int __cdecl FUN_00dc9e60();
+int __cdecl Object_ComputeValue_00dc9e60();
 struct NiDX9Renderer
 {
     unsigned int pad[0x228];

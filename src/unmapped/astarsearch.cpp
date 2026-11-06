@@ -19,7 +19,8 @@ void FUN_006a7d30_shell::AStarSearch_NavMeshSearchNode_NavMeshSearchLink_SetMaxF
 }
 
 // @fnv 0x006a7f50
-float __fastcall FUN_006a7f50(const CombatTargetTimestamp* timestamp)
+// src: GUESS 0x006a7f50 (confidence: low)
+float __fastcall AStarSearch_EvaluateValue_006a7f50(const CombatTargetTimestamp* timestamp)
 {
     return timestamp->fTimeStamp;
 }
@@ -29,11 +30,12 @@ extern int DAT_0106b660;
 struct GlobalObject_00869f00
 {
     void Clear(bool);
-    void FUN_006a7f90();
+    void SetVtableAndProcessState_006a7f90();
 };
 
 // @fnv 0x006a7f90
-void GlobalObject_00869f00::FUN_006a7f90()
+// src: GUESS 0x006a7f90 (confidence: low)
+void GlobalObject_00869f00::SetVtableAndProcessState_006a7f90()
 {
     *(int*)this = (int)&DAT_0106b660;
     this->Clear(true);

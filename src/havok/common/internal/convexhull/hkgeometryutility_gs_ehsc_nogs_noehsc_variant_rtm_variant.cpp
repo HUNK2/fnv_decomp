@@ -164,7 +164,7 @@ struct S_00d5ac50_P
     }
 };
 extern __m128 DAT_010c44d0;
-S_00d5ac50_R FUN_00d5a6e0(S_00d5ac50_M& m, int iters);
+S_00d5ac50_R Object_ProcessEntries_00d5a6e0(S_00d5ac50_M& m, int iters);
 static __forceinline __m128& S_q(S_00d5ac50_V& v)
 {
     return reinterpret_cast<__m128&>(v);
@@ -177,7 +177,7 @@ static __forceinline float S_dot3(__m128 x)
 {
     return _mm_cvtss_f32(_mm_add_ss(_mm_shuffle_ps(x, x, 0xaa), _mm_add_ss(_mm_shuffle_ps(x, x, 0x55), x)));
 }
-S_00d5ac50_R FUN_00d5ac50(S_00d5ac50_M& m, S_00d5ac50_V* p0, S_00d5ac50_V* p1, S_00d5ac50_V* p2);
+S_00d5ac50_R HkgeometryutilityGsEhscNogsNoehsc_ComputeValues_00d5ac50(S_00d5ac50_M& m, S_00d5ac50_V* p0, S_00d5ac50_V* p1, S_00d5ac50_V* p2);
 
 struct S00d5bb80_hkSimdReal
 {
@@ -254,8 +254,9 @@ struct S00d5bb80_hkSphere
 };
 
 // @fnv 0x00d5bb80
+// src: GUESS 0x00d5bb80 (confidence: low)
 static __declspec(noinline) S00d5bb80_hkSphere
-    FUN_00d5bb80(const S00d5bb80_hkVector4& a, const S00d5bb80_hkVector4& b, const S00d5bb80_hkVector4& c, float radius)
+    Object_ProcessAndReturnValue_00d5bb80(const S00d5bb80_hkVector4& a, const S00d5bb80_hkVector4& b, const S00d5bb80_hkVector4& c, float radius)
 {
     S00d5bb80_hkVector4 ab;
     ab.setSub4(b, a);
@@ -288,6 +289,6 @@ volatile float g_r;
 S00d5bb80_hkSphere g_out;
 void CallTarget_d5bb80()
 {
-    g_out = FUN_00d5bb80(*g_a, *g_b, *g_c, g_r);
-    g_out = FUN_00d5bb80(*g_a, *g_b, *g_c, g_r);
+    g_out = Object_ProcessAndReturnValue_00d5bb80(*g_a, *g_b, *g_c, g_r);
+    g_out = Object_ProcessAndReturnValue_00d5bb80(*g_a, *g_b, *g_c, g_r);
 }

@@ -43,7 +43,7 @@ struct FUN_00e7cdf0_shell
     int _p5;
     int _p6;
 };
-void __cdecl FUN_00e7d1b0();
+void __cdecl ReleaseStorage_00e7d1b0();
 void __cdecl operator delete(void* p, unsigned int size);
 struct FUN_00e7d230_cls
 {
@@ -56,7 +56,7 @@ struct FUN_00e7f790_Class
 {
     void __thiscall DestroyList();
 };
-int __cdecl FUN_00e60c70(int a);
+int __cdecl Runtime_EvaluateValue_00e60c70(int a);
 struct FUN_00e67fd0_cls
 {
     void __thiscall ClearEntries();
@@ -238,7 +238,7 @@ struct FUN_00e63ec0_Class
     int _04;
     int* _08;
     int _0c;
-    int __thiscall FUN_00e63ec0(int a, int* out);
+    int __thiscall ProcessEntries_00e63ec0(int a, int* out);
 };
 extern MemoryManager g_memoryManager;
 extern int DAT_010eec54;
@@ -272,11 +272,11 @@ struct FUN_00e7d1b0_Class
     void* _18;
     void* _1c;
     void* _20;
-    void __thiscall FUN_00e7d1b0();
+    void __thiscall ReleaseStorage_00e7d1b0();
 };
 struct FUN_00e7d690_Class
 {
-    void __thiscall FUN_00e7d4e0();
+    void __thiscall UpdateFields_00e7d4e0();
     FUN_00e7d690_Class* __thiscall FUN_00e7d690(int flags);
 };
 struct FUN_00e7ef80_Node
@@ -326,7 +326,7 @@ struct FUN_00e611d0_Object
 hkMemoryRouter* __cdecl hkMemoryRouter_getInstance();
 void __cdecl AppendIndexSequence(int, int, int, int, int);
 void __cdecl AppendIndices(int, int, int, int, int);
-void __cdecl FUN_00e611d0(FUN_00e611d0_Object* object, int value);
+void __cdecl hkMemoryRouter_AppendObjectIndicesByType(FUN_00e611d0_Object* object, int value);
 struct FUN_00e61230_Buffer
 {
     unsigned int field00;
@@ -349,7 +349,7 @@ struct FUN_00e61230_Receiver
     virtual void begin(void* value, unsigned int mode, FUN_00e61230_Buffer* buffer) = 0;
     virtual void end(FUN_00e61230_Buffer* buffer) = 0;
 };
-extern "C" void __cdecl FUN_00e611d0(FUN_00e61230_Buffer* buffer, unsigned int stage);
+extern "C" void __cdecl hkMemoryRouter_AppendObjectIndicesByType(FUN_00e61230_Buffer* buffer, unsigned int stage);
 void __cdecl RunReceiverStage(FUN_00e61230_Receiver* receiver, void* value, unsigned int stage);
 struct E65000Entry
 {
@@ -389,7 +389,7 @@ struct IndexSource_e67420
     unsigned int* m_puiIndices;
     int m_iIntCount;
 
-    bool FUN_00e67420(unsigned int iIndex, unsigned int* p0, unsigned int* p1, unsigned int* p2);
+    bool ComputeValue_00e67420(unsigned int iIndex, unsigned int* p0, unsigned int* p1, unsigned int* p2);
 };
 class FUN_00e67660_cls;
 class FnvEnt67;
@@ -1399,7 +1399,7 @@ struct CopyPixels
     unsigned bytesPerPixel;
 };
 const char* __cdecl GetHResultName(long);
-void __cdecl FUN_00a29680(const char*, ...);
+void __cdecl Object_DoNothing(const char*, ...);
 void __cdecl NiDX9SourceTextureData_CopyDataToSurfaceLevel(CopyPixels* pSourcePixels, unsigned level, CopySurface* surface, unsigned face);
 struct TexDevice
 {
@@ -1702,7 +1702,7 @@ struct TextureOwner
 extern int DAT_0126efc0;
 extern bool DAT_0126f0d0;
 const char* __cdecl GetHResultName(long);
-void __cdecl FUN_00a29680(const char*, ...);
+void __cdecl Object_DoNothing(const char*, ...);
 inline bool IsPowerOfTwo(unsigned n)
 {
     if (!n)
@@ -1886,7 +1886,7 @@ struct CubeMapSurface
 };
 extern "C" void __cdecl NiDX9SourceTextureData_CopyDataToSurfaceLevel(int a, unsigned int b, int c, int d);
 extern "C" void* __cdecl GetHResultName(int r);
-extern "C" void __cdecl FUN_00a29680(const char* fmt, unsigned int i, void* s);
+extern "C" void __cdecl Object_DoNothing(const char* fmt, unsigned int i, void* s);
 struct FUN_00e68870_arg
 {
     int unk00;
@@ -2508,7 +2508,7 @@ struct FUN_00e7bc90 : Base_e7bc90
 };
 struct FUN_00e7bcd0_Item
 {
-    void FUN_00e7bb50();
+    void ReleaseStorage_00e7bb50();
 };
 void __cdecl FUN_00aa1460(void* p, int size);
 void __cdecl _NiFree_00aa10f0(void* p);
@@ -2807,7 +2807,7 @@ class BE7F610Heap
 };
 extern BE7F610Heap g_kE7F610Heap;
 void __cdecl _NiFree_00aa10f0(void* pvMem);
-void __cdecl FUN_00aa1490(void* pvMem, unsigned int uiAlignment);
+void __cdecl NiMemObject_ReleaseStorage_00aa1490(void* pvMem, unsigned int uiAlignment);
 class BE7F610Object
 {
   public:
@@ -2831,7 +2831,7 @@ class BE7F610Buffer : public BE7F610Object
   public:
     __forceinline ~BE7F610Buffer()
     {
-        FUN_00aa1490(m_pResource, 0x10);
+        NiMemObject_ReleaseStorage_00aa1490(m_pResource, 0x10);
         if (m_pkLeaf)
             m_pkLeaf->FUN_00e7f050(1);
     }
@@ -4111,8 +4111,8 @@ inline bool isTri(int t)
     }
     return false;
 }
-void __cdecl FUN_00e60e40(int type, int count, int data, IntArray* out);
-void __cdecl FUN_00e60f50(int type, int data, int count, int base, IntArray* out);
+void __cdecl Object_AppendPrimitiveIndices(int type, int count, int data, IntArray* out);
+void __cdecl hkArray_AppendTriangleIndicesWithOffset(int type, int data, int count, int base, IntArray* out);
 void __cdecl AppendIndices(int type, int data, int count, int base, U16Array* out);
 void __cdecl BuildIndexArray(IndexSource* src, IntArray* out);
 struct hkPairE63E
@@ -4217,7 +4217,7 @@ extern "C" hkMemoryRouter& __cdecl hkMemoryRouter_getInstance() throw();
 }
 void* __cdecl hkString_memCpy(void* pDst, const void* pSrc, int iNumBytes);
 
-void __cdecl FUN_00e60f50(int iType, const int* piIndices, int iNumIndices, int iOffset, hkArray<int>& kOut);
+void __cdecl hkArray_AppendTriangleIndicesWithOffset(int iType, const int* piIndices, int iNumIndices, int iOffset, hkArray<int>& kOut);
 extern "C" double DAT_010229b8;
 static float rand01_00e62ac0(unsigned seed);
 volatile unsigned g_e62ac0_seed = 12345u;
@@ -5051,7 +5051,7 @@ struct FUN_00e7b260 : ModeItem404
 
     FUN_00e7b260(S00e7b590_D3D* dev, int ctx, D3DDEVTYPE id, D3DFORMAT key, bool fullscreen, bool windowed) throw();
 };
-void* __cdecl FUN_00aa13e0(unsigned int size);
+void* __cdecl Object_DispatchCommandFour(unsigned int size);
 class GlobalObject_0096a2d0
 {
 
@@ -5232,7 +5232,7 @@ struct Tex
     void SetValues(unsigned, unsigned);
 };
 const char* FUN_00e7a9a0(int);
-void FUN_00a29680(const char*, ...);
+void Object_DoNothing(const char*, ...);
 extern int DAT_0126f580;
 extern int DAT_0126f590;
 class RT
@@ -5294,7 +5294,7 @@ static __forceinline int* IntArrayX_expandBy(hkArrayBase<int>& self, int n)
         self.m_iElementCount += n;
         return self.m_data + oldSize;
     }
-void __cdecl FUN_00e60e40(int type, int count, int data, IntArray* out);
+void __cdecl Object_AppendPrimitiveIndices(int type, int count, int data, IntArray* out);
 typedef ::__m128 LocalM128;
 using ::_mm_sub_ps;
 using ::_mm_mul_ps;
@@ -5321,7 +5321,7 @@ struct BarycentricResult
 {
     float u, v, w;
 };
-void __cdecl FUN_00e61a10(const LocalM128* point, const LocalM128* a, const LocalM128* b, const LocalM128* c,
+void __cdecl Runtime_ComputeTriangleBarycentricWeights(const LocalM128* point, const LocalM128* a, const LocalM128* b, const LocalM128* c,
                           BarycentricResult* result);
 void __cdecl nullsub_337();
 bool __cdecl SetModeFlags(int mode, int* outValue, unsigned int* flags);
@@ -5787,11 +5787,12 @@ struct Owner
     int unk6fc;
     Block m_kBlock;
 
-    int FUN_00e695c0(int iArg);
+    int SelectFormatTileValue_Thunk(int iArg);
 };
 
 // @fnv 0x00e695c0
-int Owner::FUN_00e695c0(int iArg)
+// src: GUESS 0x00e695c0 (confidence: medium)
+int Owner::SelectFormatTileValue_Thunk(int iArg)
 {
     return SelectFormatTileValue(iArg, &m_kBlock);
 }
@@ -5824,10 +5825,10 @@ struct ClosestList
     }
     int NiDX9AdapterDesc_ModeDesc_GetClosestRefreshRate(int target);
 };
-int FUN_00e7ccf0(unsigned int index);
+int Runtime_GetIndexMask(unsigned int index);
 class GlobalObjectO2_00a7b610;
 extern GlobalObjectO2_00a7b610 g_0126f59c;
-GlobalObjectO2_00a7b610* FUN_00e7cd30();
+GlobalObjectO2_00a7b610* Runtime_GetField0126f59cAddress();
 class FUN_00e7a5e0_Object
 {
   public:
@@ -6105,7 +6106,7 @@ struct DisplayModeInfo
     }
     void* operator new(unsigned int size) throw()
     {
-        return FUN_00aa13e0(size);
+        return Object_DispatchCommandFour(size);
     }
 };
 struct FormatNode
@@ -6493,7 +6494,7 @@ struct S00e60650
     int unk14;
     int unk18;
     int value;
-    int FUN_00e60650();
+    int GetValue();
 };
 // FUN_00e60660: __thiscall accessor, returns this ? &this->field_14 : 0
 struct FUN_00e60660_Cls;
@@ -6505,7 +6506,7 @@ struct FUN_00e60660_Cls
     int unk0c;
     int unk10;
     int unk14;
-    int* __thiscall FUN_00e60660();
+    int* __thiscall ComputeValue_00e60660();
 };
 extern const char DAT_010ed328[];
 extern const char DAT_010ed2d0[];
@@ -6566,7 +6567,7 @@ struct D3DProbe
 };
 struct ModeItemInit
 {
-    FUN_00e7b260* FUN_00e7b260(S00e7b590_D3D* dev, int ctx, D3DDEVTYPE eDeviceType, D3DFORMAT eAdapterFormat,
+    FUN_00e7b260* ProbeDeviceRenderFormats(S00e7b590_D3D* dev, int ctx, D3DDEVTYPE eDeviceType, D3DFORMAT eAdapterFormat,
                                bool bFullscreen, bool bWindowed);
 };
 void __cdecl NiDX9AdditionalDepthStencilBufferData_ShutdownAll();
@@ -6669,7 +6670,7 @@ class XfTransformBlock
     int unk50;
     XfCallee* m_pCalleeA;
     XfCallee* m_pCalleeB;
-    void FUN_00e62b20(LocalM128* in, LocalM128* out);
+    void UpdateFields_00e62b20(LocalM128* in, LocalM128* out);
 };
 using ::_mm_xor_ps;
 using ::_mm_sub_ss;
@@ -6726,8 +6727,8 @@ struct PodDst
 };
 struct SupportOwner
 {
-    void FUN_00e62b20(const hkVector4* direction, SupportResult* result);
-    LocalM128* FUN_00e62c60(Arg<LocalM128> out, const hkVector4* direction, Arg<const LocalM128> point, Arg<SupportResult> result);
+    void UpdateFields_00e62b20(const hkVector4* direction, SupportResult* result);
+    LocalM128* ProcessAndReturnValue_00e62c60(Arg<LocalM128> out, const hkVector4* direction, Arg<const LocalM128> point, Arg<SupportResult> result);
 };
 extern "C"
 {
@@ -6814,7 +6815,7 @@ struct TrianglePlane
     int m_3c;
     float m_40;
 
-    void FUN_00e67570();
+    void ComputePlaneNormalAndDistance();
 };
 using ::_mm_sqrt_ss;
 struct S00e61d30_TriVerts
@@ -6828,7 +6829,7 @@ static inline LocalM128 Sum3(LocalM128 a, LocalM128 b)
     LocalM128 m = _mm_mul_ps(a, b);
     return _mm_add_ss(_mm_shuffle_ps(m, m, 0xaa), _mm_add_ss(_mm_shuffle_ps(m, m, 0x55), m));
 }
-void FUN_00e61d30(const S00e61d30_TriVerts* tri, float* out);
+void Runtime_ComputeValues_00e61d30(const S00e61d30_TriVerts* tri, float* out);
 extern "C"
 {
     double __cdecl fabs(double x);
@@ -6851,7 +6852,7 @@ struct S00e67ae0_HullFace
 struct S00e67ae0_HullWalker
 {
     void ClearEntries();
-    S00e67ae0_HullFace* FUN_00e67ae0(S00e67ae0_HullFace* start);
+    S00e67ae0_HullFace* FindHullFaceBySideTests(S00e67ae0_HullFace* start);
 };
 NiPixelFormat* __cdecl CreatePixelFormat(unsigned int eD3DFormat);
 
@@ -6963,11 +6964,11 @@ class E63Hull
     E63Oct<E63Quad<E63Face> > m_faces4_35;
     E63Oct<E63Quad<E63Face> > m_faces36_67;
     E63Oct<E63Quad<E63Face> > m_faces68_99;
-    void FUN_00e63ba0(::LocalM128* a, ::LocalM128* b, ::LocalM128* c);
+    void ProcessEntries_00e63ba0(::LocalM128* a, ::LocalM128* b, ::LocalM128* c);
     E63Face* GetNearestEntry();
     int hkWingedEdge_findVisibleTriangles(E63Face* a1, E63Vert* a2, int* a3, E63Edge** a4);
-    int FUN_00e67740(int numNew, E63Edge* edge, E63Vert* vert);
-    E63Face* FUN_00e67ae0(E63Face* face);
+    int ProcessAndTransformResult_00e67740(int numNew, E63Edge* edge, E63Vert* vert);
+    E63Face* FindHullFaceBySideTests(E63Face* face);
 };
 struct E63Out
 {
@@ -6999,9 +7000,9 @@ struct Solver
     ::LocalM128* m_64;
     ::LocalM128* m_68;
     int m_6c;
-    int FUN_00e62d30(E63Out* out, int* status);
-    void FUN_00e62b20(E63Face* face, E63Vert* vert);
-    int FUN_00e63770(E63Out* out);
+    int UpdateState_00e62d30(E63Out* out, int* status);
+    void UpdateFields_00e62b20(E63Face* face, E63Vert* vert);
+    int ProcessEntries_00e63770(E63Out* out);
 };
 static __forceinline void transposeThree(::LocalM128& a, ::LocalM128& b, ::LocalM128& c)
 {
@@ -7054,7 +7055,7 @@ static __forceinline int expand(Solver* self, E63Hull& hull, E63Face* face, E63V
         status = 2;
         return 1;
     }
-    if (hull.FUN_00e67740(status, outEdge, vert) != 0)
+    if (hull.ProcessAndTransformResult_00e67740(status, outEdge, vert) != 0)
     {
         status = 5;
         return 1;
@@ -7062,7 +7063,8 @@ static __forceinline int expand(Solver* self, E63Hull& hull, E63Face* face, E63V
     return 0;
 }
 // @fnv 0x00e63770
-int Solver::FUN_00e63770(E63Out* out)
+// src: GUESS 0x00e63770 (confidence: low)
+int Solver::ProcessEntries_00e63770(E63Out* out)
 {
     int status;
     E63Edge* outEdge;
@@ -7071,7 +7073,7 @@ int Solver::FUN_00e63770(E63Out* out)
     for (;;)
     {
         status = 0;
-        if (FUN_00e62d30(out, &status) == 1)
+        if (UpdateState_00e62d30(out, &status) == 1)
         {
             if (status != 5)
                 return status;
@@ -7079,7 +7081,7 @@ int Solver::FUN_00e63770(E63Out* out)
         }
         {
             E63Hull hull;
-            hull.FUN_00e63ba0(m_60, m_64, m_68);
+            hull.ProcessEntries_00e63ba0(m_60, m_64, m_68);
             for (;;)
             {
                 face = hull.GetNearestEntry();
@@ -7087,7 +7089,7 @@ int Solver::FUN_00e63770(E63Out* out)
                 E63Vert* vert = (&hull.m_vert0) + idx;
                 hull.m_uiVertexCount = idx + 1;
                 vert->m_30 = 0;
-                FUN_00e62b20(face, vert);
+                UpdateFields_00e62b20(face, vert);
                 int expanded = expand(this, hull, face, vert, status, outEdge);
                 if (expanded == 1)
                     break;
@@ -7104,11 +7106,11 @@ int Solver::FUN_00e63770(E63Out* out)
                     m_68[0] = face->m_v0->m_00;
                     m_68[1] = face->m_v1->m_00;
                     m_68[2] = face->m_v2->m_00;
-                    FUN_00e61a10(&DAT_01267e30, &m_68[0], &m_68[1], &m_68[2],
+                    Runtime_ComputeTriangleBarycentricWeights(&DAT_01267e30, &m_68[0], &m_68[1], &m_68[2],
                                  reinterpret_cast<BarycentricResult*>(&bary));
                     if (!(bary.m128_f32[0] < 0.0f) && !(bary.m128_f32[1] < 0.0f) && !(bary.m128_f32[2] < 0.0f))
                         goto found_face;
-                    face = hull.FUN_00e67ae0(face);
+                    face = hull.FindHullFaceBySideTests(face);
                 }
             found_face:
                 E63Vert* v0 = face->m_v0;

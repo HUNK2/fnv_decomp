@@ -209,7 +209,7 @@ class GrenadeImpactState
     void* GetProjectileBase();
     bool ProcessCollision(TESObjectREFR* pkTarget, int a2, int a3, int a4, int a5, int a6);
     float FUN_00885bd0();
-    void FUN_009b4740();
+    void Object_ProcessAndReturnValue_009b4740();
     bool GrenadeProjectile_AddImpact(TESObjectREFR* pkTarget, int a2, int a3, int a4, int a5, int a6);
 };
 
@@ -248,7 +248,7 @@ bool GrenadeImpactState::GrenadeProjectile_AddImpact(TESObjectREFR* pkTarget, in
         }
         else if (FUN_00885bd0() == 0.0)
         {
-            FUN_009b4740();
+            Object_ProcessAndReturnValue_009b4740();
             m_bHasImpactData = true;
         }
         return true;
@@ -260,10 +260,11 @@ bool GrenadeImpactState::GrenadeProjectile_AddImpact(TESObjectREFR* pkTarget, in
 struct hkVector4Mul
 {
     __m128 m_vComponents;
-    void FUN_009b4670(const hkVector4Mul& a);
+    void MultiplyComponentsInPlace(const hkVector4Mul& a);
 };
 // @fnv 0x009b4670
-void hkVector4Mul::FUN_009b4670(const hkVector4Mul& a)
+// src: GUESS 0x009b4670 (confidence: high)
+void hkVector4Mul::MultiplyComponentsInPlace(const hkVector4Mul& a)
 {
     m_vComponents = _mm_mul_ps(m_vComponents, a.m_vComponents);
 }

@@ -92,21 +92,21 @@ public:
     float GetSquaredXYLength() const;
     Elem16& expand(Allocator& allocator);
 
-    void FUN_00416870(float x, float y, float z);
+    void SetComponents(float x, float y, float z);
     bool FUN_00439090(const LocalVec3* other);
-    bool FUN_004390c0(const LocalVec3* other);
-    bool FUN_004390c0(const LocalVec3* other) const;
-    bool FUN_004390c0(const char* other);
-    void FUN_00439180(float scale);
+    bool HasEqualComponents(const LocalVec3* other);
+    bool HasEqualComponents(const LocalVec3* other) const;
+    bool HasEqualComponents(const char* other);
+    void ScaleComponents(float scale);
     LocalVec3 FUN_00439e90(const LocalVec3& other);
     LocalVec3 FUN_00439e90(const LocalVec3& other) const;
-    void FUN_00439ef0();
-    LocalVec3 FUN_00439ef0(const LocalVec3& other);
-    LocalVec3 FUN_00439ef0(const LocalVec3& other) const;
-    LocalVec3 FUN_00439ef0(LocalVec3* other);
-    LocalVec3 FUN_00439ef0(const LocalVec3* other);
-    void FUN_00439ef0(LocalVec3* output, const LocalVec3* other);
-    LocalVec3* FUN_00439ef0(void* output, void* other);
+    void SubtractIntoVector();
+    LocalVec3 SubtractIntoVector(const LocalVec3& other);
+    LocalVec3 SubtractIntoVector(const LocalVec3& other) const;
+    LocalVec3 SubtractIntoVector(LocalVec3* other);
+    LocalVec3 SubtractIntoVector(const LocalVec3* other);
+    void SubtractIntoVector(LocalVec3* output, const LocalVec3* other);
+    LocalVec3* SubtractIntoVector(void* output, void* other);
     void FUN_0043d410(float x, int y, int z);
     void FUN_0043d410(float x, unsigned int y, unsigned int z);
     float FUN_00457910();
@@ -116,22 +116,22 @@ public:
     float FUN_004a7290();
     float FUN_004a7290() const;
     LocalVec3 FUN_004b3800(const LocalVec3& other) const;
-    LocalVec3 FUN_0053d280(float divisor);
+    LocalVec3 ProcessAndReturnValue_0053d280(float divisor);
     float NiPoint3_XYLength();
     float NiPoint3_XYLength() const;
-    void FUN_0063c8a0(const LocalVec3* other);
-    void FUN_0063c8a0(void* other);
+    void ComputeValue_0063c8a0(const LocalVec3* other);
+    void ComputeValue_0063c8a0(void* other);
     void FUN_006815c0();
     float CVec3_Distance(LocalVec3* other);
     float CVec3_Distance(const LocalVec3& other) const;
-    LocalVec3 FUN_00b05000(const Mat& matrix);
-    LocalVec3 FUN_00b05000(const Matrix4* matrix);
+    LocalVec3 TransformPointByMatrix4(const Mat& matrix);
+    LocalVec3 TransformPointByMatrix4(const Matrix4* matrix);
     void Normalize_00b12790();
     LocalVec3 Diff_00b13040(void* other);
     LocalVec3 Diff_00b13040(const LocalVec3& other) const;
     float FUN_00b2a180(void* other);
-    LocalVec3& FUN_00b2a1c0(void* other);
-    void FUN_00ddc870();
+    LocalVec3& AddComponents(void* other);
+    void ProcessEntries_00ddc870();
     void FUN_00e0f6e0();
 };
 #include "../../include/TESSound.h"
@@ -267,11 +267,12 @@ extern "C" void* DAT_0107cb6c;
 
 struct FUN_0082f140_class
 {
-    void FUN_0082f140();
+    void SetVirtualTable_0082f140();
 };
 
 // @fnv 0x0082f140
-void __thiscall FUN_0082f140_class::FUN_0082f140()
+// src: GUESS 0x0082f140 (confidence: low)
+void __thiscall FUN_0082f140_class::SetVirtualTable_0082f140()
 {
     *reinterpret_cast<void**>(this) = &DAT_0107cb6c;
 }
@@ -318,12 +319,13 @@ void __fastcall NiCriticalSection_Lock(void*);
 struct FUN_0082f520Class
 {
     void* p;
-    void* __thiscall FUN_0082f520(void* v);
+    void* __thiscall ProcessAndReturnValue_0082f520(void* v);
 };
 
 // Stores v into p, calls FUN_0082f1b0 on p, and returns this.
 // @fnv 0x0082f520
-void* __thiscall FUN_0082f520Class::FUN_0082f520(void* pValue)
+// src: GUESS 0x0082f520 (confidence: low)
+void* __thiscall FUN_0082f520Class::ProcessAndReturnValue_0082f520(void* pValue)
 {
     p = pValue;
     NiCriticalSection_Lock(p);
@@ -354,11 +356,12 @@ extern "C" void __stdcall ReceiveConnection(int, int, int);
 
 struct FUN_00831f40_Class
 {
-    void FUN_00831f40(int a, int b);
+    void ReceiveConnection_Thunk(int a, int b);
 };
 
 // @fnv 0x00831f40
-void FUN_00831f40_Class::FUN_00831f40(int aiArg1, int aiArg2)
+// src: GUESS 0x00831f40 (confidence: medium)
+void FUN_00831f40_Class::ReceiveConnection_Thunk(int aiArg1, int aiArg2)
 {
     ReceiveConnection((int)this + 0x104, aiArg1, aiArg2);
 }
@@ -370,10 +373,11 @@ struct FUN_008321c0_Class
     int m_iThirdValue;
     int m_iFourthElementInteger;
     void FUN_00836030();
-    void FUN_008321c0();
+    void ForwardCall_008321c0();
 };
 // @fnv 0x008321c0
-void FUN_008321c0_Class::FUN_008321c0()
+// src: GUESS 0x008321c0 (confidence: low)
+void FUN_008321c0_Class::ForwardCall_008321c0()
 {
     ((FUN_008321c0_Class*)((char*)this + 4))->FUN_00836030();
 }
@@ -482,12 +486,13 @@ extern void* DAT_0107ca64;
 
 struct FUN_0082efb0
 {
-    void FUN_0082efb0_init();
+    void SetVtableAndProcessState_0082efb0();
 };
 
 // Sets the vtable pointer, clears the pointer map, and frees the pointer stored at offset 8.
 // @fnv 0x0082efb0
-void FUN_0082efb0::FUN_0082efb0_init()
+// src: GUESS 0x0082efb0 (confidence: low)
+void FUN_0082efb0::SetVtableAndProcessState_0082efb0()
 {
     *(void**)((char*)this + 0) = (void*)&DAT_0107ca64;
     ((NiTPointerMap<int, int>*)this)->RemoveAll();
@@ -500,11 +505,12 @@ extern void* DAT_0107d9e4;
 
 struct FUN_0083b710_cls : public NiTPointerMap<int, int>
 {
-    void FUN_0083b710();
+    void SetVtableAndProcessState_0083b710();
 };
 
 // @fnv 0x0083b710
-void FUN_0083b710_cls::FUN_0083b710()
+// src: GUESS 0x0083b710 (confidence: low)
+void FUN_0083b710_cls::SetVtableAndProcessState_0083b710()
 {
     *reinterpret_cast<void**>(this) = &DAT_0107d9e4;
     RemoveAll();
@@ -562,14 +568,14 @@ void* __thiscall FUN_0082eee0_class::InitArray(int aiCount)
 void __cdecl Deallocate(void*);
 struct FUN_00831f80_class
 {
-    void __thiscall FUN_00831fb0();
+    void __thiscall SetVtableAndProcessState_00831fb0();
     void* __thiscall FUN_00831f80(unsigned int flags);
 };
 // Calls FUN_00831fb0, then frees this with Deallocate if flags has bit 0 set, and returns this.
 // @fnv 0x00831f80
 void* __thiscall FUN_00831f80_class::FUN_00831f80(unsigned int flags)
 {
-    FUN_00831fb0();
+    SetVtableAndProcessState_00831fb0();
     if (flags & 1)
         Deallocate(this);
     return this;
@@ -586,11 +592,12 @@ struct FUN_00831fb0_class
     int b;
     int c;
     int d;
-    void __thiscall FUN_00831fb0();
+    void __thiscall SetVtableAndProcessState_00831fb0();
 };
 // Sets the object's vtbl and two fields to the given globals, then calls FUN_009fdc10 on this.
 // @fnv 0x00831fb0
-void __thiscall FUN_00831fb0_class::FUN_00831fb0()
+// src: GUESS 0x00831fb0 (confidence: low)
+void __thiscall FUN_00831fb0_class::SetVtableAndProcessState_00831fb0()
 {
     vtbl = &DAT_0107cdac;
     c = (int)&DAT_0107cd6c;
@@ -653,13 +660,13 @@ void __cdecl Deallocate(void*);
 struct FUN_0083b740_Class
 {
     void* __thiscall FUN_0083b740(unsigned int flags);
-    void __thiscall FUN_0083b710();
+    void __thiscall SetVtableAndProcessState_0083b710();
 };
 // Calls FUN_0083b710, then frees this with Deallocate when flags has bit 0 set, and returns this.
 // @fnv 0x0083b740
 void* __thiscall FUN_0083b740_Class::FUN_0083b740(unsigned int flags)
 {
-    FUN_0083b710();
+    SetVtableAndProcessState_0083b710();
     if (flags & 1)
         Deallocate(this);
     return this;
@@ -1076,7 +1083,7 @@ struct FUN_0082efb0_Ext : FUN_0082efb0
 // @fnv 0x0082efe0
 FUN_0082efb0* FUN_0082efb0_Ext::FUN_0082efe0(unsigned int flags)
 {
-    FUN_0082efb0_init();
+    SetVtableAndProcessState_0082efb0();
     if (flags & 1)
         Deallocate(this);
     return this;
@@ -1090,7 +1097,7 @@ struct FUN_0082f160_class : public FUN_0082f140_class
 // @fnv 0x0082f160
 void* __thiscall FUN_0082f160_class::FUN_0082f160(unsigned int flags)
 {
-    FUN_0082f140();
+    SetVirtualTable_0082f140();
     if (flags & 1)
         Deallocate(this);
     return this;
@@ -1127,7 +1134,8 @@ int FUN_00831de0_Class::ForwardToMember()
 typedef void(__stdcall* FUN_00831eb0_callback)(void*, int, int);
 
 // @fnv 0x00831eb0
-void __stdcall FUN_00831eb0(void* object, int aiArg1, int aiArg2)
+// src: GUESS 0x00831eb0 (confidence: low)
+void __stdcall BSSimpleList_UpdateState_00831eb0(void* object, int aiArg1, int aiArg2)
 {
     BSSimpleList<ContNode>* next =
         reinterpret_cast<BSSimpleList<ContNode>*>(reinterpret_cast<char*>(object) - 0x0C)->GetNext();
@@ -1144,7 +1152,8 @@ struct FUN_00831ee0_class
 
 // Retrieves the ContNode at p-0xc via FUN_00726070 and calls its first virtual method.
 // @fnv 0x00831ee0
-void __stdcall FUN_00831ee0(void* p)
+// src: GUESS 0x00831ee0 (confidence: low)
+void __stdcall Object_UpdateFields_00831ee0(void* p)
 {
     FUN_00831ee0_class* node = (FUN_00831ee0_class*)FUN_00726070((ContNode*)((char*)p - 0xc));
 
@@ -1883,7 +1892,8 @@ void __cdecl FalloutAudioMedia_Shutdown()
 
 // FUN_00831f70: stdcall stub taking one stack argument and returning 0.
 // @fnv 0x00831f70
-int __stdcall FUN_00831f70(int unused)
+// src: GUESS 0x00831f70 (confidence: high)
+int __stdcall Runtime_ReturnZero(int unused)
 {
     return 0;
 }
@@ -2399,7 +2409,7 @@ FUN_0083b6b0::~FUN_0083b6b0()
 namespace fnv_0083d130 {
 struct S_0083d130_Str
 {
-    const char* __thiscall FUN_00559450();
+    const char* __thiscall Modelloader_GetReferencedThis();
 };
 struct S_0083d130_Obj
 {
@@ -2425,11 +2435,11 @@ void S_0083d130_Class::ProcessNodeChain()
     S_0083d130_Node* node = this;
     while (node && !FUN_008256d0(node))
     {
-        if ((*node->ref_006815c0())->ref_006815c0()->FUN_00559450())
+        if ((*node->ref_006815c0())->ref_006815c0()->Modelloader_GetReferencedThis())
         {
-            if (BSstrlen((*node->ref_006815c0())->ref_006815c0()->FUN_00559450()) > 1)
+            if (BSstrlen((*node->ref_006815c0())->ref_006815c0()->Modelloader_GetReferencedThis()) > 1)
             {
-                BSAudio::BSAudio_QInstance()->Precache_00ad8100((unsigned int)(*node->ref_006815c0())->TESDataHandler_GetWorldSpaceList()->FUN_00559450(), 0x20100001, 0);
+                BSAudio::BSAudio_QInstance()->Precache_00ad8100((unsigned int)(*node->ref_006815c0())->TESDataHandler_GetWorldSpaceList()->Modelloader_GetReferencedThis(), 0x20100001, 0);
             }
         }
         node = FUN_00726070(node);
@@ -2460,7 +2470,7 @@ struct EffectTime
 };
 struct EffectHandle
 {
-    EffectTime* FUN_00559450();
+    EffectTime* Modelloader_GetReferencedThis();
 };
 struct SpellTimes
 {
@@ -2490,20 +2500,20 @@ struct FUN_008216c0_shell
 void FUN_008216c0_shell::UpdateEffectTimes()
 {
     float value = 0.0f;
-    if (active.FUN_00559450())
-        value = BSMAX_00404010(active.FUN_00559450()->time38, active.FUN_00559450()->time48);
+    if (active.Modelloader_GetReferencedThis())
+        value = BSMAX_00404010(active.Modelloader_GetReferencedThis()->time38, active.Modelloader_GetReferencedThis()->time48);
     if (reset)
     {
         value = 0.0f;
-        active.FUN_00559450()->time38 = 0.0f;
-        active.FUN_00559450()->time48 = 0.0f;
+        active.Modelloader_GetReferencedThis()->time38 = 0.0f;
+        active.Modelloader_GetReferencedThis()->time48 = 0.0f;
     }
     if (value < spell->FUN_009a7c40())
         time = spell->NiPSysSpawnModifier_GetLifeSpan() * (value / spell->FUN_009a7c40());
     else
         time = spell->NiPSysSpawnModifier_GetLifeSpan();
     for (unsigned int i = 0; i < effects.FUN_0044ddc0(); ++i)
-        effects.BSSimpleArray_NiAVObject_1024_GetAt(i)->FUN_00559450()->AdvanceParticleTimes(time);
+        effects.BSSimpleArray_NiAVObject_1024_GetAt(i)->Modelloader_GetReferencedThis()->AdvanceParticleTimes(time);
 }
 
 // Minimal declarations for the process list and its polymorphic entries.
@@ -3750,19 +3760,20 @@ FUN_0082f260_cls::~FUN_0082f260_cls()
 // the secondary base subobject sits at +4 inside Derived.
 struct PrimaryBase_00831fe0
 {
-    virtual void __cdecl FUN_00831fe0();
+    virtual void __cdecl AdjustThisAndForward_00831fe0();
 };
 
 struct SecondaryBase_00831fe0
 {
-    virtual void __cdecl FUN_00831fe0();
+    virtual void __cdecl AdjustThisAndForward_00831fe0();
 };
 
 struct Derived_00831fe0 : PrimaryBase_00831fe0, SecondaryBase_00831fe0
 {
     Derived_00831fe0();
 // @fnv 0x00831fe0
-    virtual void __cdecl FUN_00831fe0();
+// src: GUESS 0x00831fe0 (confidence: low)
+    virtual void __cdecl AdjustThisAndForward_00831fe0();
 };
 
 Derived_00831fe0::Derived_00831fe0()

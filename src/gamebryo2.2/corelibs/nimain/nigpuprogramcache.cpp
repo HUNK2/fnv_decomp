@@ -202,7 +202,7 @@ void FixedStringMap::GetNextEntry(MapItem*& pos, NiFixedString& key, NiObjPtr& v
     pos = 0;
 }
 
-bool __cdecl FUN_00aa2cc0(const char*) throw();
+bool __cdecl Path_IsRelative(const char*) throw();
 bool __cdecl NiPath_GetCurrentWorkingDirectory(char*, unsigned int) throw();
 int __cdecl BuildAbsolutePath(char*, unsigned int, const char*, const char*) throw();
 
@@ -211,7 +211,7 @@ bool NiGPUProgramCache::SetString(const NiFixedString& akString) throw()
 {
     NiFixedString kOld = this->m_pcWorkingDir;
 
-    if (akString.m_kHandle != _EmptyFS && FUN_00aa2cc0(akString.m_kHandle))
+    if (akString.m_kHandle != _EmptyFS && Path_IsRelative(akString.m_kHandle))
     {
         char acDir[260];
         if (NiPath_GetCurrentWorkingDirectory(acDir, 260))
@@ -1128,7 +1128,7 @@ bool NiGPUProgramCache::LoadCacheFile()
 extern "C" size_t strlen(const char*);
 extern char* _EmptyFS;
 bool __cdecl NiFile_CreateDirectoryRecursive(const char* h);
-void __cdecl FUN_00e984d0(void* s, const char* name, unsigned int len);
+void __cdecl Runtime_UpdateState_00e984d0(void* s, const char* name, unsigned int len);
 
 inline unsigned int NiBinaryStream::BinaryWrite(const void* p, unsigned int n, unsigned int* pSize, unsigned int c)
 {
@@ -1192,7 +1192,7 @@ bool NiGPUProgramCache::Save_00ee9620()
     if (s && s->operator bool() == true)
     {
         const char* str = "NiGPUProgram Cache File";
-        FUN_00e984d0(s, str, strlen(str) + 1);
+        Runtime_UpdateState_00e984d0(s, str, strlen(str) + 1);
 
         unsigned char bLittleEndian = 1;
         S00ee9620_SaveBinary(s, bLittleEndian);

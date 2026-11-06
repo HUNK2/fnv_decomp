@@ -255,11 +255,12 @@ void BSEndian(int*, EndianSizeTag<2>);
 void BSEndian(unsigned short*, EndianSizeTag<2>);
 
 struct FUN_00535a60_Class {
-    void FUN_00535a60();
+    void ProcessState_00535a60();
 };
 
 // @fnv 0x00535a60
-void FUN_00535a60_Class::FUN_00535a60()
+// src: GUESS 0x00535a60 (confidence: low)
+void FUN_00535a60_Class::ProcessState_00535a60()
 {
     BSEndian(reinterpret_cast<int*>(this), EndianSizeTag<2>());
     BSEndian(reinterpret_cast<unsigned short*>(reinterpret_cast<char*>(this) + 6), EndianSizeTag<2>());
@@ -329,27 +330,28 @@ const char* const* FUN_00537ca0_class::NiAdditionalGeometryData_GetRTTI()
     return &g_011f4aac_arg1;
 }
 
-struct FUN_00a73080_holder { void FUN_00a73080(); };
+struct FUN_00a73080_holder { void ReleaseEntries_00a73080(); };
 void __cdecl operator delete(void* p, unsigned int size);
 
 // @fnv 0x00537cb0
 void* NiAdditionalGeometryData::FUN_00537cb0(unsigned int flags)
 {
-    reinterpret_cast<FUN_00a73080_holder*>(this)->FUN_00a73080();
+    reinterpret_cast<FUN_00a73080_holder*>(this)->ReleaseEntries_00a73080();
     if (flags & 1)
         operator delete(this, 0x2c);
     return this;
 }
 
 struct FUN_00540800_Class {
-    void FUN_00540800();
-    void FUN_00537ce0();
+    void UpdateFields_00540800();
+    void ForwardCall_00537ce0();
 };
 
 // @fnv 0x00537ce0
-void FUN_00540800_Class::FUN_00537ce0()
+// src: GUESS 0x00537ce0 (confidence: low)
+void FUN_00540800_Class::ForwardCall_00537ce0()
 {
-    FUN_00540800();
+    UpdateFields_00540800();
 }
 
 extern "C" void* g_011f4aac;
@@ -418,10 +420,11 @@ struct FUN_00538e30_class {
 extern int DAT_0102e378;
 struct FUN_00538e10_class {
     int* m_vtbl;
-    void __fastcall FUN_00538e10();
+    void __fastcall UpdateState_00538e10();
 };
 // @fnv 0x00538e10
-void __fastcall FUN_00538e10_class::FUN_00538e10()
+// src: GUESS 0x00538e10 (confidence: low)
+void __fastcall FUN_00538e10_class::UpdateState_00538e10()
 {
     m_vtbl = &DAT_0102e378;
     ((FUN_00538e30_class*)this)->SetVtable();
@@ -443,13 +446,13 @@ void* __thiscall FUN_00538e30_class::FUN_00538e50(unsigned int flags)
 }  // namespace fnv_00538e50
 
 struct B1 { virtual ~B1(); void* FUN_00538e80(unsigned int); };
-void __cdecl FUN_00538eb0(void*);
+void __cdecl Tesland_UpdateState_00538eb0(void*);
 // @fnv 0x00538e80
 void* B1::FUN_00538e80(unsigned int flags)
 {
     this->B1::~B1();
     if (flags & 1)
-        FUN_00538eb0(this);
+        Tesland_UpdateState_00538eb0(this);
     return this;
 }
 
@@ -461,11 +464,12 @@ struct FUN_00538ef0_class {
     int m_kPointA;
     int m_kPointB;
     void FUN_00538f20();
-    void* FUN_00538ef0();
+    void* UpdateState_00538ef0();
 };
 
 // @fnv 0x00538ef0
-void* FUN_00538ef0_class::FUN_00538ef0()
+// src: GUESS 0x00538ef0 (confidence: low)
+void* FUN_00538ef0_class::UpdateState_00538ef0()
 {
     FUN_00538f20();
     m_ppVirtualMethodTable = &DAT_0102e378;
@@ -486,7 +490,7 @@ FUN_00538f20::FUN_00538f20()
     p = &DAT_0102e388;
 }
 
-void __cdecl FUN_00538eb0(void*);
+void __cdecl Tesland_UpdateState_00538eb0(void*);
 struct FUN_00538f80 {
     void __thiscall FUN_00538fb0();
     void* __thiscall DeleteThis(unsigned int flags);
@@ -496,7 +500,7 @@ void* __thiscall FUN_00538f80::DeleteThis(unsigned int flags)
 {
     FUN_00538fb0();
     if (flags & 1)
-        FUN_00538eb0(this);
+        Tesland_UpdateState_00538eb0(this);
     return this;
 }
 
@@ -909,7 +913,8 @@ struct Prm
     unsigned short val;
 };
 // @fnv 0x00538eb0
-void FUN_00538eb0(Prm* p)
+// src: GUESS 0x00538eb0 (confidence: low)
+void Tesland_UpdateState_00538eb0(Prm* p)
 {
     Prm* q = p;
     {
@@ -1015,7 +1020,8 @@ struct FUN_00537d60 : A51BF0Base {
 };
 
 // @fnv 0x00537d60
-void* FUN_00537d60_Create(unsigned int a, unsigned int b, unsigned int c, int d, int e)
+// src: GUESS 0x00537d60 (confidence: low)
+void* Object_ProcessAndReturnValue_00537d60(unsigned int a, unsigned int b, unsigned int c, int d, int e)
 {
     FUN_00537d60* obj = new FUN_00537d60;
     if (obj) {
@@ -1223,8 +1229,8 @@ int TESLandTexture_GetDefaultTexture();
 void __fastcall QuestPerkEntryData_Endian(void* p);
 struct FUN_0084e3a0_Class { int GetHavokWorldObjectCountInSceneGraph_0084e3a0(); };
 struct FUN_00535aa0_Class { void OBJ_WEAP_CRITICAL_Endian(); };
-struct FUN_004855a0_shell { void FUN_004855a0(); };
-struct FUN_00485680_shell { void FUN_00485680(); };
+struct FUN_004855a0_shell { void BeginFormRecord(); };
+struct FUN_00485680_shell { void FinishFormRecord(); };
 extern double DAT_0102dfe0;
 extern double DAT_0101e568;
 extern double DAT_01012060;
@@ -1288,7 +1294,7 @@ void This538110::TESObjectLAND_Save()
     } else {
     if (!((FUN_005341e0_Class*)this)->TESObjectLAND_HasGoodNormals())
         ((FUN_0053db20_Class*)this)->TESObjectLAND_ForceGoodNormals();
-    ((FUN_004855a0_shell*)this)->FUN_004855a0();
+    ((FUN_004855a0_shell*)this)->BeginFormRecord();
     if (TESForm_QEndianSwapOnSave())
         QuestPerkEntryData_Endian(&m_1c);
     AppendChunk(0x41544144, &m_1c, 4);
@@ -1394,10 +1400,10 @@ void This538110::TESObjectLAND_Save()
                 v.m_06 = 0xffff;
                 v.m_00 = ((FUN_0084e3a0_Class*)m_28->m_20arr[w])->GetHavokWorldObjectCountInSceneGraph_0084e3a0();
                 if (TESForm_QEndianSwapOnSave())
-                    ((FUN_00535a60_Class*)&v)->FUN_00535a60();
+                    ((FUN_00535a60_Class*)&v)->ProcessState_00535a60();
                 AppendChunk(0x54585442, &v, 8);
                 if (TESForm_QEndianSwapOnSave())
-                    ((FUN_00535a60_Class*)&v)->FUN_00535a60();
+                    ((FUN_00535a60_Class*)&v)->ProcessState_00535a60();
             }
             if (m_28->m_30arr[w] != 0) {
                 int u3;
@@ -1413,10 +1419,10 @@ void This538110::TESObjectLAND_Save()
                         pTmp.m_06 = (unsigned short)u6;
                         pTmp.m_00 = (w1 != TESLandTexture_GetDefaultTexture()) ? ((FUN_0084e3a0_Class*)w1)->GetHavokWorldObjectCountInSceneGraph_0084e3a0() : 0;
                         if (TESForm_QEndianSwapOnSave())
-                            ((FUN_00535a60_Class*)&pTmp)->FUN_00535a60();
+                            ((FUN_00535a60_Class*)&pTmp)->ProcessState_00535a60();
                         AppendChunk(0x54585441, &pTmp, 8);
                         if (TESForm_QEndianSwapOnSave())
-                            ((FUN_00535a60_Class*)&pTmp)->FUN_00535a60();
+                            ((FUN_00535a60_Class*)&pTmp)->ProcessState_00535a60();
                     }
                     {
                         Entry538110 t7[289];
@@ -1453,7 +1459,7 @@ void This538110::TESObjectLAND_Save()
             }
         }
     }
-    ((FUN_00485680_shell*)this)->FUN_00485680();
+    ((FUN_00485680_shell*)this)->FinishFormRecord();
     CompressSaveLoadRecord();
     }
 }
@@ -2197,7 +2203,7 @@ bool B3DA60Object::TESObjectLAND_VertexInRect(B3DA60Rect* pkRect, void* pvMatrix
 {
     if (pkRect) {
         NiPoint3 kPoint(GetPosX() + DAT_01016968, GetPosY() + DAT_01016968, 0.0f);
-        kPoint.FUN_0063c8a0(*reinterpret_cast<const NiPoint3*>(pvMatrix));
+        kPoint.ComputeValue_0063c8a0(*reinterpret_cast<const NiPoint3*>(pvMatrix));
         if (kPoint.x > pkRect->m_iRight || kPoint.y > pkRect->m_iBottom)
             return false;
         if (kPoint.x < pkRect->m_iLeft || kPoint.y < pkRect->m_iTop)
@@ -2249,7 +2255,7 @@ extern NiPoint3 DAT_011f426c;
 extern NiPoint2 DAT_011f4980;
 extern UVBounds DAT_011a9bd0;
 struct TextureSample { short FUN_004a8ae0(); short FUN_0047d3f0(); unsigned int FUN_00726070(); };
-struct TexturePointer { TextureSample* FUN_00559450(); };
+struct TexturePointer { TextureSample* Modelloader_GetReferencedThis(); };
 struct TextureManager { void* FUN_006fce30(const NiPoint3&); void* FUN_006fce70(const NiPoint3&); TexturePointer* FUN_006fceb0(const NiPoint3&); };
 struct WorldManager { TextureManager* FUN_00586170(); };
 struct TESView { WorldManager* FUN_004fd3e0(); };
@@ -2445,13 +2451,13 @@ void Surface::TESObjectLAND_InitDistantTextureBlending()
     }
     TexturePointer* eb=ba->FUN_006fceb0(*reinterpret_cast<const NiPoint3*>(c));
     if(eb) {
-     short i=eb->FUN_00559450()->FUN_004a8ae0();
-     short a=eb->FUN_00559450()->FUN_0047d3f0();
-     unsigned int h=eb->FUN_00559450()->FUN_00726070();
+     short i=eb->Modelloader_GetReferencedThis()->FUN_004a8ae0();
+     short a=eb->Modelloader_GetReferencedThis()->FUN_0047d3f0();
+     unsigned int h=eb->Modelloader_GetReferencedThis()->FUN_00726070();
      float f=(float)data->x-i;
      float s=(float)data->y-a;
-     cf.x=(f+k.x)/eb->FUN_00559450()->FUN_00726070();
-     cf.y=(s+k.y)/eb->FUN_00559450()->FUN_00726070();
+     cf.x=(f+k.x)/eb->Modelloader_GetReferencedThis()->FUN_00726070();
+     cf.y=(s+k.y)/eb->Modelloader_GetReferencedThis()->FUN_00726070();
      while(cf.x>1.0)cf.x-=1.0;
      while(cf.x<0.0)cf.x+=1.0;
      while(cf.y>1.0)cf.y-=1.0;
@@ -3140,7 +3146,7 @@ Model* FUN_006629f0(); void BSMultiBound_SetHalfExtents(const NiPoint3&);
 void Update(UpdateData&); void UpdateProperties();
 };
 struct Shape {unsigned short NiGeometry_GetVertexCount(); void* FUN_0049ec60(); Bound* GetSourceFilesFromForm(); GeomData* NiGeometry_GetModelData(); Property* CombatController_GetTarget();};
-struct PropPointer {void* FUN_00559450();}; extern PropPointer g_011ca000;
+struct PropPointer {void* Modelloader_GetReferencedThis();}; extern PropPointer g_011ca000;
 struct Renderer {virtual void v00();
 virtual void v04();
 virtual void v08();
@@ -3274,7 +3280,7 @@ if (!data->nodes) {
   if(data->nodes[quad]) {
    savedA[quad]=data->nodes[quad]->GetAppCulled_00456610();
    data->nodes[quad]->FUN_00450f90(true);
-   data->nodes[quad]->AttachProperty(g_011ca000.FUN_00559450());
+   data->nodes[quad]->AttachProperty(g_011ca000.Modelloader_GetReferencedThis());
    Shape* shape=TESObjectLAND_MakeLandTriStrips((unsigned char)quad);
    shapesB[quad]=shape;
    data->nodes[quad]->Attach(0,shape);
@@ -3397,13 +3403,13 @@ struct SceneObject {
 };
 struct ScenePointer {
     SceneObject* value;
-    SceneObject* FUN_00559450();
+    SceneObject* Modelloader_GetReferencedThis();
     bool FUN_0052aa80(int value) const;
     void FUN_0066b0d0(SceneObject* value);
 };
 struct QueuePointer {
     void* value;
-    void FUN_006f74f0(void* value);
+    void AssignTaskReference(void* value);
 };
 struct SceneController {
     bool bhkWorld_RemoveBody(SceneObject* object);
@@ -3473,7 +3479,7 @@ ShadowSceneNode* __cdecl FUN_00450b80(int index);
 void SceneCleanup::TESObjectLAND_Detach3D()
 {
     SceneController* controller;
-    queued.FUN_006f74f0(0);
+    queued.AssignTaskReference(0);
     if (!data)
         return;
     {
@@ -3482,7 +3488,7 @@ void SceneCleanup::TESObjectLAND_Detach3D()
     if (data->objects) {
         controller = source ? source->TESObjectCELL_GetbhkWorld() : 0;
         if (controller && data->extraNode.FUN_0052aa80(0))
-            controller->bhkWorld_RemoveBody(data->extraNode.FUN_00559450());
+            controller->bhkWorld_RemoveBody(data->extraNode.Modelloader_GetReferencedThis());
         data->extraNode.FUN_0066b0d0(0);
         for (index = 0; index < 4; ++index) {
             if (data->objects[index]) {
@@ -3502,16 +3508,16 @@ void SceneCleanup::TESObjectLAND_Detach3D()
         }
         data->objects = 0;
     }
-    if (data->node.FUN_00559450()) {
-        parent = data->node.FUN_00559450()->NiAVObject_GetParent();
+    if (data->node.Modelloader_GetReferencedThis()) {
+        parent = data->node.Modelloader_GetReferencedThis()->NiAVObject_GetParent();
         if (parent)
-            parent->InsertChild(data->node.FUN_00559450());
+            parent->InsertChild(data->node.Modelloader_GetReferencedThis());
         data->node.FUN_0066b0d0(0);
     }
 }
 }
 
-void* __cdecl FUN_0056d280(unsigned int size);
+void* __cdecl Object_AllocateStorage_0056d280(unsigned int size);
 
 void* __cdecl FUN_00401460(void* destination, const void* source, unsigned int size);
 
@@ -3523,9 +3529,9 @@ struct Buffer538c00
 
     unsigned int m04;
 
-    void __thiscall FUN_00540750(unsigned int size);
+    void __thiscall UpdateState_00540750(unsigned int size);
 
-    void* __thiscall FUN_00559450();
+    void* __thiscall Modelloader_GetReferencedThis();
 
 };
 
@@ -3556,7 +3562,7 @@ struct Output538c00
     unsigned int m2c;
 
     Output538c00();
-    static void* operator new(unsigned int bytes) { return FUN_0056d280(bytes); } static void operator delete(void*);
+    static void* operator new(unsigned int bytes) { return Object_AllocateStorage_0056d280(bytes); } static void operator delete(void*);
 
 };
 
@@ -3589,8 +3595,8 @@ char __thiscall FUN_00538c00_Class::TESObjectLAND_ReadMoppCodeFromBuffer(
             remainingSize = remainingSize + fixedHeaderSize;
             if (readPosition > 0)
             {
-                object->buffer.FUN_00540750(readPosition);
-                void* bufferData = object->buffer.FUN_00559450();
+                object->buffer.UpdateState_00540750(readPosition);
+                void* bufferData = object->buffer.Modelloader_GetReferencedThis();
                 FUN_00401460(bufferData, remainingSize, readPosition);
                 success = 1;
             }
@@ -4288,9 +4294,9 @@ void NormalLand::TESObjectLAND_InvalidateNormals(void* region) {
    NiPoint3 edge8 = data->vertices[quad4][third4] - data->vertices[quad4][second3];
    NiPoint3 normal = edge1.Cross(edge8);
    NiPoint3::NiPoint3_UnitizeVector(normal);
-   if (!region || TESObjectLAND_VertexInRect(region, &data->vertices[quad4][first2])) data->normals[quad4][first2].FUN_0063c8a0(normal);
-   if (!region || TESObjectLAND_VertexInRect(region, &data->vertices[quad4][second3])) data->normals[quad4][second3].FUN_0063c8a0(normal);
-   if (!region || TESObjectLAND_VertexInRect(region, &data->vertices[quad4][third4])) data->normals[quad4][third4].FUN_0063c8a0(normal);
+   if (!region || TESObjectLAND_VertexInRect(region, &data->vertices[quad4][first2])) data->normals[quad4][first2].ComputeValue_0063c8a0(normal);
+   if (!region || TESObjectLAND_VertexInRect(region, &data->vertices[quad4][second3])) data->normals[quad4][second3].ComputeValue_0063c8a0(normal);
+   if (!region || TESObjectLAND_VertexInRect(region, &data->vertices[quad4][third4])) data->normals[quad4][third4].ComputeValue_0063c8a0(normal);
   }
   NiPoint3::NormalizePoints(data->normals[quad4],289,12);
  }
@@ -4636,7 +4642,7 @@ struct LandTexturePtr {
     void* pObject;
     LandTexturePtr(void* apObject);
     ~LandTexturePtr();
-    void* FUN_00559450();
+    void* Modelloader_GetReferencedThis();
 };
 
 struct LandShaderSlot {
@@ -4680,7 +4686,7 @@ struct LandPropertyList {
 
 struct LandPropertyHolder {
     void FUN_0066b0d0(LandProperty* apProperty);
-    LandPropertyList* FUN_00559450();
+    LandPropertyList* Modelloader_GetReferencedThis();
 };
 
 struct LandShaderList {
@@ -4747,10 +4753,10 @@ void __cdecl TESObjectLAND_InitializeStatics() {
     DAT_011c9f04->FUN_00984f60(DAT_011c9f08);
     LandTexturePtr kTexture(0);
     DAT_011c9f08->kShader.FUN_vt90(0, &kTexture);
-    LandTextureData* pTextureDataValue = new LandTextureData(kTexture.FUN_00559450(), 0, 3, 5, 0);
+    LandTextureData* pTextureDataValue = new LandTextureData(kTexture.Modelloader_GetReferencedThis(), 0, 3, 5, 0);
     DAT_011ca000.FUN_0066b0d0(new LandProperty());
-    DAT_011ca000.FUN_00559450()->NiStencilProperty_SetStencilFailAction(2);
-    DAT_011ca000.FUN_00559450()->SetBaseMap(pTextureDataValue);
+    DAT_011ca000.Modelloader_GetReferencedThis()->NiStencilProperty_SetStencilFailAction(2);
+    DAT_011ca000.Modelloader_GetReferencedThis()->SetBaseMap(pTextureDataValue);
 
     DAT_011c9ee8 = new unsigned short[0x600];
     int iIndex = 0;
@@ -4883,7 +4889,7 @@ void Region53::TESObjectLAND_CalculateEdgeNormal(int row, int col, NiPoint3* res
 
     }
 
-    blend.FUN_0063c8a0(&axis);
+    blend.ComputeValue_0063c8a0(&axis);
 
     amount = amount + 1.0;
 
@@ -4907,7 +4913,7 @@ void Region53::TESObjectLAND_CalculateEdgeNormal(int row, int col, NiPoint3* res
 
     }
 
-    blend.FUN_0063c8a0(&axis);
+    blend.ComputeValue_0063c8a0(&axis);
 
     amount = amount + 1.0;
 
@@ -4933,7 +4939,7 @@ void Region53::TESObjectLAND_CalculateEdgeNormal(int row, int col, NiPoint3* res
 
     }
 
-    blend.FUN_0063c8a0(&axis);
+    blend.ComputeValue_0063c8a0(&axis);
 
     amount = amount + 1.0;
 
@@ -4957,7 +4963,7 @@ void Region53::TESObjectLAND_CalculateEdgeNormal(int row, int col, NiPoint3* res
 
     }
 
-    blend.FUN_0063c8a0(&axis);
+    blend.ComputeValue_0063c8a0(&axis);
 
     amount = amount + 1.0;
 
@@ -4983,7 +4989,7 @@ void Region53::TESObjectLAND_CalculateEdgeNormal(int row, int col, NiPoint3* res
 
     }
 
-    blend.FUN_0063c8a0(&axis);
+    blend.ComputeValue_0063c8a0(&axis);
 
     amount = amount + 1.0;
 
@@ -5007,7 +5013,7 @@ void Region53::TESObjectLAND_CalculateEdgeNormal(int row, int col, NiPoint3* res
 
     }
 
-    blend.FUN_0063c8a0(&axis);
+    blend.ComputeValue_0063c8a0(&axis);
 
     amount = amount + 1.0;
 
@@ -5031,7 +5037,7 @@ void Region53::TESObjectLAND_CalculateEdgeNormal(int row, int col, NiPoint3* res
 
     }
 
-    blend.FUN_0063c8a0(&axis);
+    blend.ComputeValue_0063c8a0(&axis);
 
     amount = amount + 1.0;
 
@@ -5055,7 +5061,7 @@ void Region53::TESObjectLAND_CalculateEdgeNormal(int row, int col, NiPoint3* res
 
     }
 
-    blend.FUN_0063c8a0(&axis);
+    blend.ComputeValue_0063c8a0(&axis);
 
     amount = amount + 1.0;
 
@@ -5073,7 +5079,7 @@ void Region53::TESObjectLAND_CalculateEdgeNormal(int row, int col, NiPoint3* res
 
     }
 
-    blend.FUN_0063c8a0(&axis);
+    blend.ComputeValue_0063c8a0(&axis);
 
     amount=amount+1.0;
 
@@ -5089,7 +5095,7 @@ void Region53::TESObjectLAND_CalculateEdgeNormal(int row, int col, NiPoint3* res
 
     }
 
-    blend.FUN_0063c8a0(&axis);
+    blend.ComputeValue_0063c8a0(&axis);
 
     amount=amount+1.0;
 
@@ -5107,7 +5113,7 @@ void Region53::TESObjectLAND_CalculateEdgeNormal(int row, int col, NiPoint3* res
 
     }
 
-    blend.FUN_0063c8a0(&axis);
+    blend.ComputeValue_0063c8a0(&axis);
 
     amount=amount+1.0;
 
@@ -5123,7 +5129,7 @@ void Region53::TESObjectLAND_CalculateEdgeNormal(int row, int col, NiPoint3* res
 
     }
 
-    blend.FUN_0063c8a0(&axis);
+    blend.ComputeValue_0063c8a0(&axis);
 
     amount=amount+1.0;
 
@@ -5141,7 +5147,7 @@ void Region53::TESObjectLAND_CalculateEdgeNormal(int row, int col, NiPoint3* res
 
     }
 
-    blend.FUN_0063c8a0(&axis);
+    blend.ComputeValue_0063c8a0(&axis);
 
     amount=amount+1.0;
 
@@ -5157,7 +5163,7 @@ void Region53::TESObjectLAND_CalculateEdgeNormal(int row, int col, NiPoint3* res
 
     }
 
-    blend.FUN_0063c8a0(&axis);
+    blend.ComputeValue_0063c8a0(&axis);
 
     amount=amount+1.0;
 
@@ -5173,7 +5179,7 @@ void Region53::TESObjectLAND_CalculateEdgeNormal(int row, int col, NiPoint3* res
 
     }
 
-    blend.FUN_0063c8a0(&axis);
+    blend.ComputeValue_0063c8a0(&axis);
 
     amount=amount+1.0;
 
@@ -5189,13 +5195,13 @@ void Region53::TESObjectLAND_CalculateEdgeNormal(int row, int col, NiPoint3* res
 
     }
 
-    blend.FUN_0063c8a0(&axis);
+    blend.ComputeValue_0063c8a0(&axis);
 
     amount=amount+1.0;
 
     }
 
-    memcpy(result, &blend.FUN_0053d280(amount), sizeof(*result));
+    memcpy(result, &blend.ProcessAndReturnValue_0053d280(amount), sizeof(*result));
     grid->evaluated[row][col] = 1;
 }
 

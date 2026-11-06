@@ -31,7 +31,7 @@ public:
         unsigned char vecData[16];
     };
 
-    void FUN_004b4db0(const float*);
+    void SetQuaternionComponentsFromVector(const float*);
 };
 #include "../../../include/bhkShape.h"
 #include "../../../include/bhkSphereRepShape.h"
@@ -107,10 +107,10 @@ void __thiscall MyObj::bhkTransformShape_CopyCinfo(void* pArg)
     tmp[2] = src[2];
     tmp[3] = src[3];
     bhkLimitedHingeVector_bstreenode_o2_nood_variant* pv = p->vecs;
-    pv[0].FUN_004b4db0((float*)tmp);
-    pv[1].FUN_004b4db0((float*)&tmp[1]);
-    pv[2].FUN_004b4db0((float*)&tmp[2]);
-    pv[3].FUN_004b4db0((float*)&tmp[3]);
+    pv[0].SetQuaternionComponentsFromVector((float*)tmp);
+    pv[1].SetQuaternionComponentsFromVector((float*)&tmp[1]);
+    pv[2].SetQuaternionComponentsFromVector((float*)&tmp[2]);
+    pv[3].SetQuaternionComponentsFromVector((float*)&tmp[3]);
 }
 
 namespace fnv_00c8c5b0 {
@@ -576,8 +576,8 @@ void Obj::bhkCapsuleShape_BuildDisplayGeometry(void* a1, void* a2)
     out.unk20.z = 0;
     out.unk2c = 0;
     bhkConvexShape_CopyCinfo(&out);
-    out.unk10.FUN_004b4db0(this && unk08 ? unk08->unk20 : DAT_01267e30);
-    out.unk20.FUN_004b4db0(this && unk08 ? unk08->unk30 : DAT_01267e30);
+    out.unk10.SetQuaternionComponentsFromVector(this && unk08 ? unk08->unk20 : DAT_01267e30);
+    out.unk20.SetQuaternionComponentsFromVector(this && unk08 ? unk08->unk30 : DAT_01267e30);
     FUN_00d22dc0* sub =
         new FUN_00d22dc0(_mm_setr_ps(out.unk10.x, out.unk10.y, out.unk10.z, out.unk1c),
                          _mm_setr_ps(out.unk20.x, out.unk20.y, out.unk20.z, out.unk2c), out.unk04, 6, 1);

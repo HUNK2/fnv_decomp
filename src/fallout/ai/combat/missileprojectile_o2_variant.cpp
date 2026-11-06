@@ -225,7 +225,7 @@ struct TlsGuard_t
 
 void bhkSerializable_CloneCritLock();
 void bhkSerializable_CloneCritUnlock();
-void* __cdecl FUN_00aa13e0(unsigned int size);
+void* __cdecl Object_DispatchCommandFour(unsigned int size);
 
 class OwnerBase_t
 {
@@ -238,7 +238,7 @@ class OwnerBase_t
 
     static void* operator new(unsigned int size) throw()
     {
-        return FUN_00aa13e0(size);
+        return Object_DispatchCommandFour(size);
     }
 };
 

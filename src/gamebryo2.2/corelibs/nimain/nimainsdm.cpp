@@ -75,7 +75,7 @@ struct FUN_00a928b0_shell
     static void ClearFixedStrings();
 };
 
-void __cdecl FUN_00a5b660();
+void __cdecl ClearStaticStringTable();
 void __cdecl NiAlphaProperty__SDMShutdown();
 void __cdecl ReleasePendingTable();
 void __cdecl NiRenderer__SDMShutdown();
@@ -273,7 +273,7 @@ void __cdecl NiMainSDM_Shutdown()
         ResetStreamLinkIDSet();
         NiTAbstractPoolAllocator__SDMShutdown();
         FreeMemoryList();
-        FUN_00a5b660();
+        ClearStaticStringTable();
     }
 }
 
@@ -288,7 +288,7 @@ void __cdecl FUN_00a927e0();
 void __cdecl NiAlphaProperty__SDMInit();
 void __cdecl NiFogProperty__SDMInit();
 void __cdecl NiMaterialProperty__SDMInit();
-void __cdecl FUN_00a29680();
+void __cdecl Object_DoNothing();
 void __cdecl NiShadeProperty__SDMInit();
 void __cdecl NiShaderConstantMapEntry__SDMInit();
 void __cdecl NiStencilProperty__SDMInit();
@@ -463,7 +463,7 @@ void __cdecl InitializeGameSystems()
         NiAlphaProperty__SDMInit();
         NiFogProperty__SDMInit();
         NiMaterialProperty__SDMInit();
-        FUN_00a29680();
+        Object_DoNothing();
         NiShadeProperty__SDMInit();
         NiShaderConstantMapEntry__SDMInit();
         NiStencilProperty__SDMInit();
@@ -552,7 +552,7 @@ void __cdecl InitializeGameSystems()
         NiScreenGeometryData__SDMInit();
         FUN_00a62110();
         NiPoint3__SDMInit();
-        FUN_00a29680();
+        Object_DoNothing();
         NiSingleShaderMaterialLibrary__SDMInit();
         CreateSdmDerived();
         NiProcessorSpecificCode_OptimizeMainEngineForProcessor();

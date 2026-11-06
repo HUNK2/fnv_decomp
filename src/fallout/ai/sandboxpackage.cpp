@@ -882,7 +882,7 @@ void* __thiscall FUN_009f6190_shell::BSSimpleArray_SandBoxChoiceListItem_1024_Ge
 
 struct EdgeArr
 {
-    char* FUN_006a1440(unsigned int);
+    char* Object_GetIndexedValue_006a1440(unsigned int);
 };
 
 struct FUN_00693d30_shell
@@ -895,7 +895,7 @@ struct FUN_00693d30_shell
 // @fnv 0x00693d30
 char* FUN_00693d30_shell::GetEdge(unsigned short index)
 {
-    return m_kEdges.FUN_006a1440(index);
+    return m_kEdges.Object_GetIndexedValue_006a1440(index);
 }
 
 // @fnv 0x009f3e20
@@ -1033,7 +1033,7 @@ void __cdecl GetObjectPosition(Object* object, NiPoint3* result)
     float g;
     float b = FUN_00476b70(object->GetFloatAtOffsetB0(), object->GetFieldB4Float());
     float f[sizeof(NiPoint3) / sizeof(float)];
-    reinterpret_cast<NiPoint3*>(f)->FUN_00416870(cosf_004e4490(a) * b, FUN_004e44d0(a) * b, 0.0f);
+    reinterpret_cast<NiPoint3*>(f)->SetComponents(cosf_004e4490(a) * b, FUN_004e44d0(a) * b, 0.0f);
     float c[sizeof(NiPoint3) / sizeof(float)];
     float e[sizeof(NiPoint3) / sizeof(float)];
     memcpy(result, object->GetOffsetC()->FUN_005c3420(reinterpret_cast<NiPoint3*>(c), reinterpret_cast<NiPoint3*>(e),
@@ -1528,7 +1528,7 @@ struct ChoiceCollection
 struct ChoiceContext
 {
     SandboxPackageOperations* FUN_00726070();
-    ChoiceTargetRef* FUN_00559450();
+    ChoiceTargetRef* Modelloader_GetReferencedThis();
 };
 extern ChoiceTargetRef* DAT_011dea3c;
 // Validates the target and actor, then adds a planner choice based on the target's form type and permission checks; always returns false.
@@ -1537,7 +1537,7 @@ bool __cdecl AddActivationChoice(ChoiceTargetRef* target, ChoiceContext* pContex
 {
     ChoiceContext* context = pContext;
     SandboxPackageOperations* planner = context->FUN_00726070();
-    ChoiceTargetRef* actor = context->FUN_00559450();
+    ChoiceTargetRef* actor = context->Modelloader_GetReferencedThis();
     if (!planner)
         return false;
     if (!actor || !actor->BGSSaveFormBuffer_GetForm())

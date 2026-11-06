@@ -87,30 +87,30 @@ void* __stdcall hkpActiveContactPointViewer_getIslands(void* pObject);
 // FUN_00d688f0 : tiny global getter.
 // Reads the 4-byte global at DAT_0126900c and returns it in eax.
 extern int DAT_0126900c;
-int __cdecl FUN_00d688f0();
+int __cdecl Runtime_GetDAT0126900c();
 extern char DAT_0126905c;
-void* __cdecl FUN_00d6ade0();
+void* __cdecl Object_GetGlobalObjectAddress_00d6ade0();
 struct S_00d6adf0_Obj
 {
     virtual void vfn00(int arg);
 };
-void __cdecl FUN_00d6adf0(S_00d6adf0_Obj* obj);
+void __cdecl Runtime_ForwardCall_00d6adf0(S_00d6adf0_Obj* obj);
 extern int DAT_0126908c;
-int* __cdecl FUN_00d6ae00();
+int* __cdecl Object_GetGlobalObjectAddress_00d6ae00();
 struct FUN_00c90e00_Obj
 {
     void __thiscall FUN_00c90e00(int value);
 };
-void __cdecl FUN_00d6ae90(FUN_00c90e00_Obj* param_1, int param_2);
+void __cdecl Runtime_ProcessState_00d6ae90(FUN_00c90e00_Obj* param_1, int param_2);
 // 13-byte cdecl forwarder: loads the object pointer, fetches its vtable and
 // calls the first virtual slot with a literal 0 argument.
 struct VtblForwarder
 {
     virtual int v0(int);
 };
-int __cdecl FUN_00d6aeb0(VtblForwarder* p);
+int __cdecl Runtime_ForwardCall_00d6aeb0(VtblForwarder* p);
 extern int DAT_01269104;
-void* __cdecl FUN_00d6aee0();
+void* __cdecl Object_GetGlobalObjectAddress_00d6aee0();
 struct ResultFlag
 {
     bool value;
@@ -167,7 +167,7 @@ struct FUN_00d76f90_cls
     int unk00;
     int unk04;
     Inner* m_08;
-    void FUN_00d76f90();
+    void ForwardCall_00d76f90();
 };
 inline void* operator new(unsigned int, void* pvMem)
 {
@@ -223,18 +223,18 @@ struct D60590Object
     int unk04;
     D60590Callback* callback;
 
-    void FUN_00d60590();
+    void ReleaseReference_00d60590();
 };
 void __stdcall WriteSwapped(char**, int, int);
 void __stdcall FUN_00d60900(char* p);
 struct FUN_00d60600_class
 {
     void __thiscall WriteSwapped(int a, int b, int c);
-    void __thiscall FUN_00d60b20(int a, int b);
+    void __thiscall WriteSwapped_Thunk(int a, int b);
 };
 struct FUN_00d61470_Class
 {
-    void* FUN_00d61470();
+    void* ReturnSelf();
 };
 char* __cdecl hkString_strStr(char* pcHaystack, const char* pcNeedle);
 inline char toLowerD614(char c)
@@ -283,7 +283,7 @@ struct FUN_00d616a0_cls
     void FUN_00d616a0(int iValue);
 };
 int __stdcall FUN_00d61680(unsigned int value);
-int __stdcall FUN_00d616e0(unsigned int value);
+int __stdcall Object_ForwardCall_00d616e0(unsigned int value);
 int __cdecl hkString_strLen(int s);
 struct FUN_00d61700_cls
 {
@@ -480,7 +480,7 @@ struct FUN_00d62ef0_cls
     int unk24;
     unsigned char unk28;
 
-    FUN_00d62ef0_cls* FUN_00d62ef0(int aParam, unsigned char aValue);
+    FUN_00d62ef0_cls* UpdateState_00d62ef0(int aParam, unsigned char aValue);
 };
 extern int DAT_010d1720;
 extern int DAT_010d1700;
@@ -490,7 +490,7 @@ struct HeapBlockMetadata
     unsigned int flags;
     unsigned short size;
     unsigned short reserved;
-    HeapBlockMetadata* FUN_00d62ef0(void* data, unsigned int enabled);
+    HeapBlockMetadata* UpdateState_00d62ef0(void* data, unsigned int enabled);
 };
 void* __cdecl AllocateRecordWithData(void* data);
 struct Base1_d632c0
@@ -556,7 +556,7 @@ struct hkObjD633
     hkListenerD633 m_kListener;
     hkContainerD633* m_container;
 
-    void FUN_00d63300();
+    void NotifyContainerItems();
 };
 class FUN_00ddf050_cls
 {
@@ -574,8 +574,8 @@ class FUN_00ddf050_cls
     int m_iElementCount;
 
     void ClearContainer() throw();
-    void FUN_00ddf030(int i) throw();
-    void FUN_00ddf040() throw();
+    void Clear_Thunk(int i) throw();
+    void Object_Clear_Thunk() throw();
 
     int GetLogicalSize() const
     {
@@ -627,7 +627,7 @@ class FUN_00d63370_class
     void UpdatePhysicsDebugDisplay(float fFrameTime) throw();
 };
 extern int DAT_01268fc8;
-int __cdecl FUN_00d63420();
+int __cdecl Object_GetDAT_01268fc8_00d63420();
 void* __cdecl hkMemoryRouter_getInstance();
 class FUN_00d63340
 {
@@ -735,7 +735,7 @@ struct FUN_00d65250_cls
     unsigned char unk60;
     unsigned char unk61;
 
-    void __thiscall FUN_00d65250(unsigned char value);
+    void __thiscall SetUnk61(unsigned char value);
 };
 struct FnvCpu_FUN_00d65260_CpuObject
 {
@@ -766,7 +766,7 @@ struct FnvCpu_FUN_00d65260_CpuObject
     unsigned int unk60;
     unsigned char unk64;
     unsigned char value;
-    void FUN_00d65260(unsigned char arg0);
+    void SetValue_00d65260(unsigned char arg0);
 };
 struct FnvCpu_FUN_00d65270_CpuObject
 {
@@ -797,7 +797,7 @@ struct FnvCpu_FUN_00d65270_CpuObject
     unsigned char unk60;
     unsigned char unk61;
     unsigned char value;
-    void FUN_00d65270(unsigned char arg0);
+    void SetValue(unsigned char arg0);
 };
 struct FUN_00d65280_cls
 {
@@ -830,7 +830,7 @@ struct FUN_00d65280_cls
     char unk62;
     bool m_63;
 
-    void FUN_00d65280(bool bValue);
+    void SetField63_00d65280(bool bValue);
 };
 struct FnvCpu_FUN_00d65290_CpuObject
 {
@@ -860,11 +860,11 @@ struct FnvCpu_FUN_00d65290_CpuObject
     unsigned int unk5c;
     unsigned int unk60;
     unsigned char value;
-    void FUN_00d65290(unsigned char arg0);
+    void SetValue(unsigned char arg0);
 };
 void __cdecl nullsub_103();
 extern "C" void __cdecl hkMathUtil_decompose4x4ColTransform();
-void __cdecl FUN_00d73380();
+void __cdecl Object_HkMathUtil_decompose4x4ColTransform_Thunk();
 class FUN_00d733e0
 {
   public:
@@ -881,7 +881,7 @@ struct FUN_00d73400_cls
     int unk08;
     int unk0C;
 
-    void FUN_00d73400();
+    void UpdateFields_00d73400();
 };
 extern hkError* DAT_01268360;
 struct hkpTransformCollapseUtilResultsD734
@@ -895,14 +895,14 @@ struct hkpTransformCollapseUtilResultsD734
 };
 struct FnvCpu_FUN_00d76d80_CpuTarget
 {
-    void FUN_00d81340();
+    void ProcessEntries_00d81340();
 };
 struct FnvCpu_FUN_00d76d80_CpuOwner
 {
     unsigned int unk00;
     unsigned int unk04;
     FnvCpu_FUN_00d76d80_CpuTarget* target;
-    void FUN_00d76d80();
+    void ForwardCall_00d76d80();
 };
 extern int DAT_010d14f8;
 struct FUN_00d274c0
@@ -1062,7 +1062,7 @@ class FUN_00d62ef0 : public hkReferencedObject, public SecondaryCleanupInterface
     int unk0C, unk10, unk14, unk18, unk1C, unk20, unk24, unk28;
 };
 SecondaryCleanupInterface* __cdecl hkpWorldSnapshotViewer_createNative(void* contactMgr);
-static void FUN_00d6c1a0(int* piValue);
+static void Object_UpdateFields_00d6c1a0(int* piValue);
 void E6C1A0Adjust(int* piValue);
 // FUN_00d73400's body must be in-TU so VC9 knows it clobbers only eax:
 // that is what lets the ctor keep `this` live in ECX across the call
@@ -1074,9 +1074,10 @@ struct Z0
     int m_iUnk04;
     int m_iUnk08;
     int m_iUnk0C;
-    void FUN_00d73400();
+    void UpdateFields_00d73400();
 };
-__declspec(noinline) void Z0::FUN_00d73400()
+// src: GUESS 0x00d73400 (confidence: low)
+__declspec(noinline) void Z0::UpdateFields_00d73400()
 {
     m_iUnk00 = 0;
     m_iUnk04 = 0;

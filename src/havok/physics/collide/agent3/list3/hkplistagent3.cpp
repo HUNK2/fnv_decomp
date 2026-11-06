@@ -32,7 +32,8 @@ void __cdecl hkAgent1nMachine_UpdateShapeCollectionFilter(int context, DA6E60Inp
 
 // Reads the collidable's shape type, fills a DA6E60Input from the arguments, and passes it to FUN_00da48e0 with the context.
 // @fnv 0x00da6e60
-void __cdecl FUN_00da6e60(int unused, int context, int a, DA6E60Collidable* collidable, int b, int c, int d)
+// src: GUESS 0x00da6e60 (confidence: low)
+void __cdecl Object_UpdateFields_00da6e60(int unused, int context, int a, DA6E60Collidable* collidable, int b, int c, int d)
 {
     int shapeType = collidable->m_pCollisionShape->getType();
     DA6E60Input input;
@@ -49,7 +50,8 @@ void __cdecl _hkAgent1nMachine_WarpTime(int a1, float a2, float a3, int a4);
 
 // Calls FUN_00da35f0 with unk08, unk0C, unk10 and unk14, dropping unk04.
 // @fnv 0x00da6e30
-void __cdecl FUN_00da6e30(int aiUnused, int aiArg1, float afArg2, float afArg3, int aiArg4)
+// src: GUESS 0x00da6e30 (confidence: medium)
+void __cdecl Hkplistagent3_HkAgent1nMachine_WarpTime_Thunk(int aiUnused, int aiArg1, float afArg2, float afArg3, int aiArg4)
 {
     _hkAgent1nMachine_WarpTime(aiArg1, afArg2, afArg3, aiArg4);
 }
@@ -74,7 +76,8 @@ extern void __cdecl hkpAgentMachineUtil_calc1nStatistics(int a1, int a2, void* a
 
 // Calls self->v18 with the hkListAgent3 type name, then FUN_00d97250 with a2, a3 and self, and returns self->v1c().
 // @fnv 0x00da6de0
-unsigned int __cdecl FUN_00da6de0(int a1, int a2, int a3, hkListAgent3* self)
+// src: GUESS 0x00da6de0 (confidence: low)
+unsigned int __cdecl hkListAgent3_ProcessAndReturnValue_00da6de0(int a1, int a2, int a3, hkListAgent3* self)
 {
     self->v18(g_hkListAgent3_typeName);
     hkpAgentMachineUtil_calc1nStatistics(a2, a3, self);

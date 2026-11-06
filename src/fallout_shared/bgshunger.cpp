@@ -236,7 +236,7 @@ bool _FUN_00401500();
 // @fnv 0x00591e10
 void BGSDehydrationStage::InitDehydrationStage()
 {
-    TESForm::FUN_004855a0();
+    TESForm::BeginFormRecord();
 
     SpellItem* pSavedSpell = reinterpret_cast<SpellItem*>(FUN_00441110());
 
@@ -257,7 +257,7 @@ void BGSDehydrationStage::InitDehydrationStage()
 
     FUN_0050f9a0(pSavedSpell);
 
-    TESForm::FUN_00485680();
+    TESForm::FinishFormRecord();
 }
 
 extern char DAT_0118307c;

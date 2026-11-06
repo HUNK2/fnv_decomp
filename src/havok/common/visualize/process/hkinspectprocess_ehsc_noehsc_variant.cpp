@@ -31,7 +31,7 @@ typedef unsigned __int64 Wide;
 struct InputArchive
 {
     void hkIArchive_readArrayGeneric(void* data, int width, int count);
-    int FUN_00dd90d0(void* data, int bytes);
+    int ForwardCall_00dd90d0(void* data, int bytes);
     __forceinline Wide readWide()
     {
         Wide value;
@@ -220,7 +220,7 @@ void InspectionCommandHandler::ExecuteCommand(unsigned char command)
         unsigned int bytes = inputArchive()->ReadTag();
         hkArray<unsigned char> payload(bytes);
         payload.setSize(bytes);
-        inputArchive()->FUN_00dd90d0(payload.begin(), bytes);
+        inputArchive()->ForwardCall_00dd90d0(payload.begin(), bytes);
         if (objectID > 0 && classID > 0 && path.GetLogicalSize() > 0 && bytes > 0)
         {
             void* object = reinterpret_cast<void*>(unsigned int(objectID));

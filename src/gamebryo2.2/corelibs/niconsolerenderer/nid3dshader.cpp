@@ -1404,7 +1404,7 @@ void __cdecl NiD3DShader_PackWorldPerspectiveEffect(const ModelMatrix3* pkRot, c
     M._14 = M._24 = M._34 = M._44 = 0.0f;
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int);
+void* __cdecl Object_DispatchCommandFour(unsigned int);
 struct ConstantEntry
 {
     unsigned int unk00, unk04, unk08;
@@ -1436,7 +1436,7 @@ struct FUN_00ee8910
     Binding* pixels;
     static void* operator new(unsigned int size) throw()
     {
-        return FUN_00aa13e0(size);
+        return Object_DispatchCommandFour(size);
     }
     FUN_00ee8910(char**, unsigned int, unsigned int);
     void AddVertex(unsigned int pass, ConstantEntry* entry, void* data)
@@ -1458,7 +1458,7 @@ struct GeometryAccess
     void* FUN_00a5bdd0(const NiFixedString&);
     bool SetExtraDataName(FUN_00ee8910*);
 };
-void* __cdecl FUN_00aa13e0(unsigned int);
+void* __cdecl Object_DispatchCommandFour(unsigned int);
 // @fnv 0x00e81510
 extern "C" void __cdecl BindShaderConstants(NiD3DShader* shader, NiGeometry* geometry)
 {

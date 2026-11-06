@@ -558,7 +558,7 @@ void TESObjectWEAP::InitItem()
     formID = (unsigned int)GetField1CC();
     if(formID) {
         TESForm::RemapFormIDForFile(formID,GetFile(-1));
-        FUN_0051f4f0(dynamic_cast<SpellItem*>(TESForm::GetFormByID(formID)));
+        UpdateState_0051f4f0(dynamic_cast<SpellItem*>(TESForm::GetFormByID(formID)));
         if(!GetField1CC()) Warning("MASTERFILE: Could not find Spell Item (%08X) on weapon '%s' (%08X).",formID,GetName(),GetFormID());
     }
     formID = (unsigned int)GetVATSSpecialEffect();
@@ -1261,12 +1261,13 @@ int __thiscall FUN_00522520_shell::GetField238()
 
 struct FUN_00522560_shell
 {
-    int __thiscall FUN_00522560(bool param);
+    int __thiscall ComputeValue_00522560(bool param);
 };
 
 // Returns 2 when param is true, otherwise returns the int stored at offset 0x364 of this object.
 // @fnv 0x00522560
-int __thiscall FUN_00522560_shell::FUN_00522560(bool abReturnTwo)
+// src: GUESS 0x00522560 (confidence: low)
+int __thiscall FUN_00522560_shell::ComputeValue_00522560(bool abReturnTwo)
 {
     if (abReturnTwo)
         return 2;
@@ -1555,10 +1556,11 @@ float FUN_00524be0_shell::TESObjectWEAP_GetSpread(bool abApplyMod)
 }
 
 namespace fnv_00524c40 {
-struct TransHolder { NiMatrix3 rot; NiPoint3 pos; float scl; NiPoint3 FUN_00524c40(NiPoint3 const &) const; };
+struct TransHolder { NiMatrix3 rot; NiPoint3 pos; float scl; NiPoint3 ComputeValue_00524c40(NiPoint3 const &) const; };
 // Applies the holder's rotation and scale to a point, then adds its position offset.
 // @fnv 0x00524c40
-NiPoint3 TransHolder::FUN_00524c40(NiPoint3 const &aPoint) const
+// src: GUESS 0x00524c40 (confidence: low)
+NiPoint3 TransHolder::ComputeValue_00524c40(NiPoint3 const &aPoint) const
 {
     return (rot * aPoint) * scl + pos;
 }
@@ -1644,7 +1646,7 @@ unsigned short WeaponRecordSaveSizeAccess::GetRecordSaveSize(unsigned int aiFlag
 {
     unsigned short usSize = 0;
     usSize += reinterpret_cast<FUN_00484bf0*>(this)->GetSaveSize(aiFlags);
-    usSize += TESValueForm::FUN_0048e9b0(aiFlags);
+    usSize += TESValueForm::GetFlaggedDataSize(aiFlags);
     return usSize;
 }
 
@@ -2130,7 +2132,7 @@ extern unsigned char DAT_01183028;
 extern unsigned char DAT_01183998;
 TESObjectWEAP* __cdecl FUN_00ec43fb(unsigned int, unsigned int, void*, void*, unsigned int);
 struct StringCopyAccess : BSStringT<char> {
-    const char* FUN_00559450(bool);
+    const char* Modelloader_GetReferencedThis(bool);
     void FUN_004037f0(const char*);
 };
 struct StackWord { unsigned int word; };
@@ -2160,7 +2162,7 @@ struct WeaponCopyAccess : TESObjectWEAP {
     void TESObjectWEAP_SetModAttackSound(TESSound*);
     void FUN_008d8a80(TESSound*);
     void FUN_008d8aa0(TESSound*);
-    SOUND_LEVEL FUN_00522560(bool);
+    SOUND_LEVEL ComputeValue_00522560(bool);
     unsigned int FUN_00401170();
     void FUN_004f15a0(unsigned int);
 };
@@ -2174,9 +2176,9 @@ void WeaponCopyAccess::CopyFromWeapon(unsigned int id)
         TESForm_CopyAllComponents(this, *(StackWord*)&id);
         m_kModel.CopyFromBase(static_cast<BaseFormComponent*>(&source->m_kModel));
         ((StringCopyAccess*)&m_kEmbeddedWeaponNodeName)->FUN_004037f0(
-            ((StringCopyAccess*)&source->m_kEmbeddedWeaponNodeName)->FUN_00559450(false));
+            ((StringCopyAccess*)&source->m_kEmbeddedWeaponNodeName)->Modelloader_GetReferencedThis(false));
         ((StringCopyAccess*)&VATSAttackName)->FUN_004037f0(
-            ((StringCopyAccess*)&source->VATSAttackName)->FUN_00559450(false));
+            ((StringCopyAccess*)&source->VATSAttackName)->Modelloader_GetReferencedThis(false));
         m_kModel3rdPerson.CopyFromBase(static_cast<BaseFormComponent*>(&source->m_kModel3rdPerson));
         m_kModel1stPerson.CopyFromBase(static_cast<BaseFormComponent*>(&source->m_kModel1stPerson));
         SetEffectShader(source->GetScopeEffect());
@@ -2214,7 +2216,7 @@ void WeaponCopyAccess::CopyFromWeapon(unsigned int id)
         TESObjectWEAP_SetModAttackSound(source->FUN_00521630());
         FUN_008d8a80(source->GetField244());
         FUN_008d8aa0(source->FUN_005224a0());
-        m_eSoundLevel = source->FUN_00522560(false);
+        m_eSoundLevel = source->ComputeValue_00522560(false);
         FUN_004f15a0(source->FUN_00401170());
     }
 }
@@ -2370,7 +2372,7 @@ struct WeaponCompareAccess : TESObjectWEAP {
     void* GetOffsetF4();
     int GetValueByFlag(bool);
     int GetPointerByFlag(bool);
-    int FUN_00522560(bool);
+    int ComputeValue_00522560(bool);
     int GetField228();
     int GetField22C();
     int GetField230();
@@ -2430,7 +2432,7 @@ bool WeaponCompareAccess::IsDifferentFrom(TESForm* form) {
     if (GetModDistantAttackSound() != other->GetModDistantAttackSound()) return true;
     if (GetField244() != other->GetField244()) return true;
     if (FUN_005224a0() != other->FUN_005224a0()) return true;
-    if (m_eSoundLevel != other->FUN_00522560(false)) return true;
+    if (m_eSoundLevel != other->ComputeValue_00522560(false)) return true;
     return false;
 }
 
@@ -3498,7 +3500,7 @@ extern FirePoint DAT_011a9484;
 struct FireFace {
  struct FireTransform* NiAVObject_GetWorldRotate();
 };
-struct FireTransform { FirePoint FUN_00524c40(const FirePoint&); };
+struct FireTransform { FirePoint ComputeValue_00524c40(const FirePoint&); };
 
 struct FireSetting { float* Float(); unsigned char* Bool(); };
 extern FireSetting g_011c94a0, g_011c94b0, g_011ce23c;
@@ -3613,7 +3615,7 @@ void FireWeapon::TESObjectWEAP_Fire(FireRef* reference) {
      FireFace* face31 = (FireFace*)Main_WorldRootCamera();
      if (useFace2 && face31) {
       static FirePoint offset(0.0f,-5.0f,0.0f);
-      position6 = face31->NiAVObject_GetWorldRotate()->FUN_00524c40(offset);
+      position6 = face31->NiAVObject_GetWorldRotate()->ComputeValue_00524c40(offset);
      }
     }
     if (reference && reference==_g_thePlayer && !_g_thePlayer->PlayerCharacter_IsActually3rdPerson()) {
@@ -3850,11 +3852,11 @@ namespace fnv_00524db0 {
 struct P12 {
     float x, y, z;
     void FUN_006815c0();
-    void FUN_00439ef0(P12*, P12*);
+    void SubtractIntoVector(P12*, P12*);
     double FUN_00457990();
-    P12* FUN_00416870(float, float, float);
-    void FUN_0063c8a0(P12*);
-    void FUN_00439180(float);
+    P12* SetComponents(float, float, float);
+    void ComputeValue_0063c8a0(P12*);
+    void ScaleComponents(float);
 };
 struct Mat36 { float m00, m01, m02, m10, m11, m12, m20, m21, m22; };
 struct Sub461130 {
@@ -4010,9 +4012,9 @@ extern float DAT_0101e704;
 extern float DAT_010162c0;
 extern P12 DAT_011a946c;
 extern char DAT_0102cb00;
-void* __cdecl FUN_00aa13e0(unsigned int);
+void* __cdecl Object_DispatchCommandFour(unsigned int);
 struct XObj {
-    static void* __cdecl operator new(unsigned int size) { return FUN_00aa13e0(size); } static void operator delete(void*, unsigned int);
+    static void* __cdecl operator new(unsigned int size) { return Object_DispatchCommandFour(size); } static void operator delete(void*, unsigned int);
     void* pEffect; void* pSource; void* pTransform; unsigned int flags; float intensity; float x; float y; float z; unsigned int lifetime;
     XObj(void*, float, int, Param*, P12*, Mat36*, P12*, P12*, float, int, int);
     void FUN_007e6580(int);
@@ -4067,7 +4069,7 @@ void ThisObj::TESObjectWEAP_EjectShellCasing(Param* param)
     flag7 = true;
     if (!PointInFrustum(*node3->NiAVObject_GetWorldTranslate(), Main_WorldRootCamera(), DAT_0101e704))
         flag7 = false;
-    node3->NiAVObject_GetWorldTranslate()->FUN_00439ef0(&aVec24, (P12*)&((NiAVObject*)Main_WorldRootCamera())->NiAVObject_GetWorldTranslate());
+    node3->NiAVObject_GetWorldTranslate()->SubtractIntoVector(&aVec24, (P12*)&((NiAVObject*)Main_WorldRootCamera())->NiAVObject_GetWorldTranslate());
     if (aVec24.FUN_00457990() > *DAT_011cf57c.Setting_Float_00403e20())
         flag7 = false;
     if (flag7) {
@@ -4078,20 +4080,20 @@ void ThisObj::TESObjectWEAP_EjectShellCasing(Param* param)
     node3->NiAVObject_GetWorldRotate()->NiMatrix3_GetCol(2, &obj34);
     f7c5 = -*DAT_011cf4b0.Setting_Float_00403e20();
     f9 = *DAT_011cf4b0.Setting_Float_00403e20();
-    obj34.FUN_0063c8a0(tempBCz.FUN_00416870(FUN_00476b70(f7c5, f9), FUN_00476b70(f7c5, f9), FUN_00476b70(f7c5, f9)));
-    obj34.FUN_00439180(*DAT_011cf498.Setting_Float_00403e20());
+    obj34.ComputeValue_0063c8a0(tempBCz.SetComponents(FUN_00476b70(f7c5, f9), FUN_00476b70(f7c5, f9), FUN_00476b70(f7c5, f9)));
+    obj34.ScaleComponents(*DAT_011cf498.Setting_Float_00403e20());
     if (paramHome8->FUN_009306d0()) {
         ob88.FUN_006815c0();
         FUN_00458620(&ob88, paramHome8->FUN_009306d0() + 0x4f0);
-        obj34.FUN_0063c8a0(&ob88);
+        obj34.ComputeValue_0063c8a0(&ob88);
     }
     obj14.FUN_006815c0();
     vecA0 = DAT_011a946c;
     _fa8 = -*DAT_011ce0e4.Setting_Float_00403e20();
     f8c2 = *DAT_011ce0e4.Setting_Float_00403e20();
-    vecA0.FUN_00439180(1.0f + FUN_00476b70(_fa8, f8c2));
+    vecA0.ScaleComponents(1.0f + FUN_00476b70(_fa8, f8c2));
     NiPoint3_UnitizeVector(&vecA0);
-    temp6.FUN_00416870(*DAT_011cf1d4.Setting_Float_00403e20() * vecA0.x, 0.0f, *DAT_011cf1d4.Setting_Float_00403e20() * vecA0.z);
+    temp6.SetComponents(*DAT_011cf1d4.Setting_Float_00403e20() * vecA0.x, 0.0f, *DAT_011cf1d4.Setting_Float_00403e20() * vecA0.z);
     obj14 = *node3->NiAVObject_GetWorldRotate()->FUN_004b4500(&bufC3, &temp6);
     if (paramHome8 == DAT_011dea3c && !DAT_011dea3c->PlayerCharacter_Is3rdPerson() && !DAT_011f2250.VATS_IsInVats()) {
         qA7 = new XObj(param->FUN_008d6f30(), BSMIN(*DAT_011ce7c0.Setting_Float_00403e20(), DAT_010162c0), dword4, param, &point1, &matTmp, &obj34, &obj14, 1.0f, 0, 1);

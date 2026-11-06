@@ -150,14 +150,14 @@ struct NiMeshParticleSystem
 {
     char _pad[0xC8];
     NiTPointerListBase_00c21ed0 m_kNode;
-    void __thiscall FUN_00a80580();
+    void __thiscall UpdateFields_00a80580();
     void* __thiscall Destroy(unsigned int);
 };
 // @fnv 0x00c21ed0
 void* __thiscall NiMeshParticleSystem::Destroy(unsigned int flags)
 {
     m_kNode.RemoveAll();
-    this->FUN_00a80580();
+    this->UpdateFields_00a80580();
     if (flags & 1)
         _delete(this, 0x118);
     return this;

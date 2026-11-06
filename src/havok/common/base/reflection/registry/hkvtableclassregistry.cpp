@@ -25,7 +25,7 @@ struct Buffer
 {
     int value;
     void FUN_00cb0a60();
-    void FUN_00cb0c00();
+    void Object_UpdateFields_00cb0c00();
     int Equals(int);
 };
 struct Manager
@@ -66,7 +66,7 @@ int hkSerializeUtil_isLoadable(Object* object)
             goto check3;
         if (parseState.buffer.Equals(hkVersionUtil_getCurrentVersion()) != 0)
         {
-            parseState.buffer.FUN_00cb0c00();
+            parseState.buffer.Object_UpdateFields_00cb0c00();
             return 1;
         }
         goto manager;
@@ -77,10 +77,10 @@ check3:
 manager:
     if (DAT_01269b74->vf10(&parseState.status))
     {
-        parseState.buffer.FUN_00cb0c00();
+        parseState.buffer.Object_UpdateFields_00cb0c00();
         return 1;
     }
 failure:
-    parseState.buffer.FUN_00cb0c00();
+    parseState.buffer.Object_UpdateFields_00cb0c00();
     return 0;
 }

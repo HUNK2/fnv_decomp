@@ -41,14 +41,14 @@ struct FUN_00a25bf0_class
     int m_60;
     int m_64;
     int m_68;
-    char FUN_00a25bf0(int a);
+    char UpdateState_00a25bf0(int a);
 };
 struct FUN_00a25d50_Class
 {
     unsigned int GetField14278();
 };
 extern "C" __declspec(dllimport) char* __stdcall lstrcpyA(char* dst, const char* src);
-char* __cdecl FUN_00a25e00(char* dst, char* src);
+char* __cdecl Object_LstrcpyA_Thunk(char* dst, char* src);
 struct FUN_00a24f10_Class
 {
     unsigned int Controls_GetKeybind(unsigned int i);
@@ -71,7 +71,7 @@ extern unsigned short DAT_011f35bc;
 extern unsigned short DAT_011f35ac;
 struct FUN_00a25560_Class
 {
-    void FUN_00a25560(int a);
+    void UpdateGlobalMaskedBits(int a);
 };
 extern bool DAT_011f35c8;
 struct FUN_00a269f0_Class
@@ -124,7 +124,7 @@ struct FUN_00a26480_class
     unsigned short m_16;
     unsigned short m_18;
     unsigned short m_1a;
-    unsigned int FUN_00a26480(FUN_00a26480_class* p, unsigned short n);
+    unsigned int ComputeValue_00a26480(FUN_00a26480_class* p, unsigned short n);
 };
 struct FUN_00a264d0_Class
 {
@@ -165,7 +165,7 @@ struct FUN_00a22640_Class
     int m_30;
     int m_34;
     ::BSStringT<char> m_38;
-    void FUN_00a22640();
+    void ProcessState_00a22640();
 };
 struct FUN_00a24b70_Class
 {
@@ -187,17 +187,17 @@ struct FUN_00a25da0_Class
 void* _memmove(void* dst, const void* src, unsigned int count);
 struct FUN_00a25e20_Class
 {
-    void FUN_00a25e20(int* a, int* b, void* src);
+    void UpdateFields_00a25e20(int* a, int* b, void* src);
 };
 void* __cdecl _memmove(void* dst, const void* src, unsigned int count);
 struct FUN_00a25e70_Class
 {
-    void FUN_00a25e70(int* a, int* b, int src);
+    void UpdateState_00a25e70(int* a, int* b, int src);
 };
 void* _memmove(void* dst, const void* src, unsigned int count);
 struct FUN_00a25ec0_Class
 {
-    void FUN_00a25ec0(int* a, int* b, void* src);
+    void UpdateFields_00a25ec0(int* a, int* b, void* src);
 };
 void* _memmove(void* dst, const void* src, unsigned int n);
 struct FUN_00a25f10_Class
@@ -206,7 +206,7 @@ struct FUN_00a25f10_Class
 };
 struct FUN_00a26220_Class
 {
-    unsigned int FUN_00a26220();
+    unsigned int ProcessAndReturnValue_00a26220();
     unsigned int FUN_00a26240();
 };
 extern "C" __declspec(dllimport) unsigned int __stdcall GetTickCount();
@@ -3833,7 +3833,7 @@ struct InputHandler
     unsigned char m_1b90;
     unsigned char m_1b91;
 
-    void FUN_00a237f0(unsigned int* out);
+    void HasResourceWithLookupValueOne(unsigned int* out);
     void Controls_SetActionMapping(int index, int flags, unsigned char state);
     int Controls_GetMouseButton(int index, int flags);
     bool HandleInput(int key);
@@ -3884,7 +3884,7 @@ extern "C" void __stdcall XInputManager_KillRumbles(int, unsigned short*);
 // The module is an unoptimised (/Od) build, so even this one-liner keeps the
 // full frame: push ebp / mov ebp,esp / mov al,[g] / pop ebp / ret.
 extern unsigned char DAT_011f3630;
-unsigned char FUN_00a25870();
+unsigned char Runtime_GetDAT011f3630();
 void* __cdecl _fnv_zlib_memset(void* dst, int val, unsigned int size);
 struct InputPair
 {
@@ -4018,7 +4018,7 @@ struct S_00a25c80_Class
     unsigned char m_85;
     unsigned char m_86;
     unsigned char m_87;
-    void FUN_00a25c80();
+    void ProcessAndReturnValue_00a25c80();
 };
 struct FUN_00a25d30_Class
 {
@@ -4052,7 +4052,7 @@ void __cdecl FUN_00ec44d0(int a, int b, int c);
 class FUN_00a25f60_cls
 {
   public:
-    void FUN_00a25f60(int* p1, int* p2, int p3, int p4);
+    void UpdateFields_00a25f60(int* p1, int* p2, int p3, int p4);
 };
 struct FUN_00a26300_Class
 {
@@ -4065,7 +4065,7 @@ struct FUN_00a26410_arg
 };
 struct FUN_00a26a50_Class
 {
-    unsigned short FUN_00a26a50(FUN_00a26410_arg* a, unsigned int b);
+    unsigned short UpdateState_00a26a50(FUN_00a26410_arg* a, unsigned int b);
 };
 struct FUN_00a26410_cls : FUN_00a26a50_Class
 {
@@ -4087,7 +4087,7 @@ extern const double DAT_01011590;
 double __cdecl FUN_00eca060(double v);
 struct FUN_00a26a50_cls
 {
-    unsigned short FUN_00a26a50(unsigned int* p, unsigned int angle);
+    unsigned short UpdateState_00a26a50(unsigned int* p, unsigned int angle);
 };
 struct Scratch
 {
@@ -6277,7 +6277,8 @@ S_00a25920_Obj* __cdecl XGamerProfile_Instance()
 }
 
 // @fnv 0x00a25880
-void FUN_00a25880()
+// src: GUESS 0x00a25880 (confidence: low)
+void Object_UpdateFields_00a25880()
 {
     if (!DAT_011f3634)
         DAT_011f3634 = new S_00a25920_Obj();

@@ -1250,7 +1250,7 @@ struct BIItemNode
 
 struct BIEntry
 {
-    BIItemNode* FUN_00559450();
+    BIItemNode* Modelloader_GetReferencedThis();
     TESBoundObject* FUN_0044ddc0();
     void ClearExtraDataList();
     ~BIEntry();
@@ -1799,7 +1799,7 @@ void BoundItemEffect::Finish()
             if (m_pkWeaponEntry)
             {
                 bool bEquipped = false;
-                pkData = ((BIEntry*)m_pkWeaponEntry)->FUN_00559450() ? *((BIEntry*)m_pkWeaponEntry)->FUN_00559450()->FUN_006815c0() : 0;
+                pkData = ((BIEntry*)m_pkWeaponEntry)->Modelloader_GetReferencedThis() ? *((BIEntry*)m_pkWeaponEntry)->Modelloader_GetReferencedThis()->FUN_006815c0() : 0;
                 if (pkActor->FUN_00575610(((BIEntry*)m_pkWeaponEntry)->FUN_0044ddc0()) >= 1)
                 {
                     bEquipped = true;
@@ -1840,8 +1840,8 @@ void BoundItemEffect::Finish()
                 {
                     BIEntry* pkEntry = (BIEntry*)m_apArmorEntries[i];
                     BIItemData* pkEntryData = 0;
-                    if (pkEntry->FUN_00559450())
-                        pkEntryData = *pkEntry->FUN_00559450()->FUN_006815c0();
+                    if (pkEntry->Modelloader_GetReferencedThis())
+                        pkEntryData = *pkEntry->Modelloader_GetReferencedThis()->FUN_006815c0();
                     if (pkEntry)
                     {
                         bool bKeepModel = false;
@@ -1957,7 +1957,7 @@ struct ExtraListP
 {
     ExtraP** FUN_006815c0();
     void FUN_005ae3d0(ExtraP**);
-    void FUN_00905330(ExtraP**);
+    void RemoveMatchingItem(ExtraP**);
 };
 struct ExtraP
 {
@@ -1972,7 +1972,7 @@ struct EntryP
     ExtraListP* list;
     ~EntryP();
     TESBoundObject* FUN_0044ddc0();
-    ExtraListP* FUN_00559450();
+    ExtraListP* Modelloader_GetReferencedThis();
     void* FUN_004459e0(int);
 };
 struct ProcessP
@@ -2517,9 +2517,9 @@ void BoundItemEffect::DoSummon()
             weapon->Actor_QueueEquipObject(actor, 1, 0, 1, 1, 1);
         ExtraP* newExtra = 0;
         if (weapon->FUN_008d8520() && weapon->FUN_008d8520()->Equipped() &&
-            weapon->FUN_008d8520()->Equipped()->FUN_00559450())
+            weapon->FUN_008d8520()->Equipped()->Modelloader_GetReferencedThis())
         {
-            newExtra = *weapon->FUN_008d8520()->Equipped()->FUN_00559450()->FUN_006815c0();
+            newExtra = *weapon->FUN_008d8520()->Equipped()->Modelloader_GetReferencedThis()->FUN_006815c0();
             newExtra->ExtraDataList_SetCanNotWear(1);
         }
         else
@@ -2560,7 +2560,7 @@ void BoundItemEffect::DoSummon()
                 {
                     data->FUN_0041b010(0);
                     if (data->FUN_004bca60())
-                        entry->FUN_00559450()->FUN_00905330(&data);
+                        entry->Modelloader_GetReferencedThis()->RemoveMatchingItem(&data);
                 }
                 m_apArmorEntries[slot] = (InventoryStackRecord*)new FUN_004bc650(entry);
                 delete entry;

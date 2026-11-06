@@ -265,7 +265,7 @@ void __cdecl operator delete(void*);
 
 struct FUN_009ba5c0_shell
 {
-    void FUN_009ba5f0();
+    void UpdateState_009ba5f0();
     void* __thiscall FUN_009ba5c0(unsigned int flags);
 };
 
@@ -273,7 +273,7 @@ struct FUN_009ba5c0_shell
 // @fnv 0x009ba5c0
 void* __thiscall FUN_009ba5c0_shell::FUN_009ba5c0(unsigned int flags)
 {
-    FUN_009ba5f0();
+    UpdateState_009ba5f0();
     if (flags & 1)
         operator delete(this);
     return this;
@@ -284,12 +284,13 @@ extern int DAT_0108ffb4;
 struct FUN_009ba5f0_shell
 {
     void* p;
-    void __thiscall FUN_009ba5f0();
+    void __thiscall UpdateState_009ba5f0();
     void __thiscall SetChildObject(int);
 };
 
 // @fnv 0x009ba5f0
-void __thiscall FUN_009ba5f0_shell::FUN_009ba5f0()
+// src: GUESS 0x009ba5f0 (confidence: low)
+void __thiscall FUN_009ba5f0_shell::UpdateState_009ba5f0()
 {
     p = &DAT_0108ffb4;
     this->SetChildObject(0);
@@ -298,26 +299,27 @@ void __thiscall FUN_009ba5f0_shell::FUN_009ba5f0()
 namespace fnv_009ba610 {
 struct FUN_009ba5f0_shell
 {
-    void FUN_009ba5f0();
-    void __thiscall FUN_009ba610();
+    void UpdateState_009ba5f0();
+    void __thiscall ForwardCall_009ba610();
 };
 // @fnv 0x009ba610
-void __thiscall FUN_009ba5f0_shell::FUN_009ba610()
+// src: GUESS 0x009ba610 (confidence: low)
+void __thiscall FUN_009ba5f0_shell::ForwardCall_009ba610()
 {
-    FUN_009ba5f0();
+    UpdateState_009ba5f0();
 }
 }  // namespace fnv_009ba610
 
 struct FUN_009ba630_shell
 {
-    void __thiscall FUN_009ba610();
+    void __thiscall ForwardCall_009ba610();
     void* __thiscall DestroyIfFlagged(unsigned int flags);
 };
 // Calls FUN_009ba610, then deletes this when flags has bit 0 set, and returns this.
 // @fnv 0x009ba630
 void* __thiscall FUN_009ba630_shell::DestroyIfFlagged(unsigned int flags)
 {
-    FUN_009ba610();
+    ForwardCall_009ba610();
     if (flags & 1)
         operator delete(this);
     return this;
@@ -685,7 +687,7 @@ bool MissileProjectile::AddImpact_009b8900(int aiArg1, int aiArg2, int aiArg3, C
         (*reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x150) != 3 || h == 1 || h == 2 || h == 9 || h == 17 || h == 13 || h == 20) &&
         reinterpret_cast<bool(__thiscall*)(void*, int, int, int, Collider890*, int, int)>(MissileLocal::ProcessHit)(this, aiArg1, aiArg2, aiArg3, collider, aiArg5, aiArg6))
     {
-        FUN_009b8a20();
+        AdvanceStateAtOffset150_009b8a20();
         return true;
     }
     return false;
@@ -956,10 +958,10 @@ struct ImpactVector
     float z;
     friend class ::MissileProjectile;
   public:
-    void FUN_00416870(float, float, float);
-    ImpactVector FUN_00439ef0(const ImpactVector&);
+    void SetComponents(float, float, float);
+    ImpactVector SubtractIntoVector(const ImpactVector&);
     ImpactVector FUN_00439e90(const ImpactVector&);
-    void FUN_00439180(float);
+    void ScaleComponents(float);
     float DotProduct(const ImpactVector&);
 };
 ImpactVector FUN_004a3760(float, const ImpactVector&);
@@ -1093,9 +1095,9 @@ bool MissileProjectile::HandleContactResponse()
             NiPoint3_UnitizeVector(contact->normal);
             float dot = contact->normal.DotProduct(direction3);
             ImpactVector correctionTmp =
-                FUN_004a3760(DAT_010162c0, FUN_004a3760(dot, contact->normal).FUN_00439ef0(direction3));
+                FUN_004a3760(DAT_010162c0, FUN_004a3760(dot, contact->normal).SubtractIntoVector(direction3));
             linear_ = direction3.FUN_00439e90(correctionTmp);
-            linear_.FUN_00439180(*DAT_011ce1dc.Setting_Float_00403e20() * reinterpret_cast<Base*>(Projectile::FUN_004181e0())->GetFloatAtOffset68());
+            linear_.ScaleComponents(*DAT_011ce1dc.Setting_Float_00403e20() * reinterpret_cast<Base*>(Projectile::FUN_004181e0())->GetFloatAtOffset68());
             TESHavokUtilities_AddVelocity(node7, linear_, 1);
             ImpactVector kAngular = DAT_011f426c;
             Matrix rotation;
@@ -1106,9 +1108,9 @@ bool MissileProjectile::HandleContactResponse()
             local.y = 0.0f;
             NiPoint3_UnitizeVector(local);
             ImpactVector spin2;
-            spin2.FUN_00416870(-local.z, 0.0f, -local.x);
+            spin2.SetComponents(-local.z, 0.0f, -local.x);
             kAngular = node7->NiAVObject_GetWorldRotate()->FUN_004b4500(spin2);
-            kAngular.FUN_00439180(*DAT_011ce1dc.Setting_Float_00403e20());
+            kAngular.ScaleComponents(*DAT_011ce1dc.Setting_Float_00403e20());
             TESHavokUtilities_AddAngularVelocity(node7, kAngular, 1);
         }
     }

@@ -62,10 +62,11 @@ struct hkSampleE39F
     hkVector4 m_vContactPosition;
     hkVector4 m_fVelocity;
 
-    float FUN_00e39e80() const;
+    float GetUnk1C_00e39e80() const;
 };
 
-__declspec(noinline) float hkSampleE39F::FUN_00e39e80() const
+// src: GUESS 0x00e39e80 (confidence: low)
+__declspec(noinline) float hkSampleE39F::GetUnk1C_00e39e80() const
 {
     return m_fVelocity.m_vComponents.m128_f32[3];
 }
@@ -87,7 +88,7 @@ class hkSampleRingE39F
 // src: XBOX_PDB 0x00e39f50
 void hkSampleRingE39F::addTyremarkPoint(const hkSampleE39F& sample)
 {
-    if (sample.FUN_00e39e80() == 0.0f && m_samples[(m_pFirstNode + m_pRayCursor - 1) % m_pRayCursor].FUN_00e39e80() == 0.0f)
+    if (sample.GetUnk1C_00e39e80() == 0.0f && m_samples[(m_pFirstNode + m_pRayCursor - 1) % m_pRayCursor].GetUnk1C_00e39e80() == 0.0f)
         return;
     hkSampleE39F& dst = m_samples[m_pFirstNode];
     dst.m_vContactPosition = sample.m_vContactPosition;

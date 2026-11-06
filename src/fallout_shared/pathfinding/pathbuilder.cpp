@@ -129,10 +129,10 @@ bool PathBuilder::BuildActorPathSegments(Actor* actor)
     for (unsigned int i = 0; i < ((GlobalObject_00869f00*)&segments)->GetSize(); ++i)
     {
         bool built = false;
-        NavMeshEdgeData* segment = &segments.FUN_006a1440(i);
+        NavMeshEdgeData* segment = &segments.Object_GetIndexedValue_006a1440(i);
         if (*(bool*)((char*)segment + 8))
         {
-            if (i > 0 && *(bool*)((char*)&segments.FUN_006a1440(i - 1) + 8) && !allowIncomplete)
+            if (i > 0 && *(bool*)((char*)&segments.Object_GetIndexedValue_006a1440(i - 1) + 8) && !allowIncomplete)
             {
                 m_pOutputSolution->SetByteAtOffset40(1);
                 return false;
@@ -187,7 +187,7 @@ struct Item48
 PathingInfoEntry* PathingSolution::GetPathingInfoEntry(PathingInfoEntry& aItem)
 {
     void* v1 = ((PathBuilder*)((char*)this + 8))->AdvanceCounter();
-    void* v2 = ((PathBuilder*)((char*)this + 8))->FUN_006e8f40(v1);
+    void* v2 = ((PathBuilder*)((char*)this + 8))->GetElementAddress30_006e8f40(v1);
     new (v2) Item48(aItem);
     return (PathingInfoEntry*)v1;
 }
@@ -255,7 +255,8 @@ extern int DAT_0106c93c;
 void __fastcall SetVtable(void* pThis);
 
 // @fnv 0x006cd5a0
-void* __fastcall FUN_006cd5a0(void* pThis)
+// src: GUESS 0x006cd5a0 (confidence: low)
+void* __fastcall Object_InitializeFields_006cd5a0(void* pThis)
 {
     SetVtable(pThis);
     *(int**)pThis = &DAT_0106c93c;
@@ -322,7 +323,7 @@ struct Item48
 unsigned int PathingSolution::AddPathingItem(void* a, TESObjectREFR* pRefr)
 {
     void* idx = ((PathBuilder*)((char*)this + 8))->AdvanceCounter();
-    void* mem = ((PathBuilder*)((char*)this + 8))->FUN_006e8f40(idx);
+    void* mem = ((PathBuilder*)((char*)this + 8))->GetElementAddress30_006e8f40(idx);
     new (mem) fnv_006c99c0::Item48(a, pRefr);
     return (unsigned int)idx;
 }
@@ -568,8 +569,8 @@ int FUN_006cc5e0_shell::PathBuilder_AddNodesFromNavMesh(PathingLocation* aStartL
                 for (unsigned int i = 0; i < nodes.GetSize(); ++i)
                 {
                     PathingLocation loc(
-                        ((const NavMeshTriangleReference*)&nodes.FUN_006b3160(i))->FastNavMeshTriLocation_GetLocation(),
-                        ((NavMesh*)nodes.FUN_006b3160(i).m_pLocationNavMesh)->GetNavMeshInfo_0068efb0());
+                        ((const NavMeshTriangleReference*)&nodes.GetIndexedValue_006b3160(i))->FastNavMeshTriLocation_GetLocation(),
+                        ((NavMesh*)nodes.GetIndexedValue_006b3160(i).m_pLocationNavMesh)->GetNavMeshInfo_0068efb0());
                     m_pOutputSolution->ReserveIndex(loc, _NiPoint3_ZERO);
                 }
             }
@@ -687,11 +688,12 @@ void __fastcall FUN_006cf180(void*);
 
 struct FUN_006cb480_shell
 {
-    void* FUN_006cb480();
+    void* ProcessAndReturnValue_006cb480();
 };
 
 // @fnv 0x006cb480
-void* FUN_006cb480_shell::FUN_006cb480()
+// src: GUESS 0x006cb480 (confidence: low)
+void* FUN_006cb480_shell::ProcessAndReturnValue_006cb480()
 {
     FUN_006cf180(this + 8);
     return this;
@@ -1347,19 +1349,19 @@ bool ThisCls::ComputePathingLocation(ArgObj* a0, ArgObj* a1, PathingLocation* ap
         zlen = (a1->FUN_00717e50()->FUN_005c3420() - a0->FUN_00717e50()->FUN_006dd540()->m_10).Length();
         wIdxW = 0xffff;
         iIdxT = -1;
-        if (navPtr.FUN_00559450()->FindClosestOpenEdgeForLocation(a1->FUN_00717e50()->FUN_005c3420(), zlen * 2.0, &wIdxW, &iIdxT, 0))
+        if (navPtr.Modelloader_GetReferencedThis()->FindClosestOpenEdgeForLocation(a1->FUN_00717e50()->FUN_005c3420(), zlen * 2.0, &wIdxW, &iIdxT, 0))
         {
             PtCtor upt4c;
             PtCtor pt34G;
-            navPtr.FUN_00559450()->GetEdgeVertices_0068f0c0(wIdxW, iIdxT, (NiPoint3&)upt4c, (NiPoint3&)pt34G);
+            navPtr.Modelloader_GetReferencedThis()->GetEdgeVertices_0068f0c0(wIdxW, iIdxT, (NiPoint3&)upt4c, (NiPoint3&)pt34G);
             PointStorage wpt28;
-            navPtr.FUN_00559450()->FUN_00558220(&reinterpret_cast<NiPoint3&>(wpt28), wIdxW);
+            navPtr.Modelloader_GetReferencedThis()->FUN_00558220(&reinterpret_cast<NiPoint3&>(wpt28), wIdxW);
             NiPoint3 xtmp40 = (upt4c + pt34G) * DAT_0104e2b8 + reinterpret_cast<NiPoint3&>(wpt28) * DAT_0101e2bc;
             float vf50;
-            vf50 = DAT_011dea10->GetCellHeightAtPosition(&xtmp40, navPtr.FUN_00559450()->GetParentCell());
+            vf50 = DAT_011dea10->GetCellHeightAtPosition(&xtmp40, navPtr.Modelloader_GetReferencedThis()->GetParentCell());
             if (vf50 + DAT_0104f2f0 > xtmp40.z)
                 xtmp40.z = vf50;
-            *apOutLocation = *(PathingLocation*)&PLocShell(xtmp40, navPtr.FUN_00559450()->GetNavMeshInfo_0068efb0(), wIdxW);
+            *apOutLocation = *(PathingLocation*)&PLocShell(xtmp40, navPtr.Modelloader_GetReferencedThis()->GetNavMeshInfo_0068efb0(), wIdxW);
             return true;
         }
     }
@@ -1374,16 +1376,16 @@ bool ThisCls::ComputePathingLocation(ArgObj* a0, ArgObj* a1, PathingLocation* ap
         PointStorage pt84S;
         PointStorage pt90N;
         float rf94;
-        navPtr.FUN_00559450()->CollectTrianglesForDoor((unsigned int)a1->FUN_00717e50()->FUN_006dd540(), (BSSimpleArray<unsigned int, 1024>*)&zarr);
+        navPtr.Modelloader_GetReferencedThis()->CollectTrianglesForDoor((unsigned int)a1->FUN_00717e50()->FUN_006dd540(), (BSSimpleArray<unsigned int, 1024>*)&zarr);
         bestIdxz = 0xffff;
         ubest = DAT_01016970;
         ui = 0;
         for (; ui < zarr.FUN_0044ddc0(); ui++)
         {
-            ttri = navPtr.FUN_00559450()->FUN_005582f0(*(unsigned short*)zarr.FUN_00877a30(ui));
+            ttri = navPtr.Modelloader_GetReferencedThis()->FUN_005582f0(*(unsigned short*)zarr.FUN_00877a30(ui));
             if (m_00->GetFloatAtOffset68() > DAT_0106c948 && ttri->IsNoLargeCreature())
                 continue;
-            navPtr.FUN_00559450()->FUN_00558220(&reinterpret_cast<NiPoint3&>(pt84S), *(unsigned short*)zarr.FUN_00877a30(ui));
+            navPtr.Modelloader_GetReferencedThis()->FUN_00558220(&reinterpret_cast<NiPoint3&>(pt84S), *(unsigned short*)zarr.FUN_00877a30(ui));
             tlen2 = (reinterpret_cast<NiPoint3&>(pt84S) - m_00->NiAVObject_GetRotate_006a9540()->FUN_005c3420()).Length();
             if (tlen2 < ubest)
             {
@@ -1393,8 +1395,8 @@ bool ThisCls::ComputePathingLocation(ArgObj* a0, ArgObj* a1, PathingLocation* ap
         }
         if (bestIdxz != 0xffff)
         {
-            navPtr.FUN_00559450()->FUN_00558220(&reinterpret_cast<NiPoint3&>(pt90N), (unsigned short)bestIdxz);
-            rf94 = DAT_011dea10->GetCellHeightAtPosition(&reinterpret_cast<NiPoint3&>(pt90N), navPtr.FUN_00559450()->GetParentCell());
+            navPtr.Modelloader_GetReferencedThis()->FUN_00558220(&reinterpret_cast<NiPoint3&>(pt90N), (unsigned short)bestIdxz);
+            rf94 = DAT_011dea10->GetCellHeightAtPosition(&reinterpret_cast<NiPoint3&>(pt90N), navPtr.Modelloader_GetReferencedThis()->GetParentCell());
             if (rf94 + DAT_0104f2f0 > pt90N.z)
                 pt90N.z = rf94;
             *apOutLocation = *(PathingLocation*)&PLocShell(
@@ -1813,7 +1815,7 @@ bool Builder501::TryAddClosestPoint(unsigned int index, EdgeInput501* input, BSS
     NavMeshPtr end;
     if (edge.info->FUN_0069ad00(&end))
     {
-        end.FUN_00559450()->GetEdgeVertices_0068f0c0(edge.triangle, edge.edge, (NiPoint3&)mesh, (NiPoint3&)start);
+        end.Modelloader_GetReferencedThis()->GetEdgeVertices_0068f0c0(edge.triangle, edge.edge, (NiPoint3&)mesh, (NiPoint3&)start);
         NiPoint3 position = solution->GetVirtualNode_006e78b0(index)->FUN_00717e50()->FUN_005c3420();
         PointStorage closest;
         GetClosestPointOnSegment((NiPoint3*)&closest, position, (NiPoint3&)mesh, (NiPoint3&)start);
@@ -1821,8 +1823,8 @@ bool Builder501::TryAddClosestPoint(unsigned int index, EdgeInput501* input, BSS
             ((NiPoint3&)closest - position).z > -64.0 && ((NiPoint3&)closest - position).z < 180.0)
         {
             PointStorage center;
-            end.FUN_00559450()->FUN_00558220((NiPoint3*)&center, edge.triangle);
-            ((NiPoint3&)closest).FUN_0063c8a0(((NiPoint3&)center - (NiPoint3&)closest) * DAT_0101e2bc);
+            end.Modelloader_GetReferencedThis()->FUN_00558220((NiPoint3*)&center, edge.triangle);
+            ((NiPoint3&)closest).ComputeValue_0063c8a0(((NiPoint3&)center - (NiPoint3&)closest) * DAT_0101e2bc);
             output->Clear(false);
             PathLoc location((const PathPoint3&)closest, (const NavMeshInfo*)edge.info, edge.triangle);
             output->AppendElement((const PathingLocation&)location);
@@ -4409,34 +4411,34 @@ bool This152::FindNavMeshLocation(ArgObj* from, ArgObj* to, Out152* output)
         float edge = (from->FUN_00717e50()->FUN_005c3420() - to->FUN_00717e50()->FUN_006dd540()->m_10).Length();
         unsigned short triangle = 0xffff;
         int distance = -1;
-        if (mesh.FUN_00559450()
+        if (mesh.Modelloader_GetReferencedThis()
                 ->FindClosestOpenEdgeForLocation(from->FUN_00717e50()->FUN_005c3420(), edge * 2.0f, &triangle, &distance, 1))
         {
             PtCtor b;
             PtCtor a;
-            mesh.FUN_00559450()->GetEdgeVertices_0068f0c0(triangle, distance, (NiPoint3&)b, (NiPoint3&)a);
-            NiPoint3 center = mesh.FUN_00559450()->FUN_00558220(triangle);
+            mesh.Modelloader_GetReferencedThis()->GetEdgeVertices_0068f0c0(triangle, distance, (NiPoint3&)b, (NiPoint3&)a);
+            NiPoint3 center = mesh.Modelloader_GetReferencedThis()->FUN_00558220(triangle);
             output->FUN_006dcce0(Loc152((((NiPoint3&)b + (NiPoint3&)a) * DAT_0104e2b8) + center * DAT_0101e2bc,
-                                        mesh.FUN_00559450()->GetNavMeshInfo_0068efb0(), triangle));
+                                        mesh.Modelloader_GetReferencedThis()->GetNavMeshInfo_0068efb0(), triangle));
             return true;
         }
     }
     else
     {
         TriArr triangles(0, 0, field08);
-        mesh.FUN_00559450()->CollectTrianglesForDoor((unsigned int)from->FUN_00717e50()->FUN_006dd540(), (BSSimpleArray<unsigned int, 1024>*)&triangles);
+        mesh.Modelloader_GetReferencedThis()->CollectTrianglesForDoor((unsigned int)from->FUN_00717e50()->FUN_006dd540(), (BSSimpleArray<unsigned int, 1024>*)&triangles);
         unsigned int minDistance = 0xffff;
         float best = DAT_01016970;
         for (unsigned int i = 0; i < triangles.FUN_0044ddc0(); ++i)
         {
             float center;
             NavMeshTriangle* d =
-                mesh.FUN_00559450()->FUN_005582f0((unsigned short)*triangles.FUN_00877a30(i));
+                mesh.Modelloader_GetReferencedThis()->FUN_005582f0((unsigned short)*triangles.FUN_00877a30(i));
             if (request->GetFloatAtOffset68() > DAT_0106c948 && d->IsNoLargeCreature())
                 continue;
             {
                 NiPoint3 tri =
-                    mesh.FUN_00559450()->FUN_00558220((unsigned short)*triangles.FUN_00877a30(i));
+                    mesh.Modelloader_GetReferencedThis()->FUN_00558220((unsigned short)*triangles.FUN_00877a30(i));
                 center = (tri - request->GetOffsetC()->FUN_005c3420()).Length();
                 if (center < best)
                 {
@@ -4447,7 +4449,7 @@ bool This152::FindNavMeshLocation(ArgObj* from, ArgObj* to, Out152* output)
         }
         if (minDistance != 0xffff)
         {
-            output->FUN_006dcce0(Loc152(mesh.FUN_00559450()->FUN_00558220((unsigned short)minDistance),
+            output->FUN_006dcce0(Loc152(mesh.Modelloader_GetReferencedThis()->FUN_00558220((unsigned short)minDistance),
                                         (NavMeshInfo*)to->FUN_00717e50()->FUN_006dd540(), (unsigned short)minDistance));
             return true;
         }
@@ -4551,7 +4553,7 @@ struct VisitedArray
 
 bool __cdecl AreBytesEqual(const unsigned char*, const unsigned char*);
 bool __fastcall VirtualPathingNode_HasNavMesh(const unsigned int*);
-bool __cdecl FUN_009a3830(NavMeshInfo_* const&, NavMeshInfo_* const&);
+bool __cdecl Actor_AreReferencedValuesEqual(NavMeshInfo_* const&, NavMeshInfo_* const&);
 
 // @fnv 0x006ca500
 bool PathBuilder::BuildPathSpans(OutNodes& aOutNodes)
@@ -4611,8 +4613,8 @@ bool PathBuilder::BuildPathSpans(OutNodes& aOutNodes)
                     if (pInfo8 == 0 || pInfoX == 0)
                         return false;
 
-                    if (pInfo8 != pInfoX && pInfo8->map24.Find(pInfoX, 0, FUN_009a3830) == (unsigned int)-1 &&
-                        pInfo8->map34.Find(pInfoX, 0, FUN_009a3830) == (unsigned int)-1)
+                    if (pInfo8 != pInfoX && pInfo8->map24.Find(pInfoX, 0, Actor_AreReferencedValuesEqual) == (unsigned int)-1 &&
+                        pInfo8->map34.Find(pInfoX, 0, Actor_AreReferencedValuesEqual) == (unsigned int)-1)
                     {
                         ParentSpaceNode span7;
                         span7.iStart = iSpanStartB;
@@ -7272,7 +7274,7 @@ struct NodeX
 struct ListX
 {
     unsigned FUN_0044ddc0();
-    NodeX* FUN_006b3160(unsigned i);
+    NodeX* GetIndexedValue_006b3160(unsigned i);
 };
 struct LocX
 {
@@ -7336,7 +7338,7 @@ bool PathX::PathBuilder_RunPathSmoother(LocX* pkStart, LocX* pkEnd, int iC, List
         ArrX kArr_ilg(pkList->FUN_0044ddc0(), 0, m8);
         for (unsigned i = 0; i < pkList->FUN_0044ddc0(); i++)
         {
-            kArr_ilg.BSSimpleArray_NavMeshTriHandle_1024_Add(EdgeX(pkList->FUN_006b3160(i)->pkNode, pkList->FUN_006b3160(i)->usIdx));
+            kArr_ilg.BSSimpleArray_NavMeshTriHandle_1024_Add(EdgeX(pkList->GetIndexedValue_006b3160(i)->pkNode, pkList->GetIndexedValue_006b3160(i)->usIdx));
         }
         SearchA kSearchA_xmkn;
         return kSearchA_xmkn.NavMeshPOVSearch_BuildPath(pkStart, pkEnd, &kArr_ilg, m0, m4);
@@ -7361,7 +7363,7 @@ struct S6Point
     float y;
     float z;
     S6Point();
-    S6Point FUN_00439ef0(const S6Point& other) const;
+    S6Point SubtractIntoVector(const S6Point& other) const;
     S6Point FUN_00439e90(const S6Point& other) const;
     float DotProduct(const S6Point& other) const;
 };
@@ -7371,8 +7373,8 @@ S6Point FUN_004a3760(float scale, const S6Point& point);
 // @fnv 0x006b9c20
 S6Point GetClosestPointOnSegment(const S6Point& point, const S6Point& start, const S6Point& end)
 {
-    S6Point kDir7 = end.FUN_00439ef0(start);
-    S6Point kRel = point.FUN_00439ef0(start);
+    S6Point kDir7 = end.SubtractIntoVector(start);
+    S6Point kRel = point.SubtractIntoVector(start);
     double dDot5 = kRel.DotProduct(kDir7);
     if (dDot5 <= 0.0)
     {

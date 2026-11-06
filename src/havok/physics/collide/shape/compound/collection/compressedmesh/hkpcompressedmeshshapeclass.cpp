@@ -32,12 +32,13 @@ struct FUN_00dfd380_cls
     int m_iCountA;
     unsigned int m_uCapA;
 
-    void FUN_00dfd380();
+    void ReleaseFourArrays();
 };
 
 // Frees the four data arrays through the audio allocator when their capacity flag is clear, then resets each pointer, count and capacity.
 // @fnv 0x00dfd380
-void FUN_00dfd380_cls::FUN_00dfd380()
+// src: GUESS 0x00dfd380 (confidence: medium)
+void FUN_00dfd380_cls::ReleaseFourArrays()
 {
     hkMemoryRouter* pHolder = hkMemoryRouter_getInstance();
     hkMemoryAllocator* pAllocator = reinterpret_cast<hkMemoryAllocator*>(pHolder->m_heap);
@@ -104,12 +105,13 @@ struct FUN_00dfd440_cls
     int m_iCountA;
     unsigned int m_uCapA;
 
-    void FUN_00dfd440();
+    void ReleaseThreeArrays();
 };
 
 // Frees the three capacity-flagged data arrays through the audio allocator and resets each pointer, count and capacity to empty.
 // @fnv 0x00dfd440
-void FUN_00dfd440_cls::FUN_00dfd440()
+// src: GUESS 0x00dfd440 (confidence: medium)
+void FUN_00dfd440_cls::ReleaseThreeArrays()
 {
     hkMemoryRouter* pHolder = hkMemoryRouter_getInstance();
     hkMemoryAllocator* pAllocator = reinterpret_cast<hkMemoryAllocator*>(pHolder->m_heap);

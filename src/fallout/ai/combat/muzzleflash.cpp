@@ -139,7 +139,7 @@ struct S_009baf50_Node
 struct S_009baf50_Ptr
 {
     NiNode* raw;
-    S_009baf50_Node* FUN_00559450();
+    S_009baf50_Node* Modelloader_GetReferencedThis();
 };
 extern float DAT_011c3c08;
 extern double DAT_01090008;
@@ -167,17 +167,17 @@ void FUN_009bacb0::UpdateNodePosition(void* arg)
             }
         }
     }
-    if (!((S_009baf50_Ptr*)&first)->FUN_00559450())
+    if (!((S_009baf50_Ptr*)&first)->Modelloader_GetReferencedThis())
         return;
-    TESHavokUtilities_RemoveHavokFromSceneGraph(((S_009baf50_Ptr*)&first)->FUN_00559450());
+    TESHavokUtilities_RemoveHavokFromSceneGraph(((S_009baf50_Ptr*)&first)->Modelloader_GetReferencedThis());
     static_cast<S_009baf50_Self*>(this)->UpdateMuzzleFlash(arg);
     static_cast<S_009baf50_Self*>(this)->UpdateLightFromChallenge();
-    NiTimeController_StartAnimations(((S_009baf50_Ptr*)&first)->FUN_00559450());
-    ((S_009baf50_Ptr*)&first)->FUN_00559450()->UpdateProperties();
+    NiTimeController_StartAnimations(((S_009baf50_Ptr*)&first)->Modelloader_GetReferencedThis());
+    ((S_009baf50_Ptr*)&first)->Modelloader_GetReferencedThis()->UpdateProperties();
     S_009baf50_Vec pos((float)(DAT_011c3c08 - DAT_01090008), 1, 0);
-    ((S_009baf50_Ptr*)&first)->FUN_00559450()->NiAVObject_Update(pos);
+    ((S_009baf50_Ptr*)&first)->Modelloader_GetReferencedThis()->NiAVObject_Update(pos);
     pos.x = DAT_011c3c08;
-    ((S_009baf50_Ptr*)&first)->FUN_00559450()->NiAVObject_Update(pos);
+    ((S_009baf50_Ptr*)&first)->Modelloader_GetReferencedThis()->NiAVObject_Update(pos);
 }
 
 struct S_009bb080_Sub
@@ -306,7 +306,7 @@ struct S_009bb080_Node
 struct S_009bb080_Ptr
 {
     S_009bb080_Node* node;
-    S_009bb080_Node* FUN_00559450();
+    S_009bb080_Node* Modelloader_GetReferencedThis();
 };
 struct S_009bb080_Global
 {
@@ -334,18 +334,18 @@ struct S_009bb080
 void S_009bb080::MuzzleFlash_Update(float afDeltaTime, S_009bb080_Base0* proj)
 {
     S_009bb080_Base0* q;
-    if (!unkc.FUN_00559450())
+    if (!unkc.Modelloader_GetReferencedThis())
         return;
     UpdateMuzzleFlash(proj);
-    unkc.FUN_00559450()->FUN_00450f90(unk0 == 0);
+    unkc.Modelloader_GetReferencedThis()->FUN_00450f90(unk0 == 0);
     if (unk0 && !unk1)
     {
-        TESObjectREFR_AddMasterParticleAddonNodes(unkc.FUN_00559450()->FUN_vfnc());
+        TESObjectREFR_AddMasterParticleAddonNodes(unkc.Modelloader_GetReferencedThis()->FUN_vfnc());
         unk1 = 1;
     }
     if (!unk0 && unk1)
     {
-        TESObjectREFR_RemoveMasterParticleAddonNodes(unkc.FUN_00559450()->FUN_vfnc());
+        TESObjectREFR_RemoveMasterParticleAddonNodes(unkc.Modelloader_GetReferencedThis()->FUN_vfnc());
         unk1 = 0;
     }
     if (unk2)
@@ -712,7 +712,7 @@ struct PlayerCls
 };
 struct NiPtrC
 {
-    NiAVObject* FUN_00559450();
+    NiAVObject* Modelloader_GetReferencedThis();
 };
 struct NodeSrc
 {
@@ -743,7 +743,7 @@ struct ThisCls
 // @fnv 0x009bb240
 void ThisCls::UpdateMuzzleFlash(ParamCls* apParam)
 {
-    if (!(m_0c.FUN_00559450() && apParam && apParam->FUN_008d6f30() && apParam->v116()))
+    if (!(m_0c.Modelloader_GetReferencedThis() && apParam && apParam->FUN_008d6f30() && apParam->v116()))
         return;
     NodeCls* node2 =
         apParam->v64()
@@ -773,9 +773,9 @@ void ThisCls::UpdateMuzzleFlash(ParamCls* apParam)
                 B.m_Rotate = target2->NiAVObject_GetWorldRotate()->FUN_004768c0();
                 B.m_fScale = 1.0f / target2->NiAVObject_GetWorldRotate()->m_fScale;
                 // Explicit copies preserve the original trivial-assignment code under /Od.
-                memcpy(&B.m_Translate, &target2->NiAVObject_GetWorldRotate()->m_Translate.FUN_004a0bd0(), sizeof(B.m_Translate));
+                memcpy(&B.m_Translate, &target2->NiAVObject_GetWorldRotate()->m_Translate.GetNegatedVector(), sizeof(B.m_Translate));
                 memcpy(&B.m_Translate, &B.FUN_004b4500(&B.m_Translate), sizeof(B.m_Translate));
-                B.m_Translate.FUN_00439180(B.m_fScale);
+                B.m_Translate.ScaleComponents(B.m_fScale);
             }
             memcpy(&A_2, &B.FUN_0062c250(node2->NiAVObject_GetWorldRotate()), sizeof(A_2));
             _flag = true;
@@ -796,28 +796,28 @@ void ThisCls::UpdateMuzzleFlash(ParamCls* apParam)
         }
         if (target2)
         {
-            if (target2 != (void*)((FUN_009611e0_shell*)m_0c.FUN_00559450())->NiAVObject_GetParent())
+            if (target2 != (void*)((FUN_009611e0_shell*)m_0c.Modelloader_GetReferencedThis())->NiAVObject_GetParent())
             {
                 if (!AILinearTaskThreadManager_ShouldQueue3DTask())
                 {
-                    target2->v55(m_0c.FUN_00559450(), 1);
+                    target2->v55(m_0c.Modelloader_GetReferencedThis(), 1);
                 }
                 else
                 {
-                    FUN_004537b0()->QueueTaskWithTwoObjects(m_0c.FUN_00559450(), target2, 1, 0);
+                    FUN_004537b0()->QueueTaskWithTwoObjects(m_0c.Modelloader_GetReferencedThis(), target2, 1, 0);
                 }
-                FUN_00b6bb30(m_0c.FUN_00559450()->IsSceneNode(), 1.0f);
+                FUN_00b6bb30(m_0c.Modelloader_GetReferencedThis()->IsSceneNode(), 1.0f);
             }
         }
-        m_0c.FUN_00559450()->NiAVObject_SetTranslate(&A_2.m_Translate);
-        m_0c.FUN_00559450()->SetRotate_0043fa80(&A_2);
-        m_0c.FUN_00559450()->NiAVObject_SetScale(A_2.m_fScale);
+        m_0c.Modelloader_GetReferencedThis()->NiAVObject_SetTranslate(&A_2.m_Translate);
+        m_0c.Modelloader_GetReferencedThis()->SetRotate_0043fa80(&A_2);
+        m_0c.Modelloader_GetReferencedThis()->NiAVObject_SetScale(A_2.m_fScale);
         if (_flag)
         {
             if (!AILinearTaskThreadManager_ShouldQueue3DTask())
             {
                 NiUpdateData aUpd(fResultTmp, false, false);
-                m_0c.FUN_00559450()->NiAVObject_Update(aUpd);
+                m_0c.Modelloader_GetReferencedThis()->NiAVObject_Update(aUpd);
             }
             else
             {

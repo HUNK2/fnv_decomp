@@ -55,10 +55,10 @@ public:
 
         ~PlanStorage()
         {
-            FUN_00995910();
+            ReleaseStorage_00995910();
         }
         PlanStorage* CombatPlannerData_CombatPlannerData();
-        void FUN_00995910();
+        void ReleaseStorage_00995910();
         void SetQuantity(unsigned int quantity);
     };
 

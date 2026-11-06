@@ -314,11 +314,12 @@ struct FUN_00e2df50_Obj
     int unk04;
     int unk08;
 
-    int FUN_00e2df50();
+    int GetUnk08();
 };
 
 // @fnv 0x00e2df50
-int FUN_00e2df50_Obj::FUN_00e2df50()
+// src: GUESS 0x00e2df50 (confidence: low)
+int FUN_00e2df50_Obj::GetUnk08()
 {
     return unk08;
 }
@@ -334,10 +335,11 @@ struct FnvCpu_FUN_00e2df70_CpuObject
     unsigned int unk18;
     unsigned int unk1c;
     int value;
-    int FUN_00e2df70();
+    int GetValue();
 };
 // @fnv 0x00e2df70
-int FnvCpu_FUN_00e2df70_CpuObject::FUN_00e2df70()
+// src: GUESS 0x00e2df70 (confidence: low)
+int FnvCpu_FUN_00e2df70_CpuObject::GetValue()
 {
     return value;
 }
@@ -1107,7 +1109,7 @@ hkMemoryResourceHandle::~hkMemoryResourceHandle() throw()
 namespace fnv_00e2eae0 {
 struct FUN_00e2eae0_Result
 {
-    void __thiscall FUN_00e2eae0(int* param);
+    void __thiscall UpdateFields_00e2eae0(int* param);
 };
 
 struct FUN_00e2eae0_class
@@ -1122,7 +1124,7 @@ struct FUN_00e2eae0_class
     virtual void* vf1c();
     virtual void* vf20();
     virtual FUN_00e2eae0_Result* vf24();
-    void __thiscall FUN_00e2eae0(int* param);
+    void __thiscall UpdateFields_00e2eae0(int* param);
 };
 
 struct FUN_00d61df0_Obj
@@ -1145,12 +1147,13 @@ hkMemoryRouter* __cdecl hkMemoryRouter_getInstance();
 
 // Calls vf24 and vf10, sends two values to the object at param, then conditionally calls allocator->vf10.
 // @fnv 0x00e2eae0
-void __thiscall FUN_00e2eae0_class::FUN_00e2eae0(int* apTarget)
+// src: GUESS 0x00e2eae0 (confidence: low)
+void __thiscall FUN_00e2eae0_class::UpdateFields_00e2eae0(int* apTarget)
 {
     FUN_00e2eae0_Result* result = vf24();
     if (result != 0)
     {
-        result->FUN_00e2eae0(apTarget);
+        result->UpdateFields_00e2eae0(apTarget);
     }
 
     // The original uses the out-of-line initializer and explicit cleanup here.

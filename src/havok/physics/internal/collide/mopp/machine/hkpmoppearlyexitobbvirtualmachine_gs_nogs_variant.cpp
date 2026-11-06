@@ -20,7 +20,7 @@ struct S_00e647e0 {
     int unk20; int unk24; int unk28; int unk2C; int unk30; int unk34; int unk38; int unk3C;
     hkBool m_bHasHit; char unk41; char unk42; char unk43;
     S_00e647e0_Input* m_pRayCastInput;
-    void FUN_00e645b0(const void* a, const void* b, const void* c, S_00e647e0_Local* out);
+    void ComputeValues_00e645b0(const void* a, const void* b, const void* c, S_00e647e0_Local* out);
     void queryOBBOnTree(S_00e647e0_Local* l, S_00e647e0_Shape* shape);
     hkBool SetupAndProcessShape(S_00e647e0_Input* input, const void* b, const void* c, const void* d);
 };
@@ -405,7 +405,7 @@ void S00e63f10::hkpMoppEarlyExitObbVirtualMachine::queryOBBOnTree(const Collisio
                 union { char bytes[sizeof(hkErrStream)]; void* alignment; } streamStorage;
                 hkErrStream& ostr = *reinterpret_cast<hkErrStream*>(streamStorage.bytes);
                 ostr.FUN_00cb1600(buf, sizeof(buf));
-                ostr.FUN_00cc01c0(DAT_010d5100);
+                ostr.ProcessAndReturnValue_00cc01c0(DAT_010d5100);
                 if (DAT_01268360->message(3, 0x1298fedd, buf, DAT_010ecfbc, 0x156))
                     __debugbreak();
                 ostr.FUN_00cc00e0();

@@ -318,7 +318,7 @@ void NiGeometry::UpdateWorldBound()
         unsigned int savedFlags = flags;
         if ((unsigned char)(savedFlags >> 22) & 1)
         {
-            if (((NiBound*)m_kWorldBound)->FUN_00a92660(previous))
+            if (((NiBound*)m_kWorldBound)->Object_HasEqualFloatComponents(previous))
                 savedFlags |= 0x400000;
             else
                 savedFlags &= ~0x400000;

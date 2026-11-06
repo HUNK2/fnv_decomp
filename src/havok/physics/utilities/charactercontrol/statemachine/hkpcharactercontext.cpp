@@ -21,7 +21,8 @@ extern int DAT_010c8198;
 // These helpers have no member declarations in the shared context header.
 // Keep the original this pointer in ECX and stack arguments in their original slots.
 // @fnv 0x00ca95e0
-__declspec(noinline) void __fastcall FUN_00ca95e0(hkpCharacterContext* context)
+// src: GUESS 0x00ca95e0 (confidence: low)
+__declspec(noinline) void __fastcall hkpCharacterContext_UpdateFields_00ca95e0(hkpCharacterContext* context)
 {
     *reinterpret_cast<int**>(context) = &DAT_010c8198;
     static_cast<hkReferencedObject*>(context->unk0C)->removeReference();
@@ -38,13 +39,15 @@ void __fastcall hkpCharacterContext_setFilterParameters(hkpCharacterContext* con
 }
 
 // @fnv 0x00ca9660
-void __fastcall FUN_00ca9660(hkpCharacterContext* context, void*, unsigned char value)
+// src: GUESS 0x00ca9660 (confidence: low)
+void __fastcall hkpCharacterContext_SetUnk18_00ca9660(hkpCharacterContext* context, void*, unsigned char value)
 {
     context->unk18 = value;
 }
 
 // @fnv 0x00ca9690
-void __fastcall FUN_00ca9690(hkpCharacterContext* context, void*, int value)
+// src: GUESS 0x00ca9690 (confidence: low)
+void __fastcall hkpCharacterContext_UpdateState_00ca9690(hkpCharacterContext* context, void*, int value)
 {
     context->unk08 = value;
 }
@@ -97,7 +100,7 @@ class CharacterTransitionDispatch
 class CharacterStateLookup
 {
   public:
-    CharacterTransitionDispatch* FUN_00cbc510(int iState) const throw();
+    CharacterTransitionDispatch* GetIndexedValue_00cbc510(int iState) const throw();
 };
 
 // Leaves the current state, stores the new state id, then enters the new state via the state manager.
@@ -107,10 +110,10 @@ void __fastcall SetState(hkpCharacterContext* context, void*, int iState,
 {
     int iPrevState = context->unk10;
     static_cast<const CharacterStateLookup*>(context->unk0C)
-        ->FUN_00cbc510(context->unk10)->leaveState(*context, iState, kInput, kOutput);
+        ->GetIndexedValue_00cbc510(context->unk10)->leaveState(*context, iState, kInput, kOutput);
     context->unk10 = iState;
     static_cast<const CharacterStateLookup*>(context->unk0C)
-        ->FUN_00cbc510(iState)->enterState(*context, iPrevState, kInput, kOutput);
+        ->GetIndexedValue_00cbc510(iState)->enterState(*context, iPrevState, kInput, kOutput);
 }
 
 struct FnvCpu_FUN_00ca9810_CpuAllocator
@@ -132,7 +135,7 @@ FnvCpu_FUN_00ca9810_CpuAllocatorHolder* __cdecl hkMemoryRouter_getInstance();
 // @fnv 0x00ca9810
 hkpCharacterContext* __fastcall Destroy(hkpCharacterContext* context, void*, unsigned int flags)
 {
-    FUN_00ca95e0(context);
+    hkpCharacterContext_UpdateFields_00ca95e0(context);
     if (flags & 1)
     {
         FnvCpu_FUN_00ca9810_CpuAllocatorHolder* pAllocatorHolder = hkMemoryRouter_getInstance();
@@ -268,7 +271,8 @@ struct StateManager
 };
 
 // @fnv 0x00ca96a0
-void __fastcall FUN_00ca96a0(hkpCharacterContext* context, void*, const PhysicsDataBlock& input, Vector4Data& output)
+// src: GUESS 0x00ca96a0 (confidence: low)
+void __fastcall hkpCharacterContext_UpdateFields_00ca96a0(hkpCharacterContext* context, void*, const PhysicsDataBlock& input, Vector4Data& output)
 {
     output.m_fVelocity = input.m_fVelocity;
 

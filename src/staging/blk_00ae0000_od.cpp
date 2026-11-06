@@ -56,7 +56,8 @@ extern "C" long __cdecl _fseek(void* stream, long offset, int whence);
 
 // Returns -1 if stream is null, otherwise calls _fseek with stream, offset and pad as the whence argument.
 // @fnv 0x00aea180
-long __cdecl FUN_00aea180(void* stream, long offset, int whence, int iWhenceArg)
+// src: GUESS 0x00aea180 (confidence: medium)
+long __cdecl Object_SeekStreamIfPresent(void* stream, long offset, int whence, int iWhenceArg)
 {
     if (!stream)
         return -1;
@@ -69,10 +70,11 @@ void DestroyBSAudio();
 struct FUN_00aea210_Class
 {
     void* vtbl;
-    void FUN_00aea210();
+    void SetVtableAndProcessState_00aea210();
 };
 // @fnv 0x00aea210
-void FUN_00aea210_Class::FUN_00aea210()
+// src: GUESS 0x00aea210 (confidence: low)
+void FUN_00aea210_Class::SetVtableAndProcessState_00aea210()
 {
     *reinterpret_cast<int**>(this) = &DAT_010a39d8;
     reinterpret_cast<void (__thiscall*)(BSAudio*)>(&DestroyBSAudio)(reinterpret_cast<BSAudio*>(this));
@@ -102,10 +104,11 @@ struct FUN_00aeaab0_Class
     void* m_pObjectAt88;
     char bVisible;
     int m_iValueAt90;
-    void FUN_00aeaab0();
+    void SetVtableAndProcessState_00aeaab0();
 };
 // @fnv 0x00aeaab0
-void FUN_00aeaab0_Class::FUN_00aeaab0()
+// src: GUESS 0x00aeaab0 (confidence: low)
+void FUN_00aeaab0_Class::SetVtableAndProcessState_00aeaab0()
 {
     vtbl = &DAT_010a3bb4;
     *(int*)((char*)this + 0x44) = 0;
@@ -115,7 +118,8 @@ extern "C" long __cdecl _fseek(void* stream, long offset, int whence);
 
 // Returns -1 if stream is null, otherwise calls _fseek with stream, offset and pad as the whence argument.
 // @fnv 0x00af1cf0
-long __cdecl FUN_00af1cf0(void* stream, long offset, int whence, int iWhenceArg)
+// src: GUESS 0x00af1cf0 (confidence: high)
+long __cdecl Runtime_SeekStreamOrFail_00af1cf0(void* stream, long offset, int whence, int iWhenceArg)
 {
     if (!stream)
         return -1;
@@ -126,22 +130,24 @@ extern int DAT_010a4288;
 
 struct FUN_00af2f20_Class
 {
-    void __thiscall FUN_00af2f20();
+    void __thiscall SetVirtualTable_00af2f20();
 };
 
 // @fnv 0x00af2f20
-void __thiscall FUN_00af2f20_Class::FUN_00af2f20()
+// src: GUESS 0x00af2f20 (confidence: low)
+void __thiscall FUN_00af2f20_Class::SetVirtualTable_00af2f20()
 {
     *(int*)this = (int)&DAT_010a4288;
 }
 
 struct FUN_00af3120_Class
 {
-    void __thiscall FUN_00af3120();
+    void __thiscall SetVirtualTable_00af3120();
 };
 
 // @fnv 0x00af3120
-void __thiscall FUN_00af3120_Class::FUN_00af3120()
+// src: GUESS 0x00af3120 (confidence: low)
+void __thiscall FUN_00af3120_Class::SetVirtualTable_00af3120()
 {
     *reinterpret_cast<void**>(this) = &DAT_010a42b4;
 }
@@ -151,11 +157,12 @@ struct FUN_00af33f0_Class
 {
     void* vtbl;
     int x;
-    void* FUN_00af33f0();
+    void* SetVtableAndProcessState_00af33f0();
 };
 // Sets the object's vtbl to DAT_010a42cc, clears x to 0, and returns this.
 // @fnv 0x00af33f0
-void* FUN_00af33f0_Class::FUN_00af33f0()
+// src: GUESS 0x00af33f0 (confidence: low)
+void* FUN_00af33f0_Class::SetVtableAndProcessState_00af33f0()
 {
     vtbl = &DAT_010a42cc;
     x = 0;
@@ -166,10 +173,11 @@ extern int DAT_010a42cc;
 struct FUN_00af3420_Class
 {
     void* vtbl;
-    void __thiscall FUN_00af3420();
+    void __thiscall SetVirtualTable_00af3420();
 };
 // @fnv 0x00af3420
-void __thiscall FUN_00af3420_Class::FUN_00af3420()
+// src: GUESS 0x00af3420 (confidence: low)
+void __thiscall FUN_00af3420_Class::SetVirtualTable_00af3420()
 {
     vtbl = &DAT_010a42cc;
 }
@@ -178,10 +186,11 @@ extern int DAT_010a42dc;
 struct FUN_00af35c0_Class
 {
     void* vtbl;
-    void FUN_00af35c0();
+    void SetVirtualTable_00af35c0();
 };
 // @fnv 0x00af35c0
-void FUN_00af35c0_Class::FUN_00af35c0()
+// src: GUESS 0x00af35c0 (confidence: low)
+void FUN_00af35c0_Class::SetVirtualTable_00af35c0()
 {
     vtbl = &DAT_010a42dc;
 }
@@ -211,11 +220,12 @@ extern int DAT_010a42fc;
 struct FUN_00af39c0_Class
 {
     void* vtbl;
-    void FUN_00af39c0();
+    void SetVirtualTable_00af39c0();
 };
 
 // @fnv 0x00af39c0
-void FUN_00af39c0_Class::FUN_00af39c0()
+// src: GUESS 0x00af39c0 (confidence: low)
+void FUN_00af39c0_Class::SetVirtualTable_00af39c0()
 {
     vtbl = &DAT_010a42fc;
 }
@@ -270,11 +280,12 @@ struct FUN_00afd960_Class
 {
     void* vtbl;
     int iField;
-    void FUN_00afd960();
+    void ProcessState_00afd960();
 };
 
 // @fnv 0x00afd960
-void FUN_00afd960_Class::FUN_00afd960()
+// src: GUESS 0x00afd960 (confidence: low)
+void FUN_00afd960_Class::ProcessState_00afd960()
 {
     void* pUnused[6];
     SwapByteQuadWords((char*)this + 4, 1);
@@ -416,7 +427,8 @@ struct DownloadableContentManager
     static void __cdecl GetRandomGenerator();
 };
 // @fnv 0x00af2750
-char __cdecl FUN_00af2750()
+// src: GUESS 0x00af2750 (confidence: low)
+char __cdecl Runtime_EvaluateValue_00af2750()
 {
     DownloadableContentManager::GetRandomGenerator();
     return 1;
@@ -643,13 +655,14 @@ struct S00a0d390
     void* p;
 
     void __thiscall ClearAll();
-    void __thiscall FUN_00ae8c30();
+    void __thiscall SetVtableAndProcessState_00ae8c30();
 };
 
 void __cdecl _NiFree(void* p);
 
 // @fnv 0x00ae8c30
-void S00a0d390::FUN_00ae8c30()
+// src: GUESS 0x00ae8c30 (confidence: low)
+void S00a0d390::SetVtableAndProcessState_00ae8c30()
 {
     int p;
     int P;
@@ -661,7 +674,8 @@ void S00a0d390::FUN_00ae8c30()
 
 // Returns -1 if stream is null, otherwise seeks it with _fseek(stream, offset, pad) and returns the result.
 // @fnv 0x00aeabf0
-long FUN_00aeabf0(void* stream, long offset, int whence, int iOrigin)
+// src: GUESS 0x00aeabf0 (confidence: high)
+long Runtime_SeekStreamOrFail(void* stream, long offset, int whence, int iOrigin)
 {
     if (!stream)
         return -1;
@@ -720,10 +734,11 @@ FUN_00af2ed0_Class* FUN_00af2ed0_Class::BSSaveDataSystemUtility_BSSaveDataSystem
 extern int DAT_010a42ec;
 struct FUN_00af3900_Class
 {
-    void __thiscall FUN_00af3900();
+    void __thiscall SetVirtualTable_00af3900();
 };
 // @fnv 0x00af3900
-void FUN_00af3900_Class::FUN_00af3900()
+// src: GUESS 0x00af3900 (confidence: low)
+void FUN_00af3900_Class::SetVirtualTable_00af3900()
 {
     *(void**)this = &DAT_010a42ec;
 }
@@ -815,12 +830,13 @@ struct FUN_00ae78a0_cls
     int unk3C;
     void* m_h40;
     void FUN_00aa63c0();
-    void FUN_00ae78a0();
+    void CloseAudioManagerHandles();
 };
 
 // Resets the vtable pointer, closes the handles m_h40 and m_h34, then calls FUN_00aa63c0.
 // @fnv 0x00ae78a0
-void FUN_00ae78a0_cls::FUN_00ae78a0()
+// src: GUESS 0x00ae78a0 (confidence: medium)
+void FUN_00ae78a0_cls::CloseAudioManagerHandles()
 {
     m_vtbl = (void*)&DAT_010a33d0;
     CloseHandle(m_h40);
@@ -1148,10 +1164,11 @@ struct S_00ae9290_Class
 {
     void* p;
 
-    void __thiscall FUN_00ae9290();
+    void __thiscall UpdateState_00ae9290();
 };
 
-void __thiscall S_00ae9290_Class::FUN_00ae9290()
+// src: GUESS 0x00ae9290 (confidence: low)
+void __thiscall S_00ae9290_Class::UpdateState_00ae9290()
 {
     if (this->p != 0)
     {
@@ -3435,11 +3452,12 @@ void FnvEmptyThiscall70_Class::nullsub_326()
 
 struct FnvEmptyThiscall_Class
 {
-    void FUN_00af2c80();
+    void DoNothing_00af2c80();
 };
 
 // @fnv 0x00af2c80
-void FnvEmptyThiscall_Class::FUN_00af2c80()
+// src: GUESS 0x00af2c80 (confidence: high)
+void FnvEmptyThiscall_Class::DoNothing_00af2c80()
 {}
 
 extern "C" __declspec(dllimport) bool __cdecl SteamAPI_IsSteamRunning();
@@ -3644,13 +3662,14 @@ struct FUN_00afdb80_cls
     char pad00[8];
     unsigned int* m_08;
 
-    void FUN_00afdb80();
+    void UpdateFields_00afdb80();
 };
 
 unsigned int* __cdecl FUN_00ec3bad(unsigned int* value);
 
 // @fnv 0x00afdb80
-void FUN_00afdb80_cls::FUN_00afdb80()
+// src: GUESS 0x00afdb80 (confidence: low)
+void FUN_00afdb80_cls::UpdateFields_00afdb80()
 {
     Flag flag_ = {};
     bool copy = flag_.m_kPointB;
@@ -5562,11 +5581,12 @@ struct FUN_00afdb20_Class
     int unk04;
     int m_08;
     int m_0c;
-    void FUN_00afdb20();
+    void UpdateFields_00afdb20();
 };
 // Replaces m_08 and m_0c with FUN_00ec3bad applied to each of their current values.
 // @fnv 0x00afdb20
-void FUN_00afdb20_Class::FUN_00afdb20()
+// src: GUESS 0x00afdb20 (confidence: low)
+void FUN_00afdb20_Class::UpdateFields_00afdb20()
 {
     Marker c0 = {};
     Marker f0 = c0;
@@ -5587,12 +5607,13 @@ struct FUN_009b7940_shell
 
 struct FUN_00afe9f0_Class : public FUN_009b7940_shell
 {
-    void* FUN_00afe9f0(unsigned int a);
+    void* SetVtableAndProcessState_00afe9f0(unsigned int a);
 };
 
 // Sets the vtable pointer to DAT_010472d0 and calls FUN_006b3eb0 with a twice, returning this.
 // @fnv 0x00afe9f0
-void* FUN_00afe9f0_Class::FUN_00afe9f0(unsigned int a)
+// src: GUESS 0x00afe9f0 (confidence: low)
+void* FUN_00afe9f0_Class::SetVtableAndProcessState_00afe9f0(unsigned int a)
 {
     int x;
     int y;

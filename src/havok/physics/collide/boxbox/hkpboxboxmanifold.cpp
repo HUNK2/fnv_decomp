@@ -45,12 +45,13 @@ struct FUN_00db0920_cls
     unsigned char count;
     unsigned char flag22;
 
-    FUN_00db0920_cls* FUN_00db0920();
+    FUN_00db0920_cls* InitializeEmptyEntries();
 };
 
 // Zeroes all entry values, count, and flag fields, then returns this.
 // @fnv 0x00db0920
-FUN_00db0920_cls* FUN_00db0920_cls::FUN_00db0920()
+// src: GUESS 0x00db0920 (confidence: medium)
+FUN_00db0920_cls* FUN_00db0920_cls::InitializeEmptyEntries()
 {
     unsigned short* pEntryValues = &entries[0].value;
     pEntryValues[0] = 0;

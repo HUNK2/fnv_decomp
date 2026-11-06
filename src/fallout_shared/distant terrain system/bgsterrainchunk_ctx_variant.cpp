@@ -39,13 +39,13 @@ struct RootX
 struct PN
 {
     void* p;
-    NodeX* FUN_00559450();
+    NodeX* Modelloader_GetReferencedThis();
     void FUN_0066b0d0(void* q);
 };
 struct PQ
 {
     void* p;
-    Q28* FUN_00559450();
+    Q28* Modelloader_GetReferencedThis();
     void FUN_0066b0d0(void* q);
 };
 struct PV
@@ -81,18 +81,18 @@ void BGSTerrainChunkLoadTask::Run()
         {
             reinterpret_cast<PN&>(unk54).FUN_0066b0d0(kStreamVal.GetStringAt(0));
             reinterpret_cast<PV&>(unk48).FUN_0066b0d0(
-                reinterpret_cast<PN&>(unk54).FUN_00559450()->FUN_0043b4a0(0));
-            if (reinterpret_cast<PN&>(unk54).FUN_00559450()->NiNode_GetChildCount() > 1 && *g_kTerrainChunkSetting.Bool())
+                reinterpret_cast<PN&>(unk54).Modelloader_GetReferencedThis()->FUN_0043b4a0(0));
+            if (reinterpret_cast<PN&>(unk54).Modelloader_GetReferencedThis()->NiNode_GetChildCount() > 1 && *g_kTerrainChunkSetting.Bool())
             {
                 reinterpret_cast<PQ&>(unk4c).FUN_0066b0d0(
-                    reinterpret_cast<PN&>(unk54).FUN_00559450()->FUN_0043b4a0(1)->F18());
-                if (reinterpret_cast<PQ&>(unk4c).FUN_00559450()->F28() &&
-                    reinterpret_cast<PQ&>(unk4c).FUN_00559450()->F28()->GetFlagOrValue() == 3)
+                    reinterpret_cast<PN&>(unk54).Modelloader_GetReferencedThis()->FUN_0043b4a0(1)->F18());
+                if (reinterpret_cast<PQ&>(unk4c).Modelloader_GetReferencedThis()->F28() &&
+                    reinterpret_cast<PQ&>(unk4c).Modelloader_GetReferencedThis()->F28()->GetFlagOrValue() == 3)
                     reinterpret_cast<PQ&>(unk4c).FUN_0066b0d0(0);
             }
-            if (reinterpret_cast<PN&>(unk54).FUN_00559450()->NiNode_GetChildCount() > 2 && *g_kTerrainChunkSetting.Bool())
+            if (reinterpret_cast<PN&>(unk54).Modelloader_GetReferencedThis()->NiNode_GetChildCount() > 2 && *g_kTerrainChunkSetting.Bool())
                 reinterpret_cast<PV&>(unk50).FUN_0066b0d0(
-                    reinterpret_cast<PN&>(unk54).FUN_00559450()->FUN_0043b4a0(2)->F18());
+                    reinterpret_cast<PN&>(unk54).Modelloader_GetReferencedThis()->FUN_0043b4a0(2)->F18());
         }
         else
         {

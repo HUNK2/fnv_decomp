@@ -79,7 +79,7 @@ public:
     void setHitListening(bool);
     __declspec(noinline) void ResetVtables();
     void ReleaseBody();
-    void FUN_00e450b0(int);
+    void UpdateState_00e450b0(int);
     hkpGunProjectile* FUN_00e450c0(unsigned int);
     __declspec(noinline) void addToWorld_00e44c90(hkpWorld* scene) throw();
 };
@@ -259,7 +259,8 @@ void __fastcall C::hkpGunProjectile_contactPointCallback(int x)
 }
 
 // @fnv 0x00e450b0
-void __thiscall hkpGunProjectile::FUN_00e450b0(int)
+// src: GUESS 0x00e450b0 (confidence: low)
+void __thiscall hkpGunProjectile::UpdateState_00e450b0(int)
 {
     m_flags.m_kStorage |= 2;
 }

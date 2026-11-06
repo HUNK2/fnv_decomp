@@ -41,7 +41,8 @@ static __forceinline float SafeAcos(float r)
 }
 
 // @fnv 0x00e52320
-void __cdecl FUN_00e52320(const RotationVector* rotation, unsigned int* packed)
+// src: GUESS 0x00e52320 (confidence: low)
+void __cdecl Object_UpdateFields_00e52320(const RotationVector* rotation, unsigned int* packed)
 {
     RotationVector value = *rotation;
     *packed = 0;
@@ -85,7 +86,8 @@ using ::_mm_and_ps;
 extern const LocalM128 DAT_01017d10;
 
 // @fnv 0x00e526f0
-void __cdecl FUN_00e526f0(const hkQuaternion* q, short* out)
+// src: GUESS 0x00e526f0 (confidence: low)
+void __cdecl hkQuaternion_ComputeValues_00e526f0(const hkQuaternion* q, short* out)
 {
     extern float packingScale;
     extern unsigned int scaleInitialized;
@@ -127,7 +129,8 @@ union __declspec(align(16)) PackedQuaternionOutput
     float components[4];
 };
 // @fnv 0x00e52920
-void FUN_00e52920(const unsigned char* p, PackedQuaternionOutput* output)
+// src: GUESS 0x00e52920 (confidence: low)
+void Object_UpdateFields_00e52920(const unsigned char* p, PackedQuaternionOutput* output)
 {
     static float scale;
     extern unsigned int scaleInitialized;
@@ -168,7 +171,8 @@ union __declspec(align(16)) PackedQuaternionOutput
     float components[4];
 };
 // @fnv 0x00e52c30
-void FUN_00e52c30(const unsigned char* p, PackedQuaternionOutput* output)
+// src: GUESS 0x00e52c30 (confidence: low)
+void Runtime_ComputeValues_00e52c30(const unsigned char* p, PackedQuaternionOutput* output)
 {
     static float scale;
     extern unsigned int scaleInitialized;

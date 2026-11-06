@@ -16,7 +16,7 @@ public:
     bool FUN_0040e210(int flag);
     bool FUN_0040e210(unsigned int flag);
     bool ActiveEffect_IsExtendDuration();
-    bool FUN_008c2e30();
+    bool ContainsAnyFlag_Thunk();
 
     union
     {

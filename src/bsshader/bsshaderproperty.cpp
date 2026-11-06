@@ -72,7 +72,8 @@ void FUN_00ba8ab0_shell::BSShaderProperty_SetAlpha(float afAlpha)
 
 // Resets the count at offset 4, frees the light pointer at offset 0xC if set, and clears the byte at offset 0xB.
 // @fnv 0x00ba8cd0
-void __fastcall FUN_00ba8cd0(char* pThis)
+// src: GUESS 0x00ba8cd0 (confidence: low)
+void __fastcall BSShaderProperty_ReleaseStorage_00ba8cd0(char* pThis)
 {
     *(unsigned short*)(pThis + 4) = 0;
     void* pLights = *(void**)(pThis + 0xC);
@@ -400,12 +401,13 @@ struct FUN_00ba8e50_cls : FUN_00ba8e50_base
     int m_58;
     float m_5c;
 
-    FUN_00ba8e50_cls* FUN_00ba8e50();
+    FUN_00ba8e50_cls* InitializeFields_00ba8e50();
 };
 
 // Initializes the object: calls InitBase, sets the vtable pointer, and zeroes or defaults the member fields, returning this.
 // @fnv 0x00ba8e50
-FUN_00ba8e50_cls* FUN_00ba8e50_cls::FUN_00ba8e50()
+// src: GUESS 0x00ba8e50 (confidence: low)
+FUN_00ba8e50_cls* FUN_00ba8e50_cls::InitializeFields_00ba8e50()
 {
     InitBase();
     m_18 = 1;

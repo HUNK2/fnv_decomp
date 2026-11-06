@@ -287,7 +287,7 @@ bool NiPSysUpdateTask::Clear_00c25be0()
 }
 
 void __cdecl operator delete(void* pv, int iSize);
-void __cdecl FUN_00aa1490(void* pv, unsigned int uiSize);
+void __cdecl NiMemObject_ReleaseStorage_00aa1490(void* pv, unsigned int uiSize);
 
 __forceinline void NiPSysUpdateTask::Destruct()
 {
@@ -323,7 +323,7 @@ void* NiPSysUpdateTask::DestroyElements(unsigned int uiFlags)
             pkElem->Destruct();
         }
         if (uiFlags & 1)
-            FUN_00aa1490(piCount, 0x14);
+            NiMemObject_ReleaseStorage_00aa1490(piCount, 0x14);
         return piCount;
     }
     Destroy();

@@ -90,7 +90,8 @@ struct Row
         v = _mm_add_ps(t, v);
     }
 };
-__declspec(noinline) void hkMatrix4::FUN_00de88a0(const hkSimdReal& s, const hkMatrix4& m)
+// src: GUESS 0x00de88a0 (confidence: low)
+__declspec(noinline) void hkMatrix4::ProcessAndReturnValue_00de88a0(const hkSimdReal& s, const hkMatrix4& m)
 {
     m_kColumn0.setMul4(s, m.m_kColumn0);
     m_kColumn1.setMul4(s, m.m_kColumn1);
@@ -114,7 +115,8 @@ struct S00de8910_Work_b10903
 };
 
 // @fnv 0x00de8910
-int hkMatrix4::FUN_00de8910(float epsilon)
+// src: GUESS 0x00de8910 (confidence: low)
+int hkMatrix4::UpdateState_00de8910(float epsilon)
 {
     const hkVector4& column2 = m_kColumn2;
     const float& val2x = column2.m_vComponents.m128_f32[0];
@@ -195,6 +197,6 @@ int hkMatrix4::FUN_00de8910(float epsilon)
     w.adj.m_kColumn3.w =
         m_kColumn0.m_vComponents.m128_f32[2] * s3 - m_kColumn1.m_vComponents.m128_f32[2] * s1 + (float)(+val2z) * s0;
 
-    FUN_00de88a0(*(const hkSimdReal*)&w.invDetVec, w.adj);
+    ProcessAndReturnValue_00de88a0(*(const hkSimdReal*)&w.invDetVec, w.adj);
     return 0;
 }

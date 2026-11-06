@@ -233,7 +233,8 @@ void* FUN_00b5a480_Class::FUN_00b5a480(unsigned char flag)
 }  // namespace fnv_00b5a480
 
 // @fnv 0x00b5a980
-int __cdecl FUN_00b5a980(int* piLeft, int* piRight)
+// src: GUESS 0x00b5a980 (confidence: low)
+int __cdecl Object_ComputeValue_00b5a980(int* piLeft, int* piRight)
 {
     return *piLeft == *piRight;
 }
@@ -340,12 +341,13 @@ struct FUN_00b584e0_Class
     void* pHead;
     FUN_00b584e0_Node* pTail;
     unsigned int ItemUpdateArray;
-    FUN_00b584e0_Node* FUN_00b584e0(void* pData);
+    FUN_00b584e0_Node* AllocateStorage_00b584e0(void* pData);
 };
 
 // Allocates a 12-byte node, stores the value pointed to by pData, links it before pTail, and updates pHead/pTail and the count.
 // @fnv 0x00b584e0
-FUN_00b584e0_Node* FUN_00b584e0_Class::FUN_00b584e0(void* pData)
+// src: GUESS 0x00b584e0 (confidence: medium)
+FUN_00b584e0_Node* FUN_00b584e0_Class::AllocateStorage_00b584e0(void* pData)
 {
     FUN_00b584e0_Node* pNewNode =
         static_cast<FUN_00b584e0_Node*>(reinterpret_cast<P03MM*>(&g_memoryManager)->Allocate(0xc));
@@ -465,10 +467,10 @@ struct S_00b4e1e0_Item
 {
     int unk0;
     int unk4;
-    void FUN_00b4df30();
+    void BSFadeNode_FreeLinkedNodesRecursively();
     ~S_00b4e1e0_Item()
     {
-        FUN_00b4df30();
+        BSFadeNode_FreeLinkedNodesRecursively();
     }
 };
 struct S_00b4e1e0_Base
@@ -538,8 +540,8 @@ struct FUN_00b4e1e0 : S_00b4e1e0_Base
 // @fnv 0x00b4e1e0
 FUN_00b4e1e0::~FUN_00b4e1e0()
 {
-    unk212.FUN_00b4df30();
-    unk220.FUN_00b4df30();
+    unk212.BSFadeNode_FreeLinkedNodesRecursively();
+    unk220.BSFadeNode_FreeLinkedNodesRecursively();
 }
 
 extern int DAT_011f9168;
@@ -1132,7 +1134,7 @@ template <> void NamedObjectMapBase::SetAt(const char* key, NiPointer<NiRefObjec
     ++m_kItemCount.m_uiCount;
 }
 
-extern "C" void* __cdecl FUN_00aa13e0(unsigned int size);
+extern "C" void* __cdecl Object_DispatchCommandFour(unsigned int size);
 
 struct BlobBase
 {
@@ -1186,7 +1188,7 @@ struct BlobObj : public BlobBase
 
     static void* operator new(unsigned int size) throw()
     {
-        return FUN_00aa13e0(size);
+        return Object_DispatchCommandFour(size);
     }
     static void operator delete(void* p) throw()
     {}
@@ -1227,12 +1229,13 @@ struct FUN_00b58530_cls
     unsigned int m_04;
     unsigned int m_08;
 
-    void FUN_00b58530();
+    void ProcessEntries_00b58530();
 };
 
 // Walks the linked list from m_00, clearing each node's m_08 and freeing it, then resets m_00, m_04 and m_08.
 // @fnv 0x00b58530
-void FUN_00b58530_cls::FUN_00b58530()
+// src: GUESS 0x00b58530 (confidence: low)
+void FUN_00b58530_cls::ProcessEntries_00b58530()
 {
     ListNode_b4009* cur = m_00;
     if (cur != 0)
@@ -2138,16 +2141,17 @@ class __declspec(novtable) FUN_00b581c0_cls : public SpawnedBase_b581c0
 FUN_00b581c0_cls::~FUN_00b581c0_cls()
 {}
 
-void FUN_00b4df30();
+void BSFadeNode_FreeLinkedNodesRecursively();
 // @fnv 0x00b4e140
-void FUN_00b4e140()
+// src: GUESS 0x00b4e140 (confidence: low)
+void Object_ForwardCall_00b4e140()
 {
-    FUN_00b4df30();
+    BSFadeNode_FreeLinkedNodesRecursively();
 }
 
 struct FUN_00b58530_Obj
 {
-    void FUN_00b58530();
+    void ProcessEntries_00b58530();
 };
 struct FUN_00b595a0_cls
 {
@@ -2157,7 +2161,7 @@ struct FUN_00b595a0_cls
 // src: COMMUNITY 0x00b595a0
 void FUN_00b595a0_cls::j_au_re_GameHeapFree_33()
 {
-    reinterpret_cast<FUN_00b58530_Obj*>(this)->FUN_00b58530();
+    reinterpret_cast<FUN_00b58530_Obj*>(this)->ProcessEntries_00b58530();
 }
 
 void* __cdecl B59890GetMap();
@@ -2629,7 +2633,8 @@ inline NiTPointerMap<TKEY, TVAL>::NiTPointerMap(unsigned int uiHashSize)
 
 // Returns the static render-item cache, creating it on first call.
 // @fnv 0x00b585c0
-RenderItemMap* __cdecl FUN_00b585c0()
+// src: GUESS 0x00b585c0 (confidence: medium)
+RenderItemMap* __cdecl Object_GetOrCreateRenderItemCache()
 {
     static RenderItemMap map(37);
     return &map;
@@ -3549,7 +3554,7 @@ extern int DAT_011f963c;
 static __forceinline bool Lookup(int k, RTEntry*& found)
 {
     found = 0;
-    return FUN_00b585c0()->GetAt((unsigned int)k, found);
+    return Object_GetOrCreateRenderItemCache()->GetAt((unsigned int)k, found);
 }
 
 // Finds or creates an RTItem for key using a snapped position value, stores it in *out and returns usTotal minus usUsed.
@@ -3580,12 +3585,12 @@ int __cdecl GetOrCreateItem(RTKey* key, unsigned int pos, RTItem** ppItem)
     {
         RTEntry* found;
         found = 0;
-        if (!FUN_00b585c0()->GetAt((unsigned int)key->unk08, found))
+        if (!Object_GetOrCreateRenderItemCache()->GetAt((unsigned int)key->unk08, found))
         {
             entry = new RTEntry;
             entry->tex = tex;
             entry->key = *key;
-            FUN_00b585c0()->SetAt((unsigned int)key->unk08, entry);
+            Object_GetOrCreateRenderItemCache()->SetAt((unsigned int)key->unk08, entry);
         }
         else
         {

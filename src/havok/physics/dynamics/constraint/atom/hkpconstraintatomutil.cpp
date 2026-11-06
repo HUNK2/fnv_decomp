@@ -38,7 +38,7 @@ struct D92740Block
 };
 
 D92740Block* __cdecl AllocateBlock(int capacity, int typeA, int typeB, int extra);
-void __cdecl FUN_00d925b0(D92740Block* dst, D92740Block* src);
+void __cdecl hkpSimpleContactConstraintAtom_ProcessEntries_00d925b0(D92740Block* dst, D92740Block* src);
 int __cdecl RoundUpToBucketSize(int sizeClass);
 
 // @fnv 0x00d92740
@@ -48,7 +48,7 @@ D92740Block* __cdecl ShrinkBlockIfSparse(D92740Block* block, int numToAdd, bool*
     {
         int newCapacity = block->m_pRayCursor >> 1;
         D92740Block* newBlock = AllocateBlock(newCapacity, block->m_iAgentTypeA, block->m_iAgentTypeB, block->m_extra);
-        FUN_00d925b0(newBlock, block);
+        hkpSimpleContactConstraintAtom_ProcessEntries_00d925b0(newBlock, block);
         int size = RoundUpToBucketSize(block->m_sizeClass);
         hkMemoryRouter_getInstance().heap().ReleaseBlock(block, size);
         *pbResized = true;

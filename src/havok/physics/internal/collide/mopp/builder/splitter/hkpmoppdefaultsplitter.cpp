@@ -72,7 +72,8 @@ FUN_00e09ba0::FUN_00e09ba0()
 
 extern int DAT_0102e388;
 // @fnv 0x00e09bd0
-void __fastcall FUN_00e09bd0(void* p, int)
+// src: GUESS 0x00e09bd0 (confidence: low)
+void __fastcall Hkpmoppdefaultsplitter_UpdateState_00e09bd0(void* p, int)
 {
     *reinterpret_cast<void**>(p) = &DAT_0102e388;
 }
@@ -315,7 +316,7 @@ setRecursion:
 
 struct FUN_00e09bd0_Obj
 {
-    void __thiscall FUN_00e09bd0();
+    void __thiscall Hkpmoppdefaultsplitter_UpdateState_00e09bd0();
 };
 
 struct FUN_00e0ac80_Alloc
@@ -338,7 +339,7 @@ struct FUN_00e0ac80_class
 // @fnv 0x00e0ac80
 FUN_00e0ac80_class* FUN_00e0ac80_class::Construct(int flags)
 {
-    reinterpret_cast<FUN_00e09bd0_Obj*>(this)->FUN_00e09bd0();
+    reinterpret_cast<FUN_00e09bd0_Obj*>(this)->Hkpmoppdefaultsplitter_UpdateState_00e09bd0();
 
     if (flags & 1)
     {

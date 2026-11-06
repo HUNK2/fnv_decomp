@@ -252,7 +252,7 @@ struct BodyUpdate
         return (flags >> 6) & 1;
     }
     bool bhkWorldObject_Add(void*);
-    void FUN_00a29680();
+    void Object_DoNothing();
     void UpdateMatchingNodes(void*);
     void* bhkWorldObject_GethkWorld();
     bool InWorld()
@@ -260,9 +260,9 @@ struct BodyUpdate
         NativeThing* body = native;
         if (!body)
             return false;
-        FUN_00a29680();
+        Object_DoNothing();
         bool inWorld = body->world != 0;
-        FUN_00a29680();
+        Object_DoNothing();
         return inWorld;
     }
     int MotionType() const
@@ -529,7 +529,7 @@ class C8EC60World
 extern int DAT_0126810c;
 extern int DAT_012681fc;
 extern int DAT_012681bc;
-void* __cdecl FUN_00aa13e0(unsigned int size);
+void* __cdecl Object_DispatchCommandFour(unsigned int size);
 struct OwnerBase
 {
     OwnerBase();
@@ -540,7 +540,7 @@ struct OwnerBase
 
     static void* operator new(unsigned int size) throw()
     {
-        return FUN_00aa13e0(size);
+        return Object_DispatchCommandFour(size);
     }
 };
 struct Pair8
@@ -1262,7 +1262,7 @@ class WorldObject_c8d3
     int unk04;
     Entity_c8d3* m_pkEntity;
 
-    void FUN_00a29680();
+    void Object_DoNothing();
     void GetAabb(Aabb_c8d3& kOut);
 };
 struct BuildSettings
@@ -1553,7 +1553,7 @@ struct BodyBuild
     virtual void FinishBuild(BuildSettings* settings);
     unsigned int unk04;
     BodyNative* native;
-    void FUN_00a29680();
+    void Object_DoNothing();
     void GetAabb(hkAabb* bounds);
     float bhkRigidBody_GethkMaxLinearVelocity();
     BodyMotion* GetMotion()
@@ -1561,9 +1561,9 @@ struct BodyBuild
         BodyNative* p = native;
         if (!p)
             return 0;
-        FUN_00a29680();
+        Object_DoNothing();
         BodyMotion* result = p ? &p->motion : 0;
-        FUN_00a29680();
+        Object_DoNothing();
         return result;
     }
     void ConfigureBody(BuildSettings* settings);
@@ -1591,16 +1591,16 @@ struct CollisionOwner
     void* vtable;
     void* unk04;
     void* node;
-    void FUN_00a29680();
+    void Object_DoNothing();
     void DispatchCollision(Receiver*);
     __forceinline BodySlot* GetSlot()
     {
         char* base = (char*)node;
         if (base)
         {
-            FUN_00a29680();
+            Object_DoNothing();
             base += 16;
-            FUN_00a29680();
+            Object_DoNothing();
             if (base)
                 return (BodySlot*)base;
         }
@@ -2782,7 +2782,7 @@ struct KFRigidBody
     float bhkRigidBody_GethkMaxLinearVelocity();   // max linear velocity
     float GetFloatValue();  // max angular velocity
     KFWorldInfo* bhkWorldObject_GethkWorld();
-    void FUN_00a29680();  // lock / unlock
+    void Object_DoNothing();  // lock / unlock
 
     const KFVector4& GetLinearVelocityVector()
     {
@@ -2799,9 +2799,9 @@ struct KFRigidBody
         KFNativeBody* b = native;
         if (b)
         {
-            FUN_00a29680();
+            Object_DoNothing();
             b->OnTrigger(v);
-            FUN_00a29680();
+            Object_DoNothing();
         }
     }
     void SetAngularVelocity(const KFVector4& v)
@@ -2809,9 +2809,9 @@ struct KFRigidBody
         KFNativeBody* b = native;
         if (b)
         {
-            FUN_00a29680();
+            Object_DoNothing();
             b->hkpRigidBody_setAngularVelocity(v);
-            FUN_00a29680();
+            Object_DoNothing();
         }
     }
 
@@ -3305,7 +3305,7 @@ struct This160
     virtual V4_160* V160f0(V4_160* in);
     unsigned int unk04;
     Linked160* m_08;
-    void FUN_00a29680();
+    void Object_DoNothing();
     float bhkRigidBody_GethkMaxLinearVelocity();
     void bhkRigidBody_SetNiPosition(float* p);
     void bhkRigidBody_SetLinearVelocity_00561690(float* p);
@@ -3407,9 +3407,9 @@ void This160::bhkRigidBody_ApplyHardKeyframe(float* p1, RotationArg160 input, un
                 _mm_store_ps((float*)&W.v60, eps);
                 if (lk)
                 {
-                    FUN_00a29680();
+                    Object_DoNothing();
                     lk->OnTrigger((float*)&DAT_01267e30);
-                    FUN_00a29680();
+                    Object_DoNothing();
                     eps = W.v60.v;
                 }
             }
@@ -3429,9 +3429,9 @@ void This160::bhkRigidBody_ApplyHardKeyframe(float* p1, RotationArg160 input, un
             {
                 if (lk)
                 {
-                    FUN_00a29680();
+                    Object_DoNothing();
                     lk->hkpRigidBody_setAngularVelocity((float*)&DAT_01267e30);
-                    FUN_00a29680();
+                    Object_DoNothing();
                 }
             }
             return;

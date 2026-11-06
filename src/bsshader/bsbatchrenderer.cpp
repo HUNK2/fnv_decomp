@@ -1211,7 +1211,7 @@ class FUN_00b99bb0
 
 struct FUN_00bd9150_Inst
 {
-    void FUN_00bd9150();
+    void Runtime_ReleaseStorage_00bd9150();
 };
 
 
@@ -1227,7 +1227,7 @@ BSBatchRenderer::~BSBatchRenderer()
     uiRenderPassCount = 0;
     if (pInstance)
     {
-        pInstance->FUN_00bd9150();
+        pInstance->Runtime_ReleaseStorage_00bd9150();
         fnv_00b9aa80::_g_memoryManager.Deallocate(pInstance);
         pInstanceRenderer = 0;
     }
@@ -1512,7 +1512,8 @@ void __cdecl DrawGeometryPass(BSShaderProperty::ShaderPassEntry* pass, bool upda
 
 void FUN_00b71300();
 // @fnv 0x00b998f0
-void FUN_00b998f0()
+// src: GUESS 0x00b998f0 (confidence: low)
+void BSBatchRenderer_ForwardCall_00b998f0()
 {
     FUN_00b71300();
 }

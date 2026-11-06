@@ -251,9 +251,9 @@ void GameObject::ImageSpaceEffectWaterDisplacement_Render(void* arg1, void* arg2
         node->SetAccumulatorAt(1, assets[1], 1);
         node->Dispatch(arg1, arg2, pEmitter, 1);
 
-        tex44.FUN_00ba3940(assets[1]);
-        tex54.FUN_00ba3940(&tex34);
-        tex34.FUN_00ba3940(&tex44);
+        tex44.InitializeFields_00ba3940(assets[1]);
+        tex54.InitializeFields_00ba3940(&tex34);
+        tex34.InitializeFields_00ba3940(&tex44);
         DAT_011fffec = 0;
     }
 
@@ -342,9 +342,9 @@ void GameObject::ImageSpaceEffectWaterDisplacement_Render(void* arg1, void* arg2
     }
 
     DAT_01200000 = 0;
-    tex44.FUN_00ba3940(assets[1]);
-    tex54.FUN_00ba3940(&tex34);
-    tex34.FUN_00ba3940(&tex44);
+    tex44.InitializeFields_00ba3940(assets[1]);
+    tex54.InitializeFields_00ba3940(&tex34);
+    tex34.InitializeFields_00ba3940(&tex44);
 
     int frames = 0;
     while (time - previous > step)
@@ -364,9 +364,9 @@ void GameObject::ImageSpaceEffectWaterDisplacement_Render(void* arg1, void* arg2
             node->SetAccumulatorAt(1, &tex54, 1);
             node->Dispatch(arg1, arg2, pEmitter, 1);
             DAT_01200000 = 1;
-            tex44.FUN_00ba3940(&tex54);
-            tex54.FUN_00ba3940(&tex34);
-            tex34.FUN_00ba3940(&tex44);
+            tex44.InitializeFields_00ba3940(&tex54);
+            tex54.InitializeFields_00ba3940(&tex34);
+            tex34.InitializeFields_00ba3940(&tex44);
         }
     }
 

@@ -94,7 +94,7 @@ void __thiscall FUN_00a99870_Class::CopyMembers_00a99870(int, int)
 {}
 struct FUN_00c61430_Class
 {
-    void __thiscall FUN_00c61430(int, int);
+    void __thiscall ForwardCall_00c61430(int, int);
 };
 struct FUN_00c61450_Class
 {
@@ -169,7 +169,7 @@ struct FUN_00c63aa0_class
 {
     GlobalObject_00a7b610* BSParentVelocityModifier_GetRTTI();
 };
-void __cdecl FUN_00c63c30(int, int);
+void __cdecl NiFixedString_CopyMemory_00c63c30(int, int);
 void __cdecl CallWithSameArgumentTwice(int a);
 struct FUN_00c644d0_Class
 {
@@ -211,7 +211,7 @@ struct FUN_00c65680_Class
 };
 struct FUN_00c600c0_class
 {
-    void* __thiscall FUN_00c5fd50();
+    void* __thiscall UpdateState_00c5fd50();
     void* __thiscall FUN_00c600c0(unsigned int flags);
     static void __cdecl operator delete(void* p, unsigned int size);
 };
@@ -231,7 +231,7 @@ struct FUN_00c63210_Class
 };
 struct FUN_00a7b300_shell
 {
-    void __thiscall FUN_00a7b300();
+    void __thiscall DestroyFields_00a7b300();
 };
 struct FUN_00c632f0_class
 {
@@ -393,7 +393,7 @@ struct FUN_00a7b330_shell
 };
 struct FUN_00c61830_class
 {
-    void FUN_00c61830(void* a, void* b);
+    void ForwardCall_00c61830(void* a, void* b);
 };
 struct FUN_00c62390_class
 {
@@ -428,7 +428,7 @@ struct FUN_00c64980_Class : NiObject
 };
 struct FUN_0043ba10_shell
 {
-    FUN_0043ba10_shell* FUN_0043ba10(unsigned int);
+    FUN_0043ba10_shell* AssignInternedString(unsigned int);
 };
 struct FUN_00c64dc0_Class
 {
@@ -448,14 +448,14 @@ struct FUN_00c64e70_Class
     void __thiscall FUN_00c64e70();
     void* __thiscall FUN_00c65650(unsigned int flags);
 };
-void* __cdecl FUN_00aa13e0(unsigned int size);
+void* __cdecl Object_DispatchCommandFour(unsigned int size);
 struct SpawnedObject_b9118
 {
     char m00[0x60];
     SpawnedObject_b9118();
     static void* operator new(unsigned int size)
     {
-        return FUN_00aa13e0(size);
+        return Object_DispatchCommandFour(size);
     }
 };
 SpawnedObject_b9118* BSPSysSimpleColorModifier_CreateObject();
@@ -686,14 +686,14 @@ struct FUN_00c63780_c
     NiPoint3 v;
     void ResetVector();
 };
-void* __cdecl FUN_00aa13e0(unsigned int size);
+void* __cdecl Object_DispatchCommandFour(unsigned int size);
 struct PositionModifierObject_b9439
 {
     char m00[0x3c];
     PositionModifierObject_b9439();
     static void* operator new(unsigned int size)
     {
-        return FUN_00aa13e0(size);
+        return Object_DispatchCommandFour(size);
     }
 };
 PositionModifierObject_b9439* CreatePositionModifierObject();
@@ -1697,8 +1697,8 @@ struct Result
         field40 = 0;
         field20 = -1;
     }
-    void FUN_009c1aa0(Result*);
-    void FUN_009c1a70(Result*) throw();
+    void ProcessEntries_009c1aa0(Result*);
+    void CopyRayCastResultAndRootCollidable(Result*) throw();
 };
 struct Collector
 {
@@ -1874,7 +1874,7 @@ struct SseBlock
     float m_2c;
     int m_30;
 
-    SseBlock& FUN_00c6d670(const SseBlock& o);
+    SseBlock& UpdateState_00c6d670(const SseBlock& o);
 };
 // Reconstruction adapted from an unverified 2026-10-26 contribution by another contributor.
 extern "C"
@@ -2047,7 +2047,7 @@ struct SourceLink
 struct SourceProperty
 {
     SourceLink* ReadCompleteObject();
-    SourceLink* FUN_00c747b0();
+    SourceLink* UpdateState_00c747b0();
 };
 struct ShaderHolder
 {
@@ -2222,7 +2222,7 @@ struct NodeBounds
     void* hkpCharacterProxy_getPosition();
 };
 Geometry* __cdecl BSBound_Find(NodeBounds*);
-void* __cdecl FUN_00aa13e0(unsigned int);
+void* __cdecl Object_DispatchCommandFour(unsigned int);
 struct HeapAllocator
 {
     virtual void v0();
@@ -2290,7 +2290,7 @@ struct FUN_00cab710 : ShapeRef
     FUN_00cab710(NiPoint3 const&, NiPoint3 const&, float);
     static void* operator new(unsigned int n)
     {
-        return FUN_00aa13e0(n);
+        return Object_DispatchCommandFour(n);
     }
     static void operator delete(void*);
 };
@@ -2299,7 +2299,7 @@ struct FUN_00c6d290 : ShapeRef
     FUN_00c6d290(CompoundInfo const&);
     static void* operator new(unsigned int n)
     {
-        return FUN_00aa13e0(n);
+        return Object_DispatchCommandFour(n);
     }
     static void operator delete(void*);
 };
@@ -5978,7 +5978,7 @@ struct ResponseC
     SimdC::LocalM128 normal, other;
     float unk20, unk24, friction, weight;
     unsigned int unk30, unk34, unk38, unk3c;
-    void FUN_00c6d670(const ResponseC*);
+    void UpdateState_00c6d670(const ResponseC*);
 };
 struct ResultC
 {
@@ -6734,7 +6734,7 @@ extern float DAT_011c3d18;
 struct ComponentC
 {
     SimdC::LocalM128 value;
-    float FUN_004586d0();
+    float EvaluateValue_004586d0();
 };
 struct ComponentSourceC
 {
@@ -6744,9 +6744,9 @@ float HK2NI(float);
 __declspec(noinline) Vec3C* FUN_00458620(Vec3C* output, const void* input)
 {
     const ComponentSourceC* src = reinterpret_cast<const ComponentSourceC*>(input);
-    output->x = HK2NI(src->hkVector4_getSimdAt(0).FUN_004586d0());
-    output->y = HK2NI(src->hkVector4_getSimdAt(1).FUN_004586d0());
-    output->z = HK2NI(src->hkVector4_getSimdAt(2).FUN_004586d0());
+    output->x = HK2NI(src->hkVector4_getSimdAt(0).EvaluateValue_004586d0());
+    output->y = HK2NI(src->hkVector4_getSimdAt(1).EvaluateValue_004586d0());
+    output->z = HK2NI(src->hkVector4_getSimdAt(2).EvaluateValue_004586d0());
     return output;
 }
 
@@ -7282,7 +7282,7 @@ void ParentC::bhkCharacterController_processConstraintsCallback(void*, ContactLi
                     if (additionalResponses < 4 && eligibleContact)
                     {
                         ResponseC* accumulated = &results->data[results->count];
-                        accumulated->FUN_00c6d670(response);
+                        accumulated->UpdateState_00c6d670(response);
                         SimdC::_mm_store_ps(accumulated->other.m128_f32, zeroVector);
                         accumulated->normal.m128_f32[2] = 0;
                         accumulated->normal = normalized(accumulated->normal);
@@ -8349,7 +8349,7 @@ struct TargetObject
 {
     unsigned int unk00, unk04;
     FUN_00c9e910_Class* object;
-    void FUN_00a29680();
+    void Object_DoNothing();
 };
 
 struct RotationOwner
@@ -8753,9 +8753,9 @@ void RotationOwner::bhkCharacterController_ApplyPitchAndRoll(FUN_005611c0_t* arg
         FUN_00c9e910_Class* object = t->object;
         if (object)
         {
-            t->FUN_00a29680();
+            t->Object_DoNothing();
             object->hkpShapePhantom_setTransform((int)&transform);
-            t->FUN_00a29680();
+            t->Object_DoNothing();
         }
     }
 }

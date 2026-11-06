@@ -81,11 +81,12 @@ struct FnvVtObj
 {
     int m_vptr;
 
-    FnvVtObj* FUN_00ce25f0(unsigned int unusedArg);
+    FnvVtObj* SetVptr(unsigned int unusedArg);
 };
 
 // @fnv 0x00ce25f0
-FnvVtObj* FnvVtObj::FUN_00ce25f0(unsigned int unusedArg)
+// src: GUESS 0x00ce25f0 (confidence: low)
+FnvVtObj* FnvVtObj::SetVptr(unsigned int unusedArg)
 {
     m_vptr = (int)&DAT_010cfd84;
     return this;
@@ -447,11 +448,12 @@ struct FUN_00ce14b0_standin
     unsigned short unk22;
     unsigned short unk24;
 
-    void FUN_00ce14b0(unsigned short a, unsigned short b, unsigned short c, const void* data);
+    void UpdateState_00ce14b0(unsigned short a, unsigned short b, unsigned short c, const void* data);
 };
 
 // @fnv 0x00ce14b0
-void FUN_00ce14b0_standin::FUN_00ce14b0(unsigned short auwFirst, unsigned short auwSecond, unsigned short auwThird,
+// src: GUESS 0x00ce14b0 (confidence: low)
+void FUN_00ce14b0_standin::UpdateState_00ce14b0(unsigned short auwFirst, unsigned short auwSecond, unsigned short auwThird,
                                         const void* data)
 {
     unsigned short second = auwSecond;
@@ -585,7 +587,7 @@ extern "C"
     extern __m128 DAT_010c4c10;
 }
 
-void __cdecl FUN_00ce2d10(unsigned int p0, void* p1, unsigned int p2, int p3, unsigned int p4);
+void __cdecl Runtime_ProcessEntries_00ce2d10(unsigned int p0, void* p1, unsigned int p2, int p3, unsigned int p4);
 
 struct Vec4x3
 {
@@ -649,7 +651,7 @@ void __cdecl hkaSkeletonMapper_additivePoseFromCombinedPoseAndReferencePose(unsi
         }
     }
 
-    FUN_00ce2d10(arg0, (void*)pMatBase, arg2, count, arg4);
+    Runtime_ProcessEntries_00ce2d10(arg0, (void*)pMatBase, arg2, count, arg4);
     void** cursor2 = (void**)hkMemoryRouter_getInstance();
     *cursor2 = pMatBase;
 }
@@ -678,12 +680,13 @@ struct PoseW
 };
 struct RagdollHelper : public hkaRagdollInstance
 {
-    void FUN_00ce1560(PoseW pose);
+    void ApplyPoseAndClearVelocities(PoseW pose);
 };
 
 // Sets mapped rigid-body transforms from pose and sets each velocity to zero when not all four components are within epsilon of zero.
 // @fnv 0x00ce1560
-void RagdollHelper::FUN_00ce1560(PoseW pose)
+// src: GUESS 0x00ce1560 (confidence: medium)
+void RagdollHelper::ApplyPoseAndClearVelocities(PoseW pose)
 {
     int numBones = m_pSkeleton->m_kBones.m_iElementCount;
     const hkVector4& zero = *(const hkVector4*)&DAT_01267e30;

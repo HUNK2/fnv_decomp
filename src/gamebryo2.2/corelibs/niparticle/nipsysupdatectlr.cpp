@@ -40,7 +40,7 @@ void* S00c27140::DestroyIfFlagged(unsigned int auiFlags)
     return this;
 }
 
-extern "C" void* __cdecl FUN_00aa13e0(unsigned int);
+extern "C" void* __cdecl Object_DispatchCommandFour(unsigned int);
 extern char DAT_010be6b4[];
 
 struct CtorBase_cls
@@ -66,7 +66,7 @@ struct FUN_00c27160_cls
 // src: XBOX_PDB 0x00c27160
 void* FUN_00c27160_cls::NiPSysUpdateCtlr_CreateClone(unsigned int a1)
 {
-    FUN_00c27160_cls* p = (FUN_00c27160_cls*)FUN_00aa13e0(0x34);
+    FUN_00c27160_cls* p = (FUN_00c27160_cls*)Object_DispatchCommandFour(0x34);
     if (p != 0)
     {
         ((CtorBase_cls*)p)->ctorBase();

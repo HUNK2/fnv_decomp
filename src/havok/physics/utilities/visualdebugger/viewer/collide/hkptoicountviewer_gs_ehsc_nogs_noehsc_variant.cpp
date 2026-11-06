@@ -5,7 +5,7 @@
 
 void __stdcall ClearTwoInts(int* a, int* b);
 extern int g_D67960Value;
-int __cdecl FUN_00d67960();
+int __cdecl Object_GetG_D67960Value_00d67960();
 struct Item;
 struct Sink
 {
@@ -19,7 +19,7 @@ struct Item
 {
     int value;
     Link link;
-    void FUN_00d67bc0(Sink*);
+    void ProcessState_00d67bc0(Sink*);
 };
 struct Prefix
 {
@@ -262,7 +262,7 @@ struct BaseHelper
 {
     void hkpToiCountViewer_displayCountForBody(void* entry, int mode);
 };
-int __cdecl FUN_00d679c0(float* direction);
+int __cdecl Object_GetSignedLargestComponentIndex(float* direction);
 struct Context
 {
     void ProcessQuery(Query* query);
@@ -428,7 +428,7 @@ __declspec(align(16)) struct SquaredLanes
     float m_uiZ;
     float m_w;
 };
-int __cdecl FUN_00d679c0(const __m128* v);
+int __cdecl Object_GetSignedLargestComponentIndex(const __m128* v);
 struct PtrMapEntryObj
 {
     void removeEntityListener_00c9c670(void* arg);
@@ -542,12 +542,12 @@ struct ContactViewer
 
     void hkpToiCountViewer_displayCountForBody(void* entry, int mode);
 };
-extern void __cdecl FUN_00d67a50(int owner, int id, void* entry, int mode, const char* name, unsigned int info,
+extern void __cdecl HkptoicountviewerGsEhscNogsNoehsc_UpdateState_00d67a50(int owner, int id, void* entry, int mode, const char* name, unsigned int info,
                                  float value, BSAudioValue flags);
 struct D681E0Primary
 {
     virtual void vfunc00();
-    virtual void FUN_00d681e0();
+    virtual void AdjustThisAndForward_00d681e0();
 
     int unk04;
     int unk08;
@@ -559,14 +559,15 @@ struct D681E0Primary
 };
 struct D681E0Secondary
 {
-    virtual void FUN_00d681e0();
+    virtual void AdjustThisAndForward_00d681e0();
 };
 struct D681E0Object : D681E0Primary, D681E0Secondary
 {
     D681E0Object();
 
 // @fnv 0x00d681e0
-    virtual void FUN_00d681e0();
+// src: GUESS 0x00d681e0 (confidence: low)
+    virtual void AdjustThisAndForward_00d681e0();
 };
 D681E0Object::D681E0Object()
 {}
@@ -575,7 +576,7 @@ D681E0Object::D681E0Object()
 // so the secondary base sits at +0x28 and MSVC emits the this-adjusting thunk.
 struct AdjPrimaryBase
 {
-    virtual void FUN_00d68200();
+    virtual void AdjustThisAndForward_00d68200();
     int unk04;
     int unk08;
     int unk0C;
@@ -588,13 +589,14 @@ struct AdjPrimaryBase
 };
 struct AdjSecondaryBase
 {
-    virtual void FUN_00d68200();
+    virtual void AdjustThisAndForward_00d68200();
 };
 struct AdjDerived : AdjPrimaryBase, AdjSecondaryBase
 {
     AdjDerived();
 // @fnv 0x00d68200
-    virtual void FUN_00d68200();
+// src: GUESS 0x00d68200 (confidence: low)
+    virtual void AdjustThisAndForward_00d68200();
 };
 AdjDerived::AdjDerived()
 {}

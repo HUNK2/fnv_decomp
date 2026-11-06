@@ -536,7 +536,7 @@ void HighProcess::LoadGame(BGSLoadFormBuffer* buffer)
         if (eventPresent)
         {
             m_pDetectionEvent = new DetectionEvent;
-            m_pDetectionEvent->FUN_008d72e0(buffer);
+            m_pDetectionEvent->LoadFields_008d72e0(buffer);
         }
         g_BGSSaveLoadGame->QueueSubBuffer(1, buffer, 0);
     }
@@ -706,7 +706,7 @@ void HighProcess::InitLoadGame(BGSLoadFormBuffer* buffer)
         {
             TopicInfoRecord* area = (TopicInfoRecord*)list->GetItem();
             if (area)
-                area->FUN_008d74a0(buffer);
+                area->UpdateFields_008d74a0(buffer);
             list = list->GetNext();
         }
     }
@@ -3910,7 +3910,7 @@ class NavMeshTriangleReference;
 // src: XBOX_PDB 0x006dad90
 const NavMeshTriangleReference& BSSimpleArray<NavMeshTriangleReference, 1024>::BSSimpleArray_CombatMember_1024_GetAt(unsigned int aiIndex) const
 {
-    return FUN_006b3160(aiIndex);
+    return GetIndexedValue_006b3160(aiIndex);
 }
 
 // @fnv 0x00824060
@@ -3978,7 +3978,7 @@ NiPoint3 S5620::GetNiPoint3()
 
 struct DummyClass
 {
-    TESFile* FUN_004ae750(void);
+    TESFile* Bipedanim_GetReferenceFlagsOrZero(void);
 };
 
 const char* __cdecl hkVector4_getZero(void);
@@ -3988,7 +3988,7 @@ const char* __cdecl hkVector4_getZero(void);
 // src: COMMUNITY 0x008e5670
 const char* __fastcall bhkBoxShape_GethkHalfExtents(DummyClass* pThis)
 {
-    TESFile* pFile = pThis->FUN_004ae750();
+    TESFile* pFile = pThis->Bipedanim_GetReferenceFlagsOrZero();
     const char* pName = pFile ? pFile->GetName() : hkVector4_getZero();
     return pName;
 }
@@ -4398,11 +4398,12 @@ struct FUN_008d72e0_Class
     CombatTargetTimestamp f10;
     unsigned int f14;
     unsigned int f18;
-    void FUN_008d72e0(BGSLoadFormBuffer* buffer);
+    void LoadFields_008d72e0(BGSLoadFormBuffer* buffer);
 };
 
 // @fnv 0x008d72e0
-void FUN_008d72e0_Class::FUN_008d72e0(BGSLoadFormBuffer* buffer)
+// src: GUESS 0x008d72e0 (confidence: medium)
+void FUN_008d72e0_Class::LoadFields_008d72e0(BGSLoadFormBuffer* buffer)
 {
     buffer->ReadTypedData((void*)this, 4u);
     buffer->ReadTypedData((void*)&f4, 0xcu);
@@ -4953,19 +4954,20 @@ void* S_008d9890::DestroyHighProcess(unsigned int flags)
 
 struct FUN_0044afe0_class
 {
-    void __thiscall FUN_0044afe0(int);
+    void __thiscall SetRetainedKFModel(int);
 };
 
 struct FUN_008d98c0_class
 {
-    void __thiscall FUN_0044afe0(int);
-    void __thiscall FUN_008d98c0();
+    void __thiscall SetRetainedKFModel(int);
+    void __thiscall ForwardCall_008d98c0();
 };
 
 // @fnv 0x008d98c0
-void __thiscall FUN_008d98c0_class::FUN_008d98c0()
+// src: GUESS 0x008d98c0 (confidence: low)
+void __thiscall FUN_008d98c0_class::ForwardCall_008d98c0()
 {
-    FUN_0044afe0(0);
+    SetRetainedKFModel(0);
 }
 
 struct Flt
@@ -5802,7 +5804,7 @@ struct VATSCommand;
 struct XList
 {
     VATSCommand** _ref_006815c0();
-    void FUN_00905330(VATSCommand* const&);
+    void RemoveMatchingItem(VATSCommand* const&);
     XList* FUN_00726070();
 };
 struct FUN_0041cf00_shell
@@ -5874,7 +5876,7 @@ void HighProcess::ProcessTakeBackItem(Actor* apActor)
                 ((XExtraList*)((TESObjectREFR*)g_thePlayer)->GetExtraData())
                     ->GetContainerChangeData()
                     ->FUN_004cb5f0(g_thePlayer, pOwner, ((BSThread*)pItem)->GetThreadID());
-                pIter->FUN_00905330(pItem);
+                pIter->RemoveMatchingItem(pItem);
                 g_processLists.ProcessLists_RemoveCrimeGlobalCrimeList(pItem);
                 delete (fnv_008f21f0::Unk_8f25e0*)pItem;
                 pIter = ((FUN_0041cf00_shell*)apActor->GetExtraData())->ExtraDataList_GetPlayerCrimeList();
@@ -6007,12 +6009,13 @@ struct FUN_006dc890_Class
 };
 struct FUN_008d73b0_Class : FUN_006dc890_Class
 {
-    void FUN_008d73b0(BGSSaveFormBuffer* buffer);
+    void SaveAvoidNodeFields(BGSSaveFormBuffer* buffer);
 };
 
 // Calls the base save routine, writes the 4-byte values at offsets 0x24 and 0x2c, then saves the form IDs at 0x28 and 0x30.
 // @fnv 0x008d73b0
-void FUN_008d73b0_Class::FUN_008d73b0(BGSSaveFormBuffer* buffer)
+// src: GUESS 0x008d73b0 (confidence: medium)
+void FUN_008d73b0_Class::SaveAvoidNodeFields(BGSSaveFormBuffer* buffer)
 {
     PathingAvoidNode_SaveGame(buffer);
     buffer->SaveData((char*)this + 0x24, 4, 0);
@@ -6049,7 +6052,8 @@ void FUN_008d7420::LoadGame(BGSLoadFormBuffer* buffer)
 
 
 // @fnv 0x008d74a0
-void TopicInfoRecord::FUN_008d74a0(BGSLoadFormBuffer*)
+// src: GUESS 0x008d74a0 (confidence: low)
+void TopicInfoRecord::UpdateFields_008d74a0(BGSLoadFormBuffer*)
 {
     ((TESForm**)((char*)this + 0x30))[0] = ((TESForm**)((char*)this + 0x30))[0]
                                                ? dynamic_cast<TESObjectREFR*>(TESForm::GetFormByID(
@@ -9325,7 +9329,7 @@ void FUN_008d9470_cls::HighProcess_ResetSearchTimer()
 
 struct IdleHandle
 {
-    void FUN_00559450();
+    void Modelloader_GetReferencedThis();
 };
 struct Process : HighProcess
 {
@@ -9335,7 +9339,7 @@ struct Process : HighProcess
 // src: COMMUNITY 0x008d95d0
 void Process::HighProcess_GetCurrentProcessAnimIdle()
 {
-    reinterpret_cast<IdleHandle*>(&iLocalValue[0])->FUN_00559450();
+    reinterpret_cast<IdleHandle*>(&iLocalValue[0])->Modelloader_GetReferencedThis();
 }
 
 class D9780Object
@@ -10512,7 +10516,7 @@ struct StrX
 };
 struct StrHolderX
 {
-    int FUN_00559450();
+    int Modelloader_GetReferencedThis();
 };
 struct SpeakerX
 {
@@ -10676,7 +10680,7 @@ void HighProcess::UpdateDialogue(Actor* apActor, TopicX* apTopic, TESObjectREFR*
                     if (bFirst && apActor->m_bFourthBooleanValue)
                     {
                         apActor->SetFlag86(pResponse->GetField24());
-                        m_fReferenceTimer = apActor->vfn_284(pResponse->TESDataHandler_GetWorldSpaceList()->FUN_00559450(), &AudioPlaybackHandle[0],
+                        m_fReferenceTimer = apActor->vfn_284(pResponse->TESDataHandler_GetWorldSpaceList()->Modelloader_GetReferencedThis(), &AudioPlaybackHandle[0],
                                                      pResponse->FUN_0044ddc0(), pResponse->GetHavokWorldObjectCountInSceneGraph_0084e3a0(),
                                                      pResponse->FUN_006815c0()->Length(), pResponse->NiAVObject_GetParent(),
                                                      pResponse->FUN_00441110(), pTargetB0, 1, 0, 1, 1, bLipSyncQ);
@@ -10804,7 +10808,7 @@ void HighProcess::UpdateDialogue(Actor* apActor, TopicX* apTopic, TESObjectREFR*
                     apActor->SetFlag86(pResponse->GetField24());
                     if (bFirst && apActor->m_bFourthBooleanValue)
                     {
-                        m_fReferenceTimer = apActor->vfn_284(pResponse->TESDataHandler_GetWorldSpaceList()->FUN_00559450(), &AudioPlaybackHandle[0],
+                        m_fReferenceTimer = apActor->vfn_284(pResponse->TESDataHandler_GetWorldSpaceList()->Modelloader_GetReferencedThis(), &AudioPlaybackHandle[0],
                                                      pResponse->FUN_0044ddc0(), pResponse->GetHavokWorldObjectCountInSceneGraph_0084e3a0(),
                                                      pResponse->FUN_006815c0()->Length(), pResponse->NiAVObject_GetParent(),
                                                      pResponse->FUN_00441110(), pTargetB0, 1, 0, 0, 1, bLipSyncQ);
@@ -11021,7 +11025,7 @@ void HighProcess::UpdateDialogue(Actor* apActor, TopicX* apTopic, TESObjectREFR*
                         if (bFirst && apActor->m_bFourthBooleanValue)
                         {
                             apActor->SetFlag86(pNext->GetField24());
-                            m_fReferenceTimer = apActor->vfn_284(pNext->TESDataHandler_GetWorldSpaceList()->FUN_00559450(), &AudioPlaybackHandle[0],
+                            m_fReferenceTimer = apActor->vfn_284(pNext->TESDataHandler_GetWorldSpaceList()->Modelloader_GetReferencedThis(), &AudioPlaybackHandle[0],
                                                          pNext->FUN_0044ddc0(), pNext->GetHavokWorldObjectCountInSceneGraph_0084e3a0(),
                                                          pNext->FUN_006815c0()->Length(), pNext->NiAVObject_GetParent(),
                                                          pNext->FUN_00441110(), pTargetB0, 1, 0, 1, 1, bLipSyncQ);
@@ -11151,7 +11155,7 @@ void HighProcess::ProcessSearchforTarget(Actor* actor)
 struct RandomOffsetVector
 {
     float x, y, z;
-    void FUN_00416870(float x, float y, float z);
+    void SetComponents(float x, float y, float z);
     void Unitize_004a0c10();
     RandomOffsetVector ApplyScaled(float scale) const;
     RandomOffsetVector FUN_00439e90(const RandomOffsetVector& other) const;
@@ -11169,7 +11173,7 @@ RandomOffsetVector __cdecl RandomOffsetVectorFromOrigin(RandomOffsetVector origi
     if (randomizeZ)
         f = FUN_005c5420();
     RandomOffsetVector a;
-    a.FUN_00416870(c, d, f);
+    a.SetComponents(c, d, f);
     a.Unitize_004a0c10();
     float e = FUN_005c5420();
     float b = (minimum + maximum) * e;
@@ -14802,7 +14806,7 @@ namespace fnv_008dddf0 {
 struct V120;
 struct FleeHandle120;
 struct Random120 { int IntInRange(); };
-struct FleeHandle120 { FleeHandle120* FUN_00559450(); FleeHandle120* FUN_00568e50(); V120& FUN_00717e50(); };
+struct FleeHandle120 { FleeHandle120* Modelloader_GetReferencedThis(); FleeHandle120* FUN_00568e50(); V120& FUN_00717e50(); };
 struct Request120;
 struct V120
 {
@@ -15143,7 +15147,7 @@ void HighProcess::UpdatePackageExecution(Actor* actor)
             float squared39 = 10000.f;
             FleeHandle120* handle32 = (FleeHandle120*)destination12->FUN_00568e50();
             if (handle32)
-                squared39 = (handle32->FUN_00559450()->FUN_00568e50()->FUN_00717e50() - (*(const V120*)((const MobileObject*)actor)->GetPos())).FUN_00457990();
+                squared39 = (handle32->Modelloader_GetReferencedThis()->FUN_00568e50()->FUN_00717e50() - (*(const V120*)((const MobileObject*)actor)->GetPos())).FUN_00457990();
             float distance19 = fnv_008dddf0::BSMIN(squared39, actor->TESObjectREFR_GetDistanceFromReference(destination12, 0, 0));
             if (distance19 < 160.0)
             {
@@ -15162,7 +15166,7 @@ void HighProcess::UpdatePackageExecution(Actor* actor)
                 move.FUN_006d3b00((float)package38->FUN_00676280(actor));
                 move.PathingRequestClosePoint_SetMinDistance(radius41);
                 move.FUN_006d61e0((int)package38->BuildAvoidNodeArray());
-                move.FUN_006d1bc0(Target120(handle32->FUN_00559450()->FUN_00568e50()->FUN_00717e50(), destination12));
+                move.FUN_006d1bc0(Target120(handle32->Modelloader_GetReferencedThis()->FUN_00568e50()->FUN_00717e50(), destination12));
                 move.SetInitialPathHeading(actor->GetCurrentTargetDistance(0));
                 if (!actor->Actor_SetPathfindingFlee((PathingRequest*)&move))
                     return;
@@ -15199,7 +15203,7 @@ struct Queue65;
 struct Vec65
 {
     float x, y, z;
-    Vec65 FUN_00439ef0(const Vec65&);
+    Vec65 SubtractIntoVector(const Vec65&);
     float FUN_004a7290();
 };
 struct Cell65
@@ -15238,7 +15242,7 @@ struct Path65
 struct PathPtr65
 {
     Path65* value;
-    Path65* FUN_00559450();
+    Path65* Modelloader_GetReferencedThis();
 };
 struct Result65
 {
@@ -15264,7 +15268,7 @@ struct QueryPtr65
     PathingRequest* value;
     QueryPtr65(const QueryPtr65&);
     ~QueryPtr65();
-    PathingRequest* FUN_00559450();
+    PathingRequest* Modelloader_GetReferencedThis();
     void FUN_0066b0d0(PathingRequest*);
 };
 struct QueuePtr65
@@ -15272,7 +15276,7 @@ struct QueuePtr65
     Queue65* value;
     QueuePtr65(const QueuePtr65&);
     ~QueuePtr65();
-    Queue65* FUN_00559450();
+    Queue65* Modelloader_GetReferencedThis();
     void AssignObject(Queue65*);
 };
 struct Manager65
@@ -15291,7 +15295,7 @@ bool HighProcess::ShouldWaitForEscortTarget(Actor* actor, Actor* other, void* lo
 {
     using namespace fnv_008df1e0;
     Package65* package19 = (fnv_008df1e0::Package65*)(this->GetOneTimePackage());
-    Vec65 difference53 = ((Vec65*)((const MobileObject*)actor)->GetPos())->FUN_00439ef0(*(Vec65*)((const MobileObject*)other)->GetPos());
+    Vec65 difference53 = ((Vec65*)((const MobileObject*)actor)->GetPos())->SubtractIntoVector(*(Vec65*)((const MobileObject*)other)->GetPos());
     int configuredRange18 = package19->TESPackage_GetEscortFollowDistance();
     if (configuredRange18 <= 200)
         configuredRange18 = 200;
@@ -15320,40 +15324,40 @@ bool HighProcess::ShouldWaitForEscortTarget(Actor* actor, Actor* other, void* lo
         Location65 source23(actor);
         Location65 destination27(other);
         float sourceDistance21, targetDistance2;
-        if ((*(QueryPtr65*)&m_kEighthAdditionalHighProcessField).FUN_00559450() && (*(QueryPtr65*)&m_kFifthAdditionalHighProcessField).FUN_00559450())
+        if ((*(QueryPtr65*)&m_kEighthAdditionalHighProcessField).Modelloader_GetReferencedThis() && (*(QueryPtr65*)&m_kFifthAdditionalHighProcessField).Modelloader_GetReferencedThis())
         {
             Result65 sourceResult34;
             Result65 targetResult10;
-            if ((*(QueuePtr65*)&m_kSeventhAdditionalHighProcessField).FUN_00559450()->Poll(sourceResult34))
+            if ((*(QueuePtr65*)&m_kSeventhAdditionalHighProcessField).Modelloader_GetReferencedThis()->Poll(sourceResult34))
             {
-                if ((*(QueuePtr65*)&m_kFourthAdditionalHighProcessField).FUN_00559450()->Poll(targetResult10))
+                if ((*(QueuePtr65*)&m_kFourthAdditionalHighProcessField).Modelloader_GetReferencedThis()->Poll(targetResult10))
                 {
                     (*(QueryPtr65*)&m_kEighthAdditionalHighProcessField).FUN_0066b0d0(0);
                     (*(QueryPtr65*)&m_kFifthAdditionalHighProcessField).FUN_0066b0d0(0);
                     (*(QueuePtr65*)&m_kSeventhAdditionalHighProcessField).AssignObject(0);
                     (*(QueuePtr65*)&m_kFourthAdditionalHighProcessField).AssignObject(0);
-                    if (sourceResult34.path.FUN_00559450() && targetResult10.path.FUN_00559450())
+                    if (sourceResult34.path.Modelloader_GetReferencedThis() && targetResult10.path.Modelloader_GetReferencedThis())
                     {
-                        sourceDistance21 = sourceResult34.path.FUN_00559450()->FUN_006e7800();
-                        targetDistance2 = targetResult10.path.FUN_00559450()->FUN_006e7800();
+                        sourceDistance21 = sourceResult34.path.Modelloader_GetReferencedThis()->FUN_006e7800();
+                        targetDistance2 = targetResult10.path.Modelloader_GetReferencedThis()->FUN_006e7800();
                         if (sourceDistance21 < targetDistance2)
                             return true;
                     }
                 }
                 else
-                    (*(QueuePtr65*)&m_kSeventhAdditionalHighProcessField).FUN_00559450()->Return(sourceResult34);
+                    (*(QueuePtr65*)&m_kSeventhAdditionalHighProcessField).Modelloader_GetReferencedThis()->Return(sourceResult34);
             }
         }
         else
         {
             (*(QueryPtr65*)&m_kEighthAdditionalHighProcessField).FUN_0066b0d0(new PathingRequest);
-            (*(QueryPtr65*)&m_kEighthAdditionalHighProcessField).FUN_00559450()->InitFromActor((Actor*)actor);
-            (*(QueryPtr65*)&m_kEighthAdditionalHighProcessField).FUN_00559450()->FUN_006d1bc0((PathingLocation*)((Location65*)location));
+            (*(QueryPtr65*)&m_kEighthAdditionalHighProcessField).Modelloader_GetReferencedThis()->InitFromActor((Actor*)actor);
+            (*(QueryPtr65*)&m_kEighthAdditionalHighProcessField).Modelloader_GetReferencedThis()->FUN_006d1bc0((PathingLocation*)((Location65*)location));
             (*(QueuePtr65*)&m_kSeventhAdditionalHighProcessField).AssignObject(new Queue65);
             GetPathManager()->FUN_006eb9d0((*(QueryPtr65*)&m_kEighthAdditionalHighProcessField), (*(QueuePtr65*)&m_kSeventhAdditionalHighProcessField), 1);
             (*(QueryPtr65*)&m_kFifthAdditionalHighProcessField).FUN_0066b0d0(new PathingRequest);
-            (*(QueryPtr65*)&m_kFifthAdditionalHighProcessField).FUN_00559450()->InitFromActor((Actor*)other);
-            (*(QueryPtr65*)&m_kFifthAdditionalHighProcessField).FUN_00559450()->FUN_006d1bc0((PathingLocation*)((Location65*)location));
+            (*(QueryPtr65*)&m_kFifthAdditionalHighProcessField).Modelloader_GetReferencedThis()->InitFromActor((Actor*)other);
+            (*(QueryPtr65*)&m_kFifthAdditionalHighProcessField).Modelloader_GetReferencedThis()->FUN_006d1bc0((PathingLocation*)((Location65*)location));
             (*(QueuePtr65*)&m_kFourthAdditionalHighProcessField).AssignObject(new Queue65);
             GetPathManager()->FUN_006eb9d0((*(QueryPtr65*)&m_kFifthAdditionalHighProcessField), (*(QueuePtr65*)&m_kFourthAdditionalHighProcessField), 1);
         }
@@ -15423,10 +15427,10 @@ void HighProcess::ProcessAccompany(Actor* actor)
     float aO[3];
     ((Motion*)otherPos4->m_pActorMover)->FUN_009de0a0(reinterpret_cast<NiPoint3*>(aO));
     NiPoint3* a3 = reinterpret_cast<NiPoint3*>(aO);
-    NiPoint3 aF = aY.FUN_00439ef0(*aE);
-    NiPoint3 deltaBX = aY.FUN_00439ef0(*aL);
-    NiPoint3 deltaC = aL->FUN_00439ef0(*aE);
-    NiPoint3 deltaD2 = a3->FUN_00439ef0(*apX);
+    NiPoint3 aF = aY.SubtractIntoVector(*aE);
+    NiPoint3 deltaBX = aY.SubtractIntoVector(*aL);
+    NiPoint3 deltaC = aL->SubtractIntoVector(*aE);
+    NiPoint3 deltaD2 = a3->SubtractIntoVector(*apX);
     float c4 = (float)a4->TESPackage_GetEscortFollowDistance();
     float radiusSq6 = c4 * c4;
     float distAB = aF.FUN_004a7290();
@@ -16047,7 +16051,7 @@ struct Hit93
 struct Results93
 {
     int FUN_00726070();
-    Hit93* FUN_0062e150(int);
+    Hit93* GetElementPointer16(int);
 };
 struct Query93
 {
@@ -16133,7 +16137,7 @@ struct Base93
 struct Ptr93
 {
     bhkPhantom* p;
-    bhkPhantom* FUN_00559450();
+    bhkPhantom* Modelloader_GetReferencedThis();
 };
 struct Owner93
 {
@@ -16432,12 +16436,12 @@ void Owner93::UpdateSelectionTimer(Actor* actor)
     Actor* selected = 0;
     if (((const BaseProcess*)actor->m_pBaseProcess)->GetBound() && actor->GetNiNode())
     {
-        if (node.FUN_00559450() && !node.FUN_00559450()->v37())
+        if (node.Modelloader_GetReferencedThis() && !node.Modelloader_GetReferencedThis()->v37())
             return;
         Vec93 offset4;
         Transform93 unused7;
         Transform93 transform82;
-        Bound93* bound20 = (Bound93*)node.FUN_00559450()->bhkWorldObject_GetShape();
+        Bound93* bound20 = (Bound93*)node.Modelloader_GetReferencedThis()->bhkWorldObject_GetShape();
         offset4 = bound20->GetNiPoint3();
         int flags8 = actor->FUN_008846e0();
         if (flags8 & 2)
@@ -16462,14 +16466,14 @@ void Owner93::UpdateSelectionTimer(Actor* actor)
         }
         Transform93 base7 = *(const Transform93*)&((const NiAVObject*)actor->GetNiNode())->NiAVObject_GetWorldRotate();
         Transform93 result33 = base7.FUN_0062c250(transform82);
-        node.FUN_00559450()->bhkShapePhantom_SetTransform(*(const NiTransform*)&result33);
+        node.Modelloader_GetReferencedThis()->bhkShapePhantom_SetTransform(*(const NiTransform*)&result33);
         Query93 query20;
         query20.reset_0062d310();
-        node.FUN_00559450()->bhkShapePhantom_GetPenetrations(&query20);
+        node.Modelloader_GetReferencedThis()->bhkShapePhantom_GetPenetrations(&query20);
         int count100 = query20.FUN_00413f40()->FUN_00726070();
         for (int i = 0; i < count100; i++)
         {
-            void* hit31 = query20.FUN_00413f40()->FUN_0062e150(i)->object;
+            void* hit31 = query20.FUN_00413f40()->GetElementPointer16(i)->object;
             void* body8 = bhkUtilFunctions_GetNiAVObject(hit31);
             Actor* reference28 = TESObjectREFR_FindReferenceFor3D(body8);
             if (reference28 && ((Base93*)reference28->TESObjectREFR::BGSSaveFormBuffer_GetForm())->FUN_00401170() == 28 && !reference28->FUN_00568e50())
@@ -16610,7 +16614,7 @@ void HighProcess::ProcessActorMovement(Actor* actor)
         }
         if (target)
         {
-            movementDistanceSlot0 = m_kPackageTargetPosition.FUN_00439ef0((*((const MobileObject*)target)->GetPos())).FUN_00457990();
+            movementDistanceSlot0 = m_kPackageTargetPosition.SubtractIntoVector((*((const MobileObject*)target)->GetPos())).FUN_00457990();
             if (movementDistanceSlot0 > *DAT_011cd950.Setting_Float_00403e20() ||
                 (distanceSlot1 > radiusSlot11 && actor->FUN_008b3bb0()))
             {
@@ -16993,7 +16997,7 @@ struct AcquireList17
     void* next;
     bool FUN_008256d0();
     Acquire17** FUN_006815c0();
-    void FUN_00905330(Acquire17* const&);
+    void RemoveMatchingItem(Acquire17* const&);
 };
 int TESPackage_GetObjectTypeFromForm(Form17*);
 // Runs the actor's current package procedure: resolves the package and procedure, checks the acquire list and target, and dispatches to the matching handler.
@@ -17174,7 +17178,7 @@ struct TempString;
 struct ActorGoalPosition
 {
     float x, y, z;
-    ActorGoalPosition* FUN_00439ef0(ActorGoalPosition* output, const ActorGoalPosition* other);
+    ActorGoalPosition* SubtractIntoVector(ActorGoalPosition* output, const ActorGoalPosition* other);
 };
 struct TempString
 {
@@ -17329,7 +17333,7 @@ void HighProcess::HandleActorInteraction(Actor* target)
         {
             Actor* actorX = actor;
             ActorGoalPosition position;
-            ((ActorGoalPosition*)((const MobileObject*)actorTmp)->GetPos())->FUN_00439ef0(&position, ((ActorGoalPosition*)((const MobileObject*)actor)->GetPos()));
+            ((ActorGoalPosition*)((const MobileObject*)actorTmp)->GetPos())->SubtractIntoVector(&position, ((ActorGoalPosition*)((const MobileObject*)actor)->GetPos()));
             float actorVal = GetDirectionAngle(&position);
             float extraB = 0.0f;
             float angle = GetAngleDelta(static_cast<float>(actorTmp->GetCurrentTargetDistance(0) + DAT_0101ff40), actorVal, &extraB);
@@ -17346,7 +17350,7 @@ void HighProcess::HandleActorInteraction(Actor* target)
             if (!source->FUN_008a3b30())
             {
                 ActorGoalPosition position;
-                ((ActorGoalPosition*)((const MobileObject*)actor)->GetPos())->FUN_00439ef0(&position, ((ActorGoalPosition*)((const MobileObject*)actorTmp)->GetPos()));
+                ((ActorGoalPosition*)((const MobileObject*)actor)->GetPos())->SubtractIntoVector(&position, ((ActorGoalPosition*)((const MobileObject*)actorTmp)->GetPos()));
                 float actorVal = GetDirectionAngle(&position);
                 float extraB = 0.0f;
                 float angle = GetAngleDelta(static_cast<float>(actor->GetCurrentTargetDistance(0) + DAT_0101ff40), actorVal, &extraB);
@@ -17734,7 +17738,7 @@ namespace fnv_008ed420 {
 struct Vec63
 {
     float x, y, z;
-    Vec63 FUN_00439ef0(const Vec63&);
+    Vec63 SubtractIntoVector(const Vec63&);
     float FUN_00457910();
     float FUN_00457990();
 };
@@ -17963,7 +17967,7 @@ void HighProcess::vfn_84c(Actor* actor, const NiPoint3* overridePosition, float 
         Vec63 position18 = *(const Vec63*)((const TESObjectREFR*)actor)->GetPos();
         Cell63* cell14 = ((Cell63*)actor->GetParentCell());
         Vec63 originalTarget4 = destination16;
-        Vec63 initialDifference22 = originalTarget4.FUN_00439ef0(position18);
+        Vec63 initialDifference22 = originalTarget4.SubtractIntoVector(position18);
         float initialDistance10 = initialDifference22.FUN_00457910();
         if (range19 + 250.0 < initialDistance10 && validate2)
         {
@@ -17978,7 +17982,7 @@ void HighProcess::vfn_84c(Actor* actor, const NiPoint3* overridePosition, float 
             Vec63 interiorTarget33 = destination16;
             if (atCurrent25)
                 range19 = 800.0f;
-            Vec63 interiorDifference23 = interiorTarget33.FUN_00439ef0(position18);
+            Vec63 interiorDifference23 = interiorTarget33.SubtractIntoVector(position18);
             float interiorDistance11 = interiorDifference23.FUN_00457910();
             if (actor->GetLightLevelAtPoint(*(const NiPoint3*)&position18) <= 20.0)
             {
@@ -18010,7 +18014,7 @@ void HighProcess::vfn_84c(Actor* actor, const NiPoint3* overridePosition, float 
         }
         if (!((Cell63*)actor->GetParentCell())->FUN_00425fd0())
         {
-            Vec63 difference11 = position18.FUN_00439ef0(destination16);
+            Vec63 difference11 = position18.SubtractIntoVector(destination16);
             float horizontalDistance41 = difference11.FUN_00457990();
             bool corrected2 = false;
             if (horizontalDistance41 > range19)
@@ -18021,7 +18025,7 @@ void HighProcess::vfn_84c(Actor* actor, const NiPoint3* overridePosition, float 
                 correctionQuery.PathingRequestClosePoint_SetMinDistance((float)(range19 / 2.0));
                 correctionQuery.SetMaxDistance_006e5ee0(range19);
                 GetObjectPosition(correctionQuery, position18);
-                difference11 = position18.FUN_00439ef0(destination16);
+                difference11 = position18.SubtractIntoVector(destination16);
                 horizontalDistance41 = difference11.FUN_00457990();
             }
             if (((TESObjectREFR*)actor)->GetSitSleepState() != 0)
@@ -18171,7 +18175,7 @@ struct FUN_004bc550
 {
     unsigned int unk00, unk04, unk08;
     FUN_004bc550(TESBoundObject*, int);
-    ExtraList* FUN_00559450();
+    ExtraList* Modelloader_GetReferencedThis();
 };
 struct RangeHelper
 {
@@ -18210,7 +18214,7 @@ InventoryStackRecord* HighProcess::CreateWeaponAcquireList(Actor* actor, unsigne
     {
         SearchItem* item = *((SearchList*)&ReferenceListNode)->FUN_006815c0();
         cell = new InventoryStackRecord(item->object, 1);
-        ((ExtraList*)cell->FUN_00559450())->FUN_005ae3d0(&item->extra);
+        ((ExtraList*)cell->Modelloader_GetReferencedThis())->FUN_005ae3d0(&item->extra);
     }
     return cell;
 }
@@ -18300,8 +18304,8 @@ bool HighProcess::ProcessEscortOneHour(Actor* actor, float unused)
             if (e)
             {
                 ExtraDataList* object = 0;
-                if (e->FUN_00559450())
-                    object = e->FUN_00559450()->GetItem();
+                if (e->Modelloader_GetReferencedThis())
+                    object = e->Modelloader_GetReferencedThis()->GetItem();
                 unsigned int location = 0;
                 if (object && object->ExtraDataList_GetReferencePointer())
                     location = object->ExtraDataList_GetReferencePointer()->GetHavokWorldObjectCountInSceneGraph_0084e3a0();
@@ -18315,8 +18319,8 @@ bool HighProcess::ProcessEscortOneHour(Actor* actor, float unused)
                 }
                 else
                 {
-                    if (e->FUN_00559450())
-                        object = e->FUN_00559450()->GetItem();
+                    if (e->Modelloader_GetReferencedThis())
+                        object = e->Modelloader_GetReferencedThis()->GetItem();
                     NiPoint3* position = 0;
                     if (data)
                     {
@@ -18346,8 +18350,8 @@ bool HighProcess::ProcessEscortOneHour(Actor* actor, float unused)
                             actor->Actor_PutItemInReference((TESForm*)e->FUN_0044ddc0(), (int)object, objectBase, k->TESPackage_GetInitialTargetCount(), (int)location);
                         else
                         {
-                            if (e->FUN_00559450())
-                                object = e->FUN_00559450()->GetItem();
+                            if (e->Modelloader_GetReferencedThis())
+                                object = e->Modelloader_GetReferencedThis()->GetItem();
                             NiPoint3* position = 0;
                             if (data)
                             {
@@ -18546,7 +18550,7 @@ struct FUN_006815c0
 {
     float x, y, z;
     FUN_006815c0();
-    FUN_006815c0 FUN_00439ef0(const FUN_006815c0&) const;
+    FUN_006815c0 SubtractIntoVector(const FUN_006815c0&) const;
     double FUN_00457990();
 };
 struct Setting104
@@ -18600,7 +18604,7 @@ bool HighProcess::CanPerformActorAction(Actor* actor, float unused)
         void* marker = ((Actor*)pTarget)->TESObjectREFR::GetExtraRadioData();
         if (marker)
         {
-            FUN_006815c0 difference = reinterpret_cast<const FUN_006815c0*>(((Actor*)pTarget)->TESObjectREFR_GetLinkedDoorTeleportPosition())->FUN_00439ef0(*reinterpret_cast<const FUN_006815c0*>(static_cast<const Actor*>(actor)->GetPos()));
+            FUN_006815c0 difference = reinterpret_cast<const FUN_006815c0*>(((Actor*)pTarget)->TESObjectREFR_GetLinkedDoorTeleportPosition())->SubtractIntoVector(*reinterpret_cast<const FUN_006815c0*>(static_cast<const Actor*>(actor)->GetPos()));
             if (difference.FUN_00457990() <= *DAT_011cde98.Setting_Int())
                 bClose = true;
         }
@@ -18623,7 +18627,7 @@ bool HighProcess::CanPerformActorAction(Actor* actor, float unused)
                 void* marker3 = ((Actor*)pTarget)->TESObjectREFR::GetExtraRadioData();
                 if (marker3)
                 {
-                    FUN_006815c0 difference2 = reinterpret_cast<const FUN_006815c0*>(((Actor*)pTarget)->TESObjectREFR_GetLinkedDoorTeleportPosition())->FUN_00439ef0(*reinterpret_cast<const FUN_006815c0*>(static_cast<const Actor*>(actor)->GetPos()));
+                    FUN_006815c0 difference2 = reinterpret_cast<const FUN_006815c0*>(((Actor*)pTarget)->TESObjectREFR_GetLinkedDoorTeleportPosition())->SubtractIntoVector(*reinterpret_cast<const FUN_006815c0*>(static_cast<const Actor*>(actor)->GetPos()));
                     if (difference2.FUN_00457990() <= *DAT_011cde98.Setting_Int())
                         bClose = true;
                 }
@@ -18719,7 +18723,7 @@ struct List124
     int first, last;
     bool FUN_008256d0();
     Deleted124** FUN_006815c0();
-    void FUN_00905330(Deleted124*&);
+    void RemoveMatchingItem(Deleted124*&);
     void FUN_00470470();
 };
 struct Small124
@@ -19137,7 +19141,7 @@ void HighProcess::Update_008f4020(Actor* ref, float time)
                 {
                     Deleted124* item = *(*(List124*)&ReferenceListNode).FUN_006815c0();
                     delete item;
-                    (*(List124*)&ReferenceListNode).FUN_00905330(item);
+                    (*(List124*)&ReferenceListNode).RemoveMatchingItem(item);
                 }
                 m_fFirstDialogueValue = 0.f;
                 ((Actor*&)m_pReference40) = 0;
@@ -19295,7 +19299,7 @@ struct List
     int FUN_005ae380();
     TESObjectREFR** FUN_006815c0();
     List* FUN_00726070();
-    void FUN_00905330(TESObjectREFR**);
+    void RemoveMatchingItem(TESObjectREFR**);
     void FUN_00470470();
 };
 struct TargetData
@@ -20727,7 +20731,7 @@ void ResetHighProcess::ResetHighProcessState(int reason, TESObjectREFR* referenc
 struct SaveObject
 {
     void FUN_0083ce40(BGSSaveFormBuffer*);
-    void FUN_008d73b0(BGSSaveFormBuffer*);
+    void SaveAvoidNodeFields(BGSSaveFormBuffer*);
     void SaveDetectionState(BGSSaveFormBuffer*);
     void FUN_008d7270(BGSSaveFormBuffer*);
 };
@@ -21948,7 +21952,7 @@ void ProcessSave::HighProcess_SaveGame(BGSSaveFormBuffer* buffer)
         aPThisItem = (SaveObject*)*nodeExtra8->FUN_006815c0();
         if (aPThisItem)
         {
-            aPThisItem->FUN_008d73b0(buffer);
+            aPThisItem->SaveAvoidNodeFields(buffer);
             countBVal++;
         }
         nodeExtra8 = nodeExtra8->FUN_00726070();
@@ -22463,7 +22467,7 @@ struct IdleArray59;
 struct Vec59
 {
     float x, y, z;
-    Vec59 FUN_00439ef0(const Vec59*);
+    Vec59 SubtractIntoVector(const Vec59*);
     float GetSquaredXYLength();
 };
 struct Anim59
@@ -22550,7 +22554,7 @@ void HighProcess::vfn_868(Actor* actor, Actor* reference)
     float radiusSquared1 = radius23 * radius23;
     Vec59* targetPosition4 = (fnv_00901c70::Vec59*)(((const TESObjectREFR*)pTarget)->GetPos());
     Vec59* actorPosition3 = (fnv_00901c70::Vec59*)(((const TESObjectREFR*)actor)->GetPos());
-    Vec59 difference53 = targetPosition4->FUN_00439ef0(actorPosition3);
+    Vec59 difference53 = targetPosition4->SubtractIntoVector(actorPosition3);
     if (difference53.GetSquaredXYLength() > radiusSquared1 || fnv_00901c70::fabsf_00408860(difference53.z) > verticalLimit19)
     {
         actor->Actor_SetPathfindingGoalAndAngle((Actor*)pTarget, radius23, 0);
@@ -22614,7 +22618,7 @@ struct MovePosition
     {}
     MovePosition(float a, float b, float c) : x(a), y(b), z(c)
     {}
-    MovePosition FUN_00439ef0(const MovePosition&) const;
+    MovePosition SubtractIntoVector(const MovePosition&) const;
     float FUN_004a7290() const;
 };
 struct MoveForm
@@ -22690,7 +22694,7 @@ void HighProcess::SelectMoveTarget(Actor* actor, void* result, bool move)
             continue;
         if (entry2->count > 0)
         {
-            float distance = (*(MovePosition*)((const MobileObject*)candidate65)->GetPos()).FUN_00439ef0(*(MovePosition*)((const TESObjectREFR*)((const LowProcess*)this)->GetTarget())->GetPos()).FUN_004a7290();
+            float distance = (*(MovePosition*)((const MobileObject*)candidate65)->GetPos()).SubtractIntoVector(*(MovePosition*)((const TESObjectREFR*)((const LowProcess*)this)->GetTarget())->GetPos()).FUN_004a7290();
             if (distance < radius1)
             {
                 int hit = 0;
@@ -22796,7 +22800,7 @@ void DialogueProcess::HighProcess_SayGuardWarning(Actor* actor, DialogueState* s
 struct TargetRef_00902c80 : TESObjectREFR
 {
     bool Actor_IsUnConscious();
-    NiPoint3* FUN_00439ef0();
+    NiPoint3* SubtractIntoVector();
     bool Animation_SpecialIdleDonePlaying();
     void Animation_SpecialIdleFree(bool, bool);
 };
@@ -23005,7 +23009,7 @@ void HighProcess_903e40::HighProcess_SetActorsDetectionEvent(int aiUnused, NiPoi
 
 // FUN_00904000: thiscall, 3 stack params (callee pops 12)
 
-void* __fastcall FUN_00559450(void* p);
+void* __fastcall Modelloader_GetReferencedThis(void* p);
 int __fastcall NiAVObject_GetParent(void* p);
 struct FUN_008b0670_cls
 {
@@ -23029,7 +23033,7 @@ void HighProcess::ProcessActorReferences(Actor* a1, Actor* a2, Actor* a3)
         for (int i = 0; i < 2; i++)
         {
             void* item = lst[i];
-            void* r = FUN_00559450(item);
+            void* r = Modelloader_GetReferencedThis(item);
             if (r != 0)
             {
                 if (NiAVObject_GetParent(r) == 0x29)
@@ -23596,7 +23600,7 @@ struct MidT
 struct P20T
 {
     ~P20T();
-    MidT* FUN_00559450();
+    MidT* Modelloader_GetReferencedThis();
     int FUN_0044ddc0();
     int FUN_004459e0(int a);
 };
@@ -23611,7 +23615,7 @@ struct Sub5C
     int f04;
     bool FUN_008256d0();
     int* FUN_006815c0();
-    void FUN_00905330(void* p);
+    void RemoveMatchingItem(void* p);
 };
 struct M64T
 {
@@ -23769,8 +23773,8 @@ void HighProcess::vfn_7b4(Actor* apRefr)
                 if (v84Local15 != 0)
                 {
                     v7c = 0;
-                    if (v84Local15->FUN_00559450() != 0)
-                        v7c = *v84Local15->FUN_00559450()->FUN_006815c0();
+                    if (v84Local15->Modelloader_GetReferencedThis() != 0)
+                        v7c = *v84Local15->Modelloader_GetReferencedThis()->FUN_006815c0();
                     v74Local9 = 0;
                     if (v7c != 0 && ((Q980T*)v7c)->ExtraDataList_GetReferencePointer() != 0)
                         v74Local9 = (int)((Q980T*)v7c)->ExtraDataList_GetReferencePointer()->GetHavokWorldObjectCountInSceneGraph_0084e3a0();
@@ -23792,8 +23796,8 @@ void HighProcess::vfn_7b4(Actor* apRefr)
                     }
                     else
                     {
-                        if (v84Local15->FUN_00559450() != 0)
-                            v7c = *v84Local15->FUN_00559450()->FUN_006815c0();
+                        if (v84Local15->Modelloader_GetReferencedThis() != 0)
+                            v7c = *v84Local15->Modelloader_GetReferencedThis()->FUN_006815c0();
                         v9cLocal28 = 0;
                         if (flag21Local1 != 0)
                         {
@@ -23839,8 +23843,8 @@ void HighProcess::vfn_7b4(Actor* apRefr)
                             }
                             else
                             {
-                                if (0 != v84Local15->FUN_00559450())
-                                    v7c = *v84Local15->FUN_00559450()->FUN_006815c0();
+                                if (0 != v84Local15->Modelloader_GetReferencedThis())
+                                    v7c = *v84Local15->Modelloader_GetReferencedThis()->FUN_006815c0();
                                 tmpLocal35 = 0;
                                 if (flag21Local1 != 0)
                                 {
@@ -24759,7 +24763,7 @@ struct ListShell
     bool FUN_008256d0();
     unsigned FUN_005ae380();
     RefShell** FUN_006815c0();
-    void FUN_00905330(RefShell**);
+    void RemoveMatchingItem(RefShell**);
     ListShell* FUN_00726070();
     void FUN_00470470();
 };
@@ -24822,7 +24826,7 @@ void ProcessShell::UpdateDialogueTarget(Actor* actor)
             MiddleHighProcess_ClearFurnitureMarker();
             while (target && !target->TESObjectREFR_HasFreeMarker(false))
             {
-                list.FUN_00905330(&target);
+                list.RemoveMatchingItem(&target);
                 target = *list.FUN_006815c0();
                 MiddleHighProcess_ClearFurnitureMarker();
             }
@@ -26454,8 +26458,8 @@ void HighProcess::Update(MobileObject* aArg)
                                                 if (var64 != 0)
                                                 {
                                                     ExtraDataList* var68 = 0;
-                                                    if (!!var64->FUN_00559450())
-                                                        var68 = var64->FUN_00559450()->GetItem();
+                                                    if (!!var64->Modelloader_GetReferencedThis())
+                                                        var68 = var64->Modelloader_GetReferencedThis()->GetItem();
                                                     pActorY->EquipObject(var64->FUN_0044ddc0(), 1, var68, 1, 0, 1);
                                                 }
                                             }
@@ -26479,8 +26483,8 @@ void HighProcess::Update(MobileObject* aArg)
                                                 if (var6c != 0)
                                                 {
                                                     ExtraDataList* var70 = 0;
-                                                    if (!!var6c->FUN_00559450())
-                                                        var70 = var6c->FUN_00559450()->GetItem();
+                                                    if (!!var6c->Modelloader_GetReferencedThis())
+                                                        var70 = var6c->Modelloader_GetReferencedThis()->GetItem();
                                                     pActorY->EquipObject(var6c->FUN_0044ddc0(), 1, var70, 1, 0, 1);
                                                 }
                                             }
@@ -27846,7 +27850,7 @@ bool __cdecl NiObject_IsExactKindOf(const void*, NiNode*);
 void HighProcess::EvaluateBoneLod(Actor* actor)
 {
     NiPoint3 delta = static_cast<const NiPoint3&>(*(NiPoint3*)((const Actor*)actor)->GetPos() - Main_GetWorldSceneGraph()->BSSceneGraph_GetCameraRoot()->GetTranslate_0043c490())
-                         .FUN_0053d280(static_cast<Actor*>(actor)->TESObjectREFR_GetScale_00567400());
+                         .ProcessAndReturnValue_0053d280(static_cast<Actor*>(actor)->TESObjectREFR_GetScale_00567400());
     int lod = (int)(12.0 * std::abs(static_cast<const NiPoint3&>(delta).Length()) *
                     Main_GetWorldSceneGraph()->GetAnimationData()->Projectile_GetDistanceMoved() / (*g_011ccf88.Int() * BSFadeNode_GetFadeOutMultiplier(3)));
     if (lod >= m_pBoneLODController->GetField38())
@@ -27907,7 +27911,7 @@ struct ProcessEatListView
     ProcessEatListView* FUN_00726070();
     bool FUN_008256d0();
     int FUN_005ae380();
-    void FUN_00905330(TESObjectREFR**);
+    void RemoveMatchingItem(TESObjectREFR**);
     void FUN_00470470();
 };
 struct ProcessEatFormListView : TESForm
@@ -27921,7 +27925,7 @@ struct ProcessEatPackageView
     ProcessEatPackageView* FUN_00671d10();
     int FUN_00519b00();
     TESForm* FUN_00680050();
-    ProcessEatListView* FUN_00559450();
+    ProcessEatListView* Modelloader_GetReferencedThis();
     int TESPackage_GetPackageSearchLocation();
     unsigned int GetSearchLocationRadius(Actor*);
     TESObjectCELL* TESPackage_GetSearchLocationCell(Actor*);
@@ -28118,7 +28122,7 @@ void ProcessEatProcess008e3140::HighProcess_ProcessEat(Actor* actor, TESObjectRE
                 MiddleHighProcess_ClearFurnitureMarker();
                 while (m_pFurnitureReference && !((ProcessEatRefView*)m_pFurnitureReference)->TESObjectREFR_HasFreeMarker(false))
                 {
-                    ((ProcessEatListView*)&m_kSecondaryReferenceList)->FUN_00905330(&m_pFurnitureReference);
+                    ((ProcessEatListView*)&m_kSecondaryReferenceList)->RemoveMatchingItem(&m_pFurnitureReference);
                     m_pFurnitureReference = *((ProcessEatListView*)&m_kSecondaryReferenceList)->FUN_006815c0();
                     MiddleHighProcess_ClearFurnitureMarker();
                 }
@@ -28168,8 +28172,8 @@ void ProcessEatProcess008e3140::HighProcess_ProcessEat(Actor* actor, TESObjectRE
             if (aProcess)
             {
                 m_pCurrentWeapon = aProcess->FUN_0044ddc0();
-                if (aProcess->FUN_00559450())
-                    aData7 = (ExtraDataList*)*aProcess->FUN_00559450()->FUN_006815c0();
+                if (aProcess->Modelloader_GetReferencedThis())
+                    aData7 = (ExtraDataList*)*aProcess->Modelloader_GetReferencedThis()->FUN_006815c0();
             }
             if (!aImpact || ((ProcessEatAnimationView*)aImpact)->Animation_SpecialIdleDonePlaying())
                 ((ProcessEatRefView*)actor)->Actor_Eat(m_pCurrentWeapon, aData7, true);
@@ -28195,7 +28199,7 @@ void ProcessEatProcess008e3140::HighProcess_ProcessEat(Actor* actor, TESObjectRE
         {
             m_pDetectionData60 = (TargetDoorController*)*((ProcessEatListView*)&ReferenceListNode)->FUN_006815c0();
             ((ProcessEatAcquireView*)m_pDetectionData60)->active = 1;
-            ((ProcessEatListView*)&ReferenceListNode)->FUN_00905330((TESObjectREFR**)&m_pDetectionData60);
+            ((ProcessEatListView*)&ReferenceListNode)->RemoveMatchingItem((TESObjectREFR**)&m_pDetectionData60);
             if (((ProcessEatAcquireView*)m_pDetectionData60)->type == 2)
             {
                 if (((ProcessEatAcquireView*)m_pDetectionData60)->reference->IsActor())

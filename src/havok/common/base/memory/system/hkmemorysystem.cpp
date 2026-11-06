@@ -24,7 +24,8 @@ int hkMemorySystem_getInstance()
 extern int g_CBBFD0Value;
 
 // @fnv 0x00cbbfd0
-int __cdecl FUN_00cbbfd0()
+// src: GUESS 0x00cbbfd0 (confidence: low)
+int __cdecl hkMemorySystem_GetCBBFD0Value()
 {
     return g_CBBFD0Value;
 }
@@ -34,11 +35,12 @@ extern int DAT_010c8efc;
 struct FUN_00cbbfe0_This
 {
     int unk00;
-    void __thiscall FUN_00cbbfe0();
+    void __thiscall SetVirtualTable_00cbbfe0();
 };
 
 // @fnv 0x00cbbfe0
-void FUN_00cbbfe0_This::FUN_00cbbfe0()
+// src: GUESS 0x00cbbfe0 (confidence: low)
+void FUN_00cbbfe0_This::SetVirtualTable_00cbbfe0()
 {
     this->unk00 = reinterpret_cast<int>(&DAT_010c8efc);
 }
@@ -70,19 +72,21 @@ static const VTable g_vtbl = {
 struct MyCls
 {
     const VTable* m_vtbl;
-    __declspec(noinline) void FUN_00cbbfe0();
-    MyCls* FUN_00cbc450(int arg);
+    __declspec(noinline) void SetVirtualTable_00cbbfe0();
+    MyCls* EvaluateValue_00cbc450(int arg);
 };
 
-void MyCls::FUN_00cbbfe0()
+// src: GUESS 0x00cbbfe0 (confidence: low)
+void MyCls::SetVirtualTable_00cbbfe0()
 {
     m_vtbl = &g_vtbl;
 }
 
 // @fnv 0x00cbc450
-MyCls* MyCls::FUN_00cbc450(int arg)
+// src: GUESS 0x00cbc450 (confidence: low)
+MyCls* MyCls::EvaluateValue_00cbc450(int arg)
 {
-    FUN_00cbbfe0();
+    SetVirtualTable_00cbbfe0();
     return this;
 }
 

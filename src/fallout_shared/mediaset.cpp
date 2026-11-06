@@ -277,7 +277,8 @@ void MediaSetEntry::Reset()
 }
 
 // @fnv 0x007d9ec0
-void __fastcall FUN_007d9ec0(BSStringT<char>* apString)
+// src: GUESS 0x007d9ec0 (confidence: medium)
+void __fastcall BSStringT_BSStringT_Thunk(BSStringT<char>* apString)
 {
     apString->BSStringT<char>::~BSStringT<char>();
 }
@@ -533,7 +534,7 @@ void __cdecl _FUN_00485910(unsigned int, float);
 // @fnv 0x005991b0
 void MediaSet::SaveMediaSet()
 {
-    TESForm::FUN_004855a0();
+    TESForm::BeginFormRecord();
     TESFullName::Save_00487010();
 
     _FUN_00485910(0x314d414e, *reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0x44));
@@ -621,7 +622,7 @@ void MediaSet::SaveMediaSet()
     }
 
     reinterpret_cast<MediaFormWriter*>(this)->Finish();
-    TESForm::FUN_00485680();
+    TESForm::FinishFormRecord();
 }
 
 // @fnv 0x005978b0
@@ -714,7 +715,7 @@ struct TextValue
     char* text;
     unsigned short length;
     unsigned short capacity;
-    TextValue* FUN_00559450(int flag);
+    TextValue* Modelloader_GetReferencedThis(int flag);
     ~TextValue();
 };
 struct StringRecord
@@ -725,7 +726,7 @@ struct StringRecord
 // @fnv 0x00599700
 void StringRecord::SetValues(TextValue aTextValue, float afFirst, float afSecond)
 {
-    FUN_004037f0(aTextValue.FUN_00559450(0));
+    FUN_004037f0(aTextValue.Modelloader_GetReferencedThis(0));
     reinterpret_cast<MediaSetEntry*>(this)->Attenuation = afFirst;
     reinterpret_cast<MediaSetEntry*>(this)->Percent = afSecond;
 }
@@ -733,18 +734,19 @@ void StringRecord::SetValues(TextValue aTextValue, float afFirst, float afSecond
 struct LayerInfo : MediaSetEntry
 {
 
-    const char* __thiscall FUN_00559450(unsigned int index);
+    const char* __thiscall Modelloader_GetReferencedThis(unsigned int index);
     int __thiscall FUN_00408a80(const char* text);
-    bool __thiscall FUN_00599a50(LayerInfo other);
+    bool __thiscall EvaluateValue_00599a50(LayerInfo other);
 };
 // @fnv 0x00599a50
-bool LayerInfo::FUN_00599a50(LayerInfo other)
+// src: GUESS 0x00599a50 (confidence: low)
+bool LayerInfo::EvaluateValue_00599a50(LayerInfo other)
 {
     if (Attenuation != other.Attenuation)
         return true;
     if (Percent != other.Percent)
         return true;
-    if (FUN_00408a80(other.FUN_00559450(0)))
+    if (FUN_00408a80(other.Modelloader_GetReferencedThis(0)))
         return false;
     return true;
 }
@@ -962,7 +964,7 @@ bool DungeonMediaSet::UpdatePlayback(bool active, unsigned int time, int mediaTy
 
 struct MediaLayerCompare
 {
-    bool FUN_00599a50(MediaLayerData other);
+    bool EvaluateValue_00599a50(MediaLayerData other);
 };
 struct MediaFormCompare
 {
@@ -983,22 +985,22 @@ bool MediaSetCompare::IsDifferentFrom(TESForm* form)
     if (other->Type != Type)
         return true;
     if (reinterpret_cast<MediaLayerCompare*>(&m_kMediaSetEntry1)
-            ->FUN_00599a50(*reinterpret_cast<MediaLayerData*>(&other->m_kMediaSetEntry1)))
+            ->EvaluateValue_00599a50(*reinterpret_cast<MediaLayerData*>(&other->m_kMediaSetEntry1)))
         return true;
     if (reinterpret_cast<MediaLayerCompare*>(&m_kMediaSetEntry2)
-            ->FUN_00599a50(*reinterpret_cast<MediaLayerData*>(&other->m_kMediaSetEntry2)))
+            ->EvaluateValue_00599a50(*reinterpret_cast<MediaLayerData*>(&other->m_kMediaSetEntry2)))
         return true;
     if (reinterpret_cast<MediaLayerCompare*>(&m_kMediaSetEntry3)
-            ->FUN_00599a50(*reinterpret_cast<MediaLayerData*>(&other->m_kMediaSetEntry3)))
+            ->EvaluateValue_00599a50(*reinterpret_cast<MediaLayerData*>(&other->m_kMediaSetEntry3)))
         return true;
     if (reinterpret_cast<MediaLayerCompare*>(&m_kMediaSetEntry4)
-            ->FUN_00599a50(*reinterpret_cast<MediaLayerData*>(&other->m_kMediaSetEntry4)))
+            ->EvaluateValue_00599a50(*reinterpret_cast<MediaLayerData*>(&other->m_kMediaSetEntry4)))
         return true;
     if (reinterpret_cast<MediaLayerCompare*>(&m_kMediaSetEntry5)
-            ->FUN_00599a50(*reinterpret_cast<MediaLayerData*>(&other->m_kMediaSetEntry5)))
+            ->EvaluateValue_00599a50(*reinterpret_cast<MediaLayerData*>(&other->m_kMediaSetEntry5)))
         return true;
     if (reinterpret_cast<MediaLayerCompare*>(&m_kMediaSetEntry6)
-            ->FUN_00599a50(*reinterpret_cast<MediaLayerData*>(&other->m_kMediaSetEntry6)))
+            ->EvaluateValue_00599a50(*reinterpret_cast<MediaLayerData*>(&other->m_kMediaSetEntry6)))
         return true;
     if (m_cMediaFlag != other->m_cMediaFlag)
         return true;

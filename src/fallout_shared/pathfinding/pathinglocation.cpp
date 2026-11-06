@@ -171,7 +171,7 @@ bool PathingLocation::HasPathingLocation()
             else
             {
                 NavMeshPtr mesh;
-                if (meshEntry.info->ResolveNavMesh(mesh) && static_cast<const TESForm*>(mesh.FUN_00559450())->IsDeleted())
+                if (meshEntry.info->ResolveNavMesh(mesh) && static_cast<const TESForm*>(mesh.Modelloader_GetReferencedThis())->IsDeleted())
                 {
                     ((BSSimpleArray<TESLoadScreen*, 1024>*)&meshes)->UpdateEntryValue(i, 1);
                     --i;
@@ -209,7 +209,7 @@ bool PathingLocation::FindContainingTriangle(FindTriangleForLocationFilter* filt
             NavMeshPtr mesh;
             if (const_cast<NavMeshInfo*>(m_pLocationNavMesh)->ResolveNavMesh(mesh))
                 m_usTriangleID =
-                    mesh.FUN_00559450()->FindTriangleForLocation(Location, filter);
+                    mesh.Modelloader_GetReferencedThis()->FindTriangleForLocation(Location, filter);
         }
         return true;
     }
@@ -220,10 +220,10 @@ bool PathingLocation::FindContainingTriangle(FindTriangleForLocationFilter* filt
             NavMeshPtr mesh;
             if (((NavMeshInfo*)((BSSimpleArray<unsigned int, 1024>*)pNavMeshInfoArray)->GetAt(static_cast<int>(i)))
                     ->ResolveNavMesh(mesh) &&
-                !mesh.FUN_00559450()->GetDisabled())
+                !mesh.Modelloader_GetReferencedThis()->GetDisabled())
             {
                 unsigned short triangle =
-                    mesh.FUN_00559450()->FindTriangleForLocation(Location, filter);
+                    mesh.Modelloader_GetReferencedThis()->FindTriangleForLocation(Location, filter);
                 if (triangle != 0xffff)
                 {
                     m_pLocationNavMesh =
@@ -260,7 +260,7 @@ bool PathingLocation::FindContainingTriangle(FindTriangleForLocationFilter* filt
                     pNavMeshInfoArray = 0;
                     NavMeshPtr mesh;
                     if (const_cast<NavMeshInfo*>(m_pLocationNavMesh)->ResolveNavMesh(mesh))
-                        m_usTriangleID = mesh.FUN_00559450()
+                        m_usTriangleID = mesh.Modelloader_GetReferencedThis()
                                              ->FindTriangleForLocation(Location, filter);
                     SetAllMeshesReachable(true);
                     return true;
@@ -417,7 +417,7 @@ PathingLocation::PathingLocation(const NiPoint3& location, const PathingLocation
     if (const_cast<PathingLocation&>(hint).ResolveNavMesh(pFoundNavMesh))
     {
         m_usTriangleID =
-            pFoundNavMesh.FUN_00559450()->FindTriangleForLocation(location, 0);
+            pFoundNavMesh.Modelloader_GetReferencedThis()->FindTriangleForLocation(location, 0);
         if (m_usTriangleID != kClearTriangleDataValue1)
         {
             m_pLocationNavMesh = hint.m_pLocationNavMesh;
@@ -608,7 +608,7 @@ class MeshVertexArray
 {
   public:
     bool NiTListBase_DFALL_NiTListItem_BSAnimGroupSequence_const_BSAnimGroupSequence_const_IsEmpty();                      // IsEmpty
-    NiPoint3* FUN_006a1440(unsigned int i);  // GetAt
+    NiPoint3* Object_GetIndexedValue_006a1440(unsigned int i);  // GetAt
 };
 bool __cdecl NavMeshMath_IsPointInsideTriangle(const NiPoint3* pkA, const NiPoint3* pkB, const NiPoint3* pkC, const NiPoint3* pkPoint,
                           float* pfHeight, float fAbove, float fBelow);
@@ -637,9 +637,9 @@ bool MeshBounds::ContainsPoint(const NiPoint3* pkPoint)
             float fOut;
             for (unsigned int i = 0; i < m_kTris.FUN_0044ddc0(); i++)
             {
-                NiPoint3 kA = *m_kVerts.FUN_006a1440(m_kTris.FUN_0069ccf0(i)->v0);
-                NiPoint3 kB = *m_kVerts.FUN_006a1440(m_kTris.FUN_0069ccf0(i)->v1);
-                NiPoint3 kC = *m_kVerts.FUN_006a1440(m_kTris.FUN_0069ccf0(i)->v2);
+                NiPoint3 kA = *m_kVerts.Object_GetIndexedValue_006a1440(m_kTris.FUN_0069ccf0(i)->v0);
+                NiPoint3 kB = *m_kVerts.Object_GetIndexedValue_006a1440(m_kTris.FUN_0069ccf0(i)->v1);
+                NiPoint3 kC = *m_kVerts.Object_GetIndexedValue_006a1440(m_kTris.FUN_0069ccf0(i)->v2);
                 if (NavMeshMath_IsPointInsideTriangle(&kA, &kB, &kC, pkPoint, &fOut, m_fGlyphExtent, m_fGlyphExtent))
                     return true;
             }
@@ -798,7 +798,7 @@ class Snap_cls : public NodeArr_cls
     void Add(NavMeshInfo** item);
 };
 
-int FUN_009a3830();
+int Actor_AreReferencedValuesEqual();
 
 // @fnv 0x006de490
 bool PathingLocation::GetAllMeshesReachable()
@@ -836,7 +836,7 @@ bool PathingLocation::GetAllMeshesReachable()
                 {
                     itemB = (*((Owner_cls*)pNavMeshInfoArray)->GetNodeRef(0))->m_kPreferredConnections.GetAt(iG - aJ);
                 }
-                if (((Owner_cls*)pNavMeshInfoArray)->Find(&itemB, 0, FUN_009a3830) != -1)
+                if (((Owner_cls*)pNavMeshInfoArray)->Find(&itemB, 0, Actor_AreReferencedValuesEqual) != -1)
                 {
                     list.Add(&itemB);
                 }
@@ -863,9 +863,9 @@ bool PathingLocation::GetAllMeshesReachable()
                         {
                             item2 = fCur->m_kPreferredConnections.GetAt(j6 - aJ);
                         }
-                        if (((Owner_cls*)pNavMeshInfoArray)->Find(&item2, 0, FUN_009a3830) != -1)
+                        if (((Owner_cls*)pNavMeshInfoArray)->Find(&item2, 0, Actor_AreReferencedValuesEqual) != -1)
                         {
-                            if (list.Find(&item2, 0, FUN_009a3830) == -1)
+                            if (list.Find(&item2, 0, Actor_AreReferencedValuesEqual) == -1)
                             {
                                 list.Add(&item2);
                                 changed2 = true;
@@ -915,12 +915,12 @@ bool PathingLocation::IsPathingLocationValid()
         NavMeshPtr kMeshPtr;
         if (const_cast<NavMeshInfo*>(m_pLocationNavMesh)->ResolveNavMesh(kMeshPtr))
         {
-            if (kMeshPtr.FUN_00559450()->FindClosestTriangleForLocation(Location, &m_usTriangleID, &bInside))
+            if (kMeshPtr.Modelloader_GetReferencedThis()->FindClosestTriangleForLocation(Location, &m_usTriangleID, &bInside))
             {
                 if (!bInside)
                 {
-                    NiPoint3 kTriCenter = kMeshPtr.FUN_00559450()->FUN_00558220(m_usTriangleID);
-                    NavEdgeHit kResult = kMeshPtr.FUN_00559450()
+                    NiPoint3 kTriCenter = kMeshPtr.Modelloader_GetReferencedThis()->FUN_00558220(m_usTriangleID);
+                    NavEdgeHit kResult = kMeshPtr.Modelloader_GetReferencedThis()
                                             ->FindEdgeIntersection(m_usTriangleID, -1, kTriCenter, Location);
                     if (kResult.m_iEdgeNumber)
                         Location = kResult.kPoint.ApplyScaled(0.9f).FUN_00439e90(kTriCenter.ApplyScaled(0.1f));
@@ -950,7 +950,7 @@ bool PathingLocation::IsPathingLocationValid()
             NavMeshPtr pFoundNavMesh;
             NavMeshInfo* pInfo = ((NLMeshInfoArray*)pNavMeshInfoArray)->BSSimpleArray_NiAVObject_1024_GetAt(i);
             if (!pInfo->NavMeshInfo_GetDisabled() && pInfo->ResolveNavMesh(pFoundNavMesh) &&
-                !pFoundNavMesh.FUN_00559450()->FindClosestTriangleForLocation(Location, &usTri, &bInTri))
+                !pFoundNavMesh.Modelloader_GetReferencedThis()->FindClosestTriangleForLocation(Location, &usTri, &bInTri))
                 continue;
             if (bInTri)
             {
@@ -962,7 +962,7 @@ bool PathingLocation::IsPathingLocationValid()
             else if (pFoundNavMesh.AnimatingText_GetFullText())
             {
                 NiPoint3 kToCenter =
-                    Location.FUN_00439ef0(pFoundNavMesh.FUN_00559450()->FUN_00558220(usTri));
+                    Location.SubtractIntoVector(pFoundNavMesh.Modelloader_GetReferencedThis()->FUN_00558220(usTri));
                 float fDist = kToCenter.GetSquaredXYLength();
                 float m_fGlyphExtent = kToCenter.z;
                 bool bGood = false;
@@ -1000,8 +1000,8 @@ bool PathingLocation::IsPathingLocationValid()
             NavMeshPtr spBest;
             if (const_cast<NavMeshInfo*>(m_pLocationNavMesh)->ResolveNavMesh(spBest))
             {
-                NiPoint3 kTriCenter = spBest.FUN_00559450()->FUN_00558220(usBestTri);
-                NavEdgeHit kResult = spBest.FUN_00559450()
+                NiPoint3 kTriCenter = spBest.Modelloader_GetReferencedThis()->FUN_00558220(usBestTri);
+                NavEdgeHit kResult = spBest.Modelloader_GetReferencedThis()
                                         ->FindEdgeIntersection(usBestTri, -1, kTriCenter, Location);
                 if (kResult.m_iEdgeNumber)
                     Location = kTriCenter.ApplyScaled(0.1f).FUN_00439e90(kResult.kPoint.ApplyScaled(0.9f));

@@ -39,7 +39,7 @@ struct Arr12
     int f12;
     unsigned int FUN_0044ddc0();
     bool NiTListBase_DFALL_NiTListItem_BSAnimGroupSequence_const_BSAnimGroupSequence_const_IsEmpty();
-    Elem12* FUN_006a1440(unsigned int);
+    Elem12* Object_GetIndexedValue_006a1440(unsigned int);
 };
 struct Arr6
 {
@@ -118,7 +118,7 @@ void Owner69c4c0::WriteToBuffer(char* apBuffer)
         count2 = m_arr12.FUN_0044ddc0();
         bytes5 = count2 * 12;
         arr = new Elem12[count2];
-        memcpy(arr, m_arr12.FUN_006a1440(0), bytes5);
+        memcpy(arr, m_arr12.Object_GetIndexedValue_006a1440(0), bytes5);
         if (TESForm_QEndianSwapOnSave())
         {
             for (i3 = 0; i3 < count2; i3++)

@@ -353,12 +353,12 @@ namespace fnv_00a16850 {
 extern MemoryManager g_memoryManager;
 // Shared FontManager has no destructor declaration.
 struct FUN_00a16850_shell {
-    void FUN_00a16d20();
+    void ProcessEntries_00a16d20();
 // Calls FUN_00a16d20, deallocates this via g_memoryManager when flags has bit 1 set, and returns this.
 // @fnv 0x00a16850
     FUN_00a16850_shell* Destroy(unsigned int flags)
     {
-        FUN_00a16d20();
+        ProcessEntries_00a16d20();
         if (flags & 1)
             g_memoryManager.Deallocate(this);
         return this;
@@ -393,9 +393,10 @@ struct FontDeletion : Font {
 };
 struct FUN_00a16d20_shell {
     FontDeletion* pFont[8];
-    void FUN_00a16d20();
+    void ProcessEntries_00a16d20();
 };
-void FUN_00a16d20_shell::FUN_00a16d20()
+// src: GUESS 0x00a16d20 (confidence: low)
+void FUN_00a16d20_shell::ProcessEntries_00a16d20()
 {
     for (int i = 0; i < 8; ++i) {
         FontDeletion* f = pFont[i];
@@ -498,11 +499,12 @@ struct FUN_00a1c2d0_shell {
     FUN_00a1c2d0_node* head;
     FUN_00a1c2d0_node* tail;
     int count;
-    void FUN_00a1c2d0();
+    void ClearLinkedNodes();
 };
 // Walks the linked list from head, zeroes each node's data, deallocates every node, then resets count, head and tail.
 // @fnv 0x00a1c2d0
-void FUN_00a1c2d0_shell::FUN_00a1c2d0()
+// src: GUESS 0x00a1c2d0 (confidence: medium)
+void FUN_00a1c2d0_shell::ClearLinkedNodes()
 {
     FUN_00a1c2d0_node* cur = head;
     while (cur) {
@@ -892,11 +894,12 @@ struct SBox {
     int m_counts[8];
     void* m_40;
     __forceinline void* GetM8() { return m_8; }
-    SBox* FUN_00a19c00(SItem* pItem, int aiIndex);
+    SBox* ProcessEntries_00a19c00(SItem* pItem, int aiIndex);
 };
 
 // @fnv 0x00a19c00
-SBox* SBox::FUN_00a19c00(SItem* pItem, int aiIndex)
+// src: GUESS 0x00a19c00 (confidence: low)
+SBox* SBox::ProcessEntries_00a19c00(SItem* pItem, int aiIndex)
 {
     int iOffset;
     {
@@ -1049,11 +1052,12 @@ struct FUN_00a14170_shell {
     int unk24;
     int unk28;
     float fValue2C;
-    void FUN_00a14170(FUN_00a14170_out* apOut, const char* apName);
+    void GetGlyphMetricsByName(FUN_00a14170_out* apOut, const char* apName);
 };
 
 // @fnv 0x00a14170
-void FUN_00a14170_shell::FUN_00a14170(FUN_00a14170_out* apOut, const char* apName) {
+// src: GUESS 0x00a14170 (confidence: medium)
+void FUN_00a14170_shell::GetGlyphMetricsByName(FUN_00a14170_out* apOut, const char* apName) {
     apOut->fX = 60.0f;
     apOut->fZ = fValue2C;
     if (apName[0] == 'a' || apName[0] == 'b' || apName[0] == 'x' || apName[0] == 'y') {
@@ -1202,12 +1206,13 @@ struct FUN_00a1b770_cls
     FUN_00a1b770_sub m_s1c;
 
     void FontManager_CharData_SetChar(int size);
-    void FUN_00a1b770();
+    void InitializeCharacterData();
 };
 
 // Initialises the object: zeroes m_u00, sets m_v08 from three globals with w=1, sets m_u18 to 1, inits m_s1c and calls FUN_00a1b7f0(0x20).
 // @fnv 0x00a1b770
-void FUN_00a1b770_cls::FUN_00a1b770()
+// src: GUESS 0x00a1b770 (confidence: medium)
+void FUN_00a1b770_cls::InitializeCharacterData()
 {
     FUN_00a1b770_vec4 vec;
     FUN_00a1b770_scratch scratch;
@@ -2258,7 +2263,7 @@ struct IconArray {
     }
 };
 struct FUN_00a1aee0_shell : Font {
-    void FUN_00a14170(IconData*, const char*);
+    void GetGlyphMetricsByName(IconData*, const char*);
     void LoadIconFromPath(const char* path);
 };
 // Parses the icon suffix from the path after the last underscore, builds an IconData via FUN_00a06dd0 and FUN_00a14170, then appends it to the icon array.
@@ -2274,7 +2279,7 @@ void FUN_00a1aee0_shell::LoadIconFromPath(const char* path) {
         suffix[count7] = path[offset + count7 + 1];
     }
     suffix[count7] = 0;
-    FUN_00a14170(&icon6, suffix);
+    GetGlyphMetricsByName(&icon6, suffix);
     reinterpret_cast<IconArray*>(&ButtonIcons)->Append(icon6);
 }
 }  // namespace fnv_00a1aee0
@@ -2642,7 +2647,7 @@ struct TextRun {
     SStr str;
     int a24, a28, a2c, a30, a34;
     TextRun(int, unsigned char, ColA, int);
-    void FUN_00a1b770();
+    void InitializeCharacterData();
     void FontManager_CharData_SetChar(unsigned char);
     TextRun* Clone(int, int);
     ~TextRun() { str.Set(0, 0); }
@@ -2673,7 +2678,7 @@ RunNode* FontData::CreateTextRunNode(SStr* text, Info_* info) {
     pNode = new RunNode(info->GetStart(), info->GetEnd(), info->GetLeading());
     Pad38();
     TextRun textRun(0, ' ', ColA(), 1);
-    textRun.FUN_00a1b770();
+    textRun.InitializeCharacterData();
     textRun.m_iType = info->GetFont();
     textRun.color = info->GetColor();
     textRun.iExtra = info->GetHeight();
@@ -3216,7 +3221,8 @@ struct LayoutItem {
         item->offset=0;
         return item;
     }
-    void FUN_00a1b770() {
+// src: GUESS 0x00a1b770 (confidence: medium)
+    void InitializeCharacterData() {
         font=0;
         color=LayoutColor(DAT_01095268,DAT_01095264,DAT_01095260,1.0f);
         unk18=1;
@@ -3403,7 +3409,7 @@ LayoutBlock* FUN_00a17390_shell::ParseLayout(LayoutString& source, LayoutResult*
             else if(tagText=="HR") {
                 if(result->height==0x7fffffff) lines+=2;
                 else { lineRule=true; lines=0; }
-            } else if(tagText=="/FONT") format.FUN_00a1b770();
+            } else if(tagText=="/FONT") format.InitializeCharacterData();
         }
         source=output;
     }
@@ -3465,7 +3471,7 @@ extern PoolQ DAT_011f6238;
 struct OwnQ;
 struct EntQ {
   int unk00, unk04, unk08, unk0C, unk10, unk14, unk18, unk1C, unk20, unk24, unk28, unk2C, unk30, unk34, unk38, unk3C, unk40;
-  EntQ* FUN_00a19c00(int a, int b);
+  EntQ* ProcessEntries_00a19c00(int a, int b);
   void* operator new(unsigned int n) { int aiD[9]; return DAT_011f6238.Game_DoHeapAlloc(n); }
   void operator delete(void* p);
 };
@@ -3484,7 +3490,7 @@ struct OwnQ {
 void OwnQ::FontManager_TextDoc_AddChar(int aiParam1, int aiParam2, bool bForce) {
   EntQ* pEnt = 0;
   if (GetCount() && !bForce)
-    pEnt = First()->FUN_00a19c00(aiParam1, aiParam2);
+    pEnt = First()->ProcessEntries_00a19c00(aiParam1, aiParam2);
   else
     pEnt = new FUN_00a1bc70(this, aiParam1, unk0c, unk10);
   if (pEnt) AddItem(&pEnt);
@@ -3904,10 +3910,12 @@ struct Heap {void* Game_DoHeapAlloc(unsigned int);void MemoryManager_Deallocate(
 
 template<class T> struct Link {Link* next;Link* previous;T value;};
 
-template<class T> struct ListBase {Link<T>* head;Link<T>* tail;unsigned int count;~ListBase(){}Link<T>* Head(){return head;}T& Next(Link<T>*& p){T& value=p->value;p=p->next;return value;}unsigned int Count(){return count;}void NiTListBase_AddNodeHead_1(Link<T>*);void FUN_00a1c2d0(){Link<T>* pNode=head;while(pNode){Link<T>* pDelete=pNode;pNode=pNode->next;pDelete->value=0;Link<T>* pFree=pDelete;DAT_011f6238.MemoryManager_Deallocate(pFree);}count=0;head=0;tail=0;}T PopFront(){Link<T>* pNode=head;head=head->next;if(head)head->previous=0;else tail=0;T element=pNode->value;pNode->value=0;Link<T>* pFree=pNode;DAT_011f6238.MemoryManager_Deallocate(pFree);--count;return element;}void FUN_00a11db0(Link<T>* item){item->next=0;item->previous=tail;if(tail)tail->next=item;else head=item;tail=item;++count;}
+template<class T> struct ListBase {Link<T>* head;Link<T>* tail;unsigned int count;~ListBase(){}Link<T>* Head(){return head;}T& Next(Link<T>*& p){T& value=p->value;p=p->next;return value;}unsigned int Count(){return count;}void NiTListBase_AddNodeHead_1(Link<T>*);
+// src: GUESS 0x00a1c2d0 (confidence: medium)
+void ClearLinkedNodes(){Link<T>* pNode=head;while(pNode){Link<T>* pDelete=pNode;pNode=pNode->next;pDelete->value=0;Link<T>* pFree=pDelete;DAT_011f6238.MemoryManager_Deallocate(pFree);}count=0;head=0;tail=0;}T PopFront(){Link<T>* pNode=head;head=head->next;if(head)head->previous=0;else tail=0;T element=pNode->value;pNode->value=0;Link<T>* pFree=pNode;DAT_011f6238.MemoryManager_Deallocate(pFree);--count;return element;}void FUN_00a11db0(Link<T>* item){item->next=0;item->previous=tail;if(tail)tail->next=item;else head=item;tail=item;++count;}
 // src: COMMUNITY 0x00a11c00
 void NiTList_AddTail(const T& value){Link<T>* item=NewNode();item->value=value;FUN_00a11db0(item);}Link<T>* NewNode(){Link<T>* node=(Link<T>*)DAT_011f6238.Game_DoHeapAlloc(sizeof(Link<T>));return node;}void Add(T value){Link<T>* p=NewNode();p->value=value;NiTListBase_AddNodeHead_1(p);}};
-template<class T> struct PointerListBase : ListBase<T> {~PointerListBase(){this->FUN_00a1c2d0();}};
+template<class T> struct PointerListBase : ListBase<T> {~PointerListBase(){this->ClearLinkedNodes();}};
 template<class T> struct List : PointerListBase<T> {List(){this->count=0;this->head=0;this->tail=0;} ~List(){}};
 
 unsigned int TextLength(const char*);unsigned int TextCapacity(unsigned int,unsigned int);void* TextCopy(void*,const void*,unsigned int);

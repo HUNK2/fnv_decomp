@@ -185,12 +185,12 @@ struct FUN_0098ed30_class
 };
 struct FUN_0098efa0_shell
 {
-    void* __thiscall FUN_0098efa0(int count);
+    void* __thiscall AllocateElements68(int count);
 };
 extern "C" void* __cdecl Reallocate(void*, unsigned int);
 struct FUN_0098efd0_shell
 {
-    void* __thiscall FUN_0098efd0(void* a, unsigned int b);
+    void* __thiscall Reallocate_Thunk(void* a, unsigned int b);
 };
 struct FUN_00985a50_shell
 {
@@ -223,7 +223,7 @@ TESForm* __cdecl _ref_004839c0(unsigned int);
 struct Holder00985930
 {
     unsigned int m_data;
-    void __thiscall FUN_00985930(int a1, int a2);
+    void __thiscall ResolveStoredActor(int a1, int a2);
 };
 struct FUN_0098f560
 {
@@ -279,7 +279,7 @@ struct StandIn_00989010
     int v;
     void __thiscall SetTripleAndValue(ThreeInts_00989010* src, int val);
 };
-CombatTargetTimestamp* __fastcall FUN_004300a0(CombatTargetTimestamp*);
+CombatTargetTimestamp* __fastcall CombatTargetTimestamp_ClearTimeStamp(CombatTargetTimestamp*);
 struct MyClass
 {
     int GetResultForArg(int arg);
@@ -679,7 +679,7 @@ struct FUN_0098c780_shell
 };
 struct FUN_0098ed60_shell : GlobalObject_00869f00
 {
-    void __thiscall FUN_0098ed60();
+    void __thiscall ResetVirtualTableAndClear_0098ed60();
 };
 struct S0098a4d0
 {
@@ -870,7 +870,7 @@ struct FUN_0098f040_shell
     virtual void v0();
     virtual CombatClusterMember* Allocate(unsigned int);
     void UpdateThreat(unsigned int, unsigned int);
-    void FUN_0098f040(unsigned int auiNewSize, bool abFreeMemory);
+    void ResizeBufferStorage(unsigned int auiNewSize, bool abFreeMemory);
 };
 struct FUN_00986500_shell : ActorCombatGroup
 {
@@ -1430,7 +1430,7 @@ struct EventVector
 struct TimeStamp
 {
     unsigned int value;
-    void FUN_004300a0();
+    void CombatTargetTimestamp_ClearTimeStamp();
 };
 struct TimeValue
 {
@@ -1816,12 +1816,12 @@ struct Tag_00989e20_cls
 };
 struct Helper_00989e20_cls
 {
-    void FUN_00439ef0(Tag_00989e20_cls* p0, NiPoint3* p1);
+    void SubtractIntoVector(Tag_00989e20_cls* p0, NiPoint3* p1);
     NiPoint3* FUN_00439e90(NiPoint3* p0, NiPoint3* p1, NiPoint3* p2);
 };
 struct Vec_00989e20_cls
 {
-    NiPoint3* FUN_0053d280(float value) const;
+    NiPoint3* ProcessAndReturnValue_0053d280(float value) const;
 };
 struct Blk_00989e20_cls
 {
@@ -1838,7 +1838,7 @@ struct FUN_00989e20_cls
 struct BoundsVector
 {
     float x, y, z;
-    float& FUN_004a51b0(unsigned int axis);
+    float& GetFloatElementPointer(unsigned int axis);
 };
 struct BoundsActor
 {
@@ -2716,7 +2716,7 @@ class B8EB30Group
 class B98EBC0Array
 {
   public:
-    int* FUN_006bf670(int iIndex);
+    int* GetElementAddress_006bf670(int iIndex);
     int* GetElementAt(int iIndex);
 };
 struct SimpleArrayRemove
@@ -2735,7 +2735,7 @@ struct SimpleArrayRemove
     void FUN_0072ba80(void* pStart, unsigned int ItemUpdateArray);
     void FUN_006a8500();
 
-    void FUN_0098ebe0(unsigned int uiStart, unsigned int ItemUpdateArray, bool bShrink);
+    void RemoveArrayTail_0098ebe0(unsigned int uiStart, unsigned int ItemUpdateArray, bool bShrink);
 };
 unsigned int __cdecl FUN_0042f5a0(unsigned int, unsigned int);
 struct RemovalOperations
@@ -3363,14 +3363,14 @@ struct DebugNode
 struct DebugNodePtr
 {
     DebugNode* ptr;
-    DebugNode* FUN_00559450();
+    DebugNode* Modelloader_GetReferencedThis();
     void FUN_0066b0d0(DebugNode*);
 };
-void* FUN_00aa13e0(unsigned int);
+void* Object_DispatchCommandFour(unsigned int);
 void FUN_00aa13f0(void*);
 __forceinline void* DebugNode::operator new(unsigned int n)
 {
-    return FUN_00aa13e0(n);
+    return Object_DispatchCommandFour(n);
 }
 __forceinline void DebugNode::operator delete(void* p)
 {
@@ -3378,7 +3378,7 @@ __forceinline void DebugNode::operator delete(void* p)
 }
 __forceinline void* DebugMaterial::operator new(unsigned int n)
 {
-    return FUN_00aa13e0(n);
+    return Object_DispatchCommandFour(n);
 }
 __forceinline void DebugMaterial::operator delete(void* p)
 {
@@ -3726,7 +3726,7 @@ struct DebugBuilder
 };
 __forceinline void* DebugBuilder::operator new(unsigned int n)
 {
-    return FUN_00aa13e0(n);
+    return Object_DispatchCommandFour(n);
 }
 __forceinline void DebugBuilder::operator delete(void* p)
 {
@@ -3737,18 +3737,18 @@ struct DebugBuilderPtr
     DebugBuilder* ptr;
     DebugBuilderPtr(DebugBuilder*);
     ~DebugBuilderPtr();
-    DebugBuilder* FUN_00559450();
+    DebugBuilder* Modelloader_GetReferencedThis();
 };
 struct DebugSearch
 {
-    float FUN_00508050();
+    float GetFieldAtOffset44();
     DebugPoint GetLocationAndReturn();
     void UpdateNavMeshes(DebugBuilderPtr&);
 };
 struct DebugSearchPtr
 {
     DebugSearch* ptr;
-    DebugSearch* FUN_00559450();
+    DebugSearch* Modelloader_GetReferencedThis();
 };
 const DebugColor& BSTestObjects_GetColor(int);
 DebugNode* BSTestObjects_Create3DArrow(const DebugPoint&, const DebugPoint&, float, float, const DebugColor*, const DebugColor*);
@@ -3861,7 +3861,7 @@ struct Time
 {
     int value;
     void FUN_00435de0(float);
-    float FUN_006a7f50();
+    float AStarSearch_EvaluateValue_006a7f50();
     float FUN_00435e00();
 };
 
@@ -4356,7 +4356,7 @@ void Group::UpdateTargetPerception(Actor* selected, Actor* subject, int* result,
     if (targetLocal40)
     {
         previousLocal5 = targetLocal40->score;
-        if (targetLocal40->updateTime.FUN_006a7f50() < CombatTimer_GetTimer())
+        if (targetLocal40->updateTime.AStarSearch_EvaluateValue_006a7f50() < CombatTimer_GetTimer())
         {
             maximumLocal6 = -100;
             highestLocal52 = -100;
@@ -4422,7 +4422,7 @@ void Group::UpdateTargetPerception(Actor* selected, Actor* subject, int* result,
                             bestLocal4 = memberLocal19;
                         }
                     }
-                    if (missingLocal40 && senseLocal1->time.FUN_006a7f50() > newestLocal2.FUN_006a7f50())
+                    if (missingLocal40 && senseLocal1->time.AStarSearch_EvaluateValue_006a7f50() > newestLocal2.AStarSearch_EvaluateValue_006a7f50())
                     {
                         nearestLocal9.SetTripleAndValue(&senseLocal1->point, memberLocal19->TESObjectREFR_GetSpace());
                         newestLocal2 = senseLocal1->time;
@@ -4433,7 +4433,7 @@ void Group::UpdateTargetPerception(Actor* selected, Actor* subject, int* result,
                 maximumLocal6 = (int)(*DAT_011cd45c.Setting_Float_00403e20() + 1.0);
             if (CombatGroup_IsSearching() && previousLocal5 <= 0 && maximumLocal6 > 0)
             {
-                if (targetLocal40->activeTime.FUN_006a7f50() != -DAT_0108d540)
+                if (targetLocal40->activeTime.AStarSearch_EvaluateValue_006a7f50() != -DAT_0108d540)
                     DAT_011f1708->TryStartDialogue(bestLocal4, subject, 4, 9, 1, 0);
                 else
                 {
@@ -4482,7 +4482,7 @@ void Group::UpdateTargetPerception(Actor* selected, Actor* subject, int* result,
             {
                 hitLocal9 = reinterpret_cast<Process*>(subject->FUN_008d8520())->vf8(subject);
                 if (hitLocal9 && hitLocal9->time.FUN_00435e00() < 5.0 &&
-                    hitLocal9->time.FUN_006a7f50() > targetLocal40->hitTime.FUN_006a7f50())
+                    hitLocal9->time.AStarSearch_EvaluateValue_006a7f50() > targetLocal40->hitTime.AStarSearch_EvaluateValue_006a7f50())
                 {
                     strengthLocal6 = 0;
                     if (highestLocal52 > 0)
@@ -4524,8 +4524,8 @@ struct Pos9892
     float z;
 
     Pos9892 FUN_00439e90(const Pos9892& kOther) const;
-    Pos9892 FUN_00439ef0(const Pos9892& kOther) const;
-    Pos9892 FUN_0053d280(float fScale) const;
+    Pos9892 SubtractIntoVector(const Pos9892& kOther) const;
+    Pos9892 ProcessAndReturnValue_0053d280(float fScale) const;
     float FUN_004a7290() const;
 };
 struct FUN_006915d0
@@ -4769,15 +4769,15 @@ struct Shape
     void Initialize_006e0320(const Region&, float);
     void PathingLOSGridMap_SetSightRadius(float);
 };
-void* FUN_00aa13e0(unsigned int);
+void* Object_DispatchCommandFour(unsigned int);
 __forceinline void* Shape::operator new(unsigned int n)
 {
-    return FUN_00aa13e0(n);
+    return Object_DispatchCommandFour(n);
 }
 struct ShapePtr
 {
     Shape* value;
-    Shape* FUN_00559450();
+    Shape* Modelloader_GetReferencedThis();
     void FUN_0066b0d0(Shape*);
 };
 extern Setting DAT_011ce9b4, DAT_011ce528, DAT_011cf870, DAT_011cf42c, DAT_011ce43c;
@@ -4934,9 +4934,9 @@ void Group::CombatGroup_UpdateSearch()
             focus = 0;
         if (updateTimer.FUN_008d7f80())
         {
-            if (shape.FUN_00559450() && shape.FUN_00559450()->FUN_004a7bd0() > DAT_0106d508)
+            if (shape.Modelloader_GetReferencedThis() && shape.Modelloader_GetReferencedThis()->FUN_004a7bd0() > DAT_0106d508)
             {
-                shape.FUN_00559450()->Reset();
+                shape.Modelloader_GetReferencedThis()->Reset();
                 generation++;
                 refreshTimer.CombatTimer_ForceTrigger();
             }
@@ -4948,7 +4948,7 @@ void Group::CombatGroup_UpdateSearch()
             }
             if (location.BGSWorldLocation_IsLocationLoaded())
             {
-                if (!shape.FUN_00559450() || refreshSlot1)
+                if (!shape.Modelloader_GetReferencedThis() || refreshSlot1)
                 {
                     unsigned int endSlot0 = 0;
                     unsigned int start = 0;
@@ -4963,19 +4963,19 @@ void Group::CombatGroup_UpdateSearch()
                             if (region.FUN_006dd6f0(0))
                             {
                                 region.FUN_006f4ed0(location.FUN_006815c0());
-                                if (!shape.FUN_00559450())
+                                if (!shape.Modelloader_GetReferencedThis())
                                     shape.FUN_0066b0d0(new Shape);
-                                shape.FUN_00559450()->Initialize_006e0320(region, radius);
-                                shape.FUN_00559450()->PathingLOSGridMap_SetSightRadius(*DAT_011cf42c.Setting_Float_00403e20());
+                                shape.Modelloader_GetReferencedThis()->Initialize_006e0320(region, radius);
+                                shape.Modelloader_GetReferencedThis()->PathingLOSGridMap_SetSightRadius(*DAT_011cf42c.Setting_Float_00403e20());
                                 changed = 1;
                             }
                         }
                     }
                 }
             }
-            else if (shape.FUN_00559450())
+            else if (shape.Modelloader_GetReferencedThis())
                 shape.FUN_0066b0d0(0);
-            if (shape.FUN_00559450())
+            if (shape.Modelloader_GetReferencedThis())
             {
                 unsigned int memberCount = CombatGroup_GetMemberCount();
                 RegionArray regionsSlot11(memberCount, 0, 0);
@@ -4995,9 +4995,9 @@ void Group::CombatGroup_UpdateSearch()
                 }
                 if (regionsSlot11.FUN_0044ddc0())
                 {
-                    float previous = shape.FUN_00559450()->FUN_004a7bd0();
+                    float previous = shape.Modelloader_GetReferencedThis()->FUN_004a7bd0();
                     BuildPathNodeHolder(&shape, &regionsSlot11, &headingsSlot11);
-                    if (previous != shape.FUN_00559450()->FUN_004a7bd0())
+                    if (previous != shape.Modelloader_GetReferencedThis()->FUN_004a7bd0())
                         changed = 1;
                 }
             }
@@ -5009,7 +5009,7 @@ void Group::CombatGroup_UpdateSearch()
             if (actor != DAT_011dea3c && otherSlot37)
             {
                 Target* target = CombatGroup_GetCombatTargetForActor(otherSlot37);
-                if (target && target->point.FUN_006a7f50() != -DAT_0108d540)
+                if (target && target->point.AStarSearch_EvaluateValue_006a7f50() != -DAT_0108d540)
                     DAT_011f1708->TryStartDialogue(actor, otherSlot37, 4, 1, 0, 0);
                 else
                     DAT_011f1708->TryStartDialogue(actor, otherSlot37, 4, 0, 0, 0);
@@ -5204,7 +5204,7 @@ struct ArrNodes
 struct ArrMembers
 {
     int x0, x4, x8, xc;
-    void FUN_0098f040(unsigned int, bool);
+    void ResizeBufferStorage(unsigned int, bool);
     MemberNode* BSSimpleArray_CombatMember_1024_GetAt(unsigned int) const;
 };
 struct ArrExtra
@@ -5216,7 +5216,7 @@ struct ArrExtra
 struct ArrParents
 {
     int x0, x4, x8, xc;
-    void FUN_006a8890(unsigned int, bool);
+    void UpdateState_006a8890(unsigned int, bool);
     ParentNode& GetAt(int);
 };
 struct LoadHandle
@@ -5278,7 +5278,7 @@ struct UpdateOwner;
 struct UpdateElement
 {
     unsigned int data;
-    void FUN_00985930(unsigned int, UpdateOwner*);
+    void ResolveStoredActor(unsigned int, UpdateOwner*);
 };
 struct UpdateArray
 {
@@ -5377,7 +5377,7 @@ struct ScoreValue
     int value;
     ScoreValue(float x);
     ScoreValue();
-    float FUN_006a7f50();
+    float AStarSearch_EvaluateValue_006a7f50();
     float FUN_00435e00();
 };
 struct PoseData

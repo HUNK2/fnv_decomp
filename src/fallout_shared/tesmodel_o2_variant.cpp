@@ -36,7 +36,7 @@ struct FUN_00489860_shell
 // class only defines its constructor so the compiler emits the this-adjusting thunk).
 struct PrimaryBase
 {
-    virtual void FUN_00403a40();
+    virtual void AdjustThisAndForward_00403a40();
     int unk04;
     int unk08;
     int unk0C;
@@ -52,14 +52,15 @@ struct PrimaryBase
 
 struct SecondaryBase
 {
-    virtual void FUN_00403a40();
+    virtual void AdjustThisAndForward_00403a40();
 };
 
 struct Derived : PrimaryBase, SecondaryBase
 {
     Derived();
 // @fnv 0x00403a40
-    virtual void FUN_00403a40();
+// src: GUESS 0x00403a40 (confidence: low)
+    virtual void AdjustThisAndForward_00403a40();
 };
 
 Derived::Derived()

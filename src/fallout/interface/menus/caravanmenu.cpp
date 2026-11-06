@@ -645,7 +645,7 @@ struct FNV_74A000_Action
 
 struct FNV_74A000_List
 {
-    FNV_74A000_Item* __thiscall FUN_00559450();
+    FNV_74A000_Item* __thiscall Modelloader_GetReferencedThis();
     int* __thiscall NiTPointerListBase_NiTPointerAllocator_unsigned_int_Tile_GetHead();
     FNV_74A000_Action** __thiscall AddEight(FNV_74A000_Item* item, int type, float amount, int flag);
     FNV_74A000_Item* __thiscall DereferenceIfNotNull(FNV_74A000_Item* item);
@@ -663,7 +663,7 @@ struct FNV_74A000_Slot
 // src: XBOX_PDB 0x0074a000
 void CaravanMenu::SetTileTextAlpha(int slot, float amount)
 {
-    FNV_74A000_Item* item = reinterpret_cast<FNV_74A000_Slot**>(reinterpret_cast<char*>(DAT_011d917c) + 0x30)[slot]->list.FUN_00559450();
+    FNV_74A000_Item* item = reinterpret_cast<FNV_74A000_Slot**>(reinterpret_cast<char*>(DAT_011d917c) + 0x30)[slot]->list.Modelloader_GetReferencedThis();
     FNV_74A000_List* list = &reinterpret_cast<FNV_74A000_Slot**>(reinterpret_cast<char*>(DAT_011d917c) + 0x30)[slot]->list;
 
     while (item && list && *list->NiTPointerListBase_NiTPointerAllocator_unsigned_int_Tile_GetHead())
@@ -3170,7 +3170,7 @@ struct Loader
 extern Loader* DAT_011c3b3c;
 struct Scene
 {
-    Node* FUN_00559450();
+    Node* Modelloader_GetReferencedThis();
 };
 extern Scene DAT_011d91e4;
 extern unsigned int DAT_011f36ac;
@@ -3236,11 +3236,11 @@ void CaravanMenu::InitMenu()
     using namespace CaravanSetup;
     (*(Node**)((char*)this + 0x18c)) = DAT_011c3b3c->ModelLoader_LoadFile(DAT_0107121c, 0, true, 0, 0, 0);
     (*(Node**)((char*)this + 0x188)) = DAT_011c3b3c->ModelLoader_LoadFile(DAT_010711e4, 0, true, 0, 0, 0);
-    DAT_011d91e4.FUN_00559450()->Attach((*(Node**)((char*)this + 0x188)), true);
-    DAT_011d91e4.FUN_00559450()->Attach((*(Node**)((char*)this + 0x18c)), true);
+    DAT_011d91e4.Modelloader_GetReferencedThis()->Attach((*(Node**)((char*)this + 0x188)), true);
+    DAT_011d91e4.Modelloader_GetReferencedThis()->Attach((*(Node**)((char*)this + 0x18c)), true);
     (*(Array*)((char*)this + 0x164)).FUN_008454f0(true);
     (*(Array*)((char*)this + 0x174)).FUN_008454f0(true);
-    DAT_011d91e4.FUN_00559450()->NiAVObject_Update(UpdateData(0, 0, 0));
+    DAT_011d91e4.Modelloader_GetReferencedThis()->NiAVObject_Update(UpdateData(0, 0, 0));
     (*(int*)((char*)this + 0xae8)) = CaravanSetup::MinInt((*(int*)((char*)this + 0xadc)), (*(int*)((char*)this + 0xae0)));
     Node* pNode = (*(Node**)((char*)this + 0x18c))->NiObjectNET_GetController(&DAT_011f36ac);
     if (pNode)
@@ -6817,7 +6817,7 @@ struct MatchNode
 };
 struct MatchPointer
 {
-    MatchNode* FUN_00559450();
+    MatchNode* Modelloader_GetReferencedThis();
 };
 extern MatchPointer DAT_011d91e4;
 struct MatchScene
@@ -7092,9 +7092,9 @@ void MatchMenu::PlaceBillsAndCoins(int skill, int amount)
             if (BSMAX_00647b70(countCoins, bills) > 0)
                 unk02c = 4;
             zero.FUN_0043d410(0.0f, false, false);
-            DAT_011d91e4.FUN_00559450()->Update(*(NiUpdateData*)&zero);
-            FUN_00450b80(1)->FUN_00b5ca70(DAT_011d91e4.FUN_00559450(),
-                                          (float)(DAT_011d91e4.FUN_00559450()->NiAVObject_GetWorldBound().FUN_0084d030() * 2.5));
+            DAT_011d91e4.Modelloader_GetReferencedThis()->Update(*(NiUpdateData*)&zero);
+            FUN_00450b80(1)->FUN_00b5ca70(DAT_011d91e4.Modelloader_GetReferencedThis(),
+                                          (float)(DAT_011d91e4.Modelloader_GetReferencedThis()->NiAVObject_GetWorldBound().FUN_0084d030() * 2.5));
         }
     }
 }
@@ -13148,7 +13148,7 @@ struct VObj
 struct MgrObj
 {
     int tag;
-    VObj* FUN_00559450();
+    VObj* Modelloader_GetReferencedThis();
 };
 extern MgrObj DAT_011d91e4;
 struct Owner
@@ -13279,7 +13279,7 @@ void Owner::PlaceRandomItem(int aiIndex)
     }
     m_add.FUN_007cb2e0(&cloned6);
     m_ed->FUN_005ae3d0(&aRes);
-    DAT_011d91e4.FUN_00559450()->f55(cloned6, 1);
+    DAT_011d91e4.Modelloader_GetReferencedThis()->f55(cloned6, 1);
 }
 }  // namespace fnv_0074f9b0
 
@@ -14604,7 +14604,7 @@ struct ArrA
     int a3;
     unsigned int FUN_0044ddc0();
     unsigned int* FUN_006f2270();
-    void FUN_00753140();
+    void RemoveLastArrayElement();
     ~ArrA();
 };
 struct ObjB
@@ -14871,13 +14871,13 @@ FUN_0073bba0::~FUN_0073bba0()
     char v5[260];
     DAT_011d91a8 = 0;
     DAT_011c3b3c->ModelLoader_ReleaseFile("Meshes\\Terminals\\NV_Caravan\\NV_Caravan-Table.NIF");
-    ((NiNode*)(ShadowSceneNode*)FUN_00450b80(1))->RemoveObject((NiAVObject*)DAT_011d91e4.FUN_00559450());
+    ((NiNode*)(ShadowSceneNode*)FUN_00450b80(1))->RemoveObject((NiAVObject*)DAT_011d91e4.Modelloader_GetReferencedThis());
     ((ShadowSceneNode*)FUN_00450b80(1))->RemoveAllLights();
-    if ((NodeFromGO*)DAT_011d91e4.FUN_00559450())
+    if ((NodeFromGO*)DAT_011d91e4.Modelloader_GetReferencedThis())
     {
-        if (((NodeFromGO*)DAT_011d91e4.FUN_00559450())->NiNode_GetChildCount())
+        if (((NodeFromGO*)DAT_011d91e4.Modelloader_GetReferencedThis())->NiNode_GetChildCount())
         {
-            ((NodeFromGO*)DAT_011d91e4.FUN_00559450())->DetachAllChildren_00572160();
+            ((NodeFromGO*)DAT_011d91e4.Modelloader_GetReferencedThis())->DetachAllChildren_00572160();
         }
     }
     m_184 = 0;
@@ -14906,13 +14906,13 @@ FUN_0073bba0::~FUN_0073bba0()
     while (m_134.FUN_0044ddc0() > 0)
     {
         v26 = *m_134.FUN_006f2270();
-        m_134.FUN_00753140();
+        m_134.RemoveLastArrayElement();
         v26 = 0;
     }
     while (m_14c.FUN_0044ddc0() > 0)
     {
         v28 = *m_14c.FUN_006f2270();
-        m_14c.FUN_00753140();
+        m_14c.RemoveLastArrayElement();
         v28 = 0;
     }
     while (m_15c != 0 && *m_15c->FUN_006815c0() != 0)
@@ -16198,7 +16198,7 @@ struct CMNode : CMAVObject
 };
 struct CMNodePtr
 {
-    CMNode* FUN_00559450();
+    CMNode* Modelloader_GetReferencedThis();
 };
 struct CMAudio
 {
@@ -16610,7 +16610,7 @@ void CaravanGame::CaravanMenu_DoIdle()
         if (true)
         {
             CMUpdateData ud(DAT_011d9208, true, false);
-            g_011d91e4.FUN_00559450()->FUN_0043b4a0(0)->NiAVObject_Update(ud);
+            g_011d91e4.Modelloader_GetReferencedThis()->FUN_0043b4a0(0)->NiAVObject_Update(ud);
         }
         if (DAT_011d9208 >= deckBuildSeq->GetEndKeyTime_00508100())
         {
@@ -16653,7 +16653,7 @@ void CaravanGame::CaravanMenu_DoIdle()
             CMUpdateData udB(DAT_011d9208, true, false);
             sideNode[0]->NiAVObject_Update(udA);
             sideNode[1]->NiAVObject_Update(udB);
-            g_011d91e4.FUN_00559450()->FUN_0043b4a0(0)->NiAVObject_Update(udWorld);
+            g_011d91e4.Modelloader_GetReferencedThis()->FUN_0043b4a0(0)->NiAVObject_Update(udWorld);
         }
         if (DAT_011d9208 >= startSeq->GetEndKeyTime_00508100() && DAT_011d9208 >= sideSeq[0][0]->GetEndKeyTime_00508100() &&
             DAT_011d9208 >= sideSeq[1][0]->GetEndKeyTime_00508100())
@@ -16666,7 +16666,7 @@ void CaravanGame::CaravanMenu_DoIdle()
             float y = 0.0f;
             int tileWidth = (int)mainTile->FUN_00a011b0(0xfb1);
             CMAVObject* sel = A_Fn::BSUtilities_GetObjectByName(sceneRoot, "Select1_01:0");
-            ((CMNodePtr*)&g_011d91a8)->FUN_00559450()->ProjectToScreen(sel->NiAVObject_GetWorldTranslate(), &x, &y, 1e-05f);
+            ((CMNodePtr*)&g_011d91a8)->Modelloader_GetReferencedThis()->ProjectToScreen(sel->NiAVObject_GetWorldTranslate(), &x, &y, 1e-05f);
             x = tileWidth * x - DAT_010718b8;
             laneTile0->Tile_Set(0xfa1, x, true);
             laneTile5->Tile_Set(0xfa1, x, true);
@@ -16707,7 +16707,7 @@ void CaravanGame::CaravanMenu_DoIdle()
         if (true)
         {
             CMUpdateData ud(DAT_011d9208, true, false);
-            g_011d91e4.FUN_00559450()->FUN_0043b4a0(0)->NiAVObject_Update(ud);
+            g_011d91e4.Modelloader_GetReferencedThis()->FUN_0043b4a0(0)->NiAVObject_Update(ud);
         }
         if (DAT_011d9208 >= setupDoneSeq->GetEndKeyTime_00508100())
         {
@@ -16762,7 +16762,7 @@ void CaravanGame::CaravanMenu_DoIdle()
             CMUpdateData udSceneRoot(DAT_011d9208, true, false);
             CMUpdateData udBoardB(DAT_011d9208, true, false);
             CMUpdateData udBoardA(DAT_011d9208, true, false);
-            g_011d91e4.FUN_00559450()->FUN_0043b4a0(0)->NiAVObject_Update(udSceneRoot);
+            g_011d91e4.Modelloader_GetReferencedThis()->FUN_0043b4a0(0)->NiAVObject_Update(udSceneRoot);
             boardNodeB->NiAVObject_Update(udBoardB);
             boardNodeA->NiAVObject_Update(udBoardA);
         }
@@ -16772,7 +16772,7 @@ void CaravanGame::CaravanMenu_DoIdle()
             CMUpdateData udSceneRoot(0.0f, true, false);
             CMUpdateData udBoardB(0.0f, true, false);
             CMUpdateData udBoardA(0.0f, true, false);
-            g_011d91e4.FUN_00559450()->FUN_0043b4a0(0)->NiAVObject_Update(udSceneRoot);
+            g_011d91e4.Modelloader_GetReferencedThis()->FUN_0043b4a0(0)->NiAVObject_Update(udSceneRoot);
             boardNodeB->NiAVObject_Update(udBoardB);
             boardNodeA->NiAVObject_Update(udBoardA);
             if (scrollPos <= 0)
@@ -16812,7 +16812,7 @@ void CaravanGame::CaravanMenu_DoIdle()
             CMUpdateData udSceneRoot(DAT_011d9208, true, false);
             CMUpdateData udBoardB(DAT_011d9208, true, false);
             CMUpdateData udBoardA(DAT_011d9208, true, false);
-            g_011d91e4.FUN_00559450()->FUN_0043b4a0(0)->NiAVObject_Update(udSceneRoot);
+            g_011d91e4.Modelloader_GetReferencedThis()->FUN_0043b4a0(0)->NiAVObject_Update(udSceneRoot);
             boardNodeB->NiAVObject_Update(udBoardB);
             boardNodeA->NiAVObject_Update(udBoardA);
         }
@@ -16867,7 +16867,7 @@ void CaravanGame::CaravanMenu_DoIdle()
             CMUpdateData udSceneRoot(DAT_011d9208, true, false);
             CMUpdateData udBoardB(DAT_011d9208, true, false);
             CMUpdateData udBoardA(DAT_011d9208, true, false);
-            g_011d91e4.FUN_00559450()->FUN_0043b4a0(0)->NiAVObject_Update(udSceneRoot);
+            g_011d91e4.Modelloader_GetReferencedThis()->FUN_0043b4a0(0)->NiAVObject_Update(udSceneRoot);
             boardNodeB->NiAVObject_Update(udBoardB);
             boardNodeA->NiAVObject_Update(udBoardA);
         }
@@ -16900,7 +16900,7 @@ void CaravanGame::CaravanMenu_DoIdle()
             CMUpdateData udSceneRoot(DAT_011d9208, true, false);
             CMUpdateData udBoardB(DAT_011d9208, true, false);
             CMUpdateData udBoardA(DAT_011d9208, true, false);
-            g_011d91e4.FUN_00559450()->FUN_0043b4a0(0)->NiAVObject_Update(udSceneRoot);
+            g_011d91e4.Modelloader_GetReferencedThis()->FUN_0043b4a0(0)->NiAVObject_Update(udSceneRoot);
             boardNodeB->NiAVObject_Update(udBoardB);
             boardNodeA->NiAVObject_Update(udBoardA);
         }
@@ -16934,7 +16934,7 @@ void CaravanGame::CaravanMenu_DoIdle()
             CMUpdateData udSceneRoot(DAT_011d9208, true, false);
             CMUpdateData udBoardB(DAT_011d9208, true, false);
             CMUpdateData udBoardA(DAT_011d9208, true, false);
-            g_011d91e4.FUN_00559450()->FUN_0043b4a0(0)->NiAVObject_Update(udSceneRoot);
+            g_011d91e4.Modelloader_GetReferencedThis()->FUN_0043b4a0(0)->NiAVObject_Update(udSceneRoot);
             boardNodeB->NiAVObject_Update(udBoardB);
             boardNodeA->NiAVObject_Update(udBoardA);
         }
@@ -16945,7 +16945,7 @@ void CaravanGame::CaravanMenu_DoIdle()
             CMUpdateData udSceneRoot(0.0f, true, false);
             CMUpdateData udBoardB(0.0f, true, false);
             CMUpdateData udBoardA(0.0f, true, false);
-            g_011d91e4.FUN_00559450()->FUN_0043b4a0(0)->NiAVObject_Update(udSceneRoot);
+            g_011d91e4.Modelloader_GetReferencedThis()->FUN_0043b4a0(0)->NiAVObject_Update(udSceneRoot);
             boardNodeB->NiAVObject_Update(udBoardB);
             boardNodeA->NiAVObject_Update(udBoardA);
             boardMgrB->FUN_0047b220(addRemoveSeqB, 0.0f);
@@ -16973,7 +16973,7 @@ void CaravanGame::CaravanMenu_DoIdle()
             CMUpdateData udSceneRoot(DAT_011d9208, true, false);
             CMUpdateData udBoardB(DAT_011d9208, true, false);
             CMUpdateData udBoardA(DAT_011d9208, true, false);
-            g_011d91e4.FUN_00559450()->FUN_0043b4a0(0)->NiAVObject_Update(udSceneRoot);
+            g_011d91e4.Modelloader_GetReferencedThis()->FUN_0043b4a0(0)->NiAVObject_Update(udSceneRoot);
             boardNodeB->NiAVObject_Update(udBoardB);
             boardNodeA->NiAVObject_Update(udBoardA);
         }
@@ -16984,7 +16984,7 @@ void CaravanGame::CaravanMenu_DoIdle()
             CMUpdateData udSceneRoot(DAT_011d9208, true, false);
             CMUpdateData udBoardB(DAT_011d9208, true, false);
             CMUpdateData udBoardA(DAT_011d9208, true, false);
-            g_011d91e4.FUN_00559450()->FUN_0043b4a0(0)->NiAVObject_Update(udSceneRoot);
+            g_011d91e4.Modelloader_GetReferencedThis()->FUN_0043b4a0(0)->NiAVObject_Update(udSceneRoot);
             boardNodeB->NiAVObject_Update(udBoardB);
             boardNodeA->NiAVObject_Update(udBoardA);
             boardMgrB->FUN_0047b220(deckDoneSeqB, 0.0f);
@@ -18661,7 +18661,7 @@ struct SceneNode
 };
 struct SceneRoot
 {
-    SceneNode* FUN_00559450();
+    SceneNode* Modelloader_GetReferencedThis();
 };
 struct ModelLoader
 {
@@ -18822,8 +18822,8 @@ void CaravanMenu::PrepareGameMenu()
         (*reinterpret_cast<int (*)[0x60]>((reinterpret_cast<char*>(this) + 0x8ec)))[iClear2] = 0;
     }
 
-    DAT_011d91e4.FUN_00559450()->RemoveChildAt(DAT_011d91e4.FUN_00559450()->NiNode_GetChildCount() - 1);
-    DAT_011d91e4.FUN_00559450()->RemoveChildAt(DAT_011d91e4.FUN_00559450()->NiNode_GetChildCount() - 1);
+    DAT_011d91e4.Modelloader_GetReferencedThis()->RemoveChildAt(DAT_011d91e4.Modelloader_GetReferencedThis()->NiNode_GetChildCount() - 1);
+    DAT_011d91e4.Modelloader_GetReferencedThis()->RemoveChildAt(DAT_011d91e4.Modelloader_GetReferencedThis()->NiNode_GetChildCount() - 1);
     DAT_011c3b3c->ModelLoader_ReleaseFile("Meshes\\Terminals\\NV_Caravan\\NV_Caravan-Deck.NIF");
     DAT_011c3b3c->ModelLoader_ReleaseFile("Meshes\\Terminals\\NV_Caravan\\NV_Caravan-Available.NIF");
     (*reinterpret_cast<int*>((reinterpret_cast<char*>(this) + 0x188))) = 0;
@@ -18837,11 +18837,11 @@ void CaravanMenu::PrepareGameMenu()
             BSsprintf(szModel, 0x104, "%sPlayer_%i_0%i.NIF", "Meshes\\Terminals\\NV_Caravan\\", iSide + 1,
                          iCard + 1);
             (*reinterpret_cast<SceneNode* (*)[6][7]>((reinterpret_cast<char*>(this) + 0x198)))[iSide][iCard] = DAT_011c3b3c->ModelLoader_LoadFile(szModel, 0, 1, 0, 0, 0);
-            DAT_011d91e4.FUN_00559450()->AttachChildInAvailableSlot((*reinterpret_cast<SceneNode* (*)[6][7]>((reinterpret_cast<char*>(this) + 0x198)))[iSide][iCard], 1);
+            DAT_011d91e4.Modelloader_GetReferencedThis()->AttachChildInAvailableSlot((*reinterpret_cast<SceneNode* (*)[6][7]>((reinterpret_cast<char*>(this) + 0x198)))[iSide][iCard], 1);
             BSsprintf(szModel, 0x104, "%sOpponent_%i_0%i.NIF", "Meshes\\Terminals\\NV_Caravan\\", iSide + 1,
                          iCard + 1);
             (*reinterpret_cast<SceneNode* (*)[6][7]>((reinterpret_cast<char*>(this) + 0x198)))[iSide + 3][iCard] = DAT_011c3b3c->ModelLoader_LoadFile(szModel, 0, 1, 0, 0, 0);
-            DAT_011d91e4.FUN_00559450()->AttachChildInAvailableSlot((*reinterpret_cast<SceneNode* (*)[6][7]>((reinterpret_cast<char*>(this) + 0x198)))[iSide + 3][iCard], 1);
+            DAT_011d91e4.Modelloader_GetReferencedThis()->AttachChildInAvailableSlot((*reinterpret_cast<SceneNode* (*)[6][7]>((reinterpret_cast<char*>(this) + 0x198)))[iSide + 3][iCard], 1);
         }
     }
 
@@ -18855,17 +18855,17 @@ void CaravanMenu::PrepareGameMenu()
 
     BSsprintf(szModel, 0x104, "%sSelect_Add.NIF", "Meshes\\Terminals\\NV_Caravan\\");
     (*reinterpret_cast<SceneNode**>((reinterpret_cast<char*>(this) + 0xe6c))) = DAT_011c3b3c->ModelLoader_LoadFile(szModel, 0, 1, 0, 0, 0);
-    DAT_011d91e4.FUN_00559450()->AttachChildInAvailableSlot((*reinterpret_cast<SceneNode**>((reinterpret_cast<char*>(this) + 0xe6c))), 1);
+    DAT_011d91e4.Modelloader_GetReferencedThis()->AttachChildInAvailableSlot((*reinterpret_cast<SceneNode**>((reinterpret_cast<char*>(this) + 0xe6c))), 1);
     BSsprintf(szModel, 0x104, "%sSelect_Remove.NIF", "Meshes\\Terminals\\NV_Caravan\\");
     (*reinterpret_cast<SceneNode**>((reinterpret_cast<char*>(this) + 0xe70))) = DAT_011c3b3c->ModelLoader_LoadFile(szModel, 0, 1, 0, 0, 0);
-    DAT_011d91e4.FUN_00559450()->AttachChildInAvailableSlot((*reinterpret_cast<SceneNode**>((reinterpret_cast<char*>(this) + 0xe70))), 1);
+    DAT_011d91e4.Modelloader_GetReferencedThis()->AttachChildInAvailableSlot((*reinterpret_cast<SceneNode**>((reinterpret_cast<char*>(this) + 0xe70))), 1);
 
     BSsprintf(szModel, 0x104, "%s%s", "Meshes\\Terminals\\NV_Caravan\\", "Player_Deck.NIF");
     (*reinterpret_cast<SceneNode* (*)[2]>((reinterpret_cast<char*>(this) + 0x190)))[0] = DAT_011c3b3c->ModelLoader_LoadFile(szModel, 0, 1, 0, 0, 0);
     BSsprintf(szModel, 0x104, "%s%s", "Meshes\\Terminals\\NV_Caravan\\", "Opponent_Deck.NIF");
     (*reinterpret_cast<SceneNode* (*)[2]>((reinterpret_cast<char*>(this) + 0x190)))[1] = DAT_011c3b3c->ModelLoader_LoadFile(szModel, 0, 1, 0, 0, 0);
-    DAT_011d91e4.FUN_00559450()->AttachChildInAvailableSlot((*reinterpret_cast<SceneNode* (*)[2]>((reinterpret_cast<char*>(this) + 0x190)))[0], 1);
-    DAT_011d91e4.FUN_00559450()->AttachChildInAvailableSlot((*reinterpret_cast<SceneNode* (*)[2]>((reinterpret_cast<char*>(this) + 0x190)))[1], 1);
+    DAT_011d91e4.Modelloader_GetReferencedThis()->AttachChildInAvailableSlot((*reinterpret_cast<SceneNode* (*)[2]>((reinterpret_cast<char*>(this) + 0x190)))[0], 1);
+    DAT_011d91e4.Modelloader_GetReferencedThis()->AttachChildInAvailableSlot((*reinterpret_cast<SceneNode* (*)[2]>((reinterpret_cast<char*>(this) + 0x190)))[1], 1);
 
     for (int iGridPos = 0; iGridPos < 6; iGridPos++)
     {
@@ -18933,7 +18933,7 @@ void CaravanMenu::PrepareGameMenu()
         }
     }
 
-    DAT_011d91e4.FUN_00559450()->NiAVObject_Update(NiUpdateData(0.0f, 0, 0));
+    DAT_011d91e4.Modelloader_GetReferencedThis()->NiAVObject_Update(NiUpdateData(0.0f, 0, 0));
 
     for (int iSlot = 0; iSlot < 6; iSlot++)
     {

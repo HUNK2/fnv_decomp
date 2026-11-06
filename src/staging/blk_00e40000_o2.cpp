@@ -75,10 +75,10 @@ public:
     ConstraintFourLaneCallLocal_00e55080(const __m128& vector);
 
     ConstraintFourLaneCallLocal_00e55080* hkVector4_hkVector4(float x, float y, float z, float w);
-    void FUN_004a3f10(ConstraintFourLaneCallLocal_00e55080* vector);
-    void __thiscall FUN_004b4db0(const ConstraintFourLaneCallLocal_00e55080* vector);
-    ConstraintFourLaneCallLocal_00e55080& FUN_00e531a0(int parameter);
-    ConstraintFourLaneCallLocal_00e55080 FUN_00e53260(int parameter);
+    void SetValue(ConstraintFourLaneCallLocal_00e55080* vector);
+    void __thiscall SetQuaternionComponentsFromVector(const ConstraintFourLaneCallLocal_00e55080* vector);
+    ConstraintFourLaneCallLocal_00e55080& ComputeValue_00e531a0(int parameter);
+    ConstraintFourLaneCallLocal_00e55080 ProcessAndReturnValue_00e53260(int parameter);
     void normalize_005611c0();
 
     void operator=(const ConstraintFourLaneCallLocal_00e55080& vector);
@@ -176,7 +176,8 @@ FUN_00e4e400_class* __thiscall FUN_00e4e400_class::hkaAnnotationTrack_hkaAnnotat
 }
 
 // @fnv 0x00e52860
-void FUN_00e52860(const float* src, float* dst)
+// src: GUESS 0x00e52860 (confidence: low)
+void Object_UpdateFields_00e52860(const float* src, float* dst)
 {
     dst[0] = src[0];
     dst[1] = src[1];
@@ -185,7 +186,8 @@ void FUN_00e52860(const float* src, float* dst)
 }
 
 // @fnv 0x00e52ef0
-void FUN_00e52ef0(const float* src, float* dst)
+// src: GUESS 0x00e52ef0 (confidence: low)
+void Runtime_UpdateState_00e52ef0(const float* src, float* dst)
 {
     *dst = *src;
     dst[1] = src[1];
@@ -219,56 +221,61 @@ float FUN_00e587c0_Class::GetFloatAt(int iIndex, int base) {
 
 struct GlobalObjectO2_00d472a0 { int x; };
 GlobalObjectO2_00d472a0 g_0126e600;
-void __stdcall FUN_00e5c540(int, GlobalObjectO2_00d472a0*);
+void __stdcall FindResourceWithExpectedName(int, GlobalObjectO2_00d472a0*);
 // @fnv 0x00e5c5b0
-void __stdcall FUN_00e5c5b0(int a)
+// src: GUESS 0x00e5c5b0 (confidence: low)
+void __stdcall Runtime_ForwardCall_00e5c5b0(int a)
 {
-    FUN_00e5c540(a, &g_0126e600);
+    FindResourceWithExpectedName(a, &g_0126e600);
 }
 
-extern "C" void __stdcall FUN_00e5c540(int, int);
+extern "C" void __stdcall FindResourceWithExpectedName(int, int);
 
 struct GlobalObjectO2_00d472a0;
 extern GlobalObjectO2_00d472a0 g_0126c5f0;
 
 // Calls FUN_00e5c540 with the argument a and the address of g_0126c5f0.
 // @fnv 0x00e5c5f0
-void __stdcall FUN_00e5c5f0(int aiValue)
+// src: GUESS 0x00e5c5f0 (confidence: low)
+void __stdcall Runtime_ForwardCall_00e5c5f0(int aiValue)
 {
-    FUN_00e5c540(aiValue, (int)&g_0126c5f0);
+    FindResourceWithExpectedName(aiValue, (int)&g_0126c5f0);
 }
 
 namespace fnv_00e5c610 {
 struct GlobalObjectO2_00d472a0;
 extern GlobalObjectO2_00d472a0 g_0126e570;
-extern "C" void __stdcall FUN_00e5c540(int, GlobalObjectO2_00d472a0*);
+extern "C" void __stdcall FindResourceWithExpectedName(int, GlobalObjectO2_00d472a0*);
 // @fnv 0x00e5c610
-void __stdcall FUN_00e5c610(int aiValue)
+// src: GUESS 0x00e5c610 (confidence: low)
+void __stdcall Runtime_ForwardCall_00e5c610(int aiValue)
 {
-    FUN_00e5c540(aiValue, &g_0126e570);
+    FindResourceWithExpectedName(aiValue, &g_0126e570);
 }
 }  // namespace fnv_00e5c610
 
 namespace fnv_00e5c650 {
 struct GlobalObjectO2_00d472a0 {};
 extern GlobalObjectO2_00d472a0 g_0126ea38;
-void __stdcall FUN_00e5c540(int, GlobalObjectO2_00d472a0*);
+void __stdcall FindResourceWithExpectedName(int, GlobalObjectO2_00d472a0*);
 // @fnv 0x00e5c650
-void __stdcall FUN_00e5c650(int aiValue)
+// src: GUESS 0x00e5c650 (confidence: low)
+void __stdcall Runtime_ForwardCall_00e5c650(int aiValue)
 {
-    FUN_00e5c540(aiValue, &g_0126ea38);
+    FindResourceWithExpectedName(aiValue, &g_0126ea38);
 }
 }  // namespace fnv_00e5c650
 
 namespace fnv_00e5c670 {
 struct GlobalObjectO2_00d472a0;
-extern "C" void* __stdcall FUN_00e5c540(void*, void*);
+extern "C" void* __stdcall FindResourceWithExpectedName(void*, void*);
 extern GlobalObjectO2_00d472a0 g_0126ea80;
 
 // @fnv 0x00e5c670
-void* __stdcall FUN_00e5c670(void* apArg)
+// src: GUESS 0x00e5c670 (confidence: low)
+void* __stdcall Runtime_ForwardCall_00e5c670(void* apArg)
 {
-    return FUN_00e5c540(apArg, &g_0126ea80);
+    return FindResourceWithExpectedName(apArg, &g_0126ea80);
 }
 }  // namespace fnv_00e5c670
 
@@ -316,21 +323,23 @@ void __thiscall FUN_00e45a10_class::ClearFlags(int a, int b)
 }
 
 struct FUN_00e587b0_Class {
-    int* __thiscall FUN_00e587b0(int idx);
+    int* __thiscall GetElementAddress_00e587b0(int idx);
 };
 
 // @fnv 0x00e587b0
-int* __thiscall FUN_00e587b0_Class::FUN_00e587b0(int idx)
+// src: GUESS 0x00e587b0 (confidence: low)
+int* __thiscall FUN_00e587b0_Class::GetElementAddress_00e587b0(int idx)
 {
     return *reinterpret_cast<int**>(this) + idx;
 }
 
 struct FUN_00e58880_Class {
-    float FUN_00e58880(int offset);
+    float GetIndexedValue_00e58880(int offset);
 };
 
 // @fnv 0x00e58880
-float __thiscall FUN_00e58880_Class::FUN_00e58880(int offset)
+// src: GUESS 0x00e58880 (confidence: low)
+float __thiscall FUN_00e58880_Class::GetIndexedValue_00e58880(int offset)
 {
     const float* base = *(const float**)this;
     return base[offset];
@@ -338,18 +347,18 @@ float __thiscall FUN_00e58880_Class::FUN_00e58880(int offset)
 
 namespace fnv_00e589e0 {
 struct FUN_00e587b0_Class {
-    float* FUN_00e587b0(int);
-    int FUN_00e58890();
+    float* GetElementAddress_00e587b0(int);
+    int EvaluateValue_00e58890();
 };
 // Calls FUN_00e58890 for a count, then for each index gets a float pointer via FUN_00e587b0 and negates its first element.
 // @fnv 0x00e589e0
 void __cdecl NegateElements(FUN_00e587b0_Class* p)
 {
-    int count = p->FUN_00e58890();
+    int count = p->EvaluateValue_00e58890();
     for (int i = 0; i < count; ++i)
     {
-        float* a = p->FUN_00e587b0(i);
-        float* b = p->FUN_00e587b0(i);
+        float* a = p->GetElementAddress_00e587b0(i);
+        float* b = p->GetElementAddress_00e587b0(i);
         *b = -a[0];
     }
 }
@@ -494,29 +503,31 @@ void FUN_00e58b10_class::hkaSparseLSQMatrix_float_Multiply(int a, int aiArg2, in
 }
 
 extern const char* const g_0126c5f0_arg1;
-void __stdcall FUN_00e5c540(int, int);
+void __stdcall FindResourceWithExpectedName(int, int);
 // @fnv 0x00e5c5d0
-void __stdcall FUN_00e5c5d0(int aiValue)
+// src: GUESS 0x00e5c5d0 (confidence: low)
+void __stdcall Runtime_ForwardCall_00e5c5d0(int aiValue)
 {
-    FUN_00e5c540(aiValue, (int)&g_0126c5f0_arg1);
+    FindResourceWithExpectedName(aiValue, (int)&g_0126c5f0_arg1);
 }
 
 struct GlobalObjectO2_00d472a0;
 extern GlobalObjectO2_00d472a0 g_0126eb10;
-void __stdcall FUN_00e5c540(int a, GlobalObjectO2_00d472a0* b);
+void __stdcall FindResourceWithExpectedName(int a, GlobalObjectO2_00d472a0* b);
 // @fnv 0x00e5c630
-void __stdcall FUN_00e5c630(int aiValue)
+// src: GUESS 0x00e5c630 (confidence: low)
+void __stdcall Runtime_ForwardCall_00e5c630(int aiValue)
 {
-    FUN_00e5c540(aiValue, &g_0126eb10);
+    FindResourceWithExpectedName(aiValue, &g_0126eb10);
 }
 
 struct GlobalObjectO2_00d472a0;
 extern GlobalObjectO2_00d472a0 g_0126eac8;
-void __stdcall FUN_00e5c540(int, GlobalObjectO2_00d472a0*);
+void __stdcall FindResourceWithExpectedName(int, GlobalObjectO2_00d472a0*);
 // @fnv 0x00e5c690
 void __stdcall CallWithGlobalObject(int aiValue)
 {
-    FUN_00e5c540(aiValue, &g_0126eac8);
+    FindResourceWithExpectedName(aiValue, &g_0126eac8);
 }
 
 struct FUN_00e406d0_cls
@@ -937,7 +948,7 @@ FUN_00e4ae80_class::FUN_00e4ae80_class(int flags)
 // before the tail jump to the secondary base's implementation.
 struct ThunkPrimary
 {
-    virtual void FUN_00e4af50();
+    virtual void ForwardCall_00e4af50();
     int unk04;
     int unk08;
     int unk0C;
@@ -946,13 +957,13 @@ struct ThunkPrimary
 
 struct ThunkSecondary
 {
-    virtual void FUN_00cb0c10();
+    virtual void UpdateState_00cb0c10();
 };
 
 struct ThunkDerived : ThunkPrimary, ThunkSecondary
 {
     ThunkDerived();
-    virtual void FUN_00e4af50();
+    virtual void ForwardCall_00e4af50();
 };
 
 ThunkDerived::ThunkDerived()
@@ -960,9 +971,10 @@ ThunkDerived::ThunkDerived()
 }
 
 // @fnv 0x00e4af50
-void ThunkDerived::FUN_00e4af50()
+// src: GUESS 0x00e4af50 (confidence: low)
+void ThunkDerived::ForwardCall_00e4af50()
 {
-    this->ThunkSecondary::FUN_00cb0c10();
+    this->ThunkSecondary::UpdateState_00cb0c10();
 }
 
 struct S_00e4af60_helper {
@@ -978,13 +990,14 @@ struct S_00e4af60_class {
     int unk10;
     S_00e4af60_helper unk14;
 
-    S_00e4af60_class* FUN_00e4af60();
+    S_00e4af60_class* InitializeFields_00e4af60();
 };
 
 extern int DAT_010ec1fc;
 
 // @fnv 0x00e4af60
-S_00e4af60_class* S_00e4af60_class::FUN_00e4af60()
+// src: GUESS 0x00e4af60 (confidence: low)
+S_00e4af60_class* S_00e4af60_class::InitializeFields_00e4af60()
 {
     this->unk06 = 1;
     this->unk00 = &DAT_010ec1fc;
@@ -1016,12 +1029,13 @@ struct FUN_00e50ca0_cls {
     int m_iCount1;
     unsigned int m_uCap1;
 
-    void FUN_00e50ca0();
+    void ReleaseFiveArrays();
 };
 
 // Frees the five allocated arrays through the audio allocator, resetting each pointer, count and capacity to empty.
 // @fnv 0x00e50ca0
-void FUN_00e50ca0_cls::FUN_00e50ca0()
+// src: GUESS 0x00e50ca0 (confidence: medium)
+void FUN_00e50ca0_cls::ReleaseFiveArrays()
 {
     hkMemoryRouter* pHolder = hkMemoryRouter_getInstance();
     hkMemoryAllocator* pAllocator = reinterpret_cast<hkMemoryAllocator*>(pHolder->m_heap);
@@ -1173,7 +1187,8 @@ void __cdecl PackFourFloatsToNibbles(const float* afValues, unsigned char* aucPa
 extern const float g_x;
 
 // @fnv 0x00e52f40
-float __cdecl FUN_00e52f40()
+// src: GUESS 0x00e52f40 (confidence: low)
+float __cdecl Object_GetGlobalValue_00e52f40()
 {
     return g_x;
 }
@@ -1181,7 +1196,8 @@ float __cdecl FUN_00e52f40()
 extern const float g_010ec960;
 
 // @fnv 0x00e52f50
-float __cdecl FUN_00e52f50()
+// src: GUESS 0x00e52f50 (confidence: low)
+float __cdecl Runtime_GetField010ec960()
 {
     return g_010ec960;
 }
@@ -1189,7 +1205,8 @@ float __cdecl FUN_00e52f50()
 extern const float g_010af2f0;
 
 // @fnv 0x00e52f60
-float __cdecl FUN_00e52f60()
+// src: GUESS 0x00e52f60 (confidence: low)
+float __cdecl Object_GetGlobalValue_00e52f60()
 {
     return g_010af2f0;
 }
@@ -1197,7 +1214,8 @@ float __cdecl FUN_00e52f60()
 extern const float g_010ec964;
 
 // @fnv 0x00e52f70
-float __cdecl FUN_00e52f70()
+// src: GUESS 0x00e52f70 (confidence: low)
+float __cdecl Runtime_GetField010ec964()
 {
     return g_010ec964;
 }
@@ -1205,7 +1223,8 @@ float __cdecl FUN_00e52f70()
 extern const float DAT_010ec968;
 
 // @fnv 0x00e52f80
-float __cdecl FUN_00e52f80()
+// src: GUESS 0x00e52f80 (confidence: low)
+float __cdecl Object_GetDAT_010ec968_00e52f80()
 {
     return DAT_010ec968;
 }
@@ -1213,7 +1232,8 @@ float __cdecl FUN_00e52f80()
 extern float DAT_0104da4c;
 
 // @fnv 0x00e52f90
-float __cdecl FUN_00e52f90(void)
+// src: GUESS 0x00e52f90 (confidence: low)
+float __cdecl Runtime_GetDAT0104da4c(void)
 {
     return DAT_0104da4c;
 }
@@ -1331,12 +1351,13 @@ struct FUN_00e531a0_struct {
     float m_08;
     float m_0c;
 
-    FUN_00e531a0_struct* FUN_00e531a0(const FUN_00e531a0_struct* other);
+    FUN_00e531a0_struct* ComputeValue_00e531a0(const FUN_00e531a0_struct* other);
 };
 
 // Adds the four float components of other into this object's components and returns this.
 // @fnv 0x00e531a0
-FUN_00e531a0_struct* FUN_00e531a0_struct::FUN_00e531a0(const FUN_00e531a0_struct* other)
+// src: GUESS 0x00e531a0 (confidence: low)
+FUN_00e531a0_struct* FUN_00e531a0_struct::ComputeValue_00e531a0(const FUN_00e531a0_struct* other)
 {
     m_00 += other->m_00;
     m_04 += other->m_04;
@@ -1352,12 +1373,13 @@ struct FUN_00e531d0_cls {
     float m_04;
     float m_08;
     float m_0c;
-    FUN_00e531d0_cls* FUN_00e531d0(const float* pOther);
+    FUN_00e531d0_cls* SubtractFourComponents(const float* pOther);
 };
 
 // Subtracts the four floats pointed to by pOther from m_00..m_0c and returns this.
 // @fnv 0x00e531d0
-FUN_00e531d0_cls* FUN_00e531d0_cls::FUN_00e531d0(const float* pOther)
+// src: GUESS 0x00e531d0 (confidence: high)
+FUN_00e531d0_cls* FUN_00e531d0_cls::SubtractFourComponents(const float* pOther)
 {
     m_00 -= pOther[0];
     m_04 -= pOther[1];
@@ -1406,9 +1428,10 @@ E53230Color& E53230Color::DivideByScalar(float fScalar)
 }
 
 // @fnv 0x00e53260
-ConstraintFourLaneCallLocal_00e55080 ConstraintFourLaneCallLocal_00e55080::FUN_00e53260(int parameter) {
+// src: GUESS 0x00e53260 (confidence: low)
+ConstraintFourLaneCallLocal_00e55080 ConstraintFourLaneCallLocal_00e55080::ProcessAndReturnValue_00e53260(int parameter) {
     ConstraintFourLaneCallLocal_00e55080 local = *this;
-    return local.FUN_00e531a0(parameter);
+    return local.ComputeValue_00e531a0(parameter);
 }
 
 struct S_e53300_Vec;
@@ -1453,7 +1476,8 @@ struct SpawnedObject {
 };
 
 // @fnv 0x00e533a0
-float* __cdecl FUN_00e533a0(float* pOut, float fValue, SpawnedObject* pObj)
+// src: GUESS 0x00e533a0 (confidence: medium)
+float* __cdecl Object_ScaleCopy_Thunk(float* pOut, float fValue, SpawnedObject* pObj)
 {
     pObj->Method(pOut, fValue);
     return pOut;
@@ -1496,20 +1520,22 @@ FourComponentVector FourComponentVector::hkaNURBS_Point_floor() const
 }
 
 struct FUN_00e53580_cls {
-    float FUN_00e53580(int idx);
+    float GetIndexedValue_00e53580(int idx);
 };
 
 // @fnv 0x00e53580
-float FUN_00e53580_cls::FUN_00e53580(int idx) {
+// src: GUESS 0x00e53580 (confidence: low)
+float FUN_00e53580_cls::GetIndexedValue_00e53580(int idx) {
     return ((float*)this)[idx];
 }
 
 struct S_00e53590_Foo {
-    int* __thiscall FUN_00e53590(int index);
+    int* __thiscall GetElementAddress_00e53590(int index);
 };
 
 // @fnv 0x00e53590
-int* __thiscall S_00e53590_Foo::FUN_00e53590(int index) {
+// src: GUESS 0x00e53590 (confidence: low)
+int* __thiscall S_00e53590_Foo::GetElementAddress_00e53590(int index) {
     return reinterpret_cast<int*>(this) + index;
 }
 
@@ -1720,11 +1746,12 @@ void __cdecl hkaNURBS_Point_Dot(int a, int b);
 struct FUN_00e54ad0_cls
 {
     int unk00;
-    void FUN_00e54ad0();
+    void EvaluateSelfDotProduct();
 };
 
 // @fnv 0x00e54ad0
-void FUN_00e54ad0_cls::FUN_00e54ad0()
+// src: GUESS 0x00e54ad0 (confidence: medium)
+void FUN_00e54ad0_cls::EvaluateSelfDotProduct()
 {
     hkaNURBS_Point_Dot((int)this, (int)this);
 }
@@ -1810,7 +1837,7 @@ struct FUN_00e54ae0_class
 
 struct FUN_00e532b0_class
 {
-    FUN_00e54ae0_class* __thiscall FUN_00e532b0(void* buffer, void* value);
+    FUN_00e54ae0_class* __thiscall UpdateState_00e532b0(void* buffer, void* value);
 };
 
 // @fnv 0x00e54ba0
@@ -1818,7 +1845,7 @@ struct FUN_00e532b0_class
 void __cdecl hkaNURBS_Distance3D(void* value, FUN_00e532b0_class* object)
 {
     void* buffer[4];
-    object->FUN_00e532b0(buffer, value)->GetHelperValueAsFloat();
+    object->UpdateState_00e532b0(buffer, value)->GetHelperValueAsFloat();
 }
 
 char* __cdecl IsSampleBoundary(int* base, int idx, int b, int c);
@@ -1951,11 +1978,12 @@ struct FUN_00e58890_Class {
     int m_08;
     int m_0c;
     int m_10;
-    int FUN_00e58890();
+    int EvaluateValue_00e58890();
 };
 
 // @fnv 0x00e58890
-int FUN_00e58890_Class::FUN_00e58890() {
+// src: GUESS 0x00e58890 (confidence: low)
+int FUN_00e58890_Class::EvaluateValue_00e58890() {
     return m_10 * m_0c;
 }
 
@@ -2009,12 +2037,13 @@ struct FUN_00e58b90_cls {
     int m_iCountA;
     unsigned int m_uCapA;
 
-    void FUN_00e58b90();
+    void FreeThreeDynamicArrays();
 };
 
 // Frees the three allocated arrays through the audio allocator and resets each pointer, count and capacity to empty.
 // @fnv 0x00e58b90
-void FUN_00e58b90_cls::FUN_00e58b90()
+// src: GUESS 0x00e58b90 (confidence: medium)
+void FUN_00e58b90_cls::FreeThreeDynamicArrays()
 {
     hkMemoryRouter* pHolder = hkMemoryRouter_getInstance();
     hkMemoryAllocator* pAllocator = reinterpret_cast<hkMemoryAllocator*>(pHolder->m_heap);
@@ -2180,7 +2209,7 @@ struct FUN_00e58df0_cls {
     unsigned int m_08;
     int m_0C;
     int m_10;
-    int FUN_00e58890();
+    int EvaluateValue_00e58890();
     FUN_00e58df0_cls* CopyFrom(FUN_00e58df0_cls* src);
 };
 
@@ -2191,7 +2220,7 @@ FUN_00e58df0_cls* FUN_00e58df0_cls::CopyFrom(FUN_00e58df0_cls* src) {
     m_08 = 0x80000000u;
     m_0C = src->m_0C;
     m_10 = src->m_10;
-    int count = FUN_00e58890();
+    int count = EvaluateValue_00e58890();
     HkHolder* holder = reinterpret_cast<HkHolder*>(hkMemoryRouter_getInstance());
     void* alloc = holder->m_pAllocator;
     int cap = (int)(m_08 & 0x3fffffffu);
@@ -2358,7 +2387,7 @@ struct CharBuffer {
     char* destination;
     unsigned capacity, length;
     void FUN_00cb1600(char*, unsigned);
-    CharBuffer* FUN_00cc01c0(const char*);
+    CharBuffer* ProcessAndReturnValue_00cc01c0(const char*);
     CharBuffer* WriteName(const void*);
     void FUN_00cc00e0();
 };
@@ -2369,24 +2398,24 @@ struct DiagnosticLogger {
 extern DiagnosticLogger* DAT_01268360;
 extern const char str_010ecd20[],str_010eccfc[],str_010ecd0c[],str_010eccc8[];
 struct ConfigTable {
-    ConfigValue* FUN_00e5c5d0(const char*);
-    ConfigValue* FUN_00e5c5b0(const char*);
-    ConfigValue* FUN_00e5c5f0(const char*);
+    ConfigValue* Runtime_ForwardCall_00e5c5d0(const char*);
+    ConfigValue* Runtime_ForwardCall_00e5c5b0(const char*);
+    ConfigValue* Runtime_ForwardCall_00e5c5f0(const char*);
     int GetUnsignedValue(const char*, bool, unsigned*);
 };
 // @fnv 0x00e5c7a0
 int ConfigTable::GetUnsignedValue(const char* name, bool reportMissing, unsigned* puiValue) {
-    ConfigValue* entry = FUN_00e5c5d0(name);
+    ConfigValue* entry = Runtime_ForwardCall_00e5c5d0(name);
     if (entry) {
         *puiValue = *static_cast<const unsigned*>(entry->data);
         return 0;
     }
-    entry = FUN_00e5c5b0(name);
+    entry = Runtime_ForwardCall_00e5c5b0(name);
     if (entry) {
         *puiValue = *static_cast<const unsigned char*>(entry->data) != 0;
         return 0;
     }
-    entry = FUN_00e5c5f0(name);
+    entry = Runtime_ForwardCall_00e5c5f0(name);
     if (entry) {
         *puiValue = *static_cast<const unsigned*>(entry->data);
         return 0;
@@ -2395,7 +2424,7 @@ int ConfigTable::GetUnsignedValue(const char* name, bool reportMissing, unsigned
         CharBuffer buffer;
         unsigned text[128];
         buffer.FUN_00cb1600(reinterpret_cast<char*>(text), 512);
-        buffer.FUN_00cc01c0(str_010ecd20)->FUN_00cc01c0(name)->FUN_00cc01c0(str_010eccfc)->WriteName(this)->FUN_00cc01c0(str_010ecd0c);
+        buffer.ProcessAndReturnValue_00cc01c0(str_010ecd20)->ProcessAndReturnValue_00cc01c0(name)->ProcessAndReturnValue_00cc01c0(str_010eccfc)->WriteName(this)->ProcessAndReturnValue_00cc01c0(str_010ecd0c);
         DAT_01268360->report(1, 0xabbaab81u, reinterpret_cast<char*>(text), str_010eccc8, 90);
         buffer.FUN_00cc00e0();
     }
@@ -2444,8 +2473,8 @@ struct FUN_00e5c8b0_cls
     int unk04;
     int unk08;
     int unk0C;
-    FUN_00e5c8b0_Rec* FUN_00e5c610(int a);
-    FUN_00e5c8b0_Rec* FUN_00e5c5f0(int a);
+    FUN_00e5c8b0_Rec* Runtime_ForwardCall_00e5c610(int a);
+    FUN_00e5c8b0_Rec* Runtime_ForwardCall_00e5c5f0(int a);
     int GetAttributeValue(int a, bool flag, unsigned int* out);
 };
 
@@ -2461,13 +2490,13 @@ extern FUN_00e5c8b0_Logger* g_01268360;
 // @fnv 0x00e5c8b0
 int FUN_00e5c8b0_cls::GetAttributeValue(int a, bool bLogMissing, unsigned int* puiValue)
 {
-    FUN_00e5c8b0_Rec* pRecord = FUN_00e5c610(a);
+    FUN_00e5c8b0_Rec* pRecord = Runtime_ForwardCall_00e5c610(a);
     if (pRecord != 0)
     {
         *puiValue = pRecord->m_08->m_00 & 0xfffffffe;
         return 0;
     }
-    pRecord = FUN_00e5c5f0(a);
+    pRecord = Runtime_ForwardCall_00e5c5f0(a);
     if (pRecord != 0)
     {
         pRecord->m_20->FindValue(pRecord->m_08->m_00, puiValue);
@@ -2681,11 +2710,12 @@ int FUN_00e5c9b0_cls::GetFloatAttribute(const char* name, bool log, float* out)
 
 struct FUN_00e5cdb0_class {
     void __thiscall SpliceArray(int a, int b, int c, int d, int e);
-    void __thiscall FUN_00e5cec0(int a, int b, int c, int d);
+    void __thiscall SpliceArray_Thunk(int a, int b, int c, int d);
 };
 
 // @fnv 0x00e5cec0
-void FUN_00e5cdb0_class::FUN_00e5cec0(int a, int b, int c, int d)
+// src: GUESS 0x00e5cec0 (confidence: medium)
+void FUN_00e5cdb0_class::SpliceArray_Thunk(int a, int b, int c, int d)
 {
     SpliceArray(a, b, 0, c, d);
 }
@@ -2820,13 +2850,13 @@ __declspec(noinline) int __cdecl hkpVehicleCastBatchingManager_getStandardFilter
 }
 struct VStepJob {
     int Create(int a, int b);
-    void FUN_00d04370();
+    void ForwardCall_00d04370();
     void hkSemaphore_acquire();
 };
 void* __cdecl hkMemoryRouter_alignedAlloc(void* alloc, int a, int b);
 void __cdecl hkMemoryRouter_alignedFree(void* alloc, void* p);
 struct VWorld {
-    void FUN_00c911a0();
+    void Object_DoNothing_00c911a0();
     void hkpWorld_unlockReadOnly();
 };
 struct VCollector {
@@ -2866,13 +2896,13 @@ void VSim::RunVehicleSync(VWorld* world, VCollector* coll, VInfo* info, int aiCo
     if (job)
         job->Create(0, 1000);
     vfn_24(world, hkpVehicleCastBatchingManager_getStandardFilterSize((int)world), aiCount, info, job, mark);
-    world->FUN_00c911a0();
+    world->Object_DoNothing_00c911a0();
     coll->vfn_0c(info, 0xb);
     info->hkJobQueue_processAllJobs();
     coll->vfn_10();
     job->hkSemaphore_acquire();
     world->hkpWorld_unlockReadOnly();
-    job->FUN_00d04370();
+    job->ForwardCall_00d04370();
     HolderStub* h2 = hkMemoryRouter_getInstance();
     hkMemoryRouter_alignedFree(h2->m_pAllocator, job);
     vfn_28((char*)world + 0x1d0, aiCount, mark);
@@ -3307,12 +3337,13 @@ public:
     int m_iColumns;
 
     float& Element(int i) { return m_pfData[i]; }
-    E87E0Matrix& FUN_00e587e0(const E87E0Matrix& kOther);
+    E87E0Matrix& SubtractMatrixElements(const E87E0Matrix& kOther);
 };
 
 // Subtracts each element of kOther from this matrix's data in place and returns *this.
 // @fnv 0x00e587e0
-E87E0Matrix& E87E0Matrix::FUN_00e587e0(const E87E0Matrix& kOther)
+// src: GUESS 0x00e587e0 (confidence: medium)
+E87E0Matrix& E87E0Matrix::SubtractMatrixElements(const E87E0Matrix& kOther)
 {
     for (int i = 0; i < m_iRows * m_iColumns; i++)
         Element(i) = Element(i) - kOther.m_pfData[i];
@@ -3495,12 +3526,13 @@ struct FUN_00e46b80_class {
     int* unk30;
     FUN_00c905b0_class* unk34;
 
-    void __thiscall FUN_00e46b80();
+    void __thiscall UpdateFields_00e46b80();
 };
 
 // Assigns global addresses to the object's pointer fields, calls FUN_00c905b0 on unk34 if set, then reassigns the fields to other globals.
 // @fnv 0x00e46b80
-void __thiscall FUN_00e46b80_class::FUN_00e46b80()
+// src: GUESS 0x00e46b80 (confidence: low)
+void __thiscall FUN_00e46b80_class::UpdateFields_00e46b80()
 {
     unk00 = &DAT_010e7874;
     unk08 = &DAT_010e7868;
@@ -3574,10 +3606,11 @@ struct FnvCpu_FUN_00e473f0_CpuObject {
     unsigned int unk04;
     unsigned int unk08;
     unsigned char value;
-    void FUN_00e473f0(unsigned char arg0);
+    void SetValue(unsigned char arg0);
 };
 // @fnv 0x00e473f0
-void FnvCpu_FUN_00e473f0_CpuObject::FUN_00e473f0(unsigned char arg0)
+// src: GUESS 0x00e473f0 (confidence: low)
+void FnvCpu_FUN_00e473f0_CpuObject::SetValue(unsigned char arg0)
 {
     value = arg0;
 }
@@ -3744,11 +3777,12 @@ struct Owner4a5
     char pad[0x14];
     Node4a5* m_pkTreeNode;
 
-    Node4a5* FUN_00e4a550(const char* pcName);
+    Node4a5* EvaluateValue_00e4a550(const char* pcName);
 };
 
 // @fnv 0x00e4a550
-Node4a5* Owner4a5::FUN_00e4a550(const char* pcName)
+// src: GUESS 0x00e4a550 (confidence: low)
+Node4a5* Owner4a5::EvaluateValue_00e4a550(const char* pcName)
 {
     if (!pcName || !m_pkTreeNode)
         return 0;
@@ -3764,10 +3798,11 @@ struct GtrStand_ {
     int unk0c;
     int unk10;
     int unk14;
-    void* FUN_00e4af40();
+    void* GetUnk14Address_00e4af40();
 };
 // @fnv 0x00e4af40
-void* GtrStand_::FUN_00e4af40()
+// src: GUESS 0x00e4af40 (confidence: low)
+void* GtrStand_::GetUnk14Address_00e4af40()
 {
     return &unk14;
 }
@@ -3844,10 +3879,11 @@ struct E58E80Object {
     void CopyFrom(int setting);
 };
 // @fnv 0x00e58e80
-E87E0Matrix* __fastcall FUN_00e58e80(int setting, int unused, E58E80Object* object, const E87E0Matrix& right) {
+// src: GUESS 0x00e58e80 (confidence: low)
+E87E0Matrix* __fastcall Object_ProcessAndReturnValue_00e58e80(int setting, int unused, E58E80Object* object, const E87E0Matrix& right) {
     object->CopyFrom(setting);
     E87E0Matrix* matrix = reinterpret_cast<E87E0Matrix*>(object);
-    matrix->FUN_00e587e0(right);
+    matrix->SubtractMatrixElements(right);
     return matrix;
 }
 
@@ -3937,7 +3973,8 @@ void E5B110Caller(char* q, int a, int b, int c)
 int GetUnsignedValue(const char*, bool, unsigned*);
 
 // @fnv 0x00e5c8a0
-int FUN_00e5c8a0(const char* p, bool b, unsigned* u)
+// src: GUESS 0x00e5c8a0 (confidence: medium)
+int Object_GetUnsignedValue_Thunk(const char* p, bool b, unsigned* u)
 {
     return GetUnsignedValue(p, b, u);
 }
@@ -3962,12 +3999,13 @@ struct UnkHolder {
     void* m_00;
     unsigned int m_04;
     UnkRet* hkMemoryRouter_getInstance();
-    void FUN_00e47390();
+    void UpdateState_00e47390();
 };
 
 // When m_04 is nonzero, calls virtual v08(m_00, m_04 * 4) on the m_10 object of the FUN_00c85750 result.
 // @fnv 0x00e47390
-void UnkHolder::FUN_00e47390() {
+// src: GUESS 0x00e47390 (confidence: low)
+void UnkHolder::UpdateState_00e47390() {
     unsigned int count = m_04;
     if (count) {
         void* data = m_00;
@@ -4013,30 +4051,33 @@ FUN_00e48390::FUN_00e48390(int a, int b)
 }
 
 // @fnv 0x00e48460
-unsigned char __cdecl FUN_00e48460(unsigned char value)
+// src: GUESS 0x00e48460 (confidence: high)
+unsigned char __cdecl Object_ReturnArgument_00e48460(unsigned char value)
 {
     return value;
 }
 
 // @fnv 0x00e48470
-__declspec(noinline) static unsigned int FUN_00e48470(unsigned int uiValue) {
+// src: GUESS 0x00e48470 (confidence: low)
+__declspec(noinline) static unsigned int Runtime_EvaluateValue_00e48470(unsigned int uiValue) {
     return uiValue >> 8;
 }
 
 unsigned int E48470Shift(unsigned int uiValue) {
-    return FUN_00e48470(uiValue);
+    return Runtime_EvaluateValue_00e48470(uiValue);
 }
 
 struct e48480_cls { unsigned char b; };
 extern "C" e48480_cls* e48480_target(void);
 extern "C" unsigned char e48480_val(void);
 // @fnv 0x00e48480
-static __declspec(noinline) void FUN_00e48480(e48480_cls* dst, unsigned char val)
+// src: GUESS 0x00e48480 (confidence: low)
+static __declspec(noinline) void Object_UpdateFields_00e48480(e48480_cls* dst, unsigned char val)
 {
     *(unsigned char*)dst = 0;
     *(unsigned int*)dst |= (unsigned int)val;
 }
-void e48480_caller(void) { FUN_00e48480(e48480_target(), e48480_val()); }
+void e48480_caller(void) { Object_UpdateFields_00e48480(e48480_target(), e48480_val()); }
 
 // FUN_00e48490: ORs the low byte at [this] with an incoming value shifted
 // left by 8, stores the dword back, and returns the shifted value in eax.
@@ -4052,7 +4093,8 @@ E48490Cell* E48490PtrSrc();
 int E48490ValSrc();
 
 // @fnv 0x00e48490
-static __declspec(noinline) int FUN_00e48490(E48490Cell* cell, int value)
+// src: GUESS 0x00e48490 (confidence: low)
+static __declspec(noinline) int Runtime_UpdateState_00e48490(E48490Cell* cell, int value)
 {
     unsigned int shifted = value << 8;
     cell->m_cell = cell->m_b0 | shifted;
@@ -4061,7 +4103,7 @@ static __declspec(noinline) int FUN_00e48490(E48490Cell* cell, int value)
 
 void E48490Driver()
 {
-    FUN_00e48490(E48490PtrSrc(), E48490ValSrc());
+    Runtime_UpdateState_00e48490(E48490PtrSrc(), E48490ValSrc());
 }
 
 // Writes 0.0f to outMin and outMax when count is non-positive, otherwise scans values and stores the smallest and largest into outMin and outMax.
@@ -4408,12 +4450,13 @@ struct KeyedPointerEntry : ShapeBase {
     Shape* m_pkShapeA;
     float m_fBoundRadius;
 
-    KeyedPointerEntry* FUN_00e49080(Shape* pkShapeA, Shape* pkShapeB, float fRadius);
+    KeyedPointerEntry* InitializeFields_00e49080(Shape* pkShapeA, Shape* pkShapeB, float fRadius);
 };
 
 // Initializes the object by calling FUN_00d21410, setting m_fBoundRadius, vtable pointers, and shape pointers, then calls FUN_00c90510 on both shapes.
 // @fnv 0x00e49080
-KeyedPointerEntry* KeyedPointerEntry::FUN_00e49080(Shape* pkShapeA, Shape* pkShapeB, float afBoundRadius)
+// src: GUESS 0x00e49080 (confidence: low)
+KeyedPointerEntry* KeyedPointerEntry::InitializeFields_00e49080(Shape* pkShapeA, Shape* pkShapeB, float afBoundRadius)
 {
     FUN_00d21410(7, 3);
     m_fBoundRadius = afBoundRadius;
@@ -4459,12 +4502,13 @@ struct Owner {
     int unk014;
     Layout* m_pkLayout;
 
-    void FUN_00e493a0(Stats* pkStats);
+    void AccumulateControlPointStatistics(Stats* pkStats);
 };
 
 // Accumulates m_iBase and per-index sizes into pkStats, tracking the max control point size and computing the average.
 // @fnv 0x00e493a0
-void Owner::FUN_00e493a0(Stats* pkStats)
+// src: GUESS 0x00e493a0 (confidence: medium)
+void Owner::AccumulateControlPointStatistics(Stats* pkStats)
 {
     pkStats->m_iTotal += m_pkLayout->m_iBase;
     pkStats->m_iArrayLength += m_pkLayout->m_iBase;
@@ -4570,7 +4614,8 @@ FUN_00e49900::FUN_00e49900(unsigned int flags, SrcArray* src, float afTimeA, flo
 }
 
 // @fnv 0x00e4b560
-void __cdecl FUN_00e4b560()
+// src: GUESS 0x00e4b560 (confidence: high)
+void __cdecl Object_DoNothing_00e4b560()
 {
 }
 
@@ -4580,15 +4625,15 @@ struct IntegerHolder {
     IntegerHolder() {}
     IntegerHolder(const IntegerHolder& other) { FUN_00cb0bd0(&other); }
     void FUN_00cb0bd0(const IntegerHolder*);
-    void FUN_00cb0c00();
-    void FUN_00cb0c30(const IntegerHolder*);
+    void Object_UpdateFields_00cb0c00();
+    void UpdateState_00cb0c30(const IntegerHolder*);
 };
 struct CopyEntry {
     float m_00;
     IntegerHolder m_04;
     CopyEntry(const CopyEntry& other) { m_00 = other.m_00; m_04.FUN_00cb0bd0(&other.m_04); }
-    CopyEntry& operator=(const CopyEntry& other) { m_00 = other.m_00; m_04.FUN_00cb0c30(&other.m_04); return *this; }
-    ~CopyEntry() { m_04.FUN_00cb0c00(); }
+    CopyEntry& operator=(const CopyEntry& other) { m_00 = other.m_00; m_04.UpdateState_00cb0c30(&other.m_04); return *this; }
+    ~CopyEntry() { m_04.Object_UpdateFields_00cb0c00(); }
 };
 inline void* operator new(unsigned int, void* p) { return p; }
 struct CopyAllocator { int m_00, m_04, m_08, m_0c; void* m_10; };
@@ -4796,7 +4841,8 @@ struct Q { __m128 m_vComponents; void normalize_005611c0(); };
 struct QRef { Q* p; Q* operator->() const { return p; } };
 // Unpacks four 4-bit values from two bytes, maps each to (v-7)/7, stores them in out->m_vComponents, then calls FUN_005611c0 on it.
 // @fnv 0x00e52880
-void FUN_00e52880(const unsigned char* src, QRef out)
+// src: GUESS 0x00e52880 (confidence: medium)
+void Object_UnpackFourSignedNibbles(const unsigned char* src, QRef out)
 {
     short v[4];
     v[0] = src[0] & 0xf; v[1] = src[0] >> 4; v[2] = src[1] & 0xf; v[3] = src[1] >> 4;
@@ -4925,7 +4971,7 @@ template<class T> struct CurveArg { T value; };
 float __cdecl hkaNURBS_ClosestPoint(int a3, int a4, int a5, int a6, float* p, int a9, int a10, float a11, float a12);
 void __cdecl hkaNURBS_CurvePoint(V4* out, int a3, int a4, int a5, int a6, float v);
 struct CurvePointOps {
-    float* FUN_00e532b0(V4* p1, V4* p2);
+    float* UpdateState_00e532b0(V4* p1, V4* p2);
 };
 struct CurveLengthOps {
     float GetHelperValueAsFloat();
@@ -4953,7 +4999,7 @@ void __cdecl hkaNURBS_UpdateFit(int n, CurveArg<float**> apPoints, CurveArg<int>
         V4 B;
         hkaNURBS_CurvePoint(&A, a3.value, a4.value, cached5, cached6, v);
         (*apValues.value)[i] = v;
-        float* r = reinterpret_cast<CurvePointOps*>((*apPoints.value) + i * 4)->FUN_00e532b0(&B, &A);
+        float* r = reinterpret_cast<CurvePointOps*>((*apPoints.value) + i * 4)->UpdateState_00e532b0(&B, &A);
         (*a7.value)[i] = reinterpret_cast<CurveLengthOps*>(r)->GetHelperValueAsFloat();
         } while (++i <= n);
     }
@@ -5045,15 +5091,16 @@ template <class T> struct hkRefPtr_e5c5 {
 };
 
 struct Registry_e5c5 {
-    hkRefPtr_e5c5<Resource_e5c5> FUN_00e5c4d0(const char* name) throw();
-    Resource_e5c5* FUN_00e5c540(const char* name, Resource_e5c5* expected);
+    hkRefPtr_e5c5<Resource_e5c5> FindOrCreateEntryReference(const char* name) throw();
+    Resource_e5c5* FindResourceWithExpectedName(const char* name, Resource_e5c5* expected);
 };
 
 // Looks up a resource by name and returns it if expected is null or its name matches case-insensitively, otherwise returns null.
 // @fnv 0x00e5c540
-Resource_e5c5* Registry_e5c5::FUN_00e5c540(const char* name, Resource_e5c5* expected)
+// src: GUESS 0x00e5c540 (confidence: medium)
+Resource_e5c5* Registry_e5c5::FindResourceWithExpectedName(const char* name, Resource_e5c5* expected)
 {
-    hkRefPtr_e5c5<Resource_e5c5> found = FUN_00e5c4d0(name);
+    hkRefPtr_e5c5<Resource_e5c5> found = FindOrCreateEntryReference(name);
     if (found.m_pRetainedObject) {
         if (!expected || ns_e5c5::CompareStringsCaseInsensitive(expected->FUN_00d46d40(), found.hkRefVariant_getClass()->FUN_00d46d40()) == 0)
             return found.m_pRetainedObject;
@@ -5090,9 +5137,10 @@ hkpRemoveTerminalsMoppModifier2::hkpRemoveTerminalsMoppModifier2(hkUlong moppCod
     m_enabledKeys = 0;
 }
 
-struct FnvCpu_FUN_00e49bb0_CpuObject { char* FUN_00e49bb0(); };
+struct FnvCpu_FUN_00e49bb0_CpuObject { char* EvaluateValue_00e49bb0(); };
 // @fnv 0x00e49bb0
-char* FnvCpu_FUN_00e49bb0_CpuObject::FUN_00e49bb0()
+// src: GUESS 0x00e49bb0 (confidence: low)
+char* FnvCpu_FUN_00e49bb0_CpuObject::EvaluateValue_00e49bb0()
 {
     return reinterpret_cast<char*>(this) + 48;
 }
@@ -5129,26 +5177,31 @@ struct KnotVector {
     KnotVector(float a=0,float b=0,float c=0,float d=0);
     KnotVector& FUN_00e53180(const KnotVector&);
     KnotVector& operator=(const KnotVector& v) { return FUN_00e53180(v); }
-    KnotVector& FUN_00e531a0(const KnotVector&);
-    KnotVector& FUN_00e531d0(const KnotVector&);
+    KnotVector& ComputeValue_00e531a0(const KnotVector&);
+    KnotVector& SubtractFourComponents(const KnotVector&);
     KnotVector& FUN_00e53200(float);
     KnotVector& DivideByScalar(float);
     KnotVector ScaleCopy(float) const;
-    KnotVector FUN_00e532b0(const KnotVector&) const;
-    KnotVector FUN_00e53260(const KnotVector&) const;
+    KnotVector UpdateState_00e532b0(const KnotVector&) const;
+    KnotVector ProcessAndReturnValue_00e53260(const KnotVector&) const;
     KnotVector EvalCopy(float) const;
 };
 __declspec(noinline) KnotVector::KnotVector(float a,float b,float c,float d) : x(a),y(b),z(c),w(d) {}
 __declspec(noinline) KnotVector& KnotVector::FUN_00e53180(const KnotVector& v) { x=v.x;y=v.y;z=v.z;w=v.w;return *this; }
-__declspec(noinline) KnotVector& KnotVector::FUN_00e531a0(const KnotVector& v) {x+=v.x;y+=v.y;z+=v.z;w+=v.w;return *this;}
-__declspec(noinline) KnotVector& KnotVector::FUN_00e531d0(const KnotVector& v) {x-=v.x;y-=v.y;z-=v.z;w-=v.w;return *this;}
+// src: GUESS 0x00e531a0 (confidence: low)
+__declspec(noinline) KnotVector& KnotVector::ComputeValue_00e531a0(const KnotVector& v) {x+=v.x;y+=v.y;z+=v.z;w+=v.w;return *this;}
+// src: GUESS 0x00e531d0 (confidence: high)
+__declspec(noinline) KnotVector& KnotVector::SubtractFourComponents(const KnotVector& v) {x-=v.x;y-=v.y;z-=v.z;w-=v.w;return *this;}
 __declspec(noinline) KnotVector& KnotVector::FUN_00e53200(float f) {x*=f;y*=f;z*=f;w*=f;return *this;}
 __declspec(noinline) KnotVector& KnotVector::DivideByScalar(float f) {x/=f;y/=f;z/=f;w/=f;return *this;}
-__declspec(noinline) KnotVector KnotVector::FUN_00e53260(const KnotVector& v) const {KnotVector a=*this;return a.FUN_00e531a0(v);}
-__declspec(noinline) KnotVector KnotVector::FUN_00e532b0(const KnotVector& v) const {KnotVector a=*this;return a.FUN_00e531d0(v);}
+// src: GUESS 0x00e53260 (confidence: low)
+__declspec(noinline) KnotVector KnotVector::ProcessAndReturnValue_00e53260(const KnotVector& v) const {KnotVector a=*this;return a.ComputeValue_00e531a0(v);}
+// src: GUESS 0x00e532b0 (confidence: low)
+__declspec(noinline) KnotVector KnotVector::UpdateState_00e532b0(const KnotVector& v) const {KnotVector a=*this;return a.SubtractFourComponents(v);}
 __declspec(noinline) KnotVector KnotVector::ScaleCopy(float f) const {KnotVector a=*this;return a.FUN_00e53200(f);}
 __declspec(noinline) KnotVector KnotVector::EvalCopy(float f) const {KnotVector a=*this;return a.DivideByScalar(f);}
-__declspec(noinline) KnotVector FUN_00e533a0(float f,const KnotVector& v) {return v.ScaleCopy(f);}
+// src: GUESS 0x00e533a0 (confidence: medium)
+__declspec(noinline) KnotVector Object_ScaleCopy_Thunk(float f,const KnotVector& v) {return v.ScaleCopy(f);}
 
 float __cdecl hkaNURBS_Distance3D(const KnotVector&,const KnotVector&);
 
@@ -5174,13 +5227,13 @@ float __cdecl hkaNURBS_GetRemovalBoundCurve(int n,int p,CurveArray& apKnots,Poin
     while(j-i>0) {
         float fAlphaLeft=(afParam-apKnots.data[i])/(apKnots.data[i+ord]-apKnots.data[i]);
         float fAlphaRight=(afParam-apKnots.data[j])/(apKnots.data[j+ord]-apKnots.data[j]);
-        temp[iLeftIdx]=apPoints.data[i].FUN_00e532b0(FUN_00e533a0(1.0f-fAlphaLeft,temp[iLeftIdx-1])).EvalCopy(fAlphaLeft);
-        temp[iRightIdx]=apPoints.data[j].FUN_00e532b0(FUN_00e533a0(fAlphaRight,temp[iRightIdx+1])).EvalCopy(1.0f-fAlphaRight);
+        temp[iLeftIdx]=apPoints.data[i].UpdateState_00e532b0(Object_ScaleCopy_Thunk(1.0f-fAlphaLeft,temp[iLeftIdx-1])).EvalCopy(fAlphaLeft);
+        temp[iRightIdx]=apPoints.data[j].UpdateState_00e532b0(Object_ScaleCopy_Thunk(fAlphaRight,temp[iRightIdx+1])).EvalCopy(1.0f-fAlphaRight);
         ++i; ++iLeftIdx; --j; --iRightIdx;
     }
     if(j-i<0) return hkaNURBS_Distance3D(temp[iLeftIdx-1],temp[iRightIdx+1]);
     float fAlphaLeft=(afParam-apKnots.data[i])/(apKnots.data[i+ord]-apKnots.data[i]);
-    return hkaNURBS_Distance3D(apPoints.data[i],FUN_00e533a0(fAlphaLeft,temp[iLeftIdx+1]).FUN_00e53260(FUN_00e533a0(1.0f-fAlphaLeft,temp[iLeftIdx-1])));
+    return hkaNURBS_Distance3D(apPoints.data[i],Object_ScaleCopy_Thunk(fAlphaLeft,temp[iLeftIdx+1]).ProcessAndReturnValue_00e53260(Object_ScaleCopy_Thunk(1.0f-fAlphaLeft,temp[iLeftIdx-1])));
 }
 
 void* _fnv_zlib_memset(void*,int,int);
@@ -5257,26 +5310,32 @@ struct KnotVector {
  float x,y,z,w;
  KnotVector(float a=0,float b=0,float c=0,float d=0);
  __declspec(noinline) KnotVector& FUN_00e53180(const KnotVector&);
- __declspec(noinline) KnotVector& FUN_00e531a0(const KnotVector&);
- __declspec(noinline) KnotVector FUN_00e532b0(const KnotVector&) const;
- __declspec(noinline) KnotVector& FUN_00e531d0(const KnotVector&);
+ __declspec(noinline) KnotVector& ComputeValue_00e531a0(const KnotVector&);
+ __declspec(noinline) KnotVector UpdateState_00e532b0(const KnotVector&) const;
+ __declspec(noinline) KnotVector& SubtractFourComponents(const KnotVector&);
  __declspec(noinline) KnotVector& FUN_00e53200(float);
  __declspec(noinline) KnotVector ScaleCopy(float) const;
- __declspec(noinline) float& FUN_00e53590(int);
- __declspec(noinline) const float& FUN_00e53590(int) const;
- __declspec(noinline) float FUN_00e53580(int) const;
+ __declspec(noinline) float& GetElementAddress_00e53590(int);
+ __declspec(noinline) const float& GetElementAddress_00e53590(int) const;
+ __declspec(noinline) float GetIndexedValue_00e53580(int) const;
 };
 __declspec(noinline) KnotVector::KnotVector(float a,float b,float c,float d):x(a),y(b),z(c),w(d) {}
 __declspec(noinline) KnotVector& KnotVector::FUN_00e53180(const KnotVector& b) {x=b.x;y=b.y;z=b.z;w=b.w;return *this;}
-__declspec(noinline) KnotVector& KnotVector::FUN_00e531a0(const KnotVector& b) {x=b.x+x;y=b.y+y;z=b.z+z;w=b.w+w;return *this;}
-__declspec(noinline) float& KnotVector::FUN_00e53590(int i) {return (&x)[i];}
-__declspec(noinline) KnotVector __cdecl FUN_00e533a0(float s,const KnotVector& b);
-__declspec(noinline) KnotVector& KnotVector::FUN_00e531d0(const KnotVector& b) {x-=b.x;y-=b.y;z-=b.z;w-=b.w;return *this;}
+// src: GUESS 0x00e531a0 (confidence: low)
+__declspec(noinline) KnotVector& KnotVector::ComputeValue_00e531a0(const KnotVector& b) {x=b.x+x;y=b.y+y;z=b.z+z;w=b.w+w;return *this;}
+// src: GUESS 0x00e53590 (confidence: low)
+__declspec(noinline) float& KnotVector::GetElementAddress_00e53590(int i) {return (&x)[i];}
+__declspec(noinline) KnotVector __cdecl Object_ScaleCopy_Thunk(float s,const KnotVector& b);
+// src: GUESS 0x00e531d0 (confidence: high)
+__declspec(noinline) KnotVector& KnotVector::SubtractFourComponents(const KnotVector& b) {x-=b.x;y-=b.y;z-=b.z;w-=b.w;return *this;}
 __declspec(noinline) KnotVector& KnotVector::FUN_00e53200(float f) {x*=f;y*=f;z*=f;w*=f;return *this;}
 __declspec(noinline) KnotVector KnotVector::ScaleCopy(float f) const {KnotVector t=*this;return t.FUN_00e53200(f);}
-__declspec(noinline) KnotVector KnotVector::FUN_00e532b0(const KnotVector& b) const {KnotVector t=*this;return t.FUN_00e531d0(b);}
-__declspec(noinline) KnotVector __cdecl FUN_00e533a0(float s,const KnotVector& b) {return b.ScaleCopy(s);}
-__declspec(noinline) float KnotVector::FUN_00e53580(int i) const {return (&x)[i];}
+// src: GUESS 0x00e532b0 (confidence: low)
+__declspec(noinline) KnotVector KnotVector::UpdateState_00e532b0(const KnotVector& b) const {KnotVector t=*this;return t.SubtractFourComponents(b);}
+// src: GUESS 0x00e533a0 (confidence: medium)
+__declspec(noinline) KnotVector __cdecl Object_ScaleCopy_Thunk(float s,const KnotVector& b) {return b.ScaleCopy(s);}
+// src: GUESS 0x00e53580 (confidence: low)
+__declspec(noinline) float KnotVector::GetIndexedValue_00e53580(int i) const {return (&x)[i];}
 struct ElevationAllocator {
  virtual void ReportDiagnostic(); virtual void unused1(); virtual void unused2();
  virtual void* allocate(int* bytes); virtual void release(void* data,int bytes);
@@ -5322,7 +5381,7 @@ struct FitMatrix {
  float& GetElementPtr(int a,int b);
  __declspec(noinline) int NiD3DShaderProgram_GetShaderProgramName();
  __declspec(noinline) int NiD3DShaderProgram_GetName();
- void FUN_00c7b0f0();
+ void UpdateState_00c7b0f0();
  __forceinline void set(int a,int b,float value) {GetElementPtr(a,b)=value;}
 };
 struct RhsWork {float component;FitMatrix matrix;};
@@ -5332,7 +5391,7 @@ struct SparseGrid {
  int numRows,numCols;
  void ResetSpawnArrays(int,int);
  void AppendTriple(int,int,float);
- void FUN_00e58b90();
+ void FreeThreeDynamicArrays();
 };
 float EvaluateBasisFunction(int degree,int numKnots,ElevationArray<float>* knots,int i,float t);
 __declspec(noinline) float EvaluateBasisFunction(int p,int last,ElevationArray<float>* knots,int index,float u) {
@@ -5373,17 +5432,17 @@ char* FitSpline(char* result,int n,int degree,ElevationArray<KnotVector>* output
  int mOff=m*(int)sizeof(KnotVector);
  temporary[0].FUN_00e53180(((KnotVector*)((char*)temporary.data+mOff))->FUN_00e53180(KnotVector()));
  for(int i=1;i<m;++i) {
-  temporary[i].FUN_00e53180(points->data[i].FUN_00e532b0(FUN_00e533a0(EvaluateBasisFunction(degree,n+degree+1,knots,0,params->data[i]),points->data[0])).FUN_00e532b0(FUN_00e533a0(EvaluateBasisFunction(degree,n+degree+1,knots,n,params->data[i]),*(KnotVector*)((char*)points->data+mOff))));
+  temporary[i].FUN_00e53180(points->data[i].UpdateState_00e532b0(Object_ScaleCopy_Thunk(EvaluateBasisFunction(degree,n+degree+1,knots,0,params->data[i]),points->data[0])).UpdateState_00e532b0(Object_ScaleCopy_Thunk(EvaluateBasisFunction(degree,n+degree+1,knots,n,params->data[i]),*(KnotVector*)((char*)points->data+mOff))));
  }
  for(int j=1;j<n;++j) {
   KnotVector sum;
-  for(int i=1;i<m;++i) sum.FUN_00e531a0(FUN_00e533a0(EvaluateBasisFunction(degree,n+degree+1,knots,j,params->data[i]),temporary[i]));
-  for(int k=0;k<4;++k) {const float* value=&((const KnotVector&)sum).FUN_00e53590(k);float* dest=&rhs.matrix.GetElementPtr(j-1,k);*dest=*value;}
+  for(int i=1;i<m;++i) sum.ComputeValue_00e531a0(Object_ScaleCopy_Thunk(EvaluateBasisFunction(degree,n+degree+1,knots,j,params->data[i]),temporary[i]));
+  for(int k=0;k<4;++k) {const float* value=&((const KnotVector&)sum).GetElementAddress_00e53590(k);float* dest=&rhs.matrix.GetElementPtr(j-1,k);*dest=*value;}
  }
  char ok;
  int lastParam=params->count-1;
  if(!*hkaNURBS_IsWellPosed(&ok,n,degree,knots,lastParam,params,tolerance)) {
-  *result=0;temporary.free();rhs.matrix.FUN_00c7b0f0();grid.FUN_00e58b90();return result;
+  *result=0;temporary.free();rhs.matrix.UpdateState_00c7b0f0();grid.FreeThreeDynamicArrays();return result;
  }
  FitMatrix interior;
  interior.InitArray(rhs.matrix.NiD3DShaderProgram_GetName(),rhs.matrix.NiD3DShaderProgram_GetShaderProgramName());
@@ -5395,7 +5454,7 @@ char* FitSpline(char* result,int n,int degree,ElevationArray<KnotVector>* output
    if(width>0) {
     const KnotVector* row=&points->data[rowIndex+1];
     do {
-     rhs.component=row->FUN_00e53580(j);interior.GetElementPtr(rowIndex,j)=rhs.component;
+     rhs.component=row->GetIndexedValue_00e53580(j);interior.GetElementPtr(rowIndex,j)=rhs.component;
      ++j;
      width=interior.NiD3DShaderProgram_GetShaderProgramName();
     } while(j<width);
@@ -5405,7 +5464,7 @@ char* FitSpline(char* result,int n,int degree,ElevationArray<KnotVector>* output
  }
  SolveMatrixColumns(&ok,&grid,&interior,&rhs.matrix,50,tolerance);
  if(!ok) {
-  *result=0;interior.FUN_00c7b0f0();temporary.free();rhs.matrix.FUN_00c7b0f0();grid.FUN_00e58b90();return result;
+  *result=0;interior.UpdateState_00c7b0f0();temporary.free();rhs.matrix.UpdateState_00c7b0f0();grid.FreeThreeDynamicArrays();return result;
  }
  ElevationArray<KnotVector> fitted;
  fitted.data=0;fitted.count=0;fitted.capacity=0x80000000;
@@ -5413,12 +5472,12 @@ char* FitSpline(char* result,int n,int degree,ElevationArray<KnotVector>* output
  fitted.data[0].FUN_00e53180(points->data[0]);
  fitted.data[n].FUN_00e53180(points->data[m]);
  for(int i=1;i<n;++i) {
-  for(int j=0;j<4;++j) {float* src=&interior.GetElementPtr(i-1,j);KnotVector* base=fitted.data;_ReadWriteBarrier();float* dst=&base[i].FUN_00e53590(j);*dst=*src;}
+  for(int j=0;j<4;++j) {float* src=&interior.GetElementPtr(i-1,j);KnotVector* base=fitted.data;_ReadWriteBarrier();float* dst=&base[i].GetElementAddress_00e53590(j);*dst=*src;}
  }
  if(*CheckPointsWithinThreshold(&ok,n,degree,&fitted,knots,m,points,params,tolerance2)) {
   output->SwapThreeInts(&fitted);*result=1;
  } else *result=0;
- fitted.free();interior.FUN_00c7b0f0();temporary.free();rhs.matrix.FUN_00c7b0f0();grid.FUN_00e58b90();return result;
+ fitted.free();interior.UpdateState_00c7b0f0();temporary.free();rhs.matrix.UpdateState_00c7b0f0();grid.FreeThreeDynamicArrays();return result;
 }
 }  // namespace fnv_00e57620
 
@@ -5953,7 +6012,7 @@ struct Se5b160_RagdollAtoms {
     Se5b160_Motor* motor0;
     Se5b160_Motor* motor1;
     Se5b160_Motor* motor2;
-    void FUN_00d85ba0(const Se5b160_RagdollAtoms* source);
+    void ProcessAndReturnValue_00d85ba0(const Se5b160_RagdollAtoms* source);
 };
 // src: HAVOK_LIB 0x00e5b110
 static __declspec(noinline) void _copyAtoms(const Se5b160_HingeAtoms* source, Se5b160_HingeAtoms* destination) {
@@ -5963,7 +6022,7 @@ static __declspec(noinline) void _copyAtoms(const Se5b160_HingeAtoms* source, Se
 }
 // src: HAVOK_LIB 0x00e5b130
 static __declspec(noinline) void _copyAtoms_00e5b130(const Se5b160_RagdollAtoms* source, Se5b160_RagdollAtoms* destination) {
-    destination->FUN_00d85ba0(source);
+    destination->ProcessAndReturnValue_00d85ba0(source);
     Se5b160_Motor** motor = &destination->motor0;
     for (int i = 0; i < 3; ++i, ++motor) {
         if (*motor) (*motor)->FUN_00c90510();
@@ -5994,7 +6053,7 @@ struct FUN_00cdf2f0 : Se5b160_Data {
 struct Se5b160_StrPtr {
     const char* m_pcText;
     const char* cString() const { return reinterpret_cast<const char*>(reinterpret_cast<unsigned int>(m_pcText) & ~1u); }
-    void FUN_00cb0c10(const char* s);
+    void UpdateState_00cb0c10(const char* s);
 };
 struct Se5b160_Entity;
 struct Se5b160_PrioEnum {
@@ -6036,7 +6095,7 @@ Se5b160_Instance* __cdecl CreatePoweredConstraint(const Se5b160_Instance* __rest
         newData->hkpLimitedHingeConstraintData_setMotorActive(0, enableMotors);
         newConstraint = new Se5b160_Instance(entityA, entityB, newData, original->getPriority());
         newData->FUN_00c905b0();
-        newConstraint->m_name.FUN_00cb0c10(original->m_name.cString());
+        newConstraint->m_name.UpdateState_00cb0c10(original->m_name.cString());
         break;
     }
     case hkpConstraintData::CONSTRAINT_TYPE_RAGDOLL: {
@@ -6049,7 +6108,7 @@ Se5b160_Instance* __cdecl CreatePoweredConstraint(const Se5b160_Instance* __rest
         newData->SetFlagAndClearFloats(0, enableMotors);
         newConstraint = new Se5b160_Instance(entityA, entityB, newData, original->getPriority());
         newData->FUN_00c905b0();
-        newConstraint->m_name.FUN_00cb0c10(original->m_name.cString());
+        newConstraint->m_name.UpdateState_00cb0c10(original->m_name.cString());
         break;
     }
     default:
@@ -6057,7 +6116,7 @@ Se5b160_Instance* __cdecl CreatePoweredConstraint(const Se5b160_Instance* __rest
             int buf[128];
             CharBuffer ostr;
             ostr.FUN_00cb1600(reinterpret_cast<char*>(buf), sizeof(buf));
-            ostr.FUN_00cc01c0("Cannot convert constraint \"")->FUN_00cc01c0(original->m_name.cString())->FUN_00cc01c0("\" to a powered constraint.");
+            ostr.ProcessAndReturnValue_00cc01c0("Cannot convert constraint \"")->ProcessAndReturnValue_00cc01c0(original->m_name.cString())->ProcessAndReturnValue_00cc01c0("\" to a powered constraint.");
             DAT_01268360->report(1, 0xabba1b34, reinterpret_cast<char*>(buf), ".\\Constraint\\Bilateral\\hkpConstraintUtils.cpp", 111);
             ostr.FUN_00cc00e0();
         }
@@ -6065,7 +6124,7 @@ Se5b160_Instance* __cdecl CreatePoweredConstraint(const Se5b160_Instance* __rest
             int buf[128];
             CharBuffer ostr;
             ostr.FUN_00cb1600(reinterpret_cast<char*>(buf), sizeof(buf));
-            ostr.FUN_00cc01c0("Only limited hinges and ragdoll constraints can be powered.");
+            ostr.ProcessAndReturnValue_00cc01c0("Only limited hinges and ragdoll constraints can be powered.");
             DAT_01268360->report(1, 0xabba1b34, reinterpret_cast<char*>(buf), ".\\Constraint\\Bilateral\\hkpConstraintUtils.cpp", 112);
             ostr.FUN_00cc00e0();
         }
@@ -6328,7 +6387,7 @@ struct E5B130Object {
     int unkc8;
     int unkcc;
     Ref* items[3];
-    void FUN_00d85ba0(int finishFlags);
+    void ProcessAndReturnValue_00d85ba0(int finishFlags);
 };
 
 // Calls FUN_00d85ba0 with finishFlags, then iterates the three item pointers and calls FUN_00c90510 on each non-null item.
@@ -6336,7 +6395,7 @@ struct E5B130Object {
 // src: HAVOK_LIB 0x00e5b130
 static __declspec(noinline) void _copyAtoms_00e5b130(E5B130Object* object, int finishFlags)
 {
-    object->FUN_00d85ba0(finishFlags);
+    object->ProcessAndReturnValue_00d85ba0(finishFlags);
     Ref** item = object->items;
     int remaining = 3;
     do {
@@ -6391,7 +6450,8 @@ struct PointArg {const Vec4* p; PointArg(const Vec4* v):p(v){}};
 struct Segment {Vec4 first,second,unk20,unk30,firstMeta,secondMeta;};
 // Tests a point against segment endpoints; between them writes a cross product and returns count, otherwise writes a difference vector and returns 1.
 // @fnv 0x00e4b6e0
-static __declspec(noinline) int FUN_00e4b6e0(PointArg input, Segment* segment, int count, Vec4* output, int kind){
+// src: GUESS 0x00e4b6e0 (confidence: medium)
+static __declspec(noinline) int Object_ComputePointSegmentVector(PointArg input, Segment* segment, int count, Vec4* output, int kind){
 Vec4 point; CopyVector(point,*input.p);
 Vec4 direction; direction.setSub4(segment->second,segment->first);
 Vec4 b; b.setSub4(segment->second,point);
@@ -6411,7 +6471,7 @@ if(negativeB!=negativeA){
 }
 Vec4* volatile pointInput;Segment* volatile segmentInput;Vec4* volatile resultInput;volatile int kindInput;
 extern "C" int ReadCountInput();
-int invoke_target(){return FUN_00e4b6e0(PointArg(pointInput),segmentInput,ReadCountInput(),resultInput,kindInput);}
+int invoke_target(){return Object_ComputePointSegmentVector(PointArg(pointInput),segmentInput,ReadCountInput(),resultInput,kindInput);}
 }  // namespace fnv_00e4b6e0
 
 struct S00e58310_Allocator {
@@ -6557,9 +6617,10 @@ void __cdecl hkaNURBS_GlobalCurveApproxErrBnd_00e58310(int n, const S00e58310_Ar
     uCopy.destroy();
 }
 
-struct CurvePoint { float x,y,z,w; CurvePoint(float a=0,float b=0,float c=0,float d=0) throw(); float& FUN_00e53590(int); };
+struct CurvePoint { float x,y,z,w; CurvePoint(float a=0,float b=0,float c=0,float d=0) throw(); float& GetElementAddress_00e53590(int); };
 __declspec(noinline) CurvePoint::CurvePoint(float a,float b,float c,float d) throw():x(a),y(b),z(c),w(d){}
-__declspec(noinline) float& CurvePoint::FUN_00e53590(int i) {return (&x)[i];}
+// src: GUESS 0x00e53590 (confidence: low)
+__declspec(noinline) float& CurvePoint::GetElementAddress_00e53590(int i) {return (&x)[i];}
 struct CurveHeap {
  virtual void slot0(); virtual void slot1(); virtual void slot2();
  virtual void* allocate(int& bytes) throw();
@@ -6621,10 +6682,10 @@ void __cdecl hkaNURBS_ApproximateCurve(int aiPointCount,const float* values,cons
  FitOwnedArray<float> inValues(aiPointCount);
  for(int i=0;i<aiPointCount;++i) {
   inValues[i]=values[i];
-  inPoints[i].FUN_00e53590(0)=points[i].x;
-  inPoints[i].FUN_00e53590(1)=points[i].y;
-  inPoints[i].FUN_00e53590(2)=points[i].z;
-  inPoints[i].FUN_00e53590(3)=points[i].w;
+  inPoints[i].GetElementAddress_00e53590(0)=points[i].x;
+  inPoints[i].GetElementAddress_00e53590(1)=points[i].y;
+  inPoints[i].GetElementAddress_00e53590(2)=points[i].z;
+  inPoints[i].GetElementAddress_00e53590(3)=points[i].w;
  }
  FitOwnedArray<CurvePoint> outPoints;
  FitOwnedArray<float> outValues;
@@ -6633,34 +6694,36 @@ void __cdecl hkaNURBS_ApproximateCurve(int aiPointCount,const float* values,cons
  *pointCount=last+1;
  *knotCount=last+degree+2;
  for(int i=0;i<*pointCount;++i) {
-  resultPoints[i].x=outPoints[i].FUN_00e53590(0);
-  resultPoints[i].y=outPoints[i].FUN_00e53590(1);
-  resultPoints[i].z=outPoints[i].FUN_00e53590(2);
-  resultPoints[i].w=outPoints[i].FUN_00e53590(3);
+  resultPoints[i].x=outPoints[i].GetElementAddress_00e53590(0);
+  resultPoints[i].y=outPoints[i].GetElementAddress_00e53590(1);
+  resultPoints[i].z=outPoints[i].GetElementAddress_00e53590(2);
+  resultPoints[i].w=outPoints[i].GetElementAddress_00e53590(3);
  }
  for(int i=0;i<*knotCount;++i) knots[i]=outValues[i];
  }
 }
 
 struct E589Destination { float* data; int unknown04; int unknown08; int rows; int columns;
-    float* FUN_00e587b0(int index);
+    float* GetElementAddress_00e587b0(int index);
 };
 struct E589Values { float* data; int unknown04; int unknown08; int rows; int columns;
-    __declspec(noinline) float FUN_00e58880(int index) { return data[index]; }
-    int FUN_00e58890();
+// src: GUESS 0x00e58880 (confidence: low)
+    __declspec(noinline) float GetIndexedValue_00e58880(int index) { return data[index]; }
+    int EvaluateValue_00e58890();
 };
 struct E589ScaledValues { float* data; int unknown04; int unknown08; int rows; int columns;
-    __declspec(noinline) float FUN_00e58880(int index) { return data[index]; }
+// src: GUESS 0x00e58880 (confidence: low)
+    __declspec(noinline) float GetIndexedValue_00e58880(int index) { return data[index]; }
 };
 // Adds the product of scale and scaleValues to each value in values, storing the result in destination.
 // @fnv 0x00e58900
 // src: HAVOK_LIB 0x00e58900
 void __cdecl hkaCGSolver_float_ScaleAdd(E589Destination* destination,E589Values* values,const float* scale,E589ScaledValues* scaleValues)
 {
-    int count=values->FUN_00e58890();
+    int count=values->EvaluateValue_00e58890();
     for(int index=0;index<count;++index) {
-        float* output=destination->FUN_00e587b0(index);
-        *output=values->FUN_00e58880(index)+*scale*scaleValues->FUN_00e58880(index);
+        float* output=destination->GetElementAddress_00e587b0(index);
+        *output=values->GetIndexedValue_00e58880(index)+*scale*scaleValues->GetIndexedValue_00e58880(index);
     }
 }
 
@@ -6730,7 +6793,7 @@ struct QueryMachine {
     __declspec(align(16)) int complete;
     __declspec(align(16)) int count;
     PlaneGroup groups[8], magnitudes[8];
-    void __thiscall FUN_00e5e430(QueryState*,const unsigned char*,QueryBounds*);
+    void __thiscall ProcessEntries_00e5e430(QueryState*,const unsigned char*,QueryBounds*);
     __forceinline void prepare(const PlaneView& view, unsigned codeBits) {
         const QueryCode* code=reinterpret_cast<const QueryCode*>(codeBits);
         __assume(view.count>=0 && view.count<=32); int end=view.count & ~3;
@@ -6795,12 +6858,13 @@ struct QueryMachine {
         bounds.scale.setAll3(float(inverseScale*DAT_01091c00));
         prepare(view,codeBits);
         complete=properties;
-        FUN_00e5e430(&state,pc,&bounds);
+        ProcessEntries_00e5e430(&state,pc,&bounds);
     }
 };
 // Creates a QueryMachine and calls its query method with codeBits, the plane view, output and properties.
 // @fnv 0x00e5d360
-void __cdecl FUN_00e5d360(unsigned codeBits,const PlaneView& input,int output,int properties) {
+// src: GUESS 0x00e5d360 (confidence: low)
+void __cdecl Object_ProcessState_00e5d360(unsigned codeBits,const PlaneView& input,int output,int properties) {
     QueryMachine machine;
     machine.query(codeBits,input,output,properties);
 }
@@ -6842,11 +6906,12 @@ struct SphereQuery {
     void* volatile collector;
     int unk24, unk28, unk2c;
     QueryVector sphere;
-    void FUN_00e5fb50(QueryState*, unsigned char*, QueryBounds*);
+    void ProcessEntries_00e5fb50(QueryState*, unsigned char*, QueryBounds*);
 };
 // Builds a SphereQuery from code and sphere, then calls FUN_00e5fb50 on it with a query state, code->data and bounds.
 // @fnv 0x00e5d710
-void __cdecl FUN_00e5d710(const QueryCode* __restrict code, const QueryVector* sphere, void* hits, void* collector)
+// src: GUESS 0x00e5d710 (confidence: medium)
+void __cdecl Runtime_QueryMoppSphere(const QueryCode* __restrict code, const QueryVector* sphere, void* hits, void* collector)
 {
     SphereQuery query;
     QueryBounds bounds;
@@ -6864,7 +6929,7 @@ void __cdecl FUN_00e5d710(const QueryCode* __restrict code, const QueryVector* s
     query.sphere.components.w = sphere->components.w + sphere->components.w;
     query.collector = collector;
     state.shift = 16;
-    query.FUN_00e5fb50(&state, data, &bounds);
+    query.ProcessEntries_00e5fb50(&state, data, &bounds);
 }
 }  // namespace fnv_00e5d710
 
@@ -6917,8 +6982,8 @@ void __cdecl hkaNURBS_CurveDerivs(
 
         if (a2 >= 0) {
             for (int j = 0; j <= a2; ++j) {
-                rows[i].FUN_00e531a0(
-                    FUN_00e533a0(basis[i][j], (*points)[span - a2 + j]));
+                rows[i].ComputeValue_00e531a0(
+                    Object_ScaleCopy_Thunk(basis[i][j], (*points)[span - a2 + j]));
             }
         }
     }
@@ -7012,10 +7077,10 @@ KnotVector hkaNURBS_CurvePoint(int a, int degree, float** knots, KnotVector** po
     int span = FindFloatInterval(a, degree, u, knots);
     float basis[4];
     ComputeBasisFunctions(span, u, degree, knots, basis);
-    KnotVector result = ::FUN_00e533a0(basis[0], (*points)[span - degree]);
+    KnotVector result = ::Object_ScaleCopy_Thunk(basis[0], (*points)[span - degree]);
     for (int i = 1; i <= degree; i++)
     {
-        result.FUN_00e531a0(::FUN_00e533a0(basis[i], (*points)[span - degree + i]));
+        result.ComputeValue_00e531a0(::Object_ScaleCopy_Thunk(basis[i], (*points)[span - degree + i]));
     }
     return result;
 }

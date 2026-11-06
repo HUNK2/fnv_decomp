@@ -43,7 +43,8 @@ FUN_00dbc670::FUN_00dbc670()
 }
 
 // @fnv 0x00dbd720
-unsigned int __cdecl FUN_00dbd720(unsigned int arg)
+// src: GUESS 0x00dbd720 (confidence: low)
+unsigned int __cdecl Object_ComputeValue_00dbd720(unsigned int arg)
 {
     return *reinterpret_cast<unsigned int*>(arg + 4) * 3 * 16;
 }
@@ -52,10 +53,11 @@ struct FUN_00dbc6e0_s
 {
     void* m_vft;
     void FUN_00dbdf60();
-    void FUN_00dbc6e0();
+    void SetVirtualTableAndProcessState_00dbc6e0();
 };
 // @fnv 0x00dbc6e0
-void FUN_00dbc6e0_s::FUN_00dbc6e0()
+// src: GUESS 0x00dbc6e0 (confidence: low)
+void FUN_00dbc6e0_s::SetVirtualTableAndProcessState_00dbc6e0()
 {
     m_vft = &DAT_010d65bc;
     FUN_00dbdf60();
@@ -580,7 +582,7 @@ struct S_00dbd620_Dtor
 extern int DAT_010d65ec;
 extern int DAT_0102e388;
 
-unsigned int __cdecl FUN_00dbd720(unsigned int arg);
+unsigned int __cdecl Object_ComputeValue_00dbd720(unsigned int arg);
 
 static __declspec(noinline) void S_00dbd620_Helper(void* a, void* b, void* c, void* d)
 {
@@ -594,7 +596,7 @@ struct S_00dbd620_Owner
 {
     void hkBinaryPackfileWriter_fillSectionTags(void* p);
     void hkBinaryPackfileWriter_writeAllObjects(void* p);
-    void FUN_00dbc960(void* p, void* q);
+    void WriteSectionsAndFixups(void* p, void* q);
     void* ProcessPoly(S_00dbd620_Poly* a1, S_00dbd620_Arg* a2);
 };
 
@@ -617,13 +619,13 @@ void* S_00dbd620_Owner::ProcessPoly(S_00dbd620_Poly* pPoly, S_00dbd620_Arg* a2)
     void* pSaved = ((S_00dbd620_Poly*)&writer)->v8();
 
     unsigned int one = 1;
-    ((S_00dbd620_Poly*)&writer)->v7((void*)FUN_00dbd720((unsigned int)&obj.unk04), one);
+    ((S_00dbd620_Poly*)&writer)->v7((void*)Object_ComputeValue_00dbd720((unsigned int)&obj.unk04), one);
 
     hkBinaryPackfileWriter_writeAllObjects(&obj);
 
     void* pSaved2 = ((S_00dbd620_Poly*)&writer)->v8();
 
-    FUN_00dbc960(&obj, pSaved);
+    WriteSectionsAndFixups(&obj, pSaved);
 
     ((S_00dbd620_Poly*)&writer)->v7(pSaved2, 0);
 
@@ -750,7 +752,7 @@ struct S_00db8670_MapBase64
 
     void ResizeToFit(S_00db8670_Heap& alloc, int numElements) throw();
     void hkMapBase_unsigned_int64_unsigned_int64_hkMapOperations_unsigned_int64_clearAndDeallocate(S_00db8670_Heap& alloc) throw();
-    void FUN_00cb1e00() throw();
+    void ProcessEntries_00cb1e00() throw();
     int hkMapBase_unsigned_int64_unsigned_int64_struct_hkMapOperations_unsigned_int64_findKey(S_00db8670_Uint64 key) const throw();
     void InsertKeyValue(S_00db8670_Heap& alloc, S_00db8670_Uint64 key, S_00db8670_Uint64 val) throw();
     S_00db8670_Uint64 hkMapBase_unsigned_int64_unsigned_int64_struct_hkMapOperations_unsigned_int64_getWithDefault(S_00db8670_Uint64 key, S_00db8670_Uint64 def) const throw();
@@ -769,7 +771,7 @@ struct S_00db8670_Map64 : S_00db8670_MapBase64
 
     void clear() throw()
     {
-        FUN_00cb1e00();
+        ProcessEntries_00cb1e00();
     }
     int hasKey(S_00db8670_Uint64 key) const throw()
     {
@@ -957,10 +959,11 @@ struct S_00db8670_PatchInfo
 
 struct S_00db8670_UidFromClassVersion
 {
-    S_00db8670_Uint64 FUN_00db7d60(const char* name, int version) const throw();
+    S_00db8670_Uint64 ComputeValue_00db7d60(const char* name, int version) const throw();
 };
 
-__declspec(noinline) int __cdecl FUN_00db7cb0(const S_00db8670_PatchInfo* p) throw()
+// src: GUESS 0x00db7cb0 (confidence: low)
+__declspec(noinline) int __cdecl Hkversionpatchmanager_EvaluateValue_00db7cb0(const S_00db8670_PatchInfo* p) throw()
 {
     if (p->m_oldVersion == -1)
     {
@@ -977,8 +980,8 @@ __declspec(noinline) int __cdecl FUN_00db7cb0(const S_00db8670_PatchInfo* p) thr
     return 1;
 }
 int __cdecl hkString_strCmp(const char* a, const char* b) throw();
-int __cdecl FUN_00db7e70(int from, int to, const S_00db8670_MultiMapUlong& deps, S_00db8670_MapUlong& visited) throw();
-int __cdecl FUN_00db83c0(int index, S_00db8670_ArrayLocalForm<int>& order, const S_00db8670_MultiMapUlong& deps, int next,
+int __cdecl hkMemoryRouter_ProcessEntries_00db7e70(int from, int to, const S_00db8670_MultiMapUlong& deps, S_00db8670_MapUlong& visited) throw();
+int __cdecl hkIntArray_ProcessEntries_00db83c0(int index, S_00db8670_ArrayLocalForm<int>& order, const S_00db8670_MultiMapUlong& deps, int next,
                          S_00db8670_ArrayLocalForm<int>& stack,
                          const S_00db8670_ArrayLocalForm<const S_00db8670_PatchInfo*>& patches) throw();
 
@@ -1011,13 +1014,13 @@ int S_00db8670_PatchManager::hkVersionPatchManager_recomputePatchDependencies() 
         for (int i = 0; i < m_kPatchInfos.GetLogicalSize(); i++)
         {
             const S_00db8670_PatchInfo* p = m_kPatchInfos[i];
-            if (!FUN_00db7cb0(p))
+            if (!Hkversionpatchmanager_EvaluateValue_00db7cb0(p))
             {
                 return 1;
             }
             if (p->m_oldVersion != -1)
             {
-                S_00db8670_Uint64 uid = m_pUidFromClassVersion->FUN_00db7d60(p->m_oldName, p->m_oldVersion);
+                S_00db8670_Uint64 uid = m_pUidFromClassVersion->ComputeValue_00db7d60(p->m_oldName, p->m_oldVersion);
                 if (patchIndexFromUid.hasKey(uid))
                 {
                     return 1;
@@ -1030,7 +1033,7 @@ int S_00db8670_PatchManager::hkVersionPatchManager_recomputePatchDependencies() 
             }
             else
             {
-                S_00db8670_Uint64 uid = m_pUidFromClassVersion->FUN_00db7d60(p->m_newName, p->m_newVersion);
+                S_00db8670_Uint64 uid = m_pUidFromClassVersion->ComputeValue_00db7d60(p->m_newName, p->m_newVersion);
                 if (newClassIndexFromUid.hasKey(uid))
                 {
                     return 1;
@@ -1040,7 +1043,7 @@ int S_00db8670_PatchManager::hkVersionPatchManager_recomputePatchDependencies() 
             if (p->m_newVersion != -1)
             {
                 const char* name = p->m_newName ? p->m_newName : p->m_oldName;
-                S_00db8670_Uint64 uid = uidFromClassVersion->FUN_00db7d60(name, p->m_newVersion);
+                S_00db8670_Uint64 uid = uidFromClassVersion->ComputeValue_00db7d60(name, p->m_newVersion);
                 patchesFromUid.Insert(uid, i);
             }
         }
@@ -1064,7 +1067,7 @@ int S_00db8670_PatchManager::hkVersionPatchManager_recomputePatchDependencies() 
                 return 1;
             }
         }
-        S_00db8670_Uint64 uid = uidFromClassVersion->FUN_00db7d60(name, version);
+        S_00db8670_Uint64 uid = uidFromClassVersion->ComputeValue_00db7d60(name, version);
         int iNewClassIndex;
         if (p->m_oldVersion == -1)
         {
@@ -1086,7 +1089,7 @@ int S_00db8670_PatchManager::hkVersionPatchManager_recomputePatchDependencies() 
             if (component.m_type == 6)
             {
                 const S_00db8670_DependsPatch* dep = (const S_00db8670_DependsPatch*)component.m_patch;
-                S_00db8670_Uint64 depUid = uidFromClassVersion->FUN_00db7d60(dep->m_name, dep->m_version);
+                S_00db8670_Uint64 depUid = uidFromClassVersion->ComputeValue_00db7d60(dep->m_name, dep->m_version);
                 int depIndex = (int)patchIndexFromUid.FindValueForKey(depUid, S_00db8670_Uint64(-1));
                 if (depIndex != -1)
                 {
@@ -1145,7 +1148,7 @@ int S_00db8670_PatchManager::hkVersionPatchManager_recomputePatchDependencies() 
         {
             S_00db8670_MapUlong visited;
             int value = renames.getValue(k);
-            if (!FUN_00db7e70(key, value, dependencies, visited))
+            if (!hkMemoryRouter_ProcessEntries_00db7e70(key, value, dependencies, visited))
             {
                 dependencies.hkSerializeMultiMap_hkDataClassDict_hkDataClassDict_insert(key, value);
             }
@@ -1160,7 +1163,7 @@ int S_00db8670_PatchManager::hkVersionPatchManager_recomputePatchDependencies() 
     int next = 0;
     for (int i = 0; i < sorted.GetLogicalSize(); i++)
     {
-        next = FUN_00db83c0(i, newIndex, dependencies, next, stack, sorted);
+        next = hkIntArray_ProcessEntries_00db83c0(i, newIndex, dependencies, next, stack, sorted);
     }
 
     m_kPatchInfos.SetSizeAndGrow(sorted.GetLogicalSize());
@@ -1181,7 +1184,7 @@ int S_00db8670_PatchManager::hkVersionPatchManager_recomputePatchDependencies() 
         const S_00db8670_PatchInfo* p = m_kPatchInfos[i];
         if (p->m_oldName)
         {
-            patchIndexFromUid.insert(m_pUidFromClassVersion->FUN_00db7d60(p->m_oldName, p->m_oldVersion), i);
+            patchIndexFromUid.insert(m_pUidFromClassVersion->ComputeValue_00db7d60(p->m_oldName, p->m_oldVersion), i);
         }
     }
     return 0;
@@ -1355,7 +1358,8 @@ template <class T> __forceinline void S00dbcdd0_Construct(T* p, int n, const T& 
 
 // Fills count bytes with -1, calls obj->unk10 when r is nonzero, then frees the buffer if heap-allocated.
 // @fnv 0x00dbcdd0
-static __declspec(noinline) void FUN_00dbcdd0(S00dbcdd0_Obj* obj, unsigned int count)
+// src: GUESS 0x00dbcdd0 (confidence: low)
+static __declspec(noinline) void hkMemoryRouter_UpdateState_00dbcdd0(S00dbcdd0_Obj* obj, unsigned int count)
 {
     int value = (int)obj->unk20();
     S00dbcdd0_Arr arr;
@@ -1391,7 +1395,7 @@ static __declspec(noinline) void FUN_00dbcdd0(S00dbcdd0_Obj* obj, unsigned int c
 
 void S00dbcdd0_Entry(S00dbcdd0_Obj* obj, unsigned int count)
 {
-    FUN_00dbcdd0(obj, count);
+    hkMemoryRouter_UpdateState_00dbcdd0(obj, count);
 }
 
 namespace fnv_00dbd7f0 {
@@ -1446,10 +1450,10 @@ struct BinaryWriter
     int mode;
     int state;
     int extra;
-    void FUN_00d60830(void*, WriterBool);
-    void FUN_00d60590();
+    void hkOArchive_InitializeWriterWithByteSwap(void*, WriterBool);
+    void ReleaseReference_00d60590();
     void WriteInt(int);
-    void FUN_00d60aa0(int*, int);
+    void hkOArchive_WriteSwapped_Thunk_00d60b00(int*, int);
 };
 struct OutputStream
 {
@@ -1524,7 +1528,7 @@ struct WriterOwner
     int a88;
     int rootIndex;
     int objectIndex;
-    void FUN_00dbc960(struct SourceData*, int);
+    void WriteSectionsAndFixups(struct SourceData*, int);
 };
 struct PointerPair
 {
@@ -1678,10 +1682,11 @@ template <class T> __forceinline void ArrayBase<T>::releaseOnly()
 }
 // Writes global and local fixup data for each section, then serializes each section and writes the root object header to the stream.
 // @fnv 0x00dbc960
-void WriterOwner::FUN_00dbc960(SourceData* source, int position)
+// src: GUESS 0x00dbc960 (confidence: medium)
+void WriterOwner::WriteSectionsAndFixups(SourceData* source, int position)
 {
     BinaryWriter values;
-    values.FUN_00d60830(source->stream, source->reverse);
+    values.hkOArchive_InitializeWriterWithByteSwap(source->stream, source->reverse);
     SectionRecord* kIter;
     {
         int ptr = 0;
@@ -1723,7 +1728,7 @@ void WriterOwner::FUN_00dbc960(SourceData* source, int position)
                         } while (++j < pGlobals->size);
                     }
                     source->stream->seek(kIter->base + kIter->globalOffset, 0);
-                    values.FUN_00d60aa0(n.data, n.size);
+                    values.hkOArchive_WriteSwapped_Thunk_00d60b00(n.data, n.size);
                     n.clear();
                 }
                 LocalArray<LocalFixup>* b;
@@ -1744,7 +1749,7 @@ void WriterOwner::FUN_00dbc960(SourceData* source, int position)
                     out.data[2 + offset] = mapped;
                 }
                 source->stream->seek(kIter->localOffset + kIter->base, 0);
-                values.FUN_00d60aa0(out.data, out.size);
+                values.hkOArchive_WriteSwapped_Thunk_00d60b00(out.data, out.size);
                 out.clear();
                 offsets.section += 48;
                 offsets.fixup += 52;
@@ -1763,7 +1768,7 @@ void WriterOwner::FUN_00dbc960(SourceData* source, int position)
     WriterBool p;
     p.value = (unsigned char)(((unsigned int)*source->serializer.hkPlatformObjectWriter_getLayout()) >> 8) != (unsigned char)DAT_011b7b89;
     BinaryWriter ptr;
-    ptr.FUN_00d60830(source->stream, p);
+    ptr.hkOArchive_InitializeWriterWithByteSwap(source->stream, p);
     ptr.WriteInt(source->pointers.data[rootIndex].first);
     ptr.WriteInt(source->pointers.data[rootIndex].second);
     RootObject* section;
@@ -1772,8 +1777,8 @@ void WriterOwner::FUN_00dbc960(SourceData* source, int position)
     unsigned long index;
     index = section->FUN_00d46d40();
     ptr.WriteInt(source->keys.GetValue(index, -1));
-    ptr.FUN_00d60590();
-    values.FUN_00d60590();
+    ptr.ReleaseReference_00d60590();
+    values.ReleaseReference_00d60590();
 }
 
 // Grouped serialization and offset-table construction.
@@ -1826,8 +1831,8 @@ struct Ctx
     void* unk04;
     void* unk08;
     void* unk0c;
-    void FUN_00d60830(ClockObj* c, int f);
-    void FUN_00d60590();
+    void hkOArchive_InitializeWriterWithByteSwap(ClockObj* c, int f);
+    void ReleaseReference_00d60590();
     void WriteSwapped(void* data, int elem, int count);
 };
 struct MapBool
@@ -1851,11 +1856,11 @@ struct LocObj
     void* FindStringKey(const char* s);
     MapBool SetBoolFromThreshold(int v);
     void FreeBuffer();
-    void FUN_00d60830(ClockObj* c, int f);
+    void hkOArchive_InitializeWriterWithByteSwap(ClockObj* c, int f);
     void WriteSwapped(void* data, int elem, int bytes);
     void WriteInt(int v);
     void hkOArchive_writeRaw(int v, int n);
-    void FUN_00d60590();
+    void ReleaseReference_00d60590();
 };
 struct Pair8
 {
@@ -2025,7 +2030,8 @@ extern void* __cdecl memset(void*, int, unsigned int);
 extern "C" void _ReadWriteBarrier();
 
 extern void FUN_00ec61c0(void* dst, int value, int n);
-static __declspec(noinline) void FUN_00dbcdd0(ClockObj* obj0, unsigned int count)
+// src: GUESS 0x00dbcdd0 (confidence: low)
+static __declspec(noinline) void hkMemoryRouter_UpdateState_00dbcdd0(ClockObj* obj0, unsigned int count)
 {
     S00dbcdd0_Obj* obj = (S00dbcdd0_Obj*)obj0;
     int value = (int)obj->unk20();
@@ -2193,7 +2199,7 @@ void ThisCls::hkBinaryPackfileWriter_writeAllObjects(Src* apSrc)
                 WriteNodeDiff(apSrc, (void*)((ThisEntry*)((char*)entries.m_data + objectBytes))->t04, stats->start);
             }
         }
-        FUN_00dbcdd0(apSrc->clock1c, 16);
+        hkMemoryRouter_UpdateState_00dbcdd0(apSrc->clock1c, 16);
         int d = apSrc->clock1c->Get20() - stats->start;
         stats->end1 = d;
         stats->end2 = d;
@@ -2280,18 +2286,18 @@ void ThisCls::hkBinaryPackfileWriter_writeAllObjects(Src* apSrc)
             }
         }
         Ctx ctx;
-        ctx.FUN_00d60830(apSrc->clock1c, apSrc->flag4c);
+        ctx.hkOArchive_InitializeWriterWithByteSwap(apSrc->clock1c, apSrc->flag4c);
         stats->end1 = apSrc->clock1c->Get20() - stats->start;
         ctx.WriteSwapped(work.a1.m_data, 4, work.a1.m_iElementCount * 2);
-        FUN_00dbcdd0(apSrc->clock1c, 16);
+        hkMemoryRouter_UpdateState_00dbcdd0(apSrc->clock1c, 16);
         stats->end2 = apSrc->clock1c->Get20() - stats->start;
         apSrc->clock1c->c1c(work.a2.m_iElementCount * 12, 1);
         ((FUN_00d9ec10_cls*)&apSrc->arr40.m_data[counter].second)->SwapThreeInts((int*)&work.a2);
-        FUN_00dbcdd0(apSrc->clock1c, 16);
+        hkMemoryRouter_UpdateState_00dbcdd0(apSrc->clock1c, 16);
         stats->end3 = apSrc->clock1c->Get20() - stats->start;
         apSrc->clock1c->c1c(work.a3.m_iElementCount * 12, 1);
         ((FUN_00d9ec10_cls*)&apSrc->arr40.m_data[counter].third)->SwapThreeInts((int*)&work.a3);
-        FUN_00dbcdd0(apSrc->clock1c, 16);
+        hkMemoryRouter_UpdateState_00dbcdd0(apSrc->clock1c, 16);
         stats->end4 = apSrc->clock1c->Get20() - stats->start;
         {
             MapIter idx = BeginPairs(&map2c);
@@ -2314,7 +2320,7 @@ void ThisCls::hkBinaryPackfileWriter_writeAllObjects(Src* apSrc)
                             ((FUN_00d60940_Class*)&ctx)->WriteInt((unsigned int)av);
                             int r = hkString_strLen((void*)second);
                             ((FUN_00d607b0_s*)&ctx)->writeVec(second, r + 1);
-                            FUN_00dbcdd0(apSrc->clock1c, 4);
+                            hkMemoryRouter_UpdateState_00dbcdd0(apSrc->clock1c, 4);
                         }
                     }
                     idx = NextPair(&map2c, idx);
@@ -2325,7 +2331,7 @@ void ThisCls::hkBinaryPackfileWriter_writeAllObjects(Src* apSrc)
             if (flag)
             {
                 ((FUN_00d60940_Class*)&ctx)->WriteInt((unsigned int)-1);
-                FUN_00dbcdd0(apSrc->clock1c, 16);
+                hkMemoryRouter_UpdateState_00dbcdd0(apSrc->clock1c, 16);
             }
         }
         stats->end5 = apSrc->clock1c->Get20() - stats->start;
@@ -2335,16 +2341,16 @@ void ThisCls::hkBinaryPackfileWriter_writeAllObjects(Src* apSrc)
             ((FUN_00d60940_Class*)&ctx)->WriteInt((unsigned int)pr->p0);
             int r = hkString_strLen((void*)pr->p1);
             ((FUN_00d607b0_s*)&ctx)->writeVec(pr->p1, r + 1);
-            FUN_00dbcdd0(apSrc->clock1c, 4);
+            hkMemoryRouter_UpdateState_00dbcdd0(apSrc->clock1c, 4);
         }
         if (work.a4.m_iElementCount != 0)
         {
             ((FUN_00d60940_Class*)&ctx)->WriteInt((unsigned int)-1);
             ((FUN_00d9ec10_cls*)&apSrc->arr40.m_data[counter].fourth)->SwapThreeInts((int*)&work.a4);
-            FUN_00dbcdd0(apSrc->clock1c, 16);
+            hkMemoryRouter_UpdateState_00dbcdd0(apSrc->clock1c, 16);
         }
         stats->end6 = apSrc->clock1c->Get20() - stats->start;
-        ctx.FUN_00d60590();
+        ctx.ReleaseReference_00d60590();
         work.FUN_00e028e0();
     }
 }
@@ -2385,7 +2391,7 @@ struct Context
     HeaderArray headers;
 };
 
-extern "C" unsigned int __cdecl FUN_00dbd720(const HeaderArray* headers);
+extern "C" unsigned int __cdecl Object_ComputeValue_00dbd720(const HeaderArray* headers);
 extern "C" void __cdecl CopyIfNonEmpty(char* dst, const char* src, int count);
 
 template <class T> __forceinline void ConstructHeaders(T* first, int count)
@@ -2419,7 +2425,7 @@ void Writer::hkBinaryPackfileWriter_fillSectionTags(Context* context)
     }
     ConstructHeaders(headers->data + headers->size, count - headers->size);
     headers->size = count;
-    unsigned int bytes = (FUN_00dbd720)(headers);
+    unsigned int bytes = (Object_ComputeValue_00dbd720)(headers);
     hkString_memSet(headers->data, -1, (int)bytes);
     for (int i = 0; i < tagCount; ++i)
         (CopyIfNonEmpty)(headers->data[i].tag, tags[i], 19);

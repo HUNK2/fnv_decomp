@@ -311,7 +311,7 @@ struct NodePointer
 {
     UpdateObject* root;
     NodePointer& FUN_0066b0d0(UpdateObject*);
-    UpdateObject* FUN_00559450();
+    UpdateObject* Modelloader_GetReferencedThis();
 };
 struct RefList
 {
@@ -464,7 +464,7 @@ void UpdateOwner::TESNPC_FixNPCNormals(UpdateObject* object)
         return;
     UpdateObject* rootNode = object->GetRoot();
     unsigned entry = 0;
-    UpdateObject* currentNode = current.FUN_0066b0d0(object->GetRenderNode(0)).FUN_00559450();
+    UpdateObject* currentNode = current.FUN_0066b0d0(object->GetRenderNode(0)).Modelloader_GetReferencedThis();
     UpdateObject* found = BSUtilities_GetObjectByName(rootNode, TESRace_GetHeadPartNodeName(0));
     UpdateObject* node = found ? found->GetNode() : 0;
     if (!node || !currentNode)
@@ -562,7 +562,7 @@ void UpdateOwner::TESNPC_FixNPCNormals(UpdateObject* object)
         }
         references.FUN_00726070();
         packet.enabled = General_bFaceGenTexturing_Get();
-        ApplyFaceGenTextures(previous.FUN_00559450(), packet);
-        ApplyFaceGenTextures(current.FUN_00559450(), packet);
+        ApplyFaceGenTextures(previous.Modelloader_GetReferencedThis(), packet);
+        ApplyFaceGenTextures(current.Modelloader_GetReferencedThis(), packet);
     }
 }

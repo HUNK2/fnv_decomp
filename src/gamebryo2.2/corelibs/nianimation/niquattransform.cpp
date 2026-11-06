@@ -57,11 +57,12 @@ struct Outer_00a2bdb0
 {
     int _0;
     Inner_00a6db50 _4;
-    Outer_00a2bdb0* __thiscall FUN_00a2bdb0();
+    Outer_00a2bdb0* __thiscall ClearInnerVector();
 };
 // Calls the inner object's method with four zero floats and returns this.
 // @fnv 0x00a2bdb0
-Outer_00a2bdb0* __thiscall Outer_00a2bdb0::FUN_00a2bdb0()
+// src: GUESS 0x00a2bdb0 (confidence: medium)
+Outer_00a2bdb0* __thiscall Outer_00a2bdb0::ClearInnerVector()
 {
     _4.Set(0.0f, 0.0f, 0.0f, 0.0f);
     return this;
@@ -71,7 +72,7 @@ extern NiPoint3 DAT_011a8400;
 extern NiQuaternion DAT_011f3704;
 struct QQuatOps
 {
-    NiQuaternion FUN_00a2bcf0(const NiQuaternion& q) const;
+    NiQuaternion MultiplyQuaternion(const NiQuaternion& q) const;
     void FUN_00a38560();
 };
 struct QXform
@@ -105,10 +106,11 @@ struct QXform
     {
         m_kTranslate.x = kInvalidTransformValue;
     }
-    QXform FUN_00a38a00(const QXform& kXform) const;
+    QXform ProcessAndReturnValue_00a38a00(const QXform& kXform) const;
 };
 // @fnv 0x00a38a00
-QXform QXform::FUN_00a38a00(const QXform& kXform) const
+// src: GUESS 0x00a38a00 (confidence: low)
+QXform QXform::ProcessAndReturnValue_00a38a00(const QXform& kXform) const
 {
     QXform kResult;
     if (IsScaleValid() && kXform.IsScaleValid())
@@ -117,7 +119,7 @@ QXform QXform::FUN_00a38a00(const QXform& kXform) const
         kResult.MakeScaleInvalid();
     if (IsRotateValid() && kXform.IsRotateValid())
     {
-        NiQuaternion kRotate = ((const QQuatOps*)&m_kRotate)->FUN_00a2bcf0(kXform.m_kRotate);
+        NiQuaternion kRotate = ((const QQuatOps*)&m_kRotate)->MultiplyQuaternion(kXform.m_kRotate);
         ((QQuatOps*)&kRotate)->FUN_00a38560();
         *(NiQuaternionValue*)&kResult.m_kRotate = *(NiQuaternionValue*)&kRotate;
     }
@@ -272,7 +274,7 @@ QXform2 QXform2::NiQuatTransform_HierApply(const QXform2& kXform) const
     QMat3 kRot = kQMat3Identity;
     if (IsRotateValid() && kXform.IsRotateValid())
     {
-        NiQuaternion kQ = ((const QQuatOps*)&m_kRotate)->FUN_00a2bcf0(kXform.m_kRotate);
+        NiQuaternion kQ = ((const QQuatOps*)&m_kRotate)->MultiplyQuaternion(kXform.m_kRotate);
         ((QQuatOps*)&kQ)->FUN_00a38560();
         *(NiQuaternionValue*)&kRes.m_kRotate = *(NiQuaternionValue*)&kQ;
         ((const QQuatRot*)&m_kRotate)->ToRotationMatrix(kRot);
@@ -332,11 +334,12 @@ struct QQ
 {
     float m_fVectorX, m_fVectorY, m_fVectorZ, m_fScalarPart;
     void Set(float w, float x, float y, float z);
-    QQ FUN_00a2bcf0(const QQ& q) const;
+    QQ MultiplyQuaternion(const QQ& q) const;
 };
 // Multiplies this quaternion by q using the Hamilton product and returns the resulting quaternion.
 // @fnv 0x00a2bcf0
-QQ QQ::FUN_00a2bcf0(const QQ& aQuat) const
+// src: GUESS 0x00a2bcf0 (confidence: medium)
+QQ QQ::MultiplyQuaternion(const QQ& aQuat) const
 {
     QQ r;
     r.Set(m_fVectorX * aQuat.m_fVectorX - m_fVectorY * aQuat.m_fVectorY - m_fVectorZ * aQuat.m_fVectorZ -

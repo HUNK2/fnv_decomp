@@ -383,7 +383,7 @@ void NiColorInterpolator::GetViewerStrings(NiViewerStringsArray* strings)
     out->FUN_0096ae90(uiIndex, &pValue);
 }
 
-extern "C" void* __cdecl FUN_00aa13e0(unsigned int);
+extern "C" void* __cdecl Object_DispatchCommandFour(unsigned int);
 inline void* __cdecl operator new(unsigned int, void* p) throw()
 {
     return p;
@@ -400,7 +400,7 @@ struct ColorInterpolatorCloneSource
 // @fnv 0x00a3c1f0
 NiColorInterpolator* ColorInterpolatorCloneSource::CreateColorInterpolator(int arg)
 {
-    void* memory = FUN_00aa13e0(sizeof(NiColorInterpolator));
+    void* memory = Object_DispatchCommandFour(sizeof(NiColorInterpolator));
     NiColorInterpolator* interpolator = memory ? ::new (memory) NiColorInterpolator(0) : 0;
     CopyMembers(interpolator, arg);
     return interpolator;

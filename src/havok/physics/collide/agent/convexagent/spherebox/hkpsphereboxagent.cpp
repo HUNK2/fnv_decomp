@@ -25,16 +25,16 @@ struct Conversion
 };
 struct Registry
 {
-    void FUN_00cfbbe0(Conversion*, int, int);
+    void AppendRecordAndRegisterAgents(Conversion*, int, int);
 };
 void hkpSphereBoxAgent_createBoxSphereAgent();
-void FUN_00d3cfc0();
+void Object_UpdateFields_00d3cfc0();
 void FlipAndDispatchCollector();
-void FUN_00d3ac80();
+void Object_UpdateFields_00d3ac80();
 void CreateD3C380Obj();
 void hkpSphereBoxAgent_staticGetPenetrations();
 void hkpSphereBoxAgent_staticGetClosestPoints();
-void FUN_00daf8e0();
+void Object_ProcessEntries_00daf8e0();
 // Fills a Conversion with function pointers and flags and registers it twice with the registry, once for 4->1 and once for 1->4.
 // @fnv 0x00d3cef0
 // src: HAVOK_LIB 0x00d3cef0
@@ -42,19 +42,19 @@ void __cdecl hkpSphereBoxAgent_registerAgent(Registry* registry)
 {
     Conversion conversion;
     conversion.convert = hkpSphereBoxAgent_createBoxSphereAgent;
-    conversion.create = FUN_00d3cfc0;
+    conversion.create = Object_UpdateFields_00d3cfc0;
     conversion.copy = FlipAndDispatchCollector;
-    conversion.destroy = FUN_00d3ac80;
+    conversion.destroy = Object_UpdateFields_00d3ac80;
     conversion.enabled = true;
     conversion.supported = false;
-    registry->FUN_00cfbbe0(&conversion, 4, 1);
+    registry->AppendRecordAndRegisterAgents(&conversion, 4, 1);
     conversion.convert = CreateD3C380Obj;
     conversion.create = hkpSphereBoxAgent_staticGetPenetrations;
     conversion.copy = hkpSphereBoxAgent_staticGetClosestPoints;
-    conversion.destroy = FUN_00daf8e0;
+    conversion.destroy = Object_ProcessEntries_00daf8e0;
     conversion.enabled = false;
     conversion.supported = false;
-    registry->FUN_00cfbbe0(&conversion, 1, 4);
+    registry->AppendRecordAndRegisterAgents(&conversion, 1, 4);
 }
 
 extern float DAT_0104da48;
@@ -180,7 +180,8 @@ struct FlipCollectorLocal
 
 // Builds a FlipCollectorLocal from DAT_010ce81c and a4, then calls FUN_00d3c440 with a2, a1, a3 and the local's address.
 // @fnv 0x00d3cfc0
-void __cdecl FUN_00d3cfc0(int aiArg1, int aiArg2, int aiArg3, int a4)
+// src: GUESS 0x00d3cfc0 (confidence: low)
+void __cdecl Object_UpdateFields_00d3cfc0(int aiArg1, int aiArg2, int aiArg3, int a4)
 {
     FlipCollectorLocal local;
     local.unk08 = a4;

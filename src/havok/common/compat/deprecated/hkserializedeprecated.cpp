@@ -31,13 +31,15 @@ int __stdcall ReportDeprecatedSerializeLoad(int aiUnused1, int aiUnused2, int pE
 }
 
 // @fnv 0x00dba5b0
-int __stdcall FUN_00dba5b0(int a, int b, int c, int d, int e)
+// src: GUESS 0x00dba5b0 (confidence: high)
+int __stdcall Hkserializedeprecated_ReturnOne(int a, int b, int c, int d, int e)
 {
     return 1;
 }
 
 // @fnv 0x00dba5c0
-int __stdcall FUN_00dba5c0(int a)
+// src: GUESS 0x00dba5c0 (confidence: high)
+int __stdcall Object_ReturnZero_00dba5c0(int a)
 {
     return 0;
 }

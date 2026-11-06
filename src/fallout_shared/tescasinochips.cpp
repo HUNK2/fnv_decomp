@@ -764,10 +764,10 @@ struct Secondary_504570
 {
     virtual void v00();
     unsigned int b04;
-    void FUN_00591300();
+    void BSStringT_Thunk();
     ~Secondary_504570()
     {
-        FUN_00591300();
+        BSStringT_Thunk();
     }
 };
 struct Elem32_504570

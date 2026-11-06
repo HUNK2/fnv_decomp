@@ -40,7 +40,8 @@ struct ListenerOwner
     ListenerArray m_kListeners;
 };
 
-static __declspec(noinline) void FUN_00d85d40(ListenerArray* pArr)
+// src: GUESS 0x00d85d40 (confidence: low)
+static __declspec(noinline) void Object_ProcessEntries_00d85d40(ListenerArray* pArr)
 {
     for (int i = (int)pArr->m_wCount - 1; i >= 0; i--)
     {
@@ -95,5 +96,5 @@ void __cdecl hkpConstraintCallbackUtil_fireConstraintDeleted(ListenerOwner* pOwn
             i--;
         } while (i >= 0);
     }
-    FUN_00d85d40(pArr);
+    Object_ProcessEntries_00d85d40(pArr);
 }

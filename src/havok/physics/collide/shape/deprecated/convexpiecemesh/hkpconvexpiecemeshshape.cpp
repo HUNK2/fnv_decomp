@@ -28,7 +28,7 @@ struct HkpStandIn
 {
     virtual void v0() = 0;
 
-    void FUN_00e490d0();
+    void ForwardCall_00e490d0();
     HkpStandIn* FUN_00e01010(int flags);
 
     unsigned short value;
@@ -40,7 +40,7 @@ HkpRouter* _D1A0E0GetMemoryRouter();
 // @fnv 0x00e01010
 HkpStandIn* HkpStandIn::FUN_00e01010(int flags)
 {
-    this->FUN_00e490d0();
+    this->ForwardCall_00e490d0();
 
     if (flags & 1)
     {
@@ -139,7 +139,8 @@ int FUN_00e49290_Class::hkpConvexPieceMeshShape_getCollisionFilterInfo(unsigned 
 }
 
 // @fnv 0x00e49030
-int FUN_00e49030()
+// src: GUESS 0x00e49030 (confidence: high)
+int hkpConvexPieceMeshShape_ReturnZero()
 {
     return 0;
 }
@@ -170,11 +171,12 @@ struct D : P, S
     Ptr m1c;
     __forceinline ~D()
     {}
-    void FUN_00e490d0();
+    void ForwardCall_00e490d0();
 };
 // Destroys the object by invoking its destructor.
 // @fnv 0x00e490d0
-void D::FUN_00e490d0()
+// src: GUESS 0x00e490d0 (confidence: low)
+void D::ForwardCall_00e490d0()
 {
     this->D::~D();
 }
@@ -233,7 +235,7 @@ unsigned char* __stdcall hkpConvexPieceMeshShape_vertexIsSet(unsigned char* pbRe
 // sub ecx,0x10; jmp target  ==  MSVC adjustor thunk for a virtual declared by both bases.
 struct PrimaryBase
 {
-    virtual void FUN_00e01040();
+    virtual void AdjustThisAndForward_00e01040();
     int unk04;
     int unk08;
     int unk0C;
@@ -241,14 +243,15 @@ struct PrimaryBase
 
 struct SecondaryBase
 {
-    virtual void FUN_00e01040();
+    virtual void AdjustThisAndForward_00e01040();
 };
 
 struct Derived : PrimaryBase, SecondaryBase
 {
     Derived();
 // @fnv 0x00e01040
-    virtual void FUN_00e01040();
+// src: GUESS 0x00e01040 (confidence: low)
+    virtual void AdjustThisAndForward_00e01040();
 };
 
 Derived::Derived()

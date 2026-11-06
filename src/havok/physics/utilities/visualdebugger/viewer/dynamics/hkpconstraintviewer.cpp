@@ -203,12 +203,13 @@ struct FUN_00d69200_cls
     int unk18;
     int unk1C;
 
-    void FUN_00d69200(SpawnedTarget* target);
+    void ProcessAndTransformResult_00d69200(SpawnedTarget* target);
 };
 
 // Passes a pointer derived from this (this+8, or null when this-0x20 is null) to target->FUN_00c93920.
 // @fnv 0x00d69200
-void FUN_00d69200_cls::FUN_00d69200(SpawnedTarget* target)
+// src: GUESS 0x00d69200 (confidence: low)
+void FUN_00d69200_cls::ProcessAndTransformResult_00d69200(SpawnedTarget* target)
 {
     target->hkpWorld_addWorldPostSimulationListener(((char*)this - 0x20) != 0 ? (char*)this + 8 : 0);
 }
@@ -421,7 +422,8 @@ extern "C"
 {
     extern unsigned32 g_0126901c;
 // @fnv 0x00d69ab0
-    unsigned32 FUN_00d69ab0(void)
+// src: GUESS 0x00d69ab0 (confidence: low)
+    unsigned32 hkpConstraintViewer_GetGlobalValue(void)
     {
         return g_0126901c;
     }
@@ -430,7 +432,7 @@ extern "C"
 struct D69AC0Primary
 {
     virtual void vfunc00();
-    virtual void FUN_00d69ac0();
+    virtual void AdjustThisAndForward_00d69ac0();
 
     int unk04;
     int unk08;
@@ -443,7 +445,7 @@ struct D69AC0Primary
 
 struct D69AC0Secondary
 {
-    virtual void FUN_00d69ac0();
+    virtual void AdjustThisAndForward_00d69ac0();
 };
 
 struct D69AC0Object : D69AC0Primary, D69AC0Secondary
@@ -451,7 +453,8 @@ struct D69AC0Object : D69AC0Primary, D69AC0Secondary
     D69AC0Object();
 
 // @fnv 0x00d69ac0
-    virtual void FUN_00d69ac0();
+// src: GUESS 0x00d69ac0 (confidence: low)
+    virtual void AdjustThisAndForward_00d69ac0();
 };
 
 D69AC0Object::D69AC0Object()
@@ -483,7 +486,7 @@ Derived::Derived()
 namespace fnv_00d69ae0 {
 struct Base1
 {
-    virtual void FUN_00d69ae0();
+    virtual void AdjustThisAndForward_00d69ae0();
     int unk04;
     int unk08;
     int unk0C;
@@ -496,13 +499,14 @@ struct Base1
 };
 struct Base2
 {
-    virtual void FUN_00d69ae0();
+    virtual void AdjustThisAndForward_00d69ae0();
 };
 struct Derived : Base1, Base2
 {
     Derived();
 // @fnv 0x00d69ae0
-    virtual void FUN_00d69ae0();
+// src: GUESS 0x00d69ae0 (confidence: low)
+    virtual void AdjustThisAndForward_00d69ae0();
 };
 Derived::Derived()
 {}
@@ -869,7 +873,7 @@ struct LocalCollidable : Collidable
     int unk30;
     int unk34;
     void FUN_00cf3ea0(void*, void*, Shape*, bool);
-    void FUN_00cf40b0();
+    void hkpConstraintInstance_ProcessEntries_00cf40b0();
 };
 
 struct __declspec(align(16)) Renderer
@@ -929,13 +933,13 @@ struct __declspec(align(16)) Renderer
     void InitializeDefaults();
     void hkpConstraintDrawer_setScale(float);
     void FireMotionEvent(Collidable*, void*, void*, void*);
-    void FUN_00de7f20(Collidable*, void*, void*, void*);
-    void FUN_00de7730(Collidable*, void*, void*, void*);
-    void FUN_00de7580(Collidable*, void*, void*, void*);
-    void FUN_00de71d0(Collidable*, void*, void*, void*);
-    void FUN_00de7020(Collidable*, void*, void*, void*);
-    void FUN_00de6d80(Collidable*, void*, void*, void*);
-    void FUN_00de6550(Collidable*, void*, void*, void*);
+    void UpdateFields_00de7f20(Collidable*, void*, void*, void*);
+    void ComputeValues_00de7730(Collidable*, void*, void*, void*);
+    void UpdateFields_00de7580(Collidable*, void*, void*, void*);
+    void ComputeValues_00de71d0(Collidable*, void*, void*, void*);
+    void UpdateViewerAndDrawPointLines(Collidable*, void*, void*, void*);
+    void ProcessEntries_00de6d80(Collidable*, void*, void*, void*);
+    void ProcessEntries_00de6550(Collidable*, void*, void*, void*);
     void FireChainConstraints(Collidable*, void*, void*, void*);
 };
 struct __declspec(align(16)) Extended : Renderer
@@ -981,8 +985,8 @@ struct __declspec(align(16)) Extended : Renderer
     int unk168;
     int unk16c;
     void FUN_00d69a20();
-    void FUN_00de7a70(Collidable*, void*, void*, void*);
-    void FUN_00de5fe0(Collidable*, void*, void*, void*);
+    void DrawHingeConstraintGeometry(Collidable*, void*, void*, void*);
+    void hkpConstraintInstance_DrawHinge_Thunk(Collidable*, void*, void*, void*);
 };
 struct Tail
 {
@@ -1143,8 +1147,8 @@ struct __declspec(align(16)) Complex : Renderer
     int unk318;
     int unk31c;
     void FUN_00d69a40();
-    void FUN_00de6730(Collidable*, void*, void*, void*);
-    void FUN_00de59f0(Collidable*, void*, void*, void*);
+    void UpdateState_00de6730(Collidable*, void*, void*, void*);
+    void ComputeValues_00de59f0(Collidable*, void*, void*, void*);
     void FUN_00d69a80();
 };
 struct Viewer : ConstraintViewer
@@ -1190,57 +1194,57 @@ void ConstraintDrawDetail::Viewer::hkpConstraintViewer_draw(int aiCollidable, En
     case 1: {
         renderer.InitializeDefaults();
         renderer.hkpConstraintDrawer_setScale(DAT_011b6168);
-        renderer.FUN_00de7f20(object, context, position, DAT_0126901c);
+        renderer.UpdateFields_00de7f20(object, context, position, DAT_0126901c);
         break;
     }
     case 2: {
         renderer.FUN_00d69a20();
         renderer.hkpConstraintDrawer_setScale(DAT_011b6168);
-        renderer.FUN_00de7a70(object, context, position, DAT_0126901c);
+        renderer.DrawHingeConstraintGeometry(object, context, position, DAT_0126901c);
         ((Tail*)&renderer.unk0d0)->FUN_00da2560();
         break;
     }
     case 6: {
         renderer.InitializeDefaults();
         renderer.hkpConstraintDrawer_setScale(DAT_011b6168);
-        renderer.FUN_00de7730(object, context, position, DAT_0126901c);
+        renderer.ComputeValues_00de7730(object, context, position, DAT_0126901c);
         break;
     }
     case 8: {
         renderer.InitializeDefaults();
         renderer.hkpConstraintDrawer_setScale(DAT_011b6168);
-        renderer.FUN_00de7580(object, context, position, DAT_0126901c);
+        renderer.UpdateFields_00de7580(object, context, position, DAT_0126901c);
         break;
     }
     case 9: {
         renderer.InitializeDefaults();
         renderer.hkpConstraintDrawer_setScale(DAT_011b6168);
-        renderer.FUN_00de71d0(object, context, position, DAT_0126901c);
+        renderer.ComputeValues_00de71d0(object, context, position, DAT_0126901c);
         break;
     }
     case 3: {
         renderer.InitializeDefaults();
         renderer.hkpConstraintDrawer_setScale(DAT_011b6168);
-        renderer.FUN_00de7020(object, context, position, DAT_0126901c);
+        renderer.UpdateViewerAndDrawPointLines(object, context, position, DAT_0126901c);
         break;
     }
     case 14: {
         renderer.InitializeDefaults();
         renderer.hkpConstraintDrawer_setScale(DAT_011b6168);
-        renderer.FUN_00de6d80(object, context, position, DAT_0126901c);
+        renderer.ProcessEntries_00de6d80(object, context, position, DAT_0126901c);
         break;
     }
     case 7: {
         complexRenderer.FUN_00d69a40();
         complexRenderer.hkpConstraintDrawer_setScale(DAT_011b6168);
-        complexRenderer.FUN_00de6730(object, context, position, DAT_0126901c);
+        complexRenderer.UpdateState_00de6730(object, context, position, DAT_0126901c);
         complexRenderer.FUN_00d69a80();
         break;
     }
     case 12: {
         child.FUN_00cf3ea0(object->first, object->second, object->shape->child, true);
         owner->hkpConstraintViewer_draw(reinterpret_cast<int>(&child), entity, tag);
-        child.FUN_00cf40b0();
+        child.hkpConstraintInstance_ProcessEntries_00cf40b0();
         break;
     }
     case 13: {
@@ -1249,13 +1253,13 @@ void ConstraintDrawDetail::Viewer::hkpConstraintViewer_draw(int aiCollidable, En
         void* first = object->first;
         child.FUN_00cf3ea0(first, second, pParentShape->hkpMalleableConstraintData_getWrappedConstraintData(), true);
         owner->hkpConstraintViewer_draw(reinterpret_cast<int>(&child), entity, tag);
-        child.FUN_00cf40b0();
+        child.hkpConstraintInstance_ProcessEntries_00cf40b0();
         break;
     }
     case 15: {
         renderer.InitializeDefaults();
         renderer.hkpConstraintDrawer_setScale(DAT_011b6168);
-        renderer.FUN_00de6550(object, context, position, DAT_0126901c);
+        renderer.ProcessEntries_00de6550(object, context, position, DAT_0126901c);
         break;
     }
     case 100:
@@ -1269,14 +1273,14 @@ void ConstraintDrawDetail::Viewer::hkpConstraintViewer_draw(int aiCollidable, En
     case 18: {
         renderer.FUN_00d69a20();
         renderer.hkpConstraintDrawer_setScale(DAT_011b6168);
-        renderer.FUN_00de5fe0(object, context, position, DAT_0126901c);
+        renderer.hkpConstraintInstance_DrawHinge_Thunk(object, context, position, DAT_0126901c);
         ((Tail*)&renderer.unk0d0)->FUN_00da2560();
         break;
     }
     case 19: {
         complexRenderer.FUN_00d69a40();
         complexRenderer.hkpConstraintDrawer_setScale(DAT_011b6168);
-        complexRenderer.FUN_00de59f0(object, context, position, DAT_0126901c);
+        complexRenderer.ComputeValues_00de59f0(object, context, position, DAT_0126901c);
         ((ComplexCleanup*)&complexRenderer)->FUN_00d69a80();
         break;
     }

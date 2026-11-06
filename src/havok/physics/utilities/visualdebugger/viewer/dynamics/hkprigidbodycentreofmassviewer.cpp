@@ -37,7 +37,7 @@ struct Entries
 };
 struct Owner
 {
-    void FUN_00d69c10(void* item);
+    void ProcessEntries_00d69c10(void* item);
 };
 struct View
 {
@@ -49,22 +49,23 @@ struct View
     int unk14;
     int unk18;
     Entries* entries;
-    void FUN_00d69f60();
+    void ProcessEntries_00d69f60();
 };
 // Iterates entries and calls FUN_00d69c10 on each item via the owner at this-8.
 // @fnv 0x00d69f60
-void View::FUN_00d69f60()
+// src: GUESS 0x00d69f60 (confidence: low)
+void View::ProcessEntries_00d69f60()
 {
     if (entries)
     {
         for (int i = 0; i < entries->count; ++i)
-            reinterpret_cast<Owner*>(reinterpret_cast<char*>(this) - 8)->FUN_00d69c10(entries->items[i]);
+            reinterpret_cast<Owner*>(reinterpret_cast<char*>(this) - 8)->ProcessEntries_00d69c10(entries->items[i]);
     }
 }
 
 struct Target
 {
-    void FUN_00d69c10();
+    void ProcessEntries_00d69c10();
 };
 struct FUN_00d69fb0_cls
 {
@@ -74,7 +75,7 @@ struct FUN_00d69fb0_cls
 // @fnv 0x00d69fb0
 void FUN_00d69fb0_cls::CallTargetMethod()
 {
-    ((Target*)((char*)this - 0x20))->FUN_00d69c10();
+    ((Target*)((char*)this - 0x20))->ProcessEntries_00d69c10();
 }
 
 
@@ -162,7 +163,8 @@ D6A140Interface* __cdecl hkpRigidBodyCentreOfMassViewer_Create(const void* info)
 
 extern void* DAT_01269020;
 // @fnv 0x00d6a1a0
-void* __cdecl FUN_00d6a1a0()
+// src: GUESS 0x00d6a1a0 (confidence: low)
+void* __cdecl Object_GetDAT_01269020_00d6a1a0()
 {
     return DAT_01269020;
 }
@@ -331,11 +333,12 @@ class FUN_00d69b20_cls
 class FUN_00d69fa0_cls
 {
   public:
-    void FUN_00d69fa0();
+    void ForwardCall_00d69fa0();
 };
 
 // @fnv 0x00d69fa0
-void FUN_00d69fa0_cls::FUN_00d69fa0()
+// src: GUESS 0x00d69fa0 (confidence: low)
+void FUN_00d69fa0_cls::ForwardCall_00d69fa0()
 {
     ((FUN_00d69b20_cls*)((char*)this - 0x20))->FUN_00d69b20_target();
 }
@@ -810,7 +813,7 @@ Derived::Derived()
 struct AdjBase1
 {
     AdjBase1();
-    virtual void FUN_00d6a1c0();
+    virtual void AdjustThisAndForward_00d6a1c0();
     char pad[0x24];
 };
 
@@ -818,14 +821,15 @@ struct AdjBase2
 {
     AdjBase2();
 // @fnv 0x00d6a1c0
-    virtual void FUN_00d6a1c0();
+// src: GUESS 0x00d6a1c0 (confidence: low)
+    virtual void AdjustThisAndForward_00d6a1c0();
 };
 
 struct AdjOwner : AdjBase1, AdjBase2
 {
     AdjOwner();
     virtual void key_fn();  // key function - defined, so the vftable is emitted
-    void FUN_00d6a1c0();    // the shared override - declared only
+    void AdjustThisAndForward_00d6a1c0();    // the shared override - declared only
 };
 
 AdjOwner::AdjOwner()
@@ -903,7 +907,8 @@ struct Vec4Clamp
 
 // Clamps the vector in v to maxLen by scaling it down when its squared length exceeds maxLen squared.
 // @fnv 0x00d6b330
-static __declspec(noinline) void __cdecl FUN_00d6b330(Vec4Clamp* apVec, float maxLen)
+// src: GUESS 0x00d6b330 (confidence: high)
+static __declspec(noinline) void __cdecl Hkprigidbodycentreofmassviewer_ClampVectorLength(Vec4Clamp* apVec, float maxLen)
 {
     LocalM128 vComponents = apVec->m_vComponents;
     LocalM128 vSquared = _mm_mul_ps(vComponents, vComponents);
@@ -924,7 +929,7 @@ volatile float g_clampLen;
 Vec4Clamp* volatile g_clampVec;
 void CallClamp_d6b330()
 {
-    FUN_00d6b330(g_clampVec, g_clampLen);
+    Hkprigidbodycentreofmassviewer_ClampVectorLength(g_clampVec, g_clampLen);
 }
 
 struct Callback
@@ -993,11 +998,12 @@ struct CenterOfMassRemovalDispatcher
     int unk24;
     Callback callback28;
     int data2c;
-    void FUN_00d69c10(Context* context);
+    void ProcessEntries_00d69c10(Context* context);
 };
 // Passes callback28 and data2c to context, then calls callback28.deliver for each entry in the data48 lists of list28, list34 and special20.
 // @fnv 0x00d69c10
-void CenterOfMassRemovalDispatcher::FUN_00d69c10(Context* context)
+// src: GUESS 0x00d69c10 (confidence: low)
+void CenterOfMassRemovalDispatcher::ProcessEntries_00d69c10(Context* context)
 {
     context->hkpWorld_addEntityListener(this ? &callback28 : 0);
     context->hkpWorld_addWorldPostSimulationListener(this ? &data2c : 0);

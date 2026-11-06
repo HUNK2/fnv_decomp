@@ -11,10 +11,11 @@
 struct S004586d0_Obj
 {
     __declspec(align(16)) float x, y, z, w;
-    float FUN_004586d0();
+    float EvaluateValue_004586d0();
 };
 // @fnv 0x004586d0
-float S004586d0_Obj::FUN_004586d0()
+// src: GUESS 0x004586d0 (confidence: low)
+float S004586d0_Obj::EvaluateValue_004586d0()
 {
     float tmp;
     _mm_store_ss(&tmp, *(__m128*)this);

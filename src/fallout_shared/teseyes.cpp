@@ -90,11 +90,11 @@ void __cdecl TESForm_AddChunk_3(unsigned int, unsigned char);
 // @fnv 0x005fc1d0
 void TESEyes::SaveEyes()
 {
-    TESForm::FUN_004855a0();
+    TESForm::BeginFormRecord();
     TESFullName::Save_00487010();
     TESTexture::Save(0x4E4F4349);
     TESForm_AddChunk_3(0x41544144, cFlags);
-    TESForm::FUN_00485680();
+    TESForm::FinishFormRecord();
 }
 
 struct FUN_005e78f0_t

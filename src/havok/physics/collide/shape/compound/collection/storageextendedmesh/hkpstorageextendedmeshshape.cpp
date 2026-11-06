@@ -93,11 +93,12 @@ struct FnvVtObj
 {
     int m_vptr;
 
-    FnvVtObj* FUN_00d4a170(unsigned int unusedArg);
+    FnvVtObj* SetVptr_00d4a170(unsigned int unusedArg);
 };
 
 // @fnv 0x00d4a170
-FnvVtObj* FnvVtObj::FUN_00d4a170(unsigned int unusedArg)
+// src: GUESS 0x00d4a170 (confidence: low)
+FnvVtObj* FnvVtObj::SetVptr_00d4a170(unsigned int unusedArg)
 {
     m_vptr = (int)&DAT_010cfd84;
     return this;
@@ -552,13 +553,14 @@ struct hkpExtendedMeshShapeTrianglesSubpartD4AB : public hkpExtendedMeshShapeSub
     int m_iTriangleOffset;
     int m_userData50;
 
-    hkpExtendedMeshShapeTrianglesSubpartD4AB& FUN_00d4abf0(
+    hkpExtendedMeshShapeTrianglesSubpartD4AB& UpdateState_00d4abf0(
         const hkpExtendedMeshShapeTrianglesSubpartD4AB& kOther) throw();
 };
 
 // Copies all triangle subpart fields from kOther into this, after delegating to the base class assignment operator.
 // @fnv 0x00d4abf0
-hkpExtendedMeshShapeTrianglesSubpartD4AB& hkpExtendedMeshShapeTrianglesSubpartD4AB::FUN_00d4abf0(
+// src: GUESS 0x00d4abf0 (confidence: low)
+hkpExtendedMeshShapeTrianglesSubpartD4AB& hkpExtendedMeshShapeTrianglesSubpartD4AB::UpdateState_00d4abf0(
     const hkpExtendedMeshShapeTrianglesSubpartD4AB& kOther) throw()
 {
     hkpExtendedMeshShapeSubpartD4AB::operator=(kOther);
@@ -627,12 +629,13 @@ struct hkpExtendedMeshShapeShapesSubpartD4AD : public hkpExtendedMeshShapeSubpar
     hkQuaternion m_rotation;
     hkVector4q m_vTranslation;
 
-    hkpExtendedMeshShapeShapesSubpartD4AD& FUN_00d4ad60(const hkpExtendedMeshShapeShapesSubpartD4AD& kOther) throw();
+    hkpExtendedMeshShapeShapesSubpartD4AD& CopySubpartFields(const hkpExtendedMeshShapeShapesSubpartD4AD& kOther) throw();
 };
 
 // Copies the base subpart fields, child shapes array, rotation, and translation from kOther into this subpart, then returns a reference to this.
 // @fnv 0x00d4ad60
-hkpExtendedMeshShapeShapesSubpartD4AD& hkpExtendedMeshShapeShapesSubpartD4AD::FUN_00d4ad60(
+// src: GUESS 0x00d4ad60 (confidence: medium)
+hkpExtendedMeshShapeShapesSubpartD4AD& hkpExtendedMeshShapeShapesSubpartD4AD::CopySubpartFields(
     const hkpExtendedMeshShapeShapesSubpartD4AD& kOther) throw()
 {
     hkpExtendedMeshShapeSubpartD4AD::operator=(kOther);
@@ -786,7 +789,7 @@ struct TrianglesSubpart
     int m_unk34;
     int m_unk38;
     int m_unk3c;
-    void FUN_00d4ad60(const TrianglesSubpart& other);
+    void CopySubpartFields(const TrianglesSubpart& other);
 };
 
 // Copies partIn into a new TrianglesSubpart, copies its vertex and material index data into MeshSubpartStorage, and returns the new subpart index.
@@ -798,7 +801,7 @@ int hkpStorageExtendedMeshShape::addShapesSubpart(const TrianglesSubpart& partIn
     reinterpret_cast<hkArray<::MeshSubpartStorage*>&>(m_kShapeSubparts).pushBack(new ::MeshSubpartStorage());
     ::MeshSubpartStorage* storage = reinterpret_cast<hkArray<::MeshSubpartStorage*>&>(m_kShapeSubparts).back();
 
-    part.FUN_00d4ad60(partIn);
+    part.CopySubpartFields(partIn);
 
     part.m_iMaterialIndexType = partIn.m_iMaterialIndexType;
     if (partIn.m_pVertexBase)
@@ -1007,7 +1010,7 @@ struct ShapesSubpartS
         m_iIndexStriding = 0;
         m_iNumTriangles = 1;
     }
-    ShapesSubpartS* FUN_00d56500(hkpConvexShape* const* childShapes, int numChildShapes, const hkVector4& offset);
+    ShapesSubpartS* InitializeConvexSubpartTranslation(hkpConvexShape* const* childShapes, int numChildShapes, const hkVector4& offset);
 };
 
 static __forceinline bool equals3(const hkVector4& a, const LocalM128& b, hkReal epsilon)
@@ -1019,7 +1022,8 @@ static __forceinline bool equals3(const hkVector4& a, const LocalM128& b, hkReal
 
 // Initializes a convex subpart with child shapes, translation offset, and identity rotation, encoding a non-zero flag in the translation w component.
 // @fnv 0x00d56500
-ShapesSubpartS* ShapesSubpartS::FUN_00d56500(hkpConvexShape* const* childShapes, int numChildShapes,
+// src: GUESS 0x00d56500 (confidence: medium)
+ShapesSubpartS* ShapesSubpartS::InitializeConvexSubpartTranslation(hkpConvexShape* const* childShapes, int numChildShapes,
                                              const hkVector4& offset)
 {
     initSubpart(1);

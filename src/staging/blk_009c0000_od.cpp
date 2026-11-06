@@ -70,11 +70,12 @@ extern int DAT_01090874;
 
 struct FUN_009ca6c0_class
 {
-    void FUN_009ca6c0();
+    void SetVirtualTable_009ca6c0();
 };
 
 // @fnv 0x009ca6c0
-void FUN_009ca6c0_class::FUN_009ca6c0()
+// src: GUESS 0x009ca6c0 (confidence: low)
+void FUN_009ca6c0_class::SetVirtualTable_009ca6c0()
 {
     *(int*)this = (int)&DAT_01090874;
 }
@@ -220,7 +221,7 @@ void* FUN_009d9f40_Class::CombatGroup_GetLastSearchAreaUpdateTimer()
 // src: XBOX_PDB 0x009dfd50
 void* PathBuilder::BSSimpleArray_VirtualPathingNode_1024_GetLast()
 {
-    return FUN_006e8f40((char*)m_pAllocator - 1);
+    return GetElementAddress30_006e8f40((char*)m_pAllocator - 1);
 }
 
 
@@ -259,12 +260,13 @@ struct FUN_009c1aa0_Class
     int m_38;
     int m_3c;
     int m_40;
-    FUN_009c1aa0_Class& __thiscall FUN_009c1aa0(FUN_009c1aa0_Class const& src);
+    FUN_009c1aa0_Class& __thiscall ProcessEntries_009c1aa0(FUN_009c1aa0_Class const& src);
     void __thiscall FUN_009c1b00(int);
 };
 // Copies src into this: calls FUN_009c1b00 on src, copies 8 ints from offset 8 and m_40.
 // @fnv 0x009c1aa0
-FUN_009c1aa0_Class& __thiscall FUN_009c1aa0_Class::FUN_009c1aa0(FUN_009c1aa0_Class const& aSource)
+// src: GUESS 0x009c1aa0 (confidence: low)
+FUN_009c1aa0_Class& __thiscall FUN_009c1aa0_Class::ProcessEntries_009c1aa0(FUN_009c1aa0_Class const& aSource)
 {
     FUN_009c1b00((int)&aSource);
     for (unsigned int i = 0; i < 8; ++i)
@@ -275,7 +277,7 @@ FUN_009c1aa0_Class& __thiscall FUN_009c1aa0_Class::FUN_009c1aa0(FUN_009c1aa0_Cla
 
 struct T_
 {
-    void __thiscall FUN_004a3f10(void*);
+    void __thiscall SetValue(void*);
 };
 struct FUN_009c1b00
 {
@@ -292,7 +294,7 @@ struct FUN_009c1b00
 // @fnv 0x009c1b00
 FUN_009c1b00* FUN_009c1b00::Set(FUN_009c1b00 const* apSource)
 {
-    ((T_*)this)->FUN_004a3f10((void*)apSource);
+    ((T_*)this)->SetValue((void*)apSource);
     m_10 = apSource->m_10;
     m_14 = apSource->m_14;
     for (unsigned int i = 0; i < 2; ++i)
@@ -519,7 +521,7 @@ NiPoint3* FUN_009c8ac0_class::VATS_GetCamshotTargetPos(NiPoint3* result)
         point = *m_10->GetCameraPosition(reinterpret_cast<NiPoint3*>(sourcePoint));
     }
 
-    if (point.FUN_004390c0(NiPoint3::ZERO))
+    if (point.HasEqualComponents(NiPoint3::ZERO))
     {
         float offset[sizeof(NiPoint3) / sizeof(float)];
         // The original Set at 0x00416870 returns this in EAX; preserve that result here.
@@ -643,7 +645,7 @@ void OrientationObject::SetOrientationFromDirection(NiPoint3 aDirection)
 {
     // The callee fills this storage; the original has no default-constructor call.
     float c[sizeof(NiPoint3) / sizeof(float)];
-    aDirection.FUN_00439ef0(reinterpret_cast<NiPoint3*>(c), ((GetContextFn*)vtable)[125](this));
+    aDirection.SubtractIntoVector(reinterpret_cast<NiPoint3*>(c), ((GetContextFn*)vtable)[125](this));
     NiPoint3 b = *reinterpret_cast<NiPoint3*>(c);
     b.Unitize_004a0c10();
     float e = ((GetAngleFn*)vtable)[175](this, 0);
@@ -2258,7 +2260,7 @@ bool FUN_009d4f50_cls::CombatProcedureEngageTarget_CanAttackerSneak()
     }
     *reinterpret_cast<NiPoint3*>(local18) = *static_cast<const TESObjectREFR*>(m_04->CombatController_GetTarget())->GetPos();
     *reinterpret_cast<NiPoint3*>(local0c) = *static_cast<const TESObjectREFR*>(m_04->GetFieldBC())->GetPos();
-    reinterpret_cast<NiPoint3*>(local18)->FUN_00439ef0(reinterpret_cast<NiPoint3*>(local24), local0c);
+    reinterpret_cast<NiPoint3*>(local18)->SubtractIntoVector(reinterpret_cast<NiPoint3*>(local24), local0c);
     if (reinterpret_cast<NiPoint3*>(local24)->FUN_004a7290() < DAT_0108e058)
     {
         return false;
@@ -2505,7 +2507,7 @@ struct ImpPoint
     float x, y, z;
     ImpPoint();
     ImpPoint(float afX, float afY, float afZ);
-    ImpPoint FUN_00439ef0(const ImpPoint& arOther) const;
+    ImpPoint SubtractIntoVector(const ImpPoint& arOther) const;
     float FUN_00457990() const;
     void Unitize_004a0c10();
     float DotProduct(const ImpPoint& arOther) const;
@@ -2513,7 +2515,7 @@ struct ImpPoint
 
 struct ImpRotation
 {
-    ImpPoint FUN_004a0bd0() const;
+    ImpPoint GetNegatedVector() const;
 };
 
 struct ImpCamera
@@ -2638,7 +2640,7 @@ struct ImpImpactSet
 
 struct ImpSurface
 {
-    void* FUN_00559450();
+    void* Modelloader_GetReferencedThis();
     void* hkpCollidable_getCollisionFilterInfo();
 };
 
@@ -2652,7 +2654,7 @@ struct ImpHit
 struct ImpHitList
 {
     int FUN_00726070();
-    ImpHit* FUN_0062e150(int aiIndex);
+    ImpHit* GetElementPointer16(int aiIndex);
 };
 
 struct ImpResults
@@ -2810,7 +2812,7 @@ struct ImpAttachHandle
 {
     int iData[2];
     ImpAttachHandle();
-    ImpAttach* FUN_00559450();
+    ImpAttach* Modelloader_GetReferencedThis();
 };
 
 struct ImpDecalParams
@@ -2934,7 +2936,7 @@ struct ImpShooter
 
 struct ImpOwnerRef
 {
-    ImpShooter* FUN_00559450();
+    ImpShooter* Modelloader_GetReferencedThis();
 };
 
 struct ImpSound
@@ -3081,7 +3083,7 @@ struct ImpProjectile
 void ImpProjectile::ApplyImpact(ImpTarget* apTarget, ImpPoint* apPos, ImpPoint* apNormal, int a4, int aiMaterial)
 {
     bool bSplatterTmp = true;
-    ImpPoint kDelta = apPos->FUN_00439ef0(*Main_WorldRootCamera()->NiAVObject_GetWorldTranslate());
+    ImpPoint kDelta = apPos->SubtractIntoVector(*Main_WorldRootCamera()->NiAVObject_GetWorldTranslate());
     if (Main_GetSceneIsComplex() || kDelta.FUN_00457990() > *DAT_011ce26c.Setting_Float_00403e20() ||
         !PointInFrustum(*apPos, Main_WorldRootCamera(), 32.0f))
         bSplatterTmp = false;
@@ -3122,14 +3124,14 @@ void ImpProjectile::ApplyImpact(ImpTarget* apTarget, ImpPoint* apPos, ImpPoint* 
                     ImpSurface* pLastSurface = 0;
                     for (int i = 0; i < iTheCount; i++)
                     {
-                        ImpSurface* pSurfaceInfo = kResultsVal.FUN_00413f40()->FUN_0062e150(i)->pSurfaceInfo;
+                        ImpSurface* pSurfaceInfo = kResultsVal.FUN_00413f40()->GetElementPointer16(i)->pSurfaceInfo;
                         if (pSurfaceInfo)
                         {
                             int iSurfaceMaterialCur = aiMaterial;
-                            int iMaterialIndex = kResultsVal.FUN_00413f40()->FUN_0062e150(i)->iMaterialIndex;
+                            int iMaterialIndex = kResultsVal.FUN_00413f40()->GetElementPointer16(i)->iMaterialIndex;
                             if (iMaterialIndex != -1)
                             {
-                                ImpMaterial* pMaterial = bhkShape_Getbhk(pSurfaceInfo->FUN_00559450());
+                                ImpMaterial* pMaterial = bhkShape_Getbhk(pSurfaceInfo->Modelloader_GetReferencedThis());
                                 if (!pMaterial)
                                     continue;
                                 ImpMaterialSet* pSet = pMaterial->FUN_vtcc();
@@ -3138,7 +3140,7 @@ void ImpProjectile::ApplyImpact(ImpTarget* apTarget, ImpPoint* apPos, ImpPoint* 
                             }
                             else
                             {
-                                ImpMaterial* pSingle = bhkShape_Getbhk(pSurfaceInfo->FUN_00559450());
+                                ImpMaterial* pSingle = bhkShape_Getbhk(pSurfaceInfo->Modelloader_GetReferencedThis());
                                 if (!pSingle)
                                     continue;
                                 iSurfaceMaterialCur = pSingle->bhkShape_QMaterial();
@@ -3153,7 +3155,7 @@ void ImpProjectile::ApplyImpact(ImpTarget* apTarget, ImpPoint* apPos, ImpPoint* 
                                     void* pSkinRoot = hkpGetRigidBody(pSurfaceInfo);
                                     if (pSkinRoot)
                                     {
-                                        pAttach = bhkWorldObject_GetProperty(pSkinRoot, &DAT_011f4a20).FUN_00559450();
+                                        pAttach = bhkWorldObject_GetProperty(pSkinRoot, &DAT_011f4a20).Modelloader_GetReferencedThis();
                                         if (pAttach && pAttach->NiAVObject_GetParent())
                                             pAttach = pAttach->NiAVObject_GetParent();
                                     }
@@ -3213,16 +3215,16 @@ void ImpProjectile::ApplyImpact(ImpTarget* apTarget, ImpPoint* apPos, ImpPoint* 
                         kWorldPosition.Unitize_004a0c10();
                         break;
                     case 1:
-                        kWorldPosition = kRotationBasis.FUN_004a0bd0();
+                        kWorldPosition = kRotationBasis.GetNegatedVector();
                         kWorldPosition.Unitize_004a0c10();
                         break;
                     case 2: {
-                        ImpPoint kForward = kRotationBasis.FUN_004a0bd0();
+                        ImpPoint kForward = kRotationBasis.GetNegatedVector();
                         kForward.Unitize_004a0c10();
                         ImpPoint kSurface = *apNormal;
                         kSurface.Unitize_004a0c10();
                         kWorldPosition =
-                            FUN_004a3760(2.0 * kSurface.DotProduct(kForward), kSurface).FUN_00439ef0(kForward);
+                            FUN_004a3760(2.0 * kSurface.DotProduct(kForward), kSurface).SubtractIntoVector(kForward);
                         break;
                     }
                     default:
@@ -3234,9 +3236,9 @@ void ImpProjectile::ApplyImpact(ImpTarget* apTarget, ImpPoint* apPos, ImpPoint* 
                 }
             }
             ImpOwnerRef* pOwnerResult = FUN_vt168();
-            if (pOwnerResult && pOwnerResult->FUN_00559450())
+            if (pOwnerResult && pOwnerResult->Modelloader_GetReferencedThis())
             {
-                ImpShooter* WeaponHitData = pOwnerResult->FUN_00559450();
+                ImpShooter* WeaponHitData = pOwnerResult->Modelloader_GetReferencedThis();
                 if (WeaponHitData->FUN_008d8520())
                     WeaponHitData->FUN_008d8520()->FUN_vtfc(WeaponHitData, *apPos, pImpactTmp->GetGlobalValue(), 0, 0);
             }

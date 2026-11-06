@@ -122,7 +122,8 @@ void* __thiscall CompressedMeshDeleteCall::FUN_00e3deb0(unsigned int uiFlags)
 }
 
 // @fnv 0x00e3c9d0
-__declspec(noinline) unsigned int __stdcall FUN_00e3c9d0(unsigned int a1, unsigned int a2)
+// src: GUESS 0x00e3c9d0 (confidence: high)
+__declspec(noinline) unsigned int __stdcall hkpCompressedMeshShape_ReturnConstant_0xF0(unsigned int a1, unsigned int a2)
 {
     return 0xF0;
 }
@@ -145,12 +146,13 @@ int __cdecl hkpCompressedMeshShape_calcContentStatistics(int first, int unusedSe
 }
 
 // @fnv 0x00e3ca00
-int __stdcall FUN_00e3ca00(int arg0)
+// src: GUESS 0x00e3ca00 (confidence: high)
+int __stdcall Object_ReturnZero_00e3ca00(int arg0)
 {
     return 0;
 }
 
-void __cdecl FUN_00e3cc20(void* pIndices, const ::hkVector4* pSrcVec, float fScale, ::hkVector4* pDstVec,
+void __cdecl hkArray_ComputeScaledVertexBounds(void* pIndices, const ::hkVector4* pSrcVec, float fScale, ::hkVector4* pDstVec,
                           const ::hkVector4* pOtherVec);
 
 struct FUN_00e3cd20_Class : ::hkVector4
@@ -158,14 +160,15 @@ struct FUN_00e3cd20_Class : ::hkVector4
     void* unk10;
     unsigned int unk14;
 
-    void FUN_00e3cd20(float a1, ::hkVector4* a2, ::hkVector4* a3);
+    void ForwardCall_00e3cd20(float a1, ::hkVector4* a2, ::hkVector4* a3);
 };
 
 // Calls FUN_00e3cc20 with the object's unk10, this vector, a1, a2 and a3.
 // @fnv 0x00e3cd20
-void FUN_00e3cd20_Class::FUN_00e3cd20(float afScale, ::hkVector4* a2, ::hkVector4* a3)
+// src: GUESS 0x00e3cd20 (confidence: low)
+void FUN_00e3cd20_Class::ForwardCall_00e3cd20(float afScale, ::hkVector4* a2, ::hkVector4* a3)
 {
-    FUN_00e3cc20(&unk10, this, afScale, a2, a3);
+    hkArray_ComputeScaledVertexBounds(&unk10, this, afScale, a2, a3);
 }
 
 extern "C" void _ReadWriteBarrier(void);
@@ -562,7 +565,8 @@ struct hkAabbq
 
 // Finds the max x, y, z of the uint16 vertex triples, sets the max corner to max * scale + offset and min corner to offset, then multiplies both by scale4.
 // @fnv 0x00e3cc20
-void __cdecl FUN_00e3cc20(const ::hkArray<hkUint16>& vertices, const hkVector4q& offset, float scale, hkAabbq& aabbOut,
+// src: GUESS 0x00e3cc20 (confidence: medium)
+void __cdecl hkArray_ComputeScaledVertexBounds(const ::hkArray<hkUint16>& vertices, const hkVector4q& offset, float scale, hkAabbq& aabbOut,
                           const hkVector4q& scale4)
 {
     hkUint16 maxX = 0;
@@ -653,12 +657,12 @@ struct ChunkQ
     unsigned short m_iSectionVertexCount;
     unsigned int unk48, unk4c;
 
-    void FUN_00e3cd20(float error, AabbQ* aabb, const ::hkVector4* scale);
+    void ForwardCall_00e3cd20(float error, AabbQ* aabb, const ::hkVector4* scale);
 };
 
 struct CompressedMeshChunkBounds : ::hkpCompressedMeshShape
 {
-    void FUN_00e3d250(const ChunkQ* chunk, AabbQ* aabb);
+    void ComputeValues_00e3d250(const ChunkQ* chunk, AabbQ* aabb);
 };
 
 union QuadVector
@@ -669,12 +673,13 @@ union QuadVector
 
 // Calls FUN_00e3cd20 with aabb on the chunk (or the chunk it references), then transforms aabb's corners by that chunk's transform scaled by m_vScale, if any.
 // @fnv 0x00e3d250
-void CompressedMeshChunkBounds::FUN_00e3d250(const ChunkQ* chunk, AabbQ* aabb)
+// src: GUESS 0x00e3d250 (confidence: low)
+void CompressedMeshChunkBounds::ComputeValues_00e3d250(const ChunkQ* chunk, AabbQ* aabb)
 {
     if (chunk->m_kSmartReference == 0xffff)
-        ((ChunkQ*)chunk)->FUN_00e3cd20(m_eScriptError, aabb, &(*reinterpret_cast<const ::hkVector4*>(&padD4[0xC])));
+        ((ChunkQ*)chunk)->ForwardCall_00e3cd20(m_eScriptError, aabb, &(*reinterpret_cast<const ::hkVector4*>(&padD4[0xC])));
     else
-        reinterpret_cast<ChunkQ*>(m_kChunks.m_data)[chunk->m_kSmartReference].FUN_00e3cd20(m_eScriptError, aabb, &(*reinterpret_cast<const ::hkVector4*>(&padD4[0xC])));
+        reinterpret_cast<ChunkQ*>(m_kChunks.m_data)[chunk->m_kSmartReference].ForwardCall_00e3cd20(m_eScriptError, aabb, &(*reinterpret_cast<const ::hkVector4*>(&padD4[0xC])));
 
     if (chunk->m_iSectionVertexCount != 0xffff)
     {
@@ -883,13 +888,14 @@ class CompressedChunk
         vertex.m_vComponents = _mm_add_ps(_mm_mul_ps(quantized.m_vComponents, scale), m_offset.m_vComponents);
     }
 
-    void FUN_00e3cd50(unsigned int i0, unsigned int i1, unsigned int i2, hkReal error, hkVector4q& v0, hkVector4q& v1,
+    void ProcessState_00e3cd50(unsigned int i0, unsigned int i1, unsigned int i2, hkReal error, hkVector4q& v0, hkVector4q& v1,
                       hkVector4q& v2) const;
 };
 
 // Calls getVertex for i0, i1 and i2 to write v0, v1 and v2, each uint16 triple scaled by error and offset by m_offset.
 // @fnv 0x00e3cd50
-void CompressedChunk::FUN_00e3cd50(unsigned int i0, unsigned int i1, unsigned int i2, hkReal error, hkVector4q& v0,
+// src: GUESS 0x00e3cd50 (confidence: low)
+void CompressedChunk::ProcessState_00e3cd50(unsigned int i0, unsigned int i1, unsigned int i2, hkReal error, hkVector4q& v0,
                                    hkVector4q& v1, hkVector4q& v2) const
 {
     getVertex(i0, error, v0);
@@ -936,7 +942,7 @@ struct Chunk
     hkUint16 reference, transform;
     unsigned int material;
     unsigned int unk4c;
-    void FUN_00e3cd50(int a, int b, int c, float error, hkVector4& va, hkVector4& vb, hkVector4& vc);
+    void ProcessState_00e3cd50(int a, int b, int c, float error, hkVector4& va, hkVector4& vb, hkVector4& vc);
 };
 struct BigTriangle
 {
@@ -1006,12 +1012,13 @@ struct BufferRef
 // This query is entered through the mesh's secondary container base.
 struct CompressedMeshChildQuery : ::hkpShapeContainer
 {
-    Triangle* FUN_00e3d3f0(unsigned int key, BufferRef buffer);
+    Triangle* AllocateStorage_00e3d3f0(unsigned int key, BufferRef buffer);
 };
 
 // Decodes key into a big triangle, chunk triangle or convex piece, applies its transform and scale, and returns a Triangle or ConvexShape built in buffer.
 // @fnv 0x00e3d3f0
-Triangle* CompressedMeshChildQuery::FUN_00e3d3f0(unsigned int key, BufferRef buffer)
+// src: GUESS 0x00e3d3f0 (confidence: low)
+Triangle* CompressedMeshChildQuery::AllocateStorage_00e3d3f0(unsigned int key, BufferRef buffer)
 {
     hkpCompressedMeshShape& mesh = *reinterpret_cast<hkpCompressedMeshShape*>(reinterpret_cast<char*>(this) - sizeof(hkpShape));
     int index;
@@ -1159,7 +1166,7 @@ Triangle* CompressedMeshChildQuery::FUN_00e3d3f0(unsigned int key, BufferRef buf
     {
         hkVector4 a, b, c;
         const hkUint16* indices = chunk->indices.m_data;
-        chunk->FUN_00e3cd50(indices[index] * 3, indices[index + 1] * 3, indices[index + 2] * 3, mesh.m_eScriptError, a, b, c);
+        chunk->ProcessState_00e3cd50(indices[index] * 3, indices[index + 1] * 3, indices[index + 2] * 3, mesh.m_eScriptError, a, b, c);
         a.setTransformedPos_00c7f640(transform, a);
         b.setTransformedPos_00c7f640(transform, b);
         c.setTransformedPos_00c7f640(transform, c);
@@ -1194,12 +1201,13 @@ template <class T> static __forceinline void SetSizeAndGrow(::hkArrayBase<T>& a,
 
 struct ConvexVertexDecoder : CompressedChunk
 {
-    void FUN_00e3d9d0(hkReal quantization, const ::hkTransform& transform, ::hkArray<hkVector4q>& vertices) const;
+    void ProcessEntries_00e3d9d0(hkReal quantization, const ::hkTransform& transform, ::hkArray<hkVector4q>& vertices) const;
 };
 
 // Expands the compressed vertex data into hkVector4q entries, applying quantization, offset, and transform to fill the output array.
 // @fnv 0x00e3d9d0
-void ConvexVertexDecoder::FUN_00e3d9d0(hkReal quantization, const ::hkTransform& transform,
+// src: GUESS 0x00e3d9d0 (confidence: low)
+void ConvexVertexDecoder::ProcessEntries_00e3d9d0(hkReal quantization, const ::hkTransform& transform,
                                        ::hkArray<hkVector4q>& vertices) const
 {
     SetSizeAndGrow(vertices, m_iStridedVertexCount / 3);
@@ -1332,16 +1340,17 @@ void* CompressedMeshMaterialQuery::hkpCompressedMeshShape_getMaterial(unsigned k
 
 struct ChunkAabbCalls
 {
-    void FUN_00e3cd20(float, ::hkVector4*, ::hkVector4*);
+    void ForwardCall_00e3cd20(float, ::hkVector4*, ::hkVector4*);
 };
 struct CompressedMeshContentBounds : ::hkpCompressedMeshShape
 {
-    void FUN_00e3cf40(hkAabbq* out);
+    void GetChunkBounds(hkAabbq* out);
 };
 
 // Computes the bounding box by expanding an initial AABB with the AABB of each chunk in m_kChunks.
 // @fnv 0x00e3cf40
-void CompressedMeshContentBounds::FUN_00e3cf40(hkAabbq* out)
+// src: GUESS 0x00e3cf40 (confidence: medium)
+void CompressedMeshContentBounds::GetChunkBounds(hkAabbq* out)
 {
     (out->m_kMinimumCorner.*static_cast<void (hkVector4q::*)(float)>(&hkVector4q::SetAllComponents))(DAT_0104da48);
     (out->m_kMaximumCorner.*static_cast<void (hkVector4q::*)(float)>(&hkVector4q::SetAllComponents))(DAT_0104e148);
@@ -1349,7 +1358,7 @@ void CompressedMeshContentBounds::FUN_00e3cf40(hkAabbq* out)
     {
         hkAabbq aabb;
         ((ChunkAabbCalls&)m_kChunks.m_data[i])
-            .FUN_00e3cd20(m_eScriptError, (::hkVector4*)&aabb, (::hkVector4*)&padD4[0xC]);
+            .ForwardCall_00e3cd20(m_eScriptError, (::hkVector4*)&aabb, (::hkVector4*)&padD4[0xC]);
         out->m_kMinimumCorner.setMin4(out->m_kMinimumCorner, aabb.m_kMinimumCorner);
         out->m_kMaximumCorner.setMax4(out->m_kMaximumCorner, aabb.m_kMaximumCorner);
     }

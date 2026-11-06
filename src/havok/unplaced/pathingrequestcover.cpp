@@ -363,15 +363,15 @@ int S_006e4740::PathingCoverLocation_GetDynamicCoverObstacleTimeStamp()
 
 struct PointCalc : NiPoint3
 {
-    PointCalc FUN_00439ef0(const NiPoint3& other) const;
+    PointCalc SubtractIntoVector(const NiPoint3& other) const;
     double FUN_004a7290() const;
 };
 // @fnv 0x006e4840
 // src: XBOX_PDB 0x006e4840
 bool PathingCoverLocation::IsLeftSideClosest(const NiPoint3& point)
 {
-    PointCalc vecA = ((const PointCalc&)a).FUN_00439ef0(point);
-    PointCalc vecB = ((const PointCalc&)b).FUN_00439ef0(point);
+    PointCalc vecA = ((const PointCalc&)a).SubtractIntoVector(point);
+    PointCalc vecB = ((const PointCalc&)b).SubtractIntoVector(point);
     if (vecA.FUN_004a7290() < vecB.FUN_004a7290())
         return true;
     return false;

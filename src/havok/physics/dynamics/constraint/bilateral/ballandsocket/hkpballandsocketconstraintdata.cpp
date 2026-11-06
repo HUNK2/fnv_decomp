@@ -143,7 +143,8 @@ float __thiscall FUN_00d541e0_class::hkpBallAndSocketConstraintData_getMaxLinear
 }
 
 // @fnv 0x00d54280
-int __cdecl FUN_00d54280()
+// src: GUESS 0x00d54280 (confidence: high)
+int __cdecl Object_ReturnZero_00d54280()
 {
     return 0;
 }

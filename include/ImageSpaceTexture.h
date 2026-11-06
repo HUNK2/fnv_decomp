@@ -46,7 +46,7 @@ class ImageSpaceTexture
     void CreateRenderTargetTexture(BSTextureManager::RenderTargetType type); // 0x00ba3840
     void ImageSpaceTexture_BorrowRenderedTexture(unsigned int type);                  // 0x00ba3840
     void ImageSpaceTexture_ClearTexture();                                   // 0x00ba38b0 release texture, clear fields
-    void FUN_00ba3940(ImageSpaceTexture* other);           // 0x00ba3940 copy (operator=)
+    void InitializeFields_00ba3940(ImageSpaceTexture* other);           // 0x00ba3940 copy (operator=)
     void AddRenderedTexture();                             // 0x00ba39a0 hand the rendered texture back
     void ImageSpaceTexture_ReturnRenderedTexture();                                   // 0x00ba39a0
 };

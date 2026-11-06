@@ -137,12 +137,13 @@ struct LongRayVm
     int m_iCurrentChunkId;
 
     void hkpMoppLongRayVirtualMachine_queryRayOnTree(const LongRayQueryInt* query, const unsigned char* PC, LongRayQueryFloat* fq, int level);
-    LongRayBool FUN_00dd2df0(const void* collection, const LongRayCode* code, const LongRayInput& input,
+    LongRayBool UpdateState_00dd2df0(const void* collection, const LongRayCode* code, const LongRayInput& input,
                              void* collector);
 };
 
 // @fnv 0x00dd2df0
-LongRayBool LongRayVm::FUN_00dd2df0(const void* collection, const LongRayCode* code, const LongRayInput& input,
+// src: GUESS 0x00dd2df0 (confidence: low)
+LongRayBool LongRayVm::UpdateState_00dd2df0(const void* collection, const LongRayCode* code, const LongRayInput& input,
                                     void* collector)
 {
     m_fEarlyOutHitFraction = 1.0f;
@@ -298,7 +299,7 @@ struct ErrorText
     int unk04;
     void* writer;
     void FUN_00cb1600(void*, int);
-    void FUN_00cc01c0(const char*);
+    void ProcessAndReturnValue_00cc01c0(const char*);
     void FUN_00cc00e0();
 };
 struct ErrorLogger
@@ -699,7 +700,7 @@ void MoppMachine::hkpMoppLongRayVirtualMachine_queryRayOnTree(const RayState* st
             __declspec(align(16)) char buffer[512];
             ErrorText message;
             message.FUN_00cb1600(buffer, 512);
-            message.FUN_00cc01c0(DAT_010d5100);
+            message.ProcessAndReturnValue_00cc01c0(DAT_010d5100);
             if (DAT_01268360->report(3, 0x1298fedd, buffer, DAT_010d7b2c, 554))
             {
                 __debugbreak();

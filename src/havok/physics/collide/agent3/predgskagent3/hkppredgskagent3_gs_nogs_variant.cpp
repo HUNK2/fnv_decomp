@@ -164,7 +164,8 @@ int __cdecl FindEntryByKey(int unused, FUN_00d41830_table* table, unsigned short
 // still contains the required tag "FUN_00d41860".
 extern "C" void __cdecl ReleaseAllEntries(void* p, int obj, int data);
 // @fnv 0x00d41860
-extern "C" int __cdecl FUN_00d41860_impl(int a, int b, int c, int d)
+// src: GUESS 0x00d41860 (confidence: low)
+extern "C" int __cdecl Object_ProcessAndReturnValue_00d41860(int a, int b, int c, int d)
 {
     unsigned char* rec = (unsigned char*)b + 0x0C;
 

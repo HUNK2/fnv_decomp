@@ -222,14 +222,14 @@ bool __thiscall NiAVObject::GetHasPropertyController() const
     return false;
 }
 
-void __fastcall FUN_00a5a390(void*);
+void __fastcall ReleaseStorage_00a5a390(void*);
 void __cdecl _delete(void*, unsigned int);
 
 // Calls FUN_00a5a390 on this, frees this with _delete when bit 0 of a1 is set, and returns this.
 // @fnv 0x00a5aa90
 void* __fastcall DeleteAVObject(NiAVObject* object, void*, unsigned int auiFlags)
 {
-    FUN_00a5a390(object);
+    ReleaseStorage_00a5a390(object);
     if (auiFlags & 1)
         _delete(object, 0x9c);
     return object;
@@ -633,11 +633,12 @@ struct FUN_00a71b70_cls
 {
     char _pad_00[0x18];
     unsigned char m_18;
-    FUN_00a71b70_cls* FUN_00a71b70(unsigned char v);
+    FUN_00a71b70_cls* SetField18(unsigned char v);
 };
 
 // @fnv 0x00a71b70
-FUN_00a71b70_cls* FUN_00a71b70_cls::FUN_00a71b70(unsigned char v)
+// src: GUESS 0x00a71b70 (confidence: low)
+FUN_00a71b70_cls* FUN_00a71b70_cls::SetField18(unsigned char v)
 {
     m_18 = v;
     return this;

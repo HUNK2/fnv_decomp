@@ -139,7 +139,8 @@ void FUN_00d47c60_class::hkVtableClassRegistry_registerVtable(void* key, int aiD
 extern int DAT_01269b18;
 
 // @fnv 0x00d47a00
-int __cdecl FUN_00d47a00()
+// src: GUESS 0x00d47a00 (confidence: low)
+int __cdecl Object_GetDAT_01269b18_00d47a00()
 {
     return DAT_01269b18;
 }
@@ -147,7 +148,8 @@ int __cdecl FUN_00d47a00()
 extern int DAT_01269b14;
 
 // @fnv 0x00d47a10
-int __cdecl FUN_00d47a10()
+// src: GUESS 0x00d47a10 (confidence: low)
+int __cdecl hkBuiltinTypeRegistry_GetDAT01269b14()
 {
     return DAT_01269b14;
 }
@@ -155,7 +157,8 @@ int __cdecl FUN_00d47a10()
 extern int DAT_01269b10;
 
 // @fnv 0x00d47a20
-int FUN_00d47a20()
+// src: GUESS 0x00d47a20 (confidence: low)
+int Object_GetDAT_01269b10_00d47a20()
 {
     return DAT_01269b10;
 }
@@ -453,7 +456,7 @@ struct Sub
 {
     int q;
     void ProcessArgument(hkMemoryAllocator* a);
-    void FUN_00a29680();
+    void Object_DoNothing();
 };
 struct FUN_00d47c90_cls
 {
@@ -467,7 +470,7 @@ struct FUN_00d47c90_cls
 FUN_00d47c90_cls* FUN_00d47c90_cls::Destroy(unsigned char flags)
 {
     sub.ProcessArgument((hkMemoryAllocator*)hkMemoryRouter_getInstance()->m_heap);
-    sub.FUN_00a29680();
+    sub.Object_DoNothing();
     vptr = &DAT_0102e388;
     hkMemoryRouter* h;
     if (flags & 1)

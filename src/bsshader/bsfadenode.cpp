@@ -38,8 +38,8 @@ public:
     float GetSquaredXYLength() const;
 
     void Unitize_004a0c10();
-    LocalPt3* FUN_00439ef0(LocalPt3* out, LocalPt3* other);
-    LocalPt3 FUN_00439ef0(const LocalPt3& rhs);
+    LocalPt3* SubtractIntoVector(LocalPt3* out, LocalPt3* other);
+    LocalPt3 SubtractIntoVector(const LocalPt3& rhs);
     bool FUN_00439090(LocalPt3* other);
     float FUN_00457990() const;
 
@@ -206,7 +206,8 @@ void __cdecl SetFlagOnVirtualResult(Dummy* apDummy)
 
 // Recursively frees the linked list hanging off self[1], deallocating each node, then clears self[0].
 // @fnv 0x00b4df30
-void __fastcall FUN_00b4df30(void* p)
+// src: GUESS 0x00b4df30 (confidence: medium)
+void __fastcall BSFadeNode_FreeLinkedNodesRecursively(void* p)
 {
     void** self = (void**)p;
     if (self[1])
@@ -220,7 +221,7 @@ void __fastcall FUN_00b4df30(void* p)
             void* pCurrent = self[1];
             if (pCurrent)
             {
-                FUN_00b4df30(pCurrent);
+                BSFadeNode_FreeLinkedNodesRecursively(pCurrent);
                 g_memoryManager._DeallocateAlias(pCurrent);
             }
             self[1] = next;

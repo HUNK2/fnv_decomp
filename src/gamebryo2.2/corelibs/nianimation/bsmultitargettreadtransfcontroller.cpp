@@ -141,14 +141,14 @@ void __thiscall FUN_00a35f70_struct::SetSlotEntry(unsigned short usIndex, void* 
 
 struct S_00a36050
 {
-    void __thiscall FUN_00a35960();
+    void __thiscall ProcessEntries_00a35960();
     void* __thiscall DestroyIfFlagged(unsigned int);
 };
 void __cdecl _delete(void*, unsigned int);
 // @fnv 0x00a36050
 void* __thiscall S_00a36050::DestroyIfFlagged(unsigned int uiFlags)
 {
-    FUN_00a35960();
+    ProcessEntries_00a35960();
     if (uiFlags & 1)
         _delete(this, 0x44);
     return this;
@@ -319,7 +319,7 @@ TreadEntry* FUN_00a35900_cls::BSMultiTargetTreadTransfController_GetBlendInterpo
 }
 
 extern char DAT_01096694;
-void* __cdecl FUN_00aa13e0(unsigned int size) throw();
+void* __cdecl Object_DispatchCommandFour(unsigned int size) throw();
 
 void* __fastcall NiInterpController_NiInterpController(void* controller) throw();
 
@@ -343,7 +343,7 @@ struct TreadController
 TreadInterpolator* TreadController::CreateInterpolator(unsigned int index)
 {
     TreadInterpolator* interp;
-    TreadInterpolator* storage = static_cast<TreadInterpolator*>(FUN_00aa13e0(sizeof(TreadInterpolator)));
+    TreadInterpolator* storage = static_cast<TreadInterpolator*>(Object_DispatchCommandFour(sizeof(TreadInterpolator)));
     if (storage)
     {
         // The shared base has no declaration for the original constructor yet.
@@ -760,13 +760,14 @@ struct S00a35960_Cls : NiInterpController
     void** m3c;
     unsigned short m40;
     unsigned short m42;
-    void FUN_00a35960();
+    void ProcessEntries_00a35960();
     void FUN_00a6d290();
 };
 
 // Sets the vtable, disposes of m34 and m3c storage, then calls FUN_00a6d290.
 // @fnv 0x00a35960
-void S00a35960_Cls::FUN_00a35960()
+// src: GUESS 0x00a35960 (confidence: low)
+void S00a35960_Cls::ProcessEntries_00a35960()
 {
     S00a35960_Obj* pObj = m34;
     *reinterpret_cast<void**>(this) = &DAT_01096694;

@@ -31,7 +31,7 @@ struct ScratchBlock
     unsigned int unk3C;
 };
 
-void __cdecl FUN_00da6fd0(ScratchBlock* block);
+void __cdecl Object_InitializeDispatchFunctionTable(ScratchBlock* block);
 
 class ScratchOwner
 {
@@ -52,7 +52,7 @@ void __cdecl hkListAgent3_registerAgent3(ScratchOwner* owner)
     s.unk20 = 0;
     s.unk24 = 0;
     s.unk28 = 0;
-    FUN_00da6fd0(&s);
+    Object_InitializeDispatchFunctionTable(&s);
     owner->AddEntry(&s, -1, 9);
 }
 
@@ -147,11 +147,12 @@ __declspec(align(16)) struct FUN_00da7180_cls
     unsigned int m_i2C;
     unsigned int m_i30;
 
-    FUN_00da7180_cls* FUN_00da7180(const FUN_00da7180_cls* src);
+    FUN_00da7180_cls* AssignFields_00da7180(const FUN_00da7180_cls* src);
 };
 
 // @fnv 0x00da7180
-FUN_00da7180_cls* FUN_00da7180_cls::FUN_00da7180(const FUN_00da7180_cls* src)
+// src: GUESS 0x00da7180 (confidence: low)
+FUN_00da7180_cls* FUN_00da7180_cls::AssignFields_00da7180(const FUN_00da7180_cls* src)
 {
     _mm_store_ps((float*)&m_v00, _mm_load_ps((const float*)&src->m_v00));
     _mm_store_ps((float*)&m_v10, _mm_load_ps((const float*)&src->m_v10));

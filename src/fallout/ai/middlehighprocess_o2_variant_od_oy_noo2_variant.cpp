@@ -26,7 +26,7 @@ struct hkpRigidBodyL
 
 struct RigidBodyOwnerL
 {
-    hkpRigidBodyL* FUN_004ae750();
+    hkpRigidBodyL* Bipedanim_GetReferenceFlagsOrZero();
     void bhkCharacterController_SetLinearVelocity_Ni(const NiPoint3& pos);
 };
 
@@ -35,7 +35,7 @@ struct RigidBodyOwnerL
 void RigidBodyOwnerL::bhkCharacterController_SetLinearVelocity_Ni(const NiPoint3& pos)
 {
     hkVector4L kPos;
-    hkpRigidBodyL* pBody = FUN_004ae750();
+    hkpRigidBodyL* pBody = Bipedanim_GetReferenceFlagsOrZero();
     if (pBody)
         pBody->hkpCharacterProxy_setLinearVelocity(NI2HK(kPos, pos));
 }

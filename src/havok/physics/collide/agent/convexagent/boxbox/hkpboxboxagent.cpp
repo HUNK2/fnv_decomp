@@ -5,7 +5,7 @@
 extern "C" void* __cdecl hkpBoxBoxAgent_createBoxBoxAgent(void);
 extern "C" void* __cdecl hkpBoxBoxAgent_staticGetPenetrations(void);
 extern "C" void* __cdecl FUN_00dac450(void);
-extern "C" void* __cdecl FUN_00daf8e0(void);
+extern "C" void* __cdecl Object_ProcessEntries_00daf8e0(void);
 
 struct FUN_00d408e0_1
 {
@@ -19,12 +19,13 @@ struct FUN_00d408e0_1
 
 // Fills the struct with four function pointers and clears two byte flags.
 // @fnv 0x00d408e0
-void __cdecl FUN_00d408e0(FUN_00d408e0_1* a)
+// src: GUESS 0x00d408e0 (confidence: medium)
+void __cdecl Object_InitializeAgentFunctionTable_00d408e0(FUN_00d408e0_1* a)
 {
     a->p1 = (void*)&hkpBoxBoxAgent_createBoxBoxAgent;
     a->p2 = (void*)&hkpBoxBoxAgent_staticGetPenetrations;
     a->p3 = (void*)&FUN_00dac450;
-    a->p4 = (void*)&FUN_00daf8e0;
+    a->p4 = (void*)&Object_ProcessEntries_00daf8e0;
     a->b1 = 0;
     a->b2 = 0;
 }
@@ -131,7 +132,7 @@ class SrcObj
 class SubStub
 {
   public:
-    void FUN_00db0920();
+    void InitializeEmptyEntries();
 };
 
 class SpawnedObject
@@ -166,7 +167,7 @@ void* hkpBoxBoxAgent_createBoxBoxAgent(void* apFirst, void* apSecond, void* a3, 
     pSpawned->m_06 = 1;
     pSpawned->m_08 = a4;
     pSpawned->vptr = &DAT_010cf1c4;
-    ((SubStub*)((char*)pSpawned + 0x10))->FUN_00db0920();
+    ((SubStub*)((char*)pSpawned + 0x10))->InitializeEmptyEntries();
     return pSpawned;
 callPath:
     return FUN_00dacc00(apFirst, apSecond, a3, a4);
@@ -192,11 +193,11 @@ void __stdcall hkpBoxBoxAgent_getPenetrations(void* a1, void* a2, void* a3, void
     ((FUN_00d406c0_fn4)hkpBoxBoxAgent_staticGetPenetrations)(a1, a2, a3, a4);
 }
 
-__declspec(noinline) void __cdecl FUN_00d408e0(FUN_00d408e0_1*);
+__declspec(noinline) void __cdecl Object_InitializeAgentFunctionTable_00d408e0(FUN_00d408e0_1*);
 
 struct BoxAgentRegistry
 {
-    void __thiscall FUN_00cfbbe0(const FUN_00d408e0_1& kFuncs, int a, int b);
+    void __thiscall AppendRecordAndRegisterAgents(const FUN_00d408e0_1& kFuncs, int a, int b);
 };
 
 // Initializes a FUN_00d408e0_1 struct with zeroed fields, calls FUN_00d408e0 to populate it, and registers it with pkObj via FUN_00cfbbe0.
@@ -207,6 +208,6 @@ void __cdecl hkpBoxBoxAgent_registerAgent(BoxAgentRegistry* pkObj)
     FUN_00d408e0_1 kFuncs;
     kFuncs.b1 = 0;
     kFuncs.b2 = 0;
-    FUN_00d408e0(&kFuncs);
-    pkObj->FUN_00cfbbe0(kFuncs, 4, 4);
+    Object_InitializeAgentFunctionTable_00d408e0(&kFuncs);
+    pkObj->AppendRecordAndRegisterAgents(kFuncs, 4, 4);
 }

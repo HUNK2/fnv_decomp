@@ -220,12 +220,13 @@ struct FUN_00dfe360_cls
     int m_iCount1;
     unsigned int m_uCapBits1;
 
-    void FUN_00dfe360();
+    void UpdateFields_00dfe360();
     void FUN_00dfb720();
 };
 
 // @fnv 0x00dfe360
-void FUN_00dfe360_cls::FUN_00dfe360()
+// src: GUESS 0x00dfe360 (confidence: low)
+void FUN_00dfe360_cls::UpdateFields_00dfe360()
 {
     hkMemoryRouter* pHolder = hkMemoryRouter_getInstance();
     hkMemoryAllocator* pAllocator = reinterpret_cast<hkMemoryAllocator*>(pHolder->m_heap);

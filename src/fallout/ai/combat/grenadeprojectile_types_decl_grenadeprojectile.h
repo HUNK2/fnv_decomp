@@ -296,7 +296,7 @@ FNV_STATIC_ASSERT(offsetof(Projectile, ObjectPointerFlagFloatData) == 356);
 class GrenadeProjectile : public Projectile
 {
   public:
-    bool FUN_009b4740();  // declared for the original code (decl_variants.py)
+    bool Object_ProcessAndReturnValue_009b4740();  // declared for the original code (decl_variants.py)
 
   public:
     // PC vtable 0x0108F674 slot 198 contains covered target 0x009BDF80.

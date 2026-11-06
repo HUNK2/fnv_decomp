@@ -1814,7 +1814,7 @@ struct FUN_00dce7e0_local
     int unk0c;
     void __thiscall FUN_00dce840(void*, void*);
     void __thiscall ProcessArgument(int);
-    void __thiscall FUN_00a29680();
+    void __thiscall Object_DoNothing();
 };
 void __cdecl hkpSaveContactPointsUtil_loadContactPoints(int a, int b, int* p, int d);
 struct BSAudio;

@@ -79,11 +79,12 @@ struct FUN_00620760_class
 
 struct FUN_00891130_class
 {
-    void FUN_00891130(unsigned char a);
+    void SetFlags_Thunk(unsigned char a);
 };
 
 // @fnv 0x00891130
-void FUN_00891130_class::FUN_00891130(unsigned char aValue)
+// src: GUESS 0x00891130 (confidence: medium)
+void FUN_00891130_class::SetFlags_Thunk(unsigned char aValue)
 {
     ((FUN_00620760_class*)((char*)this + 0x10))->SetFlags(1, (int)aValue);
 }
@@ -1137,7 +1138,7 @@ void SpellActor::Actor_CreateBloodOnWeapon(float distance, HitSource* hit, Spell
             if (this == DAT_011dea3c)
             {
                 NodeView* bipedNode5 = DAT_011dea3c->GetBiped(true, true)->FUN_004ab230();
-                memcpy(&point, &(node2->NiAVObject_GetWorldTranslate() - GetNodePosition(true)).FUN_0053d280(2.0f), sizeof(point));
+                memcpy(&point, &(node2->NiAVObject_GetWorldTranslate() - GetNodePosition(true)).ProcessAndReturnValue_0053d280(2.0f), sizeof(point));
                 other_2 = DAT_011dea3c->PlayerCharacter_Is3rdPerson() ? bipedNode5 : node2;
                 node2 = DAT_011dea3c->PlayerCharacter_Is3rdPerson() ? node2 : bipedNode5;
                 Bound bound = node2->NiAVObject_GetWorldBound();
@@ -1174,7 +1175,7 @@ void SpellActor::Actor_CreateBloodOnWeapon(float distance, HitSource* hit, Spell
                 if (s && s->Animation_GetCurrentSequence(4))
                 {
                     int h = s->Animation_GetCurrentSequence(4)->FUN_0048f7f0()->TESAnimGroup_GetDecal();
-                    memcpy(&point, &(node2->NiAVObject_GetWorldTranslate() + (GetNodePosition(false) - node2->NiAVObject_GetWorldTranslate()).FUN_0053d280(2.0f)), sizeof(point));
+                    memcpy(&point, &(node2->NiAVObject_GetWorldTranslate() + (GetNodePosition(false) - node2->NiAVObject_GetWorldTranslate()).ProcessAndReturnValue_0053d280(2.0f)), sizeof(point));
                 }
             }
             char randomIndex2 = (char)(int)FUN_00406cc0(FUN_00476b70(0.0f, 4.0f));
@@ -1184,7 +1185,7 @@ void SpellActor::Actor_CreateBloodOnWeapon(float distance, HitSource* hit, Spell
             if (this == DAT_011dea3c)
                 memcpy(&normal9, &playerNormal4, sizeof(normal9));
             else
-                memcpy(&normal9, &hit->normal.FUN_004a0bd0(), sizeof(normal9));
+                memcpy(&normal9, &hit->normal.GetNegatedVector(), sizeof(normal9));
             FUN_004a37b0 data;
             memcpy(&data.point, &point, sizeof(data.point));
             memcpy(&data.normal, &normal9, sizeof(data.normal));

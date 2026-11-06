@@ -132,7 +132,7 @@ struct RagdollBodiesToNotify : public hkpRagdollConstraintData
 {
     int __thiscall FUN_00cde9a0();
 };
-int __cdecl FUN_00cdead0();
+int __cdecl hkpRagdollConstraintData_ReturnConstant_7();
 typedef ::__m128 LocalM128;
 struct __declspec(align(16)) FUN_00cdf190_Vec
 {

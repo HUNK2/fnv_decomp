@@ -45,11 +45,12 @@ float __cdecl powf_004dd150(float _X, float _Y)
 struct RendererSetting : public Setting
 {
     void SetValue(float);
-    RendererSetting* FUN_004ed780(float f);
+    RendererSetting* ProcessAndReturnValue_004ed780(float f);
     void Setting_SetValueB(int);
 };
 // @fnv 0x004ed780
-RendererSetting* RendererSetting::FUN_004ed780(float f)
+// src: GUESS 0x004ed780 (confidence: low)
+RendererSetting* RendererSetting::ProcessAndReturnValue_004ed780(float f)
 {
     SetValue(f);
     return this;
@@ -93,7 +94,7 @@ namespace fnv_004dcdb0 {
 struct Flt
 {
     operator unsigned int();
-    unsigned int FUN_004dcdf0(unsigned int);
+    unsigned int GetElementOrZero(unsigned int);
 };
 void* __cdecl TESRenderer_GetSystemDesc();
 extern Flt* DAT_011c70dc;
@@ -103,7 +104,7 @@ unsigned int __cdecl GetFltValueAt(unsigned int auiIndex)
 {
     unsigned int uiValue;
     if (TESRenderer_GetSystemDesc() && auiIndex < (unsigned int)*DAT_011c70dc)
-        uiValue = DAT_011c70dc->FUN_004dcdf0(auiIndex);
+        uiValue = DAT_011c70dc->GetElementOrZero(auiIndex);
     else
         uiValue = 0;
     return uiValue;
@@ -195,7 +196,7 @@ bool __cdecl ProcessCustomINI()
     ___insecure_strcpy(buffer, DAT_01021184);
     FUN_00ec6380(buffer, g_011c72c0.String());
     FUN_00ec6380(buffer, DAT_01021184);
-    g_011c72c0.FUN_005e0190(buffer);
+    g_011c72c0.AssignStringValue(buffer);
     return false;
 }
 }  // namespace fnv_004da570
@@ -258,7 +259,7 @@ void __cdecl ApplyGammaRamp()
     unsigned short i;
 
     g_bGRGammaDirty = false;
-    g_kGRGammaSetting.FUN_004ed780(g_fGRGamma);
+    g_kGRGammaSetting.ProcessAndReturnValue_004ed780(g_fGRGamma);
     for (i = 0; i < 256; i++)
     {
         kRamp4.red[i] = (unsigned short)(GRApplyGamma((float)(i / 255.0), g_fGRGamma) * 65535.0 + 0.5);
@@ -278,7 +279,8 @@ extern P03MM _g_memoryManager;
 
 // Copies apString to the string value; if pKey exists, copies it into a new buffer, changes its first byte to 'S', and frees old pKey only when it starts with 'S'.
 // @fnv 0x00c33170
-Setting& Setting::FUN_00c33170(const char* apString)
+// src: GUESS 0x00c33170 (confidence: medium)
+Setting& Setting::SetStringAndPromoteKeyOwnership(const char* apString)
 {
     if (this)
     {
@@ -1235,7 +1237,7 @@ struct DbcObj
     void* FUN_00717e50();
     Sub130* NiXAdapaterDesc_GetDeviceCaps_004dc120(int);
 };
-void* __cdecl FUN_00aa13e0(unsigned int);
+void* __cdecl Object_DispatchCommandFour(unsigned int);
 void __cdecl AssignImageConverter(void*);
 void __cdecl NiSourceTexture_SetUsePreloading(bool);
 int __cdecl NiTexture_SetMipmapByDefault(int);
@@ -1299,10 +1301,10 @@ int __cdecl BSMAX_00647b70(int, int);
 void __cdecl BSShaderManager_EnableUseRefractionShader(int);
 bool __cdecl TESRenderer_GetMultiSampleEnabled();
 int __cdecl FUN_009fea2a();
-int __cdecl FUN_009fead0(int, int*);
+int __cdecl Runtime_ForwardCall_009fead0(int, int*);
 int __cdecl FUN_009fead6(int, int*);
 int __cdecl FUN_009feae8(int*, unsigned int*);
-int __cdecl FUN_009feae2(int*, unsigned int*);
+int __cdecl Object_ForwardCall_009feae2(int*, unsigned int*);
 int __cdecl FUN_009febd8(void*, int*);
 void* __cdecl NiXenonRenderer_GetRenderer();
 extern "C" void* __cdecl fnv_zlib_memset(void*, int, unsigned int);
@@ -1627,7 +1629,7 @@ int __cdecl NiXAdapaterDesc_GetDeviceCaps(int aiWidth, int aiHeight)
     {
         DAT_0118947c = (unsigned int)Get_1280();
         DAT_01189480 = (unsigned int)Get_720();
-        DAT_011c73f4.FUN_0045ce80((*DAT_011c73f4.Int() < 2) ? *DAT_011c73f4.Int() : 2);
+        DAT_011c73f4.ProcessAndReturnValue_0045ce80((*DAT_011c73f4.Int() < 2) ? *DAT_011c73f4.Int() : 2);
     }
     if (TESRenderer_ValidateSettings(1))
     {
@@ -1858,7 +1860,7 @@ int __cdecl NiXAdapaterDesc_GetDeviceCaps(int aiWidth, int aiHeight)
             driverVersionV52.version = 0;
             fnv_zlib_memset(&driverVersionV52.unk04, 0, 0x88);
             driverVersionV52.version = 0x1008c;
-            queryStatusV22 = FUN_009fead0(0, &driverVersionV52.version);
+            queryStatusV22 = Runtime_ForwardCall_009fead0(0, &driverVersionV52.version);
             if (queryStatusV22 != 0)
                 goto gpuQueryDone;
             cnt57V6 = 0;
@@ -1872,7 +1874,7 @@ int __cdecl NiXAdapaterDesc_GetDeviceCaps(int aiWidth, int aiHeight)
             queryStatusV22 = FUN_009feae8(&dinfo2V19.unk000, &countA23V9);
             if (queryStatusV22 != 0)
                 goto gpuQueryDone;
-            queryStatusV22 = FUN_009feae2(&unk48c33V3.f0, &countB2V25);
+            queryStatusV22 = Object_ForwardCall_009feae2(&unk48c33V3.f0, &countB2V25);
             if (queryStatusV22 != 0)
                 goto gpuQueryDone;
             Ver654 ver654;

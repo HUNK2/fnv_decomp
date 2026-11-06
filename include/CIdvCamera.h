@@ -10,9 +10,9 @@ public:
 
     CIdvCamera();
     virtual ~CIdvCamera();
-    virtual CIdvCamera& FUN_00b3f0c0(const CIdvCamera& other);
+    virtual CIdvCamera& AssignFields_00b3f0c0(const CIdvCamera& other);
 
-    CIdvCamera& FUN_00b402d0(const CIdvCamera& src);
+    CIdvCamera& UpdateState_00b402d0(const CIdvCamera& src);
     CIdvCamera& CloneCamera();
     NiPoint3 CBillboardLeaf_GetColor();
     float* CBillboardLeaf_GetColor(float* pOut);
@@ -36,7 +36,7 @@ public:
     int unk48;
 
     CIdvCameraClone();
-    CIdvCamera& FUN_00b402d0(const CIdvCamera& src);
+    CIdvCamera& UpdateState_00b402d0(const CIdvCamera& src);
     CIdvCamera& CloneCamera();
 };
 

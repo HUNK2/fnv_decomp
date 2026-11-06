@@ -76,7 +76,8 @@ int __cdecl SlotMachineMenu_GetMenuID_0()
 }
 
 // @fnv 0x007c1450
-char SlotMachineMenu::FUN_007c1450()
+// src: GUESS 0x007c1450 (confidence: high)
+char SlotMachineMenu::HasAllTenTiles()
 {
     for (int i = 0; i < 10; ++i)
     {
@@ -302,7 +303,7 @@ struct ShadowSceneNodeW7 : NiNodeW7
 ShadowSceneNodeW7* __cdecl FUN_00450b80(int);
 struct GObjW7
 {
-    NiNodeW7* FUN_00559450();
+    NiNodeW7* Modelloader_GetReferencedThis();
 };
 struct GlobalObject_00633c90;
 extern GlobalObject_00633c90 g_011da9fc;
@@ -338,20 +339,20 @@ static const char kPayoutIn[] = "Payout_In";
 void SlotMachineMenu::InitPayoutMenu()
 {
     ((GO&)g_011da9fc) = new FUN_00a5ecb0(0);
-    ((GObjW7*)(void*)&g_011da9fc)->FUN_00559450()->Vf55(m_104, 1);
-    ((GObjW7*)(void*)&g_011da9fc)->FUN_00559450()->Vf55(m_108[0], 1);
-    ((GObjW7*)(void*)&g_011da9fc)->FUN_00559450()->Vf55(m_108[1], 1);
-    ((GObjW7*)(void*)&g_011da9fc)->FUN_00559450()->Vf55(m_108[2], 1);
+    ((GObjW7*)(void*)&g_011da9fc)->Modelloader_GetReferencedThis()->Vf55(m_104, 1);
+    ((GObjW7*)(void*)&g_011da9fc)->Modelloader_GetReferencedThis()->Vf55(m_108[0], 1);
+    ((GObjW7*)(void*)&g_011da9fc)->Modelloader_GetReferencedThis()->Vf55(m_108[1], 1);
+    ((GObjW7*)(void*)&g_011da9fc)->Modelloader_GetReferencedThis()->Vf55(m_108[2], 1);
     MatW7 xObjB;
     MatW7 objC7;
     xObjB.FUN_006815c0();
     objC7.FUN_006815c0();
     xObjB.FUN_00524ac0(1.5707963705062866f);
     objC7.FUN_004a0c90(1.5707963705062866f);
-    ((GObjW7*)(void*)&g_011da9fc)->FUN_00559450()->SetRotate_0043fa80((const void*)&xObjB.FUN_0043f8d0(&objC7));
-    ((GObjW7*)(void*)&g_011da9fc)->FUN_00559450()->NiAVObject_SetTranslate_004bc1f0(DAT_0105478c, DAT_0107678c, 0.0f);
+    ((GObjW7*)(void*)&g_011da9fc)->Modelloader_GetReferencedThis()->SetRotate_0043fa80((const void*)&xObjB.FUN_0043f8d0(&objC7));
+    ((GObjW7*)(void*)&g_011da9fc)->Modelloader_GetReferencedThis()->NiAVObject_SetTranslate_004bc1f0(DAT_0105478c, DAT_0107678c, 0.0f);
     NiUpdateData upd1(0.0f, false, 0);
-    ((GObjW7*)(void*)&g_011da9fc)->FUN_00559450()->NiAVObject_Update(upd1);
+    ((GObjW7*)(void*)&g_011da9fc)->Modelloader_GetReferencedThis()->NiAVObject_Update(upd1);
     CtrlObj* xPCtrl = m_104->NiObjectNET_GetController(&DAT_011f36ac);
     if (xPCtrl != 0)
     {
@@ -390,11 +391,11 @@ void SlotMachineMenu::InitPayoutMenu()
         }
     }
     NiUpdateData _upd2(0.0f, false, 0);
-    ((GObjW7*)(void*)&g_011da9fc)->FUN_00559450()->NiAVObject_Update(_upd2);
+    ((GObjW7*)(void*)&g_011da9fc)->Modelloader_GetReferencedThis()->NiAVObject_Update(_upd2);
     ((GO&)g_011da9d0) = BlackJackMenu_SetupCamera();
-    FUN_00450b80(1)->Vf55(((GObjW7*)(void*)&g_011da9fc)->FUN_00559450(), 1);
-    float fTemp0 = ((GObjW7*)(void*)&g_011da9fc)->FUN_00559450()->NiAVObject_GetWorldBound()->FUN_0084d030() * 3.0;
-    FUN_00450b80(1)->FUN_00b5ca70(((GObjW7*)(void*)&g_011da9fc)->FUN_00559450(), fTemp0);
+    FUN_00450b80(1)->Vf55(((GObjW7*)(void*)&g_011da9fc)->Modelloader_GetReferencedThis(), 1);
+    float fTemp0 = ((GObjW7*)(void*)&g_011da9fc)->Modelloader_GetReferencedThis()->NiAVObject_GetWorldBound()->FUN_0084d030() * 3.0;
+    FUN_00450b80(1)->FUN_00b5ca70(((GObjW7*)(void*)&g_011da9fc)->Modelloader_GetReferencedThis(), fTemp0);
     SwapFrontfacingTextures();
     SwapBackfacingTextures();
 }
@@ -402,7 +403,8 @@ void SlotMachineMenu::InitPayoutMenu()
 int __cdecl FUN_00944460(int, int);
 
 // @fnv 0x007c56e0
-void SlotMachineMenu::FUN_007c56e0()
+// src: GUESS 0x007c56e0 (confidence: medium)
+void SlotMachineMenu::SelectSpinResults()
 {
     for (int i = 0; i < 3; ++i)
     {
@@ -518,9 +520,9 @@ SlotMachineMenu::~SlotMachineMenu()
     g_modelLoader->ModelLoader_ReleaseFile("Meshes\\terminals\\NV_SlotMachine\\NV_SlotMachine-Reel01.NIF");
     g_modelLoader->ModelLoader_ReleaseFile("Meshes\\terminals\\NV_SlotMachine\\NV_SlotMachine-Reel02.NIF");
     g_modelLoader->ModelLoader_ReleaseFile("Meshes\\terminals\\NV_SlotMachine\\NV_SlotMachine-Reel03.NIF");
-    ((SlotShadowNode*)FUN_00450b80(1))->AttachRoot(((GObjW7*)&g_011da9fc)->FUN_00559450());
+    ((SlotShadowNode*)FUN_00450b80(1))->AttachRoot(((GObjW7*)&g_011da9fc)->Modelloader_GetReferencedThis());
     ((SlotSceneNode*)FUN_00450b80(1))->RemoveAllLights();
-    ((NiNodeRef*)((GObjW7*)&g_011da9fc)->FUN_00559450())->DetachAllChildren();
+    ((NiNodeRef*)((GObjW7*)&g_011da9fc)->Modelloader_GetReferencedThis())->DetachAllChildren();
     m_104 = 0;
     (GO&)g_011da9d0 = 0;
     (GO&)g_011da9fc = 0;
@@ -849,7 +851,7 @@ GameTile* __cdecl SlotMachineMenu_Create(char* casino, int wager, int mode, int 
     if (DAT_011da9a4 && DAT_011da9a4->GetClass() == SlotMachineMenu_GetMenuID_0() && DAT_011da9ac)
     {
         DAT_011da9a4->FUN_00a1dc70((TileMenu*)manager, false);
-        if (!(unsigned char)DAT_011da9a4->FUN_007c1450())
+        if (!(unsigned char)DAT_011da9a4->HasAllTenTiles())
         {
             Warning_005b5e40(DAT_01076618);
             return 0;
@@ -1483,7 +1485,7 @@ void SlotMachineMenu::Update()
 struct ReelTexture
 {
     void* value;
-    void* FUN_00559450() const;
+    void* Modelloader_GetReferencedThis() const;
 };
 struct ReelProperty
 {
@@ -1613,7 +1615,7 @@ void SlotMachineMenu::SwapBackfacingTextures()
                     ? node9->FUN_00a59d30(3)
                     : 0;
             if (propA)
-                propA->SetTexture(0, 0, ((ReelTexture*)m_reelNodes)[a6].FUN_00559450());
+                propA->SetTexture(0, 0, ((ReelTexture*)m_reelNodes)[a6].Modelloader_GetReferencedThis());
             _sprintf_s(name6, 260, "Cylinder0%i:%i", 6 - reel4,
                        2 * reel4 + 5 > 13 ? 2 * reel4 + 5 - 14 : 2 * reel4 + 5);
             node9 = BSUtilities_GetObjectByName((ReelNode*)m_reels[reel4], name6);
@@ -1626,7 +1628,7 @@ void SlotMachineMenu::SwapBackfacingTextures()
                     ? node9->FUN_00a59d30(3)
                     : 0;
             if (propA)
-                propA->SetTexture(0, 0, ((ReelTexture*)m_reelNodes)[b].FUN_00559450());
+                propA->SetTexture(0, 0, ((ReelTexture*)m_reelNodes)[b].Modelloader_GetReferencedThis());
             _sprintf_s(name6, 260, "Cylinder0%i:%i", 6 - reel4,
                        2 * reel4 + 6 > 13 ? 2 * reel4 + 6 - 14 : 2 * reel4 + 6);
             node9 = BSUtilities_GetObjectByName((ReelNode*)m_reels[reel4], name6);
@@ -1639,7 +1641,7 @@ void SlotMachineMenu::SwapBackfacingTextures()
                     ? node9->FUN_00a59d30(3)
                     : 0;
             if (propA)
-                propA->SetTexture(0, 0, ((ReelTexture*)m_reelNodes)[e].FUN_00559450());
+                propA->SetTexture(0, 0, ((ReelTexture*)m_reelNodes)[e].Modelloader_GetReferencedThis());
             _sprintf_s(name6, 260, "Cylinder0%i:%i", 6 - reel4,
                        2 * reel4 + 7 > 13 ? 2 * reel4 + 7 - 14 : 2 * reel4 + 7);
             node9 = BSUtilities_GetObjectByName((ReelNode*)m_reels[reel4], name6);
@@ -1652,7 +1654,7 @@ void SlotMachineMenu::SwapBackfacingTextures()
                     ? node9->FUN_00a59d30(3)
                     : 0;
             if (propA)
-                propA->SetTexture(0, 0, ((ReelTexture*)m_reelNodes)[d_].FUN_00559450());
+                propA->SetTexture(0, 0, ((ReelTexture*)m_reelNodes)[d_].Modelloader_GetReferencedThis());
             _sprintf_s(name6, 260, "Cylinder0%i:%i", 6 - reel4,
                        2 * reel4 + 8 > 13 ? 2 * reel4 + 8 - 14 : 2 * reel4 + 8);
             node9 = BSUtilities_GetObjectByName((ReelNode*)m_reels[reel4], name6);
@@ -1665,7 +1667,7 @@ void SlotMachineMenu::SwapBackfacingTextures()
                     ? node9->FUN_00a59d30(3)
                     : 0;
             if (propA)
-                propA->SetTexture(0, 0, ((ReelTexture*)m_reelNodes)[c3].FUN_00559450());
+                propA->SetTexture(0, 0, ((ReelTexture*)m_reelNodes)[c3].Modelloader_GetReferencedThis());
             _sprintf_s(name6, 260, "Cylinder0%i:%i", 6 - reel4,
                        2 * reel4 + 9 > 13 ? 2 * reel4 + 9 - 14 : 2 * reel4 + 9);
             node9 = BSUtilities_GetObjectByName((ReelNode*)m_reels[reel4], name6);
@@ -1678,7 +1680,7 @@ void SlotMachineMenu::SwapBackfacingTextures()
                     ? node9->FUN_00a59d30(3)
                     : 0;
             if (propA)
-                propA->SetTexture(0, 0, ((ReelTexture*)m_reelNodes)[f7].FUN_00559450());
+                propA->SetTexture(0, 0, ((ReelTexture*)m_reelNodes)[f7].Modelloader_GetReferencedThis());
             _sprintf_s(name6, 260, "Cylinder0%i:%i", 6 - reel4,
                        2 * reel4 + 10 > 13 ? 2 * reel4 + 10 - 14 : 2 * reel4 + 10);
             node9 = BSUtilities_GetObjectByName((ReelNode*)m_reels[reel4], name6);
@@ -1691,7 +1693,7 @@ void SlotMachineMenu::SwapBackfacingTextures()
                     ? node9->FUN_00a59d30(3)
                     : 0;
             if (propA)
-                propA->SetTexture(0, 0, ((ReelTexture*)m_reelNodes)[g2].FUN_00559450());
+                propA->SetTexture(0, 0, ((ReelTexture*)m_reelNodes)[g2].Modelloader_GetReferencedThis());
             _sprintf_s(name6, 260, "Cylinder0%i:%i", 6 - reel4,
                        2 * reel4 + 11 > 13 ? 2 * reel4 + 11 - 14 : 2 * reel4 + 11);
             node9 = BSUtilities_GetObjectByName((ReelNode*)m_reels[reel4], name6);
@@ -1704,7 +1706,7 @@ void SlotMachineMenu::SwapBackfacingTextures()
                     ? node9->FUN_00a59d30(3)
                     : 0;
             if (propA)
-                propA->SetTexture(0, 0, ((ReelTexture*)m_reelNodes)[_h].FUN_00559450());
+                propA->SetTexture(0, 0, ((ReelTexture*)m_reelNodes)[_h].Modelloader_GetReferencedThis());
         }
     }
 }

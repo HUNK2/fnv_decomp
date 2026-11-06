@@ -299,7 +299,7 @@ void FUN_00a871a0_cls::CopyEntries(Target* apDst, unsigned int aFlag)
 
 extern "C" void* DAT_0109e834;
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+void* __cdecl Object_DispatchCommandFour(unsigned int size);
 
 struct FUN_00a744a0_shell
 {
@@ -320,7 +320,7 @@ struct FUN_00a87340_cls
 Target* FUN_00a87340_cls::CreateTarget(unsigned int volatile flags)
 {
     Target* self = reinterpret_cast<Target*>(this);
-    Target* obj = reinterpret_cast<Target*>(FUN_00aa13e0(0xd0));
+    Target* obj = reinterpret_cast<Target*>(Object_DispatchCommandFour(0xd0));
     if (obj != 0)
     {
         reinterpret_cast<FUN_00a744a0_shell*>(obj)->FUN_00a744a0();

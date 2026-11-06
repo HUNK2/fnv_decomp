@@ -100,7 +100,7 @@ NiDynamicEffect::NiDynamicEffect()
     iIndex = InterlockedIncrement(&DAT_011a9b58);
 }
 
-void __fastcall FUN_00a5a390(void*);
+void __fastcall ReleaseStorage_00a5a390(void*);
 void __fastcall NiDynamicEffect_DetachAllUnaffectedNodes(void*);
 void __cdecl _delete(void*, unsigned int);
 
@@ -115,7 +115,7 @@ void* __fastcall DestroyNiDynamicEffect(NiDynamicEffect* effect, void*, unsigned
     NiDynamicEffect_DetachAllUnaffectedNodes(effect);
     reinterpret_cast<BSShaderLightingProperty*>(&effect->unaffectedNodes)->ClearLights();
     reinterpret_cast<BSShaderLightingProperty*>(&effect->shadowGenerator)->ClearLights();
-    FUN_00a5a390(effect);
+    ReleaseStorage_00a5a390(effect);
     if (flags & 1)
         _delete(effect, 0xc4);
     return effect;

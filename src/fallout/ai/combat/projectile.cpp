@@ -221,18 +221,19 @@ struct WorldRayCastOutput : public ShapeRayCastOutput
 typedef char _sizecheck_hkpWorldRayCastOutput[sizeof(WorldRayCastOutput) == 96 ? 1 : -1];
 struct FUN_009c1a70_shell : public WorldRayCastOutput
 {
-    WorldRayCastOutput* FUN_009c1a70(void*);
+    WorldRayCastOutput* CopyRayCastResultAndRootCollidable(void*);
 };
 
 struct Dummy_009c1aa0
 {
-    void FUN_009c1aa0(void*);
+    void ProcessEntries_009c1aa0(void*);
 };
 
 // @fnv 0x009c1a70
-WorldRayCastOutput* FUN_009c1a70_shell::FUN_009c1a70(void* apSource)
+// src: GUESS 0x009c1a70 (confidence: medium)
+WorldRayCastOutput* FUN_009c1a70_shell::CopyRayCastResultAndRootCollidable(void* apSource)
 {
-    reinterpret_cast<Dummy_009c1aa0*>(this)->FUN_009c1aa0(apSource);
+    reinterpret_cast<Dummy_009c1aa0*>(this)->ProcessEntries_009c1aa0(apSource);
     m_pRootCollidable = static_cast<WorldRayCastOutput*>(apSource)->m_pRootCollidable;
     return this;
 }
@@ -1330,7 +1331,7 @@ FUN_009bffb0::FUN_009bffb0() : m_29(1)
 {
     m_00 = 0;
     *(NiPoint3*)&m_04 = *(const NiPoint3*)&NiPoint3::ZERO;
-    ((NiPlane*)&m_10)->FUN_004390c0(NiPoint3::ZERO);
+    ((NiPlane*)&m_10)->HasEqualComponents(NiPoint3::ZERO);
     m_1c = 0;
     m_20 = 0x24;
     m_24 = 0xffffffff;
@@ -1919,7 +1920,7 @@ struct Path
 struct PathHolder
 {
     Path* value;
-    Path* FUN_00559450();
+    Path* Modelloader_GetReferencedThis();
 };
 extern Owner* g_thePlayer;
 // The shared Projectile header lacks these calls. Use their addresses with the original thiscall signatures.
@@ -1953,8 +1954,8 @@ void BeamProjectile::UpdateProjectile(float delta)
         parent->NiAVObject_SetTranslate(node->NiAVObject_GetWorldTranslate());
         reinterpret_cast<void(__thiscall*)(Projectile*, const NiPoint3&)>(&projectile_update_calls::SetPosition)(this, node->NiAVObject_GetWorldTranslate());
     }
-    if (reinterpret_cast<PathHolder*>(reinterpret_cast<char*>(this) + 0x150)->FUN_00559450())
-        reinterpret_cast<PathHolder*>(reinterpret_cast<char*>(this) + 0x150)->FUN_00559450()->FUN_0051b840(reinterpret_cast<float(__thiscall*)(Projectile*)>(&projectile_update_calls::GetAlpha)(this));
+    if (reinterpret_cast<PathHolder*>(reinterpret_cast<char*>(this) + 0x150)->Modelloader_GetReferencedThis())
+        reinterpret_cast<PathHolder*>(reinterpret_cast<char*>(this) + 0x150)->Modelloader_GetReferencedThis()->FUN_0051b840(reinterpret_cast<float(__thiscall*)(Projectile*)>(&projectile_update_calls::GetAlpha)(this));
     if (reinterpret_cast<float(__thiscall*)(Projectile*)>(&projectile_update_calls::GetAge)(this) > 5.0)
         reinterpret_cast<void(__thiscall*)(Projectile*)>(&projectile_update_calls::FinishProjectile)(this);
     if (byte90 && reinterpret_cast<float(__thiscall*)(Projectile*)>(&projectile_update_calls::GetAge)(this) >= reinterpret_cast<BaseData*>(FUN_004181e0())->GetField90Float())
@@ -5429,7 +5430,7 @@ struct Buffer
     int hkpCollidable_getCollisionFilterInfo();
     void* hkpCollidable_getOwner();
     int hkpCollidable_getType();
-    void* FUN_00559450();
+    void* Modelloader_GetReferencedThis();
 };
 struct Body
 {
@@ -5441,7 +5442,7 @@ struct Body
 Body* __cdecl GetAVObjectForCollidable(Buffer*);
 struct Wrapper
 {
-    void* FUN_00559450();
+    void* Modelloader_GetReferencedThis();
     int value;
 };
 struct Ref
@@ -5781,7 +5782,7 @@ bool ProjectileHit::ProcessHit(Obj* object, NiPoint3 const& point, NiPoint3 cons
         hit->ref = target;
         hit->collision = 0;
         *reinterpret_cast<NiPoint3*>(&hit->point) = *reinterpret_cast<const NiPoint3*>(&target->GetPosition());
-        *reinterpret_cast<NiPoint3*>(&hit->normal) = *reinterpret_cast<const NiPoint3*>(&static_cast<const NiPoint3&>(position).FUN_004a0bd0());
+        *reinterpret_cast<NiPoint3*>(&hit->normal) = *reinterpret_cast<const NiPoint3*>(&static_cast<const NiPoint3&>(position).GetNegatedVector());
         hit->normal.Unitize_004a0c10();
         hit->part = 0;
         hit->material = 0;
@@ -5825,7 +5826,7 @@ bool ProjectileHit::ProcessHit(Obj* object, NiPoint3 const& point, NiPoint3 cons
                 hitMaterial = g_TES->TES_GetLandMaterialType(point);
             else
             {
-                Shape* shape = bhkShape_Getbhk(buffer->FUN_00559450());
+                Shape* shape = bhkShape_Getbhk(buffer->Modelloader_GetReferencedThis());
                 if (shape)
                     hitMaterial = shape->bhkShape_GetSubshapeMaterial(index);
             }
@@ -5845,7 +5846,7 @@ bool ProjectileHit::ProcessHit(Obj* object, NiPoint3 const& point, NiPoint3 cons
     if (*g_011f20b8.FUN_00408d60() && MiddleHighProcess_GetCurrentFurniture())
     {
         Body* expectedObject = GetAVObjectForCollidable(buffer);
-        Ref* ref = FindFirstCollisionObject(MiddleHighProcess_GetCurrentFurniture()->node.FUN_00559450());
+        Ref* ref = FindFirstCollisionObject(MiddleHighProcess_GetCurrentFurniture()->node.Modelloader_GetReferencedThis());
         Node* expected = ref ? ref->FUN_0044ddc0() : 0;
         Obj* actual = MiddleHighProcess_GetCurrentFurniture()->ref;
         valid = object == actual && (void*)expectedObject == (void*)expected;
@@ -7373,7 +7374,7 @@ namespace fnv_009ab390 {
 struct PVPoint
 {
     float x, y, z;
-    PVPoint FUN_00439ef0(const PVPoint& kOther) const;  // operator-
+    PVPoint SubtractIntoVector(const PVPoint& kOther) const;  // operator-
     void Unitize_004a0c10();                                // Unitize
 };
 
@@ -7389,7 +7390,7 @@ struct PVCamResult
     int unk00;
     int unk04;
     int unk08;
-    const PVPoint* FUN_00524c40();
+    const PVPoint* ComputeValue_00524c40();
 };
 class PVCamera
 {
@@ -7884,7 +7885,7 @@ class PVOwner
     PVProcess* FUN_008d8520();
     float GetCachedSpeed(int iValue);
     bool Actor_GetIronSights();
-    PVPoint FUN_009ab970();
+    PVPoint CopyVectorAtOffsetD30();
 };
 extern PVOwner* DAT_011dea3c;
 
@@ -7914,7 +7915,7 @@ class PVModel
 struct PVModelPtr
 {
     PVModel* m_pObject;
-    PVModel* FUN_00559450();
+    PVModel* Modelloader_GetReferencedThis();
 };
 
 class PVProjectile
@@ -8240,7 +8241,7 @@ void PVProjectile::ContinuousBeamProjectile_UpdateProjectile(float fTimeSinceSca
         float fYaw = pkActor->GetCurrentTargetDistance(0);
         if (pkActor == DAT_011dea3c)
         {
-            PVPoint kWorldPosition = DAT_011dea3c->FUN_009ab970().FUN_00439ef0(m_kPos);
+            PVPoint kWorldPosition = DAT_011dea3c->CopyVectorAtOffsetD30().SubtractIntoVector(m_kPos);
             kWorldPosition.Unitize_004a0c10();
             fYaw = GetDirectionAngle(&kWorldPosition);
             fCurrentSpeed = -asinf_004b5530(kWorldPosition.z);
@@ -8295,7 +8296,7 @@ void PVProjectile::ContinuousBeamProjectile_UpdateProjectile(float fTimeSinceSca
         if (bFirstPerson && pkCameraTmp)
         {
             static FUN_00416870_Offset s_kOffset(0.0f, -15.0f, 0.0f);
-            TESObjectREFR_SetLocationOnReference(pkCameraTmp->NiAVObject_GetWorldRotate(s_kOffset).FUN_00524c40());
+            TESObjectREFR_SetLocationOnReference(pkCameraTmp->NiAVObject_GetWorldRotate(s_kOffset).ComputeValue_00524c40());
         }
         else
             TESObjectREFR_SetLocationOnReference(((PVNode*)pkAimNode)->NiAVObject_GetWorldTranslate());
@@ -8304,10 +8305,10 @@ void PVProjectile::ContinuousBeamProjectile_UpdateProjectile(float fTimeSinceSca
     Projectile_SetRange(10000.0f);
     Unk_328();
     Unk_30c();
-    if (m_spModel.FUN_00559450())
+    if (m_spModel.Modelloader_GetReferencedThis())
     {
-        m_spModel.FUN_00559450()->FUN_0051b840(GetE0());
-        m_spModel.FUN_00559450()->FOHUDEffectManager_SetBlurIntensityHUD(GetFirstLightParameter());
+        m_spModel.Modelloader_GetReferencedThis()->FUN_0051b840(GetE0());
+        m_spModel.Modelloader_GetReferencedThis()->FOHUDEffectManager_SetBlurIntensityHUD(GetFirstLightParameter());
     }
 }
 }  // namespace fnv_009ab390
@@ -8529,7 +8530,7 @@ class ActorCauseHelper
 class NiPointerCauseHelper
 {
   public:
-    ActorCauseHelper* FUN_00559450();
+    ActorCauseHelper* Modelloader_GetReferencedThis();
 };
 
 class Unk144Helper
@@ -8587,8 +8588,8 @@ void ProjectileHelper::SaveProjectile(BGSSaveFormBuffer* buf)
     buf->FUN_00865e50(&this->floatF0, 4, 0);
     buf->FUN_00865e50(&this->floatF4, 4, 0);
 
-    unsigned int causeRef5 = ((NiPointerCauseHelper*)&this->m_pActorCause)->FUN_00559450()
-                                 ? ((NiPointerCauseHelper*)&this->m_pActorCause)->FUN_00559450()->FUN_00825c00()
+    unsigned int causeRef5 = ((NiPointerCauseHelper*)&this->m_pActorCause)->Modelloader_GetReferencedThis()
+                                 ? ((NiPointerCauseHelper*)&this->m_pActorCause)->Modelloader_GetReferencedThis()->FUN_00825c00()
                                  : 0xFFFFFFFF;
     buf->FUN_00865e50(&causeRef5, 4, 0);
 
@@ -9198,7 +9199,7 @@ bool Proj::Projectile_CheckExplosionProximity()
             continue;
         if (actor->GetGhost_008ace90())
             continue;
-        float distance = (*reinterpret_cast<const NiPoint3*>(static_cast<const MobileObject*>(candidate1)->GetPos())).FUN_00439ef0(Position()).FUN_004a7290();
+        float distance = (*reinterpret_cast<const NiPoint3*>(static_cast<const MobileObject*>(candidate1)->GetPos())).SubtractIntoVector(Position()).FUN_004a7290();
         if (distance < radiusSq2 && IsFightReactionAllowed(actor, ownerActor53, ownerForm4))
         {
             found = true;
@@ -9208,7 +9209,7 @@ bool Proj::Projectile_CheckExplosionProximity()
     if (!Projectile_IsFlagSet(0x4000) && !found)
     {
         candidate1 = DAT_011dea3c;
-        float distancePlayer = (*reinterpret_cast<const NiPoint3*>(static_cast<const MobileObject*>(candidate1)->GetPos())).FUN_00439ef0(Position()).FUN_004a7290();
+        float distancePlayer = (*reinterpret_cast<const NiPoint3*>(static_cast<const MobileObject*>(candidate1)->GetPos())).SubtractIntoVector(Position()).FUN_004a7290();
         if (distancePlayer < radiusSq2 && IsFightReactionAllowed(DAT_011dea3c, ownerActor53, ownerForm4))
         {
             float chance = 100.0f;

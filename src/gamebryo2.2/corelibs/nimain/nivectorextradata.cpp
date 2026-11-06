@@ -46,14 +46,14 @@ struct Holder00a92080
 {
     void* FUN_00a92080(unsigned int);
 };
-void __cdecl FUN_00a7b300();
+void __cdecl DestroyFields_00a7b300();
 void __cdecl _delete(void*, unsigned int);
 extern int DAT_0109fb94;
 // @fnv 0x00a92080
 void* Holder00a92080::FUN_00a92080(unsigned int flags)
 {
     *(void**)this = (void*)&DAT_0109fb94;
-    FUN_00a7b300();
+    DestroyFields_00a7b300();
     if (flags & 1)
         _delete(this, 0x1c);
     return this;

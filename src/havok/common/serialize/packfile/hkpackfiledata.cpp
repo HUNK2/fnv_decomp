@@ -263,11 +263,12 @@ struct FUN_00e05100_cls
     int unk00;
     int unk04;
     int m_iValue08;
-    void FUN_00e05100(int value, int unused);
+    void SetValue08(int value, int unused);
 };
 
 // @fnv 0x00e05100
-void FUN_00e05100_cls::FUN_00e05100(int value, int unused)
+// src: GUESS 0x00e05100 (confidence: medium)
+void FUN_00e05100_cls::SetValue08(int value, int unused)
 {
     m_iValue08 = value;
 }
@@ -525,13 +526,13 @@ struct Map1Type
     int m_kPointB;
     int m_iThirdValue;
     void ProcessArgument(void* heap);
-    void FUN_00a29680();
+    void Object_DoNothing();
 
     void ClearAndRelease()
     {
         hkMemoryRouter* router = (hkMemoryRouter*)hkMemoryRouter_getInstance();
         this->ProcessArgument(router->m_heap);
-        this->FUN_00a29680();
+        this->Object_DoNothing();
     }
 };
 
@@ -560,11 +561,12 @@ struct FUN_00e057c0_Class
     hkArray<PackfileImport> m_kImports;
 
     void Clear();
-    void FUN_00e057c0();
+    void ReleaseEntries_00e057c0();
 };
 
 // @fnv 0x00e057c0
-void FUN_00e057c0_Class::FUN_00e057c0()
+// src: GUESS 0x00e057c0 (confidence: low)
+void FUN_00e057c0_Class::ReleaseEntries_00e057c0()
 {
     this->vtable = &DAT_010ea51c;
     this->Clear();

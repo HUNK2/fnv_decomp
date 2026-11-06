@@ -884,7 +884,7 @@ struct ItemNode
 struct ItemEntry
 {
     float FUN_004bd400();
-    ItemNode* FUN_00559450();
+    ItemNode* Modelloader_GetReferencedThis();
 };
 extern "C" int __cdecl TruncateFloatToInt(float);
 // @fnv 0x0075e240
@@ -898,7 +898,7 @@ int ContainerMenu::GetContainerValue(ItemEntry* entry, int amount, bool includeU
         owner = (TESForm*)m_pContainer;
     else
         owner = m_pContainer->GetOwner();
-    for (ItemNode* node = entry->FUN_00559450(); count > 0 && node && *node->FUN_006815c0();
+    for (ItemNode* node = entry->Modelloader_GetReferencedThis(); count > 0 && node && *node->FUN_006815c0();
          node = node->FUN_00726070())
     {
         TESForm* itemOwner = (*node->FUN_006815c0())->GetOwner();
@@ -1428,7 +1428,7 @@ struct Entry_0075d6b0
 {
     ~Entry_0075d6b0();
     SourceForm* FUN_0044ddc0();
-    Node_0075d6b0* FUN_00559450();
+    Node_0075d6b0* Modelloader_GetReferencedThis();
     Node_0075d6b0* FUN_00726070();
 };
 struct Ref_0075d6b0
@@ -1705,7 +1705,7 @@ void ContainerItemTransfer::TransferItem(void* a1, Entry_0075d6b0* entry, int co
     Ref_0075d6b0* to8 = (m_pCurrentList == &m_kFirstItemChangeList) ? (Ref_0075d6b0*)DAT_011dea3c
                                                                               : (Ref_0075d6b0*)m_pContainer;
     bool ok = IsPlacingMine(reinterpret_cast<InventoryEntry*>(entry), reinterpret_cast<ExpectedReference*>(to8), reinterpret_cast<ActorView*>(from4));
-    XList_0075d6b0* extra = entry->FUN_00559450() ? *entry->FUN_00559450()->FUN_006815c0() : 0;
+    XList_0075d6b0* extra = entry->Modelloader_GetReferencedThis() ? *entry->Modelloader_GetReferencedThis()->FUN_006815c0() : 0;
     if (ok)
     {
         BGSProjectile_InitLiveGrenade(entry->FUN_0044ddc0()->GetOrFallback(0), to8, from4, entry->FUN_0044ddc0());
@@ -1722,7 +1722,7 @@ void ContainerItemTransfer::TransferItem(void* a1, Entry_0075d6b0* entry, int co
     if (m_eContainerMenuMode == 4)
     {
         int remaining = count;
-        Node_0075d6b0* nodeB = entry->FUN_00559450();
+        Node_0075d6b0* nodeB = entry->Modelloader_GetReferencedThis();
         while (remaining > 0)
         {
             XList_0075d6b0* x4 = nodeB ? *nodeB->FUN_006815c0() : 0;
@@ -1733,10 +1733,10 @@ void ContainerItemTransfer::TransferItem(void* a1, Entry_0075d6b0* entry, int co
                 Entry_0075d6b0* movedB = ((Ref_0075d6b0*)DAT_011dea3c)->PlayerCharacter_RemoveRockItAmmo(entry->FUN_0044ddc0(), x4, n7, 1);
                 ((Ref_0075d6b0*)DAT_011dea3c)
                     ->FUN_190(movedB->FUN_0044ddc0(),
-                              movedB->FUN_00559450() ? *movedB->FUN_00559450()->FUN_006815c0() : 0,
+                              movedB->Modelloader_GetReferencedThis() ? *movedB->Modelloader_GetReferencedThis()->FUN_006815c0() : 0,
                               movedB->FUN_00726070());
                 delete movedB;
-                nodeB = entry->FUN_00559450();
+                nodeB = entry->Modelloader_GetReferencedThis();
             }
             else if (to8 == (Ref_0075d6b0*)DAT_011dea3c)
             {
@@ -2766,10 +2766,10 @@ void ContainerMenu::ShowMessageWithSound(StrMem strMessage, BSSoundHandle soundH
     {
         Tile* tile = (Tile*)Tile_GetTileByName(DAT_011d93f8->FUN_00726070(), DAT_010721f4);
         if (tile)
-            tile->Tile_Set_00a01350(0xfc4, strMessage.FUN_00559450(), true);
+            tile->Tile_Set_00a01350(0xfc4, strMessage.Modelloader_GetReferencedThis(), true);
         duration3 = (float)soundHandle.GetDuration();
         if (duration3 == 0.0)
-            duration3 = strlen(strMessage.FUN_00559450()) * *DAT_011d2178.Setting_Float_00403e20() * 1000.0;
+            duration3 = strlen(strMessage.Modelloader_GetReferencedThis()) * *DAT_011d2178.Setting_Float_00403e20() * 1000.0;
         m_uiCurrentItemIndex = (unsigned int)(Cmd_GetSessionTime_Execute() + duration3);
     }
 }
@@ -3481,7 +3481,7 @@ struct FUN_004bc550
     int unk04, unk08;
     FUN_004bc550(TESBoundObject*, int);
     const char* GetTargetFullName();
-    FUN_0096a2d0* FUN_00559450();
+    FUN_0096a2d0* Modelloader_GetReferencedThis();
 };
 struct MenuInventory
 {
@@ -3760,7 +3760,7 @@ void InventoryMenu::ContainerMenu_UpdateLists(MenuForm* filter)
             StrMem name;
             MenuEntry* tile2 = 0;
             fnv_0075c280::BSStringT_char_SPrintF(&name, fnv_0075c280::DAT_01012058, fnv_0075c280::DAT_011d3f70.FUN_00403df0(), entry2->GetTargetFullName());
-            tile2 = otherList.ListBox_ItemChange_AddItem((InventoryStackRecord*)entry2, name.FUN_00559450(), 0, 0);
+            tile2 = otherList.ListBox_ItemChange_AddItem((InventoryStackRecord*)entry2, name.Modelloader_GetReferencedThis(), 0, 0);
             (*tile2->tile.FUN_007b5370(0xfa9))->Tile_Set(fnv_0075c280::DAT_0101e704, true);
         }
     }
@@ -3772,15 +3772,15 @@ void InventoryMenu::ContainerMenu_UpdateLists(MenuForm* filter)
             fnv_0075c280::FUN_004bc550* weaponEntry = new fnv_0075c280::FUN_004bc550((TESBoundObject*)weapon->BGSSaveFormBuffer_GetForm(), 1);
             MenuEntry* weaponTile3 = 0;
             weaponTile3 = otherList.ListBox_ItemChange_AddItem((InventoryStackRecord*)weaponEntry, weaponEntry->GetTargetFullName(), 0, 0);
-            if (weaponEntry->FUN_00559450())
+            if (weaponEntry->Modelloader_GetReferencedThis())
                 weaponEntry->extra = new fnv_0075c280::FUN_0096a2d0;
-            if (!*weaponEntry->FUN_00559450()->FUN_006815c0())
+            if (!*weaponEntry->Modelloader_GetReferencedThis()->FUN_006815c0())
             {
                 fnv_0075c280::FUN_00410360* extra6 = new fnv_0075c280::FUN_00410360;
-                weaponEntry->FUN_00559450()->FUN_005ae3d0(&extra6);
+                weaponEntry->Modelloader_GetReferencedThis()->FUN_005ae3d0(&extra6);
             }
-            (*weaponEntry->FUN_00559450()->FUN_006815c0())->ExtraDataList_SetItemDropper(weapon);
-            (*weaponEntry->FUN_00559450()->FUN_006815c0())->FUN_00419970(weapon->TESObjectREFR_GetHealth());
+            (*weaponEntry->Modelloader_GetReferencedThis()->FUN_006815c0())->ExtraDataList_SetItemDropper(weapon);
+            (*weaponEntry->Modelloader_GetReferencedThis()->FUN_006815c0())->FUN_00419970(weapon->TESObjectREFR_GetHealth());
         }
     }
     m_kList.ListBox_ItemChange_Traverse(fnv_0075c280::ContainerMenu_InitFunc, 0, 0x7fffffff);
@@ -3820,7 +3820,7 @@ void InventoryMenu::ContainerMenu_UpdateLists(MenuForm* filter)
 struct ObjRef
 {
     TESBoundObject* FUN_0044ddc0();
-    void* FUN_00559450();
+    void* Modelloader_GetReferencedThis();
     int FUN_004459e0(int a1);
 };
 struct ObjRaw
@@ -3868,7 +3868,7 @@ void ThiS::HotKeysWheel_SetHotkeyItem(ObjRef* apObjRef)
     if (!(apObjRef != 0 && f24 != 0 && aX != 0))
         return;
     ObjRef* b = aX->FindEntryWithExtraListType(f28);
-    int v4 = apObjRef->FUN_00559450() ? *(int*)((ObjRaw*)apObjRef->FUN_00559450())->FUN_006815c0() : 0;
+    int v4 = apObjRef->Modelloader_GetReferencedThis() ? *(int*)((ObjRaw*)apObjRef->Modelloader_GetReferencedThis())->FUN_006815c0() : 0;
     TESModelTextureSwap* c_;
     TESModelTextureSwap* d;
     if (b != 0)

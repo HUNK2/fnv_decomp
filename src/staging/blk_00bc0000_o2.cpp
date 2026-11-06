@@ -134,21 +134,21 @@ public:
     float GetSquaredXYLength() const;
     Elem16& expand(Allocator& allocator);
 
-    void FUN_00416870(float x, float y, float z);
+    void SetComponents(float x, float y, float z);
     bool FUN_00439090(const LocalVec3* other);
-    bool FUN_004390c0(const LocalVec3* other);
-    bool FUN_004390c0(const LocalVec3* other) const;
-    bool FUN_004390c0(const char* other);
-    void FUN_00439180(float scale);
+    bool HasEqualComponents(const LocalVec3* other);
+    bool HasEqualComponents(const LocalVec3* other) const;
+    bool HasEqualComponents(const char* other);
+    void ScaleComponents(float scale);
     LocalVec3 FUN_00439e90(const LocalVec3& other);
     LocalVec3 FUN_00439e90(const LocalVec3& other) const;
-    void FUN_00439ef0();
-    LocalVec3 FUN_00439ef0(const LocalVec3& other);
-    LocalVec3 FUN_00439ef0(const LocalVec3& other) const;
-    LocalVec3 FUN_00439ef0(LocalVec3* other);
-    LocalVec3 FUN_00439ef0(const LocalVec3* other);
-    void FUN_00439ef0(LocalVec3* output, const LocalVec3* other);
-    LocalVec3* FUN_00439ef0(void* output, void* other);
+    void SubtractIntoVector();
+    LocalVec3 SubtractIntoVector(const LocalVec3& other);
+    LocalVec3 SubtractIntoVector(const LocalVec3& other) const;
+    LocalVec3 SubtractIntoVector(LocalVec3* other);
+    LocalVec3 SubtractIntoVector(const LocalVec3* other);
+    void SubtractIntoVector(LocalVec3* output, const LocalVec3* other);
+    LocalVec3* SubtractIntoVector(void* output, void* other);
     void FUN_0043d410(float x, int y, int z);
     void FUN_0043d410(float x, unsigned int y, unsigned int z);
     float FUN_00457910();
@@ -158,22 +158,22 @@ public:
     float FUN_004a7290();
     float FUN_004a7290() const;
     LocalVec3 FUN_004b3800(const LocalVec3& other) const;
-    LocalVec3 FUN_0053d280(float divisor);
+    LocalVec3 ProcessAndReturnValue_0053d280(float divisor);
     float NiPoint3_XYLength();
     float NiPoint3_XYLength() const;
-    void FUN_0063c8a0(const LocalVec3* other);
-    void FUN_0063c8a0(void* other);
+    void ComputeValue_0063c8a0(const LocalVec3* other);
+    void ComputeValue_0063c8a0(void* other);
     void FUN_006815c0();
     float CVec3_Distance(LocalVec3* other);
     float CVec3_Distance(const LocalVec3& other) const;
-    LocalVec3 FUN_00b05000(const Mat& matrix);
-    LocalVec3 FUN_00b05000(const Matrix4* matrix);
+    LocalVec3 TransformPointByMatrix4(const Mat& matrix);
+    LocalVec3 TransformPointByMatrix4(const Matrix4* matrix);
     void Normalize_00b12790();
     LocalVec3 Diff_00b13040(void* other);
     LocalVec3 Diff_00b13040(const LocalVec3& other) const;
     float FUN_00b2a180(void* other);
-    LocalVec3& FUN_00b2a1c0(void* other);
-    void FUN_00ddc870();
+    LocalVec3& AddComponents(void* other);
+    void ProcessEntries_00ddc870();
     void FUN_00e0f6e0();
 };
 
@@ -403,7 +403,8 @@ void __cdecl ReleaseFadeNodeResources();
 void __cdecl ReleaseStringHolders();
 
 // @fnv 0x00bc2960
-void __cdecl FUN_00bc2960()
+// src: GUESS 0x00bc2960 (confidence: low)
+void __cdecl Object_UpdateFields_00bc2960()
 {
     if (DAT_01201f70)
     {
@@ -435,7 +436,7 @@ void* FUN_00bc2c20_class::FUN_00bc2c20(int aiFlags)
 
 struct Unknown
 {
-    void FUN_00a360d0();
+    void ReleaseReference_00a360d0();
 };
 struct FUN_00bc3350_Class : Unknown
 {
@@ -446,7 +447,7 @@ void __cdecl _delete(void* p, int size);
 // @fnv 0x00bc3350
 FUN_00bc3350_Class* FUN_00bc3350_Class::FUN_00bc3350(int aiFlags)
 {
-    FUN_00a360d0();
+    ReleaseReference_00a360d0();
     if (aiFlags & 1)
         _delete(this, 0x38);
     return this;
@@ -700,7 +701,8 @@ void __stdcall BSMaterialEmittanceMultController_GetViewerStrings(StrArr* pStrAr
 }
 
 // @fnv 0x00bd9150
-void __fastcall FUN_00bd9150(void* p)
+// src: GUESS 0x00bd9150 (confidence: low)
+void __fastcall Runtime_ReleaseStorage_00bd9150(void* p)
 {
     g_memoryManager.Deallocate(*(void**)p);
 }
@@ -2409,7 +2411,7 @@ void* BoltShaderProperty_GetRTTI()
     return &g_target_00bc1f90;
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+void* __cdecl Object_DispatchCommandFour(unsigned int size);
 
 struct SpawnedBase_b10020
 {
@@ -2421,7 +2423,7 @@ struct SpawnedObj_b10020 : SpawnedBase_b10020
     SpawnedObj_b10020();
     static void* operator new(unsigned int size) throw()
     {
-        return FUN_00aa13e0(size);
+        return Object_DispatchCommandFour(size);
     }
 };
 
@@ -2766,7 +2768,7 @@ void __thiscall FUN_00bc2c50_class::CopyTailFields(FUN_00bc2c50_class* destinati
     destination->unkBC = unkBC;
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+void* __cdecl Object_DispatchCommandFour(unsigned int size);
 
 struct SpawnedObj_b9965
 {
@@ -2821,7 +2823,7 @@ struct SpawnedObj_b9965
     SpawnedObj_b9965();
     static void* operator new(unsigned int size) throw()
     {
-        return FUN_00aa13e0(size);
+        return Object_DispatchCommandFour(size);
     }
 };
 
@@ -2839,7 +2841,7 @@ struct FUN_00bc2d20_sub
     int unk04;
     int unk08;
     int unk0C;
-    bool FUN_00a92660(void* other);
+    bool Object_HasEqualFloatComponents(void* other);
 };
 
 struct FUN_00bc2d20_cls
@@ -2903,7 +2905,7 @@ unsigned char FUN_00bc2d20_cls::Equals(FUN_00bc2d20_cls* other)
         if (m_bc != other->m_bc)
             return 0;
         if (m_bc != 0)
-            return m_ac.FUN_00a92660(&other->m_ac);
+            return m_ac.Object_HasEqualFloatComponents(&other->m_ac);
         ok = 1;
     }
     return ok;
@@ -2918,7 +2920,7 @@ CpuOpaque* __cdecl BSMaterialEmittanceMultController_GetRTTI()
     return &DAT_01201f90;
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+void* __cdecl Object_DispatchCommandFour(unsigned int size);
 
 struct SpawnedBase_b9523
 {
@@ -2931,7 +2933,7 @@ struct SpawnedObj_b9523 : SpawnedBase_b9523
 {
     static void* operator new(unsigned int size) throw()
     {
-        return FUN_00aa13e0(size);
+        return Object_DispatchCommandFour(size);
     }
 };
 
@@ -3033,13 +3035,13 @@ BBC3370Controller* BBC3370DerivedController::BSRefractionFirePeriodController_Cr
     return pkClone;
 }
 
-extern void* __cdecl FUN_00aa13e0(unsigned int size);
+extern void* __cdecl Object_DispatchCommandFour(unsigned int size);
 extern void __fastcall FUN_00a57640(void* self);
 extern void* DAT_010ba948;
 
 void* __cdecl operator new(unsigned int size)
 {
-    return FUN_00aa13e0(size);
+    return Object_DispatchCommandFour(size);
 }
 
 struct Base_00a57640
@@ -3074,7 +3076,7 @@ CpuOpaque* __cdecl BSRefractionStrengthController_GetRTTI()
     return &DAT_01201fa8;
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+void* __cdecl Object_DispatchCommandFour(unsigned int size);
 
 struct Base_b9218
 {
@@ -3101,7 +3103,7 @@ struct Obj_b9218 : Base_b9218
     {}
     static void* operator new(unsigned int size)
     {
-        return FUN_00aa13e0(size);
+        return Object_DispatchCommandFour(size);
     }
 };
 
@@ -3209,7 +3211,7 @@ FUN_00bc37b0* Bc38Owner::CreateFadeNode(int aArg)
     return pNode;
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+void* __cdecl Object_DispatchCommandFour(unsigned int size);
 
 struct SpawnedObj_b9755
 {
@@ -3244,7 +3246,7 @@ struct SpawnedObj_b9755
     SpawnedObj_b9755();
     static void* operator new(unsigned int size) throw()
     {
-        return FUN_00aa13e0(size);
+        return Object_DispatchCommandFour(size);
     }
 };
 
@@ -3577,7 +3579,7 @@ void BC3DB0Property::CloneTo(BC3DB0Property* pkDest, BC3DB0CloningProcess& kClon
     pkDest->m_kFogTint = m_kFogTint;
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+void* __cdecl Object_DispatchCommandFour(unsigned int size);
 
 struct SpawnedObj9441
 {
@@ -3680,7 +3682,7 @@ struct SpawnedObj9441
     SpawnedObj9441();
     static void* operator new(unsigned int size) throw()
     {
-        return FUN_00aa13e0(size);
+        return Object_DispatchCommandFour(size);
     }
 };
 
@@ -3887,13 +3889,13 @@ struct TlsGuard_t
     }
 };
 
-void* FUN_00aa13e0(unsigned int size);
+void* Object_DispatchCommandFour(unsigned int size);
 
 struct Spawned_t
 {
     void* operator new(unsigned int size)
     {
-        return FUN_00aa13e0(0x180);
+        return Object_DispatchCommandFour(0x180);
     }
     Spawned_t();
 };
@@ -6952,10 +6954,11 @@ struct FUN_00bd4030_class
     RefObj* m_p28;
     char pad2c[0x40];
     RefObj* m_p6c;
-    void FUN_00bd4030(unsigned int code);
+    void UpdateReferenceState_00bd4030(unsigned int code);
 };
 // @fnv 0x00bd4030
-void FUN_00bd4030_class::FUN_00bd4030(unsigned int code)
+// src: GUESS 0x00bd4030 (confidence: low)
+void FUN_00bd4030_class::UpdateReferenceState_00bd4030(unsigned int code)
 {
     switch (code)
     {
@@ -7866,12 +7869,13 @@ struct Bd9120Buffer
 {
     Bd9120Element* m_pElements;
 
-    void* FUN_00bd9120();
+    void* InitializeFields_00bd9120();
 };
 
 // Allocates an array of Bd9120Element of size DAT_011bf558, stores it in m_pElements and returns this.
 // @fnv 0x00bd9120
-void* Bd9120Buffer::FUN_00bd9120()
+// src: GUESS 0x00bd9120 (confidence: low)
+void* Bd9120Buffer::InitializeFields_00bd9120()
 {
     m_pElements = new Bd9120Element[DAT_011bf558];
     return this;
@@ -12248,7 +12252,7 @@ void FUN_00bd4d30_class::InitShaderConstantMaps()
     FUN_00bb2f50(m_spSecondShaderConstantMap, 0x2a);
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int);
+void* __cdecl Object_DispatchCommandFour(unsigned int);
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 
@@ -12343,10 +12347,10 @@ struct FUN_00ba63e0
     FUN_00ba63e0(int, bool);
     static void* operator new(unsigned size)
     {
-        return FUN_00aa13e0(size);
+        return Object_DispatchCommandFour(size);
     }
     int u00, u04, u08, u0c, u10, u14, u18, u1c, u20, u24, u28;
-    void FUN_00a72ca0(bool);
+    void SetSize_Thunk(bool);
     void NiAdditionalGeometryData_SetDataBlock(int, int, unsigned, int);
     void NiAdditionalGeometryData_SetDataStream(int, int, int, int, int, int, int);
 };
@@ -12423,7 +12427,7 @@ struct Geometry : Ref
     int unkd4;
     static void* operator new(unsigned size)
     {
-        return FUN_00aa13e0(size);
+        return Object_DispatchCommandFour(size);
     }
     void NiAVObject_AttachProperty(Ref*);
 };
@@ -12471,7 +12475,7 @@ struct FUN_00b57f90 : Ref
     FUN_00b57f90();
     static void* operator new(unsigned size)
     {
-        return FUN_00aa13e0(size);
+        return Object_DispatchCommandFour(size);
     }
 };
 extern int DAT_011f91c0;
@@ -12560,7 +12564,7 @@ FUN_00bd6190::FUN_00bd6190(Source* src, int argValue, bool flag)
     {
         int total = src->multiplier * src->count;
         FUN_00ba63e0* program = new FUN_00ba63e0(total, true);
-        program->FUN_00a72ca0(true);
+        program->SetSize_Thunk(true);
         program->NiAdditionalGeometryData_SetDataBlock(0, src->indices, total * 4, 0);
         program->NiAdditionalGeometryData_SetDataStream(0, 0, 0, 1, total, 4, 4);
         geometry->owner->FUN_00a67260(program);
@@ -14199,7 +14203,7 @@ int ShaderPassBuilder::BSShaderProperty_AddPass_ADTS2(NiGeometry* geometry, Shad
 struct SelectColor
 {
     float r, g, b;
-    bool FUN_004390c0(const SelectColor&);
+    bool HasEqualComponents(const SelectColor&);
 };
 extern SelectColor DAT_011f4998;
 extern bool DAT_011ad80d;
@@ -14410,7 +14414,7 @@ int SelectShader::BSShaderProperty_AddPass_ADT(NiGeometry* geom, ShadowSceneLigh
                                         SelectLighting* prop = ((SelectGeometry*)geom)->lighting;
                                         if (DAT_011ad80d &&
                                             (!mat || (mat->externalColor ? mat->externalColor : &mat->color)
-                                                         ->FUN_004390c0(DAT_011f4998)) &&
+                                                         ->HasEqualComponents(DAT_011f4998)) &&
                                             !(prop->alpha < 1.0f) && prop->FUN_004a2020(37))
                                         {
                                             passes->Add(geom, (prop->FUN_004a2020(34) ? 253 : 252), true, 1, light, 0,
@@ -14540,7 +14544,7 @@ int SelectShader::BSShaderProperty_AddPass_ADT(NiGeometry* geom, ShadowSceneLigh
                             SelectLighting* prop = ((SelectGeometry*)geom)->lighting;
                             if (DAT_011ad80d &&
                                 (!mat ||
-                                 (mat->externalColor ? mat->externalColor : &mat->color)->FUN_004390c0(DAT_011f4998)) &&
+                                 (mat->externalColor ? mat->externalColor : &mat->color)->HasEqualComponents(DAT_011f4998)) &&
                                 prop->FUN_004a2020(37) && !(prop->otherAlpha < 1.0f))
                             {
                                 passes->Add(geom, 258, true, 1, light, 0, 0, 0);
@@ -14690,7 +14694,7 @@ namespace fnv_00bde9b0 {
 struct Vec91
 {
     float x, y, z;
-    bool FUN_004390c0(const Vec91&);
+    bool HasEqualComponents(const Vec91&);
     bool FUN_00439090(const Vec91&);
 };
 extern Vec91 DAT_011f4998;
@@ -15042,7 +15046,7 @@ Pass91* Shader91::BSShaderPPLightingProperty_AddPass_Opt(Geometry91* geometry, L
                     Color91* color = geometry->color;
                     Flags91* shader = geometry->shader;
                     Alpha91* alpha = geometry->alpha;
-                    if (DAT_011ad80d && (!color || color->GetColor().FUN_004390c0(DAT_011f4998)) &&
+                    if (DAT_011ad80d && (!color || color->GetColor().HasEqualComponents(DAT_011f4998)) &&
                         !light->data->color.FUN_00439090(DAT_011f4998) && shader->FUN_004a2020(37) &&
                         (!alpha || !alpha->Enabled() || !(shader->GetAlpha() < 1.0f)) && !FUN_004a2020(7) &&
                         !FUN_004a2020(21) && !FUN_004a2020(17) && !shader->FUN_004a2020(26) &&
@@ -15078,7 +15082,7 @@ Pass91* Shader91::BSShaderPPLightingProperty_AddPass_Opt(Geometry91* geometry, L
             {
                 Color91* color = geometry->color;
                 Flags91* shader = geometry->shader;
-                if (DAT_011ad80d && (!color || color->GetColor().FUN_004390c0(DAT_011f4998)) &&
+                if (DAT_011ad80d && (!color || color->GetColor().HasEqualComponents(DAT_011f4998)) &&
                     !light->data->color.FUN_00439090(DAT_011f4998) && shader->FUN_004a2020(37) &&
                     !(shader->GetAlpha() < 1.0f) && !FUN_004a2020(7) && !FUN_004a2020(21) && !FUN_004a2020(17) &&
                     !shader->FUN_004a2020(26) && !shader->FUN_004a2020(27))
@@ -21976,7 +21980,7 @@ struct PColor
     int unk004;
     int unk008;
     bool FUN_00439090(const NiColor&);
-    bool FUN_004390c0(const NiColor&);
+    bool HasEqualComponents(const NiColor&);
 };
 
 extern NiColor DAT_011f4998;
@@ -22983,7 +22987,7 @@ void PShader::BSShaderPPLightingProperty_GetRenderPasses_2x(PGeom* geom, int ren
                     PMaterial* material = geom->material;
                     if (!DAT_011ad80d ||
                         (material &&
-                         !(material->alternate ? material->alternate : &material->color)->FUN_004390c0(DAT_011f4998)) ||
+                         !(material->alternate ? material->alternate : &material->color)->HasEqualComponents(DAT_011f4998)) ||
                         ((PSceneColors*)scene->colors)->diffuse.FUN_00439090(DAT_011f4998) || !FUN_004a2020(0x25) ||
                         (alphaProp && (alphaProp->GetMode() != 0) && opacity < 1.0) || FUN_004a2020(0x1a) ||
                         FUN_004a2020(0x1b) || FUN_004a2020(7) || FUN_004a2020(0x15) || FUN_004a2020(0x11) ||

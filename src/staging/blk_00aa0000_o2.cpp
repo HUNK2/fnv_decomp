@@ -208,10 +208,11 @@ struct FUN_00aa21d0_s
 {
     void* m_p;
     unsigned char m_kPointB;
-    FUN_00aa21d0_s* FUN_00aa21d0(void* v);
+    FUN_00aa21d0_s* InitializeFields_00aa21d0(void* v);
 };
 // @fnv 0x00aa21d0
-FUN_00aa21d0_s* FUN_00aa21d0_s::FUN_00aa21d0(void* v)
+// src: GUESS 0x00aa21d0 (confidence: low)
+FUN_00aa21d0_s* FUN_00aa21d0_s::InitializeFields_00aa21d0(void* v)
 {
     m_p = v;
     m_kPointB = 0;
@@ -303,7 +304,8 @@ extern "C" DeviceInterface** DAT_011f6080;
 
 // Defaults value to 1 if zero, then dispatches command 4 with the adjusted value through the device interface.
 // @fnv 0x00aa13e0
-void __cdecl FUN_00aa13e0(int value)
+// src: GUESS 0x00aa13e0 (confidence: medium)
+void __cdecl Object_DispatchCommandFour(int value)
 {
     if (!value)
         value = 1;
@@ -356,11 +358,12 @@ struct FUN_00aa1d30_cls
 {
     int m_vptr00;
 
-    void FUN_00aa1d30();
+    void SetVptr00();
 };
 
 // @fnv 0x00aa1d30
-void FUN_00aa1d30_cls::FUN_00aa1d30()
+// src: GUESS 0x00aa1d30 (confidence: low)
+void FUN_00aa1d30_cls::SetVptr00()
 {
     m_vptr00 = (int)&DAT_010a24b8;
 }
@@ -468,7 +471,7 @@ void __cdecl NiSystemSDM_Shutdown();
 
 struct FUN_00aa21e0_shell
 {
-    void __thiscall FUN_00aa21e0();
+    void __thiscall ProcessState_00aa21e0();
 };
 
 // @fnv 0x00aa2170
@@ -489,7 +492,7 @@ void __cdecl NiStaticDataManager_Shutdown()
         void* obj = DAT_011f6118;
         if (DAT_011f6118 != 0)
         {
-            ((FUN_00aa21e0_shell*)DAT_011f6118)->FUN_00aa21e0();
+            ((FUN_00aa21e0_shell*)DAT_011f6118)->ProcessState_00aa21e0();
             DAT_011f6238.Deallocate(obj);
         }
     }
@@ -513,11 +516,12 @@ class FUN_00aa21e0_cls
     FUN_00aa21e0_inner* m_pObject;
     unsigned char m_bEnableState;
 
-    void FUN_00aa21e0();
+    void ProcessState_00aa21e0();
 };
 
 // @fnv 0x00aa21e0
-void FUN_00aa21e0_cls::FUN_00aa21e0()
+// src: GUESS 0x00aa21e0 (confidence: low)
+void FUN_00aa21e0_cls::ProcessState_00aa21e0()
 {
     if (m_bEnableState)
     {
@@ -654,11 +658,12 @@ struct FUN_00aa24f0_cls
 {
     int m_vptr00;
 
-    void FUN_00aa24f0();
+    void SetVptr00();
 };
 
 // @fnv 0x00aa24f0
-void FUN_00aa24f0_cls::FUN_00aa24f0()
+// src: GUESS 0x00aa24f0 (confidence: low)
+void FUN_00aa24f0_cls::SetVptr00()
 {
     m_vptr00 = (int)&DAT_010a2554;
 }
@@ -760,7 +765,7 @@ namespace fnv_00aa3070 {
 extern unsigned char DAT_011f6229;
 void OEI_IO_terminate();
 void NiSystemDesc_ShutdownSystemDesc();
-void FUN_00a29680();
+void Object_DoNothing();
 
 // If DAT_011f6229 is set, clears it and calls FUN_00aa81d0, FUN_00aa1980 and FUN_00a29680.
 // @fnv 0x00aa3070
@@ -772,7 +777,7 @@ void NiSystemSDM_Shutdown()
         DAT_011f6229 = 0;
         OEI_IO_terminate();
         NiSystemDesc_ShutdownSystemDesc();
-        FUN_00a29680();
+        Object_DoNothing();
     }
 }
 }  // namespace fnv_00aa3070
@@ -1191,7 +1196,8 @@ struct StringMapItemAA0
 };
 // Resets the key and value of a StringMapItemAA0, runs its destructor, and returns it to the memory manager.
 // @fnv 0x00aa0330
-void __stdcall FUN_00aa0330(StringMapItemAA0* pkItem)
+// src: GUESS 0x00aa0330 (confidence: low)
+void __stdcall Runtime_ReleaseStorage_00aa0330(StringMapItemAA0* pkItem)
 {
     pkItem->m_key = 0;
     pkItem->m_val = 0;

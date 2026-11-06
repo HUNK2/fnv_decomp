@@ -186,7 +186,7 @@ void __fastcall SaveBombBinary(NiPSysBombModifier* modifier, void*, NiStream& kS
     SaveBombValue(kStream, modifier->m_eSymmetryType);
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+void* __cdecl Object_DispatchCommandFour(unsigned int size);
 extern int DAT_010c01ec;
 extern int DAT_011a946c;
 extern int DAT_011a9470;
@@ -200,7 +200,7 @@ struct ParticleModifierConstructor
 // @fnv 0x00c2e570
 NiObject* NiPSysBombModifier::MakeClone(CloningProcess& process)
 {
-    void* memory = FUN_00aa13e0(sizeof(NiPSysBombModifier));
+    void* memory = Object_DispatchCommandFour(sizeof(NiPSysBombModifier));
     NiPSysBombModifier* clone;
     if (memory)
     {

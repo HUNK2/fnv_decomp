@@ -66,7 +66,7 @@ void BGSConstructibleObject::InitializeData()
 // @fnv 0x004f9a90
 void ConstructibleObjectOperations::Save()
 {
-    TESForm::FUN_004855a0();
+    TESForm::BeginFormRecord();
     TESFullName::Save_00487010();
     ((ModelSave*)((char*)this + 0x3c))->ProcessAndFreeData(0x4C444f4d, 0x54444f4d, 0x53444f4d);
     TESIcon::Save(0x4e4f4349);
@@ -84,7 +84,7 @@ void ConstructibleObjectOperations::Save()
         unsigned int itempint2 = ((TESForm*)m_pWorkbenchKeyword)->GetHavokWorldObjectCountInSceneGraph_0084e3a0();
         TESForm_AddChunk_00485910(0x4d414e43, itempint2);
     }
-    TESForm::FUN_00485680();
+    TESForm::FinishFormRecord();
 }
 
 // Loads a bound object record from the file, dispatching each chunk to the matching loader and returning true.

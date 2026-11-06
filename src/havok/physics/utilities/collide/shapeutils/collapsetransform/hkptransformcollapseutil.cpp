@@ -107,10 +107,10 @@ struct FUN_00d74420_Context
     int m_iThirdValue;  // +0x08, initialized to 0x80000000
     void _SharedShapeData_recursivelyParseShapeReferences(int value);
     void _SharedShapeData_removeSingleReferencedShapeData();
-    void FUN_00d74aa0();
+    void ProcessEntries_00d74aa0();
 };
 
-int FUN_00d739f0(int a1, int a2, FUN_00d74420_Context* ctx, int a3);
+int hkpShape_ProcessEntries_00d739f0(int a1, int a2, FUN_00d74420_Context* ctx, int a3);
 
 // @fnv 0x00d74420
 int RunContextOperation(int aiArg1, int aiArg2, int aiArg3, int* piOut)
@@ -121,8 +121,8 @@ int RunContextOperation(int aiArg1, int aiArg2, int aiArg3, int* piOut)
     ctx.m_iThirdValue = 0x80000000;
     ctx._SharedShapeData_recursivelyParseShapeReferences(aiArg1);
     ctx._SharedShapeData_removeSingleReferencedShapeData();
-    *piOut = FUN_00d739f0(aiArg1, aiArg2, &ctx, aiArg3);
-    ctx.FUN_00d74aa0();
+    *piOut = hkpShape_ProcessEntries_00d739f0(aiArg1, aiArg2, &ctx, aiArg3);
+    ctx.ProcessEntries_00d74aa0();
     return 0;
 }
 
@@ -168,7 +168,8 @@ int __cdecl RemapCollisionShapes(hkArray<hkpEntity*>& kEntities, int iA, int iB)
 
 // Appends pkEntity to a local hkArray and forwards it with iA and iB to RemapCollisionShapes, returning its result.
 // @fnv 0x00d748d0
-int __cdecl FUN_00d748d0(hkpEntity* pkEntity, int iA, int iB) throw()
+// src: GUESS 0x00d748d0 (confidence: high)
+int __cdecl hkpEntity_RemapSingleEntityCollisionShapes(hkpEntity* pkEntity, int iA, int iB) throw()
 {
     hkArray<hkpEntity*> kEntities;
     kEntities.pushBack(pkEntity);
@@ -288,7 +289,7 @@ struct Arr_d74480
     int size;
     int capacity;
 };
-hkpShape* __cdecl FUN_00d739f0(hkpShape*, void*, Cache_d74480*, void*);
+hkpShape* __cdecl hkpShape_ProcessEntries_00d739f0(hkpShape*, void*, Cache_d74480*, void*);
 
 // Recursively processes a shape tree, replacing nodes with cached or newly allocated equivalents and storing results in the cache.
 // @fnv 0x00d74480
@@ -373,7 +374,7 @@ hkpShape* __cdecl ProcessShape(hkpShape* shape, void* context, Cache_d74480* cac
             n->removeReference();
             cache->SetEntryValue(shape, v);
         }
-        result = FUN_00d739f0(v, context, cache, settings);
+        result = hkpShape_ProcessEntries_00d739f0(v, context, cache, settings);
         v->removeReference();
         break;
     }
@@ -396,7 +397,7 @@ hkpShape* __cdecl ProcessShape(hkpShape* shape, void* context, Cache_d74480* cac
             n->removeReference();
             cache->SetEntryValue(shape, v);
         }
-        result = FUN_00d739f0(v, context, cache, settings);
+        result = hkpShape_ProcessEntries_00d739f0(v, context, cache, settings);
         v->removeReference();
         break;
     }
@@ -423,7 +424,7 @@ hkpShape* __cdecl ProcessShape(hkpShape* shape, void* context, Cache_d74480* cac
             n->removeReference();
             cache->SetEntryValue(shape, v);
         }
-        result = FUN_00d739f0(v, context, cache, settings);
+        result = hkpShape_ProcessEntries_00d739f0(v, context, cache, settings);
         v->removeReference();
         break;
     }
@@ -456,7 +457,7 @@ struct hkShapeOutputD748
     int unk04;
     int unk08;
     int unk0C;
-    void FUN_00d73400() throw();
+    void UpdateFields_00d73400() throw();
 };
 
 struct hkShapeMapD748
@@ -465,7 +466,7 @@ struct hkShapeMapD748
     int m_iElementCount;
     int m_iCapacityState;
     hkShapeMapD748* _SharedShapeData__SharedShapeData(hkShapeEntryArrayD748* refs) throw();
-    void FUN_00d74aa0() throw();
+    void ProcessEntries_00d74aa0() throw();
 };
 
 hkReferencedObject* __cdecl ProcessShape(hkReferencedObject* shape, void* context, hkShapeMapD748* map,
@@ -475,7 +476,7 @@ hkReferencedObject* __cdecl ProcessShape(hkReferencedObject* shape, void* contex
 // @fnv 0x00d74850
 int __cdecl RemapCollisionShapes(hkShapeEntryArrayD748* refs, void* context, hkShapeOutputD748* out)
 {
-    out->FUN_00d73400();
+    out->UpdateFields_00d73400();
     hkShapeMapD748 map;
     map._SharedShapeData__SharedShapeData(refs);
     for (int i = 0; i < refs->m_iElementCount; i++)
@@ -486,7 +487,7 @@ int __cdecl RemapCollisionShapes(hkShapeEntryArrayD748* refs, void* context, hkS
         shape->removeReference();
         entry->m_pCollisionShape = pRemappedShape;
     }
-    map.FUN_00d74aa0();
+    map.ProcessEntries_00d74aa0();
     return 0;
 }
 
@@ -501,7 +502,8 @@ template <class T> static __forceinline void PushBackD737(hkArray<T>* a, const T
 
 // Appends the child shapes of a shape to out: every list child for type 9, or the single child pointer for types 15, 12 and 11.
 // @fnv 0x00d737d0
-static __declspec(noinline) void FUN_00d737d0(const hkpShape* shape, hkArray<const hkpShape*>* out)
+// src: GUESS 0x00d737d0 (confidence: high)
+static __declspec(noinline) void hkpShape_AppendChildShapesByType(const hkpShape* shape, hkArray<const hkpShape*>* out)
 {
     switch (shape->getType())
     {
@@ -540,7 +542,7 @@ static __declspec(noinline) void FUN_00d737d0(const hkpShape* shape, hkArray<con
 
 void zz_probe_d737d0(const hkpShape* shape, hkArray<const hkpShape*>* out)
 {
-    FUN_00d737d0(shape, out);
+    hkpShape_AppendChildShapesByType(shape, out);
 }
 
 struct D74A20Entry
@@ -603,7 +605,8 @@ void ShapeData::_SharedShapeData_removeSingleReferencedShapeData()
 
 // Applies a transform to a shape, collapsing identity results to the child shape or creating a new transform/convex shape wrapper.
 // @fnv 0x00d73590
-const hkpShape* __cdecl FUN_00d73590(const hkpShape* shape, const hkTransform& transform) throw()
+// src: GUESS 0x00d73590 (confidence: medium)
+const hkpShape* __cdecl hkpShape_CreateTransformedShape(const hkpShape* shape, const hkTransform& transform) throw()
 {
     bool identity = transform.IsEqualWithinTolerance(hkTransform::GetIdentityTransform(), 0.001f);
     const hkpShape* retainedShape = shape;
@@ -677,11 +680,12 @@ class RefPairListD74
 {
   public:
     hkArray<RefPairD74> m_pairs;
-    void FUN_00d74aa0();
+    void ProcessEntries_00d74aa0();
 };
 // Removes references from all pairs in m_pairs and then clears and releases the underlying array storage.
 // @fnv 0x00d74aa0
-void RefPairListD74::FUN_00d74aa0()
+// src: GUESS 0x00d74aa0 (confidence: low)
+void RefPairListD74::ProcessEntries_00d74aa0()
 {
     for (int i = 0; i < m_pairs.m_iElementCount; i++)
     {

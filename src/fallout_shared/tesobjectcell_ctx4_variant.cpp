@@ -206,7 +206,7 @@ struct Node
 struct Pointer
 {
     Reference* object;
-    Reference* FUN_00559450();
+    Reference* Modelloader_GetReferencedThis();
     Reference* AnimatingText_GetFullText();
     ~Pointer();
 };
@@ -356,7 +356,7 @@ void Cell::TESObjectCELL_InitItem()
         for (unsigned int i = 0; i < DetailedActorPathHandler_GetCurrentNodeIndex()->GetReferenceFlags(); i++)
         {
             Pointer item = DetailedActorPathHandler_GetCurrentNodeIndex()->FUN_00464f60(i);
-            item.FUN_00559450()->Load();
+            item.Modelloader_GetReferencedThis()->Load();
             DAT_011ddf38->ApplyUnloadedChanges(item.AnimatingText_GetFullText());
         }
     }

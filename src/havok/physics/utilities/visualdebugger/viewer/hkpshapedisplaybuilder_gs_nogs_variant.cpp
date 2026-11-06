@@ -78,14 +78,15 @@ struct Node
     int unk10;
     __declspec(noinline) void resetX();
     void applyX(void* shape, Mat4* m, XfResult* r);
-    void FUN_00de0f90(void* shape, XfResult* result);
+    void UpdateState_00de0f90(void* shape, XfResult* result);
 };
 __declspec(noinline) void Node::resetX()
 {
     unk10 = 0;
 }
 // @fnv 0x00de0f90
-void Node::FUN_00de0f90(void* shape, XfResult* result)
+// src: GUESS 0x00de0f90 (confidence: low)
+void Node::UpdateState_00de0f90(void* shape, XfResult* result)
 {
     Mat4 t;
     _mm_store_ps(t.m[0], _mm_setzero_ps());

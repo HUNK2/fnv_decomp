@@ -43,12 +43,12 @@ struct BooleanFloatQuery
 };
 struct S_008c1c60
 {
-    void __thiscall FUN_008c1c60();
+    void __thiscall ReleaseReferencedObject_008c1c60();
 };
 struct FlaggedData
 {
     int ContainsAnyFlag(unsigned int);
-    int FUN_008c2e30();
+    int ContainsAnyFlag_Thunk();
 };
 int FlaggedData::ContainsAnyFlag(unsigned int)
 {
@@ -69,7 +69,7 @@ extern int DAT_01085864;
 struct FUN_008ca740_class
 {
     void __thiscall InitializeVtbl();
-    FUN_008ca740_class* __thiscall FUN_008ca740();
+    FUN_008ca740_class* __thiscall InitializeFields_008ca740();
 };
 extern int DAT_01085884;
 struct FUN_008ca7a0_cls
@@ -79,7 +79,7 @@ struct FUN_008ca7a0_cls
 };
 struct GlobalObject_0044fae0
 {
-    void* FUN_0044fae0();
+    void* Object_InitializeCriticalSection_Thunk();
 };
 struct FUN_008caab0 : GlobalObject_0044fae0
 {
@@ -93,7 +93,7 @@ struct FUN_008cc6d0_class
 };
 struct T_
 {
-    void FUN_004a3f10(void*);
+    void SetValue(void*);
 };
 struct FUN_008cd6a0_Class
 {
@@ -109,7 +109,7 @@ struct FUN_008ce370_cls
 };
 struct CalleeObj
 {
-    void FUN_00622570(bool);
+    void UpdateState_00622570(bool);
 };
 struct FUN_008cfff0_Class
 {
@@ -136,7 +136,7 @@ struct FUN_008d0240_Class
 };
 struct FUN_008d1160_Class
 {
-    void __thiscall FUN_008d1160();
+    void __thiscall ForwardCall_008d1160();
     void __thiscall FUN_00c705c0();
 };
 struct GlobalObject2_0096a2d0
@@ -163,7 +163,7 @@ extern "C" void __cdecl FreeAndClear();
 struct FUN_008d4380_class
 {
     void __thiscall FreeAndClear();
-    void __thiscall FUN_008d4380();
+    void __thiscall FreeAndClear_Thunk();
 };
 struct FUN_008d5590_shell
 {
@@ -229,7 +229,7 @@ struct FUN_008c5e20_Class
     int d;
     float e;
     int f;
-    void* __thiscall FUN_008c5e20();
+    void* __thiscall InitializeFields_008c5e20();
 };
 struct FUN_008c7790_Class
 {
@@ -271,7 +271,7 @@ struct FUN_008_Struct
     void* m_iWordAt00;
     void* m_iWordAt04;
     void* m_8;
-    void* __thiscall FUN_008caa70(FUN_008_Struct* source);
+    void* __thiscall InitializeFields_008caa70(FUN_008_Struct* source);
 };
 struct BMobile_S
 {
@@ -291,7 +291,7 @@ struct FUN_008cab20 : BMobile_S
     FUN_008cab20();
 };
 extern int DAT_01085e2c;
-void __cdecl FUN_008c5e20();
+void __cdecl InitializeFields_008c5e20();
 struct FUN_008d0270_Class
 {
     void* vtbl;
@@ -451,7 +451,7 @@ struct FUN_0087adf0_shell
 struct FUN_008c1c30_Class
 {
     FUN_0087adf0_shell* m_iWordAt00;
-    FUN_008c1c30_Class* FUN_008c1c30(FUN_0087adf0_shell* a);
+    FUN_008c1c30_Class* UpdateState_008c1c30(FUN_0087adf0_shell* a);
 };
 struct FUN_008c45a0_Result
 {
@@ -718,7 +718,7 @@ struct FUN_008c7270_Class
 };
 struct FUN_008c8110_Class
 {
-    void __thiscall FUN_008c8110();
+    void __thiscall ForwardCall_008c8110();
     unsigned char m_00[0x18];
     FUN_008c7270_Class m_18;
 };
@@ -730,8 +730,8 @@ struct Date
 };
 struct FUN_008ca770_Class
 {
-    void FUN_008ca8d0(Date**);
-    void FUN_008ca770(Date**);
+    void ProcessEntries_008ca8d0(Date**);
+    void ProcessState_008ca770(Date**);
 };
 int __cdecl BSAtomicCompareExchange(long volatile*, long, long);
 // Exe 0x008d12e0: unit-local Interface view; declarations and layout are preserved.
@@ -744,7 +744,7 @@ struct FUN_008ca8d0_Class
     int m_iWordAt00;
     long volatile m_iWordAt04;
     int m_8;
-    void __thiscall FUN_008ca8d0(int* arg);
+    void __thiscall ProcessEntries_008ca8d0(int* arg);
 };
 struct FUN_008caae0_Class
 {
@@ -756,7 +756,7 @@ struct FUN_008caae0_Class
 };
 struct FUN_008cc6f0_Class
 {
-    void* FUN_008cc6f0();
+    void* EvaluateValue_008cc6f0();
 };
 struct FUN_008d3f40_Class
 {
@@ -781,7 +781,7 @@ struct FUN_008d5680_Class
 };
 struct FUN_008d56a0_Class
 {
-    void __thiscall FUN_008d56a0(int value);
+    void __thiscall ProcessAndTransformResult_008d56a0(int value);
 };
 extern int DAT_011c3580;
 int __cdecl MagicSystem_GetAbsorbShaderEffect();
@@ -937,8 +937,8 @@ class FUN_008ca940_cls
 class FUN_008cab00_cls
 {
   public:
-    void FUN_0044fb00();
-    void FUN_008cab00();
+    void DeleteCriticalSection_Thunk();
+    void ForwardCall_008cab00();
 };
 extern int DAT_01085c90;
 struct Renderer
@@ -1767,7 +1767,7 @@ struct EventRecord
     void* eventPointer;
     EventTarget* target;
     int cursorOffset;
-    void FUN_006240d0();
+    void BGSPrimitive_EvaluateValue_006240d0();
 };
 void __cdecl ImpactMixer_PlayCollisionSound(EventRecord*);
 struct Object
@@ -1901,7 +1901,7 @@ struct FUN_005609f0_shell
 };
 struct FUN_00a29680_Obj
 {
-    void FUN_00a29680();
+    void Object_DoNothing();
 };
 struct Holder_cffa0
 {

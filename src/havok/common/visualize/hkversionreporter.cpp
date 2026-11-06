@@ -64,7 +64,7 @@ struct S_Out
     void WriteInt(unsigned v);
     void WriteUInt16(unsigned v);
     void hkOArchive_writeRaw(const void* p, int n);
-    void FUN_00d60590();
+    void ReleaseReference_00d60590();
 };
 struct S_Str : S_Arr
 {
@@ -136,9 +136,9 @@ int WriteCompilerInfo(const char* name)
     f.FUN_00dda6e0(name);
     f.WriteInt(buffer.size);
     f.hkOArchive_writeRaw(buffer.data, buffer.size);
-    f.FUN_00d60590();
+    f.ReleaseReference_00d60590();
     versionStr.clear(hkMemoryRouter_getInstance()->temp());
-    outStream.FUN_00d60590();
+    outStream.ReleaseReference_00d60590();
     buffer.clear(hkMemoryRouter_getInstance()->heap());
     return 0;
 }

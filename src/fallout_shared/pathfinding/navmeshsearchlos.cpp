@@ -45,18 +45,18 @@ public:
     double DotProduct(const PodPoint3& point);
     float Length() const;
 
-    PodPoint3& FUN_00439180(float scalar);
+    PodPoint3& ScaleComponents(float scalar);
     PodPoint3 FUN_00439e90(const PodPoint3& shift) const;
     PodPoint3* FUN_00439e90(PodPoint3* output, const PodPoint3* other) const;
-    PodPoint3 FUN_00439ef0(const PodPoint3& other) const;
-    void FUN_00439ef0();
+    PodPoint3 SubtractIntoVector(const PodPoint3& other) const;
+    void SubtractIntoVector();
     PodPoint3 FUN_004b3800(const PodPoint3& axis) const;
     void Unitize_004a0c10();
     float FUN_00457910();
     float FUN_00457990() const;
     double FUN_004a7290();
     PodPoint3* FUN_006815c0();
-    PodPoint3* FUN_00416870(float x, float y, float z);
+    PodPoint3* SetComponents(float x, float y, float z);
     void FUN_0043d410(float x, int y, int z);
     char* GetViewerString_00a59af0(const char* text);
 
@@ -246,7 +246,7 @@ struct TriRegion
 struct NodeLink
 {
     void* head;
-    TriRegion* FUN_00559450(int roomID);
+    TriRegion* Modelloader_GetReferencedThis(int roomID);
 };
 struct TerrainChunk
 {
@@ -368,7 +368,7 @@ unsigned char PathSearch::ExpandNeighbors(NodeCost* origin, FlagCollection* outp
                                             continue;
                                         if (connectedMesh != origin->node.mesh)
                                         {
-                                            if (!rooms.FUN_00559450(connectedMesh->GetHavokWorldObjectCountInSceneGraph_0084e3a0())->HasNavMeshEntry())
+                                            if (!rooms.Modelloader_GetReferencedThis(connectedMesh->GetHavokWorldObjectCountInSceneGraph_0084e3a0())->HasNavMeshEntry())
                                                 continue;
                                         }
                                         edgeModifier = 1.0f;
@@ -481,7 +481,7 @@ struct SeqObj
 struct LOSPortalArray
 {
     unsigned int FUN_0044ddc0();
-    NiPoint3& FUN_006a1440(unsigned int uiIndex);
+    NiPoint3& Object_GetIndexedValue_006a1440(unsigned int uiIndex);
 };
 // The shared room header does not yet declare the radius accessor.
 extern float __fastcall GetLOSRoomRadius(BSMultiBoundRoom* room);
@@ -517,7 +517,7 @@ bool FUN_006ab180_shell::NavMeshSearchLOS_IsGoalNode(SeqObj* pkObj)
         for (unsigned int i = 0; i < pkArray->FUN_0044ddc0(); i++)
         {
             NiPoint3 kTargetCenter = pkObj->m_kNode.FastNavMeshTriLocation_GetLocation();
-            NiPoint3 kDiff = kTargetCenter - pkArray->FUN_006a1440(i);
+            NiPoint3 kDiff = kTargetCenter - pkArray->Object_GetIndexedValue_006a1440(i);
             if (kDiff.GetSquaredXYLength() < GetLOSRoomRadius(m_pkRoom) * GetLOSRoomRadius(m_pkRoom))
             {
                 if (!m_pkInside)
@@ -556,12 +556,12 @@ namespace fnv_006aa780 {
 struct Mesh
 {
     NiPoint3 GetLocationAndReturn();
-    float FUN_00508050();
+    float GetFieldAtOffset44();
     void UpdateNavMeshes(void*);
 };
 struct WorldStateManager
 {
-    Mesh* FUN_00559450();
+    Mesh* Modelloader_GetReferencedThis();
 };
 struct Position
 {
@@ -592,7 +592,7 @@ struct Slot
 {
     FUN_006e1370* ptr;
     void FUN_0066b0d0(FUN_006e1370*);
-    WorldStateManager* FUN_00559450();
+    WorldStateManager* Modelloader_GetReferencedThis();
 };
 struct Mode
 {
@@ -2690,11 +2690,11 @@ bool FUN_006aa780_Class::NavMeshSearchLOS_BuildNodePath(World* apWorld, const Lo
     unsigned short x8;
     world = apWorld;
     location = *apLocation;
-    if (!apWorld->hkpAabbPhantom_getAabb()->FUN_00559450())
+    if (!apWorld->hkpAabbPhantom_getAabb()->Modelloader_GetReferencedThis())
         return false;
-    entry.FUN_0066b0d0(new FUN_006e1370(apWorld->hkpAabbPhantom_getAabb()->FUN_00559450()->GetLocationAndReturn(),
-                                        apWorld->hkpAabbPhantom_getAabb()->FUN_00559450()->FUN_00508050()));
-    apWorld->hkpAabbPhantom_getAabb()->FUN_00559450()->UpdateNavMeshes(&entry);
+    entry.FUN_0066b0d0(new FUN_006e1370(apWorld->hkpAabbPhantom_getAabb()->Modelloader_GetReferencedThis()->GetLocationAndReturn(),
+                                        apWorld->hkpAabbPhantom_getAabb()->Modelloader_GetReferencedThis()->GetFieldAtOffset44()));
+    apWorld->hkpAabbPhantom_getAabb()->Modelloader_GetReferencedThis()->UpdateNavMeshes(&entry);
     state = 0;
     Position v5;
     apWorld->GetOffsetC(&v5)->FUN_005c3420();
@@ -2718,7 +2718,7 @@ bool FUN_006aa780_Class::NavMeshSearchLOS_BuildNodePath(World* apWorld, const Lo
         if (z.FUN_006dd640(&uA, &x8))
         {
             oldValid = true;
-            old.mesh = uA.FUN_00559450();
+            old.mesh = uA.Modelloader_GetReferencedThis();
             old.triangle = x8;
             NiPoint3 s4 = old.mesh->FUN_00558220(old.triangle);
             old.point.x = s4.x;
@@ -2726,7 +2726,7 @@ bool FUN_006aa780_Class::NavMeshSearchLOS_BuildNodePath(World* apWorld, const Lo
             old.point.z = s4.z;
         }
     }
-    mode = MinInt(reinterpret_cast<Mode*>(entry.FUN_00559450())->GetByteAt39() + 1, -1);
+    mode = MinInt(reinterpret_cast<Mode*>(entry.Modelloader_GetReferencedThis())->GetByteAt39() + 1, -1);
     if (!FUN_006a7d60(arg, argCur, 0))
         return false;
     else

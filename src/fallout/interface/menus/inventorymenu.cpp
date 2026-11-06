@@ -874,7 +874,7 @@ struct Entry
     Form* FUN_0044ddc0();
     float ItemChange_GetItemHealth(bool);
     int FUN_00726070();
-    ExtraNode* FUN_00559450();
+    ExtraNode* Modelloader_GetReferencedThis();
     bool ItemChange_GetWorn(bool);
     void* FUN_004459e0(int);
 };
@@ -916,14 +916,14 @@ bool InventoryCheck::InventoryMenu_IsItemRepairable(Entry* entry)
         {
             EntryListNode list6;
             Changes* changes = FUN_004bf220(player);
-            Extra* originalExtra = entry->FUN_00559450() ? *entry->FUN_00559450()->FUN_006815c0() : 0;
+            Extra* originalExtra = entry->Modelloader_GetReferencedThis() ? *entry->Modelloader_GetReferencedThis()->FUN_006815c0() : 0;
             EntryListNode* cleanup = &list6;
             changes->FilterInventoryChanges(form4, &list6);
             for (EntryListNode* node9 = &list6; node9 && *node9->FUN_006815c0(); node9 = node9->FUN_00726070())
             {
                 Form* otherForm2 = (*node9->FUN_006815c0())->FUN_0044ddc0();
-                Extra* otherExtra8 = (*node9->FUN_006815c0())->FUN_00559450()
-                                         ? *(*node9->FUN_006815c0())->FUN_00559450()->FUN_006815c0()
+                Extra* otherExtra8 = (*node9->FUN_006815c0())->Modelloader_GetReferencedThis()
+                                         ? *(*node9->FUN_006815c0())->Modelloader_GetReferencedThis()->FUN_006815c0()
                                          : 0;
                 if (!(*node9->FUN_006815c0())->ItemChange_GetWorn(false))
                 {
@@ -954,7 +954,7 @@ struct ItemLabelSource : InventoryStackRecord
 struct ItemLabelChildren
 {
     Tile** FUN_007b5370();
-    void* FUN_00559450();
+    void* Modelloader_GetReferencedThis();
     Tile** AddEight(void*);
 };
 
@@ -986,7 +986,7 @@ void __cdecl UpdateItemLabel(Tile* tile, ItemLabelSource* item)
         if (item->FUN_0044ddc0()->GetFormType() == 41 &&
             reinterpret_cast<TESObjectWEAP*>(g_thePlayer->Actor_GetCurrentWeapon()))
         {
-            (*reinterpret_cast<ItemLabelChildren*>(&tile->m_kChildTileList)->AddEight(reinterpret_cast<ItemLabelChildren*>(&tile->m_kChildTileList)->FUN_00559450()))
+            (*reinterpret_cast<ItemLabelChildren*>(&tile->m_kChildTileList)->AddEight(reinterpret_cast<ItemLabelChildren*>(&tile->m_kChildTileList)->Modelloader_GetReferencedThis()))
                 ->Set(0xfa3,
                       static_cast<bool>(item && item->FUN_0044ddc0() ==
                                                     reinterpret_cast<TESBoundObject*>(
@@ -995,7 +995,7 @@ void __cdecl UpdateItemLabel(Tile* tile, ItemLabelSource* item)
         }
         else
         {
-            (*reinterpret_cast<ItemLabelChildren*>(&tile->m_kChildTileList)->AddEight(reinterpret_cast<ItemLabelChildren*>(&tile->m_kChildTileList)->FUN_00559450()))
+            (*reinterpret_cast<ItemLabelChildren*>(&tile->m_kChildTileList)->AddEight(reinterpret_cast<ItemLabelChildren*>(&tile->m_kChildTileList)->Modelloader_GetReferencedThis()))
                 ->Set(0xfa3, item && item->ItemChange_GetWorn(false) ? 1 : 0);
         }
     }
@@ -1006,7 +1006,7 @@ void __cdecl UpdateItemLabel(Tile* tile, ItemLabelSource* item)
 extern "C" void* DAT_011d9ea8;
 extern "C" int DAT_011d9ebc;
 
-void* __fastcall FUN_00559450(void* obj);
+void* __fastcall Modelloader_GetReferencedThis(void* obj);
 void __cdecl InventoryMenu_UpdateInventoryMenu();
 void __cdecl InventoryMenu_AddToChangedItemsListIfWorn(void* tile, int index);
 
@@ -1040,7 +1040,7 @@ extern "C" SettingString DAT_011d2af0;
 void __fastcall RefreshInventorySelection(InventoryMenu* menu)
 {
     void* a = (void*)FUN_0044ddc0(DAT_011d9ea8);
-    void* b = FUN_00559450(DAT_011d9ea8) ? (void*)*((Sh006815c0*)FUN_00559450(DAT_011d9ea8))->FUN_006815c0() : 0;
+    void* b = Modelloader_GetReferencedThis(DAT_011d9ea8) ? (void*)*((Sh006815c0*)Modelloader_GetReferencedThis(DAT_011d9ea8))->FUN_006815c0() : 0;
 
     if (static_cast<Menu*>(menu)->FUN_00726070()->IsTraitNonZero(DAT_011d9ebc))
     {
@@ -1140,7 +1140,7 @@ class VTTarget
   public:
     VTForm* FUN_0044ddc0();
     Tile* FUN_00726070();
-    VTItemNode* FUN_00559450();
+    VTItemNode* Modelloader_GetReferencedThis();
     float ItemChange_GetItemHealth(int iFlag);
     bool ItemChange_GetWorn(int iFlag);
 };
@@ -1652,7 +1652,7 @@ void InventoryMenu::Select(int m_uiSoundID, int pkTile)
         {
             InterfaceManager_PlayMenuSound(0x24);
             UpdateCurrentValue();
-            if (fnv_00780140::DAT_011d9ea8->FUN_00559450() && !*fnv_00780140::DAT_011d9ea8->FUN_00559450()->FUN_006815c0())
+            if (fnv_00780140::DAT_011d9ea8->Modelloader_GetReferencedThis() && !*fnv_00780140::DAT_011d9ea8->Modelloader_GetReferencedThis()->FUN_006815c0())
             {
                 VTCombat* pkCombat = FUN_004bf220((PlayerCharacter*)DAT_011dea3c);
                 pkCombat->AddItemExtraData(fnv_00780140::DAT_011d9ea8->FUN_0044ddc0(), fnv_00780140::DAT_011d9ea8->FUN_00726070(),
@@ -1743,7 +1743,7 @@ void InventoryMenu::Select(int m_uiSoundID, int pkTile)
         {
             VTPoint3 kPos = DAT_011f426c;
             VTForm* pkRefOut = fnv_00780140::DAT_011d9ea8->FUN_0044ddc0();
-            VTItemData* pkItem = fnv_00780140::DAT_011d9ea8->FUN_00559450() ? *fnv_00780140::DAT_011d9ea8->FUN_00559450()->FUN_006815c0() : 0;
+            VTItemData* pkItem = fnv_00780140::DAT_011d9ea8->Modelloader_GetReferencedThis() ? *fnv_00780140::DAT_011d9ea8->Modelloader_GetReferencedThis()->FUN_006815c0() : 0;
             if (FUN_00726070()->IsTraitNonZero(DAT_011d9eb8))
                 VTAudio::BSAudio_QInstance()->BSAudio_GetSoundHandleByEditorName("UIVATSInsufficientAP", 0x121).FUN_00ad8830(false);
             else if (pkRefOut->IsDeleted())

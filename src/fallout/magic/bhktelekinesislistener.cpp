@@ -22,11 +22,12 @@ void* bhkTelekinesisListener::Destroy(unsigned int flags)
 struct FUN_00807da0_shell
 {
     unsigned short m_0006;
-    int FUN_00807da0();
+    int GetMaskedValue0x3fff();
 };
 
 // @fnv 0x00807da0
-int FUN_00807da0_shell::FUN_00807da0()
+// src: GUESS 0x00807da0 (confidence: medium)
+int FUN_00807da0_shell::GetMaskedValue0x3fff()
 {
     return *(unsigned short*)((char*)this + 6) & 0x3fff;
 }
@@ -93,7 +94,8 @@ struct UnkTopic
 };
 // If a1 is non-null, gets an object from _FUN_00c85750 and calls its F2 with a1 and 16.
 // @fnv 0x00807c20
-void FUN_00807c20(void* a1)
+// src: GUESS 0x00807c20 (confidence: low)
+void Object_UpdateFields_00807c20(void* a1)
 {
     if (a1 != 0)
     {
@@ -131,11 +133,12 @@ void __cdecl bhkTelekinesisListener_Remove(char* listener, hkpEntity* entity)
 
 struct Unk_807d10
 {
-    Unk_807d10* FUN_00807d10();
+    Unk_807d10* InitializeFields();
 };
 // Initialises the object: writes 0 at offset 0, 0 at offset 4 and 0x8000 at offset 6, then returns this.
 // @fnv 0x00807d10
-Unk_807d10* Unk_807d10::FUN_00807d10()
+// src: GUESS 0x00807d10 (confidence: medium)
+Unk_807d10* Unk_807d10::InitializeFields()
 {
     *(int*)this = 0;
     *(short*)((char*)this + 4) = 0;
@@ -145,26 +148,28 @@ Unk_807d10* Unk_807d10::FUN_00807d10()
 
 struct FUN_00807d40_shell
 {
-    void FUN_00807d40();
-    void FUN_00807d60();
+    void ForwardCall_00807d40();
+    void ProcessState_00807d60();
 };
 // @fnv 0x00807d40
-void FUN_00807d40_shell::FUN_00807d40()
+// src: GUESS 0x00807d40 (confidence: low)
+void FUN_00807d40_shell::ForwardCall_00807d40()
 {
-    FUN_00807d60();
+    ProcessState_00807d60();
 }
 
-int __cdecl FUN_00807dc0(int, int, int);
+int __cdecl Object_DispatchSizedBlock_00807dc0(int, int, int);
 struct FUN_00807d60_shell
 {
-    void FUN_00807d60();
+    void ProcessState_00807d60();
 };
 // If the high bit of the field at offset 6 is clear, calls FUN_00807dc0 with the int at offset 0, the result of FUN_00807da0, and 0x18.
 // @fnv 0x00807d60
-void FUN_00807d60_shell::FUN_00807d60()
+// src: GUESS 0x00807d60 (confidence: low)
+void FUN_00807d60_shell::ProcessState_00807d60()
 {
     if ((*(unsigned short*)((char*)this + 6) & 0x8000) == 0)
-        FUN_00807dc0(*(int*)this, ((FUN_00807da0_shell*)this)->FUN_00807da0(), 0x18);
+        Object_DispatchSizedBlock_00807dc0(*(int*)this, ((FUN_00807da0_shell*)this)->GetMaskedValue0x3fff(), 0x18);
 }
 
 namespace fnv_00807dc0 {
@@ -177,7 +182,8 @@ struct Topic
 };
 // Gets an object from _FUN_00c85750 and calls its virtual m2 with a and b*4.
 // @fnv 0x00807dc0
-void FUN_00807dc0(int aiArg1, int aiArg2)
+// src: GUESS 0x00807dc0 (confidence: low)
+void Object_DispatchSizedBlock_00807dc0(int aiArg1, int aiArg2)
 {
     void* t = _FUN_00c85750()->GetAudioBackendData();
     ((Topic*)t)->m2(aiArg1, aiArg2 * 4);
@@ -256,7 +262,7 @@ struct ActivationArray
     FUN_008079e0_shell*& __thiscall NiTSet_NiControllerSequence_NiTMallocInterface_NiControllerSequence_GetAt(unsigned int index);
 };
 
-extern "C" hkpEntity* __fastcall FUN_004ae750(void* body);
+extern "C" hkpEntity* __fastcall Bipedanim_GetReferenceFlagsOrZero(void* body);
 
 extern "C" int DAT_0119d900;
 extern "C" int DAT_011a0eac;
@@ -272,7 +278,7 @@ extern "C" void* __cdecl FNV_DynamicCast(void* object, unsigned long displacemen
 void __cdecl bhkTelekinesisListener_RemoveTelekinesisListeners(void* body)
 {
     using namespace TelekinesisRemovalDetail;
-    hkpEntity* entity = FUN_004ae750(body);
+    hkpEntity* entity = Bipedanim_GetReferenceFlagsOrZero(body);
     {
         int index;
         for (index = 0; index < (int)reinterpret_cast<ActivationArray*>(

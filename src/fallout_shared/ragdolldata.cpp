@@ -164,7 +164,8 @@ void RagdollCollisionFlags::SetFlags(bool abSet, unsigned short uFlags)
 
 // Recursively counts node and its descendants for which FUN_004a8b00 returns true, returning the total count.
 // @fnv 0x004da180
-unsigned char FUN_004da180(NiNode* node)
+// src: GUESS 0x004da180 (confidence: medium)
+unsigned char NiAVObject_CountCollisionNodes(NiNode* node)
 {
     unsigned char count = 0;
     if (node)
@@ -177,7 +178,7 @@ unsigned char FUN_004da180(NiNode* node)
             NiAVObject* object = node->FUN_0043b4a0(i);
             NiNode* child = object ? object->IsSceneNode() : 0;
             if (child)
-                count += FUN_004da180(child);
+                count += NiAVObject_CountCollisionNodes(child);
         }
     }
     return count;
@@ -568,7 +569,7 @@ void FUN_004da230_shell::UpdateNodeFromPosition(TESObjectREFR* object)
     }
 }
 
-unsigned char FUN_004da180(NiNode* node);
+unsigned char NiAVObject_CountCollisionNodes(NiNode* node);
 void FNV_Warning(const char* fmt, ...);
 
 struct RagDollBoneInit : public TransformEntry
@@ -592,7 +593,7 @@ void RagDollDataInit::InitFromRef(TESObjectREFR* apRef)
     {
         NiAVObject* pObj = apRef->GetNiNode();
         NiNode* pNode = pObj ? pObj->IsSceneNode() : 0;
-        count = FUN_004da180(pNode);
+        count = NiAVObject_CountCollisionNodes(pNode);
         if (count)
         {
             bones = new RagDollBoneInit[count];

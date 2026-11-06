@@ -515,7 +515,7 @@ class CF845 : public FakeBGSLoadGameSubBuffer
   public:
     void* unk0;
     CF845(char*);
-    void* FUN_00559450();
+    void* Modelloader_GetReferencedThis();
 };
 
 TESWorldSpace* __fastcall TESObjectREFR_GetWorldSpace(TESObjectREFR*);
@@ -735,7 +735,7 @@ INITIAL_DATA_TYPE __cdecl BGSSaveLoadInitialData_SaveInitialData(BGSSaveFormBuff
     {
         TESObjectREFR* pRefr = (TESObjectREFR*)apForm;
         CF845 holder_(((ExtraDataListSaveAccess*)pRefr->GetExtraData())->ExtraDataList_GetSavedHavokData());
-        if (pRefr->GetNiNode() || !holder_.FUN_00559450())
+        if (pRefr->GetNiNode() || !holder_.Modelloader_GetReferencedThis())
         {
             unsigned int offsetBefore6;
             unsigned int bookmark8 = apFile->StartVariableSizedValue();

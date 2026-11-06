@@ -44,7 +44,7 @@ void __thiscall NiStringsExtraData::FreeStrings()
         NiFreeAlias(m_ppData[i]);
     NiFreeAlias(m_ppData);
     m_ppData = 0;
-    FUN_00a7b300();
+    DestroyFields_00a7b300();
 }
 
 // Calls FreeStrings, frees this with operator delete when flags has bit 0 set, and returns this.
@@ -195,7 +195,7 @@ void NiStringsExtraData::GetViewerStrings_00a94ae0(ViewerStringArray* pViewerStr
     }
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+void* __cdecl Object_DispatchCommandFour(unsigned int size);
 extern int DAT_010a0134;
 
 static __forceinline NiStringsExtraData* InitializeStringsExtraData(void* memory) throw()
@@ -212,7 +212,7 @@ static __forceinline NiStringsExtraData* InitializeStringsExtraData(void* memory
 // src: XBOX_PDB 0x00a94990
 NiStringsExtraData* NiStringsExtraData::CreateClone_00a94990(void* pCloning)
 {
-    void* memory = FUN_00aa13e0(0x14);
+    void* memory = Object_DispatchCommandFour(0x14);
     NiStringsExtraData* p = memory ? InitializeStringsExtraData(memory) : 0;
     CopyStringsExtraData(p, pCloning);
     return p;

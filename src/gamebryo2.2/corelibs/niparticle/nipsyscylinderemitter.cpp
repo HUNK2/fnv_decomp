@@ -154,7 +154,7 @@ void NiPSysCylinderEmitter::ComputeVolumeInitialPositionAndVelocity(NiTransform&
     kPosition.x = fRadius * fCos;
     kPosition.y = fRadius * fSin;
     kPosition.z = (RandomFloat0To1() - 0.5) * m_fCylinderHeight;
-    kPosition = static_cast<const NiTransform&>(kEmitterToPSys).FUN_00524c40(kPosition);
+    kPosition = static_cast<const NiTransform&>(kEmitterToPSys).ComputeValue_00524c40(kPosition);
     const NiMatrix3& kRotate = kEmitterToPSys.m_Rotate;
     NiPoint3 kResult;
     kResult.x = kRotate.m_pEntry[0][0] * kMotionVelocity.x + kRotate.m_pEntry[0][1] * kMotionVelocity.y +

@@ -114,21 +114,21 @@ public:
     float GetSquaredXYLength() const;
     Elem16& expand(Allocator& allocator);
 
-    void FUN_00416870(float x, float y, float z);
+    void SetComponents(float x, float y, float z);
     bool FUN_00439090(const LocalVec3* other);
-    bool FUN_004390c0(const LocalVec3* other);
-    bool FUN_004390c0(const LocalVec3* other) const;
-    bool FUN_004390c0(const char* other);
-    void FUN_00439180(float scale);
+    bool HasEqualComponents(const LocalVec3* other);
+    bool HasEqualComponents(const LocalVec3* other) const;
+    bool HasEqualComponents(const char* other);
+    void ScaleComponents(float scale);
     LocalVec3 FUN_00439e90(const LocalVec3& other);
     LocalVec3 FUN_00439e90(const LocalVec3& other) const;
-    void FUN_00439ef0();
-    LocalVec3 FUN_00439ef0(const LocalVec3& other);
-    LocalVec3 FUN_00439ef0(const LocalVec3& other) const;
-    LocalVec3 FUN_00439ef0(LocalVec3* other);
-    LocalVec3 FUN_00439ef0(const LocalVec3* other);
-    void FUN_00439ef0(LocalVec3* output, const LocalVec3* other);
-    LocalVec3* FUN_00439ef0(void* output, void* other);
+    void SubtractIntoVector();
+    LocalVec3 SubtractIntoVector(const LocalVec3& other);
+    LocalVec3 SubtractIntoVector(const LocalVec3& other) const;
+    LocalVec3 SubtractIntoVector(LocalVec3* other);
+    LocalVec3 SubtractIntoVector(const LocalVec3* other);
+    void SubtractIntoVector(LocalVec3* output, const LocalVec3* other);
+    LocalVec3* SubtractIntoVector(void* output, void* other);
     void FUN_0043d410(float x, int y, int z);
     void FUN_0043d410(float x, unsigned int y, unsigned int z);
     float FUN_00457910();
@@ -138,22 +138,22 @@ public:
     float FUN_004a7290();
     float FUN_004a7290() const;
     LocalVec3 FUN_004b3800(const LocalVec3& other) const;
-    LocalVec3 FUN_0053d280(float divisor);
+    LocalVec3 ProcessAndReturnValue_0053d280(float divisor);
     float NiPoint3_XYLength();
     float NiPoint3_XYLength() const;
-    void FUN_0063c8a0(const LocalVec3* other);
-    void FUN_0063c8a0(void* other);
+    void ComputeValue_0063c8a0(const LocalVec3* other);
+    void ComputeValue_0063c8a0(void* other);
     void FUN_006815c0();
     float CVec3_Distance(LocalVec3* other);
     float CVec3_Distance(const LocalVec3& other) const;
-    LocalVec3 FUN_00b05000(const Mat& matrix);
-    LocalVec3 FUN_00b05000(const Matrix4* matrix);
+    LocalVec3 TransformPointByMatrix4(const Mat& matrix);
+    LocalVec3 TransformPointByMatrix4(const Matrix4* matrix);
     void Normalize_00b12790();
     LocalVec3 Diff_00b13040(void* other);
     LocalVec3 Diff_00b13040(const LocalVec3& other) const;
     float FUN_00b2a180(void* other);
-    LocalVec3& FUN_00b2a1c0(void* other);
-    void FUN_00ddc870();
+    LocalVec3& AddComponents(void* other);
+    void ProcessEntries_00ddc870();
     void FUN_00e0f6e0();
 };
 #include "../../include/NiPoint3.h"
@@ -306,7 +306,7 @@ struct C_00ae5f70
 {
     S_00ae5f70* __thiscall Init(S_00ae5f70* p, int a2, int a3, int a4, int a5, int a6, int a7);
 };
-int __cdecl FUN_00ae5fb0(unsigned int* a, unsigned int* b);
+int __cdecl BSAudioManager_CompareUnsignedValues(unsigned int* a, unsigned int* b);
 extern int g_011f6ec8;
 extern int DAT_011f6ecc;
 extern int DAT_01202800;
@@ -322,7 +322,7 @@ struct _Base_00441d20
 };
 struct FUN_00ae7020_shell : _Base_00441d20
 {
-    void __thiscall FUN_00ae7020();
+    void __thiscall DestroyFields_00ae7020();
 };
 struct SoundMessageRecord;
 // AudioMessageStack::Push (0x00ae75f0) uses this 16-byte count/bottomless/top/limit layout.
@@ -365,7 +365,7 @@ struct Host00ae8ef0
 {
     char _p[12];
     AudioPointerAllocator<unsigned int> alloc;
-    void __thiscall FUN_00ae8ef0(void* p);
+    void __thiscall ClearAndFreeEntry(void* p);
 };
 struct Helper
 {
@@ -687,7 +687,7 @@ struct AE8470List
 };
 struct FUN_00ae8550_shell
 {
-    void __thiscall FUN_00ae8550(int* values, int(__cdecl* compare)(int, int), int count);
+    void __thiscall SortValuesByComparison(int* values, int(__cdecl* compare)(int, int), int count);
 };
 
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* plAddend);
@@ -3530,7 +3530,7 @@ inline void BSAudioManagerThread::ExitThread_00ae7ac0()
 {
     waiting48 = true;
     workSemaphore3c.Signal();
-    FUN_00aa6590(0, 0);
+    ForwardCall_00aa6590(0, 0);
 }
 // src: COMMUNITY 0x00ae7a50
 inline void BSAudioManagerThread::Suspended()
@@ -4932,7 +4932,8 @@ template <class T> struct BSSimpleList_00ae81e0
             }
         }
     }
-    void FUN_00ae8550(T* arr, int(__cdecl* cmp)(T, T), int count)
+// src: GUESS 0x00ae8550 (confidence: high)
+    void SortValuesByComparison(T* arr, int(__cdecl* cmp)(T, T), int count)
     {
         int gap = 0;
         int left = 0;
@@ -4955,11 +4956,12 @@ template <class T> struct BSSimpleList_00ae81e0
             }
         }
     }
-    void FUN_00ae81e0(int(__cdecl* cmp)(T, T));
+    void ProcessEntries_00ae81e0(int(__cdecl* cmp)(T, T));
 };
 
 // @fnv 0x00ae81e0
-template <> void BSSimpleList_00ae81e0<unsigned char*>::FUN_00ae81e0(int(__cdecl* cmp)(unsigned char*, unsigned char*))
+// src: GUESS 0x00ae81e0 (confidence: low)
+template <> void BSSimpleList_00ae81e0<unsigned char*>::ProcessEntries_00ae81e0(int(__cdecl* cmp)(unsigned char*, unsigned char*))
 {
     unsigned char** arr5;
     BSSimpleList_00ae81e0<unsigned char*>* node2;
@@ -4977,7 +4979,7 @@ template <> void BSSimpleList_00ae81e0<unsigned char*>::FUN_00ae81e0(int(__cdecl
     node2 = this;
     for (i = 0; i < _num; i++, node2 = node2->m_pkNext)
         arr5[i] = node2->m_item;
-    FUN_00ae8550(arr5, cmp, _num);
+    SortValuesByComparison(arr5, cmp, _num);
     RemoveAll();
     node2 = this;
     prev6 = 0;
@@ -9070,7 +9072,8 @@ struct DebugList
             }
         }
     }
-    void FUN_00ae81e0(int(__cdecl* compare)(SoundNode*, SoundNode*))
+// src: GUESS 0x00ae81e0 (confidence: low)
+    void ProcessEntries_00ae81e0(int(__cdecl* compare)(SoundNode*, SoundNode*))
     {
         SoundNode** items;
         DebugList* node;
@@ -9126,7 +9129,7 @@ struct SoundNode
     unsigned int index;
     char* description;
 };
-int __cdecl FUN_00ae5fb0(unsigned int*, unsigned int*);
+int __cdecl BSAudioManager_CompareUnsignedValues(unsigned int*, unsigned int*);
 struct SoundDebugDescription
 {
     char* message;
@@ -9451,6 +9454,6 @@ DebugList* AudioSystem::BSAudioManager_DebugPrintSounds(unsigned int filter)
         }
     }
     LeaveCriticalSection(&criticalSection);
-    head8->FUN_00ae81e0((int(__cdecl*)(SoundNode*, SoundNode*))FUN_00ae5fb0);
+    head8->ProcessEntries_00ae81e0((int(__cdecl*)(SoundNode*, SoundNode*))BSAudioManager_CompareUnsignedValues);
     return head8;
 }

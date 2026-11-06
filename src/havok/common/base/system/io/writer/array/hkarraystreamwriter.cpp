@@ -228,10 +228,11 @@ struct FUN_00d46be0_Cls
     int* m08;
     int m0c;
     int m10;
-    void FUN_00d46be0();
+    void UpdateFields_00d46be0();
 };
 // @fnv 0x00d46be0
-void FUN_00d46be0_Cls::FUN_00d46be0()
+// src: GUESS 0x00d46be0 (confidence: low)
+void FUN_00d46be0_Cls::UpdateFields_00d46be0()
 {
     reinterpret_cast<FUN_00d469e0_Obj*>(this)->FreeAllChunks();
     hkMemoryRouter* res = &HavokHeap::hkMemoryRouter_getInstance();
@@ -255,10 +256,10 @@ class FUN_00d46be0_class
     int m_0c;
     int m_10;
 
-    void FUN_00d46be0() throw();
+    void UpdateFields_00d46be0() throw();
     ~FUN_00d46be0_class() throw()
     {
-        FUN_00d46be0();
+        UpdateFields_00d46be0();
     }
     static void operator delete(void* p) throw()
     {
@@ -459,7 +460,7 @@ class Stream_d467
     int m_offset;
     hkArray<const char*> m_kBlocks;
 
-    void FUN_00d467c0(const char* pcData, int iSize);
+    void WriteBytesToBlocks(const char* pcData, int iSize);
 };
 
 void __cdecl ResizeAudioStream(void*, void*, int);
@@ -467,7 +468,8 @@ void __cdecl hkString_memCpy(void* dst, const void* src, int count);
 
 // Copies iSize bytes from pcData into the stream's block array, allocating new blocks from the heap when the current block is full.
 // @fnv 0x00d467c0
-void Stream_d467::FUN_00d467c0(const char* pcData, int iSize)
+// src: GUESS 0x00d467c0 (confidence: medium)
+void Stream_d467::WriteBytesToBlocks(const char* pcData, int iSize)
 {
     int blockIndex = m_kBlocks.m_iElementCount - 1;
 

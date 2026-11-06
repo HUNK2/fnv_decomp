@@ -393,7 +393,7 @@ void __cdecl BSClearZNode_GetViewerStrings()
     NiNode_GetViewerStrings();
 }
 
-extern void __fastcall FUN_00a5e930(NiMaterialColorController*);
+extern void __fastcall UpdateFields_00c5faa0(NiMaterialColorController*);
 extern "C" void __cdecl __Dummy_00b6fef0(NiMaterialColorController*, int);
 
 // Resets the node fields, runs base destruction, and optionally frees the object.
@@ -405,7 +405,7 @@ NiMaterialColorController* __thiscall NiMaterialColorController::Destroy(int aiF
     ((void**)this)[0] = &DAT_010ba608;
     ((unsigned char*)this)[0xad] = 0;
     ((unsigned char*)this)[0xac] = 0;
-    FUN_00a5e930(this);
+    UpdateFields_00c5faa0(this);
     if (aiFlags & 1)
         __Dummy_00b6fef0(this, 0xb8);
     return this;

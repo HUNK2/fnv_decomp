@@ -24,14 +24,14 @@ struct Object
 {
     void* unk00;
     unsigned short unk04;
-    void FUN_00cc0ae0();
+    void ProcessEntries_00cc0ae0();
     Object* FUN_00cc0dd0(unsigned int flags);
 };
 // Calls FUN_00cc0ae0, and if flags has bit 0 set, notifies the interface from FUN_00c85750 with this and unk04; returns this.
 // @fnv 0x00cc0dd0
 Object* Object::FUN_00cc0dd0(unsigned int flags)
 {
-    FUN_00cc0ae0();
+    ProcessEntries_00cc0ae0();
     if (flags & 1)
     {
         State* state = hkMemoryRouter_getInstance();
@@ -335,12 +335,13 @@ struct FUN_00cc0ae0_cls
     int m_iArrayLength;
     unsigned int m_uCapBits;
 
-    void FUN_00cc0ae0();
+    void ProcessEntries_00cc0ae0();
 };
 
 // Sets the vtable pointer, calls v00(1) on each non-null item, frees the item array, empties it, and sets the vtable pointer to DAT_0102e388.
 // @fnv 0x00cc0ae0
-void FUN_00cc0ae0_cls::FUN_00cc0ae0()
+// src: GUESS 0x00cc0ae0 (confidence: low)
+void FUN_00cc0ae0_cls::ProcessEntries_00cc0ae0()
 {
     m_vptr00 = (int)&DAT_010c93e4;
     for (int i = 0; i < m_iArrayLength; i++)
@@ -379,7 +380,7 @@ struct SpawnedObject
 {
     virtual void* v00();
     SlotRec m_slot;
-    void FUN_00cc0ae0();
+    void ProcessEntries_00cc0ae0();
     SpawnedObject()
     {
         m_slot.m_flag = 1;
@@ -389,7 +390,7 @@ struct SpawnedObject
     }
 };
 
-int FUN_00d485a0(unsigned int a, unsigned int b, unsigned int c, int d, SpawnedObject* e);
+int Object_ProcessAndReturnValue_00d485a0(unsigned int a, unsigned int b, unsigned int c, int d, SpawnedObject* e);
 
 struct InputBool223
 {
@@ -411,9 +412,9 @@ unsigned char* hkpHavokSnapshot_save(unsigned char* apResult, unsigned int a2, u
     {
         pCtx = &localCtx;
     }
-    int r = FUN_00d485a0(a2, a3, a4, (bool)abFlag, pCtx);
+    int r = Object_ProcessAndReturnValue_00d485a0(a2, a3, a4, (bool)abFlag, pCtx);
     *apResult = (unsigned char)(r == 0);
-    localCtx.FUN_00cc0ae0();
+    localCtx.ProcessEntries_00cc0ae0();
     return apResult;
 }
 }  // namespace fnv_00cc0b50

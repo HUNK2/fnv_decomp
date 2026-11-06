@@ -66,10 +66,10 @@ public:
     ConstraintPacketLocal_00d8(const __m128& vector);
 
     ConstraintPacketLocal_00d8* hkVector4_hkVector4(float x, float y, float z, float w);
-    void FUN_004a3f10(ConstraintPacketLocal_00d8* vector);
-    void __thiscall FUN_004b4db0(const ConstraintPacketLocal_00d8* vector);
-    ConstraintPacketLocal_00d8& FUN_00e531a0(int parameter);
-    ConstraintPacketLocal_00d8 FUN_00e53260(int parameter);
+    void SetValue(ConstraintPacketLocal_00d8* vector);
+    void __thiscall SetQuaternionComponentsFromVector(const ConstraintPacketLocal_00d8* vector);
+    ConstraintPacketLocal_00d8& ComputeValue_00e531a0(int parameter);
+    ConstraintPacketLocal_00d8 ProcessAndReturnValue_00e53260(int parameter);
     void normalize_005611c0();
 
     void operator=(const ConstraintPacketLocal_00d8& vector);
@@ -139,9 +139,9 @@ public:
     int m_iJobId;
 };
 extern int DAT_010cc4f4;
-void __cdecl FUN_00d9f6d0(int* p);
+void __cdecl Runtime_UpdateState_00d9f6d0(int* p);
 struct FUN_00d85300_Stub {
-    void FUN_00d85300(int*);
+    void ComputeValue_00d85300(int*);
 };
 struct FUN_00d85a20_Stub : FUN_00d85300_Stub {
     int* CopyStateFrom(int* p);
@@ -238,7 +238,7 @@ struct S_00d85af0_Base {
     int unk84;
     int unk88;
     int unk8c;
-    void FUN_00d85300(const S_00d85af0_Base* o);
+    void ComputeValue_00d85300(const S_00d85af0_Base* o);
 };
 struct S_00d85af0_V3 { float x, y, z; };
 struct S_00d85af0_Cls : S_00d85af0_Base {
@@ -256,9 +256,9 @@ struct S_00d85af0_Cls : S_00d85af0_Base {
 };
 struct CpuOpaque;
 extern CpuOpaque DAT_01269514;
-CpuOpaque* __cdecl FUN_00d9f6c0();
+CpuOpaque* __cdecl Object_GetGlobalObjectAddress_00d9f6c0();
 extern int DAT_010cc4f4;
-unsigned int __cdecl FUN_00d9f6e0();
+unsigned int __cdecl Object_ComputeValue_00d9f6e0();
 // Havok object clone: allocate a default instance and copy the payload (everything after the header).
 struct D85660Allocator {
     virtual void unk00();
@@ -616,8 +616,8 @@ struct StringBuf {
 
     void FUN_00d61a50(const char* s);
     void FUN_00d61fc0(int from, int len);
-    int FUN_00d616e0(const char* other);
-    void FUN_00cbbd40();
+    int Object_ForwardCall_00d616e0(const char* other);
+    void UpdateFields_00cbbd40();
 };
 int __cdecl GetTypeCode(const char* typeName);
 struct B { char pad[0x12]; unsigned short w12; };
@@ -669,13 +669,13 @@ struct FUN_00d87910_cls {
     FUN_00d87910_cls* hkThread_hkThread();
 };
 extern "C" unsigned int (__stdcall *DAT_00fdf1d0)();
-unsigned __int64 __cdecl FUN_00d87a40();
+unsigned __int64 __cdecl Object_ForwardCall_00d87a40();
 void __cdecl hkThread_stopThread();
-void __cdecl FUN_00d87a70();
+void __cdecl hkThread_stopThread_ForwardCall_00d87a70();
 struct FUN_00d87a80_Stub {
-    void* FUN_00d87a80(int);
+    void* GetSelf_00d87a80(int);
 };
-void __cdecl FUN_00d87a90();
+void __cdecl Runtime_DoNothing_00d87a90();
 extern int DAT_010d3cc0;
 D85660Object* __cdecl CreateD85660Object();
 class FUN_00d88050 {
@@ -686,7 +686,7 @@ public:
     int m_iValue;
     bool m_bValueAt0C;
 };
-void __cdecl FUN_00d88060();
+void __cdecl Object_DoNothing_00d88060();
 struct AllocIfaceFree : AllocIface
 {
     virtual void Free(void* block, unsigned int size);
@@ -698,13 +698,13 @@ struct FUN_00d880d0 {
     int m_i;
     void M_00d880d0();
 };
-void __cdecl FUN_00d880e0();
+void __cdecl Object_DoNothing_00d880e0();
 struct FUN_00d880f0_Class {
     int unk00;
     int unk04;
     unsigned char unk08;
 
-    void FUN_00d880f0(unsigned char val);
+    void SetUnk08(unsigned char val);
 };
 struct DispatchTarget {
     virtual void Event0();
@@ -852,7 +852,7 @@ extern "C" {
     void _ReadWriteBarrier(void);
     __declspec(dllimport) void* __stdcall TlsGetValue(unsigned int dwTlsIndex);
     extern unsigned int DAT_0126835c;
-    void __cdecl FUN_00d89f80(void* p, int a2, int a3, int a4, bool* pb);
+    void __cdecl Object_ProcessAndReturnValue_00d89f80(void* p, int a2, int a3, int a4, bool* pb);
 }
 struct TargetObj {
     int dummy;
@@ -941,7 +941,7 @@ struct FUN_00d98390 {
 
     FUN_00d98390();
 };
-void __cdecl FUN_00d98630(void*, void*, void*, void*);
+void __cdecl Runtime_ProcessEntries_00d98630(void*, void*, void*, void*);
 void* __cdecl hkKdTreeUtils_isValidRayBundle(void* a1, void* a2, void* a3, void* a4);
 struct FNV_00d99f50_Entry { void* value; void* payload; };
 struct FNV_00d99f50_Result {
@@ -975,10 +975,10 @@ struct FUN_00d9a4a0_Obj {
 
     void __thiscall InvokeCallback(int a1);
 };
-float __fastcall FUN_00d9a4a0( FUN_00d9a4a0_Obj* self, int unused, FUN_00d9a4a0_Param* param);
+float __fastcall Object_ProcessAndReturnValue_00d9a4a0( FUN_00d9a4a0_Obj* self, int unused, FUN_00d9a4a0_Param* param);
 struct IdxStand_ {
     char* m_iWordAt00;
-    void* FUN_00d9a4c0(int idx);
+    void* ComputeValue_00d9a4c0(int idx);
 };
 struct FUN_00d9a4d0_Class {
     int unk00;
@@ -988,12 +988,12 @@ struct FUN_00d9a4d0_Class {
 struct FnvCpu_FUN_00d9f6b0_CpuInterface {
     virtual void Invoke(int value);
 };
-void __cdecl FUN_00d9f6b0(FnvCpu_FUN_00d9f6b0_CpuInterface* object);
+void __cdecl Runtime_ForwardCall_00d9f6b0(FnvCpu_FUN_00d9f6b0_CpuInterface* object);
 extern char DAT_0102e388;
 struct FUN_00d9fb30_Stub {
-    void FUN_00d9fb30();
+    void SetVtableAndProcessState_00d9fb30();
 };
-void __stdcall FUN_00d9fb40(unsigned char* output, int unused1);
+void __stdcall Object_UpdateFields_00d9fb40(unsigned char* output, int unused1);
 void __stdcall nullsub_68(int);
 void __stdcall nullsub_69(int, int, int);
 void __stdcall nullsub_70(int);
@@ -1033,7 +1033,8 @@ struct D85Node5 {
     virtual void v04();
     virtual void v05(D85Msg m);
 };
-static __declspec(noinline) D85Ctn* FUN_00d85d40(D85Ctn* c) {
+// src: GUESS 0x00d85d40 (confidence: low)
+static __declspec(noinline) D85Ctn* Object_ProcessEntries_00d85d40(D85Ctn* c) {
     for (int i = c->count - 1; i >= 0; --i) {
         if (c->entries[i] != 0) continue;
         c->count -= 1;
@@ -1079,7 +1080,7 @@ struct FUN_00d86220_Class {
     FUN_00d86220_Class();
 };
 extern __declspec(thread) unsigned int tlsArr[0xb0];
-void __cdecl FUN_00c9eae0(void* p);
+void __cdecl Object_UpdateFields_00c9eae0(void* p);
 struct FUN_00dee750 {
     void* m_vptr;
     unsigned short m_usMemorySizeAndFlags;
@@ -1135,7 +1136,7 @@ struct FUN_00dee750 {
         ((FUN_00dee750*)p)->m_usMemorySizeAndFlags = (unsigned short)sz;
         return p;
     }
-    static void operator delete(void* p) { FUN_00c9eae0(p); }
+    static void operator delete(void* p) { Object_UpdateFields_00c9eae0(p); }
 
     FUN_00dee750();
 };
@@ -1156,7 +1157,7 @@ struct S_00d87a60 {
     int GetValue();
 };
 extern void* DAT_012691fc;
-void* __cdecl FUN_00d880a0();
+void* __cdecl Object_GetDAT_012691fc_00d880a0();
 class FUN_00d88100_Class {
 public:
     bool m_bTriggered;
@@ -1286,7 +1287,7 @@ public:
 };
 class SecondaryD9A4 {
 public:
-    virtual float FUN_00d9a480(ArgD9A4* pkArg) = 0;
+    virtual float ProcessAndReturnValue_00d9a480(ArgD9A4* pkArg) = 0;
 };
 class ObjD9A4 : public PrimaryD9A4, public SecondaryD9A4 {
 public:
@@ -1295,7 +1296,7 @@ public:
     InnerD9A4* m_pkInner;
 
     void InvokeCallback(int iValue);
-    virtual float FUN_00d9a480(ArgD9A4* pkArg);
+    virtual float ProcessAndReturnValue_00d9a480(ArgD9A4* pkArg);
 };
 struct __declspec(align(16)) FUN_00d9a4e0_Obj {
     LocalM128 unk00;
@@ -1369,7 +1370,7 @@ public:
     int unk14;
     ShapeD84D* m_pkChild;
 
-    ShapeD84D* FUN_00cdf6d0();
+    ShapeD84D* GetFieldC();
 };
 void* __cdecl GetShapeData(ShapeD84D* pkShape);
 // pivot vector lives first in each 0x40-byte atom
@@ -1462,7 +1463,8 @@ struct D90Node {
     virtual void v02();
     virtual void v03(D90Owner* pOwner);
 };
-static __declspec(noinline) D90Ctn* FUN_00d85d40(D90Ctn* c) {
+// src: GUESS 0x00d85d40 (confidence: low)
+static __declspec(noinline) D90Ctn* Object_ProcessEntries_00d85d40(D90Ctn* c) {
     for (int i = c->count - 1; i >= 0; --i) {
         if (c->entries[i] != 0) continue;
         c->count -= 1;
@@ -1504,7 +1506,8 @@ struct ResizableArray {
     }
 };
 struct hkpConstraintInstance;
-static void FUN_00d85d40(ResizableArray<hkpConstraintListener*>& cleanupArray)
+// src: GUESS 0x00d85d40 (confidence: low)
+static void Object_ProcessEntries_00d85d40(ResizableArray<hkpConstraintListener*>& cleanupArray)
 {
     for (int i = cleanupArray.GetLogicalSize() - 1; i >= 0; i--) {
         if (cleanupArray[i] == 0) {
@@ -1590,7 +1593,7 @@ struct MonitorBuffer {
     char m_buffer[50];
     void hkMemoryExceptionTestingUtil_startNewDemoImpl();
 };
-void __cdecl FUN_00d892e0();
+void __cdecl Object_DoNothing_00d892e0();
 struct hkpAgent3Input;
 struct hkpAgentEntry;
 struct hkpAgentDataD923;
@@ -1659,7 +1662,7 @@ extern unsigned int DAT_0126835c;
 extern "C" char str_010cc5c4[];
 extern "C" char str_010d3e98[];
 extern "C" char str_01076f38[];
-void __cdecl FUN_00d89ed0(void* p, int a, int b);
+void __cdecl Hkpsolver_ProcessEntries_00d89ed0(void* p, int a, int b);
 struct S00d944d0_Ent16 {
     char* m_name;
     unsigned int m_ts;
@@ -1764,7 +1767,7 @@ extern "C" StructB* input_b();
 void invoke_match();
 struct d94eb0_cls { unsigned char b; };
 extern "C" d94eb0_cls* d94eb0_target(void);
-static void FUN_00d94eb0(d94eb0_cls* dst);
+static void Runtime_UpdateState_00d94eb0(d94eb0_cls* dst);
 void d94eb0_caller(void);
 struct JobDescriptor {
     unsigned char m_ucSubType;
@@ -1855,14 +1858,14 @@ __forceinline unsigned int roundLane(const float& value)
     float copy = value;
     return fnv_FloatToInt(copy);
 }
-float FUN_00d974f0();
+float Runtime_ProcessEntries_00d974f0();
 extern const LocalM128 DAT_011b6de0;
-LocalM128 __cdecl FUN_00d98620();
+LocalM128 __cdecl Object_GetDAT_011b6de0_00d98620();
 struct ListenerArray {
     void** m_ppItems;
     unsigned short m_wCount;
 };
-static void FUN_00d85d40(ListenerArray* pArr);
+static void Object_ProcessEntries_00d85d40(ListenerArray* pArr);
 struct ListenerOwner {
     int unk00;
     ListenerArray m_kNode;
@@ -1920,7 +1923,8 @@ struct TransformShape : Shape {
 };
 
 // @fnv 0x00d85040
-void FUN_00d85040(Shape* pkShape, const Transform& kTransform, int iIndex)
+// src: GUESS 0x00d85040 (confidence: low)
+void Object_ProcessEntries_00d85040(Shape* pkShape, const Transform& kTransform, int iIndex)
 {
     for (;;)
     {
@@ -2095,7 +2099,7 @@ struct D986Result {
     D986Result(bool b) : value(b) {}
     operator bool() const { return value != 0; }
 };
-D986Result __cdecl FUN_00d98630(const LocalM128* src, const LocalM128* dst, int mask);
+D986Result __cdecl Runtime_ProcessEntries_00d98630(const LocalM128* src, const LocalM128* dst, int mask);
 // Real body is 0xd96600..0xd9679f (0x1A0). 0xd967a0 is a second function the claim swallowed.
 struct D96600Link {
     D96600Link* next;
@@ -2451,7 +2455,7 @@ union F128U
     unsigned u[4];
 };
 static const F128U V4C = { { 196608.0f, 196608.0f, 196608.0f, 196608.0f } };
-float FUN_00d97440();
+float Object_ComputeBisectionMidpoint();
 extern "C" void _mm_store_ps(float* p, LocalM128 a);
 extern int DAT_010d37e4;
 struct FUN_00d84bd0
@@ -2545,7 +2549,8 @@ struct MemberD86 {
     __declspec(noinline) int FUN_00d86b30() { return subType; }
 };
 // @fnv 0x00d86ec0
-extern "C" int __fastcall FUN_00d86ec0(MemberD86* self, void*, char* output, int capacity) {
+// src: GUESS 0x00d86ec0 (confidence: low)
+extern "C" int __fastcall Object_ProcessAndReturnValue_00d86ec0(MemberD86* self, void*, char* output, int capacity) {
     TypeNameD86* cls = self->classType;
     int t = self->type;
     const char* className = cls ? cls->FUN_00d46d40() : "unknown";

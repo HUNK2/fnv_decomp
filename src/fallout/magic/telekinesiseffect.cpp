@@ -492,7 +492,7 @@ void TelekinesisEffect::StartTelekinesisEffect()
         Dispel(false);
         return;
     }
-    void* p = i->FUN_004ae750();
+    void* p = i->Bipedanim_GetReferenceFlagsOrZero();
     new TelekinesisConstraint(reinterpret_cast<TelekinesisReference*>(target), i, i->bhkWorldObject_GetCollisionFilter().value);
     NiObject* eb = NiObject_DynamicCast(&DAT_011f9140, h);
     if (eb)

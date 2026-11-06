@@ -245,7 +245,7 @@ struct D2B6Sub
     int unk08;
 
     void ProcessArgument(int value);
-    void FUN_00a29680();
+    void Object_DoNothing();
 };
 
 extern int DAT_0102e388;
@@ -278,7 +278,7 @@ void FUN_00d2b6b0_cls::ClearAndReset()
     m_uCapBits = 0x80000000u;
     D2B6Sub* pSub = &m_sub;
     pSub->ProcessArgument(hkMemoryRouter_getInstance()->unk10);
-    pSub->FUN_00a29680();
+    pSub->Object_DoNothing();
     m_vptr00 = (int)&DAT_0102e388;
 }
 

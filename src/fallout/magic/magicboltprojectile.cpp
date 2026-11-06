@@ -666,7 +666,7 @@ struct BoltColor
     float r, g, b, a;
     BoltColor(float, float, float, float);
 };
-void* FUN_00aa13e0(unsigned int);
+void* Object_DispatchCommandFour(unsigned int);
 void FUN_00aa13f0(void*);
 struct BoltProperty
 {
@@ -732,7 +732,7 @@ struct BoltNode
 };
 __forceinline void* BoltNode::operator new(unsigned int n)
 {
-    return FUN_00aa13e0(n);
+    return Object_DispatchCommandFour(n);
 }
 __forceinline void BoltNode::operator delete(void* p)
 {
@@ -740,7 +740,7 @@ __forceinline void BoltNode::operator delete(void* p)
 }
 __forceinline void* BoltProperty::operator new(unsigned int n)
 {
-    return FUN_00aa13e0(n);
+    return Object_DispatchCommandFour(n);
 }
 __forceinline void BoltProperty::operator delete(void* p)
 {
@@ -766,13 +766,13 @@ struct BoltNodePtr
 {
     BoltNode* ptr;
     void FUN_0066b0d0(BoltNode*);
-    BoltNode* FUN_00559450();
+    BoltNode* Modelloader_GetReferencedThis();
 };
 struct BoltFxPtr
 {
     BoltFx* ptr;
     void FUN_0066b0d0(BoltFx*);
-    BoltFx* FUN_00559450();
+    BoltFx* Modelloader_GetReferencedThis();
 };
 struct BoltSetting
 {
@@ -965,39 +965,39 @@ struct Bolt
 void Bolt::InitEffect()
 {
     root.FUN_0066b0d0(new BoltNode(0));
-    root.FUN_00559450()->NiAVObject_SetWorldTranslate(Position());
+    root.Modelloader_GetReferencedThis()->NiAVObject_SetWorldTranslate(Position());
     emitter.FUN_0066b0d0(new BoltNode(0));
-    emitter.FUN_00559450()->NiAVObject_SetTranslate(Position());
-    BoltProperty* property = emitter.FUN_00559450()->FUN_00a5bdd0(BSXFlags_Tag());
+    emitter.Modelloader_GetReferencedThis()->NiAVObject_SetTranslate(Position());
+    BoltProperty* property = emitter.Modelloader_GetReferencedThis()->FUN_00a5bdd0(BSXFlags_Tag());
     if (!property)
     {
         property = new BoltProperty;
-        emitter.FUN_00559450()->FUN_00a5bc40(BSXFlags_Tag(), property);
+        emitter.Modelloader_GetReferencedThis()->FUN_00a5bc40(BSXFlags_Tag(), property);
     }
     property->BSXFlags_SetFlags(true, true);
     effect.FUN_0066b0d0(0);
     BoltPoint rotation = FUN_00430830();
     BoltMatrix matrix2;
     matrix2.FUN_00a59660(rotation.z, rotation.x, rotation.y);
-    emitter.FUN_00559450()->SetRotate_0043fa80(matrix2);
-    effect.FUN_0066b0d0(BoltShader_Start(emitter.FUN_00559450(), true));
-    if (effect.FUN_00559450())
+    emitter.Modelloader_GetReferencedThis()->SetRotate_0043fa80(matrix2);
+    effect.FUN_0066b0d0(BoltShader_Start(emitter.Modelloader_GetReferencedThis(), true));
+    if (effect.Modelloader_GetReferencedThis())
     {
-        effect.FUN_00559450()->BoltShaderProperty_SetNumBolts(*DAT_011d186c.Setting_Int());
-        effect.FUN_00559450()->BoltShaderProperty_SetBoltsRadius(*DAT_011d1628.Setting_Float_00403e20());
-        effect.FUN_00559450()->FUN_00507780(*DAT_011d1bec.Setting_Float_00403e20());
-        effect.FUN_00559450()->SetBoltSmallWidth(*DAT_011d1610.Setting_Float_00403e20());
-        effect.FUN_00559450()->SetBoltGrowWidth(*DAT_011d1b2c.Setting_Float_00403e20());
-        effect.FUN_00559450()->SetArg(
+        effect.Modelloader_GetReferencedThis()->BoltShaderProperty_SetNumBolts(*DAT_011d186c.Setting_Int());
+        effect.Modelloader_GetReferencedThis()->BoltShaderProperty_SetBoltsRadius(*DAT_011d1628.Setting_Float_00403e20());
+        effect.Modelloader_GetReferencedThis()->FUN_00507780(*DAT_011d1bec.Setting_Float_00403e20());
+        effect.Modelloader_GetReferencedThis()->SetBoltSmallWidth(*DAT_011d1610.Setting_Float_00403e20());
+        effect.Modelloader_GetReferencedThis()->SetBoltGrowWidth(*DAT_011d1b2c.Setting_Float_00403e20());
+        effect.Modelloader_GetReferencedThis()->SetArg(
             BoltColor(*DAT_011d1be0.Setting_Float_00403e20(), *DAT_011d1908.Setting_Float_00403e20(), *DAT_011d18f0.Setting_Float_00403e20(), 1.0f));
-        effect.FUN_00559450()->SetData(
+        effect.Modelloader_GetReferencedThis()->SetData(
             BoltColor(*DAT_011d1c4c.Setting_Float_00403e20(), *DAT_011d19d8.Setting_Float_00403e20(), *DAT_011d1cdc.Setting_Float_00403e20(), 1.0f));
-        effect.FUN_00559450()->BoltShaderProperty_SetSegmentLength(*DAT_011d174c.Setting_Float_00403e20());
-        effect.FUN_00559450()->SetWhich(*DAT_011d1800.Setting_Int());
-        effect.FUN_00559450()->BoltShaderProperty_SetSegmentVariance(*DAT_011d16c8.Setting_Float_00403e20());
-        effect.FUN_00559450()->BoltShaderProperty_SetSubSegmentVariance(*DAT_011d17c4.Setting_Float_00403e20());
-        effect.FUN_00559450()->BoltShaderProperty_SetStartFromPoint(true);
-        effect.FUN_00559450()->BoltShaderProperty_InitSegmentData();
+        effect.Modelloader_GetReferencedThis()->BoltShaderProperty_SetSegmentLength(*DAT_011d174c.Setting_Float_00403e20());
+        effect.Modelloader_GetReferencedThis()->SetWhich(*DAT_011d1800.Setting_Int());
+        effect.Modelloader_GetReferencedThis()->BoltShaderProperty_SetSegmentVariance(*DAT_011d16c8.Setting_Float_00403e20());
+        effect.Modelloader_GetReferencedThis()->BoltShaderProperty_SetSubSegmentVariance(*DAT_011d17c4.Setting_Float_00403e20());
+        effect.Modelloader_GetReferencedThis()->BoltShaderProperty_SetStartFromPoint(true);
+        effect.Modelloader_GetReferencedThis()->BoltShaderProperty_InitSegmentData();
     }
 }
 
@@ -1857,7 +1857,7 @@ struct GameObject
 
     GameObject* NiAVObject_GetWorldTranslate(NiPoint3*, void*);
 
-    GameObject* FUN_00439ef0();
+    GameObject* SubtractIntoVector();
 
     void NiAVObject_SetTranslate(void*);
 
@@ -1872,13 +1872,13 @@ struct GameObject
 
 struct Holder
 {
-    GameObject* FUN_00559450();
+    GameObject* Modelloader_GetReferencedThis();
 };
 
 struct Pending
 {
 
-    NiPoint3 FUN_00439ef0(NiPoint3*);
+    NiPoint3 SubtractIntoVector(NiPoint3*);
 
     int unk00, unk04, unk08, unk0c, unk10, unk14, unk18;
 
@@ -2123,23 +2123,23 @@ void Root::UpdatePending(int arg1, int arg2)
     if (pending)
     {
 
-        if (m0b4.FUN_00559450())
+        if (m0b4.Modelloader_GetReferencedThis())
         {
 
-            m0b4.FUN_00559450()->NiAVObject_SetTranslate(pending);
+            m0b4.Modelloader_GetReferencedThis()->NiAVObject_SetTranslate(pending);
 
-            m0b4.FUN_00559450()->NiNode_SetRotate(&pending->unk0c);
+            m0b4.Modelloader_GetReferencedThis()->NiNode_SetRotate(&pending->unk0c);
 
             bool force = state0ac != 0;
 
-            if (m0bc.FUN_00559450())
+            if (m0bc.Modelloader_GetReferencedThis())
             {
 
                 union { float components[3]; } position3d;
 
-                m0bc.FUN_00559450()->NiAVObject_GetWorldTranslate(reinterpret_cast<NiPoint3*>(&position3d), pending)->FUN_00439ef0();
+                m0bc.Modelloader_GetReferencedThis()->NiAVObject_GetWorldTranslate(reinterpret_cast<NiPoint3*>(&position3d), pending)->SubtractIntoVector();
 
-                m0a8.FUN_00559450()->DispatchFloatPair(pending->value1c, reinterpret_cast<NiPoint3*>(&position3d)->FUN_00457990(), f088, force);
+                m0a8.Modelloader_GetReferencedThis()->DispatchFloatPair(pending->value1c, reinterpret_cast<NiPoint3*>(&position3d)->FUN_00457990(), f088, force);
 
                 Matrix rot;
 
@@ -2153,18 +2153,18 @@ void Root::UpdatePending(int arg1, int arg2)
 
                 rot.FUN_00a59780(NiATan2(reinterpret_cast<NiPoint3*>(&position3d)->x, reinterpret_cast<NiPoint3*>(&position3d)->y), 0.0f, -NiATan2(angle, azimuth));
 
-                m0b4.FUN_00559450()->SetRotate_0043fa80(&rot);
+                m0b4.Modelloader_GetReferencedThis()->SetRotate_0043fa80(&rot);
             }
             else
             {
 
                 NiPoint3 position3d = *this->position();
 
-                float direction = pending->FUN_00439ef0(&position3d).FUN_00457990();
+                float direction = pending->SubtractIntoVector(&position3d).FUN_00457990();
 
-                m0a8.FUN_00559450()->DispatchFloatPair(pending->value1c, direction, f088, force);
+                m0a8.Modelloader_GetReferencedThis()->DispatchFloatPair(pending->value1c, direction, f088, force);
 
-                if (m0a8.FUN_00559450()->NiObject_StreamCanSkip() || state0ac == 2)
+                if (m0a8.Modelloader_GetReferencedThis()->NiObject_StreamCanSkip() || state0ac == 2)
                 {
 
                     MagicBoltProjectile_SetState(2);
@@ -2208,7 +2208,7 @@ void Root::UpdatePending(int arg1, int arg2)
 struct AEPoint3
 {
     float x, y, z;
-    AEPoint3 FUN_00439ef0(const AEPoint3& kOther) const;  // operator-
+    AEPoint3 SubtractIntoVector(const AEPoint3& kOther) const;  // operator-
     float FUN_00457990() const;                           // Length
 };
 
@@ -2282,7 +2282,7 @@ class AEController
 struct AEControllerPtr
 {
     AEController* m_pObject;
-    AEController* FUN_00559450() const;  // operator T*
+    AEController* Modelloader_GetReferencedThis() const;  // operator T*
 };
 
 class AERefr
@@ -2635,8 +2635,8 @@ void AEProjectile::Impact(AEPoint3 kPos, int iIndex, AERefr* pkTarget, bool bSil
 
     {
         AEPoint3 kWorldPos = GetNode3D()->GetTranslate_0043c490();
-        float fDist = kWorldPos.FUN_00439ef0(kPos).FUN_00457990();
-        m_spController.FUN_00559450()->DispatchFloatPair(0.01f, fDist, m_f88, false);
+        float fDist = kWorldPos.SubtractIntoVector(kPos).FUN_00457990();
+        m_spController.Modelloader_GetReferencedThis()->DispatchFloatPair(0.01f, fDist, m_f88, false);
     }
 
     if (!bSilent)
@@ -2914,7 +2914,7 @@ struct F139NewNode : F139Node
 };
 __forceinline void* F139NewNode::operator new(unsigned int n)
 {
-    return FUN_00aa13e0(n);
+    return Object_DispatchCommandFour(n);
 }
 __forceinline void F139NewNode::operator delete(void* p)
 {

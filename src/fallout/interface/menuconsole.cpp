@@ -710,7 +710,7 @@ struct ListHead
     ConsoleListNode* tail;
     int count;
     void Clear();
-    void FUN_0071e0f0(ConsoleListNode*);
+    void UpdateState_0071e0f0(ConsoleListNode*);
 };
 // @fnv 0x0071e070
 void ListHead::Clear()
@@ -720,7 +720,7 @@ void ListHead::Clear()
     {
         ConsoleListNode* pkTemp = pkNode;
         pkNode = pkNode->next;
-        FUN_0071e0f0(pkTemp);
+        UpdateState_0071e0f0(pkTemp);
     }
     count = 0;
     head = 0;
@@ -877,14 +877,14 @@ FUN_0071b040::~FUN_0071b040()
 
 struct ConsoleLine
 {
-    const char* FUN_00559450();
+    const char* Modelloader_GetReferencedThis();
 };
 struct ConsoleLines
 {
     void* head;
     void* tail;
     int count;
-    void* FUN_00559450();
+    void* Modelloader_GetReferencedThis();
     void* DereferenceIfNotNull(void* node);
     ConsoleLine* AddEight(void* node);
 };
@@ -907,7 +907,7 @@ struct ConsoleDisplay
 // @fnv 0x0071d410
 void ConsoleDisplay::DrawConsoleLines()
 {
-    void* node = strings.FUN_00559450();
+    void* node = strings.Modelloader_GetReferencedThis();
     int lineY = m_iConsoleY - DAT_011d8cfc.Int()->i * iConsoleLineSpacing;
     int lastLine = m_iOutputLineCount;
     int lineIndex = lastLine - DAT_011d8cfc.Int()->i;
@@ -921,7 +921,7 @@ void ConsoleDisplay::DrawConsoleLines()
         node = strings.DereferenceIfNotNull(node);
     while (lineIndex < lastLine)
     {
-        DebugText_Instance(1)->DebugText_Print(strings.AddEight(node)->FUN_00559450(), (float)m_iConsoleX, (float)lineY, 1, -1,
+        DebugText_Instance(1)->DebugText_Print(strings.AddEight(node)->Modelloader_GetReferencedThis(), (float)m_iConsoleX, (float)lineY, 1, -1,
                                       _DAT_01012054, DAT_011d8d38.Int()->i, 0);
         node = strings.DereferenceIfNotNull(node);
         ++lineIndex;

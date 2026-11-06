@@ -186,7 +186,7 @@ const NiRTTI* NiAlphaAccumulator::GetRTTI() const
     return (const NiRTTI*)&g_011fa000_arg1;
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int);
+void* __cdecl Object_DispatchCommandFour(unsigned int);
 
 struct Base0_a43370
 {
@@ -221,7 +221,7 @@ struct Derived_a43370 : Base1_a43370
     {}
     static void* __cdecl operator new(unsigned int s) throw()
     {
-        return FUN_00aa13e0(s);
+        return Object_DispatchCommandFour(s);
     }
 };
 
@@ -761,7 +761,7 @@ extern unsigned int kVtbl_NiAlphaAccumulator;
 // @fnv 0x00a9b730
 NiObject* NiAlphaAccumulator::MakeClone(CloningProcess& cloning)
 {
-    NiAlphaAccumulator* clone = (NiAlphaAccumulator*)FUN_00aa13e0(sizeof(NiAlphaAccumulator));
+    NiAlphaAccumulator* clone = (NiAlphaAccumulator*)Object_DispatchCommandFour(sizeof(NiAlphaAccumulator));
     if (clone)
     {
         InitializeBackToFrontAccumulator(clone);

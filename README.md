@@ -108,9 +108,19 @@ MemoryManager* MemoryManager_GetSingleton()
 A name you choose yourself from what the code does is marked `GUESS`, so readers can tell it from a sourced name and replace it when a real one turns up:
 
 ```cpp
-// src: GUESS 0x00c4a2f0
+// src: GUESS 0x00c4a2f0 (confidence: medium)
 void TESObjectREFR_ClearAnimationData(TESObjectREFR* ref)
 ```
+
+Every `GUESS` marker rates how likely the name is to be right:
+
+| Confidence | Meaning |
+|---|---|
+| `high` | The code makes it unambiguous: a string names it, or its callers and callees leave one reading |
+| `medium` | What the code does is clear; why it does it is inferred |
+| `low` | Only the shape is known (for example a loop over entries, or a getter for a global); the name is a neutral label, often ending in the address |
+
+Search for one level with, for example, `grep -rn "GUESS .*confidence: low"`. Raise or lower the rating when you learn more.
 
 Renaming a `GUESS` name to a sourced one replaces the marker; renaming it to a better guess keeps `GUESS`.
 
@@ -120,7 +130,6 @@ these sources.
 To take a group of names out again, search for its tag (for example `grep -rn "// src: XBOX_PDB"`), give each listed
 address back its placeholder name (`FUN_<address>`, `DAT_<address>`) in the source and in `build/units.json`, and
 delete the marker. As with any rename, the check has to stay byte-identical.
-
 ### Changing the build recipe
 
 Besides names, a pull request may change how `build/units.json` builds the functions, because the check builds both

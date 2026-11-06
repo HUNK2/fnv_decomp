@@ -50,14 +50,15 @@ void SetByteAtOffset(char* p, char c)
 
 struct FUN_00aa4c10_class
 {
-    void __thiscall FUN_00aa4c10(int arg);
+    void __thiscall CheckWarningDisabled(int arg);
 };
 
 extern "C" void __cdecl BSCoreMessage_IsWarningDisabled(int);
 
 // Passes arg to FUN_00aa4be0 via a local copy.
 // @fnv 0x00aa4c10
-void __thiscall FUN_00aa4c10_class::FUN_00aa4c10(int arg)
+// src: GUESS 0x00aa4c10 (confidence: medium)
+void __thiscall FUN_00aa4c10_class::CheckWarningDisabled(int arg)
 {
     int local = arg;
     BSCoreMessage_IsWarningDisabled(local);
@@ -99,11 +100,12 @@ extern int DAT_010a2708;
 struct FUN_00aa4c80_class
 {
     int* m_p;
-    void FUN_00aa4c80();
+    void UpdateFields_00aa4c80();
 };
 
 // @fnv 0x00aa4c80
-void FUN_00aa4c80_class::FUN_00aa4c80()
+// src: GUESS 0x00aa4c80 (confidence: low)
+void FUN_00aa4c80_class::UpdateFields_00aa4c80()
 {
     m_p = &DAT_010a2708;
 }
@@ -111,14 +113,15 @@ void FUN_00aa4c80_class::FUN_00aa4c80()
 
 struct AbstractHeapLogger
 {
-    void FUN_00aa4ce0();
+    void ProcessState_00aa4ce0();
 };
 extern AbstractHeapLogger* DAT_011f6388;
 // @fnv 0x00aa4ce0
-void AbstractHeapLogger::FUN_00aa4ce0()
+// src: GUESS 0x00aa4ce0 (confidence: low)
+void AbstractHeapLogger::ProcessState_00aa4ce0()
 {
     if (DAT_011f6388)
-        DAT_011f6388->FUN_00aa4ce0();
+        DAT_011f6388->ProcessState_00aa4ce0();
 }
 
 extern MemoryPool* DAT_011f67b8[];
@@ -159,11 +162,12 @@ extern int DAT_010a29b0;
 struct FUN_00aa8a00_cls
 {
     int* m;
-    void FUN_00aa8a00();
+    void UpdateFields_00aa8a00();
 };
 
 // @fnv 0x00aa8a00
-void FUN_00aa8a00_cls::FUN_00aa8a00()
+// src: GUESS 0x00aa8a00 (confidence: low)
+void FUN_00aa8a00_cls::UpdateFields_00aa8a00()
 {
     m = &DAT_010a29b0;
 }
@@ -172,11 +176,12 @@ extern int DAT_010a2980;
 
 struct FUN_00aa8a20_class
 {
-    void FUN_00aa8a20();
+    void UpdateFields_00aa8a20();
 };
 
 // @fnv 0x00aa8a20
-void FUN_00aa8a20_class::FUN_00aa8a20()
+// src: GUESS 0x00aa8a20 (confidence: low)
+void FUN_00aa8a20_class::UpdateFields_00aa8a20()
 {
     *reinterpret_cast<int*>(this) = reinterpret_cast<int>(&DAT_010a2980);
 }
@@ -466,12 +471,13 @@ struct FUN_00aba370_s
     unsigned int m_14;
     void __thiscall EraseRange(unsigned int a, unsigned int b);
     void __thiscall AppendChars(unsigned int a, unsigned char b);
-    void __thiscall FUN_00aba370(unsigned int pos, unsigned char b);
+    void __thiscall ResizeStringRange(unsigned int pos, unsigned char b);
 };
 extern unsigned int DAT_010173f0;
 // If pos is within m_14, calls EraseRange with pos and DAT_010173f0; otherwise calls AppendChars with pos - m_14 and b.
 // @fnv 0x00aba370
-void FUN_00aba370_s::FUN_00aba370(unsigned int pos, unsigned char ucValue)
+// src: GUESS 0x00aba370 (confidence: medium)
+void FUN_00aba370_s::ResizeStringRange(unsigned int pos, unsigned char ucValue)
 {
     unsigned int v0, v1, v2, v3, v4, v5, v6, v7, v8, v9, va, vb, vc, vd;
     if (pos <= m_14)
@@ -489,12 +495,13 @@ struct FUN_00abbeb0_Class
     int m8;
     unsigned int mC;
     unsigned int m10;
-    FUN_00abbeb0_Class* FUN_00abbeb0(unsigned int size, FUN_00abbeb0_Class* p);
+    FUN_00abbeb0_Class* SetCheckedRangeSize(unsigned int size, FUN_00abbeb0_Class* p);
 };
 
 // Validates that p is non-null and size lies within p->mC..p->m10, otherwise calls FUN_00ec7c56, then copies p->m0 into m0 and stores size in m4.
 // @fnv 0x00abbeb0
-FUN_00abbeb0_Class* FUN_00abbeb0_Class::FUN_00abbeb0(unsigned int size, FUN_00abbeb0_Class* p)
+// src: GUESS 0x00abbeb0 (confidence: medium)
+FUN_00abbeb0_Class* FUN_00abbeb0_Class::SetCheckedRangeSize(unsigned int size, FUN_00abbeb0_Class* p)
 {
     m0 = 0;
     if (!(p && p->mC <= size && size <= p->m10))
@@ -545,16 +552,17 @@ unsigned char __cdecl BSCoreMessage_IsWarningDisabled(char* p)
 
 struct FUN_00aa4ca0_class
 {
-    void __thiscall FUN_00aa4ca0(unsigned int a, unsigned int b, float c, unsigned int d, unsigned int e);
+    void __thiscall ProcessState_00aa4ca0(unsigned int a, unsigned int b, float c, unsigned int d, unsigned int e);
 };
 
 // @fnv 0x00aa4ca0
-void __thiscall FUN_00aa4ca0_class::FUN_00aa4ca0(unsigned int a, unsigned int b, float c, unsigned int d,
+// src: GUESS 0x00aa4ca0 (confidence: low)
+void __thiscall FUN_00aa4ca0_class::ProcessState_00aa4ca0(unsigned int a, unsigned int b, float c, unsigned int d,
                                                  unsigned int e)
 {
     if (DAT_011f6388)
     {
-        ((FUN_00aa4ca0_class*)DAT_011f6388)->FUN_00aa4ca0(a, b, c, d, e);
+        ((FUN_00aa4ca0_class*)DAT_011f6388)->ProcessState_00aa4ca0(a, b, c, d, e);
     }
 }
 
@@ -1231,7 +1239,8 @@ struct S_00aadd20_Vector
 };
 
 // @fnv 0x00aadd20
-S_00aadd20_Vector* __cdecl FUN_00aadd20(S_00aadd20_Vector* out, S_00aadd20_Vector* in)
+// src: GUESS 0x00aadd20 (confidence: low)
+S_00aadd20_Vector* __cdecl Object_ComputeValue_00aadd20(S_00aadd20_Vector* out, S_00aadd20_Vector* in)
 {
     float v = in->x * in->w - in->y * in->z;
     S_00aadd20_Vector r7;
@@ -1249,12 +1258,13 @@ S_00aadd20_Vector* __cdecl FUN_00aadd20(S_00aadd20_Vector* out, S_00aadd20_Vecto
 struct FUN_00aadda0_Class
 {
     void __thiscall BuildScaledValues(int a, float b);
-    int __thiscall FUN_00aadda0(int a, float b);
+    int __thiscall BuildReciprocalScaledValues(int a, float b);
 };
 
 // Calls BuildScaledValues with the reciprocal of b, sets bit 0 of flags, and returns a.
 // @fnv 0x00aadda0
-int FUN_00aadda0_Class::FUN_00aadda0(int a, float b)
+// src: GUESS 0x00aadda0 (confidence: medium)
+int FUN_00aadda0_Class::BuildReciprocalScaledValues(int a, float b)
 {
     int flags = 0;
     BuildScaledValues(a, 1.0f / b);
@@ -1267,10 +1277,11 @@ struct FlagBox
 {
     unsigned char v;
 };
-void __cdecl FUN_00aafa80(int a0, int a1, int a2, int a3, unsigned char f4, unsigned char f5);
+void __cdecl Object_ProcessEntries_00aafa80(int a0, int a1, int a2, int a3, unsigned char f4, unsigned char f5);
 
 // @fnv 0x00aafa30
-void __cdecl FUN_00aafa30(int a0, int a1, int a2, int a3)
+// src: GUESS 0x00aafa30 (confidence: low)
+void __cdecl Runtime_UpdateState_00aafa30(int a0, int a1, int a2, int a3)
 {
     FlagBox b0 = {};
     unsigned char qq;
@@ -1278,7 +1289,7 @@ void __cdecl FUN_00aafa30(int a0, int a1, int a2, int a3)
     int dd = a1;
     int n6 = a0;
     int n8;
-    FUN_00aafa80(n6, dd, a2, a3, cc, b0.v);
+    Object_ProcessEntries_00aafa80(n6, dd, a2, a3, cc, b0.v);
 }
 
 struct FUN_00aafbd0_cls
@@ -1337,7 +1348,7 @@ struct FnvAbaf60Iter
 {
     void* m_pBase;
     unsigned int m_uiPosition;
-    bool __thiscall FUN_00ac0460(FnvAbaf60Iter* pOther);
+    bool __thiscall ProcessAndReturnValue_00ac0460(FnvAbaf60Iter* pOther);
 };
 
 // A scratch block of 48 bytes.  Only its first two bytes are touched.
@@ -1368,15 +1379,16 @@ struct FnvAbaf60Owner
     int m_i08;
     int m_i0c;
     int m_i10;
-    FnvAbaf60Iter* __thiscall FUN_00abaf60(FnvAbaf60Iter* pOut, FnvAbaf60Iter a, FnvAbaf60Iter b);
+    FnvAbaf60Iter* __thiscall ProcessEntries_00abaf60(FnvAbaf60Iter* pOut, FnvAbaf60Iter a, FnvAbaf60Iter b);
 };
 
 // The helper that turns two offsets into the offset of the element behind the
 // last one of the range.
-int __cdecl FUN_00ac12d0(int nFirst, int nLast, int nExtra);
+int __cdecl Runtime_EvaluateValue_00ac12d0(int nFirst, int nLast, int nExtra);
 
 // @fnv 0x00abaf60
-FnvAbaf60Iter* FnvAbaf60Owner::FUN_00abaf60(FnvAbaf60Iter* pOut, FnvAbaf60Iter aBegin, FnvAbaf60Iter aEnd)
+// src: GUESS 0x00abaf60 (confidence: low)
+FnvAbaf60Iter* FnvAbaf60Owner::ProcessEntries_00abaf60(FnvAbaf60Iter* pOut, FnvAbaf60Iter aBegin, FnvAbaf60Iter aEnd)
 {
     FnvAbaf60Iter itA;
     itA.m_pBase = 0;
@@ -1392,9 +1404,9 @@ FnvAbaf60Iter* FnvAbaf60Owner::FUN_00abaf60(FnvAbaf60Iter* pOut, FnvAbaf60Iter a
     itB.m_pBase = this->m_pBase;
     itB.m_uiPosition = aEnd.m_uiPosition;
 
-    if (itA.FUN_00ac0460(&itB))
+    if (itA.ProcessAndReturnValue_00ac0460(&itB))
     {
-        int nNew4 = FUN_00ac12d0(itB.m_uiPosition, this->m_i10, itA.m_uiPosition);
+        int nNew4 = Runtime_EvaluateValue_00ac12d0(itB.m_uiPosition, this->m_i10, itA.m_uiPosition);
         int nEnd4 = this->m_i10;
         int nLimit6 = nEnd4;
         int nBegin2 = nNew4;
@@ -1461,7 +1473,7 @@ void FUN_00abc0a0_cls::std_vector_char_std_allocator_char_Tidy()
 }
 }  // namespace fnv_00abc0a0
 
-unsigned int __cdecl FUN_00ac13c0(unsigned int b, unsigned int end, unsigned int a);
+unsigned int __cdecl Object_ProcessAndReturnValue_00ac13c0(unsigned int b, unsigned int end, unsigned int a);
 
 struct FUN_00abc180_Pair
 {
@@ -1491,12 +1503,13 @@ struct FUN_00abc180_cls
     unsigned int m8;
     unsigned int mC;
     unsigned int m10;
-    FUN_00abc180_Pair FUN_00abc180(unsigned int x, unsigned int a, unsigned int y, unsigned int b);
+    FUN_00abc180_Pair ProcessAndReturnValue_00abc180(unsigned int x, unsigned int a, unsigned int y, unsigned int b);
 };
 
 // Validates indices a and b against mC/m10, builds two pairs from m0, and if they compare, updates m10 via FUN_00ac13c0 and returns the first pair.
 // @fnv 0x00abc180
-FUN_00abc180_Pair FUN_00abc180_cls::FUN_00abc180(unsigned int auiUnused, unsigned int auiIndexA,
+// src: GUESS 0x00abc180 (confidence: low)
+FUN_00abc180_Pair FUN_00abc180_cls::ProcessAndReturnValue_00abc180(unsigned int auiUnused, unsigned int auiIndexA,
                                                  unsigned int auiUnused2, unsigned int auiIndexB)
 {
     FUN_00abc180_Pair p9;
@@ -1520,7 +1533,7 @@ FUN_00abc180_Pair FUN_00abc180_cls::FUN_00abc180(unsigned int auiUnused, unsigne
     p2.i = auiIndexB;
     if (p9.Compare(&p2))
     {
-        res4 = FUN_00ac13c0(p2.i, m10, p9.i);
+        res4 = Object_ProcessAndReturnValue_00ac13c0(p2.i, m10, p9.i);
         FUN_00abc180_Tmp t;
         t.f0 = m10;
         t.f4 = t.f0;
@@ -1531,8 +1544,8 @@ FUN_00abc180_Pair FUN_00abc180_cls::FUN_00abc180(unsigned int auiUnused, unsigne
     return p9;
 }
 
-extern "C" void __cdecl FUN_00ac0b00(void);
-extern "C" unsigned int* __cdecl FUN_00ac1720(unsigned int count, unsigned int zero);
+extern "C" void __cdecl Object_Length_error_Thunk(void);
+extern "C" unsigned int* __cdecl Object_AllocateCheckedWords(unsigned int count, unsigned int zero);
 struct FUN_00abc260_frame
 {
     unsigned int unk00;
@@ -1578,12 +1591,13 @@ struct FUN_00abc260_cls
     unsigned int* m_0c;
     unsigned int* m_10;
     unsigned int* m_14;
-    bool FUN_00abc260(unsigned int count);
+    bool AllocateZeroedElementStorage(unsigned int count);
 };
 
 // Clears the three pointers, then allocates count zeroed elements and sets m_0c/m_10/m_14 to begin/begin/end; returns false when count is 0.
 // @fnv 0x00abc260
-bool FUN_00abc260_cls::FUN_00abc260(unsigned int count)
+// src: GUESS 0x00abc260 (confidence: medium)
+bool FUN_00abc260_cls::AllocateZeroedElementStorage(unsigned int count)
 {
     unsigned int cap;
     FUN_00abc260_frame buf;
@@ -1599,11 +1613,11 @@ bool FUN_00abc260_cls::FUN_00abc260(unsigned int count)
         cap = 0x3fffffff;
         if ((cap > 0 ? cap : 1) < count)
         {
-            FUN_00ac0b00();
+            Object_Length_error_Thunk();
         }
         else
         {
-            this->m_0c = FUN_00ac1720(count, 0);
+            this->m_0c = Object_AllocateCheckedWords(count, 0);
             this->m_10 = this->m_0c;
             this->m_14 = this->m_0c + count;
         }
@@ -1783,12 +1797,13 @@ struct S_00aba220_Class
     float unk0c;
     S_0044a730_Class unk10;
 
-    S_00aba220_Class* FUN_00aba220();
+    S_00aba220_Class* ProcessAndReturnValue_00aba220();
 };
 
 // Clears the three floats at unk04 and calls FUN_0044a730(0, 0) on the embedded object at offset 0x10, then returns this.
 // @fnv 0x00aba220
-S_00aba220_Class* S_00aba220_Class::FUN_00aba220()
+// src: GUESS 0x00aba220 (confidence: low)
+S_00aba220_Class* S_00aba220_Class::ProcessAndReturnValue_00aba220()
 {
     long child;
     unsigned int tmp;
@@ -1870,7 +1885,7 @@ class S_00aadeb0_Class
 
 struct S_00aae180_Class
 {
-    void __thiscall FUN_00aae180(unsigned int pos, unsigned int count, unsigned char ch);
+    void __thiscall WriteBufferValue(unsigned int pos, unsigned int count, unsigned char ch);
 };
 
 struct S_0044a8d0_Class
@@ -1903,7 +1918,7 @@ S_00aadeb0_Class* S_00aadeb0_Class::AppendChars(unsigned int count, unsigned cha
         newsize = m_14 + count;
         if (((S_0044a8d0_Class*)this)->std_basic_string_char_std_char_traits_char_std_allocator_char_Grow(newsize, 0))
         {
-            ((S_00aae180_Class*)this)->FUN_00aae180(m_14, count, ch);
+            ((S_00aae180_Class*)this)->WriteBufferValue(m_14, count, ch);
             zero = 0;
             m_14 = newsize;
             (m_18 >= 16 ? m_04 : (char*)this + 4)[newsize] = zero;
@@ -1932,17 +1947,18 @@ struct FaceGenCoordinateBasis
     int unk14;
     unsigned int m_uiRowCount;
     unsigned int m_uiColumnCount;
-    FaceGenCoordinateValue* FUN_0060b370(FaceGenCoordinateValue* out, int index);
+    FaceGenCoordinateValue* ForwardCall_0060b370(FaceGenCoordinateValue* out, int index);
     void std_vector_float_std_allocator_float_resize_0060b410(unsigned int count, float value);
 };
 
 struct FaceGenBasisOwner
 {
-    void FUN_00aad500(float scale, FaceGenCoordinateBasis (*src)[2], FaceGenCoordinateBasis (*dst)[2]);
+    void ProcessEntries_00aad500(float scale, FaceGenCoordinateBasis (*src)[2], FaceGenCoordinateBasis (*dst)[2]);
 };
 
 // @fnv 0x00aad500
-void FaceGenBasisOwner::FUN_00aad500(float scale, FaceGenCoordinateBasis (*src)[2], FaceGenCoordinateBasis (*dst)[2])
+// src: GUESS 0x00aad500 (confidence: low)
+void FaceGenBasisOwner::ProcessEntries_00aad500(float scale, FaceGenCoordinateBasis (*src)[2], FaceGenCoordinateBasis (*dst)[2])
 {
     int pad2;
     int i8;
@@ -1985,10 +2001,10 @@ void FaceGenBasisOwner::FUN_00aad500(float scale, FaceGenCoordinateBasis (*src)[
                 {
                     deltaDM = GenerateGaussianRandom() * scale * DAT_01016ff0;
                     basisIn =
-                        ((FaceGenCoordinateBasis*)((char*)src + ((jB << 5) + (i8 << 6))))->FUN_0060b370(&basisOut, k4);
+                        ((FaceGenCoordinateBasis*)((char*)src + ((jB << 5) + (i8 << 6))))->ForwardCall_0060b370(&basisOut, k4);
                     from = &basisIn->data[m6];
                     dstPtrULen = ((FaceGenCoordinateBasis*)((char*)dst + ((jB << 5) + (i8 << 6))))
-                                     ->FUN_0060b370(&dstValueY4, k4);
+                                     ->ForwardCall_0060b370(&dstValueY4, k4);
                     dstPtrULen->data[m6] = *from + deltaDM;
                 }
             }
@@ -2005,7 +2021,8 @@ struct FillElem6
 };
 
 // @fnv 0x00ab23c0
-void __cdecl FUN_00ab23c0(char* first, unsigned int count, const FillElem6* val)
+// src: GUESS 0x00ab23c0 (confidence: low)
+void __cdecl Object_ProcessEntries_00ab23c0(char* first, unsigned int count, const FillElem6* val)
 {
     char* start = first;
     try
@@ -2039,7 +2056,7 @@ struct FUN_00aba9a0_pair
 {
     unsigned int a;
     unsigned int b;
-    bool FUN_00ac0460(FUN_00aba9a0_pair* other);
+    bool ProcessAndReturnValue_00ac0460(FUN_00aba9a0_pair* other);
 };
 
 struct __declspec(align(4)) FUN_00aba9a0_iter
@@ -2072,14 +2089,15 @@ struct FUN_00aba9a0_cls
     unsigned int m_0c;
     unsigned int m_10;
     unsigned int m_14;
-    FUN_00aba9a0_pair* FUN_00aba9a0(FUN_00aba9a0_pair* out, unsigned int unk0c, unsigned int a, unsigned int unk14,
+    FUN_00aba9a0_pair* ProcessEntries_00aba9a0(FUN_00aba9a0_pair* out, unsigned int unk0c, unsigned int a, unsigned int unk14,
                                     unsigned int b);
 };
 
-extern "C" unsigned int __cdecl FUN_00ac1170(unsigned int, unsigned int, unsigned int);
+extern "C" unsigned int __cdecl Runtime_EvaluateValue_00ac1170(unsigned int, unsigned int, unsigned int);
 
 // @fnv 0x00aba9a0
-FUN_00aba9a0_pair* FUN_00aba9a0_cls::FUN_00aba9a0(FUN_00aba9a0_pair* out, unsigned int unk0c, unsigned int a,
+// src: GUESS 0x00aba9a0 (confidence: low)
+FUN_00aba9a0_pair* FUN_00aba9a0_cls::ProcessEntries_00aba9a0(FUN_00aba9a0_pair* out, unsigned int unk0c, unsigned int a,
                                                   unsigned int uiUnused, unsigned int b)
 {
     FUN_00aba9a0_pair p9;
@@ -2101,9 +2119,9 @@ FUN_00aba9a0_pair* FUN_00aba9a0_cls::FUN_00aba9a0(FUN_00aba9a0_pair* out, unsign
     }
     p2.a = this->m_00;
     p2.b = b;
-    if (p9.FUN_00ac0460(&p2))
+    if (p9.ProcessAndReturnValue_00ac0460(&p2))
     {
-        r = FUN_00ac1170(p2.b, this->m_10, p9.b);
+        r = Runtime_EvaluateValue_00ac1170(p2.b, this->m_10, p9.b);
         it9.m_00 = this->m_10;
         it9.m_04 = it9.m_00;
         it9.m_08 = r;
@@ -2121,7 +2139,7 @@ extern "C" __declspec(dllimport) int __stdcall CloseHandle(void* handle);
 
 extern MemoryManager DAT_011f6238;
 void* __stdcall FUN_00ec5fce(void* base, unsigned int size, unsigned int count, void(__cdecl* destructor)(void*));
-void __cdecl FUN_0055a2d0(void* element);
+void __cdecl ForwardCall_0055a2d0(void* element);
 
 struct VectorOwnedItem
 {
@@ -2137,7 +2155,7 @@ void* VectorOwnedItem::FUN_00aa8850(unsigned int flags)
 {
     if (flags & 2)
     {
-        FUN_00ec5fce(this, 12, ((unsigned int*)this)[-1], FUN_0055a2d0);
+        FUN_00ec5fce(this, 12, ((unsigned int*)this)[-1], ForwardCall_0055a2d0);
         if (flags & 1)
             DAT_011f6238.Deallocate((char*)this - 4);
         return (char*)this - 4;
@@ -2161,12 +2179,13 @@ class FUN_00aae180_cls
     int m_14;
     unsigned int m_18;
 
-    void FUN_00aae180(int offset, int flag, char value);
+    void WriteBufferValue(int offset, int flag, char value);
 };
 
 // Writes value at offset in the buffer (inline below 0x10 else m_04): one byte if flag is 1, otherwise flag bytes via FUN_00ec61c0.
 // @fnv 0x00aae180
-void FUN_00aae180_cls::FUN_00aae180(int offset, int aiSize, char value)
+// src: GUESS 0x00aae180 (confidence: medium)
+void FUN_00aae180_cls::WriteBufferValue(int offset, int aiSize, char value)
 {
     if (aiSize == 1)
     {
@@ -2179,11 +2198,12 @@ void FUN_00aae180_cls::FUN_00aae180(int offset, int aiSize, char value)
     }
 }
 
-void __cdecl FUN_00aaf9a0(int, int, int, FlagBox, FlagBox, FlagBox);
+void __cdecl Object_ProcessAndReturnValue_00aaf9a0(int, int, int, FlagBox, FlagBox, FlagBox);
 
 // Zero-initializes f3, copies an uninitialized FlagBox into f2, and calls FUN_00aaf9a0 with a1, a2, a3, a4, f2 and f3.
 // @fnv 0x00aaf860
-void __cdecl FUN_00aaf860(int a1, int a2, int a3, FlagBox a4)
+// src: GUESS 0x00aaf860 (confidence: low)
+void __cdecl Object_UpdateFields_00aaf860(int a1, int a2, int a3, FlagBox a4)
 {
     FlagBox f3 = {};
     FlagBox f2;
@@ -2215,10 +2235,10 @@ void __cdecl FUN_00aaf860(int a1, int a2, int a3, FlagBox a4)
     int _FYaw9;
     int _FuturePhase6;
     int _FuturePhaseTmp;
-    FUN_00aaf9a0(a1, a2, a3, a4, f2, f3);
+    Object_ProcessAndReturnValue_00aaf9a0(a1, a2, a3, a4, f2, f3);
 }
 
-extern "C" void __cdecl FUN_00ab2580(int a, int b, int c, unsigned char d, bool e, bool f);
+extern "C" void __cdecl Object_ProcessAndReturnValue_00ab2580(int a, int b, int c, unsigned char d, bool e, bool f);
 
 struct ZeroTag
 {
@@ -2227,7 +2247,8 @@ struct ZeroTag
 
 // Zero-initializes tagB, copies an uninitialized bool into tagA, and calls FUN_00ab2580 with a, b, c, d, tagA and tagB.v.
 // @fnv 0x00ab2380
-void __cdecl FUN_00ab2380(int a, int b, int c, unsigned char d)
+// src: GUESS 0x00ab2380 (confidence: low)
+void __cdecl Object_UpdateFields_00ab2380(int a, int b, int c, unsigned char d)
 {
     ZeroTag tagB = {};
     bool tagA;
@@ -2314,7 +2335,7 @@ void __cdecl FUN_00ab2380(int a, int b, int c, unsigned char d)
     unsigned int dn9;
     unsigned int dp2;
     unsigned int dq2;
-    FUN_00ab2580(a, b, c, d, tagA, tagB.v);
+    Object_ProcessAndReturnValue_00ab2580(a, b, c, d, tagA, tagB.v);
 }
 
 struct ContainerAux;
@@ -2342,21 +2363,22 @@ template <class T> struct VectorVal : ProxyBase<T>
 {
     GameAllocator<T> allocator;
 };
-void __cdecl FUN_00ac16e0(char* ptr, unsigned int count, const char& val, GameAllocator<char>& al);
+void __cdecl Object_ProcessState_00ac16e0(char* ptr, unsigned int count, const char& val, GameAllocator<char>& al);
 struct FUN_00aba0d0 : VectorVal<char>
 {
     char* first;
     char* last;
     char* limit;
-    bool FUN_00ac03a0(unsigned int count);
+    bool ProcessAndReturnValue_00ac03a0(unsigned int count);
     void std_vector_char_std_allocator_char_Tidy();
-    void FUN_00abbfc0(unsigned int count, const char& val);
+    void InitializeFilledElements(unsigned int count, const char& val);
 };
 // If FUN_00ac03a0(count) succeeds, fills count copies of val from first and sets last to first + count; on exception calls FUN_00abc0a0 and rethrows.
 // @fnv 0x00abbfc0
-void FUN_00aba0d0::FUN_00abbfc0(unsigned int count, const char& val)
+// src: GUESS 0x00abbfc0 (confidence: medium)
+void FUN_00aba0d0::InitializeFilledElements(unsigned int count, const char& val)
 {
-    if (FUN_00ac03a0(count))
+    if (ProcessAndReturnValue_00ac03a0(count))
     {
         try
         {
@@ -2366,7 +2388,7 @@ void FUN_00aba0d0::FUN_00abbfc0(unsigned int count, const char& val)
                 actor90, adj30, af4, ah6, ai7, aim5, aim9, aimed1, aimed100, aimed104, aimed108, aimed17, aimed28,
                 aimed49, aimed59;
             char* filled = first;
-            FUN_00ac16e0(filled, count, val, allocator);
+            Object_ProcessState_00ac16e0(filled, count, val, allocator);
             last = filled + count;
         }
         catch (...)
@@ -2399,7 +2421,8 @@ extern unsigned int DAT_010173f0;
 
 // For each element in [first, last), applies FUN_006581e0 with val's m00 and assigns a substring of val's m20 (from 0, DAT_010173f0 chars).
 // @fnv 0x00aaf6f0
-void FUN_00aaf6f0(Element_00aaf6f0* first, Element_00aaf6f0* last, const Element_00aaf6f0* val)
+// src: GUESS 0x00aaf6f0 (confidence: medium)
+void Runtime_AssignRangeElementStrings(Element_00aaf6f0* first, Element_00aaf6f0* last, const Element_00aaf6f0* val)
 {
     char pad[73];
     int a;
@@ -2418,11 +2441,12 @@ namespace fnv_00aa6590 {
 struct FUN_00aa6590_cls
 {
     int unk00;
-    void __thiscall FUN_00aa6590(unsigned int exitCode, int unused);
+    void __thiscall ForwardCall_00aa6590(unsigned int exitCode, int unused);
 };
 
 // @fnv 0x00aa6590
-void __thiscall FUN_00aa6590_cls::FUN_00aa6590(unsigned int exitCode, int unused)
+// src: GUESS 0x00aa6590 (confidence: low)
+void __thiscall FUN_00aa6590_cls::ForwardCall_00aa6590(unsigned int exitCode, int unused)
 {
     ExitThread(exitCode);
 }

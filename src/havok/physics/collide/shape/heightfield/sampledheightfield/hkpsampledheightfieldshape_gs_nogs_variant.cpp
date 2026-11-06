@@ -21,7 +21,7 @@ struct Cls_00d24670 {
     virtual void v30();
     virtual float getH(int x, int y);
     virtual void getFlip(bool& flip);
-    void FUN_00d24670(int x, int y, float fx, float fy, LocalM128* nrm, float* height, int* flag);
+    void UpdateState_00d24670(int x, int y, float fx, float fy, LocalM128* nrm, float* height, int* flag);
 };
 struct hkInfoD260 {
     int unk00;
@@ -83,10 +83,11 @@ struct FUN_00d26310_cls {
     int unk00;
     int unk04;
     Child_d26310* m_pChildObject;
-    void FUN_00d26310(Context_d26310* pkContext, const Input_d26310* pkInput);
+    void ComputeValues_00d26310(Context_d26310* pkContext, const Input_d26310* pkInput);
 };
 // @fnv 0x00d26310
-void FUN_00d26310_cls::FUN_00d26310(Context_d26310* pkContext, const Input_d26310* pkInput)
+// src: GUESS 0x00d26310 (confidence: low)
+void FUN_00d26310_cls::ComputeValues_00d26310(Context_d26310* pkContext, const Input_d26310* pkInput)
 {
     Input_d26310 kLocal(*pkInput);
     const LocalM128& kWorldPosition = pkInput->m_kLightVector;

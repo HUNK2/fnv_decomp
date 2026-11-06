@@ -61,7 +61,7 @@ struct hkBufferedStreamReader
     hkReferencedObject* m_pObject;
     int m_iValueAfterStandIn;
     int m_pAuxiliaryObject;
-    void FUN_00d2bc10();
+    void UpdateState_00d2bc10();
     void Destroy();
 };
 // @fnv 0x00d2bc70
@@ -69,7 +69,7 @@ void hkBufferedStreamReader::Destroy()
 {
     m_pVTable = &DAT_010ce688;
     m_pObject->removeReference();
-    ((hkBufferedStreamReader*)((char*)this + 0xc))->FUN_00d2bc10();
+    ((hkBufferedStreamReader*)((char*)this + 0xc))->UpdateState_00d2bc10();
     m_pVTable = &DAT_0102e388;
 }
 
@@ -472,7 +472,8 @@ hkBufferedStreamReader* BufferedReaderDeletionView::FUN_00d2bca0(unsigned int fl
 void __cdecl hkMemoryRouter_alignedFree(void* allocator, void* buffer);
 
 // @fnv 0x00d2bc10
-__declspec(noinline) void hkBufferedStreamReader::FUN_00d2bc10()
+// src: GUESS 0x00d2bc10 (confidence: low)
+__declspec(noinline) void hkBufferedStreamReader::UpdateState_00d2bc10()
 {
     void* buffer = m_pVTable;
     MemoryManager* memory = hkMemoryRouter_getInstance();

@@ -70,7 +70,7 @@ struct SubEntry
 {
     int unk00;
 
-    void FUN_00d9e280(CallbackTarget* apTarget);
+    void ClearValue_Thunk_00d9e280(CallbackTarget* apTarget);
 };
 
 struct FUN_00d0ae30_cls
@@ -86,7 +86,7 @@ struct FUN_00d0ae30_cls
 // src: HAVOK_LIB 0x00d0ae30
 void FUN_00d0ae30_cls::hkpCollisionCallbackUtil_worldDeletedCallback(CallbackTarget* apTarget)
 {
-    m_08.FUN_00d9e280(apTarget);
+    m_08.ClearValue_Thunk_00d9e280(apTarget);
     apTarget->hkpWorld_removeConstraintListener(((char*)this - 0xc) != 0 ? (char*)this - 4 : 0);
     apTarget->hkpWorld_removeWorldDeletionListener(((char*)this - 0xc) != 0 ? (char*)this : 0);
     ((OuterRefHolder*)((char*)this - 0xc))->FUN_00c905b0();
@@ -313,20 +313,21 @@ void __stdcall hkpCollisionCallbackUtil_constraintRemovedCallback(S_00d0af60_Inp
 // class deriving from two bases; PrimaryBase is 8 bytes (vptr + one int).
 struct AdjPrimaryBase
 {
-    virtual void FUN_00d0b1c0();
+    virtual void AdjustThisAndForward_00d0b1c0();
     int unk04;
 };
 
 struct AdjSecondaryBase
 {
-    virtual void FUN_00d0b1c0();
+    virtual void AdjustThisAndForward_00d0b1c0();
 };
 
 struct AdjDerived : AdjPrimaryBase, AdjSecondaryBase
 {
     AdjDerived();
 // @fnv 0x00d0b1c0
-    virtual void FUN_00d0b1c0();
+// src: GUESS 0x00d0b1c0 (confidence: low)
+    virtual void AdjustThisAndForward_00d0b1c0();
 };
 
 AdjDerived::AdjDerived()

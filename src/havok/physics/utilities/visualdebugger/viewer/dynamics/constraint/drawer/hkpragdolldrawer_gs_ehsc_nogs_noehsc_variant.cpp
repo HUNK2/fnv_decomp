@@ -95,7 +95,7 @@ struct SubC0
     int unk008;
     int unk00c;
     void __thiscall hkpPrimitiveDrawer_setDisplayHandler(void* p2);
-    void __thiscall FUN_00e10d50(void* target, Vec4* a, Vec4* b, int color, float t, int p3, int p4);
+    void __thiscall ComputeValues_00e10d50(void* target, Vec4* a, Vec4* b, int color, float t, int p3, int p4);
 };
 struct FloatPair
 {
@@ -117,7 +117,7 @@ struct SubReg : DisplayBase
     Vec4::Aligned start, axis;
     int count;
     float angle, height;
-    void __thiscall FUN_00de5370(float, float, int, Vec4*, void*);
+    void __thiscall InitializeFields_00de5370(float, float, int, Vec4*, void*);
 };
 struct Sub280 : DisplayBase
 {
@@ -284,10 +284,11 @@ struct This : DrawerBase
     SubReg mD0, m160, m1F0;
     Sub280 m280;
 
-    void __thiscall FUN_00de59f0(P1*, P2Vtbl*, int, int);
+    void __thiscall ComputeValues_00de59f0(P1*, P2Vtbl*, int, int);
 };
 // @fnv 0x00de59f0
-void __thiscall This::FUN_00de59f0(P1* p1, P2Vtbl* p2, int p3, int p4)
+// src: GUESS 0x00de59f0 (confidence: low)
+void __thiscall This::ComputeValues_00de59f0(P1* p1, P2Vtbl* p2, int p3, int p4)
 {
     Mat* mat = p1->mat;
     mC0.hkpPrimitiveDrawer_setDisplayHandler(p2);
@@ -329,10 +330,10 @@ void __thiscall This::FUN_00de59f0(P1* p1, P2Vtbl* p2, int p3, int p4)
     Vec4::Aligned tc0(Vec4::Uninitialized);
     tc0.hkVector4_setRotatedDir(reinterpret_cast<const RotationColumns&>(m60), localA.getColumn(0));
     float prod1 = f1c * f0c;
-    mC0.FUN_00e10d50(&receivers.m50, &t80, &t70, 0xff008000, prod1, p3, p4);
-    mC0.FUN_00e10d50(&m40, &tc0, &t90, FUN_00cabb00(0xff, 0xff, 0, 0xff), f1c * f0c, p3, p4);
+    mC0.ComputeValues_00e10d50(&receivers.m50, &t80, &t70, 0xff008000, prod1, p3, p4);
+    mC0.ComputeValues_00e10d50(&m40, &tc0, &t90, FUN_00cabb00(0xff, 0xff, 0, 0xff), f1c * f0c, p3, p4);
     void* subD0 = &mD0;
-    mD0.FUN_00de5370(mat->fa0, f1c * f10, f18, &t80, &receivers.m50);
+    mD0.InitializeFields_00de5370(mat->fa0, f1c * f10, f18, &t80, &receivers.m50);
     Vec4::Aligned bufA0(Vec4::Uninitialized);
     float prod2 = f14 * f1c;
     bufA0.getQuad() = _mm_load_ps1(&prod2);
@@ -340,11 +341,11 @@ void __thiscall This::FUN_00de59f0(P1* p1, P2Vtbl* p2, int p3, int p4)
     m280.SetFromVectors(&t60, &t70, &receivers.m50, &bufA0);
     float fb0 = mat->fb0;
     void* sub160 = &m160;
-    m160.FUN_00de5370((float)(DAT_01030f38 - (double)(float)fabs((double)mat->fb4)), f1c * f10, f18, &t60,
+    m160.InitializeFields_00de5370((float)(DAT_01030f38 - (double)(float)fabs((double)mat->fb4)), f1c * f10, f18, &t60,
                       &receivers.m50);
     void* sub1F0 = &m1F0;
     t60.getQuad() = _mm_xor_ps(t60.getQuad(), DAT_010c44d0);
-    m1F0.FUN_00de5370((float)(DAT_01030f38 - (double)(float)fabs((double)fb0)), f1c * f10, f18, &t60, &receivers.m50);
+    m1F0.InitializeFields_00de5370((float)(DAT_01030f38 - (double)(float)fabs((double)fb0)), f1c * f10, f18, &t60, &receivers.m50);
     {
         PtrVec vec1, vec3, vec2;
         vec1.buf = 0;

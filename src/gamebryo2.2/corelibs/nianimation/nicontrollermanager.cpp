@@ -96,11 +96,11 @@ extern void* DAT_011f395c;
 extern void* DAT_011f38cc;
 
 void __cdecl CreateVertexRecords();
-void __cdecl FUN_00a2d470();
-void __cdecl FUN_00a2a7b0();
+void __cdecl Runtime_ApplyAnimationsToTarget();
+void __cdecl Runtime_UpdateState_00a2a7b0();
 void __cdecl AllocateTempArray();
 void __cdecl NiStepPosKey_DeleteArray();
-void __cdecl FUN_00a2d5b0(int, int);
+void __cdecl NiStepPosKey_InterpolateD1_RegisterSevenKeyHandlers(int, int);
 
 // If not already initialized, marks it initialized, stores five function pointers into globals, sets a byte to 0x10, calls FUN_00a2d5b0(1, 5), and returns 1.
 // @fnv 0x00a2d610
@@ -111,12 +111,12 @@ int __cdecl NiStepPosKey_RegisterLoader()
         return 0;
     DAT_011f369b = true;
     DAT_011f3ddc = (void*)&CreateVertexRecords;
-    DAT_011f3a7c = (void*)&FUN_00a2d470;
-    DAT_011f39ec = (void*)&FUN_00a2a7b0;
+    DAT_011f3a7c = (void*)&Runtime_ApplyAnimationsToTarget;
+    DAT_011f39ec = (void*)&Runtime_UpdateState_00a2a7b0;
     DAT_011f395c = (void*)&AllocateTempArray;
     DAT_011f38cc = (void*)&NiStepPosKey_DeleteArray;
     DAT_011f3763 = 0x10;
-    FUN_00a2d5b0(1, 5);
+    NiStepPosKey_InterpolateD1_RegisterSevenKeyHandlers(1, 5);
     return 1;
 }
 
@@ -218,13 +218,13 @@ void* __fastcall FUN_00a2ee70(int* pThis, int, unsigned int flags)
     return pThis;
 }
 
-void __fastcall FUN_00a2ebb0(void* pThis);
+void __fastcall NiTObjectArray_UpdateReferenceState_00a2ebb0(void* pThis);
 void __cdecl FUN_00aa1460(void* p, size_t size);
 
 // @fnv 0x00a2ef80
 void* __fastcall FUN_00a2ef80(void* pThis, int, unsigned int flags)
 {
-    FUN_00a2ebb0(pThis);
+    NiTObjectArray_UpdateReferenceState_00a2ebb0(pThis);
     if (flags & 1)
     {
         FUN_00aa1460(pThis, 0x7c);
@@ -422,7 +422,8 @@ struct S290
 };
 
 // @fnv 0x00a2ebb0
-void __fastcall FUN_00a2ebb0(char* self)
+// src: GUESS 0x00a2ebb0 (confidence: low)
+void __fastcall NiTObjectArray_UpdateReferenceState_00a2ebb0(char* self)
 {
     char* b = self + 0x34;
     *(void**)self = &DAT_0109619c;
@@ -963,7 +964,7 @@ struct FnvStandInB
     int* NiDefaultAVObjectPalette_NiDefaultAVObjectPalette(int arg1, int arg2);
 };
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+void* __cdecl Object_DispatchCommandFour(unsigned int size);
 
 
 // @fnv 0x00a2f610
@@ -990,7 +991,7 @@ bool __fastcall NiControllerManager_RegisterStreamables(NiControllerManager* sel
     }
 
     NiRefObject* pNewPalette;
-    void* mem = FUN_00aa13e0(0x1c);
+    void* mem = Object_DispatchCommandFour(0x1c);
     if (mem != 0)
     {
         int owner = (int)self->m_pkTarget;

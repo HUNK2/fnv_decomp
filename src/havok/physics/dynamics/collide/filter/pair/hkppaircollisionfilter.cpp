@@ -516,20 +516,21 @@ hkBool hkListDEF0::hkpPairCollisionFilter_isCollisionEnabled(const void* a, cons
 // through its second base. PrimaryBase is vptr + one int (8 bytes).
 struct PrimaryBase
 {
-    virtual void FUN_00def4c0();
+    virtual void AdjustThisAndForward_00def4c0();
     int unk04;
 };
 
 struct SecondaryBase
 {
-    virtual void FUN_00def4c0();
+    virtual void AdjustThisAndForward_00def4c0();
 };
 
 struct Derived : PrimaryBase, SecondaryBase
 {
     Derived();
 // @fnv 0x00def4c0
-    virtual void FUN_00def4c0();
+// src: GUESS 0x00def4c0 (confidence: low)
+    virtual void AdjustThisAndForward_00def4c0();
 };
 
 Derived::Derived()
@@ -563,7 +564,7 @@ DEF4D0Object::DEF4D0Object()
 struct DEF4E0Primary
 {
     virtual void vfunc00();
-    virtual void FUN_00def4e0();
+    virtual void AdjustThisAndForward_00def4e0();
 
     int unk04;
     int unk08;
@@ -572,7 +573,7 @@ struct DEF4E0Primary
 
 struct DEF4E0Secondary
 {
-    virtual void FUN_00def4e0();
+    virtual void AdjustThisAndForward_00def4e0();
 };
 
 struct DEF4E0Object : DEF4E0Primary, DEF4E0Secondary
@@ -580,7 +581,8 @@ struct DEF4E0Object : DEF4E0Primary, DEF4E0Secondary
     DEF4E0Object();
 
 // @fnv 0x00def4e0
-    virtual void FUN_00def4e0();
+// src: GUESS 0x00def4e0 (confidence: low)
+    virtual void AdjustThisAndForward_00def4e0();
 };
 
 DEF4E0Object::DEF4E0Object()
@@ -636,7 +638,7 @@ struct FUN_00def160_Sub
     int unk08;
 
     void hkMapBase_unsigned_int64_unsigned_int64_hkMapOperations_unsigned_int64_clearAndDeallocate(void* pAllocator);
-    void FUN_00a29680();
+    void Object_DoNothing();
 };
 
 class FUN_00def160_cls
@@ -657,11 +659,12 @@ class FUN_00def160_cls
     FUN_00def160_Sub m_sub;
     hkReferencedObject* m_pReference;
 
-    void FUN_00def160();
+    void UpdateFields_00def160();
 };
 
 // @fnv 0x00def160
-void FUN_00def160_cls::FUN_00def160()
+// src: GUESS 0x00def160 (confidence: low)
+void FUN_00def160_cls::UpdateFields_00def160()
 {
     hkMemoryRouter* pHolder;
     FUN_00def160_Sub* pSub;
@@ -680,7 +683,7 @@ void FUN_00def160_cls::FUN_00def160()
     pSub = &m_sub;
     pHolder = hkMemoryRouter_getInstance();
     pSub->hkMapBase_unsigned_int64_unsigned_int64_hkMapOperations_unsigned_int64_clearAndDeallocate(pHolder->m_heap);
-    pSub->FUN_00a29680();
+    pSub->Object_DoNothing();
 
     m_vp14 = (void*)&DAT_010c3b8c;
     m_vp10 = (void*)&DAT_010c3bac;
@@ -696,7 +699,7 @@ struct CpuObject
 {
     unsigned int unk00;
     unsigned short size;
-    void FUN_00def160();
+    void UpdateFields_00def160();
     CpuObject* hkpPairCollisionFilter_Destroy(unsigned int flags);
 };
 // Calls FUN_00def160, and if the low bit of flags is set, releases this through the memory router allocator, then returns this.
@@ -704,7 +707,7 @@ struct CpuObject
 // src: COMMUNITY 0x00def500
 CpuObject* CpuObject::hkpPairCollisionFilter_Destroy(unsigned int flags)
 {
-    FUN_00def160();
+    UpdateFields_00def160();
     if (flags & 1)
     {
         hkMemoryRouter* holder = hkMemoryRouter_getInstance();
@@ -1550,7 +1553,8 @@ __forceinline static void hkSolverExportWriteResult128(hkReal impulseApplied0, h
 }
 // Iterates solver schemas to integrate constraint right-hand sides and write impulse results to solver output buffers.
 // @fnv 0x00def570
-void FUN_00def570(const ConstraintSolverInfo& info, const FloatRecord* solverInputs, const SolverSchemaHeader* schemas,
+// src: GUESS 0x00def570 (confidence: medium)
+void hkReal_IntegrateConstraintSchemas(const ConstraintSolverInfo& info, const FloatRecord* solverInputs, const SolverSchemaHeader* schemas,
                   const QuantizedBoundsData* accums)
 {
     const FloatRecord* solverIn = solverInputs;

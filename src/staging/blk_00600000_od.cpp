@@ -35,13 +35,13 @@ FUN_00600ad0_cls* __thiscall FUN_00600ad0_cls::BSTCaseInsensitiveStringMap_IDLE_
 
 struct FUN_00600d70_shell
 {
-    void FUN_00600d70();
+    void ForwardCall_00600d70();
 };
 
 struct FUN_00600b00_shell
 {
     const char* m_p;
-    void FUN_00600d70();
+    void ForwardCall_00600d70();
     ~FUN_00600b00_shell();
 };
 
@@ -49,7 +49,7 @@ struct FUN_00600b00_shell
 FUN_00600b00_shell::~FUN_00600b00_shell()
 {
     m_p = "@\r`";
-    FUN_00600d70();
+    ForwardCall_00600d70();
 }
 
 extern int DAT_0104a068;
@@ -125,17 +125,18 @@ void GlobalObject_00869f00::Reset()
     this->Clear(true);
 }
 
-extern "C" void __cdecl FUN_0060be00(void*, void*, void*, void*);
+extern "C" void __cdecl Object_ProcessState_0060be00(void*, void*, void*, void*);
 
 struct FUN_0060bb40_class
 {
-    void __thiscall FUN_0060bb40(void* a, void* b, void* c);
+    void __thiscall ForwardCall_0060bb40(void* a, void* b, void* c);
 };
 
 // @fnv 0x0060bb40
-void __thiscall FUN_0060bb40_class::FUN_0060bb40(void* apArg1, void* apArg2, void* apArg3)
+// src: GUESS 0x0060bb40 (confidence: low)
+void __thiscall FUN_0060bb40_class::ForwardCall_0060bb40(void* apArg1, void* apArg2, void* apArg3)
 {
-    FUN_0060be00(apArg1, apArg2, apArg3, (char*)this + 8);
+    Object_ProcessState_0060be00(apArg1, apArg2, apArg3, (char*)this + 8);
 }
 
 namespace fnv_0060bdd0 {
@@ -156,7 +157,8 @@ AX* AX::BSSimpleArray_BGSHeadPart_1024_BSSimpleArray_BGSHeadPart_1024()
 }  // namespace fnv_0060bdd0
 
 // @fnv 0x0060be50
-void FUN_0060be50(int start, int end, const float* apfSrc)
+// src: GUESS 0x0060be50 (confidence: low)
+void Runtime_ProcessEntries_0060be50(int start, int end, const float* apfSrc)
 {
     for (; start != end; start += 4)
         *(float*)start = *apfSrc;
@@ -165,7 +167,8 @@ void FUN_0060be50(int start, int end, const float* apfSrc)
 extern "C" void __cdecl CallWithFlagValues(void*, void*, void*);
 
 // @fnv 0x0060bed0
-void __cdecl FUN_0060bed0(void* apArg1, void* apArg2, void* apArg3)
+// src: GUESS 0x0060bed0 (confidence: medium)
+void __cdecl Runtime_CallWithFlagValues_Thunk(void* apArg1, void* apArg2, void* apArg3)
 {
     CallWithFlagValues(apArg1, apArg2, apArg3);
 }
@@ -173,7 +176,8 @@ void __cdecl FUN_0060bed0(void* apArg1, void* apArg2, void* apArg3)
 extern "C" void __cdecl UninitCopyChecked(int, int, int, int);
 
 // @fnv 0x0060c270
-void __cdecl FUN_0060c270(int aiArg1, int aiArg2, int aiArg3, int aiArg4)
+// src: GUESS 0x0060c270 (confidence: low)
+void __cdecl Runtime_ForwardCall_0060c270(int aiArg1, int aiArg2, int aiArg3, int aiArg4)
 {
     UninitCopyChecked(aiArg1, aiArg2, aiArg3, aiArg4);
 }
@@ -252,12 +256,13 @@ void __thiscall FUN_00613890_Class::SetIndexedInt(int index, int value)
     *(int*)((char*)this + 0x94 + index * 4) = value;
 }
 
-void __fastcall FUN_00618940(void*);
+void __fastcall Object_ForwardCall_00618940(void*);
 
 // @fnv 0x00618920
-void __fastcall FUN_00618920(void* self)
+// src: GUESS 0x00618920 (confidence: low)
+void __fastcall Object_ForwardCall_00618920(void* self)
 {
-    FUN_00618940(self);
+    Object_ForwardCall_00618940(self);
 }
 
 // @fnv 0x0061bbf0
@@ -303,7 +308,8 @@ void __thiscall FUN_0061bf50_Class::InitAndClear()
 }  // namespace fnv_0061bf50
 
 // @fnv 0x0061f420
-bool FUN_0061f420(unsigned int auiValue, unsigned int auiOther)
+// src: GUESS 0x0061f420 (confidence: low)
+bool Object_ComputeValue_0061f420(unsigned int auiValue, unsigned int auiOther)
 {
     if (auiValue < auiOther)
         return true;
@@ -347,12 +353,13 @@ struct FUN_00600eb0_cls
     int a;
     void* b;
     void RemoveAll();
-    void FUN_00600eb0();
+    void SetVtableAndProcessState_00600eb0();
 };
 
 // Sets the vtable pointer, calls RemoveAll, then frees the b pointer via NiFreeAlias.
 // @fnv 0x00600eb0
-void FUN_00600eb0_cls::FUN_00600eb0()
+// src: GUESS 0x00600eb0 (confidence: low)
+void FUN_00600eb0_cls::SetVtableAndProcessState_00600eb0()
 {
     *reinterpret_cast<void**>(this) = &DAT_0104a0b0;
     RemoveAll();
@@ -364,12 +371,13 @@ void NiFreeAlias(void*);
 
 struct NiTPointerMapIntInt : public NiTPointerMap<int, int>
 {
-    void FUN_0061fb40();
+    void ReleaseStorage_0061fb40();
 };
 
 // Resets the vtable pointer, removes all entries, then frees the pointer stored at offset 8.
 // @fnv 0x0061fb40
-void NiTPointerMapIntInt::FUN_0061fb40()
+// src: GUESS 0x0061fb40 (confidence: medium)
+void NiTPointerMapIntInt::ReleaseStorage_0061fb40()
 {
     *(int**)this = &DAT_0104d968;
     RemoveAll();
@@ -382,11 +390,12 @@ struct FUN_00600b90_Cls
 {
     void* m0;
     void* m4;
-    void __thiscall FUN_00600b90();
+    void __thiscall ReleaseMemberStorage();
 };
 // Sets m0 to the address of DAT_0104a060 and frees the m4 pointer via MyDeallocate.
 // @fnv 0x00600b90
-void __thiscall FUN_00600b90_Cls::FUN_00600b90()
+// src: GUESS 0x00600b90 (confidence: medium)
+void __thiscall FUN_00600b90_Cls::ReleaseMemberStorage()
 {
     m0 = (void*)&DAT_0104a060;
     MyDeallocate(m4);
@@ -403,7 +412,7 @@ struct FUN_00600ee0_cls
 // @fnv 0x00600ee0
 void* FUN_00600ee0_cls::FUN_00600ee0(unsigned int flags)
 {
-    ((FUN_00600eb0_cls*)this)->FUN_00600eb0();
+    ((FUN_00600eb0_cls*)this)->SetVtableAndProcessState_00600eb0();
     if (flags & 1)
         Deallocate(this);
     return this;
@@ -443,7 +452,7 @@ void* FUN_00600d90_shell::FUN_00600f40(unsigned int flags)
 
 struct FUN_005ffbd0_cls
 {
-    void FUN_00600b90();
+    void ReleaseMemberStorage();
 };
 void __cdecl Deallocate(void*);
 struct FUN_00600f70_cls
@@ -453,7 +462,7 @@ struct FUN_00600f70_cls
 // @fnv 0x00600f70
 void* FUN_00600f70_cls::FUN_00600f70(unsigned int flags)
 {
-    ((FUN_005ffbd0_cls*)this)->FUN_00600b90();
+    ((FUN_005ffbd0_cls*)this)->ReleaseMemberStorage();
     if (flags & 1)
         Deallocate(this);
     return this;
@@ -462,7 +471,7 @@ void* FUN_00600f70_cls::FUN_00600f70(unsigned int flags)
 namespace fnv_00600fa0 {
 struct FUN_005ffbd0_cls
 {
-    void FUN_005ffbd0();
+    void ForwardCall_005ffbd0();
     void* __thiscall FUN_00600fa0(unsigned int flags);
 };
 void __cdecl operator delete(void*);
@@ -470,7 +479,7 @@ void __cdecl operator delete(void*);
 // @fnv 0x00600fa0
 void* __thiscall FUN_005ffbd0_cls::FUN_00600fa0(unsigned int flags)
 {
-    FUN_005ffbd0();
+    ForwardCall_005ffbd0();
     if (flags & 1)
         operator delete(this);
     return this;
@@ -502,7 +511,7 @@ struct FUN_00601070_shell : FUN_00600b00_shell
 // @fnv 0x00601070
 void* __thiscall FUN_00601070_shell::FUN_00601070(unsigned int flags)
 {
-    FUN_00600d70();
+    ForwardCall_00600d70();
     if (flags & 1)
         operator delete(this);
     return this;
@@ -566,9 +575,10 @@ void* __cdecl TESRace_GetHeadPartNodeName(int index)
 int __cdecl CallWithFlag(int*);
 // Computes a value from a and b via CallWithFlag and passes both results with c to FUN_0060be50.
 // @fnv 0x0060bb70
-void __cdecl FUN_0060bb70(int a, int b, float const* c)
+// src: GUESS 0x0060bb70 (confidence: low)
+void __cdecl Runtime_ProcessRangeWithCallFlags(int a, int b, float const* c)
 {
-    FUN_0060be50(CallWithFlag(&a), CallWithFlag(&b), c);
+    Runtime_ProcessEntries_0060be50(CallWithFlag(&a), CallWithFlag(&b), c);
 }
 
 namespace fnv_0060bc60 {
@@ -576,7 +586,7 @@ extern "C" void __cdecl Deallocate(void*);
 
 struct FUN_006013a0_shell
 {
-    void FUN_0060b9b0();
+    void SetVtableAndProcessState_0060b9b0();
     void* __thiscall FUN_0060bc60(int flags);
 };
 
@@ -584,7 +594,7 @@ struct FUN_006013a0_shell
 // @fnv 0x0060bc60
 void* __thiscall FUN_006013a0_shell::FUN_0060bc60(int flags)
 {
-    FUN_0060b9b0();
+    SetVtableAndProcessState_0060b9b0();
     if (flags & 1)
         Deallocate(this);
     return this;
@@ -593,7 +603,7 @@ void* __thiscall FUN_006013a0_shell::FUN_0060bc60(int flags)
 
 struct FUN_006013a0_shell
 {
-    void __thiscall FUN_006013a0();
+    void __thiscall ForwardCall_006013a0();
     FUN_006013a0_shell* __thiscall FUN_0060bc90(unsigned int flags);
 };
 
@@ -601,7 +611,7 @@ struct FUN_006013a0_shell
 // @fnv 0x0060bc90
 FUN_006013a0_shell* __thiscall FUN_006013a0_shell::FUN_0060bc90(unsigned int flags)
 {
-    FUN_006013a0();
+    ForwardCall_006013a0();
     if (flags & 1)
         operator delete(this);
     return this;
@@ -663,7 +673,8 @@ unsigned int __thiscall FUN_0060bd90_cls::NiTObjectArray_NiPointer_NiTexture_Set
 extern "C" void* __cdecl FUN_00ec7ce3(void* dst, unsigned int dstSize, void* src, unsigned int srcSize);
 
 // @fnv 0x0060c290
-void* __cdecl FUN_0060c290(char* apSource, char* pDest, char* pEnd)
+// src: GUESS 0x0060c290 (confidence: low)
+void* __cdecl Runtime_UpdateState_0060c290(char* apSource, char* pDest, char* pEnd)
 {
     int nCount = (pDest - apSource) >> 2;
     void* pResult4 = (void*)(pEnd - nCount * 4);
@@ -674,7 +685,8 @@ void* __cdecl FUN_0060c290(char* apSource, char* pDest, char* pEnd)
 
 // Copies the float value pointed to by param_3 into param_2 consecutive floats starting at param_1.
 // @fnv 0x0060c410
-void __cdecl FUN_0060c410(float* afDest, unsigned int auiCount, float* afValue)
+// src: GUESS 0x0060c410 (confidence: high)
+void __cdecl Runtime_FillFloatRange(float* afDest, unsigned int auiCount, float* afValue)
 {
     for (; auiCount > 0; auiCount--, afDest++)
     {
@@ -733,7 +745,7 @@ FUN_00618890_cls* __thiscall FUN_00618890_cls::FUN_00618890(unsigned int flags)
     return this;
 }
 
-void __fastcall FUN_0061bcf0(void*);
+void __fastcall UpdateState_0061bcf0(void*);
 void __cdecl operator delete(void*);
 struct FUN_0061c090_class
 {
@@ -742,13 +754,13 @@ struct FUN_0061c090_class
 // @fnv 0x0061c090
 void* __thiscall FUN_0061c090_class::FUN_0061c090(unsigned int flags)
 {
-    FUN_0061bcf0(this);
+    UpdateState_0061bcf0(this);
     if (flags & 1)
         operator delete(this);
     return this;
 }
 
-void __fastcall FUN_00618940(void*);
+void __fastcall Object_ForwardCall_00618940(void*);
 void __cdecl operator delete(void*);
 struct FUN_0061c0c0_class
 {
@@ -758,7 +770,7 @@ struct FUN_0061c0c0_class
 // @fnv 0x0061c0c0
 void* __thiscall FUN_0061c0c0_class::FUN_0061c0c0(unsigned int flags)
 {
-    FUN_00618940(this);
+    Object_ForwardCall_00618940(this);
     if (flags & 1)
         operator delete(this);
     return this;
@@ -853,7 +865,7 @@ struct FUN_0061fb70_Cls
 // @fnv 0x0061fb70
 void* __thiscall FUN_0061fb70_Cls::FUN_0061fb70(unsigned int flags)
 {
-    ((NiTPointerMapIntInt*)this)->FUN_0061fb40();
+    ((NiTPointerMapIntInt*)this)->ReleaseStorage_0061fb40();
     if (flags & 1)
         _Deallocate(this);
     return this;
@@ -998,7 +1010,8 @@ void* __cdecl FUN_00ec7ce3(void* dst, unsigned int dstSize, void* src, unsigned 
 
 // Computes the element count between param_1 and param_2, copies that many 4-byte elements from param_1 to param_3, and returns the end pointer in param_3.
 // @fnv 0x0060c3c0
-void* __cdecl FUN_0060c3c0(void* pBegin, void* pEnd, void* pDest)
+// src: GUESS 0x0060c3c0 (confidence: low)
+void* __cdecl Object_ProcessAndReturnValue_0060c3c0(void* pBegin, void* pEnd, void* pDest)
 {
     unsigned int count = ((char*)pEnd - (char*)pBegin) >> 2;
     void* result = (char*)pDest + count * 4;
@@ -1143,7 +1156,8 @@ void CallWithFlagByte(int, int, int, S_0060bba0_TagA, S_0060bba0_TagB, S_0060bba
 
 // Calls CallWithFlagByte with CallWithFlag results for param1 and param2, param3, and FUN_0065fd70/FUN_0065e750 results plus a TagC.
 // @fnv 0x0060bba0
-void __cdecl FUN_0060bba0(int param1, int param2, int param3)
+// src: GUESS 0x0060bba0 (confidence: low)
+void __cdecl Object_DispatchIteratorRange_0060bba0(int param1, int param2, int param3)
 {
     CallWithFlagByte(CallWithFlag(&param1), CallWithFlag(&param2), param3, return_value(&param1, &param3),
                      std_Move_cat_unsigned_char(&param3), S_0060bba0_TagC());
@@ -1187,7 +1201,8 @@ void C60BE00UninitCopy(C60BE00Element* pFirst, C60BE00Element* pLast, C60BE00Ele
 // std::uninitialized_copy
 // Copies the element range [_First, _Last) to _Dest using _Al, passing the destination pointer category and a checked tag to C60BE00UninitCopy.
 // @fnv 0x0060be00
-void FUN_0060be00(C60BE00Element* _First, C60BE00Element* _Last, C60BE00Element* _Dest, C60BE00Allocator* _Al)
+// src: GUESS 0x0060be00 (confidence: low)
+void Object_ProcessState_0060be00(C60BE00Element* _First, C60BE00Element* _Last, C60BE00Element* _Dest, C60BE00Allocator* _Al)
 {
     C60BE00UninitCopy(C60BE00Unchecked(&_First), C60BE00Unchecked(&_Last), _Dest, _Al, C60BE00PtrCat(&_Dest),
                       C60BE00CheckedTag());

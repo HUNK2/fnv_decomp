@@ -496,7 +496,7 @@ struct TreeVertexDecl
 };
 
 TreeVertexDecl* NiDX9ShaderDeclaration_Create(void*, int, bool);
-void* FUN_00aa13e0(unsigned int);
+void* Object_DispatchCommandFour(unsigned int);
 struct FUN_00bb6c30
 {
     virtual void Slot0();
@@ -635,7 +635,7 @@ struct FUN_00bb6c30
     int unkf8;
     static void* operator new(unsigned int bytes)
     {
-        return FUN_00aa13e0(bytes);
+        return Object_DispatchCommandFour(bytes);
     }
     FUN_00bb6c30(TreeVertexDecl*);
     void BSDistantTreeShader_LoadShaders();

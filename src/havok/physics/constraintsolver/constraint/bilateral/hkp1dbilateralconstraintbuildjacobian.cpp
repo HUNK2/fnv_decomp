@@ -350,7 +350,8 @@ void __cdecl hkLoadVelocityAccumulators()
 extern double DAT_010c9300;
 // Fills out with info's direction as the linear term and two angular terms from the body pivot offsets, then sets w terms from inverse inertia, rhs and scale.
 // @fnv 0x00dcf460
-static __declspec(noinline) void FUN_00dcf460(Jac_dcf880* apJacobian, const Info_dcf880* info,
+// src: GUESS 0x00dcf460 (confidence: medium)
+static __declspec(noinline) void Object_BuildLinearAngularJacobianRow(Jac_dcf880* apJacobian, const Info_dcf880* info,
                                               const QueryIn_dcf880* apQuery, float scale)
 {
     const Accum_dcf880* bodyA = apQuery->m_pBodyA;
@@ -406,8 +407,8 @@ void CallTarget_dcf460()
     Jac_dcf880* o = g_out_dcf460;
     const Info_dcf880* i = g_info_dcf460;
     const QueryIn_dcf880* n = g_in_dcf460;
-    FUN_00dcf460(o, i, n, g_scale_dcf460);
-    FUN_00dcf460(o, i, n, g_scale_dcf460);
+    Object_BuildLinearAngularJacobianRow(o, i, n, g_scale_dcf460);
+    Object_BuildLinearAngularJacobianRow(o, i, n, g_scale_dcf460);
 }
 
 struct Input_dcf5b0
@@ -427,7 +428,8 @@ extern double DAT_010c9300;
 
 // Builds a Jacobian from a pivot, direction and two body frames, writes it to the output slot, and advances the output pointer.
 // @fnv 0x00dcf5b0
-void __cdecl FUN_00dcf5b0(Input_dcf5b0* apInput, S_00dcf100_Cfg* apCfg, Jacobian_dcf5b0** ppJacobian, float k)
+// src: GUESS 0x00dcf5b0 (confidence: medium)
+void __cdecl Hkp1dbilateralconstraintbuildjacobian_BuildJacobianAndAdvance(Input_dcf5b0* apInput, S_00dcf100_Cfg* apCfg, Jacobian_dcf5b0** ppJacobian, float k)
 {
     S_00dcf100_Body* ecx = apCfg->b30;
     float fa = apCfg->f24;
@@ -589,7 +591,8 @@ struct JOut
 };
 // For each of s->count vertices, writes its A- and B-rotated vectors to the output array, with 1/(inertia-weighted squared sum + epsilon) in a.w.
 // @fnv 0x00dcefb0
-void __cdecl FUN_00dcefb0(Src* apSrc, Cfg* cfg, JOut** appOut)
+// src: GUESS 0x00dcefb0 (confidence: medium)
+void __cdecl Hkp1dbilateralconstraintbuildjacobian_BuildRotatedVertexJacobianPairs(Src* apSrc, Cfg* cfg, JOut** appOut)
 {
     float* pFloats = apSrc->fl;
     JOut* out = *appOut;

@@ -112,7 +112,8 @@ void __fastcall CopyFromFloats(hkMatrix4* matrix, void*, const float* apSource)
 }
 
 // @fnv 0x00de8e50
-void hkMatrix4::FUN_00de8e50(const hkMatrix4& b)
+// src: GUESS 0x00de8e50 (confidence: high)
+void hkMatrix4::MultiplyInPlace(const hkMatrix4& b)
 {
     hkMatrix4 t;
     t.hkMatrix4_setMul(*this, b);
@@ -121,7 +122,8 @@ void hkMatrix4::FUN_00de8e50(const hkMatrix4& b)
 
 // Copies four __m128 rows from source into rows, then forces the fourth component of each row to 0,0,0,1.
 // @fnv 0x00de90f0
-void __fastcall FUN_00de90f0(hkMatrix4* matrix, void*, const __m128* source)
+// src: GUESS 0x00de90f0 (confidence: medium)
+void __fastcall hkMatrix4_CopyMatrixWithAffineFourthComponents(hkMatrix4* matrix, void*, const __m128* source)
 {
     __m128* rows = reinterpret_cast<__m128*>(matrix);
     rows[0] = source[0];
@@ -140,20 +142,22 @@ struct CB20B0_Class
     void hkTransform_set4x4ColumnMajor(void* src);
 };
 // @fnv 0x00de9130
-void __fastcall FUN_00de9130(hkMatrix4* matrix, void*, CB20B0_Class* dst)
+// src: GUESS 0x00de9130 (confidence: medium)
+void __fastcall hkTransform_Set4x4ColumnMajor_Thunk(hkMatrix4* matrix, void*, CB20B0_Class* dst)
 {
     dst->hkTransform_set4x4ColumnMajor(matrix);
 }
 
 // Copies four columns from source, then calls FUN_00de8910 with value.
 // @fnv 0x00de8c50
-void __fastcall FUN_00de8c50(hkMatrix4* matrix, void*, const __m128* apRows, float value)
+// src: GUESS 0x00de8c50 (confidence: medium)
+void __fastcall hkMatrix4_CopyColumnsAndApplyValue(hkMatrix4* matrix, void*, const __m128* apRows, float value)
 {
     matrix->m_kColumn0.m_vComponents = apRows[0];
     matrix->m_kColumn1.m_vComponents = apRows[1];
     matrix->m_kColumn2.m_vComponents = apRows[2];
     matrix->m_kColumn3.m_vComponents = apRows[3];
-    matrix->FUN_00de8910(value);
+    matrix->UpdateState_00de8910(value);
 }
 
 struct SourceBlockCDF
@@ -239,7 +243,8 @@ const hkMatrix4* __fastcall Add(hkMatrix4* matrix, void*, const hkMatrix4* other
 
 extern float DAT_0104da4c;
 
-__declspec(noinline) void __fastcall FUN_00de8910(hkMatrix4* matrix, float s)
+// src: GUESS 0x00de8910 (confidence: low)
+__declspec(noinline) void __fastcall UpdateState_00de8910(hkMatrix4* matrix, float s)
 {
     matrix->m_kColumn0.x = s;
     unsigned u = (unsigned)(int)s;
@@ -248,7 +253,8 @@ __declspec(noinline) void __fastcall FUN_00de8910(hkMatrix4* matrix, float s)
 
 // Copies the matrix into a local, calls FUN_00de8910, then multiplies dst by the local matrix.
 // @fnv 0x00de9270
-void __fastcall FUN_00de9270(hkMatrix4* matrix, void*, hkMatrix4* dst, const hkMatrix4* src)
+// src: GUESS 0x00de9270 (confidence: medium)
+void __fastcall hkMatrix4_MultiplyByAdjustedMatrix(hkMatrix4* matrix, void*, hkMatrix4* dst, const hkMatrix4* src)
 {
     hkMatrix4 matTmp;
     *(__m128*)&matTmp.m_kColumn0 = *(const __m128*)&src->m_kColumn0;
@@ -256,14 +262,15 @@ void __fastcall FUN_00de9270(hkMatrix4* matrix, void*, hkMatrix4* dst, const hkM
     *(__m128*)&matTmp.m_kColumn2 = *(const __m128*)&src->m_kColumn2;
     *(__m128*)&matTmp.m_kColumn3 = *(const __m128*)&src->m_kColumn3;
 
-    FUN_00de8910(&matTmp, DAT_0104da4c);
+    UpdateState_00de8910(&matTmp, DAT_0104da4c);
 
     matrix->hkMatrix4_setMul(*dst, matTmp);
 }
 
 // Subtracts the four columns of rhs from this matrix using SSE and returns rhs.
 // @fnv 0x00de8ce0
-const hkMatrix4* __fastcall FUN_00de8ce0(hkMatrix4* matrix, void*, const hkMatrix4* rhs)
+// src: GUESS 0x00de8ce0 (confidence: medium)
+const hkMatrix4* __fastcall hkMatrix4_SubtractMatrixColumns(hkMatrix4* matrix, void*, const hkMatrix4* rhs)
 {
     *(__m128*)&matrix->m_kColumn0 = _mm_sub_ps(*(const __m128*)&matrix->m_kColumn0, *(const __m128*)&rhs->m_kColumn0);
     *(__m128*)&matrix->m_kColumn1 = _mm_sub_ps(*(const __m128*)&matrix->m_kColumn1, *(const __m128*)&rhs->m_kColumn1);
@@ -273,7 +280,8 @@ const hkMatrix4* __fastcall FUN_00de8ce0(hkMatrix4* matrix, void*, const hkMatri
 }
 
 // @fnv 0x00de8d30
-const __m128* __fastcall FUN_00de8d30(hkMatrix4* matrix, void*, const __m128* apVector)
+// src: GUESS 0x00de8d30 (confidence: high)
+const __m128* __fastcall hkMatrix4_ScaleColumnsByFirstComponent(hkMatrix4* matrix, void*, const __m128* apVector)
 {
     __m128 v = *apVector;
     matrix->m_kColumn0.m_vComponents = _mm_mul_ps(_mm_shuffle_ps(v, v, 0), matrix->m_kColumn0.m_vComponents);
@@ -344,7 +352,8 @@ extern __m128 DAT_01017d10;
 
 // Compares four selected values with two constants, then returns whether the first three absolute differences are at most DAT_01011d78.
 // @fnv 0x00de8ea0
-int __fastcall FUN_00de8ea0(hkMatrix4* matrix, void*)
+// src: GUESS 0x00de8ea0 (confidence: medium)
+int __fastcall Object_CompareSelectedMatrixValues(hkMatrix4* matrix, void*)
 {
     float* m_data = reinterpret_cast<float*>(matrix);
     __m128 column = _mm_setr_ps(m_data[3], m_data[7], m_data[11], m_data[15]);

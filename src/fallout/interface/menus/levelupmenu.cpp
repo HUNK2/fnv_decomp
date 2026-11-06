@@ -184,7 +184,8 @@ struct FUN_007866e0_shell
 };
 
 // @fnv 0x00786550
-void FUN_00786550(const char* s)
+// src: GUESS 0x00786550 (confidence: low)
+void LevelUpMenu_ForwardCall_00786550(const char* s)
 {
     ((FUN_007866e0_shell*)(void*)DAT_011d9fdc)->UpdateDisplayValue(s);
 }
@@ -275,7 +276,8 @@ extern int DAT_011d9fdc;
 extern int DAT_011d9fe0;
 // If the tile reports the state stored in DAT_011d9fe0, clears that state via Set and notifies the holder at DAT_011d9fdc.
 // @fnv 0x00786200
-void FUN_00786200(Tile* pTile)
+// src: GUESS 0x00786200 (confidence: medium)
+void Object_ClearTileStateAndNotify(Tile* pTile)
 {
     if (pTile->ContainsTrait(DAT_011d9fe0))
     {
@@ -400,11 +402,12 @@ void __thiscall FUN_00787c40_shell::ListBox_BGSPerk_ToggleSelection(int aiValue)
 struct FUN_00787c20_shell
 {
     void __thiscall SetTileSelection(unsigned int a, int b);
-    void __thiscall FUN_00787c20(unsigned int a);
+    void __thiscall SetTileSelection_Thunk(unsigned int a);
 };
 
 // @fnv 0x00787c20
-void __thiscall FUN_00787c20_shell::FUN_00787c20(unsigned int a)
+// src: GUESS 0x00787c20 (confidence: medium)
+void __thiscall FUN_00787c20_shell::SetTileSelection_Thunk(unsigned int a)
 {
     SetTileSelection(a, 1);
 }
@@ -1455,7 +1458,7 @@ void Target::SetPage(int page)
         switch (unk28)
         {
         case 0:
-            listA.ListBox_ItemChange_Traverse(FUN_00786550, 0, 0x7fffffff);
+            listA.ListBox_ItemChange_Traverse(LevelUpMenu_ForwardCall_00786550, 0, 0x7fffffff);
             listB.FUN_007312e0();
             listA.ListBox_enum_ActorValue_Index_RestoreListState(true);
             break;
@@ -2238,7 +2241,7 @@ void FUN_00787850_cls::ListBox_BGSPerk_DeselectAll(unsigned char abSkipFlagged)
     {
         if (abSkipFlagged == 0 || ((FUN_00787850_item*)*node->_ref_006815c0())->flag8 == 0)
         {
-            reinterpret_cast<FUN_00787c20_shell*>(this)->FUN_00787c20((unsigned int)(*node->_ref_006815c0())->tile);
+            reinterpret_cast<FUN_00787c20_shell*>(this)->SetTileSelection_Thunk((unsigned int)(*node->_ref_006815c0())->tile);
         }
     }
 }
@@ -2937,12 +2940,13 @@ struct LBItemListBox : LBItemList
     const char* templateName;
     unsigned short itemCount;
     bool ListBox_BGSPerk_IsEnabled();
-    LBTile* FUN_00787260(int key);
+    LBTile* FindEnabledTileForKey(int key);
 };
 
 // Finds an enabled tile at the index reached by the key-derived delta, returning null when no different tile is found.
 // @fnv 0x00787260
-LBTile* LBItemListBox::FUN_00787260(int key)
+// src: GUESS 0x00787260 (confidence: medium)
+LBTile* LBItemListBox::FindEnabledTileForKey(int key)
 {
     LBTile* found7 = 0;
     int delta3 = 0;

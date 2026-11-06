@@ -49,12 +49,12 @@ BSRotAccumTransfInterpolator* CreateRotAccumTransfInterpolator()
 
 extern int DAT_011a9ea4;
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+void* __cdecl Object_DispatchCommandFour(unsigned int size);
 
 // @fnv 0x00a43e90
 BSRotAccumTransfInterpolator* BSRotAccumTransfInterpolator::CreateInterpolator(int a)
 {
-    BSRotAccumTransfInterpolator* obj = (BSRotAccumTransfInterpolator*)FUN_00aa13e0(0x58);
+    BSRotAccumTransfInterpolator* obj = (BSRotAccumTransfInterpolator*)Object_DispatchCommandFour(0x58);
     if (obj != 0)
     {
         obj->NiTransformInterpolator::CopyMemberData(0);
@@ -155,7 +155,8 @@ inline NiPoint3& AssignPosition(NiPoint3& target, const NiPoint3& source)
 struct QuaternionValue
 {
     float x, y, z, w;
-    __declspec(noinline) QuaternionValue FUN_00a2bcf0(const QuaternionValue& q) const
+// src: GUESS 0x00a2bcf0 (confidence: medium)
+    __declspec(noinline) QuaternionValue MultiplyQuaternion(const QuaternionValue& q) const
     {
         QuaternionValue r;
         r.w = w * q.w - x * q.x - y * q.y - z * q.z;
@@ -240,10 +241,10 @@ bool BSRotAccumTransfInterpolator::UpdateTransform(float time, NiObjectNET* targ
         QuaternionValue rotation = FUN_00a28740(time, keys, type, count, index, stride);
         if (object)
         {
-            QQuatOps delta = rotation.FUN_00a2bcf0(FUN_00a6dc00((QuaternionValue&)m_kAccumulatedRotation));
+            QQuatOps delta = rotation.MultiplyQuaternion(FUN_00a6dc00((QuaternionValue&)m_kAccumulatedRotation));
             QQuatOps objectRotation;
             objectRotation.FUN_00a6df40(&object->m_kLocal.m_Rotate);
-            (QuaternionValue&)objectRotation = objectRotation.FUN_00a2bcf0(delta);
+            (QuaternionValue&)objectRotation = objectRotation.MultiplyQuaternion(delta);
             objectRotation.FUN_00a38560();
             *(QuaternionValue*)&m_kDefaultTransform.qx = objectRotation;
         }

@@ -18,7 +18,7 @@ void BGSExplosion::ResetFormData()
 BGSExplosion::BGSExplosion()
     : TESBoundObject(), TESFullName(), TESModel(), TESEnchantableForm(), BGSPreloadable(), TESImageSpaceModifiableForm()
 {
-    Data.FUN_004faa00();
+    Data.Object_ProcessAndReturnValue_004faa00();
     SetFormType((ENUM_FORM_ID)0x51);
     ResetFormData();
     TESEnchantableForm::SetCastingType((MagicSystem__CastingType)2);
@@ -180,7 +180,8 @@ ExplosionEffectSettings* BGSExplosion::GetData_004fadc0()
 }
 
 // @fnv 0x004faa00
-ExplosionEffectSettings* __fastcall FUN_004faa00(ExplosionEffectSettings* pThis)
+// src: GUESS 0x004faa00 (confidence: low)
+ExplosionEffectSettings* __fastcall Object_ProcessAndReturnValue_004faa00(ExplosionEffectSettings* pThis)
 {
     pThis->InitExplosionData();
     return pThis;

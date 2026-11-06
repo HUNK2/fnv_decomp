@@ -35,7 +35,8 @@ void FUN_00e36100_StandIn::hkpRejectChassisListener_collidableAddedCallback(int*
 }
 
 // @fnv 0x00e360e0
-void __stdcall FUN_00e360e0(int arg)
+// src: GUESS 0x00e360e0 (confidence: high)
+void __stdcall Object_DoNothing_00e360e0(int arg)
 {}
 
 // FUN_00dfbd70: this-adjusting thunk {adjustor 8} for the virtual FunAdjust_Host::FUN_00dfbd70

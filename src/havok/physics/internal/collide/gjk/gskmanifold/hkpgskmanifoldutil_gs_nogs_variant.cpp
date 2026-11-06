@@ -90,7 +90,8 @@ struct S_00dad6a0_Rec
     unsigned char m_kPointB;
 };
 // @fnv 0x00dad6a0
-static __declspec(noinline) int FUN_00dad6a0(S_00dad6a0_Rec* rec, S_00dad6a0_Vec* vecs, S_00dad6a0_Out* out)
+// src: GUESS 0x00dad6a0 (confidence: low)
+static __declspec(noinline) int Object_ProcessAndReturnValue_00dad6a0(S_00dad6a0_Rec* rec, S_00dad6a0_Vec* vecs, S_00dad6a0_Out* out)
 {
     const __m128& pa = *(__m128*)((char*)vecs + rec->m_kPointA);
     const __m128& pb = *(__m128*)((char*)vecs + rec->m_kPointB);
@@ -115,6 +116,6 @@ volatile int g_res;
 void CallTarget_dad6a0()
 {
     S_00dad6a0_Out* o = (S_00dad6a0_Out*)g_out;
-    g_res = FUN_00dad6a0((S_00dad6a0_Rec*)g_rec, (S_00dad6a0_Vec*)g_vecs, o);
-    g_res = FUN_00dad6a0((S_00dad6a0_Rec*)g_rec, (S_00dad6a0_Vec*)g_vecs, o);
+    g_res = Object_ProcessAndReturnValue_00dad6a0((S_00dad6a0_Rec*)g_rec, (S_00dad6a0_Vec*)g_vecs, o);
+    g_res = Object_ProcessAndReturnValue_00dad6a0((S_00dad6a0_Rec*)g_rec, (S_00dad6a0_Vec*)g_vecs, o);
 }

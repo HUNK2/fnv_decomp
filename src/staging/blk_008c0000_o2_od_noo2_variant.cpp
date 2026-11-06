@@ -44,7 +44,7 @@ struct Form8
 struct Link8
 {
     Material8* bhkWorldObject_GetShape();
-    Form8* FUN_004ae750();
+    Form8* Bipedanim_GetReferenceFlagsOrZero();
 };
 struct Material8
 {
@@ -508,7 +508,7 @@ void Ref8::ArrowProjectile_CollideActor(const NiPoint3* start, const NiPoint3* e
         pitch = pitch.operator*(heading);
         pitch.GetCol(1, direction);
         NiPoint3_UnitizeVector(&direction);
-        NiPoint3 ray = *v1f4() - (direction * range).FUN_0053d280(DAT_010162c0);
+        NiPoint3 ray = *v1f4() - (direction * range).ProcessAndReturnValue_0053d280(DAT_010162c0);
         bool found = false;
         Node8* hit = ArrowProjectile_PickSceneGraph(victim->v1d0(), ray, direction, &range, !victim->v22c(1));
         if (hit)
@@ -516,7 +516,7 @@ void Ref8::ArrowProjectile_CollideActor(const NiPoint3* start, const NiPoint3* e
             NiPoint3 scaled = direction * (float)(range + DAT_010356f0);
             NiTransform transform;
             hit->NiAVObject_GetWorldRotate()->FUN_004b4880(&transform);
-            state->target = transform.FUN_00524c40(ray + scaled);
+            state->target = transform.ComputeValue_00524c40(ray + scaled);
             NiMatrix3 inverse;
             hit->NiAVObject_GetWorldRotate()->FUN_004b46a0(&inverse);
             state->rotation = inverse.operator*(*reinterpret_cast<NiMatrix3*>(root->NiAVObject_GetWorldRotate()));
@@ -549,14 +549,14 @@ void Ref8::ArrowProjectile_CollideActor(const NiPoint3* start, const NiPoint3* e
             if (candidate)
             {
                 linked = candidate;
-                Form8* object = FUN_004b5a20(linked->FUN_004ae750());
+                Form8* object = FUN_004b5a20(linked->Bipedanim_GetReferenceFlagsOrZero());
                 if (object)
                 {
                     hit = object->FUN_0044ddc0();
                     NiPoint3 scaled = direction * DAT_01047224;
                     NiTransform transform;
                     hit->NiAVObject_GetWorldRotate()->FUN_004b4880(&transform);
-                    state->target = transform.FUN_00524c40(*hit->NiAVObject_GetWorldTranslate() + scaled);
+                    state->target = transform.ComputeValue_00524c40(*hit->NiAVObject_GetWorldTranslate() + scaled);
                     NiMatrix3 inverse;
                     hit->NiAVObject_GetWorldRotate()->FUN_004b46a0(&inverse);
                     state->rotation = inverse.operator*(*reinterpret_cast<NiMatrix3*>(root->NiAVObject_GetWorldRotate()));

@@ -238,7 +238,7 @@ void __cdecl _FUN_00485990(unsigned int, void*, unsigned int);
 void __thiscall TESClass::SaveForm(void)
 {
     char cAttribData[7];
-    TESForm::FUN_004855a0();
+    TESForm::BeginFormRecord();
     TESFullName::Save_00487010();
     TESDescription::Save_00482cb0();
     TESTexture::Save(0x4e4f4349);
@@ -253,7 +253,7 @@ void __thiscall TESClass::SaveForm(void)
     }
     TESAttributes::Save(cAttribData);
     TESForm_AddChunkArray(0x52545441, cAttribData, 7);
-    TESForm::FUN_00485680();
+    TESForm::FinishFormRecord();
 }
 
 void __cdecl _Deallocate(void*);

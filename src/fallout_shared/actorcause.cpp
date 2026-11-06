@@ -19,10 +19,11 @@ void __fastcall ActorCause_DecRefCount(ActorCause*);
 struct Holder0042f780
 {
     ActorCause* m_pObject;
-    Holder0042f780* FUN_0042f780(ActorCause* pObject);
+    Holder0042f780* AssignRetainedObject(ActorCause* pObject);
 };
 // @fnv 0x0042f780
-Holder0042f780* Holder0042f780::FUN_0042f780(ActorCause* pObject)
+// src: GUESS 0x0042f780 (confidence: medium)
+Holder0042f780* Holder0042f780::AssignRetainedObject(ActorCause* pObject)
 {
     if (m_pObject != pObject)
     {
@@ -123,7 +124,8 @@ extern unsigned int DAT_011d60cc;
 extern BSSimpleList<ActorCause*> DAT_011d6124;
 
 // @fnv 0x0066e010
-ActorCause* ActorCause::FUN_0066e010(Actor* apCauseRef)
+// src: GUESS 0x0066e010 (confidence: low)
+ActorCause* ActorCause::UpdateState_0066e010(Actor* apCauseRef)
 {
     ((Pair12*)&m_08)->Reset();
     m_00 = apCauseRef;

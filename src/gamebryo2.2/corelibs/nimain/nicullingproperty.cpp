@@ -80,7 +80,7 @@ void __thiscall NiCullingProperty::LoadBinary_00a8f650(NiStream& stream)
     position += (*(NiBinaryStream::ReadFunction*)((char*)input + 8))(input, &m_usFlags, 2, &size, 1);
 }
 
-extern void* __cdecl FUN_00aa13e0(unsigned int);
+extern void* __cdecl Object_DispatchCommandFour(unsigned int);
 extern "C" void __fastcall FUN_00a5c200(void*);
 extern int DAT_0109f68c;
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
@@ -118,7 +118,7 @@ struct GlobalObjectO2_00a7b610
 // @fnv 0x00a8f5b0
 void __cdecl CreateCullingProperty()
 {
-    NiCullingProperty* allocated = static_cast<NiCullingProperty*>(FUN_00aa13e0(sizeof(NiCullingProperty)));
+    NiCullingProperty* allocated = static_cast<NiCullingProperty*>(Object_DispatchCommandFour(sizeof(NiCullingProperty)));
     NiCullingProperty* fresh;
     if (allocated)
     {

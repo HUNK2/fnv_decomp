@@ -239,7 +239,8 @@ void PlayerMover::SetMoveModePreference(unsigned int auMode)
 }
 
 // @fnv 0x009e9e30
-void PlayerMover::FUN_009e9e30()
+// src: GUESS 0x009e9e30 (confidence: medium)
+void PlayerMover::ResetVtableAndDestroyActorMover()
 {
     *reinterpret_cast<int*>(this) = 0x0109297c;
     ActorMover::~ActorMover();
@@ -250,7 +251,7 @@ void __cdecl _Deallocate(void*);
 // @fnv 0x009e9e00
 void* PlayerMover::FUN_009e9e00(unsigned int auFlags)
 {
-    FUN_009e9e30();
+    ResetVtableAndDestroyActorMover();
     if (auFlags & 1)
         _Deallocate(this);
     return this;

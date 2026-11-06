@@ -170,7 +170,8 @@ void* FakeHeap::FUN_00aa7e20(unsigned int flags)
 }
 
 // @fnv 0x00aa9d10
-void __fastcall FUN_00aa9d10(void* this_ptr)
+// src: GUESS 0x00aa9d10 (confidence: high)
+void __fastcall MemoryHeap_DoNothing(void* this_ptr)
 {}
 
 struct FUN_00b02710_Cls

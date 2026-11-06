@@ -58,7 +58,7 @@ struct ContactBody
     char unk100[0x10c - 0x100];
     float m_limitC;
 };
-bool FUN_00d28560(void* unused, char** items, int count, int offset);
+bool Object_ProcessEntries_00d28560(void* unused, char** items, int count, int offset);
 inline void* operator new(unsigned int, void* p) throw() { return p; }
 inline void operator delete(void*, void*) throw() {}
 
@@ -88,13 +88,14 @@ public:
     virtual void vf04();
     __m128 m_kScaleFactors;
 };
-const void* __cdecl FUN_00d2c8a0();
+const void* __cdecl Object_GetConstructedVirtualTable();
 struct SortPair {
     unsigned int key;
     unsigned int val;
 };
 // @fnv 0x00d36520
-extern "C" void FUN_00d36520(SortPair* arr, int lo, int hi, unsigned int extra)
+// src: GUESS 0x00d36520 (confidence: low)
+extern "C" void Object_ProcessEntries_00d36520(SortPair* arr, int lo, int hi, unsigned int extra)
 {
     int i;
     int j;
@@ -124,7 +125,7 @@ extern "C" void FUN_00d36520(SortPair* arr, int lo, int hi, unsigned int extra)
             ++i;
         } while (i <= j);
         if (lo < j) {
-            FUN_00d36520(arr, lo, j, extra);
+            Object_ProcessEntries_00d36520(arr, lo, j, extra);
         }
         if (i >= hi) {
             break;
@@ -134,12 +135,12 @@ extern "C" void FUN_00d36520(SortPair* arr, int lo, int hi, unsigned int extra)
 }
 
 void InitOutputDefaults();
-void FUN_00d39130();
+void Runtime_ReleaseHandles_Thunk();
 void ReleaseHandles();
 void RemoveKeyFromTable();
 void InsertIntoSlotArray();
 void nullsub_15();
-void FUN_00d39150();
+void hkCollideCapsuleUtilCapsVsTri_ProcessEntries_00d39150();
 void hkCapsuleTriangleAgent3_process();
 
 typedef float hkReal;
@@ -432,7 +433,8 @@ return ST_CP_EDGE;
 }
 return ST_CP_MISS;}
 // @fnv 0x00d3d8c0
-void __cdecl FUN_00d3d8c0(const hkpCdBody&bodyA,const hkpCdBody&bodyB,const CollisionAgentContext&input,hkpCdPointCollector&collector)
+// src: GUESS 0x00d3d8c0 (confidence: low)
+void __cdecl hkpCdBody_ProcessAndReturnValue_00d3d8c0(const hkpCdBody&bodyA,const hkpCdBody&bodyB,const CollisionAgentContext&input,hkpCdPointCollector&collector)
 {
 {hkMonitorStream&mStream=hkMonitorStream::getInstance();if(mStream.memoryAvailable()){::hkMonitorStream::TimerCommand*h=reinterpret_cast<::hkMonitorStream::TimerCommand*>(mStream.getEnd());h->m_commandAndMonitor="T" "t" "SphereTri";h->setTime();mStream.setEnd((char*)(h+1));}};ScopedTimer timeblock47;
 const hkpTriangleShape*triB=static_cast<const hkpTriangleShape*>(bodyB.getShape());

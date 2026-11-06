@@ -103,8 +103,8 @@ struct RefKF4965
     void* p;
     RefKF4965(void*);
     ~RefKF4965();
-    void* FUN_0044b070(void*);
-    void* FUN_00559450();
+    void* UpdateState_0044b070(void*);
+    void* Modelloader_GetReferencedThis();
 };
 struct RefSol4965
 {
@@ -113,7 +113,7 @@ struct RefSol4965
     RefSol4965(void*);
     ~RefSol4965();
     void Reset(void*);
-    void* FUN_00559450();
+    void* Modelloader_GetReferencedThis();
 };
 
 }  // namespace fnv_004965d0
@@ -521,13 +521,14 @@ Animation::Animation() : m_acHeaderData(0), m_acReservedBytes(0), LocalInput(0),
 
 struct FUN_0048ef40_shell : public AnimSequenceBase
 {
-    void FUN_0048ef40();
+    void SetVirtualTable_0048ef40();
 };
 
 extern int DAT_0101d8e8;
 
 // @fnv 0x0048ef40
-void FUN_0048ef40_shell::FUN_0048ef40()
+// src: GUESS 0x0048ef40 (confidence: low)
+void FUN_0048ef40_shell::SetVirtualTable_0048ef40()
 {
     *(int**)this = &DAT_0101d8e8;
 }
@@ -610,7 +611,8 @@ FUN_0048f0c0::FUN_0048f0c0(AnimSequenceSingle* apSingleSeq)
 extern int DAT_0101d8e8;
 
 // @fnv 0x0048f1b0
-int* __fastcall FUN_0048f1b0(int* pThis)
+// src: GUESS 0x0048f1b0 (confidence: low)
+int* __fastcall Animation_UpdateState_0048f1b0(int* pThis)
 {
     *pThis = (int)&DAT_0101d8e8;
     return pThis;
@@ -619,7 +621,8 @@ int* __fastcall FUN_0048f1b0(int* pThis)
 void __fastcall NiTPointerListBase_DFALL_NiTListItem_BSStringT_char_BSStringT_char_NiTPointerListBase_DFALL_NiTListItem_BSStringT_char_BSStringT_char(void* pThis);
 
 // @fnv 0x0048f200
-void* __fastcall FUN_0048f200(void* pThis)
+// src: GUESS 0x0048f200 (confidence: low)
+void* __fastcall Object_ProcessAndReturnValue_0048f200(void* pThis)
 {
     NiTPointerListBase_DFALL_NiTListItem_BSStringT_char_BSStringT_char_NiTPointerListBase_DFALL_NiTListItem_BSStringT_char_BSStringT_char(pThis);
     return pThis;
@@ -628,7 +631,7 @@ void* __fastcall FUN_0048f200(void* pThis)
 struct TESObjectREFR;
 struct SequenceListHead48
 {
-    unsigned int FUN_00559450() const;
+    unsigned int Modelloader_GetReferencedThis() const;
 };
 struct FUN_006317a0_struct
 {
@@ -751,13 +754,13 @@ NiAVObject* AnimationManagerRootAccess::NiControllerManager_GetAccumRoot()
 typedef char _sizecheck_AnimSequenceSingle[sizeof(AnimSequenceSingle) == 8 ? 1 : -1];
 
 
-void __fastcall FUN_0048f1b0(void* pThis);
+void __fastcall Animation_UpdateState_0048f1b0(void* pThis);
 extern int DAT_0101d8c8;
 
 // @fnv 0x00490e10
 void* __fastcall ConstructAnimSequenceSingle(AnimSequenceSingle* pThis)
 {
-    FUN_0048f1b0(pThis);
+    Animation_UpdateState_0048f1b0(pThis);
     *reinterpret_cast<void**>(pThis) = &DAT_0101d8c8;
     pThis->pForwardSequence = 0;
     return pThis;
@@ -1476,7 +1479,8 @@ extern int vftable_NiRefObject;
 void __cdecl FinishScriptRunLock(void*);
 // Sets the object's vtable to vftable_NiRefObject and calls FinishScriptRunLock on DAT_011f4400.
 // @fnv 0x00496910
-void __fastcall FUN_00496910(int** apObject)
+// src: GUESS 0x00496910 (confidence: medium)
+void __fastcall Animation_ResetVtableAndFinishScriptRunLock(int** apObject)
 {
     *apObject = &vftable_NiRefObject;
     FinishScriptRunLock((void*)&DAT_011f4400);
@@ -2852,7 +2856,7 @@ struct FUN_004efe80_S
 };
 struct Flt
 {
-    FUN_004efe80_S* FUN_00559450(float, FUN_00440460_S*);
+    FUN_004efe80_S* Modelloader_GetReferencedThis(float, FUN_00440460_S*);
 };
 // @fnv 0x0049bca0
 // src: XBOX_PDB 0x0049bca0
@@ -2860,7 +2864,7 @@ void FUN_0049bca0_shell::Animation_UpdateBipOnly(float afTime, AnimationVector* 
 {
     if ((*(FUN_00440460_S**)((char*)this + 0xc)))
         (*(FUN_00440460_S**)((char*)this + 0xc))->NiAVObject_SetTranslate((AnimationVector*)((char*)this + 0x1c));
-    ((Flt*)((char*)this + 8))->FUN_00559450(afTime, (*(FUN_00440460_S**)((char*)this + 0xc)))->UpdateControllers();
+    ((Flt*)((char*)this + 8))->Modelloader_GetReferencedThis(afTime, (*(FUN_00440460_S**)((char*)this + 0xc)))->UpdateControllers();
     if ((*(FUN_00440460_S**)((char*)this + 0xc)))
     {
         if (apTranslate)
@@ -3344,14 +3348,14 @@ void* AnimSequenceMultiple::ScalarDeletingDestructor(unsigned int flags)
 void __cdecl _Deallocate(void*);
 struct S48f370
 {
-    void FUN_0054da00();
+    void ForwardCall_0054da00();
     void* FUN_0048f370(unsigned int);
 };
 // Calls FUN_0054da00 on this, deallocates this when flags has bit 1 set, and returns this.
 // @fnv 0x0048f370
 void* S48f370::FUN_0048f370(unsigned int flags)
 {
-    this->FUN_0054da00();
+    this->ForwardCall_0054da00();
     if (flags & 1)
         _Deallocate(this);
     return this;
@@ -6269,12 +6273,12 @@ struct BlendGroupPtr
     BlendGroup* value;
     BlendGroupPtr(BlendGroup*);
     ~BlendGroupPtr();
-    BlendGroup* FUN_00559450();
+    BlendGroup* Modelloader_GetReferencedThis();
 };
 struct BlendNodePtr
 {
     BlendObject* value;
-    BlendObject* FUN_00559450();
+    BlendObject* Modelloader_GetReferencedThis();
     bool FUN_00822510(BlendObject*);
 };
 struct BlendSequence
@@ -6462,7 +6466,7 @@ struct BlendManager
 struct BlendManagerPtr
 {
     BlendManager* value;
-    BlendManager* FUN_00559450();
+    BlendManager* Modelloader_GetReferencedThis();
 };
 struct BlendSettings
 {
@@ -6617,11 +6621,11 @@ BlendSequence* BlendAnimation::Animation_StartGroup(BlendSequence* apSequence, u
             apSequence->SetNegatedGlobal();
             return apSequence;
         }
-        if (Interface_IsInMenuMode() && node.FUN_00559450() == DAT_011dea3c->PlayerCharacter_Get3D_00950bb0(0) && !DAT_011de45c->FUN_0047c850() &&
+        if (Interface_IsInMenuMode() && node.Modelloader_GetReferencedThis() == DAT_011dea3c->PlayerCharacter_Get3D_00950bb0(0) && !DAT_011de45c->FUN_0047c850() &&
             !DAT_011f2250.FUN_0044ddc0())
         {
         }
-        else if (Interface_IsInPipboyMenu() && node.FUN_00559450() == DAT_011dea3c->PlayerCharacter_Get3D_00950bb0(1) && type4 == 1 &&
+        else if (Interface_IsInPipboyMenu() && node.Modelloader_GetReferencedThis() == DAT_011dea3c->PlayerCharacter_Get3D_00950bb0(1) && type4 == 1 &&
                  aiRequestedSection == 0 && previous2)
         {
             Animation_ClearGroup(originalSection, 0.0f);
@@ -6658,12 +6662,12 @@ BlendSequence* BlendAnimation::Animation_StartGroup(BlendSequence* apSequence, u
         }
         groups[section3] = group;
         sequences[section3] = apSequence;
-        if ((!Interface_IsInMenuMode() || node.FUN_00559450() != DAT_011dea3c->PlayerCharacter_Get3D_00950bb0(0)) && apSequence && previous2)
+        if ((!Interface_IsInMenuMode() || node.Modelloader_GetReferencedThis() != DAT_011dea3c->PlayerCharacter_Get3D_00950bb0(0)) && apSequence && previous2)
         {
             BlendGroupPtr newGroup3(apSequence->FUN_0048f7f0());
             BlendGroupPtr oldGroup(previous2->FUN_0048f7f0());
-            if (oldGroup.FUN_00559450()->IsUnk28Set() &&
-                oldGroup.FUN_00559450()->IsUnk28Set() == newGroup3.FUN_00559450()->IsUnk28Set())
+            if (oldGroup.Modelloader_GetReferencedThis()->IsUnk28Set() &&
+                oldGroup.Modelloader_GetReferencedThis()->IsUnk28Set() == newGroup3.Modelloader_GetReferencedThis()->IsUnk28Set())
             {
                 if (previous2->GetHavokWorldObjectCountInSceneGraph_0084e3a0() == apSequence->GetHavokWorldObjectCountInSceneGraph_0084e3a0())
                 {
@@ -6672,17 +6676,17 @@ BlendSequence* BlendAnimation::Animation_StartGroup(BlendSequence* apSequence, u
                     else
                         Warning_005b5e40(DAT_0101dc58, previous2->FUN_00413f40()->FUN_0043b1b0(),
                                      apSequence->FUN_00413f40()->FUN_0043b1b0(),
-                                     node.FUN_00559450()->FUN_00413f40()->FUN_0043b1b0());
+                                     node.Modelloader_GetReferencedThis()->FUN_00413f40()->FUN_0043b1b0());
                 }
                 else
                     Warning_005b5e40(DAT_0101dbe8, previous2->FUN_00413f40()->FUN_0043b1b0(), previous2->GetHavokWorldObjectCountInSceneGraph_0084e3a0(),
                                  apSequence->FUN_00413f40()->FUN_0043b1b0(), apSequence->GetHavokWorldObjectCountInSceneGraph_0084e3a0(),
-                                 node.FUN_00559450()->FUN_00413f40()->FUN_0043b1b0());
+                                 node.Modelloader_GetReferencedThis()->FUN_00413f40()->FUN_0043b1b0());
             }
             if (synchronize && apSequence == previous2)
             {
                 Warning_005b5e40(DAT_0101db90, previous2->FUN_00413f40()->FUN_0043b1b0(),
-                             node.FUN_00559450()->FUN_00413f40()->FUN_0043b1b0());
+                             node.Modelloader_GetReferencedThis()->FUN_00413f40()->FUN_0043b1b0());
                 synchronize = false;
             }
         }
@@ -6717,22 +6721,22 @@ BlendSequence* BlendAnimation::Animation_StartGroup(BlendSequence* apSequence, u
         duration /= *DAT_011c5724.Setting_Float_00403e20();
         apSequence->SetPhase(0.0f, 0);
         if (!previous2 && (section3 == 5 || section3 == 6))
-            manager.FUN_00559450()->FUN_0047aab0(apSequence, 0, 1, apSequence->GetFloatAtOffset1C(), duration, 0);
+            manager.Modelloader_GetReferencedThis()->FUN_0047aab0(apSequence, 0, 1, apSequence->GetFloatAtOffset1C(), duration, 0);
         else if (duration < DAT_01016408)
-            manager.FUN_00559450()->FUN_0047aab0(apSequence, 0, 1, apSequence->GetFloatAtOffset1C(), 0.0f, 0);
+            manager.Modelloader_GetReferencedThis()->FUN_0047aab0(apSequence, 0, 1, apSequence->GetFloatAtOffset1C(), 0.0f, 0);
         else if (synchronize)
-            manager.FUN_00559450()->CallFUN_00a351d0(previous2, apSequence, duration, 0,
+            manager.Modelloader_GetReferencedThis()->CallFUN_00a351d0(previous2, apSequence, duration, 0,
                                                      previous2->GetFloatAtOffset1C(), apSequence->GetFloatAtOffset1C());
         else
         {
             bool blended = false;
             if (previous2 && previous2->FUN_008041a0())
-                blended = manager.FUN_00559450()->NiControllerManager_CrossFade(previous2, apSequence, duration, 0, 1,
+                blended = manager.Modelloader_GetReferencedThis()->NiControllerManager_CrossFade(previous2, apSequence, duration, 0, 1,
                                                                apSequence->GetFloatAtOffset1C(), 0);
             if (!blended)
             {
                 if (DAT_011dea10->TES_CellTestRunning())
-                    manager.FUN_00559450()->FUN_0047aab0(apSequence, 0, 1, 1.0f, 0.0f, 0);
+                    manager.Modelloader_GetReferencedThis()->FUN_0047aab0(apSequence, 0, 1, 1.0f, 0.0f, 0);
                 else
                 {
                     if (actor && actor->IsActor())
@@ -6741,7 +6745,7 @@ BlendSequence* BlendAnimation::Animation_StartGroup(BlendSequence* apSequence, u
                         if (bhkRagdollController_QFootIK() && blendActor->ragdoll && blendActor->ragdoll->bhkRagdollController_GetsFootIKActive())
                             blendActor->ragdoll->UpdateBoneLocalTransforms();
                     }
-                    manager.FUN_00559450()->NiControllerManager_BlendFromPose(apSequence, 0.0f, duration, 0, 0);
+                    manager.Modelloader_GetReferencedThis()->NiControllerManager_BlendFromPose(apSequence, 0.0f, duration, 0, 0);
                 }
             }
         }
@@ -6752,7 +6756,7 @@ BlendSequence* BlendAnimation::Animation_StartGroup(BlendSequence* apSequence, u
             case 1:
             case 2:
             case 5:
-                manager.FUN_00559450()->FUN_0047b220(previous2, 0.0f);
+                manager.Modelloader_GetReferencedThis()->FUN_0047b220(previous2, 0.0f);
                 break;
             }
         }
@@ -6823,7 +6827,7 @@ struct TrackEntry
     void* controller;
     void* interpolationData;
     SequenceRef* FUN_00717e50();
-    float FUN_006a7f50();
+    float AStarSearch_EvaluateValue_006a7f50();
 };
 struct SequenceInterface : BSAnimGroupSequence
 {
@@ -6858,10 +6862,10 @@ char AnimationInterface::Animation_FindNextNoteKey(int sequenceIndex, int action
     for (unsigned int i = 0; i < static_cast<unsigned int>(entries); ++i)
     {
         signed char* object = key[i].FUN_00717e50()->FUN_0043b1b0();
-        if (object != 0 && FUN_00ec7ec0(object, actionId, trackCount) == 0 && tracks <= key[i].FUN_006a7f50())
+        if (object != 0 && FUN_00ec7ec0(object, actionId, trackCount) == 0 && tracks <= key[i].AStarSearch_EvaluateValue_006a7f50())
         {
             if (outTime != 0)
-                *outTime = key[i].FUN_006a7f50();
+                *outTime = key[i].AStarSearch_EvaluateValue_006a7f50();
             return FUN_00ec67aa(object[trackCount]);
         }
     }
@@ -7773,7 +7777,7 @@ struct Elem_00499b90
 };
 struct Span_00499b90
 {
-    unsigned int FUN_00559450();
+    unsigned int Modelloader_GetReferencedThis();
 };
 struct Root_00499b90
 {
@@ -8156,13 +8160,13 @@ void Holder_00499b90::WriteToStream(Class2_00499b90* pClass2)
             pPi14 = pClass2;
         }
     }
-    if (((Span_00499b90*)&this->f128)->FUN_00559450() != 0)
+    if (((Span_00499b90*)&this->f128)->Modelloader_GetReferencedThis() != 0)
     {
-        AnimIdle_SaveAnimIdle(pPi14, ((Span_00499b90*)&this->f128)->FUN_00559450(), ((void*)this), *(float*)&this->fd0);
+        AnimIdle_SaveAnimIdle(pPi14, ((Span_00499b90*)&this->f128)->Modelloader_GetReferencedThis(), ((void*)this), *(float*)&this->fd0);
     }
     else
     {
-        AnimIdle_SaveAnimIdle(pPi14, ((Span_00499b90*)&this->f124)->FUN_00559450(), ((void*)this), *(float*)&this->fd0);
+        AnimIdle_SaveAnimIdle(pPi14, ((Span_00499b90*)&this->f124)->Modelloader_GetReferencedThis(), ((void*)this), *(float*)&this->fd0);
     }
     ((Stream_00499b90*)DAT_011de45c)->TESSaveLoadGame_SaveGameDataOLD(&this->f120, 1);
     bFlagVal = 0;
@@ -8597,7 +8601,7 @@ struct Object496
 struct Ref496
 {
     void* value;
-    Object496* FUN_00559450();
+    Object496* Modelloader_GetReferencedThis();
     void FUN_0066b0d0(void*);
 };
 struct Queue496
@@ -8649,32 +8653,32 @@ void Target496::DetachObjectModels(PendingIdleRecord* data)
         return;
     for (int i = 0; i < 2; ++i)
     {
-        if (data->objects[i].FUN_00559450())
+        if (data->objects[i].Modelloader_GetReferencedThis())
         {
             if (data->actor)
             {
                 if (AILinearTaskThreadManager_ShouldQueue3DTask())
-                    Queue496::FUN_004537b0()->TaskQueueInterface_QueueSSNRemoveObject(data->objects[i].FUN_00559450(), 0);
+                    Queue496::FUN_004537b0()->TaskQueueInterface_QueueSSNRemoveObject(data->objects[i].Modelloader_GetReferencedThis(), 0);
                 else
-                    FUN_00450b80(0)->RemoveObject_00b5b1c0(data->objects[i].FUN_00559450());
+                    FUN_00450b80(0)->RemoveObject_00b5b1c0(data->objects[i].Modelloader_GetReferencedThis());
                 void* anim = ((Anim496*)data->actor->GetAnimData())->GetControllerManager_00496940()->GetStringAtOffset();
                 void* copy7 = anim;
-                RecurseAndRemoveObjectsFromPalette(data->objects[i].FUN_00559450(), copy7);
+                RecurseAndRemoveObjectsFromPalette(data->objects[i].Modelloader_GetReferencedThis(), copy7);
                 Anim496* manager5 = ((Anim496*)data->actor->GetAnimData());
                 if (manager5)
-                    manager5->Animation_RemoveObject(data->objects[i].FUN_00559450());
+                    manager5->Animation_RemoveObject(data->objects[i].Modelloader_GetReferencedThis());
             }
             if (AILinearTaskThreadManager_ShouldQueue3DTask())
-                Queue496::FUN_004537b0()->TaskQueueInterface_QueueNodeDetach(data->objects[i].FUN_00559450());
+                Queue496::FUN_004537b0()->TaskQueueInterface_QueueNodeDetach(data->objects[i].Modelloader_GetReferencedThis());
             else
             {
-                Node496* nodeB = data->objects[i].FUN_00559450()->NiAVObject_GetParent();
-                nodeB->remove(data->objects[i].FUN_00559450());
+                Node496* nodeB = data->objects[i].Modelloader_GetReferencedThis()->NiAVObject_GetParent();
+                nodeB->remove(data->objects[i].Modelloader_GetReferencedThis());
             }
             (*(Loader496**)&DAT_011c3b3c)->ModelLoader_ReleaseFile(data->models[i]->GetModelFilePath());
             data->objects[i].FUN_0066b0d0(0);
-            if (data->root.FUN_00559450())
-                data->root.FUN_00559450()->ValidateTargets();
+            if (data->root.Modelloader_GetReferencedThis())
+                data->root.Modelloader_GetReferencedThis()->ValidateTargets();
         }
     }
     if (!data->count)
@@ -8682,7 +8686,7 @@ void Target496::DetachObjectModels(PendingIdleRecord* data)
     if (!(*(Save496**)&DAT_011de45c)->FUN_0047c850() && data->actor && data->actor->GetAnimAction_008a7570() == 13)
     {
         Process496* process = (Process496*)data->actor->FUN_008d8520();
-        if (process->get() == data->root.FUN_00559450())
+        if (process->get() == data->root.Modelloader_GetReferencedThis())
             ((AnimationActorOperations*)data->actor)->SetAnimAction(-1, 0);
     }
     data->actor = 0;
@@ -8709,20 +8713,20 @@ class SeqPtr
   public:
     SeqX* m_p;
     SeqPtr& FUN_0066b0d0(SeqX*);
-    SeqX* FUN_00559450() const;
+    SeqX* Modelloader_GetReferencedThis() const;
 };
 class StrX
 {
   public:
     void* m_p;
-    const char* FUN_00559450() const;
+    const char* Modelloader_GetReferencedThis() const;
 };
 
 class KFPtr
 {
   public:
     KFModel* m_p;
-    KFPtr& FUN_0044b070(KFModel*);
+    KFPtr& UpdateState_0044b070(KFModel*);
 };
 
 SeqX* BipedAnim_LoadAndAttachAddOn(SeqX*, SeqBase18*, int, Actor*, int);
@@ -8749,7 +8753,7 @@ void FUN_00496cd0_cls::InitFromModel(KFModel* m_kModelObjectsItem)
 {
     AutoMemContext kContext(0x33, true, "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\Animation.cpp",
                              0x1101);
-    m_pRenderedNodeEntry.FUN_0044b070(m_kModelObjectsItem);
+    m_pRenderedNodeEntry.UpdateState_0044b070(m_kModelObjectsItem);
     if (m_kModelObjectsItem)
     {
         for (int i = 0; i < 2; i++)
@@ -8759,7 +8763,7 @@ void FUN_00496cd0_cls::InitFromModel(KFModel* m_kModelObjectsItem)
                 aspSeq[i].FUN_0066b0d0(BipedAnim_LoadAndAttachAddOn(apSeq[i], apSeq[i], -1, pActor, 0));
                 void* pMgr = ((Animation*)pActor->GetAnimData())->GetControllerManager_00496940()->GetStringAtOffset();
                 void* pAnimMgrCopy = pMgr;
-                AddObjectToPaletteRecursive(aspSeq[i].FUN_00559450(), pAnimMgrCopy);
+                AddObjectToPaletteRecursive(aspSeq[i].Modelloader_GetReferencedThis(), pAnimMgrCopy);
                 ((AnimationActorOperations*)pActor)->SetByteAt14E(true);
             }
         }
@@ -8778,7 +8782,7 @@ void FUN_00496cd0_cls::InitFromModel(KFModel* m_kModelObjectsItem)
             if (pkAnim->SpecialIdlePlay_0())
             {
                 if (iType == 3)
-                    ((AnimationActorOperations*)pActor)->SetAnimAction(0xd, kName.FUN_00559450());
+                    ((AnimationActorOperations*)pActor)->SetAnimAction(0xd, kName.Modelloader_GetReferencedThis());
             }
             else
             {
@@ -8819,7 +8823,7 @@ struct Ref
     void* p;
     Ref(int);
     ~Ref();
-    Node* FUN_00559450();
+    Node* Modelloader_GetReferencedThis();
     void FUN_0066b0d0(void*);
     bool FUN_00822510(void*);
 };
@@ -8854,7 +8858,7 @@ struct Target
 // @fnv 0x00498670
 void Target::RemoveItemFromMap(Ref* apRef)
 {
-    Node* world = apRef->FUN_00559450()->bhkNiCollisionObject_GetWorldObject();
+    Node* world = apRef->Modelloader_GetReferencedThis()->bhkNiCollisionObject_GetWorldObject();
     Item* item5 = 0;
     unsigned short key5 = 255;
     Ref hold3(0);
@@ -8862,34 +8866,34 @@ void Target::RemoveItemFromMap(Ref* apRef)
     {
         key5 = world->FUN_005585e0()->GetAnimGroupType_0047d3b0();
         map->Lookup(key5, item5);
-        if (item5 && item5->v4(-1) != apRef->FUN_00559450()->FUN_00490e40())
+        if (item5 && item5->v4(-1) != apRef->Modelloader_GetReferencedThis()->FUN_00490e40())
         {
             item5 = 0;
         }
         else
         {
-            if (values[apRef->FUN_00559450()->FUN_00825c00()] == apRef->FUN_00559450()->FUN_00490e40())
-                Animation_ClearGroup(apRef->FUN_00559450()->FUN_00825c00(), 0.0f);
+            if (values[apRef->Modelloader_GetReferencedThis()->FUN_00825c00()] == apRef->Modelloader_GetReferencedThis()->FUN_00490e40())
+                Animation_ClearGroup(apRef->Modelloader_GetReferencedThis()->FUN_00825c00(), 0.0f);
         }
     }
     if (!item5)
-        hold3.FUN_0066b0d0(apRef->FUN_00559450()->FUN_00490e40());
+        hold3.FUN_0066b0d0(apRef->Modelloader_GetReferencedThis()->FUN_00490e40());
     if (!flag)
     {
         if (item5)
         {
             if (item5->v4(-1) == current)
                 current = 0;
-            ref.FUN_00559450()->ReleaseObject(item5->v4(-1));
+            ref.Modelloader_GetReferencedThis()->ReleaseObject(item5->v4(-1));
         }
-        else if (hold3.FUN_00559450())
+        else if (hold3.Modelloader_GetReferencedThis())
         {
             if (hold3.FUN_00822510(current))
                 current = 0;
-            ref.FUN_00559450()->ReleaseObject(hold3.FUN_00559450());
+            ref.Modelloader_GetReferencedThis()->ReleaseObject(hold3.Modelloader_GetReferencedThis());
         }
     }
-    DetachObjectModels(apRef->FUN_00559450());
+    DetachObjectModels(apRef->Modelloader_GetReferencedThis());
     apRef->FUN_0066b0d0(0);
     if (item5)
     {
@@ -8897,7 +8901,7 @@ void Target::RemoveItemFromMap(Ref* apRef)
         delete item5;
         item5 = 0;
     }
-    if (!hold3.FUN_00559450() && !item5)
+    if (!hold3.Modelloader_GetReferencedThis() && !item5)
         map->FUN_0049c250(key5);
 }
 
@@ -8918,7 +8922,7 @@ struct MotionRoot
 struct RootHandle
 {
     MotionRoot* value;
-    MotionRoot* FUN_00559450();
+    MotionRoot* Modelloader_GetReferencedThis();
 };
 struct MotionGroup
 {
@@ -9105,13 +9109,13 @@ struct MovementAnimation
 bool MovementAnimation::GetMovement(MotionPoint* apMovement, MotionActor* actor, bool rotate, bool removeZ)
 {
     float alternate, speed2, limitVal, scale4;
-    if (!root.FUN_00559450())
+    if (!root.Modelloader_GetReferencedThis())
         return false;
     float deltaTime7 = g_timeGlobal.FUN_0084d030() * globalTimeMultiplier;
     const MotionPoint zero3 = DAT_011f426c;
     MotionPoint origin3 = zero3;
     MotionPoint delta3 = movement;
-    MotionMatrix rotation5 = root.FUN_00559450()->NiAVObject_GetRotate_006a9540();
+    MotionMatrix rotation5 = root.Modelloader_GetReferencedThis()->NiAVObject_GetRotate_006a9540();
     if (!actor->disabled() && actor->IsMoving_004938e0() && sequences[1] &&
         sequences[1]->FUN_0048f7f0()->FUN_005f2420() >= 3 && sequences[1]->FUN_0048f7f0()->FUN_005f2420() <= 16)
     {
@@ -9353,7 +9357,7 @@ struct S49Map
 template <class T> struct S49Ptr
 {
     T* p;
-    T* FUN_00559450();
+    T* Modelloader_GetReferencedThis();
 };
 struct S49Save
 {
@@ -9384,7 +9388,7 @@ void S49Entry::AnimIdle_SaveGameTES(float value, S49Map* map)
     DAT_011de45c->TESSaveLoadGame_SaveGameDataOLD(&iB, 4);
     DAT_011de45c->TESSaveLoadGame_SaveGameDataOLD(&iC, 4);
     bHasObj = false;
-    if (kObj.FUN_00559450())
+    if (kObj.Modelloader_GetReferencedThis())
     {
         bHasObj = true;
     }
@@ -9393,12 +9397,12 @@ void S49Entry::AnimIdle_SaveGameTES(float value, S49Map* map)
     {
         char cCheckResult = -1;
         S49Checker* pChecker;
-        if (map->FUN_00497280(kBase.FUN_00559450()->FUN_005585e0()->FUN_005f2420(), &pChecker)->Lookup())
+        if (map->FUN_00497280(kBase.Modelloader_GetReferencedThis()->FUN_005585e0()->FUN_005f2420(), &pChecker)->Lookup())
         {
-            cCheckResult = pChecker->Check18(kObj.FUN_00559450());
+            cCheckResult = pChecker->Check18(kObj.Modelloader_GetReferencedThis());
         }
         DAT_011de45c->TESSaveLoadGame_SaveGameDataOLD(&cCheckResult, 1);
-        kObj.FUN_00559450()->SaveGameTES_004efb20(value);
+        kObj.Modelloader_GetReferencedThis()->SaveGameTES_004efb20(value);
     }
 }
 }  // namespace fnv_00497180
@@ -9441,13 +9445,13 @@ LocalAnimIdle::LocalAnimIdle(TESIdleForm* apItem, int apField14, int apFieldC, A
     BSStringT_char_SPrintF(&strModelPath, &DAT_0101dcc4, &DAT_0101dccc, ((ItemBase4965*)((char*)apItem + 24))->v5());
     if (!abLoadDirect)
     {
-        model.FUN_0044b070((*(Loader4965**)&DAT_011c3b3c)->InsertIdle(strModelPath.GetText(), this, 0, apActor));
+        model.UpdateState_0044b070((*(Loader4965**)&DAT_011c3b3c)->InsertIdle(strModelPath.GetText(), this, 0, apActor));
     }
     else
     {
-        model.FUN_0044b070((*(Loader4965**)&DAT_011c3b3c)->LoadKFModel(strModelPath.GetText()));
+        model.UpdateState_0044b070((*(Loader4965**)&DAT_011c3b3c)->LoadKFModel(strModelPath.GetText()));
     }
-    if (model.FUN_00559450())
+    if (model.Modelloader_GetReferencedThis())
     {
         for (int j = 0; j < 2; ++j)
         {
@@ -9458,12 +9462,12 @@ LocalAnimIdle::LocalAnimIdle(TESIdleForm* apItem, int apField14, int apFieldC, A
                                     ->GetControllerManager_00496940()
                                     ->GetStringAtOffset();
                 void* pointer = manager;
-                AddObjectToPaletteRecursive(sols[j].FUN_00559450(), pointer);
+                AddObjectToPaletteRecursive(sols[j].Modelloader_GetReferencedThis(), pointer);
                 ((AnimationActorOperations*)apActor)->SetByteAt14E(true);
             }
         }
         if (!abLoadDirect)
-            QueuedChildren_AddFinishedChild(model.FUN_00559450());
+            QueuedChildren_AddFinishedChild(model.Modelloader_GetReferencedThis());
         ready = 1;
     }
     else
@@ -9721,7 +9725,7 @@ bool Animation::SpecialIdlePlay_0()
 BSAnimGroupSequence* AnimSequenceMultiple::GetControllerSequence(TESAnimGroup* apAnimGroup)
 {
     void* listIt;
-    listIt = (void*)((SequenceListHead48*)m_pSingleSequence)->FUN_00559450();
+    listIt = (void*)((SequenceListHead48*)m_pSingleSequence)->Modelloader_GetReferencedThis();
     while (listIt != 0)
     {
         BSAnimGroupSequence* pseq;

@@ -29,11 +29,12 @@ struct TargetClass
     char pad00[8];
     int m_val;
 
-    int FUN_00db7860();
+    int ComputeValue_00db7860();
 };
 
 // @fnv 0x00db7860
-int TargetClass::FUN_00db7860()
+// src: GUESS 0x00db7860 (confidence: low)
+int TargetClass::ComputeValue_00db7860()
 {
     return ~m_val;
 }

@@ -355,7 +355,8 @@ struct FUN_008df040_shell
 extern TESSaveLoadGame* g_TESSaveLoadGame;
 
 // @fnv 0x007065c0
-unsigned short __cdecl FUN_007065c0(void)
+// src: GUESS 0x007065c0 (confidence: medium)
+unsigned short __cdecl Object_GetVersionedSaveSize(void)
 {
     unsigned short v = 0;
     v += 4;
@@ -512,12 +513,13 @@ struct FUN_00863d60_obj
 {
     int field0;
     ActorCombatGroup** field4;
-    void __thiscall FUN_00863d60();
+    void __thiscall ReleaseStorage_00863d60();
 };
 
 // Sets field0 to the address of DAT_01081f98, then deallocates field4 via NiTMallocInterface::Deallocate.
 // @fnv 0x00863d60
-void __thiscall FUN_00863d60_obj::FUN_00863d60()
+// src: GUESS 0x00863d60 (confidence: medium)
+void __thiscall FUN_00863d60_obj::ReleaseStorage_00863d60()
 {
     field0 = reinterpret_cast<int>(&DAT_01081f98);
     NiTMallocInterface<ActorCombatGroup*>::Deallocate(field4);
@@ -686,11 +688,12 @@ extern int DAT_01081e30;
 struct FUN_00863360
 {
     void __thiscall FUN_008635d0(int);
-    void* __thiscall FUN_00863361(int);
+    void* __thiscall InitializeFields_00863360(int);
 };
 // Calls FUN_008635d0 with a, stores the address of DAT_01081e30 at this, and returns this.
 // @fnv 0x00863360
-void* __thiscall FUN_00863360::FUN_00863361(int a)
+// src: GUESS 0x00863360 (confidence: low)
+void* __thiscall FUN_00863360::InitializeFields_00863360(int a)
 {
     FUN_008635d0(a);
     *reinterpret_cast<void**>(this) = &DAT_01081e30;
@@ -793,11 +796,12 @@ void FUN_008636a0::Init()
 
 struct FUN_00863cb0_Class
 {
-    void __thiscall FUN_00863cb0(int a, char b, int c);
+    void __thiscall SetFields04And08(int a, char b, int c);
 };
 
 // @fnv 0x00863cb0
-void __thiscall FUN_00863cb0_Class::FUN_00863cb0(int a, char b, int aiValue)
+// src: GUESS 0x00863cb0 (confidence: medium)
+void __thiscall FUN_00863cb0_Class::SetFields04And08(int a, char b, int aiValue)
 {
     ((char*)a)[4] = b;
     ((int*)a)[2] = aiValue;
@@ -807,12 +811,12 @@ struct FUN_00c3ea10_stub
 {
     void LockFreePriorityQueue_Clear();
 };
-void FUN_00c3fce0(void*);
+void ProcessEntries_00c3fce0(void*);
 // @fnv 0x00c3e380
 // src: COMMUNITY 0x00c3e380
 void IOManager::CancelAllTasks()
 {
-    FUN_00c3fce0();
+    ProcessEntries_00c3fce0();
     ((FUN_00c3ea10_stub**)((char*)this + 0x64))[0]->LockFreePriorityQueue_Clear();
 }
 
@@ -1047,12 +1051,13 @@ namespace fnv_008637a0 {
 struct MyMap
 {
     void RemoveAll();
-    void FUN_008637a0();
+    void ReleaseStorage_008637a0();
 };
 void __cdecl _NiFree(void*);
 extern int DAT_01081f18;
 // @fnv 0x008637a0
-void MyMap::FUN_008637a0()
+// src: GUESS 0x008637a0 (confidence: medium)
+void MyMap::ReleaseStorage_008637a0()
 {
     *(void**)this = (void*)&DAT_01081f18;
     RemoveAll();
@@ -1072,10 +1077,11 @@ extern int DAT_01081f38;
 struct Holder : MyMap
 {
     void* m8;
-    void FUN_008638c0();
+    void ReleaseStorage_008638c0();
 };
 // @fnv 0x008638c0
-void Holder::FUN_008638c0()
+// src: GUESS 0x008638c0 (confidence: medium)
+void Holder::ReleaseStorage_008638c0()
 {
     *(int*)this = (int)&DAT_01081f38;
     RemoveAll();
@@ -1387,12 +1393,13 @@ namespace fnv_00861cd0 {
 
 struct FUN_00861cd0Class
 {
-    unsigned int FUN_00861cd0(unsigned short index);
+    unsigned int GetArrayValueChecked(unsigned short index);
 };
 
 // Returns 0 if index exceeds the form ID at this+0x7c, otherwise returns the element at index from the array at this+0x7c.
 // @fnv 0x00861cd0
-unsigned int FUN_00861cd0Class::FUN_00861cd0(unsigned short index)
+// src: GUESS 0x00861cd0 (confidence: medium)
+unsigned int FUN_00861cd0Class::GetArrayValueChecked(unsigned short index)
 {
     if (index > ((TESForm*)(*(unsigned int*)((char*)this + 0x7c)))->GetFormID())
         return 0;
@@ -1604,7 +1611,7 @@ void* SaveLoadChangesMap::DeleteThis(unsigned int flags)
 
 struct FUN_00854e10
 {
-    void FUN_00854e10_();
+    void ReleaseStorage_00854e10();
     void* FUN_00854fe0(unsigned int flags);
 };
 
@@ -1613,7 +1620,7 @@ void _Deallocate(void*);
 // @fnv 0x00854fe0
 void* FUN_00854e10::FUN_00854fe0(unsigned int flags)
 {
-    FUN_00854e10_();
+    ReleaseStorage_00854e10();
     if (flags & 1)
         _Deallocate(this);
     return this;
@@ -1677,7 +1684,7 @@ FUN_00857320::FUN_00857320() : m_uiFilterValue(0), m_base(), m_kMemberDescriptor
 namespace fnv_008578b0 {
 struct RefList
 {
-    void FUN_00905330(int& value);
+    void RemoveMatchingItem(int& value);
 };
 
 struct FUN_008578b0_Class
@@ -1702,7 +1709,7 @@ void FUN_008578b0_Class::ReleaseFile(BSFile* file, int type)
         if (pRefList)
         {
             int value = reinterpret_cast<int>(file);
-            pRefList->FUN_00905330(value);
+            pRefList->RemoveMatchingItem(value);
         }
         delete file;
         break;
@@ -2233,13 +2240,14 @@ class C8578b0
 class C857950
 {
   public:
-    void __thiscall FUN_00857950(int* a, int b);
+    void __thiscall UpdateState_00857950(int* a, int b);
 };
 
 void __cdecl BSSystemFile_DeleteFileA(int);
 
 // @fnv 0x00857950
-void __thiscall C857950::FUN_00857950(int* pObject, int b)
+// src: GUESS 0x00857950 (confidence: low)
+void __thiscall C857950::UpdateState_00857950(int* pObject, int b)
 {
     int* p;
     if (pObject == 0)
@@ -2397,10 +2405,11 @@ struct FUN_00861c60_shell
     unsigned int unknown_74;
     unsigned int unknown_78;
     Collection_00861c60* collection;
-    unsigned short FUN_00861c60(unsigned int value);
+    unsigned short ProcessEntries_00861c60(unsigned int value);
 };
 // @fnv 0x00861c60
-unsigned short FUN_00861c60_shell::FUN_00861c60(unsigned int value)
+// src: GUESS 0x00861c60 (confidence: low)
+unsigned short FUN_00861c60_shell::ProcessEntries_00861c60(unsigned int value)
 {
     unsigned int count = collection->GetHavokWorldObjectCountInSceneGraph_0084e3a0();
     for (unsigned int index = 0; index < count; ++index)
@@ -2633,7 +2642,7 @@ struct FUN_00863a60_Class
     FUN_00863a60_Node** nodes;
     int count;
 
-    void __thiscall FUN_00863a60(unsigned char key, int value);
+    void __thiscall ProcessEntries_00863a60(unsigned char key, int value);
 };
 
 // Empty inline virtual stub; the class's first vtable slot, defined with no body.
@@ -2657,7 +2666,8 @@ inline void* FUN_00863a60_Class::vf14()
     return 0;
 }
 
-void __thiscall FUN_00863a60_Class::FUN_00863a60(unsigned char key, int value)
+// src: GUESS 0x00863a60 (confidence: low)
+void __thiscall FUN_00863a60_Class::ProcessEntries_00863a60(unsigned char key, int value)
 {
     int counter = this->vf04(key);
     FUN_00863a60_Node* node = this->nodes[counter];
@@ -2699,7 +2709,7 @@ struct FUN_00863b40_Class
     int unk04;
     FUN_00863b40_Node** nodes;
 
-    bool __thiscall FUN_00863b40(unsigned char key, int* result);
+    bool __thiscall FindValueByKey_00863b40(unsigned char key, int* result);
 };
 
 // @fnv 0x00863b40
@@ -2714,7 +2724,8 @@ inline bool FUN_00863b40_Class::vf08(unsigned char, unsigned char)
     return false;
 }
 
-bool __thiscall FUN_00863b40_Class::FUN_00863b40(unsigned char key, int* result)
+// src: GUESS 0x00863b40 (confidence: medium)
+bool __thiscall FUN_00863b40_Class::FindValueByKey_00863b40(unsigned char key, int* result)
 {
     int counter = this->vf04(key);
     FUN_00863b40_Node* node = this->nodes[counter];
@@ -3067,8 +3078,8 @@ struct FUN_0096a2d0
 
 struct ReferenceMap
 {
-    bool FUN_00863b40(unsigned char id, FUN_0096a2d0** out);
-    void FUN_00863a60(unsigned char id, FUN_0096a2d0* entry);
+    bool FindValueByKey_00863b40(unsigned char id, FUN_0096a2d0** out);
+    void ProcessEntries_00863a60(unsigned char id, FUN_0096a2d0* entry);
 };
 
 struct FUN_00855a20_This
@@ -3085,11 +3096,11 @@ void FUN_00855a20_This::AddReferenceRecord(const FUN_006815c0* apRecord)
     *record = *apRecord;
     unsigned char id8 = (unsigned char)record->flags;
     FUN_0096a2d0* bucket6;
-    bool found4 = references->FUN_00863b40(id8, &bucket6);
+    bool found4 = references->FindValueByKey_00863b40(id8, &bucket6);
     if (!found4)
     {
         bucket6 = new FUN_0096a2d0;
-        references->FUN_00863a60(id8, bucket6);
+        references->ProcessEntries_00863a60(id8, bucket6);
     }
     bucket6->BSSimpleList_ActiveEffect_Insert(record, CompareByIndex5);
 }
@@ -3301,7 +3312,7 @@ struct List_009e03e0
     ~List_009e03e0();
     bool FUN_008256d0();
     OwnedObject856870** FUN_006815c0();
-    void FUN_00905330(OwnedObject856870**);
+    void RemoveMatchingItem(OwnedObject856870**);
 };
 struct FUN_00856870
 {
@@ -3455,7 +3466,7 @@ FUN_00856870::~FUN_00856870()
         while (!field70->FUN_008256d0())
         {
             OwnedObject856870* item = *field70->FUN_006815c0();
-            field70->FUN_00905330(&item);
+            field70->RemoveMatchingItem(&item);
             delete item;
         }
         delete field70;
@@ -3587,7 +3598,7 @@ extern "C" __declspec(dllimport) int __stdcall DeleteFileA(const char*);
 struct SaveOwner
 {
     void BuildSaveFilename(char*);
-    void FUN_00857950(SaveFile*, int);
+    void UpdateState_00857950(SaveFile*, int);
     SaveFile* OpenSaveFile(SaveFile*, const char*, unsigned int);
 };
 // Builds the save file path from the name and settings, rotates .bak backups, then opens or seeks a SaveFile according to mode.
@@ -3652,7 +3663,7 @@ SaveFile* SaveOwner::OpenSaveFile(SaveFile* file, const char* name, unsigned int
             lengthX = BSStringLength(shortName);
             if (lengthX > 4 && !_strnicmp(shortName + lengthX - 4, ".ess", 4))
                 shortName[lengthX - 4] = 0;
-            FUN_00857950(file, 0);
+            UpdateState_00857950(file, 0);
             if (!_strnicmp(shortName, "Save ", 5) || FUN_004812f0(shortName, "autosave"))
                 result2 = OpenSaveFile(0, 0, 0);
             else
@@ -5498,7 +5509,7 @@ Texture* NiSourceTexture_Create(PixelData*, const char*, const Preferences&);
 struct Reader
 {
     void* TESSaveLoadGame_CreateBuffer(unsigned int);
-    void FUN_008586d0(File*, void*, unsigned int);
+    void ReadFromStream_Thunk(File*, void*, unsigned int);
     void FUN_00858700(void*);
     void TESSaveLoadGame_LoadGameDataOLD(void*, unsigned int);
     void FUN_00857bd0(unsigned int);
@@ -5512,7 +5523,7 @@ Texture* Reader::ReadTexture(File* file, unsigned int size, unsigned int* puiFla
                              unsigned int* puiNumber, unsigned int* puiImageSize)
 {
     void* buffer5 = TESSaveLoadGame_CreateBuffer(size);
-    FUN_008586d0(file, buffer5, size);
+    ReadFromStream_Thunk(file, buffer5, size);
     if (DAT_011de45c->FUN_008df040() >= 56)
     {
         unsigned int flagsValue;
@@ -5687,7 +5698,7 @@ template <class T> struct BSStringT_00860ae0
     unsigned short length, capacity;
     BSStringT_00860ae0();
     ~BSStringT_00860ae0();
-    const T* FUN_00559450();
+    const T* Modelloader_GetReferencedThis();
 };
 extern SaveLoadPlayerCharacter* DAT_011dea3c;
 struct SaveSetting
@@ -5724,7 +5735,7 @@ void SaveNamer::BuildSaveFilename(char* output)
         unsigned int minutes5;
         name = DAT_011dea3c->TESObjectREFR_GetFullName();
         DAT_011dea3c->FormatSaveLocation(&locationString9);
-        location = locationString9.FUN_00559450();
+        location = locationString9.Modelloader_GetReferencedThis();
         if (!location)
         {
             if ((TESForm*)((TESObjectREFR*)DAT_011dea3c)->GetParentCell())
@@ -6306,7 +6317,7 @@ struct ExpiredChangeData
 {
     unsigned int flags;
     void* buffer;
-    unsigned int FUN_00559450();
+    unsigned int Modelloader_GetReferencedThis();
     char* FUN_00726070();
     void FUN_006ecd40(void*);
     void FUN_00537e90(unsigned int);
@@ -6415,7 +6426,7 @@ struct ExpiredSaveLoadGame
     void ExtraDismemberedLimbs_SetEaten(bool);
     void TESSaveLoadGame_LoadGameDataOLD(void*, unsigned int);
     void TESSaveLoadGame_SaveGameDataOLD(void*, unsigned int);
-    unsigned int FUN_00861cd0(unsigned short);
+    unsigned int GetArrayValueChecked(unsigned short);
     unsigned int FUN_00861c00(unsigned int);
     void* TESSaveLoadGame_CreateBuffer(unsigned int);
     void FUN_00857d10(ExpiredReference*, bool);
@@ -6435,7 +6446,7 @@ void ExpiredSaveLoadGame::PurgeExpiredCellChanges()
         ExpiredChangeData* i = 0;
         unsigned int e = 0;
         changes->GetNext(position, e, (ChangeData*&)i);
-        unsigned int j = i->FUN_00559450();
+        unsigned int j = i->Modelloader_GetReferencedThis();
         ExpiredCellCoordinates p;
         p.x = 0x7fffffff;
         p.y = 0x7fffffff;
@@ -6453,7 +6464,7 @@ void ExpiredSaveLoadGame::PurgeExpiredCellChanges()
                     {
                         ExpiredCellSmall cell;
                         ((ExpiredSaveLoadGame*)g_TESSaveLoadGame)->TESSaveLoadGame_LoadGameDataOLD(&cell, 4);
-                        e = FUN_00861cd0(cell.world);
+                        e = GetArrayValueChecked(cell.world);
                         p.x = cell.x;
                         p.y = cell.y;
                     }
@@ -6461,7 +6472,7 @@ void ExpiredSaveLoadGame::PurgeExpiredCellChanges()
                     {
                         ExpiredCellLarge cell;
                         ((ExpiredSaveLoadGame*)g_TESSaveLoadGame)->TESSaveLoadGame_LoadGameDataOLD(&cell, 6);
-                        e = FUN_00861cd0(cell.world);
+                        e = GetArrayValueChecked(cell.world);
                         p.x = cell.x;
                         p.y = cell.y;
                     }
@@ -6512,7 +6523,7 @@ void ExpiredSaveLoadGame::PurgeExpiredCellChanges()
         ExpiredChangeData* s = 0;
         unsigned int f = 0;
         changes->GetNext(position, f, (ChangeData*&)s);
-        unsigned int cf = s->FUN_00559450();
+        unsigned int cf = s->Modelloader_GetReferencedThis();
         unsigned int a = 0;
         int q = 0x7fffffff;
         int i = 0x7fffffff;
@@ -6912,7 +6923,7 @@ struct Node61
 Node61* __fastcall FUN_00726070(Node61* p);
 struct List61 : Node61
 {
-    void FUN_00905330(Cmd61* const& c);
+    void RemoveMatchingItem(Cmd61* const& c);
 };
 struct Map61
 {
@@ -6945,7 +6956,7 @@ void* Own61::RemoveCommand(const char* key, int a, int b)
             if (cmd && a == cmd->m_iWordAt04 && b == cmd->m_8)
             {
                 void* r = cmd->m_iWordAt00;
-                list->FUN_00905330(cmd);
+                list->RemoveMatchingItem(cmd);
                 delete cmd;
                 return r;
             }
@@ -6986,7 +6997,7 @@ struct Worker
     Queue* queue;
     volatile unsigned long* hazardHead;
     volatile unsigned long* hazardNext;
-    void FUN_00c3f090(Node*);
+    void UpdateReferenceState_00c3f090(Node*);
     bool TryDequeue(Ptr* output);
 };
 // Pops the queue head with hazard-pointer protection, copies its value into output, retires the node and returns whether an item was dequeued.
@@ -7092,7 +7103,7 @@ bool Worker::TryDequeue(Ptr* output)
     }
     *hazardHead = 0;
     *hazardNext = 0;
-    FUN_00c3f090(head);
+    UpdateReferenceState_00c3f090(head);
     return true;
 }
 
@@ -7111,7 +7122,7 @@ extern GlobalObj0047c850* DAT_011de45c;
 struct RefCalls00855150
 {
     void ChangeData_RemoveChange(unsigned int flags);
-    int FUN_00559450();
+    int Modelloader_GetReferencedThis();
 };
 
 struct FormCalls00855150
@@ -7133,7 +7144,7 @@ bool SaveLoadChangesMap::ChangesMap_RemoveChange(TESForm* form, unsigned int fla
     if (ref != 0)
     {
         ((fnv_00855150::RefCalls00855150*)ref)->ChangeData_RemoveChange(flags);
-        if (((fnv_00855150::RefCalls00855150*)ref)->FUN_00559450() == 0)
+        if (((fnv_00855150::RefCalls00855150*)ref)->Modelloader_GetReferencedThis() == 0)
         {
             this->RemoveAt(((fnv_00855150::FormCalls00855150*)form)->GetHavokWorldObjectCountInSceneGraph_0084e3a0());
             TESObjectREFR* a4 = ref;
@@ -7364,10 +7375,10 @@ struct Sky58030
     void __thiscall Sky_SaveGameTES();
 };
 Sky58030* __cdecl FUN_0046dd00();
-unsigned short __cdecl FUN_007065c0();
+unsigned short __cdecl Object_GetVersionedSaveSize();
 void __cdecl SaveMenuTabStates();
 unsigned short __cdecl TESDataHandler_RegionList_GetSaveSize();
-void __cdecl FUN_004f1300();
+void __cdecl Object_ProcessEntries_004f1300();
 struct Field58030
 {
     void __thiscall FUN_008558a0(int id, const char* name);
@@ -7481,7 +7492,7 @@ void __thiscall Host58030::TESSaveLoadGame_SaveGlobalData(int aParam)
         FUN_00858700(v405);
     }
 
-    w4 = FUN_007065c0();
+    w4 = Object_GetVersionedSaveSize();
     TESSaveLoadGame_WriteFile(aParam, &w4, 2);
     if (w4 != 0)
     {
@@ -7500,7 +7511,7 @@ void __thiscall Host58030::TESSaveLoadGame_SaveGlobalData(int aParam)
         if (f44 != 0)
             f44->FUN_008558a0(w4, "Regions");
         v48 = TESSaveLoadGame_CreateBuffer(w4);
-        FUN_004f1300();
+        Object_ProcessEntries_004f1300();
         ForwardToFUN_00857b50(aParam, v48, w4);
         FUN_00858700(v48);
     }
@@ -8344,7 +8355,7 @@ void __cdecl Warning_005b5e40(const char*, ...);
 }
 struct SaveHandler85A520
 {
-    unsigned short FUN_00861c60(unsigned int);
+    unsigned short ProcessEntries_00861c60(unsigned int);
     unsigned int FindOrAddValue(unsigned int);
     void TESSaveLoadGame_SaveInitialData(SaveForm85A520*, unsigned int);
 };
@@ -8362,7 +8373,7 @@ void SaveHandler85A520::TESSaveLoadGame_SaveInitialData(SaveForm85A520* form, un
             if (flags & 0)
             {
                 SmallCellRecord85A520 small;
-                small.id = FUN_00861c60(((SaveForm85A520*)cell->GetParentWorldSpace())->GetHavokWorldObjectCountInSceneGraph_0084e3a0());
+                small.id = ProcessEntries_00861c60(((SaveForm85A520*)cell->GetParentWorldSpace())->GetHavokWorldObjectCountInSceneGraph_0084e3a0());
                 small.x = (unsigned char)cell->GetCellGridX();
                 small.y = (unsigned char)cell->GetCellGridY();
                 ((SaveStream85A520*)::DAT_011de45c)->TESSaveLoadGame_SaveGameDataOLD(&small, 4);
@@ -8370,7 +8381,7 @@ void SaveHandler85A520::TESSaveLoadGame_SaveInitialData(SaveForm85A520* form, un
             else if (flags & 0)
             {
                 LargeCellRecord85A520 large;
-                large.id = FUN_00861c60(((SaveForm85A520*)cell->GetParentWorldSpace())->GetHavokWorldObjectCountInSceneGraph_0084e3a0());
+                large.id = ProcessEntries_00861c60(((SaveForm85A520*)cell->GetParentWorldSpace())->GetHavokWorldObjectCountInSceneGraph_0084e3a0());
                 large.x = cell->GetCellGridX();
                 large.y = cell->GetCellGridY();
                 ((SaveStream85A520*)::DAT_011de45c)->TESSaveLoadGame_SaveGameDataOLD(&large, 6);
@@ -8692,7 +8703,7 @@ struct File
     unsigned int unk0, unk4, unk8, unkc, unk10;
     File(const char*, int, int, int);
     ~File();
-    int FUN_00559450();
+    int Modelloader_GetReferencedThis();
 };
 
 struct Stats
@@ -8780,7 +8791,7 @@ void Main::SaveStats_PrintStats(const char* filename)
         BSSystemFile_DeleteFileA(pathSlot0);
 
     File fileSlot15(pathSlot0, 1, 2, 0);
-    if (fileSlot15.FUN_00559450())
+    if (fileSlot15.Modelloader_GetReferencedThis())
         return;
 
     Stats allSlot12;

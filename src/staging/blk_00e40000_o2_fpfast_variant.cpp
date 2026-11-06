@@ -17,8 +17,8 @@ struct FUN_00e4e400_class
 {
     FUN_00e4e400_class* __thiscall hkaAnnotationTrack_hkaAnnotationTrack();
 };
-void FUN_00e52860(const float* src, float* dst);
-void FUN_00e52ef0(const float* src, float* dst);
+void Object_UpdateFields_00e52860(const float* src, float* dst);
+void Runtime_UpdateState_00e52ef0(const float* src, float* dst);
 struct FUN_00e58780_Class
 {
     int* GetElementPtr(int a, int b);
@@ -37,12 +37,12 @@ struct GlobalObjectO2_00d472a0
     int x;
 };
 GlobalObjectO2_00d472a0 g_0126e600;
-void __stdcall FUN_00e5c540(int, GlobalObjectO2_00d472a0*);
-void __stdcall FUN_00e5c5b0(int a);
-extern "C" void __stdcall FUN_00e5c540(int, int);
+void __stdcall FindResourceWithExpectedName(int, GlobalObjectO2_00d472a0*);
+void __stdcall Runtime_ForwardCall_00e5c5b0(int a);
+extern "C" void __stdcall FindResourceWithExpectedName(int, int);
 struct GlobalObjectO2_00d472a0;
 extern GlobalObjectO2_00d472a0 g_0126c5f0;
-void __stdcall FUN_00e5c5f0(int a);
+void __stdcall Runtime_ForwardCall_00e5c5f0(int a);
 struct FUN_00e459c0_class
 {
     void SetBitMaskFlags(int a, int b);
@@ -53,11 +53,11 @@ struct FUN_00e45a10_class
 };
 struct FUN_00e587b0_Class
 {
-    int* __thiscall FUN_00e587b0(int idx);
+    int* __thiscall GetElementAddress_00e587b0(int idx);
 };
 struct FUN_00e58880_Class
 {
-    float FUN_00e58880(int offset);
+    float GetIndexedValue_00e58880(int offset);
 };
 int __cdecl Factorial(int count);
 extern const float runtimeFloatSettingDefault132;
@@ -133,15 +133,15 @@ struct FUN_00e58b10_class
     void hkaSparseLSQMatrix_float_Multiply(int a, int b, int c);
 };
 extern const char* const g_0126c5f0_arg1;
-void __stdcall FUN_00e5c540(int, int);
-void __stdcall FUN_00e5c5d0(int a);
+void __stdcall FindResourceWithExpectedName(int, int);
+void __stdcall Runtime_ForwardCall_00e5c5d0(int a);
 struct GlobalObjectO2_00d472a0;
 extern GlobalObjectO2_00d472a0 g_0126eb10;
-void __stdcall FUN_00e5c540(int a, GlobalObjectO2_00d472a0* b);
-void __stdcall FUN_00e5c630(int a);
+void __stdcall FindResourceWithExpectedName(int a, GlobalObjectO2_00d472a0* b);
+void __stdcall Runtime_ForwardCall_00e5c630(int a);
 struct GlobalObjectO2_00d472a0;
 extern GlobalObjectO2_00d472a0 g_0126eac8;
-void __stdcall FUN_00e5c540(int, GlobalObjectO2_00d472a0*);
+void __stdcall FindResourceWithExpectedName(int, GlobalObjectO2_00d472a0*);
 void __stdcall CallWithGlobalObject(int a);
 struct FUN_00e406d0_cls
 {
@@ -511,7 +511,7 @@ struct FUN_00e4ae80_class
 // before the tail jump to the secondary base's implementation.
 struct ThunkPrimary
 {
-    virtual void FUN_00e4af50();
+    virtual void ForwardCall_00e4af50();
     int unk04;
     int unk08;
     int unk0C;
@@ -519,12 +519,12 @@ struct ThunkPrimary
 };
 struct ThunkSecondary
 {
-    virtual void FUN_00cb0c10();
+    virtual void UpdateState_00cb0c10();
 };
 struct ThunkDerived : ThunkPrimary, ThunkSecondary
 {
     ThunkDerived();
-    virtual void FUN_00e4af50();
+    virtual void ForwardCall_00e4af50();
 };
 ThunkDerived::ThunkDerived()
 {}
@@ -542,7 +542,7 @@ struct S_00e4af60_class
     int unk10;
     S_00e4af60_helper unk14;
 
-    S_00e4af60_class* FUN_00e4af60();
+    S_00e4af60_class* InitializeFields_00e4af60();
 };
 extern int DAT_010ec1fc;
 void __cdecl AccumulateNeighborSum(float k, const float* src, float* dst, int n);
@@ -563,17 +563,17 @@ struct PackedFormat
 void _hkQuantizeReal(const float* src, unsigned int count, const PackedFormat* format, unsigned char* dst);
 void __cdecl PackFourFloatsToNibbles(const float* src, unsigned char* dst);
 extern const float g_x;
-float __cdecl FUN_00e52f40();
+float __cdecl Object_GetGlobalValue_00e52f40();
 extern const float g_010ec960;
-float __cdecl FUN_00e52f50();
+float __cdecl Runtime_GetField010ec960();
 extern const float g_010af2f0;
-float __cdecl FUN_00e52f60();
+float __cdecl Object_GetGlobalValue_00e52f60();
 extern const float g_010ec964;
-float __cdecl FUN_00e52f70();
+float __cdecl Runtime_GetField010ec964();
 extern const float DAT_010ec968;
-float __cdecl FUN_00e52f80();
+float __cdecl Object_GetDAT_010ec968_00e52f80();
 extern float DAT_0104da4c;
-float __cdecl FUN_00e52f90(void);
+float __cdecl Runtime_GetDAT0104da4c(void);
 void __cdecl SwapBytes(void* arg);
 inline void SwapByte(unsigned char& left, unsigned char& right)
 {
@@ -609,7 +609,7 @@ struct FUN_00e531a0_struct
     float m_08;
     float m_0c;
 
-    FUN_00e531a0_struct* FUN_00e531a0(const FUN_00e531a0_struct* other);
+    FUN_00e531a0_struct* ComputeValue_00e531a0(const FUN_00e531a0_struct* other);
 };
 // FUN_00e531d0: thiscall member of a 4-float vector; subtracts a vector
 // (given by pointer/reference) from itself, in place, and returns itself.
@@ -619,7 +619,7 @@ struct FUN_00e531d0_cls
     float m_04;
     float m_08;
     float m_0c;
-    FUN_00e531d0_cls* FUN_00e531d0(const float* pOther);
+    FUN_00e531d0_cls* SubtractFourComponents(const float* pOther);
 };
 struct FUN_00e53200_cls
 {
@@ -645,8 +645,8 @@ struct FourFloatVector
     float z;
     float w;
 
-    FourFloatVector& FUN_00e531a0(int parameter);
-    FourFloatVector FUN_00e53260(int parameter);
+    FourFloatVector& ComputeValue_00e531a0(int parameter);
+    FourFloatVector ProcessAndReturnValue_00e53260(int parameter);
 };
 struct S_e53300_Vec;
 struct S_e53300_Vec
@@ -675,7 +675,7 @@ struct SpawnedObject
 {
     void Method(float* pOut, float f);
 };
-float* __cdecl FUN_00e533a0(float* pOut, float f, SpawnedObject* pObj);
+float* __cdecl Object_ScaleCopy_Thunk(float* pOut, float f, SpawnedObject* pObj);
 // Thin cdecl wrapper: forwards its first argument and a float to a
 // thiscall method of the object given as the third argument, then hands
 // the first argument back to the caller.
@@ -695,11 +695,11 @@ FourComponentVector::FourComponentVector(float a, float b, float c, float d) : x
 {}
 struct FUN_00e53580_cls
 {
-    float FUN_00e53580(int idx);
+    float GetIndexedValue_00e53580(int idx);
 };
 struct S_00e53590_Foo
 {
-    int* __thiscall FUN_00e53590(int index);
+    int* __thiscall GetElementAddress_00e53590(int index);
 };
 struct Vec4f
 {
@@ -737,7 +737,7 @@ void __cdecl hkaNURBS_Point_Dot(int a, int b);
 struct FUN_00e54ad0_cls
 {
     int unk00;
-    void FUN_00e54ad0();
+    void EvaluateSelfDotProduct();
 };
 // The two callees below are unnamed in the binary's symbol table; they bind by position.
 extern void __cdecl helper_before();
@@ -784,7 +784,7 @@ struct FUN_00e54ae0_class
 };
 struct FUN_00e532b0_class
 {
-    FUN_00e54ae0_class* __thiscall FUN_00e532b0(void* buffer, void* value);
+    FUN_00e54ae0_class* __thiscall UpdateState_00e532b0(void* buffer, void* value);
 };
 void __cdecl hkaNURBS_Distance3D(void* value, FUN_00e532b0_class* object);
 char* __cdecl IsSampleBoundary(int* base, int idx, int b, int c);
@@ -829,7 +829,7 @@ struct FUN_00e58890_Class
     int m_08;
     int m_0c;
     int m_10;
-    int FUN_00e58890();
+    int EvaluateValue_00e58890();
 };
 struct SpawnArray
 {
@@ -930,7 +930,7 @@ struct CharBuffer
     char* destination;
     unsigned capacity, length;
     void FUN_00cb1600(char*, unsigned);
-    CharBuffer* FUN_00cc01c0(const char*);
+    CharBuffer* ProcessAndReturnValue_00cc01c0(const char*);
     CharBuffer* WriteName(const void*);
     void FUN_00cc00e0();
 };
@@ -945,9 +945,9 @@ extern DiagnosticLogger* DAT_01268360;
 extern const char str_010ecd20[], str_010eccfc[], str_010ecd0c[], str_010eccc8[];
 struct ConfigTable
 {
-    ConfigValue* FUN_00e5c5d0(const char*);
-    ConfigValue* FUN_00e5c5b0(const char*);
-    ConfigValue* FUN_00e5c5f0(const char*);
+    ConfigValue* Runtime_ForwardCall_00e5c5d0(const char*);
+    ConfigValue* Runtime_ForwardCall_00e5c5b0(const char*);
+    ConfigValue* Runtime_ForwardCall_00e5c5f0(const char*);
     int GetUnsignedValue(const char*, bool, unsigned*);
 };
 struct FUN_00e5c8b0_Node
@@ -988,8 +988,8 @@ struct FUN_00e5c8b0_cls
     int unk04;
     int unk08;
     int unk0C;
-    FUN_00e5c8b0_Rec* FUN_00e5c610(int a);
-    FUN_00e5c8b0_Rec* FUN_00e5c5f0(int a);
+    FUN_00e5c8b0_Rec* Runtime_ForwardCall_00e5c610(int a);
+    FUN_00e5c8b0_Rec* Runtime_ForwardCall_00e5c5f0(int a);
     int GetAttributeValue(int a, bool flag, unsigned int* out);
 };
 struct FUN_00e5c8b0_Logger
@@ -1170,7 +1170,7 @@ class FUN_00e5c9b0_cls
 struct FUN_00e5cdb0_class
 {
     void __thiscall SpliceArray(int a, int b, int c, int d, int e);
-    void __thiscall FUN_00e5cec0(int a, int b, int c, int d);
+    void __thiscall SpliceArray_Thunk(int a, int b, int c, int d);
 };
 struct S_00e5cfb0_Object
 {
@@ -1787,7 +1787,7 @@ class E87E0Matrix
     {
         return m_pfData[i];
     }
-    E87E0Matrix& FUN_00e587e0(const E87E0Matrix& kOther);
+    E87E0Matrix& SubtractMatrixElements(const E87E0Matrix& kOther);
 };
 class CE588A0Vector
 {
@@ -1882,7 +1882,7 @@ struct FUN_00e46b80_class
     int* unk30;
     FUN_00c905b0_class* unk34;
 
-    void __thiscall FUN_00e46b80();
+    void __thiscall UpdateFields_00e46b80();
 };
 struct FUN_00e46e80
 {
@@ -1914,7 +1914,7 @@ struct FnvCpu_FUN_00e473f0_CpuObject
     unsigned int unk04;
     unsigned int unk08;
     unsigned char value;
-    void FUN_00e473f0(unsigned char arg0);
+    void SetValue(unsigned char arg0);
 };
 extern int DAT_010e81a4;
 struct FUN_00e48240
@@ -2020,7 +2020,7 @@ struct Owner4a5
     char pad[0x14];
     Node4a5* m_pkTreeNode;
 
-    Node4a5* FUN_00e4a550(const char* pcName);
+    Node4a5* EvaluateValue_00e4a550(const char* pcName);
 };
 struct GtrStand_
 {
@@ -2030,7 +2030,7 @@ struct GtrStand_
     int unk0c;
     int unk10;
     int unk14;
-    void* FUN_00e4af40();
+    void* GetUnk14Address_00e4af40();
 };
 struct HolderStub;
 HolderStub* __cdecl hkMemoryRouter_getInstance();
@@ -2051,7 +2051,7 @@ struct E58E80Object
 {
     void CopyFrom(int setting);
 };
-E87E0Matrix* __fastcall FUN_00e58e80(int setting, int unused, E58E80Object* object, const E87E0Matrix& right);
+E87E0Matrix* __fastcall Object_ProcessAndReturnValue_00e58e80(int setting, int unused, E58E80Object* object, const E87E0Matrix& right);
 void __cdecl PrefixSum(float* p, unsigned int n);
 class hkBool
 {
@@ -2080,7 +2080,7 @@ struct E5B110Obj
 static void _copyAtoms(E5B110Obj* obj, void* p);
 void E5B110Caller(char* q, int a, int b, int c);
 int GetUnsignedValue(const char*, bool, unsigned*);
-int FUN_00e5c8a0(const char* p, bool b, unsigned* u);
+int Object_GetUnsignedValue_Thunk(const char* p, bool b, unsigned* u);
 struct UnkRet;
 struct FUN_00e47390_obj
 {
@@ -2101,7 +2101,7 @@ struct UnkHolder
     void* m_00;
     unsigned int m_04;
     UnkRet* hkMemoryRouter_getInstance();
-    void FUN_00e47390();
+    void UpdateState_00e47390();
 };
 extern float DAT_0108cb00;
 class RefObjectE483
@@ -2134,8 +2134,8 @@ class FUN_00e48390 : public TypedObjectE483
     int m_iB;
     int m_iA;
 };
-unsigned char __cdecl FUN_00e48460(unsigned char value);
-static unsigned int FUN_00e48470(unsigned int uiValue);
+unsigned char __cdecl Object_ReturnArgument_00e48460(unsigned char value);
+static unsigned int Runtime_EvaluateValue_00e48470(unsigned int uiValue);
 unsigned int E48470Shift(unsigned int uiValue);
 struct e48480_cls
 {
@@ -2143,7 +2143,7 @@ struct e48480_cls
 };
 extern "C" e48480_cls* e48480_target(void);
 extern "C" unsigned char e48480_val(void);
-static void FUN_00e48480(e48480_cls* dst, unsigned char val);
+static void Object_UpdateFields_00e48480(e48480_cls* dst, unsigned char val);
 void e48480_caller(void);
 // FUN_00e48490: ORs the low byte at [this] with an incoming value shifted
 // left by 8, stores the dword back, and returns the shifted value in eax.
@@ -2157,7 +2157,7 @@ union E48490Cell
 };
 E48490Cell* E48490PtrSrc();
 int E48490ValSrc();
-static int FUN_00e48490(E48490Cell* cell, int value);
+static int Runtime_UpdateState_00e48490(E48490Cell* cell, int value);
 void E48490Driver();
 static void hkGetSignalRange(float* outMin, float* outMax, const float* values, int count);
 extern "C" float* mm_min(void);

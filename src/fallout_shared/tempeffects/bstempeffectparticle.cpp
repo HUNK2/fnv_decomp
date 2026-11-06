@@ -189,7 +189,7 @@ struct Yv
 struct Tgt;
 struct Sub18
 {
-    Tgt* FUN_00559450();
+    Tgt* Modelloader_GetReferencedThis();
     void FUN_0066b0d0(int);
 };
 struct Mgr
@@ -207,11 +207,11 @@ BSTempEffectParticle::~BSTempEffectParticle()
     StopSounds();
     if ((Tgt*)pFilename)
         DAT_011c3b3c->ModelLoader_ReleaseModel((Tgt*)pFilename, 0, 1);
-    if (reinterpret_cast<Sub18*>(&m_flt)->FUN_00559450())
+    if (reinterpret_cast<Sub18*>(&m_flt)->Modelloader_GetReferencedThis())
     {
-        if (((Fn*)reinterpret_cast<Sub18*>(&m_flt)->FUN_00559450())->NiAVObject_GetParent())
+        if (((Fn*)reinterpret_cast<Sub18*>(&m_flt)->Modelloader_GetReferencedThis())->NiAVObject_GetParent())
         {
-            ((Fn*)reinterpret_cast<Sub18*>(&m_flt)->FUN_00559450())->NiAVObject_GetParent()->v3a(reinterpret_cast<Sub18*>(&m_flt)->FUN_00559450());
+            ((Fn*)reinterpret_cast<Sub18*>(&m_flt)->Modelloader_GetReferencedThis())->NiAVObject_GetParent()->v3a(reinterpret_cast<Sub18*>(&m_flt)->Modelloader_GetReferencedThis());
         }
     }
     reinterpret_cast<Sub18*>(&m_flt)->FUN_0066b0d0(0);
@@ -269,7 +269,7 @@ struct DataModel
 };
 struct DataHandle
 {
-    DataModel* __thiscall FUN_00559450();
+    DataModel* __thiscall Modelloader_GetReferencedThis();
 };
 struct GlobalState
 {
@@ -312,7 +312,7 @@ unsigned short BSTempEffectParticle::GetSaveSize()
     previous += 0xc;
     previous += 4;
     previous += 2;
-    void* active = NiObject_DynamicCast(&DAT_011f36ac, reinterpret_cast<DataHandle*>(&m_flt)->FUN_00559450()->NiObjectNET_GetControllers());
+    void* active = NiObject_DynamicCast(&DAT_011f36ac, reinterpret_cast<DataHandle*>(&m_flt)->Modelloader_GetReferencedThis()->NiObjectNET_GetControllers());
     if (active != 0)
     {
         previous += TESObjectREFR_GetControllerManagerSaveSize(active);
@@ -703,7 +703,7 @@ struct R01ParticleTransform
 
 struct R01Node
 {
-    R01Node* FUN_00559450();
+    R01Node* Modelloader_GetReferencedThis();
     void NiAVObject_SetTranslate(R01Point3*);
     void SetRotate_0043fa80(R01Matrix3*);
     void NiAVObject_SetScale(float);
@@ -715,7 +715,7 @@ struct R01Node
 struct R01NodeRef
 {
     void FUN_0066b0d0(R01Node*);
-    R01Node* FUN_00559450();
+    R01Node* Modelloader_GetReferencedThis();
 };
 
 struct R01SceneRoot
@@ -728,7 +728,7 @@ struct R01SceneLink
     void* m_ptr;
     R01SceneLink(int);
     ~R01SceneLink();
-    R01Node* FUN_00559450();
+    R01Node* Modelloader_GetReferencedThis();
 };
 
 struct R01Scene
@@ -957,26 +957,26 @@ bool BSTempEffectParticle::LoadFromSave()
             if (a4_2)
             {
                 reinterpret_cast<R01NodeRef*>(&m_flt)->FUN_0066b0d0(a4_2->FUN_00a5d680());
-                if (reinterpret_cast<R01NodeRef*>(&m_flt)->FUN_00559450())
+                if (reinterpret_cast<R01NodeRef*>(&m_flt)->Modelloader_GetReferencedThis())
                 {
                     R01SceneLink aActorPos6(0);
                     reinterpret_cast<R01Scene*>(DAT_011c3b3c)->ModelLoader_FindModel(aActive8, &aActorPos6);
-                    pFilename = reinterpret_cast<const char*>(aActorPos6.FUN_00559450()->FUN_00559450());
-                    reinterpret_cast<R01NodeRef*>(&m_flt)->FUN_00559450()->NiAVObject_SetTranslate(&aAPGeom);
-                    reinterpret_cast<R01NodeRef*>(&m_flt)->FUN_00559450()->SetRotate_0043fa80(&aAccuracy5);
-                    reinterpret_cast<R01NodeRef*>(&m_flt)->FUN_00559450()->NiAVObject_SetScale(aAction2);
+                    pFilename = reinterpret_cast<const char*>(aActorPos6.Modelloader_GetReferencedThis()->Modelloader_GetReferencedThis());
+                    reinterpret_cast<R01NodeRef*>(&m_flt)->Modelloader_GetReferencedThis()->NiAVObject_SetTranslate(&aAPGeom);
+                    reinterpret_cast<R01NodeRef*>(&m_flt)->Modelloader_GetReferencedThis()->SetRotate_0043fa80(&aAccuracy5);
+                    reinterpret_cast<R01NodeRef*>(&m_flt)->Modelloader_GetReferencedThis()->NiAVObject_SetScale(aAction2);
                     R01CellDynamicNode* aAFlags = reinterpret_cast<R01Cell*>(pCell)->FUN_005497a0();
-                    aAFlags->AttachChildInAvailableSlot(reinterpret_cast<R01NodeRef*>(&m_flt)->FUN_00559450(), 1);
-                    reinterpret_cast<R01NodeRef*>(&m_flt)->FUN_00559450()->UpdateProperties();
+                    aAFlags->AttachChildInAvailableSlot(reinterpret_cast<R01NodeRef*>(&m_flt)->Modelloader_GetReferencedThis(), 1);
+                    reinterpret_cast<R01NodeRef*>(&m_flt)->Modelloader_GetReferencedThis()->UpdateProperties();
                     NiUpdateData aA148((float)((double)DAT_011f6394.FUN_00825c00(1, 0) / DAT_01017b70));
-                    reinterpret_cast<R01NodeRef*>(&m_flt)->FUN_00559450()->NiAVObject_Update(&aA148);
-                    NiTimeController_StartAnimations(reinterpret_cast<R01NodeRef*>(&m_flt)->FUN_00559450());
+                    reinterpret_cast<R01NodeRef*>(&m_flt)->Modelloader_GetReferencedThis()->NiAVObject_Update(&aA148);
+                    NiTimeController_StartAnimations(reinterpret_cast<R01NodeRef*>(&m_flt)->Modelloader_GetReferencedThis());
                     if (a3_2)
                     {
-                        void* a1c4 = NiObject_DynamicCast(&DAT_011f36ac, reinterpret_cast<R01NodeRef*>(&m_flt)->FUN_00559450()->NiObjectNET_GetControllers());
+                        void* a1c4 = NiObject_DynamicCast(&DAT_011f36ac, reinterpret_cast<R01NodeRef*>(&m_flt)->Modelloader_GetReferencedThis()->NiObjectNET_GetControllers());
                         if (a1c4)
                         {
-                            TESObjectREFR_LoadControllerManager(a1c4, reinterpret_cast<R01NodeRef*>(&m_flt)->FUN_00559450(), DAT_01012054);
+                            TESObjectREFR_LoadControllerManager(a1c4, reinterpret_cast<R01NodeRef*>(&m_flt)->Modelloader_GetReferencedThis(), DAT_01012054);
                         }
                         else
                         {

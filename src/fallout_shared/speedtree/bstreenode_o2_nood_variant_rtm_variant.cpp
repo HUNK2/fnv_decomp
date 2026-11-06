@@ -33,7 +33,7 @@ public:
         unsigned char vecData[16];
     };
 
-    void FUN_004b4db0(const float*);
+    void SetQuaternionComponentsFromVector(const float*);
 };
 #include "../../../include/bhkTransformShape.h"
 // src/fallout_shared/speedtree/bstreenode_o2_nood_variant_rtm_variant.cpp - RTM variant unit created 2026-11-01 by rtm_route.py: community reworks of src/fallout_shared/speedtree/bstreenode_o2_nood_variant.cpp that match byte for byte only
@@ -59,7 +59,7 @@ struct FUN_00c6c290_holder
 };
 struct FUN_0066d410_shell : public FUN_00c6c290_holder
 {
-    void FUN_0066d410();
+    void ForwardCall_0066d410();
 };
 extern const NiRTTI g_012683d0;
 struct FUN_0066d430_shell
@@ -69,13 +69,13 @@ struct FUN_0066d430_shell
 void __cdecl __Dummy_00b6fef0(void* p, unsigned int size);
 struct FUN_0066d440_shell
 {
-    void FUN_0066d470();
+    void ForwardCall_0066d470();
     void* FUN_0066d440(unsigned int flags);
 };
 struct FUN_0066d470_shell
 {
-    void FUN_0066d410();
-    void FUN_0066d470();
+    void ForwardCall_0066d410();
+    void ForwardCall_0066d470();
 };
 struct FUN_0066d510_shell
 {
@@ -152,7 +152,7 @@ struct FUN_0056e900_shell
 };
 struct FUN_006299a0_shell
 {
-    void __thiscall FUN_006299a0();
+    void __thiscall ProcessAndReturnValue_006299a0();
 };
 struct FUN_0066d770_shell
 {
@@ -318,7 +318,7 @@ struct S_0066d880_Obj
 };
 struct S_0066d880_Holder
 {
-    S_0066d880_Obj* FUN_00559450();
+    S_0066d880_Obj* Modelloader_GetReferencedThis();
 };
 #include <xmmintrin.h>
 struct Inner
@@ -821,7 +821,7 @@ struct S00c880f0_Node
 {
     int unk00, unk04;
     S00c880f0_Ifc* m_08;
-    void FUN_00a29680();
+    void Object_DoNothing();
 };
 struct S00c880f0_Cls
 {
@@ -866,9 +866,9 @@ void S00c880f0_Cls::bhkPCollisionObject_NitohkTransform()
                 S00c880f0_Ifc* item = b->m_08;
                 if (item)
                 {
-                    b->FUN_00a29680();
+                    b->Object_DoNothing();
                     item->hkpAabbPhantom_setAabb(&out);
-                    b->FUN_00a29680();
+                    b->Object_DoNothing();
                 }
                 if (--DAT_01267b84 == 0)
                     DAT_01267b80 = 0;

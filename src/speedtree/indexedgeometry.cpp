@@ -4,10 +4,11 @@
 
 struct FUN_00b30060_shell
 {
-    int FUN_00b30060(float* p);
+    int GetIndexedValue_00b30060(float* p);
 };
 // @fnv 0x00b30060
-int FUN_00b30060_shell::FUN_00b30060(float* p)
+// src: GUESS 0x00b30060 (confidence: low)
+int FUN_00b30060_shell::GetIndexedValue_00b30060(float* p)
 {
     return (int)(p[0] * 255.0) + ((int)(p[1] * 255.0) << 8) + ((int)(p[2] * 255.0) << 16) - 0x1000000;
 }
@@ -20,12 +21,13 @@ struct FloatVec
 struct FUN_00b30190_shell
 {
     char m_ucUnknownByte[0xb8];
-    void FUN_00b30190(const float* p);
+    void AppendThreeFloatComponents(const float* p);
 };
 
 // Passes the first three floats of p to PushBack on the FloatVec at this+0xb8.
 // @fnv 0x00b30190
-void FUN_00b30190_shell::FUN_00b30190(const float* afValues)
+// src: GUESS 0x00b30190 (confidence: high)
+void FUN_00b30190_shell::AppendThreeFloatComponents(const float* afValues)
 {
     char stack[0x130];
     ((FloatVec*)((char*)this + 0xb8))->PushBack(afValues[0]);
@@ -118,7 +120,7 @@ struct FUN_00b300c0_cls
     char m_pad89[0x17];
     FloatVec m_veca0;
 
-    void FUN_00b300c0(const float* p);
+    void UpdateFields_00b300c0(const float* p);
 };
 
 struct FrameBuf
@@ -127,7 +129,8 @@ struct FrameBuf
 };
 
 // @fnv 0x00b300c0
-void FUN_00b300c0_cls::FUN_00b300c0(const float* p)
+// src: GUESS 0x00b300c0 (confidence: low)
+void FUN_00b300c0_cls::UpdateFields_00b300c0(const float* p)
 {
     float v[3];
     v[0] = p[0];
@@ -262,7 +265,7 @@ struct FUN_00b305f0_cls
     char m_pad00[0xe8];
     FloatVec m_vec;
 
-    void FUN_00b305f0(const float* p);
+    void UpdateState_00b305f0(const float* p);
 };
 
 struct FrameBuf
@@ -271,7 +274,8 @@ struct FrameBuf
 };
 
 // @fnv 0x00b305f0
-void FUN_00b305f0_cls::FUN_00b305f0(const float* apComponents)
+// src: GUESS 0x00b305f0 (confidence: low)
+void FUN_00b305f0_cls::UpdateState_00b305f0(const float* apComponents)
 {
     float v[3];
     v[0] = apComponents[0];
@@ -297,11 +301,12 @@ class FUN_00b32c60_cls
     int m_last;
     int m_kRayEnd;
     void DestroyRange(int first, int last);
-    void FUN_00b32c60();
+    void UpdateFields_00b32c60();
 };
 
 // @fnv 0x00b32c60
-void FUN_00b32c60_cls::FUN_00b32c60()
+// src: GUESS 0x00b32c60 (confidence: low)
+void FUN_00b32c60_cls::UpdateFields_00b32c60()
 {
     unsigned int unkPad[12];
     if (m_pHeadNode != 0)
@@ -322,14 +327,15 @@ struct K
     int fC;
     int f10;
     int f14;
-    int __thiscall FUN_00b33110(int, int);
-    void __thiscall FUN_00b331c0();
+    int __thiscall ForwardCall_00b33110(int, int);
+    void __thiscall ReleaseStorage_00b331c0();
 };
 
 void __cdecl FormHeapFreeAndLog_00401030(void*);
 
 // @fnv 0x00b331c0
-void __thiscall K::FUN_00b331c0()
+// src: GUESS 0x00b331c0 (confidence: medium)
+void __thiscall K::ReleaseStorage_00b331c0()
 {
     int u[12];
     int t2;
@@ -337,7 +343,7 @@ void __thiscall K::FUN_00b331c0()
 
     if (fC != 0)
     {
-        FUN_00b33110(fC, f10);
+        ForwardCall_00b33110(fC, f10);
         t1 = (f14 - fC) / 24;
         t2 = fC;
         FormHeapFreeAndLog_00401030((void*)t2);
@@ -499,7 +505,7 @@ void TargetClass::ClearOuter()
 
 struct FUN_00b32210_Class
 {
-    void __thiscall FUN_00b32210(void* p);
+    void __thiscall UpdateState_00b32210(void* p);
 };
 struct FUN_00b30020_Class
 {
@@ -532,12 +538,13 @@ struct FUN_00b30020_Class
     int unk68;
     int unk6C;
     FUN_00b32210_Class sub;
-    int __thiscall FUN_00b30060(float* p);
-    void __thiscall FUN_00b30020(float* a);
+    int __thiscall GetIndexedValue_00b30060(float* p);
+    void __thiscall UpdateFields_00b30020(float* a);
 };
 // Calls FUN_00b30060 with a, then passes the address of the result to sub.FUN_00b32210.
 // @fnv 0x00b30020
-void __thiscall FUN_00b30020_Class::FUN_00b30020(float* a)
+// src: GUESS 0x00b30020 (confidence: low)
+void __thiscall FUN_00b30020_Class::UpdateFields_00b30020(float* a)
 {
     int iResult;
     int CNVal;
@@ -572,8 +579,8 @@ void __thiscall FUN_00b30020_Class::FUN_00b30020(float* a)
     int _draw;
     int _eb;
     int _equip;
-    iResult = FUN_00b30060(a);
-    sub.FUN_00b32210((void*)&iResult);
+    iResult = GetIndexedValue_00b30060(a);
+    sub.UpdateState_00b32210((void*)&iResult);
 }
 
 struct FUN_00b30560_data
@@ -594,7 +601,7 @@ struct FUN_00b30560_data
 
 struct FUN_00b0dae0_cls
 {
-    void FUN_00b0dae0(unsigned char& value);
+    void UpdateFields_00b0dae0(unsigned char& value);
 };
 
 class FUN_00b30560_cls
@@ -699,12 +706,13 @@ class FUN_00b30560_cls
     int unk174;
     FUN_00b0dae0_cls m_178;
 
-    void FUN_00b30560(float value, unsigned char index);
+    void AppendInvertedValueAndDispatchIndex(float value, unsigned char index);
 };
 
 // Pushes 1.0f - value onto m_160, maps index to unk28 + index % unk2c from m_04, and passes it to m_178.FUN_00b0dae0.
 // @fnv 0x00b30560
-void FUN_00b30560_cls::FUN_00b30560(float value, unsigned char index)
+// src: GUESS 0x00b30560 (confidence: medium)
+void FUN_00b30560_cls::AppendInvertedValueAndDispatchIndex(float value, unsigned char index)
 {
     int CNVal;
     int Diff2;
@@ -775,5 +783,5 @@ void FUN_00b30560_cls::FUN_00b30560(float value, unsigned char index)
     index = (unsigned char)((unsigned int)index % aa + cc);
 
     m_160.PushBack(value);
-    m_178.FUN_00b0dae0(index);
+    m_178.UpdateFields_00b0dae0(index);
 }

@@ -354,7 +354,8 @@ int __cdecl NiZBufferProperty_GetType_0()
 }
 
 // @fnv 0x00dc9e60
-int __cdecl FUN_00dc9e60()
+// src: GUESS 0x00dc9e60 (confidence: low)
+int __cdecl Object_ComputeValue_00dc9e60()
 {
     return 10;
 }
@@ -1284,7 +1285,7 @@ bool NiDX9ShaderDeclaration::GenerateVertexParameters(IDirect3DVertexDeclaration
 
 extern void* DAT_0126f550;
 extern const void* DAT_010ee898;
-void __cdecl FUN_00e7a760();
+void __cdecl Object_ProcessEntries_00e7a760();
 // @fnv 0x00e7a860
 // src: COMMUNITY 0x00e7a860
 void __cdecl NiD3DShaderDeclaration__SDMInit()
@@ -1301,7 +1302,7 @@ void __cdecl NiD3DShaderDeclaration__SDMInit()
     } else {
         DAT_0126f550 = 0;
     }
-    FUN_00e7a760();
+    Object_ProcessEntries_00e7a760();
 }
 
 extern int DAT_0126f0ec;
@@ -1593,7 +1594,7 @@ extern int DAT_010ee70c;
 extern MemoryManager g_memoryManager;
 void __cdecl _delete(void*, unsigned int);
 struct ICom78510 { virtual int __stdcall Q(); virtual int __stdcall A(); virtual int __stdcall R(); };
-struct H78510 { void __thiscall FUN_00e78be0(); };
+struct H78510 { void __thiscall ProcessEntries_00e78be0(); };
 struct S78510 { char pad[0x2c]; void* p1; ICom78510* p2; char tail[4]; void* __thiscall FUN_00e78510(unsigned int); };
 // @fnv 0x00e78510
 void* __thiscall S78510::FUN_00e78510(unsigned int auiFlags)
@@ -1605,7 +1606,7 @@ void* __thiscall S78510::FUN_00e78510(unsigned int auiFlags)
         p2->R();
         p2 = 0;
     }
-    ((H78510*)this)->FUN_00e78be0();
+    ((H78510*)this)->ProcessEntries_00e78be0();
     if (auiFlags & 1) {
         _delete(this, 0x38);
     }
@@ -3243,7 +3244,7 @@ extern "C" void* (__stdcall* g_0126f0dc)(unsigned int);
 extern "C" unsigned int DAT_0126f0f8;
 
 bool __cdecl InitD3D9CreateFunctions();
-void* __cdecl FUN_00aa13e0(unsigned int size);
+void* __cdecl Object_DispatchCommandFour(unsigned int size);
 
 // Returns the cached global pointer, creating it via a factory call and helper object when unset and InitD3D9CreateFunctions succeeds.
 // @fnv 0x00e69a60
@@ -3258,7 +3259,7 @@ void* __cdecl NiDX9SystemDesc_Get()
     }
     FUN_00e69a60_obj20* obj = (FUN_00e69a60_obj20*)g_0126f0dc(0x20);
     if (obj != 0) {
-        FUN_00e69a60_obj14* helper = (FUN_00e69a60_obj14*)FUN_00aa13e0(0x14);
+        FUN_00e69a60_obj14* helper = (FUN_00e69a60_obj14*)Object_DispatchCommandFour(0x14);
         if (helper != 0) {
             g_0126f0e8 = helper->FUN_00e7bc90(obj, &DAT_0126f0f8);
         } else {
@@ -4481,7 +4482,7 @@ struct SourceManager {
 };
 extern const char DAT_010ed96c[];
 char* __cdecl GetHRESULTText(unsigned int status);
-void __cdecl FUN_00a29680(const char* format, const char* message);
+void __cdecl Object_DoNothing(const char* format, const char* message);
 struct Renderer {
     void* __thiscall LockRenderSource(SourceManager* manager, int* pitch);
 };
@@ -4506,7 +4507,7 @@ void* Renderer::LockRenderSource(SourceManager* manager, int* piPitch)
         LockedRect lockedRect;
         long result = texture->LockRect(0, &lockedRect, 0, lockFlags);
         if (result < 0) {
-            FUN_00a29680(DAT_010ed96c, GetHRESULTText(result));
+            Object_DoNothing(DAT_010ed96c, GetHRESULTText(result));
         } else {
             void* bits = lockedRect.bits;
             *piPitch = lockedRect.pitch;
@@ -4555,7 +4556,7 @@ public:
 };
 
 const char* __cdecl GetHResultName(int code);
-void __cdecl FUN_00a29680(const char* fmt, const char* text);
+void __cdecl Object_DoNothing(const char* fmt, const char* text);
 
 // @fnv 0x00e6de70
 // src: EXE 0x00e6de70
@@ -4582,7 +4583,7 @@ bool __thiscall FUN_00e6de70_cls::NiDX9Renderer_UnLockDynamicTexture(FUN_00e6de7
     }
     int r = c->v20(0);
     if (r < 0) {
-        FUN_00a29680("NiDX9Renderer::UnLockDynamicTexture Failed> UnlockRect - %s", GetHResultName(r));
+        Object_DoNothing("NiDX9Renderer::UnLockDynamicTexture Failed> UnlockRect - %s", GetHResultName(r));
         return false;
     }
     if (m_6f5 == 0) {
@@ -4592,7 +4593,7 @@ bool __thiscall FUN_00e6de70_cls::NiDX9Renderer_UnLockDynamicTexture(FUN_00e6de7
         }
         int r3 = m_288->v31(c, r2);
         if (r3 < 0) {
-            FUN_00a29680("NiDX9Renderer::UnLockDynamicTexture Failed> UpdateTexture - %s", GetHResultName(r3));
+            Object_DoNothing("NiDX9Renderer::UnLockDynamicTexture Failed> UpdateTexture - %s", GetHResultName(r3));
             return false;
         }
     }
@@ -5437,7 +5438,7 @@ struct ResourceParameters {
 };
 extern const char DAT_010edbb8[];
 extern const char* DAT_0109b220;
-void* __cdecl FUN_00aa13e0(unsigned int size);
+void* __cdecl Object_DispatchCommandFour(unsigned int size);
 const char* __cdecl FUN_00a5b690(const char* name);
 RefObject* __cdecl NiSourceTexture_Create(RenderResource* resource, const char* name, ResourceParameters* parameters);
 struct RendererBridge {
@@ -5464,7 +5465,7 @@ bool RendererBridge::InitializeRendererResources() {
     InitFormats();
 
     ResourceDescriptor* source = Source();
-    void* storage = FUN_00aa13e0(0x74);
+    void* storage = Object_DispatchCommandFour(0x74);
     RenderResource* resource;
     if (storage != 0) resource = static_cast<RenderResource*>(storage)->FUN_00a7c190(2, 1, source, 1, 1);
     else resource = 0;
@@ -11303,7 +11304,7 @@ int PackVertexColors(Stream_e78910* aStream)
 }
 
 extern const char DAT_010ee7cc[];
-void __cdecl FUN_00aa1490(void* apMemory, unsigned int auiSize);
+void __cdecl NiMemObject_ReleaseStorage_00aa1490(void* apMemory, unsigned int auiSize);
 
 struct FUN_00e78be0_cls {
     void* m_vptr00;
@@ -11318,12 +11319,13 @@ struct FUN_00e78be0_cls {
     char* m_pArr24;
 
     void BaseTeardown();
-    void FUN_00e78be0() throw();
+    void ProcessEntries_00e78be0() throw();
 };
 
 // Sets the vtable, frees each 16-byte array element's 0x1c-byte payload and the array, releases m_p10 via its vtable slot 2, then calls BaseTeardown.
 // @fnv 0x00e78be0
-void FUN_00e78be0_cls::FUN_00e78be0() throw()
+// src: GUESS 0x00e78be0 (confidence: low)
+void FUN_00e78be0_cls::ProcessEntries_00e78be0() throw()
 {
     m_vptr00 = (void*)DAT_010ee7cc;
     if (m_pArr24 != 0) {
@@ -11333,13 +11335,13 @@ void FUN_00e78be0_cls::FUN_00e78be0() throw()
             do {
                 char* e = m_pArr24 + off;
                 if (e != 0) {
-                    FUN_00aa1490(*(void**)(e + 8), 0x1c);
+                    NiMemObject_ReleaseStorage_00aa1490(*(void**)(e + 8), 0x1c);
                 }
                 i++;
                 off += 16;
             } while (i < m_uCount20);
         }
-        FUN_00aa1490(m_pArr24, 0x10);
+        NiMemObject_ReleaseStorage_00aa1490(m_pArr24, 0x10);
     }
     void* obj = m_p10;
     m_pArr24 = 0;
@@ -13668,7 +13670,7 @@ extern NiRTTI g_011f4a40;
 extern NiRTTI g_011f4a20;
 
 bool __cdecl NiObject_IsKindOf(const NiRTTI* pkRTTI, NiAVObject* pkObject);
-void __cdecl FUN_00a29680(const char* format, const char* message);
+void __cdecl Object_DoNothing(const char* format, const char* message);
 struct PG_Preparer { bool Prepare(NiGeometryGroup* c, NiGeometryData* d, NiSkinInstance* e, bool f, unsigned int g, unsigned int h); };
 
 extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void*);
@@ -13844,7 +13846,7 @@ bool PG_Renderer::NiDX9Renderer_PrecacheGeometry(PG_GeomFull* p, unsigned int a2
     PG_Prop* pShader = p->m_pShaderHandle;
     PG_Data* pData = p->m_spGeometryData;
     if (!pShader) {
-        FUN_00a29680("PrecacheGeometry> No shader found for object %s!\n", p->m_pcName);
+        Object_DoNothing("PrecacheGeometry> No shader found for object %s!\n", p->m_pcName);
         return false;
     }
 
@@ -18896,7 +18898,7 @@ bool __stdcall IsAlwaysTrue(void* a1, void* a2, void* a3)
 namespace fnv_00e6eea0 {
 extern char DAT_0126f59c, DAT_0126f5ac, DAT_0126f5d8;
 void __cdecl NiDX92DBufferData_ClearRenderTarget(int* param1, int param2);
-void __cdecl FUN_00a29680(const char* fmt, const char* text);
+void __cdecl Object_DoNothing(const char* fmt, const char* text);
 struct RTTIX { const char* name; const RTTIX* parent; };
 struct DevX;
 class ObjX {
@@ -18961,7 +18963,7 @@ bool RendX::NiDX9Renderer_BeginUsingRenderTargetGroup(TargetX* pkTarget, unsigne
         BufDataX* pkBuffData = DynCastX(pkObj, &DAT_0126f59c);
         if (pkBuffData && !pkBuffData->SetRenderTarget(m_pDirect3DDevice, ui)) {
             BeginUsingRenderTargetGroup(m_pDefaultRenderTargetGroup, uiClearMode);
-            FUN_00a29680("NiDX9Renderer::BeginUsingRenderTargetGroup> Failed - %s",
+            Object_DoNothing("NiDX9Renderer::BeginUsingRenderTargetGroup> Failed - %s",
                 "Setting an output target failed. Resetting to default target.");
             return false;
         }
@@ -18971,13 +18973,13 @@ bool RendX::NiDX9Renderer_BeginUsingRenderTargetGroup(TargetX* pkTarget, unsigne
     if (pkDepth) {
         if (!pkDepth->SetDepthTarget(m_pDirect3DDevice)) {
             BeginUsingRenderTargetGroup(m_pDefaultRenderTargetGroup, uiClearMode);
-            FUN_00a29680("NiDX9Renderer::BeginUsingRenderTargetGroup> Failed - %s",
+            Object_DoNothing("NiDX9Renderer::BeginUsingRenderTargetGroup> Failed - %s",
                 "Setting the depth/stencil buffer failed. Resetting to default target.");
             return false;
         }
     } else if (!NiDX9DepthStencilBufferData_SetNULLDepthStencilTarget(m_pDirect3DDevice)) {
         BeginUsingRenderTargetGroup(m_pDefaultRenderTargetGroup, uiClearMode);
-        FUN_00a29680("NiDX9Renderer::BeginUsingRenderTargetGroup> Failed - %s",
+        Object_DoNothing("NiDX9Renderer::BeginUsingRenderTargetGroup> Failed - %s",
             "Setting the depth/stencil buffer to NULL failed. Resetting to default target.");
         return false;
     }
@@ -19004,7 +19006,7 @@ struct DevX { DevVT* vt; };
 struct BufDataX { char pad[0xc]; PixFmtX* m_pkRenderPixelFormat; int m_10; SurfX* m_pkSurface; };
 struct BufX { char pad[0x10]; BufDataX* m_pRendererData; };
 struct RectUX { unsigned int m_fMinimumU, m_fMaximumU, m_fMinimumV, m_fMaximumV; };
-void FUN_00a29680(const char* fmt, ...);
+void Object_DoNothing(const char* fmt, ...);
 const char* GetHResultName(long hr);
 class RendX {
 public:
@@ -19024,17 +19026,17 @@ bool RendX::NiDX9Renderer_FastCopy(const BufX* pkSrc, BufX* pkDest, const RectUX
     BufDataX* pkSrcData = pkSrc->m_pRendererData;
     BufDataX* pkDestData = pkDest->m_pRendererData;
     if (!pkSrcData || !pkDestData) {
-        FUN_00a29680("NiDX9Renderer::FastCopy> Failed - %s", "No RendererData found");
+        Object_DoNothing("NiDX9Renderer::FastCopy> Failed - %s", "No RendererData found");
         return false;
     }
     if (pkSrcData->m_pkRenderPixelFormat->FUN_00a765c0(pkDestData->m_pkRenderPixelFormat)) {
-        FUN_00a29680("NiDX9Renderer::FastCopy> Failed - %s", "Pixel formats do not match");
+        Object_DoNothing("NiDX9Renderer::FastCopy> Failed - %s", "Pixel formats do not match");
         return false;
     }
     SurfX* pkSrcSurf = pkSrcData->m_pkSurface;
     SurfX* pkDestSurf = pkDestData->m_pkSurface;
     if (!pkSrcSurf || !pkDestSurf) {
-        FUN_00a29680("NiDX9Renderer::FastCopy> Failed - %s", "NULL Surface found");
+        Object_DoNothing("NiDX9Renderer::FastCopy> Failed - %s", "NULL Surface found");
         return false;
     }
     long hr;
@@ -19053,7 +19055,7 @@ bool RendX::NiDX9Renderer_FastCopy(const BufX* pkSrc, BufX* pkDest, const RectUX
         hr = m_pDirect3DDevice->vt->StretchRect(m_pDirect3DDevice, pkSrcSurf, 0, pkDestSurf, 0, 0);
     }
     if (hr < 0) {
-        FUN_00a29680("NiDX9Renderer::FastCopy> Failed StretchRect - %s", GetHResultName(hr));
+        Object_DoNothing("NiDX9Renderer::FastCopy> Failed StretchRect - %s", GetHResultName(hr));
         return false;
     }
     return true;
@@ -20879,11 +20881,12 @@ public:
     unsigned int unknown4_field;
     MapEntry** entries;
     unsigned int count;
-    void FUN_00e72cf0(unsigned int key, ReferencePtr value);
+    void SetMapEntryWithReferenceCounting(unsigned int key, ReferencePtr value);
 };
 // Inserts or updates a key/value pair in the hash map, managing reference counts on the stored object.
 // @fnv 0x00e72cf0
-void RendererPacketMap::FUN_00e72cf0(unsigned int key, ReferencePtr value) {
+// src: GUESS 0x00e72cf0 (confidence: high)
+void RendererPacketMap::SetMapEntryWithReferenceCounting(unsigned int key, ReferencePtr value) {
     unsigned int bucket = Bucket(key);
     MapEntry* entry = entries[bucket];
     for (; entry; entry=entry->next) {
@@ -20917,7 +20920,7 @@ void RendererPacketMap::FUN_00e72cf0(unsigned int key, ReferencePtr value) {
 namespace fnv_00e73eb0 {
 extern "C" void* __cdecl memmove(void* pvDst, const void* pvSrc, unsigned int uiSize);
 
-void __cdecl FUN_00a29680(const char* pcMessage);
+void __cdecl Object_DoNothing(const char* pcMessage);
 
 struct PresentParamsE73E {
     unsigned int m_uiBackBufferWidth;
@@ -20979,10 +20982,10 @@ int DX9RendererE73E::NiDX9Renderer_Recreate_(unsigned int uiWidth, unsigned int 
     pkParams->m_uiBackBufferWidth = uiWidth;
     pkParams->m_uiBackBufferHeight = uiHeight;
     if (!RendererRecreateHook()) {
-        FUN_00a29680("NiDX9Renderer::Recreate> Could not reset device to desired parameters - trying to recover original values\n");
+        Object_DoNothing("NiDX9Renderer::Recreate> Could not reset device to desired parameters - trying to recover original values\n");
         memmove(pkParams, &kSaved, sizeof(PresentParamsE73E));
         if (!RendererRecreateHook()) {
-            FUN_00a29680("NiDX9Renderer::Recreate> Could not recover original presentation parameters\n");
+            Object_DoNothing("NiDX9Renderer::Recreate> Could not recover original presentation parameters\n");
             return 0;
         }
         return 1;
@@ -24471,7 +24474,7 @@ bool S72_Renderer::BuildAndRegisterNodes(unsigned int uiUnused, S72_Model* pkMod
         for (unsigned int i = 0; i < ItemUpdateArray; ++i)
         {
             unsigned int uiId = pkPkt->GetAt(i)->unk04;
-            S72_Node* pNode = (S72_Node*)FUN_00aa13e0(0x24);
+            S72_Node* pNode = (S72_Node*)Object_DispatchCommandFour(0x24);
             pNode->unk00 = pkModel;
             pNode->unk04 = 0;
             pNode->unk08 = 0;
@@ -27308,7 +27311,7 @@ struct Map610 {
     bool __thiscall FUN_00a53c30(unsigned int uiKey, unsigned int* puiOut);
     void __thiscall InsertOrUpdate(unsigned int uiKey, void* pkObj);
 };
-void* __cdecl FUN_00aa13e0(unsigned int size);
+void* __cdecl Object_DispatchCommandFour(unsigned int size);
 
 struct ThisObj {
     unsigned int unk000;
@@ -27733,7 +27736,7 @@ bool __thiscall ThisObj::BuildPacketEntries(void* a1, void* pkModel, Arg3* pkArg
                         for (unsigned int i = 0; i < uiStreamCount; i++) {
                             StreamObj* pkStream = pkPacket->GetStream(i);
                             unsigned int uiKey = pkStream->key;
-                            NewObj* pkObj = (NewObj*)FUN_00aa13e0(0x24);
+                            NewObj* pkObj = (NewObj*)Object_DispatchCommandFour(0x24);
                             pkObj->Init(pkModel, pkArg3, &pkEntries[n], pkGeom, a5, a6, pkPacket, i);
                             unsigned int uiOut;
                             pkObj->f20 = map.FUN_00a53c30(uiKey, &uiOut) ? uiOut : 0;
@@ -27836,7 +27839,7 @@ struct InitState {
  virtual void SetDepth(void*);
 };
 struct InitSmartState { InitState* pointer; __forceinline InitSmartState(InitState* p) { FUN_00b6aed0(p); } InitSmartState(const InitSmartState&); void FUN_00b6aed0(InitState*); };
-struct InitStateMap { void FUN_00e72cf0(unsigned, InitSmartState); };
+struct InitStateMap { void SetMapEntryWithReferenceCounting(unsigned, InitSmartState); };
 struct InitDevice { void* table; };
 struct InitBuffer { unsigned field0, valid; static InitBuffer* Valid(InitBuffer* b) { return b->valid ? b : 0; } static InitBuffer* Valid2(InitBuffer* b) { if(b->valid) return b; return 0; } };
 struct InitAdapter {
@@ -29032,23 +29035,23 @@ bool InitRenderer::NiXenonRenderer_Create(unsigned width,unsigned height,unsigne
  NiDX9SystemDesc_Get();
  field5c4=adapterIndex; field3bc=deviceWindow; field3c0=focusWindow;
  if (!SetModeFlags(deviceChoice,&field5c8,&field5cc)) {
-  fnv_CopyFilePath(DAT_011f4648,256,DAT_010ee20c,255); FUN_00a29680(DAT_010ee1c8); return false;
+  fnv_CopyFilePath(DAT_011f4648,256,DAT_010ee20c,255); Object_DoNothing(DAT_010ee1c8); return false;
  }
  if(options&0x40) field5cc|=2;
  if(options&0x20) field5cc|=4;
  adapter=DAT_0126f0e8->GetAt(field5c4);
- if(!adapter) { fnv_CopyFilePath(DAT_011f4648,256,DAT_010ee1a0,255); FUN_00a29680(DAT_010ee160); return false; }
+ if(!adapter) { fnv_CopyFilePath(DAT_011f4648,256,DAT_010ee1a0,255); Object_DoNothing(DAT_010ee160); return false; }
  buffer=adapter->GetBuffer(field5c8);
- if(!buffer) { fnv_CopyFilePath(DAT_011f4648,256,DAT_010ee20c,255); FUN_00a29680(DAT_010ee1c8); return false; }
+ if(!buffer) { fnv_CopyFilePath(DAT_011f4648,256,DAT_010ee20c,255); Object_DoNothing(DAT_010ee1c8); return false; }
  InitPresent present;
  void* color;
  void* depth;
  FUN_00ec61c0(&present,0,sizeof(present));
  while(true) {
-  FUN_00a29680(DAT_010ee118);
+  Object_DoNothing(DAT_010ee118);
   InitBuffer* pBuffer=DAT_0126f0e8->GetAt(field5c4)->GetBuffer2(field5c8);
   if(!pBuffer) {
-   fnv_CopyFilePath(DAT_011f4648,256,DAT_010ee0e8,255); FUN_00a29680(DAT_010ee0ac);
+   fnv_CopyFilePath(DAT_011f4648,256,DAT_010ee0e8,255); Object_DoNothing(DAT_010ee0ac);
   } else if(NiDX9Renderer_InitializePresentParams(field3bc,width,height,options,p12,p8,p9,aiBackBufferCountOut,p11,p14,p10,&present)) {
    aiBackBufferCountOut=present.backBufferCount;
    InitDisplay displayMode;
@@ -29066,7 +29069,7 @@ bool InitRenderer::NiXenonRenderer_Create(unsigned width,unsigned height,unsigne
    if(result>=0) break;
    flag6fc=0;
    if(aiBackBufferCountOut!=present.backBufferCount) {
-    FUN_00a29680(DAT_010ee048);
+    Object_DoNothing(DAT_010ee048);
     if(DAT_0126f0d0) {
      InitDevice* pCreatedDevice;
      result=((InitD3D*)DAT_0126f0d8)->table->CreateDeviceEx(DAT_0126f0d8,field5c4,field5c8,field3c0,field5cc,&present,present.windowed ? 0 : &displayMode,&pCreatedDevice);
@@ -29077,14 +29080,14 @@ bool InitRenderer::NiXenonRenderer_Create(unsigned width,unsigned height,unsigne
     if(result>=0) break;
    }
   }
-  if(deviceChoice==4) { NiDX9Renderer_SetLastErrorString(DAT_010ededc); FUN_00a29680(DAT_010ede88); return false; }
+  if(deviceChoice==4) { NiDX9Renderer_SetLastErrorString(DAT_010ededc); Object_DoNothing(DAT_010ede88); return false; }
   ++deviceChoice;
-  if(deviceChoice==4) { FUN_00a29680(DAT_010ede30); return false; }
-  FUN_00a29680(DAT_010edfe0);
-  if(!SetModeFlags(deviceChoice,&field5c8,&field5cc)) { NiDX9Renderer_SetLastErrorString(DAT_010ee20c); FUN_00a29680(DAT_010ee1c8); return false; }
+  if(deviceChoice==4) { Object_DoNothing(DAT_010ede30); return false; }
+  Object_DoNothing(DAT_010edfe0);
+  if(!SetModeFlags(deviceChoice,&field5c8,&field5cc)) { NiDX9Renderer_SetLastErrorString(DAT_010ee20c); Object_DoNothing(DAT_010ee1c8); return false; }
  }
  {
- if(!device) { NiDX9Renderer_SetLastErrorString(DAT_010edfac); FUN_00a29680(DAT_010edf60); return false; }
+ if(!device) { NiDX9Renderer_SetLastErrorString(DAT_010edfac); Object_DoNothing(DAT_010edf60); return false; }
  if(!NiDX9Renderer_InitializeDeviceCaps(&present)) return false;
  flag5d4=(field5cc&0x40)==0;
  flag5d5=(field5cc&0x80)!=0;
@@ -29094,22 +29097,22 @@ bool InitRenderer::NiXenonRenderer_Create(unsigned width,unsigned height,unsigne
  state=CreateShaderLevel(1,this);
  state->SetColor(color,0);
  state->SetDepth(depth);
- stateMap.FUN_00e72cf0(deviceWindow,InitSmartState(state));
+ stateMap.SetMapEntryWithReferenceCounting(deviceWindow,InitSmartState(state));
  field5d0=GetValueForIndex(MapCodeToIndex(state->GetFormat(0)->format));
- if(!InitializeRendererResources()) { FUN_00a29680(DAT_010edf10); return false; }
+ if(!InitializeRendererResources()) { Object_DoNothing(DAT_010edf10); return false; }
  vertices=CreateRenderer(this,&field28c,1);
  FUN_00e81940(this);
- InitTextureManager* textureMem=(InitTextureManager*)FUN_00aa13e0(0x100);
+ InitTextureManager* textureMem=(InitTextureManager*)Object_DispatchCommandFour(0x100);
  textures=textureMem ? textureMem->FUN_00e8d0e0(device) : 0;
- InitLightManager* lightMem=(InitLightManager*)FUN_00aa13e0(0x4c);
+ InitLightManager* lightMem=(InitLightManager*)Object_DispatchCommandFour(0x4c);
  lights=lightMem ? lightMem->FUN_00e8fb20(device) : 0;
- InitGeometryManager* geomMem=(InitGeometryManager*)FUN_00aa13e0(0x10);
+ InitGeometryManager* geomMem=(InitGeometryManager*)Object_DispatchCommandFour(0x10);
  geometry=geomMem ? geomMem->NiDX9TextureManager_NiDX9TextureManager(this) : 0;
  buffers=FUN_00e88eb0(device,textures);
  buffers->FUN_00e88c20((GetFlags()&2)!=0);
  field8b0=buffers->GetBuffer(1);
  field8b4=buffers->GetBuffer(2);
- InitShaderManager* shaderMem=(InitShaderManager*)FUN_00aa13e0(0x23c);
+ InitShaderManager* shaderMem=(InitShaderManager*)Object_DispatchCommandFour(0x23c);
  shaders=shaderMem ? shaderMem->NiDX9LightManager_NiDX9LightManager(vertices,device) : 0;
  if(caps->field30) ((InitVertexTable*)vertices->table)->Enable(vertices,1);
  currentState=state;
@@ -29125,7 +29128,7 @@ bool InitRenderer::NiXenonRenderer_Create(unsigned width,unsigned height,unsigne
  SetCamera(&DAT_011f426c,&DAT_011a946c,&DAT_011a9478,&DAT_011a9484,&frustum,&viewport);
  currentState=0; activeState=0;
  NiShaderFactory::GetInstance();
- InitObject* objectMem=(InitObject*)FUN_00aa13e0(0x40);
+ InitObject* objectMem=(InitObject*)Object_DispatchCommandFour(0x40);
  InitObject* object=objectMem ? objectMem->NiDX9ErrorShader_NiDX9ErrorShader() : 0;
  object->Initialize();
  AssignRefObject(object);
@@ -30861,7 +30864,7 @@ __forceinline void StripRenderer::DrawExpanded(StripRendererData* rd, StripIndex
             indices->Unlock();
             ready = true;
         } else {
-            FUN_00a29680(DAT_010eddd0);
+            Object_DoNothing(DAT_010eddd0);
             indices->Unlock();
             indices->Release();
         }
@@ -33415,12 +33418,12 @@ extern bool DAT_0126f0d0;
 
 
 
-extern "C" void __cdecl FUN_00a29680(void*);
+extern "C" void __cdecl Object_DoNothing(void*);
 
 void __cdecl FUN_00b71a40(void*,void*,void*,float);
 
 
-NiPoint3* __cdecl FUN_004b3ae0(NiPoint3*, const NiPoint3&, const float*);
+NiPoint3* __cdecl NiPoint3_TransformByMatrix3(NiPoint3*, const NiPoint3&, const float*);
 
 struct Object3 {int x,y,z;};
 
@@ -34243,7 +34246,7 @@ static __forceinline bool FillIndices(ParticleGeometry* a, IndexBuffer* data, un
             }
             data->Unlock();
         } else {
-            FUN_00a29680("NiDX9IndexBufferManager::PackBuffer> Failed to lock index buffer\n");
+            Object_DoNothing("NiDX9IndexBufferManager::PackBuffer> Failed to lock index buffer\n");
             data->Unlock();
             data->Release();
             return 0;
@@ -34324,8 +34327,8 @@ void ParticleDrawContext::NiDX9Renderer_RenderParticles(SceneArg* apSceneArg)
     device->SetTransform(0x100, &unk940);
     state->End(&srcMaterial);
 
-    { NiPoint3 transformed; CopyPoint3Storage(unk64c, *FUN_004b3ae0(&transformed, unk634, (const float*)&srcMaterial)); }
-    { NiPoint3 transformed; CopyPoint3Storage(unk658, *FUN_004b3ae0(&transformed, unk640, (const float*)&srcMaterial)); }
+    { NiPoint3 transformed; CopyPoint3Storage(unk64c, *NiPoint3_TransformByMatrix3(&transformed, unk634, (const float*)&srcMaterial)); }
+    { NiPoint3 transformed; CopyPoint3Storage(unk658, *NiPoint3_TransformByMatrix3(&transformed, unk640, (const float*)&srcMaterial)); }
 
     FakeCOM_00e8f040* handle;
     if (p64) {

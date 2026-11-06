@@ -52,7 +52,7 @@ class IdleAnimationManager : public NiTMap<const char*, IdleAnimationDirectoryEn
     TESIdleForm* FindIdleFormForObject(TESObjectREFR*, TESObjectREFR*);
     IdleAnimationDirectoryEntry* ClearIdleData(const char*, BSSimpleList<const char*>*, bool);
     void InsertOrUpdate(const char*, IdleAnimationDirectoryEntry*);
-    void FUN_00600030();
+    void ReleaseStorage_00600030();
     BSSimpleList<const char*>* FindIdleArrayEntry(const char* directory, ANIM_GROUP_WEAPON_ENUM weapon);
     static void BuildIdlePath(const char* source, char* destination);
     static TESObject* GetCurrentUsedItem();

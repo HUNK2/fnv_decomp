@@ -258,7 +258,7 @@ struct S_00e5ae60_Stream
     int unk04;
     int unk08;
     S_00e5ae60_Stream(char* buf, int size) throw();
-    S_00e5ae60_Stream& FUN_00cc01c0(const char* s) throw();
+    S_00e5ae60_Stream& ProcessAndReturnValue_00cc01c0(const char* s) throw();
     ~S_00e5ae60_Stream() throw();
 };
 
@@ -355,7 +355,7 @@ int __cdecl GetConstraintMotorValues(S_00e5ae60_Constraint* pConstraint, int* pi
         {
             unsigned int buf[128];  // 512-byte text buffer (int array avoids a GS cookie)
             S_00e5ae60_Stream s((char*)buf, 0x200);
-            s.FUN_00cc01c0("This type of constraint does not have motors");
+            s.ProcessAndReturnValue_00cc01c0("This type of constraint does not have motors");
             DAT_01268360->FUN_message(1, 0xabbae233, (const char*)buf,
                                       ".\\Constraint\\Bilateral\\hkpConstraintUtils.cpp", 0x104);
         }

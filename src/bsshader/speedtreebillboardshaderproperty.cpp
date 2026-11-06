@@ -154,7 +154,7 @@ int BA86C0Owner::SpeedTreeBillboardShaderProperty_ClarifyShader(A5A040Cls* pArg,
 }
 
 extern int DAT_010b8330;
-void* __cdecl FUN_00aa13e0(unsigned int size);
+void* __cdecl Object_DispatchCommandFour(unsigned int size);
 void __cdecl operator delete(void*, unsigned int);
 
 struct SpawnedBase
@@ -231,7 +231,7 @@ struct SpawnedObject : SpawnedBase
     int unk100;
     static void* operator new(unsigned int size) throw()
     {
-        return FUN_00aa13e0(size);
+        return Object_DispatchCommandFour(size);
     }
     SpawnedObject()
     {

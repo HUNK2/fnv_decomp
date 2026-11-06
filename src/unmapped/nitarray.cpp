@@ -236,7 +236,7 @@ void C89CD0Holder::ProcessTarget(void* arg)
 
 struct Target
 {
-    void FUN_00c89bf0(void* apArg);
+    void UpdateState_00c89bf0(void* apArg);
 };
 
 struct FUN_00c89cf0_cls
@@ -254,7 +254,7 @@ void FUN_00c89cf0_cls::DispatchToTarget(void* apArg)
     if (this != 0)
     {
         if (m_pFlagTarget != 0)
-            m_pFlagTarget->FUN_00c89bf0(apArg);
+            m_pFlagTarget->UpdateState_00c89bf0(apArg);
     }
 }
 
@@ -748,7 +748,7 @@ void __cdecl RemoveGlobalConstant(void** appRef);
 
 struct FUN_00e7de30_cls
 {
-    void FUN_00e7de30();
+    void UpdateReferenceState_00e7de30();
 };
 
 struct FUN_00e891f0_cls
@@ -811,7 +811,7 @@ void FUN_00e7ecd0_cls::NiD3DTextureStage_ReturnStageToPool()
 
     if (m_5f == 0)
     {
-        ((FUN_00e7de30_cls*)this)->FUN_00e7de30();
+        ((FUN_00e7de30_cls*)this)->UpdateReferenceState_00e7de30();
         FUN_00aa1460(this, 0x68);
         return;
     }

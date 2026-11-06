@@ -164,10 +164,11 @@ struct ListX
 };
 struct FUN_007b9000_shell : ListX
 {
-    void FUN_007b9000();
+    void DestroyFields_007b9000();
 };
 // @fnv 0x007b9000
-void FUN_007b9000_shell::FUN_007b9000()
+// src: GUESS 0x007b9000 (confidence: medium)
+void FUN_007b9000_shell::DestroyFields_007b9000()
 {
     ListX::~ListX();
 }
@@ -514,7 +515,7 @@ struct FUN_007b52d0_shell
 // @fnv 0x007bf710
 void RouletteMenu::ApplyValueToChain(int aiId, float afValue)
 {
-    void* pObj = ((NiObjPtr*)(*(char**)((char*)DAT_011da878 + 0x2c + aiId * 4) + 4))->FUN_00559450();
+    void* pObj = ((NiObjPtr*)(*(char**)((char*)DAT_011da878 + 0x2c + aiId * 4) + 4))->Modelloader_GetReferencedThis();
     char* pCur = *(char**)((char*)DAT_011da878 + 0x2c + aiId * 4) + 4;
     while (pObj != 0 && pCur != 0 && *((FUN_0073ac90_shell*)pCur)->NiTPointerListBase_NiTPointerAllocator_unsigned_int_Tile_GetHead() != 0)
     {
@@ -551,7 +552,7 @@ void RouletteMenu::ResetBetChips()
         tilesB[i]->NiAVObject_SetTranslate_004bc1f0(0.0f, 0.0f, DAT_0102caf8);
     }
     S_007bf7a0_Val v(0.0f, 0, 0);
-    reinterpret_cast<S_007bf7a0_Inner*>(DAT_011da8a0.FUN_00559450())->NiAVObject_Update(&v);
+    reinterpret_cast<S_007bf7a0_Inner*>(DAT_011da8a0.Modelloader_GetReferencedThis())->NiAVObject_Update(&v);
 }
 
 
@@ -638,7 +639,7 @@ struct Scene
 struct Pointer
 {
     Scene* value;
-    Scene* FUN_00559450();
+    Scene* Modelloader_GetReferencedThis();
     void FUN_0066b0d0(Scene*);
     ~Pointer();
 };
@@ -860,9 +861,9 @@ FUN_007b9020::~FUN_007b9020()
         DAT_011c3b3c->ModelLoader_ReleaseFile(path);
     }
     DAT_011da8d0.FUN_0066b0d0(0);
-    FUN_00450b80(1)->Detach(DAT_011da8a0.FUN_00559450());
+    FUN_00450b80(1)->Detach(DAT_011da8a0.Modelloader_GetReferencedThis());
     FUN_00450b80(1)->RemoveAllLights();
-    DAT_011da8a0.FUN_00559450()->DetachAllChildren_00572160();
+    DAT_011da8a0.Modelloader_GetReferencedThis()->DetachAllChildren_00572160();
     DAT_011da8a0.FUN_0066b0d0(0);
     table = 0;
     wheel = 0;
@@ -991,7 +992,7 @@ struct RouletteSceneNode : Scene
 struct SceneHolder
 {
     SceneHolder& operator=(Scene*);
-    Scene* FUN_00559450();
+    Scene* Modelloader_GetReferencedThis();
 };
 extern SceneHolder g_011da8d0;
 
@@ -1037,18 +1038,18 @@ void RouletteMenu::InitRouletteScene()
     Scene* object = reinterpret_cast<Scene*&>(m_pRouletteWheel);
     g_011da8d0 = BSUtilities_GetObjectByName(object, "object4");
     (*(SceneHolder*)&g_011da8a0) = new RouletteSceneNode(0);
-    (*(SceneHolder*)&g_011da8a0).FUN_00559450()->Attach(reinterpret_cast<Scene*&>(m_pRouletteWheel), true);
-    (*(SceneHolder*)&g_011da8a0).FUN_00559450()->Attach(reinterpret_cast<Scene*&>(m_pTableNode), true);
-    (*(SceneHolder*)&g_011da8a0).FUN_00559450()->Attach(reinterpret_cast<Scene*&>(m_iNode), true);
+    (*(SceneHolder*)&g_011da8a0).Modelloader_GetReferencedThis()->Attach(reinterpret_cast<Scene*&>(m_pRouletteWheel), true);
+    (*(SceneHolder*)&g_011da8a0).Modelloader_GetReferencedThis()->Attach(reinterpret_cast<Scene*&>(m_pTableNode), true);
+    (*(SceneHolder*)&g_011da8a0).Modelloader_GetReferencedThis()->Attach(reinterpret_cast<Scene*&>(m_iNode), true);
     for (int k = 0; k < 10; k++)
-        (*(SceneHolder*)&g_011da8a0).FUN_00559450()->Attach(reinterpret_cast<Scene*&>(tilesA[k]), true);
+        (*(SceneHolder*)&g_011da8a0).Modelloader_GetReferencedThis()->Attach(reinterpret_cast<Scene*&>(tilesA[k]), true);
     for (int l = 0; l < 10; l++)
-        (*(SceneHolder*)&g_011da8a0).FUN_00559450()->Attach(reinterpret_cast<Scene*&>(tilesB[l]), true);
+        (*(SceneHolder*)&g_011da8a0).Modelloader_GetReferencedThis()->Attach(reinterpret_cast<Scene*&>(tilesB[l]), true);
     m_iChipNode = 3;
     ResetBetChips();
     SetBetChip();
     NiUpdateData found(0.0f, false, false);
-    (*(SceneHolder*)&g_011da8a0).FUN_00559450()->NiAVObject_Update(found);
+    (*(SceneHolder*)&g_011da8a0).Modelloader_GetReferencedThis()->NiAVObject_Update(found);
     Controller* update = reinterpret_cast<Scene*&>(m_pRouletteWheel)->NiObjectNET_GetController(&DAT_011f36ac);
     if (update)
     {
@@ -1059,11 +1060,11 @@ void RouletteMenu::InitRouletteScene()
         reinterpret_cast<Controller*&>(m_pAnimCtrl)->FUN_0048fef0(0.0f);
         NiTimeController_StartAnimations(reinterpret_cast<Scene*&>(m_pRouletteWheel));
     }
-    if (!g_011da8d0.FUN_00559450())
+    if (!g_011da8d0.Modelloader_GetReferencedThis())
         g_011da8d0 = reinterpret_cast<Scene*>(BlackJackMenu_SetupCamera());
-    FUN_00450b80(1)->Attach((*(SceneHolder*)&g_011da8a0).FUN_00559450(), true);
-    float radius = (*(SceneHolder*)&g_011da8a0).FUN_00559450()->NiAVObject_GetWorldBound()->FUN_0084d030() * 4.0;
-    FUN_00450b80(1)->FUN_00b5ca70((*(SceneHolder*)&g_011da8a0).FUN_00559450(), radius);
+    FUN_00450b80(1)->Attach((*(SceneHolder*)&g_011da8a0).Modelloader_GetReferencedThis(), true);
+    float radius = (*(SceneHolder*)&g_011da8a0).Modelloader_GetReferencedThis()->NiAVObject_GetWorldBound()->FUN_0084d030() * 4.0;
+    FUN_00450b80(1)->FUN_00b5ca70((*(SceneHolder*)&g_011da8a0).Modelloader_GetReferencedThis(), radius);
     InitRouletteWheel();
 }
 
@@ -1090,7 +1091,7 @@ struct Holder
     void* value;
     Holder(void*);
     ~Holder();
-    void* FUN_00559450();
+    void* Modelloader_GetReferencedThis();
     void FUN_0066b0d0(void*);
 };
 extern Holder g_011da8d0;
@@ -1113,13 +1114,13 @@ void RouletteMenu_DrawScene()
     Owner* pOwner = Main_GetWorldSceneGraph();
     Scene* scene = pOwner->FUN_008d80e0();
     scene->BSCullingProcess_PushCullMode(1);
-    void* owner = g_011da8d0.FUN_00559450();
+    void* owner = g_011da8d0.Modelloader_GetReferencedThis();
     UpdateCameraFrustum(owner, g_011db5ec_arg1);
     Holder node(InterfaceManager_GetSingleton()->RaceSexMenu_GetProjectorFile());
-    scene->BSCullingProcess_SetAccumulator(node.FUN_00559450());
+    scene->BSCullingProcess_SetAccumulator(node.Modelloader_GetReferencedThis());
     void* existing = owner ? owner : pOwner->FUN_006629f0();
     BSShaderUtil_AccumulateScene(existing, FUN_00450b80(1), scene);
-    FUN_00b6c0d0(existing, node.FUN_00559450(), 0);
+    FUN_00b6c0d0(existing, node.Modelloader_GetReferencedThis(), 0);
     scene->BSCullingProcess_SetAccumulator(0);
     node.FUN_0066b0d0(0);
     scene->BSCullingProcess_PopCullMode();
@@ -1493,20 +1494,20 @@ bool RouletteMenu::RemoveEntryById(int id)
             {
                 unk3fe0 = (*node->FUN_006815c0())->objectIndex;
                 SetBetChip();
-                reinterpret_cast<RouletteScene*>(DAT_011da8a0.FUN_00559450())
+                reinterpret_cast<RouletteScene*>(DAT_011da8a0.Modelloader_GetReferencedThis())
                     ->FUN_0043b4a0(unk3fe0)
                     ->NiAVObject_SetTranslate_004bc1f0(reinterpret_cast<float&>(unk3fd4), reinterpret_cast<float&>(unk3fd8),
-                                   reinterpret_cast<RouletteScene*>(DAT_011da8a0.FUN_00559450())
+                                   reinterpret_cast<RouletteScene*>(DAT_011da8a0.Modelloader_GetReferencedThis())
                                        ->FUN_0043b4a0(unk3fe0)
                                        ->GetTranslate_0043c490()
                                        .z);
-                reinterpret_cast<RouletteScene*>(DAT_011da8a0.FUN_00559450())
+                reinterpret_cast<RouletteScene*>(DAT_011da8a0.Modelloader_GetReferencedThis())
                     ->FUN_0043b4a0(unk3fe0 + 10)
                     ->NiAVObject_SetTranslate_004bc1f0(reinterpret_cast<float&>(unk3fd4), reinterpret_cast<float&>(unk3fd8), 0.0f);
-                reinterpret_cast<RouletteScene*>(DAT_011da8a0.FUN_00559450())
+                reinterpret_cast<RouletteScene*>(DAT_011da8a0.Modelloader_GetReferencedThis())
                     ->FUN_0043b4a0(unk3fe0)
                     ->Update(NiUpdateData(0.0f, false, false));
-                reinterpret_cast<RouletteScene*>(DAT_011da8a0.FUN_00559450())
+                reinterpret_cast<RouletteScene*>(DAT_011da8a0.Modelloader_GetReferencedThis())
                     ->FUN_0043b4a0(unk3fe0 + 10)
                     ->Update(NiUpdateData(0.0f, false, false));
             }
@@ -2565,14 +2566,14 @@ void RouletteMenu::DoIdle_007bd2a0()
         if (1)
         {
             ColorFlags kBallFlags(s_fSpinTime, true, false);
-            reinterpret_cast<NiObj*>(DAT_011da8a0.FUN_00559450())->FUN_0043b4a0(0)->NiAVObject_Update(kBallFlags);
+            reinterpret_cast<NiObj*>(DAT_011da8a0.Modelloader_GetReferencedThis())->FUN_0043b4a0(0)->NiAVObject_Update(kBallFlags);
         }
         if (reinterpret_cast<AnimSeq*>(m_apSpinSeq[m_iRouletteResult])->GetEndKeyTime_00508100() / 2.0 < s_fSpinTime && m_bSpinning)
         {
             ResetBetChips();
             m_iChipNode = 3;
-            NiPoint3 kPos = *reinterpret_cast<NiObj*>(DAT_011da8a0.FUN_00559450())->FUN_0043b4a0(2)->GetTranslate_0043c490();
-            reinterpret_cast<NiObj*>(DAT_011da8a0.FUN_00559450())->FUN_0043b4a0(m_iChipNode)->NiAVObject_SetTranslate_004bc1f0(kPos.x, kPos.y, 0.0f);
+            NiPoint3 kPos = *reinterpret_cast<NiObj*>(DAT_011da8a0.Modelloader_GetReferencedThis())->FUN_0043b4a0(2)->GetTranslate_0043c490();
+            reinterpret_cast<NiObj*>(DAT_011da8a0.Modelloader_GetReferencedThis())->FUN_0043b4a0(m_iChipNode)->NiAVObject_SetTranslate_004bc1f0(kPos.x, kPos.y, 0.0f);
             SetBetChip();
             m_bSpinning = false;
         }
@@ -2808,17 +2809,17 @@ void RouletteMenu::DoIdle_007bd2a0()
             m_fCursorY < (double)-13.3f ? m_fCursorY = -13.3f : 0.0f;
             m_fCursorX > 28.0 ? m_fCursorX = 28.0f : 0.0f;
             m_fCursorY > (double)13.1f ? m_fCursorY = 13.1f : 0.0f;
-            reinterpret_cast<NiObj*>(DAT_011da8a0.FUN_00559450())->FUN_0043b4a0(2)->NiAVObject_SetTranslate_004bc1f0(m_fCursorX, m_fCursorY, m_fCursorZ);
-            reinterpret_cast<NiObj*>(DAT_011da8a0.FUN_00559450())->FUN_0043b4a0(2)->NiAVObject_Update(ColorFlags(0.0f, false, false));
+            reinterpret_cast<NiObj*>(DAT_011da8a0.Modelloader_GetReferencedThis())->FUN_0043b4a0(2)->NiAVObject_SetTranslate_004bc1f0(m_fCursorX, m_fCursorY, m_fCursorZ);
+            reinterpret_cast<NiObj*>(DAT_011da8a0.Modelloader_GetReferencedThis())->FUN_0043b4a0(2)->NiAVObject_Update(ColorFlags(0.0f, false, false));
             if (m_iChipCount < 10)
             {
-                reinterpret_cast<NiObj*>(DAT_011da8a0.FUN_00559450())
+                reinterpret_cast<NiObj*>(DAT_011da8a0.Modelloader_GetReferencedThis())
                     ->FUN_0043b4a0(m_iChipNode)
                     ->NiAVObject_SetTranslate_004bc1f0(m_fCursorX, m_fCursorY,
-                                   reinterpret_cast<NiObj*>(DAT_011da8a0.FUN_00559450())->FUN_0043b4a0(m_iChipNode)->GetTranslate_0043c490()->z);
-                reinterpret_cast<NiObj*>(DAT_011da8a0.FUN_00559450())->FUN_0043b4a0(m_iChipNode + 10)->NiAVObject_SetTranslate_004bc1f0(m_fCursorX, m_fCursorY, 0.0f);
-                reinterpret_cast<NiObj*>(DAT_011da8a0.FUN_00559450())->FUN_0043b4a0(m_iChipNode)->NiAVObject_Update(ColorFlags(0.0f, false, false));
-                reinterpret_cast<NiObj*>(DAT_011da8a0.FUN_00559450())
+                                   reinterpret_cast<NiObj*>(DAT_011da8a0.Modelloader_GetReferencedThis())->FUN_0043b4a0(m_iChipNode)->GetTranslate_0043c490()->z);
+                reinterpret_cast<NiObj*>(DAT_011da8a0.Modelloader_GetReferencedThis())->FUN_0043b4a0(m_iChipNode + 10)->NiAVObject_SetTranslate_004bc1f0(m_fCursorX, m_fCursorY, 0.0f);
+                reinterpret_cast<NiObj*>(DAT_011da8a0.Modelloader_GetReferencedThis())->FUN_0043b4a0(m_iChipNode)->NiAVObject_Update(ColorFlags(0.0f, false, false));
+                reinterpret_cast<NiObj*>(DAT_011da8a0.Modelloader_GetReferencedThis())
                     ->FUN_0043b4a0(m_iChipNode + 10)
                     ->NiAVObject_Update(ColorFlags(0.0f, false, false));
             }

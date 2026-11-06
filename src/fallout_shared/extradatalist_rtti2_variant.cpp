@@ -806,7 +806,7 @@ class G
     void FUN_0063f7b0();
     void FUN_00726c60(G**);
     G* FUN_00726070();
-    void FUN_00905330(R* const&);
+    void RemoveMatchingItem(R* const&);
     H* BSFile_GetDevice(O*);
     void DoorTeleportData_InitLoadGame();
 };
@@ -1165,7 +1165,7 @@ void ThisQ::ExtraDataList_InitLoadGame(unsigned int a1, int a2, O* a3, void* a4)
                     }
                     else
                     {
-                        prev->FUN_00905330((R*)c7);
+                        prev->RemoveMatchingItem((R*)c7);
                         n7 = prev->FUN_00726070();
                     }
                 }

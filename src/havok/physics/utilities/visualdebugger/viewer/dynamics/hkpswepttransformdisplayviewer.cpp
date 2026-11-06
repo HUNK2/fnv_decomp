@@ -9,7 +9,8 @@
 
 // Calls FindEntryIndex on the viewer at this-0x20 with a; if the returned index is non-negative, calls RemoveWorldData with it.
 // @fnv 0x00d64950
-void hkpSweptTransformDisplayViewer::FUN_00d64950(int a)
+// src: GUESS 0x00d64950 (confidence: high)
+void hkpSweptTransformDisplayViewer::RemoveWorldDataIfFound(int a)
 {
     hkpSweptTransformDisplayViewer* p = (hkpSweptTransformDisplayViewer*)((char*)this - 0x20);
     int r = p->FindEntryIndex(a);
@@ -19,7 +20,8 @@ void hkpSweptTransformDisplayViewer::FUN_00d64950(int a)
 
 extern "C" void hkpSweptTransformDisplayViewer_addWorld();
 // @fnv 0x00d647f0
-void __fastcall FUN_00d647f0(void* self)
+// src: GUESS 0x00d647f0 (confidence: low)
+void __fastcall hkpSweptTransformDisplayViewer_addWorld_Helper_00d647f0(void* self)
 {
     ((void(__thiscall*)(void*))hkpSweptTransformDisplayViewer_addWorld)((char*)self - 0x20);
 }
@@ -27,7 +29,8 @@ void __fastcall FUN_00d647f0(void* self)
 extern "C" int g_ptr_0x1268fd0;
 
 // @fnv 0x00d64970
-int __cdecl FUN_00d64970()
+// src: GUESS 0x00d64970 (confidence: low)
+int __cdecl hkpSweptTransformDisplayViewer_GetPtr0x1268fd0()
 {
     return g_ptr_0x1268fd0;
 }
@@ -495,7 +498,8 @@ void* __fastcall DeleteSweptTransformViewer(hkpSweptTransformDisplayViewer* self
 }
 
 // @fnv 0x00d64980
-__declspec(naked) void FUN_00d64980()
+// src: GUESS 0x00d64980 (confidence: low)
+__declspec(naked) void Object_ProcessState_00d64980()
 {
     __asm { sub ecx, 8 }
     __asm { jmp DeleteSweptTransformViewer }
@@ -509,7 +513,8 @@ __declspec(naked) void FUN_00d64990()
 }
 
 // @fnv 0x00d649a0
-__declspec(naked) void FUN_00d649a0()
+// src: GUESS 0x00d649a0 (confidence: low)
+__declspec(naked) void Object_ProcessState_00d649a0()
 {
     __asm { sub ecx, 2ch }
     __asm { jmp DeleteSweptTransformViewer }

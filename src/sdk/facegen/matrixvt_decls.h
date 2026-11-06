@@ -28,7 +28,7 @@ class FR2MatrixVTCData
 class FaceGenCoordinateBasis
 {
   public:
-    FaceGenCoordinateValue FUN_0060b370(unsigned int row, unsigned int col);
+    FaceGenCoordinateValue ForwardCall_0060b370(unsigned int row, unsigned int col);
 };
 
 template <class T> class FaceGenMatrix;

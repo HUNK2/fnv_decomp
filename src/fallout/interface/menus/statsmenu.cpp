@@ -586,7 +586,7 @@ struct Calendar
 
 struct StatusH
 {
-    void FUN_007db250(Tile*);
+    void ForwardCall_007db250(Tile*);
     void SetFieldBits(int, int);
 };
 // The stats-label normalization helper at 0x007b52a0 is absent from BSStringT.h.
@@ -755,19 +755,19 @@ Tile* StatsMenu_Create()
             (bool___cdecl__StatsMenu__HealingOption__*)IsPlayerSubObjectValueAboveThreshold;
         ((LBH*)&StatsMenu::ms_pInventoryMenu->m_kStatusEffectList)
             ->Initialize(StatsMenu::ms_pInventoryMenu->m_pTiles[33], "stats_effects_template");
-        StatsMenu_BodyPartController_GetInstance(0)->FUN_007db250(StatsMenu::ms_pInventoryMenu->m_pTiles[12]);
-        StatsMenu_BodyPartController_GetInstance(0)->FUN_007db250(StatsMenu::ms_pInventoryMenu->m_pTiles[13]);
-        StatsMenu_BodyPartController_GetInstance(0)->FUN_007db250(StatsMenu::ms_pInventoryMenu->m_pTiles[24]);
-        StatsMenu_BodyPartController_GetInstance(1)->FUN_007db250(StatsMenu::ms_pInventoryMenu->m_pTiles[18]);
-        StatsMenu_BodyPartController_GetInstance(1)->FUN_007db250(StatsMenu::ms_pInventoryMenu->m_pTiles[19]);
-        StatsMenu_BodyPartController_GetInstance(2)->FUN_007db250(StatsMenu::ms_pInventoryMenu->m_pTiles[14]);
-        StatsMenu_BodyPartController_GetInstance(2)->FUN_007db250(StatsMenu::ms_pInventoryMenu->m_pTiles[15]);
-        StatsMenu_BodyPartController_GetInstance(3)->FUN_007db250(StatsMenu::ms_pInventoryMenu->m_pTiles[16]);
-        StatsMenu_BodyPartController_GetInstance(3)->FUN_007db250(StatsMenu::ms_pInventoryMenu->m_pTiles[17]);
-        StatsMenu_BodyPartController_GetInstance(4)->FUN_007db250(StatsMenu::ms_pInventoryMenu->m_pTiles[22]);
-        StatsMenu_BodyPartController_GetInstance(4)->FUN_007db250(StatsMenu::ms_pInventoryMenu->m_pTiles[23]);
-        StatsMenu_BodyPartController_GetInstance(5)->FUN_007db250(StatsMenu::ms_pInventoryMenu->m_pTiles[20]);
-        StatsMenu_BodyPartController_GetInstance(5)->FUN_007db250(StatsMenu::ms_pInventoryMenu->m_pTiles[21]);
+        StatsMenu_BodyPartController_GetInstance(0)->ForwardCall_007db250(StatsMenu::ms_pInventoryMenu->m_pTiles[12]);
+        StatsMenu_BodyPartController_GetInstance(0)->ForwardCall_007db250(StatsMenu::ms_pInventoryMenu->m_pTiles[13]);
+        StatsMenu_BodyPartController_GetInstance(0)->ForwardCall_007db250(StatsMenu::ms_pInventoryMenu->m_pTiles[24]);
+        StatsMenu_BodyPartController_GetInstance(1)->ForwardCall_007db250(StatsMenu::ms_pInventoryMenu->m_pTiles[18]);
+        StatsMenu_BodyPartController_GetInstance(1)->ForwardCall_007db250(StatsMenu::ms_pInventoryMenu->m_pTiles[19]);
+        StatsMenu_BodyPartController_GetInstance(2)->ForwardCall_007db250(StatsMenu::ms_pInventoryMenu->m_pTiles[14]);
+        StatsMenu_BodyPartController_GetInstance(2)->ForwardCall_007db250(StatsMenu::ms_pInventoryMenu->m_pTiles[15]);
+        StatsMenu_BodyPartController_GetInstance(3)->ForwardCall_007db250(StatsMenu::ms_pInventoryMenu->m_pTiles[16]);
+        StatsMenu_BodyPartController_GetInstance(3)->ForwardCall_007db250(StatsMenu::ms_pInventoryMenu->m_pTiles[17]);
+        StatsMenu_BodyPartController_GetInstance(4)->ForwardCall_007db250(StatsMenu::ms_pInventoryMenu->m_pTiles[22]);
+        StatsMenu_BodyPartController_GetInstance(4)->ForwardCall_007db250(StatsMenu::ms_pInventoryMenu->m_pTiles[23]);
+        StatsMenu_BodyPartController_GetInstance(5)->ForwardCall_007db250(StatsMenu::ms_pInventoryMenu->m_pTiles[20]);
+        StatsMenu_BodyPartController_GetInstance(5)->ForwardCall_007db250(StatsMenu::ms_pInventoryMenu->m_pTiles[21]);
         StatsMenu_BodyPartController_GetInstance(0)->SetFieldBits(1, 2);
         StatsMenu_BodyPartController_GetInstance(0)->SetFieldBits(2, 1);
         StatsMenu_BodyPartController_GetInstance(0)->SetFieldBits(3, 3);
@@ -1180,7 +1180,7 @@ class StatsmenuInterfaceView
 // List-box queries: 0x00726710 is also bound in listbox.cpp; 0x007d86c0 serves startmenu.cpp save lists.
 struct PerkListQueries
 {
-    unsigned int FUN_00726710();
+    unsigned int GetUnfilteredRaceCount();
     void* ListBox_BGSSaveLoadFileEntry_GetDataAt(int, int);
 };
 struct StatsPageUpdateMethods : StatsMenu
@@ -1209,7 +1209,7 @@ void PageMenuMethods::SetPage(int aePage)
         ((StatsPageUpdateMethods*)this)->UpdateStatsDisplay(5);
     else if (aePage == 2)
         ((StatsPageUpdateMethods*)this)->UpdateStatsDisplay(0x20);
-    else if (aePage == 3 && ((PerkListQueries*)&m_kPerkRankList)->FUN_00726710())
+    else if (aePage == 3 && ((PerkListQueries*)&m_kPerkRankList)->GetUnfilteredRaceCount())
         ((StatsPageUpdateMethods*)this)->UpdateScrollBar(((PerkListQueries*)&m_kPerkRankList)->ListBox_BGSSaveLoadFileEntry_GetDataAt(0, 0));
     else
         m_pTiles[25]->Set(0xfa3, 0);
@@ -1433,11 +1433,12 @@ struct S
 {
     int pad;
     G2 arr[1];
-    void FUN_007db250(int idx, int* val);
+    void ForwardCall_007db250(int idx, int* val);
 };
 // Calls AddHead on the element of arr at idx, passing val.
 // @fnv 0x007db250
-void S::FUN_007db250(int aiIndex, int* apValue)
+// src: GUESS 0x007db250 (confidence: low)
+void S::ForwardCall_007db250(int aiIndex, int* apValue)
 {
     arr[aiIndex].AddHead(apValue);
 }
@@ -2349,8 +2350,8 @@ void ClickMenu::StatsMenu_DoClick(int id, Tile* tile)
             ((Actor*)g_thePlayer)
                 ->Actor_QueueEquipObject(m_kHealingOptions[i].m_pStatusEffect->FUN_0044ddc0(),
                                m_kHealingOptions[i].m_pStatusEffect->FUN_00726070(),
-                               reinterpret_cast<ExtraDataList*>(m_kHealingOptions[i].m_pStatusEffect->FUN_00559450()
-                                   ? ((ClickNode*)m_kHealingOptions[i].m_pStatusEffect->FUN_00559450())->FUN_006815c0()
+                               reinterpret_cast<ExtraDataList*>(m_kHealingOptions[i].m_pStatusEffect->Modelloader_GetReferencedThis()
+                                   ? ((ClickNode*)m_kHealingOptions[i].m_pStatusEffect->Modelloader_GetReferencedThis())->FUN_006815c0()
                                    : 0),
                                false, false, true);
             TESBoundObject* object = m_kHealingOptions[i].m_pStatusEffect->FUN_0044ddc0();
@@ -2865,7 +2866,7 @@ struct ItemBox : ListBox_enum_ActorValue__Index_
     bool ListBox_unsigned_int_GetFlag(unsigned int);
     void ListBox_StatsMenu_StatusEffect_Synchronize();
     void AccumulateTileHeight(Tile*);
-    void FUN_00725970();
+    void UpdateState_00725970();
     int GetRaceCount();
     Tile* StatsMenu_EffectsList_Append(ActorValue::Index, const char*, ItemCompare, const char*);
 };
@@ -2895,7 +2896,7 @@ Tile* ItemBox::StatsMenu_EffectsList_Append(ActorValue::Index value, const char*
             if (ListBox_unsigned_int_GetFlag(0))
             {
                 AccumulateTileHeight(tile);
-                FUN_00725970();
+                UpdateState_00725970();
             }
             tile->Set(4012, m_usSelectedIndex++);
         }
@@ -2955,7 +2956,7 @@ struct ListBoxInsert : ListBox_enum_ActorValue__Index_
     bool ListBox_unsigned_int_GetFlag(unsigned int);
     void ProcessSlots();
     void AccumulateTileHeight(Tile*);
-    void FUN_00725f40();
+    void UpdateScrollTraits();
     int GetRaceCount();
     Tile* StatsMenu_ReputationList_Append(ActorValue::Index value, const char* text,
                        int(__cdecl* comparator)(FUN_007a62e0*, FUN_007a62e0*), const char* templateName);
@@ -2988,7 +2989,7 @@ Tile* ListBoxInsert::StatsMenu_ReputationList_Append(ActorValue::Index value, co
             if (ListBox_unsigned_int_GetFlag(0))
             {
                 AccumulateTileHeight(tile);
-                FUN_00725f40();
+                UpdateScrollTraits();
             }
             tile->Set(0xFAC, m_usSelectedIndex++);
         }
@@ -3434,7 +3435,7 @@ struct InputList
 
 struct InputStatus
 {
-    unsigned int FUN_00559450() const;
+    unsigned int Modelloader_GetReferencedThis() const;
     int GetByte(unsigned int, int);
     void SetBodyPart(int, bool);
 };
@@ -3518,7 +3519,7 @@ bool InputStats::StatsMenu_DoGamepad(int code, float amount)
                 return false;
             }
             int selected3 =
-                ((InputStatus*)StatsMenu_BodyPartController_GetInstance())->GetByte(((InputStatus*)StatsMenu_BodyPartController_GetInstance())->FUN_00559450(), direction);
+                ((InputStatus*)StatsMenu_BodyPartController_GetInstance())->GetByte(((InputStatus*)StatsMenu_BodyPartController_GetInstance())->Modelloader_GetReferencedThis(), direction);
             if (selected3 < 6)
             {
                 ((InputStatus*)StatsMenu_BodyPartController_GetInstance())->SetBodyPart(selected3, true);

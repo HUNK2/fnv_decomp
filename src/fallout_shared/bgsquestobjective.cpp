@@ -63,7 +63,7 @@ BGSQuestObjective::BGSQuestObjective()
 // @fnv 0x005ec330
 const char* BGSQuestObjective::GetDisplayText()
 {
-    return (reinterpret_cast<const StrMem*>(&m_kDisplayText)->FUN_00559450() ? reinterpret_cast<const StrMem*>(&m_kDisplayText)->FUN_00559450()
+    return (reinterpret_cast<const StrMem*>(&m_kDisplayText)->Modelloader_GetReferencedThis() ? reinterpret_cast<const StrMem*>(&m_kDisplayText)->Modelloader_GetReferencedThis()
                                                           : g_emptyTopicInfoPrompt);
 }
 

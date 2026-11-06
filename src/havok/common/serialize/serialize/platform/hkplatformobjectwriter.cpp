@@ -251,7 +251,7 @@ struct E02Sub
     int unk08;
 
     void ProcessArgument(void* value);
-    void FUN_00a29680();
+    void Object_DoNothing();
 };
 
 struct FUN_00e02d40_cls
@@ -266,7 +266,7 @@ struct FUN_00e02d40_cls
 
     void ClearAndFreeData();
     void ProcessArgument(void* value);
-    void FUN_00a29680();
+    void Object_DoNothing();
 };
 
 // @fnv 0x00e02d40
@@ -295,9 +295,9 @@ void FUN_00e02d40_cls::ClearAndFreeData()
     m_uCapBits = 0x80000000u;
     E02Sub* pSub = &m_sub;
     pSub->ProcessArgument(((hkMemoryRouter*)hkMemoryRouter_getInstance())->m_heap);
-    pSub->FUN_00a29680();
+    pSub->Object_DoNothing();
     ProcessArgument(((hkMemoryRouter*)hkMemoryRouter_getInstance())->m_heap);
-    FUN_00a29680();
+    Object_DoNothing();
 }
 
 struct E02DE0Allocator;

@@ -159,7 +159,7 @@ struct __declspec(align(16)) Matrix16
 };
 
 Matrix16* __stdcall D3DXMatrixTranspose_00ee6dd4(Matrix16* pOut, const Matrix16* pM);
-void __cdecl FUN_00a29680(const char* pcFormat, ...);
+void __cdecl Object_DoNothing(const char* pcFormat, ...);
 
 // The shared entry does not yet declare the name setter or the resolved byte.
 // The resolved byte occupies the second byte of its trailing alignment padding.
@@ -1414,7 +1414,7 @@ bool NiD3DHLSLPixelShader::SetShaderConstantArray(NiShaderConstantMapEntry* pkEn
         NiFixedString& kVariableName = CopyFixedString(kVariableNameStorage, pkEntry->m_kSecondaryString);
         if (!kVariableName.Exists())
         {
-            kVariableName.FUN_0043ba10(pkEntry->m_kControlPoint);
+            kVariableName.AssignInternedString(pkEntry->m_kControlPoint);
             static_cast<ShaderConstantEntryOperations*>(pkEntry)->NiShaderConstantMapEntry_SetVariableName(kVariableName);
         }
 
@@ -1430,7 +1430,7 @@ bool NiD3DHLSLPixelShader::SetShaderConstantArray(NiShaderConstantMapEntry* pkEn
         }
         else
         {
-            FUN_00a29680("NiD3DHLSLPixelShader::SetShaderConstantArray - %s - variable %s not found\n", m_pcProgramName,
+            Object_DoNothing("NiD3DHLSLPixelShader::SetShaderConstantArray - %s - variable %s not found\n", m_pcProgramName,
                          (const char*)kVariableName);
             kVariableName.Release();
             return false;
@@ -1486,7 +1486,7 @@ extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile lo
 extern char* DAT_0109b220;
 extern int DAT_011f5fc4[];
 extern char DAT_010f13f0[];
-void FUN_00a29680(const char* format, ...);
+void Object_DoNothing(const char* format, ...);
 void __stdcall D3DXMatrixTranspose_00ee6dd4(void* value, int source);
 
 
@@ -2763,7 +2763,7 @@ bool NiD3DHLSLPixelShader::SetShaderConstant(NiShaderConstantMapEntry* entry, vo
         NiFixedString& name = CopyFixedString(nameStorage, entry->m_kSecondaryString);
         if (!name.Exists())
         {
-            name.FUN_0043ba10(entry->m_kControlPoint);
+            name.AssignInternedString(entry->m_kControlPoint);
             static_cast<ShaderConstantEntryOperations*>(entry)->NiShaderConstantMapEntry_SetVariableName(name);
         }
         char* text = name.m_kHandle;
@@ -2779,7 +2779,7 @@ bool NiD3DHLSLPixelShader::SetShaderConstant(NiShaderConstantMapEntry* entry, vo
         }
         else
         {
-            fnv_00e96da0::FUN_00a29680(fnv_00e96da0::DAT_010f13f0, m_pcProgramName, text);
+            fnv_00e96da0::Object_DoNothing(fnv_00e96da0::DAT_010f13f0, m_pcProgramName, text);
             ReleaseString(text);
             return false;
         }

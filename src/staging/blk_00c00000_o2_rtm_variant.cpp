@@ -107,7 +107,7 @@ struct FUN_00c05350_class
     int ImageSpaceEffectBloom_IsActive();
 };
 extern void* DAT_010bcb60;
-void __cdecl FUN_00bb45b0();
+void __cdecl Runtime_UpdateState_00bb45b0();
 extern "C" void __cdecl _delete(void*, unsigned int);
 struct FUN_00c058c0
 {
@@ -125,7 +125,7 @@ struct FUN_00a74480_holder
 };
 struct FUN_00c1a660_holder : FUN_00a74480_holder
 {
-    FUN_00c1a660_holder* FUN_00c1a660(unsigned int a);
+    FUN_00c1a660_holder* InitializeFields_00c1a660(unsigned int a);
 };
 extern int DAT_011f9530;
 struct FUN_00c0bb20_class
@@ -275,7 +275,7 @@ struct FUN_00c03260_class
 {
     char pad[0x58];
     ImageSpaceTexture m_tex;
-    void FUN_00c03260();
+    void AddRenderedTexture_Thunk();
 };
 extern float DAT_012023f4;
 extern float DAT_012023f8;
@@ -347,7 +347,7 @@ struct FUN_00c1a480_class
     int m_vtbl;
     int m_iWordAt04;
     int __thiscall NiTriStrips_NiTriStrips(int);
-    int __thiscall FUN_00c1a480(int a);
+    int __thiscall SetVirtualTable_00c1a480(int a);
 };
 struct FUN_00a7fb20_class
 {
@@ -1401,7 +1401,7 @@ struct FUN_00c05880_cls
     unsigned int unkFC;
     unsigned int m_100;
     void FUN_00bb4520();
-    FUN_00c05880_cls* FUN_00c05880();
+    FUN_00c05880_cls* InitializeFields_00c05880();
 };
 struct ShaderEntry
 {
@@ -2310,7 +2310,7 @@ struct RefHandle
     }
 };
 extern RefHandle DAT_011fda48[208];
-RefObject* __cdecl FUN_00c163a0(unsigned int index);
+RefObject* __cdecl Object_ProcessAndReturnValue_00c163a0(unsigned int index);
 struct CpuOpaque;
 extern CpuOpaque DAT_012024b8;
 CpuOpaque* __cdecl TallGrassTriStrips_GetRTTI();
@@ -3989,7 +3989,7 @@ struct FUN_00c04da0 : _Base_00ba3d30
 {
     ~FUN_00c04da0();
 };
-float __cdecl FUN_00c05870();
+float __cdecl Runtime_EvaluateValue_00c05870();
 extern "C" unsigned int __cdecl _rotl(unsigned int, int);
 struct ConstantEntryStandin
 {
@@ -5920,7 +5920,7 @@ struct C0D170Self
     virtual void s84();
     virtual void s85();
     virtual void at158();
-    bool FUN_00c0d170();
+    bool ProcessEntries_00c0d170();
 };
 struct ColorA_c1a310
 {
@@ -7183,7 +7183,7 @@ void C17510Shader::SpeedTreeBranchShader_Func_88()
         ShaderHandle handle = {m_e4};
         static_cast<PassMethods*>(spRenderPass.m_p)->SetPixelShader(handle);
     }
-    static_cast<PassMethods*>(spRenderPass.m_p)->SetVertexShader(reinterpret_cast<RefTex*>(FUN_00c163a0(93)));
+    static_cast<PassMethods*>(spRenderPass.m_p)->SetVertexShader(reinterpret_cast<RefTex*>(Object_ProcessAndReturnValue_00c163a0(93)));
     static_cast<PassMethods*>(spRenderPass.m_p)->SetBlend(2, 2, false);
     DAT_011fd15c = DAT_011fd148;
     DAT_011fc57c = DAT_011fc568;
@@ -7213,7 +7213,7 @@ void C17510Shader::SpeedTreeBranchShader_Func_88()
         ShaderHandle handle = {m_e8};
         static_cast<PassMethods*>(spRenderPass.m_p)->SetPixelShader(handle);
     }
-    static_cast<PassMethods*>(spRenderPass.m_p)->SetVertexShader(reinterpret_cast<RefTex*>(FUN_00c163a0(94)));
+    static_cast<PassMethods*>(spRenderPass.m_p)->SetVertexShader(reinterpret_cast<RefTex*>(Object_ProcessAndReturnValue_00c163a0(94)));
     static_cast<PassMethods*>(spRenderPass.m_p)->SetBlend(2, 2, false);
     DAT_011fd18c = DAT_011fd178;
     DAT_011fc5ac = DAT_011fc598;
@@ -7249,7 +7249,7 @@ void C17510Shader::SpeedTreeBranchShader_Func_88()
         ShaderHandle handle = {m_ec};
         static_cast<PassMethods*>(spRenderPass.m_p)->SetPixelShader(handle);
     }
-    static_cast<PassMethods*>(spRenderPass.m_p)->SetVertexShader(reinterpret_cast<RefTex*>(FUN_00c163a0(95)));
+    static_cast<PassMethods*>(spRenderPass.m_p)->SetVertexShader(reinterpret_cast<RefTex*>(Object_ProcessAndReturnValue_00c163a0(95)));
     static_cast<PassMethods*>(spRenderPass.m_p)->SetBlend(2, 2, false);
     DAT_011fd1fc = DAT_011fd1e8;
     DAT_011fc61c = DAT_011fc608;
@@ -7285,7 +7285,7 @@ void C17510Shader::SpeedTreeBranchShader_Func_88()
         ShaderHandle handle = {m_f0};
         static_cast<PassMethods*>(spRenderPass.m_p)->SetPixelShader(handle);
     }
-    static_cast<PassMethods*>(spRenderPass.m_p)->SetVertexShader(reinterpret_cast<RefTex*>(FUN_00c163a0(97)));
+    static_cast<PassMethods*>(spRenderPass.m_p)->SetVertexShader(reinterpret_cast<RefTex*>(Object_ProcessAndReturnValue_00c163a0(97)));
     static_cast<PassMethods*>(spRenderPass.m_p)->SetBlend(2, 2, false);
     DAT_011fd214 = DAT_011fd200;
     DAT_011fc634 = DAT_011fc620;
@@ -7321,7 +7321,7 @@ void C17510Shader::SpeedTreeBranchShader_Func_88()
         ShaderHandle handle = {m_f4};
         static_cast<PassMethods*>(spRenderPass.m_p)->SetPixelShader(handle);
     }
-    static_cast<PassMethods*>(spRenderPass.m_p)->SetVertexShader(reinterpret_cast<RefTex*>(FUN_00c163a0(99)));
+    static_cast<PassMethods*>(spRenderPass.m_p)->SetVertexShader(reinterpret_cast<RefTex*>(Object_ProcessAndReturnValue_00c163a0(99)));
     static_cast<PassMethods*>(spRenderPass.m_p)->SetBlend(2, 2, false);
     DAT_011fd22c = DAT_011fd218;
     DAT_011fc64c = DAT_011fc638;
@@ -7355,7 +7355,7 @@ void C17510Shader::SpeedTreeBranchShader_Func_88()
         ShaderHandle handle = {m_f8};
         static_cast<PassMethods*>(spRenderPass.m_p)->SetPixelShader(handle);
     }
-    static_cast<PassMethods*>(spRenderPass.m_p)->SetVertexShader(reinterpret_cast<RefTex*>(FUN_00c163a0(101)));
+    static_cast<PassMethods*>(spRenderPass.m_p)->SetVertexShader(reinterpret_cast<RefTex*>(Object_ProcessAndReturnValue_00c163a0(101)));
     static_cast<PassMethods*>(spRenderPass.m_p)->SetBlend(2, 2, false);
     DAT_011fd244 = DAT_011fd230;
     DAT_011fc664 = DAT_011fc650;
@@ -7389,7 +7389,7 @@ void C17510Shader::SpeedTreeBranchShader_Func_88()
         ShaderHandle handle = {m_fc};
         static_cast<PassMethods*>(spRenderPass.m_p)->SetPixelShader(handle);
     }
-    static_cast<PassMethods*>(spRenderPass.m_p)->SetVertexShader(reinterpret_cast<RefTex*>(FUN_00c163a0(103)));
+    static_cast<PassMethods*>(spRenderPass.m_p)->SetVertexShader(reinterpret_cast<RefTex*>(Object_ProcessAndReturnValue_00c163a0(103)));
     static_cast<PassMethods*>(spRenderPass.m_p)->SetBlend(2, 2, false);
     DAT_011fd25c = DAT_011fd248;
     DAT_011fc67c = DAT_011fc668;
@@ -7429,7 +7429,7 @@ void C17510Shader::SpeedTreeBranchShader_Func_88()
         ShaderHandle handle = {m_100};
         static_cast<PassMethods*>(spRenderPass.m_p)->SetPixelShader(handle);
     }
-    static_cast<PassMethods*>(spRenderPass.m_p)->SetVertexShader(reinterpret_cast<RefTex*>(FUN_00c163a0(200)));
+    static_cast<PassMethods*>(spRenderPass.m_p)->SetVertexShader(reinterpret_cast<RefTex*>(Object_ProcessAndReturnValue_00c163a0(200)));
     spRenderPass->GetRSG()->SetRenderState(0x1b, 1, true);
     static_cast<PassMethods*>(spRenderPass.m_p)->SetBlend(9, 1, false);
     spRenderPass->GetRSG()->SetRenderState(15, 0, true);

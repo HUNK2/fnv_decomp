@@ -53,11 +53,12 @@ struct FUN_00dd90d0_cls
     int unk00;
     int unk04;
     Inner* m_08;
-    void FUN_00dd90d0(int a);
+    void ForwardCall_00dd90d0(int a);
 };
 
 // @fnv 0x00dd90d0
-void FUN_00dd90d0_cls::FUN_00dd90d0(int a)
+// src: GUESS 0x00dd90d0 (confidence: low)
+void FUN_00dd90d0_cls::ForwardCall_00dd90d0(int a)
 {
     m_08->Tail(a);
 }
@@ -102,10 +103,11 @@ struct FnvCpu_FUN_00dd9100_CpuObject
     unsigned int unk00;
     unsigned int unk04;
     int value;
-    int FUN_00dd9100();
+    int GetValue_00dd9100();
 };
 // @fnv 0x00dd9100
-int FnvCpu_FUN_00dd9100_CpuObject::FUN_00dd9100()
+// src: GUESS 0x00dd9100 (confidence: high)
+int FnvCpu_FUN_00dd9100_CpuObject::GetValue_00dd9100()
 {
     return value;
 }

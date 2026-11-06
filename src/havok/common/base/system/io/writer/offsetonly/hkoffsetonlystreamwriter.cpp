@@ -101,11 +101,12 @@ struct FUN_00e02ee0_cls
     int unk04;
     int unk08;
 
-    int FUN_00e02ee0();
+    int GetUnk08_00e02ee0();
 };
 
 // @fnv 0x00e02ee0
-int FUN_00e02ee0_cls::FUN_00e02ee0()
+// src: GUESS 0x00e02ee0 (confidence: low)
+int FUN_00e02ee0_cls::GetUnk08_00e02ee0()
 {
     return unk08;
 }

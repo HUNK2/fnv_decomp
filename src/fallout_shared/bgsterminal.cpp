@@ -789,7 +789,7 @@ void __cdecl AppendChunk(unsigned int, void*, unsigned int);
 // @fnv 0x00500a40
 void BGSTerminal::SaveForm()
 {
-    FUN_004855a0();
+    BeginFormRecord();
     TESFullName::Save_00487010();
     reinterpret_cast<SaveModel*>(reinterpret_cast<char*>(this) +
         offsetof(BGSTerminal, m_kModelFilePath) - offsetof(TESModelTextureSwap, m_kModelFilePath))->ProcessAndFreeData(0x4c444f4d, 0x54444f4d, 0x53444f4d);
@@ -843,7 +843,7 @@ void BGSTerminal::SaveForm()
         reinterpret_cast<SaveScript*>(&item->m_kScript)->FUN_005abe00();
         reinterpret_cast<TESConditionSave_bgsterminal*>(&item->Conditions)->ProcessItems();
     }
-    FUN_00485680();
+    FinishFormRecord();
 }
 
 struct Ref;

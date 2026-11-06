@@ -19,7 +19,7 @@ __declspec(align(16)) struct FUN_00dd4a50_cls
     unsigned int m_i30;
     unsigned int m_i34;
 
-    FUN_00dd4a50_cls* FUN_00dd4a50(const FUN_00dd4a50_cls* src);
+    FUN_00dd4a50_cls* InitializeFields_00dd4a50(const FUN_00dd4a50_cls* src);
 };
 
 extern const char str_010d7b64[];
@@ -135,7 +135,7 @@ struct QueryState {
 
     unsigned int properties[1];
 
-    QueryState& __thiscall FUN_00dd4a50(const QueryState*);
+    QueryState& __thiscall InitializeFields_00dd4a50(const QueryState*);
 
 };
 
@@ -147,7 +147,7 @@ struct RayQuerySet {
 
     FourFloats active;
 
-    void __thiscall FUN_00dd4a90(const RayQuerySet*) throw();
+    void __thiscall CopyRotationsAndExtraVector(const RayQuerySet*) throw();
 
 };
 
@@ -259,7 +259,7 @@ struct ErrorStream {
  int unk00,unk04,unk08;
  __declspec(nothrow) void FUN_00cb1600(void*,int) throw();
  __declspec(nothrow) void FUN_00cc00e0() throw();
- __declspec(nothrow) void FUN_00cc01c0(const char*) throw();
+ __declspec(nothrow) void ProcessAndReturnValue_00cc01c0(const char*) throw();
 };
 struct ErrorHandler {
 
@@ -334,7 +334,8 @@ static __declspec(noinline) int hkpProcessFlyingColors(const FourFloats* mask, c
 
 }
 
-static __declspec(noinline) void FUN_00dd2fd0(const FourFloats* endDistance,
+// src: GUESS 0x00dd2fd0 (confidence: low)
+static __declspec(noinline) void hkSimdReal_ComputeValues_00dd2fd0(const FourFloats* endDistance,
 
     const FourFloats* startDistance, FourFloats* startWeight, FourFloats* endWeight) {
 
@@ -835,7 +836,7 @@ CompareValue direction=startDistance.compareLessThan4(endDistance);
 
             code+=nextJump;
 
-            rays->FUN_00dd4a90(next);
+            rays->CopyRotationsAndExtraVector(next);
 
             continue;
 
@@ -907,7 +908,7 @@ endDistance=PlaneDiff(projectEnd.getQuad(),boundHigh.getQuad());
 
             VectorValue ty=_mm_cmplt_ps(_mm_mul_ps(endDistance.getQuad(),startDistance.getQuad()),_mm_setzero_ps());
 
-            FUN_00dd2fd0(&endDistance,&startDistance,&toWeight,&fromWeight);
+            hkSimdReal_ComputeValues_00dd2fd0(&endDistance,&startDistance,&toWeight,&fromWeight);
 
             VectorValue fraction=_mm_and_ps(ty,decreasing);
 
@@ -938,7 +939,7 @@ lowerEndDistance=PlaneDiff(projectEnd.getQuad(),boundLow.getQuad());
 
             ty=_mm_cmplt_ps(_mm_mul_ps(lowerEndDistance.getQuad(),lowerStartDistance.getQuad()),_mm_setzero_ps());
 
-            FUN_00dd2fd0(&lowerEndDistance,&lowerStartDistance,&lowerToWeight,&lowerFromWeight);
+            hkSimdReal_ComputeValues_00dd2fd0(&lowerEndDistance,&lowerStartDistance,&lowerToWeight,&lowerFromWeight);
 
             fraction=_mm_and_ps(ty,increasing);
 
@@ -1000,7 +1001,7 @@ propertyCopy.offset.setAdd4(state->offset,translation);propertyCopy.offset.mul4(
  state=&propertyCopy;code+=4;continue;}
         case 9:
 
-            if (state!=&propertyCopy) {propertyCopy.FUN_00dd4a50(state);state=&propertyCopy;}
+            if (state!=&propertyCopy) {propertyCopy.InitializeFields_00dd4a50(state);state=&propertyCopy;}
 
             propertyCopy.primitiveBase+=byte1;
 
@@ -1010,7 +1011,7 @@ propertyCopy.offset.setAdd4(state->offset,translation);propertyCopy.offset.mul4(
 
             int rejectUp=(byte1<<8)+splitNode;
 
-            if (state!=&propertyCopy) {propertyCopy.FUN_00dd4a50(state);state=&propertyCopy;}
+            if (state!=&propertyCopy) {propertyCopy.InitializeFields_00dd4a50(state);state=&propertyCopy;}
 
             propertyCopy.primitiveBase+=rejectUp;
 
@@ -1022,7 +1023,7 @@ propertyCopy.offset.setAdd4(state->offset,translation);propertyCopy.offset.mul4(
 
             int rejectUp=((((byte1<<8)+splitNode)<<8)+byte3)*256+code[4];
 
-            if (state!=&propertyCopy) {propertyCopy.FUN_00dd4a50(state);state=&propertyCopy;}
+            if (state!=&propertyCopy) {propertyCopy.InitializeFields_00dd4a50(state);state=&propertyCopy;}
 
             propertyCopy.primitiveBase=rejectUp;
 
@@ -1055,7 +1056,7 @@ localState: { // Preserve the changed property while copying shared state.
 
             unsigned int property=propertyCopy.properties[0];
 
-            if(state!=&propertyCopy) {propertyCopy.FUN_00dd4a50(state);state=&propertyCopy;}
+            if(state!=&propertyCopy) {propertyCopy.InitializeFields_00dd4a50(state);state=&propertyCopy;}
 
             propertyCopy.properties[0]=property;
 
@@ -1071,7 +1072,7 @@ localState: { // Preserve the changed property while copying shared state.
 
                 ErrorStream stream;stream.FUN_00cb1600(messageStorage,512);
 
-                stream.FUN_00cc01c0("Unknown command - This mopp data has been corrupted (check for memory trashing), or an hkpMoppBvTreeShape has been pointed at invalid mopp data.\n");
+                stream.ProcessAndReturnValue_00cc01c0("Unknown command - This mopp data has been corrupted (check for memory trashing), or an hkpMoppBvTreeShape has been pointed at invalid mopp data.\n");
 
 int r=DAT_01268360->Report(3,0x1298fedd,(const char*)messageStorage,
 

@@ -9,7 +9,8 @@
 extern "C" unsigned char DAT_01268414;
 
 // @fnv 0x00cbb950
-void __cdecl FUN_00cbb950(unsigned char* out)
+// src: GUESS 0x00cbb950 (confidence: medium)
+void __cdecl Hkbasesystem_CopyGlobalValueToOutput(unsigned char* out)
 {
     *out = DAT_01268414;
 }
@@ -166,7 +167,7 @@ struct FUN_00cbc810_cls
     unsigned int m_key;
     FUN_00cbc810_cls* m_next;
 
-    void FUN_00b4df30();
+    void BSFadeNode_FreeLinkedNodesRecursively();
     void RemoveKey(unsigned int* pKey);
 };
 
@@ -204,7 +205,7 @@ found:
             m_next = head_next->m_next;
             m_key = head_next->m_key;
             head_next->m_next = 0;
-            head_next->FUN_00b4df30();
+            head_next->BSFadeNode_FreeLinkedNodesRecursively();
             DAT_011f6238.MemoryManager_Deallocate(head_next);
             return;
         }
@@ -213,7 +214,7 @@ found:
     }
     prev->m_next = cur->m_next;
     cur->m_next = 0;
-    cur->FUN_00b4df30();
+    cur->BSFadeNode_FreeLinkedNodesRecursively();
     DAT_011f6238.MemoryManager_Deallocate(cur);
 }
 

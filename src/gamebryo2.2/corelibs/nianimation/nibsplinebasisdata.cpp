@@ -126,7 +126,7 @@ FUN_00a51ab0_cls* FUN_00a51ab0_cls::NiBSplineColorInterpolator_NiBSplineColorInt
     return this;
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int uiSize);
+void* __cdecl Object_DispatchCommandFour(unsigned int uiSize);
 
 inline void* operator new(unsigned int, void* pMemory) throw()
 {
@@ -136,7 +136,7 @@ inline void* operator new(unsigned int, void* pMemory) throw()
 // Construct in separately allocated storage so constructor failure has no delete cleanup.
 inline NiBSplineBasisData* AllocateBSplineBasisData()
 {
-    void* pMemory = FUN_00aa13e0(sizeof(NiBSplineBasisData));
+    void* pMemory = Object_DispatchCommandFour(sizeof(NiBSplineBasisData));
     if (pMemory)
     {
         NiBSplineBasisData* pResult = ::new (pMemory) NiBSplineBasisData;
@@ -189,12 +189,13 @@ struct FUN_00a54190_cls
     unsigned short m_0a;
     unsigned short m_0c;
     unsigned short m_0e;
-    FUN_00a54190_cls* FUN_00a54190(int n, short a2);
+    FUN_00a54190_cls* UpdateState_00a54190(int n, short a2);
 };
 
 // Sets object fields and allocates 4 times m_08 bytes when m_08 is positive.
 // @fnv 0x00a54190
-FUN_00a54190_cls* FUN_00a54190_cls::FUN_00a54190(int n, short a2)
+// src: GUESS 0x00a54190 (confidence: low)
+FUN_00a54190_cls* FUN_00a54190_cls::UpdateState_00a54190(int n, short a2)
 {
     m_vt = (int)&DAT_0109a2a4;
     m_08 = n;

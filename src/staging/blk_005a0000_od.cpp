@@ -59,7 +59,8 @@ void TESRecipe::SetCategory(TESRecipeCategory* apCategory)
 }
 
 // @fnv 0x005a8080
-BSSimpleList<RecipeItem*>* TESRecipe::FUN_005a8080()
+// src: GUESS 0x005a8080 (confidence: low)
+BSSimpleList<RecipeItem*>* TESRecipe::ComputeValue_005a8080()
 {
     return reinterpret_cast<BSSimpleList<RecipeItem*>*>(&kIngredients);
 }
@@ -124,11 +125,12 @@ struct FUN_005a7220_class
 };
 struct FUN_005a71d0_class
 {
-    void* __thiscall FUN_005a71d0();
+    void* __thiscall UpdateState_005a71d0();
 };
 // Calls Initialize on the sub-objects at offsets 4 and 0x2c, then sets the fields at 0, 0x50 and 0x54 and returns this.
 // @fnv 0x005a71d0
-void* __thiscall FUN_005a71d0_class::FUN_005a71d0()
+// src: GUESS 0x005a71d0 (confidence: low)
+void* __thiscall FUN_005a71d0_class::UpdateState_005a71d0()
 {
     ((FUN_005a7220_class*)((char*)this + 4))->Initialize();
     ((FUN_005a7220_class*)((char*)this + 0x2c))->Initialize();
@@ -392,14 +394,14 @@ struct FUN_005a7a90_shell
 // src: COMMUNITY 0x005a7a90
 void FUN_005a7a90_shell::TESRecipeCategory_SaveAlt()
 {
-    ((TESForm*)this)->FUN_004855a0();
+    ((TESForm*)this)->BeginFormRecord();
     ((TESFullName*)((char*)this + 0x18))->Save_00487010();
     if (TESForm_QEndianSwapOnSave())
         ((FUN_00483710_shell*)((char*)this + 0x24))->FUN_00483710();
     ((TESForm*)this)->TESForm___SaveData((char*)this + 0x24, 1);
     if (TESForm_QEndianSwapOnSave())
         ((FUN_00483710_shell*)((char*)this + 0x24))->FUN_00483710();
-    ((TESForm*)this)->FUN_00485680();
+    ((TESForm*)this)->FinishFormRecord();
 }
 
 struct FUN_005a7b00_Record
@@ -453,7 +455,7 @@ struct FUN_005a7be0
 {
     int data[2];
     FUN_005a7be0();
-    unsigned int FUN_00559450();
+    unsigned int Modelloader_GetReferencedThis();
     void* FUN_00726070();
     void FUN_00537e90(unsigned int);
     void FUN_006ecd40(void*);
@@ -474,7 +476,7 @@ struct CopyForm
 {
     char data[0x34];
     CopyString* NiAVObject_GetRotate_006a9540();
-    CopyList* FUN_005a8080();
+    CopyList* ComputeValue_005a8080();
     CopyList* BSFile_GetDevice();
     void TESForm_CopyAllComponents(void*);
     int FUN_0059bb30();
@@ -499,16 +501,16 @@ void CopyForm::CopyFrom(void* apSource)
     NiAVObject_GetRotate_006a9540()->CopyConditions(source3->NiAVObject_GetRotate_006a9540(), 0);
     memcpy(data + 0x24, source3->data + 0x24, 0x10);
     TESForm_CopyAllComponents(apSource);
-    while (!FUN_005a8080()->FUN_008256d0())
-        FUN_005a8080()->FUN_0063f7b0();
-    CopyList* iter = source3->FUN_005a8080();
+    while (!ComputeValue_005a8080()->FUN_008256d0())
+        ComputeValue_005a8080()->FUN_0063f7b0();
+    CopyList* iter = source3->ComputeValue_005a8080();
     while (iter && !iter->FUN_008256d0())
     {
         FUN_005a7be0* oldNode = *iter->FUN_006815c0();
         FUN_005a7be0* newNode = new FUN_005a7be0;
-        newNode->FUN_00537e90(oldNode->FUN_00559450());
+        newNode->FUN_00537e90(oldNode->Modelloader_GetReferencedThis());
         newNode->FUN_006ecd40(oldNode->FUN_00726070());
-        FUN_005a8080()->FUN_00905820(newNode);
+        ComputeValue_005a8080()->FUN_00905820(newNode);
         iter = iter->FUN_00726070();
     }
     while (!BSFile_GetDevice()->FUN_008256d0())
@@ -518,7 +520,7 @@ void CopyForm::CopyFrom(void* apSource)
     {
         FUN_005a7be0* oldNode = *iter->FUN_006815c0();
         FUN_005a7be0* newNode = new FUN_005a7be0;
-        newNode->FUN_00537e90(oldNode->FUN_00559450());
+        newNode->FUN_00537e90(oldNode->Modelloader_GetReferencedThis());
         newNode->FUN_006ecd40(oldNode->FUN_00726070());
         BSFile_GetDevice()->FUN_00905820(newNode);
         iter = iter->FUN_00726070();
@@ -557,7 +559,7 @@ struct SubChallenge
     int FUN_0045cd60();
     bool TESForm_CompareAllComponents(SubChallenge*);
     SubString& NiAVObject_GetRotate_006a9540();
-    SubList* FUN_005a8080();
+    SubList* ComputeValue_005a8080();
     SubList* BSFile_GetDevice();
     bool IsNotEqual(void*);
 };
@@ -580,12 +582,12 @@ bool SubChallenge::IsNotEqual(void* input)
         return true;
     if (NiAVObject_GetRotate_006a9540().FUN_00680b70(other->NiAVObject_GetRotate_006a9540()))
         return true;
-    if (FUN_005a8080()->FUN_005ae380() != other->FUN_005a8080()->FUN_005ae380())
+    if (ComputeValue_005a8080()->FUN_005ae380() != other->ComputeValue_005a8080()->FUN_005ae380())
         return true;
     if (BSFile_GetDevice()->FUN_005ae380() != other->BSFile_GetDevice()->FUN_005ae380())
         return true;
-    SubList* a = FUN_005a8080();
-    SubList* b5 = other->FUN_005a8080();
+    SubList* a = ComputeValue_005a8080();
+    SubList* b5 = other->ComputeValue_005a8080();
     while (b5 && !b5->FUN_008256d0())
     {
         if (!a || a->FUN_008256d0())
@@ -677,7 +679,7 @@ struct RecipeItem
     unsigned int quantity;
     TESForm* form;
     TESForm* FUN_00726070();
-    unsigned int FUN_00559450();
+    unsigned int Modelloader_GetReferencedThis();
 };
 struct RecipeItemProcessor
 {
@@ -699,7 +701,7 @@ void TESForm_AddChunk_00485910(unsigned int type, unsigned int value);
 // src: COMMUNITY 0x005a8490
 void TESRecipe::SaveAlt_005a8490()
 {
-    FUN_004855a0();
+    BeginFormRecord();
     TESFullName::Save_00487010();
     NiAVObject_GetRotate_006a9540()->ProcessItems();
     FUN_00430830()->category = reinterpret_cast<TESForm*>(GetField54() ? GetField54()->GetFormID() : 0);
@@ -709,14 +711,14 @@ void TESRecipe::SaveAlt_005a8490()
     TESForm___SaveData(&kData, 16);
     if (TESForm_QEndianSwapOnSave())
         reinterpret_cast<RecipeData*>(&kData)->SCRIPT_HEADER_Endian();
-    BSSimpleList<RecipeItem*>* iter = FUN_005a8080();
+    BSSimpleList<RecipeItem*>* iter = ComputeValue_005a8080();
     RecipeItem* item = 0;
     while (iter && iter->GetItem())
     {
         item = iter->GetItem();
         iter = iter->GetNext();
         TESForm_AddChunk_00485910(0x4c494352, item->FUN_00726070()->GetFormID());
-        TESForm_AddChunk_00485910(0x59514352, item->FUN_00559450());
+        TESForm_AddChunk_00485910(0x59514352, item->Modelloader_GetReferencedThis());
     }
     iter = BSFile_GetDevice();
     item = 0;
@@ -725,9 +727,9 @@ void TESRecipe::SaveAlt_005a8490()
         item = iter->GetItem();
         iter = iter->GetNext();
         TESForm_AddChunk_00485910(0x444f4352, item->FUN_00726070()->GetFormID());
-        TESForm_AddChunk_00485910(0x59514352, item->FUN_00559450());
+        TESForm_AddChunk_00485910(0x59514352, item->Modelloader_GetReferencedThis());
     }
-    FUN_00485680();
+    FinishFormRecord();
 }
 
 struct FUN_005a7870_cls

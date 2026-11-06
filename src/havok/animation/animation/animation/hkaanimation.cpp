@@ -19,7 +19,7 @@ void __stdcall nullsub_85(int)
 struct FUN_00cb0c30_s
 {
     char* m_pcString;
-    void FUN_00cb0c30(const FUN_00cb0c30_s& kOther) throw();
+    void UpdateState_00cb0c30(const FUN_00cb0c30_s& kOther) throw();
 };
 class hkaAnnotationTrack
 {
@@ -32,7 +32,7 @@ class hkaAnnotationTrack
         Annotation& operator=(const Annotation& kOther)
         {
             m_uiCommandId = kOther.m_uiCommandId;
-            m_pText.FUN_00cb0c30(kOther.m_pText);
+            m_pText.UpdateState_00cb0c30(kOther.m_pText);
             return *this;
         }
     };

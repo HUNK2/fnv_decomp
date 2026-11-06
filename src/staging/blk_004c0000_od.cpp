@@ -70,11 +70,12 @@ void __cdecl ClearGlobalArray();
 
 struct FUN_004d5d40_Class
 {
-    void __thiscall FUN_004d5d40();
+    void __thiscall ClearGlobalArray_Thunk();
 };
 
 // @fnv 0x004d5d40
-void __thiscall FUN_004d5d40_Class::FUN_004d5d40()
+// src: GUESS 0x004d5d40 (confidence: medium)
+void __thiscall FUN_004d5d40_Class::ClearGlobalArray_Thunk()
 {
     ClearGlobalArray();
 }
@@ -206,11 +207,12 @@ FUN_004d8fa0_StandIn* __thiscall FUN_004d8fa0_StandIn::NiTMap_NiAVObject_TREEITE
 struct FUN_004d9190_Class
 {
     void __thiscall FUN_004d91b0();
-    void __thiscall FUN_004d9190();
+    void __thiscall ForwardCall_004d9190();
 };
 
 // @fnv 0x004d9190
-void __thiscall FUN_004d9190_Class::FUN_004d9190()
+// src: GUESS 0x004d9190 (confidence: low)
+void __thiscall FUN_004d9190_Class::ForwardCall_004d9190()
 {
     FUN_004d91b0();
 }
@@ -308,7 +310,8 @@ unsigned int FUN_004dd220_Class::GetField5C8()
 
 // Allocates size bytes with operator new and returns the resulting pointer.
 // @fnv 0x004dd240
-void* __stdcall FUN_004dd240(unsigned int size)
+// src: GUESS 0x004dd240 (confidence: medium)
+void* __stdcall Object_AllocateStorage(unsigned int size)
 {
     void* p = operator new(size);
     void* RunFourthVirtual;
@@ -319,7 +322,8 @@ void* __stdcall FUN_004dd240(unsigned int size)
 void __stdcall ClearAndFreePointer(void*);
 
 // @fnv 0x004dd2a0
-int __cdecl FUN_004dd2a0(void* p)
+// src: GUESS 0x004dd2a0 (confidence: low)
+int __cdecl Object_ProcessAndReturnValue_004dd2a0(void* p)
 {
     ClearAndFreePointer(p);
     return 1;
@@ -357,7 +361,8 @@ extern unsigned char DAT_011c77e9;
 extern float DAT_011c77ec;
 
 // @fnv 0x004def00
-char FUN_004def00(float afValue, char acValue)
+// src: GUESS 0x004def00 (confidence: low)
+char Object_ComputeValue_004def00(float afValue, char acValue)
 {
     DAT_011c77ec = afValue;
     DAT_011c77e9 = acValue;
@@ -415,10 +420,11 @@ void RandomFloatNeg1To1()
 void _NiFreeAlias(void*);
 struct FUN_004d4f10_StandIn : public NiTPointerMap<int, int>
 {
-    void FUN_004d4f10();
+    void ReleaseStorage_004d4f10();
 };
 // @fnv 0x004d4f10
-void FUN_004d4f10_StandIn::FUN_004d4f10()
+// src: GUESS 0x004d4f10 (confidence: low)
+void FUN_004d4f10_StandIn::ReleaseStorage_004d4f10()
 {
     *(const char**)this = "@OM";
     RemoveAll();
@@ -434,12 +440,13 @@ struct FUN_004d90d0_Class
     void* m_p0;
     void* m_p4;
     void* m_p8;
-    void FUN_004d90d0();
+    void UpdateState_004d90d0();
 };
 
 // Points m_p0 at DAT_01021004, clears the map via RemoveAll, and frees m_p8 with NiFreeAlias.
 // @fnv 0x004d90d0
-void FUN_004d90d0_Class::FUN_004d90d0()
+// src: GUESS 0x004d90d0 (confidence: low)
+void FUN_004d90d0_Class::UpdateState_004d90d0()
 {
     m_p0 = (void*)&DAT_01021004;
     ((NiTPointerMap<int, int>*)this)->RemoveAll();
@@ -470,7 +477,7 @@ struct FUN_004d9160_Class : public FUN_004d9190_Class
 // @fnv 0x004d9160
 void* FUN_004d9160_Class::FUN_004d9160(unsigned int flags)
 {
-    FUN_004d9190();
+    ForwardCall_004d9190();
     if (flags & 1)
         Deallocate(this);
     return this;
@@ -483,11 +490,12 @@ struct FUN_004d4e40_Holder
 };
 struct FUN_004d4de0_Class
 {
-    void* __thiscall FUN_004d4de0(unsigned int);
+    void* __thiscall ProcessAndReturnValue_004d4de0(unsigned int);
 };
 // Calls FUN_004d4e40 on this, then stores the address of DAT_01020924 into the object's first field and returns this.
 // @fnv 0x004d4de0
-void* __thiscall FUN_004d4de0_Class::FUN_004d4de0(unsigned int a)
+// src: GUESS 0x004d4de0 (confidence: low)
+void* __thiscall FUN_004d4de0_Class::ProcessAndReturnValue_004d4de0(unsigned int a)
 {
     ((FUN_004d4e40_Holder*)this)->FUN_004d4e40(a);
     *(void**)this = (void*)&DAT_01020924;
@@ -526,7 +534,7 @@ struct FUN_004d4f40_StandIn
 // @fnv 0x004d4f40
 void* __thiscall FUN_004d4f40_StandIn::FUN_004d4f40(unsigned int flags)
 {
-    ((FUN_004d4f10_StandIn*)this)->FUN_004d4f10();
+    ((FUN_004d4f10_StandIn*)this)->ReleaseStorage_004d4f10();
     if (flags & 1)
         _Deallocate(this);
     return this;
@@ -539,11 +547,12 @@ struct FUN_004d5c20_Base
 struct FUN_004d5c20_StandIn
 {
     FUN_004d5c20_Base* m_p0;
-    void __thiscall FUN_004d5c20();
+    void __thiscall UpdateFields_004d5c20();
 };
 // Calls FUN_000(1) on m_p0 when m_p0 is non-null.
 // @fnv 0x004d5c20
-void __thiscall FUN_004d5c20_StandIn::FUN_004d5c20()
+// src: GUESS 0x004d5c20 (confidence: low)
+void __thiscall FUN_004d5c20_StandIn::UpdateFields_004d5c20()
 {
     FUN_004d5c20_Base* p1 = m_p0;
     FUN_004d5c20_Base* p2 = p1;
@@ -553,14 +562,14 @@ void __thiscall FUN_004d5c20_StandIn::FUN_004d5c20()
 void __cdecl _Deallocate(void*);
 struct FUN_004d5dd0_Class
 {
-    void __thiscall FUN_004d5c20();
+    void __thiscall UpdateFields_004d5c20();
     void* __thiscall FUN_004d5dd0(unsigned int);
 };
 // Calls FUN_004d5c20, then deallocates this when flags has bit 0 set, and returns this.
 // @fnv 0x004d5dd0
 void* __thiscall FUN_004d5dd0_Class::FUN_004d5dd0(unsigned int flags)
 {
-    FUN_004d5c20();
+    UpdateFields_004d5c20();
     if (flags & 1)
         _Deallocate(this);
     return this;
@@ -707,7 +716,7 @@ struct FUN_004d8560_StandIn
 // @fnv 0x004d8560
 void* __thiscall FUN_004d8560_StandIn::GetInnerVirtualResult()
 {
-    FUN_004d8560_Outer* result = (FUN_004d8560_Outer*)((bhkWorldObject*)this)->FUN_004ae750();
+    FUN_004d8560_Outer* result = (FUN_004d8560_Outer*)((bhkWorldObject*)this)->Bipedanim_GetReferenceFlagsOrZero();
     return result ? result->_10.f1() : 0;
 }
 
@@ -719,7 +728,7 @@ struct FUN_004d8630_Class
 // @fnv 0x004d8630
 bhkShape* __thiscall FUN_004d8630_Class::GetShape()
 {
-    void* p = ((bhkWorldObject*)this)->FUN_004ae750();
+    void* p = ((bhkWorldObject*)this)->Bipedanim_GetReferenceFlagsOrZero();
     return bhkShape_Getbhk(p ? ((FUN_004d8670_Class*)p)->GetListNext() : 0);
 }
 }  // namespace fnv_004d8630
@@ -758,7 +767,7 @@ struct FUN_004d9130_Class
 // @fnv 0x004d9130
 void* __thiscall FUN_004d9130_Class::FUN_004d9130(unsigned int flags)
 {
-    ((FUN_004d90d0_Class*)this)->FUN_004d90d0();
+    ((FUN_004d90d0_Class*)this)->UpdateState_004d90d0();
     if (flags & 1)
         _Deallocate(this);
     return this;
@@ -982,7 +991,7 @@ void __cdecl Interface3DSceneGraph_Destroy()
 extern "C" unsigned char __cdecl TESRenderer_GetFullScreen(void);
 struct S0042fa20
 {
-    S0042fa20* FUN_0045ce80(int);
+    S0042fa20* ProcessAndReturnValue_0045ce80(int);
 };
 extern S0042fa20 g_011c75d4;
 extern S0042fa20 g_011c7654;
@@ -994,8 +1003,8 @@ void __cdecl TESRenderer_Reposition(int aiFirst, int aiSecond)
 {
     if (!TESRenderer_GetFullScreen())
     {
-        g_011c75d4.FUN_0045ce80(aiFirst);
-        g_011c7654.FUN_0045ce80(aiSecond);
+        g_011c75d4.ProcessAndReturnValue_0045ce80(aiFirst);
+        g_011c7654.ProcessAndReturnValue_0045ce80(aiSecond);
     }
 }
 
@@ -1038,12 +1047,13 @@ struct FUN_004dcdf0_Class
         Arr a;
         MyArr_GetAt m;
     } _4;
-    unsigned int __thiscall FUN_004dcdf0(unsigned int index);
+    unsigned int __thiscall GetElementOrZero(unsigned int index);
 };
 __pragma(comment(linker, "/alternatename:?GetAt@MyArr_GetAt@@QAEPAIH@Z=?GetAt@Arr@@QAEPAIH@Z"))
     // Returns the element at index from the array if index is within bounds, otherwise returns 0.
 // @fnv 0x004dcdf0
-    unsigned int __thiscall FUN_004dcdf0_Class::FUN_004dcdf0(unsigned int index)
+// src: GUESS 0x004dcdf0 (confidence: high)
+    unsigned int __thiscall FUN_004dcdf0_Class::GetElementOrZero(unsigned int index)
 {
     if (index < _4.a.GetSize())
         return *(_4.m.GetAt((int)index));
@@ -1065,13 +1075,13 @@ void __stdcall ClearAndFreePointer(void* apPointer)
 void __cdecl _Deallocate(void*);
 struct FUN_004de550_StandIn
 {
-    void __thiscall FUN_0045d240();
+    void __thiscall ForwardCall_0045d240();
     void* __thiscall FUN_004de550(unsigned int);
 };
 // @fnv 0x004de550
 void* __thiscall FUN_004de550_StandIn::FUN_004de550(unsigned int flags)
 {
-    FUN_0045d240();
+    ForwardCall_0045d240();
     if (flags & 1)
         _Deallocate(this);
     return this;
@@ -1079,7 +1089,8 @@ void* __thiscall FUN_004de550_StandIn::FUN_004de550(unsigned int flags)
 
 extern NiPointer<NiTexture> DAT_011c7804[];
 // @fnv 0x004deed0
-bool __cdecl FUN_004deed0(char const* a, unsigned char aucIndex)
+// src: GUESS 0x004deed0 (confidence: low)
+bool __cdecl Runtime_EvaluateValue_004deed0(char const* a, unsigned char aucIndex)
 {
     if (aucIndex > 2)
         return false;
@@ -1126,11 +1137,12 @@ struct FUN_004d5080_Class
     void* unk08;
     void* unk0C;
 
-    void __thiscall FUN_004d5080();
+    void __thiscall ReleaseStorage_004d5080();
 };
 
 // @fnv 0x004d5080
-void __thiscall FUN_004d5080_Class::FUN_004d5080()
+// src: GUESS 0x004d5080 (confidence: medium)
+void __thiscall FUN_004d5080_Class::ReleaseStorage_004d5080()
 {
     void* fourthValue = *(void**)this->unk08;
     void* secondValue = fourthValue;
@@ -1677,7 +1689,7 @@ class ActorPathingMessageQueue;
 
 struct Name
 {
-    const char* FUN_00559450() const;
+    const char* Modelloader_GetReferencedThis() const;
 };
 struct ItemClass
 {
@@ -1778,7 +1790,7 @@ void __thiscall HostClass::SendModifierMessages(int a1, NiObject* apObject)
             qB = res->GetByIndex(cnt2);
             if (qB)
             {
-                BSstrncpy(i4, qB->GetName().FUN_00559450(), 0x3f);
+                BSstrncpy(i4, qB->GetName().Modelloader_GetReferencedThis(), 0x3f);
                 i4[63] = 0;
 
                 n3.unk18 = PrepareScriptMessage(i4, false);
@@ -1848,7 +1860,7 @@ struct FUN_004d9100
 };
 Node7* __cdecl NiObject_DynamicCast(void*, Node7*);
 const char* __cdecl ConvertFromUni(const char*, bool);
-const char* __fastcall FUN_00559450(void*);
+const char* __fastcall Modelloader_GetReferencedThis(void*);
 void __cdecl BSstrncpy(char*, const char*, unsigned);
 struct Insert7
 {
@@ -1884,7 +1896,7 @@ void C7::AddChildTreeItem(void* parent, Node7* node)
         ins.parent = parent;
         void* handle4 = ((void*(__stdcall*)(void*, unsigned, unsigned, Insert7*))DAT_00fdf28c)(hwnd, 0x1100, 0, &ins);
         char buffer[64];
-        BSstrncpy(buffer, FUN_00559450(casted7->v2()), 63);
+        BSstrncpy(buffer, Modelloader_GetReferencedThis(casted7->v2()), 63);
         buffer[63] = 0;
         ins.text = ConvertFromUni(buffer, false);
         ins.image = 0;
@@ -1922,7 +1934,7 @@ struct FUN_004d9100
 };
 struct FNVObjectName
 {
-    void* FUN_00559450();
+    void* Modelloader_GetReferencedThis();
 };
 struct FNVTreeNode
 {
@@ -2040,7 +2052,7 @@ void FUN_004d80b0_Class::BuildTreeItems(void* parent, FNVTreeNode* node)
             insertInfo.insertAfter = (void*)0xffff0002;
             insertInfo.item.mask = 0x27;
             insertInfo.item.node = node;
-            BSstrncpy(displayName, (const char*)node->GetName()->FUN_00559450(), 63);
+            BSstrncpy(displayName, (const char*)node->GetName()->Modelloader_GetReferencedThis(), 63);
             displayName[63] = 0;
             insertInfo.item.text = ConvertFromUni(displayName, 0);
             insertInfo.item.image = 0;
@@ -2068,9 +2080,9 @@ void FUN_004d80b0_Class::BuildTreeItems(void* parent, FNVTreeNode* node)
             if (partB && partB->GetNodeCount())
             {
                 FNVChildLink* link = partB->FUN_007d6bb0();
-                while (link && link->FUN_006815c0()->FUN_00559450())
+                while (link && link->FUN_006815c0()->Modelloader_GetReferencedThis())
                 {
-                    BuildTreeItems(parent, (FNVTreeNode*)link->FUN_006815c0()->FUN_00559450());
+                    BuildTreeItems(parent, (FNVTreeNode*)link->FUN_006815c0()->Modelloader_GetReferencedThis());
                     link = link->FUN_00726070();
                 }
             }
@@ -2125,7 +2137,7 @@ void FUN_004d80b0_Class::BuildTreeItems(void* parent, FNVTreeNode* node)
 
 struct FUN_0062e150_Obj
 {
-    int* FUN_0062e150(int a1);
+    int* GetElementPointer16(int a1);
 };
 struct FUN_004d8610_cls
 {
@@ -2141,7 +2153,7 @@ struct FUN_004d8610_cls
 // @fnv 0x004d8610
 int FUN_004d8610_cls::GetSubValue(int arg)
 {
-    return *sub18.FUN_0062e150(arg);
+    return *sub18.GetElementPointer16(arg);
 }
 
 struct TreeItem4d86
@@ -2674,7 +2686,7 @@ int __cdecl TESRenderer_GetVertexShaderVersion()
 namespace fnv_004dd180 {
 struct FUN_00559450_Object
 {
-    void* FUN_00559450();
+    void* Modelloader_GetReferencedThis();
 };
 extern FUN_00559450_Object DAT_011c73b4;
 struct FUN_004b9930_Object
@@ -2716,17 +2728,17 @@ bool __cdecl DispatchFormValue(int formId, int requestedValue)
     int result;
     DispatchInterface* selectedValue;
     long dispatcher;
-    if (DAT_011c73b4.FUN_00559450())
+    if (DAT_011c73b4.Modelloader_GetReferencedThis())
     {
         if (requestedValue)
             result = requestedValue;
         else
             result = MapIndexToValue(TESRenderer_GetFrameBufferFormat());
 
-        DAT_011c73b4.FUN_00559450();
+        DAT_011c73b4.Modelloader_GetReferencedThis();
         selectedValue = NiDX9Renderer_GetDirect3D();
         dispatcher = selectedValue->vtable->dispatch(
-            selectedValue, TESRenderer_GetAdapterIndex(((FUN_004dd220_Object*)DAT_011c73b4.FUN_00559450())->GetField5C8()), result,
+            selectedValue, TESRenderer_GetAdapterIndex(((FUN_004dd220_Object*)DAT_011c73b4.Modelloader_GetReferencedThis())->GetField5C8()), result,
             DAT_011c77b4.FUN_004b9930(formId, 0));
         if (dispatcher >= 0)
             return true;
@@ -2774,7 +2786,7 @@ struct DisplayInfo4de1
 };
 
 extern int(__stdcall* DAT_00fdf2f0)(const char*, unsigned long, DisplayDevice4de1*, unsigned long);
-int __cdecl FUN_004dd2c0(int iPrimaryDisplay, EyefinityInfo4de1* pkInfo, int* piNumTargets,
+int __cdecl Display_QueryEyefinityInfo(int iPrimaryDisplay, EyefinityInfo4de1* pkInfo, int* piNumTargets,
                          DisplayInfo4de1** ppkTargets);
 int __cdecl FUN_00ec9d4a(const char* pcFormat, ...);
 extern bool DAT_01189484;
@@ -2812,7 +2824,7 @@ void InitEyefinityDisplayInfo()
             iEntryIndex++;
         }
     }
-    if (FUN_004dd2c0(iPrimaryDisplay, &kInfo, &iTargetCount, &pkTargets) == 1)
+    if (Display_QueryEyefinityInfo(iPrimaryDisplay, &kInfo, &iTargetCount, &pkTargets) == 1)
     {
         if (kInfo.iSLSActive == 1 && DAT_01189484)
         {
@@ -2833,7 +2845,7 @@ void InitEyefinityDisplayInfo()
                 DAT_011c70f0 = DAT_01189494;
             }
         }
-        FUN_004dd2a0(&pkTargets);
+        Object_ProcessAndReturnValue_004dd2a0(&pkTargets);
     }
     else
     {
@@ -2888,7 +2900,7 @@ extern void* DAT_011c7810;
 extern void* DAT_011c781c;
 struct FUN_00559450_Helper
 {
-    void* FUN_00559450();
+    void* Modelloader_GetReferencedThis();
 };
 struct FUN_0066b0d0_Helper
 {
@@ -2897,11 +2909,12 @@ struct FUN_0066b0d0_Helper
 };
 
 // @fnv 0x004def20
-void FUN_004def20()
+// src: GUESS 0x004def20 (confidence: low)
+void Object_ProcessEntries_004def20()
 {
     if ((unsigned char)DAT_011c77e8)
     {
-        ((FUN_0066b0d0_Helper*)((FUN_00559450_Helper*)&DAT_011c7810)->FUN_00559450())->NiNode_RemoveAllChildren();
+        ((FUN_0066b0d0_Helper*)((FUN_00559450_Helper*)&DAT_011c7810)->Modelloader_GetReferencedThis())->NiNode_RemoveAllChildren();
         ((FUN_0066b0d0_Helper*)&DAT_011c7810)->FUN_0066b0d0(0);
         ((FUN_0066b0d0_Helper*)&DAT_011c781c)->FUN_0066b0d0(0);
     }
@@ -3346,7 +3359,7 @@ class ListT
 {
   public:
     unsigned int FUN_0044ddc0();
-    void* FUN_00559450();
+    void* Modelloader_GetReferencedThis();
     ListT* NiTPointerListBase_NiTPointerAllocator_unsigned_int_Tile_GetNext(void**);
 };
 class Owner
@@ -3412,10 +3425,10 @@ void* Owner::GetByIndex(unsigned int idx)
     if (idx >= kList.FUN_0044ddc0())
         return 0;
     unsigned int i = 0;
-    void* n = kList.FUN_00559450();
+    void* n = kList.Modelloader_GetReferencedThis();
     while (n)
     {
-        void* d = kList.NiTPointerListBase_NiTPointerAllocator_unsigned_int_Tile_GetNext(&n)->FUN_00559450();
+        void* d = kList.NiTPointerListBase_NiTPointerAllocator_unsigned_int_Tile_GetNext(&n)->Modelloader_GetReferencedThis();
         if (i++ == idx)
             return d;
     }
@@ -3520,7 +3533,7 @@ FUN_00b7b930_Ctx* BSShaderManager_GetAccumulator();
 
 struct GO45
 {
-    void FUN_0045ce80(int);
+    void ProcessAndReturnValue_0045ce80(int);
     int FUN_004503f0();
 };
 extern GlobalObject_004a4a40 g_011c73dc;
@@ -3538,7 +3551,7 @@ struct S45b
 class GlobalObject_00633c90
 {
   public:
-    FUN_004dc540_shell* FUN_00559450();
+    FUN_004dc540_shell* Modelloader_GetReferencedThis();
 };
 extern GlobalObject_00633c90 g_011c73b4;
 
@@ -3579,8 +3592,8 @@ void RecreateRenderDevice()
     if (Renderer_GetNIRenderer() && DAT_011c70e0 && DAT_011c70e4)
     {
         BSShaderManager_GetAccumulator()->BSShaderAccumulator_ClearAllQueries();
-        ((GO45*)&g_011c73dc)->FUN_0045ce80(DAT_011c70e0);
-        ((GO45*)&g_011c718c)->FUN_0045ce80(DAT_011c70e4);
+        ((GO45*)&g_011c73dc)->ProcessAndReturnValue_0045ce80(DAT_011c70e0);
+        ((GO45*)&g_011c718c)->ProcessAndReturnValue_0045ce80(DAT_011c70e4);
         if (DAT_011c70e4 / (double)DAT_011c70e0 == 0.75)
             DAT_011c70eb = false;
         else
@@ -3609,7 +3622,7 @@ void RecreateRenderDevice()
         }
         BSTexturePalette_RemoveAll();
         BSShaderManager_Reinitialize();
-        g_011c73b4.FUN_00559450()->NiTexturingProperty_Map_SetTexture((NiAVObject*)BSShaderManager_GetAccumulator());
+        g_011c73b4.Modelloader_GetReferencedThis()->NiTexturingProperty_Map_SetTexture((NiAVObject*)BSShaderManager_GetAccumulator());
         Main_GetWorldSceneGraph()->BSSceneGraph_UpdateCameraFOV();
         TESMain_CreateMenuRootNode();
         FUN_004dc650();
@@ -3651,12 +3664,13 @@ struct FUN_004dfe30_Class
     float y;
 
     FUN_004dfe30_Class();
-    FUN_004dfe30_Class __thiscall FUN_004dfe30(const FUN_004dfe30_Class& kPt) const;
+    FUN_004dfe30_Class __thiscall AddPointComponents(const FUN_004dfe30_Class& kPt) const;
 };
 
 // Returns a new point whose x and y are the sums of this point and kPt.
 // @fnv 0x004dfe30
-FUN_004dfe30_Class __thiscall FUN_004dfe30_Class::FUN_004dfe30(const FUN_004dfe30_Class& kPt) const
+// src: GUESS 0x004dfe30 (confidence: high)
+FUN_004dfe30_Class __thiscall FUN_004dfe30_Class::AddPointComponents(const FUN_004dfe30_Class& kPt) const
 {
     FUN_004dfe30_Class res = *this;
     res.x += kPt.x;
@@ -3672,7 +3686,7 @@ struct FUN_004d8610_StandIn
 // @fnv 0x004d85d0
 void* FUN_004d85a0_Class::GetLocalSubValue(int a)
 {
-    FUN_004d8610_StandIn* pLocalData = (FUN_004d8610_StandIn*)((bhkWorldObject*)this)->FUN_004ae750();
+    FUN_004d8610_StandIn* pLocalData = (FUN_004d8610_StandIn*)((bhkWorldObject*)this)->Bipedanim_GetReferenceFlagsOrZero();
     return pLocalData ? pLocalData->GetSubValue(a) : 0;
 }
 
@@ -4101,7 +4115,8 @@ void* FUN_00ec61c0(void* pvDst, int iValue, unsigned int uiSize);
 
 // Loads the AMD Eyefinity DLL, queries the SLS map and display modes for the given adapter, and fills the output display and Eyefinity info arrays.
 // @fnv 0x004dd2c0
-int FUN_004dd2c0(int iDisplayIndex, EFEyefinityInfo* pkEyefinityInfo, int* piNumDisplaysInfo,
+// src: GUESS 0x004dd2c0 (confidence: medium)
+int Display_QueryEyefinityInfo(int iDisplayIndex, EFEyefinityInfo* pkEyefinityInfo, int* piNumDisplaysInfo,
                  EFDisplayInfo** ppkDisplaysInfo)
 {
     void* hDLL;
@@ -4171,13 +4186,13 @@ int FUN_004dd2c0(int iDisplayIndex, EFEyefinityInfo* pkEyefinityInfo, int* piNum
     if (!pfnCreateRef || !pfnDestroyPtr || !pfnNumAdaptersCount || !pfnAdapterInfoNew || !pfnSLSMapIndexNew ||
         !pfnSLSMapConfigRes || !pfnModesOut || !pfnDisplayMapVal)
         return 0;
-    if (pfnCreateRef(FUN_004dd240, 1))
+    if (pfnCreateRef(Object_AllocateStorage, 1))
         return 0;
     if (pfnNumAdaptersCount(&iNumberAdapters))
         return 0;
     if (iNumberAdapters)
     {
-        pkAdapterInfoPos = (EFAdapterInfo*)FUN_004dd240(sizeof(EFAdapterInfo) * iNumberAdapters);
+        pkAdapterInfoPos = (EFAdapterInfo*)Object_AllocateStorage(sizeof(EFAdapterInfo) * iNumberAdapters);
         if (!pkAdapterInfoPos)
             return 0;
         ourMemset(pkAdapterInfoPos, 0, sizeof(EFAdapterInfo) * iNumberAdapters);
@@ -4262,7 +4277,7 @@ int FUN_004dd2c0(int iDisplayIndex, EFEyefinityInfo* pkEyefinityInfo, int* piNum
             {
                 if (!*ppkDisplaysInfo)
                 {
-                    *ppkDisplaysInfo = (EFDisplayInfo*)FUN_004dd240(sizeof(EFDisplayInfo) * iNumDisplayTargetRes);
+                    *ppkDisplaysInfo = (EFDisplayInfo*)Object_AllocateStorage(sizeof(EFDisplayInfo) * iNumDisplayTargetRes);
                     if (!*ppkDisplaysInfo)
                     {
                         iReturnValue = 0;
@@ -4433,7 +4448,7 @@ int FUN_004dd2c0(int iDisplayIndex, EFEyefinityInfo* pkEyefinityInfo, int* piNum
     DAT_00fdf0a8(hDLL);
     if (!iReturnValue)
     {
-        FUN_004dd2a0(ppkDisplaysInfo);
+        Object_ProcessAndReturnValue_004dd2a0(ppkDisplaysInfo);
         *piNumDisplaysInfo = 0;
         ourMemset(pkEyefinityInfo, 0, sizeof(pkEyefinityInfo));
     }

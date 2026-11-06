@@ -56,7 +56,7 @@ void __cdecl _Deallocate(void*);
 // @fnv 0x0073ad00
 void* __thiscall BookMenu::FUN_0073ad00(unsigned int flags)
 {
-    FUN_0073ad30();
+    SetVtableAndProcessState_0073ad30();
     if (flags & 1)
         _Deallocate(this);
     return this;
@@ -225,7 +225,8 @@ void BookMenu::DoStillDown(int aiID, Tile* apTarget)
 }
 
 // @fnv 0x0073ad30
-void BookMenu::FUN_0073ad30()
+// src: GUESS 0x0073ad30 (confidence: low)
+void BookMenu::SetVtableAndProcessState_0073ad30()
 {
     *reinterpret_cast<unsigned int*>(this) = (unsigned int)&DAT_01070ecc;
     FUN_00a1c520();

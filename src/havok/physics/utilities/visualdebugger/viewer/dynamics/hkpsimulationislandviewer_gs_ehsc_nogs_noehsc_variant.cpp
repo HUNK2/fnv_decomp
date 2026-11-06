@@ -88,7 +88,7 @@ struct S_00d65180_Obj : S_00d65180_RefObj, S_00d65180_Base2
 };
 S_00d65180_Base2* hkpSimulationIslandViewer_create(void* arg);
 extern int g_D651E0Value;
-int __cdecl FUN_00d651e0();
+int __cdecl Object_GetG_D651E0Value_00d651e0();
 struct S_Elem2
 {
     void ClearValue(void* d) throw();
@@ -324,18 +324,19 @@ static ThunkOwner g_thunk;
 // declare, so the second base's vtable gets a thunk that moves `this` back by the first base's size (8).
 struct PrimaryBase
 {
-    virtual void FUN_00d65200();
+    virtual void AdjustThisAndForward_00d65200();
     int unk04;
 };
 struct SecondaryBase
 {
-    virtual void FUN_00d65200();
+    virtual void AdjustThisAndForward_00d65200();
 };
 struct AdjustedDerived : PrimaryBase, SecondaryBase
 {
     AdjustedDerived();
 // @fnv 0x00d65200
-    virtual void FUN_00d65200();
+// src: GUESS 0x00d65200 (confidence: low)
+    virtual void AdjustThisAndForward_00d65200();
 };
 AdjustedDerived::AdjustedDerived()
 {}

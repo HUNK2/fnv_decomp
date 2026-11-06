@@ -2164,7 +2164,8 @@ extern BGSMoviePlayer* DAT_0126fac4;
 
 // If FUN_004b7210() returns non-null and its GetKey() is nonzero, calls FUN_00ec17c0() on DAT_0126fac4.
 // @fnv 0x00702960
-void FUN_00702960()
+// src: GUESS 0x00702960 (confidence: low)
+void Object_ProcessState_00702960()
 {
     if (InterfaceManager_GetSingleton() && reinterpret_cast<Modifier*>(InterfaceManager_GetSingleton())->GetKey())
         DAT_0126fac4->IsPlaying();
@@ -2233,7 +2234,8 @@ char __cdecl ConsumeByteAtE4();
 extern char DAT_0119f349;
 
 // @fnv 0x00704130
-void __cdecl FUN_00704130()
+// src: GUESS 0x00704130 (confidence: low)
+void __cdecl Interface_SetDAT0119f349()
 {
     DAT_0119f349 = ConsumeByteAtE4();
 }
@@ -4720,7 +4722,7 @@ void Interface_PreIdleStuff();
 void Interface_Idle();
 void Interface_PostIdleStuff();
 void RenderOrFallback(int, int);
-void FUN_00702960();
+void Object_ProcessState_00702960();
 // @fnv 0x00704010
 // src: COMMUNITY 0x00704010
 char __cdecl Interface_CreateModalMessageMenu(const char* text, int aiArg1, int aiArg2, int aiArg3, ...)
@@ -4733,7 +4735,7 @@ char __cdecl Interface_CreateModalMessageMenu(const char* text, int aiArg1, int 
         va_list args;
         va_start(args, aiArg3);
         success =
-            QueueMessage(text, 0, 0, 0, FUN_00704130, aiArg1, aiArg2, aiArg3, &args, true, -1, -1, 0.0f, 0.0f, 0.0f);
+            QueueMessage(text, 0, 0, 0, Interface_SetDAT0119f349, aiArg1, aiArg2, aiArg3, &args, true, -1, -1, 0.0f, 0.0f, 0.0f);
         va_end(args);
     }
     if (success)
@@ -4752,7 +4754,7 @@ char __cdecl Interface_CreateModalMessageMenu(const char* text, int aiArg1, int 
             Interface_Idle();
             Interface_PostIdleStuff();
             RenderOrFallback(0, 0);
-            FUN_00702960();
+            Object_ProcessState_00702960();
         }
         return DAT_0119f349;
     }
@@ -5083,7 +5085,7 @@ const char* __fastcall GetNPCFullName(const TESFullName*);
 extern PlayerCharacter* g_pkB7AB690Player;
 extern Setting g_kB7AB690NamePrompt;
 
-void __cdecl FUN_007ab7c0();
+void __cdecl Object_GetGlobalValue_007ab7c0();
 void __cdecl B7AB690ShowTextEntry(const char* pcPrompt, const char* pcDefault, void(__cdecl* pfnCallback)(const char*));
 void __cdecl B7AB690OnNameEntered(const char* pcName);
 
@@ -5106,7 +5108,7 @@ FUN_007ab690_cls::FUN_007ab690_cls()
     m_pkNPC = g_pkB7AB690Player ? dynamic_cast<TESNPC*>(g_pkB7AB690Player->GetObjectReference()) : 0;
     if (m_pkNPC)
     {
-        FUN_007ab7c0();
+        Object_GetGlobalValue_007ab7c0();
         // Address the inherited name component without a nullable base-pointer conversion.
         B7AB690ShowTextEntry(
             g_kB7AB690NamePrompt.GetString(),
@@ -5435,7 +5437,7 @@ struct FUN_006815c0
     float x, y, z;
     FUN_006815c0();
     FUN_006815c0(float, float, float);
-    void FUN_0063c8a0(const FUN_006815c0*);
+    void ComputeValue_0063c8a0(const FUN_006815c0*);
 };
 }
 typedef points::FUN_006815c0 NiPt3;
@@ -5991,11 +5993,11 @@ struct Tile30
 struct V3Maker
 {
     float x, y, z;
-    NiPt3& FUN_00416870(float x, float y, float z);
+    NiPt3& SetComponents(float x, float y, float z);
     NiPt2& FUN_00452dc0(float u, float v);
     NiCol& FUN_00414430(float a, float b, float c, float d);
     void FUN_0043d410(float a, int b, int c);
-    void FUN_0063c8a0(NiPt3* p);
+    void ComputeValue_0063c8a0(NiPt3* p);
 };
 struct ColorMaker
 {
@@ -6020,7 +6022,7 @@ struct Local12
     unsigned int value;
     Local12(int);
     ~Local12();
-    unsigned int FUN_00559450();
+    unsigned int Modelloader_GetReferencedThis();
     void FUN_0066b0d0(int);
 };
 
@@ -6162,7 +6164,7 @@ int __cdecl TESObjectCELL_GetSeenValue(V3Maker*);
 extern "C" void* __cdecl FormHeap_Allocate(unsigned int);
 extern "C" void __stdcall FUN_00401050(void*, unsigned int, unsigned int, void*);
 extern "C" void* __cdecl _NiMalloc_00aa1070(unsigned int);
-extern "C" void* __cdecl FUN_00aa13e0(unsigned int);
+extern "C" void* __cdecl Object_DispatchCommandFour(unsigned int);
 extern "C" void __cdecl FUN_006815c0();
 extern "C" void __cdecl FUN_004a7800();
 extern "C" int __cdecl FloatToInt(float);
@@ -6394,7 +6396,7 @@ void __cdecl MapMenu_RenderLocalMapGrid(char param_1)
                          (FloatToInt(pos15.x) >> 0xc) + cellX17, (FloatToInt(pos15.y) >> 0xc) + cellY10);
         }
         p3925 = static_cast<C39*>(NiObject_DynamicCast(reinterpret_cast<unsigned int>(&DAT_011f4418),
-                                               reinterpret_cast<ChainObj*>(local1415.FUN_00559450())->FUN_0059bb30()));
+                                               reinterpret_cast<ChainObj*>(local1415.Modelloader_GetReferencedThis())->FUN_0059bb30()));
         NiRenderedTexture_SaveToFile(pathB41, 3, p3925->v039(0));
         DAT_011da368->m_uiMapMarkerCount =
             DAT_011da368->m_uiMapMarkerCount + 1;
@@ -6428,7 +6430,7 @@ void __cdecl MapMenu_RenderLocalMapGrid(char param_1)
             static_cast<NiPt2*>(pvT32)[idx19] =
                 NiPt2(static_cast<float>(j17) / m10, 1.0f - static_cast<float>(i17) / m10);
             NiPt3 mk324(static_cast<float>(j17) * fStep27, static_cast<float>(i17) * fStep27, 0.0f);
-            mk324.FUN_0063c8a0(reinterpret_cast<NiPt3*>(&base9c33));
+            mk324.ComputeValue_0063c8a0(reinterpret_cast<NiPt3*>(&base9c33));
             float hgt = FLT_0101e570;
             if (DAT_011da368->m_bNeedsMapUpdate != 0)
                 hgt = static_cast<float>(TESObjectCELL_GetSeenValue(reinterpret_cast<V3Maker*>(&mk324)));
@@ -6493,7 +6495,7 @@ void __cdecl MapMenu_RenderLocalMapGrid(char param_1)
                                                   n25 << 1, pIdx11, 0, 0, (int)ScreenWidth(), (int)ScreenHeight()));
     pFx44 = new ObjB0(false);
 
-    static_cast<ObjB0*>(pFx44)->SetTileTexture(local1415.FUN_00559450());
+    static_cast<ObjB0*>(pFx44)->SetTileTexture(local1415.Modelloader_GetReferencedThis());
     static_cast<ObjB0*>(pFx44)->EffectSetting_SetAreaSound(0);
     static_cast<ObjB0*>(pFx44)->SetNavMeshInfo(&objB83);
     static_cast<ObjB0*>(pFx44)->SetFlag(1);
@@ -6917,7 +6919,7 @@ struct DisplayItem
     unsigned char FUN_004bd820();
     bool HasEffect(int);
     float ItemChange_GetItemHealth(bool);
-    DisplayList* FUN_00559450();
+    DisplayList* Modelloader_GetReferencedThis();
     int FUN_00726070();
 };
 
@@ -7543,8 +7545,8 @@ void Interface_PopulateItemStatsDisplay(DisplayItem* item, Tile* root)
                     if (!name2 || !*name2)
                         name2 = weapon->TESObjectWEAP_GetCurrentAmmo(actor_11)->name.TESModel_GetModel();
 
-                    if (currentWeapon && currentWeapon->FUN_00559450() && item->FUN_00559450() &&
-                        *currentWeapon->FUN_00559450()->FUN_006815c0() == *item->FUN_00559450()->FUN_006815c0())
+                    if (currentWeapon && currentWeapon->Modelloader_GetReferencedThis() && item->Modelloader_GetReferencedThis() &&
+                        *currentWeapon->Modelloader_GetReferencedThis()->FUN_006815c0() == *item->Modelloader_GetReferencedThis()->FUN_006815c0())
                         loaded = currentAmmo2 ? currentAmmo2->FUN_00726070() : 0;
 
                     else

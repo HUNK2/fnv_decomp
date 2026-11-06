@@ -70,7 +70,7 @@ public:
     virtual void AllocateBlocks(int iCount);
     virtual void UpdateTotalSize();
     virtual void setMemorySoftLimit(int iValue);
-    virtual int FUN_00d5fba0();
+    virtual int GetUnkA94_00d5fba0();
     virtual void releaseUnusedPagesToSystemMemory();
     virtual bool* __thiscall isOk_00d5f890(bool* __restrict pItem);
     virtual int walkMemory(hkMemoryWalkCallback kCallback, void* pParam);
@@ -89,7 +89,7 @@ public:
     void blockFree_00d5f980(void* pBlock, int iNumBytes);
     void getMemoryStatistics_00d5f750(HkFLA_Stats* pOut);
     void* bufAlloc_00d5fca0(int* pItem);
-    void FUN_00d5ffd0();
+    void SetVtableAndProcessState_00d5ffd0();
     FreeList* _newFreeList(int iA1, int iA2, int iA3);
     int Alloc(int iFirst, int iSecond, int iThird);
     void Reset(int iFirst);

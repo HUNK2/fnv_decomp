@@ -6,9 +6,9 @@ extern "C" void __cdecl InitAndReturnTail(void*, void*, void*);
 extern "C" void __cdecl hkpCollectionCollectionAgent3_updateFilter(void*, void*, void*);
 extern "C" void __cdecl hkpCollectionCollectionAgent3_calcStatistics(void*, void*, void*);
 extern "C" void __cdecl ForwardCall(void*, void*, void*);
-extern "C" void __cdecl FUN_00d34d80(void*, void*, void*);
+extern "C" void __cdecl Object__hkAgent1nMachine_WarpTime_Thunk_00d34d80(void*, void*, void*);
 extern "C" void __cdecl process_00d35770(void*, void*, void*);
-extern "C" void __cdecl FUN_00da6dc0(void*, void*, void*);
+extern "C" void __cdecl Object_HkAgent1nMachine_Destroy_Thunk(void*, void*, void*);
 
 struct FUN_00d36270_s {
     void* m_vt;
@@ -28,7 +28,8 @@ struct FUN_00d36270_s {
 
 // Initializes the object's vtable and function pointers, clears several pointer fields to zero, and sets m_flag to 1.
 // @fnv 0x00d36270
-void FUN_00d36270(FUN_00d36270_s* self)
+// src: GUESS 0x00d36270 (confidence: low)
+void hkpCollectionCollectionAgent3_updateFilter_UpdateState_00d36270(FUN_00d36270_s* self)
 {
     self->m_vt = &InitAndReturnTail;
     self->m_k = &process_00d35770;
@@ -40,8 +41,8 @@ void FUN_00d36270(FUN_00d36270_s* self)
     self->m_f = &hkpCollectionCollectionAgent3_updateFilter;
     self->m_g = &hkpCollectionCollectionAgent3_calcStatistics;
     self->m_h = &ForwardCall;
-    self->m_i = &FUN_00d34d80;
-    self->m_kPointA = &FUN_00da6dc0;
+    self->m_i = &Object__hkAgent1nMachine_WarpTime_Thunk_00d34d80;
+    self->m_kPointA = &Object_HkAgent1nMachine_Destroy_Thunk;
     self->m_flag = 1;
 }
 
@@ -49,7 +50,8 @@ void __cdecl _hkAgent1nMachine_WarpTime(void*, float, float, void*);
 
 // Calls FUN_00da35f0 with b, c, d and e, ignoring a.
 // @fnv 0x00d34d80
-void __cdecl FUN_00d34d80(void* apUnused, void* b, float afValue1, float afValue2, void* e)
+// src: GUESS 0x00d34d80 (confidence: medium)
+void __cdecl Object__hkAgent1nMachine_WarpTime_Thunk_00d34d80(void* apUnused, void* b, float afValue1, float afValue2, void* e)
 {
     _hkAgent1nMachine_WarpTime(b, afValue1, afValue2, e);
 }
@@ -89,7 +91,7 @@ struct __declspec(align(16)) D36270Data {
     unsigned char flag1;
     unsigned char flag2;
 };
-void FUN_00d36270(D36270Data*);
+void hkpCollectionCollectionAgent3_updateFilter_UpdateState_00d36270(D36270Data*);
 struct D362Script {
     void AddEntry(D36270Data*, int row, int column);
 };
@@ -100,7 +102,7 @@ void hkpCollectionCollectionAgent3_registerAgent3(D362Script* script) {
     D36270Data data;
     data.flag0 = 0; data.flag1 = 0; data.flag2 = 0;
     data.f = 0; data.g = 0; data.h = 0; data.i = 0; data.j = 0;
-    FUN_00d36270(&data);
+    hkpCollectionCollectionAgent3_updateFilter_UpdateState_00d36270(&data);
     script->AddEntry(&data, 8, 8);
     data.flag1 = 1; data.flag2 = 1;
     script->AddEntry(&data, 7, 8);
@@ -156,7 +158,7 @@ struct Local {
     void* f7;
 };
 
-extern "C" void __cdecl FUN_00da4900(void*, void*);
+extern "C" void __cdecl Object_HkAgent1nMachine_VisitAllAgents_Thunk(void*, void*);
 
 // Fills a Local struct with a3 through a7 and the m10() results of the objects at a3 and a4, then calls FUN_00da4900 with a2 and the struct.
 // @fnv 0x00d34db0
@@ -175,7 +177,7 @@ void __cdecl hkpCollectionCollectionAgent3_updateFilter(void* apUnused, void* a2
     s.f2 = ((Obj*)pFirstObj)->m10();
     s.f3 = ((Obj*)pSecondObj)->m10();
 
-    FUN_00da4900(a2, &s);
+    Object_HkAgent1nMachine_VisitAllAgents_Thunk(a2, &s);
 }
 
 // Keep the intrinsic vector free of byte-array aliases, which add /GS checks absent from this unit.
@@ -300,7 +302,7 @@ struct SweptTransformSamples
     hkTransformq m_shapeToMotion;
 };
 
-void __cdecl FUN_00cbec90(const hkMotionStateq* motionState, SweptTransformSamples* out);
+void __cdecl hkMotionStateq_SampleSweptMotionTransforms(const hkMotionStateq* motionState, SweptTransformSamples* out);
 
 struct hkAabbq
 {
@@ -532,7 +534,7 @@ int __cdecl hkCollectionBvTreeAgent3_extractCachedAabbsOrRecalculate(const hkpCd
     {
         const hkpCdBodyq* root = body->getRootCollidable();
         const hkMotionStateq* motion = (const hkMotionStateq*)root->m_pMotionState;
-        FUN_00cbec90(motion, &samples);
+        hkMotionStateq_SampleSweptMotionTransforms(motion, &samples);
     }
 
     {
@@ -760,7 +762,8 @@ static __forceinline void quantizeAabb(const hkAabbq& aabb, const hkpProcessColl
 }
 
 // @fnv 0x00d34e10
-void __cdecl FUN_00d34e10(const hkpAgent3ProcessInputq& input, const hkpShapeContainerq* container, const hkpCdBodyq* body,
+// src: GUESS 0x00d34e10 (confidence: low)
+void __cdecl hkpAgent3ProcessInputq_ProcessEntries_00d34e10(const hkpAgent3ProcessInputq& input, const hkpShapeContainerq* container, const hkpCdBodyq* body,
                           const hkpShapeKey* keys, int numKeys, hkAabbUint32Key* __restrict aabbsOut)
 {
     SweptTransformSamples samples;
@@ -769,7 +772,7 @@ void __cdecl FUN_00d34e10(const hkpAgent3ProcessInputq& input, const hkpShapeCon
     int useContinuous = input.m_pRayCastInput->m_pCollisionQualityInfo->m_iQualityInfoValue10;
     if (useContinuous)
     {
-        FUN_00cbec90((const hkMotionStateq*)body->getRootCollidable()->m_pMotionState, &samples);
+        hkMotionStateq_SampleSweptMotionTransforms((const hkMotionStateq*)body->getRootCollidable()->m_pMotionState, &samples);
     }
 
     for (int i = 0; i < numKeys; i++)

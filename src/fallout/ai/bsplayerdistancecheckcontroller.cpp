@@ -83,7 +83,7 @@ struct ItemHandle
 };
 struct ItemRef
 {
-    void FUN_00439ef0();
+    void SubtractIntoVector();
 };
 
 struct Manager
@@ -231,7 +231,7 @@ void BSPlayerDistanceCheckController::UpdateDoorSpawn(unsigned int unkArg)
         req = NiObject_DynamicCast((char*)&DAT_011f4280, m_pkTarget);
         if (req != 0)
         {
-            DAT_011dea3c->v1f4(&handle, req->NiAVObject_GetWorldTranslate())->FUN_00439ef0();
+            DAT_011dea3c->v1f4(&handle, req->NiAVObject_GetWorldTranslate())->SubtractIntoVector();
             if (handle.FUN_00457990() < NiControllerSequence_GetLastTime())
             {
                 m_callback(req);

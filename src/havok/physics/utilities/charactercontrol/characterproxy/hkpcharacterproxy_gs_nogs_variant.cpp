@@ -683,10 +683,11 @@ struct Controller197
     int unk50;
     int unk54;
     float margin58, margin5c;
-    void FUN_00cae7f0(Context197* context);
+    void AllocateStorage_00cae7f0(Context197* context);
 };
 // @fnv 0x00cae7f0
-void Controller197::FUN_00cae7f0(Context197* context)
+// src: GUESS 0x00cae7f0 (confidence: low)
+void Controller197::AllocateStorage_00cae7f0(Context197* context)
 {
     context->Begin();
     Query197 query = *provider->owner->query;

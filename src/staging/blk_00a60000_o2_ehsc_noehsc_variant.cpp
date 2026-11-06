@@ -52,7 +52,7 @@ extern int DAT_0109df2c;
 extern int DAT_011f4ab4;
 struct FUN_00a7f820_Class
 {
-    void __thiscall FUN_00a7f820();
+    void __thiscall UpdateFields_00a7f820();
 };
 void __fastcall NiColor_Clamp(float* p);
 extern MemoryManager g_memoryManager;
@@ -94,7 +94,7 @@ struct FUN_00a699d0_Class
     NiPoint3 normal;
     float distance;
 
-    FUN_00a699d0_Class* __thiscall FUN_00a699d0(NiPoint3 const* point0, NiPoint3 const* point1, NiPoint3 const* point2);
+    FUN_00a699d0_Class* __thiscall SetPlaneFromThreePoints(NiPoint3 const* point0, NiPoint3 const* point1, NiPoint3 const* point2);
 };
 struct FUN_00a6ea00_Class : NiTFixedStringMap_NiAVObject___
 {
@@ -108,7 +108,7 @@ extern int DAT_0109cd44;
 void* CreateNiTriStrips();
 struct FUN_00a72ca0_Class
 {
-    void FUN_00a72ca0(unsigned int size);
+    void SetSize_Thunk(unsigned int size);
 };
 struct FUN_00a7f810
 {
@@ -466,7 +466,7 @@ struct FUN_00a693e0_cls
 {
     int m_vptr00;
 
-    void FUN_00a693e0();
+    void UpdateFields_00a693e0();
 };
 extern unsigned int DAT_011f4980;
 extern unsigned int DAT_011f4984;
@@ -548,7 +548,7 @@ struct FUN_00a75dc0_cls
                        unsigned int a6, unsigned int a7, unsigned int a8, unsigned int a9, unsigned int a10,
                        unsigned int a11);
 };
-void* __cdecl FUN_00aa13e0(unsigned int size);
+void* __cdecl Object_DispatchCommandFour(unsigned int size);
 extern int DAT_0109cd44;
 struct FUN_00a72550_Class
 {
@@ -1199,7 +1199,7 @@ struct A5FC10Stub
 {
     A5FC10Stub* __thiscall NiSourceTexture_NiSourceTexture();
 };
-void* __cdecl FUN_00aa13e0(unsigned int size);
+void* __cdecl Object_DispatchCommandFour(unsigned int size);
 A5FC10Stub* __cdecl CreateA5FC10Stub();
 struct This;
 struct T
@@ -1252,7 +1252,7 @@ struct This
 };
 struct FUN_00a5fca0_cls
 {
-    void FUN_00a5fca0();
+    void UpdateFields_00a5fca0();
 };
 struct FUN_00a60160_cls : FUN_00a5fca0_cls
 {

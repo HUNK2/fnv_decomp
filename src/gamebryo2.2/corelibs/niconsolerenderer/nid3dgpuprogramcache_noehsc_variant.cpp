@@ -9,7 +9,7 @@
 __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 extern char* EmptyFS;
 extern MemoryManager g_memoryManager;
-void FUN_00a644a0(char** p);
+void Object_ProcessEntries_00a644a0(char** p);
 const char* __cdecl NiD3DGPUProgramCache_GetPlatformSpecificCodeID();
 extern "C" void* g_01270920;
 void* __cdecl NiGPUProgramCache_GetRTTI();
@@ -157,11 +157,11 @@ struct W20Profiles
 {
     NiFixedString* data;
     unsigned int capacity, count, unk0c, unk10;
-    __declspec(nothrow) void FUN_00e8e290(unsigned int);
+    __declspec(nothrow) void ResizeStringArray(unsigned int);
     __declspec(nothrow) void PushBack(const NiFixedString& value)
     {
         if (count == capacity)
-            FUN_00e8e290(capacity > 0 ? capacity * 2 : 1);
+            ResizeStringArray(capacity > 0 ? capacity * 2 : 1);
         data[count++] = value;
     }
 };

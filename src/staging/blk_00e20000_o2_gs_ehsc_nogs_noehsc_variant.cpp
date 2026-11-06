@@ -98,14 +98,14 @@ struct FUN_00e3f340_Class
 };
 struct FUN_00e3f900_class
 {
-    int __thiscall FUN_00cb0a70(int a);
-    int __thiscall FUN_00e3f900(int a);
+    int __thiscall ReturnSelf(int a);
+    int __thiscall ProcessAndReturnValue_00e3f900(int a);
 };
 int __cdecl hkaSplineCompressedAnimation_packMaskAndQuantizationType(int a, int b);
 struct S_00df8990_Obj;
 extern void(__cdecl* DAT_0126ec04)(void*, void*, S_00df8990_Obj*);
-void __cdecl FUN_00e2b9b0(void*, void*, S_00df8990_Obj*);
-void __cdecl FUN_00e2ba90();
+void __cdecl Runtime_ProcessEntries_00e2b9b0(void*, void*, S_00df8990_Obj*);
+void __cdecl Runtime_SetDAT0126ec04();
 extern int DAT_010eb3b8[];
 extern int DAT_010eb3d0[];
 int __cdecl hkaSplineCompressedAnimation_handleEndianQuaternion(int a, int b);
@@ -131,7 +131,7 @@ struct FUN_00e3b4d0_Class
 int __cdecl CompareStringsCaseInsensitive(int, int);
 struct FUN_00e3ec30_Class
 {
-    int __thiscall FUN_00e3ec30(int arg);
+    int __thiscall ProcessEntries_00e3ec30(int arg);
 };
 struct D481D0RefVariant
 {
@@ -139,13 +139,13 @@ struct D481D0RefVariant
 };
 struct FUN_00e3f8d0_class
 {
-    void FUN_00e3f8d0(void* a, const void* b);
+    void Set_Thunk(void* a, const void* b);
 };
 struct FUN_00e29620_class
 {
-    void __thiscall FUN_00e29620(int param);
+    void __thiscall ProcessEntries_00e29620(int param);
 };
-void __cdecl FUN_00e298f0(FUN_00e29620_class* object, int param);
+void __cdecl Runtime_ForwardCall_00e298f0(FUN_00e29620_class* object, int param);
 struct SplitChunk
 {
     int unk00;
@@ -1243,10 +1243,10 @@ void __cdecl SwapBytesAndAdvance(int n, unsigned char** pp);
 void __cdecl FillInterpolatedValues(int count, float** array, float first, float last);
 unsigned int __cdecl hkaSplineCompressedAnimation_handleEndianKnots(unsigned char a1, unsigned int* a2);
 int __cdecl hkaSplineCompressedAnimation_handleEndianScalarControlPoints(unsigned char a1, unsigned int a2, unsigned int a3, unsigned int* a4);
-void __cdecl FUN_00e31740(unsigned char flag, unsigned int a2, unsigned int* out);
+void __cdecl Object_UpdateFields_00e31740(unsigned char flag, unsigned int a2, unsigned int* out);
 int __cdecl hkaSplineCompressedAnimation_handleEndianKnots(int a, int* c);
 void __cdecl AlignAndAdvance(int a, int result, int b, int* c);
-void __cdecl FUN_00e31780(int a, int b, int* c);
+void __cdecl Object_UpdateFields_00e31780(int a, int b, int* c);
 int __cdecl FindKeyInterval(int a, int b, unsigned char key, unsigned char* t);
 unsigned char* StoreBoolFlag(unsigned char* pDest, int value);
 struct FUN_00e33910_item
@@ -1596,7 +1596,7 @@ struct E3F0F0Owner
     int* m_piFirst;
     int* m_piLast;
 
-    void FUN_00e3f0f0();
+    void ProcessState_00e3f0f0();
 };
 struct FUN_00e3f210_cls
 {
@@ -1641,7 +1641,7 @@ class BE3E7E0Table
     BE3E7E0Entry* FindEntryByName(const char* pcName);
 };
 void __cdecl SetEntity();
-void __cdecl FUN_00e36f40();
+void __cdecl Object_SetEntity_Thunk();
 struct FUN_00e39e80_class
 {
     int unk00;
@@ -1652,14 +1652,14 @@ struct FUN_00e39e80_class
     int unk14;
     int unk18;
     float unk1C;
-    float FUN_00e39e80();
+    float GetUnk1C_00e39e80();
 };
 struct FUN_00e3df50_Class
 {
-    FUN_00e3df50_Class* __thiscall FUN_00e3df50(int param);
+    FUN_00e3df50_Class* __thiscall ReturnSelf(int param);
 };
 int __cdecl hkxVertexBuffer_getVertexDataPtr(int param_1, int* param_2);
-int __cdecl FUN_00e3e020(int param_1, int* param_2);
+int __cdecl Object_HkxVertexBuffer_getVertexDataPtr_Thunk(int param_1, int* param_2);
 struct FNVTreeNode
 {
     int unk00;
@@ -1684,7 +1684,7 @@ class Base
     int unk04;
     int unk08;
     int unk0C;
-    int FUN_00e3f270();
+    int GetUnk0C();
 };
 struct FUN_00e31080
 {
@@ -1740,7 +1740,8 @@ struct Mat34
 };
 
 // @fnv 0x00e310c0
-void FUN_00e310c0(const Mat34* src, int stride, int n, int row, int col, hkVector4** outA, hkVector4** outB,
+// src: GUESS 0x00e310c0 (confidence: low)
+void hkVector4_ProcessEntries_00e310c0(const Mat34* src, int stride, int n, int row, int col, hkVector4** outA, hkVector4** outB,
                   hkVector4** outC)
 {
     for (int i = 0; i < n; i++)
@@ -1795,17 +1796,18 @@ struct Input
     void* data10;
 };
 extern int DAT_011b3830[];
-Task __cdecl FUN_00d1bb50(const hkVector4&, const hkVector4&, const hkVector4&, const hkVector4&, const hkVector4&,
+Task __cdecl Runtime_UpdateState_00d1bb50(const hkVector4&, const hkVector4&, const hkVector4&, const hkVector4&, const hkVector4&,
                           const hkVector4&, const hkVector4&, const hkVector4&, int);
-void __cdecl FUN_00d1d530(const Input*, void*, int, const Task&,
+void __cdecl AabbTree_ForwardCall_00d1d530(const Input*, void*, int, const Task&,
                           hkAabbTreeQueryUtils<hkAabbTreeData::RayQueryAabb>::Collector**, float*);
 // @fnv 0x00e2b070
-void FUN_00e2b070(const Input* input, BundleCommand* src, void* filter, hkVector4& fractions, void*, void*, void*,
+// src: GUESS 0x00e2b070 (confidence: low)
+void hkVector4_ProcessEntries_00e2b070(const Input* input, BundleCommand* src, void* filter, hkVector4& fractions, void*, void*, void*,
                   void*, int*)
 {
     if (!input)
         return;
-    Task task = FUN_00d1bb50(src->input[0].from, src->input[0].to, src->input[1].from, src->input[1].to,
+    Task task = Runtime_UpdateState_00d1bb50(src->input[0].from, src->input[0].to, src->input[1].from, src->input[1].to,
                              src->input[2].from, src->input[2].to, src->input[3].from, src->input[3].to, 15);
     hkpWorldRayCastCommand commands[4];
     hkCpuWorldRayCastCollector collectors[4];
@@ -1827,7 +1829,7 @@ void FUN_00e2b070(const Input* input, BundleCommand* src, void* filter, hkVector
         ptrs[i] = &collectors[i];
     }
     task.mask = DAT_011b3830[src->active];
-    FUN_00d1d530(input, input->data10, 0, task, ptrs, limits);
+    AabbTree_ForwardCall_00d1d530(input, input->data10, 0, task, ptrs, limits);
     for (int i = 0; i < 4; ++i)
         src->counts[i] = commands[i].count;
     fractions.set(limits[0], limits[1], limits[2], limits[3]);
@@ -1846,7 +1848,8 @@ struct RayQuerySet
     int m_uiMask;
 };
 // @fnv 0x00e2baf0
-RayQuerySet __cdecl FUN_00e2baf0(const hkVector4& from0, const hkVector4& invDir0, const hkVector4& from1, const hkVector4& invDir1,
+// src: GUESS 0x00e2baf0 (confidence: low)
+RayQuerySet __cdecl hkVector4_UpdateState_00e2baf0(const hkVector4& from0, const hkVector4& invDir0, const hkVector4& from1, const hkVector4& invDir1,
                                  const hkVector4& from2, const hkVector4& invDir2, const hkVector4& from3, const hkVector4& invDir3,
                                  int mask)
 {
@@ -1997,8 +2000,8 @@ __declspec(noinline) Query* __cdecl setCollector(Query* q, Shape* s, void* f)
     q->filter = active ? &active->data : 0;
     return q;
 }
-extern void __cdecl FUN_00e2baf0(void*, __m128*, __m128*, __m128*, __m128*, __m128*, __m128*, __m128*, __m128*, int);
-extern void __cdecl FUN_00d1bfa0(Tree*, QuantizedNode*, void*, void*, Collector**, float*);
+extern void __cdecl hkVector4_UpdateState_00e2baf0(void*, __m128*, __m128*, __m128*, __m128*, __m128*, __m128*, __m128*, __m128*, int);
+extern void __cdecl Object_CollectRayTreeHits(Tree*, QuantizedNode*, void*, void*, Collector**, float*);
 extern int DAT_011b3830[];
 extern float DAT_01267e30;
 __forceinline void restore(QuantizedNode* n, const hkVector4& scale, const hkVector4& offset, hkAabb& out)
@@ -2042,7 +2045,8 @@ __forceinline bool intersects(const hkAabb& bounds, Ray* r, const hkVector4& lim
     return (_mm_movemask_ps(_mm_cmplt_ps(nearValue.v, farValue.v)) & 1) != 0;
 }
 // @fnv 0x00e2c100
-void __cdecl FUN_00e2c100(Tree* tree, QuantizedNode* node, void* arg3, Ray* rays, Query* queries, Filter* filters,
+// src: GUESS 0x00e2c100 (confidence: low)
+void __cdecl Object_ProcessEntries_00e2c100(Tree* tree, QuantizedNode* node, void* arg3, Ray* rays, Query* queries, Filter* filters,
                           Shape* shapes, void* arg8, float* fractions, int* indices, int count, int depth,
                           int capacity0, int capacity1, int* out0, int* num0, int* out1, int* num1,
                           QuantizedNode* child0, QuantizedNode* child1)
@@ -2120,7 +2124,7 @@ void __cdecl FUN_00e2c100(Tree* tree, QuantizedNode* node, void* arg3, Ray* rays
             if (shape->hasFilter)
             {
                 query->callback = new (filters + i) Filter(shape->object, shape->filter);
-                DAT_0126ec04 = FUN_00e2b9b0;
+                DAT_0126ec04 = Runtime_ProcessEntries_00e2b9b0;
             }
             else
                 query->callback = 0;
@@ -2130,11 +2134,11 @@ void __cdecl FUN_00e2c100(Tree* tree, QuantizedNode* node, void* arg3, Ray* rays
             __m128 originX, originY, originZ, inverseX, inverseY, inverseZ;
             int mask;
         } batch;
-        FUN_00e2baf0(&batch, &rays[index4[0]].origin.v, &rays[index4[0]].invDirection.v, &rays[index4[1]].origin.v,
+        hkVector4_UpdateState_00e2baf0(&batch, &rays[index4[0]].origin.v, &rays[index4[0]].invDirection.v, &rays[index4[1]].origin.v,
                      &rays[index4[1]].invDirection.v, &rays[index4[2]].origin.v, &rays[index4[2]].invDirection.v,
                      &rays[index4[3]].origin.v, &rays[index4[3]].invDirection.v, DAT_011b3830[n]);
         Collector* collectors[4] = {queries, queries + 1, queries + 2, 3 + queries};
-        FUN_00d1bfa0(tree, node, arg3, &batch, collectors, oldFraction);
+        Object_CollectRayTreeHits(tree, node, arg3, &batch, collectors, oldFraction);
         for (int i = 0; i < n; ++i)
             fractions[index4[i]] = queries[i].maxFraction.v.m128_f32[0];
     }

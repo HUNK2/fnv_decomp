@@ -704,7 +704,7 @@ struct TlsBlock_t
     int m_2b4;
 };
 extern __declspec(thread) TlsBlock_t g_tlsBlock;
-void* __cdecl FUN_00aa13e0(unsigned int size);
+void* __cdecl Object_DispatchCommandFour(unsigned int size);
 void bhkSerializable_CloneCritLock();
 void bhkSerializable_CloneCritUnlock();
 struct TlsGuard_t
@@ -724,7 +724,7 @@ struct TlsGuard_t
 };
 inline void* operator new(unsigned int n)
 {
-    return FUN_00aa13e0(n);
+    return Object_DispatchCommandFour(n);
 }
 struct FUN_00c9efa0_cls
 {
@@ -1680,7 +1680,7 @@ struct MemMgr_ca0090
 };
 struct Sub_ca0090
 {
-    void FUN_004b4db0(void* a);
+    void SetQuaternionComponentsFromVector(void* a);
 };
 struct FUN_00ca0090_cls
 {

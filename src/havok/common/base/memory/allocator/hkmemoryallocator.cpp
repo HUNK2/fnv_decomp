@@ -128,11 +128,12 @@ struct FUN_00cbf1a0_cls
 {
     int m_vptr00;
 
-    void FUN_00cbf1a0();
+    void UpdateFields_00cbf1a0();
 };
 
 // @fnv 0x00cbf1a0
-void FUN_00cbf1a0_cls::FUN_00cbf1a0()
+// src: GUESS 0x00cbf1a0 (confidence: low)
+void FUN_00cbf1a0_cls::UpdateFields_00cbf1a0()
 {
     m_vptr00 = (int)&DAT_010c3b30;
 }

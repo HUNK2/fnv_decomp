@@ -86,7 +86,7 @@ struct NavMeshSearchLOSArray
 };
 struct ShaderProp
 {
-    void __thiscall FUN_006fa090(void* a, void* b);
+    void __thiscall ProcessEntries_006fa090(void* a, void* b);
 };
 struct FUN_006f9c70_shell
 {
@@ -233,7 +233,7 @@ struct Obj44 : NiMemObject
 {
     char _pad[44];
     Obj44(unsigned short);
-    void FUN_00a72ca0(int);
+    void SetSize_Thunk(int);
     void NiAdditionalGeometryData_SetDataStreamCount(int);
     void NiAdditionalGeometryData_SetDataBlock(int, void*, int, int);
     void NiAdditionalGeometryData_SetDataStream(int, int, int, int, unsigned short, int, int);
@@ -255,7 +255,7 @@ struct NiGPUProgramOwner
 {
     void SetProgram(NiGPUProgram*);
 };
-int __fastcall FUN_00559450(int*);
+int __fastcall Modelloader_GetReferencedThis(int*);
 struct InParam
 {
     int unk0;
@@ -429,7 +429,7 @@ struct FUN_006f9080_owner : BGSDistantTreeBlockLoadTask
     char unk1b[0x1c];
     Callee callee;
 
-    void FUN_006f9080();
+    void ForwardCall_006f9080();
 };
 void Callee::FUN_0045cec0()
 {}
@@ -570,7 +570,7 @@ struct TreeGeometry
 struct TreeGeometryPtr
 {
     TreeGeometry* object;
-    TreeGeometry* FUN_00559450();
+    TreeGeometry* Modelloader_GetReferencedThis();
 };
 struct TreePositions
 {

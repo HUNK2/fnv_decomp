@@ -43,11 +43,12 @@ unsigned short FUN_00456650_shell::NiGeometry_GetVertexCount() const
 
 struct FUN_004a51b0_shell
 {
-    const float* __thiscall FUN_004a51b0(int i) const;
+    const float* __thiscall GetFloatElementPointer(int i) const;
 };
 
 // @fnv 0x004a51b0
-const float* __thiscall FUN_004a51b0_shell::FUN_004a51b0(int i) const
+// src: GUESS 0x004a51b0 (confidence: high)
+const float* __thiscall FUN_004a51b0_shell::GetFloatElementPointer(int i) const
 {
     const float* base = (const float*)this;
     return base + i;

@@ -20,8 +20,8 @@ struct FUN_00cd8160
 {
     FUN_00cd8160(float radius);
 };
-int __cdecl FUN_00cd8050();
-int __stdcall FUN_00cd87f0(int a1, int a2);
+int __cdecl hkpSphereShape_ReturnOne();
+int __stdcall hkpSphereShape_ReturnConstant_0x20(int a1, int a2);
 // Exe 0x00cd85c0 FUN_00cd85c0: retain this LocalM128 view; the CRT type does not preserve this unit.
 // VC9 requires the __m128 compatibility typedef for its native SIMD ABI (renamed tags fail C2719).
 
@@ -68,7 +68,7 @@ extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long dwTls
 extern unsigned long DAT_0126835c;
 extern const char DAT_010cb5f4[];
 extern const char DAT_010c41f8[];
-void* __cdecl FUN_00cd85c0(void* pvResult, float fValue, int a, int b);
+void* __cdecl Object_ProcessAndReturnValue_00cd85c0(void* pvResult, float fValue, int a, int b);
 class HostCD81
 {
   public:
@@ -361,7 +361,8 @@ static __forceinline LocalM128 lerp(LocalM128 a, LocalM128 b, const float& t)
 }
 
 // @fnv 0x00cd85c0
-FnvBool __cdecl FUN_00cd85c0(float radius, const RayIn& input, RayHit& results)
+// src: GUESS 0x00cd85c0 (confidence: low)
+FnvBool __cdecl Object_ProcessAndReturnValue_00cd85c0(float radius, const RayIn& input, RayHit& results)
 {
     float extra, p2, gap, disc, negative, root, nearDist;
     LocalM128 point;

@@ -69,11 +69,12 @@ struct FUN_0062be70_shell
 {
     char pad[0x30];
     CombatNode_teshavokutilities m_node;
-    void FUN_0062be70();
+    void ForwardCall_0062be70();
 };
 
 // @fnv 0x0062be70
-void FUN_0062be70_shell::FUN_0062be70()
+// src: GUESS 0x0062be70 (confidence: low)
+void FUN_0062be70_shell::ForwardCall_0062be70()
 {
     m_node.FUN_00726070();
 }

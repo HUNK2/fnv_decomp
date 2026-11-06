@@ -42,7 +42,7 @@ public:
     void ResetRefObject();
     void __thiscall AssignRefObj(NiUVData* data);
     void __thiscall ResetKeyTimeExtrema();
-    int __thiscall FUN_00a45b60();
+    int __thiscall ProcessAndReturnValue_00a45b60();
     void* __thiscall DestroyIfFlagged(unsigned int flags);
     unsigned int* __thiscall CloneUVData(unsigned int flags);
     void WriteToStream(MyStreamWriter* stream);

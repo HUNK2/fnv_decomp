@@ -101,7 +101,7 @@ struct PropertyCloneRoutines
     void NiProperty_CopyMembers(void* prop, int arg);
 };
 
-void* __cdecl FUN_00aa13e0(unsigned int);
+void* __cdecl Object_DispatchCommandFour(unsigned int);
 void __stdcall CreateVertexBufferSet(void*, int);
 
 void* __cdecl operator new(unsigned int, void* p)
@@ -115,7 +115,7 @@ void* FogPropertyRoutines::Clone(int arg)
     NiFogProperty* self = reinterpret_cast<NiFogProperty*>(this);
     if (self->m_spControllers != 0)
     {
-        void* raw = FUN_00aa13e0(0x2c);
+        void* raw = Object_DispatchCommandFour(0x2c);
         NiFogProperty* esi;
         if (raw)
         {
@@ -139,7 +139,7 @@ void* FogPropertyRoutines::Clone(int arg)
     }
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int bytes);
+void* __cdecl Object_DispatchCommandFour(unsigned int bytes);
 
 // This factory inlines construction in the original, while Clone calls the constructor.
 extern void* NiFogPropertyVTable[];
@@ -157,7 +157,7 @@ __forceinline void ConstructFogPropertyInPlace(NiFogProperty* property)
 // @fnv 0x00a99fd0
 NiFogProperty* __cdecl CreateNiFogProperty()
 {
-    void* memory = FUN_00aa13e0(sizeof(NiFogProperty));
+    void* memory = Object_DispatchCommandFour(sizeof(NiFogProperty));
     if (memory != 0)
     {
         NiFogProperty* property = static_cast<NiFogProperty*>(memory);
@@ -381,5 +381,5 @@ template <class T> struct PtrRef
 void NiFogProperty__SDMInit()
 {
     PtrRef<NiFogProperty> r(DAT_011f5f3c);
-    r = new (FUN_00aa13e0(sizeof(NiFogProperty))) NiFogProperty;
+    r = new (Object_DispatchCommandFour(sizeof(NiFogProperty))) NiFogProperty;
 }

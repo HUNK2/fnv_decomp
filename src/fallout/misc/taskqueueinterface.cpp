@@ -2109,7 +2109,7 @@ struct TaskShell
 
 struct WrapperShell
 {
-    AnimObj* FUN_00559450();
+    AnimObj* Modelloader_GetReferencedThis();
 };
 
 struct AnimObj
@@ -2169,7 +2169,7 @@ struct AnimObj
 void UpdateAnimObjFromTask(unsigned int auiTask, void* pvArg)
 {
     TaskShell* pTask = reinterpret_cast<TaskShell*>(auiTask);
-    AnimObj* pObj = pTask->BSSimpleArray_NiAVObject_1024_GetAt(pvArg)->FUN_00559450();
+    AnimObj* pObj = pTask->BSSimpleArray_NiAVObject_1024_GetAt(pvArg)->Modelloader_GetReferencedThis();
     if (pObj != 0)
     {
         NiUpdateData upd(0.0f, false, false);

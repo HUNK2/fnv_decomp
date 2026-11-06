@@ -82,12 +82,13 @@ namespace p07 {
 struct DelStandIn
 {
     void* Destroy(unsigned int);
-    void* FUN_00905ae0();
+    void* Destroy_Thunk();
 };
 }
 
 // @fnv 0x00905ae0
-void* p07::DelStandIn::FUN_00905ae0()
+// src: GUESS 0x00905ae0 (confidence: medium)
+void* p07::DelStandIn::Destroy_Thunk()
 {
     return Destroy(0);
 }
@@ -96,11 +97,12 @@ extern "C" void __cdecl DAT_01088640();
 
 struct FUN_00906110_Class
 {
-    void __thiscall FUN_00906110();
+    void __thiscall SetVtableAndProcessState_00906110();
 };
 
 // @fnv 0x00906110
-void __thiscall FUN_00906110_Class::FUN_00906110()
+// src: GUESS 0x00906110 (confidence: low)
+void __thiscall FUN_00906110_Class::SetVtableAndProcessState_00906110()
 {
     *reinterpret_cast<void**>(this) = &DAT_01088640;
 }
@@ -126,7 +128,7 @@ FUN_009137b0_t* FUN_009137b0_t::Construct(int a)
 
 struct FUN_00913980_StandIn
 {
-    void FUN_009138e0();
+    void UpdateFields_009138e0();
     void* FUN_00913980(unsigned int flags);
 };
 
@@ -134,7 +136,7 @@ struct FUN_00913980_StandIn
 // @fnv 0x00913980
 void* FUN_00913980_StandIn::FUN_00913980(unsigned int flags)
 {
-    FUN_009138e0();
+    UpdateFields_009138e0();
     if (flags & 1)
         operator delete(this);
     return this;
@@ -212,14 +214,14 @@ char FUN_00905510_Class::LockAndCall(int aiArg)
 
 struct FUN_00905690_Class
 {
-    void __thiscall FUN_00905650();
+    void __thiscall SetVtableAndProcessState_00905650();
     void* __thiscall FUN_00905690(unsigned int flags);
 };
 
 // @fnv 0x00905690
 void* FUN_00905690_Class::FUN_00905690(unsigned int flags)
 {
-    FUN_00905650();
+    SetVtableAndProcessState_00905650();
     if (flags & 1)
         operator delete(this);
     return this;
@@ -279,7 +281,7 @@ struct FUN_00906130_Class
 // @fnv 0x00906130
 void* FUN_00906130_Class::FUN_00906130(unsigned int flags)
 {
-    reinterpret_cast<FUN_00906110_Class*>(this)->FUN_00906110();
+    reinterpret_cast<FUN_00906110_Class*>(this)->SetVtableAndProcessState_00906110();
     if (flags & 1)
         Deallocate(this);
     return this;
@@ -422,11 +424,12 @@ struct FUN_009138e0_Class
     void* m_iWordAt00;
     void* m_iWordAt04;
     void* m_8;
-    void FUN_009138e0();
+    void UpdateFields_009138e0();
     void FUN_008448e0();
 };
 // @fnv 0x009138e0
-void FUN_009138e0_Class::FUN_009138e0()
+// src: GUESS 0x009138e0 (confidence: low)
+void FUN_009138e0_Class::UpdateFields_009138e0()
 {
     m_iWordAt00 = (void*)&DAT_01088ff4;
     FUN_008448e0();
@@ -435,11 +438,12 @@ void FUN_009138e0_Class::FUN_009138e0()
 
 struct FUN_00913950_Class
 {
-    void* __thiscall FUN_00913950(int a);
+    void* __thiscall UpdateState_00913950(int a);
 };
 
 // @fnv 0x00913950
-void* FUN_00913950_Class::FUN_00913950(int a)
+// src: GUESS 0x00913950 (confidence: low)
+void* FUN_00913950_Class::UpdateState_00913950(int a)
 {
     ((int*)this)[0] = 0;
     ((int*)this)[1] = 0;
@@ -449,13 +453,14 @@ void* FUN_00913950_Class::FUN_00913950(int a)
 extern void* DAT_01088418;
 
 // @fnv 0x00905650
-void FUN_00905690_Class::FUN_00905650()
+// src: GUESS 0x00905650 (confidence: low)
+void FUN_00905690_Class::SetVtableAndProcessState_00905650()
 {
     *reinterpret_cast<int*>(this) = reinterpret_cast<int>(&DAT_01088418);
     reinterpret_cast<FUN_00905670_Class*>(this)->SetVTable();
 }
 
-void* __cdecl FUN_006e6da0(unsigned int size, void* heap);
+void* __cdecl Memory_ReturnPlacementAddress(unsigned int size, void* heap);
 
 struct SpawnedObject_b9530
 {
@@ -463,7 +468,7 @@ struct SpawnedObject_b9530
     SpawnedObject_b9530(int a);
     static void* operator new(unsigned int size, void* heap)
     {
-        return FUN_006e6da0(size, heap);
+        return Memory_ReturnPlacementAddress(size, heap);
     }
     static void operator delete(void* p, void* heap)
     {}
@@ -526,7 +531,7 @@ struct Request9065
 struct Iterator9065
 {
     bool ProcessEntry();
-    bool FUN_00906c10();
+    bool ProcessEntries_00906c10();
 };
 struct FUN_00906570_Class
 {
@@ -563,7 +568,7 @@ bool FUN_00906570_Class::AdvanceRequest(Request9065* request, void** ppOut, void
             }
             else
             {
-                success = LockFreeMap_GetInterface_0(request->index, &request->element, context)->FUN_00906c10();
+                success = LockFreeMap_GetInterface_0(request->index, &request->element, context)->ProcessEntries_00906c10();
             }
             if (!success)
             {
@@ -624,7 +629,7 @@ struct LocalPair
 {
     int m_kPointA;
     int m_kPointB;
-    void __thiscall FUN_00913950(int a);
+    void __thiscall UpdateState_00913950(int a);
 };
 
 struct OutRecord
@@ -646,15 +651,16 @@ class FUN_00913910_cls
     int unk04;
     int unk08;
     SubObject m_sub;
-    void FUN_00913910(OutRecord* pOut);
+    void ResetPairAndFreeEntry(OutRecord* pOut);
 };
 
 // Initializes a LocalPair with 0, copies it into pOut->m_pair, then calls m_sub.FreeMemory(pOut).
 // @fnv 0x00913910
-void FUN_00913910_cls::FUN_00913910(OutRecord* pOut)
+// src: GUESS 0x00913910 (confidence: medium)
+void FUN_00913910_cls::ResetPairAndFreeEntry(OutRecord* pOut)
 {
     LocalPair local;
-    local.FUN_00913950(0);
+    local.UpdateState_00913950(0);
     pOut->m_pair = local;
     m_sub.FreeMemory(pOut);
 }
@@ -662,7 +668,7 @@ void FUN_00913910_cls::FUN_00913910(OutRecord* pOut)
 struct QHeadPtrDest
 {
     QHeadPtrDest& Assign(const QHeadPtr&);
-    void* FUN_006f74f0(void*);
+    void* AssignTaskReference(void*);
 };
 
 struct SubItem
@@ -676,7 +682,7 @@ struct Member14_18
 {
     int unk;
     int ClearLowBit();
-    SubItem* FUN_0044df00();
+    SubItem* ClearLowBit_Thunk();
 };
 
 struct OwnerClass
@@ -711,11 +717,12 @@ struct TargetClass
     bool ProcessNode(int a, void* b);
     void LockFreeMap_LockFreeMapInterface_ClearReferencedNodes();
 
-    bool FUN_00906c10(int a, void** b, QHeadPtrDest* c);
+    bool ProcessEntries_00906c10(int a, void** b, QHeadPtrDest* c);
 };
 
 // @fnv 0x00906c10
-bool TargetClass::FUN_00906c10(int a, void** b, QHeadPtrDest* apHeadDest)
+// src: GUESS 0x00906c10 (confidence: low)
+bool TargetClass::ProcessEntries_00906c10(int a, void** b, QHeadPtrDest* apHeadDest)
 {
     bool bResult = false;
     while (true)
@@ -725,17 +732,17 @@ bool TargetClass::FUN_00906c10(int a, void** b, QHeadPtrDest* apHeadDest)
         {
             if (this->m_18.ClearLowBit())
             {
-                if (this->m_18.FUN_0044df00()->FUN_0044df20())
+                if (this->m_18.ClearLowBit_Thunk()->FUN_0044df20())
                 {
                     continue;
                 }
-                this->field_0->v12(this->m_18.FUN_0044df00()->unk0, b);
-                apHeadDest->Assign(this->m_18.FUN_0044df00()->headPtr);
+                this->field_0->v12(this->m_18.ClearLowBit_Thunk()->unk0, b);
+                apHeadDest->Assign(this->m_18.ClearLowBit_Thunk()->headPtr);
                 bResult = true;
                 ProgramFlow();
-                if (this->m_18.FUN_0044df00()->FUN_0044df20())
+                if (this->m_18.ClearLowBit_Thunk()->FUN_0044df20())
                 {
-                    apHeadDest->FUN_006f74f0(0);
+                    apHeadDest->AssignTaskReference(0);
                     continue;
                 }
                 break;
@@ -750,17 +757,17 @@ bool TargetClass::FUN_00906c10(int a, void** b, QHeadPtrDest* apHeadDest)
         {
             if (this->m_14.ClearLowBit())
             {
-                if (this->m_14.FUN_0044df00()->FUN_0044df20())
+                if (this->m_14.ClearLowBit_Thunk()->FUN_0044df20())
                 {
                     continue;
                 }
-                this->field_0->v12(this->m_14.FUN_0044df00()->unk0, b);
-                apHeadDest->Assign(this->m_14.FUN_0044df00()->headPtr);
+                this->field_0->v12(this->m_14.ClearLowBit_Thunk()->unk0, b);
+                apHeadDest->Assign(this->m_14.ClearLowBit_Thunk()->headPtr);
                 bResult = true;
                 ProgramFlow();
-                if (this->m_14.FUN_0044df00()->FUN_0044df20())
+                if (this->m_14.ClearLowBit_Thunk()->FUN_0044df20())
                 {
-                    apHeadDest->FUN_006f74f0(0);
+                    apHeadDest->AssignTaskReference(0);
                     continue;
                 }
                 break;
@@ -812,7 +819,7 @@ struct FUN_00528cb0_Guard
     int value;
     FUN_00528cb0_Guard(int value);
     ~FUN_00528cb0_Guard();
-    unsigned int FUN_00559450(int flag);
+    unsigned int Modelloader_GetReferencedThis(int flag);
 };
 struct FUN_0044ac40_Service
 {
@@ -836,7 +843,7 @@ void FUN_00906050_Class::LipSyncBackgroundManager_CancelLipFile(int value)
     if (v2(value, &guard))
     {
         CallVirtual5(value);
-        DAT_01202d98->BSTaskManager_CancelTask(guard.FUN_00559450(0));
+        DAT_01202d98->BSTaskManager_CancelTask(guard.Modelloader_GetReferencedThis(0));
     }
 }
 

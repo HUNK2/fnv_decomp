@@ -835,7 +835,8 @@ void __stdcall hkpGenericConstraintData_isValid(unsigned char* out)
 }
 
 // @fnv 0x00d50510
-int FUN_00d50510()
+// src: GUESS 0x00d50510 (confidence: high)
+int hkpGenericConstraintData_ReturnConstant_10()
 {
     return 10;
 }
@@ -1127,7 +1128,8 @@ void __cdecl hk1dAngularBilateralConstraintBuildJacobian(S00d50e10_Rows* out, in
 
 // Builds three S00d50e10_Rows from vectors in p, calls FUN_00dcee80 on each with d and e, and adds 3 to the int at p+0xB8.
 // @fnv 0x00d50e10
-void __stdcall FUN_00d50e10(int a0, int a1, int a2, void* p, int d, int e)
+// src: GUESS 0x00d50e10 (confidence: low)
+void __stdcall hkpGenericConstraintData_UpdateState_00d50e10(int a0, int a1, int a2, void* p, int d, int e)
 {
     float* base = reinterpret_cast<float*>(p);
     S00d50e10_Rows out1;
@@ -1212,9 +1214,9 @@ struct SolverStateD510
     int m_numJacobians;
 };
 
-void __cdecl FUN_00dcfec0(const hkVector4q* pkLinA, const hkVector4q* pkAngA, const hkVector4q* pkLinB,
+void __cdecl Object_UpdateFields_00dcfec0(const hkVector4q* pkLinA, const hkVector4q* pkAngA, const hkVector4q* pkLinB,
                           const hkVector4q* pkAngB, hkVector4q* pkJac, float* pfOut);
-void __cdecl FUN_00d6cb30(const SolverInfoD510* pkInfo, void* pvA, void* pvB);
+void __cdecl HkpbuildjacobianfromatomsGsNogs_UpdateState_00d6cb30(const SolverInfoD510* pkInfo, void* pvA, void* pvB);
 
 // Reads two indices from ppSchema, computes a Jacobian via FUN_00dcfec0, stores it with two floats from ppData, and calls FUN_00d6cb30.
 // @fnv 0x00d51060
@@ -1229,13 +1231,13 @@ void __stdcall hkpGenericConstraintData_setTwistLimitW(const char** ppSchema, co
     int iIndexB = *(const int*)*ppSchema;
     kInfo.m_vScale = 0.5f;
     const hkVector4q* pkVecs = (const hkVector4q*)pkState;
-    FUN_00dcfec0(&pkVecs[iIndexA + 5], &pkVecs[iIndexA + 8], &pkVecs[iIndexB + 5], &pkVecs[iIndexB + 8],
+    Object_UpdateFields_00dcfec0(&pkVecs[iIndexA + 5], &pkVecs[iIndexA + 8], &pkVecs[iIndexB + 5], &pkVecs[iIndexB + 8],
                  &kInfo.m_jacobian, &kInfo.m_out);
     const float* pVector4 = *ppData;
     kInfo.m_f0 = pVector4[0];
     *ppData = pVector4 + 4;
     kInfo.m_f1 = pVector4[1];
-    FUN_00d6cb30(&kInfo, pvA, pvB);
+    HkpbuildjacobianfromatomsGsNogs_UpdateState_00d6cb30(&kInfo, pvA, pvB);
     pkState->m_numJacobians++;
 }
 
@@ -1290,7 +1292,8 @@ extern "C" void __cdecl DAT_00dcefb0(d51390_item* item, d51390_ctx* ctx, void* a
 
 // Advances the stream, builds an item from a pool record and the cursor value with a destination offset by pool->unkB8, calls DAT_00dcefb0, and increments unkB8.
 // @fnv 0x00d51390
-void __stdcall FUN_00d51390(int** stream, float** cursor, int a3, d51390_pool* pool, d51390_ctx* ctx, void* a6)
+// src: GUESS 0x00d51390 (confidence: low)
+void __stdcall hkpGenericConstraintData_UpdateState_00d51390(int** stream, float** cursor, int a3, d51390_pool* pool, d51390_ctx* ctx, void* a6)
 {
     int destBase = ctx->unk64;
     (*stream) += 1;
@@ -1437,7 +1440,8 @@ void __cdecl hk1dAngularBilateralConstraintBuildJacobian(void* pair, int a2, int
 
 // Loads three vectors into out, calls FUN_00dcee80, sets a to old b XORed with a constant and b to old a, calls it again, and adds 2 to data->numDecoded.
 // @fnv 0x00d50d60
-void __stdcall FUN_00d50d60(unsigned int** a0, int aiUnused1, int aiUnused2, D50D60_Stream* apStream, int a4, int a5)
+// src: GUESS 0x00d50d60 (confidence: low)
+void __stdcall Object_UpdateFields_00d50d60(unsigned int** a0, int aiUnused1, int aiUnused2, D50D60_Stream* apStream, int a4, int a5)
 {
     D50D60_Out out;
     ++*a0;
@@ -1507,7 +1511,7 @@ static inline float hkToReal(LocalM128 v)
     return s;
 }
 
-extern "C" void FUN_00d6cb30(hkAngInfo* info, int p1, int p2);
+extern "C" void HkpbuildjacobianfromatomsGsNogs_UpdateState_00d6cb30(hkAngInfo* info, int p1, int p2);
 
 static inline LocalM128 hkLenSq3(LocalM128 v)
 {
@@ -1518,7 +1522,8 @@ static inline LocalM128 hkLenSq3(LocalM128 v)
 
 // Builds a normalized cross product and dot of m_colsA[idx] and m_colsB[idx] with two floats from data and calls FUN_00d6cb30, unless the cross is near zero.
 // @fnv 0x00d50ec0
-void __stdcall FUN_00d50ec0(int** cmds, ::hkVector4** data, int unused, hkSchemeVecs* apSchemeVecs, int p5, int p6)
+// src: GUESS 0x00d50ec0 (confidence: low)
+void __stdcall hkVector4_ProcessAndReturnValue_00d50ec0(int** cmds, ::hkVector4** data, int unused, hkSchemeVecs* apSchemeVecs, int p5, int p6)
 {
     float lenSq;
     int idx = *++*cmds;
@@ -1546,7 +1551,7 @@ void __stdcall FUN_00d50ec0(int** cmds, ::hkVector4** data, int unused, hkScheme
     ::hkVector4* v = (*data)++;
     info.m_kPointA = v->x;
     info.m_kPointB = v->y;
-    FUN_00d6cb30(&info, p5, p6);
+    HkpbuildjacobianfromatomsGsNogs_UpdateState_00d6cb30(&info, p5, p6);
     apSchemeVecs->m_uiItemCount++;
 }
 
@@ -1562,7 +1567,8 @@ struct S00d51100_Blk
 void __cdecl hk1dLinearLimitBuildJacobian(S00d51100_Blk* in, int* cfg, int index);
 
 // @fnv 0x00d51100
-void __stdcall FUN_00d51100(int** a, int* b, void* unused, int* c, int* basePtr, int index)
+// src: GUESS 0x00d51100 (confidence: low)
+void __stdcall Object_UpdateFields_00d51100(int** a, int* b, void* unused, int* c, int* basePtr, int index)
 {
     (*a)++;
     int val = **a;
@@ -1612,7 +1618,8 @@ struct AngleRecord
 
 // Reads an index from stream, computes an angle via pool and FUN_00d50450, adjusts it to stay within ±π of the previous angle, stores it, and calls FUN_00d6cb30.
 // @fnv 0x00d51170
-void __stdcall FUN_00d51170(int** __restrict stream, AngleRecord** cursor, int unused, AnglePool* pool, void* a,
+// src: GUESS 0x00d51170 (confidence: medium)
+void __stdcall hkpGenericConstraintData_UnwrapAxisAngleAndProcessConstraint(int** __restrict stream, AngleRecord** cursor, int unused, AnglePool* pool, void* a,
                             void* b)
 {
     SolverInfoD510 info;
@@ -1638,7 +1645,7 @@ void __stdcall FUN_00d51170(int** __restrict stream, AngleRecord** cursor, int u
             info.m_out = adjusted;
     }
     pRecord->angle = info.m_out;
-    FUN_00d6cb30(&info, a, b);
+    HkpbuildjacobianfromatomsGsNogs_UpdateState_00d6cb30(&info, a, b);
     ++pool->unkB8;
 }
 }  // namespace fnv_00d51170
@@ -1729,7 +1736,8 @@ void __cdecl _hk1dLinearVelocityMotorCommitJacobian(SixIntegerData* output, Sixt
 
 // Advances the command and data pointers, computes a dot product for a motor constraint, and updates the solver state if a motor is present.
 // @fnv 0x00d51270
-void __stdcall FUN_00d51270(const int** commands, const ::hkVector4** data, hkpGenericConstraintDataScheme* scheme,
+// src: GUESS 0x00d51270 (confidence: medium)
+void __stdcall hkVector4_AdvanceStreamsAndProcessMotor(const int** commands, const ::hkVector4** data, hkpGenericConstraintDataScheme* scheme,
                             GenericConstraintRuntime* runtime, SixteenWordFloatRecord* apStepInfo, void** schema)
 {
     *commands += 1;
@@ -1879,9 +1887,9 @@ extern int DAT_011b5a90[];
 extern double DAT_0101ff58;
 
 extern "C" void _ReadWriteBarrier(void);
-extern "C" void __cdecl FUN_00d6cd70(Vec* axis, QueryIn* in, void* schema, MotorStuff* packet);
+extern "C" void __cdecl Hkpbuildjacobianfromatoms_ComputeJacobianInverseEffectiveMass(Vec* axis, QueryIn* in, void* schema, MotorStuff* packet);
 void __cdecl _hkCalcMotorData(Motor* motor, MotorStuff* input, float* output);
-extern "C" void __cdecl FUN_00d6ce70(float* negAndOut, QueryIn* in, void* schema, void** out);
+extern "C" void __cdecl Hkpbuildjacobianfromatoms_UpdateState_00d6ce70(float* negAndOut, QueryIn* in, void* schema, void** out);
 
 static __forceinline LocalM128 dot3(LocalM128 p, LocalM128 q)
 {
@@ -1910,7 +1918,8 @@ struct StepScratch
 };
 // Computes and unwraps an angle from runtime vectors, stores it back, and if a motor exists calls FUN_00dcfff0 and FUN_00d6ce70; then increments m_iFirstInteger.
 // @fnv 0x00d51410
-void __stdcall FUN_00d51410(int** cmdPtr, Vec** dataPtr, Scheme* scheme, Runtime* runtime, QueryIn* apQuery, void** out)
+// src: GUESS 0x00d51410 (confidence: medium)
+void __stdcall hkpGenericConstraintData_UnwrapAngleAndProcessMotor(int** cmdPtr, Vec** dataPtr, Scheme* scheme, Runtime* runtime, QueryIn* apQuery, void** out)
 {
     StepScratch v;
     ++*cmdPtr;
@@ -1954,7 +1963,7 @@ void __stdcall FUN_00d51410(int** cmdPtr, Vec** dataPtr, Scheme* scheme, Runtime
         MotorStuff packet;
         packet.last0f = 0.0f;
         packet.last1f = 0.0f;
-        FUN_00d6cd70(axisVec, apQuery, schema, &packet);
+        Hkpbuildjacobianfromatoms_ComputeJacobianInverseEffectiveMass(axisVec, apQuery, schema, &packet);
         packet.query = apQuery;
         int index = runtime->m_iFirstInteger;
         Pair* pSolverResults = *static_cast<Pair* volatile*>(&v.sr);
@@ -1963,7 +1972,7 @@ void __stdcall FUN_00d51410(int** cmdPtr, Vec** dataPtr, Scheme* scheme, Runtime
         v.sum = (float)(v.z * 6.2831854820251465 + v.ang);
         packet.negTarget = -v.sum;
         _hkCalcMotorData(v.motor, &packet, &packet.out0);
-        FUN_00d6ce70(&packet.out0, apQuery, schema, out);
+        Hkpbuildjacobianfromatoms_UpdateState_00d6ce70(&packet.out0, apQuery, schema, out);
     }
     runtime->m_iFirstInteger++;
 }
@@ -2024,15 +2033,15 @@ struct InterpreterD506
     void hkpGenericConstraintData_hatchScheme(hkpGenericConstraintDataScheme*, const InputD506*, void*);
     void hkpGenericConstraintData_constrainLinearW(int**, hkVector4q**, hkpGenericConstraintDataScheme*, StateD506*, InputD506*, void*);
     void hkpGenericConstraintData_constrainAllLinearW(int**, hkVector4q**, hkpGenericConstraintDataScheme*, StateD506*, InputD506*, void*);
-    void FUN_00d50d60(int**, hkVector4q**, hkpGenericConstraintDataScheme*, StateD506*, InputD506*, void*);
-    void FUN_00d50e10(int**, hkVector4q**, hkpGenericConstraintDataScheme*, StateD506*, InputD506*, void*);
-    void FUN_00d51100(int**, hkVector4q**, hkpGenericConstraintDataScheme*, StateD506*, InputD506*, void*);
-    void FUN_00d51170(int**, hkVector4q**, hkpGenericConstraintDataScheme*, StateD506*, InputD506*, void*);
-    void FUN_00d50ec0(int**, hkVector4q**, hkpGenericConstraintDataScheme*, StateD506*, InputD506*, void*);
+    void Object_UpdateFields_00d50d60(int**, hkVector4q**, hkpGenericConstraintDataScheme*, StateD506*, InputD506*, void*);
+    void hkpGenericConstraintData_UpdateState_00d50e10(int**, hkVector4q**, hkpGenericConstraintDataScheme*, StateD506*, InputD506*, void*);
+    void Object_UpdateFields_00d51100(int**, hkVector4q**, hkpGenericConstraintDataScheme*, StateD506*, InputD506*, void*);
+    void hkpGenericConstraintData_UnwrapAxisAngleAndProcessConstraint(int**, hkVector4q**, hkpGenericConstraintDataScheme*, StateD506*, InputD506*, void*);
+    void hkVector4_ProcessAndReturnValue_00d50ec0(int**, hkVector4q**, hkpGenericConstraintDataScheme*, StateD506*, InputD506*, void*);
     void hkpGenericConstraintData_setTwistLimitW(int**, hkVector4q**, hkpGenericConstraintDataScheme*, StateD506*, InputD506*, void*);
-    void FUN_00d51410(int**, hkVector4q**, hkpGenericConstraintDataScheme*, StateD506*, InputD506*, void*);
-    void FUN_00d51270(int**, hkVector4q**, hkpGenericConstraintDataScheme*, StateD506*, InputD506*, void*);
-    void FUN_00d51390(int**, hkVector4q**, hkpGenericConstraintDataScheme*, StateD506*, InputD506*, void*);
+    void hkpGenericConstraintData_UnwrapAngleAndProcessMotor(int**, hkVector4q**, hkpGenericConstraintDataScheme*, StateD506*, InputD506*, void*);
+    void hkVector4_AdvanceStreamsAndProcessMotor(int**, hkVector4q**, hkpGenericConstraintDataScheme*, StateD506*, InputD506*, void*);
+    void hkpGenericConstraintData_UpdateState_00d51390(int**, hkVector4q**, hkpGenericConstraintDataScheme*, StateD506*, InputD506*, void*);
     void hkpGenericConstraintData_setLinearFrictionW(int**, hkVector4q**, hkpGenericConstraintDataScheme*, StateD506*, InputD506*, void*);
 };
 typedef void(__thiscall* HandlerD506)(InterpreterD506*, int**, hkVector4q**, hkpGenericConstraintDataScheme*, StateD506*,
@@ -2135,31 +2144,31 @@ void InterpreterD506::hkpGenericConstraintData_hatchScheme(hkpGenericConstraintD
             state.basisB = *state.transformB;
             break;
         case 12:
-            FUN_00d50d60(&command, &data, scheme, &state, &localInput, output);
+            Object_UpdateFields_00d50d60(&command, &data, scheme, &state, &localInput, output);
             break;
         case 13:
-            FUN_00d50e10(&command, &data, scheme, &state, &localInput, output);
+            hkpGenericConstraintData_UpdateState_00d50e10(&command, &data, scheme, &state, &localInput, output);
             break;
         case 16:
-            FUN_00d51100(&command, &data, scheme, &state, &localInput, output);
+            Object_UpdateFields_00d51100(&command, &data, scheme, &state, &localInput, output);
             break;
         case 17:
-            FUN_00d51170(&command, &data, scheme, &state, &localInput, output);
+            hkpGenericConstraintData_UnwrapAxisAngleAndProcessConstraint(&command, &data, scheme, &state, &localInput, output);
             break;
         case 18:
-            FUN_00d50ec0(&command, &data, scheme, &state, &localInput, output);
+            hkVector4_ProcessAndReturnValue_00d50ec0(&command, &data, scheme, &state, &localInput, output);
             break;
         case 19:
             hkpGenericConstraintData_setTwistLimitW(&command, &data, scheme, &state, &localInput, output);
             break;
         case 14:
-            FUN_00d51410(&command, &data, scheme, &state, &localInput, output);
+            hkpGenericConstraintData_UnwrapAngleAndProcessMotor(&command, &data, scheme, &state, &localInput, output);
             break;
         case 15:
-            FUN_00d51270(&command, &data, scheme, &state, &localInput, output);
+            hkVector4_AdvanceStreamsAndProcessMotor(&command, &data, scheme, &state, &localInput, output);
             break;
         case 20:
-            FUN_00d51390(&command, &data, scheme, &state, &localInput, output);
+            hkpGenericConstraintData_UpdateState_00d51390(&command, &data, scheme, &state, &localInput, output);
             break;
         case 21:
             hkpGenericConstraintData_setLinearFrictionW(&command, &data, scheme, &state, &localInput, output);

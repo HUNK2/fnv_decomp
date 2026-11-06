@@ -138,7 +138,8 @@ bool __fastcall NiLightColorController_IsEqual(NiLightColorController* self, voi
 extern NiRTTI g_011f4a68_arg1;
 // Walks the RTTI chain of pkTarget and returns true if it reaches g_011f4a68_arg1, false if pkTarget is null or the chain ends.
 // @fnv 0x00a4d210
-bool __stdcall FUN_00a4d210(NiObjectNET* pkTarget)
+// src: GUESS 0x00a4d210 (confidence: high)
+bool __stdcall NiObjectNET_HasTargetRTTIInChain(NiObjectNET* pkTarget)
 {
     if (!pkTarget)
         return false;
@@ -217,7 +218,7 @@ void __fastcall WriteToStream(NiLightColorController* self, void*, NiStream& str
 
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
-void* __cdecl FUN_00aa13e0(unsigned int);
+void* __cdecl Object_DispatchCommandFour(unsigned int);
 
 struct RefObject
 {
@@ -290,7 +291,7 @@ void __fastcall LoadActiveObject(NiLightColorController* self, void*, NiStream* 
     RefObject* source = ((RefObject*(__thiscall*)(NiStream*))FUN_00a63430)(stream);
     if (source)
         InterlockedIncrement(&source->referenceCount);
-    void* memory = FUN_00aa13e0(sizeof(RefObject));
+    void* memory = Object_DispatchCommandFour(sizeof(RefObject));
     RefObject* fresh = memory ? static_cast<RefObject*>(memory)->FUN_00a495f0(source) : 0;
     RefObject*& activeObject = *(RefObject**)&self->m_spControllerInterpolator.m_pObject;
     RefObject* old = activeObject;

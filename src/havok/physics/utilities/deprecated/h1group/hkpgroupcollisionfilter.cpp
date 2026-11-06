@@ -158,7 +158,7 @@ hkBool hkpGroupCollisionFilter::IsCollisionEnabled(const WorldRayCastInput& inpu
 // declare, so the second base's vtable gets a thunk that moves `this` back by the first base's size (0x10).
 struct PrimaryBase
 {
-    virtual void FUN_00cbfc00();
+    virtual void AdjustThisAndForward_00cbfc00();
     int unk04;
     int unk08;
     int unk0C;
@@ -166,14 +166,15 @@ struct PrimaryBase
 
 struct SecondaryBase
 {
-    virtual void FUN_00cbfc00();
+    virtual void AdjustThisAndForward_00cbfc00();
 };
 
 struct Derived : PrimaryBase, SecondaryBase
 {
     Derived();
 // @fnv 0x00cbfc00
-    virtual void FUN_00cbfc00();
+// src: GUESS 0x00cbfc00 (confidence: low)
+    virtual void AdjustThisAndForward_00cbfc00();
 };
 
 Derived::Derived()

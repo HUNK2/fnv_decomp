@@ -189,7 +189,7 @@ struct S00c9e830_Owner
 
     void hkpWorld_queueOperation(S00c9e830_Operation* operation);
     void FUN_00c91120();
-    void FUN_00c91140();
+    void UpdateFields_00c91140();
     __forceinline void unlockAndAttemptToExecutePendingOperations()
     {
         --unk94;
@@ -198,7 +198,7 @@ struct S00c9e830_Owner
             if (unk8C != 0)
                 FUN_00c91120();
             if (unkA4 == 1 && unk90 != 0)
-                FUN_00c91140();
+                UpdateFields_00c91140();
         }
     }
 };

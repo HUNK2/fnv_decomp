@@ -165,7 +165,8 @@ inline E9E8C0Item*& GetComparisonItem(NiUnionBV* volume, unsigned int index)
 // The shared header has no bool comparison overload for this entry point.
 // Keep its calling convention in a free helper, using the shared object layout.
 // @fnv 0x00e9e8c0
-bool __fastcall FUN_00e9e8c0(NiUnionBV* self, void*, NiUnionBV* pkOther)
+// src: GUESS 0x00e9e8c0 (confidence: low)
+bool __fastcall NiUnionBV_ProcessEntries_00e9e8c0(NiUnionBV* self, void*, NiUnionBV* pkOther)
 {
     if (pkOther->F3() != 4)
         return false;

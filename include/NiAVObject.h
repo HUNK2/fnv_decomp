@@ -155,7 +155,7 @@ class NiAVObject : public NiObjectNET
     NiProperty* NiNode_GetAtChecked(bool flag);
     void NiRefObject_DecRefCount();
     PropertyList& FUN_00430830();
-    int FUN_0043c470();
+    int EvaluateValue_0043c470();
     NiPoint3& GetTranslate_0043c490();
     const NiBound& NiAVObject_GetWorldBound() const;
     void NiAVObject_AttachProperty(void* value);

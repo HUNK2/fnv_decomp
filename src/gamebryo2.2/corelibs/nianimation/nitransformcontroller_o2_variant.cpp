@@ -49,10 +49,11 @@ struct RefObj
 void __fastcall FUN_00a6d290(void*);
 struct Unknown
 {
-    void FUN_00a360d0();
+    void ReleaseReference_00a360d0();
 };
 // @fnv 0x00a360d0
-void Unknown::FUN_00a360d0()
+// src: GUESS 0x00a360d0 (confidence: medium)
+void Unknown::ReleaseReference_00a360d0()
 {
     RefObj* p = *(RefObj**)((char*)this + 0x34);
     if (p)
@@ -85,7 +86,7 @@ int* __cdecl NiBlendAccumTransformInterpolator_GetRTTI()
     return &g_011f371c;
 }
 
-void __fastcall FUN_00a39290(void*);
+void __fastcall NiBlendAccumTransformInterpolator_ReleaseStorage_00a39290(void*);
 void __cdecl _delete(void*, unsigned int);
 struct S_00a36490
 {
@@ -94,7 +95,7 @@ struct S_00a36490
 // @fnv 0x00a36490
 void* __thiscall S_00a36490::FUN_00a36490(unsigned int flag)
 {
-    FUN_00a39290(this);
+    NiBlendAccumTransformInterpolator_ReleaseStorage_00a39290(this);
     if (flag & 1)
         _delete(this, 0x58);
     return this;
@@ -401,14 +402,14 @@ void A36590Controller::NiTransformController_SynchronizePoseInterpolator(A36590O
     pkNode->SetTargetTransform(kTransform);
 }
 
-extern "C" void* __cdecl FUN_00aa13e0(unsigned int size);
+extern "C" void* __cdecl Object_DispatchCommandFour(unsigned int size);
 
 class NiTransformInitA
 {
   public:
     static void* operator new(unsigned int size) throw()
     {
-        return FUN_00aa13e0(size);
+        return Object_DispatchCommandFour(size);
     }
     void* InitA(int a, float b, int c);
 };
@@ -418,7 +419,7 @@ class NiTransformInitB
   public:
     static void* operator new(unsigned int size) throw()
     {
-        return FUN_00aa13e0(size);
+        return Object_DispatchCommandFour(size);
     }
     void* InitB(int a, float b, int c);
 };

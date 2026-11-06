@@ -84,7 +84,7 @@ void __fastcall SetAirFriction(NiPSysAirFieldAirFrictionCtlr* controller, void*,
 
 extern "C" char g_010c06e4;
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+void* __cdecl Object_DispatchCommandFour(unsigned int size);
 
 void __cdecl FUN_00c32d80();
 void __cdecl FUN_00c32de0();
@@ -95,7 +95,7 @@ NiPSysAirFieldAirFrictionCtlr* __fastcall CreateSpawnedObject(NiPSysAirFieldAirF
 {
     typedef void (__thiscall* Initialize)(NiPSysAirFieldAirFrictionCtlr*);
     typedef void (__thiscall* CopyMembers)(NiPSysAirFieldAirFrictionCtlr*, NiPSysAirFieldAirFrictionCtlr*, unsigned int);
-    NiPSysAirFieldAirFrictionCtlr* obj = (NiPSysAirFieldAirFrictionCtlr*)FUN_00aa13e0(0x40);
+    NiPSysAirFieldAirFrictionCtlr* obj = (NiPSysAirFieldAirFrictionCtlr*)Object_DispatchCommandFour(0x40);
     if (obj != 0)
     {
         ((Initialize)&FUN_00c32d80)(obj);

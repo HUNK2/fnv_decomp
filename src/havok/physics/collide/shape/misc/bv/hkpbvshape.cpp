@@ -18,7 +18,7 @@ public:
     hkpShape* m_pBvShapeReference;
     hkpSingleShapeContainer m_pContainedShape;
 
-    __declspec(noinline) void FUN_00c9d930();
+    __declspec(noinline) void ReleaseReference_00c9d930();
     hkpBvShape* Destroy(int flags);
     void CalculateAabb(const hkTransform& transform, float tolerance, hkAabb& out) const;
     hkBool IntersectRayWithShape(const ShapeRayCastQuery& input, ShapeRayCastOutput& output) const;
@@ -53,7 +53,7 @@ hkMemoryRouter* _D1A0E0GetMemoryRouter();
 // @fnv 0x00c9db30
 hkpBvShape* hkpBvShape::Destroy(int flags)
 {
-    FUN_00c9d930();
+    ReleaseReference_00c9d930();
 
     if (flags & 1)
     {
@@ -187,7 +187,8 @@ extern int DAT_0102e388;
 
 // Releases the held shape reference and the contained shape (if non-null), rewriting the object's two vtable pointers to fixed addresses around the calls.
 // @fnv 0x00c9d930
-void hkpBvShape::FUN_00c9d930()
+// src: GUESS 0x00c9d930 (confidence: medium)
+void hkpBvShape::ReleaseReference_00c9d930()
 {
     hkpBvShape* self = (hkpBvShape*)this;
 

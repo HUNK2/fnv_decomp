@@ -28,7 +28,8 @@ public:
 #include "../../../../include/TutorialMenu.h"
 
 // @fnv 0x007e8e20
-void TutorialMenu::FUN_007e8e20()
+// src: GUESS 0x007e8e20 (confidence: low)
+void TutorialMenu::ProcessAndTransformResult_007e8e20()
 {
     ShowPageByIndex(static_cast<int>(uiCurrentPage) + 1);
 }
@@ -105,7 +106,7 @@ void TutorialMenu::DoClick_007e8db0(int aiID, Tile* apTarget)
     switch (aiID)
     {
     case 1:
-        FUN_007e8e20();
+        ProcessAndTransformResult_007e8e20();
         break;
     case 2:
         DecrementAndDispatch();

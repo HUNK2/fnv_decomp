@@ -72,7 +72,7 @@ public:
         unsigned char vecData[16];
     };
 
-    void FUN_004b4db0(const float*);
+    void SetQuaternionComponentsFromVector(const float*);
 };
 
 #include <xmmintrin.h>
@@ -216,7 +216,7 @@ struct PhysicsWrapper
 {
     unsigned int unk00, unk04;
     ScaledBackend* backend;
-    void FUN_00a29680();
+    void Object_DoNothing();
 };
 struct CollisionState
 {
@@ -295,16 +295,16 @@ void __cdecl bhkUtilFunctions_DampBodiesVelocity(SceneObject* object, float scal
                 values[1].Multiply(ScalarFactor(scale));
                 if (backend)
                 {
-                    wrapper->FUN_00a29680();
+                    wrapper->Object_DoNothing();
                     backend->OnTrigger(&values[0].value);
-                    wrapper->FUN_00a29680();
+                    wrapper->Object_DoNothing();
                 }
                 backend = wrapper->backend;
                 if (backend)
                 {
-                    wrapper->FUN_00a29680();
+                    wrapper->Object_DoNothing();
                     backend->hkpRigidBody_setAngularVelocity(&values[1].value);
-                    wrapper->FUN_00a29680();
+                    wrapper->Object_DoNothing();
                 }
             }
         }
@@ -410,9 +410,9 @@ void bhkLimitedHingeVectorSet::bhkMatrix3_Renormalize()
     Vec4Tmp c;
     c.v = _mm_setr_ps(v2.x, v2.y, v2.z, v2.w);
     a.hkRotation_renormalize();
-    m_v0.FUN_004b4db0((const float*)&a);
-    v1.FUN_004b4db0((const float*)&b);
-    v2.FUN_004b4db0((const float*)&c);
+    m_v0.SetQuaternionComponentsFromVector((const float*)&a);
+    v1.SetQuaternionComponentsFromVector((const float*)&b);
+    v2.SetQuaternionComponentsFromVector((const float*)&c);
 }
 
 extern int DAT_010c69f4;
@@ -428,11 +428,12 @@ struct FUN_00c99ff0_cls : FUN_00c99ff0_base
     __m128 m_a0;
     __m128 m_b0;
     __m128 m_c0;
-    FUN_00c99ff0_cls* FUN_00c99ff0(void* a1, __m128* a2, __m128* a3);
+    FUN_00c99ff0_cls* SetVtableAndProcessState_00c99ff0(void* a1, __m128* a2, __m128* a3);
 };
 
 // @fnv 0x00c99ff0
-FUN_00c99ff0_cls* FUN_00c99ff0_cls::FUN_00c99ff0(void* a1, __m128* a2, __m128* a3)
+// src: GUESS 0x00c99ff0 (confidence: low)
+FUN_00c99ff0_cls* FUN_00c99ff0_cls::SetVtableAndProcessState_00c99ff0(void* a1, __m128* a2, __m128* a3)
 {
     ((FUN_00c99ff0_base*)this)->FUN_00c69010(a1);
     *(int*)this = (int)&DAT_010c69f4;
@@ -567,10 +568,10 @@ void FUN_00c9ecb0_cls::bhkShapePhantom_CopyCinfo(HingeVectorSet* set)
     hkMatrix4& m = reinterpret_cast<hkMatrix4&>(matrixStorage);
     bhkShapePhantom_GetTransform(m);
     bhkLimitedHingeVector_blk_00c80000_od_o2_nood_variant* vectors = set->m_akVectors;
-    vectors[0].FUN_004b4db0(m.m_kColumn0.m_vComponents.m128_f32);
-    vectors[1].FUN_004b4db0(m.m_kColumn1.m_vComponents.m128_f32);
-    vectors[2].FUN_004b4db0(m.m_kColumn2.m_vComponents.m128_f32);
-    vectors[3].FUN_004b4db0(m.m_kColumn3.m_vComponents.m128_f32);
+    vectors[0].SetQuaternionComponentsFromVector(m.m_kColumn0.m_vComponents.m128_f32);
+    vectors[1].SetQuaternionComponentsFromVector(m.m_kColumn1.m_vComponents.m128_f32);
+    vectors[2].SetQuaternionComponentsFromVector(m.m_kColumn2.m_vComponents.m128_f32);
+    vectors[3].SetQuaternionComponentsFromVector(m.m_kColumn3.m_vComponents.m128_f32);
 }
 #pragma strict_gs_check(pop)
 }  // namespace fnv_00c9ecb0
@@ -1702,7 +1703,7 @@ struct hkLimitedHingeConstraintCinfo : hkConstraintCinfo
 
 typedef hkLimitedHingeConstraintCinfo ConstraintInfo;
 
-void* FUN_00aa13e0(unsigned int);
+void* Object_DispatchCommandFour(unsigned int);
 
 void FUN_00aa1450(void*);
 
@@ -1716,7 +1717,7 @@ struct FUN_00c88380
 
     static void* operator new(unsigned int n)
     {
-        return FUN_00aa13e0(n);
+        return Object_DispatchCommandFour(n);
     }
 
     static void operator delete(void* p)

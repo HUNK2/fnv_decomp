@@ -23,11 +23,12 @@
 
 struct FUN_009f7050_class
 {
-    NiPoint3& FUN_009f7050(NiPoint3& akDest);
+    NiPoint3& CopyVectorAtOffset14(NiPoint3& akDest);
 };
 
 // @fnv 0x009f7050
-NiPoint3& FUN_009f7050_class::FUN_009f7050(NiPoint3& akDest)
+// src: GUESS 0x009f7050 (confidence: medium)
+NiPoint3& FUN_009f7050_class::CopyVectorAtOffset14(NiPoint3& akDest)
 {
     akDest = *reinterpret_cast<const NiPoint3*>(reinterpret_cast<const char*>(this) + 0x14);
     return akDest;
@@ -37,11 +38,12 @@ namespace fnv_009f7080 {
 
 struct FUN_009f7080_class
 {
-    NiPoint3& FUN_009f7080(NiPoint3& akDest);
+    NiPoint3& CopyPointAtOffset20_009f7080(NiPoint3& akDest);
 };
 
 // @fnv 0x009f7080
-NiPoint3& FUN_009f7080_class::FUN_009f7080(NiPoint3& akDest)
+// src: GUESS 0x009f7080 (confidence: low)
+NiPoint3& FUN_009f7080_class::CopyPointAtOffset20_009f7080(NiPoint3& akDest)
 {
     akDest = *reinterpret_cast<NiPoint3*>(reinterpret_cast<char*>(this) + 0x20);
     return akDest;
@@ -70,7 +72,7 @@ struct SpectatorThreatInfo
     void __thiscall SaveGameBGS_009f70b0(BGSSaveFormBuffer* buffer);
     void LoadGame_009f7170(BGSLoadFormBuffer* buffer);
     unsigned int __thiscall _ref_00726070();
-    SpectatorThreatInfo& FUN_009f7630(const SpectatorThreatInfo& that);
+    SpectatorThreatInfo& UpdateState_009f7630(const SpectatorThreatInfo& that);
 };
 // @fnv 0x009f70b0
 // src: COMMUNITY 0x009f70b0
@@ -218,10 +220,11 @@ extern int DAT_01093980;
 struct ThreatRecordArray
 {
     void* ReallocateStorage(int);
-    void FUN_009f8b10();
+    void SetVtableAndProcessState_009f8b10();
 };
 // @fnv 0x009f8b10
-void ThreatRecordArray::FUN_009f8b10()
+// src: GUESS 0x009f8b10 (confidence: low)
+void ThreatRecordArray::SetVtableAndProcessState_009f8b10()
 {
     *reinterpret_cast<void**>(this) = &DAT_01093980;
     ReallocateStorage(1);
@@ -258,11 +261,12 @@ void BSSimpleArray<S009f9180, 1024>::Clear(bool freeStorage)
 
 struct FUN_009f8d60_Class
 {
-    void* __thiscall FUN_009f8d60(int size);
+    void* __thiscall AllocateStorage_009f8d60(int size);
 };
 
 // @fnv 0x009f8d60
-void* __thiscall FUN_009f8d60_Class::FUN_009f8d60(int size)
+// src: GUESS 0x009f8d60 (confidence: medium)
+void* __thiscall FUN_009f8d60_Class::AllocateStorage_009f8d60(int size)
 {
     void* memory = operator new(size * 0x34);
     return memory;
@@ -283,14 +287,14 @@ void* __thiscall FUN_009f8d90::Reallocate(void* p, int n)
 
 struct FUN_009f8b10_class
 {
-    void FUN_009f8b10();
+    void SetVtableAndProcessState_009f8b10();
     void* FUN_009f8db0(unsigned int flags);
 };
 
 // @fnv 0x009f8db0
 void* FUN_009f8b10_class::FUN_009f8db0(unsigned int flags)
 {
-    FUN_009f8b10();
+    SetVtableAndProcessState_009f8b10();
     if (flags & 1)
         operator delete(this);
     return this;
@@ -457,7 +461,8 @@ void FUN_009f8a10::InitLoadGame(void* apLoadGameBuffer)
 }
 
 // @fnv 0x009f7630
-SpectatorThreatInfo& SpectatorThreatInfo::FUN_009f7630(const SpectatorThreatInfo& that)
+// src: GUESS 0x009f7630 (confidence: low)
+SpectatorThreatInfo& SpectatorThreatInfo::UpdateState_009f7630(const SpectatorThreatInfo& that)
 {
     pSource = that.pSource;
     pTarget = that.pTarget;
@@ -532,7 +537,8 @@ int FUN_009f8a80_wrapper::BSSimpleArray_SpectatorThreatInfo_1024_GetAt(unsigned 
 }
 
 // @fnv 0x009f8420
-void SpectatorPackage::FUN_009f8420(Actor& aActor)
+// src: GUESS 0x009f8420 (confidence: low)
+void SpectatorPackage::ProcessEntries_009f8420(Actor& aActor)
 {
     SpectatorThreatInfo* scanInfo;
     int isize_ = reinterpret_cast<SpectatorpackageOffset08View*>(reinterpret_cast<char*>(this) + 0xA0)->GetFlags();
@@ -884,7 +890,7 @@ struct FUN_009f8b10
 };
 struct FUN_0045cec0
 {
-    ObjectRef* FUN_00559450();
+    ObjectRef* Modelloader_GetReferencedThis();
     void FUN_0066b0d0(int release);
     ~FUN_0045cec0();
 };
@@ -897,11 +903,11 @@ struct FUN_009f7410 : FUN_006708b0
 // @fnv 0x009f7410
 FUN_009f7410::~FUN_009f7410()
 {
-    if (memberB0.FUN_00559450())
+    if (memberB0.Modelloader_GetReferencedThis())
     {
-        if (memberB0.FUN_00559450()->NiAVObject_GetParent())
+        if (memberB0.Modelloader_GetReferencedThis()->NiAVObject_GetParent())
         {
-            memberB0.FUN_00559450()->NiAVObject_GetParent()->RemoveReference(memberB0.FUN_00559450());
+            memberB0.Modelloader_GetReferencedThis()->NiAVObject_GetParent()->RemoveReference(memberB0.Modelloader_GetReferencedThis());
         }
         memberB0.FUN_0066b0d0(0);
     }
@@ -1180,7 +1186,7 @@ struct Parameter
 };
 struct Entry
 {
-    Parameter* FUN_00559450();
+    Parameter* Modelloader_GetReferencedThis();
     int FUN_00726070();
     void SetSourceReference(Parameter*);
 };
@@ -1193,7 +1199,7 @@ struct ThreatList
 struct Package
 {
     void SpectatorPackage_AddThreatFromActorToCombatTarget(Parameter*);
-    void FUN_009f76e0();
+    void ProcessEntries_009f76e0();
 };
 // @fnv 0x009f8330
 // src: XBOX_PDB 0x009f8330
@@ -1205,7 +1211,7 @@ void Package::SpectatorPackage_AddThreatFromActorToCombatTarget(Parameter* actor
     for (int i = 0; i < count; ++i)
     {
         Entry* e = ((ThreatList*)((char*)this + 0xA0))->BSSimpleArray_SpectatorThreatInfo_1024_GetAt(i);
-        if (e->FUN_00559450() == actor && e->FUN_00726070() == id)
+        if (e->Modelloader_GetReferencedThis() == actor && e->FUN_00726070() == id)
         {
             match = e;
             break;
@@ -1218,7 +1224,7 @@ void Package::SpectatorPackage_AddThreatFromActorToCombatTarget(Parameter* actor
         match = ((ThreatList*)((char*)this + 0xA0))->BSSimpleArray_SpectatorThreatInfo_1024_GetAt(n);
     }
     match->SetSourceReference(actor);
-    FUN_009f76e0();
+    ProcessEntries_009f76e0();
 }
 
 struct ThreatArray
@@ -1229,7 +1235,7 @@ struct ThreatArray
     unsigned int size;
     unsigned int capacity;
     void EnsureBuffer(unsigned int, unsigned int);
-    void FUN_009f8de0(S009f9180*, unsigned int);
+    void ProcessEntries_009f8de0(S009f9180*, unsigned int);
     void FUN_009f8f60(S009f9180*, unsigned int);
     void BSSimpleArray_SpectatorThreatInfo_1024_SetSize(unsigned int count, bool shrink);
 };
@@ -1253,7 +1259,7 @@ void ThreatArray::BSSimpleArray_SpectatorThreatInfo_1024_SetSize(unsigned int co
             EnsureBuffer(count, size);
             capacity = count;
         }
-        FUN_009f8de0(data + size, count - size);
+        ProcessEntries_009f8de0(data + size, count - size);
         size = count;
     }
     else if (count < size)
@@ -1268,7 +1274,7 @@ void ThreatArray::BSSimpleArray_SpectatorThreatInfo_1024_SetSize(unsigned int co
     }
     else
     {
-        FUN_009f8de0(data + size, count - size);
+        ProcessEntries_009f8de0(data + size, count - size);
         size = count;
     }
 }
@@ -1364,11 +1370,12 @@ struct SpectatorInfo
 
     NiPoint3 GetStart();
     NiPoint3 GetEnd();
-    void FUN_009f6f30(SpectatorVolume& arVolume);
+    void UpdateState_009f6f30(SpectatorVolume& arVolume);
 };
 
 // @fnv 0x009f6f30
-void SpectatorInfo::FUN_009f6f30(SpectatorVolume& arVolume)
+// src: GUESS 0x009f6f30 (confidence: low)
+void SpectatorInfo::UpdateState_009f6f30(SpectatorVolume& arVolume)
 {
     if (bHasStart)
     {
@@ -1462,7 +1469,7 @@ void FUN_009f7500_class::SpectatorPackage_Copy(void* param_2)
         for (i = 0; i < count; i++)
         {
             ((SpectatorThreatInfo*)((FUN_009f8a80_class*)&arrA0)->BSSimpleArray_SpectatorThreatInfo_1024_GetAt(i))
-                ->FUN_009f7630(*(SpectatorThreatInfo*)((FUN_009f8a80_class*)&other->arrA0)->BSSimpleArray_SpectatorThreatInfo_1024_GetAt(i));
+                ->UpdateState_009f7630(*(SpectatorThreatInfo*)((FUN_009f8a80_class*)&other->arrA0)->BSSimpleArray_SpectatorThreatInfo_1024_GetAt(i));
         }
     }
 }
@@ -1482,8 +1489,8 @@ struct Threat
     unsigned int unk24;
     unsigned int unk28;
     bool hasSource, hasTarget;
-    NiPoint3 FUN_009f7050();
-    NiPoint3 FUN_009f7080();
+    NiPoint3 CopyVectorAtOffset14();
+    NiPoint3 CopyPointAtOffset20_009f7080();
 };
 struct ThreatList
 {
@@ -1537,10 +1544,11 @@ struct Package
     bool empty;
     NiPoint3 center;
     ThreatList threats;
-    void FUN_009f76e0();
+    void ProcessEntries_009f76e0();
 };
 // @fnv 0x009f76e0
-void Package::FUN_009f76e0()
+// src: GUESS 0x009f76e0 (confidence: low)
+void Package::ProcessEntries_009f76e0()
 {
     if (!threats.FUN_0044ddc0())
         return;
@@ -1555,26 +1563,26 @@ void Package::FUN_009f76e0()
         Threat* threat = threats.BSSimpleArray_SpectatorThreatInfo_1024_GetAt(index);
         if (threat->hasSource && threat->hasTarget)
         {
-            minimumSlot0.x = BSMAX_00404010(threat->FUN_009f7050().x, threat->FUN_009f7080().x);
-            minimumSlot0.y = BSMAX_00404010(threat->FUN_009f7050().y, threat->FUN_009f7080().y);
-            minimumSlot0.z = BSMAX_00404010(threat->FUN_009f7050().z, threat->FUN_009f7080().z);
-            maximumSlot27.x = BSMIN(threat->FUN_009f7050().x, threat->FUN_009f7080().x);
-            maximumSlot27.y = BSMIN(threat->FUN_009f7050().y, threat->FUN_009f7080().y);
-            maximumSlot27.z = BSMIN(threat->FUN_009f7050().z, threat->FUN_009f7080().z);
+            minimumSlot0.x = BSMAX_00404010(threat->CopyVectorAtOffset14().x, threat->CopyPointAtOffset20_009f7080().x);
+            minimumSlot0.y = BSMAX_00404010(threat->CopyVectorAtOffset14().y, threat->CopyPointAtOffset20_009f7080().y);
+            minimumSlot0.z = BSMAX_00404010(threat->CopyVectorAtOffset14().z, threat->CopyPointAtOffset20_009f7080().z);
+            maximumSlot27.x = BSMIN(threat->CopyVectorAtOffset14().x, threat->CopyPointAtOffset20_009f7080().x);
+            maximumSlot27.y = BSMIN(threat->CopyVectorAtOffset14().y, threat->CopyPointAtOffset20_009f7080().y);
+            maximumSlot27.z = BSMIN(threat->CopyVectorAtOffset14().z, threat->CopyPointAtOffset20_009f7080().z);
             pointCountSlot1 += 2;
             break;
         }
         else if (threat->hasSource)
         {
-            minimumSlot0 = threat->FUN_009f7050();
-            maximumSlot27 = threat->FUN_009f7050();
+            minimumSlot0 = threat->CopyVectorAtOffset14();
+            maximumSlot27 = threat->CopyVectorAtOffset14();
             pointCountSlot1++;
             break;
         }
         else if (threat->hasTarget)
         {
-            minimumSlot0 = threat->FUN_009f7080();
-            maximumSlot27 = threat->FUN_009f7080();
+            minimumSlot0 = threat->CopyPointAtOffset20_009f7080();
+            maximumSlot27 = threat->CopyPointAtOffset20_009f7080();
             pointCountSlot1++;
             break;
         }
@@ -1584,22 +1592,22 @@ void Package::FUN_009f76e0()
         Threat* nextThreat = threats.BSSimpleArray_SpectatorThreatInfo_1024_GetAt(index);
         if (nextThreat->hasSource)
         {
-            minimumSlot0.x = BSMAX_00404010(minimumSlot0.x, nextThreat->FUN_009f7050().x);
-            minimumSlot0.y = BSMAX_00404010(minimumSlot0.y, nextThreat->FUN_009f7050().y);
-            minimumSlot0.z = BSMAX_00404010(minimumSlot0.z, nextThreat->FUN_009f7050().z);
-            maximumSlot27.x = BSMIN(maximumSlot27.x, nextThreat->FUN_009f7050().x);
-            maximumSlot27.y = BSMIN(maximumSlot27.y, nextThreat->FUN_009f7050().y);
-            maximumSlot27.z = BSMIN(maximumSlot27.z, nextThreat->FUN_009f7050().z);
+            minimumSlot0.x = BSMAX_00404010(minimumSlot0.x, nextThreat->CopyVectorAtOffset14().x);
+            minimumSlot0.y = BSMAX_00404010(minimumSlot0.y, nextThreat->CopyVectorAtOffset14().y);
+            minimumSlot0.z = BSMAX_00404010(minimumSlot0.z, nextThreat->CopyVectorAtOffset14().z);
+            maximumSlot27.x = BSMIN(maximumSlot27.x, nextThreat->CopyVectorAtOffset14().x);
+            maximumSlot27.y = BSMIN(maximumSlot27.y, nextThreat->CopyVectorAtOffset14().y);
+            maximumSlot27.z = BSMIN(maximumSlot27.z, nextThreat->CopyVectorAtOffset14().z);
             pointCountSlot1++;
         }
         if (nextThreat->hasTarget)
         {
-            minimumSlot0.x = BSMAX_00404010(minimumSlot0.x, nextThreat->FUN_009f7080().x);
-            minimumSlot0.y = BSMAX_00404010(minimumSlot0.y, nextThreat->FUN_009f7080().y);
-            minimumSlot0.z = BSMAX_00404010(minimumSlot0.z, nextThreat->FUN_009f7080().z);
-            maximumSlot27.x = BSMIN(maximumSlot27.x, nextThreat->FUN_009f7080().x);
-            maximumSlot27.y = BSMIN(maximumSlot27.y, nextThreat->FUN_009f7080().y);
-            maximumSlot27.z = BSMIN(maximumSlot27.z, nextThreat->FUN_009f7080().z);
+            minimumSlot0.x = BSMAX_00404010(minimumSlot0.x, nextThreat->CopyPointAtOffset20_009f7080().x);
+            minimumSlot0.y = BSMAX_00404010(minimumSlot0.y, nextThreat->CopyPointAtOffset20_009f7080().y);
+            minimumSlot0.z = BSMAX_00404010(minimumSlot0.z, nextThreat->CopyPointAtOffset20_009f7080().z);
+            maximumSlot27.x = BSMIN(maximumSlot27.x, nextThreat->CopyPointAtOffset20_009f7080().x);
+            maximumSlot27.y = BSMIN(maximumSlot27.y, nextThreat->CopyPointAtOffset20_009f7080().y);
+            maximumSlot27.z = BSMIN(maximumSlot27.z, nextThreat->CopyPointAtOffset20_009f7080().z);
             pointCountSlot1++;
         }
     }
@@ -1609,8 +1617,8 @@ void Package::FUN_009f76e0()
         return;
     }
     NiPoint3 midpointSlot20 = minimumSlot0;
-    midpointSlot20.FUN_0063c8a0(maximumSlot27);
-    midpointSlot20.FUN_00439180(DAT_01016248);
+    midpointSlot20.ComputeValue_0063c8a0(maximumSlot27);
+    midpointSlot20.ScaleComponents(DAT_01016248);
     float distance = 0.0f;
     float radiusSquaredSlot57 = 0.0f;
     for (index = 0; index < sizeSlot13; index++)
@@ -1620,13 +1628,13 @@ void Package::FUN_009f76e0()
             continue;
         if (radiusThreat->hasSource)
         {
-            distance = midpointSlot20.FUN_00439ef0(radiusThreat->FUN_009f7050()).FUN_004a7290();
+            distance = midpointSlot20.SubtractIntoVector(radiusThreat->CopyVectorAtOffset14()).FUN_004a7290();
             if (distance >= radiusSquaredSlot57)
                 radiusSquaredSlot57 = distance;
         }
         if (radiusThreat->hasTarget)
         {
-            distance = midpointSlot20.FUN_00439ef0(radiusThreat->FUN_009f7080()).FUN_004a7290();
+            distance = midpointSlot20.SubtractIntoVector(radiusThreat->CopyPointAtOffset20_009f7080()).FUN_004a7290();
             if (distance >= radiusSquaredSlot57)
                 radiusSquaredSlot57 = distance;
         }
@@ -1747,7 +1755,7 @@ void __thiscall FUN_009f7f20_class::SpectatorPackage_LookAtCombatants(MobileObje
     ((BaseProcess*)actor->FUN_008d8520())->ClearCachedTargetReferences(true);
 }
 
-extern "C" void* __cdecl FUN_00aa13e0(unsigned int bytes);
+extern "C" void* __cdecl Object_DispatchCommandFour(unsigned int bytes);
 struct FUN_006e3850
 {
     void* begin;
@@ -1758,7 +1766,7 @@ struct FUN_006e3850
     unsigned int flags;
     static __forceinline void* __cdecl operator new(unsigned int bytes)
     {
-        return FUN_00aa13e0(bytes);
+        return Object_DispatchCommandFour(bytes);
     }
     FUN_006e3850();
     int __thiscall FUN_0044ddc0();
@@ -1767,7 +1775,7 @@ struct FUN_006e3850
 };
 struct ThreatItem_009f8570
 {
-    void __thiscall FUN_009f6f30(void* element);
+    void __thiscall UpdateState_009f6f30(void* element);
 };
 struct FUN_009f8570_class
 {
@@ -1787,7 +1795,7 @@ FUN_006e3850* __thiscall FUN_009f8570_class::SpectatorPackage_CreateAvoidNodeArr
             reinterpret_cast<ThreatList*>(reinterpret_cast<char*>(this) + 0xa0)->BSSimpleArray_SpectatorThreatInfo_1024_GetAt(index));
         used = output->FUN_0044ddc0();
         output->SetSize(used + 1, 1);
-        item->FUN_009f6f30(output->BSSimpleArray_PathingAvoidNode_1024_GetAt(used));
+        item->UpdateState_009f6f30(output->BSSimpleArray_PathingAvoidNode_1024_GetAt(used));
     }
     return output;
 }
@@ -1872,7 +1880,7 @@ struct Threat8020
 {
     Actor* source;
     Actor* target;
-    Actor* FUN_00559450();
+    Actor* Modelloader_GetReferencedThis();
     Actor* FUN_00726070();
     unsigned int GetHavokWorldObjectCountInSceneGraph_0084e3a0();
     void SpectatorThreatInfo_Update();
@@ -1928,7 +1936,7 @@ struct Package8020
     unsigned int unk9c;
     ThreatList8020 threats;
     void SpectatorPackage_AddThreatFromActorToCombatTarget(Actor*);
-    void FUN_009f76e0();
+    void ProcessEntries_009f76e0();
     void FUN_004534f0(Actor*);
     void SpectatorPackage_Update(Actor* actor);
 };
@@ -1941,9 +1949,9 @@ void Package8020::SpectatorPackage_Update(Actor* owner)
     for (int i = 0; i < count; ++i)
     {
         Threat8020* entry = threats.BSSimpleArray_SpectatorThreatInfo_1024_GetAt(i);
-        if (entry->FUN_00559450() && entry->FUN_00726070())
+        if (entry->Modelloader_GetReferencedThis() && entry->FUN_00726070())
         {
-            Actor* currentTarget = entry->FUN_00559450()->GetCombatTarget();
+            Actor* currentTarget = entry->Modelloader_GetReferencedThis()->GetCombatTarget();
             if (currentTarget && currentTarget != entry->FUN_00726070())
             {
                 SpectatorPackage_AddThreatFromActorToCombatTarget(owner);
@@ -1955,7 +1963,7 @@ void Package8020::SpectatorPackage_Update(Actor* owner)
     for (int j = 0; j < count; ++j)
     {
         Threat8020* entry = threats.BSSimpleArray_SpectatorThreatInfo_1024_GetAt(j);
-        Actor* actor = entry->FUN_00559450();
+        Actor* actor = entry->Modelloader_GetReferencedThis();
         Actor* target = entry->FUN_00726070();
         if (gm_GetTickCount() <= entry->GetHavokWorldObjectCountInSceneGraph_0084e3a0() + 2000)
             continue;
@@ -1988,7 +1996,7 @@ void Package8020::SpectatorPackage_Update(Actor* owner)
         entry->SpectatorThreatInfo_Update();
     }
     if (updated)
-        FUN_009f76e0();
+        ProcessEntries_009f76e0();
     FUN_004534f0(owner);
 }
 
@@ -2015,11 +2023,12 @@ struct Elem
 
 struct ElemArray
 {
-    void FUN_009f8de0(Elem* apArray, unsigned int ItemUpdateArray);
+    void ProcessEntries_009f8de0(Elem* apArray, unsigned int ItemUpdateArray);
 };
 
 // @fnv 0x009f8de0
-void ElemArray::FUN_009f8de0(Elem* apArray, unsigned int ItemUpdateArray)
+// src: GUESS 0x009f8de0 (confidence: low)
+void ElemArray::ProcessEntries_009f8de0(Elem* apArray, unsigned int ItemUpdateArray)
 {
     for (unsigned int i = 0; i < ItemUpdateArray; ++i)
     {

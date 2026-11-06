@@ -67,7 +67,8 @@ void hkpPoweredChainData_disableMotor(FUN_00e3b7d0_object* object, int index, in
 }
 
 // @fnv 0x00e3b670
-int hkpPoweredChainData::FUN_00e3b670()
+// src: GUESS 0x00e3b670 (confidence: high)
+int hkpPoweredChainData::ReturnConstant_102()
 {
     return 102;
 }

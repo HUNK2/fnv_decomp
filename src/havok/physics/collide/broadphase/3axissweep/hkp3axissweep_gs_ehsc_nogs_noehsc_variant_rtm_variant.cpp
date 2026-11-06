@@ -359,7 +359,7 @@ struct S_00d19d90_Class {
 };
 struct FUN_00d19ef0_cls {
     Endpoint* m_pItems;
-    void FUN_00d19ef0(char* out, int n, Endpoint* src, int k);
+    void ProcessEntries_00d19ef0(char* out, int n, Endpoint* src, int k);
 };
 void __cdecl hkAlgorithm_quickSortRecursive_class_hkp3AxisSweep_hkpBpEndPoint_class_hkAlgorithm_less_class_hkp3AxisSweep_hkpBpEndPoint(unsigned int* base, int lo, int hi, int unkArg);
 void __cdecl QuickSortByLowWord(unsigned int* base, int lo, int hi, int unkArg);
@@ -780,7 +780,7 @@ struct S00d10b30_Bnd {
     short hi0;
     short hi1;
 };
-void __stdcall FUN_00d10b30(S00d10b30_Node* nodes, int n, const S00d10b30_Bnd* bnd);
+void __stdcall Hkp3axissweepGsEhscNogsNoehsc_ProcessEntries_00d10b30(S00d10b30_Node* nodes, int n, const S00d10b30_Bnd* bnd);
 __declspec(align(16)) struct BpRefBounds {
     unsigned short lo0;
     unsigned short lo1;
@@ -795,7 +795,7 @@ struct BpDeltaPair {
     unsigned int lo;
     unsigned int hi;
 };
-void __stdcall FUN_00d10c40(FourIntegerBlock* nodes, int n, int delta, const int* bound);
+void __stdcall Object_ProcessEntries_00d10c40(FourIntegerBlock* nodes, int n, int delta, const int* bound);
 struct BpBoundNode { __m64 lo; __m64 hi; };
 struct BpBoundWords { unsigned short lo0, lo1, lo2, lo3, hi0, hi1; };
 struct __declspec(align(16)) ReferenceBounds {
@@ -1315,7 +1315,7 @@ Obj8* ep=&current;
     void hkp3AxisSweep_updateAabbs(int** a0, unsigned int a1, int a2, unsigned int volatile a3, unsigned int volatile a4);
 };
 #include <xmmintrin.h>
-static unsigned int* FUN_00d11000(unsigned int* dst, int n);
+static unsigned int* Object_ProcessEntries_00d11000(unsigned int* dst, int n);
 unsigned int* volatile g_zeroDestination;
 volatile int g_zeroLength;
 unsigned int* CallZeroBlocks();
@@ -1759,8 +1759,8 @@ struct SortArr15 {
     __declspec(noinline) void* LowerBoundEntry(void* begin, void* end, int thresh);
     int InsertEndpoints(void* base, int idx, void* ptr, int savedN);
     int MergeSortedEndpoints(void* base, int out, void* ptr, int savedN);
-    int FUN_00d19e40(void* base, int out, void* ptr, int savedN);
-    int FUN_00d19ef0(void* base, int out, void* ptr, int savedN);
+    int MergeEndpointRangesBackward(void* base, int out, void* ptr, int savedN);
+    int ProcessEntries_00d19ef0(void* base, int out, void* ptr, int savedN);
 };
 __declspec(noinline) void* SortArr15::LowerBoundEntry(void* begin,void* end,int thresh) {
  Endpoint* first=(Endpoint*)begin;Endpoint* last=(Endpoint*)end;

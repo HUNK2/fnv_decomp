@@ -35,7 +35,7 @@ public:
     bool InitializeData_00c52d80(Node_cls* arg);
     void PostLinkObject_00c53ab0(NiStream& s);
     void __thiscall NiBSBoneLODController_GetViewerStrings(NiTPrimitiveArray_unsigned_int* array);
-    bool FUN_00c53cf0();
+    bool ProcessEntries_00c53cf0();
 
     void* m_34;
     unsigned int f38;

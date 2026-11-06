@@ -229,7 +229,7 @@ struct Ms_B
 };
 struct Ms_N
 {
-    void __thiscall FUN_00cb0c10(const char* s);
+    void __thiscall UpdateState_00cb0c10(const char* s);
 };
 extern "C"
 {
@@ -301,7 +301,7 @@ struct Cls
     int m_58;
     int m_5c;
     Cls* FUN_00cbb8b0(int flags);
-    void FUN_00d2b2b0();
+    void ReleaseReference_00d2b2b0();
 };
 extern "C"
 {

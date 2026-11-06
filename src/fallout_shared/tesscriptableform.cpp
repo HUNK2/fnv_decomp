@@ -47,7 +47,8 @@ void __fastcall TESScriptableForm_InitializeDataComponent(void* pThis);
 
 // Initialises a BaseFormComponent: runs its base constructor, installs the vtable at DAT_0101d518, calls FUN_0048cc80, and returns pThis.
 // @fnv 0x0048cc50
-void* __fastcall FUN_0048cc50(BaseFormComponent* apComponent)
+// src: GUESS 0x0048cc50 (confidence: high)
+void* __fastcall TESScriptableForm_InitializeDataComponent_InitializeScriptableFormComponent(BaseFormComponent* apComponent)
 {
     apComponent->BaseFormComponent::BaseFormComponent();
     *(int**)apComponent = &DAT_0101d518;

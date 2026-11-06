@@ -26,7 +26,7 @@ struct FUN_00e61720
     void* m_iMaterialIndex;
     IndexArray m_kUserChannels;
     FUN_00e61720(void* arg);
-    void FUN_00e61770(void* arg);
+    void UpdateState_00e61770(void* arg);
 };
 inline void* operator new(unsigned int, void* p)
 {
@@ -144,7 +144,7 @@ class hkxMaterialE6;
 class hkxMeshSectionE6 : public hkReferencedObjectE6
 {
   public:
-    hkxMeshSectionE6& FUN_00e61770(const hkxMeshSectionE6& o);
+    hkxMeshSectionE6& UpdateState_00e61770(const hkxMeshSectionE6& o);
     hkRefPtrE6<hkReferencedObjectE6> m_pMeshVertexBuffer;
     hkArrayE6<hkRefPtrE6<hkReferencedObjectE6> > m_kIndexBuffers;
     hkRefPtrE6<hkReferencedObjectE6> m_iMaterialIndex;

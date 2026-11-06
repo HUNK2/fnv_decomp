@@ -34,7 +34,7 @@ class BGSDecalNode : public NiNode
     void FUN_004ee390();
     void AttachChild(BSTempEffect* effect, bool firstAvailable);
     void AttachChild_004ee4d0(NiAVObject* object, bool firstAvailable);
-    void FUN_004ee560(int value);
+    void ProcessState_004ee560(int value);
     void OnVisible_004ee610(int value);
     void* DestroyDecalNode(unsigned int flags);
 

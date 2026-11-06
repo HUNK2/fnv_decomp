@@ -295,11 +295,11 @@ class EntityIndexMap {
     int hkMapBase_unsigned_long_unsigned_long_hkMapOperations_unsigned_long_insert(TaskAllocator*,unsigned long,unsigned long) throw();
     unsigned long FUN_00cb1930(unsigned long,unsigned long) const throw();
     void FUN_00cb1a90(TaskAllocator*) throw();
-    void FUN_00a29680() throw();
+    void Object_DoNothing() throw();
     void growMap(TaskAllocator*,int) throw();
 public:
     EntityIndexMap(void* ptr,int bytes) { FUN_00cb1830(ptr,bytes); }
-    void closeMap() { FUN_00cb1a90(TaskMemory::GetMonitorStream().heap); FUN_00a29680(); }
+    void closeMap() { FUN_00cb1a90(TaskMemory::GetMonitorStream().heap); Object_DoNothing(); }
     void insert(unsigned long key,unsigned long val) { hkMapBase_unsigned_long_unsigned_long_hkMapOperations_unsigned_long_insert(TaskMemory::GetMonitorStream().heap,key,val); }
     unsigned long FindValueForKey(unsigned long key,unsigned long value) const { return FUN_00cb1930(key,value); }
 };
@@ -1188,12 +1188,12 @@ struct AccumulatorsPacket : DynamicsPacket {
     unsigned short numEntities;
 };
 
-extern int __cdecl FUN_00d889f0(SceneIsland& island);
+extern int __cdecl hkMemoryRouter_UpdateState_00d889f0(SceneIsland& island);
 extern int __cdecl hkRigidMotionUtilApplyForcesAndStep(const SolverParams& solver, const StepTiming& timing, const AccelVec& accel, void* const* entities, int numEntities, int offset);
 extern void __cdecl hkpEntityAabbUtil_entityBatchRecalcAabb(const void* input, void* const* entities, int numEntities);
 extern int __cdecl hkpConstraintSolverSetup_solve(const StepTiming& timing, const SolverParams& solver, ConstraintQueryIn& queryIn, SceneIsland& island, void* buffer, int bufferSize, void* const* entities, int numEntities);
 extern void __cdecl FUN_00d942f0(SceneIsland* island, TaskArray<void*>& splitIslands);
-extern int __cdecl FUN_00d883c0(const SceneIsland& island, char* buffer, int bufferSize, JobHeader& header);
+extern int __cdecl Object_ProcessAndReturnValue_00d883c0(const SceneIsland& island, char* buffer, int bufferSize, JobHeader& header);
 
 // src: HAVOK_LIB 0x00d95130
 __declspec(noinline) void __cdecl createBuildJacobianAndSolveJacobianTaskCollection(SceneIsland* island, FlagByte onSpu, JobHeader* header, BuildCollection* builds, SolveCollection* solves)
@@ -1218,7 +1218,7 @@ int __cdecl integrateJob(TaskOwner& owner, Queue& queue, JobQueueEntry& nextJobO
     char* buffer;
     if (island->schemaSize)
     {
-        bufferSize = FUN_00d889f0(*island);
+        bufferSize = hkMemoryRouter_UpdateState_00d889f0(*island);
         bufferCapacity = bufferSize;
         buffer = solverBufAlloc<char>(bufferCapacity);
         while (!buffer)
@@ -1492,7 +1492,7 @@ FINISH_BROAD_PHASE:
                 stream.setEnd((char*)(ev + 1));
             }
         }
-        FUN_00d883c0(*island, buffer, bufferSize, *header);
+        Object_ProcessAndReturnValue_00d883c0(*island, buffer, bufferSize, *header);
         header->numSolverResults = island->numSolverResults;
         header->numSolverElemTemps = island->numSolverElemTemps;
         header->queryIn = &owner.queryIn;

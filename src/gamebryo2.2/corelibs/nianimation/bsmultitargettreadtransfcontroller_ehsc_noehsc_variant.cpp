@@ -55,7 +55,7 @@ struct FUN_00a35f70_struct
 };
 struct S_00a36050
 {
-    void __thiscall FUN_00a35960();
+    void __thiscall ProcessEntries_00a35960();
     void* __thiscall DestroyIfFlagged(unsigned int);
 };
 void __cdecl _delete(void*, unsigned int);
@@ -194,7 +194,7 @@ struct FUN_00a35900_cls
     TreadEntry* BSMultiTargetTreadTransfController_GetBlendInterpolator(unsigned short usIndex, int aParam1, int aParam2, int aParam3, int aParam4);
 };
 extern char DAT_01096694;
-void* __cdecl FUN_00aa13e0(unsigned int size) throw();
+void* __cdecl Object_DispatchCommandFour(unsigned int size) throw();
 struct TreadInterpolator : NiInterpController
 {
     unsigned int unk34;
@@ -206,7 +206,7 @@ struct TreadInterpolator : NiInterpController
 
     static void* operator new(unsigned int size) throw()
     {
-        return FUN_00aa13e0(size);
+        return Object_DispatchCommandFour(size);
     }
     TreadInterpolator() throw()
     {

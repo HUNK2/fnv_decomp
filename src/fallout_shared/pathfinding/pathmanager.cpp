@@ -90,7 +90,7 @@ void PathingTaskData::Process()
     AutoMemContext context(static_cast<MEM_CONTEXT>(0x2d), true, DAT_0106d560, 355);
     PathManager::GetRandomGenerator()->FUN_00717e50()->FUN_00483710();
 
-    if (PathManager::GetRandomGenerator()->FUN_00559450()->PathManagerImpl_TaskTryLock())
+    if (PathManager::GetRandomGenerator()->Modelloader_GetReferencedThis()->PathManagerImpl_TaskTryLock())
     {
         if (!HasPendingMessages())
         {
@@ -114,25 +114,25 @@ void PathingTaskData::Process()
                     }
                     ((ActorPathingMessageQueue*)spQueue)
                         ->Push(QueuedMessage(PATHING_MESSAGE_TYPE_PMT_OK, m_pPathingSolution));
-                    PathManager::GetRandomGenerator()->FUN_00559450()->DispatchPathingMessage(Struct_004b0680(0, this));
+                    PathManager::GetRandomGenerator()->Modelloader_GetReferencedThis()->DispatchPathingMessage(Struct_004b0680(0, this));
                 }
                 else
                 {
                     ((ActorPathingMessageQueue*)spQueue)
                         ->Push(QueuedMessage(PATHING_MESSAGE_TYPE_PMT_ERROR, m_pPathingSolution));
-                    PathManager::GetRandomGenerator()->FUN_00559450()->DispatchPathingMessage(Struct_004b0680(1, this));
+                    PathManager::GetRandomGenerator()->Modelloader_GetReferencedThis()->DispatchPathingMessage(Struct_004b0680(1, this));
                 }
             }
         }
-        PathManager::GetRandomGenerator()->FUN_00559450()->PathManagerImpl_TaskUnlock();
+        PathManager::GetRandomGenerator()->Modelloader_GetReferencedThis()->PathManagerImpl_TaskUnlock();
     }
     else
     {
-        if (PathManager::GetRandomGenerator()->FUN_00559450()->GetByteAtOffsetC34())
+        if (PathManager::GetRandomGenerator()->Modelloader_GetReferencedThis()->GetByteAtOffsetC34())
         {
             ((ActorPathingMessageQueue*)spQueue)
                 ->Push(QueuedMessage(PATHING_MESSAGE_TYPE_PMT_ERROR, m_pPathingSolution));
-            PathManager::GetRandomGenerator()->FUN_00559450()->DispatchPathingMessage(Struct_004b0680(1, this));
+            PathManager::GetRandomGenerator()->Modelloader_GetReferencedThis()->DispatchPathingMessage(Struct_004b0680(1, this));
         }
         else
         {
@@ -484,11 +484,12 @@ struct G006ebf30
 struct S006ebf30
 {
     G006ebf30* p;
-    S006ebf30* FUN_006ebf30(S006ebf30* o);
+    S006ebf30* CopyPointerAndAddReference(S006ebf30* o);
 };
 // Copies the pointer from o into this object and, if it is non-null, calls FUN_0040f6e0 on the sub-object at offset 0x14; returns this.
 // @fnv 0x006ebf30
-S006ebf30* S006ebf30::FUN_006ebf30(S006ebf30* apSource)
+// src: GUESS 0x006ebf30 (confidence: medium)
+S006ebf30* S006ebf30::CopyPointerAndAddReference(S006ebf30* apSource)
 {
     p = apSource->p;
     if (p)
@@ -499,7 +500,8 @@ S006ebf30* S006ebf30::FUN_006ebf30(S006ebf30* apSource)
 
 // If the stored pointer is non-null, calls FUN_00401970 on the NiAVObject at offset 0x14 of it.
 // @fnv 0x006ebf90
-void __fastcall FUN_006ebf90(char** apObjectPtr)
+// src: GUESS 0x006ebf90 (confidence: medium)
+void __fastcall NiAVObject_ReleaseStoredSceneObjectReference(char** apObjectPtr)
 {
     if (*apObjectPtr)
         ((NiAVObject*)(*apObjectPtr + 0x14))->NiRefObject_DecRefCount();
@@ -641,11 +643,12 @@ extern void* DAT_0106d650;
 struct FUN_006ebec0_shell
 {
     void* m_data;
-    void FUN_006ebec0();
+    void ResetVirtualTableAndClear_006ebec0();
 };
 
 // @fnv 0x006ebec0
-void FUN_006ebec0_shell::FUN_006ebec0()
+// src: GUESS 0x006ebec0 (confidence: medium)
+void FUN_006ebec0_shell::ResetVirtualTableAndClear_006ebec0()
 {
     m_data = &DAT_0106d650;
     reinterpret_cast<GlobalObject_00869f00*>(this)->Clear(true);
@@ -678,7 +681,7 @@ namespace fnv_006ebf10 {
 struct GlobalObject_00869f00
 {
     void Clear(bool);
-    void FUN_006ebf10();
+    void SetVtableAndProcessState_006ebf10();
 };
 
 extern int DAT_0106d664;
@@ -687,7 +690,8 @@ void GlobalObject_00869f00::Clear(bool)
 {}
 
 // @fnv 0x006ebf10
-void GlobalObject_00869f00::FUN_006ebf10()
+// src: GUESS 0x006ebf10 (confidence: low)
+void GlobalObject_00869f00::SetVtableAndProcessState_006ebf10()
 {
     *(int*)this = (int)&DAT_0106d664;
     Clear(true);
@@ -811,11 +815,12 @@ struct S_006eaa00
 {
     int m0;
     int m4;
-    S_006eaa00* FUN_006eaa00(S_006eaa00* p);
+    S_006eaa00* AssignFields_006eaa00(S_006eaa00* p);
 };
 // Copies m0 and m4 from p into this object and returns this.
 // @fnv 0x006eaa00
-S_006eaa00* S_006eaa00::FUN_006eaa00(S_006eaa00* apSource)
+// src: GUESS 0x006eaa00 (confidence: low)
+S_006eaa00* S_006eaa00::AssignFields_006eaa00(S_006eaa00* apSource)
 {
     m0 = apSource->m0;
     m4 = apSource->m4;
@@ -888,11 +893,12 @@ struct Obj_6eb890
 struct Holder_6eb850
 {
     Obj_6eb890* ptr;
-    void FUN_006eb850();
+    void UpdateState_006eb850();
 };
 // If ptr is non-null, calls FUN_006eb890(1) on it.
 // @fnv 0x006eb850
-void Holder_6eb850::FUN_006eb850()
+// src: GUESS 0x006eb850 (confidence: low)
+void Holder_6eb850::UpdateState_006eb850()
 {
     Obj_6eb890* b;
     {
@@ -923,11 +929,12 @@ extern int DAT_0106d63c;
 
 struct FUN_006ebda0_shell
 {
-    void FUN_006ebda0();
+    void SetVirtualTable_006ebda0();
 };
 
 // @fnv 0x006ebda0
-void FUN_006ebda0_shell::FUN_006ebda0()
+// src: GUESS 0x006ebda0 (confidence: low)
+void FUN_006ebda0_shell::SetVirtualTable_006ebda0()
 {
     *reinterpret_cast<int*>(this) = (int)&DAT_0106d63c;
 }
@@ -949,14 +956,14 @@ void* S006ebe00::FUN_006ebe00(unsigned int flags)
 
 struct Class_006ebe30
 {
-    void FUN_006ebda0();
+    void SetVirtualTable_006ebda0();
     void* FUN_006ebe30(unsigned int);
 };
 void __cdecl _Deallocate(void*);
 // @fnv 0x006ebe30
 void* Class_006ebe30::FUN_006ebe30(unsigned int flags)
 {
-    FUN_006ebda0();
+    SetVirtualTable_006ebda0();
     if (flags & 1)
         _Deallocate(this);
     return this;
@@ -1006,7 +1013,7 @@ struct FUN_006c5e70
     int a, b;
 };
 FUN_006c5e70 __fastcall BSTasklet_BSTasklet();
-int __fastcall FUN_00559450(int*);
+int __fastcall Modelloader_GetReferencedThis(int*);
 struct Queue_006eac70
 {
     virtual void v0();
@@ -1032,10 +1039,10 @@ bool PathManagerImpl_t::QueueTaskletRequest(GO aspRequest, Ptr2_006e9e20 aspMess
     BSTaskletData* ptaskData = new FUN_006e9cc0(aspRequest, aspMessageQueue);
     FUN_006c5e70 task = BSTasklet_BSTasklet();
     ((TESRaceForm*)&task)->Initialize((unsigned int)ptaskData);
-    kQueue.Add(FUN_00559450((int*)&aspRequest), &ptaskData, 1);
+    kQueue.Add(Modelloader_GetReferencedThis((int*)&aspRequest), &ptaskData, 1);
     if (!BSTaskletGroup_AttachTask(&task, 0))
     {
-        kQueue.Remove(FUN_00559450((int*)&aspRequest));
+        kQueue.Remove(Modelloader_GetReferencedThis((int*)&aspRequest));
         delete ptaskData;
         return false;
     }
@@ -5516,12 +5523,13 @@ struct Obj_006eb980_obj
 struct Shell_006eb980
 {
     Obj_006eb980_obj* m0;
-    void FUN_006eb980();
+    void ReleaseAndClearObject();
 };
 
 // Calls FUN_006eac40 on m0, then FUN_006eb890(1) on m0 if non-null, and clears m0.
 // @fnv 0x006eb980
-void Shell_006eb980::FUN_006eb980()
+// src: GUESS 0x006eb980 (confidence: medium)
+void Shell_006eb980::ReleaseAndClearObject()
 {
     m0->PathManagerImpl_Release();
     Obj_006eb980_obj* QQ = m0;
@@ -5764,7 +5772,7 @@ unsigned int FUN_006ea780_Obj::RequestLocationStatus(int pShape, int iLocation, 
         }
     }
     FUN_006cb3a0* entry = new FUN_006cb3a0;
-    entry->owner = ((RequestManager*)this)->owner.FUN_00559450();
+    entry->owner = ((RequestManager*)this)->owner.Modelloader_GetReferencedThis();
     entry->location.FUN_006dcce0(iLocation);
     ((RequestShape*)pShape)->ProcessItems(&entry->shape);
     entry->type = !(unsigned char)bTypeFlag;

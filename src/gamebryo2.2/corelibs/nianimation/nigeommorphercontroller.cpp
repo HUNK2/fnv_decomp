@@ -1226,7 +1226,7 @@ void __fastcall ApplySetterArg(NiGeomMorpherController* self, int, SetterArg* a1
     }
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+void* __cdecl Object_DispatchCommandFour(unsigned int size);
 
 // Allocates a morph controller with no morph data.
 // @fnv 0x00a3b550

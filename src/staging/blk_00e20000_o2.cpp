@@ -111,14 +111,15 @@ void* __thiscall FUN_00e3f340_Class::GetEntryByArg(int arg)
 
 struct FUN_00e3f900_class
 {
-    int __thiscall FUN_00cb0a70(int a);
-    int __thiscall FUN_00e3f900(int a);
+    int __thiscall ReturnSelf(int a);
+    int __thiscall ProcessAndReturnValue_00e3f900(int a);
 };
 
 // @fnv 0x00e3f900
-int __thiscall FUN_00e3f900_class::FUN_00e3f900(int a)
+// src: GUESS 0x00e3f900 (confidence: low)
+int __thiscall FUN_00e3f900_class::ProcessAndReturnValue_00e3f900(int a)
 {
-    FUN_00cb0a70(a);
+    ReturnSelf(a);
     return (int)this;
 }
 
@@ -131,11 +132,12 @@ int __cdecl hkaSplineCompressedAnimation_packMaskAndQuantizationType(int a, int 
 
 struct S_00df8990_Obj;
 extern void(__cdecl* DAT_0126ec04)(void*, void*, S_00df8990_Obj*);
-void __cdecl FUN_00e2b9b0(void*, void*, S_00df8990_Obj*);
+void __cdecl Runtime_ProcessEntries_00e2b9b0(void*, void*, S_00df8990_Obj*);
 // @fnv 0x00e2ba90
-void __cdecl FUN_00e2ba90()
+// src: GUESS 0x00e2ba90 (confidence: low)
+void __cdecl Runtime_SetDAT0126ec04()
 {
-    DAT_0126ec04 = FUN_00e2b9b0;
+    DAT_0126ec04 = Runtime_ProcessEntries_00e2b9b0;
 }
 
 extern int DAT_010eb3b8[];
@@ -207,11 +209,12 @@ int __cdecl CompareStringsCaseInsensitive(int, int);
 
 struct FUN_00e3ec30_Class
 {
-    int __thiscall FUN_00e3ec30(int arg);
+    int __thiscall ProcessEntries_00e3ec30(int arg);
 };
 
 // @fnv 0x00e3ec30
-int FUN_00e3ec30_Class::FUN_00e3ec30(int arg)
+// src: GUESS 0x00e3ec30 (confidence: low)
+int FUN_00e3ec30_Class::ProcessEntries_00e3ec30(int arg)
 {
     if (!arg)
         return 0;
@@ -236,23 +239,25 @@ struct D481D0RefVariant
 };
 struct FUN_00e3f8d0_class
 {
-    void FUN_00e3f8d0(void* a, const void* b);
+    void Set_Thunk(void* a, const void* b);
 };
 // @fnv 0x00e3f8d0
-void FUN_00e3f8d0_class::FUN_00e3f8d0(void* a, const void* b)
+// src: GUESS 0x00e3f8d0 (confidence: medium)
+void FUN_00e3f8d0_class::Set_Thunk(void* a, const void* b)
 {
     ((D481D0RefVariant*)((char*)this + 4))->set(a, b);
 }
 
 struct FUN_00e29620_class
 {
-    void __thiscall FUN_00e29620(int param);
+    void __thiscall ProcessEntries_00e29620(int param);
 };
 
 // @fnv 0x00e298f0
-void __cdecl FUN_00e298f0(FUN_00e29620_class* object, int param)
+// src: GUESS 0x00e298f0 (confidence: low)
+void __cdecl Runtime_ForwardCall_00e298f0(FUN_00e29620_class* object, int param)
 {
-    object->FUN_00e29620(param);
+    object->ProcessEntries_00e29620(param);
 }
 
 struct SplitChunk
@@ -1545,7 +1550,8 @@ unsigned int __cdecl hkaSplineCompressedAnimation_handleEndianKnots(unsigned cha
 int __cdecl hkaSplineCompressedAnimation_handleEndianScalarControlPoints(unsigned char a1, unsigned int a2, unsigned int a3, unsigned int* a4);
 
 // @fnv 0x00e31740
-void __cdecl FUN_00e31740(unsigned char flag, unsigned int uiValue, unsigned int* puiOut)
+// src: GUESS 0x00e31740 (confidence: low)
+void __cdecl Object_UpdateFields_00e31740(unsigned char flag, unsigned int uiValue, unsigned int* puiOut)
 {
     if (flag != 0)
     {
@@ -1559,7 +1565,8 @@ int __cdecl hkaSplineCompressedAnimation_handleEndianKnots(int a, int* c);
 void __cdecl AlignAndAdvance(int a, int result, int b, int* c);
 
 // @fnv 0x00e31780
-void __cdecl FUN_00e31780(int a, int b, int* c)
+// src: GUESS 0x00e31780 (confidence: low)
+void __cdecl Object_UpdateFields_00e31780(int a, int b, int* c)
 {
     if ((a & 0xff) != 0)
     {
@@ -1885,12 +1892,13 @@ struct FUN_00e3b0a0_cls
     int m_iArrayLength;
     unsigned int m_uCapBits;
 
-    void FUN_00e3b0a0();
+    void ReleaseOwnedArrayAndResetFields();
 };
 
 // Sets the vtable, frees the data array through the audio allocator if capacity is not flagged, then resets the data pointer and capacity and sets a new vtable.
 // @fnv 0x00e3b0a0
-void FUN_00e3b0a0_cls::FUN_00e3b0a0()
+// src: GUESS 0x00e3b0a0 (confidence: medium)
+void FUN_00e3b0a0_cls::ReleaseOwnedArrayAndResetFields()
 {
     m_vptr00 = (int)&DAT_010eb98c;
     hkMemoryRouter* pHolder = hkMemoryRouter_getInstance();
@@ -2286,11 +2294,12 @@ struct E3F0F0Owner
     int* m_piFirst;
     int* m_piLast;
 
-    void FUN_00e3f0f0();
+    void ProcessState_00e3f0f0();
 };
 
 // @fnv 0x00e3f0f0
-void E3F0F0Owner::FUN_00e3f0f0()
+// src: GUESS 0x00e3f0f0 (confidence: low)
+void E3F0F0Owner::ProcessState_00e3f0f0()
 {
     E3F0F0Less kPred;
     HeapSort(m_piFirst, m_piLast, kPred);
@@ -2524,7 +2533,8 @@ BE3E7E0Entry* BE3E7E0Table::FindEntryByName(const char* pcName)
 void __cdecl SetEntity();
 
 // @fnv 0x00e36f40
-void __cdecl FUN_00e36f40()
+// src: GUESS 0x00e36f40 (confidence: medium)
+void __cdecl Object_SetEntity_Thunk()
 {
     SetEntity();
 }
@@ -2539,21 +2549,23 @@ struct FUN_00e39e80_class
     int unk14;
     int unk18;
     float unk1C;
-    float FUN_00e39e80();
+    float GetUnk1C_00e39e80();
 };
 // @fnv 0x00e39e80
-float FUN_00e39e80_class::FUN_00e39e80()
+// src: GUESS 0x00e39e80 (confidence: low)
+float FUN_00e39e80_class::GetUnk1C_00e39e80()
 {
     return unk1C;
 }
 
 struct FUN_00e3df50_Class
 {
-    FUN_00e3df50_Class* __thiscall FUN_00e3df50(int param);
+    FUN_00e3df50_Class* __thiscall ReturnSelf(int param);
 };
 
 // @fnv 0x00e3df50
-FUN_00e3df50_Class* FUN_00e3df50_Class::FUN_00e3df50(int param)
+// src: GUESS 0x00e3df50 (confidence: high)
+FUN_00e3df50_Class* FUN_00e3df50_Class::ReturnSelf(int param)
 {
     return this;
 }
@@ -2561,7 +2573,8 @@ FUN_00e3df50_Class* FUN_00e3df50_Class::FUN_00e3df50(int param)
 int __cdecl hkxVertexBuffer_getVertexDataPtr(int param_1, int* param_2);
 
 // @fnv 0x00e3e020
-int __cdecl FUN_00e3e020(int param_1, int* param_2)
+// src: GUESS 0x00e3e020 (confidence: medium)
+int __cdecl Object_HkxVertexBuffer_getVertexDataPtr_Thunk(int param_1, int* param_2)
 {
     return hkxVertexBuffer_getVertexDataPtr(param_1, param_2);
 }
@@ -2614,10 +2627,11 @@ class Base
     int unk04;
     int unk08;
     int unk0C;
-    int FUN_00e3f270();
+    int GetUnk0C();
 };
 // @fnv 0x00e3f270
-int Base::FUN_00e3f270()
+// src: GUESS 0x00e3f270 (confidence: low)
+int Base::GetUnk0C()
 {
     return unk0C;
 }
@@ -2736,7 +2750,8 @@ void FUN_00e3f370_cls::ReleaseItems()
 __int64 __cdecl __time64(__int64* t);
 
 // @fnv 0x00e29900
-static __int64 FUN_00e29900(__int64* t)
+// src: GUESS 0x00e29900 (confidence: medium)
+static __int64 Object___time64_Thunk(__int64* t)
 {
     return __time64(t);
 }
@@ -2744,7 +2759,7 @@ static __int64 FUN_00e29900(__int64* t)
 __int64* volatile g_ptr;
 __int64 probe_caller(void)
 {
-    return FUN_00e29900(g_ptr);
+    return Object___time64_Thunk(g_ptr);
 }
 
 typedef __int64 (*probe_fn)(void);
@@ -2986,11 +3001,12 @@ struct FUN_00e39e50_cls
 {
     __m128 m_v0;
     __m128 m_v1;
-    FUN_00e39e50_cls* __thiscall FUN_00e39e50();
+    FUN_00e39e50_cls* __thiscall InitializeFields_00e39e50();
 };
 
 // @fnv 0x00e39e50
-FUN_00e39e50_cls* FUN_00e39e50_cls::FUN_00e39e50()
+// src: GUESS 0x00e39e50 (confidence: low)
+FUN_00e39e50_cls* FUN_00e39e50_cls::InitializeFields_00e39e50()
 {
     m_v0 = _mm_setzero_ps();
     m_v1 = _mm_setzero_ps();
@@ -3156,7 +3172,8 @@ inline void SetPair(Cell* pkCell, int iByte, int iPair, unsigned char ucValue)
 
 // Sets the iPair bit-pair in byte iByte of the current cell's flags to zero via SetPair.
 // @fnv 0x00e3b790
-void FUN_00e3b790(Grid* pkGrid, int iByte, int iPair)
+// src: GUESS 0x00e3b790 (confidence: high)
+void Runtime_ClearCellBitPair(Grid* pkGrid, int iByte, int iPair)
 {
     Cell* pkCell = &pkGrid->m_pkArray->m_pkCells[pkGrid->m_pkInfo->m_iIndex];
     SetPair(pkCell, iByte, iPair, 0);
@@ -3177,15 +3194,16 @@ struct Mesh
     int unk018;
     unsigned short* m_pusIndices;
 
-    void FUN_00e3cd50(int iV0, int iV1, int iV2, float fValue, int iArg0, int iArg1, int iArg2);
-    void FUN_00e3d200(int iTri, float fValue, int iArg0, int iArg1, int iArg2);
+    void ProcessState_00e3cd50(int iV0, int iV1, int iV2, float fValue, int iArg0, int iArg1, int iArg2);
+    void ForwardCall_00e3d200(int iTri, float fValue, int iArg0, int iArg1, int iArg2);
 };
 
 // Calls FUN_00e3cd50 with m_pusIndices[iTri], [iTri+1], [iTri+2] each multiplied by 3, then fValue and the three remaining arguments.
 // @fnv 0x00e3d200
-void Mesh::FUN_00e3d200(int iTri, float fValue, int iArg0, int iArg1, int iArg2)
+// src: GUESS 0x00e3d200 (confidence: low)
+void Mesh::ForwardCall_00e3d200(int iTri, float fValue, int iArg0, int iArg1, int iArg2)
 {
-    FUN_00e3cd50(m_pusIndices[iTri] * 3, m_pusIndices[iTri + 1] * 3, m_pusIndices[iTri + 2] * 3, fValue, iArg0, iArg1,
+    ProcessState_00e3cd50(m_pusIndices[iTri] * 3, m_pusIndices[iTri + 1] * 3, m_pusIndices[iTri + 2] * 3, fValue, iArg0, iArg1,
                  iArg2);
 }
 
@@ -3219,7 +3237,8 @@ hkRefPtr_e3e8<Resource_e3e8> __stdcall FindWorldByKey(const char* name) throw();
 
 // Finds an object by name with FindWorldByKey and returns it if expected is null or their FUN_00d46d40 strings match case-insensitively, otherwise returns null.
 // @fnv 0x00e3e8e0
-Resource_e3e8* __stdcall FUN_00e3e8e0(const char* name, Resource_e3e8* expected)
+// src: GUESS 0x00e3e8e0 (confidence: medium)
+Resource_e3e8* __stdcall Object_FindNamedWorldWithExpectedType(const char* name, Resource_e3e8* expected)
 {
     if (!name)
         return 0;
@@ -3245,12 +3264,13 @@ struct S_00e3f280_Class
     int unk04;
     S_00e3f280_Entry* unk08;
 
-    int __thiscall FUN_00e3f280(int index);
+    int __thiscall GetMaskedValue0xfffffffe(int index);
     int __thiscall GetEntryValue(int index);
 };
 
 // @fnv 0x00e3f280
-int S_00e3f280_Class::FUN_00e3f280(int index)
+// src: GUESS 0x00e3f280 (confidence: medium)
+int S_00e3f280_Class::GetMaskedValue0xfffffffe(int index)
 {
     return unk08[index].unk00 & 0xfffffffe;
 }
@@ -3406,7 +3426,7 @@ void __cdecl hkTreeRayCastJobUtil_castRayKdTree(void* caster, S_00df8990_Obj* so
             }
             else
                 collector.output60 = 0;
-            DAT_0126ec04 = FUN_00e2b9b0;
+            DAT_0126ec04 = Runtime_ProcessEntries_00e2b9b0;
         }
         else
             collector.output60 = 0;
@@ -3420,7 +3440,8 @@ void __cdecl nullsub_334()
 {}
 
 // @fnv 0x00e2cfd0
-void FUN_00e2cfd0()
+// src: GUESS 0x00e2cfd0 (confidence: high)
+void Runtime_DoNothing_00e2cfd0()
 {}
 
 #include <xmmintrin.h>
@@ -3544,12 +3565,12 @@ void TrianglePlane::ComputePlane()
 }
 }  // namespace fnv_00e2cfe0
 
-float __cdecl FUN_00e52f40();
-float __cdecl FUN_00e52f50();
-float __cdecl FUN_00e52f60();
-float __cdecl FUN_00e52f70();
-float __cdecl FUN_00e52f80();
-float __cdecl FUN_00e52f90();
+float __cdecl Object_GetGlobalValue_00e52f40();
+float __cdecl Runtime_GetField010ec960();
+float __cdecl Object_GetGlobalValue_00e52f60();
+float __cdecl Runtime_GetField010ec964();
+float __cdecl Object_GetDAT_010ec968_00e52f80();
+float __cdecl Runtime_GetDAT0104da4c();
 
 // Returns a float value from one of six type-specific getters selected by the type argument, or 0.0f for unknown types.
 // @fnv 0x00e32e50
@@ -3559,23 +3580,24 @@ float __cdecl hkaSplineCompressedAnimation_TrackCompressionParams_approximateQua
     switch (type)
     {
     case 4:
-        return FUN_00e52f40();
+        return Object_GetGlobalValue_00e52f40();
     case 3:
-        return FUN_00e52f50();
+        return Runtime_GetField010ec960();
     case 0:
-        return FUN_00e52f60();
+        return Object_GetGlobalValue_00e52f60();
     case 1:
-        return FUN_00e52f70();
+        return Runtime_GetField010ec964();
     case 2:
-        return FUN_00e52f80();
+        return Object_GetDAT_010ec968_00e52f80();
     case 5:
-        return FUN_00e52f90();
+        return Runtime_GetDAT0104da4c();
     }
     return 0.0f;
 }
 
 // @fnv 0x00e32ea0
-float __cdecl FUN_00e32ea0(int type)
+// src: GUESS 0x00e32ea0 (confidence: low)
+float __cdecl Object_ComputeValue_00e32ea0(int type)
 {
     switch (type)
     {
@@ -3647,7 +3669,8 @@ struct Manager
 
 // Copies source into a free slot of manager, or when full over the node with the largest value if source's is smaller, then records the chain's values in it.
 // @fnv 0x00e2b9b0
-void __cdecl FUN_00e2b9b0(Chain* chain, Node* source, Manager* manager)
+// src: GUESS 0x00e2b9b0 (confidence: low)
+void __cdecl Runtime_ProcessEntries_00e2b9b0(Chain* chain, Node* source, Manager* manager)
 {
     Node* destination;
 
@@ -3759,7 +3782,7 @@ struct SplitInput
     PlaneList nodes;
 };
 hkMemoryRouter* hkStackMemory_getInstance() throw();
-void FUN_00e2c100(SplitInput*, PackedPlane*, PackedPlane*, int, int, int, int, int, float*, int*, int, int, int, int,
+void Object_ProcessEntries_00e2c100(SplitInput*, PackedPlane*, PackedPlane*, int, int, int, int, int, float*, int*, int, int, int, int,
                   int*, int*, int*, int*, PackedPlane*, PackedPlane*) throw();
 struct WorkStack
 {
@@ -3857,7 +3880,7 @@ void hkAabbTreeRayCastUtil_struct_hkAabbTreeData_hkAabbTreeAabb16_unsigned_short
         PackedPlane children[2];
         int leftCount, rightCount;
         populations[item.side] -= item.count;
-        FUN_00e2c100(input, &desc, item.node, a2, a5, a6, a3, a4, weights, indices[item.side] + populations[item.side],
+        Object_ProcessEntries_00e2c100(input, &desc, item.node, a2, a5, a6, a3, a4, weights, indices[item.side] + populations[item.side],
                      item.count, 10 - stack.m_iElementCount, 250 - usedA, 250 - usedB, indices[0] + usedA, &leftCount,
                      indices[1] + usedB, &rightCount, &children[0], &children[1]);
         usedA += leftCount;
@@ -3953,7 +3976,7 @@ struct InitItem : Item
 };
 struct IndexLookup
 {
-    int* FUN_00d1bb40(ShortIndex) throw();
+    int* GetElementAddress_00d1bb40(ShortIndex) throw();
 };
 struct Owner
 {
@@ -3991,7 +4014,7 @@ __forceinline Scratch* scratchRouter() throw()
     return (Scratch*)hkMemoryRouter_getInstance();
 }
 void hkStackMemory_getInstance() throw();
-extern "C" __declspec(noalias) void FUN_00e2bbd0(Owner*, IndexedAabbNode*, int*, int, int, int, int, int, float*, int*, int, int,
+extern "C" __declspec(noalias) void hkCpuWorldRayCastCollector_PartitionRaysByChildBounds(Owner*, IndexedAabbNode*, int*, int, int, int, int, int, float*, int*, int, int,
                                                  int, int, int*, int*, int*, int*, IndexedAabbNode*, IndexedAabbNode*) throw();
 struct __declspec(align(16)) Weights
 {
@@ -4079,7 +4102,7 @@ void hkAabbTreeRayCastUtil_hkAabbTreeData_hkAabbTreeAabb_unsigned_short_castRayF
         int* inputIndices = &indices[current.kind][counts[current.kind]];
         ++depth;
         int count0, count1;
-        FUN_00e2bbd0(owner, &input, current.data, p2, p5, p6, p3, p4, weights.data, inputIndices, current.count, depth,
+        hkCpuWorldRayCastCollector_PartitionRaysByChildBounds(owner, &input, current.data, p2, p5, p6, p3, p4, weights.data, inputIndices, current.count, depth,
                      250 - counts[0], 250 - counts[1], &indices[0][counts[0]], &count0, &indices[1][counts[1]], &count1,
                      &outs.out0, &outs.out1);
         counts[0] += count0;
@@ -4094,7 +4117,7 @@ void hkAabbTreeRayCastUtil_hkAabbTreeData_hkAabbTreeAabb_unsigned_short_castRayF
             --depth;
             Item* next = growAt(stack, oldBytes, oldSize, stackSize);
             next->bounds.assign(outs.out0);
-            next->data = owner->lookup.FUN_00d1bb40(input.index22);
+            next->data = owner->lookup.GetElementAddress_00d1bb40(input.index22);
             next->kind = 0;
             next->count = count0;
         }
@@ -4107,7 +4130,7 @@ void hkAabbTreeRayCastUtil_hkAabbTreeData_hkAabbTreeAabb_unsigned_short_castRayF
             --depth;
             Item* next = growAt(stack, oldBytes, oldSize, stackSize);
             next->bounds.assign(outs.out1);
-            next->data = input.index26.value != 0x7fff ? owner->lookup.FUN_00d1bb40(input.index26) : 0;
+            next->data = input.index26.value != 0x7fff ? owner->lookup.GetElementAddress_00d1bb40(input.index26) : 0;
             next->kind = 1;
             next->count = generated1;
         }
@@ -4332,11 +4355,12 @@ struct FanBuilder
             vertices[k].referee = 0;
         return chain == current ? 0 : 2;
     }
-    int FUN_00e2d1b0(int count, FanEdge* chain, FanVertex* apex);
+    int AllocateTriangleFan(int count, FanEdge* chain, FanVertex* apex);
 };
 // Allocates the requested number of triangles and initializes them into a fan around the apex vertex.
 // @fnv 0x00e2d1b0
-int FanBuilder::FUN_00e2d1b0(int count, FanEdge* chain, FanVertex* apex)
+// src: GUESS 0x00e2d1b0 (confidence: medium)
+int FanBuilder::AllocateTriangleFan(int count, FanEdge* chain, FanVertex* apex)
 {
     FanTriangle* fresh[100];
     allocate(count, fresh);
@@ -4386,12 +4410,13 @@ struct HullFace
 struct HullWalker
 {
     void ClearEntries();
-    HullFace* FUN_00e2d550(HullFace* start);
+    HullFace* WalkAdjacentHullFaces(HullFace* start);
 };
 
 // Walks from start across twin edges to neighbouring faces, stopping when no edge qualifies or the next face already has m_uiContentCount equal to 3.
 // @fnv 0x00e2d550
-HullFace* HullWalker::FUN_00e2d550(HullFace* start)
+// src: GUESS 0x00e2d550 (confidence: medium)
+HullFace* HullWalker::WalkAdjacentHullFaces(HullFace* start)
 {
     ClearEntries();
     HullFace* face = start;

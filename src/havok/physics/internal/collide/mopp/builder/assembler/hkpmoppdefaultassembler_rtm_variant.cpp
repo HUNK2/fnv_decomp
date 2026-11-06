@@ -918,7 +918,7 @@ class FUN_00e095d0_cls
     unsigned int unk40;
     unsigned int unk44;
 
-    FUN_00e095d0_cls* __thiscall FUN_00e095d0(FUN_00e095d0_cls* src, unsigned int a2, unsigned int a3);
+    FUN_00e095d0_cls* __thiscall UpdateState_00e095d0(FUN_00e095d0_cls* src, unsigned int a2, unsigned int a3);
     void __thiscall CopyOffsets(unsigned int a);
     void __thiscall BuildScaledRanges(unsigned int a, unsigned int b);
     void __thiscall hkpMoppAssemblerNodeInfo_calcMaxExtentsSignificantBits();
@@ -1187,7 +1187,7 @@ struct S_00e07d60
     __m128 v;
     int i;
     char b;
-    void FUN_00e07d60(const S_00e07d60_Info& info);
+    void UpdateFields_00e07d60(const S_00e07d60_Info& info);
 };
 namespace e083 {
 struct Alloc;
@@ -1648,7 +1648,7 @@ struct __declspec(align(8)) MyRegion : public MyBounds
     void CopyOffsets(S_00e07da0_Node* node) throw();
     void BuildScaledRanges(S_00e07da0_Node* node, void* p) throw();
     void hkpMoppAssemblerNodeInfo_calcMaxExtentsSignificantBits() throw();
-    void FUN_00e095d0(MyBounds* src, S_00e07da0_Node* node, void* p) throw();
+    void UpdateState_00e095d0(MyBounds* src, S_00e07da0_Node* node, void* p) throw();
 };
 extern "C" void __cdecl copyCodeAndEmbedTerminals(AssemblerHelper*, ObjectWriter*, void*) throw();
 struct Tree : public FUN_00e09640_class

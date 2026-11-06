@@ -331,7 +331,7 @@ struct VUC_DeltaTime
     float m_fInverseDeltaTime;
 };
 
-void __cdecl FUN_00e59a40(void* a, void* b, void* c, void* d);
+void __cdecl hkpVehicleFrictionDescription_ProcessEntries_00e59a40(void* a, void* b, void* c, void* d);
 
 struct FUN_00e38080StandIn
 {
@@ -351,7 +351,7 @@ void FUN_00e38080StandIn::hkpVehicleInstance_applyFrictionSolver(const VUC_StepI
     deltaTime.m_fTimeStep = stepInfo.m_fTimeStep;
     deltaTime.m_fInverseDeltaTime = stepInfo.m_fInverseDeltaTime;
 
-    FUN_00e59a40(&deltaTime, m_data + 0xa4, apArg, &m_object54);
+    hkpVehicleFrictionDescription_ProcessEntries_00e59a40(&deltaTime, m_data + 0xa4, apArg, &m_object54);
 }
 
 struct DDCC60World
@@ -376,7 +376,7 @@ struct VUC_Router
 
 extern int DAT_010df34c;
 VUC_Router* _D1A0E0GetMemoryRouter();
-void __fastcall FUN_00d2b2b0(void*);
+void __fastcall ReleaseReference_00d2b2b0(void*);
 
 struct FUN_00e38bf0
 {
@@ -483,7 +483,7 @@ FUN_00e38bf0::~FUN_00e38bf0()
     m_data48 = 0;
     m_capacity50 = 0x80000000;
 
-    FUN_00d2b2b0(this);
+    ReleaseReference_00d2b2b0(this);
 }
 
 struct FnvCpu_FUN_00e36f50_CpuInterface
@@ -1063,7 +1063,7 @@ class FUN_00e38b20
     }
 
     FUN_00e38b20(const hkShapeE392* pkShape) throw();
-    void FUN_00e39480(const hkSourceE392* pkOther) throw();
+    void CopyVehicleFields(const hkSourceE392* pkOther) throw();
 };
 
 typedef char fnv_check_e39210[(sizeof(FUN_00e38b20) == 0xd4) ? 1 : -1];
@@ -1087,7 +1087,7 @@ FUN_00e38b20* hkSourceE392::hkpVehicleInstance_clone(const hkInputE392* pkInput,
 {
     const hkShapeE392* pkShape = pkInput->m_info->m_pCollisionShape;
     FUN_00e38b20* pkClone = new FUN_00e38b20(pkShape);
-    pkClone->FUN_00e39480(this);
+    pkClone->CopyVehicleFields(this);
     pkClone->m_08 = 0;
     pkClone->m_0c = 0;
     pkClone->m_pCollisionShape = pkShape;
@@ -1249,10 +1249,11 @@ struct Q_e380c0_cls
 {
     int u00, u04, u08, u0c, u10, u14;
     Q_e380c0_A* a;
-    void FUN_00e380c0(const hkVector4* in);
+    void UpdateFields_00e380c0(const hkVector4* in);
 };
 // @fnv 0x00e380c0
-void Q_e380c0_cls::FUN_00e380c0(const hkVector4* in)
+// src: GUESS 0x00e380c0 (confidence: low)
+void Q_e380c0_cls::UpdateFields_00e380c0(const hkVector4* in)
 {
     Q_e380c0_Sub& s = a->sub;
     LocalM128 v = *reinterpret_cast<const LocalM128*>(&in[2].m_vComponents);
@@ -1480,14 +1481,14 @@ struct VehStep_Vehicle
     void* m_pTyremarksInfo;
     VehStep_Damper* m_pVelocityDamper;
 
-    void FUN_00e375a0(float dt, void* a2, void* a3, VehStep_Ground& ground, VehStep_FrictionParams& params);
-    void FUN_00e37d60(const VUC_StepInfo& stepInfo, VehStep_Ground& ground, VehStep_Accumulator& atLast,
+    void UpdateWheelContactsAndAxleBodies(float dt, void* a2, void* a3, VehStep_Ground& ground, VehStep_FrictionParams& params);
+    void ProcessEntries_00e37d60(const VUC_StepInfo& stepInfo, VehStep_Ground& ground, VehStep_Accumulator& atLast,
                       VehStep_Accumulators& accs, VehStep_FrictionParams& params);
-    void FUN_00e37740(const VUC_StepInfo& stepInfo, VehStep_FrictionParams& params);
-    void FUN_00e376e0(float dt, VehStep_Accumulator& chassis);
-    void FUN_00e380c0(VehStep_Accumulator& chassis);
-    void FUN_00e38140(float dt, VehStep_FrictionParams& params, VehStep_Ground& ground);
-    void FUN_00e38310(float dt, VehStep_Ground& ground, VehStep_FrictionParams& params);
+    void UpdateFields_00e37740(const VUC_StepInfo& stepInfo, VehStep_FrictionParams& params);
+    void UpdateFields_00e376e0(float dt, VehStep_Accumulator& chassis);
+    void UpdateFields_00e380c0(VehStep_Accumulator& chassis);
+    void UpdateGroundBodyVelocities(float dt, VehStep_FrictionParams& params, VehStep_Ground& ground);
+    void ProcessEntries_00e38310(float dt, VehStep_Ground& ground, VehStep_FrictionParams& params);
     void hkpVehicleInstance_simulateVehicle(const VUC_StepInfo& stepInfo, VehStep_Output* out, void* a2, void* a3);
 };
 
@@ -1525,15 +1526,15 @@ void VehStep_Vehicle::hkpVehicleInstance_simulateVehicle(const VUC_StepInfo& ste
     ground.m_kPointA = 0;
     ground.m_kPointB = 0;
 
-    FUN_00e375a0(dt, a2, a3, ground, frictionParams);
+    UpdateWheelContactsAndAxleBodies(dt, a2, a3, ground, frictionParams);
     frictionParams.m_fTorquePitchFactor = m_data->m_fTorquePitchFactor;
-    FUN_00e37d60(stepInfo, ground, frictionParams.m_kSecondAccumulator, accumulators, frictionParams);
-    FUN_00e37740(stepInfo, frictionParams);
-    FUN_00e376e0(dt, frictionParams.m_pChassisCollidable);
+    ProcessEntries_00e37d60(stepInfo, ground, frictionParams.m_kSecondAccumulator, accumulators, frictionParams);
+    UpdateFields_00e37740(stepInfo, frictionParams);
+    UpdateFields_00e376e0(dt, frictionParams.m_pChassisCollidable);
     hkpVehicleInstance_applyFrictionSolver(stepInfo, frictionParams);
-    FUN_00e380c0(frictionParams.m_pChassisCollidable);
-    FUN_00e38140(dt, frictionParams, ground);
-    FUN_00e38310(dt, ground, frictionParams);
+    UpdateFields_00e380c0(frictionParams.m_pChassisCollidable);
+    UpdateGroundBodyVelocities(dt, frictionParams, ground);
+    ProcessEntries_00e38310(dt, ground, frictionParams);
 
     {
         VUC_Mon* mon = (VUC_Mon*)TlsGetValue(DAT_0126835c);
@@ -1552,7 +1553,8 @@ void VehStep_Vehicle::hkpVehicleInstance_simulateVehicle(const VUC_StepInfo& ste
 }  // namespace fnv_00e385e0
 
 // @fnv 0x00e39300
-hkpVehicleInstanceWheelInfo& __fastcall FUN_00e39300(hkpVehicleInstanceWheelInfo* dest, void*,
+// src: GUESS 0x00e39300 (confidence: medium)
+hkpVehicleInstanceWheelInfo& __fastcall CopyFieldsExcept48And4C(hkpVehicleInstanceWheelInfo* dest, void*,
                                                    const hkpVehicleInstanceWheelInfo* src)
 {
     *reinterpret_cast<LocalM128*>(&dest->unk00) = *reinterpret_cast<const LocalM128*>(&src->unk00);
@@ -1759,7 +1761,7 @@ struct Block48E39
 class VehicleDataE39 : public hkReferencedObject
 {
   public:
-    VehicleDataE39& FUN_00e39480(const VehicleDataE39& kOther);
+    VehicleDataE39& CopyVehicleFields(const VehicleDataE39& kOther);
     int m_i08;
     int m_i0C;
     int m_i10;
@@ -1793,14 +1795,15 @@ class VehicleDataE39 : public hkReferencedObject
 };
 
 // @fnv 0x00e39480
-VehicleDataE39& VehicleDataE39::FUN_00e39480(const VehicleDataE39& kOther)
+// src: GUESS 0x00e39480 (confidence: medium)
+VehicleDataE39& VehicleDataE39::CopyVehicleFields(const VehicleDataE39& kOther)
 {
     m_usMemSizeAndFlags = kOther.m_usMemSizeAndFlags;
     m_sReferenceCount = kOther.m_sReferenceCount;
     m_i08 = kOther.m_i08;
     m_i0C = kOther.m_i0C;
     m_i10 = kOther.m_i10;
-    m_kName.FUN_00cb0c30(&kOther.m_kName);
+    m_kName.UpdateState_00cb0c30(&kOther.m_kName);
     m_i18 = kOther.m_i18;
     m_i1C = kOther.m_i1C;
     m_i20 = kOther.m_i20;
@@ -2283,11 +2286,12 @@ struct VehFr_Vehicle
 
     VehFr_Data* m_data;
 
-    void FUN_00e38140(float dt, VehFr_FrictionParams& params, VehFr_Ground& ground);
+    void UpdateGroundBodyVelocities(float dt, VehFr_FrictionParams& params, VehFr_Ground& ground);
 };
 
 // @fnv 0x00e38140
-void VehFr_Vehicle::FUN_00e38140(float dt, VehFr_FrictionParams& params, VehFr_Ground& ground)
+// src: GUESS 0x00e38140 (confidence: medium)
+void VehFr_Vehicle::UpdateGroundBodyVelocities(float dt, VehFr_FrictionParams& params, VehFr_Ground& ground)
 
 {
 
@@ -2938,15 +2942,16 @@ class S00e375a0_VehicleInstance : public VUC_Instance
     int unk_veh44;
     hkArray<hkpVehicleInstanceWheelInfo> m_kWheelInfoArray;
 
-    void FUN_00e371d0(float deltaTime, int wheelIndex, float suspensionForce) throw();
-    void FUN_00e37350(int wheelIndex, float totalLinearForce, float suspensionForce, float linearVelocity,
+    void ComputeValues_00e371d0(float deltaTime, int wheelIndex, float suspensionForce) throw();
+    void ComputeValues_00e37350(int wheelIndex, float totalLinearForce, float suspensionForce, float linearVelocity,
                       S00e375a0_AxleData* axleData) throw();
-    void FUN_00e375a0(float deltaTime, hkArrayBase<float>& suspensionForceAtWheel, hkArrayBase<float>& totalLinearForceAtWheel,
+    void UpdateWheelContactsAndAxleBodies(float deltaTime, hkArrayBase<float>& suspensionForceAtWheel, hkArrayBase<float>& totalLinearForceAtWheel,
                       S00e375a0_hkpRigidBody* maxMassBodyPerAxle[2], S00e375a0_AxleData* axleData);
 };
 
 // @fnv 0x00e375a0
-void S00e375a0_VehicleInstance::FUN_00e375a0(float deltaTime, hkArrayBase<float>& suspensionForceAtWheel,
+// src: GUESS 0x00e375a0 (confidence: medium)
+void S00e375a0_VehicleInstance::UpdateWheelContactsAndAxleBodies(float deltaTime, hkArrayBase<float>& suspensionForceAtWheel,
                                              hkArrayBase<float>& totalLinearForceAtWheel,
                                              S00e375a0_hkpRigidBody* maxMassBodyPerAxle[2],
                                              S00e375a0_AxleData* axleData)
@@ -2960,7 +2965,7 @@ void S00e375a0_VehicleInstance::FUN_00e375a0(float deltaTime, hkArrayBase<float>
         int axle = m_data->m_kWheelParams[i].m_iAxle;
         hkpVehicleInstanceWheelInfo* wheelInfo = &m_kWheelInfoArray.m_data[i];
 
-        FUN_00e371d0(deltaTime, i, suspensionForceAtWheel.m_data[i]);
+        ComputeValues_00e371d0(deltaTime, i, suspensionForceAtWheel.m_data[i]);
 
         S00e375a0_hkpRigidBody* contactBody = reinterpret_cast<S00e375a0_hkpRigidBody*>(wheelInfo->m_pUserData);
         if (contactBody)
@@ -2972,7 +2977,7 @@ void S00e375a0_VehicleInstance::FUN_00e375a0(float deltaTime, hkArrayBase<float>
             }
         }
 
-        FUN_00e37350(i, totalLinearForceAtWheel.m_data[i], suspensionForceAtWheel.m_data[i], linearVelocity,
+        ComputeValues_00e37350(i, totalLinearForceAtWheel.m_data[i], suspensionForceAtWheel.m_data[i], linearVelocity,
                      &axleData[axle]);
     }
 }

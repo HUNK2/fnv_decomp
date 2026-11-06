@@ -66,7 +66,7 @@ struct FUN_00d6ce70_Cursor
 {
     FUN_00d6ce70_Matrix* matrix;
 };
-void FUN_00d6ce70(FUN_00d6ce70_Vector* v, FUN_00d6ce70_Scale* s, FUN_00d6ce70_Dest* dest, FUN_00d6ce70_Cursor* cursor);
+void Hkpbuildjacobianfromatoms_UpdateState_00d6ce70(FUN_00d6ce70_Vector* v, FUN_00d6ce70_Scale* s, FUN_00d6ce70_Dest* dest, FUN_00d6ce70_Cursor* cursor);
 struct WriterContext
 {
     int unk00;
@@ -150,10 +150,10 @@ struct S00d6d990_Rec
     float unk0c;
 };
 void S00d6d990_Sink(S00d6d990_Tmp* t, WriterContext* obj, S00d6d990_Rec** cur);
-static void FUN_00d6d990(S00d6d990_Src* src, S00d6d990_Rec** cur, WriterContext* obj, int a1);
+static void Hkpbuildjacobianfromatoms_WriteFloatSolverRecord(S00d6d990_Src* src, S00d6d990_Rec** cur, WriterContext* obj, int a1);
 void S00d6d990_Caller(S00d6d990_Src* s, S00d6d990_Rec** c, WriterContext* o, int a);
 extern double _DAT_010c9300;
-static void FUN_00d6ea30(WriterContext* object, float** cursor, WriterArgs args);
+static void Hkpbuildjacobianfromatoms_WriteTypeOneRecordAndAdvance(WriterContext* object, float** cursor, WriterArgs args);
 void RecordWriteAlt_use(WriterContext* object, float** cursor, WriterArgs args);
 
 #include <xmmintrin.h>
@@ -262,7 +262,8 @@ struct S00d6e280_Rec
 extern "C" void hk1dLinearFrictionBuildJacobian(S00d6e280_Call* p, S00d6e280_Other* o, S00d6e280_Rec** cursor);
 
 // @fnv 0x00d6e280
-static __declspec(noinline) void FUN_00d6e280(S00d6e280_Rec** cursor, __m128* table, S00d6e280_Obj* self,
+// src: GUESS 0x00d6e280 (confidence: low)
+static __declspec(noinline) void Object_ProcessAndReturnValue_00d6e280(S00d6e280_Rec** cursor, __m128* table, S00d6e280_Obj* self,
                                               S00d6e280_Other* other, const S00d6e280_Arg* a1)
 {
     if (self->m_flag2 != 0)
@@ -291,7 +292,7 @@ void __fastcall S00d6e280_Wrap(S00d6e280_Obj* self, S00d6e280_Other* other, S00d
 {
     S00d6e280_Rec* cur = 0;
     __m128* tab = 0;
-    FUN_00d6e280(&cur, tab, self, other, a1);
+    Object_ProcessAndReturnValue_00d6e280(&cur, tab, self, other, a1);
 }
 
 struct NodeKind
@@ -344,7 +345,7 @@ struct FnvSubObject
     int unk74;
     int unk78;
     int unk7c;
-    void FUN_00d71f90(FnvSubObject* src);
+    void CopySelectedFields(FnvSubObject* src);
 };
 struct FnvPacket
 {
@@ -386,12 +387,13 @@ union DispatchArgs
     unsigned int raw;
     unsigned char flag;
 };
-void __cdecl FUN_00dced90(__m128* a, __m128* b, void* dest);
+void __cdecl Hkpbuildjacobianfromatoms_WriteVectorPairRecordAndAdvance(__m128* a, __m128* b, void* dest);
 void __cdecl hkSimpleContactConstraintDataBuildJacobian(NodeKind* node, FnvPacket* packet, DispatchArgs args, void* dest);
 void __cdecl hkSolverBuildJacobianFromAtomsNotContact(NodeKind* node, DispatchArgs args, FnvPacket* packet, void* dest);
 
 // @fnv 0x00d6ecb0
-static __declspec(noinline) void FUN_00d6ecb0(FnvPacket* arg1, void* arg2, FnvNode* node)
+// src: GUESS 0x00d6ecb0 (confidence: low)
+static __declspec(noinline) void hkSimpleContactConstraintDataBuildJacobian_CopyMemory_00d6ecb0(FnvPacket* arg1, void* arg2, FnvNode* node)
 {
     FnvPacket localPacket = *arg1;
     __m128 v1;
@@ -402,14 +404,14 @@ static __declspec(noinline) void FUN_00d6ecb0(FnvPacket* arg1, void* arg2, FnvNo
     DispatchArgs args;
     args.raw = node->unk12;
     FnvSubObject obj1;
-    obj1.FUN_00d71f90(arg1->unk30);
+    obj1.CopySelectedFields(arg1->unk30);
     FnvSubObject obj2;
-    obj2.FUN_00d71f90(arg1->unk34);
+    obj2.CopySelectedFields(arg1->unk34);
     obj1.vec = _mm_mul_ps(obj1.vec, v1);
     obj2.vec = _mm_mul_ps(obj2.vec, v2);
     localPacket.unk30 = &obj1;
     localPacket.unk34 = &obj2;
-    FUN_00dced90(&obj1.vec, &obj2.vec, arg2);
+    Hkpbuildjacobianfromatoms_WriteVectorPairRecordAndAdvance(&obj1.vec, &obj2.vec, arg2);
     if (kind->kind == 0x16)
     {
         args.flag = 1;
@@ -419,14 +421,14 @@ static __declspec(noinline) void FUN_00d6ecb0(FnvPacket* arg1, void* arg2, FnvNo
     {
         hkSolverBuildJacobianFromAtomsNotContact(kind, args, &localPacket, arg2);
     }
-    FUN_00dced90(&arg1->unk30->vec, &arg1->unk34->vec, arg2);
+    Hkpbuildjacobianfromatoms_WriteVectorPairRecordAndAdvance(&arg1->unk30->vec, &arg1->unk34->vec, arg2);
 }
 extern "C" FnvNode* FetchNode();
 FnvPacket* volatile sourcePacket;
 void* volatile sourceDest;
 void TargetCaller()
 {
-    FUN_00d6ecb0(sourcePacket, sourceDest, FetchNode());
+    hkSimpleContactConstraintDataBuildJacobian_CopyMemory_00d6ecb0(sourcePacket, sourceDest, FetchNode());
 }
 
 extern const __m128 DAT_010c44d0;
@@ -451,7 +453,8 @@ struct Jacobian337
     __m128 first, second;
 };
 // @fnv 0x00d6cc80
-static __declspec(noinline) void FUN_00d6cc80(const AngularJacobianBodyInputs* pair, Jacobian337* output, const __m128* direction,
+// src: GUESS 0x00d6cc80 (confidence: low)
+static __declspec(noinline) void Object_UpdateFields_00d6cc80(const AngularJacobianBodyInputs* pair, Jacobian337* output, const __m128* direction,
                                               float* effectiveMass)
 {
     __m128 value = *direction;
@@ -482,7 +485,7 @@ static __declspec(noinline) void FUN_00d6cc80(const AngularJacobianBodyInputs* p
 }
 void BuildJacobian337(const AngularJacobianBodyInputs* pair, Jacobian337* output, const __m128* direction, float* mass)
 {
-    FUN_00d6cc80(pair, output, direction, mass);
+    Object_UpdateFields_00d6cc80(pair, output, direction, mass);
 }
 
 extern "C" float __cdecl Atan2(float a, float b);
@@ -535,7 +538,8 @@ static float sum3(__m128 v)
 }
 
 // @fnv 0x00d6d2e0
-static __declspec(noinline) int FUN_00d6d2e0(Obj* self, Src* src, Mat* a2, Mat* a3, Out* out)
+// src: GUESS 0x00d6d2e0 (confidence: low)
+static __declspec(noinline) int Object_ProcessEntries_00d6d2e0(Obj* self, Src* src, Mat* a2, Mat* a3, Out* out)
 {
     if (self->flag != 0)
     {
@@ -573,7 +577,7 @@ int g_sink;
 
 void zz_probe_call()
 {
-    g_sink = FUN_00d6d2e0(g_obj, g_src, g_a2, g_a3, g_out);
+    g_sink = Object_ProcessEntries_00d6d2e0(g_obj, g_src, g_a2, g_a3, g_out);
 }
 
 struct S00d6f300_A
@@ -663,7 +667,8 @@ void _hk1dLinearVelocityMotorCommitJacobian(hkVector4* out, S00d6f300_O* o, S00d
 extern const double DAT_010c9300;
 
 // @fnv 0x00d6f300
-static __declspec(noinline) void FUN_00d6f300(S00d6f300_A* s, S00d6f300_O* o, S00d6f300_B* a2, __m128* a3,
+// src: GUESS 0x00d6f300 (confidence: low)
+static __declspec(noinline) void Object_ProcessAndReturnValue_00d6f300(S00d6f300_A* s, S00d6f300_O* o, S00d6f300_B* a2, __m128* a3,
                                               S00d6f300_Cmd** p)
 {
     unsigned char* base = o->m_64;
@@ -708,6 +713,6 @@ static __declspec(noinline) void FUN_00d6f300(S00d6f300_A* s, S00d6f300_O* o, S0
 
 void S00d6f300_caller(S00d6f300_A* s, S00d6f300_O* o, S00d6f300_B* a2, __m128* a3, S00d6f300_Cmd** p)
 {
-    FUN_00d6f300(s, o, a2, a3, p);
-    FUN_00d6f300(s + 1, o, a2, a3, p);
+    Object_ProcessAndReturnValue_00d6f300(s, o, a2, a3, p);
+    Object_ProcessAndReturnValue_00d6f300(s + 1, o, a2, a3, p);
 }

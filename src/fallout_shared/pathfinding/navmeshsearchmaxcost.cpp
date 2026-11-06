@@ -37,7 +37,7 @@ extern void* const NavMeshSearchMaxCost_vftable[];
 // @fnv 0x006ab450
 void* NavMeshSearchMaxCost::Destroy(unsigned int flags)
 {
-    FUN_006ab480();
+    UpdateFields_006ab480();
     if (flags & 1)
         _Deallocate(this);
     return this;
@@ -121,11 +121,12 @@ struct GlobalObject_00869f00
 struct FUN_006abdc0_shell
 {
     int* p;
-    void __thiscall FUN_006abdc0();
+    void __thiscall ResetVirtualTableAndClear_006abdc0();
 };
 
 // @fnv 0x006abdc0
-void __thiscall FUN_006abdc0_shell::FUN_006abdc0()
+// src: GUESS 0x006abdc0 (confidence: medium)
+void __thiscall FUN_006abdc0_shell::ResetVirtualTableAndClear_006abdc0()
 {
     p = &DAT_0106b8c8;
     ((GlobalObject_00869f00*)this)->Clear(true);
@@ -161,11 +162,12 @@ extern void* DAT_0106b8a0;
 
 struct FUN_006abc30_shell
 {
-    void __thiscall FUN_006abc30();
+    void __thiscall SetVtableAndProcessState_006abc30();
 };
 
 // @fnv 0x006abc30
-void __thiscall FUN_006abc30_shell::FUN_006abc30()
+// src: GUESS 0x006abc30 (confidence: low)
+void __thiscall FUN_006abc30_shell::SetVtableAndProcessState_006abc30()
 {
     *(void**)this = &DAT_0106b8a0;
     ((GlobalObject_00869f00*)this)->Clear(true);
@@ -456,7 +458,8 @@ bool NavMeshSearchMaxCost::ExpandNeighborNodes(NavMeshTriangleReference* source,
 // This cleanup entry calls FUN_006a6b00 rather than the shared base destructor.
 
 // @fnv 0x006ab480
-void NavMeshSearchMaxCost::FUN_006ab480()
+// src: GUESS 0x006ab480 (confidence: low)
+void NavMeshSearchMaxCost::UpdateFields_006ab480()
 {
     *(void* const**)this = NavMeshSearchMaxCost_vftable;
     FUN_006a6b00();

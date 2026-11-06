@@ -1249,13 +1249,13 @@ struct DescRecord
 // Stand-in class for the thiscall helper.
 struct SpawnedObject
 {
-    void FUN_00cfbbe0(DescRecord* rec, int a, int b);
+    void AppendRecordAndRegisterAgents(DescRecord* rec, int a, int b);
 };
 
 extern "C" void hkpBvTreeAgent_createBvTreeShapeAgent();
-extern "C" void FUN_00d2e970();
-extern "C" void FUN_00d2e9b0();
-extern "C" void FUN_00d2e9f0();
+extern "C" void hkpSymmetricAgentFlipBodyCollector_UpdateState_00d2e970();
+extern "C" void hkpSymmetricAgentFlipCollector_UpdateState_00d2e9b0();
+extern "C" void hkpBvTreeAgent_staticLinearCast_UpdateState_00d2e9f0();
 extern "C" void hkpBvTreeAgent_createShapeBvAgent();
 extern "C" void hkpBvTreeAgent_staticGetPenetrations();
 extern "C" void hkpBvTreeAgent_staticGetClosestPoints();
@@ -1269,12 +1269,12 @@ void hkpBvTreeAgent_registerAgent(SpawnedObject* self)
 {
     DescRecord desc;
     desc.fn0 = hkpBvTreeAgent_createBvTreeShapeAgent;
-    desc.fn1 = FUN_00d2e970;
-    desc.fn2 = FUN_00d2e9b0;
-    desc.fn3 = FUN_00d2e9f0;
+    desc.fn1 = hkpSymmetricAgentFlipBodyCollector_UpdateState_00d2e970;
+    desc.fn2 = hkpSymmetricAgentFlipCollector_UpdateState_00d2e9b0;
+    desc.fn3 = hkpBvTreeAgent_staticLinearCast_UpdateState_00d2e9f0;
     desc.flagA = 1;
     desc.flagB = 1;
-    self->FUN_00cfbbe0(&desc, 8, -1);
+    self->AppendRecordAndRegisterAgents(&desc, 8, -1);
 
     desc.fn0 = hkpBvTreeAgent_createShapeBvAgent;
     desc.fn1 = hkpBvTreeAgent_staticGetPenetrations;
@@ -1282,7 +1282,7 @@ void hkpBvTreeAgent_registerAgent(SpawnedObject* self)
     desc.fn3 = hkpBvTreeAgent_staticLinearCast;
     desc.flagA = 0;
     desc.flagB = 1;
-    self->FUN_00cfbbe0(&desc, -1, 8);
+    self->AppendRecordAndRegisterAgents(&desc, -1, 8);
 
     desc.fn0 = hkpBvTreeAgent_createBvBvAgent;
     desc.fn1 = hkpBvTreeAgent_staticGetPenetrations;
@@ -1290,7 +1290,7 @@ void hkpBvTreeAgent_registerAgent(SpawnedObject* self)
     desc.fn3 = hkpBvTreeAgent_staticLinearCast;
     desc.flagA = 0;
     desc.flagB = 1;
-    self->FUN_00cfbbe0(&desc, 8, 8);
+    self->AppendRecordAndRegisterAgents(&desc, 8, 8);
 }
 }  // namespace fnv_00d314e0
 

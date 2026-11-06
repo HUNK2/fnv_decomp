@@ -63,7 +63,8 @@ int __stdcall ThisCall_Ret0_8Args(int a, int b, int c, int d, int e, int f, int 
 }
 
 // @fnv 0x00a8f400
-int __stdcall FUN_00a8f400(int arg0, int arg1, int arg2, int arg3)
+// src: GUESS 0x00a8f400 (confidence: high)
+int __stdcall Object_ReturnZero(int arg0, int arg1, int arg2, int arg3)
 {
     return 0;
 }

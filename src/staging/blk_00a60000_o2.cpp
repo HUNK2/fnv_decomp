@@ -124,21 +124,21 @@ public:
     float GetSquaredXYLength() const;
     Elem16& expand(Allocator& allocator);
 
-    void FUN_00416870(float x, float y, float z);
+    void SetComponents(float x, float y, float z);
     bool FUN_00439090(const LocalVec3* other);
-    bool FUN_004390c0(const LocalVec3* other);
-    bool FUN_004390c0(const LocalVec3* other) const;
-    bool FUN_004390c0(const char* other);
-    void FUN_00439180(float scale);
+    bool HasEqualComponents(const LocalVec3* other);
+    bool HasEqualComponents(const LocalVec3* other) const;
+    bool HasEqualComponents(const char* other);
+    void ScaleComponents(float scale);
     LocalVec3 FUN_00439e90(const LocalVec3& other);
     LocalVec3 FUN_00439e90(const LocalVec3& other) const;
-    void FUN_00439ef0();
-    LocalVec3 FUN_00439ef0(const LocalVec3& other);
-    LocalVec3 FUN_00439ef0(const LocalVec3& other) const;
-    LocalVec3 FUN_00439ef0(LocalVec3* other);
-    LocalVec3 FUN_00439ef0(const LocalVec3* other);
-    void FUN_00439ef0(LocalVec3* output, const LocalVec3* other);
-    LocalVec3* FUN_00439ef0(void* output, void* other);
+    void SubtractIntoVector();
+    LocalVec3 SubtractIntoVector(const LocalVec3& other);
+    LocalVec3 SubtractIntoVector(const LocalVec3& other) const;
+    LocalVec3 SubtractIntoVector(LocalVec3* other);
+    LocalVec3 SubtractIntoVector(const LocalVec3* other);
+    void SubtractIntoVector(LocalVec3* output, const LocalVec3* other);
+    LocalVec3* SubtractIntoVector(void* output, void* other);
     void FUN_0043d410(float x, int y, int z);
     void FUN_0043d410(float x, unsigned int y, unsigned int z);
     float FUN_00457910();
@@ -148,22 +148,22 @@ public:
     float FUN_004a7290();
     float FUN_004a7290() const;
     LocalVec3 FUN_004b3800(const LocalVec3& other) const;
-    LocalVec3 FUN_0053d280(float divisor);
+    LocalVec3 ProcessAndReturnValue_0053d280(float divisor);
     float NiPoint3_XYLength();
     float NiPoint3_XYLength() const;
-    void FUN_0063c8a0(const LocalVec3* other);
-    void FUN_0063c8a0(void* other);
+    void ComputeValue_0063c8a0(const LocalVec3* other);
+    void ComputeValue_0063c8a0(void* other);
     void FUN_006815c0();
     float CVec3_Distance(LocalVec3* other);
     float CVec3_Distance(const LocalVec3& other) const;
-    LocalVec3 FUN_00b05000(const Mat& matrix);
-    LocalVec3 FUN_00b05000(const Matrix4* matrix);
+    LocalVec3 TransformPointByMatrix4(const Mat& matrix);
+    LocalVec3 TransformPointByMatrix4(const Matrix4* matrix);
     void Normalize_00b12790();
     LocalVec3 Diff_00b13040(void* other);
     LocalVec3 Diff_00b13040(const LocalVec3& other) const;
     float FUN_00b2a180(void* other);
-    LocalVec3& FUN_00b2a1c0(void* other);
-    void FUN_00ddc870();
+    LocalVec3& AddComponents(void* other);
+    void ProcessEntries_00ddc870();
     void FUN_00e0f6e0();
 };
 #include "../../include/hkVector4.h"
@@ -290,11 +290,12 @@ extern int DAT_011f4ab4;
 
 struct FUN_00a7f820_Class
 {
-    void __thiscall FUN_00a7f820();
+    void __thiscall UpdateFields_00a7f820();
 };
 
 // @fnv 0x00a7f820
-void __thiscall FUN_00a7f820_Class::FUN_00a7f820()
+// src: GUESS 0x00a7f820 (confidence: low)
+void __thiscall FUN_00a7f820_Class::UpdateFields_00a7f820()
 {
     *reinterpret_cast<int*>(this) = (int)&DAT_0109df2c;
     DAT_011f4ab4 = 0;
@@ -604,12 +605,13 @@ struct FUN_00a699d0_Class
     NiPoint3 normal;
     float distance;
 
-    FUN_00a699d0_Class* __thiscall FUN_00a699d0(NiPoint3 const* point0, NiPoint3 const* point1, NiPoint3 const* point2);
+    FUN_00a699d0_Class* __thiscall SetPlaneFromThreePoints(NiPoint3 const* point0, NiPoint3 const* point1, NiPoint3 const* point2);
 };
 
 // Computes the normal as the cross product of the two edge vectors and sets distance to the dot product of the normal with point0.
 // @fnv 0x00a699d0
-FUN_00a699d0_Class* __thiscall FUN_00a699d0_Class::FUN_00a699d0(NiPoint3 const* point0, NiPoint3 const* point1,
+// src: GUESS 0x00a699d0 (confidence: medium)
+FUN_00a699d0_Class* __thiscall FUN_00a699d0_Class::SetPlaneFromThreePoints(NiPoint3 const* point0, NiPoint3 const* point1,
                                                                 NiPoint3 const* point2)
 {
     NiPoint3 edge1;
@@ -668,10 +670,11 @@ void* CreateNiTriStrips()
 
 struct FUN_00a72ca0_Class
 {
-    void FUN_00a72ca0(unsigned int size);
+    void SetSize_Thunk(unsigned int size);
 };
 // @fnv 0x00a72ca0
-void FUN_00a72ca0_Class::FUN_00a72ca0(unsigned int size)
+// src: GUESS 0x00a72ca0 (confidence: medium)
+void FUN_00a72ca0_Class::SetSize_Thunk(unsigned int size)
 {
     ((NiTPrimitiveArray<ImageSpaceTexture*>*)((char*)this + 0x1c))->SetSize(size);
 }
@@ -1574,11 +1577,12 @@ struct FUN_00a693e0_cls
 {
     int m_vptr00;
 
-    void FUN_00a693e0();
+    void UpdateFields_00a693e0();
 };
 
 // @fnv 0x00a693e0
-void FUN_00a693e0_cls::FUN_00a693e0()
+// src: GUESS 0x00a693e0 (confidence: low)
+void FUN_00a693e0_cls::UpdateFields_00a693e0()
 {
     m_vptr00 = (int)&DAT_0109c28c;
 }
@@ -1798,7 +1802,7 @@ struct FUN_00a75dc0_cls
                        unsigned int a11);
 };
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+void* __cdecl Object_DispatchCommandFour(unsigned int size);
 
 struct FUN_00a71c40_cls
 {
@@ -1816,7 +1820,7 @@ FUN_00a71c40_cls* FUN_00a71c40_cls::ConstructWithAlloc(unsigned int a1, unsigned
                                                        unsigned int a10, unsigned int a11)
 {
     void* obj;
-    void* mem = FUN_00aa13e0(0x50);
+    void* mem = Object_DispatchCommandFour(0x50);
     if (mem != 0)
     {
         obj = ((FUN_00a75dc0_cls*)mem)->FUN_00a75dc0(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11);
@@ -2994,12 +2998,12 @@ struct A5FC10Stub
     A5FC10Stub* __thiscall NiSourceTexture_NiSourceTexture();
 };
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+void* __cdecl Object_DispatchCommandFour(unsigned int size);
 
 // @fnv 0x00a60070
 A5FC10Stub* __cdecl CreateA5FC10Stub()
 {
-    A5FC10Stub* object = (A5FC10Stub*)FUN_00aa13e0(0x48);
+    A5FC10Stub* object = (A5FC10Stub*)Object_DispatchCommandFour(0x48);
 
     if (object)
     {
@@ -3075,7 +3079,7 @@ void This::DispatchIfStateFour()
 
 struct FUN_00a5fca0_cls
 {
-    void FUN_00a5fca0();
+    void UpdateFields_00a5fca0();
 };
 struct FUN_00a60160_cls : FUN_00a5fca0_cls
 {
@@ -3086,7 +3090,7 @@ extern "C" void __cdecl _delete(void* p, unsigned int size);
 // @fnv 0x00a60160
 void* FUN_00a60160_cls::DestroyIfFlagged(unsigned int flags)
 {
-    FUN_00a5fca0();
+    UpdateFields_00a5fca0();
     if (flags & 1)
         _delete(this, 0x48);
     return this;
@@ -4176,7 +4180,8 @@ void __cdecl ConvertRGBAToPacked(unsigned int width, unsigned int height, unsign
 
 // Packs 4-byte RGBA source pixels into 32-bit values using format's bit loss, shift and mask per channel; sourceFormat is unused.
 // @fnv 0x00a771d0
-void __cdecl FUN_00a771d0(unsigned int width, unsigned int height, unsigned int destStride, unsigned int* dest,
+// src: GUESS 0x00a771d0 (confidence: high)
+void __cdecl Runtime_PackRgbaPixelsByFormat(unsigned int width, unsigned int height, unsigned int destStride, unsigned int* dest,
                           unsigned int srcStride, const PackedPixelChannelLayout* format, const unsigned char* src,
                           const PackedPixelChannelLayout& sourceFormat)
 {

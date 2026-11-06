@@ -6,11 +6,11 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 #include <xmmintrin.h>
 float __cdecl ClampAsin(float value);
-float __cdecl FUN_00ce00f0(float a, float b);
+float __cdecl Hkaskeletonutils_ForwardCall_00ce00f0(float a, float b);
 extern "C" const double DAT_01032980;
 // 1.0e-4, the length epsilon
 static const float kZero = 0.0f;
-void __cdecl FUN_00ce01c0(__m128* vec);
+void __cdecl Object_ProcessAndReturnValue_00ce01c0(__m128* vec);
 
 #include <math.h>
 typedef float hkReal;
@@ -257,7 +257,7 @@ class S00ce0290_hkQuaternion
     }
     void hkQuaternion_setAxisAngle(const S00ce0290_hkVector4& axis, hkReal angle);
     void setMul(const S00ce0290_hkQuaternion& q0, const S00ce0290_hkQuaternion& q1);
-    void FUN_00ce0ca0(const S00ce0290_hkQuaternion& q);  // mul
+    void SetQuaternionProduct(const S00ce0290_hkQuaternion& q);  // mul
     S00ce0290_hkVector4 m_vec;
 };
 
@@ -374,8 +374,8 @@ class S00ce0290_LookAt
     static S00ce0290_hkBool __cdecl hkaLookAtIkSolver_solve(const Setup& setup, const S00ce0290_hkVector4& targetMS, hkReal gain,
                                                  S00ce0290_hkQsTransform& boneModelSpaceInOut,
                                                  const BoneTransformRange* range);
-    static void __cdecl FUN_00ce0110(S00ce0290_hkVector4& sphericalInCartesianOut);
-    static void __cdecl FUN_00ce01c0(S00ce0290_hkVector4& cartesianInSphericalOut);
+    static void __cdecl HkalookatiksolverGsEhscNogsNoehsc_UpdateState_00ce0110(S00ce0290_hkVector4& sphericalInCartesianOut);
+    static void __cdecl Object_ProcessAndReturnValue_00ce01c0(S00ce0290_hkVector4& cartesianInSphericalOut);
 };
 
 // @fnv 0x00ce0290
@@ -428,7 +428,7 @@ S00ce0290_hkBool __cdecl S00ce0290_LookAt::hkaLookAtIkSolver_solve(const Setup& 
 
         S00ce0290_hkVector4 vec;
         vec.hkVector4_setMul3(fsuFromWorld, vecToTargetMS);
-        FUN_00ce01c0(vec);
+        Object_ProcessAndReturnValue_00ce01c0(vec);
 
         S00ce0290_hkVector4 maxVec;
         maxVec.set(3.40282e+38f, range->m_fThirdRangeValue, range->m_fFirstRangeValue, 0.0f);
@@ -438,7 +438,7 @@ S00ce0290_hkBool __cdecl S00ce0290_LookAt::hkaLookAtIkSolver_solve(const Setup& 
         S00ce0290_hkVector4 limitedVec = vec;
         limitedVec.setMin4(limitedVec, maxVec);
         limitedVec.setMax4(limitedVec, minVec);
-        FUN_00ce0110(limitedVec);
+        HkalookatiksolverGsEhscNogsNoehsc_UpdateState_00ce0110(limitedVec);
 
         vecToTargetMS.hkVector4_setMul3(worldFromFSU, limitedVec);
 
@@ -500,7 +500,7 @@ S00ce0290_hkBool __cdecl S00ce0290_LookAt::hkaLookAtIkSolver_solve(const Setup& 
 
             S00ce0290_hkQuaternion qCorrection;
             qCorrection.hkQuaternion_setAxisAngle(crossCorrection, -correctionAngle);
-            q.FUN_00ce0ca0(qCorrection);
+            q.SetQuaternionProduct(qCorrection);
         }
 
         {
@@ -513,7 +513,8 @@ S00ce0290_hkBool __cdecl S00ce0290_LookAt::hkaLookAtIkSolver_solve(const Setup& 
     return insideLimits;
 }
 
-void __cdecl S00ce0290_LookAt::FUN_00ce0110(S00ce0290_hkVector4& sphericalInCartesianOut)
+// src: GUESS 0x00ce0110 (confidence: low)
+void __cdecl S00ce0290_LookAt::HkalookatiksolverGsEhscNogsNoehsc_UpdateState_00ce0110(S00ce0290_hkVector4& sphericalInCartesianOut)
 {
     const hkReal r = sphericalInCartesianOut(0);
     const hkReal theta = sphericalInCartesianOut(1);
@@ -522,7 +523,8 @@ void __cdecl S00ce0290_LookAt::FUN_00ce0110(S00ce0290_hkVector4& sphericalInCart
     sphericalInCartesianOut.set(S00ce0290_cos(theta) * rcos, S00ce0290_sin(theta) * rcos, S00ce0290_sin(phi) * r, 0.0f);
 }
 
-void __cdecl S00ce0290_LookAt::FUN_00ce01c0(S00ce0290_hkVector4& cartesianInSphericalOut)
+// src: GUESS 0x00ce01c0 (confidence: low)
+void __cdecl S00ce0290_LookAt::Object_ProcessAndReturnValue_00ce01c0(S00ce0290_hkVector4& cartesianInSphericalOut)
 {
     const hkReal eps = 0.0001f;
     const hkReal rho = cartesianInSphericalOut.length3();
@@ -536,7 +538,7 @@ void __cdecl S00ce0290_LookAt::FUN_00ce01c0(S00ce0290_hkVector4& cartesianInSphe
         const hkReal y = cartesianInSphericalOut(1);
         const hkReal z = cartesianInSphericalOut(2);
         const hkReal phi = ::ClampAsin(z / rho);
-        const hkReal theta = ::FUN_00ce00f0(y, x);
+        const hkReal theta = ::Hkaskeletonutils_ForwardCall_00ce00f0(y, x);
         cartesianInSphericalOut.set(rho, theta, phi, 0.0f);
     }
 }

@@ -21,7 +21,8 @@ extern float DAT_01013ea4;
 extern int DAT_010d0994;
 // Calls FUN_00cf4d80, sets m_fSpringStrength and m_fMotorDamping from globals, sets the vtable pointer, zeroes both m_kPoint entries and returns this.
 // @fnv 0x00d4d980
-hkpDashpotAction* hkpDashpotAction::FUN_00d4d980(int entityA, int entityB, int userData)
+// src: GUESS 0x00d4d980 (confidence: medium)
+hkpDashpotAction* hkpDashpotAction::InitializeSpringMotorFields(int entityA, int entityB, int userData)
 {
     FUN_00cf4d80(entityA, entityB, userData);
     m_fSpringStrength = DAT_0101e2bc;
@@ -59,7 +60,7 @@ hkpAction* hkpDashpotAction::clone_00d4d9d0(const hkArray<hkpEntity*>& newEntiti
     hkMemoryRouter* router = (hkMemoryRouter*)hkMemoryRouter_getInstance();
     hkpDashpotAction* pDashpot = (hkpDashpotAction*)router->m_heap->blockAlloc(0x60);
     pDashpot->m_usMemSizeAndFlags = 0x60;
-    pDashpot = pDashpot->FUN_00d4d980(reinterpret_cast<int>(newEntities.m_data[0]),
+    pDashpot = pDashpot->InitializeSpringMotorFields(reinterpret_cast<int>(newEntities.m_data[0]),
                                     reinterpret_cast<int>(newEntities.m_data[1]), m_ulUserData);
 
     *(__m128*)&pDashpot->m_kPoint[0] = *(__m128*)&m_kPoint[0];

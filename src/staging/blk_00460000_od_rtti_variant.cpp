@@ -53,8 +53,8 @@ struct FUN_00462e60_Class
 };
 struct FUN_00464f40_class
 {
-    void __thiscall FUN_00470110();
-    void __thiscall FUN_00464f40();
+    void __thiscall SetVtableAndProcessState_00470110();
+    void __thiscall ForwardCall_00464f40();
 };
 struct FUN_0046dcc0_class
 {
@@ -132,7 +132,7 @@ struct FUN_00474760_This
 {
     const char* p;
     ActorCombatGroup* q;
-    void __thiscall FUN_00474760();
+    void __thiscall ReleaseStorage_00474760();
 };
 extern "C" void* DAT_0101a3b8;
 struct BFC_s
@@ -234,16 +234,16 @@ extern "C" void __cdecl _NiFreeAlias(void*);
 extern int DAT_0101a91c;
 struct FUN_004792c0_Class : NiTPointerMap<int, int>
 {
-    void __thiscall FUN_004792c0();
+    void __thiscall ReleaseStorage_004792c0();
 };
 struct FUN_0045d930_class
 {
-    void __thiscall FUN_0046ffd0();
+    void __thiscall SetVtableAndProcessState_0046ffd0();
     void* __thiscall FUN_00470320(unsigned int flags);
 };
 struct FUN_0045d950_Class
 {
-    void __thiscall FUN_00470070();
+    void __thiscall SetVtableAndProcessState_00470070();
     void* __thiscall FUN_00470380(unsigned int flags);
 };
 struct FUN_004703e0_class : public FUN_00464f40_class
@@ -268,10 +268,10 @@ struct FUN_004747c0_Class : public FUN_00474630
     void* __thiscall FUN_004747c0(unsigned int flags);
 };
 void __cdecl Deallocate(void*);
-void FUN_00474730();
+void UpdateState_00474730();
 struct FUN_004747f0_class
 {
-    void FUN_00474730();
+    void UpdateState_00474730();
     void* FUN_004747f0(unsigned int flags);
 };
 struct FUN_00473f00_class
@@ -286,7 +286,7 @@ struct FUN_00474850_class : public FUN_00473f00_class
 struct FUN_004752e0_Class
 {
     void* __thiscall FUN_004752e0(unsigned int flags);
-    void __thiscall FUN_00475310();
+    void __thiscall UpdateState_00475310();
 };
 void __cdecl Deallocate(void*);
 struct FUN_00479140_class
@@ -342,7 +342,8 @@ struct FUN_0046e8e0_This
 extern int DAT_01019a14;
 // @fnv 0x0046ffd0
 #include "../../include/NiTMallocInterface.h"
-void __thiscall FUN_0045d930_class::FUN_0046ffd0()
+// src: GUESS 0x0046ffd0 (confidence: low)
+void __thiscall FUN_0045d930_class::SetVtableAndProcessState_0046ffd0()
 {
     *(void**)this = (void*)&DAT_01019a14;
     NiTMallocInterface<void*>::Deallocate(*(void***)((char*)this + 4));
@@ -444,7 +445,7 @@ struct FUN_004781b0_This
     int field0;
     unsigned char field4;
     unsigned char field5;
-    FUN_004781b0_This* __thiscall FUN_004781b0();
+    FUN_004781b0_This* __thiscall ClearFields_004781b0();
 };
 struct FUN_00478f70_s
 {
@@ -593,7 +594,7 @@ struct FUN_0047bcf0_class
 struct FUN_0047eb90_Class
 {
     void FUN_005fc970(int, char);
-    void FUN_0047eb90(int value);
+    void ForwardCall_0047eb90(int value);
 };
 class FUN_00462dc0_cls
 {
@@ -664,7 +665,7 @@ class FUN_00475310_cls
     int unk10;
     FUN_00475310_obj* m_14;
 
-    void FUN_00475310();
+    void UpdateState_00475310();
 };
 struct InstanceData36
 {
@@ -1024,7 +1025,7 @@ struct FUN_0047ead0_cls
     FUN_0047ead0_cls* FUN_00726070();
     void TESFaction_SetPCAttack(int v);
     void TESFaction_SetPCMurder(int v);
-    void FUN_0047eb90(int v);
+    void ForwardCall_0047eb90(int v);
     void TESActorBaseData_SetPCFactionFlags(int mode);
 };
 extern FUN_0047ead0_cls* DAT_011dea3c;

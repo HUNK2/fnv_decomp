@@ -35,7 +35,7 @@ struct FUN_00ec1f20Class
 struct FUN_00ec1f40Class
 {
     void __thiscall Movie_Stop();
-    void __thiscall FUN_00ec1f40();
+    void __thiscall Movie_Stop_Thunk();
 };
 struct FUN_00ec29b0_class
 {
@@ -56,7 +56,7 @@ struct FUN_00ec2c10
     int m_0028;
     int m_002c;
     void __thiscall SetThreadPriorityLevel(int);
-    void __thiscall FUN_00ec2c10_init();
+    void __thiscall IncreaseThreadPriorityUpToFive();
 };
 struct FUN_00ec1570_t
 {
@@ -175,7 +175,7 @@ struct FUN_00ec19a0_Class
 {
     int m_0000;
     void* m_0004;
-    void __thiscall FUN_00ec19a0();
+    void __thiscall WaitForStoredHandle();
 };
 extern "C" __declspec(dllimport) void __stdcall FUN_00fdf1c8(void* a, int b);
 struct FUN_00ec1a60_t
@@ -216,7 +216,7 @@ struct FUN_00ec1a90_Class
 };
 struct FUN_00ec1d30_Class : FUN_00ec1a90_Class
 {
-    void __thiscall FUN_00ec1d30();
+    void __thiscall UpdateState_00ec1d30();
 };
 struct FUN_00ec0460_cls
 {
@@ -311,8 +311,8 @@ struct GridDesc
     int unk38;
     unsigned int cellSize;
 };
-void __cdecl FUN_00ec0720(int target, float x, float y, float sx, float sy, unsigned int w, unsigned int h);
-void __cdecl FUN_00ec0550(GridDesc* grid, float startX, float startY, float scaleX, float scaleY);
+void __cdecl Object_UpdateFields_00ec0720(int target, float x, float y, float sx, float sy, unsigned int w, unsigned int h);
+void __cdecl Runtime_ProcessEntries_00ec0550(GridDesc* grid, float startX, float startY, float scaleX, float scaleY);
 struct NiPlaybackFrameSize
 {
     unsigned int uiWidth;
@@ -1182,7 +1182,8 @@ struct ScopedAllocContext
 };
 
 // @fnv 0x00ec1ff0
-void* __stdcall FUN_00ec1ff0(unsigned int size)
+// src: GUESS 0x00ec1ff0 (confidence: low)
+void* __stdcall Runtime_AllocateStorage_00ec1ff0(unsigned int size)
 {
     ScopedAllocContext ctx(0x14);
     return DAT_011f6238.Allocate(size);
@@ -1761,7 +1762,8 @@ class BSMoviePlayer
     int unk3c;
     BSTCaseInsensitiveStringMap<char*> strings;
     void MoviePlayer_Stop();
-    void FUN_00ec2e50()
+// src: GUESS 0x00ec2e50 (confidence: low)
+    void ReleaseStorage_00ec2e50()
     {
         NiTMapIterator pos = strings.GetFirstPos();
         while (pos)
@@ -1780,7 +1782,7 @@ BSMoviePlayer::~BSMoviePlayer()
 {
     while (unk0c != 0)
         MoviePlayer_Stop();
-    FUN_00ec2e50();
+    ReleaseStorage_00ec2e50();
 }
 }  // namespace fnv_00ec15e0
 

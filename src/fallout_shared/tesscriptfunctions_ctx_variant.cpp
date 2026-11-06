@@ -111,17 +111,17 @@ bool Cmd_UnequipItem_Execute(const ScriptParameter* param, const char* desc, TES
                 InventoryStackRecord* pHolder = pChanges2->InventoryChanges_GetInventoryItem(pForm, 0);
                 if (pHolder)
                 {
-                    if (pHolder->FUN_00559450())
+                    if (pHolder->Modelloader_GetReferencedThis())
                     {
-                        if (pHolder->FUN_00559450()->GetItem())
+                        if (pHolder->Modelloader_GetReferencedThis()->GetItem())
                         {
-                            pHolder->FUN_00559450()->GetItem()->ExtraDataList_SetCanNotWear(bSet);
+                            pHolder->Modelloader_GetReferencedThis()->GetItem()->ExtraDataList_SetCanNotWear(bSet);
                         }
                         else
                         {
                             ExtraDataList* pNew = new ExtraDataList();
                             pNew->ExtraDataList_SetCanNotWear(bSet);
-                            pHolder->FUN_00559450()->AddHead(pNew);
+                            pHolder->Modelloader_GetReferencedThis()->AddHead(pNew);
                         }
                     }
                     else
@@ -129,7 +129,7 @@ bool Cmd_UnequipItem_Execute(const ScriptParameter* param, const char* desc, TES
                         pHolder->m_pExtraDataLists = new BSSimpleList<ExtraDataList*>();
                         ExtraDataList* pNew2 = new ExtraDataList();
                         pNew2->ExtraDataList_SetCanNotWear(bSet);
-                        pHolder->FUN_00559450()->AddHead(pNew2);
+                        pHolder->Modelloader_GetReferencedThis()->AddHead(pNew2);
                     }
                     delete pHolder;
                 }

@@ -78,13 +78,13 @@ void NiPSysAirFieldInheritVelocityCtlr::SetModValue(float fValue)
 }
 
 extern "C" char DAT_010c05e4;
-extern "C" void* __cdecl FUN_00aa13e0(unsigned int size);
+extern "C" void* __cdecl Object_DispatchCommandFour(unsigned int size);
 
 // Allocates and initialises a controller, copies its members, and returns it.
 // @fnv 0x00c306a0
 NiPSysModifierFloatCtlr* NiPSysAirFieldInheritVelocityCtlr::CreateSpawnedCtlr(void* a1)
 {
-    NiPSysModifierFloatCtlr* obj = (NiPSysModifierFloatCtlr*)FUN_00aa13e0(0x40);
+    NiPSysModifierFloatCtlr* obj = (NiPSysModifierFloatCtlr*)Object_DispatchCommandFour(0x40);
     if (obj != 0)
     {
         ::new (obj) NiPSysModifierFloatCtlr;

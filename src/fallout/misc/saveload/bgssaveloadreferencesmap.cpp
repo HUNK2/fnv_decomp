@@ -100,7 +100,7 @@ struct FUN_00852a70
 FUN_00852a70::FUN_00852a70() : a(0x25), c(0x25)
 {}
 
-extern "C" bool __cdecl FUN_009a3830(const unsigned int&, const unsigned int&);
+extern "C" bool __cdecl Actor_AreReferencedValuesEqual(const unsigned int&, const unsigned int&);
 
 // @fnv 0x00852a10
 void BGSCellNumericIDArrayMap::RemoveReference(unsigned int auiKey, unsigned int a2)
@@ -108,7 +108,7 @@ void BGSCellNumericIDArrayMap::RemoveReference(unsigned int auiKey, unsigned int
     BSSimpleArray<unsigned int, 1024>* referenceIDs = 0;
     if (GetAt(auiKey, referenceIDs))
     {
-        unsigned int idx = referenceIDs->Find(a2, 0, FUN_009a3830);
+        unsigned int idx = referenceIDs->Find(a2, 0, Actor_AreReferencedValuesEqual);
         if (idx != 0xFFFFFFFF)
         {
             referenceIDs->UpdateEntryValue(idx, 1);
@@ -208,7 +208,7 @@ FUN_00852ae0::~FUN_00852ae0()
 
 struct Loader2e40
 {
-    void* FUN_00559450();
+    void* Modelloader_GetReferencedThis();
     void* BGSUnloadedFormBuffer_GetAdvancedBuffer();
 };
 struct Change2e40
@@ -222,7 +222,7 @@ struct Changes2e40
 };
 struct Host2e40
 {
-    Changes2e40* FUN_00559450();
+    Changes2e40* Modelloader_GetReferencedThis();
     void ApplyUnloadedChanges(TESObjectCELL*);
 };
 extern Host2e40* DAT_011ddf38;
@@ -249,7 +249,7 @@ struct Target2e40
 // src: XBOX_PDB 0x00852e40
 void Target2e40::BGSSaveLoadReferencesMap_LoadChangedReference(unsigned int uiRefID, Forms2e40* forms)
 {
-    Change2e40* change = DAT_011ddf38->FUN_00559450()->FUN_009a4250(uiRefID);
+    Change2e40* change = DAT_011ddf38->Modelloader_GetReferencedThis()->FUN_009a4250(uiRefID);
     if (change)
     {
         int iChangeType = BGSSaveLoadInitialData_GetInitialDataType(uiRefID, 0x3a, change->key);
@@ -260,7 +260,7 @@ void Target2e40::BGSSaveLoadReferencesMap_LoadChangedReference(unsigned int uiRe
                 uiRefID);
             return;
         }
-        if (!change->loader.FUN_00559450())
+        if (!change->loader.Modelloader_GetReferencedThis())
         {
             SaveGameWarning(
                 "SAVELOAD: Ref %08X is in the references map but there is no unloaded buffer for it in the changes map",

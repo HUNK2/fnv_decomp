@@ -23,21 +23,21 @@
 void __cdecl CopyConstructEntry(int a, int b);
 struct FUN_006601f0_Class
 {
-    void __thiscall FUN_006601f0(int a, int b);
+    void __thiscall CopyConstructEntry_Thunk(int a, int b);
 };
-extern "C" void __cdecl FUN_00660340(void*, void*, void*, void*);
-void __cdecl FUN_00660210(void* a1, void* a2, void* a3, void* a4);
-extern "C" void __cdecl FUN_006603a0(void* a, void* b, void* c, void* d);
-void __cdecl FUN_00660230(void* a, void* b, void* c, void* d);
+extern "C" void __cdecl Object_DispatchIteratorRange_00660340(void*, void*, void*, void*);
+void __cdecl Runtime_ForwardCall_00660210(void* a1, void* a2, void* a3, void* a4);
+extern "C" void __cdecl Object_DispatchIteratorRange_006603a0(void* a, void* b, void* c, void* d);
+void __cdecl Runtime_ForwardCall_00660230(void* a, void* b, void* c, void* d);
 extern "C" int __cdecl ConstructInPlace(int, int);
 struct FUN_00660300_Class
 {
-    int __thiscall FUN_00660300(int a, int b);
+    int __thiscall ConstructInPlace_Thunk(int a, int b);
 };
 extern "C" void __cdecl CopyConstructElement(int, int);
 struct FUN_00660320_Class
 {
-    void __thiscall FUN_00660320(int a, int b);
+    void __thiscall CopyConstructElement_Thunk(int a, int b);
 };
 extern const char* const g_011d5ba8_arg1;
 struct FUN_00661d30_cls
@@ -77,7 +77,7 @@ struct FUN_0067ad20_Class
 extern int DAT_01068884;
 struct FUN_0067ad70_Class
 {
-    void FUN_0067ad70();
+    void SetVtableAndProcessState_0067ad70();
 };
 extern int DAT_01068aa4;
 ActorPackageData::ActorPackageData()
@@ -86,7 +86,7 @@ extern "C" int DAT_01068aa4;
 struct FUN_0067d970_Class
 {
     int m;
-    void __thiscall FUN_0067d970();
+    void __thiscall SetM();
 };
 struct FUN_0067f4b0_class
 {
@@ -123,8 +123,8 @@ struct StatisticalArray
 {
     int _pad[3];
     int m_base;
-    unsigned int __thiscall FUN_0065cc30();
-    int __thiscall FUN_00662890(unsigned int);
+    unsigned int __thiscall EvaluateValue_0065cc30();
+    int __thiscall GetElementChecked_00662890(unsigned int);
 };
 unsigned int __cdecl FUN_00ec7c56();
 void __cdecl Deallocate(void* p);
@@ -173,16 +173,16 @@ struct FUN_00666270_Holder
 {
     void* __thiscall InitAndMaybeDeallocate(unsigned int);
 };
-void __cdecl FUN_006665c0();
+void __cdecl ReleaseEntries_006665c0();
 void __cdecl Deallocate(void*);
 struct FUN_00666570_Class
 {
-    void __thiscall FUN_006665c0();
+    void __thiscall ReleaseEntries_006665c0();
     void* __thiscall FUN_00666570(unsigned int flags);
 };
 struct T_
 {
-    void FUN_004a3f10(void*);
+    void SetValue(void*);
 };
 struct FUN_0066c9c0_Class
 {
@@ -232,7 +232,7 @@ struct FUN_0066db70_Class
 void __cdecl Deallocate(void* p);
 struct FUN_0066df40_Class
 {
-    void __thiscall FUN_0066df40();
+    void __thiscall ClearEffectsAndRegisterOwner();
     void* __thiscall FUN_0066e300(unsigned int flags);
 };
 struct FUN_00671a70_Class
@@ -342,7 +342,8 @@ struct FUN_00672c40_Class
 };
 // @fnv 0x00660400
 template <class T> struct BSSimpleList;
-BSSimpleList<int>* FUN_00660400(BSSimpleList<int>* a)
+// src: GUESS 0x00660400 (confidence: medium)
+BSSimpleList<int>* BSSimpleList_GetNext_Thunk(BSSimpleList<int>* a)
 {
     return a->GetNext();
 }
@@ -415,7 +416,7 @@ C0130ScalarPtrTag __cdecl C0130PtrCat(C0130Iterator& first, C0130Iterator& dest)
 char* __cdecl C0130CheckedBase(C0130Iterator& iter);
 char* __cdecl C0130CopyOpt(char* first, char* last, C0130Iterator dest, C0130ScalarPtrTag ptrCat,
                            C0130RangeCheckedTag checked);
-char* __cdecl FUN_00660130(C0130Iterator first, C0130Iterator last, C0130Iterator dest);
+char* __cdecl Runtime_CopyCheckedRange(C0130Iterator first, C0130Iterator last, C0130Iterator dest);
 struct C0190Iterator
 {
     void* m_pkContainer;
@@ -431,8 +432,8 @@ C0190ScalarPtrTag __cdecl C0190PtrCat(C0190Iterator& first, C0190Iterator& dest)
 char* __cdecl C0190CheckedBase(C0190Iterator& iter);
 char* __cdecl C0190CopyOpt(char* first, char* last, C0190Iterator dest, C0190ScalarPtrTag ptrCat,
                            C0190RangeCheckedTag checked);
-char* __cdecl FUN_00660190(C0190Iterator first, C0190Iterator last, C0190Iterator dest);
-void __cdecl FUN_00660400(void* a1, unsigned char flag);
+char* __cdecl Runtime_EvaluateValue_00660190(C0190Iterator first, C0190Iterator last, C0190Iterator dest);
+void __cdecl BSSimpleList_GetNext_Thunk(void* a1, unsigned char flag);
 void __cdecl CallWithUninitializedFlag(void* a1);
 void* operator new(unsigned int uiSize, void* pvWhere);
 struct C6602B0Entry
@@ -450,7 +451,8 @@ struct SpawnedFlagBox
     bool v;
 };
 // @fnv 0x006603a0
-extern "C" void __cdecl FUN_006603a0(void* a, void* b, void* c, void* d)
+// src: GUESS 0x006603a0 (confidence: low)
+extern "C" void __cdecl Object_DispatchIteratorRange_006603a0(void* a, void* b, void* c, void* d)
 {
     SpawnedFlagBox flagA3 = {};
     bool flagB;
@@ -510,7 +512,7 @@ struct FUN_006665c0_cls
     FUN_006665c0_Entry* m_08;
 
     unsigned int GetCount();
-    void FUN_006665c0();
+    void ReleaseEntries_006665c0();
 };
 extern const double g_dblConst;
 extern int g_timerA;
@@ -707,18 +709,18 @@ struct E640Cls : DetClassCls
 };
 struct S_00660510_Context
 {
-    void __thiscall FUN_00660300(int dest, int src);
-    void __thiscall FUN_0065ea40(int element);
+    void __thiscall ConstructInPlace_Thunk(int dest, int src);
+    void __thiscall ForwardCall_0065ea40(int element);
 };
-int __cdecl FUN_00660510(int first, int last, int dest, S_00660510_Context* context);
+int __cdecl Runtime_ProcessEntries_00660510(int first, int last, int dest, S_00660510_Context* context);
 struct Elem6605
 {
     char m_data[0x58];
 };
 struct Alloc6605
 {
-    void FUN_00660320(Elem6605* pDest, const Elem6605& kSrc);
-    void FUN_0065ea60(Elem6605* pElem);
+    void CopyConstructElement_Thunk(Elem6605* pDest, const Elem6605& kSrc);
+    void ForwardCall_0065ea60(Elem6605* pElem);
 };
 struct NonscalarTag6605
 {
@@ -735,12 +737,12 @@ Elem6605* __cdecl CopyConstructRange(Elem6605* _First, Elem6605* _Last, Elem6605
     try
     {
         for (; _First != _Last; ++_Dest, ++_First)
-            _Al.FUN_00660320(_Dest, *_First);
+            _Al.CopyConstructElement_Thunk(_Dest, *_First);
     }
     catch (...)
     {
         for (; _Next != _Dest; ++_Next)
-            _Al.FUN_0065ea60(_Next);
+            _Al.ForwardCall_0065ea60(_Next);
         throw;
     }
     return _Dest;
@@ -773,14 +775,14 @@ struct DetectionEntryList
     DetectionEntryList* next;
     DetectionEntry*& FUN_006815c0();
     DetectionEntryList* FUN_00726070();
-    void FUN_00905330(DetectionEntry* const& entry);
+    void RemoveMatchingItem(DetectionEntry* const& entry);
 };
 struct DetectionGroup
 {
     unsigned int owner;
     DetectionEntryList* entries;
     bool ActorCause_IsValid();
-    unsigned int FUN_00559450();
+    unsigned int Modelloader_GetReferencedThis();
     DetectionEntryList* FUN_00726070();
     void ClearAndReset();
 };
@@ -795,7 +797,7 @@ void __cdecl ActorCause_ClearActor(unsigned int key)
         node = node->FUN_00726070();
         if (group && group->ActorCause_IsValid())
         {
-            if (group->FUN_00559450() == key)
+            if (group->Modelloader_GetReferencedThis() == key)
                 group->ClearAndReset();
             DetectionEntryList* child = group->FUN_00726070();
             bool removed = false;
@@ -805,7 +807,7 @@ void __cdecl ActorCause_ClearActor(unsigned int key)
                 child = child->FUN_00726070();
                 if (entry->key == key)
                 {
-                    group->FUN_00726070()->FUN_00905330(entry);
+                    group->FUN_00726070()->RemoveMatchingItem(entry);
                     delete entry;
                     removed = true;
                 }

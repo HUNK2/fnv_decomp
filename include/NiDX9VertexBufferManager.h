@@ -29,5 +29,5 @@ public:
     CritSecStub lock;
 
     void __thiscall DestroyDefaultBuffers();
-    void __thiscall FUN_00e8ceb0();
+    void __thiscall ReleaseStorage_00e8ceb0();
 };

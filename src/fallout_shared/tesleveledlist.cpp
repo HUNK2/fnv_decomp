@@ -992,7 +992,7 @@ struct ScriptAddedEntries
 };
 struct CurrentLeveledEntries
 {
-    void FUN_00905330(LeveledObject* const&);
+    void RemoveMatchingItem(LeveledObject* const&);
 };
 
 // @fnv 0x00487980
@@ -1002,7 +1002,7 @@ void TESLeveledList::ClearScriptAddedLeveledObjects()
     {
         LeveledObject* entryToDestroy = reinterpret_cast<ScriptAddedEntries*>(&m_kLeveledObjects)->FUN_006815c0();
         reinterpret_cast<ScriptAddedEntries*>(&m_kLeveledObjects)->FUN_0063f7b0();
-        reinterpret_cast<CurrentLeveledEntries*>(&leveledList)->FUN_00905330(entryToDestroy);
+        reinterpret_cast<CurrentLeveledEntries*>(&leveledList)->RemoveMatchingItem(entryToDestroy);
 
         LeveledObject* item = entryToDestroy;
         LeveledObject* removed = item;

@@ -28,7 +28,8 @@ __declspec(align(16)) struct Vec4Pod
 };
 
 // @fnv 0x00ce2ca0
-void FUN_00ce2ca0(void* unused, __m128* dst, const __m128* a, const __m128* b)
+// src: GUESS 0x00ce2ca0 (confidence: low)
+void Object_UpdateFields_00ce2ca0(void* unused, __m128* dst, const __m128* a, const __m128* b)
 {
     dst[0] = _mm_add_ps(_mm_mul_ps(a[2], b[0]), a[0]);
     ((Vec4Target*)(dst + 1))->setMul(a + 1, b + 1);
@@ -115,7 +116,7 @@ class RayWorld
 class RayCaster
 {
   public:
-    void FUN_00cfaa40(RayWorld* world, RayInput* input, char* source, int a4);
+    void UpdateFields_00cfaa40(RayWorld* world, RayInput* input, char* source, int a4);
 
     int unk00;
     RayInput* m_pInput;
@@ -126,7 +127,8 @@ class RayCaster
 };
 
 // @fnv 0x00cfaa40
-void RayCaster::FUN_00cfaa40(RayWorld* world, RayInput* input, char* source, int a4)
+// src: GUESS 0x00cfaa40 (confidence: low)
+void RayCaster::UpdateFields_00cfaa40(RayWorld* world, RayInput* input, char* source, int a4)
 {
     volatile DWORD tick;
     hkMonitorStream* pBuf = (hkMonitorStream*)TlsGetValue(DAT_0126835c);

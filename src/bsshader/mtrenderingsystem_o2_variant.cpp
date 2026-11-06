@@ -704,7 +704,7 @@ void MTRenderingSystem_TaskThreadCallback()
 }
 }  // namespace fnv_00ba3190
 
-void __cdecl FUN_00ba2d70();
+void __cdecl ForwardCall_00ba2d70();
 void __cdecl FUN_00ba3030();
 void __stdcall FUN_00ec5fce(void*, unsigned int, int, void(__cdecl*)());
 
@@ -732,7 +732,7 @@ struct LinearTaskGroup
     LinearTaskRecord tasks[3];
     __forceinline ~LinearTaskGroup()
     {
-        FUN_00ec5fce(tasks, sizeof(LinearTaskRecord), 3, FUN_00ba2d70);
+        FUN_00ec5fce(tasks, sizeof(LinearTaskRecord), 3, ForwardCall_00ba2d70);
     }
 };
 

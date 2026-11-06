@@ -201,7 +201,7 @@ void NiPoint3Interpolator::LoadBinary(NiStream& kStream)
     }
 }
 
-void __fastcall FUN_00a3ca30(void* pThis);
+void __fastcall UpdateState_00a3ca30(void* pThis);
 
 struct NiMemObject_Delete : public NiMemObject
 {
@@ -215,7 +215,7 @@ NiPoint3Interpolator* __fastcall FUN_00a49ae0(NiPoint3Interpolator* pThis, int, 
     if (pkData)
         pkData->DecRefCount();
 
-    FUN_00a3ca30(pThis);
+    UpdateState_00a3ca30(pThis);
 
     if (uiFlags & 1)
         NiMemObject_Delete::operator delete(pThis, 0x20);
@@ -531,7 +531,8 @@ void NiPoint3Interpolator::GetViewerStrings(NiViewerStringsArray* strings)
 }
 
 // @fnv 0x00d46c90
-unsigned int __stdcall FUN_00d46c90(unsigned int a1)
+// src: GUESS 0x00d46c90 (confidence: high)
+unsigned int __stdcall NiPoint3Interpolator_ReturnOne(unsigned int a1)
 {
     return 1;
 }

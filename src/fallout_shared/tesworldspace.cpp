@@ -741,12 +741,13 @@ void __cdecl BSEndian(unsigned short*, EndianSizeTag<2>);
 
 struct FUN_005840b0_shell
 {
-    void __thiscall FUN_005840b0();
+    void __thiscall SwapIntegerAndShortByteOrder();
 };
 
 // Byte-swaps the two ints and four shorts stored in this object via BSEndian.
 // @fnv 0x005840b0
-void __thiscall FUN_005840b0_shell::FUN_005840b0()
+// src: GUESS 0x005840b0 (confidence: medium)
+void __thiscall FUN_005840b0_shell::SwapIntegerAndShortByteOrder()
 {
     BSEndian((int*)this, EndianSizeTag<2>());
     BSEndian((int*)(this + 4), EndianSizeTag<2>());
@@ -1493,7 +1494,7 @@ void TESWorldSpace::ClearData_00583180()
 
 struct FUN_00583270_sub_cls
 {
-    void* FUN_00559450();
+    void* Modelloader_GetReferencedThis();
     void FUN_0066b0d0(int);
 };
 struct FUN_00583270_mid_cls
@@ -1516,11 +1517,11 @@ struct WorldSpaceNodeMethods : TESWorldSpace
 // src: XBOX_PDB 0x00583270
 void WorldSpaceNodeMethods::TESWorldSpace_ClearPortalGraph()
 {
-    if ((*reinterpret_cast<FUN_00583270_sub_cls*>(&m_kFourthTreeComponent)).FUN_00559450())
+    if ((*reinterpret_cast<FUN_00583270_sub_cls*>(&m_kFourthTreeComponent)).Modelloader_GetReferencedThis())
     {
-        if (FUN_00726070_cb((*reinterpret_cast<FUN_00583270_sub_cls*>(&m_kFourthTreeComponent)).FUN_00559450()) == 1)
+        if (FUN_00726070_cb((*reinterpret_cast<FUN_00583270_sub_cls*>(&m_kFourthTreeComponent)).Modelloader_GetReferencedThis()) == 1)
         {
-            if (reinterpret_cast<FUN_00583270_mid_cls*>(FUN_00450b80_cb(0))->ShadowSceneNode_QPortalGraph() == (int)(*reinterpret_cast<FUN_00583270_sub_cls*>(&m_kFourthTreeComponent)).FUN_00559450())
+            if (reinterpret_cast<FUN_00583270_mid_cls*>(FUN_00450b80_cb(0))->ShadowSceneNode_QPortalGraph() == (int)(*reinterpret_cast<FUN_00583270_sub_cls*>(&m_kFourthTreeComponent)).Modelloader_GetReferencedThis())
             {
                 reinterpret_cast<FUN_00583270_tgt_cls*>(FUN_00450b80_cb(0))->FUN_00b5ddf0(0);
             }
@@ -1865,7 +1866,7 @@ struct SaveTexture
 struct SaveMap
 {
     unsigned int unk00, unk04, unk08, unk0c;
-    void FUN_005840b0();
+    void SwapIntegerAndShortByteOrder();
 };
 struct SaveOffset
 {
@@ -1905,7 +1906,7 @@ struct WorldSpaceSaveMethods : TESWorldSpace
 // src: XBOX_PDB 0x00584170
 void WorldSpaceSaveMethods::TESWorldSpace_Save()
 {
-    FUN_004855a0();
+    BeginFormRecord();
     TESFullName::Save_00487010();
     unsigned int formID = 0;
     if (reinterpret_cast<::SaveForm*>(fieldD0))
@@ -1950,10 +1951,10 @@ void WorldSpaceSaveMethods::TESWorldSpace_Save()
     {
         TESTexture::Save(0x4e4f4349);
         if (TESForm_QEndianSwapOnSave())
-            (*reinterpret_cast<SaveMap*>(unk80)).FUN_005840b0();
+            (*reinterpret_cast<SaveMap*>(unk80)).SwapIntegerAndShortByteOrder();
         AppendChunk(0x4d414e4d, &(*reinterpret_cast<SaveMap*>(unk80)), 16);
         if (TESForm_QEndianSwapOnSave())
-            (*reinterpret_cast<SaveMap*>(unk80)).FUN_005840b0();
+            (*reinterpret_cast<SaveMap*>(unk80)).SwapIntegerAndShortByteOrder();
     }
     if (TESForm_QEndianSwapOnSave())
         (*reinterpret_cast<SaveOffset*>(unk80 + 16)).TESRegionSound_Endian();
@@ -1977,7 +1978,7 @@ void WorldSpaceSaveMethods::TESWorldSpace_Save()
     TESForm_AddChunkArray(0x4d414e58, (*reinterpret_cast<SaveGameString*>(&m_kLeafShadowTexture)).TESModel_GetModel(), (*reinterpret_cast<SaveGameString*>(&m_kLeafShadowTexture)).FUN_0048cee0() + 1);
     if (reinterpret_cast<::SaveForm*>(data))
         reinterpret_cast<::SaveForm*>(data)->Save();
-    FUN_00485680();
+    FinishFormRecord();
 }
 
 extern "C" void* _FNV_DynamicCast(void*, int, const void*, const void*, int);
@@ -2919,7 +2920,7 @@ struct WorldDefaultHeightChunk
 struct MapData583
 {
     float x, y, z, w;
-    void FUN_005840b0();
+    void SwapIntegerAndShortByteOrder();
 };
 struct Extra583
 {
@@ -3167,7 +3168,7 @@ bool WorldSpaceLoadMethods::TESWorldSpace_Load(TESFile* file)
         case 0x4d414e4d:
             file->GetChunkData(&(*reinterpret_cast<MapData583*>(unk80)), 16);
             if (file->IsEndianConversionRequired())
-                (*reinterpret_cast<MapData583*>(unk80)).FUN_005840b0();
+                (*reinterpret_cast<MapData583*>(unk80)).SwapIntegerAndShortByteOrder();
             break;
         case 0x4d414e4f:
             file->GetChunkData(&(*reinterpret_cast<Extra583*>(unk80 + 16)), 12);
@@ -3472,7 +3473,7 @@ struct Pos65
 {
     float x, y, z;
     Pos65();
-    bool FUN_004390c0(const Pos65&);
+    bool HasEqualComponents(const Pos65&);
 };
 struct Point65
 {
@@ -3552,7 +3553,7 @@ bool WorldSpacePositionNameMethods::TESWorldSpace_GetMapNameForLocation(BSString
     Data65* data7 = 0;
     if (!g_dataHandler)
         return false;
-    if (lastWorld == this && lastPos.FUN_004390c0(pos))
+    if (lastWorld == this && lastPos.HasEqualComponents(pos))
     {
         output->Set((const char*)lastName, 0);
         return false;

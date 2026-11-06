@@ -82,7 +82,7 @@ struct Input
 struct SubC0
 {
     void hkpPrimitiveDrawer_setDisplayHandler(Renderer* a);
-    void FUN_00e10d50(void* a, void* b, void* c, int d, float e, int a2, int a3);
+    void ComputeValues_00e10d50(void* a, void* b, void* c, int d, float e, int a2, int a3);
 };
 
 struct CharacterBufferState
@@ -274,10 +274,10 @@ struct Cls
     int unk278;
     int unk27c;
     int unk280;
-    void FUN_00de6730(Input* a0, Renderer* a1, int a2, int a3);
+    void UpdateState_00de6730(Input* a0, Renderer* a1, int a2, int a3);
     void hkpConstraintDrawer_updateCommonParameters(void* a0, void* b, void* c);
     void hkpConstraintDrawer_drawPivots(int a2, int a3);
-    void FUN_00de5370(float angle, float scale, int flags, void* point, void* source);
+    void InitializeFields_00de5370(float angle, float scale, int flags, void* point, void* source);
     void SetFromVectors(void* a, void* b, void* c, void* d);
 };
 typedef int(__thiscall* VCall38)(void* self, void* a, int color, int a2, int a3);
@@ -457,7 +457,8 @@ __forceinline void drawGroups(Cls* self, Renderer* a1, int a2, int a3, Cls* obje
     }
 }
 // @fnv 0x00de6730
-void Cls::FUN_00de6730(Input* a0, Renderer* a1, int a2, int a3)
+// src: GUESS 0x00de6730 (confidence: low)
+void Cls::UpdateState_00de6730(Input* a0, Renderer* a1, int a2, int a3)
 {
     struct ArcPointers
     {
@@ -477,17 +478,17 @@ void Cls::FUN_00de6730(Input* a0, Renderer* a1, int a2, int a3)
     SourceView* src = &srcHome->body;
     prepareAxes(this, src, geometry);
     float prod1 = f1c * f0c;
-    ((SubC0*)&unkc0)->FUN_00e10d50(object50, &geometry.v80, &geometry.out70, 0xff008000, prod1, a2, a3);
+    ((SubC0*)&unkc0)->ComputeValues_00e10d50(object50, &geometry.v80, &geometry.out70, 0xff008000, prod1, a2, a3);
     float prod2 = f0c * f1c;
     ((SubC0*)&unkc0)
-        ->FUN_00e10d50(&unk40, &geometry.v30, &geometry.v48, PackBytesBigEndian(0xff, 0xff, 0, 0xff), prod2, a2, a3);
+        ->ComputeValues_00e10d50(&unk40, &geometry.v30, &geometry.v48, PackBytesBigEndian(0xff, 0xff, 0, 0xff), prod2, a2, a3);
 
     arcs.objectD0 = (Cls*)&unkd0;
     float prod3 = f1c;
     prod3 *= f10;
     void* self18;
     self18 = (void*)p18;
-    ((Cls*)arcs.objectD0)->FUN_00de5370(srcHome->body.u10c, prod3, (int)self18, &geometry.v80, object50);
+    ((Cls*)arcs.objectD0)->InitializeFields_00de5370(srcHome->body.u10c, prod3, (int)self18, &geometry.v80, object50);
     Cls* object280 = (Cls*)&unk280;
     float n = f14 * f1c;
     geometry.scaleVector = _mm_set1_ps(n);
@@ -496,9 +497,9 @@ void Cls::FUN_00de6730(Input* a0, Renderer* a1, int a2, int a3)
     float scale = f1c * f10;
     float savedAngle = src->angle11c;
     ((Cls*)arcs.object160)
-        ->FUN_00de5370((float)(DAT_01030f38 - fabs(src->angle120)), scale, p18, &geometry.v60, object50);
+        ->InitializeFields_00de5370((float)(DAT_01030f38 - fabs(src->angle120)), scale, p18, &geometry.v60, object50);
     float prod6 = f1c * f10;
     _mm_store_ps((float*)&geometry.v60, _mm_xor_ps(_mm_load_ps((float*)&geometry.v60), _mm_load_ps(&DAT_010c44d0)));
-    ((Cls*)(&unk1f0))->FUN_00de5370((float)(DAT_01030f38 - fabs(savedAngle)), prod6, p18, &geometry.v60, object50);
+    ((Cls*)(&unk1f0))->InitializeFields_00de5370((float)(DAT_01030f38 - fabs(savedAngle)), prod6, p18, &geometry.v60, object50);
     drawGroups(this, a1, a2, a3, arcs.objectD0, arcs.object160, object280);
 }

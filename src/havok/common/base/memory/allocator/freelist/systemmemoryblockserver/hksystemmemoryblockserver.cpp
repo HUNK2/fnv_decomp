@@ -159,11 +159,12 @@ struct FUN_00d60490_cls
     int unk04;
     int unk08;
     int unk0C;
-    int FUN_00d60490();
+    int GetUnk0C();
 };
 
 // @fnv 0x00d60490
-int FUN_00d60490_cls::FUN_00d60490()
+// src: GUESS 0x00d60490 (confidence: low)
+int FUN_00d60490_cls::GetUnk0C()
 {
     return unk0C;
 }

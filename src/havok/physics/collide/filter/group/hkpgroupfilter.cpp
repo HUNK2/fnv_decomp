@@ -117,12 +117,13 @@ struct FUN_00e48b60_arg1
 
 struct FUN_00e48b60_class
 {
-    int* FUN_00e48b60(int* value, FUN_00e48b60_arg1* arg1, hkpCollidable* arg2);
+    int* ApplyWorldAndCollidableFilters(int* value, FUN_00e48b60_arg1* arg1, hkpCollidable* arg2);
 };
 
 // Applies the world-ray filter info and collidable filter info using the owner at this-0x14.
 // @fnv 0x00e48b60
-int* FUN_00e48b60_class::FUN_00e48b60(int* value, FUN_00e48b60_arg1* arg1, hkpCollidable* arg2)
+// src: GUESS 0x00e48b60 (confidence: medium)
+int* FUN_00e48b60_class::ApplyWorldAndCollidableFilters(int* value, FUN_00e48b60_arg1* arg1, hkpCollidable* arg2)
 {
     reinterpret_cast<FUN_00e48830_class*>(reinterpret_cast<char*>(this) - 0x14)
         ->ShouldCollide(value, arg1->value_24, arg2->GetFilterInfoForKey());
@@ -201,12 +202,13 @@ void CollisionLayerMaskEditor::DisableCollisionPair(int iLayerA, int iLayerB)
 
 struct FUN_00e48ab0_class
 {
-    int* __thiscall FUN_00e48ab0(int* value, hkpCollidable* arg2, hkpCollidable* arg3);
+    int* __thiscall EvaluateValue_00e48ab0(int* value, hkpCollidable* arg2, hkpCollidable* arg3);
 };
 
 // Applies the two collidable filter infos using the owner at this-8.
 // @fnv 0x00e48ab0
-int* FUN_00e48ab0_class::FUN_00e48ab0(int* value, hkpCollidable* pFirstValue, hkpCollidable* pSecondValue)
+// src: GUESS 0x00e48ab0 (confidence: low)
+int* FUN_00e48ab0_class::EvaluateValue_00e48ab0(int* value, hkpCollidable* pFirstValue, hkpCollidable* pSecondValue)
 {
     reinterpret_cast<FUN_00e48830_class*>(reinterpret_cast<char*>(this) - 8)
         ->ShouldCollide(value, pFirstValue->GetFilterInfoForKey(), pSecondValue->GetFilterInfoForKey());
@@ -223,7 +225,7 @@ public:
     hkpCollisionDispatcher* m_pCollisionDispatcher;
 };
 
-const hkpShapeContainer* __cdecl FUN_00d2d4b0(const hkpCdBody* pkBody, ShapeCollectionScratchBuffer& kBuffer) throw();
+const hkpShapeContainer* __cdecl Hkpbvtreeagent3_ForwardCall_00d2d4b0(const hkpCdBody* pkBody, ShapeCollectionScratchBuffer& kBuffer) throw();
 
 // Local extension: the shared group class lacks ShouldCollide and collection-filter overrides.
 class CollectionBodyCollisionFilter : public hkpGroupFilter
@@ -267,7 +269,7 @@ hkBool CollectionBodyCollisionFilter::IsCollisionEnabled(const CollisionAgentCon
             else if (kInput.m_pCollisionDispatcher->hasAlternateType(iType, static_cast<hkpShapeType>(8)))
             {
                 ShapeCollectionScratchBuffer kBuffer;
-                const hkpShapeContainer* pkContainer = FUN_00d2d4b0(pkParent, kBuffer);
+                const hkpShapeContainer* pkContainer = Hkpbvtreeagent3_ForwardCall_00d2d4b0(pkParent, kBuffer);
                 uiInfoA = pkContainer->GetFilterInfoForKey(pkChild->getShapeKey());
                 goto done;
             }
@@ -410,7 +412,7 @@ FUN_00e489b0::FUN_00e489b0()
 // sub ecx,0x10; jmp target  ==  MSVC adjustor thunk for a virtual declared by both bases.
 struct PrimaryBase
 {
-    virtual void FUN_00e00c00();
+    virtual void AdjustThisAndForward_00e00c00();
     int unk04;
     int unk08;
     int unk0C;
@@ -418,14 +420,15 @@ struct PrimaryBase
 
 struct SecondaryBase
 {
-    virtual void FUN_00e00c00();
+    virtual void AdjustThisAndForward_00e00c00();
 };
 
 struct Derived : PrimaryBase, SecondaryBase
 {
     Derived();
 // @fnv 0x00e00c00
-    virtual void FUN_00e00c00();
+// src: GUESS 0x00e00c00 (confidence: low)
+    virtual void AdjustThisAndForward_00e00c00();
 };
 
 Derived::Derived()
@@ -467,20 +470,21 @@ namespace fnv_00e00c20 {
 // declare, so the second base's vtable gets a thunk that moves `this` back by the first base's size (8).
 struct PrimaryBase
 {
-    virtual void FUN_00e00c20();
+    virtual void AdjustThisAndForward_00e00c20();
     int unk04;
 };
 
 struct SecondaryBase
 {
-    virtual void FUN_00e00c20();
+    virtual void AdjustThisAndForward_00e00c20();
 };
 
 struct Derived : PrimaryBase, SecondaryBase
 {
     Derived();
 // @fnv 0x00e00c20
-    virtual void FUN_00e00c20();
+// src: GUESS 0x00e00c20 (confidence: low)
+    virtual void AdjustThisAndForward_00e00c20();
 };
 
 Derived::Derived()

@@ -8,7 +8,7 @@
 // src/havok/physics/utilities/visualdebugger/viewer/collide/hkpbroadphaseviewer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/collide/hkpbroadphaseviewer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 struct Container { int ClearValue(void* value); };
-struct Owner { int FUN_00d6a910(Container* container); };
+struct Owner { int ClearAdjustedValue(Container* container); };
 struct FUN_00dd9380_StandIn {
     int hkProcessFactory_registerProcess(const char* name, void* constructor);
 };
@@ -16,9 +16,9 @@ extern FUN_00dd9380_StandIn* DAT_01269cd0;
 extern int DAT_01269028;
 extern char DAT_010c65b0;
 void hkpBroadphaseViewer_Create();
-void __cdecl FUN_00d6ad40();
+void __cdecl Object_UpdateFields_00d6ad40();
 extern int DAT_01269028;
-int FUN_00d6ad60();
+int Object_GetDAT_01269028_00d6ad60();
 struct Target {
     void hkpWorld_addWorldPostSimulationListener(void* apArg);
 };
@@ -224,18 +224,19 @@ struct FUN_00d6ac40_cls : PrimaryBase, MidBase, TailBase, SubObject {
 };
 struct D6AD80Primary {
     virtual void vfunc00();
-    virtual void FUN_00d6ad80();
+    virtual void AdjustThisAndForward_00d6ad80();
 
     int unk04;
 };
 struct D6AD80Secondary {
-    virtual void FUN_00d6ad80();
+    virtual void AdjustThisAndForward_00d6ad80();
 };
 struct D6AD80Object : D6AD80Primary, D6AD80Secondary {
     D6AD80Object();
 
 // @fnv 0x00d6ad80
-    virtual void FUN_00d6ad80();
+// src: GUESS 0x00d6ad80 (confidence: low)
+    virtual void AdjustThisAndForward_00d6ad80();
 };
 D6AD80Object::D6AD80Object()
 {

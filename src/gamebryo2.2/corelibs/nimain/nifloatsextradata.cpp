@@ -81,7 +81,7 @@ void* __thiscall NiFloatsExtraData::DestroyNiFloatsExtraData(unsigned int flags)
     *(void**)this = (void*)&DAT_0109ec0c;
     _NiFreeAlias(v);
     p->m_pfValue = 0;
-    NiExtraData::FUN_00a7b300();
+    NiExtraData::DestroyFields_00a7b300();
     if (flags & 1)
         ::operator delete(this, 0x14);
     return this;
@@ -592,11 +592,11 @@ void NiFloatsExtraData::LoadBinary(NiStream& stream)
     }
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int uiSize);
+void* __cdecl Object_DispatchCommandFour(unsigned int uiSize);
 // @fnv 0x00a89130
 NiFloatsExtraData* NiFloatsExtraData::CreateNiFloatsExtraData(CloningProcess* pCloning)
 {
-    NiFloatsExtraData* pExtraData = (NiFloatsExtraData*)FUN_00aa13e0(0x14);
+    NiFloatsExtraData* pExtraData = (NiFloatsExtraData*)Object_DispatchCommandFour(0x14);
     NiFloatsExtraData* ret =
         pExtraData
             ? (((NiExtraData*)pExtraData)->FUN_00a7b2e0(), *(void**)pExtraData = (void*)&DAT_0109ec0c,

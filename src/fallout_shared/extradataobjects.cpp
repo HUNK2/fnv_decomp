@@ -222,7 +222,7 @@ class NavMeshInfo;
 #include "../../include/BSSimpleArray.h"
 #include "../../include/ExtraDismemberedLimbs.h"
 
-bool __cdecl FUN_009a3830(NavMeshInfo*&, NavMeshInfo*&);
+bool __cdecl Actor_AreReferencedValuesEqual(NavMeshInfo*&, NavMeshInfo*&);
 
 extern char DAT_01183b2c;
 extern char DAT_01184680;
@@ -430,7 +430,7 @@ int LockExtraData::GetLockLevel(TESObjectREFR* ref)
 void ExtraGuardedRefData::AddGuardingActor(Actor* actor)
 {
     unsigned int guard = actor->GetFormID();
-    if (guardActorIDs.Find(guard, 0, reinterpret_cast<bool(__cdecl*)(unsigned int&, unsigned int&)>(FUN_009a3830)) == (unsigned int)-1)
+    if (guardActorIDs.Find(guard, 0, reinterpret_cast<bool(__cdecl*)(unsigned int&, unsigned int&)>(Actor_AreReferencedValuesEqual)) == (unsigned int)-1)
         guardActorIDs.Add(guard);
 }
 
@@ -676,7 +676,8 @@ struct BGSSaveGameBuffer;
 typedef char _sizecheck_CombatTimeStamp[sizeof(CombatTargetTimestamp) == 4 ? 1 : -1];
 
 // @fnv 0x004300a0
-CombatTargetTimestamp* __fastcall FUN_004300a0(CombatTargetTimestamp* this_ptr)
+// src: GUESS 0x004300a0 (confidence: high)
+CombatTargetTimestamp* __fastcall CombatTargetTimestamp_ClearTimeStamp(CombatTargetTimestamp* this_ptr)
 {
     this_ptr->fTimeStamp = 0.0f;
     return this_ptr;
@@ -945,7 +946,8 @@ typedef char _sizecheck_ExtraLeveledCreature[sizeof(ExtraLeveledCreature) == 20 
 extern int DAT_01015b7c;
 
 // @fnv 0x004311f0
-ExtraLeveledCreature* __fastcall FUN_004311f0(ExtraLeveledCreature* pThis)
+// src: GUESS 0x004311f0 (confidence: medium)
+ExtraLeveledCreature* __fastcall BSExtraData_InitializeExtraCreatureData(ExtraLeveledCreature* pThis)
 {
     ((BSExtraData*)pThis)->BSExtraData::BSExtraData(0x2e);
     *(void**)pThis = &DAT_01015b7c;
@@ -985,7 +987,8 @@ struct PtrWrap
 
 // Initializes an ExtraAudioMarker: constructs the BSExtraData base with type 0x90, sets its vtable, and stores the given audio data pointer.
 // @fnv 0x004314c0
-ExtraAudioMarker* __fastcall FUN_004314c0(ExtraAudioMarker* pThis, PtrWrap aData)
+// src: GUESS 0x004314c0 (confidence: medium)
+ExtraAudioMarker* __fastcall ExtraAudioMarker_InitializeAudioData(ExtraAudioMarker* pThis, PtrWrap aData)
 {
     pThis->BSExtraData::BSExtraData(0x90);
     *(int*)pThis = (int)&DAT_01015b94;
@@ -1747,7 +1750,7 @@ int FUN_0041ca90::get()
 
 struct FUN_0042ff80_s
 {
-    void FUN_0042ff80();
+    void ResetVirtualTableAndClear();
 };
 struct FUN_004303c0
 {
@@ -1756,7 +1759,7 @@ struct FUN_004303c0
 // @fnv 0x004303c0
 void FUN_004303c0::run()
 {
-    ((FUN_0042ff80_s*)((char*)this + 4))->FUN_0042ff80();
+    ((FUN_0042ff80_s*)((char*)this + 4))->ResetVirtualTableAndClear();
 }
 
 struct MapMarkerData
@@ -2750,7 +2753,7 @@ struct ContNode
     void* FUN_006815c0();
     ContNode* GetNext();
     void FUN_0063f7b0();
-    void FUN_00905330(void*);
+    void RemoveMatchingItem(void*);
 };
 
 // @fnv 0x00434800
@@ -2764,7 +2767,7 @@ void ExtraReflectedRefs::RemoveReference(TESObjectREFR* target)
         if (*(void**)item == target)
         {
             if (prev)
-                prev->FUN_00905330(&item);
+                prev->RemoveMatchingItem(&item);
             else
                 node->FUN_0063f7b0();
             void* tmp = item;
@@ -2804,7 +2807,7 @@ bool ExtraGuardedRefData::Compare(BSExtraData* apCompare)
     for (unsigned int i = 0; i < guardActorIDs.GetSize(); ++i)
     {
         if (pOtherData->guardActorIDs.Find(guardActorIDs.GetAt(static_cast<int>(i)), 0,
-                       reinterpret_cast<bool(__cdecl*)(unsigned int&, unsigned int&)>(FUN_009a3830)) == (unsigned int)-1)
+                       reinterpret_cast<bool(__cdecl*)(unsigned int&, unsigned int&)>(Actor_AreReferencedValuesEqual)) == (unsigned int)-1)
             return true;
     }
     return false;
@@ -4538,12 +4541,13 @@ struct EntryCollection
     int unk1C;
     EntryListNode entries;
 
-    bool FUN_00430660(EntryCollection* other);
+    bool HasEqualEntries(EntryCollection* other);
 };
 
 // Compares unk0C, entry counts and each entry's four bytes and sub-value against another EntryCollection, returning true only if all match.
 // @fnv 0x00430660
-bool EntryCollection::FUN_00430660(EntryCollection* other)
+// src: GUESS 0x00430660 (confidence: medium)
+bool EntryCollection::HasEqualEntries(EntryCollection* other)
 {
     if (other->unk0C != unk0C)
         return false;
@@ -4661,12 +4665,13 @@ class FUN_004331c0_cls
     unsigned int unk08;
     ContNode* m_0c;
 
-    void FUN_004331c0(unsigned int a1, unsigned char a2);
+    void SetOrCreateKeyedFlag(unsigned int a1, unsigned char a2);
 };
 
 // Searches the list at m_0c for a record whose key equals a1, creates and inserts one if missing, then sets its key and flag.
 // @fnv 0x004331c0
-void FUN_004331c0_cls::FUN_004331c0(unsigned int uiKey, unsigned char ucFlag)
+// src: GUESS 0x004331c0 (confidence: medium)
+void FUN_004331c0_cls::SetOrCreateKeyedFlag(unsigned int uiKey, unsigned char ucFlag)
 {
     FUN_004331c0_rec* item = 0;
     FUN_004331c0_rec* found = 0;

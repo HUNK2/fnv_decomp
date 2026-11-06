@@ -231,12 +231,12 @@ void __fastcall SetRefAt(void* self, int, int idx, NiRefObject* pValue)
 }  // namespace fnv_00b67330
 
 void __cdecl __Dummy_00b6fef0(void*, unsigned int);
-void __fastcall FUN_00b66850(void*);
+void __fastcall ReleaseStorage_00b66850(void*);
 // Calls FUN_00b66850 on self, then if bit 0 of flags is set calls __Dummy_00b6fef0 with self and 0x14, and returns self.
 // @fnv 0x00b67580
 void* __fastcall FUN_00b67580(void* self, int, unsigned char flags)
 {
-    FUN_00b66850(self);
+    ReleaseStorage_00b66850(self);
     if (flags & 1)
         __Dummy_00b6fef0(self, 0x14);
     return self;
@@ -2781,7 +2781,7 @@ struct ScaleContext
 int BSShaderManager_GetAccumulator();
 float LinearInterpolate(float, float, float, float, float);
 bool BSShaderManager_GetShadows();
-bool FUN_00b66760(unsigned int);
+bool Object_ComputeValue_00b66760(unsigned int);
 struct Fake_FUN_004a2020
 {
     bool GetFlag(unsigned int) const;
@@ -3099,7 +3099,7 @@ Passes* Shader::GetPasses(Geom* geom, unsigned int pass, unsigned short* output,
         if (passCount > 1)
         {
             Pass* firstPass = passList->data[0];
-            if (FUN_00b66760(firstPass->id))
+            if (Object_ComputeValue_00b66760(firstPass->id))
             {
                 --firstPass->id;
                 return mainPasses;

@@ -96,7 +96,8 @@ void __fastcall ConvertRgb565ToRgb888(char* pThis, int, unsigned char* pucSrc, u
 }
 
 // @fnv 0x00a8d590
-void __fastcall FUN_00a8d590(char* this_ptr, int, unsigned char* pSrcIndices, unsigned char* pDst)
+// src: GUESS 0x00a8d590 (confidence: low)
+void __fastcall NiDDSReader_ProcessEntries_00a8d590(char* this_ptr, int, unsigned char* pSrcIndices, unsigned char* pDst)
 {
     for (unsigned int i = 0; i < *(unsigned short*)(this_ptr + 0x10e); i++)
     {
@@ -172,7 +173,8 @@ FUN_00a8c190::FUN_00a8c190()
 
 // For each of the count at self+0x10e, reads a byte from src, subtracts the byte at self+0x104, and writes the result to dst.
 // @fnv 0x00a8d4a0
-void __fastcall FUN_00a8d4a0(char* self, int edx, const unsigned char* src, unsigned char* dst)
+// src: GUESS 0x00a8d4a0 (confidence: medium)
+void __fastcall Object_CopyBytesWithOffset(char* self, int edx, const unsigned char* src, unsigned char* dst)
 {
     unsigned int i;
     for (i = 0; i < *(unsigned short*)(self + 0x10e); i++)
@@ -183,7 +185,8 @@ void __fastcall FUN_00a8d4a0(char* self, int edx, const unsigned char* src, unsi
 }
 
 // @fnv 0x00a8d600
-void __fastcall FUN_00a8d600(char* self, int edx, const unsigned char* src, unsigned char* dst)
+// src: GUESS 0x00a8d600 (confidence: low)
+void __fastcall Object_ProcessEntries_00a8d600(char* self, int edx, const unsigned char* src, unsigned char* dst)
 {
     for (unsigned int i = 0; i < *(unsigned short*)(self + 0x10e); ++i)
     {
@@ -203,7 +206,8 @@ struct FUN_00a8d670_obj
     unsigned short width;
 };
 // @fnv 0x00a8d670
-void __fastcall FUN_00a8d670(FUN_00a8d670_obj* self, int unused, const unsigned char* src, unsigned char* dst)
+// src: GUESS 0x00a8d670 (confidence: high)
+void __fastcall NiDDSReader_SwapRedBlue24BitPixels(FUN_00a8d670_obj* self, int unused, const unsigned char* src, unsigned char* dst)
 {
     for (unsigned int i = 0; i < self->width; i++)
     {
@@ -220,7 +224,8 @@ struct FUN_00a8d6c0_obj
     unsigned short width;
 };
 // @fnv 0x00a8d6c0
-void __fastcall FUN_00a8d6c0(FUN_00a8d6c0_obj* self, int unused, const unsigned char* src, unsigned char* dst)
+// src: GUESS 0x00a8d6c0 (confidence: low)
+void __fastcall Object_ProcessEntries_00a8d6c0(FUN_00a8d6c0_obj* self, int unused, const unsigned char* src, unsigned char* dst)
 {
     for (unsigned int i = 0; i < self->width; i++)
     {
@@ -345,7 +350,7 @@ struct ClsSub
 {
     ClsSub* NiPalette_NiPalette_00a8b110(int b, int w, int d);
 };
-extern void* __cdecl FUN_00aa13e0(unsigned int size);
+extern void* __cdecl Object_DispatchCommandFour(unsigned int size);
 extern void __cdecl _NiFree_00aa10f0(void* p);
 extern void* __cdecl _NiMalloc_00aa1070(unsigned int size);
 extern void(__stdcall* DAT_00fdf05c)(void*);
@@ -442,7 +447,7 @@ NiPixelData* ClsReader::ReadImage(NiBinaryStream* stream, NiPixelData* image)
     }
     else
     {
-        void* pImageMem = FUN_00aa13e0(0x74);
+        void* pImageMem = Object_DispatchCommandFour(0x74);
         if (pImageMem != 0)
         {
             result = ::new (pImageMem) NiPixelData((int)(unsigned short)w10e, (int)(unsigned short)w110, &m_eFormat, 1, 1);
@@ -455,7 +460,7 @@ NiPixelData* ClsReader::ReadImage(NiBinaryStream* stream, NiPixelData* image)
     }
     if (b116 != 0)
     {
-        void* pSubMem = FUN_00aa13e0(0x24);
+        void* pSubMem = Object_DispatchCommandFour(0x24);
         ClsSub* sub;
         if (pSubMem != 0)
         {
@@ -988,13 +993,13 @@ extern const NiPixelFormat DAT_011aa210;
 extern const NiPixelFormat DAT_011aa258;
 extern const NiPixelFormat DAT_011aa2a0;
 void __fastcall DecodeBytes(char* self, int edx, const unsigned char* src, unsigned char* dst);
-void __fastcall FUN_00a8d4a0(char* self, int edx, const unsigned char* src, unsigned char* dst);
+void __fastcall Object_CopyBytesWithOffset(char* self, int edx, const unsigned char* src, unsigned char* dst);
 void __fastcall ExpandGrayToRgb(void* thisPtr, int, unsigned char* src, unsigned char* dst);
 void __fastcall ConvertRgb565ToRgb888(char* pThis, int, unsigned char* pucSrc, unsigned char* pucDest);
-void __fastcall FUN_00a8d590(char* this_ptr, int, unsigned char* pSrc, unsigned char* pDst);
-void __fastcall FUN_00a8d600(char* self, int edx, const unsigned char* src, unsigned char* dst);
-void __fastcall FUN_00a8d670(char*, int, unsigned char*, unsigned char*);
-void __fastcall FUN_00a8d6c0(char*, int, unsigned char*, unsigned char*);
+void __fastcall NiDDSReader_ProcessEntries_00a8d590(char* this_ptr, int, unsigned char* pSrc, unsigned char* pDst);
+void __fastcall Object_ProcessEntries_00a8d600(char* self, int edx, const unsigned char* src, unsigned char* dst);
+void __fastcall NiDDSReader_SwapRedBlue24BitPixels(char*, int, unsigned char*, unsigned char*);
+void __fastcall Object_ProcessEntries_00a8d6c0(char*, int, unsigned char*, unsigned char*);
 struct DDSReader : NiImageReader
 {
     unsigned char b100, b101, b102, unk103;
@@ -1097,7 +1102,7 @@ bool DDSReader::NiTGAReader_ReadHeader(NiBinaryStream* stream, int* apWidth, int
     case 8:
         b114 = 1;
         if (bHasPalette)
-            m_pfnPixelConverter = (void(__fastcall*)(char*, int, unsigned char*, unsigned char*))FUN_00a8d4a0;
+            m_pfnPixelConverter = (void(__fastcall*)(char*, int, unsigned char*, unsigned char*))Object_CopyBytesWithOffset;
         else
             m_pfnPixelConverter = (void(__fastcall*)(char*, int, unsigned char*, unsigned char*))ExpandGrayToRgb;
         break;
@@ -1107,20 +1112,20 @@ bool DDSReader::NiTGAReader_ReadHeader(NiBinaryStream* stream, int* apWidth, int
         if (bHasPalette)
         {
             if (bIs32Bit)
-                m_pfnPixelConverter = (void(__fastcall*)(char*, int, unsigned char*, unsigned char*))FUN_00a8d600;
+                m_pfnPixelConverter = (void(__fastcall*)(char*, int, unsigned char*, unsigned char*))Object_ProcessEntries_00a8d600;
             else
-                m_pfnPixelConverter = FUN_00a8d590;
+                m_pfnPixelConverter = NiDDSReader_ProcessEntries_00a8d590;
         }
         else
             m_pfnPixelConverter = ConvertRgb565ToRgb888;
         break;
     case 24:
         b114 = 3;
-        m_pfnPixelConverter = (void(__fastcall*)(char*, int, unsigned char*, unsigned char*))FUN_00a8d670;
+        m_pfnPixelConverter = (void(__fastcall*)(char*, int, unsigned char*, unsigned char*))NiDDSReader_SwapRedBlue24BitPixels;
         break;
     case 32:
         b114 = 4;
-        m_pfnPixelConverter = (void(__fastcall*)(char*, int, unsigned char*, unsigned char*))FUN_00a8d6c0;
+        m_pfnPixelConverter = (void(__fastcall*)(char*, int, unsigned char*, unsigned char*))Object_ProcessEntries_00a8d6c0;
         break;
     }
     b178 = 0;

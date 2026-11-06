@@ -63,7 +63,7 @@ public:
     void Initialize(CombatController*);
     void RunProcedure();
     void* DestroyIfFlagged(unsigned int flags);
-    void FUN_009ca6c0();
+    void SetVirtualTable_009ca6c0();
     void* GetTarget_00996e00();
     void SetMoveMode_00996e20(int aiCombatMoveMode);
     void ClearMoveMode();

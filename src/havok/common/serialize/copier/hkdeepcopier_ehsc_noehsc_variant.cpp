@@ -257,7 +257,8 @@ struct CopyRecord
 };
 
 // @fnv 0x00e4afe0
-void* FUN_00e4afe0(const void* dataIn, const ClassInfo& klassIn, PtrMap* previousCopies,
+// src: GUESS 0x00e4afe0 (confidence: low)
+void* Object_ProcessEntries_00e4afe0(const void* dataIn, const ClassInfo& klassIn, PtrMap* previousCopies,
                    VtableClassReg* vtableClassRegistry, LoadedObjectReg* loadedObjectRegistry, int flags)
 {
     hkArray<char> buffer;

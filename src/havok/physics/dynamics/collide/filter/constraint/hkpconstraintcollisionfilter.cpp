@@ -89,7 +89,7 @@ __forceinline void hkpWorld::unlockAndAttemptToExecutePendingOperations()
         if (m_iPendingOperationCount)
             FUN_00c91120();
         if (m_iPendingOperationQueueCount == 1 && m_iQueuedOperationCount)
-            FUN_00c91140();
+            UpdateFields_00c91140();
     }
 }
 
@@ -274,7 +274,7 @@ void FUN_00d87d70_cls::hkpConstraintCollisionFilter_constraintAddedCallback(A* p
     {
         return;
     }
-    d->FUN_00c91140();
+    d->UpdateFields_00c91140();
 }
 
 struct S_00d87f60_Arg
@@ -451,7 +451,7 @@ void WorldOpTask::hkpConstraintCollisionFilter_updateFromWorld(Arg_b1297* a1)
 // declare, so the second base's vtable gets a thunk that moves `this` back by the first base's size (0x14).
 struct PrimaryBase
 {
-    virtual void FUN_00d87fc0();
+    virtual void AdjustThisAndForward_00d87fc0();
     int unk04;
     int unk08;
     int unk0C;
@@ -460,14 +460,15 @@ struct PrimaryBase
 
 struct SecondaryBase
 {
-    virtual void FUN_00d87fc0();
+    virtual void AdjustThisAndForward_00d87fc0();
 };
 
 struct Derived : PrimaryBase, SecondaryBase
 {
     Derived();
 // @fnv 0x00d87fc0
-    virtual void FUN_00d87fc0();
+// src: GUESS 0x00d87fc0 (confidence: low)
+    virtual void AdjustThisAndForward_00d87fc0();
 };
 
 Derived::Derived()
@@ -500,7 +501,7 @@ D87FD0Object::D87FD0Object()
 struct D87FE0Primary
 {
     virtual void vfunc00();
-    virtual void FUN_00d87fe0();
+    virtual void AdjustThisAndForward_00d87fe0();
 
     int unk04;
     int unk08;
@@ -508,7 +509,7 @@ struct D87FE0Primary
 
 struct D87FE0Secondary
 {
-    virtual void FUN_00d87fe0();
+    virtual void AdjustThisAndForward_00d87fe0();
 };
 
 struct D87FE0Object : D87FE0Primary, D87FE0Secondary
@@ -516,7 +517,8 @@ struct D87FE0Object : D87FE0Primary, D87FE0Secondary
     D87FE0Object();
 
 // @fnv 0x00d87fe0
-    virtual void FUN_00d87fe0();
+// src: GUESS 0x00d87fe0 (confidence: low)
+    virtual void AdjustThisAndForward_00d87fe0();
 };
 
 D87FE0Object::D87FE0Object()

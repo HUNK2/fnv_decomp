@@ -36,7 +36,7 @@ class NiAlphaProperty : public NiProperty
     void NiAlphaProperty_SetNoSorter(bool enable);
     void NiAlphaProperty_SetBit(bool enable, unsigned short flags);
     void NiAlphaProperty_SetBit(bool enable, unsigned int flags);
-    void FUN_00439320();
+    void ForwardCall_00439320();
     void* FUN_004392f0(unsigned int flags);
 
 

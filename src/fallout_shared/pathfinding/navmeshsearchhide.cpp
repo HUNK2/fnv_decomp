@@ -20,7 +20,7 @@ void* _Deallocate(void*);
 // @fnv 0x006a9d30
 void* NavMeshSearchHide::DestroyIfFlagged(unsigned int flags)
 {
-    FUN_006a9d60();
+    UpdateFields_006a9d60();
     if (flags & 1)
         _Deallocate(this);
     return this;
@@ -140,15 +140,15 @@ bool NavMeshSearchHide::ExpandNeighbors(NavSearchNodeInfo* pkInfo, NavSearchNode
                 pMesh5->FUN_005582f0(usTriZ)->FUN_00691140(0x10))
                 continue;
             NiPoint3 kCenterTmp = pMesh5->FUN_00558220(usTriZ);
-            NiPoint3 kDeltaW = kCenterTmp.FUN_00439ef0(kPosX);
+            NiPoint3 kDeltaW = kCenterTmp.SubtractIntoVector(kPosX);
             float fCost_ = kDeltaW.NiPoint3_XYLength() * fMultY + pkInfo->m_fCost;
             float fExtraZ = 0.0f;
             if (reinterpret_cast<const PathingRequest*>(m_pActor)->GetString())
                 fExtraZ = reinterpret_cast<const PathingRequest*>(m_pActor)->GetString()->GetAvoidanceAtPoint(kCenterTmp);
-            float fDist6 = kCenterTmp.FUN_00439ef0(m_kTargetPos).NiPoint3_XYLength();
+            float fDist6 = kCenterTmp.SubtractIntoVector(m_kTargetPos).NiPoint3_XYLength();
             float fNearOut = 1.0f - fDist6 / 512.0;
             fExtraZ += BSMAX_00404010(fNearOut, 0.0f);
-            NiPoint3 kToTargetWork = m_kTargetPos.FUN_00439ef0(kPosX);
+            NiPoint3 kToTargetWork = m_kTargetPos.SubtractIntoVector(kPosX);
             float fDot_2 = kToTargetWork.DotProduct(kDeltaW);
             float fLenA_2 = kToTargetWork.FUN_00457990();
             float fLenBY = kDeltaW.FUN_00457990();
@@ -226,7 +226,7 @@ int NavMeshSearchHide::SetupActorTarget(ActorX* pkActor, TriRef20* pkInfo, Param
 
     // This output buffer is populated by FUN_006a6eb0 without default construction.
     float kTriPt2[3];
-    NiPoint3 kDiff = kInfo3.FastNavMeshTriLocation_GetLocation(reinterpret_cast<NiPoint3*>(kTriPt2))->FUN_00439ef0(m_kStartPoint);
+    NiPoint3 kDiff = kInfo3.FastNavMeshTriLocation_GetLocation(reinterpret_cast<NiPoint3*>(kTriPt2))->SubtractIntoVector(m_kStartPoint);
     float fVal6 = m_fFirstLightParameter - kDiff.FUN_00457990();
     BSClamp_float(&fVal6, 0.0f, m_fFirstLightParameter);
 
@@ -274,7 +274,7 @@ bool NavMeshSearchHide::IsGoalNode(NavData6aa4* pkData)
         return false;
 
     NiPoint3 kPos = pkData->m_kRef.FastNavMeshTriLocation_GetLocation();
-    float aFLength = m_kTargetPos.FUN_00439ef0(kPos).NiPoint3_XYLength();
+    float aFLength = m_kTargetPos.SubtractIntoVector(kPos).NiPoint3_XYLength();
     if (aFLength < reinterpret_cast<HideRequestTargetAccess*>(m_pkActor)->FUN_00885bd0())
         return false;
 
@@ -303,7 +303,8 @@ bool NavMeshSearchHide::IsGoalNode(NavData6aa4* pkData)
 extern int DAT_0106b7dc;
 
 // @fnv 0x006a9d60
-void NavMeshSearchHide::FUN_006a9d60()
+// src: GUESS 0x006a9d60 (confidence: low)
+void NavMeshSearchHide::UpdateFields_006a9d60()
 {
     *reinterpret_cast<void**>(this) = &DAT_0106b7dc;
     NavMeshSearch::FUN_006a6b00();

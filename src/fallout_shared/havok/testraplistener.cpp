@@ -34,7 +34,8 @@ extern int DAT_0104e328;
 
 
 // @fnv 0x0062d420
-void hkpCdBodyPairCollector::FUN_0062d420()
+// src: GUESS 0x0062d420 (confidence: low)
+void hkpCdBodyPairCollector::SetVirtualTable_0062d420()
 {
     *(int*)this = (int)&DAT_0104e328;
 }
@@ -59,11 +60,12 @@ extern int DAT_0104e3d0;
 struct FUN_0062d740_shell
 {
     int m_field;
-    void FUN_0062d740();
+    void UpdateFields_0062d740();
 };
 
 // @fnv 0x0062d740
-void FUN_0062d740_shell::FUN_0062d740()
+// src: GUESS 0x0062d740 (confidence: low)
+void FUN_0062d740_shell::UpdateFields_0062d740()
 {
     m_field = (int)&DAT_0104e3d0;
 }
@@ -71,12 +73,13 @@ void FUN_0062d740_shell::FUN_0062d740()
 struct FUN_0062dee0_shell
 {
     CombatWorldStateListNode* m_kNode;
-    bool FUN_0062dee0(int arg);
+    bool ProcessEntries_0062dee0(int arg);
 };
 
 // Walks the linked list at this+0x20 and returns true if any node's _ref_0084e3a0() equals arg.
 // @fnv 0x0062dee0
-bool __thiscall FUN_0062dee0_shell::FUN_0062dee0(int arg)
+// src: GUESS 0x0062dee0 (confidence: low)
+bool __thiscall FUN_0062dee0_shell::ProcessEntries_0062dee0(int arg)
 {
     CombatWorldStateListNode* p = *(CombatWorldStateListNode**)((char*)this + 0x20);
     while (p)
@@ -92,18 +95,19 @@ extern int DAT_0104e3f4;
 
 struct FUN_0062e040_shell
 {
-    void FUN_0062e040();
+    void SetVirtualTable_0062e040();
 };
 
 // @fnv 0x0062e040
-void FUN_0062e040_shell::FUN_0062e040()
+// src: GUESS 0x0062e040 (confidence: low)
+void FUN_0062e040_shell::SetVirtualTable_0062e040()
 {
     *(int*)this = (int)&DAT_0104e3f4;
 }
 
 struct FUN_0062c700_shell
 {
-    void FUN_0062c700();
+    void ForwardCall_0062c700();
 };
 
 struct FUN_0062dfe0_shell
@@ -112,7 +116,8 @@ struct FUN_0062dfe0_shell
 };
 
 // @fnv 0x0062c700
-void FUN_0062c700_shell::FUN_0062c700()
+// src: GUESS 0x0062c700 (confidence: low)
+void FUN_0062c700_shell::ForwardCall_0062c700()
 {
     ((FUN_0062dfe0_shell*)this)->FUN_0062dfe0();
 }
@@ -126,7 +131,7 @@ struct FUN_0062d710_shell : FUN_0062d740_shell
 // @fnv 0x0062d710
 void* FUN_0062d710_shell::FUN_0062d710(unsigned int flags)
 {
-    this->FUN_0062d740();
+    this->UpdateFields_0062d740();
     if (flags & 1)
         _Deallocate(this);
     return this;
@@ -150,7 +155,7 @@ struct FUN_0062e200_shell
 // @fnv 0x0062e200
 void* FUN_0062e200_shell::FUN_0062e200(unsigned int flags)
 {
-    ((FUN_0062e040_shell*)this)->FUN_0062e040();
+    ((FUN_0062e040_shell*)this)->SetVirtualTable_0062e040();
     if (flags & 1)
         _Deallocate(this);
     return this;
@@ -205,7 +210,7 @@ struct FUN_0062c720_shell : FUN_0062c700_shell
 // @fnv 0x0062c720
 void* FUN_0062c720_shell::FUN_0062c720(unsigned int flags)
 {
-    FUN_0062c700();
+    ForwardCall_0062c700();
     if (flags & 1)
         _Deallocate(this);
     return this;
@@ -319,7 +324,7 @@ void* MyCollector::hkpCdBodyPairCollector_hkpCdBodyPairCollector()
     return this;
 }
 
-void __cdecl FUN_006210d0(void*);
+void __cdecl Cameracaster_UpdateState_006210d0(void*);
 struct FUN_0062d3f0_Standin : hkpCdBodyPairCollector
 {
     void* FUN_0062d3f0(unsigned int);
@@ -328,20 +333,20 @@ struct FUN_0062d3f0_Standin : hkpCdBodyPairCollector
 // @fnv 0x0062d3f0
 void* FUN_0062d3f0_Standin::FUN_0062d3f0(unsigned int flags)
 {
-    FUN_0062d420();
+    SetVirtualTable_0062d420();
     if (flags & 1)
-        FUN_006210d0(this);
+        Cameracaster_UpdateState_006210d0(this);
     return this;
 }
 
-void __cdecl FUN_0062d470(void*);
+void __cdecl BSAudio_UpdateState_0062d470(void*);
 // Calls FUN_0062d4b0 on this, then FUN_0062d470(this) if bit 0 of flags is set, and returns this.
 // @fnv 0x0062d440
 void* hkpAllCdBodyPairCollector::FUN_0062d440(unsigned int flags)
 {
     this->hkpAllCdBodyPairCollector::~hkpAllCdBodyPairCollector();
     if (flags & 1)
-        FUN_0062d470(this);
+        BSAudio_UpdateState_0062d470(this);
     return this;
 }
 
@@ -354,11 +359,12 @@ struct TrapHolder
 {
     TrigEntry* arr;
     int cnt;
-    bool FUN_0062d570(CombatWorldStateListNode* p);
+    bool ContainsTriggerID(CombatWorldStateListNode* p);
 };
 // Returns true if the trigger id from p matches any entry's a field in arr, otherwise false.
 // @fnv 0x0062d570
-bool TrapHolder::FUN_0062d570(CombatWorldStateListNode* p)
+// src: GUESS 0x0062d570 (confidence: high)
+bool TrapHolder::ContainsTriggerID(CombatWorldStateListNode* p)
 {
     int ptriggers = _ref_0084e3a0(p);
     {
@@ -391,7 +397,7 @@ struct FUN_0062d550_shell
 };
 struct FUN_0062df60_shell
 {
-    FUN_0062d550_shell* FUN_0062df60(int);
+    FUN_0062d550_shell* BhkTTNode_TESObjectREFR_GetEntry_Thunk(int);
 };
 struct FUN_0062df20_shell
 {
@@ -404,7 +410,7 @@ struct FUN_0062df20_shell
 // src: COMMUNITY 0x0062df20
 bool FUN_0062df20_shell::TESTrapListener_IsRefInTrigger(int a1, int a2)
 {
-    FUN_0062d550_shell* t = m_32->FUN_0062df60(a2);
+    FUN_0062d550_shell* t = m_32->BhkTTNode_TESObjectREFR_GetEntry_Thunk(a2);
     if (!t)
         return false;
     return t->ForwardToMember(a1);
@@ -417,10 +423,11 @@ struct FUN_0057c400_shell
 };
 struct FUN_0062df60_shell
 {
-    void __thiscall FUN_0062df60(unsigned int a);
+    void __thiscall BhkTTNode_TESObjectREFR_GetEntry_Thunk(unsigned int a);
 };
 // @fnv 0x0062df60
-void __thiscall FUN_0062df60_shell::FUN_0062df60(unsigned int a)
+// src: GUESS 0x0062df60 (confidence: medium)
+void __thiscall FUN_0062df60_shell::BhkTTNode_TESObjectREFR_GetEntry_Thunk(unsigned int a)
 {
     ((FUN_0057c400_shell*)this)->bhkTTNode_TESObjectREFR_GetEntry(a);
 }
@@ -428,7 +435,7 @@ void __thiscall FUN_0062df60_shell::FUN_0062df60(unsigned int a)
 
 struct FUN_0062df80_shell
 {
-    void FUN_0062df80();
+    void ForwardCall_0062df80();
 };
 
 struct FUN_0062e170_shell
@@ -437,7 +444,8 @@ struct FUN_0062e170_shell
 };
 
 // @fnv 0x0062df80
-void FUN_0062df80_shell::FUN_0062df80()
+// src: GUESS 0x0062df80 (confidence: low)
+void FUN_0062df80_shell::ForwardCall_0062df80()
 {
     reinterpret_cast<FUN_0062e170_shell*>(this)->FUN_0062e170();
 }
@@ -466,7 +474,7 @@ void C62::SetC(int* piValue)
 
 struct CalleeObj
 {
-    void FUN_00622570(bool);
+    void UpdateState_00622570(bool);
 };
 struct FUN_0062e120_shell
 {
@@ -479,7 +487,7 @@ struct FUN_0062e120_shell
 // src: COMMUNITY 0x0062e120
 void* FUN_0062e120_shell::hkArrayBase_hkpEntity_isEmpty(void* pObject)
 {
-    ((CalleeObj*)pObject)->FUN_00622570(_flag == 0);
+    ((CalleeObj*)pObject)->UpdateState_00622570(_flag == 0);
     return pObject;
 }
 
@@ -729,7 +737,7 @@ FUN_0062c6e0_shell::FUN_0062c6e0_shell()
 // src: XBOX_PDB 0x0062d330
 void MyCollector::hkpCdBodyPairCollector_reset()
 {
-    ((CalleeObj*)((char*)this + 4))->FUN_00622570(false);
+    ((CalleeObj*)((char*)this + 4))->UpdateState_00622570(false);
 }
 
 namespace fnv_0062d550 {
@@ -992,7 +1000,8 @@ struct Vt62d470
     virtual void vf2(void*, unsigned int);
 };
 // @fnv 0x0062d470
-void __cdecl FUN_0062d470(void* ap)
+// src: GUESS 0x0062d470 (confidence: low)
+void __cdecl BSAudio_UpdateState_0062d470(void* ap)
 {
     if (ap)
     {
@@ -1243,11 +1252,12 @@ FUN_0062dfe0::~FUN_0062dfe0()
 struct FUN_0062e150_cls
 {
     void* m_pBase;
-    void* FUN_0062e150(int index);
+    void* GetElementPointer16(int index);
 };
 
 // @fnv 0x0062e150
-void* FUN_0062e150_cls::FUN_0062e150(int index)
+// src: GUESS 0x0062e150 (confidence: medium)
+void* FUN_0062e150_cls::GetElementPointer16(int index)
 {
     return (void*)((char*)m_pBase + index * 16);
 }
@@ -1328,7 +1338,7 @@ struct Array62
     int capacity;
     Check62 hkArrayBase_hkpEntity_isEmpty();
     int FUN_00726070();
-    ArrayEntry62* FUN_0062e150(int);
+    ArrayEntry62* GetElementPointer16(int);
     ArrayEntry62* NiTSet_NiControllerSequence_NiTMallocInterface_NiControllerSequence_GetAt(int);
 };
 struct World62
@@ -1417,7 +1427,7 @@ bool Subject62::ProcessCollisionPairs(int arg)
                 int count = array->FUN_00726070();
                 for (int i = 0; i < count; i++)
                 {
-                    void* body = array->FUN_0062e150(i)->bodyC;
+                    void* body = array->GetElementPointer16(i)->bodyC;
                     if (body)
                     {
                         TESObjectREFR* ref = TESHavokUtilities_FindCollidableRef(body);

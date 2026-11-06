@@ -150,11 +150,12 @@ struct R6815c0
 {
     void _ref_006815c0();
 };
-NiPoint3* __fastcall FUN_00416870(NiPoint3*, float, float, float);
+NiPoint3* __fastcall SetComponents(NiPoint3*, float, float, float);
 
 // Sets the first four bytes and the byte at offset 0x1c to zero, then assigns two NiPoint3 values built from DAT_01016450.
 // @fnv 0x0043a160
-TeleportableReference* __fastcall FUN_0043a160(TeleportableReference* self)
+// src: GUESS 0x0043a160 (confidence: low)
+TeleportableReference* __fastcall Object_InitializeFields_0043a160(TeleportableReference* self)
 {
     PointStorage a;
     PointStorage b;
@@ -162,8 +163,8 @@ TeleportableReference* __fastcall FUN_0043a160(TeleportableReference* self)
     ((R6815c0*)((char*)self + 0x10))->_ref_006815c0();
     *(int*)self = 0;
     ((char*)self)[0x1c] = 0;
-    *(NiPoint3*)((char*)self + 4) = *FUN_00416870(&reinterpret_cast<NiPoint3&>(a), DAT_01016450, DAT_01016450, DAT_01016450);
-    *(NiPoint3*)((char*)self + 0x10) = *FUN_00416870(&reinterpret_cast<NiPoint3&>(b), DAT_01016450, DAT_01016450, DAT_01016450);
+    *(NiPoint3*)((char*)self + 4) = *SetComponents(&reinterpret_cast<NiPoint3&>(a), DAT_01016450, DAT_01016450, DAT_01016450);
+    *(NiPoint3*)((char*)self + 0x10) = *SetComponents(&reinterpret_cast<NiPoint3&>(b), DAT_01016450, DAT_01016450, DAT_01016450);
     return self;
 }
 
@@ -257,12 +258,13 @@ void _FUN_00485990(unsigned int type, void* data, unsigned int size);
 
 struct FUN_0043a420_shell : public DoorTeleportLoadData
 {
-    void FUN_0043a420();
+    void SaveDoorTeleportData();
 };
 
 // Copies the door FormID, position, rotation, and flags into data, conditionally calls SwapEndian, and passes data to _FUN_00485990.
 // @fnv 0x0043a420
-void FUN_0043a420_shell::FUN_0043a420()
+// src: GUESS 0x0043a420 (confidence: medium)
+void FUN_0043a420_shell::SaveDoorTeleportData()
 {
     if (!door)
         return;

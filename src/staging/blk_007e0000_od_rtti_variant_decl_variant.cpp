@@ -30,11 +30,11 @@ struct BSAudio_
     void BSAudio_PauseAllOfType(int, int);
     void BSAudio_PauseWorldSounds();
 };
-extern "C" void __cdecl FUN_007004e0();
+extern "C" void __cdecl ForwardCall_007004e0();
 struct FUN_007f7770_Class
 {
-    void __thiscall FUN_007004e0();
-    void __thiscall FUN_007f7770();
+    void __thiscall ForwardCall_007004e0();
+    void __thiscall ForwardCall_007f7770();
 };
 extern float DAT_012007d0;
 extern float DAT_012007d4;
@@ -112,7 +112,7 @@ struct FUN_007fecc0_Class
     unsigned char _1[3];
     float fTime;
     float fValue;
-    void __thiscall FUN_007fecc0();
+    void __thiscall ActivateAndResetTimer();
 };
 struct FUN_007eb8d0_Class
 {
@@ -854,7 +854,7 @@ bool __cdecl TextEditMenu_Create(const char* titleText, const char* initialText,
         g_011daec4->editor.FUN_007e6580(true);
         g_011daec4->accept->Tile_Set_00a01350(0xfc4, DAT_011d38b8.FUN_00403df0(), true);
         g_011daec4->callback = callback;
-        g_011daec4->FUN_007e6700();
+        g_011daec4->ProcessState_007e6700();
         menu->FUN_00a1dc20(false);
         return true;
     }

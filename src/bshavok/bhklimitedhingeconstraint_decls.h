@@ -29,7 +29,7 @@ public:
         unsigned char vecData[16];
     };
 
-    void FUN_004b4db0(const float*);
+    void SetQuaternionComponentsFromVector(const float*);
 };
 
 class bhkLimitedHingeOutput

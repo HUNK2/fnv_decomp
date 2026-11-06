@@ -11,7 +11,7 @@
 
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
-extern "C" void* __cdecl FUN_00aa13e0(unsigned int);
+extern "C" void* __cdecl Object_DispatchCommandFour(unsigned int);
 
 inline void NiRefObject::IncRefCount()
 {
@@ -217,7 +217,7 @@ void NiSourceCubeMap::LinkObject_00a60ba0(NiStream& kStream)
 
 extern "C"
 {
-    void* __cdecl FUN_00aa13e0(unsigned int size);
+    void* __cdecl Object_DispatchCommandFour(unsigned int size);
     void __cdecl NiStandardizeFilePath(char** pp);
     void __cdecl NiImageConverter_ConvertFilenameToPlatformSpecific_(char** pp, unsigned int* p);
 }
@@ -233,7 +233,7 @@ extern "C" unsigned char DAT_011a9594;
 // @fnv 0x00a60f60
 NiSourceCubeMap* __cdecl CreateSpawnedCubeShell(char** ppName, NiRenderer* pOwner, unsigned int* pVals)
 {
-    void* mem = FUN_00aa13e0(0x4c);
+    void* mem = Object_DispatchCommandFour(0x4c);
     NiSourceCubeMap* pShell = mem != 0 ? ::new (mem) NiSourceCubeMap() : 0;
     pShell->m_kFormatPrefs.m_ePreferredPixelLayout = (NiTexture::TextureFormatPreferences::PixelLayout)pVals[0];
     pShell->m_kFormatPrefs.m_eAlphaFormat = (NiTexture::TextureFormatPreferences::AlphaFormat)pVals[1];
@@ -679,7 +679,7 @@ struct PixelPtr
 // src: COMMUNITY 0x00a60940
 void NiSourceCubeMap::LoadFromPixelData(Pixels* a, Pixels* b, Pixels* c, Pixels* d, Pixels* e, Pixels* f)
 {
-    void* storage = FUN_00aa13e0(sizeof(Pixels));
+    void* storage = Object_DispatchCommandFour(sizeof(Pixels));
     Pixels* created;
     if (storage)
     {

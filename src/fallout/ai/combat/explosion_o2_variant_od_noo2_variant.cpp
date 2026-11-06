@@ -42,16 +42,16 @@ struct FUN_009afbb0_shell
 {
     virtual ~FUN_009afbb0_shell();
     void* FUN_009afbb0(unsigned int flags);
-    void FUN_009afc10();
+    void ForwardCall_009afc10();
 };
-extern "C" void __cdecl FUN_009afbe0(void*);
+extern "C" void __cdecl Object_UpdateFields_009afbe0(void*);
 struct FUN_00621100_shell
 {
     void __thiscall SetVtable(void);
 };
 struct FUN_009afc10_shell
 {
-    void __thiscall FUN_009afc10();
+    void __thiscall ForwardCall_009afc10();
 };
 struct FUN_009afc50_shell
 {
@@ -310,7 +310,7 @@ struct FUN_00cbc6a0_Class
 extern __declspec(thread) int g_memoryContext;
 void __cdecl bhkSerializable_CloneCritLock();
 void __cdecl bhkSerializable_CloneCritUnlock();
-void* __cdecl FUN_00aa13e0(unsigned int size);
+void* __cdecl Object_DispatchCommandFour(unsigned int size);
 struct FUN_00cbca20_class
 {
     void __thiscall bhkUnaryAction_CopyMembers(bhkLiquidAction* obj, int flags);
@@ -717,7 +717,7 @@ struct FloatConfiguredObject
     FloatConfiguredObject(float);
     ~FloatConfiguredObject();
 };
-void* __cdecl FUN_00aa13e0(unsigned int n);
+void* __cdecl Object_DispatchCommandFour(unsigned int n);
 struct BigObj
 {
     static void* operator new(unsigned int);
@@ -925,7 +925,7 @@ struct __declspec(align(16)) Big
 };
 struct FilterValue
 {
-    void* __thiscall FUN_00559450();
+    void* __thiscall Modelloader_GetReferencedThis();
 };
 struct Temp622
 {
@@ -933,7 +933,7 @@ struct Temp622
     FilterValue* __thiscall Ctor(int a, void* b, int c);
 };
 void* __cdecl bhkCollisionFilter_GetNewSystemGroup();
-void* __cdecl FUN_00559450(void* a);
+void* __cdecl Modelloader_GetReferencedThis(void* a);
 struct Body
 {
     static void* operator new(unsigned int);
@@ -948,7 +948,7 @@ struct Body
     Body(Big*);
     void* __thiscall FUN_0056d380(Big* a);
     void __thiscall bhkNiCollisionObject_SetWorldObject(void* a);
-    void* __thiscall FUN_004ae750();
+    void* __thiscall Bipedanim_GetReferenceFlagsOrZero();
     void __thiscall bhkRigidBody_AddActCon(void* a);
 };
 struct Acc
@@ -1125,7 +1125,7 @@ void Explosion::Init3D()
                 info.bhkRigidBodyCinfo_SetMotionType(1);
                 info.PathingRequestCoveredMove_SetAttackerHealth(1.0f);
                 Temp622 filter;
-                info.bhkRigidBodyCinfo_SetCollisionFilter(filter.Ctor(4, bhkCollisionFilter_GetNewSystemGroup(), 0)->FUN_00559450());
+                info.bhkRigidBodyCinfo_SetCollisionFilter(filter.Ctor(4, bhkCollisionFilter_GetNewSystemGroup(), 0)->Modelloader_GetReferencedThis());
                 info.bhkRigidBodyCinfo_SetShape(shape);
                 Body* body = new Body(&info);
                 collision->bhkNiCollisionObject_SetWorldObject(body);
@@ -1135,7 +1135,7 @@ void Explosion::Init3D()
                 node->Vdc(accumulator, 1);
                 S1fc actionInfo;
                 actionInfo.Ctor();
-                actionInfo.m04 = body->FUN_004ae750();
+                actionInfo.m04 = body->Bipedanim_GetReferenceFlagsOrZero();
                 actionInfo.fa = DAT_011a5808;
                 actionInfo.fb = DAT_011a5804;
                 actionInfo.fc = DAT_011a5800;

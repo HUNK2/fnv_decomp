@@ -7,11 +7,12 @@
 
 struct FUN_00b02e00_class
 {
-    void FUN_00b02e00();
+    void UpdateFields_00b02e00();
 };
 
 // @fnv 0x00b02e00
-void FUN_00b02e00_class::FUN_00b02e00()
+// src: GUESS 0x00b02e00 (confidence: low)
+void FUN_00b02e00_class::UpdateFields_00b02e00()
 {
     *(int*)((char*)this + 4) = 0;
     *(int*)((char*)this + 8) = 0;
@@ -212,7 +213,7 @@ void* FUN_00b078e0_Class::GetFieldAt0C()
 
 struct FUN_00b2bdc0_shell
 {
-    void FUN_00b2bdc0(float, float);
+    void UpdateFields_00b2bdc0(float, float);
 };
 
 struct FUN_00b08500_shell
@@ -225,7 +226,7 @@ struct FUN_00b08500_shell
 // src: COMMUNITY 0x00b08500
 void __thiscall FUN_00b08500_shell::CSpeedTreeRT_SetNearFarDists(float afValue, float afOther)
 {
-    ((FUN_00b2bdc0_shell*)*reinterpret_cast<int*>(this))->FUN_00b2bdc0(afValue, afOther);
+    ((FUN_00b2bdc0_shell*)*reinterpret_cast<int*>(this))->UpdateFields_00b2bdc0(afValue, afOther);
 }
 
 struct FUN_00b086f0_class
@@ -372,11 +373,12 @@ struct FUN_00657f60_class
     void* d;
     void* e;
     void* f;
-    void FUN_00657f60();
+    void ReleaseStorage_00657f60();
 };
 // Frees the buffer at d via FUN_0065f2b0 and deallocate, then clears d, e and f.
 // @fnv 0x00657f60
-void FUN_00657f60_class::FUN_00657f60()
+// src: GUESS 0x00657f60 (confidence: medium)
+void FUN_00657f60_class::ReleaseStorage_00657f60()
 {
     if (d)
     {
@@ -842,12 +844,13 @@ void FUN_00b053e0_shell::CSpeedTreeRT_DeleteTransientData()
 struct FUN_00b073f0_class
 {
     void* m_p;  // +0x0
-    float FUN_00b073f0();
+    float GetNestedFloatOrZero();
 };
 
 // Returns the float at offset 0x18 of the object at m_p+0x5c, or 0.0 if m_p or that object is null.
 // @fnv 0x00b073f0
-float FUN_00b073f0_class::FUN_00b073f0()
+// src: GUESS 0x00b073f0 (confidence: medium)
+float FUN_00b073f0_class::GetNestedFloatOrZero()
 {
     if (m_p != 0)
     {
@@ -865,12 +868,13 @@ float FUN_00b073f0_class::FUN_00b073f0()
 struct FUN_00b07440_Class
 {
     void* m_p;
-    float __thiscall FUN_00b07440();
+    float __thiscall GetNestedFloatOrZero_00b07440();
 };
 
 // Returns the float at offset 0x1c of the object stored at m_p+0x5c, or 0.0f if m_p or that pointer is null.
 // @fnv 0x00b07440
-float __thiscall FUN_00b07440_Class::FUN_00b07440()
+// src: GUESS 0x00b07440 (confidence: low)
+float __thiscall FUN_00b07440_Class::GetNestedFloatOrZero_00b07440()
 {
     if (m_p)
     {
@@ -915,11 +919,12 @@ struct FUN_00b09780_class : FUN_0044d6f0_This
 {
     std::basic_string<char, std::char_traits<char>, std::allocator<char> > m_iThirdValue;
 
-    void __thiscall FUN_00b09780();
+    void __thiscall UpdateFields_00b09780();
 };
 
 // @fnv 0x00b09780
-void FUN_00b09780_class::FUN_00b09780()
+// src: GUESS 0x00b09780 (confidence: low)
+void FUN_00b09780_class::UpdateFields_00b09780()
 {
     char local[16];
 
@@ -951,11 +956,12 @@ int* FUN_00b097b0_class::IdvFileError_IdvFileError(int a)
 
 struct FUN_00b09f70_Class
 {
-    void FUN_00b09f70();
+    void ProcessState_00b09f70();
     void _Tidy(bool, unsigned int);
 };
 // @fnv 0x00b09f70
-void FUN_00b09f70_Class::FUN_00b09f70()
+// src: GUESS 0x00b09f70 (confidence: low)
+void FUN_00b09f70_Class::ProcessState_00b09f70()
 {
     int a;
     int b;
@@ -1011,7 +1017,7 @@ struct LeafBlock
     int extra04, extra08, extra0c, extra10;
     __forceinline ~LeafBlock()
     {
-        contained.FUN_00b02e00();
+        contained.UpdateFields_00b02e00();
     }
 };
 struct FUN_00b02ac0
@@ -1401,11 +1407,12 @@ struct FUN_00b0d490_Class
     int unk20, unk24, unk28, unk2c, unk30, unk34, unk38, unk3c;
     int unk40, unk44, unk48, unk4c;
     RecordVector records;
-    char* FUN_00b0d490(unsigned int index);
+    char* GetRecordStringDataChecked(unsigned int index);
 };
 // Returns the character data of the record at index, using the inline buffer when capacity is below 16, otherwise the allocated pointer.
 // @fnv 0x00b0d490
-char* FUN_00b0d490_Class::FUN_00b0d490(unsigned int index)
+// src: GUESS 0x00b0d490 (confidence: medium)
+char* FUN_00b0d490_Class::GetRecordStringDataChecked(unsigned int index)
 {
     RecordVector* data = &records;
     if (index >= static_cast<unsigned int>(data->last - data->first))
@@ -1559,12 +1566,13 @@ struct FUN_00b0eca0_t
 {
     int a;
     int b;
-    bool FUN_00b0eca0(FUN_00b0eca0_t* p);
+    bool ProcessEntries_00b0eca0(FUN_00b0eca0_t* p);
 };
 
 // Calls FUN_00ec7c56 if a is zero or differs from p->a, then returns whether b equals p->b.
 // @fnv 0x00b0eca0
-bool FUN_00b0eca0_t::FUN_00b0eca0(FUN_00b0eca0_t* apOther)
+// src: GUESS 0x00b0eca0 (confidence: low)
+bool FUN_00b0eca0_t::ProcessEntries_00b0eca0(FUN_00b0eca0_t* apOther)
 {
     if (!static_cast<bool>(static_cast<int>(a != 0)) || !static_cast<bool>(static_cast<int>(a == apOther->a)))
     {
@@ -1592,12 +1600,13 @@ struct FUN_00b10430_Class
     int unk00;
     int unk04;
 
-    FUN_00b10430_Class* __thiscall FUN_00b10430(unsigned int index, FUN_00b10430_Arg* range);
+    FUN_00b10430_Class* __thiscall SetCheckedRangeIndex(unsigned int index, FUN_00b10430_Arg* range);
 };
 
 // Resets unk00, validates index against range bounds via FUN_00ec7c56, then stores range->unk00 and index into the object.
 // @fnv 0x00b10430
-FUN_00b10430_Class* FUN_00b10430_Class::FUN_00b10430(unsigned int index, FUN_00b10430_Arg* range)
+// src: GUESS 0x00b10430 (confidence: medium)
+FUN_00b10430_Class* FUN_00b10430_Class::SetCheckedRangeIndex(unsigned int index, FUN_00b10430_Arg* range)
 {
     unk00 = 0;
 
@@ -1672,12 +1681,13 @@ class FUN_00b04420_class
     void* m14;
     FUN_0044a730_shell m18;
 
-    void FUN_00b04420();
+    void ReleaseStorage_00b04420();
 };
 
 // Releases m04, m0c, and m14 via DAT_011f6238.Deallocate, nulls them, and calls m18.FUN_0044a730(true, 0).
 // @fnv 0x00b04420
-void FUN_00b04420_class::FUN_00b04420()
+// src: GUESS 0x00b04420 (confidence: medium)
+void FUN_00b04420_class::ReleaseStorage_00b04420()
 {
     void* n;
     FUN_00b04420_pad v_;
@@ -1802,16 +1812,17 @@ short FUN_00b085a0_local_shell::CSpeedTreeRT_GetDiscreteFrondLodLevel(float fLod
 
 struct FUN_00ac2f70_shell
 {
-    void FUN_00ac2f70();
+    void ClearAllElements();
 };
 struct FUN_00b08750_class
 {
     void* m_iWordAt00;
     void* m_iWordAt04;
-    void FUN_00b08750();
+    void UpdateState_00b08750();
 };
 // @fnv 0x00b08750
-void FUN_00b08750_class::FUN_00b08750()
+// src: GUESS 0x00b08750 (confidence: low)
+void FUN_00b08750_class::UpdateState_00b08750()
 {
     unsigned int ctx00;
     unsigned int ctx04;
@@ -1847,7 +1858,7 @@ void FUN_00b08750_class::FUN_00b08750()
         if (m_iWordAt04)
         {
             p = (FUN_00ac2f70_shell*)m_iWordAt04;
-            ((FUN_00ac2f70_shell*)((char*)p + 0x70))->FUN_00ac2f70();
+            ((FUN_00ac2f70_shell*)((char*)p + 0x70))->ClearAllElements();
         }
     }
 }
@@ -1981,11 +1992,12 @@ struct M
 struct S
 {
     float x, y, z;
-    V* FUN_00b05000(V* out, M* m);
+    V* TransformPointByMatrix4(V* out, M* m);
 };
 // Applies the 4x4 matrix m to the vector (x, y, z) and stores the resulting x, y, z components in out.
 // @fnv 0x00b05000
-V* S::FUN_00b05000(V* out, M* apMatrix)
+// src: GUESS 0x00b05000 (confidence: medium)
+V* S::TransformPointByMatrix4(V* out, M* apMatrix)
 {
     float tx = (double)apMatrix->_30 + (apMatrix->_20 * z + (apMatrix->_10 * y + apMatrix->_00 * x));
     float ty = (double)apMatrix->_31 + (apMatrix->_21 * z + (apMatrix->_11 * y + apMatrix->_01 * x));

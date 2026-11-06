@@ -59,7 +59,8 @@ void CallTarget_cc0080()
 }
 
 // @fnv 0x00cc01c0
-__declspec(nothrow) hkOstream& hkOstream::FUN_00cc01c0(const char* text) throw()
+// src: GUESS 0x00cc01c0 (confidence: low)
+__declspec(nothrow) hkOstream& hkOstream::ProcessAndReturnValue_00cc01c0(const char* text) throw()
 {
     writeString(m_pStreamWriter, text);
     return *this;

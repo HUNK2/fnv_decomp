@@ -1910,7 +1910,7 @@ void hkpSaveContactPointsUtil_saveContactPoints_00dcdd80(void* a, S_00dcdd80_Ite
 
 namespace fnv_00dcde10 {
 void* __cdecl hkString_memCpy(void*, const void*, unsigned int);
-void* __cdecl FUN_00d32ac0(void*, void*);
+void* __cdecl Object_ComputeValue_00d32ac0(void*, void*);
 int __cdecl CopyAudioNodeTree(void*, void*, void*);
 // src: COMMUNITY 0x00dcd4d0
 int hkpSaveContactPointsUtil_getSerializedAgentType(void* p)
@@ -1985,7 +1985,7 @@ int DispatchInstruction(char* source, int kind, void* context, char** ppRegistry
         if (payload[11] & 32)
             return 0;
         return CopyAudioNodeTree(context, ppRegistry,
-                                 reset(static_cast<EntryState*>(FUN_00d32ac0(instruction, payload))));
+                                 reset(static_cast<EntryState*>(Object_ComputeValue_00d32ac0(instruction, payload))));
     case 6:
     case 7:
     case 8:
@@ -2023,7 +2023,7 @@ struct FUN_00dce7e0_local
     int unk0c;
     void __thiscall FUN_00dce840(void*, void*);
     void __thiscall ProcessArgument(int);
-    void __thiscall FUN_00a29680();
+    void __thiscall Object_DoNothing();
 };
 // Reads a value from *p, initializes a local via FUN_00dce840, calls FUN_00dcea10, then invokes two methods on the local using a value from FUN_00c85750.
 // @fnv 0x00dce7e0
@@ -2036,7 +2036,7 @@ void __cdecl hkpSaveContactPointsUtil_loadContactPoints(int aiArg1, int aiArg2, 
     hkpSaveContactPointsUtil_loadContactPointsInternal(aiArg1, aiArg2, value, &local);
     int object = hkMemoryRouter_getInstance();
     ((FUN_00dce7e0_local*)((char*)&local + 4))->ProcessArgument(*(int*)(object + 0x10));
-    ((FUN_00dce7e0_local*)((char*)&local + 4))->FUN_00a29680();
+    ((FUN_00dce7e0_local*)((char*)&local + 4))->Object_DoNothing();
 }
 
 namespace fnv_00dce840 {
@@ -2439,10 +2439,10 @@ class FUN_00cb1a90_out
 class SubOfSel : public FUN_00cb1a90_out
 {
   public:
-    void FUN_00a29680();
+    void Object_DoNothing();
     SubOfSel(void* p) throw() : FUN_00cb1a90_out(*(void**)((char*)fnvc_adapt::hkMemoryRouter_getInstance() + 0x10))
     {
-        FUN_00a29680();
+        Object_DoNothing();
     }
 };
 
@@ -3209,7 +3209,7 @@ __declspec(noinline) int __cdecl hkpSaveContactPointsUtil_getSerializedAgentType
         return 8;
     return key.value == (void*)hkpCollectionAgent3_process ? 9 : 0;
 }
-extern "C" void* __cdecl FUN_00d32ad0(void*, void*);
+extern "C" void* __cdecl Runtime_EvaluateValue_00d32ad0(void*, void*);
 extern "C" int __cdecl hkpSaveContactPointsUtil_serialize1nTrack(void*, DCD6A0Context**, int);
 // Resolves the collision data pointer and type for a CollisionRecordHeader entry, writing results to output, size, and type out-parameters.
 // @fnv 0x00dcd550
@@ -3253,7 +3253,7 @@ int __cdecl hkpSaveContactPointsUtil_serializeEntry(CollisionRecordHeader* apRec
             *size = apRecord->size;
             if (data[11] & 32)
                 return 0;
-            *output = FUN_00d32ad0(apRecord, data);
+            *output = Runtime_EvaluateValue_00d32ad0(apRecord, data);
             return hkpSaveContactPointsUtil_serialize1nTrack(*output, context, arg);
         case 6:
         case 7:
@@ -7344,7 +7344,8 @@ DCEEntryInit::DCEEntryInit()
 
 // Placement-constructs a DCEEntryInit object on the provided storage buffer and returns a pointer to it.
 // @fnv 0x00dce930
-extern "C" DCEEntryInit* __fastcall FUN_00dce930(void* storage, void*)
+// src: GUESS 0x00dce930 (confidence: medium)
+extern "C" DCEEntryInit* __fastcall SolverEntry_ConstructInPlace(void* storage, void*)
 {
     __assume(storage != 0);
     return new (storage) DCEEntryInit;

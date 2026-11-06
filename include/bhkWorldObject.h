@@ -22,7 +22,7 @@ public:
     bhkFilter bhkWorldObject_GetCollisionFilter();
     void FUN_00c85790();
     void* FUN_0056d4c0(unsigned int flags);
-    void* FUN_004ae750();
+    void* Bipedanim_GetReferenceFlagsOrZero();
     float bhkRigidBody_GetMass();
 
     hkSerializableCinfo* pInfo;

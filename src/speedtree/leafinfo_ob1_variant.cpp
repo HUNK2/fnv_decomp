@@ -155,7 +155,7 @@ struct S00b3d1b0_Name : S00b3d1b0_Str
     {}
     S00b3d1b0_Name(S00b3d1b0_Str s) : S00b3d1b0_Str(s)
     {}
-    S00b3d1b0_Name FUN_00b09f90();
+    S00b3d1b0_Name ProcessEntries_00b09f90();
 };
 
 struct S00b3d1b0_Src
@@ -166,7 +166,7 @@ struct S00b3d1b0_Src
         return GetNextElement();
     }
     float CTreeFileAccess_ParseFloat();
-    char FUN_00b06180();
+    char ProcessAndTransformResult_00b06180();
     LeafPoint GetVector3();
     S00b3d1b0_Str CTreeFileAccess_ParseString();
 };
@@ -231,13 +231,13 @@ void S00b3d1b0_Obj::SIdvLeafInfo_Parse(S00b3d1b0_Src* src)
             m_30 = src->CTreeFileAccess_ParseFloat();
             break;
         case 3003:
-            src->FUN_00b06180();
+            src->ProcessAndTransformResult_00b06180();
             break;
         case 3004:
             src->CTreeFileAccess_ParseFloat();
             break;
         case 3009:
-            m_iWordAt00 = src->FUN_00b06180();
+            m_iWordAt00 = src->ProcessAndTransformResult_00b06180();
             break;
         case 3010:
             m_iWordAt04 = src->CTreeFileAccess_ParseFloat();
@@ -246,7 +246,7 @@ void S00b3d1b0_Obj::SIdvLeafInfo_Parse(S00b3d1b0_Src* src)
             src->CTreeFileAccess_ParseFloat();
             break;
         case 3006:
-            src->FUN_00b06180();
+            src->ProcessAndTransformResult_00b06180();
             break;
         case 3007:
             m_28 = src->CTreeFileAccess_ParseFloat();
@@ -269,7 +269,7 @@ void S00b3d1b0_Obj::SIdvLeafInfo_Parse(S00b3d1b0_Src* src)
                     switch (aTag)
                     {
                     case 4000:
-                        leaf.m_iWordAt00 = src->FUN_00b06180();
+                        leaf.m_iWordAt00 = src->ProcessAndTransformResult_00b06180();
                         break;
                     case 4001:
                         leaf.m_iWordAt04 = src->GetVector3();
@@ -279,7 +279,7 @@ void S00b3d1b0_Obj::SIdvLeafInfo_Parse(S00b3d1b0_Src* src)
                         break;
                     case 4003:
                         leaf.m_14 = src->CTreeFileAccess_ParseString();
-                        leaf.m_14 = leaf.m_14.FUN_00b09f90();
+                        leaf.m_14 = leaf.m_14.ProcessEntries_00b09f90();
                         break;
                     case 4004:
                         leaf.m_30 = src->GetVector3();

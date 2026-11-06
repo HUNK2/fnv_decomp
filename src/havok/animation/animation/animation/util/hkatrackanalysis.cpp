@@ -90,9 +90,9 @@ struct TextBuilder
     int length;
     int bufferCapacity;
     void FUN_00cb1600(char*, unsigned int);
-    TextBuilder* FUN_00cc01c0(const char*, int);
-    TextBuilder* FUN_00cc01c0(const char*, float);
-    void FUN_00cc02d0();
+    TextBuilder* ProcessAndReturnValue_00cc01c0(const char*, int);
+    TextBuilder* ProcessAndReturnValue_00cc01c0(const char*, float);
+    void EvaluateValue_00cc02d0();
     void WriteFloat();
     void FUN_00cc00e0();
 };
@@ -123,55 +123,55 @@ void TrackStatistics::LogStatistics()
         char* outputWords[128];
         DAT_01268360->begin(0x432434a4u, str_010ec758);
         textBuilder.FUN_00cb1600(reinterpret_cast<char*>(outputWords), 512);
-        textBuilder.FUN_00cc01c0(str_010ec74c, total0 + total1)->FUN_00cc02d0();
+        textBuilder.ProcessAndReturnValue_00cc01c0(str_010ec74c, total0 + total1)->EvaluateValue_00cc02d0();
         DAT_01268360->write(0, -1, reinterpret_cast<char*>(outputWords), str_010ec724, 47);
         textBuilder.FUN_00cc00e0();
         textBuilder.FUN_00cb1600(reinterpret_cast<char*>(outputWords), 512);
-        textBuilder.FUN_00cc01c0(str_010ec70c, field0)->FUN_00cc02d0();
+        textBuilder.ProcessAndReturnValue_00cc01c0(str_010ec70c, field0)->EvaluateValue_00cc02d0();
         DAT_01268360->write(0, -1, reinterpret_cast<char*>(outputWords), str_010ec724, 48);
         textBuilder.FUN_00cc00e0();
         textBuilder.FUN_00cb1600(reinterpret_cast<char*>(outputWords), 512);
-        textBuilder.FUN_00cc01c0(str_010ec6f4, field1)->FUN_00cc02d0();
+        textBuilder.ProcessAndReturnValue_00cc01c0(str_010ec6f4, field1)->EvaluateValue_00cc02d0();
         DAT_01268360->write(0, -1, reinterpret_cast<char*>(outputWords), str_010ec724, 49);
         textBuilder.FUN_00cc00e0();
         textBuilder.FUN_00cb1600(reinterpret_cast<char*>(outputWords), 512);
-        textBuilder.FUN_00cc01c0(str_010ec6e0, field2)->FUN_00cc02d0();
+        textBuilder.ProcessAndReturnValue_00cc01c0(str_010ec6e0, field2)->EvaluateValue_00cc02d0();
         DAT_01268360->write(0, -1, reinterpret_cast<char*>(outputWords), str_010ec724, 50);
         textBuilder.FUN_00cc00e0();
         textBuilder.FUN_00cb1600(reinterpret_cast<char*>(outputWords), 512);
-        textBuilder.FUN_00cc01c0(str_010ec6cc, field3)->FUN_00cc02d0();
+        textBuilder.ProcessAndReturnValue_00cc01c0(str_010ec6cc, field3)->EvaluateValue_00cc02d0();
         DAT_01268360->write(0, -1, reinterpret_cast<char*>(outputWords), str_010ec724, 51);
         textBuilder.FUN_00cc00e0();
         textBuilder.FUN_00cb1600(reinterpret_cast<char*>(outputWords), 512);
-        textBuilder.FUN_00cc01c0(str_010ec6b4, field4)->FUN_00cc02d0();
+        textBuilder.ProcessAndReturnValue_00cc01c0(str_010ec6b4, field4)->EvaluateValue_00cc02d0();
         DAT_01268360->write(0, -1, reinterpret_cast<char*>(outputWords), str_010ec724, 52);
         textBuilder.FUN_00cc00e0();
         textBuilder.FUN_00cb1600(reinterpret_cast<char*>(outputWords), 512);
-        textBuilder.FUN_00cc01c0(str_010ec69c, field5)->FUN_00cc02d0();
+        textBuilder.ProcessAndReturnValue_00cc01c0(str_010ec69c, field5)->EvaluateValue_00cc02d0();
         DAT_01268360->write(0, -1, reinterpret_cast<char*>(outputWords), str_010ec724, 53);
         textBuilder.FUN_00cc00e0();
         textBuilder.FUN_00cb1600(reinterpret_cast<char*>(outputWords), 512);
-        textBuilder.FUN_00cc01c0(str_010ec688, field6)->FUN_00cc02d0();
+        textBuilder.ProcessAndReturnValue_00cc01c0(str_010ec688, field6)->EvaluateValue_00cc02d0();
         DAT_01268360->write(0, -1, reinterpret_cast<char*>(outputWords), str_010ec724, 54);
         textBuilder.FUN_00cc00e0();
         textBuilder.FUN_00cb1600(reinterpret_cast<char*>(outputWords), 512);
-        textBuilder.FUN_00cc01c0(str_010ec670, field7)->FUN_00cc02d0();
+        textBuilder.ProcessAndReturnValue_00cc01c0(str_010ec670, field7)->EvaluateValue_00cc02d0();
         DAT_01268360->write(0, -1, reinterpret_cast<char*>(outputWords), str_010ec724, 55);
         textBuilder.FUN_00cc00e0();
         textBuilder.FUN_00cb1600(reinterpret_cast<char*>(outputWords), 512);
-        textBuilder.FUN_00cc01c0(str_010ec658, field8)->FUN_00cc02d0();
+        textBuilder.ProcessAndReturnValue_00cc01c0(str_010ec658, field8)->EvaluateValue_00cc02d0();
         DAT_01268360->write(0, -1, reinterpret_cast<char*>(outputWords), str_010ec724, 56);
         textBuilder.FUN_00cc00e0();
         textBuilder.FUN_00cb1600(reinterpret_cast<char*>(outputWords), 512);
-        textBuilder.FUN_00cc01c0(str_010ec644, field9)->FUN_00cc02d0();
+        textBuilder.ProcessAndReturnValue_00cc01c0(str_010ec644, field9)->EvaluateValue_00cc02d0();
         DAT_01268360->write(0, -1, reinterpret_cast<char*>(outputWords), str_010ec724, 57);
         textBuilder.FUN_00cc00e0();
         textBuilder.FUN_00cb1600(reinterpret_cast<char*>(outputWords), 512);
-        textBuilder.FUN_00cc01c0(str_010ec6f40, field10)->FUN_00cc02d0();
+        textBuilder.ProcessAndReturnValue_00cc01c0(str_010ec6f40, field10)->EvaluateValue_00cc02d0();
         DAT_01268360->write(0, -1, reinterpret_cast<char*>(outputWords), str_010ec724, 58);
         textBuilder.FUN_00cc00e0();
         textBuilder.FUN_00cb1600(reinterpret_cast<char*>(outputWords), 512);
-        textBuilder.FUN_00cc01c0(str_010ec624, rate)->WriteFloat();
+        textBuilder.ProcessAndReturnValue_00cc01c0(str_010ec624, rate)->WriteFloat();
         DAT_01268360->write(0, -1, reinterpret_cast<char*>(outputWords), str_010ec724, 59);
         textBuilder.FUN_00cc00e0();
     }
@@ -229,7 +229,7 @@ struct TrackBuffers_e50650
     hkArray<float> m_kCubicCoefficient;
     hkArray<unsigned char> m_kE;
 
-    void FUN_00e50ca0();
+    void ReleaseFiveArrays();
 };
 
 void hkaTrackAnalysis_analyzeQsTransform(TrackBuffers_e50650* pkBuffers, void* pkArg, void* pkArgCur, hkBool bFlag);
@@ -273,7 +273,7 @@ void ExpandTrackSource(const TrackSource_e50650* pkSource, void* pkArg, void* pk
         kBuffers.m_kE.m_data[i] = pkSource->m_ucE;
     }
     hkaTrackAnalysis_analyzeQsTransform(&kBuffers, pkArg, pkArgCur, true);
-    kBuffers.FUN_00e50ca0();
+    kBuffers.ReleaseFiveArrays();
 }
 
 struct StatsB0

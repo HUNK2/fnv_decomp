@@ -45,7 +45,7 @@ class Handle
   public:
     Handle(char* name, int a, int b, bool c);
     ~Handle();
-    int FUN_00559450();
+    int Modelloader_GetReferencedThis();
     void BSSystemFile_GetSize(int* pair);
     int FUN_008526d0(int v);
     void* file;
@@ -281,7 +281,7 @@ void ThisCls::BGSSaveLoadManager_CopySaveGames(int unused)
                     char buf2[0x108];
                     BSsprintf(buf2, 0x104, "%s%s", buf127, finder.FUN_00436aa0());
                     Handle handle20(buf2, 0, 0, 0);
-                    if (handle20.FUN_00559450() == 0)
+                    if (handle20.Modelloader_GetReferencedThis() == 0)
                     {
                         kPair1a12.low = 0;
                         kPair1a12.high = 0;
@@ -292,7 +292,7 @@ void ThisCls::BGSSaveLoadManager_CopySaveGames(int unused)
                         pair2a.high = 0;
                         handle20.FUN_008526d0(
                             ((InfoLike*)info8)->FUN_008d85e0(kPair1a12.low, kPair1a12.high, &pair2a.low));
-                        if (handle20.FUN_00559450() == 0)
+                        if (handle20.Modelloader_GetReferencedThis() == 0)
                         {
                             BSsprintf(buf313, 0x104, "Copying the save game file to the target...\n\n");
                             FUN_00406d50(buf313, 0x104, buf2);

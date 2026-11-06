@@ -447,7 +447,8 @@ struct FUN_0083f110_topic : MenuTopic
 
 // Compares two topics by the value returned from FUN_00526ae0, returning -1, 1 or 0 for descending order.
 // @fnv 0x0083f110
-int FUN_0083f110(FUN_0083f110_topic* apTopicA, FUN_0083f110_topic* apTopicB)
+// src: GUESS 0x0083f110 (confidence: high)
+int TESTopic_GetPriority_GetUnk28_CompareTopicPrioritiesDescending(FUN_0083f110_topic* apTopicA, FUN_0083f110_topic* apTopicB)
 {
     return TESTopic_GetPriority_GetUnk28(apTopicA->GetAudioBackendData()) > TESTopic_GetPriority_GetUnk28(apTopicB->GetAudioBackendData())
                ? -1
@@ -774,7 +775,7 @@ void FUN_0083ed50_shell::BuildMenuTopics(BSSimpleList<TESTopic*>* apList, bool a
         }
     }
     if (!abNoSort)
-        ((FUN_005f65d0_list*)MenuTopicManager_GetCurrentTopicList())->SortItems(FUN_0083f110);
+        ((FUN_005f65d0_list*)MenuTopicManager_GetCurrentTopicList())->SortItems(TESTopic_GetPriority_GetUnk28_CompareTopicPrioritiesDescending);
 }
 
 struct TopicLoader
@@ -1198,7 +1199,7 @@ struct ProcShell
 
 struct ListShell
 {
-    void FUN_00905330();
+    void RemoveMatchingItem();
 };
 
 class FloatSetting
@@ -1271,7 +1272,7 @@ bool Mgr::CheckTopicInfoChance(MenuTopic* pTopic)
                         SpeakerVt* pSpk7 = m_pDialogueSpeaker;
                         pSpk7->LoadRecord(pTopic->GetTopicInfo());
                     }
-                    MenuTopicManager_GetCurrentTopicList(&pTopic)->FUN_00905330();
+                    MenuTopicManager_GetCurrentTopicList(&pTopic)->RemoveMatchingItem();
                 }
                 ((BSSimpleList<MenuTopic*>*)pList)->AddTail(FUN_0083e4f0());
                 ((BSSimpleList<MenuTopic*>*)pList)->AddTail(pNew);

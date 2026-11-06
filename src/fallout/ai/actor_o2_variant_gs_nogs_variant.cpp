@@ -41,7 +41,7 @@ extern "C" void __cdecl FUN_0062d4b0();
 extern int DAT_01084e54;
 struct FUN_00cb9900_cls
 {
-    void __thiscall FUN_00cb9900();
+    void __thiscall UpdateFields_00cb9900();
 };
 void __cdecl hkaPose_syncModelSpace();
 void __cdecl FUN_00cd9fe0();
@@ -315,7 +315,7 @@ struct FUN_00c7d630_t
 };
 struct FUN_00cb0c00_class
 {
-    void FUN_00cb0c00();
+    void Object_UpdateFields_00cb0c00();
 };
 struct VObjExt : VObj
 {
@@ -327,7 +327,7 @@ struct FUN_00c7d890_cls
     void* _0;
     int _4;
     unsigned int _8;
-    void FUN_00c7d890();
+    void ProcessEntries_00c7d890();
 };
 void* __cdecl FUN_00ec7230(char*, char const*, unsigned int);
 void __stdcall BSSimpleArray_bhkUtilFunctions_AVLevel_1024_CopyItems(char* dst, char* src, unsigned int count);
@@ -437,7 +437,7 @@ struct FUN_00c7d480_cls
     unsigned int m_04;
     unsigned int m_08;
     unsigned int m_0c;
-    void FUN_00c7d480();
+    void UpdateFields_00c7d480();
 };
 struct ScopeGuard
 {
@@ -459,7 +459,8 @@ struct ScopeGuard
         owner->m_00 = 0;
     }
 };
-void FUN_00c7d480_cls::FUN_00c7d480()
+// src: GUESS 0x00c7d480 (confidence: low)
+void FUN_00c7d480_cls::UpdateFields_00c7d480()
 {
     ScopeGuard guard(this);
     unsigned int count = m_0c;
@@ -482,7 +483,7 @@ struct FUN_00c7d5c0_cls
     int m_iArrayLength;
     unsigned int m_uCap;
 
-    void FUN_00c7d5c0();
+    void ProcessEntries_00c7d5c0();
 };
 extern unsigned int g_01268188;
 extern unsigned int g_012685f4;
@@ -1692,7 +1693,7 @@ struct PoseState
     int unk24;
     bool ready;
     void hkaPose_syncModelSpace();
-    void FUN_00cda4c0();
+    void ProcessEntries_00cda4c0();
 };
 struct C7C2B0_Pair
 {

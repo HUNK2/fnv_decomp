@@ -174,7 +174,7 @@ void __cdecl AppendChunk(unsigned int, void*, unsigned int);
 void BGSEncounterZone::Save()
 {
     TESForm* powner;
-    TESForm::FUN_004855a0();
+    TESForm::BeginFormRecord();
     powner = Data.m_pOwnerForm;
     if (powner)
     {
@@ -186,7 +186,7 @@ void BGSEncounterZone::Save()
     if (TESForm_QEndianSwapOnSave())
         Data.Endian();
     Data.m_pOwnerForm = powner;
-    TESForm::FUN_00485680();
+    TESForm::FinishFormRecord();
 }
 
 // @fnv 0x00526070

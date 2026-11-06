@@ -20,7 +20,8 @@ extern "C" LocalM128 _mm_shuffle_ps(LocalM128, LocalM128, unsigned int);
 #include "../../../../../../../include/MemoryManager.h"
 
 // @fnv 0x00c9db70
-int __cdecl FUN_00c9db70()
+// src: GUESS 0x00c9db70 (confidence: high)
+int __cdecl hkpBoxShape_ReturnConstant_8()
 {
     return 8;
 }
@@ -57,7 +58,8 @@ void* __fastcall DeleteBoxShape(hkpBoxShape* shape, void*, unsigned char flags)
 
 // FUN_00c9e1a0: __stdcall stub returning constant 0x30 (two unused stack params).
 // @fnv 0x00c9e1a0
-int __stdcall FUN_00c9e1a0(int a1, int a2)
+// src: GUESS 0x00c9e1a0 (confidence: high)
+int __stdcall Object_Return0x30(int a1, int a2)
 {
     return 0x30;
 }

@@ -76,7 +76,7 @@ class GeometryBufferView
     unsigned int count;
     GeometryBufferView();
     unsigned int* FUN_00717e50();
-    void* FUN_00559450();
+    void* Modelloader_GetReferencedThis();
     void NiGeometryDataIteratorNiPoint3_Get(unsigned int, NiPoint3&);
     void FUN_0065b390(unsigned int, const NiPoint3&);
 };
@@ -88,9 +88,9 @@ class FaceGenTriData
     unsigned int data[60];
     FaceGenTriData();
     ~FaceGenTriData();
-    unsigned int FUN_0065a5a0();
+    unsigned int ProcessEntries_0065a5a0();
     unsigned int std_vector_FR2Vect3TC_float_std_allocator_FR2Vect3TC_float_size();
-    NiPoint3& FUN_0065c720(unsigned int);
+    NiPoint3& GetCheckedElement(unsigned int);
 };
 class FaceGenGeometryModel
 {

@@ -69,7 +69,7 @@ struct CpuObject
 {
     unsigned int unk00;
     unsigned short size;
-    void FUN_00dd51d0();
+    void InitializeFields_00dd51d0();
     CpuObject* FUN_00dd55a0(unsigned int flags);
 };
 void __stdcall nullsub_83(int, int);
@@ -79,7 +79,7 @@ struct FnvCpu_FUN_00dd5290_CpuObject
     unsigned int unk04;
     unsigned int unk08;
     int value;
-    int FUN_00dd5290();
+    int GetValue();
 };
 extern "C"
 {

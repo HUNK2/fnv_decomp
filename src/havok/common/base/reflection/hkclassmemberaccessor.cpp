@@ -38,24 +38,27 @@ char* __thiscall FUN_00d87260_cls::hkClassMemberAccessor_asHalf(int a)
 }
 
 // @fnv 0x00d87290
-const void* __fastcall FUN_00d87290(const void* pThis, int, int index)
+// src: GUESS 0x00d87290 (confidence: medium)
+const void* __fastcall Hkclassmemberaccessor_GetElementPointer8(const void* pThis, int, int index)
 {
     return (const char*)(*(const char**)pThis) + index * 8;
 }
 
 struct FUN_00d872a0_t
 {
-    void* __thiscall FUN_00d872a0(int arg);
+    void* __thiscall ComputeValue_00d872a0(int arg);
 };
 
 // @fnv 0x00d872a0
-void* __thiscall FUN_00d872a0_t::FUN_00d872a0(int arg)
+// src: GUESS 0x00d872a0 (confidence: low)
+void* __thiscall FUN_00d872a0_t::ComputeValue_00d872a0(int arg)
 {
     return (char*)*(void**)this + 8 * arg;
 }
 
 // @fnv 0x00d872c0
-int __fastcall FUN_00d872c0(int* self, int edx, int offset)
+// src: GUESS 0x00d872c0 (confidence: low)
+int __fastcall Object_ComputeValue_00d872c0(int* self, int edx, int offset)
 {
     int base = *self;
     return base + offset * 2;
@@ -63,17 +66,19 @@ int __fastcall FUN_00d872c0(int* self, int edx, int offset)
 
 struct FUN_00d87300_class
 {
-    int* FUN_00d87300(int index);
+    int* GetElementAddress_00d87300(int index);
 };
 
 // @fnv 0x00d87300
-int* FUN_00d87300_class::FUN_00d87300(int index)
+// src: GUESS 0x00d87300 (confidence: low)
+int* FUN_00d87300_class::GetElementAddress_00d87300(int index)
 {
     return *(int**)this + index * 4;
 }
 
 // @fnv 0x00d87310
-void* __fastcall FUN_00d87310(void* self, int, int index)
+// src: GUESS 0x00d87310 (confidence: medium)
+void* __fastcall Hkclassmemberaccessor_GetElementPointer48(void* self, int, int index)
 {
     return (char*)*(void**)self + index * 3 * 16;
 }
@@ -89,10 +94,11 @@ int __fastcall hkClassMemberAccessor_asHomogeneousArray(int* self, int, int idx)
 struct IntArrayView
 {
     int* data;
-    int* FUN_00d87270(int index);
+    int* GetElementPointer_00d87270(int index);
 };
 // @fnv 0x00d87270
-int* IntArrayView::FUN_00d87270(int index)
+// src: GUESS 0x00d87270 (confidence: medium)
+int* IntArrayView::GetElementPointer_00d87270(int index)
 {
     return data + index;
 }
@@ -100,11 +106,12 @@ int* IntArrayView::FUN_00d87270(int index)
 struct FUN_00d87280_class
 {
     int* m_p;
-    int* __thiscall FUN_00d87280(int index);
+    int* __thiscall ComputeValue_00d87280(int index);
 };
 
 // @fnv 0x00d87280
-int* __thiscall FUN_00d87280_class::FUN_00d87280(int index)
+// src: GUESS 0x00d87280 (confidence: low)
+int* __thiscall FUN_00d87280_class::ComputeValue_00d87280(int index)
 {
     return m_p + index;
 }
@@ -112,11 +119,12 @@ int* __thiscall FUN_00d87280_class::FUN_00d87280(int index)
 struct FUN_00d872b0_class
 {
     int* data;
-    int* FUN_00d872b0(int index);
+    int* GetElementPointer_00d872b0(int index);
 };
 
 // @fnv 0x00d872b0
-int* FUN_00d872b0_class::FUN_00d872b0(int index)
+// src: GUESS 0x00d872b0 (confidence: medium)
+int* FUN_00d872b0_class::GetElementPointer_00d872b0(int index)
 {
     return &data[index];
 }
@@ -124,11 +132,12 @@ int* FUN_00d872b0_class::FUN_00d872b0(int index)
 struct FUN_00d872d0_class
 {
     char* m_p;
-    char* __thiscall FUN_00d872d0(int index);
+    char* __thiscall GetElementPointer2(int index);
 };
 
 // @fnv 0x00d872d0
-char* __thiscall FUN_00d872d0_class::FUN_00d872d0(int index)
+// src: GUESS 0x00d872d0 (confidence: medium)
+char* __thiscall FUN_00d872d0_class::GetElementPointer2(int index)
 {
     return m_p + index * 2;
 }
@@ -136,10 +145,11 @@ char* __thiscall FUN_00d872d0_class::FUN_00d872d0(int index)
 struct CpuObject
 {
     int value;
-    int FUN_00d872e0(int amount);
+    int ComputeValue_00d872e0(int amount);
 };
 // @fnv 0x00d872e0
-int CpuObject::FUN_00d872e0(int amount)
+// src: GUESS 0x00d872e0 (confidence: low)
+int CpuObject::ComputeValue_00d872e0(int amount)
 {
     return value + amount;
 }
@@ -175,12 +185,13 @@ struct D871A0Array
 struct D871A0Buffer
 {
     void append(const void* data, int size, int flags);
-    D871A0Buffer& FUN_00d871a0(const D871A0Array& a, int flags);
+    D871A0Buffer& ProcessAndReturnValue_00d871a0(const D871A0Array& a, int flags);
 };
 
 // Appends the array's data buffer with its size and flags to this buffer, then returns this buffer.
 // @fnv 0x00d871a0
-D871A0Buffer& D871A0Buffer::FUN_00d871a0(const D871A0Array& apArray, int flags)
+// src: GUESS 0x00d871a0 (confidence: low)
+D871A0Buffer& D871A0Buffer::ProcessAndReturnValue_00d871a0(const D871A0Array& apArray, int flags)
 {
     append(apArray.m_data, apArray.m_iElementCount, flags);
     return *this;
@@ -189,11 +200,12 @@ D871A0Buffer& D871A0Buffer::FUN_00d871a0(const D871A0Array& apArray, int flags)
 struct TargetClass
 {
     void* ptr;
-    bool* __thiscall FUN_00d871e0(bool* out);
+    bool* __thiscall ComputeValue_00d871e0(bool* out);
 };
 
 // @fnv 0x00d871e0
-bool* __thiscall TargetClass::FUN_00d871e0(bool* out)
+// src: GUESS 0x00d871e0 (confidence: low)
+bool* __thiscall TargetClass::ComputeValue_00d871e0(bool* out)
 {
     *out = (this->ptr != 0);
     return out;
@@ -202,7 +214,8 @@ bool* __thiscall TargetClass::FUN_00d871e0(bool* out)
 typedef hkArrayBase<char> D87240Array;
 
 // @fnv 0x00d87240
-template<> char& hkArrayBase<char>::FUN_00d87240(int i)
+// src: GUESS 0x00d87240 (confidence: low)
+template<> char& hkArrayBase<char>::GetIndexedValue_00d87240(int i)
 {
     return m_data[i];
 }
@@ -219,11 +232,12 @@ template<> int& hkArrayBase<int>::hkClassMemberAccessor_asReal(int i)
 struct FUN_00d872f0_class
 {
     int m_uiFilterValue;
-    int __thiscall FUN_00d872f0(int offset);
+    int __thiscall GetFilterValueWithOffset(int offset);
 };
 
 // @fnv 0x00d872f0
-int __thiscall FUN_00d872f0_class::FUN_00d872f0(int offset)
+// src: GUESS 0x00d872f0 (confidence: medium)
+int __thiscall FUN_00d872f0_class::GetFilterValueWithOffset(int offset)
 {
     return m_uiFilterValue + offset;
 }
@@ -231,10 +245,11 @@ int __thiscall FUN_00d872f0_class::FUN_00d872f0(int offset)
 struct SearchObject
 {
     unsigned int field00;
-    int FUN_00d87320(unsigned int arg0);
+    int ComputeShiftedFieldValue_00d87320(unsigned int arg0);
 };
 // @fnv 0x00d87320
-int SearchObject::FUN_00d87320(unsigned int arg0)
+// src: GUESS 0x00d87320 (confidence: low)
+int SearchObject::ComputeShiftedFieldValue_00d87320(unsigned int arg0)
 {
     return (int)((arg0 << (6u & 31u)) + field00);
 }
@@ -242,11 +257,12 @@ int SearchObject::FUN_00d87320(unsigned int arg0)
 struct FUN_00d87330_class
 {
     char* m_p;
-    char* FUN_00d87330(int index);
+    char* GetElementPointer48(int index);
 };
 
 // @fnv 0x00d87330
-char* FUN_00d87330_class::FUN_00d87330(int index)
+// src: GUESS 0x00d87330 (confidence: medium)
+char* FUN_00d87330_class::GetElementPointer48(int index)
 {
     return m_p + index * 0x30;
 }
@@ -268,10 +284,11 @@ Pair* FUN_00d87340_cls::hkClassMemberAccessor_asSimpleArray(int index)
 struct FnvCpu_FUN_00d871f0_CpuObject
 {
     int value;
-    int FUN_00d871f0();
+    int GetValue();
 };
 // @fnv 0x00d871f0
-int FnvCpu_FUN_00d871f0_CpuObject::FUN_00d871f0()
+// src: GUESS 0x00d871f0 (confidence: low)
+int FnvCpu_FUN_00d871f0_CpuObject::GetValue()
 {
     return value;
 }

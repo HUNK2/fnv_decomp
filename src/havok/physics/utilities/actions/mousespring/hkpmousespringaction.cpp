@@ -228,7 +228,7 @@ struct Ms_B
 };
 struct Ms_N
 {
-    void __thiscall FUN_00cb0c10(const char* s);
+    void __thiscall UpdateState_00cb0c10(const char* s);
 };
 extern "C"
 {
@@ -334,7 +334,7 @@ Ms_cls* Ms_cls::hkpMouseSpringAction_hkpMouseSpringAction(LocalM128* apPos, Loca
         if (coll.hit)
             shapeKey = coll.key;
     }
-    ((Ms_N*)&unk14)->FUN_00cb0c10(str_011b1f3c);
+    ((Ms_N*)&unk14)->UpdateState_00cb0c10(str_011b1f3c);
     return this;
 }
 
@@ -472,7 +472,7 @@ struct Cls
     int m_58;
     int m_5c;
     Cls* FUN_00cbb8b0(int flags);
-    void FUN_00d2b2b0();
+    void ReleaseReference_00d2b2b0();
 };
 
 // Clears the array at m_54 and releases its buffer unless flagged, calls FUN_00d2b2b0, and frees this through the TLS heap when bit 0 of flags is set.
@@ -487,7 +487,7 @@ Cls* Cls::FUN_00cbb8b0(int flags)
         heap->bufFree((void*)m_54, (n & 0x3fffffff) * 4);
     m_54 = 0;
     m_5c = 0x80000000;
-    FUN_00d2b2b0();
+    ReleaseReference_00d2b2b0();
     if (flags & 1)
     {
         hkMemoryRouter* tls2 = hkMemoryRouter_getInstance();
@@ -599,5 +599,5 @@ FUN_00cbb4e0::FUN_00cbb4e0(int arg) : m_kAppliedCallbacks(FinishingFlag())
     _mm_store_ps((float*)&m_kMousePositionInWorld, zero);
     _mm_store_ps((float*)&m_kGrabPointInBodySpace, zero);
     m_uiCollisionShapeKey = 0xFFFFFFFF;
-    ((Ms_N*)&m_name)->FUN_00cb0c10("hkpMouseSpringAction");
+    ((Ms_N*)&m_name)->UpdateState_00cb0c10("hkpMouseSpringAction");
 }

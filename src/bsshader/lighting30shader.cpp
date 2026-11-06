@@ -1405,7 +1405,7 @@ void __stdcall ApplyLightSource(LightSource* light, RenderContext* context)
 namespace ConstantMaps {
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
-void* __cdecl FUN_00aa13e0(unsigned int);
+void* __cdecl Object_DispatchCommandFour(unsigned int);
 __forceinline void ReleaseConstantMapObject(NiRefObject* object)
 {
     if (InterlockedDecrement((volatile long*)&object->m_uiRefCount) == 0)
@@ -6003,7 +6003,8 @@ class SolPosition : public NiMemObject
         y = b;
         z = c;
     }
-    inline SolPosition FUN_00439ef0(const SolPosition& rhs) const
+// src: GUESS 0x00439ef0 (confidence: high)
+    inline SolPosition SubtractIntoVector(const SolPosition& rhs) const
     {
         return SolPosition(x - rhs.x, y - rhs.y, z - rhs.z);
     }
@@ -6224,7 +6225,7 @@ void __stdcall Lighting30Shader_SetupGeometryConstants_MaterialAlpha(const SolPo
             if (node)
             {
                 S00bbe9c0_Target* t = node->target;
-                SolPosition relative = t->pos8c.FUN_00439ef0(*original);
+                SolPosition relative = t->pos8c.SubtractIntoVector(*original);
                 SolColor scaledColor = node->target->posD4.ScaleTo(node->target->radC4);
                 float distance = relative.FUN_00457990() / t->fE0;
                 double d = BSMAX_0068b050(0.0, distance);

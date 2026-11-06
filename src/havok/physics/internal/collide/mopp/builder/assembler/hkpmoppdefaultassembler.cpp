@@ -588,7 +588,7 @@ struct __declspec(align(8)) State
     State()
     {}
     State(const State&, Node*, float*);
-    void FUN_00e095d0(const State*, Node*, float*);
+    void UpdateState_00e095d0(const State*, Node*, float*);
 };
 struct MergeInfo
 {
@@ -674,7 +674,7 @@ int TreeOptimizer::OptimizeTree(Node* node, void* context, State* state)
             if (rightChild)
             {
                 State stateCopy;
-                stateCopy.FUN_00e095d0(state, rightChild, &config30);
+                stateCopy.UpdateState_00e095d0(state, rightChild, &config30);
                 score = OptimizeTree(rightChild, state, &stateCopy);
                 if (score >= 0)
                     hkpMoppDefaultAssembler_releaseNode(rightChild);
@@ -683,7 +683,7 @@ int TreeOptimizer::OptimizeTree(Node* node, void* context, State* state)
             if (leftChild)
             {
                 State stateCopy;
-                stateCopy.FUN_00e095d0(state, leftChild, &config30);
+                stateCopy.UpdateState_00e095d0(state, leftChild, &config30);
                 int leftResult = OptimizeTree(leftChild, state, &stateCopy);
                 if (leftResult >= 0)
                 {
@@ -1880,14 +1880,15 @@ class FUN_00e095d0_cls
     unsigned int unk40;
     unsigned int unk44;
 
-    FUN_00e095d0_cls* __thiscall FUN_00e095d0(FUN_00e095d0_cls* src, unsigned int a2, unsigned int a3);
+    FUN_00e095d0_cls* __thiscall UpdateState_00e095d0(FUN_00e095d0_cls* src, unsigned int a2, unsigned int a3);
     void __thiscall CopyOffsets(unsigned int a);
     void __thiscall BuildScaledRanges(unsigned int a, unsigned int b);
     void __thiscall hkpMoppAssemblerNodeInfo_calcMaxExtentsSignificantBits();
 };
 
 // @fnv 0x00e095d0
-FUN_00e095d0_cls* FUN_00e095d0_cls::FUN_00e095d0(FUN_00e095d0_cls* pSource, unsigned int a2, unsigned int a3)
+// src: GUESS 0x00e095d0 (confidence: low)
+FUN_00e095d0_cls* FUN_00e095d0_cls::UpdateState_00e095d0(FUN_00e095d0_cls* pSource, unsigned int a2, unsigned int a3)
 {
     *this = *pSource;
     CopyOffsets(a2);
@@ -2399,11 +2400,12 @@ struct S_00e07d60
     __m128 v;
     int i;
     char b;
-    void FUN_00e07d60(const S_00e07d60_Info& info);
+    void UpdateFields_00e07d60(const S_00e07d60_Info& info);
 };
 
 // @fnv 0x00e07d60
-void S_00e07d60::FUN_00e07d60(const S_00e07d60_Info& info)
+// src: GUESS 0x00e07d60 (confidence: low)
+void S_00e07d60::UpdateFields_00e07d60(const S_00e07d60_Info& info)
 {
     x = info.x;
     y = info.y;
@@ -2725,10 +2727,10 @@ void BvBuilder::hkpMoppDefaultAssembler_assembleSubNodeIntoChunks(BvNode* node, 
         range.m_uiEdgeIndex = -1;
         hkpMoppDefaultAssembler_initTopDown(node, parent, stack, &range);
         BvNode* right = node->m_fMaximumU;
-        child.FUN_00e095d0(stack, (unsigned int)right, (unsigned int)&m_info30);
+        child.UpdateState_00e095d0(stack, (unsigned int)right, (unsigned int)&m_info30);
         hkpMoppDefaultAssembler_assembleSubNodeIntoChunks(right, stack, &child, depth, refs);
         BvNode* left = node->m_fMinimumU;
-        child.FUN_00e095d0(stack, (unsigned int)left, (unsigned int)&m_info30);
+        child.UpdateState_00e095d0(stack, (unsigned int)left, (unsigned int)&m_info30);
         hkpMoppDefaultAssembler_assembleSubNodeIntoChunks(left, stack, &child, depth, refs);
         hkpMoppDefaultAssembler_assembleNonTerminalCommand(node, parent, stack, &range);
     }
@@ -3394,7 +3396,7 @@ struct __declspec(align(8)) MyRegion : public MyBounds
     void CopyOffsets(S_00e07da0_Node* node) throw();
     void BuildScaledRanges(S_00e07da0_Node* node, void* p) throw();
     void hkpMoppAssemblerNodeInfo_calcMaxExtentsSignificantBits() throw();
-    void FUN_00e095d0(MyBounds* src, S_00e07da0_Node* node, void* p) throw();
+    void UpdateState_00e095d0(MyBounds* src, S_00e07da0_Node* node, void* p) throw();
 };
 
 extern "C" void __cdecl copyCodeAndEmbedTerminals(AssemblerHelper*, ObjectWriter*, void*) throw();
@@ -3537,7 +3539,7 @@ void Tree::hkpMoppDefaultAssembler_assemble(S_00e07da0_Node* node, int arg2, int
     }
 
     ObjectWriter* saved = this->m_stream;
-    p.FUN_00e095d0(&s, node, &this->unk30);
+    p.UpdateState_00e095d0(&s, node, &this->unk30);
 
     MyArray<unsigned int> arr1;
     {

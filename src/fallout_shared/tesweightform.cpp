@@ -92,7 +92,8 @@ void __fastcall FUN_008c6060(void* pThis);
 
 // Runs the BaseFormComponent constructor, installs the vtable pointer from DAT_0101a4c4, calls FUN_008c6060, and returns pThis.
 // @fnv 0x0048eac0
-void* __fastcall FUN_0048eac0(void* pThis)
+// src: GUESS 0x0048eac0 (confidence: low)
+void* __fastcall Object_InitializeFields_0048eac0(void* pThis)
 {
     ((BaseFormComponent*)pThis)->BaseFormComponent::BaseFormComponent();
     *(int**)pThis = &DAT_0101a4c4;
@@ -105,7 +106,8 @@ extern int DAT_0101a4c4;
 void __fastcall DestroyBaseFormComponent(void* component);
 
 // @fnv 0x0048eaf0
-void __fastcall FUN_0048eaf0(void* pThis)
+// src: GUESS 0x0048eaf0 (confidence: low)
+void __fastcall TESWeightForm_UpdateState_0048eaf0(void* pThis)
 {
     *reinterpret_cast<int*>(pThis) = reinterpret_cast<int>(&DAT_0101a4c4);
     DestroyBaseFormComponent(pThis);

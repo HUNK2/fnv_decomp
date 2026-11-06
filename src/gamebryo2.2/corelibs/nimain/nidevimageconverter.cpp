@@ -163,7 +163,7 @@ bool NiDevImageConverter::ConvertMipLevel(NiPixelData& dst, const NiPixelData& s
             if (dstBpp == 24)
                 convert = Convert4BitPalettedTo24Bit;
             else if (dstBpp == 32)
-                convert = FUN_00a79310;
+                convert = NiPalette_ExpandFourBitPaletteIndices;
             else
                 return false;
         }
@@ -190,7 +190,7 @@ bool NiDevImageConverter::ConvertMipLevel(NiPixelData& dst, const NiPixelData& s
             if (dstBpp == 16)
                 convert = ConvertPaletteTo16Bit;
             else if (dstBpp == 24)
-                convert = FUN_00a79e20;
+                convert = Object_ProcessEntries_00a79e20;
             else if (dstBpp == 32)
                 convert = NiDevImageConverter_ConvertPAL8To32;
             else
@@ -226,7 +226,7 @@ bool NiDevImageConverter::ConvertMipLevel(NiPixelData& dst, const NiPixelData& s
             if (dstBpp == 16)
                 convert = NiDevImageConverter_ConvertPALA8To16;
             else if (dstBpp == 24)
-                convert = FUN_00a79e20;
+                convert = Object_ProcessEntries_00a79e20;
             else if (dstBpp == 32)
                 convert = ConvertPalettizedToFormat;
             else
@@ -253,7 +253,7 @@ bool NiDevImageConverter::ConvertMipLevel(NiPixelData& dst, const NiPixelData& s
         if (dstBpp == 16)
             convert = ConvertPixelsTo16Bit;
         else if (dstBpp == 24)
-            convert = FUN_00a7a160;
+            convert = Object_ConvertBGRPixels;
         else if (dstBpp == 32)
             convert = ConvertRGBToFormat;
         else
@@ -268,7 +268,7 @@ bool NiDevImageConverter::ConvertMipLevel(NiPixelData& dst, const NiPixelData& s
         else if (dstBpp == 24)
             convert = NiDevImageConverter_ConvertRGBA32To24;
         else if (dstBpp == 32)
-            convert = FUN_00a771d0;
+            convert = Runtime_PackRgbaPixelsByFormat;
         else
             return false;
     }
@@ -297,7 +297,7 @@ bool NiDevImageConverter::ConvertMipLevel(NiPixelData& dst, const NiPixelData& s
     else if (sf == DAT_011aa330 && df == DAT_011aa3c0)
         convert = NiDevImageConverter_ConvertRGBA16ToBGRA16;
     else if (sf == DAT_011aa3c0 && df == DAT_011aa330)
-        convert = FUN_00a76e90;
+        convert = NiPalette_NiDevImageConverter_ConvertRGBA16ToBGRA16_Thunk;
     else
     {
         if (srcFormat != 0 && srcFormat != 1)
@@ -328,7 +328,7 @@ bool NiDevImageConverter::ConvertMipLevel(NiPixelData& dst, const NiPixelData& s
             if (srcBpp == 16)
                 convert = UnpackPixels;
             else if (srcBpp == 24)
-                convert = FUN_00a7a1f0;
+                convert = NiDevImageConverter_ProcessEntries_00a7a1f0;
             else if (srcBpp == 32)
                 convert = ConvertPixelsToRgb;
             else
@@ -467,7 +467,8 @@ extern unsigned int DAT_011c5f84;
 void __fastcall FUN_00a76680(void* pThis);
 
 // @fnv 0x00a7aff0
-void NiDevImageConverter::FUN_00a7aff0()
+// src: GUESS 0x00a7aff0 (confidence: low)
+void NiDevImageConverter::ProcessEntries_00a7aff0()
 {
     *(void**)this = &DAT_0109d9c4;
     while (m_kImageReaderList.m_kItemCount.m_uiCount)
@@ -520,7 +521,8 @@ void* NiDevImageConverter::GetImageReaderList()
 }
 
 // @fnv 0x00a79e20
-void __cdecl FUN_00a79e20(unsigned int width, unsigned int height, unsigned int, unsigned char* dst, void* tableSrc,
+// src: GUESS 0x00a79e20 (confidence: low)
+void __cdecl Object_ProcessEntries_00a79e20(unsigned int width, unsigned int height, unsigned int, unsigned char* dst, void* tableSrc,
                           void* codeSrc, const unsigned char* src)
 {
     unsigned char* table = *(unsigned char**)((unsigned char*)tableSrc + 0x14);
@@ -628,7 +630,7 @@ void __cdecl _delete(void*, unsigned int);
 // @fnv 0x00a7b260
 void* NiDevImageConverter::DestroyIfFlagged(unsigned int auiFlags)
 {
-    FUN_00a7aff0();
+    ProcessEntries_00a7aff0();
     if (auiFlags & 1)
         _delete(this, 0xA00);
     return this;
@@ -1185,7 +1187,8 @@ struct Format_a79310
 
 // Expands 4-bit packed palette indices into 32-bit colors using the palette and format masks, writes them to pDst, and frees the temporary buffer.
 // @fnv 0x00a79310
-void __cdecl FUN_00a79310(unsigned int uiWidth, unsigned int uiHeight, unsigned int uiUnused, unsigned int* pDst,
+// src: GUESS 0x00a79310 (confidence: high)
+void __cdecl NiPalette_ExpandFourBitPaletteIndices(unsigned int uiWidth, unsigned int uiHeight, unsigned int uiUnused, unsigned int* pDst,
                           NiPalette* pkPalette, Format_a79310* pkFormat, const unsigned char* pSrc)
 {
     NiPalette::PaletteColorEntry* pkEntries = reinterpret_cast<NiPalette::PaletteColorEntry*>(pkPalette->unk14);
@@ -1943,7 +1946,8 @@ extern int DAT_00ff0000;
 
 // Swaps BGR to RGB pixel order when the source has a 0xFF00 green mask and 0xFF red mask, or copies raw bytes when the red mask is 0xFF.
 // @fnv 0x00a7a160
-void __cdecl FUN_00a7a160(unsigned int uiWidth, unsigned int uiHeight, unsigned int, unsigned char* pDst,
+// src: GUESS 0x00a7a160 (confidence: medium)
+void __cdecl Object_ConvertBGRPixels(unsigned int uiWidth, unsigned int uiHeight, unsigned int, unsigned char* pDst,
                           const NiPalette*, const NiDevImageConverter::PixelFormatBitLayout& kSrcBits,
                           const unsigned char* pSrc, const NiDevImageConverter::PixelFormatBitLayout&)
 {
@@ -1987,7 +1991,8 @@ struct Format_a7a1f0
 void __cdecl FUN_00ec44d0(void* destination, const void* source, unsigned int size);
 
 // @fnv 0x00a7a1f0
-void __cdecl FUN_00a7a1f0(unsigned int width, unsigned int height, unsigned int unused, unsigned char* destination,
+// src: GUESS 0x00a7a1f0 (confidence: low)
+void __cdecl NiDevImageConverter_ProcessEntries_00a7a1f0(unsigned int width, unsigned int height, unsigned int unused, unsigned char* destination,
                           unsigned int unused2, unsigned int FlushUsageData, unsigned char* source,
                           Format_a7a1f0* format)
 {

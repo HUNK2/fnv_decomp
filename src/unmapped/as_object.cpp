@@ -33,7 +33,7 @@ struct CellReferenceList
     TESObjectREFR** FUN_006815c0();
     void FUN_0063f7b0();
     CellReferenceList* FUN_00726070();
-    void FUN_00905330(TESObjectREFR* const&);
+    void RemoveMatchingItem(TESObjectREFR* const&);
 };
 struct CF845
 {
@@ -80,7 +80,7 @@ void TESObjectCELL::RemoveNonPersistentRefs()
                 {
                     if (pPrevNode)
                     {
-                        pPrevNode->FUN_00905330(pRef);
+                        pPrevNode->RemoveMatchingItem(pRef);
                         pNode = pPrevNode->FUN_00726070();
                     }
                     else

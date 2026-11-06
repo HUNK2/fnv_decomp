@@ -129,7 +129,7 @@ extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile lo
 
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 
-void* __cdecl FUN_00aa13e0(unsigned int);
+void* __cdecl Object_DispatchCommandFour(unsigned int);
 
 struct RefObject
 {
@@ -256,7 +256,7 @@ struct OutputData : RefObject
     int m94;
     static void* operator new(unsigned int n)
     {
-        return FUN_00aa13e0(n);
+        return Object_DispatchCommandFour(n);
     }
     static void operator delete(void*);
     OutputData();
@@ -265,7 +265,7 @@ struct OutputData : RefObject
 
     void FUN_00a67260(void*);
 
-    void FUN_00a72ca0(int);
+    void SetSize_Thunk(int);
 
     void NiAdditionalGeometryData_SetDataBlock(int, void*, int, int);
 
@@ -335,7 +335,7 @@ struct C1AClass : RefObject
     int md4;
     static void* operator new(unsigned int n)
     {
-        return FUN_00aa13e0(n);
+        return Object_DispatchCommandFour(n);
     }
     static void operator delete(void*);
 };
@@ -404,7 +404,7 @@ struct C469Class : RefObject
 
     static void* operator new(unsigned int n)
     {
-        return FUN_00aa13e0(n);
+        return Object_DispatchCommandFour(n);
     }
     static void operator delete(void*);
     C469Class();
@@ -474,7 +474,7 @@ struct SmallRef : RefObject
 
     static void* operator new(unsigned int n)
     {
-        return FUN_00aa13e0(n);
+        return Object_DispatchCommandFour(n);
     }
     static void operator delete(void*);
     SmallRef();
@@ -492,7 +492,7 @@ struct OtherRef : RefObject
     int m20;
     static void* operator new(unsigned int n)
     {
-        return FUN_00aa13e0(n);
+        return Object_DispatchCommandFour(n);
     }
     static void operator delete(void*);
     OtherRef();
@@ -512,12 +512,12 @@ struct GridBuffer : RefObject
     int m28;
     static void* operator new(unsigned int n)
     {
-        return FUN_00aa13e0(n);
+        return Object_DispatchCommandFour(n);
     }
     static void operator delete(void*);
     GridBuffer(int, int);
 
-    void FUN_00a72ca0(int);
+    void SetSize_Thunk(int);
 
     void NiAdditionalGeometryData_SetDataBlock(int, void*, int, int);
 
@@ -746,7 +746,7 @@ FUN_00bd8ae0::FUN_00bd8ae0(ModelSource* source, int mode, int variant, unsigned 
 
     GridBuffer* buffer = new GridBuffer(total, 1);
 
-    buffer->FUN_00a72ca0(1);
+    buffer->SetSize_Thunk(1);
 
     buffer->NiAdditionalGeometryData_SetDataBlock(0, source->vertices, total * 4, 0);
 

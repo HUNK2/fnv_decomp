@@ -206,7 +206,7 @@ bool __cdecl GarbageCollector_TryEnterCrit();
 bool __cdecl HasFlags(int);
 bool __cdecl BSSpinLockGlobalTryLock();
 void __cdecl BSTexturePalette_Unlock();
-void FUN_00869560(void*, void*);
+void Object_ProcessEntries_00869560(void*, void*);
 extern NiTObjectArray<NiPointer<BSTempEffect> > g_011de858;
 extern bool DAT_011de958;
 extern __declspec(thread) bool bCollecting;
@@ -288,7 +288,7 @@ void GarbageCollector_ClearAll(bool abTryLock)
             g_011de848.RemoveAll();
             ForEachNavMesh(&g_011de838, &g_011de910);
             g_011de838.RemoveAll();
-            FUN_00869560(&g_011de858, &g_011de828);
+            Object_ProcessEntries_00869560(&g_011de858, &g_011de828);
             g_011de858.RemoveAll();
             CopyNonNullElements(&g_011de898, &g_011de924);
             g_011de898.Clear(true);
@@ -343,7 +343,7 @@ void FUN_00868210_shell::ClearBitsAndUnlockGC()
     UnlockGarbageCollector(false);
 }
 
-void __cdecl FUN_00868770(int* a, int b);
+void __cdecl Garbagecollector_ForwardCall_00868770(int* a, int b);
 
 // NiAVObject.h lacks the collector mark operation (0x00868740).
 // Keep just its member-call adapter; the refcount field comes from the shared class.
@@ -355,7 +355,7 @@ struct GarbageMarkAdapter
 // @fnv 0x00868740
 void GarbageMarkAdapter::MarkForCollection()
 {
-    FUN_00868770(reinterpret_cast<int*>(&reinterpret_cast<NiAVObject*>(this)->m_uiRefCount),
+    Garbagecollector_ForwardCall_00868770(reinterpret_cast<int*>(&reinterpret_cast<NiAVObject*>(this)->m_uiRefCount),
         reinterpret_cast<NiAVObject*>(this)->m_uiRefCount | 0x40000000);
 }
 
@@ -380,7 +380,7 @@ FUN_008681c0_shell* __thiscall FUN_008681c0_shell::InitFlags(int aiFlags, const 
 // @fnv 0x00868ce0
 void __thiscall NiAVObject::RemoveGarbageMark()
 {
-    FUN_00868770(reinterpret_cast<int*>(&m_uiRefCount), m_uiRefCount & 0xBFFFFFFF);
+    Garbagecollector_ForwardCall_00868770(reinterpret_cast<int*>(&m_uiRefCount), m_uiRefCount & 0xBFFFFFFF);
 }
 
 // @fnv 0x008693c0
@@ -444,7 +444,8 @@ void NiNode::DetachAllChildren_00572160()
 
 extern void(__stdcall* DAT_00fdf0e4)(void*, void*);
 // @fnv 0x00868770
-void __cdecl FUN_00868770(int* a, int b)
+// src: GUESS 0x00868770 (confidence: low)
+void __cdecl Garbagecollector_ForwardCall_00868770(int* a, int b)
 {
     DAT_00fdf0e4(a, (void*)b);
 }

@@ -12,10 +12,11 @@ struct S_00df6a30
     int unk0;
     int unk4;
     S_00df6a30_Inner* unk8;
-    float FUN_00df6a30();
+    float EvaluateValue_00df6a30();
 };
 // @fnv 0x00df6a30
-float S_00df6a30::FUN_00df6a30()
+// src: GUESS 0x00df6a30 (confidence: low)
+float S_00df6a30::EvaluateValue_00df6a30()
 {
     return unk8->unk4;
 }
@@ -514,14 +515,14 @@ Derived::Derived() : PrimaryBase(), SecondaryBase()
 struct DF6DC0Primary
 {
     virtual void vfunc00();
-    virtual void FUN_00df6dc0();
+    virtual void AdjustThisAndForward_00df6dc0();
 
     int unk04;
 };
 
 struct DF6DC0Secondary
 {
-    virtual void FUN_00df6dc0();
+    virtual void AdjustThisAndForward_00df6dc0();
 };
 
 struct DF6DC0Object : DF6DC0Primary, DF6DC0Secondary
@@ -529,7 +530,8 @@ struct DF6DC0Object : DF6DC0Primary, DF6DC0Secondary
     DF6DC0Object();
 
 // @fnv 0x00df6dc0
-    virtual void FUN_00df6dc0();
+// src: GUESS 0x00df6dc0 (confidence: low)
+    virtual void AdjustThisAndForward_00df6dc0();
 };
 
 DF6DC0Object::DF6DC0Object()

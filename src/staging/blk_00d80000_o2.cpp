@@ -53,14 +53,15 @@ public:
 extern int DAT_010cc4f4;
 
 // @fnv 0x00d9f6d0
-void __cdecl FUN_00d9f6d0(int* p)
+// src: GUESS 0x00d9f6d0 (confidence: low)
+void __cdecl Runtime_UpdateState_00d9f6d0(int* p)
 {
     if (p)
         *p = (int)&DAT_010cc4f4;
 }
 
 struct FUN_00d85300_Stub {
-    void FUN_00d85300(int*);
+    void ComputeValue_00d85300(int*);
 };
 struct FUN_00d85a20_Stub : FUN_00d85300_Stub {
     int* CopyStateFrom(int* p);
@@ -68,7 +69,7 @@ struct FUN_00d85a20_Stub : FUN_00d85300_Stub {
 // @fnv 0x00d85a20
 int* FUN_00d85a20_Stub::CopyStateFrom(int* p)
 {
-    FUN_00d85300(p);
+    ComputeValue_00d85300(p);
     *(int*)((char*)this + 0x90) = *(int*)((char*)p + 0x90);
     *(int*)((char*)this + 0x94) = *(int*)((char*)p + 0x94);
     *(int*)((char*)this + 0x98) = *(int*)((char*)p + 0x98);
@@ -640,7 +641,7 @@ FUN_00d85570_cls* __cdecl CloneWithInit(int apSource)
 namespace fnv_00d855c0 {
 struct FUN_00d855c0_Factory {
     virtual void FUN_00d85300_Unused() = 0;
-    virtual void* FUN_00d85300(int size);
+    virtual void* ComputeValue_00d85300(int size);
 };
 
 struct FUN_00d855c0_Data {
@@ -657,7 +658,7 @@ void* __cdecl CloneDataBlock(void* source)
 {
     hkMemoryRouter* manager = hkMemoryRouter_getInstance();
     FUN_00d855c0_Data* data = static_cast<FUN_00d855c0_Data*>(
-        reinterpret_cast<FUN_00d855c0_Factory*>(manager->m_heap)->FUN_00d85300(0xB0));
+        reinterpret_cast<FUN_00d855c0_Factory*>(manager->m_heap)->ComputeValue_00d85300(0xB0));
 
     data->unk04 = 0xB0;
 
@@ -843,7 +844,7 @@ struct S_00d85af0_Base {
     int unk84;
     int unk88;
     int unk8c;
-    void FUN_00d85300(const S_00d85af0_Base* o);
+    void ComputeValue_00d85300(const S_00d85af0_Base* o);
 };
 struct S_00d85af0_V3 { float x, y, z; };
 struct S_00d85af0_Cls : S_00d85af0_Base {
@@ -861,7 +862,7 @@ struct S_00d85af0_Cls : S_00d85af0_Base {
 };
 // @fnv 0x00d85af0
 S_00d85af0_Cls* S_00d85af0_Cls::AssignFrom(const S_00d85af0_Cls* o) {
-    FUN_00d85300(o);
+    ComputeValue_00d85300(o);
     unk90 = o->unk90;
     unk94 = o->unk94;
     unk98 = o->unk98;
@@ -878,7 +879,8 @@ S_00d85af0_Cls* S_00d85af0_Cls::AssignFrom(const S_00d85af0_Cls* o) {
 struct CpuOpaque;
 extern CpuOpaque DAT_01269514;
 // @fnv 0x00d9f6c0
-CpuOpaque* __cdecl FUN_00d9f6c0()
+// src: GUESS 0x00d9f6c0 (confidence: low)
+CpuOpaque* __cdecl Object_GetGlobalObjectAddress_00d9f6c0()
 {
     return &DAT_01269514;
 }
@@ -886,7 +888,8 @@ CpuOpaque* __cdecl FUN_00d9f6c0()
 extern int DAT_010cc4f4;
 
 // @fnv 0x00d9f6e0
-unsigned int __cdecl FUN_00d9f6e0() {
+// src: GUESS 0x00d9f6e0 (confidence: low)
+unsigned int __cdecl Object_ComputeValue_00d9f6e0() {
     return reinterpret_cast<unsigned int>(&DAT_010cc4f4);
 }
 
@@ -1202,8 +1205,8 @@ struct StringBuf {
 
     void FUN_00d61a50(const char* s);
     void FUN_00d61fc0(int from, int len);
-    int FUN_00d616e0(const char* other);
-    void FUN_00cbbd40();
+    int Object_ForwardCall_00d616e0(const char* other);
+    void UpdateFields_00cbbd40();
 };
 
 // Matches typeName against known type prefixes and a type table, returning the corresponding type code or 0.
@@ -1237,15 +1240,15 @@ int __cdecl GetTypeCode(const char* typeName) {
     int i = 0;
     TypeEntry* pEntry = DAT_011b6ab4;
     do {
-        if (buf.FUN_00d616e0(pEntry->name)) {
-            buf.FUN_00cbbd40();
+        if (buf.Object_ForwardCall_00d616e0(pEntry->name)) {
+            buf.UpdateFields_00cbbd40();
             return i;
         }
         ++pEntry;
         ++i;
     } while ((int)pEntry < (int)DAT_011b6c4c);
 
-    buf.FUN_00cbbd40();
+    buf.UpdateFields_00cbbd40();
     return 0;
 }
 
@@ -1357,7 +1360,8 @@ FUN_00d87910_cls* FUN_00d87910_cls::hkThread_hkThread()
 extern "C" unsigned int (__stdcall *DAT_00fdf1d0)();
 
 // @fnv 0x00d87a40
-unsigned __int64 __cdecl FUN_00d87a40()
+// src: GUESS 0x00d87a40 (confidence: low)
+unsigned __int64 __cdecl Object_ForwardCall_00d87a40()
 {
     return DAT_00fdf1d0();
 }
@@ -1365,22 +1369,25 @@ unsigned __int64 __cdecl FUN_00d87a40()
 void __cdecl hkThread_stopThread();
 
 // @fnv 0x00d87a70
-void __cdecl FUN_00d87a70()
+// src: GUESS 0x00d87a70 (confidence: low)
+void __cdecl hkThread_stopThread_ForwardCall_00d87a70()
 {
     hkThread_stopThread();
 }
 
 struct FUN_00d87a80_Stub {
-    void* FUN_00d87a80(int);
+    void* GetSelf_00d87a80(int);
 };
 // @fnv 0x00d87a80
-void* FUN_00d87a80_Stub::FUN_00d87a80(int)
+// src: GUESS 0x00d87a80 (confidence: high)
+void* FUN_00d87a80_Stub::GetSelf_00d87a80(int)
 {
     return this;
 }
 
 // @fnv 0x00d87a90
-void __cdecl FUN_00d87a90()
+// src: GUESS 0x00d87a90 (confidence: high)
+void __cdecl Runtime_DoNothing_00d87a90()
 {
 }
 
@@ -1418,7 +1425,8 @@ FUN_00d88050::FUN_00d88050()
 }
 
 // @fnv 0x00d88060
-void __cdecl FUN_00d88060()
+// src: GUESS 0x00d88060 (confidence: high)
+void __cdecl Object_DoNothing_00d88060()
 {
 }
 
@@ -1457,7 +1465,8 @@ void FUN_00d880d0::M_00d880d0()
 }
 
 // @fnv 0x00d880e0
-void __cdecl FUN_00d880e0() {
+// src: GUESS 0x00d880e0 (confidence: high)
+void __cdecl Object_DoNothing_00d880e0() {
 }
 
 struct FUN_00d880f0_Class {
@@ -1465,11 +1474,12 @@ struct FUN_00d880f0_Class {
     int unk04;
     unsigned char unk08;
 
-    void FUN_00d880f0(unsigned char val);
+    void SetUnk08(unsigned char val);
 };
 
 // @fnv 0x00d880f0
-void FUN_00d880f0_Class::FUN_00d880f0(unsigned char val) {
+// src: GUESS 0x00d880f0 (confidence: low)
+void FUN_00d880f0_Class::SetUnk08(unsigned char val) {
     unk08 = val;
 }
 
@@ -1689,7 +1699,7 @@ extern "C" {
     void _ReadWriteBarrier(void);
     __declspec(dllimport) void* __stdcall TlsGetValue(unsigned int dwTlsIndex);
     extern unsigned int DAT_0126835c;
-    void __cdecl FUN_00d89f80(void* p, int a2, int a3, int a4, bool* pb);
+    void __cdecl Object_ProcessAndReturnValue_00d89f80(void* p, int a2, int a3, int a4, bool* pb);
 }
 
 struct TargetObj {
@@ -1748,7 +1758,7 @@ void LogIntegrateVelocity(Arg0* a1, Arg1* a2, Arg2* a3) {
     }
 
     bool b = false;
-    FUN_00d89f80(&a1->m_pSub->unk1e0, a3->unk28, a3->unk20, a3->unk24, &b);
+    Object_ProcessAndReturnValue_00d89f80(&a1->m_pSub->unk1e0, a3->unk28, a3->unk20, a3->unk24, &b);
     a3->unk2c = b;
 
     hkMonitorStream* stream2 = (hkMonitorStream*)TlsGetValue(DAT_0126835c);
@@ -1835,14 +1845,14 @@ FUN_00d98390::FUN_00d98390()
 {
 }
 
-void __cdecl FUN_00d98630(void*, void*, void*, void*);
+void __cdecl Runtime_ProcessEntries_00d98630(void*, void*, void*, void*);
 
 // Calls FUN_00d98630 with the four arguments and returns a1.
 // @fnv 0x00d99540
 // src: HAVOK_LIB 0x00d99540
 void* __cdecl hkKdTreeUtils_isValidRayBundle(void* a1, void* a2, void* a3, void* a4)
 {
-    FUN_00d98630(a1, a2, a3, a4);
+    Runtime_ProcessEntries_00d98630(a1, a2, a3, a4);
     return a1;
 }
 
@@ -1904,7 +1914,8 @@ struct FUN_00d9a4a0_Obj {
 };
 
 // @fnv 0x00d9a4a0
-float __fastcall FUN_00d9a4a0(
+// src: GUESS 0x00d9a4a0 (confidence: low)
+float __fastcall Object_ProcessAndReturnValue_00d9a4a0(
     FUN_00d9a4a0_Obj* self,
     int unused,
     FUN_00d9a4a0_Param* param) {
@@ -1914,10 +1925,11 @@ float __fastcall FUN_00d9a4a0(
 
 struct IdxStand_ {
     char* m_iWordAt00;
-    void* FUN_00d9a4c0(int idx);
+    void* ComputeValue_00d9a4c0(int idx);
 };
 // @fnv 0x00d9a4c0
-void* IdxStand_::FUN_00d9a4c0(int idx)
+// src: GUESS 0x00d9a4c0 (confidence: low)
+void* IdxStand_::ComputeValue_00d9a4c0(int idx)
 {
     return m_iWordAt00 + idx * 48;
 }
@@ -1937,23 +1949,26 @@ struct FnvCpu_FUN_00d9f6b0_CpuInterface {
     virtual void Invoke(int value);
 };
 // @fnv 0x00d9f6b0
-void __cdecl FUN_00d9f6b0(FnvCpu_FUN_00d9f6b0_CpuInterface* object)
+// src: GUESS 0x00d9f6b0 (confidence: low)
+void __cdecl Runtime_ForwardCall_00d9f6b0(FnvCpu_FUN_00d9f6b0_CpuInterface* object)
 {
     object->Invoke(0);
 }
 
 extern char DAT_0102e388;
 struct FUN_00d9fb30_Stub {
-    void FUN_00d9fb30();
+    void SetVtableAndProcessState_00d9fb30();
 };
 // @fnv 0x00d9fb30
-void FUN_00d9fb30_Stub::FUN_00d9fb30()
+// src: GUESS 0x00d9fb30 (confidence: low)
+void FUN_00d9fb30_Stub::SetVtableAndProcessState_00d9fb30()
 {
     *(int*)this = (int)&DAT_0102e388;
 }
 
 // @fnv 0x00d9fb40
-void __stdcall FUN_00d9fb40(unsigned char* output, int unused1)
+// src: GUESS 0x00d9fb40 (confidence: low)
+void __stdcall Object_UpdateFields_00d9fb40(unsigned char* output, int unused1)
 {
     *output = 1;
 }
@@ -2003,7 +2018,8 @@ struct D85Msg {
     D85A0* p;
 };
 
-static __declspec(noinline) D85Ctn* FUN_00d85d40(D85Ctn* c) {
+// src: GUESS 0x00d85d40 (confidence: low)
+static __declspec(noinline) D85Ctn* Object_ProcessEntries_00d85d40(D85Ctn* c) {
     for (int i = c->count - 1; i >= 0; --i) {
         if (c->entries[i] != 0) continue;
         c->count -= 1;
@@ -2051,7 +2067,7 @@ void __cdecl hkpConstraintCallbackUtil_fireConstraintBroken(D85Msg a) {
             }
         } while (--i >= 0);
     }
-    FUN_00d85d40(ctn);
+    Object_ProcessEntries_00d85d40(ctn);
 }
 
 template <class T>
@@ -2132,7 +2148,7 @@ inline AutoMemContext::~AutoMemContext()
     tlsArr[0xaf] = m_eMemoryContext;
 }
 
-void __cdecl FUN_00c9eae0(void* p);
+void __cdecl Object_UpdateFields_00c9eae0(void* p);
 
 struct FUN_00dee750 {
     void* m_vptr;
@@ -2189,7 +2205,7 @@ struct FUN_00dee750 {
         ((FUN_00dee750*)p)->m_usMemorySizeAndFlags = (unsigned short)sz;
         return p;
     }
-    static void operator delete(void* p) { FUN_00c9eae0(p); }
+    static void operator delete(void* p) { Object_UpdateFields_00c9eae0(p); }
 
     FUN_00dee750();
 };
@@ -2254,7 +2270,8 @@ int S_00d87a60::GetValue() {
 
 extern void* DAT_012691fc;
 // @fnv 0x00d880a0
-void* __cdecl FUN_00d880a0()
+// src: GUESS 0x00d880a0 (confidence: low)
+void* __cdecl Object_GetDAT_012691fc_00d880a0()
 {
     return DAT_012691fc;
 }
@@ -2543,7 +2560,7 @@ public:
 
 class SecondaryD9A4 {
 public:
-    virtual float FUN_00d9a480(ArgD9A4* pkArg) = 0;
+    virtual float ProcessAndReturnValue_00d9a480(ArgD9A4* pkArg) = 0;
 };
 
 class ObjD9A4 : public PrimaryD9A4, public SecondaryD9A4 {
@@ -2553,11 +2570,12 @@ public:
     InnerD9A4* m_pkInner;
 
     void InvokeCallback(int iValue);
-    virtual float FUN_00d9a480(ArgD9A4* pkArg);
+    virtual float ProcessAndReturnValue_00d9a480(ArgD9A4* pkArg);
 };
 
 // @fnv 0x00d9a480
-float ObjD9A4::FUN_00d9a480(ArgD9A4* pkArg)
+// src: GUESS 0x00d9a480 (confidence: low)
+float ObjD9A4::ProcessAndReturnValue_00d9a480(ArgD9A4* pkArg)
 {
     InvokeCallback(pkArg->unk0C);
     return m_pkInner->m_fValue;
@@ -2652,7 +2670,7 @@ public:
     int unk14;
     ShapeD84D* m_pkChild;
 
-    ShapeD84D* FUN_00cdf6d0();
+    ShapeD84D* GetFieldC();
 };
 
 // Returns a pointer to shape data based on the shape type, following child shapes for types 12 and 13.
@@ -2689,7 +2707,7 @@ void* __cdecl GetShapeData(ShapeD84D* pkShape)
             pkShape = pkShape->m_pkChild;
             break;
         case 13:
-            pkShape = pkShape->FUN_00cdf6d0();
+            pkShape = pkShape->GetFieldC();
             break;
         case 14:
             return (char*)pkShape + 0x90;
@@ -2818,7 +2836,8 @@ struct D90Ctn {
     unsigned short count;
 };
 
-static __declspec(noinline) D90Ctn* FUN_00d85d40(D90Ctn* c) {
+// src: GUESS 0x00d85d40 (confidence: low)
+static __declspec(noinline) D90Ctn* Object_ProcessEntries_00d85d40(D90Ctn* c) {
     for (int i = c->count - 1; i >= 0; --i) {
         if (c->entries[i] != 0) continue;
         c->count -= 1;
@@ -2864,7 +2883,7 @@ D90Ctn* __cdecl hkpConstraintCallbackUtil_fireConstraintAdded(hkpConstraintInsta
             }
         } while (--i >= 0);
     }
-    return FUN_00d85d40(ctn);
+    return Object_ProcessEntries_00d85d40(ctn);
 }
 
 static __forceinline void hkTimer(const char* name, volatile unsigned int& t)
@@ -2881,7 +2900,7 @@ static __forceinline void hkTimer(const char* name, volatile unsigned int& t)
 }
 
 struct ListenerArray;
-static void FUN_00d85d40(ListenerArray* array);
+static void Object_ProcessEntries_00d85d40(ListenerArray* array);
 
 // Invokes ConstraintRemovedCallback on each non-null listener in the constraint's listener array, then removes null entries.
 // @fnv 0x00d85e40
@@ -2896,7 +2915,7 @@ void __cdecl NotifyConstraintRemoved(hkpConstraintInstance* constraint)
             hkTimer("Et", ticks[1]);
         }
     }
-    FUN_00d85d40(reinterpret_cast<ListenerArray*>(&listen));
+    Object_ProcessEntries_00d85d40(reinterpret_cast<ListenerArray*>(&listen));
 }
 
 template <typename T>
@@ -3102,7 +3121,8 @@ void __cdecl InitializeConstraintSolverResources(hkStepInfo* pkStepInfo, hkpSolv
 }
 
 // @fnv 0x00d892e0
-void __cdecl FUN_00d892e0() {}
+// src: GUESS 0x00d892e0 (confidence: high)
+void __cdecl Object_DoNothing_00d892e0() {}
 
 typedef hkpCollisionAgent* (__cdecl *CreateFuncD923)(
     const hkpCdBody&, const hkpCdBody&,
@@ -3278,7 +3298,7 @@ extern "C" char str_010cc5c4[];
 extern "C" char str_010d3e98[];
 extern "C" char str_01076f38[];
 
-void __cdecl FUN_00d89ed0(void* p, int a, int b);
+void __cdecl Hkpsolver_ProcessEntries_00d89ed0(void* p, int a, int b);
 
 struct S00d944d0_Ent16 {
     char* m_name;
@@ -3336,7 +3356,7 @@ void __cdecl hkCpuSolveApplyGravityJob(S00d944d0_Obj* apObj, S00d944d0_Arg1* a2,
         stream->m_end.m_storage = (char*)(entry + 1);
     }
 
-    FUN_00d89ed0((char*)apObj->m_sub + 0x1e0,
+    Hkpsolver_ProcessEntries_00d89ed0((char*)apObj->m_sub + 0x1e0,
                  a3->m_20, a3->m_24);
 
     stream = (hkMonitorStream*)TlsGetValue(DAT_0126835c);
@@ -3592,7 +3612,7 @@ struct Fnv94570_Ctx {
     void ProcessCallback(int a1, int a2, int a3);
 };
 
-void __cdecl FUN_00d8fb70(
+void __cdecl HkpsolverGsNogs_UpdateState_00d8fb70(
     void* a1,
     int a2,
     int a3,
@@ -3654,7 +3674,7 @@ void __cdecl hkCpuSolveConstraintBatchJob(Fnv94570_Obj** a1, int a2, Fnv94570_Ct
         }
     }
 
-    FUN_00d8fb70(
+    HkpsolverGsNogs_UpdateState_00d8fb70(
         &(*a1)->unk1E0,
         apCtx->unk20,
         apCtx->unk28,
@@ -3821,11 +3841,12 @@ void invoke_match() { WriteItems(input_a(),input_b()); }
 struct d94eb0_cls { unsigned char b; };
 extern "C" d94eb0_cls* d94eb0_target(void);
 // @fnv 0x00d94eb0
-static __declspec(noinline) void FUN_00d94eb0(d94eb0_cls* dst)
+// src: GUESS 0x00d94eb0 (confidence: low)
+static __declspec(noinline) void Runtime_UpdateState_00d94eb0(d94eb0_cls* dst)
 {
     *(unsigned char*)dst = 0;
 }
-void d94eb0_caller(void) { FUN_00d94eb0(d94eb0_target()); }
+void d94eb0_caller(void) { Runtime_UpdateState_00d94eb0(d94eb0_target()); }
 
 template <typename ENUM, typename STORAGE>
 __forceinline hkEnum<ENUM, STORAGE>::hkEnum(ENUM e)
@@ -4384,7 +4405,8 @@ __forceinline unsigned int roundLane(const float& value)
 }
 
 // @fnv 0x00d974f0
-float FUN_00d974f0()
+// src: GUESS 0x00d974f0 (confidence: low)
+float Runtime_ProcessEntries_00d974f0()
 {
     float low = DAT_01017b78;
     LocalM128 scale = _mm_set_ps1(DAT_01012068);
@@ -4405,7 +4427,8 @@ float FUN_00d974f0()
 extern const LocalM128 DAT_011b6de0;
 
 // @fnv 0x00d98620
-LocalM128 __cdecl FUN_00d98620()
+// src: GUESS 0x00d98620 (confidence: low)
+LocalM128 __cdecl Object_GetDAT_011b6de0_00d98620()
 {
     return DAT_011b6de0;
 }
@@ -4417,7 +4440,8 @@ struct ListenerArray {
 
 // Removes null entries from the listener array by shifting subsequent items down and decrementing the count.
 // @fnv 0x00d85d40
-static __declspec(noinline) void FUN_00d85d40(ListenerArray* pArr)
+// src: GUESS 0x00d85d40 (confidence: low)
+static __declspec(noinline) void Object_ProcessEntries_00d85d40(ListenerArray* pArr)
 {
     for (int i = (int)pArr->m_wCount - 1; i >= 0; i--)
     {
@@ -4437,7 +4461,7 @@ struct ListenerOwner {
 
 void CallCompact(ListenerOwner* o)
 {
-    FUN_00d85d40(&o->m_kNode);
+    Object_ProcessEntries_00d85d40(&o->m_kNode);
 }
 
 #include <stdarg.h>
@@ -4447,7 +4471,7 @@ int __cdecl hkString_strCmp(int a, int b);
 extern "C" int __cdecl hkString_strLen(const char* s);
 int __cdecl hkString_sprintf(char* buf, const char* fmt, ...);
 int __cdecl hkString_vsnprintf(char* buf, int size, const char* fmt, va_list args);
-struct FUN_00cc0470_Stream { void FUN_00cc0470(const char* s, int n); };
+struct FUN_00cc0470_Stream { void ForwardCall_00cc0470(const char* s, int n); };
 struct D87aa0Name { char m_name[32]; };
 struct D87aa0Reporter {
     int unk;
@@ -4476,12 +4500,12 @@ void __cdecl hkTraceStream_printf(D87aa0Reporter* apReporter, const char* id, co
         va_start(args, fmt);
         if (*fmt == '#') {
             hkString_sprintf((char*)buf, DAT_010d3cb4, n);
-            apReporter->m_stream->FUN_00cc0470((char*)buf, hkString_strLen((char*)buf));
+            apReporter->m_stream->ForwardCall_00cc0470((char*)buf, hkString_strLen((char*)buf));
             hkString_vsnprintf((char*)buf, 0x400, fmt + 1, args);
         } else {
             hkString_vsnprintf((char*)buf, 0x400, fmt, args);
         }
-        apReporter->m_stream->FUN_00cc0470((char*)buf, hkString_strLen((char*)buf));
+        apReporter->m_stream->ForwardCall_00cc0470((char*)buf, hkString_strLen((char*)buf));
     }
 }
 }  // namespace fnv_00d87aa0
@@ -4537,7 +4561,8 @@ struct TransformShape : Shape {
 };
 
 // @fnv 0x00d85040
-void FUN_00d85040(Shape* pkShape, const Transform& kTransform, int iIndex)
+// src: GUESS 0x00d85040 (confidence: low)
+void Object_ProcessEntries_00d85040(Shape* pkShape, const Transform& kTransform, int iIndex)
 {
     for (;;)
     {
@@ -4761,7 +4786,8 @@ struct D986Result {
     operator bool() const { return value != 0; }
 };
 // @fnv 0x00d98630
-D986Result __cdecl FUN_00d98630(const LocalM128* src, const LocalM128* dst, int mask)
+// src: GUESS 0x00d98630 (confidence: low)
+D986Result __cdecl Runtime_ProcessEntries_00d98630(const LocalM128* src, const LocalM128* dst, int mask)
 {
     D986Result result(true);
     LocalM128 zero = _mm_setzero_ps();
@@ -5316,7 +5342,8 @@ struct D86050Stamps {
     unsigned int out;
 };
 
-static __declspec(noinline) void FUN_00d85d40(D86050Arr* arr) {
+// src: GUESS 0x00d85d40 (confidence: low)
+static __declspec(noinline) void Object_ProcessEntries_00d85d40(D86050Arr* arr) {
     for (int i = (int)arr->m_uiItemCount - 1; i >= 0; --i) {
         if (arr->m_pElements[i] == 0) {
             arr->m_uiItemCount = (unsigned short)(arr->m_uiItemCount - 1);
@@ -5360,7 +5387,7 @@ void __cdecl hkpConstraintCallbackUtil_fireConstraintRepaired(D86050Self* self) 
             }
         }
     }
-    FUN_00d85d40(arr);
+    Object_ProcessEntries_00d85d40(arr);
 }
 }  // namespace fnv_00d86050
 
@@ -5448,7 +5475,8 @@ static const F128U V4C = { { 196608.0f, 196608.0f, 196608.0f, 196608.0f } };
 
 // Runs 23 bisection steps between g_011c5874_arg1 and runtimeFloatSettingDefault262 and returns the final midpoint minus DAT_01035718.
 // @fnv 0x00d97440
-float FUN_00d97440()
+// src: GUESS 0x00d97440 (confidence: medium)
+float Object_ComputeBisectionMidpoint()
 {
     float a = g_011c5874_arg1;
     float b = runtimeFloatSettingDefault262;

@@ -32,7 +32,7 @@ extern "C" void __cdecl FUN_0062d4b0();
 extern int DAT_01084e54;
 struct FUN_00cb9900_cls
 {
-    void __thiscall FUN_00cb9900();
+    void __thiscall UpdateFields_00cb9900();
 };
 void __cdecl hkaPose_syncModelSpace();
 void __cdecl FUN_00cd9fe0();
@@ -320,7 +320,7 @@ struct FUN_00c7d630_t
 };
 struct FUN_00cb0c00_class
 {
-    void FUN_00cb0c00();
+    void Object_UpdateFields_00cb0c00();
 };
 struct VObjExt : VObj
 {
@@ -332,7 +332,7 @@ struct FUN_00c7d890_cls
     void* _0;
     int _4;
     unsigned int _8;
-    void FUN_00c7d890();
+    void ProcessEntries_00c7d890();
 };
 void* __cdecl FUN_00ec7230(char*, char const*, unsigned int);
 void __stdcall BSSimpleArray_bhkUtilFunctions_AVLevel_1024_CopyItems(char* dst, char* src, unsigned int count);
@@ -442,7 +442,7 @@ struct FUN_00c7d480_cls
     unsigned int m_04;
     unsigned int m_08;
     unsigned int m_0c;
-    void FUN_00c7d480();
+    void UpdateFields_00c7d480();
 };
 struct ScopeGuard
 {
@@ -464,7 +464,8 @@ struct ScopeGuard
         owner->m_00 = 0;
     }
 };
-void FUN_00c7d480_cls::FUN_00c7d480()
+// src: GUESS 0x00c7d480 (confidence: low)
+void FUN_00c7d480_cls::UpdateFields_00c7d480()
 {
     ScopeGuard guard(this);
     unsigned int count = m_0c;
@@ -487,7 +488,7 @@ struct FUN_00c7d5c0_cls
     int m_iArrayLength;
     unsigned int m_uCap;
 
-    void FUN_00c7d5c0();
+    void ProcessEntries_00c7d5c0();
 };
 extern unsigned int g_01268188;
 extern unsigned int g_012685f4;
@@ -836,7 +837,7 @@ class hkVector4T8
 };
 void __cdecl NI2HK(hkVector4T8& kOut, const NiPoint3T8& kIn);
 NiPoint3T8& __cdecl FUN_00458620(NiPoint3T8& kOut, const hkVector4T8& kIn);
-hkVector4T8 __cdecl FUN_00891060(const hkVector4T8& kVec, const hkSimdRealT8& kScale);
+hkVector4T8 __cdecl Object_ProcessAndReturnValue_00891060(const hkVector4T8& kVec, const hkSimdRealT8& kScale);
 float __cdecl NI2HK_004a3e90(float fValue);
 float __cdecl BSMIN(float fA, float fB);
 
@@ -1338,7 +1339,7 @@ void RefT8::Actor_DoTrap(HitT8* pkHit, WeapT8* pkWeap)
                     kEvent.m_ucType = 0x24;
                     kEvent.m_ucForm = pkWeap->GetFormType();
                     kEvent.m_kPos = kPos;
-                    kEvent.m_fAngleZ = FUN_00891060(kMotionVelocity.Copy(), hkSimdRealT8(3.0f)).Length3();
+                    kEvent.m_fAngleZ = Object_ProcessAndReturnValue_00891060(kMotionVelocity.Copy(), hkSimdRealT8(3.0f)).Length3();
                     kEvent.m_pvTarget = (char*)this + iOffset;
                     ImpactMixer_PlayCollisionSound(&kEvent);
                 }
@@ -1431,7 +1432,7 @@ struct NodeObj
 struct NodeObj::ImpactPositionView_00461130
 {
     float x, y, z;
-    ImpactPoint* FUN_00524c40();
+    ImpactPoint* ComputeValue_00524c40();
 };
 struct ParamObj
 {
@@ -1748,8 +1749,8 @@ void HostShell::Actor_HitMeAlt(ParamObj* source, float strength, float secondary
     NodeObj* node = (NodeObj*)source->GetNode116();
     if (node)
     {
-        origin = *node->NiAVObject_GetWorldRotate(start).FUN_00524c40();
-        target = *node->NiAVObject_GetWorldRotate(end).FUN_00524c40();
+        origin = *node->NiAVObject_GetWorldRotate(start).ComputeValue_00524c40();
+        target = *node->NiAVObject_GetWorldRotate(end).ComputeValue_00524c40();
     }
     ImpactPoint direction;
     direction = target - origin;
@@ -3466,7 +3467,7 @@ class NameC7
     const char* m_pcName;
 };
 extern const char* g_apcNamesC7[];
-bool __cdecl FUN_009a3830(const char* pcA, const NameC7& kB);
+bool __cdecl Actor_AreReferencedValuesEqual(const char* pcA, const NameC7& kB);
 
 class ModelC7
 {
@@ -4383,7 +4384,7 @@ void RefC7::MobileObject_InitHavok()
             ClipC7* pkClip = m_pkProcess->GetClip(pkSlot->m_ucValue);
             ModelC7* pkModel = pkClip->GetModelFilePath();
             NameC7 kName(g_apcNamesC7[pkSlot->m_ucValue]);
-            if (pkModel && FUN_009a3830(pkModel->GetName(), kName))
+            if (pkModel && Actor_AreReferencedValuesEqual(pkModel->GetName(), kName))
                 continue;
             for (unsigned int j = 0; j < pkClip->GetCount(); j++)
             {
@@ -4767,7 +4768,7 @@ struct kDec
 {
     bool FUN_00822510(int a);
     void FUN_0066b0d0(kW* w);
-    kVV* FUN_00559450();
+    kVV* Modelloader_GetReferencedThis();
 };
 
 struct kG1
@@ -4820,7 +4821,7 @@ struct kRList2
     ~kRList2();
     void FUN_005ae3d0(kRef** r);
     bool BSSimpleList_TESLevSpell_IsInList(kRef** r);
-    void FUN_00905330(kRef** r);
+    void RemoveMatchingItem(kRef** r);
     void FUN_00470470();
     bool FUN_008256d0();
 };
@@ -6089,15 +6090,15 @@ void kSelf::PlayerCharacter_SetParentCell(kActor* p)
             flags |= 0x21;
             h.bhkRigidBodyCinfo_SetCollisionFilter(flags);
             mdec.FUN_0066b0d0(new kW(&h));
-            mdec.FUN_00559450()->bhkRigidBody_SetActive(1);
-            mdec.FUN_00559450()->ve4(4);
-            mdec.FUN_00559450()->bhkWorldObject_GetCollidableRw()->NiAlphaProperty_SetTestRef(9);
+            mdec.Modelloader_GetReferencedThis()->bhkRigidBody_SetActive(1);
+            mdec.Modelloader_GetReferencedThis()->ve4(4);
+            mdec.Modelloader_GetReferencedThis()->bhkWorldObject_GetCollidableRw()->NiAlphaProperty_SetTestRef(9);
             kP4 q;
             kP3 r = *v1f4();
             NI2HK(&q, &r);
-            mdec.FUN_00559450()->bhkRigidBody_SetNiPosition(&r);
+            mdec.Modelloader_GetReferencedThis()->bhkRigidBody_SetNiPosition(&r);
         }
-        mdec.FUN_00559450()->v9c(FUN_008d6f30()->TESObjectCELL_GetbhkWorld());
+        mdec.Modelloader_GetReferencedThis()->v9c(FUN_008d6f30()->TESObjectCELL_GetbhkWorld());
         bool busy = Actor_IsUnConscious() || v22c(0) || v2e8() || v230();
         bool idle = !busy && !PlayerCharacter_IsSleeping();
         if (idle)
@@ -6154,7 +6155,7 @@ void kSelf::PlayerCharacter_SetParentCell(kActor* p)
                 {
                     m764.AddRegion(ref);
                     if (list.BSSimpleList_TESLevSpell_IsInList(&ref))
-                        list.FUN_00905330(&ref);
+                        list.RemoveMatchingItem(&ref);
                     kE* e = ref->NiAVObject_GetParent(7)->TESRegionDataList_Find();
                     if (e)
                     {

@@ -155,7 +155,7 @@ void NiPathController::LoadFromStream(NiStream& kStream)
     kStream.SaveLinkID(m_pPathInterp.m_pObject);
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int size) throw();
+void* __cdecl Object_DispatchCommandFour(unsigned int size) throw();
 extern int DAT_0109893c;
 extern float DAT_01012054;
 
@@ -164,7 +164,7 @@ extern float DAT_01012054;
 // src: EXE 0x00a4b270
 NiPathController* __cdecl NiPathController_CreateObject() throw()
 {
-    NiPathController* p = (NiPathController*)FUN_00aa13e0(0x64);
+    NiPathController* p = (NiPathController*)Object_DispatchCommandFour(0x64);
     if (p != 0)
     {
         p->NiTimeController::NiTimeController();
@@ -417,7 +417,7 @@ __forceinline NiPathController::NiPathController()
 // @fnv 0x00a4b330
 NiPathController* NiPathController::CreatePathObject(int value)
 {
-    NiPathController* object = (NiPathController*)FUN_00aa13e0(0x64);
+    NiPathController* object = (NiPathController*)Object_DispatchCommandFour(0x64);
     NiPathController* result;
     if (object)
     {

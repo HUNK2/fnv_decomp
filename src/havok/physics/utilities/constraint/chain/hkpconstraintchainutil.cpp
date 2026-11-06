@@ -12,10 +12,11 @@ struct CallTarget_00e5c370
 };
 struct SearchObject
 {
-    int FUN_00e5c420(unsigned int arg0, unsigned int arg1, unsigned int arg2, unsigned int arg3);
+    int ProcessAndReturnValue_00e5c420(unsigned int arg0, unsigned int arg1, unsigned int arg2, unsigned int arg3);
 };
 // @fnv 0x00e5c420
-int SearchObject::FUN_00e5c420(unsigned int auiParam0, unsigned int auiParam1, unsigned int auiParam2,
+// src: GUESS 0x00e5c420 (confidence: low)
+int SearchObject::ProcessAndReturnValue_00e5c420(unsigned int auiParam0, unsigned int auiParam1, unsigned int auiParam2,
                                unsigned int auiParam3)
 {
     unsigned int callResult0 =
@@ -27,17 +28,18 @@ int SearchObject::FUN_00e5c420(unsigned int auiParam0, unsigned int auiParam1, u
 namespace fnv_00e5c440 {
 struct CallTarget_00e5c420
 {
-    int FUN_00e5c420(int, int, int, int);
+    int ProcessAndReturnValue_00e5c420(int, int, int, int);
 };
 struct SearchObject
 {
-    int FUN_00e5c440(unsigned int arg0, unsigned int arg1, unsigned int arg2);
+    int ProcessAndReturnValue_00e5c440(unsigned int arg0, unsigned int arg1, unsigned int arg2);
 };
 // @fnv 0x00e5c440
-int SearchObject::FUN_00e5c440(unsigned int arg0, unsigned int arg1, unsigned int arg2)
+// src: GUESS 0x00e5c440 (confidence: low)
+int SearchObject::ProcessAndReturnValue_00e5c440(unsigned int arg0, unsigned int arg1, unsigned int arg2)
 {
     unsigned int callResult0 =
-        (unsigned int)((CallTarget_00e5c420*)this)->FUN_00e5c420((int)arg0, (int)arg1, (int)arg2, (int)1u);
+        (unsigned int)((CallTarget_00e5c420*)this)->ProcessAndReturnValue_00e5c420((int)arg0, (int)arg1, (int)arg2, (int)1u);
     return (int)callResult0;
 }
 }  // namespace fnv_00e5c440
@@ -272,7 +274,7 @@ struct KeyOwnerA
 
 struct Sub18
 {
-    void FUN_00e5c440(hkMemoryAllocator* a, int b, Pair32* c);
+    void ProcessAndReturnValue_00e5c440(hkMemoryAllocator* a, int b, Pair32* c);
 };
 
 struct OwnerC
@@ -345,7 +347,7 @@ int hkpConstraintChainUtil_addConstraintToChain(KeyOwnerA* a1, ListB* a2, OwnerC
         CopyTmp16(&p.lo, &keyPair.hi);
         CopyTmp16(&p.hi, &keyPair.lo);
         hkMemoryRouter* h = hkMemoryRouter_getInstance();
-        a3->m_18.FUN_00e5c440(reinterpret_cast<hkMemoryAllocator*>(h->m_heap), 0, &p);
+        a3->m_18.ProcessAndReturnValue_00e5c440(reinterpret_cast<hkMemoryAllocator*>(h->m_heap), 0, &p);
         a2->hkpConstraintChainInstance_insertEntityAtFront(a1->m_18);
         return 0;
     }
@@ -355,7 +357,7 @@ int hkpConstraintChainUtil_addConstraintToChain(KeyOwnerA* a1, ListB* a2, OwnerC
         CopyTmp16(&p.lo, &keyPair.lo);
         CopyTmp16(&p.hi, &keyPair.hi);
         hkMemoryRouter* h = hkMemoryRouter_getInstance();
-        a3->m_18.FUN_00e5c440(reinterpret_cast<hkMemoryAllocator*>(h->m_heap), 0, &p);
+        a3->m_18.ProcessAndReturnValue_00e5c440(reinterpret_cast<hkMemoryAllocator*>(h->m_heap), 0, &p);
         a2->hkpConstraintChainInstance_insertEntityAtFront(a1->m_14);
         return 0;
     }

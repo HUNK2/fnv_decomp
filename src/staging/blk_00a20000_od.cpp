@@ -47,11 +47,12 @@ struct FUN_00a25bf0_class
     int m_60;
     int m_64;
     int m_68;
-    char FUN_00a25bf0(int a);
+    char UpdateState_00a25bf0(int a);
 };
 
 // @fnv 0x00a25bf0
-char FUN_00a25bf0_class::FUN_00a25bf0(int aiUnused)
+// src: GUESS 0x00a25bf0 (confidence: low)
+char FUN_00a25bf0_class::UpdateState_00a25bf0(int aiUnused)
 {
     char b = ((const char*)this)[m_68];
     return b;
@@ -71,7 +72,8 @@ unsigned int FUN_00a25d50_Class::GetField14278()
 extern "C" __declspec(dllimport) char* __stdcall lstrcpyA(char* dst, const char* src);
 
 // @fnv 0x00a25e00
-char* __cdecl FUN_00a25e00(char* dst, char* src)
+// src: GUESS 0x00a25e00 (confidence: medium)
+char* __cdecl Object_LstrcpyA_Thunk(char* dst, char* src)
 {
     return lstrcpyA(dst + 4, src + 4);
 }
@@ -130,11 +132,12 @@ extern unsigned short DAT_011f35bc;
 extern unsigned short DAT_011f35ac;
 struct FUN_00a25560_Class
 {
-    void FUN_00a25560(int a);
+    void UpdateGlobalMaskedBits(int a);
 };
 // Computes a mask from a, clears those bits in DAT_011f35bc, then sets them from DAT_011f35ac.
 // @fnv 0x00a25560
-void FUN_00a25560_Class::FUN_00a25560(int a)
+// src: GUESS 0x00a25560 (confidence: medium)
+void FUN_00a25560_Class::UpdateGlobalMaskedBits(int a)
 {
     unsigned int v = ((FUN_00a24080_Class*)this)->GetFlagForType(a);
     DAT_011f35bc &= ~v;
@@ -271,11 +274,12 @@ struct FUN_00a26480_class
     unsigned short m_16;
     unsigned short m_18;
     unsigned short m_1a;
-    unsigned int FUN_00a26480(FUN_00a26480_class* p, unsigned short n);
+    unsigned int ComputeValue_00a26480(FUN_00a26480_class* p, unsigned short n);
 };
 
 // @fnv 0x00a26480
-unsigned int FUN_00a26480_class::FUN_00a26480(FUN_00a26480_class* pData, unsigned short usMultiplier)
+// src: GUESS 0x00a26480 (confidence: low)
+unsigned int FUN_00a26480_class::ComputeValue_00a26480(FUN_00a26480_class* pData, unsigned short usMultiplier)
 {
     unsigned short q;
     if (!*(int*)((char*)pData + 0x14))
@@ -367,10 +371,11 @@ struct FUN_00a22640_Class
     int m_30;
     int m_34;
     ::BSStringT<char> m_38;
-    void FUN_00a22640();
+    void ProcessState_00a22640();
 };
 // @fnv 0x00a22640
-void FUN_00a22640_Class::FUN_00a22640()
+// src: GUESS 0x00a22640 (confidence: low)
+void FUN_00a22640_Class::ProcessState_00a22640()
 {
     int a;
     int b;
@@ -520,11 +525,12 @@ void* _memmove(void* dst, const void* src, unsigned int count);
 
 struct FUN_00a25e20_Class
 {
-    void FUN_00a25e20(int* a, int* b, void* src);
+    void UpdateFields_00a25e20(int* a, int* b, void* src);
 };
 
 // @fnv 0x00a25e20
-void FUN_00a25e20_Class::FUN_00a25e20(int* a, int* b, void* src)
+// src: GUESS 0x00a25e20 (confidence: low)
+void FUN_00a25e20_Class::UpdateFields_00a25e20(int* a, int* b, void* src)
 {
     int size = 4;
     int* dst2 = (int*)*a;
@@ -537,11 +543,12 @@ void* __cdecl _memmove(void* dst, const void* src, unsigned int count);
 
 struct FUN_00a25e70_Class
 {
-    void FUN_00a25e70(int* a, int* b, int src);
+    void UpdateState_00a25e70(int* a, int* b, int src);
 };
 
 // @fnv 0x00a25e70
-void FUN_00a25e70_Class::FUN_00a25e70(int* apBufferPtr, int* b, int aiValue)
+// src: GUESS 0x00a25e70 (confidence: low)
+void FUN_00a25e70_Class::UpdateState_00a25e70(int* apBufferPtr, int* b, int aiValue)
 {
     int count = 1;
     int* dst = (int*)*apBufferPtr;
@@ -554,11 +561,12 @@ void* _memmove(void* dst, const void* src, unsigned int count);
 
 struct FUN_00a25ec0_Class
 {
-    void FUN_00a25ec0(int* a, int* b, void* src);
+    void UpdateFields_00a25ec0(int* a, int* b, void* src);
 };
 
 // @fnv 0x00a25ec0
-void FUN_00a25ec0_Class::FUN_00a25ec0(int* a, int* b, void* src)
+// src: GUESS 0x00a25ec0 (confidence: low)
+void FUN_00a25ec0_Class::UpdateFields_00a25ec0(int* a, int* b, void* src)
 {
     int* dst;
     int size_2 = 4;
@@ -587,11 +595,12 @@ void FUN_00a25f10_Class::CopyBytesToBuffer(int* pBufferPtr, int* b, void* src)
 
 struct FUN_00a26220_Class
 {
-    unsigned int FUN_00a26220();
+    unsigned int ProcessAndReturnValue_00a26220();
     unsigned int FUN_00a26240();
 };
 // @fnv 0x00a26220
-unsigned int FUN_00a26220_Class::FUN_00a26220()
+// src: GUESS 0x00a26220 (confidence: low)
+unsigned int FUN_00a26220_Class::ProcessAndReturnValue_00a26220()
 {
     int a;
     int b;
@@ -4563,7 +4572,7 @@ struct InputHandler
     unsigned char m_1b90;
     unsigned char m_1b91;
 
-    void FUN_00a237f0(unsigned int* out);
+    void HasResourceWithLookupValueOne(unsigned int* out);
     void Controls_SetActionMapping(int index, int flags, unsigned char state);
     int Controls_GetMouseButton(int index, int flags);
     bool HandleInput(int key);
@@ -4577,7 +4586,7 @@ bool InputHandler::HandleInput(int key)
 
     if (key != -1)
         this->m_1b8c = key;
-    this->FUN_00a237f0(&v);
+    this->HasResourceWithLookupValueOne(&v);
     if (v != 0)
     {
         this->Controls_SetActionMapping(this->m_1b8c, 0, (unsigned char)v);
@@ -4702,7 +4711,8 @@ void FUN_00a25810_Class::ResetTargetState()
 extern unsigned char DAT_011f3630;
 
 // @fnv 0x00a25870
-unsigned char FUN_00a25870()
+// src: GUESS 0x00a25870 (confidence: low)
+unsigned char Runtime_GetDAT011f3630()
 {
     return DAT_011f3630;
 }
@@ -4892,11 +4902,12 @@ struct S_00a25c80_Class
     unsigned char m_85;
     unsigned char m_86;
     unsigned char m_87;
-    void FUN_00a25c80();
+    void ProcessAndReturnValue_00a25c80();
 };
 
 // @fnv 0x00a25c80
-void S_00a25c80_Class::FUN_00a25c80()
+// src: GUESS 0x00a25c80 (confidence: low)
+void S_00a25c80_Class::ProcessAndReturnValue_00a25c80()
 {
     if (!(*(reinterpret_cast<unsigned char*>(this) + this->m_68) != 0 &&
           *(reinterpret_cast<unsigned char*>(this) + 4) != 0 &&
@@ -4987,11 +4998,12 @@ void __cdecl FUN_00ec44d0(int a, int b, int c);
 class FUN_00a25f60_cls
 {
   public:
-    void FUN_00a25f60(int* p1, int* p2, int p3, int p4);
+    void UpdateFields_00a25f60(int* p1, int* p2, int p3, int p4);
 };
 
 // @fnv 0x00a25f60
-void FUN_00a25f60_cls::FUN_00a25f60(int* p1, int* p2, int aiArg, int aiDelta)
+// src: GUESS 0x00a25f60 (confidence: low)
+void FUN_00a25f60_cls::UpdateFields_00a25f60(int* p1, int* p2, int aiArg, int aiDelta)
 {
     int value = *p1;
     FUN_00ec44d0(value, aiArg, aiDelta);
@@ -5017,7 +5029,7 @@ struct FUN_00a26410_arg
 
 struct FUN_00a26a50_Class
 {
-    unsigned short FUN_00a26a50(FUN_00a26410_arg* a, unsigned int b);
+    unsigned short UpdateState_00a26a50(FUN_00a26410_arg* a, unsigned int b);
 };
 
 struct FUN_00a26410_cls : FUN_00a26a50_Class
@@ -5037,7 +5049,7 @@ unsigned short FUN_00a26410_cls::ClampOrDispatchValue(FUN_00a26410_arg* a, unsig
         value = (unsigned short)(a->m_00 > 0xffff ? 0xffff : a->m_00);
         break;
     case 1:
-        value = this->FUN_00a26a50(a, uiValue);
+        value = this->UpdateState_00a26a50(a, uiValue);
         break;
     }
     return value;
@@ -5077,12 +5089,13 @@ double __cdecl FUN_00eca060(double v);
 
 struct FUN_00a26a50_cls
 {
-    unsigned short FUN_00a26a50(unsigned int* p, unsigned int angle);
+    unsigned short UpdateState_00a26a50(unsigned int* p, unsigned int angle);
 };
 
 // Computes a scaled value from *p and angle, then returns *p when angle mod 360 is in [0,180), otherwise 0.
 // @fnv 0x00a26a50
-unsigned short FUN_00a26a50_cls::FUN_00a26a50(unsigned int* puiValue, unsigned int angle)
+// src: GUESS 0x00a26a50 (confidence: low)
+unsigned short FUN_00a26a50_cls::UpdateState_00a26a50(unsigned int* puiValue, unsigned int angle)
 {
     unsigned short usResult;
     usResult = (unsigned short)((double)*puiValue * (FUN_00eca060((double)angle * DAT_01023128) + DAT_01012070) /
@@ -7477,12 +7490,13 @@ struct FUN_00a25fd0_class
     int unk3A4;
     int unk3A8;
     S_00a25fd0_Node m_3ac;
-    bool FUN_00a25fd0();
+    bool WalkToListEndAndReturnTrue();
 };
 
 // Walks the linked list starting at m_3ac following m_04 until a null node or null m_00 is found, then returns true.
 // @fnv 0x00a25fd0
-bool FUN_00a25fd0_class::FUN_00a25fd0()
+// src: GUESS 0x00a25fd0 (confidence: low)
+bool FUN_00a25fd0_class::WalkToListEndAndReturnTrue()
 {
     S_00a25fd0_Node* p = &m_3ac;
     while (p != 0 && p->m_00 != 0)

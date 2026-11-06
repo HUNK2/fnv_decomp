@@ -82,7 +82,7 @@ struct FUN_00df71c0_Class {
     int unk08;
     int unk0c;
     FUN_00df71c0_Value* unk10;
-    float FUN_00df71c0();
+    float GetValue_00df71c0();
 };
 struct TargetBase { void CastAgainstCollidable(volatile Data *value); };
 struct FUN_00df72c0_class {
@@ -263,7 +263,7 @@ struct FUN_00df7320_Shape {
 };
 struct FUN_00df7320_Collector {
     float CastAgainstCollidable(FUN_00df7320_Shape* value);
-    float FUN_00df7320(FUN_00df7320_Shape* shape, FUN_00df7320_Shape* other);
+    float ProcessAndReturnValue_00df7320(FUN_00df7320_Shape* shape, FUN_00df7320_Shape* other);
 };
 struct Base1 { virtual void FUN_00df7190(); };
 struct Base2 { virtual void FUN_00df7190(); };

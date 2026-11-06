@@ -31,7 +31,7 @@ class NiParticleMeshes : public NiParticles
     NiParticleMeshes* CreateAndInitObj(void* arg);
     void NiParticles_GetViewerStrings(StrArr2* strings);
     void AppendString(StrArr2* strings);
-    void FUN_00a29680();
+    void Object_DoNothing();
 
     float m_fLastTime;
     bool m_bUpdate;

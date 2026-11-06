@@ -186,7 +186,7 @@ unsigned int FurnitureMark::QNumber()
 
 struct DummyArr
 {
-    void FUN_00558dd0(int);
+    void GetElementAddress16(int);
 };
 
 struct DummyThis
@@ -204,7 +204,7 @@ struct StackArg
 // src: XBOX_PDB 0x005094d0
 void __fastcall BSFurnitureMarker_QMark(DummyThis* this_ptr, StackArg param_1)
 {
-    this_ptr->arr.FUN_00558dd0(param_1.val);
+    this_ptr->arr.GetElementAddress16(param_1.val);
 }
 
 struct FUN_005099c0_shell : public TESFurniture
@@ -297,8 +297,8 @@ void __cdecl TESForm_AddChunk_00485910(unsigned int, int);
 
 struct FUN_00509280_obj : public TESFurniture
 {
-    void FUN_004855a0();
-    void FUN_00485680();
+    void BeginFormRecord();
+    void FinishFormRecord();
     void TESFurniture_Save();
 };
 
@@ -306,13 +306,13 @@ struct FUN_00509280_obj : public TESFurniture
 // src: XBOX_PDB 0x00509280
 void FUN_00509280_obj::TESFurniture_Save()
 {
-    FUN_004855a0();
+    BeginFormRecord();
     ((S_00487010*)((char*)this + 0x30))->Save_00487010();
     ((S_0048a520*)((char*)this + 0x3c))->ProcessAndFreeData(0x4c444f4d, 0x54444f4d, 0x53444f4d);
     ((S_0048cca0*)((char*)this + 0x5c))->Save_0048cca0();
     ((S_00477f20*)((char*)this + 0x68))->FUN_00477f20();
     TESForm_AddChunk_00485910(0x4d414e4d, m_iMarkerCount);
-    FUN_00485680();
+    FinishFormRecord();
 }
 
 struct FUN_005092f0_obj : public TESFurniture

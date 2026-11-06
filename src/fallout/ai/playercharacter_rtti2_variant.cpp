@@ -1086,7 +1086,7 @@ struct SaveMap
 };
 struct SaveSubobject
 {
-    void FUN_008d5510(unsigned int);
+    void SaveValueAndFollowingBytes(unsigned int);
 };
 struct SaveReference
 {
@@ -2185,7 +2185,7 @@ void PlayerSave::PlayerCharacter_SaveGame(unsigned int flags)
             *(unsigned short*)countPos8 = count73;
         }
         ActiveEffect_SaveActiveEffectList(unk210, this);
-        unk878.FUN_008d5510(flags);
+        unk878.SaveValueAndFollowingBytes(flags);
         {
             unsigned int activeQuestID = 0;
             if (unk6b8)

@@ -74,11 +74,12 @@ int __thiscall FUN_00802b20_class::NiTMap_unsigned_int_IDebugTextPage_NiTMap(int
 
 struct FUN_00807770_Class
 {
-    int __thiscall FUN_00807770(int);
+    int __thiscall EvaluateValue_00807770(int);
 };
 
 // @fnv 0x00807770
-int __thiscall FUN_00807770_Class::FUN_00807770(int aiIndex)
+// src: GUESS 0x00807770 (confidence: low)
+int __thiscall FUN_00807770_Class::EvaluateValue_00807770(int aiIndex)
 {
     return aiIndex * 0x70 + *(int*)this;
 }
@@ -351,7 +352,7 @@ struct FUN_008078b0_Class
 // src: XBOX_PDB 0x008078b0
 void __thiscall FUN_008078b0_Class::bhkEntity_AddContactListener(void* listener)
 {
-    void* entity = ((bhkWorldObject*)this)->FUN_004ae750();
+    void* entity = ((bhkWorldObject*)this)->Bipedanim_GetReferenceFlagsOrZero();
     if (entity)
         ((hkpEntity*)entity)->AddContactListener(listener);
 }
@@ -388,7 +389,7 @@ struct FUN_0080fb00_Class
 // src: XBOX_PDB 0x0080fb00
 void __thiscall FUN_0080fb00_Class::bhkCharacterProxy_SetLinearVelocity(int a)
 {
-    void* r = ((bhkWorldObject*)this)->FUN_004ae750();
+    void* r = ((bhkWorldObject*)this)->Bipedanim_GetReferenceFlagsOrZero();
     if (r)
         ((FUN_00cac960_class*)r)->hkpCharacterProxy_setLinearVelocity(a);
 }
@@ -441,11 +442,12 @@ struct FUN_00813370_class
     int f7c;
     unsigned char pad2[0x174 - 0x80];
     unsigned char f174;
-    char FUN_00813370();
+    char TestFlagAndFloatRange();
 };
 // Returns 1 when f174 is zero and f78 is greater than or equal to f7c, otherwise 0.
 // @fnv 0x00813370
-char FUN_00813370_class::FUN_00813370()
+// src: GUESS 0x00813370 (confidence: medium)
+char FUN_00813370_class::TestFlagAndFloatRange()
 {
     return !f174 && f78 >= f7c ? 1 : 0;
 }
@@ -519,7 +521,8 @@ struct FUN_0080d6b0_t
 };
 // Allocates a new FUN_0080d6b0_t object, forwarding the three arguments to its constructor, and returns the pointer.
 // @fnv 0x0080d880
-FUN_0080d6b0_t* __cdecl FUN_0080d880(int a, int b, int c)
+// src: GUESS 0x0080d880 (confidence: low)
+FUN_0080d6b0_t* __cdecl Object_ForwardCall_0080d880(int a, int b, int c)
 {
     return new FUN_0080d6b0_t(a, b, c);
 }

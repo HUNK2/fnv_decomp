@@ -19,7 +19,7 @@ class TESAmmoInitCalls
   public:
     unsigned int GetFieldBC();
     void* TESAmmo_GetAmmoEffectList();
-    void FUN_00502cb0(void*);
+    void SetAmmoConsumed(void*);
 };
 
 extern "C"

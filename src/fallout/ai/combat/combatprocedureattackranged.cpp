@@ -622,7 +622,7 @@ extern char DAT_011f426c;
 
 struct Sub14
 {
-    unsigned char FUN_004390c0(const void* p);
+    unsigned char HasEqualComponents(const void* p);
 };
 
 struct Target
@@ -642,7 +642,7 @@ bool __cdecl IsWithinAimLimits(Actor* a, void* b, float f1, float f2);
 // @fnv 0x009d1de0
 bool __fastcall RangedCanShoot(CombatProcedureAttackRanged* self)
 {
-    if (((Sub14*)&self->m_14)->FUN_004390c0(&DAT_011f426c) != 0)
+    if (((Sub14*)&self->m_14)->HasEqualComponents(&DAT_011f426c) != 0)
     {
         return false;
     }

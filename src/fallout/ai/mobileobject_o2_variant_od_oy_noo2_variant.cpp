@@ -55,7 +55,7 @@ struct UnkHolder
     volatile int m10;
     volatile int m14;
     UnkRet* hkMemoryRouter_getInstance();
-    void FUN_00c72210();
+    void UpdateState_00c72210();
 };
 
 struct bhkRigidBody_shell
@@ -120,7 +120,7 @@ void __cdecl TESHavokUtilities_AddVelocity_0(NiAVObject* apObject, Vec3Arg* apVe
 struct xFilter
 {
     xFilter(int, unsigned int, int);
-    unsigned int FUN_00559450();
+    unsigned int Modelloader_GetReferencedThis();
     unsigned int m_uiFilterValue;
 };
 unsigned int xFUN_005dbe10();
@@ -351,7 +351,7 @@ void xRef::Explosion_InitHavok()
         xCinfo CINFO;
         xShape* SHAPE = new xShape(Explosion_GetRadius(), true);
         CINFO.m_pCollisionShape = xFUN_004ae750(SHAPE);
-        CINFO.m_uiFilterInfo = xFilter(0x29, xFUN_005dbe10(), 0).FUN_00559450();
+        CINFO.m_uiFilterInfo = xFilter(0x29, xFUN_005dbe10(), 0).Modelloader_GetReferencedThis();
         if (FUN_1d0())
             CINFO.m_20.bhkTransform_NI2HK(FUN_1d0()->NiAVObject_GetWorldRotate());
         else

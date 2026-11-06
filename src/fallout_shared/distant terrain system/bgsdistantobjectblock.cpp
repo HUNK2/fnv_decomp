@@ -482,18 +482,18 @@ struct Parent
 struct ParentRef
 {
     Parent* value;
-    Parent* FUN_00559450();
+    Parent* Modelloader_GetReferencedThis();
 };
 struct SceneRef
 {
     Scene* value;
-    Scene* FUN_00559450();
+    Scene* Modelloader_GetReferencedThis();
     void FUN_0066b0d0(Scene*);
 };
 struct TaskRef
 {
     void* value;
-    void FUN_006f74f0(void*);
+    void AssignTaskReference(void*);
 };
 extern int DAT_011d8510;
 struct Block
@@ -512,24 +512,24 @@ struct Block
 void Block::BGSDistantObjectBlock_Detach()
 {
     RunLoop();
-    if (second.FUN_00559450() || first.FUN_00559450() || fourth.FUN_00559450())
+    if (second.Modelloader_GetReferencedThis() || first.Modelloader_GetReferencedThis() || fourth.Modelloader_GetReferencedThis())
         --DAT_011d8510;
-    if (second.FUN_00559450() || first.FUN_00559450())
+    if (second.Modelloader_GetReferencedThis() || first.Modelloader_GetReferencedThis())
     {
-        parent->FUN_00559450()->BGSTerrainManager_GetLODObjectRoot()->Detach(second.FUN_00559450());
-        parent->FUN_00559450()->BGSTerrainManager_GetLODObjectRoot()->Detach(first.FUN_00559450());
-        parent->FUN_00559450()->BGSTerrainManager_GetLODObjectRoot()->Detach(third.FUN_00559450());
+        parent->Modelloader_GetReferencedThis()->BGSTerrainManager_GetLODObjectRoot()->Detach(second.Modelloader_GetReferencedThis());
+        parent->Modelloader_GetReferencedThis()->BGSTerrainManager_GetLODObjectRoot()->Detach(first.Modelloader_GetReferencedThis());
+        parent->Modelloader_GetReferencedThis()->BGSTerrainManager_GetLODObjectRoot()->Detach(third.Modelloader_GetReferencedThis());
         second.FUN_0066b0d0(0);
         first.FUN_0066b0d0(0);
         third.FUN_0066b0d0(0);
-        mainTask.FUN_006f74f0(0);
+        mainTask.AssignTaskReference(0);
     }
-    if (fourth.FUN_00559450())
+    if (fourth.Modelloader_GetReferencedThis())
     {
-        parent->FUN_00559450()->BGSTerrainManager_GetLODObjectRoot()->Detach(fourth.FUN_00559450());
+        parent->Modelloader_GetReferencedThis()->BGSTerrainManager_GetLODObjectRoot()->Detach(fourth.Modelloader_GetReferencedThis());
         fourth.FUN_0066b0d0(0);
         fifth.FUN_0066b0d0(0);
-        secondaryTask.FUN_006f74f0(0);
+        secondaryTask.AssignTaskReference(0);
     }
     active = false;
 }
@@ -543,8 +543,8 @@ struct TargetObject
 struct SmartRef
 {
     void* value;
-    TargetObject* FUN_00559450();
-    void FUN_006f74f0(int value);
+    TargetObject* Modelloader_GetReferencedThis();
+    void AssignTaskReference(int value);
 };
 struct Owner
 {
@@ -562,28 +562,28 @@ struct Owner
 // @fnv 0x006f6150
 void Owner::UpdateReferences(bool update)
 {
-    if (firstReference.FUN_00559450() != 0)
+    if (firstReference.Modelloader_GetReferencedThis() != 0)
     {
-        if (firstReference.FUN_00559450()->BSTask_int64_GetTaskFinished())
+        if (firstReference.Modelloader_GetReferencedThis()->BSTask_int64_GetTaskFinished())
         {
             if (update)
             {
-                firstReference.FUN_00559450()->AssignValue(&firstDestination);
-                firstReference.FUN_00559450()->BGSDistantObjectBlockLoadTask_GetWaterGeometry(&secondDestination);
+                firstReference.Modelloader_GetReferencedThis()->AssignValue(&firstDestination);
+                firstReference.Modelloader_GetReferencedThis()->BGSDistantObjectBlockLoadTask_GetWaterGeometry(&secondDestination);
             }
-            firstReference.FUN_006f74f0(0);
-            if (secondReference.FUN_00559450() == 0)
+            firstReference.AssignTaskReference(0);
+            if (secondReference.Modelloader_GetReferencedThis() == 0)
                 completed = true;
         }
     }
-    if (secondReference.FUN_00559450() != 0)
+    if (secondReference.Modelloader_GetReferencedThis() != 0)
     {
-        if (secondReference.FUN_00559450()->BSTask_int64_GetTaskFinished())
+        if (secondReference.Modelloader_GetReferencedThis()->BSTask_int64_GetTaskFinished())
         {
             if (update)
-                secondReference.FUN_00559450()->BGSDistantObjectBlockLoadTask_GetWaterGeometry(&thirdDestination);
-            secondReference.FUN_006f74f0(0);
-            if (firstReference.FUN_00559450() == 0)
+                secondReference.Modelloader_GetReferencedThis()->BGSDistantObjectBlockLoadTask_GetWaterGeometry(&thirdDestination);
+            secondReference.AssignTaskReference(0);
+            if (firstReference.Modelloader_GetReferencedThis() == 0)
                 completed = true;
         }
     }
@@ -778,7 +778,7 @@ struct VObj
 
 struct C_00559450
 {
-    C_00559450* FUN_00559450();
+    C_00559450* Modelloader_GetReferencedThis();
 };
 struct C_004ea9c0
 {
@@ -823,77 +823,77 @@ struct FUN_006f5ca0_cls
 // src: COMMUNITY 0x006f5ca0
 void FUN_006f5ca0_cls::BGSDistantObjectBlock_Attach()
 {
-    if (((C_00559450*)&m_04)->FUN_00559450() == 0 && ((C_00559450*)&m_10)->FUN_00559450() == 0)
+    if (((C_00559450*)&m_04)->Modelloader_GetReferencedThis() == 0 && ((C_00559450*)&m_10)->Modelloader_GetReferencedThis() == 0)
         return;
     if (m_21 == 0)
     {
         ((FUN_006f60c0_shell*)this)->RunLoop();
-        if (((C_00559450*)&m_0c)->FUN_00559450() != 0)
+        if (((C_00559450*)&m_0c)->Modelloader_GetReferencedThis() != 0)
         {
-            if (((C_00559450*)&m_08)->FUN_00559450() != 0)
+            if (((C_00559450*)&m_08)->Modelloader_GetReferencedThis() != 0)
             {
-                ((C_004ea9c0*)((C_00559450*)this)->FUN_00559450()->FUN_00559450())
+                ((C_004ea9c0*)((C_00559450*)this)->Modelloader_GetReferencedThis()->Modelloader_GetReferencedThis())
                     ->BGSTerrainManager_GetLODObjectRoot()
-                    ->V58(((C_009611e0*)((C_00559450*)&m_0c)->FUN_00559450())->NiAVObject_GetParent());
-                ((C_004ea9c0*)((C_00559450*)this)->FUN_00559450()->FUN_00559450())
+                    ->V58(((C_009611e0*)((C_00559450*)&m_0c)->Modelloader_GetReferencedThis())->NiAVObject_GetParent());
+                ((C_004ea9c0*)((C_00559450*)this)->Modelloader_GetReferencedThis()->Modelloader_GetReferencedThis())
                     ->BGSTerrainManager_GetLODObjectRoot()
-                    ->V55(((C_00559450*)&m_08)->FUN_00559450(), 1);
+                    ->V55(((C_00559450*)&m_08)->Modelloader_GetReferencedThis(), 1);
             }
             else
             {
-                ((C_004ea9c0*)((C_00559450*)this)->FUN_00559450()->FUN_00559450())
+                ((C_004ea9c0*)((C_00559450*)this)->Modelloader_GetReferencedThis()->Modelloader_GetReferencedThis())
                     ->BGSTerrainManager_GetLODObjectRoot()
-                    ->V58(((C_00559450*)&m_0c)->FUN_00559450());
-                ((C_004ea9c0*)((C_00559450*)this)->FUN_00559450()->FUN_00559450())
+                    ->V58(((C_00559450*)&m_0c)->Modelloader_GetReferencedThis());
+                ((C_004ea9c0*)((C_00559450*)this)->Modelloader_GetReferencedThis()->Modelloader_GetReferencedThis())
                     ->BGSTerrainManager_GetLODObjectRoot()
-                    ->V55(((C_00559450*)&m_04)->FUN_00559450(), 1);
+                    ->V55(((C_00559450*)&m_04)->Modelloader_GetReferencedThis(), 1);
             }
         }
         else
         {
-            if (((C_00559450*)&m_08)->FUN_00559450() != 0)
-                ((C_004ea9c0*)((C_00559450*)this)->FUN_00559450()->FUN_00559450())
+            if (((C_00559450*)&m_08)->Modelloader_GetReferencedThis() != 0)
+                ((C_004ea9c0*)((C_00559450*)this)->Modelloader_GetReferencedThis()->Modelloader_GetReferencedThis())
                     ->BGSTerrainManager_GetLODObjectRoot()
-                    ->V55(((C_00559450*)&m_08)->FUN_00559450(), 1);
-            else if (((C_00559450*)&m_04)->FUN_00559450() != 0)
-                ((C_004ea9c0*)((C_00559450*)this)->FUN_00559450()->FUN_00559450())
+                    ->V55(((C_00559450*)&m_08)->Modelloader_GetReferencedThis(), 1);
+            else if (((C_00559450*)&m_04)->Modelloader_GetReferencedThis() != 0)
+                ((C_004ea9c0*)((C_00559450*)this)->Modelloader_GetReferencedThis()->Modelloader_GetReferencedThis())
                     ->BGSTerrainManager_GetLODObjectRoot()
-                    ->V55(((C_00559450*)&m_04)->FUN_00559450(), 1);
+                    ->V55(((C_00559450*)&m_04)->Modelloader_GetReferencedThis(), 1);
         }
-        if (((C_00559450*)&m_14)->FUN_00559450() != 0)
+        if (((C_00559450*)&m_14)->Modelloader_GetReferencedThis() != 0)
         {
-            if (((C_00559450*)&m_10)->FUN_00559450() != 0)
+            if (((C_00559450*)&m_10)->Modelloader_GetReferencedThis() != 0)
             {
-                ((C_004ea9c0*)((C_00559450*)this)->FUN_00559450()->FUN_00559450())
+                ((C_004ea9c0*)((C_00559450*)this)->Modelloader_GetReferencedThis()->Modelloader_GetReferencedThis())
                     ->BGSTerrainManager_GetLODObjectRoot()
-                    ->V58(((C_00559450*)&m_14)->FUN_00559450());
-                ((C_004ea9c0*)((C_00559450*)this)->FUN_00559450()->FUN_00559450())
+                    ->V58(((C_00559450*)&m_14)->Modelloader_GetReferencedThis());
+                ((C_004ea9c0*)((C_00559450*)this)->Modelloader_GetReferencedThis()->Modelloader_GetReferencedThis())
                     ->BGSTerrainManager_GetLODObjectRoot()
-                    ->V55(((C_00559450*)&m_10)->FUN_00559450(), 1);
+                    ->V55(((C_00559450*)&m_10)->Modelloader_GetReferencedThis(), 1);
             }
         }
-        else if (((C_00559450*)&m_10)->FUN_00559450() != 0)
+        else if (((C_00559450*)&m_10)->Modelloader_GetReferencedThis() != 0)
         {
-            ((C_004ea9c0*)((C_00559450*)this)->FUN_00559450()->FUN_00559450())
+            ((C_004ea9c0*)((C_00559450*)this)->Modelloader_GetReferencedThis()->Modelloader_GetReferencedThis())
                 ->BGSTerrainManager_GetLODObjectRoot()
-                ->V55(((C_00559450*)&m_10)->FUN_00559450(), 1);
+                ->V55(((C_00559450*)&m_10)->Modelloader_GetReferencedThis(), 1);
         }
         if (((FUN_006f6070_shell*)this)->GetByteAtOffset35())
         {
-            if (((C_00559450*)&m_0c)->FUN_00559450() != 0 || ((C_00559450*)&m_14)->FUN_00559450() != 0)
+            if (((C_00559450*)&m_0c)->Modelloader_GetReferencedThis() != 0 || ((C_00559450*)&m_14)->Modelloader_GetReferencedThis() != 0)
                 DAT_011d8510 = DAT_011d8510 - 1;
-            if (((C_00559450*)&m_04)->FUN_00559450() != 0 || ((C_00559450*)&m_10)->FUN_00559450() != 0)
+            if (((C_00559450*)&m_04)->Modelloader_GetReferencedThis() != 0 || ((C_00559450*)&m_10)->Modelloader_GetReferencedThis() != 0)
                 DAT_011d8514 = DAT_011d8514 + 1;
         }
         else
         {
-            if (((C_00559450*)&m_0c)->FUN_00559450() != 0 || ((C_00559450*)&m_14)->FUN_00559450() != 0)
+            if (((C_00559450*)&m_0c)->Modelloader_GetReferencedThis() != 0 || ((C_00559450*)&m_14)->Modelloader_GetReferencedThis() != 0)
                 DAT_011d8514 = DAT_011d8514 - 1;
-            if (((C_00559450*)&m_04)->FUN_00559450() != 0 || ((C_00559450*)&m_10)->FUN_00559450() != 0)
+            if (((C_00559450*)&m_04)->Modelloader_GetReferencedThis() != 0 || ((C_00559450*)&m_10)->Modelloader_GetReferencedThis() != 0)
                 DAT_011d8510 = DAT_011d8510 + 1;
         }
         ((C_006f66e0*)this)->UpdateMenuNodes();
-        if (((C_00559450*)&m_04)->FUN_00559450() != 0 || ((C_00559450*)&m_10)->FUN_00559450() != 0)
+        if (((C_00559450*)&m_04)->Modelloader_GetReferencedThis() != 0 || ((C_00559450*)&m_10)->Modelloader_GetReferencedThis() != 0)
         {
             if (!((FUN_006f6100_shell*)this)->IsInCellList())
                 ((C_006f6090*)this)->AddSelfToGlobalList();
@@ -951,8 +951,8 @@ struct FUN_00559450_shell
 {
     unsigned int unk00;
     unsigned int unk04;
-    VObj* FUN_00559450();
-    void FUN_006f74f0(BGSDistantObjectBlockLoadTask* p);
+    VObj* Modelloader_GetReferencedThis();
+    void AssignTaskReference(BGSDistantObjectBlockLoadTask* p);
 };
 
 struct FUN_00404ee0_shell
@@ -992,8 +992,8 @@ void BlockLoader::BGSDistantObjectBlock_CreateApocalypseTask(void* apOutput, voi
 {
     ScopeLock lock(0x24, 1, str_0106da18, 0x240);
     m_0c.FUN_006e5cc0(&m_04);
-    m_18.FUN_006f74f0(new BGSDistantObjectBlockLoadTask(this, apOutput, asX, asY, apWorld, 1, 1, 0));
-    m_18.FUN_00559450()->V8();
+    m_18.AssignTaskReference(new BGSDistantObjectBlockLoadTask(this, apOutput, asX, asY, apWorld, 1, 1, 0));
+    m_18.Modelloader_GetReferencedThis()->V8();
     m_20 = 0;
     m_21 = 0;
 }
@@ -1119,8 +1119,8 @@ struct FUN_00559450_shell
 {
     unsigned int unk00;
     unsigned int unk04;
-    VObj* FUN_00559450();
-    void FUN_006f74f0(BGSDistantObjectBlockLoadTask* p);
+    VObj* Modelloader_GetReferencedThis();
+    void AssignTaskReference(BGSDistantObjectBlockLoadTask* p);
 };
 
 struct FUN_00404ee0_shell
@@ -1175,19 +1175,19 @@ void FUN_006f6540_cls::BGSDistantObjectBlock_SwitchToHigh(void* apOutput, void* 
     ScopeLock lock(0x24, 1, str_0106da18, 0x272);
     ((FUN_006e5cc0_shell*)&unk0C)->FUN_006e5cc0(&m_04);
     ((FUN_006e5cc0_shell*)&unk14)->FUN_006e5cc0(&unk10);
-    if (((FUN_00559450_shell*)&unk18)->FUN_00559450())
+    if (((FUN_00559450_shell*)&unk18)->Modelloader_GetReferencedThis())
     {
-        DAT_01202d98->BSTaskManager_CancelTask(((FUN_00559450_shell*)&unk18)->FUN_00559450(), 0);
-        ((FUN_00559450_shell*)&unk18)->FUN_006f74f0(0);
+        DAT_01202d98->BSTaskManager_CancelTask(((FUN_00559450_shell*)&unk18)->Modelloader_GetReferencedThis(), 0);
+        ((FUN_00559450_shell*)&unk18)->AssignTaskReference(0);
     }
-    if (((FUN_00559450_shell*)&unk1C)->FUN_00559450())
+    if (((FUN_00559450_shell*)&unk1C)->Modelloader_GetReferencedThis())
     {
-        DAT_01202d98->BSTaskManager_CancelTask(((FUN_00559450_shell*)&unk1C)->FUN_00559450(), 0);
-        ((FUN_00559450_shell*)&unk1C)->FUN_006f74f0(0);
+        DAT_01202d98->BSTaskManager_CancelTask(((FUN_00559450_shell*)&unk1C)->Modelloader_GetReferencedThis(), 0);
+        ((FUN_00559450_shell*)&unk1C)->AssignTaskReference(0);
     }
-    ((FUN_00559450_shell*)&unk18)->FUN_006f74f0(new BGSDistantObjectBlockLoadTask(this, apOutput, asX, asY, apWorld, 0, 1, 0));
+    ((FUN_00559450_shell*)&unk18)->AssignTaskReference(new BGSDistantObjectBlockLoadTask(this, apOutput, asX, asY, apWorld, 0, 1, 0));
     m_28 = 0;
-    ((FUN_00559450_shell*)&unk18)->FUN_00559450()->V8();
+    ((FUN_00559450_shell*)&unk18)->Modelloader_GetReferencedThis()->V8();
     m_20 = 0;
     m_21 = 0;
     m_23 = 1;
@@ -1195,7 +1195,7 @@ void FUN_006f6540_cls::BGSDistantObjectBlock_SwitchToHigh(void* apOutput, void* 
 }
 }  // namespace fnv_006f6540
 
-void* __cdecl FUN_00aa13e0(unsigned int uiSize);
+void* __cdecl Object_DispatchCommandFour(unsigned int uiSize);
 void __cdecl MmFree(void* pvMem);
 
 struct MmNode;
@@ -1258,7 +1258,7 @@ struct MmAlpha
     MmAlpha();
     static void* operator new(unsigned int uiSize)
     {
-        return FUN_00aa13e0(uiSize);
+        return Object_DispatchCommandFour(uiSize);
     }
     static void operator delete(void* pvMem, unsigned int)
     {
@@ -1442,7 +1442,7 @@ struct MmNode
 template <class T> struct MmPtr
 {
     T* m_pObject;
-    T* FUN_00559450() const;
+    T* Modelloader_GetReferencedThis() const;
     bool IsNotEqual(const MmPtr& kOther) const;
 };
 
@@ -1471,45 +1471,45 @@ struct MenuModelImpl
 void MenuModelImpl::UpdateMenuNodes()
 {
     bool bRebuildNodeA =
-        !m_bValueAt0C || (m_spNodeA.FUN_00559450() && m_spNodeB.FUN_00559450() && m_spNodeA.IsNotEqual(m_spNodeB));
+        !m_bValueAt0C || (m_spNodeA.Modelloader_GetReferencedThis() && m_spNodeB.Modelloader_GetReferencedThis() && m_spNodeA.IsNotEqual(m_spNodeB));
     bool bRebuildNodeC =
-        !m_bValueAt0C || (m_spNodeC.FUN_00559450() && m_spNodeD.FUN_00559450() && m_spNodeC.IsNotEqual(m_spNodeD));
-    if (bRebuildNodeA && m_spNodeA.FUN_00559450())
+        !m_bValueAt0C || (m_spNodeC.Modelloader_GetReferencedThis() && m_spNodeD.Modelloader_GetReferencedThis() && m_spNodeC.IsNotEqual(m_spNodeD));
+    if (bRebuildNodeA && m_spNodeA.Modelloader_GetReferencedThis())
     {
-        m_spNodeA.FUN_00559450()->NiAVObject_RemoveProperty(MagicSystem_CheckEffectFlares());
+        m_spNodeA.Modelloader_GetReferencedThis()->NiAVObject_RemoveProperty(MagicSystem_CheckEffectFlares());
         MmAlpha* pkAlphaPtr = new MmAlpha;
         pkAlphaPtr->FUN_004393c0(1);
         pkAlphaPtr->NiAlphaProperty_SetAlphaBlending(0);
         pkAlphaPtr->NiAlphaProperty_SetTestRef(0x80);
         pkAlphaPtr->FUN_004393e0(4);
-        m_spNodeA.FUN_00559450()->NiAVObject_AttachProperty(pkAlphaPtr);
-        MmTexturing* pkTexX = m_spNodeA.FUN_00559450()->FUN_00a59d30(NiShadeProperty_GetType());
+        m_spNodeA.Modelloader_GetReferencedThis()->NiAVObject_AttachProperty(pkAlphaPtr);
+        MmTexturing* pkTexX = m_spNodeA.Modelloader_GetReferencedThis()->FUN_00a59d30(NiShadeProperty_GetType());
         pkTexX->BSShaderProperty_SetFlag(0x22, 1);
         pkTexX->BSShaderProperty_SetFlag(0x21, 0);
         pkTexX->BSShaderProperty_SetFlag(0, 0);
-        MmTexturing* pkCloneTmp2 = pkTexX->Clone(m_spNodeA.FUN_00559450(), 0, 1);
+        MmTexturing* pkCloneTmp2 = pkTexX->Clone(m_spNodeA.Modelloader_GetReferencedThis(), 0, 1);
         if (pkCloneTmp2)
         {
-            m_spNodeA.FUN_00559450()->NiAVObject_RemoveProperty(3);
+            m_spNodeA.Modelloader_GetReferencedThis()->NiAVObject_RemoveProperty(3);
             pkTexX = pkCloneTmp2;
-            m_spNodeA.FUN_00559450()->NiAVObject_AttachProperty(pkTexX);
+            m_spNodeA.Modelloader_GetReferencedThis()->NiAVObject_AttachProperty(pkTexX);
         }
-        m_spNodeA.FUN_00559450()->FUN_00874460(BSShaderManager_GetShader(pkTexX->FUN_006286d0()));
+        m_spNodeA.Modelloader_GetReferencedThis()->FUN_00874460(BSShaderManager_GetShader(pkTexX->FUN_006286d0()));
         MmTransform kTransformTmp(0.0f, 0, 0);
-        m_spNodeA.FUN_00559450()->UpdateProperties();
-        m_spNodeA.FUN_00559450()->NiAVObject_Update(&kTransformTmp);
+        m_spNodeA.Modelloader_GetReferencedThis()->UpdateProperties();
+        m_spNodeA.Modelloader_GetReferencedThis()->NiAVObject_Update(&kTransformTmp);
         m_pkOwnerManager->BGSTerrainNode_UpdateBlockVisibility(0);
-        m_spNodeA.FUN_00559450()->NiGeometry_GetModelData()->SetByteAtOffset38(0);
-        m_spNodeA.FUN_00559450()->NiGeometry_GetModelData()->FUN_00a67050(0x4000);
-        m_spNodeA.FUN_00559450()->NiGeometry_GetModelData()->FUN_004410f0(1);
-        NiXenonRenderer_GetRenderer()->Add(m_spNodeA.FUN_00559450(), 0, 0,
-                            m_spNodeA.FUN_00559450()->CombatController_GetTarget()->Register(m_spNodeA.FUN_00559450(), pkTexX));
+        m_spNodeA.Modelloader_GetReferencedThis()->NiGeometry_GetModelData()->SetByteAtOffset38(0);
+        m_spNodeA.Modelloader_GetReferencedThis()->NiGeometry_GetModelData()->FUN_00a67050(0x4000);
+        m_spNodeA.Modelloader_GetReferencedThis()->NiGeometry_GetModelData()->FUN_004410f0(1);
+        NiXenonRenderer_GetRenderer()->Add(m_spNodeA.Modelloader_GetReferencedThis(), 0, 0,
+                            m_spNodeA.Modelloader_GetReferencedThis()->CombatController_GetTarget()->Register(m_spNodeA.Modelloader_GetReferencedThis(), pkTexX));
         NiXenonRenderer_GetRenderer()->NiDX9Renderer_PerformPrecache();
         m_bValueAt0C = true;
     }
-    if (bRebuildNodeC && m_spNodeC.FUN_00559450())
+    if (bRebuildNodeC && m_spNodeC.Modelloader_GetReferencedThis())
     {
-        ApplyShaderSetup(m_spNodeC.FUN_00559450());
+        ApplyShaderSetup(m_spNodeC.Modelloader_GetReferencedThis());
         NiXenonRenderer_GetRenderer()->NiDX9Renderer_PerformPrecache();
         m_bValueAt0C = true;
     }

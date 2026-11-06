@@ -1021,7 +1021,7 @@ void Owner_Ext::bhkBvTreeShape_Link(bool flag)
     bhkShape_Link(flag);
 }
 
-extern "C" void* __cdecl FUN_00aa13e0(unsigned int);
+extern "C" void* __cdecl Object_DispatchCommandFour(unsigned int);
 extern "C" void __cdecl bhkSerializable_CloneCritLock();
 extern "C" void __cdecl bhkSerializable_CloneCritUnlock();
 extern "C" char DAT_01030bf4[];
@@ -1052,7 +1052,7 @@ struct SpawnedObject
     }
     void* operator new(unsigned int size) throw()
     {
-        return FUN_00aa13e0(size);
+        return Object_DispatchCommandFour(size);
     }
 };
 
@@ -1146,7 +1146,7 @@ struct FUN_00cb06c0_cls
     int unk04;
     void* unk08;
     void* unk0c;
-    void FUN_00cb0030(void* value);
+    void UpdateState_00cb0030(void* value);
     void* bhkTriSampledHeightFieldBvTreeShape_CreateCinfo(bool* out);
 };
 
@@ -1172,7 +1172,7 @@ void* FUN_00cb06c0_cls::bhkTriSampledHeightFieldBvTreeShape_CreateCinfo(bool* ou
         unk0c = result;
         if (unk08 != 0)
         {
-            FUN_00cb0030(result);
+            UpdateState_00cb0030(result);
         }
     }
     return unk0c;
@@ -1249,7 +1249,7 @@ struct S00cb0820_Shape : S00cb0820_Ref
     int unk0c;
     int unk10;
     int unk14;
-    void FUN_00d248a0(S00cb0820_Src* src, int n);
+    void ProcessAndReturnValue_00d248a0(S00cb0820_Src* src, int n);
 };
 
 struct S00cb0820_Shape70 : S00cb0820_Shape
@@ -1278,7 +1278,7 @@ struct S00cb0820_Shape70 : S00cb0820_Shape
     int unk6c;
     S00cb0820_Shape70(S00cb0820_Src* src)
     {
-        FUN_00d248a0(src, 2);
+        ProcessAndReturnValue_00d248a0(src, 2);
         m_vtbl = &DAT_010c853c;
         double d = unk14 - DAT_01012070;
         unk60 = src->unk30;

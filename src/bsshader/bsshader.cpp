@@ -167,7 +167,8 @@ void __cdecl BuildCachePath(char* apCachePath, const char* apFileName, const cha
 }
 
 // @fnv 0x00be0e30
-int __stdcall FUN_00be0e30(void* apUnused, void* apBlock)
+// src: GUESS 0x00be0e30 (confidence: high)
+int __stdcall BSShader_FreeBlockAndReturnZero(void* apUnused, void* apBlock)
 {
     g_memoryManager.Deallocate(apBlock);
     return 0;

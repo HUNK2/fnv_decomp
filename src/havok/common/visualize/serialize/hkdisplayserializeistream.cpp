@@ -125,7 +125,7 @@ void hkDisplaySerializeIStream::readGeometry(hkGeometry* geometry)
 // @fnv 0x00dd9210
 hkIArchive* __fastcall DeleteIArchive(hkIArchive* archive, void*, unsigned char acFlags)
 {
-    archive->FUN_00dd91f0();
+    archive->ReleaseArchiveReader();
     if (acFlags & 1)
     {
         hkMemoryRouter* pHolder = reinterpret_cast<hkMemoryRouter*>(hkMemoryRouter_getInstance());
@@ -139,7 +139,8 @@ hkIArchive* __fastcall DeleteIArchive(hkIArchive* archive, void*, unsigned char 
 
 // Reads the translation (w set to 1.0f), then a quaternion used to set the rotation.
 // @fnv 0x00ddac80
-void hkDisplaySerializeIStream::FUN_00ddac80(hkTransform* target)
+// src: GUESS 0x00ddac80 (confidence: medium)
+void hkDisplaySerializeIStream::ReadTranslationAndRotation(hkTransform* target)
 {
     Vec4 source;
     Vec4 destination;

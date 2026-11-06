@@ -188,25 +188,27 @@ unsigned int __thiscall FUN_0051b830_shell::TESTexture1024_GetMaxAllowedSize()
 
 struct FUN_0051b950_shell : TESModel
 {
-    void FUN_0051b950();
+    void DestroySubobject_0051b950();
 };
 
 // @fnv 0x0051b950
-void FUN_0051b950_shell::FUN_0051b950()
+// src: GUESS 0x0051b950 (confidence: low)
+void FUN_0051b950_shell::DestroySubobject_0051b950()
 {
     TESModel::~TESModel();
 }
 
 struct NiPoint2_shell : NiPoint2
 {
-    bool FUN_00452df0(const NiPoint2&) const;
-    bool FUN_0051c330(const NiPoint2& other) const;
+    bool HasEqualFloatPair(const NiPoint2&) const;
+    bool ForwardCall_0051c330(const NiPoint2& other) const;
 };
 
 // @fnv 0x0051c330
-bool NiPoint2_shell::FUN_0051c330(const NiPoint2& other) const
+// src: GUESS 0x0051c330 (confidence: low)
+bool NiPoint2_shell::ForwardCall_0051c330(const NiPoint2& other) const
 {
-    return !FUN_00452df0(other);
+    return !HasEqualFloatPair(other);
 }
 
 struct NiRTTI;
@@ -237,12 +239,13 @@ void __cdecl Deallocate(void*);
 
 struct FUN_0051d400_shell
 {
-    void __thiscall FUN_0051d400();
+    void __thiscall ReleaseStorage_0051d400();
 };
 
 // Frees the two pointers stored at offsets 0x14 and 0x18 of this object via Deallocate.
 // @fnv 0x0051d400
-void __thiscall FUN_0051d400_shell::FUN_0051d400()
+// src: GUESS 0x0051d400 (confidence: medium)
+void __thiscall FUN_0051d400_shell::ReleaseStorage_0051d400()
 {
     void* p2 = *(void**)((char*)this + 0x14);
     Deallocate(p2);
@@ -430,11 +433,12 @@ void* S_0051b900::FUN_0051b900(unsigned int flags)
 
 struct FUN_0051b990_shell : public TESIcon
 {
-    void FUN_0051b990();
+    void DestroySubobject_0051b990();
 };
 
 // @fnv 0x0051b990
-void FUN_0051b990_shell::FUN_0051b990()
+// src: GUESS 0x0051b990 (confidence: low)
+void FUN_0051b990_shell::DestroySubobject_0051b990()
 {
     TESIcon::~TESIcon();
 }
@@ -444,7 +448,7 @@ void __cdecl _delete(void*, unsigned int);
 // @fnv 0x0051cfa0
 void* NiBillboardNode::Destroy(unsigned int flags)
 {
-    this->FUN_0051cfe0();
+    this->ForwardCall_0051cfe0();
     if (flags & 1)
         _delete(this, 0xB4);
     return this;
@@ -939,7 +943,7 @@ struct FUN_005e79a0_t
 
 struct NiPoint2_shell
 {
-    bool FUN_0051c330(NiPoint2 const&) const;
+    bool ForwardCall_0051c330(NiPoint2 const&) const;
 };
 
 struct FUN_0051c220_vtable
@@ -1063,7 +1067,7 @@ bool FUN_0051c220_shell::IsNotEqual(TESForm* apCompare)
         return true;
 
     if (reinterpret_cast<NiPoint2_shell*>(reinterpret_cast<char*>(this) + 0x8c)
-            ->FUN_0051c330(*reinterpret_cast<NiPoint2 const*>(reinterpret_cast<const char*>(i) + 0x8c)))
+            ->ForwardCall_0051c330(*reinterpret_cast<NiPoint2 const*>(reinterpret_cast<const char*>(i) + 0x8c)))
         return true;
 
     unsigned int isize = reinterpret_cast<NiTPrimitiveArray<unsigned int>*>(reinterpret_cast<char*>(this) + 0x5c)->GetSize();
@@ -1299,15 +1303,15 @@ struct SaveTree
     NiTPrimitiveArray<unsigned int> seeds;
     TreeData data;
     float billboardX, billboardY;
-    void FUN_004855a0();
-    void FUN_00485680();
+    void BeginFormRecord();
+    void FinishFormRecord();
     void TESObjectTREE_Save();
 };
 // @fnv 0x0051bfb0
 // src: XBOX_PDB 0x0051bfb0
 void SaveTree::TESObjectTREE_Save()
 {
-    FUN_004855a0();
+    BeginFormRecord();
     model.WriteToBuffer(0x4c444f4d, 0x54444f4d);
     icon.TESTexture_Save(0x4e4f4349);
     destruct.FUN_00477f20();
@@ -1335,7 +1339,7 @@ void SaveTree::TESObjectTREE_Save()
     if (TESForm_QEndianSwapOnSave())
         data.FUN_00414290();
     TESForm_AddChunkArray_00485710(0x4d414e42, (unsigned int*)&billboardX, 2);
-    FUN_00485680();
+    FinishFormRecord();
 }
 
 class TreeNameView

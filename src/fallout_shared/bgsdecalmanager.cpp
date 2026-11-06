@@ -180,7 +180,8 @@ void DD::NiXenonRenderer_UnlockRenderer()
 
 // Writes the negated x, y and z components into out and returns out.
 // @fnv 0x004a0bd0
-NiPoint3* NiPoint3::FUN_004a0bd0(NiPoint3* out)
+// src: GUESS 0x004a0bd0 (confidence: high)
+NiPoint3* NiPoint3::GetNegatedVector(NiPoint3* out)
 {
     out->Set(-x, -y, -z);
     return out;
@@ -523,7 +524,7 @@ void FUN_004a3da0_shell::bhkPickData_SetFrom(void* arFrom)
 void* hkVector4_getZero();
 struct T_
 {
-    void FUN_004a3f10(void*);
+    void SetValue(void*);
 };
 struct PD_
 {
@@ -536,7 +537,7 @@ struct PD_
 void PD_::bhkPickData_SetTo_004a3f40(void* p)
 {
     ForwardToSubObject(hkVector4_getZero());
-    ((T_*)((char*)this + 0x10))->FUN_004a3f10(p);
+    ((T_*)((char*)this + 0x10))->SetValue(p);
 }
 
 struct Flt
@@ -936,7 +937,8 @@ void __cdecl Renderer_GetSkinnedDecalLODStart()
 void __fastcall FUN_004a47b0(int __this);
 
 // @fnv 0x004a1a30
-void __fastcall FUN_004a1a30(int __this)
+// src: GUESS 0x004a1a30 (confidence: low)
+void __fastcall Bgsdecalmanager_ForwardCall_004a1a30(int __this)
 {
     FUN_004a47b0(__this);
 }
@@ -1001,11 +1003,12 @@ extern int DAT_0101e594;
 
 struct FUN_004a3ae0_shell
 {
-    void FUN_004a3ae0();
+    void SetVirtualTable_004a3ae0();
 };
 
 // @fnv 0x004a3ae0
-void FUN_004a3ae0_shell::FUN_004a3ae0()
+// src: GUESS 0x004a3ae0 (confidence: low)
+void FUN_004a3ae0_shell::SetVirtualTable_004a3ae0()
 {
     *(int*)this = (int)&DAT_0101e594;
 }
@@ -1041,14 +1044,14 @@ void __fastcall hkpAllRayHitCollector_reset(void* p)
 namespace fnv_004a3f90 {
 struct T_
 {
-    void FUN_004a3f10(void*);
+    void SetValue(void*);
     void ForwardToSubObject(void*);
 };
 
 // @fnv 0x004a3f90
 void __thiscall T_::ForwardToSubObject(void* apParam)
 {
-    ((T_*)((char*)this + 0x90))->FUN_004a3f10(apParam);
+    ((T_*)((char*)this + 0x90))->SetValue(apParam);
 }
 }  // namespace fnv_004a3f90
 
@@ -1327,7 +1330,7 @@ struct BGSDecalEmitterList
     DecalEmitterNode* head;
     DecalEmitterNode* tail;
     unsigned int count;
-    DecalEmitterNode* FUN_00559450();
+    DecalEmitterNode* Modelloader_GetReferencedThis();
     StatefulObject** NiTPointerListBase_NiTPointerAllocator_unsigned_int_Tile_GetNext(DecalEmitterNode** cursor);
     void FUN_0049f590(DecalEmitterNode** cursor);
 };
@@ -1352,7 +1355,7 @@ struct DecalCleanupOwner
 // @fnv 0x004a03f0
 void DecalCleanupOwner::CleanupDecalEmitters()
 {
-    DecalEmitterNode* cursor = decalEmitters.FUN_00559450();
+    DecalEmitterNode* cursor = decalEmitters.Modelloader_GetReferencedThis();
     while (cursor != 0)
     {
         DecalEmitterNode* previous = cursor;
@@ -1512,7 +1515,7 @@ struct Scene
 struct ScenePtr
 {
     Scene* ptr;
-    Scene* FUN_00559450();
+    Scene* Modelloader_GetReferencedThis();
 };
 struct Node
 {
@@ -1522,7 +1525,7 @@ struct Node
 struct NodePtr
 {
     Node* ptr;
-    Node* FUN_00559450();
+    Node* Modelloader_GetReferencedThis();
 };
 struct Render
 {
@@ -1531,7 +1534,7 @@ struct Render
 struct RenderPtr
 {
     Render* ptr;
-    Render* FUN_00559450();
+    Render* Modelloader_GetReferencedThis();
     void FUN_0066b0d0(Render*);
 };
 struct Factory
@@ -1631,10 +1634,10 @@ void Camera::UpdateCamera(Input* input)
 {
     NiPoint3 directionSlot1Slot0 = input->BSTempEffectSimpleDecal_GetDirection();
     directionSlot1Slot0.Unitize_004a0c10();
-    directionSlot1Slot0.FUN_00439180(DAT_0101b268);
+    directionSlot1Slot0.ScaleComponents(DAT_0101b268);
     NiPoint3 originSlot13 = input->BSTempEffectSimpleDecal_GetOrigin().FUN_00439e90(directionSlot1Slot0);
     Matrix rotationSlot17Slot12;
-    BSUtilities_GetRotationZToVector(&rotationSlot17Slot12, directionSlot1Slot0.FUN_004a0bd0());
+    BSUtilities_GetRotationZToVector(&rotationSlot17Slot12, directionSlot1Slot0.GetNegatedVector());
     Matrix scaleSlot22Slot0Slot10;
     scaleSlot22Slot0Slot10.FUN_006815c0();
     scaleSlot22Slot0Slot10.FUN_004a0c90(input->Animation_GetGlobalTimeMultiplier());
@@ -1662,44 +1665,44 @@ void Camera::UpdateCamera(Input* input)
     frustumSlot18Slot39.top = heightSlot21;
     frustumSlot18Slot39.bottom = -heightSlot21;
     frustumSlot18Slot39.farValue = farPlaneSlot12Slot43;
-    scene.FUN_00559450()->NiAVObject_SetTranslate(originSlot13);
-    scene.FUN_00559450()->SetRotate_0043fa80(basisSlot28Slot36);
-    scene.FUN_00559450()->FUN_00a6faf0(frustumSlot18Slot39);
+    scene.Modelloader_GetReferencedThis()->NiAVObject_SetTranslate(originSlot13);
+    scene.Modelloader_GetReferencedThis()->SetRotate_0043fa80(basisSlot28Slot36);
+    scene.Modelloader_GetReferencedThis()->FUN_00a6faf0(frustumSlot18Slot39);
     Update updateSlot12(0.0f, 0, 0);
-    scene.FUN_00559450()->NiAVObject_Update(&updateSlot12);
+    scene.Modelloader_GetReferencedThis()->NiAVObject_Update(&updateSlot12);
     void* lineSlot0Slot21;
     if (DAT_011c57f4 & 4)
     {
         startSlot14Slot30 = originSlot13;
-        endSlot11 = originSlot13.FUN_00439e90(scene.FUN_00559450()->FUN_0045bba0().ApplyScaled(farPlaneSlot12Slot43));
+        endSlot11 = originSlot13.FUN_00439e90(scene.Modelloader_GetReferencedThis()->FUN_0045bba0().ApplyScaled(farPlaneSlot12Slot43));
         lineSlot0Slot21 =
             MakeLine(startSlot14Slot30, Color(0.0f, 0.0f, 1.0f, 1.0f), endSlot11, Color(1.0f, 0.0f, 0.0f, 1.0f), 1);
         DAT_011dea10->FUN_00458e20(lineSlot0Slot21, DAT_01018f5c);
     }
     if (*DAT_011c5904.FUN_00408d60())
     {
-        NiPoint3 look = scene.FUN_00559450()->FUN_0045bba0();
+        NiPoint3 look = scene.Modelloader_GetReferencedThis()->FUN_0045bba0();
         Warning_005b5e40(&DAT_0101e298, input->BSTempEffectSimpleDecal_GetDecalParent()->FUN_00413f40()->FUN_0043b1b0());
         Warning_005b5e40(&DAT_0101e274, originSlot13.x, originSlot13.y, originSlot13.z);
         Warning_005b5e40(&DAT_0101e24c, look.x, look.y, look.z);
         Warning_005b5e40(&DAT_0101e1f8, farPlaneSlot12Slot43, -widthSlot15Slot25, widthSlot15Slot25, heightSlot21,
                      -heightSlot21);
     }
-    if (!render.FUN_00559450())
+    if (!render.Modelloader_GetReferencedThis())
         render.FUN_0066b0d0(BSShaderManager_GetTextureManager(BSShaderManager_GetRenderer(0x33), 0, 0, 0)->BSTextureManager_BorrowRenderedTexture());
     if (input->alternate)
-        BSRenderedTexture_StartOffscreen(7, render.FUN_00559450()->FUN_00b6b260());
+        BSRenderedTexture_StartOffscreen(7, render.Modelloader_GetReferencedThis()->FUN_00b6b260());
     else
-        BSRenderedTexture_StartOffscreen(0, render.FUN_00559450()->FUN_00b6b260());
+        BSRenderedTexture_StartOffscreen(0, render.Modelloader_GetReferencedThis()->FUN_00b6b260());
     input->query = new Query;
     input->query->BSOcclusionQuery_Begin();
-    NiXenonRenderer_GetRenderer(scene.FUN_00559450()->TESDataHandler_GetImpactDataSetList())->NiRenderer_SetScreenSpaceCameraData();
+    NiXenonRenderer_GetRenderer(scene.Modelloader_GetReferencedThis()->TESDataHandler_GetImpactDataSetList())->NiRenderer_SetScreenSpaceCameraData();
     Cull cullSlot18Slot33(0);
-    cullSlot18Slot33.BSCullingProcess_SetAccumulator(node.FUN_00559450());
-    node.FUN_00559450()->BSShaderAccumulator_SetShadowSceneNode(FUN_00450b80(0));
-    node.FUN_00559450()->FUN_004a1040(15);
-    BSShaderUtil_AccumulateScene(scene.FUN_00559450(), input->BSTempEffectSimpleDecal_GetDecalParent(), &cullSlot18Slot33);
-    FUN_00b6c0d0(scene.FUN_00559450(), node.FUN_00559450(), 0);
+    cullSlot18Slot33.BSCullingProcess_SetAccumulator(node.Modelloader_GetReferencedThis());
+    node.Modelloader_GetReferencedThis()->BSShaderAccumulator_SetShadowSceneNode(FUN_00450b80(0));
+    node.Modelloader_GetReferencedThis()->FUN_004a1040(15);
+    BSShaderUtil_AccumulateScene(scene.Modelloader_GetReferencedThis(), input->BSTempEffectSimpleDecal_GetDecalParent(), &cullSlot18Slot33);
+    FUN_00b6c0d0(scene.Modelloader_GetReferencedThis(), node.Modelloader_GetReferencedThis(), 0);
     cullSlot18Slot33.BSCullingProcess_SetAccumulator(0);
     input->query->BSOcclusionQuery_End();
     FUN_00b6b790();
@@ -1736,7 +1739,7 @@ struct DecalPoint
 {
     float x, y, z;
     void FUN_006815c0();
-    DecalPoint FUN_00439ef0(const DecalPoint& arOther) const;
+    DecalPoint SubtractIntoVector(const DecalPoint& arOther) const;
     DecalPoint FUN_00439e90(const DecalPoint& arOther) const;
     float FUN_00457990() const;
     void Unitize_004a0c10();
@@ -1755,7 +1758,7 @@ union DecalTicks
 
 struct DecalRotation
 {
-    DecalPoint FUN_004a0bd0() const;
+    DecalPoint GetNegatedVector() const;
 };
 
 struct DecalBound
@@ -2134,7 +2137,7 @@ void DecalManager::AddGeometryDecal(DecalRequest* apRequest, int aiType, bool ab
         if (*DAT_011c5834.FUN_00408d60() && apRequest->pTarget && !apRequest->pTarget->NiAVObject_GetNoDecals())
         {
             kCameraIn = *DAT_011dea3c->GetPos();
-            fDistance = apRequest->kPos.FUN_00439ef0(kCameraIn).FUN_00457990();
+            fDistance = apRequest->kPos.SubtractIntoVector(kCameraIn).FUN_00457990();
             dFrequency = 1000.0;
             iUnused = 0;
             kStartNext.LowPart = 0;
@@ -2173,7 +2176,7 @@ void DecalManager::AddGeometryDecal(DecalRequest* apRequest, int aiType, bool ab
         {
             DecalPoint kEyeOut = *DAT_011dea3c->GetPos();
             DecalBound kBound = *apRequest->pTarget->NiAVObject_GetWorldBound();
-            float fBoundDistance = kBound.FUN_006815c0()->FUN_00439ef0(kEyeOut).FUN_00457990() - kBound.FUN_0084d030();
+            float fBoundDistance = kBound.FUN_006815c0()->SubtractIntoVector(kEyeOut).FUN_00457990() - kBound.FUN_0084d030();
             if ((Renderer_GetSkinnedDecalLODStart() >= fBoundDistance && DAT_011c57f0 < *DAT_011c58e4.Setting_Int()) || abForce)
                 BGSDecalManager_AddProjectedDecalRecurse(apRequest);
             else if (DAT_011c57f0 >= *DAT_011c58e4.Setting_Int() && *DAT_011c5904.FUN_00408d60())
@@ -2183,7 +2186,7 @@ void DecalManager::AddGeometryDecal(DecalRequest* apRequest, int aiType, bool ab
         {
             DecalPoint kViewerNew = *DAT_011dea3c->GetPos();
             DecalBound kHolderBoundCur = *apRequest->pHolder->Get3D()->NiAVObject_GetWorldBound();
-            float fHolderDistance = kHolderBoundCur.FUN_006815c0()->FUN_00439ef0(kViewerNew).FUN_00457990() -
+            float fHolderDistance = kHolderBoundCur.FUN_006815c0()->SubtractIntoVector(kViewerNew).FUN_00457990() -
                                     kHolderBoundCur.FUN_0084d030();
             DecalNode* pObject = apRequest->pHolder->Get3D();
             DecalNode* pNode = pObject ? pObject->GetNode() : 0;
@@ -2209,7 +2212,7 @@ void DecalManager::AddGeometryDecal(DecalRequest* apRequest, int aiType, bool ab
             if (iCount == 0)
             {
                 DecalPoint kNewDir =
-                    apRequest->kWorldPosition.FUN_00439e90(DAT_011a9484.FUN_004a0bd0().ApplyScaled(2.0f));
+                    apRequest->kWorldPosition.FUN_00439e90(DAT_011a9484.GetNegatedVector().ApplyScaled(2.0f));
                 kNewDir.Unitize_004a0c10();
                 apRequest->kWorldPosition = kNewDir;
                 iCount = DAT_011c57e0->DecalCaster_Pick(apRequest, apRequest->kPos.FUN_00439e90(kNewDir.ApplyScaled(80.0f)),
@@ -2278,7 +2281,7 @@ struct XObj
 };
 struct XItem
 {
-    XObj* FUN_00559450();
+    XObj* Modelloader_GetReferencedThis();
 };
 struct XList
 {
@@ -2453,7 +2456,7 @@ bool XMgr::BGSDecalManager_AddGeometryDecalRecurse(XRef* ref)
                 list = hit2->m_ac;
                 while (list != 0 && !list->IsEmpty())
                 {
-                    a5 = list->FUN_006815c0()->FUN_00559450();
+                    a5 = list->FUN_006815c0()->Modelloader_GetReferencedThis();
                     b_ = a5;
                     list = list->FUN_00726070();
                     float pt9[3];
@@ -2520,7 +2523,7 @@ struct CStringProvider;
 struct DVec
 {
     float x, y, z;
-    DVec FUN_004a0bd0() const;
+    DVec GetNegatedVector() const;
 };
 struct DUpdate
 {
@@ -2608,7 +2611,7 @@ struct DPtr
     DObj* ptr;
     DPtr(DObj*);
     ~DPtr();
-    DObj* FUN_00559450();
+    DObj* Modelloader_GetReferencedThis();
     DPtr& FUN_0066b0d0(DObj*);
 };
 struct DArray
@@ -2914,11 +2917,11 @@ bool DWork::BGSDecalManager_AddProjectedDecalRecurse(DArg* arg)
     {
         DPtr p(0);
         arg->parent->interface30.Get(0, p);
-        DObj* parent = p.FUN_00559450();
+        DObj* parent = p.Modelloader_GetReferencedThis();
         if (NiObject_IsKindOf(&DAT_011f444c, parent))
             original.FUN_0066b0d0(parent);
     }
-    if (!original.FUN_00559450())
+    if (!original.Modelloader_GetReferencedThis())
         return false;
     if (arg->object)
     {
@@ -2967,8 +2970,8 @@ bool DWork::BGSDecalManager_AddProjectedDecalRecurse(DArg* arg)
                         DPtr decal(new DEffect(arg->flags, DAT_011c5874.FUN_00450410(), arg, geometry, arg->origin,
                                                arg->normal, arg->scale, arg->rotation, arg->unk6c));
                         bool accepted = false;
-                        decal.FUN_00559450()->Virtual8c();
-                        if (decal.FUN_00559450()->FUN_0059e300() > 0)
+                        decal.Modelloader_GetReferencedThis()->Virtual8c();
+                        if (decal.Modelloader_GetReferencedThis()->FUN_0059e300() > 0)
                         {
                             if (!arg->skin)
                             {
@@ -2979,13 +2982,13 @@ bool DWork::BGSDecalManager_AddProjectedDecalRecurse(DArg* arg)
                                 if (*DAT_011c5904.FUN_00408d60())
                                     Warning_005b5e40("DECAL: Placing Skin Decal #%d", DAT_011c57f0);
                             }
-                            arg->skin->Virtualdc(decal.FUN_00559450()->Virtual98(true));
-                            decal.FUN_00559450()->AssignGo((DObj*)arg->skin);
-                            selected->effects->BSSimpleList_NiPointer_bhkAction_AddHead(decal.FUN_00559450());
+                            arg->skin->Virtualdc(decal.Modelloader_GetReferencedThis()->Virtual98(true));
+                            decal.Modelloader_GetReferencedThis()->AssignGo((DObj*)arg->skin);
+                            selected->effects->BSSimpleList_NiPointer_bhkAction_AddHead(decal.Modelloader_GetReferencedThis());
                             DUpdate update(0.0f, false, false);
                             selected->NiAVObject_Update(update);
-                            DAT_011e0e80.ProcessLists_AddTempEffect(decal.FUN_00559450());
-                            effect.FUN_0066b0d0(decal.FUN_00559450());
+                            DAT_011e0e80.ProcessLists_AddTempEffect(decal.Modelloader_GetReferencedThis());
+                            effect.FUN_0066b0d0(decal.Modelloader_GetReferencedThis());
                         }
                         else
                             return true;
@@ -3030,12 +3033,12 @@ bool DWork::BGSDecalManager_AddProjectedDecalRecurse(DArg* arg)
                                     {
                                         DEffect* pRawEffect =
                                             new DEffect(arg->flags, DAT_011c5874.FUN_00450410(), arg, a, arg->origin,
-                                                        arg->normal.FUN_004a0bd0(), 1.0f, arg->rotation, arg->unk6c);
+                                                        arg->normal.GetNegatedVector(), 1.0f, arg->rotation, arg->unk6c);
                                         additional.FUN_0066b0d0(pRawEffect);
                                         pRawEffect->Virtual8c();
                                     }
-                                    if (additional.FUN_00559450())
-                                        DAT_011e0e80.ProcessLists_AddTempEffect(additional.FUN_00559450());
+                                    if (additional.Modelloader_GetReferencedThis())
+                                        DAT_011e0e80.ProcessLists_AddTempEffect(additional.Modelloader_GetReferencedThis());
                                 }
                             }
                         }

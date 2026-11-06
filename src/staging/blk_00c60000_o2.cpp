@@ -111,21 +111,21 @@ public:
     float GetSquaredXYLength() const;
     Elem16& expand(Allocator& allocator);
 
-    void FUN_00416870(float x, float y, float z);
+    void SetComponents(float x, float y, float z);
     bool FUN_00439090(const LocalVec3* other);
-    bool FUN_004390c0(const LocalVec3* other);
-    bool FUN_004390c0(const LocalVec3* other) const;
-    bool FUN_004390c0(const char* other);
-    void FUN_00439180(float scale);
+    bool HasEqualComponents(const LocalVec3* other);
+    bool HasEqualComponents(const LocalVec3* other) const;
+    bool HasEqualComponents(const char* other);
+    void ScaleComponents(float scale);
     LocalVec3 FUN_00439e90(const LocalVec3& other);
     LocalVec3 FUN_00439e90(const LocalVec3& other) const;
-    void FUN_00439ef0();
-    LocalVec3 FUN_00439ef0(const LocalVec3& other);
-    LocalVec3 FUN_00439ef0(const LocalVec3& other) const;
-    LocalVec3 FUN_00439ef0(LocalVec3* other);
-    LocalVec3 FUN_00439ef0(const LocalVec3* other);
-    void FUN_00439ef0(LocalVec3* output, const LocalVec3* other);
-    LocalVec3* FUN_00439ef0(void* output, void* other);
+    void SubtractIntoVector();
+    LocalVec3 SubtractIntoVector(const LocalVec3& other);
+    LocalVec3 SubtractIntoVector(const LocalVec3& other) const;
+    LocalVec3 SubtractIntoVector(LocalVec3* other);
+    LocalVec3 SubtractIntoVector(const LocalVec3* other);
+    void SubtractIntoVector(LocalVec3* output, const LocalVec3* other);
+    LocalVec3* SubtractIntoVector(void* output, void* other);
     void FUN_0043d410(float x, int y, int z);
     void FUN_0043d410(float x, unsigned int y, unsigned int z);
     float FUN_00457910();
@@ -135,22 +135,22 @@ public:
     float FUN_004a7290();
     float FUN_004a7290() const;
     LocalVec3 FUN_004b3800(const LocalVec3& other) const;
-    LocalVec3 FUN_0053d280(float divisor);
+    LocalVec3 ProcessAndReturnValue_0053d280(float divisor);
     float NiPoint3_XYLength();
     float NiPoint3_XYLength() const;
-    void FUN_0063c8a0(const LocalVec3* other);
-    void FUN_0063c8a0(void* other);
+    void ComputeValue_0063c8a0(const LocalVec3* other);
+    void ComputeValue_0063c8a0(void* other);
     void FUN_006815c0();
     float CVec3_Distance(LocalVec3* other);
     float CVec3_Distance(const LocalVec3& other) const;
-    LocalVec3 FUN_00b05000(const Mat& matrix);
-    LocalVec3 FUN_00b05000(const Matrix4* matrix);
+    LocalVec3 TransformPointByMatrix4(const Mat& matrix);
+    LocalVec3 TransformPointByMatrix4(const Matrix4* matrix);
     void Normalize_00b12790();
     LocalVec3 Diff_00b13040(void* other);
     LocalVec3 Diff_00b13040(const LocalVec3& other) const;
     float FUN_00b2a180(void* other);
-    LocalVec3& FUN_00b2a1c0(void* other);
-    void FUN_00ddc870();
+    LocalVec3& AddComponents(void* other);
+    void ProcessEntries_00ddc870();
     void FUN_00e0f6e0();
 };
 #include "../../include/Data.h"
@@ -386,7 +386,7 @@ FUN_00c664e0::FUN_00c664e0(int aiFlags)
 }  // namespace fnv_00c664e0
 
 extern int DAT_010c3af8;
-void __stdcall FUN_00cbf1a0();
+void __stdcall UpdateFields_00cbf1a0();
 struct FUN_00c66540_class
 {
     int __thiscall InitVtableAndCall(int);
@@ -395,7 +395,7 @@ struct FUN_00c66540_class
 int __thiscall FUN_00c66540_class::InitVtableAndCall(int aiUnused)
 {
     *(int*)this = (int)&DAT_010c3af8;
-    FUN_00cbf1a0();
+    UpdateFields_00cbf1a0();
     return (int)this;
 }
 
@@ -670,7 +670,8 @@ void FUN_00c748d0_C::SetSlotFloats(int aiIndex, float afValue1, float afValue2)
 extern void* DAT_010c4c64;
 extern "C" void __cdecl NiFreeAlias(void*);
 // @fnv 0x00c75cc0
-void __fastcall FUN_00c75cc0(PoseMapBase* self, void*)
+// src: GUESS 0x00c75cc0 (confidence: medium)
+void __fastcall Object_ReleaseStorage_00c75cc0(PoseMapBase* self, void*)
 {
     *reinterpret_cast<void**>(self) = &DAT_010c4c64;
     self->RemoveAll();
@@ -787,20 +788,22 @@ void* FUN_00c7a8b0_class::FUN_00c7a8b0(unsigned int uiFlags)
 }
 
 // @fnv 0x00c7fc20
-void* __stdcall FUN_00c7fc20(unsigned int a)
+// src: GUESS 0x00c7fc20 (confidence: medium)
+void* __stdcall Object_AllocateStorage_00c7fc20(unsigned int a)
 {
     return _g_memoryManager.Allocate(a * 8);
 }
 
 struct FUN_00c66560_class
 {
-    void FUN_00cbf1a0();
-    void* __thiscall FUN_00c66560(int a);
+    void UpdateFields_00cbf1a0();
+    void* __thiscall ProcessAndReturnValue_00c66560(int a);
 };
 // @fnv 0x00c66560
-void* __thiscall FUN_00c66560_class::FUN_00c66560(int a)
+// src: GUESS 0x00c66560 (confidence: low)
+void* __thiscall FUN_00c66560_class::ProcessAndReturnValue_00c66560(int a)
 {
-    FUN_00cbf1a0();
+    UpdateFields_00cbf1a0();
     return this;
 }
 
@@ -872,10 +875,11 @@ struct FUN_00c7a630_class
     int* m_p;
     int* m_kPointA;
     int* m_kPointB;
-    void __thiscall FUN_00c7a630();
+    void __thiscall SetVtableAndProcessState_00c7a630();
 };
 // @fnv 0x00c7a630
-void __thiscall FUN_00c7a630_class::FUN_00c7a630()
+// src: GUESS 0x00c7a630 (confidence: low)
+void __thiscall FUN_00c7a630_class::SetVtableAndProcessState_00c7a630()
 {
     vtbl = (int*)&DAT_010c4db8;
     if (m_p)
@@ -895,10 +899,11 @@ struct FUN_009ba5f0_shell
 struct FUN_00c7fb40
 {
     int* p;
-    void FUN_00c7fb40_init();
+    void UpdateFields_00c7fb40();
 };
 // @fnv 0x00c7fb40
-void FUN_00c7fb40::FUN_00c7fb40_init()
+// src: GUESS 0x00c7fb40 (confidence: low)
+void FUN_00c7fb40::UpdateFields_00c7fb40()
 {
     p = &DAT_0108ffb4;
     ((FUN_009ba5f0_shell*)this)->SetChildObject(0);
@@ -1687,7 +1692,8 @@ struct RouterReturnValue_c60000
 RouterReturnValue_c60000 __cdecl _D1A0E0GetMemoryRouter();
 
 // @fnv 0x00c74f90
-void __cdecl FUN_00c74f90(void* a)
+// src: GUESS 0x00c74f90 (confidence: low)
+void __cdecl Runtime_UpdateState_00c74f90(void* a)
 {
     if (a)
     {
@@ -1987,11 +1993,12 @@ struct FUN_00c665f0_cls
 {
     int m_vptr00;
 
-    void FUN_00c665f0();
+    void SetVptr00();
 };
 
 // @fnv 0x00c665f0
-void FUN_00c665f0_cls::FUN_00c665f0()
+// src: GUESS 0x00c665f0 (confidence: low)
+void FUN_00c665f0_cls::SetVptr00()
 {
     m_vptr00 = (int)&DAT_010c3bb8;
 }
@@ -3456,12 +3463,13 @@ class C67F20List
     NiPointer<C67F20RefObject> m_spOwner;
     C67F20Node* m_pkHead;
 
-    void FUN_00c67f20();
+    void DeleteListNodesAndReleaseOwner();
 };
 
 // Deletes every node in the list, unlinking each one, then releases the owner pointer.
 // @fnv 0x00c67f20
-void C67F20List::FUN_00c67f20()
+// src: GUESS 0x00c67f20 (confidence: medium)
+void C67F20List::DeleteListNodesAndReleaseOwner()
 {
     while (m_pkHead)
     {
@@ -3550,12 +3558,13 @@ class FUN_00c688b0_cls
     FNVEntryKey* m_0x7c;
     unsigned int m_0x80;
 
-    void FUN_00c688b0();
+    void ProcessEntries_00c688b0();
 };
 
 // If m_0x10 is nonzero, calls FUN_00c984a0 on each of the m_0x80 entries in m_0x7c in reverse order, then resets m_0x80 to 0.
 // @fnv 0x00c688b0
-void FUN_00c688b0_cls::FUN_00c688b0()
+// src: GUESS 0x00c688b0 (confidence: low)
+void FUN_00c688b0_cls::ProcessEntries_00c688b0()
 {
     if (m_0x10 == 0)
         goto done;
@@ -5634,11 +5643,12 @@ struct FUN_00c6c830_cls
 {
     int m_vptr00;
 
-    void FUN_00c6c830();
+    void SetVptr00();
 };
 
 // @fnv 0x00c6c830
-void FUN_00c6c830_cls::FUN_00c6c830()
+// src: GUESS 0x00c6c830 (confidence: low)
+void FUN_00c6c830_cls::SetVptr00()
 {
     m_vptr00 = (int)&DAT_010c446c;
 }
@@ -6968,7 +6978,8 @@ struct S_00c85750_interface
 
 // If pObject is non-null, gets the owner via FUN_00c85750 and calls its interface vtbl unk08 with pObject and 0x80.
 // @fnv 0x00c6cdc0
-void __cdecl FUN_00c6cdc0(void* pObject)
+// src: GUESS 0x00c6cdc0 (confidence: low)
+void __cdecl Object_UpdateFields_00c6cdc0(void* pObject)
 {
     if (pObject != 0)
     {
@@ -7136,14 +7147,14 @@ extern FUN_00aa4060_class DAT_011f6238;
 
 struct FUN_00c6d260_class
 {
-    void __thiscall FUN_00cbe880();
+    void __thiscall UpdateFields_00cbe880();
     FUN_00c6d260_class* __thiscall ScalarDeletingDestructor(unsigned int flags);
 };
 
 // @fnv 0x00c6d260
 FUN_00c6d260_class* __thiscall FUN_00c6d260_class::ScalarDeletingDestructor(unsigned int flags)
 {
-    FUN_00cbe880();
+    UpdateFields_00cbe880();
     if ((flags & 1) && this)
     {
         DAT_011f6238.MemoryManager_Deallocate((char*)this - ((unsigned char*)this)[-1]);
@@ -9779,11 +9790,12 @@ struct FUN_00c747b0_Class
     virtual void vfAC();
     virtual void vfB0();
     virtual int vfB4(char* value);
-    int FUN_00c747b0();
+    int UpdateState_00c747b0();
 };
 
 // @fnv 0x00c747b0
-int FUN_00c747b0_Class::FUN_00c747b0()
+// src: GUESS 0x00c747b0 (confidence: low)
+int FUN_00c747b0_Class::UpdateState_00c747b0()
 {
     char value;
     int result = this->vfB4(&value);
@@ -10074,7 +10086,8 @@ void* __cdecl hkMemoryRouter_getInstance();
 
 // If param_1 is nonzero, obtains a result object via FUN_00c85750 and calls vf08 on its unk10 target with param_1 and 0x38.
 // @fnv 0x00c74f50
-void __cdecl FUN_00c74f50(int aiValue)
+// src: GUESS 0x00c74f50 (confidence: low)
+void __cdecl hkMemoryRouter_UpdateState_00c74f50(int aiValue)
 {
     if (aiValue != 0)
     {
@@ -10100,7 +10113,8 @@ struct AllocClass
 hkMemoryRouter* hkMemoryRouter_getInstance();
 
 // @fnv 0x00c74f70
-void __cdecl FUN_00c74f70(void* p)
+// src: GUESS 0x00c74f70 (confidence: low)
+void __cdecl hkMemoryRouter_UpdateState_00c74f70(void* p)
 {
     if (p)
     {
@@ -10381,7 +10395,8 @@ struct S_00aa4060_cls
 extern S_00aa4060_cls DAT_011f6238;
 
 // @fnv 0x00c76010
-void __stdcall FUN_00c76010(NiTMapItem<NiAVObject*, short>* pRecord)
+// src: GUESS 0x00c76010 (confidence: low)
+void __stdcall NiTMapItem_UpdateState_00c76010(NiTMapItem<NiAVObject*, short>* pRecord)
 {
     pRecord->m_val = 0;
     DAT_011f6238.MemoryManager_Deallocate(pRecord);
@@ -11853,7 +11868,8 @@ struct ReallocationManager : MemoryManager
 
 // Calls the memory manager's reallocation routine with the given memory block and a byte size of count * 56.
 // @fnv 0x00c7a600
-void* __stdcall FUN_00c7a600(void* memory, unsigned int count)
+// src: GUESS 0x00c7a600 (confidence: medium)
+void* __stdcall Object_Reallocate_Thunk(void* memory, unsigned int count)
 {
     return static_cast<ReallocationManager*>(&_g_memoryManager)->Reallocate(memory, count * 56);
 }
@@ -11865,12 +11881,13 @@ struct S_00c7a660_Foo
     void* m_kPointA;
     void* m_kPointB;
 
-    void __thiscall FUN_00c7a660();
+    void __thiscall SetVirtualTable_00c7a660();
 };
 
 // Sets the vtable, and if m_p is non-null calls DAT_010c4cec on it then clears m_p and the two following pointers.
 // @fnv 0x00c7a660
-void __thiscall S_00c7a660_Foo::FUN_00c7a660()
+// src: GUESS 0x00c7a660 (confidence: low)
+void __thiscall S_00c7a660_Foo::SetVirtualTable_00c7a660()
 {
     vtbl = &DAT_010c4ce4;
 
@@ -12133,11 +12150,12 @@ struct FUN_00c7b0b0_class
     volatile int unk04;
     volatile int unk08;
 
-    void __thiscall FUN_00c7b0b0();
+    void __thiscall UpdateState_00c7b0b0();
 };
 
 // @fnv 0x00c7b0b0
-void FUN_00c7b0b0_class::FUN_00c7b0b0()
+// src: GUESS 0x00c7b0b0 (confidence: low)
+void FUN_00c7b0b0_class::UpdateState_00c7b0b0()
 {
     void* pObject = hkMemoryRouter_getInstance();
     FUN_00c85750_Object* pTarget = reinterpret_cast<FUN_00c85750_Object*>(
@@ -12164,11 +12182,12 @@ hkMemoryRouter* hkMemoryRouter_getInstance();
 struct FUN_00c7b130_cls
 {
     int m_iWordAt00;
-    void FUN_00c7b130();
+    void UpdateState_00c7b130();
 };
 
 // @fnv 0x00c7b130
-void FUN_00c7b130_cls::FUN_00c7b130()
+// src: GUESS 0x00c7b130 (confidence: low)
+void FUN_00c7b130_cls::UpdateState_00c7b130()
 {
     int value = m_iWordAt00;
     hkMemoryRouter* slot = hkMemoryRouter_getInstance();
@@ -12257,11 +12276,12 @@ struct FUN_00c7bf50_cls
     int m_04;
     unsigned int m_08;
 
-    void FUN_00c7bf50();
+    void UpdateState_00c7bf50();
 };
 
 // @fnv 0x00c7bf50
-void FUN_00c7bf50_cls::FUN_00c7bf50()
+// src: GUESS 0x00c7bf50 (confidence: low)
+void FUN_00c7bf50_cls::UpdateState_00c7bf50()
 {
     hkMemoryRouter* holder = ::GetAllocHolder();
     SpawnedAllocator* alloc = reinterpret_cast<SpawnedAllocator*>(holder->m_heap);
@@ -15117,7 +15137,7 @@ struct State134
 {
     int unk00, unk04;
     List134* list;
-    void FUN_00a29680();
+    void Object_DoNothing();
 };
 struct Input134
 {
@@ -15146,9 +15166,9 @@ __forceinline Owner134* Resolve134(Input134* input)
     list = state->list;
     if (!list)
         goto absent;
-    state->FUN_00a29680();
+    state->Object_DoNothing();
     slot = &list->head;
-    state->FUN_00a29680();
+    state->Object_DoNothing();
     if (!slot)
         goto absent;
     first = *slot;
@@ -15313,11 +15333,12 @@ struct FUN_00c7bf10_cls
     void* m_obj;
     int m_flags;
     int m_uiContentCount;
-    void __thiscall FUN_00c7bf10();
+    void __thiscall UpdateState_00c7bf10();
 };
 
 // @fnv 0x00c7bf10
-void __thiscall FUN_00c7bf10_cls::FUN_00c7bf10()
+// src: GUESS 0x00c7bf10 (confidence: low)
+void __thiscall FUN_00c7bf10_cls::UpdateState_00c7bf10()
 {
     hkMemoryRouter* holder = (hkMemoryRouter*)hkMemoryRouter_getInstance();
     hkMemoryAllocator* obj = &GetRouterHeap(*holder);
@@ -15618,11 +15639,12 @@ extern int DAT_010c4b60;
 struct FUN_00c747a0_Class
 {
     int* vtbl;
-    void FUN_00c747a0();
+    void SetVirtualTable_00c747a0();
 };
 
 // @fnv 0x00c747a0
-void FUN_00c747a0_Class::FUN_00c747a0()
+// src: GUESS 0x00c747a0 (confidence: low)
+void FUN_00c747a0_Class::SetVirtualTable_00c747a0()
 {
     vtbl = &DAT_010c4b60;
 }
@@ -15630,7 +15652,8 @@ void FUN_00c747a0_Class::FUN_00c747a0()
 void __cdecl FUN_00cc00e0();
 
 // @fnv 0x00c74900
-void __cdecl FUN_00c74900()
+// src: GUESS 0x00c74900 (confidence: low)
+void __cdecl Object_ForwardCall_00c74900()
 {
     FUN_00cc00e0();
 }
@@ -15707,7 +15730,7 @@ class Entity_c672
     int unk04;
     Body_c672* m_pkBody;
 
-    void FUN_00a29680();
+    void Object_DoNothing();
     Motion_c672* GetMotion()
     {
         return m_pkBody ? static_cast<Motion_c672*>(m_pkBody) : 0;
@@ -15744,9 +15767,9 @@ void __cdecl bhkWorld_ChangeLayerObject(EntityRef_c672* pkRef, MotionParams_c672
         unsigned int uiNew = ((uiFlags ^ iNewType) & 0x7f) ^ uiFlags;
         if (pkBody)
         {
-            pkEntity->FUN_00a29680();
+            pkEntity->Object_DoNothing();
             Motion_c672* pkWrite = static_cast<Motion_c672*>(pkBody);
-            pkEntity->FUN_00a29680();
+            pkEntity->Object_DoNothing();
             if (pkWrite)
                 pkWrite->m_uiMotionFlags = uiNew;
         }
@@ -16673,7 +16696,7 @@ struct S00c6e050_Ptr
     int unk04;
     S00c6e050_Sub* m_08;
     bool ContainsObject(int a);
-    void FUN_00a29680();
+    void Object_DoNothing();
 };
 struct S00c6e050_Obj
 {
@@ -17051,9 +17074,9 @@ void S00c6e050_Obj::bhkCharacterController_SetBSReference(volatile int a, volati
     long long v = (long long)b;
     if (!s)
         return;
-    p->FUN_00a29680();
+    p->Object_DoNothing();
     s->AddEntry(a, v);
-    p->FUN_00a29680();
+    p->Object_DoNothing();
 }
 
 extern "C" double __cdecl acos(double);
@@ -17675,7 +17698,7 @@ FUN_00c69010::FUN_00c69010(ConstructorArgument* argument)
     _fnv_zlib_memset(buffer4c, 0, 12000);
     float minimum = MinValue(DAT_01267b38, 1.0f);
     DAT_01267b38 = minimum;
-    list90.FUN_00c67f20();
+    list90.DeleteListNodesAndReleaseOwner();
     CreateChildAndNotifySim(argument ? &argument->context : 0);
     value88 = GetPhysics()->value1;
     value8c = GetPhysics()->value2;
@@ -18018,12 +18041,13 @@ struct FUN_00c6cbc0_class
     float unk528;
     float unk52C;
 
-    void __thiscall FUN_00c6cbc0(float threshold, float value);
+    void __thiscall UpdateLargestAbsoluteThreshold(float threshold, float value);
 };
 
 // Stores threshold and value into unk528 and unk52C when the absolute value of threshold exceeds the absolute value of unk528.
 // @fnv 0x00c6cbc0
-void __thiscall FUN_00c6cbc0_class::FUN_00c6cbc0(float threshold, float value)
+// src: GUESS 0x00c6cbc0 (confidence: medium)
+void __thiscall FUN_00c6cbc0_class::UpdateLargestAbsoluteThreshold(float threshold, float value)
 {
     if (fabs(threshold) > fabs(unk528))
     {
@@ -18056,12 +18080,13 @@ __declspec(align(16)) struct C_00c6cde0
     float m68;
     unsigned int m6c;
     unsigned char m70;
-    void FUN_00c6cde0();
+    void InitializeVectorDefaults();
 };
 
 // Sets defaults: two zeroed vectors, a (0,1,0,0) vector, and fixed float and integer values including one read from DAT_0104da48.
 // @fnv 0x00c6cde0
-void C_00c6cde0::FUN_00c6cde0()
+// src: GUESS 0x00c6cde0 (confidence: medium)
+void C_00c6cde0::InitializeVectorDefaults()
 {
     __m128 v1 = _mm_setr_ps(0.0f, 0.0f, 0.0f, 0.0f);
     this->m00 = v1;
@@ -19766,21 +19791,22 @@ namespace fnv_00c66640 {
 // declare, so the second base's vtable gets a thunk that moves `this` back by the first base's size (0xc).
 struct PrimaryBase
 {
-    virtual void FUN_00c66640();
+    virtual void AdjustThisAndForward_00c66640();
     int unk04;
     int unk08;
 };
 
 struct SecondaryBase
 {
-    virtual void FUN_00c66640();
+    virtual void AdjustThisAndForward_00c66640();
 };
 
 struct Derived : PrimaryBase, SecondaryBase
 {
     Derived();
 // @fnv 0x00c66640
-    virtual void FUN_00c66640();
+// src: GUESS 0x00c66640 (confidence: low)
+    virtual void AdjustThisAndForward_00c66640();
 };
 
 Derived::Derived()
@@ -19821,7 +19847,7 @@ namespace fnv_00c66660 {
 // declare, so the second base's vtable gets a thunk that moves `this` back by the first base's size (0x14).
 struct PrimaryBase
 {
-    virtual void FUN_00c66660();
+    virtual void AdjustThisAndForward_00c66660();
     int unk04;
     int unk08;
     int unk0C;
@@ -19830,14 +19856,15 @@ struct PrimaryBase
 
 struct SecondaryBase
 {
-    virtual void FUN_00c66660();
+    virtual void AdjustThisAndForward_00c66660();
 };
 
 struct Derived : PrimaryBase, SecondaryBase
 {
     Derived();
 // @fnv 0x00c66660
-    virtual void FUN_00c66660();
+// src: GUESS 0x00c66660 (confidence: low)
+    virtual void AdjustThisAndForward_00c66660();
 };
 
 Derived::Derived()
@@ -20136,7 +20163,7 @@ namespace fnv_00c70820 {
 // base, 0x3e0) and tail-jumps to the derived override.
 struct PrimaryBase
 {
-    virtual void FUN_00c70820();
+    virtual void AdjustThisAndForward_00c70820();
     int unk04;
     int unk08;
     int unk0C;
@@ -20388,14 +20415,15 @@ struct PrimaryBase
 
 struct SecondaryBase
 {
-    virtual void FUN_00c70820();
+    virtual void AdjustThisAndForward_00c70820();
 };
 
 struct Derived : PrimaryBase, SecondaryBase
 {
     Derived();
 // @fnv 0x00c70820
-    virtual void FUN_00c70820();
+// src: GUESS 0x00c70820 (confidence: low)
+    virtual void AdjustThisAndForward_00c70820();
 };
 
 Derived::Derived()
@@ -21898,7 +21926,7 @@ struct SecondaryBase
     unsigned int unk024;
     unsigned int unk028;
     unsigned int unk02c;
-    void FUN_00ca95e0();
+    void hkpCharacterContext_UpdateFields_00ca95e0();
     ~SecondaryBase();
 };
 struct ListenerBase
@@ -22052,13 +22080,13 @@ struct Array705
         capacity = 0x80000000;
     }
 };
-void __fastcall FUN_00b4df30(void*);
+void __fastcall BSFadeNode_FreeLinkedNodesRecursively(void*);
 struct Last705
 {
     unsigned int value;
     ~Last705()
     {
-        FUN_00b4df30(this);
+        BSFadeNode_FreeLinkedNodesRecursively(this);
     }
 };
 struct Scope705
@@ -24635,12 +24663,12 @@ struct S00c79e20_Ostream
         FUN_00cc00e0();
     }
     void FUN_00cc00e0();
-    S00c79e20_Ostream& FUN_00cc01c0(const char* s);
+    S00c79e20_Ostream& ProcessAndReturnValue_00cc01c0(const char* s);
     S00c79e20_Ostream& WriteName(const S00c79e20_StrPtr& s);
     S00c79e20_Ostream& WriteFloat(float f);
     S00c79e20_Ostream& operator<<(const char* s)
     {
-        return FUN_00cc01c0(s);
+        return ProcessAndReturnValue_00cc01c0(s);
     }
     S00c79e20_Ostream& operator<<(const S00c79e20_StrPtr& s)
     {
@@ -24891,13 +24919,13 @@ bool S00c79e20_Ctrl::bhkRagdollController_CheckMappersForWarnings()
                 {
                     char buf[512];
                     S00c79e20_Ostream os(buf, sizeof(buf));
-                    os.FUN_00cc01c0(str_010c4d7c)
+                    os.ProcessAndReturnValue_00cc01c0(str_010c4d7c)
                         .WriteName(boneA.m_name)
-                        .FUN_00cc01c0(str_010c4d88)
+                        .ProcessAndReturnValue_00cc01c0(str_010c4d88)
                         .WriteName(boneB.m_name)
-                        .FUN_00cc01c0(str_010c4d90)
+                        .ProcessAndReturnValue_00cc01c0(str_010c4d90)
                         .WriteFloat(len)
-                        .FUN_00cc01c0(str_010c4db0);
+                        .ProcessAndReturnValue_00cc01c0(str_010c4db0);
                     DAT_01268360->message(1, 0xbadbadba, buf, str_010c4d38, 0xc1f);
                 }
                 warned = true;
@@ -24921,13 +24949,13 @@ bool S00c79e20_Ctrl::bhkRagdollController_CheckMappersForWarnings()
                 {
                     char buf[512];
                     S00c79e20_Ostream os(buf, sizeof(buf));
-                    os.FUN_00cc01c0(str_010c4d7c)
+                    os.ProcessAndReturnValue_00cc01c0(str_010c4d7c)
                         .WriteName(boneA.m_name)
-                        .FUN_00cc01c0(str_010c4d88)
+                        .ProcessAndReturnValue_00cc01c0(str_010c4d88)
                         .WriteName(boneB.m_name)
-                        .FUN_00cc01c0(str_010c4d90)
+                        .ProcessAndReturnValue_00cc01c0(str_010c4d90)
                         .WriteFloat(len)
-                        .FUN_00cc01c0(str_010c4db0);
+                        .ProcessAndReturnValue_00cc01c0(str_010c4db0);
                     DAT_01268360->message(1, 0xbadbadba, buf, str_010c4d38, 0xc39);
                 }
                 warned = true;
@@ -25191,7 +25219,7 @@ struct FNV_C68DE0_OWNER
     void* o08;
     void* o0c;
     FNV_C68DE0_VA* o10;
-    void FUN_00c688b0();
+    void ProcessEntries_00c688b0();
     void bhkWorld_UpdateDebugger();
 };
 
@@ -25210,7 +25238,7 @@ void FNV_C68DE0_OWNER::bhkWorld_UpdateDebugger()
             b->w9();
         }
     }
-    FUN_00c688b0();
+    ProcessEntries_00c688b0();
 }
 }  // namespace fnv_00c68de0
 

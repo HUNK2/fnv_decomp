@@ -287,7 +287,8 @@ float __thiscall FUN_00854920_shell::GetRatio()
 
 // Compares the values returned by calling GetSum on both objects, returning -1 if the first is greater, 1 if less, else 0.
 // @fnv 0x00854960
-int FUN_00854960(FUN_008547f0_shell* pFirst, FUN_008547f0_shell* pSecond)
+// src: GUESS 0x00854960 (confidence: medium)
+int Object_CompareSumsDescending(FUN_008547f0_shell* pFirst, FUN_008547f0_shell* pSecond)
 {
     unsigned int x = pFirst->GetSum();
     unsigned int y = pSecond->GetSum();
@@ -364,7 +365,7 @@ void __thiscall FormNameEntry::BuildFormName(char* apName, unsigned int aiNameSi
 
 void* operator new(unsigned int);
 
-int __cdecl FUN_00854960(FUN_008547f0_shell*, FUN_008547f0_shell*);
+int __cdecl Object_CompareSumsDescending(FUN_008547f0_shell*, FUN_008547f0_shell*);
 
 struct AEList
 {
@@ -417,7 +418,7 @@ void __thiscall FUN_008549b0_shell::BGSSaveLoadStatsMap_AddForm(unsigned int p0,
             reinterpret_cast<SetAtHelper*>(this)->SetAt(uiKey, list);
         }
 
-        reinterpret_cast<AEList*>(list)->Insert(form, reinterpret_cast<int(__cdecl*)(void*, void*)>(FUN_00854960));
+        reinterpret_cast<AEList*>(list)->Insert(form, reinterpret_cast<int(__cdecl*)(void*, void*)>(Object_CompareSumsDescending));
     }
 }
 
@@ -566,7 +567,7 @@ struct SavedBuffer
 struct SavedDataView
 {
     void* data;
-    void* FUN_00559450();
+    void* Modelloader_GetReferencedThis();
     unsigned char BGSUnloadedFormBuffer_GetVersion();
     unsigned int GetAdjustedValue();
     unsigned int BGSUnloadedFormBuffer_GetSize();
@@ -597,14 +598,14 @@ struct SavedStats
 void SavedStats::LoadStats()
 {
     SavedBuffer map;
-    SavedEntryMap* buffer = g_BGSSaveLoadGame->FUN_00559450();
+    SavedEntryMap* buffer = g_BGSSaveLoadGame->Modelloader_GetReferencedThis();
     void* position = buffer->FUN_004b9ba0();
     while (position)
     {
         unsigned int entryId = 0;
         SavedEntry* pEntry = 0;
         buffer->FUN_006b7f20(position, entryId, pEntry);
-        if (pEntry->buffer.FUN_00559450())
+        if (pEntry->buffer.Modelloader_GetReferencedThis())
         {
             BGSSaveLoadStatsMap_AddForm(entryId, 0, pEntry->buffer.BGSUnloadedFormBuffer_GetFormType(), pEntry->topic, pEntry->buffer.BGSUnloadedFormBuffer_GetSize(),
                          pEntry->buffer.GetAdjustedValue(), 0, pEntry->buffer.BGSUnloadedFormBuffer_GetVersion());

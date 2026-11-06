@@ -886,7 +886,7 @@ extern "C" bool __cdecl TESForm_QEndianSwapOnSave();
 // src: XBOX_PDB 0x0060cd60
 void TESQuest::Save_0060cd60()
 {
-    FUN_004855a0();
+    BeginFormRecord();
     TESScriptableForm::Save_0048cca0();
     TESFullName::Save_00487010();
     TESIcon::Save(0x4e4f4349);
@@ -915,7 +915,7 @@ void TESQuest::Save_0060cd60()
         pOtherNode->FUN_006815c0()->object->FUN_005ec280();
         pOtherNode = pOtherNode->FUN_00726070();
     }
-    FUN_00485680();
+    FinishFormRecord();
 }
 
 struct QuestEntryStandIn
@@ -1118,7 +1118,7 @@ void TESQuest::RevertTES_0060e6a0(unsigned int auiFlags)
 struct QuestRecordIO
 {
     void TESForm_SaveGame(unsigned int);
-    unsigned char* FUN_005a8080();
+    unsigned char* ComputeValue_005a8080();
     void TESForm_SaveGameDataOLD(void*, unsigned int);
 };
 
@@ -1174,7 +1174,7 @@ void TESQuest::SaveGame_0060dd50(unsigned int flags)
     }
     if (flags & 2)
     {
-        unsigned char questFlags = *reinterpret_cast<QuestRecordIO*>(this)->FUN_005a8080();
+        unsigned char questFlags = *reinterpret_cast<QuestRecordIO*>(this)->ComputeValue_005a8080();
         reinterpret_cast<QuestRecordIO*>(this)->TESForm_SaveGameDataOLD(&questFlags, 1);
     }
     if (flags & 0x80000000)
@@ -1278,7 +1278,7 @@ struct QuestInput
 {
     void TESForm_LoadGame(unsigned int, unsigned int);
     void TESForm_LoadGameDataOLD(void*, unsigned int);
-    unsigned char* FUN_005a8080();
+    unsigned char* ComputeValue_005a8080();
 };
 struct StageSave
 {
@@ -1339,7 +1339,7 @@ void TESQuest::LoadQuestData(unsigned int flags, unsigned int extra)
     {
         unsigned char enabled;
         ((QuestInput*)this)->TESForm_LoadGameDataOLD(&enabled, 1);
-        *((QuestInput*)this)->FUN_005a8080() = enabled;
+        *((QuestInput*)this)->ComputeValue_005a8080() = enabled;
     }
     if (flags & 0x80000000)
     {
@@ -1637,7 +1637,8 @@ struct ObjNode
 void __cdecl TESTopic_ClearAllSaidOnceInfosForQuest(TESQuest*);
 
 // @fnv 0x0060d720
-void TESQuest::FUN_0060d720()
+// src: GUESS 0x0060d720 (confidence: low)
+void TESQuest::ProcessEntries_0060d720()
 {
     StageNode* aStageNode;
     ObjNode* objNode;

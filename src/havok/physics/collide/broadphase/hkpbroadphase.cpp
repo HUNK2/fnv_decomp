@@ -132,14 +132,14 @@ struct CpuObject
 {
     unsigned int unk00;
     unsigned short size;
-    void FUN_00d970c0();
+    void UpdateFields_00d970c0();
     CpuObject* FUN_00d97100(unsigned int flags);
 };
 // Calls FUN_00d970c0, then if bit 0 of flags is set, invokes the allocator from FUN_00c85750 on this with size, and returns this.
 // @fnv 0x00d97100
 CpuObject* CpuObject::FUN_00d97100(unsigned int flags)
 {
-    FUN_00d970c0();
+    UpdateFields_00d970c0();
     if (flags & 1)
     {
         CpuAllocatorHolder* holder = hkMemoryRouter_getInstance();
@@ -180,7 +180,7 @@ struct FUN_00d970c0_cls
     int unk0c;
     void* m_pCs;
 
-    void FUN_00d970c0();
+    void UpdateFields_00d970c0();
 };
 
 struct FreeAllocator
@@ -192,7 +192,8 @@ struct FreeAllocator
 
 // Deletes the critical section m_pCs, frees it via the holder's allocator, clears m_pCs, and sets the vtable pointer to DAT_0102e388.
 // @fnv 0x00d970c0
-void FUN_00d970c0_cls::FUN_00d970c0()
+// src: GUESS 0x00d970c0 (confidence: low)
+void FUN_00d970c0_cls::UpdateFields_00d970c0()
 {
     m_vptr = (int)&DAT_010d3f7c;
     void* pCs = m_pCs;

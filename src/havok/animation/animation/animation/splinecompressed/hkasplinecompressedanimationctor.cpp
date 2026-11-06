@@ -48,11 +48,12 @@ struct Writer
     char pad[0x74];
     Buffer m_buf;
 
-    void FUN_00e319e0(unsigned char flags, int type, const FUN_005611c0_t* v, int last, const VecArray* arr);
+    void ProcessEntries_00e319e0(unsigned char flags, int type, const FUN_005611c0_t* v, int last, const VecArray* arr);
 };
 
 // @fnv 0x00e319e0
-void Writer::FUN_00e319e0(unsigned char flags, int type, const FUN_005611c0_t* apVec, int last,
+// src: GUESS 0x00e319e0 (confidence: low)
+void Writer::ProcessEntries_00e319e0(unsigned char flags, int type, const FUN_005611c0_t* apVec, int last,
                           const VecArray* apVecArray)
 {
     if (flags & 0xf0)
@@ -305,8 +306,8 @@ struct FUN_00e32cf0_Class
 FUN_00e32cf0_Class::~FUN_00e32cf0_Class() throw()
 {}
 
-void __cdecl FUN_00e31740(unsigned char a, unsigned int b, char** pp);
-void __cdecl FUN_00e31780(unsigned char a, unsigned int b, char** pp);
+void __cdecl Object_UpdateFields_00e31740(unsigned char a, unsigned int b, char** pp);
+void __cdecl Object_UpdateFields_00e31780(unsigned char a, unsigned int b, char** pp);
 
 union e319Rec
 {
@@ -362,14 +363,14 @@ void e319Cls::hkaSplineCompressedAnimation_handleEndian()
         {
             e319Rec rec;
             rec.raw = *pSrc++;
-            FUN_00e31740(*pSrc++, rec.f.lo, &p);
-            FUN_00e31780(*pSrc++, rec.f.mid, &p);
-            FUN_00e31740(*pSrc++, rec.f.hi, &p);
+            Object_UpdateFields_00e31740(*pSrc++, rec.f.lo, &p);
+            Object_UpdateFields_00e31780(*pSrc++, rec.f.mid, &p);
+            Object_UpdateFields_00e31740(*pSrc++, rec.f.hi, &p);
         }
         for (int iTail = 0; iTail < m_14; iTail++)
         {
             unsigned char ucTail = *pSrc++;
-            FUN_00e31740((unsigned char)(ucTail & 0xf9), (ucTail >> 1) & 3, &p);
+            Object_UpdateFields_00e31740((unsigned char)(ucTail & 0xf9), (ucTail >> 1) & 3, &p);
         }
     }
 }

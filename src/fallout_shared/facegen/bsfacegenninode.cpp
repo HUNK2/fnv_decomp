@@ -1776,7 +1776,7 @@ struct DumpAnimation
 };
 struct DumpPointer
 {
-    DumpAnimation* FUN_00559450();
+    DumpAnimation* Modelloader_GetReferencedThis();
 };
 struct DumpActor
 {
@@ -1784,7 +1784,7 @@ struct DumpActor
 };
 struct DumpString
 {
-    const char* FUN_00559450();
+    const char* Modelloader_GetReferencedThis();
 };
 extern DumpString DAT_011d5bf8;
 char* NiViewerStrings_NiGetViewerString_Title(const char*);
@@ -1863,7 +1863,7 @@ void DumpNode::DumpToArray(DumpArray* out)
 {
     NiNode_GetViewerStrings(out);
     int i, k, buffer;
-    char* j = NiViewerStrings_NiGetViewerString_Title(DAT_011d5bf8.FUN_00559450());
+    char* j = NiViewerStrings_NiGetViewerString_Title(DAT_011d5bf8.Modelloader_GetReferencedThis());
     out->FUN_0096a610(j);
     char* title;
     title = new char[32];
@@ -1903,29 +1903,29 @@ void DumpNode::DumpToArray(DumpArray* out)
         out->FUN_0096a610(title);
     }
     title = new char[32];
-    BSsprintf(title, 32, "spAnimationData = %08X", animation.FUN_00559450());
+    BSsprintf(title, 32, "spAnimationData = %08X", animation.Modelloader_GetReferencedThis());
     out->FUN_0096a610(title);
-    if (animation.FUN_00559450())
+    if (animation.Modelloader_GetReferencedThis())
     {
         for (i = 0; i < 15; i++)
         {
-            if (animation.FUN_00559450()->v25(i) != 3.4028234663852886e+38)
+            if (animation.Modelloader_GetReferencedThis()->v25(i) != 3.4028234663852886e+38)
             {
-                out->FUN_0096a610(NiGetViewerString_00a7d550(BSFaceGenManager_GetFaceGenExpressionText(i), animation.FUN_00559450()->v25(i)));
+                out->FUN_0096a610(NiGetViewerString_00a7d550(BSFaceGenManager_GetFaceGenExpressionText(i), animation.Modelloader_GetReferencedThis()->v25(i)));
             }
         }
         for (k = 0; k < 17; k++)
         {
-            if (animation.FUN_00559450()->BSFaceGenAnimationData_GetModifierValue(k) != 3.4028234663852886e+38)
+            if (animation.Modelloader_GetReferencedThis()->BSFaceGenAnimationData_GetModifierValue(k) != 3.4028234663852886e+38)
             {
-                out->FUN_0096a610(NiGetViewerString_00a7d550(BSFaceGenManager_GetFaceGenModifierText(k), animation.FUN_00559450()->BSFaceGenAnimationData_GetModifierValue(k)));
+                out->FUN_0096a610(NiGetViewerString_00a7d550(BSFaceGenManager_GetFaceGenModifierText(k), animation.Modelloader_GetReferencedThis()->BSFaceGenAnimationData_GetModifierValue(k)));
             }
         }
         for (buffer = 0; buffer < 16; buffer++)
         {
-            if (animation.FUN_00559450()->v29(buffer) != 3.4028234663852886e+38)
+            if (animation.Modelloader_GetReferencedThis()->v29(buffer) != 3.4028234663852886e+38)
             {
-                out->FUN_0096a610(NiGetViewerString_00a7d550(BSFaceGenManager_GetFaceGenPhonemeText(buffer), animation.FUN_00559450()->v29(buffer)));
+                out->FUN_0096a610(NiGetViewerString_00a7d550(BSFaceGenManager_GetFaceGenPhonemeText(buffer), animation.Modelloader_GetReferencedThis()->v29(buffer)));
             }
         }
     }

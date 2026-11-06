@@ -480,7 +480,7 @@ struct S9c_Ref
 };
 struct S9c_Pos
 {
-    NiPoint3 FUN_00439ef0(const NiPoint3& rhs) const;
+    NiPoint3 SubtractIntoVector(const NiPoint3& rhs) const;
     NiPoint3 FUN_00439e90(const NiPoint3& rhs) const;
 };
 struct S9c_Vec
@@ -764,7 +764,7 @@ struct __declspec(align(16)) S9c_Hits
     S9c_Hits(bool b);
     ~S9c_Hits();
     int FUN_00726070();
-    S9c_Rec* FUN_00626660(int);
+    S9c_Rec* ComputeValue_00626660(int);
 };
 struct S9c_Geom
 {
@@ -954,7 +954,7 @@ bool S9c_Actor::Projectile_TestProjectileInTriggerZone()
             return found;
         S9c_Obj* obj = target->FUN_00541c80();
         S9c_Geom* geom = obj ? obj->FUN_006286d0() : 0;
-        NiPoint3 from = GetVirtualPosition()->FUN_00439ef0(FUN_004a3760(1.0f, &DAT_011a9490));
+        NiPoint3 from = GetVirtualPosition()->SubtractIntoVector(FUN_004a3760(1.0f, &DAT_011a9490));
         NiPoint3 to = GetVirtualPosition()->FUN_00439e90(FUN_004a3760(1.0f, &DAT_011a9490));
         S9c_Ray ray;
         NI2HK(&ray.from, &from);
@@ -963,7 +963,7 @@ bool S9c_Actor::Projectile_TestProjectileInTriggerZone()
         geom->Query(&ray, &hits);
         for (int i = 0; !found && i < hits.FUN_00726070(); i++)
         {
-            S9c_Rec* rec = hits.FUN_00626660(i);
+            S9c_Rec* rec = hits.ComputeValue_00626660(i);
             S9c_Coll* coll = rec->obj;
             void* item = coll->hkpTypedBroadPhaseHandle_getOwner();
             void* a = GetAVObjectForCollidable(item);
@@ -1699,7 +1699,7 @@ class ImpulseRigidBody
     virtual ImpulseLock* GetLock();  // +0x98
 
     int bhkRigidBody_GetMotionType();  // motion type
-    ImpulseBody* FUN_004ae750();
+    ImpulseBody* Bipedanim_GetReferenceFlagsOrZero();
 };
 
 void* hkpGetRigidBody(const void* pvObject);
@@ -1740,12 +1740,12 @@ void ImpulseSource::Projectile_ApplyImpactForce(NiPoint3 kPoint, NiPoint3 kDirec
                 NI2HK(kImpulse, kDirection);
                 hkVector4 kPosition;
                 NI2HK(kPosition, kPoint);
-                if (kImpulse.FUN_00630b40().FUN_004586d0() > 0.0)
+                if (kImpulse.FUN_00630b40().EvaluateValue_004586d0() > 0.0)
                     kImpulse.normalize3_0062aea0();
                 FUN_005dbf20 kScale(fForce);
                 kImpulse.hkVector4_mul4((const hkSimdReal&)kScale);
                 pkLock->FUN_00483710();
-                pkBody->FUN_004ae750()->ApplyVirtualCall(kImpulse, kPosition);
+                pkBody->Bipedanim_GetReferenceFlagsOrZero()->ApplyVirtualCall(kImpulse, kPosition);
                 pkLock->FUN_00483710();
             }
         }

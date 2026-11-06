@@ -5029,7 +5029,7 @@ struct QTile
     {
         QTile** NiTPointerListBase_NiTPointerAllocator_unsigned_int_Tile_GetHead();
         QTile** NiTPointerListBase_NiTPointerAllocator_unsigned_int_Tile_GetHead(int);
-        void* FUN_00559450();
+        void* Modelloader_GetReferencedThis();
         QTile*& NiTPointerListBase_NiTPointerAllocator_unsigned_int_Tile_GetNext(void*&);
     } children;
     void Set(int, int);
@@ -5231,7 +5231,7 @@ void QHud::UpdateQuestNotification()
                     aActor = DAT_011d96bc->GetQuestNamesHead()->textFont;
                 QFont::FUN_005bd5b0()->FUN_00a1b020(reinterpret_cast<NiPoint3*>(aData7), aPoint4, aActor, DAT_01016970, 0);
                 aOverrideFlagA = (int)((_unused - (1.0f + aOverrideFlag3) * aData7[0]) * aOverrideFlag3);
-                aInv = ((QTile*)HUDMainMenu_pme->m_pTiles[14])->children.FUN_00559450();
+                aInv = ((QTile*)HUDMainMenu_pme->m_pTiles[14])->children.Modelloader_GetReferencedThis();
                 {
                     QTile* aEffect;
                     if (aInv)
@@ -6101,7 +6101,7 @@ struct CompassTile
 };
 struct CompassTileList
 {
-    void* FUN_00559450();
+    void* Modelloader_GetReferencedThis();
     CompassTile*& NiTPointerListBase_NiTPointerAllocator_unsigned_int_Tile_GetNext(void*&);
 };
 struct CompassTileOwner
@@ -6133,7 +6133,7 @@ void CompassHUD::UpdateCompassMarkers()
 {
     CompassReference* reference_2 = 0;
     CompassTile* h;
-    void* position = ((CompassTileOwner*)m_pTiles[73])->tiles.FUN_00559450();
+    void* position = ((CompassTileOwner*)m_pTiles[73])->tiles.Modelloader_GetReferencedThis();
     for (unsigned int index = g_011e0e80.FUN_00717e50(0)->ProcessArray_GetProcessLevelHead();
          index < g_011e0e80.FUN_00717e50(0)->ProcessArray_GetProcessLevelTail(); ++index)
     {
@@ -6374,7 +6374,7 @@ struct xTile
 };
 struct xTileList
 {
-    void* FUN_00559450();
+    void* Modelloader_GetReferencedThis();
     xTile*& NiTPointerListBase_NiTPointerAllocator_unsigned_int_Tile_GetNext(void*&);
     void* FUN_00726070();
     xTile*& FUN_00683520(void*&);
@@ -6402,7 +6402,7 @@ struct xQNode
     bool FUN_008256d0();
     xQObj** FUN_006815c0();
     xQNode* FUN_00726070();
-    void FUN_00905330(xQObj**);
+    void RemoveMatchingItem(xQObj**);
     void* m_iWordAt00;
     void* m_iWordAt04;
 };
@@ -6463,7 +6463,7 @@ void xQuestMenu::UpdateQuestMenu(xHolder* HOLDER)
     if (!HUDMainMenu_AreObjectivesShowing())
     {
         xQNode* qArxcFu = &m_258;
-        void* qAhbO = xg_pme_11d96c0->m_5c->m_iWordAt04.FUN_00559450();
+        void* qAhbO = xg_pme_11d96c0->m_5c->m_iWordAt04.Modelloader_GetReferencedThis();
         for (int SKIPA = 0; SKIPA < 0x1f; SKIPA++)
             xg_pme_11d96c0->m_5c->m_iWordAt04.NiTPointerListBase_NiTPointerAllocator_unsigned_int_Tile_GetNext(qAhbO);
         void* qxQHW = xg_pme_11d96c0->m_5c->m_iWordAt04.FUN_00726070();
@@ -6517,12 +6517,12 @@ void xQuestMenu::UpdateQuestMenu(xHolder* HOLDER)
             qQMZREG->FUN_00707e10(NAME);
             xF774800(qQMZREG, 0);
             xAudio::BSAudio_QInstance()->BSAudio_GetSoundHandleByEditorName(s_szQuestUpdate, 0x121).Play(false);
-            qArxcFu->FUN_00905330(qArxcFu->FUN_006815c0());
+            qArxcFu->RemoveMatchingItem(qArxcFu->FUN_006815c0());
         }
     }
     if (qfTOqo)
     {
-        void* qQGWBE = xg_pme_11d96c0->m_5c->m_iWordAt04.FUN_00559450();
+        void* qQGWBE = xg_pme_11d96c0->m_5c->m_iWordAt04.Modelloader_GetReferencedThis();
         void* qZWI = xg_pme_11d96c0->m_5c->m_iWordAt04.FUN_00726070();
         for (int SKIPB = 0; SKIPB < 0x1f; SKIPB++)
             xg_pme_11d96c0->m_5c->m_iWordAt04.FUN_00683520(qZWI);
@@ -6544,7 +6544,7 @@ void xQuestMenu::UpdateQuestMenu(xHolder* HOLDER)
         }
     }
     static int s_iWait = xFa00940(s_szWaitComplete, -1);
-    void* qSVM = HOLDER->m_iWordAt04.FUN_00559450();
+    void* qSVM = HOLDER->m_iWordAt04.Modelloader_GetReferencedThis();
     void* qdqWL = HOLDER->m_iWordAt04.FUN_00726070();
     for (int SKIPC = 0; SKIPC < 0x1f; SKIPC++)
         xg_pme_11d96c0->m_5c->m_iWordAt04.FUN_00683520(qdqWL);
@@ -6609,7 +6609,7 @@ void xQuestMenu::UpdateQuestMenu(xHolder* HOLDER)
             if (qpqRa[1])
             {
                 int qxDeKK = (int)(qpqRa[1]->FUN_00a011b0(0xfa2) - qpqRa[0]->FUN_00a011b0(0xfa2));
-                qSVM = HOLDER->m_iWordAt04.FUN_00559450();
+                qSVM = HOLDER->m_iWordAt04.Modelloader_GetReferencedThis();
                 xTile* qAXSCg = 0;
                 if (qSVM)
                     qAXSCg = HOLDER->m_iWordAt04.NiTPointerListBase_NiTPointerAllocator_unsigned_int_Tile_GetNext(qSVM);
@@ -8676,7 +8676,7 @@ template <class T> struct VATSCreateListX
     bool IsEmpty();
     T& GetItem();
     VATSCreateListX* GetNext();
-    void FUN_00905330(T const& arItem);
+    void RemoveMatchingItem(T const& arItem);
     void Sort(int (*apCompare)(void*, void*));
     void RemoveAll();
 };
@@ -9720,7 +9720,7 @@ bool VATSMenu_Create()
                 {
                     VATSCreateDAT_011f21cc = 0;
                 }
-                qxQHW->FUN_00905330(qxQHW->GetItem());
+                qxQHW->RemoveMatchingItem(qxQHW->GetItem());
             }
             qxQHW = qxQHW->GetNext();
         }
@@ -9886,7 +9886,7 @@ bool VATSMenu_Create()
             if (!qOHwfb->GetItem()->pRef || !qOHwfb->GetItem()->pRef->Get3D())
             {
                 VATSCreateListX<VATSCreateVATSTargetX*>* qOFvKuu = qOHwfb->GetNext();
-                VATSCreateDAT_011db150.FUN_00905330(qOHwfb->GetItem());
+                VATSCreateDAT_011db150.RemoveMatchingItem(qOHwfb->GetItem());
                 qOHwfb = qOFvKuu;
                 continue;
             }
@@ -10449,7 +10449,7 @@ int __cdecl Tile_TextToTrait(const char* text);
 struct VisibilityTile;
 struct VisibilityChildren
 {
-    void* FUN_00559450() const;
+    void* Modelloader_GetReferencedThis() const;
     VisibilityTile*& NiTPointerListBase_NiTPointerAllocator_unsigned_int_Tile_GetNext(void*& pos);
 };
 struct VisibilityTile
@@ -10467,7 +10467,7 @@ struct VisibilityTile
 void __cdecl Tile_Update360ControllerTraitRecurse(VisibilityTile* pTile)
 {
     VisibilityTile* pChild = 0;
-    void* pos = pTile->children.FUN_00559450();
+    void* pos = pTile->children.Modelloader_GetReferencedThis();
     while (pos)
     {
         pChild = pTile->children.NiTPointerListBase_NiTPointerAllocator_unsigned_int_Tile_GetNext(pos);

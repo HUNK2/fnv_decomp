@@ -149,7 +149,7 @@ static unsigned char approxEquals(S00d5ad60_cls* self, float* other, float thres
 extern "C" LocalM128 _mm_setr_ps(float, float, float, float);
 #endif
 extern float DAT_01011d78;
-static int FUN_00d5ad90(const float* pVec, float fTol);
+static int Hkgeometryutility_IsMaximumAbsoluteComponentNearOne(const float* pVec, float fTol);
 int __cdecl S00d5ad90_Wrap(const float* pVec, float fTol);
 struct S00d5c060_Src
 {
@@ -159,7 +159,7 @@ struct S00d5c060_Src
 };
 char* __cdecl AllocateWithHeader(D5C110Allocator* alloc, int size);
 char* __cdecl hkMemoryRouter_easyFree(D5C110Allocator* owner, char* data);
-void __cdecl FUN_00d5beb0(Vec4* self, char* data, int count, int flags, float scale);
+void __cdecl Hkgeometryutility_ProcessEntries_00d5beb0(Vec4* self, char* data, int count, int flags, float scale);
 Vec4 hkGeometryUtility_createMinBoundingSphere(const S00d5c060_Src* src, float scale);
 extern "C" LocalM128 _mm_add_ss(LocalM128, LocalM128);
 extern "C" float _mm_cvtss_f32(LocalM128);
@@ -170,7 +170,8 @@ extern "C" LocalM128 _mm_shuffle_ps(LocalM128, LocalM128, unsigned int);
 extern "C" LocalM128 _mm_sqrt_ss(LocalM128);
 extern "C" LocalM128 _mm_sub_ps(LocalM128, LocalM128);
 extern const float DAT_01012054;
-static __declspec(noinline) Vec4* FUN_00d5bb10(Vec4* res, Vec4* p0, Vec4* p1, float t)
+// src: GUESS 0x00d5bb10 (confidence: low)
+static __declspec(noinline) Vec4* Hkgeometryutilityfull_UpdateState_00d5bb10(Vec4* res, Vec4* p0, Vec4* p1, float t)
 {
     res->x = 0.0f;
     Vec4 a = *p0;
@@ -178,7 +179,8 @@ static __declspec(noinline) Vec4* FUN_00d5bb10(Vec4* res, Vec4* p0, Vec4* p1, fl
     res->w = a.y;
     return res;
 }
-static __declspec(noinline) Vec4* FUN_00d5bb80(Vec4* res, Vec4* p0, Vec4* p1, Vec4* p2, float t)
+// src: GUESS 0x00d5bb80 (confidence: low)
+static __declspec(noinline) Vec4* Object_ProcessAndReturnValue_00d5bb80(Vec4* res, Vec4* p0, Vec4* p1, Vec4* p2, float t)
 {
     res->x = 0.0f;
     Vec4 a = *p0;
@@ -186,7 +188,8 @@ static __declspec(noinline) Vec4* FUN_00d5bb80(Vec4* res, Vec4* p0, Vec4* p1, Ve
     res->w = a.y;
     return res;
 }
-static __declspec(noinline) Vec4* FUN_00d5bce0(Vec4* res, Vec4* p0, Vec4* p1, Vec4* p2, Vec4* p3, float t)
+// src: GUESS 0x00d5bce0 (confidence: low)
+static __declspec(noinline) Vec4* Object_ComputeValue_00d5bce0(Vec4* res, Vec4* p0, Vec4* p1, Vec4* p2, Vec4* p3, float t)
 {
     res->x = 0.0f;
     Vec4 a = *p0;
@@ -194,7 +197,7 @@ static __declspec(noinline) Vec4* FUN_00d5bce0(Vec4* res, Vec4* p0, Vec4* p1, Ve
     res->w = a.y;
     return res;
 }
-LocalM128* __cdecl FUN_00d5beb0(LocalM128* out, Vec4* pts, int count, int depth, float t);
+LocalM128* __cdecl Hkgeometryutility_ProcessEntries_00d5beb0(LocalM128* out, Vec4* pts, int count, int depth, float t);
 
 namespace MeanCovIntrinsics {
 extern "C"

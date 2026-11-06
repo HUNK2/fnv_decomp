@@ -148,7 +148,7 @@ TESFullName::TESFullName() {}
 // @fnv 0x00845690
 FUN_00845690_Owner* FUN_00845690_Owner::Destructor(unsigned int flags)
 {
- FUN_008456c0();
+ Object_ForwardCall_008456c0();
  if (flags & 1) operator delete(this);
  return this;
 }

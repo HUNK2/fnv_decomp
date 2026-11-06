@@ -226,7 +226,7 @@ static __forceinline LocalM128 S_Rot(LocalM128 v, const S_00dcf100_Body* b)
 void __cdecl hk1dLinearFrictionBuildJacobian(S_00dcf100_In* pInput, S_00dcf100_Cfg* pConfig, S_00dcf100_Out** ppOut);
 void __cdecl hkLoadVelocityAccumulators();
 extern double DAT_010c9300;
-static void FUN_00dcf460(Jac_dcf880* out, const Info_dcf880* info, const QueryIn_dcf880* in, float scale);
+static void Object_BuildLinearAngularJacobianRow(Jac_dcf880* out, const Info_dcf880* info, const QueryIn_dcf880* in, float scale);
 Jac_dcf880* volatile g_out_dcf460;
 const Info_dcf880* volatile g_info_dcf460;
 const QueryIn_dcf880* volatile g_in_dcf460;
@@ -245,7 +245,7 @@ struct Jacobian_dcf5b0
     hkVector4 angularB;
 };
 extern double DAT_010c9300;
-void __cdecl FUN_00dcf5b0(Input_dcf5b0* a1, S_00dcf100_Cfg* a2, Jacobian_dcf5b0** a3, float k);
+void __cdecl Hkp1dbilateralconstraintbuildjacobian_BuildJacobianAndAdvance(Input_dcf5b0* a1, S_00dcf100_Cfg* a2, Jacobian_dcf5b0** a3, float k);
 extern double DAT_010c9300;
 void __cdecl hk1dLinearLimitBuildJacobian(Info_dcf880* a1, S_00dcf100_Cfg* a2, Jac_dcf880** a3);
 extern double DAT_010c9300;
@@ -272,7 +272,7 @@ struct JOut
     float c20;
     int unk24, unk28, unk2c;
 };
-void __cdecl FUN_00dcefb0(Src* s, Cfg* cfg, JOut** a3);
+void __cdecl Hkp1dbilateralconstraintbuildjacobian_BuildRotatedVertexJacobianPairs(Src* s, Cfg* cfg, JOut** a3);
 struct Input_dcf280
 {
     LocalM128 pivot;
@@ -471,7 +471,7 @@ struct Row102
 extern hkVector4 DAT_010ec7f0;
 extern double DAT_010c9300;
 extern hkVector4 DAT_01268370[];
-void FUN_00d6c970(const hkVector4*, const hkVector4*, const Input102*, Row102*);
+void Hkpbuildjacobianfromatoms_BuildThreeConstraintRows(const hkVector4*, const hkVector4*, const Input102*, Row102*);
 static float DotValue(LocalM128 v, LocalM128 a)
 {
     LocalM128 p = _mm_mul_ps(v, a);
@@ -494,7 +494,7 @@ void hkStabilizedBallSocketConstraintBuildJacobian_noSchema(const hkVector4* piv
 {
     Accum_dcf880* bodyA = in->bodyA;
     Accum_dcf880* bodyB = in->bodyB;
-    FUN_00d6c970(pivotA, pivotB, in, jac);
+    Hkpbuildjacobianfromatoms_BuildThreeConstraintRows(pivotA, pivotB, in, jac);
     hkVector4 velocity;
     velocity.component(0) = jac[0].linear.m_vComponents.m128_f32[3];
     velocity.component(1) = jac[1].linear.m_vComponents.m128_f32[3];

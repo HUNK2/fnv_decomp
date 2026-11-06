@@ -30,11 +30,12 @@ struct Cls_00d24670 {
     virtual void v30();
     virtual float getH(int x, int y);
     virtual void getFlip(bool& flip);
-    void FUN_00d24670(int x, int y, float fx, float fy, LocalM128* nrm, float* height, int* flag);
+    void UpdateState_00d24670(int x, int y, float fx, float fy, LocalM128* nrm, float* height, int* flag);
 };
 
 // @fnv 0x00d24670
-void Cls_00d24670::FUN_00d24670(int x, int y, float fx, float fy, LocalM128* nrm, float* height, int* flag)
+// src: GUESS 0x00d24670 (confidence: low)
+void Cls_00d24670::UpdateState_00d24670(int x, int y, float fx, float fy, LocalM128* nrm, float* height, int* flag)
 {
     *nrm = _mm_load_ps1(&DAT_01012068);
     bool flip;

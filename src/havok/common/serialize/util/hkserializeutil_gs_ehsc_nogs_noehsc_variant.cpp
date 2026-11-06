@@ -9,10 +9,10 @@
 #include "../../../../../include/Pair.h"
 #include "../../../../../include/hkStringPtr.h"
 
-void __cdecl FUN_00d48620(int a, int b, int c);
-void __cdecl FUN_00d48640(int a, int b);
-extern "C" void __cdecl FUN_00d485a0(int, int, int, int, int);
-void __cdecl FUN_00d48660(int a, int b, int c);
+void __cdecl Object_ForwardCall_00d48620(int a, int b, int c);
+void __cdecl Object_ForwardCall_00d48640(int a, int b);
+extern "C" void __cdecl Object_ProcessAndReturnValue_00d485a0(int, int, int, int, int);
+void __cdecl Object_ForwardCall_00d48660(int a, int b, int c);
 extern int DAT_0102e388;
 extern int DAT_010d7540;
 struct FUN_00dcc160_cls
@@ -20,7 +20,7 @@ struct FUN_00dcc160_cls
     void* vtbl;
     int a;
     hkReferencedObject* b;
-    void FUN_00dcc160();
+    void SetVirtualTable_00dcc160();
 };
 struct FUN_00dbc670_storage
 {
@@ -83,7 +83,7 @@ struct FUN_00dbc670_shell
     void FUN_00dbc670();
     void hkPackfileWriter_setContents(int, int, int);
     int ProcessPoly(int, int);
-    void FUN_00dbc6e0();
+    void SetVirtualTableAndProcessState_00dbc6e0();
 };
 struct GlobalDispatch
 {
@@ -98,7 +98,7 @@ extern void* hkSerializeUtil_load(void* obj_b, int a2, int a3);
 struct CtorBox
 {
     CtorBox* InitFromValue(void* arg);
-    void FUN_00dcc160();
+    void SetVirtualTable_00dcc160();
 
     void* f0;
     int f4;
@@ -178,13 +178,13 @@ struct GlobalObj
 struct Obj5
 {
     void* hkDataClass_getName();
-    void FUN_00dba660();
+    void Object_DoNothing_00dba660();
 };
 struct Obj2
 {
     void GetObjectValue(Obj5* apOut);
     int hkDataObject_isNull();
-    void FUN_00dba660();
+    void Object_DoNothing_00dba660();
     void GetSourcePair(Pair* apOut);
 };
 struct Obj1
@@ -209,7 +209,8 @@ struct FUN_00d49420_cls
     void unk20(Obj1* apA, void* apB, void* apC);
 };
 extern volatile int DAT_01269b70;
-static __declspec(noinline) int FUN_00d48950(int d, int a, int b, int c)
+// src: GUESS 0x00d48950 (confidence: low)
+static __declspec(noinline) int Hkserializeutil_UpdateState_00d48950(int d, int a, int b, int c)
 {
     int* pb = &b;
     if (d)
@@ -221,7 +222,7 @@ static __declspec(noinline) int FUN_00d48950(int d, int a, int b, int c)
 struct Holder_cls
 {
     int unk00;
-    void FUN_00dba7f0();
+    void ReleaseStorage_00dba7f0();
 };
 struct Pending_cls
 {
@@ -234,7 +235,7 @@ struct Owner_cls
 {
     int hkVersionPatchManager_applyPatches(int a, int b);
 };
-static int FUN_00d48a90(int a1, int esi_in, int edi_in, int ebx_in);
+static int hkBinaryTagfileReader_load_EvaluateValue_00d48a90(int a1, int esi_in, int edi_in, int ebx_in);
 int __cdecl S00d48a90_Entry(int a1);
 struct S00d48d30_Bool
 {
@@ -298,7 +299,8 @@ extern const char str_010cfa94[];
 int S00d48d30_Finish(int opts);
 void hkSerializeUtil_detectFormat(void* stream, int* out) throw();
 int __cdecl hkDataObjectUtil_toResourceWithRegistry(const S00d48d30_Ref& r, int opts);
-static __declspec(noinline) int FUN_00d48a90(S00d48d30_Stream* s, S00d48d30_Reader* reader, S00d48d30_Result* out)
+// src: GUESS 0x00d48a90 (confidence: low)
+static __declspec(noinline) int hkBinaryTagfileReader_load_EvaluateValue_00d48a90(S00d48d30_Stream* s, S00d48d30_Reader* reader, S00d48d30_Result* out)
 {
     reader->prepare();
     if (reader->open(s) == 0)
@@ -313,7 +315,8 @@ static __declspec(noinline) int FUN_00d48a90(S00d48d30_Stream* s, S00d48d30_Read
     }
     return 0;
 }
-static __declspec(noinline) int FUN_00d48760(S00d48d30_Stream* s, S00d48d30_Format* format, S00d48d30_Result* out,
+// src: GUESS 0x00d48760 (confidence: low)
+static __declspec(noinline) int Object_ProcessAndReturnValue_00d48760(S00d48d30_Stream* s, S00d48d30_Format* format, S00d48d30_Result* out,
                                              int opts)
 {
     if (format->m_type < 2)
@@ -373,7 +376,7 @@ struct S00d48680_Obj
     virtual void v10(int a, int b);
     virtual int v11();
 };
-static void FUN_00d48680(S00d48680_Obj* obj, S00d48680_Arr* arr);
+static void Object_ReadIntoGrowingBuffer(S00d48680_Obj* obj, S00d48680_Arr* arr);
 void __cdecl S00d48680_Entry(S00d48680_Obj* obj, S00d48680_Arr* arr);
 
 struct VersionedDataBlock
@@ -545,7 +548,8 @@ int __cdecl hkString_strLen(const char*);
 const char* __cdecl hkString_strChr(const char*, int);
 int __cdecl CallWithZeroMiddleArg(const char*, int);
 
-static __declspec(noinline) const char* FUN_00d48420(const char* p)
+// src: GUESS 0x00d48420 (confidence: low)
+static __declspec(noinline) const char* Object_ProcessEntries_00d48420(const char* p)
 {
     while (*p && *p == ' ')
         ++p;
@@ -557,11 +561,11 @@ static __declspec(noinline) int ParseQuotedValue(const char* text, const char* k
     if (!first)
         return 0;
     first += hkString_strLen(key);
-    first = FUN_00d48420(first);
+    first = Object_ProcessEntries_00d48420(first);
     if (*first != '=')
         return 0;
     ++first;
-    first = FUN_00d48420(first);
+    first = Object_ProcessEntries_00d48420(first);
     if (*first != '"')
         return 0;
     ++first;

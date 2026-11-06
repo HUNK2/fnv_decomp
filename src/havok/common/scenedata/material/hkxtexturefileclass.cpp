@@ -4,7 +4,7 @@
 struct Part
 {
     unsigned int unk00;
-    void FUN_00cb0c00();
+    void Object_UpdateFields_00cb0c00();
 };
 struct FUN_00e01870_Class;
 struct RetPart
@@ -37,9 +37,9 @@ UnkRet* hkMemoryRouter_getInstance();
 // @fnv 0x00e01870
 FUN_00e01870_Class* FUN_00e01870_Class::FUN_00e01870(unsigned int flags)
 {
-    part10.FUN_00cb0c00();
-    part0c.FUN_00cb0c00();
-    part08.FUN_00cb0c00();
+    part10.Object_UpdateFields_00cb0c00();
+    part0c.Object_UpdateFields_00cb0c00();
+    part08.Object_UpdateFields_00cb0c00();
     vptr = &DAT_0102e388;
     if (flags & 1)
     {

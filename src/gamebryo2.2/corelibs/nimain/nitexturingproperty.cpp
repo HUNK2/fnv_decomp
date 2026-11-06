@@ -392,7 +392,7 @@ void NiTexturingProperty::Map::LoadBinary(NiStream& stream)
 }
 
 void __fastcall NiDynamicEffect_DetachAllUnaffectedNodes(void* pThis);
-void __fastcall FUN_00a5a390(void* pThis);
+void __fastcall ReleaseStorage_00a5a390(void* pThis);
 
 extern const void* const g_NiDynamicEffectVTable[];
 
@@ -403,7 +403,7 @@ void __fastcall DestroyDynamicEffect(NiDynamicEffect* apEffect)
     NiDynamicEffect_DetachAllUnaffectedNodes(apEffect);
     reinterpret_cast<BSShaderLightingProperty*>(&apEffect->unaffectedNodes)->ClearLights();
     reinterpret_cast<BSShaderLightingProperty*>(&apEffect->shadowGenerator)->ClearLights();
-    FUN_00a5a390(apEffect);
+    ReleaseStorage_00a5a390(apEffect);
 }
 
 bool __fastcall VisitSkinGraphLinks(void* pThis, int, NiStream& kStream);
@@ -587,11 +587,12 @@ struct S8
     int _p[4];
     int _v;
     bool IsEquivalent(S8*);
-    unsigned char FUN_00a69f50(S8*);
+    unsigned char IsEquivalentIncludingValue(S8*);
 };
 // Returns 0 if IsEquivalent fails, otherwise returns whether _v equals o->_v.
 // @fnv 0x00a69f50
-unsigned char S8::FUN_00a69f50(S8* pOther)
+// src: GUESS 0x00a69f50 (confidence: medium)
+unsigned char S8::IsEquivalentIncludingValue(S8* pOther)
 {
     if (!IsEquivalent(pOther))
         return 0;
@@ -739,11 +740,12 @@ struct S8
 {
     float m_kPointA[5];
     bool IsEquivalent(S8*);
-    bool FUN_00a69ed0(S8*);
+    bool EvaluateValue_00a69ed0(S8*);
 };
 
 // @fnv 0x00a69ed0
-bool S8::FUN_00a69ed0(S8* apOther)
+// src: GUESS 0x00a69ed0 (confidence: low)
+bool S8::EvaluateValue_00a69ed0(S8* apOther)
 {
     if (IsEquivalent(apOther))
     {
@@ -1530,7 +1532,7 @@ struct Sub2c
 
 struct Elem5
 {
-    bool FUN_00a69ed0(Elem5*);
+    bool EvaluateValue_00a69ed0(Elem5*);
 };
 
 struct TexturingEqualityBase
@@ -1559,7 +1561,7 @@ bool __fastcall TexturingPropertiesEqual(NiTexturingProperty* self, int, NiTextu
                 goto fail;
             if (i == 5)
             {
-                if (!reinterpret_cast<Elem5*>(a)->FUN_00a69ed0(reinterpret_cast<Elem5*>(b)))
+                if (!reinterpret_cast<Elem5*>(a)->EvaluateValue_00a69ed0(reinterpret_cast<Elem5*>(b)))
                     goto fail;
             }
             else if (i == 7)
@@ -1593,7 +1595,7 @@ bool __fastcall TexturingPropertiesEqual(NiTexturingProperty* self, int, NiTextu
             {
                 if (y == 0)
                     return false;
-                if (!reinterpret_cast<S8*>(x)->FUN_00a69f50(reinterpret_cast<S8*>(y)))
+                if (!reinterpret_cast<S8*>(x)->IsEquivalentIncludingValue(reinterpret_cast<S8*>(y)))
                     return false;
             }
             else if (y != 0)

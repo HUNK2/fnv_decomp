@@ -24,10 +24,11 @@ struct ShellTmp
     int _pad;
     BSSimpleList<WeatherEntry*> _list;
     void AssignTileIndices();
-    void FUN_007a2e00(CmpFunc a1);
+    void SortEntriesAndAssignTileIndices(CmpFunc a1);
 };
 // @fnv 0x007a2e00
-void ShellTmp::FUN_007a2e00(CmpFunc pCompare)
+// src: GUESS 0x007a2e00 (confidence: medium)
+void ShellTmp::SortEntriesAndAssignTileIndices(CmpFunc pCompare)
 {
     _list.Sort(pCompare);
     AssignTileIndices();
@@ -366,11 +367,12 @@ struct Target007a4780
     bool ListBox_unsigned_int_GetFlag(unsigned int);
     void ListBox_BGSQuestObjective_SetTotalListHeight();
     void UpdateSelectionState();
-    void FUN_007a4780();
+    void ProcessEntries_007a4780();
 };
 // Clears the entries, resets fields, and calls FUN_00a012d0 on unk0c with a value from FUN_00a01860.
 // @fnv 0x007a4780
-void Target007a4780::FUN_007a4780()
+// src: GUESS 0x007a4780 (confidence: low)
+void Target007a4780::ProcessEntries_007a4780()
 {
     while (unk08 && unk08->FUN_006815c0())
     {
@@ -416,12 +418,13 @@ struct LB_007a4d50 : BSSimpleList<ListBoxItem<unsigned int>*>
     const char* pTemplateName;
     unsigned short m_usSelectedIndex;
     bool IsEnabled();
-    Tile* FUN_007a4d50(int event);
+    Tile* FindNextEnabledTileForEvent(int event);
 };
 
 // Finds a candidate tile using the event-derived delta, skips disabled tiles, and returns it if it differs from m_pSelectedTile.
 // @fnv 0x007a4d50
-Tile* LB_007a4d50::FUN_007a4d50(int event)
+// src: GUESS 0x007a4d50 (confidence: medium)
+Tile* LB_007a4d50::FindNextEnabledTileForEvent(int event)
 {
     Tile* pNewTile = 0;
     int iDelta = 0;
@@ -528,12 +531,13 @@ class ListBoxBaseWithVTable
 class SomeClass : public ListBox<BGSNote*>
 {
   public:
-    Tile* FUN_007a31e0(int param);
+    Tile* FindEnabledTileForEvent(int param);
 };
 
 // Finds an enabled tile at the event-derived target index and returns it when it differs from the current selection.
 // @fnv 0x007a31e0
-Tile* SomeClass::FUN_007a31e0(int param)
+// src: GUESS 0x007a31e0 (confidence: medium)
+Tile* SomeClass::FindEnabledTileForEvent(int param)
 {
     Tile* pResultTile = NULL;
     int delta = 0;

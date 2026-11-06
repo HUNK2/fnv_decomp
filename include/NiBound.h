@@ -27,8 +27,8 @@ class NiBound
     const NiBound& operator=(const NiBound& bound);
 
     bool operator==(const NiBound& bound) const;
-    bool FUN_00a926b0(const NiBound& bound);
-    bool __thiscall FUN_00a92660(const NiBound& bound);
+    bool IsDifferent(const NiBound& bound);
+    bool __thiscall Object_HasEqualFloatComponents(const NiBound& bound);
 
     void SetGridPosition(float x, float y, float z);
     void SetGridPosition(void* position);

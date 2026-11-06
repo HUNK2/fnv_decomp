@@ -9,7 +9,7 @@ struct V3
 {
     float x, y, z;
     void FUN_006815c0();
-    V3* FUN_00439ef0(V3* ret, const V3* other);
+    V3* SubtractIntoVector(V3* ret, const V3* other);
     float FUN_004a7290();
 };
 struct S006c4ad0_Obs
@@ -25,7 +25,7 @@ struct S006c4ad0_Ptr
     S006c4ad0_Obs* p;
     S006c4ad0_Ptr(S006c4ad0_Obs* q);
     void FUN_0045cec0();
-    S006c4ad0_Obs* FUN_00559450();
+    S006c4ad0_Obs* Modelloader_GetReferencedThis();
     ~S006c4ad0_Ptr();
 };
 struct S006c4ad0_Body;
@@ -142,7 +142,7 @@ void ObsMgr::NavMeshObstacleManager_ProcessDeactivatedObstacles()
             v.FUN_006815c0();
             FUN_00458620(&v, &h);
             V3 tmp;
-            if (v.FUN_00439ef0(&tmp, &sp.FUN_00559450()->pos)->FUN_004a7290() > kObsDist)
+            if (v.SubtractIntoVector(&tmp, &sp.Modelloader_GetReferencedThis()->pos)->FUN_004a7290() > kObsDist)
                 NavMeshObstacleManager_UpdateObstacle(&sp);
             list3C.BSSimpleList_NiPointer_bhkAction_Remove(&sp);
         }

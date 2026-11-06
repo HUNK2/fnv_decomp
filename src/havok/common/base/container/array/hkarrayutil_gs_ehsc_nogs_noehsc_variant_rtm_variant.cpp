@@ -146,7 +146,7 @@ struct FUN_00e108b0_cls
     int m_len;
     unsigned int m_cap;
 
-    FUN_00e108b0_cls* FUN_00e108b0();
+    FUN_00e108b0_cls* InitializeStringBuffer();
 };
 
 #include <xmmintrin.h>
@@ -234,7 +234,8 @@ struct __declspec(align(16)) FNVRec_0f10
 void __cdecl SortRecordsByKey(FNVRec_0f10* arr, int n);
 
 // @fnv 0x00da0f10
-void __cdecl FUN_00da0f10(FNVCloud_0f10* cloud, AudioStream* out, AudioStream* idx, float radius)
+// src: GUESS 0x00da0f10 (confidence: low)
+void __cdecl hkMemoryRouter_getInstance_ProcessEntries_00da0f10(FNVCloud_0f10* cloud, AudioStream* out, AudioStream* idx, float radius)
 {
     int n = cloud->m_uiItemCount;
     FNVRouter_0f10* r = (FNVRouter_0f10*)hkMemoryRouter_getInstance();

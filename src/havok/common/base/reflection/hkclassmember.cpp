@@ -84,14 +84,15 @@ hkClassEnum* __fastcall GetMemberEnum(const hkClassMember* member)
 
 struct FUN_00dba990_Obj
 {
-    int FUN_00dba990();
+    int ForwardCall_00dba990();
 };
 
 // The shared header lacks the setter; this call type supplies its original ECX this argument.
 typedef void (__thiscall* MemberValueSetter)(hkClassMember*, int, int);
 
 // @fnv 0x00dc1bf0
-unsigned int __stdcall FUN_00dc1bf0(int aiArg, int pMember, int pSource, int aiUnused)
+// src: GUESS 0x00dc1bf0 (confidence: low)
+unsigned int __stdcall hkClassMember_UpdateState_00dc1bf0(int aiArg, int pMember, int pSource, int aiUnused)
 {
     hkClassMember* member = (hkClassMember*)pMember;
     unsigned int type = member->m_type;
@@ -101,14 +102,14 @@ unsigned int __stdcall FUN_00dc1bf0(int aiArg, int pMember, int pSource, int aiU
     case 0x18:
         if (member->m_pClassEnum != 0)
         {
-            int result = ((FUN_00dba990_Obj*)pSource)->FUN_00dba990();
+            int result = ((FUN_00dba990_Obj*)pSource)->ForwardCall_00dba990();
             ((MemberValueSetter)&hkClassMember_setEnumValue)(member, aiArg, result);
         }
         return 0;
     case 0x1f:
         if (member->m_pClassEnum != 0)
         {
-            ((MemberValueSetter)&hkClassMember_setEnumValue)(member, aiArg, ((FUN_00dba990_Obj*)pSource)->FUN_00dba990());
+            ((MemberValueSetter)&hkClassMember_setEnumValue)(member, aiArg, ((FUN_00dba990_Obj*)pSource)->ForwardCall_00dba990());
         }
         return 0;
     }

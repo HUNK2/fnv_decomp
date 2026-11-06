@@ -37,7 +37,7 @@ static inline LocalM128 Dot3_e4b570(LocalM128 p)
 {
     return _mm_add_ss(_mm_shuffle_ps(p, p, 0xaa), _mm_add_ss(_mm_shuffle_ps(p, p, 0x55), p));
 }
-int __cdecl FUN_00e4b570(const LocalM128* point, const LocalM128* verts, float* out);
+int __cdecl Runtime_ProcessEntries_00e4b570(const LocalM128* point, const LocalM128* verts, float* out);
 // stand-in for the local object whose method is called
 struct LocalObj {
     int m_unk00;
@@ -104,7 +104,7 @@ extern "C" float _mm_cvtss_f32(LocalM128);
 extern "C" LocalM128 _mm_sub_ps(LocalM128, LocalM128);
 struct hkQuatStore_e52d90 { LocalM128 m_vec; };
 struct Shorts_e52d90 { short a; short b; short c; };
-void __cdecl FUN_00e52d90(const unsigned short* in, hkQuatStore_e52d90* out);
+void __cdecl hkQuatStore_e52d90_ComputeValues_00e52d90(const unsigned short* in, hkQuatStore_e52d90* out);
 extern "C" void _ReadWriteBarrier();
 static __forceinline int readPacked(const unsigned char* q) {int a=q[0]; int b=q[1]; int c=q[2]; return ((a<<8)+b<<8)+c;}
 static __forceinline int readUpper(const unsigned char* q) {return ((q[0]<<8)+q[1]<<8)+q[2];}
@@ -138,7 +138,7 @@ static const __declspec(align(16)) unsigned int AbsMask[4] = { 0x7fffffff, 0x7ff
 struct Diagnostic {
   int unk00, unk04, unk08;
   void FUN_00cb1600(char*, int);
-  void FUN_00cc01c0(const char*);
+  void ProcessAndReturnValue_00cc01c0(const char*);
   void FUN_00cc00e0();
 };
 struct ErrorReporter {
@@ -223,7 +223,7 @@ struct Cls {
       }
 
   }
-  void FUN_00e5f070(P1* a1, unsigned char* p, F8* a3);
+  void Interpret_Thunk(P1* a1, unsigned char* p, F8* a3);
   __forceinline void interpret(P1* a1, unsigned char* p, F8* const& a3);
 };
 extern "C" void _ReadWriteBarrier();
@@ -256,7 +256,7 @@ void ResizeAudioStream(void*, void*, int);
 struct DiagnosticStream {
     void* vtable; int flags; void* writer;
     void FUN_00cb1600(void*, int);
-    void FUN_00cc01c0(const char*);
+    void ProcessAndReturnValue_00cc01c0(const char*);
     void FUN_00cc00e0();
 };
 extern const char str_010d5100[];
@@ -326,7 +326,7 @@ struct TreeDecoder {
     OutputArray* output;
     int unk04; int unk08; int unk0C; float scale; int unk14; int unk18; int unk1C;
     CullMachine cull;
-    void FUN_00e5e430(DecodeState*, const unsigned char*, BoundsPair*);
+    void ProcessEntries_00e5e430(DecodeState*, const unsigned char*, BoundsPair*);
     __forceinline void emit(int value) {
         OutputArray* a = output;
         AllocatorContext* context = (AllocatorContext*)hkMemoryRouter_getInstance();
@@ -367,7 +367,7 @@ struct TreeDecoder {
 extern "C" LocalM128 _mm_and_ps(LocalM128, LocalM128);
 extern const LocalM128 DAT_01017d10;
 struct hkQuatStore_e52190 { LocalM128 m_vec; };
-void __cdecl FUN_00e52190(const hkQuatStore_e52190* q, unsigned char* out);
+void __cdecl hkQuatStore_e52190_ComputeValues_00e52190(const hkQuatStore_e52190* q, unsigned char* out);
 
 extern "C" {
 LocalM128 _mm_unpacklo_ps(LocalM128, LocalM128);
@@ -492,7 +492,8 @@ static __forceinline int edgeFallback(const FaceVector& query, const FaceVector*
 }
 
 // @fnv 0x00e4b810
-int __cdecl FUN_00e4b810(const FaceVector& query, const FaceVector* vertices, float orientation)
+// src: GUESS 0x00e4b810 (confidence: low)
+int __cdecl Runtime_ProcessEntries_00e4b810(const FaceVector& query, const FaceVector* vertices, float orientation)
 {
     FaceVector firstEdge; firstEdge.difference(vertices[2], vertices[1]);
     FaceVector secondEdge; secondEdge.difference(vertices[0], vertices[2]);

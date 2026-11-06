@@ -71,32 +71,32 @@ public:
     LocalVec Cross(const LocalVec& v) const;
     LocalVec ApplyScaled(float scale);
     LocalVec ApplyScaled(float scale) const;
-    void FUN_00acf580(unsigned n, Tok value);
-    LocalVec FUN_004a0bd0();
-    LocalVec FUN_004a0bd0() const;
+    void ProcessState_00acf580(unsigned n, Tok value);
+    LocalVec GetNegatedVector();
+    LocalVec GetNegatedVector() const;
     LocalVec FUN_0053d1a0(const LocalVec& v);
     LocalVec FUN_004b3800(const LocalVec& v);
     LocalVec FUN_004b3800(const LocalVec& v) const;
     LocalVec FUN_00439e90(const LocalVec& v);
     LocalVec FUN_00439e90(const LocalVec& v) const;
-    LocalVec FUN_00439ef0(const LocalVec& v);
-    LocalVec FUN_00439ef0(const LocalVec& v) const;
+    LocalVec SubtractIntoVector(const LocalVec& v);
+    LocalVec SubtractIntoVector(const LocalVec& v) const;
     float FUN_00457990();
     float FUN_00457990() const;
     void Unitize_004a0c10();
     void FUN_006815c0();
-    void FUN_00439180(float scale);
-    LocalVec& FUN_0063c8a0(const LocalVec& v);
+    void ScaleComponents(float scale);
+    LocalVec& ComputeValue_0063c8a0(const LocalVec& v);
     float FUN_004a7290();
     float FUN_004a7290() const;
-    void FUN_004b4db0(const float* values);
+    void SetQuaternionComponentsFromVector(const float* values);
     void FUN_00a38560();
     void NiQuaternion_ToRotation(void* value);
 
     LocalVec& ScaleByInverse(float divisor);
     float FUN_00457910();
     LocalVec* FastNavMeshTriLocation_GetLocation();
-    bool FUN_004390c0(const LocalVec& v);
+    bool HasEqualComponents(const LocalVec& v);
 
     __m128 get() const;
     void set(__m128 value);
@@ -154,21 +154,21 @@ public:
     LocalVec* hkVector4_lengthInverse3(LocalVec* target);
 
     void FUN_00cf7690(Elem* value);
-    void FUN_00b1e970();
+    void UpdateState_00b1e970();
     Iter begin();
     Iter end();
-    CIter FUN_00b33030(CIter first, CIter last);
+    CIter UpdateState_00b33030(CIter first, CIter last);
     void m_vStrips_clear();
     unsigned int size() const;
     unsigned int capacity() const;
-    void FUN_00b2df90();
-    void FUN_00b2e140(Elem* first, Elem* last);
+    void ClearAllElements();
+    void B2EDestroyRange_Thunk(Elem* first, Elem* last);
     bool InitBuffer(unsigned int count);
     Elem* _Ucopy(Elem* first, Elem* last, Elem* out);
     LocalVec& CTreeEngine_SetLeafTextures(const LocalVec& v);
-    CMutIter FUN_00aceb80(CMutIter first, CMutIter last);
-    void FUN_00acac40();
-    LocalVec& FUN_00ad61e0(const LocalVec& v);
+    CMutIter ProcessAndReturnValue_00aceb80(CMutIter first, CMutIter last);
+    void ProcessState_00acac40();
+    LocalVec& ReleaseStorage_00ad61e0(const LocalVec& v);
 };
 #include "../../../../../../../../../include/hkRotation.h"
 #include "../../../../../../../../../include/hkTransform.h"

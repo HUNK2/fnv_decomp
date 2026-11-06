@@ -21,13 +21,13 @@ struct Object
 {
     void* vtable;
     unsigned short allocationSize;
-    void FUN_00e00000();
+    void ReleaseBothArrays();
     Object* FUN_00e00070(unsigned int flags);
 };
 // @fnv 0x00e00070
 Object* Object::FUN_00e00070(unsigned int flags)
 {
-    FUN_00e00000();
+    ReleaseBothArrays();
     if (flags & 1)
     {
         ThreadState* state = hkMemoryRouter_getInstance();

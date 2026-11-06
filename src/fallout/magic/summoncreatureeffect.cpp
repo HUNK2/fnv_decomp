@@ -401,10 +401,10 @@ extern S_00828dc0_Mat DAT_011a9448;
 
 struct S_00828dc0_Obj
 {
-    void FUN_00439ef0(NiPoint3* out, int x);
+    void SubtractIntoVector(NiPoint3* out, int x);
 };
 
-void FUN_004b3ae0(NiPoint3* out, const NiPoint3* v, const S_00828dc0_Mat* m);
+void NiPoint3_TransformByMatrix3(NiPoint3* out, const NiPoint3* v, const S_00828dc0_Mat* m);
 float NiAbs_00408820(float f);
 
 // @fnv 0x00828dc0
@@ -413,7 +413,7 @@ float ComputeDirectionalFalloff(Actor* actor, S_00828dc0_Obj* obj)
     float low = DAT_0101b2d0;
     float high = DAT_01013d84;
     float delta[sizeof(NiPoint3) / sizeof(float)];
-    obj->FUN_00439ef0(reinterpret_cast<NiPoint3*>(delta), (int)static_cast<const Actor*>(actor)->GetPos());
+    obj->SubtractIntoVector(reinterpret_cast<NiPoint3*>(delta), (int)static_cast<const Actor*>(actor)->GetPos());
     float dist = reinterpret_cast<NiPoint3*>(delta)->FUN_00457990();
     float scale = 1.0f;
     if (dist < low)
@@ -428,7 +428,7 @@ float ComputeDirectionalFalloff(Actor* actor, S_00828dc0_Obj* obj)
     S_00828dc0_Mat mInv;
     matrix.FUN_004b45b0(&mInv);
     float localDir[sizeof(NiPoint3) / sizeof(float)];
-    FUN_004b3ae0(reinterpret_cast<NiPoint3*>(localDir), reinterpret_cast<NiPoint3*>(delta), &matrix);
+    NiPoint3_TransformByMatrix3(reinterpret_cast<NiPoint3*>(localDir), reinterpret_cast<NiPoint3*>(delta), &matrix);
     reinterpret_cast<NiPoint3*>(localDir)->Unitize_004a0c10();
     float x = 1.0f - NiAbs_00408820(reinterpret_cast<NiPoint3*>(localDir)->x);
     x = x * x;
@@ -462,7 +462,7 @@ struct S_008294e0_Str
     unsigned short m_len;
     unsigned short m_kMaximumCorner;
     ~S_008294e0_Str();
-    const char* FUN_00559450();
+    const char* Modelloader_GetReferencedThis();
 };
 
 struct S_008294e0_Named
@@ -920,7 +920,7 @@ void SummonCreatureEffect::SpawnSummonedActor(int unused)
     if (!pCreatureForm)
     {
         Warning_005b5e40("GAME EFFECTS: %s effect has no associated creature.",
-                     ((S_008294e0_Named*)FUN_007df1d0())->AssignFromSub().FUN_00559450());
+                     ((S_008294e0_Named*)FUN_007df1d0())->AssignFromSub().Modelloader_GetReferencedThis());
     }
     else
     {
@@ -946,7 +946,7 @@ void SummonCreatureEffect::SpawnSummonedActor(int unused)
         else if (!pCreatureForm)
         {
             Warning_005b5e40("DEFAULT: %s effect unable to create reference.",
-                         ((S_008294e0_Named*)FUN_007df1d0())->AssignFromSub().FUN_00559450());
+                         ((S_008294e0_Named*)FUN_007df1d0())->AssignFromSub().Modelloader_GetReferencedThis());
         }
     }
 }

@@ -27,7 +27,7 @@ public:
     unsigned char field_20;
 
     void* __thiscall FUN_00867150(unsigned int flags);
-    void __thiscall FUN_00867180();
+    void __thiscall UpdateFields_00867180();
     void __thiscall PauseMusic();
     void __thiscall UnPauseMusic();
     bool FUN_00ec1840(bool);

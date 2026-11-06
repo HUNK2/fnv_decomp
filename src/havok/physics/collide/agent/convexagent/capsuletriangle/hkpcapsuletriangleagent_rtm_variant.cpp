@@ -10,23 +10,23 @@
 // src/havok/physics/collide/agent/convexagent/capsuletriangle/hkpcapsuletriangleagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/convexagent/capsuletriangle/hkpcapsuletriangleagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 void CreateObjectFromFactory();
-void FUN_00d3a8c0();
+void Object_CollectPenetratingBodyPair();
 void staticGetClosestPoints();
-void FUN_00daf8e0();
-void FUN_00d3ab60(void* apObject);
+void Object_ProcessEntries_00daf8e0();
+void Object_InitializeAgentFunctionTable_00d3ab60(void* apObject);
 void __cdecl CreateAllocatedObject();
-void __cdecl FUN_00d3ac80();
-void __cdecl FUN_00d3b1a0();
-void __cdecl FUN_00d3b220();
-void __cdecl FUN_00d3ab90(void** apTable);
+void __cdecl Object_UpdateFields_00d3ac80();
+void __cdecl Object_UpdateFields_00d3b1a0();
+void __cdecl Object_UpdateFields_00d3b220();
+void __cdecl Hkpcapsuletriangleagent_UpdateState_00d3ab90(void** apTable);
 void __cdecl CreateTriAgent2();
-void __cdecl FUN_00d38ac0();
-void __cdecl FUN_00d38ed0();
-void __cdecl FUN_00d3ac80();
+void __cdecl Object_UpdateFields_00d38ac0();
+void __cdecl hkpMultiSphereTriangleAgent_UpdateState_00d38ed0();
+void __cdecl Object_UpdateFields_00d3ac80();
 void __cdecl CreateTriAgent();
 void __cdecl hkpMultiSphereTriangleAgent_staticGetPenetrations();
-void __cdecl FUN_00d386c0();
-void __cdecl FUN_00daf8e0();
+void __cdecl Object_ProcessEntries_00d386c0();
+void __cdecl Object_ProcessEntries_00daf8e0();
 typedef void(__cdecl* S_00d389f0_Func)();
 struct S_00d389f0_AgentFuncs
 {
@@ -39,9 +39,9 @@ struct S_00d389f0_AgentFuncs
 };
 struct S_00d389f0_Dispatcher
 {
-    void FUN_00cfbbe0(S_00d389f0_AgentFuncs& f, int typeA, int typeB);
+    void AppendRecordAndRegisterAgents(S_00d389f0_AgentFuncs& f, int typeA, int typeB);
 };
-void __cdecl FUN_00d389f0(S_00d389f0_Dispatcher* dispatcher);
+void __cdecl hkpMultiSphereTriangleAgent_staticGetPenetrations_UpdateState_00d389f0(S_00d389f0_Dispatcher* dispatcher);
 struct ReceiverBase
 {
     virtual void Release(unsigned int value);
@@ -70,7 +70,7 @@ struct CallbackState
     int m_iValue;
 };
 void __cdecl staticGetClosestPoints(void* apFirst, void* apSecond, void* apThird, CallbackState* apState);
-void __cdecl FUN_00d3b220(void* apOne, void* apTwo, void* apThree, int aiValue);
+void __cdecl Object_UpdateFields_00d3b220(void* apOne, void* apTwo, void* apThree, int aiValue);
 hkMemoryRouter* __cdecl hkMemoryRouter_getInstance() throw();
 void __cdecl ComputeInverseLengths(void* value, void* self);
 extern char DAT_010ceefc[];
@@ -172,9 +172,9 @@ struct __declspec(align(16)) MotionCallData
 extern "C" float DAT_0104da48;
 extern "C" const __m128 DAT_010c44d0;
 extern "C" unsigned char UNK_010ce80c;
-extern "C" void __cdecl FUN_00daf8e0(unsigned int second, unsigned int first, MotionPacket* packet,
+extern "C" void __cdecl Object_ProcessEntries_00daf8e0(unsigned int second, unsigned int first, MotionPacket* packet,
                                      MotionCallData* primary, MotionCallData* secondary);
-void __cdecl FUN_00d3ac80(unsigned int first, unsigned int second, const MotionPacket* apPacket, unsigned int mode,
+void __cdecl Object_UpdateFields_00d3ac80(unsigned int first, unsigned int second, const MotionPacket* apPacket, unsigned int mode,
                           unsigned int optionalMode);
 extern char DAT_010ce81c;
 struct FUN_00d3b160_tmp
@@ -327,7 +327,7 @@ struct Contact
         position = c.position;
         return *this;
     }
-    void __thiscall FUN_00caad60(void* arg);
+    void __thiscall SetPositionXYZ(void* arg);
 };
 static __forceinline void xform(const Xf& m, const __m128* src, __m128* dst, int hi)
 {
@@ -418,7 +418,7 @@ struct CapsuleTriangleAgent
 extern "C" __m128 _mm_unpackhi_ps(__m128 a, __m128 b);
 struct ContactNormalSetter : Contact
 {
-    ContactNormalSetter* FUN_00caad60(const __m128* source);
+    ContactNormalSetter* SetPositionXYZ(const __m128* source);
 };
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 struct MonitorRecord
@@ -449,7 +449,7 @@ struct ContactRecord
         normal = o.normal;
         return *this;
     }
-    void FUN_00caad60(const PlainVector*);
+    void SetPositionXYZ(const PlainVector*);
 };
 struct CacheRecord
 {
@@ -523,29 +523,31 @@ struct CollisionAgent
 
 typedef void(__cdecl* FnA_d3a280)(void*, void*, void*, CallbackState*);
 typedef void(__cdecl* FnB_daf8e0)(unsigned int, unsigned int, MotionPacket*, MotionCallData*, MotionCallData*);
-__declspec(noinline) void FUN_00d3ab60(void* p)
+// src: GUESS 0x00d3ab60 (confidence: medium)
+__declspec(noinline) void Object_InitializeAgentFunctionTable_00d3ab60(void* p)
 {
     S_00d389f0_AgentFuncs* s = (S_00d389f0_AgentFuncs*)p;
     s->m_pCreateFunc = (S_00d389f0_Func)CreateObjectFromFactory;
-    s->m_pQueryPenetrationsFunc = (S_00d389f0_Func)FUN_00d3a8c0;
+    s->m_pQueryPenetrationsFunc = (S_00d389f0_Func)Object_CollectPenetratingBodyPair;
     s->m_getClosestPointsFunc = (S_00d389f0_Func)(FnA_d3a280)staticGetClosestPoints;
-    s->m_pLinearCastFunc = (S_00d389f0_Func)(FnB_daf8e0)FUN_00daf8e0;
+    s->m_pLinearCastFunc = (S_00d389f0_Func)(FnB_daf8e0)Object_ProcessEntries_00daf8e0;
     s->m_bIsFlipped = 0;
     s->m_bIsPredictive = 0;
 }
 
 // @fnv 0x00d3abc0
-void __cdecl FUN_00d3abc0(S_00d389f0_Dispatcher* obj)
+// src: GUESS 0x00d3abc0 (confidence: low)
+void __cdecl Object_UpdateFields_00d3abc0(S_00d389f0_Dispatcher* obj)
 {
     S_00d389f0_AgentFuncs s;
     s.m_bIsFlipped = 0;
     s.m_bIsPredictive = 0;
-    FUN_00d3ab90((void**)&s);
-    obj->FUN_00cfbbe0(s, 3, 5);
+    Hkpcapsuletriangleagent_UpdateState_00d3ab90((void**)&s);
+    obj->AppendRecordAndRegisterAgents(s, 3, 5);
     s.m_bIsFlipped = 0;
     s.m_bIsPredictive = 0;
-    FUN_00d3ab60(static_cast<void*>(&s));
-    obj->FUN_00cfbbe0(s, 5, 3);
+    Object_InitializeAgentFunctionTable_00d3ab60(static_cast<void*>(&s));
+    obj->AppendRecordAndRegisterAgents(s, 5, 3);
 }
 
 struct FNVHookStruct
@@ -562,15 +564,16 @@ struct FNVHookOwner
     void AddSpawnEntry(void* s, int a, int b);
 };
 // @fnv 0x00d3ac20
-void FUN_00d3ac20(FNVHookOwner* p)
+// src: GUESS 0x00d3ac20 (confidence: low)
+void Object_UpdateFields_00d3ac20(FNVHookOwner* p)
 {
     FNVHookStruct h;
     h.unk10 = 0;
     h.unk11 = 0;
-    FUN_00d3ab90((void**)&h);
+    Hkpcapsuletriangleagent_UpdateState_00d3ab90((void**)&h);
     p->AddSpawnEntry(&h, 3, 5);
     h.unk10 = 0;
     h.unk11 = 0;
-    FUN_00d3ab60(&h);
+    Object_InitializeAgentFunctionTable_00d3ab60(&h);
     p->AddSpawnEntry(&h, 5, 3);
 }

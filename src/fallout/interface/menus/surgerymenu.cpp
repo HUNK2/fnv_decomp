@@ -244,7 +244,7 @@ struct SurgeryHolder
     NiNode* ptr;
     SurgeryHolder(NiNode*);
     ~SurgeryHolder();
-    NiNode* FUN_00559450();
+    NiNode* Modelloader_GetReferencedThis();
     void FUN_0066b0d0(NiNode*);
 };
 void __cdecl BSShaderUtil_AccumulateScene(NiNode*, NiNode*, SurgeryContext*);
@@ -266,12 +266,12 @@ void __cdecl UpdateSurgeryScene()
     UpdateCameraFrustum(c, 0.15f);
     NiNode* a = FUN_00450b80(1);
     SurgeryHolder e(InterfaceManager_GetSingleton()->RaceSexMenu_GetProjectorFile());
-    d->BSCullingProcess_SetAccumulator(e.FUN_00559450());
+    d->BSCullingProcess_SetAccumulator(e.Modelloader_GetReferencedThis());
     BSShaderUtil_AccumulateScene(c, a, d);
-    FUN_00b6c0d0(c, e.FUN_00559450(), 0);
+    FUN_00b6c0d0(c, e.Modelloader_GetReferencedThis(), 0);
     ((SurgeryCull*)(unsigned)g_011dae5c)->FUN_00450f90(false);
     BSShaderUtil_AccumulateScene(c, FUN_00450b80(3), d);
-    FUN_00b6c0d0(c, e.FUN_00559450(), 0);
+    FUN_00b6c0d0(c, e.Modelloader_GetReferencedThis(), 0);
     d->BSCullingProcess_SetAccumulator(0);
     e.FUN_0066b0d0(0);
     d->BSCullingProcess_PopCullMode();
@@ -1751,9 +1751,9 @@ bool FUN_007e4540_shell::SurgeryMenu_IsCursorInFlesh()
     {
         NiPoint2 kIntersectionOffset;
         NiPoint2 kTmpEdge;
-        ((FUN_00a6fc50_cam*)((SurgeryHolder*)&g_011dadb4)->FUN_00559450())
+        ((FUN_00a6fc50_cam*)((SurgeryHolder*)&g_011dadb4)->Modelloader_GetReferencedThis())
             ->ProjectToScreen(NiAVObject_GetWorldTranslate(pNewObj), &kIntersectionOffset.x, &kIntersectionOffset.y, 1e-5f);
-        ((FUN_00a6fc50_cam*)((SurgeryHolder*)&g_011dadb4)->FUN_00559450())
+        ((FUN_00a6fc50_cam*)((SurgeryHolder*)&g_011dadb4)->Modelloader_GetReferencedThis())
             ->ProjectToScreen(NiAVObject_GetWorldTranslate(pEdge8), &kTmpEdge.x, &kTmpEdge.y, 1e-5f);
         kIntersectionOffset.x *= FUN_00715d40();
         kIntersectionOffset.y = (1.0 - kIntersectionOffset.y) * InterfaceManager_GetScreenHeight();
@@ -2090,7 +2090,7 @@ struct NodeV
 struct PtrBox
 {
     void* m_ptr;
-    NodeV* FUN_00559450();
+    NodeV* Modelloader_GetReferencedThis();
 };
 struct DataF
 {
@@ -2108,12 +2108,12 @@ struct HostF
 void __thiscall HostF::SurgeryMenu_SwitchSkinGeometry(int a1, int a2)
 {
     ((PtrBox*)&g_011dade8)
-        ->FUN_00559450()
-        ->virt58(((DataF*)DAT_011dada4)->m_aiIndexedValues[GetIndex(a1)].FUN_00559450());
+        ->Modelloader_GetReferencedThis()
+        ->virt58(((DataF*)DAT_011dada4)->m_aiIndexedValues[GetIndex(a1)].Modelloader_GetReferencedThis());
     ((PtrBox*)&g_011dade8)
-        ->FUN_00559450()
-        ->virt55(((DataF*)DAT_011dada4)->m_aiIndexedValues[GetIndex(a2)].FUN_00559450(), 1);
-    ((DataF*)DAT_011dada4)->m_e8 = ((PtrBox*)&g_011dade8)->FUN_00559450()->virt39(&NiFixedString("ScarMesh"));
+        ->Modelloader_GetReferencedThis()
+        ->virt55(((DataF*)DAT_011dada4)->m_aiIndexedValues[GetIndex(a2)].Modelloader_GetReferencedThis(), 1);
+    ((DataF*)DAT_011dada4)->m_e8 = ((PtrBox*)&g_011dade8)->Modelloader_GetReferencedThis()->virt39(&NiFixedString("ScarMesh"));
 }
 }  // namespace fnv_007e5ee0
 
@@ -2135,7 +2135,7 @@ struct RayCamera
 };
 struct CameraHolder
 {
-    RayCamera* FUN_00559450();
+    RayCamera* Modelloader_GetReferencedThis();
 };
 extern CameraHolder DAT_011dadb4;
 struct SceneHolder
@@ -2242,7 +2242,7 @@ void SurgeryDecals::PlaceSurgeryDecal(float afScreenX, float afScreenY, bool goo
     NiPoint3 origin3, direction;
     float kScreenX = Renderer_GetScreenWidth() * afScreenX;
     float screenY_2 = Renderer_GetScreenHeight() * afScreenY;
-    DAT_011dadb4.FUN_00559450()->MapScreenToRay((int)kScreenX, (int)screenY_2, &origin3, &direction, 0);
+    DAT_011dadb4.Modelloader_GetReferencedThis()->MapScreenToRay((int)kScreenX, (int)screenY_2, &origin3, &direction, 0);
     NiPoint3 position = DAT_011f426c;
     NiPick pickVal(0, 8);
     pickVal.SetByteAtOffset17(0);
@@ -2330,7 +2330,7 @@ struct CursorCamera
 {
     bool ProjectToScreen(const NiPoint3&, float*, float*, float);
 };
-CursorCamera* __fastcall FUN_00559450(GO*);
+CursorCamera* __fastcall Modelloader_GetReferencedThis(GO*);
 float __cdecl FUN_00715d40();
 float __cdecl InterfaceManager_GetScreenHeight();
 struct CursorMenu
@@ -2405,8 +2405,8 @@ void CursorMenu::UpdateTilePositions(int x, int y)
     {
         NiPoint2 centerPos;
         NiPoint2 edgePos;
-        FUN_00559450(&g_011dadb4)->ProjectToScreen(radius->NiAVObject_GetWorldTranslate(), &centerPos.x, &centerPos.y, 0.00001f);
-        FUN_00559450(&g_011dadb4)->ProjectToScreen(center->NiAVObject_GetWorldTranslate(), &edgePos.x, &edgePos.y, 0.00001f);
+        Modelloader_GetReferencedThis(&g_011dadb4)->ProjectToScreen(radius->NiAVObject_GetWorldTranslate(), &centerPos.x, &centerPos.y, 0.00001f);
+        Modelloader_GetReferencedThis(&g_011dadb4)->ProjectToScreen(center->NiAVObject_GetWorldTranslate(), &edgePos.x, &edgePos.y, 0.00001f);
         centerPos.x *= FUN_00715d40();
         centerPos.y = (1.0 - centerPos.y) * InterfaceManager_GetScreenHeight();
         edgePos.x *= FUN_00715d40();
@@ -2456,7 +2456,7 @@ void WoundUpdater::UpdateWounds(float delta)
         node2 = node2->_ref_00726070();
     }
     NiUpdateData data3(0.0f, true, false);
-    ((NiNode*)((SurgeryHolder&)g_011dade8).FUN_00559450())->Update(data3);
+    ((NiNode*)((SurgeryHolder&)g_011dade8).Modelloader_GetReferencedThis())->Update(data3);
 }
 
 extern NiRTTI DAT_011f36ac;
@@ -2746,7 +2746,7 @@ struct EventExtraNode
 };
 struct EventEntry
 {
-    EventExtraNode* FUN_00559450();
+    EventExtraNode* Modelloader_GetReferencedThis();
     int FUN_00726070();
     void* FUN_0044ddc0();
     ~EventEntry();
@@ -3069,7 +3069,7 @@ struct EventPlayer
 struct EventScene
 {
     void* ptr;
-    void* FUN_00559450();
+    void* Modelloader_GetReferencedThis();
 };
 struct EventWounds
 {
@@ -3178,8 +3178,8 @@ void EventMenu::OnButtonClick(int button, int arg)
                                     ->Actor_QueueEquipObject(
                                         ((EventMenu*)DAT_011dada4)->entry->FUN_0044ddc0(),
                                         ((EventMenu*)DAT_011dada4)->entry->FUN_00726070(),
-                                        ((EventMenu*)DAT_011dada4)->entry->FUN_00559450()
-                                            ? *(((EventMenu*)DAT_011dada4)->entry->FUN_00559450()->FUN_006815c0())
+                                        ((EventMenu*)DAT_011dada4)->entry->Modelloader_GetReferencedThis()
+                                            ? *(((EventMenu*)DAT_011dada4)->entry->Modelloader_GetReferencedThis()->FUN_006815c0())
                                             : 0,
                                         false, false, true);
                             }
@@ -3193,7 +3193,7 @@ void EventMenu::OnButtonClick(int button, int arg)
                                                              true);
                                 ((EventPlayer*)_g_thePlayer)
                                     ->Actor_QueueEquipObject(FUN_0058db10(4), item->FUN_00726070(),
-                                                   item->FUN_00559450() ? *(item->FUN_00559450()->FUN_006815c0()) : 0,
+                                                   item->Modelloader_GetReferencedThis() ? *(item->Modelloader_GetReferencedThis()->FUN_006815c0()) : 0,
                                                    false, false, true);
                                 delete item;
                                 amount -= 25.0;
@@ -3234,7 +3234,7 @@ void EventMenu::OnButtonClick(int button, int arg)
                                                 ((EventPlayer*)_g_thePlayer)->values.Damage(limb) / 100.0, true);
                             label->Tile_Set_00a01350(0xfc4, ActorValue::GetActorValueName((ActorValue::Index)limb), true);
                             SurgeryMenu_SwitchSkinGeometry(iOldLimb, limb);
-                            UpdateBoneWounds(((EventMenu*)DAT_011dada4)->nodes[GetIndex(limb)].FUN_00559450());
+                            UpdateBoneWounds(((EventMenu*)DAT_011dada4)->nodes[GetIndex(limb)].Modelloader_GetReferencedThis());
                             break;
                         }
                         case 15: {
@@ -3266,7 +3266,7 @@ void EventMenu::OnButtonClick(int button, int arg)
                                                 ((EventPlayer*)_g_thePlayer)->values.Damage(limb) / 100.0, true);
                             label->Tile_Set_00a01350(0xfc4, ActorValue::GetActorValueName((ActorValue::Index)limb), true);
                             SurgeryMenu_SwitchSkinGeometry(old2, limb);
-                            UpdateBoneWounds(((EventMenu*)DAT_011dada4)->nodes[GetIndex(limb)].FUN_00559450());
+                            UpdateBoneWounds(((EventMenu*)DAT_011dada4)->nodes[GetIndex(limb)].Modelloader_GetReferencedThis());
                             break;
                         }
                         case 2: {
@@ -3638,7 +3638,7 @@ struct BipRoot
 
 struct BipPointer
 {
-    BipRoot* FUN_00559450();
+    BipRoot* Modelloader_GetReferencedThis();
 };
 extern BipPointer DAT_011dae5c;
 
@@ -3647,14 +3647,14 @@ extern BipPointer DAT_011dae5c;
 // src: COMMUNITY 0x007e4fe0
 void __cdecl SetTerminalMenuPos(float a, float b, float c)
 {
-    if (DAT_011dae5c.FUN_00559450())
+    if (DAT_011dae5c.Modelloader_GetReferencedThis())
     {
-        DAT_011dae5c.FUN_00559450()
+        DAT_011dae5c.Modelloader_GetReferencedThis()
             ->v039(NiFixedString("Bip01"))
             ->NiAVObject_SetTranslate_004bc1f0(-*g_011dae6c.Float(), *g_011dadf0.Float() - b, *g_011dae28.Float() - a);
-        DAT_011dae5c.FUN_00559450()->v039(NiFixedString("Bip01"))->NiAVObject_SetScale(*g_011dadfc.Float() * (double)c);
+        DAT_011dae5c.Modelloader_GetReferencedThis()->v039(NiFixedString("Bip01"))->NiAVObject_SetScale(*g_011dadfc.Float() * (double)c);
         NiUpdateData kData(0.0f, false, false);
-        DAT_011dae5c.FUN_00559450()->NiAVObject_Update(kData);
+        DAT_011dae5c.Modelloader_GetReferencedThis()->NiAVObject_Update(kData);
     }
 }
 

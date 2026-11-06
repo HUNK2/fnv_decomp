@@ -74,12 +74,13 @@ struct Simulation
     void hkpConstraintDrawer_updateCommonParameters(Input*, Matrix*, Matrix*);
     void hkpConstraintDrawer_drawPivots(int, int);
     void hkpConstraintDrawer_drawBodyFrames(int, int);
-    void FUN_00de7730(Input*, Draw*, int, int);
+    void ComputeValues_00de7730(Input*, Draw*, int, int);
 };
 extern "C" unsigned int __cdecl PackColorBigEndian(float, float, float, float);
 
 // @fnv 0x00de7730
-void Simulation::FUN_00de7730(Input* input, Draw* draw, int a, int b)
+// src: GUESS 0x00de7730 (confidence: low)
+void Simulation::ComputeValues_00de7730(Input* input, Draw* draw, int a, int b)
 {
     Shape* shape = input->unk00c;
     unk0c0.hkpPrimitiveDrawer_setDisplayHandler(draw);

@@ -78,7 +78,7 @@ struct FUN_00e7cdf0_shell
     int _p5;
     int _p6;
 };
-void __cdecl FUN_00e7d1b0();
+void __cdecl ReleaseStorage_00e7d1b0();
 void __cdecl operator delete(void* p, unsigned int size);
 struct FUN_00e7d230_cls
 {
@@ -94,7 +94,7 @@ struct FUN_00e7f790_Class
 {
     void __thiscall DestroyList();
 };
-int __cdecl FUN_00e60c70(int a);
+int __cdecl Runtime_EvaluateValue_00e60c70(int a);
 struct FUN_00e67fd0_cls
 {
     void __thiscall ClearEntries();
@@ -279,7 +279,7 @@ struct FUN_00e63ec0_Class
     int _04;
     int* _08;
     int _0c;
-    int __thiscall FUN_00e63ec0(int a, int* out);
+    int __thiscall ProcessEntries_00e63ec0(int a, int* out);
 };
 extern MM g_memoryManager;
 void* __cdecl _NiFree(void*);
@@ -312,11 +312,11 @@ struct FUN_00e7d1b0_Class
     void* _18;
     void* _1c;
     void* _20;
-    void __thiscall FUN_00e7d1b0();
+    void __thiscall ReleaseStorage_00e7d1b0();
 };
 struct FUN_00e7d690_Class
 {
-    void __thiscall FUN_00e7d4e0();
+    void __thiscall UpdateFields_00e7d4e0();
     FUN_00e7d690_Class* __thiscall FUN_00e7d690(int flags);
 };
 struct FUN_00e7ef80_Node
@@ -373,7 +373,7 @@ struct FUN_00c85750_Result
 FUN_00c85750_Result* __cdecl hkMemoryRouter_getInstance();
 void __cdecl AppendIndexSequence(int, int, int, int, int);
 void __cdecl AppendIndices(int, int, int, int, int);
-void __cdecl FUN_00e611d0(FUN_00e611d0_Object* object, int value);
+void __cdecl hkMemoryRouter_AppendObjectIndicesByType(FUN_00e611d0_Object* object, int value);
 struct FUN_00e61230_Buffer
 {
     unsigned int field00;
@@ -396,7 +396,7 @@ struct FUN_00e61230_Receiver
     virtual void begin(void* value, unsigned int mode, FUN_00e61230_Buffer* buffer) = 0;
     virtual void end(FUN_00e61230_Buffer* buffer) = 0;
 };
-extern "C" void __cdecl FUN_00e611d0(FUN_00e61230_Buffer* buffer, unsigned int stage);
+extern "C" void __cdecl hkMemoryRouter_AppendObjectIndicesByType(FUN_00e61230_Buffer* buffer, unsigned int stage);
 void __cdecl RunReceiverStage(FUN_00e61230_Receiver* receiver, void* value, unsigned int stage);
 struct E65000Entry
 {
@@ -436,7 +436,7 @@ struct IndexSource_e67420
     unsigned int* m_puiIndices;
     int m_iIntCount;
 
-    bool FUN_00e67420(unsigned int iIndex, unsigned int* p0, unsigned int* p1, unsigned int* p2);
+    bool ComputeValue_00e67420(unsigned int iIndex, unsigned int* p0, unsigned int* p1, unsigned int* p2);
 };
 class FUN_00e67660_cls;
 class FnvEnt67;
@@ -1446,7 +1446,7 @@ struct CopyPixels
     unsigned bytesPerPixel;
 };
 const char* __cdecl GetHResultName(long);
-void __cdecl FUN_00a29680(const char*, ...);
+void __cdecl Object_DoNothing(const char*, ...);
 void __cdecl NiDX9SourceTextureData_CopyDataToSurfaceLevel(CopyPixels* pSourcePixels, unsigned level, CopySurface* surface, unsigned face);
 struct TexDevice
 {
@@ -1749,7 +1749,7 @@ struct TextureOwner
 extern int DAT_0126efc0;
 extern bool DAT_0126f0d0;
 const char* __cdecl GetHResultName(long);
-void __cdecl FUN_00a29680(const char*, ...);
+void __cdecl Object_DoNothing(const char*, ...);
 inline bool IsPowerOfTwo(unsigned n)
 {
     if (!n)
@@ -1933,7 +1933,7 @@ struct CubeMapSurface
 };
 extern "C" void __cdecl NiDX9SourceTextureData_CopyDataToSurfaceLevel(int a, unsigned int b, int c, int d);
 extern "C" void* __cdecl GetHResultName(int r);
-extern "C" void __cdecl FUN_00a29680(const char* fmt, unsigned int i, void* s);
+extern "C" void __cdecl Object_DoNothing(const char* fmt, unsigned int i, void* s);
 struct FUN_00e68870_arg
 {
     int unk00;
@@ -2544,7 +2544,7 @@ struct FUN_00e7bc90 : Base_e7bc90
 };
 struct FUN_00e7bcd0_Item
 {
-    void FUN_00e7bb50();
+    void ReleaseStorage_00e7bb50();
 };
 void __cdecl FUN_00aa1460(void* p, int size);
 void __cdecl _NiFree_00aa10f0(void* p);
@@ -2841,7 +2841,7 @@ class BE7F610Heap
 };
 extern BE7F610Heap g_kE7F610Heap;
 void __cdecl _NiFree_00aa10f0(void* pvMem);
-void __cdecl FUN_00aa1490(void* pvMem, unsigned int uiAlignment);
+void __cdecl NiMemObject_ReleaseStorage_00aa1490(void* pvMem, unsigned int uiAlignment);
 class BE7F610Object
 {
   public:
@@ -2865,7 +2865,7 @@ class BE7F610Buffer : public BE7F610Object
   public:
     __forceinline ~BE7F610Buffer()
     {
-        FUN_00aa1490(m_pResource, 0x10);
+        NiMemObject_ReleaseStorage_00aa1490(m_pResource, 0x10);
         if (m_pkLeaf)
             m_pkLeaf->FUN_00e7f050(1);
     }
@@ -4153,8 +4153,8 @@ inline bool isTri(int t)
     }
     return false;
 }
-void __cdecl FUN_00e60e40(int type, int count, int data, IntArray* out);
-void __cdecl FUN_00e60f50(int type, int data, int count, int base, IntArray* out);
+void __cdecl Object_AppendPrimitiveIndices(int type, int count, int data, IntArray* out);
+void __cdecl hkArray_AppendTriangleIndicesWithOffset(int type, int data, int count, int base, IntArray* out);
 void __cdecl AppendIndices(int type, int data, int count, int base, U16Array* out);
 void __cdecl BuildIndexArray(IndexSource* src, IntArray* out);
 struct hkPairE63E
@@ -4256,7 +4256,7 @@ void __cdecl AppendIndexSequence(int type, int count, int start, IndexArray* out
 class AllocatorE60F;
 void __cdecl hkArrayUtil__reserve(AllocatorE60F& kAlloc, void* pArray, int iNumElements, int iSizeElem);
 void* __cdecl hkString_memCpy(void* pDst, const void* pSrc, int iNumBytes);
-void __cdecl FUN_00e60f50(int iType, const int* piIndices, int iNumIndices, int iOffset, hkArray<int>& kOut);
+void __cdecl hkArray_AppendTriangleIndicesWithOffset(int iType, const int* piIndices, int iNumIndices, int iOffset, hkArray<int>& kOut);
 extern "C" double DAT_010229b8;
 static float rand01_00e62ac0(unsigned seed);
 volatile unsigned g_e62ac0_seed = 12345u;
@@ -5089,7 +5089,7 @@ struct FUN_00e7b260 : ModeItem404
 
     FUN_00e7b260(S00e7b590_D3D* dev, int ctx, D3DDEVTYPE id, D3DFORMAT key, bool fullscreen, bool windowed) throw();
 };
-void* __cdecl FUN_00aa13e0(unsigned int size);
+void* __cdecl Object_DispatchCommandFour(unsigned int size);
 class GlobalObject_0096a2d0
 {
 
@@ -5269,7 +5269,7 @@ struct Tex
     void SetValues(unsigned, unsigned);
 };
 const char* FUN_00e7a9a0(int);
-void FUN_00a29680(const char*, ...);
+void Object_DoNothing(const char*, ...);
 extern int DAT_0126f580;
 extern int DAT_0126f590;
 class RT
@@ -5330,7 +5330,7 @@ static __forceinline int* IntArrayX_expandBy(hkArrayBase<int>& self, int n)
         self.m_iElementCount += n;
         return self.m_data + oldSize;
     }
-void __cdecl FUN_00e60e40(int type, int count, int data, IntArray* out);
+void __cdecl Object_AppendPrimitiveIndices(int type, int count, int data, IntArray* out);
 extern "C" __m128 _mm_sub_ps(__m128, __m128);
 extern "C" __m128 _mm_mul_ps(__m128, __m128);
 extern "C" __m128 _mm_add_ss(__m128, __m128);
@@ -5356,7 +5356,7 @@ struct BarycentricResult
 {
     float u, v, w;
 };
-void __cdecl FUN_00e61a10(const __m128* point, const __m128* a, const __m128* b, const __m128* c,
+void __cdecl Runtime_ComputeTriangleBarycentricWeights(const __m128* point, const __m128* a, const __m128* b, const __m128* c,
                           BarycentricResult* result);
 void __cdecl nullsub_337();
 bool __cdecl SetModeFlags(int mode, int* outValue, unsigned int* flags);
@@ -5822,11 +5822,12 @@ struct Owner
     int unk6fc;
     Block m_kBlock;
 
-    int FUN_00e695c0(int iArg);
+    int SelectFormatTileValue_Thunk(int iArg);
 };
 
 // @fnv 0x00e695c0
-int Owner::FUN_00e695c0(int iArg)
+// src: GUESS 0x00e695c0 (confidence: medium)
+int Owner::SelectFormatTileValue_Thunk(int iArg)
 {
     return SelectFormatTileValue(iArg, &m_kBlock);
 }
@@ -5858,10 +5859,10 @@ struct ClosestList
     }
     int NiDX9AdapterDesc_ModeDesc_GetClosestRefreshRate(int target);
 };
-int FUN_00e7ccf0(unsigned int index);
+int Runtime_GetIndexMask(unsigned int index);
 class GlobalObjectO2_00a7b610;
 extern GlobalObjectO2_00a7b610 g_0126f59c;
-GlobalObjectO2_00a7b610* FUN_00e7cd30();
+GlobalObjectO2_00a7b610* Runtime_GetField0126f59cAddress();
 class FUN_00e7a5e0_Object
 {
   public:
@@ -6135,7 +6136,7 @@ struct DisplayModeInfo
     }
     void* operator new(unsigned int size) throw()
     {
-        return FUN_00aa13e0(size);
+        return Object_DispatchCommandFour(size);
     }
 };
 struct FormatNode
@@ -6523,7 +6524,7 @@ struct S00e60650
     int unk14;
     int unk18;
     int value;
-    int FUN_00e60650();
+    int GetValue();
 };
 // FUN_00e60660: __thiscall accessor, returns this ? &this->field_14 : 0
 struct FUN_00e60660_Cls;
@@ -6535,7 +6536,7 @@ struct FUN_00e60660_Cls
     int unk0c;
     int unk10;
     int unk14;
-    int* __thiscall FUN_00e60660();
+    int* __thiscall ComputeValue_00e60660();
 };
 extern const char DAT_010ed328[];
 extern const char DAT_010ed2d0[];
@@ -6587,7 +6588,7 @@ struct RTInfoZ : NiDX9RenderTargetInfo
     }
     static void* operator new(unsigned int size)
     {
-        return FUN_00aa13e0(size);
+        return Object_DispatchCommandFour(size);
     }
 };
 struct D3DProbe
@@ -6608,7 +6609,7 @@ struct D3DProbe
 };
 struct ModeItemInit
 {
-    FUN_00e7b260* FUN_00e7b260(S00e7b590_D3D* dev, int ctx, D3DDEVTYPE eDeviceType, D3DFORMAT eAdapterFormat,
+    FUN_00e7b260* ProbeDeviceRenderFormats(S00e7b590_D3D* dev, int ctx, D3DDEVTYPE eDeviceType, D3DFORMAT eAdapterFormat,
                                bool bFullscreen, bool bWindowed);
 };
 void __cdecl NiDX9AdditionalDepthStencilBufferData_ShutdownAll();
@@ -6710,7 +6711,7 @@ class XfTransformBlock
     int unk50;
     XfCallee* m_pCalleeA;
     XfCallee* m_pCalleeB;
-    void FUN_00e62b20(__m128* in, __m128* out);
+    void UpdateFields_00e62b20(__m128* in, __m128* out);
 };
 extern "C" __m128 _mm_xor_ps(__m128, __m128);
 extern "C" __m128 _mm_sub_ss(__m128, __m128);
@@ -6767,8 +6768,8 @@ struct PodDst
 };
 struct SupportOwner
 {
-    void FUN_00e62b20(const hkVector4* direction, SupportResult* result);
-    __m128* FUN_00e62c60(Arg<__m128> out, const hkVector4* direction, Arg<const __m128> point, Arg<SupportResult> result);
+    void UpdateFields_00e62b20(const hkVector4* direction, SupportResult* result);
+    __m128* ProcessAndReturnValue_00e62c60(Arg<__m128> out, const hkVector4* direction, Arg<const __m128> point, Arg<SupportResult> result);
 };
 extern "C"
 {
@@ -6855,7 +6856,7 @@ struct TrianglePlane
     int m_3c;
     float m_40;
 
-    void FUN_00e67570();
+    void ComputePlaneNormalAndDistance();
 };
 extern "C" __m128 _mm_sqrt_ss(__m128);
 struct S00e61d30_TriVerts
@@ -6869,7 +6870,7 @@ static inline __m128 Sum3(__m128 a, __m128 b)
     __m128 m = _mm_mul_ps(a, b);
     return _mm_add_ss(_mm_shuffle_ps(m, m, 0xaa), _mm_add_ss(_mm_shuffle_ps(m, m, 0x55), m));
 }
-void FUN_00e61d30(const S00e61d30_TriVerts* tri, float* out);
+void Runtime_ComputeValues_00e61d30(const S00e61d30_TriVerts* tri, float* out);
 extern "C"
 {
     double __cdecl fabs(double x);
@@ -6892,7 +6893,7 @@ struct S00e67ae0_HullFace
 struct S00e67ae0_HullWalker
 {
     void ClearEntries();
-    S00e67ae0_HullFace* FUN_00e67ae0(S00e67ae0_HullFace* start);
+    S00e67ae0_HullFace* FindHullFaceBySideTests(S00e67ae0_HullFace* start);
 };
 NiPixelFormat* __cdecl CreatePixelFormat(unsigned int eD3DFormat);
 extern "C" __m128 _mm_rsqrt_ss(__m128);
@@ -7245,17 +7246,18 @@ class GskCollisionSolver
     hkPadSpu<hkVector4*> m_kVertexPosition;
     hkPadSpu<int> m_iStridedVertexCount;
 
-    void FUN_00e62b20(const hkVector4& direction, hkWingedEdge_Vertex* result);
-    void FUN_00e62c10(const hkWingedEdge_Vertex& p);
-    hkSimdReal FUN_00e62c60(const hkVector4& direction, const hkVector4& from, hkWingedEdge_Vertex& result);
+    void UpdateFields_00e62b20(const hkVector4& direction, hkWingedEdge_Vertex* result);
+    void UpdateState_00e62c10(const hkWingedEdge_Vertex& p);
+    hkSimdReal ProcessAndReturnValue_00e62c60(const hkVector4& direction, const hkVector4& from, hkWingedEdge_Vertex& result);
     hkBool case0To1(GskPointPair& output);
     void case1To2();
     void case2To3();
     hkResult case3To4(const hkVector4& normal);
-    int FUN_00e62d30(GskPointPair& output, hkGskStatus& gjkStatus);
+    int UpdateState_00e62d30(GskPointPair& output, hkGskStatus& gjkStatus);
 };
 
-__declspec(noinline) void GskCollisionSolver::FUN_00e62b20(const hkVector4& direction, hkWingedEdge_Vertex* result)
+// src: GUESS 0x00e62b20 (confidence: low)
+__declspec(noinline) void GskCollisionSolver::UpdateFields_00e62b20(const hkVector4& direction, hkWingedEdge_Vertex* result)
 {
     hkVector4 negDir;
     negDir.setNeg4(direction);
@@ -7270,7 +7272,8 @@ __declspec(noinline) void GskCollisionSolver::FUN_00e62b20(const hkVector4& dire
     result->m_vSecondVector = pointBinB;
 }
 
-__declspec(noinline) void GskCollisionSolver::FUN_00e62c10(const hkWingedEdge_Vertex& p)
+// src: GUESS 0x00e62c10 (confidence: low)
+__declspec(noinline) void GskCollisionSolver::UpdateState_00e62c10(const hkWingedEdge_Vertex& p)
 {
     int ss = m_iStridedVertexCount;
     m_kVertexPosition.val()[ss] = p.m_w;
@@ -7279,16 +7282,17 @@ __declspec(noinline) void GskCollisionSolver::FUN_00e62c10(const hkWingedEdge_Ve
     m_iStridedVertexCount = ss + 1;
 }
 
-__declspec(noinline) hkSimdReal GskCollisionSolver::FUN_00e62c60(const hkVector4& direction,
+// src: GUESS 0x00e62c60 (confidence: low)
+__declspec(noinline) hkSimdReal GskCollisionSolver::ProcessAndReturnValue_00e62c60(const hkVector4& direction,
                                                                                 const hkVector4& from,
                                                                                 hkWingedEdge_Vertex& result)
 {
     hkVector4 directionNeg;
     directionNeg.setNeg4(direction);
     hkWingedEdge_Vertex pA;
-    FUN_00e62b20(direction, &pA);
+    UpdateFields_00e62b20(direction, &pA);
     hkWingedEdge_Vertex* pB = &result;
-    FUN_00e62b20(directionNeg, pB);
+    UpdateFields_00e62b20(directionNeg, pB);
     hkVector4 t0;
     t0.setSub4(pA.m_w, from);
     hkSimdReal distancePos = t0.dot3(direction);
@@ -7314,8 +7318,8 @@ __forceinline hkBool GskCollisionSolver::case0To1(GskPointPair& output)
         goodInitialDirection = hkTransform::GetIdentityTransform().getColumn(1);
     }
     hkWingedEdge_Vertex p;
-    FUN_00e62b20(goodInitialDirection, &p);
-    FUN_00e62c10(p);
+    UpdateFields_00e62b20(goodInitialDirection, &p);
+    UpdateState_00e62c10(p);
     if (m_kVertexPosition.val()[0].lengthSquared3() <= m_toleranceSquared)
     {
         hkSimdReal dist = m_kVertexPosition.val()[0].length3();
@@ -7332,24 +7336,24 @@ __forceinline void GskCollisionSolver::case1To2()
 {
     const hkVector4& sameSideOfOriginToFirstPoint = m_kVertexPosition.val()[0];
     hkWingedEdge_Vertex pPos;
-    FUN_00e62b20(sameSideOfOriginToFirstPoint, &pPos);
+    UpdateFields_00e62b20(sameSideOfOriginToFirstPoint, &pPos);
     hkVector4 distanceVectorPos;
     distanceVectorPos.setSub4(pPos.m_w, m_kVertexPosition.val()[0]);
     const hkReal distanceSquaredPos = distanceVectorPos.lengthSquared3();
     hkVector4 oppositeSideOfOriginToFirstPoint;
     oppositeSideOfOriginToFirstPoint.setNeg4(sameSideOfOriginToFirstPoint);
     hkWingedEdge_Vertex pNeg;
-    FUN_00e62b20(oppositeSideOfOriginToFirstPoint, &pNeg);
+    UpdateFields_00e62b20(oppositeSideOfOriginToFirstPoint, &pNeg);
     hkVector4 distanceVectorNeg;
     distanceVectorNeg.setSub4(pNeg.m_w, m_kVertexPosition.val()[0]);
     const hkReal distanceSquaredNeg = distanceVectorNeg.lengthSquared3();
     if (distanceSquaredPos >= distanceSquaredNeg)
     {
-        FUN_00e62c10(pPos);
+        UpdateState_00e62c10(pPos);
     }
     else
     {
-        FUN_00e62c10(pNeg);
+        UpdateState_00e62c10(pNeg);
     }
 }
 
@@ -7364,33 +7368,34 @@ __forceinline void GskCollisionSolver::case2To3()
     segmentNormal.normalize3();
     rightAngleSegmentNormal.normalize3();
     hkWingedEdge_Vertex resultA;
-    hkSimdReal distA = FUN_00e62c60(segmentNormal, m_kVertexPosition.val()[0], resultA);
+    hkSimdReal distA = ProcessAndReturnValue_00e62c60(segmentNormal, m_kVertexPosition.val()[0], resultA);
     hkWingedEdge_Vertex resultB;
-    hkSimdReal distB = FUN_00e62c60(rightAngleSegmentNormal, m_kVertexPosition.val()[0], resultB);
+    hkSimdReal distB = ProcessAndReturnValue_00e62c60(rightAngleSegmentNormal, m_kVertexPosition.val()[0], resultB);
     if (hkMath_isNegative(distB - distA))
     {
-        FUN_00e62c10(resultA);
+        UpdateState_00e62c10(resultA);
     }
     else
     {
-        FUN_00e62c10(resultB);
+        UpdateState_00e62c10(resultB);
     }
 }
 
 __forceinline hkResult GskCollisionSolver::case3To4(const hkVector4& normal)
 {
     hkWingedEdge_Vertex result;
-    hkSimdReal dist = FUN_00e62c60(normal, m_kVertexPosition.val()[0], result);
+    hkSimdReal dist = ProcessAndReturnValue_00e62c60(normal, m_kVertexPosition.val()[0], result);
     if (hkMath_isNegative(dist - m_fScalar.getSimdAt(0)))
     {
         return HK_FAILURE;
     }
-    FUN_00e62c10(result);
+    UpdateState_00e62c10(result);
     return HK_SUCCESS;
 }
 
 // @fnv 0x00e62d30
-int GskCollisionSolver::FUN_00e62d30(GskPointPair& output, hkGskStatus& gjkStatus)
+// src: GUESS 0x00e62d30 (confidence: low)
+int GskCollisionSolver::UpdateState_00e62d30(GskPointPair& output, hkGskStatus& gjkStatus)
 {
     int highestCaseExecutedIndex = -1;
     hkVector4 triangleNormal;
@@ -7477,7 +7482,7 @@ int GskCollisionSolver::FUN_00e62d30(GskPointPair& output, hkGskStatus& gjkStatu
         {
             output.m_vPointOnShapeA.setXYZ0(triangleNormal);
             hkPadSpu<hkReal> lambda[3];
-            FUN_00e61a10(&DAT_01267e30.m_vComponents, &m_kVertexPosition.val()[0].m_vComponents,
+            Runtime_ComputeTriangleBarycentricWeights(&DAT_01267e30.m_vComponents, &m_kVertexPosition.val()[0].m_vComponents,
                          &m_kVertexPosition.val()[1].m_vComponents, &m_kVertexPosition.val()[2].m_vComponents,
                          reinterpret_cast<BarycentricResult*>(lambda));
             {
@@ -7608,7 +7613,8 @@ template <class T> static __forceinline T maximum(T a, T b)
     return a > b ? a : b;
 }
 // @fnv 0x00e67c50
-void __cdecl FUN_00e67c50(Polytope* a, Polytope* b, __m128* result, Face** outA, Face** outB)
+// src: GUESS 0x00e67c50 (confidence: low)
+void __cdecl Runtime_ProcessEntries_00e67c50(Polytope* a, Polytope* b, __m128* result, Face** outA, Face** outB)
 {
     float best = DAT_0104da48;
     int i = a->faceCount - 1;

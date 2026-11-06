@@ -5,7 +5,7 @@
 struct FUN_00cb0c00_class
 {
     int unk00;
-    void FUN_00cb0c00();
+    void Object_UpdateFields_00cb0c00();
 };
 struct Allocator
 {
@@ -32,8 +32,8 @@ struct Owner
 // @fnv 0x00e01ef0
 void* Owner::Destroy(unsigned int flags)
 {
-    unk18.FUN_00cb0c00();
-    unk14.FUN_00cb0c00();
+    unk18.Object_UpdateFields_00cb0c00();
+    unk14.Object_UpdateFields_00cb0c00();
     FUN_00e3eaa0();
     if (flags & 1)
     {

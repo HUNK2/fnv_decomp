@@ -67,7 +67,7 @@ struct FUN_00cb3ca0_object
     int unkA0;
     int unkA4;
     void __thiscall FUN_00c91120();
-    void __thiscall FUN_00c91140();
+    void __thiscall UpdateFields_00c91140();
 };
 void __cdecl hkpWorldConstraintUtil_addConstraint(FUN_00cb3ca0_object* object, int* value);
 void __cdecl hkpWorldCallbackUtil_fireConstraintAdded(FUN_00cb3ca0_object* object, int* value);
@@ -159,7 +159,7 @@ struct S_00cb3da0_Ctx
 };
 void NotifyTargets(S_00cb3da0_Ctx* ctx, void* p);
 void DetachRecord(void* p);
-void FUN_00cb3da0(S_00cb3da0_Ctx* ctx, void* p);
+void Object_NotifyAndDetachRecord(S_00cb3da0_Ctx* ctx, void* p);
 struct CB3DD0Collidable
 {
     int unk00;
@@ -1004,7 +1004,7 @@ struct S_00c6aca0_Cont
     int unk08;
     int unk0c;
     ~S_00c6aca0_Cont();
-    void FUN_00c67f20();
+    void DeleteListNodesAndReleaseOwner();
 };
 struct S_00c6aca0_Mm
 {
@@ -1832,7 +1832,7 @@ struct S00cb5310_Owner
 };
 extern int DAT_01267e30;
 void ResizeAudioStream(void* alloc, S00cb5310_List* list, int n);
-bool FUN_00d28560(float* p, S00cb5310_Piece** arr, int n, int size);
+bool Object_ProcessEntries_00d28560(float* p, S00cb5310_Piece** arr, int n, int size);
 void UpdateRotationInterpolation(float f, void* p);
 void hkpWorldCallbackUtil_fireIslandDeactivated(S00cb5310_Owner* a1, hkpSimulationIsland* a2);
 void __cdecl hkpWorldOperationUtil_internalDeactivateIsland(S00cb5310_Owner* a1, hkpSimulationIsland* a2);
@@ -3770,7 +3770,7 @@ struct CallInner
 {
     void hkpWorld_updateCollisionFilterOnEntity(void* p, void* q, int a);
     void FUN_00c91120();
-    void FUN_00c91140();
+    void UpdateFields_00c91140();
 };
 void hkpSimulation_collideEntitiesBroadPhaseDiscrete(void* p, int a, void* b);
 void hkpWorldOperationUtil_removeAttachedConstraints(MotionObj* a0, void* b);
@@ -5386,8 +5386,8 @@ struct SplitIsland_Arg1
     unsigned char field304;
     unsigned char f305;
     unsigned char f306;
-    void FUN_00c911f0(hkpSimulationIsland* a);
-    void FUN_00c91230(hkpSimulationIsland* a);
+    void UpdateState_00c911f0(hkpSimulationIsland* a);
+    void ProcessState_00c91230(hkpSimulationIsland* a);
 };
 struct SplitIsland_StreamLink
 {
@@ -5904,7 +5904,7 @@ void hkpWorldOperationUtil_splitSimulationIsland(hkpSimulationIsland* a0, SplitI
                         hkpSimulationIsland* head = (hkpSimulationIsland*)base;
                         (*(SplitIsland_Vec48*)&head->actions).SplitIsland_append((int)e2);
                     }
-                    a1->FUN_00c911f0(a0);
+                    a1->UpdateState_00c911f0(a0);
                 }
                 // cb6b6a / cb6c2d: walk a0 ox vec at +0x5c
                 if (((originalCount - kIter) * 8) < originalCount)
@@ -5997,7 +5997,7 @@ void hkpWorldOperationUtil_splitSimulationIsland(hkpSimulationIsland* a0, SplitI
                     }
                 }
                 // cb6d6d: c91230 + pow2-spread grow on a0 vec5c
-                a1->FUN_00c91230(a0);
+                a1->ProcessState_00c91230(a0);
                 (*(SplitIsland_Vec48*)&a0->unk5C).SplitIsland_compact();
                 // cb6dee: final byte-accumulate loop over SplitIsland_cursor array
                 for (int i = 1; i < alV; i++)

@@ -2,7 +2,7 @@
 // src/havok/unplaced/specificitemcollector.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/havok/specificitemcollector.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-void __fastcall FUN_0059cee0(void*);
+void __fastcall Object_ForwardCall_0059cee0(void*);
 void __cdecl Deallocate(void*);
 
 struct FUN_0062a2f0
@@ -14,7 +14,7 @@ struct FUN_0062a2f0
 // @fnv 0x0062a2f0
 void* FUN_0062a2f0::DeleteThis(unsigned int flags)
 {
-    FUN_0059cee0(this);
+    Object_ForwardCall_0059cee0(this);
     if (flags & 1)
         Deallocate(this);
     return this;

@@ -186,13 +186,13 @@ char __fastcall EvaluateColor(NiBSplineCompColorInterpolator* self, void*, float
     return 1;
 }
 
-extern void* __cdecl FUN_00aa13e0(unsigned int);
+extern void* __cdecl Object_DispatchCommandFour(unsigned int);
 // Allocates and initializes a clone, then copies the base and compressed scalar values.
 // @fnv 0x00a51890
 // src: XBOX_PDB 0x00a51890
 NiBSplineCompColorInterpolator* NiBSplineCompColorInterpolator::CreateClone_00a51890(CloningProcess& process)
 {
-    NiBSplineCompColorInterpolator* __restrict result = (NiBSplineCompColorInterpolator*)FUN_00aa13e0(0x3c);
+    NiBSplineCompColorInterpolator* __restrict result = (NiBSplineCompColorInterpolator*)Object_DispatchCommandFour(0x3c);
     if (result)
     {
         ((ColorInterpolatorBaseConstruction*)result)->Construct(0, 0xffff, 0);

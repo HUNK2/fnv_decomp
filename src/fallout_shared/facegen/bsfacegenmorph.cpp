@@ -79,7 +79,7 @@ void BSFaceGenMorphDifferential::ApplyDifferentialMorph(NiTriBasedGeom* geom, BS
     for (unsigned int i = 0; i < ItemUpdateArray; ++i, localC.AddToA())
     {
         localC.CopyV3(localD);
-        localD.FUN_0063c8a0(((NiPoint3*)data[0])[i] * weight);
+        localD.ComputeValue_0063c8a0(((NiPoint3*)data[0])[i] * weight);
         localC.SetPoint(localD);
     }
 }
@@ -100,7 +100,7 @@ void BSFaceGenMorphStatistical::ApplyDifferentialMorph(NiTriBasedGeom* geom, BSF
     {
         ItemUpdateArray = ((unsigned long*)data[0])[i];
         localC.NiGeometryDataIteratorNiPoint3_Get(ItemUpdateArray, localD);
-        localD.FUN_0063c8a0((pData[this->extra + i] - pData[ItemUpdateArray]) * weight);
+        localD.ComputeValue_0063c8a0((pData[this->extra + i] - pData[ItemUpdateArray]) * weight);
         localC.SetVertex(ItemUpdateArray, localD);
     }
 }

@@ -27,7 +27,7 @@ public:
     unsigned int m_pRayCursor;
 
     void Realloc(unsigned int);
-    void FUN_00a56e60(unsigned int ItemUpdateArray);
+    void ProcessEntries_00a56e60(unsigned int ItemUpdateArray);
     unsigned int Find(Item* item);
     int Find(unsigned int value);
     void Add(Item* item);
@@ -46,11 +46,12 @@ struct FUN_00a543f0_shell
 {
     void* m_kPointA;
     void* m_ptr;
-    void FUN_00a543f0();
+    void ReleaseStorage_00a543f0();
 };
 
 // @fnv 0x00a543f0
-void FUN_00a543f0_shell::FUN_00a543f0()
+// src: GUESS 0x00a543f0 (confidence: low)
+void FUN_00a543f0_shell::ReleaseStorage_00a543f0()
 {
     void* p = m_ptr;
     m_kPointA = &DAT_0109a2a4;

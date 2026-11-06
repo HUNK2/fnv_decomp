@@ -49,10 +49,11 @@ class FUN_00b012a0_cls
 {
   public:
     unsigned char m_00;
-    void FUN_00b012a0();
+    void UpdateFields_00b012a0();
 };
 // @fnv 0x00b012a0
-void FUN_00b012a0_cls::FUN_00b012a0()
+// src: GUESS 0x00b012a0 (confidence: low)
+void FUN_00b012a0_cls::UpdateFields_00b012a0()
 {
     BSFileCache* cache = FUN_00aff100();
     if (!IsCacheFinished(cache) && m_00 == 0)

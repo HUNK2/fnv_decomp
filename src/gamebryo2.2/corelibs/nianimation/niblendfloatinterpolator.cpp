@@ -206,7 +206,7 @@ void __fastcall AppendFloatValueStrings(NiBlendFloatInterpolator* self, int, M76
 }
 }  // namespace fnv_00a408f0
 
-extern void* __cdecl FUN_00aa13e0(unsigned int size);
+extern void* __cdecl Object_DispatchCommandFour(unsigned int size);
 struct CopyMembersArguments
 {
     NiBlendFloatInterpolator* destination;
@@ -219,7 +219,7 @@ extern "C" void __fastcall NiBlendInterpolator_CopyMembers(void* source, CopyMem
 NiBlendFloatInterpolator* __fastcall CloneFloatInterpolator(NiBlendFloatInterpolator* self, int, void* pCloningProcess)
 {
     NiBlendFloatInterpolator* copy =
-        static_cast<NiBlendFloatInterpolator*>(FUN_00aa13e0(sizeof(NiBlendFloatInterpolator)));
+        static_cast<NiBlendFloatInterpolator*>(Object_DispatchCommandFour(sizeof(NiBlendFloatInterpolator)));
     if (copy)
     {
         NiBlendInterpolator_NiBlendInterpolator(copy);

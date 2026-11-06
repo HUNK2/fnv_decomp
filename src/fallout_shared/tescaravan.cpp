@@ -426,7 +426,7 @@ struct FUN_00485e00_shell
 // @fnv 0x0059b1b0
 void TESCaravanMoney::SaveForm()
 {
-    TESForm::FUN_004855a0();
+    TESForm::BeginFormRecord();
     ((S_00487010*)((char*)this + 0x30))->Save_00487010();
     reinterpret_cast<TESModelTextureSwap*>(reinterpret_cast<char*>(this) + sizeof(TESBoundObject) + sizeof(TESFullName))->ProcessAndFreeData(0x4c444f4d, 0x54444f4d, 0x53444f4d);
     ((FUN_0048e370_shell*)((char*)this + 0x5c))->TESTexture_Save(0x4e4f4349);
@@ -435,7 +435,7 @@ void TESCaravanMoney::SaveForm()
     ((FUN_00485e00_shell*)this)->TESForm_SaveData();
     ((TESModelTextureSwap*)GetModelTextureSwap(0))->ProcessAndFreeData(0x32444f4d, 0x54444f4d, 0x53444f4d);
     ((TESModelTextureSwap*)GetModelTextureSwap(1))->ProcessAndFreeData(0x33444f4d, 0x54444f4d, 0x53444f4d);
-    TESForm::FUN_00485680();
+    TESForm::FinishFormRecord();
 }
 
 void _Deallocate(void*);
@@ -475,7 +475,7 @@ struct CaravanCardWriter : TESCaravanCard
 // @fnv 0x0059a720
 void CaravanCardWriter::SaveForm()
 {
-    TESForm::FUN_004855a0();
+    TESForm::BeginFormRecord();
     ((S_00487010*)((char*)this + 0x30))->Save_00487010();
     reinterpret_cast<TESModelTextureSwap*>(reinterpret_cast<char*>(this) + sizeof(TESBoundObject) + sizeof(TESFullName))->ProcessAndFreeData(0x4c444f4d, 0x54444f4d, 0x53444f4d);
     ((FUN_0048e370_obj*)((char*)this + 0x5c))->TESTexture_Save(0x4e4f4349);
@@ -487,7 +487,7 @@ void CaravanCardWriter::SaveForm()
     _FUN_00485910(0x56544e49, data.m_uiSecondValue);
     _FUN_00485910(0x56544e49, data.m_uiFirstValue);
     ((FUN_00485e00_shell*)this)->TESForm_SaveData();
-    TESForm::FUN_00485680();
+    TESForm::FinishFormRecord();
 }
 
 struct CaravanCardSaveGame : TESCaravanCard

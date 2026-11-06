@@ -45,17 +45,18 @@ struct FUN_00a93750_shell
     NiFile* m_pFile;
     unsigned int m_nCount;
     void** m_pEntryData;
-    void FUN_00a93750();
+    void ProcessEntries_00a93750();
 };
 // @fnv 0x00a93750
-void FUN_00a93750_shell::FUN_00a93750()
+// src: GUESS 0x00a93750 (confidence: low)
+void FUN_00a93750_shell::ProcessEntries_00a93750()
 {
     m_pData = &DAT_0109ff64;
     for (unsigned int i = 0; i < m_nCount; ++i)
         NiFreeAlias(m_pEntryData[i]);
     NiFreeAlias(m_pEntryData);
     m_pEntryData = 0;
-    reinterpret_cast<NiExtraData*>(this)->FUN_00a7b300();
+    reinterpret_cast<NiExtraData*>(this)->DestroyFields_00a7b300();
 }
 
 void __cdecl _delete(void* p, unsigned int);
@@ -65,13 +66,13 @@ struct NiSwitchStringExtraData
     void* __thiscall FUN_00a938b0(unsigned int flags);
 };
 
-void __cdecl FUN_00a93750();
+void __cdecl ProcessEntries_00a93750();
 
 // Calls FUN_00a93750, then frees this with _delete when flags has bit 0 set, and returns this.
 // @fnv 0x00a938b0
 void* __thiscall NiSwitchStringExtraData::FUN_00a938b0(unsigned int flags)
 {
-    FUN_00a93750();
+    ProcessEntries_00a93750();
     if (flags & 1)
         _delete(this, 24);
     return this;

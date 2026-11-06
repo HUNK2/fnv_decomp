@@ -52,12 +52,13 @@ unsigned int __cdecl gm_GetTickCount();
 
 struct FUN_0076bda0_class
 {
-    FUN_0076bda0_class* __thiscall FUN_0076bda0();
+    FUN_0076bda0_class* __thiscall ProcessAndReturnValue_0076bda0();
     void __thiscall BSTimer_Init(unsigned int);
 };
 
 // @fnv 0x0076bda0
-FUN_0076bda0_class* __thiscall FUN_0076bda0_class::FUN_0076bda0()
+// src: GUESS 0x0076bda0 (confidence: low)
+FUN_0076bda0_class* __thiscall FUN_0076bda0_class::ProcessAndReturnValue_0076bda0()
 {
     BSTimer_Init(gm_GetTickCount());
     return this;
@@ -246,7 +247,7 @@ unsigned int BSSimpleArray<NiFixedString, 1024>::ReserveIndex(const NiFixedStrin
 {
     unsigned int size = ReserveIndex();
     InitializeItems(pBuffer + size, 1);
-    (pBuffer + size)->FUN_0043ba10(value);
+    (pBuffer + size)->AssignInternedString(value);
     return size;
 }
 
@@ -1389,7 +1390,7 @@ struct HKWordNode
 
 struct HKWordSet
 {
-    bool FUN_0076a3d0(const char* pcWord);
+    bool ForwardCall_0076a3d0(const char* pcWord);
     void AssignString(const char* pcWord);
     unsigned int TESMain_GetThread(int iFlag);
 };
@@ -1498,7 +1499,7 @@ void HKMenu::UpdateHighlight()
         GetGarbageString(acWordNext, DAT_011d95bc->m_pkTextTile->Tile_GetString(0xfc4) + GetScaledValue());
     else
         acWordNext[0] = DAT_011d95bc->m_pkTextTile->Tile_GetString(0xfc4)[GetScaledValue()];
-    if (m_kGuessed.FUN_0076a3d0(acWordNext))
+    if (m_kGuessed.ForwardCall_0076a3d0(acWordNext))
     {
         m_kGuessed.AssignString(acWordNext);
         for (HKSoundNode* pkSound = &DAT_011d9604; pkSound && pkSound->FUN_006815c0()->operator!=(-1);

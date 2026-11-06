@@ -255,7 +255,8 @@ void* __cdecl hkpActiveContactPointViewer_create(int aiArg)
 extern int DAT_0126900c;
 
 // @fnv 0x00d688f0
-int __cdecl FUN_00d688f0()
+// src: GUESS 0x00d688f0 (confidence: low)
+int __cdecl Runtime_GetDAT0126900c()
 {
     return DAT_0126900c;
 }
@@ -288,7 +289,8 @@ D68910Object* D68910Object::DestroyAndFree(unsigned int uiFlags)
 extern char DAT_0126905c;
 
 // @fnv 0x00d6ade0
-void* __cdecl FUN_00d6ade0()
+// src: GUESS 0x00d6ade0 (confidence: low)
+void* __cdecl Object_GetGlobalObjectAddress_00d6ade0()
 {
     return &DAT_0126905c;
 }
@@ -298,7 +300,8 @@ struct S_00d6adf0_Obj
     virtual void vfn00(int arg);
 };
 // @fnv 0x00d6adf0
-void __cdecl FUN_00d6adf0(S_00d6adf0_Obj* obj)
+// src: GUESS 0x00d6adf0 (confidence: low)
+void __cdecl Runtime_ForwardCall_00d6adf0(S_00d6adf0_Obj* obj)
 {
     obj->vfn00(0);
 }
@@ -306,7 +309,8 @@ void __cdecl FUN_00d6adf0(S_00d6adf0_Obj* obj)
 extern int DAT_0126908c;
 
 // @fnv 0x00d6ae00
-int* __cdecl FUN_00d6ae00()
+// src: GUESS 0x00d6ae00 (confidence: low)
+int* __cdecl Object_GetGlobalObjectAddress_00d6ae00()
 {
     return &DAT_0126908c;
 }
@@ -317,7 +321,8 @@ struct FUN_00c90e00_Obj
 };
 
 // @fnv 0x00d6ae90
-void __cdecl FUN_00d6ae90(FUN_00c90e00_Obj* pObj, int iValue)
+// src: GUESS 0x00d6ae90 (confidence: low)
+void __cdecl Runtime_ProcessState_00d6ae90(FUN_00c90e00_Obj* pObj, int iValue)
 {
     if (pObj != 0)
     {
@@ -333,7 +338,8 @@ struct VtblForwarder
 };
 
 // @fnv 0x00d6aeb0
-int __cdecl FUN_00d6aeb0(VtblForwarder* p)
+// src: GUESS 0x00d6aeb0 (confidence: low)
+int __cdecl Runtime_ForwardCall_00d6aeb0(VtblForwarder* p)
 {
     return p->v0(0);
 }
@@ -341,7 +347,8 @@ int __cdecl FUN_00d6aeb0(VtblForwarder* p)
 extern int DAT_01269104;
 
 // @fnv 0x00d6aee0
-void* __cdecl FUN_00d6aee0()
+// src: GUESS 0x00d6aee0 (confidence: low)
+void* __cdecl Object_GetGlobalObjectAddress_00d6aee0()
 {
     return &DAT_01269104;
 }
@@ -419,11 +426,12 @@ struct FUN_00d76f90_cls
     int unk00;
     int unk04;
     Inner* m_08;
-    void FUN_00d76f90();
+    void ForwardCall_00d76f90();
 };
 
 // @fnv 0x00d76f90
-void FUN_00d76f90_cls::FUN_00d76f90()
+// src: GUESS 0x00d76f90 (confidence: low)
+void FUN_00d76f90_cls::ForwardCall_00d76f90()
 {
     m_08->Tail();
 }
@@ -432,7 +440,8 @@ namespace fnv_00d68820 {
 extern int DAT_01269008;
 
 // @fnv 0x00d68820
-int FUN_00d68820()
+// src: GUESS 0x00d68820 (confidence: low)
+int Object_GetDAT_01269008_00d68820()
 {
     return DAT_01269008;
 }
@@ -513,11 +522,12 @@ struct D60590Object
     int unk04;
     hkReferencedObject* callback;
 
-    void FUN_00d60590();
+    void ReleaseReference_00d60590();
 };
 
 // @fnv 0x00d60590
-void D60590Object::FUN_00d60590()
+// src: GUESS 0x00d60590 (confidence: medium)
+void D60590Object::ReleaseReference_00d60590()
 {
     vtable = &DAT_010d14f8;
     callback->removeReference();
@@ -564,22 +574,24 @@ void hkOArchive::write16(short i)
 struct FUN_00d60600_class
 {
     void __thiscall WriteSwapped(int a, int b, int c);
-    void __thiscall FUN_00d60b20(int a, int b);
+    void __thiscall WriteSwapped_Thunk(int a, int b);
 };
 
 // @fnv 0x00d60b20
-void __thiscall FUN_00d60600_class::FUN_00d60b20(int a, int aiValue)
+// src: GUESS 0x00d60b20 (confidence: medium)
+void __thiscall FUN_00d60600_class::WriteSwapped_Thunk(int a, int aiValue)
 {
     WriteSwapped(a, 8, aiValue);
 }
 
 struct FUN_00d61470_Class
 {
-    void* FUN_00d61470();
+    void* ReturnSelf();
 };
 
 // @fnv 0x00d61470
-void* FUN_00d61470_Class::FUN_00d61470()
+// src: GUESS 0x00d61470 (confidence: high)
+void* FUN_00d61470_Class::ReturnSelf()
 {
     return this;
 }
@@ -745,7 +757,8 @@ void __fastcall StringBufCompareCaseInsensitive(hkStringBuf* self, void*, int iV
 int __stdcall FUN_00d61680(unsigned int value);
 
 // @fnv 0x00d616e0
-int __stdcall FUN_00d616e0(unsigned int value)
+// src: GUESS 0x00d616e0 (confidence: low)
+int __stdcall Object_ForwardCall_00d616e0(unsigned int value)
 {
     return FUN_00d61680(value) == 0;
 }
@@ -1101,7 +1114,7 @@ struct FUN_00d62ef0_cls
     int unk24;
     unsigned char unk28;
 
-    FUN_00d62ef0_cls* FUN_00d62ef0(int aParam, unsigned char aValue);
+    FUN_00d62ef0_cls* UpdateState_00d62ef0(int aParam, unsigned char aValue);
 };
 
 extern int DAT_010d1720;
@@ -1110,7 +1123,8 @@ extern int DAT_010d16f0;
 
 // Calls FUN_00ddccb0 with aParam, then stores three global addresses and aValue into the object's fields and returns this.
 // @fnv 0x00d62ef0
-FUN_00d62ef0_cls* __thiscall FUN_00d62ef0_cls::FUN_00d62ef0(int aParam, unsigned char aValue)
+// src: GUESS 0x00d62ef0 (confidence: low)
+FUN_00d62ef0_cls* __thiscall FUN_00d62ef0_cls::UpdateState_00d62ef0(int aParam, unsigned char aValue)
 {
     ((FUN_00ddccb0_Obj*)this)->FUN_00ddccb0(aParam);
     unk00 = &DAT_010d1720;
@@ -1125,7 +1139,7 @@ struct HeapBlockMetadata
     unsigned int flags;
     unsigned short size;
     unsigned short reserved;
-    HeapBlockMetadata* FUN_00d62ef0(void* data, unsigned int enabled);
+    HeapBlockMetadata* UpdateState_00d62ef0(void* data, unsigned int enabled);
 };
 // @fnv 0x00d62f60
 void* __cdecl AllocateRecordWithData(void* data)
@@ -1133,7 +1147,7 @@ void* __cdecl AllocateRecordWithData(void* data)
     hkMemoryRouter* memory = static_cast<hkMemoryRouter*>(hkMemoryRouter_getInstance());
     HeapBlockMetadata* record = static_cast<HeapBlockMetadata*>(reinterpret_cast<hkMemoryAllocator*>(memory->m_heap)->blockAlloc(44));
     record->size = 44;
-    HeapBlockMetadata* result = record->FUN_00d62ef0(data, 1);
+    HeapBlockMetadata* result = record->UpdateState_00d62ef0(data, 1);
     return result ? reinterpret_cast<char*>(result) + 8 : 0;
 }
 
@@ -1215,12 +1229,13 @@ struct hkObjD633
     hkListenerD633 m_kListener;
     hkContainerD633* m_container;
 
-    void FUN_00d63300();
+    void NotifyContainerItems();
 };
 
 // Iterates the container's items and passes each to the listener's v04 callback when m_container is set.
 // @fnv 0x00d63300
-void hkObjD633::FUN_00d63300()
+// src: GUESS 0x00d63300 (confidence: medium)
+void hkObjD633::NotifyContainerItems()
 {
     if (m_container)
     {
@@ -1245,8 +1260,8 @@ class FUN_00ddf050_cls
     int m_iElementCount;
 
     void ClearContainer() throw();
-    void FUN_00ddf030(int i) throw();
-    void FUN_00ddf040() throw();
+    void Clear_Thunk(int i) throw();
+    void Object_Clear_Thunk() throw();
 
     int GetLogicalSize() const
     {
@@ -1305,10 +1320,10 @@ class FUN_00d63370_class
 void FUN_00d63370_class::UpdatePhysicsDebugDisplay(float fFrameTime) throw()
 {
     m_pStreamWriter.ClearContainer();
-    m_pStreamWriter.FUN_00ddf030(0);
+    m_pStreamWriter.Clear_Thunk(0);
     for (int i = 0; i < m_iValueAtOffset0C->m_numWorlds; i++)
         m_pStreamWriter.addObject("World", m_iValueAtOffset0C->m_ppWorlds[i], 0);
-    m_pStreamWriter.FUN_00ddf040();
+    m_pStreamWriter.Object_Clear_Thunk();
     if (m_pStreamWriter.hasData())
         m_pDisplayHandler->WriteOutput(m_pStreamWriter.getData(), m_pStreamWriter.GetLogicalSize());
 }
@@ -1334,7 +1349,8 @@ void __cdecl InitWorldMemory()
 
 extern int DAT_01268fc8;
 // @fnv 0x00d63420
-int __cdecl FUN_00d63420()
+// src: GUESS 0x00d63420 (confidence: low)
+int __cdecl Object_GetDAT_01268fc8_00d63420()
 {
     return DAT_01268fc8;
 }
@@ -1500,11 +1516,12 @@ struct FUN_00d65250_cls
     unsigned char unk60;
     unsigned char unk61;
 
-    void __thiscall FUN_00d65250(unsigned char value);
+    void __thiscall SetUnk61(unsigned char value);
 };
 
 // @fnv 0x00d65250
-void __thiscall FUN_00d65250_cls::FUN_00d65250(unsigned char value)
+// src: GUESS 0x00d65250 (confidence: low)
+void __thiscall FUN_00d65250_cls::SetUnk61(unsigned char value)
 {
     unk61 = value;
 }
@@ -1538,10 +1555,11 @@ struct FnvCpu_FUN_00d65260_CpuObject
     unsigned int unk60;
     unsigned char unk64;
     unsigned char value;
-    void FUN_00d65260(unsigned char arg0);
+    void SetValue_00d65260(unsigned char arg0);
 };
 // @fnv 0x00d65260
-void FnvCpu_FUN_00d65260_CpuObject::FUN_00d65260(unsigned char arg0)
+// src: GUESS 0x00d65260 (confidence: medium)
+void FnvCpu_FUN_00d65260_CpuObject::SetValue_00d65260(unsigned char arg0)
 {
     value = arg0;
 }
@@ -1575,10 +1593,11 @@ struct FnvCpu_FUN_00d65270_CpuObject
     unsigned char unk60;
     unsigned char unk61;
     unsigned char value;
-    void FUN_00d65270(unsigned char arg0);
+    void SetValue(unsigned char arg0);
 };
 // @fnv 0x00d65270
-void FnvCpu_FUN_00d65270_CpuObject::FUN_00d65270(unsigned char arg0)
+// src: GUESS 0x00d65270 (confidence: low)
+void FnvCpu_FUN_00d65270_CpuObject::SetValue(unsigned char arg0)
 {
     value = arg0;
 }
@@ -1614,11 +1633,12 @@ struct FUN_00d65280_cls
     char unk62;
     bool m_63;
 
-    void FUN_00d65280(bool bValue);
+    void SetField63_00d65280(bool bValue);
 };
 
 // @fnv 0x00d65280
-void FUN_00d65280_cls::FUN_00d65280(bool bValue)
+// src: GUESS 0x00d65280 (confidence: low)
+void FUN_00d65280_cls::SetField63_00d65280(bool bValue)
 {
     m_63 = bValue;
 }
@@ -1651,10 +1671,11 @@ struct FnvCpu_FUN_00d65290_CpuObject
     unsigned int unk5c;
     unsigned int unk60;
     unsigned char value;
-    void FUN_00d65290(unsigned char arg0);
+    void SetValue(unsigned char arg0);
 };
 // @fnv 0x00d65290
-void FnvCpu_FUN_00d65290_CpuObject::FUN_00d65290(unsigned char arg0)
+// src: GUESS 0x00d65290 (confidence: low)
+void FnvCpu_FUN_00d65290_CpuObject::SetValue(unsigned char arg0)
 {
     value = arg0;
 }
@@ -1666,7 +1687,8 @@ void __cdecl nullsub_103()
 
 extern "C" void __cdecl hkMathUtil_decompose4x4ColTransform();
 // @fnv 0x00d73380
-void __cdecl FUN_00d73380()
+// src: GUESS 0x00d73380 (confidence: medium)
+void __cdecl Object_HkMathUtil_decompose4x4ColTransform_Thunk()
 {
     hkMathUtil_decompose4x4ColTransform();
 }
@@ -1696,11 +1718,12 @@ struct FUN_00d73400_cls
     int unk08;
     int unk0C;
 
-    void FUN_00d73400();
+    void UpdateFields_00d73400();
 };
 
 // @fnv 0x00d73400
-void FUN_00d73400_cls::FUN_00d73400()
+// src: GUESS 0x00d73400 (confidence: low)
+void FUN_00d73400_cls::UpdateFields_00d73400()
 {
     unk00 = 0;
     unk04 = 0;
@@ -1727,28 +1750,28 @@ void hkpTransformCollapseUtilResultsD734::PrintResults() throw()
     {
         unsigned int auiBuf[128];
         hkErrStream kStream(auiBuf, sizeof(auiBuf));
-        kStream.FUN_00cc01c0("Number of collapsed shapes :").WriteInt(m_iFirstResult);
+        kStream.ProcessAndReturnValue_00cc01c0("Number of collapsed shapes :").WriteInt(m_iFirstResult);
         DAT_01268360->message(0, -1, (const char*)auiBuf,
                               ".\\Collide\\ShapeUtils\\CollapseTransform\\hkpTransformCollapseUtil.cpp", 57);
     }
     {
         unsigned int auiBuf[128];
         hkErrStream kStream(auiBuf, sizeof(auiBuf));
-        kStream.FUN_00cc01c0("Number of identity transforms removed : ").WriteInt(m_iSecondResult);
+        kStream.ProcessAndReturnValue_00cc01c0("Number of identity transforms removed : ").WriteInt(m_iSecondResult);
         DAT_01268360->message(0, -1, (const char*)auiBuf,
                               ".\\Collide\\ShapeUtils\\CollapseTransform\\hkpTransformCollapseUtil.cpp", 58);
     }
     {
         unsigned int auiBuf[128];
         hkErrStream kStream(auiBuf, sizeof(auiBuf));
-        kStream.FUN_00cc01c0("Number of specialized transform shapes : ").WriteInt(m_iThirdResult);
+        kStream.ProcessAndReturnValue_00cc01c0("Number of specialized transform shapes : ").WriteInt(m_iThirdResult);
         DAT_01268360->message(0, -1, (const char*)auiBuf,
                               ".\\Collide\\ShapeUtils\\CollapseTransform\\hkpTransformCollapseUtil.cpp", 59);
     }
     {
         unsigned int auiBuf[128];
         hkErrStream kStream(auiBuf, sizeof(auiBuf));
-        kStream.FUN_00cc01c0("Number of propagated transforms to lists : ").WriteInt(m_iFourthResult);
+        kStream.ProcessAndReturnValue_00cc01c0("Number of propagated transforms to lists : ").WriteInt(m_iFourthResult);
         DAT_01268360->message(0, -1, (const char*)auiBuf,
                               ".\\Collide\\ShapeUtils\\CollapseTransform\\hkpTransformCollapseUtil.cpp", 60);
     }
@@ -1756,19 +1779,20 @@ void hkpTransformCollapseUtilResultsD734::PrintResults() throw()
 
 struct FnvCpu_FUN_00d76d80_CpuTarget
 {
-    void FUN_00d81340();
+    void ProcessEntries_00d81340();
 };
 struct FnvCpu_FUN_00d76d80_CpuOwner
 {
     unsigned int unk00;
     unsigned int unk04;
     FnvCpu_FUN_00d76d80_CpuTarget* target;
-    void FUN_00d76d80();
+    void ForwardCall_00d76d80();
 };
 // @fnv 0x00d76d80
-void FnvCpu_FUN_00d76d80_CpuOwner::FUN_00d76d80()
+// src: GUESS 0x00d76d80 (confidence: low)
+void FnvCpu_FUN_00d76d80_CpuOwner::ForwardCall_00d76d80()
 {
-    target->FUN_00d81340();
+    target->ProcessEntries_00d81340();
 }
 
 extern int DAT_010d14f8;
@@ -2066,14 +2090,15 @@ hkProcess* __cdecl hkpWorldSnapshotViewer_createNative(void* contactMgr)
 }
 
 // @fnv 0x00d6c1a0
-__declspec(noinline) static void FUN_00d6c1a0(int* piValue)
+// src: GUESS 0x00d6c1a0 (confidence: low)
+__declspec(noinline) static void Object_UpdateFields_00d6c1a0(int* piValue)
 {
     *piValue -= 16;
 }
 
 void E6C1A0Adjust(int* piValue)
 {
-    FUN_00d6c1a0(piValue);
+    Object_UpdateFields_00d6c1a0(piValue);
 }
 
 // FUN_00d73400's body must be in-TU so VC9 knows it clobbers only eax:
@@ -2087,10 +2112,11 @@ struct Z0
     int m_iUnk04;
     int m_iUnk08;
     int m_iUnk0C;
-    void FUN_00d73400();
+    void UpdateFields_00d73400();
 };
 
-__declspec(noinline) void Z0::FUN_00d73400()
+// src: GUESS 0x00d73400 (confidence: low)
+__declspec(noinline) void Z0::UpdateFields_00d73400()
 {
     m_iUnk00 = 0;
     m_iUnk04 = 0;
@@ -2115,7 +2141,7 @@ FUN_00d73410::FUN_00d73410()
     m_iUnk04 = 0;
     m_iUnk08 = 0;
     m_iUnk0C = 0;
-    ((Z0*)this)->FUN_00d73400();
+    ((Z0*)this)->UpdateFields_00d73400();
 }
 
 struct Node
@@ -2272,7 +2298,8 @@ extern "C" LocalM128 g_d6c1d0_out[4];
 
 // For i=0..3 sets out[i] to b[i].x*a[0] + b[i].y*a[1] + b[i].z*a[2], then adds a[3] to out[3].
 // @fnv 0x00d6c1d0
-static __declspec(noinline) void FUN_00d6c1d0(LocalM128* __restrict out, const LocalM128* __restrict a,
+// src: GUESS 0x00d6c1d0 (confidence: medium)
+static __declspec(noinline) void Runtime_MultiplyAffineTransformColumns(LocalM128* __restrict out, const LocalM128* __restrict a,
                                               const LocalM128* __restrict b)
 {
     const LocalM128& c1 = a[1];
@@ -2290,7 +2317,7 @@ static __declspec(noinline) void FUN_00d6c1d0(LocalM128* __restrict out, const L
 
 void fnv_probe_d6c1d0()
 {
-    FUN_00d6c1d0(g_d6c1d0_out, g_d6c1d0_mat, g_d6c1d0_src);
+    Runtime_MultiplyAffineTransformColumns(g_d6c1d0_out, g_d6c1d0_mat, g_d6c1d0_src);
 }
 
 extern float DAT_011b6924;
@@ -2305,7 +2332,8 @@ struct IntegratorD720
     float state;
 };
 // @fnv 0x00d720a0
-static __declspec(noinline) float FUN_00d720a0(IntegratorD720* self, float input, float step)
+// src: GUESS 0x00d720a0 (confidence: low)
+static __declspec(noinline) float Object_ComputeValue_00d720a0(IntegratorD720* self, float input, float step)
 {
     float value = self->state;
     float delta = input - value;
@@ -2328,16 +2356,17 @@ IntegratorD720* volatile integratorD720;
 volatile float inputD720, stepD720, resultD720;
 void invokeD720()
 {
-    resultD720 = FUN_00d720a0(integratorD720, inputD720, stepD720);
+    resultD720 = Object_ComputeValue_00d720a0(integratorD720, inputD720, stepD720);
 }
 
 struct FUN_00d74dc0_cls
 {
-    void* FUN_00d74dc0();
+    void* GetFieldAtOffset10Address_00d74dc0();
 };
 
 // @fnv 0x00d74dc0
-void* FUN_00d74dc0_cls::FUN_00d74dc0()
+// src: GUESS 0x00d74dc0 (confidence: low)
+void* FUN_00d74dc0_cls::GetFieldAtOffset10Address_00d74dc0()
 {
     return (char*)this + 0x10;
 }
@@ -2409,7 +2438,7 @@ namespace fnv_00d68900 {
 // PrimaryBase is 0x20 bytes: vptr + seven ints.
 struct PrimaryBase
 {
-    virtual void FUN_00d68900();
+    virtual void AdjustThisAndForward_00d68900();
     int unk04;
     int unk08;
     int unk0c;
@@ -2421,14 +2450,15 @@ struct PrimaryBase
 
 struct SecondaryBase
 {
-    virtual void FUN_00d68900();
+    virtual void AdjustThisAndForward_00d68900();
 };
 
 struct Derived : PrimaryBase, SecondaryBase
 {
     Derived();
 // @fnv 0x00d68900
-    virtual void FUN_00d68900();
+// src: GUESS 0x00d68900 (confidence: low)
+    virtual void AdjustThisAndForward_00d68900();
 };
 
 Derived::Derived()
@@ -2443,7 +2473,8 @@ struct Node_d6c580
 };
 
 // @fnv 0x00d6c580
-static __declspec(noinline) Node_d6c580* FUN_00d6c580(Node_d6c580* n)
+// src: GUESS 0x00d6c580 (confidence: low)
+static __declspec(noinline) Node_d6c580* Object_ProcessEntries_00d6c580(Node_d6c580* n)
 {
     do
     {
@@ -2454,18 +2485,19 @@ static __declspec(noinline) Node_d6c580* FUN_00d6c580(Node_d6c580* n)
 
 Node_d6c580* zz_probe_d6c580(Node_d6c580* n)
 {
-    return FUN_00d6c580(n);
+    return Object_ProcessEntries_00d6c580(n);
 }
 
 // @fnv 0x00d6c590
-static __declspec(noinline) void FUN_00d6c590(int* p)
+// src: GUESS 0x00d6c590 (confidence: low)
+static __declspec(noinline) void Runtime_UpdateState_00d6c590(int* p)
 {
     *p -= 0x10;
 }
 
 void zz_probe_d6c590(int* p)
 {
-    FUN_00d6c590(p);
+    Runtime_UpdateState_00d6c590(p);
 }
 
 
@@ -2633,7 +2665,8 @@ static __forceinline void RotateDirections(const RotationColumns& rotation, cons
 
 // Rotates four vectors from local.localA and local.localB by the rotations of input.transformA and transformB, storing them in outputA and outputB.
 // @fnv 0x00d6c3c0
-static __declspec(noinline) void FUN_00d6c3c0(const LocalOrientations& local, const ConstraintQuery& input,
+// src: GUESS 0x00d6c3c0 (confidence: medium)
+static __declspec(noinline) void Object_RotateBodyVectorBundles(const LocalOrientations& local, const ConstraintQuery& input,
                                               RigidTransform& outputA, RigidTransform& outputB)
 {
     RotateDirections(input.transformA.get()->rotation(), &local.localA.column(0), 4, &outputA.rotation().column(0));
@@ -2643,7 +2676,7 @@ static __declspec(noinline) void FUN_00d6c3c0(const LocalOrientations& local, co
 void RotateLocalFrames(const LocalOrientations& local, const ConstraintQuery& input, RigidTransform& outputA,
                        RigidTransform& outputB)
 {
-    FUN_00d6c3c0(local, input, outputA, outputB);
+    Object_RotateBodyVectorBundles(local, input, outputA, outputB);
 }
 
 extern "C" LocalM128 _mm_load_ps(const float* p);
@@ -2670,7 +2703,8 @@ struct D73390Data
 
 // Copies three float arrays from source into data, loads a fourth from DAT_01267e30, calls FUN_00de8f10, then calls FUN_00d73380 with data and count.
 // @fnv 0x00d73390
-void __cdecl FUN_00d73390(D73390Source* source, int count)
+// src: GUESS 0x00d73390 (confidence: low)
+void __cdecl hkMatrix4_resetFourthRow_ProcessState_00d73390(D73390Source* source, int count)
 {
     D73390Data data;
 
@@ -2680,7 +2714,7 @@ void __cdecl FUN_00d73390(D73390Source* source, int count)
     _mm_store_ps(data.value3, _mm_load_ps((const float*)&DAT_01267e30));
 
     data.hkMatrix4_resetFourthRow();
-    ((void(__cdecl*)(int*, int))FUN_00d73380)((int*)&data, count);
+    ((void(__cdecl*)(int*, int))Object_HkMathUtil_decompose4x4ColTransform_Thunk)((int*)&data, count);
 }
 
 inline char hkToUpperD618(char c)
@@ -2728,7 +2762,8 @@ struct TransformPair
 
 // Transforms four src vectors by the rows at ctx->m_pM1 into dest->m_row and four more by ctx->m_pM2 into out, adding the fourth row of each as an offset.
 // @fnv 0x00d6c240
-static __declspec(noinline) void FUN_00d6c240(TransformPair* dest, const LocalM128* src, const TransformContext* ctx,
+// src: GUESS 0x00d6c240 (confidence: medium)
+static __declspec(noinline) void Object_TransformVectorBundles(TransformPair* dest, const LocalM128* src, const TransformContext* ctx,
                                               LocalM128* out)
 {
     const LocalM128* pMatrix = ctx->m_pM1;
@@ -2766,7 +2801,7 @@ const TransformContext* volatile inputContext;
 LocalM128* volatile inputOut;
 void invokeTransform()
 {
-    FUN_00d6c240(inputDest, inputSource, inputContext, inputOut);
+    Object_TransformVectorBundles(inputDest, inputSource, inputContext, inputOut);
 }
 
 inline void SetTransformedPositionC320(QuadDirection& output, const RigidTransform& frame, const QuadDirection& input)
@@ -2794,7 +2829,8 @@ struct TransformOutputC320
 
 // Applies the rigid transforms of two bodies to their respective pivot points, writing the resulting translations into the output transforms.
 // @fnv 0x00d6c320
-static __declspec(noinline) void __cdecl FUN_00d6c320(const PivotsC320* pivots, const ConstraintQuery* bodies,
+// src: GUESS 0x00d6c320 (confidence: medium)
+static __declspec(noinline) void __cdecl Object_TransformBodyPivots(const PivotsC320* pivots, const ConstraintQuery* bodies,
                                                       TransformOutputC320 outA, TransformOutputC320 outB)
 {
     SetTransformedPositionC320(outA.p->translation, *bodies->transformA.get(), pivots->m_kPivotA);
@@ -2811,5 +2847,5 @@ void InvokeTransformC320()
     const PivotsC320* pivots = pivotsSourceC320;
     RigidTransform* a = outASourceC320;
     RigidTransform* b = outBSourceC320;
-    FUN_00d6c320(pivots, bodies, a, b);
+    Object_TransformBodyPivots(pivots, bodies, a, b);
 }

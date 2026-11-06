@@ -224,7 +224,7 @@ class TESObjectREFRHelper
     void SetTargetingState(bool);
 };
 
-bool __cdecl FUN_009a3830(NavMesh* const&, NavMesh* const&);
+bool __cdecl Actor_AreReferencedValuesEqual(NavMesh* const&, NavMesh* const&);
 
 // @fnv 0x009f2da0
 bool __fastcall BuildLinkedRefChain(char* _this)
@@ -245,7 +245,7 @@ bool __fastcall BuildLinkedRefChain(char* _this)
         if (pRef == 0)
             break;
 
-        unsigned int idx = ((BSSimpleArray<NavMesh*, 1024>*)(_this + 0x1c))->Find(*(NavMesh**)&pRef, 0, FUN_009a3830);
+        unsigned int idx = ((BSSimpleArray<NavMesh*, 1024>*)(_this + 0x1c))->Find(*(NavMesh**)&pRef, 0, Actor_AreReferencedValuesEqual);
         if (idx != (unsigned int)-1)
         {
             if (!bLoop)
@@ -745,11 +745,12 @@ void __cdecl ComputeNameHash(const char*, const char*, void*);
 
 struct FUN_00afd390_class
 {
-    void* FUN_00afd390(const char* path, int mode);
+    void* UpdateState_00afd390(const char* path, int mode);
 };
 
 // @fnv 0x00afd390
-void* FUN_00afd390_class::FUN_00afd390(const char* path, int mode)
+// src: GUESS 0x00afd390 (confidence: low)
+void* FUN_00afd390_class::UpdateState_00afd390(const char* path, int mode)
 {
     const char* pExt = 0;
     if (mode != 2)
@@ -1115,7 +1116,8 @@ extern "C" void __cdecl _DeallocateAlias(void* ptr);
 extern MemoryManager g_memoryManager;
 
 // @fnv 0x00af44f0
-void FUN_00af44f0()
+// src: GUESS 0x00af44f0 (confidence: low)
+void Archive_UpdateState_00af44f0()
 {
     char* ptr0;
     char* ptr1;
@@ -1147,7 +1149,8 @@ extern "C" int DAT_011f8160;
 
 // Returns false if DAT_011f8160 or arg is zero; otherwise calls RemoveArchiveFile with arg and returns true.
 // @fnv 0x00af56d0
-bool __cdecl FUN_00af56d0(int aiValue)
+// src: GUESS 0x00af56d0 (confidence: medium)
+bool __cdecl Archive_RemoveArchiveFileIfAvailable(int aiValue)
 {
     if (DAT_011f8160 == 0 || aiValue == 0)
         return false;
@@ -1555,7 +1558,7 @@ namespace fnv_00af7e80 {
 struct FUN_00afd390_class
 {
     void* v;
-    void* __thiscall FUN_00afd390(const char*, int);
+    void* __thiscall UpdateState_00afd390(const char*, int);
 };
 
 struct FUN_00afcf00_class
@@ -1579,7 +1582,7 @@ struct Local28
 bool __cdecl ArchiveManager_WildCardMatch(const char* path, FUN_00afcf00_class* obj)
 {
     Local28 l;
-    l.obj.FUN_00afd390(path, 0);
+    l.obj.UpdateState_00afd390(path, 0);
     if (obj->BSHash_WildCardCompare(&l.obj) == 0)
         return true;
     return false;
@@ -1593,12 +1596,13 @@ struct FUN_00afcde0_shell
 {
     void* vptr;
     void InitArray(unsigned int, unsigned int);
-    void* FUN_00afcce0();
+    void* InitializeFields_00afcce0();
 };
 
 // Sets the vtable pointer to DAT_010a469c, calls InitArray with 0 and 0, and returns this.
 // @fnv 0x00afcce0
-void* FUN_00afcde0_shell::FUN_00afcce0()
+// src: GUESS 0x00afcce0 (confidence: low)
+void* FUN_00afcde0_shell::InitializeFields_00afcce0()
 {
     int a;
     int b;
@@ -1770,12 +1774,13 @@ struct _BSAHelper
 struct FUN_00afcdc0_StandIn
 {
     void* vptr;
-    void FUN_00afcdc0();
+    void ResetVirtualTableAndClear_00afcdc0();
 };
 
 // Sets the object's vtable pointer to DAT_010a469c and calls Clear(true) on it.
 // @fnv 0x00afcdc0
-void FUN_00afcdc0_StandIn::FUN_00afcdc0()
+// src: GUESS 0x00afcdc0 (confidence: medium)
+void FUN_00afcdc0_StandIn::ResetVirtualTableAndClear_00afcdc0()
 {
     int _t;
     *(void**)this = &DAT_010a469c;
@@ -1976,7 +1981,7 @@ struct FUN_00afc7f0
     NiPointer<Archive> m_spArchive;
 
     ~FUN_00afc7f0();
-    void FUN_00afcaf0();
+    void ReleaseStorage_00afcaf0();
 };
 
 // Destructor that calls FUN_00afcaf0 and releases the held Archive through the NiPointer member.
@@ -1984,7 +1989,7 @@ struct FUN_00afc7f0
 FUN_00afc7f0::~FUN_00afc7f0()
 {
     int l1, l2, l3, l4, l5, l6, l7, l8;
-    FUN_00afcaf0();
+    ReleaseStorage_00afcaf0();
 }
 }  // namespace fnv_00afc7f0
 
@@ -3596,12 +3601,13 @@ struct OwnerList
         }
         return this;
     }
-    void FUN_00afcaf0();
+    void ReleaseStorage_00afcaf0();
 };
 
 // Deletes every node in the head list, resetting each node's next pointer, then releases the object reference via FUN_00afc770 with a null reference.
 // @fnv 0x00afcaf0
-void OwnerList::FUN_00afcaf0()
+// src: GUESS 0x00afcaf0 (confidence: low)
+void OwnerList::ReleaseStorage_00afcaf0()
 {
     while (head)
     {
@@ -4989,7 +4995,7 @@ class FUN_00afd390_class
   public:
     int unk00;
     int unk04;
-    void* FUN_00afd390(const char*, int);
+    void* UpdateState_00afd390(const char*, int);
 };
 
 // 0x00af7400 calls FindHashEntry (0x00af9c50), absent from Archive.h.
@@ -5033,7 +5039,7 @@ bool __cdecl ResolveArchivePath(const char* path, char* dest, unsigned int flags
         flags = ArchiveManager_GetArchiveTypeFromFileName(path);
     }
     FUN_00afd390_class key;
-    key.FUN_00afd390(path, 1);
+    key.UpdateState_00afd390(path, 1);
 
     ArchiveEntry* spFoundArchive2 = 0;
     NiPointer<Archive> pEntry = 0;
@@ -5498,7 +5504,7 @@ struct FUN_00afcce0
             count = size;
         }
     }
-    void FUN_00a0d0c0(unsigned int, unsigned int);
+    void UpdateFields_00a0d0c0(unsigned int, unsigned int);
 // src: COMMUNITY 0x00a11ee0
     unsigned int BSSimpleArray_AddUninitialized_0()
     {
@@ -5513,7 +5519,7 @@ struct FUN_00afcce0
             else
             {
                 unsigned int newCapacity = capacity > 1024 ? capacity + 1024 : capacity * 2;
-                FUN_00a0d0c0(newCapacity, count);
+                UpdateFields_00a0d0c0(newCapacity, count);
                 capacity = newCapacity;
             }
         }

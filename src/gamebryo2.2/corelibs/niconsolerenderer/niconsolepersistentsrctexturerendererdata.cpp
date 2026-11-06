@@ -383,7 +383,8 @@ struct BooleanKey
     }
 };
 // @fnv 0x00a2cdc0
-BooleanKey* __cdecl FUN_00a2cdc0(NiStream& kStream, unsigned int uiElementCount)
+// src: GUESS 0x00a2cdc0 (confidence: low)
+BooleanKey* __cdecl NiStream_ProcessEntries_00a2cdc0(NiStream& kStream, unsigned int uiElementCount)
 {
     BooleanKey* p = new BooleanKey[uiElementCount];
     for (unsigned int i = 0; i < uiElementCount; ++i)
@@ -451,11 +452,12 @@ void* FUN_00e8fd60_shell::InitWithArgs(int aiArg1, int aiArg2, int aiArg3)
 extern int DAT_010f02fc;
 struct S_00e8fd80
 {
-    void FUN_00e8a2b0();
-    __declspec(noinline) void FUN_00e8fd80();
+    void SetVtableAndProcessState_00e8a2b0();
+    __declspec(noinline) void ProcessAndReturnValue_00e8fd80();
 };
 // @fnv 0x00e8fd80
-void S_00e8fd80::FUN_00e8fd80()
+// src: GUESS 0x00e8fd80 (confidence: low)
+void S_00e8fd80::ProcessAndReturnValue_00e8fd80()
 {
     void* v0 = *(void**)((char*)this + 0x60);
     int v1 = *(int*)((char*)this + 8);
@@ -467,7 +469,7 @@ void S_00e8fd80::FUN_00e8fd80()
         ((unsigned long(__stdcall*)(void*))(*(void***)v2)[2])(v2);
         *(void**)((char*)this + 0x6c) = 0;
     }
-    return FUN_00e8a2b0();
+    return SetVtableAndProcessState_00e8a2b0();
 }
 
 extern int DAT_010f049c;
@@ -480,7 +482,7 @@ void* __fastcall DestroyRenderedCubeMapData(NiDX9RenderedCubeMapData* data, int,
     int a = data->unk08;
     *(void**)data = (void*)&DAT_010f049c;
     ((void(__thiscall*)(void*, int))(*(void***)p)[86])(p, a);
-    reinterpret_cast<S_00e8fd80*>(data)->FUN_00e8fd80();
+    reinterpret_cast<S_00e8fd80*>(data)->ProcessAndReturnValue_00e8fd80();
     if (flags & 1)
         _delete(data, 0x70);
     return data;
@@ -490,7 +492,7 @@ extern int DAT_010f05ec;
 void __cdecl _delete(void*, unsigned int);
 struct TextureDataTeardown
 {
-    void __thiscall FUN_00e8a2b0();
+    void __thiscall SetVtableAndProcessState_00e8a2b0();
 };
 typedef void(__thiscall* Fn00e90300)(void*, int);
 
@@ -501,7 +503,7 @@ void* __fastcall DestroyDynamicTextureData(NiDX9DynamicTextureData* data, int, u
     int a = data->unk08;
     *(void**)data = (void*)&DAT_010f05ec;
     (*(Fn00e90300**)o)[0x58](o, a);
-    ((TextureDataTeardown*)data)->FUN_00e8a2b0();
+    ((TextureDataTeardown*)data)->SetVtableAndProcessState_00e8a2b0();
     if (auiFlags & 1)
         _delete(data, 0x74);
     return data;
@@ -920,7 +922,7 @@ void FUN_00e91120_shell::NiDX9RenderState_RestoreSamplerState(int a1, int a2)
 namespace fnv_00e91160 {
 extern "C" void __cdecl _delete(void*, int);
 extern int DAT_010f088c;
-void __cdecl FUN_00e88b00();
+void __cdecl UpdateFields_00e88b00();
 
 struct FUN_00e91160_shell
 {
@@ -932,7 +934,7 @@ struct FUN_00e91160_shell
 void* __thiscall FUN_00e91160_shell::FUN_00e91160(int aiFlags)
 {
     m_p = &DAT_010f088c;
-    FUN_00e88b00();
+    UpdateFields_00e88b00();
     if (aiFlags & 1)
         _delete(this, 0x1248);
     return this;
@@ -978,7 +980,7 @@ void* NiPersistentSrcTextureRendererData_CreateObject_00e916d0()
 }  // namespace fnv_00e916d0
 
 extern int DAT_010f099c;
-void __cdecl FUN_00a98240();
+void __cdecl UpdateFields_00a98240();
 void __cdecl _delete(void*, int);
 struct FUN_00e91750_shell
 {
@@ -990,7 +992,7 @@ struct FUN_00e91750_shell
 void* __thiscall FUN_00e91750_shell::FUN_00e91750(int flags)
 {
     m_pvt = &DAT_010f099c;
-    FUN_00a98240();
+    UpdateFields_00a98240();
     if (flags & 1)
         _delete(this, 0x94);
     return this;
@@ -1127,10 +1129,11 @@ struct Rnd00
 };
 struct S_00e8a2b0 : NiRefObject
 {
-    void FUN_00e8a2b0();
+    void SetVtableAndProcessState_00e8a2b0();
 };
 // @fnv 0x00e8a2b0
-void S_00e8a2b0::FUN_00e8a2b0()
+// src: GUESS 0x00e8a2b0 (confidence: low)
+void S_00e8a2b0::SetVtableAndProcessState_00e8a2b0()
 {
     Tex00* a = *(Tex00**)((char*)this + 0x64);
     *(void**)this = (void*)&DAT_010efb7c;
@@ -1245,7 +1248,7 @@ struct T
 };
 struct BaseUnk
 {
-    void __thiscall FUN_00e8a2b0();
+    void __thiscall SetVtableAndProcessState_00e8a2b0();
 };
 struct Host00
 {
@@ -1268,7 +1271,7 @@ void* __thiscall Host00::FUN_00e8fdc0(unsigned int auiFlags)
         _6c->u2();
         _6c = 0;
     }
-    ((BaseUnk*)this)->FUN_00e8a2b0();
+    ((BaseUnk*)this)->SetVtableAndProcessState_00e8a2b0();
     if (auiFlags & 1)
         _delete(this, 0x70);
     return this;
@@ -1662,7 +1665,7 @@ struct CacheRing
     unsigned char cursor;
     CacheEntry* entries[5];
 };
-void* __cdecl FUN_00aa13e0(unsigned int);
+void* __cdecl Object_DispatchCommandFour(unsigned int);
 struct ResourceCache
 {
     int unk00, unk04;
@@ -1699,7 +1702,7 @@ CachedResource* ResourceCache::AcquireCachedResource(unsigned int size, unsigned
         }
         else
         {
-            entry = (CacheEntry*)FUN_00aa13e0(sizeof(CacheEntry));
+            entry = (CacheEntry*)Object_DispatchCommandFour(sizeof(CacheEntry));
             if (entry)
                 entry->Reset();
             else
@@ -2014,8 +2017,8 @@ inline void* operator new(unsigned int, void* p)
     return p;
 }
 
-void __cdecl FUN_00a29680(const char* msg);
-void* __cdecl FUN_00aa13e0(unsigned int size);
+void __cdecl Object_DoNothing(const char* msg);
+void* __cdecl Object_DispatchCommandFour(unsigned int size);
 extern TexDeviceState* DAT_011f4748;
 
 // Rejects tiled owners, allocates and constructs a TexRecord, checks it against the device flag, and on failure destroys it and returns 0.
@@ -2024,12 +2027,12 @@ TexRecord* __cdecl CreateDynamicTexture(TexOwner* owner)
 {
     if (owner->m_38 != 0)
     {
-        FUN_00a29680("NiDX9DynamicTextureData Failed> Can not create a tiled dynamic texture.\n");
+        Object_DoNothing("NiDX9DynamicTextureData Failed> Can not create a tiled dynamic texture.\n");
         return 0;
     }
 
     TexDeviceState* dev = DAT_011f4748;
-    TexRecord* pRecord = (TexRecord*)FUN_00aa13e0(0x74);
+    TexRecord* pRecord = (TexRecord*)Object_DispatchCommandFour(0x74);
     if (pRecord != 0)
     {
         new (pRecord) FUN_00e8a260((unsigned int)owner, (unsigned int)dev);
@@ -4928,7 +4931,7 @@ class Texture
 };
 PixelFormat* __cdecl SelectFormatTileValue(TextureFormatPreferences*, FormatCache*);
 const char* __cdecl GetHResultName(int);
-void __cdecl FUN_00a29680(const char*, const char*);
+void __cdecl Object_DoNothing(const char*, const char*);
 class CubeData
 {
   public:
@@ -4961,7 +4964,7 @@ PixelFormat* CubeData::CreateSurface(Texture* texture)
     int hr = dev->CreateCubeTexture(width, 1, 1, format, 0, &out, 0);
     if (hr < 0)
     {
-        FUN_00a29680("NiDX9RenderedCubeMapData::CreateSurf> Failed CreateImageSurface - %s", GetHResultName(hr));
+        Object_DoNothing("NiDX9RenderedCubeMapData::CreateSurf> Failed CreateImageSurface - %s", GetHResultName(hr));
         surface = 0;
         return 0;
     }
@@ -5520,9 +5523,9 @@ struct TextureProxy
     D3DFORMAT format;
 };
 PixelProxy* SelectFormatTileValue(const Preferences&, void*);
-D3DMULTISAMPLE_TYPE FUN_00e7ccf0(int);
+D3DMULTISAMPLE_TYPE Runtime_GetIndexMask(int);
 const char* GetHResultName(HRESULT);
-void FUN_00a29680(const char*, ...);
+void Object_DoNothing(const char*, ...);
 extern bool DAT_0126f0d0;
 struct OwnerProxy
 {
@@ -5566,11 +5569,11 @@ PixelProxy* OwnerProxy::NiDX9RenderedTextureData_CreateSurf(TextureProxy* source
     IDirect3DTexture9* result = 0;
     HRESULT hr = 0;
     if (multisample)
-        hr = device->CreateRenderTarget(width, height, eFormat, FUN_00e7ccf0(multisample), 0, 0, &surface, 0);
+        hr = device->CreateRenderTarget(width, height, eFormat, Runtime_GetIndexMask(multisample), 0, 0, &surface, 0);
     hr |= device->CreateTexture(width, height, 1, usage, eFormat, pool, &result, 0);
     if (hr < 0)
     {
-        FUN_00a29680("NiDX9RenderedTextureData::CreateSurf> Failed CreateImageSurface - %s", GetHResultName(hr));
+        Object_DoNothing("NiDX9RenderedTextureData::CreateSurf> Failed CreateImageSurface - %s", GetHResultName(hr));
         texture = 0;
         surface = 0;
         return 0;
@@ -5875,7 +5878,7 @@ extern "C" unsigned char DAT_011f4508;
 extern "C" unsigned char DAT_011f4448;
 
 extern "C" FnvD3dDevice* DAT_0126f0d8;
-void* __cdecl FUN_00aa13e0(unsigned int);
+void* __cdecl Object_DispatchCommandFour(unsigned int);
 
 struct SourcePixelFormat
 {
@@ -5902,7 +5905,7 @@ struct FnvOutput;
 FnvOutput* __cdecl NiDX9SourceCubeMapData_Create(FnvSource*, FnvDevice*);
 FnvResourceManager* __cdecl FUN_00a76640();
 FnvResource* __cdecl DispatchIfHighBitSet(FnvSource*, unsigned, int);
-void __cdecl FUN_00a29680(void*, int);
+void __cdecl Object_DoNothing(void*, int);
 int __cdecl FUN_00e7bd20(const SourcePixelFormat*);
 
 struct SourceFields
@@ -6901,7 +6904,7 @@ FnvOutput* __cdecl NiDX9SourceTextureData_Create(FnvSource* source, FnvDevice* d
         }
     }
     void** deviceState = reinterpret_cast<DeviceFields*>(device)->formats;
-    void* storage = FUN_00aa13e0(sizeof(FnvOutput));
+    void* storage = Object_DispatchCommandFour(sizeof(FnvOutput));
     FnvOutput* output = storage ? new (storage) FnvOutput(source, device) : 0;
     const SourcePixelFormat& format = reinterpret_cast<FnvSourceFmt*>(source)->fmt;
     FnvResource* existing = reinterpret_cast<SourceFields*>(source)->existing;
@@ -6935,7 +6938,7 @@ FnvOutput* __cdecl NiDX9SourceTextureData_Create(FnvSource* source, FnvDevice* d
     if (!existing && !cached)
     {
         cached = DispatchIfHighBitSet(source, 0x80000005, 1);
-        FUN_00a29680(&DAT_010ed4dc, reinterpret_cast<SourceFields*>(source)->kind);
+        Object_DoNothing(&DAT_010ed4dc, reinterpret_cast<SourceFields*>(source)->kind);
         output->m_failure = 1;
     }
     else if (existing)
@@ -7101,7 +7104,7 @@ FnvOutput* __cdecl NiDX9SourceTextureData_Create(FnvSource* source, FnvDevice* d
 
 
 void* __cdecl CreateDepthBufferData(void*, unsigned int, void*, int, void**);
-void __cdecl FUN_00a29680(const char*, const char*);
+void __cdecl Object_DoNothing(const char*, const char*);
 extern unsigned int DAT_0126f9e0;
 extern unsigned int DAT_0126f9e4;
 struct CubeMapBaseInit
@@ -7144,7 +7147,7 @@ NiDX9RenderedCubeMapData* __cdecl NiDX9RenderedCubeMapData_Create(NiRenderedCube
         void* pkData = CreateDepthBufferData(pkThis->GetD3DTexture(), i, pkCurrentObject, iAdapter, &pkFace);
         if (!pkData)
         {
-            FUN_00a29680("NiDX9RenderedCubeMapData::Create> NiDX9TextureBufferData::CreateCubeFace - %s", "");
+            Object_DoNothing("NiDX9RenderedCubeMapData::Create> NiDX9TextureBufferData::CreateCubeFace - %s", "");
             reinterpret_cast<void(__thiscall**)(NiDX9RenderedCubeMapData*, int)>(*reinterpret_cast<void***>(pkThis))[0](pkThis, 1);
             return 0;
         }

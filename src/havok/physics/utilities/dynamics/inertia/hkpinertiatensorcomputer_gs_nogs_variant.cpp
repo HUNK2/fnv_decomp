@@ -8,11 +8,11 @@
 struct Object
 {
 };
-void __cdecl FUN_00cebdf0(float* source, float value, Object* destination);
+void __cdecl Hkpinertiatensorcomputer_CopyAndScalePropertyBlock(float* source, float value, Object* destination);
 void __cdecl hkpInertiaTensorComputer_setAndScaleToDensity(float* source, float scale, Object* destination);
 struct Receiver
 {
-    void FUN_00cecc90(float value);
+    void SetScalarAndRescaleVector(float value);
 };
 struct State
 {

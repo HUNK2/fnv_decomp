@@ -56,9 +56,10 @@ public:
     LocalVector3 FUN_00b12890(const FloatMatrix3& matrix) const;
     LocalVector3 FUN_00b12810(const LocalVector3& other) const;
     void Normalize_00b12790();
-    void __thiscall FUN_00439ef0(LocalVector3* dest, void* context);
+    void __thiscall SubtractIntoVector(LocalVector3* dest, void* context);
     void __thiscall Unitize_004a0c10();
-    LocalVector3 FUN_00439ef0(const LocalVector3& other) const
+// src: GUESS 0x00439ef0 (confidence: high)
+    LocalVector3 SubtractIntoVector(const LocalVector3& other) const
     {
         return LocalVector3(x - other.x, y - other.y, z - other.z);
     }
@@ -83,7 +84,7 @@ NiAVObject* FORenderedTerminal::GetParentNodeToRender()
 
 struct GlobalObjectO2_0045cfe0
 {
-    void FUN_0045ce80(int);
+    void ProcessAndReturnValue_0045ce80(int);
 };
 
 GlobalObjectO2_0045cfe0 g_011f9148;
@@ -91,7 +92,7 @@ GlobalObjectO2_0045cfe0 g_011f9148;
 // @fnv 0x007ffb60
 void ForwardToGlobalObject(int aiValue)
 {
-    g_011f9148.FUN_0045ce80(aiValue);
+    g_011f9148.ProcessAndReturnValue_0045ce80(aiValue);
 }
 
 namespace fnv_007ffb80 {

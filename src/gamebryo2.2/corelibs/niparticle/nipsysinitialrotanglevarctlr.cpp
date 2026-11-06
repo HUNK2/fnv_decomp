@@ -12,7 +12,7 @@ void* __cdecl NiPSysInitialRotAngleVarCtlr_GetRTTI()
     return &g_012026e8;
 }
 
-extern "C" void* __cdecl FUN_00aa13e0(unsigned int uiSize);
+extern "C" void* __cdecl Object_DispatchCommandFour(unsigned int uiSize);
 extern "C" char DAT_010beebc;
 
 struct Item
@@ -31,7 +31,7 @@ struct Creator
 // @fnv 0x00c2a0c0
 Item* Creator::CreateItem(int iArg)
 {
-    Item* pkItem = (Item*)FUN_00aa13e0(0x40);
+    Item* pkItem = (Item*)Object_DispatchCommandFour(0x40);
     if (pkItem)
     {
         pkItem->FUN_00c32d80();

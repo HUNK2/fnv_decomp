@@ -52,7 +52,7 @@ public:
     void FUN_00d59870();
     void hkpConvexVerticesShape_copyVertexData(const float* vertices, int byteStriding, int numVertices);
     void hkpConvexVerticesShape_copyVertexData(int vertices, int byteStriding, int numVertices);
-    void FUN_00d59f40();
+    void ProcessEntries_00d59f40();
     hkpConvexVerticesShape* FUN_00d5a4e0(unsigned char deleting);
 
     int unk14;

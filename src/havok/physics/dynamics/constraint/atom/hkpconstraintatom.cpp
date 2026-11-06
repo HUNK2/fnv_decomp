@@ -210,7 +210,7 @@ void hkpMassChangerModifierConstraintAtomq::ScaleInverseInertia(const void* cp, 
             const hkMatrix3& rot = *in->m_rotation;
             ScratchMatrix localStorage;
             hkMatrix3& local = reinterpret_cast<hkMatrix3&>(localStorage);
-            local.FUN_00cd4bf0((char*)&rot, (char*)&in->m_kInverseInertiaMatrix);
+            local.SetTransposeProduct((char*)&rot, (char*)&in->m_kInverseInertiaMatrix);
             ScratchMatrix scaledStorage;
             hkMatrix3& scaled = reinterpret_cast<hkMatrix3&>(scaledStorage);
             scaled.SetProduct(local, rot);
@@ -231,14 +231,15 @@ void hkpMassChangerModifierConstraintAtomq::ScaleInverseInertia(const void* cp, 
 class hkpMovingSurfaceModifierConstraintAtom : public hkpModifierConstraintAtom
 {
   public:
-    void FUN_00d21f50(const hkContactPoint& kCp, void* pvA, void* pvB, void* pvC, intptr_t kVelOut);
+    void CopyMemory_00d21f50(const hkContactPoint& kCp, void* pvA, void* pvB, void* pvC, intptr_t kVelOut);
 
     hkVector4 m_fVelocity;
 };
 
 // Subtracts a copy of m_fVelocity scaled by its dot product with the separating normal from that copy, and adds the result to kVelOut.
 // @fnv 0x00d21f50
-void hkpMovingSurfaceModifierConstraintAtom::FUN_00d21f50(const hkContactPoint& kCp, void* pvA, void* pvB,
+// src: GUESS 0x00d21f50 (confidence: low)
+void hkpMovingSurfaceModifierConstraintAtom::CopyMemory_00d21f50(const hkContactPoint& kCp, void* pvA, void* pvB,
                                                               void* pvC, intptr_t kVelOut)
 {
     using namespace constraint_atom_simd;
@@ -341,11 +342,12 @@ struct ComChangerAtom
     hkVector4q m_kDisplacementA;
     hkVector4q m_kDisplacementB;
 
-    void FUN_00d22160(const void* cp, InitInput& inA, BodyVelocity& velA, InitInput& inB, BodyVelocity& velB);
+    void UpdateFields_00d22160(const void* cp, InitInput& inA, BodyVelocity& velA, InitInput& inB, BodyVelocity& velB);
 };
 
 // @fnv 0x00d22160
-void ComChangerAtom::FUN_00d22160(const void* cp, InitInput& inA, BodyVelocity& velA, InitInput& inB,
+// src: GUESS 0x00d22160 (confidence: low)
+void ComChangerAtom::UpdateFields_00d22160(const void* cp, InitInput& inA, BodyVelocity& velA, InitInput& inB,
                                   BodyVelocity& velB)
 {
     hkVector4q vRotatedDisplacementA;
@@ -388,11 +390,12 @@ struct Cls_00d21fc0
     int unk18;
     int unk1c;
     hkVector4q m_uiValueCount;
-    void __thiscall FUN_00d21fc0(__m128* a, int b, int c, int d, int e, int out);
+    void __thiscall CopyData_00d21fc0(__m128* a, int b, int c, int d, int e, int out);
 };
 // Computes d = dot3(quad(a.m_kColumn1), m_uiValueCount), then subtracts (m_uiValueCount - d * m_uiValueCount) from the vector at out.
 // @fnv 0x00d21fc0
-void __thiscall Cls_00d21fc0::FUN_00d21fc0(__m128* a, int b, int c, int d, int e, int out)
+// src: GUESS 0x00d21fc0 (confidence: medium)
+void __thiscall Cls_00d21fc0::CopyData_00d21fc0(__m128* a, int b, int c, int d, int e, int out)
 {
     hkVector4q n;
     memcpy(&n, &m_uiValueCount, sizeof(n));

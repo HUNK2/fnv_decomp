@@ -133,12 +133,12 @@ extern unsigned int DAT_011f5fc4[];
 extern const char str_010f14a0[];
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
-void __cdecl FUN_00a29680(const char*, ...);
+void __cdecl Object_DoNothing(const char*, ...);
 
 struct VS_00e972e0_Str
 {
     char* m_kHandle;
-    VS_00e972e0_Str& FUN_0043ba10(const VS_00e972e0_Str& other);
+    VS_00e972e0_Str& AssignInternedString(const VS_00e972e0_Str& other);
 };
 struct VS_00e972e0_Desc
 {
@@ -381,7 +381,7 @@ bool __fastcall NiD3DHLSLVertexShader_SetShaderConstant(NiD3DHLSLVertexShader* p
         temporary.kVariable.m_kHandle = pkEntry->m_kSecondaryString.m_kHandle;
         if (temporary.kVariable.m_kHandle == DAT_0109b220)
         {
-            temporary.kVariable.FUN_0043ba10(pkEntry->m_kName);
+            temporary.kVariable.AssignInternedString(pkEntry->m_kName);
             pkEntry->NiShaderConstantMapEntry_SetVariableName(temporary.kVariable);
         }
         char* pcVariable = temporary.kVariable.m_kHandle;
@@ -399,7 +399,7 @@ bool __fastcall NiD3DHLSLVertexShader_SetShaderConstant(NiD3DHLSLVertexShader* p
         }
         else
         {
-            FUN_00a29680(str_010f14a0, pkShader->m_pcProgramName, pcVariable);
+            Object_DoNothing(str_010f14a0, pkShader->m_pcProgramName, pcVariable);
             if (pcVariable != DAT_0109b220)
                 InterlockedDecrement((long volatile*)(pcVariable - 8));
             return false;
@@ -484,7 +484,7 @@ bool __fastcall NiD3DHLSLVertexShader_SetShaderConstantArray(NiD3DHLSLVertexShad
         VS_00e972e0_Str& kVariableName = temporary.kName;
         if (kVariableName.m_kHandle == DAT_0109b220)
         {
-            kVariableName.FUN_0043ba10(pkEntry->m_kName);
+            kVariableName.AssignInternedString(pkEntry->m_kName);
             pkEntry->NiShaderConstantMapEntry_SetVariableName(kVariableName);
         }
 
@@ -501,7 +501,7 @@ bool __fastcall NiD3DHLSLVertexShader_SetShaderConstantArray(NiD3DHLSLVertexShad
         }
         else
         {
-            FUN_00a29680(str_010f14e8, pkShader->m_pcProgramName, pcVariable);
+            Object_DoNothing(str_010f14e8, pkShader->m_pcProgramName, pcVariable);
             if (pcVariable != DAT_0109b220)
                 InterlockedDecrement((long volatile*)(pcVariable - 8));
             return false;

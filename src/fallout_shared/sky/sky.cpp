@@ -356,7 +356,7 @@ float __cdecl NiSinQ(float afValue)
 
 struct FUN_0063c8a0_shell : public NiPoint3
 {
-    NiPoint3* FUN_0063c8a0(void*);
+    NiPoint3* ComputeValue_0063c8a0(void*);
 };
 
 struct NiPoint3Fields
@@ -368,7 +368,8 @@ struct NiPoint3Fields
 
 // Adds the x, y and z components of pt to this NiPoint3 and returns this.
 // @fnv 0x0063c8a0
-NiPoint3* FUN_0063c8a0_shell::FUN_0063c8a0(void* apPoint)
+// src: GUESS 0x0063c8a0 (confidence: low)
+NiPoint3* FUN_0063c8a0_shell::ComputeValue_0063c8a0(void* apPoint)
 {
     reinterpret_cast<NiPoint3Fields*>(this)->x += reinterpret_cast<const NiPoint3Fields*>(apPoint)->x;
     reinterpret_cast<NiPoint3Fields*>(this)->y += reinterpret_cast<const NiPoint3Fields*>(apPoint)->y;
@@ -850,7 +851,8 @@ extern PlayerCharacter* g_thePlayer;
 }  // namespace fnv_0063d0e0
 
 // @fnv 0x0063d0e0
-void Sky::FUN_0063d0e0(TESWeather* apWeather, bool b)
+// src: GUESS 0x0063d0e0 (confidence: low)
+void Sky::UpdateFields_0063d0e0(TESWeather* apWeather, bool b)
 {
     using namespace fnv_0063d0e0;
     if (b)
@@ -1453,7 +1455,7 @@ struct FogNode
 };
 struct FogRoot
 {
-    FogNode* FUN_00559450();
+    FogNode* Modelloader_GetReferencedThis();
 };
 struct FogCelestial
 {
@@ -1619,7 +1621,7 @@ void Sky::UpdateFog()
                 static_cast<FogSkyMethods*>(this)->BGSSaveFormBuffer_GetForm()->FUN_005585e0()->FUN_00450f90(hidden);
                 static_cast<FogSkyMethods*>(this)->FUN_0045cd60()->FUN_005585e0()->FUN_00450f90(hidden);
                 static_cast<FogSkyMethods*>(this)->FUN_0045cd60()->NiObjectNET_GetControllers()->FUN_00450f90(hidden);
-                reinterpret_cast<FogRoot&>(m_pRootNode).FUN_00559450()->FUN_00450f90(hidden);
+                reinterpret_cast<FogRoot&>(m_pRootNode).Modelloader_GetReferencedThis()->FUN_00450f90(hidden);
             }
             return;
         }
@@ -1694,7 +1696,7 @@ struct Pointer
     Object* object;
     Pointer(int);
     ~Pointer();
-    Object* FUN_00559450();
+    Object* Modelloader_GetReferencedThis();
 };
 struct Update
 {
@@ -1709,7 +1711,7 @@ struct Object
 struct ScenePointer
 {
     Object* object;
-    Object* FUN_00559450();
+    Object* Modelloader_GetReferencedThis();
 };
 struct Texture
 {
@@ -1776,7 +1778,7 @@ void Sky::HandleClimateChange()
                 name = modelSlot14->GetTextureResourcePath();
                 name += modelSlot14->GetTextureResourceName();
                 FUN_00b55840(name.String(), 1, &pointer, 1, 0);
-                objectSlot0 = pointer.FUN_00559450();
+                objectSlot0 = pointer.Modelloader_GetReferencedThis();
                 if (objectSlot0)
                     texture->FUN_006348e0(objectSlot0);
             }
@@ -1794,7 +1796,7 @@ void Sky::HandleClimateChange()
                 }
                 Pointer pointer2(0);
                 FUN_00b55840(name.String(), 1, &pointer2, 1, 0);
-                objectSlot0 = pointer2.FUN_00559450();
+                objectSlot0 = pointer2.Modelloader_GetReferencedThis();
                 if (objectSlot0)
                     texture->FUN_006348e0(objectSlot0);
             }
@@ -1805,7 +1807,7 @@ void Sky::HandleClimateChange()
             reinterpret_cast<Moon*&>(m_pPrimaryMoon) = new Moon(&DAT_0104eeb0, *DAT_011cccb8.Setting_Float_00403e20(), *DAT_011ccc94.Setting_Float_00403e20(),
                                 *DAT_011ccba4.Setting_Float_00403e20(), *DAT_011ccbfc.Setting_Float_00403e20(),
                                 *DAT_011ccc54.Setting_Float_00403e20(), *DAT_011ccc18.Setting_Int());
-            reinterpret_cast<Moon*&>(m_pPrimaryMoon)->Initialize(reinterpret_cast<NiNode*>(reinterpret_cast<ScenePointer&>(m_pSkyNode).FUN_00559450()), &DAT_0104eeb0);
+            reinterpret_cast<Moon*&>(m_pPrimaryMoon)->Initialize(reinterpret_cast<NiNode*>(reinterpret_cast<ScenePointer&>(m_pSkyNode).Modelloader_GetReferencedThis()), &DAT_0104eeb0);
         }
         else if (!reinterpret_cast<SkyAssets::Weather*>(m_pCurrentClimate)->TESClimate_UsesMasser())
         {
@@ -1817,16 +1819,16 @@ void Sky::HandleClimateChange()
             reinterpret_cast<Moon*&>(m_pSecondaryMoon) = new Moon(&DAT_0104eea8, *DAT_011ccb98.Setting_Float_00403e20(), *DAT_011ccbe8.Setting_Float_00403e20(),
                                 *DAT_011ccc64.Setting_Float_00403e20(), *DAT_011ccbcc.Setting_Float_00403e20(),
                                 *DAT_011ccc7c.Setting_Float_00403e20(), *DAT_011cccec.Setting_Int());
-            reinterpret_cast<Moon*&>(m_pSecondaryMoon)->Initialize(reinterpret_cast<NiNode*>(reinterpret_cast<ScenePointer&>(m_pSkyNode).FUN_00559450()), &DAT_0104eea8);
+            reinterpret_cast<Moon*&>(m_pSecondaryMoon)->Initialize(reinterpret_cast<NiNode*>(reinterpret_cast<ScenePointer&>(m_pSkyNode).Modelloader_GetReferencedThis()), &DAT_0104eea8);
         }
         else if (!reinterpret_cast<SkyAssets::Weather*>(m_pCurrentClimate)->TESClimate_UsesSecunda())
         {
             delete reinterpret_cast<Moon*&>(m_pSecondaryMoon);
             reinterpret_cast<Moon*&>(m_pSecondaryMoon) = 0;
         }
-        reinterpret_cast<ScenePointer&>(m_pRootNode).FUN_00559450()->UpdateProperties();
+        reinterpret_cast<ScenePointer&>(m_pRootNode).Modelloader_GetReferencedThis()->UpdateProperties();
         SkyAssets::Update update(0.0f, 0, 0);
-        reinterpret_cast<ScenePointer&>(m_pRootNode).FUN_00559450()->NiAVObject_Update(&update);
+        reinterpret_cast<ScenePointer&>(m_pRootNode).Modelloader_GetReferencedThis()->NiAVObject_Update(&update);
         flags &= ~0x40;
     }
 }
@@ -2435,7 +2437,7 @@ struct SkyColorData
 
 struct Sh63c8a0
 {
-    void* FUN_0063c8a0(NiPoint3* p);
+    void* ComputeValue_0063c8a0(NiPoint3* p);
 };
 
 struct ShA69690
@@ -2467,7 +2469,7 @@ void Sky::SetColor_0063c690(NiColor* apOutRgb, SkyColorData* pSkyColorData, floa
     if (t > 0.0)
     {
         SetHelper sh;
-        ((Sh63c8a0*)reinterpret_cast<float*>(apOutRgb))->FUN_0063c8a0(sh.Set(t, t, t));
+        ((Sh63c8a0*)reinterpret_cast<float*>(apOutRgb))->ComputeValue_0063c8a0(sh.Set(t, t, t));
         if (m_pRegionWeather)
         {
             BSClamp_float(reinterpret_cast<float*>(apOutRgb), 0.0f, m_pRegionWeather->GetWeatherData(0xc, 1.0f, 0.0f));

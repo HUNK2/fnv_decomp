@@ -116,7 +116,7 @@ struct D68FC0Primary
 
 struct D68FC0Listener
 {
-    virtual void FUN_00d68fc0();
+    virtual void ProcessEntries_00d68fc0();
 
     int unk04;
     int unk08;
@@ -131,11 +131,12 @@ struct D68FC0Object : D68FC0Primary, D68FC0Listener
 {
     void RegisterEntity(void* entity);
 
-    virtual void FUN_00d68fc0();
+    virtual void ProcessEntries_00d68fc0();
 };
 
 // @fnv 0x00d68fc0
-void D68FC0Object::FUN_00d68fc0()
+// src: GUESS 0x00d68fc0 (confidence: low)
+void D68FC0Object::ProcessEntries_00d68fc0()
 {
     if (m_pOwningWorld)
     {
@@ -150,10 +151,11 @@ struct Target
 };
 struct Outer
 {
-    void FUN_00d69000();
+    void HkpConvexRadiusViewer_addWorld_Thunk();
 };
 // @fnv 0x00d69000
-void Outer::FUN_00d69000()
+// src: GUESS 0x00d69000 (confidence: medium)
+void Outer::HkpConvexRadiusViewer_addWorld_Thunk()
 {
     ((Target*)((char*)this - 0x20))->hkpConvexRadiusViewer_addWorld();
 }
@@ -165,11 +167,12 @@ struct Base
 };
 struct Sub
 {
-    void FUN_00d69160(int);
+    void UpdateFields_00d69160(int);
 };
 // Calls FindKeyIndex on the Base at this-0x20 with value, and if the result is non-negative passes it to FUN_00d69010.
 // @fnv 0x00d69160
-void Sub::FUN_00d69160(int value)
+// src: GUESS 0x00d69160 (confidence: low)
+void Sub::UpdateFields_00d69160(int value)
 {
     Base* base = reinterpret_cast<Base*>(reinterpret_cast<char*>(this) - 0x20);
     int result = base->FindKeyIndex(value);
@@ -178,7 +181,8 @@ void Sub::FUN_00d69160(int value)
 }
 
 // @fnv 0x00d69180
-void* __cdecl FUN_00d69180()
+// src: GUESS 0x00d69180 (confidence: low)
+void* __cdecl Object_GetDAT_01269010_00d69180()
 {
     return DAT_01269010;
 }
@@ -696,7 +700,7 @@ struct Watch_d65f
 struct Phantom_d65f : Base_d65f, Listener_d65f, Watch2_d65f
 {
     hkArray<Node_d65f*> m_kNodeCollection;
-    void FUN_00d68b20(int index);
+    void ClearItemArray(int index);
     void hkpConvexRadiusViewer_removeWorld(int index);
 };
 
@@ -707,7 +711,7 @@ void Phantom_d65f::hkpConvexRadiusViewer_removeWorld(int index)
 {
     m_kNodeCollection[index]->m_pCollisionAgent->hkpWorld_removeEntityListener(this);
     m_kNodeCollection[index]->m_pCollisionAgent->ClearValue(this);
-    FUN_00d68b20(index);
+    ClearItemArray(index);
     delete m_kNodeCollection[index];
     m_kNodeCollection.removeAt(index);
 }
@@ -974,7 +978,7 @@ D69190Object::D69190Object()
 struct AdjBase1
 {
     AdjBase1();
-    virtual void FUN_00d691a0();
+    virtual void AdjustThisAndForward_00d691a0();
     char pad[0x04];
 };
 
@@ -982,14 +986,15 @@ struct AdjBase2
 {
     AdjBase2();
 // @fnv 0x00d691a0
-    virtual void FUN_00d691a0();
+// src: GUESS 0x00d691a0 (confidence: low)
+    virtual void AdjustThisAndForward_00d691a0();
 };
 
 struct AdjOwner : AdjBase1, AdjBase2
 {
     AdjOwner();
     virtual void key_fn();  // key function - defined, so the vftable is emitted
-    void FUN_00d691a0();    // the shared override - declared only
+    void AdjustThisAndForward_00d691a0();    // the shared override - declared only
 };
 
 AdjOwner::AdjOwner()
@@ -1037,7 +1042,7 @@ SpawnedObject::SpawnedObject()
 struct D691C0Primary
 {
     virtual void vfunc00();
-    virtual void FUN_00d691c0();
+    virtual void AdjustThisAndForward_00d691c0();
 
     int unk04;
     int unk08;
@@ -1053,7 +1058,7 @@ struct D691C0Primary
 
 struct D691C0Secondary
 {
-    virtual void FUN_00d691c0();
+    virtual void AdjustThisAndForward_00d691c0();
 };
 
 struct D691C0Object : D691C0Primary, D691C0Secondary
@@ -1061,7 +1066,8 @@ struct D691C0Object : D691C0Primary, D691C0Secondary
     D691C0Object();
 
 // @fnv 0x00d691c0
-    virtual void FUN_00d691c0();
+// src: GUESS 0x00d691c0 (confidence: low)
+    virtual void AdjustThisAndForward_00d691c0();
 };
 
 D691C0Object::D691C0Object()
@@ -1218,7 +1224,7 @@ struct S_00d68c00_Query
     int unk08;
     int unk0c;
     void FUN_00de3060(S_00d68c00_Real* r) throw();
-    void FUN_00de4420(int a, S_00d68c00_Arr* arr) throw();
+    void UpdateFields_00de4420(int a, S_00d68c00_Arr* arr) throw();
 };
 
 struct S_00d68c00_Str
@@ -1227,7 +1233,7 @@ struct S_00d68c00_Str
     int unk04;
     int unk08;
     void FUN_00cb1600(char* buf, int size) throw();
-    void FUN_00cc01c0(const char* s) throw();
+    void ProcessAndReturnValue_00cc01c0(const char* s) throw();
     void FUN_00cc00e0() throw();
 };
 
@@ -1281,7 +1287,7 @@ void S_00d68c00_Sub::hkpConvexRadiusViewer_entityAddedCallback(S_00d68c00_Arg* a
     radius.FUN_00de3050();
     S_00d68c00_Query query;
     query.FUN_00de3060(&radius);
-    query.FUN_00de4420(a2->unk10, &arr);
+    query.UpdateFields_00de4420(a2->unk10, &arr);
     for (int i = arr.size - 1; i >= 0; i--)
     {
         S_00d68c00_Elem* e = arr.data[i];
@@ -1290,7 +1296,7 @@ void S_00d68c00_Sub::hkpConvexRadiusViewer_entityAddedCallback(S_00d68c00_Arg* a
             unsigned int buf[128];
             S_00d68c00_Str msg;
             msg.FUN_00cb1600((char*)buf, 0x200);
-            msg.FUN_00cc01c0("Unable to build display geometry from hkpShape geometry data");
+            msg.ProcessAndReturnValue_00cc01c0("Unable to build display geometry from hkpShape geometry data");
             DAT_01268360->v3(0, -1, (char*)buf, ".\\VisualDebugger\\Viewer\\Collide\\hkpConvexRadiusViewer.cpp", 0xa7);
             msg.FUN_00cc00e0();
             arr.size--;
@@ -1393,12 +1399,13 @@ struct FUN_00d68b20_cls
     int unk2c;
     SpawnItem** m_30;
 
-    void FUN_00d68b20(int idx);
+    void ClearItemArray(int idx);
 };
 
 // Calls v05 on each element of the item at idx, then conditionally calls FUN_00c908c0 on its array and sets the array size to 0.
 // @fnv 0x00d68b20
-void FUN_00d68b20_cls::FUN_00d68b20(int idx)
+// src: GUESS 0x00d68b20 (confidence: medium)
+void FUN_00d68b20_cls::ClearItemArray(int idx)
 {
     SpawnItem* item = m_30[idx];
     for (int i = 0; i < item->arr.size; ++i)

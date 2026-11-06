@@ -2,7 +2,8 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 // @fnv 0x00dd13e0
-char* FUN_00dd13e0(char* base, int index)
+// src: GUESS 0x00dd13e0 (confidence: low)
+char* Object_GetElementAddress_00dd13e0(char* base, int index)
 {
     return base + 0x20 + ((index * 9) << 4);
 }

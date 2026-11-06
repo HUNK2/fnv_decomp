@@ -217,7 +217,7 @@ struct TlsGuard_t
 };
 void bhkSerializable_CloneCritLock();
 void bhkSerializable_CloneCritUnlock();
-void* __cdecl FUN_00aa13e0(unsigned int size);
+void* __cdecl Object_DispatchCommandFour(unsigned int size);
 class OwnerBase_t
 {
   public:
@@ -229,7 +229,7 @@ class OwnerBase_t
 
     static void* operator new(unsigned int size) throw()
     {
-        return FUN_00aa13e0(size);
+        return Object_DispatchCommandFour(size);
     }
 };
 class ChainA_t : public OwnerBase_t
@@ -494,7 +494,7 @@ struct V
     float z;
     V* FUN_006815c0();
     V* ApplyScaled(V* out, float f);
-    V* FUN_00439ef0(V* out, const V* a);
+    V* SubtractIntoVector(V* out, const V* a);
     void Unitize_004a0c10();
     void FUN_0043d410(float x, int y, int z);
     V* FUN_00439e90(V* out, V* a);
@@ -545,7 +545,7 @@ struct Xform
     void NiTransform_NiTransform();
     void InvertTransform(Xform* out);
     Xform* FUN_0062c250(Xform* out, Xform* b);
-    V* FUN_00524c40(V* out, V* b);
+    V* ComputeValue_00524c40(V* out, V* b);
 };
 
 
@@ -686,7 +686,7 @@ struct __declspec(align(16)) Res
     ~Res();
 };
 
-void* FUN_00aa13e0(unsigned int n);
+void* Object_DispatchCommandFour(unsigned int n);
 
 struct Path
 {
@@ -711,11 +711,11 @@ struct PathRef
     PathRef(Path* p);
     static void* operator new(unsigned int n)
     {
-        return FUN_00aa13e0(n);
+        return Object_DispatchCommandFour(n);
     }
 };
 
-void* FUN_00aa13e0(unsigned int n);
+void* Object_DispatchCommandFour(unsigned int n);
 
 struct Name
 {
@@ -950,7 +950,7 @@ struct Obj
     Xform* NiAVObject_GetWorldRotate();
     void AssignFixedString(int a);
     Obj* bhkNiCollisionObject_GetWorldObject();
-    Obj* FUN_004ae750();
+    Obj* Bipedanim_GetReferenceFlagsOrZero();
     int hkpRigidBody_getTransform();
     void hkRotation_renormalize();
     void bhkRigidBody_AddActCon(PathRef* p);
@@ -994,7 +994,7 @@ struct Glob
     float* Setting_Float_00403e20();
     bool BGSSaveLoadGame_GetSaveGameLoading();
     void FUN_00458e20(int a, float f);
-    V* FUN_004a0bd0(V* out);
+    V* GetNegatedVector(V* out);
     Obj* BGSSaveFormBuffer_GetForm();
     void SetValue(int a);
 };
@@ -1031,7 +1031,7 @@ void TESHavokUtilities_AddVelocity(Obj* a, V* b, int c);
 
 struct VRes
 {
-    void FUN_0053d280();
+    void ProcessAndReturnValue_0053d280();
 };
 
 }  // namespace fnv_009b90b0
@@ -1159,7 +1159,7 @@ void MissileProjectile::ProcessImpale()
                             v268.Unitize_004a0c10();
                             V t2e0;
                             V t2ec;
-                            big.bhkPickData_SetFrom(v25c.FUN_00439ef0(&t2ec, v268.ApplyScaled(&t2e0, 512.0f)));
+                            big.bhkPickData_SetFrom(v25c.SubtractIntoVector(&t2ec, v268.ApplyScaled(&t2e0, 512.0f)));
                             V t2f8;
                             big.bhkPickData_SetLength(v268.ApplyScaled(&t2f8, 1024.0f));
                             {
@@ -1180,8 +1180,8 @@ void MissileProjectile::ProcessImpale()
                                     Path path;
                                     path.EnsureChild();
                                     path.hkConstraintCinfo_SetEntities(p63c, p630);
-                                    Name n690(p63c->FUN_004ae750()->hkpRigidBody_getTransform());
-                                    Name n6d0(p630->FUN_004ae750()->hkpRigidBody_getTransform());
+                                    Name n690(p63c->Bipedanim_GetReferenceFlagsOrZero()->hkpRigidBody_getTransform());
+                                    Name n6d0(p630->Bipedanim_GetReferenceFlagsOrZero()->hkpRigidBody_getTransform());
                                     n690.FUN_006815c0()->hkRotation_renormalize();
                                     n6d0.FUN_006815c0()->hkRotation_renormalize();
                                     V v6dc;
@@ -1195,8 +1195,8 @@ void MissileProjectile::ProcessImpale()
                                     V v730;
                                     V v73c;
                                     V v748;
-                                    DAT_011a9478.FUN_004a0bd0(&v73c)->ApplyScaled(&v730, s_offset);
-                                    x724.FUN_00524c40(&v748, &v730);
+                                    DAT_011a9478.GetNegatedVector(&v73c)->ApplyScaled(&v730, s_offset);
+                                    x724.ComputeValue_00524c40(&v748, &v730);
                                     V6 v760;
                                     v760.FUN_006815c0();
                                     NI2HK(&v760, &v748);
@@ -1322,7 +1322,7 @@ void MissileProjectile::ProcessImpale()
                                 V vcdc;
                                 V vce8;
                                 ((VRes*)((V*)Projectile_GetMovementDirection((NiPoint3*)&vce8))->ApplyScaled(&vcdc, Projectile_GetSpeed((NiPoint3*)&vcd0, 2.0f)))
-                                    ->FUN_0053d280();
+                                    ->ProcessAndReturnValue_0053d280();
                             }
                             TESHavokUtilities_AddVelocity(p28, &vcd0, 1);
                             if (DAT_011f2250.BGSSaveFormBuffer_GetForm() == (Obj*)this)

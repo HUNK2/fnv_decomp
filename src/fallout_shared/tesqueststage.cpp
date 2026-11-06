@@ -234,13 +234,13 @@ struct FUN_0060f260
 {
     char pad[4];
     IntList list;
-    void FUN_0060f3a0();
+    void ProcessEntries_0060f3a0();
     ~FUN_0060f260();
 };
 // @fnv 0x0060f260
 FUN_0060f260::~FUN_0060f260()
 {
-    FUN_0060f3a0();
+    ProcessEntries_0060f3a0();
 }
 
 struct FUN_0060f320_shell : public QuestStage

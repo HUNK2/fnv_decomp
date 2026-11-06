@@ -279,7 +279,7 @@ struct S_007fe560_Shadow;
 struct S_007fe560_Pt3
 {
     float x, y, z;
-    S_007fe560_Pt3* FUN_00416870(float ax, float ay, float az);
+    S_007fe560_Pt3* SetComponents(float ax, float ay, float az);
 };
 struct S_007fe560_Upd
 {
@@ -332,14 +332,14 @@ void FUN_007fe560_cls::InitTerminalLight()
         S_007fe560_Pt3 kAmbient;
         S_007fe560_Pt3 kFullColor;
         S_007fe560_Upd kNewData;
-        light->SetEffectColor(*kAmbient.FUN_00416870(0.0f, 0.0f, 0.0f));
-        light->NiLight_SetAmbientColor(*kDiffuseColor.FUN_00416870(0.0f, 0.0f, 0.0f));
+        light->SetEffectColor(*kAmbient.SetComponents(0.0f, 0.0f, 0.0f));
+        light->NiLight_SetAmbientColor(*kDiffuseColor.SetComponents(0.0f, 0.0f, 0.0f));
         light->FUN_0050c630(0.0f);
         light->FUN_0050c660(0.0f);
         light->FUN_0050c690(0.0f);
         light->NiLight_SetDimmer(1.0f);
-        light->FUN_0050dd50(*kPos.FUN_00416870(DAT_01017b78, 0.0f, 0.0f));
-        kFullColor.FUN_00416870(1.0f, 1.0f, 1.0f);
+        light->FUN_0050dd50(*kPos.SetComponents(DAT_01017b78, 0.0f, 0.0f));
+        kFullColor.SetComponents(1.0f, 1.0f, 1.0f);
         FORenderedMenu_SetScreenLightColor(&kFullColor);
         SetIntensity(1.0f);
         FUN_007f99b0(1.0f);
@@ -440,7 +440,7 @@ bool FORenderedMenuRaceSex::HandleRaceSexMenuInput(bool abDown, int a2, int a3)
                 (BSAudio::GetSingleton()->*reinterpret_cast<BSSoundHandle (BSAudio::*)(const char*, unsigned int)>(
                     static_cast<BSSoundHandle (BSAudio::*)(const char*, unsigned int)>(
                         &BSAudio::GetSoundHandleByEditorID)))("UIMenuMode", 0x121).Play(false);
-                GetMenuTile()->GetMenu()->FUN_007fe910(iFound);
+                GetMenuTile()->GetMenu()->OnRaceSelected_Thunk(iFound);
                 return true;
             }
         }
@@ -595,7 +595,7 @@ struct FUN_007feb80_cls
     unsigned char unk167;
     float m_f168;
 
-    void FUN_007fecc0();
+    void ActivateAndResetTimer();
     void Update(float afValue);
 };
 
@@ -614,7 +614,7 @@ void FUN_007feb80_cls::Update(float afValue)
     }
     else if (afValue > m_f168)
     {
-        FUN_007fecc0();
+        ActivateAndResetTimer();
     }
 }
 
@@ -792,7 +792,7 @@ struct xAlpha : xNiMem
 };
 struct xGO
 {
-    xAV* FUN_00559450();
+    xAV* Modelloader_GetReferencedThis();
     void FUN_0066b0d0(void*);
     xAV* m_p;
 };
@@ -967,7 +967,7 @@ void xRenderedMenu::Init()
     if (xF718b60()->FUN_00719060(3, qHXYKT))
         FORenderedMenu_SetTintColor(qHXYKT);
     xAV* qdqWL = 0;
-    if (!m_f8.FUN_00559450())
+    if (!m_f8.Modelloader_GetReferencedThis())
     {
         qdqWL = xg_loader_11c3b3c->ModelLoader_LoadFile(NiAVObject_GetParent()->Tile_GetMenu()->RaceSexMenu_GetProjectorFile(), 0, true, false, false,
                                                 false);
@@ -976,7 +976,7 @@ void xRenderedMenu::Init()
     }
     else
     {
-        qdqWL = m_f8.FUN_00559450();
+        qdqWL = m_f8.Modelloader_GetReferencedThis();
     }
     qdqWL->NiAVObject_SetScale(*xg_f_11db544.Setting_Float_00403e20());
     NiTexturingProperty_Map_SetTexture(qdqWL);
@@ -1131,7 +1131,7 @@ template <class T> struct RtPtr
     T* m_pObject;
     RtPtr(T* pObject);
     ~RtPtr();
-    T* FUN_00559450() const;
+    T* Modelloader_GetReferencedThis() const;
     RtPtr& FUN_0066b0d0(T* pObject);
 };
 
@@ -1192,19 +1192,19 @@ void RenderToTextureImpl::FORenderedMenuRaceSex_Draw(int aiUnk, int aiUnk2, int 
         kBackgroundVal2 = NiColorA(0.125f, 0.161f, 0.141f, 1.0f);
     pkRendererY->SetBorderColor(kKBorder);
     pkRendererY->SetBackgroundColor(kBackgroundVal2);
-    BSRenderedTexture_StartOffscreen(7, spTarget5.FUN_00559450()->FUN_00b6b260());
+    BSRenderedTexture_StartOffscreen(7, spTarget5.Modelloader_GetReferencedThis()->FUN_00b6b260());
     RtAccum kAccumRes(0);
     RtPtr<RtTexture> spSource9(InterfaceManager_GetSingleton()->RaceSexMenu_GetProjectorFile());
-    kAccumRes.BSCullingProcess_SetAccumulator(spSource9.FUN_00559450());
+    kAccumRes.BSCullingProcess_SetAccumulator(spSource9.Modelloader_GetReferencedThis());
     kAccumRes.BSCullingProcess_PushCullMode(1);
-    BSShaderUtil_AccumulateScene(m_spScene.FUN_00559450(), FUN_00450b80(3), &kAccumRes);
-    FUN_00b6c0d0(m_spScene.FUN_00559450(), spSource9.FUN_00559450(), 0);
+    BSShaderUtil_AccumulateScene(m_spScene.Modelloader_GetReferencedThis(), FUN_00450b80(3), &kAccumRes);
+    FUN_00b6c0d0(m_spScene.Modelloader_GetReferencedThis(), spSource9.Modelloader_GetReferencedThis(), 0);
     kAccumRes.BSCullingProcess_PopCullMode();
     kAccumRes.BSCullingProcess_SetAccumulator(0);
     spSource9.FUN_0066b0d0(0);
     FUN_00b6b790();
-    Render_007fba00(aiUnk, 0, spTarget5.FUN_00559450());
-    BSShaderManager_GetTextureManager(spTarget5.FUN_00559450())->BSTextureManager_ReturnRenderedTexture();
+    Render_007fba00(aiUnk, 0, spTarget5.Modelloader_GetReferencedThis());
+    BSShaderManager_GetTextureManager(spTarget5.Modelloader_GetReferencedThis())->BSTextureManager_ReturnRenderedTexture();
     spTarget5.FUN_0066b0d0(0);
 }
 }  // namespace fnv_007fe1f0

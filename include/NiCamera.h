@@ -69,7 +69,7 @@ class __declspec(novtable) NiCamera : public NiAVObject
     const NiPoint3& NiAVObject_GetWorldTranslate() const;
     const NiMatrix3& NiAVObject_GetWorldRotate() const;
     float NiAVObject_GetWorldScale() const;
-    void FUN_00a6fae0();
+    void UpdateFields_00a6fae0();
 
     float m_aafWorldToCam[4][4];
     NiFrustum m_kViewFrustum;

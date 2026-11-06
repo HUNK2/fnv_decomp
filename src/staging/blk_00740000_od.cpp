@@ -69,11 +69,12 @@ extern int DAT_01071aec;
 struct GlobalObject_00869f00
 {
     void Clear(bool);
-    void FUN_007530a0();
+    void ResetVirtualTableAndClear_007530a0();
 };
 
 // @fnv 0x007530a0
-void GlobalObject_00869f00::FUN_007530a0()
+// src: GUESS 0x007530a0 (confidence: medium)
+void GlobalObject_00869f00::ResetVirtualTableAndClear_007530a0()
 {
     *reinterpret_cast<int**>(this) = &DAT_01071aec;
     Clear(true);
@@ -86,11 +87,12 @@ struct GlobalObject_00869f00
 {
     int* p;
     void Clear(bool);
-    void FUN_007530f0();
+    void UpdateState_007530f0();
 };
 
 // @fnv 0x007530f0
-void GlobalObject_00869f00::FUN_007530f0()
+// src: GUESS 0x007530f0 (confidence: low)
+void GlobalObject_00869f00::UpdateState_007530f0()
 {
     p = &DAT_01071b00;
     Clear(true);
@@ -100,14 +102,15 @@ namespace fnv_00753110 {
 struct AX
 {
     void BSSimpleArray_float_1024_InitialSetup(unsigned int, unsigned int);
-    AX* FUN_00753110();
+    AX* SetVtableAndProcessState_00753110();
 };
 
 extern void* DAT_01071b14;
 
 // Sets the object's vtable pointer to DAT_01071b14, calls FUN_006b3eb0 with 0, 0, and returns this.
 // @fnv 0x00753110
-AX* AX::FUN_00753110()
+// src: GUESS 0x00753110 (confidence: low)
+AX* AX::SetVtableAndProcessState_00753110()
 {
     *reinterpret_cast<void**>(this) = &DAT_01071b14;
     BSSimpleArray_float_1024_InitialSetup(0, 0);
@@ -125,10 +128,11 @@ struct GlobalObject_00869f00
 struct FUN_00753210Class
 {
     int* p;
-    void FUN_00753210();
+    void UpdateState_00753210();
 };
 // @fnv 0x00753210
-void __thiscall FUN_00753210Class::FUN_00753210()
+// src: GUESS 0x00753210 (confidence: low)
+void __thiscall FUN_00753210Class::UpdateState_00753210()
 {
     p = &DAT_01071b14;
     ((GlobalObject_00869f00*)this)->Clear(true);
@@ -193,10 +197,11 @@ struct FUN_0072ba80_shell
     int* m_data;
     int m_uiItemCount;
     void __thiscall FUN_0072ba80(void*, unsigned int);
-    void __thiscall FUN_00753140();
+    void __thiscall RemoveLastArrayElement();
 };
 // @fnv 0x00753140
-void __thiscall FUN_0072ba80_shell::FUN_00753140()
+// src: GUESS 0x00753140 (confidence: medium)
+void __thiscall FUN_0072ba80_shell::RemoveLastArrayElement()
 {
     if (m_uiItemCount == 0)
         return;
@@ -208,14 +213,14 @@ extern "C" void Deallocate(void*);
 
 struct FUN_00753180_Class
 {
-    void __thiscall FUN_007530a0();
+    void __thiscall ResetVirtualTableAndClear_007530a0();
     void* __thiscall FUN_00753180(unsigned int flags);
 };
 
 // @fnv 0x00753180
 void* __thiscall FUN_00753180_Class::FUN_00753180(unsigned int flags)
 {
-    FUN_007530a0();
+    ResetVirtualTableAndClear_007530a0();
     if (flags & 1)
         Deallocate(this);
     return this;
@@ -229,7 +234,7 @@ struct FUN_007531b0_Class
 // @fnv 0x007531b0
 void* __thiscall FUN_007531b0_Class::FUN_007531b0(unsigned int flags)
 {
-    ((GlobalObject_00869f00*)this)->FUN_007530f0();
+    ((GlobalObject_00869f00*)this)->UpdateState_007530f0();
     if (flags & 1)
         _Deallocate(this);
     return this;
@@ -238,7 +243,7 @@ void* __thiscall FUN_007531b0_Class::FUN_007531b0(unsigned int flags)
 void __cdecl Deallocate(void*);
 struct FUN_00753210_Class
 {
-    void __thiscall FUN_00753210();
+    void __thiscall UpdateState_00753210();
 };
 struct FUN_007531e0_Class
 {
@@ -247,7 +252,7 @@ struct FUN_007531e0_Class
 // @fnv 0x007531e0
 void* __thiscall FUN_007531e0_Class::FUN_007531e0(unsigned int flags)
 {
-    ((FUN_00753210_Class*)this)->FUN_00753210();
+    ((FUN_00753210_Class*)this)->UpdateState_00753210();
     if (flags & 1)
         Deallocate(this);
     return this;
@@ -329,12 +334,13 @@ struct FUN_00752cb0_Group
 
 struct FUN_00752cb0_cls
 {
-    int __thiscall FUN_00752cb0(int a1, int a2);
+    int __thiscall ProcessEntries_00752cb0(int a1, int a2);
 };
 
 // Counts up to 7 slots whose FUN_0044ddc0 value is positive and whose FUN_008d80e0 result equals a2, returning the count multiplied by a2.
 // @fnv 0x00752cb0
-int __thiscall FUN_00752cb0_cls::FUN_00752cb0(int aiGroupIndex, int aiMatchValue)
+// src: GUESS 0x00752cb0 (confidence: low)
+int __thiscall FUN_00752cb0_cls::ProcessEntries_00752cb0(int aiGroupIndex, int aiMatchValue)
 {
     int i = 0;
     int count = 0;
@@ -652,7 +658,7 @@ struct PointerArray
     void BSSimpleArray_Sort(CaravanCompare);
     bool NiTListBase_DFALL_NiTListItem_BSAnimGroupSequence_const_BSAnimGroupSequence_const_IsEmpty();
     void** FUN_006f2270();
-    void FUN_00753140();
+    void RemoveLastArrayElement();
 };
 struct FUN_00753110 : PointerArray
 {
@@ -1361,7 +1367,7 @@ struct CaravanOwner : Menu
     bool IsFlagSet_00740f10(unsigned int);
     int CompareToTwentyOneToTwentySix(int);
     int GetRowValue(int, int);
-    int FUN_00752cb0(int, int);
+    int ProcessEntries_00752cb0(int, int);
     int CaravanMenu_GetSumCardsB44WithSuit(int, int);
     bool CanPlaceCard(int, int, unsigned int, bool);
     CaravanDecision CaravanMenu_ProcessAI();
@@ -1881,7 +1887,7 @@ CaravanDecision CaravanOwner::CaravanMenu_ProcessAI()
                                             {
 
                                                 laneLossValue16[local_104Value53] =
-                                                    (this->FUN_00752cb0(local_104Value53, local_e4Value13));
+                                                    (this->ProcessEntries_00752cb0(local_104Value53, local_e4Value13));
                                             }
                                         }
                                         else
@@ -2452,7 +2458,7 @@ CaravanDecision CaravanOwner::CaravanMenu_ProcessAI()
         {
 
             currentValue29 = (CaravanDecision*)*(((PointerArray*)(choicesValue1))->FUN_006f2270());
-            ((PointerArray*)(choicesValue1))->FUN_00753140();
+            ((PointerArray*)(choicesValue1))->RemoveLastArrayElement();
             delete currentValue29;
         }
         delete choicesValue1;

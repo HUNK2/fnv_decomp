@@ -137,7 +137,7 @@ struct Owner_00c658c0
     int unk00;
     int unk04;
     Node_00c658c0* m_node;
-    void FUN_00a29680();
+    void Object_DoNothing();
 };
 
 struct Cls_00c658c0
@@ -164,9 +164,9 @@ void Cls_00c658c0::bhkCollisionObject_ClearVelocities()
         __m128 ok = _mm_cmple_ps(_mm_and_ps(d, DAT_01017d10), eps);
         if ((_mm_movemask_ps(ok) & 7) != 7 && n)
         {
-            o->FUN_00a29680();
+            o->Object_DoNothing();
             n->OnTrigger(&DAT_01267e30);
-            o->FUN_00a29680();
+            o->Object_DoNothing();
         }
         n = o->m_node;
         p = n ? &n->m_kPointB : &DAT_01267e30;
@@ -174,9 +174,9 @@ void Cls_00c658c0::bhkCollisionObject_ClearVelocities()
         ok = _mm_cmple_ps(_mm_and_ps(d, DAT_01017d10), eps);
         if ((_mm_movemask_ps(ok) & 7) != 7 && n)
         {
-            o->FUN_00a29680();
+            o->Object_DoNothing();
             n->hkpRigidBody_setAngularVelocity(&DAT_01267e30);
-            o->FUN_00a29680();
+            o->Object_DoNothing();
         }
     }
 }

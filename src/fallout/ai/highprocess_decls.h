@@ -328,7 +328,7 @@ class DetectionEvent
     int state;
     TESObjectREFR* source;
     DetectionEvent();
-    void FUN_008d72e0(BGSLoadFormBuffer*);
+    void LoadFields_008d72e0(BGSLoadFormBuffer*);
     void SetTargetReference(BGSLoadFormBuffer*);
 };
 class TopicInfoRecord
@@ -337,7 +337,7 @@ class TopicInfoRecord
     unsigned char state[52];
     TopicInfoRecord();
     void FUN_008d7420(BGSLoadFormBuffer*);
-    void FUN_008d74a0(BGSLoadFormBuffer*);
+    void UpdateFields_008d74a0(BGSLoadFormBuffer*);
 };
 
 extern BGSSaveLoadGame* g_BGSSaveLoadGame;

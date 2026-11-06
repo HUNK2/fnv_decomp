@@ -144,7 +144,7 @@ struct AStarNodeTD
 };
 struct FUN_006f4340_shell
 {
-    AStarNodeTD* FUN_006f4340();
+    AStarNodeTD* ProcessAndReturnValue_006f4340();
 };
 struct FUN_006f4430_shell
 {
@@ -198,7 +198,7 @@ int TeleportDoorSearch::InsertOrUpdateNode(void* aiKey, float afCost, AStarNode<
             }
         }
     }
-    reinterpret_cast<AStarNodeTD*&>(aRetNode) = reinterpret_cast<FUN_006f4340_shell*>(reinterpret_cast<char*>(this) + 4)->FUN_006f4340();
+    reinterpret_cast<AStarNodeTD*&>(aRetNode) = reinterpret_cast<FUN_006f4340_shell*>(reinterpret_cast<char*>(this) + 4)->ProcessAndReturnValue_006f4340();
     (reinterpret_cast<AStarNodeTD*&>(aRetNode))->uiKey = reinterpret_cast<unsigned int>(aiKey);
     (reinterpret_cast<AStarNodeTD*&>(aRetNode))->m_fPathingCostCur = afCost;
     (reinterpret_cast<AStarNodeTD*&>(aRetNode))->pNext = *pBucketHead;

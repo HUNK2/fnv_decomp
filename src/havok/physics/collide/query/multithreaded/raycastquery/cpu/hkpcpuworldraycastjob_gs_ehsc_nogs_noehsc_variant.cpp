@@ -47,7 +47,7 @@ struct S_00df8d60
     int unkC;
     int unk10;
     float unk14;
-    S_00df8d60_Bool FUN_00df8aa0(const void* data);
+    S_00df8d60_Bool CastBody_Thunk(const void* data);
     float hkCpuWorldRayCastCollector_addBroadPhaseHandle(const S_00df8d60_Data* data, int unused);
 };
 struct ParamBlock
@@ -64,7 +64,7 @@ struct ParamBlock
 };
 struct Container
 {
-    void FUN_00df8aa0(int* apOut, int aiValue);
+    void CastBody_Thunk(int* apOut, int aiValue);
 };
 struct FUN_00df8db0_cls
 {
@@ -85,7 +85,7 @@ struct FUN_00df8960_cls
 };
 struct AdjustedBase
 {
-    void FUN_00df8aa0(void* apFirst, int aiSecond);
+    void CastBody_Thunk(void* apFirst, int aiSecond);
 };
 struct AdjustOwner
 {
@@ -100,7 +100,7 @@ struct FUN_00df8dd0_Param
 };
 struct FUN_00df8dd0_helper
 {
-    void FUN_00df8aa0(FUN_00df8dd0_Param** pp, unsigned int value);
+    void CastBody_Thunk(FUN_00df8dd0_Param** pp, unsigned int value);
 };
 struct FUN_00df8dd0_cls
 {
@@ -173,7 +173,7 @@ Derived::Derived()
 extern char DAT_010dbb04[];
 extern void(__cdecl* DAT_0126ec04)(void* a, void* b, struct S_00df8990_Obj* obj);
 struct S_00df8990_Obj;
-void __cdecl FUN_00e2b9b0(void* a, void* b, S_00df8990_Obj* obj);
+void __cdecl Runtime_ProcessEntries_00e2b9b0(void* a, void* b, S_00df8990_Obj* obj);
 struct Source
 {
     __m128 m_v00;
@@ -324,9 +324,9 @@ void __cdecl hkArrayUtil__reserve(Allocator*, void*, int, int) throw();
 void __cdecl hkAabbTreeRayCastUtil_hkAabbTreeData_hkAabbTreeAabb_unsigned_short_castRayFiltering(void*, void*, void*, int, void*, void*, int) throw();
 void __cdecl hkAabbTreeRayCastUtil_struct_hkAabbTreeData_hkAabbTreeAabb16_unsigned_short_castRayFiltering(void*, void*, void*, int, void*, void*, int) throw();
 void __cdecl hkTreeRayCastJobUtil_castRayKdTree(void*, void*, int, void*, int, int, int, int) throw();
-void __cdecl FUN_00e2b070(void*, void*, int, void*, int, int, int, int, int) throw();
-void __cdecl FUN_00e2b510(void*, void*, int, void*, int, int, int, int, int) throw();
-void __cdecl FUN_00e2acf0(void*, void*, int, void*, int, int, int, int, int) throw();
+void __cdecl hkVector4_ProcessEntries_00e2b070(void*, void*, int, void*, int, int, int, int, int) throw();
+void __cdecl Runtime_ProcessEntries_00e2b510(void*, void*, int, void*, int, int, int, int, int) throw();
+void __cdecl hkKdTreeUtils_castRayBundleIterative_ProcessEntries_00e2acf0(void*, void*, int, void*, int, int, int, int, int) throw();
 void __cdecl castRayBroadPhase(void*, void*, void*, void*) throw();
 struct Finalizer
 {
@@ -662,9 +662,9 @@ void __cdecl hkCpuWorldRayCastJob(void* result, MeshRequest* request)
             do
             {
                 *(__m128*)&scratch.range = *(__m128*)&shared.unit;
-                FUN_00e2b070(request->passA, face, queryType, &scratch.range, 0, 0, 0, 0, 0);
-                FUN_00e2b510(request->passB, face, queryType, &scratch.range, 0, 0, 0, 0, 0);
-                FUN_00e2acf0(queryFinal, face, queryType, &scratch.range, 0, 0, 0, 0, 0);
+                hkVector4_ProcessEntries_00e2b070(request->passA, face, queryType, &scratch.range, 0, 0, 0, 0, 0);
+                Runtime_ProcessEntries_00e2b510(request->passB, face, queryType, &scratch.range, 0, 0, 0, 0, 0);
+                hkKdTreeUtils_castRayBundleIterative_ProcessEntries_00e2acf0(queryFinal, face, queryType, &scratch.range, 0, 0, 0, 0, 0);
                 ++face;
             } while (--iteration.count != 0);
         }

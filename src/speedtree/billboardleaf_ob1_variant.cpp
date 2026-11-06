@@ -104,7 +104,7 @@ struct Parser
     ByteVec kData;
     int GetNextElement();
     float CTreeFileAccess_ParseFloat();
-    int FUN_00b3ede0();
+    int AdvanceBlockAllocationCursor();
     unsigned char GetNextChar();
     V3 GetVector3();
 };
@@ -147,7 +147,7 @@ LeafQ* CBillboardLeaf_Parse(Parser* p)
         switch (iToken)
         {
         case 0x1b5e:
-            pLeaf->i14 = p->FUN_00b3ede0();
+            pLeaf->i14 = p->AdvanceBlockAllocationCursor();
             break;
         case 0x1b5f:
             pLeaf->b10 = p->GetNextChar();

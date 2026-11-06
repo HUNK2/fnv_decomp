@@ -59,7 +59,8 @@ void __cdecl hkCollideCapsuleUtilCapsVsTri(const __m128*, float, const __m128*, 
                           ContactResult*, void*);
 
 // @fnv 0x00d39150
-void __cdecl FUN_00d39150(BodyPair* bodies, void* unused, QueryInput* input, __m128* output)
+// src: GUESS 0x00d39150 (confidence: low)
+void __cdecl hkCollideCapsuleUtilCapsVsTri_ProcessEntries_00d39150(BodyPair* bodies, void* unused, QueryInput* input, __m128* output)
 {
     ShapeGeometry* shapeA = bodies->a->shape;
     CollisionBody* bodyB = bodies->b;

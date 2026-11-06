@@ -30,7 +30,8 @@ void hkpPhysicsContextWorldListener::WorldAddedCallback(hkpWorld* world) {
 
 struct S_00de2980_World { int ClearValue(hkpWorldPostSimulationListener* p); };
 // @fnv 0x00de2980
-void hkpPhysicsContextWorldListener::FUN_00de2980(void* world) throw()
+// src: GUESS 0x00de2980 (confidence: low)
+void hkpPhysicsContextWorldListener::UpdateFields_00de2980(void* world) throw()
 {
     S_00de2980_World* pWorld = static_cast<S_00de2980_World*>(world);
     pWorld->ClearValue(static_cast<hkpWorldPostSimulationListener*>(
@@ -50,7 +51,7 @@ __forceinline hkpWorldPostSimulationListener::~hkpWorldPostSimulationListener() 
 }
 __forceinline hkpContactPointViewer::~hkpContactPointViewer() throw() {
     for (int i = 0; this->contacts && i < this->contacts->size; ++i)
-        this->hkpPhysicsContextWorldListener::FUN_00de2980(this->contacts->data[i]);
+        this->hkpPhysicsContextWorldListener::UpdateFields_00de2980(this->contacts->data[i]);
 }
 // @fnv 0x00de2a40
 void hkpContactPointViewer::DestroyContactPointViewer() throw() {

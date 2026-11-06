@@ -129,7 +129,7 @@ __forceinline void CA0E60Array::Free(void** buffer)
 }
 
 
-void __cdecl FUN_00ca3570(void);
+void __cdecl ReleaseStorage_00ca3570(void);
 
 void __cdecl _delete(void* p, int);
 
@@ -142,7 +142,7 @@ struct FUN_00ca3980_class
 // @fnv 0x00ca3980
 FUN_00ca3980_class* __thiscall FUN_00ca3980_class::FUN_00ca3980(int aiFlags)
 {
-    FUN_00ca3570();
+    ReleaseStorage_00ca3570();
     if (aiFlags & 1)
         _delete(this, 0x30);
     return this;
@@ -155,11 +155,12 @@ struct FUN_00ca4470_Class
 {
     void* m_iWordAt00;
     void* m_iWordAt04;
-    void __thiscall FUN_00ca4470();
+    void __thiscall UpdateState_00ca4470();
 };
 
 // @fnv 0x00ca4470
-void __thiscall FUN_00ca4470_Class::FUN_00ca4470()
+// src: GUESS 0x00ca4470 (confidence: low)
+void __thiscall FUN_00ca4470_Class::UpdateState_00ca4470()
 {
     void* p = m_iWordAt04;
     m_iWordAt00 = &DAT_010c759c;
@@ -187,7 +188,7 @@ float __fastcall GetField24Float(struct FUN_00ca5310_class* pClass)
 
 struct FUN_00ca6590_t
 {
-    int __thiscall FUN_00ca6590();
+    int __thiscall ProcessState_00ca6590();
     FUN_00ca6590_t* __thiscall FUN_00ca6650(int flags);
 };
 void __cdecl _delete(void* p, unsigned int size);
@@ -196,7 +197,7 @@ void __cdecl _delete(void* p, unsigned int size);
 // @fnv 0x00ca6650
 FUN_00ca6590_t* __thiscall FUN_00ca6590_t::FUN_00ca6650(int flags)
 {
-    FUN_00ca6590();
+    ProcessState_00ca6590();
     if (flags & 1)
         _delete(this, 0x14);
     return this;
@@ -360,11 +361,12 @@ FUN_00cbf400_class::FUN_00cbf400_class() : GlobalObject_0045cfe0("iNumThreads:HA
 extern int DAT_010c7310;
 struct FUN_00ca0d40_class
 {
-    void __thiscall FUN_00ca0d40();
+    void __thiscall UpdateFields_00ca0d40();
 };
 // Sets the vtable pointer to DAT_010c7310 and, if the pointer at offset 4 is set, calls the function at DAT_010c7310+8 on it and clears offsets 4, 8 and 12.
 // @fnv 0x00ca0d40
-void __thiscall FUN_00ca0d40_class::FUN_00ca0d40()
+// src: GUESS 0x00ca0d40 (confidence: low)
+void __thiscall FUN_00ca0d40_class::UpdateFields_00ca0d40()
 {
     void* p = *(void**)((char*)this + 4);
     *(void**)((char*)this + 0) = &DAT_010c7310;
@@ -449,11 +451,12 @@ struct FUN_00cbc550_cls : public bhkRefObject
     int m_34;
     int m_38;
     char m_3c;
-    FUN_00cbc550_cls* __thiscall FUN_00cbc550();
+    FUN_00cbc550_cls* __thiscall UpdateState_00cbc550();
 };
 
 // @fnv 0x00cbc550
-FUN_00cbc550_cls* __thiscall FUN_00cbc550_cls::FUN_00cbc550()
+// src: GUESS 0x00cbc550 (confidence: low)
+FUN_00cbc550_cls* __thiscall FUN_00cbc550_cls::UpdateState_00cbc550()
 {
     Initialize();
     *(int*)this = (int)&DAT_0102016c;
@@ -501,14 +504,14 @@ void __cdecl hkPredGskAgent3_registerAgent3(void*, int, int);
 void __cdecl RegisterScriptHandlers(void*);
 void __cdecl hkpBoxBoxAgent_registerAgent(void*);
 void __cdecl hkBoxBoxAgent3_registerAgent3(void*);
-void __cdecl FUN_00d3fd00(void*);
+void __cdecl Object_UpdateFields_00d3fd00(void*);
 void __cdecl hkpSphereCapsuleAgent_registerAgent(void*);
-void __cdecl FUN_00d3dca0(void*);
+void __cdecl Object_UpdateFields_00d3dca0(void*);
 void __cdecl hkpSphereBoxAgent_registerAgent(void*);
 void __cdecl RegisterHandlers(void*);
-void __cdecl FUN_00d3abc0(void*);
+void __cdecl Object_UpdateFields_00d3abc0(void*);
 void __cdecl hkCapsuleTriangleAgent3_registerAgent3(void*);
-void __cdecl FUN_00d389f0(void*);
+void __cdecl hkpMultiSphereTriangleAgent_staticGetPenetrations_UpdateState_00d389f0(void*);
 void __cdecl hkpMultiRayConvexAgent_registerAgent(void*);
 void __cdecl hkpBvTreeStreamAgent_registerMultiRayAgent(void*);
 
@@ -521,14 +524,14 @@ void __cdecl hkpAgentRegisterUtil__registerTerminalAgents(void* pObject)
     RegisterScriptHandlers(pObject);
     hkpBoxBoxAgent_registerAgent(pObject);
     hkBoxBoxAgent3_registerAgent3(pObject);
-    FUN_00d3fd00(pObject);
+    Object_UpdateFields_00d3fd00(pObject);
     hkpSphereCapsuleAgent_registerAgent(pObject);
-    FUN_00d3dca0(pObject);
+    Object_UpdateFields_00d3dca0(pObject);
     hkpSphereBoxAgent_registerAgent(pObject);
     RegisterHandlers(pObject);
-    FUN_00d3abc0(pObject);
+    Object_UpdateFields_00d3abc0(pObject);
     hkCapsuleTriangleAgent3_registerAgent3(pObject);
-    FUN_00d389f0(pObject);
+    hkpMultiSphereTriangleAgent_staticGetPenetrations_UpdateState_00d389f0(pObject);
     hkpMultiRayConvexAgent_registerAgent(pObject);
     hkpBvTreeStreamAgent_registerMultiRayAgent(pObject);
 }
@@ -801,7 +804,8 @@ bool HC1Base::bhkPackedNiTriStripsShape_RegisterStreamables(NiStream* stream)
 
 // Returns the float at offset 0x80 of the object stored at p+8, or 1.0f if p or that object is null.
 // @fnv 0x00ca6620
-float __fastcall FUN_00ca6620(void* p, int)
+// src: GUESS 0x00ca6620 (confidence: low)
+float __fastcall Object_GetNestedFloatOrOne_00ca6620(void* p, int)
 {
     float v;
     if (p && *(void**)((char*)p + 8))
@@ -820,7 +824,8 @@ float __cdecl hkpConstraintData_getMaxLinearImpulse()
 
 extern int DAT_0102e388;
 // @fnv 0x00ca9900
-void __fastcall FUN_00ca9900(int* p)
+// src: GUESS 0x00ca9900 (confidence: low)
+void __fastcall Object_SetVirtualTable_00ca9900(int* p)
 {
     *p = (int)&DAT_0102e388;
 }
@@ -1061,7 +1066,8 @@ void* FUN_00cb9cc0_class::ReallocateArray(void* pBuffer, unsigned int count)
 
 // Sets each of the n ints pointed to by p to 0, skipping null p and advancing the pointer.
 // @fnv 0x00cb9d50
-void __stdcall FUN_00cb9d50(int* paiValues, unsigned int n)
+// src: GUESS 0x00cb9d50 (confidence: low)
+void __stdcall Runtime_ProcessEntries_00cb9d50(int* paiValues, unsigned int n)
 {
     while (n > 0)
     {
@@ -1762,14 +1768,15 @@ struct FUN_00ca3570_class : FUN_00a5d3d0_class
     void* unk20;
     void* unk24;
 
-    void __thiscall FUN_00ca3570();
+    void __thiscall ReleaseStorage_00ca3570();
 };
 
 extern "C" char DAT_010c740c[];
 extern MemoryManager _g_memoryManager;
 
 // @fnv 0x00ca3570
-void __thiscall FUN_00ca3570_class::FUN_00ca3570()
+// src: GUESS 0x00ca3570 (confidence: low)
+void __thiscall FUN_00ca3570_class::ReleaseStorage_00ca3570()
 {
     m_vtbl = DAT_010c740c;
 
@@ -3043,7 +3050,7 @@ extern int DAT_012680f8;
 extern int DAT_012686d0;
 extern int DAT_012682e4;
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+void* __cdecl Object_DispatchCommandFour(unsigned int size);
 
 struct OwnerBase
 {
@@ -3055,7 +3062,7 @@ struct OwnerBase
 
     static void* operator new(unsigned int size) throw()
     {
-        return FUN_00aa13e0(size);
+        return Object_DispatchCommandFour(size);
     }
 };
 
@@ -4022,7 +4029,7 @@ FUN_00ca7310::FUN_00ca7310()
 
 struct MotionByte
 {
-    void FUN_00ca9360(const float*);
+    void FindFloatTableIndex(const float*);
 };
 struct MotionInstance
 {
@@ -4142,8 +4149,8 @@ void hkpRigidBody_createDynamicRigidMotion(int type, const void* position, const
         motion->SetGridPosition(center);
         motion->SetMass(mass);
     }
-    motion->linearDamping.FUN_00ca9360(&linearDamping);
-    motion->angularDamping.FUN_00ca9360(&angularDamping);
+    motion->linearDamping.FindFloatTableIndex(&linearDamping);
+    motion->angularDamping.FindFloatTableIndex(&angularDamping);
 }
 
 struct Ctx
@@ -4208,7 +4215,8 @@ FUN_00ca9860_cls::~FUN_00ca9860_cls()
 extern int DAT_01268310;
 
 // @fnv 0x00ca9910
-int __cdecl FUN_00ca9910()
+// src: GUESS 0x00ca9910 (confidence: low)
+int __cdecl Runtime_EvaluateValue_00ca9910()
 {
     return reinterpret_cast<int>(&DAT_01268310);
 }
@@ -4331,14 +4339,14 @@ struct FnvCpu_FUN_00ca9b10_CpuObject
 {
     unsigned int unk00;
     unsigned short size;
-    void FUN_00cdf7a0();
+    void UpdateFields_00cdf7a0();
     FnvCpu_FUN_00ca9b10_CpuObject* FUN_00ca9b10(unsigned int flags);
 };
 // Calls FUN_00cdf7a0, then if bit 0 of flags is set, invokes the allocator from FUN_00c85750 on this with size, and returns this.
 // @fnv 0x00ca9b10
 FnvCpu_FUN_00ca9b10_CpuObject* FnvCpu_FUN_00ca9b10_CpuObject::FUN_00ca9b10(unsigned int flags)
 {
-    FUN_00cdf7a0();
+    UpdateFields_00cdf7a0();
     if (flags & 1)
     {
         FnvCpu_FUN_00ca9b10_CpuAllocatorHolder* holder = hkMemoryRouter_getInstance();
@@ -4841,7 +4849,7 @@ int FUN_00ca9da0_cls::EnsureSpawnedObject()
 
 struct FUN_00ca9b40_Obj
 {
-    void __thiscall FUN_00ca9b40(int value);
+    void __thiscall UpdateFields_00ca9b40(int value);
 };
 
 struct FUN_00ca9e50_Obj
@@ -4849,15 +4857,16 @@ struct FUN_00ca9e50_Obj
     int unk00;
     FUN_00ca9b40_Obj* unk04;
 
-    void __thiscall FUN_00ca9e50(int value);
+    void __thiscall ProcessState_00ca9e50(int value);
 };
 
 // @fnv 0x00ca9e50
-void __thiscall FUN_00ca9e50_Obj::FUN_00ca9e50(int value)
+// src: GUESS 0x00ca9e50 (confidence: low)
+void __thiscall FUN_00ca9e50_Obj::ProcessState_00ca9e50(int value)
 {
     if (this->unk04 != 0)
     {
-        this->unk04->FUN_00ca9b40(value);
+        this->unk04->UpdateFields_00ca9b40(value);
     }
 }
 
@@ -6306,7 +6315,8 @@ FUN_00cb9b80::FUN_00cb9b80(CB9B80Info* pkInfo)
 struct CpuOpaque;
 extern CpuOpaque DAT_01268610;
 // @fnv 0x00cb9c00
-CpuOpaque* __cdecl FUN_00cb9c00()
+// src: GUESS 0x00cb9c00 (confidence: low)
+CpuOpaque* __cdecl Object_GetGlobalObjectAddress_00cb9c00()
 {
     return &DAT_01268610;
 }
@@ -6377,7 +6387,8 @@ struct S_00aa4060_Class
 extern int DAT_011f6238;
 
 // @fnv 0x00cb9cb0
-void __cdecl FUN_00cb9cb0()
+// src: GUESS 0x00cb9cb0 (confidence: low)
+void __cdecl Runtime_ForwardCall_00cb9cb0()
 {
     ((S_00aa4060_Class*)&DAT_011f6238)->MemoryManager_Deallocate();
 }
@@ -6806,7 +6817,7 @@ void hkMemorySystem_replaceInstance(unsigned int a1)
 }
 
 namespace fnv_00cbc5e0 {
-extern "C" void* __cdecl FUN_00aa13e0(unsigned int);
+extern "C" void* __cdecl Object_DispatchCommandFour(unsigned int);
 
 struct FUN_00cbc550
 {
@@ -6816,7 +6827,7 @@ struct FUN_00cbc550
     int unk30, unk34, unk38, unk3c;
     static void* __cdecl operator new(unsigned int size)
     {
-        return FUN_00aa13e0(size);
+        return Object_DispatchCommandFour(size);
     }
     FUN_00cbc550();
 };
@@ -7103,13 +7114,14 @@ FUN_00cbe820_cls* FUN_00cbe820_cls::hkpHingeConstraintData_Atoms_Atoms()
 struct FUN_00cbe880_Class
 {
     int m_iWordAt00;
-    void __thiscall FUN_00cbe880();
+    void __thiscall UpdateFields_00cbe880();
 };
 
 extern "C" void __cdecl FUN_00c9eec0();
 
 // @fnv 0x00cbe880
-void __thiscall FUN_00cbe880_Class::FUN_00cbe880()
+// src: GUESS 0x00cbe880 (confidence: low)
+void __thiscall FUN_00cbe880_Class::UpdateFields_00cbe880()
 {
     this->m_iWordAt00 = 0x10c477c;
     FUN_00c9eec0();
@@ -7170,7 +7182,8 @@ HolderClass* hkMemoryRouter_getInstance();
 
 // If p is non-null, gets the holder from FUN_00c85750 and calls its allocator's v2 with p and size 0x1c0.
 // @fnv 0x00cbf2d0
-void __cdecl FUN_00cbf2d0(void* p)
+// src: GUESS 0x00cbf2d0 (confidence: low)
+void __cdecl hkMemoryRouter_getInstance_UpdateState_00cbf2d0(void* p)
 {
     if (p)
     {
@@ -7202,7 +7215,7 @@ struct MemoryContextScope
 };
 struct ResourceOne
 {
-    void __thiscall FUN_00d055c0();
+    void __thiscall ProcessEntries_00d055c0();
 };
 struct ResourceTwo
 {
@@ -7239,7 +7252,7 @@ void FUN_00cbf2f0_class::bhkMultithreadedSystem_QuitMTSystem()
         ResourceOne* owned = first;
         if (owned != 0)
         {
-            owned->FUN_00d055c0();
+            owned->ProcessEntries_00d055c0();
             ResourceService* s = hkMemoryRouter_getInstance();
             ResourceDisposer* p = s->disposer;
             p->dispose(owned, 0x1c0);
@@ -9934,7 +9947,8 @@ void __cdecl bhkBallAndSocketConstraint_LoadBinary()
 }
 
 // @fnv 0x00ca98f0
-char FUN_00ca98f0()
+// src: GUESS 0x00ca98f0 (confidence: high)
+char Runtime_ReturnConstant_0xff()
 {
     return 0xff;
 }
@@ -10093,11 +10107,12 @@ float FUN_00CAFEC0_Class::GetTableValue(int param_2, int param_3)
 
 struct FUN_00cb0a70_Class
 {
-    void* FUN_00cb0a70(int a);
+    void* ReturnSelf(int a);
 };
 
 // @fnv 0x00cb0a70
-void* FUN_00cb0a70_Class::FUN_00cb0a70(int a)
+// src: GUESS 0x00cb0a70 (confidence: high)
+void* FUN_00cb0a70_Class::ReturnSelf(int a)
 {
     return this;
 }
@@ -10336,7 +10351,7 @@ void __cdecl bhkExtraData_IsEqual()
 class CBADDynamicArray : public CA0E60Array
 {
   public:
-    void FUN_00cb9d50(void** elements, unsigned int count);
+    void Runtime_ProcessEntries_00cb9d50(void** elements, unsigned int count);
     void ReleaseItems(void** elements, unsigned int count);
     void BSSimpleArray_NiPointer_bhkRagdollTemplateData_1024_SetSize(unsigned int requestedSize, bool compact);
 };
@@ -10373,7 +10388,7 @@ void CBADDynamicArray::BSSimpleArray_NiPointer_bhkRagdollTemplateData_1024_SetSi
         }
         unsigned int oldSize = m_uiSize;
         m_uiCapacity = requestedSize;
-        FUN_00cb9d50(m_pBuffer + oldSize, requestedSize - oldSize);
+        Runtime_ProcessEntries_00cb9d50(m_pBuffer + oldSize, requestedSize - oldSize);
         m_uiSize = requestedSize;
     }
     else if (requestedSize < m_uiSize)
@@ -10389,7 +10404,7 @@ void CBADDynamicArray::BSSimpleArray_NiPointer_bhkRagdollTemplateData_1024_SetSi
     else
     {
         unsigned int oldSize = m_uiSize;
-        FUN_00cb9d50(m_pBuffer + oldSize, requestedSize - oldSize);
+        Runtime_ProcessEntries_00cb9d50(m_pBuffer + oldSize, requestedSize - oldSize);
         m_uiSize = requestedSize;
     }
 }
@@ -10467,7 +10482,8 @@ FUN_00cbc460::FUN_00cbc460()
 void __cdecl ClearLists();
 
 // @fnv 0x00cbf530
-void __cdecl FUN_00cbf530()
+// src: GUESS 0x00cbf530 (confidence: medium)
+void __cdecl Runtime_ClearLists_Thunk()
 {
     ClearLists();
 }
@@ -10937,7 +10953,7 @@ extern int DAT_010c81ac;
 extern int DAT_01268188;
 extern int DAT_0126830c;
 extern __declspec(thread) int tls_memContext;
-void* __cdecl FUN_00aa13e0(unsigned int size);
+void* __cdecl Object_DispatchCommandFour(unsigned int size);
 void __cdecl _delete(void* p, int size);
 
 struct ScopedMemContext_ca9e60
@@ -10980,7 +10996,7 @@ void* Host_ca9e60::bhkMalleableConstraint_Clone(void* arg)
     ScopedMemContext_ca9e60 context(0x10);
     bhkSerializable_CloneCritLock();
     bhkRefObject* obj;
-    void* p = FUN_00aa13e0(0x10);
+    void* p = Object_DispatchCommandFour(0x10);
     {
         Holder_ca9e60 h(p);
         if (p)
@@ -11368,7 +11384,8 @@ __declspec(noinline) char ToLowerAscii(char c)
 
 // Converts every character in pcString to its lowercase ASCII equivalent in place and returns pcString.
 // @fnv 0x00cb1200
-char* FUN_00cb1200(char* pcString)
+// src: GUESS 0x00cb1200 (confidence: high)
+char* String_ToLowerASCII(char* pcString)
 {
     if (*pcString)
     {
@@ -11452,7 +11469,7 @@ struct S00cb84f0_Obj : FUN_00c87c30
     int unk0c;
     static void* operator new(unsigned int size)
     {
-        return FUN_00aa13e0(size);
+        return Object_DispatchCommandFour(size);
     }
     S00cb84f0_Obj()
     {
@@ -11647,7 +11664,7 @@ void CBB050Object::bhkRagdollTemplate_LoadBinary(ReadStream* stream)
         stream->ReadLinkID();
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+void* __cdecl Object_DispatchCommandFour(unsigned int size);
 extern int DAT_011f49e0;
 
 struct FUN_00cbaf20_class
@@ -11662,7 +11679,7 @@ struct FUN_00cbaf20_class
 
     static void* operator new(unsigned int size)
     {
-        return FUN_00aa13e0(size);
+        return Object_DispatchCommandFour(size);
     }
     FUN_00cbaf20_class();
     void AssignFixedString(const NiFixedString& name);
@@ -12140,11 +12157,12 @@ void cbAssignProbe()
 struct CBString
 {
     unsigned int m_data;
-    CBString* FUN_00cb0b80(char* text);
+    CBString* InitializeTextHandle(char* text);
 };
 // Sets m_data to the empty-string sentinel, then calls FUN_00cb0b10 to copy text into m_data and returns this.
 // @fnv 0x00cb0b80
-CBString* CBString::FUN_00cb0b80(char* text)
+// src: GUESS 0x00cb0b80 (confidence: medium)
+CBString* CBString::InitializeTextHandle(char* text)
 {
     m_data = DAT_01268358;
     StringSlot slot = {&m_data};
@@ -12174,7 +12192,7 @@ void zz_probe_call(char* s)
 struct StringStorageCB
 {
     unsigned int handle;
-    StringStorageCB* __thiscall FUN_00cb0ba0(const char* text, int count);
+    StringStorageCB* __thiscall InitializeTextHandle_00cb0ba0(const char* text, int count);
 };
 
 struct StringRefCB
@@ -12211,7 +12229,8 @@ static __declspec(noinline) void assign_00cb0b10(StringRefCB ref, const char* te
 
 // Sets handle to DAT_01268358, then assigns text to handle via FUN_00cb0b10 and returns this.
 // @fnv 0x00cb0ba0
-StringStorageCB* StringStorageCB::FUN_00cb0ba0(const char* text, int count)
+// src: GUESS 0x00cb0ba0 (confidence: medium)
+StringStorageCB* StringStorageCB::InitializeTextHandle_00cb0ba0(const char* text, int count)
 {
     handle = DAT_01268358;
     StringRefCB ref = {this};
@@ -12498,7 +12517,8 @@ FUN_00cba1d0::~FUN_00cba1d0()
 }
 
 // @fnv 0x00cbb920
-void __cdecl FUN_00cbb920()
+// src: GUESS 0x00cbb920 (confidence: high)
+void __cdecl Object_DoNothing_00cbb920()
 {}
 
 extern int DAT_0126841c;
@@ -12668,7 +12688,8 @@ void __cdecl InsertIntoContext(void* pList, void* pContext)
 }
 
 // @fnv 0x00cbf190
-void __cdecl FUN_00cbf190()
+// src: GUESS 0x00cbf190 (confidence: high)
+void __cdecl Runtime_DoNothing_00cbf190()
 {}
 
 // Floors a float (rounds toward negative infinity) using integer bit manipulation of its IEEE-754 representation.
@@ -12734,7 +12755,7 @@ namespace fnv_00ca3b00 {
 // declare, so the second base's vtable gets a thunk that moves `this` back by the first base's size (0x10).
 struct PrimaryBase
 {
-    virtual void FUN_00ca3b00();
+    virtual void AdjustThisAndForward_00ca3b00();
     int unk04;
     int unk08;
     int unk0C;
@@ -12742,14 +12763,15 @@ struct PrimaryBase
 
 struct SecondaryBase
 {
-    virtual void FUN_00ca3b00();
+    virtual void AdjustThisAndForward_00ca3b00();
 };
 
 struct Derived : PrimaryBase, SecondaryBase
 {
     Derived();
 // @fnv 0x00ca3b00
-    virtual void FUN_00ca3b00();
+// src: GUESS 0x00ca3b00 (confidence: low)
+    virtual void AdjustThisAndForward_00ca3b00();
 };
 
 Derived::Derived()
@@ -12791,7 +12813,7 @@ struct ScopeHost_cls
     void* m_vptr;
     void bhkSerializable_Kill();
     void FUN_00cd2de0();
-    void FUN_00ca6590();
+    void ProcessState_00ca6590();
 };
 
 struct OwnerGuard_cls
@@ -12810,7 +12832,8 @@ struct OwnerGuard_cls
 
 // Sets a guard on this (sets the vtable pointer, calls FUN_00cd2de0 on exit), calls FUN_00c876a0, and decrements g_fnvDecompCounter.
 // @fnv 0x00ca6590
-void ScopeHost_cls::FUN_00ca6590()
+// src: GUESS 0x00ca6590 (confidence: low)
+void ScopeHost_cls::ProcessState_00ca6590()
 {
     OwnerGuard_cls guard(this);
     bhkSerializable_Kill();
@@ -13171,20 +13194,21 @@ Derived::Derived()
 
 struct Prim_00cabf40
 {
-    virtual void FUN_00cabf40();
+    virtual void AdjustThisAndForward_00cabf40();
     int m04;
     int m08;
 };
 
 struct Sec_00cabf40
 {
-    virtual void FUN_00cabf40();
+    virtual void AdjustThisAndForward_00cabf40();
 };
 
 struct TO_00cabf40 : Prim_00cabf40, Sec_00cabf40
 {
 // @fnv 0x00cabf40
-    virtual void FUN_00cabf40();
+// src: GUESS 0x00cabf40 (confidence: low)
+    virtual void AdjustThisAndForward_00cabf40();
 };
 
 // Forces vtable emission: the override lands in both the primary and the
@@ -14503,7 +14527,7 @@ struct Rec9bd0
     Sub9bd0 sub;
     int pad2[2];
     float score;
-    void FUN_00ca9b40(Item9bd0*);
+    void UpdateFields_00ca9b40(Item9bd0*);
     void FUN_00ca9aa0();
     static void* operator new(unsigned int size)
     {
@@ -14554,7 +14578,7 @@ void Owner9bd0::hkMalleableConstraintCinfo_CloneData(Rec9bd0* apRecord, Key9bd0 
     Item9bd0* pItem = coll ? CreateF4A30Result(coll, k) : 0;
     if (pItem)
     {
-        rec->FUN_00ca9b40(pItem);
+        rec->UpdateFields_00ca9b40(pItem);
         pItem->FUN_00c905b0();
     }
     float sc = c->score;
@@ -14710,7 +14734,8 @@ static __declspec(noinline) void S00cabcd0_HSV(float* b, float h, float s, float
 
 // Converts h, s, v to RGB with S00cabcd0_HSV and returns PackColorBigEndian called with the three results (c.b, c.g, c.r) and a.
 // @fnv 0x00cabe30
-unsigned int __cdecl FUN_00cabe30(float h, float s, float v, float afAlpha)
+// src: GUESS 0x00cabe30 (confidence: low)
+unsigned int __cdecl Runtime_EvaluateValue_00cabe30(float h, float s, float v, float afAlpha)
 {
     struct C
     {
@@ -14922,7 +14947,8 @@ __declspec(noinline) static int assign_00cb0b10(int a, int b, int c)
     return g_helperSink;
 }
 // @fnv 0x00cb0c00
-void __fastcall FUN_00cb0c00(int p)
+// src: GUESS 0x00cb0c00 (confidence: low)
+void __fastcall Object_UpdateFields_00cb0c00(int p)
 {
     int x = assign_00cb0b10(0, -1, p);
     (void)x;
@@ -14930,7 +14956,7 @@ void __fastcall FUN_00cb0c00(int p)
 
 struct SStringPtr
 {
-    void* FUN_00cb0c10(const char* s);
+    void* UpdateState_00cb0c10(const char* s);
 };
 struct SelfRef
 {
@@ -14944,7 +14970,8 @@ static __declspec(noinline) void assign_00cb0b10(SelfRef self, const char* s, in
     *(int*)self.p = g_sink;
 }
 // @fnv 0x00cb0c10
-void* SStringPtr::FUN_00cb0c10(const char* s)
+// src: GUESS 0x00cb0c10 (confidence: low)
+void* SStringPtr::UpdateState_00cb0c10(const char* s)
 {
     SelfRef ref;
     ref.p = this;
@@ -14955,10 +14982,11 @@ void* SStringPtr::FUN_00cb0c10(const char* s)
 struct Cb0StringCopy
 {
     int m_pcText;
-    Cb0StringCopy* FUN_00cb0c30(const CB0StringPtr& other);
+    Cb0StringCopy* UpdateState_00cb0c30(const CB0StringPtr& other);
 };
 // @fnv 0x00cb0c30
-Cb0StringCopy* Cb0StringCopy::FUN_00cb0c30(const CB0StringPtr& other)
+// src: GUESS 0x00cb0c30 (confidence: low)
+Cb0StringCopy* Cb0StringCopy::UpdateState_00cb0c30(const CB0StringPtr& other)
 {
     CB0SelfRef self = {(CB0StringPtr*)this};
     assign_00cb0b10(self, other.cString(), -1);
@@ -15124,7 +15152,7 @@ struct ExtraArray
         unk08 = capacity;
         if (capacity)
         {
-            m_pBase = (S_00ca49a0_Elem*)FUN_00aa13e0(capacity * sizeof(S_00ca49a0_Elem));
+            m_pBase = (S_00ca49a0_Elem*)Object_DispatchCommandFour(capacity * sizeof(S_00ca49a0_Elem));
             for (unsigned int i = 0; i < m_uiESize; ++i)
                 m_pBase[i] = old[i];
             for (unsigned int i = m_uiESize; i < unk08; ++i)
@@ -15329,7 +15357,7 @@ struct cb86f0_obj
 
     static void* operator new(unsigned int size)
     {
-        return FUN_00aa13e0(size);
+        return Object_DispatchCommandFour(size);
     }
 };
 
@@ -15406,11 +15434,12 @@ class RagdollRaycastCleanup
 {
   public:
     void* m_vtbl;
-    void FUN_00ca0c30();
+    void SetVtbl();
 };
 
 // @fnv 0x00ca0c30
-void RagdollRaycastCleanup::FUN_00ca0c30()
+// src: GUESS 0x00ca0c30 (confidence: low)
+void RagdollRaycastCleanup::SetVtbl()
 {
     m_vtbl = &DAT_010c7304;
 }
@@ -15657,12 +15686,13 @@ struct S_00cb0030_Out : S_00ca4e10_Out
 struct S_00cb0030_Cls : S_00ca4e10_Cls
 {
     void bhkBvTreeShape_CopyCinfo(S_00cb0030_Out* out);
-    void FUN_00cb0030(S_00cb0030_Out* out);
+    void UpdateState_00cb0030(S_00cb0030_Out* out);
 };
 
 // Calls FUN_00ca4e10, then if obj->unk18 yields a source, fills out unk10, unk20, unk24, unk28, unk2c and unk40 from its fields.
 // @fnv 0x00cb0030
-void S_00cb0030_Cls::FUN_00cb0030(S_00cb0030_Out* out)
+// src: GUESS 0x00cb0030 (confidence: low)
+void S_00cb0030_Cls::UpdateState_00cb0030(S_00cb0030_Out* out)
 {
     bhkBvTreeShape_CopyCinfo(out);
     S_00cb0030_Obj* obj = static_cast<S_00cb0030_Obj*>(unk08);

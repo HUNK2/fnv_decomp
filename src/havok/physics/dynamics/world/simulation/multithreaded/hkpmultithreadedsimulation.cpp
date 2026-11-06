@@ -2009,7 +2009,7 @@ struct MessageBuilder
     unsigned int capacity;
     char* cursor;
     __declspec(nothrow) MessageBuilder(char* buffer, unsigned int capacity);
-    void FUN_00cc01c0(const char* text);
+    void ProcessAndReturnValue_00cc01c0(const char* text);
     void FUN_00cc00e0();
 };
 
@@ -2119,7 +2119,7 @@ void FUN_00d02e70_cls::AddToiEvent(char* input, EventMeta* meta, CRITICAL_SECTIO
     {
         __declspec(align(16)) int buffer[128];
         MessageBuilder message((char*)buffer, sizeof(buffer));
-        message.FUN_00cc01c0(
+        message.ProcessAndReturnValue_00cc01c0(
             "Toi event queue full, consider using HK_COLLIDABLE_QUALITY_DEBRIS for some objects or increase hkpWorldCinfo::m_sizeOfToiEventQueue");
         DAT_01268360->Log(1, 0xf0323454, (char*)buffer,
                           ".\\World\\Simulation\\Multithreaded\\hkpMultithreadedSimulation.cpp", 1015);
@@ -3324,7 +3324,7 @@ struct StepWorld
     void IncrementCounter();
     void nullsub_6();
     void FUN_00c91120();
-    void FUN_00c91140();
+    void UpdateFields_00c91140();
     void hkpWorld_unlock();
     int hkpWorld_getMemoryWatchDog();
 };
@@ -3788,7 +3788,7 @@ int Stepper::hkpMultiThreadedSimulation_finishMtStep(Job* job, Jobs* jobs)
             world->FUN_00c91120();
 
         if (world->f0a4 == 1 && world->f090)
-            world->FUN_00c91140();
+            world->UpdateFields_00c91140();
     }
 
     result = 0;
@@ -4013,7 +4013,7 @@ struct ObjA
     int LookupHashEntry(void* elem, int zero);
     void hkMapBase_unsigned_long_unsigned_long_hkMapOperations_unsigned_long_insert(DeallocCtx* ctx, void* elem, int one);
     void ProcessArgument(DeallocCtx* ctx);
-    void FUN_00a29680();
+    void Object_DoNothing();
 };
 
 struct CollisionCell
@@ -5988,7 +5988,7 @@ struct SubObj
         return m_78;
     }
     void FUN_00c91120();
-    void FUN_00c91140();
+    void UpdateFields_00c91140();
 };
 
 struct ElemSub
@@ -6495,7 +6495,7 @@ void ThisCls::hkpMultiThreadedSimulation_collideEntitiesNeedingPsiCollisionDetec
         if (sub->m_8c != 0)
             sub->FUN_00c91120();
         if (sub->m_a4 == 1 && sub->m_90 != 0)
-            sub->FUN_00c91140();
+            sub->UpdateFields_00c91140();
     }
     TraceBuffer* pTraceBuf2 = (TraceBuffer*)TlsGetValue(DAT_0126835c);
     if (pTraceBuf2->next < pTraceBuf2->end)
@@ -6527,5 +6527,5 @@ void ThisCls::hkpMultiThreadedSimulation_collideEntitiesNeedingPsiCollisionDetec
     pairs.m_iCapacity = sentinel;
     Singleton* pSingleton10 = GetSingleton();
     L.seen.ProcessArgument(pSingleton10->m_10);
-    L.seen.FUN_00a29680();
+    L.seen.Object_DoNothing();
 }

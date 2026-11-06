@@ -66,12 +66,13 @@ struct S_00d9e280_World
 };
 struct S_00d9e280_D : hkReferencedObject, hkpWorldPostSimulationListener
 {
-    virtual void FUN_00d9e280(S_00d9e280_World* w);
+    virtual void ClearValue_Thunk_00d9e280(S_00d9e280_World* w);
 };
 
 // Passes this object to the world's ClearValue method.
 // @fnv 0x00d9e280
-void S_00d9e280_D::FUN_00d9e280(S_00d9e280_World* apWorld)
+// src: GUESS 0x00d9e280 (confidence: medium)
+void S_00d9e280_D::ClearValue_Thunk_00d9e280(S_00d9e280_World* apWorld)
 {
     apWorld->ClearValue(this);
 }

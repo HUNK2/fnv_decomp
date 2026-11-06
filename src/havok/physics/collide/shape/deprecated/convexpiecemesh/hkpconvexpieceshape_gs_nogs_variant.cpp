@@ -45,11 +45,12 @@ struct FNV_Owner
     hkpShapeCollection* p20;
     int* p24;
     int n28;
-    void FUN_00e608d0(hkVector4* pA, hkVector4* pOut);
+    void ProcessEntries_00e608d0(hkVector4* pA, hkVector4* pOut);
 };
 
 // @fnv 0x00e608d0
-void FNV_Owner::FUN_00e608d0(hkVector4* pA, hkVector4* pOut)
+// src: GUESS 0x00e608d0 (confidence: low)
+void FNV_Owner::ProcessEntries_00e608d0(hkVector4* pA, hkVector4* pOut)
 {
     ShapeBuffer338 big;
     hkVector4 buf;
@@ -264,11 +265,12 @@ class S5fb50_FloatAabbVm : public S5fb50_MoppVm
     int unk1c;
     S5fb50_SphereQueryObject m_kSphereQueryObject;
 
-    void FUN_00e5fb50(const S5fb50_Query* query, const unsigned char* PC, TempAabb& aabb);
+    void ProcessEntries_00e5fb50(const S5fb50_Query* query, const unsigned char* PC, TempAabb& aabb);
 };
 
 // @fnv 0x00e5fb50
-void S5fb50_FloatAabbVm::FUN_00e5fb50(const S5fb50_Query* query, const unsigned char* PC, TempAabb& aabb)
+// src: GUESS 0x00e5fb50 (confidence: low)
+void S5fb50_FloatAabbVm::ProcessEntries_00e5fb50(const S5fb50_Query* query, const unsigned char* PC, TempAabb& aabb)
 {
     S5fb50_Query localQuery;
     while (1)
@@ -293,7 +295,7 @@ void S5fb50_FloatAabbVm::FUN_00e5fb50(const S5fb50_Query* query, const unsigned 
             PC += 4;
             tempAabb.m_kMinimumCorner = aabb.m_kMinimumCorner;
             tempAabb.m_kMaximumCorner = aabb.m_kMaximumCorner;
-            FUN_00e5fb50(query, PC, tempAabb);
+            ProcessEntries_00e5fb50(query, PC, tempAabb);
             PC += offsetR;
             continue;
         }
@@ -416,7 +418,7 @@ void S5fb50_FloatAabbVm::FUN_00e5fb50(const S5fb50_Query* query, const unsigned 
                 PC += offsetR;
                 continue;
             }
-            FUN_00e5fb50(query, PC + offsetR, tempAabb);
+            ProcessEntries_00e5fb50(query, PC + offsetR, tempAabb);
             PC += offsetL;
             continue;
         }
@@ -637,7 +639,7 @@ void S5fb50_FloatAabbVm::FUN_00e5fb50(const S5fb50_Query* query, const unsigned 
                 void* streamStorage[sizeof(hkOstream) / sizeof(void*)];
                 hkOstream& ostr = *reinterpret_cast<hkOstream*>(streamStorage);
                 ostr.FUN_00cb1600(buf, sizeof(buf));
-                ostr.FUN_00cc01c0(
+                ostr.ProcessAndReturnValue_00cc01c0(
                     "Unknown command - This mopp data has been corrupted (check for memory trashing), or an hkpMoppBvTreeShape has been pointed at invalid mopp data.\n");
                 if (hkError::s_instance->message(
                         3, 0x1298fedd, buf,

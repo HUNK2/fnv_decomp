@@ -32,25 +32,25 @@
 // src/havok/physics/collide/agent/convexagent/capsuletriangle/hkpcapsuletriangleagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/convexagent/capsuletriangle/hkpcapsuletriangleagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 void CreateObjectFromFactory();
-void FUN_00d3a8c0();
+void Object_CollectPenetratingBodyPair();
 void staticGetClosestPoints();
-void FUN_00daf8e0();
-void FUN_00d3ab60(void* apObject);
+void Object_ProcessEntries_00daf8e0();
+void Object_InitializeAgentFunctionTable_00d3ab60(void* apObject);
 void __cdecl CreateAllocatedObject();
-void __cdecl FUN_00d3ac80();
-void __cdecl FUN_00d3b1a0();
-void __cdecl FUN_00d3b220();
-void __cdecl FUN_00d3ab90(void** apTable);
+void __cdecl Object_UpdateFields_00d3ac80();
+void __cdecl Object_UpdateFields_00d3b1a0();
+void __cdecl Object_UpdateFields_00d3b220();
+void __cdecl Hkpcapsuletriangleagent_UpdateState_00d3ab90(void** apTable);
 void __cdecl CreateTriAgent2();
-void __cdecl FUN_00d38ac0();
-void __cdecl FUN_00d38ed0();
-void __cdecl FUN_00d3ac80();
+void __cdecl Object_UpdateFields_00d38ac0();
+void __cdecl hkpMultiSphereTriangleAgent_UpdateState_00d38ed0();
+void __cdecl Object_UpdateFields_00d3ac80();
 void __cdecl CreateTriAgent();
 void __cdecl hkpMultiSphereTriangleAgent_staticGetPenetrations();
-void __cdecl FUN_00d386c0();
-void __cdecl FUN_00daf8e0();
+void __cdecl Object_ProcessEntries_00d386c0();
+void __cdecl Object_ProcessEntries_00daf8e0();
 
-void __cdecl FUN_00d389f0(hkpCollisionDispatcher* dispatcher);
+void __cdecl hkpMultiSphereTriangleAgent_staticGetPenetrations_UpdateState_00d389f0(hkpCollisionDispatcher* dispatcher);
 struct ReceiverBase { virtual void Release(unsigned int value); int unk04; };
 struct NoteDispatcher {
     virtual void Unknown00(unsigned int, void*);
@@ -73,7 +73,7 @@ struct CallbackState {
 };
 void __cdecl staticGetClosestPoints(void* apFirst, void* apSecond, void* apThird,
                           CallbackState* apState);
-void __cdecl FUN_00d3b220(void* apOne, void* apTwo, void* apThree, int aiValue);
+void __cdecl Object_UpdateFields_00d3b220(void* apOne, void* apTwo, void* apThree, int aiValue);
 
 hkMemoryRouter* __cdecl hkMemoryRouter_getInstance() throw();
 void __cdecl ComputeInverseLengths(void* value, void* self);
@@ -169,10 +169,10 @@ struct __declspec(align(16)) MotionCallData {
 extern "C" float DAT_0104da48;
 extern "C" const __m128 DAT_010c44d0;
 extern "C" unsigned char UNK_010ce80c;
-extern "C" void __cdecl FUN_00daf8e0(unsigned int second, unsigned int first,
+extern "C" void __cdecl Object_ProcessEntries_00daf8e0(unsigned int second, unsigned int first,
                             MotionPacket* packet, MotionCallData* primary,
                             MotionCallData* secondary);
-void __cdecl FUN_00d3ac80(unsigned int first, unsigned int second, const MotionPacket* apPacket, unsigned int mode, unsigned int optionalMode);
+void __cdecl Object_UpdateFields_00d3ac80(unsigned int first, unsigned int second, const MotionPacket* apPacket, unsigned int mode, unsigned int optionalMode);
 extern char DAT_010ce81c;
 struct FUN_00d3b160_tmp { const void* vt; unsigned char flag; unsigned int a4; };
 struct CallbackHost_d3b160 {

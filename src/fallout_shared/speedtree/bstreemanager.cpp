@@ -836,8 +836,8 @@ float NiCosQ(float);
 namespace std {
 double abs(float);
 }
-void FUN_00bb2fc0(int, float, float);
-void FUN_00bb1390(float, float, float, float);
+void Object_ProcessAndReturnValue_00bb2fc0(int, float, float);
+void Runtime_UpdateState_00bb1390(float, float, float, float);
 struct C6658
 {
     char pad[20];
@@ -868,7 +868,7 @@ void C6658::Update()
             sum += std::abs(s7);
             sum += std::abs(c);
         }
-        FUN_00bb2fc0(i, amplitudeB * s7, amplitudeB * c);
+        Object_ProcessAndReturnValue_00bb2fc0(i, amplitudeB * s7, amplitudeB * c);
     }
     float a7 = (1.0 - *((Setting*)&DAT_011d5dc4)->Float()) +
                *((Setting*)&DAT_011d5dc4)->Float() * sum / 2.0;
@@ -878,7 +878,7 @@ void C6658::Update()
                     *((Setting*)&DAT_011d5c68)->Float() * sum / 2.0;
     float d9 = (1.0 - *((Setting*)&DAT_011d5c74)->Float()) +
                *((Setting*)&DAT_011d5c74)->Float() * sum / 2.0;
-    FUN_00bb1390(value * a7, value * b,
+    Runtime_UpdateState_00bb1390(value * a7, value * b,
                  ((Time6658*)&DAT_011f6394)->FUN_0084d030() * *((Setting*)&DAT_011d5cdc)->Float() * outerc4,
                  ((Time6658*)&DAT_011f6394)->FUN_0084d030() * *((Setting*)&DAT_011d5c5c)->Float() * d9);
     (*(float*)&DAT_011d5de8) = value;

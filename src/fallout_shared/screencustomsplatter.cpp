@@ -190,9 +190,10 @@ const NiRTTI* BSCustomSplatterExtraData::GetRTTI() const
 }
 
 // @fnv 0x004deb10
-void BSCustomSplatterExtraData::FUN_004deb10()
+// src: GUESS 0x004deb10 (confidence: low)
+void BSCustomSplatterExtraData::ForwardCall_004deb10()
 {
-    FUN_00a7b300();
+    DestroyFields_00a7b300();
 }
 
 // @fnv 0x004dea80
@@ -205,7 +206,7 @@ void __cdecl _delete(void*, unsigned int);
 // @fnv 0x004deae0
 void* BSCustomSplatterExtraData::DestroyIfFlagged(unsigned int flags)
 {
-    FUN_004deb10();
+    ForwardCall_004deb10();
     if (flags & 1)
         _delete(this, 0x1c);
     return this;

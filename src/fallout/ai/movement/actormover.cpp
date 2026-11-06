@@ -2858,7 +2858,7 @@ void ActorMover::UpdateTargeting()
                 }
             }
         }
-        if (((Actor13*)pActor)->GetPos()->FUN_00439ef0(g_thePlayer->GetPos()).NiPoint3_XYLength() >
+        if (((Actor13*)pActor)->GetPos()->SubtractIntoVector(g_thePlayer->GetPos()).NiPoint3_XYLength() >
             ((Req*)(PathingRequest*)request)->FUN_009b0bd0() * 2)
             iAB = true;
     }

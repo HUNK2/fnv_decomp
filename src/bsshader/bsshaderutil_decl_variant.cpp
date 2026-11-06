@@ -20,7 +20,7 @@ public:
     ~NiNodeHolder_bsshaderutil_decl_variant();
     operator NiNode*() const;
     void FUN_0066b0d0(CleanupObject* object);
-    CleanupObject* FUN_00559450();
+    CleanupObject* Modelloader_GetReferencedThis();
 };
 #pragma optimize("", off)
 #pragma optimize("", on)

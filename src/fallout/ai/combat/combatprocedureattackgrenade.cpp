@@ -71,14 +71,14 @@ public:
     float GetX();
     float GetY();
 
-    bool FUN_004390c0(const LocalPoint& other) const;
-    LocalPoint FUN_00439ef0(const LocalPoint& other);
+    bool HasEqualComponents(const LocalPoint& other) const;
+    LocalPoint SubtractIntoVector(const LocalPoint& other);
     LocalPoint FUN_00439e90(const LocalPoint& other);
     void Unitize_004a0c10();
     char* GetViewerString_00a59af0(const char* text);
     float FUN_004a7290() const;
     float FUN_00435e00();
-    float FUN_006a7f50();
+    float AStarSearch_EvaluateValue_006a7f50();
 
     float& at(int index);
     float at(int index) const;
@@ -143,7 +143,7 @@ void __cdecl Deallocate(void*);
 
 struct FUN_009caeb0_shell
 {
-    void __thiscall FUN_009cafa0();
+    void __thiscall UpdateFields_009cafa0();
     void* __thiscall FUN_009caeb0(unsigned int flags);
 };
 
@@ -151,7 +151,7 @@ struct FUN_009caeb0_shell
 // @fnv 0x009caeb0
 void* __thiscall FUN_009caeb0_shell::FUN_009caeb0(unsigned int flags)
 {
-    FUN_009cafa0();
+    UpdateFields_009cafa0();
     if (flags & 1)
         Deallocate(this);
     return this;
@@ -160,17 +160,18 @@ void* __thiscall FUN_009caeb0_shell::FUN_009caeb0(unsigned int flags)
 extern int DAT_010909bc;
 struct FUN_009ca6c0_shell
 {
-    void FUN_009ca6c0();
+    void SetVirtualTable_009ca6c0();
 };
 struct FUN_009cafa0_shell
 {
-    void FUN_009cafa0();
+    void UpdateFields_009cafa0();
 };
 // @fnv 0x009cafa0
-void FUN_009cafa0_shell::FUN_009cafa0()
+// src: GUESS 0x009cafa0 (confidence: low)
+void FUN_009cafa0_shell::UpdateFields_009cafa0()
 {
     *reinterpret_cast<int**>(this) = &DAT_010909bc;
-    reinterpret_cast<FUN_009ca6c0_shell*>(this)->FUN_009ca6c0();
+    reinterpret_cast<FUN_009ca6c0_shell*>(this)->SetVirtualTable_009ca6c0();
 }
 
 extern Setting originalRuntimeFloatSetting375;
@@ -519,7 +520,7 @@ extern Setting originalRuntimeFloatSetting375;
 
 
 NiPoint3 __cdecl ComputeTrajectory(Actor* actor, void* target, int unused, PathingRequest* req, float dist, bool flag);
-NiPoint3 __cdecl FUN_009a8d80(Actor* actor, NiPoint3* point, int unused, PathingRequest* req, float dist, bool flag);
+NiPoint3 __cdecl TESObjectREFR_ForwardCall_009a8d80(Actor* actor, NiPoint3* point, int unused, PathingRequest* req, float dist, bool flag);
 
 struct CombatProcedureShell
 {
@@ -557,7 +558,7 @@ NiPoint3 CombatProcedureShell::GetPathingPoint()
     }
     else
     {
-        point = FUN_009a8d80(CombatProcedure_GetAttacker(), &pt18, 0, req, dist, b30);
+        point = TESObjectREFR_ForwardCall_009a8d80(CombatProcedure_GetAttacker(), &pt18, 0, req, dist, b30);
     }
     return point;
 }
@@ -1181,7 +1182,7 @@ void Package::UpdateWeaponFire()
     reinterpret_cast<NiPoint3&>(dir3).z = 0.0f;
     CombatUtilities_ComputeOptimalWeaponRanges(m_04, s, &reinterpret_cast<NiPoint3&>(dir3).x, &reinterpret_cast<NiPoint3&>(dir3).y, &reinterpret_cast<NiPoint3&>(dir3).z);
     float kIter[3];
-    m_24.FUN_00439ef0(&reinterpret_cast<NiPoint3&>(kIter), actor2->vfn_1f4());
+    m_24.SubtractIntoVector(&reinterpret_cast<NiPoint3&>(kIter), actor2->vfn_1f4());
     if (reinterpret_cast<NiPoint3&>(kIter).GetSquaredXYLength() > reinterpret_cast<NiPoint3&>(dir3).z * reinterpret_cast<NiPoint3&>(dir3).z)
     {
         ClearLookAtTarget_00996ea0();

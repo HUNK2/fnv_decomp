@@ -63,9 +63,9 @@ struct SweptArrayPolicy
 };
 void __cdecl ResizeAudioStream(void *,void *,int);
 struct FUN_008cd6a0_Class { void hkRotation_set(void *); };
-struct ErrBuf { void FUN_00cb1600(char* b, int n); void FUN_00cc01c0(const char* s); void FUN_00cc00e0(); int unk00; int unk04; int unk08; };
+struct ErrBuf { void FUN_00cb1600(char* b, int n); void ProcessAndReturnValue_00cc01c0(const char* s); void FUN_00cc00e0(); int unk00; int unk04; int unk08; };
 struct TmpA { void hkpShapeDisplayBuilder_hkpShapeDisplayBuilderEnvironment_hkpShapeDisplayBuilderEnvironment(); int unk00; int unk04; };
-struct TmpB { void hkpShapeDisplayBuilder_hkpShapeDisplayBuilder(TmpA* a); void FUN_00de0f90(int a, void* b); int unk00; int unk04; int unk08; int unk0c; int unk10; };
+struct TmpB { void hkpShapeDisplayBuilder_hkpShapeDisplayBuilder(TmpA* a); void UpdateState_00de0f90(int a, void* b); int unk00; int unk04; int unk08; int unk0c; int unk10; };
 struct Reporter { virtual void v0(); virtual void v1(); virtual void v2(); virtual void report(int a, int b, const char* msg, const char* file, int line); };
 extern Reporter* DAT_01268360;
 extern int DAT_01268fd0; extern int DAT_01268fd4; extern int DAT_01268fd8;
@@ -167,14 +167,14 @@ void __fastcall hkpSweptTransformDisplayViewer_entityAddedCallback(hkpEntityList
     Entry* e; e = (*(Entry***)((char*)listener + 8))[idx];
     list.m_data = 0; list.m_iElementCount = 0; list.m_iCapacityState = 0x80000000; TmpA ta; ta.hkpShapeDisplayBuilder_hkpShapeDisplayBuilderEnvironment_hkpShapeDisplayBuilderEnvironment();
     TmpB tb; tb.hkpShapeDisplayBuilder_hkpShapeDisplayBuilder(&ta);
-    tb.FUN_00de0f90(a->unk10, &list);
+    tb.UpdateState_00de0f90(a->unk10, &list);
     for (int j = list.m_iElementCount - 1; j >= 0; j--) { Shape* s = (Shape*)list.m_data[j];
         if (s->unk50 == 6 && 0 == s->unk08) {
             char buf[512];
             ErrBuf eb;
             
             eb.FUN_00cb1600(buf, 0x200);
-            eb.FUN_00cc01c0("Unable to build display geometry from hkpShape geometry data");
+            eb.ProcessAndReturnValue_00cc01c0("Unable to build display geometry from hkpShape geometry data");
             DAT_01268360->report(0, -1, (const char*)&buf, ".\\VisualDebugger\\Viewer\\Dynamics\\hkpSweptTransformDisplayViewer.cpp", 0xa8);
             eb.FUN_00cc00e0();
             SweptArray_removeAt(list, j);

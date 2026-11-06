@@ -111,8 +111,8 @@ class TESForm : public BaseFormComponent
     TESForm();
     bool IsActor() const;
     void FUN_00485110(TESFile* file);
-    void FUN_004855a0();
-    void FUN_00485680();
+    void BeginFormRecord();
+    void FinishFormRecord();
     void TESForm___SaveData(void* data, int size);
     const char* TESForm_GetFormTypeString();
     TESFile* FUN_00484e60(int fileIndex);

@@ -76,7 +76,7 @@ public:
     void* m_pResource;
 };
 
-void* __cdecl FUN_00aa13e0(unsigned int uiSize);
+void* __cdecl Object_DispatchCommandFour(unsigned int uiSize);
 
 // The bare handle of an NiFixedString whose constructor and destructor these functions spell out inline (NiMain
 // has no exception frames; a real NiFixedString local would add one to this /EHsc unit).
@@ -110,7 +110,7 @@ bool __cdecl AcquireGlobalConstantEntry(const NiFixedString* pkName, unsigned in
         pkItem = pkItem->m_pkNext;
     }
 
-    void* pvMem = FUN_00aa13e0(0x18);
+    void* pvMem = Object_DispatchCommandFour(0x18);
     if (pvMem == 0)
         return false;
     const char* pcName = pkName->m_kHandle;

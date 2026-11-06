@@ -44,16 +44,16 @@ typedef union __declspec(intrin_type) __declspec(align(16)) {
 #include "../../../../../../../include/hkpConvexListShape.h"
 #include "../../../../../../../include/hkpGskfAgent.h"
 
-extern "C" void __cdecl FUN_00da3510(void*, void*);
-extern "C" void __cdecl FUN_00d339d0(int, int, int, int);
+extern "C" void __cdecl hkpAgent1nSector_ProcessEntries_00da3510(void*, void*);
+extern "C" void __cdecl hkpConvexListAgent_QueryClosestPointsAfterHullTest(int, int, int, int);
 extern "C"
 {
     void __cdecl hkpConvexListAgent_staticGetPenetrations(void* a, void* b, void* c, void* d);
 }
 extern void* __cdecl CreateConvexListAgent();
 extern void* __cdecl InitSpawnedBuffer();
-extern void* __cdecl FUN_00d34970();
-extern void* __cdecl FUN_00d349b0();
+extern void* __cdecl Runtime_UpdateState_00d34970();
+extern void* __cdecl hkpConvexListAgent_staticLinearCast_UpdateState_00d349b0();
 extern void* __cdecl hkpConvexListAgent_createConvexConvexListAgent();
 extern void* __cdecl _FUN_00d33b90();
 extern void* __cdecl _FUN_00d339d0();
@@ -121,12 +121,13 @@ class hkCollectorD347 : public hkCollectorBaseD347
     int m_iFilter;
 };
 extern "C" void __cdecl hkpShapeCollectionAgent_staticGetPenetrations(void* a, void* b, void* c, hkCollectorBaseD347& collector);
-void __cdecl FUN_00d34790(void* b, void* a, void* c, int filter);
-extern "C" void __cdecl FUN_00d34810();
+void __cdecl hkCollectorD347_ProcessState_00d34790(void* b, void* a, void* c, int filter);
+extern "C" void __cdecl hkpShapeCollectionAgent_staticLinearCast_UpdateState_00d34810();
 // @fnv 0x00d36930
-extern "C" void __cdecl FUN_00d36930()
+// src: GUESS 0x00d36930 (confidence: low)
+extern "C" void __cdecl hkpConvexListAgent_ForwardCall_00d36930()
 {
-    FUN_00d34810();
+    hkpShapeCollectionAgent_staticLinearCast_UpdateState_00d34810();
 }
 struct hkMemberD337
 {
@@ -221,7 +222,7 @@ struct HitCollector
     bool m_bHit;
 };
 void __cdecl TestGsk(void* a, void* b, void* c, HitCollector* col);
-void __cdecl FUN_00d34790(void* a, void* b, void* c, void* d);
+void __cdecl hkCollectorD347_ProcessState_00d34790(void* a, void* b, void* c, void* d);
 // @fnv 0x00d33b90
 // src: HAVOK_LIB 0x00d33b90
 extern "C" void __cdecl hkpConvexListAgent_staticGetPenetrations(void* a, void* b, void* c, void* d)
@@ -255,7 +256,7 @@ extern "C" void __cdecl hkpConvexListAgent_staticGetPenetrations(void* a, void* 
             pRec->m_time0 = tick;
             pBuf->m_end.m_storage = reinterpret_cast<char*>((hkMonitorStream::TimerCommand*)((char*)pRec + 0xc));
         }
-        FUN_00d34790(a, b, c, d);
+        hkCollectorD347_ProcessState_00d34790(a, b, c, d);
     }
 
     pBuf = (hkMonitorStream*)TlsGetValue(DAT_0126835c);
@@ -287,7 +288,8 @@ struct ContactPointPair
     const void* m_pBodyB;
 };
 // @fnv 0x00d339d0
-extern "C" void __cdecl FUN_00d339d0(int a1, int a2, int a3, int a4)
+// src: GUESS 0x00d339d0 (confidence: medium)
+extern "C" void __cdecl hkpConvexListAgent_QueryClosestPointsAfterHullTest(int a1, int a2, int a3, int a4)
 {
     {
         hkMonitorStream* pForm = (hkMonitorStream*)TlsGetValue(DAT_0126835c);

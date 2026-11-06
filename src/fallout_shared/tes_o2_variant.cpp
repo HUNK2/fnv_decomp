@@ -178,11 +178,11 @@ struct FUN_00458f20_shell
 {
     const void* const* BSTempNode_GetRTTI() const;
 };
-extern "C" void __fastcall FUN_00a5e930(void*);
+extern "C" void __fastcall UpdateFields_00c5faa0(void*);
 extern int DAT_01017d24;
 struct FUN_00458f70_shell
 {
-    void __thiscall FUN_00458f70();
+    void __thiscall SetVtableAndProcessState_00458f70();
 };
 struct AnimIdle;
 struct Animation;
@@ -371,7 +371,7 @@ struct FUN_00454b90_shell
 };
 struct FUN_00458f30_shell
 {
-    void FUN_00458f70();
+    void SetVtableAndProcessState_00458f70();
     void* DestroyIfFlagged(unsigned int flags);
 };
 void _delete(void* obj, unsigned int size);
@@ -488,7 +488,7 @@ struct QueryStub
     unsigned char BSOcclusionQuery_GetResult(unsigned int* state, int flags);
 };
 
-void __fastcall FUN_00c4ed40(void* p);
+void __fastcall ProcessState_00c4ed40(void* p);
 
 
 extern MemoryManager DAT_011f6238;
@@ -625,7 +625,7 @@ void FUN_00b631d0_cls::BSShaderAccumulator_ClearAllQueries()
             void* item = m_ppData[i];
             if (item != 0)
             {
-                FUN_00c4ed40(item);
+                ProcessState_00c4ed40(item);
                 DAT_011f6238.Deallocate(item);
             }
 
@@ -644,7 +644,7 @@ void FUN_00b631d0_cls::BSShaderAccumulator_ClearAllQueries()
             void* item = entry->item;
             if (item != 0)
             {
-                FUN_00c4ed40(item);
+                ProcessState_00c4ed40(item);
                 DAT_011f6238.Deallocate(item);
             }
             entry->item = 0;
@@ -665,7 +665,7 @@ void FUN_00b631d0_cls::BSShaderAccumulator_ClearAllQueries()
             void* item = holder->item;
             if (item != 0)
             {
-                FUN_00c4ed40(item);
+                ProcessState_00c4ed40(item);
                 DAT_011f6238.Deallocate(item);
             }
             holder->item = 0;

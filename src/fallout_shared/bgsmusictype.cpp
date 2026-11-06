@@ -142,8 +142,8 @@ void TESForm_AddChunk_00485910(int chunk, float value);
 
 struct MusicTypeWriter : BGSMusicType
 {
-    void FUN_004855a0();
-    void FUN_00485680();
+    void BeginFormRecord();
+    void FinishFormRecord();
     void BGSMusicType_Save();
 };
 
@@ -152,10 +152,10 @@ struct MusicTypeWriter : BGSMusicType
 // src: XBOX_PDB 0x005916b0
 void MusicTypeWriter::BGSMusicType_Save()
 {
-    FUN_004855a0();
+    BeginFormRecord();
     reinterpret_cast<MusicSaveComponents*>(this)->soundFile.FUN_0048cea0();
     TESForm_AddChunk_00485910(0x4d414e41, fVolumeScale);
-    FUN_00485680();
+    FinishFormRecord();
 }
 
 class MusicTypeCopyEntry : public BGSMusicType

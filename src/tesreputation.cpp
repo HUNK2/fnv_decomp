@@ -188,7 +188,7 @@ unsigned char __cdecl TESForm_QEndianSwapOnSave(void);
 // @fnv 0x00616470
 void __thiscall ReputationOperations::SaveRecord()
 {
-    TESForm::FUN_004855a0();
+    TESForm::BeginFormRecord();
     ((S_00487010*)((char*)this + 0x18))->Save_00487010();
     ((FUN_0048e370_obj*)((char*)this + 0x24))->TESTexture_Save(0x4e4f4349);
     ((FUN_0047a240_shell*)((char*)this + 0x30))->FUN_0047a240(0x4f43494d);
@@ -197,7 +197,7 @@ void __thiscall ReputationOperations::SaveRecord()
     ((FUN_00485e00_shell*)this)->TESForm___SaveData((int)((char*)this + 0x40), 4);
     if (TESForm_QEndianSwapOnSave())
         data.Endian();
-    TESForm::FUN_00485680();
+    TESForm::FinishFormRecord();
 }
 
 // Stores the selected reputation value and marks the form as modified.

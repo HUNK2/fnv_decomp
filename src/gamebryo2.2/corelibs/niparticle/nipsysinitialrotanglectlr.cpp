@@ -66,7 +66,7 @@ void __stdcall NiPSysInitialRotAngleCtlr_GetViewerStrings(StrArr* pkStrings)
 }
 
 extern char DAT_010befbc;
-void* __cdecl FUN_00aa13e0(unsigned int);
+void* __cdecl Object_DispatchCommandFour(unsigned int);
 
 struct SpawnedObject
 {
@@ -83,7 +83,7 @@ struct SpawnedCtlr
 // @fnv 0x00c2a1c0
 SpawnedObject* SpawnedCtlr::CreateSpawnedObject(void* pArg)
 {
-    SpawnedObject* pkObj = (SpawnedObject*)FUN_00aa13e0(0x40);
+    SpawnedObject* pkObj = (SpawnedObject*)Object_DispatchCommandFour(0x40);
     if (pkObj != 0)
     {
         pkObj->FUN_00c32d80();

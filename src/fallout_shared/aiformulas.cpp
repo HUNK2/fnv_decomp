@@ -556,7 +556,7 @@ struct FollowerArray
     unsigned int capacity;
     FollowerArray(unsigned int);
     ~FollowerArray();
-    FollowerEntry& FUN_00558dd0(unsigned int);
+    FollowerEntry& GetElementAddress16(unsigned int);
     void BSSimpleArray_Sort_0(int(__cdecl*)(const void*, const void*));
     unsigned int FUN_0044ddc0();
 };
@@ -596,7 +596,7 @@ float __cdecl GetFollowerOffset(Actor* actor, Actor* leader)
                 TESPackage* package = follower->MobileObject::GetCurrentPackage();
                 if (package && package->GetPackType() == 1)
                 {
-                    FollowerEntry& entry = followerList.FUN_00558dd0(index);
+                    FollowerEntry& entry = followerList.GetElementAddress16(index);
                     entry.actor = follower;
                     entry.distance = (*static_cast<const Actor*>(leader)->GetPos() -
                                       *static_cast<const Actor*>(follower)->GetPos()).FUN_004a7290();
@@ -611,14 +611,14 @@ float __cdecl GetFollowerOffset(Actor* actor, Actor* leader)
             float distance = 0.0f;
             for (index = 0; index < followerList.FUN_0044ddc0(); ++index)
             {
-                FollowerEntry& entry = followerList.FUN_00558dd0(index);
+                FollowerEntry& entry = followerList.GetElementAddress16(index);
                 if (index > 0)
-                    distance += followerList.FUN_00558dd0(index - 1).radius + entry.radius +
+                    distance += followerList.GetElementAddress16(index - 1).radius + entry.radius +
                                 originalRuntimeFloatSetting291.Float()->f;
                 distance = BSMAX_00404010(distance, entry.spacing);
-                if (followerList.FUN_00558dd0(index).actor == actor)
+                if (followerList.GetElementAddress16(index).actor == actor)
                 {
-                    offset = distance - followerList.FUN_00558dd0(index).spacing;
+                    offset = distance - followerList.GetElementAddress16(index).spacing;
                     break;
                 }
             }

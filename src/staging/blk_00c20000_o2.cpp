@@ -535,7 +535,7 @@ FUN_00c31ff0* __cdecl NiPSysRadialFieldModifier_CreateObject()
 
 struct Host
 {
-    void FUN_00c312a0();
+    void UpdateFields_00c312a0();
     Host* DestroyIfRequested(bool bFree);
     static void __cdecl operator delete(void*, unsigned int);
 };
@@ -543,7 +543,7 @@ struct Host
 // @fnv 0x00c2a090
 Host* Host::DestroyIfRequested(bool bFree)
 {
-    FUN_00c312a0();
+    UpdateFields_00c312a0();
     if (bFree & 1)
         operator delete(this, 0x40);
     return this;
@@ -640,7 +640,7 @@ FUN_00c22a80_cls* FUN_00c22a80_cls::InitDefaults()
     return this;
 }
 
-extern "C" void* __cdecl FUN_00aa13e0(unsigned int size);
+extern "C" void* __cdecl Object_DispatchCommandFour(unsigned int size);
 extern int DAT_010be124;
 
 struct FUN_00c23b20_cls
@@ -668,7 +668,7 @@ struct FUN_00c23b20_cls
 // src: EXE 0x00c23b20
 void* __cdecl NiPSysSpawnModifier_CreateObject()
 {
-    FUN_00c23b20_cls* p = (FUN_00c23b20_cls*)FUN_00aa13e0(0x34);
+    FUN_00c23b20_cls* p = (FUN_00c23b20_cls*)Object_DispatchCommandFour(0x34);
     if (p != 0)
     {
         p->ctorBase();
@@ -765,13 +765,13 @@ BSFadeNode* CreateParticleObjectFactory()
     return 0;
 }
 
-extern void* __cdecl FUN_00aa13e0(unsigned int size);
+extern void* __cdecl Object_DispatchCommandFour(unsigned int size);
 
 // @fnv 0x00c2a2b0
 // src: EXE 0x00c2a2b0
 void* __cdecl NiPSysGrowFadeModifier_CreateObject()
 {
-    void* pObject = FUN_00aa13e0(0x2c);
+    void* pObject = Object_DispatchCommandFour(0x2c);
     if (pObject != NULL)
     {
         reinterpret_cast<NiPSysPositionModifier*>(pObject)->NiPSysPositionModifier::NiPSysPositionModifier();
@@ -922,7 +922,7 @@ extern int DAT_010bfc54;
 // src: EXE 0x00c2b970
 BSFadeNode* NiPSysEmitterDeclinationCtlr_CreateObject()
 {
-    BSFadeNode* obj = (BSFadeNode*)FUN_00aa13e0(0x40);
+    BSFadeNode* obj = (BSFadeNode*)Object_DispatchCommandFour(0x40);
     if (obj)
     {
         obj->FUN_00c32d80();
@@ -1141,12 +1141,13 @@ struct Host_data
     int unk30;
     Host_refobj* m_pEntryObject;
     void* m_pData;
-    void FUN_00c312a0();
+    void UpdateFields_00c312a0();
 };
 
 // Sets m_vptr, releases m_pData's header (unless DAT_0109b220), drops m_pEntryObject's refcount and destroys it at zero, then calls FUN_00a6d290.
 // @fnv 0x00c312a0
-void Host_data::FUN_00c312a0()
+// src: GUESS 0x00c312a0 (confidence: low)
+void Host_data::UpdateFields_00c312a0()
 {
     Host_data* self = this;
     HostRefFn release = (HostRefFn)DAT_00fdf1c4;

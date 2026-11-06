@@ -117,12 +117,12 @@ struct Item
     int unk34;
     int unk38;
     int unk3C;
-    void __thiscall FUN_004a3f10(int p);
+    void __thiscall SetValue(int p);
 };
 
 struct ItemSub
 {
-    void __thiscall FUN_004a3f10(int p);
+    void __thiscall SetValue(int p);
 };
 
 struct Arg2
@@ -151,7 +151,7 @@ struct Arg2
 
 struct Owner1
 {
-    Node* __thiscall FUN_00807770(int i);
+    Node* __thiscall EvaluateValue_00807770(int i);
 };
 
 struct Global
@@ -178,7 +178,7 @@ void ProxyUpdate::bhkCharacterListenerSpell_processConstraintsCallback(Owner1* a
     for (int i = 0; i < count; i++)
     {
         Item* item = apArgs->m_48 + i;
-        Node* pNode = apOwner->FUN_00807770(i);
+        Node* pNode = apOwner->EvaluateValue_00807770(i);
         int iResult1 = hkpGetRigidBody(pNode->m_48);
         Str20 s;
         s.FUN_008c71b0(pNode->m_48->hkpCollidable_getCollisionFilterInfo());
@@ -187,9 +187,9 @@ void ProxyUpdate::bhkCharacterListenerSpell_processConstraintsCallback(Owner1* a
         {
             if (iResult3 != 0x1e)
             {
-                ((ItemSub*)&item->unk10)->FUN_004a3f10(this->bhkCharacterProxy_GethkLinearVelocity());
+                ((ItemSub*)&item->unk10)->SetValue(this->bhkCharacterProxy_GethkLinearVelocity());
                 Vec16 t;
-                item->FUN_004a3f10(t.hkVector4_hkVector4(0.0f, 0.0f, 0.0f, 1.0f));
+                item->SetValue(t.hkVector4_hkVector4(0.0f, 0.0f, 0.0f, 1.0f));
             }
         }
         else
@@ -197,9 +197,9 @@ void ProxyUpdate::bhkCharacterListenerSpell_processConstraintsCallback(Owner1* a
             int iResult4 = this->bhkCharacterListenerSpell_GetObjectREFR(pNode->m_48);
             if (iResult4 != 0 && iResult4 == g_pGlobalDea3c->PlayerCharacter_GetGrabObject())
             {
-                ((ItemSub*)&item->unk10)->FUN_004a3f10(this->bhkCharacterProxy_GethkLinearVelocity());
+                ((ItemSub*)&item->unk10)->SetValue(this->bhkCharacterProxy_GethkLinearVelocity());
                 Vec16 t;
-                item->FUN_004a3f10(t.hkVector4_hkVector4(0.0f, 0.0f, 0.0f, 1.0f));
+                item->SetValue(t.hkVector4_hkVector4(0.0f, 0.0f, 0.0f, 1.0f));
                 break;
             }
         }

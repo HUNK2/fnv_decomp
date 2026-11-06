@@ -36,46 +36,48 @@ typedef union __declspec(intrin_type) __declspec(align(16)) {
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 void CreateObjectFromFactory();
-void FUN_00d3a8c0();
+void Object_CollectPenetratingBodyPair();
 void staticGetClosestPoints();
-void FUN_00daf8e0();
+void Object_ProcessEntries_00daf8e0();
 
 // Writes four function pointers into the first 16 bytes of p and clears the two bytes at offsets 16 and 17.
 // @fnv 0x00d3ab60
-void FUN_00d3ab60(void* apObject)
+// src: GUESS 0x00d3ab60 (confidence: medium)
+void Object_InitializeAgentFunctionTable_00d3ab60(void* apObject)
 {
     *(void**)apObject = (void*)&CreateObjectFromFactory;
-    *(void**)((char*)apObject + 4) = (void*)&FUN_00d3a8c0;
+    *(void**)((char*)apObject + 4) = (void*)&Object_CollectPenetratingBodyPair;
     *(void**)((char*)apObject + 8) = (void*)&staticGetClosestPoints;
-    *(void**)((char*)apObject + 12) = (void*)&FUN_00daf8e0;
+    *(void**)((char*)apObject + 12) = (void*)&Object_ProcessEntries_00daf8e0;
     *(char*)((char*)apObject + 16) = 0;
     *(char*)((char*)apObject + 17) = 0;
 }
 
 void __cdecl CreateAllocatedObject();
-void __cdecl FUN_00d3ac80();
-void __cdecl FUN_00d3b1a0();
-void __cdecl FUN_00d3b220();
+void __cdecl Object_UpdateFields_00d3ac80();
+void __cdecl Object_UpdateFields_00d3b1a0();
+void __cdecl Object_UpdateFields_00d3b220();
 
 // @fnv 0x00d3ab90
-void __cdecl FUN_00d3ab90(void** apTable)
+// src: GUESS 0x00d3ab90 (confidence: low)
+void __cdecl Hkpcapsuletriangleagent_UpdateState_00d3ab90(void** apTable)
 {
     apTable[0] = (void*)&CreateAllocatedObject;
-    apTable[1] = (void*)&FUN_00d3b1a0;
-    apTable[2] = (void*)&FUN_00d3b220;
-    apTable[3] = (void*)&FUN_00d3ac80;
+    apTable[1] = (void*)&Object_UpdateFields_00d3b1a0;
+    apTable[2] = (void*)&Object_UpdateFields_00d3b220;
+    apTable[3] = (void*)&Object_UpdateFields_00d3ac80;
     ((unsigned char*)apTable)[0x10] = 1;
     ((unsigned char*)apTable)[0x11] = 0;
 }
 
 void __cdecl CreateTriAgent2();
-void __cdecl FUN_00d38ac0();
-void __cdecl FUN_00d38ed0();
-void __cdecl FUN_00d3ac80();
+void __cdecl Object_UpdateFields_00d38ac0();
+void __cdecl hkpMultiSphereTriangleAgent_UpdateState_00d38ed0();
+void __cdecl Object_UpdateFields_00d3ac80();
 void __cdecl CreateTriAgent();
 void __cdecl hkpMultiSphereTriangleAgent_staticGetPenetrations();
-void __cdecl FUN_00d386c0();
-void __cdecl FUN_00daf8e0();
+void __cdecl Object_ProcessEntries_00d386c0();
+void __cdecl Object_ProcessEntries_00daf8e0();
 
 typedef void (__cdecl *S_00d389f0_Func)();
 
@@ -91,32 +93,33 @@ struct S_00d389f0_AgentFuncs
 
 struct S_00d389f0_Dispatcher
 {
-    void FUN_00cfbbe0(S_00d389f0_AgentFuncs& f, int typeA, int typeB);
+    void AppendRecordAndRegisterAgents(S_00d389f0_AgentFuncs& f, int typeA, int typeB);
 };
 
 // Registers two agent function tables with the dispatcher, one for type 3 to 0x15 and one for 0x15 to 3.
 // @fnv 0x00d389f0
-void __cdecl FUN_00d389f0(S_00d389f0_Dispatcher* dispatcher)
+// src: GUESS 0x00d389f0 (confidence: low)
+void __cdecl hkpMultiSphereTriangleAgent_staticGetPenetrations_UpdateState_00d389f0(S_00d389f0_Dispatcher* dispatcher)
 {
     {
         S_00d389f0_AgentFuncs agentFuncs;
         agentFuncs.m_pCreateFunc = CreateTriAgent2;
-        agentFuncs.m_pQueryPenetrationsFunc = FUN_00d38ac0;
-        agentFuncs.m_getClosestPointsFunc = FUN_00d38ed0;
-        agentFuncs.m_pLinearCastFunc = FUN_00d3ac80;
+        agentFuncs.m_pQueryPenetrationsFunc = Object_UpdateFields_00d38ac0;
+        agentFuncs.m_getClosestPointsFunc = hkpMultiSphereTriangleAgent_UpdateState_00d38ed0;
+        agentFuncs.m_pLinearCastFunc = Object_UpdateFields_00d3ac80;
         agentFuncs.m_bIsFlipped = true;
         agentFuncs.m_bIsPredictive = false;
-        dispatcher->FUN_00cfbbe0(agentFuncs, 3, 0x15);
+        dispatcher->AppendRecordAndRegisterAgents(agentFuncs, 3, 0x15);
     }
     {
         S_00d389f0_AgentFuncs agentFuncs;
         agentFuncs.m_pCreateFunc = CreateTriAgent;
         agentFuncs.m_pQueryPenetrationsFunc = hkpMultiSphereTriangleAgent_staticGetPenetrations;
-        agentFuncs.m_getClosestPointsFunc = FUN_00d386c0;
-        agentFuncs.m_pLinearCastFunc = FUN_00daf8e0;
+        agentFuncs.m_getClosestPointsFunc = Object_ProcessEntries_00d386c0;
+        agentFuncs.m_pLinearCastFunc = Object_ProcessEntries_00daf8e0;
         agentFuncs.m_bIsFlipped = false;
         agentFuncs.m_bIsPredictive = false;
-        dispatcher->FUN_00cfbbe0(agentFuncs, 0x15, 3);
+        dispatcher->AppendRecordAndRegisterAgents(agentFuncs, 0x15, 3);
     }
 }
 
@@ -163,7 +166,8 @@ void __cdecl staticGetClosestPoints(void* apFirst, void* apSecond, void* apThird
 
 // Builds a CallbackState with a max float, the given value and a constant pointer, then passes it to FUN_00d3a280 with the three pointers reordered.
 // @fnv 0x00d3b220
-void __cdecl FUN_00d3b220(void* apOne, void* apTwo, void* apThree, int aiValue)
+// src: GUESS 0x00d3b220 (confidence: low)
+void __cdecl Object_UpdateFields_00d3b220(void* apOne, void* apTwo, void* apThree, int aiValue)
 {
     CallbackState kState;
     kState.m_fFirstLightParameter = 3.40282e+38f;
@@ -348,13 +352,14 @@ extern "C" float DAT_0104da48;
 extern "C" const LocalM128 DAT_010c44d0;
 extern "C" unsigned char UNK_010ce80c;
 
-extern "C" void __cdecl FUN_00daf8e0(unsigned int second, unsigned int first,
+extern "C" void __cdecl Object_ProcessEntries_00daf8e0(unsigned int second, unsigned int first,
                             MotionPacket* packet, MotionCallData* primary,
                             MotionCallData* secondary);
 
 // Copies the input packet, XORs its direction with DAT_010c44d0, builds primary/secondary MotionCallData and calls FUN_00daf8e0.
 // @fnv 0x00d3ac80
-void __cdecl FUN_00d3ac80(unsigned int first, unsigned int second,
+// src: GUESS 0x00d3ac80 (confidence: low)
+void __cdecl Object_UpdateFields_00d3ac80(unsigned int first, unsigned int second,
                            const MotionPacket* apPacket, unsigned int mode,
                            unsigned int optionalMode)
 {
@@ -373,9 +378,9 @@ void __cdecl FUN_00d3ac80(unsigned int first, unsigned int second,
         secondary.scale = DAT_0104da48;
         secondary.direction = apPacket->direction.words;
         secondary.mode = optionalMode;
-        FUN_00daf8e0(second, first, &packetCopy, &primary, &secondary);
+        Object_ProcessEntries_00daf8e0(second, first, &packetCopy, &primary, &secondary);
     } else {
-        FUN_00daf8e0(second, first, &packetCopy, &primary, 0);
+        Object_ProcessEntries_00daf8e0(second, first, &packetCopy, &primary, 0);
     }
 }
 
@@ -574,7 +579,7 @@ struct Contact {
     LocalM128 normal;
     LocalM128 position;
     Contact& operator=(const Contact& c) { normal = c.normal; position = c.position; return *this; }
-    void __thiscall FUN_00caad60(void* arg);
+    void __thiscall SetPositionXYZ(void* arg);
 };
 
 
@@ -641,7 +646,7 @@ int __cdecl hkpCapsuleTriangleAgent_getClosestPoint(Obj* a, Obj* b, Par* volatil
         Xf* transformA = a->xf;
         Xf* transformB = b->xf;
         int r = shapes[1]->refine(&info[idx].feature, &n, res + idx * 2, transformB, shapes[0], transformA, &t);
-        if (r != 0) { if (r == 1) ((Contact*)(res + idx * 2))->FUN_00caad60(&t); } else goto fail;
+        if (r != 0) { if (r == 1) ((Contact*)(res + idx * 2))->SetPositionXYZ(&t); } else goto fail;
     }
 
     *apContactOut = ((Contact*)res)[idx];
@@ -810,13 +815,14 @@ typedef void (__cdecl *Call_d3a8c0)(int, int, int, LocalState_d3b1a0*);
 
 // Initialises a LocalState_d3b1a0 with param4, a zero flag and a pointer to DAT_010ce81c, then calls FUN_00d3a8c0 with param2, param1, param3 and the state.
 // @fnv 0x00d3b1a0
-void __cdecl FUN_00d3b1a0(int param1, int param2, int param3, int aiValue) {
+// src: GUESS 0x00d3b1a0 (confidence: low)
+void __cdecl Object_UpdateFields_00d3b1a0(int param1, int param2, int param3, int aiValue) {
     LocalState_d3b1a0 state;
     state.m_iValue = aiValue;
     state.m_bZero = 0;
     state.m_pIntegerValue = &DAT_010ce81c;
 
-    Call_d3a8c0 call = (Call_d3a8c0)FUN_00d3a8c0;
+    Call_d3a8c0 call = (Call_d3a8c0)Object_CollectPenetratingBodyPair;
     call(param2, param1, param3, &state);
 }
 }  // namespace fnv_00d3b1a0
@@ -846,12 +852,13 @@ extern "C" LocalM128 _mm_unpackhi_ps(LocalM128 a, LocalM128 b);
 
 struct ContactNormalSetter : Contact
 {
-    ContactNormalSetter* FUN_00caad60(const LocalM128* source);
+    ContactNormalSetter* SetPositionXYZ(const LocalM128* source);
 };
 
 // Copies the x, y and z components of *source into position, keeping position's existing w, and returns this.
 // @fnv 0x00caad60
-ContactNormalSetter* ContactNormalSetter::FUN_00caad60(const LocalM128* source)
+// src: GUESS 0x00caad60 (confidence: medium)
+ContactNormalSetter* ContactNormalSetter::SetPositionXYZ(const LocalM128* source)
 {
     LocalM128 incoming = *source;
     LocalM128 current = position;
@@ -868,7 +875,7 @@ struct ContactRecord {
     LocalM128 position;
     LocalM128 normal;
     ContactRecord& operator=(const ContactRecord& o) { position=o.position; normal=o.normal; return *this; }
-    void FUN_00caad60(const PlainVector*);
+    void SetPositionXYZ(const PlainVector*);
 };
 struct CacheRecord { unsigned char flag; unsigned char unk01; unsigned short feature; unsigned int unk04; };
 union __declspec(align(16)) TransformCacheScratch { PlainVector column; CacheRecord cache[3]; };
@@ -942,7 +949,7 @@ void CollisionAgent::hkpCapsuleTriangleAgent_getClosestPoints(const BodyRecord& 
             ContactRecord* contact=&result.points[index];
             int outcome=const_cast<CollisionShape*>(shapeB)->process(&cache[index].feature,&flag,contact,transformB,shapeA,transformA,&normal);
             if(outcome==0) goto done;
-            if(outcome==1) result.points[index].FUN_00caad60(&normal);
+            if(outcome==1) result.points[index].SetPositionXYZ(&normal);
         }
         event.contact=result.points[index];
         output->accept(&event);
@@ -1011,7 +1018,8 @@ static __forceinline void mytransform2(Vec4::Aligned* out, const Shape* shape, i
 }
 // Transforms two body shapes, tests for penetration, and adds the pair to the collector if the result normals indicate overlap.
 // @fnv 0x00d3a8c0
-void __cdecl FUN_00d3a8c0(Body* apBodyA, Body* apBodyB, Input* input, PenetrationCollector* collector)
+// src: GUESS 0x00d3a8c0 (confidence: medium)
+void __cdecl Object_CollectPenetratingBodyPair(Body* apBodyA, Body* apBodyB, Input* input, PenetrationCollector* collector)
 {
     TimerPair* state = (TimerPair*)TlsGetValue(DAT_0126835c);
     Timer* timer = state->current;

@@ -8,10 +8,10 @@
 #include "../../../../../include/hkReferencedObject.h"
 #include "../../../../../include/Pair.h"
 
-void __cdecl FUN_00d48620(int a, int b, int c);
-void __cdecl FUN_00d48640(int a, int b);
-extern "C" int __cdecl FUN_00d485a0(int, int, int, int, int);
-void __cdecl FUN_00d48660(int a, int b, int c);
+void __cdecl Object_ForwardCall_00d48620(int a, int b, int c);
+void __cdecl Object_ForwardCall_00d48640(int a, int b);
+extern "C" int __cdecl Object_ProcessAndReturnValue_00d485a0(int, int, int, int, int);
+void __cdecl Object_ForwardCall_00d48660(int a, int b, int c);
 extern int DAT_0102e388;
 extern int DAT_010d7540;
 struct FUN_00dcc160_cls
@@ -19,7 +19,7 @@ struct FUN_00dcc160_cls
     void* vtbl;
     int a;
     hkReferencedObject* b;
-    void FUN_00dcc160();
+    void SetVirtualTable_00dcc160();
 };
 struct FUN_00dbc670_storage
 {
@@ -82,7 +82,7 @@ struct FUN_00dbc670_shell
     void FUN_00dbc670();
     void hkPackfileWriter_setContents(int, int, int);
     int ProcessPoly(int, int);
-    void FUN_00dbc6e0();
+    void SetVirtualTableAndProcessState_00dbc6e0();
 };
 struct GlobalDispatch
 {
@@ -97,7 +97,7 @@ extern void* hkSerializeUtil_load(void* obj_b, int a2, int a3);
 struct CtorBox
 {
     CtorBox* InitFromValue(void* arg);
-    void FUN_00dcc160();
+    void SetVirtualTable_00dcc160();
 
     void* f0;
     int f4;
@@ -187,13 +187,13 @@ struct GlobalObj
 struct Obj5
 {
     void* hkDataClass_getName();
-    void FUN_00dba660();
+    void Object_DoNothing_00dba660();
 };
 struct Obj2
 {
     void GetObjectValue(Obj5* apOut);
     int hkDataObject_isNull();
-    void FUN_00dba660();
+    void Object_DoNothing_00dba660();
     void GetSourcePair(Pair* apOut);
 };
 struct Obj1
@@ -266,7 +266,8 @@ static __declspec(noinline) int helper(int a, void* b, int* c)
     return dispatch(&p, c, a, b);
 }
 // @fnv 0x00d485a0
-extern "C" int __cdecl FUN_00d485a0(int a1, int a2, int a3, int a4, int a5)
+// src: GUESS 0x00d485a0 (confidence: low)
+extern "C" int __cdecl Object_ProcessAndReturnValue_00d485a0(int a1, int a2, int a3, int a4, int a5)
 {
     Lister lister;
     World world;

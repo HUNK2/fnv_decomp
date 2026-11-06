@@ -2288,7 +2288,7 @@ BSSimpleArray<NavMesh*, 1024>::~BSSimpleArray()
 
 struct FUN_00869a20_class
 {
-    void FUN_00869a40();
+    void UpdateFields_00869a40();
     void NiTObjectArray_TESObjectREFR_Free();
 };
 
@@ -2296,7 +2296,7 @@ struct FUN_00869a20_class
 // src: COMMUNITY 0x00869a20
 void FUN_00869a20_class::NiTObjectArray_TESObjectREFR_Free()
 {
-    FUN_00869a40();
+    UpdateFields_00869a40();
 }
 
 struct FUN_00869b70_Class
@@ -2314,14 +2314,14 @@ void __thiscall FUN_00869b70_Class::NiTObjectArray_BipedAnim_Free()
 
 struct FUN_00869e10_class
 {
-    void __thiscall FUN_00869e30();
+    void __thiscall UpdateState_00869e30();
     void __thiscall NiTObjectArray_NiPointer_BSTempEffect_Free();
 };
 // @fnv 0x00869e10
 // src: COMMUNITY 0x00869e10
 void __thiscall FUN_00869e10_class::NiTObjectArray_NiPointer_BSTempEffect_Free()
 {
-    FUN_00869e30();
+    UpdateState_00869e30();
 }
 
 extern int DAT_010a47b8;
@@ -2464,11 +2464,12 @@ SettingT<INIPrefSettingCollection>::~SettingT()
 #include <windows.h>
 struct FUN_0044fb00_Shim
 {
-    void FUN_0044fb00();
+    void DeleteCriticalSection_Thunk();
 };
 
 // @fnv 0x0044fb00
-void FUN_0044fb00_Shim::FUN_0044fb00()
+// src: GUESS 0x0044fb00 (confidence: high)
+void FUN_0044fb00_Shim::DeleteCriticalSection_Thunk()
 {
     DeleteCriticalSection(reinterpret_cast<CRITICAL_SECTION*>(this));
 }

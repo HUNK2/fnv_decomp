@@ -93,14 +93,15 @@ FUN_00700480::FUN_00700480(void* apArg, void* apArg2) : FUN_00700560(apArg, apAr
 
 struct FUN_007004e0_class
 {
-    void __thiscall FUN_00700500();
-    void __thiscall FUN_007004e0();
+    void __thiscall UpdateFields_00700500();
+    void __thiscall ForwardCall_007004e0();
 };
 
 // @fnv 0x007004e0
-void __thiscall FUN_007004e0_class::FUN_007004e0()
+// src: GUESS 0x007004e0 (confidence: low)
+void __thiscall FUN_007004e0_class::ForwardCall_007004e0()
 {
-    FUN_00700500();
+    UpdateFields_00700500();
 }
 
 void __cdecl Deallocate(void*);
@@ -250,11 +251,12 @@ extern int DAT_0106f448;
 struct FUN_00719390_class
 {
     void __thiscall ConstructAndInit();
-    void __thiscall FUN_00719390();
+    void __thiscall SetVtableAndProcessState_00719390();
 };
 
 // @fnv 0x00719390
-void __thiscall FUN_00719390_class::FUN_00719390()
+// src: GUESS 0x00719390 (confidence: low)
+void __thiscall FUN_00719390_class::SetVtableAndProcessState_00719390()
 {
     *reinterpret_cast<int**>(this) = &DAT_0106f448;
     ConstructAndInit();
@@ -345,17 +347,18 @@ struct Str6a70
 };
 struct FUN_0071e1a0_cls
 {
-    void FUN_0071e1a0(const void*);
+    void UpdateFields_0071e1a0(const void*);
 };
 struct FUN_0071e0f0_cls
 {
-    void FUN_0071e0f0(const char* arg);
+    void UpdateState_0071e0f0(const char* arg);
 };
 // @fnv 0x0071e0f0
-void FUN_0071e0f0_cls::FUN_0071e0f0(const char* arg)
+// src: GUESS 0x0071e0f0 (confidence: low)
+void FUN_0071e0f0_cls::UpdateState_0071e0f0(const char* arg)
 {
     ((Str6a70*)((char*)arg + 8))->operator=(0);
-    ((FUN_0071e1a0_cls*)((char*)this + 8))->FUN_0071e1a0(arg);
+    ((FUN_0071e1a0_cls*)((char*)this + 8))->UpdateFields_0071e1a0(arg);
 }
 
 
@@ -376,11 +379,12 @@ void* FUN_0071e230::Init()
 struct FUN_0071e250_class
 {
     void DestroyBSS();
-    void FUN_0071e250();
+    void DestroyBSS_Thunk();
 };
 
 // @fnv 0x0071e250
-void FUN_0071e250_class::FUN_0071e250()
+// src: GUESS 0x0071e250 (confidence: medium)
+void FUN_0071e250_class::DestroyBSS_Thunk()
 {
     DestroyBSS();
 }
@@ -439,7 +443,7 @@ struct FUN_007004b0_Class : FUN_007004e0_class
 // @fnv 0x007004b0
 void* __thiscall FUN_007004b0_Class::FUN_007004b0(unsigned int flags)
 {
-    FUN_007004e0();
+    ForwardCall_007004e0();
     if (flags & 1)
         _Deallocate(this);
     return this;
@@ -454,7 +458,7 @@ struct StandIn_700530
 // @fnv 0x00700530
 void* __thiscall StandIn_700530::FUN_00700530(unsigned int flags)
 {
-    ((FUN_007004e0_class*)this)->FUN_00700500();
+    ((FUN_007004e0_class*)this)->UpdateFields_00700500();
     if (flags & 1)
         _Deallocate(this);
     return this;
@@ -664,15 +668,16 @@ void* __thiscall FUN_00709ed0_Class::FUN_00709ed0(unsigned int flags)
 
 struct Dummy_00718c90
 {
-    void __thiscall FUN_00719010();
+    void __thiscall ProcessEntries_00719010();
     void* __thiscall FUN_00718c40(int);
 };
 extern Dummy_00718c90* DAT_011d8a88;
 // Calls FUN_00719010 on DAT_011d8a88, obtains a value via FUN_00718c40(1) if non-null, then clears DAT_011d8a88.
 // @fnv 0x00718bf0
-void __cdecl FUN_00718bf0()
+// src: GUESS 0x00718bf0 (confidence: low)
+void __cdecl Runtime_UpdateState_00718bf0()
 {
-    DAT_011d8a88->FUN_00719010();
+    DAT_011d8a88->ProcessEntries_00719010();
     Dummy_00718c90* q = DAT_011d8a88;
     Dummy_00718c90* p = q;
     void* r;
@@ -711,10 +716,11 @@ struct VObj
 };
 struct FUN_00719010_Class
 {
-    void FUN_00719010();
+    void ProcessEntries_00719010();
 };
 // @fnv 0x00719010
-void FUN_00719010_Class::FUN_00719010()
+// src: GUESS 0x00719010 (confidence: low)
+void FUN_00719010_Class::ProcessEntries_00719010()
 {
     while (!((ArrHelper*)this)->NiTListBase_DFALL_NiTListItem_BSAnimGroupSequence_const_BSAnimGroupSequence_const_IsEmpty())
     {
@@ -759,17 +765,17 @@ FUN_00719250_class* __thiscall FUN_00719250_class::Construct(int aiArg1, int aiV
     return this;
 }
 
-void __cdecl FUN_007192c0();
+void __cdecl SetVirtualTableAndProcessState_007192c0();
 struct FUN_00719290_class
 {
-    void __thiscall FUN_007192c0();
+    void __thiscall SetVirtualTableAndProcessState_007192c0();
     FUN_00719290_class* __thiscall FUN_00719290(unsigned int flags);
 };
 // Calls FUN_007192c0, then deallocates this when bit 0 of flags is set, and returns this.
 // @fnv 0x00719290
 FUN_00719290_class* __thiscall FUN_00719290_class::FUN_00719290(unsigned int flags)
 {
-    FUN_007192c0();
+    SetVirtualTableAndProcessState_007192c0();
     if (flags & 1)
         Deallocate(this);
     return this;
@@ -897,7 +903,8 @@ struct FUN_0071e200_Helper
 };
 // If arg is non-null, calls FUN_0071e200 on it with 1; otherwise does nothing.
 // @fnv 0x0071e1a0
-void FUN_0071e1a0_cls::FUN_0071e1a0(const void* apObject)
+// src: GUESS 0x0071e1a0 (confidence: low)
+void FUN_0071e1a0_cls::UpdateFields_0071e1a0(const void* apObject)
 {
     FUN_0071e200_Helper* b;
     {
@@ -916,7 +923,7 @@ struct S_0071e200
 // @fnv 0x0071e200
 void* __thiscall S_0071e200::FUN_0071e200(unsigned int flags)
 {
-    ((FUN_0071e250_class*)this)->FUN_0071e250();
+    ((FUN_0071e250_class*)this)->DestroyBSS_Thunk();
     if (flags & 1)
         _Deallocate(this);
     return this;
@@ -962,7 +969,8 @@ struct FUN_0071f900_Class
 extern FUN_0071f900_Class* DAT_011dace4;
 // Calls FUN_0071f900(1) on DAT_011dace4 if non-null, then sets DAT_011dace4 to null.
 // @fnv 0x0071f8c0
-void FUN_0071f8c0()
+// src: GUESS 0x0071f8c0 (confidence: low)
+void Object_UpdateFields_0071f8c0()
 {
     FUN_0071f900_Class* b = DAT_011dace4;
     FUN_0071f900_Class* a = b;
@@ -1058,11 +1066,12 @@ struct PerfEntry
 extern PerfEntry DAT_011d8840[3];
 struct PerfMgr
 {
-    void FUN_00700650();
+    void ClearThreePerformanceEntries();
 };
 // Clears the byte, int, float and GO fields of each of the three PerfEntry records in DAT_011d8840.
 // @fnv 0x00700650
-void PerfMgr::FUN_00700650()
+// src: GUESS 0x00700650 (confidence: medium)
+void PerfMgr::ClearThreePerformanceEntries()
 {
     for (int i = 0; i < 3; i++)
     {
@@ -1119,10 +1128,11 @@ FUN_00718c70::~FUN_00718c70()
 struct FUN_007192c0_class
 {
     void* vtbl;
-    void FUN_007192c0();
+    void SetVirtualTableAndProcessState_007192c0();
 };
 // @fnv 0x007192c0
-void FUN_007192c0_class::FUN_007192c0()
+// src: GUESS 0x007192c0 (confidence: low)
+void FUN_007192c0_class::SetVirtualTableAndProcessState_007192c0()
 {
     vtbl = &DAT_0106f430;
     ((FUN_00719390_class*)this)->ConstructAndInit();
@@ -1591,7 +1601,7 @@ struct FUN_0071f4e0_cls
     unsigned int m_00;
     unsigned int m_04;
     void* m_08;
-    void FUN_0071f4e0();
+    void UpdateFields_0071f4e0();
 };
 
 struct Fun4459Callee
@@ -1601,7 +1611,8 @@ struct Fun4459Callee
 
 // If m_08 is non-null, calls FUN_004459e0 with flag 1 on it.
 // @fnv 0x0071f4e0
-void FUN_0071f4e0_cls::FUN_0071f4e0()
+// src: GUESS 0x0071f4e0 (confidence: low)
+void FUN_0071f4e0_cls::UpdateFields_0071f4e0()
 {
     void* v = this->m_08;
     void* w = v;
@@ -1707,7 +1718,8 @@ struct StandIn_700500
 void __cdecl NiTMallocInterface_unsigned_int_Deallocate(void*);
 
 // @fnv 0x00700500
-void FUN_007004e0_class::FUN_00700500()
+// src: GUESS 0x00700500 (confidence: low)
+void FUN_007004e0_class::UpdateFields_00700500()
 {
     ((StandIn_700500*)this)->m_ppVirtualMethodTable = &DAT_0106e8dc;
     NiTMallocInterface_unsigned_int_Deallocate(((StandIn_700500*)this)->m_data);
@@ -2288,7 +2300,7 @@ struct MenuSource
 // distinct from MenuList: 0x00711ea0 walks this nonvirtual pointer-list access view via GetNext 0x0057cbe0; the shared MenuList is a virtual UI list box.
 struct BlkMenuListView
 {
-    int FUN_00559450();
+    int Modelloader_GetReferencedThis();
     MenuSource** NiTPointerListBase_NiTPointerAllocator_unsigned_int_Tile_GetNext(int* frame);
 };
 struct MenuCollection
@@ -2316,7 +2328,7 @@ void MenuState::UpdateMenuSelection()
     ScopedMenuAccess scope(13, 1, &DAT_0106ef50, 0xca1);
     MenuFrame* cursor = DAT_011dea0c->Main_GetControls();
     *reinterpret_cast<unsigned char*>(reinterpret_cast<char*>(this) + 0x11) = 0;
-    int frame = CombatController_GetCombatState()->list.FUN_00559450();
+    int frame = CombatController_GetCombatState()->list.Modelloader_GetReferencedThis();
     while (frame != 0)
     {
         MenuSource* pSource = *CombatController_GetCombatState()->list.NiTPointerListBase_NiTPointerAllocator_unsigned_int_Tile_GetNext(&frame);
@@ -2649,11 +2661,12 @@ void FUN_0071dd90_shell::WriteLine(const char* apText)
 struct FUN_0071e1e0_cls
 {
     void Step();
-    FUN_0071e1e0_cls* FUN_0071e1e0();
+    FUN_0071e1e0_cls* ProcessAndReturnValue_0071e1e0();
 };
 
 // @fnv 0x0071e1e0
-FUN_0071e1e0_cls* FUN_0071e1e0_cls::FUN_0071e1e0()
+// src: GUESS 0x0071e1e0 (confidence: low)
+FUN_0071e1e0_cls* FUN_0071e1e0_cls::ProcessAndReturnValue_0071e1e0()
 {
     Step();
     return this;
@@ -2686,12 +2699,13 @@ struct GameObjStub2
 class FUN_00701520_cls
 {
   public:
-    void FUN_00701520();
+    void ProcessModelPaths();
 };
 
 // For each of 8 slots, resolves an object via FUN_00481090 or a TESModelTextureSwap cast and passes its model path to DAT_011c3b3c->FUN_0045a5e0.
 // @fnv 0x00701520
-void FUN_00701520_cls::FUN_00701520()
+// src: GUESS 0x00701520 (confidence: medium)
+void FUN_00701520_cls::ProcessModelPaths()
 {
     void* a = FUN_004bf220(DAT_011dea3c);
 

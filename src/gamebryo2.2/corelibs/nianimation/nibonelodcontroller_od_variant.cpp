@@ -51,7 +51,8 @@ namespace fnv_00c53cd0 {
 extern const char g_012031b8_arg0[];
 NiObject* __cdecl NiBSBoneLODController_CreateObject();
 // @fnv 0x00c53cd0
-int __cdecl FUN_00c53cd0()
+// src: GUESS 0x00c53cd0 (confidence: medium)
+int __cdecl NiStream_RegisterObjectLoader_Thunk()
 {
     return NiStream::RegisterObjectLoader(g_012031b8_arg0, NiBSBoneLODController_CreateObject);
 }
@@ -167,7 +168,8 @@ void NiBSBoneLODControllerMethods::NiBSBoneLODController_LinkObject(NiStream* st
 }
 
 // @fnv 0x00c53cf0
-bool NiBSBoneLODController::FUN_00c53cf0()
+// src: GUESS 0x00c53cf0 (confidence: low)
+bool NiBSBoneLODController::ProcessEntries_00c53cf0()
 {
     for (unsigned int i = 0; i < sub.high; i++)
     {

@@ -58,7 +58,7 @@ struct RigidBodyConstruction : hkpRigidBody
     void hkpRigidBody_updateCachedShapeInfo(const hkpShape* shape, hkVector4* result) throw();
     void hkpRigidBody_enableDeactivation(bool enabled) throw();
     void hkpRigidBody_setAngularVelocity(const hkVector4& velocity) throw();
-    RigidBodyConstruction* FUN_00ca8c90(const hkpRigidBodyCinfo& info);
+    RigidBodyConstruction* AllocateStorage_00ca8c90(const hkpRigidBodyCinfo& info);
 };
 
 // @fnv 0x00ca8150
@@ -140,7 +140,8 @@ static __declspec(noinline) void ComputeScaledMinimum(hkpCollidable* coll, const
 
 extern void* DAT_010c7888;
 // @fnv 0x00ca8c90
-RigidBodyConstruction* RigidBodyConstruction::FUN_00ca8c90(const hkpRigidBodyCinfo& info)
+// src: GUESS 0x00ca8c90 (confidence: low)
+RigidBodyConstruction* RigidBodyConstruction::AllocateStorage_00ca8c90(const hkpRigidBodyCinfo& info)
 {
     FUN_00c9cce0(info.shape);
     *(void**)this = &DAT_010c7888;
@@ -159,8 +160,8 @@ RigidBodyConstruction* RigidBodyConstruction::FUN_00ca8c90(const hkpRigidBodyCin
     if (info.motionType == 5)
     {
         hkpFixedRigidMotion* fixed = ::new (&m_pMotionState) hkpFixedRigidMotion(&info.position, &info.rotation);
-        reinterpret_cast<hkUFloat8*>(&fixed->m_kMotionState.m_fSurfaceFriction)->FUN_00ca9360(&info.maxLinear);
-        reinterpret_cast<hkUFloat8*>(&fixed->m_kMotionState.m_fRestitution)->FUN_00ca9360(&info.maxAngular);
+        reinterpret_cast<hkUFloat8*>(&fixed->m_kMotionState.m_fSurfaceFriction)->FindFloatTableIndex(&info.maxLinear);
+        reinterpret_cast<hkUFloat8*>(&fixed->m_kMotionState.m_fRestitution)->FindFloatTableIndex(&info.maxAngular);
         fixed->FUN_00c86420(1);
         m_kCollidable.m_pMotionState = &m_pMotionState.m_kMotionState.m_kMotionTransform;
         if (info.penetrationDepth <= 0.0f)
@@ -210,7 +211,7 @@ RigidBodyConstruction* RigidBodyConstruction::FUN_00ca8c90(const hkpRigidBodyCin
             __declspec(align(16)) char streamStorage[(sizeof(hkOstream) + 15) & ~15];
             ::new (streamStorage) hkOstream(buffer, 512);
             hkOstream& stream = *reinterpret_cast<hkOstream*>(streamStorage);
-            stream.FUN_00cc01c0(
+            stream.ProcessAndReturnValue_00cc01c0(
                 "Shape key storage insufficient to store all possible branches. This may cause truncation of the shape key information.");
             DAT_01268360->message(1, 0x458a1bb2, buffer, ".\\Entity\\hkpRigidBody.cpp", 329);
             stream.FUN_00cc00e0();

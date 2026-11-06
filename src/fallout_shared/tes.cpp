@@ -421,19 +421,20 @@ const void* const* __thiscall FUN_00458f20_shell::BSTempNode_GetRTTI() const
     return &g_01202e00;
 }
 
-extern "C" void __fastcall FUN_00a5e930(void*);
+extern "C" void __fastcall UpdateFields_00c5faa0(void*);
 extern int DAT_01017d24;
 
 struct FUN_00458f70_shell
 {
-    void __thiscall FUN_00458f70();
+    void __thiscall SetVtableAndProcessState_00458f70();
 };
 
 // @fnv 0x00458f70
-void __thiscall FUN_00458f70_shell::FUN_00458f70()
+// src: GUESS 0x00458f70 (confidence: low)
+void __thiscall FUN_00458f70_shell::SetVtableAndProcessState_00458f70()
 {
     *(int*)this = (int)&DAT_01017d24;
-    FUN_00a5e930(this);
+    UpdateFields_00c5faa0(this);
 }
 
 namespace fnv_0045a520 {
@@ -790,7 +791,7 @@ void TES::AddToBuffer(TESObjectCELL* cell)
 
 struct FUN_00458f30_shell
 {
-    void FUN_00458f70();
+    void SetVtableAndProcessState_00458f70();
     void* DestroyIfFlagged(unsigned int flags);
 };
 
@@ -800,7 +801,7 @@ void _delete(void* obj, unsigned int size);
 // @fnv 0x00458f30
 void* FUN_00458f30_shell::DestroyIfFlagged(unsigned int flags)
 {
-    this->FUN_00458f70();
+    this->SetVtableAndProcessState_00458f70();
     if (flags & 1)
         _delete(this, 0xb0);
     return this;
@@ -2532,7 +2533,7 @@ struct LookupResult
     LookupEntry* entry;
     LookupResult(int initialState);
     ~LookupResult();
-    LookupEntry* FUN_00559450();
+    LookupEntry* Modelloader_GetReferencedThis();
 };
 void __cdecl FindTextureByPath(void* object, LookupResult* result);
 void __cdecl BSTexturePalette_RemoveTexture(LookupEntry* entry);
@@ -2546,11 +2547,11 @@ bool LookupHandler::TES_FreeTexture(void* object, unsigned int limit)
 {
     LookupResult result(0);
     FindTextureByPath(object, &result);
-    if (result.FUN_00559450() != 0)
+    if (result.Modelloader_GetReferencedThis() != 0)
     {
-        if (result.FUN_00559450()->FUN_00726070() <= limit + 2)
+        if (result.Modelloader_GetReferencedThis()->FUN_00726070() <= limit + 2)
         {
-            BSTexturePalette_RemoveTexture(result.FUN_00559450());
+            BSTexturePalette_RemoveTexture(result.Modelloader_GetReferencedThis());
             return true;
         }
     }
@@ -2959,7 +2960,7 @@ struct ResX
 };
 struct SubX
 {
-    ResX* FUN_00559450();
+    ResX* Modelloader_GetReferencedThis();
 };
 
 // Iterates m_38 and m_3C, calling FUN_0054ba00 on non-null entries accepted by FUN_004511e0, then calls FUN_00628da0 on the result of m_C0.FUN_00559450().
@@ -2988,7 +2989,7 @@ void TES::ProcessItems(BGSLoadGameBuffer* unused)
             }
         }
     }
-    (*(fnv_00459750::SubX*)((char*)this + 0xc0)).FUN_00559450()->FUN_00628da0();
+    (*(fnv_00459750::SubX*)((char*)this + 0xc0)).Modelloader_GetReferencedThis()->FUN_00628da0();
 }
 namespace fnv_00459750 {
 
@@ -3507,14 +3508,14 @@ struct Obj
     Obj* FUN_00413f40();
     Obj* FUN_00891170();
     unsigned char NiTListBase_DFALL_NiTListItem_BSAnimGroupSequence_const_BSAnimGroupSequence_const_IsEmpty();
-    Obj* FUN_00559450();
+    Obj* Modelloader_GetReferencedThis();
     Obj* NiTPointerListBase_NiTPointerAllocator_unsigned_int_Tile_GetNext(Obj**);
     void ClearField40();
     Obj* BSMultiBoundRoom_SetCullResult(int);
     Obj* SetFieldCC(int);
     Obj* TESCombatStyle_GetAdvancedData();
     Obj* Sky_GetSunLightSpecularColor();
-    Obj* FUN_005a8080();
+    Obj* ComputeValue_005a8080();
     int DereferenceIfNotNull(Obj*);
     Obj* AddEight(Obj*);
     int BGSSaveFormBuffer_GetForm();
@@ -3637,7 +3638,7 @@ void ThisC::TES_ResetAllMultiBoundNodes(unsigned char a1, unsigned char a2)
     }
     if (FUN_00450b80(0)->ShadowSceneNode_QPortalGraph() != 0)
     {
-        Obj* z = FUN_00450b80(0)->ShadowSceneNode_QPortalGraph()->FUN_00413f40()->FUN_00559450();
+        Obj* z = FUN_00450b80(0)->ShadowSceneNode_QPortalGraph()->FUN_00413f40()->Modelloader_GetReferencedThis();
         while (z != 0)
         {
             Obj* next6c = *(Obj**)FUN_00450b80(0)->ShadowSceneNode_QPortalGraph()->FUN_00413f40()->NiTPointerListBase_NiTPointerAllocator_unsigned_int_Tile_GetNext(&z);
@@ -3649,19 +3650,19 @@ void ThisC::TES_ResetAllMultiBoundNodes(unsigned char a1, unsigned char a2)
         {
             if (a2 != 0)
             {
-                Obj* temp68 = obj2->FUN_00559450();
+                Obj* temp68 = obj2->Modelloader_GetReferencedThis();
                 while (temp68 != 0)
                 {
                     NiPointer<NiAVObject> smart(*(NiPointer<NiAVObject>*)obj2->NiTPointerListBase_NiTPointerAllocator_unsigned_int_Tile_GetNext(&temp68));
-                    if (((Obj*)(void*)&smart)->FUN_00559450() != 0)
+                    if (((Obj*)(void*)&smart)->Modelloader_GetReferencedThis() != 0)
                     {
-                        ((BigV*)((Obj*)(void*)&smart)->FUN_00559450())->v47bc();
-                        ((Obj*)(void*)&smart)->FUN_00559450()->BSMultiBoundRoom_SetCullResult(3);
-                        ((Obj*)(void*)&smart)->FUN_00559450()->SetFieldCC(0);
-                        Obj* v = ((Obj*)(void*)&smart)->FUN_00559450()->TESCombatStyle_GetAdvancedData()->FUN_00559450();
+                        ((BigV*)((Obj*)(void*)&smart)->Modelloader_GetReferencedThis())->v47bc();
+                        ((Obj*)(void*)&smart)->Modelloader_GetReferencedThis()->BSMultiBoundRoom_SetCullResult(3);
+                        ((Obj*)(void*)&smart)->Modelloader_GetReferencedThis()->SetFieldCC(0);
+                        Obj* v = ((Obj*)(void*)&smart)->Modelloader_GetReferencedThis()->TESCombatStyle_GetAdvancedData()->Modelloader_GetReferencedThis();
                         while (!!v)
                         {
-                            Obj* nxt = *(Obj**)((Obj*)(void*)&smart)->FUN_00559450()->TESCombatStyle_GetAdvancedData()->NiTPointerListBase_NiTPointerAllocator_unsigned_int_Tile_GetNext(&v);
+                            Obj* nxt = *(Obj**)((Obj*)(void*)&smart)->Modelloader_GetReferencedThis()->TESCombatStyle_GetAdvancedData()->NiTPointerListBase_NiTPointerAllocator_unsigned_int_Tile_GetNext(&v);
                             if (nxt != 0)
                             {
                                 nxt->ClearField40();
@@ -3671,11 +3672,11 @@ void ThisC::TES_ResetAllMultiBoundNodes(unsigned char a1, unsigned char a2)
                                 }
                             }
                         }
-                        Obj* inner = ((Obj*)(void*)&smart)->FUN_00559450()->Sky_GetSunLightSpecularColor()->FUN_00559450();
+                        Obj* inner = ((Obj*)(void*)&smart)->Modelloader_GetReferencedThis()->Sky_GetSunLightSpecularColor()->Modelloader_GetReferencedThis();
                         while (inner != 0)
                         {
                             Obj* nxt2 =
-                                *(Obj**)((Obj*)(void*)&smart)->FUN_00559450()->Sky_GetSunLightSpecularColor()->NiTPointerListBase_NiTPointerAllocator_unsigned_int_Tile_GetNext(&inner);
+                                *(Obj**)((Obj*)(void*)&smart)->Modelloader_GetReferencedThis()->Sky_GetSunLightSpecularColor()->NiTPointerListBase_NiTPointerAllocator_unsigned_int_Tile_GetNext(&inner);
                             if (nxt2 != 0)
                                 nxt2->ClearField40();
                         }
@@ -3691,15 +3692,15 @@ void ThisC::TES_ResetAllMultiBoundNodes(unsigned char a1, unsigned char a2)
         if (((Obj*)DetailedActorPathHandler_GetCurrentNodeIndex((char*)this)) != 0)
         {
             node = 0;
-            base = ((Obj*)DetailedActorPathHandler_GetCurrentNodeIndex((char*)this))->FUN_005a8080()->FUN_00559450();
+            base = ((Obj*)DetailedActorPathHandler_GetCurrentNodeIndex((char*)this))->ComputeValue_005a8080()->Modelloader_GetReferencedThis();
             ret = 0;
             while (0 != base)
             {
-                ret = ((Obj*)DetailedActorPathHandler_GetCurrentNodeIndex((char*)this))->FUN_005a8080()->DereferenceIfNotNull(base);
+                ret = ((Obj*)DetailedActorPathHandler_GetCurrentNodeIndex((char*)this))->ComputeValue_005a8080()->DereferenceIfNotNull(base);
                 if (base != 0)
                 {
-                    node = *(Obj**)((Obj*)DetailedActorPathHandler_GetCurrentNodeIndex((char*)this))->FUN_005a8080()->AddEight(base);
-                    Obj* lst = ((Obj*)((char*)node + 0x24))->FUN_00559450();
+                    node = *(Obj**)((Obj*)DetailedActorPathHandler_GetCurrentNodeIndex((char*)this))->ComputeValue_005a8080()->AddEight(base);
+                    Obj* lst = ((Obj*)((char*)node + 0x24))->Modelloader_GetReferencedThis();
                     unsigned int nxtL = 0;
                     while (lst != 0)
                     {
@@ -3723,7 +3724,7 @@ void ThisC::TES_ResetAllMultiBoundNodes(unsigned char a1, unsigned char a2)
             node = ((Obj*)DetailedActorPathHandler_GetCurrentNodeIndex((char*)this))->FUN_006733e0();
             if (node != 0)
             {
-                Obj* lst2 = ((Obj*)((char*)node + 0x24))->FUN_00559450();
+                Obj* lst2 = ((Obj*)((char*)node + 0x24))->Modelloader_GetReferencedThis();
                 int nxt2 = 0;
                 while (lst2 != 0)
                 {
@@ -5229,7 +5230,7 @@ struct ReloadNode
     unsigned object;
     ReloadNode(int);
     ~ReloadNode();
-    void* FUN_00559450();
+    void* Modelloader_GetReferencedThis();
 };
 struct TileReloadContext
 {
@@ -5352,7 +5353,7 @@ struct ReloadManager
 };
 struct ReloadInterface
 {
-    void FUN_00b65570();
+    void BSShaderLightingProperty_ClearLights_Thunk();
     void BSShaderAccumulator_ClearAllQueries();
 };
 ReloadInterface* ReloadGetInterface();
@@ -5523,7 +5524,7 @@ void ReloadManager::AttachScene(ReloadScene* destination, ReloadPoint* position)
     else
     {
         if (ReloadGetInterface())
-            ReloadGetInterface()->FUN_00b65570();
+            ReloadGetInterface()->BSShaderLightingProperty_ClearLights_Thunk();
         if (*reloadBoolSetting.FUN_00408d60())
         {
             if (!cellB)
@@ -5583,8 +5584,8 @@ void ReloadManager::AttachScene(ReloadScene* destination, ReloadPoint* position)
                 TES_ShowLoadingMenu(1, reinterpret_cast<ReloadCell*>(cellB), 0);
             cellB->UpdateCellScene(object);
             ReloadRoot* root = cellB->TESObjectCELL_GetbhkWorld();
-            if (loadedNode.FUN_00559450())
-                reinterpret_cast<ReloadLoaded*>(loadedNode.FUN_00559450())->FUN_00628da0();
+            if (loadedNode.Modelloader_GetReferencedThis())
+                reinterpret_cast<ReloadLoaded*>(loadedNode.Modelloader_GetReferencedThis())->FUN_00628da0();
             if (root)
                 root->bhkWorld_StartBatchingAdds();
             cellB->TESObjectCELL_AttachModels(true);
@@ -5634,7 +5635,7 @@ void ReloadManager::AttachScene(ReloadScene* destination, ReloadPoint* position)
             ReloadContext context(29, true, "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\TES.cpp", 3188);
             ReloadNode node3(0);
             reloadMenu->FUN_004568c0(cellB->TESObjectCELL_GetWaterNoiseTextureName(), node3, 1, 0);
-            reloadMenu->DetailedActorPathHandler_GetCurrentNodeIndex()->SetColorData(node3.FUN_00559450());
+            reloadMenu->DetailedActorPathHandler_GetCurrentNodeIndex()->SetColorData(node3.Modelloader_GetReferencedThis());
         }
         else
             reloadMenu->DetailedActorPathHandler_GetCurrentNodeIndex()->SetColorData(0);
@@ -5763,7 +5764,7 @@ struct ReloadNode
     unsigned object;
     ReloadNode(int);
     ~ReloadNode();
-    void* FUN_00559450();
+    void* Modelloader_GetReferencedThis();
 };
 struct TileReloadContext
 {
@@ -5971,7 +5972,7 @@ void ReloadManager::TES_LeaveInterior(ReloadPoint* point)
         ReloadContext context(29, true, "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\TES.cpp", 3434);
         ReloadNode node3(0);
         reloadMenu->FUN_004568c0(name->TESWorldSpace_GetWaterNoiseTextureName(), node3, 1, 0);
-        reloadMenu->DetailedActorPathHandler_GetCurrentNodeIndex()->SetColorData(node3.FUN_00559450());
+        reloadMenu->DetailedActorPathHandler_GetCurrentNodeIndex()->SetColorData(node3.Modelloader_GetReferencedThis());
     }
     else
         reloadMenu->DetailedActorPathHandler_GetCurrentNodeIndex()->SetColorData(0);
@@ -6819,8 +6820,8 @@ void CellTest::TES_RunCellTest(unsigned int flags)
 struct AddonQueuePointer
 {
     QueuedFile* object;
-    QueuedFile* FUN_00559450();
-    AddonQueuePointer& FUN_006f74f0(QueuedFile* file);
+    QueuedFile* Modelloader_GetReferencedThis();
+    AddonQueuePointer& AssignTaskReference(QueuedFile* file);
 };
 
 struct AddonParticleNode : NiNode
@@ -6850,10 +6851,10 @@ struct AddonOwner
 // src: COMMUNITY 0x00459f10
 void AddonOwner::TES_PreloadAddonNodes()
 {
-    if (queuedFile.FUN_00559450())
+    if (queuedFile.Modelloader_GetReferencedThis())
         return;
     AutoMemContext count(7, true, DAT_01017874, 7054);
-    queuedFile.FUN_006f74f0(new QueuedFile(5));
+    queuedFile.AssignTaskReference(new QueuedFile(5));
     unsigned int context = g_dataHandler->GetAddonNodeCount();
     for (unsigned int i = 0; i < context; ++i)
     {
@@ -6875,7 +6876,7 @@ void AddonOwner::TES_PreloadAddonNodes()
             }
             else
             {
-                g_modelLoader->ProcessModelRequest(static_cast<TESModel*>(addon), 5, queuedFile.FUN_00559450(), 0, true,
+                g_modelLoader->ProcessModelRequest(static_cast<TESModel*>(addon), 5, queuedFile.Modelloader_GetReferencedThis(), 0, true,
                                                    false, false);
             }
         }
@@ -6887,8 +6888,8 @@ namespace fnv_0045a1e0 {
 struct QueuePtr45
 {
     QueuedFile* ptr;
-    QueuedFile* FUN_00559450();
-    void FUN_006f74f0(QueuedFile*);
+    QueuedFile* Modelloader_GetReferencedThis();
+    void AssignTaskReference(QueuedFile*);
 };
 struct Component45
 {
@@ -6977,21 +6978,21 @@ struct Target45
 // @fnv 0x0045a1e0
 void Target45::QueueLoadForAll()
 {
-    if (queued.FUN_00559450())
+    if (queued.Modelloader_GetReferencedThis())
         return;
     AutoMemContext list(MEM_CONTEXT_MEM_CONTEXT_EFFECTS_OVERHEAD, true, "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\TES.cpp",
                         0x1bd0);
-    queued.FUN_006f74f0(new QueuedFile(5));
+    queued.AssignTaskReference(new QueuedFile(5));
     List45* memory = (List45*)DAT_011c3f2c->GetBGSBodyPartDataList();
     while (memory && !memory->FUN_008256d0())
     {
         Body45* body = *memory->FUN_006815c0();
         memory = memory->FUN_00726070();
         if (body)
-            body->component.Queue(5, queued.FUN_00559450());
+            body->component.Queue(5, queued.Modelloader_GetReferencedThis());
     }
     if (DAT_011ca278)
-        DAT_011ca278->FUN_00525510(5, queued.FUN_00559450(), false);
+        DAT_011ca278->FUN_00525510(5, queued.Modelloader_GetReferencedThis(), false);
 }
 }  // namespace fnv_0045a1e0
 

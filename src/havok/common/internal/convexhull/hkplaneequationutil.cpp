@@ -27,9 +27,9 @@ struct A
     int f4;
 
     void FUN_00d76ca0();
-    int FUN_00d774a0(void*, int, void*);
-    void FUN_00d76120(int, int);
-    void FUN_00d76940();
+    int ProcessEntries_00d774a0(void*, int, void*);
+    void ProcessState_00d76120(int, int);
+    void ReleaseStorage_00d76940();
 };
 
 // @fnv 0x00dd6270
@@ -49,15 +49,15 @@ int __cdecl ProcessArg(Arg* a, int second)
     void* data = a->data;
 
     void* q = objB.hkgpConvexHull_BuildConfig_BuildConfig();
-    int iResult = objA.FUN_00d774a0(data, count, q);
+    int iResult = objA.ProcessEntries_00d774a0(data, count, q);
 
     if (iResult != -1)
     {
-        objA.FUN_00d76120(1, second);
-        objA.FUN_00d76940();
+        objA.ProcessState_00d76120(1, second);
+        objA.ReleaseStorage_00d76940();
         return 0;
     }
 
-    objA.FUN_00d76940();
+    objA.ReleaseStorage_00d76940();
     return 1;
 }

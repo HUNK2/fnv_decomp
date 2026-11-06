@@ -1033,7 +1033,7 @@ struct TlsBlock_t
 
 extern __declspec(thread) TlsBlock_t g_tlsBlock;
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+void* __cdecl Object_DispatchCommandFour(unsigned int size);
 void bhkSerializable_CloneCritLock();
 void bhkSerializable_CloneCritUnlock();
 
@@ -1055,7 +1055,7 @@ struct TlsGuard_t
 
 inline void* operator new(unsigned int n)
 {
-    return FUN_00aa13e0(n);
+    return Object_DispatchCommandFour(n);
 }
 
 struct FUN_00c9efa0_cls
@@ -2172,7 +2172,7 @@ struct MemMgr_ca0090
 
 struct Sub_ca0090
 {
-    void FUN_004b4db0(void* a);
+    void SetQuaternionComponentsFromVector(void* a);
 };
 
 struct FUN_00ca0090_cls
@@ -2213,7 +2213,7 @@ void* FUN_00ca0090_cls::bhkBoxShape_CreateCinfo(unsigned char* out)
         {
             bhkConvexShape_CopyCinfo(m0C);
             void* q = (m08 != 0) ? (void*)((char*)m08 + 0x20) : (void*)&DAT_01267e30;
-            reinterpret_cast<Sub_ca0090*>((char*)raw + adj + 0x10)->FUN_004b4db0(q);
+            reinterpret_cast<Sub_ca0090*>((char*)raw + adj + 0x10)->SetQuaternionComponentsFromVector(q);
         }
     }
     return m0C;
@@ -5063,7 +5063,7 @@ struct FUN_0094dbb0
     FUN_0094dbb0();
     static void* operator new(unsigned int size)
     {
-        return FUN_00aa13e0(size);
+        return Object_DispatchCommandFour(size);
     }
 };
 struct CA0780Owner

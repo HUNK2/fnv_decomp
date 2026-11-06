@@ -39,7 +39,7 @@ struct CollisionFilter
     CollisionFilter(int);
     void CFilter_SetLayer(int);
     void CFilter_SetGroup(unsigned int);
-    void* FUN_00559450() const;
+    void* Modelloader_GetReferencedThis() const;
 };
 class FUN_0056e2d0 : public NiMemObject
 {
@@ -75,12 +75,12 @@ void CollisionPair::CameraCaster_Init(float radius, unsigned int filter)
     firstFilter.CFilter_SetGroup(filter);
     secondFilter.CFilter_SetLayer(35);
     secondFilter.CFilter_SetGroup(bhkCollisionFilter_GetNewSystemGroup());
-    firstInfo.filter = firstFilter.FUN_00559450();
-    firstInfo.shape = sphere->FUN_004ae750();
+    firstInfo.filter = firstFilter.Modelloader_GetReferencedThis();
+    firstInfo.shape = sphere->Bipedanim_GetReferenceFlagsOrZero();
     firstInfo.transform.bhkTransform_setIdentity();
     first = new FUN_0056e2d0(&firstInfo);
-    secondInfo.filter = secondFilter.FUN_00559450();
-    secondInfo.shape = sphere->FUN_004ae750();
+    secondInfo.filter = secondFilter.Modelloader_GetReferencedThis();
+    secondInfo.shape = sphere->Bipedanim_GetReferenceFlagsOrZero();
     secondInfo.transform.bhkTransform_setIdentity();
     second = new FUN_0056e2d0(&secondInfo);
 }
@@ -159,7 +159,7 @@ void xPick::HitCaster_Init(float fRadius, unsigned int uiLayer)
     qrEZrs.SetGroup(uiLayer);
     m_ui3a8 = uiLayer;
     qsSDDgz.m_uiFilter = qrEZrs;
-    qsSDDgz.m_pShape = qfTOqo->FUN_004ae750();
+    qsSDDgz.m_pShape = qfTOqo->Bipedanim_GetReferenceFlagsOrZero();
     qsSDDgz.m_kSub.Init();
     m_spPhantom = new xPhantom(&qsSDDgz);
     m_b3a4 = true;
@@ -409,7 +409,7 @@ struct WorkItem
 float NI2HK_004a3e90(float value);
 struct WorkList
 {
-    void* FUN_00559450();
+    void* Modelloader_GetReferencedThis();
     void* DereferenceIfNotNull(void* it);
     WorkItem*& AddEight(void* it);
     void RemoveNode(void** it);
@@ -438,7 +438,7 @@ class WorkOwner
 // src: COMMUNITY 0x00631370
 void WorkOwner::TESWaterListener_HandleQueuedRemovals(WorkActor* actor, bool checkDist, bool skip)
 {
-    void* it = list.FUN_00559450();
+    void* it = list.Modelloader_GetReferencedThis();
     void* next = 0;
     while (it)
     {
@@ -1206,7 +1206,7 @@ struct xModel
 };
 struct xModelPtr
 {
-    xModel* FUN_00559450();
+    xModel* Modelloader_GetReferencedThis();
 };
 struct xBody
 {
@@ -1248,7 +1248,7 @@ struct xRef
 };
 struct xBodyPtr
 {
-    xBody* FUN_00559450();
+    xBody* Modelloader_GetReferencedThis();
     int m_iWordAt00;
 };
 struct xCaster
@@ -1279,7 +1279,7 @@ bool xCaster::CameraCaster_KeepOutOfCharacter(xRef* apRef, const NiPoint3& akPos
     xBody* BODY = 0;
     if (apRef == xg_player_11dea3c->FUN_009306d0())
     {
-        BODY = m_iWordAt00.FUN_00559450();
+        BODY = m_iWordAt00.Modelloader_GetReferencedThis();
         if (POSV.getComponent(2).getReal() > DIRV.getComponent(2).getReal())
         {
             POSV(2) -= xFUN_004a3e90(afB);
@@ -1287,7 +1287,7 @@ bool xCaster::CameraCaster_KeepOutOfCharacter(xRef* apRef, const NiPoint3& akPos
         }
     }
     else
-        BODY = m_iWordAt04.FUN_00559450();
+        BODY = m_iWordAt04.Modelloader_GetReferencedThis();
     xEvent EV;
     xCollector COL;
     EV.hkpCollisionInput_setTolerance(0.0f);
@@ -1308,7 +1308,7 @@ bool xCaster::CameraCaster_KeepOutOfCharacter(xRef* apRef, const NiPoint3& akPos
             BODY->bhkShapePhantom_SetPosition(&POSV);
             xMotion* MOTION = xFUN_004ae6c0(BODY);
             xCastFn FN =
-                EFF->GetIndexedValue(WMODEL->FUN_00559450()->NiObjectNET_GetControllers(), SMODEL->FUN_00559450()->NiObjectNET_GetControllers());
+                EFF->GetIndexedValue(WMODEL->Modelloader_GetReferencedThis()->NiObjectNET_GetControllers(), SMODEL->Modelloader_GetReferencedThis()->NiObjectNET_GetControllers());
             if (FN)
             {
                 float SAVED = MOTION->ActorPackage_GetPackageStartTime();
@@ -1329,7 +1329,7 @@ struct xFilter
     xFilter(int);
     void CFilter_SetLayer(int);
     void CFilter_SetGroup(unsigned int);
-    unsigned int FUN_00559450();
+    unsigned int Modelloader_GetReferencedThis();
     unsigned int m_uiFilterValue;
 };
 struct xCinfoSub
@@ -1383,8 +1383,8 @@ void xCaster::DecalCaster_Init(float afRadius, unsigned int auiLayer)
     xFilter FILTER(0);
     FILTER.CFilter_SetLayer(0x27);
     FILTER.CFilter_SetGroup(auiLayer);
-    CINFO.m_uiFilterInfo = FILTER.FUN_00559450();
-    CINFO.m_pCollisionShape = (int)SHAPE->FUN_004ae750();
+    CINFO.m_uiFilterInfo = FILTER.Modelloader_GetReferencedThis();
+    CINFO.m_pCollisionShape = (int)SHAPE->Bipedanim_GetReferenceFlagsOrZero();
     CINFO.m_20.bhkTransform_setIdentity();
     m_3a0.FUN_0066b0d0(new xBody(&CINFO));
     m_3a0->bhkWorldObject_SetName("DecalCaster");
@@ -1406,7 +1406,7 @@ struct MotionWorld
 };
 struct MotionPointer
 {
-    MotionWorld* FUN_00559450();
+    MotionWorld* Modelloader_GetReferencedThis();
 };
 struct MotionStatus
 {
@@ -1492,13 +1492,13 @@ void MotionOwner::DecalCaster_Pick(const void* origin, const void* rotation, flo
         DecalCaster_SetRadius(time);
     FUN_006233c0(0);
     Update();
-    if (world.FUN_00559450())
+    if (world.Modelloader_GetReferencedThis())
     {
         hkVector4 vector;
         MotionFrame frame;
         NI2HK(&vector, origin);
         NI2HK(&frame, rotation);
-        world.FUN_00559450()->InvokeInterfaceCall(vector, frame, this, 0);
+        world.Modelloader_GetReferencedThis()->InvokeInterfaceCall(vector, frame, this, 0);
         bool temporary;
         result = hkpAllCdPointCollector_hasHit(temporary)->FUN_005609f0();
     }
@@ -1633,7 +1633,7 @@ struct ObjArray
     Node*& NiTSet_NiControllerSequence_NiTMallocInterface_NiControllerSequence_GetAt(unsigned);
     void hkLocalArray_hkpRigidBody_hkLocalArray_hkpRigidBody(int);
     void hkArray_hkpRigidBody_hkContainerHeapAllocator_pushBack(Node**);
-    int FUN_00629f10(Node**, int, int);
+    int ProcessEntries_00629f10(Node**, int, int);
 };
 struct ItemList
 {
@@ -1653,7 +1653,7 @@ struct Layer
 struct Ptr
 {
     void* value;
-    Layer* FUN_00559450();
+    Layer* Modelloader_GetReferencedThis();
 };
 // Exe 0x006271b0: unit-local Map view; declarations and layout are preserved.
 struct BlkMapView
@@ -1720,7 +1720,7 @@ void Owner::LoadedAreaBound_Update(Cell* next, int flag)
     for (unsigned i = 0; i < 6; i++, mask <<= 1)
     {
         bool interior = cell->IsInterior() || i == 0;
-        Layer* layer = layers[i].FUN_00559450()->GetReferenceFlags();
+        Layer* layer = layers[i].Modelloader_GetReferencedThis()->GetReferenceFlags();
         ItemList* list = layer->hkpMotion_getLinearVelocity();
         char dummy;
         if (!((Test*)list->hkArrayBase_hkpEntity_isEmpty(&dummy))->FUN_005609f0())
@@ -1758,7 +1758,7 @@ void Owner::LoadedAreaBound_Update(Cell* next, int flag)
             for (int j = 0; j < second.FUN_00726070(); j++)
             {
                 Node* node = second.NiTSet_NiControllerSequence_NiTMallocInterface_NiControllerSequence_GetAt(j);
-                if (seen.FUN_00629f10(&node, 0, -1) == -1)
+                if (seen.ProcessEntries_00629f10(&node, 0, -1) == -1)
                 {
                     Ref* ref = TESHavokUtilities_FindCollidableRef(node->TESDataHandler_GetWorldSpaceList());
                     if (node && node->hkpRigidBody_getMotionType() != 4 && node->hkpRigidBody_getMotionType() != 5 && node->hkpRigidBody_getMotionType() != 7)
@@ -2134,14 +2134,14 @@ class S006288c0_Shape
 class S006288c0_Bounds
 {
   public:
-    void FUN_006281a0(const S006288c0_Aabb& aabb);
+    void AssignFields_006281a0(const S006288c0_Aabb& aabb);
 };
 
 class S006288c0_Object
 {
   public:
-    S006288c0_Shape* FUN_004ae750();
-    void FUN_00a29680();
+    S006288c0_Shape* Bipedanim_GetReferenceFlagsOrZero();
+    void Object_DoNothing();
     void bhkAabbPhantom_GetAabb(S006288c0_Bounds* bounds);
 };
 
@@ -2151,17 +2151,17 @@ class S006288c0_Object
 // src: XBOX_PDB 0x006288c0
 void S006288c0_Object::bhkAabbPhantom_GetAabb(S006288c0_Bounds* bounds)
 {
-    S006288c0_Shape* shape = FUN_004ae750();
+    S006288c0_Shape* shape = Bipedanim_GetReferenceFlagsOrZero();
     if (shape)
     {
-        FUN_00a29680();
-        bounds->FUN_006281a0(shape->hkpAabbPhantom_getAabb());
-        FUN_00a29680();
+        Object_DoNothing();
+        bounds->AssignFields_006281a0(shape->hkpAabbPhantom_getAabb());
+        Object_DoNothing();
     }
     else
     {
         LocalM128 zeroBounds[2];
-        bounds->FUN_006281a0(reinterpret_cast<S006288c0_Aabb*>(zeroBounds)->Construct(hkVector4_getZero(), hkVector4_getZero()));
+        bounds->AssignFields_006281a0(reinterpret_cast<S006288c0_Aabb*>(zeroBounds)->Construct(hkVector4_getZero(), hkVector4_getZero()));
     }
 }
 #pragma strict_gs_check(pop)
@@ -2230,14 +2230,15 @@ struct Filter628980
 struct Owner628980
 {
     void Expand(void*, List628980*);
-    void FUN_00628980(Filter628980*, List628980*);
+    void ProcessEntries_00628980(Filter628980*, List628980*);
 };
 void* __cdecl hkpGetRigidBody(const void*);
 void* __cdecl bhkEntity_Getbhk(const void*);
 int __fastcall hkpRigidBody_getMotionType(void*);
 
 // @fnv 0x00628980
-void Owner628980::FUN_00628980(Filter628980* filter, List628980* input)
+// src: GUESS 0x00628980 (confidence: low)
+void Owner628980::ProcessEntries_00628980(Filter628980* filter, List628980* input)
 {
     Text628980 text;
     text.Init();
@@ -2949,7 +2950,8 @@ class SmoothListV
 extern SmoothListV g_kSmoothListV;
 
 // @fnv 0x0062ab60
-void __cdecl FUN_0062ab60(const hkVector4& kTarget, void* pvRef)
+// src: GUESS 0x0062ab60 (confidence: low)
+void __cdecl hkVector4_ProcessEntries_0062ab60(const hkVector4& kTarget, void* pvRef)
 {
     SmoothEntryV* pkEntry = 0;
     if (!g_kSmoothListV.IsEmpty())
@@ -3093,7 +3095,7 @@ struct xFilter
     xFilter(int);
     void CFilter_SetLayer(int);
     void CFilter_SetGroup(unsigned int);
-    unsigned int FUN_00559450();
+    unsigned int Modelloader_GetReferencedThis();
     unsigned int m_uiFilterValue;
 };
 struct xCinfoSub
@@ -3144,8 +3146,8 @@ void xCaster::ViewCaster_Init(float afRadius, unsigned int auiLayer)
     FILTER.CFilter_SetLayer(0x28);
     FILTER.CFilter_SetGroup(auiLayer);
     m_8 = auiLayer;
-    CINFO.m_uiFilterInfo = FILTER.FUN_00559450();
-    CINFO.m_pCollisionShape = (int)SHAPE->FUN_004ae750();
+    CINFO.m_uiFilterInfo = FILTER.Modelloader_GetReferencedThis();
+    CINFO.m_pCollisionShape = (int)SHAPE->Bipedanim_GetReferenceFlagsOrZero();
     CINFO.m_20.bhkTransform_setIdentity();
     m_iWordAt00.FUN_0066b0d0(new xBody(&CINFO));
     m_iWordAt04 = true;
@@ -3204,7 +3206,7 @@ template <class T> class ShapeCastPointer
 {
   public:
     T* m_pObject;
-    T* FUN_00559450() const;
+    T* Modelloader_GetReferencedThis() const;
 };
 class ShapePhantom
 {
@@ -3465,7 +3467,7 @@ bool ShapeCaster::HitCaster_CastShape(const NiPoint3& kFrom, const NiPoint3& kWo
 {
     NiPoint3 qfTOqo = kFrom + kWorldPosition * fDist;
     HitCaster_SetCustomPickCollisions();
-    if (m_spWorld.FUN_00559450())
+    if (m_spWorld.Modelloader_GetReferencedThis())
     {
         hkVector4 qxQHW;
         InitFloats qAhbO;
@@ -3474,7 +3476,7 @@ bool ShapeCaster::HitCaster_CastShape(const NiPoint3& kFrom, const NiPoint3& kWo
         NI2HK(&qxQHW, kFrom);
         NI2HK(&qAhbO, qfTOqo);
         Reset2();
-        m_spWorld.FUN_00559450()->InvokeInterfaceCall(&qxQHW, &qAhbO, this, 0);
+        m_spWorld.Modelloader_GetReferencedThis()->InvokeInterfaceCall(&qxQHW, &qAhbO, this, 0);
         xHitFlag qArxcFu;
         if (hkpAllCdPointCollector_hasHit(&qArxcFu)->FUN_005609f0())
         {

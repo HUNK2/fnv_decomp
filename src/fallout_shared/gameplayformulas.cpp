@@ -573,7 +573,8 @@ extern SettingT_GameSettingCollection_ DAT_011d0760;
 extern SettingT_GameSettingCollection_ DAT_011d0370;
 // Computes buy and sell price multipliers from skill-based float settings and writes them to the output pointers.
 // @fnv 0x00649050
-void FUN_00649050(int iSkill, float* pfBuyMult, float* pfSellMult)
+// src: GUESS 0x00649050 (confidence: high)
+void Gameplayformulas_GetSkillPriceMultipliers(int iSkill, float* pfBuyMult, float* pfSellMult)
 {
     *pfBuyMult = DAT_011d03c4.Float()->f + DAT_011d040c.Float()->f * iSkill / 100.0f;
     *pfSellMult = DAT_011d0760.Float()->f + DAT_011d0370.Float()->f * iSkill / 100.0f;

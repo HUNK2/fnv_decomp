@@ -19,7 +19,7 @@ extern MemoryManager g_memoryManager;
 // @fnv 0x00b01480
 void* BSSearchPath::FUN_00b01480(unsigned int flags)
 {
-    this->FUN_00aa24f0();
+    this->SetVptr00();
     if (flags & 1)
         g_memoryManager._DeallocateAlias(this);
     return this;

@@ -33,7 +33,7 @@ struct FUN_006cf250_Class
 extern "C" void* __cdecl _Reallocate(void* p, unsigned int size);
 struct FUN_006cf280_Class
 {
-    void* __thiscall FUN_006cf280(void* p, unsigned int n);
+    void* __thiscall _Reallocate_Thunk_006cf280(void* p, unsigned int n);
 };
 bool AreBytesEqual(const unsigned char* a, const unsigned char* b);
 extern int DAT_0106b8c8;
@@ -54,7 +54,7 @@ struct GlobalObject_00869f00
 struct FUN_006cfaa0
 {
     int* vfptr;
-    void FUN_006cfaa0_();
+    void ResetVirtualTableAndClear_006cfaa0();
 };
 struct FUN_006e91e0_cls
 {
@@ -80,12 +80,12 @@ struct PSNodeStub
 };
 struct FUN_006e9260Class : PSNodeStub
 {
-    void FUN_006e9260();
+    void SetVirtualTableAndProcessState_006e9260();
 };
 void* __cdecl Reallocate(void* p, int size);
 struct FUN_006e93f0
 {
-    void* __thiscall FUN_006e93f0_(void* p, int n);
+    void* __thiscall Reallocate_Thunk(void* p, int n);
 };
 struct PacketNodeRecord
 {
@@ -190,7 +190,7 @@ struct FUN_006cfd40_Class
 struct FUN_006e9410_shell
 {
     void FUN_006e90a0(int a, int b);
-    void* FUN_006e8f40(int a, void* b);
+    void* GetElementAddress30_006e8f40(int a, void* b);
 };
 struct FUN_006e9530_shell
 {
@@ -228,7 +228,7 @@ struct FUN_006dc590
     TypeValueCount* pBuffer;
     unsigned int iSize;
     unsigned int SimpleArrayStorage;
-    void __thiscall FUN_006dc590_(unsigned int aiNewSize, unsigned int aiCopyCount);
+    void __thiscall UpdateState_006dc590(unsigned int aiNewSize, unsigned int aiCopyCount);
 };
 struct FUN_0072ba80_shell
 {
@@ -248,7 +248,7 @@ struct FUN_006f9790_class
 };
 struct FUN_006e1280_Class
 {
-    void FUN_006e1280(char* p, unsigned int n);
+    void VisitPlacementAddresses(char* p, unsigned int n);
 };
 struct FUN_006cf520_Class
 {
@@ -314,7 +314,7 @@ struct FUN_006cf900_Class : EH
         int m_08;
     } m_Location;
 
-    FUN_006cf900_Class& FUN_006cf900(const FUN_006cf900_Class* aLocation);
+    FUN_006cf900_Class& CopyFields_006cf900(const FUN_006cf900_Class* aLocation);
 };
 struct PSClearStub
 {
@@ -421,7 +421,7 @@ struct FUN_0069cfe0_Elem
 struct FUN_0069cfe0_Dst
 {
     void FUN_0069cea0(unsigned int count, int flag);
-    FUN_0069cfe0_Elem* FUN_006a1440(unsigned int index);
+    FUN_0069cfe0_Elem* Object_GetIndexedValue_006a1440(unsigned int index);
 };
 struct FUN_0069cfe0_cls
 {
@@ -475,7 +475,7 @@ struct ParamHost
 };
 struct ItemFinish
 {
-    void FUN_006cf900();
+    void CopyFields_006cf900();
 };
 struct FUN_006cf8a0_cls
 {
@@ -491,7 +491,7 @@ struct FUN_006cf940_Item
 };
 struct FUN_006cf940_Owner
 {
-    void FUN_006cff60(unsigned int count, int flag);
+    void ResizeArrayStorage(unsigned int count, int flag);
     FUN_006cf940_Item* FUN_00691750(unsigned int index, char* pItem);
 };
 struct FUN_006cf940_cls
@@ -523,7 +523,7 @@ struct FUN_006d0540_shell
     int unk08;
     int unk0c;
 
-    void __thiscall FUN_006d0540(void* newItem, void* oldItem, unsigned int count);
+    void __thiscall CopyOverlappingElements30(void* newItem, void* oldItem, unsigned int count);
     void __thiscall FUN_006a8500();
 };
 struct FUN_006cfe70_Class : public FUN_006d0540_shell
@@ -553,7 +553,7 @@ struct FUN_006e3c90_cls
 struct FUN_006e9470_Helper
 {
     void BSSimpleArray_PathingNode_1024_SetSize(unsigned int count, int flag);
-    void* FUN_006e8f80(int index, void* item);
+    void* GetPathingGraphNodeAddress(int index, void* item);
 };
 struct FUN_006e9470_Obj
 {
@@ -569,14 +569,14 @@ struct FUN_006e9470_cls
 };
 struct S_00a0d000_Class
 {
-    virtual unsigned int FUN_00a0d000();
+    virtual unsigned int ReserveSlotAndIncrementSize();
     virtual void* FUN_00a0d010(unsigned int size);
 
     void* pBuffer;
     unsigned int m_uiSize;
     unsigned int m_uiReservedSize;
 
-    void FUN_00a0d0c0(unsigned int newCapacity, unsigned int copyCount);
+    void UpdateFields_00a0d0c0(unsigned int newCapacity, unsigned int copyCount);
 };
 struct FUN_006cf230
 {
@@ -670,11 +670,12 @@ struct ArrayStub
     }
     void copyOne(char* dest, char* src);
 
-    void FUN_00a0d0c0(void* newValue, void* key);
+    void UpdateFields_00a0d0c0(void* newValue, void* key);
 };
 
 // @fnv 0x00a0d0c0
-void ArrayStub::FUN_00a0d0c0(void* newValue, void* key)
+// src: GUESS 0x00a0d0c0 (confidence: low)
+void ArrayStub::UpdateFields_00a0d0c0(void* newValue, void* key)
 {
     if (unk04 != 0)
     {
@@ -754,10 +755,11 @@ struct ArrQ0cd50
         for (unsigned int i = 0; i < n; i++)
             new (&p[i], (PNQ0cd50*)0) void*;
     }
-    void FUN_00a0cd50(unsigned int index, void* const& item);
+    void AllocateStorage_00a0cd50(unsigned int index, void* const& item);
 };
 // @fnv 0x00a0cd50
-void ArrQ0cd50::FUN_00a0cd50(unsigned int index, void* const& item)
+// src: GUESS 0x00a0cd50 (confidence: low)
+void ArrQ0cd50::AllocateStorage_00a0cd50(unsigned int index, void* const& item)
 {
     DeadQ3();
     if (index == m_iElementCount)

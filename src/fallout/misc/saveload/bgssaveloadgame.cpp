@@ -76,7 +76,7 @@ void BGSSaveLoadGame::HasFormChanges(TESForm* form)
     } state;
     state.formID = form->GetFormID();
     state.changes = pChangesMap->FUN_009a4250(state.formID);
-    if (state.changes && !state.changes->savedFlags.FUN_00559450())
+    if (state.changes && !state.changes->savedFlags.Modelloader_GetReferencedThis())
         pChangesMap->HasFormChanges(state.formID);
 }
 // @fnv 0x0084a5b0
@@ -156,11 +156,12 @@ struct FormBufferContext
 typedef char _sizecheck_BGSUnloadedFormBuffer[sizeof(FormBufferContext) == 4 ? 1 : -1];
 struct FUN_006665a0_shell : public FormBufferContext
 {
-    void FUN_006665a0();
+    void ClearBuffer_006665a0();
 };
 
 // @fnv 0x006665a0
-void FUN_006665a0_shell::FUN_006665a0()
+// src: GUESS 0x006665a0 (confidence: medium)
+void FUN_006665a0_shell::ClearBuffer_006665a0()
 {
     pBuffer = 0;
 }
@@ -389,14 +390,14 @@ struct ChangeFlagsT
 {
     unsigned int iFlags;
     ChangeFlagsT(int flags);
-    unsigned int FUN_00559450();
+    unsigned int Modelloader_GetReferencedThis();
     static ChangeFlagsT HasFormChanged(FormChangeMask oldFlags, FormChangeMask newFlags, int formType, bool forced);
 };
 struct FormBufferContext
 {
     void* pData;
     FormBufferContext();
-    void* FUN_00559450();
+    void* Modelloader_GetReferencedThis();
     void* BGSUnloadedFormBuffer_GetAdvancedBuffer();
 };
 // The classifier at 0x0084e730 is also bound as a free function by TESObjectREFR; it needs no object.
@@ -509,7 +510,7 @@ unsigned int BGSSaveLoadGame::LoadFormRecord(::SaveLoadFile* apFile, BGSLoadForm
                 {
                     ChangeFlagsT iunrevertibleChanges =
                         ChangeFlagsT::HasFormChanged(ioldChangeFlags, ichangeFlags, eformType, true);
-                    if (iunrevertibleChanges.FUN_00559450())
+                    if (iunrevertibleChanges.Modelloader_GetReferencedThis())
                     {
                         DeleteForm(pform);
                         pform = 0;
@@ -575,7 +576,7 @@ unsigned int BGSSaveLoadGame::LoadFormRecord(::SaveLoadFile* apFile, BGSLoadForm
             if (!pform)
             {
                 fnv_00849d00::FormBufferContext unloadedFormBuffer = ((SaveLoadChangesMapBufferAccess*)pChangesMap)->BGSSaveLoadChangesMap_GetChangeBuffer(iformID);
-                if (unloadedFormBuffer.FUN_00559450())
+                if (unloadedFormBuffer.Modelloader_GetReferencedThis())
                 {
                     ::FormIDConverter* pcurrentFormIDMap = (::FormIDConverter*)pFormIDMap;
                     pFormIDMap = (BGSSaveLoadFormIDMap*)apOldFormIDMap;
@@ -903,7 +904,7 @@ struct UnloadFlags
 {
     unsigned int flags;
     UnloadFlags(unsigned int auiFlags);
-    unsigned int FUN_00559450() const;
+    unsigned int Modelloader_GetReferencedThis() const;
     UnloadFlags BGSChangeFlags_GetDifference(unsigned int auiFlags);
 };
 
@@ -929,7 +930,7 @@ struct UnloadChangeData
 {
     UnloadFlags flags;
     void InitFromInput(UnloadFormBuffer* apBuffer);
-    unsigned int FUN_00559450() const;
+    unsigned int Modelloader_GetReferencedThis() const;
 };
 
 struct UnloadChanges
@@ -983,7 +984,7 @@ void SaveLoadGameUnloading::UnloadForm(TESForm* apForm, bool abForce)
     UnloadChanges* changes = (UnloadChanges*)pChangesMap->FUN_009a4250(auiFormId);
     if (changes)
     {
-        if (changes->data.FUN_00559450())
+        if (changes->data.Modelloader_GetReferencedThis())
         {
             SaveGameWarning(
                 "FORMS: Form '%s' (%08X) is unloading, but it already has a buffer.  This unload will be skipped.",
@@ -995,8 +996,8 @@ void SaveLoadGameUnloading::UnloadForm(TESForm* apForm, bool abForce)
         buffer.InitFormEntry(auiFormId, changes->flags, FNV_GetFormType(apForm), DAT_011de134->GetConstant27());
         buffer.FUN_0050f9c0(apForm);
         apForm->Unk_20(&buffer);
-        UnloadFlags remainingFlags = changes->flags.BGSChangeFlags_GetDifference(buffer.FUN_00428110().FUN_00559450());
-        if (remainingFlags.FUN_00559450() &&
+        UnloadFlags remainingFlags = changes->flags.BGSChangeFlags_GetDifference(buffer.FUN_00428110().Modelloader_GetReferencedThis());
+        if (remainingFlags.Modelloader_GetReferencedThis() &&
             pChangesMap->ClearChangeFlags(auiFormId, reinterpret_cast<FormChangeMask&>(remainingFlags)))
             return;
 
@@ -1606,7 +1607,7 @@ struct W20Manager
 struct W20Flags
 {
     unsigned int value;
-    unsigned int FUN_00559450();
+    unsigned int Modelloader_GetReferencedThis();
     W20Flags BGSChangeFlags_GetDifference(unsigned int);
     void BGSUnloadedFormBuffer_Save(W20File*, unsigned int, W20Flags);
 };
@@ -1751,7 +1752,7 @@ void BGSSaveLoadGame::SaveGame(::SaveLoadFile* file)
         unsigned int j = 0;
         W20Change* e = 0;
         pChangesMap->GetNext(p, j, reinterpret_cast<FormChangeRecord*&>(e));
-        if (e->savedFlags.FUN_00559450())
+        if (e->savedFlags.Modelloader_GetReferencedThis())
         {
             e->savedFlags.BGSUnloadedFormBuffer_Save(((W20File*)file), j, e->flags);
             c.unk1c++;
@@ -1765,11 +1766,11 @@ void BGSSaveLoadGame::SaveGame(::SaveLoadFile* file)
                 l.InitFormEntry(j, e->flags.value, form->FNV_GetFormType(), fnv_00847850::DAT_011de134->GetConstant27());
                 l.SetSpeakerIdle(form);
                 form->v80(&l);
-                W20Flags k = l.FUN_00428110().BGSChangeFlags_GetDifference(e->flags.FUN_00559450());
-                if (k.FUN_00559450())
+                W20Flags k = l.FUN_00428110().BGSChangeFlags_GetDifference(e->flags.Modelloader_GetReferencedThis());
+                if (k.Modelloader_GetReferencedThis())
                     pChangesMap->AddFormChangeFlags(j, reinterpret_cast<FormChangeMask&>(k));
-                W20Flags ba = e->flags.BGSChangeFlags_GetDifference(l.FUN_00428110().FUN_00559450());
-                if (ba.FUN_00559450() && pChangesMap->ClearChangeFlags(j, reinterpret_cast<FormChangeMask&>(ba)))
+                W20Flags ba = e->flags.BGSChangeFlags_GetDifference(l.FUN_00428110().Modelloader_GetReferencedThis());
+                if (ba.Modelloader_GetReferencedThis() && pChangesMap->ClearChangeFlags(j, reinterpret_cast<FormChangeMask&>(ba)))
                     continue;
                 fnv_00847850::BGSSaveLoadInitialData_SaveInitialData(&l, form, e->flags.value);
                 form->v54(&l);
@@ -1779,7 +1780,7 @@ void BGSSaveLoadGame::SaveGame(::SaveLoadFile* file)
             else
                 fnv_00847850::SaveGameWarning(
                     "SAVELOAD: Could not find form %08X with change flags %08X during BGSSaveLoadGame::SaveGame()", j,
-                    e->flags.FUN_00559450());
+                    e->flags.Modelloader_GetReferencedThis());
         }
     }
     c.unk10 = ((W20File*)file)->FUN_00846400();
@@ -2094,9 +2095,9 @@ bool BGSSaveLoadGame::LoadGame(SaveLoadFile* pSaveFile, bool restoreMode)
                         FormChangeMask changed = current->FUN_00428110();
                         UnloadFlags currentVal = ((SaveLoadChangesMapLoadAccess*&)pChangesMap)->GetFirstEntry(index);
                         UnloadFlags previous_ = pendingChanges->GetFirstEntry(index);
-                        if (previous_.FUN_00559450())
+                        if (previous_.Modelloader_GetReferencedThis())
                         {
-                            ((FlagMethods*)&currentVal)->FUN_00841100(previous_.FUN_00559450());
+                            ((FlagMethods*)&currentVal)->FUN_00841100(previous_.Modelloader_GetReferencedThis());
                             pendingChanges->HasFormChanges(index);
                         }
                         pendingChanges->ApplyFormQuantityChange(index, changed);
@@ -2140,7 +2141,7 @@ bool BGSSaveLoadGame::LoadGame(SaveLoadFile* pSaveFile, bool restoreMode)
                             {
                                 form_->Revert(current);
                                 UnloadFlags combined = FUN_00841120(currentVal, changed, typeX, true);
-                                if (combined.FUN_00559450())
+                                if (combined.Modelloader_GetReferencedThis())
                                 {
                                     if (!((SaveLoadGameLoadStages*)this)->RevertReference((FormExtra**)&form_, combined, false))
                                     {
@@ -2659,10 +2660,10 @@ struct Form84
 };
 struct Buf84
 {
-    unsigned int FUN_00559450();
+    unsigned int Modelloader_GetReferencedThis();
     int BGSUnloadedFormBuffer_GetFormType();
     void* BGSUnloadedFormBuffer_GetAdvancedBuffer();
-    void FUN_006665a0();
+    void ClearBuffer_006665a0();
     unsigned char BGSUnloadedFormBuffer_GetVersion();
     unsigned int BGSUnloadedFormBuffer_GetSize();
     void BGSUnloadedFormBuffer_Initialize(unsigned int, unsigned int, unsigned int, unsigned char);
@@ -2672,7 +2673,7 @@ struct FormChanges84
     FormChangeMask flags;
     Buf84 buffer;
     bool FUN_004280f0(unsigned int);
-    unsigned int FUN_00559450();
+    unsigned int Modelloader_GetReferencedThis();
     bool FUN_00822510(int);
     void FUN_00562210(unsigned int);
 };
@@ -2691,7 +2692,7 @@ struct Map84 : public FUN_0084ba20
     Map84(int);
     virtual ~Map84();
     void InsertOrUpdate(unsigned __int64, unsigned int);
-    bool FUN_0084b8b0(unsigned __int64, unsigned int*);
+    bool FindValueByKey(unsigned __int64, unsigned int*);
     void FUN_00438af0();
 };
 struct S84
@@ -2758,7 +2759,7 @@ void BGSSaveLoadGame::CleanupExpiredData()
             unsigned int size = 0;
             unsigned int maxXA = 0x7fffffff;
             unsigned int fi = 0x7fffffff;
-            if (value->buffer.FUN_00559450() != 0)
+            if (value->buffer.Modelloader_GetReferencedThis() != 0)
             {
                 if (value->buffer.BGSUnloadedFormBuffer_GetFormType() == 0x39)
                 {
@@ -2836,7 +2837,7 @@ void BGSSaveLoadGame::CleanupExpiredData()
             ej = 0;
             ft = 0;
             ek = 0;
-            if (ev->buffer.FUN_00559450() != 0)
+            if (ev->buffer.Modelloader_GetReferencedThis() != 0)
             {
                 ek = (unsigned int)ev->buffer.BGSUnloadedFormBuffer_GetFormType();
             }
@@ -2855,12 +2856,12 @@ void BGSSaveLoadGame::CleanupExpiredData()
                 {
                     fnv_0084ab20::_fnv_call_845cc0(
                         "During cleanup, form %08X with changeflags %08X and no unloaded form buffer could not be found",
-                        fm, ev->FUN_00559450());
+                        fm, ev->Modelloader_GetReferencedThis());
                 }
             }
             if (ek == 0x3a)
             {
-                if (ev->buffer.FUN_00559450() != 0)
+                if (ev->buffer.Modelloader_GetReferencedThis() != 0)
                 {
                     int resA4 = fnv_0084ab20::BGSSaveLoadInitialData_GetInitialDataType(fm, (int)ek, *(unsigned int*)ev);
                     if (resA4 != 0)
@@ -2899,13 +2900,13 @@ void BGSSaveLoadGame::CleanupExpiredData()
                     key2 |= (t2 << 32);
                 }
                 unsigned int outVal = 0;
-                if (map.FUN_0084b8b0(key2, &outVal) && ev->FUN_004280f0(4) && !ev->FUN_004280f0(2))
+                if (map.FindValueByKey(key2, &outVal) && ev->FUN_004280f0(4) && !ev->FUN_004280f0(2))
                 {
                     countA = countA + 1;
                     int res100 = fnv_0084ab20::BGSSaveLoadInitialData_GetInitialDataType(fm, (int)ek, *(unsigned int*)ev);
                     S84 info2;
                     info2.FUN_00849280();
-                    if (ev->buffer.FUN_00559450() != 0 && res100 == 6)
+                    if (ev->buffer.Modelloader_GetReferencedThis() != 0 && res100 == 6)
                     {
                         fnv_0084ab20::BGSSaveLoadInitialData_LoadInitialDataStruct(ev->buffer.BGSUnloadedFormBuffer_GetAdvancedBuffer(), res100, &info2);
                         ((RefMap84*)pReferencesMap)->BGSSaveLoadReferencesMap_RemoveMovedReference(fm);
@@ -2927,7 +2928,7 @@ void BGSSaveLoadGame::CleanupExpiredData()
                     }
                     else
                     {
-                        if (ev->buffer.FUN_00559450() != 0 && res100 != 0)
+                        if (ev->buffer.Modelloader_GetReferencedThis() != 0 && res100 != 0)
                         {
                             unsigned int bx;
                             unsigned int bo;
@@ -2944,11 +2945,11 @@ void BGSSaveLoadGame::CleanupExpiredData()
                             as = 0;
                             am = FUN_00846080(bb, &as);
                             bb = am + as + bb;
-                            ah = ev->buffer.FUN_00559450();
+                            ah = ev->buffer.Modelloader_GetReferencedThis();
                             pC = ev->buffer.BGSUnloadedFormBuffer_GetVersion();
                             pA = ev->buffer.BGSUnloadedFormBuffer_GetSize();
                             bo = pA - len - am - as;
-                            ev->buffer.FUN_006665a0();
+                            ev->buffer.ClearBuffer_006665a0();
                             ev->buffer.BGSUnloadedFormBuffer_Initialize(bb, bo, ek, pC);
                             bx = ah;
                             operator delete((void*)bx);

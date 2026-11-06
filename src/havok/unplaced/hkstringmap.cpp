@@ -129,18 +129,19 @@ struct FUN_00d87820_Class
 {
     char* SetBoolFromThreshold(char* p, int value);
     int FindStringKey(int);
-    void FUN_00d876a0(int);
-    int FUN_00d87820(int a);
+    void ProcessEntries_00d876a0(int);
+    int ProcessAndReturnValue_00d87820(int a);
 };
 
 // @fnv 0x00d87820
-int FUN_00d87820_Class::FUN_00d87820(int a)
+// src: GUESS 0x00d87820 (confidence: low)
+int FUN_00d87820_Class::ProcessAndReturnValue_00d87820(int a)
 {
     int v = FindStringKey(a);
     char r;
     if (*SetBoolFromThreshold(&r, v))
     {
-        FUN_00d876a0(v);
+        ProcessEntries_00d876a0(v);
         return 0;
     }
     return 1;
@@ -149,7 +150,7 @@ int FUN_00d87820_Class::FUN_00d87820(int a)
 namespace fnv_00dc8080 {
 struct FUN_00dc7750_class
 {
-    void FUN_00dc7750();
+    void ClearWorldContainers();
 };
 
 extern int DAT_010d7510;
@@ -163,17 +164,18 @@ struct FUN_00dc8080_class
     int m_iWordAt04;
     FUN_00dc7750_class* m_8;
 
-    void FUN_00dc8080();
+    void ReleaseStorage_00dc8080();
 };
 
-void FUN_00dc8080_class::FUN_00dc8080()
+// src: GUESS 0x00dc8080 (confidence: medium)
+void FUN_00dc8080_class::ReleaseStorage_00dc8080()
 {
     FUN_00dc7750_class* object = m_8;
     m_vptr = &DAT_010d7510;
 
     if (object)
     {
-        object->FUN_00dc7750();
+        object->ClearWorldContainers();
 
         hkMemoryRouter* router = _D1A0E0GetMemoryRouter();
         hkMemoryAllocator* allocator =
@@ -352,12 +354,13 @@ struct S00d876a0_Map
     int m_iCapacityFlags;
     int m_iPairCount;
 
-    void FUN_00d876a0(int it);
+    void ProcessEntries_00d876a0(int it);
 };
 
 // Removes the element at index it from the open-addressing hash table, compacting remaining entries to fill the gap.
 // @fnv 0x00d876a0
-void S00d876a0_Map::FUN_00d876a0(int aiIndex)
+// src: GUESS 0x00d876a0 (confidence: low)
+void S00d876a0_Map::ProcessEntries_00d876a0(int aiIndex)
 {
     unsigned i = aiIndex;
 
@@ -508,12 +511,13 @@ class NamedObjectsE028
     hkArray<EntryE028> m_kEntries;
     StringMapE028* m_pkPool;
 
-    void FUN_00e02800(void* pkObject, const char* pcName);
+    void AddNamedPooledObject(void* pkObject, const char* pcName);
 };
 
 // Pools pcName via m_pkPool, stores a new EntryE028 with pkObject and the pooled name into m_kEntries.
 // @fnv 0x00e02800
-void NamedObjectsE028::FUN_00e02800(void* pkObject, const char* pcName)
+// src: GUESS 0x00e02800 (confidence: medium)
+void NamedObjectsE028::AddNamedPooledObject(void* pkObject, const char* pcName)
 {
     if (!m_pkPool)
         m_pkPool = new StringMapE028();

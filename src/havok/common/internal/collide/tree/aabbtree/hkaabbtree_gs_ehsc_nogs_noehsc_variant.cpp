@@ -16,7 +16,7 @@ static __forceinline float component(const Vec4& v, int i) { return quad(v).m128
 // src/havok/common/internal/collide/tree/aabbtree/hkaabbtree.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/common/internal/collide/tree/aabbtree/hkaabbtree.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 struct FUN_00d9be20_class {
-    void FUN_00d9be20();
+    void UpdateFields_00d9be20();
 };
 struct FUN_00d9be30_class {
     int m0;
@@ -27,13 +27,13 @@ struct FUN_00d9be30_class {
     int m14;
     int m18;
     int m1c;
-    void FUN_00d9be30();
+    void UpdateState_00d9be30();
 };
 struct FUN_00d9be20_cls {
-    void __thiscall FUN_00d9be20();
+    void __thiscall UpdateFields_00d9be20();
 };
 struct FUN_00d9bed0_cls {
-    void __thiscall FUN_00d9bed0();
+    void __thiscall UpdateState_00d9bed0();
 };
 struct Obj_d9be20 {
     int m0;
@@ -41,7 +41,7 @@ struct Obj_d9be20 {
     int m8;
     int mc;
     int m10;
-    void FUN_00d9be20();
+    void UpdateFields_00d9be20();
 };
 struct Key {
     int a;
@@ -229,7 +229,7 @@ struct S_00d9d650_Tree
     int m_iNodeCount;
     S_00d9d650_Pool m_kNodePool;
 
-    void FUN_00d9d1c0(S_00d9d650_Aabb* aabbs, const int* keys, int n, S_00d9d650_Node* root, S_00d9d650_Array<int>& out, int depth);
+    void ProcessEntries_00d9d1c0(S_00d9d650_Aabb* aabbs, const int* keys, int n, S_00d9d650_Node* root, S_00d9d650_Array<int>& out, int depth);
     void MergeNode(S_00d9d650_Node* root, int a, int b);
     void TraverseTree(S_00d9d650_Node* root, int a);
     void BuildTree(const S_00d9d650_Aabb* aabbs, const int* keys, int n, S_00d9d650_Array<int>& out) throw();
@@ -269,7 +269,7 @@ struct Pool_d9c520
     void TraverseNodeTree(Node_d9c520* node, int second);
 };
 void __cdecl AppendElement();
-void __cdecl FUN_00d9c2d0(int param_1, unsigned short param_2);
+void __cdecl Hkaabbtree_AppendElement_Thunk(int param_1, unsigned short param_2);
 #include "fnv_asm_helpers.h"   // project x87 helpers (fnv_SinCos, fnv_FloatToInt), kept last so earlier code is unchanged
 struct NodeD9C7 {
     char unk00[0x10];
@@ -277,7 +277,7 @@ struct NodeD9C7 {
 };
 class FreeListD9C7 {
 public:
-    void FUN_00d9c2d0(NodeD9C7* pkNode);
+    void Hkaabbtree_AppendElement_Thunk(NodeD9C7* pkNode);
 };
 class FUN_00d9c7d0_C {
 public:
@@ -332,7 +332,7 @@ struct TreeNode
 
 struct TreeNodeArray
 {
-    TreeNode* FUN_00d9a4c0(int index);
+    TreeNode* ComputeValue_00d9a4c0(int index);
 };
 
 struct AabbTree
@@ -346,24 +346,25 @@ struct AabbTree
     int unk18;
     TreeNodeArray m_kNodeCollection;
 
-    void FUN_00d9afe0(int root, int leaf, int branch);
+    void ProcessEntries_00d9afe0(int root, int leaf, int branch);
 };
 
 // @fnv 0x00d9afe0
-void AabbTree::FUN_00d9afe0(int root, int leaf, int branch)
+// src: GUESS 0x00d9afe0 (confidence: low)
+void AabbTree::ProcessEntries_00d9afe0(int root, int leaf, int branch)
 {
-    TreeNode* leafNode = m_kNodeCollection.FUN_00d9a4c0(leaf);
-    TreeNode* branchNode = m_kNodeCollection.FUN_00d9a4c0(branch);
+    TreeNode* leafNode = m_kNodeCollection.ComputeValue_00d9a4c0(leaf);
+    TreeNode* branchNode = m_kNodeCollection.ComputeValue_00d9a4c0(branch);
     TreeAabb volume = leafNode->m_kBounds;
     __m128 center = _mm_add_ps(reinterpret_cast<__m128*>(&volume)[0], reinterpret_cast<__m128*>(&volume)[1]);
 
-    TreeNode* siblingNode = m_kNodeCollection.FUN_00d9a4c0(root);
+    TreeNode* siblingNode = m_kNodeCollection.ComputeValue_00d9a4c0(root);
     int sibling = root;
     int side = 0;
     while (!siblingNode->isLeaf())
     {
-        TreeNode* child0 = m_kNodeCollection.FUN_00d9a4c0(siblingNode->m_children[0]);
-        TreeNode* child1 = m_kNodeCollection.FUN_00d9a4c0(siblingNode->m_children[1]);
+        TreeNode* child0 = m_kNodeCollection.ComputeValue_00d9a4c0(siblingNode->m_children[0]);
+        TreeNode* child1 = m_kNodeCollection.ComputeValue_00d9a4c0(siblingNode->m_children[1]);
         __m128 d0 = _mm_sub_ps(_mm_add_ps(quad(child0->m_kBounds.m_kMinimumCorner), quad(child0->m_kBounds.m_kMaximumCorner)), center);
         __m128 d1 = _mm_sub_ps(_mm_add_ps(quad(child1->m_kBounds.m_kMinimumCorner), quad(child1->m_kBounds.m_kMaximumCorner)), center);
         __m128 diff = _mm_sub_ps(_mm_mul_ps(d1, d1), _mm_mul_ps(d0, d0));
@@ -371,11 +372,11 @@ void AabbTree::FUN_00d9afe0(int root, int leaf, int branch)
         sum = _mm_add_ss(_mm_shuffle_ps(diff, diff, 0xaa), sum);
         side = (~_mm_movemask_ps(sum)) & 1;
         sibling = siblingNode->m_children[side];
-        siblingNode = m_kNodeCollection.FUN_00d9a4c0(sibling);
+        siblingNode = m_kNodeCollection.ComputeValue_00d9a4c0(sibling);
     }
 
     unsigned int parent = siblingNode->getParent();
-    TreeNode* parentNode = (parent != 0x7fffffffu) ? m_kNodeCollection.FUN_00d9a4c0(parent) : 0;
+    TreeNode* parentNode = (parent != 0x7fffffffu) ? m_kNodeCollection.ComputeValue_00d9a4c0(parent) : 0;
 
     branchNode->m_kBounds.setUnion(leafNode->m_kBounds, siblingNode->m_kBounds);
     int* children = branchNode->m_children;
@@ -394,11 +395,11 @@ void AabbTree::FUN_00d9afe0(int root, int leaf, int branch)
         branchNode->setParent(parent);
         if (side == 1)
         {
-            TreeNode* node = m_kNodeCollection.FUN_00d9a4c0(parentNode->m_children[0]);
+            TreeNode* node = m_kNodeCollection.ComputeValue_00d9a4c0(parentNode->m_children[0]);
             node->m_next = branch;
             while (!node->isLeaf())
             {
-                node = m_kNodeCollection.FUN_00d9a4c0(node->m_children[1]);
+                node = m_kNodeCollection.ComputeValue_00d9a4c0(node->m_children[1]);
                 node->m_next = branch;
             }
         }
@@ -417,7 +418,7 @@ void AabbTree::FUN_00d9afe0(int root, int leaf, int branch)
             {
                 return;
             }
-            parentNode = m_kNodeCollection.FUN_00d9a4c0(up);
+            parentNode = m_kNodeCollection.ComputeValue_00d9a4c0(up);
         }
     }
     else
@@ -445,46 +446,47 @@ struct S00d9b240_Node : S00d9b240_Bounds {
  unsigned int parentAndLeaf;
  int escape;
 };
-struct S00d9b240_Pool { S00d9b240_Node* FUN_00d9a4c0(int); };
+struct S00d9b240_Pool { S00d9b240_Node* ComputeValue_00d9a4c0(int); };
 struct S00d9b240_Tree {
  int unk00,unk04,unk08,unk0c;
  S00d9b240_Node* root;
  int rootIndex,numLeaves;
  S00d9b240_Pool pool;
- S00d9b240_Node* FUN_00d9b240(int leafIndex,int* removedParentIndex);
- S00d9b240_Node* getSibling(const S00d9b240_Node* p,const S00d9b240_Node* c) { S00d9b240_Node* a=pool.FUN_00d9a4c0(p->children[0]); S00d9b240_Node* b=pool.FUN_00d9a4c0(p->children[1]); return (S00d9b240_Node*)((unsigned int)a^(unsigned int)b^(unsigned int)c); }
+ S00d9b240_Node* ProcessEntries_00d9b240(int leafIndex,int* removedParentIndex);
+ S00d9b240_Node* getSibling(const S00d9b240_Node* p,const S00d9b240_Node* c) { S00d9b240_Node* a=pool.ComputeValue_00d9a4c0(p->children[0]); S00d9b240_Node* b=pool.ComputeValue_00d9a4c0(p->children[1]); return (S00d9b240_Node*)((unsigned int)a^(unsigned int)b^(unsigned int)c); }
  int getSiblingIndex(const S00d9b240_Node* p,int c) { return p->children[0]^p->children[1]^c; }
 };
 // @fnv 0x00d9b240
-S00d9b240_Node* S00d9b240_Tree::FUN_00d9b240(int leafIndex,int* removedParentIndex) {
- S00d9b240_Node* leaf=pool.FUN_00d9a4c0(leafIndex);
+// src: GUESS 0x00d9b240 (confidence: low)
+S00d9b240_Node* S00d9b240_Tree::ProcessEntries_00d9b240(int leafIndex,int* removedParentIndex) {
+ S00d9b240_Node* leaf=pool.ComputeValue_00d9a4c0(leafIndex);
  unsigned int parentIndex=leaf->parentAndLeaf&0x7fffffffu;
- S00d9b240_Node* __restrict parent=parentIndex!=0x7fffffffu ? pool.FUN_00d9a4c0(parentIndex):0;
+ S00d9b240_Node* __restrict parent=parentIndex!=0x7fffffffu ? pool.ComputeValue_00d9a4c0(parentIndex):0;
  unsigned int grandparentIndex=parent->parentAndLeaf&0x7fffffffu;
- S00d9b240_Node* grandparent=grandparentIndex!=0x7fffffffu ? pool.FUN_00d9a4c0(grandparentIndex):0;
+ S00d9b240_Node* grandparent=grandparentIndex!=0x7fffffffu ? pool.ComputeValue_00d9a4c0(grandparentIndex):0;
  const int& firstIndex=parent->children[0];
  int secondIndex=parent->children[1];
- S00d9b240_Node* sibling=(S00d9b240_Node*)((unsigned int)pool.FUN_00d9a4c0(firstIndex)^(unsigned int)pool.FUN_00d9a4c0(secondIndex));
+ S00d9b240_Node* sibling=(S00d9b240_Node*)((unsigned int)pool.ComputeValue_00d9a4c0(firstIndex)^(unsigned int)pool.ComputeValue_00d9a4c0(secondIndex));
  sibling=(S00d9b240_Node*)((unsigned int)sibling^(unsigned int)leaf);
  int siblingIndex=firstIndex^parent->children[1]^leafIndex;
  *removedParentIndex=parentIndex;
  S00d9b240_Node* result;
  if(grandparent) {
-  int child=(pool.FUN_00d9a4c0(grandparent->children[1])==parent);
+  int child=(pool.ComputeValue_00d9a4c0(grandparent->children[1])==parent);
   grandparent->children[child]=siblingIndex;
   sibling->parentAndLeaf=(sibling->parentAndLeaf&0x80000000u)|grandparentIndex;
   result=root;
   if(child==1) {
-   S00d9b240_Node* cursor=pool.FUN_00d9a4c0(grandparent->children[0]);
+   S00d9b240_Node* cursor=pool.ComputeValue_00d9a4c0(grandparent->children[0]);
    for(;;) {
     cursor->escape=siblingIndex;
     if(cursor->parentAndLeaf&0x80000000u) break;
-    cursor=pool.FUN_00d9a4c0(cursor->children[1]);
+    cursor=pool.ComputeValue_00d9a4c0(cursor->children[1]);
    }
   }
   while(grandparent) {
-   S00d9b240_Node* right=pool.FUN_00d9a4c0(grandparent->children[1]);
-   S00d9b240_Node* left=pool.FUN_00d9a4c0(grandparent->children[0]);
+   S00d9b240_Node* right=pool.ComputeValue_00d9a4c0(grandparent->children[1]);
+   S00d9b240_Node* left=pool.ComputeValue_00d9a4c0(grandparent->children[0]);
    S00d9b240_Bounds merged;
    merged.setUnion(*left,*right);
    S00d9b240_Mask equal;equal.mask=_mm_cmpeq_ps(grandparent->maximum,merged.maximum);
@@ -492,7 +494,7 @@ S00d9b240_Node* S00d9b240_Tree::FUN_00d9b240(int leafIndex,int* removedParentInd
    grandparent->minimum=merged.minimum;
    grandparent->maximum=merged.maximum;
    unsigned int next=grandparent->parentAndLeaf&0x7fffffffu;
-   grandparent=next!=0x7fffffffu ? pool.FUN_00d9a4c0(next):0;
+   grandparent=next!=0x7fffffffu ? pool.ComputeValue_00d9a4c0(next):0;
   }
  } else {
   root=sibling;
@@ -501,13 +503,13 @@ S00d9b240_Node* S00d9b240_Tree::FUN_00d9b240(int leafIndex,int* removedParentInd
   rootIndex=siblingIndex;
  }
  S00d9b240_Node* __restrict tailParent=parent;
- if(pool.FUN_00d9a4c0(tailParent->children[0])==sibling) {
+ if(pool.ComputeValue_00d9a4c0(tailParent->children[0])==sibling) {
   int escape=tailParent->escape;
   S00d9b240_Node* cursor=sibling;
   for(;;) {
    cursor->escape=escape;
    if(cursor->parentAndLeaf&0x80000000u) break;
-   cursor=pool.FUN_00d9a4c0(cursor->children[1]);
+   cursor=pool.ComputeValue_00d9a4c0(cursor->children[1]);
   }
  }
  return result;
@@ -548,11 +550,12 @@ struct Outer {
     int m_18;
     Sub m_1c;
     void fn(int a1, int a2, int a3);
-    int FUN_00d9d110(const Aabb* box, int arg2);
+    int UpdateState_00d9d110(const Aabb* box, int arg2);
 };
 
 // @fnv 0x00d9d110
-int Outer::FUN_00d9d110(const Aabb* box, int arg2) {
+// src: GUESS 0x00d9d110 (confidence: low)
+int Outer::UpdateState_00d9d110(const Aabb* box, int arg2) {
     Rec rec;
     quad(rec.hi) = quad(box->hi);
     quad(rec.lo) = quad(box->lo);
@@ -905,7 +908,7 @@ struct Manager840 {
     Node840* GetEntryOffset(unsigned short index);
     Node840* PopGlyphRecord(Node840** root, int* rootIndex, int* index);
 };
-void __cdecl FUN_00d9a850(Task840* task,const Source840* source,Words840* indices,unsigned short start,int count,hkAabb* left,hkAabb* right,int* leftCount,int* rightCount);
+void __cdecl Bounds_PartitionOnLongestAxis(Task840* task,const Source840* source,Words840* indices,unsigned short start,int count,hkAabb* left,hkAabb* right,int* leftCount,int* rightCount);
 struct Tree840 {
     int unk00,unk04,unk08,unk0c;
     Node840* root;
@@ -980,7 +983,7 @@ void Tree840::hkAabbTree_hkAabbTreeData_hkAabbTreeAabb16_unsigned_short_buildTre
         } else {
             hkAabb bounds[2];
             int sizes[2];
-            FUN_00d9a850(&current,source,&indices,current.start,current.count,&bounds[0],&bounds[1],&sizes[0],&sizes[1]);
+            Bounds_PartitionOnLongestAxis(&current,source,&indices,current.start,current.count,&bounds[0],&bounds[1],&sizes[0],&sizes[1]);
             Task840 children[2];
             int i=0;
             int start=0;

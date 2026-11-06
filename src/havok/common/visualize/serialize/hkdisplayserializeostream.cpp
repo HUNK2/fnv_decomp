@@ -124,14 +124,14 @@ struct FUN_00ddabb0_shell
 {
     void* unk00;
     unsigned short size;
-    void FUN_00d60590();
+    void ReleaseReference_00d60590();
     FUN_00ddabb0_shell* FUN_00ddabb0(unsigned int flags);
 };
 // Calls FUN_00d60590, then if bit 0 of flags is set frees this through the hkMemoryRouter heap allocator, and returns this.
 // @fnv 0x00ddabb0
 FUN_00ddabb0_shell* FUN_00ddabb0_shell::FUN_00ddabb0(unsigned int flags)
 {
-    FUN_00d60590();
+    ReleaseReference_00d60590();
     if (flags & 1)
     {
         hkMemoryRouter* holder = hkMemoryRouter_getInstance();
@@ -254,24 +254,24 @@ struct Shape
     int i70, i74, i78, i7c;
     float f80;
     int i84, i88;
-    const void* FUN_00de1150();
-    const void* FUN_00de1160();
+    const void* EvaluateValue_00de1150();
+    const void* ComputeValue_00de1160();
     void* GetValue(void* out);
     void* GetVec4At70(void* out);
-    float FUN_00de5350();
-    float FUN_00de5340();
-    int FUN_00de5360();
+    float GetField84();
+    float GetValue_00de5340();
+    int GetFieldAtOffset80_00de5360();
     void* CopyVec4ToBuffer(void* out);
     void* GetQuad16(void* out);
     void* CopyStatsTo(void* out);
-    float FUN_00de4900();
-    float FUN_00de48e0();
-    float FUN_00de48f0();
-    int FUN_00de4910();
-    const void* FUN_00de4df0();
-    const void* FUN_00de4de0();
-    const void* FUN_00de4e00();
-    const float* FUN_00de4e10();
+    float GetValue_00de4900();
+    float GetField90_00de48e0();
+    float GetField94();
+    int GetField9c();
+    const void* Object_EvaluateValue_00de4df0();
+    const void* ComputeValue_00de4de0();
+    const void* ComputeValue_00de4e00();
+    const float* GetFieldAtOffset90();
 };
 struct DDA8C0Writer
 {
@@ -330,33 +330,33 @@ void DDA8C0Writer::WriteShape(Shape* p)
         break;
     }
     case 3: {
-        hkDisplaySerializeOStream_writeQuadVector4(p->FUN_00de1150());
-        hkDisplaySerializeOStream_writeQuadVector4(p->FUN_00de1160());
+        hkDisplaySerializeOStream_writeQuadVector4(p->EvaluateValue_00de1150());
+        hkDisplaySerializeOStream_writeQuadVector4(p->ComputeValue_00de1160());
         break;
     }
     case 4: {
         hkDisplaySerializeOStream_writeQuadVector4(p->GetValue(&t[1]));
         hkDisplaySerializeOStream_writeQuadVector4(p->GetVec4At70(&t[2]));
-        HashUInt(p->FUN_00de5350());
-        HashUInt(p->FUN_00de5340());
-        WriteInt(p->FUN_00de5360());
+        HashUInt(p->GetField84());
+        HashUInt(p->GetValue_00de5340());
+        WriteInt(p->GetFieldAtOffset80_00de5360());
         break;
     }
     case 5: {
         hkDisplaySerializeOStream_writeQuadVector4(p->CopyVec4ToBuffer(&t[3]));
         hkDisplaySerializeOStream_writeQuadVector4(p->GetQuad16(&t[4]));
         hkDisplaySerializeOStream_writeQuadVector4(p->CopyStatsTo(&t[5]));
-        HashUInt(p->FUN_00de4900());
-        HashUInt(p->FUN_00de48e0());
-        HashUInt(p->FUN_00de48f0());
-        WriteInt(p->FUN_00de4910());
+        HashUInt(p->GetValue_00de4900());
+        HashUInt(p->GetField90_00de48e0());
+        HashUInt(p->GetField94());
+        WriteInt(p->GetField9c());
         break;
     }
     case 7: {
-        hkDisplaySerializeOStream_writeQuadVector4(p->FUN_00de4df0());
-        hkDisplaySerializeOStream_writeQuadVector4(p->FUN_00de4de0());
-        hkDisplaySerializeOStream_writeQuadVector4(p->FUN_00de4e00());
-        HashUInt(*p->FUN_00de4e10());
+        hkDisplaySerializeOStream_writeQuadVector4(p->Object_EvaluateValue_00de4df0());
+        hkDisplaySerializeOStream_writeQuadVector4(p->ComputeValue_00de4de0());
+        hkDisplaySerializeOStream_writeQuadVector4(p->ComputeValue_00de4e00());
+        HashUInt(*p->GetFieldAtOffset90());
         break;
     }
     }

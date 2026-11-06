@@ -96,11 +96,12 @@ void __thiscall FUN_00a99870_Class::CopyMembers_00a99870(int, int)
 
 struct FUN_00c61430_Class
 {
-    void __thiscall FUN_00c61430(int, int);
+    void __thiscall ForwardCall_00c61430(int, int);
 };
 
 // @fnv 0x00c61430
-void __thiscall FUN_00c61430_Class::FUN_00c61430(int a, int b)
+// src: GUESS 0x00c61430 (confidence: low)
+void __thiscall FUN_00c61430_Class::ForwardCall_00c61430(int a, int b)
 {
     ((FUN_00a99870_Class*)this)->CopyMembers_00a99870(a, b);
 }
@@ -350,12 +351,12 @@ GlobalObject_00a7b610* FUN_00c63aa0_class::BSParentVelocityModifier_GetRTTI()
     return &g_012043c8;
 }
 
-void __cdecl FUN_00c63c30(int, int);
+void __cdecl NiFixedString_CopyMemory_00c63c30(int, int);
 
 // @fnv 0x00c63c10
 void __cdecl CallWithSameArgumentTwice(int aiValue)
 {
-    FUN_00c63c30(aiValue, aiValue);
+    NiFixedString_CopyMemory_00c63c30(aiValue, aiValue);
 }
 
 // @fnv 0x00c644b0
@@ -495,7 +496,7 @@ NiTArray<BSAttachPointPair*, NiTMallocInterface<BSAttachPointPair*> >::~NiTArray
 
 struct FUN_00c600c0_class
 {
-    void* __thiscall FUN_00c5fd50();
+    void* __thiscall UpdateState_00c5fd50();
     void* __thiscall FUN_00c600c0(unsigned int flags);
     static void __cdecl operator delete(void* p, unsigned int size);
 };
@@ -504,7 +505,7 @@ struct FUN_00c600c0_class
 // @fnv 0x00c600c0
 void* __thiscall FUN_00c600c0_class::FUN_00c600c0(unsigned int flags)
 {
-    FUN_00c5fd50();
+    UpdateState_00c5fd50();
     if (flags & 1)
         operator delete(this, 0x1c);
     return this;
@@ -553,7 +554,7 @@ void __cdecl operator delete(void*, int);
 // @fnv 0x00c632f0
 void* __thiscall FUN_00c632f0_class::FUN_00c632f0(unsigned int flags)
 {
-    reinterpret_cast<NiExtraData*>(this)->FUN_00a7b300();
+    reinterpret_cast<NiExtraData*>(this)->DestroyFields_00a7b300();
     if (flags & 1)
         operator delete(this, 12);
     return this;
@@ -610,10 +611,11 @@ struct FUN_00c64710_Class
     void* m_iWordAt00;
     void* m_iWordAt04;
     void* m_8;
-    void FUN_00c64710();
+    void ReleaseStorage_00c64710();
 };
 // @fnv 0x00c64710
-void FUN_00c64710_Class::FUN_00c64710()
+// src: GUESS 0x00c64710 (confidence: low)
+void FUN_00c64710_Class::ReleaseStorage_00c64710()
 {
     void* p = m_iWordAt00;
     while (p)
@@ -1061,10 +1063,11 @@ NiAVObject* __cdecl BSWArray_CreateObject()
 
 struct FUN_00c61830_class
 {
-    void FUN_00c61830(void* a, void* b);
+    void ForwardCall_00c61830(void* a, void* b);
 };
 // @fnv 0x00c61830
-void FUN_00c61830_class::FUN_00c61830(void* a, void* b)
+// src: GUESS 0x00c61830 (confidence: low)
+void FUN_00c61830_class::ForwardCall_00c61830(void* a, void* b)
 {
     reinterpret_cast<NiExtraData*>(this)->CopyMembers_00a7b330(a, b);
 }
@@ -1231,7 +1234,7 @@ bool FUN_00c64980_Class::BSReference_IsEqual(A46BB0Object* apOther)
 
 struct FUN_0043ba10_shell
 {
-    FUN_0043ba10_shell* FUN_0043ba10(unsigned int);
+    FUN_0043ba10_shell* AssignInternedString(unsigned int);
 };
 struct FUN_00c64dc0_Class
 {
@@ -1252,7 +1255,7 @@ FUN_0043ba10_shell* FUN_00c64dc0_Class::BSAttachPointPair_SetChild(unsigned int 
     int v0;
     int v1;
     int v2;
-    return m_iWordAt04.FUN_0043ba10(a);
+    return m_iWordAt04.AssignInternedString(a);
 }
 
 void __cdecl operator delete(void* p, unsigned int size);
@@ -1273,7 +1276,7 @@ void* __thiscall FUN_00c64e70_Class::FUN_00c65650(unsigned int flags)
     return this;
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+void* __cdecl Object_DispatchCommandFour(unsigned int size);
 
 struct SpawnedObject_b9118
 {
@@ -1281,7 +1284,7 @@ struct SpawnedObject_b9118
     SpawnedObject_b9118();
     static void* operator new(unsigned int size)
     {
-        return FUN_00aa13e0(size);
+        return Object_DispatchCommandFour(size);
     }
 };
 
@@ -1622,14 +1625,14 @@ void FUN_00c63780_c::ResetVector()
 }
 
 namespace fnv_00c637b0 {
-extern "C" void* __cdecl FUN_00aa13e0(unsigned int size);
+extern "C" void* __cdecl Object_DispatchCommandFour(unsigned int size);
 struct ParticlePositionClone : ParticlePositionModifierConstruction
 {
     unsigned char data[0x3c - sizeof(ParticlePositionModifierConstruction)];
 
     static __forceinline void* __cdecl operator new(unsigned int size)
     {
-        return FUN_00aa13e0(size);
+        return Object_DispatchCommandFour(size);
     }
 };
 struct FUN_00c637b0_Class : FUN_00c63840_Class
@@ -1646,14 +1649,14 @@ ParticlePositionClone* FUN_00c637b0_Class::CreateParticlePositionClone(CloningPr
 }
 }  // namespace fnv_00c637b0
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+void* __cdecl Object_DispatchCommandFour(unsigned int size);
 struct PositionModifierObject_b9439
 {
     char m00[0x3c];
     PositionModifierObject_b9439();
     static void* operator new(unsigned int size)
     {
-        return FUN_00aa13e0(size);
+        return Object_DispatchCommandFour(size);
     }
 };
 // Allocates and constructs a PositionModifierObject_b9439 via its custom operator new and returns the pointer.
@@ -2271,7 +2274,8 @@ extern NiFixedString* DAT_012043a0;
 
 // If DAT_012043a0 is set, calls DAT_00fdf1c4 on its header unless it holds DAT_0109b220, frees it via FUN_00aa4060, then sets DAT_012043a0 to 0.
 // @fnv 0x00c61760
-void FUN_00c61760()
+// src: GUESS 0x00c61760 (confidence: low)
+void Object_UpdateFields_00c61760()
 {
     NiFixedString* tmp = DAT_012043a0;
     NiFixedString* p = tmp;
@@ -2317,7 +2321,8 @@ struct S61990Obj
 
 // Takes the global at DAT_012043ac, decrements the count at vt-8 unless vt equals DAT_0109b220, deallocates the object, and clears the global.
 // @fnv 0x00c61990
-void __cdecl FUN_00c61990()
+// src: GUESS 0x00c61990 (confidence: medium)
+void __cdecl Runtime_ReleaseReference_00c61990()
 {
     S61990Obj* ptr = (S61990Obj*)DAT_012043ac;
     S61990Obj* mgr = ptr;
@@ -2363,12 +2368,13 @@ struct Box0c64640
     unsigned short unk00;
     Pt3c64640 unk04[8];
     Pt3c64640 unk64[8];
-    Box0c64640* FUN_00c64640();
+    Box0c64640* InitializePointArrays();
 };
 
 // Sets unk00 to 0 and fills the unk04 and unk64 arrays with the global DAT_011f426c value, then returns this.
 // @fnv 0x00c64640
-Box0c64640* Box0c64640::FUN_00c64640()
+// src: GUESS 0x00c64640 (confidence: medium)
+Box0c64640* Box0c64640::InitializePointArrays()
 {
     int i;
     {

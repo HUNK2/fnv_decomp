@@ -151,7 +151,7 @@ void __cdecl _delete(void*, unsigned int);
 // @fnv 0x00ead0b0
 void* NiCollisionData::DestroyIfFlagged(unsigned int auiFlags)
 {
-    FUN_00eacde0();
+    UpdateFields_00eacde0();
     if (auiFlags & 1)
         _delete(this, 0x50);
     return this;
@@ -322,7 +322,8 @@ struct SpawnedObj
 };
 
 // @fnv 0x00eacde0
-void NiCollisionData::FUN_00eacde0()
+// src: GUESS 0x00eacde0 (confidence: low)
+void NiCollisionData::UpdateFields_00eacde0()
 {
     unsigned int a = (unsigned int)m_pWorldVertices;
     *(void**)this = &DAT_010f18bc;
@@ -971,13 +972,13 @@ void __fastcall SaveCollisionData(NiCollisionData* self, void*, void* target)
     }
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int);
+void* __cdecl Object_DispatchCommandFour(unsigned int);
 
 // @fnv 0x00eada20
 NiObject* NiCollisionData::MakeClone(CloningProcess& arg)
 {
     NiCollisionData* result;
-    void* mem = FUN_00aa13e0(0x50);
+    void* mem = Object_DispatchCommandFour(0x50);
     if (mem != 0)
     {
         result = ::new (mem) NiCollisionData();

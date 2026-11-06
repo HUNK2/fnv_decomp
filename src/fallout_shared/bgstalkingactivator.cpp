@@ -360,7 +360,8 @@ struct StackIdx
 };
 
 // @fnv 0x006a1440
-Elem12& __fastcall FUN_006a1440(ArrayObj* pThis, StackIdx aiIndex)
+// src: GUESS 0x006a1440 (confidence: low)
+Elem12& __fastcall Object_GetIndexedValue_006a1440(ArrayObj* pThis, StackIdx aiIndex)
 {
     return pThis->m_pBase[aiIndex.i];
 }

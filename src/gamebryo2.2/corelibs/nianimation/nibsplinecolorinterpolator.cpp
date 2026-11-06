@@ -146,7 +146,8 @@ void __fastcall AppendColorACPHandleStrings(NiBSplineColorInterpolator* self, vo
 
 // Returns true when the channel is zero and its control-point count is zero.
 // @fnv 0x00a50610
-bool __fastcall FUN_00a50610(NiBSplineColorInterpolator* self, void* unused, unsigned short flag)
+// src: GUESS 0x00a50610 (confidence: medium)
+bool __fastcall NiBSplineColorInterpolator_IsChannelZeroAndEmpty(NiBSplineColorInterpolator* self, void* unused, unsigned short flag)
 {
     if (0 == flag)
     {

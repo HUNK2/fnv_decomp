@@ -65,11 +65,12 @@ extern int DAT_01084e54;
 
 struct FUN_00cb9900_cls
 {
-    void __thiscall FUN_00cb9900();
+    void __thiscall UpdateFields_00cb9900();
 };
 
 // @fnv 0x00cb9900
-void __thiscall FUN_00cb9900_cls::FUN_00cb9900()
+// src: GUESS 0x00cb9900 (confidence: low)
+void __thiscall FUN_00cb9900_cls::UpdateFields_00cb9900()
 {
     *(int*)this = (int)&DAT_01084e54;
     FUN_0062d4b0();
@@ -579,7 +580,7 @@ void FUN_00c7d810_Cls::bhkRagdollController_SyncRagdollTo3D()
 
 struct FUN_00cb0c00_class
 {
-    void FUN_00cb0c00();
+    void Object_UpdateFields_00cb0c00();
 };
 
 struct VObjExt : VObj
@@ -593,17 +594,18 @@ struct FUN_00c7d890_cls
     void* _0;
     int _4;
     unsigned int _8;
-    void FUN_00c7d890();
+    void ProcessEntries_00c7d890();
 };
 
 // @fnv 0x00c7d890
-void FUN_00c7d890_cls::FUN_00c7d890()
+// src: GUESS 0x00c7d890 (confidence: low)
+void FUN_00c7d890_cls::ProcessEntries_00c7d890()
 {
     VObjExt* p = (VObjExt*)_FUN_00c85750()->p;
     int count = _4;
     char* base = (char*)_0;
     for (int i = 0; i < count; i++)
-        ((FUN_00cb0c00_class*)(base + i * 8))->FUN_00cb0c00();
+        ((FUN_00cb0c00_class*)(base + i * 8))->Object_UpdateFields_00cb0c00();
     unsigned int flags = _8;
     _4 = 0;
     if (!(flags & 0x80000000))
@@ -798,7 +800,7 @@ struct FUN_00c7d480_cls
     unsigned int m_04;
     unsigned int m_08;
     unsigned int m_0c;
-    void FUN_00c7d480();
+    void UpdateFields_00c7d480();
 };
 
 struct ScopeGuard
@@ -822,7 +824,8 @@ struct ScopeGuard
     }
 };
 
-void FUN_00c7d480_cls::FUN_00c7d480()
+// src: GUESS 0x00c7d480 (confidence: low)
+void FUN_00c7d480_cls::UpdateFields_00c7d480()
 {
     ScopeGuard guard(this);
     unsigned int count = m_0c;
@@ -850,7 +853,7 @@ struct FUN_00c7d520_cls
     unsigned int m_04;
     unsigned int m_08;
     unsigned int m_0c;
-    void FUN_00c7d520();
+    void UpdateFields_00c7d520();
 };
 
 struct ScopeGuard
@@ -874,7 +877,8 @@ struct ScopeGuard
     }
 };
 
-void FUN_00c7d520_cls::FUN_00c7d520()
+// src: GUESS 0x00c7d520 (confidence: low)
+void FUN_00c7d520_cls::UpdateFields_00c7d520()
 {
     ScopeGuard guard(this);
     unsigned int count = m_0c;
@@ -905,11 +909,12 @@ struct FUN_00c7d5c0_cls
     int m_iArrayLength;
     unsigned int m_uCap;
 
-    void FUN_00c7d5c0();
+    void ProcessEntries_00c7d5c0();
 };
 
 // @fnv 0x00c7d5c0
-void FUN_00c7d5c0_cls::FUN_00c7d5c0()
+// src: GUESS 0x00c7d5c0 (confidence: low)
+void FUN_00c7d5c0_cls::ProcessEntries_00c7d5c0()
 {
     hkMemoryRouter* pHolder = hkMemoryRouter_getInstance();
     hkMemoryAllocator* pAllocator = reinterpret_cast<hkMemoryAllocator*>(pHolder->m_heap);
@@ -2493,10 +2498,11 @@ struct PoseState
     int unk24;
     bool ready;
     void hkaPose_syncModelSpace();
-    void FUN_00cda4c0();
+    void ProcessEntries_00cda4c0();
 };
 // @fnv 0x00cda4c0
-void PoseState::FUN_00cda4c0()
+// src: GUESS 0x00cda4c0 (confidence: low)
+void PoseState::ProcessEntries_00cda4c0()
 {
     int n = model->count;
     hkaPose_syncModelSpace();
@@ -3033,9 +3039,9 @@ struct StringPtr
     void* m_data;
     __forceinline ~StringPtr()
     {
-        FUN_00cb0c00();
+        Object_UpdateFields_00cb0c00();
     }
-    void FUN_00cb0c00();
+    void Object_UpdateFields_00cb0c00();
 };
 struct Bone
 {

@@ -29,7 +29,7 @@ struct ContactBody
     char unk100[0x10c - 0x100];
     float m_limitC;
 };
-bool FUN_00d28560(void* unused, char** items, int count, int offset);
+bool Object_ProcessEntries_00d28560(void* unused, char** items, int count, int offset);
 inline void* operator new(unsigned int, void* p) throw()
 {
     return p;
@@ -63,14 +63,15 @@ class S00d2c8a0_Derived : public S00d2c8a0_Base
     virtual void vf04();
     LocalM128 m_kScaleFactors;
 };
-const void* __cdecl FUN_00d2c8a0();
+const void* __cdecl Object_GetConstructedVirtualTable();
 struct SortPair
 {
     unsigned int key;
     unsigned int val;
 };
 // @fnv 0x00d36520
-extern "C" void FUN_00d36520(SortPair* arr, int lo, int hi, unsigned int extra)
+// src: GUESS 0x00d36520 (confidence: low)
+extern "C" void Object_ProcessEntries_00d36520(SortPair* arr, int lo, int hi, unsigned int extra)
 {
     int i;
     int j;
@@ -107,7 +108,7 @@ extern "C" void FUN_00d36520(SortPair* arr, int lo, int hi, unsigned int extra)
         } while (i <= j);
         if (lo < j)
         {
-            FUN_00d36520(arr, lo, j, extra);
+            Object_ProcessEntries_00d36520(arr, lo, j, extra);
         }
         if (i >= hi)
         {
@@ -119,12 +120,12 @@ extern "C" void FUN_00d36520(SortPair* arr, int lo, int hi, unsigned int extra)
 void __cdecl hkpCollectionAgent3_initAgentFunc(hkpCollisionDispatcher::Agent3FunctionTable& kFuncs);
 void __cdecl hkpCollectionAgent3_registerAgent3(hkpCollisionDispatcher* pkDispatcher);
 void InitOutputDefaults();
-void FUN_00d39130();
+void Runtime_ReleaseHandles_Thunk();
 void ReleaseHandles();
 void RemoveKeyFromTable();
 void InsertIntoSlotArray();
 void nullsub_15();
-void FUN_00d39150();
+void hkCollideCapsuleUtilCapsVsTri_ProcessEntries_00d39150();
 void hkCapsuleTriangleAgent3_process();
 void __cdecl hkCapsuleTriangleAgent3_registerAgent3(hkpCollisionDispatcher* pkDispatcher);
 extern "C"
@@ -204,7 +205,7 @@ struct __declspec(align(16)) D2fCollector : D2fRayHitCollector
 struct D2fWorld
 {
     void hkpBvTreeAgent_linearCast(int a, int b, D2fInput* in, D2fCollector* c1, D2fCollector* c2);
-    void FUN_00d2f460(int a1, int a2, const D2fInput* a3, int a4, void* a5);
+    void CopyData_00d2f460(int a1, int a2, const D2fInput* a3, int a4, void* a5);
 };
 
 namespace N {

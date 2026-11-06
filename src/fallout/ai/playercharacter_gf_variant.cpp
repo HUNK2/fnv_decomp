@@ -47,7 +47,7 @@ struct PtLen
 };
 struct StoreShell
 {
-    NiPoint3* __thiscall FUN_0063c8a0(void* p);
+    NiPoint3* __thiscall ComputeValue_0063c8a0(void* p);
 };
 struct __declspec(align(16)) BigObj
 {
@@ -57,7 +57,7 @@ struct __declspec(align(16)) BigObj
     unsigned int shapeKeysA[8];
     int unk48, unk4c;
     unsigned int shapeKeysB[8];
-    void __thiscall FUN_00621c40();
+    void __thiscall ProcessAndReturnValue_00621c40();
 };
 struct PointSubtract
 {
@@ -528,7 +528,7 @@ void ThisShell::PlayerCharacter_UpdateChaseCamera(NiPoint3* p1, NiPoint3* p2, un
         if (DAT_011e07b9)
         {
             ((StoreShell*)&DAT_011e0808)
-                ->FUN_0063c8a0(&((vec - DAT_011e0808) * *DAT_011cd3d8.Setting_Float_00403e20() * DAT_011f6394.FUN_0084d030()));
+                ->ComputeValue_0063c8a0(&((vec - DAT_011e0808) * *DAT_011cd3d8.Setting_Float_00403e20() * DAT_011f6394.FUN_0084d030()));
             vec = DAT_011e0808;
         }
         else
@@ -542,7 +542,7 @@ void ThisShell::PlayerCharacter_UpdateChaseCamera(NiPoint3* p1, NiPoint3* p2, un
         NiPoint3 a70 = *p2;
         NiPoint3 a7c = vec;
         BigObj big;
-        big.FUN_00621c40();
+        big.ProcessAndReturnValue_00621c40();
         if (field21c->CameraCaster_GetWorld() == 0)
         {
             int handle = FUN_009306d0() ? ((Obj621ad0*)FUN_009306d0())->bhkCharacterController_GetWorld() : 0;

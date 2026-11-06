@@ -87,7 +87,7 @@ DialogueItem::~DialogueItem()
 
 struct FUN_0083c9e0_resp
 {
-    unsigned short FUN_0083d420();
+    unsigned short ProcessAndReturnValue_0083d420();
 };
 // @fnv 0x0083c9e0
 unsigned short __fastcall GetDialogueItemSaveSize(DialogueItem* item)
@@ -98,7 +98,7 @@ unsigned short __fastcall GetDialogueItemSaveSize(DialogueItem* item)
     while (pIter && !pIter->IsEmpty())
     {
         FUN_0083c9e0_resp* pResponse = reinterpret_cast<FUN_0083c9e0_resp*>(pIter->GetItem());
-        usSize += pResponse->FUN_0083d420();
+        usSize += pResponse->ProcessAndReturnValue_0083d420();
         pIter = pIter->GetNext();
     }
     usSize += 1;

@@ -492,11 +492,11 @@ struct FUN_00a96130_cls
 // @fnv 0x00a96130
 bool FUN_00a96130_cls::Equals(FUN_00a96130_cls* other)
 {
-    if (m_08.FUN_00a926b0(other->m_08))
+    if (m_08.IsDifferent(other->m_08))
     {
         return false;
     }
-    if (m_18.FUN_00a926b0(other->m_18))
+    if (m_18.IsDifferent(other->m_18))
     {
         return false;
     }

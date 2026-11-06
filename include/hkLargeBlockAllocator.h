@@ -79,7 +79,7 @@ public:
     virtual void vf07(void* apBlock, unsigned int auiSize);
 
     ~hkLargeBlockAllocator();
-    void FUN_00dd7ec0();
+    void ProcessEntries_00dd7ec0();
     void _init_00dd7f10();
     void ProcessAllItems();
     void _unlinkChunk(Chunk* chunk);
@@ -107,7 +107,7 @@ public:
     void* alloc_00dd84c0(unsigned int size);
     void* criticalAlloc(unsigned int size);
     void criticalFree(void* block, unsigned int size);
-    hkLargeBlockAllocator* FUN_00dd8df0(int arg);
+    hkLargeBlockAllocator* EvaluateValue_00dd8df0(int arg);
 
     // Havok 7.1 hkLargeBlockAllocator.h: m_limitedListener 0x04, m_treemap 0x08,
     // m_leastAddr 0x0C, m_top 0x10, m_topsize 0x14, m_treebins[32] 0x18,

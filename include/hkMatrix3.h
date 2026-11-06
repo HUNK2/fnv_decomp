@@ -47,11 +47,11 @@ public:
                                  int maxIter = 5, float epsilon = 1e-4f) const throw();
 
     int invert_00cd4f10(float epsilon);
-    void __thiscall FUN_00cd4bf0(char* a, char* b);
+    void __thiscall SetTransposeProduct(char* a, char* b);
     hkBool isOk_00cd4af0() const;
-    unsigned char* FUN_00cd4e00(unsigned char* result, const hkMatrix3* other, float epsilon);
+    unsigned char* CompareMatrixColumnsWithinTolerance(unsigned char* result, const hkMatrix3* other, float epsilon);
     bool hkMatrix3_isSymmetric(float epsilon);
-    void FUN_00cd5050();
+    void ComputeInverseWithDeterminantThreshold();
     float _offDiagNorm();
     void hkMatrix3f_mul(const hkMatrix3& other);
 

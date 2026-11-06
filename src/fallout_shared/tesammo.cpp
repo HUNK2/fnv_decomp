@@ -57,7 +57,7 @@ void TESAmmo::InitItem()
     if (locals.formID)
     {
         TESForm::RemapFormIDForFile(locals.formID, GetFile(-1));
-        ((TESAmmoInitCalls*)this)->FUN_00502cb0(TESForm::GetFormByID(locals.formID));
+        ((TESAmmoInitCalls*)this)->SetAmmoConsumed(TESForm::GetFormByID(locals.formID));
         if (!((TESAmmoInitCalls*)this)->GetFieldBC())
         {
             Warning(DAT_01026238, locals.formID, GetName(), GetFormID());
@@ -196,11 +196,12 @@ bool TESAmmo::LoadForm(TESFile* file)
 
 struct FUN_00502cb0_shell : public TESAmmo
 {
-    void FUN_00502cb0(TESForm*);
+    void SetAmmoConsumed(TESForm*);
 };
 
 // @fnv 0x00502cb0
-void FUN_00502cb0_shell::FUN_00502cb0(TESForm* apAmmoConsumed)
+// src: GUESS 0x00502cb0 (confidence: medium)
+void FUN_00502cb0_shell::SetAmmoConsumed(TESForm* apAmmoConsumed)
 {
     *(TESForm**)((char*)this + 0xbc) = apAmmoConsumed;
 }
@@ -521,8 +522,8 @@ void __cdecl AppendChunk(unsigned int, void*, unsigned int);
 void __cdecl TESForm_AddChunk_00485910(unsigned int, unsigned int);
 struct AmmoSaveCalls
 {
-    void FUN_004855a0();
-    void FUN_00485680();
+    void BeginFormRecord();
+    void FinishFormRecord();
     void Save_00487010();
     void ProcessAndFreeData(unsigned int, unsigned int, unsigned int);
     void TESTexture_Save(unsigned int);
@@ -556,7 +557,7 @@ struct AmmoSave
 // @fnv 0x00503280
 void AmmoSave::Save()
 {
-    reinterpret_cast<AmmoSaveCalls*>(this)->FUN_004855a0();
+    reinterpret_cast<AmmoSaveCalls*>(this)->BeginFormRecord();
     reinterpret_cast<AmmoSaveCalls&>(fullName).Save_00487010();
     reinterpret_cast<AmmoSaveCalls&>(model).ProcessAndFreeData(0x4c444f4d, 0x54444f4d, 0x53444f4d);
     reinterpret_cast<AmmoSaveCalls&>(icon).TESTexture_Save(0x4e4f4349);
@@ -600,7 +601,7 @@ void AmmoSave::Save()
         unsigned int formID = consumed->GetFormID();
         TESForm_AddChunk_00485910(0x4c494352, formID);
     }
-    reinterpret_cast<AmmoSaveCalls*>(this)->FUN_00485680();
+    reinterpret_cast<AmmoSaveCalls*>(this)->FinishFormRecord();
 }
 
 int __fastcall FNV_GetFormType(TESForm* pkForm);
@@ -622,7 +623,7 @@ AmmoEffectNode503* __fastcall FUN_00726070(AmmoEffectNode503* pkNode);
 
 struct AmmoString503
 {
-    const char* FUN_00559450() const;
+    const char* Modelloader_GetReferencedThis() const;
 };
 
 struct FUN_00503510_shell : public TESAmmo
@@ -644,8 +645,8 @@ void FUN_00503510_shell::CopyFromAmmo(TESForm* pkForm)
     __memcpy(&data, pSourceAmmo->GetBackTexture(), 8);
     __memcpy(&m_kProjectileData, hkpAabbPhantom_getAabb((char*)pSourceAmmo), 0x14);
     FUN_004f15a0(::FNV_GetFormType(pSourceAmmo));
-    m_kPrimaryString.Set(((AmmoString503*)&pSourceAmmo->m_kPrimaryString)->FUN_00559450(), 0);
-    m_kSecondaryString.Set(((AmmoString503*)&pSourceAmmo->m_kSecondaryString)->FUN_00559450(), 0);
+    m_kPrimaryString.Set(((AmmoString503*)&pSourceAmmo->m_kPrimaryString)->Modelloader_GetReferencedThis(), 0);
+    m_kSecondaryString.Set(((AmmoString503*)&pSourceAmmo->m_kSecondaryString)->Modelloader_GetReferencedThis(), 0);
     while (!FUN_008256d0(TESAmmo_GetAmmoEffectList()))
         TESAmmo_GetAmmoEffectList()->FUN_0063f7b0();
     AmmoEffectNode503* pkNodeCur = pSourceAmmo->TESAmmo_GetAmmoEffectList();

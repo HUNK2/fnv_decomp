@@ -14,7 +14,8 @@ extern __declspec(align(16)) const unsigned int DAT_010c44d0[4];
 
 
 // @fnv 0x00d6bec0
-void hkQuaternion::FUN_00d6bec0(const hkQuaternion& q, hkVector4& out) const
+// src: GUESS 0x00d6bec0 (confidence: low)
+void hkQuaternion::UpdateFields_00d6bec0(const hkQuaternion& q, hkVector4& out) const
 {
     const __m128& qVec = *reinterpret_cast<const __m128*>(&q);
     const __m128& vec = *reinterpret_cast<const __m128*>(this);
@@ -56,7 +57,8 @@ extern __m128 DAT_010c44d0;
 extern void __cdecl hk1dAngularBilateralConstraintBuildJacobian(ThreeVectors*, int, int);
 
 // @fnv 0x00d6c470
-static __declspec(noinline) void FUN_00d6c470(const FaceCode* face, const __m128* normals, const unsigned char* points,
+// src: GUESS 0x00d6c470 (confidence: low)
+static __declspec(noinline) void Runtime_UpdateState_00d6c470(const FaceCode* face, const __m128* normals, const unsigned char* points,
                                               int a, int b)
 {
     unsigned int index = face->index;
@@ -82,7 +84,7 @@ extern "C" int getA();
 extern "C" int getB();
 void invoke()
 {
-    FUN_00d6c470(getFace(), getNormals(), getPoints(), getA(), getB());
+    Runtime_UpdateState_00d6c470(getFace(), getNormals(), getPoints(), getA(), getB());
 }
 }  // namespace fnv_00d6c470
 
@@ -111,7 +113,8 @@ struct Triple
 };
 
 // @fnv 0x00d6c500
-static __declspec(noinline) void FUN_00d6c500(Span* span, int a1, Box base, Box p10, int a2)
+// src: GUESS 0x00d6c500 (confidence: low)
+static __declspec(noinline) void Object_ProcessEntries_00d6c500(Span* span, int a1, Box base, Box p10, int a2)
 {
     char* b = base.p;
     for (int i = span->start; i < span->start + span->count; ++i)
@@ -133,6 +136,6 @@ int g_sink;
 
 void zz_call()
 {
-    FUN_00d6c500(g_span, g_a1, g_base, g_p10, g_a2);
+    Object_ProcessEntries_00d6c500(g_span, g_a1, g_base, g_p10, g_a2);
     g_sink = 1;
 }

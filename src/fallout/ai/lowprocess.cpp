@@ -4903,14 +4903,14 @@ struct ItemList
 {
     ItemProxy*& FUN_006815c0();
     ItemList* FUN_00726070();
-    void FUN_00905330(ItemProxy**);
+    void RemoveMatchingItem(ItemProxy**);
     int unk00, unk04;
 };
 struct RefList
 {
     RefProxy*& FUN_006815c0();
     RefList* FUN_00726070();
-    void FUN_00905330(RefProxy**);
+    void RemoveMatchingItem(RefProxy**);
     void FUN_0063f7b0();
     int unk00, unk04;
 };
@@ -4933,7 +4933,7 @@ void LowProcess::RemoveById(unsigned int id)
         ItemProxy* item = node->FUN_006815c0();
         if (item->ref->GetHavokWorldObjectCountInSceneGraph_0084e3a0() == id)
         {
-            reinterpret_cast<ItemList&>(ReferenceListNode).FUN_00905330(&item);
+            reinterpret_cast<ItemList&>(ReferenceListNode).RemoveMatchingItem(&item);
             delete (Date*)item;
             node = &reinterpret_cast<ItemList&>(ReferenceListNode);
         }
@@ -4953,7 +4953,7 @@ void LowProcess::RemoveById(unsigned int id)
         {
             if (previous)
             {
-                previous->FUN_00905330(&object);
+                previous->RemoveMatchingItem(&object);
                 next = previous->FUN_00726070();
             }
             else
@@ -5198,7 +5198,7 @@ struct FUN_004459e0_Entry57
     bool ItemChange_GetWorn(int);
     float ItemChange_GetItemHealth(int);
     Form57* FUN_0044ddc0();
-    ExtraNode57* FUN_00559450();
+    ExtraNode57* Modelloader_GetReferencedThis();
 };
 struct Inventory57
 {
@@ -5402,8 +5402,8 @@ bool __cdecl CheckPackageMatch(Ref57* ref, long aTargetRef)
                         else
                             record101->count = 1;
                         package4->list.FUN_00905820(record101);
-                        if (entry->FUN_00559450())
-                            record101->extra = *entry->FUN_00559450()->FUN_006815c0();
+                        if (entry->Modelloader_GetReferencedThis())
+                            record101->extra = *entry->Modelloader_GetReferencedThis()->FUN_006815c0();
                     }
                 }
                 delete entry;
@@ -6030,7 +6030,7 @@ struct E
     int ExtraDataList_GetPackageExtraIndex();
     void ExtraDataList_SetPackageExtraIndex(int);
     void SetExtraDataFlag(bool);
-    void FUN_0041c930(P*, int, int, bool);
+    void AllocateStorage_0041c930(P*, int, int, bool);
     void FUN_004211d0(int);
 };
 struct Empty
@@ -6086,7 +6086,7 @@ bool LowProcess::TrySelectTarget(Actor* ref, TESPackage** ppOut)
                     SetProcessConditionMet(false);
                     SetAnimationComplete(false);
                     E* f7 = reinterpret_cast<R*>(ref)->BSFile_GetDevice();
-                    f7->FUN_0041c930(d, 0, g4, reinterpret_cast<CheckProcessFlag>((*reinterpret_cast<void***>(this))[0x11c / 4])(
+                    f7->AllocateStorage_0041c930(d, 0, g4, reinterpret_cast<CheckProcessFlag>((*reinterpret_cast<void***>(this))[0x11c / 4])(
                         this, reinterpret_cast<CheckProcessFlag>((*reinterpret_cast<void***>(this))[0x4e8 / 4])(
                             this, static_cast<const BaseProcess*>(this)->IsProcessActivityActive())));
                     int e = FUN_008c6ca0(d->FUN_0041ca90());
@@ -7617,7 +7617,7 @@ struct EntryExtendList
 
 struct InventoryEntry
 {
-    EntryExtendList* FUN_00559450();
+    EntryExtendList* Modelloader_GetReferencedThis();
     void* FUN_0044ddc0(ExtraDataList* xData, TESObjectREFR* location, int countIn, void* ownerTmp);
     void* FUN_0044ddc0(ExtraDataList* xData, int countIn, NiPoint3* posVal, int flags);
     ~InventoryEntry();
@@ -7957,8 +7957,8 @@ void LowProcess::ProcessEscort(Actor* actor)
             if (entry != 0)
             {
                 ExtraDataList* xData = 0;
-                if (entry->FUN_00559450())
-                    xData = *entry->FUN_00559450()->FUN_006815c0();
+                if (entry->Modelloader_GetReferencedThis())
+                    xData = *entry->Modelloader_GetReferencedThis()->FUN_006815c0();
                 void* ownerTmp = 0;
                 if (xData != 0 && xData->ExtraDataList_GetReferencePointer())
                     ownerTmp = (void*)((Actor*)xData->ExtraDataList_GetReferencePointer())->GetHavokWorldObjectCountInSceneGraph_0084e3a0();
@@ -7971,8 +7971,8 @@ void LowProcess::ProcessEscort(Actor* actor)
                 }
                 else
                 {
-                    if (entry->FUN_00559450())
-                        xData = *entry->FUN_00559450()->FUN_006815c0();
+                    if (entry->Modelloader_GetReferencedThis())
+                        xData = *entry->Modelloader_GetReferencedThis()->FUN_006815c0();
                     NiPoint3* posVal = 0;
                     PackageTargetData* target = packageNum->FUN_0055b980();
                     PackageLocationData* packageLocation = packageNum->FUN_00671d10();
@@ -8146,7 +8146,7 @@ struct ListQ
 {
     bool FUN_008256d0();
     FUN_007b3fa0** FUN_006815c0();
-    void FUN_00905330(FUN_007b3fa0* const& r);
+    void RemoveMatchingItem(FUN_007b3fa0* const& r);
     int pad[2];
 };
 struct M6cQ
@@ -8172,7 +8172,7 @@ void LowProcess::ResetAndClear(unsigned int auiFlags, MobileObject* a2)
         while (!reinterpret_cast<ListQ&>(ReferenceListNode).FUN_008256d0())
         {
             FUN_007b3fa0* pElem = *reinterpret_cast<ListQ&>(ReferenceListNode).FUN_006815c0();
-            reinterpret_cast<ListQ&>(ReferenceListNode).FUN_00905330(pElem);
+            reinterpret_cast<ListQ&>(ReferenceListNode).RemoveMatchingItem(pElem);
             delete pElem;
         }
         reinterpret_cast<M6cQ&>(m_kReferenceList68).FUN_00470470();

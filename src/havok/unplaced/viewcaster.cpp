@@ -13,7 +13,7 @@ struct FUN_00621440_cls
 {
     int unk00;
 
-    void* FUN_00559450();
+    void* Modelloader_GetReferencedThis();
     int CameraCaster_GetWorld();
 };
 
@@ -23,8 +23,8 @@ struct FUN_00621440_cls
 int FUN_00621440_cls::CameraCaster_GetWorld()
 {
     int result = 0;
-    if (FUN_00559450())
-        result = bhkWorld_Getbhk(((Inner62*)FUN_00559450())->bhkWorldObject_GethkWorld());
+    if (Modelloader_GetReferencedThis())
+        result = bhkWorld_Getbhk(((Inner62*)Modelloader_GetReferencedThis())->bhkWorldObject_GethkWorld());
     return result;
 }
 
@@ -86,7 +86,7 @@ unsigned int __cdecl PackBytesBigEndian(unsigned int a, unsigned int b, unsigned
 class FUN_00631ca0_cls
 {
   public:
-    SpawnedObject* FUN_00559450();
+    SpawnedObject* Modelloader_GetReferencedThis();
     void ViewCaster_Add(SpawnedObject* obj);
 };
 
@@ -96,12 +96,12 @@ class FUN_00631ca0_cls
 void FUN_00631ca0_cls::ViewCaster_Add(SpawnedObject* obj)
 {
     ScopeGuard guard(0x10, 1, "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\Havok\\ViewCaster.cpp", 0x74);
-    if (this->FUN_00559450() != 0)
+    if (this->Modelloader_GetReferencedThis() != 0)
     {
-        this->FUN_00559450()->v39(obj);
+        this->Modelloader_GetReferencedThis()->v39(obj);
         if (obj != 0)
         {
-            obj->bhkWorld_SetDebugObjectColor(this->FUN_00559450(), PackBytesBigEndian(0x58, 0xad, 0x56, 0x19));
+            obj->bhkWorld_SetDebugObjectColor(this->Modelloader_GetReferencedThis(), PackBytesBigEndian(0x58, 0xad, 0x56, 0x19));
         }
     }
 }

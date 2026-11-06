@@ -101,10 +101,11 @@ struct FUN_00e2f8b0_Obj
     int unk24;
     int unk28;
 
-    int FUN_00e2f8b0();
+    int GetUnk28();
 };
 // @fnv 0x00e2f8b0
-int FUN_00e2f8b0_Obj::FUN_00e2f8b0()
+// src: GUESS 0x00e2f8b0 (confidence: low)
+int FUN_00e2f8b0_Obj::GetUnk28()
 {
     return unk28;
 }
@@ -451,7 +452,8 @@ void __cdecl DecodeQuantizedBlock(const unsigned char* __restrict in, const QPar
 
 // Swaps the byte order of a float by reinterpreting its bits as a 32-bit integer and reversing the four bytes.
 // @fnv 0x00e2f970
-float __cdecl FUN_00e2f970(float f)
+// src: GUESS 0x00e2f970 (confidence: high)
+float __cdecl hkaWaveletCompressedAnimation_SwapFloatByteOrder(float f)
 {
     union { float f; unsigned int u; unsigned char b[4]; } v;
     v.f = f;
@@ -464,7 +466,8 @@ float __cdecl FUN_00e2f970(float f)
 }
 
 // @fnv 0x00e2f9d0
-static __declspec(noinline) unsigned short FUN_00e2f9d0(unsigned short usValue)
+// src: GUESS 0x00e2f9d0 (confidence: high)
+static __declspec(noinline) unsigned short hkaWaveletCompressedAnimation_SwapUnsignedShortByteOrder(unsigned short usValue)
 {
     union U { unsigned short w; unsigned char b[2]; } u;
     u.b[0] = (unsigned char)(usValue >> 8);
@@ -472,7 +475,7 @@ static __declspec(noinline) unsigned short FUN_00e2f9d0(unsigned short usValue)
     return u.w;
 }
 unsigned short volatile g_in; unsigned short g_out;
-void caller() { g_out = FUN_00e2f9d0(g_in); }
+void caller() { g_out = hkaWaveletCompressedAnimation_SwapUnsignedShortByteOrder(g_in); }
 
 #include <xmmintrin.h>
 extern float DAT_01012068;

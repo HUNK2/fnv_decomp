@@ -165,7 +165,8 @@ void NiExtraData::SaveBinary(NiStream& kStream)
 
 // Restores the NiExtraData vtable, releases the reference-counted object at offset 8 if not the empty sentinel, then calls the NiRefObject destructor.
 // @fnv 0x00a7b300
-void NiExtraData::FUN_00a7b300()
+// src: GUESS 0x00a7b300 (confidence: medium)
+void NiExtraData::DestroyFields_00a7b300()
 {
     *reinterpret_cast<void* volatile*>(this) = kVtbl_NiExtraData;
 

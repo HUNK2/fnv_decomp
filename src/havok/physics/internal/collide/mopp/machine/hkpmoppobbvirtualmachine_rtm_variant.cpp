@@ -111,7 +111,7 @@ extern AllocatorContext* __cdecl hkMemoryRouter_getInstance();
 extern void __cdecl ResizeAudioStream(void*, void*, int);
 extern unsigned char DAT_01269cbc;
 extern void __cdecl ValidateHavokKeyCode(unsigned char*);
-struct ErrorText { char* data; int length; int capacity; void FUN_00cb1600(char*,int); void FUN_00cc01c0(const char*); void FUN_00cc00e0(); };
+struct ErrorText { char* data; int length; int capacity; void FUN_00cb1600(char*,int); void ProcessAndReturnValue_00cc01c0(const char*); void FUN_00cc00e0(); };
 struct ErrorReporter { virtual void ReportDiagnostic(); virtual void unused1(); virtual void unused2(); virtual int report(int,unsigned,const char*,const char*,int); };
 extern ErrorReporter* DAT_01268360;
 struct VirtualMachine {

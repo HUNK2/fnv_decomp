@@ -86,7 +86,7 @@ struct FUN_00d08a40_class {
     void __thiscall ProcessFlaggedEntries(void* arg);
 };
 struct FUN_00cd2a00_class {
-    void __thiscall FUN_00cd2a00();
+    void __thiscall GetValue_00cd2a00();
 };
 void __stdcall hkpAabbTreeWorldManager_getNodeIdx(void* arg);
 struct FUN_00d08a90_class {
@@ -123,12 +123,12 @@ struct PrimaryBase
 };
 struct SecondaryBase
 {
-    virtual void FUN_00d089c0();
+    virtual void HkpAabbTreeWorldManager_removeObjectFromTree_Thunk();
 };
 struct Derived : PrimaryBase, SecondaryBase
 {
     Derived();
-    virtual void FUN_00d089c0();
+    virtual void HkpAabbTreeWorldManager_removeObjectFromTree_Thunk();
 };
 Derived::Derived()
 {
@@ -361,7 +361,7 @@ struct FUN_00d0a1e0_class {
     int unk60;
     int unk64;
     char unk68;
-    char __thiscall FUN_00d0a1e0();
+    char __thiscall GetUnk68_00d0a1e0();
 };
 extern int DAT_010ccfcc;
 extern int DAT_010ccfe0;
@@ -401,8 +401,8 @@ __declspec(align(16)) struct S00d08740_coll {
     int unk78;
     int unk7c;
     float m_80;
-    void FUN_00d984b0(void* a0, void* a1, void* a2, void* a3, void* a4, void* a5, void* a6, void* a7);
-    void FUN_00d9a2a0(void* a0, void* a1, void* a2, void* a3, void* a4, void* a5, void* a6, void* a7);
+    void ComputeValues_00d984b0(void* a0, void* a1, void* a2, void* a3, void* a4, void* a5, void* a6, void* a7);
+    void ProcessAndReturnValue_00d9a2a0(void* a0, void* a1, void* a2, void* a3, void* a4, void* a5, void* a6, void* a7);
 };
 struct S00d08740_cls {
     void* m_00;
@@ -469,7 +469,7 @@ public:
 class hkpIslandListenerD08 {
 public:
     virtual void islandAddedCallback(hkpSimulationIsland* island);
-    virtual void FUN_00d089f0(hkpSimulationIsland* island);
+    virtual void MarkAndProcessIslandCollidables(hkpSimulationIsland* island);
 };
 class TrackerD08 : public hkpPrimaryD08, public hkpIslandListenerD08 {
 public:
@@ -497,7 +497,7 @@ public:
     bool m_needsUpdate;
 
     void hkpAabbTreeWorldManager_queueInactivated(hkpCollidable* collidable);
-    virtual void FUN_00d089f0(hkpSimulationIsland* island);
+    virtual void MarkAndProcessIslandCollidables(hkpSimulationIsland* island);
 };
 extern int DAT_010ccfcc;
 extern float DAT_0104da4c;
@@ -538,7 +538,7 @@ __declspec(align(16)) struct S00d0a490_Obj {
     int m_84;
     int m_88;
     int m_8c;
-    int FUN_00d984b0(int, int, int, int, int, int, int, int);
+    int ComputeValues_00d984b0(int, int, int, int, int, int, int, int);
 };
 struct S00d0a490_cls {
     int m_00;
@@ -548,7 +548,7 @@ struct S00d0a490_cls {
     int m_10;
     int __thiscall CallSubroutine(int a0, int a1, int a2, int a3, int a4, int a5, int a6);
 };
-void __cdecl FUN_00d083c0();
+void __cdecl Object_DoNothing_00d083c0();
 void __cdecl hkpAabbTreeWorldManager_gatherInactiveCollidablesFromWorld(hkArray<int*>& out, hkpWorld* world);
 extern unsigned int DAT_0126835c;
 extern char DAT_010cd234[];
@@ -592,18 +592,19 @@ struct UpdateOwner {
 // FUN_00d0a200 : MSVC this-adjusting thunk  (sub ecx, 0x14 ; jmp <impl>)
 struct A1_00d0a200 {
     A1_00d0a200();
-    virtual void FUN_00d0a200();
+    virtual void AdjustThisAndForward_00d0a200();
     char pad[0x10];
 };
 struct A2_00d0a200 {
     A2_00d0a200();
-    virtual void FUN_00d0a200();
+    virtual void AdjustThisAndForward_00d0a200();
 };
 struct Own_00d0a200 : A1_00d0a200, A2_00d0a200 {
     Own_00d0a200();
     virtual void key_fn();
 // @fnv 0x00d0a200
-    void FUN_00d0a200();
+// src: GUESS 0x00d0a200 (confidence: low)
+    void AdjustThisAndForward_00d0a200();
 };
 Own_00d0a200::Own_00d0a200() { }
 void Own_00d0a200::key_fn() { }
@@ -910,7 +911,7 @@ extern char DAT_010cd140;
 extern char DAT_010cd214;
 extern char DAT_01076f38;
 struct D9bed0Cls {
-    void __thiscall FUN_00d9bed0();
+    void __thiscall UpdateState_00d9bed0();
 };
 struct D09020Cls {
     void __thiscall hkpAabbTreeWorldManager_buildInactiveTree(int* p, void* a, void* b);
@@ -1039,7 +1040,7 @@ struct CollectorState {
  __m128 m40,m50,m60,m70;
  float f80,f84;
  float* m_88;
- void __thiscall FUN_00d984b0(int arg1, Obj* arg2, Vertex* arg3, void* arg4, MatrixData* arg5, FloatPtr arg6, void* volatile arg7, void* volatile arg8);
+ void __thiscall ComputeValues_00d984b0(int arg1, Obj* arg2, Vertex* arg3, void* arg4, MatrixData* arg5, FloatPtr arg6, void* volatile arg7, void* volatile arg8);
 };
 extern "C" const __m128 DAT_010ec7f0={1,1,1,1};
 extern "C" const float DAT_01016248=0.5f;
@@ -1050,7 +1051,8 @@ inline void hkVector4::interpolate(const hkVector4& a,const hkVector4& b,const S
 }
 __declspec(noalias) void __cdecl hkKdTreeAabbCastUtils_castAabb(void* output, int arg1, Triple* mid, CollectorState* self, float f);
 // @fnv 0x00d984b0
-void CollectorState::FUN_00d984b0(int arg1, Obj* arg2, Vertex* arg3, void* arg4, MatrixData* arg5, FloatPtr arg6, void* volatile arg7, void* volatile arg8)
+// src: GUESS 0x00d984b0 (confidence: low)
+void CollectorState::ComputeValues_00d984b0(int arg1, Obj* arg2, Vertex* arg3, void* arg4, MatrixData* arg5, FloatPtr arg6, void* volatile arg7, void* volatile arg8)
 {
     m_arg7=arg7;
     m_arg8=arg8;

@@ -35,7 +35,7 @@ class Model
   public:
     void SetManualRefCount(int);
     void Model_IncManualRefCount();
-    const char* FUN_00559450();
+    const char* Modelloader_GetReferencedThis();
 };
 class KFModel;
 class ModelLoader
@@ -47,7 +47,7 @@ class ModelLoader
     KFModel* LoadKF(const char*);
     BSSimpleList<const char*>* GetModelFileList(const char*, bool, bool, int);
 };
-void FUN_0040ab50();
+void MagicItem_IncrementGlobalCounter();
 extern ModelLoader* g_modelLoader;
 class TaskQueueInterface
 {
@@ -350,7 +350,7 @@ void MagicItem::Preload(bool immediate)
                 }
                 if (!current.effect->HasEffectID() && !current.effect->UsesAssociatedActorValue() &&
                     current.effect->IsFlagSet_00403e60(0x40000))
-                    FUN_0040ab50();
+                    MagicItem_IncrementGlobalCounter();
                 current.effect->UpdateCounter();
             }
             pIter = (EffectItemList*)pIter->GetNext();
@@ -382,7 +382,8 @@ struct FUN_0040c110_ptr
 void __fastcall Model_DecRefCount(FUN_0040c110_ptr::Target*);
 
 // @fnv 0x0040c110
-void __fastcall FUN_0040c110(FUN_0040c110_ptr* _this)
+// src: GUESS 0x0040c110 (confidence: high)
+void __fastcall MagicItem_ReleaseModelReference(FUN_0040c110_ptr* _this)
 {
     if (_this->m_pObject)
         Model_DecRefCount(_this->m_pObject);
@@ -402,13 +403,13 @@ struct FUN_004047f0_arg
 {
     const BSStringT<char>* s;
 };
-const char* __fastcall FUN_00559450(const BSStringT<char>*);
+const char* __fastcall Modelloader_GetReferencedThis(const BSStringT<char>*);
 void __fastcall FUN_00403970(BSStringT<char>*);
 // @fnv 0x004047f0
 BSStringT<char>* __fastcall AssignFromString(BSStringT<char>* this_ptr, FUN_004047f0_arg aStringArg)
 {
     FUN_00403970(this_ptr);
-    this_ptr->Set(FUN_00559450(aStringArg.s), 0);
+    this_ptr->Set(Modelloader_GetReferencedThis(aStringArg.s), 0);
     return this_ptr;
 }
 
@@ -418,7 +419,8 @@ struct FUN_0040c0e0_arg
 };
 void __fastcall FUN_00403970(BSStringT<char>*);
 // @fnv 0x0040c0e0
-BSStringT<char>* __fastcall FUN_0040c0e0(BSStringT<char>* this_ptr, FUN_0040c0e0_arg aCString)
+// src: GUESS 0x0040c0e0 (confidence: medium)
+BSStringT<char>* __fastcall BSStringT_InitializeCString(BSStringT<char>* this_ptr, FUN_0040c0e0_arg aCString)
 {
     FUN_00403970(this_ptr);
     this_ptr->Set(aCString.s, 0);
@@ -428,7 +430,8 @@ BSStringT<char>* __fastcall FUN_0040c0e0(BSStringT<char>* this_ptr, FUN_0040c0e0
 extern int DAT_011c3438;
 
 // @fnv 0x0040ab50
-void FUN_0040ab50()
+// src: GUESS 0x0040ab50 (confidence: medium)
+void MagicItem_IncrementGlobalCounter()
 {
     DAT_011c3438 += 1;
 }
@@ -542,7 +545,7 @@ void __fastcall PreloadModels(MagicItem* magicItem)
                             BSSimpleList<const char*>* pcreatureFileList;
                             for (int i = 0; i < icount; i++)
                                 ((Model*)spmodel)->Model_IncManualRefCount();
-                            pfilename = ((Model*)spmodel)->FUN_00559450();
+                            pfilename = ((Model*)spmodel)->Modelloader_GetReferencedThis();
                             pfilelist = pcreature->TESModelList::FUN_00717e50();
                             TaskQueueInterface::CopyStringToBuffer(path, 260, pfilename);
                             plastSlash = strrchr_0040ab30(path, '\\');

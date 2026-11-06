@@ -120,7 +120,8 @@ void* __fastcall DestroyObjectArray(
 
 void DestroyFogProperty();
 // @fnv 0x00a99f30
-void FUN_00a99f30()
+// src: GUESS 0x00a99f30 (confidence: medium)
+void BSFogProperty_DestroyFogProperty_Thunk()
 {
     DestroyFogProperty();
 }

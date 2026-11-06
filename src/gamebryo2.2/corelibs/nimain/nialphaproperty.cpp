@@ -318,7 +318,7 @@ void __cdecl NiAlphaProperty_RegisterStreamables()
 
 extern char DAT_011f4404;
 extern int DAT_010162dc;
-void* __cdecl FUN_00aa13e0(unsigned int size);
+void* __cdecl Object_DispatchCommandFour(unsigned int size);
 
 // Base helpers not exposed by the shared NiProperty declaration.
 struct NiPropertyCloneStub
@@ -337,7 +337,7 @@ NiAlphaProperty* __fastcall CloneAlphaProperty(NiAlphaProperty* self, int, int a
         CreateVertexBufferSet(self, a0);
         return self;
     }
-    NiAlphaProperty* n = (NiAlphaProperty*)FUN_00aa13e0(0x1c);
+    NiAlphaProperty* n = (NiAlphaProperty*)Object_DispatchCommandFour(0x1c);
     if (n)
     {
         reinterpret_cast<NiPropertyCloneStub*>(n)->FUN_00a5c200();

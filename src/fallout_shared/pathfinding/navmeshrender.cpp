@@ -56,7 +56,8 @@ struct Dummy0042f800
 };
 
 // @fnv 0x0049f1c0
-void* __fastcall FUN_0049f1c0(int** pThis)
+// src: GUESS 0x0049f1c0 (confidence: low)
+void* __fastcall Object_InitializeFields_0049f1c0(int** pThis)
 {
     *pThis = &DAT_010159d4;
     reinterpret_cast<Dummy0042f800*>(pThis)->FUN_0042fcb0(0, 0);

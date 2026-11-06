@@ -145,7 +145,7 @@ void _Deallocate(void*);
 // @fnv 0x00867150
 void* __thiscall BGSMoviePlayer::FUN_00867150(unsigned int flags)
 {
-    FUN_00867180();
+    UpdateFields_00867180();
     if (flags & 1)
         _Deallocate(this);
     return this;
@@ -166,7 +166,8 @@ struct FUN_00ec15e0_shell
 };
 
 // @fnv 0x00867180
-void __thiscall BGSMoviePlayer::FUN_00867180()
+// src: GUESS 0x00867180 (confidence: low)
+void __thiscall BGSMoviePlayer::UpdateFields_00867180()
 {
     *(void**)this = &DAT_01082564;
     ((FUN_00ec15e0_shell*)this)->FUN_00ec15e0();

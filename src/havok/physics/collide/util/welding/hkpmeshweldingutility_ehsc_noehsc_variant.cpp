@@ -56,7 +56,8 @@ struct ComparisonResult
         return value;
     }
 };
-__declspec(noinline) ComparisonResult FUN_00ddcda0(const Record& left, const Record& right)
+// src: GUESS 0x00ddcda0 (confidence: low)
+__declspec(noinline) ComparisonResult Object_CompareField08_00ddcda0(const Record& left, const Record& right)
 {
     return ComparisonResult(left.key > right.key);
 }
@@ -70,7 +71,7 @@ void hkAlgorithm_quickSortRecursive_struct_hkEntry_class_hkAlgorithm_less_struct
 // Exe 0x00dddcd0: unit-local DynamicArray view; declarations and layout are preserved.
 struct HkpmeshweldingutilityDynamicArrayView
 {
-    void FUN_00ddecb0(int a, int b, int c, int d);
+    void SpliceElements_Thunk(int a, int b, int c, int d);
 };
 struct S_00ddecf0_Key
 {
@@ -96,7 +97,7 @@ struct S_00ddecf0_Array
 {
     S_00ddecf0_Key* m_data;
     int m_iElementCount;
-    void FUN_00ddecd0(S_00ddecf0_Heap& heap, int index, const S_00ddecf0_Key& key);
+    void ForwardCall_00ddecd0(S_00ddecf0_Heap& heap, int index, const S_00ddecf0_Key& key);
 };
 struct S_00ddecf0
 {
@@ -106,7 +107,7 @@ struct S_00ddecf0
 };
 extern double DAT_010cd5a8;
 extern double DAT_0101ff40;
-float FUN_00ddd7e0(int a1, int* pOut, float* pF);
+float Object_ComputeDihedralSinCos(int a1, int* pOut, float* pF);
 int GetIndexForValue(int aiArg);
 struct Iface
 {
@@ -294,8 +295,8 @@ static __forceinline void S_00ddeab0_GrowArrayCapacity(hkArrayBase<S_00ddeab0_El
     }
 struct S_00ddecd0
 {
-    void FUN_00ddecb0(int a, int b, int c, int flag);
-    void FUN_00ddecd0(int a, int b, int c);
+    void SpliceElements_Thunk(int a, int b, int c, int flag);
+    void ForwardCall_00ddecd0(int a, int b, int c);
 };
 struct ObjInner
 {
@@ -333,7 +334,7 @@ struct hkTransformHolderDDCE
 };
 struct hkUtilDDCE
 {
-    static hkBool FUN_00ddced0(const hkTransformHolderDDCE& kA, const hkTransformHolderDDCE& kB);
+    static hkBool ForwardCall_00ddced0(const hkTransformHolderDDCE& kA, const hkTransformHolderDDCE& kB);
 };
 struct FUN_00ddea00_src
 {
@@ -384,7 +385,7 @@ __declspec(align(16)) struct FUN_00ddea00_cls
 
     FUN_00ddea00_cls* CopyFromSource(const FUN_00ddea00_src* src);
 };
-int __cdecl FUN_00ddd6f0(const LocalM128* a, const LocalM128* b, int index, LocalM128* out, int* result);
+int __cdecl Hkpmeshweldingutility_MergeTriangleVectors(const LocalM128* a, const LocalM128* b, int index, LocalM128* out, int* result);
 extern const float DAT_01011d78;
 extern const float DAT_01017718;
 extern const float DAT_01016248;
@@ -836,7 +837,7 @@ struct TextFormat
     int size;
     int capacityFlags;
     void FUN_00cb1600(char*, int);
-    TextFormat* FUN_00cc01c0(const char*);
+    TextFormat* ProcessAndReturnValue_00cc01c0(const char*);
     void FUN_00cc00e0();
 };
 
@@ -860,7 +861,7 @@ __declspec(noinline) void __cdecl hkpMeshWeldingUtility_calcAntiClockwiseTriangl
     normal.setCross(e0, e1);
     normal.normalize3();
 }
-hkBool __cdecl FUN_00ddcf60(const hkVector4& v0, const hkVector4& v1, const hkpTriangleShapeW* triangle);
+hkBool __cdecl Object_TestTriangleVertexProximity(const hkVector4& v0, const hkVector4& v1, const hkpTriangleShapeW* triangle);
 float __cdecl hkpMeshWeldingUtility_calcAngleForEdge(const hkVector4& normal, const hkVector4& perp, const hkVector4& otherNormal);
 void __cdecl GenerateTrianglePlanes(hkVector4* planes, const hkpTriangleShapeW* triangle, float tolerance);
 hkBool __cdecl hkClipEdgeAgainstPlanes(const hkVector4& a, const hkVector4& b, int numPlanes, const hkVector4* planes,
@@ -895,7 +896,7 @@ void __cdecl hkpMeshWeldingUtility_computeWeldingInfoMultiShape(const Transform&
         char* message = reinterpret_cast<char*>(&messageStorage);
         TextFormat formatted;
         formatted.FUN_00cb1600(message, 512);
-        formatted.FUN_00cc01c0(&DAT_010d7f80);
+        formatted.ProcessAndReturnValue_00cc01c0(&DAT_010d7f80);
         ((ErrorManager*)DAT_01268360)->Report(1, 0x3f508c6a, message, &DAT_010d7f50, 271);
         formatted.FUN_00cc00e0();
         return;
@@ -955,10 +956,10 @@ void __cdecl hkpMeshWeldingUtility_computeWeldingInfoMultiShape(const Transform&
                     if (other->getType() != HK_SHAPE_TRIANGLE_W)
                         continue;
 
-                    if (hkUtilDDCE::FUN_00ddced0(*(const hkTransformHolderDDCE*)triangle,
+                    if (hkUtilDDCE::ForwardCall_00ddced0(*(const hkTransformHolderDDCE*)triangle,
                                                  *(const hkTransformHolderDDCE*)other)
                             .m_cBooleanValue ||
-                        FUN_00ddcf60(b, c, other) || FUN_00ddcf60(c, a, other))
+                        Object_TestTriangleVertexProximity(b, c, other) || Object_TestTriangleVertexProximity(c, a, other))
                         continue;
 
                     hkVector4 otherNormal;

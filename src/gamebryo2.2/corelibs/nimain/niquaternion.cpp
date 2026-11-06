@@ -279,7 +279,7 @@ void NiQuaternion::Snap()
 struct Quaternion
 {
     float w, x, y, z;
-    Quaternion* FUN_00a2bcf0(Quaternion* out, const Quaternion* right);
+    Quaternion* MultiplyQuaternion(Quaternion* out, const Quaternion* right);
 };
 Quaternion* __cdecl NiQuaternion_Log(Quaternion* out, const Quaternion* in);
 void __cdecl NiQuaternion_Exp(Quaternion* out, const Quaternion* in);
@@ -299,11 +299,11 @@ Quaternion* __cdecl NiQuaternion_Intermediate(Quaternion* output, const Quaterni
 
     Quaternion qProductNext;
     Quaternion qLogNext;
-    volatile Quaternion* pLogNext = NiQuaternion_Log(&qLogNext, inverse.FUN_00a2bcf0(&qProductNext, next));
+    volatile Quaternion* pLogNext = NiQuaternion_Log(&qLogNext, inverse.MultiplyQuaternion(&qProductNext, next));
 
     Quaternion qProductPrev;
     Quaternion qLogPrev;
-    Quaternion* pLogPrev = NiQuaternion_Log(&qLogPrev, inverse.FUN_00a2bcf0(&qProductPrev, previous));
+    Quaternion* pLogPrev = NiQuaternion_Log(&qLogPrev, inverse.MultiplyQuaternion(&qProductPrev, previous));
 
     inverse.w = pLogNext->w + pLogPrev->w;
     inverse.x = pLogNext->x + pLogPrev->x;
@@ -318,7 +318,7 @@ Quaternion* __cdecl NiQuaternion_Intermediate(Quaternion* output, const Quaterni
 
     Quaternion qExponential;
     NiQuaternion_Exp(&qExponential, &qScaled);
-    current->FUN_00a2bcf0(output, &qExponential);
+    current->MultiplyQuaternion(output, &qExponential);
     return output;
 }
 

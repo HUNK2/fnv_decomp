@@ -46,7 +46,7 @@ struct FUN_00c6c290_holder
 };
 struct FUN_0066d410_shell : public FUN_00c6c290_holder
 {
-    void FUN_0066d410();
+    void ForwardCall_0066d410();
 };
 extern const NiRTTI g_012683d0;
 struct FUN_0066d430_shell
@@ -56,13 +56,13 @@ struct FUN_0066d430_shell
 void __cdecl __Dummy_00b6fef0(void* p, unsigned int size);
 struct FUN_0066d440_shell
 {
-    void FUN_0066d470();
+    void ForwardCall_0066d470();
     void* FUN_0066d440(unsigned int flags);
 };
 struct FUN_0066d470_shell
 {
-    void FUN_0066d410();
-    void FUN_0066d470();
+    void ForwardCall_0066d410();
+    void ForwardCall_0066d470();
 };
 struct FUN_0066d510_shell
 {
@@ -302,7 +302,7 @@ struct S00cb7750
     Inner00cb7750* m_10;
     void __thiscall bhkSPCollisionObject_hktoNiTransform();
 };
-void* __fastcall FUN_00c6b910(void*);
+void* __fastcall NiRTTI_UpdateState_00c6b910(void*);
 extern int DAT_01066b94;
 BSFadeNode* bhkPCollisionObject_CreateObject();
 struct Middle
@@ -2054,7 +2054,7 @@ struct __declspec(align(16)) xVec4
     void hkVector4_mul4(const struct xL&);
     xVec4 hkVector4_lengthSquared3() const;
     xVec4 FUN_00630b40() const;
-    float FUN_004586d0() const;
+    float EvaluateValue_004586d0() const;
 };
 struct __declspec(align(16)) xL
 {
@@ -2099,12 +2099,12 @@ struct xForm
 struct xNode
 {
     void* FUN_0044ddc0();
-    unsigned int FUN_00559450();
+    unsigned int Modelloader_GetReferencedThis();
 };
 struct xArr
 {
     int FUN_00726070();
-    xForm* FUN_0062e150(int);
+    xForm* GetElementPointer16(int);
 };
 struct __declspec(align(16)) xList
 {
@@ -2186,7 +2186,7 @@ struct xObj3D
 
 struct xObjPtr
 {
-    unsigned int FUN_00559450();
+    unsigned int Modelloader_GetReferencedThis();
     xObj3D* operator->();
 };
 struct xRef
@@ -2245,7 +2245,7 @@ struct xEffect
 // src: XBOX_PDB 0x0066c160
 void xEffect::BSTreeNode_UpdateBSTreeNode(float afTime)
 {
-    if (m_e4.FUN_00559450())
+    if (m_e4.Modelloader_GetReferencedThis())
         m_e4->FUN_08(this);
     if (!BSTreeNode_CheckForCollision(afTime))
         return;
@@ -2264,8 +2264,8 @@ void xEffect::BSTreeNode_UpdateBSTreeNode(float afTime)
     xArr* ARR = LIST.FUN_00413f40();
     for (int I = 0; I < ARR->FUN_00726070(); I++)
     {
-        void* PA = xFUN_004b5950(ARR->FUN_0062e150(I)->m_8);
-        xB* PB = xFUN_004b59f0(ARR->FUN_0062e150(I)->m_8);
+        void* PA = xFUN_004b5950(ARR->GetElementPointer16(I)->m_8);
+        xB* PB = xFUN_004b59f0(ARR->GetElementPointer16(I)->m_8);
         if (PA)
         {
             xCreated* PC = xFUN_00c6dec0(0x3e8, PA);
@@ -2277,10 +2277,10 @@ void xEffect::BSTreeNode_UpdateBSTreeNode(float afTime)
                     xEvent EV;
                     xVec4 DIR(xFUN_005c5420(), xFUN_005c5420(), xFUN_005c5420(), 0.0f);
                     DIR.hkVector4_fastNormalize3();
-                    xVec4 POS(*((xHasPos*)ARR->FUN_0062e150(I)->m_8->FUN_0044ddc0())->FUN_00436aa0());
+                    xVec4 POS(*((xHasPos*)ARR->GetElementPointer16(I)->m_8->FUN_0044ddc0())->FUN_00436aa0());
                     EV.hkContactPoint_set(POS, DIR, 0.0f);
                     EV.m_20 = PREF->GetSourceFilesFromObject();
-                    EV.m_48 = ARR->FUN_0062e150(I)->m_8;
+                    EV.m_48 = ARR->GetElementPointer16(I)->m_8;
                     EV.m_24 = EV.m_4c = 0;
                     PD->m_410.FUN_08(0, &EV);
                     xBound BND;
@@ -2304,9 +2304,9 @@ void xEffect::BSTreeNode_UpdateBSTreeNode(float afTime)
             {
                 xVec4 V1(*xFUN_00560dc0(PB));
                 xVec4 V2(*PB->hkpRigidBody_getAngularVelocity());
-                if (V1.hkVector4_lengthSquared3().FUN_004586d0() > 1.0)
+                if (V1.hkVector4_lengthSquared3().EvaluateValue_004586d0() > 1.0)
                 {
-                    float SPEED = V1.FUN_00630b40().FUN_004586d0() *
+                    float SPEED = V1.FUN_00630b40().EvaluateValue_004586d0() *
                                   (1.0 - xFUN_00944460(*xg_11d5e58.Setting_Int(), *xg_11d5e94.Setting_Int()) / 100.0);
                     float R1 = xFUN_004dfea0();
                     float R2 = xFUN_004dfea0();
@@ -2317,9 +2317,9 @@ void xEffect::BSTreeNode_UpdateBSTreeNode(float afTime)
                     D1.hkVector4_mul4(L1);
                     PB->OnTrigger(&D1);
                 }
-                if (V2.hkVector4_lengthSquared3().FUN_004586d0() > 1.0)
+                if (V2.hkVector4_lengthSquared3().EvaluateValue_004586d0() > 1.0)
                 {
-                    float SPEED2 = V2.FUN_00630b40().FUN_004586d0() * (xFUN_00944460(0, 20) / 100.0 + 90.0);
+                    float SPEED2 = V2.FUN_00630b40().EvaluateValue_004586d0() * (xFUN_00944460(0, 20) / 100.0 + 90.0);
                     float R4 = xFUN_004dfea0();
                     float R5 = xFUN_004dfea0();
                     float R6 = xFUN_004dfea0() - 0.25;
@@ -2331,11 +2331,11 @@ void xEffect::BSTreeNode_UpdateBSTreeNode(float afTime)
                 }
                 xBound BND2;
                 xP3 PT2;
-                xShapeX* PS = (xShapeX*)xFUN_004a3a40(ARR->FUN_0062e150(I)->m_8->FUN_00559450());
+                xShapeX* PS = (xShapeX*)xFUN_004a3a40(ARR->GetElementPointer16(I)->m_8->Modelloader_GetReferencedThis());
                 BND2.m_14 = 4;
                 BND2.m_15 = (unsigned char)(PS ? PS->bhkShape_QMaterial() : 0);
                 BND2.m_10 = 1.0f;
-                BND2.m_iThirdValue = xFUN_004587d0(V1.FUN_00630b40().FUN_004586d0());
+                BND2.m_iThirdValue = xFUN_004587d0(V1.FUN_00630b40().EvaluateValue_004586d0());
                 BND2.m_18 = (int)PB + (int)PREF;
                 BND2.m_pos = *xFUN_00458620(&PT2, ((xHasPos*)xFUN_004b4f00(PB))->FUN_00436aa0());
                 BND2.m_1c = (int)xFUN_004b5a80(PB);

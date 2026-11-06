@@ -107,7 +107,7 @@ bool NiShadeProperty::NiCullingProperty_IsEqual(NiObject* pkObject)
 
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
-void* __cdecl FUN_00aa13e0(unsigned int);
+void* __cdecl Object_DispatchCommandFour(unsigned int);
 
 inline void ReleaseProperty(NiShadeProperty* property)
 {
@@ -137,7 +137,7 @@ extern PropertyHolder DAT_011f5ae8;
 // src: XBOX_PDB 0x00a81520
 void __cdecl NiShadeProperty__SDMInit()
 {
-    void* allocation = FUN_00aa13e0(32);
+    void* allocation = Object_DispatchCommandFour(32);
     NiShadeProperty* replacement;
     if (allocation != 0)
     {

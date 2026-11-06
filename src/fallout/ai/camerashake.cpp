@@ -24,7 +24,8 @@ struct ModelLoader_target
 };
 // If DAT_011dfecc is set, passes its GetName() string to g_modelLoader's FUN_0045a5e0 and clears DAT_011dfecc.
 // @fnv 0x008d1920
-void FUN_008d1920()
+// src: GUESS 0x008d1920 (confidence: medium)
+void Object_ProcessAndClearModelPath()
 {
     if (DAT_011dfecc)
     {

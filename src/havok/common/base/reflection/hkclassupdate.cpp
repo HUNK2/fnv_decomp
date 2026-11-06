@@ -116,7 +116,7 @@ void VisitTypeNode(TypeNode* node, VisitMap* visited)
 
 void __cdecl VisitTypeNode(void* registry, void* context);
 void __cdecl VisitTypeMembers(void* registry, void* context, int size, void(__cdecl* func)(void*));
-void __cdecl FUN_00e04a60(void* data);
+void __cdecl Object_UpdateFields_00e04a60(void* data);
 void __cdecl UpdateStateFlags(void* data);
 
 extern void* g_E04D30Last;
@@ -138,7 +138,7 @@ void __cdecl RegisterContextHandlers(void* registry, void* context, int level)
         E04D30Finish(registry);
     }
     if (level < 4)
-        VisitTypeMembers(registry, context, 2, FUN_00e04a60);
+        VisitTypeMembers(registry, context, 2, Object_UpdateFields_00e04a60);
     if (level < 5)
         VisitTypeMembers(registry, context, 8, UpdateStateFlags);
 }
@@ -167,7 +167,8 @@ int __cdecl hkString_strCmp(const char*, const char*);
 
 // Marks the node visited and, when its name matches DAT_010d27bc, writes 0x19 at the selected member offset.
 // @fnv 0x00e04cc0
-static __declspec(noinline) void __cdecl FUN_00e04cc0(TraverseNode* node, VisitMap* visited)
+// src: GUESS 0x00e04cc0 (confidence: low)
+static __declspec(noinline) void __cdecl Object_UpdateFields_00e04cc0(TraverseNode* node, VisitMap* visited)
 {
     unsigned int flags = visited->LookupHashEntry(reinterpret_cast<TypeNode*>(node), 0);
     if ((flags & 4) == 0)
@@ -185,7 +186,7 @@ static __declspec(noinline) void __cdecl FUN_00e04cc0(TraverseNode* node, VisitM
 
 void CallTraversal(TraverseNode* node, VisitMap* visited)
 {
-    FUN_00e04cc0(node, visited);
+    Object_UpdateFields_00e04cc0(node, visited);
 }
 
 struct ParentNodeView : TypeNode

@@ -10,11 +10,12 @@ struct FUN_00ece2f0_cls
 {
     int m_vptr;
     void FUN_00ec79a1();
-    void FUN_00ece2f0();
+    void SetVtableAndProcessState_00ece2f0();
 };
 
 // @fnv 0x00ece2f0
-void FUN_00ece2f0_cls::FUN_00ece2f0()
+// src: GUESS 0x00ece2f0 (confidence: low)
+void FUN_00ece2f0_cls::SetVtableAndProcessState_00ece2f0()
 {
     m_vptr = (int)&DAT_010f20a8;
     FUN_00ec79a1();

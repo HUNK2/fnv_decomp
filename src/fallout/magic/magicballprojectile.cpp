@@ -165,7 +165,7 @@ unsigned short FUN_00811070_shell::MagicBallProjectile_GetSaveSize(unsigned int 
 
 struct FUN_008229d0_shell
 {
-    void FUN_00822a00();
+    void ForwardCall_00822a00();
     void* FUN_008229d0(unsigned int);
 };
 void _Deallocate(void*);
@@ -173,7 +173,7 @@ void _Deallocate(void*);
 // @fnv 0x008229d0
 void* FUN_008229d0_shell::FUN_008229d0(unsigned int flags)
 {
-    FUN_00822a00();
+    ForwardCall_00822a00();
     if (flags & 1)
         _Deallocate(this);
     return this;
@@ -185,10 +185,11 @@ struct FUN_0081de70_shell
 };
 struct FUN_00822a00_shell
 {
-    void FUN_00822a00();
+    void ForwardCall_00822a00();
 };
 // @fnv 0x00822a00
-void FUN_00822a00_shell::FUN_00822a00()
+// src: GUESS 0x00822a00 (confidence: low)
+void FUN_00822a00_shell::ForwardCall_00822a00()
 {
     reinterpret_cast<FUN_0081de70_shell*>(this)->FUN_0081de70();
 }
@@ -1880,7 +1881,7 @@ struct Controller
 };
 struct Anim
 {
-    unsigned char FUN_00813370();
+    unsigned char TestFlagAndFloatRange();
     int MiddleHighProcess_GetCurrentFurniture();
     float GetFloatAt144();
     void DispatchFloatPair(float, float, float, bool);
@@ -2024,7 +2025,7 @@ void Projectile::UpdateMotion(float delta)
         {
             MagicBoltProjectile_UpdateBranch(delta, current3);
             next = current3->next;
-            if (((Anim*)current3->anim)->FUN_00813370())
+            if (((Anim*)current3->anim)->TestFlagAndFloatRange())
             {
                 Owner* owner = ((ParentNode*)(Node*)current3->node)->NiAVObject_GetParent();
                 if (owner)
@@ -2083,7 +2084,7 @@ void Projectile::UpdateMotion(float delta)
     }
     if ((Node*)reinterpret_cast<Ptr<Node>&>(m_kImpactTransform.m_Translate.z))
         ((Node*)reinterpret_cast<Ptr<Node>&>(m_kImpactTransform.m_Translate.z))->NiAVObject_SetWorldTranslate(&(*reinterpret_cast<NiPoint3*>(static_cast<const TESObjectREFR*>(this)->GetPos())));
-    if (((Anim*)reinterpret_cast<Ptr<Anim>&>(m_kImpactTransform.m_Rotate.m_pEntry[1][2]))->FUN_00813370() || (reinterpret_cast<int&>(m_kImpactTransform.m_Rotate.m_pEntry[2][0]) == 1 && GetUnka4() - start > 3.0))
+    if (((Anim*)reinterpret_cast<Ptr<Anim>&>(m_kImpactTransform.m_Rotate.m_pEntry[1][2]))->TestFlagAndFloatRange() || (reinterpret_cast<int&>(m_kImpactTransform.m_Rotate.m_pEntry[2][0]) == 1 && GetUnka4() - start > 3.0))
     {
         if (reinterpret_cast<Sound&>(iFlags).FUN_00ad8ce0())
         {
@@ -2665,7 +2666,7 @@ void FUN_0081a320_class::MagicFogProjectile_Update(float afDeltaTime)
             float distanceTraveled;
             float aim[3];
 
-            reinterpret_cast<NiPoint3*>(aim)->FUN_00416870(0.0f, m_88 * afDeltaTime, 0.0f);
+            reinterpret_cast<NiPoint3*>(aim)->SetComponents(0.0f, m_88 * afDeltaTime, 0.0f);
 
             ((FUN_009306d0_shell*)this)
                 ->FUN_009306d0()
@@ -2684,7 +2685,7 @@ void FUN_0081a320_class::MagicFogProjectile_Update(float afDeltaTime)
                 NiPoint3 vCurrentPosition = reinterpret_cast<const NiPoint3&>(*v125());
 
                 v116()->NiAVObject_SetTranslate(reinterpret_cast<NiPoint3*>(&vCurrentPosition));
-                distanceTraveled = reinterpret_cast<NiPoint3&>(vCurrentPosition).FUN_00439ef0(reinterpret_cast<NiPoint3*>(&start)).FUN_00457990();
+                distanceTraveled = reinterpret_cast<NiPoint3&>(vCurrentPosition).SubtractIntoVector(reinterpret_cast<NiPoint3*>(&start)).FUN_00457990();
 
                 m_8c += distanceTraveled;
 
@@ -4322,7 +4323,7 @@ extern NiRTTI DAT_011f36ac;
 struct Val
 {
     float LipSynchAnim_GetPuppetValue(int);
-    unsigned int FUN_00559450();
+    unsigned int Modelloader_GetReferencedThis();
 };
 struct Sub;
 struct MyCtrl
@@ -4994,7 +4995,7 @@ void Host::MobileObject_UpdateAnimation(int aiUnused)
                         if (fWeight < (double)0.01f)
                             fWeight = 0.01f;
                         SetSequenceProgress(fWeight, pkCtrl, pkSeq);
-                        if (uiDiff > FUN_008d8520()->v466()->FUN_00559450())
+                        if (uiDiff > FUN_008d8520()->v466()->Modelloader_GetReferencedThis())
                         {
                             SetSequenceProgress(0.0f, pkCtrl, pkSeq);
                             pkCtrl->FUN_0047b220(pkSeq, 0.0f);
@@ -5644,7 +5645,7 @@ struct CleanupReference : FUN_0092ec40, CleanupSecondary
 };
 struct CleanupList
 {
-    void FUN_00905330(FUN_0092ec40* const&);
+    void RemoveMatchingItem(FUN_0092ec40* const&);
 };
 // Declarations missing from the shared queue; inherit its layout without copying it.
 struct ActorDeletionQueueUnitMethods : ActorDeletionQueue_magicballprojectile
@@ -5658,7 +5659,7 @@ struct CleanupHandler
     bool TESDataHandler_GetClearingData();
 };
 extern CleanupHandler* DAT_011c3f2c;
-void FUN_0062ab60(CleanupVector&, void*);
+void hkVector4_ProcessEntries_0062ab60(CleanupVector&, void*);
 struct FUN_008cac60 : CleanupReference
 {
     virtual ~FUN_008cac60();
@@ -5672,7 +5673,7 @@ FUN_008cac60::~FUN_008cac60()
     if (pCleanupList)
     {
         FUN_0092ec40* reference = this;
-        pCleanupList->FUN_00905330(reference);
+        pCleanupList->RemoveMatchingItem(reference);
     }
     void* scene = TESObjectREFR_Get3D();
     if (scene && data && data->kind == 1)
@@ -5684,7 +5685,7 @@ FUN_008cac60::~FUN_008cac60()
             CleanupVector audioVector;
             audioVector.FUN_006815c0();
             world->GetAudioPosition(audioVector);
-            FUN_0062ab60(audioVector, data->worldHandle);
+            hkVector4_ProcessEntries_0062ab60(audioVector, data->worldHandle);
         }
     }
     if (!detached && data && data->kind == 0 && data->actor && data->actor->IsActor())

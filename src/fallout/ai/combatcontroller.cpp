@@ -3356,7 +3356,7 @@ struct Item
 struct Owner
 {
     Item* FUN_00726070();
-    void* FUN_00559450(Item*);
+    void* Modelloader_GetReferencedThis(Item*);
 };
 struct Node
 {
@@ -3482,11 +3482,11 @@ Owner* CombatPlanner::CreatePlan_0(void* apInput, bool flag)
                 fnv_00994bd0::Item* itemB = owner->FUN_00726070();
                 if (IsValidCode(itemB))
                     itemB = ctx.GetCombatGoal(itemB);
-                if (!ctx.CombatWorldStateArray_IsTrue(owner->FUN_00559450(itemB)))
+                if (!ctx.CombatWorldStateArray_IsTrue(owner->Modelloader_GetReferencedThis(itemB)))
                 {
                     ctx.AppendPair(
                         new (field_20b8.ScrapHeap_Allocate(8, *(unsigned*)&DAT_010a2720))
-                            fnv_00994bd0::Entry(owner->FUN_00559450(itemB)),
+                            fnv_00994bd0::Entry(owner->Modelloader_GetReferencedThis(itemB)),
                         &ctx);
                 }
                 result3 = result3->FUN_0062d990();

@@ -50,8 +50,8 @@ public:
     bool ProcessBeforeSave();
     bool SavesBefore_006b6910(TESForm* form);
     void RegisterNavMeshInfo(TeleportableReference* info);
-    void FUN_006b6990(unsigned int id);
-    void FUN_006b6990(NavMesh* mesh);
+    void ProcessState_006b6990(unsigned int id);
+    void ProcessState_006b6990(NavMesh* mesh);
     void ActivateNavigationEntry(int identifier);
     int FindNavMeshInfoForCell(TESObjectCELL* cell);
     void* FindNavMeshInfoForCellKey(TESWorldSpace* worldSpace, int cellKey);

@@ -86,7 +86,8 @@ struct D38AC0Data
     int unk08;
 };
 // @fnv 0x00d38ac0
-void __cdecl FUN_00d38ac0(void* first, void* second, void* third, int fourth)
+// src: GUESS 0x00d38ac0 (confidence: low)
+void __cdecl Object_UpdateFields_00d38ac0(void* first, void* second, void* third, int fourth)
 {
     D38AC0Data data;
     data.unk08 = fourth;
@@ -188,10 +189,11 @@ extern char unk_10ce7fc[];
 
 // Callee at 0x00d386c0: __cdecl, four arguments,
 // the last one being a pointer to the record built on the stack.
-void __cdecl FUN_00d386c0(int unk04, int unk08, int unk0c, FUN_00d38ed0_Local* unk10);
+void __cdecl Object_ProcessEntries_00d386c0(int unk04, int unk08, int unk0c, FUN_00d38ed0_Local* unk10);
 
 // @fnv 0x00d38ed0
-void __cdecl FUN_00d38ed0(int aiArg1, int aiArg2, int aiArg3, int aiArg4)
+// src: GUESS 0x00d38ed0 (confidence: low)
+void __cdecl hkpMultiSphereTriangleAgent_UpdateState_00d38ed0(int aiArg1, int aiArg2, int aiArg3, int aiArg4)
 {
     FUN_00d38ed0_Local local;
 
@@ -199,7 +201,7 @@ void __cdecl FUN_00d38ed0(int aiArg1, int aiArg2, int aiArg3, int aiArg4)
     local.unk08 = aiArg4;
     local.unk00 = unk_10ce7fc;
 
-    FUN_00d386c0(aiArg2, aiArg1, aiArg3, &local);
+    Object_ProcessEntries_00d386c0(aiArg2, aiArg1, aiArg3, &local);
 }
 
 extern "C"

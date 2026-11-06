@@ -59,7 +59,7 @@ struct TexturePropertyLayout
     unsigned short capacity, size;
     unsigned int pad28;
     TextureShaderMaps* shaders;
-    unsigned int FUN_00a46410();
+    unsigned int UpdateState_00a46410();
     NiTexturingProperty__Map* GetGeometryShaderObject(unsigned int i)
     {
         return shaders ? shaders->Get(i) : 0;
@@ -157,7 +157,7 @@ NiTextureTransformController::NiTextureTransformController(NiObjectNET* property
         }
     }
     unsigned int uiIndex = 0;
-    unsigned int count = prop->FUN_00a46410();
+    unsigned int count = prop->UpdateState_00a46410();
     for (; uiIndex < count; ++uiIndex)
     {
         if (prop->GetGeometryShaderObject(uiIndex) == map)
@@ -258,11 +258,12 @@ void* FUN_00a46480_shell::NiTextureTransformController_GetRTTI()
 struct FUN_00a46410_shell
 {
     void* m_0x2c;
-    unsigned int __thiscall FUN_00a46410();
+    unsigned int __thiscall UpdateState_00a46410();
 };
 
 // @fnv 0x00a46410
-unsigned int __thiscall FUN_00a46410_shell::FUN_00a46410()
+// src: GUESS 0x00a46410 (confidence: low)
+unsigned int __thiscall FUN_00a46410_shell::UpdateState_00a46410()
 {
     void* p = *(void**)((char*)this + 0x2c);
     if (!p)

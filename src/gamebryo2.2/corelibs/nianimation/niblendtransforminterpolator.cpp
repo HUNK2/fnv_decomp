@@ -72,7 +72,7 @@ class FUN_00a40980 : public FUN_00a40980_base
 FUN_00a40980::FUN_00a40980(int a, float b, int c) : FUN_00a40980_base(a, b, c)
 {}
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+void* __cdecl Object_DispatchCommandFour(unsigned int size);
 
 struct NiBlendObject_b9169
 {
@@ -86,7 +86,7 @@ struct NiBlendObjectDerived_b9169 : NiBlendObject_b9169
     virtual void Update();
     static void* operator new(unsigned int size) throw()
     {
-        return FUN_00aa13e0(size);
+        return Object_DispatchCommandFour(size);
     }
 };
 

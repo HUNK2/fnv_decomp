@@ -270,8 +270,8 @@ bool NiBlendQuaternionInterpolator::BlendValues(float fTime, void* pkTarget, NiQ
                     if (fCos < 0.0f)
                         kQuat = kQuat.Negate();
                 }
-                kQuat = kQuat.FUN_00a39120(m_pInterpArray[uc].m_fNormalizedWeight);
-                m_kQuaternionValue = m_kQuaternionValue.FUN_00a39120(fTotalWeight);
+                kQuat = kQuat.ScaleFourComponents(m_pInterpArray[uc].m_fNormalizedWeight);
+                m_kQuaternionValue = m_kQuaternionValue.ScaleFourComponents(fTotalWeight);
                 float fZ = m_kQuaternionValue.m_fScalarPart;
                 float fY = m_kQuaternionValue.m_fVectorZ;
                 float fX = m_kQuaternionValue.m_fVectorY;

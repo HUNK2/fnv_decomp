@@ -154,7 +154,7 @@ struct Obj
     int unk18;
     int unk1c;
     int MaskWithField(int a);
-    Obj* FUN_004ae750();
+    Obj* Bipedanim_GetReferenceFlagsOrZero();
     Obj* FUN_0044ddc0();
     unsigned int ProcessArray_GetProcessLevelTail(int a);
     Obj* ProcessArray_GetItem(unsigned int i);
@@ -184,7 +184,7 @@ void FUN_0062a510_cls::TESArrowTargetListener_entityRemovedCallback(int a1)
     Obj* p = NiObject_DynamicCast(&DAT_012681c0, o_tmp);
     if (p != 0 && p->MaskWithField(0x100) != 0)
     {
-        Obj* m_tmp = FUN_004b5a20(p->FUN_004ae750());
+        Obj* m_tmp = FUN_004b5a20(p->Bipedanim_GetReferenceFlagsOrZero());
         Obj* r = (m_tmp != 0) ? m_tmp->FUN_0044ddc0() : 0;
         int g_tmp = TESObjectREFR_FindReferenceFor3D(r);
         Obj* t = DAT_011e0e80.FUN_00717e50();
@@ -429,7 +429,7 @@ extern int DAT_012681c0;
 struct S_0062a690_A
 {
     int __thiscall MaskWithField(unsigned int flag);
-    void* __thiscall FUN_004ae750();
+    void* __thiscall Bipedanim_GetReferenceFlagsOrZero();
 };
 
 struct S_0062a690_B
@@ -455,7 +455,7 @@ void S_0062a690_Class::TESArrowTargetListener_entityDeletedCallback(int arg0)
     S_0062a690_A* v_04 = NiObject_DynamicCast(&DAT_012681c0, v_08);
     if (v_04 && v_04->MaskWithField(0x100))
     {
-        S_0062a690_B* v_18 = FUN_004b5a20(v_04->FUN_004ae750());
+        S_0062a690_B* v_18 = FUN_004b5a20(v_04->Bipedanim_GetReferenceFlagsOrZero());
         void* ptr = v_18 ? v_18->FUN_0044ddc0() : 0;
         void* v_0c = TESObjectREFR_FindReferenceFor3D(ptr);
         S_0062a690_ProcessArray* v_14 = DAT_011e0e80.FUN_00717e50();

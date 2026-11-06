@@ -711,7 +711,7 @@ struct FloatGlobal9c9
 };
 
 
-NiPoint3 FUN_004b3ae0(NiPoint3 const& krValue, float const* pafMatrix);
+NiPoint3 NiPoint3_TransformByMatrix3(NiPoint3 const& krValue, float const* pafMatrix);
 float LinearInterpolate(float a, float b, float c, float d, float e);
 float BSMAX_00404010(float a, float b);
 float BSMIN(float a, float b);
@@ -750,7 +750,7 @@ void VATS::UpdateVATSLight(Actor* apActor)
                     kRotX.MakeZRotation(DAT_011f2304.FUN_00450410());
 
                     aKDir.Unitize();
-                    aKDir = FUN_004b3ae0(aKDir, (float const*)&kRotX);
+                    aKDir = NiPoint3_TransformByMatrix3(aKDir, (float const*)&kRotX);
                     aKDir *= DAT_011f222c.FUN_00450410();
 
                     kCenter5 = kCenter5 + aKDir;
@@ -827,9 +827,9 @@ NiPoint3 CmdList9c9::VATS_GetTargetPercentagePos(float afScale)
             else
                 kTarget = *(const NiPoint3*)((const TESObjectREFR*)DAT_011f21cc)->GetPos();
         }
-        NiPoint3 kDirection = kTarget.FUN_00439ef0(kPlayerPos);
+        NiPoint3 kDirection = kTarget.SubtractIntoVector(kPlayerPos);
         float fScaleMultiplier = kDirection.FUN_00457910();
-        kPlayerPos.FUN_0063c8a0(kDirection.ApplyScaled(fScaleMultiplier).ApplyScaled(afScale).FUN_0053d280(100.0f));
+        kPlayerPos.ComputeValue_0063c8a0(kDirection.ApplyScaled(fScaleMultiplier).ApplyScaled(afScale).ProcessAndReturnValue_0053d280(100.0f));
     }
     return kPlayerPos;
 }

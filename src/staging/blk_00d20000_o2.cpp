@@ -81,20 +81,20 @@ int __thiscall FUN_00d2f220_class::InitializeWithGlobal(int aiValue)
 }
 
 void __cdecl hkpCollectionAgent3_process();
-void __cdecl FUN_00da6fd0(int);
+void __cdecl Object_InitializeDispatchFunctionTable(int);
 
 // @fnv 0x00d367b0
 // src: HAVOK_LIB 0x00d367b0
 void __cdecl hkpCollectionAgent3_initAgentFunc(int pObject)
 {
-    FUN_00da6fd0(pObject);
+    Object_InitializeDispatchFunctionTable(pObject);
     *(void (**)(void))(pObject + 0x2c) = &hkpCollectionAgent3_process;
 }
 
 extern "C" void __cdecl hkpListAgent_createListBAgent();
-extern "C" void __cdecl FUN_00d34790();
+extern "C" void __cdecl hkCollectorD347_ProcessState_00d34790();
 extern "C" void __cdecl QueryClosestPoints();
-extern "C" void __cdecl FUN_00d34810();
+extern "C" void __cdecl hkpShapeCollectionAgent_staticLinearCast_UpdateState_00d34810();
 
 // Fills the four function pointers at p[0..3] and sets the bytes at offsets 0x10 and 0x11 to 0 and 1.
 // @fnv 0x00d36bb0
@@ -102,9 +102,9 @@ extern "C" void __cdecl FUN_00d34810();
 void __cdecl hkpListAgent_initAgentFuncInverse(void** p)
 {
     p[0] = (void*)&hkpListAgent_createListBAgent;
-    p[1] = (void*)&FUN_00d34790;
+    p[1] = (void*)&hkCollectorD347_ProcessState_00d34790;
     p[2] = (void*)&QueryClosestPoints;
-    p[3] = (void*)&FUN_00d34810;
+    p[3] = (void*)&hkpShapeCollectionAgent_staticLinearCast_UpdateState_00d34810;
     ((char*)p)[0x10] = 0;
     ((char*)p)[0x11] = 1;
 }
@@ -129,43 +129,45 @@ void __cdecl hkpListAgent_initAgentFunc(void* apObject)
 
 void CreateRetObj();
 void hkpSphereTriangleAgent_staticGetPenetrations();
-void FUN_00d3d8c0();
-void FUN_00daf8e0();
+void hkpCdBody_ProcessAndReturnValue_00d3d8c0();
+void Object_ProcessEntries_00daf8e0();
 
 // Fills the first four pointer slots of p with function addresses and clears the two bytes at offsets 0x10 and 0x11.
 // @fnv 0x00d3dbe0
-void __cdecl FUN_00d3dbe0(void* apObject)
+// src: GUESS 0x00d3dbe0 (confidence: medium)
+void __cdecl Object_InitializeAgentFunctionTable_00d3dbe0(void* apObject)
 {
     ((void**)apObject)[0] = (void*)&CreateRetObj;
     ((void**)apObject)[1] = (void*)&hkpSphereTriangleAgent_staticGetPenetrations;
-    ((void**)apObject)[2] = (void*)&FUN_00d3d8c0;
-    ((void**)apObject)[3] = (void*)&FUN_00daf8e0;
+    ((void**)apObject)[2] = (void*)&hkpCdBody_ProcessAndReturnValue_00d3d8c0;
+    ((void**)apObject)[3] = (void*)&Object_ProcessEntries_00daf8e0;
     ((unsigned char*)apObject)[0x10] = 0;
     ((unsigned char*)apObject)[0x11] = 0;
 }
 
 void __cdecl CreateTargetAgent(void);
 void __cdecl QueryD3DCollector(void);
-void __cdecl FUN_00d3e110(void);
-void __cdecl FUN_00d3ac80(void);
+void __cdecl Hkpspheretriangleagent_UpdateState_00d3e110(void);
+void __cdecl Object_UpdateFields_00d3ac80(void);
 
 // Fills the first four pointer slots of p with four function pointers and sets the bytes at offsets 0x10 and 0x11 to 1 and 0.
 // @fnv 0x00d3dc10
-void FUN_00d3dc10(void* apObject)
+// src: GUESS 0x00d3dc10 (confidence: medium)
+void Object_InitializeAgentFunctionTable_00d3dc10(void* apObject)
 {
     ((void**)apObject)[0] = (void*)CreateTargetAgent;
     ((void**)apObject)[1] = (void*)QueryD3DCollector;
-    ((void**)apObject)[2] = (void*)FUN_00d3e110;
-    ((void**)apObject)[3] = (void*)FUN_00d3ac80;
+    ((void**)apObject)[2] = (void*)Hkpspheretriangleagent_UpdateState_00d3e110;
+    ((void**)apObject)[3] = (void*)Object_UpdateFields_00d3ac80;
     ((unsigned char*)apObject)[0x10] = 1;
     ((unsigned char*)apObject)[0x11] = 0;
 }
 
 namespace fnv_00d3fce0 {
-extern "C" void __cdecl FUN_00d3f620();
+extern "C" void __cdecl Object_ConstructObject_00d3f620();
 extern "C" void __cdecl hkpSphereSphereAgent_staticGetPenetrations();
 extern "C" void __cdecl hkpSphereSphereAgent_staticGetClosestPoints();
-extern "C" void __cdecl FUN_00daf8e0();
+extern "C" void __cdecl Object_ProcessEntries_00daf8e0();
 
 // Stores four function pointers (FUN_00d3f620, FUN_00d3f6a0, FUN_00d3fb20, FUN_00daf8e0) into the first four slots of the object at p.
 // @fnv 0x00d3fce0
@@ -173,10 +175,10 @@ extern "C" void __cdecl FUN_00daf8e0();
 void __cdecl hkpSphereSphereAgent_initAgentFunc(void* apObject)
 {
     void** a = (void**)apObject;
-    a[0] = (void*)FUN_00d3f620;
+    a[0] = (void*)Object_ConstructObject_00d3f620;
     a[1] = (void*)hkpSphereSphereAgent_staticGetPenetrations;
     a[2] = (void*)hkpSphereSphereAgent_staticGetClosestPoints;
-    a[3] = (void*)FUN_00daf8e0;
+    a[3] = (void*)Object_ProcessEntries_00daf8e0;
 }
 }  // namespace fnv_00d3fce0
 
@@ -201,16 +203,16 @@ struct CollisionAgentFunctionTable {
     char f;
 };
 struct Agent {
-    void FUN_00cfbbe0(CollisionAgentFunctionTable*, int, int);
+    void AppendRecordAndRegisterAgents(CollisionAgentFunctionTable*, int, int);
 };
 void __cdecl hkpBvTreeStreamAgent_createBvTreeShapeAgent();
-void __cdecl FUN_00d2e970();
-void __cdecl FUN_00d2e9b0();
-void __cdecl FUN_00d2daf0();
+void __cdecl hkpSymmetricAgentFlipBodyCollector_UpdateState_00d2e970();
+void __cdecl hkpSymmetricAgentFlipCollector_UpdateState_00d2e9b0();
+void __cdecl Runtime_CopyMemory_00d2daf0();
 void __cdecl hkpBvTreeStreamAgent_createShapeBvAgent();
 void __cdecl hkpBvTreeAgent_staticGetPenetrations();
 void __cdecl hkpBvTreeAgent_staticGetClosestPoints();
-void __cdecl FUN_00d2f0d0();
+void __cdecl hkTransform_setMulInverseMul_ComputeValues_00d2f0d0();
 void __cdecl CreateAgentForBodyPair();
 // @fnv 0x00d2dc70
 // src: HAVOK_LIB 0x00d2dc70
@@ -218,26 +220,26 @@ void __cdecl hkpMoppBvTreeStreamAgent_registerAgent(Agent* pAgent)
 {
     CollisionAgentFunctionTable f;
     f.a = (void*)&hkpBvTreeStreamAgent_createBvTreeShapeAgent;
-    f.b = (void*)&FUN_00d2e970;
-    f.c = (void*)&FUN_00d2e9b0;
-    f.d = (void*)&FUN_00d2daf0;
+    f.b = (void*)&hkpSymmetricAgentFlipBodyCollector_UpdateState_00d2e970;
+    f.c = (void*)&hkpSymmetricAgentFlipCollector_UpdateState_00d2e9b0;
+    f.d = (void*)&Runtime_CopyMemory_00d2daf0;
     f.e = 1;
     f.f = 1;
-    pAgent->FUN_00cfbbe0(&f, 10, 18);
+    pAgent->AppendRecordAndRegisterAgents(&f, 10, 18);
     f.a = (void*)&hkpBvTreeStreamAgent_createShapeBvAgent;
     f.b = (void*)&hkpBvTreeAgent_staticGetPenetrations;
     f.c = (void*)&hkpBvTreeAgent_staticGetClosestPoints;
-    f.d = (void*)&FUN_00d2f0d0;
+    f.d = (void*)&hkTransform_setMulInverseMul_ComputeValues_00d2f0d0;
     f.e = 0;
     f.f = 1;
-    pAgent->FUN_00cfbbe0(&f, 18, 10);
+    pAgent->AppendRecordAndRegisterAgents(&f, 18, 10);
     f.a = (void*)&CreateAgentForBodyPair;
     f.b = (void*)&hkpBvTreeAgent_staticGetPenetrations;
     f.c = (void*)&hkpBvTreeAgent_staticGetClosestPoints;
-    f.d = (void*)&FUN_00d2f0d0;
+    f.d = (void*)&hkTransform_setMulInverseMul_ComputeValues_00d2f0d0;
     f.e = 0;
     f.f = 1;
-    pAgent->FUN_00cfbbe0(&f, 10, 10);
+    pAgent->AppendRecordAndRegisterAgents(&f, 10, 10);
 }
 
 // @fnv 0x00d275a0
@@ -576,13 +578,13 @@ public:
 };
 
 void __cdecl hkpBvTreeAgent_createBvTreeShapeAgent();
-void __cdecl FUN_00d2e970();
-void __cdecl FUN_00d2e9b0();
-void __cdecl FUN_00d2daf0();
+void __cdecl hkpSymmetricAgentFlipBodyCollector_UpdateState_00d2e970();
+void __cdecl hkpSymmetricAgentFlipCollector_UpdateState_00d2e9b0();
+void __cdecl Runtime_CopyMemory_00d2daf0();
 void __cdecl hkpBvTreeAgent_createShapeBvAgent();
 void __cdecl hkpBvTreeAgent_staticGetPenetrations();
 void __cdecl hkpBvTreeAgent_staticGetClosestPoints();
-void __cdecl FUN_00d2f0d0();
+void __cdecl hkTransform_setMulInverseMul_ComputeValues_00d2f0d0();
 void __cdecl CreateAgentForBodyPair();
 
 // Registers three collision agent function tables with the dispatcher for type pairs (10,-1), (-1,10) and (10,10).
@@ -593,9 +595,9 @@ void __cdecl hkpMoppAgent_registerAgent(D2F2C0Dispatcher* dispatcher)
     {
         D2F2C0AgentFuncs f;
         f.m_pCreateFunc = hkpBvTreeAgent_createBvTreeShapeAgent;
-        f.m_pQueryPenetrationsFunc = FUN_00d2e970;
-        f.m_getClosestPointsFunc = FUN_00d2e9b0;
-        f.m_pLinearCastFunc = FUN_00d2daf0;
+        f.m_pQueryPenetrationsFunc = hkpSymmetricAgentFlipBodyCollector_UpdateState_00d2e970;
+        f.m_getClosestPointsFunc = hkpSymmetricAgentFlipCollector_UpdateState_00d2e9b0;
+        f.m_pLinearCastFunc = Runtime_CopyMemory_00d2daf0;
         f.m_bIsFlipped = true;
         f.m_bIsPredictive = false;
         dispatcher->registerCollisionAgent(f, 10, -1);
@@ -605,7 +607,7 @@ void __cdecl hkpMoppAgent_registerAgent(D2F2C0Dispatcher* dispatcher)
         f.m_pCreateFunc = hkpBvTreeAgent_createShapeBvAgent;
         f.m_pQueryPenetrationsFunc = hkpBvTreeAgent_staticGetPenetrations;
         f.m_getClosestPointsFunc = hkpBvTreeAgent_staticGetClosestPoints;
-        f.m_pLinearCastFunc = FUN_00d2f0d0;
+        f.m_pLinearCastFunc = hkTransform_setMulInverseMul_ComputeValues_00d2f0d0;
         f.m_bIsFlipped = false;
         f.m_bIsPredictive = false;
         dispatcher->registerCollisionAgent(f, -1, 10);
@@ -615,7 +617,7 @@ void __cdecl hkpMoppAgent_registerAgent(D2F2C0Dispatcher* dispatcher)
         f.m_pCreateFunc = CreateAgentForBodyPair;
         f.m_pQueryPenetrationsFunc = hkpBvTreeAgent_staticGetPenetrations;
         f.m_getClosestPointsFunc = hkpBvTreeAgent_staticGetClosestPoints;
-        f.m_pLinearCastFunc = FUN_00d2f0d0;
+        f.m_pLinearCastFunc = hkTransform_setMulInverseMul_ComputeValues_00d2f0d0;
         f.m_bIsFlipped = false;
         f.m_bIsPredictive = true;
         dispatcher->registerCollisionAgent(f, 10, 10);
@@ -624,10 +626,11 @@ void __cdecl hkpMoppAgent_registerAgent(D2F2C0Dispatcher* dispatcher)
 
 struct CallTarget_00d2f760 { int hkpBvTreeAgent_updateShapeCollectionFilter(int, int, int, int); };
 struct SearchObject {
-    int FUN_00d2f3d0(unsigned int arg0, unsigned int arg1, unsigned int arg2, unsigned int arg3);
+    int UpdateState_00d2f3d0(unsigned int arg0, unsigned int arg1, unsigned int arg2, unsigned int arg3);
 };
 // @fnv 0x00d2f3d0
-int SearchObject::FUN_00d2f3d0(unsigned int arg0, unsigned int arg1, unsigned int arg2, unsigned int arg3)
+// src: GUESS 0x00d2f3d0 (confidence: low)
+int SearchObject::UpdateState_00d2f3d0(unsigned int arg0, unsigned int arg1, unsigned int arg2, unsigned int arg3)
 {
     unsigned int uiResult = (unsigned int)((CallTarget_00d2f760*)this)->hkpBvTreeAgent_updateShapeCollectionFilter((int)arg1, (int)arg0, (int)arg2, (int)arg3);
     return (int)uiResult;
@@ -658,11 +661,12 @@ extern float DAT_0104da48;
 extern unsigned char DAT_010ce7fc;
 struct FnvCpu_FUN_00d31730_CpuObject {
     void hkpBvTreeAgent_getClosestPoints(void*, void*, unsigned int, FnvCpu_FUN_00d31730_CpuCallData*);
-    void FUN_00d31730(void*, void*, unsigned int, unsigned int);
+    void UpdateState_00d31730(void*, void*, unsigned int, unsigned int);
 };
 // Builds a call data struct from the arguments and DAT globals, then forwards it to FUN_00d315d0 with second and first swapped.
 // @fnv 0x00d31730
-void FnvCpu_FUN_00d31730_CpuObject::FUN_00d31730(void* first, void* second, unsigned int third, unsigned int fourth)
+// src: GUESS 0x00d31730 (confidence: low)
+void FnvCpu_FUN_00d31730_CpuObject::UpdateState_00d31730(void* first, void* second, unsigned int third, unsigned int fourth)
 {
     FnvCpu_FUN_00d31730_CpuCallData data;
     data.value = fourth;
@@ -728,11 +732,12 @@ struct FUN_00d36b20_Class {
     int unk14;
     int unk18;
 
-    FUN_00d36b20_Class* __thiscall FUN_00d36b20(int param1, int param2, int* param3, int param4);
+    FUN_00d36b20_Class* __thiscall InitializeFields_00d36b20(int param1, int param2, int* param3, int param4);
 };
 
 // @fnv 0x00d36b20
-FUN_00d36b20_Class* FUN_00d36b20_Class::FUN_00d36b20(int aiUnused1, int aiUnused2, int* piValue, int aiValue) {
+// src: GUESS 0x00d36b20 (confidence: low)
+FUN_00d36b20_Class* FUN_00d36b20_Class::InitializeFields_00d36b20(int aiUnused1, int aiUnused2, int* piValue, int aiValue) {
     this->unk06 = 1;
     this->unk08 = aiValue;
     this->unk00 = &DAT_010ced34;
@@ -759,7 +764,7 @@ struct FUN_00d36be0_cls
 {
     void* unk00;
     unsigned short m_04;
-    void __thiscall FUN_00d36b20(int a, int b, int c, int d);
+    void __thiscall InitializeFields_00d36b20(int a, int b, int c, int d);
 };
 
 
@@ -773,7 +778,7 @@ void* __cdecl hkpListAgent_createListAAgent(int a1, int a2, int a3, int a4)
     hkMemoryAllocator* pAlloc = reinterpret_cast<hkMemoryAllocator*>(pHolder->m_heap);
     FUN_00d36be0_cls* pBlock = (FUN_00d36be0_cls*)pAlloc->blockAlloc(0x1c);
     pBlock->m_04 = 0x1c;
-    pBlock->FUN_00d36b20(a2, a1, a3, a4);
+    pBlock->InitializeFields_00d36b20(a2, a1, a3, a4);
     pBlock->unk00 = DAT_010ced70;
     return pBlock;
 }
@@ -781,11 +786,12 @@ void* __cdecl hkpListAgent_createListAAgent(int a1, int a2, int a3, int a4)
 
 struct FUN_00d36cc0_Obj {
     void __thiscall FUN_00d368c0(int a1, int a2, int a3, int a4);
-    void __thiscall FUN_00d36cc0(int param_1, int param_2, int param_3, int param_4);
+    void __thiscall ForwardCall_00d36cc0(int param_1, int param_2, int param_3, int param_4);
 };
 
 // @fnv 0x00d36cc0
-void __thiscall FUN_00d36cc0_Obj::FUN_00d36cc0(int param_1, int param_2, int param_3, int param_4) {
+// src: GUESS 0x00d36cc0 (confidence: low)
+void __thiscall FUN_00d36cc0_Obj::ForwardCall_00d36cc0(int param_1, int param_2, int param_3, int param_4) {
     this->FUN_00d368c0(param_2, param_1, param_3, param_4);
 }
 
@@ -794,11 +800,12 @@ extern float DAT_0104da48;
 extern unsigned char DAT_010ce7fc;
 struct FnvCpu_FUN_00d36ce0_CpuObject {
     void hkpListAgent_getClosestPoints(void*, void*, unsigned int, FnvCpu_FUN_00d36ce0_CpuCallData*);
-    void FUN_00d36ce0(void*, void*, unsigned int, unsigned int);
+    void UpdateFields_00d36ce0(void*, void*, unsigned int, unsigned int);
 };
 // Builds a call-data struct from fourth, DAT_0104da48 and DAT_010ce7fc, then forwards second, first and third to FUN_00d36940.
 // @fnv 0x00d36ce0
-void FnvCpu_FUN_00d36ce0_CpuObject::FUN_00d36ce0(void* first, void* second, unsigned int third, unsigned int fourth)
+// src: GUESS 0x00d36ce0 (confidence: low)
+void FnvCpu_FUN_00d36ce0_CpuObject::UpdateFields_00d36ce0(void* first, void* second, unsigned int third, unsigned int fourth)
 {
     FnvCpu_FUN_00d36ce0_CpuCallData data;
     data.value = fourth;
@@ -935,7 +942,8 @@ S_00d37da0_Agent* CreateTriAgent(const void* a1, const S_00d37da0_CdBody& bodyA,
 void __cdecl ReleaseHandles(int a1, int a2, int a3, int a4);
 
 // @fnv 0x00d39130
-void __cdecl FUN_00d39130(int a1, int a2, int a3, int a4, int a5)
+// src: GUESS 0x00d39130 (confidence: medium)
+void __cdecl Runtime_ReleaseHandles_Thunk(int a1, int a2, int a3, int a4, int a5)
 {
     ReleaseHandles(a1, a2, a3, a4);
 }
@@ -1083,7 +1091,8 @@ void* __cdecl FUN_00d3ebe0(void* a, void* b, void* c, S_00d3f4c0_Obj* o);
 
 // Constructs an S_00d3f4c0_Obj from d and DAT_0104da48, then calls FUN_00d3ebe0 with b, a, c and the object.
 // @fnv 0x00d3f4c0
-void* __cdecl FUN_00d3f4c0(void* a, void* b, void* c, int iValue)
+// src: GUESS 0x00d3f4c0 (confidence: low)
+void* __cdecl Object_ProcessAndReturnValue_00d3f4c0(void* a, void* b, void* c, int iValue)
 {
     S_00d3f4c0_Obj obj(iValue);
     return FUN_00d3ebe0(b, a, c, &obj);
@@ -1108,19 +1117,21 @@ struct S_00d3f620_Obj : S_00d3f620_Mid {
 };
 // Allocates and constructs an S_00d3f620_Obj with a4, returning the new object.
 // @fnv 0x00d3f620
-S_00d3f620_Obj* __cdecl FUN_00d3f620(int a1, int a2, int a3, int aiValue) {
+// src: GUESS 0x00d3f620 (confidence: medium)
+S_00d3f620_Obj* __cdecl Object_ConstructObject_00d3f620(int a1, int a2, int a3, int aiValue) {
     return new S_00d3f620_Obj(aiValue);
 }
 }  // namespace fnv_00d3f620
 
 void __cdecl hkpSphereSphereAgent_initAgentFunc(CollisionAgentFunctionTable*);
 // @fnv 0x00d3fd00
-void __cdecl FUN_00d3fd00(Agent* agent) {
+// src: GUESS 0x00d3fd00 (confidence: low)
+void __cdecl Object_UpdateFields_00d3fd00(Agent* agent) {
     CollisionAgentFunctionTable funcs;
     funcs.e = 0;
     funcs.f = 0;
     hkpSphereSphereAgent_initAgentFunc(&funcs);
-    agent->FUN_00cfbbe0(&funcs, 1, 1);
+    agent->AppendRecordAndRegisterAgents(&funcs, 1, 1);
 }
 
 struct FUN_00d3fd60_cls_Entry { unsigned short m_key; unsigned short m_uiFilterValue; };
@@ -1290,12 +1301,12 @@ typedef void (*CallbackD3D)();
 
 void CreateRetObj();
 void hkpSphereTriangleAgent_staticGetPenetrations();
-void FUN_00d3d8c0();
-void FUN_00daf8e0();
+void hkpCdBody_ProcessAndReturnValue_00d3d8c0();
+void Object_ProcessEntries_00daf8e0();
 void CreateTargetAgent();
 void QueryD3DCollector();
-void FUN_00d3e110();
-void FUN_00d3ac80();
+void Hkpspheretriangleagent_UpdateState_00d3e110();
+void Object_UpdateFields_00d3ac80();
 
 struct AgentFuncsD3D {
     AgentFuncsD3D() : m_bA(false), m_bB(false) {}
@@ -1312,8 +1323,8 @@ static __declspec(noinline) void InitFuncsB(AgentFuncsD3D* pkFuncs)
 {
     pkFuncs->m_pfnA = CreateRetObj;
     pkFuncs->m_pfnB = hkpSphereTriangleAgent_staticGetPenetrations;
-    pkFuncs->m_pfnC = FUN_00d3d8c0;
-    pkFuncs->m_pfnD = FUN_00daf8e0;
+    pkFuncs->m_pfnC = hkpCdBody_ProcessAndReturnValue_00d3d8c0;
+    pkFuncs->m_pfnD = Object_ProcessEntries_00daf8e0;
     pkFuncs->m_bA = false;
     pkFuncs->m_bB = false;
 }
@@ -1322,8 +1333,8 @@ static __declspec(noinline) void InitFuncsA(AgentFuncsD3D* pkFuncs)
 {
     pkFuncs->m_pfnA = CreateTargetAgent;
     pkFuncs->m_pfnB = QueryD3DCollector;
-    pkFuncs->m_pfnC = FUN_00d3e110;
-    pkFuncs->m_pfnD = FUN_00d3ac80;
+    pkFuncs->m_pfnC = Hkpspheretriangleagent_UpdateState_00d3e110;
+    pkFuncs->m_pfnD = Object_UpdateFields_00d3ac80;
     pkFuncs->m_bA = true;
     pkFuncs->m_bB = false;
 }
@@ -1688,7 +1699,8 @@ struct FnvCpu_FUN_00d2c7d0_CpuInterface {
     virtual void Invoke(int value);
 };
 // @fnv 0x00d2c7d0
-void __cdecl FUN_00d2c7d0(FnvCpu_FUN_00d2c7d0_CpuInterface* object)
+// src: GUESS 0x00d2c7d0 (confidence: low)
+void __cdecl Runtime_ForwardCall_00d2c7d0(FnvCpu_FUN_00d2c7d0_CpuInterface* object)
 {
     object->Invoke(0);
 }
@@ -1721,10 +1733,11 @@ struct FUN_00d2cd80_Obj
     int unk00;
     FUN_00d04350_Obj unk04;
 
-    FUN_00d2cd80_Obj* __thiscall FUN_00d2cd80();
+    FUN_00d2cd80_Obj* __thiscall ProcessAndReturnValue_00d2cd80();
 };
 // @fnv 0x00d2cd80
-FUN_00d2cd80_Obj* __thiscall FUN_00d2cd80_Obj::FUN_00d2cd80()
+// src: GUESS 0x00d2cd80 (confidence: low)
+FUN_00d2cd80_Obj* __thiscall FUN_00d2cd80_Obj::ProcessAndReturnValue_00d2cd80()
 {
     FUN_00d2cd80_Obj* self = this;
     self->unk04.Create(0, 6);
@@ -1745,10 +1758,11 @@ struct C_d2cda0 {
     SubB b24;
     int m_28;
     int m_2c;
-    C_d2cda0* FUN_00d2cda0();
+    C_d2cda0* InitializeFields_00d2cda0();
 };
 // @fnv 0x00d2cda0
-C_d2cda0* C_d2cda0::FUN_00d2cda0()
+// src: GUESS 0x00d2cda0 (confidence: low)
+C_d2cda0* C_d2cda0::InitializeFields_00d2cda0()
 {
     a8.hkThread_hkThread();
     b24.Create(0, 1);
@@ -1779,13 +1793,15 @@ void FnvCpu_FUN_00d329b0_CpuObject::DispatchWithBound(void* first, void* second,
 }
 
 // @fnv 0x00d32ac0
-int __cdecl FUN_00d32ac0(int param_1, int param_2)
+// src: GUESS 0x00d32ac0 (confidence: low)
+int __cdecl Object_ComputeValue_00d32ac0(int param_1, int param_2)
 {
     return param_2 + 0x10;
 }
 
 // @fnv 0x00d32ad0
-void* __cdecl FUN_00d32ad0(int unused, char* p) {
+// src: GUESS 0x00d32ad0 (confidence: low)
+void* __cdecl Runtime_EvaluateValue_00d32ad0(int unused, char* p) {
     return p + 16;
 }
 
@@ -1813,10 +1829,11 @@ struct FUN_00d34aa0_Obj {
     virtual void vf1C();
 
     void __thiscall hkpConvexListAgent_updateShapeCollectionFilter(int a, int b, int c, int d);
-    virtual void __thiscall FUN_00d34aa0(int a, int b, int c, int d);
+    virtual void __thiscall HkpConvexListAgent_updateShapeCollectionFilter_Thunk(int a, int b, int c, int d);
 };
 // @fnv 0x00d34aa0
-void __thiscall FUN_00d34aa0_Obj::FUN_00d34aa0(int param_1, int param_2, int param_3, int param_4)
+// src: GUESS 0x00d34aa0 (confidence: medium)
+void __thiscall FUN_00d34aa0_Obj::HkpConvexListAgent_updateShapeCollectionFilter_Thunk(int param_1, int param_2, int param_3, int param_4)
 {
     hkpConvexListAgent_updateShapeCollectionFilter(param_2, param_1, param_3, param_4);
 }
@@ -1870,12 +1887,12 @@ void nullsub_15()
 typedef void (*CallbackD3D)();
 void CreateRetObj();
 void hkpSphereTriangleAgent_staticGetPenetrations();
-void FUN_00d3d8c0();
-void FUN_00daf8e0();
+void hkpCdBody_ProcessAndReturnValue_00d3d8c0();
+void Object_ProcessEntries_00daf8e0();
 void CreateTargetAgent();
 void QueryD3DCollector();
-void FUN_00d3e110();
-void FUN_00d3ac80();
+void Hkpspheretriangleagent_UpdateState_00d3e110();
+void Object_UpdateFields_00d3ac80();
 struct FUN_00d390a0_Leaf {
     char unk00[0x20];
 };
@@ -1989,11 +2006,12 @@ void nullsub_16()
 extern int DAT_0102e388;
 
 struct Foo00d24660 {
-    void FUN_00d24660();
+    void SetVirtualTable_00d24660();
 };
 
 // @fnv 0x00d24660
-void Foo00d24660::FUN_00d24660()
+// src: GUESS 0x00d24660 (confidence: low)
+void Foo00d24660::SetVirtualTable_00d24660()
 {
     *(int*)this = (int)&DAT_0102e388;
 }
@@ -2013,7 +2031,7 @@ public:
     unsigned short m_usMemSizeAndFlags;
     short m_sReferenceCount;
 
-    void FUN_00d24660() throw();
+    void SetVirtualTable_00d24660() throw();
 
     static void operator delete(void* p) throw()
     {
@@ -2027,23 +2045,25 @@ public:
 // @fnv 0x00d262e0
 FUN_00d496d0* FUN_00d496d0::FUN_00d262e0(unsigned int uiFlags) throw()
 {
-    FUN_00d24660();
+    SetVirtualTable_00d24660();
     if (uiFlags & 1)
         FUN_00d496d0::operator delete(this);
     return this;
 }
 
-void FUN_00da3510(void*, void*);
+void hkpAgent1nSector_ProcessEntries_00da3510(void*, void*);
 
 // @fnv 0x00d2d460
-void FUN_00d2d460(int, void* b, void* c)
+// src: GUESS 0x00d2d460 (confidence: low)
+void Object_ForwardCall_00d2d460(int, void* b, void* c)
 {
-    FUN_00da3510(b, c);
+    hkpAgent1nSector_ProcessEntries_00da3510(b, c);
 }
 
 extern unsigned char DAT_011b4284;
 // @fnv 0x00d2f530
-void __cdecl FUN_00d2f530(unsigned char* p)
+// src: GUESS 0x00d2f530 (confidence: low)
+void __cdecl Runtime_UpdateState_00d2f530(unsigned char* p)
 {
     *p = DAT_011b4284;
 }
@@ -2051,7 +2071,8 @@ void __cdecl FUN_00d2f530(unsigned char* p)
 extern unsigned char DAT_011b4284;
 
 // @fnv 0x00d2f540
-void __cdecl FUN_00d2f540(unsigned char value)
+// src: GUESS 0x00d2f540 (confidence: low)
+void __cdecl Object_SetDAT_011b4284_00d2f540(unsigned char value)
 {
     DAT_011b4284 = value;
 }
@@ -2082,15 +2103,16 @@ struct D34970Context {
     float maxDistance;
     int option;
 };
-extern "C" void __cdecl FUN_00d339d0(int first, int second, int third, D34970Context* context);
+extern "C" void __cdecl hkpConvexListAgent_QueryClosestPointsAfterHullTest(int first, int second, int third, D34970Context* context);
 // Builds a D34970Context from DAT_010ce7fc, DAT_0104da48, and arg3, then calls FUN_00d339d0 with arg1, arg0, arg2, and the context.
 // @fnv 0x00d34970
-void __cdecl FUN_00d34970(int arg0, int arg1, int arg2, int aiOption) {
+// src: GUESS 0x00d34970 (confidence: low)
+void __cdecl Runtime_UpdateState_00d34970(int arg0, int arg1, int arg2, int aiOption) {
     D34970Context context;
     context.pointer = &DAT_010ce7fc;
     context.maxDistance = DAT_0104da48;
     context.option = aiOption;
-    FUN_00d339d0(arg1, arg0, arg2, &context);
+    hkpConvexListAgent_QueryClosestPointsAfterHullTest(arg1, arg0, arg2, &context);
 }
 
 extern int DAT_010ce81c;
@@ -2103,12 +2125,13 @@ struct D34ac0Struct {
 
 struct FUN_00d33c80_class {
     void hkpConvexListAgent_getPenetrations(void* a, void* b, void* c, void* d);
-    void FUN_00d34ac0(void* a, void* b, void* c, void* d);
+    void UpdateFields_00d34ac0(void* a, void* b, void* c, void* d);
 };
 
 // Builds a local struct holding &DAT_010ce81c, 0 and d, then calls FUN_00d33c80 with b, a, c and a pointer to the struct.
 // @fnv 0x00d34ac0
-void FUN_00d33c80_class::FUN_00d34ac0(void* a, void* b, void* c, void* d)
+// src: GUESS 0x00d34ac0 (confidence: low)
+void FUN_00d33c80_class::UpdateFields_00d34ac0(void* a, void* b, void* c, void* d)
 {
     D34ac0Struct s;
     s.g = d;
@@ -2197,7 +2220,8 @@ struct D3E270_mgr {
 
 // Allocates a 0x10-byte D3E270_obj via the manager's allocator, sets its size, count and vtable fields, and stores a4 in f08.
 // @fnv 0x00d3e270
-D3E270_obj* __cdecl FUN_00d3e270(int aiUnused1, int aiUnused2, int aiUnused3, int aiValue)
+// src: GUESS 0x00d3e270 (confidence: medium)
+D3E270_obj* __cdecl hkMemoryRouter_getInstance_AllocateAndInitializeObject16(int aiUnused1, int aiUnused2, int aiUnused3, int aiValue)
 {
     D3E270_mgr* mgr = (D3E270_mgr*)hkMemoryRouter_getInstance();
     D3E270_obj* o = static_cast<D3E270_obj*>(mgr->r10->blockAlloc(0x10));
@@ -2213,7 +2237,8 @@ struct D3FE70Info {
     void* pkInfo;
 };
 // @fnv 0x00d3fe70
-D3FE10Entry* __cdecl FUN_00d3fe70(D3FE10Header* pkHeader, D3FE10Entry* pkEntry, D3FE10Manager* pkManager, D3FE70Info kInfo)
+// src: GUESS 0x00d3fe70 (confidence: medium)
+D3FE10Entry* __cdecl Runtime_ResetEntryAgents_Thunk(D3FE10Header* pkHeader, D3FE10Entry* pkEntry, D3FE10Manager* pkManager, D3FE70Info kInfo)
 {
     return ResetEntryAgents(pkHeader, pkEntry, pkManager, kInfo.pkInfo);
 }
@@ -2318,7 +2343,8 @@ public:
 
 // Calls Dispatch on pkTarget with iArg0 and iArg1 and returns the result.
 // @fnv 0x00d21cc0
-int FUN_00d21cc0(Target* pkTarget, int iArg0, int iArg1)
+// src: GUESS 0x00d21cc0 (confidence: medium)
+int Object_Dispatch_Thunk(Target* pkTarget, int iArg0, int iArg1)
 {
     return pkTarget->Dispatch(iArg0, iArg1);
 }
@@ -2707,11 +2733,12 @@ struct Q {
     int x;
     int t1, t2, t3;
 };
-void __cdecl FUN_00d2f0d0();
+void __cdecl hkTransform_setMulInverseMul_ComputeValues_00d2f0d0();
 typedef void (__cdecl *Fn)(int, int, Src*, Q*, Q*);
 // XORs c->v with DAT_010c44d0 into a copy of c, builds one or two Q structs from c->v, d and e, and calls FUN_00d2f0d0 with b, a, the copy and the Qs.
 // @fnv 0x00d2daf0
-void __cdecl FUN_00d2daf0(int a, int b, Src* apSrc, int d, int e)
+// src: GUESS 0x00d2daf0 (confidence: low)
+void __cdecl Runtime_CopyMemory_00d2daf0(int a, int b, Src* apSrc, int d, int e)
 {
     __m128 vv = _mm_load_ps((float*)&apSrc->v);
     __m128 n = _mm_xor_ps(vv, DAT_010c44d0);
@@ -2729,9 +2756,9 @@ void __cdecl FUN_00d2daf0(int a, int b, Src* apSrc, int d, int e)
         qb.d = DAT_0104da48;
         CopyVectorWords(qb.v, apSrc->v);
         qb.x = e;
-        ((Fn)FUN_00d2f0d0)(b, a, &copy, &qa, &qb);
+        ((Fn)hkTransform_setMulInverseMul_ComputeValues_00d2f0d0)(b, a, &copy, &qa, &qb);
     } else {
-        ((Fn)FUN_00d2f0d0)(b, a, &copy, &qa, 0);
+        ((Fn)hkTransform_setMulInverseMul_ComputeValues_00d2f0d0)(b, a, &copy, &qa, 0);
     }
 }
 
@@ -2742,11 +2769,12 @@ struct CallbackState {
 };
 struct Holder {
     void hkpBvTreeAgent_getPenetrations(int a, int b, int c, CallbackState* s);
-    void FUN_00d2f3f0(int a, int b, int c, int d);
+    void UpdateState_00d2f3f0(int a, int b, int c, int d);
 };
 // Fills a CallbackState with d, a zero flag, and a pointer to DAT_010ce81c, then calls FUN_00d315f0 with b, a, c, and the state.
 // @fnv 0x00d2f3f0
-void Holder::FUN_00d2f3f0(int a, int b, int c, int aiValue)
+// src: GUESS 0x00d2f3f0 (confidence: low)
+void Holder::UpdateState_00d2f3f0(int a, int b, int c, int aiValue)
 {
     CallbackState s;
     s.m_iValue = aiValue;
@@ -2916,12 +2944,13 @@ struct FUN_00d32970_Collector {
 
 struct FUN_00d32970_Agent {
     void hkpHeightFieldAgent_getPenetrations(void* a, void* b, void* c, FUN_00d32970_Collector* collector);
-    void FUN_00d32970(void* a1, void* a2, void* a3, unsigned int a4);
+    void SetVtableAndProcessState_00d32970(void* a1, void* a2, void* a3, unsigned int a4);
 };
 
 // Initialises a Collector with a4 and passes it to FUN_00d32150 with a2, a1 and a3.
 // @fnv 0x00d32970
-void FUN_00d32970_Agent::FUN_00d32970(void* a1, void* a2, void* a3, unsigned int uiValue)
+// src: GUESS 0x00d32970 (confidence: low)
+void FUN_00d32970_Agent::SetVtableAndProcessState_00d32970(void* a1, void* a2, void* a3, unsigned int uiValue)
 {
     FUN_00d32970_Collector collector;
     collector.value = uiValue;
@@ -2961,11 +2990,12 @@ struct Record_d329 {
 
 struct Agent_d329 {
     void hkpHeightFieldAgent_linearCast(int a1, int a2, Input_d329* input, Record_d329* rec, Record_d329* optRec);
-    void FUN_00d329f0(int a1, int a2, const Input_d329* input, int a4, int a5);
+    void UpdateState_00d329f0(int a1, int a2, const Input_d329* input, int a4, int a5);
 };
 // Copies input, XORs its vector with DAT_010c44d0, builds a Record_d329 with a4, and calls FUN_00d32030 with an optional second record when a5 is non-zero.
 // @fnv 0x00d329f0
-void Agent_d329::FUN_00d329f0(int a1, int a2, const Input_d329* input, int a4, int a5)
+// src: GUESS 0x00d329f0 (confidence: low)
+void Agent_d329::UpdateState_00d329f0(int a1, int a2, const Input_d329* input, int a4, int a5)
 {
     Input_d329 local = *input;
     local.m_vComponents = _mm_xor_ps(input->m_vComponents, DAT_010c44d0);
@@ -3022,7 +3052,8 @@ void __cdecl hkpShapeCollectionAgent_staticLinearCast(int a1, int a2, Input_d2e9
 
 // XORs the input vector with DAT_010c44d0, builds a Record_d2e9 with the key and a4, and calls FUN_00d43b90 with an optional second record for a5.
 // @fnv 0x00d34810
-void __cdecl FUN_00d34810(int a2, int a1, const Input_d2e9* input, int aiValue, int aiOptionalValue)
+// src: GUESS 0x00d34810 (confidence: low)
+void __cdecl hkpShapeCollectionAgent_staticLinearCast_UpdateState_00d34810(int a2, int a1, const Input_d2e9* input, int aiValue, int aiOptionalValue)
 {
     Input_d2e9 local = *input;
     local.m_vComponents = _mm_xor_ps(input->m_vComponents, DAT_010c44d0);
@@ -3079,7 +3110,8 @@ void __cdecl hkpConvexListAgent_staticLinearCast(int a1, int a2, Input_d2e9* inp
 
 // XORs input vector with DAT_010c44d0, builds a Record_d2e9 with a4, and calls FUN_00d33ca0 with an optional second record when a5 is non-zero.
 // @fnv 0x00d349b0
-void __cdecl FUN_00d349b0(int a2, int a1, const Input_d2e9* input, int aiValue, int aiOptionalValue)
+// src: GUESS 0x00d349b0 (confidence: low)
+void __cdecl hkpConvexListAgent_staticLinearCast_UpdateState_00d349b0(int a2, int a1, const Input_d2e9* input, int aiValue, int aiOptionalValue)
 {
     Input_d2e9 local = *input;
     local.m_vComponents = _mm_xor_ps(input->m_vComponents, DAT_010c44d0);
@@ -3134,11 +3166,12 @@ struct Record_d34b {
 
 struct Agent_d34b {
     void hkpConvexListAgent_linearCast(int a1, int a2, Input_d34b* input, Record_d34b* rec, Record_d34b* optRec);
-    void FUN_00d34b40(int a1, int a2, const Input_d34b* input, int a4, int a5);
+    void UpdateFields_00d34b40(int a1, int a2, const Input_d34b* input, int a4, int a5);
 };
 // XORs the input key with a constant, builds a Record_d34b with the key and a4, and calls FUN_00d33da0 with an optional second record for a5.
 // @fnv 0x00d34b40
-void Agent_d34b::FUN_00d34b40(int a1, int a2, const Input_d34b* input, int aiValue, int aiOptionalValue)
+// src: GUESS 0x00d34b40 (confidence: low)
+void Agent_d34b::UpdateFields_00d34b40(int a1, int a2, const Input_d34b* input, int aiValue, int aiOptionalValue)
 {
     Input_d34b local = *input;
     local.m_vComponents = _mm_xor_ps(input->m_vComponents, DAT_010c44d0);
@@ -3274,12 +3307,13 @@ struct CastCollector {
 class LinearCastAgent {
 public:
     void hkpConvexListAgent_processCollision(int bodyB, int bodyA, int input, int collector);
-    void FUN_00d34c10(int bodyA, int bodyB, int input, int collector);
+    void ProcessEntries_00d34c10(int bodyA, int bodyB, int input, int collector);
 };
 
 // Calls FUN_00d33f40 with swapped bodies, flips collected points, and if the distance changed, negates the normal and swaps shape-key entries in the collector.
 // @fnv 0x00d34c10
-void LinearCastAgent::FUN_00d34c10(int bodyA, int bodyB, int input, int collectorRaw) {
+// src: GUESS 0x00d34c10 (confidence: low)
+void LinearCastAgent::ProcessEntries_00d34c10(int bodyA, int bodyB, int input, int collectorRaw) {
     CastCollector& collector = *(CastCollector*)collectorRaw;
     float saved_dist = collector.m_dist3030;
     RootCdPoint* y = collector.m_currentPoint;
@@ -3321,12 +3355,12 @@ void LinearCastAgent::FUN_00d34c10(int bodyA, int bodyB, int input, int collecto
     }
 }
 
-extern "C" void __cdecl FUN_00da3510(int, int);
+extern "C" void __cdecl hkpAgent1nSector_ProcessEntries_00da3510(int, int);
 // Forwards a2 and a3 to FUN_00da3510, ignoring a1.
 // @fnv 0x00d34d60
 void __cdecl ForwardCall(int aUnused, int a2, int a3)
 {
-    FUN_00da3510(a2, a3);
+    hkpAgent1nSector_ProcessEntries_00da3510(a2, a3);
 }
 
 struct FUN_00d36b20
@@ -3480,7 +3514,7 @@ struct D22260_Object
     hkVector4 m_quaternion1;
     hkVector4 m_quaternion2;
 
-    void __thiscall FUN_00d22260(
+    void __thiscall ProcessState_00d22260(
         int ReportDiagnostic,
         int unused1,
         D22260_Matrix* matrix1,
@@ -3491,7 +3525,8 @@ struct D22260_Object
 
 // Transforms m_quaternion1/2 by the matrices' rows, crosses each result with the vector's second field, and adds the product to its first field.
 // @fnv 0x00d22260
-void __thiscall D22260_Object::FUN_00d22260(
+// src: GUESS 0x00d22260 (confidence: low)
+void __thiscall D22260_Object::ProcessState_00d22260(
     int ReportDiagnostic,
     int unused1,
     D22260_Matrix* matrix1,
@@ -3512,18 +3547,20 @@ void __thiscall D22260_Object::FUN_00d22260(
 
 // FUN_00d24650 - __stdcall function, callee pops 4 bytes (1 stack parameter)
 // @fnv 0x00d24650
-void __stdcall FUN_00d24650(int _param) {
+// src: GUESS 0x00d24650 (confidence: high)
+void __stdcall Runtime_DoNothing_00d24650(int _param) {
 }
 
 // local form of hkpSymmetricAgent: 0x00d36d20 needs the Agent base virtual call surface and inherited state omitted by the shared primary.
 template<class Agent> class SymmetricAgentLocal_blk00d20000o2 : public Agent {
 public:
-    void FUN_00d36d20(const hkpCdBody&, const hkpCdBody&,
+    void ProcessSwappedCollisionBodies(const hkpCdBody&, const hkpCdBody&,
                      const CollisionAgentContext&, hkpCdBodyPairCollector&);
 };
 // Swaps the two hkpCdBody arguments and forwards them to hkpListAgent::vf03 via a hkpSymmetricAgentFlipBodyCollector.
 // @fnv 0x00d36d20
-template<> void SymmetricAgentLocal_blk00d20000o2<hkpListAgent>::FUN_00d36d20(
+// src: GUESS 0x00d36d20 (confidence: medium)
+template<> void SymmetricAgentLocal_blk00d20000o2<hkpListAgent>::ProcessSwappedCollisionBodies(
     const hkpCdBody& a, const hkpCdBody& b,
     const CollisionAgentContext& input, hkpCdBodyPairCollector& output)
 {
@@ -3854,9 +3891,9 @@ __declspec(noinline) void __cdecl hkpListAgent_initAgentFunc(void* apObject);
 __declspec(noinline) void __cdecl hkpListAgent_initAgentFuncInverse(CollisionAgentFunctionTable* f)
 {
     f->a = (void*)(void (__cdecl*)())&hkpListAgent_createListBAgent;
-    f->b = (void*)&FUN_00d34790;
+    f->b = (void*)&hkCollectorD347_ProcessState_00d34790;
     f->c = (void*)(void (__cdecl*)())&QueryClosestPoints;
-    f->d = (void*)&FUN_00d34810;
+    f->d = (void*)&hkpShapeCollectionAgent_staticLinearCast_UpdateState_00d34810;
     f->e = 0;
     f->f = 1;
 }
@@ -3871,9 +3908,9 @@ void __cdecl hkpListAgent_registerAgent(void* apAgent)
     funcs.f = 0;
     hkpListAgent_initAgentFunc(&funcs);
     Agent* agent = (Agent*)apAgent;
-    agent->FUN_00cfbbe0(&funcs, 9, -1);
+    agent->AppendRecordAndRegisterAgents(&funcs, 9, -1);
     funcs.e = 0;
     funcs.f = 0;
     hkpListAgent_initAgentFuncInverse(&funcs);
-    agent->FUN_00cfbbe0(&funcs, -1, 9);
+    agent->AppendRecordAndRegisterAgents(&funcs, -1, 9);
 }

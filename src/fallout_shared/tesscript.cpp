@@ -1040,11 +1040,12 @@ void __thiscall FUN_00857ba0_class::ReadFromStream(int a, int b, int c)
 
 struct FUN_008586d0_class
 {
-    void __thiscall FUN_008586d0(int a, int b, int c);
+    void __thiscall ReadFromStream_Thunk(int a, int b, int c);
 };
 
 // @fnv 0x008586d0
-void __thiscall FUN_008586d0_class::FUN_008586d0(int a, int b, int c)
+// src: GUESS 0x008586d0 (confidence: medium)
+void __thiscall FUN_008586d0_class::ReadFromStream_Thunk(int a, int b, int c)
 {
     reinterpret_cast<FUN_00857ba0_class*>(this)->ReadFromStream(a, b, c);
 }
@@ -1274,14 +1275,14 @@ void AppendChunk(unsigned int, char*, unsigned int);
 // @fnv 0x005abd90
 void ScriptUnitOperations::Save()
 {
-    TESForm::FUN_004855a0();
+    TESForm::BeginFormRecord();
     TESForm::ClearData();
     if (TESForm_QEndianSwapOnSave())
         reinterpret_cast<ScriptHeaderData*>(reinterpret_cast<char*>(this) + 0x18)->Endian();
     AppendChunk(0x52484353, reinterpret_cast<char*>(this) + 0x18, 0x14);
     if (TESForm_QEndianSwapOnSave())
         reinterpret_cast<ScriptHeaderData*>(reinterpret_cast<char*>(this) + 0x18)->Endian();
-    TESForm::FUN_00485680();
+    TESForm::FinishFormRecord();
 }
 
 namespace fnv_005ac6a0 {
@@ -1323,7 +1324,7 @@ struct ATM
 
 struct ContNode
 {
-    void FUN_00905330(void*);
+    void RemoveMatchingItem(void*);
 };
 
 struct G2 : public ContNode
@@ -1351,7 +1352,7 @@ void __cdecl Script_AddPendingDisabledReference(int aiTask, unsigned char abAlte
 
     if (aiTask != 0)
     {
-        g_011caca8.FUN_00905330(&aiTask);
+        g_011caca8.RemoveMatchingItem(&aiTask);
 
         if (abAlternate == 0)
         {
@@ -3122,7 +3123,7 @@ struct S4eb0_list
     void FUN_0063f7b0();
     ScriptReferencedObject** FUN_006815c0();
     S4eb0_list* FUN_00726070();
-    void FUN_00905330(ScriptReferencedObject** p);
+    void RemoveMatchingItem(ScriptReferencedObject** p);
 };
 
 void ResolveFormID(TESForm** form, TESFile* file);
@@ -3169,7 +3170,7 @@ void Script::InitItem(TESForm* form)
         {
             if (pPrev)
             {
-                pPrev->FUN_00905330(iter->FUN_006815c0());
+                pPrev->RemoveMatchingItem(iter->FUN_006815c0());
                 iter = pPrev->FUN_00726070();
             }
             else

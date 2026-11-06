@@ -46,7 +46,7 @@ public:
     bool IsHiddenFlagSet();
     unsigned int GetFormID();
     bool GetEvil();
-    void FUN_0047eb90(bool value);
+    void ForwardCall_0047eb90(bool value);
 
     FactionSaveData data;
     TESReputation* pReputationData;

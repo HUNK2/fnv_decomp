@@ -2,7 +2,7 @@
 // src/gamebryo2.2/corelibs/nianimation/nioldanimationconverter.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nianimation/nioldanimationconverter.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern "C" void* __cdecl FUN_00aa13e0(unsigned int);
+extern "C" void* __cdecl Object_DispatchCommandFour(unsigned int);
 extern char DAT_0109717c[];
 
 struct FUN_00a5d3a0_cls
@@ -51,7 +51,7 @@ void FUN_00a42460_cls::NiPoint3Interpolator_SetKeys(unsigned int auiArg1, unsign
     {
         if (m_18 == 0)
         {
-            SpawnedObject* o = (SpawnedObject*)FUN_00aa13e0(0x18);
+            SpawnedObject* o = (SpawnedObject*)Object_DispatchCommandFour(0x18);
             if (o != 0)
             {
                 ((FUN_00a5d3a0_cls*)o)->FUN_00a5d3a0();
@@ -82,7 +82,7 @@ void FUN_00a42460_cls::NiPoint3Interpolator_SetKeys(unsigned int auiArg1, unsign
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* plAddend);
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* plAddend);
 
-void* __cdecl FUN_00aa13e0(unsigned int uiSize);
+void* __cdecl Object_DispatchCommandFour(unsigned int uiSize);
 
 struct LcRTTI
 {
@@ -286,11 +286,11 @@ extern "C" void __cdecl CreateInterpolator(LcOld* pkOld)
     if (!pkCtlr || !(pkSrc = pkCtlr->GetInterpolator(0)) || !pkSrc->IsKindOfType(&DAT_011f3e50))
     {
         bControllerCreated = true;
-        pkCtlr = new (FUN_00aa13e0(0x38), 0) LcCtlrNew;
+        pkCtlr = new (Object_DispatchCommandFour(0x38), 0) LcCtlrNew;
         CopyControllerSettings(pkOld, pkCtlr);
     }
 
-    LcInterp* pkInterp = new (FUN_00aa13e0(0x44), 0) LcInterp(0, 0, 0);
+    LcInterp* pkInterp = new (Object_DispatchCommandFour(0x44), 0) LcInterp(0, 0, 0);
     pkInterp->m_i10 = pkOld->m_i38;
     pkInterp->SetLookAtName(DAT_011f49e0);
     if (pkOld->m_uiObjectFlags & 1)
@@ -307,7 +307,7 @@ extern "C" void __cdecl CreateInterpolator(LcOld* pkOld)
         {
             if (pkData->GetNumA())
             {
-                LcKeys* pkKeys = new (FUN_00aa13e0(0x20), 0) LcKeys(0);
+                LcKeys* pkKeys = new (Object_DispatchCommandFour(0x20), 0) LcKeys(0);
                 unsigned int uiElementCount;
                 int eType;
                 unsigned char ucSize;
@@ -318,7 +318,7 @@ extern "C" void __cdecl CreateInterpolator(LcOld* pkOld)
             }
             if (pkData->GetNumB())
             {
-                LcKeys2* pkKeys = new (FUN_00aa13e0(0x18), 0) LcKeys2(0);
+                LcKeys2* pkKeys = new (Object_DispatchCommandFour(0x18), 0) LcKeys2(0);
                 unsigned int uiElementCount;
                 int eType;
                 unsigned char ucSize;

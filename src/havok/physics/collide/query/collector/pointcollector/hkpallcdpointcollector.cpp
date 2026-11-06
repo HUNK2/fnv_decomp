@@ -10,7 +10,7 @@ struct FUN_00caba90_array
 };
 struct FUN_006212c0_shell
 {
-    void* FUN_006212c0(void* source);
+    void* InitializeFields_006212c0(void* source);
 };
 void* __cdecl hkMemoryRouter_getInstance();
 void __cdecl ResizeAudioStream(void* manager, void* array, int itemSize);
@@ -36,7 +36,7 @@ void* FUN_00caba90_Class::AppendItem(void* source)
     unsigned int index = items->count;
     char* item = (char*)items->data + index * 0x70;
     items->count = index + 1;
-    return ((FUN_006212c0_shell*)item)->FUN_006212c0(source);
+    return ((FUN_006212c0_shell*)item)->InitializeFields_006212c0(source);
 }
 
 struct ByteTag

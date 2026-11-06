@@ -25,12 +25,13 @@ struct FUN_0043aa40_shell
     int m_14;
     int m_18;
     int m_1c;
-    void __thiscall FUN_0043aa40(BGSSaveFormBuffer* apBuffer);
+    void __thiscall SaveFields_0043aa40(BGSSaveFormBuffer* apBuffer);
 };
 
 // Writes three ranges of this object (offsets 4, 0x10, 0x1c) and the form at m_00 into the save buffer.
 // @fnv 0x0043aa40
-void FUN_0043aa40_shell::FUN_0043aa40(BGSSaveFormBuffer* apBuffer)
+// src: GUESS 0x0043aa40 (confidence: medium)
+void FUN_0043aa40_shell::SaveFields_0043aa40(BGSSaveFormBuffer* apBuffer)
 {
     apBuffer->SaveData((void*)((char*)this + 4), 0xc, 0);
     apBuffer->SaveData((void*)((char*)this + 0x10), 0xc, 0);
@@ -133,11 +134,12 @@ void __thiscall FUN_009f3850_shell::SandBoxChoiceListItem_SaveGame(BGSSaveFormBu
 
 struct FUN_006e2350_shell
 {
-    void __thiscall FUN_006e2350(BGSSaveFormBuffer* apBuffer);
+    void __thiscall SaveState_006e2350(BGSSaveFormBuffer* apBuffer);
 };
 
 // @fnv 0x006e2350
-void __thiscall FUN_006e2350_shell::FUN_006e2350(BGSSaveFormBuffer* apBuffer)
+// src: GUESS 0x006e2350 (confidence: medium)
+void __thiscall FUN_006e2350_shell::SaveState_006e2350(BGSSaveFormBuffer* apBuffer)
 {
     apBuffer->SaveData(this, 4, 0);
     apBuffer->SaveData((char*)this + 0x2c, 12, 0);
@@ -308,11 +310,12 @@ unsigned int BGSSaveGameBuffer::StartVariableSizedValue()
 
 struct FUN_0083fb10_shell
 {
-    void __thiscall FUN_0083fb10(BGSSaveFormBuffer* apBuffer);
+    void __thiscall SaveState_0083fb10(BGSSaveFormBuffer* apBuffer);
 };
 
 // @fnv 0x0083fb10
-void __thiscall FUN_0083fb10_shell::FUN_0083fb10(BGSSaveFormBuffer* apBuffer)
+// src: GUESS 0x0083fb10 (confidence: medium)
+void __thiscall FUN_0083fb10_shell::SaveState_0083fb10(BGSSaveFormBuffer* apBuffer)
 {
     apBuffer->SaveGameString((const char*)(unsigned int)*(Flt*)this, 0);
     apBuffer->SaveData((char*)this + 8, 1, 0);

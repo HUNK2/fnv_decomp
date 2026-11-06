@@ -303,11 +303,12 @@ struct SpawnedObject
     unsigned int unk154;
     unsigned char m_158;
     void Init(int a, int b, int c, int d);
-    SpawnedObject* FUN_0085fb40(int a1, int a2, int a3);
+    SpawnedObject* InitializeFields_0085fb40(int a1, int a2, int a3);
 };
 
 // @fnv 0x0085fb40
-SpawnedObject* SpawnedObject::FUN_0085fb40(int a1, int a2, int a3)
+// src: GUESS 0x0085fb40 (confidence: low)
+SpawnedObject* SpawnedObject::InitializeFields_0085fb40(int a1, int a2, int a3)
 {
     this->Init(a1, a2, a3, 0);
     *(void* volatile*)this = &DAT_01081a5c;

@@ -596,7 +596,7 @@ inline ScaleLoadFunction GetScaleLoadFunction(NiAnimationKey::KeyType type)
 {
     return DAT_011f3780[type];
 }
-void __cdecl FUN_00a29680(const char* message);
+void __cdecl Object_DoNothing(const char* message);
 
 // Reads rotation, position, and scale key data from a NiStream, creating and loading each key set via type-specific factory and load functions.
 // @fnv 0x00a4e5d0
@@ -615,7 +615,7 @@ void TransformDataOperations::LoadTransformData(NiStream& stream)
         if (numKeys > 65535)
         {
             numKeys = 65535;
-            FUN_00a29680("Transform data loading has more than 65535 rotation keys!");
+            Object_DoNothing("Transform data loading has more than 65535 rotation keys!");
         }
         SetRotationKeys(keys, numKeys, type);
     }
@@ -630,7 +630,7 @@ void TransformDataOperations::LoadTransformData(NiStream& stream)
         if (numKeys > 65535)
         {
             numKeys = 65535;
-            FUN_00a29680("Transform data loading has more than 65535 position keys!");
+            Object_DoNothing("Transform data loading has more than 65535 position keys!");
         }
         SetPositionKeys(keys, numKeys, type);
     }
@@ -645,7 +645,7 @@ void TransformDataOperations::LoadTransformData(NiStream& stream)
         if (numKeys > 65535)
         {
             numKeys = 65535;
-            FUN_00a29680("Transform data loading has more than 65535 scale keys!");
+            Object_DoNothing("Transform data loading has more than 65535 scale keys!");
         }
         SetScaleKeys(keys, numKeys, type);
     }

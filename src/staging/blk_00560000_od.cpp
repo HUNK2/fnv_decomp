@@ -89,21 +89,21 @@ public:
     float GetSquaredXYLength() const;
     Elem16& expand(Allocator& allocator);
 
-    void FUN_00416870(float x, float y, float z);
+    void SetComponents(float x, float y, float z);
     bool FUN_00439090(const LocalVec3* other);
-    bool FUN_004390c0(const LocalVec3* other);
-    bool FUN_004390c0(const LocalVec3* other) const;
-    bool FUN_004390c0(const char* other);
-    void FUN_00439180(float scale);
+    bool HasEqualComponents(const LocalVec3* other);
+    bool HasEqualComponents(const LocalVec3* other) const;
+    bool HasEqualComponents(const char* other);
+    void ScaleComponents(float scale);
     LocalVec3 FUN_00439e90(const LocalVec3& other);
     LocalVec3 FUN_00439e90(const LocalVec3& other) const;
-    void FUN_00439ef0();
-    LocalVec3 FUN_00439ef0(const LocalVec3& other);
-    LocalVec3 FUN_00439ef0(const LocalVec3& other) const;
-    LocalVec3 FUN_00439ef0(LocalVec3* other);
-    LocalVec3 FUN_00439ef0(const LocalVec3* other);
-    void FUN_00439ef0(LocalVec3* output, const LocalVec3* other);
-    LocalVec3* FUN_00439ef0(void* output, void* other);
+    void SubtractIntoVector();
+    LocalVec3 SubtractIntoVector(const LocalVec3& other);
+    LocalVec3 SubtractIntoVector(const LocalVec3& other) const;
+    LocalVec3 SubtractIntoVector(LocalVec3* other);
+    LocalVec3 SubtractIntoVector(const LocalVec3* other);
+    void SubtractIntoVector(LocalVec3* output, const LocalVec3* other);
+    LocalVec3* SubtractIntoVector(void* output, void* other);
     void FUN_0043d410(float x, int y, int z);
     void FUN_0043d410(float x, unsigned int y, unsigned int z);
     float FUN_00457910();
@@ -113,22 +113,22 @@ public:
     float FUN_004a7290();
     float FUN_004a7290() const;
     LocalVec3 FUN_004b3800(const LocalVec3& other) const;
-    LocalVec3 FUN_0053d280(float divisor);
+    LocalVec3 ProcessAndReturnValue_0053d280(float divisor);
     float NiPoint3_XYLength();
     float NiPoint3_XYLength() const;
-    void FUN_0063c8a0(const LocalVec3* other);
-    void FUN_0063c8a0(void* other);
+    void ComputeValue_0063c8a0(const LocalVec3* other);
+    void ComputeValue_0063c8a0(void* other);
     void FUN_006815c0();
     float CVec3_Distance(LocalVec3* other);
     float CVec3_Distance(const LocalVec3& other) const;
-    LocalVec3 FUN_00b05000(const Mat& matrix);
-    LocalVec3 FUN_00b05000(const Matrix4* matrix);
+    LocalVec3 TransformPointByMatrix4(const Mat& matrix);
+    LocalVec3 TransformPointByMatrix4(const Matrix4* matrix);
     void Normalize_00b12790();
     LocalVec3 Diff_00b13040(void* other);
     LocalVec3 Diff_00b13040(const LocalVec3& other) const;
     float FUN_00b2a180(void* other);
-    LocalVec3& FUN_00b2a1c0(void* other);
-    void FUN_00ddc870();
+    LocalVec3& AddComponents(void* other);
+    void ProcessEntries_00ddc870();
     void FUN_00e0f6e0();
 };
 #include "../../include/NiMatrix3.h"
@@ -268,14 +268,14 @@ struct FUN_0056d360_Class
 
 struct FUN_005407b0_Class
 {
-    void FUN_005407b0(int a);
+    void UpdateState_005407b0(int a);
 };
 
 // @fnv 0x0056d360
 // src: COMMUNITY 0x0056d360
 void FUN_0056d360_Class::bhkRigidBodyCinfo_SetMotionType(int aiValue)
 {
-    ((FUN_005407b0_Class*)((char*)this + 0xd4))->FUN_005407b0(aiValue);
+    ((FUN_005407b0_Class*)((char*)this + 0xd4))->UpdateState_005407b0(aiValue);
 }
 
 extern "C" void* DAT_01030534;
@@ -287,7 +287,7 @@ struct FUN_0056d610_base
 
 struct FUN_0056d5f0_class : FUN_0056d610_base
 {
-    void FUN_0056d610();
+    void SetVtableAndProcessState_0056d610();
     void* bhkWaterPhantomCallbackShape_bhkWaterPhantomCallbackShape();
 };
 
@@ -295,7 +295,7 @@ struct FUN_0056d5f0_class : FUN_0056d610_base
 // src: EXE 0x0056d5f0
 void* FUN_0056d5f0_class::bhkWaterPhantomCallbackShape_bhkWaterPhantomCallbackShape()
 {
-    FUN_0056d610();
+    SetVtableAndProcessState_0056d610();
     *reinterpret_cast<void**>(this) = &DAT_01030534;
     return this;
 }
@@ -305,12 +305,13 @@ extern int DAT_01030570;
 struct FUN_0056d610Class
 {
     void __thiscall FUN_0056d640(int);
-    FUN_0056d610Class* __thiscall FUN_0056d610();
+    FUN_0056d610Class* __thiscall SetVtableAndProcessState_0056d610();
 };
 
 // Calls FUN_0056d640 with 0x1d, stores the address of DAT_01030570 at the start of this, and returns this.
 // @fnv 0x0056d610
-FUN_0056d610Class* __thiscall FUN_0056d610Class::FUN_0056d610()
+// src: GUESS 0x0056d610 (confidence: low)
+FUN_0056d610Class* __thiscall FUN_0056d610Class::SetVtableAndProcessState_0056d610()
 {
     FUN_0056d640(0x1d);
     *reinterpret_cast<int**>(this) = &DAT_01030570;
@@ -319,29 +320,31 @@ FUN_0056d610Class* __thiscall FUN_0056d610Class::FUN_0056d610()
 
 struct FUN_0056d6c0_class
 {
-    void __thiscall FUN_0056d6c0();
+    void __thiscall DestroyFields_0056d6c0();
 };
 
 struct FUN_0056d710_class : public FUN_0056d6c0_class
 {
-    void __thiscall FUN_0056d710();
+    void __thiscall ForwardCall_0056d710();
 };
 
 // @fnv 0x0056d710
-void __thiscall FUN_0056d710_class::FUN_0056d710()
+// src: GUESS 0x0056d710 (confidence: low)
+void __thiscall FUN_0056d710_class::ForwardCall_0056d710()
 {
-    FUN_0056d6c0();
+    DestroyFields_0056d6c0();
 }
 
 struct FUN_0056d780_class
 {
-    void FUN_0056d7a0();
-    void FUN_0056d780();
+    void ForwardCall_0056d7a0();
+    void ForwardCall_0056d780();
 };
 // @fnv 0x0056d780
-void FUN_0056d780_class::FUN_0056d780()
+// src: GUESS 0x0056d780 (confidence: low)
+void FUN_0056d780_class::ForwardCall_0056d780()
 {
-    FUN_0056d7a0();
+    ForwardCall_0056d7a0();
 }
 
 struct FUN_0057c530Class
@@ -351,25 +354,27 @@ struct FUN_0057c530Class
 
 struct FUN_0056d7a0Class
 {
-    void FUN_0056d7a0();
+    void ForwardCall_0056d7a0();
 };
 
 // @fnv 0x0056d7a0
-void FUN_0056d7a0Class::FUN_0056d7a0()
+// src: GUESS 0x0056d7a0 (confidence: low)
+void FUN_0056d7a0Class::ForwardCall_0056d7a0()
 {
     ((FUN_0057c530Class*)((char*)this + 0xc))->FUN_0057c530();
 }
 
 struct FUN_0056d7c0_cls
 {
-    void FUN_0056d710();
-    void FUN_0056d7c0();
+    void ForwardCall_0056d710();
+    void ForwardCall_0056d7c0();
 };
 
 // @fnv 0x0056d7c0
-void FUN_0056d7c0_cls::FUN_0056d7c0()
+// src: GUESS 0x0056d7c0 (confidence: low)
+void FUN_0056d7c0_cls::ForwardCall_0056d7c0()
 {
-    FUN_0056d710();
+    ForwardCall_0056d710();
 }
 
 struct FUN_0056ded0 : hkRotation
@@ -487,14 +492,14 @@ struct V4_538f40
 };
 struct FUN_00577070_class
 {
-    void FUN_00577090();
+    void UpdateState_00577090();
     void hkTransform_setIdentity();
 };
 // @fnv 0x00577070
 // src: COMMUNITY 0x00577070
 void FUN_00577070_class::hkTransform_setIdentity()
 {
-    FUN_00577090();
+    UpdateState_00577090();
     ((V4_538f40*)((char*)this + 0x30))->hkVector4_setZero4();
 }
 
@@ -547,19 +552,20 @@ void _NiFreeAlias(void*);
 struct FUN_0057ca30_Class
 {
     void NiTPointerMap_RemoveAll();
-    void FUN_0057ca30();
+    void SetVtableAndProcessState_0057ca30();
 };
 
 // Sets the vtable pointer, clears the pointer map, and frees the object at offset 8.
 // @fnv 0x0057ca30
-void FUN_0057ca30_Class::FUN_0057ca30()
+// src: GUESS 0x0057ca30 (confidence: low)
+void FUN_0057ca30_Class::SetVtableAndProcessState_0057ca30()
 {
     *(void**)this = &DAT_01030fd4;
     NiTPointerMap_RemoveAll();
     _NiFreeAlias(*(void**)((char*)this + 8));
 }
 
-void __cdecl FUN_00538eb0(void*);
+void __cdecl Tesland_UpdateState_00538eb0(void*);
 
 struct FUN_0056d6e0_Class
 {
@@ -570,9 +576,9 @@ struct FUN_0056d6e0_Class
 // src: COMMUNITY 0x0056d6e0
 void* FUN_0056d6e0_Class::HavokStreambufFactory_Destroy(unsigned int flags)
 {
-    reinterpret_cast<FUN_0056d7c0_cls*>(this)->FUN_0056d710();
+    reinterpret_cast<FUN_0056d7c0_cls*>(this)->ForwardCall_0056d710();
     if (flags & 1)
-        FUN_00538eb0(this);
+        Tesland_UpdateState_00538eb0(this);
     return this;
 }
 
@@ -623,14 +629,14 @@ void* FUN_0057c500_Class::FUN_0057c500(unsigned int flags)
 
 struct FUN_0057ca60_Class
 {
-    void FUN_004b05b0();
+    void ForwardCall_004b05b0();
     void* FUN_0057ca60(unsigned int flags);
 };
 // Calls FUN_004b05b0, deletes this when flags has bit 0 set, and returns this.
 // @fnv 0x0057ca60
 void* FUN_0057ca60_Class::FUN_0057ca60(unsigned int flags)
 {
-    FUN_004b05b0();
+    ForwardCall_004b05b0();
     if (flags & 1)
         operator delete(this);
     return this;
@@ -639,7 +645,7 @@ void* FUN_0057ca60_Class::FUN_0057ca60(unsigned int flags)
 extern "C" void _Deallocate(void*);
 struct FUN_0057c930_class
 {
-    void __thiscall FUN_0057c930();
+    void __thiscall SetVtableAndProcessState_0057c930();
 };
 struct FUN_0057ca90_Class
 {
@@ -648,7 +654,7 @@ struct FUN_0057ca90_Class
 // @fnv 0x0057ca90
 void* FUN_0057ca90_Class::FUN_0057ca90(unsigned int flags)
 {
-    reinterpret_cast<FUN_0057c930_class*>(this)->FUN_0057c930();
+    reinterpret_cast<FUN_0057c930_class*>(this)->SetVtableAndProcessState_0057c930();
     if (flags & 1)
         _Deallocate(this);
     return this;
@@ -656,7 +662,7 @@ void* FUN_0057ca90_Class::FUN_0057ca90(unsigned int flags)
 
 struct FUN_00560d10_shell
 {
-    float& __thiscall FUN_00560d10(unsigned int);
+    float& __thiscall GetVectorElement_Thunk(unsigned int);
 };
 struct Modifier
 {
@@ -671,10 +677,10 @@ struct AlphaColor
 // @fnv 0x00560c80
 Modifier* CopyModifierSettings(Modifier* apModifier, FUN_00560d10_shell* apSource)
 {
-    apModifier->SetValue(apSource->FUN_00560d10(0));
-    ((FUN_00560cf0_Class*)apModifier)->MuzzleFlash_SetDurationTimer(apSource->FUN_00560d10(1));
-    ((PackageTargetRecord*)apModifier)->SetTargAcquireRadius(apSource->FUN_00560d10(2));
-    ((AlphaColor*)apModifier)->TESRegionPoint_SetX(apSource->FUN_00560d10(3));
+    apModifier->SetValue(apSource->GetVectorElement_Thunk(0));
+    ((FUN_00560cf0_Class*)apModifier)->MuzzleFlash_SetDurationTimer(apSource->GetVectorElement_Thunk(1));
+    ((PackageTargetRecord*)apModifier)->SetTargAcquireRadius(apSource->GetVectorElement_Thunk(2));
+    ((AlphaColor*)apModifier)->TESRegionPoint_SetX(apSource->GetVectorElement_Thunk(3));
     return apModifier;
 }
 
@@ -961,7 +967,7 @@ FUN_0056d440::FUN_0056d440()
 
 struct FUN_0066d410_shell
 {
-    void FUN_0066d410();
+    void ForwardCall_0066d410();
 };
 void __cdecl operator delete(void* p, unsigned int flags);
 struct FUN_0056d5c0_Class
@@ -971,7 +977,7 @@ struct FUN_0056d5c0_Class
 // @fnv 0x0056d5c0
 void* __thiscall FUN_0056d5c0_Class::FUN_0056d5c0(unsigned int flags)
 {
-    ((FUN_0066d410_shell*)this)->FUN_0066d410();
+    ((FUN_0066d410_shell*)this)->ForwardCall_0066d410();
     if (flags & 1)
         operator delete(this, 0x14);
     return this;
@@ -985,9 +991,9 @@ struct FUN_0056d750_holder
 // @fnv 0x0056d750
 void* __thiscall FUN_0056d750_holder::FUN_0056d750(unsigned int flags)
 {
-    ((FUN_0056d7c0_cls*)this)->FUN_0056d7c0();
+    ((FUN_0056d7c0_cls*)this)->ForwardCall_0056d7c0();
     if (flags & 1)
-        FUN_00538eb0(this);
+        Tesland_UpdateState_00538eb0(this);
     return this;
 }
 
@@ -1008,7 +1014,7 @@ struct FUN_0056e050_Class
 // src: COMMUNITY 0x0056e050
 void __thiscall FUN_0056e050_Class::bhkShapePhantom_setTransform(int a)
 {
-    void* p = ((bhkWorldObject*)this)->FUN_004ae750();
+    void* p = ((bhkWorldObject*)this)->Bipedanim_GetReferenceFlagsOrZero();
     if (p)
     {
         ((PhysicsAccessHook*)this)->CheckAccess();
@@ -1042,17 +1048,18 @@ void __thiscall ReferencePositionAccess::SetZ(float afZ)
 
 struct FUN_00577110_shell
 {
-    void FUN_00577110();
+    void ProcessState_00577110();
 };
 struct FUN_00577090_shell : FUN_005770e0_shell
 {
-    void FUN_00577090();
+    void UpdateState_00577090();
 };
 // Calls FUN_00577110 on this, then sets the base-class elements at indices 0, 1 and 2 to 1.0f.
 // @fnv 0x00577090
-void FUN_00577090_shell::FUN_00577090()
+// src: GUESS 0x00577090 (confidence: low)
+void FUN_00577090_shell::UpdateState_00577090()
 {
-    ((FUN_00577110_shell*)this)->FUN_00577110();
+    ((FUN_00577110_shell*)this)->ProcessState_00577110();
     float f = 1.0f;
     FUN_005770e0_shell::GetCharacterControllerValue(0, 0) = f;
     FUN_005770e0_shell::GetCharacterControllerValue(1, 1) = f;
@@ -1130,7 +1137,7 @@ struct ScenePointerListAccess
 };
 struct FUN_0057c6a0Class
 {
-    void* FUN_00559450();
+    void* Modelloader_GetReferencedThis();
     void* NiTPointerListBase_NiPropertyPtr_FindPos(void* a, void* b);
 };
 // Walks the list starting at b (or the default from FUN_00559450) and returns the first element equal to a, or 0 if none matches.
@@ -1139,7 +1146,7 @@ struct FUN_0057c6a0Class
 void* FUN_0057c6a0Class::NiTPointerListBase_NiPropertyPtr_FindPos(void* apTarget, void* apStart)
 {
     if (!apStart)
-        apStart = FUN_00559450();
+        apStart = Modelloader_GetReferencedThis();
     while (apStart)
     {
         void* c = apStart;
@@ -1188,7 +1195,8 @@ int* FUN_0057c7e0_Class::InitArray(int count)
 extern int DAT_01030fb4;
 void _NiFree(void*);
 // @fnv 0x0057c930
-void __thiscall FUN_0057c930_class::FUN_0057c930()
+// src: GUESS 0x0057c930 (confidence: low)
+void __thiscall FUN_0057c930_class::SetVtableAndProcessState_0057c930()
 {
     *(int*)this = (int)&DAT_01030fb4;
     ((FUN_0057ca30_Class*)this)->NiTPointerMap_RemoveAll();
@@ -1225,7 +1233,7 @@ struct FUN_0057cac0_Holder : FUN_0057ca30_Class
 // @fnv 0x0057cac0
 void* __thiscall FUN_0057cac0_Holder::DestroyIfFlagged(unsigned int flags)
 {
-    FUN_0057ca30();
+    SetVtableAndProcessState_0057ca30();
     if (flags & 1)
         _Deallocate(this);
     return this;
@@ -1238,22 +1246,23 @@ struct H_A100
 void __fastcall hkArrayBase_hkpRootCdBodyPair_clear(void*);
 struct FUN_0057cc10_Class
 {
-    void __thiscall FUN_0057cc10(void* a, void* b);
+    void __thiscall UpdateState_0057cc10(void* a, void* b);
 };
 struct FUN_0057cb20_Class
 {
     void* m_iWordAt00;
     int m_iWordAt04;
     unsigned int m_8;
-    void __thiscall FUN_0057cb20(int a);
+    void __thiscall UpdateFields_0057cb20(int a);
 };
 // @fnv 0x0057cb20
-void __thiscall FUN_0057cb20_Class::FUN_0057cb20(int pTarget)
+// src: GUESS 0x0057cb20 (confidence: low)
+void __thiscall FUN_0057cb20_Class::UpdateFields_0057cb20(int pTarget)
 {
     hkArrayBase_hkpRootCdBodyPair_clear(this);
     if (!(m_8 & 0x80000000))
     {
-        ((FUN_0057cc10_Class*)pTarget)->FUN_0057cc10(m_iWordAt00, ((H_A100*)this)->GetSizeMasked());
+        ((FUN_0057cc10_Class*)pTarget)->UpdateState_0057cc10(m_iWordAt00, ((H_A100*)this)->GetSizeMasked());
     }
     m_iWordAt00 = 0;
     m_8 = 0x80000000;
@@ -1271,11 +1280,12 @@ struct FUN_0057cc10_Cls
     {}
     virtual void F4(int, int)
     {}
-    void __thiscall FUN_0057cc10(int, int);
+    void __thiscall UpdateState_0057cc10(int, int);
 };
 // Calls F4 with a and b shifted left by 3, using a local x initialized to 8.
 // @fnv 0x0057cc10
-void __thiscall FUN_0057cc10_Cls::FUN_0057cc10(int a, int b)
+// src: GUESS 0x0057cc10 (confidence: low)
+void __thiscall FUN_0057cc10_Cls::UpdateState_0057cc10(int a, int b)
 {
     int x = 8;
     F4(a, b << 3);
@@ -1794,7 +1804,7 @@ struct DtorBase_57c930 : FUN_0057c930_class
 {
     virtual __forceinline ~DtorBase_57c930()
     {
-        FUN_0057c930();
+        SetVtableAndProcessState_0057c930();
     }
 };
 struct FUN_0057c8d0 : DtorBase_57c930
@@ -2405,17 +2415,19 @@ void* Base_56d250::FUN_006815c0()
 struct C_56d250 : Base_56d250
 {
     __m128 m_vComponents;
-    void FUN_0056d250();
+    void ForwardCall_0056d250();
 };
 // Copies the 16 bytes at DAT_010c71b0 to the address returned by FUN_006815c0().
 // @fnv 0x0056d250
-void C_56d250::FUN_0056d250()
+// src: GUESS 0x0056d250 (confidence: low)
+void C_56d250::ForwardCall_0056d250()
 {
     *(__m128*)FUN_006815c0() = *(const __m128*)&DAT_010c71b0;
 }
 
 // @fnv 0x00560d10
-float& FUN_00560d10_shell::FUN_00560d10(unsigned int i)
+// src: GUESS 0x00560d10 (confidence: medium)
+float& FUN_00560d10_shell::GetVectorElement_Thunk(unsigned int i)
 {
     return reinterpret_cast<bhkCharacterController*>(this)->GetVectorElement(i);
 }

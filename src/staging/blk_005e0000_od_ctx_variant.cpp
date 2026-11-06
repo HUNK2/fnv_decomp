@@ -59,7 +59,7 @@ struct FUN_005e0340Class
 {
     int m_vtbl;
     ActorCombatGroup** m_ptr;
-    void FUN_005e0340();
+    void ReleaseStorage_005e0340();
 };
 extern int DAT_0103d3f8;
 extern int DAT_0103d400;
@@ -85,7 +85,7 @@ struct FUN_005e2850_class
 struct Stub
 {
     void FUN_005e9590();
-    void FUN_005e9860();
+    void ForwardCall_005e9860();
 };
 struct TESFaction_RankDataView
 {
@@ -94,18 +94,18 @@ struct TESFaction_RankDataView
 };
 struct FUN_005ec8f0_class
 {
-    bool __thiscall FUN_005ec760(int a);
-    bool __thiscall FUN_005ec8f0(int a);
+    bool __thiscall ComputeValue_005ec760(int a);
+    bool __thiscall ForwardCall_005ec8f0(int a);
 };
 struct FUN_005ecd10_cls
 {
     unsigned char IsEqual(int);
-    bool FUN_005ece20(int a);
+    bool IsUnequal(int a);
 };
 struct FUN_005ed1b0_Class
 {
     bool Equals(int);
-    bool FUN_005ed1b0(int arg);
+    bool IsNotEqual(int arg);
 };
 extern int DAT_010472e4;
 struct GlobalObject_00869f00
@@ -201,11 +201,11 @@ struct FUN_005f60c0_Class
 {
     int HasFlag8();
 };
-void __cdecl FUN_00600b90();
+void __cdecl ReleaseMemberStorage();
 struct FUN_005ffbd0_cls
 {
-    void __thiscall FUN_005ffbd0();
-    void __thiscall FUN_00600b90();
+    void __thiscall ForwardCall_005ffbd0();
+    void __thiscall ReleaseMemberStorage();
 };
 struct FUN_005e0830
 {
@@ -232,9 +232,9 @@ struct Standin005e03a0
 {
     void* vtbl;
     void* m4;
-    void __thiscall FUN_005e03a0();
+    void __thiscall SetVirtualTable_005e03a0();
 };
-int __cdecl FUN_005e0aa0(void* a, int b);
+int __cdecl Object_UpdateFields_005e0aa0(void* a, int b);
 struct FUN_005e05d0 : NiBound
 {
     FUN_005e05d0(void* a, int b);
@@ -258,12 +258,12 @@ struct FUN_005e0680_Class : FUN_005e0340Class
 void __cdecl Deallocate(void*);
 struct FUN_005dd7b0_class
 {
-    void __thiscall FUN_005dd7b0();
+    void __thiscall ForwardCall_005dd7b0();
     void* __thiscall NiTPrimitiveArray_TESModel_Destroy(unsigned int flags);
 };
 struct FUN_005e03a0_Class
 {
-    void __thiscall FUN_005e03a0();
+    void __thiscall SetVirtualTable_005e03a0();
 };
 void __cdecl operator delete(void*);
 struct FUN_005e06e0_Class
@@ -272,7 +272,7 @@ struct FUN_005e06e0_Class
 };
 struct FUN_005dd7d0_Class
 {
-    void FUN_005dd7d0();
+    void ForwardCall_005dd7d0();
 };
 void __cdecl Deallocate(void* p);
 struct FUN_005e0710_Class
@@ -281,7 +281,7 @@ struct FUN_005e0710_Class
 };
 struct FUN_005e0460_class
 {
-    void FUN_005e0460();
+    void UpdateFields_005e0460();
 };
 struct FUN_005e0740_class : FUN_005e0460_class
 {
@@ -304,7 +304,7 @@ struct _Mem_20a4
 void __cdecl operator delete(void*);
 struct FUN_005e0590_shell
 {
-    void FUN_005e0590();
+    void UpdateState_005e0590();
 };
 struct FUN_005e0800_class
 {
@@ -316,7 +316,7 @@ struct ref_006815c0_class
     ref_006815c0_class* ref_006815c0(void* a, void* b);
     void hkStackMemory_allocateStack();
 };
-void FUN_005e0aa0(int a, int b);
+void Object_UpdateFields_005e0aa0(int a, int b);
 struct FUN_005e0b10_holder
 {
     void __thiscall hkStackMemory_getFreeStackSize();
@@ -326,7 +326,7 @@ struct S_005e0ad0
 {
     void* __thiscall hkStackMemory_allocateStack(int a, int b);
 };
-void __cdecl FUN_005e0b40(void*, void*);
+void __cdecl Object_ComputeValue_005e0b40(void*, void*);
 struct FUN_005e0b10_Cls
 {
     NavMeshPtr m0;
@@ -339,10 +339,10 @@ template <int N> struct EndianSizeTag
     unsigned char v;
 };
 void __cdecl BSEndian(unsigned char*, EndianSizeTag<0>);
-void __cdecl FUN_004717f0(void*, EndianSizeTag<0>);
+void __cdecl TESFile_TransformReferencedInt64(void*, EndianSizeTag<0>);
 struct T2870
 {
-    void __thiscall FUN_005e2870();
+    void __thiscall ProcessState_005e2870();
 };
 struct FUN_005ec700_shell : TESFaction_RankDataView
 {
@@ -807,7 +807,7 @@ struct FUN_005ef910 : FUN_005ef910_vt
 void __cdecl hkDeallocateStack_char(void*);
 struct FUN_005e0600_Class
 {
-    void FUN_005e0600();
+    void ProcessAndTransformResult_005e0600();
 };
 void* __cdecl FUN_00885750();
 void hkDeallocateStack_char(void* p);
@@ -920,7 +920,7 @@ class FUN_005e0860_cls
     FNVCursor m_kNode;
     bool FindByKey(void* a1, FNVObject** a2);
 };
-int __cdecl FUN_005e0b40(unsigned int arg0, unsigned int arg1);
+int __cdecl Object_ComputeValue_005e0b40(unsigned int arg0, unsigned int arg1);
 unsigned int __cdecl hkAddByteOffset_005e0b50(void* base, int offset);
 struct ObjectHeader
 {
@@ -1003,7 +1003,7 @@ struct LightingDataCmp
     float f30;
     float f34;
 
-    bool FUN_005ec760(const LightingDataCmp* other);
+    bool ComputeValue_005ec760(const LightingDataCmp* other);
 };
 struct Entry38
 {
@@ -1058,7 +1058,7 @@ struct FloatStringEntryRecord
     float f1C;
     StrArray strings;
     EntryArray entries;
-    void FUN_005ecb30(FloatStringEntryRecord* other);
+    void AssignEntriesStringsAndFloats(FloatStringEntryRecord* other);
 };
 // FUN_005eedc0 : returns &m_pEntries[index] (element size 0x38)
 struct FUN_005eedc0_item
@@ -1082,7 +1082,7 @@ struct FUN_005eedc0_cls
 {
     int m_unk00;
     FUN_005eedc0_item* m_pEntries;
-    FUN_005eedc0_item* FUN_005eedc0(int index);
+    FUN_005eedc0_item* GetIndexedValue_005eedc0(int index);
 };
 struct FUN_005efa80_cls
 {
@@ -1768,7 +1768,7 @@ struct CompareData
 };
 struct Entry005ed1e0
 {
-    bool FUN_005ed1b0(Entry005ed1e0* other);
+    bool IsNotEqual(Entry005ed1e0* other);
 };
 struct Array005ed1e0
 {
@@ -1991,8 +1991,8 @@ struct FUN_005e2fa0_standin
     FUN_005e2fa0_SoundData unk44;
     unsigned char unk68;
 
-    void __thiscall FUN_004855a0();
-    void __thiscall FUN_00485680();
+    void __thiscall BeginFormRecord();
+    void __thiscall FinishFormRecord();
     void __thiscall WriteToStream();
 };
 class TESSound;
@@ -2329,7 +2329,7 @@ struct IntegerShortPairEndianRecord
     short m_08;
     short m_0A;
 
-    void FUN_005e3510();
+    void SwapMemberByteOrder();
 };
 void __cdecl operator delete(void*);
 struct DeletingObject
@@ -2440,11 +2440,12 @@ struct Derived : Base
 {
     float m_fValue;
 
-    Derived* FUN_005e63f0();
+    Derived* UpdateState_005e63f0();
 };
 
 // @fnv 0x005e63f0
-Derived* Derived::FUN_005e63f0()
+// src: GUESS 0x005e63f0 (confidence: low)
+Derived* Derived::UpdateState_005e63f0()
 {
     BGSEntryPointFunctionData_BGSEntryPointFunctionData();
     m_pVtbl = DAT_010462c0;
@@ -2479,7 +2480,7 @@ struct FUN_005e6510_cls
     void* vtbl;
     int m4;
     void BGSEntryPointFunctionData_BGSEntryPointFunctionData();
-    FUN_005e6510_cls* FUN_005e6510();
+    FUN_005e6510_cls* InitializeFields_005e6510();
 };
 extern int DAT_01048bb4, DAT_01048ba0, DAT_01048b88, DAT_01048b68, DAT_01048b54;
 struct FUN_00483370

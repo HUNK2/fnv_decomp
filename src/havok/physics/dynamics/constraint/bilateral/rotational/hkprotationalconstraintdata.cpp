@@ -35,7 +35,8 @@ void __thiscall FUN_00e3b500_cls::hkpRotationalConstraintData_getConstraintInfo(
 
 // Returns the constant value 16.
 // @fnv 0x00e3b5b0
-int __cdecl FUN_00e3b5b0()
+// src: GUESS 0x00e3b5b0 (confidence: high)
+int __cdecl hkpRotationalConstraintData_ReturnConstant_16()
 {
     return 16;
 }

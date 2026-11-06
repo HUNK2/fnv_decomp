@@ -105,7 +105,8 @@ static inline LocalM128 Dot3_e4b570(LocalM128 p)
 }
 
 // @fnv 0x00e4b570
-int __cdecl FUN_00e4b570(const LocalM128* point, const LocalM128* verts, float* out)
+// src: GUESS 0x00e4b570 (confidence: low)
+int __cdecl Runtime_ProcessEntries_00e4b570(const LocalM128* point, const LocalM128* verts, float* out)
 {
     float zero = 0.0f;
     float one = -1.0f;
@@ -209,7 +210,8 @@ struct hkQuatStore_e52d90 { LocalM128 m_vec; };
 struct Shorts_e52d90 { short a; short b; short c; };
 
 // @fnv 0x00e52d90
-void __cdecl FUN_00e52d90(const unsigned short* in, hkQuatStore_e52d90* out)
+// src: GUESS 0x00e52d90 (confidence: low)
+void __cdecl hkQuatStore_e52d90_ComputeValues_00e52d90(const unsigned short* in, hkQuatStore_e52d90* out)
 {
     static const float s_scale = (float)(1.0 / ((float)sqrt(2.0) * 16383.0));
     Shorts_e52d90 v;
@@ -264,7 +266,7 @@ static const __declspec(align(16)) unsigned int AbsMask[4] = { 0x7fffffff, 0x7ff
 struct Diagnostic {
   int unk00, unk04, unk08;
   void FUN_00cb1600(char*, int);
-  void FUN_00cc01c0(const char*);
+  void ProcessAndReturnValue_00cc01c0(const char*);
   void FUN_00cc00e0();
 };
 struct ErrorReporter {
@@ -349,7 +351,7 @@ struct Cls {
       }
 
   }
-  void FUN_00e5f070(P1* a1, unsigned char* p, F8* a3);
+  void Interpret_Thunk(P1* a1, unsigned char* p, F8* a3);
   __forceinline void interpret(P1* a1, unsigned char* p, F8* const& a3);
 };
 __forceinline void Cls::interpret(P1* a1, unsigned char* p, F8* const& a3) {
@@ -367,7 +369,7 @@ __forceinline void Cls::interpret(P1* a1, unsigned char* p, F8* const& a3) {
       val.upper.m = a3->upper.m;
       p += 4;
       F8* child=&val;
-      FUN_00e5f070(cur, p, child);
+      Interpret_Thunk(cur, p, child);
       p += right;
       break;
     }
@@ -416,7 +418,7 @@ __forceinline void Cls::interpret(P1* a1, unsigned char* p, F8* const& a3) {
         p += right;
       } else {
         F8* child=&val;
-        FUN_00e5f070(cur, p + right, child);
+        Interpret_Thunk(cur, p + right, child);
         p += left;
       }
       break;
@@ -502,7 +504,7 @@ __forceinline void Cls::interpret(P1* a1, unsigned char* p, F8* const& a3) {
       Diagnostic high;
       int buffer[128];
       high.FUN_00cb1600((char*)buffer, 512);
-      high.FUN_00cc01c0("Unknown command - This mopp data has been corrupted (check for memory trashing), or an hkpMoppBvTreeShape has been pointed at invalid mopp data.\n");
+      high.ProcessAndReturnValue_00cc01c0("Unknown command - This mopp data has been corrupted (check for memory trashing), or an hkpMoppBvTreeShape has been pointed at invalid mopp data.\n");
       if (((ErrorReporter*)DAT_01268360)->report(3, 0x1298fedd, (char*)buffer, "d:\\build\\20091222_000100_AiAnBeClDePh\\Source\\Physics/Internal/Collide/Mopp/Machine/hkpMoppUsingFloatAabbVirtualMachine.inl", 301)) __debugbreak();
       high.FUN_00cc00e0();
       break;
@@ -529,7 +531,8 @@ __forceinline void Cls::interpret(P1* a1, unsigned char* p, F8* const& a3) {
 }
 
 // @fnv 0x00e5f070
-void Cls::FUN_00e5f070(P1* a1, unsigned char* p, F8* a3) { interpret(a1, p, a3); }
+// src: GUESS 0x00e5f070 (confidence: medium)
+void Cls::Interpret_Thunk(P1* a1, unsigned char* p, F8* a3) { interpret(a1, p, a3); }
 
 extern "C" void _ReadWriteBarrier();
 __forceinline int rightPacked(const unsigned char* q){return ((q[0]<<8)+q[1]<<8)+q[2];}
@@ -552,7 +555,7 @@ void ResizeAudioStream(void*, void*, int);
 struct DiagnosticStream {
     void* vtable; int flags; void* writer;
     void FUN_00cb1600(void*, int);
-    void FUN_00cc01c0(const char*);
+    void ProcessAndReturnValue_00cc01c0(const char*);
     void FUN_00cc00e0();
 };
 extern const char str_010d5100[];
@@ -622,7 +625,7 @@ struct TreeDecoder {
     hkArray<int>* output;
     int unk04; int unk08; int unk0C; float scale; int unk14; int unk18; int unk1C;
     CullMachine cull;
-    void FUN_00e5e430(DecodeState*, const unsigned char*, BoundsPair*);
+    void ProcessEntries_00e5e430(DecodeState*, const unsigned char*, BoundsPair*);
     __forceinline void emit(int value) {
         hkArray<int>* a = output;
         AllocatorContext* context = (AllocatorContext*)hkMemoryRouter_getInstance();
@@ -661,7 +664,8 @@ struct TreeDecoder {
 
 };
 // @fnv 0x00e5e430
-void TreeDecoder::FUN_00e5e430(DecodeState* state, const unsigned char* code, BoundsPair* bounds)
+// src: GUESS 0x00e5e430 (confidence: low)
+void TreeDecoder::ProcessEntries_00e5e430(DecodeState* state, const unsigned char* code, BoundsPair* bounds)
 {
     DecodeState localState;
     BoundsPair localBounds;
@@ -672,7 +676,7 @@ void TreeDecoder::FUN_00e5e430(DecodeState* state, const unsigned char* code, Bo
         int op = *code;
         if ((unsigned)op > 0x6b) {
             stream.FUN_00cb1600(buffer,512);
-            stream.FUN_00cc01c0(str_010d5100);
+            stream.ProcessAndReturnValue_00cc01c0(str_010d5100);
             diagnosticResult=((ErrorReporter*)DAT_01268360)->report(3,0x1298fedd,(const char*)buffer,str_010ecd88,301);
             goto DiagnosticTail;
         }
@@ -680,7 +684,7 @@ void TreeDecoder::FUN_00e5e430(DecodeState* state, const unsigned char* code, Bo
         case 0: return;
         case 0x13: case 0x14: case 0x15: case 0x16: case 0x17: case 0x18: case 0x19: case 0x1a: case 0x1b: case 0x1c: {
             int skip=code[3]; localBounds=*bounds; code+=4;
-            FUN_00e5e430(state,code,&localBounds); code+=skip; break;
+            ProcessEntries_00e5e430(state,code,&localBounds); code+=skip; break;
         }
         case 0x10: case 0x11: case 0x12: {
             localBounds=*bounds;
@@ -708,7 +712,7 @@ localBounds=*bounds; int r=code[1]+1; localBounds.minimum.m128_f32[op-0x20]=(sta
             int leftResult=cull.classify(state,leftCode,*bounds);
             if (rightResult != 2) { if (leftResult != 2) return; code=leftCode; }
             else if (leftResult != 2) { *bounds=localBounds; code=rightCode; }
-            else { FUN_00e5e430(state,rightCode,&localBounds); code=leftCode; }
+            else { ProcessEntries_00e5e430(state,rightCode,&localBounds); code=leftCode; }
             break;
         }
         case 0x29: case 0x2a: case 0x2b:
@@ -762,7 +766,7 @@ localBounds=*bounds; int r=code[1]+1; localBounds.minimum.m128_f32[op-0x20]=(sta
         default: {
 
             stream.FUN_00cb1600(buffer,512);
-            stream.FUN_00cc01c0(str_010d5100);
+            stream.ProcessAndReturnValue_00cc01c0(str_010d5100);
             diagnosticResult=((ErrorReporter*)DAT_01268360)->report(3,0x1298fedd,(const char*)buffer,str_010ecd88,301);
         DiagnosticTail:
             if(diagnosticResult) __debugbreak();
@@ -788,7 +792,8 @@ extern const LocalM128 DAT_01017d10;
 struct hkQuatStore_e52190 { LocalM128 m_vec; };
 
 // @fnv 0x00e52190
-void __cdecl FUN_00e52190(const hkQuatStore_e52190* q, unsigned char* out)
+// src: GUESS 0x00e52190 (confidence: low)
+void __cdecl hkQuatStore_e52190_ComputeValues_00e52190(const hkQuatStore_e52190* q, unsigned char* out)
 {
     static const float s_scale = (float)((float)sqrt(2.0) * 63.0);
     LocalM128 a = _mm_and_ps(q->m_vec, DAT_01017d10);

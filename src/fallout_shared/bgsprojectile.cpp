@@ -775,7 +775,7 @@ void WriteValue(unsigned int, int);
 // @fnv 0x004fda00
 void BGSProjectileMethods::WriteProjectileSave()
 {
-    FUN_004855a0();
+    BeginFormRecord();
     TESFullName::Save_00487010();
     TESModel::WriteToBuffer(0x4c444f4d, 0x54444f4d);
     BGSDestructibleObjectForm::Save();
@@ -814,5 +814,5 @@ void BGSProjectileMethods::WriteProjectileSave()
         m_kProjectileModel.WriteToBuffer(0x314d414e, 0x324d414e);
     }
     WriteValue(0x4d414e56, m_eSoundLevel);
-    FUN_00485680();
+    FinishFormRecord();
 }

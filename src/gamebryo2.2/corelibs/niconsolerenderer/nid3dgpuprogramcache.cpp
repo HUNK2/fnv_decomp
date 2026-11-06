@@ -53,7 +53,8 @@ extern char* EmptyFS;
 extern MemoryManager g_memoryManager;
 
 // @fnv 0x00a644a0
-void FUN_00a644a0(char** p)
+// src: GUESS 0x00a644a0 (confidence: low)
+void Object_ProcessEntries_00a644a0(char** p)
 {
     if (p)
     {
@@ -403,11 +404,11 @@ struct W20Profiles
 {
     NiFixedString* data;
     unsigned int capacity, count, unk0c, unk10;
-    __declspec(nothrow) void FUN_00e8e290(unsigned int);
+    __declspec(nothrow) void ResizeStringArray(unsigned int);
     __declspec(nothrow) void PushBack(const NiFixedString& value)
     {
         if (count == capacity)
-            FUN_00e8e290(capacity > 0 ? capacity * 2 : 1);
+            ResizeStringArray(capacity > 0 ? capacity * 2 : 1);
         data[count++] = value;
     }
 };
@@ -717,7 +718,7 @@ bool __stdcall WriteTextToFile(const char* pcFileName, const char* pcText)
 
 void* __cdecl _NiMalloc_00aa1070(unsigned int size);
 void __cdecl _NiFree_00aa10f0(void* p);
-void* __cdecl FUN_00aa13e0(unsigned int size);
+void* __cdecl Object_DispatchCommandFour(unsigned int size);
 __declspec(nothrow) void FUN_00a305b0(char*, unsigned int, const char*, ...);
 char* __cdecl FUN_00a5b690(const char* name);
 void* __cdecl NiD3DShaderProgramFactory_CreateVertexShaderFromBuffer(char* text, unsigned int len, char* path, char* path2, const char* entry, int target, int a,
@@ -915,7 +916,7 @@ RefCountedBase* S00e8eb80_Obj::NiD3DGPUProgramCache_GenerateProgram(const char* 
         RefCountedBase* obj = pObj.m_p;
         if (obj != 0 && vfn7C(obj, refs))
         {
-            ShaderNode* blk = (ShaderNode*)FUN_00aa13e0(0x18);
+            ShaderNode* blk = (ShaderNode*)Object_DispatchCommandFour(0x18);
             ShaderNode* node = blk != 0 ? blk->FUN_00e8ead0() : 0;
 
             for (unsigned int i = 0; i < refs->m_uiItemCount; i++)

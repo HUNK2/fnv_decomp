@@ -86,7 +86,7 @@ int __cdecl TESForm_QEndianSwapOnSave();
 // @fnv 0x00617fc0
 void __thiscall TESSkill::SaveForm()
 {
-    ((TESForm*)this)->FUN_004855a0();
+    ((TESForm*)this)->BeginFormRecord();
     fnv_00617fc0::TESForm_AddChunk_00485910(0x58444e49, *(int*)((char*)this + 0x2c));
     ((TESDescription*)((char*)this + 0x18))->Save();
     ((TESTexture*)((char*)this + 0x20))->Save(0x4e4f4349);
@@ -99,7 +99,7 @@ void __thiscall TESSkill::SaveForm()
     fnv_00617fc0::WriteDescChunk((char*)this + 0x48, 0x4d414e4a);
     fnv_00617fc0::WriteDescChunk((char*)this + 0x50, 0x4d414e45);
     fnv_00617fc0::WriteDescChunk((char*)this + 0x58, 0x4d414e4d);
-    ((TESForm*)this)->FUN_00485680();
+    ((TESForm*)this)->FinishFormRecord();
 }
 
 extern "C" void* __cdecl _alloca(unsigned int);

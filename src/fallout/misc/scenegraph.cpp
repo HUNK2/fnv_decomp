@@ -101,7 +101,7 @@ float FUN_008786b0_shell::SceneGraph_GetFarDistance()
 
 struct StandIn
 {
-    void __thiscall FUN_00878690();
+    void __thiscall SetVtableAndProcessState_00878690();
     void* __thiscall DestroyIfFlagged(unsigned int);
 };
 void __cdecl _delete(void*, unsigned int);
@@ -109,7 +109,7 @@ void __cdecl _delete(void*, unsigned int);
 // @fnv 0x00878650
 void* StandIn::DestroyIfFlagged(unsigned int flags)
 {
-    this->FUN_00878690();
+    this->SetVtableAndProcessState_00878690();
     if (flags & 1)
         _delete(this, 0xC0);
     return this;
@@ -119,12 +119,13 @@ extern int DAT_01083b5c;
 
 struct FUN_00878690_shell
 {
-    void FUN_00878690();
+    void SetVtableAndProcessState_00878690();
     void FUN_00c51df0();
 };
 
 // @fnv 0x00878690
-void FUN_00878690_shell::FUN_00878690()
+// src: GUESS 0x00878690 (confidence: low)
+void FUN_00878690_shell::SetVtableAndProcessState_00878690()
 {
     *(int*)this = (int)&DAT_01083b5c;
     FUN_00c51df0();

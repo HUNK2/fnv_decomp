@@ -60,9 +60,9 @@ struct TextBuilder
     int length;
     int bufferCapacity;
     void FUN_00cb1600(char*, unsigned int);
-    TextBuilder* FUN_00cc01c0(const char*, int);
-    TextBuilder* FUN_00cc01c0(const char*, float);
-    void FUN_00cc02d0();
+    TextBuilder* ProcessAndReturnValue_00cc01c0(const char*, int);
+    TextBuilder* ProcessAndReturnValue_00cc01c0(const char*, float);
+    void EvaluateValue_00cc02d0();
     void WriteFloat();
     void FUN_00cc00e0();
 };
@@ -134,7 +134,7 @@ struct TrackBuffers_e50650
     hkArray<float> m_kCubicCoefficient;
     hkArray<unsigned char> m_kE;
 
-    void FUN_00e50ca0();
+    void ReleaseFiveArrays();
 };
 void hkaTrackAnalysis_analyzeQsTransform(TrackBuffers_e50650* pkBuffers, void* pkArg, void* pkArgCur, hkBool bFlag);
 void ExpandTrackSource(const TrackSource_e50650* pkSource, void* pkArg, void* pkArgCur);

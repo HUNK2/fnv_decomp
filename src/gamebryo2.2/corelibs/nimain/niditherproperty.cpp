@@ -17,7 +17,8 @@ void* __cdecl NiDitherProperty_GetRTTI()
 }
 
 // @fnv 0x00dc9bc0
-int __cdecl FUN_00dc9bc0()
+// src: GUESS 0x00dc9bc0 (confidence: low)
+int __cdecl Object_ComputeValue_00dc9bc0()
 {
     return 8;
 }

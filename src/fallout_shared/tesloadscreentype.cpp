@@ -55,13 +55,13 @@ bool __cdecl TESForm_QEndianSwapOnSave();
 // @fnv 0x005a7630
 void TESLoadScreenType::SaveForm()
 {
-    FUN_004855a0();
+    BeginFormRecord();
     if (TESForm_QEndianSwapOnSave())
         ((LoadScreenTypeData*)formData)->Endian();
     TESForm___SaveData(formData, 0x58);
     if (TESForm_QEndianSwapOnSave())
         ((LoadScreenTypeData*)formData)->Endian();
-    FUN_00485680();
+    FinishFormRecord();
 }
 
 int __cdecl _memcmp(const void*, const void*, unsigned int);

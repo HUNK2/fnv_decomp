@@ -81,7 +81,7 @@ extern "C" void __cdecl _hkSimpleContactConstraintDataAddALittleSurfaceViscosity
 extern "C" void __cdecl hkSimpleContactConstraintDataBuildJacobian(hkpSimpleContactConstraintAtom*, Buffer*, int, int*);
 extern "C" void __cdecl hkSolverBuildJacobianFromAtomsNotContact(hkpSimpleContactConstraintAtom*, unsigned short, Buffer*, int*);
 extern "C" Buffer* __cdecl GetSharedBuffer();
-static void __cdecl FUN_00d6c5a0(hkpSimpleContactConstraintAtom* self, int* counter, Buffer* source);
+static void __cdecl Object_CopyData_00d6c5a0(hkpSimpleContactConstraintAtom* self, int* counter, Buffer* source);
 void __cdecl Caller(hkpSimpleContactConstraintAtom* self, int* counter);
 
 #include <xmmintrin.h>

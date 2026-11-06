@@ -100,18 +100,18 @@ struct FUN_009afbb0_shell
 {
     virtual ~FUN_009afbb0_shell();
     void* FUN_009afbb0(unsigned int flags);
-    void FUN_009afc10();
+    void ForwardCall_009afc10();
 };
 
-extern "C" void __cdecl FUN_009afbe0(void*);
+extern "C" void __cdecl Object_UpdateFields_009afbe0(void*);
 
 // Calls FUN_009afc10, then if bit 0 of flags is set calls FUN_009afbe0 on this, and returns this.
 // @fnv 0x009afbb0
 void* FUN_009afbb0_shell::FUN_009afbb0(unsigned int flags)
 {
-    FUN_009afc10();
+    ForwardCall_009afc10();
     if (flags & 1)
-        FUN_009afbe0(this);
+        Object_UpdateFields_009afbe0(this);
     return this;
 }
 
@@ -122,11 +122,12 @@ struct FUN_00621100_shell
 
 struct FUN_009afc10_shell
 {
-    void __thiscall FUN_009afc10();
+    void __thiscall ForwardCall_009afc10();
 };
 
 // @fnv 0x009afc10
-void __thiscall FUN_009afc10_shell::FUN_009afc10()
+// src: GUESS 0x009afc10 (confidence: low)
+void __thiscall FUN_009afc10_shell::ForwardCall_009afc10()
 {
     ((FUN_00621100_shell*)this)->SetVtable();
 }
@@ -204,7 +205,8 @@ struct UnkObj
     virtual void f2(void*, int);
 };
 // @fnv 0x009afbe0
-void __cdecl FUN_009afbe0(void* a1)
+// src: GUESS 0x009afbe0 (confidence: low)
+void __cdecl Object_UpdateFields_009afbe0(void* a1)
 {
     if (a1 != 0)
     {
@@ -215,7 +217,7 @@ void __cdecl FUN_009afbe0(void* a1)
 
 struct H00622570
 {
-    void __thiscall FUN_00622570(bool);
+    void __thiscall UpdateState_00622570(bool);
 };
 struct S009afc70
 {
@@ -228,7 +230,7 @@ struct S009afc70
 // src: COMMUNITY 0x009afc70
 void* __thiscall S009afc70::hkpFixedBufferCdPointCollector_hasHit(void* apTarget)
 {
-    ((H00622570*)apTarget)->FUN_00622570((int)m_navMeshPtr.AnimatingText_GetFullText() > 0);
+    ((H00622570*)apTarget)->UpdateState_00622570((int)m_navMeshPtr.AnimatingText_GetFullText() > 0);
     return apTarget;
 }
 
@@ -956,7 +958,7 @@ struct GlobalObject_0042f730
     GlobalObject_0042f730(void* p);
     ~GlobalObject_0042f730();
     int m_ptr;
-    void FUN_0042f780(void* p);
+    void AssignRetainedObject(void* p);
 };
 struct GlobalObject_006815c0
 {
@@ -1063,7 +1065,7 @@ FUN_009abf30::FUN_009abf30() : m_a0(0), m_c4(0), m_d0(0)
     m_9c = 1.0f;
     m_a0 = 0;
     m_c4 = 0;
-    m_d0.FUN_0042f780(0);
+    m_d0.AssignRetainedObject(0);
     m_c8 = 0;
     m_cc = 0;
     m_e0 = 0;
@@ -1341,7 +1343,7 @@ struct AC_0042f730;
 struct Holder0042f780
 {
     int m_00;
-    Holder0042f780* FUN_0042f780(AC_0042f730* p);
+    Holder0042f780* AssignRetainedObject(AC_0042f730* p);
 };
 
 struct HeadW7
@@ -1374,7 +1376,7 @@ void Explosion::RevertBGS_009b2790(BGSLoadFormBuffer* apBuffer)
     m_bFlagD5 = 0;
     m_bFlagD6 = 0;
     m_bFlagD7 = 0;
-    reinterpret_cast<Holder0042f780&>(m_pActorCause).FUN_0042f780(0);
+    reinterpret_cast<Holder0042f780&>(m_pActorCause).AssignRetainedObject(0);
     m_fFourthRecordValue = 1.0f;
     MagicWeaponState = 0;
     bUnderwater = 0;
@@ -2186,7 +2188,7 @@ class SavedActorCausePointer
 {
   public:
     SavedActorCause* object;
-    SavedActorCause* FUN_00559450();
+    SavedActorCause* Modelloader_GetReferencedThis();
 };
 class CasterReference
 {
@@ -2234,7 +2236,7 @@ void Explosion::WriteToSaveBuffer(BGSSaveFormBuffer* buffer)
     buffer->FUN_00865df0(pOwnerRef, 0);
     buffer->FUN_00865df0(ReferenceSoundCauseData, 0);
     buffer->FUN_00865df0(m_pFiringWeapon, 0);
-    unsigned int causeID = reinterpret_cast<SavedActorCausePointer&>(m_pActorCause).FUN_00559450() ? reinterpret_cast<SavedActorCausePointer&>(m_pActorCause).FUN_00559450()->FUN_00825c00() : -1;
+    unsigned int causeID = reinterpret_cast<SavedActorCausePointer&>(m_pActorCause).Modelloader_GetReferencedThis() ? reinterpret_cast<SavedActorCausePointer&>(m_pActorCause).Modelloader_GetReferencedThis()->FUN_00825c00() : -1;
     buffer->FUN_00865e50(&causeID, 4, 0);
     bool casterPresent = reinterpret_cast<ExplosionCasterData*>(m_pEffectInstance);
     buffer->FUN_00865e50(&casterPresent, 1, 0);

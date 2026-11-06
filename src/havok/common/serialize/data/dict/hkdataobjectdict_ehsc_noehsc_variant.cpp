@@ -353,7 +353,7 @@ struct hkTrackerDC82
         return 0;
     }
     void RegisterObject(hkDataClassDict* c);
-    hkRefPtrDC82<hkRefObjDC82> FUN_00dc8d70(const char* name);
+    hkRefPtrDC82<hkRefObjDC82> FindOrCreateTypeEntry(const char* name);
 };
 
 extern const char* DAT_011b7bfc;
@@ -424,16 +424,16 @@ hkDataClassDict* hkDataWorldDict::wrapClass(const hkClass& pClassInfo)
                 if (const hkVariant* attr = m.getAttribute_00d86960(DAT_011b7bfc))
                 {
                     hkMemberAccessorDC82 acc(attr, "typeName");
-                    typeName = m_pTracker->FUN_00dc8d70(*acc.GetStringPointerAt(0));
+                    typeName = m_pTracker->FindOrCreateTypeEntry(*acc.GetStringPointerAt(0));
                 }
                 else if (const hkVariant* attr = m.getClass()->FUN_00d47260(DAT_011b7bfc))
                 {
                     hkMemberAccessorDC82 acc(attr, "typeName");
-                    typeName = m_pTracker->FUN_00dc8d70(*acc.GetStringPointerAt(0));
+                    typeName = m_pTracker->FindOrCreateTypeEntry(*acc.GetStringPointerAt(0));
                 }
                 else
                 {
-                    typeName = m_pTracker->FUN_00dc8d70(m.getClass()->FUN_00d46d40());
+                    typeName = m_pTracker->FindOrCreateTypeEntry(m.getClass()->FUN_00d46d40());
                 }
             }
         }
@@ -495,5 +495,5 @@ void hkDataWorldDict::addClassMemberX(hkDataClass& klass, const char* pcName, in
     const char* pcPooled = m_pTracker->InternString(pcName);
     if (pkClass->getDeclaredMemberIndexByName(pcName) != -1)
         pkClass->FUN_00dc9470(pcPooled);
-    pkClass->FUN_00dc9f20(pcPooled, iType, m_pTracker->FUN_00dc8d70(pcTypeName), iCount);
+    pkClass->FUN_00dc9f20(pcPooled, iType, m_pTracker->FindOrCreateTypeEntry(pcTypeName), iCount);
 }

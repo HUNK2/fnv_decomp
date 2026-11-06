@@ -71,7 +71,7 @@ void __stdcall NiLightDimmerController_GetViewerStrings(NiTPrimitiveArray<char*>
     pkStrings->SetAt(uIdx, pszStr);
 }
 
-extern "C" void* __cdecl FUN_00aa13e0(unsigned int size);
+extern "C" void* __cdecl Object_DispatchCommandFour(unsigned int size);
 
 struct FloatInterpOwner
 {
@@ -82,7 +82,7 @@ struct FloatInterpOwner
 // @fnv 0x00a4d080
 void* FloatInterpOwner::CreateFloatInterpController(int arg)
 {
-    NiFloatInterpController* obj = (NiFloatInterpController*)FUN_00aa13e0(0x38);
+    NiFloatInterpController* obj = (NiFloatInterpController*)Object_DispatchCommandFour(0x38);
     if (obj != 0)
     {
         obj->NiFloatInterpController::NiFloatInterpController();

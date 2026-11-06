@@ -125,10 +125,10 @@ public:
     int maxAxis() const;
     float GetAngle();
 
-    void FUN_00416870(float x, float y, float z);
-    SimplexVectorCallLocal_00daa7e0 FUN_00439ef0(const SimplexVectorCallLocal_00daa7e0& vector);
+    void SetComponents(float x, float y, float z);
+    SimplexVectorCallLocal_00daa7e0 SubtractIntoVector(const SimplexVectorCallLocal_00daa7e0& vector);
     SimplexVectorCallLocal_00daa7e0 FUN_00439e90(const SimplexVectorCallLocal_00daa7e0& vector);
-    void FUN_00439180(float value);
+    void ScaleComponents(float value);
     void Unitize_004a0c10();
     void normalize_005611c0();
     void setMul(const SimplexVectorCallLocal_00daa7e0* a, const SimplexVectorCallLocal_00daa7e0* b);

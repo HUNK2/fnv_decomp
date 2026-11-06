@@ -40,7 +40,7 @@ struct GlobalObject_00869f00
 extern int DAT_010703b4;
 struct FUN_00723f30_shell : GlobalObject_00869f00
 {
-    void FUN_00723f30();
+    void SetVtableAndProcessState_00723f30();
 };
 struct AX
 {
@@ -50,7 +50,7 @@ extern int DAT_010703c8;
 struct FUN_00723f50_shell : AX
 {
     int* vtable;
-    AX* FUN_00723f50();
+    AX* InitializeArrayView();
 };
 void __cdecl _Deallocate(void*);
 struct FUN_00724140_shell
@@ -72,7 +72,7 @@ struct FUN_007a62e0_shell
     int a;
     int b;
     char c;
-    FUN_007a62e0_shell* __thiscall FUN_007a62e0(int param2, int* param3);
+    FUN_007a62e0_shell* __thiscall InitializeFields_007a62e0(int param2, int* param3);
 };
 struct RecursiveLock;
 struct NiAVObject;
@@ -84,7 +84,7 @@ struct BGSSaveLoadFileEntry;
 struct ListboxSelectionCallView
 {
     bool SetSelection(Tile* apItem, int apSelect);
-    bool FUN_007d8d80(Tile* apSelectItem);
+    bool SetSelection_Thunk(Tile* apSelectItem);
 };
 struct FUN_007d8e80_shell
 {
@@ -112,7 +112,7 @@ extern "C" char str_010703dc[];
 struct FUN_00723fa0_shell : AX
 {
     int* vtable;
-    FUN_00723fa0_shell* __thiscall FUN_00723fa0();
+    FUN_00723fa0_shell* __thiscall SetVirtualTableAndProcessState_00723fa0();
 };
 struct FUN_00723ff0_shell : AX
 {
@@ -122,7 +122,7 @@ struct FUN_00723ff0_shell : AX
 extern int DAT_01070404;
 struct FUN_00724070_shell : GlobalObject_00869f00
 {
-    void FUN_00724070();
+    void SetVtableAndProcessState_00724070();
 };
 struct FUN_007241d0_shell : FUN_00723f30_shell
 {
@@ -130,7 +130,7 @@ struct FUN_007241d0_shell : FUN_00723f30_shell
 };
 struct FUN_00724290_shell
 {
-    void __thiscall FUN_00724070();
+    void __thiscall SetVtableAndProcessState_00724070();
     void* __thiscall FUN_00724290(unsigned int flags);
 };
 struct FUN_007242c0_shell
@@ -140,12 +140,12 @@ struct FUN_007242c0_shell
 int GetTileValueID(const char*, int);
 extern int DAT_011d8cd8;
 extern int DAT_011d8cdc;
-void __cdecl FUN_00724930();
+void __cdecl ProcessEntries_00724930();
 struct FUN_00721bc0_shell
 {
     int x;
-    void __thiscall FUN_00721bc0(int(__cdecl* param)(void*, void*));
-    void __thiscall FUN_00724930();
+    void __thiscall SortEntriesAndRefresh(int(__cdecl* param)(void*, void*));
+    void __thiscall ProcessEntries_00724930();
 };
 struct FUN_00723030_Holder
 {
@@ -162,7 +162,7 @@ struct FUN_00725aa0_shell
 struct FUN_00723310_shell
 {
     ListBoxSortList list;
-    void __thiscall FUN_00723310(int(__cdecl* cmp)(void*, void*));
+    void __thiscall SortListAndProcessSlots(int(__cdecl* cmp)(void*, void*));
 };
 struct FUN_00723ac0_shell
 {
@@ -172,11 +172,11 @@ struct FUN_00723ac0_shell
 struct FUN_00723f00_shell : AX
 {
     int* vtable;
-    FUN_00723f00_shell* __thiscall FUN_00723f00();
+    FUN_00723f00_shell* __thiscall SetVirtualTableAndProcessState_00723f00();
 };
 struct FUN_00723fd0_shell : GlobalObject_00869f00
 {
-    void __thiscall FUN_00723fd0();
+    void __thiscall UpdateState_00723fd0();
 };
 struct FUN_00724090_shell
 {
@@ -208,7 +208,7 @@ struct FUN_007241a0_shell
 };
 struct Helper_00723fd0
 {
-    void __thiscall FUN_00723fd0();
+    void __thiscall UpdateState_00723fd0();
 };
 struct FUN_00724230_shell
 {
@@ -216,7 +216,7 @@ struct FUN_00724230_shell
 };
 struct FUN_00724260_shell
 {
-    void __thiscall FUN_00724020();
+    void __thiscall ResetVirtualTableAndClear_00724020();
     void* __thiscall FUN_00724260(unsigned int flags);
 };
 struct Member_007a8b10
@@ -230,11 +230,11 @@ struct FUN_007643c0_p07 : Member_007a8b10
 struct ListBoxSortList;
 struct FUN_007a6480_shell
 {
-    void __thiscall FUN_007a6480();
+    void __thiscall ProcessEntries_007a6480();
 };
 struct FUN_007a22a0_shell
 {
-    void __thiscall FUN_007a22a0(int(__cdecl* cmp)(void*, void*));
+    void __thiscall SortEntriesAndRefresh_007a22a0(int(__cdecl* cmp)(void*, void*));
 };
 struct FUN_007a30a0_Holder
 {
@@ -247,11 +247,11 @@ struct FUN_007a80e0_shell
 };
 struct FUN_007a5700_shell
 {
-    int* __thiscall FUN_007a5700(int(__cdecl* cmp)(void*, void*));
+    int* __thiscall SortEntriesAndInitializeSceneNodes(int(__cdecl* cmp)(void*, void*));
 };
 struct FUN_007a1aa0_shell
 {
-    void FUN_007a1aa0();
+    void ResetVirtualTableAndClear_007a1aa0();
 };
 struct FUN_007a6100_shell : FUN_007a1aa0_shell
 {
@@ -279,7 +279,7 @@ struct FUN_007a63b0_holder
 };
 struct FUN_007a63f0_shell
 {
-    void __thiscall FUN_007a63f0(unsigned int requested, unsigned int savedSize);
+    void __thiscall UpdateState_007a63f0(unsigned int requested, unsigned int savedSize);
     void __thiscall ConstructElements(int, unsigned int);
 };
 struct FUN_007d9000_shell
@@ -379,13 +379,13 @@ struct FUN_007a6bd0_shell
 {
     char _base[0x0c];
     Tile* m_pListTile;
-    bool __thiscall FUN_007a6bd0();
+    bool __thiscall HasEnabledTrait();
 };
 struct FUN_007a79b0_shell
 {
     char _pad[12];
     Tile* m_pListTile;
-    bool __thiscall FUN_007a79b0();
+    bool __thiscall HasEnabledTrait();
 };
 struct EntryProperty
 {
@@ -473,7 +473,7 @@ struct FUN_00721920
 {
     virtual ~FUN_00721920();
     CleanupMember_00721920 cleanup;
-    void __thiscall FUN_00721990();
+    void __thiscall ReleaseStorage_00721990();
 };
 void __cdecl InterfaceManager_UnregisterListBox(void* object);
 void __cdecl InterfaceManager_UnregisterListBox(void* p);
@@ -592,7 +592,7 @@ struct FUN_00723070
 {
     virtual ~FUN_00723070();
     FUN_0046ffb0 cleanupMember;
-    void FUN_007230e0();
+    void ProcessEntries_007230e0();
 };
 void __cdecl InterfaceManager_UnregisterListBox(FUN_00723070* self);
 extern char DAT_0107038c;
@@ -714,9 +714,9 @@ struct FUN_00724930_cls
     float m_20;
 
     void __thiscall AccumulateTileHeight(Tile* p);
-    void __thiscall FUN_00724dd0();
+    void __thiscall UpdateState_00724dd0();
     void __thiscall UpdateTraitDisplay();
-    void FUN_00724930();
+    void ProcessEntries_00724930();
 };
 float __cdecl FUN_004e4430(float);
 int __cdecl BSMAX_00647b70(int, int);
@@ -733,8 +733,8 @@ struct ScrollPageList
     int unk18;
     int unk1C;
     float fTotal;
-    unsigned int FUN_00726710();
-    void FUN_00724dd0();
+    unsigned int GetUnfilteredRaceCount();
+    void UpdateState_00724dd0();
 };
 struct OwnerProxy
 {
@@ -753,7 +753,7 @@ struct FUN_007255a0_cls
     int unk04;
     int unk08;
     Tile* m_0c;
-    unsigned char FUN_007255a0();
+    unsigned char HasEnabledTrait();
 };
 int __cdecl Tile_AddUserTrait(const char* name, int len);
 extern "C" char str_0106f90c[];
@@ -769,8 +769,8 @@ struct S725970
     int unk18;
     int unk1C;
     float fVal;
-    unsigned int FUN_00726870();
-    void FUN_00725970();
+    unsigned int GetUnfilteredRaceCount();
+    void UpdateState_00725970();
 };
 extern "C" const char kListBoxEnabled[];
 int __cdecl Tile_AddUserTrait(const char* pcTrait, int iIndex);
@@ -856,9 +856,9 @@ struct FUN_007a23e0_cls
 {
     int unk00[4];
     Tile* m_10;
-    bool FUN_007a6550();
+    bool HasEnabledTrait();
     bool __thiscall ContainsKey(Tile* arg);
-    void FUN_007a6600();
+    void UpdateHighlightTraits_007a6600();
     bool ListBox_TESQuest_Destroy(Tile* arg);
 };
 int __cdecl Tile_AddUserTrait(const char* name, int len);
@@ -947,7 +947,7 @@ struct FUN_007a6550_shell
     int unk08;
     Tile* target;
 
-    bool __thiscall FUN_007a6550();
+    bool __thiscall HasEnabledTrait();
 };
 int Tile_AddUserTrait(const char* name, int len);
 struct FUN_007a7330_cls
@@ -957,7 +957,7 @@ struct FUN_007a7330_cls
     int unk08;
     Tile* m_0c;
 
-    unsigned char FUN_007a7330();
+    unsigned char IsEnabled();
 };
 struct FUN_007a81b0_cls
 {
@@ -965,7 +965,7 @@ struct FUN_007a81b0_cls
     int m_04;
     int m_08;
     Tile* m_0c;
-    bool FUN_007a81b0();
+    bool IsEnabled();
 };
 int __cdecl Tile_AddUserTrait(const char* s, int n);
 extern int DAT_01077094;
@@ -1326,7 +1326,7 @@ struct ListBoxE_71f700
     ~ListBoxE_71f700();
 };
 extern int DAT_011dace0;
-void FUN_0071f8c0();
+void Object_UpdateFields_0071f8c0();
 struct FUN_0071f700 : MenuBase_71f700
 {
     Elem_71f700 elems[4];
@@ -1407,9 +1407,9 @@ float __cdecl FUN_004bd510(float value, float step);
 int __cdecl LBGetTraitID(const char* apName);
 struct LBClearList : LBListBox
 {
-    void FUN_00724dd0();
+    void UpdateState_00724dd0();
     void UpdateTraitDisplay();
-    void FUN_00721990();
+    void ReleaseStorage_00721990();
 };
 float __cdecl FUN_004bd510(float a, float b);
 struct Item_721c60
@@ -1463,7 +1463,7 @@ struct FUN_00722000 : FUN_007240c0
 };
 struct ListBox_007228f0 : LBListBox
 {
-    void FUN_00725970();
+    void UpdateState_00725970();
     void UpdateSpeechChallengeTrait();
     void ListBox_StatsMenu_StatusEffect_FreeAllTiles();
 };
@@ -1480,9 +1480,9 @@ struct ListBoxClear
     float m_fFirstListValue;
 
     bool ListBox_unsigned_int_GetFlag(unsigned int flags);
-    void FUN_00725f40();
+    void UpdateScrollTraits();
     void UpdateHighlightTiles();
-    void FUN_007230e0();
+    void ProcessEntries_007230e0();
 };
 float __cdecl FUN_004bd510(float afValue, float afMin);
 struct LBKItem
@@ -1513,7 +1513,7 @@ struct LBKListBox : LBKBase, LBKNode
     const char* pTemplateName;
     unsigned short usItemCount;
 
-    bool FUN_00725b70();
+    bool IsEnabled();
     Tile* GetTileByKey(int aiKey);
 };
 float __cdecl FUN_004bd510(float value, float one);
@@ -1601,7 +1601,7 @@ struct FUN_00725b70_cls
     int m_04;
     int m_08;
     Tile* m_0c;
-    bool FUN_00725b70();
+    bool IsEnabled();
 };
 int __cdecl Tile_AddUserTrait(const char* s, int n);
 struct VLPoint3
@@ -1828,9 +1828,9 @@ class FUN_007a3ac0_ListBox
     float m_fFirstListValue;
 
     bool ListBox_unsigned_int_GetFlag(unsigned int flags);
-    void FUN_007a7700();
-    void FUN_007a73e0();
-    void FUN_007a3ac0();
+    void UpdateScrollTraits_007a7700();
+    void UpdateHighlightTraits_007a73e0();
+    void ProcessEntries_007a3ac0();
 };
 struct NavItem
 {
@@ -1861,7 +1861,7 @@ struct Navigation
     int unk18;
     unsigned short count;
     bool Active();
-    Tile* FUN_007a4000(int key);
+    Tile* ProcessEntries_007a4000(int key);
 };
 struct ListBox_7a6600
 {
@@ -1871,7 +1871,7 @@ struct ListBox_7a6600
     Tile* highlightTile;
     Tile* selectedTile;
 
-    void __thiscall FUN_007a6600();
+    void __thiscall UpdateHighlightTraits_007a6600();
 };
 // Whether the list box tile is enabled (trait id resolved once and cached).
 int __cdecl D7580TraitNameToID(const char* pcName, int iDefault);
@@ -1936,7 +1936,7 @@ class C7D8950ListBox
     bool IsActive();
     bool Contains(Tile* pkTile);
     void UpdateSelection();
-    bool FUN_007d8950(Tile* pkTile);
+    bool SetSelectedTileIfEnabled(Tile* pkTile);
 };
 struct TileValue
 {

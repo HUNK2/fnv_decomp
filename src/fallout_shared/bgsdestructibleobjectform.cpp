@@ -291,7 +291,8 @@ void __fastcall FUN_008c6060(void* pThis);
 
 // Initialises the BaseFormComponent at pThis, sets its vtable to DAT_0101a4c4, calls FUN_008c6060, and returns pThis.
 // @fnv 0x00475350
-void* __fastcall FUN_00475350(void* pThis)
+// src: GUESS 0x00475350 (confidence: medium)
+void* __fastcall BGSDestructibleObjectForm_InitializeFormComponent(void* pThis)
 {
     ((BaseFormComponent*)pThis)->BaseFormComponent::BaseFormComponent();
     *(int**)pThis = &DAT_0101a4c4;
@@ -1429,7 +1430,8 @@ int FindIndexByValue(void* a1, unsigned int aiValue)
 float __cdecl FUN_00476b20(float);
 
 // @fnv 0x00477430
-int __cdecl FUN_00477430(TESObjectREFR* ref)
+// src: GUESS 0x00477430 (confidence: low)
+int __cdecl TESObjectREFR_ProcessEntries_00477430(TESObjectREFR* ref)
 {
     int iStage = -1;
     if (ref)

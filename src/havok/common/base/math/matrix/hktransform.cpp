@@ -29,7 +29,7 @@ struct __declspec(align(16)) Matrix43
 void Matrix43::hkTransform_setMul_00cb22c0(Transform* apTransform, Matrix43* apMatrix)
 {
     Matrix43 temp;
-    apTransform->FUN_00ce5300(&temp);
+    apTransform->Object_ForwardCall_00ce5300(&temp);
     this->hkTransform_setMul(&temp, apMatrix);
 }
 
@@ -217,12 +217,13 @@ struct Matrix
 struct Obj : Matrix
 {
     void __thiscall hkTransform_setMul(Matrix* m, int a);
-    void __thiscall FUN_00cb23e0(int a);
+    void __thiscall ProcessTransformedMatrixCopy_00cb23e0(int a);
 };
 
 // Copies the matrix into a local, applies FUN_00cb2240 to that copy with a, leaving the original matrix unchanged.
 // @fnv 0x00cb23e0
-void __thiscall Obj::FUN_00cb23e0(int a)
+// src: GUESS 0x00cb23e0 (confidence: low)
+void __thiscall Obj::ProcessTransformedMatrixCopy_00cb23e0(int a)
 {
     Matrix localMatrix;
     localMatrix.r0.v = r0.v;
@@ -244,12 +245,13 @@ struct FUN_00cb2050_cls
     __m128 m_kRow2;
     __m128 m_kRow3;
 
-    void FUN_00cb2050(FUN_00cb2050_cls* apOut);
+    void CopyMaskedMatrixRows(FUN_00cb2050_cls* apOut);
 };
 
 // Copies the four m_kRow vectors into apOut, masking the first three with DAT_010c4c10 and shuffling the fourth with DAT_010c7170.
 // @fnv 0x00cb2050
-void FUN_00cb2050_cls::FUN_00cb2050(FUN_00cb2050_cls* apOut)
+// src: GUESS 0x00cb2050 (confidence: medium)
+void FUN_00cb2050_cls::CopyMaskedMatrixRows(FUN_00cb2050_cls* apOut)
 {
     apOut->m_kRow0 = _mm_and_ps(m_kRow0, DAT_010c4c10);
     apOut->m_kRow1 = _mm_and_ps(m_kRow1, DAT_010c4c10);

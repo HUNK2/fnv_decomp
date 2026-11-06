@@ -1383,7 +1383,7 @@ void SortTopicList(bool abSortByPriority, BSSimpleList<TESTopic*>* apTopicList)
             {
                 if (plastlist)
                 {
-                    ((SL*)plastlist)->FUN_00905330((Actor* const&)ptopic1);
+                    ((SL*)plastlist)->RemoveMatchingItem((Actor* const&)ptopic1);
                     pCurrentElementNext = ((BSSimpleList<TESTopic*>*)((GridArray*)(plastlist))->GetCenterX());
                 }
                 else

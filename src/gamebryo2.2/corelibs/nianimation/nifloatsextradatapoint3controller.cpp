@@ -119,7 +119,7 @@ void __fastcall GetPoint3ControllerViewerStrings(NiFloatsExtraDataPoint3Controll
     }
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int);
+void* __cdecl Object_DispatchCommandFour(unsigned int);
 struct Vec12Sink {
     int FUN_00a49650(Vec12 v);
 };
@@ -132,7 +132,7 @@ int __fastcall BuildAndDispatchVec12(NiFloatsExtraDataPoint3Controller* self, in
     v.x = stub->GetValueAt(self->m_iFloatsExtraDataIndex);
     v.y = stub->GetValueAt(self->m_iFloatsExtraDataIndex + 1);
     v.z = stub->GetValueAt(self->m_iFloatsExtraDataIndex + 2);
-    Vec12Sink* p = (Vec12Sink*)FUN_00aa13e0(0x20);
+    Vec12Sink* p = (Vec12Sink*)Object_DispatchCommandFour(0x20);
     if (p != 0) {
         return p->FUN_00a49650(v);
     }

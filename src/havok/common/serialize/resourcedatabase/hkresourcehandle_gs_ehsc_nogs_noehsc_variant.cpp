@@ -91,7 +91,7 @@ struct FUN_00e2df50_Obj
     int unk04;
     int unk08;
 
-    int FUN_00e2df50();
+    int GetUnk08();
 };
 struct FnvCpu_FUN_00e2df70_CpuObject
 {
@@ -104,7 +104,7 @@ struct FnvCpu_FUN_00e2df70_CpuObject
     unsigned int unk18;
     unsigned int unk1c;
     int value;
-    int FUN_00e2df70();
+    int GetValue();
 };
 struct FNVEntry
 {
@@ -209,7 +209,8 @@ struct S00e2e3f0_Obj
     int m_uiItemCount;
     void hkMemoryResourceHandle_clearExternalLinks();
 };
-extern "C" __declspec(noinline) void __fastcall FUN_00cb0c00(void* self)
+// src: GUESS 0x00cb0c00 (confidence: low)
+extern "C" __declspec(noinline) void __fastcall Object_UpdateFields_00cb0c00(void* self)
 {
     Deallocate(self);
 }
@@ -222,8 +223,8 @@ void S00e2e3f0_Obj::hkMemoryResourceHandle_clearExternalLinks()
     int n = m_uiItemCount;
     for (int i = 0; i < n; i++)
     {
-        FUN_00cb0c00(&p[i].m_kPointB);
-        FUN_00cb0c00(&p[i].m_kPointA);
+        Object_UpdateFields_00cb0c00(&p[i].m_kPointB);
+        Object_UpdateFields_00cb0c00(&p[i].m_kPointA);
     }
     m_uiItemCount = 0;
 }
@@ -387,7 +388,7 @@ struct F_e2ebc0
 };
 struct FUN_00cb0a70_Class
 {
-    void FUN_00cb0a70(int);
+    void ReturnSelf(int);
 };
 struct FUN_00e2ebc0_class
 {
@@ -812,10 +813,10 @@ hkResourceHandleE2* hkMemoryResourceContainerE2::hkMemoryResourceContainer_findR
                 {
                     char assertBuf[512];
                     hkOstream ostr(assertBuf, sizeof(assertBuf));
-                    ostr.FUN_00cc01c0("Class mismatch, cannot resolve link: ")
-                        .FUN_00cc01c0(pClassInfo->FUN_00d46d40())
-                        .FUN_00cc01c0(" != ")
-                        .FUN_00cc01c0(handleClass->FUN_00d46d40());
+                    ostr.ProcessAndReturnValue_00cc01c0("Class mismatch, cannot resolve link: ")
+                        .ProcessAndReturnValue_00cc01c0(pClassInfo->FUN_00d46d40())
+                        .ProcessAndReturnValue_00cc01c0(" != ")
+                        .ProcessAndReturnValue_00cc01c0(handleClass->FUN_00d46d40());
                     DAT_01268360->message(1, 0xf034ed22, assertBuf, ".\\ResourceDatabase\\hkResourceHandle.cpp", 0x138);
                     return 0;
                 }

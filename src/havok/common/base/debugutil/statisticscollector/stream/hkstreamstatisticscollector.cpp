@@ -21,10 +21,11 @@ struct VirtualBase
 };
 struct FUN_00ddf020_Class
 {
-    void __thiscall FUN_00ddf020();
+    void __thiscall Dispatch_Thunk();
 };
 // @fnv 0x00ddf020
-void __thiscall FUN_00ddf020_Class::FUN_00ddf020()
+// src: GUESS 0x00ddf020 (confidence: medium)
+void __thiscall FUN_00ddf020_Class::Dispatch_Thunk()
 {
     ((VirtualBase*)this)->Dispatch();
 }
@@ -207,9 +208,9 @@ struct MonitorNode
 struct MonitorString
 {
     unsigned int tagged;
-    void FUN_00cb0b80(const char* s);
+    void InitializeTextHandle(const char* s);
     void FUN_00cb0bd0(const MonitorString& s);
-    void FUN_00cb0c00();
+    void Object_UpdateFields_00cb0c00();
 };
 struct MonitorStrings
 {
@@ -245,14 +246,14 @@ static __declspec(noinline) MonitorNode* _newNode(const char* name, MonitorStrin
         if (strings && name)
         {
             MonitorString text;
-            text.FUN_00cb0b80(name);
+            text.InitializeTextHandle(name);
             void* heap = audio()->m_heap;
             if (strings->size == (strings->capacity & 0x3fffffff))
                 ResizeAudioStream(heap, strings, 4);
             if (&strings->data[strings->size])
                 strings->data[strings->size].FUN_00cb0bd0(text);
             ++strings->size;
-            text.FUN_00cb0c00();
+            text.Object_UpdateFields_00cb0c00();
             name = (const char*)(strings->data[strings->size - 1].tagged & ~1u);
         }
         NodeAllocator* allocator = (NodeAllocator*)audio()->m_heap;
@@ -674,7 +675,7 @@ struct FUN_00ddfab0_cls
     Sub20 m_20;
 
     void hkStreamStatisticsCollector__startObject(int a, int b, int c);
-    void FUN_00ddf020();
+    void Dispatch_Thunk();
     void hkStreamStatisticsCollector_addObject(Param1* a1, int a2, int a3, int a4);
 };
 
@@ -704,7 +705,7 @@ void FUN_00ddfab0_cls::hkStreamStatisticsCollector_addObject(Param1* a1, int a2,
         int r = a1->FUN_00d470d0();
         hkStreamStatisticsCollector__startObject(a2, a3, r);
         hkStatisticsCollectorUtil_addClassContentsAll(a3, a1, this);
-        FUN_00ddf020();
+        Dispatch_Thunk();
     }
     else
     {

@@ -28,19 +28,20 @@ void FUN_009d5ff0_shell::CombatProcedureEvade_LoadGame(BGSLoadFormBuffer* buffer
 
 struct FUN_009ca6c0_shell
 {
-    void FUN_009ca6c0(void);
+    void SetVirtualTable_009ca6c0(void);
 };
 struct FUN_009d5b40_shell
 {
-    void FUN_009d5b40(void);
+    void UpdateFields_009d5b40(void);
 };
 extern int DAT_01091984;
 
 // @fnv 0x009d5b40
-void FUN_009d5b40_shell::FUN_009d5b40(void)
+// src: GUESS 0x009d5b40 (confidence: low)
+void FUN_009d5b40_shell::UpdateFields_009d5b40(void)
 {
     *reinterpret_cast<int**>(this) = &DAT_01091984;
-    reinterpret_cast<FUN_009ca6c0_shell*>(this)->FUN_009ca6c0();
+    reinterpret_cast<FUN_009ca6c0_shell*>(this)->SetVirtualTable_009ca6c0();
 }
 
 struct FUN_009ca680
@@ -73,7 +74,7 @@ struct FUN_009d5b10_shell : FUN_009d5b40_shell
 // @fnv 0x009d5b10
 void* FUN_009d5b10_shell::DestroyIfFlagged(unsigned int flags)
 {
-    FUN_009d5b40();
+    UpdateFields_009d5b40();
     if (flags & 1)
         operator delete(this);
     return this;

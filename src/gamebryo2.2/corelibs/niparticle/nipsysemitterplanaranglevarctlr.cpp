@@ -17,20 +17,22 @@ void* __cdecl NiPSysEmitterPlanarAngleVarCtlr_GetRTTI()
 struct NiPSysEmitterPlanarAngleVarCtlr : NiPSysModifierFloatCtlr
 {
     virtual ~NiPSysEmitterPlanarAngleVarCtlr() throw();
-    void __thiscall FUN_00c2b470(float fValue);
-    void FUN_00c2a8b0(float& rfValue);
+    void __thiscall SetPlanarAngleVariation(float fValue);
+    void GetPlanarAngleVariation(float& rfValue);
     void FUN_00c32de0(NiPSysEmitterPlanarAngleVarCtlr*, void*);
     NiPSysEmitterPlanarAngleVarCtlr* CreateClone_00c2b480(void* volatile argument);
 };
 
 // @fnv 0x00c2b470
-void __thiscall NiPSysEmitterPlanarAngleVarCtlr::FUN_00c2b470(float fValue)
+// src: GUESS 0x00c2b470 (confidence: high)
+void __thiscall NiPSysEmitterPlanarAngleVarCtlr::SetPlanarAngleVariation(float fValue)
 {
     static_cast<NiPSysEmitter*>(m_pkTargetModifier)->m_fPlanarAngleVariation = fValue;
 }
 
 // @fnv 0x00c2a8b0
-void NiPSysEmitterPlanarAngleVarCtlr::FUN_00c2a8b0(float& rfValue)
+// src: GUESS 0x00c2a8b0 (confidence: high)
+void NiPSysEmitterPlanarAngleVarCtlr::GetPlanarAngleVariation(float& rfValue)
 {
     rfValue = static_cast<NiPSysEmitter*>(m_pkTargetModifier)->m_fPlanarAngleVariation;
 }

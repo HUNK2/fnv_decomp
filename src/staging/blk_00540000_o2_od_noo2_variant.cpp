@@ -87,16 +87,16 @@ struct __declspec(align(16)) FUN_00c681c0
     FUN_00c681c0();
     ~FUN_00c681c0()
     {
-        FUN_00553520();
+        Object_ForwardCall_00553520();
     }
-    void FUN_00553520();
+    void Object_ForwardCall_00553520();
     void hkpWorldCinfo_setBroadPhaseWorldSize(float);
 };
 struct Component
 {
     void FUN_00483710();
 };
-void* __cdecl FUN_00553300(unsigned int);
+void* __cdecl Object_OurMemalign_Thunk(unsigned int);
 struct CurveBase
 {
     U32 field08, field0c, field10, field14, field18, field1c, field20;
@@ -210,7 +210,7 @@ struct ParticleSystem
     unsigned int fieldc8;
     static void* operator new(unsigned int n)
     {
-        return FUN_00553300(n);
+        return Object_OurMemalign_Thunk(n);
     }
     Component* FUN_00541c80();
     void bhkWorld_AddEntityListener(void*);
@@ -286,7 +286,7 @@ ParticleSystem* __cdecl TESObjectCELL_CreateWorld(const FUN_006815c0* origin)
     FUN_00404eb0 context(16, 1, str_0102ed68, 0x3c1b);
     FUN_00c681c0 source;
     __declspec(align(16)) unsigned char rotation[sizeof(hkVector4)];
-    source.orientation.FUN_004a3f10(reinterpret_cast<hkVector4*>(rotation)->hkVector4_hkVector4(0.0f, 0.0f, DAT_011ca158, 0.0f));
+    source.orientation.SetValue(reinterpret_cast<hkVector4*>(rotation)->hkVector4_hkVector4(0.0f, 0.0f, DAT_011ca158, 0.0f));
     source.hkpWorldCinfo_setBroadPhaseWorldSize(NI2HK_004a3e90(DAT_0102f104));
     FUN_006815c0 direction;
     direction = *origin;

@@ -17,7 +17,7 @@ GlobalObjectO2_00a7b610* __cdecl NiMaterialProperty_GetRTTI()
     return &g_011f4a5c;
 }
 
-void* __fastcall FUN_00a75650(void*);
+void* __fastcall Lighting30shaderproperty_StoreAndAddReference_00a75650(void*);
 
 // @fnv 0x00a756d0
 // src: EXE 0x00a756d0
@@ -25,7 +25,7 @@ void* __cdecl NiMaterialProperty_CreateObject()
 {
     void* p = BSFadeNode::operator new(0x4c);
     if (p)
-        return FUN_00a75650(p);
+        return Lighting30shaderproperty_StoreAndAddReference_00a75650(p);
     return 0;
 }
 
@@ -61,7 +61,8 @@ struct ObjectWithFloats
 };
 
 // @fnv 0x00a75650
-void* __fastcall FUN_00a75650(void* self)
+// src: GUESS 0x00a75650 (confidence: medium)
+void* __fastcall Lighting30shaderproperty_StoreAndAddReference_00a75650(void* self)
 {
     ObjectWithFloats* p = (ObjectWithFloats*)self;
     FUN_00a5c200(self);

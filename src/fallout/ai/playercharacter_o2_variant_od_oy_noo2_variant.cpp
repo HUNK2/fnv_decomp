@@ -47,7 +47,7 @@ struct GrabPosition
 {
     GrabVector value;
     void SetFromScaledVector3(const GrabPoint&);
-    void FUN_004b4db0(const GrabVector*);
+    void SetQuaternionComponentsFromVector(const GrabVector*);
     GrabVector* ApplyToAction(GrabVector*);
 };
 struct GrabBody;
@@ -99,7 +99,7 @@ struct GrabItem
 struct GrabItems
 {
     int GetShortAtOffset4();
-    GrabItem** FUN_0096a370(int);
+    GrabItem** GetElementAddress_0096a370(int);
 };
 struct GrabBody
 {
@@ -239,7 +239,7 @@ struct GrabPhysics
     virtual void v0e8();
     virtual void v0ec();
     virtual void GetNavMeshData(GrabVector*);
-    GrabBody* FUN_004ae750();
+    GrabBody* Bipedanim_GetReferenceFlagsOrZero();
     GrabFilter bhkWorldObject_GetCollisionFilter();
 };
 struct GrabRef
@@ -509,7 +509,7 @@ struct GrabPointer
 {
     GrabConstraint* ptr;
     GrabPointer& FUN_0066b0d0(GrabConstraint*);
-    GrabConstraint* FUN_00559450();
+    GrabConstraint* Modelloader_GetReferencedThis();
 };
 struct GrabHost
 {
@@ -1035,13 +1035,13 @@ void GrabHost::PlayerCharacter_CreateMouseSpring(GrabRef* ref, int newMode, floa
                         distance = (picked - origin).FUN_00457990();
                     data.position.SetFromScaledVector3(picked);
                     GrabPhysics* pickedPhysics = ViewCaster_GetFuzzyBody();
-                    data.body = pickedPhysics->FUN_004ae750();
+                    data.body = pickedPhysics->Bipedanim_GetReferenceFlagsOrZero();
                     selected = true;
                 }
             }
             if (!selected)
             {
-                data.position.FUN_004b4db0(&center);
+                data.position.SetQuaternionComponentsFromVector(&center);
                 GrabVector position;
                 position.FUN_006815c0();
                 if (character)
@@ -1053,7 +1053,7 @@ void GrabHost::PlayerCharacter_CreateMouseSpring(GrabRef* ref, int newMode, floa
                     FUN_00553fc0(&rotated, &(root->NiAVObject_GetWorldRotate()->FUN_004b4500(&DAT_011a9484)));
                     data.position.ApplyToAction(&position);
                     position.hkVector4_add4(&rotated);
-                    data.position.FUN_004b4db0(&position);
+                    data.position.SetQuaternionComponentsFromVector(&position);
                 }
                 if (!DAT_011ddf38->BGSSaveLoadGame_GetSaveGameLoading())
                 {
@@ -1062,7 +1062,7 @@ void GrabHost::PlayerCharacter_CreateMouseSpring(GrabRef* ref, int newMode, floa
                     FUN_00458620(&point, data.position.ApplyToAction(&position));
                     distance = (point - origin).FUN_00457990();
                 }
-                data.body = physics->FUN_004ae750();
+                data.body = physics->Bipedanim_GetReferenceFlagsOrZero();
             }
             if (mode == 1)
                 SetEffectValue(5, DAT_01017868, ref);
@@ -1111,7 +1111,7 @@ void GrabHost::PlayerCharacter_CreateMouseSpring(GrabRef* ref, int newMode, floa
                     bool allCharacter = true;
                     for (int i = 0; i < body->GetRefList_009604f0()->GetShortAtOffset4() && allCharacter; ++i)
                     {
-                        GrabShape* shape = (*body->GetRefList_009604f0()->FUN_0096a370(i))->GetHavokWorldObjectCountInSceneGraph_0084e3a0();
+                        GrabShape* shape = (*body->GetRefList_009604f0()->GetElementAddress_0096a370(i))->GetHavokWorldObjectCountInSceneGraph_0084e3a0();
                         allCharacter = shape->GetType() == 0xb;
                     }
                     if (allCharacter)
@@ -1138,10 +1138,10 @@ void GrabHost::PlayerCharacter_CreateMouseSpring(GrabRef* ref, int newMode, floa
             localPosition.hkVector4_sub4(body->hkpRigidBody_getPosition());
             data.angular.ApplyToAction(&localRotation)
                 ->hkVector4_setRotatedInverseDir(&body->hkpRigidBody_getTransform(&localPosition)->FUN_006815c0());
-            data.angular.FUN_004b4db0(&localRotation);
+            data.angular.SetQuaternionComponentsFromVector(&localRotation);
             target->FUN_008d6f30()->TESObjectCELL_GetbhkWorld()->FUN_005533c0();
             constraint.FUN_0066b0d0(new GrabConstraint(&data));
-            GrabConstraint* created = constraint.FUN_00559450();
+            GrabConstraint* created = constraint.Modelloader_GetReferencedThis();
             created->SetWorld(target->FUN_008d6f30()->TESObjectCELL_GetbhkWorld());
             target->FUN_008d6f30()->TESObjectCELL_GetbhkWorld()->FUN_005533c0();
             mass = TESHavokUtilities_GetSceneGraphMass(ref->Get3D());

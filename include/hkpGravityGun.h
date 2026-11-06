@@ -30,13 +30,13 @@ public:
     hkpGravityGun* DestroyAndFree(unsigned int) throw();
 
     hkpRigidBody* hkpGravityGun_dropObject(int);
-    hkpRigidBody* FUN_00e45a60(int, int, int);
-    GGRigidBody* FUN_00e45a60(const GGTransform&, const GGRigidBody*, const GGWorld*);
+    hkpRigidBody* FindVisibleRigidBodyToGrab(int, int, int);
+    GGRigidBody* FindVisibleRigidBodyToGrab(const GGTransform&, const GGRigidBody*, const GGWorld*);
     bool isGrabbed(const GGRigidBody*) const;
     void gravityGunPush(int dirSlot, int viewSlot, int p3Slot);
     void gravityGunPush(GunTransform*, GunArg3*, hkpWorld*);
-    void FUN_00e45fb0(int, int, int);
-    void FUN_00e45fb0(GunTransform*, GunArg3*, hkpWorld*);
+    void DropPickedObjectIfPresent(int, int, int);
+    void DropPickedObjectIfPresent(GunTransform*, GunArg3*, hkpWorld*);
     void RemoveAllReferences(int);
     __declspec(noinline) void gravityGunStep(float dTime, const hkTransform& transform, hkpRigidBody* otherRb);
     void gravityGunStep(hkReal, GunTransform*, GunArg3*);

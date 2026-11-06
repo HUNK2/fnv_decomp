@@ -30,7 +30,7 @@ struct FUN_00bb39e0_shell
     int m_00;
     int m_04;
     void* m_08;
-    void FUN_00bb39e0(const void* src, unsigned int count);
+    void UpdateFields_00bb39e0(const void* src, unsigned int count);
 };
 
 #include <xmmintrin.h>

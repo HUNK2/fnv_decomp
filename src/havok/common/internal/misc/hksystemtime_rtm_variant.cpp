@@ -5,7 +5,7 @@
 // src/havok/common/internal/misc/hksystemtime.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/common/internal/misc/hksystemtime.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 extern "C" __int64 __cdecl __time64(__int64*);
-int FUN_00e29910(void);
+int Hksystemtime_Time64_Thunk(void);
 
 #include <math.h>
 __if_not_exists(__m128)
@@ -394,7 +394,8 @@ struct S29cd0_hkpWorldRayCastBundleCommand
     S29cd0_hkBool m_bResultFlag;
 };
 
-__declspec(noinline) void FUN_00e29a10(const S29cd0_hkLocalArray<S29cd0_int4>& clusters,
+// src: GUESS 0x00e29a10 (confidence: low)
+__declspec(noinline) void Runtime_ProcessEntries_00e29a10(const S29cd0_hkLocalArray<S29cd0_int4>& clusters,
                                        const S29cd0_hkVector4* rayFrom, const S29cd0_hkVector4* rayTo,
                                        S29cd0_hkpWorldRayCastOutput* resultBuffer,
                                        S29cd0_hkpWorldRayCastCommand* singleCommandsOut, int& numSingleCommandsOut,
@@ -447,7 +448,8 @@ __declspec(noinline) void FUN_00e29a10(const S29cd0_hkLocalArray<S29cd0_int4>& c
     numBundledCommandsOut = numBundled;
 }
 
-__declspec(noinline) bool FUN_00e29920(const S29cd0_hkVector4& points00, const S29cd0_hkVector4& points01,
+// src: GUESS 0x00e29920 (confidence: low)
+__declspec(noinline) bool Object_ProcessAndReturnValue_00e29920(const S29cd0_hkVector4& points00, const S29cd0_hkVector4& points01,
                                        const S29cd0_hkVector4& rayVector0, const S29cd0_hkVector4& points10,
                                        const S29cd0_hkVector4& points11, const S29cd0_hkVector4& rayVector1,
                                        S29cd0_hkReal angleAllowance, S29cd0_hkReal distanceAllowance)
@@ -504,7 +506,7 @@ extern "C" void __cdecl hkTreeBundleRayCastUtil_autoBundleFromList(int* indices,
                 S29cd0_hkVector4 dir1;
                 dir1.setSub4(to1, from1);
                 dir1.fastNormalize3();
-                if (FUN_00e29920(from, to, dir, from1, to1, dir1, cosVariance,
+                if (Object_ProcessAndReturnValue_00e29920(from, to, dir, from1, to1, dir1, cosVariance,
                                  len2 * S29cd0_hkSimdReal(distanceVariance2)))
                 {
                     cluster.AddBack(rayIdx);
@@ -519,6 +521,6 @@ extern "C" void __cdecl hkTreeBundleRayCastUtil_autoBundleFromList(int* indices,
         }
     NEXT_RAY:;
     }
-    FUN_00e29a10(clusters, rayFrom, rayTo, resultBuffer, singleCommandsOut, numSingleCommandsOut, bundledCommandsOut,
+    Runtime_ProcessEntries_00e29a10(clusters, rayFrom, rayTo, resultBuffer, singleCommandsOut, numSingleCommandsOut, bundledCommandsOut,
                  numBundledCommandsOut);
 }

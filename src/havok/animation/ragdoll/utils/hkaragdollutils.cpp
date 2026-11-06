@@ -40,7 +40,7 @@ extern "C"
 extern "C"
 {
     int __cdecl hkaRagdollUtils_reorderForRagdoll(void*, void*);
-    int __cdecl FUN_00ce9db0(void*, void*);
+    int __cdecl HkaragdollutilsFpfast_ProcessEntries_00ce9db0(void*, void*);
     int __cdecl alignConstraintSpacesToChildren(void*);
 }
 
@@ -50,7 +50,7 @@ int __cdecl hkaRagdollUtils_reorderAndAlignForRagdoll(void* apFirst, void* apSec
 {
     if (hkaRagdollUtils_reorderForRagdoll(apFirst, apSecond))
         return 1;
-    if (FUN_00ce9db0(apSecond, apThird))
+    if (HkaragdollutilsFpfast_ProcessEntries_00ce9db0(apSecond, apThird))
         return 1;
     if (alignConstraintSpacesToChildren(apSecond))
         return 1;
@@ -236,7 +236,7 @@ struct LogText
     {
         FUN_00cc00e0();
     }
-    LogText* FUN_00cc01c0(const char* value) throw();
+    LogText* ProcessAndReturnValue_00cc01c0(const char* value) throw();
     LogText* WriteInt(int value) throw();
     void FUN_00cc00e0() throw();
 };
@@ -395,11 +395,11 @@ extern "C" int __cdecl hkaRagdollUtils_reorderForRagdoll(void* apNodes, void* ap
         int messageStorage[128];
         hkErrStream message(messageStorage, 512);
         reinterpret_cast<LogText*>(&message)
-            ->FUN_00cc01c0(DAT_010cbde0)
+            ->ProcessAndReturnValue_00cc01c0(DAT_010cbde0)
             ->WriteInt(nodeCount - 1)
-            ->FUN_00cc01c0(DAT_010cbdec)
+            ->ProcessAndReturnValue_00cc01c0(DAT_010cbdec)
             ->WriteInt(linkCount)
-            ->FUN_00cc01c0(DAT_010cbe00);
+            ->ProcessAndReturnValue_00cc01c0(DAT_010cbe00);
         DAT_01268360->message(1, 0xabba54bb, reinterpret_cast<const char*>(messageStorage), DAT_010cbd34, 0x144);
         return 1;
     }
@@ -874,9 +874,9 @@ struct hkQsXform
     hkQuaternion m_rotation;
     hkVector4 m_vScale;
 
-    hkBoolR FUN_00ce5120(const hkQsXform& other, float eps) const;
+    hkBoolR ProcessAndReturnValue_00ce5120(const hkQsXform& other, float eps) const;
     void setFromTransformNoScale(const void* transform);
-    void FUN_00ce50b0(void* transformOut) const;
+    void CopyRotationAndTranslationToTarget(void* transformOut) const;
 
     __forceinline void SetProduct(const hkQsXform& t1, const hkQsXform& t2)
     {
@@ -1002,7 +1002,7 @@ struct Body
     void hkpRigidBody_setTransform(const hkXform& t);
     void hkpRigidBody_setCenterOfMassLocal(const hkVector4& com);
 };
-void __cdecl FUN_00d748d0(Body* body, MassA* a, MassB* b);
+void __cdecl hkpEntity_RemapSingleEntityCollisionShapes(Body* body, MassA* a, MassB* b);
 
 extern hkQsXform DAT_01268700;
 extern float DAT_01017d00;
@@ -1021,7 +1021,7 @@ static __forceinline ErrorIface* GetError()
 // src: XBOX_PDB 0x00ce9880
 static __declspec(noinline) int moveRigidBodyPivot(const hkQsXform& t, Body* body)
 {
-    if (t.FUN_00ce5120(DAT_01268700, DAT_01017d00).m_cBooleanValue == 0)
+    if (t.ProcessAndReturnValue_00ce5120(DAT_01268700, DAT_01017d00).m_cBooleanValue == 0)
     {
         hkQsXform bodyQs;
         bodyQs.setFromTransformNoScale(&body->m_kMotionTransform);
@@ -1036,7 +1036,7 @@ static __declspec(noinline) int moveRigidBodyPivot(const hkQsXform& t, Body* bod
         hkXform kXform;
         {
             void* shape = body->m_pCollisionShape;
-            inv.FUN_00ce50b0(&kXform);
+            inv.CopyRotationAndTranslationToTarget(&kXform);
             ShapeObj* pShapeObj = (ShapeObj*)heap(hkMemoryRouter_getInstance()).allocate(0x70);
             pShapeObj->m_usMemSizeAndFlags = 0x70;
             ShapeObj* pTransformedShape = pShapeObj->FUN_00cf5990(shape, kXform);
@@ -1048,10 +1048,10 @@ static __declspec(noinline) int moveRigidBodyPivot(const hkQsXform& t, Body* bod
             a.FUN_00d733e0();
             MassB b;
             b.FUN_00d73410();
-            FUN_00d748d0(body, &a, &b);
+            hkpEntity_RemapSingleEntityCollisionShapes(body, &a, &b);
         }
         GetError()->SetErrorCodeEnabled(0x2ff8c16f, bErrorEnabled);
-        combined.FUN_00ce50b0(&kXform);
+        combined.CopyRotationAndTranslationToTarget(&kXform);
         body->hkpRigidBody_setTransform(kXform);
         if (body->m_bFlag != 5)
         {

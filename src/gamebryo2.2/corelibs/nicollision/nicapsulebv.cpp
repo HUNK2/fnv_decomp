@@ -9,7 +9,8 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 // @fnv 0x00c1ba40
-int __cdecl FUN_00c1ba40()
+// src: GUESS 0x00c1ba40 (confidence: low)
+int __cdecl Object_ComputeValue_00c1ba40()
 {
     return 2;
 }
@@ -33,13 +34,13 @@ NiBoundingVolume* NiCapsuleBV::Clone()
 
 struct ComparableRecord
 {
-    bool FUN_00eae690(const ComparableRecord&) const;
+    bool IsEquivalentWithEqualFloat(const ComparableRecord&) const;
 };
 
 // @fnv 0x00e9f170
 int NiCapsuleBV::IsEqual(const NiBoundingVolume& kABV) const
 {
-    if (kABV.F3() == 2 && reinterpret_cast<const ComparableRecord*>(((const NiCapsuleBV&)kABV)._pad)->FUN_00eae690(*reinterpret_cast<const ComparableRecord*>(_pad)))
+    if (kABV.F3() == 2 && reinterpret_cast<const ComparableRecord*>(((const NiCapsuleBV&)kABV)._pad)->IsEquivalentWithEqualFloat(*reinterpret_cast<const ComparableRecord*>(_pad)))
         return 1;
     return 0;
 }
@@ -178,7 +179,7 @@ struct S_00e9f400_Obj
     int FUN_00be0aa0();
     S_00e9f400_P3* NiIntersector_GetContactPoint();
     S_00e9f400_P3* NiIntersector_GetContactNormal();
-    void FUN_00eae6d0();
+    void SetVtbl();
 };
 
 // @fnv 0x00e9f400
@@ -192,7 +193,7 @@ bool __cdecl NiCapsuleBV_CapsuleSphereFindIntersect(float p1, int p2, int p3, in
     *p6 = obj.NiIntersector_GetContactTime();
     if (obj.FUN_00be0aa0() != 3 && obj.FUN_00be0aa0() != 2)
     {
-        obj.FUN_00eae6d0();
+        obj.SetVtbl();
         return false;
     }
     *p7 = *obj.NiIntersector_GetContactPoint();
@@ -205,7 +206,7 @@ bool __cdecl NiCapsuleBV_CapsuleSphereFindIntersect(float p1, int p2, int p3, in
         n.z = -p9->z;
         *p10 = n;
     }
-    obj.FUN_00eae6d0();
+    obj.SetVtbl();
     return true;
 }
 
@@ -462,7 +463,7 @@ struct IsectObj
     int FUN_00be0aa0();
     Vec3e* NiIntersector_GetContactPoint();
     Vec3e* NiIntersector_GetContactNormal();
-    void FUN_00eae6d0();
+    void SetVtbl();
 };
 extern float DAT_010141cc;
 extern float DAT_01017d00;
@@ -477,7 +478,7 @@ bool __cdecl NiCapsuleBV_CapsuleCapsuleFindIntersect(float p1, int p2, int p3, i
     *p6 = o.NiIntersector_GetContactTime();
     if (o.FUN_00be0aa0() != 3 && o.FUN_00be0aa0() != 2)
     {
-        o.FUN_00eae6d0();
+        o.SetVtbl();
         return false;
     }
     *p7 = *o.NiIntersector_GetContactPoint();
@@ -487,7 +488,7 @@ bool __cdecl NiCapsuleBV_CapsuleCapsuleFindIntersect(float p1, int p2, int p3, i
         Vec3e n = {-p9->x, -p9->y, -p9->z};
         *p10 = n;
     }
-    o.FUN_00eae6d0();
+    o.SetVtbl();
     return true;
 }
 
@@ -1074,7 +1075,7 @@ struct CenterPoint
         return r;
     }
     NiPoint3 FUN_00439e90(const NiPoint3& b) const;
-    NiPoint3 FUN_00439ef0(const NiPoint3& b) const;
+    NiPoint3 SubtractIntoVector(const NiPoint3& b) const;
 };
 struct PtOp
 {
@@ -1108,7 +1109,7 @@ struct CapsuleTriangleQuery
     int FUN_00be0aa0();
     const NiPoint3* NiIntersector_GetContactPoint();
     const NiPoint3* NiIntersector_GetContactNormal();
-    void FUN_00eae6d0();
+    void SetVtbl();
 };
 __declspec(noalias) float __cdecl NiSqrDistance_Compute_00eb1d20(const CapsuleSegment*, const CollisionTriangle*, float*, float*, float*);
 __declspec(noinline) NiPoint3 __cdecl FUN_004a3760(float s, const NiPoint3& v)
@@ -1173,7 +1174,7 @@ bool __cdecl NiCapsuleBV_CapsuleTriFindIntersect(float afTime, NiCapsuleBV* apCa
             float speed = motion.Dot(normal);
             if (speed >= DAT_01011d78)
                 return false;
-            CopyVector(support, reinterpret_cast<const NiPoint3&>(apCapsule->m_kCenter).FUN_00439ef0(FUN_004a3760(extent, normal)));
+            CopyVector(support, reinterpret_cast<const NiPoint3&>(apCapsule->m_kCenter).SubtractIntoVector(FUN_004a3760(extent, normal)));
         }
         else
         {
@@ -1198,7 +1199,7 @@ bool __cdecl NiCapsuleBV_CapsuleTriFindIntersect(float afTime, NiCapsuleBV* apCa
     *a7 = query.NiIntersector_GetContactTime();
     if (query.FUN_00be0aa0() != 3 && query.FUN_00be0aa0() != 2)
     {
-        query.FUN_00eae6d0();
+        query.SetVtbl();
         return false;
     }
     const NiPoint3* point = query.NiIntersector_GetContactPoint();
@@ -1209,7 +1210,7 @@ bool __cdecl NiCapsuleBV_CapsuleTriFindIntersect(float afTime, NiCapsuleBV* apCa
         CopyVector(*apNormal, *pNormal);
         CopyVector(*apNormal2, -*apNormal);
     }
-    query.FUN_00eae6d0();
+    query.SetVtbl();
     return true;
 }
 }  // namespace fnv_00e9fdc0

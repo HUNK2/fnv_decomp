@@ -112,21 +112,21 @@ public:
     float GetSquaredXYLength() const;
     Elem16& expand(Allocator& allocator);
 
-    void FUN_00416870(float x, float y, float z);
+    void SetComponents(float x, float y, float z);
     bool FUN_00439090(const LocalVec3* other);
-    bool FUN_004390c0(const LocalVec3* other);
-    bool FUN_004390c0(const LocalVec3* other) const;
-    bool FUN_004390c0(const char* other);
-    void FUN_00439180(float scale);
+    bool HasEqualComponents(const LocalVec3* other);
+    bool HasEqualComponents(const LocalVec3* other) const;
+    bool HasEqualComponents(const char* other);
+    void ScaleComponents(float scale);
     LocalVec3 FUN_00439e90(const LocalVec3& other);
     LocalVec3 FUN_00439e90(const LocalVec3& other) const;
-    void FUN_00439ef0();
-    LocalVec3 FUN_00439ef0(const LocalVec3& other);
-    LocalVec3 FUN_00439ef0(const LocalVec3& other) const;
-    LocalVec3 FUN_00439ef0(LocalVec3* other);
-    LocalVec3 FUN_00439ef0(const LocalVec3* other);
-    void FUN_00439ef0(LocalVec3* output, const LocalVec3* other);
-    LocalVec3* FUN_00439ef0(void* output, void* other);
+    void SubtractIntoVector();
+    LocalVec3 SubtractIntoVector(const LocalVec3& other);
+    LocalVec3 SubtractIntoVector(const LocalVec3& other) const;
+    LocalVec3 SubtractIntoVector(LocalVec3* other);
+    LocalVec3 SubtractIntoVector(const LocalVec3* other);
+    void SubtractIntoVector(LocalVec3* output, const LocalVec3* other);
+    LocalVec3* SubtractIntoVector(void* output, void* other);
     void FUN_0043d410(float x, int y, int z);
     void FUN_0043d410(float x, unsigned int y, unsigned int z);
     float FUN_00457910();
@@ -136,22 +136,22 @@ public:
     float FUN_004a7290();
     float FUN_004a7290() const;
     LocalVec3 FUN_004b3800(const LocalVec3& other) const;
-    LocalVec3 FUN_0053d280(float divisor);
+    LocalVec3 ProcessAndReturnValue_0053d280(float divisor);
     float NiPoint3_XYLength();
     float NiPoint3_XYLength() const;
-    void FUN_0063c8a0(const LocalVec3* other);
-    void FUN_0063c8a0(void* other);
+    void ComputeValue_0063c8a0(const LocalVec3* other);
+    void ComputeValue_0063c8a0(void* other);
     void FUN_006815c0();
     float CVec3_Distance(LocalVec3* other);
     float CVec3_Distance(const LocalVec3& other) const;
-    LocalVec3 FUN_00b05000(const Mat& matrix);
-    LocalVec3 FUN_00b05000(const Matrix4* matrix);
+    LocalVec3 TransformPointByMatrix4(const Mat& matrix);
+    LocalVec3 TransformPointByMatrix4(const Matrix4* matrix);
     void Normalize_00b12790();
     LocalVec3 Diff_00b13040(void* other);
     LocalVec3 Diff_00b13040(const LocalVec3& other) const;
     float FUN_00b2a180(void* other);
-    LocalVec3& FUN_00b2a1c0(void* other);
-    void FUN_00ddc870();
+    LocalVec3& AddComponents(void* other);
+    void ProcessEntries_00ddc870();
     void FUN_00e0f6e0();
 };
 // LocalVector3: unit-local copy of the former shared stand-in Vector3. Same layout as NiPoint3 but with the stand-in's inline bodies (constructor, operator-, SquaredLength); with NiPoint3, DistanceSquaredToSegment (0x00eaf1f0) does not match.
@@ -195,9 +195,10 @@ public:
     LocalVector3 FUN_00b12890(const FloatMatrix3& matrix) const;
     LocalVector3 FUN_00b12810(const LocalVector3& other) const;
     void Normalize_00b12790();
-    void __thiscall FUN_00439ef0(LocalVector3* dest, void* context);
+    void __thiscall SubtractIntoVector(LocalVector3* dest, void* context);
     void __thiscall Unitize_004a0c10();
-    LocalVector3 FUN_00439ef0(const LocalVector3& other) const
+// src: GUESS 0x00439ef0 (confidence: high)
+    LocalVector3 SubtractIntoVector(const LocalVector3& other) const
     {
         return LocalVector3(x - other.x, y - other.y, z - other.z);
     }
@@ -309,15 +310,16 @@ struct FUN_00eae690_Class
 {
     char pad[0x18];
     float m_f;
-    char FUN_00eb60e0(const FUN_00eae690_Class& o);
-    int FUN_00eae690(const FUN_00eae690_Class& o);
+    char Object_HasEqualSixFloats(const FUN_00eae690_Class& o);
+    int IsEquivalentWithEqualFloat(const FUN_00eae690_Class& o);
 };
 
 // Returns 1 when FUN_00eb60e0(o) succeeds and m_f equals o.m_f, otherwise 0.
 // @fnv 0x00eae690
-int FUN_00eae690_Class::FUN_00eae690(const FUN_00eae690_Class& aOther)
+// src: GUESS 0x00eae690 (confidence: medium)
+int FUN_00eae690_Class::IsEquivalentWithEqualFloat(const FUN_00eae690_Class& aOther)
 {
-    if (FUN_00eb60e0(aOther) && !(m_f != aOther.m_f))
+    if (Object_HasEqualSixFloats(aOther) && !(m_f != aOther.m_f))
         return 1;
     return 0;
 }
@@ -329,7 +331,8 @@ struct FUN_00eb60e0_t
 
 // Compares the six floats of p and q and returns 1 if all are equal, otherwise 0.
 // @fnv 0x00eb60e0
-int __fastcall FUN_00eb60e0(FUN_00eb60e0_t* p, int, FUN_00eb60e0_t* q)
+// src: GUESS 0x00eb60e0 (confidence: high)
+int __fastcall Object_HasEqualSixFloats(FUN_00eb60e0_t* p, int, FUN_00eb60e0_t* q)
 {
     if (!(p->a[0] != q->a[0] || p->a[1] != q->a[1] || p->a[2] != q->a[2] || p->a[3] != q->a[3] || p->a[4] != q->a[4] ||
           p->a[5] != q->a[5]))
@@ -340,14 +343,14 @@ int __fastcall FUN_00eb60e0(FUN_00eb60e0_t* p, int, FUN_00eb60e0_t* q)
 extern MemoryManager _g_memoryManager;
 struct Isect
 {
-    void FUN_00eae6d0();
+    void SetVtbl();
     Isect* FUN_00eaee30(char);
 };
 // Calls FUN_00eae6d0, then deallocates this via _g_memoryManager if flag has bit 1 set, and returns this.
 // @fnv 0x00eaee30
 Isect* Isect::FUN_00eaee30(char flag)
 {
-    FUN_00eae6d0();
+    SetVtbl();
     if (flag & 1)
         _g_memoryManager.Deallocate(this);
     return this;
@@ -701,12 +704,13 @@ class OrientedBoxBounds
     float m_afAxes[3][3];
     float m_afExtents[3];
 
-    bool FUN_00eae520(const OrientedBoxBounds& kOther) const;
+    bool HasEqualBoxComponents(const OrientedBoxBounds& kOther) const;
 };
 
 // Compares center, axes and extents against kOther and returns true only if all components match.
 // @fnv 0x00eae520
-bool OrientedBoxBounds::FUN_00eae520(const OrientedBoxBounds& kOther) const
+// src: GUESS 0x00eae520 (confidence: medium)
+bool OrientedBoxBounds::HasEqualBoxComponents(const OrientedBoxBounds& kOther) const
 {
     if (!(kOther.m_kCenter == m_kCenter))
         return false;
@@ -740,11 +744,12 @@ extern int DAT_010f1a84;
 struct Isect
 {
     int* m_pVtbl;         // +0x00 : the object's vtable pointer
-    void FUN_00eae6d0();  // reset the object's vtable pointer
+    void SetVtbl();  // reset the object's vtable pointer
 };
 
 // @fnv 0x00eae6d0
-void Isect::FUN_00eae6d0()
+// src: GUESS 0x00eae6d0 (confidence: low)
+void Isect::SetVtbl()
 {
     m_pVtbl = &DAT_010f1a84;
 }
@@ -1051,7 +1056,8 @@ class Node
 
 // Allocates a new Node object on the heap and returns its pointer.
 // @fnv 0x00ead090
-Node* FUN_00ead090()
+// src: GUESS 0x00ead090 (confidence: high)
+Node* Runtime_CreateNode()
 {
     return new Node;
 }

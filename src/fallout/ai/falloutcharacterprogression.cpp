@@ -95,12 +95,13 @@ bool FUN_008d55e0_shell::CharacterProgressionData_CheckCanLevelUp(int aiToLevel)
 
 struct FUN_008d54e0_shell
 {
-    unsigned short FUN_008d54e0(unsigned int);
+    unsigned short GetSaveSizeFive(unsigned int);
 };
 
 // Returns the sum of the constants 1 and 4 as an unsigned short.
 // @fnv 0x008d54e0
-unsigned short FUN_008d54e0_shell::FUN_008d54e0(unsigned int)
+// src: GUESS 0x008d54e0 (confidence: medium)
+unsigned short FUN_008d54e0_shell::GetSaveSizeFive(unsigned int)
 {
     unsigned short usTotal = 0;
     usTotal = usTotal + 1;
@@ -155,7 +156,7 @@ void Flt::LevelUpPlayer()
 struct Flt
 {
     operator unsigned int() const;
-    void FUN_008d5510(int);
+    void SaveValueAndFollowingBytes(int);
 };
 // The shared player header does not yet declare this stream operation.
 struct PC7d
@@ -164,7 +165,8 @@ struct PC7d
 };
 extern PC7d* g_thePlayer;
 // @fnv 0x008d5510
-void Flt::FUN_008d5510(int aiUnused)
+// src: GUESS 0x008d5510 (confidence: medium)
+void Flt::SaveValueAndFollowingBytes(int aiUnused)
 {
     g_thePlayer->TESForm_SaveGameDataOLD((unsigned int)*this, 1);
     g_thePlayer->TESForm_SaveGameDataOLD((unsigned int)*this + 4, 4);

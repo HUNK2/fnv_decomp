@@ -49,7 +49,7 @@ class hkpDefaultToiResourceMgr
     void* AllocateMemory(int, int, hkpToiResources*);
     void* FUN_00d9fc70(unsigned char flag);
 
-    hkBool FUN_00d9fb40(const hkpToiEvent& event) throw();
+    hkBool Object_UpdateFields_00d9fb40(const hkpToiEvent& event) throw();
     hkResult AllocateToiResources(const hkpToiEvent& event, const hkArray<hkpToiEvent>& otherEvents,
                                     hkpToiResources& resourcesOut);
 };
@@ -101,7 +101,8 @@ void* hkpDefaultToiResourceMgr::FUN_00d9fc70(unsigned char flag)
 }
 
 // @fnv 0x00d9fb70
-int __cdecl FUN_00d9fb70()
+// src: GUESS 0x00d9fb70 (confidence: high)
+int __cdecl hkpDefaultToiResourceMgr_ReturnOne()
 {
     return 1;
 }
@@ -113,13 +114,15 @@ int __cdecl FUN_00d9fb70()
 extern int DAT_0126955c;
 
 // @fnv 0x00d9fc60
-int* __cdecl FUN_00d9fc60()
+// src: GUESS 0x00d9fc60 (confidence: low)
+int* __cdecl Object_GetGlobalObjectAddress_00d9fc60()
 {
     return &DAT_0126955c;
 }
 
 // @fnv 0x00d9fb80
-int __stdcall FUN_00d9fb80(int arg0)
+// src: GUESS 0x00d9fb80 (confidence: high)
+int __stdcall Object_ReturnZero_00d9fb80(int arg0)
 {
     return 0;
 }
@@ -144,7 +147,7 @@ hkResult hkpDefaultToiResourceMgr::AllocateToiResources(const hkpToiEvent& event
                                                        const hkArray<hkpToiEvent>& otherEvents,
                                                        hkpToiResources& resourcesOut)
 {
-    if (FUN_00d9fb40(event))
+    if (Object_UpdateFields_00d9fb40(event))
     {
         m_iNumToiResources = resourcesOut.m_iCharacterBufferSize = m_iMaxNumToiResources;
         resourcesOut.m_pCharacterBuffer = solverAllocator(hkMemoryRouter_getInstance())._bufAlloc<char>(m_iNumToiResources);

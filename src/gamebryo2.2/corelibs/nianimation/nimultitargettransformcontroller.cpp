@@ -70,7 +70,7 @@ char* __fastcall NiMultiTargetTransformController_GetInterpolatorID(NiMultiTarge
 
 void __fastcall DestroyInterpolatorArray(void* pThis);
 void __cdecl FUN_00aa1460(void* ptr, unsigned int size);
-void __cdecl FUN_00aa1490(void* ptr, unsigned int size);
+void __cdecl NiMemObject_ReleaseStorage_00aa1490(void* ptr, unsigned int size);
 
 // @fnv 0x00a2ff70
 void* __fastcall FUN_00a2ff70(char* pThis, int, unsigned int flags)
@@ -87,7 +87,7 @@ void* __fastcall FUN_00a2ff70(char* pThis, int, unsigned int flags)
         }
         if (flags & 1)
         {
-            FUN_00aa1490(base, 0x30);
+            NiMemObject_ReleaseStorage_00aa1490(base, 0x30);
         }
         return base;
     }

@@ -1025,14 +1025,14 @@ BSSimpleList<InventoryStackRecord*>* __fastcall CopyUniqueContainerObjects(TESCo
 struct VATSCommand;
 struct VATS_CommandList
 {
-    void FUN_00905330(VATSCommand* const& apCommand);
+    void RemoveMatchingItem(VATSCommand* const& apCommand);
 };
 // @fnv 0x00481790
 void TESContainer::RemoveContainerObject(InventoryItemEntry* apEntry)
 {
     if (!apEntry)
         return;
-    ((VATS_CommandList*)GetObjectList())->FUN_00905330((VATSCommand* const&)apEntry);
+    ((VATS_CommandList*)GetObjectList())->RemoveMatchingItem((VATSCommand* const&)apEntry);
     BGSPerkEntry* pkEntry = reinterpret_cast<BGSPerkEntry*>(apEntry);
     BGSPerkEntry* pkDeleteCur = pkEntry;
     pkDeleteCur ? pkDeleteCur->Destroy(1) : 0;
@@ -1335,14 +1335,14 @@ struct RecipeMenuState
 
 struct ActiveRecipe
 {
-    void* FUN_005a8080();
+    void* ComputeValue_005a8080();
     void* BSFile_GetDevice();
 };
 
 struct RecipeComponentItem
 {
     void* FUN_00726070();
-    int FUN_00559450();
+    int Modelloader_GetReferencedThis();
 };
 
 struct RecipeComponentNode
@@ -1399,7 +1399,7 @@ void CraftRecipe(int count)
                     RecipeActorForm* itemForm;
                     {
                         void* recipeTile = DAT_011d8e90->recipeList->FindItemData(&DAT_011d8e94);
-                        node = (RecipeComponentNode*)DAT_011d8e94->FUN_005a8080();
+                        node = (RecipeComponentNode*)DAT_011d8e94->ComputeValue_005a8080();
                         itemForm = 0;
                         compForm = 0;
                         compQty = 0;
@@ -1421,7 +1421,7 @@ void CraftRecipe(int count)
                                 }
                             }
                             playedSound = 1;
-                            compQty = (*node->FUN_006815c0())->FUN_00559450();
+                            compQty = (*node->FUN_006815c0())->Modelloader_GetReferencedThis();
                             if (compForm != 0 && ((RecipeActorForm*)compForm)->IsBoundObject())
                             {
                                 itemForm = (RecipeActorForm*)compForm;
@@ -1468,7 +1468,7 @@ void CraftRecipe(int count)
                         for (; node != 0 && !node->FUN_008256d0();)
                         {
                             compForm = (*node->FUN_006815c0())->FUN_00726070();
-                            compQty = (*node->FUN_006815c0())->FUN_00559450();
+                            compQty = (*node->FUN_006815c0())->Modelloader_GetReferencedThis();
                             if (compForm != 0 && ((RecipeActorForm*)compForm)->IsBoundObject())
                             {
                                 itemForm = (RecipeActorForm*)compForm;

@@ -378,7 +378,7 @@ struct DistantlodshaderpropertyListNodeView
 struct KeyedList
 {
     DistantlodshaderpropertyListNodeView* first;
-    void __thiscall FUN_00b584e0(unsigned int* key);
+    void __thiscall AllocateStorage_00b584e0(unsigned int* key);
     bool Find(const unsigned int& k, DistantlodshaderpropertyListNodeView** out)
     {
         DistantlodshaderpropertyListNodeView* n = first;
@@ -479,7 +479,7 @@ struct Obj3
 };
 
 unsigned short __cdecl GetOrCreateItem(ObjA4* a4, void* a1, FnvOwner** out, Obj3* a3);
-ObjR* __stdcall FUN_00b585c0(void* v, FnvOwner** out);
+ObjR* __stdcall Object_GetOrCreateRenderItemCache(void* v, FnvOwner** out);
 
 // Passes Vec4 values assembled from a5 and a6 to the located object, then inserts key when absent from its KeyedList.
 // @fnv 0x00b59ae0
@@ -518,14 +518,14 @@ void __cdecl DistantLODShaderProperty_AddDistantLOD(void* a1, unsigned int key, 
 
     apObj3->v47();
     pOwner = 0;
-    ObjR* r = FUN_00b585c0(apObjA4->m_08, &pOwner);
+    ObjR* r = Object_GetOrCreateRenderItemCache(apObjA4->m_08, &pOwner);
     r->FUN_00a53c30();
 
     KeyedList* pKeyedList = &pOwner->m_1c;
     DistantlodshaderpropertyListNodeView* node;
     if (!pKeyedList->Find(key, &node) || node == 0)
     {
-        pKeyedList->FUN_00b584e0(&key);
+        pKeyedList->AllocateStorage_00b584e0(&key);
     }
 }
 

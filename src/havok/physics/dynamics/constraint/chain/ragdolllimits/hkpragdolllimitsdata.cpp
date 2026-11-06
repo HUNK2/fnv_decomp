@@ -43,7 +43,8 @@ void __thiscall hkPragdollLimitsData::hkpRagdollLimitsData_setConeLimitStabiliza
 }
 
 // @fnv 0x00d4f290
-int FUN_00d4f290()
+// src: GUESS 0x00d4f290 (confidence: high)
+int hkpRagdollLimitsData_ReturnConstant_0x13()
 {
     return 0x13;
 }

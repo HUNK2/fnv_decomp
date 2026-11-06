@@ -113,14 +113,15 @@ struct FUN_005e0340Class
 {
     int m_vtbl;
     ActorCombatGroup** m_ptr;
-    void FUN_005e0340();
+    void ReleaseStorage_005e0340();
 };
 
 extern int DAT_0103d3f8;
 
 // Sets the vtable pointer to DAT_0103d3f8 and deallocates m_ptr through NiTMallocInterface<ActorCombatGroup*>::Deallocate.
 // @fnv 0x005e0340
-void FUN_005e0340Class::FUN_005e0340()
+// src: GUESS 0x005e0340 (confidence: medium)
+void FUN_005e0340Class::ReleaseStorage_005e0340()
 {
     m_vtbl = (int)&DAT_0103d3f8;
     NiTMallocInterface<ActorCombatGroup*>::Deallocate(m_ptr);
@@ -144,7 +145,8 @@ void* FUN_005e0370_Class::NiTPrimitiveArray_TESModel_NiTPrimitiveArray(int aiArg
 }
 
 // @fnv 0x005e05b0
-void* NavMeshPtr::FUN_005e05b0(int index)
+// src: GUESS 0x005e05b0 (confidence: medium)
+void* NavMeshPtr::GetTextElementPointer512(int index)
 {
     return (char*)AnimatingText_GetFullText() + (index << 9);
 }
@@ -189,11 +191,12 @@ bool FUN_005e2850_class::ScriptRunner_IsRunning()
 struct Stub
 {
     void FUN_005e9590();
-    void FUN_005e9860();
+    void ForwardCall_005e9860();
 };
 
 // @fnv 0x005e9860
-void Stub::FUN_005e9860()
+// src: GUESS 0x005e9860 (confidence: low)
+void Stub::ForwardCall_005e9860()
 {
     FUN_005e9590();
 }
@@ -212,26 +215,28 @@ bool TESFaction_RankDataView::HasFlag20()
 
 struct FUN_005ec8f0_class
 {
-    bool __thiscall FUN_005ec760(int a);
-    bool __thiscall FUN_005ec8f0(int a);
+    bool __thiscall ComputeValue_005ec760(int a);
+    bool __thiscall ForwardCall_005ec8f0(int a);
 };
 
 // Returns the logical negation of FUN_005ec760(a).
 // @fnv 0x005ec8f0
-bool __thiscall FUN_005ec8f0_class::FUN_005ec8f0(int a)
+// src: GUESS 0x005ec8f0 (confidence: low)
+bool __thiscall FUN_005ec8f0_class::ForwardCall_005ec8f0(int a)
 {
-    return !FUN_005ec760(a);
+    return !ComputeValue_005ec760(a);
 }
 
 struct FUN_005ecd10_cls
 {
     unsigned char IsEqual(int);
-    bool FUN_005ece20(int a);
+    bool IsUnequal(int a);
 };
 
 // Returns true when IsEqual returns zero for the given index.
 // @fnv 0x005ece20
-bool FUN_005ecd10_cls::FUN_005ece20(int a)
+// src: GUESS 0x005ece20 (confidence: medium)
+bool FUN_005ecd10_cls::IsUnequal(int a)
 {
     return !IsEqual(a);
 }
@@ -239,12 +244,13 @@ bool FUN_005ecd10_cls::FUN_005ece20(int a)
 struct FUN_005ed1b0_Class
 {
     bool Equals(int);
-    bool FUN_005ed1b0(int arg);
+    bool IsNotEqual(int arg);
 };
 
 // Returns the logical negation of Equals(arg).
 // @fnv 0x005ed1b0
-bool FUN_005ed1b0_Class::FUN_005ed1b0(int arg)
+// src: GUESS 0x005ed1b0 (confidence: high)
+bool FUN_005ed1b0_Class::IsNotEqual(int arg)
 {
     return !Equals(arg);
 }
@@ -575,18 +581,19 @@ void TESActorBaseData::TESCreature_SetNoBloodSpray(bool set)
     UpdateFlagBit(0x800, set, true);
 }
 
-void __cdecl FUN_00600b90();
+void __cdecl ReleaseMemberStorage();
 
 struct FUN_005ffbd0_cls
 {
-    void __thiscall FUN_005ffbd0();
-    void __thiscall FUN_00600b90();
+    void __thiscall ForwardCall_005ffbd0();
+    void __thiscall ReleaseMemberStorage();
 };
 
 // @fnv 0x005ffbd0
-void __thiscall FUN_005ffbd0_cls::FUN_005ffbd0()
+// src: GUESS 0x005ffbd0 (confidence: low)
+void __thiscall FUN_005ffbd0_cls::ForwardCall_005ffbd0()
 {
-    this->FUN_00600b90();
+    this->ReleaseMemberStorage();
 }
 
 struct FUN_005e0830
@@ -641,17 +648,18 @@ struct Standin005e03a0
 {
     void* vtbl;
     void* m4;
-    void __thiscall FUN_005e03a0();
+    void __thiscall SetVirtualTable_005e03a0();
 };
 // Sets the object's vtbl to DAT_0103d408 and passes m4 to FUN_004ede70.
 // @fnv 0x005e03a0
-void __thiscall Standin005e03a0::FUN_005e03a0()
+// src: GUESS 0x005e03a0 (confidence: low)
+void __thiscall Standin005e03a0::SetVirtualTable_005e03a0()
 {
     vtbl = (void*)&DAT_0103d408;
     NiTMallocInterface_unsigned_int_Deallocate(m4);
 }
 
-int __cdecl FUN_005e0aa0(void* a, int b);
+int __cdecl Object_UpdateFields_005e0aa0(void* a, int b);
 struct FUN_005e05d0 : NiBound
 {
     FUN_005e05d0(void* a, int b);
@@ -660,7 +668,7 @@ struct FUN_005e05d0 : NiBound
 // @fnv 0x005e05d0
 FUN_005e05d0::FUN_005e05d0(void* a, int b)
 {
-    ((QuantityData*)this)->SetQuantity((unsigned int)FUN_005e0aa0(a, 0));
+    ((QuantityData*)this)->SetQuantity((unsigned int)Object_UpdateFields_005e0aa0(a, 0));
 }
 
 void __cdecl _Deallocate(void*);
@@ -703,7 +711,7 @@ struct FUN_005e0680_Class : FUN_005e0340Class
 // @fnv 0x005e0680
 void* __thiscall FUN_005e0680_Class::FUN_005e0680(unsigned int flags)
 {
-    FUN_005e0340();
+    ReleaseStorage_005e0340();
     if (flags & 1)
         Deallocate(this);
     return this;
@@ -712,14 +720,14 @@ void* __thiscall FUN_005e0680_Class::FUN_005e0680(unsigned int flags)
 void __cdecl Deallocate(void*);
 struct FUN_005dd7b0_class
 {
-    void __thiscall FUN_005dd7b0();
+    void __thiscall ForwardCall_005dd7b0();
     void* __thiscall NiTPrimitiveArray_TESModel_Destroy(unsigned int flags);
 };
 // @fnv 0x005e06b0
 // src: COMMUNITY 0x005e06b0
 void* __thiscall FUN_005dd7b0_class::NiTPrimitiveArray_TESModel_Destroy(unsigned int flags)
 {
-    FUN_005dd7b0();
+    ForwardCall_005dd7b0();
     if (flags & 1)
         Deallocate(this);
     return this;
@@ -727,7 +735,7 @@ void* __thiscall FUN_005dd7b0_class::NiTPrimitiveArray_TESModel_Destroy(unsigned
 
 struct FUN_005e03a0_Class
 {
-    void __thiscall FUN_005e03a0();
+    void __thiscall SetVirtualTable_005e03a0();
 };
 void __cdecl operator delete(void*);
 struct FUN_005e06e0_Class
@@ -738,7 +746,7 @@ struct FUN_005e06e0_Class
 // @fnv 0x005e06e0
 void* __thiscall FUN_005e06e0_Class::FUN_005e06e0(unsigned int flags)
 {
-    ((FUN_005e03a0_Class*)this)->FUN_005e03a0();
+    ((FUN_005e03a0_Class*)this)->SetVirtualTable_005e03a0();
     if (flags & 1)
         operator delete(this);
     return this;
@@ -746,7 +754,7 @@ void* __thiscall FUN_005e06e0_Class::FUN_005e06e0(unsigned int flags)
 
 struct FUN_005dd7d0_Class
 {
-    void FUN_005dd7d0();
+    void ForwardCall_005dd7d0();
 };
 void __cdecl Deallocate(void* p);
 struct FUN_005e0710_Class
@@ -757,7 +765,7 @@ struct FUN_005e0710_Class
 // src: COMMUNITY 0x005e0710
 void* __thiscall FUN_005e0710_Class::NiTPrimitiveArray_TESTexture_Destroy(unsigned int flags)
 {
-    ((FUN_005dd7d0_Class*)this)->FUN_005dd7d0();
+    ((FUN_005dd7d0_Class*)this)->ForwardCall_005dd7d0();
     if (flags & 1)
         Deallocate(this);
     return this;
@@ -765,7 +773,7 @@ void* __thiscall FUN_005e0710_Class::NiTPrimitiveArray_TESTexture_Destroy(unsign
 
 struct FUN_005e0460_class
 {
-    void FUN_005e0460();
+    void UpdateFields_005e0460();
 };
 struct FUN_005e0740_class : FUN_005e0460_class
 {
@@ -774,7 +782,7 @@ struct FUN_005e0740_class : FUN_005e0460_class
 // @fnv 0x005e0740
 void* __thiscall FUN_005e0740_class::FUN_005e0740(unsigned int flags)
 {
-    FUN_005e0460();
+    UpdateFields_005e0460();
     if (flags & 1)
         operator delete(this);
     return this;
@@ -819,7 +827,7 @@ void __cdecl operator delete(void*);
 
 struct FUN_005e0590_shell
 {
-    void FUN_005e0590();
+    void UpdateState_005e0590();
 };
 
 struct FUN_005e0800_class
@@ -831,7 +839,7 @@ struct FUN_005e0800_class
 // @fnv 0x005e0800
 void* __thiscall FUN_005e0800_class::FUN_005e0800(unsigned int flags)
 {
-    ((FUN_005e0590_shell*)this)->FUN_005e0590();
+    ((FUN_005e0590_shell*)this)->UpdateState_005e0590();
     if (flags & 1)
         operator delete(this);
     return this;
@@ -844,7 +852,8 @@ struct ref_006815c0_class
     void hkStackMemory_allocateStack();
 };
 // @fnv 0x005e0aa0
-void FUN_005e0aa0(int a, int b)
+// src: GUESS 0x005e0aa0 (confidence: low)
+void Object_UpdateFields_005e0aa0(int a, int b)
 {
     ref_006815c0_class* obj = reinterpret_cast<ref_006815c0_class*>(hkMemoryRouter_getInstance());
     reinterpret_cast<ref_006815c0_class*>(
@@ -872,7 +881,7 @@ void* __thiscall S_005e0ad0::hkStackMemory_allocateStack(int aiValue, int aiUnus
     return p;
 }
 
-void __cdecl FUN_005e0b40(void*, void*);
+void __cdecl Object_ComputeValue_005e0b40(void*, void*);
 struct FUN_005e0b10_Cls
 {
     NavMeshPtr m0;
@@ -885,7 +894,7 @@ struct FUN_005e0b10_Cls
 // src: COMMUNITY 0x005e0b10
 void __thiscall FUN_005e0b10_Cls::hkStackMemory_getFreeStackSize()
 {
-    FUN_005e0b40(m0.AnimatingText_GetFullText(), m8.AnimatingText_GetFullText());
+    Object_ComputeValue_005e0b40(m0.AnimatingText_GetFullText(), m8.AnimatingText_GetFullText());
 }
 
 template <int N> struct EndianSizeTag
@@ -893,16 +902,17 @@ template <int N> struct EndianSizeTag
     unsigned char v;
 };
 void __cdecl BSEndian(unsigned char*, EndianSizeTag<0>);
-void __cdecl FUN_004717f0(void*, EndianSizeTag<0>);
+void __cdecl TESFile_TransformReferencedInt64(void*, EndianSizeTag<0>);
 struct T2870
 {
-    void __thiscall FUN_005e2870();
+    void __thiscall ProcessState_005e2870();
 };
 // @fnv 0x005e2870
-void __thiscall T2870::FUN_005e2870()
+// src: GUESS 0x005e2870 (confidence: low)
+void __thiscall T2870::ProcessState_005e2870()
 {
     BSEndian((unsigned char*)this, EndianSizeTag<0>());
-    FUN_004717f0((char*)this + 8, EndianSizeTag<0>());
+    TESFile_TransformReferencedInt64((char*)this + 8, EndianSizeTag<0>());
 }
 
 struct FUN_005ec700_shell : TESFaction_RankDataView
@@ -1773,10 +1783,11 @@ void BSSimpleArray<GrabIK_DATA__GrabIK_Arm_DATA, 1024>::ReallocateStorage(unsign
 void __cdecl hkDeallocateStack_char(void*);
 struct FUN_005e0600_Class
 {
-    void FUN_005e0600();
+    void ProcessAndTransformResult_005e0600();
 };
 // @fnv 0x005e0600
-void FUN_005e0600_Class::FUN_005e0600()
+// src: GUESS 0x005e0600 (confidence: low)
+void FUN_005e0600_Class::ProcessAndTransformResult_005e0600()
 {
     hkDeallocateStack_char((void*)(unsigned int)*(GO*)this);
 }
@@ -1959,7 +1970,8 @@ bool FUN_005e0860_cls::FindByKey(void* pKey, FNVObject** ppFound)
 }
 
 // @fnv 0x005e0b40
-int __cdecl FUN_005e0b40(unsigned int arg0, unsigned int arg1)
+// src: GUESS 0x005e0b40 (confidence: low)
+int __cdecl Object_ComputeValue_005e0b40(unsigned int arg0, unsigned int arg1)
 {
     return (int)(arg1 - arg0);
 }
@@ -2060,11 +2072,12 @@ struct LightingDataCmp
     float f30;
     float f34;
 
-    bool FUN_005ec760(const LightingDataCmp* other);
+    bool ComputeValue_005ec760(const LightingDataCmp* other);
 };
 
 // @fnv 0x005ec760
-bool LightingDataCmp::FUN_005ec760(const LightingDataCmp* other)
+// src: GUESS 0x005ec760 (confidence: low)
+bool LightingDataCmp::ComputeValue_005ec760(const LightingDataCmp* other)
 {
     bool result = false;
     if (s00 == other->s00 && s02 == other->s02 && s04 == other->s04 && b06 == other->b06 && f08 == other->f08 &&
@@ -2134,12 +2147,13 @@ struct FootIKConfiguration
     float f1C;
     StrArray strings;
     EntryArray entries;
-    void FUN_005ecb30(FootIKConfiguration* other);
+    void AssignEntriesStringsAndFloats(FootIKConfiguration* other);
 };
 
 // Clears entries and strings, copies the other object's entry array and deep-copies its strings, then copies the float fields and flag.
 // @fnv 0x005ecb30
-void FootIKConfiguration::FUN_005ecb30(FootIKConfiguration* other)
+// src: GUESS 0x005ecb30 (confidence: medium)
+void FootIKConfiguration::AssignEntriesStringsAndFloats(FootIKConfiguration* other)
 {
     entries.Clear(true);
     for (unsigned int i = 0; i < strings.GetSize(); i++)
@@ -2216,12 +2230,13 @@ struct StringEntryData
     unsigned char flag;
     StringArray strings;
     EntryArray entries;
-    void FUN_005ecfd0(StringEntryData* other);
+    void AssignEntriesAndStrings(StringEntryData* other);
 };
 
 // Clears entries and strings, then deep-copies the other object's entries, duplicated strings and flag into this object.
 // @fnv 0x005ecfd0
-void StringEntryData::FUN_005ecfd0(StringEntryData* other)
+// src: GUESS 0x005ecfd0 (confidence: medium)
+void StringEntryData::AssignEntriesAndStrings(StringEntryData* other)
 {
     unsigned int i;
     unsigned int j3;
@@ -2275,11 +2290,12 @@ struct FUN_005eedc0_cls
 {
     int m_unk00;
     FUN_005eedc0_item* m_pEntries;
-    FUN_005eedc0_item* FUN_005eedc0(int index);
+    FUN_005eedc0_item* GetIndexedValue_005eedc0(int index);
 };
 
 // @fnv 0x005eedc0
-FUN_005eedc0_item* FUN_005eedc0_cls::FUN_005eedc0(int index)
+// src: GUESS 0x005eedc0 (confidence: low)
+FUN_005eedc0_item* FUN_005eedc0_cls::GetIndexedValue_005eedc0(int index)
 {
     return &m_pEntries[index];
 }
@@ -3482,7 +3498,7 @@ bool CompareData::BGSRagdoll_FootIK_Compare(CompareData* other)
 
 struct Entry005ed1e0
 {
-    bool FUN_005ed1b0(Entry005ed1e0* other);
+    bool IsNotEqual(Entry005ed1e0* other);
 };
 struct Array005ed1e0
 {
@@ -3521,7 +3537,7 @@ bool Target005ed1e0::BGSRagdoll_GrabIK_Compare(Target005ed1e0* other)
     if (!different)
     {
         for (unsigned int i = 0; i < entries_14.FUN_0044ddc0() && !different; ++i)
-            different = different || entries_14.FUN_0069ccf0(i)->FUN_005ed1b0(other->entries_14.FUN_0069ccf0(i));
+            different = different || entries_14.FUN_0069ccf0(i)->IsNotEqual(other->entries_14.FUN_0069ccf0(i));
     }
     if (strings_04.FUN_0044ddc0() != other->strings_04.FUN_0044ddc0())
         different = true;
@@ -3762,7 +3778,7 @@ unsigned char FUN_005ece50_class::BGSRagdoll_LookIK_Compare(FUN_005ece50_class* 
             {
                 bStack_5 =
                     (bStack_5 == 0 &&
-                     reinterpret_cast<FUN_005ecd10_cls*>(m14.FUN_00691750((int)uStack_18))->FUN_005ece20((int)other->m14.FUN_00691750((int)uStack_18)) == 0)
+                     reinterpret_cast<FUN_005ecd10_cls*>(m14.FUN_00691750((int)uStack_18))->IsUnequal((int)other->m14.FUN_00691750((int)uStack_18)) == 0)
                         ? 0
                         : 1;
             }
@@ -3914,7 +3930,7 @@ public:
 // @fnv 0x005e2fa0
 void SoundRecordOperations::Save()
 {
-    reinterpret_cast<TESSound*>(this)->FUN_004855a0();
+    reinterpret_cast<TESSound*>(this)->BeginFormRecord();
     reinterpret_cast<TESSound*>(this)->TESSoundFile::Save();
     TESForm_AddChunk_3(0x4d414e52, reinterpret_cast<TESSound*>(this)->m_cSoundFlag);
 
@@ -3930,7 +3946,7 @@ void SoundRecordOperations::Save()
         reinterpret_cast<TESSound*>(this)->data.SwapEndian();
     }
 
-    reinterpret_cast<TESSound*>(this)->FUN_00485680();
+    reinterpret_cast<TESSound*>(this)->FinishFormRecord();
 }
 
 struct ContNode;
@@ -4570,12 +4586,13 @@ struct SoundConversionFields
     short m_08;
     short m_0A;
 
-    void FUN_005e3510();
+    void SwapMemberByteOrder();
 };
 
 // Initializes m_04, m_08, and m_0A by calling FUN_00401080 and FUN_00407a90 with InitTag5E35.
 // @fnv 0x005e3510
-void SoundConversionFields::FUN_005e3510()
+// src: GUESS 0x005e3510 (confidence: medium)
+void SoundConversionFields::SwapMemberByteOrder()
 {
     BSEndian_00401080(&m_04, InitTag5E35());
     BSEndian_00407a90(&m_08, InitTag5E35());
@@ -4821,12 +4838,13 @@ struct Derived : Base
 {
     float m_fValue;
 
-    Derived* FUN_005e63f0();
+    Derived* UpdateState_005e63f0();
 };
 
 // Calls FUN_005e6420, stores DAT_010462c0 in m_pVtbl, zeroes m_fValue and returns this.
 // @fnv 0x005e63f0
-Derived* Derived::FUN_005e63f0()
+// src: GUESS 0x005e63f0 (confidence: low)
+Derived* Derived::UpdateState_005e63f0()
 {
     BGSEntryPointFunctionData_BGSEntryPointFunctionData();
     m_pVtbl = DAT_010462c0;
@@ -4864,12 +4882,13 @@ struct FUN_005e6510_cls
     void* vtbl;
     int m4;
     void BGSEntryPointFunctionData_BGSEntryPointFunctionData();
-    FUN_005e6510_cls* FUN_005e6510();
+    FUN_005e6510_cls* InitializeFields_005e6510();
 };
 
 // Initializes the object by calling FUN_005e6420, setting the vtable to DAT_01046320, and zeroing m4.
 // @fnv 0x005e6510
-FUN_005e6510_cls* FUN_005e6510_cls::FUN_005e6510()
+// src: GUESS 0x005e6510 (confidence: low)
+FUN_005e6510_cls* FUN_005e6510_cls::InitializeFields_005e6510()
 {
     BGSEntryPointFunctionData_BGSEntryPointFunctionData();
     vtbl = &DAT_01046320;
@@ -4945,7 +4964,7 @@ struct FUN_005e9830 : Stub
 // @fnv 0x005e9830
 FUN_005e9830::~FUN_005e9830()
 {
-    this->FUN_005e9860();
+    this->ForwardCall_005e9860();
 }
 
 struct EquivData_5ecd10

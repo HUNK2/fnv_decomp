@@ -128,10 +128,11 @@ struct FnvCpu_FUN_00db7a70_CpuObject
     unsigned int unk00;
     unsigned int unk04;
     int value;
-    int FUN_00db7a70();
+    int GetValue();
 };
 // @fnv 0x00db7a70
-int FnvCpu_FUN_00db7a70_CpuObject::FUN_00db7a70()
+// src: GUESS 0x00db7a70 (confidence: low)
+int FnvCpu_FUN_00db7a70_CpuObject::GetValue()
 {
     return value;
 }

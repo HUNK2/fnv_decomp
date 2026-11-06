@@ -25,7 +25,7 @@ public:
     ~NiNodeHolder_blk_004e0000_od();
     operator NiNode*() const;
     void FUN_0066b0d0(CleanupObject* object);
-    CleanupObject* FUN_00559450();
+    CleanupObject* Modelloader_GetReferencedThis();
 };
 #include "../../include/NiAVObject.h"
 #include "../../include/NiNode.h"
@@ -287,11 +287,12 @@ struct FUN_004ed7a0_class
 {
     void* m_ptr;
     void __thiscall FUN_004ed960(void* a);
-    void* __thiscall FUN_004ed7a0(void* a);
+    void* __thiscall InitializeFields_004ed7a0(void* a);
 };
 // Calls FUN_004ed960(a), sets m_ptr to &DAT_010231f4, and returns this.
 // @fnv 0x004ed7a0
-void* __thiscall FUN_004ed7a0_class::FUN_004ed7a0(void* apArg)
+// src: GUESS 0x004ed7a0 (confidence: low)
+void* __thiscall FUN_004ed7a0_class::InitializeFields_004ed7a0(void* apArg)
 {
     FUN_004ed960(apArg);
     m_ptr = &DAT_010231f4;
@@ -304,12 +305,13 @@ struct FUN_004ed7d0_class
 {
     int* p;
     void NiTMapBase_NiTPointerAllocator_unsigned_int_TESWaterForm_bool_NiTMapBase_NiTPointerAllocator_unsigned_int_TESWaterForm_bool(int a);
-    FUN_004ed7d0_class* FUN_004ed7d0(int a);
+    FUN_004ed7d0_class* UpdateState_004ed7d0(int a);
 };
 
 // Calls FUN_004eda60 with a, sets p to point at DAT_01023214, and returns this.
 // @fnv 0x004ed7d0
-FUN_004ed7d0_class* FUN_004ed7d0_class::FUN_004ed7d0(int a)
+// src: GUESS 0x004ed7d0 (confidence: low)
+FUN_004ed7d0_class* FUN_004ed7d0_class::UpdateState_004ed7d0(int a)
 {
     NiTMapBase_NiTPointerAllocator_unsigned_int_TESWaterForm_bool_NiTMapBase_NiTPointerAllocator_unsigned_int_TESWaterForm_bool(a);
     p = &DAT_01023214;
@@ -323,12 +325,13 @@ struct FUN_004ed800Class
 {
     int* p;
     void __thiscall NiTMapBase_NiTPointerAllocator_unsigned_int_TESObjectREFR_WadingWaterData_NiTMapBase_NiTPointerAllocator_unsigned_int_TESObjectREFR_WadingWaterData(int arg);
-    FUN_004ed800Class* __thiscall FUN_004ed800(int arg);
+    FUN_004ed800Class* __thiscall InitializeFields_004ed800(int arg);
 };
 
 // Calls FUN_004edb60 with arg, sets p to point at DAT_01023234, and returns this.
 // @fnv 0x004ed800
-FUN_004ed800Class* __thiscall FUN_004ed800Class::FUN_004ed800(int aiValue)
+// src: GUESS 0x004ed800 (confidence: low)
+FUN_004ed800Class* __thiscall FUN_004ed800Class::InitializeFields_004ed800(int aiValue)
 {
     this->NiTMapBase_NiTPointerAllocator_unsigned_int_TESObjectREFR_WadingWaterData_NiTMapBase_NiTPointerAllocator_unsigned_int_TESObjectREFR_WadingWaterData(aiValue);
     p = &DAT_01023234;
@@ -337,18 +340,19 @@ FUN_004ed800Class* __thiscall FUN_004ed800Class::FUN_004ed800(int aiValue)
 
 struct FUN_0043ba10_shell
 {
-    FUN_0043ba10_shell* FUN_0043ba10(FUN_0043ba10_shell*);
+    FUN_0043ba10_shell* AssignInternedString(FUN_0043ba10_shell*);
 };
 
 struct FUN_004eeae0_shell
 {
-    void FUN_004eeae0(int arg);
+    void ForwardCall_004eeae0(int arg);
 };
 
 // @fnv 0x004eeae0
-void FUN_004eeae0_shell::FUN_004eeae0(int arg)
+// src: GUESS 0x004eeae0 (confidence: low)
+void FUN_004eeae0_shell::ForwardCall_004eeae0(int arg)
 {
-    ((FUN_0043ba10_shell*)((char*)this + 0x5c))->FUN_0043ba10((FUN_0043ba10_shell*)arg);
+    ((FUN_0043ba10_shell*)((char*)this + 0x5c))->AssignInternedString((FUN_0043ba10_shell*)arg);
 }
 
 struct FUN_00456630_helper
@@ -429,12 +433,13 @@ struct FUN_004f3660_class
 {
     const char* p;
     int v;
-    FUN_004f3660_class* FUN_004f3660();
+    FUN_004f3660_class* InitializeFields_004f3660();
 };
 
 // Sets the object's p field to "p`r" and v to 0, then returns this.
 // @fnv 0x004f3660
-FUN_004f3660_class* FUN_004f3660_class::FUN_004f3660()
+// src: GUESS 0x004f3660 (confidence: low)
+FUN_004f3660_class* FUN_004f3660_class::InitializeFields_004f3660()
 {
     p = "p`r";
     v = 0;
@@ -456,11 +461,12 @@ unsigned int S7010::GetLengthPlusOne()
 struct FUN_004f6fc0_shell
 {
     void TESRegionPoint_TESRegionPoint();
-    FUN_004f6fc0_shell* FUN_004f87e0();
+    FUN_004f6fc0_shell* ProcessAndReturnValue_004f87e0();
 };
 
 // @fnv 0x004f87e0
-FUN_004f6fc0_shell* FUN_004f6fc0_shell::FUN_004f87e0()
+// src: GUESS 0x004f87e0 (confidence: low)
+FUN_004f6fc0_shell* FUN_004f6fc0_shell::ProcessAndReturnValue_004f87e0()
 {
     TESRegionPoint_TESRegionPoint();
     return this;
@@ -922,10 +928,11 @@ float __cdecl ConvertDoubleResult(float);
 struct FUN_004f71f0_Class
 {
     float SquaredDistanceTo(int);
-    float FUN_004f71f0(int);
+    float EvaluateValue_004f71f0(int);
 };
 // @fnv 0x004f71f0
-float FUN_004f71f0_Class::FUN_004f71f0(int a)
+// src: GUESS 0x004f71f0 (confidence: low)
+float FUN_004f71f0_Class::EvaluateValue_004f71f0(int a)
 {
     if (a == 0)
         return -1.0f;
@@ -1476,7 +1483,7 @@ struct FUN_00a5e930
 };
 struct ListCursor
 {
-    void* FUN_00559450();
+    void* Modelloader_GetReferencedThis();
 };
 struct FUN_004ee360
 {
@@ -1487,7 +1494,7 @@ struct FUN_004ee360
 };
 struct GlobalRemovalList
 {
-    void FUN_00905330(void** object);
+    void RemoveMatchingItem(void** object);
 };
 extern GlobalRemovalList g_011c7d20;
 void __cdecl BSTempEffect_RemoveDecalFromList(void* item);
@@ -1501,12 +1508,12 @@ struct FUN_004ee1e0 : FUN_00a5e930
 FUN_004ee1e0::~FUN_004ee1e0()
 {
     FUN_004ee1e0* self = this;
-    g_011c7d20.FUN_00905330((void**)&self);
+    g_011c7d20.RemoveMatchingItem((void**)&self);
     if (entries)
     {
         while (!entries->BSSimpleList_NiRefObjectPtr_IsEmpty())
         {
-            BSTempEffect_RemoveDecalFromList(entries->FUN_006815c0()->FUN_00559450());
+            BSTempEffect_RemoveDecalFromList(entries->FUN_006815c0()->Modelloader_GetReferencedThis());
             entries->PopHead();
         }
         delete entries;
@@ -1904,11 +1911,12 @@ struct ActionItem
 struct ActionIterator
 {
     ActionItem** FUN_006815c0();
-    bool FUN_004f3610();
+    bool CheckAllActionStates();
 };
 // Walks the iterator's action items and returns false as soon as one item's CheckState fails, otherwise true.
 // @fnv 0x004f3610
-bool ActionIterator::FUN_004f3610()
+// src: GUESS 0x004f3610 (confidence: high)
+bool ActionIterator::CheckAllActionStates()
 {
     ActionIterator* pIterator = this;
     while (pIterator != 0 && *pIterator->FUN_006815c0() != 0)
@@ -2088,7 +2096,7 @@ struct Coll : NiMemObject4f
     int mc;
     Coll(int);
     void AddRegion(RDLItem* itemB);
-    bool FUN_004f6730(Coll* other);
+    bool HasEqualListContents(Coll* other);
 };
 struct DataBufferInfo
 {
@@ -2158,7 +2166,7 @@ RDLItem* FUN_004f6850_Class::TESRegionList_GetDerivedData(int arg0, int arg1, in
     }
 
     if (DAT_011c7f80[arg0].first != 0 && DAT_011c7f80[arg0].second != 0 &&
-        DAT_011c7f80[arg0].second->FUN_004f6730(collH))
+        DAT_011c7f80[arg0].second->HasEqualListContents(collH))
     {
         ((Sub470*)((char*)collH + 4))->FUN_00470470();
         delete collH;
@@ -2277,7 +2285,7 @@ class SpawnedObject
 class FUN_004f7130_cls
 {
   public:
-    float FUN_006a7f50();
+    float AStarSearch_EvaluateValue_006a7f50();
     float CombatTimer_GetTargetTime();
     SpawnedObject* TESRegionPoint_Copy(SpawnedObject* src);
 };
@@ -2288,7 +2296,7 @@ class FUN_004f7130_cls
 SpawnedObject* FUN_004f7130_cls::TESRegionPoint_Copy(SpawnedObject* src)
 {
     SpawnedObject* obj = src ? src : new SpawnedObject();
-    obj->TESRegionPoint_SetX(this->FUN_006a7f50());
+    obj->TESRegionPoint_SetX(this->AStarSearch_EvaluateValue_006a7f50());
     obj->FUN_004f5d90(this->CombatTimer_GetTargetTime());
     return obj;
 }
@@ -2849,16 +2857,16 @@ FUN_004ed3e0::~FUN_004ed3e0()
     ptr94.FUN_0066b0d0(0);
     ptr98.FUN_0066b0d0(0);
     DAT_011dea10->DetailedActorPathHandler_GetCurrentNodeIndex(this, 1, 0)->ClearTextureAndShaderTextures();
-    if (owner && owner->node.FUN_00559450() && owner->node.FUN_00559450()->FUN_00726070() == 2)
+    if (owner && owner->node.Modelloader_GetReferencedThis() && owner->node.Modelloader_GetReferencedThis()->FUN_00726070() == 2)
     {
-        BSShaderManager_GetTextureManager(owner->node.FUN_00559450())->BSTextureManager_ReturnRenderedTexture();
+        BSShaderManager_GetTextureManager(owner->node.Modelloader_GetReferencedThis())->BSTextureManager_ReturnRenderedTexture();
         owner->node.FUN_0066b0d0(0);
     }
     list30.FUN_004ed900();
     list3c.FUN_004ed900();
-    if (ptr58.FUN_00559450())
+    if (ptr58.Modelloader_GetReferencedThis())
     {
-        ((CleanupManager*)TESWaterSystem_GetWaterRoot())->Release(ptr58.FUN_00559450());
+        ((CleanupManager*)TESWaterSystem_GetWaterRoot())->Release(ptr58.Modelloader_GetReferencedThis());
         ptr58.FUN_0066b0d0(0);
     }
 }
@@ -3136,7 +3144,7 @@ bool __cdecl TESRegionPoint_LineSegmentsIntersect(NiPoint3* apSeg1Start, NiPoint
 
 struct PolygonPoint
 {
-    float FUN_006a7f50();
+    float AStarSearch_EvaluateValue_006a7f50();
     float CombatTimer_GetTargetTime();
 };
 struct PolygonNode
@@ -3169,7 +3177,7 @@ bool Polygon::TESRegionPointList_IsInsideRegion(PolygonPoint* pPoint)
     bool _crossing = false;
     if (!pPoint || FUN_0059bb30() < 3)
         return false;
-    float x = pPoint->FUN_006a7f50();
+    float x = pPoint->AStarSearch_EvaluateValue_006a7f50();
     float by = pPoint->CombatTimer_GetTargetTime();
     if (x < TESRegionPointList_GetMinX() || x > TESRegionPointList_GetMaxX() || by < GetMinimumY() || by > GetMaxY())
         return false;
@@ -3182,8 +3190,8 @@ bool Polygon::TESRegionPointList_IsInsideRegion(PolygonPoint* pPoint)
             nextX = this;
         a2 = *node6->FUN_006815c0();
         b_ = *nextX->FUN_006815c0();
-        bx = a2->FUN_006a7f50();
-        ax = b_->FUN_006a7f50();
+        bx = a2->AStarSearch_EvaluateValue_006a7f50();
+        ax = b_->AStarSearch_EvaluateValue_006a7f50();
         if (bx > x && ax > x)
             _crossing = true;
         else if (bx > x || ax > x)
@@ -3212,7 +3220,7 @@ bool Polygon::TESRegionPointList_IsInsideRegion(PolygonPoint* pPoint)
 struct RegionPointMatch
 {
     float SquaredDistanceTo(RegionPointMatch* other);
-    float FUN_004f71f0(RegionPointMatch* other);
+    float EvaluateValue_004f71f0(RegionPointMatch* other);
     void TESRegionPoint_Copy(void* destination);
 };
 struct RegionNodeMatch
@@ -3272,7 +3280,7 @@ float RegionMatch::ComputeRegionValue(RegionPointMatch* point, float range)
         }
         j = point->SquaredDistanceTo(*g->FUN_006815c0());
         a = point->SquaredDistanceTo(*l->FUN_006815c0());
-        c = (*g->FUN_006815c0())->FUN_004f71f0(*l->FUN_006815c0());
+        c = (*g->FUN_006815c0())->EvaluateValue_004f71f0(*l->FUN_006815c0());
         b = (*g->FUN_006815c0())->SquaredDistanceTo(*l->FUN_006815c0());
         e = b - a + j;
         e /= (2.0 * c);
@@ -3814,14 +3822,14 @@ struct BoundObj
 struct NavPtr
 {
     void* p;
-    void* FUN_00559450();
+    void* Modelloader_GetReferencedThis();
     NavPtr& FUN_006e5cc0(const NavPtr& other);
     void FUN_0066b0d0(void* arg);
 };
 struct PropPtr
 {
     VObj* p;
-    VObj* FUN_00559450();
+    VObj* Modelloader_GetReferencedThis();
 };
 struct Obj20
 {
@@ -3863,7 +3871,7 @@ struct Refr
 struct StrList
 {
     void* p;
-    void* FUN_00559450();
+    void* Modelloader_GetReferencedThis();
     void* DereferenceIfNotNull(void* zpos);
     Refr*& AddEight(void* zpos);
 };
@@ -3937,7 +3945,7 @@ struct Self
 // src: COMMUNITY 0x004e3d60
 void Self::TESWaterSystem_UpdateWaterNoise(ParamObj* param)
 {
-    void* zpos = param->m_24.FUN_00559450();
+    void* zpos = param->m_24.Modelloader_GetReferencedThis();
     void* next = 0;
     while (zpos != 0)
     {
@@ -3966,14 +3974,14 @@ void Self::TESWaterSystem_UpdateWaterNoise(ParamObj* param)
                             PropObj* pprop = propTemp;
                             if (*g_011c7b98.Bool())
                             {
-                                if (pprop->m_134.FUN_00559450() == 0)
+                                if (pprop->m_134.Modelloader_GetReferencedThis() == 0)
                                 {
                                     AssignMemberToSource(&pprop->m_134);
                                 }
                             }
                             else
                             {
-                                if (pprop->m_134.FUN_00559450() == 0 || obj->GetByteAtOffset190())
+                                if (pprop->m_134.Modelloader_GetReferencedThis() == 0 || obj->GetByteAtOffset190())
                                 {
                                     NiPointer<NiSourceTexture> localPtr(0);
                                     obj->GetNoiseTexture(&localPtr);
@@ -3988,12 +3996,12 @@ void Self::TESWaterSystem_UpdateWaterNoise(ParamObj* param)
                                     obj->SetByteAtOffset190(0);
                                 }
                             }
-                            if (pprop->m_134.FUN_00559450() != 0)
+                            if (pprop->m_134.Modelloader_GetReferencedThis() != 0)
                             {
-                                if (obj->m_30.FUN_00559450() == 0)
+                                if (obj->m_30.Modelloader_GetReferencedThis() == 0)
                                 {
-                                    DAT_011ad81c = pprop->m_134.FUN_00559450()->get37();
-                                    DAT_011ad820 = pprop->m_134.FUN_00559450()->get38();
+                                    DAT_011ad81c = pprop->m_134.Modelloader_GetReferencedThis()->get37();
+                                    DAT_011ad820 = pprop->m_134.Modelloader_GetReferencedThis()->get38();
                                     obj->m_30.FUN_0066b0d0(BSShaderManager_GetTextureManager()->BSTextureManager_BorrowRenderedTexture(BSShaderManager_GetRenderer(), 0x13, 0, 0, 0));
                                 }
                             }
@@ -4001,7 +4009,7 @@ void Self::TESWaterSystem_UpdateWaterNoise(ParamObj* param)
                             bool oflag = false;
                             if (!m_6c.NiTMapBase_NiTPointerAllocator_unsigned_int_TESObjectREFR_bool_GetAt(obj, oflag))
                             {
-                                if (pprop->m_134.FUN_00559450() != 0)
+                                if (pprop->m_134.Modelloader_GetReferencedThis() != 0)
                                 {
                                     DAT_011ffe48 = pprop->m_11c;
                                     float f_44 = BSShaderManager_GetTimer(true);
@@ -4036,8 +4044,8 @@ void Self::TESWaterSystem_UpdateWaterNoise(ParamObj* param)
                                     DAT_011ffe90 = obj->TESObjectWEAP_GetFiringRumbleRightMotorStrength();
                                     DAT_011ffe94 = obj->GetFloatAt144();
                                     ImgMgr::BSShaderManager_GetImageSpaceManager()->ImageSpaceManager_RenderEffect_2(0x21, BSShaderManager_GetRenderer(),
-                                                                         pprop->m_134.FUN_00559450(),
-                                                                         obj->m_30.FUN_00559450(), 0, 1);
+                                                                         pprop->m_134.Modelloader_GetReferencedThis(),
+                                                                         obj->m_30.Modelloader_GetReferencedThis(), 0, 1);
                                 }
                                 m_6c.NiTMapBase_NiTPointerAllocator_unsigned_int_TESObjectREFR_bool_SetAt(obj, true);
                             }

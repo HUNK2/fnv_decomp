@@ -36,7 +36,8 @@ void* FUN_00d84760::PopulateInfo(int a)
 }
 
 // @fnv 0x00d847b0
-int __cdecl FUN_00d847b0()
+// src: GUESS 0x00d847b0 (confidence: high)
+int __cdecl hkpPointToPlaneConstraintData_ReturnConstant_14()
 {
     return 14;
 }

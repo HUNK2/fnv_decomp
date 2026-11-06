@@ -82,26 +82,26 @@ void __fastcall ResetPathingSolution(PathingSolution* self)
 // SolutionNodePool: unit-local view of PathingSolution's node pool (member1), not PathBuilder: 0x006e78b0 and 0x006e8f60 call its slot lookup 0x006e8f40
 struct SolutionNodePool
 {
-    void* FUN_006e8f40(void*);
+    void* GetElementAddress30_006e8f40(void*);
 };
 
 // @fnv 0x006e78b0
 // src: XBOX_PDB 0x006e78b0
 LocationDescriptor* PathingSolution::GetVirtualNode_006e78b0(unsigned int aiIndex)
 {
-    return (LocationDescriptor*)((SolutionNodePool*)&member1)->FUN_006e8f40((void*)aiIndex);
+    return (LocationDescriptor*)((SolutionNodePool*)&member1)->GetElementAddress30_006e8f40((void*)aiIndex);
 }
 
 struct Dummy_006e8f80
 {
-    void* FUN_006e8f80(unsigned int aiIndex);
+    void* GetPathingGraphNodeAddress(unsigned int aiIndex);
 };
 
 // @fnv 0x006e7970
 // src: XBOX_PDB 0x006e7970
 const PathingGraphNode* PathingSolution::GetNode_006e7970(unsigned int aiIndex)
 {
-    return (const PathingGraphNode*)((Dummy_006e8f80*)&member2)->FUN_006e8f80(aiIndex);
+    return (const PathingGraphNode*)((Dummy_006e8f80*)&member2)->GetPathingGraphNodeAddress(aiIndex);
 }
 
 struct FUN_00457990_shell
@@ -197,7 +197,7 @@ void HermiteStub::PathingSpline_ComputeHermiteBasis(float tp)
 
 struct SubS
 {
-    void FUN_006e7d10(int);
+    void PathingSolution_CopyVectorPair(int);
 };
 struct RetS
 {
@@ -217,8 +217,8 @@ struct OwnS
 // src: COMMUNITY 0x006e7cc0
 RetS OwnS::PathingSpline_Interpolate(int aiFirst, int aiSecond)
 {
-    s1.FUN_006e7d10(aiFirst);
-    s2.FUN_006e7d10(aiSecond);
+    s1.PathingSolution_CopyVectorPair(aiFirst);
+    s2.PathingSolution_CopyVectorPair(aiSecond);
     return PathingSpline_InterpolateNoZ(aiFirst, aiSecond);
 }
 
@@ -235,7 +235,8 @@ struct _Arg_006e7d10
 
 // Copies the two vector members a and b from the pointed-to struct into this struct and returns this.
 // @fnv 0x006e7d10
-_S_006e7d10* __fastcall FUN_006e7d10(_S_006e7d10* this_ptr, _Arg_006e7d10 aSource)
+// src: GUESS 0x006e7d10 (confidence: medium)
+_S_006e7d10* __fastcall PathingSolution_CopyVectorPair(_S_006e7d10* this_ptr, _Arg_006e7d10 aSource)
 {
     this_ptr->a = aSource.p->a;
     this_ptr->b = aSource.p->b;
@@ -311,7 +312,7 @@ struct FUN_006e8450_shell : public SplineInterpolator
 
 struct FUN_006e7d10_caller
 {
-    void FUN_006e7d10(void*);
+    void PathingSolution_CopyVectorPair(void*);
 };
 
 // Forwards each of the two key arguments to the corresponding key object's FUN_006e7d10 method.
@@ -319,8 +320,8 @@ struct FUN_006e7d10_caller
 // src: COMMUNITY 0x006e8450
 void FUN_006e8450_shell::PathingSpline_SetKeys(void* aKey1, void* aKey2)
 {
-    reinterpret_cast<FUN_006e7d10_caller*>(this->Key1)->FUN_006e7d10(aKey1);
-    reinterpret_cast<FUN_006e7d10_caller*>(this->Key2)->FUN_006e7d10(aKey2);
+    reinterpret_cast<FUN_006e7d10_caller*>(this->Key1)->PathingSolution_CopyVectorPair(aKey1);
+    reinterpret_cast<FUN_006e7d10_caller*>(this->Key2)->PathingSolution_CopyVectorPair(aKey2);
 }
 
 namespace fnv_006e8f60 {
@@ -328,7 +329,7 @@ namespace fnv_006e8f60 {
 class SolutionNodePool
 {
   public:
-    void* FUN_006e8f40(void*);
+    void* GetElementAddress30_006e8f40(void*);
     void* BSSimpleArray_VirtualPathingNode_1024_GetAt(void* a1);
 };
 
@@ -336,7 +337,7 @@ class SolutionNodePool
 // src: XBOX_PDB 0x006e8f60
 void* SolutionNodePool::BSSimpleArray_VirtualPathingNode_1024_GetAt(void* apArg)
 {
-    return FUN_006e8f40(apArg);
+    return GetElementAddress30_006e8f40(apArg);
 }
 }  // namespace fnv_006e8f60
 
@@ -411,11 +412,12 @@ NiPoint3 FUN_006e7d60_stub::PathingSpline_InterpolateNoZ(char* pFirst, char* pSe
 
 struct FUN_006e8f40_shell
 {
-    int FUN_006e8f40(int a) const;
+    int GetElementAddress30_006e8f40(int a) const;
 };
 
 // @fnv 0x006e8f40
-int FUN_006e8f40_shell::FUN_006e8f40(int aiIndex) const
+// src: GUESS 0x006e8f40 (confidence: low)
+int FUN_006e8f40_shell::GetElementAddress30_006e8f40(int aiIndex) const
 {
     return aiIndex * 0x30 + *(int*)((char*)this + 4);
 }
@@ -443,7 +445,7 @@ struct OwnS2
 };
 struct Dummy_006e8f80
 {
-    void* FUN_006e8f80(unsigned int);
+    void* GetPathingGraphNodeAddress(unsigned int);
 };
 struct PathingLocationExt
 {
@@ -493,8 +495,8 @@ bool PathingSolution::FindPointOnPath(float afCurrentParameter, float afDist, bo
         float fdist = afDist;
         fnv_006e7e70::FUN_006e7b60 spline;
         spline.PathingSpline_SetKeys(
-            ((fnv_006e7e70::OwnS2*)((fnv_006e7e70::Dummy_006e8f80*)&member2)->FUN_006e8f80(icurrentSpline))->GetLocationAndTangent(),
-            ((fnv_006e7e70::OwnS2*)((fnv_006e7e70::Dummy_006e8f80*)&member2)->FUN_006e8f80(icurrentSpline + 1))->GetLocationAndTangent());
+            ((fnv_006e7e70::OwnS2*)((fnv_006e7e70::Dummy_006e8f80*)&member2)->GetPathingGraphNodeAddress(icurrentSpline))->GetLocationAndTangent(),
+            ((fnv_006e7e70::OwnS2*)((fnv_006e7e70::Dummy_006e8f80*)&member2)->GetPathingGraphNodeAddress(icurrentSpline + 1))->GetLocationAndTangent());
         bfound = spline.FindPointAtDistance(fcurrentParam - icurrentSpline, fdist, abForward, apNewParameter,
                                             apNewPoint, 1.0f);
         while (!bfound)
@@ -511,8 +513,8 @@ bool PathingSolution::FindPointOnPath(float afCurrentParameter, float afDist, bo
                 return false;
             }
             spline.PathingSpline_SetKeys(
-                ((fnv_006e7e70::OwnS2*)((fnv_006e7e70::Dummy_006e8f80*)&member2)->FUN_006e8f80(icurrentSpline))->GetLocationAndTangent(),
-                ((fnv_006e7e70::OwnS2*)((fnv_006e7e70::Dummy_006e8f80*)&member2)->FUN_006e8f80(icurrentSpline + 1))->GetLocationAndTangent());
+                ((fnv_006e7e70::OwnS2*)((fnv_006e7e70::Dummy_006e8f80*)&member2)->GetPathingGraphNodeAddress(icurrentSpline))->GetLocationAndTangent(),
+                ((fnv_006e7e70::OwnS2*)((fnv_006e7e70::Dummy_006e8f80*)&member2)->GetPathingGraphNodeAddress(icurrentSpline + 1))->GetLocationAndTangent());
             bfound = spline.FindPointAtDistance(0.0f, fdist, abForward, apNewParameter, apNewPoint, 1.0f);
         }
         if (apNewParameter)
@@ -540,8 +542,8 @@ bool PathingSolution::FindPointOnPath(float afCurrentParameter, float afDist, bo
         float fdist = afDist;
         fnv_006e7e70::FUN_006e7b60 spline;
         spline.PathingSpline_SetKeys(
-            ((fnv_006e7e70::OwnS2*)((fnv_006e7e70::Dummy_006e8f80*)&member2)->FUN_006e8f80(icurrentSpline))->GetLocationAndTangent(),
-            ((fnv_006e7e70::OwnS2*)((fnv_006e7e70::Dummy_006e8f80*)&member2)->FUN_006e8f80(icurrentSpline + 1))->GetLocationAndTangent());
+            ((fnv_006e7e70::OwnS2*)((fnv_006e7e70::Dummy_006e8f80*)&member2)->GetPathingGraphNodeAddress(icurrentSpline))->GetLocationAndTangent(),
+            ((fnv_006e7e70::OwnS2*)((fnv_006e7e70::Dummy_006e8f80*)&member2)->GetPathingGraphNodeAddress(icurrentSpline + 1))->GetLocationAndTangent());
         bfound = spline.FindPointAtDistance(fcurrentParam - icurrentSpline, fdist, abForward, apNewParameter,
                                             apNewPoint, 1.0f);
         while (!bfound)
@@ -558,8 +560,8 @@ bool PathingSolution::FindPointOnPath(float afCurrentParameter, float afDist, bo
                 return false;
             }
             spline.PathingSpline_SetKeys(
-                ((fnv_006e7e70::OwnS2*)((fnv_006e7e70::Dummy_006e8f80*)&member2)->FUN_006e8f80(icurrentSpline))->GetLocationAndTangent(),
-                ((fnv_006e7e70::OwnS2*)((fnv_006e7e70::Dummy_006e8f80*)&member2)->FUN_006e8f80(icurrentSpline + 1))->GetLocationAndTangent());
+                ((fnv_006e7e70::OwnS2*)((fnv_006e7e70::Dummy_006e8f80*)&member2)->GetPathingGraphNodeAddress(icurrentSpline))->GetLocationAndTangent(),
+                ((fnv_006e7e70::OwnS2*)((fnv_006e7e70::Dummy_006e8f80*)&member2)->GetPathingGraphNodeAddress(icurrentSpline + 1))->GetLocationAndTangent());
             bfound = spline.FindPointAtDistance(1.0f, fdist, abForward, apNewParameter, apNewPoint, 1.0f);
         }
         if (apNewParameter)
@@ -615,10 +617,11 @@ struct BSSimpleArray_PathingNode_1024
 {
     int m_auiShapeKeys;
     int m_pBase;
-    PathingGraphNode* FUN_006e8f80(unsigned int aiIndex);
+    PathingGraphNode* GetPathingGraphNodeAddress(unsigned int aiIndex);
 };
 // @fnv 0x006e8f80
-PathingGraphNode* BSSimpleArray_PathingNode_1024::FUN_006e8f80(unsigned int aiIndex)
+// src: GUESS 0x006e8f80 (confidence: medium)
+PathingGraphNode* BSSimpleArray_PathingNode_1024::GetPathingGraphNodeAddress(unsigned int aiIndex)
 {
     return (PathingGraphNode*)((char*)m_pBase + aiIndex * 0x3C);
 }
@@ -935,7 +938,7 @@ float FUN_006e9af0_cls::MeasurePathLength(float afStart, float afEnd, unsigned i
 struct Key
 {
     float x, y, z, tx, ty, tz;
-    Key& FUN_006e7d10(const Key&);
+    Key& PathingSolution_CopyVectorPair(const Key&);
 };
 struct Node
 {
@@ -980,8 +983,8 @@ NiPoint3 PathingSolution::GetPointAtDistance(float position, float distance)
     {
         remaining7 -= lengthVal;
         index = index + 1;
-        current.FUN_006e7d10(next2);
-        next2.FUN_006e7d10(((Node*)GetNode_006e7970(index + 1))->GetLocationAndTangent());
+        current.PathingSolution_CopyVectorPair(next2);
+        next2.PathingSolution_CopyVectorPair(((Node*)GetNode_006e7970(index + 1))->GetLocationAndTangent());
         ((SplinePath*)&spline3)->PathingSpline_SetKeys(&current, &next2);
         parameterTmp = 0.0f;
         lengthVal = ((SplinePath*)&spline3)->MeasurePathLength(0.0f, 1.0f, 2);
@@ -1014,7 +1017,7 @@ struct SaveEntryA
 };
 struct SaveEntryB
 {
-    void FUN_006e2350(SaveBuffer*);
+    void SaveState_006e2350(SaveBuffer*);
 };
 struct CountView
 {
@@ -1064,7 +1067,7 @@ void PathingSolutionOperations::SaveGame(SaveBuffer* buffer)
         for (unsigned int indexB6 = 0; indexB6 < countB8; ++indexB6)
         {
             SaveEntryB* entryB9 = ((SaveArrayB*)&member2)->GetEntry(indexB6);
-            entryB9->FUN_006e2350(buffer);
+            entryB9->SaveState_006e2350(buffer);
         }
     }
     PathingAvoidNodeArray avoided5;

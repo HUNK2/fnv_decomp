@@ -29,7 +29,7 @@ struct NiPtrTex
     NiTexture* m_ptr;
     NiPtrTex(void* p);
     ~NiPtrTex();
-    NiTexture* FUN_00559450();
+    NiTexture* Modelloader_GetReferencedThis();
     NiPtrTex& FUN_0066b0d0(NiTexture* t);
     NiPtrTex& FUN_006e5cc0(NiPtrTex& other);
     void FUN_0045cec0();
@@ -37,7 +37,7 @@ struct NiPtrTex
 
 struct FaceGenImageView
 {
-    float* FUN_0064dbd0();
+    float* ForwardCall_0064dbd0();
     FaceGenImageView* CopyPairAfterCallback(FaceGenImageView* a, int b);
     void* m_00;
     void* m_04;
@@ -45,8 +45,8 @@ struct FaceGenImageView
 
 struct FaceGenImage
 {
-    bool FUN_0064db00();
-    FaceGenImageView* FUN_0044a170(FaceGenImageView* out);
+    bool ForwardCall_0064db00();
+    FaceGenImageView* SetIteratorDataAndOwner(FaceGenImageView* out);
     int m_00;
     int m_04;
     int m_08;
@@ -64,14 +64,14 @@ struct FaceGenImage
 // src: COMMUNITY 0x0064ceb0
 NiTexture* NiTexture::BSFaceGenImage_GetCompressedImage(float lo, float hi, float scale, void* srcv)
 {
-    if (((NiPtrTex*)&m_kName)->FUN_00559450() == 0 && ((FaceGenImage*)&m_spControllers)->FUN_0064db00() == 0 && (*(int*)&m_pkRendererData) != 0 && (*(int*)&m_pkPrev) != 0 && lo < hi)
+    if (((NiPtrTex*)&m_kName)->Modelloader_GetReferencedThis() == 0 && ((FaceGenImage*)&m_spControllers)->ForwardCall_0064db00() == 0 && (*(int*)&m_pkRendererData) != 0 && (*(int*)&m_pkPrev) != 0 && lo < hi)
     {
         __declspec(align(128)) NiDevImageConverter creator;
         NiPtrTex result(0);
         NiPixelData* pixelData = 0;
         NiTexture* createdTex = 0;
         FaceGenImageView viewStorage;
-        FaceGenImageView view = *((FaceGenImage*)&m_spControllers)->FUN_0044a170(&viewStorage);
+        FaceGenImageView view = *((FaceGenImage*)&m_spControllers)->SetIteratorDataAndOwner(&viewStorage);
         int count = (*(int*)&m_pkRendererData) * (*(int*)&m_pkPrev);
         unsigned char* cursor = 0;
         float value;
@@ -81,13 +81,13 @@ NiTexture* NiTexture::BSFaceGenImage_GetCompressedImage(float lo, float hi, floa
             cursor = (unsigned char*)pixelData->NiPixelData_GetPixels(0, 0);
             for (unsigned int i = 0; i < (unsigned int)count; i++)
             {
-                value = view.FUN_0064dbd0()[0];
+                value = view.ForwardCall_0064dbd0()[0];
                 cursor[0] = (unsigned char)((FloatFloor(value >= lo ? (value <= hi ? value : hi) : lo) - lo) * scale);
 
-                value = view.FUN_0064dbd0()[1];
+                value = view.ForwardCall_0064dbd0()[1];
                 cursor[1] = (unsigned char)((FloatFloor(value >= lo ? (value <= hi ? value : hi) : lo) - lo) * scale);
 
-                value = view.FUN_0064dbd0()[2];
+                value = view.ForwardCall_0064dbd0()[2];
                 cursor[2] = (unsigned char)((FloatFloor(value >= lo ? (value <= hi ? value : hi) : lo) - lo) * scale);
 
                 cursor += 3;
@@ -101,16 +101,16 @@ NiTexture* NiTexture::BSFaceGenImage_GetCompressedImage(float lo, float hi, floa
             cursor = (unsigned char*)pixelData->NiPixelData_GetPixels(0, 0);
             for (unsigned int i = 0; i < (unsigned int)count; i++)
             {
-                value = view.FUN_0064dbd0()[0];
+                value = view.ForwardCall_0064dbd0()[0];
                 cursor[0] = (unsigned char)((FloatFloor(value >= lo ? (value <= hi ? value : hi) : lo) - lo) * scale);
 
-                value = view.FUN_0064dbd0()[1];
+                value = view.ForwardCall_0064dbd0()[1];
                 cursor[1] = (unsigned char)((FloatFloor(value >= lo ? (value <= hi ? value : hi) : lo) - lo) * scale);
 
-                value = view.FUN_0064dbd0()[2];
+                value = view.ForwardCall_0064dbd0()[2];
                 cursor[2] = (unsigned char)((FloatFloor(value >= lo ? (value <= hi ? value : hi) : lo) - lo) * scale);
 
-                value = view.FUN_0064dbd0()[3];
+                value = view.ForwardCall_0064dbd0()[3];
                 cursor[3] = (unsigned char)((FloatFloor(value >= lo ? (value <= hi ? value : hi) : lo) - lo) * scale);
 
                 cursor += 4;
@@ -140,13 +140,13 @@ NiTexture* NiTexture::BSFaceGenImage_GetCompressedImage(float lo, float hi, floa
         }
         else
         {
-            ((NiPtrTex*)&m_kName)->FUN_0066b0d0(BSShaderUtil_ConvertTexture(result.FUN_00559450(), srcv));
+            ((NiPtrTex*)&m_kName)->FUN_0066b0d0(BSShaderUtil_ConvertTexture(result.Modelloader_GetReferencedThis(), srcv));
         }
 
-        if (!((NiPtrTex*)&m_kName)->FUN_00559450())
+        if (!((NiPtrTex*)&m_kName)->Modelloader_GetReferencedThis())
         {
             ((NiPtrTex*)&m_kName)->FUN_006e5cc0(result);
         }
     }
-    return ((NiPtrTex*)&m_kName)->FUN_00559450();
+    return ((NiPtrTex*)&m_kName)->Modelloader_GetReferencedThis();
 }

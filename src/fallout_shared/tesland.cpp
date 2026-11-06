@@ -132,7 +132,8 @@ void __fastcall SetVtable(FUN_00538e30_class* this_ptr)
 
 // Returns a new NiPoint3 with each component divided by denom.
 // @fnv 0x0053d280
-NiPoint3 NiPoint3::FUN_0053d280(float denom) const
+// src: GUESS 0x0053d280 (confidence: low)
+NiPoint3 NiPoint3::ProcessAndReturnValue_0053d280(float denom) const
 {
     float inv = 1.0f / denom;
     return NiPoint3(inv * this->x, inv * this->y, inv * this->z);

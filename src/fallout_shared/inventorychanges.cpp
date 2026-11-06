@@ -42,7 +42,7 @@ public:
     VATSCommand** FUN_006815c0();
     VATS_CommandList_inventorychanges* FUN_00726070();
     bool FUN_008256d0();
-    void FUN_00905330(VATSCommand* const&);
+    void RemoveMatchingItem(VATSCommand* const&);
 };
 #include "../../include/AutoMemContext.h"
 #include "../../include/AutoMemHelper.h"
@@ -1181,7 +1181,7 @@ void VATS::QuitVATSPlayback(bool abForceQuit, bool abFinishCommandPlayback)
             {
                 VATSCommand* pCommandToDelete = *pCurrentElementNext->FUN_006815c0();
                 delete pCommandToDelete;
-                m_kCommandList.FUN_00905330(pCommandToDelete);
+                m_kCommandList.RemoveMatchingItem(pCommandToDelete);
                 pCurrentElementNext = m_kCommandList.FUN_00726070();
             }
         }
@@ -1605,7 +1605,8 @@ void Unk_004ca1a0::DestroyList()
 }
 
 // @fnv 0x004ce300
-void FUN_004ce300(TESForm* apForm, unsigned int uiValue)
+// src: GUESS 0x004ce300 (confidence: low)
+void TESForm_UpdateFields_004ce300(TESForm* apForm, unsigned int uiValue)
 {
     TESScriptableForm* c = dynamic_cast<TESScriptableForm*>(apForm);
     if (c)
@@ -2778,7 +2779,7 @@ struct FUN_004bc810_cls
     unsigned int unk04;
     unsigned int m_08;
     unsigned int unk0C;
-    ContNode* FUN_00559450();
+    ContNode* Modelloader_GetReferencedThis();
     void ItemChange_Copy2(FUN_004bc810_cls* src);
 };
 
@@ -2793,7 +2794,7 @@ void FUN_004bc810_cls::ItemChange_Copy2(FUN_004bc810_cls* apSource)
         SpawnedEntry* head7;
         ContNode* cur;
         head7 = apSource->m_afEntries;
-        cur = apSource->FUN_00559450();
+        cur = apSource->Modelloader_GetReferencedThis();
         goto check;
     advance:
         cur = FUN_00726070(cur);
@@ -2802,7 +2803,7 @@ void FUN_004bc810_cls::ItemChange_Copy2(FUN_004bc810_cls* apSource)
         {
             if (*FUN_006815c0(cur) != 0)
             {
-                reinterpret_cast<FUN_005ae3d0_S*>(this->FUN_00559450())
+                reinterpret_cast<FUN_005ae3d0_S*>(this->Modelloader_GetReferencedThis())
                     ->FUN_005ae3d0(reinterpret_cast<ExtraDataList**>(FUN_006815c0(cur)));
                 goto advance;
             }
@@ -2817,7 +2818,7 @@ void FUN_004bc810_cls::ItemChange_Copy2(FUN_004bc810_cls* apSource)
 int InventoryStackRecord::GetIndex()
 {
     int result = -1;
-    for (ExtraNode* cur = reinterpret_cast<ExtraNode*>(FUN_00559450()); result < 0 && cur != 0 && *_ref_006815c0(cur) != 0; cur = _ref_00726070(cur))
+    for (ExtraNode* cur = reinterpret_cast<ExtraNode*>(Modelloader_GetReferencedThis()); result < 0 && cur != 0 && *_ref_006815c0(cur) != 0; cur = _ref_00726070(cur))
     {
         if (((ExtraShell_inventorychanges*)*_ref_006815c0(cur))->GetExtraByteValue() >= 0)
         {
@@ -3254,7 +3255,7 @@ PlacedRef* Placement::PlaceObject(PlacedRef* ref, void* object, int count, int f
         matrix2._ref_006815c0();
         matrix2.FUN_00a59540(angle[0], angle[1], angle[2]);
         NiPoint3 offset(0.0f, 50.0f, 30.0f);
-        position.FUN_0063c8a0(matrix2._ref_004b4500(offset));
+        position.ComputeValue_0063c8a0(matrix2._ref_004b4500(offset));
     }
     float orient3[3];
     memcpy(orient3, &(rotation ? *rotation : (ref ? ref->GetAngleOnReference() : NiPoint3::ZERO)), sizeof(orient3));
@@ -3745,7 +3746,7 @@ struct FUN_0076b630 : FUN_004459e0
     int count;
     Weapon* weapon;
     FUN_0076b630();
-    FUN_0096a2d0* FUN_00559450();
+    FUN_0096a2d0* Modelloader_GetReferencedThis();
     float ItemChange_GetItemCharge();
     bool FUN_004bcb70();
     ItemList* FUN_00726070();
@@ -3839,7 +3840,7 @@ FUN_0076b630* Target::SelectBestWeapon(ActorStand* subject, float* apfScore, int
                                                             if (worn)
                                                             {
                                                                 FUN_0076b630* wornItem = InventoryChanges_GetWornItem(5, 0);
-                                                                if (wornItem && wornItem->FUN_00559450()
+                                                                if (wornItem && wornItem->Modelloader_GetReferencedThis()
                                                                                     ->FUN_006815c0()
                                                                                     ->ExtraDataList_GetCanNotWear())
                                                                     return wornItem;
@@ -4601,7 +4602,7 @@ struct FUN_004d43c0_cls
 };
 
 int __fastcall FUN_0044ddc0(InventoryItemEntry* item);
-ContNode* __fastcall FUN_00559450(InventoryItemEntry* item);
+ContNode* __fastcall Modelloader_GetReferencedThis(InventoryItemEntry* item);
 
 // Searches the list for an item whose FUN_0044ddc0 value equals a1, then returns the position of a2 in that item's sublist, or -1.
 // @fnv 0x004d43c0
@@ -4620,7 +4621,7 @@ int FUN_004d43c0_cls::FindItemIndex(int a1, InventoryItemEntry* pTargetItem)
         {
             ContNode* inner6;
             int count2 = 0;
-            inner6 = FUN_00559450(itemTmp);
+            inner6 = Modelloader_GetReferencedThis(itemTmp);
             while (inner6 != 0)
             {
                 InventoryItemEntry* cur = *FUN_006815c0(inner6);
@@ -4641,7 +4642,7 @@ struct ItemExtraNode;
 struct ChangeEntry
 {
     int FUN_0044ddc0();
-    ItemExtraNode* FUN_00559450();
+    ItemExtraNode* Modelloader_GetReferencedThis();
 };
 struct ItemChangeNode
 {
@@ -4672,7 +4673,7 @@ int ItemChangeList::GetExtraValueAtPosition(int form, int position)
         if (entry != 0 && entry->FUN_0044ddc0() == form)
         {
             int index = 0;
-            ItemExtraNode* extra = entry->FUN_00559450();
+            ItemExtraNode* extra = entry->Modelloader_GetReferencedThis();
             while (extra != 0)
             {
                 int result = *extra->_ref_006815c0();
@@ -5526,7 +5527,7 @@ struct InventoryExtraNode
 struct InventoryEntry
 {
     ~InventoryEntry();
-    InventoryExtraNode* FUN_00559450();
+    InventoryExtraNode* Modelloader_GetReferencedThis();
 };
 struct InventoryIterator
 {
@@ -5555,7 +5556,7 @@ InventoryEntry** InventoryOwner::CollectEntriesByRank(int aiMinRank, int aiMaxRa
         if (entry)
         {
             bool found = false;
-            for (InventoryExtraNode* node = entry->FUN_00559450(); node && *node->FUN_006815c0();
+            for (InventoryExtraNode* node = entry->Modelloader_GetReferencedThis(); node && *node->FUN_006815c0();
                  node = node->FUN_00726070())
             {
                 signed char rank = (*node->FUN_006815c0())->GetExtraByteValue();
@@ -7759,7 +7760,7 @@ FUN_0076b630* AmmoInventory::FindBestAmmoChange(AmmoScorer* scorer, int unused)
     if (change)
     {
         changeNode->weapon = change->FUN_0044ddc0();
-        if (change->FUN_00559450() && change->extras->FUN_006815c0())
+        if (change->Modelloader_GetReferencedThis() && change->extras->FUN_006815c0())
         {
             changeNode->extras = new FUN_0096a2d0;
             changeNode->extras->FUN_005ae3d0(&change->extras->FUN_006815c0());
@@ -7809,7 +7810,7 @@ struct Change64
     Change64();
     Change64(Form64*, int);
     int FUN_00726070();
-    ExtraNode64* FUN_00559450();
+    ExtraNode64* Modelloader_GetReferencedThis();
     int CountAndPruneEntries();
     int ItemChange_GetExtraTotalCount(int);
     void FUN_00403550(Form64*);
@@ -7878,8 +7879,8 @@ Change64* Inventory64::InventoryChanges_GetItembyIndex(int requested)
             if (base14 && change32 && count9 <= 0)
                 result1 = 0;
             else if ((count9 < 0 && change32) || (change32 && count9 + change32->FUN_00726070() <= 0) ||
-                     (change32 && change32->FUN_00559450() && *change32->FUN_00559450()->FUN_006815c0() &&
-                      (*change32->FUN_00559450()->FUN_006815c0())->FUN_00418750()))
+                     (change32 && change32->Modelloader_GetReferencedThis() && *change32->Modelloader_GetReferencedThis()->FUN_006815c0() &&
+                      (*change32->Modelloader_GetReferencedThis()->FUN_006815c0())->FUN_00418750()))
                 result1 = 0;
             else if (base14 && index14 == requested && (!change32 || (change32 && !change32->CountAndPruneEntries())))
             {
@@ -7902,11 +7903,11 @@ Change64* Inventory64::InventoryChanges_GetItembyIndex(int requested)
                 if (change32 &&
                     (change32->FUN_004bde40() || change32->FindFirstNonNegativeValue() >= 0 ||
                      change32->GetExtraForm() != FUN_00726070()) &&
-                    change32->FUN_00559450() && change32->FUN_00559450()->FUN_005ae380())
+                    change32->Modelloader_GetReferencedThis() && change32->Modelloader_GetReferencedThis()->FUN_005ae380())
                 {
                     if (!result1->extras)
                         result1->extras = new ExtraNode64;
-                    ExtraNode64* copyNode = change32->FUN_00559450();
+                    ExtraNode64* copyNode = change32->Modelloader_GetReferencedThis();
                     while (copyNode && *copyNode->FUN_006815c0())
                     {
                         result1->extras->FUN_005ae3d0(*copyNode->FUN_006815c0());
@@ -7963,12 +7964,12 @@ Change64* Inventory64::InventoryChanges_GetItembyIndex(int requested)
                             else
                                 result1->count = count9;
                             result1->FUN_00403550(base14->form);
-                            if (change32 && change32->FUN_004bde40() && change32->FUN_00559450() &&
-                                change32->FUN_00559450()->FUN_005ae380())
+                            if (change32 && change32->FUN_004bde40() && change32->Modelloader_GetReferencedThis() &&
+                                change32->Modelloader_GetReferencedThis()->FUN_005ae380())
                             {
                                 if (!result1->extras)
                                     result1->extras = new ExtraNode64;
-                                ExtraNode64* scriptNode = change32->FUN_00559450();
+                                ExtraNode64* scriptNode = change32->Modelloader_GetReferencedThis();
                                 while (scriptNode && *scriptNode->FUN_006815c0())
                                 {
                                     result1->extras->FUN_005ae3d0(*scriptNode->FUN_006815c0());
@@ -8001,14 +8002,14 @@ Change64* Inventory64::InventoryChanges_GetItembyIndex(int requested)
             if (FUN_004bffb0() && entry20)
                 baseCount13 = FUN_004bffb0()->FUN_00482a90(entry20->form);
             if (baseCount13 < 0 && entry20->ItemChange_GetWorn(0))
-                (*entry20->FUN_00559450()->FUN_006815c0())->ExtraDataList_SetCount(baseCount13 * -1);
+                (*entry20->Modelloader_GetReferencedThis()->FUN_006815c0())->ExtraDataList_SetCount(baseCount13 * -1);
             if (entry20 && (entry20->count > 0 || baseCount13 < 0) &&
-                ((entry20->FUN_00559450() && *entry20->FUN_00559450()->FUN_006815c0() &&
-                  (*entry20->FUN_00559450()->FUN_006815c0())->FUN_00418750()) ||
+                ((entry20->Modelloader_GetReferencedThis() && *entry20->Modelloader_GetReferencedThis()->FUN_006815c0() &&
+                  (*entry20->Modelloader_GetReferencedThis()->FUN_006815c0())->FUN_00418750()) ||
                  baseCount13 < 0 || !FUN_004bffb0() || !FUN_004bffb0()->FUN_00481eb0(entry20->form)))
             {
                 int sum34 = 0;
-                ExtraNode64* sumNode15 = entry20->FUN_00559450();
+                ExtraNode64* sumNode15 = entry20->Modelloader_GetReferencedThis();
                 while (sumNode15 && *sumNode15->FUN_006815c0())
                 {
                     Extra64* sumExtra = *sumNode15->FUN_006815c0();
@@ -8020,7 +8021,7 @@ Change64* Inventory64::InventoryChanges_GetItembyIndex(int requested)
                     }
                     sumNode15 = sumNode15->FUN_00726070();
                 }
-                if (entry20->FUN_00559450() && *entry20->FUN_00559450()->FUN_006815c0() &&
+                if (entry20->Modelloader_GetReferencedThis() && *entry20->Modelloader_GetReferencedThis()->FUN_006815c0() &&
                     requested < index14 + entry20->CountAndPruneEntries())
                 {
                     ExtraNode64* entryNode = entry20->extras;
@@ -8126,7 +8127,7 @@ struct InventoryChange4ca330
     int FUN_004bde40();
     bool ItemChange_GetWorn(int flag);
     bool FUN_004bcb70();
-    InventoryNode4ca330* FUN_00559450();
+    InventoryNode4ca330* Modelloader_GetReferencedThis();
     InventoryForm4ca330* FUN_0044ddc0();
     int FUN_00726070();
 };
@@ -8217,8 +8218,8 @@ Entry_004d4b00* Host_004d4b00::GetNextInventoryEntry(Iterator_004d4b00* apCursor
                 else
                 {
                     if ((change < 0 && pChange) || (pChange && pChange->FUN_00726070() + change <= 0) ||
-                        (pChange && pChange->FUN_00559450() && *pChange->FUN_00559450()->FUN_006815c0() &&
-                         (*pChange->FUN_00559450()->FUN_006815c0())->FUN_00418750()))
+                        (pChange && pChange->Modelloader_GetReferencedThis() && *pChange->Modelloader_GetReferencedThis()->FUN_006815c0() &&
+                         (*pChange->Modelloader_GetReferencedThis()->FUN_006815c0())->FUN_00418750()))
                     {
                         ((InventoryCursor4ca330*)apCursor)->m_pTileTemplate = 0;
                     }
@@ -8248,12 +8249,12 @@ Entry_004d4b00* Host_004d4b00::GetNextInventoryEntry(Iterator_004d4b00* apCursor
                             (pChange->FUN_004bde40() || pChange->FindFirstNonNegativeValue() >= 0 ||
                              pChange->GetExtraForm() != (int)((InventoryBaseHost4ca330*)this)->FUN_00726070()))
                         {
-                            if (pChange->FUN_00559450() && pChange->FUN_00559450()->FUN_005ae380())
+                            if (pChange->Modelloader_GetReferencedThis() && pChange->Modelloader_GetReferencedThis()->FUN_005ae380())
                             {
                                 if (!((InventoryCursor4ca330*)apCursor)->m_pTileTemplate->m_extraList)
                                     ((InventoryCursor4ca330*)apCursor)->m_pTileTemplate->m_extraList =
                                         new InventoryOutputExtras4ca330;
-                                InventoryNode4ca330* pExtraNode = pChange->FUN_00559450();
+                                InventoryNode4ca330* pExtraNode = pChange->Modelloader_GetReferencedThis();
                                 while (pExtraNode && *pExtraNode->FUN_006815c0())
                                 {
                                     ((InventoryCursor4ca330*)apCursor)
@@ -8318,13 +8319,13 @@ Entry_004d4b00* Host_004d4b00::GetNextInventoryEntry(Iterator_004d4b00* apCursor
                             else
                                 ((InventoryCursor4ca330*)apCursor)->m_pTileTemplate->m_uiItemCount = change;
                             ((InventoryCursor4ca330*)apCursor)->m_pTileTemplate->FUN_00403550(pRecord->m_form);
-                            if (pChange && pChange->FUN_004bde40() && pChange->FUN_00559450() &&
-                                pChange->FUN_00559450()->FUN_005ae380())
+                            if (pChange && pChange->FUN_004bde40() && pChange->Modelloader_GetReferencedThis() &&
+                                pChange->Modelloader_GetReferencedThis()->FUN_005ae380())
                             {
                                 if (!((InventoryCursor4ca330*)apCursor)->m_pTileTemplate->m_extraList)
                                     ((InventoryCursor4ca330*)apCursor)->m_pTileTemplate->m_extraList =
                                         new InventoryOutputExtras4ca330;
-                                InventoryNode4ca330* extraNode = pChange->FUN_00559450();
+                                InventoryNode4ca330* extraNode = pChange->Modelloader_GetReferencedThis();
                                 while (extraNode && *extraNode->FUN_006815c0())
                                 {
                                     ((InventoryCursor4ca330*)apCursor)
@@ -8358,17 +8359,17 @@ Entry_004d4b00* Host_004d4b00::GetNextInventoryEntry(Iterator_004d4b00* apCursor
             if (((InventoryBaseHost4ca330*)this)->FUN_004bffb0() && pChange)
                 advance = ((InventoryBaseHost4ca330*)this)->FUN_004bffb0()->GetObjectCount(reinterpret_cast<TESObject*>(pChange->m_form));
             if (advance < 0 && pChange->ItemChange_GetWorn(0))
-                (*pChange->FUN_00559450()->FUN_006815c0())->ExtraDataList_SetCount(advance * -1);
+                (*pChange->Modelloader_GetReferencedThis()->FUN_006815c0())->ExtraDataList_SetCount(advance * -1);
             if (pChange && (pChange->m_quantity > 0 || advance < 0))
             {
-                if ((pChange->FUN_00559450() && *pChange->FUN_00559450()->FUN_006815c0() &&
-                     (*pChange->FUN_00559450()->FUN_006815c0())->FUN_00418750()) ||
+                if ((pChange->Modelloader_GetReferencedThis() && *pChange->Modelloader_GetReferencedThis()->FUN_006815c0() &&
+                     (*pChange->Modelloader_GetReferencedThis()->FUN_006815c0())->FUN_00418750()) ||
                     advance < 0 || !((InventoryBaseHost4ca330*)this)->FUN_004bffb0() ||
                     !((InventoryBaseHost4ca330*)this)->FUN_004bffb0()->HasObjectOfType(reinterpret_cast<TESObject*>(pChange->m_form)))
                 {
                     int total = 0;
                     if (!((InventoryCursor4ca330*)apCursor)->m_extrasToCount)
-                        ((InventoryCursor4ca330*)apCursor)->m_extrasToCount = pChange->FUN_00559450();
+                        ((InventoryCursor4ca330*)apCursor)->m_extrasToCount = pChange->Modelloader_GetReferencedThis();
                     while (((InventoryCursor4ca330*)apCursor)->m_extrasToCount &&
                            *((InventoryCursor4ca330*)apCursor)->m_extrasToCount->FUN_006815c0())
                     {
@@ -8384,7 +8385,7 @@ Entry_004d4b00* Host_004d4b00::GetNextInventoryEntry(Iterator_004d4b00* apCursor
                             ((InventoryCursor4ca330*)apCursor)->m_extrasToCount->FUN_00726070();
                     }
                     ((InventoryCursor4ca330*)apCursor)->m_extrasToCount = 0;
-                    if (pChange->FUN_00559450() && *pChange->FUN_00559450()->FUN_006815c0() &&
+                    if (pChange->Modelloader_GetReferencedThis() && *pChange->Modelloader_GetReferencedThis()->FUN_006815c0() &&
                         (!pChange->CountAndPruneEntries() || true))
                     {
                         if (!((InventoryCursor4ca330*)apCursor)->m_extrasToCopy)
@@ -8559,11 +8560,12 @@ struct Inv4cb4b0
     IN4cb4b0* m_pEntryList;
     TESContainer* _ref_004bffb0();
     void _ref_004c37d0(int, TESObject*, int, int, int, int, int, int, int, int, int, int);
-    void FUN_004cb4b0(int a1, int a2, int a3);
+    void ProcessEntries_004cb4b0(int a1, int a2, int a3);
 };
 
 // @fnv 0x004cb4b0
-void Inv4cb4b0::FUN_004cb4b0(int a1, int a2, int a3)
+// src: GUESS 0x004cb4b0 (confidence: low)
+void Inv4cb4b0::ProcessEntries_004cb4b0(int a1, int a2, int a3)
 {
     TESObject* pObj = 0;
     TESContainer* pCont3 = _ref_004bffb0();
@@ -8703,9 +8705,9 @@ struct FUN_004bc550
     static void* operator new(unsigned int);
     static void operator delete(void*);
     int FUN_00726070();
-    ExtraNode* FUN_00559450();
+    ExtraNode* Modelloader_GetReferencedThis();
     TESBoundObject* FUN_0044ddc0();
-    void FUN_004bcd10();
+    void ProcessEntries_004bcd10();
     void* FUN_004bde40();
 };
 typedef FUN_004bc550 Item;
@@ -8741,7 +8743,7 @@ extern Registry* DAT_011de45c;
 Inventory* __cdecl FUN_004bf220(void*);
 void* __cdecl TESScriptableForm_GetFormScript(TESBoundObject*);
 CopiedForm* __cdecl FUN_00465110(int);
-void __cdecl FUN_004ce300(CopiedForm*, int);
+void __cdecl TESForm_UpdateFields_004ce300(CopiedForm*, int);
 struct Inventory
 {
     ItemNode* head;
@@ -8787,7 +8789,7 @@ void Inventory::ExtraContainerChangeData_DuplicateAllItem(void* source, void* de
                 {
                     clone = FUN_00465110(((FormView*)formSlot11)->FUN_00401170());
                     clone->v108(formSlot11);
-                    FUN_004ce300(clone, 0);
+                    TESForm_UpdateFields_004ce300(clone, 0);
                     DAT_011c3f2c->FUN_004603b0(clone);
                     DAT_011de45c->FUN_00861780(clone);
                     int quantity = baseCountSlot31;
@@ -8795,9 +8797,9 @@ void Inventory::ExtraContainerChangeData_DuplicateAllItem(void* source, void* de
                         quantity += itemSlot25->FUN_00726070();
                     copySlot14 = new Item((TESBoundObject*)clone, quantity);
 
-                    if (itemSlot25 && itemSlot25->FUN_00559450() && itemSlot25->FUN_00559450()->FUN_005ae380())
+                    if (itemSlot25 && itemSlot25->Modelloader_GetReferencedThis() && itemSlot25->Modelloader_GetReferencedThis()->FUN_005ae380())
                     {
-                        ExtraNode* nodeA = itemSlot25->FUN_00559450();
+                        ExtraNode* nodeA = itemSlot25->Modelloader_GetReferencedThis();
                         if (nodeA && *nodeA->FUN_006815c0())
                         {
                             while (nodeA && *nodeA->FUN_006815c0())
@@ -8807,7 +8809,7 @@ void Inventory::ExtraContainerChangeData_DuplicateAllItem(void* source, void* de
                                 if (removedASlot21)
                                     (*nodeA->FUN_006815c0())->BaseExtraList_RemoveExtra(removedASlot21, 0);
                                 extraASlot11->ExtraDataList_CopyListForContainer(*nodeA->FUN_006815c0(), 1);
-                                copySlot14->FUN_00559450()->FUN_00905820(&extraASlot11);
+                                copySlot14->Modelloader_GetReferencedThis()->FUN_00905820(&extraASlot11);
                                 if (removedASlot21)
                                     (*nodeA->FUN_006815c0())->BaseExtraList_AddExtra(removedASlot21);
                                 nodeA = nodeA->FUN_00726070();
@@ -8818,16 +8820,16 @@ void Inventory::ExtraContainerChangeData_DuplicateAllItem(void* source, void* de
                 else
                 {
                     copySlot14 = new Item(formSlot11, totalSlot2);
-                    if (itemSlot25 && itemSlot25->FUN_00559450() && itemSlot25->FUN_00559450()->FUN_005ae380())
+                    if (itemSlot25 && itemSlot25->Modelloader_GetReferencedThis() && itemSlot25->Modelloader_GetReferencedThis()->FUN_005ae380())
                     {
-                        ExtraNode* nodeB = itemSlot25->FUN_00559450();
+                        ExtraNode* nodeB = itemSlot25->Modelloader_GetReferencedThis();
                         if (nodeB && *nodeB->FUN_006815c0())
                         {
                             while (nodeB && *nodeB->FUN_006815c0())
                             {
                                 Extra* extraB = new Extra;
                                 extraB->ExtraDataList_CopyListForContainer(*nodeB->FUN_006815c0(), 1);
-                                copySlot14->FUN_00559450()->FUN_00905820(&extraB);
+                                copySlot14->Modelloader_GetReferencedThis()->FUN_00905820(&extraB);
                                 nodeB = nodeB->FUN_00726070();
                             }
                         }
@@ -8846,19 +8848,19 @@ void Inventory::ExtraContainerChangeData_DuplicateAllItem(void* source, void* de
         if (changedSlot20 && changedSlot20->FUN_00726070() > 0)
         {
             formSlot11 = changedSlot20->FUN_0044ddc0();
-            changedSlot20->FUN_004bcd10();
+            changedSlot20->ProcessEntries_004bcd10();
             CopiedForm* clone2 = 0;
             if (changedSlot20->FUN_004bde40())
             {
                 clone2 = FUN_00465110(((FormView*)changedSlot20->FUN_0044ddc0())->FUN_00401170());
                 clone2->v108(changedSlot20->FUN_0044ddc0());
-                FUN_004ce300(clone2, 0);
+                TESForm_UpdateFields_004ce300(clone2, 0);
                 DAT_011c3f2c->FUN_004603b0(clone2);
                 DAT_011de45c->FUN_00861780(clone2);
                 copySlot14 = new Item((TESBoundObject*)clone2, changedSlot20->FUN_00726070());
-                if (changedSlot20 && changedSlot20->FUN_00559450() && changedSlot20->FUN_00559450()->FUN_005ae380())
+                if (changedSlot20 && changedSlot20->Modelloader_GetReferencedThis() && changedSlot20->Modelloader_GetReferencedThis()->FUN_005ae380())
                 {
-                    ExtraNode* nodeC = changedSlot20->FUN_00559450();
+                    ExtraNode* nodeC = changedSlot20->Modelloader_GetReferencedThis();
                     if (nodeC && *nodeC->FUN_006815c0())
                     {
                         while (nodeC && *nodeC->FUN_006815c0())
@@ -8868,7 +8870,7 @@ void Inventory::ExtraContainerChangeData_DuplicateAllItem(void* source, void* de
                             if (removedCSlot8)
                                 (*nodeC->FUN_006815c0())->BaseExtraList_RemoveExtra(removedCSlot8, 0);
                             extraCSlot22->ExtraDataList_CopyListForContainer(*nodeC->FUN_006815c0(), 1);
-                            copySlot14->FUN_00559450()->FUN_00905820(&extraCSlot22);
+                            copySlot14->Modelloader_GetReferencedThis()->FUN_00905820(&extraCSlot22);
                             if (removedCSlot8)
                                 (*nodeC->FUN_006815c0())->BaseExtraList_AddExtra(removedCSlot8);
                             nodeC = nodeC->FUN_00726070();
@@ -8879,16 +8881,16 @@ void Inventory::ExtraContainerChangeData_DuplicateAllItem(void* source, void* de
             else
             {
                 copySlot14 = new Item(changedSlot20->FUN_0044ddc0(), changedSlot20->FUN_00726070());
-                if (changedSlot20 && changedSlot20->FUN_00559450() && changedSlot20->FUN_00559450()->FUN_005ae380())
+                if (changedSlot20 && changedSlot20->Modelloader_GetReferencedThis() && changedSlot20->Modelloader_GetReferencedThis()->FUN_005ae380())
                 {
-                    ExtraNode* nodeD = changedSlot20->FUN_00559450();
+                    ExtraNode* nodeD = changedSlot20->Modelloader_GetReferencedThis();
                     if (nodeD && *nodeD->FUN_006815c0())
                     {
                         while (nodeD && *nodeD->FUN_006815c0())
                         {
                             Extra* extraD = new Extra;
                             extraD->ExtraDataList_CopyListForContainer(*nodeD->FUN_006815c0(), 1);
-                            copySlot14->FUN_00559450()->FUN_00905820(&extraD);
+                            copySlot14->Modelloader_GetReferencedThis()->FUN_00905820(&extraD);
                             nodeD = nodeD->FUN_00726070();
                         }
                     }
@@ -8985,7 +8987,7 @@ struct MoveItem
     bool ItemChange_GetWorn(bool);
     bool FUN_004bcb70();
     int FUN_00726070();
-    MoveExtraNode* FUN_00559450();
+    MoveExtraNode* Modelloader_GetReferencedThis();
     TESBoundObject* FUN_0044ddc0();
     void FUN_004bd5c0(void*);
 };
@@ -9173,9 +9175,9 @@ float InventoryMove::InventoryChanges_RemoveAllItems(MoveOwner* owner, MoveOwner
                 {
                     weight7 += static_cast<float>(TESValueForm_GetFormValue(form3) * countScope2);
                     bool changed2 = false;
-                    if (itemScope1 && itemScope1->FUN_00559450() && itemScope1->FUN_00559450()->FUN_005ae380())
+                    if (itemScope1 && itemScope1->Modelloader_GetReferencedThis() && itemScope1->Modelloader_GetReferencedThis()->FUN_005ae380())
                     {
-                        MoveExtraNode* nodeScope1 = itemScope1->FUN_00559450();
+                        MoveExtraNode* nodeScope1 = itemScope1->Modelloader_GetReferencedThis();
                         if (nodeScope1 && *nodeScope1->FUN_006815c0())
                         {
                             bool lastScope1 = false;
@@ -9193,12 +9195,12 @@ float InventoryMove::InventoryChanges_RemoveAllItems(MoveOwner* owner, MoveOwner
                                         itemScope1->head = 0;
                                     }
                                     else
-                                        nodeScope1 = itemScope1->FUN_00559450();
+                                        nodeScope1 = itemScope1->Modelloader_GetReferencedThis();
                                 }
                                 else
                                 {
                                     bool restartScope1 = false;
-                                    if (itemScope1->FUN_00559450()->FUN_005ae380() <= 1)
+                                    if (itemScope1->Modelloader_GetReferencedThis()->FUN_005ae380() <= 1)
                                         lastScope1 = true;
                                     else
                                         restartScope1 = true;
@@ -9252,7 +9254,7 @@ float InventoryMove::InventoryChanges_RemoveAllItems(MoveOwner* owner, MoveOwner
                                         nodeScope1 = 0;
                                     }
                                     else if (restartScope1)
-                                        nodeScope1 = itemScope1->FUN_00559450();
+                                        nodeScope1 = itemScope1->Modelloader_GetReferencedThis();
                                     else
                                         nodeScope1 = nodeScope1->FUN_00726070();
                                 }
@@ -9269,7 +9271,7 @@ float InventoryMove::InventoryChanges_RemoveAllItems(MoveOwner* owner, MoveOwner
                             if (!ownershipScope5)
                                 ownershipScope5 = owner->BGSSaveFormBuffer_GetForm();
                             itemScope1->FUN_004bd5c0(ownershipScope5);
-                            MoveExtra* extraScope2 = *itemScope1->FUN_00559450()->FUN_006815c0();
+                            MoveExtra* extraScope2 = *itemScope1->Modelloader_GetReferencedThis()->FUN_006815c0();
                             extraScope2->ExtraDataList_SetCount(static_cast<unsigned short>(countScope2));
                             kCreateReferenceCallAddr(owner, form3, retainOwner, extraScope2->ExtraDataList_GetCount(), extraScope2, 0,
                                          destination, 0, 0, true, 0, 0);
@@ -9364,7 +9366,7 @@ float InventoryMove::InventoryChanges_RemoveAllItems(MoveOwner* owner, MoveOwner
                     if (FUN_004bffb0() && itemScope6)
                         baseCountScope4 = FUN_004bffb0()->FUN_00482a90(itemScope6->form);
                     int countScope4 = baseCountScope4 + itemScope6->count;
-                    MoveExtraNode* nodeScope2 = itemScope6->FUN_00559450();
+                    MoveExtraNode* nodeScope2 = itemScope6->Modelloader_GetReferencedThis();
                     if (nodeScope2 && *nodeScope2->FUN_006815c0())
                     {
                         while (nodeScope2 && *nodeScope2->FUN_006815c0() && !lastScope2)
@@ -9438,7 +9440,7 @@ float InventoryMove::InventoryChanges_RemoveAllItems(MoveOwner* owner, MoveOwner
                                     itemScope6->head = 0;
                                 }
                                 else
-                                    nodeScope2 = itemScope6->FUN_00559450();
+                                    nodeScope2 = itemScope6->Modelloader_GetReferencedThis();
                             }
                             else
                             {
@@ -9530,7 +9532,7 @@ float InventoryMove::InventoryChanges_RemoveAllItems(MoveOwner* owner, MoveOwner
                                 else if (countScope4 <= 0 && itemScope6)
                                     change = change->FUN_00726070();
                                 if (itemScope6 && countScope4 > 0)
-                                    nodeScope2 = itemScope6->FUN_00559450();
+                                    nodeScope2 = itemScope6->Modelloader_GetReferencedThis();
                                 else
                                     nodeScope2 = 0;
                             }
@@ -9682,7 +9684,7 @@ struct WeightEntry : InventoryStackRecord
 {
     unsigned char HasEffect(int);
     int FUN_00726070();
-    WeightExtraNode* FUN_00559450();
+    WeightExtraNode* Modelloader_GetReferencedThis();
     WeightWeapon* FUN_0044ddc0();
     int ItemChange_GetExtraTotalCount(bool);
     bool ItemChange_GetWorn(bool);
@@ -9811,11 +9813,11 @@ float WeightInventory::InventoryChanges_GetInventoryWeight(bool useAmmoWeight)
                     if (form4 && ((ObjectForm*)form4)->FUN_00401170() == 0x18)
                         formX = form4;
                     int count_2 = item7->FUN_00726070();
-                    if (item7->FUN_00559450() && current && item7->ItemChange_GetExtraTotalCount(true) > 0)
+                    if (item7->Modelloader_GetReferencedThis() && current && item7->ItemChange_GetExtraTotalCount(true) > 0)
                     {
                         WeightWeapon* weaponTmp = item7->FUN_0044ddc0();
                         int countTmp = 0;
-                        WeightExtraNode* extra2 = item7->FUN_00559450();
+                        WeightExtraNode* extra2 = item7->Modelloader_GetReferencedThis();
                         while (extra2)
                         {
                             WeightExtra* extra = *extra2->FUN_006815c0();
@@ -10172,7 +10174,7 @@ struct Item
     static void* operator new(unsigned int);
     static void operator delete(void*);
     int FUN_00726070();
-    ExtraNode* FUN_00559450();
+    ExtraNode* Modelloader_GetReferencedThis();
     Form* FUN_0044ddc0();
     void* FUN_004bde40();
     void FUN_00403550(TESBoundObject*);
@@ -10254,7 +10256,7 @@ void Inventory::InventoryChanges_CreateCopyofList(Inventory* target, void* owner
                 transferSlot3->FUN_00403550(entrySlot7->form);
                 if (current && current->FUN_004bde40())
                 {
-                    ExtraNode* scripted = current->FUN_00559450();
+                    ExtraNode* scripted = current->Modelloader_GetReferencedThis();
                     while (scripted && *scripted->FUN_006815c0())
                     {
                         (*scripted->FUN_006815c0())->SetOriginalReference(owner);
@@ -10490,17 +10492,17 @@ struct CleanupExtraNode
     CleanupExtra** FUN_006815c0();
     CleanupExtraNode* FUN_00726070();
     void FUN_0063f7b0();
-    void FUN_00905330(CleanupExtra* const&);
+    void RemoveMatchingItem(CleanupExtra* const&);
 };
 struct CleanupItem : InventoryStackRecord
 {
-    CleanupExtraNode* FUN_00559450();
+    CleanupExtraNode* Modelloader_GetReferencedThis();
     TESBoundObject* FUN_0044ddc0();
 };
 struct CleanupItemNode
 {
     CleanupItem** FUN_006815c0();
-    void FUN_00905330(CleanupItem* const&);
+    void RemoveMatchingItem(CleanupItem* const&);
 };
 struct CleanupInventory;
 struct CleanupReferenceExtra
@@ -10542,15 +10544,15 @@ void CleanupInventory::RemoveAllItems()
                     extra->ExtraDataList_RemoveOriginalReferenceExtra();
                     if (extra->BaseExtraList_ItemsInList() < 2 && extra->ExtraDataList_GetCount() != 0)
                         extra->RemoveExtra24();
-                    node->FUN_00559450()->FUN_00905330(extra);
+                    node->Modelloader_GetReferencedThis()->RemoveMatchingItem(extra);
                     CleanupInventory* inventory = ref->BSFile_GetDevice()->FUN_00418520();
                     bool destroy = true;
                     if (inventory)
                     {
                         CleanupItem* entry = inventory->FUN_004bfba0(node->FUN_0044ddc0(), 1, 0);
-                        if (entry && entry->FUN_00559450())
+                        if (entry && entry->Modelloader_GetReferencedThis())
                         {
-                            CleanupExtraNode* scan = entry->FUN_00559450();
+                            CleanupExtraNode* scan = entry->Modelloader_GetReferencedThis();
                             while (scan && *scan->FUN_006815c0() && destroy)
                             {
                                 if (*scan->FUN_006815c0() == extra)
@@ -10564,9 +10566,9 @@ void CleanupInventory::RemoveAllItems()
                     if (inventory)
                     {
                         CleanupItem* playerEntry = inventory->FUN_004bfba0(node->FUN_0044ddc0(), 1, 0);
-                        if (playerEntry && playerEntry->FUN_00559450())
+                        if (playerEntry && playerEntry->Modelloader_GetReferencedThis())
                         {
-                            CleanupExtraNode* playerScan = playerEntry->FUN_00559450();
+                            CleanupExtraNode* playerScan = playerEntry->Modelloader_GetReferencedThis();
                             while (playerScan && *playerScan->FUN_006815c0() && destroy)
                             {
                                 if (*playerScan->FUN_006815c0() == extra)
@@ -10592,7 +10594,7 @@ void CleanupInventory::RemoveAllItems()
             else
                 extra = 0;
         }
-        start->FUN_00905330(node);
+        start->RemoveMatchingItem(node);
         delete node;
         node = 0;
         start = itemList;
@@ -11162,7 +11164,7 @@ struct WalkChange
 {
     WalkForm* FUN_0044ddc0();
     int FUN_00726070();
-    void* FUN_00559450();
+    void* Modelloader_GetReferencedThis();
 };
 struct WalkNode
 {
@@ -11241,7 +11243,7 @@ int InventoryChanges::ForEachInventoryItem(bool(__cdecl* callback)(WalkTemp*, vo
             if (!countB)
                 continue;
             WalkTemp temp6;
-            temp6.extra = change3->FUN_00559450();
+            temp6.extra = change3->Modelloader_GetReferencedThis();
             temp6.FUN_006ecd40(countB);
             temp6.FUN_00403550(form5);
             total_2++;
@@ -11319,7 +11321,7 @@ struct ChangeIter
 {
     IterForm* FUN_0044ddc0();
     int FUN_00726070();
-    void* FUN_00559450();
+    void* Modelloader_GetReferencedThis();
 };
 struct ChangeNodeIter
 {
@@ -11425,7 +11427,7 @@ bool InventoryIterOwner::AdvanceInventoryIterator(IterState* state, void** out, 
                 if (iChangeCount <= 0)
                     continue;
                 *out = entry2;
-                state->extra = entry2->FUN_00559450();
+                state->extra = entry2->Modelloader_GetReferencedThis();
                 state->FUN_006ecd40(iChangeCount);
                 state->FUN_00403550(form2);
                 *out = state;
@@ -11532,7 +11534,7 @@ struct InvEntry
     int count;
     void* object;
     InvEntry(void*, int);
-    InvNode* FUN_00559450();
+    InvNode* Modelloader_GetReferencedThis();
     void* FUN_0044ddc0();
     int FUN_00726070();
     void FUN_006ecd40(int);
@@ -12459,8 +12461,8 @@ void InvHost::PlayerCharacter_AddRockItAmmo(void* object, InvExtra* extra, int a
         InvEntry* entry = entries.FUN_00877a30(index);
         if (entries.FUN_00877a30(index)->FUN_0044ddc0() == object)
         {
-            bool empty = !entry->FUN_00559450() || !*entry->FUN_00559450()->FUN_006815c0() ||
-                         (*entry->FUN_00559450()->FUN_006815c0())->HasOnlyAllowedExtraData(0);
+            bool empty = !entry->Modelloader_GetReferencedThis() || !*entry->Modelloader_GetReferencedThis()->FUN_006815c0() ||
+                         (*entry->Modelloader_GetReferencedThis()->FUN_006815c0())->HasOnlyAllowedExtraData(0);
             if (!extra)
             {
                 if (empty)
@@ -12471,7 +12473,7 @@ void InvHost::PlayerCharacter_AddRockItAmmo(void* object, InvExtra* extra, int a
             }
             else
             {
-                for (InvNode* node = entry->FUN_00559450(); !found && node && *node->FUN_006815c0();
+                for (InvNode* node = entry->Modelloader_GetReferencedThis(); !found && node && *node->FUN_006815c0();
                      node = node->FUN_00726070())
                 {
                     if (!(*node->FUN_006815c0())->ExtraDataList_CompareListForContainer(extra, 1, 0) &&
@@ -12487,9 +12489,9 @@ void InvHost::PlayerCharacter_AddRockItAmmo(void* object, InvExtra* extra, int a
                     InvExtra* copy = new InvExtra;
                     copy->ExtraDataList_DuplicateExtraListForContainer(extra);
                     copy->ExtraDataList_SetCount((unsigned short)amount);
-                    if (!entry->FUN_00559450())
+                    if (!entry->Modelloader_GetReferencedThis())
                         entry->list = new InvNode;
-                    entry->FUN_00559450()->FUN_005ae3d0(copy);
+                    entry->Modelloader_GetReferencedThis()->FUN_005ae3d0(copy);
                     entry->FUN_006ecd40(entries.FUN_00877a30(index)->FUN_00726070() + amount);
                     found = true;
                 }
@@ -12504,7 +12506,7 @@ void InvHost::PlayerCharacter_AddRockItAmmo(void* object, InvExtra* extra, int a
             InvExtra* pExtraCopy2 = new InvExtra;
             pExtraCopy2->ExtraDataList_DuplicateExtraListForContainer(extra);
             pExtraCopy2->ExtraDataList_SetCount((unsigned short)amount);
-            added->FUN_00559450()->FUN_005ae3d0(pExtraCopy2);
+            added->Modelloader_GetReferencedThis()->FUN_005ae3d0(pExtraCopy2);
         }
         entries.FUN_007cb2e0(added);
     }
@@ -12997,7 +12999,7 @@ struct Transfer4c37NewObj
     ~Transfer4c37NewObj();
     int _ref_00726070();
     void FUN_006ecd40(int a);
-    int FUN_00559450();
+    int Modelloader_GetReferencedThis();
     int FUN_0044ddc0();
     void ClearExtraDataList();
 };
@@ -13181,7 +13183,7 @@ struct Transfer4c37Entry
     bool FUN_004bcb70();
     void ClearExtraDataList();
     int m08;
-    void* FUN_00559450();
+    void* Modelloader_GetReferencedThis();
 };
 
 struct Transfer4c37EntryNew
@@ -13651,7 +13653,7 @@ int Transfer4c37C37This::kCreateReferenceCallAddr(Transfer4c37C37Obj* apSource, 
                 {
                     if (((Transfer4c37ItemObj*)transferExtra18)->BaseExtraList_ItemsInList())
                     {
-                        if (!transferEntry7->FUN_00559450())
+                        if (!transferEntry7->Modelloader_GetReferencedThis())
                         {
                             transferEntry7->m00 = new Transfer4c37Obj96;
                         }
@@ -14191,7 +14193,7 @@ int Transfer4c37C37This::kCreateReferenceCallAddr(Transfer4c37C37Obj* apSource, 
                             }
                             else
                             {
-                                if (!transferEntry7->FUN_00559450())
+                                if (!transferEntry7->Modelloader_GetReferencedThis())
                                 {
                                     transferEntry7->m00 = new Transfer4c37Obj96;
                                 }
@@ -14214,7 +14216,7 @@ int Transfer4c37C37This::kCreateReferenceCallAddr(Transfer4c37C37Obj* apSource, 
                             }
                             else
                             {
-                                if (!transferEntry7->FUN_00559450())
+                                if (!transferEntry7->Modelloader_GetReferencedThis())
                                 {
                                     transferEntry7->m00 = new Transfer4c37Obj96;
                                 }
@@ -14465,7 +14467,7 @@ int Transfer4c37C37This::kCreateReferenceCallAddr(Transfer4c37C37Obj* apSource, 
             baseCount48 += itemChange7->m04;
         if (!baseCount48)
         {
-            ((Transfer4c37Tail470*)itemChange7->FUN_00559450())->FUN_00470470();
+            ((Transfer4c37Tail470*)itemChange7->Modelloader_GetReferencedThis())->FUN_00470470();
             return resultRef6;
         }
         if (abCreateRef != 0)
@@ -14605,10 +14607,10 @@ int Transfer4c37C37This::kCreateReferenceCallAddr(Transfer4c37C37Obj* apSource, 
             {
                 if (!itemChange7->ItemChange_GetWorn(0))
                 {
-                    if (itemChange7->FUN_00559450() != 0)
+                    if (itemChange7->Modelloader_GetReferencedThis() != 0)
                     {
                         if (leveledItem0 == 0)
-                            ((Transfer4c37Tail470*)itemChange7->FUN_00559450())->FUN_00470470();
+                            ((Transfer4c37Tail470*)itemChange7->Modelloader_GetReferencedThis())->FUN_00470470();
                     }
                 }
             }
@@ -15276,7 +15278,7 @@ struct FUN_004bc550
     static void* operator new(unsigned int);
     static void operator delete(void*);
     int FUN_00726070();
-    FUN_0096a2d0* FUN_00559450();
+    FUN_0096a2d0* Modelloader_GetReferencedThis();
 };
 struct Entry
 {
@@ -15310,14 +15312,14 @@ FUN_004bc550* Inventory::InventoryChanges_GetInventoryItem(Object* object, int a
     {
         int count2 = FUN_004bffb0()->FUN_00482a90(object);
         result2 = new FUN_004bc550(object, count2 + source3->FUN_00726070());
-        if (source3->FUN_00559450() && source3->FUN_00559450()->FUN_005ae380())
+        if (source3->Modelloader_GetReferencedThis() && source3->Modelloader_GetReferencedThis()->FUN_005ae380())
         {
-            if (!result2->FUN_00559450())
+            if (!result2->Modelloader_GetReferencedThis())
                 result2->list = new FUN_0096a2d0;
-            Extra* extra7 = *source3->FUN_00559450()->FUN_006815c0();
+            Extra* extra7 = *source3->Modelloader_GetReferencedThis()->FUN_006815c0();
             if (extra7->HasOnlyAllowedExtraData(0))
             {
-                FUN_0096a2d0* node5 = source3->FUN_00559450();
+                FUN_0096a2d0* node5 = source3->Modelloader_GetReferencedThis();
                 while (node5 && *node5->FUN_006815c0())
                 {
                     extra7 = *node5->FUN_006815c0();
@@ -15332,7 +15334,7 @@ FUN_004bc550* Inventory::InventoryChanges_GetInventoryItem(Object* object, int a
         }
         else
         {
-            if (result2->FUN_00559450())
+            if (result2->Modelloader_GetReferencedThis())
             {
                 delete result2->list;
                 result2->list = 0;
@@ -15533,7 +15535,7 @@ class FUN_008515f0
 class ListZ
 {
   public:
-    void FUN_00905330(FUN_008515f0**);
+    void RemoveMatchingItem(FUN_008515f0**);
     int FUN_005ae380();
 };
 class Holder
@@ -15548,7 +15550,7 @@ void Holder::RemoveAndDelete(FUN_008515f0* p)
 {
     if (!m0)
         return;
-    m0->FUN_00905330(&p);
+    m0->RemoveMatchingItem(&p);
     delete p;
     m4 = m0->FUN_005ae380();
 }
@@ -15661,7 +15663,7 @@ struct XChange17
 {
     int _ref_00726070();
     int ItemChange_GetExtraTotalCount(bool);
-    void* FUN_00559450();
+    void* Modelloader_GetReferencedThis();
     ~XChange17();
 };
 struct XBiped17
@@ -16516,9 +16518,9 @@ bool XHost17::InventoryChanges_RemoveWorn(bool* a0, unsigned int a1, int iCount,
         delete (XChange17*)entry0;
         return false;
     }
-    else if (((XChange17*)entry0)->_ref_00726070() < 0 && ((XChange17*)entry0)->FUN_00559450() != 0)
+    else if (((XChange17*)entry0)->_ref_00726070() < 0 && ((XChange17*)entry0)->Modelloader_GetReferencedThis() != 0)
     {
-        ((XListObj17*)((XChange17*)entry0)->FUN_00559450())->FUN_00470470();
+        ((XListObj17*)((XChange17*)entry0)->Modelloader_GetReferencedThis())->FUN_00470470();
     }
     if (apActor != 0)
         ((XRefr17*)apActor)->Actor_InitLightingPropertyPtr(((XRefr17*)apActor)->TESObjectREFR_Get3D());
@@ -16808,7 +16810,7 @@ struct HealthItem : public InventoryStackRecord
 {
     float ItemChange_GetItemHealth(int);
     TESBoundObject* FUN_0044ddc0();
-    BSSimpleList<ExtraDataList*>* FUN_00559450();
+    BSSimpleList<ExtraDataList*>* Modelloader_GetReferencedThis();
     void ItemChange_SetItemHealth(float health, HealthInventory* inventory, ExtraDataList* selected, bool removeEmpty);
 };
 int __cdecl FUN_004873d0(TESBoundObject*);
@@ -16868,7 +16870,7 @@ void HealthItem::ItemChange_SetItemHealth(float health, HealthInventory* invento
                     if (((HealthExtra*)extra)->IsEmpty() && removeEmpty)
                     {
                         HealthItem* item = (HealthItem*)inventory->FUN_004bfba0(FUN_0044ddc0(), 1, 0);
-                        BSSimpleList<ExtraDataList*>* extras = item->FUN_00559450();
+                        BSSimpleList<ExtraDataList*>* extras = item->Modelloader_GetReferencedThis();
                         extras->Remove(extra);
                         delete reinterpret_cast<ExtraDataListVirtualDeletion*>(extra);
                     }
@@ -16942,7 +16944,7 @@ struct CleanNode
     CleanNode* FUN_00726070();
     bool FUN_008256d0();
     void FUN_0063f7b0();
-    void FUN_00905330(CleanExtra**);
+    void RemoveMatchingItem(CleanExtra**);
     void FUN_00905820(CleanExtra**);
     void FUN_005ae3d0(CleanExtra**);
     unsigned int FUN_005ae380();
@@ -16957,7 +16959,7 @@ struct CleanItem
     TESBoundObject* form;
     TESBoundObject* FUN_0044ddc0();
     int FUN_00726070();
-    CleanNode* FUN_00559450();
+    CleanNode* Modelloader_GetReferencedThis();
     CleanScript* FUN_004bde40();
     bool ItemChange_GetWorn(bool);
     bool FUN_004bcb70();
@@ -17036,7 +17038,7 @@ void InventoryClean::InventoryChanges_CleanUpBadData()
                             extraScope7->RemoveExtra24();
                             if (extraScope7->FUN_004bca60())
                             {
-                                nodeScope6->FUN_00905330(&extraScope7);
+                                nodeScope6->RemoveMatchingItem(&extraScope7);
                                 delete extraScope7;
                                 nodeScope6 = itemScope4Local28->head;
                             }
@@ -17143,7 +17145,7 @@ void InventoryClean::InventoryChanges_CleanUpBadData()
 
                 if (owner == inventoryPlayer)
                 {
-                    CleanNode* nodeScope26 = itemScope4Local28->FUN_00559450();
+                    CleanNode* nodeScope26 = itemScope4Local28->Modelloader_GetReferencedThis();
                     while (nodeScope26 && *nodeScope26->FUN_006815c0())
                     {
                         wornScope25 = *nodeScope26->FUN_006815c0();
@@ -17165,7 +17167,7 @@ void InventoryClean::InventoryChanges_CleanUpBadData()
                     int countScope27 = itemScope4Local28->CountAndPruneEntries();
                     if (countScope27 > 1)
                     {
-                        CleanNode* nodeScope28 = itemScope4Local28->FUN_00559450();
+                        CleanNode* nodeScope28 = itemScope4Local28->Modelloader_GetReferencedThis();
                         while (nodeScope28 && *nodeScope28->FUN_006815c0())
                         {
                             CleanExtra* extraScope29 = *nodeScope28->FUN_006815c0();
@@ -17177,8 +17179,8 @@ void InventoryClean::InventoryChanges_CleanUpBadData()
                                 wornScope25->BaseExtraList_RemoveAll(true);
                                 wornScope25->ExtraDataList_DuplicateExtraListForContainer(extraScope29);
                                 wornScope25->SetWornState(true, false);
-                                itemScope4Local28->FUN_00559450()->FUN_00470470();
-                                itemScope4Local28->FUN_00559450()->FUN_005ae3d0(&wornScope25);
+                                itemScope4Local28->Modelloader_GetReferencedThis()->FUN_00470470();
+                                itemScope4Local28->Modelloader_GetReferencedThis()->FUN_005ae3d0(&wornScope25);
                             }
                         }
                     }
@@ -17191,7 +17193,7 @@ void InventoryClean::InventoryChanges_CleanUpBadData()
                         itemScope4Local28->count = itemScope4Local28->ItemChange_GetExtraTotalCount(false);
                     else if (itemScope4Local28->count > itemScope4Local28->ItemChange_GetExtraTotalCount(false))
                     {
-                        CleanNode* nodeScope30 = itemScope4Local28->FUN_00559450();
+                        CleanNode* nodeScope30 = itemScope4Local28->Modelloader_GetReferencedThis();
                         while (nodeScope30 && *nodeScope30->FUN_006815c0())
                         {
                             CleanExtra* extraScope31 = *nodeScope30->FUN_006815c0();
@@ -17210,10 +17212,10 @@ void InventoryClean::InventoryChanges_CleanUpBadData()
                 totalScope32 += itemScope4Local28->FUN_00726070() + baseCountScope33;
             else
                 totalScope32 += baseCountScope33;
-            if (totalScope32 > 0 && itemScope4Local28 && itemScope4Local28->FUN_00559450() &&
-                itemScope4Local28->FUN_00559450()->FUN_005ae380())
+            if (totalScope32 > 0 && itemScope4Local28 && itemScope4Local28->Modelloader_GetReferencedThis() &&
+                itemScope4Local28->Modelloader_GetReferencedThis()->FUN_005ae380())
             {
-                CleanNode* nodeScope34 = itemScope4Local28->FUN_00559450();
+                CleanNode* nodeScope34 = itemScope4Local28->Modelloader_GetReferencedThis();
 
                 while (totalScope32 < nodeScope34->FUN_005ae380())
                 {
@@ -17249,7 +17251,7 @@ void InventoryClean::InventoryChanges_CleanUpBadData()
                     itemScope4Local28->head = 0;
                 }
                 else
-                    nodeScope34 = itemScope4Local28->FUN_00559450();
+                    nodeScope34 = itemScope4Local28->Modelloader_GetReferencedThis();
 
                 if (nodeScope34 && *nodeScope34->FUN_006815c0())
                 {
@@ -17269,7 +17271,7 @@ void InventoryClean::InventoryChanges_CleanUpBadData()
                                 itemScope4Local28->head = 0;
                             }
                             else
-                                nodeScope34 = itemScope4Local28->FUN_00559450();
+                                nodeScope34 = itemScope4Local28->Modelloader_GetReferencedThis();
                         }
                         else
                             nodeScope34 = nodeScope34->FUN_00726070();
@@ -17306,7 +17308,7 @@ void InventoryClean::InventoryChanges_CleanUpBadData()
                         extraScope45->RemoveExtra24();
                         if (extraScope45->FUN_004bca60())
                         {
-                            nodeScope44->FUN_00905330(&extraScope45);
+                            nodeScope44->RemoveMatchingItem(&extraScope45);
                             delete extraScope45;
                             nodeScope44 = itemScope39->head;
                         }
@@ -17406,7 +17408,7 @@ void InventoryClean::InventoryChanges_CleanUpBadData()
 
             if (owner == inventoryPlayer)
             {
-                CleanNode* nodeScope64 = itemScope39->FUN_00559450();
+                CleanNode* nodeScope64 = itemScope39->Modelloader_GetReferencedThis();
                 while (nodeScope64 && *nodeScope64->FUN_006815c0())
                 {
                     wornScope5 = *nodeScope64->FUN_006815c0();
@@ -17417,7 +17419,7 @@ void InventoryClean::InventoryChanges_CleanUpBadData()
 
             if (itemScope39->ItemChange_GetWorn(false))
             {
-                CleanNode* nodeScope65 = itemScope39->FUN_00559450();
+                CleanNode* nodeScope65 = itemScope39->Modelloader_GetReferencedThis();
                 int sumScope66 = 0;
                 while (nodeScope65 && *nodeScope65->FUN_006815c0())
                 {
@@ -17429,7 +17431,7 @@ void InventoryClean::InventoryChanges_CleanUpBadData()
                     itemScope39->count = sumScope66 - (itemScope39->count + baseCountScope62);
                 else if (itemScope39->count + baseCountScope62 > sumScope66)
                 {
-                    CleanNode* nodeScope68 = itemScope39->FUN_00559450();
+                    CleanNode* nodeScope68 = itemScope39->Modelloader_GetReferencedThis();
                     while (nodeScope68 && *nodeScope68->FUN_006815c0())
                     {
                         CleanExtra* extraScope69 = *nodeScope68->FUN_006815c0();
@@ -17477,7 +17479,7 @@ void InventoryClean::InventoryChanges_CleanUpBadData()
         }
         if (itemScope39 && totalScope8 > 0)
         {
-            CleanNode* nodeScope77 = itemScope39->FUN_00559450();
+            CleanNode* nodeScope77 = itemScope39->Modelloader_GetReferencedThis();
             if (nodeScope77 && *nodeScope77->FUN_006815c0())
             {
 
@@ -17515,7 +17517,7 @@ void InventoryClean::InventoryChanges_CleanUpBadData()
                     itemScope39->head = 0;
                 }
                 else
-                    nodeScope77 = itemScope39->FUN_00559450();
+                    nodeScope77 = itemScope39->Modelloader_GetReferencedThis();
 
                 while (nodeScope77 && *nodeScope77->FUN_006815c0())
                 {
@@ -17532,7 +17534,7 @@ void InventoryClean::InventoryChanges_CleanUpBadData()
                             itemScope39->head = 0;
                         }
                         else
-                            nodeScope77 = itemScope39->FUN_00559450();
+                            nodeScope77 = itemScope39->Modelloader_GetReferencedThis();
                     }
                     else
                         nodeScope77 = nodeScope77->FUN_00726070();
@@ -17566,7 +17568,7 @@ struct FUN_00418b10_shell
 };
 struct FUN_00559450_shell
 {
-    SimpleListNode* FUN_00559450();
+    SimpleListNode* Modelloader_GetReferencedThis();
 };
 struct G2
 {
@@ -17593,7 +17595,7 @@ InventoryStackRecord* InventoryChanges::FindBestArmor(TESActorBase* apActorBase,
     {
         InventoryStackRecord* pitem = GetInventoryEntryData(aeBodySlot, false);
         if (pitem &&
-            ((FUN_00418b10_shell*)((FUN_00559450_shell*)pitem)->FUN_00559450()->FUN_006815c0())->ExtraDataList_GetCanNotWear())
+            ((FUN_00418b10_shell*)((FUN_00559450_shell*)pitem)->Modelloader_GetReferencedThis()->FUN_006815c0())->ExtraDataList_GetCanNotWear())
             return pitem;
         else
             delete pitem;
@@ -18119,7 +18121,7 @@ struct ExtraList_bdb40
     ExtraList_bdb40* next;
     ExtraList_bdb40();
     ExtraDataList** FUN_006815c0();
-    void FUN_00905330(ExtraDataList**);
+    void RemoveMatchingItem(ExtraDataList**);
 };
 struct InvEntry_bdb40
 {
@@ -18141,7 +18143,7 @@ void InvEntry_bdb40::ItemChange_SetIsModding()
     {
         ExtraDataList* extra = new ExtraDataList;
         reinterpret_cast<ExtraSetter_bdb40*>(extra)->ExtraDataList_SetIsModding(1);
-        list->FUN_00905330(&extra);
+        list->RemoveMatchingItem(&extra);
     }
     else if (pExtraList && *pExtraList->FUN_006815c0())
     {

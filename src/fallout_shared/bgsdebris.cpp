@@ -315,13 +315,13 @@ struct DItem
     void* model;
     unsigned char IsFlagSet();
 };
-void* __cdecl FUN_00aa13e0(unsigned int);
+void* __cdecl Object_DispatchCommandFour(unsigned int);
 struct DebrisObj
 {
     char b[0x24];
     static void* operator new(unsigned int n)
     {
-        return FUN_00aa13e0(n);
+        return Object_DispatchCommandFour(n);
     }
     static void operator delete(void*, unsigned int);
     DebrisObj(void* a1, float f, void* m, int z, NiPoint3* pos, NiPoint3* v1, NiPoint3* v2, NiPoint3* v3, float s, int z1, int z2);
@@ -393,7 +393,7 @@ void __cdecl TESForm_AddChunkArray(unsigned int uiType, void* pvData, unsigned i
 // @fnv 0x004fa1a0
 void BGSDebris::WriteDebrisEntries()
 {
-    FUN_004855a0();
+    BeginFormRecord();
     DNode* pkNode = (DNode*)GetDataList();
     while (pkNode)
     {
@@ -415,7 +415,7 @@ void BGSDebris::WriteDebrisEntries()
         }
         pkNode = pkNode->FUN_00726070();
     }
-    FUN_00485680();
+    FinishFormRecord();
 }
 
 int __cdecl BSstrcmp(char const*, char const*);

@@ -28,7 +28,7 @@ struct S : NiRefObject
     int f4;
     int f8;
     void* fC;
-    void __thiscall FUN_00a824d0();
+    void __thiscall SetVtableAndProcessState_00a824d0();
 };
 struct NiTAbstractPoolAllocator_unsigned_int
 {
@@ -52,12 +52,12 @@ struct FUN_00a82710_shell
 struct FUN_00a82890_shell
 {
     char __thiscall ContainsAllValues(void*);
-    char __thiscall FUN_00a82890(const unsigned short* a, const void* b);
+    char __thiscall ContainsAllIndexedTriples(const unsigned short* a, const void* b);
 };
 void __cdecl _delete(void*, unsigned int);
 struct FUN_00a82c70_holder
 {
-    void FUN_00a824d0();
+    void SetVtableAndProcessState_00a824d0();
     void* DestroyIfFlagged(unsigned int);
 };
 struct C082d30
@@ -93,7 +93,7 @@ struct FUN_00a826b0_shell
     void* m_p;
     unsigned int m_uiItemCount;
     unsigned int m_uiBufferCapacity;
-    void FUN_00a826b0(unsigned int n);
+    void ReleaseStorage_00a826b0(unsigned int n);
 };
 struct FUN_00a81ff0_elem
 {

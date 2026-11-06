@@ -257,7 +257,7 @@ void BGSMessage::CopyFromMessage(TESForm* form)
 struct String0bc0
 {
     int unk00, unk04;
-    const char* FUN_00559450();
+    const char* Modelloader_GetReferencedThis();
 };
 struct Conditions0bc0
 {
@@ -280,7 +280,7 @@ void __cdecl TESForm_AddChunkArray(unsigned int, const char*, unsigned int);
 // @fnv 0x00590bc0
 void BGSMessage::WriteToStream()
 {
-    FUN_004855a0();
+    BeginFormRecord();
     TESDescription::Save_00482cb0();
     TESFullName::Save_00487010();
     unsigned int id = GetIcon() ? GetIcon()->GetHavokWorldObjectCountInSceneGraph_0084e3a0() : 0;
@@ -293,13 +293,13 @@ void BGSMessage::WriteToStream()
     {
         Button0bc0* button = node->FUN_006815c0();
         node = node->FUN_00726070();
-        if (button->text.FUN_00559450())
-            TESForm_AddChunkArray(0x54585449, button->text.FUN_00559450(), BSstrlen(button->text.FUN_00559450()) + 1);
+        if (button->text.Modelloader_GetReferencedThis())
+            TESForm_AddChunkArray(0x54585449, button->text.Modelloader_GetReferencedThis(), BSstrlen(button->text.Modelloader_GetReferencedThis()) + 1);
         else
             TESForm_AddChunk_00485910(0x54585449, 0);
         button->conditions.ProcessItems();
     }
-    FUN_00485680();
+    FinishFormRecord();
 }
 
 struct ButtonConditionView

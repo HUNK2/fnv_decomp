@@ -400,7 +400,7 @@ extern float CombatTimer_GetTimer();
 struct OutputValue
 {
     void Assign(void*);
-    void* FUN_00559450();
+    void* Modelloader_GetReferencedThis();
 };
 struct MemberValue
 {
@@ -433,7 +433,7 @@ void CombatProcedureMove::UpdateOutput(OutputValue* output)
     switch (static_cast<int>(mode))
     {
     case 4:
-        output->Assign(reinterpret_cast<IMValue*>(m_pCombatController)->FUN_004fb070(holder, reinterpret_cast<MemberValue*>(&startTransform)->FUN_006815c0(0.0f, output->FUN_00559450()))->CombatGroup_CreateFlankingAvoidNodeArray());
+        output->Assign(reinterpret_cast<IMValue*>(m_pCombatController)->FUN_004fb070(holder, reinterpret_cast<MemberValue*>(&startTransform)->FUN_006815c0(0.0f, output->Modelloader_GetReferencedThis()))->CombatGroup_CreateFlankingAvoidNodeArray());
         break;
     case 0:
     case 1:
@@ -443,7 +443,7 @@ void CombatProcedureMove::UpdateOutput(OutputValue* output)
     if (DAT_011a5650[mode].enabled)
     {
         output->Assign(
-            reinterpret_cast<IMValue*>(m_pCombatController)->FUN_004fb070(holder, reinterpret_cast<MemberValue*>(&startTransform)->FUN_006815c0(0.0f, output->FUN_00559450()))->CombatGroup_CreateMovementAvoidNodeArray(actor));
+            reinterpret_cast<IMValue*>(m_pCombatController)->FUN_004fb070(holder, reinterpret_cast<MemberValue*>(&startTransform)->FUN_006815c0(0.0f, output->Modelloader_GetReferencedThis()))->CombatGroup_CreateMovementAvoidNodeArray(actor));
     }
 }
 
@@ -1213,7 +1213,7 @@ struct Avoid052
 };
 struct Output052
 {
-    Avoid052* FUN_00559450();
+    Avoid052* Modelloader_GetReferencedThis();
     void Assign(Avoid052*);
 };
 extern Setting DAT_011cf120, DAT_011cf4e0;
@@ -1268,9 +1268,9 @@ bool CombatProcedureMove::UpdateMovementRequest(Output052* output)
             CombatUtilities_CalculateLOS(a, reinterpret_cast<::Actor*>(target38), &position, reinterpret_cast<LocationMember052*>(&startTransform)->FUN_006815c0(), 0, -1))
         {
             reinterpret_cast<LocationMember052*>(&currentTransform)->FUN_0098ddd0(&position);
-            if (!output->FUN_00559450())
+            if (!output->Modelloader_GetReferencedThis())
                 output->Assign(new Avoid052);
-            output->FUN_00559450()->AppendNode(
+            output->Modelloader_GetReferencedThis()->AppendNode(
                 PathingAvoidNode(*reinterpret_cast<const ::Actor*>(target38)->GetPos(), *DAT_011cf4e0.Setting_Float_00403e20(), *DAT_011cf120.Setting_Float_00403e20()));
         }
     }
@@ -1291,7 +1291,7 @@ bool CombatProcedureMove::UpdateMovementRequest(Output052* output)
         request = -request;
         d = true;
     }
-    static_cast<CombatMovementRequestAccess*>(a)->BuildPathingRequest(e, reinterpret_cast<LocationMember052*>(&currentTransform)->FUN_006815c0(), reinterpret_cast<LocationMember052*>(&currentTransform)->GetHavokWorldObjectCountInSceneGraph_0084e3a0(), request, output->FUN_00559450());
+    static_cast<CombatMovementRequestAccess*>(a)->BuildPathingRequest(e, reinterpret_cast<LocationMember052*>(&currentTransform)->FUN_006815c0(), reinterpret_cast<LocationMember052*>(&currentTransform)->GetHavokWorldObjectCountInSceneGraph_0084e3a0(), request, output->Modelloader_GetReferencedThis());
     ((Request052*)e)->PathingRequest_SetCenterRadius(h, g);
     if (d)
         ((Request052*)e)->SetUseSoft(0);

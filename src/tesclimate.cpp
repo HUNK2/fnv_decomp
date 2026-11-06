@@ -138,14 +138,14 @@ void __cdecl TESForm_AddChunkArray(unsigned int, void*, unsigned int);
 // @fnv 0x0052ae80
 void TESClimate::SaveForm()
 {
-    TESForm::FUN_004855a0();
+    TESForm::BeginFormRecord();
     weatherList.WriteWeatherList(0x54534c57);
     int i = 0;
     for (; i < 2; ++i)
         m_kSunTextures[i].Save(0x4d414e46 + i);
     m_kStarsModel.WriteToBuffer(0x4c444f4d, 0x54444f4d);
     TESForm_AddChunkArray(0x4d414e54, m_ucTimeSettings, 6);
-    TESForm::FUN_00485680();
+    TESForm::FinishFormRecord();
 }
 
 // @fnv 0x0052afe0

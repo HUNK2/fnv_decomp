@@ -75,7 +75,7 @@ public:
     float m_fValue2;
     TESObjectWEAP* pWeapon;
 
-    TESUseWeaponPackageData* __thiscall FUN_0067caa0();
+    TESUseWeaponPackageData* __thiscall InitializeFields_0067caa0();
     void* DestroyIfFlagged(unsigned int flags);
     void Copy(TESPackageData* source);
     void Copy_0067cd90(TESPackageData* apSource);

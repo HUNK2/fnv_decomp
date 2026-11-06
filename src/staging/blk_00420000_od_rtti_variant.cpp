@@ -43,18 +43,18 @@ struct FUN_0042f4e0_class
 {
     void* m_vtbl;
     void __thiscall NiTMapBase_DFALL_NiTMapItem_TESObjectREFR_bool_TESObjectREFR_bool_NiTMapBase_DFALL_NiTMapItem_TESObjectREFR_bool_TESObjectREFR_bool(void* arg);
-    void* __thiscall FUN_0042f4e0(void* arg);
+    void* __thiscall SetVirtualTable_0042f4e0(void* arg);
 };
 struct FUN_0042ff10_cls
 {
-    void FUN_0042ff30(int);
+    void Helper_0042ff30(int);
 };
 void BSSimpleArray_NavMeshPtr_1024_DefaultEqualFunction_NavMeshPtr(FUN_0042ff10_cls* a, int b);
 extern int DAT_01015a08;
 struct GlobalObject_00869f00
 {
     void Clear(bool);
-    void FUN_0042ff80();
+    void ResetVirtualTableAndClear();
 };
 extern void* DAT_01015968;
 struct FUN_00435ef0 : public BSExtraData
@@ -64,7 +64,7 @@ struct FUN_00435ef0 : public BSExtraData
     int b;
     int c;
     int d;
-    void FUN_00435ef0_init();
+    void SetVtableAndProcessState_00435ef0();
 };
 struct FUN_006815c0
 {
@@ -111,15 +111,15 @@ struct FUN_00438b90_class
 };
 struct FUN_00591300_shell
 {
-    void FUN_00591300();
+    void BSStringT_Thunk();
 };
 struct FUN_00438bf0_shell : FUN_00591300_shell
 {
-    void FUN_00438bf0();
+    void ForwardCall_00438bf0();
 };
 struct FUN_00438f10_Class
 {
-    bool FUN_00438f10();
+    bool EvaluateValue_00438f10();
 };
 struct FUN_00438f30_Class
 {
@@ -128,7 +128,7 @@ struct FUN_00438f30_Class
 struct FUN_004392c0_shell
 {
     void FUN_004392c0();
-    void FUN_00439320();
+    void ForwardCall_00439320();
 };
 struct FUN_00439680_class
 {
@@ -150,7 +150,7 @@ struct FUN_0043b5b0_shell
 };
 struct FUN_0043ba10_shell
 {
-    FUN_0043ba10_shell* FUN_0043ba10(FUN_0043ba10_shell*);
+    FUN_0043ba10_shell* AssignInternedString(FUN_0043ba10_shell*);
 };
 struct FUN_0043b9f0_shell
 {
@@ -269,10 +269,10 @@ struct FUN_00438440_Class
     void* __thiscall FUN_00438440(unsigned int flags);
 };
 void Deallocate(void*);
-void FUN_004385a0();
+void ResetVirtualTableAndClear_004385a0();
 struct FUN_00438970_class
 {
-    void __thiscall FUN_004385a0();
+    void __thiscall ResetVirtualTableAndClear_004385a0();
     void* __thiscall FUN_00438970(unsigned int flags);
 };
 struct FUN_004389a0_Class
@@ -287,7 +287,7 @@ struct FUN_00438780_Class
 };
 struct FUN_00438900_class
 {
-    void __thiscall FUN_00438900();
+    void __thiscall ReleaseStorage_00438900();
 };
 struct FUN_00438a30_class
 {
@@ -380,7 +380,7 @@ struct G00559a40
 struct FUN_0042fdc0_class
 {
     NiAVObject* m_pObject;
-    NiAVObject* __thiscall FUN_0042fdc0(NiAVObject** arg);
+    NiAVObject* __thiscall AssignRetainedObject_0042fdc0(NiAVObject** arg);
 };
 void* __cdecl NiMalloc(unsigned int);
 void* __cdecl memset(void* dest, int c, unsigned int count);
@@ -394,7 +394,7 @@ struct FUN_0042fe10_class
 };
 struct FUN_0042ff80_s
 {
-    void __thiscall FUN_0042ff80();
+    void __thiscall ResetVirtualTableAndClear();
 };
 void __cdecl _Deallocate(void*);
 struct FUN_0042ff50_host : FUN_0042ff80_s
@@ -410,7 +410,7 @@ extern int DAT_01016024;
 struct FUN_00438660_class
 {
     void* vtable;
-    FUN_00438660_class* FUN_00438660();
+    FUN_00438660_class* SetVirtualTableAndProcessState_00438660();
 };
 extern void* DAT_01016058;
 void __cdecl Deallocate(void*);
@@ -424,13 +424,13 @@ void __cdecl TESForm_AddChunk_00485910(unsigned int, unsigned int);
 void __cdecl TESForm_AddChunk_00485950(unsigned int, unsigned int);
 struct FUN_00438c10_Class : public FNStub
 {
-    void __thiscall FUN_00438c10();
+    void __thiscall ReleaseStorage_00438c10();
 };
 extern "C" void TESForm_AddChunkArray_00485710(unsigned int, unsigned int*, unsigned int);
 struct FUN_00438f90_Class
 {
-    bool FUN_00439150();
-    void FUN_00438f90();
+    bool EvaluateValue_00439150();
+    void EvaluateValue_00438f90();
 };
 struct Unk_00439120
 {
@@ -442,7 +442,7 @@ struct Unk_00439120
 struct S_00439150
 {
     bool __thiscall _Call_439090(const NiPoint3&);
-    bool __thiscall FUN_00439150();
+    bool __thiscall EvaluateValue_00439150();
 };
 extern int DAT_011c3ae4;
 struct MyPoint439180
@@ -450,7 +450,7 @@ struct MyPoint439180
     float x;
     float y;
     float z;
-    MyPoint439180* __thiscall FUN_00439180(float);
+    MyPoint439180* __thiscall ScaleComponents(float);
 };
 struct Mat9
 {
@@ -509,7 +509,7 @@ struct FUN_0043a9a0_class
     unsigned int x;
     unsigned int y;
     unsigned int z;
-    void __thiscall FUN_0043a9a0();
+    void __thiscall LoadFields();
 };
 struct S_0043b320
 {
@@ -584,7 +584,7 @@ struct NiPoint3Set
 };
 struct FUN_00439ef0_class : public NiPoint3
 {
-    NiPoint3* FUN_00439ef0(NiPoint3* a, const NiPoint3& b);
+    NiPoint3* SubtractIntoVector(NiPoint3* a, const NiPoint3& b);
 };
 struct FUN_0043b3b0_class
 {
@@ -657,7 +657,7 @@ struct AC_0042f730
 {
     void* vtbl;
     void __fastcall ActorCause_DecRefCount();
-    void __fastcall FUN_0042f760();
+    void __fastcall ReleaseReferencedObject();
 };
 struct BSExtraDataHelper
 {
@@ -2022,13 +2022,13 @@ class NamedObjectPtr
 {
   public:
     NamedObject* m_pObject;
-    NamedObject* FUN_00559450() const;  // NiPointer<T>::operator T*
+    NamedObject* Modelloader_GetReferencedThis() const;  // NiPointer<T>::operator T*
 };
 class AttachedNodePtr
 {
   public:
     AttachedNode* m_pObject;
-    AttachedNode* FUN_00559450() const;                   // NiPointer<T>::operator T*
+    AttachedNode* Modelloader_GetReferencedThis() const;                   // NiPointer<T>::operator T*
     AttachedNodePtr& FUN_0066b0d0(AttachedNode* pkNode);  // NiPointer<T>::operator=
 };
 extern int DAT_011c7d74;

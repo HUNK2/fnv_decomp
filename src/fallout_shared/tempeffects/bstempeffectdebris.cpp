@@ -25,20 +25,22 @@ void BSTempEffectDebris::SetIsForegroundEffect(bool foregroundElement)
 struct FUN_0050e620_S
 {
     void IOTask_SetPriority(unsigned char);
-    void FUN_0050e620(unsigned char p);
+    void IOTask_SetPriority_Thunk(unsigned char p);
 };
 // @fnv 0x0050e620
-void FUN_0050e620_S::FUN_0050e620(unsigned char p)
+// src: GUESS 0x0050e620 (confidence: medium)
+void FUN_0050e620_S::IOTask_SetPriority_Thunk(unsigned char p)
 {
     IOTask_SetPriority(p);
 }
 
-void __fastcall FUN_0061bcf0(void* param_1);
+void __fastcall UpdateState_0061bcf0(void* param_1);
 
 // @fnv 0x00618940
-void __fastcall FUN_00618940(void* thisPtr)
+// src: GUESS 0x00618940 (confidence: low)
+void __fastcall Object_ForwardCall_00618940(void* thisPtr)
 {
-    FUN_0061bcf0(thisPtr);
+    UpdateState_0061bcf0(thisPtr);
 }
 
 struct BGSEntryPointFunctionData;
@@ -113,11 +115,12 @@ bool __thiscall FUN_006834a0_shell::MatchesValue(int aiValue)
 struct FUN_00683480_shell
 {
     bool MatchesValue(int);
-    bool FUN_00683480(int);
+    bool MatchesValue_Thunk(int);
 };
 
 // @fnv 0x00683480
-bool FUN_00683480_shell::FUN_00683480(int aiValue)
+// src: GUESS 0x00683480 (confidence: medium)
+bool FUN_00683480_shell::MatchesValue_Thunk(int aiValue)
 {
     return MatchesValue(aiValue);
 }
@@ -449,7 +452,7 @@ struct SceneObject
 };
 struct ScenePointer : MemberPtr
 {
-    SceneObject* FUN_00559450();
+    SceneObject* Modelloader_GetReferencedThis();
 };
 struct ModelService
 {
@@ -495,21 +498,21 @@ void DebrisEffect::SpawnDebris(int a4, int a5, int a6, int a7, int a8, float f9,
         CloneContext clone(1.0f);
         m_18.FUN_0066b0d0((int)update->FUN_00a5d2c0(clone));
     }
-    if (!static_cast<ScenePointer&>(m_18).FUN_00559450() || !GetHavokWorldObjectCountInSceneGraph_0084e3a0())
+    if (!static_cast<ScenePointer&>(m_18).Modelloader_GetReferencedThis() || !GetHavokWorldObjectCountInSceneGraph_0084e3a0())
         return;
     SceneNode* model = GetHavokWorldObjectCountInSceneGraph_0084e3a0()->GetDynamicNode();
     if (model)
-        model->AttachChildInAvailableSlot(static_cast<ScenePointer&>(m_18).FUN_00559450(), true);
-    static_cast<ScenePointer&>(m_18).FUN_00559450()->NiAVObject_SetTranslate(a5);
-    static_cast<ScenePointer&>(m_18).FUN_00559450()->SetRotate_0043fa80(a6);
-    static_cast<ScenePointer&>(m_18).FUN_00559450()->NiAVObject_SetScale(f9);
-    ProcessPropertyTree(static_cast<ScenePointer&>(m_18).FUN_00559450(), 5);
+        model->AttachChildInAvailableSlot(static_cast<ScenePointer&>(m_18).Modelloader_GetReferencedThis(), true);
+    static_cast<ScenePointer&>(m_18).Modelloader_GetReferencedThis()->NiAVObject_SetTranslate(a5);
+    static_cast<ScenePointer&>(m_18).Modelloader_GetReferencedThis()->SetRotate_0043fa80(a6);
+    static_cast<ScenePointer&>(m_18).Modelloader_GetReferencedThis()->NiAVObject_SetScale(f9);
+    ProcessPropertyTree(static_cast<ScenePointer&>(m_18).Modelloader_GetReferencedThis(), 5);
     AttachCollisionObject(a4);
-    static_cast<ScenePointer&>(m_18).FUN_00559450()->UpdateProperties();
+    static_cast<ScenePointer&>(m_18).Modelloader_GetReferencedThis()->UpdateProperties();
     UpdateContext node(DAT_011c3c08, true, false);
-    static_cast<ScenePointer&>(m_18).FUN_00559450()->NiAVObject_Update(node);
-    TESHavokUtilities_AddVelocity(static_cast<ScenePointer&>(m_18).FUN_00559450(), a7, true);
-    TESHavokUtilities_AddAngularVelocity(static_cast<ScenePointer&>(m_18).FUN_00559450(), a8, true);
+    static_cast<ScenePointer&>(m_18).Modelloader_GetReferencedThis()->NiAVObject_Update(node);
+    TESHavokUtilities_AddVelocity(static_cast<ScenePointer&>(m_18).Modelloader_GetReferencedThis(), a7, true);
+    TESHavokUtilities_AddAngularVelocity(static_cast<ScenePointer&>(m_18).Modelloader_GetReferencedThis(), a8, true);
     g_011e0e80.ProcessLists_AddTempEffect(this);
     if ((unsigned char)m_20)
     {

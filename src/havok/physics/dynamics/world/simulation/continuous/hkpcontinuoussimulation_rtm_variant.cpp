@@ -104,32 +104,32 @@ public:
     LocalVecArray Cross(const LocalVecArray& v) const;
     LocalVecArray ApplyScaled(float scale);
     LocalVecArray ApplyScaled(float scale) const;
-    void FUN_00acf580(unsigned n, Tok value);
-    LocalVecArray FUN_004a0bd0();
-    LocalVecArray FUN_004a0bd0() const;
+    void ProcessState_00acf580(unsigned n, Tok value);
+    LocalVecArray GetNegatedVector();
+    LocalVecArray GetNegatedVector() const;
     LocalVecArray FUN_0053d1a0(const LocalVecArray& v);
     LocalVecArray FUN_004b3800(const LocalVecArray& v);
     LocalVecArray FUN_004b3800(const LocalVecArray& v) const;
     LocalVecArray FUN_00439e90(const LocalVecArray& v);
     LocalVecArray FUN_00439e90(const LocalVecArray& v) const;
-    LocalVecArray FUN_00439ef0(const LocalVecArray& v);
-    LocalVecArray FUN_00439ef0(const LocalVecArray& v) const;
+    LocalVecArray SubtractIntoVector(const LocalVecArray& v);
+    LocalVecArray SubtractIntoVector(const LocalVecArray& v) const;
     float FUN_00457990();
     float FUN_00457990() const;
     void Unitize_004a0c10();
     void FUN_006815c0();
-    void FUN_00439180(float scale);
-    LocalVecArray& FUN_0063c8a0(const LocalVecArray& v);
+    void ScaleComponents(float scale);
+    LocalVecArray& ComputeValue_0063c8a0(const LocalVecArray& v);
     float FUN_004a7290();
     float FUN_004a7290() const;
-    void FUN_004b4db0(const float* values);
+    void SetQuaternionComponentsFromVector(const float* values);
     void FUN_00a38560();
     void NiQuaternion_ToRotation(void* value);
 
     LocalVecArray& ScaleByInverse(float divisor);
     float FUN_00457910();
     LocalVecArray* FastNavMeshTriLocation_GetLocation();
-    bool FUN_004390c0(const LocalVecArray& v);
+    bool HasEqualComponents(const LocalVecArray& v);
 
     LocalM128 get() const;
     void set(LocalM128 value);
@@ -187,21 +187,21 @@ public:
     LocalVecArray* hkVector4_lengthInverse3(LocalVecArray* target);
 
     void FUN_00cf7690(Elem* value);
-    void FUN_00b1e970();
+    void UpdateState_00b1e970();
     Iter begin();
     Iter end();
-    CIter FUN_00b33030(CIter first, CIter last);
+    CIter UpdateState_00b33030(CIter first, CIter last);
     void m_vStrips_clear();
     unsigned int size() const;
     unsigned int capacity() const;
-    void FUN_00b2df90();
-    void FUN_00b2e140(Elem* first, Elem* last);
+    void ClearAllElements();
+    void B2EDestroyRange_Thunk(Elem* first, Elem* last);
     bool InitBuffer(unsigned int count);
     Elem* _Ucopy(Elem* first, Elem* last, Elem* out);
     LocalVecArray& CTreeEngine_SetLeafTextures(const LocalVecArray& v);
-    CMutIter FUN_00aceb80(CMutIter first, CMutIter last);
-    void FUN_00acac40();
-    LocalVecArray& FUN_00ad61e0(const LocalVecArray& v);
+    CMutIter ProcessAndReturnValue_00aceb80(CMutIter first, CMutIter last);
+    void ProcessState_00acac40();
+    LocalVecArray& ReleaseStorage_00ad61e0(const LocalVecArray& v);
 };
 #include "../../../../../../../include/Vec4.h"
 #include "../../../../../../../include/hkRotation.h"
@@ -321,9 +321,9 @@ struct FUN_00d0d0d0_cls {
         int unk00; int unk04; int unk08;
         Callback* unk0c;
         void ProcessArgument(void* managerValue);
-        void FUN_00a29680();
+        void Object_DoNothing();
     } sub3c;
-    void FUN_00cf86d0();
+    void SetVtableAndProcessState_00cf86d0();
     void Destroy();
 };
 void __cdecl InitAndDispatch();
@@ -343,7 +343,7 @@ struct Context {
  int& otherPending(){return *reinterpret_cast<int*>(reinterpret_cast<char*>(this)+144);}
  unsigned char& locked(){return *reinterpret_cast<unsigned char*>(reinterpret_cast<char*>(this)+156);}
  int& mode(){return *reinterpret_cast<int*>(reinterpret_cast<char*>(this)+164);}
- void FUN_00c91120();void FUN_00c91140();
+ void FUN_00c91120();void UpdateFields_00c91140();
 };
 struct Body { unsigned char& motion(){return *reinterpret_cast<unsigned char*>(reinterpret_cast<char*>(this)+232);} void* state(){return reinterpret_cast<char*>(this)+240;} };
 void __cdecl hkSweptTransformUtil_backStepMotionState(float,void*);
@@ -674,7 +674,7 @@ struct HolderBase {
     void* m_10;
 };
 void __cdecl ResizeAudioStream(void* alloc, LocalVecArray* vec, unsigned int elemSize);
-int __cdecl FUN_00d9f6f0(int a, int b, int c, int d, void* e);
+int __cdecl hkVector4_ProcessEntries_00d9f6f0(int a, int b, int c, int d, void* e);
 int __cdecl hkLs_areVelocitiesOk(float f, Entry* entry, void* out, int a, int b);
 unsigned char* __cdecl CollectMatchingEntries(unsigned char* pResult, SrcA* pSrc, LocalVecArray* pVec, int a4, LocalVecArray* dst);
 struct S_00d0d150_Vector4 {
@@ -1400,7 +1400,7 @@ struct EntryList_b2089
     void** m_pData; // +0x00
     int m_iArrayLength;   // +0x04
 };
-void FUN_00d0bf30(World_b2089* world, EntryList_b2089* pEntries);
+void hkVector4_setRotatedDir_ProcessEntries_00d0bf30(World_b2089* world, EntryList_b2089* pEntries);
 extern float DAT_010c7948[];
 struct CollisionMotion {
     int unk00, unk04;
@@ -1514,7 +1514,7 @@ struct CollisionQueue {
         ++size;
     }
 };
-void __cdecl FUN_00d9f250(hkVector4*, float, CollisionParameters*, CollisionMotion*, CollisionMotion*, CollisionManager*, CollisionOutput*);
+void __cdecl hkpCollision_ProcessBodyResponse(hkVector4*, float, CollisionParameters*, CollisionMotion*, CollisionMotion*, CollisionManager*, CollisionOutput*);
 void __cdecl hkpWorldCallbackUtil_fireContactImpulseLimitBreached(void*, CollisionStateData*, int);
 void __cdecl ProcessCollisionEvent(void* context, CollisionEvent* event, float deltaTime, CollisionQueue* queue);
 // expanded integer AABB into thread-stack local arrays, add them to the 3-axis sweep, then remove duplicate pairs.
@@ -2153,7 +2153,7 @@ struct Ctx {
     int m_2f8; int m_2fc; float m_300;
     Sub1E0* solverInfo() { return &m_1e0; }
     void FUN_00c91120();
-    void FUN_00c91140();
+    void UpdateFields_00c91140();
 };
 void __cdecl hkpWorldCallbackUtil_fireIslandPostCollideCallback(Ctx*, BodyL*, Param*);
 template<int Mode> static inline void TickWrite(const char* name, volatile unsigned int& t)
@@ -2177,7 +2177,7 @@ static inline void ReleaseCtx(Ctx* c)
     if (c->m_9c != 0) return;
     if (c->m_8c) c->FUN_00c91120();
     if (c->m_a4 != 1) return;
-    if (c->m_90) c->FUN_00c91140();
+    if (c->m_90) c->UpdateFields_00c91140();
 }
 struct ThisFull {
     int m_00; int m_04; int m_08;
@@ -2203,7 +2203,7 @@ struct Tmp {
     void hkMapBase_unsigned_long_unsigned_long_hkMapOperations_unsigned_long_insert(void* a, int id, int z);
     int FindSlot(void* o);
     void ProcessArgument(void* a);
-    void FUN_00a29680();
+    void Object_DoNothing();
 };
 struct IFace {
     virtual void v00();
@@ -2653,7 +2653,7 @@ struct S_00d0e210_World {
     int unkA0;
     int unkA4;
     void FUN_00c91120();
-    void FUN_00c91140();
+    void UpdateFields_00c91140();
     void lockCriticalOperations() throw() { m_iCriticalOperationsLockCount++; }
     void unlockCriticalOperations() throw()
     {
@@ -2661,7 +2661,7 @@ struct S_00d0e210_World {
             if (m_iPendingOperationCount != 0)
                 FUN_00c91120();
             if (unkA4 == 1 && m_iQueuedOperationCount != 0)
-                FUN_00c91140();
+                UpdateFields_00c91140();
         }
     }
 };
@@ -3109,7 +3109,7 @@ static __forceinline void unlockContext(Context* ctx) {
         if (ctx->pending())
             ctx->FUN_00c91120();
         if (ctx->mode() == 1 && ctx->otherPending())
-            ctx->FUN_00c91140();
+            ctx->UpdateFields_00c91140();
     }
 }
 struct S00d0e9c0_StepInfo {
@@ -3847,18 +3847,18 @@ struct TraceStream {
 };
 __declspec(nothrow) void hkSweptTransformUtil_backStepMotionState(float,hkMotionState&) throw();
 __declspec(nothrow) void hkSolveUpload() throw();
-__declspec(nothrow) void FUN_00d88670(Resources&,DynamicNode* const*,int) throw();
+__declspec(nothrow) void hkpConstraintSolverResources_ProcessEntries_00d88670(Resources&,DynamicNode* const*,int) throw();
 __declspec(nothrow) BoolFlag hkpConstraintSolverSetup_internalIsMemoryOkForNewAccumulators(Resources&,DynamicNode**,int) throw();
 __declspec(nothrow) BoolFlag CheckTotalsWithinLimits(Resources&,Constraint**,int) throw();
 __declspec(nothrow) void hkpConstraintSolverSetup_subSolve(Resources&,int) throw();
 __declspec(nothrow) void hkpConstraintSolverSetup_internalAddJacobianSchemas(Resources&,Constraint**,int,List<SchemaRecord>&) throw();
-__declspec(nothrow) void FUN_00d0cb00(Resources&,ProcessInput&,List<SchemaRecord>&,int&,Constraint::ConstraintPriority,StateTable&,const List<DynamicNode*>&,List<DynamicNode*>&) throw();
+__declspec(nothrow) void Object_ProcessEntries_00d0cb00(Resources&,ProcessInput&,List<SchemaRecord>&,int&,Constraint::ConstraintPriority,StateTable&,const List<DynamicNode*>&,List<DynamicNode*>&) throw();
 __declspec(nothrow) void hkLs_toiActivateEntitiesAndCheckConstraints(ProcessInput&,Constraint::ConstraintPriority,float,const List<DynamicNode*>&,StateTable&,List<DynamicNode*>&,List<Constraint*>&) throw();
 __declspec(nothrow) void hkLs_backstepAndFreezeEntireIsland(float,SolverIsland*,StateTable&,List<DynamicNode*>&) throw();
 __declspec(nothrow) void hkpWorldAgentUtil_invalidateTim(DynamicNode*,const CollisionInput&) throw();
-__declspec(nothrow) void FUN_00d0bf30(Resources&,const List<DynamicNode*>&) throw();
+__declspec(nothrow) void hkVector4_setRotatedDir_ProcessEntries_00d0bf30(Resources&,const List<DynamicNode*>&) throw();
 __declspec(nothrow) BoolFlag CollectMatchingEntries(Resources&,const List<SchemaRecord>&,ProcessInput&,List<Violation>*) throw();
-__declspec(nothrow) void FUN_00d8aac0(const ResourceInfo&,Schema*,Accumulator*,SolverElement*) throw();
+__declspec(nothrow) void Object_UpdateFields_00d8aac0(const ResourceInfo&,Schema*,Accumulator*,SolverElement*) throw();
 __declspec(nothrow) void hkpConstraintSolverSetup_oneStepIntegrate(const ResourceInfo&,const TimeInterval&,const Accumulator*,DynamicNode* const*,int) throw();
 __declspec(nothrow) void UpdateIslandMotionStates(SolverIsland*,StateTable&,Resources&) throw();
 __declspec(nothrow) void PartitionMotionPairs(List<SchemaRecord>&,int&,int) throw();
@@ -3921,7 +3921,7 @@ struct SolveConstraint {
 };
 struct SolveRecord { SolveConstraint* constraint; void* schema; float depth; };
 struct SolveViolation { SolveConstraint* constraint; const SolvePoint* point; const void* properties; };
-extern "C" __declspec(nothrow) int __cdecl FUN_00d9f6f0(void*,void*,void*,int,float*) throw();
+extern "C" __declspec(nothrow) int __cdecl hkVector4_ProcessEntries_00d9f6f0(void*,void*,void*,int,float*) throw();
 extern "C" __declspec(nothrow) int __cdecl hkLs_areVelocitiesOk(float,SolveRecord*,float*,int,void*) throw();
 __declspec(noinline) __declspec(nothrow) BoolFlag CollectMatchingEntries(Resources& originalResources,const List<SchemaRecord>& originalRecords,ProcessInput& scene,List<Violation>* originalViolations)
 {
@@ -3936,7 +3936,7 @@ __declspec(noinline) __declspec(nothrow) BoolFlag CollectMatchingEntries(Resourc
     for(int i=0;i<records->GetLogicalSize();++i) {
         SolveRecord& record=records->begin()[i];
         if(record.constraint->priority!=5) continue;
-        int n=FUN_00d9f6f0(resources->solver,record.schema,resources->accumulators,256,velocities);
+        int n=hkVector4_ProcessEntries_00d9f6f0(resources->solver,record.schema,resources->accumulators,256,velocities);
         int violated=hkLs_areVelocitiesOk(resources->step->delta,&record,velocities,n,&scene);
         if(violated<0) continue;
         if(!rejected) return BoolFlag(false);
@@ -4060,7 +4060,7 @@ struct CtrObj {
     int unkA0;
     int m_a4;
     void FUN_00c91120();
-    void FUN_00c91140();
+    void UpdateFields_00c91140();
 };
 struct Arg0 {
     int unk00; int unk04; int unk08; int unk0c; int unk10; int unk14; int unk18; int unk1c;
@@ -4202,8 +4202,8 @@ struct BigObj {
     int m_11c;
     float m_120;
     int unk124, unk128, unk12c;
-    void FUN_00d105b0(void* arg);
-    void FUN_00c90e60(float a, float b);
+    void UpdateState_00d105b0(void* arg);
+    void UpdateFields_00c90e60(float a, float b);
 };
 struct Times {
     float tA;
@@ -4328,7 +4328,7 @@ static __forceinline void prepareProbe(Arg0* world,const Entry70& event,float de
     step.tB=world->hkpWorld_getCurrentPsiTime();
     step.diff=step.tB-step.tA;
     step.recip=1.0f/step.diff;
-    solver.FUN_00d105b0(&world->m_1e0);
+    solver.UpdateState_00d105b0(&world->m_1e0);
     solver.m_114=1;
     solver.m_120=1.0f;
     solver.m_118=1;
@@ -4337,7 +4337,7 @@ static __forceinline void prepareProbe(Arg0* world,const Entry70& event,float de
     solver.m_110=1.0f/delta;
     solver.m_v10.m_vComponents=_mm_setzero_ps();
     solver.m_v20.m_vComponents=_mm_setzero_ps();
-    solver.FUN_00c90e60(DAT_01016248,DAT_0104f498);
+    solver.UpdateFields_00c90e60(DAT_01016248,DAT_0104f498);
     input.hkpConstraintQueryIn_set(&solver,&step.tA,world->m_1b8);
 }
 int __cdecl hkLs_localizedSolveToi(const EventQuery&,SolverState&,Entry70&,PhaseObj&,Arg0*,PtrArr&,SolverFlagView&,float);
@@ -4956,7 +4956,8 @@ static __forceinline LocalM128 SplatW(float f) { LocalM128 s = _mm_load_ss(&f); 
 // Keep the raw SIMD assignment inline in this unit on the approved headers too.
 inline void hkVector4::operator=(const LocalM128& value) { m_vComponents = value; }
 // @fnv 0x00d0cb00
-__declspec(nothrow) void FUN_00d0cb00(Resources& resources, ProcessInput& input, List<SchemaRecord>& schemaList, int& index, Constraint::ConstraintPriority priority, StateTable& states, const List<DynamicNode*>& objects, List<DynamicNode*>& outBodies) throw()
+// src: GUESS 0x00d0cb00 (confidence: low)
+__declspec(nothrow) void Object_ProcessEntries_00d0cb00(Resources& resources, ProcessInput& input, List<SchemaRecord>& schemaList, int& index, Constraint::ConstraintPriority priority, StateTable& states, const List<DynamicNode*>& objects, List<DynamicNode*>& outBodies) throw()
 {
     SrcA* p0 = (SrcA*)&resources;
     char** p1 = (char**)&input;
@@ -5007,7 +5008,7 @@ __declspec(nothrow) void FUN_00d0cb00(Resources& resources, ProcessInput& input,
                     arr[j] = arr[cur];
                     arr[cur] = tmp;
                 } else {
-                    int n = FUN_00d9f6f0(p0->m_04, elem->m_04, p0->m_0c, 0x100, &buf);
+                    int n = hkVector4_ProcessEntries_00d9f6f0(p0->m_04, elem->m_04, p0->m_0c, 0x100, &buf);
                     if (hkLs_areVelocitiesOk(p0->m_00->m_08, (FUN_00d0bd30_p*)elem, (float*)&buf, n, p1) != -1) {
                         flags->m_data[body->m_a8] |= 4;
                         Manager* m2 = hkMemoryRouter_getInstance();

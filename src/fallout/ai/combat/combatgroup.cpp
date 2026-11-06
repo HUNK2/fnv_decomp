@@ -52,7 +52,7 @@ class NiPoint3_helper_combatgroup
     float z;
 
     NiPoint3 operator*(float scalar) const;
-    NiPoint3 FUN_00439ef0(const NiPoint3& point) const;
+    NiPoint3 SubtractIntoVector(const NiPoint3& point) const;
 };
 #include "../../../../include/NiPoint3.h"
 #include "../../../../include/NiPoint3.h"
@@ -352,12 +352,13 @@ void* FUN_0098ed30_class::BSSimpleArray_CombatTarget_1024_BSSimpleArray_CombatTa
 
 struct FUN_0098efa0_shell
 {
-    void* __thiscall FUN_0098efa0(int count);
+    void* __thiscall AllocateElements68(int count);
 };
 
 // Allocates a byte array of count * 0x68 bytes and returns the pointer.
 // @fnv 0x0098efa0
-void* FUN_0098efa0_shell::FUN_0098efa0(int count)
+// src: GUESS 0x0098efa0 (confidence: medium)
+void* FUN_0098efa0_shell::AllocateElements68(int count)
 {
     return new char[count * 0x68];
 }
@@ -366,11 +367,12 @@ extern "C" void* __cdecl Reallocate(void*, unsigned int);
 
 struct FUN_0098efd0_shell
 {
-    void* __thiscall FUN_0098efd0(void* a, unsigned int b);
+    void* __thiscall Reallocate_Thunk(void* a, unsigned int b);
 };
 
 // @fnv 0x0098efd0
-void* __thiscall FUN_0098efd0_shell::FUN_0098efd0(void* a, unsigned int b)
+// src: GUESS 0x0098efd0 (confidence: medium)
+void* __thiscall FUN_0098efd0_shell::Reallocate_Thunk(void* a, unsigned int b)
 {
     return Reallocate(a, b * 0x68);
 }
@@ -490,10 +492,11 @@ TESForm* __cdecl _ref_004839c0(unsigned int);
 struct Holder00985930
 {
     unsigned int m_data;
-    void __thiscall FUN_00985930(int a1, int a2);
+    void __thiscall ResolveStoredActor(int a1, int a2);
 };
 // @fnv 0x00985930
-void __thiscall Holder00985930::FUN_00985930(int a1, int aiUnused)
+// src: GUESS 0x00985930 (confidence: medium)
+void __thiscall Holder00985930::ResolveStoredActor(int a1, int aiUnused)
 {
     *(Actor**)&m_data = m_data ? dynamic_cast<Actor*>(_ref_004839c0(m_data)) : (Actor*)0;
 }
@@ -655,7 +658,7 @@ void __thiscall StandIn_00989010::SetTripleAndValue(ThreeInts_00989010* apTriple
 }
 
 
-CombatTargetTimestamp* __fastcall FUN_004300a0(CombatTargetTimestamp*);
+CombatTargetTimestamp* __fastcall CombatTargetTimestamp_ClearTimeStamp(CombatTargetTimestamp*);
 struct MyClass
 {
     int GetResultForArg(int arg);
@@ -670,7 +673,7 @@ int MyClass::GetResultForArg(int arg)
     unsigned int stamp;
     bool b2;
     result = -100;
-    FUN_004300a0(reinterpret_cast<CombatTargetTimestamp*>(&stamp));
+    CombatTargetTimestamp_ClearTimeStamp(reinterpret_cast<CombatTargetTimestamp*>(&stamp));
     b1 = false;
     b2 = false;
     UpdateTargetPerception(0, arg, &result, reinterpret_cast<CombatTargetTimestamp*>(&stamp), &b1, &b2);
@@ -1304,10 +1307,11 @@ void FUN_0098c780_shell::ClearReservedFlag(int param)
 
 struct FUN_0098ed60_shell : GlobalObject_00869f00
 {
-    void __thiscall FUN_0098ed60();
+    void __thiscall ResetVirtualTableAndClear_0098ed60();
 };
 // @fnv 0x0098ed60
-void __thiscall FUN_0098ed60_shell::FUN_0098ed60()
+// src: GUESS 0x0098ed60 (confidence: medium)
+void __thiscall FUN_0098ed60_shell::ResetVirtualTableAndClear_0098ed60()
 {
     *(void**)this = &DAT_0108d6f4;
     Clear(true);
@@ -1633,12 +1637,13 @@ struct FUN_0098f040_shell
     virtual void v0();
     virtual CombatClusterMember* Allocate(unsigned int);
     void UpdateThreat(unsigned int, unsigned int);
-    void FUN_0098f040(unsigned int auiNewSize, bool abFreeMemory);
+    void ResizeBufferStorage(unsigned int auiNewSize, bool abFreeMemory);
 };
 
 // Resizes the buffer to auiNewSize: clears when zero, reallocates and grows when larger than capacity, shrinks and optionally frees when smaller.
 // @fnv 0x0098f040
-void FUN_0098f040_shell::FUN_0098f040(unsigned int auiNewSize, bool abFreeMemory)
+// src: GUESS 0x0098f040 (confidence: medium)
+void FUN_0098f040_shell::ResizeBufferStorage(unsigned int auiNewSize, bool abFreeMemory)
 {
     if (!auiNewSize)
     {
@@ -2101,7 +2106,7 @@ void FUN_00989eb0_shell::CombatGroup_ComputeTargetBoundingSphere(NiPoint3* resul
 
     this->UpdateBoundsFromActors(points, 0);
 
-    *reinterpret_cast<NiPoint3_helper_combatgroup*>(result) = (const NiPoint3_helper_combatgroup&)(points[0] + points[7]).FUN_0053d280(_DAT_010162c0);
+    *reinterpret_cast<NiPoint3_helper_combatgroup*>(result) = (const NiPoint3_helper_combatgroup&)(points[0] + points[7]).ProcessAndReturnValue_0053d280(_DAT_010162c0);
 
     NiPoint3 difference = ((NiPoint3*)&points[0])->operator-(*(NiPoint3*)&points[7]);
 
@@ -2624,7 +2629,7 @@ struct EventVector
 struct TimeStamp
 {
     unsigned int value;
-    void FUN_004300a0();
+    void CombatTargetTimestamp_ClearTimeStamp();
 };
 struct TimeValue
 {
@@ -2671,9 +2676,9 @@ EventRecord* EventRecord::Init(EventSource* apSource, unsigned short eventType)
     subtype = 0;
     initialTime.FUN_00435de0(-DAT_0108d540);
     previousTime.FUN_00435de0(-DAT_0108d540);
-    start.FUN_004300a0();
+    start.CombatTargetTimestamp_ClearTimeStamp();
     timeNow.FUN_00435de0(CombatTimer_GetTimer());
-    last.FUN_004300a0();
+    last.CombatTargetTimestamp_ClearTimeStamp();
     endTime.FUN_00435de0(-DAT_0108d540);
     started = 0;
     ended = 0;
@@ -3320,13 +3325,13 @@ struct Tag_00989e20_cls
 
 struct Helper_00989e20_cls
 {
-    void FUN_00439ef0(Tag_00989e20_cls* p0, NiPoint3* p1);
+    void SubtractIntoVector(Tag_00989e20_cls* p0, NiPoint3* p1);
     NiPoint3* FUN_00439e90(NiPoint3* p0, NiPoint3* p1, NiPoint3* p2);
 };
 
 struct Vec_00989e20_cls
 {
-    NiPoint3* FUN_0053d280(float value) const;
+    NiPoint3* ProcessAndReturnValue_0053d280(float value) const;
 };
 
 struct Blk_00989e20_cls
@@ -3355,15 +3360,15 @@ void FUN_00989e20_cls::CombatGroup_ComputeMemberBoundingSphere(NiPoint3* out)
 
     this->ExpandBounds(arr, 0);
     *reinterpret_cast<NiPoint3_helper_combatgroup*>(out) = *reinterpret_cast<NiPoint3_helper_combatgroup*>(((Vec_00989e20_cls*)((Helper_00989e20_cls*)arr)->FUN_00439e90((NiPoint3*)v7c3, (NiPoint3*)&arr[7], (NiPoint3*)v88))
-                ->FUN_0053d280(_DAT_010162c0));
-    ((Helper_00989e20_cls*)arr)->FUN_00439ef0(&pa0.t, (NiPoint3*)&arr[7]);
+                ->ProcessAndReturnValue_0053d280(_DAT_010162c0));
+    ((Helper_00989e20_cls*)arr)->SubtractIntoVector(&pa0.t, (NiPoint3*)&arr[7]);
     pa0.t.FUN_004a7290();
 }
 
 struct BoundsVector
 {
     float x, y, z;
-    float& FUN_004a51b0(unsigned int axis);
+    float& GetFloatElementPointer(unsigned int axis);
 };
 struct BoundsActor
 {
@@ -3512,7 +3517,7 @@ void BoundsGroup::ExpandBounds(BoundsVector* points, bool append)
         {
             for (unsigned int axis = 0; axis < 3; ++axis)
             {
-                points[corner].FUN_004a51b0(axis) = DAT_0108d57c[corner][axis] ? -DAT_0108d540 : DAT_0108d540;
+                points[corner].GetFloatElementPointer(axis) = DAT_0108d57c[corner][axis] ? -DAT_0108d540 : DAT_0108d540;
             }
         }
     }
@@ -3525,16 +3530,16 @@ void BoundsGroup::ExpandBounds(BoundsVector* points, bool append)
         {
             for (unsigned int axis = 0; axis < 3; ++axis)
             {
-                float value = position.FUN_004a51b0(axis);
+                float value = position.GetFloatElementPointer(axis);
                 if (DAT_0108d57c[corner][axis])
                 {
-                    if (value > points[corner].FUN_004a51b0(axis))
-                        points[corner].FUN_004a51b0(axis) = value;
+                    if (value > points[corner].GetFloatElementPointer(axis))
+                        points[corner].GetFloatElementPointer(axis) = value;
                 }
                 else
                 {
-                    if (value < points[corner].FUN_004a51b0(axis))
-                        points[corner].FUN_004a51b0(axis) = value;
+                    if (value < points[corner].GetFloatElementPointer(axis))
+                        points[corner].GetFloatElementPointer(axis) = value;
                 }
             }
         }
@@ -3547,7 +3552,7 @@ extern float DAT_0108d540;
 struct PointAccess
 {
     float x, y, z;
-    float& FUN_004a51b0(unsigned int);
+    float& GetFloatElementPointer(unsigned int);
 };
 struct CombatActorAccess
 {
@@ -3701,7 +3706,7 @@ void CornerAccumulator::UpdateBoundsFromActors(PointAccess* points, bool initial
         {
             for (eb = 0; eb < 3; ++eb)
             {
-                points[f].FUN_004a51b0(eb) = DAT_0108d57c[f][eb] ? -DAT_0108d540 : DAT_0108d540;
+                points[f].GetFloatElementPointer(eb) = DAT_0108d57c[f][eb] ? -DAT_0108d540 : DAT_0108d540;
             }
         }
     }
@@ -3714,16 +3719,16 @@ void CornerAccumulator::UpdateBoundsFromActors(PointAccess* points, bool initial
         {
             for (k = 0; k < 3; ++k)
             {
-                l = b.FUN_004a51b0(k);
+                l = b.GetFloatElementPointer(k);
                 if (DAT_0108d57c[ba][k])
                 {
-                    if (l > points[ba].FUN_004a51b0(k))
-                        points[ba].FUN_004a51b0(k) = l;
+                    if (l > points[ba].GetFloatElementPointer(k))
+                        points[ba].GetFloatElementPointer(k) = l;
                 }
                 else
                 {
-                    if (l < points[ba].FUN_004a51b0(k))
-                        points[ba].FUN_004a51b0(k) = l;
+                    if (l < points[ba].GetFloatElementPointer(k))
+                        points[ba].GetFloatElementPointer(k) = l;
                 }
             }
         }
@@ -4901,14 +4906,14 @@ void B8EB30Group::RemoveActorsNotInGroup(void* pvUnused)
 class B98EBC0Array
 {
   public:
-    int* FUN_006bf670(int iIndex);
+    int* GetElementAddress_006bf670(int iIndex);
     int* GetElementAt(int iIndex);
 };
 
 // @fnv 0x0098ebc0
 int* B98EBC0Array::GetElementAt(int iIndex)
 {
-    return FUN_006bf670(iIndex);
+    return GetElementAddress_006bf670(iIndex);
 }
 
 struct SimpleArrayRemove
@@ -4927,11 +4932,12 @@ struct SimpleArrayRemove
     void FUN_0072ba80(void* pStart, unsigned int ItemUpdateArray);
     void FUN_006a8500();
 
-    void FUN_0098ebe0(unsigned int uiStart, unsigned int ItemUpdateArray, bool bShrink);
+    void RemoveArrayTail_0098ebe0(unsigned int uiStart, unsigned int ItemUpdateArray, bool bShrink);
 };
 
 // @fnv 0x0098ebe0
-void SimpleArrayRemove::FUN_0098ebe0(unsigned int uiStart, unsigned int ItemUpdateArray, bool bShrink)
+// src: GUESS 0x0098ebe0 (confidence: medium)
+void SimpleArrayRemove::RemoveArrayTail_0098ebe0(unsigned int uiStart, unsigned int ItemUpdateArray, bool bShrink)
 {
     if (ItemUpdateArray >= uiSize)
     {
@@ -5690,14 +5696,14 @@ struct DebugNode
 struct DebugNodePtr
 {
     DebugNode* ptr;
-    DebugNode* FUN_00559450();
+    DebugNode* Modelloader_GetReferencedThis();
     void FUN_0066b0d0(DebugNode*);
 };
-void* FUN_00aa13e0(unsigned int);
+void* Object_DispatchCommandFour(unsigned int);
 void FUN_00aa13f0(void*);
 __forceinline void* DebugNode::operator new(unsigned int n)
 {
-    return FUN_00aa13e0(n);
+    return Object_DispatchCommandFour(n);
 }
 __forceinline void DebugNode::operator delete(void* p)
 {
@@ -5705,7 +5711,7 @@ __forceinline void DebugNode::operator delete(void* p)
 }
 __forceinline void* DebugMaterial::operator new(unsigned int n)
 {
-    return FUN_00aa13e0(n);
+    return Object_DispatchCommandFour(n);
 }
 __forceinline void DebugMaterial::operator delete(void* p)
 {
@@ -6050,7 +6056,7 @@ struct DebugBuilder
 };
 __forceinline void* DebugBuilder::operator new(unsigned int n)
 {
-    return FUN_00aa13e0(n);
+    return Object_DispatchCommandFour(n);
 }
 __forceinline void DebugBuilder::operator delete(void* p)
 {
@@ -6061,18 +6067,18 @@ struct DebugBuilderPtr
     DebugBuilder* ptr;
     DebugBuilderPtr(DebugBuilder*);
     ~DebugBuilderPtr();
-    DebugBuilder* FUN_00559450();
+    DebugBuilder* Modelloader_GetReferencedThis();
 };
 struct DebugSearch
 {
-    float FUN_00508050();
+    float GetFieldAtOffset44();
     DebugPoint GetLocationAndReturn();
     void UpdateNavMeshes(DebugBuilderPtr&);
 };
 struct DebugSearchPtr
 {
     DebugSearch* ptr;
-    DebugSearch* FUN_00559450();
+    DebugSearch* Modelloader_GetReferencedThis();
 };
 const NiColorA& BSTestObjects_GetColor(int);
 DebugNode* BSTestObjects_Create3DArrow(const DebugPoint&, const DebugPoint&, float, float, const NiColorA*, const NiColorA*);
@@ -6172,12 +6178,12 @@ struct DebugGroup
 // @fnv 0x009878b0
 void DebugGroup::RebuildDebugVisuals(bool clearOnly)
 {
-    if (debug.FUN_00559450() && debug.FUN_00559450()->NiAVObject_GetParent())
+    if (debug.Modelloader_GetReferencedThis() && debug.Modelloader_GetReferencedThis()->NiAVObject_GetParent())
     {
         if (!AILinearTaskThreadManager_ShouldQueue3DTask())
-            debug.FUN_00559450()->NiAVObject_GetParent()->Detach(debug.FUN_00559450());
+            debug.Modelloader_GetReferencedThis()->NiAVObject_GetParent()->Detach(debug.Modelloader_GetReferencedThis());
         else
-            FUN_004537b0(debug.FUN_00559450())->TaskQueueInterface_QueueNodeDetach();
+            FUN_004537b0(debug.Modelloader_GetReferencedThis())->TaskQueueInterface_QueueNodeDetach();
     }
     debug.FUN_0066b0d0(0);
     if (clearOnly)
@@ -6197,7 +6203,7 @@ void DebugGroup::RebuildDebugVisuals(bool clearOnly)
         for (unsigned int i = 0; i < points.FUN_0044ddc0(); ++i)
         {
             DebugSearchPoint* spot = points.BSSimpleArray_NiAVObject_1024_GetAt(i);
-            if (!debug.FUN_00559450())
+            if (!debug.Modelloader_GetReferencedThis())
                 debug.FUN_0066b0d0(new DebugNode(0));
             NiColorA color(0.5f, 0.0f, 0.5f, 0.5f);
             bool found3 = false;
@@ -6212,7 +6218,7 @@ void DebugGroup::RebuildDebugVisuals(bool clearOnly)
                     NiColorA start(0.5f, 0.0f, 0.5f, 0.5f);
                     NiColorA end_2(1.0f, 1.0f, 1.0f, 0.5f);
                     DebugNode* arrow = BSTestObjects_Create3DArrow(origin, position, 4.0f, 4.0f, &start, &end_2);
-                    debug.FUN_00559450()->Attach(arrow, true);
+                    debug.Modelloader_GetReferencedThis()->Attach(arrow, true);
                     found3 = true;
                 }
             }
@@ -6222,17 +6228,17 @@ void DebugGroup::RebuildDebugVisuals(bool clearOnly)
                 {
                     DebugNode* circle = BSTestObjects_CreateCircle(DAT_011a4d2c, 36, &color);
                     circle->NiAVObject_SetTranslate_004bc1f0(position.x, position.y, k * 25.0 + position.z);
-                    debug.FUN_00559450()->Attach(circle, true);
+                    debug.Modelloader_GetReferencedThis()->Attach(circle, true);
                 }
                 DebugNode* marker = BSTestObjects_CreateCappedCylinder(16.0f, 16.0f, 400.0f, 10, 10, &color);
                 marker->NiAVObject_SetTranslate(position);
-                debug.FUN_00559450()->Attach(marker, true);
+                debug.Modelloader_GetReferencedThis()->Attach(marker, true);
             }
         }
     }
     if (*DAT_011f1858.FUN_00408d60())
     {
-        if (!debug.FUN_00559450())
+        if (!debug.Modelloader_GetReferencedThis())
             debug.FUN_0066b0d0(new DebugNode(0));
         unsigned int memberCount = CombatGroup_GetMemberCount();
         for (unsigned int n = 0; n < memberCount; ++n)
@@ -6245,13 +6251,13 @@ void DebugGroup::RebuildDebugVisuals(bool clearOnly)
             memberColor.a = 0.5f;
             DebugNode* cylinder2 = BSTestObjects_CreateCappedCylinder(radius, radius, 16.0f, 10, 10, &memberColor);
             cylinder2->NiAVObject_SetTranslate(memberActor3->Position());
-            debug.FUN_00559450()->Attach(cylinder2, true);
+            debug.Modelloader_GetReferencedThis()->Attach(cylinder2, true);
         }
     }
     DebugNode* extra = 0;
     if (*DAT_011f1814.FUN_00408d60() && selected3)
     {
-        if (!debug.FUN_00559450())
+        if (!debug.Modelloader_GetReferencedThis())
             debug.FUN_0066b0d0(new DebugNode(0));
         unsigned int pointCount = FUN_00988750();
         for (unsigned int p = 0; p < pointCount; ++p)
@@ -6262,7 +6268,7 @@ void DebugGroup::RebuildDebugVisuals(bool clearOnly)
             NiColorA pointColor3 = point->GetEffectColor();
             DebugNode* sphere = BSTestObjects_CreateSphere(32.0f, 10, 10, &pointColor3);
             sphere->NiAVObject_SetTranslate(point->FUN_006815c0());
-            debug.FUN_00559450()->Attach(sphere, true);
+            debug.Modelloader_GetReferencedThis()->Attach(sphere, true);
         }
         for (unsigned int q = 0; q < pairs.FUN_0044ddc0(); ++q)
         {
@@ -6284,31 +6290,31 @@ void DebugGroup::RebuildDebugVisuals(bool clearOnly)
             DebugPoint pairPosition = pairActor->Position();
             DebugNode* pillarX = BSTestObjects_CreateCappedCylinder(32.0f, 32.0f, 256.0f, 10, 10, &pairColor_);
             pillarX->NiAVObject_SetTranslate(pairPosition);
-            debug.FUN_00559450()->Attach(pillarX, true);
+            debug.Modelloader_GetReferencedThis()->Attach(pillarX, true);
         }
-        if (search.FUN_00559450() && searchDirty && selected3->TESObjectREFR_GetSpace() == space)
+        if (search.Modelloader_GetReferencedThis() && searchDirty && selected3->TESObjectREFR_GetSpace() == space)
         {
             DebugBuilderPtr builder(
-                new DebugBuilder(search.FUN_00559450()->GetLocationAndReturn(), search.FUN_00559450()->FUN_00508050()));
-            search.FUN_00559450()->UpdateNavMeshes(builder);
-            searchNode.FUN_0066b0d0(builder.FUN_00559450()->CreateSortAdjustNode());
+                new DebugBuilder(search.Modelloader_GetReferencedThis()->GetLocationAndReturn(), search.Modelloader_GetReferencedThis()->GetFieldAtOffset44()));
+            search.Modelloader_GetReferencedThis()->UpdateNavMeshes(builder);
+            searchNode.FUN_0066b0d0(builder.Modelloader_GetReferencedThis()->CreateSortAdjustNode());
             searchDirty = false;
         }
-        extra = searchNode.FUN_00559450();
+        extra = searchNode.Modelloader_GetReferencedThis();
     }
-    if (debug.FUN_00559450())
+    if (debug.Modelloader_GetReferencedThis())
     {
         DebugMaterial* material = new DebugMaterial;
         material->NiAlphaProperty_SetAlphaBlending(true);
-        debug.FUN_00559450()->NiAVObject_AttachProperty(material);
-        AttachLightingPropertyRecursive(debug.FUN_00559450());
-        FUN_00b57e30(debug.FUN_00559450(), 0, 0);
+        debug.Modelloader_GetReferencedThis()->NiAVObject_AttachProperty(material);
+        AttachLightingPropertyRecursive(debug.Modelloader_GetReferencedThis());
+        FUN_00b57e30(debug.Modelloader_GetReferencedThis(), 0, 0);
         if (extra)
-            debug.FUN_00559450()->Attach(extra, true);
-        DAT_011dea3c->FUN_008d6f30()->TESObjectCELL_GetMarkerNode()->Attach(debug.FUN_00559450(), true);
-        debug.FUN_00559450()->UpdateProperties();
+            debug.Modelloader_GetReferencedThis()->Attach(extra, true);
+        DAT_011dea3c->FUN_008d6f30()->TESObjectCELL_GetMarkerNode()->Attach(debug.Modelloader_GetReferencedThis(), true);
+        debug.Modelloader_GetReferencedThis()->UpdateProperties();
         DebugUpdate update(0.0f, 0, 0);
-        debug.FUN_00559450()->NiAVObject_Update(update);
+        debug.Modelloader_GetReferencedThis()->NiAVObject_Update(update);
     }
 }
 
@@ -6332,7 +6338,7 @@ struct Time
 {
     int value;
     void FUN_00435de0(float);
-    float FUN_006a7f50();
+    float AStarSearch_EvaluateValue_006a7f50();
     float FUN_00435e00();
 };
 
@@ -6833,7 +6839,7 @@ void Group::UpdateTargetPerception(Actor* selected, Actor* subject, int* result,
     if (targetLocal40)
     {
         previousLocal5 = targetLocal40->score;
-        if (targetLocal40->updateTime.FUN_006a7f50() < CombatTimer_GetTimer())
+        if (targetLocal40->updateTime.AStarSearch_EvaluateValue_006a7f50() < CombatTimer_GetTimer())
         {
             maximumLocal6 = -100;
             highestLocal52 = -100;
@@ -6899,7 +6905,7 @@ void Group::UpdateTargetPerception(Actor* selected, Actor* subject, int* result,
                             bestLocal4 = memberLocal19;
                         }
                     }
-                    if (missingLocal40 && senseLocal1->time.FUN_006a7f50() > newestLocal2.FUN_006a7f50())
+                    if (missingLocal40 && senseLocal1->time.AStarSearch_EvaluateValue_006a7f50() > newestLocal2.AStarSearch_EvaluateValue_006a7f50())
                     {
                         nearestLocal9.SetTripleAndValue(reinterpret_cast<NiPoint3*>(senseLocal1->pointStorage), memberLocal19->TESObjectREFR_GetSpace());
                         newestLocal2 = senseLocal1->time;
@@ -6910,7 +6916,7 @@ void Group::UpdateTargetPerception(Actor* selected, Actor* subject, int* result,
                 maximumLocal6 = (int)(*DAT_011cd45c.Setting_Float_00403e20() + 1.0);
             if (CombatGroup_IsSearching() && previousLocal5 <= 0 && maximumLocal6 > 0)
             {
-                if (targetLocal40->activeTime.FUN_006a7f50() != -DAT_0108d540)
+                if (targetLocal40->activeTime.AStarSearch_EvaluateValue_006a7f50() != -DAT_0108d540)
                     DAT_011f1708->TryStartDialogue(bestLocal4, subject, 4, 9, 1, 0);
                 else
                 {
@@ -6959,7 +6965,7 @@ void Group::UpdateTargetPerception(Actor* selected, Actor* subject, int* result,
             {
                 hitLocal9 = reinterpret_cast<Process*>(subject->FUN_008d8520())->vf8(subject);
                 if (hitLocal9 && hitLocal9->time.FUN_00435e00() < 5.0 &&
-                    hitLocal9->time.FUN_006a7f50() > targetLocal40->hitTime.FUN_006a7f50())
+                    hitLocal9->time.AStarSearch_EvaluateValue_006a7f50() > targetLocal40->hitTime.AStarSearch_EvaluateValue_006a7f50())
                 {
                     strengthLocal6 = 0;
                     if (highestLocal52 > 0)
@@ -7003,8 +7009,8 @@ struct Pos9892
     float z;
 
     Pos9892 FUN_00439e90(const Pos9892& kOther) const;
-    Pos9892 FUN_00439ef0(const Pos9892& kOther) const;
-    Pos9892 FUN_0053d280(float fScale) const;
+    Pos9892 SubtractIntoVector(const Pos9892& kOther) const;
+    Pos9892 ProcessAndReturnValue_0053d280(float fScale) const;
     float FUN_004a7290() const;
 };
 
@@ -7164,8 +7170,8 @@ PathingAvoidNodeArray* FUN_009892a0_shell::CombatGroup_CreateMovementAvoidNodeAr
                                                         PathingAvoidNodeArray* pAvoidArray, AvoidMember9892* pIgnore)
 {
     PathingAvoidNodeArray* pResult_2 = pAvoidArray;
-    Pos9892 kCenterTmp = pActor->GetPos()->FUN_00439e90(*pTarget).FUN_0053d280(DAT_010162c0);
-    Pos9892 kOffsetValue = pTarget->FUN_00439ef0(kCenterTmp);
+    Pos9892 kCenterTmp = pActor->GetPos()->FUN_00439e90(*pTarget).ProcessAndReturnValue_0053d280(DAT_010162c0);
+    Pos9892 kOffsetValue = pTarget->SubtractIntoVector(kCenterTmp);
     float afValueAfterThirdFloat = kOffsetValue.FUN_004a7290() + fRadius * fRadius;
     afValueAfterThirdFloat = Setting_Float_00403e20((float*)&originalRuntimeFloatSetting382) *
                              Setting_Float_00403e20((float*)&originalRuntimeFloatSetting382) * afValueAfterThirdFloat;
@@ -7176,7 +7182,7 @@ PathingAvoidNodeArray* FUN_009892a0_shell::CombatGroup_CreateMovementAvoidNodeAr
         if (pMember != pIgnore)
         {
             Pos9892 kPos3 = *pMember->GetPos();
-            Pos9892 kDelta_ = kCenterTmp.FUN_00439ef0(kPos3);
+            Pos9892 kDelta_ = kCenterTmp.SubtractIntoVector(kPos3);
             if (kDelta_.FUN_004a7290() < afValueAfterThirdFloat)
             {
                 if (!pResult_2)
@@ -7292,15 +7298,15 @@ struct Shape
     void Initialize_006e0320(const Region&, float);
     void PathingLOSGridMap_SetSightRadius(float);
 };
-void* FUN_00aa13e0(unsigned int);
+void* Object_DispatchCommandFour(unsigned int);
 __forceinline void* Shape::operator new(unsigned int n)
 {
-    return FUN_00aa13e0(n);
+    return Object_DispatchCommandFour(n);
 }
 struct ShapePtr
 {
     Shape* value;
-    Shape* FUN_00559450();
+    Shape* Modelloader_GetReferencedThis();
     void FUN_0066b0d0(Shape*);
 };
 
@@ -7459,9 +7465,9 @@ void Group::CombatGroup_UpdateSearch()
             focus = 0;
         if (updateTimer.FUN_008d7f80())
         {
-            if (shape.FUN_00559450() && shape.FUN_00559450()->FUN_004a7bd0() > DAT_0106d508)
+            if (shape.Modelloader_GetReferencedThis() && shape.Modelloader_GetReferencedThis()->FUN_004a7bd0() > DAT_0106d508)
             {
-                shape.FUN_00559450()->Reset();
+                shape.Modelloader_GetReferencedThis()->Reset();
                 generation++;
                 refreshTimer.CombatTimer_ForceTrigger();
             }
@@ -7473,7 +7479,7 @@ void Group::CombatGroup_UpdateSearch()
             }
             if (location.BGSWorldLocation_IsLocationLoaded())
             {
-                if (!shape.FUN_00559450() || refreshSlot1)
+                if (!shape.Modelloader_GetReferencedThis() || refreshSlot1)
                 {
                     unsigned int endSlot0 = 0;
                     unsigned int start = 0;
@@ -7486,19 +7492,19 @@ void Group::CombatGroup_UpdateSearch()
                             if (region.FUN_006dd6f0(0))
                             {
                                 region.FUN_006f4ed0(location.FUN_006815c0());
-                                if (!shape.FUN_00559450())
+                                if (!shape.Modelloader_GetReferencedThis())
                                     shape.FUN_0066b0d0(new Shape);
-                                shape.FUN_00559450()->Initialize_006e0320(region, radius);
-                                shape.FUN_00559450()->PathingLOSGridMap_SetSightRadius(*DAT_011cf42c.Setting_Float_00403e20());
+                                shape.Modelloader_GetReferencedThis()->Initialize_006e0320(region, radius);
+                                shape.Modelloader_GetReferencedThis()->PathingLOSGridMap_SetSightRadius(*DAT_011cf42c.Setting_Float_00403e20());
                                 changed = 1;
                             }
                         }
                     }
                 }
             }
-            else if (shape.FUN_00559450())
+            else if (shape.Modelloader_GetReferencedThis())
                 shape.FUN_0066b0d0(0);
-            if (shape.FUN_00559450())
+            if (shape.Modelloader_GetReferencedThis())
             {
                 unsigned int memberCount = CombatGroup_GetMemberCount();
                 RegionArray regionsSlot11(memberCount, 0, 0);
@@ -7517,9 +7523,9 @@ void Group::CombatGroup_UpdateSearch()
                 }
                 if (regionsSlot11.FUN_0044ddc0())
                 {
-                    float previous = shape.FUN_00559450()->FUN_004a7bd0();
+                    float previous = shape.Modelloader_GetReferencedThis()->FUN_004a7bd0();
                     BuildPathNodeHolder(&shape, &regionsSlot11, &headingsSlot11);
-                    if (previous != shape.FUN_00559450()->FUN_004a7bd0())
+                    if (previous != shape.Modelloader_GetReferencedThis()->FUN_004a7bd0())
                         changed = 1;
                 }
             }
@@ -7531,7 +7537,7 @@ void Group::CombatGroup_UpdateSearch()
             if (actor != DAT_011dea3c && otherSlot37)
             {
                 Target* target = CombatGroup_GetCombatTargetForActor(otherSlot37);
-                if (target && target->point.FUN_006a7f50() != -DAT_0108d540)
+                if (target && target->point.AStarSearch_EvaluateValue_006a7f50() != -DAT_0108d540)
                     DAT_011f1708->TryStartDialogue(actor, otherSlot37, 4, 1, 0, 0);
                 else
                     DAT_011f1708->TryStartDialogue(actor, otherSlot37, 4, 0, 0, 0);
@@ -7751,7 +7757,7 @@ struct ArrItems
 struct ArrMembers
 {
     int x0, x4, x8, xc;
-    void FUN_0098f040(unsigned int, bool);
+    void ResizeBufferStorage(unsigned int, bool);
     MemberNode* BSSimpleArray_CombatMember_1024_GetAt(unsigned int) const;
 };
 struct ArrExtra
@@ -7763,7 +7769,7 @@ struct ArrExtra
 struct ArrParents
 {
     int x0, x4, x8, xc;
-    void FUN_006a8890(unsigned int, bool);
+    void UpdateState_006a8890(unsigned int, bool);
     ParentNode& GetAt(int);
 };
 struct LoadHandle
@@ -7847,7 +7853,7 @@ void GroupLoad::CombatGroup_LoadGame(BGSLoadFormBuffer* buffer)
     }
     {
         unsigned int countMembers = buffer->FUN_00864a60();
-        members.FUN_0098f040(countMembers, true);
+        members.ResizeBufferStorage(countMembers, true);
         for (unsigned int indexMembers = 0; indexMembers < countMembers; indexMembers++)
         {
             MemberNode* member = members.BSSimpleArray_CombatMember_1024_GetAt(indexMembers);
@@ -7893,7 +7899,7 @@ void GroupLoad::CombatGroup_LoadGame(BGSLoadFormBuffer* buffer)
         }
         {
             unsigned int countParents = buffer->FUN_00864a60();
-            parents.FUN_006a8890(countParents, true);
+            parents.UpdateState_006a8890(countParents, true);
             for (unsigned int indexParents = 0; indexParents < countParents; indexParents++)
             {
                 ParentNode& parent = parents.GetAt(indexParents);
@@ -7926,7 +7932,7 @@ struct UpdateOwner;
 struct UpdateElement
 {
     unsigned int data;
-    void FUN_00985930(unsigned int, UpdateOwner*);
+    void ResolveStoredActor(unsigned int, UpdateOwner*);
 };
 struct UpdateArray
 {
@@ -8010,7 +8016,7 @@ void UpdateOwner::UpdateElements(unsigned int argument)
     {
         bool removeFirst = false;
         UpdateElement* elementFirst = first.BSSimpleArray_CombatTarget_1024_GetAt(indexFirst2);
-        elementFirst->FUN_00985930(argument, this);
+        elementFirst->ResolveStoredActor(argument, this);
         if (elementFirst->data)
             DAT_011f1958->TargetLocalActor(reinterpret_cast<Actor*>(elementFirst->data),
                                             reinterpret_cast<ActorCombatGroup*>(this));
@@ -8029,7 +8035,7 @@ void UpdateOwner::UpdateElements(unsigned int argument)
         {
             bool removeSecond3 = false;
             UpdateElement* elementSecond3 = second.BSSimpleArray_CombatMember_1024_GetAt(indexSecond);
-            elementSecond3->FUN_00985930(argument, this);
+            elementSecond3->ResolveStoredActor(argument, this);
             if (!elementSecond3->data)
                 removeSecond3 = true;
             if (removeSecond3)
@@ -8260,7 +8266,7 @@ struct ScoreValue
     int value;
     ScoreValue(float x);
     ScoreValue();
-    float FUN_006a7f50();
+    float AStarSearch_EvaluateValue_006a7f50();
     float FUN_00435e00();
 };
 struct PoseData
@@ -8710,9 +8716,9 @@ ActorSelect* ActorPicker::SelectActor(ActorSelect* actor)
         }
         else
         {
-            float cutoff = entry36->timestamp.FUN_006a7f50() - DAT_0101db88;
-            value3 = BSMAX_00404010(cutoff, value3.FUN_006a7f50());
-            if (value3.FUN_006a7f50() > reference_2.FUN_006a7f50())
+            float cutoff = entry36->timestamp.AStarSearch_EvaluateValue_006a7f50() - DAT_0101db88;
+            value3 = BSMAX_00404010(cutoff, value3.AStarSearch_EvaluateValue_006a7f50());
+            if (value3.AStarSearch_EvaluateValue_006a7f50() > reference_2.AStarSearch_EvaluateValue_006a7f50())
             {
                 ffirstActor3 = candidate18;
                 reference_2 = value3;

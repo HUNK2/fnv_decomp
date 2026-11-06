@@ -38,7 +38,7 @@ struct FaceGenCoordinateValue
 class FaceGenCoordinateBasis
 {
 public:
-    FaceGenCoordinateValue FUN_0060b370(unsigned int, unsigned int);
+    FaceGenCoordinateValue ForwardCall_0060b370(unsigned int, unsigned int);
 };
 
 class Helper009f8770
@@ -135,9 +135,9 @@ void TESNPC::LoadFaceGen(Actor* apActor)
                 {
                     float fValue;
                     ((Helper009f8770*)this)->TESForm_LoadGameDataOLD(&fValue, 4);
-                    if (*((FaceGenCoordinateBasis*)&m_kFaceGenCoordinates[i][j])->FUN_0060b370(r, c).NiTSet_NiControllerSequence_NiTMallocInterface_NiControllerSequence_GetAt() != fValue)
+                    if (*((FaceGenCoordinateBasis*)&m_kFaceGenCoordinates[i][j])->ForwardCall_0060b370(r, c).NiTSet_NiControllerSequence_NiTMallocInterface_NiControllerSequence_GetAt() != fValue)
                     {
-                        *(float*)((FaceGenCoordinateBasis*)&m_kFaceGenCoordinates[i][j])->FUN_0060b370(r, c).NiTSet_NiControllerSequence_NiTMallocInterface_NiControllerSequence_GetAt() = fValue;
+                        *(float*)((FaceGenCoordinateBasis*)&m_kFaceGenCoordinates[i][j])->ForwardCall_0060b370(r, c).NiTSet_NiControllerSequence_NiTMallocInterface_NiControllerSequence_GetAt() = fValue;
                         bChanged = true;
                     }
                 }
@@ -347,7 +347,7 @@ struct FUN_00633c90
 {
     FUN_00633c90(int);
     ~FUN_00633c90();
-    ListT* FUN_00559450();
+    ListT* Modelloader_GetReferencedThis();
     void FUN_0066b0d0(PartT*);
     int f0;
 };
@@ -355,7 +355,7 @@ struct FUN_004037b0
 {
     FUN_004037b0();
     ~FUN_004037b0();
-    void* FUN_00559450();
+    void* Modelloader_GetReferencedThis();
     int f0;
     int f4;
 };
@@ -400,20 +400,20 @@ void TESNPC::SwapEyes(TESEyes* param)
     FUN_00633c90 a(0);
     FUN_00633c90 eye(0);
     ElemT* cur;
-    if (((FUN_00633c90*)&m_pkPrimaryFaceGenNode)->FUN_00559450())
+    if (((FUN_00633c90*)&m_pkPrimaryFaceGenNode)->Modelloader_GetReferencedThis())
     {
         long count;
-        count = ((FUN_00633c90*)&m_pkPrimaryFaceGenNode)->FUN_00559450()->FUN_0043b480();
+        count = ((FUN_00633c90*)&m_pkPrimaryFaceGenNode)->Modelloader_GetReferencedThis()->FUN_0043b480();
         unsigned int ptr;
         for (ptr = 0; ptr < count; ptr++)
         {
-            cur = ((FUN_00633c90*)&m_pkPrimaryFaceGenNode)->FUN_00559450()->FUN_0043b4a0(ptr);
+            cur = ((FUN_00633c90*)&m_pkPrimaryFaceGenNode)->Modelloader_GetReferencedThis()->FUN_0043b4a0(ptr);
             if (BSstrcmp((const char*)cur->GetName(), &DAT_0104aac0) == 0)
                 a.FUN_0066b0d0(cur->v7());
             if (BSstrcmp((const char*)cur->GetName(), &DAT_0104aab0) == 0)
                 eye.FUN_0066b0d0(cur->v7());
         }
-        if (a.FUN_00559450() && eye.FUN_00559450())
+        if (a.Modelloader_GetReferencedThis() && eye.Modelloader_GetReferencedThis())
         {
             FUN_004037b0 p40;
             if (param)
@@ -421,13 +421,13 @@ void TESNPC::SwapEyes(TESEyes* param)
             else
                 BSStringT_char_SPrintF(&p40, &DAT_0104aa80);
             FUN_00633c90 c(0);
-            DAT_011dea10->FUN_004568c0(p40.FUN_00559450(), &c, 0, 0);
-            if (c.FUN_00559450())
+            DAT_011dea10->FUN_004568c0(p40.Modelloader_GetReferencedThis(), &c, 0, 0);
+            if (c.Modelloader_GetReferencedThis())
             {
                 NiObjectNET* x;
-                x = a.FUN_00559450()->FUN_0050d100();
+                x = a.Modelloader_GetReferencedThis()->FUN_0050d100();
                 NiObjectNET* x2;
-                x2 = eye.FUN_00559450()->FUN_0050d100();
+                x2 = eye.Modelloader_GetReferencedThis()->FUN_0050d100();
                 if (x && x2)
                 {
                     NiTimeController* b3;
@@ -441,28 +441,28 @@ void TESNPC::SwapEyes(TESEyes* param)
                     found = (!m40 ? 0 : ((int)m40->FUN_00441110() >= 8 && (int)m40->FUN_00441110() <= 12)) ? m40 : 0;
                     if (nw && found)
                     {
-                        (*reinterpret_cast<SetControllerData**>(nw))[63](nw, 0, c.FUN_00559450());
-                        (*reinterpret_cast<SetControllerData**>(found))[63](found, 0, c.FUN_00559450());
+                        (*reinterpret_cast<SetControllerData**>(nw))[63](nw, 0, c.Modelloader_GetReferencedThis());
+                        (*reinterpret_cast<SetControllerData**>(found))[63](found, 0, c.Modelloader_GetReferencedThis());
                         return;
                     }
                 }
                 FUN_00a6aa40* p44;
                 p44 = new FUN_00a6aa40;
-                p44->SetBaseTexture(c.FUN_00559450());
+                p44->SetBaseTexture(c.Modelloader_GetReferencedThis());
                 p44->FUN_004f3200(3);
                 p44->FUN_0060aeb0(2);
-                if (a.FUN_00559450()->FUN_00a59d30(5))
-                    a.FUN_00559450()->NiAVObject_RemoveProperty(5);
-                a.FUN_00559450()->NiAVObject_AttachProperty(p44);
-                if (eye.FUN_00559450()->FUN_00a59d30(5))
-                    eye.FUN_00559450()->NiAVObject_RemoveProperty(5);
-                eye.FUN_00559450()->NiAVObject_AttachProperty(p44);
+                if (a.Modelloader_GetReferencedThis()->FUN_00a59d30(5))
+                    a.Modelloader_GetReferencedThis()->NiAVObject_RemoveProperty(5);
+                a.Modelloader_GetReferencedThis()->NiAVObject_AttachProperty(p44);
+                if (eye.Modelloader_GetReferencedThis()->FUN_00a59d30(5))
+                    eye.Modelloader_GetReferencedThis()->NiAVObject_RemoveProperty(5);
+                eye.Modelloader_GetReferencedThis()->NiAVObject_AttachProperty(p44);
             }
         }
-        cur = ((FUN_00633c90*)&m_pkPrimaryFaceGenNode)->FUN_00559450()->v39(NiFixedString((const char*)&DAT_0104aac0));
+        cur = ((FUN_00633c90*)&m_pkPrimaryFaceGenNode)->Modelloader_GetReferencedThis()->v39(NiFixedString((const char*)&DAT_0104aac0));
         if (cur)
             FUN_00b57e30(cur, 0, 0);
-        cur = ((FUN_00633c90*)&m_pkPrimaryFaceGenNode)->FUN_00559450()->v39(NiFixedString((const char*)&DAT_0104aab0));
+        cur = ((FUN_00633c90*)&m_pkPrimaryFaceGenNode)->Modelloader_GetReferencedThis()->v39(NiFixedString((const char*)&DAT_0104aab0));
         if (cur)
             FUN_00b57e30(cur, 0, 0);
     }

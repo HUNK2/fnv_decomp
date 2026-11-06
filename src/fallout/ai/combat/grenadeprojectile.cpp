@@ -822,7 +822,7 @@ struct ContactHelper
 
     ~ContactHelper();
 
-    Ref* FUN_00559450();
+    Ref* Modelloader_GetReferencedThis();
 };
 
 struct LoadedProjectile
@@ -1061,11 +1061,11 @@ bool ImpactProjectile::ProcessHits()
                         Ref* actor = aTarget;
                         ContactHelper helper(new LoadedProjectile());
 
-                        InitFromObjects(helper.FUN_00559450(), 0, actor, 0, this);
+                        InitFromObjects(helper.Modelloader_GetReferencedThis(), 0, actor, 0, this);
 
                         inverse = !actor->CheckFlag(0);
 
-                        actor->Actor_HitMe(helper.FUN_00559450(), 0);
+                        actor->Actor_HitMe(helper.Modelloader_GetReferencedThis(), 0);
                     }
                     else
                     {

@@ -149,7 +149,7 @@ struct FUN_0049eed0_item
 struct FUN_0049eed0_list
 {
     int FUN_0059bb30();
-    FUN_0049eed0_item* FUN_00559450(int index);
+    FUN_0049eed0_item* Modelloader_GetReferencedThis(int index);
 };
 
 struct FUN_0049eed0_target
@@ -164,7 +164,7 @@ bool AnyPointInListMatches(FUN_0049eed0_list* apList, FUN_0049eed0_target* apTar
     for (int i8 = 0; i8 < apList->FUN_0059bb30(); i8++)
     {
         UninitializedStorage<sizeof(NiPoint3)> p2Storage;
-        (*reinterpret_cast<NiPoint3*>(&p2Storage)) = *apList->FUN_00559450(i8)->BSSimpleArray_NiPoint3_1024_GetAt();
+        (*reinterpret_cast<NiPoint3*>(&p2Storage)) = *apList->Modelloader_GetReferencedThis(i8)->BSSimpleArray_NiPoint3_1024_GetAt();
         NiPoint2 v((*reinterpret_cast<NiPoint3*>(&p2Storage)).x, (*reinterpret_cast<NiPoint3*>(&p2Storage)).y);
         if (apTarget->ContainsMatchingTriple(v))
         {
@@ -178,8 +178,8 @@ struct MeshPoint
 {
     float x, y, z;
     bool FUN_00439090(const MeshPoint&);
-    bool FUN_004390c0(const MeshPoint&);
-    MeshPoint* FUN_00416870(float, float, float);
+    bool HasEqualComponents(const MeshPoint&);
+    MeshPoint* SetComponents(float, float, float);
     void FUN_006815c0();
 };
 struct FUN_00a69990
@@ -202,7 +202,7 @@ struct FUN_0049f1c0
     void FUN_0049f510();
     void CallWithTwelve(bool(__cdecl*)(const MeshPoint&, const MeshPoint&));
     int FUN_0044ddc0();
-    MeshPoint& FUN_006a1440(int);
+    MeshPoint& Object_GetIndexedValue_006a1440(int);
 };
 struct FUN_0049f640
 {
@@ -212,8 +212,8 @@ struct FUN_0049f640
     int allocator;
     FUN_0049f640();
     ~FUN_0049f640();
-    void FUN_0049f690(int, const FUN_0049f1c0&);
-    FUN_0049f1c0& FUN_00558dd0(int) const;
+    void InsertPlaneWithGrowth(int, const FUN_0049f1c0&);
+    FUN_0049f1c0& GetElementAddress16(int) const;
 };
 struct ScriptProgram
 {
@@ -239,8 +239,8 @@ extern unsigned short DAT_0118ae92[];
 extern unsigned short DAT_0118ae94[];
 extern int __cdecl GetCellCornerFlags(MeshInput*, MeshPoint);
 extern int __cdecl NavMeshMath_SegmentPlaneIntersection(const MeshPoint&, const MeshPoint&, const MeshPoint&, const MeshPoint&, MeshPoint&);
-extern bool __cdecl FUN_0049c800(const MeshPoint&, const MeshPoint&);
-extern bool __cdecl FUN_0049c7b0(const MeshPoint&, const MeshPoint&);
+extern bool __cdecl FloatKeyedRecord_CompareKeys(const MeshPoint&, const MeshPoint&);
+extern bool __cdecl Runtime_CompareFirstFloats(const MeshPoint&, const MeshPoint&);
 // Builds triangle geometry from the mesh's vertex data, clipping against a plane and collecting boundary edges into DAT_011c57ac.
 // @fnv 0x0049c930
 void BuildMeshBoundaryGeometry(MeshInput* pMeshInput)
@@ -260,7 +260,7 @@ void BuildMeshBoundaryGeometry(MeshInput* pMeshInput)
         for (int i = 0; i < 4; i++)
         {
             FUN_0049f1c0 temporary;
-            _list1.FUN_0049f690(i, temporary);
+            _list1.InsertPlaneWithGrowth(i, temporary);
         }
         bool offset6 = false;
         float _saved = 0.0f;
@@ -289,9 +289,9 @@ void BuildMeshBoundaryGeometry(MeshInput* pMeshInput)
                 if (_cross.FUN_00439090(_delta) && _cross.FUN_00439090(_point) && _delta.FUN_00439090(_point))
                 {
                     MeshPoint origin6;
-                    origin6.FUN_00416870(0.0f, 0.0f, height);
+                    origin6.SetComponents(0.0f, 0.0f, height);
                     MeshPoint normalVal;
-                    normalVal.FUN_00416870(0.0f, 0.0f, 1.0f);
+                    normalVal.SetComponents(0.0f, 0.0f, 1.0f);
                     FUN_00a69990 _created(normalVal, origin6);
                     unsigned short count8 = 0;
                     bool _done = false;
@@ -304,18 +304,18 @@ void BuildMeshBoundaryGeometry(MeshInput* pMeshInput)
                     int result3 = NavMeshMath_SegmentPlaneIntersection(_cross, _delta, origin6, normalVal, _orient);
                     if (result3 == 1)
                     {
-                        if (_cross.FUN_004390c0(_orient) || _delta.FUN_004390c0(_orient))
+                        if (_cross.HasEqualComponents(_orient) || _delta.HasEqualComponents(_orient))
                             _done = true;
                         DAT_011c57ac->AddItem(_orient);
                         ++count8;
                         if ((_bound & 1) && (aCount2 & 1))
-                            _list1.FUN_00558dd0(0).AddItem(_orient);
+                            _list1.GetElementAddress16(0).AddItem(_orient);
                         else if ((_bound & 2) && (aCount2 & 2))
-                            _list1.FUN_00558dd0(1).AddItem(_orient);
+                            _list1.GetElementAddress16(1).AddItem(_orient);
                         else if ((_bound & 4) && (aCount2 & 4))
-                            _list1.FUN_00558dd0(2).AddItem(_orient);
+                            _list1.GetElementAddress16(2).AddItem(_orient);
                         else if ((_bound & 8) && (aCount2 & 8))
-                            _list1.FUN_00558dd0(3).AddItem(_orient);
+                            _list1.GetElementAddress16(3).AddItem(_orient);
                     }
                     else if (result3 == -1)
                     {
@@ -328,7 +328,7 @@ void BuildMeshBoundaryGeometry(MeshInput* pMeshInput)
                     if (result3 == 1)
                     {
                         bool add = true;
-                        if (_cross.FUN_004390c0(_orient) || _point.FUN_004390c0(_orient))
+                        if (_cross.HasEqualComponents(_orient) || _point.HasEqualComponents(_orient))
                         {
                             if (_done || _active)
                                 add = false;
@@ -340,13 +340,13 @@ void BuildMeshBoundaryGeometry(MeshInput* pMeshInput)
                             DAT_011c57ac->AddItem(_orient);
                             ++count8;
                             if ((_bound & 1) && (_current & 1))
-                                _list1.FUN_00558dd0(0).AddItem(_orient);
+                                _list1.GetElementAddress16(0).AddItem(_orient);
                             else if ((_bound & 2) && (_current & 2))
-                                _list1.FUN_00558dd0(1).AddItem(_orient);
+                                _list1.GetElementAddress16(1).AddItem(_orient);
                             else if ((_bound & 4) && (_current & 4))
-                                _list1.FUN_00558dd0(2).AddItem(_orient);
+                                _list1.GetElementAddress16(2).AddItem(_orient);
                             else if ((_bound & 8) && (_current & 8))
-                                _list1.FUN_00558dd0(3).AddItem(_orient);
+                                _list1.GetElementAddress16(3).AddItem(_orient);
                         }
                     }
                     else if (result3 == -1)
@@ -362,20 +362,20 @@ void BuildMeshBoundaryGeometry(MeshInput* pMeshInput)
                     if (result3 == 1)
                     {
                         bool addThird = true;
-                        if (_delta.FUN_004390c0(_orient) || (_point.FUN_004390c0(_orient) && (_done || _active)))
+                        if (_delta.HasEqualComponents(_orient) || (_point.HasEqualComponents(_orient) && (_done || _active)))
                             addThird = false;
                         if (addThird)
                         {
                             DAT_011c57ac->AddItem(_orient);
                             ++count8;
                             if ((aCount2 & 1) && (_current & 1))
-                                _list1.FUN_00558dd0(0).AddItem(_orient);
+                                _list1.GetElementAddress16(0).AddItem(_orient);
                             else if ((aCount2 & 2) && (_current & 2))
-                                _list1.FUN_00558dd0(1).AddItem(_orient);
+                                _list1.GetElementAddress16(1).AddItem(_orient);
                             else if ((aCount2 & 4) && (_current & 4))
-                                _list1.FUN_00558dd0(2).AddItem(_orient);
+                                _list1.GetElementAddress16(2).AddItem(_orient);
                             else if ((aCount2 & 8) && (_current & 8))
-                                _list1.FUN_00558dd0(3).AddItem(_orient);
+                                _list1.GetElementAddress16(3).AddItem(_orient);
                         }
                     }
                     else if (result3 == -1)
@@ -397,10 +397,10 @@ void BuildMeshBoundaryGeometry(MeshInput* pMeshInput)
                         if (_created.ClassifyPoint(&_cross) == 2)
                         {
                             _cross.z = height;
-                            if (!_list1.FUN_00558dd0(0).ContainsPlane(_cross))
-                                _list1.FUN_00558dd0(0).AddItem(_cross);
-                            if (!_list1.FUN_00558dd0(3).ContainsPlane(_cross))
-                                _list1.FUN_00558dd0(3).AddItem(_cross);
+                            if (!_list1.GetElementAddress16(0).ContainsPlane(_cross))
+                                _list1.GetElementAddress16(0).AddItem(_cross);
+                            if (!_list1.GetElementAddress16(3).ContainsPlane(_cross))
+                                _list1.GetElementAddress16(3).AddItem(_cross);
                         }
                     }
                     else if (_bound == 10)
@@ -408,10 +408,10 @@ void BuildMeshBoundaryGeometry(MeshInput* pMeshInput)
                         if (_created.ClassifyPoint(&_cross) == 2)
                         {
                             _cross.z = height;
-                            if (!_list1.FUN_00558dd0(1).ContainsPlane(_cross))
-                                _list1.FUN_00558dd0(1).AddItem(_cross);
-                            if (!_list1.FUN_00558dd0(3).ContainsPlane(_cross))
-                                _list1.FUN_00558dd0(3).AddItem(_cross);
+                            if (!_list1.GetElementAddress16(1).ContainsPlane(_cross))
+                                _list1.GetElementAddress16(1).AddItem(_cross);
+                            if (!_list1.GetElementAddress16(3).ContainsPlane(_cross))
+                                _list1.GetElementAddress16(3).AddItem(_cross);
                         }
                     }
                     else if (_bound == 5)
@@ -419,10 +419,10 @@ void BuildMeshBoundaryGeometry(MeshInput* pMeshInput)
                         if (_created.ClassifyPoint(&_cross) == 2)
                         {
                             _cross.z = height;
-                            if (!_list1.FUN_00558dd0(0).ContainsPlane(_cross))
-                                _list1.FUN_00558dd0(0).AddItem(_cross);
-                            if (!_list1.FUN_00558dd0(2).ContainsPlane(_cross))
-                                _list1.FUN_00558dd0(2).AddItem(_cross);
+                            if (!_list1.GetElementAddress16(0).ContainsPlane(_cross))
+                                _list1.GetElementAddress16(0).AddItem(_cross);
+                            if (!_list1.GetElementAddress16(2).ContainsPlane(_cross))
+                                _list1.GetElementAddress16(2).AddItem(_cross);
                         }
                     }
                     else if (_bound == 6)
@@ -430,10 +430,10 @@ void BuildMeshBoundaryGeometry(MeshInput* pMeshInput)
                         if (_created.ClassifyPoint(&_cross) == 2)
                         {
                             _cross.z = height;
-                            if (!_list1.FUN_00558dd0(1).ContainsPlane(_cross))
-                                _list1.FUN_00558dd0(1).AddItem(_cross);
-                            if (!_list1.FUN_00558dd0(2).ContainsPlane(_cross))
-                                _list1.FUN_00558dd0(2).AddItem(_cross);
+                            if (!_list1.GetElementAddress16(1).ContainsPlane(_cross))
+                                _list1.GetElementAddress16(1).AddItem(_cross);
+                            if (!_list1.GetElementAddress16(2).ContainsPlane(_cross))
+                                _list1.GetElementAddress16(2).AddItem(_cross);
                         }
                     }
                     if (aCount2 == 9)
@@ -441,10 +441,10 @@ void BuildMeshBoundaryGeometry(MeshInput* pMeshInput)
                         if (_created.ClassifyPoint(&_delta) == 2)
                         {
                             _delta.z = height;
-                            if (!_list1.FUN_00558dd0(0).ContainsPlane(_delta))
-                                _list1.FUN_00558dd0(0).AddItem(_delta);
-                            if (!_list1.FUN_00558dd0(3).ContainsPlane(_delta))
-                                _list1.FUN_00558dd0(3).AddItem(_delta);
+                            if (!_list1.GetElementAddress16(0).ContainsPlane(_delta))
+                                _list1.GetElementAddress16(0).AddItem(_delta);
+                            if (!_list1.GetElementAddress16(3).ContainsPlane(_delta))
+                                _list1.GetElementAddress16(3).AddItem(_delta);
                         }
                     }
                     else if (aCount2 == 10)
@@ -452,10 +452,10 @@ void BuildMeshBoundaryGeometry(MeshInput* pMeshInput)
                         if (_created.ClassifyPoint(&_delta) == 2)
                         {
                             _delta.z = height;
-                            if (!_list1.FUN_00558dd0(1).ContainsPlane(_delta))
-                                _list1.FUN_00558dd0(1).AddItem(_delta);
-                            if (!_list1.FUN_00558dd0(3).ContainsPlane(_delta))
-                                _list1.FUN_00558dd0(3).AddItem(_delta);
+                            if (!_list1.GetElementAddress16(1).ContainsPlane(_delta))
+                                _list1.GetElementAddress16(1).AddItem(_delta);
+                            if (!_list1.GetElementAddress16(3).ContainsPlane(_delta))
+                                _list1.GetElementAddress16(3).AddItem(_delta);
                         }
                     }
                     else if (aCount2 == 5)
@@ -463,10 +463,10 @@ void BuildMeshBoundaryGeometry(MeshInput* pMeshInput)
                         if (_created.ClassifyPoint(&_delta) == 2)
                         {
                             _delta.z = height;
-                            if (!_list1.FUN_00558dd0(0).ContainsPlane(_delta))
-                                _list1.FUN_00558dd0(0).AddItem(_delta);
-                            if (!_list1.FUN_00558dd0(2).ContainsPlane(_delta))
-                                _list1.FUN_00558dd0(2).AddItem(_delta);
+                            if (!_list1.GetElementAddress16(0).ContainsPlane(_delta))
+                                _list1.GetElementAddress16(0).AddItem(_delta);
+                            if (!_list1.GetElementAddress16(2).ContainsPlane(_delta))
+                                _list1.GetElementAddress16(2).AddItem(_delta);
                         }
                     }
                     else if (aCount2 == 6)
@@ -474,10 +474,10 @@ void BuildMeshBoundaryGeometry(MeshInput* pMeshInput)
                         if (_created.ClassifyPoint(&_delta) == 2)
                         {
                             _delta.z = height;
-                            if (!_list1.FUN_00558dd0(1).ContainsPlane(_delta))
-                                _list1.FUN_00558dd0(1).AddItem(_delta);
-                            if (!_list1.FUN_00558dd0(2).ContainsPlane(_delta))
-                                _list1.FUN_00558dd0(2).AddItem(_delta);
+                            if (!_list1.GetElementAddress16(1).ContainsPlane(_delta))
+                                _list1.GetElementAddress16(1).AddItem(_delta);
+                            if (!_list1.GetElementAddress16(2).ContainsPlane(_delta))
+                                _list1.GetElementAddress16(2).AddItem(_delta);
                         }
                     }
                     if (_current == 9)
@@ -485,10 +485,10 @@ void BuildMeshBoundaryGeometry(MeshInput* pMeshInput)
                         if (_created.ClassifyPoint(&_point) == 2)
                         {
                             _point.z = height;
-                            if (!_list1.FUN_00558dd0(0).ContainsPlane(_point))
-                                _list1.FUN_00558dd0(0).AddItem(_point);
-                            if (!_list1.FUN_00558dd0(3).ContainsPlane(_point))
-                                _list1.FUN_00558dd0(3).AddItem(_point);
+                            if (!_list1.GetElementAddress16(0).ContainsPlane(_point))
+                                _list1.GetElementAddress16(0).AddItem(_point);
+                            if (!_list1.GetElementAddress16(3).ContainsPlane(_point))
+                                _list1.GetElementAddress16(3).AddItem(_point);
                         }
                     }
                     else if (_current == 10)
@@ -496,10 +496,10 @@ void BuildMeshBoundaryGeometry(MeshInput* pMeshInput)
                         if (_created.ClassifyPoint(&_point) == 2)
                         {
                             _point.z = height;
-                            if (!_list1.FUN_00558dd0(1).ContainsPlane(_point))
-                                _list1.FUN_00558dd0(1).AddItem(_point);
-                            if (!_list1.FUN_00558dd0(3).ContainsPlane(_point))
-                                _list1.FUN_00558dd0(3).AddItem(_point);
+                            if (!_list1.GetElementAddress16(1).ContainsPlane(_point))
+                                _list1.GetElementAddress16(1).AddItem(_point);
+                            if (!_list1.GetElementAddress16(3).ContainsPlane(_point))
+                                _list1.GetElementAddress16(3).AddItem(_point);
                         }
                     }
                     else if (_current == 5)
@@ -507,10 +507,10 @@ void BuildMeshBoundaryGeometry(MeshInput* pMeshInput)
                         if (_created.ClassifyPoint(&_point) == 2)
                         {
                             _point.z = height;
-                            if (!_list1.FUN_00558dd0(0).ContainsPlane(_point))
-                                _list1.FUN_00558dd0(0).AddItem(_point);
-                            if (!_list1.FUN_00558dd0(2).ContainsPlane(_point))
-                                _list1.FUN_00558dd0(2).AddItem(_point);
+                            if (!_list1.GetElementAddress16(0).ContainsPlane(_point))
+                                _list1.GetElementAddress16(0).AddItem(_point);
+                            if (!_list1.GetElementAddress16(2).ContainsPlane(_point))
+                                _list1.GetElementAddress16(2).AddItem(_point);
                         }
                     }
                     else if (_current == 6)
@@ -518,10 +518,10 @@ void BuildMeshBoundaryGeometry(MeshInput* pMeshInput)
                         if (_created.ClassifyPoint(&_point) == 2)
                         {
                             _point.z = height;
-                            if (!_list1.FUN_00558dd0(1).ContainsPlane(_point))
-                                _list1.FUN_00558dd0(1).AddItem(_point);
-                            if (!_list1.FUN_00558dd0(2).ContainsPlane(_point))
-                                _list1.FUN_00558dd0(2).AddItem(_point);
+                            if (!_list1.GetElementAddress16(1).ContainsPlane(_point))
+                                _list1.GetElementAddress16(1).AddItem(_point);
+                            if (!_list1.GetElementAddress16(2).ContainsPlane(_point))
+                                _list1.GetElementAddress16(2).AddItem(_point);
                         }
                     }
                 }
@@ -532,15 +532,15 @@ void BuildMeshBoundaryGeometry(MeshInput* pMeshInput)
         for (int boundary = 0; boundary < 4; boundary++)
         {
             if (boundary == 0 || boundary == 1)
-                _list1.FUN_00558dd0(boundary).CallWithTwelve(FUN_0049c800);
+                _list1.GetElementAddress16(boundary).CallWithTwelve(FloatKeyedRecord_CompareKeys);
             else
-                _list1.FUN_00558dd0(boundary).CallWithTwelve(FUN_0049c7b0);
-            for (int pair = 0; pair < _list1.FUN_00558dd0(boundary).FUN_0044ddc0(); pair += 2)
+                _list1.GetElementAddress16(boundary).CallWithTwelve(Runtime_CompareFirstFloats);
+            for (int pair = 0; pair < _list1.GetElementAddress16(boundary).FUN_0044ddc0(); pair += 2)
             {
-                if (_list1.FUN_00558dd0(boundary).FUN_0044ddc0() > pair + 1)
+                if (_list1.GetElementAddress16(boundary).FUN_0044ddc0() > pair + 1)
                 {
-                    DAT_011c57ac->AddItem(_list1.FUN_00558dd0(boundary).FUN_006a1440(pair));
-                    DAT_011c57ac->AddItem(_list1.FUN_00558dd0(boundary).FUN_006a1440(pair + 1));
+                    DAT_011c57ac->AddItem(_list1.GetElementAddress16(boundary).Object_GetIndexedValue_006a1440(pair));
+                    DAT_011c57ac->AddItem(_list1.GetElementAddress16(boundary).Object_GetIndexedValue_006a1440(pair + 1));
                 }
             }
         }
@@ -637,7 +637,7 @@ struct ParamObj
 };
 struct Mgr
 {
-    void* FUN_00559450();
+    void* Modelloader_GetReferencedThis();
     void* DereferenceIfNotNull(void*);
     void* AddEight(void*);
     void* FUN_0049f590(void**);
@@ -1085,7 +1085,7 @@ void __cdecl CreateAutoWaterNode(ParamObj* a0)
                 (*reinterpret_cast<NiPoint3*>(&origin.position)).Set(a0->TESObjectCELL_GetLand(0).TESObjectLAND_GetWorldOffsetForBlock()->x, a0->TESObjectCELL_GetLand(0).TESObjectLAND_GetWorldOffsetForBlock()->y,
                                  a0->TESObjectCELL_GetWaterHeight());
                 origin.hasWaterForm = false;
-                s = DAT_011c57b0->FUN_00559450();
+                s = DAT_011c57b0->Modelloader_GetReferencedThis();
                 i = 0;
                 while (0 != s)
                 {
@@ -1271,7 +1271,7 @@ void __cdecl CreateAutoWaterNode(ParamObj* a0)
                                                                                                                     (*reinterpret_cast<NiPoint3*>(&pt44Storage)).y,
                                                                                                                 minZ -
                                                                                                                     (*reinterpret_cast<NiPoint3*>(&pt44Storage)).z);
-                                                                                                            (*reinterpret_cast<NiPoint3*>(&nStorage)).FUN_0063c8a0(
+                                                                                                            (*reinterpret_cast<NiPoint3*>(&nStorage)).ComputeValue_0063c8a0(
                                                                                                                 (*reinterpret_cast<NiPoint3*>(&origin.position)));
                                                                                                             p7c->FUN_vtb8(
                                                                                                                 &(*reinterpret_cast<NiPoint3*>(&nStorage)));
@@ -1364,8 +1364,8 @@ int __cdecl NavMeshMath_SegmentPlaneIntersection(const NiPoint3& apStart, const 
     float f28;
     float f6;
 
-    NiPoint3 v1 = apEnd.FUN_00439ef0(apStart);
-    NiPoint3 v6 = apStart.FUN_00439ef0(apPlanePoint);
+    NiPoint3 v1 = apEnd.SubtractIntoVector(apStart);
+    NiPoint3 v6 = apStart.SubtractIntoVector(apPlanePoint);
     f28 = apPlaneNormal.DotProduct(v1);
     f2 = -apPlaneNormal.DotProduct(v6);
     if (f3 > FUN_00408840(f28))

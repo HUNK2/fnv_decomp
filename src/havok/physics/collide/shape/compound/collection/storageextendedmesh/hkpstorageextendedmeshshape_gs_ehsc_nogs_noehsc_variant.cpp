@@ -45,7 +45,7 @@ struct Subpart
     unsigned int indexStride;
     unsigned char indexType, extrusion;
     unsigned short flags;
-    void FUN_00d4abf0(const Subpart&);
+    void UpdateState_00d4abf0(const Subpart&);
 };
 struct MaterialName
 {
@@ -194,7 +194,7 @@ void hkpStorageExtendedMeshShape::addTrianglesSubpart(SourceArg sourceArg)
 {
     Subpart* destination = hkpExtendedMeshShape_expandOneTriangleSubparts();
     const Subpart& source = *sourceArg.p;
-    destination->FUN_00d4abf0(source);
+    destination->UpdateState_00d4abf0(source);
     hkpStorageExtendedMeshShapeMeshSubpartStorage* created = new hkpStorageExtendedMeshShapeMeshSubpartStorage;
     hkArray<hkReferencedObject*>& mesh = reinterpret_cast<hkArray<hkReferencedObject*>&>(m_kMeshSubparts);
     append(mesh, static_cast<hkReferencedObject*>(created));

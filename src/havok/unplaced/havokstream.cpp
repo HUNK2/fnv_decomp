@@ -16,11 +16,12 @@ struct B1
 
 struct FUN_0056d6c0_class : B1
 {
-    void FUN_0056d6c0();
+    void DestroyFields_0056d6c0();
 };
 
 // @fnv 0x0056d6c0
-void FUN_0056d6c0_class::FUN_0056d6c0()
+// src: GUESS 0x0056d6c0 (confidence: medium)
+void FUN_0056d6c0_class::DestroyFields_0056d6c0()
 {
     B1::~B1();
 }
@@ -55,11 +56,12 @@ void HavokError::showString(const char* pcMessage)
 struct FUN_00625bd0_class
 {
     void FUN_006264f0();
-    void FUN_00625bd0();
+    void ForwardCall_00625bd0();
 };
 
 // @fnv 0x00625bd0
-void FUN_00625bd0_class::FUN_00625bd0()
+// src: GUESS 0x00625bd0 (confidence: low)
+void FUN_00625bd0_class::ForwardCall_00625bd0()
 {
     FUN_006264f0();
 }
@@ -67,7 +69,7 @@ void FUN_00625bd0_class::FUN_00625bd0()
 extern int DAT_0104dfb4;
 struct FUN_00538ef0_class
 {
-    void* FUN_00538ef0();
+    void* UpdateState_00538ef0();
 };
 struct FUN_00625fc0_class : FUN_00538ef0_class
 {
@@ -77,7 +79,7 @@ struct FUN_00625fc0_class : FUN_00538ef0_class
 // @fnv 0x00625fc0
 FUN_00625fc0_class::FUN_00625fc0_class()
 {
-    FUN_00538ef0();
+    UpdateState_00538ef0();
     vtbl = (void*)&DAT_0104dfb4;
 }
 
@@ -85,13 +87,14 @@ namespace fnv_00625fe0 {
 extern int DAT_0104dfe8;
 struct FUN_00538ef0_class
 {
-    void* FUN_00538ef0();
-    void* FUN_00625fe0();
+    void* UpdateState_00538ef0();
+    void* InitializeFields_00625fe0();
 };
 // @fnv 0x00625fe0
-void* FUN_00538ef0_class::FUN_00625fe0()
+// src: GUESS 0x00625fe0 (confidence: low)
+void* FUN_00538ef0_class::InitializeFields_00625fe0()
 {
-    FUN_00538ef0();
+    UpdateState_00538ef0();
     *(int**)this = &DAT_0104dfe8;
     return this;
 }
@@ -106,12 +109,13 @@ struct FUN_00626000_Class
     unsigned char pad[3];
     unsigned char flag;
     void FUN_00625fc0();
-    FUN_00626000_Class* FUN_00626000(int);
+    FUN_00626000_Class* ProcessAndReturnValue_00626000(int);
 };
 
 // Calls FUN_00625fc0, sets pStr to "0`b", writes 1 at offset 0xc, and returns this.
 // @fnv 0x00626000
-FUN_00626000_Class* FUN_00626000_Class::FUN_00626000(int)
+// src: GUESS 0x00626000 (confidence: low)
+FUN_00626000_Class* FUN_00626000_Class::ProcessAndReturnValue_00626000(int)
 {
     FUN_00625fc0();
     pStr = "0`b";
@@ -153,7 +157,8 @@ void FUN_00626320::Method(const void* data, unsigned int size)
 extern "C" BSAudio* __cdecl hkMemoryRouter_getInstance();
 void __cdecl hkMemoryRouter_easyFree(void* a, void* b);
 // @fnv 0x00626760
-void __cdecl FUN_00626760(void* a)
+// src: GUESS 0x00626760 (confidence: low)
+void __cdecl Object_UpdateFields_00626760(void* a)
 {
     BSAudio* p = hkMemoryRouter_getInstance();
     hkMemoryRouter_easyFree(p->GetAudioBackendData(), a);
@@ -184,7 +189,7 @@ void FUN_006255d0_class::HavokError_setEnabled(int a, int b)
         ((FUN_00626470_Class*)((char*)this + 0x14))->hkPointerMap_int_int_hkContainerHeapAllocator_insert(a, 1);
 }
 
-void __cdecl FUN_00538eb0(void*);
+void __cdecl Tesland_UpdateState_00538eb0(void*);
 struct FUN_00625f80_class : FUN_0056d6c0_class
 {
     FUN_00625f80_class* FUN_00625f80(unsigned int flags);
@@ -192,13 +197,13 @@ struct FUN_00625f80_class : FUN_0056d6c0_class
 // @fnv 0x00625f80
 FUN_00625f80_class* FUN_00625f80_class::FUN_00625f80(unsigned int flags)
 {
-    FUN_0056d6c0();
+    DestroyFields_0056d6c0();
     if (flags & 1)
-        FUN_00538eb0(this);
+        Tesland_UpdateState_00538eb0(this);
     return this;
 }
 
-void __cdecl FUN_00538eb0(void*);
+void __cdecl Tesland_UpdateState_00538eb0(void*);
 struct FUN_00626030_class
 {
     void __thiscall FUN_00626060();
@@ -210,11 +215,11 @@ void* __thiscall FUN_00626030_class::FUN_00626030(unsigned int flags)
 {
     FUN_00626060();
     if (flags & 1)
-        FUN_00538eb0(this);
+        Tesland_UpdateState_00538eb0(this);
     return this;
 }
 
-void __cdecl FUN_00538eb0(void*);
+void __cdecl Tesland_UpdateState_00538eb0(void*);
 struct FUN_00626250_class
 {
     void __thiscall FUN_00626280();
@@ -226,7 +231,7 @@ void* __thiscall FUN_00626250_class::FUN_00626250(unsigned int flags)
 {
     FUN_00626280();
     if (flags & 1)
-        FUN_00538eb0(this);
+        Tesland_UpdateState_00538eb0(this);
     return this;
 }
 
@@ -258,7 +263,7 @@ struct FUN_00626420_shell
 };
 struct ErrorFileList
 {
-    char* __thiscall FUN_00626420(FUN_00626420_shell*);
+    char* __thiscall UpdateFields_00626420(FUN_00626420_shell*);
 };
 // @fnv 0x00625e70
 // src: XBOX_PDB 0x00625e70
@@ -271,7 +276,7 @@ void HavokError::disableReport(const char* apFile, int aiLine)
     strcat_s(pfile, 128, pext);
     ap.p = hkString_strDup_00cb1410(pfile);
     ap.aiLine = aiLine;
-    ((ErrorFileList*)((char*)this + 8))->FUN_00626420(&ap);
+    ((ErrorFileList*)((char*)this + 8))->UpdateFields_00626420(&ap);
 }
 
 struct $SG2686
@@ -336,13 +341,13 @@ void* __thiscall FUN_00625b40_class::FUN_00625b10(unsigned int flags)
 {
     this->FUN_00625b40_class::~FUN_00625b40_class();
     if (flags & 1)
-        FUN_00538eb0(this);
+        Tesland_UpdateState_00538eb0(this);
     return this;
 }
 
 struct CalleeObj
 {
-    void FUN_00622570(bool);
+    void UpdateState_00622570(bool);
 };
 struct FUN_00626160
 {
@@ -356,11 +361,11 @@ struct FUN_00626160
 // @fnv 0x00626160
 CalleeObj* FUN_00626160::Method(CalleeObj* apCallee)
 {
-    apCallee->FUN_00622570(pFile ? ((FUN_00626160*)pFile)->TESAnimGroup_GetDecal() : false);
+    apCallee->UpdateState_00622570(pFile ? ((FUN_00626160*)pFile)->TESAnimGroup_GetDecal() : false);
     return apCallee;
 }
 
-extern "C" void* __cdecl FUN_0056d280(unsigned int size);
+extern "C" void* __cdecl Object_AllocateStorage_0056d280(unsigned int size);
 
 struct FUN_00626000
 {
@@ -372,7 +377,7 @@ struct FUN_00626000
     FUN_00626000(int index);
     static __forceinline void* operator new(unsigned int size)
     {
-        return FUN_0056d280(size);
+        return Object_AllocateStorage_0056d280(size);
     }
 };
 
@@ -747,7 +752,7 @@ struct FUN_00625610_Class
 // src: XBOX_PDB 0x00625610
 CalleeObj* FUN_00625610_Class::HavokError_isEnabled(CalleeObj* obj, int b)
 {
-    obj->FUN_00622570(m_sub.hkPointerMap_int_int_hkContainerHeapAllocator_getWithDefault(b, 0) == 0);
+    obj->UpdateState_00622570(m_sub.hkPointerMap_int_int_hkContainerHeapAllocator_getWithDefault(b, 0) == 0);
     return obj;
 }
 
@@ -910,21 +915,22 @@ struct FUN_00625bf0_Item
 struct FUN_00625bf0_Container
 {
     int FUN_00726070();
-    FUN_00625bf0_Item* FUN_00626660(int index);
+    FUN_00625bf0_Item* ComputeValue_00626660(int index);
 };
-void __cdecl FUN_00626760(void* object);
+void __cdecl Object_UpdateFields_00626760(void* object);
 struct FUN_00625bf0_Class
 {
-    void FUN_00625bf0(FUN_00625bf0_Container* container);
+    void ProcessEntries_00625bf0(FUN_00625bf0_Container* container);
 };
 // Iterates the container's items and calls FUN_00626760 on each item's unk00 pointer.
 // @fnv 0x00625bf0
-void FUN_00625bf0_Class::FUN_00625bf0(FUN_00625bf0_Container* container)
+// src: GUESS 0x00625bf0 (confidence: low)
+void FUN_00625bf0_Class::ProcessEntries_00625bf0(FUN_00625bf0_Container* container)
 {
     for (int index = 0; index < container->FUN_00726070(); ++index)
     {
-        FUN_00625bf0_Item item = *container->FUN_00626660(index);
-        FUN_00626760(item.unk00);
+        FUN_00625bf0_Item item = *container->ComputeValue_00626660(index);
+        Object_UpdateFields_00626760(item.unk00);
     }
 }
 
@@ -939,7 +945,7 @@ struct FileEntry625c
 struct FileList625c
 {
     int FUN_00726070();
-    FileEntry625c* FUN_00626660(int iIndex);
+    FileEntry625c* ComputeValue_00626660(int iIndex);
 };
 
 // HavokError: shared header lacks FUN_00625c50 and the file-list member.
@@ -965,7 +971,7 @@ bool FileFilter625c::HavokError_isReportEnabled(const char* pcPath, int iValue)
         strcat_s(acName, 0x80, acExtBuf);
         for (int i3 = 0; i3 < m_kList.FUN_00726070(); i3++)
         {
-            FileEntry625c kEntry = *m_kList.FUN_00626660(i3);
+            FileEntry625c kEntry = *m_kList.ComputeValue_00626660(i3);
             if (!CompareStringsCaseInsensitive(acName, kEntry.m_pcName) && iValue == kEntry.m_iValue)
                 return false;
         }
@@ -983,7 +989,7 @@ struct FileEntry625c
 struct FileList625c
 {
     int FUN_00726070();
-    FileEntry625c* FUN_00626660(int iIndex);
+    FileEntry625c* ComputeValue_00626660(int iIndex);
     void RemoveAt(int iIndex);
 };
 
@@ -999,10 +1005,10 @@ void HavokError::RemoveEntryByPathAndValue(const char* pcPath, int iValue)
     strcat_s(acName, 0x80, acExtBuf);
     for (int i3 = 0; i3 < ((fnv_00625d60::FileList625c*)((char*)this + 8))->FUN_00726070(); i3++)
     {
-        fnv_00625d60::FileEntry625c kEntry = *((fnv_00625d60::FileList625c*)((char*)this + 8))->FUN_00626660(i3);
+        fnv_00625d60::FileEntry625c kEntry = *((fnv_00625d60::FileList625c*)((char*)this + 8))->ComputeValue_00626660(i3);
         if (!CompareStringsCaseInsensitive(acName, kEntry.m_pcName) && iValue == kEntry.m_iValue)
         {
-            FUN_00626760((void*)kEntry.m_pcName);
+            Object_UpdateFields_00626760((void*)kEntry.m_pcName);
             ((fnv_00625d60::FileList625c*)((char*)this + 8))->RemoveAt(i3);
             break;
         }
@@ -1023,7 +1029,7 @@ struct StreamObject : StreamBase
     StreamObject(void* path);
     static __forceinline void* operator new(unsigned int size)
     {
-        return FUN_0056d280(size);
+        return Object_AllocateStorage_0056d280(size);
     }
 };
 struct StreamFactory
@@ -1069,7 +1075,7 @@ class FUN_00625b40 : public FUN_0056d6c0
   public:
     virtual ~FUN_00625b40();
 
-    void FUN_00625bf0(FUN_0057c530* pkList);
+    void ProcessEntries_00625bf0(FUN_0057c530* pkList);
 
     FUN_0057c530 m_kList;
     FUN_00625bd0 m_kRef;
@@ -1079,5 +1085,5 @@ class FUN_00625b40 : public FUN_0056d6c0
 // @fnv 0x00625b40
 FUN_00625b40::~FUN_00625b40()
 {
-    FUN_00625bf0(&m_kList);
+    ProcessEntries_00625bf0(&m_kList);
 }

@@ -1061,7 +1061,7 @@ struct RenderAccumulator
 struct AccumulatorPtr
 {
     RenderAccumulator* value;
-    RenderAccumulator* FUN_00559450();
+    RenderAccumulator* Modelloader_GetReferencedThis();
 };
 struct RenderTexture
 {
@@ -1133,11 +1133,11 @@ void VATSRender::FOVATSEffectManager_DrawTargetToTexture(RenderTexture* texture,
             ((FUN_004a4410*)queriesA[unk23c])->BSOcclusionQuery_Begin();
         }
     }
-    accumulator.FUN_00559450()->FUN_004a1040(8);
+    accumulator.Modelloader_GetReferencedThis()->FUN_004a1040(8);
     FUN_00b4f450(8);
     FOVATSEffectManager_DrawTarget(draw, flags);
     FUN_00b4f450(0);
-    accumulator.FUN_00559450()->FUN_004a1040(0);
+    accumulator.Modelloader_GetReferencedThis()->FUN_004a1040(0);
     if (refraction)
     {
         if (mode == 2)
@@ -1819,7 +1819,7 @@ struct X10
 struct Sub9
 {
     int v;
-    int FUN_00559450();
+    int Modelloader_GetReferencedThis();
 };
 struct P2Obj
 {
@@ -2026,7 +2026,7 @@ void Struct801420::FOVATSEffectManager_DrawSingleTarget(unsigned char a, int b)
         P2Obj* q23 = Main_GetWorldSceneGraph();
         Actor9* actor_ = ((This9*)this)->actor;
         X10* x102 = q23->FUN_008d80e0();
-        x102->BSCullingProcess_SetAccumulator(((This9*)this)->sub2cc.FUN_00559450());
+        x102->BSCullingProcess_SetAccumulator(((This9*)this)->sub2cc.Modelloader_GetReferencedThis());
         x102->SetImpactDataSet_004fb0b0(1);
         Svc9* svcX = q23->FUN_006629f0();
         Mgr9* mgr2X = 0;
@@ -2054,7 +2054,7 @@ void Struct801420::FOVATSEffectManager_DrawSingleTarget(unsigned char a, int b)
                 flag_ = !o1z->GetAppCulled_00456610();
                 o1z->FUN_00450f90(1);
             }
-            BSShaderUtil_AccumulateScene(svcX, (void*)((This9*)this)->sub08.FUN_00559450(), x102);
+            BSShaderUtil_AccumulateScene(svcX, (void*)((This9*)this)->sub08.Modelloader_GetReferencedThis(), x102);
             if (((This9*)this)->actor->vt100())
             {
                 Actor9* formA = ((This9*)this)->actor;
@@ -2086,7 +2086,7 @@ void Struct801420::FOVATSEffectManager_DrawSingleTarget(unsigned char a, int b)
             if (o1z && flag_)
                 o1z->FUN_00450f90(0);
         }
-        FUN_00b6c0d0(svcX, ((This9*)this)->sub2cc.FUN_00559450(), 0);
+        FUN_00b6c0d0(svcX, ((This9*)this)->sub2cc.Modelloader_GetReferencedThis(), 0);
         x102->BSCullingProcess_SetAccumulator(0);
         x102->SetImpactDataSet_004fb0b0(0);
         if ((((This9*)this)->b129 && !(((This9*)this)->b2b4) || a) && b != 1)

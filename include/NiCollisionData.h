@@ -31,7 +31,7 @@ class NiCollisionData : public NiCollisionObject
     void VirtAt64(StrArr*);
     void FUN_00a81100(StrArr*);
     void NiCollisionObject_CopyMembers(NiCollisionData*, CloningProcess&);
-    void FUN_00eacde0();
+    void UpdateFields_00eacde0();
     void CreateWorldVertices();
     void UpdateWorldVertices();
     void SetSceneGraphObject(NiAVObject* pkSceneObject);

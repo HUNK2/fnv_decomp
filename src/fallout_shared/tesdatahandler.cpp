@@ -2462,13 +2462,13 @@ void TESDataHandler::AddTopic(TESTopic* aiValue)
 }
 
 
-void __cdecl FUN_0061f360(TESTopicInfo*, void*);
+void __cdecl Object_ProcessEntries_0061f360(TESTopicInfo*, void*);
 
 // Passes pNewTopicInfo and the object at offset 0x110 of this TESDataHandler to FUN_0061f360.
 // @fnv 0x004617b0
 void TESDataHandler::AddTopicInfo(TESTopicInfo* pNewTopicInfo)
 {
-    FUN_0061f360(pNewTopicInfo, (char*)this + 0x110);
+    Object_ProcessEntries_0061f360(pNewTopicInfo, (char*)this + 0x110);
 }
 
 
@@ -4383,7 +4383,7 @@ struct SubX
     SubX* FUN_0043b5d0();
     void BSSimpleList_NiPointer_bhkAction_RemoveAll();
     void ClearHelper();
-    void FUN_005102e0();
+    void ProcessEntries_005102e0();
     void RemoveAll();
     void TESRegionList_Clear();
     void NavMeshObstacleManager_ClearAllObstacles();
@@ -4391,7 +4391,7 @@ struct SubX
     void SetNavMeshMaps(int a1);
     bool _GetByte05();
     void DeleteAllOwnedForms();
-    void FUN_00600030();
+    void ReleaseStorage_00600030();
     void DestroyCameraPaths();
     void TESFile_SetActive(bool a1);
 };
@@ -4720,7 +4720,7 @@ bool DataHandlerX::TESDataHandler_ClearData()
         (*reinterpret_cast<ListX<FormX*>*>(listImageSpaceModifiers)).RemoveHead();
         delete pFSN;
     }
-    reinterpret_cast<SubX*&>(pObjectList)->FUN_005102e0();
+    reinterpret_cast<SubX*&>(pObjectList)->ProcessEntries_005102e0();
     (*reinterpret_cast<SubX*>(arrayAddonNodes)).RemoveAll();
     while ((pBCl = (*reinterpret_cast<ListX<FormX*>*>(listSpellItems)).GetItem()) != 0)
     {
@@ -4825,7 +4825,7 @@ bool DataHandlerX::TESDataHandler_ClearData()
     }
     else
     {
-        xDAT_011cb6a0->FUN_00600030();
+        xDAT_011cb6a0->ReleaseStorage_00600030();
     }
     xDAT_011ca700->DestroyCameraPaths();
     while ((pzgs = (*reinterpret_cast<ListX<FormX*>*>(listCameraShots)).GetItem()) != 0)
@@ -5187,7 +5187,7 @@ void DeletionDataHandler::DeleteObject(DeletionObject* object)
 struct FUN_00464e50_list
 {
     bool NiTListBase_DFALL_NiTListItem_BSAnimGroupSequence_const_BSAnimGroupSequence_const_IsEmpty();
-    void* FUN_00559450();
+    void* Modelloader_GetReferencedThis();
     void NiTPointerListBase_DFALL_NiTListItem_BSAnimGroupSequence_const_BSAnimGroupSequence_const_RemoveAll();
     void* NiTPointerListBase_NiTPointerAllocator_unsigned_int_Tile_GetNext(void**);
 };
@@ -5209,7 +5209,7 @@ void TESDataHandlerUnitOperations::ClearPendingReferences()
     }
     bool flagTmp = TESDataHandler_GetClearingData();
     SetCellQueueProcessing(true);
-    TESForm* cur_2 = (TESForm*)((FUN_00464e50_list*)((char*)this + 0x1fc))->FUN_00559450();
+    TESForm* cur_2 = (TESForm*)((FUN_00464e50_list*)((char*)this + 0x1fc))->Modelloader_GetReferencedThis();
     TESForm* a;
     TESForm* t;
     TESForm* b;
@@ -6046,13 +6046,13 @@ struct ExtraNode
 {
     ChangeExtra*& FUN_006815c0();
     ExtraNode* FUN_00726070();
-    void FUN_00905330(ChangeExtra* const&);
+    void RemoveMatchingItem(ChangeExtra* const&);
     bool FUN_008256d0();
 };
 struct ChangeEntry
 {
     TESForm* FUN_0044ddc0();
-    ExtraNode* FUN_00559450();
+    ExtraNode* Modelloader_GetReferencedThis();
     int FUN_00726070();
     void FUN_006ecd40(int);
     bool ItemChange_GetWorn(bool);
@@ -6064,7 +6064,7 @@ struct ChangeExtra
 };
 struct ChangeList : ChangeNode
 {
-    void FUN_00905330(ChangeEntry* const&);
+    void RemoveMatchingItem(ChangeEntry* const&);
 };
 struct FUN_004befb0
 {
@@ -6131,7 +6131,7 @@ void InventoryHandler::UpdateInventoryForReference(TESObjectREFR* reference)
             if (object->GetFormType() == 0x29 && ((::Actor*)entry)->Actor_GetCurrentWeapon() &&
                 ((WeaponInventoryView*)((::Actor*)entry)->Actor_GetCurrentWeapon())->TESObjectWEAP_GetCurrentAmmo(entry) == object)
             {
-                ExtraNode* count = actor->FUN_00559450();
+                ExtraNode* count = actor->Modelloader_GetReferencedThis();
                 int iExtraCount = 0;
                 while (count && count->FUN_006815c0())
                 {
@@ -6139,15 +6139,15 @@ void InventoryHandler::UpdateInventoryForReference(TESObjectREFR* reference)
                     if (extra->ExtraDataList_GetOriginalReference() && extra->ExtraDataList_GetOriginalReference() == entry)
                     {
                         iExtraCount = extra->ExtraDataList_GetCount();
-                        actor->FUN_00559450()->FUN_00905330(extra);
+                        actor->Modelloader_GetReferencedThis()->RemoveMatchingItem(extra);
                         break;
                     }
                     count = count->FUN_00726070();
                 }
                 actor->FUN_006ecd40(actor->FUN_00726070() - iExtraCount);
-                if (actor->FUN_00726070() <= 0 || !actor->FUN_00559450() || actor->FUN_00559450()->FUN_008256d0() ||
+                if (actor->FUN_00726070() <= 0 || !actor->Modelloader_GetReferencedThis() || actor->Modelloader_GetReferencedThis()->FUN_008256d0() ||
                     actor->ItemChange_GetWorn(false))
-                    reinterpret_cast<FUN_004befb0*&>(pBarterContainer)->entries->FUN_00905330(actor);
+                    reinterpret_cast<FUN_004befb0*&>(pBarterContainer)->entries->RemoveMatchingItem(actor);
                 break;
             }
             node = node->FUN_00726070();
@@ -6920,7 +6920,7 @@ struct FNVListNode
 struct FNVRecordGroup
 {
     FNVRecordManager* owner;
-    FNVListNode* FUN_00559450();
+    FNVListNode* Modelloader_GetReferencedThis();
     FNVRecordGroup* FUN_0044ddc0(int, int);
     FNVRecordGroup* FUN_0044ddc0(FNVObject*, int, int, int, void*, int, int, int, int);
 };
@@ -6933,7 +6933,7 @@ struct FNVFile
 
 struct FNVRecordManager
 {
-    void FUN_00905330(FNVObject**);
+    void RemoveMatchingItem(FNVObject**);
     FNVRecordGroup* FUN_004bfba0(FNVRecordGroup*);
 };
 
@@ -6951,7 +6951,7 @@ void TESDataHandlerUnitOperations::ProcessInventoryRecords(FNVFile* file, int re
     if (!group)
         return;
 
-    FNVListNode* node = group->FUN_00559450();
+    FNVListNode* node = group->Modelloader_GetReferencedThis();
     if (node)
         current = *node->FUN_006815c0();
 
@@ -7003,9 +7003,9 @@ void TESDataHandlerUnitOperations::ProcessInventoryRecords(FNVFile* file, int re
                     if (firstRef)
                     {
                         FNVRecordGroup* matching = firstRef->FUN_004bfba0(group->FUN_0044ddc0(1, 0));
-                        if (matching && matching->FUN_00559450())
+                        if (matching && matching->Modelloader_GetReferencedThis())
                         {
-                            FNVListNode* scan = matching->FUN_00559450();
+                            FNVListNode* scan = matching->Modelloader_GetReferencedThis();
                             while (scan && *scan->FUN_006815c0() && unique)
                             {
                                 if (*scan->FUN_006815c0() == current)
@@ -7019,9 +7019,9 @@ void TESDataHandlerUnitOperations::ProcessInventoryRecords(FNVFile* file, int re
                     if (firstRef)
                     {
                         FNVRecordGroup* matching = firstRef->FUN_004bfba0(group->FUN_0044ddc0(1, 0));
-                        if (matching && matching->FUN_00559450())
+                        if (matching && matching->Modelloader_GetReferencedThis())
                         {
-                            FNVListNode* scan = matching->FUN_00559450();
+                            FNVListNode* scan = matching->Modelloader_GetReferencedThis();
                             while (scan && *scan->FUN_006815c0() && unique)
                             {
                                 if (*scan->FUN_006815c0() == current)
@@ -7034,8 +7034,8 @@ void TESDataHandlerUnitOperations::ProcessInventoryRecords(FNVFile* file, int re
                     if (unique && current && current->BaseExtraList_ItemsInList() < 2 && current->ExtraDataList_GetCount() <= 1 &&
                         !current->ExtraDataList_GetScript())
                     {
-                        group->owner->FUN_00905330(&current);
-                        node = group->FUN_00559450();
+                        group->owner->RemoveMatchingItem(&current);
+                        node = group->Modelloader_GetReferencedThis();
                         delete current;
                         current = 0;
                     }
@@ -7050,8 +7050,8 @@ void TESDataHandlerUnitOperations::ProcessInventoryRecords(FNVFile* file, int re
                     typedef void(__thiscall * ProcessFunc)(void*, void*, int, int);
                     reinterpret_cast<ProcessFunc>((*reinterpret_cast<void***>(_DAT_011dea3c))[0x3d0 / 4])(
                         _DAT_011dea3c, processed, count, 0);
-                    group->owner->FUN_00905330(&current);
-                    node = group->FUN_00559450();
+                    group->owner->RemoveMatchingItem(&current);
+                    node = group->Modelloader_GetReferencedThis();
                     if (current->BaseExtraList_ItemsInList() < 2 && current->ExtraDataList_GetCount() <= 1 && !current->ExtraDataList_GetScript())
                     {
                         delete current;
@@ -7082,7 +7082,7 @@ void TESDataHandlerUnitOperations::ProcessInventoryRecords(FNVFile* file, int re
                         ->FUN_004bfba0(file->FUN_0044ddc0(1, 0));
             if (!group)
                 return;
-            node = group->FUN_00559450();
+            node = group->Modelloader_GetReferencedThis();
             if (node)
                 current = *node->FUN_006815c0();
         }

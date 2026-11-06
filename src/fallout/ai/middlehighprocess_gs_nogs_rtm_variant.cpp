@@ -80,7 +80,7 @@ struct ObjA
 struct FUN_006f74f0_cls
 {
     ObjA* p;
-    FUN_006f74f0_cls* FUN_006f74f0(ObjA* o);
+    FUN_006f74f0_cls* AssignTaskReference(ObjA* o);
 };
 struct DH
 {
@@ -394,7 +394,7 @@ struct ObjB
 struct FUN_0092c8b0_cls
 {
     ObjB* p;
-    FUN_0092c8b0_cls* FUN_0092c8b0(ObjB* o);
+    FUN_0092c8b0_cls* AssignCloneReserverReference(ObjB* o);
 };
 struct P03MM
 {
@@ -434,7 +434,7 @@ struct DummyFlags
 };
 struct T_
 {
-    void FUN_004a3f10(void*);
+    void SetValue(void*);
     void ForwardToMember(int param);
 };
 
@@ -499,7 +499,7 @@ struct VirtObj
 struct Host
 {
     void QueuedItem_QueueFiles(int);
-    void FUN_00913fb0(VirtObj*);
+    void QueueFilesFromVirtualValue(VirtObj*);
 };
 
 void _Deallocate(void*);
@@ -841,7 +841,7 @@ struct FUN_0091e780_s
 // FUN_009139b0 : clears a 0x14-byte state block, resets a sub-object and returns this.
 struct Member14_b5364
 {
-    void FUN_00528cb0(int a1);
+    void SetObjectAndAddReference(int a1);
 };
 struct FUN_009139b0_cls
 {
@@ -856,7 +856,7 @@ struct FUN_009139b0_cls
     unsigned char m_11;
     unsigned short m_12;
     Member14_b5364 m_14;
-    FUN_009139b0_cls* FUN_009139b0();
+    FUN_009139b0_cls* InitializeFieldsAndObjectReference();
 };
 struct FUN_00867510
 {
@@ -918,8 +918,8 @@ struct FUN_00528cb0
 {
     FUN_00528cb0(int);
     ~FUN_00528cb0();
-    void FUN_006f74f0(int);
-    void FUN_0092c8b0(int);
+    void AssignTaskReference(int);
+    void AssignCloneReserverReference(int);
     int m_00;
 };
 struct FUN_00633c90
@@ -1240,7 +1240,7 @@ struct InventoryItemLookup
 };
 struct InventoryLookup
 {
-    InventoryItemLookup* FUN_00559450();
+    InventoryItemLookup* Modelloader_GetReferencedThis();
     void* FUN_0044ddc0(void* item, bool enabled);
 };
 struct ActorInventoryAccess
@@ -2970,7 +2970,7 @@ struct AcquireList
 {
     bool FUN_008256d0();
     AcquireObject** FUN_006815c0();
-    void FUN_00905330(AcquireObject**);
+    void RemoveMatchingItem(AcquireObject**);
 };
 struct RefListClear
 {
@@ -3930,7 +3930,7 @@ struct S_9292e0
 bool TestFlags(unsigned int a, unsigned int b);
 struct ArrowListRemoveHelper
 {
-    void FUN_00905330(ArrowProjectile* const& projectile);
+    void RemoveMatchingItem(ArrowProjectile* const& projectile);
 };
 struct S_0092adb0_Data
 {
@@ -5112,8 +5112,8 @@ struct FUN_00c3c590
 struct Sub14
 {
     void* m_00;
-    Sub14* FUN_006f74f0(FUN_00c3c590* o);
-    void* FUN_00559450(void* a);
+    Sub14* AssignTaskReference(FUN_00c3c590* o);
+    void* Modelloader_GetReferencedThis(void* a);
 };
 struct Host913
 {
@@ -5169,13 +5169,13 @@ struct PtrA96
 {
     void* p;
     ~PtrA96();
-    void FUN_006f74f0(void*);
+    void AssignTaskReference(void*);
 };
 struct PtrB96
 {
     void* p;
     ~PtrB96();
-    void FUN_0092c8b0(void*);
+    void AssignCloneReserverReference(void*);
 };
 struct Package96
 {
@@ -5349,7 +5349,7 @@ struct QueueTask
 struct TaskPointer
 {
     QueueTask* pointer;
-    QueueTask* FUN_00559450();
+    QueueTask* Modelloader_GetReferencedThis();
 };
 struct QueueObject
 {
@@ -5409,7 +5409,7 @@ struct PendingListNode
 {
     PendingObject** FUN_006815c0();
     PendingListNode* FUN_00726070();
-    void FUN_00905330(PendingObject** item);
+    void RemoveMatchingItem(PendingObject** item);
 };
 struct PendingResourceManager
 {
@@ -5424,7 +5424,7 @@ struct P114Point
 {
     float x, y, z;
     void FUN_006815c0();
-    P114Point FUN_00439ef0(const P114Point&) const;
+    P114Point SubtractIntoVector(const P114Point&) const;
     float FUN_00457990() const;
 };
 struct P114RefOps
@@ -5432,7 +5432,7 @@ struct P114RefOps
     ~P114RefOps();
     unsigned int GetHavokWorldObjectCountInSceneGraph_0084e3a0();
     int FUN_0044ddc0();
-    P114RefOps* FUN_00559450();
+    P114RefOps* Modelloader_GetReferencedThis();
     P114RefOps** FUN_006815c0();
     TESObjectREFR* ExtraDataList_GetReferencePointer();
     TESObjectREFR* FUN_0067f390();
@@ -6460,7 +6460,7 @@ struct NodeCls
     bool FUN_008256d0();
     void** FUN_006815c0();
     NodeCls* FUN_00726070();
-    void FUN_00905330(void** p);
+    void RemoveMatchingItem(void** p);
 };
 struct Proc4c
 {
@@ -8883,7 +8883,7 @@ struct ListView
     int next;
     bool FUN_008256d0();
     AcquireView** FUN_006815c0();
-    void FUN_00905330(AcquireView* const&);
+    void RemoveMatchingItem(AcquireView* const&);
 };
 struct ProcessView
 {
@@ -9578,7 +9578,7 @@ struct P130Idle
 };
 struct P130IdlePtr
 {
-    P130Idle* FUN_00559450();
+    P130Idle* Modelloader_GetReferencedThis();
 };
 struct P130Anim : Animation
 {
@@ -11178,11 +11178,11 @@ class TESActorBase;
 class NiTriBasedGeom;
 struct FUN_00559450_h
 {
-    NiTriBasedGeom* FUN_00559450();
+    NiTriBasedGeom* Modelloader_GetReferencedThis();
 };
 struct FUN_0057c6a0Class
 {
-    void* FUN_00559450();
+    void* Modelloader_GetReferencedThis();
 };
 struct Pt9
 {
@@ -11190,7 +11190,7 @@ struct Pt9
     float y;
     float z;
     float FUN_004a7290();
-    void FUN_00439ef0();
+    void SubtractIntoVector();
 };
 
 
@@ -11206,7 +11206,7 @@ struct GlobalObject_00633c90
     void* p;
     GlobalObject_00633c90(int);
     ~GlobalObject_00633c90();
-    PathingRequest* FUN_00559450();
+    PathingRequest* Modelloader_GetReferencedThis();
 };
 struct ObjC9 : TESObjectREFR
 {
@@ -11414,7 +11414,7 @@ struct B570FormCalls
 };
 struct B570PatrolData
 {
-    float FUN_006a7f50();
+    float AStarSearch_EvaluateValue_006a7f50();
 };
 struct B570ExtraCalls
 {
@@ -11526,7 +11526,7 @@ namespace ProcessActivate {
 struct ActPoint
 {
     float x, y, z;
-    ActPoint FUN_00439ef0(const ActPoint& arOther) const;
+    ActPoint SubtractIntoVector(const ActPoint& arOther) const;
     float FUN_00457990() const;
 };
 
@@ -12628,7 +12628,7 @@ bool ActProcess::MiddleHighProcess_ProcessActivate(ActActor* apActor, bool abAct
         bool bDoneEntry = false;
         if (pFurniture)
         {
-            ActPoint kDelta = pTarget->TESObjectREFR_GetLinkedDoorTeleportPosition()->FUN_00439ef0(*apActor->GetPos());
+            ActPoint kDelta = pTarget->TESObjectREFR_GetLinkedDoorTeleportPosition()->SubtractIntoVector(*apActor->GetPos());
             if (kDelta.FUN_00457990() <= *DAT_011cde98.Setting_Int())
                 bDoneEntry = true;
         }
@@ -14725,13 +14725,13 @@ void ClearGunWobble(const char*, NiNode*);
 class WeaponPreloadAccess
 {
   public:
-    WeaponPreloadAccess* FUN_006f74f0(QueuedFileAccess*);
-    QueuedFileAccess* FUN_00559450();
+    WeaponPreloadAccess* AssignTaskReference(QueuedFileAccess*);
+    QueuedFileAccess* Modelloader_GetReferencedThis();
 };
 class CloneAccess
 {
   public:
-    void FUN_0092c8b0(void*);
+    void AssignCloneReserverReference(void*);
 };
 class WeaponProcess : public MiddleHighProcess
 {
@@ -15286,11 +15286,12 @@ struct ItemLoadState913e80
     unsigned char unk0F;
     unsigned char unk10;
     unsigned char unk11;
-    void FUN_00913e80(BufferView* buffer);
+    void LoadInventoryEntryState(BufferView* buffer);
 };
 
 // @fnv 0x00913e80
-void ItemLoadState913e80::FUN_00913e80(BufferView* buffer)
+// src: GUESS 0x00913e80 (confidence: medium)
+void ItemLoadState913e80::LoadInventoryEntryState(BufferView* buffer)
 {
     ReferenceView* ref = buffer->GetRef();
     object = dynamic_cast<TESBoundObject*>(reinterpret_cast<TESForm*>(::TESForm_GetFormByNumericID(buffer->FUN_008648a0())));
@@ -15801,7 +15802,7 @@ struct UsePoint
 {
     float x, y, z;
     UsePoint();
-    UsePoint FUN_00439ef0(const UsePoint& arOther) const;
+    UsePoint SubtractIntoVector(const UsePoint& arOther) const;
     float FUN_00457990() const;
 };
 
@@ -16085,7 +16086,7 @@ struct UseExtraNode
 
 struct UseEntry
 {
-    UseExtraNode* FUN_00559450();
+    UseExtraNode* Modelloader_GetReferencedThis();
     void* FUN_0044ddc0(UseExtraList* apXData, UseRef* apLocation, int aiCount, void* apOwner);
     void* FUN_0044ddc0(UseExtraList* apXData, int aiCount, UsePoint* apPos, int aiFlags);
     ~UseEntry();
@@ -16207,7 +16208,7 @@ struct UseAcquireList
     void* pNext;
     bool FUN_008256d0();
     UseAcquire** FUN_006815c0();
-    void FUN_00905330(UseAcquire** appItem);
+    void RemoveMatchingItem(UseAcquire** appItem);
 };
 
 struct UseSetting
@@ -16457,7 +16458,7 @@ bool UseProcess::MiddleHighProcess_ProcessEscortOneHour(UseRef* apActor)
     }
     UsePoint kDelta = *apActor->GetPos();
     if (bTargetActor)
-        kDelta = apActor->GetPos()->FUN_00439ef0(*pTarget->GetPos());
+        kDelta = apActor->GetPos()->SubtractIntoVector(*pTarget->GetPos());
     float fRangeEntry = 0.0f;
     UseRef* pRangeTargetTmp = 0;
     UsePoint kFromVal;
@@ -16486,8 +16487,8 @@ bool UseProcess::MiddleHighProcess_ProcessEscortOneHour(UseRef* apActor)
             if (pEntryOut)
             {
                 UseExtraList* pXData = 0;
-                if (pEntryOut->FUN_00559450())
-                    pXData = *pEntryOut->FUN_00559450()->FUN_006815c0();
+                if (pEntryOut->Modelloader_GetReferencedThis())
+                    pXData = *pEntryOut->Modelloader_GetReferencedThis()->FUN_006815c0();
                 void* pOwner = 0;
                 if (pXData && pXData->ExtraDataList_GetReferencePointer())
                     pOwner = pXData->ExtraDataList_GetReferencePointer()->GetHavokWorldObjectCountInSceneGraph_0084e3a0();
@@ -16501,8 +16502,8 @@ bool UseProcess::MiddleHighProcess_ProcessEscortOneHour(UseRef* apActor)
                 }
                 else
                 {
-                    if (pEntryOut->FUN_00559450())
-                        pXData = *pEntryOut->FUN_00559450()->FUN_006815c0();
+                    if (pEntryOut->Modelloader_GetReferencedThis())
+                        pXData = *pEntryOut->Modelloader_GetReferencedThis()->FUN_006815c0();
                     UsePoint* pPos = 0;
                     if (pPackageTarget)
                     {
@@ -16525,7 +16526,7 @@ bool UseProcess::MiddleHighProcess_ProcessEscortOneHour(UseRef* apActor)
                     while (!kAcquireList.FUN_008256d0())
                     {
                         m_pDetectionData60 = *kAcquireList.FUN_006815c0();
-                        kAcquireList.FUN_00905330(&m_pDetectionData60);
+                        kAcquireList.RemoveMatchingItem(&m_pDetectionData60);
                         FUN_vt12c(m_pDetectionData60->pObject);
                         pEntryOut = apActor->TESObjectREFR_GetInventoryItem_00576260(m_pDetectionData60->pItem, 0);
                         delete m_pDetectionData60;
@@ -16537,8 +16538,8 @@ bool UseProcess::MiddleHighProcess_ProcessEscortOneHour(UseRef* apActor)
                         }
                         else
                         {
-                            if (pEntryOut->FUN_00559450())
-                                pXData = *pEntryOut->FUN_00559450()->FUN_006815c0();
+                            if (pEntryOut->Modelloader_GetReferencedThis())
+                                pXData = *pEntryOut->Modelloader_GetReferencedThis()->FUN_006815c0();
                             UsePoint* pItemPosTmp = 0;
                             if (pPackageTarget)
                             {

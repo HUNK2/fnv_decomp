@@ -201,7 +201,7 @@ struct FUN_00dd5660_cls
     int unk10;
     int unk14;
     int unk18;
-    int FUN_00dd5660();
+    int GetUnk18_00dd5660();
 };
 void __cdecl ResizeAudioStream(hkMemoryAllocator* apAllocator, void* apVector, int aiElemSize);
 struct Src_00dd5b00

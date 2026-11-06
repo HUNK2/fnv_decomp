@@ -10,11 +10,12 @@ extern int DAT_01083b00;
 struct FUN_00878430_shell
 {
     int* m_ptr;
-    void FUN_00878430();
+    void SetPtr();
 };
 
 // @fnv 0x00878430
-void FUN_00878430_shell::FUN_00878430()
+// src: GUESS 0x00878430 (confidence: low)
+void FUN_00878430_shell::SetPtr()
 {
     m_ptr = &DAT_01083b00;
 }
@@ -59,7 +60,7 @@ struct FUN_00878450_shell : FUN_00878430_shell
 // @fnv 0x00878450
 void* __thiscall FUN_00878450_shell::FUN_00878450(unsigned int flags)
 {
-    FUN_00878430();
+    SetPtr();
     if (flags & 1)
         _Deallocate(this);
     return this;

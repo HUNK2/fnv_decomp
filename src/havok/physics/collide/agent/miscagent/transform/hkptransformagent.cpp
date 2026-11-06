@@ -52,12 +52,12 @@ struct CollisionAgentFunctionTable {
     char f11;
 };
 struct Agent {
-    void FUN_00cfbbe0(CollisionAgentFunctionTable* af, int a, int b);
+    void AppendRecordAndRegisterAgents(CollisionAgentFunctionTable* af, int a, int b);
 };
 void __cdecl CreateTransformAgent();
 void __cdecl RunCollector();
 void __cdecl RunSymmetricAgentFlipCollector();
-void __cdecl FUN_00d43370();
+void __cdecl hkVector4_UpdateState_00d43370();
 void __cdecl BuildHeaderAndDispatchHandler();
 void __cdecl ProcessTransformShapeCollision();
 void __cdecl hkpTransformAgent_staticGetClosestPoints();
@@ -71,10 +71,10 @@ void RegisterCallbacks(Agent* pAgent)
     af.f0 = (void*)&CreateTransformAgent;
     af.f4 = (void*)&RunCollector;
     af.f8 = (void*)&RunSymmetricAgentFlipCollector;
-    af.fc = (void*)&FUN_00d43370;
+    af.fc = (void*)&hkVector4_UpdateState_00d43370;
     af.f10 = 1;
     af.f11 = 1;
-    pAgent->FUN_00cfbbe0(&af, -1, 15);
+    pAgent->AppendRecordAndRegisterAgents(&af, -1, 15);
 
     af.f0 = (void*)&BuildHeaderAndDispatchHandler;
     af.f4 = (void*)&ProcessTransformShapeCollision;
@@ -82,7 +82,7 @@ void RegisterCallbacks(Agent* pAgent)
     af.fc = (void*)&DispatchClosestPoints;
     af.f10 = 0;
     af.f11 = 1;
-    pAgent->FUN_00cfbbe0(&af, 15, -1);
+    pAgent->AppendRecordAndRegisterAgents(&af, 15, -1);
 }
 
 struct Target {
@@ -363,11 +363,12 @@ extern unsigned char DAT_010ce7fc;
 extern float DAT_0104da48;
 struct Wrapper {
     void hkpTransformAgent_getClosestPoints(void*, void*, unsigned int, CallData*);
-    void FUN_00d434a0(void*, void*, unsigned int, unsigned int);
+    void UpdateFields_00d434a0(void*, void*, unsigned int, unsigned int);
 };
 // Builds a CallData from fourth and DAT_0104da48 with descriptor DAT_010ce7fc, then calls FUN_00d42de0 with second, first and third.
 // @fnv 0x00d434a0
-void Wrapper::FUN_00d434a0(void* first, void* second, unsigned int third, unsigned int fourth) {
+// src: GUESS 0x00d434a0 (confidence: low)
+void Wrapper::UpdateFields_00d434a0(void* first, void* second, unsigned int third, unsigned int fourth) {
     CallData data;
     data.value = fourth;
     data.bound = DAT_0104da48;
@@ -405,11 +406,12 @@ struct Collector_d43620 {
 
 struct Caster_d43620 {
     int ProcessSource(int a, int b, const Input_d43620* in, Collector_d43620* c, Collector_d43620* c2);
-    int FUN_00d43620(int a, int b, const Input_d43620* in, int c, int d);
+    int ProcessAndReturnValue_00d43620(int a, int b, const Input_d43620* in, int c, int d);
 };
 
 // @fnv 0x00d43620
-int Caster_d43620::FUN_00d43620(int aiArg1, int aiArg2, const Input_d43620* apInput, int aiValue1, int aiValue2)
+// src: GUESS 0x00d43620 (confidence: low)
+int Caster_d43620::ProcessAndReturnValue_00d43620(int aiArg1, int aiArg2, const Input_d43620* apInput, int aiValue1, int aiValue2)
 {
     Input_d43620 rev = *apInput;
     rev.m_dir = _mm_xor_ps(apInput->m_dir, DAT_010c44d0);
@@ -698,10 +700,11 @@ void __cdecl ProcessTransformShapeCollision(
 
 struct CallTarget_00d42fc0 { int hkpTransformAgent_updateShapeCollectionFilter(int, int, int, int); };
 struct SearchObject {
-    int FUN_00d43600(unsigned int arg0, unsigned int arg1, unsigned int arg2, unsigned int arg3);
+    int ProcessAndReturnValue_00d43600(unsigned int arg0, unsigned int arg1, unsigned int arg2, unsigned int arg3);
 };
 // @fnv 0x00d43600
-int SearchObject::FUN_00d43600(unsigned int arg0, unsigned int arg1, unsigned int arg2, unsigned int arg3)
+// src: GUESS 0x00d43600 (confidence: low)
+int SearchObject::ProcessAndReturnValue_00d43600(unsigned int arg0, unsigned int arg1, unsigned int arg2, unsigned int arg3)
 {
     unsigned int uiResult = (unsigned int)((CallTarget_00d42fc0*)this)->hkpTransformAgent_updateShapeCollectionFilter((int)arg1, (int)arg0, (int)arg2, (int)arg3);
     return (int)uiResult;
@@ -1212,7 +1215,8 @@ struct hkpGskAgent {
 
 // @fnv 0x00d434e0
 template <>
-void hkpSymmetricAgent<hkpGskAgent>::FUN_00d434e0(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const GskAgentInput& input, Output& output)
+// src: GUESS 0x00d434e0 (confidence: low)
+void hkpSymmetricAgent<hkpGskAgent>::ProcessEntries_00d434e0(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const GskAgentInput& input, Output& output)
 {
     float oldTime = output.m_fTimeOfImpact.m_uiCommandId;
     AlignedPairData* cp = output.m_pAlignedPairData;
@@ -1394,7 +1398,8 @@ void __cdecl DispatchClosestPoints(int a1, int a2, Input_d2e9* input, Record_d2e
 
 // XORs the input vector with DAT_010c44d0, builds a Record_d2e9 with m_fScalar and a4, and calls DispatchClosestPoints with an optional second record using a5.
 // @fnv 0x00d43370
-void __cdecl FUN_00d43370(int a2, int a1, const Input_d2e9* input, int a4, int a5)
+// src: GUESS 0x00d43370 (confidence: low)
+void __cdecl hkVector4_UpdateState_00d43370(int a2, int a1, const Input_d2e9* input, int a4, int a5)
 {
     Input_d2e9 local = *input;
     local.m_vComponents = _mm_xor_ps(input->m_vComponents, DAT_010c44d0);
@@ -1610,12 +1615,13 @@ struct TtTransform {
 };
 
 struct TtShapeCollection : TtTransform {
-    void FUN_00d43460(int a, int b, int c, int d);
+    void UpdateFields_00d43460(int a, int b, int c, int d);
 };
 
 // Builds a SectorDesc from d and the static sectorPtrs, then calls TtTransform::FUN_00d42ed0 with b, a, c and that descriptor.
 // @fnv 0x00d43460
-void TtShapeCollection::FUN_00d43460(int a, int b, int c, int d) {
+// src: GUESS 0x00d43460 (confidence: low)
+void TtShapeCollection::UpdateFields_00d43460(int a, int b, int c, int d) {
     SectorDesc s;
     s.unk04 = false;
     s.sectorPtrs = (void*)0x10ce81c;

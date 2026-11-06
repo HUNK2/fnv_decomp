@@ -174,12 +174,13 @@ void* __cdecl memset(void*, int, unsigned int);
 
 struct FUN_004a7c40_shell
 {
-    void* FUN_004a7c40();
+    void* InitializeFields_004a7c40();
     void ClearToZero();
 };
 
 // @fnv 0x004a7c40
-void* FUN_004a7c40_shell::FUN_004a7c40()
+// src: GUESS 0x004a7c40 (confidence: low)
+void* FUN_004a7c40_shell::InitializeFields_004a7c40()
 {
     *(int*)this = (int)&DAT_0101ec68;
     ((FUN_004a7c40_shell*)((char*)this + 4))->ClearToZero();
@@ -205,13 +206,13 @@ void* FUN_004a7c80_shell::ClearToZero()
 struct BGSSceneInfo_shell
 {
     void* Destroy(unsigned int flags);
-    void FUN_004a7cd0();
+    void SetField0000();
 };
 // Calls FUN_004a7cd0, then deallocates this when flags has bit 0 set, and returns this.
 // @fnv 0x004a7ca0
 void* BGSSceneInfo_shell::Destroy(unsigned int flags)
 {
-    FUN_004a7cd0();
+    SetField0000();
     if (flags & 1)
         _Deallocate(this);
     return this;
@@ -222,11 +223,12 @@ extern int DAT_0101ec68;
 struct FUN_004a7cd0_shell
 {
     int* m_0000;
-    void FUN_004a7cd0();
+    void SetField0000();
 };
 
 // @fnv 0x004a7cd0
-void FUN_004a7cd0_shell::FUN_004a7cd0()
+// src: GUESS 0x004a7cd0 (confidence: low)
+void FUN_004a7cd0_shell::SetField0000()
 {
     m_0000 = &DAT_0101ec68;
 }
@@ -280,13 +282,14 @@ extern int DAT_0101ed0c;
 struct FUN_004a9600_shell
 {
     int m_0000;
-    void* FUN_004a9600(void* arg);
+    void* InitializeFields_004a9600(void* arg);
     void __thiscall NiTMapBase_DFALL_NiTMapItem_TESObjectCELL_bool_TESObjectCELL_bool_NiTMapBase_DFALL_NiTMapItem_TESObjectCELL_bool_TESObjectCELL_bool(void* arg);
 };
 
 // Calls FUN_004a98e0 on arg, stores the address of DAT_0101ed0c in m_0000, and returns this.
 // @fnv 0x004a9600
-void* FUN_004a9600_shell::FUN_004a9600(void* arg)
+// src: GUESS 0x004a9600 (confidence: low)
+void* FUN_004a9600_shell::InitializeFields_004a9600(void* arg)
 {
     NiTMapBase_DFALL_NiTMapItem_TESObjectCELL_bool_TESObjectCELL_bool_NiTMapBase_DFALL_NiTMapItem_TESObjectCELL_bool_TESObjectCELL_bool(arg);
     m_0000 = (int)&DAT_0101ed0c;
@@ -583,7 +586,7 @@ struct SceneItem
 };
 struct ItemList
 {
-    void* FUN_00559450();
+    void* Modelloader_GetReferencedThis();
     void* DereferenceIfNotNull(void*);
     SceneItem** AddEight(void*);
 };
@@ -594,13 +597,13 @@ struct OuterRecord
 };
 struct OuterList
 {
-    void* FUN_00559450();
+    void* Modelloader_GetReferencedThis();
     void* DereferenceIfNotNull(void*);
     OuterRecord** AddEight(void*);
 };
 struct SceneManager
 {
-    OuterList* FUN_005a8080();
+    OuterList* ComputeValue_005a8080();
 };
 struct SceneGlobal
 {
@@ -794,10 +797,10 @@ struct SceneCounter
 // @fnv 0x004a7d20
 void SceneCounter::AccumulateSceneStats(SceneOwner* owner)
 {
-    OuterList* j = DAT_011dea10->DetailedActorPathHandler_GetCurrentNodeIndex()->FUN_005a8080();
+    OuterList* j = DAT_011dea10->DetailedActorPathHandler_GetCurrentNodeIndex()->ComputeValue_005a8080();
     FUN_004a9600 e(0x25);
     FUN_0042f4e0 k(0x25);
-    void* ba = j->FUN_00559450();
+    void* ba = j->Modelloader_GetReferencedThis();
     void* l = 0;
     while (ba)
     {
@@ -808,7 +811,7 @@ void SceneCounter::AccumulateSceneStats(SceneOwner* owner)
             if (q)
             {
                 int eb = 0;
-                void* s = q->items.FUN_00559450();
+                void* s = q->items.Modelloader_GetReferencedThis();
                 void* cf = 0;
                 bool f = false;
                 while (s)
@@ -886,7 +889,7 @@ struct StatNodeLink
 };
 struct StatKey
 {
-    StatForm* FUN_00559450();
+    StatForm* Modelloader_GetReferencedThis();
 };
 struct StatKeyHolder
 {
@@ -1110,7 +1113,7 @@ void SceneStatistics::AccumulateSceneStatistics(StatObject* object, int* output,
                 {
                     StatKeyHolder* holder = actor->bhkNiCollisionObject_GetWorldObject();
                     StatKey* key = holder ? holder->GetSourceFilesFromObject() : 0;
-                    StatForm* form1 = key ? key->FUN_00559450() : 0;
+                    StatForm* form1 = key ? key->Modelloader_GetReferencedThis() : 0;
                     if (form1)
                         counts[15] += BGSSceneInfo_GetHavokFaceCount(form1);
                 }

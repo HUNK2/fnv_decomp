@@ -26,7 +26,7 @@ extern int DAT_010cfb34;
 struct FUN_00d496d0
 {
     int vtbl;
-    void FUN_00d24660();
+    void SetVirtualTable_00d24660();
     ~FUN_00d496d0();
 };
 
@@ -36,7 +36,7 @@ FUN_00d496d0::~FUN_00d496d0()
     *(void**)this = &DAT_010cfb34;
     if (*(char*)((char*)this + 0x70))
         Deallocate(*(void**)((char*)this + 0x60));
-    FUN_00d24660();
+    SetVirtualTable_00d24660();
 }
 
 #pragma pack(push, 4)

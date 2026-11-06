@@ -216,12 +216,13 @@ extern MemoryManager g_memoryManager;
 struct FUN_00c04710Class
 {
     void __thiscall FUN_00c04620();
-    FUN_00c04710Class* __thiscall FUN_00c04710(bool flag);
+    FUN_00c04710Class* __thiscall ReleaseStorage_00c04710(bool flag);
 };
 
 // Calls FUN_00c04620, then deallocates this via g_memoryManager when flag's low bit is set, and returns this.
 // @fnv 0x00c04710
-FUN_00c04710Class* __thiscall FUN_00c04710Class::FUN_00c04710(bool abFree)
+// src: GUESS 0x00c04710 (confidence: low)
+FUN_00c04710Class* __thiscall FUN_00c04710Class::ReleaseStorage_00c04710(bool abFree)
 {
     FUN_00c04620();
     if ((unsigned char)abFree & 1)
@@ -347,7 +348,7 @@ int FUN_00c05350_class::ImageSpaceEffectBloom_IsActive()
 }
 
 extern void* DAT_010bcb60;
-void __cdecl FUN_00bb45b0();
+void __cdecl Runtime_UpdateState_00bb45b0();
 extern "C" void __cdecl _delete(void*, unsigned int);
 struct FUN_00c058c0
 {
@@ -359,7 +360,7 @@ struct FUN_00c058c0
 __thiscall FUN_00c058c0::FUN_00c058c0(bool abDelete)
 {
     vtbl = &DAT_010bcb60;
-    FUN_00bb45b0();
+    Runtime_UpdateState_00bb45b0();
     if (abDelete & 1)
         _delete(this, 0x108);
 }
@@ -395,10 +396,11 @@ struct FUN_00a74480_holder
 };
 struct FUN_00c1a660_holder : FUN_00a74480_holder
 {
-    FUN_00c1a660_holder* FUN_00c1a660(unsigned int a);
+    FUN_00c1a660_holder* InitializeFields_00c1a660(unsigned int a);
 };
 // @fnv 0x00c1a660
-FUN_00c1a660_holder* FUN_00c1a660_holder::FUN_00c1a660(unsigned int a)
+// src: GUESS 0x00c1a660 (confidence: low)
+FUN_00c1a660_holder* FUN_00c1a660_holder::InitializeFields_00c1a660(unsigned int a)
 {
     FUN_00a74480(a);
     *reinterpret_cast<int*>(this) = reinterpret_cast<int>(&DAT_010bcdc8);
@@ -660,10 +662,11 @@ struct FUN_00c03260_class
 {
     char pad[0x58];
     ImageSpaceTexture m_tex;
-    void FUN_00c03260();
+    void AddRenderedTexture_Thunk();
 };
 // @fnv 0x00c03260
-void FUN_00c03260_class::FUN_00c03260()
+// src: GUESS 0x00c03260 (confidence: medium)
+void FUN_00c03260_class::AddRenderedTexture_Thunk()
 {
     m_tex.AddRenderedTexture();
 }
@@ -1083,10 +1086,11 @@ struct FUN_00c1a480_class
     int m_vtbl;
     int m_iWordAt04;
     int __thiscall NiTriStrips_NiTriStrips(int);
-    int __thiscall FUN_00c1a480(int a);
+    int __thiscall SetVirtualTable_00c1a480(int a);
 };
 // @fnv 0x00c1a480
-int FUN_00c1a480_class::FUN_00c1a480(int aiArg)
+// src: GUESS 0x00c1a480 (confidence: low)
+int FUN_00c1a480_class::SetVirtualTable_00c1a480(int aiArg)
 {
     NiTriStrips_NiTriStrips(aiArg);
     m_vtbl = (int)&DAT_010bcc90;
@@ -2683,11 +2687,12 @@ struct FUN_00c05880_cls
     unsigned int unkFC;
     unsigned int m_100;
     void FUN_00bb4520();
-    FUN_00c05880_cls* FUN_00c05880();
+    FUN_00c05880_cls* InitializeFields_00c05880();
 };
 
 // @fnv 0x00c05880
-FUN_00c05880_cls* FUN_00c05880_cls::FUN_00c05880()
+// src: GUESS 0x00c05880 (confidence: low)
+FUN_00c05880_cls* FUN_00c05880_cls::InitializeFields_00c05880()
 {
     FUN_00bb4520();
     unsigned int zero = 0;
@@ -4152,7 +4157,8 @@ struct RefHandle
 };
 extern RefHandle DAT_011fda48[208];
 // @fnv 0x00c163a0
-RefObject* __cdecl FUN_00c163a0(unsigned int index)
+// src: GUESS 0x00c163a0 (confidence: low)
+RefObject* __cdecl Object_ProcessAndReturnValue_00c163a0(unsigned int index)
 {
     return index <= 207 ? DAT_011fda48[index] : static_cast<const RefHandle&>(RefHandle());
 }
@@ -9112,7 +9118,8 @@ FUN_00c04da0::~FUN_00c04da0()
 }
 
 // @fnv 0x00c05870
-float __cdecl FUN_00c05870()
+// src: GUESS 0x00c05870 (confidence: low)
+float __cdecl Runtime_EvaluateValue_00c05870()
 {
     return 1.0f;
 }
@@ -12140,11 +12147,12 @@ struct C0D170Self
     virtual void s84();
     virtual void s85();
     virtual void at158();
-    bool FUN_00c0d170();
+    bool ProcessEntries_00c0d170();
 };
 // Iterates 33 slots starting at DAT_01202230, calling FUN_00e804d0 on each, then calls at158 and returns true.
 // @fnv 0x00c0d170
-bool C0D170Self::FUN_00c0d170()
+// src: GUESS 0x00c0d170 (confidence: low)
+bool C0D170Self::ProcessEntries_00c0d170()
 {
     void* slot = &DAT_01202230;
     int n = 0x21;

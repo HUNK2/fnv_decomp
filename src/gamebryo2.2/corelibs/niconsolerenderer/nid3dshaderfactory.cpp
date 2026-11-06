@@ -348,7 +348,8 @@ void __fastcall NiD3DShaderFactory_RemoveAllShaders(FUN_00e92460_cls* self, int)
 }
 
 // @fnv 0x00e92590
-unsigned int __stdcall FUN_00e92590(unsigned int auiLeft, unsigned int auiRight)
+// src: GUESS 0x00e92590 (confidence: high)
+unsigned int __stdcall NiD3DShaderFactory_AreValuesEqual(unsigned int auiLeft, unsigned int auiRight)
 {
     return auiLeft == auiRight;
 }
@@ -494,7 +495,7 @@ bool __stdcall IsDefaultShader(NiShader* pkShader)
 
 void __cdecl operator delete(void* p, unsigned int);
 
-void __cdecl FUN_00e92dc0();
+void __cdecl UpdateFields_00e92dc0();
 
 struct FUN_00e92e30_shell : public NiD3DShaderFactory
 {
@@ -505,7 +506,7 @@ struct FUN_00e92e30_shell : public NiD3DShaderFactory
 // @fnv 0x00e92e30
 void* __thiscall FUN_00e92e30_shell::DestroyShaderFactory(unsigned int flags)
 {
-    FUN_00e92dc0();
+    UpdateFields_00e92dc0();
     if (flags & 1)
         operator delete(this, 0x100);
     return this;
@@ -976,11 +977,12 @@ struct ShaderFactoryShutdown : NiD3DShaderFactory
 {
     void NiD3DShaderFactory_RemoveAllLibraries();
     void FUN_00aa05a0();
-    void FUN_00e92dc0();
+    void UpdateFields_00e92dc0();
 };
 
 // @fnv 0x00e92dc0
-void ShaderFactoryShutdown::FUN_00e92dc0()
+// src: GUESS 0x00e92dc0 (confidence: low)
+void ShaderFactoryShutdown::UpdateFields_00e92dc0()
 {
     ShaderMapBase* shaderMap = static_cast<ShaderMapBase*>(m_pShaderMapStorage);
     *(void**)this = &kVtbl_NiD3DShaderFactory;

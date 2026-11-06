@@ -60,7 +60,7 @@ struct SubC2C
 
 struct NameGetter
 {
-    void* FUN_00559450();
+    void* Modelloader_GetReferencedThis();
 };
 
 struct VObj
@@ -1463,7 +1463,7 @@ void FUN_006eae40_shell::PathManagerImpl_Update()
         {
         case 0:
         case 1:
-            m_sub1480.Notify(((NameGetter*)((char*)item_omdso.m_ptr + 0x18))->FUN_00559450());
+            m_sub1480.Notify(((NameGetter*)((char*)item_omdso.m_ptr + 0x18))->Modelloader_GetReferencedThis());
             delete (VObj*)item_omdso.m_ptr;
             break;
         }

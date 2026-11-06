@@ -74,11 +74,12 @@ struct FUN_006a1490_class
 {
     int m_iWordAt00;
     int m_iWordAt04;
-    int FUN_006a1490(int index);
+    int EvaluateValue_006a1490(int index);
 };
 
 // @fnv 0x006a1490
-int FUN_006a1490_class::FUN_006a1490(int index)
+// src: GUESS 0x006a1490 (confidence: low)
+int FUN_006a1490_class::EvaluateValue_006a1490(int index)
 {
     return index * 0x24 + m_iWordAt04;
 }
@@ -88,10 +89,11 @@ struct GlobalObject_00869f00
 {
     int* vft;
     void __thiscall Clear(bool);
-    void __thiscall FUN_006a14e0();
+    void __thiscall ResetVirtualTableAndClear_006a14e0();
 };
 // @fnv 0x006a14e0
-void __thiscall GlobalObject_00869f00::FUN_006a14e0()
+// src: GUESS 0x006a14e0 (confidence: medium)
+void __thiscall GlobalObject_00869f00::ResetVirtualTableAndClear_006a14e0()
 {
     vft = &DAT_0106b3b0;
     Clear(true);
@@ -119,10 +121,11 @@ struct FUN_006a1700_class
 {
     int* p;
     void FUN_0049faf0(int a);
-    void FUN_006a1700();
+    void UpdateFields_006a1700();
 };
 // @fnv 0x006a1700
-void FUN_006a1700_class::FUN_006a1700()
+// src: GUESS 0x006a1700 (confidence: low)
+void FUN_006a1700_class::UpdateFields_006a1700()
 {
     p = &DAT_0106b3d4;
     FUN_0049faf0(1);
@@ -171,10 +174,11 @@ struct GlobalObject_00869f00
 {
     int* data;
     void Clear(bool);
-    void FUN_006a18e0();
+    void ResetVirtualTableAndClear_006a18e0();
 };
 // @fnv 0x006a18e0
-void GlobalObject_00869f00::FUN_006a18e0()
+// src: GUESS 0x006a18e0 (confidence: medium)
+void GlobalObject_00869f00::ResetVirtualTableAndClear_006a18e0()
 {
     this->data = &DAT_0106b3fc;
     this->Clear(true);
@@ -185,11 +189,12 @@ void* _Reallocate(void* base, unsigned int count);
 
 struct FUN_006a1900_Class
 {
-    void* __thiscall FUN_006a1900(void* base, unsigned int count);
+    void* __thiscall _Reallocate_Thunk(void* base, unsigned int count);
 };
 
 // @fnv 0x006a1900
-void* __thiscall FUN_006a1900_Class::FUN_006a1900(void* base, unsigned int count)
+// src: GUESS 0x006a1900 (confidence: medium)
+void* __thiscall FUN_006a1900_Class::_Reallocate_Thunk(void* base, unsigned int count)
 {
     return _Reallocate(base, count << 6);
 }
@@ -219,7 +224,7 @@ extern "C" void* DAT_0106b424;
 struct FUN_006a1a00_class
 {
     void* vtable;
-    void FUN_006a2470(int, int);
+    void UpdateState_006a2470(int, int);
     FUN_006a1a00_class* BSSimpleArray_RemoveIndex_1024_BSSimpleArray_RemoveIndex_1024();
 };
 
@@ -229,7 +234,7 @@ struct FUN_006a1a00_class
 FUN_006a1a00_class* FUN_006a1a00_class::BSSimpleArray_RemoveIndex_1024_BSSimpleArray_RemoveIndex_1024()
 {
     vtable = &DAT_0106b424;
-    FUN_006a2470(0, 0);
+    UpdateState_006a2470(0, 0);
     return this;
 }
 
@@ -244,11 +249,12 @@ struct GlobalObject_00869f00
 struct FUN_006a1a30_class
 {
     GlobalObject_00869f00* m_p;
-    void FUN_006a1a30();
+    void UpdateState_006a1a30();
 };
 
 // @fnv 0x006a1a30
-void FUN_006a1a30_class::FUN_006a1a30()
+// src: GUESS 0x006a1a30 (confidence: low)
+void FUN_006a1a30_class::UpdateState_006a1a30()
 {
     m_p = (GlobalObject_00869f00*)&DAT_0106b424;
     ((GlobalObject_00869f00*)this)->Clear(true);
@@ -285,7 +291,8 @@ struct ScrapHeapBuffer
 };
 
 // @fnv 0x006a1f90
-void* FUN_006a1f90(unsigned int auiSize, ScrapHeapBuffer* heap)
+// src: GUESS 0x006a1f90 (confidence: low)
+void* Runtime_ForwardCall_006a1f90(unsigned int auiSize, ScrapHeapBuffer* heap)
 {
     return heap->Allocate(auiSize, DAT_010a2720);
 }
@@ -297,11 +304,12 @@ struct GlobalObject_00869f00
 {
     void* p;
     void Clear(bool);
-    void FUN_006a2580();
+    void ResetVirtualTableAndClear_006a2580();
 };
 
 // @fnv 0x006a2580
-void GlobalObject_00869f00::FUN_006a2580()
+// src: GUESS 0x006a2580 (confidence: medium)
+void GlobalObject_00869f00::ResetVirtualTableAndClear_006a2580()
 {
     p = &DAT_0106b44c;
     Clear(true);
@@ -443,11 +451,12 @@ extern int DAT_0106b5c0;
 struct GlobalObject_00869f00
 {
     void Clear(bool);
-    void FUN_006a67d0();
+    void SetVtableAndProcessState_006a67d0();
 };
 
 // @fnv 0x006a67d0
-void GlobalObject_00869f00::FUN_006a67d0()
+// src: GUESS 0x006a67d0 (confidence: low)
+void GlobalObject_00869f00::SetVtableAndProcessState_006a67d0()
 {
     *reinterpret_cast<void**>(this) = &DAT_0106b5c0;
     Clear(true);
@@ -456,14 +465,15 @@ void GlobalObject_00869f00::FUN_006a67d0()
 
 struct FUN_006a68b0_Class
 {
-    void FUN_006a68d0();
-    void FUN_006a68b0();
+    void ForwardCall_006a68d0();
+    void ForwardCall_006a68b0();
 };
 
 // @fnv 0x006a68b0
-void FUN_006a68b0_Class::FUN_006a68b0()
+// src: GUESS 0x006a68b0 (confidence: low)
+void FUN_006a68b0_Class::ForwardCall_006a68b0()
 {
-    FUN_006a68d0();
+    ForwardCall_006a68d0();
 }
 
 namespace fnv_006a85b0 {
@@ -476,11 +486,12 @@ struct GlobalObject_00869f00
 
 struct FUN_006a85b0_Class
 {
-    void FUN_006a85b0();
+    void SetVtableAndProcessState_006a85b0();
 };
 
 // @fnv 0x006a85b0
-void FUN_006a85b0_Class::FUN_006a85b0()
+// src: GUESS 0x006a85b0 (confidence: low)
+void FUN_006a85b0_Class::SetVtableAndProcessState_006a85b0()
 {
     *(int*)this = (int)&DAT_0106b688;
     ((GlobalObject_00869f00*)this)->Clear(true);
@@ -534,10 +545,11 @@ extern int DAT_0106ba94;
 struct GlobalObject_00869f00
 {
     void Clear(bool);
-    void FUN_006b42a0();
+    void ResetVirtualTableAndClear_006b42a0();
 };
 // @fnv 0x006b42a0
-void GlobalObject_00869f00::FUN_006b42a0()
+// src: GUESS 0x006b42a0 (confidence: medium)
+void GlobalObject_00869f00::ResetVirtualTableAndClear_006b42a0()
 {
     *reinterpret_cast<int*>(this) = (int)&DAT_0106ba94;
     Clear(true);
@@ -552,10 +564,11 @@ struct AX
 extern int DAT_0106ba94;
 struct FUN_006b4670_class
 {
-    AX* FUN_006b4670();
+    AX* SetVtableAndProcessState_006b4670();
 };
 // @fnv 0x006b4670
-AX* FUN_006b4670_class::FUN_006b4670()
+// src: GUESS 0x006b4670 (confidence: low)
+AX* FUN_006b4670_class::SetVtableAndProcessState_006b4670()
 {
     *(int*)this = (int)&DAT_0106ba94;
     ((AX*)this)->BSSimpleArray_float_1024_InitialSetup(0, 0);
@@ -630,11 +643,12 @@ void* FUN_006bec20_Class::NavMeshObstacleCutter_UpdateCoverArray()
 
 struct FUN_006bf670_Class
 {
-    int* FUN_006bf670(int a);
+    int* GetElementAddress_006bf670(int a);
 };
 
 // @fnv 0x006bf670
-int* FUN_006bf670_Class::FUN_006bf670(int aiIndex)
+// src: GUESS 0x006bf670 (confidence: low)
+int* FUN_006bf670_Class::GetElementAddress_006bf670(int aiIndex)
 {
     return (int*)((char*)*(int*)((char*)this + 4) + aiIndex * 0x1c);
 }
@@ -664,12 +678,13 @@ extern int DAT_0106c2e8;
 struct GlobalObject_00869f00
 {
     void Clear(bool);
-    void FUN_006bf6c0();
+    void ResetVirtualTableAndClear_006bf6c0();
 };
 void GlobalObject_00869f00::Clear(bool b)
 {}
 // @fnv 0x006bf6c0
-void GlobalObject_00869f00::FUN_006bf6c0()
+// src: GUESS 0x006bf6c0 (confidence: medium)
+void GlobalObject_00869f00::ResetVirtualTableAndClear_006bf6c0()
 {
     *(int*)this = (int)&DAT_0106c2e8;
     Clear(true);
@@ -682,11 +697,12 @@ extern int DAT_0106c2fc;
 struct GlobalObject_00869f00
 {
     void Clear(bool);
-    void FUN_006bf710();
+    void SetVtableAndProcessState_006bf710();
 };
 
 // @fnv 0x006bf710
-void GlobalObject_00869f00::FUN_006bf710()
+// src: GUESS 0x006bf710 (confidence: low)
+void GlobalObject_00869f00::SetVtableAndProcessState_006bf710()
 {
     *reinterpret_cast<int*>(this) = reinterpret_cast<int>(&DAT_0106c2fc);
     Clear(true);
@@ -710,11 +726,12 @@ extern "C" void* __cdecl Reallocate(void*, size_t);
 
 struct FUN_006bf7b0_Class
 {
-    void* __thiscall FUN_006bf7b0(int n, int m);
+    void* __thiscall Reallocate_Thunk(int n, int m);
 };
 
 // @fnv 0x006bf7b0
-void* __thiscall FUN_006bf7b0_Class::FUN_006bf7b0(int n, int m)
+// src: GUESS 0x006bf7b0 (confidence: medium)
+void* __thiscall FUN_006bf7b0_Class::Reallocate_Thunk(int n, int m)
 {
     return Reallocate(reinterpret_cast<void*>(n), m * 0x1c);
 }
@@ -726,11 +743,12 @@ extern int DAT_0106c34c;
 struct GlobalObject_00869f00
 {
     void Clear(bool);
-    void FUN_006bfab0();
+    void SetVtableAndProcessState_006bfab0();
 };
 
 // @fnv 0x006bfab0
-void GlobalObject_00869f00::FUN_006bfab0()
+// src: GUESS 0x006bfab0 (confidence: low)
+void GlobalObject_00869f00::SetVtableAndProcessState_006bfab0()
 {
     *(int**)((char*)this + 0) = (int*)&DAT_0106c34c;
     Clear(true);
@@ -739,13 +757,13 @@ void GlobalObject_00869f00::FUN_006bfab0()
 
 struct FUN_006bfb90_class
 {
-    void __thiscall FUN_006bfb90(int);
+    void __thiscall AreValuesEqual_006bfb90(int);
 };
 
 // @fnv 0x006bfb70
 void CallWithInt(FUN_006bfb90_class* pObject, int iValue)
 {
-    pObject->FUN_006bfb90(iValue);
+    pObject->AreValuesEqual_006bfb90(iValue);
 }
 
 namespace fnv_006bff00 {
@@ -781,10 +799,11 @@ extern int DAT_0106c194;
 struct FUN_006b8030_class
 {
     void __thiscall RemoveAll();
-    void __thiscall FUN_006b8030();
+    void __thiscall SetVtableAndProcessState_006b8030();
 };
 // @fnv 0x006b8030
-void __thiscall FUN_006b8030_class::FUN_006b8030()
+// src: GUESS 0x006b8030 (confidence: low)
+void __thiscall FUN_006b8030_class::SetVtableAndProcessState_006b8030()
 {
     *reinterpret_cast<int**>(this) = &DAT_0106c194;
     RemoveAll();
@@ -833,10 +852,11 @@ struct FUN_006a0520_class
 {
     float m_iWordAt00;
     float m_iWordAt04;
-    Point3Storage& FUN_006a0520(const Point3Storage& o);
+    Point3Storage& MultiplyXYComponents(const Point3Storage& o);
 };
 // @fnv 0x006a0520
-Point3Storage& FUN_006a0520_class::FUN_006a0520(const Point3Storage& o)
+// src: GUESS 0x006a0520 (confidence: medium)
+Point3Storage& FUN_006a0520_class::MultiplyXYComponents(const Point3Storage& o)
 {
     float a = m_iWordAt00;
     float b5 = m_iWordAt04;
@@ -845,29 +865,30 @@ Point3Storage& FUN_006a0520_class::FUN_006a0520(const Point3Storage& o)
     return *(Point3Storage*)this;
 }
 
-void __cdecl FUN_006a1b80();
+void __cdecl Object_Equals_Thunk();
 struct S006a1460
 {
     int __thiscall FindMatchingEntry(int a, int b, void(__cdecl* c)());
-    bool __thiscall FUN_006a1460(int a);
+    bool __thiscall ProcessAndTransformResult_006a1460(int a);
 };
 // @fnv 0x006a1460
-bool __thiscall S006a1460::FUN_006a1460(int a)
+// src: GUESS 0x006a1460 (confidence: low)
+bool __thiscall S006a1460::ProcessAndTransformResult_006a1460(int a)
 {
-    return FindMatchingEntry(a, 0, FUN_006a1b80) != -1;
+    return FindMatchingEntry(a, 0, Object_Equals_Thunk) != -1;
 }
 
 struct FUN_006a19b0
 {
     int* m_iWordAt00;
-    void __thiscall FUN_006a2310(int, int);
+    void __thiscall UpdateState_006a2310(int, int);
     FUN_006a19b0(int);
 };
 // @fnv 0x006a19b0
 FUN_006a19b0::FUN_006a19b0(int aiValue)
 {
     m_iWordAt00 = &DAT_0106b410;
-    FUN_006a2310(aiValue, aiValue);
+    UpdateState_006a2310(aiValue, aiValue);
 }
 
 struct FUN_006a1aa0_class
@@ -915,7 +936,7 @@ struct C_006a1ba0
 // @fnv 0x006a1ba0
 void* __thiscall C_006a1ba0::FUN_006a1ba0(unsigned int flags)
 {
-    ((GlobalObject_00869f00*)this)->FUN_006a14e0();
+    ((GlobalObject_00869f00*)this)->ResetVirtualTableAndClear_006a14e0();
     if (flags & 1)
         _Deallocate(this);
     return this;
@@ -945,7 +966,7 @@ struct FUN_006a1c00_class
 // @fnv 0x006a1c00
 void* __thiscall FUN_006a1c00_class::FUN_006a1c00(unsigned int flags)
 {
-    ((FUN_006a1700_class*)this)->FUN_006a1700();
+    ((FUN_006a1700_class*)this)->UpdateFields_006a1700();
     if (flags & 1)
         _Deallocate(this);
     return this;
@@ -953,7 +974,7 @@ void* __thiscall FUN_006a1c00_class::FUN_006a1c00(unsigned int flags)
 
 struct FUN_006a1890_class
 {
-    void __thiscall FUN_006a1890();
+    void __thiscall SetVtableAndProcessState_006a1890();
 };
 extern "C" void __cdecl Deallocate(void*);
 struct FUN_006a1c30_class : FUN_006a1890_class
@@ -963,7 +984,7 @@ struct FUN_006a1c30_class : FUN_006a1890_class
 // @fnv 0x006a1c30
 void* __thiscall FUN_006a1c30_class::FUN_006a1c30(unsigned int flags)
 {
-    FUN_006a1890();
+    SetVtableAndProcessState_006a1890();
     if (flags & 1)
         Deallocate(this);
     return this;
@@ -973,19 +994,19 @@ extern "C" void __cdecl Deallocate(void*);
 
 struct FUN_006a18e0_Class
 {
-    void __thiscall FUN_006a18e0();
+    void __thiscall ResetVirtualTableAndClear_006a18e0();
 };
 
 struct FUN_006a1c60_Class
 {
-    void __thiscall FUN_006a18e0();
+    void __thiscall ResetVirtualTableAndClear_006a18e0();
     void* __thiscall FUN_006a1c60(unsigned int flags);
 };
 
 // @fnv 0x006a1c60
 void* __thiscall FUN_006a1c60_Class::FUN_006a1c60(unsigned int flags)
 {
-    FUN_006a18e0();
+    ResetVirtualTableAndClear_006a18e0();
     if (flags & 1)
         Deallocate(this);
     return this;
@@ -1007,14 +1028,14 @@ void* __thiscall FUN_006a19e0_Class::FUN_006a1c90(unsigned int flags)
 void __cdecl Deallocate(void*);
 struct FUN_006a1cc0_class
 {
-    void __thiscall FUN_006a1a30();
+    void __thiscall UpdateState_006a1a30();
     void* __thiscall FUN_006a1cc0(unsigned int a);
 };
 // Calls FUN_006a1a30, then deallocates this if bit 0 of a is set, and returns this.
 // @fnv 0x006a1cc0
 void* __thiscall FUN_006a1cc0_class::FUN_006a1cc0(unsigned int uiFlags)
 {
-    FUN_006a1a30();
+    UpdateState_006a1a30();
     if (uiFlags & 1)
         Deallocate(this);
     return this;
@@ -1152,11 +1173,12 @@ struct S_FUN_006a2440
 {
     int m_iWordAt00;
     int m_iWordAt04;
-    S_FUN_006a2440* FUN_006a2440();
+    S_FUN_006a2440* InitializeFieldsToMinusOne();
 };
 // Sets both fields to -1 and returns this.
 // @fnv 0x006a2440
-S_FUN_006a2440* S_FUN_006a2440::FUN_006a2440()
+// src: GUESS 0x006a2440 (confidence: medium)
+S_FUN_006a2440* S_FUN_006a2440::InitializeFieldsToMinusOne()
 {
     m_iWordAt00 = -1;
     m_iWordAt04 = -1;
@@ -1197,14 +1219,14 @@ void* FUN_006a25d0::FUN_006a2820(unsigned int flags)
 void __cdecl Deallocate(void*);
 struct FUN_006a28d0_class
 {
-    void __thiscall FUN_006a2900();
+    void __thiscall SetVirtualTableAndProcessState_006a2900();
     void* __thiscall FUN_006a28d0(unsigned int flags);
 };
 // Calls FUN_006a2900, then frees this with Deallocate when flags has bit 0 set, and returns this.
 // @fnv 0x006a28d0
 void* __thiscall FUN_006a28d0_class::FUN_006a28d0(unsigned int flags)
 {
-    FUN_006a2900();
+    SetVirtualTableAndProcessState_006a2900();
     if (flags & 1)
         Deallocate(this);
     return this;
@@ -1345,7 +1367,7 @@ void* __thiscall FUN_006a6850_class::FUN_006a6850(unsigned int flags)
 extern "C" void __cdecl Deallocate(void*);
 struct FUN_006a67d0_class
 {
-    void __thiscall FUN_006a67d0();
+    void __thiscall SetVtableAndProcessState_006a67d0();
 };
 struct FUN_006a6880_class
 {
@@ -1355,7 +1377,7 @@ struct FUN_006a6880_class
 // @fnv 0x006a6880
 void* __thiscall FUN_006a6880_class::FUN_006a6880(unsigned int flags)
 {
-    reinterpret_cast<FUN_006a67d0_class*>(this)->FUN_006a67d0();
+    reinterpret_cast<FUN_006a67d0_class*>(this)->SetVtableAndProcessState_006a67d0();
     if (flags & 1)
         Deallocate(this);
     return this;
@@ -1380,13 +1402,13 @@ FUN_006a7bc0_Class* FUN_006a7bc0_Class::FUN_006a7fb0(unsigned int flags)
 extern "C" void __cdecl Deallocate(void*);
 struct FUN_006a85b0_class
 {
-    void __thiscall FUN_006a85b0();
+    void __thiscall SetVtableAndProcessState_006a85b0();
     void* FUN_006a85d0(unsigned int flags);
 };
 // @fnv 0x006a85d0
 void* FUN_006a85b0_class::FUN_006a85d0(unsigned int flags)
 {
-    FUN_006a85b0();
+    SetVtableAndProcessState_006a85b0();
     if (flags & 1)
         Deallocate(this);
     return this;
@@ -1451,7 +1473,7 @@ void __thiscall FUN_006a8a30_class::BSSimpleArray_WeaponData_1024_ConstructItems
 extern "C" void __cdecl Deallocate(void*);
 struct FUN_006abc30_Class
 {
-    void __thiscall FUN_006abc30();
+    void __thiscall SetVtableAndProcessState_006abc30();
 };
 struct FUN_006abea0_Class
 {
@@ -1461,7 +1483,7 @@ struct FUN_006abea0_Class
 // @fnv 0x006abea0
 void* FUN_006abea0_Class::FUN_006abea0(unsigned int flags)
 {
-    ((FUN_006abc30_Class*)this)->FUN_006abc30();
+    ((FUN_006abc30_Class*)this)->SetVtableAndProcessState_006abc30();
     if (flags & 1)
         Deallocate(this);
     return this;
@@ -1470,7 +1492,7 @@ void* FUN_006abea0_Class::FUN_006abea0(unsigned int flags)
 extern "C" void __cdecl Deallocate(void*);
 struct FUN_006abdc0_shell
 {
-    void FUN_006abdc0();
+    void ResetVirtualTableAndClear_006abdc0();
 };
 struct FUN_006abed0_class
 {
@@ -1479,7 +1501,7 @@ struct FUN_006abed0_class
 // @fnv 0x006abed0
 void* FUN_006abed0_class::FUN_006abed0(unsigned int flags)
 {
-    ((FUN_006abdc0_shell*)this)->FUN_006abdc0();
+    ((FUN_006abdc0_shell*)this)->ResetVirtualTableAndClear_006abdc0();
     if (flags & 1)
         Deallocate(this);
     return this;
@@ -1528,11 +1550,12 @@ extern int DAT_0106b8a0;
 struct FUN_006abf60_class
 {
     int* vtable;
-    FUN_006abf60_class* FUN_006abf60();
+    FUN_006abf60_class* SetVirtualTableAndProcessState_006abf60();
 };
 // Sets the vtable pointer to DAT_0106b8a0, calls FUN_009a3d00 with 0, 0, and returns this.
 // @fnv 0x006abf60
-FUN_006abf60_class* FUN_006abf60_class::FUN_006abf60()
+// src: GUESS 0x006abf60 (confidence: low)
+FUN_006abf60_class* FUN_006abf60_class::SetVirtualTableAndProcessState_006abf60()
 {
     vtable = &DAT_0106b8a0;
     reinterpret_cast<FUN_006cf9d0*>(this)->BSSimpleArray_WeaponData_1024_InitialSetup(0, 0);
@@ -1717,15 +1740,16 @@ struct FUN_006b43f0_obj
 };
 struct S_006b3d90
 {
-    void* __thiscall FUN_006b3d90();
+    void* __thiscall AllocateAndConstructObject68();
 };
 // Allocates a 0x68-byte object via FUN_006a1f90 and returns the result of Constructor on it, or 0 if allocation fails.
 // @fnv 0x006b3d90
-void* __thiscall S_006b3d90::FUN_006b3d90()
+// src: GUESS 0x006b3d90 (confidence: medium)
+void* __thiscall S_006b3d90::AllocateAndConstructObject68()
 {
     void* q;
     {
-        void* p = FUN_006a1f90(0x68, (ScrapHeapBuffer*)this);
+        void* p = Runtime_ForwardCall_006a1f90(0x68, (ScrapHeapBuffer*)this);
         q = p ? ((FUN_006b43f0_obj*)p)->Constructor() : 0;
     }
     return q;
@@ -1735,12 +1759,13 @@ void* memset(void* dest, int value, unsigned int count);
 
 struct FUN_006b3de0_Class
 {
-    void* FUN_006b3de0();
+    void* ProcessAndReturnValue_006b3de0();
 };
 
 // Zeroes the 0x1fdc-byte block starting at this, sets the int at offset 0x1fdc to 0, and returns this.
 // @fnv 0x006b3de0
-void* FUN_006b3de0_Class::FUN_006b3de0()
+// src: GUESS 0x006b3de0 (confidence: low)
+void* FUN_006b3de0_Class::ProcessAndReturnValue_006b3de0()
 {
     ((int*)this)[0x1fdc / 4] = 0;
     memset(this, 0, 0x1fdc);
@@ -1758,10 +1783,11 @@ struct FUN_006b4190_class
     int m_iWordAt04;
     int m_8;
     int m_iThirdValue;
-    void __thiscall FUN_006b4190(unsigned int requested, unsigned int savedSize);
+    void __thiscall UpdateState_006b4190(unsigned int requested, unsigned int savedSize);
 };
 // @fnv 0x006b4190
-void FUN_006b4190_class::FUN_006b4190(unsigned int uiRequestedSize, unsigned int savedSize)
+// src: GUESS 0x006b4190 (confidence: low)
+void FUN_006b4190_class::UpdateState_006b4190(unsigned int uiRequestedSize, unsigned int savedSize)
 {
     m_iWordAt04 = 0;
     m_8 = 0;
@@ -1785,14 +1811,14 @@ void FUN_006b4190_class::FUN_006b4190(unsigned int uiRequestedSize, unsigned int
 void __cdecl Deallocate(void*);
 struct FUN_006b42a0_class
 {
-    void __thiscall FUN_006b42a0();
+    void __thiscall ResetVirtualTableAndClear_006b42a0();
     void* FUN_006b42c0(unsigned int flags);
 };
 // Calls FUN_006b42a0, then frees this with Deallocate when bit 0 of flags is set, and returns this.
 // @fnv 0x006b42c0
 void* FUN_006b42a0_class::FUN_006b42c0(unsigned int flags)
 {
-    FUN_006b42a0();
+    ResetVirtualTableAndClear_006b42a0();
     if (flags & 1)
         Deallocate(this);
     return this;
@@ -1987,7 +2013,7 @@ struct FUN_006b8280_class : FUN_006b8030_class
 // @fnv 0x006b8280
 void* __thiscall FUN_006b8280_class::FUN_006b8280(unsigned int flags)
 {
-    FUN_006b8030();
+    SetVtableAndProcessState_006b8030();
     if (flags & 1)
         Deallocate(this);
     return this;
@@ -2039,7 +2065,7 @@ void* FUN_006b8e40::FUN_006b9150(unsigned int flags)
     return this;
 }
 
-void* FUN_006a1f90(unsigned int, ScrapHeapBuffer*);
+void* Runtime_ForwardCall_006a1f90(unsigned int, ScrapHeapBuffer*);
 struct FUN_006b96c0_Class
 {
     void* __thiscall AStarNode_CombatPlanNode_CombatPlanLink_AStarNode_CombatPlanNode_CombatPlanLink();
@@ -2052,21 +2078,21 @@ struct FUN_006b9420_Class
 // src: COMMUNITY 0x006b9420
 void* __thiscall FUN_006b9420_Class::AStarNodeHeap_CombatPlanNode_CombatPlanLink_AllocateNode()
 {
-    void* p5 = FUN_006a1f90(0x24, (ScrapHeapBuffer*)this);
+    void* p5 = Runtime_ForwardCall_006a1f90(0x24, (ScrapHeapBuffer*)this);
     void* r = p5 ? ((FUN_006b96c0_Class*)p5)->AStarNode_CombatPlanNode_CombatPlanLink_AStarNode_CombatPlanNode_CombatPlanLink() : 0;
     return r;
 }
 
 struct FUN_006b9630_class
 {
-    void __thiscall FUN_006b9610();
+    void __thiscall SetVtableAndProcessState_006b9610();
     void* __thiscall FUN_006b9630(unsigned int flags);
 };
 
 // @fnv 0x006b9630
 void* __thiscall FUN_006b9630_class::FUN_006b9630(unsigned int flags)
 {
-    FUN_006b9610();
+    SetVtableAndProcessState_006b9610();
     if (flags & 1)
         Deallocate(this);
     return this;
@@ -2344,7 +2370,7 @@ FUN_006bf890::~FUN_006bf890()
 extern "C" void __cdecl Deallocate(void*);
 struct FUN_006bf6c0_class
 {
-    void __thiscall FUN_006bf6c0();
+    void __thiscall ResetVirtualTableAndClear_006bf6c0();
 };
 struct FUN_006bfbe0_class
 {
@@ -2353,7 +2379,7 @@ struct FUN_006bfbe0_class
 // @fnv 0x006bfbe0
 void* __thiscall FUN_006bfbe0_class::FUN_006bfbe0(int flags)
 {
-    ((FUN_006bf6c0_class*)this)->FUN_006bf6c0();
+    ((FUN_006bf6c0_class*)this)->ResetVirtualTableAndClear_006bf6c0();
     if (flags & 1)
         Deallocate(this);
     return this;
@@ -2361,14 +2387,14 @@ void* __thiscall FUN_006bfbe0_class::FUN_006bfbe0(int flags)
 
 struct FUN_006bf710_Class
 {
-    void FUN_006bf710();
+    void SetVtableAndProcessState_006bf710();
     void* FUN_006bfc10(unsigned int flags);
 };
 
 // @fnv 0x006bfc10
 void* FUN_006bf710_Class::FUN_006bfc10(unsigned int flags)
 {
-    FUN_006bf710();
+    SetVtableAndProcessState_006bf710();
     if (flags & 1)
         Deallocate(this);
     return this;
@@ -2386,11 +2412,12 @@ struct S006bfc40
     EH m0;
     EH m12;
     unsigned char m24;
-    S006bfc40& __thiscall FUN_006bfc40(S006bfc40 const&);
+    S006bfc40& __thiscall CopyFields_006bfc40(S006bfc40 const&);
 };
 // Copies the three members of other into this object and returns a reference to this object.
 // @fnv 0x006bfc40
-S006bfc40& __thiscall S006bfc40::FUN_006bfc40(S006bfc40 const& other)
+// src: GUESS 0x006bfc40 (confidence: medium)
+S006bfc40& __thiscall S006bfc40::CopyFields_006bfc40(S006bfc40 const& other)
 {
     m0 = other.m0;
     m12 = other.m12;
@@ -2401,14 +2428,14 @@ S006bfc40& __thiscall S006bfc40::FUN_006bfc40(S006bfc40 const& other)
 extern "C" void __cdecl Deallocate(void*);
 struct FUN_006bf870_class
 {
-    void __thiscall FUN_006bf870();
+    void __thiscall SetVtableAndProcessState_006bf870();
     void* __thiscall FUN_006bfc80(unsigned int flags);
 };
 // Calls FUN_006bf870, then deallocates this when flags has bit 0 set, and returns this.
 // @fnv 0x006bfc80
 void* __thiscall FUN_006bf870_class::FUN_006bfc80(unsigned int flags)
 {
-    FUN_006bf870();
+    SetVtableAndProcessState_006bf870();
     if (flags & 1)
         Deallocate(this);
     return this;
@@ -2434,14 +2461,14 @@ void* __thiscall FUN_006bfcb0_class::FUN_006bfcb0(unsigned int flags)
 void __cdecl Deallocate(void*);
 struct FUN_006bfce0_Class
 {
-    void __thiscall FUN_006bfab0();
+    void __thiscall SetVtableAndProcessState_006bfab0();
     void* __thiscall FUN_006bfce0(unsigned int flags);
 };
 // Calls FUN_006bfab0, then frees this with Deallocate when flags has bit 0 set, and returns this.
 // @fnv 0x006bfce0
 void* __thiscall FUN_006bfce0_Class::FUN_006bfce0(unsigned int flags)
 {
-    FUN_006bfab0();
+    SetVtableAndProcessState_006bfab0();
     if (flags & 1)
         Deallocate(this);
     return this;
@@ -2489,10 +2516,11 @@ struct FUN_006a20a0
     int m_iThirdValue;
     int __thiscall ConstructArray(int a, int b);
     int __thiscall FUN_006a2001(int a);
-    void __thiscall FUN_006a20a1(unsigned int requested, unsigned int savedSize);
+    void __thiscall UpdateFields_006a20a0(unsigned int requested, unsigned int savedSize);
 };
 // @fnv 0x006a20a0
-void FUN_006a20a0::FUN_006a20a1(unsigned int requested, unsigned int savedSize)
+// src: GUESS 0x006a20a0 (confidence: low)
+void FUN_006a20a0::UpdateFields_006a20a0(unsigned int requested, unsigned int savedSize)
 {
     m_iWordAt04 = 0;
     m_8 = 0;
@@ -2544,7 +2572,8 @@ struct FUN_006a26d0_class
     void __thiscall ConstructItems(int a, int b);
 };
 // @fnv 0x006a2310
-void __thiscall FUN_006a19b0::FUN_006a2310(int a, int b)
+// src: GUESS 0x006a2310 (confidence: low)
+void __thiscall FUN_006a19b0::UpdateState_006a2310(int a, int b)
 {
     ((int*)this)[1] = 0;
     ((int*)this)[2] = 0;
@@ -2571,11 +2600,12 @@ struct FUN_006a2470_class
     int iSize;
     int iPosition;
     int iDataLength;
-    void FUN_006a2470(unsigned int requested, unsigned int savedSize);
+    void UpdateState_006a2470(unsigned int requested, unsigned int savedSize);
 };
 
 // @fnv 0x006a2470
-void FUN_006a2470_class::FUN_006a2470(unsigned int requested, unsigned int savedSize)
+// src: GUESS 0x006a2470 (confidence: low)
+void FUN_006a2470_class::UpdateState_006a2470(unsigned int requested, unsigned int savedSize)
 {
     iSize = 0;
     iPosition = 0;
@@ -2722,7 +2752,7 @@ struct DA00694f80
 };
 struct EdgeArr
 {
-    unsigned short& FUN_006a1440(unsigned int index);
+    unsigned short& Object_GetIndexedValue_006a1440(unsigned int index);
 };
 unsigned int __cdecl MaxUnsigned(unsigned int, unsigned short);
 struct FUN_006bc940_class
@@ -2742,7 +2772,7 @@ unsigned int FUN_006bc940_class::NavMeshObstacleCutter_GetTrianglesMaxObstacleCo
             MaxUnsigned(result, mesh->GetTriangle(((DA00694f80*)((char*)flags + 0x20))->GetAt(i))->GetBits13To15());
     for (unsigned int j = 0; j < ((BlkOffset08View*)((char*)flags + 0x30))->GetFlags(); ++j)
         result =
-            MaxUnsigned(result, mesh->GetTriangle(((EdgeArr*)((char*)flags + 0x30))->FUN_006a1440(j))->GetBits13To15());
+            MaxUnsigned(result, mesh->GetTriangle(((EdgeArr*)((char*)flags + 0x30))->Object_GetIndexedValue_006a1440(j))->GetBits13To15());
     return result;
 }
 
@@ -2750,10 +2780,11 @@ struct FUN_006a0580_class
 {
     float m_iWordAt00;
     float m_iWordAt04;
-    FUN_006a0580_class& FUN_006a0580(const float* o);
+    FUN_006a0580_class& MultiplyConjugateXYComponents(const float* o);
 };
 // @fnv 0x006a0580
-FUN_006a0580_class& FUN_006a0580_class::FUN_006a0580(const float* afInput)
+// src: GUESS 0x006a0580 (confidence: medium)
+FUN_006a0580_class& FUN_006a0580_class::MultiplyConjugateXYComponents(const float* afInput)
 {
     float b = m_iWordAt00;
     float a = m_iWordAt04;
@@ -2768,7 +2799,8 @@ struct FUN_006d4ca0_Class
 };
 
 // @fnv 0x006a1b80
-unsigned char FUN_006a1b80(FUN_006d4ca0_Class* apThis, FUN_006d4ca0_Class const* apOther)
+// src: GUESS 0x006a1b80 (confidence: medium)
+unsigned char Object_Equals_Thunk(FUN_006d4ca0_Class* apThis, FUN_006d4ca0_Class const* apOther)
 {
     return apThis->Equals(apOther);
 }
@@ -2784,7 +2816,7 @@ struct Holder3660
     int m_iThirdValue;
     virtual void v0();
     virtual int v1(unsigned int);
-    void FUN_006a2630(Elem3660*, int);
+    void ConstructElementsInPlace(Elem3660*, int);
     void BSSimpleArray_NavMeshPOVSearchLink_1024_InitialSetup(unsigned int requested, unsigned int savedSize);
 };
 // @fnv 0x006a2130
@@ -2805,7 +2837,7 @@ void Holder3660::BSSimpleArray_NavMeshPOVSearchLink_1024_InitialSetup(unsigned i
     }
     if (savedSize > 0)
     {
-        FUN_006a2630((Elem3660*)m_iWordAt04, savedSize);
+        ConstructElementsInPlace((Elem3660*)m_iWordAt04, savedSize);
         m_8 = savedSize;
     }
 }
@@ -3052,11 +3084,12 @@ unsigned int S006bf170::FindIndexByValue(unsigned short ausValue)
 
 struct FUN_006bf340_Class
 {
-    bool FUN_006bf340(unsigned char** a);
+    bool ComputeValue_006bf340(unsigned char** a);
 };
 
 // @fnv 0x006bf340
-bool FUN_006bf340_Class::FUN_006bf340(unsigned char** apBuffers)
+// src: GUESS 0x006bf340 (confidence: low)
+bool FUN_006bf340_Class::ComputeValue_006bf340(unsigned char** apBuffers)
 {
     if (!apBuffers[0][2] && apBuffers[0][6])
         return true;
@@ -3102,14 +3135,15 @@ struct S006bf730
 {
     int m_iWordAt00;
     int m_iWordAt04;
-    unsigned int FUN_006bf730(const S006bfc40& o);
+    unsigned int UpdateState_006bf730(const S006bfc40& o);
 };
 // @fnv 0x006bf730
-unsigned int S006bf730::FUN_006bf730(const S006bfc40& o)
+// src: GUESS 0x006bf730 (confidence: low)
+unsigned int S006bf730::UpdateState_006bf730(const S006bfc40& o)
 {
     unsigned int r = ((S006bfd40*)this)->BSSimpleArray_CombatSearchLocation_1024_AddUninitialized();
     ((S006bfdd0*)this)->ConstructEntries((char*)this->m_iWordAt04 + r * 0x1c, 1);
-    ((S006bfc40*)((char*)this->m_iWordAt04 + r * 0x1c))->FUN_006bfc40(o);
+    ((S006bfc40*)((char*)this->m_iWordAt04 + r * 0x1c))->CopyFields_006bfc40(o);
     return r;
 }
 
@@ -3182,7 +3216,8 @@ template <> void BSSimpleArray<Actor*>::Clear(bool)
 {}
 
 // @fnv 0x006a1890
-void FUN_006a1890_class::FUN_006a1890()
+// src: GUESS 0x006a1890 (confidence: low)
+void FUN_006a1890_class::SetVtableAndProcessState_006a1890()
 {
     *reinterpret_cast<int**>(this) = &DAT_0106b3e8;
     reinterpret_cast<BSSimpleArray<Actor*>*>(this)->Clear(true);
@@ -3275,10 +3310,11 @@ struct FUN_006a68d0_Class
     int m_iWordAt00;
     int m_iWordAt04;
     GO m_8;
-    void FUN_006a68d0();
+    void ForwardCall_006a68d0();
 };
 // @fnv 0x006a68d0
-void FUN_006a68d0_Class::FUN_006a68d0()
+// src: GUESS 0x006a68d0 (confidence: low)
+void FUN_006a68d0_Class::ForwardCall_006a68d0()
 {
     m_8.GO::~GO();
 }
@@ -3330,11 +3366,12 @@ struct FUN_006bbc30_ScrapHeap
 
 struct FUN_006bbc30_class
 {
-    FUN_006bbc30_class* __thiscall FUN_006bbc30();
+    FUN_006bbc30_class* __thiscall EvaluateValue_006bbc30();
 };
 
 // @fnv 0x006bbc30
-FUN_006bbc30_class* __thiscall FUN_006bbc30_class::FUN_006bbc30()
+// src: GUESS 0x006bbc30 (confidence: low)
+FUN_006bbc30_class* __thiscall FUN_006bbc30_class::EvaluateValue_006bbc30()
 {
     reinterpret_cast<FUN_006bbc30_ScrapHeap*>(this)->ScrapHeapBuffer();
     return this;
@@ -3405,7 +3442,7 @@ void FUN_006be770_class::NavMeshObstacleCutter_SetObstacleCount()
 
     for (unsigned int j = 0; j < reinterpret_cast<BlkOffset08View*>(&m_08->m_30)->GetFlags(); ++j)
     {
-        NavMeshTriangle* triangle = m_00->GetTriangle(m_08->m_30.FUN_006a1440(j));
+        NavMeshTriangle* triangle = m_00->GetTriangle(m_08->m_30.Object_GetIndexedValue_006a1440(j));
 
         reinterpret_cast<FUN_00693bd0_class*>(triangle)->NavMeshTriangle_SetObjectCount(triangle->GetBits13To15() + 1);
     }
@@ -3436,7 +3473,8 @@ bool FUN_006bf2d0_class::NavMeshObstacleCutter_IsPointInObstacleArea(Point3Stora
 
 // Compares the values pointed to by a and b, returning 1 if a's value is greater, -1 if b's is greater, else 0.
 // @fnv 0x006bfb30
-int __cdecl FUN_006bfb30(unsigned int* puiLeft, unsigned int* puiRight)
+// src: GUESS 0x006bfb30 (confidence: high)
+int __cdecl Runtime_CompareUnsignedValues(unsigned int* puiLeft, unsigned int* puiRight)
 {
     unsigned int* p = puiLeft;
     unsigned int* RunFourthVirtual = puiRight;
@@ -3455,12 +3493,13 @@ struct A06F0Key
     float m_fKey;
     float m_fTime;
 
-    bool FUN_006a06f0(A06F0Key* pkOther);
+    bool CompareKeysBySignAndTime(A06F0Key* pkOther);
 };
 
 // Compares this key with another by the result of GetSignFlags on m_fKey, then by m_fTime (ascending for 0/3, descending otherwise).
 // @fnv 0x006a06f0
-bool A06F0Key::FUN_006a06f0(A06F0Key* pkOther)
+// src: GUESS 0x006a06f0 (confidence: high)
+bool A06F0Key::CompareKeysBySignAndTime(A06F0Key* pkOther)
 {
     int iThis = GetSignFlags(&m_fKey);
     int iOtherSignFlags = GetSignFlags(&pkOther->m_fKey);
@@ -3812,11 +3851,12 @@ struct FUN_006a1920_cls
     int m_iWordAt04;
     int m_8;
     void* m_iThirdValue;
-    int FUN_006a1920();
+    int ProcessAndReturnValue_006a1920();
 };
 
 // @fnv 0x006a1920
-int FUN_006a1920_cls::FUN_006a1920()
+// src: GUESS 0x006a1920 (confidence: low)
+int FUN_006a1920_cls::ProcessAndReturnValue_006a1920()
 {
     if (reinterpret_cast<S5460*>(this)->BSSimpleArray_NavMeshInfo_1024_ShouldGrow() != 0)
     {
@@ -3849,11 +3889,12 @@ struct FUN_006a1a50_cls
     FUN_006a1a50_pair* m_04;
     int BSSimpleArray_NiPoint2_1024_AddUninitialized();
     void ConstructPendingItems(int a, int b);
-    int FUN_006a1a50(const FUN_006a1a50_pair* src);
+    int UpdateState_006a1a50(const FUN_006a1a50_pair* src);
 };
 
 // @fnv 0x006a1a50
-int FUN_006a1a50_cls::FUN_006a1a50(const FUN_006a1a50_pair* src)
+// src: GUESS 0x006a1a50 (confidence: low)
+int FUN_006a1a50_cls::UpdateState_006a1a50(const FUN_006a1a50_pair* src)
 {
     unsigned int idx = BSSimpleArray_NiPoint2_1024_AddUninitialized();
     ConstructPendingItems((int)(m_04 + idx), 1);
@@ -3992,11 +4033,12 @@ struct FUN_006a2900_shell
 {
     int* vtable;
     void FUN_008454f0(int initialize);
-    void FUN_006a2900();
+    void SetVirtualTableAndProcessState_006a2900();
 };
 
 // @fnv 0x006a2900
-void FUN_006a2900_shell::FUN_006a2900()
+// src: GUESS 0x006a2900 (confidence: low)
+void FUN_006a2900_shell::SetVirtualTableAndProcessState_006a2900()
 {
     vtable = &DAT_0106b460;
     FUN_008454f0(1);
@@ -4399,14 +4441,14 @@ struct FUN_006b3cb0_pt
 
 struct FUN_006b3cb0_arg2
 {
-    FUN_006b3cb0_item* FUN_006a1440(int index);
-    void FUN_006a8890(int a, int b);
+    FUN_006b3cb0_item* Object_GetIndexedValue_006a1440(int index);
+    void UpdateState_006a8890(int a, int b);
 };
 
 struct FUN_006b3cb0_arg3
 {
     FUN_006b3cb0_pt* GetBufferElementAddress(int index, void* p);
-    void FUN_006b4450(int a, int b);
+    void AllocateStorage_006b4450(int a, int b);
 };
 
 struct FUN_006b3cb0_node
@@ -4455,13 +4497,13 @@ bool FUN_006b3cb0_cls::CopyNodeListToArrays(FUN_006b3cb0_node* head, FUN_006b3cb
         count = count + 1;
         node7 = node7->m_54;
     }
-    pItemArray->FUN_006a8890(count, 1);
-    pPointArray->FUN_006b4450(count - 1, 1);
+    pItemArray->UpdateState_006a8890(count, 1);
+    pPointArray->AllocateStorage_006b4450(count - 1, 1);
     node7 = head;
     int i6 = count - 1;
     while (node7 != 0)
     {
-        *pItemArray->FUN_006a1440(i6) = node7->m_08;
+        *pItemArray->Object_GetIndexedValue_006a1440(i6) = node7->m_08;
         if (i6 > 0)
         {
             pPointArray->GetBufferElementAddress(i6 - 1, &node7->m_14)->PathSmootherPOVLink_Copy();
@@ -4539,12 +4581,13 @@ struct FUN_006b3fd0_cls
     int m_0c;
     bool BSSimpleArray_NavMeshInfo_1024_ShouldGrow();
     int BSSimpleArray_NavMeshInfo_1024_GetNewSizeForGrow();
-    void FUN_006b4590(int a, int b);
-    unsigned int FUN_006b3fd0();
+    void AllocateStorage_006b4590(int a, int b);
+    unsigned int UpdateState_006b3fd0();
 };
 
 // @fnv 0x006b3fd0
-unsigned int FUN_006b3fd0_cls::FUN_006b3fd0()
+// src: GUESS 0x006b3fd0 (confidence: low)
+unsigned int FUN_006b3fd0_cls::UpdateState_006b3fd0()
 {
     if (BSSimpleArray_NavMeshInfo_1024_ShouldGrow())
     {
@@ -4557,7 +4600,7 @@ unsigned int FUN_006b3fd0_cls::FUN_006b3fd0()
         else
         {
             int p = BSSimpleArray_NavMeshInfo_1024_GetNewSizeForGrow();
-            FUN_006b4590(p, m_08);
+            AllocateStorage_006b4590(p, m_08);
             m_0c = p;
         }
     }
@@ -4744,11 +4787,12 @@ struct B4590Buffer
 
     void Copy(void* pDest, void* pSrc, unsigned int ItemUpdateArray);
     void Free();
-    void FUN_006b4590(unsigned int uiNewSize, unsigned int uiOldSize);
+    void AllocateStorage_006b4590(unsigned int uiNewSize, unsigned int uiOldSize);
 };
 
 // @fnv 0x006b4590
-void B4590Buffer::FUN_006b4590(unsigned int uiNewSize, unsigned int uiOldSize)
+// src: GUESS 0x006b4590 (confidence: low)
+void B4590Buffer::AllocateStorage_006b4590(unsigned int uiNewSize, unsigned int uiOldSize)
 {
     if (m_pBase)
     {
@@ -7059,10 +7103,11 @@ struct FUN_006b9610_shell
 {
     void* vtable;
     void FUN_008454f0(int reset);
-    void FUN_006b9610();
+    void SetVtableAndProcessState_006b9610();
 };
 // @fnv 0x006b9610
-void FUN_006b9610_shell::FUN_006b9610()
+// src: GUESS 0x006b9610 (confidence: low)
+void FUN_006b9610_shell::SetVtableAndProcessState_006b9610()
 {
     vtable = &DAT_0106c264;
     FUN_008454f0(1);
@@ -7112,7 +7157,7 @@ struct FUN_006b9940_cls
     float y;
     float z;
     float DotProduct(FUN_006b9940_cls* other);
-    void FUN_00439ef0(FUN_006b9940_cls* out, FUN_006b9940_cls* in);
+    void SubtractIntoVector(FUN_006b9940_cls* out, FUN_006b9940_cls* in);
     void FUN_00439e90(FUN_006b9940_cls* out, FUN_006b9940_cls* in);
 };
 
@@ -7132,13 +7177,13 @@ void __cdecl NavMeshMath_DistanceFromLine(FUN_006b9940_cls* a1, FUN_006b9940_cls
     FUN_006b9940_cls v3c4;
     FUN_006b9940_cls v48;
 
-    a3->FUN_00439ef0(&v2, a2);
-    a1->FUN_00439ef0(&v18, a2);
+    a3->SubtractIntoVector(&v2, a2);
+    a1->SubtractIntoVector(&v18, a2);
     dot4 = v18.DotProduct(&v2);
     dotVal = v2.DotProduct(&v2);
     scaleTmp = dot4 / dotVal;
     a2->FUN_00439e90(&v0c2, FUN_004a3760(&v48, scaleTmp, &v2));
-    a1->FUN_00439ef0(&v3c4, &v0c2);
+    a1->SubtractIntoVector(&v3c4, &v0c2);
     sqrt_004019b0(v3c4.DotProduct(&v3c4));
 }
 
@@ -7223,7 +7268,8 @@ struct FUN_006ba7e0_cls
 Point3Storage* __cdecl FUN_006ba7e0_lerp(Point3Storage* out, float t, Point3Storage* p);
 
 // @fnv 0x006ba7e0
-bool __cdecl FUN_006ba7e0(unsigned int uiIndexA, FUN_006ba7e0_cls* a2, unsigned int uiIndexB, FUN_006ba7e0_cls* a4,
+// src: GUESS 0x006ba7e0 (confidence: low)
+bool __cdecl Object_ProcessAndReturnValue_006ba7e0(unsigned int uiIndexA, FUN_006ba7e0_cls* a2, unsigned int uiIndexB, FUN_006ba7e0_cls* a4,
                           Point3Storage* out)
 {
     float t_;
@@ -7918,13 +7964,14 @@ struct FUN_006bff60_Class
     int unk08;
     int unk0c;
 
-    void __thiscall FUN_006c0010(void* newItem, void* oldItem, int count);
+    void __thiscall ProcessEntries_006c0010(void* newItem, void* oldItem, int count);
     void __thiscall FUN_006a8500();
-    void __thiscall FUN_006bff60(int value, int count);
+    void __thiscall UpdateFields_006bff60(int value, int count);
 };
 
 // @fnv 0x006bff60
-void __thiscall FUN_006bff60_Class::FUN_006bff60(int value, int count)
+// src: GUESS 0x006bff60 (confidence: low)
+void __thiscall FUN_006bff60_Class::UpdateFields_006bff60(int value, int count)
 {
     if (this->unk04 != 0)
     {
@@ -7935,7 +7982,7 @@ void __thiscall FUN_006bff60_Class::FUN_006bff60(int value, int count)
         else
         {
             void* newItem = this->vf04(value);
-            this->FUN_006c0010(newItem, this->unk04, count);
+            this->ProcessEntries_006c0010(newItem, this->unk04, count);
             this->FUN_006a8500();
             this->unk04 = newItem;
         }
@@ -7968,11 +8015,12 @@ struct FUN_006a1720_class
     void BSSimpleArray_TeleportLink_1024_ReallocateBuffer(unsigned int requested, unsigned int old_size);
     void CallVirtualOnEach(FUN_006a1720_Element* first, unsigned int count);
     void ConstructArray(FUN_006a1720_Element* first, unsigned int count);
-    void FUN_006a1720(unsigned int requested, bool shrink);
+    void ResizeElementStorage(unsigned int requested, bool shrink);
 };
 
 // @fnv 0x006a1720
-void FUN_006a1720_class::FUN_006a1720(unsigned int requested, bool shrink)
+// src: GUESS 0x006a1720 (confidence: medium)
+void FUN_006a1720_class::ResizeElementStorage(unsigned int requested, bool shrink)
 {
     if (requested == 0)
     {
@@ -8040,11 +8088,11 @@ struct Property260
 struct Pointer260
 {
     Property260* value;
-    Property260* FUN_00559450();
+    Property260* Modelloader_GetReferencedThis();
 };
 struct Global260
 {
-    void* FUN_00559450();
+    void* Modelloader_GetReferencedThis();
 };
 extern Global260 DAT_011d6e5c;
 void __cdecl BSShaderProperty_SetFlagRecurse(void*, int, bool);
@@ -8112,33 +8160,33 @@ void Host260::NavMeshRender_SetTransparentOverLayMode(bool enabled)
 {
     if (enabled)
     {
-        m_94.FUN_00559450()->NiMaterialProperty_SetAlpha(DAT_0106b4ec);
-        m_b0.FUN_00559450()->NiMaterialProperty_SetAlpha(DAT_0106b4ec);
-        m_b4.FUN_00559450()->NiMaterialProperty_SetAlpha(DAT_0106b4ec);
-        m_a4.FUN_00559450()->NiMaterialProperty_SetAlpha(DAT_0106b4f0);
-        m_a8.FUN_00559450()->NiMaterialProperty_SetAlpha(DAT_0106b4f0);
-        m_50.FUN_00559450()->NiMaterialProperty_SetAlpha(DAT_0106b4f8);
-        m_68.FUN_00559450()->NiMaterialProperty_SetAlpha(DAT_0106b4f8);
-        m_58.FUN_00559450()->NiMaterialProperty_SetAlpha(DAT_0106b4f8);
-        m_6c.FUN_00559450()->NiMaterialProperty_SetAlpha(DAT_0106b4f8);
-        m_74.FUN_00559450()->NiMaterialProperty_SetAlpha(DAT_0106b4f8);
-        m_78.FUN_00559450()->NiMaterialProperty_SetAlpha(DAT_0106b504);
+        m_94.Modelloader_GetReferencedThis()->NiMaterialProperty_SetAlpha(DAT_0106b4ec);
+        m_b0.Modelloader_GetReferencedThis()->NiMaterialProperty_SetAlpha(DAT_0106b4ec);
+        m_b4.Modelloader_GetReferencedThis()->NiMaterialProperty_SetAlpha(DAT_0106b4ec);
+        m_a4.Modelloader_GetReferencedThis()->NiMaterialProperty_SetAlpha(DAT_0106b4f0);
+        m_a8.Modelloader_GetReferencedThis()->NiMaterialProperty_SetAlpha(DAT_0106b4f0);
+        m_50.Modelloader_GetReferencedThis()->NiMaterialProperty_SetAlpha(DAT_0106b4f8);
+        m_68.Modelloader_GetReferencedThis()->NiMaterialProperty_SetAlpha(DAT_0106b4f8);
+        m_58.Modelloader_GetReferencedThis()->NiMaterialProperty_SetAlpha(DAT_0106b4f8);
+        m_6c.Modelloader_GetReferencedThis()->NiMaterialProperty_SetAlpha(DAT_0106b4f8);
+        m_74.Modelloader_GetReferencedThis()->NiMaterialProperty_SetAlpha(DAT_0106b4f8);
+        m_78.Modelloader_GetReferencedThis()->NiMaterialProperty_SetAlpha(DAT_0106b504);
     }
     else
     {
-        m_94.FUN_00559450()->NiMaterialProperty_SetAlpha(DAT_0106b4f0);
-        m_b0.FUN_00559450()->NiMaterialProperty_SetAlpha(DAT_0106b4f0);
-        m_b4.FUN_00559450()->NiMaterialProperty_SetAlpha(DAT_0106b4f0);
-        m_a4.FUN_00559450()->NiMaterialProperty_SetAlpha(DAT_0106b500);
-        m_a8.FUN_00559450()->NiMaterialProperty_SetAlpha(DAT_0106b500);
-        m_50.FUN_00559450()->NiMaterialProperty_SetAlpha(DAT_0106b4fc);
-        m_68.FUN_00559450()->NiMaterialProperty_SetAlpha(DAT_0106b4fc);
-        m_58.FUN_00559450()->NiMaterialProperty_SetAlpha(DAT_0106b4fc);
-        m_6c.FUN_00559450()->NiMaterialProperty_SetAlpha(DAT_0106b4fc);
-        m_74.FUN_00559450()->NiMaterialProperty_SetAlpha(DAT_0106b4fc);
-        m_78.FUN_00559450()->NiMaterialProperty_SetAlpha(DAT_0106b508);
+        m_94.Modelloader_GetReferencedThis()->NiMaterialProperty_SetAlpha(DAT_0106b4f0);
+        m_b0.Modelloader_GetReferencedThis()->NiMaterialProperty_SetAlpha(DAT_0106b4f0);
+        m_b4.Modelloader_GetReferencedThis()->NiMaterialProperty_SetAlpha(DAT_0106b4f0);
+        m_a4.Modelloader_GetReferencedThis()->NiMaterialProperty_SetAlpha(DAT_0106b500);
+        m_a8.Modelloader_GetReferencedThis()->NiMaterialProperty_SetAlpha(DAT_0106b500);
+        m_50.Modelloader_GetReferencedThis()->NiMaterialProperty_SetAlpha(DAT_0106b4fc);
+        m_68.Modelloader_GetReferencedThis()->NiMaterialProperty_SetAlpha(DAT_0106b4fc);
+        m_58.Modelloader_GetReferencedThis()->NiMaterialProperty_SetAlpha(DAT_0106b4fc);
+        m_6c.Modelloader_GetReferencedThis()->NiMaterialProperty_SetAlpha(DAT_0106b4fc);
+        m_74.Modelloader_GetReferencedThis()->NiMaterialProperty_SetAlpha(DAT_0106b4fc);
+        m_78.Modelloader_GetReferencedThis()->NiMaterialProperty_SetAlpha(DAT_0106b508);
     }
-    BSShaderProperty_SetFlagRecurse(DAT_011d6e5c.FUN_00559450(), 31, !enabled);
+    BSShaderProperty_SetFlagRecurse(DAT_011d6e5c.Modelloader_GetReferencedThis(), 31, !enabled);
 }
 
 struct WorkerElement
@@ -8160,10 +8208,11 @@ struct WorkerArray
     void UpdateThreat(unsigned int, unsigned int);
     void BSSimpleArray_WeaponData_1024_ConstructItems(WorkerElement*, unsigned int);
     void FUN_0072ba80(WorkerElement*, unsigned int);
-    void FUN_006a8750(unsigned int, bool);
+    void AllocateStorage_006a8750(unsigned int, bool);
 };
 // @fnv 0x006a8750
-void WorkerArray::FUN_006a8750(unsigned int requested, bool shrink)
+// src: GUESS 0x006a8750 (confidence: low)
+void WorkerArray::AllocateStorage_006a8750(unsigned int requested, bool shrink)
 {
     if (requested == 0)
     {
@@ -8208,7 +8257,7 @@ struct H2
     void* m_data;
     unsigned int m_iElementCount;
     unsigned int m_pRayCursor;
-    void FUN_006a8890(unsigned int newSize, unsigned char doShrink);
+    void UpdateState_006a8890(unsigned int newSize, unsigned char doShrink);
     void FUN_008454f0(unsigned char doShrink);
     void FUN_006dc590(unsigned int newCapacity, unsigned int currentSize);
     void ConstructParentSpaceNodes(void* first, unsigned int count);
@@ -8216,7 +8265,8 @@ struct H2
 };
 
 // @fnv 0x006a8890
-void H2::FUN_006a8890(unsigned int newSize, unsigned char doShrink)
+// src: GUESS 0x006a8890 (confidence: low)
+void H2::UpdateState_006a8890(unsigned int newSize, unsigned char doShrink)
 {
     if (newSize == 0)
     {
@@ -8330,13 +8380,14 @@ struct Array64
     unsigned int size;
     unsigned int capacity;
     void FUN_008454f0(bool);
-    void FUN_006b4590(unsigned int, unsigned int);
-    void FUN_006a2630(ResizeElement64*, unsigned int);
+    void AllocateStorage_006b4590(unsigned int, unsigned int);
+    void ConstructElementsInPlace(ResizeElement64*, unsigned int);
     void FUN_0072ba80(ResizeElement64*, unsigned int);
-    void FUN_006b4450(unsigned int, bool);
+    void AllocateStorage_006b4450(unsigned int, bool);
 };
 // @fnv 0x006b4450
-void Array64::FUN_006b4450(unsigned int count, bool shrink)
+// src: GUESS 0x006b4450 (confidence: low)
+void Array64::AllocateStorage_006b4450(unsigned int count, bool shrink)
 {
     if (count == 0)
     {
@@ -8351,10 +8402,10 @@ void Array64::FUN_006b4450(unsigned int count, bool shrink)
         }
         else
         {
-            FUN_006b4590(count, size);
+            AllocateStorage_006b4590(count, size);
             capacity = count;
         }
-        FUN_006a2630(data + size, count - size);
+        ConstructElementsInPlace(data + size, count - size);
         size = count;
     }
     else if (count < size)
@@ -8363,13 +8414,13 @@ void Array64::FUN_006b4450(unsigned int count, bool shrink)
         size = count;
         if (shrink && count <= capacity / 4)
         {
-            FUN_006b4590(count, count);
+            AllocateStorage_006b4590(count, count);
             capacity = count;
         }
     }
     else
     {
-        FUN_006a2630(data + size, count - size);
+        ConstructElementsInPlace(data + size, count - size);
         size = count;
     }
 }
@@ -8575,7 +8626,7 @@ struct Circle
 {
     PathPoint_blk_006a0000_od center;
     float radius;
-    PathPoint_blk_006a0000_od FUN_004a0bd0();
+    PathPoint_blk_006a0000_od GetNegatedVector();
 };
 struct Hit
 {
@@ -8602,7 +8653,7 @@ bool IntersectLineCircle(Circle* circle, const Line* pLine, Result* result)
     Hit* firstSlot0 = &result->first;
     Hit* secondSlot21 = &result->second;
     Line lineSlot1(*pLine);
-    lineSlot1.AddToPoints(circle->FUN_004a0bd0());
+    lineSlot1.AddToPoints(circle->GetNegatedVector());
     float radiusSlot20 = 1.0f;
     lineSlot1.start.ScaleByInverse(circle->radius);
     lineSlot1.end.ScaleByInverse(circle->radius);
@@ -8811,7 +8862,7 @@ bool __cdecl NavMeshMath_CheckArcAgainstCircle(const NiBound* pSphereA, Obstacle
         return true;
     if (pSphereB->m_fRadius == 0.0)
         return true;
-    NiPoint3 c = pSphereB->m_kCenter.FUN_00439ef0(pSphereA->m_kCenter);
+    NiPoint3 c = pSphereB->m_kCenter.SubtractIntoVector(pSphereA->m_kCenter);
     float p = c.FUN_004a7290();
     float l = c.GetSquaredXYLength();
     if (l == 0.0)
@@ -8864,9 +8915,9 @@ struct BuildCollection
     unsigned int capacity;
     unsigned int grow;
     unsigned int FUN_0044ddc0() const;
-    FUN_006bc8b0* FUN_006bf670(unsigned int index);
+    FUN_006bc8b0* GetElementAddress_006bf670(unsigned int index);
     unsigned short* GetBufferEntry(unsigned int index);
-    BuildItem* FUN_006a1440(unsigned int index);
+    BuildItem* Object_GetIndexedValue_006a1440(unsigned int index);
     int FUN_004b9ba0();
     void NiTMapBase_DFALL_NiTMapItem_unsigned_short_NiPointer_ObstacleData_unsigned_short_NiPointer_ObstacleData_GetNext(int* cursor, unsigned short* value, void* tag);
 };
@@ -9006,8 +9057,8 @@ struct BuildIds
     unsigned int count;
     unsigned int capacity;
     unsigned int grow;
-    void FUN_00438660();
-    void FUN_00438690();
+    void SetVirtualTableAndProcessState_00438660();
+    void UpdateState_00438690();
     int FUN_00719b20(const int* pIndex, int mode, void (*compare)());
     void FUN_007cb2e0(const int* pIndex);
     unsigned int FUN_0044ddc0();
@@ -9020,11 +9071,11 @@ struct BuildIdsScope : BuildIds
 {
     BuildIdsScope()
     {
-        FUN_00438660();
+        SetVirtualTableAndProcessState_00438660();
     }
     ~BuildIdsScope()
     {
-        FUN_00438690();
+        UpdateState_00438690();
     }
 };
 
@@ -9039,7 +9090,7 @@ struct BuildProcess
 };
 
 extern void CallWithInt(void*, int);
-extern void FUN_009a3830();
+extern void Actor_AreReferencedValuesEqual();
 extern const int UNK_006bfb30;
 // Builds output from input: registers annotation bounds in the catalog, marks values, applies components, and processes the value collection.
 // @fnv 0x006bc3e0
@@ -9055,13 +9106,13 @@ bool BuildProcess::Build(BuildOutput* pOutput, BuildInput* pInput, BuildCatalog*
             int entry;
             {
                 BuildBounds bounds;
-                ((BuildName*)&bounds.mC)->CopyFromNavMeshEdge(input->annotationCollection.FUN_006bf670(i));
-                ((BuildName*)&bounds.m0)->CopyFromNavMeshEdge(&input->annotationCollection.FUN_006bf670(i)->mC);
+                ((BuildName*)&bounds.mC)->CopyFromNavMeshEdge(input->annotationCollection.GetElementAddress_006bf670(i));
+                ((BuildName*)&bounds.m0)->CopyFromNavMeshEdge(&input->annotationCollection.GetElementAddress_006bf670(i)->mC);
                 bounds.processed = false;
                 entry = catalog->primary.FindIndexIf((BuildName*)&bounds.m0, 0, CallWithInt);
                 if (entry != -1)
                 {
-                    if (names.FUN_00719b20(&entry, 0, FUN_009a3830) == -1)
+                    if (names.FUN_00719b20(&entry, 0, Actor_AreReferencedValuesEqual) == -1)
                     {
                         names.FUN_007cb2e0(&entry);
                     }
@@ -9094,17 +9145,17 @@ bool BuildProcess::Build(BuildOutput* pOutput, BuildInput* pInput, BuildCatalog*
         }
         for (unsigned int i = 0; i < input->componentCollection.FUN_0044ddc0(); ++i)
         {
-            BuildValue* value = output->FUN_005582f0(input->componentCollection.FUN_006a1440(i)->objectId);
+            BuildValue* value = output->FUN_005582f0(input->componentCollection.Object_GetIndexedValue_006a1440(i)->objectId);
             value->ClearFlags(0x100);
             for (int component = 0; component < 3; ++component)
             {
-                if (input->componentCollection.FUN_006a1440(i)->enabled[component])
+                if (input->componentCollection.Object_GetIndexedValue_006a1440(i)->enabled[component])
                 {
-                    value->SetSlotValue(component, input->componentCollection.FUN_006a1440(i)->component[component]);
+                    value->SetSlotValue(component, input->componentCollection.Object_GetIndexedValue_006a1440(i)->component[component]);
                 }
                 else
                 {
-                    value->SetArrayValue(component, input->componentCollection.FUN_006a1440(i)->component[component]);
+                    value->SetArrayValue(component, input->componentCollection.Object_GetIndexedValue_006a1440(i)->component[component]);
                 }
             }
         }
@@ -9114,7 +9165,7 @@ bool BuildProcess::Build(BuildOutput* pOutput, BuildInput* pInput, BuildCatalog*
         }
         for (unsigned int i = 0; i < input->componentCollection.FUN_0044ddc0(); ++i)
         {
-            BuildValue* value = output->FUN_005582f0(input->componentCollection.FUN_006a1440(i)->objectId);
+            BuildValue* value = output->FUN_005582f0(input->componentCollection.Object_GetIndexedValue_006a1440(i)->objectId);
             value->NavMeshTriangle_SetObjectCount((unsigned int)value->GetBits13To15() - 1);
         }
         for (unsigned int id = input->firstIndex; id < input->firstIndex + input->indexCount; ++id)
@@ -9575,7 +9626,7 @@ struct Vec74
 {
     float x, y, z;
     Vec74();
-    Vec74 FUN_00439ef0(const Vec74&);
+    Vec74 SubtractIntoVector(const Vec74&);
     float GetSquaredXYLength();
 };
 struct VertexData74
@@ -9594,7 +9645,7 @@ struct Reference74
 struct Smart74
 {
     Reference74* ptr;
-    Reference74* FUN_00559450();
+    Reference74* Modelloader_GetReferencedThis();
     void FUN_006e5cc0(const Smart74&);
 };
 struct EdgeData74
@@ -9679,25 +9730,25 @@ void Processor74::SplitCrossingEdges()
                 bool splitFirst21 = false;
                 bool splitSecond20 = false;
                 Vertex74* intersection6;
-                if (pc21->FUN_00439ef0(crossing2).GetSquaredXYLength() < tolerance8)
+                if (pc21->SubtractIntoVector(crossing2).GetSquaredXYLength() < tolerance8)
                 {
                     intersection6 = c5;
                     splitFirst21 = true;
                     splitSecond20 = false;
                 }
-                else if (pd20->FUN_00439ef0(crossing2).GetSquaredXYLength() < tolerance8)
+                else if (pd20->SubtractIntoVector(crossing2).GetSquaredXYLength() < tolerance8)
                 {
                     intersection6 = d5;
                     splitFirst21 = true;
                     splitSecond20 = false;
                 }
-                else if (pa51->FUN_00439ef0(crossing2).GetSquaredXYLength() < tolerance8)
+                else if (pa51->SubtractIntoVector(crossing2).GetSquaredXYLength() < tolerance8)
                 {
                     intersection6 = a2;
                     splitFirst21 = false;
                     splitSecond20 = true;
                 }
-                else if (pb32->FUN_00439ef0(crossing2).GetSquaredXYLength() < tolerance8)
+                else if (pb32->SubtractIntoVector(crossing2).GetSquaredXYLength() < tolerance8)
                 {
                     intersection6 = b10;
                     splitFirst21 = false;
@@ -9755,20 +9806,20 @@ void Processor74::SplitCrossingEdges()
                 {
                     if (i > j)
                     {
-                        if (edges.FUN_00877a30(i)->reference.FUN_00559450())
-                            edges.FUN_00877a30(i)->reference.FUN_00559450()->NiRefObject_DecRefCount();
-                        if (edges.FUN_00877a30(j)->reference.FUN_00559450())
-                            edges.FUN_00877a30(j)->reference.FUN_00559450()->NiRefObject_DecRefCount();
+                        if (edges.FUN_00877a30(i)->reference.Modelloader_GetReferencedThis())
+                            edges.FUN_00877a30(i)->reference.Modelloader_GetReferencedThis()->NiRefObject_DecRefCount();
+                        if (edges.FUN_00877a30(j)->reference.Modelloader_GetReferencedThis())
+                            edges.FUN_00877a30(j)->reference.Modelloader_GetReferencedThis()->NiRefObject_DecRefCount();
                         edges.BSSimpleArray_HUDMainMenu_SubtitleData_1024_Remove(i, 1);
                         edges.BSSimpleArray_HUDMainMenu_SubtitleData_1024_Remove(j, 1);
                         i -= 2;
                     }
                     else
                     {
-                        if (edges.FUN_00877a30(i)->reference.FUN_00559450())
-                            edges.FUN_00877a30(i)->reference.FUN_00559450()->NiRefObject_DecRefCount();
-                        if (edges.FUN_00877a30(j)->reference.FUN_00559450())
-                            edges.FUN_00877a30(j)->reference.FUN_00559450()->NiRefObject_DecRefCount();
+                        if (edges.FUN_00877a30(i)->reference.Modelloader_GetReferencedThis())
+                            edges.FUN_00877a30(i)->reference.Modelloader_GetReferencedThis()->NiRefObject_DecRefCount();
+                        if (edges.FUN_00877a30(j)->reference.Modelloader_GetReferencedThis())
+                            edges.FUN_00877a30(j)->reference.Modelloader_GetReferencedThis()->NiRefObject_DecRefCount();
                         edges.BSSimpleArray_HUDMainMenu_SubtitleData_1024_Remove(j, 1);
                         edges.BSSimpleArray_HUDMainMenu_SubtitleData_1024_Remove(i, 1);
                         i -= 1;
@@ -9778,15 +9829,15 @@ void Processor74::SplitCrossingEdges()
                 {
                     if (splitFirst21)
                     {
-                        if (edges.FUN_00877a30(i)->reference.FUN_00559450())
-                            edges.FUN_00877a30(i)->reference.FUN_00559450()->NiRefObject_DecRefCount();
+                        if (edges.FUN_00877a30(i)->reference.Modelloader_GetReferencedThis())
+                            edges.FUN_00877a30(i)->reference.Modelloader_GetReferencedThis()->NiRefObject_DecRefCount();
                         edges.BSSimpleArray_HUDMainMenu_SubtitleData_1024_Remove(i, 1);
                         i -= 1;
                     }
                     if (splitSecond20)
                     {
-                        if (edges.FUN_00877a30(j)->reference.FUN_00559450())
-                            edges.FUN_00877a30(j)->reference.FUN_00559450()->NiRefObject_DecRefCount();
+                        if (edges.FUN_00877a30(j)->reference.Modelloader_GetReferencedThis())
+                            edges.FUN_00877a30(j)->reference.Modelloader_GetReferencedThis()->NiRefObject_DecRefCount();
                         edges.BSSimpleArray_HUDMainMenu_SubtitleData_1024_Remove(j, 1);
                         if (i > j)
                             i -= 1;
@@ -9966,7 +10017,7 @@ struct IndexArray120
     bool NiTListBase_DFALL_NiTListItem_BSAnimGroupSequence_const_BSAnimGroupSequence_const_IsEmpty();
     void BSSimpleArray_Sort(int(__cdecl*)(unsigned int*, unsigned int*));
 };
-unsigned int __cdecl FUN_009a3830(const int*, const int*);
+unsigned int __cdecl Actor_AreReferencedValuesEqual(const int*, const int*);
 struct RecordArray120
 {
     unsigned int count, capacity;
@@ -9990,7 +10041,7 @@ struct EdgeSourceArray120
 };
 struct RecordSink120
 {
-    void FUN_006bf730(EdgeRecord120*);
+    void UpdateState_006bf730(EdgeRecord120*);
 };
 struct RecordOwner120
 {
@@ -10022,11 +10073,11 @@ void EdgeUpdater120::UpdateEdgeRecords(RecordArray120* arrays)
             record.second = *reinterpret_cast<EH*>(&key);
             record.first = (*edges.FUN_00877a30(i))->second;
             record.active = true;
-            owner->records.FUN_006bf730(&record);
+            owner->records.UpdateState_006bf730(&record);
             unsigned int index = arrays->FindIndexIf(&record, 0, CallWithInt);
             if (index != -1)
             {
-                if (removed.FUN_00719b20(&index, 0, FUN_009a3830) == -1)
+                if (removed.FUN_00719b20(&index, 0, Actor_AreReferencedValuesEqual) == -1)
                     removed.FUN_007cb2e0(&index);
             }
             else
@@ -10040,7 +10091,7 @@ void EdgeUpdater120::UpdateEdgeRecords(RecordArray120* arrays)
     }
     if (!removed.NiTListBase_DFALL_NiTListItem_BSAnimGroupSequence_const_BSAnimGroupSequence_const_IsEmpty())
     {
-        removed.BSSimpleArray_Sort(FUN_006bfb30);
+        removed.BSSimpleArray_Sort(Runtime_CompareUnsignedValues);
         for (int j = removed.FUN_0044ddc0() - 1; j >= 0; j--)
             arrays->FUN_0061bf70(*removed.FUN_00877a30(j), 1);
     }
@@ -10184,7 +10235,7 @@ struct V006b9b10
     float x;
     float y;
     float z;
-    V006b9b10* FUN_00439ef0(V006b9b10* out, V006b9b10* in);
+    V006b9b10* SubtractIntoVector(V006b9b10* out, V006b9b10* in);
     V006b9b10* FUN_00439e90(V006b9b10* out, V006b9b10* in);
     double DotProduct(V006b9b10* other);
     float FUN_00457990();
@@ -10207,14 +10258,14 @@ float __cdecl DistanceToSegment(V006b9b10* first, V006b9b10* origin, V006b9b10* 
             V006b9b10 x7;
             V006b9b10 scaled5;
 
-            second->FUN_00439ef0(&segmentTmp, origin);
-            first->FUN_00439ef0(&point, origin);
+            second->SubtractIntoVector(&segmentTmp, origin);
+            first->SubtractIntoVector(&point, origin);
             kIter = point.DotProduct(&segmentTmp);
             if (kIter <= 0.0)
             {
                 if (inside)
                     *inside = 0;
-                return first->FUN_00439ef0(&pA, origin)->FUN_00457990();
+                return first->SubtractIntoVector(&pA, origin)->FUN_00457990();
             }
 
             lengthSquaredTmp = segmentTmp.DotProduct(&segmentTmp);
@@ -10222,14 +10273,14 @@ float __cdecl DistanceToSegment(V006b9b10* first, V006b9b10* origin, V006b9b10* 
             {
                 if (inside)
                     *inside = 0;
-                return first->FUN_00439ef0(&x7, second)->FUN_00457990();
+                return first->SubtractIntoVector(&x7, second)->FUN_00457990();
             }
 
             firstDistance3 = kIter / lengthSquaredTmp;
             origin->FUN_00439e90(&c2, FUN_004a3760(&pForm, (float)firstDistance3, &segmentTmp));
             if (inside)
                 *inside = 1;
-            return first->FUN_00439ef0(&scaled5, &c2)->FUN_00457990();
+            return first->SubtractIntoVector(&scaled5, &c2)->FUN_00457990();
         }
     }
 }
@@ -10239,7 +10290,7 @@ struct V3
 {
     float x, y, z;
     V3();
-    V3 FUN_00439ef0(const V3& o) const;
+    V3 SubtractIntoVector(const V3& o) const;
     V3 FUN_00439e90(const V3& o) const;
 };
 V3 __cdecl FUN_004a3760(float scale, const V3& v);
@@ -10250,12 +10301,12 @@ using ns6b::V3;
 // src: XBOX_PDB 0x006ba6e0
 bool __cdecl NavMeshMath_LineToLineSegment2DIntersection(const V3& aStart, const V3& aEnd, const V3& cStart, const V3& cEnd, V3* out)
 {
-    V3 es = aEnd.FUN_00439ef0(aStart);
-    V3 gt = cEnd.FUN_00439ef0(cStart);
+    V3 es = aEnd.SubtractIntoVector(aStart);
+    V3 gt = cEnd.SubtractIntoVector(cStart);
     float yx = es.x * gt.y - es.y * gt.x;
     if (yx == DAT_01012060)
         return false;
-    V3 o1 = cStart.FUN_00439ef0(aStart);
+    V3 o1 = cStart.SubtractIntoVector(aStart);
     float k1 = o1.x * es.y - o1.y * es.x;
     float ox = k1 / yx;
     if (ox < DAT_01012060 || ox > 1.0)
@@ -11037,7 +11088,8 @@ struct FUN_006b1d80
 
 // Constructs a FUN_006b1d80 object in-place at each of the first count elements of items.
 // @fnv 0x006a2630
-void Array64::FUN_006a2630(ResizeElement64* items, unsigned int count)
+// src: GUESS 0x006a2630 (confidence: medium)
+void Array64::ConstructElementsInPlace(ResizeElement64* items, unsigned int count)
 {
     for (unsigned int i = 0; i < count; i++)
     {
@@ -11077,7 +11129,7 @@ struct DbgPtr
     DbgPtr(DbgObject* apObject);
     ~DbgPtr();
     DbgPtr& FUN_0066b0d0(DbgObject* apObject);
-    DbgObject* FUN_00559450();
+    DbgObject* Modelloader_GetReferencedThis();
 };
 
 struct DbgColor
@@ -11188,25 +11240,25 @@ FUN_006a2a20::FUN_006a2a20()
     afPointAlpha[15] = DAT_0106b4f0;
     afPointAlpha[16] = DAT_0106b4f0;
     spState.FUN_0066b0d0(new DbgPropertyState());
-    spState.FUN_00559450()->NiAlphaProperty_SetAlphaBlending(1);
+    spState.Modelloader_GetReferencedThis()->NiAlphaProperty_SetAlphaBlending(1);
     for (unsigned int i = 0; i < 17; i++)
     {
         aspLineAlpha[i].FUN_0066b0d0(new DbgAlphaProperty());
-        aspLineAlpha[i].FUN_00559450()->NiMaterialProperty_SetEmittance(&DAT_011a9b7c);
-        aspLineAlpha[i].FUN_00559450()->NiMaterialProperty_SetAlpha(afLineAlphaCur[i]);
+        aspLineAlpha[i].Modelloader_GetReferencedThis()->NiMaterialProperty_SetEmittance(&DAT_011a9b7c);
+        aspLineAlpha[i].Modelloader_GetReferencedThis()->NiMaterialProperty_SetAlpha(afLineAlphaCur[i]);
         aspPointAlpha[i].FUN_0066b0d0(new DbgAlphaProperty());
-        aspPointAlpha[i].FUN_00559450()->NiMaterialProperty_SetEmittance(&DAT_011a9b7c);
-        aspPointAlpha[i].FUN_00559450()->NiMaterialProperty_SetAlpha(afPointAlpha[i]);
+        aspPointAlpha[i].Modelloader_GetReferencedThis()->NiMaterialProperty_SetEmittance(&DAT_011a9b7c);
+        aspPointAlpha[i].Modelloader_GetReferencedThis()->NiMaterialProperty_SetAlpha(afPointAlpha[i]);
         aspShapes[i].FUN_0066b0d0(CreateOctahedron(DAT_0119cb84, &akColors[i], 1));
-        aspShapes[i].FUN_00559450()->NiAVObject_AttachProperty(aspLineAlpha[i].FUN_00559450());
+        aspShapes[i].Modelloader_GetReferencedThis()->NiAVObject_AttachProperty(aspLineAlpha[i].Modelloader_GetReferencedThis());
         DbgPtr spShaderProperty = reinterpret_cast<DbgObject*>(new BSShaderNoLightingProperty());
-        reinterpret_cast<BSShaderNoLightingProperty*>(spShaderProperty.FUN_00559450())->SetFlag(0x20, false);
-        aspShapes[i].FUN_00559450()->NiAVObject_RemoveProperty(3);
-        aspShapes[i].FUN_00559450()->NiAVObject_AttachProperty(spShaderProperty.FUN_00559450());
+        reinterpret_cast<BSShaderNoLightingProperty*>(spShaderProperty.Modelloader_GetReferencedThis())->SetFlag(0x20, false);
+        aspShapes[i].Modelloader_GetReferencedThis()->NiAVObject_RemoveProperty(3);
+        aspShapes[i].Modelloader_GetReferencedThis()->NiAVObject_AttachProperty(spShaderProperty.Modelloader_GetReferencedThis());
     }
     spAlpha.FUN_0066b0d0(new DbgAlphaProperty());
-    spAlpha.FUN_00559450()->NiMaterialProperty_SetEmittance(&DAT_011a9b7c);
-    spAlpha.FUN_00559450()->NiMaterialProperty_SetAlpha(0.5f);
+    spAlpha.Modelloader_GetReferencedThis()->NiMaterialProperty_SetEmittance(&DAT_011a9b7c);
+    spAlpha.Modelloader_GetReferencedThis()->NiMaterialProperty_SetAlpha(0.5f);
 }
 
 }
@@ -11652,7 +11704,8 @@ FUN_006b8e40::~FUN_006b8e40()
 extern int DAT_0106c324;
 struct SandBoxChoiceListItem;
 // @fnv 0x006bf870
-void __thiscall FUN_006bf870_class::FUN_006bf870()
+// src: GUESS 0x006bf870 (confidence: low)
+void __thiscall FUN_006bf870_class::SetVtableAndProcessState_006bf870()
 {
     *(int**)this = &DAT_0106c324;
     reinterpret_cast<BSSimpleArray<SandBoxChoiceListItem>*>(this)->Clear(true);
@@ -11717,7 +11770,7 @@ struct PtMul
 };
 struct FUN_0063c8a0_shell
 {
-    Point3Storage* FUN_0063c8a0(void* p);
+    Point3Storage* ComputeValue_0063c8a0(void* p);
 };
 
 
@@ -11776,8 +11829,8 @@ bool Host::NavMeshSearchSLPoint_CheckPointOnGoalCircle(Point3Storage* a1, Point3
     this->m_20e4 = ((PtMul&)y) * n;
     Point3Storage s;
     s = *a2;
-    ((FUN_0063c8a0_shell&)hpt).FUN_0063c8a0(a2);
-    ((FUN_0063c8a0_shell&)this->m_20e4).FUN_0063c8a0(a2);
+    ((FUN_0063c8a0_shell&)hpt).ComputeValue_0063c8a0(a2);
+    ((FUN_0063c8a0_shell&)this->m_20e4).ComputeValue_0063c8a0(a2);
     this->m_20d8 = ((PtAll&)y).FUN_0053d1a0((void*)&DAT_011a9484);
     Point3Storage ptr = ((PtMul&)this->m_20d8) * this->m_20fc;
     PathingLocation plA(reinterpret_cast<const NiPoint3&>(this->m_20e4), apNavMesh->GetNavMeshInfo_0068efb0());
@@ -11802,7 +11855,7 @@ bool Host::NavMeshSearchSLPoint_CheckPointOnGoalCircle(Point3Storage* a1, Point3
         if (!bTmp)
             return false;
         bool j;
-        j = b171Tmp.FUN_00559450(cellRes, reinterpret_cast<NiPoint3*>(&hpt), &sq2Info, DAT_0106b158, DAT_0106b158)->FUN_00697730();
+        j = b171Tmp.Modelloader_GetReferencedThis(cellRes, reinterpret_cast<NiPoint3*>(&hpt), &sq2Info, DAT_0106b158, DAT_0106b158)->FUN_00697730();
         if (DAT_01012060 > sq2Info && (s.z - this->m_20e4.z) > DAT_01012060)
         {
             Point3Storage kTheIter;
@@ -11963,11 +12016,12 @@ struct FUN_006bfb90_shell
     int m_iWordAt00;
     unsigned short m_iWordAt04;
     int m_8;
-    bool __thiscall FUN_006bfb90(FUN_006bfb90_shell* other);
+    bool __thiscall AreValuesEqual_006bfb90(FUN_006bfb90_shell* other);
 };
 
 // @fnv 0x006bfb90
-bool __thiscall FUN_006bfb90_shell::FUN_006bfb90(FUN_006bfb90_shell* other)
+// src: GUESS 0x006bfb90 (confidence: medium)
+bool __thiscall FUN_006bfb90_shell::AreValuesEqual_006bfb90(FUN_006bfb90_shell* other)
 {
     return m_iWordAt00 == other->m_iWordAt00 && m_iWordAt04 == other->m_iWordAt04 && m_8 == other->m_8;
 }

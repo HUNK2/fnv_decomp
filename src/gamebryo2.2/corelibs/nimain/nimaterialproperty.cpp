@@ -108,7 +108,7 @@ void NiMaterialProperty::LoadBinary(NiStream& stream)
     }
 }
 
-void* __fastcall FUN_00a75650(void* pThis);
+void* __fastcall Lighting30shaderproperty_StoreAndAddReference_00a75650(void* pThis);
 extern void* DAT_011f4a64;
 
 // @fnv 0x00a759e0
@@ -116,7 +116,7 @@ extern void* DAT_011f4a64;
 void __cdecl NiMaterialProperty__SDMInit()
 {
     void* pMemory = BSFadeNode::operator new(0x4c);
-    NiRefObject* pFadeNode = (NiRefObject*)(pMemory ? FUN_00a75650(pMemory) : 0);
+    NiRefObject* pFadeNode = (NiRefObject*)(pMemory ? Lighting30shaderproperty_StoreAndAddReference_00a75650(pMemory) : 0);
     if ((NiRefObject*)DAT_011f4a64 != pFadeNode)
     {
         if (DAT_011f4a64)
@@ -184,7 +184,7 @@ NiObject* __fastcall NiMaterialProperty_MakeClone(NiMaterialProperty* pThis, voi
     if (pThis->m_spControllers)
     {
         void* memory = NiProperty::operator new(sizeof(NiMaterialProperty));
-        NiMaterialProperty* pkClone = static_cast<NiMaterialProperty*>(memory ? FUN_00a75650(memory) : 0);
+        NiMaterialProperty* pkClone = static_cast<NiMaterialProperty*>(memory ? Lighting30shaderproperty_StoreAndAddReference_00a75650(memory) : 0);
         reinterpret_cast<void(__thiscall*)(NiMaterialProperty*, NiMaterialProperty*, CloningProcess&)>(
             NiMaterialProperty_CopyMemberData)(pThis, pkClone, kCloning);
         return pkClone;

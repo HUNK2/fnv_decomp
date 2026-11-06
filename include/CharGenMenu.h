@@ -56,6 +56,6 @@ public:
     void InitMenu();
     void BuildSkillList();
     void HandleSkillMenuCommand(int, Tile*);
-    bool __thiscall FUN_00754150(int, float);
+    bool __thiscall UpdateState_00754150(int, float);
     bool __thiscall HandleButton(int, float);
 };

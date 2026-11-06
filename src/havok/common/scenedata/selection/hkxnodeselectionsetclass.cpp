@@ -89,12 +89,13 @@ struct E01D40Object : E01D40Base
     E01D40RefPtrArray m_kTrackedObjects;
     E01D40StringPtr m_name;
 
-    void FUN_00e01d40();
+    void ProcessState_00e01d40();
 };
 
 // Releases m_name, clears the reference array through the global allocator's heap, then calls E01D40Base::release.
 // @fnv 0x00e01d40
-void E01D40Object::FUN_00e01d40()
+// src: GUESS 0x00e01d40 (confidence: low)
+void E01D40Object::ProcessState_00e01d40()
 {
     m_name.release();
     m_kTrackedObjects._clearAndDeallocate(reinterpret_cast<hkMemoryAllocator&>(hkMemoryRouter_getInstance().heap()));
@@ -122,14 +123,14 @@ struct CpuObject
 {
     int unk00;
     unsigned short unk04;
-    void FUN_00e01d40();
+    void ProcessState_00e01d40();
     CpuObject* FUN_00e01dd0(bool enabled);
 };
 // Calls FUN_00e01d40, and if enabled dispatches this object with unk04 through the audio system's interface, then returns this.
 // @fnv 0x00e01dd0
 CpuObject* CpuObject::FUN_00e01dd0(bool enabled)
 {
-    FUN_00e01d40();
+    ProcessState_00e01d40();
     if (enabled & 1)
     {
         AudioSystem* system = static_cast<AudioSystem*>(hkMemoryRouter_getInstance());

@@ -29,7 +29,7 @@ public:
 class AddonNodeData
 {
 public:
-    void FUN_00512810();
+    void BSEndian_Thunk();
     unsigned short m_usAddonNodeIndex;
     unsigned char cFlags;
     unsigned char layoutPadding3[1];
@@ -127,7 +127,7 @@ bool BGSAddonNode::Load(TESFile* file)
         {
             file->GetChunkData(reinterpret_cast<char*>(this) + 0x58, 4);
             if (reinterpret_cast<TESFileAccessor_bgsaddonnode*>(file)->GetChunkData())
-                reinterpret_cast<AddonNodeData*>(reinterpret_cast<char*>(this) + 0x58)->FUN_00512810();
+                reinterpret_cast<AddonNodeData*>(reinterpret_cast<char*>(this) + 0x58)->BSEndian_Thunk();
             if (FUN_00448bf0())
             {
                 uiParticleSystemIndex = DAT_011c8054;
@@ -196,7 +196,8 @@ void* BGSAddonNodeSoundHandleExtra::FUN_004f9240(unsigned int flags)
 namespace fnv_004f9360 {
 // Calls FUN_004b9900(1) on DAT_011c8058 if it is non-null, then sets DAT_011c8058 to null.
 // @fnv 0x004f9360
-void FUN_004f9360()
+// src: GUESS 0x004f9360 (confidence: low)
+void Object_UpdateFields_004f9360()
 {
     NiFixedString* pName;
     {
@@ -255,10 +256,10 @@ void FUN_004f8fe0_shell::BGSAddonNode_SaveAlt()
         TESForm_AddChunk_00485910(0x4d414e53, itempint);
     }
     if (TESForm_QEndianSwapOnSave())
-        reinterpret_cast<AddonNodeData*>(reinterpret_cast<char*>(this) + 0x58)->FUN_00512810();
+        reinterpret_cast<AddonNodeData*>(reinterpret_cast<char*>(this) + 0x58)->BSEndian_Thunk();
     AppendChunk(0x4d414e44, reinterpret_cast<char*>(this) + 0x58, 4);
     if (TESForm_QEndianSwapOnSave())
-        reinterpret_cast<AddonNodeData*>(reinterpret_cast<char*>(this) + 0x58)->FUN_00512810();
+        reinterpret_cast<AddonNodeData*>(reinterpret_cast<char*>(this) + 0x58)->BSEndian_Thunk();
     reinterpret_cast<::FUN_00485680*>(this)->M();
 }
 

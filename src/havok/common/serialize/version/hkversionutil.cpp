@@ -37,7 +37,7 @@ hkMemoryRouter* _D1A0E0GetMemoryRouter();
 
 struct Object
 {
-    void FUN_00e03160();
+    void SetVirtualTable_00e03160();
 };
 
 struct FUN_00e049d0_Class : Object
@@ -51,7 +51,7 @@ struct FUN_00e049d0_Class : Object
 // @fnv 0x00e049d0
 FUN_00e049d0_Class* FUN_00e049d0_Class::FUN_00e049d0(int flags)
 {
-    Object::FUN_00e03160();
+    Object::SetVirtualTable_00e03160();
 
     if (flags & 1)
     {
@@ -84,8 +84,8 @@ struct FUN_00d871a0
     int m_04;
 
     FUN_00d871a0(void*, int);
-    bool& FUN_00d871e0(bool&);
-    void* FUN_00d871f0();
+    bool& ComputeValue_00d871e0(bool&);
+    void* GetValue();
     hkClassMember* hkClassMemberAccessor_getClassMember();
 };
 
@@ -98,9 +98,9 @@ void __cdecl hkVersionUtil_renameMember(void* a1, int a2, void* a3, int a4)
     FUN_00d871a0 obj1(a1, a2);
     FUN_00d871a0 obj2(a3, a4);
     bool b;
-    if (obj1.FUN_00d871e0(b) && obj2.FUN_00d871e0(b))
+    if (obj1.ComputeValue_00d871e0(b) && obj2.ComputeValue_00d871e0(b))
     {
-        hkString_memCpy(obj2.FUN_00d871f0(), obj1.FUN_00d871f0(), GetMemberSize(obj2.hkClassMemberAccessor_getClassMember()));
+        hkString_memCpy(obj2.GetValue(), obj1.GetValue(), GetMemberSize(obj2.hkClassMemberAccessor_getClassMember()));
     }
 }
 
@@ -157,12 +157,12 @@ class hkPointerMapDC12
     {}
     ~hkPointerMapDC12() throw()
     {
-        FUN_00a29680();
+        Object_DoNothing();
     }
 
     void EnsureCapacity(hkMemoryAllocatorDC12& kAlloc, int iNumElems) throw();
     void ProcessArgument(hkMemoryAllocatorDC12& kAlloc) throw();
-    void FUN_00a29680() throw();
+    void Object_DoNothing() throw();
 };
 
 class hkVisitorDC12
@@ -175,7 +175,7 @@ class hkVisitorDC12
         hkStructureLayout_hkStructureLayout();
     }
     void hkStructureLayout_hkStructureLayout() throw();
-    void FUN_00dc1bb0(void* pvObject, hkPointerMapDC12& kDone, int iFlags) throw();
+    void UpdateState_00dc1bb0(void* pvObject, hkPointerMapDC12& kDone, int iFlags) throw();
 };
 
 // @fnv 0x00dc1230
@@ -187,7 +187,7 @@ extern "C" void __cdecl VisitObjectList(int apvList, int iFlags)
     hkPointerMapDC12 kDone;
     kDone.EnsureCapacity(reinterpret_cast<hkMemoryAllocatorDC12&>(hkMemoryRouter_getInstance().heap()), 0);
     for (int i = 0; ppvList[i]; i++)
-        kVisitor.FUN_00dc1bb0(ppvList[i], kDone, 1);
+        kVisitor.UpdateState_00dc1bb0(ppvList[i], kDone, 1);
     kDone.ProcessArgument(reinterpret_cast<hkMemoryAllocatorDC12&>(hkMemoryRouter_getInstance().heap()));
 }
 
@@ -274,7 +274,8 @@ extern "C" hkMemoryRouter* __cdecl hkMemoryRouter_getInstance();
 }
 extern "C" void __cdecl hkArrayUtil__reserve(S00dc15a0_Buffer* buffer, int** indices, int size, int elementSize);
 
-static __declspec(noinline) int FUN_00dc12c0(S00dc15a0_Params* params, int value, int flags, S00dc15a0_Array* arr)
+// src: GUESS 0x00dc12c0 (confidence: low)
+static __declspec(noinline) int Object_ComputeValue_00dc12c0(S00dc15a0_Params* params, int value, int flags, S00dc15a0_Array* arr)
 {
     arr->m_iElementCount = (int)&params + (int)&value + (int)&flags;
     return arr->m_capFlags;
@@ -282,7 +283,8 @@ static __declspec(noinline) int FUN_00dc12c0(S00dc15a0_Params* params, int value
 
 // Builds an array containing 0..count-1, passes it to FUN_00dc12c0, and returns that call's result.
 // @fnv 0x00dc15a0
-int __cdecl FUN_00dc15a0(S00dc15a0_Params* params, int value, int flags)
+// src: GUESS 0x00dc15a0 (confidence: medium)
+int __cdecl Object_BuildIndexArrayAndDispatch(S00dc15a0_Params* params, int value, int flags)
 {
     S00dc15a0_Array arr;
     int count = params->unk04;
@@ -312,7 +314,7 @@ int __cdecl FUN_00dc15a0(S00dc15a0_Params* params, int value, int flags)
         } while (index < params->unk04);
     }
 
-    int result = FUN_00dc12c0(params, value, flags, &arr);
+    int result = Object_ComputeValue_00dc12c0(params, value, flags, &arr);
 
     router = fnvc_adapt::hkMemoryRouter_getInstance();
     S00dc15a0_Buffer* heap2 = reinterpret_cast<S00dc15a0_Buffer*>(router->m_temp);

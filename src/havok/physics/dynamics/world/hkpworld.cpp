@@ -395,10 +395,11 @@ struct FUN_00c91140_Class {
     unsigned int m_88;
     unsigned int m_8C;
     int m_90;
-    void FUN_00c91140();
+    void UpdateFields_00c91140();
 };
 // @fnv 0x00c91140
-void FUN_00c91140_Class::FUN_00c91140()
+// src: GUESS 0x00c91140 (confidence: low)
+void FUN_00c91140_Class::UpdateFields_00c91140()
 {
     m_90 = 0;
     ((FUN_00cf7ae0_Class*)m_88)->hkpWorldOperationQueue_executeAllPendingBodyOperations();
@@ -452,11 +453,12 @@ void __thiscall FUN_00c911d0_Class::EnterLock(void* unused)
 extern void (__stdcall *DAT_00fdf05c)(void*);
 
 struct FUN_00c911f0_Class {
-    void FUN_00c911f0(void*);
+    void UpdateState_00c911f0(void*);
 };
 
 // @fnv 0x00c911f0
-void FUN_00c911f0_Class::FUN_00c911f0(void* p)
+// src: GUESS 0x00c911f0 (confidence: low)
+void FUN_00c911f0_Class::UpdateState_00c911f0(void* p)
 {
     void* pStoredKey = *(void**)((char*)this + 0xb8);
     if (pStoredKey)
@@ -768,10 +770,11 @@ void FUN_00c995f0_Class::hkDebugDisplay_clear()
 
 struct FUN_00c90f30_Class {
     int unk00;
-    void* __thiscall FUN_00c90f30();
+    void* __thiscall SetUnk00();
 };
 // @fnv 0x00c90f30
-void* FUN_00c90f30_Class::FUN_00c90f30() { unk00 = 70; return this; }
+// src: GUESS 0x00c90f30 (confidence: low)
+void* FUN_00c90f30_Class::SetUnk00() { unk00 = 70; return this; }
 
 struct CpuScalar {
     unsigned int unk00;
@@ -846,11 +849,12 @@ struct FUN_00c91070_cls
     int unk00;
     int unk04;
     Inner* m_08;
-    void FUN_00c91070();
+    void ForwardCall_00c91070();
 };
 
 // @fnv 0x00c91070
-void FUN_00c91070_cls::FUN_00c91070()
+// src: GUESS 0x00c91070 (confidence: low)
+void FUN_00c91070_cls::ForwardCall_00c91070()
 {
     m_08->Tail();
 }
@@ -885,11 +889,12 @@ struct FUN_00c91080_cls
     int unk00;
     int unk04;
     Inner* m_08;
-    int FUN_00c91080(int a);
+    int InvokeVirtualMethod_00c91080(int a);
 };
 
 // @fnv 0x00c91080
-int FUN_00c91080_cls::FUN_00c91080(int a)
+// src: GUESS 0x00c91080 (confidence: low)
+int FUN_00c91080_cls::InvokeVirtualMethod_00c91080(int a)
 {
     return m_08->Tail(a);
 }
@@ -922,10 +927,11 @@ struct FnvCpu_FUN_00c91090_CpuOwner {
     unsigned int unk00;
     unsigned int unk04;
     FnvCpu_FUN_00c91090_CpuInterface* target;
-    void FUN_00c91090(int arg0);
+    void ForwardCall_00c91090(int arg0);
 };
 // @fnv 0x00c91090
-void FnvCpu_FUN_00c91090_CpuOwner::FUN_00c91090(int arg0)
+// src: GUESS 0x00c91090 (confidence: low)
+void FnvCpu_FUN_00c91090_CpuOwner::ForwardCall_00c91090(int arg0)
 {
     target->Invoke(arg0);
 }
@@ -1044,10 +1050,11 @@ struct CpuObject {
     unsigned int unk1b4;
     unsigned int unk1b8;
     int value;
-    int FUN_00c91110();
+    int GetValue();
 };
 // @fnv 0x00c91110
-int CpuObject::FUN_00c91110()
+// src: GUESS 0x00c91110 (confidence: low)
+int CpuObject::GetValue()
 {
     return value;
 }
@@ -1127,14 +1134,16 @@ void* __thiscall FUN_00c98250_Class::hkpNullContactMgrFactory_createContactMgr(i
 }
 
 // @fnv 0x00c982a0
-void __stdcall FUN_00c982a0(char* pFlag, int a2, int a3, int a4, int a5, int a6)
+// src: GUESS 0x00c982a0 (confidence: low)
+void __stdcall Object_UpdateFields_00c982a0(char* pFlag, int a2, int a3, int a4, int a5, int a6)
 {
     *pFlag = 1;
 }
 
 // FUN_00c982b0: stdcall with 8 stack parameters; writes 1 through the first parameter pointer.
 // @fnv 0x00c982b0
-void __stdcall FUN_00c982b0(unsigned char* flag, int a2, int a3, int a4, int a5, int a6, int a7, int a8)
+// src: GUESS 0x00c982b0 (confidence: high)
+void __stdcall hkpWorld_SetOutputFlag(unsigned char* flag, int a2, int a3, int a4, int a5, int a6, int a7, int a8)
 {
     *flag = 1;
 }
@@ -1257,7 +1266,7 @@ struct WorldExt : public hkpWorld {
     void hkpWorld_stepDeltaTime(float f) throw();
     void hkpWorld_stepMultithreaded(int a, int b, float f) throw();
     void FUN_00c91120() throw();
-    void FUN_00c91140() throw();
+    void UpdateFields_00c91140() throw();
 };
 
 struct Class_012677d0 {
@@ -1344,7 +1353,7 @@ bool bhkWorld::StepSimulation() {
                 world->FUN_00c91120();
             }
             if (world->m_iPendingOperationQueueCount == 1 && world->m_iQueuedOperationCount != 0) {
-                world->FUN_00c91140();
+                world->UpdateFields_00c91140();
             }
         }
 
@@ -1386,18 +1395,20 @@ void __stdcall nullsub_5(int) {
 }
 
 // @fnv 0x00c911a0
-void FUN_00c911a0()
+// src: GUESS 0x00c911a0 (confidence: high)
+void Object_DoNothing_00c911a0()
 {
 }
 
 extern void (__stdcall *DAT_00fdf100)(void*);
 
 struct FUN_00c91230_World : hkpWorld {
-    void __thiscall FUN_00c91230(void* param);
+    void __thiscall ProcessState_00c91230(void* param);
 };
 
 // @fnv 0x00c91230
-void __thiscall FUN_00c91230_World::FUN_00c91230(void* param) {
+// src: GUESS 0x00c91230 (confidence: low)
+void __thiscall FUN_00c91230_World::ProcessState_00c91230(void* param) {
     if (m_pModifyConstraintCriticalSection != 0) {
         DAT_00fdf100(m_pModifyConstraintCriticalSection);
     }
@@ -1807,12 +1818,12 @@ public:
             if (m_iPendingOperationCount)
                 FUN_00c91120();
             if (m_iPendingOperationQueueCount == 1 && m_iQueuedOperationCount)
-                FUN_00c91140();
+                UpdateFields_00c91140();
         }
     }
 
     void FUN_00c91120() throw();
-    void FUN_00c91140() throw();
+    void UpdateFields_00c91140() throw();
     void hkpWorld_queueOperation(const hkWorldOperationBaseC914& kOperation) throw();
 
     hkpEntity* hkpWorld_addEntity(hkpEntity* pkEntity, int iInitialActivationState) throw();
@@ -2392,7 +2403,7 @@ struct PendingOperation {
 struct FUN_00c936a0_World : hkpWorld {
     void hkpWorld_queueOperation(PendingOperation* op);
     void FUN_00c91120();
-    void FUN_00c91140();
+    void UpdateFields_00c91140();
 
     hkpPhantom* hkpWorld_addPhantom(hkpPhantom* phantom);
 };
@@ -2438,7 +2449,7 @@ hkpPhantom* FUN_00c936a0_World::hkpWorld_addPhantom(hkpPhantom* phantom)
             FUN_00c91120();
         }
         if (m_iPendingOperationQueueCount == 1 && m_iQueuedOperationCount) {
-            FUN_00c91140();
+            UpdateFields_00c91140();
         }
     }
 
@@ -4025,12 +4036,13 @@ struct FUN_00c986c0_Obj {
 };
 
 struct FUN_00c98b60_Class {
-    void FUN_00c98b60(LocalM128* v, float f, int c, int d, int e);
+    void DrawAxisLines(LocalM128* v, float f, int c, int d, int e);
 };
 
 // For each of the first three axes, builds a vector with f on that axis and calls FUN_00c986c0 with the sum and difference against *v.
 // @fnv 0x00c98b60
-void FUN_00c98b60_Class::FUN_00c98b60(LocalM128* v, float f, int c, int d, int e)
+// src: GUESS 0x00c98b60 (confidence: medium)
+void FUN_00c98b60_Class::DrawAxisLines(LocalM128* v, float f, int c, int d, int e)
 {
     int i = 0;
     LocalM128 vecZero = _mm_setzero_ps();
@@ -4176,7 +4188,7 @@ struct HavokHelper {
 };
 
 struct __declspec(align(16)) AlignedRotation : hkRotation {
-    void FUN_00ce52e0(const hkQuaternion& a1);
+    void SetFromInput_Thunk(const hkQuaternion& a1);
 };
 
 // Builds an aligned rotation from the quaternion a1 and forwards it with a2, a3 and a4 to DrawAxes.
@@ -4185,7 +4197,7 @@ struct __declspec(align(16)) AlignedRotation : hkRotation {
 void HavokHelper::hkDebugDisplayHandler_displayFrame(const hkQuaternion& aQuat, float afValue, int aiArg3, int aiArg4) {
     struct __declspec(align(16)) { LocalM128 x, y, z; } rotationStorage;
     AlignedRotation& rot = *(AlignedRotation*)&rotationStorage;
-    rot.FUN_00ce52e0(aQuat);
+    rot.SetFromInput_Thunk(aQuat);
     DrawAxes(rot, afValue, aiArg3, aiArg4);
 }
 
@@ -4203,7 +4215,7 @@ struct FNV_AllocatorContext {
 };
 FNV_AllocatorContext* __cdecl hkMemoryRouter_getInstance();
 struct FNV_Subobject {
-    void* FUN_00cf6da0(unsigned int value);
+    void* ProcessAndReturnValue_00cf6da0(unsigned int value);
 };
 extern void* DAT_010c69cc;
 struct FUN_00c99eb0 {
@@ -4227,7 +4239,7 @@ FUN_00c99eb0::FUN_00c99eb0() {
     FNV_AllocatorContext* context = hkMemoryRouter_getInstance();
     void* memory = context->allocator->allocate(0x18);
     void* pSubobject = memory
-        ? static_cast<FNV_Subobject*>(memory)->FUN_00cf6da0(1000)
+        ? static_cast<FNV_Subobject*>(memory)->ProcessAndReturnValue_00cf6da0(1000)
         : 0;
     m_14 = pSubobject;
 }
@@ -5207,11 +5219,12 @@ struct FUN_00c91000_Class
     LocalM128 m_iWordAt00;
     LocalM128 m_10;
 
-    void __thiscall FUN_00c91000(const LocalM128* value);
+    void __thiscall UpdateFields_00c91000(const LocalM128* value);
 };
 
 // @fnv 0x00c91000
-void FUN_00c91000_Class::FUN_00c91000(const LocalM128* value)
+// src: GUESS 0x00c91000 (confidence: low)
+void FUN_00c91000_Class::UpdateFields_00c91000(const LocalM128* value)
 {
     m_10 = *value;
 }
@@ -5262,7 +5275,7 @@ struct FUN_00c91620_Class {
     int m_a4;
     void hkpWorld_queueOperation(FUN_00c91620_Args* args);
     void FUN_00c91120();
-    void FUN_00c91140();
+    void UpdateFields_00c91140();
     unsigned char* ProcessTarget(unsigned char* result, FUN_00c91620_Target* target);
 };
 
@@ -5308,7 +5321,7 @@ unsigned char* FUN_00c91620_Class::ProcessTarget(
         if (m_8c != 0)
             FUN_00c91120();
         if (m_a4 == 1 && m_90 != 0)
-            FUN_00c91140();
+            UpdateFields_00c91140();
     }
     *result = 1;
     return result;
@@ -5849,7 +5862,7 @@ struct __declspec(align(16)) LinearCaster {
     unsigned int unk78;
     unsigned int unk7C;
     float unk80;
-    void FUN_00cfaed0(void*,void*,void*,void*,void*,int,int,void*,void*);
+    void ComputeValues_00cfaed0(void*,void*,void*,void*,void*,int,int,void*,void*);
 };
 struct QueryTree {
     virtual void slot00(); virtual void slot04(); virtual void slot08(); virtual void slot0C();
@@ -5911,7 +5924,7 @@ void WorldQuery::hkpWorld_linearCast(void* a,void* b,void* c,void* d) {
         caster.unk80 = DAT_0104da4c;
         caster.unk00 = &DAT_010c6488;
         caster.unk24 = 0;
-        caster.FUN_00cfaed0(m_pJobSemaphore,a,b,m_pCollisionFilter ? (char*)m_pCollisionFilter+8 : 0,m_pCollisionInput,((CollisionInput*)m_pCollisionInput)->unk70,0,c,d);
+        caster.ComputeValues_00cfaed0(m_pJobSemaphore,a,b,m_pCollisionFilter ? (char*)m_pCollisionFilter+8 : 0,m_pCollisionInput,((CollisionInput*)m_pCollisionInput)->unk70,0,c,d);
     }
     timer = (TimerBuffer*)TlsGetValue(DAT_0126835c);
     entry = timer->current;
@@ -6219,11 +6232,11 @@ public:
             if (m_iPendingOperationCount)
                 FUN_00c91120();
             if (m_iPendingOperationQueueCount == 1 && m_iQueuedOperationCount)
-                FUN_00c91140();
+                UpdateFields_00c91140();
         }
     }
     void FUN_00c91120();
-    void FUN_00c91140();
+    void UpdateFields_00c91140();
     void hkpWorld_queueOperation(const RemoveActionOpC92C& kOp);
     void hkpWorld_removePhantom(hkpPhantom* pkAction);
 };
@@ -7068,7 +7081,7 @@ struct C97E80PendingShell {
     void __thiscall hkpWorld_queueOperation(C97E80PendingOperation* operation);
 };
 struct C97E80RemoveShell {
-    void __thiscall FUN_00c97510(void* owner);
+    void __thiscall RemoveActionFromWorld(void* owner);
 };
 struct C97E80ActionChangeShell {
     void __thiscall RemoveReferenceFromSlots(hkpWorld* world);
@@ -7078,7 +7091,7 @@ struct C97E80ReleaseShell {
 };
 struct C97E80CleanupShell {
     void __thiscall FUN_00c91120();
-    void __thiscall FUN_00c91140();
+    void __thiscall UpdateFields_00c91140();
 };
 void __cdecl hkpWorldOperationUtil_removeConstraintImmediately(hkpWorld* world, C97E80Action* action, int flags);
 struct C97E80Return { bool m_iResultCode; };
@@ -7101,7 +7114,7 @@ C97E80Return __thiscall C97E80World::hkpWorld_removeConstraint(C97E80Action* act
     m_iCriticalOperationsLockCount = 1;
     if (action->getReferenceCount() == 1 &&
         ((C97E80Owner*)action->m_owner44)->m_pOwningWorld == this) {
-        ((C97E80RemoveShell*)this)->FUN_00c97510(action->m_owner44);
+        ((C97E80RemoveShell*)this)->RemoveActionFromWorld(action->m_owner44);
     }
     ((RefObj*)action)->FUN_00c90510();
     hkpWorldOperationUtil_removeConstraintImmediately(this, action, 1);
@@ -7113,7 +7126,7 @@ C97E80Return __thiscall C97E80World::hkpWorld_removeConstraint(C97E80Action* act
             ((C97E80CleanupShell*)this)->FUN_00c91120();
         }
         if (m_iPendingOperationQueueCount == 1 && m_iQueuedOperationCount) {
-            ((C97E80CleanupShell*)this)->FUN_00c91140();
+            ((C97E80CleanupShell*)this)->UpdateFields_00c91140();
         }
     }
     C97E80Return r = {true};
@@ -7132,21 +7145,22 @@ struct __declspec(align(16)) FUN_00c987e0_Pose {
     hkVector4 translation;
     hkQuaternion rotation;
     hkVector4 scale;
-    void FUN_00ce52e0(int a1);
+    void SetFromInput_Thunk(int a1);
 };
 struct FUN_00c98780_Obj {
     void hkDebugDisplay_displayLineModelSpace(FUN_00c987e0_Pose* pose, int a2,int a3,int a4,int a5,int a6);
 };
 struct FUN_00c987e0_Cls {
-    void FUN_00c987e0(int a1,int a2,int a3,int a4,int a5,int a6);
+    void UpdateFields_00c987e0(int a1,int a2,int a3,int a4,int a5,int a6);
 };
 // Builds a pose via FUN_00ce52e0(a1) and passes its address with a2 through a6 to FUN_00c98780 on this.
 // @fnv 0x00c987e0
-void FUN_00c987e0_Cls::FUN_00c987e0(int a1,int a2,int a3,int a4,int a5,int a6)
+// src: GUESS 0x00c987e0 (confidence: low)
+void FUN_00c987e0_Cls::UpdateFields_00c987e0(int a1,int a2,int a3,int a4,int a5,int a6)
 {
     struct __declspec(align(16)) { LocalM128 x, y, z; } poseStorage;
     FUN_00c987e0_Pose& pose = *(FUN_00c987e0_Pose*)&poseStorage;
-    pose.FUN_00ce52e0(a1);
+    pose.SetFromInput_Thunk(a1);
     reinterpret_cast<FUN_00c98780_Obj*>(this)->hkDebugDisplay_displayLineModelSpace(&pose,a2,a3,a4,a5,a6);
 }
 
@@ -7158,16 +7172,17 @@ struct __declspec(align(16)) EC98BE0Vector {
     void __thiscall FUN_00c7f7a0(int a, int b);
 };
 struct EC98BE0Owner {
-    void __thiscall FUN_00c98b60(EC98BE0Vector* position, float scalar, int a, int b, int c);
-    void __thiscall FUN_00c98be0(int x, int y, float scalar, int a, int b, int c);
+    void __thiscall DrawAxisLines(EC98BE0Vector* position, float scalar, int a, int b, int c);
+    void __thiscall DrawAxisLinesAtPosition(int x, int y, float scalar, int a, int b, int c);
 };
 // Constructs a position vector from x and y, then calls FUN_00c98b60 with that position, scalar, and the remaining arguments.
 // @fnv 0x00c98be0
-void EC98BE0Owner::FUN_00c98be0(int x, int y, float scalar, int a, int b, int c)
+// src: GUESS 0x00c98be0 (confidence: medium)
+void EC98BE0Owner::DrawAxisLinesAtPosition(int x, int y, float scalar, int a, int b, int c)
 {
     EC98BE0Vector position;
     position.FUN_00c7f7a0(x, y);
-    FUN_00c98b60(&position, scalar, a, b, c);
+    DrawAxisLines(&position, scalar, a, b, c);
 }
 
 struct __declspec(align(16)) FUN_00c7f640_Class {
@@ -7175,17 +7190,18 @@ struct __declspec(align(16)) FUN_00c7f640_Class {
 };
 
 struct FUN_00c98c30_Class {
-    void FUN_00c98b60(const void* p, float c, int d, int e, int f);
-    void FUN_00c98c30(const void* a, const void* b, float c, int d, int e, int f);
+    void DrawAxisLines(const void* p, float c, int d, int e, int f);
+    void ProcessState_00c98c30(const void* a, const void* b, float c, int d, int e, int f);
 };
 
 // Builds a temporary via FUN_00c7f640(a, b), then calls FUN_00c98b60 with its address and c, d, e, f.
 // @fnv 0x00c98c30
-void FUN_00c98c30_Class::FUN_00c98c30(const void* a, const void* b, float c, int d, int e, int f)
+// src: GUESS 0x00c98c30 (confidence: low)
+void FUN_00c98c30_Class::ProcessState_00c98c30(const void* a, const void* b, float c, int d, int e, int f)
 {
     FUN_00c7f640_Class v;
     v.setTransformedPos_00c7f640(a, b);
-    FUN_00c98b60(&v, c, d, e, f);
+    DrawAxisLines(&v, c, d, e, f);
 }
 
 extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void*);
@@ -7245,11 +7261,12 @@ class Ce52e0Helper
 {
 public:
     void SetFromInput(int*, int);
-    void FUN_00ce52e0(int a);
+    void SetFromInput_Thunk(int a);
 };
 
 // @fnv 0x00ce52e0
-void Ce52e0Helper::FUN_00ce52e0(int a)
+// src: GUESS 0x00ce52e0 (confidence: medium)
+void Ce52e0Helper::SetFromInput_Thunk(int a)
 {
     SetFromInput(&a, a);
 }
@@ -7258,7 +7275,7 @@ class hkpWorldD0AD;
 
 class hkMemberD0AD {
 public:
-    void FUN_00d9e280(hkpWorldD0AD* pkWorld);
+    void ClearValue_Thunk_00d9e280(hkpWorldD0AD* pkWorld);
 };
 
 class hkListenerAD0AD {
@@ -7303,7 +7320,7 @@ void __cdecl ReleaseSharedObject(hkpWorldD0AD* pkWorld)
 {
     hkSharedD0AD* pkShared = pkWorld->m_pSharedObject;
     if (--pkShared->m_useCount == 0) {
-        pkShared->m_kMemberDescriptor.FUN_00d9e280(pkWorld);
+        pkShared->m_kMemberDescriptor.ClearValue_Thunk_00d9e280(pkWorld);
         pkWorld->hkpWorld_removeConstraintListener(pkShared);
         pkWorld->hkpWorld_removeWorldDeletionListener(pkShared);
         pkShared->removeReference();
@@ -7525,7 +7542,7 @@ struct BorderSet {
     hkpPhantom* p2c;
 };
 struct PhantomWorld : hkpWorld {
-    BorderSet* FUN_00c91110();
+    BorderSet* GetValue();
 };
 struct PhantomSink {
     void hkpPhysicsSystem_addPhantom(hkpPhantom* p);
@@ -7535,7 +7552,7 @@ struct PhantomSink {
 // src: HAVOK_LIB 0x00c92950
 static __declspec(noinline) void enumerateAllPhantomsInWorld(PhantomWorld* world, PhantomSink* apSink)
 {
-    BorderSet* border = world->FUN_00c91110();
+    BorderSet* border = world->GetValue();
     if (border) {
         for (int i = 0; i < world->m_kPhantoms.m_iElementCount; ++i) {
             hkpPhantom* p = world->m_kPhantoms.m_data[i];
@@ -8154,7 +8171,7 @@ struct CallRet : hkpWorld {
     void hkpWorld_updateCollisionFilterOnEntity(hkpEntity*, int, int);
     void hkpWorld_queueOperation(FilterCommand*);
     void FUN_00c91120();
-    void FUN_00c91140();
+    void UpdateFields_00c91140();
 };
 __forceinline void releasePairs(PairArray& pairs) {
 hkMemoryRouter* router = (hkMemoryRouter*)hkMemoryRouter_getInstance();
@@ -8235,7 +8252,7 @@ CollisionObject* other; if(!((CollisionFilter*)m_pCollisionFilter)->filter.enabl
     }
     if (--m_iCriticalOperationsLockCount == 0 && !m_bBlockExecutingPendingOperations) {
         if (m_iPendingOperationCount) FUN_00c91120();
-        if (m_iPendingOperationQueueCount == 1 && m_iQueuedOperationCount) FUN_00c91140();
+        if (m_iPendingOperationQueueCount == 1 && m_iQueuedOperationCount) UpdateFields_00c91140();
     }
     releasePairs(pairs);
     timer("lt");
@@ -8261,7 +8278,7 @@ struct VectorTemporary {
     void FUN_00c7f7a0(const RotationInput*, const LocalM128*);
 };
 struct RotationOwner {
-    void FUN_00c98820(const VectorTemporary*, const LocalM128*, int, int, int);
+    void ProcessEntries_00c98820(const VectorTemporary*, const LocalM128*, int, int, int);
     void ApplyRotation(const RotationInput*, const LocalM128*, const LocalM128*, int, int, int);
 };
 // Transforms position via FUN_00c7f7a0, rotates direction by the transform's quaternion, then calls FUN_00c98820 with both plus a, b and c.
@@ -8287,7 +8304,7 @@ void RotationOwner::ApplyRotation(const RotationInput* transform, const LocalM12
     LocalM128 projected = _mm_mul_ps(_mm_shuffle_ps(dot3, dot3, 0), q);
     LocalM128 rotated = _mm_add_ps(cross, _mm_add_ps(weighted, projected));
     worldDirection = _mm_add_ps(rotated, rotated);
-    FUN_00c98820(&worldPosition, &worldDirection, a, b, c);
+    ProcessEntries_00c98820(&worldPosition, &worldDirection, a, b, c);
 }
 
 extern "C" LocalM128 __cdecl _mm_setr_ps(float, float, float, float);
@@ -8427,18 +8444,19 @@ void retryCaller() { retry_result = AddBodiesToSystem(retry_context, retry_syste
 // FUN_00c98240 : MSVC this-adjusting thunk  (sub ecx, 0x08 ; jmp <impl>)
 struct A1_00c98240 {
     A1_00c98240();
-    virtual void FUN_00c98240();
+    virtual void AdjustThisAndForward_00c98240();
     char pad[0x04];
 };
 struct A2_00c98240 {
     A2_00c98240();
-    virtual void FUN_00c98240();
+    virtual void AdjustThisAndForward_00c98240();
 };
 struct Own_00c98240 : A1_00c98240, A2_00c98240 {
     Own_00c98240();
     virtual void key_fn();
 // @fnv 0x00c98240
-    void FUN_00c98240();
+// src: GUESS 0x00c98240 (confidence: low)
+    void AdjustThisAndForward_00c98240();
 };
 Own_00c98240::Own_00c98240() { }
 void Own_00c98240::key_fn() { }
@@ -8467,18 +8485,19 @@ Own_00c98310* make_00c98310() { static Own_00c98310 o; return &o; }
 // FUN_00c98320 : MSVC this-adjusting thunk  (sub ecx, 0x08 ; jmp <impl>)
 struct A1_00c98320 {
     A1_00c98320();
-    virtual void FUN_00c98320();
+    virtual void AdjustThisAndForward_00c98320();
     char pad[0x04];
 };
 struct A2_00c98320 {
     A2_00c98320();
-    virtual void FUN_00c98320();
+    virtual void AdjustThisAndForward_00c98320();
 };
 struct Own_00c98320 : A1_00c98320, A2_00c98320 {
     Own_00c98320();
     virtual void key_fn();
 // @fnv 0x00c98320
-    void FUN_00c98320();
+// src: GUESS 0x00c98320 (confidence: low)
+    void AdjustThisAndForward_00c98320();
 };
 Own_00c98320::Own_00c98320() { }
 void Own_00c98320::key_fn() { }
@@ -8512,18 +8531,19 @@ Derived::Derived()
 // FUN_00c98340 : MSVC this-adjusting thunk  (sub ecx, 0x10 ; jmp <impl>)
 struct A1_00c98340 {
     A1_00c98340();
-    virtual void FUN_00c98340();
+    virtual void AdjustThisAndForward_00c98340();
     char pad[0x0c];
 };
 struct A2_00c98340 {
     A2_00c98340();
-    virtual void FUN_00c98340();
+    virtual void AdjustThisAndForward_00c98340();
 };
 struct Own_00c98340 : A1_00c98340, A2_00c98340 {
     Own_00c98340();
     virtual void key_fn();
 // @fnv 0x00c98340
-    void FUN_00c98340();
+// src: GUESS 0x00c98340 (confidence: low)
+    void AdjustThisAndForward_00c98340();
 };
 Own_00c98340::Own_00c98340() { }
 void Own_00c98340::key_fn() { }
@@ -8887,7 +8907,7 @@ struct MatchWorld {
     unsigned int unk10C;
     void** phantoms;
     int phantomCount;
-    MatchPhantoms* FUN_00c91110();
+    MatchPhantoms* GetValue();
     void __thiscall AddPhysicsSystem(hkArray<FUN_00d065e0*>* systems);
 };
 struct FUN_00d065e0Value { FUN_00d065e0* p; };
@@ -8896,7 +8916,7 @@ MatchStatus __cdecl CollectShapes(MatchWorld*, FUN_00d065e0*);
 // src: HAVOK_LIB 0x00c92950
 static __declspec(noinline) void enumerateAllPhantomsInWorld(MatchWorld* world, FUN_00d065e0* system)
 {
-    MatchPhantoms* excluded = world->FUN_00c91110();
+    MatchPhantoms* excluded = world->GetValue();
     if (excluded) {
         for (int i=0; i<world->phantomCount; ++i) {
             void* p = world->phantoms[i];
@@ -9061,7 +9081,7 @@ static __declspec(noinline) void SyncOverlap(PhantomC944* phantom,CollidableC944
 }
 
 struct PhantomArgC944 { PhantomC944* p; PhantomArgC944(PhantomC944* q) : p(q) {} };
-struct WorldC944 : hkpWorld { void UpdatePhantom(PhantomC944*, int); void hkpWorld_queueOperation(PendingOp*); void FUN_00c91120(); void FUN_00c91140(); };
+struct WorldC944 : hkpWorld { void UpdatePhantom(PhantomC944*, int); void hkpWorld_queueOperation(PendingOp*); void FUN_00c91120(); void UpdateFields_00c91140(); };
 
 // Queries broad phase for overlaps with a phantom, applies collision filters, and optionally processes contact points.
 // @fnv 0x00c944a0
@@ -9143,7 +9163,7 @@ void WorldC944::UpdatePhantom(PhantomC944* apPhantom, int abProcessContacts)
             if (m_iPendingOperationCount != 0)
                 FUN_00c91120();
             if (m_iPendingOperationQueueCount == 1 && m_iQueuedOperationCount != 0)
-                FUN_00c91140();
+                UpdateFields_00c91140();
         }
     }
 
@@ -9192,7 +9212,7 @@ struct MyExecPending {
 };
 
 struct MyExecBodyPending {
-    void __thiscall FUN_00c91140() throw();
+    void __thiscall UpdateFields_00c91140() throw();
 };
 
 class hkpSimulation_00c951b0 {
@@ -9454,7 +9474,7 @@ void HostWorld_00c951b0::RemoveEntities(void* const* entityBatch, int numEntitie
             }
             if (m_iPendingOperationQueueCount == 1 && m_iQueuedOperationCount != 0)
             {
-                ((MyExecBodyPending*)this)->FUN_00c91140();
+                ((MyExecBodyPending*)this)->UpdateFields_00c91140();
             }
         }
     }
@@ -9596,7 +9616,8 @@ namespace fnv_00c982c0 {
 
 
 // @fnv 0x00c982c0
-void __stdcall FUN_00c982c0(unsigned char* out, int a1, int a2, int a3, int a4)
+// src: GUESS 0x00c982c0 (confidence: low)
+void __stdcall Object_UpdateFields_00c982c0(unsigned char* out, int a1, int a2, int a3, int a4)
 {
     *out = 1;
 }
@@ -9604,7 +9625,8 @@ void __stdcall FUN_00c982c0(unsigned char* out, int a1, int a2, int a3, int a4)
 
 
 // @fnv 0x00c982d0
-void __stdcall FUN_00c982d0(unsigned char* out, int a2, int a3)
+// src: GUESS 0x00c982d0 (confidence: low)
+void __stdcall hkpWorld_UpdateState_00c982d0(unsigned char* out, int a2, int a3)
 {
     *out = 1;
 }
@@ -10000,11 +10022,11 @@ void __cdecl _hkAgentNnMachine_UpdateShapeCollectionFilter(S96_Constraint*,void*
 void __cdecl hkpWorldAgentUtil_removeAgentAndItsToiEvents(S96_Constraint*);
 struct S96_RemovalList {S96_Constraint** data; int size; int capacity; S96_Constraint* local[32]; void clear(){size=0;} int GetLogicalSize() const {return size;} S96_Constraint*& back(){return data[size-1];} void popBack(){--size;}};
 struct S96_WorldShell : hkpWorld {
- void hkpWorld_queueOperation(const S96_Operation&); void hkpWorld_updateCollisionFilterOnEntity(void*,int,int); void UpdatePhantom(void*,int); void FUN_00c91120(); void FUN_00c91140();
+ void hkpWorld_queueOperation(const S96_Operation&); void hkpWorld_updateCollisionFilterOnEntity(void*,int,int); void UpdatePhantom(void*,int); void FUN_00c91120(); void UpdateFields_00c91140();
  __forceinline void S96_attempt() {
   if(!m_iCriticalOperationsLockCount && !(*(char*)&m_bBlockExecutingPendingOperations)) {
    if(m_iPendingOperationCount) FUN_00c91120();
-   if(m_iPendingOperationQueueCount==1 && m_iQueuedOperationCount) FUN_00c91140();
+   if(m_iPendingOperationQueueCount==1 && m_iQueuedOperationCount) UpdateFields_00c91140();
   }
  }
  static __forceinline void S96_TimerBegin(const char* name) {
@@ -10252,9 +10274,9 @@ struct S97_TreeWorldManager {
     __forceinline const void* getKdTree() const { return m_pKdTree; }
 };
 
-void __cdecl FUN_00d1c560(const void* tree, const S97_Aabb* aabb, void* callback, hkArrayBase<void*>* hits, void* mask, void* context);
+void __cdecl Object_CollectAABBTreeHits(const void* tree, const S97_Aabb* aabb, void* callback, hkArrayBase<void*>* hits, void* mask, void* context);
 __declspec(noinline) void __cdecl CallWithDefaults(const void* tree, const S97_Aabb& aabb, hkArrayBase<void*>& hits) {
-    if (tree) FUN_00d1c560(tree, &aabb, 0, &hits, 0, 0);
+    if (tree) Object_CollectAABBTreeHits(tree, &aabb, 0, &hits, 0, 0);
 }
 void __cdecl hkKdTreeAabbQueryUtils_queryAabbIterative(const void* tree, const S97_Aabb& aabb, S97_Array<unsigned long, S97_TempAllocator>& hits);
 
@@ -11105,7 +11127,7 @@ int vsRBS; FUN_00d07830*vlSI; } ;
 enum MtAccessChecking{ MT_ACCESS_CHECKING_ENABLED=0,MT_ACCESS_CHECKING_DISABLED} ; inline const EnumIntegerValue*getCollisionFilter()const throw();
 enum CachedAabbUpdate{ SHIFT_BROADPHASE_UPDATE_ENTITY_AABBS,SHIFT_BROADPHASE_IGNORE_ENTITY_AABBS} ; inline const TA2<FUN_00d07830*>&getActiveSimulationIslands()const throw();
 public:__forceinline void lockCriticalOperations()throw(); __forceinline void unlockCriticalOperations()throw(); __forceinline int areCriticalOperationsLocked()const throw(); __forceinline void unlockAndAttemptToExecutePendingOperations()throw();
-__forceinline void attemptToExecutePendingOperations(bool executeBodyOperations=true)throw(); void hkpWorld_queueOperation(const TWO1::TypeTag&operation)throw(); private:void FUN_00c91120()throw(); void FUN_00c91140()throw();
+__forceinline void attemptToExecutePendingOperations(bool executeBodyOperations=true)throw(); void hkpWorld_queueOperation(const TWO1::TypeTag&operation)throw(); private:void FUN_00c91120()throw(); void UpdateFields_00c91140()throw();
 public:public:TS2*vs3; TV4 vg1; FUN_00d07830*vfI; TRB*vfRB;
 TA2<FUN_00d07830*>vaSI; TA2<FUN_00d07830*>viSI; TA2<FUN_00d07830*>vdSI; TWMM*vmM;
 TRP<TWMAWD>vmWD; TB vaOROOSM; TBP*vbP; class TTWM*vkTM;
@@ -11138,7 +11160,7 @@ vcOLC--; ; } int TW::areCriticalOperationsLocked()const throw(){
 ; ; return vcOLC; }
 void TW::attemptToExecutePendingOperations(bool executeBodyOperations)throw(){ ; if(!vcOLC&&!vbEPO){ if(vpOC){
 FUN_00c91120(); } if(vpOQC==1&&executeBodyOperations){ if(vpBOC){
-FUN_00c91140(); } } }
+UpdateFields_00c91140(); } } }
 } void TW::unlockAndAttemptToExecutePendingOperations()throw(){ unlockCriticalOperations(); attemptToExecutePendingOperations();
 } extern struct TCDU*g_checkDeterminismUtil; class TI; class TO1;
 class TCS2; class TMT; struct TCDU; class TVA;
@@ -11419,7 +11441,7 @@ static __forceinline void Sbp_initArray(Sbp_Island**& data, int& size, int& cap,
 struct Sbp_World : hkpWorld {
     void hkpWorld_shiftBroadPhase(const LocalM128& rawShift, LocalM128& rawEffective, int update);
     void FUN_00c91120();
-    void FUN_00c91140();
+    void UpdateFields_00c91140();
 };
 static __forceinline void doShift(Sbp_World* self,const LocalM128& rawShift, LocalM128& rawEffective, int update){
     const Sbp_Vec& shift = (const Sbp_Vec&)rawShift;
@@ -11489,7 +11511,7 @@ static __forceinline void doShift(Sbp_World* self,const LocalM128& rawShift, Loc
     }
     if (--self->m_iCriticalOperationsLockCount == 0 && !self->m_bBlockExecutingPendingOperations) {
         if (self->m_iPendingOperationCount) self->FUN_00c91120();
-        if (self->m_iPendingOperationQueueCount == 1 && self->m_iQueuedOperationCount) self->FUN_00c91140();
+        if (self->m_iPendingOperationQueueCount == 1 && self->m_iQueuedOperationCount) self->UpdateFields_00c91140();
     }
     {
         Sbp_Timer* timer = (Sbp_Timer*)TlsGetValue(DAT_0126835c);
@@ -12146,7 +12168,7 @@ extern "C" void _ReadWriteBarrier();
 extern int DAT_0108febc;
 extern int DAT_01268188;
 extern int DAT_01268318;
-void* FUN_00aa13e0(unsigned int size);
+void* Object_DispatchCommandFour(unsigned int size);
 void bhkSerializable_CloneCritLock(void);
 void bhkSerializable_CloneCritUnlock(void);
 
@@ -12343,7 +12365,7 @@ struct RefObjectAllocationGuard
 };
 __forceinline bhkRefObject* CreateRefObject()
 {
-    bhkRefObject* obj = static_cast<bhkRefObject*>(FUN_00aa13e0(16));
+    bhkRefObject* obj = static_cast<bhkRefObject*>(Object_DispatchCommandFour(16));
     RefObjectAllocationGuard guard = { obj };
     if (obj != 0) {
         obj->Initialize();
@@ -12739,7 +12761,7 @@ struct BroadPhaseDispatcher {
 struct World_RemovePhantomBatch : hkpWorld {
     void hkpWorld_queueOperation(RemovePhantomBatchOp* op) throw();
     void FUN_00c91120() throw();
-    void FUN_00c91140() throw();
+    void UpdateFields_00c91140() throw();
     void hkpWorld_removePhantomBatch(hkpPhantom** phantomBatch, int numPhantoms);
 };
 
@@ -12792,7 +12814,7 @@ void World_RemovePhantomBatch::hkpWorld_removePhantomBatch(hkpPhantom** phantomB
                 FUN_00c91120();
             }
             if (m_iPendingOperationQueueCount == 1 && m_iQueuedOperationCount != 0) {
-                FUN_00c91140();
+                UpdateFields_00c91140();
             }
         }
     }
@@ -12843,12 +12865,13 @@ struct Line_00c98c80 {
 
 struct Disp_00c98c80 {
     void hkDebugDisplay_displayLine(const Vec_00c98c80* a, const Vec_00c98c80* b, int p2, int p3, int p4);
-    void FUN_00c98c80(const Aabb_00c98c80* box, int p2, int p3, int p4);
+    void DrawAABBEdges(const Aabb_00c98c80* box, int p2, int p3, int p4);
 };
 
 // Builds the 12 edge lines of the AABB box and draws each with FUN_00c986c0.
 // @fnv 0x00c98c80
-void Disp_00c98c80::FUN_00c98c80(const Aabb_00c98c80* box, int p2, int p3, int p4)
+// src: GUESS 0x00c98c80 (confidence: medium)
+void Disp_00c98c80::DrawAABBEdges(const Aabb_00c98c80* box, int p2, int p3, int p4)
 {
     const float* pMin = box->m_kMinimumCorner.m_vComponents.m128_f32;
     const float* pMax = box->m_kMaximumCorner.m_vComponents.m128_f32;
@@ -12888,20 +12911,21 @@ struct Xf_00c996e0 {
     LocalM128 c0;
     LocalM128 c1;
     LocalM128 c2;
-    void FUN_00ce52e0(const hkQsTransform& a);
+    void SetFromInput_Thunk(const hkQsTransform& a);
 };
 
 struct Pose_00c996e0 {
     void ApplyRotation(const Xf_00c996e0& t, int b, int c, int d, int e, int g);
-    void FUN_00c996e0(const hkQsTransform& a, int b, int c, int d, int e, int g);
+    void ProcessState_00c996e0(const hkQsTransform& a, int b, int c, int d, int e, int g);
 };
 
 // Converts an hkQsTransform into a local Xf_00c996e0 and forwards it to ApplyRotation with the remaining parameters.
 // @fnv 0x00c996e0
-void Pose_00c996e0::FUN_00c996e0(const hkQsTransform& a, int b, int c, int d, int e, int g)
+// src: GUESS 0x00c996e0 (confidence: low)
+void Pose_00c996e0::ProcessState_00c996e0(const hkQsTransform& a, int b, int c, int d, int e, int g)
 {
     Xf_00c996e0 t;
-    t.FUN_00ce52e0(a);
+    t.SetFromInput_Thunk(a);
     ApplyRotation(t, b, c, d, e, g);
 }
 
@@ -13144,7 +13168,7 @@ struct PendingOp {
 struct WorldHelper : public hkpWorld {
     void __thiscall hkpWorld_queueOperation(void* op) throw();
     void __thiscall FUN_00c91120() throw();
-    void __thiscall FUN_00c91140() throw();
+    void __thiscall UpdateFields_00c91140() throw();
 
     void hkpWorld_addPhantomBatch(hkpPhantom* const* phantomBatch, int numPhantoms) throw();
 };
@@ -13199,14 +13223,14 @@ void WorldHelper::hkpWorld_addPhantomBatch(hkpPhantom* const* phantomBatch, int 
             FUN_00c91120();
         }
         if (m_iPendingOperationQueueCount == 1 && m_iQueuedOperationCount != 0) {
-            FUN_00c91140();
+            UpdateFields_00c91140();
         }
     }
 }
 
 }
 
-struct PendingCalls_00c97510 { void FUN_00c91120(); void FUN_00c91140(); };
+struct PendingCalls_00c97510 { void FUN_00c91120(); void UpdateFields_00c91140(); };
 
 
 struct hkAllocQ70 {
@@ -13261,13 +13285,14 @@ struct InplaceArray4 : ::hkArrayBase<T> {
 void __cdecl NotifyActionRemoved(::hkpWorld* world, hkpAction* action);
 
 struct hkpWorldDecomp : ::hkpWorld {
-    void FUN_00c97510(hkpAction* action);
+    void RemoveActionFromWorld(hkpAction* action);
 };
 
 
 // Removes an hkpAction from its owning world, detaches it from its entities and island, then flushes pending operations if the critical lock count reaches zero.
 // @fnv 0x00c97510
-void hkpWorldDecomp::FUN_00c97510(hkpAction* action)
+// src: GUESS 0x00c97510 (confidence: medium)
+void hkpWorldDecomp::RemoveActionFromWorld(hkpAction* action)
 {
     action->FUN_00c90510();
     this->m_iCriticalOperationsLockCount++;
@@ -13309,7 +13334,7 @@ void hkpWorldDecomp::FUN_00c97510(hkpAction* action)
         }
         if (this->m_iPendingOperationQueueCount == 1 && this->m_iQueuedOperationCount != 0)
         {
-            ((PendingCalls_00c97510*)this)->FUN_00c91140();
+            ((PendingCalls_00c97510*)this)->UpdateFields_00c91140();
         }
     }
 

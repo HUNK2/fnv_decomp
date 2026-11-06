@@ -22,7 +22,8 @@ extern int DAT_0102e388;
 extern int DAT_010c6fb0;
 
 // @fnv 0x00ca3560
-void __fastcall FUN_00ca3560(int** self, int)
+// src: GUESS 0x00ca3560 (confidence: low)
+void __fastcall Object_UpdateFields_00ca3560(int** self, int)
 {
     self[4] = &DAT_010c6fb0;
     self[0] = &DAT_0102e388;
@@ -132,7 +133,7 @@ const char* __cdecl hkString_strDup_00cb1410(const char*);
 extern "C" void FUN_00ec8d5f(char*, unsigned int, const char*, unsigned int);
 inline hkStringPtr::~hkStringPtr() throw()
 {
-    FUN_00cb0c00();
+    Object_UpdateFields_00cb0c00();
 }
 
 struct HavokBool
@@ -365,7 +366,7 @@ struct ErrorStream
         FUN_00cb1600(b, n);
     }
     void FUN_00cb1600(char*, int);
-    void FUN_00cc01c0(const char*);
+    void ProcessAndReturnValue_00cc01c0(const char*);
     ~ErrorStream()
     {
         FUN_00cc00e0();
@@ -668,7 +669,7 @@ Rig* __stdcall BuildRigFromNodes(NodeList* nodes, NodeList* sorted, AttachmentLi
                 char buffer[512];
                 {
                     ErrorStream stream(buffer, 512);
-                    stream.FUN_00cc01c0(DAT_010c7384);
+                    stream.ProcessAndReturnValue_00cc01c0(DAT_010c7384);
                     DAT_01268360->report(1, 0xabbacc14, buffer, DAT_010c7338, 721);
                 }
                 rig->getBones().data[i] = (const char*)0;
@@ -720,7 +721,7 @@ Rig* __stdcall BuildRigFromNodes(NodeList* nodes, NodeList* sorted, AttachmentLi
         }
     }
     if (!rig->getBones().isEmpty())
-        rig->m_name.FUN_00cb0c30(rig->getBones().data);
+        rig->m_name.UpdateState_00cb0c30(rig->getBones().data);
     else
         rig->m_name = (const char*)0;
     return rig;
@@ -1069,7 +1070,7 @@ struct Target
     TargetTable* vtbl;
     unsigned unk04;
     void* flags;
-    void FUN_00a29680();
+    void Object_DoNothing();
 };
 struct Node
 {
@@ -1207,7 +1208,7 @@ struct AllocatorExtended : Allocator
 {
     void* Game_DoHeapAlloc(unsigned int bytes);
 };
-void* __cdecl FUN_00aa13e0(unsigned int size);
+void* __cdecl Object_DispatchCommandFour(unsigned int size);
 enum PreparationResult
 {
     PreparationSucceeded,
@@ -1321,7 +1322,7 @@ struct FUN_0056e550
     unsigned unk0c, unk10, unk14;
     static __forceinline void* operator new(unsigned n)
     {
-        return FUN_00aa13e0(n);
+        return Object_DispatchCommandFour(n);
     }
     static void operator delete(void*);
 };
@@ -1531,9 +1532,9 @@ static __forceinline void processNode(Collection* group, int inner)
         filter.clear();
         if (base)
         {
-            target->FUN_00a29680();
+            target->Object_DoNothing();
             info = &base->info;
-            target->FUN_00a29680();
+            target->Object_DoNothing();
             if (info)
                 info->state = filter;
         }

@@ -66,7 +66,8 @@ int FUN_00cb1930_t::LookupHashEntry(int key, int defaultValue)
 }
 
 // @fnv 0x00cb17f0
-int FUN_00cb17f0(int value)
+// src: GUESS 0x00cb17f0 (confidence: low)
+int Hkmap_ProcessEntries_00cb17f0(int value)
 {
     int required = value * 2;
     int size = 8;
@@ -193,14 +194,14 @@ struct FUN_00cb1e40_t
     int m_flags;
     int m_uiItemCount;
 
-    void FUN_00cb1e00();
+    void ProcessEntries_00cb1e00();
     void hkMapBase_unsigned_int64_unsigned_int64_hkMapOperations_unsigned_int64_clearAndDeallocate(FUN_00cb1e40_arg_t* arg);
 };
 
 // src: XBOX_PDB 0x00cb1e40
 void FUN_00cb1e40_t::hkMapBase_unsigned_int64_unsigned_int64_hkMapOperations_unsigned_int64_clearAndDeallocate(FUN_00cb1e40_arg_t* arg)
 {
-    FUN_00cb1e00();
+    ProcessEntries_00cb1e00();
 
     if (!(m_flags & 0x80000000))
     {
@@ -374,11 +375,12 @@ class hkMapCB1E
     int m_iCapacityFlags;
     int m_iPairCount;
 
-    void FUN_00cb1e00();
+    void ProcessEntries_00cb1e00();
 };
 
 // @fnv 0x00cb1e00
-void hkMapCB1E::FUN_00cb1e00()
+// src: GUESS 0x00cb1e00 (confidence: low)
+void hkMapCB1E::ProcessEntries_00cb1e00()
 {
     int n = m_iPairCount + 1;
     for (int i = 0; i < n; i++)
@@ -419,11 +421,12 @@ class FUN_00cb2000_cls
 
     int hkMapBase_unsigned_int64_unsigned_int64_struct_hkMapOperations_unsigned_int64_findKey(int iArg0, int iArg1);
     void hkMapBase_unsigned_int64_unsigned_int64_hkMapOperations_unsigned_int64_remove(int iCount);
-    int FUN_00cb2000(int iArg0, int iArg1);
+    int ProcessAndReturnValue_00cb2000(int iArg0, int iArg1);
 };
 
 // @fnv 0x00cb2000
-int FUN_00cb2000_cls::FUN_00cb2000(int iArg0, int iArg1)
+// src: GUESS 0x00cb2000 (confidence: low)
+int FUN_00cb2000_cls::ProcessAndReturnValue_00cb2000(int iArg0, int iArg1)
 {
     int iCount = hkMapBase_unsigned_int64_unsigned_int64_struct_hkMapOperations_unsigned_int64_findKey(iArg0, iArg1);
     if (iCount <= m_pFreeList)
@@ -523,7 +526,7 @@ struct EdgeMap
     int FindSlot(int key);
     void hkMapBase_unsigned_long_unsigned_long_hkMapOperations_unsigned_long_insert(Allocator& allocator, int key, int value);
     void ProcessArgument(Allocator& allocator);
-    void FUN_00a29680();
+    void Object_DoNothing();
     int first() const
     {
         int i;
@@ -596,7 +599,7 @@ bool* Target::hkpConvexVerticesConnectivity_isClosed(bool* apResult)
                 {
                     *apResult = false;
                     edgeMap.ProcessArgument(hkMemoryRouter_getInstance()->heap());
-                    edgeMap.FUN_00a29680();
+                    edgeMap.Object_DoNothing();
                     return apResult;
                 }
                 edgeMap.unk00[index].value = value | iOrientation;
@@ -616,13 +619,13 @@ bool* Target::hkpConvexVerticesConnectivity_isClosed(bool* apResult)
         {
             *apResult = false;
             edgeMap.ProcessArgument(hkMemoryRouter_getInstance()->heap());
-            edgeMap.FUN_00a29680();
+            edgeMap.Object_DoNothing();
             return apResult;
         }
     }
     *apResult = true;
     edgeMap.ProcessArgument(hkMemoryRouter_getInstance()->heap());
-    edgeMap.FUN_00a29680();
+    edgeMap.Object_DoNothing();
     return apResult;
 }
 
@@ -827,7 +830,7 @@ class hkMapBaseCB1F
 {
   public:
     void ResizeAndRehash(hkMemoryAllocatorCB1F& alloc, int newcap);
-    int FUN_00cb1f40(hkMemoryAllocatorCB1F& alloc, unsigned int key, unsigned int val);
+    int InsertKeyIfAbsent(hkMemoryAllocatorCB1F& alloc, unsigned int key, unsigned int val);
 
     hkMapPairCB1F* m_kPrimitiveElement;
     int m_iCapacityFlags;
@@ -836,7 +839,8 @@ class hkMapBaseCB1F
 
 // Grows the table if over half full, adds key/val if key is absent, and returns the key's slot index.
 // @fnv 0x00cb1f40
-int hkMapBaseCB1F::FUN_00cb1f40(hkMemoryAllocatorCB1F& alloc, unsigned int key, unsigned int uiValue)
+// src: GUESS 0x00cb1f40 (confidence: medium)
+int hkMapBaseCB1F::InsertKeyIfAbsent(hkMemoryAllocatorCB1F& alloc, unsigned int key, unsigned int uiValue)
 {
     {
         int numElems = m_iCapacityFlags & static_cast<int>(0x7fffffff);

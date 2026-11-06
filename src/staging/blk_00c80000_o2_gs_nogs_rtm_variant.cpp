@@ -76,7 +76,7 @@ struct FUN_00c6c290_holder
 };
 struct FUN_00c81550_holder
 {
-    void FUN_00c81550();
+    void SetVtableAndProcessState_00c81550();
 };
 void* __cdecl bhkBlendCollisionObject_GetFirstCollisionObject(void*);
 float bhkBlendCollisionObject_GetBipBlendValue(void* arg);
@@ -109,10 +109,10 @@ struct FUN_00c8aa40_cls
 };
 char bhkRigidBody_IsMotionTypeDynamic(int* piValue);
 extern MemoryManager g_memoryManager;
-void FUN_00c8cd00(void* apBlock);
+void Object_ReleaseStorage_00c8cd00(void* apBlock);
 struct FUN_00c9a6e0_struct
 {
-    void FUN_00c9a6e0();
+    void ResetEntriesAndCapacity();
 };
 struct FUN_00c9a820_class
 {
@@ -525,7 +525,7 @@ struct RefOwner
     RefObject* item;
     RefNode* head;
     void __thiscall FUN_006e5cc0(int* param);
-    void __thiscall FUN_00c80a30(int* param);
+    void __thiscall AllocateStorage_00c80a30(int* param);
 };
 struct FUN_00c80b20_item8
 {
@@ -586,7 +586,7 @@ extern int DAT_010c53dc;
 extern int DAT_01267e60;
 struct FUN_00c6b910_holder
 {
-    void FUN_00c6b910();
+    void NiRTTI_UpdateState_00c6b910();
 };
 struct FUN_00c81600_cls
 {
@@ -5351,7 +5351,7 @@ class RefChainOwner
     void SaveSerializeData(Dispatcher* p);
     void DispatchChainNodes(Dispatcher* arg);
 };
-extern void* __cdecl FUN_00aa13e0(unsigned int size);
+extern void* __cdecl Object_DispatchCommandFour(unsigned int size);
 extern int DAT_01030bf4;
 extern int DAT_010c44e4;
 extern int DAT_010c485c;
@@ -5365,17 +5365,17 @@ struct Base_00c8ae60
     int unk08;
     int unk0c;
     int unk10;
-    void FUN_00c87c30();
+    void UpdateState_00c87c30();
     Base_00c8ae60()
     {
-        FUN_00c87c30();
+        UpdateState_00c87c30();
     }
 };
 struct Object_00c8ae60 : Base_00c8ae60
 {
     static void* operator new(unsigned int bytes)
     {
-        return FUN_00aa13e0(bytes);
+        return Object_DispatchCommandFour(bytes);
     }
     Object_00c8ae60()
     {
@@ -6784,7 +6784,7 @@ struct FUN_00c87c30_t
     int* pVTable;
     int unk04;
     int unk08;
-    FUN_00c87c30_t* FUN_00c87c30();
+    FUN_00c87c30_t* UpdateState_00c87c30();
 };
 struct FUN_00c87c50_cls
 {
@@ -7078,7 +7078,7 @@ struct AttachObject
     AttachData* data24;
     int unk28;
     unsigned int id;
-    void FUN_00a29680();
+    void Object_DoNothing();
     bool AddOrRemoveConstraint(AttachObject* body, bool add);
 };
 struct AttachData
@@ -7460,7 +7460,7 @@ struct FUN_00c90880_Class
 
     void* FUN_00c90880(unsigned int flags);
 };
-int __stdcall FUN_00c90e30(int arg0, int arg1, int arg2, int arg3, int arg4, int arg5, int arg6, int arg7, int arg8);
+int __stdcall Runtime_ReturnZero_00c90e30(int arg0, int arg1, int arg2, int arg3, int arg4, int arg5, int arg6, int arg7, int arg8);
 struct FUN_00c92b00_Entry
 {
     int unk00, unk04, unk08, unk0c;
@@ -7526,7 +7526,7 @@ class ListNode0AA0
     {
         m_pkNext = 0;
     }
-    void FUN_00c80aa0(const NiPointer<NiRefObject>& spRetainedObject);
+    void AppendRetainedObject(const NiPointer<NiRefObject>& spRetainedObject);
 
     NiPointer<NiRefObject> m_pReferencedObject;
     ListNode0AA0* m_pkNext;
@@ -7940,8 +7940,8 @@ struct FUN_00c8ffd0
     Arr9 tab;
     FUN_00c8ffd0();
 };
-void FUN_00c910c0();
-bool FUN_00c911c0();
+void Object_DoNothing_00c910c0();
+bool Object_ReturnTrue();
 struct OperationPacket
 {
     unsigned char operation;
@@ -8839,7 +8839,7 @@ struct FUN_00cca4e0
     FUN_00cca4e0(void* value);
     static void* operator new(unsigned int bytes)
     {
-        return FUN_00aa13e0(bytes);
+        return Object_DispatchCommandFour(bytes);
     }
 };
 struct FUN_00c87670_class
@@ -10158,7 +10158,7 @@ struct C9A6E0Array
     int unk08;
     unsigned int m_uiCount;
     unsigned int m_uiAllocatedCapacity;
-    void FUN_00c9a6e0();
+    void ResetEntriesAndCapacity();
 };
 float __cdecl NiInterpScalar_Linear(float t, float a, float b);
 struct KeyPair
@@ -10220,7 +10220,7 @@ struct S00c9ade0_Obj
     bool bhkBlendController_ClearForceController();
 };
 extern int DAT_012683f4;
-void __cdecl FUN_00c9e3e0(void);
+void __cdecl Object_ComputeValue_00c9e3e0(void);
 #include <stdlib.h>
 struct C00624070
 {
@@ -10654,7 +10654,7 @@ extern float DAT_010c7948[];
 struct Z577
 {
     unsigned char index;
-    void __thiscall FUN_00ca9360(float* value);
+    void __thiscall FindFloatTableIndex(float* value);
 };
 struct Y577
 {

@@ -46,12 +46,13 @@ struct FUN_00d2b2b0_class
     S_00d49310_Lock lock;
     hkpEntity* entity;
 
-    void FUN_00d2b2b0();
+    void ReleaseReference_00d2b2b0();
 };
 
 // Resets the vtable, releases the entity reference if present, then destroys the lock and resets the vtable again.
 // @fnv 0x00d2b2b0
-void FUN_00d2b2b0_class::FUN_00d2b2b0()
+// src: GUESS 0x00d2b2b0 (confidence: medium)
+void FUN_00d2b2b0_class::ReleaseReference_00d2b2b0()
 {
     vptr = &DAT_010ce528;
 
@@ -66,7 +67,7 @@ void FUN_00d2b2b0_class::FUN_00d2b2b0()
     vptr = &_DAT_0102e388;
 }
 
-void FUN_00d2b2b0();
+void ReleaseReference_00d2b2b0();
 hkMemoryRouter* _D1A0E0GetMemoryRouter();
 
 struct Action
@@ -81,7 +82,7 @@ struct Action
 // @fnv 0x00d4d950
 Action* Action::FUN_00d4d950(unsigned char flags)
 {
-    FUN_00d2b2b0();
+    ReleaseReference_00d2b2b0();
 
     if (flags & 1)
     {

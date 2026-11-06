@@ -82,21 +82,21 @@ public:
     float GetSquaredXYLength() const;
     Elem16& expand(Allocator& allocator);
 
-    void FUN_00416870(float x, float y, float z);
+    void SetComponents(float x, float y, float z);
     bool FUN_00439090(const LocalVec3* other);
-    bool FUN_004390c0(const LocalVec3* other);
-    bool FUN_004390c0(const LocalVec3* other) const;
-    bool FUN_004390c0(const char* other);
-    void FUN_00439180(float scale);
+    bool HasEqualComponents(const LocalVec3* other);
+    bool HasEqualComponents(const LocalVec3* other) const;
+    bool HasEqualComponents(const char* other);
+    void ScaleComponents(float scale);
     LocalVec3 FUN_00439e90(const LocalVec3& other);
     LocalVec3 FUN_00439e90(const LocalVec3& other) const;
-    void FUN_00439ef0();
-    LocalVec3 FUN_00439ef0(const LocalVec3& other);
-    LocalVec3 FUN_00439ef0(const LocalVec3& other) const;
-    LocalVec3 FUN_00439ef0(LocalVec3* other);
-    LocalVec3 FUN_00439ef0(const LocalVec3* other);
-    void FUN_00439ef0(LocalVec3* output, const LocalVec3* other);
-    LocalVec3* FUN_00439ef0(void* output, void* other);
+    void SubtractIntoVector();
+    LocalVec3 SubtractIntoVector(const LocalVec3& other);
+    LocalVec3 SubtractIntoVector(const LocalVec3& other) const;
+    LocalVec3 SubtractIntoVector(LocalVec3* other);
+    LocalVec3 SubtractIntoVector(const LocalVec3* other);
+    void SubtractIntoVector(LocalVec3* output, const LocalVec3* other);
+    LocalVec3* SubtractIntoVector(void* output, void* other);
     void FUN_0043d410(float x, int y, int z);
     void FUN_0043d410(float x, unsigned int y, unsigned int z);
     float FUN_00457910();
@@ -106,22 +106,22 @@ public:
     float FUN_004a7290();
     float FUN_004a7290() const;
     LocalVec3 FUN_004b3800(const LocalVec3& other) const;
-    LocalVec3 FUN_0053d280(float divisor);
+    LocalVec3 ProcessAndReturnValue_0053d280(float divisor);
     float NiPoint3_XYLength();
     float NiPoint3_XYLength() const;
-    void FUN_0063c8a0(const LocalVec3* other);
-    void FUN_0063c8a0(void* other);
+    void ComputeValue_0063c8a0(const LocalVec3* other);
+    void ComputeValue_0063c8a0(void* other);
     void FUN_006815c0();
     float CVec3_Distance(LocalVec3* other);
     float CVec3_Distance(const LocalVec3& other) const;
-    LocalVec3 FUN_00b05000(const Mat& matrix);
-    LocalVec3 FUN_00b05000(const Matrix4* matrix);
+    LocalVec3 TransformPointByMatrix4(const Mat& matrix);
+    LocalVec3 TransformPointByMatrix4(const Matrix4* matrix);
     void Normalize_00b12790();
     LocalVec3 Diff_00b13040(void* other);
     LocalVec3 Diff_00b13040(const LocalVec3& other) const;
     float FUN_00b2a180(void* other);
-    LocalVec3& FUN_00b2a1c0(void* other);
-    void FUN_00ddc870();
+    LocalVec3& AddComponents(void* other);
+    void ProcessEntries_00ddc870();
     void FUN_00e0f6e0();
 };
 #include "../../include/CVec3.h"
@@ -174,7 +174,7 @@ inline CVec3::CVec3(float fx, float fy, float afDepth)
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 struct FUN_00b02e00_class
 {
-    void FUN_00b02e00();
+    void UpdateFields_00b02e00();
 };
 struct FUN_00b2bcf0_shell
 {
@@ -292,7 +292,7 @@ struct FUN_00b078e0_Class
 };
 struct FUN_00b2bdc0_shell
 {
-    void FUN_00b2bdc0(float, float);
+    void UpdateFields_00b2bdc0(float, float);
 };
 struct FUN_00b08500_shell
 {
@@ -372,7 +372,7 @@ struct FUN_00657f60_class
     void* d;
     void* e;
     void* f;
-    void FUN_00657f60();
+    void ReleaseStorage_00657f60();
 };
 struct FUN_00b02e20
 {
@@ -583,12 +583,12 @@ struct FUN_00b053e0_shell
 struct FUN_00b073f0_class
 {
     void* m_p;  // +0x0
-    float FUN_00b073f0();
+    float GetNestedFloatOrZero();
 };
 struct FUN_00b07440_Class
 {
     void* m_p;
-    float __thiscall FUN_00b07440();
+    float __thiscall GetNestedFloatOrZero_00b07440();
 };
 namespace std {
 template <class _CharT> struct char_traits
@@ -618,7 +618,7 @@ struct FUN_00b09780_class : FUN_0044d6f0_This
 {
     std::basic_string<char, std::char_traits<char>, std::allocator<char> > m_iThirdValue;
 
-    void __thiscall FUN_00b09780();
+    void __thiscall UpdateFields_00b09780();
 };
 extern int DAT_010a51e0;
 struct FUN_00b097b0_class
@@ -630,7 +630,7 @@ struct FUN_00b097b0_class
 };
 struct FUN_00b09f70_Class
 {
-    void FUN_00b09f70();
+    void ProcessState_00b09f70();
     void _Tidy(bool, unsigned int);
 };
 extern MemoryManager _g_memoryManager;
@@ -661,7 +661,7 @@ struct LeafBlock
     int extra04, extra08, extra0c, extra10;
     __forceinline ~LeafBlock()
     {
-        contained.FUN_00b02e00();
+        contained.UpdateFields_00b02e00();
     }
 };
 struct FUN_00b02ac0
@@ -848,7 +848,7 @@ struct FUN_00b0d490_Class
     int unk20, unk24, unk28, unk2c, unk30, unk34, unk38, unk3c;
     int unk40, unk44, unk48, unk4c;
     RecordVector records;
-    char* FUN_00b0d490(unsigned int index);
+    char* GetRecordStringDataChecked(unsigned int index);
 };
 struct Vec2
 {
@@ -908,7 +908,7 @@ struct FUN_00b0eca0_t
 {
     int a;
     int b;
-    bool FUN_00b0eca0(FUN_00b0eca0_t* p);
+    bool ProcessEntries_00b0eca0(FUN_00b0eca0_t* p);
 };
 void __cdecl FUN_00ec7c56(void);
 struct FUN_00b10430_Arg
@@ -924,7 +924,7 @@ struct FUN_00b10430_Class
     int unk00;
     int unk04;
 
-    FUN_00b10430_Class* __thiscall FUN_00b10430(unsigned int index, FUN_00b10430_Arg* range);
+    FUN_00b10430_Class* __thiscall SetCheckedRangeIndex(unsigned int index, FUN_00b10430_Arg* range);
 };
 
 struct Mat
@@ -956,16 +956,16 @@ struct It : FUN_00b10430
 {
     inline It(Elem* q, Cont* cc) : FUN_00b10430(q, cc)
     {}
-    bool FUN_00b0eca0(const It& r);
-    It& FUN_00b0eb30();
-    Elem& FUN_00b0ebb0();
+    bool ProcessEntries_00b0eca0(const It& r);
+    It& ProcessEntries_00b0eb30();
+    Elem& ProcessEntries_00b0ebb0();
     inline bool operator!=(const It& r)
     {
-        return !FUN_00b0eca0(r);
+        return !ProcessEntries_00b0eca0(r);
     }
     inline Elem* operator->()
     {
-        return &FUN_00b0ebb0();
+        return &ProcessEntries_00b0ebb0();
     }
 };
 inline void Dead3()
@@ -995,30 +995,30 @@ struct Cont
 // src: COMMUNITY 0x00b04db0
 void Cont::SCollisionObjects_TransformAll(const Mat& m)
 {
-    for (It it = Begin(); it != End(); it.FUN_00b0eb30())
+    for (It it = Begin(); it != End(); it.ProcessEntries_00b0eb30())
     {
         LocalVec3 pos(it->x, it->y, it->z);
-        memcpy(&pos, &pos.FUN_00b05000(m), sizeof(pos));
-        it.FUN_00b0ebb0().x = pos[0];
-        it.FUN_00b0ebb0().y = pos[1];
-        it.FUN_00b0ebb0().z = pos[2];
+        memcpy(&pos, &pos.TransformPointByMatrix4(m), sizeof(pos));
+        it.ProcessEntries_00b0ebb0().x = pos[0];
+        it.ProcessEntries_00b0ebb0().y = pos[1];
+        it.ProcessEntries_00b0ebb0().z = pos[2];
         Dead3();
         if (it->type == 0)
         {
-            it.FUN_00b0ebb0().f10 *= m.f0;
+            it.ProcessEntries_00b0ebb0().f10 *= m.f0;
         }
         else if (it->type == 1)
         {
             Dead3();
-            it.FUN_00b0ebb0().f10 *= m.f0;
-            it.FUN_00b0ebb0().f14 *= m.f0;
+            it.ProcessEntries_00b0ebb0().f10 *= m.f0;
+            it.ProcessEntries_00b0ebb0().f14 *= m.f0;
         }
         else if (it->type == 2)
         {
             Dead3();
-            it.FUN_00b0ebb0().f10 *= m.f0;
-            it.FUN_00b0ebb0().f14 *= m.f14;
-            it.FUN_00b0ebb0().f18 *= m.f28;
+            it.ProcessEntries_00b0ebb0().f10 *= m.f0;
+            it.ProcessEntries_00b0ebb0().f14 *= m.f14;
+            it.ProcessEntries_00b0ebb0().f18 *= m.f28;
         }
     }
 }
@@ -1047,8 +1047,8 @@ struct FUN_0044a4c0
     }
     void fopen_0044a730(bool b, unsigned n);
 };
-FUN_0044a4c0 __cdecl FUN_00ad4210(const FUN_0044a4c0& l, const char* r);
-FUN_0044a4c0 __cdecl FUN_00ad42e0(const FUN_0044a4c0& l, const FUN_0044a4c0& r);
+FUN_0044a4c0 __cdecl TESObject_ConcatenateStrings(const FUN_0044a4c0& l, const char* r);
+FUN_0044a4c0 __cdecl Object_ProcessAndReturnValue_00ad42e0(const FUN_0044a4c0& l, const FUN_0044a4c0& r);
 struct FUN_00b096a0
 {
     int iBase;
@@ -1062,7 +1062,7 @@ struct FUN_00b09480 : FUN_00b096a0
 };
 // @fnv 0x00b09480
 FUN_00b09480::FUN_00b09480(const FUN_0044a4c0& msg, bool bErrno)
-    : FUN_00b096a0(FUN_00ad4210(FUN_00ad42e0(FUN_00ad4210(msg, " ["),
+    : FUN_00b096a0(TESObject_ConcatenateStrings(Object_ProcessAndReturnValue_00ad42e0(TESObject_ConcatenateStrings(msg, " ["),
                                              bErrno ? FUN_0044a4c0(FUN_00ecdb42(*FUN_00ec85e3())) : FUN_0044a4c0("")),
                                 "]"))
 {}
@@ -1595,7 +1595,7 @@ struct BrQ
 {
     void CLeafGeometry_Init(unsigned short, int, O94Q*);
     void SetLeafTableEntry(int, int*);
-    void FUN_00b28280(const MatQ&);
+    void ProcessEntries_00b28280(const MatQ&);
     void CLeafGeometry_ComputeExtents(BoxQ&);
 };
 struct Cfg0cQ
@@ -1709,7 +1709,7 @@ bool SpdCompQ::CSpeedTreeRT_Compute(const float* pTransform, int nSeed, bool bSt
                 MatQ mat;
                 FUN_00ec44d0(&mat, pTransform, 0x40);
                 m_p4->CIndexedGeometry_Transform(mat);
-                m_p8->FUN_00b28280(mat);
+                m_p8->ProcessEntries_00b28280(mat);
                 m_p60->CIndexedGeometry_Transform(mat);
                 if (m_p58)
                     m_p58->SCollisionObjects_TransformAll(mat);
@@ -2350,7 +2350,7 @@ struct Inner59 : VectorValue59
     char* d;
     char* e;
     char* f;
-    void FUN_00b0e200(int, unsigned char);
+    void ProcessState_00b0e200(int, unsigned char);
     void destroyRange(char* first, char* last)
     {
         CallInterfaceWithResult(first, last, c);
@@ -2359,7 +2359,8 @@ struct Inner59 : VectorValue59
     {
         operator delete(allocation);
     }
-    void FUN_00657f60()
+// src: GUESS 0x00657f60 (confidence: medium)
+    void ReleaseStorage_00657f60()
     {
         if (d != 0)
         {
@@ -2382,7 +2383,7 @@ struct Inner59 : VectorValue59
     }
     __forceinline ~Inner59()
     {
-        FUN_00657f60();
+        ReleaseStorage_00657f60();
     }
 };
 extern unsigned char DAT_011f8c04;
@@ -2399,7 +2400,7 @@ struct FUN_00b06090
     Inner59 m_in;
     FUN_00b06090(int p1, int p2) : m_pos(0)
     {
-        m_in.FUN_00b0e200(p2, 0);
+        m_in.ProcessState_00b0e200(p2, 0);
         for (int index = 0; index < p2; ++index)
         {
             if ((unsigned int)index >= (unsigned int)(m_in.e - m_in.d))
@@ -2409,7 +2410,8 @@ struct FUN_00b06090
     }
     int GetNextElement();
     float CTreeFileAccess_ParseFloat();
-    bool FUN_00b06180()
+// src: GUESS 0x00b06180 (confidence: low)
+    bool ProcessAndTransformResult_00b06180()
     {
         return m_in.at(m_pos++) != 0;
     }
@@ -2789,7 +2791,7 @@ bool Tree59::CSpeedTreeRT_LoadTree_00b059e0(int p1, int p2)
                         break;
                     }
                     case 22000: {
-                        setFlag(reader8.FUN_00b06180());
+                        setFlag(reader8.ProcessAndTransformResult_00b06180());
                         break;
                     }
                     default:
@@ -5969,12 +5971,13 @@ struct OwnerB087
 class ListOwnerRefB087
 {
   public:
-    void FUN_00b08780();
+    void ProcessState_00b08780();
     void* m_pVTable;
     OwnerB087* m_pkOwnerManager;
 };
 // @fnv 0x00b08780
-void ListOwnerRefB087::FUN_00b08780()
+// src: GUESS 0x00b08780 (confidence: low)
+void ListOwnerRefB087::ProcessState_00b08780()
 {
     if (m_pkOwnerManager)
         m_pkOwnerManager->ClearLists();
@@ -7538,11 +7541,12 @@ struct IdvFilename : public String
 {
     IdvFilename(String strName) : String(strName)
     {}
-    IdvFilename FUN_00b09f90() const;
+    IdvFilename ProcessEntries_00b09f90() const;
 };
 
 // @fnv 0x00b09f90
-IdvFilename IdvFilename::FUN_00b09f90() const
+// src: GUESS 0x00b09f90 (confidence: low)
+IdvFilename IdvFilename::ProcessEntries_00b09f90() const
 {
     char szBuffer[1024];
     strcpy(szBuffer, c_str());
@@ -9743,7 +9747,7 @@ class Track_b0cd
 {
   public:
     Track_b0cd();
-    void FUN_00b3e750(int iValue);
+    void ProcessEntries_00b3e750(int iValue);
     static void* operator new(unsigned int uiSize)
     {
         return g_kPoolB0CD.Game_DoHeapAlloc(uiSize);
@@ -9773,7 +9777,7 @@ class TrackOwner_b0cd
 void TrackOwner_b0cd::CSpeedTreeRT_ParseShadowProjectionInfo(int iValue)
 {
     m_pkTrack = new Track_b0cd;
-    m_pkTrack->FUN_00b3e750(iValue);
+    m_pkTrack->ProcessEntries_00b3e750(iValue);
 }
 
 inline void Dead8_acad60()
@@ -9798,11 +9802,11 @@ inline CatQ_acad60 PtrCat_acad60(int*&, int*&)
     CatQ_acad60 c;
     return c;
 }
-void __cdecl FUN_00b36b10(int* _First, unsigned int _Count, const int& _Val);
+void __cdecl Runtime_ProcessState_00b36b10(int* _First, unsigned int _Count, const int& _Val);
 inline void UFill2_acad60(int* _First, unsigned int _Count, const int& _Val, AlQ_acad60& _Al, CatQ_acad60, TagQ_acad60)
 {
     Dead8_acad60();
-    FUN_00b36b10(_First, _Count, _Val);
+    Runtime_ProcessState_00b36b10(_First, _Count, _Val);
 }
 inline void UFillN_acad60(int* _First, unsigned int _Count, const int& _Val, AlQ_acad60& _Al)
 {
@@ -9850,7 +9854,7 @@ struct VecQ_acad60
         UFillN_acad60(_Ptr, _Count, _Val, _Alval);
         return _Ptr + _Count;
     }
-    ItQ_acad60 FUN_00b0e600(CItQ_acad60 _Where, const int& _Val);
+    ItQ_acad60 ProcessAndReturnValue_00b0e600(CItQ_acad60 _Where, const int& _Val);
     void std_vector_push_back(const int& _Val);
 };
 inline CItQ_acad60::CItQ_acad60(int* _Ptr, const VecQ_acad60* _Pvector) : _Myaux(0)
@@ -9871,7 +9875,7 @@ void VecQ_acad60::std_vector_push_back(const int& _Val)
         _Mylast = _Ufill(_Mylast, 1, _Val);
     else
     {
-        FUN_00b0e600(end(), _Val);
+        ProcessAndReturnValue_00b0e600(end(), _Val);
         Dead11_acad60();
     }
 }
@@ -10265,11 +10269,11 @@ inline CatQ_acda90 PtrCat_acda90(ElQ_acda90*&, ElQ_acda90*&)
     CatQ_acda90 c;
     return c;
 }
-void __cdecl FUN_00b10990(ElQ_acda90* _First, unsigned int _Count, const ElQ_acda90& _Val, AlQ_acda90& _Al, CatQ_acda90,
+void __cdecl Speedtreert_ProcessEntries_00b10990(ElQ_acda90* _First, unsigned int _Count, const ElQ_acda90& _Val, AlQ_acda90& _Al, CatQ_acda90,
                           TagQ_acda90);
 inline void UFillN_acda90(ElQ_acda90* _First, unsigned int _Count, const ElQ_acda90& _Val, AlQ_acda90& _Al)
 {
-    FUN_00b10990(_First, _Count, _Val, _Al, PtrCat_acda90(_First, _First), TagQ_acda90());
+    Speedtreert_ProcessEntries_00b10990(_First, _Count, _Val, _Al, PtrCat_acda90(_First, _First), TagQ_acda90());
 }
 struct VecQ_acda90;
 struct CItQ_acda90
@@ -10313,8 +10317,8 @@ struct VecQ_acda90
         UFillN_acda90(_Ptr, _Count, _Val, _Alval);
         return _Ptr + _Count;
     }
-    ItQ_acda90 FUN_00b0e880(CItQ_acda90 _Where, const ElQ_acda90& _Val);
-    void FUN_00b0e090(const ElQ_acda90& _Val);
+    ItQ_acda90 ProcessAndReturnValue_00b0e880(CItQ_acda90 _Where, const ElQ_acda90& _Val);
+    void UpdateState_00b0e090(const ElQ_acda90& _Val);
 };
 inline CItQ_acda90::CItQ_acda90(ElQ_acda90* _Ptr, const VecQ_acda90* _Pvector) : _Myaux(0)
 {
@@ -10341,13 +10345,14 @@ inline void Dead12_acda90()
     int d10;
 }
 // @fnv 0x00b0e090
-void VecQ_acda90::FUN_00b0e090(const ElQ_acda90& _Val)
+// src: GUESS 0x00b0e090 (confidence: low)
+void VecQ_acda90::UpdateState_00b0e090(const ElQ_acda90& _Val)
 {
     if (size() < capacity())
         _Mylast = _Ufill(_Mylast, 1, _Val);
     else
     {
-        FUN_00b0e880(end(), _Val);
+        ProcessAndReturnValue_00b0e880(end(), _Val);
         Dead12_acda90();
     }
 }
@@ -10654,11 +10659,12 @@ struct ElemEBB0
 class FUN_00b0ebb0_Iterator : public _Vector_const_iteratorS<ElemEBB0>
 {
   public:
-    ElemEBB0& FUN_00b0ebb0() const;
+    ElemEBB0& ProcessEntries_00b0ebb0() const;
 };
 
 // @fnv 0x00b0ebb0
-ElemEBB0& FUN_00b0ebb0_Iterator::FUN_00b0ebb0() const
+// src: GUESS 0x00b0ebb0 (confidence: low)
+ElemEBB0& FUN_00b0ebb0_Iterator::ProcessEntries_00b0ebb0() const
 {
     if (!(this->_Has_container()))
         InvalidParameterNoInfoS();
@@ -10694,7 +10700,8 @@ inline void Construct(ElQ* p, const ElQ& v)
     ::new (vp) ElQ(v);
 }
 // @fnv 0x00b10990
-void FUN_00b10990(ElQ* first, unsigned int n, const ElQ& val)
+// src: GUESS 0x00b10990 (confidence: low)
+void Speedtreert_ProcessEntries_00b10990(ElQ* first, unsigned int n, const ElQ& val)
 {
     ElQ* next = first;
     try
@@ -10988,13 +10995,14 @@ template <class _Ty> class vectorS : public _Vector_valS<_Ty>
 class FUN_00b06180_Reader
 {
   public:
-    bool FUN_00b06180();
+    bool ProcessAndTransformResult_00b06180();
     unsigned int m_uiPosition;
     vectorS<unsigned char> m_kFlags;
 };
 
 // @fnv 0x00b06180
-bool FUN_00b06180_Reader::FUN_00b06180()
+// src: GUESS 0x00b06180 (confidence: low)
+bool FUN_00b06180_Reader::ProcessAndTransformResult_00b06180()
 {
     return m_kFlags[m_uiPosition++] != 0;
 }
@@ -11950,7 +11958,7 @@ struct FUN_00b09480 : FUN_00b096a0
 struct PathQ : FUN_0044a4c0
 {
     PathQ(FUN_0044a4c0 s);
-    FUN_0044a4c0 FUN_00b09f90();
+    FUN_0044a4c0 ProcessEntries_00b09f90();
 };
 struct ByteVec
 {
@@ -11971,7 +11979,7 @@ struct Parser
     int GetNextElement();
     float CTreeFileAccess_ParseFloat();
     FUN_0044a4c0 CTreeFileAccess_ParseString();
-    bool FUN_00b06180();
+    bool ProcessAndTransformResult_00b06180();
     bool AtEnd()
     {
         int aK[9];
@@ -12078,14 +12086,14 @@ void Tree::CSpeedTreeRT_ParseTextureCoordInfo(Parser* p)
             Gap1();
 
             PathQ kPath(p->CTreeFileAccess_ParseString());
-            pTileTexture->strName = kPath.FUN_00b09f90();
+            pTileTexture->strName = kPath.ProcessEntries_00b09f90();
             break;
         }
         case 0x2716:
-            b6d = p->FUN_00b06180();
+            b6d = p->ProcessAndTransformResult_00b06180();
             break;
         case 0x2717:
-            b6c = p->FUN_00b06180();
+            b6c = p->ProcessAndTransformResult_00b06180();
             break;
         default:
             throw FUN_00b09480("malformed texture coord info", false);
@@ -12161,7 +12169,7 @@ struct FUN_00b0dfb0
     {
         DAT_011f6238.Free(p);
     }
-    void FUN_00b0e090(const Shape& s);
+    void UpdateState_00b0e090(const Shape& s);
 };
 inline void Dead40()
 {
@@ -12251,7 +12259,7 @@ void Tree::CSpeedTreeRT_ParseCollisionObjects(Parser* p)
         default:
             throw FUN_00b09480("unknown collision object type", false);
         }
-        pColl->FUN_00b0e090(s);
+        pColl->UpdateState_00b0e090(s);
         if ((bool)(int)(p->uiPos >= p->kData.size()))
             throw FUN_00b09480("premature end of file reached parsing collision object info", false);
         else
@@ -12300,7 +12308,7 @@ struct FUN_00b09480 : FUN_00b096a0
 struct FUN_0044a500 : FUN_0044a4c0
 {
     FUN_0044a500(const FUN_0044a4c0& r);
-    FUN_0044a4c0 FUN_00b09f90();
+    FUN_0044a4c0 ProcessEntries_00b09f90();
 };
 struct KP : FUN_0044a500
 {
@@ -12327,7 +12335,7 @@ struct Parser
     int GetNextElement();
     float CTreeFileAccess_ParseFloat();
     FUN_0044a4c0 CTreeFileAccess_ParseString();
-    bool FUN_00b06180();
+    bool ProcessAndTransformResult_00b06180();
 };
 struct TexQ
 {
@@ -12366,14 +12374,14 @@ void Tree::CSpeedTreeRT_ParseSupplementalTexCoordInfo(Parser* p)
             {
             case 0x4e22: {
                 KP kPath(p->CTreeFileAccess_ParseString());
-                pTileTexture->strName = kPath.FUN_00b09f90();
+                pTileTexture->strName = kPath.ProcessEntries_00b09f90();
                 break;
             }
             case 0x4e23:
-                b6d = p->FUN_00b06180();
+                b6d = p->ProcessAndTransformResult_00b06180();
                 break;
             case 0x4e24:
-                b6c = p->FUN_00b06180();
+                b6c = p->ProcessAndTransformResult_00b06180();
                 break;
             case 0x4e25:
                 for (int i = 0; i < 8; i++)
@@ -13406,10 +13414,10 @@ struct VirtualResource
 };
 struct LodResource : TreeResource
 {
-    void FUN_00b04420();
+    void ReleaseStorage_00b04420();
     __forceinline ~LodResource()
     {
-        FUN_00b04420();
+        ReleaseStorage_00b04420();
     }
 };
 struct BillboardResource : TreeResource
@@ -13442,10 +13450,10 @@ struct RegCIt
 {
     void* owner;
     void** current;
-    bool FUN_00b0eca0(const RegCIt&) const;
+    bool ProcessEntries_00b0eca0(const RegCIt&) const;
     __forceinline bool operator!=(const RegCIt& r) const
     {
-        return !(FUN_00b0eca0(r));
+        return !(ProcessEntries_00b0eca0(r));
     }
     __forceinline void setCur(void** p)
     {
@@ -13521,10 +13529,10 @@ struct OtherMid : OtherRegistryProxy
 };
 struct OtherRegistry : OtherMid
 {
-    void FUN_00b0ea80();
+    void ReleaseEntries_00b0ea80();
     __forceinline ~OtherRegistry()
     {
-        FUN_00b0ea80();
+        ReleaseEntries_00b0ea80();
     }
 };
 void CIdvBezierSpline_ClearCache();
@@ -13598,10 +13606,11 @@ struct SpeedTreeRelease
     void* m64;
     void* m68;
     void CSpeedTreeRT_DeleteTransientData();
-    void FUN_00b03b30();
+    void ReleaseStorage_00b03b30();
 };
 // @fnv 0x00b03b30
-void SpeedTreeRelease::FUN_00b03b30()
+// src: GUESS 0x00b03b30 (confidence: low)
+void SpeedTreeRelease::ReleaseStorage_00b03b30()
 {
     if (instance == 0)
     {
@@ -13948,11 +13957,12 @@ struct TreeRuntimeQ
     EmbeddedTex* unk50;
     int unk54, unk58, unk5c;
     TreeGeomQ* unk60;
-    void __thiscall FUN_00b087d0();
+    void __thiscall ReleaseStorage_00b087d0();
 };
 
 // @fnv 0x00b087d0
-void __thiscall TreeRuntimeQ::FUN_00b087d0()
+// src: GUESS 0x00b087d0 (confidence: low)
+void __thiscall TreeRuntimeQ::ReleaseStorage_00b087d0()
 {
     if (this->unk50 != 0)
     {
@@ -14287,22 +14297,22 @@ struct LeafModeView
 
 struct FUN_00b10430_class
 {
-    void __thiscall FUN_00b10430(unsigned int node, void* tree);
+    void __thiscall SetCheckedRangeIndex(unsigned int node, void* tree);
 };
 
 struct FUN_00b0ec20_class
 {
-    void __thiscall FUN_00b0ec20();
+    void __thiscall ProcessEntries_00b0ec20();
 };
 
 struct FUN_00b0eca0_class
 {
-    bool __thiscall FUN_00b0eca0(void* other);
+    bool __thiscall ProcessEntries_00b0eca0(void* other);
 };
 
 struct FUN_00b0ebb0_class
 {
-    FUN_00b076c0_Class** __thiscall FUN_00b0ebb0();
+    FUN_00b076c0_Class** __thiscall ProcessEntries_00b0ebb0();
 };
 
 struct TreeUpdateRecord
@@ -14413,22 +14423,22 @@ struct Iterator
 
     __forceinline Iterator(unsigned int node, void* tree)
     {
-        ((FUN_00b10430_class*)this)->FUN_00b10430(node, tree);
+        ((FUN_00b10430_class*)this)->SetCheckedRangeIndex(node, tree);
     }
 
     __forceinline void operator++()
     {
-        ((FUN_00b0ec20_class*)this)->FUN_00b0ec20();
+        ((FUN_00b0ec20_class*)this)->ProcessEntries_00b0ec20();
     }
 
     __forceinline bool operator!=(const Iterator& other) const
     {
-        return !((FUN_00b0eca0_class*)this)->FUN_00b0eca0((void*)&other);
+        return !((FUN_00b0eca0_class*)this)->ProcessEntries_00b0eca0((void*)&other);
     }
 
     __forceinline FUN_00b076c0_Class** operator*() const
     {
-        return ((FUN_00b0ebb0_class*)this)->FUN_00b0ebb0();
+        return ((FUN_00b0ebb0_class*)this)->ProcessEntries_00b0ebb0();
     }
 };
 
@@ -14578,13 +14588,13 @@ struct ListQ : VecQ_acad60
         if (count < capacity())
         {
             int* destination = _Mylast;
-            FUN_00b36b10(destination, 1, reinterpret_cast<const int&>(value));
+            Runtime_ProcessState_00b36b10(destination, 1, reinterpret_cast<const int&>(value));
             _Mylast = destination + 1;
         }
         else
         {
             ItQ_acad60 where = end();
-            FUN_00b0e600(where, reinterpret_cast<const int&>(value));
+            ProcessAndReturnValue_00b0e600(where, reinterpret_cast<const int&>(value));
         }
     }
 };

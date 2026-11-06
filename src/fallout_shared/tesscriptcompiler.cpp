@@ -690,7 +690,7 @@ bool __cdecl HasBalancedQuotes(const char* pcString, int offset)
 
 struct FUN_005ae730_shell
 {
-    List* FUN_005a8080();
+    List* ComputeValue_005a8080();
     void ScriptCompileData_ClearAllVariables();
 };
 struct HairObject
@@ -702,7 +702,7 @@ struct HairObject
 // src: COMMUNITY 0x005ae730
 void FUN_005ae730_shell::ScriptCompileData_ClearAllVariables()
 {
-    List* list = FUN_005a8080();
+    List* list = ComputeValue_005a8080();
     while (list && !list->_ref_008256d0())
     {
         HairObject* object;
@@ -776,7 +776,7 @@ struct CompilerCtx
     char unk00[0x4c];
     Target* m_4c;
 
-    TesscriptcompilerListNodeView* FUN_005a8080();
+    TesscriptcompilerListNodeView* ComputeValue_005a8080();
     bool ScriptCompileData_GetReferencedObject(ScriptRefHolder* p, int a, int b);
     bool ResolveReference(ScriptRefHolder* p);
 };
@@ -835,7 +835,7 @@ bool CompilerCtx::ResolveReference(ScriptRefHolder* apRef)
         }
     }
 
-    cur = FUN_005a8080();
+    cur = ComputeValue_005a8080();
     apRef->m_20c = 0;
     while (cur != 0 && cur->Slot() != 0)
     {

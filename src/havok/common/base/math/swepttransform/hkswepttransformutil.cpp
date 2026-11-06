@@ -934,7 +934,8 @@ struct OutputArg
 };
 // Interpolates a swept transform's rotation and position at time t, writing the result into out and adjusting its translation by the local center of mass.
 // @fnv 0x00cf1920
-void __cdecl FUN_00cf1920(const hkSweptTransform* sweptTrans, float afTime, FUN_008cd6a0_Class* apTransform, ...)
+// src: GUESS 0x00cf1920 (confidence: medium)
+void __cdecl Object_InterpolateSweptTransform(const hkSweptTransform* sweptTrans, float afTime, FUN_008cd6a0_Class* apTransform, ...)
 {
     hkVector4 qResult;
     {

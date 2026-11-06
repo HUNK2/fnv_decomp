@@ -407,7 +407,7 @@ void __fastcall CopyPhysicsSystem(hkpPhysicsSystem* system, void*, const hkpPhys
     system->m_kPhantoms = kOther.m_kPhantoms;
     system->m_ppConstraints = kOther.m_ppConstraints;
     system->m_ppActions = kOther.m_ppActions;
-    system->m_name.FUN_00cb0c30(&kOther.m_name);
+    system->m_name.UpdateState_00cb0c30(&kOther.m_name);
     system->m_ulUserData = kOther.m_ulUserData;
     system->m_bSlotEnabled = kOther.m_bSlotEnabled;
 }
@@ -527,7 +527,7 @@ __declspec(align(16)) struct AlignedTransform
         m_vTranslation = o.m_vTranslation;
     }
 
-    void FUN_00cb23e0(const hkTransform* other);
+    void ProcessTransformedMatrixCopy_00cb23e0(const hkTransform* other);
 };
 
 struct FUN_00ca8890_Class
@@ -554,7 +554,7 @@ struct FUN_00ca8890_Class
 
 struct FUN_00cf30f0_Class
 {
-    void FUN_00cf30f0(const hkTransform* t);
+    void ApplyTransformToWorldConstraint(const hkTransform* t);
 };
 
 void tranformPhantom(void* phantom, const hkTransform* t);
@@ -584,12 +584,12 @@ void PhysicsSystemWrapper::ApplyMotionTransform(const hkTransform* a2)
 
         AlignedTransform t2 = t1;
 
-        t2.FUN_00cb23e0(&((FUN_00ca8890_Class*)m_ppRigidBodies.m_data[i])->m_kMotionTransform);
+        t2.ProcessTransformedMatrixCopy_00cb23e0(&((FUN_00ca8890_Class*)m_ppRigidBodies.m_data[i])->m_kMotionTransform);
         ((FUN_00ca8890_Class*)m_ppRigidBodies.m_data[i])->hkpRigidBody_setTransform(&t2);
     }
     for (int i = 0; i < m_ppConstraints.m_iElementCount; ++i)
     {
-        ((FUN_00cf30f0_Class*)m_ppConstraints.m_data[i])->FUN_00cf30f0(a2);
+        ((FUN_00cf30f0_Class*)m_ppConstraints.m_data[i])->ApplyTransformToWorldConstraint(a2);
     }
     for (int i = 0; i < m_kPhantoms.m_iElementCount; ++i)
     {
@@ -1067,7 +1067,7 @@ FUN_00d065e0* FUN_00d065e0::hkpPhysicsSystem_clone() const throw()
 {
     FUN_00d065e0* newSystem = new FUN_00d065e0();
 
-    newSystem->m_name.FUN_00cb0c30(&m_name);
+    newSystem->m_name.UpdateState_00cb0c30(&m_name);
     newSystem->m_ulUserData = m_ulUserData;
     newSystem->m_bSlotEnabled = m_bSlotEnabled;
 

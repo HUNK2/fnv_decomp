@@ -79,7 +79,8 @@ extern "C" Buffer* __cdecl GetSharedBuffer();
 
 // Copies source to a local buffer, follows unk14 links while unk00 >= 0x17, then calls FUN_00d72190 if that node's unk00 is 0x16, else FUN_00d6f460.
 // @fnv 0x00d6c5a0
-static void __cdecl FUN_00d6c5a0(Node* self, int* counter, Buffer* source)
+// src: GUESS 0x00d6c5a0 (confidence: low)
+static void __cdecl Object_CopyData_00d6c5a0(Node* self, int* counter, Buffer* source)
 {
     Buffer buffer;
     union Flag
@@ -115,5 +116,5 @@ static void __cdecl FUN_00d6c5a0(Node* self, int* counter, Buffer* source)
 
 void __cdecl Caller(Node* self, int* counter)
 {
-    FUN_00d6c5a0(self, counter, GetSharedBuffer());
+    Object_CopyData_00d6c5a0(self, counter, GetSharedBuffer());
 }

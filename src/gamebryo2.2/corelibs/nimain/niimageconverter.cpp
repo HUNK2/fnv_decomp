@@ -124,7 +124,7 @@ extern void* DAT_011f4a78;
 void _NiFreeAlias(void*) throw();
 struct Sub80
 {
-    void FUN_00a8ada0() throw();
+    void ProcessState_00a8ada0() throw();
 };
 
 struct FUN_00a76680 : NiRefObject
@@ -138,7 +138,7 @@ FUN_00a76680::~FUN_00a76680()
     if (DAT_011f4a78)
         _NiFreeAlias(DAT_011f4a78);
     DAT_011f4a78 = 0;
-    ((Sub80*)((char*)this + 0x80))->FUN_00a8ada0();
+    ((Sub80*)((char*)this + 0x80))->ProcessState_00a8ada0();
 }
 }  // namespace fnv_00a76680
 
@@ -368,7 +368,8 @@ void __cdecl NiDevImageConverter_ConvertRGBA16ToBGRA16(unsigned int, unsigned in
                           PixelFormatBitLayout const&, unsigned char const*, PixelFormatBitLayout const&);
 
 // @fnv 0x00a76e90
-void __cdecl FUN_00a76e90(unsigned int a, unsigned int b, unsigned int c, unsigned char* d, NiPalette const* e,
+// src: GUESS 0x00a76e90 (confidence: medium)
+void __cdecl NiPalette_NiDevImageConverter_ConvertRGBA16ToBGRA16_Thunk(unsigned int a, unsigned int b, unsigned int c, unsigned char* d, NiPalette const* e,
                           PixelFormatBitLayout const& f, unsigned char const* g, PixelFormatBitLayout const& h)
 {
     NiDevImageConverter_ConvertRGBA16ToBGRA16(a, b, c, d, e, f, g, h);
@@ -428,7 +429,7 @@ extern void* DAT_011f4a78;
 void _NiFreeAlias(void*) throw();
 struct Sub80
 {
-    void FUN_00a8ada0() throw();
+    void ProcessState_00a8ada0() throw();
 };
 
 struct FUN_00a76bb0 : NiRefObject
@@ -444,7 +445,7 @@ FUN_00a76bb0::~FUN_00a76bb0()
     if (DAT_011f4a78)
         _NiFreeAlias(DAT_011f4a78);
     DAT_011f4a78 = 0;
-    ((Sub80*)((char*)this + 0x80))->FUN_00a8ada0();
+    ((Sub80*)((char*)this + 0x80))->ProcessState_00a8ada0();
 }
 }  // namespace fnv_00a76bb0
 

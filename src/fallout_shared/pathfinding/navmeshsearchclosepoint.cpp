@@ -17,11 +17,12 @@ extern int DAT_0106b6fc;
 
 struct FUN_006a8b40_shell : NavMeshSearch
 {
-    void FUN_006a8b40();
+    void DestroyFields_006a8b40();
 };
 
 // @fnv 0x006a8b40
-void FUN_006a8b40_shell::FUN_006a8b40()
+// src: GUESS 0x006a8b40 (confidence: medium)
+void FUN_006a8b40_shell::DestroyFields_006a8b40()
 {
     reinterpret_cast<int**>(this)[0] = &DAT_0106b6fc;
     NavMeshSearch::~NavMeshSearch();
@@ -38,7 +39,7 @@ struct FUN_006a8b10_shell : FUN_006a8b40_shell
 // @fnv 0x006a8b10
 void* FUN_006a8b10_shell::DestroyIfFlagged(unsigned int flags)
 {
-    FUN_006a8b40();
+    DestroyFields_006a8b40();
     if (flags & 1)
         Deallocate(this);
     return this;

@@ -279,7 +279,7 @@ void __thiscall S00cb7750::bhkSPCollisionObject_hktoNiTransform()
     }
 }
 
-void* __fastcall FUN_00c6b910(void*);
+void* __fastcall NiRTTI_UpdateState_00c6b910(void*);
 extern int DAT_01066b94;
 struct CollisionNodeStub
 {
@@ -288,7 +288,7 @@ struct CollisionNodeStub
     static void* __cdecl operator new(unsigned int);
     CollisionNodeStub()
     {
-        FUN_00c6b910(this);
+        NiRTTI_UpdateState_00c6b910(this);
         vf = (void*)&DAT_01066b94;
     }
 };
@@ -304,7 +304,7 @@ struct CollisionNodeStub
 {
     static void* __cdecl operator new(unsigned int);
 };
-void* __fastcall FUN_00c6b910(void*);
+void* __fastcall NiRTTI_UpdateState_00c6b910(void*);
 extern int DAT_01066acc;
 struct NewObjA : CollisionNodeStub
 {
@@ -315,7 +315,7 @@ struct NewObjA : CollisionNodeStub
     int e;
     NewObjA()
     {
-        FUN_00c6b910(this);
+        NiRTTI_UpdateState_00c6b910(this);
         *(void**)this = &DAT_01066acc;
     }
 };
@@ -1228,7 +1228,7 @@ struct SpawnedFade
     static void* __cdecl operator new(unsigned int);
     SpawnedFade()
     {
-        FUN_00c6b910(this);
+        NiRTTI_UpdateState_00c6b910(this);
         vf = (void*)&DAT_01066acc;
     }
 };
@@ -2862,7 +2862,7 @@ complete:
 
 namespace fnv_00c8c4d0 {
 
-extern "C" void* __cdecl FUN_00aa13e0(unsigned int);
+extern "C" void* __cdecl Object_DispatchCommandFour(unsigned int);
 extern "C" void __cdecl bhkSerializable_CloneCritLock();
 extern "C" void __cdecl bhkSerializable_CloneCritUnlock();
 extern "C" char DAT_01030bf4[];
@@ -2890,7 +2890,7 @@ struct SpawnedObject
     }
     void* operator new(unsigned int size) throw()
     {
-        return FUN_00aa13e0(size);
+        return Object_DispatchCommandFour(size);
     }
 };
 

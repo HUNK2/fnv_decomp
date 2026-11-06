@@ -27,7 +27,7 @@ void* __thiscall FUN_0044f600_class::InitializeVtbl()
 extern "C" void __cdecl Deallocate(void*);
 struct FUN_00877a10_Class
 {
-    void __thiscall FUN_00877a10();
+    void __thiscall ForwardCall_00877a10();
 };
 struct FUN_0044f620_class
 {
@@ -37,7 +37,7 @@ struct FUN_0044f620_class
 // @fnv 0x0044f620
 void* __thiscall FUN_0044f620_class::FUN_0044f620(unsigned int flags)
 {
-    ((FUN_00877a10_Class*)this)->FUN_00877a10();
+    ((FUN_00877a10_Class*)this)->ForwardCall_00877a10();
     if (flags & 1)
         Deallocate(this);
     return this;
@@ -125,7 +125,7 @@ struct TESGlobalMap
     void __thiscall SetAt(char const*, TESGlobal*);
 };
 
-void __cdecl FUN_00c335a0(char const*, ...);
+void __cdecl Object_ProcessAndReturnValue_00c335a0(char const*, ...);
 
 
 // @fnv 0x00404de0
@@ -140,7 +140,7 @@ void __thiscall SettingCollectionMap<Setting>::AddSetting(Setting* apSetting)
         if (reinterpret_cast<DummyPointerMap*>(reinterpret_cast<char*>(this) + 0x10c)
                 ->GetAt(reinterpret_cast<SettingOffset08View*>(apSetting)->GetFlags(), key))
         {
-            FUN_00c335a0(str_010121d0, reinterpret_cast<SettingOffset08View*>(apSetting)->GetFlags());
+            Object_ProcessAndReturnValue_00c335a0(str_010121d0, reinterpret_cast<SettingOffset08View*>(apSetting)->GetFlags());
         }
         else
         {
@@ -157,7 +157,8 @@ namespace fnv_00c335a0 {
 int C335A0Report(int iLevel, const char* pcFormat, va_list args);
 
 // @fnv 0x00c335a0
-int FUN_00c335a0(const char* pcFormat, ...)
+// src: GUESS 0x00c335a0 (confidence: low)
+int Object_ProcessAndReturnValue_00c335a0(const char* pcFormat, ...)
 {
     va_list args;
     va_start(args, pcFormat);
@@ -199,7 +200,7 @@ void Registry::AddSettingKey(SettingName* key)
             SettingName* entry = *position->FUN_006815c0();
             if (BSstricmp((const char*)entry->FUN_0044ddc0(), (const char*)key->FUN_0044ddc0()) == 0)
             {
-                FUN_00c335a0("DEFAULT: Setting key '%s' already used in list.\nSetting keys must be unique.\n",
+                Object_ProcessAndReturnValue_00c335a0("DEFAULT: Setting key '%s' already used in list.\nSetting keys must be unique.\n",
                              (const char*)key->FUN_0044ddc0());
                 return;
             }

@@ -89,8 +89,8 @@ typedef void (__cdecl* HandlerFn)();
 
 void __cdecl hkpCapsuleCapsuleAgent_createCapsuleCapsuleAgent();
 void __cdecl hkpCapsuleCapsuleAgent_staticGetPenetrations();
-void __cdecl FUN_00d3bd80();
-void __cdecl FUN_00daf8e0();
+void __cdecl UpdateFields_00d3bd80();
+void __cdecl Object_ProcessEntries_00daf8e0();
 
 struct HandlerSet {
     HandlerFn m_pfnFirst;
@@ -102,7 +102,7 @@ struct HandlerSet {
 };
 
 struct Registry {
-    void FUN_00cfbbe0(HandlerSet* apHandlers, int aiFirst, int aiSecond);
+    void AppendRecordAndRegisterAgents(HandlerSet* apHandlers, int aiFirst, int aiSecond);
 };
 
 // Fills a HandlerSet with four handler functions and zeroed flags, then registers it with the registry using 5 and 5.
@@ -114,10 +114,10 @@ void __cdecl RegisterHandlers(Registry* apRegistry)
     kHandlers.m_cFlagB = 0;
     kHandlers.m_pfnFirst = hkpCapsuleCapsuleAgent_createCapsuleCapsuleAgent;
     kHandlers.m_pfnSecond = hkpCapsuleCapsuleAgent_staticGetPenetrations;
-    kHandlers.m_pfnThird = FUN_00d3bd80;
-    kHandlers.m_pfnFourth = FUN_00daf8e0;
+    kHandlers.m_pfnThird = UpdateFields_00d3bd80;
+    kHandlers.m_pfnFourth = Object_ProcessEntries_00daf8e0;
 
-    apRegistry->FUN_00cfbbe0(&kHandlers, 5, 5);
+    apRegistry->AppendRecordAndRegisterAgents(&kHandlers, 5, 5);
 }
 
 void __cdecl hkpCapsuleCapsuleAgent_staticGetPenetrations(const void* a, const void* b, const void* c, void* d);
@@ -329,7 +329,7 @@ const hkpCdBody&m_pBodyB;};
 class hkpCapsuleCapsuleAgent:public hkpIterativeLinearCastAgent
 {
 public:
-static void __cdecl FUN_00d3bd80(const hkpCdBody&bodyA,const hkpCdBody&bodyB,const CollisionAgentContext&input,hkpCdPointCollector&collector);
+static void __cdecl UpdateFields_00d3bd80(const hkpCdBody&bodyA,const hkpCdBody&bodyB,const CollisionAgentContext&input,hkpCdPointCollector&collector);
 static void __cdecl RegisterCapsuleCapsuleAgent(hkpCollisionDispatcher*dispatcher);
 virtual inline void ProcessAgent(const hkpCdBody&bodyA,const hkpCdBody&bodyB,const GskAgentInput&input,WorldOperationEntry&result);
 virtual void getClosestPoints(const hkpCdBody&bodyA,const hkpCdBody&bodyB,const CollisionAgentContext&input,hkpCdPointCollector&pointDetails);
@@ -369,7 +369,8 @@ hkVector4 pA[2];hkVector4Util_S::TransformPointArray(bodyA.getTransform(),capsul
 hkVector4 pB[2];hkVector4Util_S::TransformPointArray(bodyB.getTransform(),capsuleB->GetIndexedVertices(),2,pB);
 return FindCapsuleCapsuleContact(pA,capsuleA->getRadius(),pB,capsuleB->getRadius(),input.getTolerance(),cpoint);}
 // @fnv 0x00d3bd80
-void __cdecl hkpCapsuleCapsuleAgent::FUN_00d3bd80(const hkpCdBody&bodyA,const hkpCdBody&bodyB,const CollisionAgentContext&input,hkpCdPointCollector&collector)
+// src: GUESS 0x00d3bd80 (confidence: low)
+void __cdecl hkpCapsuleCapsuleAgent::UpdateFields_00d3bd80(const hkpCdBody&bodyA,const hkpCdBody&bodyB,const CollisionAgentContext&input,hkpCdPointCollector&collector)
 {
 {hkMonitorStream&mStream=hkMonitorStream::getInstance();if(mStream.getEnd()<mStream.getCapacityMinus16()){hkMonitorStream::TimerCommand*h=reinterpret_cast<hkMonitorStream::TimerCommand*>(mStream.getEnd());h->m_commandAndMonitor="T" "t" "CapsCaps";h->setTime();mStream.setEnd((char*)(h+1));}};
 ContactPointPair event(bodyA,bodyB);

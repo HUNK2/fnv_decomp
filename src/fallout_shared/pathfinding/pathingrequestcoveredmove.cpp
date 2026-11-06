@@ -34,13 +34,13 @@ struct FUN_006e4d00_shell
 
 struct FUN_006dae90_shell
 {
-    void* FUN_006dae90();
+    void* UpdateState_006dae90();
 };
 
 // @fnv 0x006e4d00
 void FUN_006e4d00_shell::CallMemberFunction()
 {
-    ((FUN_006dae90_shell*)((char*)this + 0x20))->FUN_006dae90();
+    ((FUN_006dae90_shell*)((char*)this + 0x20))->UpdateState_006dae90();
 }
 
 struct FUN_006e4ef0_shell
@@ -99,11 +99,12 @@ void* FUN_006e4cd0_shell::FUN_006e4cd0(unsigned int flags)
 
 struct FUN_006e4f50_shell
 {
-    void FUN_006e4f50();
+    void ClearVectorD4AndFlagE0();
 };
 // Sets the NiPoint3 at offset 0xd4 to NiPoint3::ZERO and clears the byte at offset 0xe0.
 // @fnv 0x006e4f50
-void FUN_006e4f50_shell::FUN_006e4f50()
+// src: GUESS 0x006e4f50 (confidence: medium)
+void FUN_006e4f50_shell::ClearVectorD4AndFlagE0()
 {
     *(NiPoint3*)((char*)this + 0xd4) = NiPoint3::ZERO;
     *(char*)((char*)this + 0xe0) = 0;
@@ -485,7 +486,7 @@ void FUN_006e4dd0_cls::CopyTo(void* arg)
     }
     else
     {
-        ((FUN_006e4f50_shell*)pTarget)->FUN_006e4f50();
+        ((FUN_006e4f50_shell*)pTarget)->ClearVectorD4AndFlagE0();
     }
 
     ((FUN_00613fb0_cls*)pTarget)->FUN_00613fb0(m_e1);

@@ -498,7 +498,7 @@ bool CombatGroupStrategyAmbush::CanFlank(MarkerStruct* a1, ActorCombatGroup* a2)
 struct Vec990d60
 {
     float x, y, z;
-    Vec990d60 FUN_00439ef0(const Vec990d60*);
+    Vec990d60 SubtractIntoVector(const Vec990d60*);
     double FUN_004a7290();
 };
 extern const double DAT_0101ece0;
@@ -534,7 +534,7 @@ bool CombatGroupStrategyAdvance::CanFlank(MarkerStruct* apGroup, ActorCombatGrou
         const TESObjectREFR* target8 = reinterpret_cast<const TESObjectREFR*>(handle5->CombatController_GetTarget());
         if (target8)
         {
-            Vec990d60 delta = reinterpret_cast<Vec990d60*>(static_cast<const TESObjectREFR*>(member9->actor)->GetPos())->FUN_00439ef0(reinterpret_cast<Vec990d60*>(target8->GetPos()));
+            Vec990d60 delta = reinterpret_cast<Vec990d60*>(static_cast<const TESObjectREFR*>(member9->actor)->GetPos())->SubtractIntoVector(reinterpret_cast<Vec990d60*>(target8->GetPos()));
             if (delta.FUN_004a7290() < DAT_0101ece0)
                 return false;
         }
@@ -547,7 +547,7 @@ extern const Vec990d60 DAT_011f426c;
 struct Centroid990640
 {
     float x, y, z;
-    void FUN_0063c8a0(const Vec990d60*);
+    void ComputeValue_0063c8a0(const Vec990d60*);
     void ScaleByInverse(float);
 };
 struct MemberList990640
@@ -579,12 +579,12 @@ void Strategy990640::SortMembersByTargetDistance()
     {
         Member990d60* member = normalMembers.BSSimpleArray_GroupMemberData_1024_GetAt(memberIndex);
         a[memberIndex] = *reinterpret_cast<Vec990d60*>(static_cast<const TESObjectREFR*>(member->actor)->GetPos());
-        ((Centroid990640*)&p)->FUN_0063c8a0(&a[memberIndex]);
+        ((Centroid990640*)&p)->ComputeValue_0063c8a0(&a[memberIndex]);
     }
     ((Centroid990640*)&p)->ScaleByInverse((float)i);
     float* h = (float*)_alloca(i * sizeof(float));
     for (unsigned int j = 0; j < i; ++j)
-        h[j] = a[j].FUN_00439ef0(&p).FUN_004a7290();
+        h[j] = a[j].SubtractIntoVector(&p).FUN_004a7290();
     for (unsigned int k = 0; k < i - 1; ++k)
     {
         unsigned int nearest = k;

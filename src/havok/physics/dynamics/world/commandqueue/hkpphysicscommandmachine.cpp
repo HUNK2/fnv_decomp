@@ -35,7 +35,7 @@ struct CommandRecord
     int unk0C;
 };
 
-void FUN_00cb3da0(int, CommandObject*);
+void Object_NotifyAndDetachRecord(int, CommandObject*);
 void hkpWorldOperationUtil_addConstraintToCriticalLockedIsland(int, CommandObject*);
 static __declspec(noinline) void SetOwnerStateFlags(int a, CommandObject* x, int b)
 {
@@ -66,7 +66,7 @@ void hkPhysicsCommandMachineProcess(int aiContext, CommandRecord* apRecords, int
             }
             break;
             case 1:
-                FUN_00cb3da0(ctx, apRecords->x);
+                Object_NotifyAndDetachRecord(ctx, apRecords->x);
                 break;
             default:
                 return;

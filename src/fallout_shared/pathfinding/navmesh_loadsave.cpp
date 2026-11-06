@@ -198,7 +198,8 @@ class GlobalObject_00869f00
 };
 
 // @fnv 0x00694e10
-void __fastcall FUN_00694e10(GlobalObject_00869f00* pThis)
+// src: GUESS 0x00694e10 (confidence: low)
+void __fastcall NavmeshLoadsave_UpdateState_00694e10(GlobalObject_00869f00* pThis)
 {
     *(unsigned int**)pThis = &DAT_0106b0dc;
     pThis->Clear(true);
@@ -214,7 +215,7 @@ struct DA00694f20
     int x;
     E00694f20* data;
     unsigned int count;
-    E00694f20* FUN_006a1440(unsigned int);
+    E00694f20* Object_GetIndexedValue_006a1440(unsigned int);
     void BSSimpleArray_EdgeExtraInfo_1024_SetSize(unsigned int, int);
 };
 struct SA00694f20
@@ -230,7 +231,7 @@ void SA00694f20::BSSimpleArray_EdgeExtraInfo_1024_CopyTo_1024(DA00694f20* dest)
 {
     dest->BSSimpleArray_EdgeExtraInfo_1024_SetSize(count, 1);
     for (unsigned int i = 0; i < count; i++)
-        dest->FUN_006a1440(i)->Assign(data[i]);
+        dest->Object_GetIndexedValue_006a1440(i)->Assign(data[i]);
 }
 
 // Resizes dest to this container's count and copies each element via GetAt.
@@ -403,7 +404,7 @@ void BSSimpleArray<NavMeshVertex, 1024>::CopyTo<1024>(BSSimpleArray<NavMeshVerte
 {
     dest->SetSize(iSize, true);
     for (unsigned int i = 0; i < iSize; i++)
-        dest->FUN_006a1440(i) = pBuffer[i];
+        dest->Object_GetIndexedValue_006a1440(i) = pBuffer[i];
 }
 
 // @fnv 0x00694ea0
@@ -425,7 +426,7 @@ void ClampUnsignedShort(unsigned short* pusValue, unsigned short usMin, unsigned
         *pusValue = usMin;
 }
 
-void __fastcall FUN_00694e10(void*);
+void __fastcall NavmeshLoadsave_UpdateState_00694e10(void*);
 void _Deallocate(void*);
 
 struct FUN_006950a0_shell
@@ -437,7 +438,7 @@ struct FUN_006950a0_shell
 // @fnv 0x006950a0
 void* FUN_006950a0_shell::FUN_006950a0(unsigned int flags)
 {
-    FUN_00694e10(this);
+    NavmeshLoadsave_UpdateState_00694e10(this);
     if (flags & 1)
         _Deallocate(this);
     return this;
@@ -686,7 +687,7 @@ struct ProcessListsView
 
 struct VertArr
 {
-    ContainerItemExtraFileData* FUN_006a1440(unsigned int);
+    ContainerItemExtraFileData* Object_GetIndexedValue_006a1440(unsigned int);
 };
 struct EdgeS
 {
@@ -697,7 +698,7 @@ struct EdgeS
 };
 struct EdgeArr
 {
-    EdgeS* FUN_006a1440(unsigned int);
+    EdgeS* Object_GetIndexedValue_006a1440(unsigned int);
 };
 struct DoorS
 {
@@ -723,7 +724,7 @@ struct TriS
 };
 struct TriArr
 {
-    TriS& FUN_00558dd0(int);
+    TriS& GetElementAddress16(int);
 };
 struct DA00694f20
 {
@@ -740,7 +741,7 @@ struct GridS
 };
 struct InfoMapS
 {
-    void FUN_006b6990(unsigned int);
+    void ProcessState_006b6990(unsigned int);
 };
 unsigned int EdgeExtraInfo_GetSizeOfV0();
 TESForm* __fastcall NavMeshInfo_GetParentSpace(const NavMeshInfo*);
@@ -826,13 +827,13 @@ bool FUN_00692950_shell::NavMesh_Load(TESFile* apFile)
                 }
                 break;
             case 0x5856564e:  // NVVX
-                apFile->GetChunkData(((VertArr*)((char*)this + 0x28))->FUN_006a1440(0),
+                apFile->GetChunkData(((VertArr*)((char*)this + 0x28))->Object_GetIndexedValue_006a1440(0),
                                      ((NavmeshOffset08View*)((char*)this + 0x28))->GetFlags() * 12);
                 if (apFile->QEndian())
                 {
                     unsigned int isize = ((NavmeshOffset08View*)((char*)this + 0x28))->GetFlags();
                     for (unsigned int i = 0; i < isize; ++i)
-                        ((VertArr*)((char*)this + 0x28))->FUN_006a1440(i)->Endian();
+                        ((VertArr*)((char*)this + 0x28))->Object_GetIndexedValue_006a1440(i)->Endian();
                 }
                 break;
             case 0x4143564e:  // NVCA
@@ -870,7 +871,7 @@ bool FUN_00692950_shell::NavMesh_Load(TESFile* apFile)
                         unsigned int itriIndex =
                             ((DoorArr*)((char*)this + 0x58))->GetElement(i)->m_usTriangleIdentifier;
                         if (itriIndex < ((NavmeshOffset08View*)((char*)this + 0x38))->GetFlags())
-                            ((BSXFlags_shell&)((TriArr*)((char*)this + 0x38))->FUN_00558dd0(itriIndex))
+                            ((BSXFlags_shell&)((TriArr*)((char*)this + 0x38))->GetElementAddress16(itriIndex))
                                 .ClearFlags(0x400);
                         ((DoorArr*)((char*)this + 0x58))->BSSimpleArray_RemoveAt(i, 1);
                         --i;
@@ -881,14 +882,14 @@ bool FUN_00692950_shell::NavMesh_Load(TESFile* apFile)
             break;
             case 0x5254564e:  // NVTR
             {
-                apFile->GetChunkData(&((TriArr*)((char*)this + 0x38))->FUN_00558dd0(0),
+                apFile->GetChunkData(&((TriArr*)((char*)this + 0x38))->GetElementAddress16(0),
                                      ((NavmeshOffset08View*)((char*)this + 0x38))->GetFlags() * 16);
                 unsigned int isize = ((NavmeshOffset08View*)((char*)this + 0x38))->GetFlags();
                 for (unsigned int i = 0; i < isize; ++i)
                 {
                     if (apFile->QEndian())
-                        ((TriArr*)((char*)this + 0x38))->FUN_00558dd0(i).NavMeshTriangle_endianSwap();
-                    ((TriArr*)((char*)this + 0x38))->FUN_00558dd0(i).NavMeshTriangle_SetObjectCount(0);
+                        ((TriArr*)((char*)this + 0x38))->GetElementAddress16(i).NavMeshTriangle_endianSwap();
+                    ((TriArr*)((char*)this + 0x38))->GetElementAddress16(i).NavMeshTriangle_SetObjectCount(0);
                 }
             }
             break;
@@ -928,7 +929,7 @@ bool FUN_00692950_shell::NavMesh_Load(TESFile* apFile)
                         *(NavMeshInfo**)pbufferLoc = oldFormat.m_pNavMeshInfo;
                         pbufferLoc += 4;
                         *(unsigned short*)pbufferLoc = oldFormat.m_usTriangleIdentifier;
-                        ((EdgeArr*)((char*)this + 0x48))->FUN_006a1440(i)->EdgeExtraInfo_LoadV5(apFile, newFormat);
+                        ((EdgeArr*)((char*)this + 0x48))->Object_GetIndexedValue_006a1440(i)->EdgeExtraInfo_LoadV5(apFile, newFormat);
                         pchunkPointer += EdgeExtraInfo_GetSizeOfV0();
                     }
                 }
@@ -937,8 +938,8 @@ bool FUN_00692950_shell::NavMesh_Load(TESFile* apFile)
                     unsigned int isize = ((NavmeshOffset08View*)((char*)this + 0x48))->GetFlags();
                     for (unsigned int i = 0; i < isize; ++i)
                     {
-                        ((EdgeArr*)((char*)this + 0x48))->FUN_006a1440(i)->EdgeExtraInfo_LoadV5(apFile, pchunkPointer);
-                        pchunkPointer += ((EdgeArr*)((char*)this + 0x48))->FUN_006a1440(i)->EdgeExtraInfo_GetSizeOfV5();
+                        ((EdgeArr*)((char*)this + 0x48))->Object_GetIndexedValue_006a1440(i)->EdgeExtraInfo_LoadV5(apFile, pchunkPointer);
+                        pchunkPointer += ((EdgeArr*)((char*)this + 0x48))->Object_GetIndexedValue_006a1440(i)->EdgeExtraInfo_GetSizeOfV5();
                     }
                 }
                 else
@@ -946,8 +947,8 @@ bool FUN_00692950_shell::NavMesh_Load(TESFile* apFile)
                     unsigned int isize = ((NavmeshOffset08View*)((char*)this + 0x48))->GetFlags();
                     for (unsigned int i = 0; i < isize; ++i)
                     {
-                        ((EdgeArr*)((char*)this + 0x48))->FUN_006a1440(i)->ReadFromFile(apFile, pchunkPointer);
-                        pchunkPointer += ((EdgeArr*)((char*)this + 0x48))->FUN_006a1440(i)->EdgeExtraInfo_GetSizeOfV9();
+                        ((EdgeArr*)((char*)this + 0x48))->Object_GetIndexedValue_006a1440(i)->ReadFromFile(apFile, pchunkPointer);
+                        pchunkPointer += ((EdgeArr*)((char*)this + 0x48))->Object_GetIndexedValue_006a1440(i)->EdgeExtraInfo_GetSizeOfV9();
                     }
                 }
                 ::operator delete(pchunkdata);
@@ -971,7 +972,7 @@ bool FUN_00692950_shell::NavMesh_Load(TESFile* apFile)
     if (((TESForm*)this)->IsDeleted())
     {
         ((G00559a40*)((char*)this + 0x1c))->NiRefObject_IncRefCount();
-        ((InfoMapS*)g_TES->GetActiveCell())->FUN_006b6990(((TESForm*)this)->GetFormID());
+        ((InfoMapS*)g_TES->GetActiveCell())->ProcessState_006b6990(((TESForm*)this)->GetFormID());
         return false;
     }
     if (*(NavMeshInfo**)((char*)this + 0x104))
@@ -1704,12 +1705,12 @@ bool __cdecl NavMesh_SetDisableNavMesh(unsigned int uiNavMeshId, bool disabled)
                         uiNavMeshId);
             return false;
         }
-        else if (reinterpret_cast<Mesh69*>(navMeshPtr.FUN_00559450())->FUN_00440da0() != disabled)
+        else if (reinterpret_cast<Mesh69*>(navMeshPtr.Modelloader_GetReferencedThis())->FUN_00440da0() != disabled)
         {
-            reinterpret_cast<Mesh69*>(navMeshPtr.FUN_00559450())->TESForm_SetDisabled(disabled);
+            reinterpret_cast<Mesh69*>(navMeshPtr.Modelloader_GetReferencedThis())->TESForm_SetDisabled(disabled);
             info->FUN_00693ef0(disabled);
             if (!disabled)
-                reinterpret_cast<Mesh69*>(navMeshPtr.FUN_00559450())->LinkMatchingEdges();
+                reinterpret_cast<Mesh69*>(navMeshPtr.Modelloader_GetReferencedThis())->LinkMatchingEdges();
         }
     }
     return true;

@@ -52,14 +52,14 @@ struct NiVertWeightsExtraData : NiExtraData
 };
 struct FUN_00a7b300_shell
 {
-    void FUN_00a7b300();
+    void DestroyFields_00a7b300();
 };
 void __cdecl _delete(void*, unsigned int);
 // @fnv 0x00a89bb0
 void* NiVertWeightsExtraData::FUN_00a89bb0(unsigned int flags)
 {
     *(void**)this = (void*)&DAT_0109ee9c;
-    ((FUN_00a7b300_shell*)this)->FUN_00a7b300();
+    ((FUN_00a7b300_shell*)this)->DestroyFields_00a7b300();
     if (flags & 1)
         _delete(this, 12);
     return this;
@@ -113,7 +113,7 @@ void A89C70Object::NiVertWeightsExtraData_GetViewerStrings(A89C70StringArray* pk
     pkStrings->Add(pcString);
 }
 
-extern "C" void* __cdecl FUN_00aa13e0(unsigned int);
+extern "C" void* __cdecl Object_DispatchCommandFour(unsigned int);
 
 struct FUN_00a89b30_cls
 {
@@ -128,7 +128,7 @@ struct FUN_00a89b30_cls
 // src: XBOX_PDB 0x00a89b30
 void* FUN_00a89b30_cls::NiVertWeightsExtraData_CreateClone(unsigned int a1)
 {
-    FUN_00a89b30_cls* p = (FUN_00a89b30_cls*)FUN_00aa13e0(0xc);
+    FUN_00a89b30_cls* p = (FUN_00a89b30_cls*)Object_DispatchCommandFour(0xc);
     if (p != 0)
     {
         ((NiExtraData*)p)->FUN_00a7b2e0();

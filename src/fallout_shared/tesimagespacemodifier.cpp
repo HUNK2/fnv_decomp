@@ -710,7 +710,8 @@ struct blob64
 
 // Multiplies the point pt by the 3x3 matrix mat and stores the result in pOut, returning pOut.
 // @fnv 0x004b3ae0
-NiPoint3* FUN_004b3ae0(NiPoint3* pOut, const NiPoint3& pt, const float* mat)
+// src: GUESS 0x004b3ae0 (confidence: medium)
+NiPoint3* NiPoint3_TransformByMatrix3(NiPoint3* pOut, const NiPoint3& pt, const float* mat)
 {
     pOut->Set(pt.x * mat[0] + pt.y * mat[3] + pt.z * mat[6],
               pt.x * mat[1] + pt.y * mat[4] + pt.z * mat[7],
@@ -1119,7 +1120,8 @@ struct SpawnedObject
 };
 
 // @fnv 0x00532f40
-float* __cdecl FUN_00532f40(float* pOut, float f, SpawnedObject* pObj)
+// src: GUESS 0x00532f40 (confidence: low)
+float* __cdecl Object_ProcessAndReturnValue_00532f40(float* pOut, float f, SpawnedObject* pObj)
 {
     pObj->Method(pOut, f);
     return pOut;
@@ -1204,7 +1206,7 @@ void* __memcpy(void*, const void*, unsigned int);
 // @fnv 0x0052f250
 void TESImageSpaceModifier::Save()
 {
-    TESForm::FUN_004855a0();
+    TESForm::BeginFormRecord();
     CacheObjectValues(this);
     if (TESForm_QEndianSwapOnSave())
         Data.Endian();
@@ -1378,7 +1380,7 @@ void TESImageSpaceModifier::Save()
         unsigned int outro = pOutroSound->GetFormID();
         TESForm_AddChunk_00485910(0x49534452, outro);
     }
-    TESForm::FUN_00485680();
+    TESForm::FinishFormRecord();
 }
 
 extern char _DAT_011862b8;
@@ -1476,14 +1478,14 @@ struct BlendColor
     BlendColor FUN_00532ec0(const BlendColor&) const;
     BlendColor AddDelta(const BlendColor&) const;
 };
-BlendColor FUN_00532f40(float, const BlendColor&);
+BlendColor Object_ProcessAndReturnValue_00532f40(float, const BlendColor&);
 struct BlendPoint
 {
     float x, y;
     BlendPoint();
     BlendPoint(float, float);
     BlendPoint Subtract(const BlendPoint&) const;
-    BlendPoint FUN_004dfe30(const BlendPoint&) const;
+    BlendPoint AddPointComponents(const BlendPoint&) const;
 };
 BlendPoint FUN_00532fd0(float, const BlendPoint&);
 // Interpolates two TESImageSpaceModifiers by blend and strength and pushes the blended values into the ImageSpaceManager.
@@ -1519,13 +1521,13 @@ void TESImageSpaceModifier::BlendModifiers(float blend, TESImageSpaceModifier* p
     BlendColor color(0, 0, 0, 0), aFirstColor(0, 0, 0, 0), secondColor(0, 0, 0, 0);
     pPreviousModifier->m_kColorInterpolatorOne.UpdateColorA(time, 0, (NiColorA&)aFirstColor);
     pNextModifier->m_kColorInterpolatorOne.UpdateColorA(time, 0, (NiColorA&)secondColor);
-    color = aFirstColor.AddDelta(FUN_00532f40(blend, secondColor.FUN_00532ec0(aFirstColor)));
+    color = aFirstColor.AddDelta(Object_ProcessAndReturnValue_00532f40(blend, secondColor.FUN_00532ec0(aFirstColor)));
     color.a *= strength_15;
     BSClamp_float(color.a, 0.0f, 1.0f);
     manager4->FUN_00b8b540((NiColorA&)color);
     pPreviousModifier->m_kColorInterpolatorTwo.UpdateColorA(time, 0, (NiColorA&)aFirstColor);
     pNextModifier->m_kColorInterpolatorTwo.UpdateColorA(time, 0, (NiColorA&)secondColor);
-    color = aFirstColor.AddDelta(FUN_00532f40(blend, secondColor.FUN_00532ec0(aFirstColor)));
+    color = aFirstColor.AddDelta(Object_ProcessAndReturnValue_00532f40(blend, secondColor.FUN_00532ec0(aFirstColor)));
     color.a *= strength_15;
     BSClamp_float(color.a, 0.0f, 1.0f);
     manager4->FUN_00b8b610((NiColorA&)color);
@@ -1581,7 +1583,7 @@ void TESImageSpaceModifier::BlendModifiers(float blend, TESImageSpaceModifier* p
         aFirstCenter = (const BlendPoint&)pPreviousModifier->Data.m_kRadialBlurCenter;
     if (!pNextModifier->Data.m_bUseRadialBlur)
         secondCenter5 = (const BlendPoint&)pNextModifier->Data.m_kRadialBlurCenter;
-    center7 = aFirstCenter.FUN_004dfe30(FUN_00532fd0(blend, secondCenter5.Subtract(aFirstCenter)));
+    center7 = aFirstCenter.AddPointComponents(FUN_00532fd0(blend, secondCenter5.Subtract(aFirstCenter)));
     manager4->SetRadialBlurParameters(kRadialStrength * strength_15, radialRampUp_19, radialStart_8, radialRampDown_15,
                                       radialDownStart_3, (const NiPoint2&)center7);
     BlendPoint firstDepthB(0, 0), secondDepth(0, 0), depth5;
@@ -1599,7 +1601,7 @@ void TESImageSpaceModifier::BlendModifiers(float blend, TESImageSpaceModifier* p
         firstDepthB = BlendPoint(firstDepthDistance_, firstDepthRange_2);
     if (!pNextModifier->Data.m_bUseEffectEntries)
         secondDepth = BlendPoint(secondDepthDistance, secondDepthRange_12);
-    depth5 = firstDepthB.FUN_004dfe30(FUN_00532fd0(blend, secondDepth.Subtract(firstDepthB)));
+    depth5 = firstDepthB.AddPointComponents(FUN_00532fd0(blend, secondDepth.Subtract(firstDepthB)));
     manager4->SetDepthOfFieldParameters(depthStrength_4 * strength_15,
                                         blend < 0.5 ? pPreviousModifier->Data.m_ucEffectMode
                                                     : pNextModifier->Data.m_ucEffectMode,

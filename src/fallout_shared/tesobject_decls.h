@@ -47,7 +47,7 @@ class TESBoundPoint
 {
   public:
     short a[3];
-    void FUN_0050e8b0(const TESBoundPoint&);
+    void SetComponents(const TESBoundPoint&);
 };
 const TESBoundPoint& GetActorValueShortVector();
 // View of TESBoundObject's 12-byte bound data (TESBoundObject__BOUND_DATA, +0x24) with its constructor (0x0050e9c0)

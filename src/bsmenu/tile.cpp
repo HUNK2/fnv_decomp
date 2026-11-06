@@ -295,7 +295,8 @@ extern _RTL_CRITICAL_SECTION DAT_011f3330;
 extern void (__stdcall * const __imp__LeaveCriticalSection)(_RTL_CRITICAL_SECTION *);
 
 // @fnv 0x00a04500
-void __cdecl FUN_00a04500()
+// src: GUESS 0x00a04500 (confidence: medium)
+void __cdecl Object___imp__LeaveCriticalSection_Thunk()
 {
     __imp__LeaveCriticalSection(&DAT_011f3330);
 }
@@ -472,7 +473,7 @@ NiNode* Tile::GetUnderlyingNode()
 }
 
 struct FUN_00a0a0b0_shell : public Tile {
-    void* FUN_00a0a0b0(int, int);
+    void* GetIndexedTraitValue(int, int);
 };
 
 const char* __cdecl Tile_TraitToText(int);
@@ -481,7 +482,8 @@ int __cdecl Tile_TextToTrait(const char*);
 
 // Builds a value name from the base trait name and ID, then returns the value looked up by that name.
 // @fnv 0x00a0a0b0
-void* FUN_00a0a0b0_shell::FUN_00a0a0b0(int aiBaseTrait, int aiID)
+// src: GUESS 0x00a0a0b0 (confidence: high)
+void* FUN_00a0a0b0_shell::GetIndexedTraitValue(int aiBaseTrait, int aiID)
 {
     char strValueName[260];
     const char* strBaseName = Tile_TraitToText(aiBaseTrait);
@@ -814,7 +816,7 @@ struct FUN_00a03d40_shell : public Tile {
 };
 
 void __cdecl AutoTileLock_AutoTileLock();
-namespace fnv_00a04500 { void __cdecl FUN_00a04500(); }
+namespace fnv_00a04500 { void __cdecl Object___imp__LeaveCriticalSection_Thunk(); }
 
 // @fnv 0x00a03d40
 // src: XBOX_PDB 0x00a03d40
@@ -833,7 +835,7 @@ Tile* FUN_00a03d40_shell::Tile_GetMenuTile()
             ptile = *(Tile**)((char*)ptile + 0x28);
     }
     r = ptile;
-    fnv_00a04500::FUN_00a04500();
+    fnv_00a04500::Object___imp__LeaveCriticalSection_Thunk();
     return r;
 }
 
@@ -962,7 +964,7 @@ struct FUN_00a07dc0_shell : public Tile {
 extern MemoryManager g_memoryManager;
 struct P03FadeItem { char pad[0x10]; int m_iValueId; Tile* pTile; };
 struct P03FadeNode { P03FadeItem* item; P03FadeNode* next; };
-struct P03FadeList { P03FadeItem* item; P03FadeNode* next; void FUN_00a0cbe0(P03FadeItem**); };
+struct P03FadeList { P03FadeItem* item; P03FadeNode* next; void ProcessEntries_00a0cbe0(P03FadeItem**); };
 extern P03FadeList DAT_011f3348;
 struct FUN_00a0c7c0_Helper { void AddToHead(Tile__TileTemplate**); };
 struct FUN_00ae83e0 { P03FadeItem* item; P03FadeNode* next; ~FUN_00ae83e0(); };
@@ -980,7 +982,7 @@ void FUN_00a07dc0_shell::RemoveFadeItemsForTile(int aiTrait)
     }
     for (pDel = (P03FadeNode*)&ptoBeDeleted; pDel && pDel->item; pDel = pDel->next) {
         pfade = pDel->item;
-        DAT_011f3348.FUN_00a0cbe0(&pfade);
+        DAT_011f3348.ProcessEntries_00a0cbe0(&pfade);
         premove = pfade;
         g_memoryManager.Deallocate(premove);
     }
@@ -1494,16 +1496,17 @@ int __cdecl Tile_ValueSortFunc(int** pFirst, int** pSecond)
     return 0;
 }
 
-extern "C" void __cdecl FUN_00a04500();
+extern "C" void __cdecl Object___imp__LeaveCriticalSection_Thunk();
 
 struct FUN_00a0baf0_class {
-    void FUN_00a0baf0();
+    void ForwardCall_00a0baf0();
 };
 
 // @fnv 0x00a0baf0
-void FUN_00a0baf0_class::FUN_00a0baf0()
+// src: GUESS 0x00a0baf0 (confidence: low)
+void FUN_00a0baf0_class::ForwardCall_00a0baf0()
 {
-    FUN_00a04500();
+    Object___imp__LeaveCriticalSection_Thunk();
 }
 
 // @fnv 0x00a0bbe0
@@ -1570,11 +1573,12 @@ unsigned int __thiscall FUN_00a0d260_Class::Modulo(unsigned int auiValue) {
 struct FUN_00a04100_shell {
     int unk[10];
     Tile* pTile;
-    bool FUN_00a04100();
+    bool ScanTileChainAndReturnFalse();
 };
 // Walks the Tile chain via offset 0x28, checking GetFloat(0xfaa) against 110.0, and always returns false.
 // @fnv 0x00a04100
-bool FUN_00a04100_shell::FUN_00a04100()
+// src: GUESS 0x00a04100 (confidence: medium)
+bool FUN_00a04100_shell::ScanTileChainAndReturnFalse()
 {
     Tile* t = pTile;
     while (t) {
@@ -1595,11 +1599,12 @@ struct NiTStringTemplateMap_ {
     void* m_map;
     char pad[12];
     bool m_bCopy;
-    void FUN_00a0d4a0(NiTMapItem_* pkItem);
+    void ReleaseStorage_00a0d4a0(NiTMapItem_* pkItem);
 };
 
 // @fnv 0x00a0d4a0
-void NiTStringTemplateMap_::FUN_00a0d4a0(NiTMapItem_* pkItem)
+// src: GUESS 0x00a0d4a0 (confidence: medium)
+void NiTStringTemplateMap_::ReleaseStorage_00a0d4a0(NiTMapItem_* pkItem)
 {
     if (m_bCopy)
         _NiFreeAlias((void*)(pkItem->m_uiFilterValue));
@@ -1615,14 +1620,15 @@ struct FUN_0072ccd0_cls {
     int unk08;
     FUN_00a011b0_cls* m_0c;
     int GetRaceCount();
-    int FUN_0072ccd0();
+    int GetUnfilteredRaceCount();
 };
 
 int __cdecl Tile_AddUserTrait(const char* name, int len);
 
 // Returns GetRaceCount() minus the value FUN_00a011b0 computes from the static _num_filtered setting via m_0c.
 // @fnv 0x0072ccd0
-int FUN_0072ccd0_cls::FUN_0072ccd0()
+// src: GUESS 0x0072ccd0 (confidence: medium)
+int FUN_0072ccd0_cls::GetUnfilteredRaceCount()
 {
     static int numFiltered = Tile_AddUserTrait("_num_filtered", -1);
     return GetRaceCount() - (unsigned int)m_0c->FUN_00a011b0(numFiltered);
@@ -1665,14 +1671,15 @@ struct FUN_007a71b0_cls {
     int unk08;
     FUN_00a011b0_cls* m_0c;
     int GetRaceCount();
-    int FUN_007a71b0();
+    int GetUnfilteredRaceCount();
 };
 
 int __cdecl Tile_AddUserTrait(const char* name, int len);
 
 // Returns the result of GetRaceCount minus the value FUN_00a011b0 computes from the cached "_num_filtered" setting.
 // @fnv 0x007a71b0
-int FUN_007a71b0_cls::FUN_007a71b0()
+// src: GUESS 0x007a71b0 (confidence: medium)
+int FUN_007a71b0_cls::GetUnfilteredRaceCount()
 {
     static int numFiltered = Tile_AddUserTrait("_num_filtered", -1);
     return GetRaceCount() - (unsigned int)m_0c->FUN_00a011b0(numFiltered);
@@ -1684,7 +1691,7 @@ struct RecurseNode;
 
 extern const double DAT_01012060;
 
-float __cdecl FUN_00a01540(RecurseItem* self);
+float __cdecl Object_ProcessEntries_00a01540(RecurseItem* self);
 
 struct RecurseItem {
     void* unk00;
@@ -1699,7 +1706,8 @@ struct RecurseNode {
 };
 
 // @fnv 0x00a01540
-float __cdecl FUN_00a01540(RecurseItem* self)
+// src: GUESS 0x00a01540 (confidence: low)
+float __cdecl Object_ProcessEntries_00a01540(RecurseItem* self)
 {
     float result2 = self->FUN_00a011b0(0xfad);
     RecurseItem* child_ = 0;
@@ -1710,10 +1718,10 @@ float __cdecl FUN_00a01540(RecurseItem* self)
         cur = cur->m_pkNext;
         child_ = element3;
         if (self->FUN_00a011b0(0xfa8) != DAT_01012060) {
-            float childF = self->FUN_00a011b0(0xfad) + FUN_00a01540(child_);
+            float childF = self->FUN_00a011b0(0xfad) + Object_ProcessEntries_00a01540(child_);
             result2 = result2 > childF ? result2 : childF;
         } else {
-            float childF = FUN_00a01540(child_);
+            float childF = Object_ProcessEntries_00a01540(child_);
             result2 = result2 > childF ? result2 : childF;
         }
     }
@@ -2521,9 +2529,10 @@ int __cdecl GetTrait(const char*, int);
 extern int DAT_011d8e64;
 extern int DAT_011d8e68;
 struct ListOwner { int Mode(); };
-struct FUN_00726920_StandIn { char pad0[0xc]; Tile* pTile; int FUN_00726920(); };
+struct FUN_00726920_StandIn { char pad0[0xc]; Tile* pTile; int GetUnfilteredItemCount(); };
 // @fnv 0x00726920
-int FUN_00726920_StandIn::FUN_00726920()
+// src: GUESS 0x00726920 (confidence: medium)
+int FUN_00726920_StandIn::GetUnfilteredItemCount()
 {
     static int numFiltered = GetTrait("_num_filtered", -1);
     return ((ListOwner*)this)->Mode() - (unsigned int)pTile->GetFloat(numFiltered);
@@ -2533,11 +2542,12 @@ class StrMapW {
 public:
     void* vtbl;
     unsigned int m_uiHashSize;
-    unsigned int FUN_00a0d440(const char* pKey);
+    unsigned int HashStringToBucket(const char* pKey);
 };
 // Computes a hash of the pKey string and returns it modulo m_uiHashSize.
 // @fnv 0x00a0d440
-unsigned int StrMapW::FUN_00a0d440(const char* pKey)
+// src: GUESS 0x00a0d440 (confidence: medium)
+unsigned int StrMapW::HashStringToBucket(const char* pKey)
 {
     unsigned int uiHash = 0;
     while (*pKey)
@@ -2558,12 +2568,13 @@ struct FilteredList {
     int unk04;
     int unk08;
     Tile* tile;
-    unsigned int FUN_00726870();
+    unsigned int GetUnfilteredRaceCount();
 };
 
 // Returns the total race count minus the value stored in the tile's float field at the index resolved from the static string constant.
 // @fnv 0x00726870
-unsigned int FilteredList::FUN_00726870()
+// src: GUESS 0x00726870 (confidence: medium)
+unsigned int FilteredList::GetUnfilteredRaceCount()
 {
     static int s_iNumFiltered = Tile_AddUserTrait(DAT_0106f8d0, -1);
     return GetRaceCount((char*)this) - (unsigned int)tile->GetFloat(s_iNumFiltered);
@@ -2580,14 +2591,15 @@ struct F2Menu {
     int unk08;
     F2Tile* pList;
     int GetRaceCount();
-    int FUN_0072cd80();
+    int GetUnfilteredRaceCount();
 };
 }
 using namespace filt72c;
 
 // Returns the number of races that are not filtered out by the _num_filtered trait.
 // @fnv 0x0072cd80
-int F2Menu::FUN_0072cd80()
+// src: GUESS 0x0072cd80 (confidence: medium)
+int F2Menu::GetUnfilteredRaceCount()
 {
     static int s_iNumFiltered = Tile_AddUserTrait("_num_filtered", -1);
     return GetRaceCount() - (unsigned int)pList->FUN_00a011b0(s_iNumFiltered);
@@ -2625,14 +2637,15 @@ struct F7Menu {
     int unk08;
     F7Tile* pList;
     int GetRaceCount();
-    int FUN_007a86e0();
+    int GetUnfilteredRaceCount_007a86e0();
 };
 }
 using namespace filt7a8;
 
 // Returns the total race count minus the number of races filtered out by the _num_filtered trait.
 // @fnv 0x007a86e0
-int F7Menu::FUN_007a86e0()
+// src: GUESS 0x007a86e0 (confidence: medium)
+int F7Menu::GetUnfilteredRaceCount_007a86e0()
 {
     static int s_iNumFiltered = Tile_AddUserTrait("_num_filtered", -1);
     return GetRaceCount() - (unsigned int)pList->FUN_00a011b0(s_iNumFiltered);
@@ -2642,12 +2655,13 @@ extern double g_dZero;
 Tile* FUN_00706cd0();
 
 struct S00a014b0_Tile : Tile {
-    float FUN_00a014b0();
+    float SumLinkedTileTraitFAD();
 };
 
 // Adds this tile's 0xfad value, then linked tiles' values when 0xfa8 is nonzero or the next pointer matches FUN_00706cd0().
 // @fnv 0x00a014b0
-float S00a014b0_Tile::FUN_00a014b0()
+// src: GUESS 0x00a014b0 (confidence: medium)
+float S00a014b0_Tile::SumLinkedTileTraitFAD()
 {
     Tile* pChild;
     float fTotal = GetFloat(0xfad);

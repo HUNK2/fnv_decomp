@@ -63,7 +63,7 @@ struct BSSimpleListTESRaceSize
 void __cdecl FUN_004d5c60(int);
 struct FUN_00559450_shell
 {
-    void* FUN_00559450();
+    void* Modelloader_GetReferencedThis();
 };
 struct FUN_0073ac90_shell
 {
@@ -94,7 +94,7 @@ struct S_007bf7a0_Inner
 };
 struct S_007bf7a0_Holder
 {
-    S_007bf7a0_Inner* FUN_00559450();
+    S_007bf7a0_Inner* Modelloader_GetReferencedThis();
 };
 extern S_007bf7a0_Holder DAT_011da8a0;
 struct SettingString
@@ -147,7 +147,7 @@ struct Scene
 struct Pointer
 {
     Scene* value;
-    Scene* FUN_00559450();
+    Scene* Modelloader_GetReferencedThis();
     void FUN_0066b0d0(Scene*);
     ~Pointer();
 };
@@ -367,9 +367,9 @@ FUN_007b9020::~FUN_007b9020()
         DAT_011c3b3c->ModelLoader_ReleaseFile(path);
     }
     DAT_011da8d0.FUN_0066b0d0(0);
-    FUN_00450b80(1)->Detach(DAT_011da8a0.FUN_00559450());
+    FUN_00450b80(1)->Detach(DAT_011da8a0.Modelloader_GetReferencedThis());
     FUN_00450b80(1)->RemoveAllLights();
-    DAT_011da8a0.FUN_00559450()->DetachAllChildren_00572160();
+    DAT_011da8a0.Modelloader_GetReferencedThis()->DetachAllChildren_00572160();
     DAT_011da8a0.FUN_0066b0d0(0);
     table = 0;
     wheel = 0;
@@ -426,7 +426,7 @@ extern NiRTTI DAT_011f36ac;
 struct SceneHolder
 {
     SceneHolder& operator=(NiNode*);
-    NiNode* FUN_00559450();
+    NiNode* Modelloader_GetReferencedThis();
 };
 extern SceneHolder g_011da8d0;
 NiNode* __cdecl BSUtilities_GetObjectByName(NiNode*, const char*);

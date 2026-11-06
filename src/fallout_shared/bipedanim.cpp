@@ -854,7 +854,8 @@ struct FUN_004ad1d0_Obj
 
 // Deletes the two objects pointed to by p0 and p4.
 // @fnv 0x004ad1d0
-void __fastcall FUN_004ad1d0(FUN_004ad1d0_Obj* pThis)
+// src: GUESS 0x004ad1d0 (confidence: low)
+void __fastcall Bipedanim_ReleaseStorage_004ad1d0(FUN_004ad1d0_Obj* pThis)
 {
     delete pThis->p0;
     delete pThis->p4;
@@ -878,12 +879,13 @@ void FUN_004ad240_c::SetScale(float afScale)
     x = afScale;
 }
 
-void __fastcall FUN_004ad1d0(void*);
+void __fastcall Bipedanim_ReleaseStorage_004ad1d0(void*);
 
 // @fnv 0x004ad270
-void __fastcall FUN_004ad270(void* p)
+// src: GUESS 0x004ad270 (confidence: low)
+void __fastcall Bipedanim_ForwardCall_004ad270(void* p)
 {
-    FUN_004ad1d0(p);
+    Bipedanim_ReleaseStorage_004ad1d0(p);
 }
 
 void __cdecl _fnv_CopyFilePath(char* dst, unsigned int dstSize, const char* src, unsigned int count);
@@ -959,7 +961,8 @@ void __cdecl BSUtilities_GetObjectByName_004ade00(int a1, int a2)
 void __fastcall FUN_004afc20(void* pThis);
 
 // @fnv 0x004ade20
-void __fastcall FUN_004ade20(void* pThis)
+// src: GUESS 0x004ade20 (confidence: low)
+void __fastcall Object_ForwardCall_004ade20(void* pThis)
 {
     FUN_004afc20(pThis);
 }
@@ -999,7 +1002,7 @@ struct FormS
 };
 struct FUN_004ae700_S
 {
-    FormS* FUN_004ae750();
+    FormS* Bipedanim_GetReferenceFlagsOrZero();
     void SetShaderName();
     SrcList* bhkWorldObject_GetCollidableRw();
 };
@@ -1008,7 +1011,7 @@ struct FUN_004ae700_S
 SrcList* FUN_004ae700_S::bhkWorldObject_GetCollidableRw()
 {
     SrcList* r = 0;
-    FormS* f = FUN_004ae750();
+    FormS* f = Bipedanim_GetReferenceFlagsOrZero();
     if (f)
     {
         SetShaderName();
@@ -1022,7 +1025,8 @@ int __fastcall GetReferenceFlags(void*);
 
 // Returns the result of GetReferenceFlags on p when p is non-null, otherwise returns 0.
 // @fnv 0x004ae750
-int __fastcall FUN_004ae750(void* p)
+// src: GUESS 0x004ae750 (confidence: high)
+int __fastcall Bipedanim_GetReferenceFlagsOrZero(void* p)
 {
     return p ? GetReferenceFlags(p) : 0;
 }
@@ -1231,11 +1235,12 @@ unsigned int NiMaterialProperty_GetType()
 
 struct FUN_004aae50_shell : BipedAnim
 {
-    void FUN_004aae50();
+    void CompleteModelLoadTask_Thunk();
 };
 
 // @fnv 0x004aae50
-void FUN_004aae50_shell::FUN_004aae50()
+// src: GUESS 0x004aae50 (confidence: medium)
+void FUN_004aae50_shell::CompleteModelLoadTask_Thunk()
 {
     CompleteModelLoadTask();
 }
@@ -1765,7 +1770,7 @@ class B4AEE60Request
 {
   public:
     void* Get();
-    void FUN_006f74f0(void* pvResult);
+    void AssignTaskReference(void* pvResult);
 };
 
 struct B4AEE60Slot
@@ -1814,7 +1819,7 @@ void B4AEE60Owner::RequestModelLoad(int iParamA, int iParamB, B4AEE60Request* pk
     if (m_akSlots[iSlot].m_iHandle != 0 && m_akSlots[iSlot].m_iHandle != -1)
         g_pModelLoader->ModelLoader_QueueHelmet(this, pkRequest, iParamA, iParamB, iSlot);
     else
-        pkRequest->FUN_006f74f0(0);
+        pkRequest->AssignTaskReference(0);
 }
 
 struct ActorCalls

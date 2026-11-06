@@ -109,7 +109,7 @@ void __cdecl hkArrayUtil__reserve(hkMemoryAllocator* alloc, void* array, int num
 void __cdecl D625A0MemMove(void* dst, const void* src, unsigned int nbytes);
 
 extern char d_010d17d0;
-char *FUN_00d634d0();
+char *Hkpvehicleviewer_GetD010d17d0Address();
 struct ItemSink;
 typedef void (__thiscall* ProcessFn)(ItemSink* apThis, void* apItem);
 struct ItemSinkVtbl {
@@ -214,9 +214,9 @@ extern void* DAT_01268fcc;
 extern Factory* DAT_01269cd0;
 extern const char DAT_010d17c4;
 extern void AllocAndInitObject();
-void __cdecl FUN_00d63da0();
+void __cdecl Object_UpdateFields_00d63da0();
 extern int g_D63DC0Value;
-int __cdecl FUN_00d63dc0();
+int __cdecl Object_GetG_D63DC0Value_00d63dc0();
 // PassMembersToTarget - forwarding stub for a "container of" style object.
 //
 // `this` points at a sub-object that lives 0x20 bytes into a bigger object;
@@ -319,18 +319,19 @@ static TO g_thunk;
 // `this` back by the size of the primary base (8 = vptr + one int field).
 struct PrimaryBase
 {
-    virtual void FUN_00d63de0();
+    virtual void AdjustThisAndForward_00d63de0();
     int unk04;
 };
 struct SecondaryBase
 {
-    virtual void FUN_00d63de0();
+    virtual void AdjustThisAndForward_00d63de0();
 };
 struct Derived : PrimaryBase, SecondaryBase
 {
     Derived();
 // @fnv 0x00d63de0
-    virtual void FUN_00d63de0();
+// src: GUESS 0x00d63de0 (confidence: low)
+    virtual void AdjustThisAndForward_00d63de0();
 };
 Derived::Derived()
 {
@@ -352,18 +353,19 @@ Parent::Parent() {}
 // FUN_00d63e00 : MSVC this-adjusting thunk  (sub ecx, 0x2c ; jmp <impl>)
 struct A1_00d63e00 {
     A1_00d63e00();
-    virtual void FUN_00d63e00();
+    virtual void AdjustThisAndForward_00d63e00();
     char pad[0x28];
 };
 struct A2_00d63e00 {
     A2_00d63e00();
-    virtual void FUN_00d63e00();
+    virtual void AdjustThisAndForward_00d63e00();
 };
 struct Own_00d63e00 : A1_00d63e00, A2_00d63e00 {
     Own_00d63e00();
     virtual void key_fn();
 // @fnv 0x00d63e00
-    void FUN_00d63e00();
+// src: GUESS 0x00d63e00 (confidence: low)
+    void AdjustThisAndForward_00d63e00();
 };
 Own_00d63e00::Own_00d63e00() { }
 void Own_00d63e00::key_fn() { }

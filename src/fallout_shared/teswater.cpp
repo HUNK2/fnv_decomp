@@ -68,9 +68,9 @@ class LocalPoint3Ext
     float GetSquaredXYLength() const;
     float Length() const;
 
-    AimVector FUN_00439ef0(const AimVector& point) const;
-    LocalPoint3Ext FUN_00439ef0(const NiPoint3& point) const;
-    NiPoint3* FUN_00439ef0(NiPoint3* output, const NiPoint3& point) const;
+    AimVector SubtractIntoVector(const AimVector& point) const;
+    LocalPoint3Ext SubtractIntoVector(const NiPoint3& point) const;
+    NiPoint3* SubtractIntoVector(NiPoint3* output, const NiPoint3& point) const;
     AimVector FUN_00439e90(const AimVector& point) const;
     bool FUN_00439090(const AimVector& point) const;
     float FUN_00457990() const;
@@ -78,8 +78,8 @@ class LocalPoint3Ext
     void FUN_006815c0();
     float FUN_004a7290() const;
     float FUN_00457910();
-    LocalPoint3Ext& FUN_0063c8a0(const NiPoint3& point);
-    NiPoint3 FUN_004a0bd0() const;
+    LocalPoint3Ext& ComputeValue_0063c8a0(const NiPoint3& point);
+    NiPoint3 GetNegatedVector() const;
 };
 #include "../../include/NiPoint3.h"
 #include "../../include/NiPoint3.h"
@@ -255,7 +255,7 @@ int TES::FindCellAtPosition(const NiPoint3* location, bool updatePhysics)
     m_iGridHeight = iSecondValue;
     DAT_011f9634 = DAT_011f962c;
     DAT_011f962c = NiPoint2((iFirstValue + 0.5) * 4096.0, (iSecondValue + 0.5) * 4096.0);
-    if (DAT_011f9634.FUN_00452df0(DAT_011f4980) || FUN_00ec7d40(iGridDeltaX) > 1 || FUN_00ec7d40(iDeltaY) > 1)
+    if (DAT_011f9634.HasEqualFloatPair(DAT_011f4980) || FUN_00ec7d40(iGridDeltaX) > 1 || FUN_00ec7d40(iDeltaY) > 1)
         DAT_011f9634 = DAT_011f962c;
     DAT_011f94ac = BSShaderManager_GetTimer(false);
     DAT_011c3c0c = true;
@@ -1602,24 +1602,26 @@ void* ImageSpaceEffectParam::DestroyIfFlagged(unsigned int flags)
 
 struct FUN_004ebb30_shell
 {
-    void FUN_004edc60();
-    void FUN_004ebb30();
+    void ReleaseStorage_004edc60();
+    void ForwardCall_004ebb30();
 };
 
 // @fnv 0x004ebb30
-void FUN_004ebb30_shell::FUN_004ebb30()
+// src: GUESS 0x004ebb30 (confidence: low)
+void FUN_004ebb30_shell::ForwardCall_004ebb30()
 {
-    FUN_004edc60();
+    ReleaseStorage_004edc60();
 }
 
 struct FUN_004ebb50_shell
 {
     void InitAndDeallocate();
-    void FUN_004ebb50();
+    void InitAndDeallocate_Thunk();
 };
 
 // @fnv 0x004ebb50
-void FUN_004ebb50_shell::FUN_004ebb50()
+// src: GUESS 0x004ebb50 (confidence: medium)
+void FUN_004ebb50_shell::InitAndDeallocate_Thunk()
 {
     InitAndDeallocate();
 }
@@ -1646,11 +1648,12 @@ struct R
 };
 struct S
 {
-    R FUN_004ed140(int);
+    R ProcessAndReturnValue_004ed140(int);
 };
 void __stdcall D3DXMatrixMultiply_00ee6de0(R*, S*, int);
 // @fnv 0x004ed140
-R S::FUN_004ed140(int a)
+// src: GUESS 0x004ed140 (confidence: low)
+R S::ProcessAndReturnValue_004ed140(int a)
 {
     R tmp;
     ((NiPlane*)&tmp)->GetPlaneNormal();
@@ -2623,7 +2626,7 @@ struct Reference
 struct Handle
 {
     void* value;
-    void* FUN_00559450();
+    void* Modelloader_GetReferencedThis();
     Reference** NiTPointerListBase_NiTPointerAllocator_unsigned_int_Tile_GetNext(void**);
 };
 struct Context
@@ -2671,7 +2674,7 @@ struct Worker
 // @fnv 0x004e56c0
 void Worker::UpdateWaterSettings(Context* context)
 {
-    void* position = context->list.FUN_00559450();
+    void* position = context->list.Modelloader_GetReferencedThis();
     while (position)
     {
         Reference* reference = *context->list.NiTPointerListBase_NiTPointerAllocator_unsigned_int_Tile_GetNext(&position);
@@ -2698,9 +2701,9 @@ void Worker::UpdateWaterSettings(Context* context)
             }
         }
     }
-    if (context->object.FUN_00559450())
+    if (context->object.Modelloader_GetReferencedThis())
     {
-        Property* pObjectProperty = static_cast<SceneObject*>(context->object.FUN_00559450())->FUN_00a59d30(3);
+        Property* pObjectProperty = static_cast<SceneObject*>(context->object.Modelloader_GetReferencedThis())->FUN_00a59d30(3);
         Property* base2 = pObjectProperty;
         if (DAT_011dea10->FUN_005f36f0())
             base2->settings.FUN_006e5cc0(&context->settings);
@@ -2846,7 +2849,7 @@ void WaterSystem6370::TESWaterSystem_DisplayWater(bool abShow, bool abCheckBase,
 extern Setting DAT_011c7b54;
 struct WaterList_004e83e0
 {
-    void* FUN_00559450() const;
+    void* Modelloader_GetReferencedThis() const;
     void* DereferenceIfNotNull(void*) const;
     TESObjectREFR*& AddEight(void*) const;
 };
@@ -2860,7 +2863,7 @@ bool WaterScanner_004e83e0::IsPlayerNearWaterActor(void* collection)
 {
     void* position;
     void* nextPosition =
-        reinterpret_cast<WaterList_004e83e0*>(reinterpret_cast<char*>(collection) + 0x3c)->FUN_00559450();
+        reinterpret_cast<WaterList_004e83e0*>(reinterpret_cast<char*>(collection) + 0x3c)->Modelloader_GetReferencedThis();
     position = 0;
     while (nextPosition)
     {
@@ -2879,7 +2882,7 @@ bool WaterScanner_004e83e0::IsPlayerNearWaterActor(void* collection)
                 LocalPoint3Ext distance = *reinterpret_cast<const LocalPoint3Ext*>(((const TESObjectREFR*)object)->GetPos());
                 vPlayerPos.z = 0.0f;
                 distance.z = 0.0f;
-                float playerPos = vPlayerPos.FUN_00439ef0(distance).FUN_00457990();
+                float playerPos = vPlayerPos.SubtractIntoVector(distance).FUN_00457990();
                 if (playerPos <= *DAT_011c7b54.Setting_Float_00403e20())
                     return true;
             }
@@ -2926,7 +2929,7 @@ struct WList
     void* m_pkHead;
     void* m_pkTail;
     unsigned int m_uiCount;
-    void* FUN_00559450() const;
+    void* Modelloader_GetReferencedThis() const;
     void* DereferenceIfNotNull(void*) const;
     void*& AddEight(void*) const;
     bool NiTListBase_DFALL_NiTListItem_BSAnimGroupSequence_const_BSAnimGroupSequence_const_IsEmpty() const;
@@ -2936,7 +2939,7 @@ struct WList
 struct WList4
 {
     void* m_pkHead;
-    void* FUN_00559450() const;
+    void* Modelloader_GetReferencedThis() const;
     void FUN_0066b0d0(void*);
 };
 
@@ -3155,7 +3158,7 @@ void WSys::TESWaterSystem_UpdateActorsInWater()
     if (ct && !ct->FUN_004518e0())
         return;
     bool f1 = false;
-    void* m5 = groups.FUN_00559450();
+    void* m5 = groups.Modelloader_GetReferencedThis();
     void* nd = 0;
     while (m5)
     {
@@ -3165,7 +3168,7 @@ void WSys::TESWaterSystem_UpdateActorsInWater()
             WGroup* group = (WGroup*)groups.AddEight(m5);
             if (group->bActive && !group->refs.NiTListBase_DFALL_NiTListItem_BSAnimGroupSequence_const_BSAnimGroupSequence_const_IsEmpty() && IsPlayerNearWaterActor(group))
             {
-                void* pos2 = group->refs.FUN_00559450();
+                void* pos2 = group->refs.Modelloader_GetReferencedThis();
                 void* ne = 0;
                 while (pos2)
                 {
@@ -3177,7 +3180,7 @@ void WSys::TESWaterSystem_UpdateActorsInWater()
                         bool inside = ref->Actor_IsPointDeepUnderWater(ref->GetPos(), ref->FUN_008d6f30(1.0f));
                         if (!inside && ref->IsMoving_004938e0())
                         {
-                            if (!group->list58.FUN_00559450())
+                            if (!group->list58.Modelloader_GetReferencedThis())
                                 group->list58.FUN_0066b0d0(
                                     CreateWaterShaderNode(group, TESWaterSystem_GetWaterRoot(*DAT_011c7b54.Setting_Float_00403e20())));
                             NiPoint3 ny = ((WVirt*)DAT_011dea3c)->GetPos();
@@ -5038,7 +5041,7 @@ struct Record
 struct List
 {
     void* head;
-    void* FUN_00559450();
+    void* Modelloader_GetReferencedThis();
     void* DereferenceIfNotNull(void*);
     Record*& AddEight(void*);
     void NiTPointerListBase_InsertBefore_0(void*, Record**);
@@ -5107,7 +5110,7 @@ bool Owner::TESWaterSystem_AddPlaceableWater_004e4730(Object* object, const ::Ni
     Plane plane(normal9, *origin);
     Plane reverse4(oppositeX, *origin);
     Base* base = object->BGSSaveFormBuffer_GetForm();
-    void* pos2 = records.FUN_00559450();
+    void* pos2 = records.Modelloader_GetReferencedThis();
     void* next2 = 0;
     void* beforeB = 0;
     bool found = false;
@@ -6281,7 +6284,7 @@ struct Object5c80
 struct List5c80
 {
     int unk00, unk04, unk08;
-    void* FUN_00559450();
+    void* Modelloader_GetReferencedThis();
     void* DereferenceIfNotNull(void*);
     Object5c80** AddEight(void*);
     int FUN_0049c680(Object5c80**, int);
@@ -6308,7 +6311,7 @@ void Target5c80::AddObjectToEntry(void* location, Object5c80* object, float dist
     Entry5c80* current = FUN_004e59f0(location, object, distance);
     if (!current)
         return;
-    found = current->first.FUN_00559450();
+    found = current->first.Modelloader_GetReferencedThis();
     void* next = 0;
     bool entry = false;
     while (found && !entry)
@@ -6491,7 +6494,7 @@ struct WaterService
 struct OtherService
 {
     void ImageSpaceEffectWaterFFT_FreeUpTextureMemory();
-    void FUN_00a29680();
+    void Object_DoNothing();
 };
 extern unsigned char DAT_01189624, DAT_011ad86e;
 extern int DAT_011c7a68;
@@ -6624,7 +6627,7 @@ bool WaterCleanup::ReleaseWaterResources(bool release, bool keep)
         if (((OtherService*)ImageSpaceEffectWaterFFT_GetInstance()))
             ((OtherService*)ImageSpaceEffectWaterFFT_GetInstance())->ImageSpaceEffectWaterFFT_FreeUpTextureMemory();
         if (((OtherService*)ImageSpaceEffectWaterDisplacement_GetInstance()))
-            ((OtherService*)ImageSpaceEffectWaterDisplacement_GetInstance())->FUN_00a29680();
+            ((OtherService*)ImageSpaceEffectWaterDisplacement_GetInstance())->Object_DoNothing();
         if (sound.IsValid())
             sound.Clear();
         if (((WaterService*)WaterShader_GetInstance()))
@@ -6916,7 +6919,7 @@ struct Texture4e8
 
 struct Name4e8
 {
-    Texture4e8* FUN_00559450();
+    Texture4e8* Modelloader_GetReferencedThis();
 };
 extern Name4e8 DAT_011c7b64;
 extern SpRef4e8 DAT_011c7b68;
@@ -6998,7 +7001,7 @@ Node4e8* FUN_004e8160_shell::CreateWaterShaderNode(Water4e8* pkWater, int iUnuse
         pkShader->sp13c.FUN_006e5cc0((SpRef4e8&)DAT_011c7c2c);
     pkShader->sp144.FUN_006e5cc0(DAT_011c7b68);
     pkShader->sp138.FUN_006e5cc0(pkWater->pkBase->sp30);
-    pkShader->sp148.FUN_0066b0d0(DAT_011c7b64.FUN_00559450()->BSRenderedTexture_GetTexture(0));
+    pkShader->sp148.FUN_0066b0d0(DAT_011c7b64.Modelloader_GetReferencedThis()->BSRenderedTexture_GetTexture(0));
     pkShader->b60 = 1;
     pkShader->f6c = 1.0f;
     pkShader->ui84 = pkWater->uiac;
@@ -7783,7 +7786,7 @@ struct WLevel
 struct WRegion;
 struct WList
 {
-    void* FUN_00559450() const;
+    void* Modelloader_GetReferencedThis() const;
     void* DereferenceIfNotNull(void*) const;
     void*& AddEight(void*) const;
 };
@@ -7829,7 +7832,7 @@ void WSystem::UpdateRegions()
     NiPoint3 eb = NiPoint3::ZERO;
     float b = 3.402823466e+38F;
     float j = 3.402823466e+38F;
-    void* q = regions.FUN_00559450();
+    void* q = regions.Modelloader_GetReferencedThis();
     void* k = 0;
     while (q)
     {
@@ -7865,7 +7868,7 @@ void WSystem::UpdateRegions()
     cf.FUN_0041fd00(&c);
     ((WRenderer*)NiXenonRenderer_GetRenderer())->SetFromCamera(&c);
     cf.NiCullingProcess_SetFrustum(reinterpret_cast<const Frustum9550&>(c.GetViewFrustum()));
-    q = regions.FUN_00559450();
+    q = regions.Modelloader_GetReferencedThis();
     k = 0;
     while (q)
     {
@@ -7873,7 +7876,7 @@ void WSystem::UpdateRegions()
         if (q)
         {
             WRegion* f = (WRegion*)regions.AddEight(q);
-            void* i = f->refs.FUN_00559450();
+            void* i = f->refs.Modelloader_GetReferencedThis();
             void* s = 0;
             while (i)
             {
@@ -8240,13 +8243,13 @@ struct ColorObj
 struct RefAcc
 {
     BSShaderAccumulator* pointer;
-    BSShaderAccumulator* FUN_00559450();
+    BSShaderAccumulator* Modelloader_GetReferencedThis();
     void FUN_0066b0d0(BSShaderAccumulator*);
 };
 struct RefCam
 {
     NiCamera* pointer;
-    NiCamera* FUN_00559450();
+    NiCamera* Modelloader_GetReferencedThis();
     void FUN_0066b0d0(NiCamera*);
 };
 struct NList
@@ -8258,7 +8261,7 @@ struct NList
 struct IterList
 {
     int a, b, c;
-    void* FUN_00559450();
+    void* Modelloader_GetReferencedThis();
     RefActor*& NiTPointerListBase_NiTPointerAllocator_unsigned_int_Tile_GetNext(void**);
 };
 // Exe 0x004e9d40: unit-local Map view; declarations and layout are preserved.
@@ -8289,7 +8292,7 @@ struct GridSetting
 };
 struct GlobalList
 {
-    void* FUN_00559450();
+    void* Modelloader_GetReferencedThis();
     void* DereferenceIfNotNull(void*);
     RefActor*& AddEight(void*);
 };
@@ -8353,20 +8356,20 @@ void Target::TESWaterSystem_MTSetupSelectiveReflectionTexture(void* input, State
                     if (!TESWaterSystem_GetUseWaterShader() || !input)
                         return;
                     state->camera.FUN_0066b0d0(new NiCamera);
-                    BSUtilities_ReflectCameraAboutArbitraryPlane(input, &state->unk4, state->camera.FUN_00559450());
-                    if (!state->acc.FUN_00559450())
+                    BSUtilities_ReflectCameraAboutArbitraryPlane(input, &state->unk4, state->camera.Modelloader_GetReferencedThis());
+                    if (!state->acc.Modelloader_GetReferencedThis())
                         state->acc.FUN_0066b0d0(new WaterAccumulatorAllocation(99, 1, 759));
-                    state->acc.FUN_00559450()->BSShaderAccumulator_SetShadowSceneNode((N*)FUN_00450b80(0));
-                    state->acc.FUN_00559450()->BSShaderAccumulator_SetWaterReflection(1);
-                    state->acc.FUN_00559450()->StartAccumulating(state->camera.FUN_00559450());
-                    state->acc.FUN_00559450()->SetAccumulate(1);
+                    state->acc.Modelloader_GetReferencedThis()->BSShaderAccumulator_SetShadowSceneNode((N*)FUN_00450b80(0));
+                    state->acc.Modelloader_GetReferencedThis()->BSShaderAccumulator_SetWaterReflection(1);
+                    state->acc.Modelloader_GetReferencedThis()->StartAccumulating(state->camera.Modelloader_GetReferencedThis());
+                    state->acc.Modelloader_GetReferencedThis()->SetAccumulate(1);
                     if (state->colored)
                     {
-                        state->acc.FUN_00559450()->FUN_004a1040(15);
+                        state->acc.Modelloader_GetReferencedThis()->FUN_004a1040(15);
                         NiPoint3 light = DAT_011dea10->FUN_008d8520()->BGSProjectile_GetData();
                         NiPoint3 tint = FUN_00450b80(0)->GetFloatAsUInt()->FUN_00891170();
                         NiColorA color(light.x * tint.x, light.y * tint.y, light.z * tint.z, 1.0f);
-                        state->acc.FUN_00559450()->BSShaderAccumulator_SetSilhouetteColor(reinterpret_cast<const NiColorA*>(&color));
+                        state->acc.Modelloader_GetReferencedThis()->BSShaderAccumulator_SetSilhouetteColor(reinterpret_cast<const NiColorA*>(&color));
                     }
                     a = false;
                     d = false;
@@ -8375,7 +8378,7 @@ void Target::TESWaterSystem_MTSetupSelectiveReflectionTexture(void* input, State
                     b = false;
                     state->nodes.FUN_004ed900();
                     state->more.FUN_004ed900();
-                    iter = state->refs.FUN_00559450();
+                    iter = state->refs.Modelloader_GetReferencedThis();
                     while (iter)
                     {
                         RefActor* ref = state->refs.NiTPointerListBase_NiTPointerAllocator_unsigned_int_Tile_GetNext(&iter);
@@ -8489,7 +8492,7 @@ void Target::TESWaterSystem_MTSetupSelectiveReflectionTexture(void* input, State
                     }
                     if (*DAT_011c7ae8.FUN_00408d60())
                     {
-                        void* iter = DAT_011c7b8c.FUN_00559450();
+                        void* iter = DAT_011c7b8c.Modelloader_GetReferencedThis();
                         void* next = 0;
                         next = DAT_011c7b8c.DereferenceIfNotNull(iter);
                         if (iter)
@@ -8503,8 +8506,8 @@ void Target::TESWaterSystem_MTSetupSelectiveReflectionTexture(void* input, State
                         }
                         iter = next;
                     }
-                    FUN_004ea970()->MTRenderingSystem_AddAccumTask(state->camera.FUN_00559450(), 0, 0, &state->nodes, &state->more,
-                                                 state->acc.FUN_00559450(), 4, state->index + 1, 0);
+                    FUN_004ea970()->MTRenderingSystem_AddAccumTask(state->camera.Modelloader_GetReferencedThis(), 0, 0, &state->nodes, &state->more,
+                                                 state->acc.Modelloader_GetReferencedThis(), 4, state->index + 1, 0);
                     FUN_004ea970()->MTRenderingSystem_SetThreadStage(0, state->index + 1);
                 }
             }
@@ -8536,7 +8539,7 @@ struct RGB60
 };
 template <class T> struct Smart60
 {
-    T* FUN_00559450();
+    T* Modelloader_GetReferencedThis();
     void FUN_0066b0d0(T*);
 };
 struct Toggle60
@@ -8783,20 +8786,20 @@ void Main60::TESWaterSystem_MTSetupWorldReflectionTexture(void* target)
     Vector60 normal3(0.0f, 0.0f, 1.0f);
     Vector60 point1(0.0f, 0.0f, DAT_011dea10->FUN_004fd3e0()->FUN_0045cd80());
     Plane60 plane2(normal3, point1);
-    BSUtilities_ReflectCameraAboutArbitraryPlane(target, plane2, DAT_011c7b44.FUN_00559450());
-    if (!DAT_011c7cb8.FUN_00559450())
+    BSUtilities_ReflectCameraAboutArbitraryPlane(target, plane2, DAT_011c7b44.Modelloader_GetReferencedThis());
+    if (!DAT_011c7cb8.Modelloader_GetReferencedThis())
         DAT_011c7cb8.FUN_0066b0d0(new WaterAccumulatorAllocation(0x63, 1, 0x2f7));
-    DAT_011c7cb8.FUN_00559450()->BSShaderAccumulator_SetShadowSceneNode(FUN_00450b80(0));
-    DAT_011c7cb8.FUN_00559450()->BSShaderAccumulator_SetWaterReflection(1);
-    DAT_011c7cb8.FUN_00559450()->StartAccumulating(DAT_011c7b44.FUN_00559450());
-    DAT_011c7cb8.FUN_00559450()->SetAccumulate(1);
+    DAT_011c7cb8.Modelloader_GetReferencedThis()->BSShaderAccumulator_SetShadowSceneNode(FUN_00450b80(0));
+    DAT_011c7cb8.Modelloader_GetReferencedThis()->BSShaderAccumulator_SetWaterReflection(1);
+    DAT_011c7cb8.Modelloader_GetReferencedThis()->StartAccumulating(DAT_011c7b44.Modelloader_GetReferencedThis());
+    DAT_011c7cb8.Modelloader_GetReferencedThis()->SetAccumulate(1);
     if (*DAT_011c7a90.FUN_00408d60() || *DAT_011c7aa8.FUN_00408d60())
     {
-        DAT_011c7cb8.FUN_00559450()->FUN_004a1040(0xf);
+        DAT_011c7cb8.Modelloader_GetReferencedThis()->FUN_004a1040(0xf);
         RGB60 ambientColor = *DAT_011dea10->FUN_008d8520()->BGSProjectile_GetData();
         RGB60 tint = *FUN_00450b80(0)->GetFloatAsUInt()->FUN_00891170();
         NiColorA color(ambientColor.r * tint.r, ambientColor.g * tint.g, ambientColor.b * tint.b, 1.0f);
-        DAT_011c7cb8.FUN_00559450()->BSShaderAccumulator_SetSilhouetteColor(reinterpret_cast<const NiColorA*>(&color));
+        DAT_011c7cb8.Modelloader_GetReferencedThis()->BSShaderAccumulator_SetSilhouetteColor(reinterpret_cast<const NiColorA*>(&color));
     }
     DAT_011c7ce4.FUN_004ed900();
     DAT_011c7b80.FUN_004ed900();
@@ -8833,8 +8836,8 @@ void Main60::TESWaterSystem_MTSetupWorldReflectionTexture(void* target)
             }
         }
     }
-    FUN_004ea970()->MTRenderingSystem_AddAccumTask(DAT_011c7b44.FUN_00559450(), 0, 0, &DAT_011c7ce4, &DAT_011c7b80,
-                                 DAT_011c7cb8.FUN_00559450(), 4, DAT_011c7a6c + 1, 0);
+    FUN_004ea970()->MTRenderingSystem_AddAccumTask(DAT_011c7b44.Modelloader_GetReferencedThis(), 0, 0, &DAT_011c7ce4, &DAT_011c7b80,
+                                 DAT_011c7cb8.Modelloader_GetReferencedThis(), 4, DAT_011c7a6c + 1, 0);
     FUN_004ea970()->MTRenderingSystem_SetThreadStage(0, DAT_011c7a6c + 1);
 }
 }  // namespace fnv_004eaa00
@@ -9052,7 +9055,7 @@ struct Texture197
 };
 struct Handle197
 {
-    Texture197* FUN_00559450();
+    Texture197* Modelloader_GetReferencedThis();
     void FUN_0066b0d0(Texture197*);
 };
 extern Handle197 g_011c7b44, g_011c7ad4, g_011c7cb8;
@@ -9304,31 +9307,31 @@ void Water197::UpdateWaterRendering()
 {
     AutoMemContext normal(MEM_CONTEXT_MEM_CONTEXT_WATER, true, "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\TESWater.cpp",
                           0x10b8);
-    if (!TESWaterSystem_GetUseWaterShader() || !g_011c7b44.FUN_00559450())
+    if (!TESWaterSystem_GetUseWaterShader() || !g_011c7b44.Modelloader_GetReferencedThis())
         return;
     NiColorA oldColor(0.0f, 0.0f, 0.0f, 0.0f);
     BSShaderManager_GetRenderer()->GetBackgroundColor(reinterpret_cast<NiVector4*>(&oldColor));
     NiColorA plane = oldColor;
     plane.a = 0.0f;
     BSShaderManager_GetRenderer()->SetBackgroundColor(reinterpret_cast<NiVector4*>(&plane));
-    if (!g_011c7ad4.FUN_00559450())
+    if (!g_011c7ad4.Modelloader_GetReferencedThis())
         g_011c7ad4.FUN_0066b0d0(BSShaderManager_GetTextureManager()->BSTextureManager_BorrowRenderedTexture(BSShaderManager_GetRenderer(), 9, 0, 0, 0));
     bool memory = (unsigned char)BGSTerrainManager_GetCurrentWorldHasLOD() && !*g_011c7c00.FUN_00408d60();
     if (!((Player197*)DAT_011dea10)->FUN_005f36f0() && memory)
         BGSTerrainManager_DisableBlockVisibility();
-    BSRenderedTexture_StartOffscreen(7, g_011c7ad4.FUN_00559450()->FUN_00b6b260());
-    ((RendererOps197*)NiXenonRenderer_GetRenderer())->NiRenderer_SetScreenSpaceCameraData(g_011c7b44.FUN_00559450()->TESDataHandler_GetImpactDataSetList());
+    BSRenderedTexture_StartOffscreen(7, g_011c7ad4.Modelloader_GetReferencedThis()->FUN_00b6b260());
+    ((RendererOps197*)NiXenonRenderer_GetRenderer())->NiRenderer_SetScreenSpaceCameraData(g_011c7b44.Modelloader_GetReferencedThis()->TESDataHandler_GetImpactDataSetList());
     FUN_004ea970()->MTRenderingSystem_WaitOnThreadStage(1, g_011c7a6c + 1);
     if (enabled && g_011dea3c->PlayerCharacter_Is3rdPerson())
         ((Node197*)g_011dea3c->GetNode(0))->FUN_00450f90();
     NiPoint3 clearColor(0.0f, 0.0f, 1.0f);
     NiPoint3 point(0.0f, 0.0f, ((Player197*)DAT_011dea10)->FUN_004fd3e0()->FUN_0045cd80());
     Plane197 toggle(clearColor, point);
-    ((RendererOps197*)NiXenonRenderer_GetRenderer())->SetFromCamera(g_011c7b44.FUN_00559450());
+    ((RendererOps197*)NiXenonRenderer_GetRenderer())->SetFromCamera(g_011c7b44.Modelloader_GetReferencedThis());
     TESWaterSystem_SetClipPlane(
         NiColorA(toggle.FUN_006815c0().x, toggle.FUN_006815c0().y, toggle.FUN_006815c0().z, -toggle.FUN_0084d030(0)));
     UpdateSpawnedObjectFlags(1, 0, 0, 0, 0, 0, 0);
-    FUN_00b6c0d0(g_011c7b44.FUN_00559450(), g_011c7cb8.FUN_00559450(), 0);
+    FUN_00b6c0d0(g_011c7b44.Modelloader_GetReferencedThis(), g_011c7cb8.Modelloader_GetReferencedThis(), 0);
     BSRenderState_RestoreUserClipPlaneEnables(0);
     FUN_00b6b790();
     if (!((Player197*)DAT_011dea10)->FUN_005f36f0() && memory)
@@ -9345,8 +9348,8 @@ void Water197::UpdateWaterRendering()
         unsigned int param = *g_011c7c1c.Setting_Int();
         unsigned int uiEffectIndex = param + 16;
         BSShaderManager_GetImageSpaceManager()->GetEffect_004ebbc0(uiEffectIndex)->SetAccumulatorAt(2, &texture, 0);
-        BSShaderManager_GetImageSpaceManager()->ImageSpaceManager_RenderEffect(uiEffectIndex, BSShaderManager_GetRenderer(), g_011c7ad4.FUN_00559450(),
-                                     g_011c7ad4.FUN_00559450(), &effectParam, true);
+        BSShaderManager_GetImageSpaceManager()->ImageSpaceManager_RenderEffect(uiEffectIndex, BSShaderManager_GetRenderer(), g_011c7ad4.Modelloader_GetReferencedThis(),
+                                     g_011c7ad4.Modelloader_GetReferencedThis(), &effectParam, true);
         BSShaderManager_GetTextureManager()->BSTextureManager_ReturnRenderedTexture(index);
     }
 }
@@ -9651,7 +9654,7 @@ struct Link074
 };
 struct List074
 {
-    void* FUN_00559450();
+    void* Modelloader_GetReferencedThis();
     Ref074*& NiTPointerListBase_NiTPointerAllocator_unsigned_int_Tile_GetNext(void*&);
     void* DereferenceIfNotNull(void*);
     Ref074*& AddEight(void*);
@@ -9660,20 +9663,20 @@ struct List074
 struct PtrWaterObject074
 {
     NiAVObject* p;
-    NiAVObject* FUN_00559450();
+    NiAVObject* Modelloader_GetReferencedThis();
     void FUN_0066b0d0(NiAVObject*);
     void FUN_006e5cc0(PtrWaterObject074&);
 };
 struct PtrNiCamera074
 {
     NiCamera* p;
-    NiCamera* FUN_00559450();
+    NiCamera* Modelloader_GetReferencedThis();
     void FUN_0066b0d0(NiCamera*);
 };
 struct PtrBSShaderAccumulator
 {
     BSShaderAccumulator* p;
-    BSShaderAccumulator* FUN_00559450();
+    BSShaderAccumulator* Modelloader_GetReferencedThis();
     void FUN_0066b0d0(BSShaderAccumulator*);
 };
 struct Array074
@@ -9885,24 +9888,24 @@ void Owner074::RenderWaterRefs(NiCamera* camera, State074* state)
                 if (!TESWaterSystem_GetUseWaterShader() || !camera)
                     return;
                 state->camera.FUN_0066b0d0(new NiCamera);
-                state->camera.FUN_00559450()->NiAVObject_SetTranslate(camera->NiAVObject_GetWorldTranslate());
-                state->camera.FUN_00559450()->SetRotate_0043fa80(&camera->NiAVObject_GetWorldRotate());
-                state->camera.FUN_00559450()->NiAVObject_SetScale(camera->NiAVObject_GetWorldScale());
-                state->camera.FUN_00559450()->NiCamera_SetMaxFarNearRatio(camera->GetMaxFarNearRatio());
-                state->camera.FUN_00559450()->FUN_00a6faf0(camera->GetViewFrustum());
+                state->camera.Modelloader_GetReferencedThis()->NiAVObject_SetTranslate(camera->NiAVObject_GetWorldTranslate());
+                state->camera.Modelloader_GetReferencedThis()->SetRotate_0043fa80(&camera->NiAVObject_GetWorldRotate());
+                state->camera.Modelloader_GetReferencedThis()->NiAVObject_SetScale(camera->NiAVObject_GetWorldScale());
+                state->camera.Modelloader_GetReferencedThis()->NiCamera_SetMaxFarNearRatio(camera->GetMaxFarNearRatio());
+                state->camera.Modelloader_GetReferencedThis()->FUN_00a6faf0(camera->GetViewFrustum());
                 update.FUN_0043d410(0.0f, false, false);
-                state->camera.FUN_00559450()->NiAVObject_Update(reinterpret_cast<NiUpdateData&>(update));
-                if (!state->accumulator.FUN_00559450())
+                state->camera.Modelloader_GetReferencedThis()->NiAVObject_Update(reinterpret_cast<NiUpdateData&>(update));
+                if (!state->accumulator.Modelloader_GetReferencedThis())
                     state->accumulator.FUN_0066b0d0(new WaterAccumulatorAllocation(99, 1, 759));
-                state->accumulator.FUN_00559450()->BSShaderAccumulator_SetShadowSceneNode(FUN_00450b80(0));
-                state->accumulator.FUN_00559450()->BSShaderAccumulator_SetRenderWaterDepth(true);
-                state->accumulator.FUN_00559450()->StartAccumulating(state->camera.FUN_00559450());
-                state->accumulator.FUN_00559450()->SetAccumulate(true);
-                if (!DAT_011c7b68.FUN_00559450())
+                state->accumulator.Modelloader_GetReferencedThis()->BSShaderAccumulator_SetShadowSceneNode(FUN_00450b80(0));
+                state->accumulator.Modelloader_GetReferencedThis()->BSShaderAccumulator_SetRenderWaterDepth(true);
+                state->accumulator.Modelloader_GetReferencedThis()->StartAccumulating(state->camera.Modelloader_GetReferencedThis());
+                state->accumulator.Modelloader_GetReferencedThis()->SetAccumulate(true);
+                if (!DAT_011c7b68.Modelloader_GetReferencedThis())
                     DAT_011c7b68.FUN_0066b0d0(BSShaderManager_GetTextureManager(BSShaderManager_GetRenderer())->BSTextureManager_BorrowRenderedTexture(17, 0, 0, 0));
                 didActors = false;
                 didGrid = false;
-                position = state->refs.FUN_00559450();
+                position = state->refs.Modelloader_GetReferencedThis();
                 while (position)
                 {
                     Ref074* ref = state->refs.NiTPointerListBase_NiTPointerAllocator_unsigned_int_Tile_GetNext(position);
@@ -9944,7 +9947,7 @@ void Owner074::RenderWaterRefs(NiCamera* camera, State074* state)
                                 if (object && object->FUN_004ec7e0() && !didGrid)
                                 {
                                     didGrid = true;
-                                    void* nextActor = state->actors.FUN_00559450();
+                                    void* nextActor = state->actors.Modelloader_GetReferencedThis();
                                     void* actorPos = 0;
                                     while (nextActor)
                                     {
@@ -9976,7 +9979,7 @@ void Owner074::RenderWaterRefs(NiCamera* camera, State074* state)
                                 }
                                 void* otherPos;
                                 void* otherNext;
-                                otherNext = state->otherRefs.FUN_00559450();
+                                otherNext = state->otherRefs.Modelloader_GetReferencedThis();
                                 otherPos = 0;
                                 while (otherNext)
                                 {
@@ -10010,8 +10013,8 @@ void Owner074::RenderWaterRefs(NiCamera* camera, State074* state)
                         }
                     }
                 }
-                FUN_004ea970()->MTRenderingSystem_AddAccumTask(state->camera.FUN_00559450(), 0, 0, &state->nodes, &state->actorNodes,
-                                             state->accumulator.FUN_00559450(), 0, state->count + 1, 0);
+                FUN_004ea970()->MTRenderingSystem_AddAccumTask(state->camera.Modelloader_GetReferencedThis(), 0, 0, &state->nodes, &state->actorNodes,
+                                             state->accumulator.Modelloader_GetReferencedThis(), 0, state->count + 1, 0);
                 FUN_004ea970()->MTRenderingSystem_SetThreadStage(0, state->count + 1);
             }
         }
@@ -10587,7 +10590,7 @@ struct RefList
     int unk04;
     int unk08;
 
-    RefNode* FUN_00559450();
+    RefNode* Modelloader_GetReferencedThis();
     RefNode* DereferenceIfNotNull(RefNode* pkCurNode);
     Ref** AddEight(RefNode* pkCurNode);
     void FUN_0049f590(RefNode*& pkCurNode);
@@ -10731,9 +10734,9 @@ void Owner::RemoveReferenceFromCell(Ref* pkRef, Cell* pkCell)
 {
     RefNode* pkCurNode;
     if (pkRef->IsActor())
-        pkCurNode = pkCell->m_kActors.FUN_00559450();
+        pkCurNode = pkCell->m_kActors.Modelloader_GetReferencedThis();
     else
-        pkCurNode = pkCell->m_kRefs.FUN_00559450();
+        pkCurNode = pkCell->m_kRefs.Modelloader_GetReferencedThis();
     RefNode* pkFollowing = 0;
     RefNode* pkMatch = 0;
     bool bFound = false;
@@ -10962,7 +10965,7 @@ struct Base125 : TESBoundObject
 };
 struct Ptr125
 {
-    Scene125* FUN_00559450();
+    Scene125* Modelloader_GetReferencedThis();
 };
 struct Parent125
 {
@@ -11066,9 +11069,9 @@ void System125::TESWaterSystem_UpdateShader(Parent125* parent, Ref125* reference
                     if (base->flag80 != flag81 || base->flag81 != flag63 || base->flag63 != flag80)
                     {
                         base->BSShaderProperty_ClearRenderPasses();
-                        if (parent->shader.FUN_00559450())
+                        if (parent->shader.Modelloader_GetReferencedThis())
                         {
-                            WaterMaterial125* nextMaterial = parent->shader.FUN_00559450()->FUN_00a59d30(3);
+                            WaterMaterial125* nextMaterial = parent->shader.Modelloader_GetReferencedThis()->FUN_00a59d30(3);
                             WaterMaterial125* nextProperty = nextMaterial;
                             if (nextProperty->GetPassCount(0) > 0)
                                 nextProperty->BSShaderProperty_ClearRenderPasses();

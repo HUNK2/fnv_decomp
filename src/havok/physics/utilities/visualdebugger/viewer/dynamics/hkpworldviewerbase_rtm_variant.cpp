@@ -144,7 +144,7 @@ struct Flag
     Flag(bool v) : value(v)
     {}
 };
-Flag __cdecl FUN_00ddcda0(Item* apLeft, Item* apRight);
+Flag __cdecl Object_CompareField08_00ddcda0(Item* apLeft, Item* apRight);
 #include <math.h>
 struct DDCE80Point
 {
@@ -205,20 +205,21 @@ Derived::Derived()
 struct A1_00ddcd60
 {
     A1_00ddcd60();
-    virtual void FUN_00ddcd60();
+    virtual void AdjustThisAndForward_00ddcd60();
     char pad[0x04];
 };
 struct A2_00ddcd60
 {
     A2_00ddcd60();
-    virtual void FUN_00ddcd60();
+    virtual void AdjustThisAndForward_00ddcd60();
 };
 struct Own_00ddcd60 : A1_00ddcd60, A2_00ddcd60
 {
     Own_00ddcd60();
     virtual void key_fn();
 // @fnv 0x00ddcd60
-    void FUN_00ddcd60();
+// src: GUESS 0x00ddcd60 (confidence: low)
+    void AdjustThisAndForward_00ddcd60();
 };
 Own_00ddcd60::Own_00ddcd60()
 {}

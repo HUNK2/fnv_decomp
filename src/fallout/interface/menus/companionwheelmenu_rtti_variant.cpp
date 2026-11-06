@@ -143,8 +143,8 @@ struct CStringArg_757690
     unsigned length;
     ~CStringArg_757690();
     unsigned __thiscall BSStringT_char_Length();
-    int __thiscall FUN_00559450();
-    int __thiscall FUN_00559450(int);
+    int __thiscall Modelloader_GetReferencedThis();
+    int __thiscall Modelloader_GetReferencedThis(int);
 };
 struct CValueArg_757690
 {
@@ -914,7 +914,7 @@ bool Cmd_Say_Execute(void* paramInfo, void* scriptData, Reference* source, void*
         priorityFlag = true;
     Actor* actor = FUN_00ec43fb(source, 0, &DAT_011841cc, &DAT_011846d4, 0);
     int previous = *DAT_011cd378.Setting_Int();
-    DAT_011cd378.FUN_0045ce80(0x7fffffff);
+    DAT_011cd378.ProcessAndReturnValue_0045ce80(0x7fffffff);
     if (idleVal)
     {
         if (actor)
@@ -988,7 +988,7 @@ bool Cmd_Say_Execute(void* paramInfo, void* scriptData, Reference* source, void*
             events3.FUN_00ad8e60(TESObjectREFR_SayToCallBack, source->GetHavokWorldObjectCountInSceneGraph_0084e3a0());
         }
     }
-    DAT_011cd378.FUN_0045ce80(previous);
+    DAT_011cd378.ProcessAndReturnValue_0045ce80(previous);
     return true;
 }
 }
@@ -1051,7 +1051,7 @@ struct HealingExtraList
 };
 struct HealingInventoryEntry
 {
-    HealingExtraList* FUN_00559450();
+    HealingExtraList* Modelloader_GetReferencedThis();
     TESBoundObject* FUN_0044ddc0();
     void* FUN_004459e0(unsigned int);
 };

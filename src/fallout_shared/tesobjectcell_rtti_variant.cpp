@@ -773,7 +773,7 @@ class PointLightNode
 class PointLightPtr
 {
   public:
-    PointLightNode* FUN_00559450();
+    PointLightNode* Modelloader_GetReferencedThis();
 };
 
 class MapRefView
@@ -1070,8 +1070,8 @@ void CellUpdateAccess::TESObjectCELL_UpdateManagedNodes(float fTimeSinceScaleSta
                             (unsigned char)(((unsigned short)uiBaseColor >> 8) & 0xff) * m_fThirdCreatureStatCur;
                         kColor.b *= (unsigned char)((uiBaseColor >> 16) & 0xff) * m_fThirdCreatureStatCur;
                         PointLightPtr* pkLightPtrCur = pkLightRefTmp->TESObjectREFR_GetLight();
-                        if (pkLightPtrCur && pkLightPtrCur->FUN_00559450())
-                            pkLightPtrCur->FUN_00559450()->SetEffectColor(kColor);
+                        if (pkLightPtrCur && pkLightPtrCur->Modelloader_GetReferencedThis())
+                            pkLightPtrCur->Modelloader_GetReferencedThis()->SetEffectColor(kColor);
                     }
                 }
             }

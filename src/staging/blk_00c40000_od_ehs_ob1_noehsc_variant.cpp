@@ -50,13 +50,13 @@ public:
 #include "../../include/GO.h"
 extern int DAT_010c1670;
 struct FUN_00c40990_Class {
-    void __thiscall FUN_00c40990();
+    void __thiscall SetVtableAndProcessState_00c40990();
 };
 struct FUN_00c42b60_class {
-    int __thiscall FUN_00c42b80();
+    int __thiscall CopyData_00c42b80();
     int a;
     int b;
-    void FUN_00c42b60();
+    void ProcessEntries_00c42b60();
 };
 void __cdecl EnsureArenaAllocated(void*);
 struct FUN_00c42da0_Class {
@@ -70,7 +70,7 @@ struct FUN_00c430a0_class
 };
 struct FUN_00c430b0_class {
     void __thiscall NiIntegerExtraData_CopyMembers(int a1, int a2);
-    void __thiscall FUN_00c430b0(int a1, int a2);
+    void __thiscall ForwardCall_00c430b0(int a1, int a2);
 };
 struct FUN_00c430d0 : public NiIntegerExtraData { void LoadBinary(NiStream&); };
 struct FUN_00c43140_StandIn {
@@ -113,9 +113,9 @@ struct FUN_00c44cb0_class {
     void CallStoredCallback();
 };
 extern int DAT_010178bc;
-void __cdecl FUN_00a5e930(void*);
+void __cdecl UpdateFields_00c5faa0(void*);
 struct FUN_00c44e20 {
-    void FUN_00a5e930();
+    void UpdateFields_00c5faa0();
     ~FUN_00c44e20();
 };
 struct FUN_00c452a0_Class {
@@ -305,10 +305,10 @@ struct GlobalObject_00a7b610 {
 extern GlobalObject_00a7b610 g_01204378;
 extern int DAT_010c31a4;
 struct Unk_00a5e930 {
-    void __thiscall FUN_00a5e930();
+    void __thiscall UpdateFields_00c5faa0();
 };
 struct FUN_00c5faa0 {
-    void FUN_00a5e930();
+    void UpdateFields_00c5faa0();
 };
 extern const char* const g_01201f84_arg1;
 struct FUN_00c5fc60_class {
@@ -335,9 +335,9 @@ struct FUN_00c40930_Class {
     void __thiscall FUN_00c3f8c0();
     void* __thiscall FUN_00c40930(unsigned int flags);
 };
-void __cdecl FUN_00c43070(void*);
+void __cdecl SetVtableAndProcessState_00c43070(void*);
 struct FUN_00c43620_Class {
-    void __thiscall FUN_00c43070();
+    void __thiscall SetVtableAndProcessState_00c43070();
     void* __thiscall FUN_00c43620(unsigned int flags);
     static void __cdecl operator delete(void* p, unsigned int size);
 };
@@ -434,7 +434,7 @@ struct NiExtraDataSaveHelper {
 struct FUN_00c54ec0_class {
     void __thiscall BSBound_SaveBinary(NiStream& stream);
 };
-struct FUN_00a7b300_shell { void __thiscall FUN_00a7b300(); };
+struct FUN_00a7b300_shell { void __thiscall DestroyFields_00a7b300(); };
 struct FUN_00c55330_class {
     void* __thiscall FUN_00c55330(unsigned int flags);
     void operator delete(void* p, unsigned int size);
@@ -446,7 +446,7 @@ struct FUN_00c5ced0 : FUN_00a744a0 {
     FUN_00c5ced0(int a, int b, int c, int d);
 };
 struct FUN_00c5cfd0_class {
-    void __thiscall FUN_00c5cfd0(int a, int b, int c, int d);
+    void __thiscall UpdateState_00c5cfd0(int a, int b, int c, int d);
 };
 extern "C" void __cdecl BSAttachPoints_InitSDM();
 extern "C" void __cdecl BSBound_InitSDM();
@@ -458,14 +458,14 @@ extern "C" void __cdecl BSXFlags_InitSDM();
 extern "C" unsigned char DAT_01204364;
 void __cdecl BSMain_InitSDM();
 extern unsigned char DAT_01204364;
-void __cdecl FUN_00c655d0();
-void __cdecl FUN_00c552a0();
-void __cdecl FUN_00c54760();
-void __cdecl FUN_00c61990();
-void __cdecl FUN_00c5f2e0();
-void __cdecl FUN_00c61760();
-void __cdecl FUN_00c435a0();
-void __cdecl FUN_00c5d520();
+void __cdecl Runtime_ReleaseStorage_00c655d0();
+void __cdecl Object_UpdateFields_00c552a0();
+void __cdecl Object_UpdateFields_00c54760();
+void __cdecl Runtime_ReleaseReference_00c61990();
+void __cdecl Object_UpdateFields_00c5f2e0();
+void __cdecl Object_UpdateFields_00c61760();
+void __cdecl Object_UpdateFields_00c435a0();
+void __cdecl Object_UpdateFields_00c5d520();
 struct FUN_00c5dea0_Entry {
     unsigned char mFlag;
 };
@@ -688,7 +688,7 @@ struct FUN_00c48fe0_Class {
     int m_0020;
     int m_0024;
     int m_0028;
-    int FUN_00c48fe0();
+    int CountTypeSevenAndEightEntries();
 };
 struct FUN_00c4a5a0_class {
     virtual void vfn_0000();
@@ -762,8 +762,8 @@ void __fastcall DestroyResources(void* thisPtr);
 extern int DAT_010a0d24;
 extern int DAT_010c1854;
 struct FUN_00c43070_shell {
-    void FUN_00a7b300();
-    void FUN_00c43070();
+    void DestroyFields_00a7b300();
+    void SetVtableAndProcessState_00c43070();
 };
 extern void* _g_01202de0;
 void* GetExtraDataChecked(NiAVObject* obj);
@@ -782,7 +782,7 @@ struct FUN_00c43920_class {
 struct MyBase {
     void __thiscall NiNode_SaveBinary(NiStream& stream);
 };
-void __cdecl FUN_00a29550(NiStream& stream, unsigned char* p);
+void __cdecl Runtime_UpdateState_00a29550(NiStream& stream, unsigned char* p);
 struct FUN_00c43950_Class : MyBase {
     void __thiscall BSValueNode_SaveBinary(NiStream& stream);
 };
@@ -797,7 +797,7 @@ struct FUN_00c457e0_class {
 };
 struct FUN_00c46230_Class {
     void* m0;
-    void __thiscall FUN_00c46230();
+    void __thiscall StoreAndAddReference_00c46230();
 };
 void __cdecl FUN_00c31750();
 struct FUN_00c46930_class {
@@ -853,7 +853,7 @@ struct FUN_006dc6e0_Class
     void __thiscall BSSimpleArray_BSCompoundFrustum_FunctionOp_1024_ReallocateBuffer(unsigned int, unsigned int);
 };
 struct FUN_00c4a960_Class {
-    void FUN_00c4a840();
+    void UpdateFields_00c4a840();
     void* FUN_00c4a960(unsigned int flags);
 };
 struct FUN_00c4ab80_class {
@@ -977,15 +977,15 @@ public:
     int unk1C;
     int m_20;
     void Step();
-    void FUN_00c42b40();
+    void StepUntilStateIsZero();
 };
-void* __cdecl FUN_00aa13e0(unsigned int size);
+void* __cdecl Object_DispatchCommandFour(unsigned int size);
 extern int DAT_011f49e0;
 struct SpawnedObject_b9874 {
     char m00[0x10];
     SpawnedObject_b9874();
     void Init(int* arg);
-    static void* operator new(unsigned int size) { return FUN_00aa13e0(size); }
+    static void* operator new(unsigned int size) { return Object_DispatchCommandFour(size); }
 };
 SpawnedObject_b9874* BSXFlags_CreateObject();
 struct S_00c437c0_Obj {
@@ -996,9 +996,9 @@ struct S_00c437c0_Obj {
 struct S_00c437c0 : FUN_00c43850_Class {
     S_00c437c0_Obj* CreateObject(unsigned int stream);
 };
-void* __cdecl FUN_00aa13e0(unsigned int size);
+void* __cdecl Object_DispatchCommandFour(unsigned int size);
 struct SpawnedObject_b9504 : FUN_00c43660 {
-    static void* operator new(unsigned int size) throw() { return FUN_00aa13e0(size); }
+    static void* operator new(unsigned int size) throw() { return Object_DispatchCommandFour(size); }
 };
 FUN_00c43660* __cdecl BSValueNode_CreateObject();
 class FUN_00c43be0_cls {
@@ -1180,7 +1180,7 @@ struct FUN_00c45e00_class
     unsigned int __thiscall AppendElement(unsigned int uiElement);
 };
 extern int DAT_010c1c5c;
-extern void* __cdecl FUN_00c46170(unsigned int count);
+extern void* __cdecl Runtime_GetIndexedValue_00c46170(unsigned int count);
 struct S_00c46530_Class {
     void* m_vtbl;
     void* m_result;
@@ -1208,7 +1208,7 @@ S_00c46530_Class::FUN_00c46530(unsigned short param1, unsigned short param2)
     this->m_field_0c = 0;
 
     if (this->m_uiItemCount > 0) {
-        this->m_result = FUN_00c46170(this->m_uiItemCount);
+        this->m_result = Runtime_GetIndexedValue_00c46170(this->m_uiItemCount);
     } else {
         this->m_result = 0;
     }
@@ -1330,7 +1330,7 @@ public:
 struct FUN_00c46da0_class : BaseForCall {
     bool __thiscall BSMultiBoundNode_IsEqual(NiObject* other);
 };
-void* __cdecl FUN_00aa13e0(unsigned int size);
+void* __cdecl Object_DispatchCommandFour(unsigned int size);
 struct NewObject_b9649 {
     unsigned int unk00;
     unsigned int unk04;
@@ -1378,7 +1378,7 @@ struct NewObject_b9649 {
     unsigned int unkAC;
     unsigned int unkB0;
     NewObject_b9649();
-    static void* operator new(unsigned int size) { return FUN_00aa13e0(size); }
+    static void* operator new(unsigned int size) { return Object_DispatchCommandFour(size); }
 };
 NewObject_b9649* CreateNewObject();
 struct UpdateContext {
@@ -2006,7 +2006,7 @@ struct FUN_00c4a1b0_cls
 {
     int m_vptr;
 
-    FUN_00c4a1b0_cls* FUN_00c4a1b0();
+    FUN_00c4a1b0_cls* SetVtableAndProcessState_00c4a1b0();
 };
 class CachedRef_b5611 {
 public:
@@ -2547,7 +2547,7 @@ struct C55CD0Point3 {
 };
 void C55CD0DrawBox(const C55CD0Point3& kMinBoundsCur, const C55CD0Point3& kMaxPoint, float fA, float fB, float fC, float fD,
                    unsigned int uiColor, unsigned int uiOutline);
-void FUN_00c55cd0(const C55CD0Point3& kTargetCenter, float fSize, unsigned int uiColor);
+void Runtime_UpdateState_00c55cd0(const C55CD0Point3& kTargetCenter, float fSize, unsigned int uiColor);
 struct S_00c5ae70_Result {
     int unk00;
     int unk04;
@@ -2742,7 +2742,7 @@ public:
     unsigned short unkBA;
     unsigned int unkBC;
     unsigned int m_c0;
-    void __thiscall FUN_00c5de30();
+    void __thiscall UpdateState_00c5de30();
 };
 struct FUN_00c5de70_sub {
     void NiTArray_char_NiTMallocInterface_char_RemoveAll();
@@ -2825,7 +2825,8 @@ struct FUN_00c5e010_Node {
 };
 inline void FUN_00c5e010_Node::vf04() {}
 inline int FUN_00c5e010_Node::vf08() { return 0; }
-bool __cdecl FUN_00c5e010(int object) {
+// src: GUESS 0x00c5e010 (confidence: low)
+bool __cdecl Runtime_ProcessEntries_00c5e010(int object) {
     FUN_00c5e010_Node* initial =
         *reinterpret_cast<FUN_00c5e010_Node**>(
             reinterpret_cast<char*>(object) + 0x0C);
@@ -3295,9 +3296,9 @@ struct FUN_00c5fd50_cls
 {
     void* m_vtbl;
     void FUN_00c31750();
-    void FUN_00c5fd50();
+    void UpdateState_00c5fd50();
 };
-void* __cdecl FUN_00aa13e0(unsigned int);
+void* __cdecl Object_DispatchCommandFour(unsigned int);
 struct PositionModifierInstance {
     FUN_00c5fd30 modifier;
     void* name;
@@ -3307,7 +3308,7 @@ struct PositionModifierInstance {
     float lastTime;
     void* next;
     static __forceinline void* operator new(unsigned int amount) {
-        return FUN_00aa13e0(amount);
+        return Object_DispatchCommandFour(amount);
     }
 };
 FUN_00c5fd30* __cdecl CreatePositionModifierInstance();
@@ -3921,7 +3922,7 @@ struct FUN_00c47b50Vec3 {
 
     float x; float y; float z;
 
-    void FUN_00a699d0(FUN_00c47b50Vec3*, FUN_00c47b50Vec3*, FUN_00c47b50Transform*);
+    void SetPlaneFromThreePoints(FUN_00c47b50Vec3*, FUN_00c47b50Vec3*, FUN_00c47b50Transform*);
 
     float DotProduct(FUN_00c47b50Vec3*);
 
@@ -4154,7 +4155,7 @@ struct P465 {
     float y;
     float z;
     void ApplyScaled(P465* result, float s);
-    P465& FUN_0063c8a0(const P465& other);
+    P465& ComputeValue_0063c8a0(const P465& other);
 };
 struct R465 {
     P465 point;
@@ -4309,7 +4310,7 @@ struct QueryParam {
     TargetClass* target;
 };
 struct DecisionTreeExt : DecisionTree {
-    bool FUN_00c493a0(QueryParam* query);
+    bool ProcessEntries_00c493a0(QueryParam* query);
 };
 struct GraphRecord { int kind, yes, no; };
 struct RecordArray {

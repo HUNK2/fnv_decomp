@@ -38,7 +38,7 @@ struct __declspec(align(16)) Rotation_8cc740
     char m_acRotationData[16];
     Rotation_8cc740(const char* pcName);
     Rotation_8cc740 hkVector4_getSimdAt(int iFlags) const;
-    float FUN_004586d0() const;
+    float EvaluateValue_004586d0() const;
 };
 
 struct ProjectionData_8cc740
@@ -570,7 +570,7 @@ void Owner_8cc740::ArrowProjectile_CollideTerrain(const NiPoint3& kPos, const Ni
     if (FUN_009306d0())
     {
         Rotation_8cc740 kRot(FUN_009306d0()->bhkCharacterProxy_GethkLinearVelocity());
-        if (kRot.hkVector4_getSimdAt(0).FUN_004586d0() == -DAT_01085910)
+        if (kRot.hkVector4_getSimdAt(0).EvaluateValue_004586d0() == -DAT_01085910)
         {
             if (GetNode())
                 m_pUserData->m_kValue = GetNode()->NiAVObject_GetWorldRotate()->operator*(DAT_011a9478 * m_fScale);
@@ -633,7 +633,7 @@ struct __declspec(align(16)) xVec4
     xM128 m_vComponents;
     xVec4(const NiPoint3&);
     xVec4 hkVector4_getSimdAt(int) const;
-    float FUN_004586d0() const;
+    float EvaluateValue_004586d0() const;
 };
 struct xData
 {
@@ -808,7 +808,7 @@ void xActor::ArrowProjectile_Bounce(const NiPoint3& akA, const NiPoint3& akB)
     if (FUN_009306d0())
     {
         xVec4 V(*FUN_009306d0()->bhkCharacterProxy_GethkLinearVelocity());
-        if (V.hkVector4_getSimdAt(0).FUN_004586d0() == -xg_1085910)
+        if (V.hkVector4_getSimdAt(0).EvaluateValue_004586d0() == -xg_1085910)
         {
             if (FUN_1d0())
                 m_88->m_1c = FUN_1d0()->NiAVObject_GetWorldRotate()->operator*(xg_11a9478 * m_98);
@@ -833,7 +833,7 @@ struct __declspec(align(16)) xVec4
     xM128 m_vComponents;
     xVec4(const NiPoint3&);
     xVec4 hkVector4_getSimdAt(int) const;
-    float FUN_004586d0() const;
+    float EvaluateValue_004586d0() const;
 };
 struct xData
 {
@@ -1002,7 +1002,7 @@ void xActor::ArrowProjectile_Simulate(int aiValue)
         if (FUN_009306d0())
         {
             xVec4 V(*FUN_009306d0()->bhkCharacterProxy_GethkLinearVelocity());
-            if (V.hkVector4_getSimdAt(0).FUN_004586d0() == -xg_1085910)
+            if (V.hkVector4_getSimdAt(0).EvaluateValue_004586d0() == -xg_1085910)
             {
                 if (FUN_1d0())
                     m_88->m_1c = FUN_1d0()->NiAVObject_GetWorldRotate()->operator*(xg_11a9478 * m_98);
@@ -1437,7 +1437,7 @@ struct ObjectD0020
     virtual BodyD0020* GetBody();
     bhkFilter bhkWorldObject_GetCollisionFilter();
     float bhkRigidBody_GetMass();
-    ResultD0020* FUN_004ae750(const hkVector4&, const hkVector4&);
+    ResultD0020* Bipedanim_GetReferenceFlagsOrZero(const hkVector4&, const hkVector4&);
 };
 struct TargetD0020
 {
@@ -1486,7 +1486,7 @@ void TargetD0020::ArrowProjectile_ApplyCollisionForce(NiPoint3 position, NiPoint
         hkSimdReal scale(strength);
         dir.hkVector4_mul4(scale);
         body->FUN_00483710();
-        object->FUN_004ae750(dir, pos)->ApplyVirtualCall();
+        object->Bipedanim_GetReferenceFlagsOrZero(dir, pos)->ApplyVirtualCall();
         body->FUN_00483710();
     }
     SetByteAtOffsetC3(true);
@@ -1501,7 +1501,7 @@ struct __declspec(align(16)) Quat08
 struct Row08
 {
     float x, y, z, w;
-    void FUN_004a3f10(const void*);
+    void SetValue(const void*);
 };
 struct Rec08
 {
@@ -1558,7 +1558,7 @@ struct Node08
 };
 struct FUN_00807770_Class
 {
-    int FUN_00807770(int);
+    int EvaluateValue_00807770(int);
 };
 void* __cdecl hkpGetRigidBody(const void*);
 void* __cdecl GetReferenceFromObject(Col_0043b4f0*);
@@ -1570,16 +1570,17 @@ extern FUN_0089f4e0_shell* DAT_011dea3c;
 struct Holder00807080
 {
     const char* bhkCharacterProxy_GethkLinearVelocity();
-    void FUN_008d1180(FUN_00807770_Class*, Data08*);
+    void ProcessEntries_008d1180(FUN_00807770_Class*, Data08*);
 };
 // @fnv 0x008d1180
-void Holder00807080::FUN_008d1180(FUN_00807770_Class* nodes, Data08* data)
+// src: GUESS 0x008d1180 (confidence: low)
+void Holder00807080::ProcessEntries_008d1180(FUN_00807770_Class* nodes, Data08* data)
 {
     int count = data->count;
     for (int i = 0; i < count; i++)
     {
         Rec08* record = &data->records[i];
-        Node08* node = (Node08*)nodes->FUN_00807770(i);
+        Node08* node = (Node08*)nodes->EvaluateValue_00807770(i);
         void* collision = hkpGetRigidBody(node->collision);
         bhkFilter filter(node->collision->hkpCollidable_getCollisionFilterInfo());
         int layer = filter.CFilter_GetLayer();
@@ -1587,9 +1588,9 @@ void Holder00807080::FUN_008d1180(FUN_00807770_Class* nodes, Data08* data)
         {
             if (layer != 30)
             {
-                record->b.FUN_004a3f10(bhkCharacterProxy_GethkLinearVelocity());
+                record->b.SetValue(bhkCharacterProxy_GethkLinearVelocity());
                 Quat08 q;
-                record->a.FUN_004a3f10(q.hkVector4_hkVector4(0.0f, 0.0f, 0.0f, 1.0f));
+                record->a.SetValue(q.hkVector4_hkVector4(0.0f, 0.0f, 0.0f, 1.0f));
             }
         }
         else
@@ -1597,9 +1598,9 @@ void Holder00807080::FUN_008d1180(FUN_00807770_Class* nodes, Data08* data)
             void* ref = GetReferenceFromObject(node->collision);
             if (ref && ref == DAT_011dea3c->PlayerCharacter_GetGrabObject())
             {
-                record->b.FUN_004a3f10(bhkCharacterProxy_GethkLinearVelocity());
+                record->b.SetValue(bhkCharacterProxy_GethkLinearVelocity());
                 Quat08 q;
-                record->a.FUN_004a3f10(q.hkVector4_hkVector4(0.0f, 0.0f, 0.0f, 1.0f));
+                record->a.SetValue(q.hkVector4_hkVector4(0.0f, 0.0f, 0.0f, 1.0f));
                 break;
             }
         }

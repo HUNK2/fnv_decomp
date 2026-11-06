@@ -49,16 +49,18 @@ int Stream::ReadChar()
 
 struct S_00cb1570
 {
-    int FUN_00cb1570(void* pArg);
+    int ReturnOne(void* pArg);
 };
 // @fnv 0x00cb1570
-int S_00cb1570::FUN_00cb1570(void* pArg)
+// src: GUESS 0x00cb1570 (confidence: high)
+int S_00cb1570::ReturnOne(void* pArg)
 {
     return 1;
 }
 
 // @fnv 0x00cb1580
-int __cdecl FUN_00cb1580()
+// src: GUESS 0x00cb1580 (confidence: high)
+int __cdecl Object_ReturnOne()
 {
     return 1;
 }
@@ -72,11 +74,12 @@ void __stdcall hkStreamReader_seekTellSupported(char* p)
 
 struct CB1590Object
 {
-    virtual int FUN_00cb1590(const void* a, const void* b) const;
+    virtual int ReturnOne(const void* a, const void* b) const;
 };
 
 // @fnv 0x00cb1590
-int CB1590Object::FUN_00cb1590(const void* a, const void* b) const
+// src: GUESS 0x00cb1590 (confidence: high)
+int CB1590Object::ReturnOne(const void* a, const void* b) const
 {
     return 1;
 }

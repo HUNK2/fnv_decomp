@@ -3135,7 +3135,7 @@ void ClearCachedEntryMap();
 void ParticleShader_Free();
 void BoltShader_Free();
 void ClearRefObject();
-void FUN_00a29680();
+void Object_DoNothing();
 extern NP DAT_011f950c;
 extern NP DAT_011f9510;
 extern NP DAT_011f9514;
@@ -3213,7 +3213,7 @@ void BSShaderManager_Free(bool all)
         DAT_011f94bc = 0;
         DAT_011f91c6 = false;
         DAT_01200088.MTRenderingSystem_DestroyThreads();
-        FUN_00a29680();
+        Object_DoNothing();
         DAT_011f95f0 = static_cast<CleanupRef*>(0);
     }
     DAT_011f9508 = static_cast<CleanupRef*>(0);
@@ -3663,13 +3663,13 @@ void ProcessCommands();
 void InsertNodeAtHead();
 void ThisCall_Ret1();
 void AccumulateRenderPasses();
-void FUN_00b64440();
+void Object_ProcessAndReturnValue_00b64440();
 void AddEntriesToAccumulator();
 void BSShaderAccumulator_RegisterObject_ConstAlpha();
 void BSShaderAccumulator_FinishAccumulating_Standard();
 void RenderAccumulationPasses();
 void BSShaderAccumulator_FinishAccumulating_Interface();
-void FUN_00a29680();
+void Object_DoNothing();
 void BSShaderAccumulator_FinishAccumulating_WaterDepth();
 struct GlobalShaderInit
 {
@@ -3932,14 +3932,14 @@ void InitRenderSystem()
         reinterpret_cast<void (**)()>(DAT_011f9f80)[10] = InsertNodeAtHead;
         reinterpret_cast<void (**)()>(DAT_011f9f80)[11] = ThisCall_Ret1;
         reinterpret_cast<void (**)()>(DAT_011f9f80)[13] = AccumulateRenderPasses;
-        reinterpret_cast<void (**)()>(DAT_011f9f80)[9] = FUN_00b64440;
+        reinterpret_cast<void (**)()>(DAT_011f9f80)[9] = Object_ProcessAndReturnValue_00b64440;
         reinterpret_cast<void (**)()>(DAT_011f9f80)[14] = AddEntriesToAccumulator;
         reinterpret_cast<void (**)()>(DAT_011f9f80)[8] = BSShaderAccumulator_RegisterObject_ConstAlpha;
         reinterpret_cast<void (**)()>(DAT_011f9f40)[0] = BSShaderAccumulator_FinishAccumulating_Standard;
         DAT_011f9f3c = ProcessCommands;
         reinterpret_cast<void (**)()>(DAT_011f9f40)[12] = RenderAccumulationPasses;
         reinterpret_cast<void (**)()>(DAT_011f9f40)[10] = BSShaderAccumulator_FinishAccumulating_Interface;
-        reinterpret_cast<void (**)()>(DAT_011f9f40)[13] = FUN_00a29680;
+        reinterpret_cast<void (**)()>(DAT_011f9f40)[13] = Object_DoNothing;
         reinterpret_cast<void (**)()>(DAT_011f9f40)[14] = BSShaderAccumulator_FinishAccumulating_WaterDepth;
         DAT_011f9f38 = BSShaderAccumulator_FinishAccumulating_Standard;
         DAT_011ffe2c = 0;
@@ -3961,7 +3961,7 @@ struct TangentAllocatorView
     void MemoryManager_Deallocate(void*);
 };
 extern MemoryManager _g_memoryManager;
-extern "C" void* FUN_00aa13e0(unsigned int);
+extern "C" void* Object_DispatchCommandFour(unsigned int);
 // Local arithmetic helpers retain the original trivial vector-copy behavior.
 struct TangentPoint3
 {
@@ -4017,7 +4017,7 @@ struct NativeB66810 : NiRefObject
     TangentPoint3* second;
     static void* operator new(unsigned int n)
     {
-        return FUN_00aa13e0(n);
+        return Object_DispatchCommandFour(n);
     }
     TangentPoint3* GetFirst() const
     {

@@ -147,7 +147,7 @@ public:
     bool FUN_004ad030();
     bool TESObjectWEAP_IsEmbeddedWeapon();
     void TESCreature_SetMaterialType(BGSProjectile* projectile);
-    void FUN_0051f4f0(SpellItem* effect);
+    void UpdateState_0051f4f0(SpellItem* effect);
     void TESObjectWEAP_SetVATSEffect(SpellItem* effect);
     void TESObjectWEAP_SetNumProjectiles(unsigned char value);
     void TESObjectWEAP_SetAttackLoop(TESSound* sound);

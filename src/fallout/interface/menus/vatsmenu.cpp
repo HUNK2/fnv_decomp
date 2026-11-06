@@ -2236,7 +2236,8 @@ bool FUN_007f06d0_cls::VATSMenu_LimbOnScreen(FUN_007f06d0_Src* pSrc)
 }
 
 // @fnv 0x007f3b40
-void __cdecl FUN_007f3b40(int a1)
+// src: GUESS 0x007f3b40 (confidence: low)
+void __cdecl Object_ProcessEntries_007f3b40(int a1)
 {
     if (DAT_011db0d4 == 0)
     {
@@ -4921,7 +4922,7 @@ float VATSMenu::CalculateVATSChance(LimbListM* targetNode)
         if (!fnv_007f1290::Pathing_ComputeApproximatePathingDistance(&pointB, &origin, 0, &minimum, 0))
             minimum = fnv_007f1290::DAT_01016970;
         float valueX = ((NiPoint3*)((C7F0500Ref*)xDAT_011dea3c)->GetPos())
-                           ->FUN_00439ef0(*(NiPoint3*)((C7F0500Ref*)xDAT_011f21cc)->GetPos())
+                           ->SubtractIntoVector(*(NiPoint3*)((C7F0500Ref*)xDAT_011f21cc)->GetPos())
                            .FUN_00457990();
         if (valueX * fnv_007f1290::DAT_01011590 < minimum)
             invalidX = true;
@@ -5888,7 +5889,7 @@ struct Vec392
 {
     float x, y;
     Vec392();
-    bool FUN_00452df0(const Vec392&) const;
+    bool HasEqualFloatPair(const Vec392&) const;
     Vec392 operator-(const Vec392&) const;
     Vec392 operator+(const Vec392&) const;
     Vec392 operator*(float) const;
@@ -6366,7 +6367,7 @@ void VATSMenu::UpdateLimbTiles()
                 secondVal.y = b->tile->FUN_00a011b0(0xfa2);
                 if (FUN_00408840(v.x - secondVal.x) < size_2.x && FUN_00408840(v.y - secondVal.y) < size_2.y)
                 {
-                    if (v.FUN_00452df0(secondVal))
+                    if (v.HasEqualFloatPair(secondVal))
                         secondVal.x += 1.0;
                     point.x = FUN_00408840(v.x - secondVal.x) / 2.0 + (v.x > secondVal.x ? secondVal.x : v.x);
                     point.y = FUN_00408840(v.y - secondVal.y) / 2.0 + (v.y > secondVal.y ? secondVal.y : v.y);
@@ -7396,7 +7397,7 @@ struct AimVector
     float x, y, z;
     AimVector();
     AimVector(float, float, float);
-    AimVector FUN_00439ef0(const AimVector&) const;
+    AimVector SubtractIntoVector(const AimVector&) const;
     float FUN_00457990();
     void Unitize_004a0c10();
     float DotProduct(const AimVector&);
@@ -7833,7 +7834,7 @@ void AimMenu::VATSMenu_SetTargetLimb()
             while (limb9 && !limb9->FUN_008256d0())
             {
                 AimVector delta14;
-                delta14 = original31->position.FUN_00439ef0((*limb9->FUN_006815c0())->position);
+                delta14 = original31->position.SubtractIntoVector((*limb9->FUN_006815c0())->position);
                 float distance9 = delta14.FUN_00457990();
                 delta14.Unitize_004a0c10();
                 float angle3 = FUN_004f6e40(direction19.DotProduct(delta14));
@@ -8633,7 +8634,7 @@ bool VATSMenu_BuildTargetList()
                     oBigList.bhkPickData_SetTo(rayTarget->V1d0()->NiAVObject_GetWorldBound()->FUN_006815c0());
                     Refr* rayTarget2 = (Refr*)*pCurNode2->FUN_006815c0();
                     oBigList.bhkPickData_SetLength(
-                        reinterpret_cast<NiPoint3*>(rayTarget2->V1d0()->NiAVObject_GetWorldBound()->FUN_006815c0())->FUN_00439ef0(&vOrigin));
+                        reinterpret_cast<NiPoint3*>(rayTarget2->V1d0()->NiAVObject_GetWorldBound()->FUN_006815c0())->SubtractIntoVector(&vOrigin));
                     Obj548* physics = ((GlobC*)DAT_011dea3c)->FUN_008d6f30()->TESObjectCELL_GetbhkWorld();
                     bool hit = physics->V0c8(&oBigList);
                     if (hit && oBigList.DialoguePackage_GetCurrentDialogItem())

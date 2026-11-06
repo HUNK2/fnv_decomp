@@ -50,18 +50,19 @@ void BSAudio_::BSAudio_PauseWorldSounds()
     BSAudio_PauseAllOfType(0x3002, 0);
 }
 
-extern "C" void __cdecl FUN_007004e0();
+extern "C" void __cdecl ForwardCall_007004e0();
 
 struct FUN_007f7770_Class
 {
-    void __thiscall FUN_007004e0();
-    void __thiscall FUN_007f7770();
+    void __thiscall ForwardCall_007004e0();
+    void __thiscall ForwardCall_007f7770();
 };
 
 // @fnv 0x007f7770
-void __thiscall FUN_007f7770_Class::FUN_007f7770()
+// src: GUESS 0x007f7770 (confidence: low)
+void __thiscall FUN_007f7770_Class::ForwardCall_007f7770()
 {
-    FUN_007004e0();
+    ForwardCall_007004e0();
 }
 
 extern float DAT_012007d0;
@@ -130,7 +131,8 @@ unsigned int FUN_007fd640Class::RaceSexMenu_GetProjectorFile()
 
 
 // @fnv 0x007fe910
-void RaceSexMenu::FUN_007fe910(void* apList)
+// src: GUESS 0x007fe910 (confidence: medium)
+void RaceSexMenu::OnRaceSelected_Thunk(void* apList)
 {
     OnRaceSelected(apList);
 }
@@ -265,12 +267,13 @@ struct FUN_007fecc0_Class
     unsigned char _1[3];
     float fTime;
     float fValue;
-    void __thiscall FUN_007fecc0();
+    void __thiscall ActivateAndResetTimer();
 };
 
 // Sets bActive to 1, stores the current global time in fTime and resets fValue to 0.0f.
 // @fnv 0x007fecc0
-void __thiscall FUN_007fecc0_Class::FUN_007fecc0()
+// src: GUESS 0x007fecc0 (confidence: medium)
+void __thiscall FUN_007fecc0_Class::ActivateAndResetTimer()
 {
     bActive = 1;
     fTime = (float)g_timeGlobal.GetTime();

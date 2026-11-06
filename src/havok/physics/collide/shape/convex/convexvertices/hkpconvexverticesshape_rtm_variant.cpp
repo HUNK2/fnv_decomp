@@ -81,7 +81,7 @@ struct ThreadMemory {
 
 struct FUN_00d5a4c0_Helper {
 
-    void FUN_00d5a4c0(void* mem, int index, const void* src, int num) throw();
+    void ProcessAndReturnValue_00d5a4c0(void* mem, int index, const void* src, int num) throw();
 
 };
 
@@ -378,7 +378,8 @@ __forceinline void GetShapeVertices(const hkpConvexVerticesShape* shape, hkArray
 }
 
 // @fnv 0x00d59f40
-void hkpConvexVerticesShape::FUN_00d59f40()
+// src: GUESS 0x00d59f40 (confidence: low)
+void hkpConvexVerticesShape::ProcessEntries_00d59f40()
 
 {
 
@@ -505,7 +506,7 @@ if (reinterpret_cast<PlaneVector&>(normal).normalize()==PlaneSuccess) {
 
         ThreadMemory* mem = (ThreadMemory*)&hkMemoryRouter_getInstance();
 
-        reinterpret_cast<FUN_00d5a4c0_Helper*>(&planeEquations)->FUN_00d5a4c0(
+        reinterpret_cast<FUN_00d5a4c0_Helper*>(&planeEquations)->ProcessAndReturnValue_00d5a4c0(
 
             mem->m_pMemoryAllocator, index, planes.begin(), planes.GetLogicalSize());
 

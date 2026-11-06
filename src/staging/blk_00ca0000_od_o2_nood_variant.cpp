@@ -868,11 +868,12 @@ class VecOwnerAB
     int unk160, unk164, unk168, unk16c, unk170, unk174, unk178, unk17c;
     int unk180, unk184, unk188, unk18c, unk190, unk194, unk198, unk19c;
     __m128 m_v;
-    float FUN_00cac860();
+    float ProcessAndReturnValue_00cac860();
 };
 
 // @fnv 0x00cac860
-float VecOwnerAB::FUN_00cac860()
+// src: GUESS 0x00cac860 (confidence: low)
+float VecOwnerAB::ProcessAndReturnValue_00cac860()
 {
     return _mm_cvtss_f32(_mm_shuffle_ps(m_v, m_v, 0xff));
 }
@@ -1319,7 +1320,7 @@ struct FUN_00cc0500
     {
         FUN_00cc00e0();
     }
-    FUN_00cc0500& FUN_00cc01c0(const char*);
+    FUN_00cc0500& ProcessAndReturnValue_00cc01c0(const char*);
 };
 struct WarningHandler
 {
@@ -1400,11 +1401,11 @@ void MeshShape::bhkNiTriStripsShape_LoadBinary(NiStream& stream)
             char message[512];
             FUN_00cc0500 text(message, 512, true);
             const char* path = stream.m_acFileName;
-            text.FUN_00cc01c0("File ")
-                .FUN_00cc01c0(path)
-                .FUN_00cc01c0(" contains an old bhkpMeshShape! ")
-                .FUN_00cc01c0(name)
-                .FUN_00cc01c0(" re-export\n");
+            text.ProcessAndReturnValue_00cc01c0("File ")
+                .ProcessAndReturnValue_00cc01c0(path)
+                .ProcessAndReturnValue_00cc01c0(" contains an old bhkpMeshShape! ")
+                .ProcessAndReturnValue_00cc01c0(name)
+                .ProcessAndReturnValue_00cc01c0(" re-export\n");
             DAT_01268360->Report(1, 0x234f2250, message,
                                  "D:\\_Fallout3\\Platforms\\Common\\Code\\BSHavok\\bhkNiTriStripsShape.cpp", 170);
         }

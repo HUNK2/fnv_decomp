@@ -28,7 +28,8 @@ struct _NiAllocatorDummy
 
 __pragma(optimize("gsty", on))
 // @fnv 0x00aa1490
-    void __cdecl FUN_00aa1490(void* apMemory, unsigned int stElementSize)
+// src: GUESS 0x00aa1490 (confidence: low)
+    void __cdecl NiMemObject_ReleaseStorage_00aa1490(void* apMemory, unsigned int stElementSize)
 {
     if (apMemory != 0)
     {

@@ -68,11 +68,12 @@ struct RotatedDir_d409
     hkVector4 m_dirCopy;
     hkVector4 m_localDir;
 
-    void FUN_00d40940();
+    void UpdateFields_00d40940();
 };
 
 // @fnv 0x00d40940
-void RotatedDir_d409::FUN_00d40940()
+// src: GUESS 0x00d40940 (confidence: low)
+void RotatedDir_d409::UpdateFields_00d40940()
 {
     m_dirCopy.m_vComponents = m_dir.m_vComponents;
     setRotatedInverseDir_d409(m_localDir, m_rotation, m_dirCopy);
@@ -201,8 +202,8 @@ struct Query
     int unkB8;
     int unkBC;
     hkVector4 translationC0, translationD0, separationE0, separationF0, axis100, axis110, axis120;
-    void FUN_00d40940();
-    int FUN_00db0ec0(hkVector4*);
+    void UpdateFields_00d40940();
+    int ProcessAndReturnValue_00db0ec0(hkVector4*);
     __forceinline void init(hkpCdBody* a, hkpCdBody* b, const hkTransform& t, const V4& minA, const V4& minB, float tolerance,
                             float epsilon)
     {
@@ -248,8 +249,8 @@ void __cdecl hkpBoxBoxAgent_staticGetPenetrations(hkpCdBody* a, hkpCdBody* b, Pa
     Query* __restrict query = &work.query;
     transform->hkTransform_setMulInverseMul(a->m_pMotionState, b->m_pMotionState);
     query->init(a, b, *transform, *minA, *minB, parameters->offset08, 0.01f);
-    query->FUN_00d40940();
-    if (!query->FUN_00db0ec0(&query->tolerance80))
+    query->UpdateFields_00d40940();
+    if (!query->ProcessAndReturnValue_00db0ec0(&query->tolerance80))
         callback->AddCdBodyPair(*a, *b);
     timer("Et");
 }

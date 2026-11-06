@@ -107,7 +107,8 @@ S_00d65180_Base2* hkpSimulationIslandViewer_create(void* arg)
 extern int g_D651E0Value;
 
 // @fnv 0x00d651e0
-int __cdecl FUN_00d651e0()
+// src: GUESS 0x00d651e0 (confidence: low)
+int __cdecl Object_GetG_D651E0Value_00d651e0()
 {
     return g_D651E0Value;
 }
@@ -421,20 +422,21 @@ static ThunkOwner g_thunk;
 // declare, so the second base's vtable gets a thunk that moves `this` back by the first base's size (8).
 struct PrimaryBase
 {
-    virtual void FUN_00d65200();
+    virtual void AdjustThisAndForward_00d65200();
     int unk04;
 };
 
 struct SecondaryBase
 {
-    virtual void FUN_00d65200();
+    virtual void AdjustThisAndForward_00d65200();
 };
 
 struct AdjustedDerived : PrimaryBase, SecondaryBase
 {
     AdjustedDerived();
 // @fnv 0x00d65200
-    virtual void FUN_00d65200();
+// src: GUESS 0x00d65200 (confidence: low)
+    virtual void AdjustThisAndForward_00d65200();
 };
 
 AdjustedDerived::AdjustedDerived()
@@ -471,7 +473,7 @@ Own_00d65210* make_00d65210()
 
 struct IslandRemovalCallback
 {
-    virtual void FUN_00d64a20(S_Elem2* world);
+    virtual void ClearValue_Thunk(S_Elem2* world);
 };
 
 struct IslandRemovalParent : hkBaseAD64A, hkBaseBD64A, IslandRemovalCallback
@@ -481,12 +483,13 @@ struct IslandRemovalParent : hkBaseAD64A, hkBaseBD64A, IslandRemovalCallback
 
 struct IslandWorldRemoval : IslandRemovalParent, hkListenerD64A
 {
-    virtual void FUN_00d64a20(S_Elem2* world);
+    virtual void ClearValue_Thunk(S_Elem2* world);
 };
 
 // Calls ClearValue on world with this object's listener base.
 // @fnv 0x00d64a20
-void IslandWorldRemoval::FUN_00d64a20(S_Elem2* world)
+// src: GUESS 0x00d64a20 (confidence: medium)
+void IslandWorldRemoval::ClearValue_Thunk(S_Elem2* world)
 {
     world->ClearValue(static_cast<hkListenerD64A*>(this));
 }

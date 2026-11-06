@@ -10,9 +10,9 @@
 void BSSystemUtility::Destroy()
 {
     DownloadableContentManager::GetRandomGenerator();
-    FUN_00af2760();
+    Object_ClearGlobalObject();
     NetworkSystemUtility::GetRandomGenerator();
-    FUN_00af2d30();
+    Runtime_DoNothing();
     IdleSystem::GetRandomGenerator();
     FUN_00af2370();
 
@@ -60,7 +60,7 @@ void BSSystemUtility::Initialize(const char* pcFilePath, const char* pcArg, unsi
     NetworkSystemUtility::GetRandomGenerator();
     IdleSystem::Initialize();
     DownloadableContentManager::GetRandomGenerator();
-    FUN_00af2750();
+    Runtime_EvaluateValue_00af2750();
 }
 
 // If the byte at offset 0x49 is set, clears the byte at 0x48 and signals the object at offset 0x30.
@@ -81,7 +81,7 @@ void BSSystemUtility::Update_00af3340()
 {
     IdleSystem::GetRandomGenerator().Idle();
     NetworkSystemUtility::GetRandomGenerator().UpdateSteamRunningFlag();
-    DownloadableContentManager::GetRandomGenerator().FUN_00af2c80();
+    DownloadableContentManager::GetRandomGenerator().DoNothing_00af2c80();
 }
 
 // If the new byte differs from the stored one, calls the callback at _f88 with it, then stores the byte in _f94.
@@ -104,7 +104,7 @@ extern MemoryManager g_memoryManager;
 // @fnv 0x00af33c0
 void* BSSystemUtility::DestroyIfFlagged(unsigned int flags)
 {
-    FUN_00af3120();
+    SetVirtualTable_00af3120();
     if (flags & 1)
         g_memoryManager._DeallocateAlias(this);
     return this;

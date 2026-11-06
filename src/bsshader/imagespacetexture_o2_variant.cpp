@@ -242,7 +242,7 @@ void H_00ba3840::ImageSpaceTexture_BorrowRenderedTexture(int arg)
 
 struct FUN_00ba2590_struct
 {
-    void FUN_00ba2590();
+    void AllocateStorage_00ba2590();
 };
 struct ISTex
 {
@@ -273,7 +273,7 @@ void FUN_00ba26f0_struct::ImageSpaceEffectWaterFFT_InitializeUtilityBuffers()
         ((ISTex*)((char*)this + 0x58))->CreateRenderTargetTexture(0xf);
     if (!((ISTex*)((char*)this + 0x68))->GetTexture())
         ((ISTex*)((char*)this + 0x68))->CreateRenderTargetTexture(0x10);
-    ((FUN_00ba2590_struct*)this)->FUN_00ba2590();
+    ((FUN_00ba2590_struct*)this)->AllocateStorage_00ba2590();
 }
 
 struct FUN_00ba3780_struct
@@ -336,11 +336,12 @@ struct FUN_00ba3940_cls
     unsigned char unk03;
     RefObj3940* m_04;
     unsigned int m_08;
-    FUN_00ba3940_cls* FUN_00ba3940(FUN_00ba3940_cls* src);
+    FUN_00ba3940_cls* InitializeFields_00ba3940(FUN_00ba3940_cls* src);
 };
 
 // @fnv 0x00ba3940
-FUN_00ba3940_cls* FUN_00ba3940_cls::FUN_00ba3940(FUN_00ba3940_cls* src)
+// src: GUESS 0x00ba3940 (confidence: low)
+FUN_00ba3940_cls* FUN_00ba3940_cls::InitializeFields_00ba3940(FUN_00ba3940_cls* src)
 {
     *(volatile unsigned char*)&m_01 = src->m_01;
     *(volatile unsigned char*)&m_02 = src->m_02;
@@ -645,7 +646,7 @@ struct HolderX
     {}
     ~HolderX();
     void ImageSpaceTexture_BorrowRenderedTexture(int arg);
-    void FUN_00ba3940(HolderX* other);
+    void InitializeFields_00ba3940(HolderX* other);
     void* ImageSpaceTexture_GetTexture();
     void ImageSpaceTexture_ReturnRenderedTexture();
 };
@@ -742,9 +743,9 @@ void Owner::ImageSpaceEffectWaterFFT_Render(int a1, int a2, int a3, int a4)
     w->SetAccumulatorAt(1, &s88, 0);
     w->SetAccumulatorAt(2, &d, 0);
     w->Vf1(a1, a2v, tex, 1);
-    c.FUN_00ba3940(&b);
-    b.FUN_00ba3940(&a);
-    a.FUN_00ba3940(&c);
+    c.InitializeFields_00ba3940(&b);
+    b.InitializeFields_00ba3940(&a);
+    a.InitializeFields_00ba3940(&c);
     w = ToWork(m_iThirdValue->p1);
     tex = m_1c->t1;
     int i;
@@ -756,9 +757,9 @@ void Owner::ImageSpaceEffectWaterFFT_Render(int a1, int a2, int a3, int a4)
         w->SetAccumulatorAt(1, &s78, 0);
         w->SetAccumulatorAt(2, &b, 0);
         w->Vf1(a1, a2v, tex, 1);
-        c.FUN_00ba3940(&b);
-        b.FUN_00ba3940(&a);
-        a.FUN_00ba3940(&c);
+        c.InitializeFields_00ba3940(&b);
+        b.InitializeFields_00ba3940(&a);
+        a.InitializeFields_00ba3940(&c);
     }
     w = ToWork(m_iThirdValue->p4);
     tex = m_1c->t4;
@@ -766,9 +767,9 @@ void Owner::ImageSpaceEffectWaterFFT_Render(int a1, int a2, int a3, int a4)
     w->SetAccumulatorAt(1, &s88, 0);
     w->SetAccumulatorAt(2, &b, 0);
     w->Vf1(a1, a2v, tex, 1);
-    c.FUN_00ba3940(&b);
-    b.FUN_00ba3940(&a);
-    a.FUN_00ba3940(&c);
+    c.InitializeFields_00ba3940(&b);
+    b.InitializeFields_00ba3940(&a);
+    a.InitializeFields_00ba3940(&c);
     w = ToWork(m_iThirdValue->p2);
     TexObj* t2p = m_1c->t2;
     for (j = 0; j < count; j++)
@@ -784,9 +785,9 @@ void Owner::ImageSpaceEffectWaterFFT_Render(int a1, int a2, int a3, int a4)
         w->Vf1(a1, a2v, t2p, 1);
         if (j != count - 1)
         {
-            c.FUN_00ba3940(&b);
-            b.FUN_00ba3940(&a);
-            a.FUN_00ba3940(&c);
+            c.InitializeFields_00ba3940(&b);
+            b.InitializeFields_00ba3940(&a);
+            a.InitializeFields_00ba3940(&c);
         }
     }
     if (DAT_01200058)

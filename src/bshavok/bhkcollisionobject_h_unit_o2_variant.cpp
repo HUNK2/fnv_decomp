@@ -32,7 +32,7 @@ bhkCollisionObject* bhkCollisionObject::GetFromRigidBody(const hkpRigidBody* bod
         DynamicCastByRTTI(const_cast<NiRTTI*>(&ms_kRTTI), reinterpret_cast<NiNode*>(collision)));
 }
 
-void* __fastcall FUN_00c6b910(void*);
+void* __fastcall NiRTTI_UpdateState_00c6b910(void*);
 extern int DAT_0103046c;
 struct MyType
 {
@@ -44,7 +44,7 @@ struct MyType
     char d[0x14];
     MyType()
     {
-        FUN_00c6b910(this);
+        NiRTTI_UpdateState_00c6b910(this);
         *(void**)this = (void*)&DAT_0103046c;
     }
 };

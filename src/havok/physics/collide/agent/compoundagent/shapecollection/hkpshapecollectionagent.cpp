@@ -249,16 +249,18 @@ void __cdecl GetClosestPointsShapeCollection(const hkpCdBody* bodyA, const hkpCd
 extern "C" void __cdecl QueryClosestPoints();
 
 // @fnv 0x00d36920
-void __cdecl FUN_00d36920()
+// src: GUESS 0x00d36920 (confidence: medium)
+void __cdecl Object_QueryClosestPoints_Thunk()
 {
     QueryClosestPoints();
 }
 
-void FUN_00d34790();
+void hkCollectorD347_ProcessState_00d34790();
 // @fnv 0x00d36990
-void FUN_00d36990()
+// src: GUESS 0x00d36990 (confidence: low)
+void Hkpshapecollectionagent_ForwardCall_00d36990()
 {
-    FUN_00d34790();
+    hkCollectorD347_ProcessState_00d34790();
 }
 
 extern char DAT_010cf318[];

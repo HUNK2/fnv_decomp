@@ -121,7 +121,7 @@ void __fastcall DestroyTextKeyList(NiTextKeyExtraData* self, void*)
         }
         g_memoryManager.Deallocate((char*)keys - 4);
     }
-    self->NiExtraData::FUN_00a7b300();
+    self->NiExtraData::DestroyFields_00a7b300();
 }
 
 extern int DAT_0109b220;

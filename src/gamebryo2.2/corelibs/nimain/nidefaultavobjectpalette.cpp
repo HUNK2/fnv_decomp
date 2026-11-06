@@ -236,7 +236,7 @@ void __cdecl RecurseAndRemoveObjectsFromPalette(NiAVObject* object, NiDefaultAVO
         RecurseAndRemoveObjectsFromPalette((NiAVObject*)children->m_children[i], palette);
 }
 
-extern "C" void* __cdecl FUN_00aa13e0(unsigned int size);
+extern "C" void* __cdecl Object_DispatchCommandFour(unsigned int size);
 extern "C" void* __cdecl _NiMalloc_00aa1070(unsigned int size);
 extern "C" void* __cdecl FUN_00ec61c0(void* buffer, int value, unsigned int size);
 extern "C" unsigned char DAT_01096284;
@@ -247,7 +247,7 @@ struct PaletteObject : NiDefaultAVObjectPalette
 {
     static __forceinline void* operator new(unsigned int size) throw()
     {
-        return FUN_00aa13e0(size);
+        return Object_DispatchCommandFour(size);
     }
     __forceinline PaletteObject() throw()
     {

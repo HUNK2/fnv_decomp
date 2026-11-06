@@ -37,19 +37,20 @@ NiTransform* HK2NI_00624ad0(NiTransform* arNiTran, TopicH* arTopicH);
 // adjusting thunk.
 struct IslandPrimaryBase
 {
-    virtual void FUN_00624be0();
+    virtual void AdjustThisAndForward_00624be0();
 };
 
 struct IslandSecondaryBase
 {
-    virtual void FUN_00624be0();
+    virtual void AdjustThisAndForward_00624be0();
 };
 
 struct IslandDerived : IslandPrimaryBase, IslandSecondaryBase
 {
     IslandDerived();
 // @fnv 0x00624be0
-    virtual void FUN_00624be0();
+// src: GUESS 0x00624be0 (confidence: low)
+    virtual void AdjustThisAndForward_00624be0();
 };
 
 IslandDerived::IslandDerived()

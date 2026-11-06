@@ -148,21 +148,22 @@ bool C00c541e0::BSFurnitureMarker_IsEqual(int a)
 }
 
 void __cdecl NiStreamSaveBinary_unsigned_short(NiStream&, unsigned short*);
-void __cdecl FUN_00a29550(NiStream&, unsigned char*);
+void __cdecl Runtime_UpdateState_00a29550(NiStream&, unsigned char*);
 struct FUN_00c54660_shell
 {
     NiColor color;
     unsigned short fldC;
     unsigned char fldE;
-    void __thiscall FUN_00c54660(NiStream&);
+    void __thiscall ProcessState_00c54660(NiStream&);
 };
 // @fnv 0x00c54660
-void __thiscall FUN_00c54660_shell::FUN_00c54660(NiStream& aStream)
+// src: GUESS 0x00c54660 (confidence: low)
+void __thiscall FUN_00c54660_shell::ProcessState_00c54660(NiStream& aStream)
 {
     color.SaveBinary(aStream);
     NiStreamSaveBinary_unsigned_short(aStream, &fldC);
-    FUN_00a29550(aStream, &fldE);
-    FUN_00a29550(aStream, &fldE);
+    Runtime_UpdateState_00a29550(aStream, &fldE);
+    Runtime_UpdateState_00a29550(aStream, &fldE);
 }
 
 void _delete(void*, unsigned int);
@@ -194,11 +195,12 @@ struct S
 {
     void* vtbl;
     void* ptr;
-    void __thiscall FUN_00c54810();
+    void __thiscall SetVtableAndProcessState_00c54810();
 };
 // Sets the object's vtable pointer to DAT_010c2b2c and deallocates its ptr through g_memoryManager.
 // @fnv 0x00c54810
-void __thiscall S::FUN_00c54810()
+// src: GUESS 0x00c54810 (confidence: low)
+void __thiscall S::SetVtableAndProcessState_00c54810()
 {
     *(int*)this = (int)&DAT_010c2b2c;
     void* p1 = ptr;
@@ -220,7 +222,7 @@ void NiExtraDataSaveHelperShell::BSFurnitureMarker_SaveBinary(NiStream& stream)
     unsigned int count = *(unsigned short*)((char*)this + 0x18);
     NiStreamSaveBinary_unsigned_int(stream, count);
     for (unsigned int i = 0; i < count; ++i)
-        (*(FUN_00c54660_shell**)((char*)this + 0x10))[i].FUN_00c54660(stream);
+        (*(FUN_00c54660_shell**)((char*)this + 0x10))[i].ProcessState_00c54660(stream);
 }
 
 struct A51BF0Base
@@ -257,12 +259,13 @@ struct FUN_00c54040_cls
     unsigned int unk14;
     unsigned short count;
 
-    void FUN_00c54040(NiStream& stream, unsigned int flags);
+    void ProcessEntries_00c54040(NiStream& stream, unsigned int flags);
 };
 
 // Calls FUN_00a7b330, then loops over count entries and passes each entry to FUN_00c54b70 on the stream's array at offset 0xc.
 // @fnv 0x00c54040
-void FUN_00c54040_cls::FUN_00c54040(NiStream& stream, unsigned int flags)
+// src: GUESS 0x00c54040 (confidence: low)
+void FUN_00c54040_cls::ProcessEntries_00c54040(NiStream& stream, unsigned int flags)
 {
     unsigned char pad[0x58];
     unsigned int i;
@@ -356,7 +359,7 @@ struct FUN_00c54b70_cls
     unsigned short m_0a;
     unsigned short unk0c;
     unsigned short m_0e;
-    void FUN_00c54850(unsigned int n);
+    void AllocateStorage_00c54850(unsigned int n);
     void FUN_00c54a30(unsigned int idx, NiIntegerStreamEntry& e);
     unsigned int NiTArray_FurnitureMark_NiTNewInterface_FurnitureMark_Add(NiIntegerStreamEntry& e);
 };
@@ -371,7 +374,7 @@ unsigned int FUN_00c54b70_cls::NiTArray_FurnitureMark_NiTNewInterface_FurnitureM
         unsigned int index = m_0a;
         if (index >= m_08)
         {
-            FUN_00c54850(m_0e + index);
+            AllocateStorage_00c54850(m_0e + index);
         }
         FUN_00c54a30(index, aEntry);
         return index;
@@ -391,7 +394,7 @@ struct FUN_00c54c50_shell
 };
 
 extern int DAT_010c2b2c;
-void* __cdecl FUN_00c54bc0(unsigned int);
+void* __cdecl Object_GetIndexedValue_00c54bc0(unsigned int);
 
 // @fnv 0x00c54c50
 // src: EXE 0x00c54c50
@@ -411,7 +414,7 @@ FUN_00c54c50_shell* __thiscall FUN_00c54c50_shell::NiTArray_FurnitureMark_NiTNew
     this->fldC = 0;
 
     if (this->fld8 > 0)
-        this->ptr = FUN_00c54bc0(this->fld8);
+        this->ptr = Object_GetIndexedValue_00c54bc0(this->fld8);
     else
         this->ptr = 0;
 
@@ -425,12 +428,13 @@ struct FUN_00c54cc0_cls
     float m_08;
     unsigned short m_0c;
     unsigned char m_0e;
-    bool __thiscall FUN_00c54cc0(FUN_00c54cc0_cls* other);
+    bool __thiscall HasEqualFields(FUN_00c54cc0_cls* other);
 };
 
 // Compares m_00, m_04, m_08, m_0e and m_0c against another instance and returns whether all match.
 // @fnv 0x00c54cc0
-bool FUN_00c54cc0_cls::FUN_00c54cc0(FUN_00c54cc0_cls* other)
+// src: GUESS 0x00c54cc0 (confidence: medium)
+bool FUN_00c54cc0_cls::HasEqualFields(FUN_00c54cc0_cls* other)
 {
     return (bool)(((m_00 == other->m_00) && (m_04 == other->m_04) && (m_08 == other->m_08)) ? 1 : 0) &&
            (m_0e == other->m_0e) && (m_0c == other->m_0c);

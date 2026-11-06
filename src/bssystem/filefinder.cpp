@@ -258,7 +258,8 @@ struct FileFinderHack
     static bool __cdecl GetFileTime(char const*, _FILETIME&, unsigned int);
 };
 // @fnv 0x00afe7b0
-bool __cdecl FUN_00afe7b0(char const* a, _FILETIME& b)
+// src: GUESS 0x00afe7b0 (confidence: medium)
+bool __cdecl FileFinder_GetFileTime_Thunk(char const* a, _FILETIME& b)
 {
     return FileFinderHack::GetFileTime(a, b, 0xffff);
 }
@@ -281,7 +282,7 @@ struct FileEntryTmp
     virtual const char* f6();
 };
 FileEntryTmp* __cdecl FindArchiveForFile(const char*, unsigned int);
-bool __cdecl FUN_00b01b60(const char*, _FILETIME*);
+bool __cdecl File_GetLastWriteTime(const char*, _FILETIME*);
 // @fnv 0x00afe7d0
 // src: COMMUNITY 0x00afe7d0
 bool __cdecl ArchiveManager_GetLastWriteTimeForFile(const char* apFileName, _FILETIME& arFileTime, unsigned int aiMode)
@@ -290,7 +291,7 @@ bool __cdecl ArchiveManager_GetLastWriteTimeForFile(const char* apFileName, _FIL
     FileEntryTmp* pkEntry = FindArchiveForFile(apFileName, aiMode);
     if (pkEntry)
         apFileName = pkEntry->f6();
-    return FUN_00b01b60(apFileName, &arFileTime);
+    return File_GetLastWriteTime(apFileName, &arFileTime);
 }
 }  // namespace fnv_00afe7d0
 

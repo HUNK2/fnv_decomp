@@ -385,7 +385,7 @@ NiGeometryGroup* __cdecl GetNiGeometryGroup() throw()
     return DAT_0126fa38;
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+void* __cdecl Object_DispatchCommandFour(unsigned int size);
 
 struct VertexBufferRef
 {
@@ -407,7 +407,7 @@ struct BufferSetData
     {}
     static void* operator new(unsigned int bytes)
     {
-        return FUN_00aa13e0(bytes);
+        return Object_DispatchCommandFour(bytes);
     }
     void SetBuffer(VertexBufferRef* value)
     {

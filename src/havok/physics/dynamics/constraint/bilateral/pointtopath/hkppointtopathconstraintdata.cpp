@@ -158,7 +158,8 @@ void __thiscall FUN_00dee7d0_class::Destroy()
 }
 
 // @fnv 0x00dee740
-int __cdecl FUN_00dee740()
+// src: GUESS 0x00dee740 (confidence: low)
+int __cdecl Object_ComputeValue_00dee740()
 {
     return 3;
 }

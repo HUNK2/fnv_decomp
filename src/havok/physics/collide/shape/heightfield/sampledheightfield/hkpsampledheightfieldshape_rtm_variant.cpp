@@ -35,7 +35,7 @@ struct Cls_00d24670 {
     virtual void v30();
     virtual float getH(int x, int y);
     virtual void getFlip(bool& flip);
-    void FUN_00d24670(int x, int y, float fx, float fy, LocalM128* nrm, float* height, int* flag);
+    void UpdateState_00d24670(int x, int y, float fx, float fy, LocalM128* nrm, float* height, int* flag);
 };
 struct hkInfoD260 {
     int unk00;
@@ -158,7 +158,7 @@ struct hkVec4
     const float& operator()(int i) const { return m_vComponents.m128_f32[i]; }
 };
 
-float FUN_00d97440() throw();
+float Object_ComputeBisectionMidpoint() throw();
 
 enum HeightFieldType { HEIGHTFIELD_STORAGE = 0, HEIGHTFIELD_COMPRESSED = 1, HEIGHTFIELD_USER = 2 };
 
@@ -199,7 +199,7 @@ struct HeightField : hkHeightFieldBase
 {
     __forceinline HeightField(const hkSampledHeightFieldShapeCinfo& ci, HeightFieldType hfType);
     ~HeightField();
-    HeightField* FUN_00d248a0(const hkSampledHeightFieldShapeCinfo& ci, HeightFieldType hfType);
+    HeightField* ProcessAndReturnValue_00d248a0(const hkSampledHeightFieldShapeCinfo& ci, HeightFieldType hfType);
     int m_iXResolution;
     int m_iZResolution;
     float m_fHeightScale;
@@ -235,10 +235,11 @@ __forceinline HeightField::HeightField(const hkSampledHeightFieldShapeCinfo& ci,
     m_kInverseScale.set(1.0f / ci.m_vScale(0), 1.0f / ci.m_vScale(1), 1.0f / ci.m_vScale(2));
 
     hkVec4 offset;
-    offset.setMul4(FUN_00d97440(), m_kHeightScaleVector);
+    offset.setMul4(Object_ComputeBisectionMidpoint(), m_kHeightScaleVector);
     offset.m_vComponents.m128_f32[1] = 0.0f;
     m_kOffset = offset;
 }
 
 // @fnv 0x00d248a0
-HeightField* HeightField::FUN_00d248a0(const hkSampledHeightFieldShapeCinfo& ci, HeightFieldType hfType) { __assume(this != 0); return new(this) HeightField(ci,hfType); }
+// src: GUESS 0x00d248a0 (confidence: low)
+HeightField* HeightField::ProcessAndReturnValue_00d248a0(const hkSampledHeightFieldShapeCinfo& ci, HeightFieldType hfType) { __assume(this != 0); return new(this) HeightField(ci,hfType); }

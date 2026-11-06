@@ -22,36 +22,38 @@ void CombatProcedureAttackLow::SaveGame_009cbfd0(BGSSaveFormBuffer* apSaveGameBu
 
 struct FUN_009ca6c0_shell
 {
-    void FUN_009ca6c0();
+    void SetVirtualTable_009ca6c0();
 };
 
-void FUN_009ca6c0_shell::FUN_009ca6c0()
+// src: GUESS 0x009ca6c0 (confidence: low)
+void FUN_009ca6c0_shell::SetVirtualTable_009ca6c0()
 {}
 
 extern int DAT_01090aec;
 
 struct FUN_009cbb50_shell
 {
-    void FUN_009cbb50();
+    void SetVtableAndProcessState_009cbb50();
 };
 
 // @fnv 0x009cbb50
-void FUN_009cbb50_shell::FUN_009cbb50()
+// src: GUESS 0x009cbb50 (confidence: low)
+void FUN_009cbb50_shell::SetVtableAndProcessState_009cbb50()
 {
     *(int*)this = (int)&DAT_01090aec;
-    reinterpret_cast<FUN_009ca6c0_shell*>(this)->FUN_009ca6c0();
+    reinterpret_cast<FUN_009ca6c0_shell*>(this)->SetVirtualTable_009ca6c0();
 }
 
 struct FUN_009cbb20_shell
 {
-    void FUN_009cbb50();
+    void SetVtableAndProcessState_009cbb50();
     void* DestroyIfFlagged(unsigned int flags);
 };
 // Calls FUN_009cbb50, then deletes this when flags has bit 0 set, and returns this.
 // @fnv 0x009cbb20
 void* FUN_009cbb20_shell::DestroyIfFlagged(unsigned int flags)
 {
-    FUN_009cbb50();
+    SetVtableAndProcessState_009cbb50();
     if (flags & 1)
         operator delete(this);
     return this;

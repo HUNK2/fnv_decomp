@@ -71,7 +71,7 @@ float abs(float);
 float GetDirectionAngle(const NiPoint3&);
 void WrapValueToRange(float&, float, float);
 void BSClamp_float(float&, float, float);
-bool FUN_009a3830(NavMeshInfo*&, NavMeshInfo*&);
+bool Actor_AreReferencedValuesEqual(NavMeshInfo*&, NavMeshInfo*&);
 
 // Clears the node and link arrays, sets up start and goal points, runs the search, and optionally collects meshes from the solution.
 // @fnv 0x006a6b70
@@ -239,19 +239,19 @@ struct HX
 };
 struct H1
 {
-    void FUN_006a8750(unsigned int, int);
+    void AllocateStorage_006a8750(unsigned int, int);
 };
 struct H2
 {
-    void FUN_006a8890(int, int);
+    void UpdateState_006a8890(int, int);
 };
 struct H3
 {
-    NavMeshTriangleEdgeReference* FUN_006a1440(unsigned short);
+    NavMeshTriangleEdgeReference* Object_GetIndexedValue_006a1440(unsigned short);
 };
 struct H4
 {
-    NavMeshTriangleReference* FUN_006b3160(unsigned int);
+    NavMeshTriangleReference* GetIndexedValue_006b3160(unsigned int);
 };
 struct PNode
 {
@@ -277,15 +277,15 @@ bool HX::AStarSearch_NavMeshSearchNode_NavMeshSearchLink_GetPathToNode(PNode* ap
         icount = icount + 1;
         pNode = pNode->next;
     }
-    ((H1*)arr)->FUN_006a8750(icount, 1);
-    ((H2*)arrEdges)->FUN_006a8890(icount - 1, 1);
+    ((H1*)arr)->AllocateStorage_006a8750(icount, 1);
+    ((H2*)arrEdges)->UpdateState_006a8890(icount - 1, 1);
     pNode = apFinalNode;
     iElementIndex = icount - 1;
     while (pNode)
     {
-        *((H4*)arr)->FUN_006b3160(iElementIndex) = pNode->f;
+        *((H4*)arr)->GetIndexedValue_006b3160(iElementIndex) = pNode->f;
         if (iElementIndex > 0)
-            *((H3*)arrEdges)->FUN_006a1440(iElementIndex - 1) = pNode->e;
+            *((H3*)arrEdges)->Object_GetIndexedValue_006a1440(iElementIndex - 1) = pNode->e;
         pNode = pNode->next;
         iElementIndex = iElementIndex - 1;
     }
@@ -391,11 +391,12 @@ bool PathingRequest::GetByteAtOffset9E() const
 struct FUN_00aa5410_Helper
 {
     int InitWithAlignedSize(unsigned int);
-    FUN_00aa5410_Helper* FUN_006a8380();
+    FUN_00aa5410_Helper* ProcessAndReturnValue_006a8380();
 };
 
 // @fnv 0x006a8380
-FUN_00aa5410_Helper* FUN_00aa5410_Helper::FUN_006a8380()
+// src: GUESS 0x006a8380 (confidence: low)
+FUN_00aa5410_Helper* FUN_00aa5410_Helper::ProcessAndReturnValue_006a8380()
 {
     InitWithAlignedSize(0x7800);
     return this;
@@ -541,7 +542,7 @@ bool NavMeshSearchEdges::FindEdgeConnections(const SearchNode* current, BSSimple
                 if (triangle->IsEdgeFlagSet(edgeIndex))
                 {
                     info = currentNode.m_pLocationNavMesh->GetEdge(triangle->GetEdgeExtraInfo_0068f2c0(edgeIndex))->info;
-                    if (m_pNavMeshInfos->Find(info, 0, FUN_009a3830) == (unsigned int)-1)
+                    if (m_pNavMeshInfos->Find(info, 0, Actor_AreReferencedValuesEqual) == (unsigned int)-1)
                         continue;
                 }
             }

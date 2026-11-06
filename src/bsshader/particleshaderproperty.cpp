@@ -711,7 +711,7 @@ struct PickShape
 struct PickMover
 {
     NiPoint3* FUN_004b4500(NiPoint3*, const NiPoint3*);
-    __declspec(noalias) NiPoint3* FUN_00524c40(NiPoint3*, const NiPoint3*);
+    __declspec(noalias) NiPoint3* ComputeValue_00524c40(NiPoint3*, const NiPoint3*);
 };
 
 struct PickElem
@@ -862,7 +862,7 @@ void EmitterPick::PickParticle(int aiIndex)
             {
                 PickMover* pMover = reinterpret_cast<PickMover*>(&e->unk68_mover);
                 {
-                    NiPoint3* __restrict r = pMover->FUN_00524c40(&scratch.work.point(), &a);
+                    NiPoint3* __restrict r = pMover->ComputeValue_00524c40(&scratch.work.point(), &a);
                     a = *r;
                 }
                 {
@@ -1097,7 +1097,7 @@ void ParticleSpawner::ParticleShaderProperty_GenerateFromCollisionBones(unsigned
 
 struct Transform71
 {
-    NiPoint3* FUN_00524c40(NiPoint3*, const NiPoint3*);
+    NiPoint3* ComputeValue_00524c40(NiPoint3*, const NiPoint3*);
     NiPoint3* FUN_004b4500(NiPoint3*, const NiPoint3*);
 };
 struct Object71
@@ -1247,7 +1247,7 @@ void Target71::ParticleShaderProperty_GenerateFromRay(unsigned int index)
             if (m_bParticleEnabled)
             {
                 NiPoint3 result;
-                const NiPoint3* __restrict p = object->transform.FUN_00524c40(&result, &position);
+                const NiPoint3* __restrict p = object->transform.ComputeValue_00524c40(&result, &position);
                 position = *p;
                 const NiPoint3* __restrict q = object->transform.FUN_004b4500(&result, &direction);
                 direction = *q;

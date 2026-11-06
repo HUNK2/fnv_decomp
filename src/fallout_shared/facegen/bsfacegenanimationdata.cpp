@@ -706,7 +706,8 @@ void __fastcall SetFaceGenArrayElement(BSFaceGenKeyframeMultiple*, FaceGenArrayI
 
 // If the modifier index is below 0x11, forwards the index and value to the object at offset 0x38.
 // @fnv 0x00649c10
-void BSFaceGenAnimationData::FUN_00649c10(BS_FACEGEN_MODIFIER aeModifier, float afValue)
+// src: GUESS 0x00649c10 (confidence: medium)
+void BSFaceGenAnimationData::SetModifierKeyframeValue(BS_FACEGEN_MODIFIER aeModifier, float afValue)
 {
     if (aeModifier.m < 0x11)
     {
@@ -755,7 +756,8 @@ void BSFaceGenAnimationData::SetCustomMorphValue(BS_FACEGEN_CUSTOM_MORPH aeCusto
 
 // If aeExpression is below 15, forwards aeExpression and afValue to SetArrayElement on the member object.
 // @fnv 0x00649be0
-void BSFaceGenAnimationData::FUN_00649be0(int aeExpression, float afValue)
+// src: GUESS 0x00649be0 (confidence: medium)
+void BSFaceGenAnimationData::SetExpressionValue_00649be0(int aeExpression, float afValue)
 {
     if (aeExpression < 15)
         SetFaceGenArrayElement(&kf24, *reinterpret_cast<FaceGenArrayIndex*>(&aeExpression), afValue);
@@ -763,7 +765,8 @@ void BSFaceGenAnimationData::FUN_00649be0(int aeExpression, float afValue)
 
 // If aePhoneme is below 0x10, forwards the phoneme index and value to the SetArrayElement object at offset 0x4C.
 // @fnv 0x00649c40
-void BSFaceGenAnimationData::FUN_00649c40(int aePhoneme, float afValue)
+// src: GUESS 0x00649c40 (confidence: medium)
+void BSFaceGenAnimationData::SetPhonemeValue_00649c40(int aePhoneme, float afValue)
 {
     if (aePhoneme < 0x10)
     {
@@ -773,7 +776,8 @@ void BSFaceGenAnimationData::FUN_00649c40(int aePhoneme, float afValue)
 
 // If aeCustomMorph is less than 1, forwards aeCustomMorph and afValue to m.SetArrayElement.
 // @fnv 0x00649c70
-void BSFaceGenAnimationData::FUN_00649c70(int aeCustomMorph, float afValue)
+// src: GUESS 0x00649c70 (confidence: medium)
+void BSFaceGenAnimationData::SetCustomMorphKeyframeValue(int aeCustomMorph, float afValue)
 {
     if (aeCustomMorph < 1)
         SetFaceGenArrayElement(&kf60, *reinterpret_cast<FaceGenArrayIndex*>(&aeCustomMorph), afValue);
@@ -785,7 +789,8 @@ namespace fnv_00649ec0 {
 extern NiFixedString* DAT_011d5744;
 // Clears DAT_011d5744, deleting the previous fixed string if non-null.
 // @fnv 0x00649ec0
-void FUN_00649ec0()
+// src: GUESS 0x00649ec0 (confidence: low)
+void Object_UpdateFields_00649ec0()
 {
     NiFixedString* b = DAT_011d5744;
     NiFixedString* a;
@@ -830,7 +835,7 @@ extern NiPoint3 _NiPoint3_ZERO;
 // src: COMMUNITY 0x0064bcc0
 void BSFaceGenAnimationData::SetHeadTrackVector(float afX, float afY, float afZ, int)
 {
-    if (((NiPlane*)((char*)this + 0x124))->FUN_004390c0(_NiPoint3_ZERO))
+    if (((NiPlane*)((char*)this + 0x124))->HasEqualComponents(_NiPoint3_ZERO))
     {
         if (((NiPlane*)&afX)->operator==(_NiPoint3_ZERO))
         {
@@ -838,7 +843,7 @@ void BSFaceGenAnimationData::SetHeadTrackVector(float afX, float afY, float afZ,
             *(float*)((char*)this + 0x178) = 0.0f;
         }
     }
-    if (((NiPlane*)&afX)->FUN_004390c0(_NiPoint3_ZERO))
+    if (((NiPlane*)&afX)->HasEqualComponents(_NiPoint3_ZERO))
         *(int*)((char*)this + 0x174) = 0;
     *(NiPoint3*)((char*)this + 0x124) = *(NiPoint3*)&afX;
     *(char*)((char*)this + 0x189) = 1;

@@ -107,7 +107,7 @@ void __cdecl _delete(void* p, unsigned int flags);
 // @fnv 0x00a46000
 void* __thiscall NiUVController::DestroyIfFlagged(unsigned int flags)
 {
-    FUN_00a45b60();
+    ProcessAndReturnValue_00a45b60();
     if (flags & 1)
         _delete(this, 0x50);
     return this;
@@ -303,7 +303,8 @@ extern "C" void _ReadWriteBarrier();
 #pragma intrinsic(_ReadWriteBarrier)
 
 // @fnv 0x00a45b60
-int __thiscall NiUVController::FUN_00a45b60()
+// src: GUESS 0x00a45b60 (confidence: low)
+int __thiscall NiUVController::ProcessAndReturnValue_00a45b60()
 {
     *(void**)this = &DAT_01098064;
     SharedRef* owner = (SharedRef*)&m_pData;
@@ -314,7 +315,7 @@ int __thiscall NiUVController::FUN_00a45b60()
     return ((BaseCall*)this)->Destroy();
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int size) throw();
+void* __cdecl Object_DispatchCommandFour(unsigned int size) throw();
 
 // The construction adapter initializes this member after installing the vtable.
 template <> inline NiPointer<NiUVData>::NiPointer()
@@ -327,7 +328,7 @@ struct UVControllerConstruction : NiUVController
 {
     static void* operator new(unsigned int size) throw()
     {
-        return FUN_00aa13e0(size);
+        return Object_DispatchCommandFour(size);
     }
 
     UVControllerConstruction() throw()

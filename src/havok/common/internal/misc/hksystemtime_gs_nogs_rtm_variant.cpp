@@ -6,7 +6,7 @@ typedef ::__m128 LocalM128;
 // src/havok/common/internal/misc/hksystemtime.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/common/internal/misc/hksystemtime.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 extern "C" __int64 __cdecl __time64(__int64*);
-int FUN_00e29910(void);
+int Hksystemtime_Time64_Thunk(void);
 
 #include <math.h>
 typedef ::__m128 LocalM128;
@@ -117,15 +117,16 @@ extern "C" FNV_Ctx* hkMemoryRouter_getInstance() throw();
 
 // ---- shell helpers
 struct FUN_00e29920_shell;
-extern "C" bool FUN_00e29920(FNV_Vec4*, FNV_Vec4*, FNV_Vec4*, FNV_Vec4*, FNV_Vec4*, FNV_Vec4*, float, float) throw();
-extern "C" void FUN_00e29a10(E29SrcList*, const LocalM128*, const LocalM128*, char*, E29Out1*, int*, E29Out2*, int*) throw();
+extern "C" bool Object_ProcessAndReturnValue_00e29920(FNV_Vec4*, FNV_Vec4*, FNV_Vec4*, FNV_Vec4*, FNV_Vec4*, FNV_Vec4*, float, float) throw();
+extern "C" void Runtime_ProcessEntries_00e29a10(E29SrcList*, const LocalM128*, const LocalM128*, char*, E29Out1*, int*, E29Out2*, int*) throw();
 
 static __forceinline LocalM128 dot3(LocalM128 a, LocalM128 b)
 {
     LocalM128 q = _mm_mul_ps(a, b);
     return _mm_add_ss(_mm_shuffle_ps(q, q, 0xaa), _mm_add_ss(_mm_shuffle_ps(q, q, 0x55), q));
 }
-extern "C" __declspec(noinline) bool FUN_00e29920(FNV_Vec4* a, FNV_Vec4* b, FNV_Vec4* n, FNV_Vec4* a2, FNV_Vec4* b2,
+// src: GUESS 0x00e29920 (confidence: low)
+extern "C" __declspec(noinline) bool Object_ProcessAndReturnValue_00e29920(FNV_Vec4* a, FNV_Vec4* b, FNV_Vec4* n, FNV_Vec4* a2, FNV_Vec4* b2,
                                                   FNV_Vec4* n2, float thresh, float limit) throw()
 {
     float dot;
@@ -207,7 +208,7 @@ void hkTreeBundleRayCastUtil_autoBundleScanAll(int corner, FNV_Vec4* A, FNV_Vec4
                         normalizeVector(nrm2, d2);
                         float sc;
                         _mm_store_ss(&sc, _mm_mul_ss(ang, _mm_load_ss(&scale)));
-                        if (FUN_00e29920(&va, &vb, &nrm1, &va2, &vb2, &nrm2, thresh, sc))
+                        if (Object_ProcessAndReturnValue_00e29920(&va, &vb, &nrm1, &va2, &vb2, &nrm2, thresh, sc))
                         {
                             rec->idx[rec->n] = i;
                             rec->n++;
@@ -228,7 +229,7 @@ void hkTreeBundleRayCastUtil_autoBundleScanAll(int corner, FNV_Vec4* A, FNV_Vec4
             pa++;
         } while (i < n);
     }
-    FUN_00e29a10(&list, (const LocalM128*)A, (const LocalM128*)B, a7, a8, a9, a10, a11);
+    Runtime_ProcessEntries_00e29a10(&list, (const LocalM128*)A, (const LocalM128*)B, a7, a8, a9, a10, a11);
     hkMemoryRouter_getInstance()->cur = recs;
     FNV_Ctx* holder = hkMemoryRouter_getInstance();
     FNV_MemObj* allocator = holder->obj;

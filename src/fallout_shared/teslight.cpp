@@ -33,7 +33,7 @@
 #include "../../include/NiRTTI.h"
 #undef __local_vftable_ctor_closure
 
-void* __cdecl FUN_00aa13e0(unsigned int);
+void* __cdecl Object_DispatchCommandFour(unsigned int);
 
 
 
@@ -228,7 +228,7 @@ unsigned short __thiscall LightRecordAccess::GetSize(unsigned int aiFlags)
 {
     unsigned short isize = 0;
     isize += reinterpret_cast<FormRecordAccess*>(this)->GetRecordSaveSize(aiFlags);
-    isize += ((TESValueForm*)((char*)this + 0x8c))->FUN_0048e9b0(aiFlags);
+    isize += ((TESValueForm*)((char*)this + 0x8c))->GetFlaggedDataSize(aiFlags);
     return isize;
 }
 
@@ -350,7 +350,7 @@ void __fastcall SwapEndian(void*);
 // @fnv 0x0050cf20
 void LightRecordAccess::SaveLight()
 {
-    TESForm::FUN_004855a0();
+    TESForm::BeginFormRecord();
 
     TESModelTextureSwap::ProcessAndFreeData(0x4c444f4d, 0x54444f4d, 0x53444f4d);
     TESScriptableForm::Save_0048cca0();
@@ -384,7 +384,7 @@ void LightRecordAccess::SaveLight()
         _FUN_00485910(0x4d414e53, formID);
     }
 
-    TESForm::FUN_00485680();
+    TESForm::FinishFormRecord();
 }
 
 // @fnv 0x0050c870
@@ -481,7 +481,7 @@ struct Color
 {
     float r, g, b;
     Color(float, float, float);
-    Color FUN_004a0bd0();
+    Color GetNegatedVector();
 };
 typedef NiPointLight Light;
 struct AmbientLightColorAccess
@@ -792,7 +792,7 @@ NiLight* TESObjectLIGH::CreateLight(TESObjectREFR* reference, NiAVObject* pScene
     tintSlot1.g = (unsigned char)(((unsigned short)data.color >> 8) & 0xff) / DAT_0101e568;
     tintSlot1.b = (unsigned char)((data.color >> 16) & 0xff) / DAT_0101e568;
     if (data.flags & 4)
-        tintSlot1 = tintSlot1.FUN_004a0bd0();
+        tintSlot1 = tintSlot1.GetNegatedVector();
     Scene* rootSlot19 = 0;
     Extra* extra = reinterpret_cast<Scene*>(pScene)->GetExtra(FixedStrings_GetAttachLight());
     if (extra)
@@ -854,7 +854,7 @@ class GlobalObject_0045cfe0
 class GlobalObject_0045cf30
 {
   public:
-    bool FUN_0050e620(bool b);
+    bool IOTask_SetPriority_Thunk(bool b);
 };
 
 extern GlobalObject_0044f440 g_011c8fb0;
@@ -882,7 +882,7 @@ void ConfigurePointLight(NiAVObject* object, unsigned int count)
         light->SetLinearAttenuation(0.0f);
         light->SetQuadraticAttenuation(0.0f);
 
-        if ((DAT_011c8fa0 & 2) || (g_TES->GetPrevPath() != 0 && g_011c8fc0.FUN_0050e620(true)))
+        if ((DAT_011c8fa0 & 2) || (g_TES->GetPrevPath() != 0 && g_011c8fc0.IOTask_SetPriority_Thunk(true)))
         {
             float a = (double)count * *g_011c8fb0.Float();
             switch (*g_011c9054.Int())
@@ -899,7 +899,7 @@ void ConfigurePointLight(NiAVObject* object, unsigned int count)
             }
         }
 
-        if ((DAT_011c8fa0 & 4) || (g_TES->GetPrevPath() == 0 && g_011c8fc0.FUN_0050e620(true)))
+        if ((DAT_011c8fa0 & 4) || (g_TES->GetPrevPath() == 0 && g_011c8fc0.IOTask_SetPriority_Thunk(true)))
         {
             float b = (double)count * *g_011c906c.Float();
             switch (*g_011c907c.Int())

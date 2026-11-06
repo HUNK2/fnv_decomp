@@ -270,7 +270,7 @@ void* __fastcall NiTObjectArray_NiPointer_NiD3DTextureStage_Init(void* pThis, in
 #include "../../../../include/NiMemObject.h"
 
 void __fastcall FUN_00e7fea0(void* pThis);
-void __cdecl FUN_00aa1490(void* pMem, size_t stElementSize);
+void __cdecl NiMemObject_ReleaseStorage_00aa1490(void* pMem, size_t stElementSize);
 
 // Destroys an array of 0x68-byte elements, calling FUN_00e7fea0 on each and freeing the base block when flags has bit 1 set.
 // @fnv 0x00e80080
@@ -288,7 +288,7 @@ void* __fastcall FUN_00e80080(char* pThis, int, unsigned int flags)
         }
         if (flags & 1)
         {
-            FUN_00aa1490(base, 0x68);
+            NiMemObject_ReleaseStorage_00aa1490(base, 0x68);
         }
         return base;
     }
@@ -356,11 +356,11 @@ GlobalObjectO2_00a7b610* __cdecl NiDX9AdditionalDepthStencilBufferData_GetRTTI()
 
 namespace fnv_00e7e7a0 {
 extern MemoryManager g_memoryManager;
-void __fastcall FUN_00e7ec60(void*);
+void __fastcall ReleaseStorage_00e7ec60(void*);
 // @fnv 0x00e7e7a0
 void* __fastcall FUN_00e7e7a0(void* self, int edx, unsigned int flags)
 {
-    FUN_00e7ec60(self);
+    ReleaseStorage_00e7ec60(self);
     if (flags & 1)
         g_memoryManager.Deallocate(self);
     return self;
@@ -369,12 +369,12 @@ void* __fastcall FUN_00e7e7a0(void* self, int edx, unsigned int flags)
 
 namespace fnv_00e7f050 {
 extern MemoryManager g_memoryManager;
-void __fastcall FUN_00e7f070(void*);
+void __fastcall NiD3DPass_ReleaseStorage_00e7f070(void*);
 // Calls FUN_00e7f070 on self, then deallocates self via g_memoryManager when flags has bit 1 set, and returns self.
 // @fnv 0x00e7f050
 void* __fastcall FUN_00e7f050(void* self, int edx, unsigned int flags)
 {
-    FUN_00e7f070(self);
+    NiD3DPass_ReleaseStorage_00e7f070(self);
     if (flags & 1)
         g_memoryManager.Deallocate(self);
     return self;
@@ -383,15 +383,16 @@ void* __fastcall FUN_00e7f050(void* self, int edx, unsigned int flags)
 
 namespace fnv_00e7f070 {
 extern MemoryManager g_memoryManager;
-void __cdecl FUN_00aa1490(void* pMem, unsigned int stElementSize);
+void __cdecl NiMemObject_ReleaseStorage_00aa1490(void* pMem, unsigned int stElementSize);
 // @fnv 0x00e7f070
-void __fastcall FUN_00e7f070(void* apList)
+// src: GUESS 0x00e7f070 (confidence: low)
+void __fastcall NiD3DPass_ReleaseStorage_00e7f070(void* apList)
 {
-    FUN_00aa1490(*(void**)apList, 0x10);
+    NiMemObject_ReleaseStorage_00aa1490(*(void**)apList, 0x10);
     void* next = ((void**)apList)[2];
     if (next)
     {
-        FUN_00e7f070(next);
+        NiD3DPass_ReleaseStorage_00e7f070(next);
         g_memoryManager.Deallocate(next);
     }
 }
@@ -614,7 +615,7 @@ FUN_00e7dc60_struct* FUN_00e7dc60_struct::Initialize()
 
 struct Dummy00e7dc40
 {
-    void FUN_00e7dbc0();
+    void ReleaseStorage_00e7dbc0();
     void* FUN_00e7dc40(unsigned int);
 };
 void __cdecl _delete(void*, unsigned int);
@@ -622,7 +623,7 @@ void __cdecl _delete(void*, unsigned int);
 // @fnv 0x00e7dc40
 void* Dummy00e7dc40::FUN_00e7dc40(unsigned int flags)
 {
-    FUN_00e7dbc0();
+    ReleaseStorage_00e7dbc0();
     if (flags & 1)
         _delete(this, 0x28);
     return this;
@@ -667,10 +668,11 @@ struct This00e7de30
     void* _10;
     char _14[4];
     Holder00e7de30* _18;
-    void FUN_00e7de30();
+    void UpdateReferenceState_00e7de30();
 };
 // @fnv 0x00e7de30
-void This00e7de30::FUN_00e7de30()
+// src: GUESS 0x00e7de30 (confidence: low)
+void This00e7de30::UpdateReferenceState_00e7de30()
 {
     Holder00e7de30* p = _18;
     if (p)
@@ -2392,7 +2394,7 @@ extern FnvInterlockedOperation DAT_00fdf1c4;
 
 void __cdecl RemoveGlobalConstant(int* value);
 void __cdecl ResetAndRegister(void* value);
-void __cdecl FUN_00aa1490(void* value, unsigned int size);
+void __cdecl NiMemObject_ReleaseStorage_00aa1490(void* value, unsigned int size);
 void __cdecl FUN_00aa1460(void* value, unsigned int size);
 
 struct Holder
@@ -2438,7 +2440,7 @@ struct Element
     int unk1c, unk20, unk24, unk28, unk2c, unk30, unk34, unk38, unk3c;
     int unk40, unk44, unk48, unk4c, unk50, unk54, unk58, unk5c, unk60, unk64;
 
-    void FUN_00e7de30();
+    void UpdateReferenceState_00e7de30();
     void* FUN_00e7e7c0(unsigned int flags);
 
     void Release()
@@ -2464,10 +2466,10 @@ void* Element::FUN_00e7e7c0(unsigned int flags)
             end->Release();
         }
         if (flags & 1)
-            FUN_00aa1490(base, 0x68);
+            NiMemObject_ReleaseStorage_00aa1490(base, 0x68);
         return base;
     }
-    FUN_00e7de30();
+    UpdateReferenceState_00e7de30();
     if (flags & 1)
         FUN_00aa1460(this, 0x68);
     return this;
@@ -3804,7 +3806,7 @@ inline IDirect3D9* GetDepthD3D()
 struct DepthPixelFormat;
 DepthPixelFormat* CreatePixelFormat(D3DFORMAT format);
 const char* GetHResultName(HRESULT result);
-void FUN_00a29680(const char* format, ...);
+void Object_DoNothing(const char* format, ...);
 // The D3DMULTISAMPLE_TYPE for a buffer's multisample preference.
 __forceinline D3DMULTISAMPLE_TYPE GetD3DMultiSampleType(Ni2DBuffer::MultiSamplePreference ePref)
 {
@@ -3847,7 +3849,7 @@ bool NiDX9AdditionalDepthStencilBufferData::Recreate(IDirect3DDevice9* pkD3DDevi
     }
     if (result < 0)
     {
-        FUN_00a29680("NiDX9AdditionalDepthStencilBufferData::Recreate> FAILED %s", GetHResultName(result));
+        Object_DoNothing("NiDX9AdditionalDepthStencilBufferData::Recreate> FAILED %s", GetHResultName(result));
         return false;
     }
     D3DSURFACE_DESC surfaceDesc;

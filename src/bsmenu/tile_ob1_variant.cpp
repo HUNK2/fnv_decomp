@@ -147,10 +147,11 @@ struct S00a0d390
     int f4;
     void* f8;
     void ClearAll();
-    void FUN_00a0d390();
+    void ReleaseStorage_00a0d390();
 };
 // @fnv 0x00a0d390
-void S00a0d390::FUN_00a0d390()
+// src: GUESS 0x00a0d390 (confidence: low)
+void S00a0d390::ReleaseStorage_00a0d390()
 {
     int pad1;
     int pad2;
@@ -999,11 +1000,12 @@ struct FUN_00a0d280_cls {
     int m_08;
     Sub_0043a010 m_sub;
 
-    void FUN_00a0d280();
+    void ProcessState_00a0d280();
 };
 
 // @fnv 0x00a0d280
-void FUN_00a0d280_cls::FUN_00a0d280()
+// src: GUESS 0x00a0d280 (confidence: low)
+void FUN_00a0d280_cls::ProcessState_00a0d280()
 {
     TileScratch_00a0d280 scratch;
     (void)scratch;
@@ -1145,7 +1147,8 @@ struct Item_00a0ba50 {
 };
 
 // @fnv 0x00a0ba50
-void __cdecl FUN_00a0ba50()
+// src: GUESS 0x00a0ba50 (confidence: medium)
+void __cdecl Tile_DeleteGlobalItems()
 {
     while (DAT_011f32dc-- != 0) {
         Item_00a0ba50* pItem = (Item_00a0ba50*)DAT_011f329c[DAT_011f32dc];
@@ -1155,11 +1158,11 @@ void __cdecl FUN_00a0ba50()
 }
 
 void __cdecl AutoTileLock_AutoTileLock();
-extern "C" void __cdecl FUN_00a04500();
+extern "C" void __cdecl Object___imp__LeaveCriticalSection_Thunk();
 
 struct TileSearchLock {
     TileSearchLock() { AutoTileLock_AutoTileLock(); }
-    ~TileSearchLock() { FUN_00a04500(); }
+    ~TileSearchLock() { Object___imp__LeaveCriticalSection_Thunk(); }
 };
 
 struct TileFloatList {
@@ -1243,7 +1246,7 @@ FUN_00a0ac80::FUN_00a0ac80()
 }
 
 void AutoTileLock_AutoTileLock();
-void FUN_00a04500();
+void Object___imp__LeaveCriticalSection_Thunk();
 
 class TileV;
 
@@ -1261,7 +1264,7 @@ class FnvTileLock
 {
 public:
     FnvTileLock() { AutoTileLock_AutoTileLock(); }
-    ~FnvTileLock() { FUN_00a04500(); }
+    ~FnvTileLock() { Object___imp__LeaveCriticalSection_Thunk(); }
 };
 
 inline bool HasValue(TileValueV* pList, int m_iValueId)
@@ -1290,11 +1293,12 @@ public:
     NiTListItem<TileV*>* GetHeadPos() { return m_pkChildList; }
     TileV*& GetNext(NiTListItem<TileV*>*& pos) { TileV*& element = pos->m_element; pos = pos->m_pkNext; return element; }
     float GetFloat(int);
-    void FUN_00a0b420(TileValueV* pValues, float fValue);
+    void ProcessEntries_00a0b420(TileValueV* pValues, float fValue);
 };
 
 // @fnv 0x00a0b420
-void TileV::FUN_00a0b420(TileValueV* pValues, float fValue)
+// src: GUESS 0x00a0b420 (confidence: low)
+void TileV::ProcessEntries_00a0b420(TileValueV* pValues, float fValue)
 {
     FnvTileLock aKLock;
     float f = GetFloat(0xff4);
@@ -1307,7 +1311,7 @@ void TileV::FUN_00a0b420(TileValueV* pValues, float fValue)
     }
     NiTListItem<TileV*>* pkIter = GetHeadPos();
     while (pkIter)
-        GetNext(pkIter)->FUN_00a0b420(pValues, f);
+        GetNext(pkIter)->ProcessEntries_00a0b420(pValues, f);
 }
 
 extern "C" void* __cdecl memcpy(void*, const void*, size_t);
@@ -1710,8 +1714,8 @@ struct MemoryContextGuard {
     __forceinline ~MemoryContextGuard() { SetMemoryContext(previous); }
 };
 void __cdecl AutoTileLock_AutoTileLock();
-void __cdecl FUN_00a04500();
-struct TileReleaseLock { __forceinline ~TileReleaseLock() { FUN_00a04500(); } };
+void __cdecl Object___imp__LeaveCriticalSection_Thunk();
+struct TileReleaseLock { __forceinline ~TileReleaseLock() { Object___imp__LeaveCriticalSection_Thunk(); } };
 extern MemoryManager DAT_011f6238;
 struct ReleaseValue {
     __forceinline ~ReleaseValue();
@@ -1865,7 +1869,7 @@ namespace fnv_00a00a30 {
 extern MemoryManager DAT_011f6238;
 
 void __cdecl AutoTileLock_AutoTileLock(); // EnterCriticalSection on the menu lock
-void __cdecl FUN_00a04500(); // LeaveCriticalSection
+void __cdecl Object___imp__LeaveCriticalSection_Thunk(); // LeaveCriticalSection
 
 class TileTemplateA00 {
 public:
@@ -1883,7 +1887,8 @@ public:
     static void operator delete(void* pvMem) { DAT_011f6238.Deallocate(pvMem); }
     ~SimpleListA00() {}
 
-    void FUN_00ae83e0()
+// src: GUESS 0x00ae83e0 (confidence: low)
+    void ProcessEntries_00ae83e0()
     {
         while (m_pkNext)
         {
@@ -1940,7 +1945,7 @@ extern SimpleListA00<FadeNodeA00*> DAT_011f3348;
 class MenuLockA00 {
 public:
     MenuLockA00() { AutoTileLock_AutoTileLock(); }
-    ~MenuLockA00() { FUN_00a04500(); }
+    ~MenuLockA00() { Object___imp__LeaveCriticalSection_Thunk(); }
 };
 
 // @fnv 0x00a00a30
@@ -1955,13 +1960,13 @@ void __cdecl Tile_FreeTraitList()
     {
         delete pkIter->m_item;
     }
-    DAT_011f3350.FUN_00ae83e0();
+    DAT_011f3350.ProcessEntries_00ae83e0();
 
     for (SimpleListA00<FadeNodeA00*>* pkIter2 = &DAT_011f3348; pkIter2 && pkIter2->m_item; pkIter2 = pkIter2->m_pkNext)
     {
         delete pkIter2->m_item;
     }
-    DAT_011f3348.FUN_00ae83e0();
+    DAT_011f3348.ProcessEntries_00ae83e0();
 }
 }  // namespace fnv_00a00a30
 
@@ -2043,11 +2048,11 @@ public:
 extern const char* DAT_011f34cc;
 
 void AutoTileLock_AutoTileLock();
-void FUN_00a04500();
+void Object___imp__LeaveCriticalSection_Thunk();
 
 struct TileListLock {
     TileListLock() { AutoTileLock_AutoTileLock(); }
-    ~TileListLock() { FUN_00a04500(); }
+    ~TileListLock() { Object___imp__LeaveCriticalSection_Thunk(); }
 };
 
 struct ExtraNode {
@@ -2087,12 +2092,12 @@ extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volati
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* lpAddend);
 
 void __cdecl AutoTileLock_AutoTileLock();
-void __cdecl FUN_00a04500();
+void __cdecl Object___imp__LeaveCriticalSection_Thunk();
 
 class MenuLockA01 {
 public:
     MenuLockA01() { AutoTileLock_AutoTileLock(); }
-    ~MenuLockA01() { FUN_00a04500(); }
+    ~MenuLockA01() { Object___imp__LeaveCriticalSection_Thunk(); }
 };
 
 class RefObjectA01 {
@@ -2543,11 +2548,11 @@ void __cdecl Tile_UpdateAll(bool update)
 
 namespace fnv_00a07580 {
 void __cdecl AutoTileLock_AutoTileLock();
-void __cdecl FUN_00a04500();
+void __cdecl Object___imp__LeaveCriticalSection_Thunk();
 
 struct LockGuard_00a07580 {
     LockGuard_00a07580() { ::AutoTileLock_AutoTileLock(); }
-    ~LockGuard_00a07580() { ::FUN_00a04500(); }
+    ~LockGuard_00a07580() { ::Object___imp__LeaveCriticalSection_Thunk(); }
 };
 
 struct TileResult_00a07580 {
@@ -2908,13 +2913,13 @@ void __cdecl Tile_AddReaction(int iKey, int iItem)
 }  // namespace fnv_00a0a130
 
 void __cdecl AutoTileLock_AutoTileLock();
-void __cdecl FUN_00a04500();
+void __cdecl Object___imp__LeaveCriticalSection_Thunk();
 extern const double _gModifierZero;
 
 class MenuLockB35 {
 public:
     MenuLockB35() { AutoTileLock_AutoTileLock(); }
-    ~MenuLockB35() { FUN_00a04500(); }
+    ~MenuLockB35() { Object___imp__LeaveCriticalSection_Thunk(); }
 };
 
 class ChildTraitInvalidator;
@@ -3940,7 +3945,8 @@ struct FadeList {
     static void operator delete(void* p) { g_memoryManager.Deallocate(p); }
     ~FadeList() { RemoveAll(); }
     inline void RemoveAll() { while (next) { FadeList* after=next->next; next->next=0; delete next; next=after; } item=0; }
-    inline void FUN_00a0cbe0(FadeRecord*& p) {
+// src: GUESS 0x00a0cbe0 (confidence: low)
+    inline void ProcessEntries_00a0cbe0(FadeRecord*& p) {
         if (!p || (!next && !item)) return;
         FadeList* cur=this; FadeList* prev=this;
         while(cur && cur->item != p) { prev=cur; cur=cur->next; }
@@ -3965,7 +3971,7 @@ struct FUN_00ae83e0 {
 
 };
 typedef FUN_00ae83e0 FadePending;
-struct FadePendingClear { void FUN_00ae83e0(); };
+struct FadePendingClear { void ProcessEntries_00ae83e0(); };
 extern const float DAT_01094c18;
 extern const float DAT_01094c0c;
 extern const double DAT_01011590;
@@ -4051,7 +4057,7 @@ void __cdecl Tile_UpdateFadeControls()
     }
     for (pending3=&local2; pending3 && pending3->item; pending3=pending3->next) {
         item=pending3->item;
-        reinterpret_cast<FadeList*>(&DAT_011f3348)->FUN_00a0cbe0(item);
+        reinterpret_cast<FadeList*>(&DAT_011f3348)->ProcessEntries_00a0cbe0(item);
         local18=item;
         g_memoryManager.Deallocate(local18);
     }

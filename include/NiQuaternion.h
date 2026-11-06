@@ -36,7 +36,7 @@ public:
                             m_fVectorZ * scalar, m_fScalarPart * scalar);
     }
 
-    NiQuaternion FUN_00a39120(float scalar) const;
+    NiQuaternion ScaleFourComponents(float scalar) const;
     void FUN_00a38560();
     void NiQuaternion_ToRotation(Mat112* matrix);
 

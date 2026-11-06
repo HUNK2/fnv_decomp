@@ -40,18 +40,18 @@ public:
     double DotProduct(const PodPoint3& point);
     float Length() const;
 
-    PodPoint3& FUN_00439180(float scalar);
+    PodPoint3& ScaleComponents(float scalar);
     PodPoint3 FUN_00439e90(const PodPoint3& shift) const;
     PodPoint3* FUN_00439e90(PodPoint3* output, const PodPoint3* other) const;
-    PodPoint3 FUN_00439ef0(const PodPoint3& other) const;
-    void FUN_00439ef0();
+    PodPoint3 SubtractIntoVector(const PodPoint3& other) const;
+    void SubtractIntoVector();
     PodPoint3 FUN_004b3800(const PodPoint3& axis) const;
     void Unitize_004a0c10();
     float FUN_00457910();
     float FUN_00457990() const;
     double FUN_004a7290();
     PodPoint3* FUN_006815c0();
-    PodPoint3* FUN_00416870(float x, float y, float z);
+    PodPoint3* SetComponents(float x, float y, float z);
     void FUN_0043d410(float x, int y, int z);
     char* GetViewerString_00a59af0(const char* text);
 
@@ -117,7 +117,7 @@ PodPoint3* TESHavokUtilities_GetLocalPointWithinCollision(PodPoint3* out, Node* 
             FUN_004a3760(&maxTermA, .55f, &maximum)->FUN_00439e90(&upper, FUN_004a3760(&minTermA, .45f, &minimum));
             FUN_004a3760(&maxTermB, .45f, &maximum)->FUN_00439e90(&lower, FUN_004a3760(&minTermB, .55f, &minimum));
             PodPoint3 random;
-            chosen = *random.FUN_00416870(FUN_00476b70(lower.x, upper.x), FUN_00476b70(lower.y, upper.y),
+            chosen = *random.SetComponents(FUN_00476b70(lower.x, upper.x), FUN_00476b70(lower.y, upper.y),
                                           FUN_00476b70(lower.z, upper.z));
             if (NiObject_IsKindOf(&g_012683c8, body) || collision->FUN_0044ddc0() != node)
             {
@@ -130,7 +130,7 @@ PodPoint3* TESHavokUtilities_GetLocalPointWithinCollision(PodPoint3* out, Node* 
                 NiTransform inverse;
                 node->NiAVObject_GetWorldRotate()->FUN_004b4880(inverse);
                 PodPoint3 transformed;
-                chosen = *(PodPoint3*)(inverse * bodyWorld).FUN_00524c40((NiPoint3*)&transformed, (const NiPoint3&)chosen);
+                chosen = *(PodPoint3*)(inverse * bodyWorld).ComputeValue_00524c40((NiPoint3*)&transformed, (const NiPoint3&)chosen);
             }
         }
     }

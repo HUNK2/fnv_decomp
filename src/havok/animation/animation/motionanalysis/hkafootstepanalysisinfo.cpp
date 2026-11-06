@@ -413,11 +413,12 @@ extern "C" char DAT_010ebd64;
 struct Obj
 {
     const void* vptr;
-    Obj* FUN_00e40ca0(int unused);
+    Obj* InitializeFields_00e40ca0(int unused);
 };
 
 // @fnv 0x00e40ca0
-Obj* Obj::FUN_00e40ca0(int unused)
+// src: GUESS 0x00e40ca0 (confidence: low)
+Obj* Obj::InitializeFields_00e40ca0(int unused)
 {
     vptr = &DAT_010ebd64;
     return this;
@@ -474,12 +475,13 @@ struct FUN_00e41e20_cls
     int m_iArrayLength;
     unsigned int m_uCapBits;
 
-    void FUN_00e41e20();
+    void ReleaseOwnedArray();
 };
 
 // If the capacity flag is clear, calls FreeArray on m_pData; then clears the data and size fields and assigns the final vtable value.
 // @fnv 0x00e41e20
-void FUN_00e41e20_cls::FUN_00e41e20()
+// src: GUESS 0x00e41e20 (confidence: medium)
+void FUN_00e41e20_cls::ReleaseOwnedArray()
 {
     m_vptr00 = (int)&DAT_010e58c8;
     hkMemoryRouter* pHolder = hkMemoryRouter_getInstance();

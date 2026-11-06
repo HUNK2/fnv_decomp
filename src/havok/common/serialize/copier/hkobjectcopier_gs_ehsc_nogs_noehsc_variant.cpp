@@ -7,11 +7,11 @@
 #include "fnv_asm_helpers.h"
 #include "../../../../../include/Pair.h"
 int __stdcall hkObjectCopier_areMembersCompatible(const void* a, const void* b);
-int __cdecl FUN_00e049c0(int a, int b);
+int __cdecl Object_ComputeValue_00e049c0(int a, int b);
 extern int DAT_0102e388;
 struct Object {
     int* vtable;
-    void FUN_00e03160();
+    void SetVirtualTable_00e03160();
 };
 struct E04A00Allocator;
 struct E04A00MemoryRouter {
@@ -52,7 +52,7 @@ class Obj {
 public:
     int m();
 };
-static int FUN_00e03100(Obj* apObj);
+static int Object_ProcessAndReturnValue_00e03100(Obj* apObj);
 int keep_alive(Obj* p);
 struct FUN_00e03120 {
     virtual ~FUN_00e03120();
@@ -115,7 +115,8 @@ struct List
 int __cdecl hkString_strLen(int);
 int __cdecl FUN_00e03360_ext1(int);
 int __cdecl FUN_00e03360_ext2(VObj* p);
-__declspec(noinline) static void FUN_00e03360(VObj* p, int n)
+// src: GUESS 0x00e03360 (confidence: low)
+__declspec(noinline) static void Object_UpdateFields_00e03360(VObj* p, int n)
 {
     int k = FUN_00e03360_ext1(n);
     FUN_00e03360_ext2(p);
@@ -130,9 +131,9 @@ struct Scratch16 {
     unsigned int unk04;
     unsigned int unk08;
     unsigned int unk0C;
-    void FUN_00d60830(unsigned int a, unsigned int b);
+    void hkOArchive_InitializeWriterWithByteSwap(unsigned int a, unsigned int b);
     unsigned char* ForwardValueToObject(unsigned int* out);
-    void FUN_00d60590();
+    void ReleaseReference_00d60590();
 };
 struct FUN_00e04920_cls {
     unsigned int unk00;
@@ -240,14 +241,14 @@ struct LocalCharArray : CharArrayLocalForm
         destroy(Router().m_pStreamAllocator);
     }
 };
-static void __cdecl FUN_00e03360(Reader* obj, int n);
+static void __cdecl Object_UpdateFields_00e03360(Reader* obj, int n);
 void keep_alive_b11425(Reader* obj, int a, int b);
 struct DiagnosticWriter {
     void* vtbl;                                            // +0
     int unk04;                                             // +4
     void* p;                                               // +8
     void FUN_00cb1600(void* buf, int size);                // (this,buf,size), ret 8
-    void FUN_00cc01c0(const char* msg);                    // (this,msg), ret 4
+    void ProcessAndReturnValue_00cc01c0(const char* msg);                    // (this,msg), ret 4
     void FUN_00cc00e0();                                   // (this), ret
 };
 struct Target {
@@ -262,7 +263,7 @@ struct AssertMgr {
 extern AssertMgr* DAT_01268360;
 extern const char str_010ea3e4[];
 extern const char str_010ea3c8[];
-static void FUN_00e03170(unsigned int a, unsigned int b, unsigned int type, Target* obj, void* p);
+static void Hkobjectcopier_WriteSwappedDataByType(unsigned int a, unsigned int b, unsigned int type, Target* obj, void* p);
 void target_driver(unsigned int type, unsigned int count, unsigned int size, void* data, Target* target);
 
 extern "C" void _ReadWriteBarrier();
@@ -364,7 +365,7 @@ struct S00e03ea0_Ostream {
     int unk04;
     int unk08;
     void FUN_00cb1600(char* buf, int size);
-    void FUN_00cc01c0(const char* s);
+    void ProcessAndReturnValue_00cc01c0(const char* s);
     void FUN_00cc00e0();
 };
 
@@ -389,7 +390,8 @@ extern const char DAT_010ea4b0[];
 extern const char DAT_010ea448[];
 extern const char DAT_010ea3c8[];
 
-__declspec(noinline) static int FUN_00e03100(Obj* p)
+// src: GUESS 0x00e03100 (confidence: low)
+__declspec(noinline) static int Object_ProcessAndReturnValue_00e03100(Obj* p)
 {
     int n = p->m();
     return n ? p->m() : 1;
@@ -414,7 +416,7 @@ __declspec(noinline) static void WriteUIntArray(const unsigned int* data, int co
 
 __declspec(noinline) static int AppendListEntry(Ctx* ctx, List* list, int a, int b)
 {
-    FUN_00e03360(ctx->hkOArchive_getStreamWriter(), 2);
+    Object_UpdateFields_00e03360(ctx->hkOArchive_getStreamWriter(), 2);
     VObj* target = ctx->hkOArchive_getStreamWriter()->v20();
     E04A00Allocator& alloc = hkMemoryRouter_getInstance().heap();
     if (list->m_uiItemCount == (int)(list->m_iCapacityState & 0x3fffffff))
@@ -428,7 +430,8 @@ __declspec(noinline) static int AppendListEntry(Ctx* ctx, List* list, int a, int
 }
 
 extern const char str_010ea3e4[];
-__declspec(noinline) static void FUN_00e03170(Target* w, unsigned int count, unsigned int stride, unsigned int kind, void* data)
+// src: GUESS 0x00e03170 (confidence: medium)
+__declspec(noinline) static void Hkobjectcopier_WriteSwappedDataByType(Target* w, unsigned int count, unsigned int stride, unsigned int kind, void* data)
 {
     switch (kind) {
     case 12: case 13: case 14: case 15: case 16: case 17: case 18:
@@ -441,7 +444,7 @@ __declspec(noinline) static void FUN_00e03170(Target* w, unsigned int count, uns
         char text[512];
         S00e03ea0_Ostream diagnostic;
         diagnostic.FUN_00cb1600(text, sizeof(text));
-        diagnostic.FUN_00cc01c0(str_010ea3e4);
+        diagnostic.ProcessAndReturnValue_00cc01c0(str_010ea3e4);
         if (DAT_01268360->v3(3, 0x747e1e03, text, DAT_010ea3c8, 0xfb))
             __debugbreak();
         diagnostic.FUN_00cc00e0();
@@ -529,8 +532,8 @@ void S00e03ea0_Ser::hkObjectCopier_saveExtras(char* src, S00e03ea0_Schema* srcCl
             break;
         }
         case 0x14: {
-            int count = FUN_00e049c0(FUN_00e03100((Obj*)type), FUN_00e03100((Obj*)member));
-            int stride = type->FUN_00d86980() / FUN_00e03100((Obj*)type);
+            int count = Object_ComputeValue_00e049c0(Object_ProcessAndReturnValue_00e03100((Obj*)type), Object_ProcessAndReturnValue_00e03100((Obj*)member));
+            int stride = type->FUN_00d86980() / Object_ProcessAndReturnValue_00e03100((Obj*)type);
             int j=0;
             fixedPointerLoop(self, s, member, writer, dst, out, count, stride, j);
             break;
@@ -631,7 +634,7 @@ void S00e03ea0_Ser::hkObjectCopier_saveExtras(char* src, S00e03ea0_Schema* srcCl
                     WriteUIntArray(rawData, rawCount, (Writer*)*(S00e03ea0_Writer* volatile const*)&writer, self->m_dstPtrSize);
                 }
                 else {
-                    FUN_00e03170((Target*)writer, arr->m_iElementCount, member->GetTagValue(), member->m_subType, arr->m_data);
+                    Hkobjectcopier_WriteSwappedDataByType((Target*)writer, arr->m_iElementCount, member->GetTagValue(), member->m_subType, arr->m_data);
                 }
             }
             break;
@@ -658,8 +661,8 @@ void S00e03ea0_Ser::hkObjectCopier_saveExtras(char* src, S00e03ea0_Schema* srcCl
             if (!sc || !dc)
                 break;
             int d = dst + member->getOffset();
-            int n = FUN_00e03100((Obj*)type);
-            int count = FUN_00e049c0(n, FUN_00e03100((Obj*)member));
+            int n = Object_ProcessAndReturnValue_00e03100((Obj*)type);
+            int count = Object_ComputeValue_00e049c0(n, Object_ProcessAndReturnValue_00e03100((Obj*)member));
             for (int j = 0; j < count; j++) {
                 char* ss = s + sc->FUN_00d470d0() * j;
                 self->hkObjectCopier_saveExtras(ss, sc, writer, dc, d + dc->FUN_00d470d0() * j, out, depth);
@@ -667,8 +670,8 @@ void S00e03ea0_Ser::hkObjectCopier_saveExtras(char* src, S00e03ea0_Schema* srcCl
             break;
         }
         case 0x1c: {
-            int n = FUN_00e03100((Obj*)type);
-            int count = FUN_00e049c0(n, FUN_00e03100((Obj*)member));
+            int n = Object_ProcessAndReturnValue_00e03100((Obj*)type);
+            int count = Object_ComputeValue_00e049c0(n, Object_ProcessAndReturnValue_00e03100((Obj*)member));
             for (int j = 0; j < count; j++) {
                 unsigned char ptrSize = self->m_srcPtrSize;
                 void* o = *(void**)(s + j * ptrSize * 2);
@@ -683,7 +686,7 @@ void S00e03ea0_Ser::hkObjectCopier_saveExtras(char* src, S00e03ea0_Schema* srcCl
         case 0x13: {
             S00e03ea0_Ostream& os = sc.os13;
             os.FUN_00cb1600(buf, 0x200);
-            os.FUN_00cc01c0(DAT_010ea4b0);
+            os.ProcessAndReturnValue_00cc01c0(DAT_010ea4b0);
             if (DAT_01268360->v3(3, 0x641e3e05, buf, DAT_010ea3c8, 0x39e))
                 __debugbreak();
             os.FUN_00cc00e0();
@@ -692,14 +695,14 @@ void S00e03ea0_Ser::hkObjectCopier_saveExtras(char* src, S00e03ea0_Schema* srcCl
         default: {
             S00e03ea0_Ostream& os = sc.osDefault;
             os.FUN_00cb1600(buf, 0x200);
-            os.FUN_00cc01c0(DAT_010ea448);
+            os.ProcessAndReturnValue_00cc01c0(DAT_010ea448);
             if (DAT_01268360->v3(3, 0x641e3e05, buf, DAT_010ea3c8, 0x3a3))
                 __debugbreak();
             os.FUN_00cc00e0();
             break;
         }
         }
-        FUN_00e03360(writer->hkOArchive_getStreamWriter(), 0x10);
+        Object_UpdateFields_00e03360(writer->hkOArchive_getStreamWriter(), 0x10);
     }
 }
 
@@ -724,7 +727,7 @@ struct ZeroArchive {
     int hkOArchive_writeRaw(const void* data, int size);
     void hkOArchive_write32u(unsigned int value);
 };
-static __declspec(noinline) int FUN_00e03100(Obj* p);
+static __declspec(noinline) int Object_ProcessAndReturnValue_00e03100(Obj* p);
 extern const char str_010ea424[];
 struct ZeroCopier {
     void* m_ppVirtualMethodTable;
@@ -755,7 +758,7 @@ void ZeroCopier::hkObjectCopier_writeZero(ZeroArchive& archive, const ZeroMember
         bytes = member.FUN_00d86980();
         break;
     case 20: case 21: case 30:
-        bytes = m_outputPointerSize * FUN_00e03100((Obj*)&member);
+        bytes = m_outputPointerSize * Object_ProcessAndReturnValue_00e03100((Obj*)&member);
         break;
     case 22: case 23: case 26: case 27:
         if (member.type() == 27)
@@ -771,17 +774,17 @@ void ZeroCopier::hkObjectCopier_writeZero(ZeroArchive& archive, const ZeroMember
         break;
     case 25: {
         const ZeroClass& pClassInfo = member.FUN_00d86910();
-        bytes = pClassInfo.FUN_00d470d0() * FUN_00e03100((Obj*)&member);
+        bytes = pClassInfo.FUN_00d470d0() * Object_ProcessAndReturnValue_00e03100((Obj*)&member);
         break;
     }
     case 28:
-        bytes = 2 * m_outputPointerSize * FUN_00e03100((Obj*)&member);
+        bytes = 2 * m_outputPointerSize * Object_ProcessAndReturnValue_00e03100((Obj*)&member);
         break;
     default: {
         unsigned int report[128];
         DiagnosticWriter stream;
         stream.FUN_00cb1600(report, sizeof(report));
-        stream.FUN_00cc01c0(str_010ea424);
+        stream.ProcessAndReturnValue_00cc01c0(str_010ea424);
         if (DAT_01268360->v3(3, 0x5ef4e5a4u, (char*)report, str_010ea3c8, 168))
             __debugbreak();
         stream.FUN_00cc00e0();

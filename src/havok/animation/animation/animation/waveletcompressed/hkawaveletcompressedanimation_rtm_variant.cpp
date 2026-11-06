@@ -48,7 +48,7 @@ struct FUN_00e2f8b0_Obj
     int unk24;
     int unk28;
 
-    int FUN_00e2f8b0();
+    int GetUnk28();
 };
 class FUN_00e2f860
 {
@@ -214,8 +214,8 @@ static __forceinline void Decode_e51660(const unsigned char* __restrict& in, con
 }
 void __cdecl DecodeQuantizedBlock(const unsigned char* __restrict in, const QParam_00e51660* qParam, float* out,
                                   int totalCount);
-float __cdecl FUN_00e2f970(float f);
-static unsigned short FUN_00e2f9d0(unsigned short v);
+float __cdecl hkaWaveletCompressedAnimation_SwapFloatByteOrder(float f);
+static unsigned short hkaWaveletCompressedAnimation_SwapUnsignedShortByteOrder(unsigned short v);
 unsigned short volatile g_in;
 unsigned short g_out;
 void caller();

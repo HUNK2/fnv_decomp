@@ -96,7 +96,8 @@ void* __cdecl RegisterMousePicking()
 extern int DAT_01268ff8;
 
 // @fnv 0x00d66ed0
-int __cdecl FUN_00d66ed0()
+// src: GUESS 0x00d66ed0 (confidence: low)
+int __cdecl Hkpmousepickingviewer_GetDAT01268ff8()
 {
     return DAT_01268ff8;
 }
@@ -331,7 +332,7 @@ namespace fnv_00d66ee0 {
 // sub ecx,0x20; jmp target: MSVC adjustor thunk for the secondary base (PrimaryBase is 0x20 bytes).
 struct PrimaryBase
 {
-    virtual void FUN_00d66ee0();
+    virtual void AdjustThisAndForward_00d66ee0();
     int unk04;
     int unk08;
     int unk0C;
@@ -343,14 +344,15 @@ struct PrimaryBase
 
 struct SecondaryBase
 {
-    virtual void FUN_00d66ee0();
+    virtual void AdjustThisAndForward_00d66ee0();
 };
 
 struct Derived : PrimaryBase, SecondaryBase
 {
     Derived();
 // @fnv 0x00d66ee0
-    virtual void FUN_00d66ee0();
+// src: GUESS 0x00d66ee0 (confidence: low)
+    virtual void AdjustThisAndForward_00d66ee0();
 };
 
 Derived::Derived()

@@ -98,7 +98,8 @@ struct Holder
 Holder* __cdecl hkMemoryRouter_getInstance();
 
 // @fnv 0x0056d280
-ReturnType* __cdecl FUN_0056d280(unsigned int nbytes)
+// src: GUESS 0x0056d280 (confidence: medium)
+ReturnType* __cdecl Object_AllocateStorage_0056d280(unsigned int nbytes)
 {
     ReturnType* result;
     {

@@ -871,7 +871,7 @@ struct MessageBuilder
     unsigned int capacity;
     char* cursor;
     __declspec(nothrow) MessageBuilder(char* buffer, unsigned int capacity);
-    void FUN_00cc01c0(const char* text);
+    void ProcessAndReturnValue_00cc01c0(const char* text);
     void FUN_00cc00e0();
 };
 struct ObjectLink
@@ -2060,7 +2060,7 @@ struct StepWorld
     void IncrementCounter();
     void nullsub_6();
     void FUN_00c91120();
-    void FUN_00c91140();
+    void UpdateFields_00c91140();
     void hkpWorld_unlock();
     int hkpWorld_getMemoryWatchDog();
 };
@@ -2357,7 +2357,7 @@ struct ObjA
     int LookupHashEntry(void* elem, int zero);
     void hkMapBase_unsigned_long_unsigned_long_hkMapOperations_unsigned_long_insert(DeallocCtx* ctx, void* elem, int one);
     void ProcessArgument(DeallocCtx* ctx);
-    void FUN_00a29680();
+    void Object_DoNothing();
 };
 struct CollisionCell
 {
@@ -4331,7 +4331,7 @@ struct SubObj
         return m_78;
     }
     void FUN_00c91120();
-    void FUN_00c91140();
+    void UpdateFields_00c91140();
 };
 struct ElemSub
 {
@@ -5181,13 +5181,13 @@ struct Obj
             if (m_8c)
                 FUN_00c91120();
             if (m_a4 == 1 && m_90)
-                FUN_00c91140();
+                UpdateFields_00c91140();
         }
     }
     void* hkpWorld_getMemoryWatchDog();
     void ComputeMemoryUsage(MemoryInfo* out);
     void FUN_00c91120();
-    void FUN_00c91140();
+    void UpdateFields_00c91140();
     void nullsub_6();
 };
 struct Simulation

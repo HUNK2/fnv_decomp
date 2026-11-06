@@ -678,11 +678,12 @@ struct BpEndPoint {
 
 struct FUN_00d19ef0_cls {
     BpEndPoint* m_pItems;
-    void FUN_00d19ef0(char* out, int n, BpEndPoint* src, int k);
+    void ProcessEntries_00d19ef0(char* out, int n, BpEndPoint* src, int k);
 };
 
 // @fnv 0x00d19ef0
-void FUN_00d19ef0_cls::FUN_00d19ef0(char* out, int iCount, BpEndPoint* src, int iSplit) {
+// src: GUESS 0x00d19ef0 (confidence: low)
+void FUN_00d19ef0_cls::ProcessEntries_00d19ef0(char* out, int iCount, BpEndPoint* src, int iSplit) {
     int cnt = iCount - iSplit;
     BpEndPoint* pRight = &src[iSplit - 1];
     BpEndPoint* base = m_pItems;
@@ -1346,7 +1347,8 @@ void hkp3AxisSweep::getExtents(__m128* out0, __m128* out1) {
 }
 
 // @fnv 0x00d10e80
-void __cdecl FUN_00d10e80()
+// src: GUESS 0x00d10e80 (confidence: high)
+void __cdecl Object_DoNothing_00d10e80()
 {
 }
 
@@ -1842,12 +1844,13 @@ extern int DAT_011b37ac[2];
 
 struct SweepMerge {
     Endpoint* m_endpoints;
-    void FUN_00d19e40(char* cells, int n, Endpoint* source, int count);
+    void MergeEndpointRangesBackward(char* cells, int n, Endpoint* source, int count);
 };
 
 // Merges m_endpoints[0..n-count) with source[0..count) from the back into m_endpoints, writing each moved endpoint's new index into cells.
 // @fnv 0x00d19e40
-void SweepMerge::FUN_00d19e40(char* cells, int aiTotalCount, Endpoint* apRightStart, int aiRightCount)
+// src: GUESS 0x00d19e40 (confidence: medium)
+void SweepMerge::MergeEndpointRangesBackward(char* cells, int aiTotalCount, Endpoint* apRightStart, int aiRightCount)
 {
     Endpoint* base = m_endpoints;
     Endpoint* right = apRightStart;
@@ -2323,7 +2326,8 @@ union CheckedUnsignedShortVector {
     __m64 v;
     struct { short x,y,z,w; };
 };
-__declspec(noinline) void hkp3AxisSweep::FUN_00d10b30(Node16* buf, int index, Node16* node) {
+// src: GUESS 0x00d10b30 (confidence: low)
+__declspec(noinline) void hkp3AxisSweep::Hkp3axissweepGsEhscNogsNoehsc_ProcessEntries_00d10b30(Node16* buf, int index, Node16* node) {
     CheckedUnsignedShortVector lo,hi,loMax,hiMax;
     __m64 yz = *(__m64*)&node->f0;
     __m64 x = *(__m64*)&node->f8;
@@ -2381,7 +2385,7 @@ void hkp3AxisSweep::addObject_00d142b0(int* handle, Input* input, PairArr* outPa
     reinterpret_cast<FUN_00d11da0_cls&>(m_axis0).InsertPair((unsigned int)data, oldSize, (unsigned short)mins.x, (unsigned short)maxs.x, &node->minX, &node->maxX);
     reinterpret_cast<FUN_00d11da0_cls&>(m_axis1).InsertPair((unsigned int)data, oldSize, (unsigned short)mins.y, (unsigned short)maxs.y, &node->minY, &node->maxY);
     reinterpret_cast<FUN_00d11da0_cls&>(m_axis2).InsertPair((unsigned int)data, oldSize, (unsigned short)mins.z, (unsigned short)maxs.z, &node->minZ, &node->maxZ);
-    FUN_00d10b30(data, oldSize, node);
+    Hkp3axissweepGsEhscNogsNoehsc_ProcessEntries_00d10b30(data, oldSize, node);
     node->fC = handle;
     *handle = oldSize;
     int nodeCount = reinterpret_cast<NodesArr&>(m_kNodeCollection).m_iElementCount;

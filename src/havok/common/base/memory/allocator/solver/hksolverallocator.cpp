@@ -84,10 +84,11 @@ struct FUN_00c66560_class
 {
     void* m_pVftable;
 
-    __declspec(noinline) void FUN_00cbf1a0();
+    __declspec(noinline) void UpdateFields_00cbf1a0();
 };
 
-void FUN_00c66560_class::FUN_00cbf1a0()
+// src: GUESS 0x00cbf1a0 (confidence: low)
+void FUN_00c66560_class::UpdateFields_00cbf1a0()
 {
     volatile int* p = &DAT_010d1110;
     *p = *p;
@@ -107,7 +108,7 @@ void FUN_00cd06a0_class::ResetVftableAndDeleteCriticalSection()
     void* criticalSection = &m_CriticalSection;
     m_pVftable = &DAT_010d1110;
     DeleteCriticalSection(criticalSection);
-    FUN_00cbf1a0();
+    UpdateFields_00cbf1a0();
 }
 
 // @fnv 0x00c661c0
@@ -590,11 +591,12 @@ exit:
 
 struct SolverDeletingView : FUN_00cd06a0_class
 {
-    SolverDeletingView* FUN_00d5ed70(unsigned int flags);
+    SolverDeletingView* UpdateState_00d5ed70(unsigned int flags);
 };
 
 // @fnv 0x00d5ed70
-SolverDeletingView* SolverDeletingView::FUN_00d5ed70(unsigned int)
+// src: GUESS 0x00d5ed70 (confidence: low)
+SolverDeletingView* SolverDeletingView::UpdateState_00d5ed70(unsigned int)
 {
     void (FUN_00cd06a0_class::*destroy)() = &FUN_00cd06a0_class::ResetVftableAndDeleteCriticalSection;
     (this->*destroy)();

@@ -133,7 +133,7 @@ bool NiPixelData::RegisterStreamables(NiStream& stream)
     return true;
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+void* __cdecl Object_DispatchCommandFour(unsigned int size);
 
 extern int DAT_0109dbb4;
 // Constructor entry points used by the default and copy initialization paths.
@@ -158,7 +158,7 @@ static __forceinline void InitializePixelData(NiPixelData* data)
 // @fnv 0x00a7c3f0
 void* __cdecl CreateSpawnedPixelData()
 {
-    NiPixelData* data = static_cast<NiPixelData*>(FUN_00aa13e0(sizeof(NiPixelData)));
+    NiPixelData* data = static_cast<NiPixelData*>(Object_DispatchCommandFour(sizeof(NiPixelData)));
     if (data)
     {
         InitializePixelData(data);

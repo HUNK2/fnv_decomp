@@ -90,14 +90,14 @@ bool __cdecl TESForm_QEndianSwapOnSave();
 // @fnv 0x00599ef0
 void TESAmmoEffect::SaveAmmoEffect()
 {
-    TESForm::FUN_004855a0();
+    TESForm::BeginFormRecord();
     TESFullName::Save_00487010();
     if (TESForm_QEndianSwapOnSave())
         ((ContainerItemExtraFileData*)((char*)this + 0x24))->Endian();
     TESForm::TESForm___SaveData((char*)this + 0x24, 0xc);
     if (TESForm_QEndianSwapOnSave())
         ((ContainerItemExtraFileData*)((char*)this + 0x24))->Endian();
-    TESForm::FUN_00485680();
+    TESForm::FinishFormRecord();
 }
 
 void* __memcpy(void*, const void*, unsigned int);

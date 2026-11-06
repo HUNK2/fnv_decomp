@@ -9,9 +9,9 @@
 
 extern "C" void* g_011f5ed8;
 extern int DAT_010a0384;
-void __fastcall FUN_00a5e930(void*);
+void __fastcall UpdateFields_00c5faa0(void*);
 void __cdecl __Dummy_00b6fef0(void*, unsigned int);
-void* __cdecl FUN_00aa13e0(unsigned int);
+void* __cdecl Object_DispatchCommandFour(unsigned int);
 
 inline void* __cdecl operator new(unsigned int, void* p) throw()
 {
@@ -105,7 +105,7 @@ void* __cdecl NiSortAdjustNode_GetRTTI()
 void* __thiscall NiSortAdjustNode::Destructor(unsigned int flags)
 {
     *(void**)this = &DAT_010a0384;
-    FUN_00a5e930(this);
+    UpdateFields_00c5faa0(this);
     if (flags & 1)
         __Dummy_00b6fef0(this, 0xb0);
     return this;
@@ -153,7 +153,7 @@ unsigned char __fastcall IsSortAdjustNodeEqual(NiSortAdjustNode* self, void*, Ni
 // @fnv 0x00a953b0
 NiNode* __fastcall CloneSortAdjustNode(NiSortAdjustNode* self, void*, void* process)
 {
-    void* storage = FUN_00aa13e0(0xb0);
+    void* storage = Object_DispatchCommandFour(0xb0);
     NiSortAdjustNode* p = storage ? ConstructSortAdjustNode(storage) : 0;
     self->NiNode::CopyMemberData(p, *(CloningProcess*)process);
     SortAdjustMode(p) = SortAdjustMode(self);

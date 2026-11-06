@@ -31,7 +31,8 @@ void __stdcall InitHingeLimitsData(const char* a, hkHingeLimitsData* pHingeLimit
 }
 
 // @fnv 0x00d52fb0
-int __cdecl FUN_00d52fb0()
+// src: GUESS 0x00d52fb0 (confidence: high)
+int __cdecl hkpHingeLimitsData_ReturnConstant_18()
 {
     return 18;
 }

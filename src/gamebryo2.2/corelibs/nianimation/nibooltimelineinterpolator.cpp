@@ -44,7 +44,7 @@ inline NiBoolTimelineInterpolator::NiBoolTimelineInterpolator() throw() : NiBool
 }
 
 
-void __cdecl FUN_00a3ca30();
+void __cdecl UpdateState_00a3ca30();
 void __cdecl _delete(void*, unsigned int);
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 // Decrements the reference count of m_ptr and calls DeleteThis when it reaches zero, then calls FUN_00a3ca30 and frees this if flag bit 0 is set.
@@ -58,7 +58,7 @@ void* NiBoolTimelineInterpolator::ReleaseRef(unsigned int auiFlags)
             p->DeleteThis();
     }
     typedef void (__thiscall* DestroyBase)(NiBoolInterpolator*);
-    reinterpret_cast<DestroyBase>(&FUN_00a3ca30)(this);
+    reinterpret_cast<DestroyBase>(&UpdateState_00a3ca30)(this);
     if (auiFlags & 1)
         _delete(this, 0x20);
     return this;

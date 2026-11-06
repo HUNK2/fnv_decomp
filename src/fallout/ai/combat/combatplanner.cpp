@@ -31,7 +31,7 @@ class CPTarget;
 class CPCond
 {
   public:
-    int FUN_00559450();
+    int Modelloader_GetReferencedThis();
     CPTarget* FUN_00726070();
 };
 
@@ -168,7 +168,7 @@ bool CombatPlanner::ExpandNode(CPNode* pkNode, CPOutArray* pkOut)
     for (unsigned int i = 0; i < pkNode->m_pUserData->m_uiNumEntries; i++)
     {
         CPCond* pkCond = pkNode->m_pUserData->m_aEntries[i].m_pkCond;
-        CPActionList* pkNodeIter = CombatAction_GetActionsForTargetState(pkCond->FUN_00559450());
+        CPActionList* pkNodeIter = CombatAction_GetActionsForTargetState(pkCond->Modelloader_GetReferencedThis());
         bool bFound = false;
         while (pkNodeIter && *pkNodeIter->FUN_006815c0())
         {
@@ -197,7 +197,7 @@ bool CombatPlanner::ExpandNode(CPNode* pkNode, CPOutArray* pkOut)
                             {
                                 CPCond* pkEffectCond = *pkEffect->FUN_006815c0();
                                 int iCondValue = pkState->CombatWorldStateArray_GetStateValue(pkEffectCond->FUN_00726070(), pkTarget);
-                                pkState->CombatWorldStateArray_ApplyWorldState(pkEffectCond->FUN_00559450(), iCondValue);
+                                pkState->CombatWorldStateArray_ApplyWorldState(pkEffectCond->Modelloader_GetReferencedThis(), iCondValue);
                                 pkEffect = pkEffect->FUN_0062d990();
                             }
 
@@ -206,7 +206,7 @@ bool CombatPlanner::ExpandNode(CPNode* pkNode, CPOutArray* pkOut)
                             {
                                 CPCond* pkSideCond = *pkSide->FUN_006815c0();
                                 int iCondValue = pkState->CombatWorldStateArray_GetStateValue(pkSideCond->FUN_00726070(), pkTarget);
-                                pkState->CombatWorldStateArray_ApplyWorldState(pkSideCond->FUN_00559450(), iCondValue);
+                                pkState->CombatWorldStateArray_ApplyWorldState(pkSideCond->Modelloader_GetReferencedThis(), iCondValue);
                                 pkSide = pkSide->FUN_0062d990();
                             }
 
@@ -214,10 +214,10 @@ bool CombatPlanner::ExpandNode(CPNode* pkNode, CPOutArray* pkOut)
                             {
                                 CPCond* pkGoalCond = pkNode->m_pUserData->m_aEntries[j].m_pkCond;
                                 int iCondValue = pkState->CombatWorldStateArray_GetStateValue(pkGoalCond->FUN_00726070(), pkTarget);
-                                if (!pkState->CombatWorldStateArray_IsTrue(pkGoalCond->FUN_00559450(), iCondValue))
+                                if (!pkState->CombatWorldStateArray_IsTrue(pkGoalCond->Modelloader_GetReferencedThis(), iCondValue))
                                     pkState->AppendPair(
                                         new (field_20b8.ScrapHeap_Allocate(sizeof(FUN_004b0680_Pair), DAT_010a2720))
-                                            FUN_004b0680_Pair(pkGoalCond->FUN_00559450(), iCondValue),
+                                            FUN_004b0680_Pair(pkGoalCond->Modelloader_GetReferencedThis(), iCondValue),
                                         pkNode->m_pUserData->m_aEntries[j].m_pAssociatedData);
                             }
 
@@ -226,10 +226,10 @@ bool CombatPlanner::ExpandNode(CPNode* pkNode, CPOutArray* pkOut)
                             {
                                 CPCond* pkPreCond = *pkRequire->FUN_006815c0();
                                 int iCondValue = pkState->CombatWorldStateArray_GetStateValue(pkPreCond->FUN_00726070(), pkTarget);
-                                if (!pkState->CombatWorldStateArray_IsTrue(pkPreCond->FUN_00559450(), iCondValue))
+                                if (!pkState->CombatWorldStateArray_IsTrue(pkPreCond->Modelloader_GetReferencedThis(), iCondValue))
                                     pkState->AppendPair(
                                         new (field_20b8.ScrapHeap_Allocate(sizeof(FUN_004b0680_Pair), DAT_010a2720))
-                                            FUN_004b0680_Pair(pkPreCond->FUN_00559450(), iCondValue),
+                                            FUN_004b0680_Pair(pkPreCond->Modelloader_GetReferencedThis(), iCondValue),
                                         pkState);
                                 pkRequire = pkRequire->FUN_0062d990();
                             }

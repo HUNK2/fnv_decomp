@@ -116,7 +116,7 @@ struct FUN_00a31740_shell
 };
 struct FUN_00a35640_shell
 {
-    void __thiscall FUN_00a35640();
+    void __thiscall ProcessState_00a35640();
 };
 struct RefBase
 {
@@ -515,7 +515,7 @@ struct FUN_00a317e0_interp
     void* unk04;
     void* unk08;
     void* unk0C;
-    void __thiscall FUN_00a31260();
+    void __thiscall ReleaseReferencedObjectsAndResetFlags();
 };
 struct FUN_00a317e0_tag
 {
@@ -1087,7 +1087,7 @@ struct A33950Object
     unsigned char flag0d;
     void LoadFromStream(NiStream* stream);
 };
-extern "C" void* __cdecl FUN_00aa13e0(unsigned int size);
+extern "C" void* __cdecl Object_DispatchCommandFour(unsigned int size);
 struct FUN_00a344f0_cls
 {
     void __thiscall NiControllerSequence_CopyMembers(void* obj, unsigned int param);

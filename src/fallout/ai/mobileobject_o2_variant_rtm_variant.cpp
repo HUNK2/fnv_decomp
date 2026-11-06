@@ -58,7 +58,7 @@ struct UnkHolder
     volatile int m10;
     volatile int m14;
     UnkRet* hkMemoryRouter_getInstance();
-    void FUN_00c72210();
+    void UpdateState_00c72210();
 };
 
 extern const char str_010c4ad8[], str_010c4ac0[], str_010c41f8[];
@@ -205,7 +205,7 @@ struct Action {
     virtual void v10(); virtual void v14(); virtual void v18(); virtual void v1c();
     virtual void update(void*);
 };
-struct ActionSet { Action* FUN_00cbc510(unsigned int); };
+struct ActionSet { Action* GetIndexedValue_00cbc510(unsigned int); };
 struct RefObj { void FUN_00c905b0(); };
 struct S00c73170_RefPtr { RefObj* m_p; __forceinline void Clear() { if(m_p) m_p->FUN_00c905b0(); m_p=0; } };
 struct BooleanFloatQuery {
@@ -214,7 +214,7 @@ struct BooleanFloatQuery {
     struct Block32 { unsigned int a,b,c,d,e,f,g,h; } info;
     unsigned int object, unk4c;
     Block32 extra;
-    void FUN_006212c0(const BooleanFloatQuery*);
+    void InitializeFields_006212c0(const BooleanFloatQuery*);
 };
 struct Body {
         unsigned int unk000;
@@ -837,7 +837,7 @@ struct MovementController {
     void CallTargetWithArgs(S00c73170_Vec*,unsigned int*);
     void bhkCharacterProxy_Integrate(unsigned int*);
     void bhkCharacterController_UnMarkWrite();
-    Body* FUN_004ae750();
+    Body* Bipedanim_GetReferenceFlagsOrZero();
     void bhkCharacterController_CalculatePitchAndRoll();
 };
 // @fnv 0x00c73170
@@ -856,7 +856,7 @@ extern "C" int __fastcall bhkCharacterController_Move(MovementController* self, 
         }
         AddMovement(temp,in->displacement);
         self->SetPosition_005620e0(&temp);
-        self->actions->FUN_00cbc510(self->actionIndex)->update(self);
+        self->actions->GetIndexedValue_00cbc510(self->actionIndex)->update(self);
         NiPoint3* v;
         if(in->dt>0) {
             ScaleV(1.0f/in->dt,temp,in->displacement);
@@ -939,7 +939,7 @@ extern "C" int __fastcall bhkCharacterController_Move(MovementController* self, 
         DAT_01267bb4=0;
         self->velocity=*self->bhkCharacterProxy_GethkLinearVelocity();
         if(idle && self->state.hkpCharacterContext_getState()!=2) self->velocity(2)=0;
-        if(in->active || self->state.hkpCharacterContext_getState()!=0 || !displacement->FUN_004390c0(DAT_011f426c) || self->value450.equals4(S00c73170_Zero())) {
+        if(in->active || self->state.hkpCharacterContext_getState()!=0 || !displacement->HasEqualComponents(DAT_011f426c) || self->value450.equals4(S00c73170_Zero())) {
             self->fl.Clear(0x600);
             self->fl.Or(0x10000);
             self->bhkCharacterController_InitFrontBack();
@@ -965,7 +965,7 @@ extern "C" int __fastcall bhkCharacterController_Move(MovementController* self, 
             self->fl.Set(0x100,contact);
         }
         Trace(str_010c4ad8);
-        self->actions->FUN_00cbc510(self->actionIndex)->update(self);
+        self->actions->GetIndexedValue_00cbc510(self->actionIndex)->update(self);
         Trace(str_010c41f8);
         if(self->body) self->body->hkpCharacterProxy_setLinearVelocity(&self->velocity);
         bool changed=true;
@@ -1000,7 +1000,7 @@ extern "C" int __fastcall bhkCharacterController_Move(MovementController* self, 
         }
         if(DAT_01267bb4 && !(self->fl.value&0x2000)) {
             self->bhkCharacterController_UnMarkWrite();
-            Body* target=self->FUN_004ae750();
+            Body* target=self->Bipedanim_GetReferenceFlagsOrZero();
             S00c73170_Vec position=*target->hkpCharacterProxy_getPosition();
             float gravity=DAT_01267bb4->acceleration*self->time4e8;
             position(2)=self->value578+DAT_01267bb0+gravity;
@@ -1012,7 +1012,7 @@ extern "C" int __fastcall bhkCharacterController_Move(MovementController* self, 
         int size=savedBody->ahkpCharacterProxy_GetCdPoints()->size;
         int n=size>5?5:size;
         for(int i=0;i<n;++i) {
-            if(i<self->hits.size) self->hits.data[i].FUN_006212c0(&savedBody->ahkpCharacterProxy_GetCdPoints()->data[i]);
+            if(i<self->hits.size) self->hits.data[i].InitializeFields_006212c0(&savedBody->ahkpCharacterProxy_GetCdPoints()->data[i]);
             else {
                 self->hits.Append(&savedBody->ahkpCharacterProxy_GetCdPoints()->data[i]);
             }

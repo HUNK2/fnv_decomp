@@ -43,18 +43,18 @@ public:
     double DotProduct(const PodPoint3& point);
     float Length() const;
 
-    PodPoint3& FUN_00439180(float scalar);
+    PodPoint3& ScaleComponents(float scalar);
     PodPoint3 FUN_00439e90(const PodPoint3& shift) const;
     PodPoint3* FUN_00439e90(PodPoint3* output, const PodPoint3* other) const;
-    PodPoint3 FUN_00439ef0(const PodPoint3& other) const;
-    void FUN_00439ef0();
+    PodPoint3 SubtractIntoVector(const PodPoint3& other) const;
+    void SubtractIntoVector();
     PodPoint3 FUN_004b3800(const PodPoint3& axis) const;
     void Unitize_004a0c10();
     float FUN_00457910();
     float FUN_00457990() const;
     double FUN_004a7290();
     PodPoint3* FUN_006815c0();
-    PodPoint3* FUN_00416870(float x, float y, float z);
+    PodPoint3* SetComponents(float x, float y, float z);
     void FUN_0043d410(float x, int y, int z);
     char* GetViewerString_00a59af0(const char* text);
 
@@ -450,10 +450,11 @@ struct HackLight
 };
 struct MyMenu : public FORenderedMenu
 {
-    void FUN_007ffdb0();
+    void UpdateMenuLightTranslation();
 };
 // @fnv 0x007ffdb0
-void MyMenu::FUN_007ffdb0()
+// src: GUESS 0x007ffdb0 (confidence: high)
+void MyMenu::UpdateMenuLightTranslation()
 {
     NiAVObject* light = ((HackLight*)this)->ClearMenuLight();
     if (light)
@@ -1618,7 +1619,7 @@ void FUN_007fd6c0_Class::UpdatePlayerFaceScene()
     camera->FUN_00712e60(up);
     camera->NiCamera_SetMinNearPlaneDist(1.0f);
     PodPoint3 rootUpdate;
-    rootUpdate.FUN_00416870(0.0f, 1.0f, 0.0f);
+    rootUpdate.SetComponents(0.0f, 1.0f, 0.0f);
     // NiPoint3 supplies the same initializer for an expression temporary.
     camera->SetLookAt(rootUpdate, reinterpret_cast<const PodPoint3&>(NiPoint3(0.0f, 0.0f, 1.0f)));
     Frustum RootUpdate(false);
@@ -1642,10 +1643,11 @@ void FUN_007fd6c0_Class::UpdatePlayerFaceScene()
 
 struct FUN_007fe930_Class : HackLight
 {
-    void FUN_007fe930();
+    void ClearMenuLight_Thunk();
 };
 // @fnv 0x007fe930
-void FUN_007fe930_Class::FUN_007fe930()
+// src: GUESS 0x007fe930 (confidence: medium)
+void FUN_007fe930_Class::ClearMenuLight_Thunk()
 {
     NiAVObject* pObject = ClearMenuLight();
 }
@@ -1711,7 +1713,7 @@ struct FUN_007ff650_r
 
 struct FUN_007ff650_g
 {
-    FUN_007ff650_r* FUN_00559450();
+    FUN_007ff650_r* Modelloader_GetReferencedThis();
 };
 
 extern FUN_007ff650_g DAT_011db63c;
@@ -1749,11 +1751,11 @@ void FUN_007ff650_cls::FORenderedTerminal_OnMenuOpen()
     this->OnMenuOpen_007fb040();
     this->unkEC = 0;
     this->unkE8 = 0.0f;
-    if (DAT_011db63c.FUN_00559450() != 0)
+    if (DAT_011db63c.Modelloader_GetReferencedThis() != 0)
     {
-        DAT_011db63c.FUN_00559450()->FUN_00b4dfd0(DAT_01017130, DAT_01017130);
-        DAT_011db63c.FUN_00559450()->BSFadeNode_TurnFadeNodeOff();
-        DAT_011db63c.FUN_00559450()->BSFadeNode_SetFadingFlag(0);
+        DAT_011db63c.Modelloader_GetReferencedThis()->FUN_00b4dfd0(DAT_01017130, DAT_01017130);
+        DAT_011db63c.Modelloader_GetReferencedThis()->BSFadeNode_TurnFadeNodeOff();
+        DAT_011db63c.Modelloader_GetReferencedThis()->BSFadeNode_SetFadingFlag(0);
     }
 }
 
@@ -1821,12 +1823,12 @@ struct Pointer82
     Pointer82(int);
     ~Pointer82();
     void FUN_0066b0d0(Target82*);
-    Target82* FUN_00559450();
+    Target82* Modelloader_GetReferencedThis();
 };
 struct ObjectPointer82
 {
     void* value;
-    Obj82* FUN_00559450();
+    Obj82* Modelloader_GetReferencedThis();
 };
 NiRenderer* NiXenonRenderer_GetRenderer();
 Interface82* InterfaceManager_GetSingleton();
@@ -1850,7 +1852,7 @@ void FORenderedMenu::Render_007fba00(void* pRenderArg1, void* pRenderArg2, Targe
 {
     if (!bInitialized)
         return;
-    if (!((ObjectPointer82*)&m_pRenderedMenuObject)->FUN_00559450())
+    if (!((ObjectPointer82*)&m_pRenderedMenuObject)->Modelloader_GetReferencedThis())
         return;
     NiRenderer* renderer5 = NiXenonRenderer_GetRenderer();
     Interface82* interface23 = InterfaceManager_GetSingleton();
@@ -1858,7 +1860,7 @@ void FORenderedMenu::Render_007fba00(void* pRenderArg1, void* pRenderArg2, Targe
         interface23->FUN_005e3fc0()->FUN_00450f90(true);
     Scene82* scene3 = interface23->SkyObject_GetNiNode();
     Accumulator82* render4 = scene3->FUN_008d80e0();
-    render4->BSCullingProcess_SetAccumulator(((ObjectPointer82*)&m_pMenuLightNode)->FUN_00559450());
+    render4->BSCullingProcess_SetAccumulator(((ObjectPointer82*)&m_pMenuLightNode)->Modelloader_GetReferencedThis());
     Rect82 rect2(0.0f, 0.0f, 0.0f, 0.0f);
     renderer5->GetBackgroundColor(reinterpret_cast<NiVector4*>(&rect2));
     renderer5->SetBackgroundColor(reinterpret_cast<NiVector4*>(&BackgroundColor));
@@ -1870,7 +1872,7 @@ void FORenderedMenu::Render_007fba00(void* pRenderArg1, void* pRenderArg2, Targe
         target31.FUN_0066b0d0(pSuppliedTarget);
     if (BSRenderedTexture_IsOutsideFrame())
     {
-        BSRenderedTexture_StartOffscreen(pRenderArg2, target31.FUN_00559450()->FUN_00b6b260());
+        BSRenderedTexture_StartOffscreen(pRenderArg2, target31.Modelloader_GetReferencedThis()->FUN_00b6b260());
         camera23->FUN_00712e60(Rect82(0.0f, 1.0f, 1.0f, 0.0f));
     }
     Frustum82 frustum12 = camera23->FUN_0045bbe0();
@@ -1899,25 +1901,25 @@ void FORenderedMenu::Render_007fba00(void* pRenderArg1, void* pRenderArg2, Targe
     bool oldMenu21 = ((NiAVObject*)((Tile*)menu1->Tile_GetMenuTile())->GetModel_0056c7f0())->GetAppCulled_00456610();
     ((NiAVObject*)((Tile*)menu1->Tile_GetMenuTile())->GetModel_0056c7f0())->FUN_00450f90(true);
     if (this != Interface_GetPipboy())
-        ((ObjectPointer82*)&m_pRenderedMenuObject)->FUN_00559450()->FUN_00450f90(false);
+        ((ObjectPointer82*)&m_pRenderedMenuObject)->Modelloader_GetReferencedThis()->FUN_00450f90(false);
     HideRenderedMenuTiles(this);
     render4->BSCullingProcess_PushCullMode(1);
-    BSShaderUtil_AccumulateScene(scene3->FUN_006629f0(), ((ObjectPointer82*)&m_pRenderedMenuObject)->FUN_00559450(), render4);
-    FUN_00b6c0d0(scene3->FUN_006629f0(), ((ObjectPointer82*)&m_pMenuLightNode)->FUN_00559450(), 0);
+    BSShaderUtil_AccumulateScene(scene3->FUN_006629f0(), ((ObjectPointer82*)&m_pRenderedMenuObject)->Modelloader_GetReferencedThis(), render4);
+    FUN_00b6c0d0(scene3->FUN_006629f0(), ((ObjectPointer82*)&m_pMenuLightNode)->Modelloader_GetReferencedThis(), 0);
     render4->BSCullingProcess_PopCullMode();
     RestoreRenderedMenuVisibility(this);
     render4->BSCullingProcess_SetAccumulator(0);
     if (this != Interface_GetPipboy())
-        ((ObjectPointer82*)&m_pRenderedMenuObject)->FUN_00559450()->FUN_00450f90(true);
+        ((ObjectPointer82*)&m_pRenderedMenuObject)->Modelloader_GetReferencedThis()->FUN_00450f90(true);
     ((NiAVObject*)((Tile*)menu1->Tile_GetMenuTile())->GetModel_0056c7f0())->FUN_00450f90(oldMenu21);
     if (tile16)
         ((NiAVObject*)tile16->GetModel_0056c7f0())->FUN_00450f90(oldTile23);
     if (object4)
         object4->FUN_00450f90(oldObject25);
     FUN_00b6b790();
-    DoEffect((Arg*)target31.FUN_00559450(), pRenderArg1, (int)pRenderArg2);
+    DoEffect((Arg*)target31.Modelloader_GetReferencedThis(), pRenderArg1, (int)pRenderArg2);
     if (!pSuppliedTarget)
-        BSShaderManager_GetTextureManager(target31.FUN_00559450())->BSTextureManager_ReturnRenderedTexture();
+        BSShaderManager_GetTextureManager(target31.Modelloader_GetReferencedThis())->BSTextureManager_ReturnRenderedTexture();
     renderer5->SetBackgroundColor(reinterpret_cast<NiVector4*>(&rect2));
     camera23->FUN_00a6faf0(saved14);
     if (m_bEnableFlicker)
@@ -2231,7 +2233,7 @@ struct Ptr
 };
 struct Node
 {
-    void* FUN_00559450();
+    void* Modelloader_GetReferencedThis();
 };
 struct Manager
 {
@@ -2291,10 +2293,10 @@ void FORenderedMenu::DoEffect(Arg* a, void* pData, int iValue)
         *(float*)&DAT_012007f4 = -1.0f;
     }
     *(Four*)&DAT_01200800 = *(Four*)&m_kMenuLightColor;
-    if (m_bEnableFlicker && !((Node*)&m_pScreenGeometry)->FUN_00559450())
+    if (m_bEnableFlicker && !((Node*)&m_pScreenGeometry)->Modelloader_GetReferencedThis())
         recon7fbee0::BSShaderManager_GetImageSpaceManager()->FUN_00b8c3b0(recon7fbee0::InterfaceManager_GetMenuHeight(), recon7fbee0::InterfaceManager_GetMenuHeight(), (Node*)&m_pScreenGeometry);
     if (m_bEnableFlicker)
-        recon7fbee0::BSShaderManager_GetImageSpaceManager()->SetValueAndAssign(1, ((Node*)&m_pScreenGeometry)->FUN_00559450());
+        recon7fbee0::BSShaderManager_GetImageSpaceManager()->SetValueAndAssign(1, ((Node*)&m_pScreenGeometry)->Modelloader_GetReferencedThis());
     *(int*)&DAT_012007ec = iValue;
     recon7fbee0::BSShaderManager_GetImageSpaceManager()->ImageSpaceManager_RenderEffect(10, recon7fbee0::NiXenonRenderer_GetRenderer(), a, pData, 0, 1);
     ((Ptr*)&DAT_01200818)->FUN_0066b0d0(0);
@@ -2370,7 +2372,7 @@ struct Node007f
 };
 struct Ref007f
 {
-    Node007f* FUN_00559450();
+    Node007f* Modelloader_GetReferencedThis();
     void FUN_0066b0d0(void*);
 };
 struct Owner007f
@@ -2412,16 +2414,16 @@ void Owner007f::FORenderedMenuRaceSex_OnMenuClose()
         NiUpdateData ud(0.0f, false, false);
         NiAVObject_GetCollisionObject()->NiAVObject_Update(ud);
     }
-    r100.FUN_00559450()->v3a(r108.FUN_00559450());
-    r100.FUN_00559450()->v3a(rFC.FUN_00559450());
-    ((Node007f*)FUN_00450b80(3))->v3a(r100.FUN_00559450());
+    r100.Modelloader_GetReferencedThis()->v3a(r108.Modelloader_GetReferencedThis());
+    r100.Modelloader_GetReferencedThis()->v3a(rFC.Modelloader_GetReferencedThis());
+    ((Node007f*)FUN_00450b80(3))->v3a(r100.Modelloader_GetReferencedThis());
     r100.FUN_0066b0d0(0);
     ((Node007f*)FUN_00450b80(1))->v3a(FUN_005585e0());
-    r10C.FUN_00559450()->v37(rFC.FUN_00559450(), true);
-    rFC.FUN_00559450()->v27(NiFixedString((const char*)&DAT_0101e460))->NiAVObject_SetTranslate(p140);
-    rFC.FUN_00559450()->SetRotate_0043fa80(p11C);
-    rFC.FUN_00559450()->NiAVObject_SetTranslate(p110);
-    rFC.FUN_00559450()->FUN_00450f90(b14C);
+    r10C.Modelloader_GetReferencedThis()->v37(rFC.Modelloader_GetReferencedThis(), true);
+    rFC.Modelloader_GetReferencedThis()->v27(NiFixedString((const char*)&DAT_0101e460))->NiAVObject_SetTranslate(p140);
+    rFC.Modelloader_GetReferencedThis()->SetRotate_0043fa80(p11C);
+    rFC.Modelloader_GetReferencedThis()->NiAVObject_SetTranslate(p110);
+    rFC.Modelloader_GetReferencedThis()->FUN_00450f90(b14C);
     rFC.FUN_0066b0d0(0);
     r104.FUN_0066b0d0(0);
     rF8.FUN_0066b0d0(0);

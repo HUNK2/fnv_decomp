@@ -46,13 +46,13 @@ void BSStripParticleSystem::AppendString(StrArr* pkStrings)
     pkStrings->SetAt(n, s);
 }
 
-extern "C" void* __cdecl FUN_00aa13e0(unsigned int size);
+extern "C" void* __cdecl Object_DispatchCommandFour(unsigned int size);
 extern unsigned int UNK_010be35c;
 // Allocates the 0x110-byte strip particle system, initializes its base and vtable, then copies it for cloning.
 // @fnv 0x00c257d0
 BSStripParticleSystem* BSStripParticleSystem::CreateParticleSystem(CloningProcess& process)
 {
-    BSStripParticleSystem* object = static_cast<BSStripParticleSystem*>(FUN_00aa13e0(0x110));
+    BSStripParticleSystem* object = static_cast<BSStripParticleSystem*>(Object_DispatchCommandFour(0x110));
     if (object)
     {
         object->NiParticleSystem_00c1b5c0();

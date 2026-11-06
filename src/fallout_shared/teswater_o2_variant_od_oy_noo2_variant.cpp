@@ -53,9 +53,9 @@ class LocalPoint3Ext
     float GetSquaredXYLength() const;
     float Length() const;
 
-    AimVector FUN_00439ef0(const AimVector& point) const;
-    LocalPoint3Ext FUN_00439ef0(const NiPoint3& point) const;
-    NiPoint3* FUN_00439ef0(NiPoint3* output, const NiPoint3& point) const;
+    AimVector SubtractIntoVector(const AimVector& point) const;
+    LocalPoint3Ext SubtractIntoVector(const NiPoint3& point) const;
+    NiPoint3* SubtractIntoVector(NiPoint3* output, const NiPoint3& point) const;
     AimVector FUN_00439e90(const AimVector& point) const;
     bool FUN_00439090(const AimVector& point) const;
     float FUN_00457990() const;
@@ -63,14 +63,14 @@ class LocalPoint3Ext
     void FUN_006815c0();
     float FUN_004a7290() const;
     float FUN_00457910();
-    LocalPoint3Ext& FUN_0063c8a0(const NiPoint3& point);
-    NiPoint3 FUN_004a0bd0() const;
+    LocalPoint3Ext& ComputeValue_0063c8a0(const NiPoint3& point);
+    NiPoint3 GetNegatedVector() const;
 };
 extern int DAT_0109cb9c;
-void __fastcall FUN_00a5a390(void* p);
+void __fastcall ReleaseStorage_00a5a390(void* p);
 struct FUN_00a6fae0_Class
 {
-    void __thiscall FUN_00a6fae0();
+    void __thiscall UpdateFields_00a6fae0();
 };
 // Lazily create the shader property for this geometry, picking the shader type by whether the geometry is skinned.
 class B9F30MemoryManager
@@ -264,7 +264,7 @@ struct NiMatrix
 {
     float m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44;
     void* CopyFrom(const void*);
-    NiMatrix FUN_004ed140(const NiMatrix&);
+    NiMatrix ProcessAndReturnValue_004ed140(const NiMatrix&);
 };
 struct NiMatrixEx : NiMatrix
 {
@@ -307,7 +307,7 @@ void WaterPlaneHost::TESWaterSystem_SetClipPlane(float x, float y, float z, floa
         -reinterpret_cast<LocalPoint3Ext*>(BSShader_GetCameraWorldTranslate())->Dot(NiPoint3(translated.m13, translated.m23, translated.m33));
     NiMatrixEx project;
     project.CopyFrom(BSShaderManager_GetRenderer()->GetOffsetPointer());
-    NiMatrix transform = translated.FUN_004ed140(project);
+    NiMatrix transform = translated.ProcessAndReturnValue_004ed140(project);
     D3DXMatrixInverse(&inverse, 0, &transform);
     D3DXMatrixTranspose(&transform, &inverse);
     hkVector4 plane, result;

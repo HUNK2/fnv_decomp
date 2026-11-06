@@ -13,7 +13,7 @@ public:
     virtual bool GetDescription(char* description, unsigned int bufferSize);
     virtual unsigned char GetFileIndex();
 
-    void __thiscall FUN_00ae7020();
+    void __thiscall DestroyFields_00ae7020();
     void __thiscall Finish_00ae7360();
     void* __thiscall FUN_00ae7b10(unsigned int flags);
 

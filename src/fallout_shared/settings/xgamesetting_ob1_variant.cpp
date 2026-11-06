@@ -348,7 +348,7 @@ struct FixStrQ
         long* pRef = (long*)(m_kHandle - 8);
         InterlockedDecrement(pRef);
     }
-    FixStrQ& FUN_0043ba10(const FixStrQ& o);
+    FixStrQ& AssignInternedString(const FixStrQ& o);
     const char* CStr()
     {
         const char* p = m_kHandle;
@@ -366,7 +366,7 @@ struct NamedQ
     void SetName(const FixStrQ& kName)
     {
         DeadQ3();
-        m_kName.FUN_0043ba10(kName);
+        m_kName.AssignInternedString(kName);
     }
 };
 struct PathQ

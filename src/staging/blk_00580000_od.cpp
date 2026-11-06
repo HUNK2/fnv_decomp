@@ -146,13 +146,14 @@ int* FUN_00588fd0Class::NiTMap_TESFile_TESWorldSpace_OFFSET_DATA_NiTMap(int a)
 
 struct FUN_0058bc00_obj
 {
-    void __fastcall FUN_0058bc00();
+    void __fastcall Object_ReleaseStorage();
 };
 
 // @fnv 0x0058b830
-void __fastcall FUN_0058b830(FUN_0058bc00_obj* this_ptr)
+// src: GUESS 0x0058b830 (confidence: low)
+void __fastcall Runtime_ForwardCall_0058b830(FUN_0058bc00_obj* this_ptr)
 {
-    this_ptr->FUN_0058bc00();
+    this_ptr->Object_ReleaseStorage();
 }
 
 struct FUN_0058cac0_Class
@@ -224,10 +225,11 @@ struct FUN_0058f820_class
 {
     int m_iWordAt00;
     void InitContainerItemExtra(int);
-    int __thiscall FUN_0058f820(int a);
+    int __thiscall ProcessAndReturnValue_0058f820(int a);
 };
 // @fnv 0x0058f820
-int __thiscall FUN_0058f820_class::FUN_0058f820(int a)
+// src: GUESS 0x0058f820 (confidence: low)
+int __thiscall FUN_0058f820_class::ProcessAndReturnValue_0058f820(int a)
 {
     InitContainerItemExtra(a);
     m_iWordAt00 = (int)&DAT_01033470;
@@ -522,10 +524,11 @@ void __cdecl _NiFree(void*);
 extern int DAT_0103202c;
 struct FUN_00589290_Class
 {
-    void __thiscall FUN_00589290();
+    void __thiscall SetVtableAndProcessState_00589290();
 };
 // @fnv 0x00589290
-void __thiscall FUN_00589290_Class::FUN_00589290()
+// src: GUESS 0x00589290 (confidence: low)
+void __thiscall FUN_00589290_Class::SetVtableAndProcessState_00589290()
 {
     *(void**)this = (void*)&DAT_0103202c;
     ((NiTPointerMap<int, int>*)this)->RemoveAll();
@@ -559,10 +562,11 @@ extern int DAT_0103204c;
 void __cdecl _NiFree(void*);
 struct FUN_00589390_Holder
 {
-    void __thiscall FUN_00589390();
+    void __thiscall SetVtableAndProcessState_00589390();
 };
 // @fnv 0x00589390
-void __thiscall FUN_00589390_Holder::FUN_00589390()
+// src: GUESS 0x00589390 (confidence: low)
+void __thiscall FUN_00589390_Holder::SetVtableAndProcessState_00589390()
 {
     *(int*)this = (int)&DAT_0103204c;
     ((NiTPointerMap<int, int>*)this)->RemoveAll();
@@ -588,14 +592,14 @@ extern "C" void __cdecl Deallocate(void*);
 
 struct FUN_005893f0_Class
 {
-    void __thiscall FUN_00589290();
+    void __thiscall SetVtableAndProcessState_00589290();
     void* __thiscall FUN_005893f0(unsigned int flags);
 };
 
 // @fnv 0x005893f0
 void* __thiscall FUN_005893f0_Class::FUN_005893f0(unsigned int flags)
 {
-    FUN_00589290();
+    SetVtableAndProcessState_00589290();
     if (flags & 1)
         Deallocate(this);
     return this;
@@ -603,14 +607,14 @@ void* __thiscall FUN_005893f0_Class::FUN_005893f0(unsigned int flags)
 
 struct FUN_00589420_Class
 {
-    void __thiscall FUN_00589390();
+    void __thiscall SetVtableAndProcessState_00589390();
     void* __thiscall FUN_00589420(unsigned int flags);
 };
 
 // @fnv 0x00589420
 void* FUN_00589420_Class::FUN_00589420(unsigned int flags)
 {
-    FUN_00589390();
+    SetVtableAndProcessState_00589390();
     if (flags & 1)
         operator delete(this);
     return this;
@@ -742,14 +746,14 @@ struct FUN_0058bc60_Class
 // @fnv 0x0058bc60
 void* FUN_0058bc60_Class::FUN_0058bc60(unsigned int flags)
 {
-    ((FUN_0058bc00_obj*)this)->FUN_0058bc00();
+    ((FUN_0058bc00_obj*)this)->Object_ReleaseStorage();
     if (flags & 1)
         _Deallocate(this);
     return this;
 }
 }  // namespace fnv_0058bc60
 
-void __fastcall FUN_0058b830(FUN_0058bc00_obj* this_ptr);
+void __fastcall Runtime_ForwardCall_0058b830(FUN_0058bc00_obj* this_ptr);
 void __cdecl _Deallocate(void* p);
 struct FUN_0058bc90_Holder
 {
@@ -758,7 +762,7 @@ struct FUN_0058bc90_Holder
 // @fnv 0x0058bc90
 void* __thiscall FUN_0058bc90_Holder::FUN_0058bc90(unsigned int flags)
 {
-    FUN_0058b830((FUN_0058bc00_obj*)this);
+    Runtime_ForwardCall_0058b830((FUN_0058bc00_obj*)this);
     if (flags & 1)
         _Deallocate(this);
     return this;
@@ -828,10 +832,11 @@ struct FUN_0058f960_Obj
     int m_iWordAt00;
     int m_iWordAt04;
     void* m_8;
-    void __thiscall FUN_0058f960();
+    void __thiscall UpdateFields_0058f960();
 };
 // @fnv 0x0058f960
-void __thiscall FUN_0058f960_Obj::FUN_0058f960()
+// src: GUESS 0x0058f960 (confidence: low)
+void __thiscall FUN_0058f960_Obj::UpdateFields_0058f960()
 {
     m_iWordAt00 = (int)&DAT_01033490;
     if (m_8 != 0)
@@ -843,14 +848,14 @@ void __thiscall FUN_0058f960_Obj::FUN_0058f960()
 
 struct FUN_0058f9a0_Class
 {
-    void __thiscall FUN_0058f960();
+    void __thiscall UpdateFields_0058f960();
     void* __thiscall FUN_0058f9a0(unsigned int flags);
 };
 // Calls FUN_0058f960, then deletes this if flags has bit 0 set, and returns this.
 // @fnv 0x0058f9a0
 void* FUN_0058f9a0_Class::FUN_0058f9a0(unsigned int flags)
 {
-    FUN_0058f960();
+    UpdateFields_0058f960();
     if (flags & 1)
         operator delete(this);
     return this;
@@ -1220,7 +1225,7 @@ void __thiscall S_00589770_Class::CopyFrom(S_00589770_Class* pSource)
     this->unk10 = pSource->unk10;
 }
 
-void __fastcall FUN_0058b830(FUN_0058bc00_obj* this_ptr);
+void __fastcall Runtime_ForwardCall_0058b830(FUN_0058bc00_obj* this_ptr);
 
 struct FUN_0058b450
 {
@@ -1243,7 +1248,7 @@ struct FUN_0058b7d0 : FUN_0058b450
 // @fnv 0x0058b7d0
 FUN_0058b7d0::~FUN_0058b7d0()
 {
-    FUN_0058b830(&m_18);
+    Runtime_ForwardCall_0058b830(&m_18);
 }
 
 void* __cdecl FUN_0096afc0(unsigned int size);
@@ -1472,7 +1477,7 @@ void CameraState::ResetCameraState()
     unk68 = 0;
     node70 = static_cast<void*>(0);
     active = false;
-    if (static_cast<const NP&>(node6c).FUN_00559450())
+    if (static_cast<const NP&>(node6c).Modelloader_GetReferencedThis())
     {
         node6c = static_cast<void*>(0);
         DAT_011c3b3c->ModelLoader_ReleaseFile(model.Name());

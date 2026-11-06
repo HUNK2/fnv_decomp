@@ -160,7 +160,7 @@ __forceinline void hkDisplaySerializeIStream::ReadVector4(hkVector4& v)
 
 __forceinline void hkDisplaySerializeIStream::ReadTransform(hkTransform& t)
 {
-    FUN_00ddac80(t);
+    ReadTranslationAndRotation(t);
 }
 
 __forceinline void hkDisplaySerializeIStream::ReadGeometry(hkGeometry* g)
@@ -169,7 +169,8 @@ __forceinline void hkDisplaySerializeIStream::ReadGeometry(hkGeometry* g)
 }
 
 // @fnv 0x00ddada0
-void hkDisplaySerializeIStream::FUN_00ddada0(hkDisplayGeometry*& geometry)
+// src: GUESS 0x00ddada0 (confidence: low)
+void hkDisplaySerializeIStream::UpdateFields_00ddada0(hkDisplayGeometry*& geometry)
 {
     hkInt8 type = readInt8();
 

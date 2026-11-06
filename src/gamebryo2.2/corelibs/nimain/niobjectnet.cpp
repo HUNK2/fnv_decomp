@@ -271,7 +271,8 @@ void FUN_00a5bfa0_shell::ClearExtraData()
 extern int DAT_0109b23c;
 
 // @fnv 0x00a5c760
-void __fastcall FUN_00a5c760(void** pThis)
+// src: GUESS 0x00a5c760 (confidence: low)
+void __fastcall Object_UpdateFields_00a5c760(void** pThis)
 {
     *pThis = &DAT_0109b23c;
     NiFree(pThis[1]);

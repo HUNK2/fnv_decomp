@@ -338,11 +338,12 @@ struct S_00d056a0
 {
     S_00d056a0_Elem* m_data;
     int m_iElementCount;
-    void FUN_00d056a0();
+    void UpdateFields_00d056a0();
 };
 
 // @fnv 0x00d056a0
-void S_00d056a0::FUN_00d056a0()
+// src: GUESS 0x00d056a0 (confidence: low)
+void S_00d056a0::UpdateFields_00d056a0()
 {
     int n = m_iElementCount;
     if (n)
@@ -1264,7 +1265,7 @@ struct SubObj
     int m_i10;
     int m_i14;
     SubObj() throw();
-    void FUN_00d05b50(SrcCfg* p) throw();
+    void UpdateState_00d05b50(SrcCfg* p) throw();
 };
 
 struct PoolEntry
@@ -1322,7 +1323,7 @@ struct D05490Array
 void hkDefaultPopJobFunc();
 void hkDefaultFinishJobFunc();
 void defaultPopDispatchFunc();
-void FUN_00d04570();
+void Runtime_UpdateState_00d04570();
 
 struct FUN_00d05490 : D05490Base
 {
@@ -1395,7 +1396,7 @@ FUN_00d05490::FUN_00d05490(SrcCfg* pConfig) throw() : D05490Base(0)
     m_b74 = 0;
     m_pTable->m_b20 = 0;
     m_pTable->m_i1c = 0;
-    m_sub.FUN_00d05b50(pConfig);
+    m_sub.UpdateState_00d05b50(pConfig);
     m_uiItemCount = pConfig->m_i18;
     m_i70 = 0;
     for (int i = 0; i < 16; ++i)
@@ -1413,7 +1414,7 @@ FUN_00d05490::FUN_00d05490(SrcCfg* pConfig) throw() : D05490Base(0)
         m_pTable->m_i18 |= 1 << k;
     }
     m_pFn1 = (void*)defaultPopDispatchFunc;
-    m_pFn2 = (void*)FUN_00d04570;
+    m_pFn2 = (void*)Runtime_UpdateState_00d04570;
     m_i8c = 0;
     FinishInit();
 }
@@ -2096,7 +2097,7 @@ struct S_00d055c0_Elem
     int unk08;
     int unk0c;
     int unk10;
-    void FUN_00d056a0();
+    void UpdateFields_00d056a0();
 };
 struct S_00d055c0_Pool
 {
@@ -2116,7 +2117,7 @@ struct S_00d055c0_Pool
 };
 struct S_00d055c0_Handle
 {
-    void FUN_00d04370();
+    void ForwardCall_00d04370();
 };
 struct S_00d055c0_Cont
 {
@@ -2243,12 +2244,13 @@ struct S_00d055c0_Obj
     int unk198;
     int unk19c;
     S_00d055c0_Arr12 unk1a0;
-    void FUN_00d055c0();
+    void ProcessEntries_00d055c0();
 };
 
 // Releases the pool and handle objects, clears and deallocates Arr12 storage, calls FUN_00cbf490, then calls DAT_00fdf058 with this.
 // @fnv 0x00d055c0
-void S_00d055c0_Obj::FUN_00d055c0()
+// src: GUESS 0x00d055c0 (confidence: low)
+void S_00d055c0_Obj::ProcessEntries_00d055c0()
 {
     S_00d055c0_Pool* pool = unk18;
     if (pool)
@@ -2258,7 +2260,7 @@ void S_00d055c0_Obj::FUN_00d055c0()
         do
         {
             p--;
-            p->FUN_00d056a0();
+            p->UpdateFields_00d056a0();
         } while (--n >= 0);
         reinterpret_cast<S_00d055c0_Heap*>(&hkMemoryRouter_getInstance()->heap())->ReleaseBlock(pool, 0x170);
     }
@@ -2269,7 +2271,7 @@ void S_00d055c0_Obj::FUN_00d055c0()
             S_00d055c0_Handle* h = unk78[i];
             if (h)
             {
-                h->FUN_00d04370();
+                h->ForwardCall_00d04370();
                 reinterpret_cast<S_00d055c0_Heap*>(&hkMemoryRouter_getInstance()->heap())->ReleaseBlock(h, 4);
             }
         }
@@ -2329,12 +2331,13 @@ struct SlotAllocator
     virtual void vSlot10(unsigned int a, unsigned int b);
 };
 
-void* FUN_00d883c0(void* a1, unsigned int a2, unsigned int a3, ScratchBlock* a4);
+void* Object_ProcessAndReturnValue_00d883c0(void* a1, unsigned int a2, unsigned int a3, ScratchBlock* a4);
 hkMemoryRouter* hkMemoryRouter_getInstance();
 
 // Initializes fields of a local ScratchBlock, passes it to FUN_00d883c0, then conditionally calls vSlot10 on m_pAllocator.
 // @fnv 0x00d889f0
-void* __cdecl FUN_00d889f0(void* a1)
+// src: GUESS 0x00d889f0 (confidence: low)
+void* __cdecl hkMemoryRouter_UpdateState_00d889f0(void* a1)
 {
     __declspec(align(16)) ScratchBlock s;
     s.unk0C = 1;
@@ -2351,7 +2354,7 @@ void* __cdecl FUN_00d889f0(void* a1)
     s.unk78 = 0;
     s.unk64 = 0x80000000u;
     s.unk7C = 0;
-    void* obj = FUN_00d883c0(a1, 0, 0, &s);
+    void* obj = Object_ProcessAndReturnValue_00d883c0(a1, 0, 0, &s);
     hkMemoryRouter* pAllocHolder = hkMemoryRouter_getInstance();
     SlotAllocator* alloc = reinterpret_cast<SlotAllocator*>(pAllocHolder->m_heap);
     unsigned int flag = s.unk64;

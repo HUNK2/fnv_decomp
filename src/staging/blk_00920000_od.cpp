@@ -3670,7 +3670,7 @@ struct Profile122
 // Setting.h lacks the float setter bound to 0x004ED780; retain only that call interface.
 struct FloatOptionWriter : Setting
 {
-    void FUN_004ed780(float);
+    void ProcessAndReturnValue_004ed780(float);
 };
 struct Global122
 {
@@ -3855,7 +3855,7 @@ FUN_00938180::FUN_00938180() : f634(0), f694(0), f69c(0), f764(1), f854(0x25), f
     f604 = 0;
     f84c.FUN_00470470();
     PlayerCharacter_ResetInsufficientChargeMessage();
-    static_cast<FloatOptionWriter&>(DAT_011cd8f0).FUN_004ed780(0.f);
+    static_cast<FloatOptionWriter&>(DAT_011cd8f0).ProcessAndReturnValue_004ed780(0.f);
     f870 = 0.f;
     f874 = 0.f;
     int flags24 = FUN_0044ddc0();
@@ -4841,7 +4841,7 @@ struct MPt
     void Unitize_004a0c10();
     MPt& operator+=(const MPt&);
     MPt operator+(const MPt&) const;
-    MPt& FUN_00524c40();
+    MPt& ComputeValue_00524c40();
 };
 struct __declspec(align(16)) MVec4
 {
@@ -4949,7 +4949,7 @@ struct TickAvo
 struct TickSmart
 {
     void* value;
-    void* FUN_00559450();
+    void* Modelloader_GetReferencedThis();
     void FUN_0066b0d0(int);
 };
 struct TickExtraActivate;
@@ -6097,7 +6097,7 @@ extern const double DAT_0107d1b8, DAT_010217d8, DAT_01066808;
 extern const float DAT_01030ff0, DAT_01018238, DAT_01053154, DAT_0101e2bc, DAT_0108b044;
 extern "C" float FUN_00408840(float);
 extern "C" float LinearInterpolate(float, float, float, float, float);
-extern "C" MPt FUN_004b3ae0(const MPt&, const TickMatrix*);
+extern "C" MPt NiPoint3_TransformByMatrix3(const MPt&, const TickMatrix*);
 extern bool DAT_011e07aa, DAT_011e07b9;
 extern int DAT_011e07ac;
 extern float DAT_011e07b0;
@@ -6247,7 +6247,7 @@ void TickPlayer::PlayerCharacter_Update(float elapsed)
         }
     }
     DAT_011e077c = 0;
-    void* pickedRef = TESObjectREFR_FindReferenceFor3D(unkd3c.FUN_00559450());
+    void* pickedRef = TESObjectREFR_FindReferenceFor3D(unkd3c.Modelloader_GetReferencedThis());
     UpdateTargetHealthHUD(pickedRef, unkd40);
     unkd3c.FUN_0066b0d0(0);
     ResetCachedGunSkill();
@@ -6461,7 +6461,7 @@ void TickPlayer::PlayerCharacter_Update(float elapsed)
         flag = true;
     if ((!DAT_011e07b8 && !DAT_011e07c1 || unk68->vf610()) && unk68->FUN_008fec10(this))
     {
-        if (unk634.FUN_00559450())
+        if (unk634.Modelloader_GetReferencedThis())
             PlayerCharacter_ForcePhysicsGrabDrop();
         PlayerCharacter_ForceGrenadeHold();
         unk64a = !unk64a;
@@ -7001,7 +7001,7 @@ axesDone:
         {
             TickMatrix pitch;
             pitch.FUN_00524ac0(-FUN_00931d70());
-            move = FUN_004b3ae0(move, &pitch);
+            move = NiPoint3_TransformByMatrix3(move, &pitch);
         }
         move *= DAT_0108b044;
         origin += move;

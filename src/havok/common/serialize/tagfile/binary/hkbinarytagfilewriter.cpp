@@ -44,7 +44,7 @@ struct UnkHolder
     int a;
     int b;
     int c;
-    void __thiscall FUN_00dbedb0(UnkRet*, int);
+    void __thiscall ProcessEntries_00dbedb0(UnkRet*, int);
 };
 struct FUN_00dc0380
 {
@@ -64,7 +64,7 @@ FUN_00dc0380::FUN_00dc0380(BSAudio* pAudio)
     h->b = 0;
     h->c = -1;
     BSAudio* r = hkMemoryRouter_getInstance();
-    h->FUN_00dbedb0(reinterpret_cast<UnkRet*>(*(reinterpret_cast<int**>(r) + 4)), 0);
+    h->ProcessEntries_00dbedb0(reinterpret_cast<UnkRet*>(*(reinterpret_cast<int**>(r) + 4)), 0);
     a = 0;
     b = 0;
     c = 0x80000000;
@@ -73,38 +73,38 @@ FUN_00dc0380::FUN_00dc0380(BSAudio* pAudio)
 struct ObjectHandle
 {
     void* object;
-    __declspec(nothrow) int FUN_00dbac00();
-    __declspec(nothrow) void FUN_00dbab70();
+    __declspec(nothrow) int InvokeVirtualMethod_00dbac00();
+    __declspec(nothrow) void ReleaseStorage_00dbab70();
     ~ObjectHandle()
     {
-        FUN_00dbab70();
+        ReleaseStorage_00dbab70();
     }
 };
 struct StringHandle
 {
     void* object;
     __declspec(nothrow) int hkDataObject_isNull();
-    __declspec(nothrow) void FUN_00dba7f0();
+    __declspec(nothrow) void ReleaseStorage_00dba7f0();
     ~StringHandle()
     {
-        FUN_00dba7f0();
+        ReleaseStorage_00dba7f0();
     }
 };
 struct Value
 {
-    int FUN_00dbac40();
+    int InvokeVirtualMethod_00dbac40();
     int CallVirtualWithArg();
     float ApplyValue();
-    void* FUN_00dbac70();
-    __declspec(nothrow) ObjectHandle FUN_00dbacd0();
+    void* ForwardCall_00dbac70();
+    __declspec(nothrow) ObjectHandle GetMemberArrayValue();
     __declspec(nothrow) StringHandle CreateValueInto();
 };
 // @fnv 0x00dbeab0
 int __stdcall IsTruthy(Value* value)
 {
-    if (value->FUN_00dbac40() >= 16)
-        return value->FUN_00dbacd0().FUN_00dbac00();
-    switch (value->FUN_00dbac40())
+    if (value->InvokeVirtualMethod_00dbac40() >= 16)
+        return value->GetMemberArrayValue().InvokeVirtualMethod_00dbac00();
+    switch (value->InvokeVirtualMethod_00dbac40())
     {
     case 0:
         return 0;
@@ -121,9 +121,9 @@ int __stdcall IsTruthy(Value* value)
     case 9:
         return value->CreateValueInto().hkDataObject_isNull() == 0;
     case 16:
-        return value->FUN_00dbacd0().FUN_00dbac00() != 0;
+        return value->GetMemberArrayValue().InvokeVirtualMethod_00dbac00() != 0;
     case 10:
-        return value->FUN_00dbac70() != 0;
+        return value->ForwardCall_00dbac70() != 0;
     default:
         return 0;
     }
@@ -261,7 +261,7 @@ struct ArrayDeallocator
 struct Element
 {
     int m_i00;
-    void FUN_00dba7f0();
+    void ReleaseStorage_00dba7f0();
 };
 
 struct SubObject
@@ -290,7 +290,7 @@ void FUN_00dc03d0_cls::ClearArray()
         Element* pElement = m_ppArray[i];
         if (pElement)
         {
-            pElement->FUN_00dba7f0();
+            pElement->ReleaseStorage_00dba7f0();
             hkMemoryRouter* pAllocHolder = (hkMemoryRouter*)hkMemoryRouter_getInstance();
             hkMemoryAllocator* pAllocator = reinterpret_cast<hkMemoryAllocator*>(pAllocHolder->m_heap);
             reinterpret_cast<hkMemoryAllocator*>(pAllocator)->blockFree(pElement, 4);
@@ -366,7 +366,7 @@ struct MemberC
 struct BaseObj
 {
     int pad[4];
-    void FUN_00d60590();
+    void ReleaseReference_00d60590();
 };
 
 struct Obj : BaseObj
@@ -378,11 +378,12 @@ struct Obj : BaseObj
     hkArray<char, hkContainerTempAllocator> m40;
     hkArray<Elem24, hkContainerTempAllocator> m4c;
     MemberC m58;
-    void FUN_00dc0460();
+    void ProcessState_00dc0460();
 };
 
 // @fnv 0x00dc0460
-void Obj::FUN_00dc0460()
+// src: GUESS 0x00dc0460 (confidence: low)
+void Obj::ProcessState_00dc0460()
 {
     m58.ClearArray();
     m4c.clearAndDeallocate();
@@ -390,7 +391,7 @@ void Obj::FUN_00dc0460()
     m34.AllocBufferIfNotFlagged(&audio()->heap());
     m20.FreeBuffer();
     m10.FreeBuffer();
-    FUN_00d60590();
+    ReleaseReference_00d60590();
 }
 }  // namespace fnv_00dc0460
 
@@ -426,9 +427,9 @@ struct FUN_00dc05b0_writer
     void __thiscall FUN_00dc0500(int, int);
     void __thiscall WriteInt(unsigned int);
     void __thiscall WriteVarint(unsigned int, unsigned int);
-    void __thiscall FUN_00dbf450(int, int);
-    void __thiscall FUN_00dc00b0(int);
-    void __thiscall FUN_00dc0460();
+    void __thiscall WriteReferencedObjectRecursively(int, int);
+    void __thiscall ProcessEntries_00dc00b0(int);
+    void __thiscall ProcessState_00dc0460();
 };
 struct CallbackTarget
 {
@@ -454,10 +455,10 @@ int __stdcall WriteAudioObject(int value, CallbackTarget* target, int source)
     writer.WriteInt(0xd011face);
     writer.WriteVarint(1, 0);
     writer.WriteVarint(0, 0);
-    writer.FUN_00dbf450(value, 0);
-    writer.FUN_00dc00b0(value);
+    writer.WriteReferencedObjectRecursively(value, 0);
+    writer.ProcessEntries_00dc00b0(value);
     target->Complete();
-    writer.FUN_00dc0460();
+    writer.ProcessState_00dc0460();
     return 0;
 }
 
@@ -767,11 +768,12 @@ struct S_dbefc0_Bytes
         GrowArrayCapacity(S_dbefc0_GetHeap(), n);
         size = n;
     }
-    void FUN_00dbefc0(const unsigned char* bytes, int count);
+    void ProcessEntries_00dbefc0(const unsigned char* bytes, int count);
 };
 
 // @fnv 0x00dbefc0
-void S_dbefc0_Bytes::FUN_00dbefc0(const unsigned char* bytes, int count)
+// src: GUESS 0x00dbefc0 (confidence: low)
+void S_dbefc0_Bytes::ProcessEntries_00dbefc0(const unsigned char* bytes, int count)
 {
     int oldSize = size;
     SetSizeAndGrow((oldSize + 7) & ~7);
@@ -919,7 +921,7 @@ struct S_00dc0500_Holder : UnkHolder
         b = 0;
         c = -1;
         BSAudio* p = hkMemoryRouter_getInstance();
-        FUN_00dbedb0((UnkRet*)((hkMemoryRouter*)p)->m_heap, 0);
+        ProcessEntries_00dbedb0((UnkRet*)((hkMemoryRouter*)p)->m_heap, 0);
     }
 };
 struct S_00dc0500_Arr
@@ -968,7 +970,7 @@ struct S_dbf1a0_Handle
     void* m_ptr;
     S_dbf1a0_Handle(void* p) throw()
     {
-        FUN_00dba650(p);
+        SetField00(p);
     }
     S_dbf1a0_Handle() throw()
     {
@@ -976,15 +978,15 @@ struct S_dbf1a0_Handle
     }
     ~S_dbf1a0_Handle() throw()
     {
-        FUN_00dba660();
+        Object_DoNothing_00dba660();
     }
 
-    void __thiscall FUN_00dba650(void* p) throw();
-    void __thiscall FUN_00dba660() throw();
+    void __thiscall SetField00(void* p) throw();
+    void __thiscall Object_DoNothing_00dba660() throw();
     const char* __thiscall hkDataClass_getName() const throw();
-    int __thiscall FUN_00dba690() const throw();
+    int __thiscall ForwardCall_00dba690() const throw();
     S_dbf1a0_Handle __thiscall SetShiftedValue() const throw();
-    int __thiscall FUN_00dba6f0() const throw();
+    int __thiscall ForwardCall_00dba6f0() const throw();
     void __thiscall DispatchRecords(void* arr) const throw();
 };
 
@@ -1108,14 +1110,14 @@ int S_dbf1a0_Writer::WriteHandle(const S_dbf1a0_Handle& ahHandle) throw()
     int iContactPointId = m_map.unk04;
     const char* curName = ahHandle.hkDataClass_getName();
     m_map.hkCachedHashMap_hkStringMapOperations_hkContainerHeapAllocator_insert(curName, iContactPointId);
-    int count = ahHandle.FUN_00dba6f0();
+    int count = ahHandle.ForwardCall_00dba6f0();
 
     S_dbf1a0_Array<S_dbf1a0_Elem> arr(count);
     ahHandle.DispatchRecords(&arr);
 
     WriteVarint(2);
     WriteString(ahHandle.hkDataClass_getName());
-    WriteVarint(ahHandle.FUN_00dba690());
+    WriteVarint(ahHandle.ForwardCall_00dba690());
     WriteVarint(parentId);
     WriteVarint(count);
 
@@ -1222,18 +1224,18 @@ struct Rec
 struct Wrap
 {
     void* m_p;
-    __declspec(nothrow) int FUN_00dbac10() const;
-    __declspec(nothrow) Pair FUN_00dbabb0(int idx) const;
-    __declspec(nothrow) Pair FUN_00dbab90(int idx) const;
-    __declspec(nothrow) int FUN_00dbac00() const;
-    __declspec(nothrow) void FUN_00dbab70();
-    __declspec(nothrow) void FUN_00dba7f0();
-    __declspec(nothrow) ObjC FUN_00dbac20() const;
-    __declspec(nothrow) void FUN_00dba660();
+    __declspec(nothrow) int ForwardCall_00dbac10() const;
+    __declspec(nothrow) Pair CreateResultPair(int idx) const;
+    __declspec(nothrow) Pair UpdateState_00dbab90(int idx) const;
+    __declspec(nothrow) int InvokeVirtualMethod_00dbac00() const;
+    __declspec(nothrow) void ReleaseStorage_00dbab70();
+    __declspec(nothrow) void ReleaseStorage_00dba7f0();
+    __declspec(nothrow) ObjC ProcessAndReturnValue_00dbac20() const;
+    __declspec(nothrow) void Object_DoNothing_00dba660();
     __declspec(nothrow) Wrap InvokeCallbackInto(int v) const;
     ~Wrap()
     {
-        FUN_00dbab70();
+        ReleaseStorage_00dbab70();
     }
 };
 struct Node50
@@ -1247,12 +1249,12 @@ struct Node50
 struct ObjC
 {
     void* m_00;
-    __declspec(nothrow) int FUN_00dba730();
+    __declspec(nothrow) int ForwardCall_00dba730();
     __declspec(nothrow) void DispatchItems(hkArrayBase<Rec>& a);
-    __declspec(nothrow) void FUN_00dba660();
+    __declspec(nothrow) void Object_DoNothing_00dba660();
     ~ObjC()
     {
-        FUN_00dba660();
+        Object_DoNothing_00dba660();
     }
 };
 struct __declspec(align(8)) Obj2
@@ -1306,7 +1308,7 @@ struct Host
     __declspec(nothrow) void WriteVarint(__int64 v);
     __declspec(nothrow) void HashUInt(float f);
     __declspec(nothrow) void WriteFloatArray(void* p, int v);
-    __declspec(nothrow) void FUN_00dc00b0(const StringHandle& v);
+    __declspec(nothrow) void ProcessEntries_00dc00b0(const StringHandle& v);
     __declspec(nothrow) void WriteString(int v);
     __declspec(nothrow) void hkOArchive_writeRaw(void* p, int n);
     __declspec(nothrow) int IsTruthy(Pair* p);
@@ -1316,17 +1318,17 @@ struct Host
 void Host::WriteArray(const Wrap& arg0, int count)
 {
     long i;
-    if (arg0.FUN_00dbac10() & 0x20)
+    if (arg0.ForwardCall_00dbac10() & 0x20)
     {
         for (i = 0; i < count; i++)
         {
-            Wrap j = arg0.FUN_00dbabb0(i).FUN_00dbacd0();
-            int n = j.FUN_00dbac00();
+            Wrap j = arg0.CreateResultPair(i).GetMemberArrayValue();
+            int n = j.InvokeVirtualMethod_00dbac00();
             WriteArray(j, n);
         }
         return;
     }
-    switch (arg0.FUN_00dbac10())
+    switch (arg0.ForwardCall_00dbac10())
     {
     case 0:
         return;
@@ -1335,21 +1337,21 @@ void Host::WriteArray(const Wrap& arg0, int count)
     case 1: {
         for (i = 0; i < count; i++)
         {
-            hkOArchive_write8u(arg0.FUN_00dbabb0(i).CallVirtualWithArg());
+            hkOArchive_write8u(arg0.CreateResultPair(i).CallVirtualWithArg());
         }
     }
     break;
     case 2: {
         for (i = 0; i < count; i++)
         {
-            WriteVarint((__int64)arg0.FUN_00dbabb0(i).CallVirtualWithArg());
+            WriteVarint((__int64)arg0.CreateResultPair(i).CallVirtualWithArg());
         }
     }
     break;
     case 3: {
         for (i = 0; i < count; i++)
         {
-            float fValue = arg0.FUN_00dbabb0(i).ApplyValue();
+            float fValue = arg0.CreateResultPair(i).ApplyValue();
             HashUInt(fValue);
         }
     }
@@ -1360,7 +1362,7 @@ void Host::WriteArray(const Wrap& arg0, int count)
         int i;
         for (i = 0; i < n; i++)
         {
-            Node50* pNode = arg0.FUN_00dbabb0(i).DispatchToVTableSlot8(4);
+            Node50* pNode = arg0.CreateResultPair(i).DispatchToVTableSlot8(4);
             if (pNode->m_0c != 0.0f)
             {
                 mode = 4;
@@ -1370,28 +1372,28 @@ void Host::WriteArray(const Wrap& arg0, int count)
         WriteVarint((__int64)mode);
         for (i = 0; i < n; i++)
         {
-            Node50* value = arg0.FUN_00dbabb0(i).DispatchToVTableSlot8(4);
+            Node50* value = arg0.CreateResultPair(i).DispatchToVTableSlot8(4);
             WriteFloatArray(value, mode);
         }
     }
     break;
     case 6:
     case 7: {
-        int t = arg0.FUN_00dbac10();
+        int t = arg0.ForwardCall_00dbac10();
         int off = 4 * t - 12;
         for (i = 0; i < count; i++)
         {
-            Node50* value = arg0.FUN_00dbabb0(i).DispatchToVTableSlot8(off);
+            Node50* value = arg0.CreateResultPair(i).DispatchToVTableSlot8(off);
             WriteFloatArray(value, off);
         }
     }
     break;
     case 9: {
         Obj2 packedBits;
-        int iCount = arg0.FUN_00dbac20().FUN_00dba730();
+        int iCount = arg0.ProcessAndReturnValue_00dbac20().ForwardCall_00dba730();
         hkArrayBase<Rec> items;
         initializeRecords(items,iCount);
-        arg0.FUN_00dbac20().DispatchItems(items);
+        arg0.ProcessAndReturnValue_00dbac20().DispatchItems(items);
         packedBits.FUN_00dbef20(iCount);
         for (int idx = 0; idx < iCount; idx++)
         {
@@ -1400,15 +1402,15 @@ void Host::WriteArray(const Wrap& arg0, int count)
             if (r->enabled != 0)
             {
                 Wrap w9 = arg0.InvokeCallbackInto(r->key);
-                int buf = w9.FUN_00dbac00();
+                int buf = w9.InvokeVirtualMethod_00dbac00();
                 for (int j = 0; j < buf; j++)
                 {
-                    if (IsTruthy(&w9.FUN_00dbab90(j)) != 0)
+                    if (IsTruthy(&w9.UpdateState_00dbab90(j)) != 0)
                     {
                         packedBits.m_00[idx] = 1;
                         break;
                     }
-                    buf = w9.FUN_00dbac00();
+                    buf = w9.InvokeVirtualMethod_00dbac00();
                 }
             }
         }
@@ -1464,14 +1466,14 @@ void Host::WriteArray(const Wrap& arg0, int count)
     case 8: {
         for (i = 0; i < count; i++)
         {
-            FUN_00dc00b0(arg0.FUN_00dbabb0(i).CreateValueInto());
+            ProcessEntries_00dc00b0(arg0.CreateResultPair(i).CreateValueInto());
         }
     }
     break;
     case 10: {
         for (i = 0; i < count; i++)
         {
-            WriteString(arg0.FUN_00dbabb0(i).FUN_00dbac70());
+            WriteString(arg0.CreateResultPair(i).ForwardCall_00dbac70());
         }
     }
     break;
@@ -1494,29 +1496,29 @@ struct S_00dbfef0_X
 struct S_00dbfef0_Node
 {
     int QueryAndWriteResult();
-    int FUN_00dba990();
-    float FUN_00dbaa00();
+    int ForwardCall_00dba990();
+    float InvokeVirtualMethod_00dbaa00();
     int DispatchToInterface(int n);
     int hkDataObject_Value_asString();
-    int FUN_00dba9d0(S_00dbfef0_B* out);
+    int GetWrappedDataObject(S_00dbfef0_B* out);
     void GetResult(S_00dbfef0_A* out);
 };
 
 struct S_00dbfef0_B
 {
     S_00dbfef0_X* p;
-    void FUN_00dba7f0();
+    void ReleaseStorage_00dba7f0();
     int hkDataClass_getName();
-    void FUN_00dba660();
+    void Object_DoNothing_00dba660();
 };
 
 struct S_00dbfef0_A
 {
     S_00dbfef0_Node* p;
-    int FUN_00dbac00();
-    int FUN_00dbac10();
-    void FUN_00dbac20(S_00dbfef0_B* b);
-    void FUN_00dbab70();
+    int InvokeVirtualMethod_00dbac00();
+    int ForwardCall_00dbac10();
+    void ProcessAndReturnValue_00dbac20(S_00dbfef0_B* b);
+    void ReleaseStorage_00dbab70();
 };
 
 struct S_00dbfef0_Sub
@@ -1541,7 +1543,7 @@ struct S_00dbfef0_Visitor
     void WriteVarint(__int64 v);
     void WriteString(int v);
     void WriteArray(S_00dbfef0_A* a, int n);
-    void FUN_00dc00b0(int v);
+    void ProcessEntries_00dc00b0(int v);
     void WriteNode(S_00dbfef0_Node* node, S_00dbfef0_B b);
 };
 
@@ -1553,38 +1555,38 @@ void S_00dbfef0_Visitor::WriteNode(S_00dbfef0_Node* node, S_00dbfef0_B b)
     {
         S_00dbfef0_A a;
         node->GetResult(&a);
-        WriteArray(&a, a.FUN_00dbac00());
-        a.FUN_00dbab70();
+        WriteArray(&a, a.InvokeVirtualMethod_00dbac00());
+        a.ReleaseStorage_00dbab70();
         return;
     }
     if (node->QueryAndWriteResult() & 0x10)
     {
         S_00dbfef0_A a;
         node->GetResult(&a);
-        int n = a.FUN_00dbac00();
+        int n = a.InvokeVirtualMethod_00dbac00();
         WriteVarint(n);
-        if (a.FUN_00dbac10() == 9 && b.p->unk0C == 0)
+        if (a.ForwardCall_00dbac10() == 9 && b.p->unk0C == 0)
         {
-            a.FUN_00dbac20(&b);
+            a.ProcessAndReturnValue_00dbac20(&b);
             int v = b.hkDataClass_getName();
             int r = m_sub.GetValue(v, 0);
             WriteVarint(r);
-            b.FUN_00dba660();
+            b.Object_DoNothing_00dba660();
         }
         WriteArray(&a, n);
-        a.FUN_00dbab70();
+        a.ReleaseStorage_00dbab70();
         return;
     }
     switch (node->QueryAndWriteResult())
     {
     case 1:
-        hkOArchive_write8u(node->FUN_00dba990());
+        hkOArchive_write8u(node->ForwardCall_00dba990());
         break;
     case 2:
-        WriteVarint(node->FUN_00dba990());
+        WriteVarint(node->ForwardCall_00dba990());
         break;
     case 3: {
-        float f = node->FUN_00dbaa00();
+        float f = node->InvokeVirtualMethod_00dbaa00();
         HashUInt(f);
     }
     break;
@@ -1598,8 +1600,8 @@ void S_00dbfef0_Visitor::WriteNode(S_00dbfef0_Node* node, S_00dbfef0_B b)
     }
     case 8:
     case 9:
-        FUN_00dc00b0(node->FUN_00dba9d0(&b));
-        b.FUN_00dba7f0();
+        ProcessEntries_00dc00b0(node->GetWrappedDataObject(&b));
+        b.ReleaseStorage_00dba7f0();
         break;
     case 10:
         WriteString(node->hkDataObject_Value_asString());
@@ -1610,10 +1612,10 @@ void S_00dbfef0_Visitor::WriteNode(S_00dbfef0_Node* node, S_00dbfef0_B b)
 struct HkNodeE980
 {
     int QueryAndWriteResult();
-    int FUN_00dba990();
+    int ForwardCall_00dba990();
     int hkDataObject_Value_asString();
-    float FUN_00dbaa00();
-    __declspec(nothrow) StringHandle FUN_00dba9d0();
+    float InvokeVirtualMethod_00dbaa00();
+    __declspec(nothrow) StringHandle GetWrappedDataObject();
     __declspec(nothrow) ObjectHandle GetResult();
 };
 // Evaluates a node by dispatching on its type code and returning the corresponding boolean result.
@@ -1622,7 +1624,7 @@ int __stdcall EvaluateNode(HkNodeE980* node)
 {
     if (node->QueryAndWriteResult() >= 0x10)
     {
-        return node->GetResult().FUN_00dbac00();
+        return node->GetResult().InvokeVirtualMethod_00dbac00();
     }
     switch (node->QueryAndWriteResult())
     {
@@ -1630,18 +1632,18 @@ int __stdcall EvaluateNode(HkNodeE980* node)
         return 0;
     case 1:
     case 2:
-        return node->FUN_00dba990() != 0;
+        return node->ForwardCall_00dba990() != 0;
     case 3:
-        return node->FUN_00dbaa00() != 0.0f;
+        return node->InvokeVirtualMethod_00dbaa00() != 0.0f;
     case 4:
     case 6:
     case 7:
         return 1;
     case 8:
     case 9:
-        return node->FUN_00dba9d0().hkDataObject_isNull() == 0;
+        return node->GetWrappedDataObject().hkDataObject_isNull() == 0;
     case 16:
-        return node->GetResult().FUN_00dbac00() != 0;
+        return node->GetResult().InvokeVirtualMethod_00dbac00() != 0;
     case 10:
         return node->hkDataObject_Value_asString() != 0;
     }
@@ -1671,10 +1673,10 @@ struct FUN_00dba650
     {}
     __declspec(nothrow) ~FUN_00dba650()
     {
-        FUN_00dba660();
+        Object_DoNothing_00dba660();
     }
-    __declspec(nothrow) void __thiscall FUN_00dba660();
-    __declspec(nothrow) int __thiscall FUN_00dba730();
+    __declspec(nothrow) void __thiscall Object_DoNothing_00dba660();
+    __declspec(nothrow) int __thiscall ForwardCall_00dba730();
     __declspec(nothrow) void __thiscall DispatchItems(void* arr);
 };
 struct MyDesc
@@ -1686,13 +1688,13 @@ struct MyDesc
     }
     __declspec(nothrow) ~MyDesc()
     {
-        FUN_00dba7f0();
+        ReleaseStorage_00dba7f0();
     }
     __declspec(nothrow) int __thiscall hkDataObject_isNull();
-    __declspec(nothrow) void __thiscall FUN_00dba7f0();
+    __declspec(nothrow) void __thiscall ReleaseStorage_00dba7f0();
     __declspec(nothrow) ResourceKey __thiscall GetSourcePair();
     __declspec(nothrow) FUN_00dba650 __thiscall GetObjectValue();
-    __declspec(nothrow) ResourceKey __thiscall FUN_00dba890(int id);
+    __declspec(nothrow) ResourceKey __thiscall Get_Thunk(int id);
 };
 struct AudioResourceState2
 {
@@ -1726,7 +1728,7 @@ struct MyCharArray : FUN_00dbef20
     int unk0c;
     __declspec(nothrow) MyCharArray(int n) : FUN_00dbef20(n)
     {}
-    __declspec(nothrow) void __thiscall FUN_00dbefc0(const void* bytes, int count);
+    __declspec(nothrow) void __thiscall ProcessEntries_00dbefc0(const void* bytes, int count);
     __forceinline __declspec(nothrow) ~MyCharArray()
     {
         IHeap& heap = myAlloc();
@@ -1834,11 +1836,12 @@ struct ResourceWriter : FUN_00d607b0_s
     __declspec(nothrow) int __thiscall WriteHandle(FUN_00dba650* h);
     __declspec(nothrow) void __thiscall WriteNode(ResourceKey* key, Struct20* item);
 
-    __declspec(nothrow) void __thiscall FUN_00dc00b0(MyDesc* input);
+    __declspec(nothrow) void __thiscall ProcessEntries_00dc00b0(MyDesc* input);
 };
 // Resolves a sound, writes a varint tag, handle, and per-item resource keys to the resource stream.
 // @fnv 0x00dc00b0
-void __thiscall ResourceWriter::FUN_00dc00b0(MyDesc* apSoundDesc)
+// src: GUESS 0x00dc00b0 (confidence: low)
+void __thiscall ResourceWriter::ProcessEntries_00dc00b0(MyDesc* apSoundDesc)
 {
     MyDesc desc = m_58.ResolveSound(apSoundDesc);
     if (desc.hkDataObject_isNull())
@@ -1871,7 +1874,7 @@ void __thiscall ResourceWriter::FUN_00dc00b0(MyDesc* apSoundDesc)
     WriteVarint(reqBytes);
 
     int c;
-    c = k.FUN_00dba730();
+    c = k.ForwardCall_00dba730();
     MyCharArray charArr(c);
 
     int res;
@@ -1880,7 +1883,7 @@ void __thiscall ResourceWriter::FUN_00dc00b0(MyDesc* apSoundDesc)
     {
         TempArrLocalForm temp((char*)res, count, count);
         writeVec((int)temp.m_data, temp.m_iElementCount);
-        charArr.FUN_00dbefc0(temp.m_data, temp.m_iElementCount);
+        charArr.ProcessEntries_00dbefc0(temp.m_data, temp.m_iElementCount);
     }
 
     Array20 ptr(c);
@@ -1892,7 +1895,7 @@ void __thiscall ResourceWriter::FUN_00dc00b0(MyDesc* apSoundDesc)
         if (charArr.m_data[i])
         {
             Struct20* item = &ptr.m_data[i];
-            ResourceKey z = desc.FUN_00dba890(item->a);
+            ResourceKey z = desc.Get_Thunk(item->a);
             WriteNode(&z, item);
         }
     }
@@ -1918,15 +1921,15 @@ struct ScanObject
     __declspec(nothrow) int hkDataObject_isNull() const;
     __declspec(nothrow) ScanKey GetSourcePair() const;
     __declspec(nothrow) ScanClass GetObjectValue() const;
-    __declspec(nothrow) int FUN_00dba8b0() const;
-    __declspec(nothrow) int FUN_00dba8c0(int iterator) const;
-    __declspec(nothrow) int FUN_00dba8d0(int iterator) const;
-    __declspec(nothrow) int FUN_00dba8e0(int iterator) const;
-    __declspec(nothrow) ScanValue FUN_00dba8f0(int iterator) const;
-    __declspec(nothrow) void FUN_00dba7f0();
+    __declspec(nothrow) int ForwardCall_00dba8b0() const;
+    __declspec(nothrow) int InvokeVirtualMethod_00dba8c0(int iterator) const;
+    __declspec(nothrow) int ForwardCall_00dba8d0(int iterator) const;
+    __declspec(nothrow) int InvokeVirtualMethod_00dba8e0(int iterator) const;
+    __declspec(nothrow) ScanValue EvaluateValue_00dba8f0(int iterator) const;
+    __declspec(nothrow) void ReleaseStorage_00dba7f0();
     ~ScanObject()
     {
-        FUN_00dba7f0();
+        ReleaseStorage_00dba7f0();
     }
 };
 struct ScanMember
@@ -1938,26 +1941,26 @@ struct ScanMember
 struct ScanClass
 {
     void* object;
-    __declspec(nothrow) int FUN_00dba730() const;
-    __declspec(nothrow) int FUN_00dba740(int name) const;
-    __declspec(nothrow) void FUN_00dba720(int index, ScanMember& member) const;
-    __declspec(nothrow) void FUN_00dba660();
+    __declspec(nothrow) int ForwardCall_00dba730() const;
+    __declspec(nothrow) int InvokeVirtualMethod_00dba740(int name) const;
+    __declspec(nothrow) void InvokeVirtualMethod_00dba720(int index, ScanMember& member) const;
+    __declspec(nothrow) void Object_DoNothing_00dba660();
     ~ScanClass()
     {
-        FUN_00dba660();
+        Object_DoNothing_00dba660();
     }
 };
 struct ScanArray
 {
     void* object;
-    __declspec(nothrow) int FUN_00dbac00() const;
-    __declspec(nothrow) ScanClass FUN_00dbac20() const;
+    __declspec(nothrow) int InvokeVirtualMethod_00dbac00() const;
+    __declspec(nothrow) ScanClass ProcessAndReturnValue_00dbac20() const;
     __declspec(nothrow) ScanArray InvokeCallbackInto(int name) const;
-    __declspec(nothrow) ScanItem FUN_00dbab90(int index) const;
-    __declspec(nothrow) void FUN_00dbab70();
+    __declspec(nothrow) ScanItem UpdateState_00dbab90(int index) const;
+    __declspec(nothrow) void ReleaseStorage_00dbab70();
     ~ScanArray()
     {
-        FUN_00dbab70();
+        ReleaseStorage_00dbab70();
     }
 };
 struct ScanValue
@@ -1965,7 +1968,7 @@ struct ScanValue
     void* object;
     int index;
     __declspec(nothrow) int QueryAndWriteResult() const;
-    __declspec(nothrow) ScanObject FUN_00dba9d0() const;
+    __declspec(nothrow) ScanObject GetWrappedDataObject() const;
     __declspec(nothrow) ScanArray GetResult() const;
 };
 struct ScanItem
@@ -1976,7 +1979,7 @@ struct ScanItem
 };
 struct ScanResources
 {
-    __declspec(nothrow) ScanObject FUN_00dbedd0(const ScanObject& source);
+    __declspec(nothrow) ScanObject AllocateStorage_00dbedd0(const ScanObject& source);
 };
 struct ScanRecord
 {
@@ -2046,13 +2049,14 @@ struct ScanWriter
     ScanResources resources;
     __declspec(nothrow) void WriteHandle(const ScanClass& type);
     __declspec(nothrow) int EvaluateNode(const ScanValue& value);
-    __declspec(nothrow) void FUN_00dbf450(const ScanObject& source, int supplemental);
+    __declspec(nothrow) void WriteReferencedObjectRecursively(const ScanObject& source, int supplemental);
 };
 // Resolves a ScanObject, deduplicates it in the reference map, and recursively writes its class handle, member mask, and nested values to the writer's bit buffer.
 // @fnv 0x00dbf450
-void ScanWriter::FUN_00dbf450(const ScanObject& source, int supplemental)
+// src: GUESS 0x00dbf450 (confidence: medium)
+void ScanWriter::WriteReferencedObjectRecursively(const ScanObject& source, int supplemental)
 {
-    ScanObject object = resources.FUN_00dbedd0(source);
+    ScanObject object = resources.AllocateStorage_00dbedd0(source);
     if (object.hkDataObject_isNull())
         return;
     {
@@ -2072,14 +2076,14 @@ void ScanWriter::FUN_00dbf450(const ScanObject& source, int supplemental)
         }
         ScanClass type = object.GetObjectValue();
         WriteHandle(type);
-        ScanMask mask(type.FUN_00dba730());
-        for (int iterator = object.FUN_00dba8b0(); object.FUN_00dba8c0(iterator);
-             iterator = object.FUN_00dba8d0(iterator))
+        ScanMask mask(type.ForwardCall_00dba730());
+        for (int iterator = object.ForwardCall_00dba8b0(); object.InvokeVirtualMethod_00dba8c0(iterator);
+             iterator = object.ForwardCall_00dba8d0(iterator))
         {
-            ScanValue value = object.FUN_00dba8f0(iterator);
+            ScanValue value = object.EvaluateValue_00dba8f0(iterator);
             if (EvaluateNode(value))
             {
-                mask.memberInteresting(type.FUN_00dba740(object.FUN_00dba8e0(iterator))) = 1;
+                mask.memberInteresting(type.InvokeVirtualMethod_00dba740(object.InvokeVirtualMethod_00dba8e0(iterator))) = 1;
                 int kind = value.QueryAndWriteResult() & 15;
                 if (kind == 8 || kind == 9)
                 {
@@ -2087,23 +2091,23 @@ void ScanWriter::FUN_00dbf450(const ScanObject& source, int supplemental)
                     {
                     case 8:
                     case 9:
-                        FUN_00dbf450(value.FUN_00dba9d0(), 0);
+                        WriteReferencedObjectRecursively(value.GetWrappedDataObject(), 0);
                         break;
                     case 25:
                     case 41: {
-                        ScanClass elementType = value.GetResult().FUN_00dbac20();
+                        ScanClass elementType = value.GetResult().ProcessAndReturnValue_00dbac20();
                         WriteHandle(elementType);
-                        for (int member = 0; member < elementType.FUN_00dba730(); ++member)
+                        for (int member = 0; member < elementType.ForwardCall_00dba730(); ++member)
                         {
                             ScanMember description;
-                            elementType.FUN_00dba720(member, description);
+                            elementType.InvokeVirtualMethod_00dba720(member, description);
                             if (description.type == 8)
                             {
                                 ScanArray elements = value.GetResult().InvokeCallbackInto(description.name);
-                                int count = elements.FUN_00dbac00();
+                                int count = elements.InvokeVirtualMethod_00dbac00();
                                 for (int i = 0; i < count; ++i)
                                 {
-                                    FUN_00dbf450(elements.FUN_00dbab90(i).CreateValueInto(), 0);
+                                    WriteReferencedObjectRecursively(elements.UpdateState_00dbab90(i).CreateValueInto(), 0);
                                 }
                             }
                         }
@@ -2111,10 +2115,10 @@ void ScanWriter::FUN_00dbf450(const ScanObject& source, int supplemental)
                     }
                     case 24:
                     case 40: {
-                        int count = value.GetResult().FUN_00dbac00();
+                        int count = value.GetResult().InvokeVirtualMethod_00dbac00();
                         for (int i = 0; i < count; ++i)
                         {
-                            FUN_00dbf450(value.GetResult().FUN_00dbab90(i).CreateValueInto(), 0);
+                            WriteReferencedObjectRecursively(value.GetResult().UpdateState_00dbab90(i).CreateValueInto(), 0);
                         }
                         break;
                     }
@@ -2147,7 +2151,8 @@ struct S00dbedb0_Callee : UnkHolder
     void __thiscall hkMapBase_struct_hkCppTypeInfoHash_struct_hkRttiParser_Node_const_struct_hkCppTypeInfoHash_resizeTable(UnkRet*, int);
 };
 // @fnv 0x00dbedb0
-__declspec(noinline) void __thiscall UnkHolder::FUN_00dbedb0(UnkRet* value, int count)
+// src: GUESS 0x00dbedb0 (confidence: low)
+__declspec(noinline) void __thiscall UnkHolder::ProcessEntries_00dbedb0(UnkRet* value, int count)
 {
     int needed = count + count;
     int capacity = 8;

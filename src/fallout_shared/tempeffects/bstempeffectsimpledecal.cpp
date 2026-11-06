@@ -468,7 +468,7 @@ struct DecalEffect
 };
 struct DecalTarget
 {
-    void FUN_004ee560(void* effect);
+    void ProcessState_004ee560(void* effect);
 };
 struct DecalState
 {
@@ -477,7 +477,7 @@ struct DecalState
 };
 struct DecalRef
 {
-    DecalState* FUN_00559450();
+    DecalState* Modelloader_GetReferencedThis();
 };
 struct DecalHost
 {
@@ -502,22 +502,22 @@ bool DecalHost::UpdateDecalFade(float alpha)
 {
     bool changed = FUN_006828a0(alpha);
     DecalTarget* pDecalTarget;
-    if (!changed && decalRef.FUN_00559450())
+    if (!changed && decalRef.Modelloader_GetReferencedThis())
     {
         float elapsed = (float)(ActorPackage_GetPackageStartTime() - FUN_00488d50());
         float intensity;
         if (elapsed >= DAT_01012060 && elapsed <= DAT_01012070)
         {
             intensity = (float)((1.0 - elapsed) / DAT_01012070);
-            DecalEffect* pDecalEffect = decalRef.FUN_00559450()->FUN_00a59d30(NiMaterialProperty_GetType());
+            DecalEffect* pDecalEffect = decalRef.Modelloader_GetReferencedThis()->FUN_00a59d30(NiMaterialProperty_GetType());
             DecalEffect* pEffect = pDecalEffect;
             if (pEffect && pEffect->FUN_00598040() != intensity)
                 pEffect->NiMaterialProperty_SetAlpha(intensity);
             return true;
         }
-        pDecalTarget = decalRef.FUN_00559450()->NiAVObject_GetParent();
+        pDecalTarget = decalRef.Modelloader_GetReferencedThis()->NiAVObject_GetParent();
         if (pDecalTarget)
-            pDecalTarget->FUN_004ee560(this);
+            pDecalTarget->ProcessState_004ee560(this);
     }
     return changed;
 }
@@ -1390,7 +1390,7 @@ struct DecalGeometry
 struct DecalGeometryRef
 {
     DecalGeometry* object;
-    DecalGeometry* FUN_00559450();
+    DecalGeometry* Modelloader_GetReferencedThis();
 };
 struct DecalHeap
 {
@@ -1418,7 +1418,7 @@ bool BSTempEffectSimpleDecal::AddDecalGeometry(int count, int* paiIndices, Decal
         m_pPrimaryTextureCoordinates = (NiPoint2*)vertex_->ScrapHeap_Allocate(4096, DAT_010a2720);
         reinterpret_cast<NiColorA*&>(m_pFirstElementArray) = (NiColorA*)vertex_->ScrapHeap_Allocate(8192, DAT_010a2720);
         m_pFirstUnsignedShortArray = (unsigned short*)vertex_->ScrapHeap_Allocate(6144, DAT_010a2720);
-        DecalGeometry* aMesh = reinterpret_cast<DecalGeometryRef&>(m_pTargetNode).FUN_00559450();
+        DecalGeometry* aMesh = reinterpret_cast<DecalGeometryRef&>(m_pTargetNode).Modelloader_GetReferencedThis();
         int _numTriangles = aMesh->FUN_004a1ff0();
         m_pSignedShortArray = (short*)_NiMalloc_00aa1070(_numTriangles * 3 * 2);
         ourMemset(m_pSignedShortArray, -1, _numTriangles * 3 * 2);
@@ -1620,7 +1620,7 @@ int ClipPolygonToPlane(Plane* plane, int count, const int* indices, const NiPoin
             {
                 NiPoint3 start4 = positions[previous];
                 NiPoint3 _end = positions[current];
-                NiPoint3 edgeTmp = start4.FUN_00439ef0(_end);
+                NiPoint3 edgeTmp = start4.SubtractIntoVector(_end);
                 NiPoint3 normal = plane->FUN_006815c0();
                 float fraction = (normal.DotProduct(start4) + -plane->FUN_0084d030()) / normal.DotProduct(edgeTmp);
                 if (fraction > DAT_01012070 && fraction <= DAT_01069ff0)
@@ -1650,7 +1650,7 @@ int ClipPolygonToPlane(Plane* plane, int count, const int* indices, const NiPoin
             {
                 NiPoint3 start_ = positions[current];
                 NiPoint3 end2 = positions[previous];
-                NiPoint3 edge_ = start_.FUN_00439ef0(end2);
+                NiPoint3 edge_ = start_.SubtractIntoVector(end2);
                 NiPoint3 normal3 = plane->FUN_006815c0();
                 float fraction2 = (normal3.DotProduct(start_) + -plane->FUN_0084d030()) / normal3.DotProduct(edge_);
                 if (fraction2 < DAT_01012060)
@@ -1711,11 +1711,11 @@ struct SubOut
     float x;
     float y;
     float z;
-    NiPoint3* FUN_00439ef0(NiPoint3*, NiPoint3*);
+    NiPoint3* SubtractIntoVector(NiPoint3*, NiPoint3*);
 };
 struct PtSet
 {
-    NiPoint3* FUN_00416870(float, float, float);
+    NiPoint3* SetComponents(float, float, float);
 };
 struct Param
 {
@@ -1736,7 +1736,7 @@ struct MidObj
 struct Obj10c
 {
     int dummy;
-    MidObj* FUN_00559450();
+    MidObj* Modelloader_GetReferencedThis();
 };
 struct Sing
 {
@@ -1813,7 +1813,7 @@ bool BSTempEffectSimpleDecal::ProcessGeometry(Param* apParam)
         }
         else
         {
-            reinterpret_cast<NiPoint3&>(eValue2) = reinterpret_cast<NiPoint3&>(c34Value43).FUN_00439ef0(*apParam->NiAVObject_GetWorldTranslate());
+            reinterpret_cast<NiPoint3&>(eValue2) = reinterpret_cast<NiPoint3&>(c34Value43).SubtractIntoVector(*apParam->NiAVObject_GetWorldTranslate());
             reinterpret_cast<NiPoint3&>(eValue2) = reinterpret_cast<NiPoint3&>(eValue2).ApplyScaled(1.0f / apParam->NiAVObject_GetWorldScale());
         }
         NiMatrix3_TransformVertices(&mecValue16, (const char*)&DAT_011f426c, 1, &reinterpret_cast<NiPoint3&>(eValue2), &reinterpret_cast<NiPoint3&>(gValue23));
@@ -1858,7 +1858,7 @@ bool BSTempEffectSimpleDecal::ProcessGeometry(Param* apParam)
             bWasPlaying = 1;
             if (DAT_011c5904.FUN_00408d60()->b0)
             {
-                Warning_005b5e40(&str_01069efc, reinterpret_cast<Obj10c&>(m_pTargetNode).FUN_00559450()->FUN_00413f40()->FUN_0043b1b0());
+                Warning_005b5e40(&str_01069efc, reinterpret_cast<Obj10c&>(m_pTargetNode).Modelloader_GetReferencedThis()->FUN_00413f40()->FUN_0043b1b0());
             }
             resultValue23 = false;
         }
@@ -1870,7 +1870,7 @@ bool BSTempEffectSimpleDecal::ProcessGeometry(Param* apParam)
             for (iValue13 = 0; iValue13 < m_iFirstValueAfterPlanes; iValue13++)
             {
 
-                ((SubOut*)&m_pFirstPoint3Array[iValue13])->FUN_00439ef0(&reinterpret_cast<NiPoint3&>(diffValue4), &reinterpret_cast<NiPoint3&>(m_kThirdPoint));
+                ((SubOut*)&m_pFirstPoint3Array[iValue13])->SubtractIntoVector(&reinterpret_cast<NiPoint3&>(diffValue4), &reinterpret_cast<NiPoint3&>(m_kThirdPoint));
                 uValue22 = reinterpret_cast<NiPoint3&>(diffValue4).DotProduct(&reinterpret_cast<NiPoint3&>(aValue1)) * inv118Value2 + 0.5;
                 vValue40 = reinterpret_cast<NiPoint3&>(diffValue4).DotProduct(&reinterpret_cast<NiPoint3&>(bValue0)) * inv11cValue22 + 0.5;
                 modeValue10 = m_ucByteAfterFloats;
@@ -2126,7 +2126,7 @@ void BSTempEffectSimpleDecal::SetDecalTint(NiColorA& color, bool FLAG)
         if (xIsNear(m_kFourthPoint.z, 0.0f, 0.001f))
             m_kFourthPoint.z = 0.0f;
         NiPoint3 qxQHW = m_kFourthPoint;
-        if (qxQHW.FUN_004390c0(xg_Zero))
+        if (qxQHW.HasEqualComponents(xg_Zero))
         {
             qxQHW = m_kSecondVertex;
             NiMatrix3 qpia;

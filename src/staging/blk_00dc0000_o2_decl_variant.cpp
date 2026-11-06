@@ -86,7 +86,7 @@ struct FUN_00dd51d0_class
     int m_00;
     int m_04;
     int m_08;
-    void FUN_00dd51d0();
+    void InitializeFields_00dd51d0();
 };
 struct FUN_00ddfb70_cls
 {
@@ -115,7 +115,7 @@ struct FUN_00dc9e70_Class
     int m_10;
     int m_14;
     int m_18;
-    FUN_00dc9e70_Class* FUN_00dc9e70();
+    FUN_00dc9e70_Class* InitializeFields_00dc9e70();
 };
 struct FUN_00dcc5a0_vt
 {
@@ -130,18 +130,18 @@ struct FUN_00dcc5a0_class
     int m_00;
     int m_04;
     FUN_00dcc5a0_vt* m_08;
-    FUN_00dcc5a0_class* FUN_00dcc5a0(int arg);
+    FUN_00dcc5a0_class* ProcessAndReturnValue_00dcc5a0(int arg);
 };
 struct FUN_00cb0a70
 {
     void __thiscall m(int);
 };
-void __cdecl FUN_00dccae0(void* a, void* b);
+void __cdecl Object_ProcessState_00dccae0(void* a, void* b);
 struct S_00d49310_Lock
 {
     ~S_00d49310_Lock();
 };
-void __cdecl FUN_00dccb10(char* p);
+void __cdecl Runtime_UpdateState_00dccb10(char* p);
 extern int DAT_010d77b4[];
 extern void __cdecl _Deallocate(void* p);
 struct FUN_00dcd4b0_Class
@@ -163,7 +163,7 @@ struct D2B3D0Map
 };
 struct FUN_00ddf030_Class
 {
-    void __thiscall FUN_00ddf030(int arg);
+    void __thiscall Clear_Thunk(int arg);
 };
 extern int DAT_010d8094;
 struct FUN_00ddfb80_s
@@ -177,7 +177,7 @@ struct FUN_00ddfb80_s
     void* m_10;
 };
 FUN_00ddfb80_s* __fastcall hkpShapeDisplayBuilder_hkpShapeDisplayBuilder(FUN_00ddfb80_s* self, int, const void* src);
-int __stdcall FUN_00dc1660(int a1);
+int __stdcall Object_ReturnArgument_00dc1660(int a1);
 extern int DAT_011b7b88;
 struct FUN_00dc1670_cls
 {
@@ -237,7 +237,7 @@ struct FUN_00dcc660_cls
     int unk00;
     int unk04;
     Target* m_pFlagTarget;
-    void FUN_00dcc660(int a);
+    void InvokeVirtualMethod_00dcc660(int a);
 };
 struct FUN_00dcc670_Manager
 {
@@ -258,21 +258,21 @@ struct FUN_00dcc670_Class
 extern int DAT_010d7540;
 extern FUN_00dcc670_Manager* DAT_01268364;
 extern int g_unk01269bb4;
-int* __cdecl FUN_00dccb00();
+int* __cdecl Object_GetGlobalObjectAddress_00dccb00();
 extern int DAT_01269be4;
-int* __cdecl FUN_00dccb30();
+int* __cdecl Runtime_GetDAT01269be4Address();
 struct FUN_00dced30_cls
 {
     virtual void m_v00(int arg);
 };
-void __cdecl FUN_00dced30(FUN_00dced30_cls* pObject);
+void __cdecl Object_ForwardCall_00dced30(FUN_00dced30_cls* pObject);
 extern int DAT_01269c44;
-int __cdecl FUN_00dced40();
+int __cdecl Object_ComputeValue_00dced40();
 struct FUN_00d4dfc0_class
 {
     void __thiscall FUN_00d4dfc0(unsigned int value);
 };
-void __cdecl FUN_00dced50(FUN_00d4dfc0_class* object, unsigned int value);
+void __cdecl Runtime_ProcessState_00dced50(FUN_00d4dfc0_class* object, unsigned int value);
 struct S_00dd4bb0_Class
 {
     unsigned char unk00;
@@ -527,7 +527,7 @@ struct FUN_00ddfbb0_cls
     int unk08;
     int unk0C;
     int m_10;
-    void FUN_00ddfbb0();
+    void ClearField10();
 };
 void __cdecl FUN_00c90510();
 struct FUN_00dcc130_Class
@@ -696,7 +696,7 @@ struct S_00dcc600_Class
 };
 void __cdecl nullsub_121();
 void __cdecl nullsub_122();
-void __cdecl FUN_00dd4b00();
+void __cdecl Object_DoNothing_00dd4b00();
 struct Bool388
 {
     unsigned char value;
@@ -719,7 +719,7 @@ struct Allocator388
     Block388* lower;
     Bool388 ValidateBlock(Block388* block);
 };
-static void FUN_00dd8fd0(unsigned char* a, unsigned char* b);
+static void Runtime_UpdateState_00dd8fd0(unsigned char* a, unsigned char* b);
 extern "C" unsigned char* GetPtr();
 void Caller(unsigned char* a);
 namespace hkRouterDDFB {
@@ -929,11 +929,12 @@ struct S_00dcc820_Class
     unsigned int m_04;
     S_00dcc240_Reader* m_08;
 
-    S_00dcc820_Class* __thiscall FUN_00dcc820(int* result);
+    S_00dcc820_Class* __thiscall ProcessAndReturnValue_00dcc820(int* result);
 };
 extern "C" void __cdecl SkipWhitespace(void);
 // @fnv 0x00dcc820
-S_00dcc820_Class* __thiscall S_00dcc820_Class::FUN_00dcc820(int* result)
+// src: GUESS 0x00dcc820 (confidence: low)
+S_00dcc820_Class* __thiscall S_00dcc820_Class::ProcessAndReturnValue_00dcc820(int* result)
 {
     unsigned char ok;
     int value = readInteger64(&ok, m_08);

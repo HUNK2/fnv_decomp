@@ -35,7 +35,8 @@ void* FUN_00d4f070_t::hkpStiffSpringConstraintData_getConstraintInfo(int aiIndex
 }
 
 // @fnv 0x00d4f0e0
-int __cdecl FUN_00d4f0e0()
+// src: GUESS 0x00d4f0e0 (confidence: low)
+int __cdecl Object_ComputeValue_00d4f0e0()
 {
     return 8;
 }

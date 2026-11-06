@@ -14,7 +14,7 @@ void PlayerNameEntryMenu::UpdateDialog()
     if (XVirtualKeyboard_IsActive())
     {
         Finish(XVirtualKeyboard_IsActive());
-        FUN_007ab7c0();
+        Object_GetGlobalValue_007ab7c0();
     }
 }
 
@@ -26,7 +26,8 @@ struct Str6a70
 extern Str6a70 g_011daed8;
 
 // @fnv 0x007ab7c0
-void __cdecl FUN_007ab7c0(void)
+// src: GUESS 0x007ab7c0 (confidence: low)
+void __cdecl Object_GetGlobalValue_007ab7c0(void)
 {
     g_011daed8 = 0;
 }

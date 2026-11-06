@@ -263,14 +263,14 @@ struct Str_007ab000
     char data[0x1c];
     ~Str_007ab000();
     Str_007ab000(const Str_007ab000&, unsigned int, unsigned int, const Al_007ab000&);
-    Al_007ab000 FUN_007ab230() const;
+    Al_007ab000 EvaluateValue_007ab230() const;
     Str_007ab000 Substr(unsigned int _Off, unsigned int _Count) const;
 };
 // Returns a copy of the string constructed from this, _Off, _Count and the result of FUN_007ab230().
 // @fnv 0x007ab000
 Str_007ab000 Str_007ab000::Substr(unsigned int _Off, unsigned int _Count) const
 {
-    return Str_007ab000(*this, _Off, _Count, FUN_007ab230());
+    return Str_007ab000(*this, _Off, _Count, EvaluateValue_007ab230());
 }
 
 struct FUN_007abdb0_shell : public MessageMenu
@@ -442,29 +442,31 @@ unsigned int* FUN_006f2270::GetLast()
 
 struct FUN_007aafe0_Class
 {
-    void FUN_007aafe0(void* ap1, void* ap2);
+    void FindSubstring_Thunk(void* ap1, void* ap2);
     void FindSubstring(void* p, void* q, int n);
 };
 
 // @fnv 0x007aafe0
-void FUN_007aafe0_Class::FUN_007aafe0(void* pFirst, void* pSecond)
+// src: GUESS 0x007aafe0 (confidence: medium)
+void FUN_007aafe0_Class::FindSubstring_Thunk(void* pFirst, void* pSecond)
 {
     FindSubstring(&pFirst, pSecond, 1);
 }
 
 struct MessageMenuHandler
 {
-    void FUN_007ab0a0(void* first, void* second, void* third, unsigned int derivedValue);
-    void FUN_007aaf80(void* first, void* second, void* third);
+    void ReplaceSubstring(void* first, void* second, void* third, unsigned int derivedValue);
+    void ProcessState_007aaf80(void* first, void* second, void* third);
 };
 
 unsigned int __cdecl BSstrlen(void* value);
 
 // Calls FUN_007ab0a0 with the three arguments and the value returned by FUN_0044a670(third).
 // @fnv 0x007aaf80
-void MessageMenuHandler::FUN_007aaf80(void* first, void* second, void* third)
+// src: GUESS 0x007aaf80 (confidence: low)
+void MessageMenuHandler::ProcessState_007aaf80(void* first, void* second, void* third)
 {
-    FUN_007ab0a0(first, second, third, BSstrlen(third));
+    ReplaceSubstring(first, second, third, BSstrlen(third));
 }
 
 void __cdecl FUN_00ec7c56(void);
@@ -478,12 +480,13 @@ struct FUN_007aafb0_Class
     int unk10;
     int unk14;
     int __thiscall std_string__Myptr();
-    int __thiscall FUN_007aafb0(unsigned int arg);
+    int __thiscall GetCharacterPointerChecked(unsigned int arg);
 };
 
 // If arg exceeds unk14, calls FUN_00ec7c56; then returns the result of FUN_0044a970() plus arg.
 // @fnv 0x007aafb0
-int __thiscall FUN_007aafb0_Class::FUN_007aafb0(unsigned int arg)
+// src: GUESS 0x007aafb0 (confidence: medium)
+int __thiscall FUN_007aafb0_Class::GetCharacterPointerChecked(unsigned int arg)
 {
     if (arg > unk14)
     {
@@ -508,10 +511,10 @@ struct Text
     unsigned int length, capacity;
     Text(const char*);
     ~Text();
-    unsigned int FUN_007aafe0(char, unsigned int);
+    unsigned int FindSubstring_Thunk(char, unsigned int);
     Text Substr(unsigned int, unsigned int);
     const char* std_string_debug_c_str();
-    void FUN_007aaf80(unsigned int, unsigned int, const char*);
+    void ProcessState_007aaf80(unsigned int, unsigned int, const char*);
 };
 struct Message
 {
@@ -586,12 +589,12 @@ bool QueueMessage(const char* title, const char* message, const char* icon, cons
         info->icon = 0;
     while (buttonSlot11.BSStringT_char_Length() > 0)
     {
-        Text text(buttonSlot11.FUN_00559450());
-        unsigned int hotkeySlot0 = text.FUN_007aafe0('&', 0);
+        Text text(buttonSlot11.Modelloader_GetReferencedThis());
+        unsigned int hotkeySlot0 = text.FindSubstring_Thunk('&', 0);
         if (hotkeySlot0 != DAT_010173f0)
         {
             info->hotkeys.FUN_00404820(text.Substr(hotkeySlot0 + 1, 1).std_string_debug_c_str());
-            text.FUN_007aaf80(hotkeySlot0, 1, DAT_01011584);
+            text.ProcessState_007aaf80(hotkeySlot0, 1, DAT_01011584);
         }
         if (BSstrcmp(text.std_string_debug_c_str(), DAT_01020770))
             info->buttons.FUN_00404820(text.std_string_debug_c_str());
@@ -648,7 +651,7 @@ struct KeyString
     KeyString(const char*);
     ~KeyString();
     unsigned int FUN_00825c00();
-    char& FUN_007aafb0(unsigned int);
+    char& GetCharacterPointerChecked(unsigned int);
 };
 extern "C" int __cdecl toupper(int);
 struct KeyedList
@@ -690,10 +693,10 @@ bool KeyMenu::HandleKeyInput(int key)
         }
         else if (((KeyBinding*)GetCurrentArrayElement())->text.BSStringT_char_Length() > 0)
         {
-            KeyString text(((KeyBinding*)GetCurrentArrayElement())->text.FUN_00559450());
+            KeyString text(((KeyBinding*)GetCurrentArrayElement())->text.Modelloader_GetReferencedThis());
             for (unsigned int index = 0; index < text.FUN_00825c00(); index++)
             {
-                if (toupper(text.FUN_007aafb0(index)) == toupper(key))
+                if (toupper(text.GetCharacterPointerChecked(index)) == toupper(key))
                 {
                     Select(7, buttons.At(index, false));
                     handled = true;
@@ -785,10 +788,10 @@ struct ActionMenuText
     unsigned unk04, unk08, unk0C, unk10, size, capacity;
     ActionMenuText(const char*);
     ~ActionMenuText();
-    unsigned FUN_007aafe0(char, unsigned);
+    unsigned FindSubstring_Thunk(char, unsigned);
     ActionMenuText Substr(unsigned, unsigned);
     const char* std_string_debug_c_str();
-    void FUN_007aaf80(unsigned, unsigned, const char*);
+    void ProcessState_007aaf80(unsigned, unsigned, const char*);
 };
 struct ActionMenuInfo
 {
@@ -853,7 +856,7 @@ extern Setting* DAT_011d5160[];
 extern TESObjectREFR* DAT_011dea3c;
 extern const char DAT_01011584[], DAT_01020770[], DAT_01063d7c[];
 extern const unsigned DAT_010173f0;
-void FUN_007aae70();
+void BSSimpleArray_UpdateState_007aae70();
 void MessageMenu_Create();
 void Interface_QueueMenuCreate(int, int, int, int, int, int);
 void FUN_00406d30(char*, unsigned, const char*);
@@ -866,7 +869,7 @@ bool FUN_00518f00(TESObjectREFR*, TESObjectREFR*, int, int);
 bool BuildActionMenu(ActionMenuList* list, TESObjectREFR* reference)
 {
     ActionMenuInfo* menu4 = new ActionMenuInfo;
-    menu4->callback = FUN_007aae70;
+    menu4->callback = BSSimpleArray_UpdateState_007aae70;
     menu4->hasButtons = false;
     menu4->type = 0;
     reinterpret_cast<void (__thiscall*)(StrMem*, const char*)>(FUN_00438390)(&menu4->message, 0);
@@ -891,11 +894,11 @@ bool BuildActionMenu(ActionMenuList* list, TESObjectREFR* reference)
             if (BSstrlen(label58) > 0)
             {
                 ActionMenuText text6(label58);
-                unsigned hotkey5 = text6.FUN_007aafe0('&', 0);
+                unsigned hotkey5 = text6.FindSubstring_Thunk('&', 0);
                 if (hotkey5 != DAT_010173f0)
                 {
                     menu4->hotkeys.FUN_00404820(text6.Substr(hotkey5 + 1, 1).std_string_debug_c_str());
-                    text6.FUN_007aaf80(hotkey5, 1, DAT_01011584);
+                    text6.ProcessState_007aaf80(hotkey5, 1, DAT_01011584);
                 }
                 if (BSstrcmp(text6.std_string_debug_c_str(), DAT_01020770))
                 {
@@ -942,11 +945,11 @@ bool BuildActionMenu(ActionMenuList* list, TESObjectREFR* reference)
     if (BSstrlen(label58) > 0)
     {
         ActionMenuText text6(label58);
-        unsigned hotkey5 = text6.FUN_007aafe0('&', 0);
+        unsigned hotkey5 = text6.FindSubstring_Thunk('&', 0);
         if (hotkey5 != DAT_010173f0)
         {
             menu4->hotkeys.FUN_00404820(text6.Substr(hotkey5 + 1, 1).std_string_debug_c_str());
-            text6.FUN_007aaf80(hotkey5, 1, DAT_01011584);
+            text6.ProcessState_007aaf80(hotkey5, 1, DAT_01011584);
         }
         if (BSstrcmp(text6.std_string_debug_c_str(), DAT_01020770))
         {
@@ -1002,7 +1005,7 @@ struct MsgString
     MsgString(const char* apText);
     ~MsgString();
     unsigned int FUN_00825c00();
-    unsigned int FUN_005103a0(const char* apDelimiter, unsigned int auiStart);
+    unsigned int ProcessState_005103a0(const char* apDelimiter, unsigned int auiStart);
     MsgString Substr(unsigned int auiStart, unsigned int auiLength);
     const char* std_string_debug_c_str();
 };
@@ -1108,11 +1111,11 @@ void MsgMenu::PopulateFromMessageData()
     float fWidths = 0.0f;
     float fHorBuf = FUN_00726070()->FUN_00a011b0(Tile_TextToTrait(s_szHorBuf));
     if (pMessagePtr->kSound.BSStringT_char_Length() > 0 &&
-        BSAudio_QInstance()->BSAudio_GetSoundHandleByEditorName(pMessagePtr->kSound.FUN_00559450(), 0x121).IsNotEqual(-1))
-        BSAudio_QInstance()->BSAudio_GetSoundHandleByEditorName(pMessagePtr->kSound.FUN_00559450(), 0x121).FUN_00ad8830(0);
+        BSAudio_QInstance()->BSAudio_GetSoundHandleByEditorName(pMessagePtr->kSound.Modelloader_GetReferencedThis(), 0x121).IsNotEqual(-1))
+        BSAudio_QInstance()->BSAudio_GetSoundHandleByEditorName(pMessagePtr->kSound.Modelloader_GetReferencedThis(), 0x121).FUN_00ad8830(0);
     else
         BSAudio_QInstance()->BSAudio_GetSoundHandleByEditorName(s_szPopUp, 0x121).FUN_00ad8830(0);
-    DAT_011da4f0->m_pTiles[3]->Tile_Set_00a01350(0xfc4, pMessagePtr->kText.FUN_00559450(), true);
+    DAT_011da4f0->m_pTiles[3]->Tile_Set_00a01350(0xfc4, pMessagePtr->kText.Modelloader_GetReferencedThis(), true);
     if (pMessagePtr->pIcon)
     {
         DAT_011da4f0->m_pTiles[1]->Tile_Set_00a01350(0xfc4, pMessagePtr->pIcon, true);
@@ -1133,18 +1136,18 @@ void MsgMenu::PopulateFromMessageData()
     float fListHeightTmp = 0.0f;
     int iIndex = 0;
     kButtons.Clear();
-    if (pMessagePtr->kButtons.FUN_00559450())
+    if (pMessagePtr->kButtons.Modelloader_GetReferencedThis())
     {
-        MsgString kButtonText(pMessagePtr->kButtons.FUN_00559450());
+        MsgString kButtonText(pMessagePtr->kButtons.Modelloader_GetReferencedThis());
         for (iIndex = 0; uiPosNum < kButtonText.FUN_00825c00() - 1; iIndex++)
         {
-            MsgString kPart = kButtonText.Substr(uiPosNum, kButtonText.FUN_005103a0(DAT_01063d7c, uiPosNum) - uiPosNum);
+            MsgString kPart = kButtonText.Substr(uiPosNum, kButtonText.ProcessState_005103a0(DAT_01063d7c, uiPosNum) - uiPosNum);
             if (kPart.FUN_00825c00() > 0)
             {
                 Tile* pText = 0;
                 pItemNew = DAT_011da4f0->kButtons.ListBox_int_AddItem(
                     pMessagePtr->cButtonBase + iIndex,
-                    kButtonText.Substr(uiPosNum, kButtonText.FUN_005103a0(DAT_01063d7c, uiPosNum) - uiPosNum)
+                    kButtonText.Substr(uiPosNum, kButtonText.ProcessState_005103a0(DAT_01063d7c, uiPosNum) - uiPosNum)
                         .std_string_debug_c_str(),
                     0, 0);
                 pText = pItemNew->GetNamedChild(s_szListItemText);
@@ -1160,14 +1163,14 @@ void MsgMenu::PopulateFromMessageData()
                 }
                 fListHeightTmp = pItemNew->FUN_00a011b0(0xfb0) + fListHeightTmp;
             }
-            uiPosNum = kButtonText.FUN_005103a0(DAT_01063d7c, uiPosNum);
+            uiPosNum = kButtonText.ProcessState_005103a0(DAT_01063d7c, uiPosNum);
             if (uiPosNum < kButtonText.FUN_00825c00() - 1)
                 uiPosNum = uiPosNum + 1;
         }
     }
     if (pMessagePtr->kTitle.BSStringT_char_Length() > 0)
     {
-        DAT_011da4f0->m_pTiles[2]->Tile_Set_00a01350(0xfcc, pMessagePtr->kTitle.FUN_00559450(), true);
+        DAT_011da4f0->m_pTiles[2]->Tile_Set_00a01350(0xfcc, pMessagePtr->kTitle.Modelloader_GetReferencedThis(), true);
         DAT_011da4f0->m_pTiles[2]->FUN_00700320(0xfa3, 1);
         if (pMessagePtr->uiWidth > 0)
             fTheTextHeight = BSMIN(fTheTextHeight + 120.0, (float)pMessagePtr->uiWidth);
@@ -1198,7 +1201,7 @@ void MsgMenu::PopulateFromMessageData()
     if (DAT_011da4f0->m_pTiles[2]->IsTraitNonZero(0xfa3))
         fMaxWidthCur = fMaxWidthCur - 120.0;
     DAT_011da4f0->m_pTiles[3]->Tile_Set(0xfba, fMaxWidthCur, true);
-    MsgSize kSizeFinal = FUN_005bd5b0()->FUN_00a1b020(pMessagePtr->kText.FUN_00559450(), 2,
+    MsgSize kSizeFinal = FUN_005bd5b0()->FUN_00a1b020(pMessagePtr->kText.Modelloader_GetReferencedThis(), 2,
                                                       DAT_011da4f0->m_pTiles[3]->FUN_00a011b0(0xfba), 0);
     fTheTextHeight = fHorBuf * 2 + kSizeFinal.x + fTheTextHeight;
     if (kSizeFinal.z > 1.0)

@@ -493,7 +493,7 @@ void* __cdecl NiScreenGeometryData_CreateObject()
     return 0;
 }
 
-extern "C" void* __cdecl FUN_00aa13e0(unsigned int size);
+extern "C" void* __cdecl Object_DispatchCommandFour(unsigned int size);
 
 struct ObjA8F260 : NiRefObject
 {
@@ -510,7 +510,7 @@ struct ObjA8F260 : NiRefObject
 
     static void* operator new(unsigned int size) throw()
     {
-        return FUN_00aa13e0(size);
+        return Object_DispatchCommandFour(size);
     }
 };
 
@@ -663,13 +663,13 @@ bool __fastcall IsScreenGeometryDataEqual(NiScreenGeometryData* self, void*, con
                 NiPoint2* pkTB = pkB->m_pkTexture;
                 for (unsigned int j = 0; j < uiPolygons; j++)
                 {
-                    if (pkVA[j].FUN_0051c330(pkVB[j]))
+                    if (pkVA[j].ForwardCall_0051c330(pkVB[j]))
                         return false;
                     if (pkCA[j] != pkCB[j])
                         return false;
                     for (unsigned int k = 0; k < uiVertices; k++)
                     {
-                        if (pkTA[j * uiVertices + k].FUN_0051c330(pkTB[j * uiVertices + k]))
+                        if (pkTA[j * uiVertices + k].ForwardCall_0051c330(pkTB[j * uiVertices + k]))
                             return false;
                     }
                 }
@@ -683,7 +683,7 @@ bool __fastcall IsScreenGeometryDataEqual(NiScreenGeometryData* self, void*, con
     return true;
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+void* __cdecl Object_DispatchCommandFour(unsigned int size);
 extern int DAT_0109f914;
 
 
@@ -709,7 +709,7 @@ struct SpawnedObj_a905c0
     SpawnedObj_a905c0() throw();
     static void* operator new(unsigned int size) throw()
     {
-        return FUN_00aa13e0(size);
+        return Object_DispatchCommandFour(size);
     }
 };
 

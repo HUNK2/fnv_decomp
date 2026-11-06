@@ -99,10 +99,11 @@ struct DDCC60WorldStandIn
     int m_uiStandInValue;
     int m_iValueAfterStandIn;
     hkReferencedObject* m_ref;
-    void FUN_00cc0480(hkReferencedObject* pNew);
+    void UpdateFields_00cc0480(hkReferencedObject* pNew);
 };
 // @fnv 0x00cc0480
-void DDCC60WorldStandIn::FUN_00cc0480(hkReferencedObject* pNew)
+// src: GUESS 0x00cc0480 (confidence: low)
+void DDCC60WorldStandIn::UpdateFields_00cc0480(hkReferencedObject* pNew)
 {
     pNew->addReference();
     m_ref->removeReference();
@@ -164,10 +165,11 @@ struct CpuObject
     unsigned int unk00;
     unsigned int unk04;
     CpuInterface* target;
-    void FUN_00cc0460();
+    void InvokeVirtualMethod_00cc0460();
 };
 // @fnv 0x00cc0460
-void CpuObject::FUN_00cc0460()
+// src: GUESS 0x00cc0460 (confidence: low)
+void CpuObject::InvokeVirtualMethod_00cc0460()
 {
     target->Invoke();
 }
@@ -188,11 +190,12 @@ struct Own_00cc0470
     int u00;
     int u04;
     Sub_00cc0470* m_sub;
-    void __thiscall FUN_00cc0470(void* a);
+    void __thiscall ForwardCall_00cc0470(void* a);
 };
 
 // @fnv 0x00cc0470
-void __thiscall Own_00cc0470::FUN_00cc0470(void* a)
+// src: GUESS 0x00cc0470 (confidence: low)
+void __thiscall Own_00cc0470::ForwardCall_00cc0470(void* a)
 {
     m_sub->v10(a);
 }
@@ -200,7 +203,8 @@ void __thiscall Own_00cc0470::FUN_00cc0470(void* a)
 extern int g_unk01268560;
 
 // @fnv 0x00cc04c0
-int* __cdecl FUN_00cc04c0()
+// src: GUESS 0x00cc04c0 (confidence: low)
+int* __cdecl Object_GetGlobalObjectAddress_00cc04c0()
 {
     return &g_unk01268560;
 }
@@ -208,7 +212,8 @@ int* __cdecl FUN_00cc04c0()
 extern int DAT_01268ad8;
 
 // @fnv 0x00cc0770
-int __cdecl FUN_00cc0770()
+// src: GUESS 0x00cc0770 (confidence: low)
+int __cdecl hkOstream_EvaluateValue_00cc0770()
 {
     return reinterpret_cast<int>(&DAT_01268ad8);
 }
@@ -276,10 +281,10 @@ class FUN_00d46be0_class
     int m_0c;
     int m_10;
 
-    void FUN_00d46be0() throw();
+    void UpdateFields_00d46be0() throw();
     ~FUN_00d46be0_class() throw()
     {
-        FUN_00d46be0();
+        UpdateFields_00d46be0();
     }
     static void operator delete(void* p) throw()
     {

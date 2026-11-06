@@ -20,7 +20,7 @@ struct FUN_00a543f0_shell
 {
     void* m_kPointA;
     void* m_ptr;
-    void FUN_00a543f0();
+    void ReleaseStorage_00a543f0();
 };
 struct GlobalObjectO2_00a7b610
 {
@@ -175,7 +175,7 @@ struct S_00c53cf0_Cls
     S_00c53cf0_Arr** unk40;
     short unk44;
     unsigned short unk46;
-    bool FUN_00c53cf0();
+    bool ProcessEntries_00c53cf0();
 };
 
 class FUN_00a6d220
@@ -871,7 +871,7 @@ NiBSBoneLODController* CloneOwner_c53360::NiBSBoneLODController_CreateClone(Clon
 }  // namespace fnv_00c53360
 
 namespace fnv_00c537f0 {
-void* __cdecl FUN_00aa13e0(unsigned int size);
+void* __cdecl Object_DispatchCommandFour(unsigned int size);
 struct FUN_00c53d70
 {
     int unk00;
@@ -897,7 +897,7 @@ struct FUN_00c53d70
     {
         int unused[2];
         (void)unused;
-        return FUN_00aa13e0(size);
+        return Object_DispatchCommandFour(size);
     }
     FUN_00c53d70();
 };

@@ -240,12 +240,13 @@ bool Holder_0048d830::ContainsPackage(ActorPackageContext* package)
 struct FUN_0048d880_shell : public BSSimpleList<void*>
 {
     BSSimpleList<void*>* GetOffsetC();
-    bool FUN_0048d880(void* item);
+    bool ContainsListItem(void* item);
 };
 
 // Walks the list returned by GetOffsetC and returns true if any entry equals item, otherwise false.
 // @fnv 0x0048d880
-bool FUN_0048d880_shell::FUN_0048d880(void* item)
+// src: GUESS 0x0048d880 (confidence: medium)
+bool FUN_0048d880_shell::ContainsListItem(void* item)
 {
     BSSimpleList<void*>* node = GetOffsetC();
     while (node)

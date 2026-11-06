@@ -85,7 +85,7 @@ struct DrawObject
     LocalM128 unka0;
     LocalM128 unkb0;
     LocalM128 mc0;
-    void FUN_00de71d0(Input* a, Dbg* dbg, int p3, int p4);
+    void ComputeValues_00de71d0(Input* a, Dbg* dbg, int p3, int p4);
 };
 
 static inline LocalM128 bc(const float& s)
@@ -95,7 +95,8 @@ static inline LocalM128 bc(const float& s)
 }
 
 // @fnv 0x00de71d0
-void DrawObject::FUN_00de71d0(Input* a, Dbg* dbg, int p3, int p4)
+// src: GUESS 0x00de71d0 (confidence: low)
+void DrawObject::ComputeValues_00de71d0(Input* a, Dbg* dbg, int p3, int p4)
 {
     Body* b = a->body;
     Matrix t0, t1;

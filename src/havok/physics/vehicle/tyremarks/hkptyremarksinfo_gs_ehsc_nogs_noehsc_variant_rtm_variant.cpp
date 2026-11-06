@@ -353,19 +353,21 @@ class Seg
   public:
     V4 v0;
     V4 v1;
-    Seg* FUN_00e39e50();
-    float FUN_00e39e80() const;
+    Seg* InitializeFields_00e39e50();
+    float GetUnk1C_00e39e80() const;
 };
 #include "../../../../../include/hkpTyremarksInfo.h"
 
 
-__declspec(noinline) Seg* Seg::FUN_00e39e50()
+// src: GUESS 0x00e39e50 (confidence: low)
+__declspec(noinline) Seg* Seg::InitializeFields_00e39e50()
 {
     *(__m128*)&v0 = _mm_setzero_ps();
     *(__m128*)&v1 = _mm_setzero_ps();
     return this;
 }
-__declspec(noinline) float Seg::FUN_00e39e80() const
+// src: GUESS 0x00e39e80 (confidence: low)
+__declspec(noinline) float Seg::GetUnk1C_00e39e80() const
 {
     return v1.w;
 }
@@ -373,7 +375,7 @@ __declspec(noinline) float Seg::FUN_00e39e80() const
 __declspec(noinline) void hkpTyremarksWheel::addTyremarkPoint(hkpTyremark* tyremark)
 {
     Seg* o = reinterpret_cast<Seg*>(tyremark);
-    if (o->FUN_00e39e80() != 0.0f || reinterpret_cast<Seg*>(m_data)[(m_iMaxNumTyremarks + m_numTyremarks - 1) % m_numTyremarks].FUN_00e39e80() != 0.0f)
+    if (o->GetUnk1C_00e39e80() != 0.0f || reinterpret_cast<Seg*>(m_data)[(m_iMaxNumTyremarks + m_numTyremarks - 1) % m_numTyremarks].GetUnk1C_00e39e80() != 0.0f)
     {
         *(__m128*)&reinterpret_cast<Seg*>(m_data)[m_iMaxNumTyremarks].v0 = *(__m128*)&o->v0;
         *(__m128*)&reinterpret_cast<Seg*>(m_data)[m_iMaxNumTyremarks].v1 = *(__m128*)&o->v1;
@@ -428,7 +430,7 @@ void hkpTyremarksInfo::updateTyremarksInfo(float p1, void* vehicle)
         W.x += A.x;
         W.w += A.w;
         Seg seg;
-        seg.FUN_00e39e50();
+        seg.InitializeFields_00e39e50();
         seg.v0.scaled(left, B.v0);
         seg.v0.add(raised);
         seg.v0.add(A);

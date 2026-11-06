@@ -52,12 +52,13 @@ bool __thiscall FUN_0044c1c0_Class::IsGreaterOrEqual(unsigned int auiValue, unsi
 struct FUN_0044f200_Class
 {
     int* p;
-    void FUN_0044f200();
+    void DrainFilteredQueue_0044f200();
     void FilterListByQueueData();
 };
 
 // @fnv 0x0044f200
-void FUN_0044f200_Class::FUN_0044f200()
+// src: GUESS 0x0044f200 (confidence: low)
+void FUN_0044f200_Class::DrainFilteredQueue_0044f200()
 {
     while (reinterpret_cast<int*>(this)[8])
         FilterListByQueueData();
@@ -403,14 +404,14 @@ struct FUN_0044c3f0 : InterfacedClass
     void* first;
     void* unused;
     void* second;
-    void FUN_0044c480(int flag);
+    void ClearBucketsAndRecreateManager(int flag);
     ~FUN_0044c3f0();
 };
 // Calls FUN_0044c480(1), then frees the second and first pointers with operator delete.
 // @fnv 0x0044c3f0
 FUN_0044c3f0::~FUN_0044c3f0()
 {
-    FUN_0044c480(1);
+    ClearBucketsAndRecreateManager(1);
     void* savedSecond = second;
     ::operator delete(savedSecond);
     void* savedFirst = first;
@@ -456,12 +457,13 @@ struct TSHashTable
     RecursiveSpinLock m_lock;
 
     void FreeNode(TSNode* node);
-    void FUN_0044c480(bool bNoRecreate);
+    void ClearBucketsAndRecreateManager(bool bNoRecreate);
 };
 
 // Locks the table, deletes m_pManager, frees every bucket node, and unless bNoRecreate recreates m_pManager with the saved param, then unlocks.
 // @fnv 0x0044c480
-void TSHashTable::FUN_0044c480(bool bNoRecreate)
+// src: GUESS 0x0044c480 (confidence: medium)
+void TSHashTable::ClearBucketsAndRecreateManager(bool bNoRecreate)
 {
     AutoMemHelper memContext2(6, true, _kThreadSafeStructuresSourceFile, 0x42c);
     if (m_pManager == 0)
@@ -666,14 +668,14 @@ struct FUN_006661e0 : InterfacedClass
     unsigned int m_uiBuckets;
     CF_0081c630* m_pBuckets;
     int m_iParam;
-    void FUN_0044c480(int flag);
+    void ClearBucketsAndRecreateManager(int flag);
     ~FUN_006661e0();
 };
 // Calls FUN_0044c480(1), then deletes m_pBuckets and m_pSlots.
 // @fnv 0x006661e0
 FUN_006661e0::~FUN_006661e0()
 {
-    FUN_0044c480(1);
+    ClearBucketsAndRecreateManager(1);
     delete m_pBuckets;
     delete m_pSlots;
 }
@@ -685,14 +687,14 @@ struct FUN_006ec870 : InterfacedClass
     CF_0081c630* m_pBuckets;
     int m_iParam;
 
-    void __thiscall FUN_0044c480(int value);
+    void __thiscall ClearBucketsAndRecreateManager(int value);
     ~FUN_006ec870();
 };
 
 // @fnv 0x006ec870
 FUN_006ec870::~FUN_006ec870()
 {
-    FUN_0044c480(1);
+    ClearBucketsAndRecreateManager(1);
     delete m_pBuckets;
     delete m_pSlots;
 }
@@ -837,14 +839,14 @@ struct HashMap44c1e0 : InterfacedClass
     unsigned int m_uiBuckets;
     CF_0081c630* m_pBuckets;
     int m_iParam;
-    void FUN_0044c480(int flag);
+    void ClearBucketsAndRecreateManager(int flag);
     ~HashMap44c1e0();
 };
 // Destructor that calls FUN_0044c480(1) and deletes m_pBuckets and m_pSlots.
 // @fnv 0x0044c1e0
 HashMap44c1e0::~HashMap44c1e0()
 {
-    FUN_0044c480(1);
+    ClearBucketsAndRecreateManager(1);
     delete m_pBuckets;
     delete m_pSlots;
 }

@@ -24,7 +24,7 @@ struct FnvCpu_FUN_00e34990_CpuObject
     unsigned int unk20;
     unsigned int unk24;
     int value;
-    int FUN_00e34990();
+    int GetValue();
 };
 struct FUN_00e349a0_class : hkaDeltaCompressedAnimation
 {

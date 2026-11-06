@@ -1090,7 +1090,8 @@ static __forceinline void extractChildShapes(const WrappedShapeKeys& shapeKeyPai
     }
 }
 // @fnv 0x00da5b80
-void __cdecl FUN_00da5b80(AgentSectorPointerArray& agentTrack, const AgentSubtypeMarker& inputIn,
+// src: GUESS 0x00da5b80 (confidence: low)
+void __cdecl ProcessAgentSectorsAndChildren_00da5b80(AgentSectorPointerArray& agentTrack, const AgentSubtypeMarker& inputIn,
                           const hkpShapeContainer* shapeContainerA, const hkpShapeContainer* shapeContainerB,
                           const ShapeKeyCombination* newKeys, WorldOperationEntry& output)
 {

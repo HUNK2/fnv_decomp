@@ -91,7 +91,7 @@ class PathManager
                    bool bAsync);
 
     static PathManager* GetRandomGenerator();
-    PathManagerImpl* FUN_00559450();
+    PathManagerImpl* Modelloader_GetReferencedThis();
     DummyTimer* FUN_00717e50();
 };
 

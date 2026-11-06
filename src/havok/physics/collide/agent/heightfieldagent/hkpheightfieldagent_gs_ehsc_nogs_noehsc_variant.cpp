@@ -34,13 +34,13 @@ extern void __cdecl hkpHeightFieldAgent_staticGetClosestPoints(void*, void*, voi
 void __stdcall hkpHeightFieldAgent_getClosestPoints(void* a, void* b, void* c, void* d);
 typedef void (*S_00d321e0_Func)();
 void hkpHeightFieldAgent_createHeightFieldAAgent();
-void FUN_00d32370();
-void FUN_00d323b0();
-void FUN_00d323f0();
+void hkpHeightFieldAgent_staticGetPenetrations_UpdateState_00d32370();
+void hkpHeightFieldAgent_staticGetClosestPoints_ProcessState_00d323b0();
+void Hkpheightfieldagent_UpdateState_00d323f0();
 void AllocateTargetObj();
 void hkpHeightFieldAgent_staticGetPenetrations();
 void hkpHeightFieldAgent_staticGetClosestPoints();
-void FUN_00d31d30();
+void hkpHeightFieldAgent_ProcessSphereQueries();
 struct S_00d321e0_AgentFuncs {
     S_00d321e0_Func m_pCreateFunc;
     S_00d321e0_Func m_pQueryPenetrationsFunc;
@@ -50,7 +50,7 @@ struct S_00d321e0_AgentFuncs {
     bool m_bIsPredictive;
 };
 struct S_00d321e0_Dispatcher {
-    void FUN_00cfbbe0(S_00d321e0_AgentFuncs& f, int typeA, int typeB);
+    void AppendRecordAndRegisterAgents(S_00d321e0_AgentFuncs& f, int typeA, int typeB);
 };
 void hkpHeightFieldAgent_registerAgent(S_00d321e0_Dispatcher* dispatcher);
 extern float g_D323B0MaxDistance;
@@ -72,7 +72,7 @@ struct D323B0Collector : D323B0CollectorBase {
     virtual void unk04();
 };
 void __cdecl hkpHeightFieldAgent_staticGetClosestPoints(int a, int b, int c, D323B0CollectorBase* collector);
-void __cdecl FUN_00d323b0(int a, int b, int c, int d);
+void __cdecl hkpHeightFieldAgent_staticGetClosestPoints_ProcessState_00d323b0(int a, int b, int c, int d);
 struct Handler {
     virtual void v0();
     virtual void v1();
@@ -89,12 +89,12 @@ struct Owner {
     int count;
     void NotifyAndClear(int value);
 };
-extern "C" void __cdecl FUN_00d31d30(void* arg0, void* arg1, void* arg2, void* arg3, void* arg4);
+extern "C" void __cdecl hkpHeightFieldAgent_ProcessSphereQueries(void* arg0, void* arg1, void* arg2, void* arg3, void* arg4);
 // @fnv 0x00d32030
 // src: HAVOK_SRC 0x00d32030
 extern "C" void __stdcall hkpHeightFieldAgent_linearCast(void* arg0, void* arg1, void* arg2, void* arg3, void* arg4)
 {
-    FUN_00d31d30(arg0, arg1, arg2, arg3, arg4);
+    hkpHeightFieldAgent_ProcessSphereQueries(arg0, arg1, arg2, arg3, arg4);
 }
 extern "C" void __cdecl hkpHeightFieldAgent_staticGetPenetrations(void* arg0, void* arg1, void* arg2, void* arg3);
 // @fnv 0x00d32150
@@ -110,7 +110,7 @@ struct FUN_00d32370_cls {
     unsigned char flag;
     int d;
 };
-void __cdecl FUN_00d32370(int a1, int a2, int a3, int a4);
+void __cdecl hkpHeightFieldAgent_staticGetPenetrations_UpdateState_00d32370(int a1, int a2, int a3, int a4);
 #include <xmmintrin.h>
 
 extern "C" unsigned __int64 __rdtsc();
@@ -212,7 +212,8 @@ static __forceinline void event(TimerStream* stream,const char* name) {
     }
 }
 // @fnv 0x00d31d30
-extern "C" void __cdecl FUN_00d31d30(void* arg0,void* arg1,void* arg2,void* arg3,void* arg4) {
+// src: GUESS 0x00d31d30 (confidence: medium)
+extern "C" void __cdecl hkpHeightFieldAgent_ProcessSphereQueries(void* arg0,void* arg1,void* arg2,void* arg3,void* arg4) {
     TimerStream* stream=(TimerStream*)TlsGetValue(DAT_0126835c);
     TimerEvent* e=stream->current;
     if(e<stream->end) {

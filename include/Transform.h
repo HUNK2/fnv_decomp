@@ -49,7 +49,7 @@ public:
         int unk08;
         int unk0c;
 
-        void FUN_004b4db0(const void* source);
+        void SetQuaternionComponentsFromVector(const void* source);
     };
 
 #if defined(FNV_TRANSFORM_NO_SSE)
@@ -143,8 +143,8 @@ public:
     void FUN_004b4880(Transform* out);
     void FUN_004b4880(Transform& out);
     Transform* FUN_004b4880(Transform* out) const;
-    NiPoint3* FUN_00524c40(NiPoint3* out, const NiPoint3* point);
-    NiPoint3* FUN_00524c40(NiPoint3* out, const NiPoint3* point) const;
+    NiPoint3* ComputeValue_00524c40(NiPoint3* out, const NiPoint3* point);
+    NiPoint3* ComputeValue_00524c40(NiPoint3* out, const NiPoint3* point) const;
     void bhkTransform_setIdentity();
     Transform* FUN_0062c250(Transform* out, const Transform* other) const;
     Transform FUN_0062c250(const Transform& rhs) const;
@@ -161,8 +161,8 @@ public:
     void hkRotation_set(void* rotation);
     void hkRotation_renormalize();
     void setFromTransformNoScale(const Transform* other) throw();
-    void FUN_00ce51f0(int value);
-    void FUN_00ce5300(Matrix43* out);
+    void BuildMatrixFromRotationScaleAndPosition(int value);
+    void Object_ForwardCall_00ce5300(Matrix43* out);
 
     static const Transform& GetIdentityTransform();
 };

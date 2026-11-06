@@ -167,11 +167,12 @@ struct FUN_00cdf6d0_t
 {
     int m_auiShapeKeys[3];
     int m_field_c;
-    int FUN_00cdf6d0();
+    int GetFieldC();
 };
 
 // @fnv 0x00cdf6d0
-int FUN_00cdf6d0_t::FUN_00cdf6d0()
+// src: GUESS 0x00cdf6d0 (confidence: low)
+int FUN_00cdf6d0_t::GetFieldC()
 {
     return m_field_c;
 }

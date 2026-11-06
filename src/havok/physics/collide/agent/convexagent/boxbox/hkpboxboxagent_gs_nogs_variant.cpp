@@ -8,7 +8,7 @@
 extern "C" void* __cdecl hkpBoxBoxAgent_createBoxBoxAgent(void);
 extern "C" void* __cdecl hkpBoxBoxAgent_staticGetPenetrations(void);
 extern "C" void* __cdecl FUN_00dac450(void);
-extern "C" void* __cdecl FUN_00daf8e0(void);
+extern "C" void* __cdecl Object_ProcessEntries_00daf8e0(void);
 struct FUN_00d408e0_1 {
     void* p1;
     void* p2;
@@ -17,7 +17,7 @@ struct FUN_00d408e0_1 {
     unsigned char b1;
     unsigned char b2;
 };
-void __cdecl FUN_00d408e0(FUN_00d408e0_1* a);
+void __cdecl Object_InitializeAgentFunctionTable_00d408e0(FUN_00d408e0_1* a);
 struct S_00d40180_Target {
     virtual void vfn_00();
     virtual void vfn_04();
@@ -86,7 +86,7 @@ public:
 class SubStub
 {
 public:
-    void FUN_00db0920();
+    void InitializeEmptyEntries();
 };
 class SpawnedObject
 {
@@ -210,7 +210,7 @@ struct Query70 {
         expandedB.quad=_mm_add_ps(toleranceVec.quad, hb.quad);
     }
 
-    hkBool70 FUN_00db2750(Contact70*);
+    hkBool70 UpdateState_00db2750(Contact70*);
 };
 
 struct CollisionWork70 {
@@ -260,7 +260,7 @@ extern "C" void __cdecl hkpBoxBoxAgent_staticGetClosestPoints(void* first, void*
     contact.a = a;
     contact.b = b;
 
-    hkBool70 hit = query.FUN_00db2750(&contact);
+    hkBool70 hit = query.UpdateState_00db2750(&contact);
 
     if (hit) {
         ((Collector70*)rawCollector)->Add(&contact);

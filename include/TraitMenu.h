@@ -101,7 +101,7 @@ public:
 
     int GetMenuID_007e68a0();
     void DoIdle_007e73c0();
-    bool FUN_007e6dd0();
+    bool HasAllNineTiles();
     void SetTileById(int, Tile*);
     void PopulatePerkList();
     void UpdateValueDifferenceMessage();

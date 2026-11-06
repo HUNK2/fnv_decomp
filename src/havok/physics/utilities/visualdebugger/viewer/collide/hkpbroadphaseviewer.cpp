@@ -12,11 +12,12 @@ struct Container
 };
 struct Owner
 {
-    int FUN_00d6a910(Container* container);
+    int ClearAdjustedValue(Container* container);
 };
 // Passes a pointer to this+8 (or null when this equals 0x20) to container->ClearValue and returns its result.
 // @fnv 0x00d6a910
-int Owner::FUN_00d6a910(Container* container)
+// src: GUESS 0x00d6a910 (confidence: medium)
+int Owner::ClearAdjustedValue(Container* container)
 {
     void* value;
     if ((char*)this - 0x20)
@@ -35,14 +36,16 @@ extern int DAT_01269028;
 extern char DAT_010c65b0;
 void hkpBroadphaseViewer_Create();
 // @fnv 0x00d6ad40
-void __cdecl FUN_00d6ad40()
+// src: GUESS 0x00d6ad40 (confidence: low)
+void __cdecl Object_UpdateFields_00d6ad40()
 {
     DAT_01269028 = DAT_01269cd0->hkProcessFactory_registerProcess(&DAT_010c65b0, (void*)&hkpBroadphaseViewer_Create);
 }
 
 extern int DAT_01269028;
 // @fnv 0x00d6ad60
-int FUN_00d6ad60()
+// src: GUESS 0x00d6ad60 (confidence: low)
+int Object_GetDAT_01269028_00d6ad60()
 {
     return DAT_01269028;
 }
@@ -451,14 +454,14 @@ Derived::Derived()
 struct D6AD80Primary
 {
     virtual void vfunc00();
-    virtual void FUN_00d6ad80();
+    virtual void AdjustThisAndForward_00d6ad80();
 
     int unk04;
 };
 
 struct D6AD80Secondary
 {
-    virtual void FUN_00d6ad80();
+    virtual void AdjustThisAndForward_00d6ad80();
 };
 
 struct D6AD80Object : D6AD80Primary, D6AD80Secondary
@@ -466,7 +469,8 @@ struct D6AD80Object : D6AD80Primary, D6AD80Secondary
     D6AD80Object();
 
 // @fnv 0x00d6ad80
-    virtual void FUN_00d6ad80();
+// src: GUESS 0x00d6ad80 (confidence: low)
+    virtual void AdjustThisAndForward_00d6ad80();
 };
 
 D6AD80Object::D6AD80Object()

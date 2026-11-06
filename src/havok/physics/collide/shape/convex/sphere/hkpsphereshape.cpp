@@ -39,13 +39,15 @@ FUN_00cd8160::FUN_00cd8160(float radius)
 }
 
 // @fnv 0x00cd8050
-int __cdecl FUN_00cd8050()
+// src: GUESS 0x00cd8050 (confidence: high)
+int __cdecl hkpSphereShape_ReturnOne()
 {
     return 1;
 }
 
 // @fnv 0x00cd87f0
-int __stdcall FUN_00cd87f0(int a1, int a2)
+// src: GUESS 0x00cd87f0 (confidence: high)
+int __stdcall hkpSphereShape_ReturnConstant_0x20(int a1, int a2)
 {
     return 0x20;
 }
@@ -113,7 +115,7 @@ extern unsigned long DAT_0126835c;
 extern const char DAT_010cb5f4[];
 extern const char DAT_010c41f8[];
 
-void* __cdecl FUN_00cd85c0(void* pvResult, float fValue, int a, int b);
+void* __cdecl Object_ProcessAndReturnValue_00cd85c0(void* pvResult, float fValue, int a, int b);
 
 class HostCD81
 {
@@ -139,7 +141,7 @@ void* HostCD81::RecordTimerCommands(void* pvResult, int a, int b)
         end += sizeof(hkMonitorStream::TimerCommand);
         pkStream->m_end.m_storage = end;
     }
-    FUN_00cd85c0(pvResult, m_fValue, a, b);
+    Object_ProcessAndReturnValue_00cd85c0(pvResult, m_fValue, a, b);
     pkStream = (hkMonitorStream*)TlsGetValue(DAT_0126835c);
     char* end2 = pkStream->m_end.m_storage;
     if (end2 < pkStream->m_capacityMinus16.m_storage)

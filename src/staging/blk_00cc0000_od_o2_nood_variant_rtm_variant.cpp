@@ -1117,13 +1117,13 @@ struct Cc7Local {
     Cc7Bool linearA[3], linearB[3];
     Cc7Bool angularA, angularB, pivotA, pivotB;
     void InitFromHelper(void* source);
-    void FUN_00d52000(void* out);
-    void FUN_00d51c30(void* tmp);
-    void* FUN_00d520a0(void* out);
-    void* FUN_00d51d40(void* tmp);
+    void ProcessAndReturnValue_00d52000(void* out);
+    void UpdateState_00d51c30(void* tmp);
+    void* ProcessAndReturnValue_00d520a0(void* out);
+    void* ProcessAndReturnValue_00d51d40(void* tmp);
     void AddBridgeAtoms();
     void AppendEntryAndAdvance();
-    void FUN_00d52ae0(float value);
+    void ProcessAndReturnValue_00d52ae0(float value);
     void hkpConstraintConstructionKit_restoreStrength();
     void AppendZeroItem();
 };
@@ -1627,7 +1627,7 @@ public:
     int unk0c;
     BoundsEntry* m_pEntries;
     void hkaPose_syncModelSpace();
-    void FUN_00cda610(BoundsBox* out);
+    void ProcessEntries_00cda610(BoundsBox* out);
 };
 extern __declspec(thread) int DAT_tls_field;
 struct S00cc2530_ScopedHeap306 {
@@ -2144,7 +2144,7 @@ struct ContactManifold {
     AlignedPairData m_kStorage[8];
     ContactManifold* m_other;
 
-    void FUN_00cd3080();
+    void ProcessEntries_00cd3080();
 };
 extern "C" LocalM128 _mm_setzero_ps();
 extern float DAT_011b153c;
@@ -2278,7 +2278,7 @@ public:
  void __thiscall bhkCylinderShape_Init(ParamSrc*);
 };
 void* __cdecl FUN_00ec44d0(void*, const void*, unsigned);
-void* __cdecl FUN_00aa13e0(unsigned);
+void* __cdecl Object_DispatchCommandFour(unsigned);
 void __cdecl FreeStorage(void*);
 using ::MemoryManager;
 using ::_g_memoryManager;
@@ -2361,7 +2361,7 @@ struct Mesh : FUN_00a5d3a0 {
 
     MeshPart* parts;
 
-    static void* operator new(unsigned n) { return FUN_00aa13e0(n); }
+    static void* operator new(unsigned n) { return Object_DispatchCommandFour(n); }
 
     Mesh() : count(0), parts(0) {}
 
@@ -4090,7 +4090,7 @@ struct MotionListener {
     virtual void slot07();
     virtual void update(MotionController* controller);
 };
-struct ListenerTable { MotionListener* FUN_00cbc510(unsigned int index); };
+struct ListenerTable { MotionListener* GetIndexedValue_00cbc510(unsigned int index); };
 struct MotionVTable {
     void* slot00;
     void* slot01;
@@ -4555,7 +4555,7 @@ void __stdcall bhkCharacterStateJumping_Update(MotionController* controller)
     controller->state = 2;
     controller->bhkCharacterController_UpdateState();
     controller->flags &= 0xfffdfeff; _ReadWriteBarrier();
-    controller->listeners->FUN_00cbc510(controller->listenerIndex)->update(controller);
+    controller->listeners->GetIndexedValue_00cbc510(controller->listenerIndex)->update(controller);
 }
 
 extern "C" LocalM128 _mm_load_ss(const float*);
@@ -4709,7 +4709,7 @@ public:
     inline void operator=(const NQuaternion& a) {m_vec=a.m_vec;}
     inline const NVector& imag() const {return m_vec;}
     __forceinline void SetConjugate(const NQuaternion& q) {m_vec.negThree(q.imag());}
-    void FUN_00cd9d10(const NVector&,const NVector&);
+    void ComputeValues_00cd9d10(const NVector&,const NVector&);
     void setMul(const NQuaternion&,const NQuaternion&);
     void normalize_005611c0();
 };
@@ -4896,7 +4896,8 @@ static __forceinline ::LocalM128 normalizedQuaternion(::LocalM128 value) {
     sum=_mm_add_ps(sum,_mm_shuffle_ps(sum,sum,0xb1));
     return _mm_mul_ps(value,inverseRoot(sum));
 }
-inline void NQuaternion::FUN_00cd9d10(const NVector& from,const NVector& to) {
+// src: GUESS 0x00cd9d10 (confidence: low)
+inline void NQuaternion::ComputeValues_00cd9d10(const NVector& from,const NVector& to) {
     ::LocalM128 dot=rawDot(from.quad(),to.quad());
     dot=_mm_shuffle_ps(dot,dot,0);
     if (_mm_movemask_ps(_mm_cmpgt_ps(dot,parallelLimit))) m_vec.quad()=quaternionUnit;
@@ -5075,7 +5076,7 @@ const NVector& offset=self->drift;
             localUp.SetRotatedDirection(inverse.getRotation(),self->settings.direction);
             localNormal.SetRotatedDirection(inverse.getRotation(),desiredUp);
             NQuaternion rotation,combined,interpolated;
-            rotation.FUN_00cd9d10(localUp,localNormal);
+            rotation.ComputeValues_00cd9d10(localUp,localNormal);
             combined.setMul(rotation,originalRotation);
             interpolated.m_vec.setInterpolate4(originalRotation.m_vec,combined.m_vec,self->weight);
             interpolated.normalize_005611c0();
@@ -5834,7 +5835,7 @@ const ::LocalM128 sy=_mm_shuffle_ps(squaredOffset,squaredOffset,0x55);
 IkVector4 jointMS; jointMS.m_vComponents = Normalized3(_mm_sub_ps(endMS.m_vComponents, b.m_vTranslation.m_vComponents));
 hkQuaternion kIter;
 { IkVector4 desired; desired.m_vComponents = Normalized3(_mm_sub_ps(ptr.m_vComponents, b.m_vTranslation.m_vComponents));
-kIter.FUN_00cdb910(setup.m_fThirdIkParameter, jointMS, desired); }
+kIter.UpdateState_00cdb910(setup.m_fThirdIkParameter, jointMS, desired); }
 
                 hkQsTransform& firstTwist = pose.accessBoneModelSpace(setup.m_sFirstJointIndex, 1);
                 const hkQuaternion d2 = firstTwist.m_rotation;

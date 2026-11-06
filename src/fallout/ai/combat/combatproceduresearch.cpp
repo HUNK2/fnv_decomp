@@ -249,7 +249,7 @@ struct Range : TimeoutTimer
 {
     double CombatTimer_GetTargetTime();
     double FUN_00435e00();
-    double FUN_006a7f50();
+    double AStarSearch_EvaluateValue_006a7f50();
 };
 struct Context
 {
@@ -333,7 +333,7 @@ void CombatProcedureSearch::PrintDebugInfo(Output* output, int x, int y)
         output->Print(x, y, DAT_01091ff0,
                       reinterpret_cast<SearchDiagnostics::Range&>(timer1c).FUN_00435e00(),
                       reinterpret_cast<SearchDiagnostics::Range&>(timer1c).CombatTimer_GetTargetTime());
-        if (context->CombatGroup_GetLastSearchAreaUpdateTimer()->FUN_006a7f50() < reinterpret_cast<SearchDiagnostics::Range&>(timer1c).FUN_006a7f50() &&
+        if (context->CombatGroup_GetLastSearchAreaUpdateTimer()->AStarSearch_EvaluateValue_006a7f50() < reinterpret_cast<SearchDiagnostics::Range&>(timer1c).AStarSearch_EvaluateValue_006a7f50() &&
             context->CombatGroup_GetSearchCenter().GetHavokWorldObjectCountInSceneGraph_0084e3a0() != actor->TESObjectREFR_GetSpace())
             output->Print(x, y, DAT_01091f88, context->CombatGroup_GetLastSearchAreaUpdateTimer()->FUN_00435e00(),
                           context->CombatGroup_GetLastSearchAreaUpdateTimer()->CombatTimer_GetTargetTime());
@@ -383,7 +383,7 @@ extern const double DAT_01012070;
 // TimeoutTimer.h lacks the double-returning elapsed-time helper.
 struct SearchTimer : TimeoutTimer
 {
-    double FUN_006a7f50();
+    double AStarSearch_EvaluateValue_006a7f50();
 };
 
 struct Location16
@@ -434,7 +434,7 @@ struct SearchRef : S00568fa0
 
 struct RangeSub
 {
-    double FUN_006a7f50();
+    double AStarSearch_EvaluateValue_006a7f50();
 };
 
 struct ContextSub
@@ -927,7 +927,7 @@ void CombatProcedureSearch::UpdateSearchState()
         break;
 
     case 7:
-        if (pContext->CombatGroup_GetLastSearchAreaUpdateTimer()->FUN_006a7f50() < reinterpret_cast<SearchTimer&>(this->timer1c).FUN_006a7f50())
+        if (pContext->CombatGroup_GetLastSearchAreaUpdateTimer()->AStarSearch_EvaluateValue_006a7f50() < reinterpret_cast<SearchTimer&>(this->timer1c).AStarSearch_EvaluateValue_006a7f50())
         {
             if (pContext->CombatGroup_GetSearchCenter().GetHavokWorldObjectCountInSceneGraph_0084e3a0() != pActor2->TESObjectREFR_GetSpace())
             {

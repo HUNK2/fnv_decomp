@@ -106,7 +106,7 @@ bool BGSCameraShot::Load(TESFile* file)
                 memset(&legacyData, 0, 32);
                 ((BGSImpactData*)this)->ReadTypedData(file, &legacyData, 32);
                 if (file->IsEndianConversionRequired())
-                    legacyData.FUN_0058c2e0();
+                    legacyData.ProcessState_0058c2e0();
                 Data.m_eAction = (BGSCameraShot__CAM_ACTION)legacyData.action;
                 Data.pInputFile = (BGSCameraShot__CAM_OBJECT)legacyData.location;
                 Data.m_eAttacker = (BGSCameraShot__CAM_OBJECT)legacyData.target;
@@ -121,7 +121,7 @@ bool BGSCameraShot::Load(TESFile* file)
                 memset(&Data, 0, 40);
                 file->GetChunkData(&Data, 40);
                 if (file->IsEndianConversionRequired())
-                    Data.FUN_0058c3c0();
+                    Data.ProcessState_0058c3c0();
             }
             break;
         }
@@ -146,12 +146,13 @@ struct FUN_0058c2e0_shell
     int field_0x14;
     int field_0x18;
     int field_0x1c;
-    void FUN_0058c2e0();
+    void ProcessState_0058c2e0();
 };
 
 // Byte-swaps all eight 32-bit fields of the object via BSEndian, in the order 0x10, 0x14, 0x00, 0x04, 0x08, 0x0c, 0x18, 0x1c.
 // @fnv 0x0058c2e0
-void FUN_0058c2e0_shell::FUN_0058c2e0()
+// src: GUESS 0x0058c2e0 (confidence: low)
+void FUN_0058c2e0_shell::ProcessState_0058c2e0()
 {
     BSEndian(&field_0x10, EndianSizeTag<3>());
     BSEndian(&field_0x14, EndianSizeTag<3>());
@@ -231,20 +232,21 @@ public:
 // @fnv 0x0058c4d0
 void BGSCameraShotRecordWriter::SaveForm()
 {
-    TESForm::FUN_004855a0();
+    TESForm::BeginFormRecord();
     ((TESModel*)((char*)this + 0x18))->WriteToBuffer(0x4C444F4D, 0x54444F4D);
     if (TESForm_QEndianSwapOnSave())
-        Data.FUN_0058c3c0();
+        Data.ProcessState_0058c3c0();
     ((FUN_00485e00_shell*)this)->TESForm___SaveData((int)((char*)this + 0x38), 0x28);
     if (TESForm_QEndianSwapOnSave())
-        Data.FUN_0058c3c0();
+        Data.ProcessState_0058c3c0();
     ((FUN_00487450_shell*)((char*)this + 0x30))->FUN_00487450();
-    TESForm::FUN_00485680();
+    TESForm::FinishFormRecord();
 }
 
 // Byte-swaps each of the ten 32-bit fields of the object via BSEndian.
 // @fnv 0x0058c3c0
-void BGSCameraShot__CAMERA_SHOT_DATA::FUN_0058c3c0()
+// src: GUESS 0x0058c3c0 (confidence: low)
+void BGSCameraShot__CAMERA_SHOT_DATA::ProcessState_0058c3c0()
 {
     BSEndian(reinterpret_cast<int*>(&m_fMinTime), EndianSizeTag<3>());
     BSEndian(reinterpret_cast<int*>(&m_fTargetPercent), EndianSizeTag<3>());
@@ -292,7 +294,7 @@ struct CameraNode
 };
 struct NodePointer
 {
-    CameraNode* FUN_00559450();
+    CameraNode* Modelloader_GetReferencedThis();
 };
 struct VATSLocation
 {
@@ -307,14 +309,14 @@ NiPoint3 BGSCameraShot::GetCameraPosition()
     {
         position = DAT_011f2250.VATS_GetTargetPercentagePos(((CameraShotAccess*)this)->GetPositionTime());
     }
-    else if (((NodePointer*)&m_pTargetNode)->FUN_00559450())
+    else if (((NodePointer*)&m_pTargetNode)->Modelloader_GetReferencedThis())
     {
-        position = ((NodePointer*)&m_pTargetNode)->FUN_00559450()->NiAVObject_GetWorldTranslate();
+        position = ((NodePointer*)&m_pTargetNode)->Modelloader_GetReferencedThis()->NiAVObject_GetWorldTranslate();
     }
-    if (m_bUpdateNodePosition == 1 && ((NodePointer*)&m_spPositionNode)->FUN_00559450())
+    if (m_bUpdateNodePosition == 1 && ((NodePointer*)&m_spPositionNode)->Modelloader_GetReferencedThis())
     {
         ((NodePointer*)&m_spPositionNode)
-            ->FUN_00559450()
+            ->Modelloader_GetReferencedThis()
             ->NiAVObject_GetRotate_006a9540()
             ->DecomposeToEulerAngles(&DAT_011ca738, &DAT_011ca73c, &DAT_011ca740);
     }
@@ -357,7 +359,7 @@ struct CamNodeX
 struct NodePtrObj
 {
     void* m_pObject;
-    CamNodeX* FUN_00559450();
+    CamNodeX* Modelloader_GetReferencedThis();
     void FUN_0066b0d0(void*);
 };
 struct ModelLoader
@@ -484,8 +486,8 @@ void BGSCameraShot::SetupCamera(void* param1, int iMode)
     {
         ((NodePtrObj*)&m_spPositionNode)->FUN_0066b0d0((void*)g_modelLoader->ModelLoader_LoadFile(GetModelFilePath(), 0, 1, 1, 0, 0));
     }
-    myFoundPtr = ((NodePtrObj*)&m_spPositionNode)->FUN_00559450()
-                     ? NiObject_DynamicCast(&DAT_011f4a18, (void*)((NodePtrObj*)&m_spPositionNode)->FUN_00559450()->NiNode_GetAtChecked(0))
+    myFoundPtr = ((NodePtrObj*)&m_spPositionNode)->Modelloader_GetReferencedThis()
+                     ? NiObject_DynamicCast(&DAT_011f4a18, (void*)((NodePtrObj*)&m_spPositionNode)->Modelloader_GetReferencedThis()->NiNode_GetAtChecked(0))
                      : 0;
     if (!myFoundPtr)
     {
@@ -495,17 +497,17 @@ void BGSCameraShot::SetupCamera(void* param1, int iMode)
         ((NodePtrObj*)&m_spPositionNode)->FUN_0066b0d0(0);
         g_modelLoader->ModelLoader_ReleaseFile(GetModelFilePath());
     }
-    if (((NodePtrObj*)&m_spPositionNode)->FUN_00559450())
+    if (((NodePtrObj*)&m_spPositionNode)->Modelloader_GetReferencedThis())
     {
         NiUpdateData auxPtr(DAT_011f21d4, true, false);
         if (((CameraShotAccess*)this)->IsFlag20Set())
         {
-            BSUtils_SetPhaseRecurse(((NodePtrObj*)&m_spPositionNode)->FUN_00559450(), -DAT_011f21d4);
+            BSUtils_SetPhaseRecurse(((NodePtrObj*)&m_spPositionNode)->Modelloader_GetReferencedThis(), -DAT_011f21d4);
         }
-        ((NodePtrObj*)&m_spPositionNode)->FUN_00559450()->NiAVObject_Update(&auxPtr);
+        ((NodePtrObj*)&m_spPositionNode)->Modelloader_GetReferencedThis()->NiAVObject_Update(&auxPtr);
         if ((signed char)m_bUpdateNodePosition == -1 && !m_bFlag75)
         {
-            void* queriedVal = ((NodePtrObj*)&m_spPositionNode)->FUN_00559450()->NiObjectNET_GetController(&DAT_011f3714);
+            void* queriedVal = ((NodePtrObj*)&m_spPositionNode)->Modelloader_GetReferencedThis()->NiObjectNET_GetController(&DAT_011f3714);
             if (queriedVal)
             {
                 void* clonePtr = queriedVal;
@@ -538,7 +540,7 @@ void BGSCameraShot::SetupCamera(void* param1, int iMode)
                 }
             }
         }
-        if (((NodePtrObj*)&m_spPositionNode)->FUN_00559450()->GetTranslate_0043c490()->FUN_004390c0(NiPoint3_ZERO))
+        if (((NodePtrObj*)&m_spPositionNode)->Modelloader_GetReferencedThis()->GetTranslate_0043c490()->HasEqualComponents(NiPoint3_ZERO))
         {
             Warning_005b5e40("DEFAULT: VATS Camera '%s' doesn't have any position data.", GetModelFilePath());
         }
@@ -651,12 +653,12 @@ struct Node6c
 struct NiPtr60
 {
     Node60* object;
-    Node60* FUN_00559450();
+    Node60* Modelloader_GetReferencedThis();
 };
 struct NiPtr6c
 {
     Node6c* object;
-    Node6c* FUN_00559450();
+    Node6c* Modelloader_GetReferencedThis();
 };
 struct Rend
 {
@@ -830,11 +832,11 @@ extern float DAT_011ca7d0;
 // @fnv 0x0058cf60
 void BGSCameraShot::UpdateCamera(float afTime)
 {
-    if (!((NiPtr6c*)&m_spPositionNode)->FUN_00559450())
+    if (!((NiPtr6c*)&m_spPositionNode)->Modelloader_GetReferencedThis())
         return;
     NiUpdateData upd(afTime, true, false);
-    ((NiPtr6c*)&m_spPositionNode)->FUN_00559450()->NiAVObject_Update(upd);
-    DAT_011ca77c = ((NiPtr6c*)&m_spPositionNode)->FUN_00559450()->GetTranslate_0043c490();
+    ((NiPtr6c*)&m_spPositionNode)->Modelloader_GetReferencedThis()->NiAVObject_Update(upd);
+    DAT_011ca77c = ((NiPtr6c*)&m_spPositionNode)->Modelloader_GetReferencedThis()->GetTranslate_0043c490();
     NiPoint3 pt = DAT_011ca77c;
     if (m_bFlag74 && !reinterpret_cast<GObj*>(DAT_011dea3c)->Check22c(0))
         reinterpret_cast<GObj*>(DAT_011dea3c)->PlayerCharacter_SetFirstPerson(1);
@@ -853,21 +855,21 @@ void BGSCameraShot::UpdateCamera(float afTime)
                 NiMatrix3_TransformVertices(((Host56*)m_pReference)->TESObjectREFR_GetOrientation(), &DAT_011f426c, 1, tmpB, pt);
             }
         }
-        else if (((NiPtr60*)&m_pLocationNode)->FUN_00559450())
+        else if (((NiPtr60*)&m_pLocationNode)->Modelloader_GetReferencedThis())
         {
             NiPoint3 tmpC = pt;
-            NiMatrix3_TransformVertices(((NiPtr60*)&m_pLocationNode)->FUN_00559450()->NiAVObject_GetRotate_006a9540(), &DAT_011f426c, 1, tmpC, pt);
+            NiMatrix3_TransformVertices(((NiPtr60*)&m_pLocationNode)->Modelloader_GetReferencedThis()->NiAVObject_GetRotate_006a9540(), &DAT_011f426c, 1, tmpC, pt);
         }
-        if (((NiPtr60*)&m_pLocationNode)->FUN_00559450())
+        if (((NiPtr60*)&m_pLocationNode)->Modelloader_GetReferencedThis())
         {
             bool bReset = false;
-            if (DAT_011ca75c.FUN_004390c0(DAT_011f426c))
+            if (DAT_011ca75c.HasEqualComponents(DAT_011f426c))
             {
                 DAT_011ca75c = DAT_011e0808;
                 bReset = true;
             }
-            NiPoint3 kPos = ((NiPtr60*)&m_pLocationNode)->FUN_00559450()->NiAVObject_GetWorldTranslate();
-            pt.FUN_0063c8a0(kPos);
+            NiPoint3 kPos = ((NiPtr60*)&m_pLocationNode)->Modelloader_GetReferencedThis()->NiAVObject_GetWorldTranslate();
+            pt.ComputeValue_0063c8a0(kPos);
             reinterpret_cast<GObj*>(DAT_011dea3c)->PlayerCharacter_UpdateChaseCamera(&pt, &kPos, 0);
             DAT_011e0808 = pt;
             if (DAT_011ca728)
@@ -900,7 +902,7 @@ void BGSCameraShot::UpdateCamera(float afTime)
                         DAT_011e0808 = DAT_011ca75c + DAT_011ca7a8 * DAT_011ca730;
                 }
             }
-            Prop* pCam = ((NiPtr6c*)&m_spPositionNode)->FUN_00559450()->NiNode_GetAtChecked(0);
+            Prop* pCam = ((NiPtr6c*)&m_spPositionNode)->Modelloader_GetReferencedThis()->NiNode_GetAtChecked(0);
             if (pCam)
             {
                 Frus kOrigFrustum = pCam->FUN_0045bbe0();

@@ -92,7 +92,8 @@ hkInspectProcess* __cdecl CreateStatisticsProcess()
 
 
 // @fnv 0x00ddbeb0
-hkInspectProcess* FUN_00ddbeb0()
+// src: GUESS 0x00ddbeb0 (confidence: low)
+hkInspectProcess* hkInspectProcess_GetDAT01269cd4()
 {
     return DAT_01269cd4;
 }

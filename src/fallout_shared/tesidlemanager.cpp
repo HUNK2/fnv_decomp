@@ -501,7 +501,8 @@ void IdleCleanup::DeleteAllOwnedForms()
 void __fastcall ClearIdleFormArray(NiFormArray* array);
 
 // @fnv 0x00600030
-void IdleAnimationManager::FUN_00600030()
+// src: GUESS 0x00600030 (confidence: low)
+void IdleAnimationManager::ReleaseStorage_00600030()
 {
     void* a = ((NiTPointerMap<void*, NiFormArray*>*)this)->GetFirstPos();
     while (a != 0)

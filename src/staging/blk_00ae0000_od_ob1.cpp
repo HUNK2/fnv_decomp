@@ -55,5 +55,6 @@ bool FUN_00afb190_shell::Archive_CheckInvalidateFile(FUN_00afb190_entry* entry, 
 }
 
 // @fnv 0x00af2d30
-void FUN_00af2d30()
+// src: GUESS 0x00af2d30 (confidence: high)
+void Runtime_DoNothing()
 {}

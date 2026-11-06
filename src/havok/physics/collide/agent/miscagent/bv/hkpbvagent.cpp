@@ -66,9 +66,9 @@ void FUN_00d452a0::Method(float afValue, float agValue, void* arg)
 }
 
 void __cdecl hkpBvAgent_createShapeBvAgent();
-void __cdecl FUN_00d46010();
-void __cdecl FUN_00d46050();
-void __cdecl FUN_00d46090();
+void __cdecl hkpBvAgent_staticGetPenetrations_UpdateState_00d46010();
+void __cdecl hkpBvAgent_staticGetClosestPoints_UpdateState_00d46050();
+void __cdecl hkpBvAgent_staticLinearCast_UpdateState_00d46090();
 void __cdecl hkpBvAgent_createBvShapeAgent();
 void __cdecl hkpBvAgent_staticGetPenetrations();
 void __cdecl hkpBvAgent_staticGetClosestPoints();
@@ -91,9 +91,9 @@ void __cdecl ConfigureVtblHandlers(FUN_00cfbbe0* p)
 {
     FUN_00cfbbe0_vtbl t1;
     t1.v0 = (void*)hkpBvAgent_createShapeBvAgent;
-    t1.v1 = (void*)FUN_00d46010;
-    t1.v2 = (void*)FUN_00d46050;
-    t1.v3 = (void*)FUN_00d46090;
+    t1.v1 = (void*)hkpBvAgent_staticGetPenetrations_UpdateState_00d46010;
+    t1.v2 = (void*)hkpBvAgent_staticGetClosestPoints_UpdateState_00d46050;
+    t1.v3 = (void*)hkpBvAgent_staticLinearCast_UpdateState_00d46090;
     t1.b1 = 1;
     t1.b2 = 1;
     p->Method(&t1, -1, 0x1b);
@@ -289,7 +289,8 @@ void __cdecl hkpBvAgent_staticGetPenetrations(int a, int b, int c, Functor_d4601
 
 // Builds a Functor_d46010 with the given value and a false flag, then passes it with b, a and c to FUN_00d45dd0.
 // @fnv 0x00d46010
-void __cdecl FUN_00d46010(int aiArg1, int aiArg2, int aiArg3, int aiValue)
+// src: GUESS 0x00d46010 (confidence: low)
+void __cdecl hkpBvAgent_staticGetPenetrations_UpdateState_00d46010(int aiArg1, int aiArg2, int aiArg3, int aiValue)
 {
     Functor_d46010 f;
     f.m_uiFilterValue = aiValue;
@@ -495,7 +496,8 @@ struct FUN_00d46050_cls
 
 // Builds a FUN_00d46050_cls from DAT_0104da48 and a4, then calls FUN_00d45af0 with a2, a1, a3 and a pointer to it.
 // @fnv 0x00d46050
-void __cdecl FUN_00d46050(int aiArg1, int aiArg2, int aiArg3, int aiValue)
+// src: GUESS 0x00d46050 (confidence: low)
+void __cdecl hkpBvAgent_staticGetClosestPoints_UpdateState_00d46050(int aiArg1, int aiArg2, int aiArg3, int aiValue)
 {
     FUN_00d46050_cls local;
     local.f = DAT_0104da48;
@@ -510,10 +512,11 @@ struct CallTarget_00d45350
 };
 struct SearchObject
 {
-    int FUN_00d46180(unsigned int arg0, unsigned int arg1, unsigned int arg2, unsigned int arg3);
+    int ProcessAndReturnValue_00d46180(unsigned int arg0, unsigned int arg1, unsigned int arg2, unsigned int arg3);
 };
 // @fnv 0x00d46180
-int SearchObject::FUN_00d46180(unsigned int arg0, unsigned int arg1, unsigned int arg2, unsigned int arg3)
+// src: GUESS 0x00d46180 (confidence: low)
+int SearchObject::ProcessAndReturnValue_00d46180(unsigned int arg0, unsigned int arg1, unsigned int arg2, unsigned int arg3)
 {
     unsigned int callResult0 =
         (unsigned int)((CallTarget_00d45350*)this)->ProcessShapeChildren((int)arg1, (int)arg0, (int)arg2, (int)arg3);
@@ -565,12 +568,13 @@ struct Rec
 struct FUN_00d461e0_Cls
 {
     void GetPenetrations(int, int, int, Rec*);
-    void FUN_00d461e0(int a1, int a2, int a3, int a4);
+    void UpdateFields_00d461e0(int a1, int a2, int a3, int a4);
 };
 
 // Builds a Rec from a4, DAT_0104da48 and DAT_010ce7fc, then calls GetPenetrations with a2, a1, a3 and the Rec.
 // @fnv 0x00d461e0
-void FUN_00d461e0_Cls::FUN_00d461e0(int aiArg1, int aiArg2, int aiArg3, int aiValue)
+// src: GUESS 0x00d461e0 (confidence: low)
+void FUN_00d461e0_Cls::UpdateFields_00d461e0(int aiArg1, int aiArg2, int aiArg3, int aiValue)
 {
     Rec rec;
     rec.m_i = aiValue;
@@ -861,12 +865,13 @@ struct AgentBase
 
 struct Agent : AgentBase
 {
-    void FUN_00d46220(int a, int b, int c, Simplex* s);
+    void UpdateClosestPointSimplexState(int a, int b, int c, Simplex* s);
 };
 
 // Calls base FUN_00d454c0, then updates vertex SIMD data and swaps simplex dimension and id fields when the closest point distance changed.
 // @fnv 0x00d46220
-void Agent::FUN_00d46220(int a, int b, int c, Simplex* apSimplex)
+// src: GUESS 0x00d46220 (confidence: medium)
+void Agent::UpdateClosestPointSimplexState(int a, int b, int c, Simplex* apSimplex)
 {
     SimplexVertex* pVertex = apSimplex->m_kRayEnd;
     float oldDistance = apSimplex->m_fClosestPointDistanceSquared;
@@ -999,7 +1004,8 @@ void __cdecl hkpBvAgent_staticLinearCast(int a1, int a2, Input_d2e9* input, Reco
 
 // Copies input, XORs its m_key with DAT_010c44d0, builds a Record_d2e9 with a4, and calls FUN_00d45800 with a second record when a5 is non-zero.
 // @fnv 0x00d46090
-void __cdecl FUN_00d46090(int a2, int a1, const Input_d2e9* input, int a4, int a5)
+// src: GUESS 0x00d46090 (confidence: low)
+void __cdecl hkpBvAgent_staticLinearCast_UpdateState_00d46090(int a2, int a1, const Input_d2e9* input, int a4, int a5)
 {
     Input_d2e9 local = *input;
     *reinterpret_cast<LocalM128*>(&local.m_key) =
@@ -2052,12 +2058,13 @@ struct Host
 
 struct Owner
 {
-    void FUN_00d46340(int a1, int a2, const Block* p, int a4, int a5);
+    void UpdateFields_00d46340(int a1, int a2, const Block* p, int a4, int a5);
 };
 
 // Copies p with its m_vec XORed by DAT_010c44d0, builds an Event from a4 (and a second from a5 if non-zero), and calls Host::Dispatch(a2, a1, ...).
 // @fnv 0x00d46340
-void Owner::FUN_00d46340(int a1, int a2, const Block* p, int a4, int a5)
+// src: GUESS 0x00d46340 (confidence: low)
+void Owner::UpdateFields_00d46340(int a1, int a2, const Block* p, int a4, int a5)
 {
     Event ev;
     ev.m_fHitFraction = DAT_0104da48;

@@ -78,7 +78,7 @@ struct FUN_006ec0d0_Class
 struct FUN_006e1020_shell
 {
     FUN_006e1020_shell* __thiscall BSSimpleArray_PathingLOSGridCell_1024_BSSimpleArray_PathingLOSGridCell_1024();
-    FUN_006e1020_shell* __thiscall FUN_006e0e80();
+    FUN_006e1020_shell* __thiscall ProcessAndReturnValue_006e0e80();
 };
 // src: COMMUNITY 0x006e1020
 FUN_006e1020_shell* __thiscall FUN_006e1020_shell::BSSimpleArray_PathingLOSGridCell_1024_BSSimpleArray_PathingLOSGridCell_1024()
@@ -95,7 +95,7 @@ extern int DAT_0106cef8;
 struct GlobalObject_00869f00
 {
     void __thiscall Clear(bool);
-    void __thiscall FUN_006e1050();
+    void __thiscall SetVtableAndProcessState_006e1050();
 };
 extern int DAT_0106cf0c;
 struct S006d0420
@@ -104,7 +104,7 @@ struct S006d0420
 };
 struct FUN_006e1070_Class
 {
-    FUN_006e1070_Class* __thiscall FUN_006e1070();
+    FUN_006e1070_Class* __thiscall SetVtableAndProcessState_006e1070();
 };
 extern int DAT_0106cf68;
 struct FUN_006e2080_Class
@@ -131,7 +131,7 @@ struct FUN_006e6bd0_Class
 };
 struct Dummy_006e8f80
 {
-    void* FUN_006e8f80(unsigned int);
+    void* GetPathingGraphNodeAddress(unsigned int);
 };
 struct FUN_006e8fc0_Class
 {
@@ -147,24 +147,24 @@ struct FUN_006e9050_Class
 extern int DAT_0106d6b8;
 struct FUN_006ec1e0_Class
 {
-    void __thiscall FUN_006ec1e0();
+    void __thiscall SetVirtualTable_006ec1e0();
 };
 extern int DAT_0106d6d0;
 struct FUN_006ec3f0_Class
 {
-    void __thiscall FUN_006ec3f0();
+    void __thiscall SetVtableAndProcessState_006ec3f0();
     void __thiscall FUN_006ec410();
 };
 extern const void* DAT_0106d6f0;
 struct FUN_006ec410_Class
 {
     virtual ~FUN_006ec410_Class();
-    void __thiscall FUN_006ec430();
+    void __thiscall SetVtableAndProcessState_006ec430();
 };
 extern int DAT_0106d710;
 struct FUN_006ec430_Class
 {
-    void __thiscall FUN_006ec430();
+    void __thiscall SetVtableAndProcessState_006ec430();
 };
 extern "C" void __cdecl BSTMessageQueue_PathingMessage_BSTMessageQueue_PathingMessage();
 extern int DAT_0106d698;
@@ -176,11 +176,11 @@ struct FUN_006ecb40_Class
 extern int DAT_0106d7a0;
 struct FUN_006ecf20_Class
 {
-    void __thiscall FUN_006ecf20();
+    void __thiscall SetVirtualTable_006ecf20();
 };
 struct FUN_006ed0e0_Class
 {
-    int __thiscall FUN_006ed0e0();
+    int __thiscall ComputeValue_006ed0e0();
 };
 extern NiPoint3 _NiPoint3_ZERO;
 struct PathingLocation;
@@ -205,7 +205,7 @@ extern int DAT_0106d88c;
 struct FUN_006f3320_Class
 {
     void __thiscall InitBuffer(int a1, int a2);
-    FUN_006f3320_Class* __thiscall FUN_006f31c0();
+    FUN_006f3320_Class* __thiscall InitializeFields_006f31c0();
 };
 struct ScrapHeapBuffer
 {
@@ -217,19 +217,19 @@ struct FUN_00aa5410_Helper
 };
 struct FUN_006f4320_Class : public ScrapHeapBuffer
 {
-    ScrapHeapBuffer* __thiscall FUN_006f4320();
+    ScrapHeapBuffer* __thiscall ProcessAndReturnValue_006f4320();
 };
 extern int DAT_0106d974;
 struct Dummy_0061bf20
 {
     void __thiscall BSSimpleArray_NavMeshPOVSearchNode_1024_InitialSetup(int a1, int a2);
-    Dummy_0061bf20* __thiscall FUN_006f4b10();
+    Dummy_0061bf20* __thiscall SetVtableAndProcessState_006f4b10();
 };
 extern void* DAT_0106d988;
 struct FUN_006f4b60_Class
 {
     void __thiscall ResetAndWrite(void* a1, void* a2);
-    void* __thiscall FUN_006f4b60();
+    void* __thiscall InitializeFields_006f4b60();
 };
 void* __cdecl operator new(unsigned int);
 struct FUN_006f4bb0_Class
@@ -264,12 +264,12 @@ struct FUN_006f9740_Class
 void* __cdecl Reallocate(void* p, unsigned int size);
 struct FUN_006f9850_Class
 {
-    void* __thiscall FUN_006f9850(void* p, unsigned int count);
+    void* __thiscall Reallocate_Thunk(void* p, unsigned int count);
 };
 extern int DAT_0106dfe0;
 struct FUN_006fa180_Class
 {
-    void __thiscall FUN_006fa180(int, int);
+    void __thiscall UpdateFields_006fa180(int, int);
 };
 struct FUN_006fa100_Class
 {
@@ -282,7 +282,7 @@ struct FUN_006f9c70_shell
 };
 struct FUN_006fa160_Class
 {
-    void __thiscall FUN_006fa160();
+    void __thiscall UpdateFields_006fa160();
 };
 struct FUN_006fc920_Class
 {
@@ -310,7 +310,7 @@ extern int DAT_0106e7a4;
 struct FUN_006ffc00_Class
 {
     void __thiscall UnregisterSteamCallback();
-    void __thiscall FUN_006ff9a0();
+    void __thiscall UpdateFields_006ff9a0();
 };
 extern int DAT_0106e7c4;
 struct FUN_006ffa40_Class
@@ -318,23 +318,23 @@ struct FUN_006ffa40_Class
     int m_vtbl;
     bool m_flag;
     void __thiscall UnregisterSteamCallback();
-    void __thiscall FUN_006ffa40();
+    void __thiscall SetVirtualTable_006ffa40();
 };
 extern "C" void* DAT_0106e7d4;
 struct FUN_006ffac0_Class
 {
     void __thiscall UnregisterSteamCallback();
-    void __thiscall FUN_006ffac0();
+    void __thiscall UpdateFields_006ffac0();
 };
 struct FUN_006ffb10_Class
 {
-    int __thiscall FUN_006ffb10();
+    int __thiscall ReturnConstant_0x98();
 };
 extern void* __cdecl NiFreeAlias(void*);
 extern void* DAT_0106ced8;
 struct FUN_006e0ff0_Class : NiTPointerMap<int, int>
 {
-    void __thiscall FUN_006e0ff0();
+    void __thiscall SetVtableAndProcessState_006e0ff0();
 };
 extern int DAT_0106d63c;
 struct FUN_006ecc40_Class
@@ -370,7 +370,7 @@ struct S006e1220 : GlobalObject_00869f00
 };
 struct FUN_006e10a0_shell
 {
-    void __thiscall FUN_006e10a0();
+    void __thiscall ResetVirtualTableAndClear_006e10a0();
 };
 void __cdecl Deallocate(void*);
 struct FUN_006e1250_Class
@@ -380,7 +380,7 @@ struct FUN_006e1250_Class
 void* __cdecl operator new(unsigned int, void*);
 struct FUN_006e1280_Class
 {
-    void __thiscall FUN_006e1280(char* a1, unsigned int a2);
+    void __thiscall VisitPlacementAddresses(char* a1, unsigned int a2);
 };
 void* __cdecl _NiMalloc(unsigned int);
 void* memset(void* p, int v, unsigned int n);
@@ -493,7 +493,7 @@ struct FUN_006ec090_Class
 void __cdecl Deallocate(void*);
 struct FUN_006ec200_Class
 {
-    void __thiscall FUN_006ec1c0();
+    void __thiscall UpdateFields_006ec1c0();
     void* __thiscall FUN_006ec200(unsigned int flags);
 };
 struct Call_6ecb70
@@ -511,7 +511,7 @@ struct FUN_006ec390_Class
 void __cdecl operator delete(void*);
 struct FUN_006ec410_Helper
 {
-    void __thiscall FUN_006ec430();
+    void __thiscall SetVtableAndProcessState_006ec430();
 };
 struct FUN_006ec450_Class
 {
@@ -524,7 +524,7 @@ struct FUN_006ec480_Class : public FUN_006ec410_Class
 };
 struct FUN_0044df00Class
 {
-    int* FUN_0044df00();
+    int* ClearLowBit_Thunk();
 };
 struct FUN_0044df20
 {
@@ -537,7 +537,7 @@ struct FUN_00529000_Class
 struct FUN_006ec9b0_Class
 {
     bool ProcessNodeChain(int a1, int a2);
-    bool FUN_006ec9b0(int a1, int a2, int* a3);
+    bool UpdateState_006ec9b0(int a1, int a2, int* a3);
 };
 void __cdecl Deallocate(void*);
 struct FUN_006ec130_Class
@@ -631,7 +631,7 @@ struct FUN_006ee100_Class
     int ah;
     int ai;
     NiBound m_3c;
-    FUN_006ee100_Class* __thiscall FUN_006ee100();
+    FUN_006ee100_Class* __thiscall InitializeBoundsAndPoints();
 };
 struct B006815c0
 {
@@ -769,7 +769,7 @@ struct FUN_006f99a0_Class
     int m_vtbl;
     int m_auiShapeKeys;
     int m_i;
-    void __thiscall FUN_006f99a0();
+    void __thiscall ReleaseStorage_006f99a0();
 };
 struct FUN_006f9b80_shell
 {
@@ -784,24 +784,24 @@ extern int DAT_0106dfc0;
 void __cdecl Deallocate(void* p);
 struct FUN_006f9be0_Class
 {
-    void __thiscall FUN_006f9be0();
+    void __thiscall ReleaseStorage_006f9be0();
 };
 void __cdecl Deallocate(void*);
 struct FUN_006f9770_Class
 {
-    void __thiscall FUN_006f9770();
+    void __thiscall SetVtableAndProcessState_006f9770();
     FUN_006f9770_Class* __thiscall FUN_006f9cd0(unsigned int flags);
 };
 void __cdecl Deallocate(void*);
 struct FUN_006f9d60_Class
 {
-    void __thiscall FUN_006f9be0();
+    void __thiscall ReleaseStorage_006f9be0();
     void* __thiscall FUN_006f9d60(unsigned int flags);
 };
 void __cdecl Deallocate(void*);
 struct GlobalObject_006fa100
 {
-    void __thiscall FUN_006fa160();
+    void __thiscall UpdateFields_006fa160();
     ~GlobalObject_006fa100();
     GlobalObject_006fa100* __thiscall FUN_006fa130(unsigned int flags);
 };
@@ -843,7 +843,7 @@ struct FUN_006ff660_Class
 {
     int __thiscall FUN_006ff660(int a1);
 };
-void __cdecl FUN_006ff620();
+void __cdecl Object_ClearGlobalObjectPointer_006ff620();
 struct FUN_006ffb20_Class
 {
     void __thiscall SetSourceAndTarget(int a1, int a2);
@@ -855,7 +855,7 @@ struct FUN_006ff920 : public FUN_006ff970_Class
 void* __cdecl FUN_00ec7230(char* dst, const char* src, unsigned int size);
 struct FUN_006e3e70_Class
 {
-    void __thiscall FUN_006e3e70(char* a, char* b, unsigned int c);
+    void __thiscall ProcessEntries_006e3e70(char* a, char* b, unsigned int c);
 };
 struct SaveGameSizeState
 {
@@ -914,7 +914,7 @@ struct Arr
 };
 struct FUN_006ed7d0_Class
 {
-    bool FUN_006ed7d0(unsigned int a1, unsigned int a2, const NiPoint3& a3, const NiPoint3& a4);
+    bool ProcessEntries_006ed7d0(unsigned int a1, unsigned int a2, const NiPoint3& a3, const NiPoint3& a4);
 };
 struct S5460
 {
@@ -1009,7 +1009,7 @@ struct FUN_006edce0_Class
     int p2;
     BSSimpleList<BGSPerk*> l3;
     FUN_006f2510_Class f;
-    FUN_006edce0_Class* FUN_006edce0(int a1);
+    FUN_006edce0_Class* ProcessAndReturnValue_006edce0(int a1);
 };
 struct FUN_006f46f0_Node
 {
@@ -1055,7 +1055,7 @@ struct FUN_006c8a30_Class
 };
 struct FUN_006dc640_Class
 {
-    void FUN_006dc640(char*, char*, unsigned int);
+    void CopyOverlappingElements20(char*, char*, unsigned int);
 };
 struct FUN_006f9eb0_Class
 {
@@ -1075,8 +1075,8 @@ struct FUN_006fa180_StandIn
     int m_pos;
     int m_len;
     virtual int v04(unsigned int);
-    void __thiscall FUN_006f9ff0(int, unsigned int);
-    void __thiscall FUN_006fa180(unsigned int requested, unsigned int savedSize);
+    void __thiscall ConstructElementsInPlace(int, unsigned int);
+    void __thiscall UpdateFields_006fa180(unsigned int requested, unsigned int savedSize);
 };
 struct Unk006fec90
 {
@@ -1118,7 +1118,7 @@ struct FUN_006ff9f0 : FUN_006ff970_Class
 };
 struct FUN_006ffa70 : FUN_006ff970_Class
 {
-    int __thiscall FUN_006ffc20(int a1, int a2);
+    int __thiscall ProcessAndReturnValue_006ffc20(int a1, int a2);
     int m_i;
     int m_iUnknownValue;
     FUN_006ffa70(int a1, int a2);
@@ -1127,7 +1127,7 @@ struct FUN_006e22d0_Class
 {
     int m0;
     _Mem_2064 m1;
-    void __thiscall FUN_006e22d0();
+    void __thiscall DestroySubobject_006e22d0();
 };
 struct Elem4
 {
@@ -1143,7 +1143,7 @@ struct FUN_006ec5b0_Class
     unsigned int m_40c;
     unsigned int m_uiEdgeIndex;
 
-    bool __thiscall FUN_006ec5b0(Helper62d0* a1);
+    bool __thiscall UpdateState_006ec5b0(Helper62d0* a1);
 };
 struct FUN_006ee050_Class
 {
@@ -1222,25 +1222,25 @@ struct FUN_006f4230_Node
 };
 struct EdgeArr
 {
-    FUN_006f4230_EdgeData* __thiscall FUN_006a1440(unsigned int);
+    FUN_006f4230_EdgeData* __thiscall Object_GetIndexedValue_006a1440(unsigned int);
 };
 struct H2 : public EdgeArr
 {
-    void __thiscall FUN_006a8890(int, int);
+    void __thiscall UpdateState_006a8890(int, int);
 };
 struct FUN_006f4230_Class
 {
     bool __thiscall CopyNodeListToArrays(FUN_006f4230_Node*, H2*, FUN_006f4480_Class*);
 };
 struct ScrapHeapBuffer;
-void* __cdecl FUN_006a1f90(unsigned int, ScrapHeapBuffer*);
+void* __cdecl Runtime_ForwardCall_006a1f90(unsigned int, ScrapHeapBuffer*);
 struct FUN_006f47f0_Class
 {
     void* __thiscall Constructor();
 };
 struct FUN_006f4340_Class : public ScrapHeapBuffer
 {
-    void* __thiscall FUN_006f4340();
+    void* __thiscall ProcessAndReturnValue_006f4340();
 };
 struct FUN_006f4430_Class
 {
@@ -1327,7 +1327,7 @@ struct FUN_006e12c0_Class
     int currentData;
     int reserved08;
     int cachedKey;
-    void __thiscall FUN_006d07d0(int replacement, int previous, int previousKey);
+    void __thiscall ProcessEntries_006d07d0(int replacement, int previous, int previousKey);
     void __thiscall FUN_006a8500();
     void __thiscall SetData(int newData, int searchKey);
 };
@@ -1410,7 +1410,7 @@ struct FUN_006e3d30_cls
     int m_08;
     int m_0c;
     void BSSimpleArray_PathingAvoidNode_1024_ReallocateBuffer(int a1, int a2);
-    void FUN_006e3e70(int a, int b, int c);
+    void ProcessEntries_006e3e70(int a, int b, int c);
     void FUN_006a8500();
 };
 struct TESObjectCELL_s
@@ -1815,11 +1815,11 @@ struct FUN_006ec2e0_Elem
 };
 struct FUN_006ec2e0_Free
 {
-    void __thiscall FUN_006ecb10(FUN_006ec2e0_Elem*& e);
+    void __thiscall PrepareNodeAndPushFront(FUN_006ec2e0_Elem*& e);
 };
 struct FUN_006ec2e0_Out
 {
-    void __thiscall FUN_006eaa00(int value);
+    void __thiscall AssignFields_006eaa00(int value);
 };
 struct FUN_006ec2e0_Class
 {
@@ -1870,7 +1870,7 @@ struct FUN_006ec900_Class
 struct FUN_006ecce0_Class
 {
     void __thiscall FUN_007b3fa0(unsigned int);
-    void __thiscall FUN_006ecce0();
+    void __thiscall ForwardCall_006ecce0();
 };
 struct SpawnedBase
 {
@@ -2022,10 +2022,10 @@ struct FUN_006edd30_shell
     PointerList_006edd30 startEdges;
     PointerList_006edd30 endEdges;
     PointerList_006edd30 paths;
-    Location_006edd30* FUN_006edc40();
+    Location_006edd30* AllocateStorage_006edc40();
     PathEdge_006edd30* CreateSize28();
     Path_006edd30* CreateObject();
-    void FUN_006edd30(const Position_006edd30* start, const Position_006edd30* finish);
+    void UpdateState_006edd30(const Position_006edd30* start, const Position_006edd30* finish);
 };
 extern unsigned int DAT_010a2720;
 void* __cdecl operator new(unsigned int size, void* place);
@@ -2121,7 +2121,7 @@ struct FUN_006ee740_Class
     int unk0, unk4, unk8, unkC, unk10, unk14, unk18, unk1C, unk20, unk24, unk28, unk2C, unk30, unk34, unk38, unk3C;
     LocalArray<Node*> nodesA, nodesB;
     LocalArray<Edge*> edgesA, edgesB, edgesC;
-    Node* FUN_006edc40();
+    Node* AllocateStorage_006edc40();
     Edge* CreateSize28();
     Edge* CreateObject();
     void SetEntry(unsigned, Edge*, bool);
@@ -3026,8 +3026,8 @@ class FUN_006f76b0_cls : public Base_b9266
     Sub_b9266D m_34;
     void ClearEntries();
     void BGSDistantTreeBlock_ClearQueuedTrees();
-    unsigned int FUN_00559450();
-    void FUN_006f74f0(int aFlag);
+    unsigned int Modelloader_GetReferencedThis();
+    void AssignTaskReference(int aFlag);
     ~FUN_006f76b0_cls();
 };
 struct S_006f9c20_Elem
@@ -3047,7 +3047,7 @@ struct S_006f9c20
     int unk00;
     S_006f9c20_Elem* unk04;
     int GetNextIndex();
-    void FUN_006f9ff0(S_006f9c20_Elem* p, int n);
+    void ConstructElementsInPlace(S_006f9c20_Elem* p, int n);
     int AddElement(const S_006f9c20_Elem* a1);
 };
 void* __cdecl operator new(unsigned int size, void* place);
@@ -3381,7 +3381,7 @@ struct SteamCallbackC
     ~SteamCallbackC();
 };
 void OnEvent();
-void FUN_006ff8f0();
+void Helper_006ff8f0();
 struct SteamUserInterface
 {
     virtual void v0();
@@ -3532,7 +3532,7 @@ struct FUN_006ffc20_shell : FUN_006ff970_Class
     {
         kGameServerCallback = 0
     };
-    void FUN_006ffc20(int object, int target);
+    void ProcessAndReturnValue_006ffc20(int object, int target);
 };
 struct FUN_006ffda0_cls
 {
@@ -3550,7 +3550,7 @@ struct FUN_006ffda0_cls
     unsigned char m_cb29;
 
     void AnimatingText_ResetBuffer();
-    int __thiscall FUN_00559450();
+    int __thiscall Modelloader_GetReferencedThis();
     int __thiscall BSStringT_char_Length();
 };
 int __cdecl FormHeapFreeAndLog_00401030(int a);
@@ -3633,7 +3633,7 @@ struct TraceVector
     float z;
     TraceVector ApplyScaled(float) const;
     TraceVector FUN_00439e90(const TraceVector&) const;
-    TraceVector FUN_00439ef0(const TraceVector&) const;
+    TraceVector SubtractIntoVector(const TraceVector&) const;
 };
 extern TraceVector DAT_011a9484;
 struct TraceReset
@@ -3880,7 +3880,7 @@ class EDBC0Builder
     EDBC0EntryArray m_kOpen;
 
     EDBC0Entry* CreateEntry();
-    void FUN_006edbc0();
+    void AddLocationToOpenAndAllArrays();
 };
 struct PBTriangle
 {
@@ -4069,7 +4069,7 @@ struct HostS
     int unk20, unk24, unk28, unk2C, unk30, unk34, unk38, unk3C;
     ArrN nodesA, nodesB;
     ArrE edgesA, edgesB, edgesC;
-    NodeS* FUN_006edc40();
+    NodeS* AllocateStorage_006edc40();
     EdgeS* CreateSize28();
     EdgeS* CreateObject();
     void SetEntry(unsigned int, EdgeS*, bool);
@@ -4095,11 +4095,11 @@ struct FNV_006ef920_Temporary
     }
     ~FNV_006ef920_Temporary()
     {
-        FUN_0042fa40();
+        Object_ForwardCall_0042fa40();
     }
     void FUN_0042fb00();
-    void FUN_0042fa40();
-    void* FUN_00559450();
+    void Object_ForwardCall_0042fa40();
+    void* Modelloader_GetReferencedThis();
 };
 struct FNV_006ef920_Serializer
 {
@@ -4237,7 +4237,7 @@ bool __cdecl Pathing_CheckLineOfSight(PathingLocation&, PathingLocation&, Pathin
 bool __cdecl FUN_006d7490(PathingLocation&, PathingLocation&, void*, void*);
 struct TargetHost
 {
-    bool FUN_006f0050(const NiPoint3&, NiPoint3&, TargetNavInfo*, int, const NiPoint3&, PathingLocation&,
+    bool UpdateState_006f0050(const NiPoint3&, NiPoint3&, TargetNavInfo*, int, const NiPoint3&, PathingLocation&,
                       PathingLocation&);
 };
 struct HeightVec
@@ -4392,7 +4392,7 @@ struct FUN_006815c0
 {
     float x, y, z;
     FUN_006815c0();
-    FUN_006815c0 FUN_00439ef0(const FUN_006815c0&) const;
+    FUN_006815c0 SubtractIntoVector(const FUN_006815c0&) const;
     float FUN_004a7290() const;
 };
 struct AvoidObject
@@ -4424,7 +4424,7 @@ struct FUN_006f2d80
     FUN_006f2d80();
     ~FUN_006f2d80();
     unsigned int FUN_0044ddc0();
-    FUN_006240d0* FUN_00558dd0(unsigned int);
+    FUN_006240d0* GetElementAddress16(unsigned int);
     void AppendElement(const FUN_006240d0&);
 };
 struct FUN_006dd0d0
@@ -4446,7 +4446,7 @@ struct AvoidPoints
     unsigned int FUN_0044ddc0();
     FUN_006dd0d0* FUN_00691750(unsigned int);
     void RemoveRange(unsigned int, unsigned int, int);
-    void FUN_006f28a0(unsigned int, const FUN_006dd0d0&);
+    void InsertPathingLocation(unsigned int, const FUN_006dd0d0&);
 };
 struct AvoidPath
 {
@@ -5153,11 +5153,11 @@ struct WorldData
 };
 struct WorldPointer
 {
-    WorldData* FUN_00559450();
+    WorldData* Modelloader_GetReferencedThis();
 };
 struct OwnerPointer
 {
-    WorldPointer* FUN_00559450();
+    WorldPointer* Modelloader_GetReferencedThis();
 };
 struct FUN_006fa210;
 struct FUN_006fb980
@@ -5201,8 +5201,8 @@ struct GlobalObject_00528cb0
     FUN_006fb980* object;
     GlobalObject_00528cb0(int value);
     ~GlobalObject_00528cb0();
-    void FUN_006f74f0(FUN_006fb980* value);
-    FUN_006fb980* FUN_00559450();
+    void AssignTaskReference(FUN_006fb980* value);
+    FUN_006fb980* Modelloader_GetReferencedThis();
 };
 extern const char DAT_0106e068[];
 struct FUN_006fa210
@@ -5357,8 +5357,8 @@ struct PathSmoother
     PointList m40;
     PointList m54;
 
-    void FUN_006edbc0();
-    void FUN_006edd30(NiPoint3& a, NiPoint3& b);
+    void AddLocationToOpenAndAllArrays();
+    void UpdateState_006edd30(NiPoint3& a, NiPoint3& b);
     void AddPathFromEdge(NiPoint3& p, unsigned int i);
     void AddPathFromContext(NiPoint3& p, unsigned int i);
     void CreateNavMeshEdges();
@@ -5383,7 +5383,7 @@ struct Host_006edc40
     int unk00, unk04, unk08, unk0C, unk10, unk14;
     int unk18, unk1C, unk20, unk24, unk28, unk2C;
     Allocator_006edc40 allocator;
-    void* __thiscall FUN_006edc40();
+    void* __thiscall AllocateStorage_006edc40();
 };
 class SMPPoint
 {
@@ -5401,7 +5401,7 @@ class SMPPoint
     float Length() const;
 };
 SMPPoint operator*(float fScalar, const SMPPoint& kPoint);
-SMPPoint FUN_006ba550(const SMPPoint* pkA, const SMPPoint* pkB, const SMPPoint* pkBefore, const SMPPoint* pkAfter);
+SMPPoint NiPoint3_UpdateState_006ba550(const SMPPoint* pkA, const SMPPoint* pkB, const SMPPoint* pkBefore, const SMPPoint* pkAfter);
 float FUN_00408840(float fValue);
 struct SMPNode
 {
@@ -5491,7 +5491,7 @@ struct C006ff8f0
     char unk00[0x40];
     unsigned int unk40;
 
-    void FUN_006ff8f0(SteamParam* a1);
+    void Helper_006ff8f0(SteamParam* a1);
 };
 struct ThreadOwner
 {

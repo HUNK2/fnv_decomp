@@ -454,21 +454,22 @@ void __stdcall nullsub_65(int)
 struct hkBroadPhasePrimary
 {
     hkBroadPhasePrimary();
-    virtual void FUN_00d0bbc0(int flag);
+    virtual void AdjustThisAndForward_00d0bbc0(int flag);
     int unk04;
 };
 
 struct hkBroadPhaseSecondary
 {
     hkBroadPhaseSecondary();
-    virtual void FUN_00d0bbc0(int flag);
+    virtual void AdjustThisAndForward_00d0bbc0(int flag);
 };
 
 struct hkBroadPhaseBorder : public hkBroadPhasePrimary, public hkBroadPhaseSecondary
 {
     hkBroadPhaseBorder();
 // @fnv 0x00d0bbc0
-    virtual void FUN_00d0bbc0(int flag);
+// src: GUESS 0x00d0bbc0 (confidence: low)
+    virtual void AdjustThisAndForward_00d0bbc0(int flag);
 };
 
 hkBroadPhasePrimary::hkBroadPhasePrimary()
@@ -482,7 +483,7 @@ hkBroadPhaseBorder::hkBroadPhaseBorder() : hkBroadPhasePrimary(), hkBroadPhaseSe
 // declare, so the second base's vtable gets a thunk that moves `this` back by the first base's size (0x10).
 struct PrimaryBase
 {
-    virtual void FUN_00d0bbe0();
+    virtual void AdjustThisAndForward_00d0bbe0();
     int unk04;
     int unk08;
     int unk0C;
@@ -490,14 +491,15 @@ struct PrimaryBase
 
 struct SecondaryBase
 {
-    virtual void FUN_00d0bbe0();
+    virtual void AdjustThisAndForward_00d0bbe0();
 };
 
 struct Derived : PrimaryBase, SecondaryBase
 {
     Derived();
 // @fnv 0x00d0bbe0
-    virtual void FUN_00d0bbe0();
+// src: GUESS 0x00d0bbe0 (confidence: low)
+    virtual void AdjustThisAndForward_00d0bbe0();
 };
 
 Derived::Derived()

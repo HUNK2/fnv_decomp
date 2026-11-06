@@ -219,7 +219,7 @@ struct Accumulator
     hkVector4 m_vec40;
     hkRotation m_rotation;
 
-    void FUN_00d72030(const Accumulator& other);
+    void InitializeFields_00d72030(const Accumulator& other);
 };
 
 class AxleParams
@@ -436,7 +436,7 @@ class Vehicle : public hkpVehicleInstance
         reinterpret_cast<Prepare>((*reinterpret_cast<void***>(this))[15])(this, body, contact);
     }
 
-    void FUN_00e37d60(void* arg1, GroundBody** arg2, Accumulator* arg3, Accumulator* arg4, AxleParams* arg5);
+    void ProcessEntries_00e37d60(void* arg1, GroundBody** arg2, Accumulator* arg3, Accumulator* arg4, AxleParams* arg5);
 };
 
 __forceinline void normalizeDirection(hkVector4& v)
@@ -475,7 +475,8 @@ __forceinline void rotateDirection(hkVector4& out, const hkRotation& a, const Ax
 }
 
 // @fnv 0x00e37d60
-void Vehicle::FUN_00e37d60(void* arg1, GroundBody** arg2, Accumulator* arg3, Accumulator* arg4, AxleParams* arg5)
+// src: GUESS 0x00e37d60 (confidence: low)
+void Vehicle::ProcessEntries_00e37d60(void* arg1, GroundBody** arg2, Accumulator* arg3, Accumulator* arg4, AxleParams* arg5)
 {
     int i = 0;
     if (reinterpret_cast<AxleDataView*>(m_data)->m_iWheelCount <= 0)
@@ -537,7 +538,7 @@ void Vehicle::FUN_00e37d60(void* arg1, GroundBody** arg2, Accumulator* arg3, Acc
             VelocityVector angVel;
             angVel.setMul4(motion->getInvDeltaTime(), motion->unkA0);
 
-            out2->FUN_00d72030(*out1);
+            out2->InitializeFields_00d72030(*out1);
             wheelInfo->m_contactBody2 = out2;
 
             rotateDirection(out2->m_contactNormal, out1->m_rotation, angVel.q);

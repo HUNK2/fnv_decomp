@@ -20,13 +20,13 @@ struct CpuObject
 {
     unsigned int unk00;
     unsigned short size;
-    void FUN_00dfe360();
+    void UpdateFields_00dfe360();
     CpuObject* FUN_00dfe3e0(unsigned int flags);
 };
 // @fnv 0x00dfe3e0
 CpuObject* CpuObject::FUN_00dfe3e0(unsigned int flags)
 {
-    FUN_00dfe360();
+    UpdateFields_00dfe360();
     if (flags & 1)
     {
         CpuAllocatorHolder* holder = hkMemoryRouter_getInstance();

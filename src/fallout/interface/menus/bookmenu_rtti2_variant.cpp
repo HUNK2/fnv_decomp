@@ -40,7 +40,7 @@ struct FUN_0073af60_shell
 void __cdecl _Deallocate(void*);
 struct FUN_0073ad00_shell
 {
-    void __thiscall FUN_0073ad30();
+    void __thiscall SetVtableAndProcessState_0073ad30();
     void* __thiscall FUN_0073ad00(unsigned int);
 };
 struct BSCullingProcess;

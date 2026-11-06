@@ -139,7 +139,7 @@ template <class N, class L> class AStarNode
     const N& FUN_00413f40() const;
     const L& FUN_007d6bb0() const;
     AStarNode* GetField54() const;
-    float FUN_006a7f50() const;
+    float AStarSearch_EvaluateValue_006a7f50() const;
 };
 class NavMeshInfo;
 
@@ -150,7 +150,7 @@ void WrapValueToRange(float&, float, float);
 
 extern const NiPoint3 DAT_011a9484;
 bool Pathing_FindClosestOpenEdge(const PathingLocation&, float, NavMeshEdgePoint&);
-NiPoint3 FUN_006ba550(const NiPoint3&, const NiPoint3&, const NiPoint3&, const NiPoint3&);
+NiPoint3 NiPoint3_UpdateState_006ba550(const NiPoint3&, const NiPoint3&, const NiPoint3&, const NiPoint3&);
 bool NavMeshMath_Find2DIntersection_2(const NiPoint3&, const NiPoint3&, const NiPoint3&, const NiPoint3&, NiPoint3&);
 class Segment
 {
@@ -172,7 +172,7 @@ bool NavMeshMath_DoCircleAndSegmentIntersect(const NiPoint3&, float, const NiPoi
 void IntersectLineCircle(const Sphere&, const Segment&, SphereIntersection&);
 float DistanceToSegment(const NiPoint3&, const NiPoint3&, const NiPoint3&, float*);
 extern SettingT_GameSettingCollection_ DAT_011d7084;
-bool FUN_009a3830(NavMesh* const&, NavMesh* const&);
+bool Actor_AreReferencedValuesEqual(NavMesh* const&, NavMesh* const&);
 
 // @fnv 0x006afcc0
 void PathSmootherPOVSearch::AddPathPoints(bool addGoal)
@@ -188,7 +188,7 @@ void PathSmootherPOVSearch::AddPathPoints(bool addGoal)
             SineCosine difference =
                 Links.GetBufferElementAddress(i).m_kStartAngle - Links.GetBufferElementAddress(i - 1).m_kEnd;
             CircularArc halfCircle(SineCosine(-1.5707963705062866f), SineCosine(1.5707963705062866f), ANGLE_DIRECTION_AD_CCW);
-            if (difference.AngleSinCos_GetAngle() * Nodes.FUN_006a1440(i).m_pAvoidNode->fRadius < 50.0 &&
+            if (difference.AngleSinCos_GetAngle() * Nodes.Object_GetIndexedValue_006a1440(i).m_pAvoidNode->fRadius < 50.0 &&
                 halfCircle.AngleSinCosArc_WithinRange(difference))
                 bAdd = false;
             if (m_bUnderwaterPath)
@@ -205,16 +205,16 @@ void PathSmootherPOVSearch::AddPathPoints(bool addGoal)
             PathingLocation Location(reinterpret_cast<NiPoint3&>(Links.GetBufferElementAddress(i).m_kStartPoint.fc),
                                      reinterpret_cast<NavMesh*&>(Links.GetBufferElementAddress(i).m_kStartPoint.f0)->GetNavMeshInfo_0068efb0());
             NiPoint3 Dir =
-                RotatePoint90(Links.GetBufferElementAddress(i).m_kStartAngle, Nodes.FUN_006a1440(i).Direction);
+                RotatePoint90(Links.GetBufferElementAddress(i).m_kStartAngle, Nodes.Object_GetIndexedValue_006a1440(i).Direction);
             if (i > 0)
             {
                 SineCosine difference =
                     Links.GetBufferElementAddress(i).m_kStartAngle - Links.GetBufferElementAddress(i - 1).m_kEnd;
-                float arcLength = std::abs(difference.AngleSinCos_GetAngle() * Nodes.FUN_006a1440(i).m_pAvoidNode->fRadius);
+                float arcLength = std::abs(difference.AngleSinCos_GetAngle() * Nodes.Object_GetIndexedValue_006a1440(i).m_pAvoidNode->fRadius);
                 Dir *= arcLength;
             }
             else
-                Dir *= Nodes.FUN_006a1440(i).m_pAvoidNode->fRadius;
+                Dir *= Nodes.Object_GetIndexedValue_006a1440(i).m_pAvoidNode->fRadius;
             Dir *= 3.0f;
             if (Dir.FUN_004a7290() > segmentLength * segmentLength)
             {
@@ -233,7 +233,7 @@ void PathSmootherPOVSearch::AddPathPoints(bool addGoal)
         }
         PathingLocation Location(reinterpret_cast<NiPoint3&>(Links.GetBufferElementAddress(i).m_kEndPoint.fc),
                                  reinterpret_cast<NavMesh*&>(Links.GetBufferElementAddress(i).m_kEndPoint.f0)->GetNavMeshInfo_0068efb0());
-        NiPoint3 Dir = RotatePoint90(Links.GetBufferElementAddress(i).m_kEnd, Nodes.FUN_006a1440(i + 1).Direction);
+        NiPoint3 Dir = RotatePoint90(Links.GetBufferElementAddress(i).m_kEnd, Nodes.Object_GetIndexedValue_006a1440(i + 1).Direction);
         AddNavMeshEdgeRecord(reinterpret_cast<NavMesh*&>(Links.GetBufferElementAddress(i).m_kStartPoint.f0),
                              reinterpret_cast<unsigned short&>(Links.GetBufferElementAddress(i).m_kStartPoint.f4),
                              reinterpret_cast<NiPoint3&>(Links.GetBufferElementAddress(i).m_kStartPoint.fc),
@@ -242,11 +242,11 @@ void PathSmootherPOVSearch::AddPathPoints(bool addGoal)
         {
             SineCosine difference =
                 Links.GetBufferElementAddress(i + 1).m_kStartAngle - Links.GetBufferElementAddress(i).m_kEnd;
-            float arcLength = std::abs(difference.AngleSinCos_GetAngle() * Nodes.FUN_006a1440(i + 1).m_pAvoidNode->fRadius);
+            float arcLength = std::abs(difference.AngleSinCos_GetAngle() * Nodes.Object_GetIndexedValue_006a1440(i + 1).m_pAvoidNode->fRadius);
             Dir *= arcLength;
         }
         else
-            Dir *= Nodes.FUN_006a1440(i + 1).m_pAvoidNode->fRadius;
+            Dir *= Nodes.Object_GetIndexedValue_006a1440(i + 1).m_pAvoidNode->fRadius;
         Dir *= 3.0f;
         if (Dir.FUN_004a7290() > segmentLength * segmentLength)
         {
@@ -418,10 +418,10 @@ bool PathSmootherPOVSearch::SearchForPath(PathingRequest* request,
     AddPathPoints(!success);
     for (unsigned int i = 0; i < const_cast<BSSimpleArray<NavMeshTriangleReference>&>(triangles).GetSize(); ++i)
     {
-        if (triangles.FUN_006b3160(i).NavMeshSearchNode_GetTriangle()->FUN_00691140(0x1000))
+        if (triangles.GetIndexedValue_006b3160(i).NavMeshSearchNode_GetTriangle()->FUN_00691140(0x1000))
         {
-            void* door = (void*)triangles.FUN_006b3160(i)
-                             .m_pLocationNavMesh->GetClosedDoorInfo(triangles.FUN_006b3160(i).m_usTriangleIdentifier)
+            void* door = (void*)triangles.GetIndexedValue_006b3160(i)
+                             .m_pLocationNavMesh->GetClosedDoorInfo(triangles.GetIndexedValue_006b3160(i).m_usTriangleIdentifier)
                              ->m_uiDoorFormID;
             reinterpret_cast<BSSimpleArray<void*>*>(&m_pOutputSolution->unk30)->Add(door);
         }
@@ -585,7 +585,7 @@ void PathSmootherPOVSearch::AddNavMeshEdgeRecord(NavMesh* mesh, unsigned short t
                     NavMeshEdgeVertexPair vertices =
                         entry.m_pLocationNavMesh->NavMesh_GetEdgeVertices_0(entry.m_usTriangleID, entry.m_iEdgeIndex);
                     NiPoint3 center = (*vertices.p1 + *vertices.p2) * 0.5f;
-                    CurrentLoc = FUN_006ba550(*vertices.p1, *vertices.p2, start, end);
+                    CurrentLoc = NiPoint3_UpdateState_006ba550(*vertices.p1, *vertices.p2, start, end);
                     CurrentLoc += (center - CurrentLoc) * 0.01f;
                 }
                 NiPoint3 exitNormal = exit.m_pLocationNavMesh->FUN_006971e0(exit.m_usTriangleID);
@@ -692,7 +692,7 @@ void PathSmootherPOVSearch::CollectUniqueNavMeshes()
     BSSimpleArray<NavMesh*> uniqueMeshes;
     for (unsigned int i = 0; i < const_cast<BSSimpleArray<NavMeshTriangleReference>*>(Triangles)->GetSize(); ++i)
     {
-        if (uniqueMeshes.Find(Triangles->BSSimpleArray_CombatMember_1024_GetAt(i).m_pLocationNavMesh, 0, FUN_009a3830) == 0xffffffff)
+        if (uniqueMeshes.Find(Triangles->BSSimpleArray_CombatMember_1024_GetAt(i).m_pLocationNavMesh, 0, Actor_AreReferencedValuesEqual) == 0xffffffff)
             uniqueMeshes.Add(Triangles->BSSimpleArray_CombatMember_1024_GetAt(i).m_pLocationNavMesh);
     }
     for (unsigned int i = 0; i < uniqueMeshes.GetSize(); ++i)
@@ -930,7 +930,7 @@ bool PathSmootherPOVSearch::FindPathToPoint(const POVNode* node, PathSmootherPOV
                                 continue;
                             discount *= 0.8999999761581421;
                             BSClamp_float(discount, 0.0f, 1.0f);
-                            cost = node->FUN_006a7f50();
+                            cost = node->AStarSearch_EvaluateValue_006a7f50();
                             if (node->GetField54())
                                 cost += sourceArc.FUN_006a07a0(currentNode.m_pAvoidNode->fRadius) * pov->m_fWeight *
                                         (1.0f - discount);
@@ -1021,7 +1021,8 @@ FUN_006a04b0_stand* FUN_006a04b0_stand::SetCenterAndRadius(const NiPoint3* apCen
 
 // Initializes the object: sets index to -1, zeroes position and a float, constructs NiBound, initializes two AvoidSpheres, and sets a float to 1.0.
 // @fnv 0x006ae120
-void* __fastcall FUN_006ae120(char* pObject)
+// src: GUESS 0x006ae120 (confidence: medium)
+void* __fastcall Object_InitializePathingFields(char* pObject)
 {
     *(int*)pObject = -1;
     *(NiPoint3*)(pObject + 4) = NiPoint3::ZERO;
@@ -1062,7 +1063,8 @@ NavMeshEdgeSegment& BSSimpleArray<NavMeshEdgeSegment>::GetBufferElementAddress(u
 
 // @fnv 0x006b3160
 template <>
-const NavMeshTriangleReference& BSSimpleArray<NavMeshTriangleReference>::FUN_006b3160(unsigned int uiIndex) const
+// src: GUESS 0x006b3160 (confidence: low)
+const NavMeshTriangleReference& BSSimpleArray<NavMeshTriangleReference>::GetIndexedValue_006b3160(unsigned int uiIndex) const
 {
     return pBuffer[uiIndex];
 }
@@ -1071,14 +1073,14 @@ const NavMeshTriangleReference& BSSimpleArray<NavMeshTriangleReference>::FUN_006
 template <>
 const NavMeshTriangleReference& BSSimpleArray<NavMeshTriangleReference>::GetFirstElement() const
 {
-    return FUN_006b3160(0);
+    return GetIndexedValue_006b3160(0);
 }
 
 // @fnv 0x006b31a0
 template <>
 const NavMeshTriangleReference& BSSimpleArray<NavMeshTriangleReference>::GetLastElement() const
 {
-    return FUN_006b3160(iSize - 1);
+    return GetIndexedValue_006b3160(iSize - 1);
 }
 
 class Date
@@ -1158,7 +1160,8 @@ FUN_006b37b0_stand* FUN_006b37b0_stand::SetObject(int* pObject)
 namespace fnv_006b37e0 {
 // If the object pointer at pThis is non-null, calls FUN_00401970 on the NiAVObject at offset 0x10 of that pointer.
 // @fnv 0x006b37e0
-void __fastcall FUN_006b37e0(char** pThis)
+// src: GUESS 0x006b37e0 (confidence: medium)
+void __fastcall Object_ReleaseReferencedObject_006b37e0(char** pThis)
 {
     if (*pThis)
     {
@@ -1171,7 +1174,7 @@ void __fastcall FUN_006b37e0(char** pThis)
 template <>
 const PathSmootherPOVAvoidanceNode& BSSimpleArray<PathSmootherPOVAvoidanceNode>::GetLastEdge()
 {
-    return FUN_006a1440(iSize - 1);
+    return Object_GetIndexedValue_006a1440(iSize - 1);
 }
 
 // @fnv 0x006b3100
@@ -1345,7 +1348,7 @@ struct FUN_00996840_shell
 };
 struct PSNodePool
 {
-    PSNode* FUN_006b3d90();
+    PSNode* AllocateAndConstructObject68();
     char pad[0x10];
 };
 struct PSOpenList
@@ -1408,7 +1411,7 @@ int FUN_006b3420_shell::InsertOrUpdateNode(unsigned int aiKey, float afCost, PSN
             }
         }
     }
-    *aRetNode = kPool.FUN_006b3d90();
+    *aRetNode = kPool.AllocateAndConstructObject68();
     (*aRetNode)->uiKey = aiKey;
     (*aRetNode)->m_fPathingCostCur = afCost;
     (*aRetNode)->pNext = *pBucketHead;
@@ -3814,7 +3817,8 @@ struct NiPoint3Cmp
 NiPoint3 operator*(float scale, const NiPoint3& point);
 
 // @fnv 0x006ba550
-NiPoint3 FUN_006ba550(const NiPoint3& a, const NiPoint3& b, const NiPoint3& c, const NiPoint3& d)
+// src: GUESS 0x006ba550 (confidence: low)
+NiPoint3 NiPoint3_UpdateState_006ba550(const NiPoint3& a, const NiPoint3& b, const NiPoint3& c, const NiPoint3& d)
 {
     if (((NiPoint3Cmp*)&a)->IsEqual(b))
         return a;
@@ -3874,12 +3878,12 @@ void PathSmootherPOVSearch::AddAvoidanceNodes()
         centerSlot13->center =
             ((NiPoint3&)m_kPathStartPosition).FUN_00439e90((NiPoint3&)m_kGoalPosition).ApplyScaled(AvoidNodes::DAT_01016248);
         centerSlot13->radius =
-            ((NiPoint3&)m_kPathStartPosition).FUN_00439ef0((NiPoint3&)m_kGoalPosition).FUN_00457990() * AvoidNodes::DAT_010290c0;
+            ((NiPoint3&)m_kPathStartPosition).SubtractIntoVector((NiPoint3&)m_kGoalPosition).FUN_00457990() * AvoidNodes::DAT_010290c0;
         centerSlot13->vertex = 0xffff;
         centerSlot13->cost = AvoidNodes::DAT_01016410;
         m_kPathPoints.Add(reinterpret_cast<PathSmootherPOVPoint*&>(centerSlot13));
         m_kRequestPathPoints.Add(reinterpret_cast<PathSmootherPOVPoint*&>(centerSlot13));
-        NiPoint3 direction = ((NiPoint3&)m_kPathStartPosition).FUN_00439ef0((NiPoint3&)m_kGoalPosition);
+        NiPoint3 direction = ((NiPoint3&)m_kPathStartPosition).SubtractIntoVector((NiPoint3&)m_kGoalPosition);
         NiPoint3 perpendicularSlot2 = AvoidNodes::DAT_011a9484.FUN_004b3800(direction);
         AvoidNodes::FUN_006ae120* leftSlot15 = new AvoidNodes::FUN_006ae120;
         leftSlot15->type = 4;
@@ -3887,7 +3891,7 @@ void PathSmootherPOVSearch::AddAvoidanceNodes()
                                  .FUN_00439e90(direction.ApplyScaled(AvoidNodes::DAT_0101df44))
                                  .FUN_00439e90(perpendicularSlot2.ApplyScaled(AvoidNodes::DAT_0101df44));
         leftSlot15->radius =
-            ((NiPoint3&)m_kPathStartPosition).FUN_00439ef0((NiPoint3&)m_kGoalPosition).FUN_00457990() * AvoidNodes::DAT_010290b0;
+            ((NiPoint3&)m_kPathStartPosition).SubtractIntoVector((NiPoint3&)m_kGoalPosition).FUN_00457990() * AvoidNodes::DAT_010290b0;
         leftSlot15->vertex = 0xffff;
         leftSlot15->cost = AvoidNodes::DAT_01016410;
         m_kPathPoints.Add(reinterpret_cast<PathSmootherPOVPoint*&>(leftSlot15));
@@ -3896,9 +3900,9 @@ void PathSmootherPOVSearch::AddAvoidanceNodes()
         rightSlot10->type = 4;
         rightSlot10->center = ((NiPoint3&)m_kGoalPosition)
                                   .FUN_00439e90(direction.ApplyScaled(AvoidNodes::DAT_0101df44))
-                                  .FUN_00439ef0(perpendicularSlot2.ApplyScaled(AvoidNodes::DAT_0101df44));
+                                  .SubtractIntoVector(perpendicularSlot2.ApplyScaled(AvoidNodes::DAT_0101df44));
         rightSlot10->radius =
-            ((NiPoint3&)m_kPathStartPosition).FUN_00439ef0((NiPoint3&)m_kGoalPosition).FUN_00457990() * AvoidNodes::DAT_010290b0;
+            ((NiPoint3&)m_kPathStartPosition).SubtractIntoVector((NiPoint3&)m_kGoalPosition).FUN_00457990() * AvoidNodes::DAT_010290b0;
         rightSlot10->vertex = 0xffff;
         rightSlot10->cost = AvoidNodes::DAT_01016410;
         m_kPathPoints.Add(reinterpret_cast<PathSmootherPOVPoint*&>(rightSlot10));
@@ -4299,7 +4303,7 @@ bool PathSmootherPOVSearch::FindPath(const NavMeshEdgePoint& start, const NiPoin
                     NavMeshEdgeVertexPair index =
                         next.m_pLocationNavMesh->NavMesh_GetEdgeVertices_0(next.m_usTriangleID, next.m_iEdgeIndex);
                     NiPoint3 point = (*index.p1 + *index.p2) * 0.5F;
-                    position = FUN_006ba550(*index.p1, *index.p2, position2, position8);
+                    position = NiPoint3_UpdateState_006ba550(*index.p1, *index.p2, position2, position8);
                     position += (point - position) * 0.01F;
                 }
                 current = next;
@@ -4521,7 +4525,7 @@ struct VectorUnitizer
 };
 struct VectorNegation
 {
-    NiPoint3 FUN_004a0bd0() const;
+    NiPoint3 GetNegatedVector() const;
 };
 extern const double DAT_0106b9e8;
 extern const float DAT_01016248;
@@ -4561,27 +4565,27 @@ bool PathSmootherPOVSearch::TripleCheckSegmentAgainstNavMesh(const NavMeshEdgePo
     if (flipA)
     {
         offsetAVal = ((lateral4 * spread9) * DAT_01016248) + (advance3 * DAT_01016248);
-        offsetBVal = ((reinterpret_cast<const VectorNegation*>(&lateral4)->FUN_004a0bd0() * spread9) * DAT_01016248) +
+        offsetBVal = ((reinterpret_cast<const VectorNegation*>(&lateral4)->GetNegatedVector() * spread9) * DAT_01016248) +
                      (advance3 * DAT_01016248);
     }
     else
     {
         offsetAVal = (lateral4 * pRequest->GetFloatAtOffset68()) * DAT_010177e8;
         offsetBVal =
-            (reinterpret_cast<const VectorNegation*>(&lateral4)->FUN_004a0bd0() * pRequest->GetFloatAtOffset68()) *
+            (reinterpret_cast<const VectorNegation*>(&lateral4)->GetNegatedVector() * pRequest->GetFloatAtOffset68()) *
             DAT_010177e8;
     }
     if (flipB)
     {
         aOffsetC = ((lateral4 * spread9) * DAT_01016248) - (advance3 * DAT_01016248);
-        offsetD2 = ((reinterpret_cast<const VectorNegation*>(&lateral4)->FUN_004a0bd0() * spread9) * DAT_01016248) -
+        offsetD2 = ((reinterpret_cast<const VectorNegation*>(&lateral4)->GetNegatedVector() * spread9) * DAT_01016248) -
                    (advance3 * DAT_01016248);
     }
     else
     {
         aOffsetC = (lateral4 * pRequest->GetFloatAtOffset68()) * DAT_010177e8;
         offsetD2 =
-            (reinterpret_cast<const VectorNegation*>(&lateral4)->FUN_004a0bd0() * pRequest->GetFloatAtOffset68()) *
+            (reinterpret_cast<const VectorNegation*>(&lateral4)->GetNegatedVector() * pRequest->GetFloatAtOffset68()) *
             DAT_010177e8;
     }
 

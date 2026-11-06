@@ -67,13 +67,13 @@ struct Owner
     Holder* m_pHolder;
 };
 
-void __cdecl FUN_00cb3da0(void* apTarget, Owner* apOwner);
+void __cdecl Object_NotifyAndDetachRecord(void* apTarget, Owner* apOwner);
 
 // @fnv 0x00d070e0
 // src: HAVOK_SRC 0x00d070e0
 void __stdcall hkpSimulationIsland_removeConstraintFromCriticalLockedIsland(Owner* apOwner)
 {
-    FUN_00cb3da0(apOwner->m_pHolder->m_pFlagTarget, apOwner);
+    Object_NotifyAndDetachRecord(apOwner->m_pHolder->m_pFlagTarget, apOwner);
 }
 
 struct FUN_00d07130Arg
@@ -345,7 +345,8 @@ struct GlobalObjectO2_00d472a0
 };
 extern GlobalObjectO2_00d472a0 g_012687cc;
 // @fnv 0x00d078d0
-GlobalObjectO2_00d472a0* FUN_00d078d0()
+// src: GUESS 0x00d078d0 (confidence: low)
+GlobalObjectO2_00d472a0* hkpSimulationIsland_GetField012687ccAddress()
 {
     return &g_012687cc;
 }

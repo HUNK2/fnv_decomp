@@ -10,7 +10,7 @@ public:
     virtual ~BSAudioManagerThread();
     virtual unsigned int ThreadProc();
 
-    void __thiscall FUN_00aa6590(int, int);
+    void __thiscall ForwardCall_00aa6590(int, int);
     void ExitThread_00ae7ac0();
     void Suspended();
 

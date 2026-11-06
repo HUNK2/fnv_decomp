@@ -523,7 +523,7 @@ void FUN_00a3c420_cls::CollapseConstantKeys()
     }
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+void* __cdecl Object_DispatchCommandFour(unsigned int size);
 extern float DAT_0109a918;
 class A3C8D0_Object : public NiKeyBasedInterpolator
 {
@@ -534,7 +534,7 @@ class A3C8D0_Object : public NiKeyBasedInterpolator
 
     static void* operator new(unsigned int size)
     {
-        return FUN_00aa13e0(size);
+        return Object_DispatchCommandFour(size);
     }
     A3C8D0_Object() : m_0C(DAT_0109a918), m_10(0)
     {}

@@ -102,7 +102,7 @@ void __fastcall NiDirectionalLight_GetViewerStrings(NiDirectionalLight* light, v
 }
 }  // namespace fnv_00a75d70
 
-extern "C" void* __cdecl FUN_00aa13e0(unsigned int size);
+extern "C" void* __cdecl Object_DispatchCommandFour(unsigned int size);
 inline void* operator new(unsigned int, void* memory) throw()
 {
     return memory;
@@ -110,7 +110,7 @@ inline void* operator new(unsigned int, void* memory) throw()
 // @fnv 0x00a75d50
 NiDirectionalLight* __cdecl CreateNiDirectionalLight()
 {
-    return ::new (FUN_00aa13e0(sizeof(NiDirectionalLight))) NiDirectionalLight;
+    return ::new (Object_DispatchCommandFour(sizeof(NiDirectionalLight))) NiDirectionalLight;
 }
 
 // Allocates a NiDirectionalLight, initializes it via FUN_00a75c20, copies member data and m_kWorldDir from the source, and returns the new object.
@@ -118,7 +118,7 @@ NiDirectionalLight* __cdecl CreateNiDirectionalLight()
 // src: XBOX_PDB 0x00a75cf0
 NiObject* __fastcall NiDirectionalLight_CreateClone(NiDirectionalLight* light, void*, CloningProcess* kCloning)
 {
-    NiDirectionalLight* pkObject = (NiDirectionalLight*)FUN_00aa13e0(sizeof(NiDirectionalLight));
+    NiDirectionalLight* pkObject = (NiDirectionalLight*)Object_DispatchCommandFour(sizeof(NiDirectionalLight));
 
     if (pkObject)
         pkObject = (NiDirectionalLight*)NiDirectionalLight_NiDirectionalLight((char*)pkObject);

@@ -21,12 +21,13 @@ extern int _DAT_0102e388;
 
 struct FUN_00cf4de0_class
 {
-    void FUN_00cf4de0(void);
+    void ReleaseReferencedObjectsAndLock(void);
 };
 
 // Resets the vtable, releases the two referenced objects at offsets 0x18 and 0x1c, then destroys the lock at 0x14 and resets the vtable again.
 // @fnv 0x00cf4de0
-void FUN_00cf4de0_class::FUN_00cf4de0(void)
+// src: GUESS 0x00cf4de0 (confidence: medium)
+void FUN_00cf4de0_class::ReleaseReferencedObjectsAndLock(void)
 {
     *(void**)this = &DAT_010cc320;
     if (*(void**)((char*)this + 0x18))

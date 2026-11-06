@@ -79,13 +79,15 @@ hkpShapeContainer* __fastcall GetConvexListContainer(hkpConvexListShape* self)
 }
 
 // @fnv 0x00d5e0d0
-int __cdecl FUN_00d5e0d0()
+// src: GUESS 0x00d5e0d0 (confidence: high)
+int __cdecl hkpConvexListShape_ReturnZero()
 {
     return 0;
 }
 
 // @fnv 0x00d5e0e0
-int __stdcall FUN_00d5e0e0(int)
+// src: GUESS 0x00d5e0e0 (confidence: high)
+int __stdcall Object_ReturnZero_00d5e0e0(int)
 {
     return 0;
 }
@@ -555,7 +557,7 @@ void __fastcall CastConvexListRayWithCollector(const hkpConvexListShape* self, v
 // declare, so the second base's vtable gets a thunk that moves `this` back by the first base's size (0x14).
 struct PrimaryBase
 {
-    virtual void FUN_00d5e840();
+    virtual void AdjustThisAndForward_00d5e840();
     int unk04;
     int unk08;
     int unk0C;
@@ -564,14 +566,15 @@ struct PrimaryBase
 
 struct SecondaryBase
 {
-    virtual void FUN_00d5e840();
+    virtual void AdjustThisAndForward_00d5e840();
 };
 
 struct Derived : PrimaryBase, SecondaryBase
 {
     Derived();
 // @fnv 0x00d5e840
-    virtual void FUN_00d5e840();
+// src: GUESS 0x00d5e840 (confidence: low)
+    virtual void AdjustThisAndForward_00d5e840();
 };
 
 Derived::Derived()

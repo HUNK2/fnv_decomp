@@ -3513,7 +3513,7 @@ struct AssignedTargetView
 };
 struct AssignedExtraView
 {
-    void FUN_0041c930(void*, unsigned int, unsigned int, bool, bool, bool);
+    void AllocateStorage_0041c930(void*, unsigned int, unsigned int, bool, bool, bool);
 };
 struct AssignedArgument
 {
@@ -3558,7 +3558,7 @@ void AssignedCharacter::Character_InitiateCannibalPackage(AssignedArgument* argu
     ((AssignedProcess*)GetProcess())->Update();
     if (((AssignedProcess*)m_pBaseProcess)->GetTarget())
     {
-        BSFile_GetDevice()->FUN_0041c930(
+        BSFile_GetDevice()->AllocateStorage_0041c930(
             ((AssignedProcess*)m_pBaseProcess)->GetTarget(), ((AssignedProcess*)m_pBaseProcess)->State23c(),
             ((AssignedProcess*)m_pBaseProcess)->State128(), ((AssignedProcess*)m_pBaseProcess)->State11c(),
             ((AssignedProcess*)m_pBaseProcess)->State4e8(), ((AssignedProcess*)m_pBaseProcess)->State5a4());

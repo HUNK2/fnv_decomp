@@ -646,7 +646,7 @@ extern int DAT_011f91c0;
 extern unsigned int DAT_012003ec;
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+void* __cdecl Object_DispatchCommandFour(unsigned int size);
 unsigned int __cdecl GetFloatQuadTable();
 
 inline void* operator new[](unsigned int n, Q64_Pool& p)
@@ -671,7 +671,7 @@ struct Q64_Obj
 {
     static void* operator new(unsigned int n)
     {
-        return FUN_00aa13e0(n);
+        return Object_DispatchCommandFour(n);
     }
     static void operator delete(void* p);
 };
@@ -702,7 +702,7 @@ struct Q64_Buf : Q64_Obj
     int unk20;
     int unk24;
     int unk28;
-    void __thiscall FUN_00a72ca0(int a);
+    void __thiscall SetSize_Thunk(int a);
     void __thiscall NiAdditionalGeometryData_SetDataBlock(int a, unsigned int b, unsigned int c, int d);
     void __thiscall NiAdditionalGeometryData_SetDataStream(int a, int b, int c, int d, unsigned short e, int f, int g);
     Q64_Buf(unsigned short nv, int a);
@@ -944,7 +944,7 @@ NiObject* __cdecl ParticleShader_GetParticleGeometry()
 
     Q64_Geo* geo = new Q64_Geo(nv, verts, 0, 0, uv, 1, 0, tris, idx);
     Q64_Buf* buf = new Q64_Buf(nv, 1);
-    buf->FUN_00a72ca0(1);
+    buf->SetSize_Thunk(1);
     buf->NiAdditionalGeometryData_SetDataBlock(0, GetFloatQuadTable(), nv * 4, 1);
     buf->NiAdditionalGeometryData_SetDataStream(0, 0, 0, 1, nv, 4, 4);
     geo->FUN_00a67260(buf);

@@ -150,7 +150,8 @@ int hkpRagdollConstraintData::vf06()
 }
 
 // @fnv 0x00cdead0
-int __cdecl FUN_00cdead0()
+// src: GUESS 0x00cdead0 (confidence: high)
+int __cdecl hkpRagdollConstraintData_ReturnConstant_7()
 {
     return 7;
 }
@@ -387,7 +388,7 @@ __declspec(noinline) hkpLimitedHingeConstraintDataAtoms::hkpLimitedHingeConstrai
     *limit = 0xc;
     static_cast<volatile unsigned short&>(m_kBallSocket.m_type) = 5;
     m_kBallSocket.m_ucBodiesToNotify = 0;
-    reinterpret_cast<hkUFloat8&>(m_kBallSocket.m_solvingMethod).FUN_00ca9360(&f);
+    reinterpret_cast<hkUFloat8&>(m_kBallSocket.m_solvingMethod).FindFloatTableIndex(&f);
     m_kBallSocket.m_usFlags = DAT_0104da48;
 }
 

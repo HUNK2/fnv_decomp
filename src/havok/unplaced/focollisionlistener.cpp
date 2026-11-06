@@ -8,25 +8,26 @@
 extern int DAT_0104dd5c;
 struct FUN_006234d0
 {
-    void __thiscall FUN_006234f0();
+    void __thiscall SetVtableAndProcessState_006234f0();
     ~FUN_006234d0();
 };
 // @fnv 0x006234d0
 FUN_006234d0::~FUN_006234d0()
 {
     *(int*)this = (int)&DAT_0104dd5c;
-    FUN_006234f0();
+    SetVtableAndProcessState_006234f0();
 }
 
 extern int DAT_0104dd7c;
 
 struct FUN_006234f0_class
 {
-    void FUN_006234f0();
+    void SetVtableAndProcessState_006234f0();
 };
 
 // @fnv 0x006234f0
-void FUN_006234f0_class::FUN_006234f0()
+// src: GUESS 0x006234f0 (confidence: low)
+void FUN_006234f0_class::SetVtableAndProcessState_006234f0()
 {
     *reinterpret_cast<int**>(this) = &DAT_0104dd7c;
 }
@@ -99,7 +100,7 @@ struct FUN_00623510_class
 // @fnv 0x00623510
 void* FUN_00623510_class::FUN_00623510(unsigned int flags)
 {
-    ((FUN_006234d0*)this)->FUN_006234f0();
+    ((FUN_006234d0*)this)->SetVtableAndProcessState_006234f0();
     if (flags & 1)
         Deallocate(this);
     return this;
@@ -140,7 +141,7 @@ FUN_006235c0::~FUN_006235c0()
 
 struct SmartRef
 {
-    void* FUN_00559450();
+    void* Modelloader_GetReferencedThis();
 };
 struct Request
 {
@@ -156,7 +157,7 @@ struct RequestList
 };
 struct Reference
 {
-    void* FUN_004ae750();
+    void* Bipedanim_GetReferenceFlagsOrZero();
 };
 struct Form
 {
@@ -186,21 +187,21 @@ void Processor::ProcessRequests()
     {
         Request* item = *pRequests->FUN_006815c0();
         pRequests->FUN_0063f7b0();
-        if (item->subject.FUN_00559450() && item->amount > 0.0)
+        if (item->subject.Modelloader_GetReferencedThis() && item->amount > 0.0)
         {
-            void* form = static_cast<Reference*>(item->subject.FUN_00559450())->FUN_004ae750();
+            void* form = static_cast<Reference*>(item->subject.Modelloader_GetReferencedThis())->Bipedanim_GetReferenceFlagsOrZero();
             Form* ref = form ? FUN_004b5a20(form) : 0;
             void* actor = ref ? ref->FUN_0044ddc0() : 0;
             Actor* base = actor ? TESObjectREFR_FindReferenceFor3D(actor) : 0;
             if (base)
             {
-                base->vfn_164(reinterpret_cast<int>(item->source.FUN_00559450()));
+                base->vfn_164(reinterpret_cast<int>(item->source.Modelloader_GetReferencedThis()));
                 if (!AILinearTaskThreadManager_ShouldQueue3DTask())
                     base->DamageObject(item->amount, false);
                 else
                     FUN_004537b0()->QueueDamageTask(base, item->amount, 0);
-                if (base->FUN_00477ba0() && item->source.FUN_00559450() &&
-                    static_cast<SmartRef*>(item->source.FUN_00559450())->FUN_00559450() == g_thePlayer)
+                if (base->FUN_00477ba0() && item->source.Modelloader_GetReferencedThis() &&
+                    static_cast<SmartRef*>(item->source.Modelloader_GetReferencedThis())->Modelloader_GetReferencedThis() == g_thePlayer)
                     g_thePlayer->SetEffectValue(10, 8.0f, 0);
             }
         }
@@ -597,7 +598,7 @@ template <class T> struct HitPtr
 struct HitHandle
 {
     int m_iHandle;
-    void FUN_0042f780(void* pkHandle);
+    void AssignRetainedObject(void* pkHandle);
 };
 struct HitEntry
 {
@@ -640,7 +641,7 @@ void HitTrackerImpl::AddHitEntries(float fAmount, HitForm* pkFormA, HitForm* pkF
             HitEntry* pkEntry = new HitEntry;
             pkEntry->m_spReferencedObject.FUN_0066b0d0(bhkEntity_Getbhk(pkFormA));
             pkEntry->m_fAmount = fValueVal2;
-            pkEntry->m_kSource.FUN_0042f780(pkActorB ? pkActorB->GetHandle() : 0);
+            pkEntry->m_kSource.AssignRetainedObject(pkActorB ? pkActorB->GetHandle() : 0);
             m_kEntries.FUN_005ae3d0(pkEntry);
         }
     }
@@ -656,7 +657,7 @@ void HitTrackerImpl::AddHitEntries(float fAmount, HitForm* pkFormA, HitForm* pkF
             HitEntry* pkEntry2 = new HitEntry;
             pkEntry2->m_spReferencedObject.FUN_0066b0d0(bhkEntity_Getbhk(pkFormB));
             pkEntry2->m_fAmount = fSecondFunctionValue;
-            pkEntry2->m_kSource.FUN_0042f780(pkActorA ? pkActorA->GetHandle() : 0);
+            pkEntry2->m_kSource.AssignRetainedObject(pkActorA ? pkActorA->GetHandle() : 0);
             m_kEntries.FUN_005ae3d0(pkEntry2);
         }
     }
@@ -676,7 +677,7 @@ struct SubHelper
 
     SubHelper(int value);
     ~SubHelper();
-    void FUN_0042f780(int value);
+    void AssignRetainedObject(int value);
 };
 
 struct FUN_00623bd0 : BaseNoVtable
@@ -694,7 +695,7 @@ FUN_00623bd0::FUN_00623bd0() : BaseNoVtable(0), m_08(0)
 {
     FUN_0066b0d0(0);
     m_04 = 0.0f;
-    m_08.FUN_0042f780(0);
+    m_08.AssignRetainedObject(0);
 }
 
 struct RequestEntry
@@ -722,7 +723,7 @@ extern int DAT_011cc270;
 
 struct Ctx_623cb0
 {
-    void FUN_006240d0();
+    void BGSPrimitive_EvaluateValue_006240d0();
     int m_00;
     int m_04;
     int m_08;
@@ -806,7 +807,7 @@ void Owner_623cb0::ProcessHit(Rec_623cb0* apHitRecord)
     {
         return;
     }
-    ctx2.FUN_006240d0();
+    ctx2.BGSPrimitive_EvaluateValue_006240d0();
     cur = NiAbs_00408820(HK2NI(apHitRecord->m_1c));
     keyTmp = ((Gen_623cb0*)apHitRecord->m_00)->GetLastNode();
     entry = ((Gen_623cb0*)apHitRecord->m_04)->GetLastNode();

@@ -73,7 +73,7 @@ struct C89CD0Holder
 };
 struct Target
 {
-    void FUN_00c89bf0(void* apArg);
+    void UpdateState_00c89bf0(void* apArg);
 };
 struct FUN_00c89cf0_cls
 {

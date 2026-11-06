@@ -432,11 +432,12 @@ struct SeekBinaryFile
     skac53::GvFileHandle* pFile;
     virtual void v00();
     void FutBinaryFileC_close();
-    __declspec(noinline) bool FUN_00ac53a0(long offset);
+    __declspec(noinline) bool ProcessAndReturnValue_00ac53a0(long offset);
 };
 
 // @fnv 0x00ac53a0
-bool SeekBinaryFile::FUN_00ac53a0(long offset)
+// src: GUESS 0x00ac53a0 (confidence: low)
+bool SeekBinaryFile::ProcessAndReturnValue_00ac53a0(long offset)
 {
     if (pFile == 0)
     {

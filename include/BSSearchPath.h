@@ -11,6 +11,6 @@ public:
 
     static void* operator new(unsigned int uiSize);
 
-    void FUN_00aa24f0();
+    void SetVptr00();
     void* FUN_00b01480(unsigned int flags);
 };

@@ -174,7 +174,7 @@ unsigned short TESObjectIMOD::GetSaveSizeLegacy(unsigned int aiFlags)
 {
     unsigned short isize = 0;
     isize += reinterpret_cast<TESFormSerialization*>(this)->GetSaveSizeLegacy(aiFlags);
-    isize += TESValueForm::FUN_0048e9b0(aiFlags);
+    isize += TESValueForm::GetFlaggedDataSize(aiFlags);
     return isize;
 }
 
@@ -195,7 +195,7 @@ void TESObjectIMOD::SaveGame(BGSSaveFormBuffer* buffer)
 // @fnv 0x0051a420
 void TESObjectIMOD::SaveRecord()
 {
-    TESForm::FUN_004855a0();
+    TESForm::BeginFormRecord();
     TESFullName::Save_00487010();
     reinterpret_cast<TESModelRecordWriter*>(reinterpret_cast<char*>(this) + 0x3c)->ProcessAndFreeData(0x4c444f4d, 0x54444f4d, 0x53444f4d);
     TESIcon::Save(0x4e4f4349);
@@ -205,7 +205,7 @@ void TESObjectIMOD::SaveRecord()
     BGSDestructibleObjectForm::Save();
     reinterpret_cast<PickupPutdownSoundRecordWriter*>(reinterpret_cast<char*>(this) + 0xa4)->LogFormIDs();
     reinterpret_cast<TESFormSerialization*>(this)->SaveHeader();
-    TESForm::FUN_00485680();
+    TESForm::FinishFormRecord();
 }
 
 // @fnv 0x0051a4c0

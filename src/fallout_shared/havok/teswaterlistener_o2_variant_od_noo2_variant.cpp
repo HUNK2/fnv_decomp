@@ -60,15 +60,15 @@ struct PhysicsVector
     void hkVector4_hkVector4(float, float, float, float);
     float& FUN_00560d30(int);
     PhysicsVector* hkVector4_getSimdAt(PhysicsVector*, int);
-    float FUN_004586d0();
+    float EvaluateValue_004586d0();
     void FUN_00630ae0(const PhysicsVector*, const PhysicsVector*);
     void hkVector4_setSub4(const PhysicsVector*, const PhysicsVector*);
     void FUN_00630bb0(const PhysicsVector*, const PhysicsVector*);
     void hkVector4_add4(const PhysicsVector*);
-    void FUN_004a3f10(const PhysicsVector*);
+    void SetValue(const PhysicsVector*);
     PhysicsVector* FUN_00630b40(PhysicsVector*);
     void hkVector4_mul4(const PhysicsVector*);
-    void FUN_006240d0();
+    void BGSPrimitive_EvaluateValue_006240d0();
 };
 struct PhysicsBounds
 {
@@ -232,7 +232,7 @@ int PhysicsController::TESWaterListener_ProcessRigidBody(PhysicsReference* refer
                     else if (amount > DAT_011cc5e0)
                         strength = DAT_0119af3c;
                     PhysicsVector component;
-                    if (DAT_0119af38 > FUN_00408840(velocity.hkVector4_getSimdAt(&component, 2)->FUN_004586d0()))
+                    if (DAT_0119af38 > FUN_00408840(velocity.hkVector4_getSimdAt(&component, 2)->EvaluateValue_004586d0()))
                         dampVertical = false;
                 }
                 strength = -strength;
@@ -263,16 +263,16 @@ int PhysicsController::TESWaterListener_ProcessRigidBody(PhysicsReference* refer
                         localTorque.FUN_00560d30(largest) =
                             sizes.FUN_00560d30(smallest) / sizes.FUN_00560d30(largest) * 0.1f * SignOfFloat(strength);
                         PhysicsVector rotation;
-                        rotation.FUN_006240d0();
+                        rotation.BGSPrimitive_EvaluateValue_006240d0();
                         body->GetRotation(&rotation);
                         torque.FUN_00630bb0(&rotation, &localTorque);
                         torque.hkVector4_add4(reference->hkpRigidBody_getCenterOfMassInWorld());
                     }
                     else
-                        torque.FUN_004a3f10(reference->hkpRigidBody_getCenterOfMassInWorld());
+                        torque.SetValue(reference->hkpRigidBody_getCenterOfMassInWorld());
                 }
                 else
-                    torque.FUN_004a3f10(reference->hkpRigidBody_getCenterOfMassInWorld());
+                    torque.SetValue(reference->hkpRigidBody_getCenterOfMassInWorld());
                 state->FUN_00483710();
                 reference->hkpRigidBody_applyForce_00631140(deltaTime, &force, &torque);
                 PhysicsVector secondForce;
@@ -290,7 +290,7 @@ int PhysicsController::TESWaterListener_ProcessRigidBody(PhysicsReference* refer
                     vertical *= exp_00630aa0(*DAT_011d0478.Setting_Float_00403e20() * -1.0 * deltaTime);
                 }
                 PhysicsVector magnitude;
-                if (linear.FUN_00630b40(&magnitude)->FUN_004586d0() > *DAT_011d0cf0.Setting_Float_00403e20())
+                if (linear.FUN_00630b40(&magnitude)->EvaluateValue_004586d0() > *DAT_011d0cf0.Setting_Float_00403e20())
                 {
                     FUN_005dbf20 factor(exp_00630aa0(*DAT_011d0ee8.Setting_Float_00403e20() * -1.0 * deltaTime));
                     linear.hkVector4_mul4(&factor);

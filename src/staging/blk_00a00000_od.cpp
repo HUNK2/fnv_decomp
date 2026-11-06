@@ -26,11 +26,12 @@ namespace fnv_00a1c050 {
 
 struct FUN_00a1c050_Class
 {
-    void* FUN_00a1c050(void* p, unsigned int n);
+    void* Reallocate_Thunk(void* p, unsigned int n);
 };
 
 // @fnv 0x00a1c050
-void* __thiscall FUN_00a1c050_Class::FUN_00a1c050(void* p, unsigned int n)
+// src: GUESS 0x00a1c050 (confidence: medium)
+void* __thiscall FUN_00a1c050_Class::Reallocate_Thunk(void* p, unsigned int n)
 {
     return g_memoryManager.Reallocate(p, n << 5);
 }
@@ -56,12 +57,13 @@ struct FUN_00a1e1a0_class
 {
     int m_vtbl;
     int m_field;
-    void __thiscall FUN_00a1e1a0();
+    void __thiscall ReleaseStorage_00a1e1a0();
 };
 
 // Sets the vtable pointer to DAT_01095524 and frees the m_field pointer via NiFreeAlias.
 // @fnv 0x00a1e1a0
-void __thiscall FUN_00a1e1a0_class::FUN_00a1e1a0()
+// src: GUESS 0x00a1e1a0 (confidence: medium)
+void __thiscall FUN_00a1e1a0_class::ReleaseStorage_00a1e1a0()
 {
     m_vtbl = (int)&DAT_01095524;
     void* p = (void*)m_field;
@@ -145,7 +147,7 @@ struct StrA
     unsigned int _Myres;
     bool _Inside(const char*);
     bool _Grow(unsigned int, bool);
-    StrA& FUN_00a0c570(const StrA&, unsigned int, unsigned int);
+    StrA& UpdateState_00a0c570(const StrA&, unsigned int, unsigned int);
     StrA& std_string_append(const char* _Ptr, unsigned int _Count);
 };
 // Appends _Count characters from _Ptr to the string, growing the buffer if needed and handling self-referential input.
@@ -154,7 +156,7 @@ struct StrA
 StrA& StrA::std_string_append(const char* apChars, unsigned int auiCount)
 {
     if (_Inside(apChars))
-        return FUN_00a0c570(*this, apChars - (16 <= _Myres ? _Bx._Ptr : _Bx._Buf), auiCount);
+        return UpdateState_00a0c570(*this, apChars - (16 <= _Myres ? _Bx._Ptr : _Bx._Buf), auiCount);
     if (DAT_010173f0 - _Mysize <= auiCount || _Mysize + auiCount < _Mysize)
         FUN_00ec30b0();
     unsigned int uiNewSize;
@@ -437,11 +439,12 @@ struct S00a0d390
 struct FUN_00a0d960_class : S00a0d390
 {
     void* m_data;
-    void FUN_00a0d960();
+    void ReleaseStorage_00a0d960();
 };
 
 // @fnv 0x00a0d960
-void FUN_00a0d960_class::FUN_00a0d960()
+// src: GUESS 0x00a0d960 (confidence: medium)
+void FUN_00a0d960_class::ReleaseStorage_00a0d960()
 {
     int unused;
     int padding;
@@ -645,10 +648,11 @@ void NiFree(void*);
 struct FUN_00a1e880_class : S00a0d390
 {
     void* m_data;
-    void FUN_00a1e880();
+    void SetVirtualTable_00a1e880();
 };
 // @fnv 0x00a1e880
-void FUN_00a1e880_class::FUN_00a1e880()
+// src: GUESS 0x00a1e880 (confidence: low)
+void FUN_00a1e880_class::SetVirtualTable_00a1e880()
 {
     m_vtbl = (int*)&DAT_010955e4;
     void* pAssertA;
@@ -779,10 +783,11 @@ void __thiscall S_00a0c9f0::_NiTListBase_AddHead(int* pValue)
 struct FUN_00a0d790_class : S00a0d390
 {
     void* m_data;
-    void FUN_00a0d790();
+    void UpdateState_00a0d790();
 };
 // @fnv 0x00a0d790
-void FUN_00a0d790_class::FUN_00a0d790()
+// src: GUESS 0x00a0d790 (confidence: low)
+void FUN_00a0d790_class::UpdateState_00a0d790()
 {
     int unusedA;
     int unusedB;
@@ -896,11 +901,12 @@ class S00a0ca70_List
     unsigned int m_unk00;
     S00a0ca70_Node* m_pkHead;
     S00a0ca70_Pool m_kNodePool;
-    S00a0ca70_Node* FUN_00a0ca70(S00a0ca70_Node** pos, const unsigned int* value);
+    S00a0ca70_Node* AllocateAndInsertListNode(S00a0ca70_Node** pos, const unsigned int* value);
 };
 // Allocates a node from m_kNodePool, sets its m_val, and splices it into the linked list at the position pointed to by pos.
 // @fnv 0x00a0ca70
-S00a0ca70_Node* S00a0ca70_List::FUN_00a0ca70(S00a0ca70_Node** pos, const unsigned int* value)
+// src: GUESS 0x00a0ca70 (confidence: high)
+S00a0ca70_Node* S00a0ca70_List::AllocateAndInsertListNode(S00a0ca70_Node** pos, const unsigned int* value)
 {
     S00a0ca70_Node** pForm;
     S00a0ca70_Blk blk;

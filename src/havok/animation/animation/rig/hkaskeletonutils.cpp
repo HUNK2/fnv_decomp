@@ -40,7 +40,7 @@ void __cdecl CallWithGlobal(int aiArg1, int aiArg2, int aiArg3, int aiArg4)
     hkaSkeletonUtils_transformLocalPoseToWorldPose(aiArg1, aiArg2, &DAT_01268700, aiArg3, aiArg4);
 }
 
-extern "C" void __cdecl FUN_00cddd20(void* a, void* b, void* c, void* d, void* e);
+extern "C" void __cdecl Object_ToLocal_Thunk(void* a, void* b, void* c, void* d, void* e);
 extern int DAT_01268700;
 
 // Calls FUN_00cddd20 with a, b, the address of DAT_01268700, c and d.
@@ -48,13 +48,14 @@ extern int DAT_01268700;
 // src: COMMUNITY 0x00cddef0
 void hkaSkeletonUtils_transformModelPoseToLocalPose(void* apArg1, void* apArg2, void* apArg3, void* apArg4)
 {
-    FUN_00cddd20(apArg1, apArg2, &DAT_01268700, apArg3, apArg4);
+    Object_ToLocal_Thunk(apArg1, apArg2, &DAT_01268700, apArg3, apArg4);
 }
 
 extern "C" void __cdecl Atan2(float, float);
 
 // @fnv 0x00ce00f0
-void __cdecl FUN_00ce00f0(float afFirst, float afSecond)
+// src: GUESS 0x00ce00f0 (confidence: low)
+void __cdecl Hkaskeletonutils_ForwardCall_00ce00f0(float afFirst, float afSecond)
 {
     Atan2(afFirst, afSecond);
 }
@@ -249,7 +250,7 @@ struct HolderRec
 
 struct ScanObj
 {
-    void FUN_00cde940(int a, int b, void* c);
+    void ForwardCall_00cde940(int a, int b, void* c);
 };
 
 HolderRec* hkMemoryRouter_getInstance();
@@ -268,7 +269,7 @@ unsigned char* WalkChainUntilLimit(unsigned char* pabResult, hkaSkeleton* rec, s
             if ((short)idx == sLimit)
                 break;
             HolderRec* h = hkMemoryRouter_getInstance();
-            obj->FUN_00cde940(h->m_10, 0, &iCurrent);
+            obj->ForwardCall_00cde940(h->m_10, 0, &iCurrent);
             idx = ((const unsigned short*)rec->m_kParentIndices.m_data)[(short)idx];
             iCurrent = idx;
         } while ((short)idx > 0);
@@ -276,7 +277,7 @@ unsigned char* WalkChainUntilLimit(unsigned char* pabResult, hkaSkeleton* rec, s
     {
         int out;
         HolderRec* h = hkMemoryRouter_getInstance();
-        obj->FUN_00cde940(h->m_10, 0, &out);
+        obj->ForwardCall_00cde940(h->m_10, 0, &out);
     }
     *pabResult = ((short)idx >= 0);
     return pabResult;
@@ -405,17 +406,18 @@ void __cdecl CollectReachableNodes(hkaSkeleton* g, short asStartIndex, S_00cde45
 
 extern "C" LocalM128 _mm_load_ss(const float* p);
 __forceinline V4::V4() {}
-extern "C" void __cdecl FUN_00cde740(void* a, void* b, V4* v, void* c);
+extern "C" void __cdecl hkQsTransform_UpdateFields_00cde740(void* a, void* b, V4* v, void* c);
 // For each of count entries, calls FUN_00cde740 on 0x30-byte slots at idx[i]*0x30 offsets in b1, b2, b3, passing w as a float vector.
 // @fnv 0x00cdd550
-void __cdecl FUN_00cdd550(unsigned int count, const short* idx, char* b1, char* b2, float w, char* b3)
+// src: GUESS 0x00cdd550 (confidence: low)
+void __cdecl Hkaskeletonutils_ProcessIndexedTransformSlots(unsigned int count, const short* idx, char* b1, char* b2, float w, char* b3)
 {
     V4 v;
     v.q = _mm_load_ss(&w);
     for (unsigned int i = 0; i < count; i++)
     {
         int off = idx[i] * 0x30;
-        FUN_00cde740(b1 + off, b2 + off, &v, b3 + off);
+        hkQsTransform_UpdateFields_00cde740(b1 + off, b2 + off, &v, b3 + off);
     }
 }
 
@@ -502,7 +504,8 @@ static __forceinline hkQsTransform* GetReferencePose(const hkaSkeleton* skeleton
 
 // For each bone with m_bLockTranslation, sets poseModel translation from the reference pose, rotated and offset by the parent's transform when a parent exists.
 // @fnv 0x00cde1d0
-void __cdecl FUN_00cde1d0(const hkaSkeleton* skeleton, hkQsTransform* poseModel)
+// src: GUESS 0x00cde1d0 (confidence: high)
+void __cdecl hkaSkeleton_RestoreLockedBoneTranslations(const hkaSkeleton* skeleton, hkQsTransform* poseModel)
 {
     const int numBones = skeleton->m_kBones.m_iElementCount;
     for (int i = 0; i < numBones; i++)
@@ -746,7 +749,8 @@ struct Item
 
 // Normalizes the rot vectors of up to count Item entries in batches of four using SIMD, then handles any remaining items individually.
 // @fnv 0x00cdd660
-void FUN_00cdd660(Item* items, int count)
+// src: GUESS 0x00cdd660 (confidence: medium)
+void Object_NormalizeRotationVectors(Item* items, int count)
 {
     int blocks = count / 4;
     if ((unsigned int)blocks > 0)
@@ -1134,7 +1138,8 @@ __forceinline void toLocal(int count, const short* parents, const QsXform& root,
 
 // Converts world-space QsXform transforms to local-space by calling toLocal with the given count, parents, root, world, and localOut arguments.
 // @fnv 0x00cddd20
-extern "C" void __cdecl FUN_00cddd20(void* aiCount, void* apParents, void* apRoot, void* apWorld, void* apLocalOut)
+// src: GUESS 0x00cddd20 (confidence: medium)
+extern "C" void __cdecl Object_ToLocal_Thunk(void* aiCount, void* apParents, void* apRoot, void* apWorld, void* apLocalOut)
 {
     toLocal((int)aiCount, (const short*)apParents, *(const QsXform*)apRoot, (const QsXform*)apWorld,
             (QsXform*)apLocalOut);

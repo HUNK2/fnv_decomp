@@ -25,7 +25,7 @@ struct FUN_00d65f70_class
     int m_14;
     int m_18;
     int m_1c;
-    void FUN_00d65f70();
+    void ProcessEntries_00d65f70();
 };
 struct S_00c6d840_Pair
 {
@@ -104,7 +104,7 @@ struct FUN_00d653e0_cls
     int unk4c;
     int unk50;
     FUN_00cb1a60_t sub54;
-    void FUN_00d653e0();
+    void ResetEntries_Thunk();
 };
 struct FUN_00d655e0_Item
 {
@@ -147,10 +147,10 @@ struct Target
 };
 struct Adjustor
 {
-    void FUN_00d65fb0();
+    void ForwardCall_00d65fb0();
 };
 extern int g_D661D0Value;
-int __cdecl FUN_00d661d0();
+int __cdecl Hkpshapedisplayviewer_GetD661D0Value();
 struct FUN_00d652a0_cls
 {
     virtual void v00() = 0;
@@ -181,7 +181,7 @@ struct SpawnedBuf
     int unk08;
 
     void ProcessArgument(hkMemoryAllocator* apAlloc);
-    void FUN_00a29680();
+    void Object_DoNothing();
 };
 struct FUN_00d66080_cls
 {
@@ -223,7 +223,7 @@ struct FUN_00d66160_cls
     int m_14;
     int m_18;
     int m_1c;
-    void FUN_00d66160(int arg);
+    void UpdateFields_00d66160(int arg);
 };
 struct D66180PropertyValue
 {
@@ -570,7 +570,7 @@ static void __forceinline TtPushEvent(const char* name)
 struct D661E0Primary
 {
     virtual void vfunc00();
-    virtual void FUN_00d661e0();
+    virtual void AdjustThisAndForward_00d661e0();
 
     int unk04;
     int unk08;
@@ -582,14 +582,15 @@ struct D661E0Primary
 };
 struct D661E0Secondary
 {
-    virtual void FUN_00d661e0();
+    virtual void AdjustThisAndForward_00d661e0();
 };
 struct D661E0Object : D661E0Primary, D661E0Secondary
 {
     D661E0Object();
 
 // @fnv 0x00d661e0
-    virtual void FUN_00d661e0();
+// src: GUESS 0x00d661e0 (confidence: low)
+    virtual void AdjustThisAndForward_00d661e0();
 };
 D661E0Object::D661E0Object()
 {}
@@ -622,20 +623,21 @@ Derived::Derived()
 struct A1_00d66200
 {
     A1_00d66200();
-    virtual void FUN_00d66200();
+    virtual void AdjustThisAndForward_00d66200();
     char pad[0x24];
 };
 struct A2_00d66200
 {
     A2_00d66200();
 // @fnv 0x00d66200
-    virtual void FUN_00d66200();
+// src: GUESS 0x00d66200 (confidence: low)
+    virtual void AdjustThisAndForward_00d66200();
 };
 struct Own_00d66200 : A1_00d66200, A2_00d66200
 {
     Own_00d66200();
     virtual void key_fn();  // key function - defined, so the vftable is emitted
-    void FUN_00d66200();    // the shared override - declared only
+    void AdjustThisAndForward_00d66200();    // the shared override - declared only
 };
 Own_00d66200::Own_00d66200()
 {}
@@ -974,7 +976,7 @@ struct S65_Str
     int s04;
     int s08;
     void FUN_00cb1600(char* buf, int size);
-    void FUN_00cc01c0(const char* s);
+    void ProcessAndReturnValue_00cc01c0(const char* s);
     void FUN_00cc00e0();
 };
 struct S65_Elem
@@ -1016,7 +1018,7 @@ struct S65_Work
     int w0c;
     int w10;
     void hkpShapeDisplayBuilder_hkpShapeDisplayBuilder(S65_Val* p);
-    void FUN_00de0f90(void* v, S65_Vec* vec);
+    void UpdateState_00de0f90(void* v, S65_Vec* vec);
 };
 union S65_V4
 {
@@ -1188,7 +1190,7 @@ void S65_Self::hkpShapeDisplayViewer_entityAddedCallback(S65_Param* param)
             val.hkpShapeDisplayBuilder_hkpShapeDisplayBuilderEnvironment_hkpShapeDisplayBuilderEnvironment();
             S65_Work work;
             work.hkpShapeDisplayBuilder_hkpShapeDisplayBuilder(&val);
-            work.FUN_00de0f90(key, &vec);
+            work.UpdateState_00de0f90(key, &vec);
             for (int i = vec.count - 1; i >= 0; i--)
             {
                 S65_Elem* e = vec.data[i];
@@ -1197,7 +1199,7 @@ void S65_Self::hkpShapeDisplayViewer_entityAddedCallback(S65_Param* param)
                     __declspec(align(16)) char buf[0x200];
                     S65_Str str;
                     str.FUN_00cb1600(buf, 0x200);
-                    str.FUN_00cc01c0(str_010d196c);
+                    str.ProcessAndReturnValue_00cc01c0(str_010d196c);
                     DAT_01268360->d0c(0, -1, buf, str_010d1b18, 0x13c);
                     str.FUN_00cc00e0();
                     vec.count--;

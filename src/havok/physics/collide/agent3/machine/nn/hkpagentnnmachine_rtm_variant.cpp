@@ -604,7 +604,8 @@ again:
     }
 }
 // @fnv 0x00cff3c0
-void __cdecl FUN_00cff3c0(hkpConstraintOwner* owner, hkpAgentNnTrack& track, const hkpProcessCollisionInput& context)
+// src: GUESS 0x00cff3c0 (confidence: low)
+void __cdecl hkpConstraintOwner_ProcessEntries_00cff3c0(hkpConstraintOwner* owner, hkpAgentNnTrack& track, const hkpProcessCollisionInput& context)
 {
     int skipped = 0;
     hkpProcessCollisionOutput result(owner);

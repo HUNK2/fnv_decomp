@@ -9,7 +9,7 @@
 // pointer to the complete object before jumping to the implementation.
 struct PrimaryBase
 {
-    virtual void FUN_00525c00();
+    virtual void AdjustThisAndForward_00525c00();
     int unk04;
     int unk08;
     int unk0C;
@@ -28,14 +28,15 @@ struct PrimaryBase
 
 struct SecondaryBase
 {
-    virtual void FUN_00525c00();
+    virtual void AdjustThisAndForward_00525c00();
 };
 
 struct Derived : PrimaryBase, SecondaryBase
 {
     Derived();
 // @fnv 0x00525c00
-    virtual void FUN_00525c00();
+// src: GUESS 0x00525c00 (confidence: low)
+    virtual void AdjustThisAndForward_00525c00();
 };
 
 Derived::Derived()

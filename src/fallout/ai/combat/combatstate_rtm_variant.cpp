@@ -133,12 +133,12 @@ struct LoadArea
 
 struct LoadA
 {
-    void FUN_009a2d50(CombatLoadBuffer*);
+    void LoadValueAndTimestamp(CombatLoadBuffer*);
 };
 
 struct LoadB
 {
-    void FUN_009a2db0(CombatLoadBuffer*);
+    void LoadWorldLocationAndTimestamp(CombatLoadBuffer*);
 };
 
 struct LoadWeaponArray
@@ -532,7 +532,7 @@ void CombatLoadState::CombatState_LoadGameBGS(CombatLoadBuffer* buffer)
 
                 LoadA* item = itemsA.BSSimpleArray_GroupMemberData_1024_GetAt(i);
 
-                item->FUN_009a2d50(buffer);
+                item->LoadValueAndTimestamp(buffer);
             }
 
             {
@@ -546,7 +546,7 @@ void CombatLoadState::CombatState_LoadGameBGS(CombatLoadBuffer* buffer)
 
                     LoadB* item = itemsB.BSSimpleArray_CombatMember_1024_GetAt(i);
 
-                    item->FUN_009a2db0(buffer);
+                    item->LoadWorldLocationAndTimestamp(buffer);
                 }
 
                 stamp184.FUN_009a5ff0(buffer);

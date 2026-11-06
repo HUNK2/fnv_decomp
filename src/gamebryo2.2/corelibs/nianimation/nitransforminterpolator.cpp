@@ -171,7 +171,7 @@ bool NiTransformInterpolator::Update(float time, NiObjectNET* target, NiQuatTran
     return true;
 }
 
-void __fastcall FUN_00a3ca30(void* pThis);
+void __fastcall UpdateState_00a3ca30(void* pThis);
 void __cdecl FUN_00aa1460(void* p, unsigned int s);
 
 // @fnv 0x00a40410
@@ -180,7 +180,7 @@ void* __fastcall FUN_00a40410(NiTransformInterpolator* pThis, int, unsigned int 
     NiRefObject* pkData = *(NiRefObject**)((char*)pThis + 0x2c);
     if (pkData)
         pkData->DecRefCount();
-    FUN_00a3ca30(pThis);
+    UpdateState_00a3ca30(pThis);
     if (flags & 1)
         FUN_00aa1460(pThis, 0x48);
     return pThis;
@@ -833,7 +833,7 @@ void NiTransformInterpolator::CopyMemberData(NiTransformInterpolator* pkDest, Cl
 }
 
 namespace fnv_00a403f0 {
-void* __cdecl FUN_00aa13e0(unsigned int size);
+void* __cdecl Object_DispatchCommandFour(unsigned int size);
 inline void* __cdecl operator new(unsigned int, void* address)
 {
     return address;
@@ -842,7 +842,7 @@ inline void* __cdecl operator new(unsigned int, void* address)
 // src: EXE 0x00a403f0
 NiTransformInterpolator* __cdecl NiTransformInterpolator_CreateObject()
 {
-    void* storage = FUN_00aa13e0(sizeof(NiTransformInterpolator));
+    void* storage = Object_DispatchCommandFour(sizeof(NiTransformInterpolator));
     if (storage)
         return ::new (storage) NiTransformInterpolator(static_cast<NiTransformData*>(0));
     return 0;

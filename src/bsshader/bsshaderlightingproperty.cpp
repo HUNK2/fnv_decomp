@@ -401,7 +401,8 @@ void __fastcall FUN_00baa0e0(void*);
 
 // Sets the vtable, calls the lighting property's cleanup twice on the sub-object at offset 0x60, then calls FUN_00baa0e0 on pThis.
 // @fnv 0x00b71410
-void __fastcall FUN_00b71410(void* pThis, int)
+// src: GUESS 0x00b71410 (confidence: medium)
+void __fastcall BSShaderLightingProperty_ClearLightsAndBaseState(void* pThis, int)
 {
     BSShaderLightingProperty* pSub = (BSShaderLightingProperty*)((char*)pThis + 0x60);
     *(int**)pThis = &DAT_010ae7b0;
@@ -411,12 +412,13 @@ void __fastcall FUN_00b71410(void* pThis, int)
 }
 
 extern int DAT_010ae7b0;
-void __fastcall FUN_00ba8e50(void*);
+void __fastcall InitializeFields_00ba8e50(void*);
 
 // @fnv 0x00b71720
-void* __fastcall FUN_00b71720(char* pThis)
+// src: GUESS 0x00b71720 (confidence: low)
+void* __fastcall Object_InitializeFields_00b71720(char* pThis)
 {
-    FUN_00ba8e50(pThis);
+    InitializeFields_00ba8e50(pThis);
     char* list = pThis + 0x60;
     *(int**)pThis = &DAT_010ae7b0;
     *(int*)(list + 8) = 0;

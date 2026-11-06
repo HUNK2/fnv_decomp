@@ -126,7 +126,8 @@ extern const float DAT_01016248;
 
 // Computes the normalized cross product of two edge vectors and writes the result to out.
 // @fnv 0x00d1ff80
-static __declspec(noinline) void FUN_00d1ff80(const LocalM128* apVertexA, const LocalM128* apVertexB, const LocalM128* apVertexC, LocalM128* apNormal)
+// src: GUESS 0x00d1ff80 (confidence: medium)
+static __declspec(noinline) void Object_ComputeNormalizedCrossProduct(const LocalM128* apVertexA, const LocalM128* apVertexB, const LocalM128* apVertexC, LocalM128* apNormal)
 {
     LocalM128 vb = *apVertexB;
     LocalM128 va = *apVertexA;
@@ -155,7 +156,7 @@ const LocalM128* volatile inputA;
 const LocalM128* volatile inputB;
 const LocalM128* volatile inputC;
 LocalM128* volatile outputV;
-void invokeTriangleNormal() { FUN_00d1ff80(inputA, inputB, inputC, outputV); }
+void invokeTriangleNormal() { Object_ComputeNormalizedCrossProduct(inputA, inputB, inputC, outputV); }
 
 struct SimdVector {
     union { LocalM128 value; float component[4]; };
@@ -402,7 +403,7 @@ int TriangleWelding::WeldContactPoint(unsigned short* indices, unsigned char* co
     normalStore.value = v2;
 
     VectorOperations faceTemporary;
-    FUN_00d1ff80((const LocalM128*)&m_kVertexA, (const LocalM128*)&m_kVertexB, (const LocalM128*)&m_kVertexC, &faceTemporary.value);
+    Object_ComputeNormalizedCrossProduct((const LocalM128*)&m_kVertexA, (const LocalM128*)&m_kVertexB, (const LocalM128*)&m_kVertexC, &faceTemporary.value);
     LocalM128 face = faceTemporary.value;
     LocalM128 faceProduct = _mm_mul_ps(face, localNormal);
     float separation = (float)fabs(scalar(horizontal3(faceProduct))) * ((const hkVector4*)&corrected)->w;
@@ -922,7 +923,8 @@ public:
 };
 
 // @fnv 0x00d201a0
-static __declspec(noinline) void FUN_00d201a0(const LaneVector& first,const LaneVector& second,const LaneVector* rows,const LaneVector& weight,LaneVector& output)
+// src: GUESS 0x00d201a0 (confidence: low)
+static __declspec(noinline) void Object_UpdateFields_00d201a0(const LaneVector& first,const LaneVector& second,const LaneVector* rows,const LaneVector& weight,LaneVector& output)
 {
     LaneVector left[3];
     LaneVector right[3];
@@ -947,7 +949,7 @@ static __declspec(noinline) void FUN_00d201a0(const LaneVector& first,const Lane
 
 extern const LaneVector* obtainVector();
 extern LaneVector* obtainOutput();
-void keepEdgeTest() { FUN_00d201a0(*obtainVector(),*obtainVector(),obtainVector(),*obtainVector(),*obtainOutput()); }
+void keepEdgeTest() { Object_UpdateFields_00d201a0(*obtainVector(),*obtainVector(),obtainVector(),*obtainVector(),*obtainOutput()); }
 
 struct ShapeRayCastQuery {
     hkVector4_S m_vFrom;

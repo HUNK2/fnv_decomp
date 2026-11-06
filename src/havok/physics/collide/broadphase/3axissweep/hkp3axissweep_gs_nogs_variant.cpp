@@ -306,7 +306,7 @@ struct BpEndPoint {
 };
 struct FUN_00d19ef0_cls {
     BpEndPoint* m_pItems;
-    void FUN_00d19ef0(char* out, int n, BpEndPoint* src, int k);
+    void ProcessEntries_00d19ef0(char* out, int n, BpEndPoint* src, int k);
 };
 void __cdecl hkAlgorithm_quickSortRecursive_class_hkp3AxisSweep_hkpBpEndPoint_class_hkAlgorithm_less_class_hkp3AxisSweep_hkpBpEndPoint(unsigned int* base, int lo, int hi, int unkArg);
 void __cdecl QuickSortByLowWord(unsigned int* base, int lo, int hi, int unkArg);
@@ -759,7 +759,7 @@ struct FUN_00d10e10_cls {
 
     void getExtents(__m128* out0, __m128* out1);
 };
-void __cdecl FUN_00d10e80();
+void __cdecl Object_DoNothing_00d10e80();
 struct S00d11470_Entry {
     int unk00;
     int unk04;
@@ -1076,7 +1076,7 @@ struct Sweep {
 extern int DAT_011b37ac[2];
 struct SweepMerge {
     Endpoint* m_endpoints;
-    void FUN_00d19e40(char* cells, int n, Endpoint* source, int count);
+    void MergeEndpointRangesBackward(char* cells, int n, Endpoint* source, int count);
 };
 __declspec(align(16)) struct FUN_00d1a2a0_cls
 {

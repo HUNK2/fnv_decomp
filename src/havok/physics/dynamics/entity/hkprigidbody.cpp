@@ -327,11 +327,12 @@ struct CA86E0Object
     int unk1F4;
     void* unk1F8;
 
-    void* FUN_00ca86e0();
+    void* ComputeValue_00ca86e0();
 };
 
 // @fnv 0x00ca86e0
-void* CA86E0Object::FUN_00ca86e0()
+// src: GUESS 0x00ca86e0 (confidence: low)
+void* CA86E0Object::ComputeValue_00ca86e0()
 {
     if (unkE8 == 4 || unkE8 == 5)
         return unk1F8;
@@ -1123,7 +1124,7 @@ __declspec(align(16)) struct FnvScratch
     int unkB4;
     int unkB8;
     int unkBC;
-    void FUN_00cf5ea0();
+    void InitializePhysicsFields();
 };
 
 struct FnvThing
@@ -1143,7 +1144,7 @@ struct FUN_00ca90c0_cls
 
     FUN_00ca90c0_cls* Clone();
     void WriteToInfo(FnvScratch* pScratch);
-    FUN_00ca90c0_cls* FUN_00ca8c90(FnvScratch* pScratch);
+    FUN_00ca90c0_cls* AllocateStorage_00ca8c90(FnvScratch* pScratch);
     virtual void v00();
     virtual void v04();
     virtual void v08();
@@ -1156,11 +1157,11 @@ struct FUN_00ca90c0_cls
 FUN_00ca90c0_cls* FUN_00ca90c0_cls::Clone()
 {
     FnvScratch cinfo;
-    cinfo.FUN_00cf5ea0();
+    cinfo.InitializePhysicsFields();
     WriteToInfo(&cinfo);
     FUN_00ca90c0_cls* pBlock = (FUN_00ca90c0_cls*)heapAllocator(hkMemoryRouter_getInstance()).blockAlloc(0x220);
     *(unsigned short*)((char*)pBlock + 4) = 0x220;
-    FUN_00ca90c0_cls* pCopy = pBlock->FUN_00ca8c90(&cinfo);
+    FUN_00ca90c0_cls* pCopy = pBlock->AllocateStorage_00ca8c90(&cinfo);
     memCpy16NonEmpty((char*)pCopy + 0xe0, (char*)this + 0xe0, 0x12);
     if (*(char**)((char*)this + 0x1f8))
     {
@@ -1192,12 +1193,13 @@ class HostCA8B
     int unkD0, unkD4, unkD8, unkDC, unkE0, unkE4;
     unsigned char m_bFlag;
 
-    hkBool FUN_00ca8bf0() const;
+    hkBool CheckShapeTypeAndChildLimit() const;
 };
 
 // Returns false for a null shape, type 0xf, or types 7, 8, 9, 10, 0x17 with over 100 child shapes (8 and 10 are skipped when m_bFlag is 4 or 5); else true.
 // @fnv 0x00ca8bf0
-hkBool HostCA8B::FUN_00ca8bf0() const
+// src: GUESS 0x00ca8bf0 (confidence: medium)
+hkBool HostCA8B::CheckShapeTypeAndChildLimit() const
 {
     const hkpShape* shape = m_pCollisionShape;
     if (!shape)
@@ -1246,7 +1248,7 @@ struct S_00ca84b0_World
 {
     void hkpWorld_queueOperation(const S_00ca84b0_Op& op);
     void FUN_00c91120();
-    void FUN_00c91140();
+    void UpdateFields_00c91140();
 
     __forceinline void lockCriticalOperations()
     {
@@ -1260,7 +1262,7 @@ struct S_00ca84b0_World
             if (unk8c)
                 FUN_00c91120();
             if (unka4 == 1 && unk90)
-                FUN_00c91140();
+                UpdateFields_00c91140();
         }
     }
 
@@ -1820,7 +1822,7 @@ struct World
     unsigned char m_d6;
     void __thiscall hkpWorld_queueOperation(void* op);
     void __thiscall FUN_00c91120();
-    void __thiscall FUN_00c91140();
+    void __thiscall UpdateFields_00c91140();
 };
 
 struct Entity
@@ -1944,7 +1946,7 @@ void __cdecl hkpRigidBody_updateBroadphaseAndResetCollisionInformationOfWarpedBo
         if (world->m_8c != 0)
             world->FUN_00c91120();
         if (world->m_a4 == 1 && world->m_90 != 0)
-            world->FUN_00c91140();
+            world->UpdateFields_00c91140();
     }
 }
 

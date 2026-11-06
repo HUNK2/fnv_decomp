@@ -254,7 +254,7 @@ struct FUN_004f7e80_shell : public RegionPointList
 };
 
 RegionPoint*& __fastcall _ref_006815c0(void* pThis);
-float __fastcall FUN_006a7f50(RegionPoint* pPoint);
+float __fastcall AStarSearch_EvaluateValue_006a7f50(RegionPoint* pPoint);
 void* __fastcall FUN_00726070(void* pNode);
 
 // @fnv 0x004f7e80
@@ -269,9 +269,9 @@ float FUN_004f7e80_shell::TESRegionPointList_GetMinX()
     }
     while (node2 != 0 && _ref_006815c0(node2) != 0)
     {
-        if (fMinValue > FUN_006a7f50(_ref_006815c0(node2)))
+        if (fMinValue > AStarSearch_EvaluateValue_006a7f50(_ref_006815c0(node2)))
         {
-            fMinValue = FUN_006a7f50(_ref_006815c0(node2));
+            fMinValue = AStarSearch_EvaluateValue_006a7f50(_ref_006815c0(node2));
         }
         node2 = FUN_00726070(node2);
     }
@@ -488,7 +488,7 @@ void FUN_004f77c0_shell::TESRegionPointList_Save()
 typedef BSSimpleList<RegionPoint*> RegionPointNode;
 
 RegionPoint*& __fastcall _ref_006815c0(void* pThis);
-float __fastcall FUN_006a7f50(void* pThis);
+float __fastcall AStarSearch_EvaluateValue_006a7f50(void* pThis);
 extern double const DAT_010241b0;
 
 struct FUN_004f7f10_cls : public RegionPointList
@@ -508,9 +508,9 @@ float FUN_004f7f10_cls::TESRegionPointList_GetMaxX()
     }
     while (pNode != 0 && _ref_006815c0(pNode) != 0)
     {
-        if (best3 < FUN_006a7f50(_ref_006815c0(pNode)))
+        if (best3 < AStarSearch_EvaluateValue_006a7f50(_ref_006815c0(pNode)))
         {
-            best3 = FUN_006a7f50(_ref_006815c0(pNode));
+            best3 = AStarSearch_EvaluateValue_006a7f50(_ref_006815c0(pNode));
         }
         pNode = FUN_00726070(pNode);
     }

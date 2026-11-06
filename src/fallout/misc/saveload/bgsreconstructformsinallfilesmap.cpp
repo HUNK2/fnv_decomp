@@ -240,7 +240,8 @@ class GlobalObject_00869f00
 extern int DAT_0107ed08;
 
 // @fnv 0x00844ac0
-void __fastcall FUN_00844ac0(GlobalObject_00869f00* _this)
+// src: GUESS 0x00844ac0 (confidence: medium)
+void __fastcall Object_ResetVirtualTableAndClear_00844ac0(GlobalObject_00869f00* _this)
 {
     *(int**)_this = &DAT_0107ed08;
     _this->Clear(true);
@@ -460,16 +461,17 @@ struct blob12
 typedef char _sizecheck_NiPoint3[sizeof(NiPoint3) == 12 ? 1 : -1];
 struct FUN_00416870_shell : public NiPoint3
 {
-    void FUN_00416870(float, float, float);
+    void SetComponents(float, float, float);
 };
 
 struct FUN_00416870_t : public NiPoint3
 {
-    FUN_00416870_t* FUN_00416870(float, float, float);
+    FUN_00416870_t* SetComponents(float, float, float);
 };
 // Sets the point's x, y and z components from the three arguments and returns this.
 // @fnv 0x00416870
-FUN_00416870_t* FUN_00416870_t::FUN_00416870(float fX, float fY, float fZ)
+// src: GUESS 0x00416870 (confidence: high)
+FUN_00416870_t* FUN_00416870_t::SetComponents(float fX, float fY, float fZ)
 {
     x = fX;
     y = fY;
@@ -815,11 +817,12 @@ struct Unk008444d0
     void* _0;
     int _4;
     void* _8;
-    void FUN_008444d0();
+    void SetVtableAndProcessState_008444d0();
 };
 // Sets the vtable pointer, clears the pointer map, and frees the _8 allocation.
 // @fnv 0x008444d0
-void Unk008444d0::FUN_008444d0()
+// src: GUESS 0x008444d0 (confidence: low)
+void Unk008444d0::SetVtableAndProcessState_008444d0()
 {
     *(void**)this = (void*)&DAT_0107ec68;
     ((NiTPointerMap<unsigned int, unsigned int>*)this)->RemoveAll();
@@ -833,10 +836,11 @@ struct S_00844e80
     int _0;
     int _4;
     void* _8;
-    void FUN_00844e80();
+    void ReleaseStorage_00844e80();
 };
 // @fnv 0x00844e80
-void S_00844e80::FUN_00844e80()
+// src: GUESS 0x00844e80 (confidence: medium)
+void S_00844e80::ReleaseStorage_00844e80()
 {
     *(void**)this = (void*)&DAT_0107ed1c;
     ((NiTPointerMap<unsigned int, unsigned int>*)this)->RemoveAll();
@@ -857,10 +861,11 @@ struct SaveGameSizeState : public S5460
         unsigned int b;
     }* arr;
     void RecordSizeAndLength(unsigned int, unsigned int);
-    unsigned int FUN_00844eb0(Elem* p);
+    unsigned int AppendElementAndRecordSize(Elem* p);
 };
 // @fnv 0x00844eb0
-unsigned int SaveGameSizeState::FUN_00844eb0(Elem* apElem)
+// src: GUESS 0x00844eb0 (confidence: medium)
+unsigned int SaveGameSizeState::AppendElementAndRecordSize(Elem* apElem)
 {
     unsigned int idx = BSSimpleArray_NiPoint2_1024_AddUninitialized();
     RecordSizeAndLength((unsigned int)&arr[idx], 1);
@@ -894,11 +899,12 @@ struct MyItem
 };
 struct MyHost
 {
-    void FUN_00993b30(MyItem* pkItem, unsigned int key, MyVal val);
+    void SetEntryKeyAndValue(MyItem* pkItem, unsigned int key, MyVal val);
 };
 // Stores key into pkItem->f4 and val into pkItem->f8.
 // @fnv 0x00993b30
-void MyHost::FUN_00993b30(MyItem* pkItem, unsigned int key, MyVal val)
+// src: GUESS 0x00993b30 (confidence: high)
+void MyHost::SetEntryKeyAndValue(MyItem* pkItem, unsigned int key, MyVal val)
 {
     pkItem->f4 = key;
     pkItem->f8 = val;
@@ -1586,7 +1592,7 @@ struct FUN_00401170_shell
 
 struct FUN_00844eb0_shell
 {
-    void FUN_00844eb0(ChangedFormRecord* apData);
+    void AppendElementAndRecordSize(ChangedFormRecord* apData);
 };
 
 // Dispatches apData to one of two handlers depending on whether its form is a reference or has type 0x39 or 0x41.
@@ -1597,11 +1603,11 @@ void FormChangeMapOperations::BGSReconstructedForms_AddFormData(ChangedFormRecor
     if (!apData->pForm->GetIsReference() && ((FUN_00401170_shell*)apData->pForm)->FUN_00401170() != 0x39 &&
         ((FUN_00401170_shell*)apData->pForm)->FUN_00401170() != 0x41)
     {
-        ((FUN_00844eb0_shell*)&first)->FUN_00844eb0(apData);
+        ((FUN_00844eb0_shell*)&first)->AppendElementAndRecordSize(apData);
     }
     else
     {
-        ((FUN_00844eb0_shell*)&second)->FUN_00844eb0(apData);
+        ((FUN_00844eb0_shell*)&second)->AppendElementAndRecordSize(apData);
     }
 }
 

@@ -791,13 +791,13 @@ struct FaceValue611e50
 struct FaceMatrix611e50
 {
     unsigned int NiAVObject_GetParent();
-    FaceValue611e50 FUN_0060b370(unsigned int, int);
+    FaceValue611e50 ForwardCall_0060b370(unsigned int, int);
 };
 struct SaveRaceAccess : TESRace
 {
-    void FUN_004855a0();
+    void BeginFormRecord();
     void TESForm___SaveData(void*, unsigned int);
-    void FUN_00485680();
+    void FinishFormRecord();
     SaveList611e50* NiAVObject_GetWorldTranslate();
     SaveList611e50* GetBackTexture();
     void SaveRace();
@@ -805,7 +805,7 @@ struct SaveRaceAccess : TESRace
 // @fnv 0x00611e50
 void SaveRaceAccess::SaveRace()
 {
-    FUN_004855a0();
+    BeginFormRecord();
     TESFullName::Save_00487010();
     TESDescription::Save_00482cb0();
     TESSpellList::TESSpellList_SaveSubRecord();
@@ -940,11 +940,11 @@ void SaveRaceAccess::SaveRace()
             {
                 if (sex3 == 0)
                     geometrydata18[geometryindex] = *((FaceMatrix611e50*)&m_kSecondFloatPairBySex[0][0])
-                                                         ->FUN_0060b370(geometryindex, 0)
+                                                         ->ForwardCall_0060b370(geometryindex, 0)
                                                          .NiTSet_NiControllerSequence_NiTMallocInterface_NiControllerSequence_GetAt();
                 else if (sex3 == 1)
                     geometrydata18[geometryindex] = *((FaceMatrix611e50*)&m_kFirstFloatPairBySex[0][0])
-                                                         ->FUN_0060b370(geometryindex, 0)
+                                                         ->ForwardCall_0060b370(geometryindex, 0)
                                                          .NiTSet_NiControllerSequence_NiTMallocInterface_NiControllerSequence_GetAt();
             }
             TESForm_AddChunkArray_00485710(0x53474746, geometrydata18, count);
@@ -964,11 +964,11 @@ void SaveRaceAccess::SaveRace()
             {
                 if (sex3 == 0)
                     asymmetrydata24[asymmetryindex] = *((FaceMatrix611e50*)&m_kSecondFloatPairBySex[0][1])
-                                                           ->FUN_0060b370(asymmetryindex, 0)
+                                                           ->ForwardCall_0060b370(asymmetryindex, 0)
                                                            .NiTSet_NiControllerSequence_NiTMallocInterface_NiControllerSequence_GetAt();
                 else if (sex3 == 1)
                     asymmetrydata24[asymmetryindex] = *((FaceMatrix611e50*)&m_kFirstFloatPairBySex[0][1])
-                                                           ->FUN_0060b370(asymmetryindex, 0)
+                                                           ->ForwardCall_0060b370(asymmetryindex, 0)
                                                            .NiTSet_NiControllerSequence_NiTMallocInterface_NiControllerSequence_GetAt();
             }
             TESForm_AddChunkArray_00485710(0x41474746, asymmetrydata24, count);
@@ -988,11 +988,11 @@ void SaveRaceAccess::SaveRace()
             {
                 if (sex3 == 0)
                     texturedata16[textureindex] = *((FaceMatrix611e50*)&m_kSecondFloatPairBySex[1][0])
-                                                       ->FUN_0060b370(textureindex, 0)
+                                                       ->ForwardCall_0060b370(textureindex, 0)
                                                        .NiTSet_NiControllerSequence_NiTMallocInterface_NiControllerSequence_GetAt();
                 else if (sex3 == 1)
                     texturedata16[textureindex] = *((FaceMatrix611e50*)&m_kFirstFloatPairBySex[1][0])
-                                                       ->FUN_0060b370(textureindex, 0)
+                                                       ->ForwardCall_0060b370(textureindex, 0)
                                                        .NiTSet_NiControllerSequence_NiTMallocInterface_NiControllerSequence_GetAt();
             }
             TESForm_AddChunkArray_00485710(0x53544746, texturedata16, count);
@@ -1001,7 +1001,7 @@ void SaveRaceAccess::SaveRace()
         }
         TESForm_AddChunk_00485950(0x4d414e53, m_usRaceAttribute);
     }
-    FUN_00485680();
+    FinishFormRecord();
 }
 
 struct RaceListItem
@@ -1674,7 +1674,7 @@ struct RaceLoadCoordValue : public RaceLoadCoordScalar
 };
 struct RaceLoadCoordAccess
 {
-    RaceLoadCoordValue FUN_0060b370(int);
+    RaceLoadCoordValue ForwardCall_0060b370(int);
 };
 struct RaceLoadSpellList
 {
@@ -1958,9 +1958,9 @@ bool RaceLoadTarget::TESRace_Load(TESFile* apFile)
                 if (apFile->IsEndianConversionRequired())
                     BSEndian_00401080((int*)&pfloats[i], RaceLoadEndianTag<4>());
                 if (!isex || boldSchool)
-                    ((RaceLoadCoordAccess*)&m_kSecondFloatPairBySex[etype][esymm])->FUN_0060b370(i).NiTSet_NiControllerSequence_NiTMallocInterface_NiControllerSequence_GetAt(0) =
+                    ((RaceLoadCoordAccess*)&m_kSecondFloatPairBySex[etype][esymm])->ForwardCall_0060b370(i).NiTSet_NiControllerSequence_NiTMallocInterface_NiControllerSequence_GetAt(0) =
                         pfloats[i];
-                ((RaceLoadCoordAccess*)&m_kFirstFloatPairBySex[etype][esymm])->FUN_0060b370(i).NiTSet_NiControllerSequence_NiTMallocInterface_NiControllerSequence_GetAt(0) =
+                ((RaceLoadCoordAccess*)&m_kFirstFloatPairBySex[etype][esymm])->ForwardCall_0060b370(i).NiTSet_NiControllerSequence_NiTMallocInterface_NiControllerSequence_GetAt(0) =
                     pfloats[i];
             }
             break;

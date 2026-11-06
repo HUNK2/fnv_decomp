@@ -549,7 +549,7 @@ void Node_a94440::NiSwitchNode_AttachChild(void* a1, int a2)
     AppendRevision(m_kChildRevID, 0);
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int);
+void* __cdecl Object_DispatchCommandFour(unsigned int);
 
 struct SwitchNode_a94550
 {
@@ -559,7 +559,7 @@ struct SwitchNode_a94550
 // @fnv 0x00a94550
 SwitchNode_a94550* __cdecl CreateSwitchNode()
 {
-    SwitchNode_a94550* p = (SwitchNode_a94550*)FUN_00aa13e0(0xcc);
+    SwitchNode_a94550* p = (SwitchNode_a94550*)Object_DispatchCommandFour(0xcc);
     if (p)
         return p->FUN_00a94360();
     return 0;

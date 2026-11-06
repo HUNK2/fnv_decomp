@@ -13,7 +13,8 @@
 extern int g_unk0126d658;
 
 // @fnv 0x00dffaf0
-void* __cdecl FUN_00dffaf0()
+// src: GUESS 0x00dffaf0 (confidence: low)
+void* __cdecl hkpConstrainedSystemFilter_GetUnk0126d658Address()
 {
     return &g_unk0126d658;
 }
@@ -37,14 +38,14 @@ struct FnvCpu_FUN_00dffb00_CpuObject
 {
     unsigned int unk00;
     unsigned short size;
-    void FUN_00e46b80();
+    void UpdateFields_00e46b80();
     FnvCpu_FUN_00dffb00_CpuObject* FUN_00dffb00(unsigned int flags);
 };
 // Calls FUN_00e46b80, then if bit 0 of flags is set, invokes the allocator's Invoke on this with size, and returns this.
 // @fnv 0x00dffb00
 FnvCpu_FUN_00dffb00_CpuObject* FnvCpu_FUN_00dffb00_CpuObject::FUN_00dffb00(unsigned int flags)
 {
-    FUN_00e46b80();
+    UpdateFields_00e46b80();
     if (flags & 1)
     {
         FnvCpu_FUN_00dffb00_CpuAllocatorHolder* pAllocatorHolder = hkMemoryRouter_getInstance();
@@ -306,21 +307,22 @@ namespace fnv_00dffb40 {
 // PrimaryBase is vptr + two int fields (size 0xc); SecondaryBase only declares the virtual.
 struct PrimaryBase
 {
-    virtual void FUN_00dffb40();
+    virtual void AdjustThisAndForward_00dffb40();
     int unk04;
     int unk08;
 };
 
 struct SecondaryBase
 {
-    virtual void FUN_00dffb40();
+    virtual void AdjustThisAndForward_00dffb40();
 };
 
 struct Derived : PrimaryBase, SecondaryBase
 {
     Derived();
 // @fnv 0x00dffb40
-    virtual void FUN_00dffb40();
+// src: GUESS 0x00dffb40 (confidence: low)
+    virtual void AdjustThisAndForward_00dffb40();
 };
 
 Derived::Derived()
@@ -359,20 +361,21 @@ DFFB50Listener::DFFB50Listener()
 struct A1_00dffb60
 {
     A1_00dffb60();
-    virtual void FUN_00dffb60();
+    virtual void AdjustThisAndForward_00dffb60();
     char pad[0x2c];
 };
 struct A2_00dffb60
 {
     A2_00dffb60();
-    virtual void FUN_00dffb60();
+    virtual void AdjustThisAndForward_00dffb60();
 };
 struct Own_00dffb60 : A1_00dffb60, A2_00dffb60
 {
     Own_00dffb60();
     virtual void key_fn();
 // @fnv 0x00dffb60
-    void FUN_00dffb60();
+// src: GUESS 0x00dffb60 (confidence: low)
+    void AdjustThisAndForward_00dffb60();
 };
 Own_00dffb60::Own_00dffb60()
 {}

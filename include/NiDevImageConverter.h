@@ -31,7 +31,7 @@ public:
 
     NiTexture* GenerateMipmaps(NiPixelData* pd, int a);
     void FUN_00a7b110();
-    void FUN_00a7aff0();
+    void ProcessEntries_00a7aff0();
 
     virtual bool CanConvertPixelFormat(const NiPixelFormat&, const NiPixelFormat&);
     virtual NiPixelData* ConvertImageData(const NiPixelData&, const NiPixelFormat&, NiPixelData*, bool);

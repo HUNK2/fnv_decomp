@@ -11,7 +11,7 @@
 extern "C"
 {
     int __cdecl hkaRagdollUtils_reorderForRagdoll(void*, void*);
-    int __cdecl FUN_00ce9db0(void*, void*);
+    int __cdecl HkaragdollutilsFpfast_ProcessEntries_00ce9db0(void*, void*);
     int __cdecl alignConstraintSpacesToChildren(void*);
 }
 
@@ -21,7 +21,7 @@ int __cdecl hkaRagdollUtils_reorderAndAlignForRagdoll(void* p1, void* p2, void* 
 {
     if (hkaRagdollUtils_reorderForRagdoll(p1, p2))
         return 1;
-    if (FUN_00ce9db0(p2, p3))
+    if (HkaragdollutilsFpfast_ProcessEntries_00ce9db0(p2, p3))
         return 1;
     if (alignConstraintSpacesToChildren(p2))
         return 1;
@@ -114,14 +114,14 @@ struct StringRef
         FUN_00cb0a60();
     }
     void FUN_00cb0a60() throw();
-    void FUN_00cb0c10(const char*) throw();
-    void FUN_00cb0c30(const void*) throw();
+    void UpdateState_00cb0c10(const char*) throw();
+    void UpdateState_00cb0c30(const void*) throw();
 };
 struct Bone
 {
     StringRef name;
     bool lockTranslation;
-    void FUN_00cb0c00() throw();
+    void Object_UpdateFields_00cb0c00() throw();
 };
 struct Quaternion
 {
@@ -240,7 +240,7 @@ static __forceinline void destroyBones(Bone* bone, int count) throw()
 {
     for (int i = 0; i < count; ++i)
     {
-        bone->FUN_00cb0c00();
+        bone->Object_UpdateFields_00cb0c00();
         ++bone;
     }
 }
@@ -445,7 +445,7 @@ Skeleton* __cdecl hkaRagdollUtils_constructSkeletonForRagdoll(BodyList* bodies, 
         }
         const char* name = reinterpret_cast<const char*>(reinterpret_cast<unsigned int>(body->name) & ~1u);
         if (name)
-            currentBone.name.FUN_00cb0c10(name);
+            currentBone.name.UpdateState_00cb0c10(name);
         else
         {
             int buffer[128];
@@ -457,6 +457,6 @@ Skeleton* __cdecl hkaRagdollUtils_constructSkeletonForRagdoll(BodyList* bodies, 
         currentBone.lockTranslation = i != 0;
     }
     if (result->bones.size > 0)
-        result->name.FUN_00cb0c30(result->bones.data);
+        result->name.UpdateState_00cb0c30(result->bones.data);
     return result;
 }

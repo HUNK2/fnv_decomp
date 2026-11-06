@@ -89,7 +89,8 @@ struct PerkActivationEntry
 };
 
 // @fnv 0x007aae70
-void FUN_007aae70()
+// src: GUESS 0x007aae70 (confidence: low)
+void BSSimpleArray_UpdateState_007aae70()
 {
     unsigned int ibuttonClicked;
     int icount;

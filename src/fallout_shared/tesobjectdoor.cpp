@@ -303,7 +303,7 @@ struct blob8
     char b[8];
 };
 
-hkpRigidBody* __fastcall FUN_004ae750(void* p);
+hkpRigidBody* __fastcall Bipedanim_GetReferenceFlagsOrZero(void* p);
 int __fastcall hkpRigidBody_getMotionType(hkpRigidBody* p);
 
 struct bhkRigidBody_shell
@@ -315,7 +315,7 @@ struct bhkRigidBody_shell
 // src: XBOX_PDB 0x00517630
 int bhkRigidBody_shell::bhkRigidBody_GetMotionType()
 {
-    hkpRigidBody* pb = FUN_004ae750(this);
+    hkpRigidBody* pb = Bipedanim_GetReferenceFlagsOrZero(this);
     return pb ? hkpRigidBody_getMotionType(pb) : 5;
 }
 
@@ -544,10 +544,11 @@ struct Base_004d9210
 extern int DAT_01021024;
 struct Holder_004d9100
 {
-    Holder_004d9100* FUN_004d9100(int a, int b);
+    Holder_004d9100* InitializeFields_004d9100(int a, int b);
 };
 // @fnv 0x004d9100
-Holder_004d9100* Holder_004d9100::FUN_004d9100(int aiArg1, int aiArg2)
+// src: GUESS 0x004d9100 (confidence: low)
+Holder_004d9100* Holder_004d9100::InitializeFields_004d9100(int aiArg1, int aiArg2)
 {
     ((Base_004d9210*)this)->FUN_004d9210(aiArg1, aiArg2);
     *(void**)this = (void*)&DAT_01021024;
@@ -600,8 +601,8 @@ struct DoorSave_shell
     TESForm* form7c;
     TESForm* form80;
     unsigned char flags;
-    void FUN_004855a0();
-    void FUN_00485680();
+    void BeginFormRecord();
+    void FinishFormRecord();
     DoorFormNode* TESDataHandler_GetFactions();
     void WriteSaveData();
 };
@@ -611,7 +612,7 @@ void DoorSave_shell::WriteSaveData()
 {
     DoorFormNode* pCurrentElementNext;
     unsigned int itempint;
-    FUN_004855a0();
+    BeginFormRecord();
     part30.Save_00487010();
     ((void(__thiscall*)(TESModel*, unsigned int, unsigned int, unsigned int)) & WriteDoorModelChunks)(
         &part3c, 0x4c444f4d, 0x54444f4d, 0x53444f4d);
@@ -640,7 +641,7 @@ void DoorSave_shell::WriteSaveData()
         TESForm_AddChunk_00485910(0x4d414e54, itempint);
         pCurrentElementNext = pCurrentElementNext->FUN_00726070();
     }
-    FUN_00485680();
+    FinishFormRecord();
 }
 
 struct DoorTeleportNode
@@ -1592,7 +1593,7 @@ struct Obj
 
 struct Mid
 {
-    VObj* FUN_00559450();
+    VObj* Modelloader_GetReferencedThis();
 };
 
 struct VObj
@@ -1754,9 +1755,9 @@ void __cdecl PlaySoundForRef(unsigned int id)
         Obj* obj = ref->BGSSaveFormBuffer_GetForm();
         if (obj->FUN_00407840())
         {
-            if (ref->FUN_00568e50()->FUN_00559450())
+            if (ref->FUN_00568e50()->Modelloader_GetReferencedThis())
             {
-                if (ref->FUN_00568e50()->FUN_00559450()->Gate1d0())
+                if (ref->FUN_00568e50()->Modelloader_GetReferencedThis()->Gate1d0())
                 {
                     BSSoundHandle soundHandle =
                         BSAudio::GetSingleton()->GetSoundHandleByFormID_00ad73b0(obj->FUN_00407840()->GetHavokWorldObjectCountInSceneGraph_0084e3a0(), 0x121);

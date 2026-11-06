@@ -18,7 +18,8 @@ void __stdcall nullsub_82(int)
 {}
 
 // @fnv 0x00e063d0
-int __stdcall FUN_00e063d0(int arg0, int arg1)
+// src: GUESS 0x00e063d0 (confidence: high)
+int __stdcall hkpConstraintChainInstanceAction_ReturnZero(int arg0, int arg1)
 {
     return 0;
 }

@@ -56,7 +56,7 @@ void __stdcall NiPSysInitialRotSpeedVarCtlr_GetViewerStrings(FUN_00c29f00_Array*
 }
 
 extern "C" char DAT_010becbc;
-extern "C" void* __cdecl FUN_00aa13e0(unsigned int size);
+extern "C" void* __cdecl Object_DispatchCommandFour(unsigned int size);
 
 struct SpawnedCtlr
 {
@@ -74,7 +74,7 @@ struct SpawnedHost
 // @fnv 0x00c29eb0
 SpawnedCtlr* SpawnedHost::CreateSpawnedCtlr(void* a1)
 {
-    SpawnedCtlr* obj = (SpawnedCtlr*)FUN_00aa13e0(0x40);
+    SpawnedCtlr* obj = (SpawnedCtlr*)Object_DispatchCommandFour(0x40);
     if (obj != 0)
     {
         obj->FUN_00c32d80();
@@ -88,14 +88,14 @@ SpawnedCtlr* SpawnedHost::CreateSpawnedCtlr(void* a1)
     return obj;
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+void* __cdecl Object_DispatchCommandFour(unsigned int size);
 
 struct SpawnedFloat
 {
     unsigned int unk00[6];
     static void* operator new(unsigned int size)
     {
-        return FUN_00aa13e0(size);
+        return Object_DispatchCommandFour(size);
     }
 
     SpawnedFloat(float value) throw();

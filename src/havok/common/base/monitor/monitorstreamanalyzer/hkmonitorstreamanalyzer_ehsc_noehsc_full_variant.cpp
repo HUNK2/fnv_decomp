@@ -930,11 +930,12 @@ void FUN_00e10630_cls::ProcessItems(int a1, int a2)
 
 struct FUN_00e0f700_s
 {
-    void* FUN_00e0f700(int dummy);
+    void* GetSelf_00e0f700(int dummy);
 };
 
 // @fnv 0x00e0f700
-void* FUN_00e0f700_s::FUN_00e0f700(int dummy)
+// src: GUESS 0x00e0f700 (confidence: high)
+void* FUN_00e0f700_s::GetSelf_00e0f700(int dummy)
 {
     return this;
 }
@@ -2060,12 +2061,13 @@ struct AggObj
     int unk4c;
     int unk50;
     int unk54;
-    AggObj* FUN_00e0d000(int a, const char* name, int b);
+    AggObj* DoNothing_00e0d000(int a, const char* name, int b);
     void ClearItems();
 };
 void __cdecl ext_free(int);
 int __cdecl ext_init(int, const char*, int);
-__declspec(noinline) AggObj* AggObj::FUN_00e0d000(int a, const char* name, int b)
+// src: GUESS 0x00e0d000 (confidence: high)
+__declspec(noinline) AggObj* AggObj::DoNothing_00e0d000(int a, const char* name, int b)
 {
     unk00 = ext_init(a, name, b);
     return this;
@@ -2186,7 +2188,7 @@ struct TypeItem
     AggObj* other;
     int otherSize;
     int otherCapacity;
-    void FUN_00e10930();
+    void ProcessEntries_00e10930();
 };
 struct TypeArray
 {
@@ -2253,7 +2255,7 @@ static __declspec(noinline) void printStatisticsByType(void* stream, void* rootN
                 WriteItemStats(stream, 0.0f, (S_00e0bfe0_Item*)&item->other[k]);
             }
         }
-        item->FUN_00e10930();
+        item->ProcessEntries_00e10930();
         (&monitorDebugHeap(hkMemoryRouter_getInstance()))->blockFree(item, 0x70);
     }
     hkMemoryAllocator* temp = hkMemoryRouter_getInstance()->m_temp;
@@ -2296,7 +2298,7 @@ void __cdecl hkMonitorStreamAnalyzer_writeStatisticsDetails(int a0, void* pArray
     {
 
         AggObj sum;
-        sum.FUN_00e0d000(0, "Sum", 1);
+        sum.DoNothing_00e0d000(0, "Sum", 1);
         metrics.row = metrics.first->m_iElementCount;
         time = 1.0f / (float)metrics.row;
         int i = 0;
@@ -2455,7 +2457,7 @@ void __cdecl hkMonitorStreamAnalyzer_writeStatisticsDetails(int a0, void* pArray
                         hkMemoryAllocator* h3 = r3->m_heap;
                         AggObj* obj = (AggObj*)h3->blockAlloc(0x58);
                         if (obj)
-                            obj = obj->FUN_00e0d000(0, "", 1);
+                            obj = obj->DoNothing_00e0d000(0, "", 1);
                         else
                             obj = 0;
                         arr.m_data[k] = obj;
@@ -2525,7 +2527,7 @@ void __cdecl hkMonitorStreamAnalyzer_writeStatisticsDetails(int a0, void* pArray
                             {
 
                                 AggObj sum2;
-                                sum2.FUN_00e0d000(0, "Sum", 1);
+                                sum2.DoNothing_00e0d000(0, "Sum", 1);
                                 hkMakeSumRecursive(&sum2, th->m_children.m_data[ebp]);
                                 hkOstream_printf(stream, "\n");
                                 hkOstream_printf(stream, "****************************************\n");
@@ -2752,7 +2754,7 @@ struct PrintStream
     int unk08;
     void __thiscall FUN_00cc0630(PrintArray* a1);
     void __thiscall InvokeSubObject(char a1);
-    void __thiscall FUN_00cc01c0(const char* a1);
+    void __thiscall ProcessAndReturnValue_00cc01c0(const char* a1);
     void __thiscall FUN_00cc00e0();
 };
 
@@ -2879,7 +2881,7 @@ void __cdecl hkMonitorStreamAnalyzer_showCombinedThreadSummaryRec(PrintStream* s
             }
             hkOstream_printf(&line, "%-6.3f (%i)", (double)(idx / spus), countSpus);
         }
-        stream->FUN_00cc01c0(pad.data);
+        stream->ProcessAndReturnValue_00cc01c0(pad.data);
         stream->InvokeSubObject('\n');
     }
     if (!cfg->unk10 || (node->flags & 1))
@@ -3147,7 +3149,7 @@ struct ReportResult
 };
 struct ReportNode : FUN_00e0d000Total
 {
-    void FUN_00e10930();
+    void ProcessEntries_00e10930();
 };
 struct ReportMap
 {
@@ -3247,7 +3249,7 @@ static __declspec(noinline) void printStatisticsByType(FUN_00e0d000* root, float
                 WriteItemStats(stream, 0.0f, reinterpret_cast<S_00e0bfe0_Item*>(&node->childFUN_00e0d000.data[j]));
             }
         }
-        node->FUN_00e10930();
+        node->ProcessEntries_00e10930();
         monitorDebugHeap(hkMemoryRouter_getInstance()).blockFree(node, 0x70);
     }
     nodes.release();
@@ -3307,11 +3309,12 @@ struct FUN_00e0d000_cls
     int m_i50;
     int m_i54;
 
-    FUN_00e0d000_cls* FUN_00e0d000(OwnerNode* apOwner, int aiA, int aiB);
+    FUN_00e0d000_cls* DoNothing_00e0d000(OwnerNode* apOwner, int aiA, int aiB);
 };
 
 // @fnv 0x00e0d000
-FUN_00e0d000_cls* FUN_00e0d000_cls::FUN_00e0d000(OwnerNode* apOwner, int aiA, int aiB)
+// src: GUESS 0x00e0d000 (confidence: high)
+FUN_00e0d000_cls* FUN_00e0d000_cls::DoNothing_00e0d000(OwnerNode* apOwner, int aiA, int aiB)
 {
     m_i30 = 0;
     m_i34 = 0;
@@ -3492,7 +3495,7 @@ struct StatsValue
 
 struct NodeInitializer
 {
-    FUN_00e0d000* FUN_00e0d000(int parent, const char* name, StatsValue value);
+    FUN_00e0d000* DoNothing_00e0d000(int parent, const char* name, StatsValue value);
 };
 
 // src: HAVOK_LIB 0x00e0cb80
@@ -3530,7 +3533,7 @@ void __cdecl hkMakeSumRecursive(int parentArg, FUN_00e0d000* source)
 
             if (mem)
             {
-                dst = ((NodeInitializer*)mem)->FUN_00e0d000(parent, item->name, StatsValue(item->unk54));
+                dst = ((NodeInitializer*)mem)->DoNothing_00e0d000(parent, item->name, StatsValue(item->unk54));
             }
             else
             {
@@ -4102,11 +4105,12 @@ struct S_00e10930_Foo : S_00e0d0a0
     int unk68;
     int unk6c;
 
-    void FUN_00e10930();
+    void ProcessEntries_00e10930();
 };
 
 // @fnv 0x00e10930
-void S_00e10930_Foo::FUN_00e10930()
+// src: GUESS 0x00e10930 (confidence: low)
+void S_00e10930_Foo::ProcessEntries_00e10930()
 {
     hkMemoryAllocator* ebp = (&monitorDebugHeap(hkMemoryRouter_getInstance()));
 

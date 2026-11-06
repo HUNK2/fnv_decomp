@@ -47,11 +47,12 @@ class FnvShapeGetter : public hkpSphereRepShape
 {
   public:
     int unk10;
-    int FUN_00d2a5f0();
+    int GetUnk10();
 };
 
 // @fnv 0x00d2a5f0
-int FnvShapeGetter::FUN_00d2a5f0()
+// src: GUESS 0x00d2a5f0 (confidence: low)
+int FnvShapeGetter::GetUnk10()
 {
     return unk10;
 }

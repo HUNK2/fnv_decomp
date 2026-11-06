@@ -259,7 +259,8 @@ const NiBound& NiBound::operator=(const NiBound& aRhs)
 void __fastcall _ref_006815c0(void* pThis);
 
 // @fnv 0x006240d0
-void* __fastcall FUN_006240d0(void* pThis)
+// src: GUESS 0x006240d0 (confidence: low)
+void* __fastcall BGSPrimitive_EvaluateValue_006240d0(void* pThis)
 {
     _ref_006815c0(pThis);
     return pThis;
@@ -267,7 +268,8 @@ void* __fastcall FUN_006240d0(void* pThis)
 
 
 // @fnv 0x00c37ec0
-void* __fastcall FUN_00c37ec0(void* this_ptr)
+// src: GUESS 0x00c37ec0 (confidence: low)
+void* __fastcall Object_ProcessAndReturnValue_00c37ec0(void* this_ptr)
 {
     static_cast<BSMultiBoundShape*>(this_ptr)->BSMultiBoundShape::BSMultiBoundShape();
     *(void***)this_ptr = gMultiBoundAABBVtable;
@@ -275,7 +277,8 @@ void* __fastcall FUN_00c37ec0(void* this_ptr)
 }
 
 // @fnv 0x004a6100
-int __fastcall FUN_004a6100(int this_)
+// src: GUESS 0x004a6100 (confidence: high)
+int __fastcall Object_Return0x1e(int this_)
 {
     return 0x1e;
 }
@@ -682,7 +685,7 @@ void __cdecl _delete(void*, unsigned int);
 // @fnv 0x004a7100
 void* BSMultiBoundOBB::FUN_004a7100(unsigned int flags)
 {
-    this->FUN_004a7130();
+    this->DestroyBase_Thunk();
     if (flags & 1)
         _delete(this, 72);
     return this;
@@ -982,7 +985,8 @@ char const* const* __thiscall FUN_004a7020_shell::BSMultiBoundAABB_GetRTTI()
 }
 
 // @fnv 0x004a7130
-void BSMultiBoundSphere::FUN_004a7130()
+// src: GUESS 0x004a7130 (confidence: medium)
+void BSMultiBoundSphere::DestroyBase_Thunk()
 {
     DestroyBase();
 }
@@ -1634,7 +1638,7 @@ void MultiBoundOBBPlanes::GetPlanes(NiPlane* pkPlanes)
     }
 }
 
-extern "C" void* __cdecl FUN_00aa13e0(unsigned int size);
+extern "C" void* __cdecl Object_DispatchCommandFour(unsigned int size);
 
 // @fnv 0x00c381a0
 BSMultiBoundAABB* __cdecl CreateMultiBoundAABB()
@@ -2483,16 +2487,17 @@ BGSPrimitiveSphere::BGSPrimitiveSphere()
     eType = 2;
 }
 
-void* __fastcall FUN_00c37ec0(void*);
+void* __fastcall Object_ProcessAndReturnValue_00c37ec0(void*);
 extern int DAT_0101e9a4;
 struct MultiBoundOBBConstructor
 {
-    int __thiscall FUN_00c36310();
+    int __thiscall SetVtableAndProcessState_00c36310();
 };
 // @fnv 0x00c36310
-int __thiscall MultiBoundOBBConstructor::FUN_00c36310()
+// src: GUESS 0x00c36310 (confidence: low)
+int __thiscall MultiBoundOBBConstructor::SetVtableAndProcessState_00c36310()
 {
-    FUN_00c37ec0(this);
+    Object_ProcessAndReturnValue_00c37ec0(this);
     *(int**)this = &DAT_0101e9a4;
     return (int)this;
 }

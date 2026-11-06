@@ -482,7 +482,7 @@ struct ImpactObject
     virtual ImpactState* unknown_0098();
     void __thiscall bhkWorldObject_GetCollisionFilter(ImpactType*);
     float __thiscall bhkRigidBody_GetMass();
-    ImpactResult* __thiscall FUN_004ae750(ImpactVector*, ImpactVector*);
+    ImpactResult* __thiscall Bipedanim_GetReferenceFlagsOrZero(ImpactVector*, ImpactVector*);
 };
 struct ImpactOwner
 {
@@ -532,7 +532,7 @@ void ImpactOwner::MagicProjectile_ApplyCollisionForce(float x, float y, float z,
         amount.FUN_005dbf20(scale);
         direction.hkVector4_mul4(&amount);
         state->FUN_00483710();
-        object->FUN_004ae750(&direction, &position)->ApplyVirtualCall();
+        object->Bipedanim_GetReferenceFlagsOrZero(&direction, &position)->ApplyVirtualCall();
         state->FUN_00483710();
     }
 }

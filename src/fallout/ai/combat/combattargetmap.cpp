@@ -19,7 +19,7 @@ public:
     ~CombatThreatRecord_combattargetmap();
     bool IsXLessThan(float);
     void LoadGame(BGSLoadGameBuffer*);
-    void __thiscall FUN_009a5e50();
+    void __thiscall SetVtableAndProcessState_009a5e50();
 };
 #include "../../../../include/DummyPointerMap.h"
 #include "../../../../include/GO.h"

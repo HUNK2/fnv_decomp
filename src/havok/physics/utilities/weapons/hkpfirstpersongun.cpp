@@ -150,10 +150,10 @@ class FUN_00cb0c00_class
   public:
     const char* m_pcText;
 
-    void FUN_00cb0c00() throw();
+    void Object_UpdateFields_00cb0c00() throw();
     ~FUN_00cb0c00_class()
     {
-        FUN_00cb0c00();
+        Object_UpdateFields_00cb0c00();
     }
 };
 
@@ -405,7 +405,8 @@ struct LinearCastResult
 
 // Performs a sphere linear cast in the physics world and stores the hit point, normal, rigid body, and shape key in the result.
 // @fnv 0x00e464e0
-hkResult FUN_00e464e0(hkpWorldq* world, const hkVector4q& from, float radius, const hkVector4q& to,
+// src: GUESS 0x00e464e0 (confidence: medium)
+hkResult hkpWorldq_CastSphereAndStoreHit(hkpWorldq* world, const hkVector4q& from, float radius, const hkVector4q& to,
                       LinearCastResult* result)
 {
     hkpSphereShapeq* sphere = new hkpSphereShapeq(radius);

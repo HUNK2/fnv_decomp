@@ -175,13 +175,14 @@ void FUN_00bd2720_shell::DistantLODShader_ReloadShaders()
 
 struct FUN_00bd3f80_shell
 {
-    void FUN_00bd3f80();
+    void ProcessState_00bd3f80();
 };
 extern int _fnv_particle_shader_renderer_level;
 typedef void(__thiscall* FUN_00bd3f80_Fn)(FUN_00bd3f80_shell*);
 // Calls virtual slots 81 and 87 on this, and slot 88 when _fnv_particle_shader_renderer_level is at least 2.
 // @fnv 0x00bd3f80
-void FUN_00bd3f80_shell::FUN_00bd3f80()
+// src: GUESS 0x00bd3f80 (confidence: low)
+void FUN_00bd3f80_shell::ProcessState_00bd3f80()
 {
     ((FUN_00bd3f80_Fn*)*(void***)this)[81](this);
     ((FUN_00bd3f80_Fn*)*(void***)this)[87](this);

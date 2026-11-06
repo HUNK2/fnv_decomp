@@ -10,7 +10,7 @@ void __cdecl operator delete(void*);
 
 struct FUN_004edb30_t
 {
-    void FUN_004edb30();
+    void SetVtableAndProcessState_004edb30();
     void* __thiscall FUN_004edd50(unsigned int flags);
 };
 
@@ -18,7 +18,7 @@ struct FUN_004edb30_t
 // @fnv 0x004edd50
 void* __thiscall FUN_004edb30_t::FUN_004edd50(unsigned int flags)
 {
-    FUN_004edb30();
+    SetVtableAndProcessState_004edb30();
     if (flags & 1)
         operator delete(this);
     return this;
@@ -31,11 +31,12 @@ struct NiPointerListBase
 {
     void* p;
     void* q;
-    void __thiscall FUN_004edc60();
+    void __thiscall ReleaseStorage_004edc60();
 };
 
 // @fnv 0x004edc60
-void __thiscall NiPointerListBase::FUN_004edc60()
+// src: GUESS 0x004edc60 (confidence: medium)
+void __thiscall NiPointerListBase::ReleaseStorage_004edc60()
 {
     p = &DAT_010232b4;
     NiTMallocInterface<void*>::Deallocate((void**)q);
@@ -111,10 +112,11 @@ struct MyMap
 };
 struct FUN_004eda30_t
 {
-    void __thiscall FUN_004eda30();
+    void __thiscall SetVtableAndProcessState_004eda30();
 };
 // @fnv 0x004eda30
-void __thiscall FUN_004eda30_t::FUN_004eda30()
+// src: GUESS 0x004eda30 (confidence: low)
+void __thiscall FUN_004eda30_t::SetVtableAndProcessState_004eda30()
 {
     *(int**)(void*)this = (int*)&DAT_01023254;
     ((MyMap*)(void*)this)->RemoveAll();
@@ -271,7 +273,7 @@ struct FUN_004eddb0_t
 // @fnv 0x004eddb0
 void* FUN_004eddb0_t::FUN_004eddb0(unsigned int flags)
 {
-    ((NiPointerListBase*)this)->FUN_004edc60();
+    ((NiPointerListBase*)this)->ReleaseStorage_004edc60();
     if (flags & 1)
         operator delete(this);
     return this;
@@ -280,14 +282,14 @@ void* FUN_004eddb0_t::FUN_004eddb0(unsigned int flags)
 void __cdecl operator delete(void*);
 struct FUN_004ebb30_shell
 {
-    void FUN_004ebb30();
+    void ForwardCall_004ebb30();
     void* __thiscall FUN_004edde0(unsigned int flags);
 };
 // Calls FUN_004ebb30, then frees this with operator delete when flags has bit 0 set, and returns this.
 // @fnv 0x004edde0
 void* FUN_004ebb30_shell::FUN_004edde0(unsigned int flags)
 {
-    FUN_004ebb30();
+    ForwardCall_004ebb30();
     if (flags & 1)
         operator delete(this);
     return this;
@@ -311,14 +313,14 @@ namespace fnv_004ede40 {
 void __cdecl operator delete(void*);
 struct FUN_004ebb50_shell
 {
-    void __thiscall FUN_004ebb50();
+    void __thiscall InitAndDeallocate_Thunk();
     void* __thiscall FUN_004ede40(unsigned int flags);
 };
 // Calls FUN_004ebb50, then deletes this if flags has bit 0 set, and returns this.
 // @fnv 0x004ede40
 void* __thiscall FUN_004ebb50_shell::FUN_004ede40(unsigned int flags)
 {
-    FUN_004ebb50();
+    InitAndDeallocate_Thunk();
     if (flags & 1)
         operator delete(this);
     return this;
@@ -360,7 +362,7 @@ struct FUN_004edd20_shell
 // @fnv 0x004edd20
 void* FUN_004edd20_shell::FUN_004edd20(unsigned int flags)
 {
-    ((FUN_004eda30_t*)this)->FUN_004eda30();
+    ((FUN_004eda30_t*)this)->SetVtableAndProcessState_004eda30();
     if (flags & 1)
         operator delete(this);
     return this;
@@ -431,7 +433,8 @@ extern int DAT_01023274;
 
 // Sets the first word to DAT_01023274, calls RemoveAll, then frees the pointer at offset 8 with NiFreeAlias.
 // @fnv 0x004edb30
-void FUN_004edb30_t::FUN_004edb30()
+// src: GUESS 0x004edb30 (confidence: low)
+void FUN_004edb30_t::SetVtableAndProcessState_004edb30()
 {
     *(int**)this = &DAT_01023274;
     ((MyMap*)this)->RemoveAll();

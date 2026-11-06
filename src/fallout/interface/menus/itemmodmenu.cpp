@@ -865,7 +865,7 @@ struct Entry78
 {
     bool ItemChange_GetWorn(bool);
     void ItemChange_SetIsModding();
-    Data78* FUN_00559450();
+    Data78* Modelloader_GetReferencedThis();
     int FUN_00726070();
     Form78* FUN_0044ddc0();
     float ItemChange_GetItemHealth(int);
@@ -1245,7 +1245,7 @@ void ItemModMenu_InitItemModMenu(Entry78* pEntry, bool b)
         {
             g_011d9f58->ItemChange_SetIsModding();
             _g_thePlayer->QueueUnEquipObject(g_011d9f58->FUN_0044ddc0(), g_011d9f58->FUN_00726070(),
-                                       *g_011d9f58->FUN_00559450()->FUN_006815c0(), 0, 0, 1);
+                                       *g_011d9f58->Modelloader_GetReferencedThis()->FUN_006815c0(), 0, 0, 1);
             DAT_011d9f40 = 1;
         }
         float condition = g_011d9f58->ItemChange_GetItemHealth(1) / 100.0;

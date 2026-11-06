@@ -29,8 +29,8 @@ public:
     float& operator[](int index);
     const float& operator[](int index) const;
     CVec3 operator*(const RotationMatrix3x3& transform) const;
-    CVec3 FUN_00b05000(const Matrix4f& transform);
-    CVec3 FUN_00b05000(const Matrix4f& transform) const;
+    CVec3 TransformPointByMatrix4(const Matrix4f& transform);
+    CVec3 TransformPointByMatrix4(const Matrix4f& transform) const;
     CVec3& Scale(float scale);
     CVec3 AddVector(const CVec3& other) const;
     CVec3 ScaleSwizzled(float scale) const;

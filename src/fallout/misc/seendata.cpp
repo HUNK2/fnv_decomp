@@ -122,7 +122,7 @@ bool SeenData::HasEnoughSeenPoints(const NiPoint3& aPoint, const NiPoint3& aOffs
             float diffStorage[3];
             reinterpret_cast<NiPoint3*>(diffStorage)->FUN_006815c0();
             SeenData::GetPositionForIndex(uiIndex, *reinterpret_cast<NiPoint3*>(diffStorage));
-            reinterpret_cast<NiPoint3*>(diffStorage)->FUN_0063c8a0(aOffset);
+            reinterpret_cast<NiPoint3*>(diffStorage)->ComputeValue_0063c8a0(aOffset);
             {
                 NiPoint3 delta = *reinterpret_cast<const NiPoint3*>(diffStorage) - aPoint;
                 if (static_cast<const NiPoint3&>(delta).Length() < GetRuntimeFloatSetting37())
@@ -362,7 +362,7 @@ void SeenData::AttachMarkersForSeenData(NiNode* parent, const NiPoint3& offset, 
                 float positionStorage[3];
                 reinterpret_cast<NiPoint3*>(positionStorage)->FUN_006815c0();
                 SeenData::GetPositionForIndex(i3, *reinterpret_cast<NiPoint3*>(positionStorage));
-                reinterpret_cast<NiPoint3*>(positionStorage)->FUN_0063c8a0(offset);
+                reinterpret_cast<NiPoint3*>(positionStorage)->ComputeValue_0063c8a0(offset);
                 Marker* marker3 = CreateSquareLines(DAT_011a31e8, &effectColor, 1);
                 reinterpret_cast<Parent*>(parent)->Attach(marker3, 1);
                 marker3->NiAVObject_SetTranslate_004bc1f0(reinterpret_cast<NiPoint3*>(positionStorage)->x + half, reinterpret_cast<NiPoint3*>(positionStorage)->y + half, reinterpret_cast<NiPoint3*>(positionStorage)->z);

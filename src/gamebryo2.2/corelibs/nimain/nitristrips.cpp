@@ -142,13 +142,13 @@ void __fastcall RenderTriStripsAlt(NiTriStrips* self, void*, NiRenderer* apkRend
         ((void(__thiscall**)(NiRenderer*, void*)) * (void***)pkRenderer)[108](pkRenderer, self);
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+void* __cdecl Object_DispatchCommandFour(unsigned int size);
 extern "C" void* DAT_0109cd44;
 void __fastcall CopyTriStrips(NiTriStrips* self, void*, NiTriStrips* strips, int value);
 // @fnv 0x00a71db0
 NiTriStrips* __fastcall CreateTriStripsObject(NiTriStrips* self, void*, int value)
 {
-    NiTriStrips* strips = static_cast<NiTriStrips*>(FUN_00aa13e0(sizeof(NiTriStrips)));
+    NiTriStrips* strips = static_cast<NiTriStrips*>(Object_DispatchCommandFour(sizeof(NiTriStrips)));
     if (strips)
     {
         reinterpret_cast<NiTriBasedGeom*(__thiscall*)(NiTriBasedGeom*)>(InitTriBasedGeom)(strips);

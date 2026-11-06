@@ -41,7 +41,7 @@ public:
     TESObjectWEAP* GetFlags();
     TESBoundObject* FUN_0044ddc0();
     bool ItemChange_GetWorn(bool abUnk);
-    BSSimpleList<ExtraDataList*>* FUN_00559450();
+    BSSimpleList<ExtraDataList*>* Modelloader_GetReferencedThis();
     int FUN_00726070();
     void ClearExtraDataList();
     int CountAndPruneEntries();

@@ -29,7 +29,7 @@ struct Inner
 struct This
 {
     Inner* object;
-    void FUN_00dba690();
+    void ForwardCall_00dba690();
 };
 struct dba6d0_Ret
 {
@@ -62,7 +62,7 @@ struct Target
 struct Wrapper
 {
     Target* target;
-    void FUN_00dba6f0();
+    void ForwardCall_00dba6f0();
 };
 // Exe 0x00dbacd0: unit-local Interface view; declarations and layout are preserved.
 struct HkdataobjectInterfaceView
@@ -81,7 +81,7 @@ struct HkdataobjectInterfaceView
 struct FUN_00dba730_cls
 {
     HkdataobjectInterfaceView* ptr;
-    void FUN_00dba730();
+    void ForwardCall_00dba730();
 };
 struct FUN_00dba740_Target
 {
@@ -102,7 +102,7 @@ struct FUN_00dba740_Owner
 {
     FUN_00dba740_Target* unk00;
 
-    void FUN_00dba740(int a);
+    void InvokeVirtualMethod_00dba740(int a);
 };
 struct FUN_00dba750
 {
@@ -124,7 +124,7 @@ struct S_00dba890_Impl
 struct S_00dba890_Wrap
 {
     S_00dba890_Impl* m_pClassImpl;
-    S_00dba890_Vec FUN_00dba890(int i);
+    S_00dba890_Vec Get_Thunk(int i);
 };
 struct DBA8C0Target
 {
@@ -140,7 +140,7 @@ struct DBA8C0Owner
 {
     DBA8C0Target* unk00;
 
-    void FUN_00dba8c0(int a);
+    void InvokeVirtualMethod_00dba8c0(int a);
 };
 struct FUN_00dba980_cls
 {
@@ -219,7 +219,7 @@ struct AudioHandle
 {
     AudioInterface* system;
     void* object;
-    void FUN_00dbab10(unsigned int, unsigned int);
+    void Apply_Thunk(unsigned int, unsigned int);
 };
 struct S_00dbab30_Target
 {
@@ -249,7 +249,7 @@ struct S_00dbab30_Ref
 {
     S_00dbab30_Target* m_target;
     int m_04;
-    int FUN_00dbab30(int b);
+    int ForwardCall_00dbab30(int b);
 };
 struct FUN_00dbab70_obj
 {
@@ -261,7 +261,7 @@ struct FUN_00dbab70_obj
 struct FUN_00dbab70_cls
 {
     FUN_00dbab70_obj* m_pEntryObject;
-    void FUN_00dbab70();
+    void ReleaseStorage_00dbab70();
 };
 struct ResultPair
 {
@@ -274,7 +274,7 @@ struct ResultPair
 struct FUN_00dbabb0_cls
 {
     void* m_pIntegerData;
-    ResultPair FUN_00dbabb0(void* apExtra);
+    ResultPair CreateResultPair(void* apExtra);
 };
 struct S_00dbabd0_Inner
 {
@@ -285,7 +285,7 @@ struct S_00dbabd0_Inner
 struct S_00dbabd0
 {
     S_00dbabd0_Inner* m_inner;
-    void FUN_00dbabd0();
+    void ForwardCall_00dbabd0();
 };
 struct Inner_dbac40
 {
@@ -295,7 +295,7 @@ struct Inner_dbac40
 struct Outer_dbac40
 {
     Inner_dbac40* p;
-    void FUN_00dbac40();
+    void InvokeVirtualMethod_00dbac40();
 };
 struct dbac70_Target
 {
@@ -315,7 +315,7 @@ struct FUN_00dbac70_cls
 {
     dbac70_Target* m_p;
     int m_f;
-    void __thiscall FUN_00dbac70();
+    void __thiscall ForwardCall_00dbac70();
 };
 struct S_00dbac90_Obj
 {
@@ -407,7 +407,7 @@ struct FUN_00dbad00_cls
 {
     dbad00_Target* m_p;
     int m_f;
-    void __thiscall FUN_00dbad00(int* a);
+    void __thiscall InvokeVirtualMethod_00dbad00(int* a);
 };
 struct dbad60_Target
 {
@@ -426,7 +426,7 @@ struct FUN_00dbad60_cls
 {
     dbad60_Target* m_p;
     int m_f;
-    void __thiscall FUN_00dbad60(int a, int b);
+    void __thiscall InvokeVirtualMethod_00dbad60(int a, int b);
 };
 struct DBADC0Target
 {
@@ -448,7 +448,7 @@ struct DBADC0Binding
     DBADC0Target* m_target;
     void* m_data;
 
-    void FUN_00dbadc0(void* arg);
+    void InvokeVirtualMethod_00dbadc0(void* arg);
 };
 struct Callback
 {
@@ -486,11 +486,11 @@ struct FUN_00dbaf10_cls
     FUN_00dbaf10_callback* vtbl;
     void* p1;
     void* p2;
-    int __thiscall FUN_00dba6f0();
+    int __thiscall ForwardCall_00dba6f0();
     void __thiscall DispatchRecords(void* records);
 };
 extern char __stdcall Equals(void*);
-bool __stdcall FUN_00dbaf90(void* param_1);
+bool __stdcall Hkdataobject_UpdateState_00dbaf90(void* param_1);
 struct DBAFB0Source
 {
     virtual void unk00();
@@ -522,12 +522,12 @@ struct DBAFB0Handle
 struct FUN_00dba650_cls
 {
     unsigned int m_00;
-    FUN_00dba650_cls* FUN_00dba650(unsigned int value);
+    FUN_00dba650_cls* SetField00(unsigned int value);
 };
 struct CpuObject
 {
     int value;
-    bool FUN_00dba670();
+    bool TestValue();
 };
 struct VirtualTarget
 {
@@ -572,7 +572,7 @@ struct Sub_dba700
 struct Owner_dba700
 {
     Sub_dba700* m_target;
-    void __thiscall FUN_00dba700(void* a);
+    void __thiscall InvokeVirtualMethod_00dba700(void* a);
 };
 struct FnvCpu_FUN_00dba710_CpuInterface
 {
@@ -588,7 +588,7 @@ struct FnvCpu_FUN_00dba710_CpuInterface
 struct FnvCpu_FUN_00dba710_CpuOwner
 {
     FnvCpu_FUN_00dba710_CpuInterface* target;
-    void FUN_00dba710(int arg0);
+    void ForwardCall_00dba710(int arg0);
 };
 struct RefObj
 {
@@ -628,7 +628,7 @@ struct DBA7F0Ref
 {
     DBA7F0Object* m_pRetainedObject;
 
-    void FUN_00dba7f0();
+    void ReleaseStorage_00dba7f0();
 };
 struct FUN_00dba810_pair
 {
@@ -657,7 +657,7 @@ struct VTarget
 struct FUN_00dba870_cls
 {
     VTarget* m_pFlagTarget;
-    void* __thiscall FUN_00dba870(void* a, void* b);
+    void* __thiscall UpdateState_00dba870(void* a, void* b);
 };
 struct FUN_00dba8b0_tgt
 {
@@ -671,7 +671,7 @@ struct FUN_00dba8b0_tgt
 struct FUN_00dba8b0_cls
 {
     FUN_00dba8b0_tgt* m_00;
-    void __thiscall FUN_00dba8b0();
+    void __thiscall ForwardCall_00dba8b0();
 };
 struct FnvCpu_FUN_00dba8d0_CpuInterface
 {
@@ -687,7 +687,7 @@ struct FnvCpu_FUN_00dba8d0_CpuInterface
 struct FnvCpu_FUN_00dba8d0_CpuOwner
 {
     FnvCpu_FUN_00dba8d0_CpuInterface* target;
-    void FUN_00dba8d0(int arg0);
+    void ForwardCall_00dba8d0(int arg0);
 };
 // FUN_00dba8e0 (0x00dba8e0, 9 bytes) - forwarding stub.
 //
@@ -725,7 +725,7 @@ struct Sub_dba8e0
 struct Owner_dba8e0
 {
     Sub_dba8e0* m_target;
-    void __thiscall FUN_00dba8e0(void* a);
+    void __thiscall InvokeVirtualMethod_00dba8e0(void* a);
 };
 struct Dispatch
 {
@@ -744,7 +744,7 @@ struct FUN_00dba8f0_cls
 {
     Dispatch* m_pDispatch;
 
-    void* FUN_00dba8f0(void* apFirst, void* apSecond);
+    void* EvaluateValue_00dba8f0(void* apFirst, void* apSecond);
 };
 struct FnvCpu_FUN_00dba910_CpuInterface
 {
@@ -757,7 +757,7 @@ struct FnvCpu_FUN_00dba910_CpuInterface
 struct FnvCpu_FUN_00dba910_CpuOwner
 {
     FnvCpu_FUN_00dba910_CpuInterface* target;
-    void FUN_00dba910(int arg0);
+    void ForwardCall_00dba910(int arg0);
 };
 struct S_00dba990_Target
 {
@@ -780,7 +780,7 @@ struct S_00dba990
     S_00dba990_Target* m_pFlagTarget;
     void* m_arg;
 
-    int FUN_00dba990();
+    int ForwardCall_00dba990();
 };
 struct InnerObj
 {
@@ -803,7 +803,7 @@ struct FUN_00dba9d0_cls
 {
     InnerObj* m_00;
     void* m_04;
-    void* __thiscall FUN_00dba9d0(FUN_00dba760_cls* arg);
+    void* __thiscall GetWrappedDataObject(FUN_00dba760_cls* arg);
 };
 struct FUN_00dbaa30_target
 {
@@ -829,7 +829,7 @@ struct FUN_00dbaa30_cls
 {
     FUN_00dbaa30_target* m_00;
     void* m_04;
-    void __thiscall FUN_00dbaa30(int a1);
+    void __thiscall ForwardCall_00dbaa30(int a1);
 };
 // DispatchToObject: forwards a call through the object stored at offset 0.
 struct VirtDispatchIface
@@ -920,7 +920,7 @@ struct FUN_00dbaa90_cls
     SpawnedDispatcher* m_pDispatcher;
     void* m_pFlagTarget;
 
-    void FUN_00dbaa90(int a, int b);
+    void ForwardCall_00dbaa90(int a, int b);
 };
 struct FUN_00dbaad0_target
 {
@@ -948,7 +948,7 @@ struct FUN_00dbaad0_cls
 {
     FUN_00dbaad0_target* m_00;
     void* m_04;
-    void __thiscall FUN_00dbaad0(int a1);
+    void __thiscall ForwardCall_00dbaad0(int a1);
 };
 struct SpawnedPair
 {
@@ -959,7 +959,7 @@ struct FUN_00dbab90_cls
 {
     void* m_pObservedSource;
 
-    SpawnedPair __thiscall FUN_00dbab90(void* value);
+    SpawnedPair __thiscall UpdateState_00dbab90(void* value);
 };
 struct DBABE0Target
 {
@@ -973,7 +973,7 @@ struct DBABE0Binding
 {
     DBABE0Target* m_target;
 
-    void FUN_00dbabe0(void* arg);
+    void Get_Thunk(void* arg);
 };
 struct VirtualTarget00
 {
@@ -1002,7 +1002,7 @@ struct FUN_00dbad80_cls
 {
     VirtualTarget00* m_pFlagTarget;
     void* m_pArg;
-    void __thiscall FUN_00dbad80(int a1, int a2);
+    void __thiscall InvokeVirtualMethod_00dbad80(int a1, int a2);
 };
 struct FUN_00dbade0_obj
 {
@@ -1170,7 +1170,7 @@ struct FnvCpu_FUN_00dbae30_CpuInterface
 struct FnvCpu_FUN_00dbae30_CpuOwner
 {
     FnvCpu_FUN_00dbae30_CpuInterface* target;
-    void FUN_00dbae30(int arg0);
+    void ForwardCall_00dbae30(int arg0);
 };
 struct FUN_00dbae60_Inner
 {
@@ -1206,7 +1206,7 @@ struct FUN_00dbae60_Inner
 struct FUN_00dbae60_cls
 {
     FUN_00dbae60_Inner* m_00;
-    void __thiscall FUN_00dbae60(int a);
+    void __thiscall InvokeVirtualMethod_00dbae60(int a);
 };
 // The controller reached through this->controller is a polymorphic object.
 // FUN_00dbae80 forwards to the virtual at vtable offset 0x64 (slot 25) of that
@@ -1245,7 +1245,7 @@ struct FUN_00dbae80_cls
 {
     Controller_cls* controller;  // +0x00
     void* p1;                    // +0x04
-    void __thiscall FUN_00dbae80(void* a, void* b);
+    void __thiscall InvokeVirtualMethod_00dbae80(void* a, void* b);
 };
 // FUN_00dbae90 : the stub family - load a sub-object out of `this` and tail-jump
 // to one of its virtuals.  The target is in EAX, which means the callee takes ONE
@@ -1282,7 +1282,7 @@ struct Sub_dbae90
 struct Own_dbae90
 {
     Sub_dbae90* m_sub;
-    void __thiscall FUN_00dbae90(void* a);
+    void __thiscall ForwardCall_00dbae90(void* a);
 };
 struct S_00dbaed0_Elem
 {
@@ -1309,7 +1309,7 @@ struct S_00dbaed0_Target
 struct S_00dbaed0_Obj
 {
     S_00dbaed0_Target* m_target;
-    int FUN_00dba730();
+    int ForwardCall_00dba730();
     void DispatchItems(S_00dbaed0_Elem** items);
 };
 struct S_Alloc
@@ -1435,7 +1435,7 @@ struct FUN_00dbac50_cls
     void __thiscall DispatchToVTableSlot8(int a1);
 };
 typedef void(__thiscall* Fnv299Dispatch)(Fnv299VTarget*, int);
-void __cdecl FUN_00dba660();
+void __cdecl Object_DoNothing_00dba660();
 struct ObjectValue
 {
     void* object;
@@ -1491,14 +1491,14 @@ struct DB8000_Router
 struct DB8000_Handle
 {
     unsigned int m_00;
-    DB8000_Handle* FUN_00dba650(unsigned int value);
-    void FUN_00dba660();
+    DB8000_Handle* SetField00(unsigned int value);
+    void Object_DoNothing_00dba660();
 };
 struct DB8000_Ref
 {
     void* m_pRetainedObject;
     void hkDataObject_hkDataObject(void* p);
-    void FUN_00dba7f0();
+    void ReleaseStorage_00dba7f0();
 };
 typedef hkArray<void*> DB8000_PtrArray;
 struct DB8000_Out
@@ -1571,9 +1571,9 @@ struct DB8000_Self
     virtual unsigned int vfn9(const char* name);
 
     void hkDataWorldDict_renameClass(DB8000_Handle* h, const char* name);
-    void FUN_00dc73f0(DB8000_Handle* h, int a, int b);
+    void RenameClassMember(DB8000_Handle* h, int a, int b);
     void FUN_00dc7d20(DB8000_Handle* h, int a, int b, int c, int d);
-    void FUN_00dc7600(DB8000_Handle* h, int a);
+    void ProcessEntries_00dc7600(DB8000_Handle* h, int a);
     void InitAndRun(const char* name, DB8000_PtrArray* out);
     void AssignRefCountedSlot(DB8000_Handle* h1, DB8000_Handle* h2);
     void CallWithReset(const char* name, DB8000_PtrArray* out);
@@ -1590,7 +1590,7 @@ struct DataClassMemberAccess
 {
     S_00dbaed0_Target* m_pClassImpl;
 
-    void FUN_00dba720(int index, S_00dbaed0_Elem* info) const;
+    void InvokeVirtualMethod_00dba720(int index, S_00dbaed0_Elem* info) const;
 };
 struct MemberValueHandle;
 struct MemberValueTarget
@@ -1625,7 +1625,7 @@ struct MemberValueHandle
     MemberValueTarget* implementation;
     const char* name;
 
-    void FUN_00dbaa10(const MemberValueHandle& value);
+    void Assign_Thunk(const MemberValueHandle& value);
 };
 struct ArrayReserveTarget
 {
@@ -1637,7 +1637,7 @@ struct ArrayReserveTarget
 struct ArrayReserveHandle
 {
     ArrayReserveTarget* m_inner;
-    void FUN_00dbabf0(int a);
+    void ForwardCall_00dbabf0(int a);
 };
 struct BulkArrayTarget
 {
@@ -1677,7 +1677,7 @@ struct BulkArrayTarget
 struct BulkArrayWrapper
 {
     BulkArrayTarget* m_inner;
-    void FUN_00dbae20(const short* values, int count);
+    void InvokeVirtualMethod_00dbae20(const short* values, int count);
 };
 struct ArrayBulkIntTarget
 {
@@ -1715,7 +1715,7 @@ struct ArrayBulkIntTarget
 struct ArrayBulkIntBinding
 {
     ArrayBulkIntTarget* m_pArrayBulkIntTarget;
-    void FUN_00dbae40(const int* values, int count);
+    void InvokeVirtualMethod_00dbae40(const int* values, int count);
 };
 struct ArrayBulkInterface
 {
@@ -1752,7 +1752,7 @@ struct ArrayBulkInterface
 struct ArrayBulkHandle
 {
     ArrayBulkInterface* implementation;
-    void FUN_00dbae50(const unsigned int* values, int count);
+    void AssignAll_Thunk(const unsigned int* values, int count);
 };
 struct ArrayBulkTarget;
 typedef void(__fastcall* ArrayBulkSlot)(ArrayBulkTarget*, int);
@@ -1764,7 +1764,7 @@ struct ArrayBulkOwner
 {
     ArrayBulkTarget* object;
 };
-void __fastcall FUN_00dbae70(ArrayBulkOwner* self, int forwarded);
+void __fastcall Hkdataobject_UpdateState_00dbae70(ArrayBulkOwner* self, int forwarded);
 struct DataObjectHandle
 {
     RefObj* object;
@@ -1772,13 +1772,14 @@ struct DataObjectHandle
 };
 struct DataClassResult : FUN_00dba650_cls
 {
-    DataClassResult* FUN_00dba650(unsigned int value);
+    DataClassResult* SetField00(unsigned int value);
     DataClassResult(unsigned int value)
     {
-        FUN_00dba650(value);
+        SetField00(value);
     }
 };
-__declspec(noinline) DataClassResult* DataClassResult::FUN_00dba650(unsigned int value)
+// src: GUESS 0x00dba650 (confidence: low)
+__declspec(noinline) DataClassResult* DataClassResult::SetField00(unsigned int value)
 {
     m_00 = value;
     return this;
@@ -1796,7 +1797,7 @@ struct DataClassProvider
 struct DataClassAccess
 {
     DataClassProvider* provider;
-    DataClassResult FUN_00dbac20();
+    DataClassResult ProcessAndReturnValue_00dbac20();
 };
 
 struct MemberArrayProvider
@@ -1830,11 +1831,12 @@ struct MemberArrayValue
 {
     MemberArrayProvider* provider;
     const char* name;
-    FUN_00dbab50 FUN_00dbacd0() const;
+    FUN_00dbab50 GetMemberArrayValue() const;
 };
 
 // @fnv 0x00dbacd0
-FUN_00dbab50 MemberArrayValue::FUN_00dbacd0() const
+// src: GUESS 0x00dbacd0 (confidence: medium)
+FUN_00dbab50 MemberArrayValue::GetMemberArrayValue() const
 {
     return FUN_00dbab50(provider->getArray(name));
 }

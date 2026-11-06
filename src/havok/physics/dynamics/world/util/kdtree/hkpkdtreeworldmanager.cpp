@@ -51,7 +51,7 @@ void __fastcall hkpKdTreeWorldManager_setUpToDate(char* self, int unused, char f
 
 struct FUN_00d0a270_StandIn
 {
-    void __thiscall FUN_00d0a270(int);
+    void __thiscall ClearEntryByKey_Thunk(int);
 };
 
 struct FUN_00d0a340_StandIn
@@ -77,7 +77,7 @@ void __thiscall FUN_00d0a340_StandIn::SetFlagOrForward(int arg)
         return;
     }
 
-    return reinterpret_cast<FUN_00d0a270_StandIn*>(reinterpret_cast<char*>(this) - 0x14)->FUN_00d0a270(arg);
+    return reinterpret_cast<FUN_00d0a270_StandIn*>(reinterpret_cast<char*>(this) - 0x14)->ClearEntryByKey_Thunk(arg);
 }
 
 struct FUN_00c917a0_shell
@@ -176,11 +176,12 @@ struct FUN_00d0ad80_This
 class FUN_00d0ad80_Class : public FUN_00d0ad80_This
 {
   public:
-    bool __thiscall FUN_00d0ad80();
+    bool __thiscall ComputeValue_00d0ad80();
 };
 
 // @fnv 0x00d0ad80
-bool FUN_00d0ad80_Class::FUN_00d0ad80()
+// src: GUESS 0x00d0ad80 (confidence: low)
+bool FUN_00d0ad80_Class::ComputeValue_00d0ad80()
 {
     return this->unk20 == '\0';
 }
@@ -217,7 +218,7 @@ void __thiscall FUN_00d0a360_Owner::HandleArg(int arg)
         }
         else
         {
-            reinterpret_cast<FUN_00d0a270_StandIn*>(reinterpret_cast<char*>(this) - 0x18)->FUN_00d0a270(arg);
+            reinterpret_cast<FUN_00d0a270_StandIn*>(reinterpret_cast<char*>(this) - 0x18)->ClearEntryByKey_Thunk(arg);
         }
     }
 }
@@ -1061,7 +1062,7 @@ void S00d0a560_Owner::hkpKdTreeWorldManager_buildTreeSingleThreaded(int* out, in
 // declare, so the second base's vtable gets a thunk that moves `this` back by the first base's size (0x14).
 struct PrimaryBase
 {
-    virtual void FUN_00d0ada0();
+    virtual void AdjustThisAndForward_00d0ada0();
     int unk04;
     int unk08;
     int unk0C;
@@ -1070,14 +1071,15 @@ struct PrimaryBase
 
 struct SecondaryBase
 {
-    virtual void FUN_00d0ada0();
+    virtual void AdjustThisAndForward_00d0ada0();
 };
 
 struct Derived : PrimaryBase, SecondaryBase
 {
     Derived();
 // @fnv 0x00d0ada0
-    virtual void FUN_00d0ada0();
+// src: GUESS 0x00d0ada0 (confidence: low)
+    virtual void AdjustThisAndForward_00d0ada0();
 };
 
 Derived::Derived()
@@ -1201,7 +1203,7 @@ struct Semaphore
 {
     void* handle;
     Semaphore* Create(int, int);
-    void FUN_00d04370();
+    void ForwardCall_00d04370();
     void hkSemaphore_acquire();
 };
 struct BuildJob
@@ -1433,7 +1435,7 @@ void Manager::hkpKdTreeWorldManager_buildTreeDistributed(Tree** tree, Input* inp
     reinterpret_cast<hkMemoryAllocator*>(getRouter()->m_heap)->blockFree(const_cast<Counter* const&>(tail.counter), 16);
     if (semaphore)
     {
-        semaphore->FUN_00d04370();
+        semaphore->ForwardCall_00d04370();
         reinterpret_cast<hkMemoryAllocator*>(getRouter()->m_heap)->blockFree(semaphore, 4);
     }
     ReturnMemory(early.secondData, early.secondCap);

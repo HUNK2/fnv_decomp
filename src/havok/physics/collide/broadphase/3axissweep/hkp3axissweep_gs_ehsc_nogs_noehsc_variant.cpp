@@ -250,7 +250,7 @@ struct BpEndPoint {
 };
 struct FUN_00d19ef0_cls {
     BpEndPoint* m_pItems;
-    void FUN_00d19ef0(char* out, int n, BpEndPoint* src, int k);
+    void ProcessEntries_00d19ef0(char* out, int n, BpEndPoint* src, int k);
 };
 void __cdecl hkAlgorithm_quickSortRecursive_class_hkp3AxisSweep_hkpBpEndPoint_class_hkAlgorithm_less_class_hkp3AxisSweep_hkpBpEndPoint(unsigned int* base, int lo, int hi, int unkArg);
 void __cdecl QuickSortByLowWord(unsigned int* base, int lo, int hi, int unkArg);
@@ -685,7 +685,8 @@ struct S00d10b30_Bnd {
 };
 
 // @fnv 0x00d10b30
-void __stdcall FUN_00d10b30(S00d10b30_Node* nodes, int n, const S00d10b30_Bnd* bnd)
+// src: GUESS 0x00d10b30 (confidence: low)
+void __stdcall Hkp3axissweepGsEhscNogsNoehsc_ProcessEntries_00d10b30(S00d10b30_Node* nodes, int n, const S00d10b30_Bnd* bnd)
 {
     S00d10b30_Node r1, r2;
     r1.hi.m64_i16[1] = r1.hi.m64_i16[0] = bnd->hi0 - 1;
@@ -723,7 +724,8 @@ struct BpDeltaPair {
 };
 
 // @fnv 0x00d10c40
-void __stdcall FUN_00d10c40(FourIntegerBlock* nodes, int n, int delta, const int* bound)
+// src: GUESS 0x00d10c40 (confidence: low)
+void __stdcall Object_ProcessEntries_00d10c40(FourIntegerBlock* nodes, int n, int delta, const int* bound)
 {
     BpRefBounds ref;
     ref.hi0 = (unsigned short)(bound[0] - 1);
@@ -1801,7 +1803,8 @@ __declspec(noinline) Entry* Axis154::LowerBoundEntry(Entry* first, Entry* last, 
 }  // namespace fnv_00d154a0
 
 // @fnv 0x00d11000
-static __declspec(noinline) unsigned int* FUN_00d11000(unsigned int* dst, int n)
+// src: GUESS 0x00d11000 (confidence: low)
+static __declspec(noinline) unsigned int* Object_ProcessEntries_00d11000(unsigned int* dst, int n)
 {
     int i = n >> 4;
     __m128 zero = _mm_setzero_ps();
@@ -1820,7 +1823,7 @@ static __declspec(noinline) unsigned int* FUN_00d11000(unsigned int* dst, int n)
 
 unsigned int* volatile g_zeroDestination;
 volatile int g_zeroLength;
-unsigned int* CallZeroBlocks() { return FUN_00d11000(g_zeroDestination, g_zeroLength); }
+unsigned int* CallZeroBlocks() { return Object_ProcessEntries_00d11000(g_zeroDestination, g_zeroLength); }
 
 #include <xmmintrin.h>
 namespace fnv_00d159a0 {
@@ -2921,8 +2924,8 @@ struct SortArr15 {
     __declspec(noinline) void* LowerBoundEntry(void* begin, void* end, int thresh);
     int InsertEndpoints(void* base, int idx, void* ptr, int savedN);
     int MergeSortedEndpoints(void* base, int out, void* ptr, int savedN);
-    int FUN_00d19e40(void* base, int out, void* ptr, int savedN);
-    int FUN_00d19ef0(void* base, int out, void* ptr, int savedN);
+    int MergeEndpointRangesBackward(void* base, int out, void* ptr, int savedN);
+    int ProcessEntries_00d19ef0(void* base, int out, void* ptr, int savedN);
 };
 __declspec(noinline) void* SortArr15::LowerBoundEntry(void* begin,void* end,int thresh) {
  Endpoint* first=(Endpoint*)begin;Endpoint* last=(Endpoint*)end;
@@ -3174,8 +3177,8 @@ void Sweep15::hkp3AxisSweep_addObjectBatch(In1* p1, In2* p2, int p3)
         outArr[i] = sa->InsertEndpoints(baseA0, i, ptrs[i], endPointCount);
     }
     axes[0].MergeSortedEndpoints(baseA0, outArr[0], b1.data, endPointCount);
-    axes[1].FUN_00d19e40(baseA0, outArr[1], b2.data, endPointCount);
-    axes[2].FUN_00d19ef0(baseA0, outArr[2], b3.data, endPointCount);
+    axes[1].MergeEndpointRangesBackward(baseA0, outArr[1], b2.data, endPointCount);
+    axes[2].ProcessEntries_00d19ef0(baseA0, outArr[2], b3.data, endPointCount);
     if(m_iMarkerCount) {
         for(int i=0;i<m_iMarkerCount;++i) {
             SweepBatchNode& node=arrA0.data[m_pOverlappingMarkerInfo[i].node];

@@ -126,11 +126,11 @@ struct LevCreatureSerialization : public TESLevCreature
 // @fnv 0x0050a8e0
 void LevCreatureSerialization::SaveForm()
 {
-    TESForm::FUN_004855a0();
+    TESForm::BeginFormRecord();
     TESForm::ClearData();
     TESLeveledList::Save();
     ((ModelTextureSwapSerialization*)((char*)this + 0x4c))->WriteChunks(0x4c444f4d, 0x54444f4d, 0x53444f4d);
-    TESForm::FUN_00485680();
+    TESForm::FinishFormRecord();
 }
 
 namespace LevCreatureCopyImplementation {

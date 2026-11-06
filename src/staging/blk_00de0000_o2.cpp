@@ -76,14 +76,15 @@ void __cdecl finishLoadedObjecthkpCollidableBoundingVolumeData(void* p, int b)
 
 struct FUN_00cb0c00_class
 {
-    void __thiscall FUN_00cb0c00();
+    void __thiscall Object_UpdateFields_00cb0c00();
 };
 
 // @fnv 0x00dfb490
-void FUN_00dfb490(FUN_00cb0c00_class* self)
+// src: GUESS 0x00dfb490 (confidence: low)
+void Object_ProcessState_00dfb490(FUN_00cb0c00_class* self)
 {
-    reinterpret_cast<FUN_00cb0c00_class*>(reinterpret_cast<char*>(self) + 4)->FUN_00cb0c00();
-    self->FUN_00cb0c00();
+    reinterpret_cast<FUN_00cb0c00_class*>(reinterpret_cast<char*>(self) + 4)->Object_UpdateFields_00cb0c00();
+    self->Object_UpdateFields_00cb0c00();
 }
 
 // @fnv 0x00dfb9d0
@@ -100,16 +101,17 @@ extern int DAT_010df34c;
 
 struct FUN_00dfbdf0_class
 {
-    void __thiscall FUN_00cb0a70(int a);
+    void __thiscall ReturnSelf(int a);
 };
 
 // @fnv 0x00dfbdf0
-void FUN_00dfbdf0(void* p, int a)
+// src: GUESS 0x00dfbdf0 (confidence: low)
+void Runtime_UpdateState_00dfbdf0(void* p, int a)
 {
     if (p)
     {
         *(int*)p = (int)&DAT_010cc2fc;
-        ((FUN_00dfbdf0_class*)((char*)p + 0x14))->FUN_00cb0a70(a);
+        ((FUN_00dfbdf0_class*)((char*)p + 0x14))->ReturnSelf(a);
         *(int*)p = (int)&DAT_010df34c;
     }
 }
@@ -136,7 +138,8 @@ extern "C" void* DAT_010305a8;
 extern "C" void* DAT_010e222c;
 
 // @fnv 0x00dfd0f0
-void FUN_00dfd0f0(void* pObject, int b)
+// src: GUESS 0x00dfd0f0 (confidence: low)
+void Object_UpdateState_00dfd0f0(void* pObject, int b)
 {
     if (pObject)
     {
@@ -150,14 +153,15 @@ void FUN_00dfd0f0(void* pObject, int b)
 
 struct FUN_00cb0a70_class
 {
-    void __thiscall FUN_00cb0a70(int);
+    void __thiscall ReturnSelf(int);
 };
 
 // @fnv 0x00dfd770
-void __cdecl FUN_00dfd770(void* pObject, void* arg2)
+// src: GUESS 0x00dfd770 (confidence: low)
+void __cdecl Object_ProcessState_00dfd770(void* pObject, void* arg2)
 {
     if (pObject)
-        ((FUN_00cb0a70_class*)((char*)pObject + 4))->FUN_00cb0a70((int)arg2);
+        ((FUN_00cb0a70_class*)((char*)pObject + 4))->ReturnSelf((int)arg2);
 }
 
 namespace fnv_00dfd970 {
@@ -174,25 +178,27 @@ void __cdecl cleanupLoadedObjecthkaSkeletonLocalFrameOnBone_00dfd970(hkReference
 
 struct FUN_00cb0a70_cls
 {
-    void __thiscall FUN_00cb0a70(char*);
+    void __thiscall ReturnSelf(char*);
 };
 
 // If b is non-null, calls FUN_00cb0a70 on b and on b+4 with a as the argument.
 // @fnv 0x00dfda10
-void FUN_00dfda10(char* pObject, char* a)
+// src: GUESS 0x00dfda10 (confidence: low)
+void Object_UpdateState_00dfda10(char* pObject, char* a)
 {
     if (pObject)
     {
         char* c = a;
-        ((FUN_00cb0a70_cls*)pObject)->FUN_00cb0a70(c);
-        ((FUN_00cb0a70_cls*)(pObject + 4))->FUN_00cb0a70(c);
+        ((FUN_00cb0a70_cls*)pObject)->ReturnSelf(c);
+        ((FUN_00cb0a70_cls*)(pObject + 4))->ReturnSelf(c);
     }
 }
 
 extern int DAT_010d3cc0;
 
 // @fnv 0x00dfde30
-void FUN_00dfde30(void* apObject)
+// src: GUESS 0x00dfde30 (confidence: low)
+void Object_UpdateState_00dfde30(void* apObject)
 {
     if (apObject)
     {
@@ -212,16 +218,17 @@ struct FUN_00cb0a70_Class
     int m_iThirdValue;
     int m_10;
     int m_14;
-    void __thiscall FUN_00cb0a70(int a);
+    void __thiscall ReturnSelf(int a);
 };
 
 // @fnv 0x00dfef50
-void FUN_00dfef50(int* pObject, int aiValue)
+// src: GUESS 0x00dfef50 (confidence: low)
+void Object_UpdateState_00dfef50(int* pObject, int aiValue)
 {
     if (pObject)
     {
         pObject[0] = (int)&DAT_010cc2fc;
-        ((FUN_00cb0a70_Class*)((char*)pObject + 0x14))->FUN_00cb0a70(aiValue);
+        ((FUN_00cb0a70_Class*)((char*)pObject + 0x14))->ReturnSelf(aiValue);
         pObject[0] = (int)&DAT_010d08f4;
     }
 }
@@ -232,17 +239,18 @@ extern int DAT_010e6834;
 struct FUN_00dff0f0_class
 {
     int m;
-    void FUN_00cb0a70(int);
+    void ReturnSelf(int);
 };
 
 // If p is non-null, sets p->m to &DAT_010cc2fc, calls FUN_00cb0a70 on the object at p+0x14 with a, then sets p->m to &DAT_010e6834.
 // @fnv 0x00dff0f0
-void FUN_00dff0f0(FUN_00dff0f0_class* p, int aiValue)
+// src: GUESS 0x00dff0f0 (confidence: low)
+void Runtime_UpdateState_00dff0f0(FUN_00dff0f0_class* p, int aiValue)
 {
     if (p)
     {
         p->m = (int)&DAT_010cc2fc;
-        ((FUN_00dff0f0_class*)((char*)p + 0x14))->FUN_00cb0a70(aiValue);
+        ((FUN_00dff0f0_class*)((char*)p + 0x14))->ReturnSelf(aiValue);
         p->m = (int)&DAT_010e6834;
     }
 }
@@ -269,19 +277,20 @@ void __cdecl finishLoadedObjecthkpPhysicsSystemWithContacts(int* pObject, int iV
 struct FUN_00dff340_Class
 {
     void* m_p;
-    void FUN_00cb0a70(void* arg);
+    void ReturnSelf(void* arg);
 };
 
 extern int DAT_010cc2fc;
 extern int DAT_010d0944;
 
 // @fnv 0x00dff340
-void __cdecl FUN_00dff340(void* apObject, void* arg)
+// src: GUESS 0x00dff340 (confidence: low)
+void __cdecl Object_UpdateFields_00dff340(void* apObject, void* arg)
 {
     if (apObject)
     {
         ((FUN_00dff340_Class*)apObject)->m_p = &DAT_010cc2fc;
-        ((FUN_00dff340_Class*)((char*)apObject + 0x14))->FUN_00cb0a70(arg);
+        ((FUN_00dff340_Class*)((char*)apObject + 0x14))->ReturnSelf(arg);
         ((FUN_00dff340_Class*)apObject)->m_p = &DAT_010d0944;
     }
 }
@@ -315,19 +324,20 @@ struct FUN_00cb0a70_class
     int m_uiX;
     int m_uiY;
     int m_uiZ;
-    void FUN_00cb0a70(int a);
+    void ReturnSelf(int a);
 };
 
 extern int DAT_010cc2fc;
 extern int DAT_010d09f4;
 
 // @fnv 0x00dffbe0
-void __cdecl FUN_00dffbe0(int* pObject, int aiValue)
+// src: GUESS 0x00dffbe0 (confidence: low)
+void __cdecl Object_UpdateFields_00dffbe0(int* pObject, int aiValue)
 {
     if (pObject)
     {
         *pObject = (int)&DAT_010cc2fc;
-        ((FUN_00cb0a70_class*)(pObject + 5))->FUN_00cb0a70(aiValue);
+        ((FUN_00cb0a70_class*)(pObject + 5))->ReturnSelf(aiValue);
         *pObject = (int)&DAT_010d09f4;
     }
 }
@@ -354,14 +364,16 @@ void CopyFields(void* pSource, void* pDest)
 }
 
 // @fnv 0x00dfbc70
-void FUN_00dfbc70(FUN_00cb0c00_class* self)
+// src: GUESS 0x00dfbc70 (confidence: low)
+void Object_ForwardCall_00dfbc70(FUN_00cb0c00_class* self)
 {
-    ((FUN_00cb0c00_class*)((char*)self + 4))->FUN_00cb0c00();
+    ((FUN_00cb0c00_class*)((char*)self + 4))->Object_UpdateFields_00cb0c00();
 }
 
 extern int DAT_010df89c;
 // @fnv 0x00dfbf50
-void __cdecl FUN_00dfbf50(int* p)
+// src: GUESS 0x00dfbf50 (confidence: low)
+void __cdecl Runtime_UpdateState_00dfbf50(int* p)
 {
     if (p)
         *p = (int)&DAT_010df89c;
@@ -370,7 +382,8 @@ void __cdecl FUN_00dfbf50(int* p)
 extern int DAT_010df9f4;
 
 // @fnv 0x00dfc060
-void FUN_00dfc060(int* p)
+// src: GUESS 0x00dfc060 (confidence: low)
+void Object_UpdateFields_00dfc060(int* p)
 {
     if (p)
         *p = (int)&DAT_010df9f4;
@@ -378,7 +391,8 @@ void FUN_00dfc060(int* p)
 
 extern int DAT_010dff44;
 // @fnv 0x00dfc130
-void __cdecl FUN_00dfc130(int* p)
+// src: GUESS 0x00dfc130 (confidence: low)
+void __cdecl Runtime_UpdateState_00dfc130(int* p)
 {
     if (p)
         *p = (int)&DAT_010dff44;
@@ -386,13 +400,15 @@ void __cdecl FUN_00dfc130(int* p)
 
 typedef void(__thiscall* VTable0)(void*, int);
 // @fnv 0x00dfc230
-void __cdecl FUN_00dfc230(void** p)
+// src: GUESS 0x00dfc230 (confidence: low)
+void __cdecl Runtime_Helper_00dfc230(void** p)
 {
     ((VTable0*)(*(void***)(p)))[0](p, 0);
 }
 
 // @fnv 0x00dfc250
-void __cdecl FUN_00dfc250(void** p)
+// src: GUESS 0x00dfc250 (confidence: low)
+void __cdecl Runtime_UpdateState_00dfc250(void** p)
 {
     void(__thiscall * fn)(void*, int) = *(void(__thiscall**)(void*, int)) * p;
     fn(p, 0);
@@ -400,7 +416,8 @@ void __cdecl FUN_00dfc250(void** p)
 
 extern int DAT_010e00cc;
 // @fnv 0x00dfc280
-void __cdecl FUN_00dfc280(int* p)
+// src: GUESS 0x00dfc280 (confidence: low)
+void __cdecl Object_UpdateFields_00dfc280(int* p)
 {
     if (p)
         *p = (int)&DAT_010e00cc;
@@ -408,35 +425,40 @@ void __cdecl FUN_00dfc280(int* p)
 
 extern int DAT_010e00dc;
 // @fnv 0x00dfc2a0
-void FUN_00dfc2a0(int* p)
+// src: GUESS 0x00dfc2a0 (confidence: low)
+void Object_UpdateFields_00dfc2a0(int* p)
 {
     if (p)
         *p = (int)&DAT_010e00dc;
 }
 
 // @fnv 0x00dfc380
-void __cdecl FUN_00dfc380(void** p)
+// src: GUESS 0x00dfc380 (confidence: low)
+void __cdecl Object_InvokeVirtualMethod_00dfc380(void** p)
 {
     (**(void(__thiscall**)(void*, int))(*p))(p, 0);
 }
 
 extern int DAT_010e04ac;
 // @fnv 0x00dfc470
-void __cdecl FUN_00dfc470(int* p)
+// src: GUESS 0x00dfc470 (confidence: low)
+void __cdecl Runtime_UpdateState_00dfc470(int* p)
 {
     if (p)
         *p = (int)&DAT_010e04ac;
 }
 
 // @fnv 0x00dfc500
-void __cdecl FUN_00dfc500(void* p)
+// src: GUESS 0x00dfc500 (confidence: low)
+void __cdecl Object_ProcessAndTransformResult_00dfc500(void* p)
 {
     ((void(__thiscall*)(void*, int)) * (void**)*(void**)p)(p, 0);
 }
 
 extern int DAT_010e0654;
 // @fnv 0x00dfc520
-void __cdecl FUN_00dfc520(int* a)
+// src: GUESS 0x00dfc520 (confidence: low)
+void __cdecl Object_UpdateFields_00dfc520(int* a)
 {
     if (a)
         *a = (int)&DAT_010e0654;
@@ -445,7 +467,8 @@ void __cdecl FUN_00dfc520(int* a)
 extern int DAT_0102e368;
 
 // @fnv 0x00dfc620
-void __cdecl FUN_00dfc620(int* p)
+// src: GUESS 0x00dfc620 (confidence: low)
+void __cdecl Object_UpdateFields_00dfc620(int* p)
 {
     if (p)
         *p = (int)&DAT_0102e368;
@@ -453,21 +476,24 @@ void __cdecl FUN_00dfc620(int* p)
 
 extern int DAT_010d0a64;
 // @fnv 0x00dfc6c0
-void __cdecl FUN_00dfc6c0(int* p)
+// src: GUESS 0x00dfc6c0 (confidence: low)
+void __cdecl Object_UpdateFields_00dfc6c0(int* p)
 {
     if (p)
         *p = (int)&DAT_010d0a64;
 }
 
 // @fnv 0x00dfc700
-void __cdecl FUN_00dfc700(void* p)
+// src: GUESS 0x00dfc700 (confidence: low)
+void __cdecl Object_ProcessAndTransformResult_00dfc700(void* p)
 {
     ((void(__thiscall*)(void*, int))(*(void**)*(void**)p))(p, 0);
 }
 
 extern int DAT_010d0aac;
 // @fnv 0x00dfc730
-void FUN_00dfc730(int* p)
+// src: GUESS 0x00dfc730 (confidence: low)
+void Runtime_UpdateState_00dfc730(int* p)
 {
     if (p)
         *p = (int)&DAT_010d0aac;
@@ -475,7 +501,8 @@ void FUN_00dfc730(int* p)
 
 extern int DAT_010e11ec;
 // @fnv 0x00dfc900
-void __cdecl FUN_00dfc900(int* p)
+// src: GUESS 0x00dfc900 (confidence: low)
+void __cdecl Object_UpdateFields_00dfc900(int* p)
 {
     if (p)
         *p = (int)&DAT_010e11ec;
@@ -483,21 +510,24 @@ void __cdecl FUN_00dfc900(int* p)
 
 extern int DAT_010da04c;
 // @fnv 0x00dfca90
-void __cdecl FUN_00dfca90(int* p)
+// src: GUESS 0x00dfca90 (confidence: low)
+void __cdecl Runtime_UpdateState_00dfca90(int* p)
 {
     if (p)
         *p = (int)&DAT_010da04c;
 }
 
 // @fnv 0x00dfcad0
-void __cdecl FUN_00dfcad0(void** p)
+// src: GUESS 0x00dfcad0 (confidence: low)
+void __cdecl Runtime_Helper_00dfcad0(void** p)
 {
     ((void(__thiscall*)(void*, int))(**(void***)(p)))(p, 0);
 }
 
 extern int DAT_010d0b3c;
 // @fnv 0x00dfcb00
-void FUN_00dfcb00(int* p)
+// src: GUESS 0x00dfcb00 (confidence: low)
+void Object_UpdateFields_00dfcb00(int* p)
 {
     if (p)
         *p = (int)&DAT_010d0b3c;
@@ -505,7 +535,8 @@ void FUN_00dfcb00(int* p)
 
 extern void* DAT_010d37e4;
 // @fnv 0x00dfcbf0
-void __cdecl FUN_00dfcbf0(void** p)
+// src: GUESS 0x00dfcbf0 (confidence: low)
+void __cdecl Runtime_UpdateState_00dfcbf0(void** p)
 {
     if (p)
         *p = &DAT_010d37e4;
@@ -513,7 +544,8 @@ void __cdecl FUN_00dfcbf0(void** p)
 
 extern int DAT_010c89e4;
 // @fnv 0x00dfcc60
-void __cdecl FUN_00dfcc60(int* p)
+// src: GUESS 0x00dfcc60 (confidence: low)
+void __cdecl Object_UpdateFields_00dfcc60(int* p)
 {
     if (p)
         *p = (int)&DAT_010c89e4;
@@ -521,7 +553,8 @@ void __cdecl FUN_00dfcc60(int* p)
 
 extern int DAT_010d0be4;
 // @fnv 0x00dfccd0
-void __cdecl FUN_00dfccd0(int* p)
+// src: GUESS 0x00dfccd0 (confidence: low)
+void __cdecl Runtime_UpdateState_00dfccd0(int* p)
 {
     if (p)
         *p = (int)&DAT_010d0be4;
@@ -529,14 +562,16 @@ void __cdecl FUN_00dfccd0(int* p)
 
 typedef int(__thiscall* VFunc0)(void*, int);
 // @fnv 0x00dfcd10
-int __cdecl FUN_00dfcd10(void* self)
+// src: GUESS 0x00dfcd10 (confidence: low)
+int __cdecl Object_EvaluateValue_00dfcd10(void* self)
 {
     return ((VFunc0*)*(void**)self)[0](self, 0);
 }
 
 extern int DAT_010c91ec;
 // @fnv 0x00dfcd40
-void __cdecl FUN_00dfcd40(int* p)
+// src: GUESS 0x00dfcd40 (confidence: low)
+void __cdecl Object_UpdateFields_00dfcd40(int* p)
 {
     if (p)
         *p = (int)&DAT_010c91ec;
@@ -545,7 +580,8 @@ void __cdecl FUN_00dfcd40(int* p)
 extern int DAT_010d0cd4;
 
 // @fnv 0x00dfce90
-void __cdecl FUN_00dfce90(int* a)
+// src: GUESS 0x00dfce90 (confidence: low)
+void __cdecl Runtime_UpdateState_00dfce90(int* a)
 {
     if (a)
         *a = (int)&DAT_010d0cd4;
@@ -557,36 +593,41 @@ struct FUN_00dfd7a0_vt
     virtual void v1(int);
 };
 // @fnv 0x00dfd7a0
-void __cdecl FUN_00dfd7a0(FUN_00dfd7a0_vt* p)
+// src: GUESS 0x00dfd7a0 (confidence: low)
+void __cdecl Object_InvokeVirtualMethod_00dfd7a0(FUN_00dfd7a0_vt* p)
 {
     p->v0(0);
 }
 
 // @fnv 0x00dfd7c0
-void __cdecl FUN_00dfd7c0(void* arg)
+// src: GUESS 0x00dfd7c0 (confidence: low)
+void __cdecl Object_ForwardCall_00dfd7c0(void* arg)
 {
-    ((FUN_00cb0c00_class*)((char*)arg + 4))->FUN_00cb0c00();
+    ((FUN_00cb0c00_class*)((char*)arg + 4))->Object_UpdateFields_00cb0c00();
 }
 
 struct FUN_00dfd940_vt
 {
-    virtual void __thiscall FUN_00dfd940(int);
+    virtual void __thiscall Object_ForwardCall_00dfd940(int);
 };
 // @fnv 0x00dfd940
-void __cdecl FUN_00dfd940(FUN_00dfd940_vt* p)
+// src: GUESS 0x00dfd940 (confidence: low)
+void __cdecl Object_ForwardCall_00dfd940(FUN_00dfd940_vt* p)
 {
-    p->FUN_00dfd940(0);
+    p->Object_ForwardCall_00dfd940(0);
 }
 
 // @fnv 0x00dfdb40
-void __cdecl FUN_00dfdb40(void* p)
+// src: GUESS 0x00dfdb40 (confidence: low)
+void __cdecl Object_ForwardCall_00dfdb40(void* p)
 {
-    ((FUN_00cb0c00_class*)((char*)p + 4))->FUN_00cb0c00();
+    ((FUN_00cb0c00_class*)((char*)p + 4))->Object_UpdateFields_00cb0c00();
 }
 
 extern int DAT_010e351c;
 // @fnv 0x00dfdb50
-void __cdecl FUN_00dfdb50(int* p)
+// src: GUESS 0x00dfdb50 (confidence: low)
+void __cdecl Runtime_UpdateState_00dfdb50(int* p)
 {
     if (p)
         *p = (int)&DAT_010e351c;
@@ -594,22 +635,25 @@ void __cdecl FUN_00dfdb50(int* p)
 
 extern "C" void* DAT_010e352c;
 // @fnv 0x00dfdb70
-void __cdecl FUN_00dfdb70(void** p)
+// src: GUESS 0x00dfdb70 (confidence: low)
+void __cdecl Runtime_UpdateState_00dfdb70(void** p)
 {
     if (p)
         *p = &DAT_010e352c;
 }
 
 // @fnv 0x00dfdf90
-void __cdecl FUN_00dfdf90(int a, int b)
+// src: GUESS 0x00dfdf90 (confidence: low)
+void __cdecl Runtime_ForwardCall_00dfdf90(int a, int b)
 {
-    ((FUN_00cb0c00_class*)(a + 8))->FUN_00cb0c00();
+    ((FUN_00cb0c00_class*)(a + 8))->Object_UpdateFields_00cb0c00();
 }
 
 extern int DAT_010e3e5c;
 
 // @fnv 0x00dfdfb0
-void __cdecl FUN_00dfdfb0(int* p)
+// src: GUESS 0x00dfdfb0 (confidence: low)
+void __cdecl Runtime_UpdateState_00dfdfb0(int* p)
 {
     if (p)
         *p = (int)&DAT_010e3e5c;
@@ -617,7 +661,8 @@ void __cdecl FUN_00dfdfb0(int* p)
 
 extern int DAT_010e5474;
 // @fnv 0x00dfe340
-void __cdecl FUN_00dfe340(void* p)
+// src: GUESS 0x00dfe340 (confidence: low)
+void __cdecl Object_UpdateFields_00dfe340(void* p)
 {
     if (p)
         *reinterpret_cast<int*>(p) = reinterpret_cast<int>(&DAT_010e5474);
@@ -625,17 +670,19 @@ void __cdecl FUN_00dfe340(void* p)
 
 struct FUN_00dfe430_class
 {
-    virtual int __thiscall FUN_00cb0a70(int a);
+    virtual int __thiscall ReturnSelf(int a);
 };
 // @fnv 0x00dfe430
-int __cdecl FUN_00dfe430(FUN_00dfe430_class* p)
+// src: GUESS 0x00dfe430 (confidence: low)
+int __cdecl Runtime_ForwardCall_00dfe430(FUN_00dfe430_class* p)
 {
-    return p->FUN_00cb0a70(0);
+    return p->ReturnSelf(0);
 }
 
 extern int DAT_010e56d4;
 // @fnv 0x00dfe490
-void __cdecl FUN_00dfe490(int* p)
+// src: GUESS 0x00dfe490 (confidence: low)
+void __cdecl Runtime_UpdateState_00dfe490(int* p)
 {
     if (p)
         *p = (int)&DAT_010e56d4;
@@ -643,7 +690,8 @@ void __cdecl FUN_00dfe490(int* p)
 
 extern int DAT_010e57a4;
 // @fnv 0x00dfe500
-void __cdecl FUN_00dfe500(int* p)
+// src: GUESS 0x00dfe500 (confidence: low)
+void __cdecl Object_UpdateFields_00dfe500(int* p)
 {
     if (p)
         *p = (int)&DAT_010e57a4;
@@ -654,7 +702,8 @@ struct FUN_00dfe670_vt
     virtual void m_iWordAt00(int);
 };
 // @fnv 0x00dfe670
-void __cdecl FUN_00dfe670(FUN_00dfe670_vt* p)
+// src: GUESS 0x00dfe670 (confidence: low)
+void __cdecl Runtime_ForwardCall_00dfe670(FUN_00dfe670_vt* p)
 {
     p->m_iWordAt00(0);
 }
@@ -662,7 +711,8 @@ void __cdecl FUN_00dfe670(FUN_00dfe670_vt* p)
 extern int DAT_010e58c8;
 
 // @fnv 0x00dfe690
-void __cdecl FUN_00dfe690(int** p)
+// src: GUESS 0x00dfe690 (confidence: low)
+void __cdecl Runtime_UpdateState_00dfe690(int** p)
 {
     if (p)
         *p = &DAT_010e58c8;
@@ -670,14 +720,16 @@ void __cdecl FUN_00dfe690(int** p)
 
 extern int DAT_010e59ac;
 // @fnv 0x00dfe700
-void FUN_00dfe700(int* p)
+// src: GUESS 0x00dfe700 (confidence: low)
+void Object_UpdateFields_00dfe700(int* p)
 {
     if (p)
         *p = (int)&DAT_010e59ac;
 }
 
 // @fnv 0x00dfeaa0
-void __cdecl FUN_00dfeaa0(void** p)
+// src: GUESS 0x00dfeaa0 (confidence: low)
+void __cdecl Object_InvokeVirtualMethod_00dfeaa0(void** p)
 {
     ((void(__thiscall*)(void*, int))(*reinterpret_cast<void***>(p))[0])(p, 0);
 }
@@ -685,7 +737,8 @@ void __cdecl FUN_00dfeaa0(void** p)
 extern int DAT_010e5b68;
 
 // @fnv 0x00dfeb60
-void __cdecl FUN_00dfeb60(int* p)
+// src: GUESS 0x00dfeb60 (confidence: low)
+void __cdecl Object_UpdateFields_00dfeb60(int* p)
 {
     if (p)
         *p = (int)&DAT_010e5b68;
@@ -694,7 +747,8 @@ void __cdecl FUN_00dfeb60(int* p)
 extern int DAT_010e5b4c;
 
 // @fnv 0x00dfebd0
-void __cdecl FUN_00dfebd0(int* p)
+// src: GUESS 0x00dfebd0 (confidence: low)
+void __cdecl Runtime_UpdateState_00dfebd0(int* p)
 {
     if (p)
         *p = (int)&DAT_010e5b4c;
@@ -702,7 +756,8 @@ void __cdecl FUN_00dfebd0(int* p)
 
 extern int DAT_010e5bfc;
 // @fnv 0x00dfec10
-void __cdecl FUN_00dfec10(int* p)
+// src: GUESS 0x00dfec10 (confidence: low)
+void __cdecl Runtime_UpdateState_00dfec10(int* p)
 {
     if (p)
         *p = (int)&DAT_010e5bfc;
@@ -711,7 +766,8 @@ void __cdecl FUN_00dfec10(int* p)
 extern int DAT_010e5d94;
 
 // @fnv 0x00dfec70
-void __cdecl FUN_00dfec70(int* p)
+// src: GUESS 0x00dfec70 (confidence: low)
+void __cdecl Runtime_UpdateState_00dfec70(int* p)
 {
     if (p)
         *p = (int)&DAT_010e5d94;
@@ -719,14 +775,16 @@ void __cdecl FUN_00dfec70(int* p)
 
 extern int DAT_010e5da8;
 // @fnv 0x00dfec90
-void __cdecl FUN_00dfec90(int** p)
+// src: GUESS 0x00dfec90 (confidence: low)
+void __cdecl Runtime_UpdateState_00dfec90(int** p)
 {
     if (p)
         *p = &DAT_010e5da8;
 }
 
 // @fnv 0x00dfecb0
-void __cdecl FUN_00dfecb0(int* p)
+// src: GUESS 0x00dfecb0 (confidence: low)
+void __cdecl Runtime_Helper_00dfecb0(int* p)
 {
     ((void(__thiscall*)(void*, int))(*(int*)p[0]))(p, 0);
 }
@@ -734,7 +792,8 @@ void __cdecl FUN_00dfecb0(int* p)
 extern int DAT_010e5e9c;
 
 // @fnv 0x00dfecd0
-void __cdecl FUN_00dfecd0(int* p)
+// src: GUESS 0x00dfecd0 (confidence: low)
+void __cdecl Runtime_UpdateState_00dfecd0(int* p)
 {
     if (p)
         *p = (int)&DAT_010e5e9c;
@@ -742,7 +801,8 @@ void __cdecl FUN_00dfecd0(int* p)
 
 extern int DAT_010e5ff4;
 // @fnv 0x00dfed10
-void FUN_00dfed10(int* p)
+// src: GUESS 0x00dfed10 (confidence: low)
+void Runtime_UpdateState_00dfed10(int* p)
 {
     if (p)
         *p = (int)&DAT_010e5ff4;
@@ -751,7 +811,8 @@ void FUN_00dfed10(int* p)
 extern int DAT_010e60c4;
 
 // @fnv 0x00dfee00
-void __cdecl FUN_00dfee00(int* p)
+// src: GUESS 0x00dfee00 (confidence: low)
+void __cdecl Object_UpdateFields_00dfee00(int* p)
 {
     if (p)
         *p = (int)&DAT_010e60c4;
@@ -759,7 +820,8 @@ void __cdecl FUN_00dfee00(int* p)
 
 extern int DAT_010e62a4;
 // @fnv 0x00dfeea0
-void __cdecl FUN_00dfeea0(int* p)
+// src: GUESS 0x00dfeea0 (confidence: low)
+void __cdecl Object_UpdateFields_00dfeea0(int* p)
 {
     if (p)
         *p = (int)&DAT_010e62a4;
@@ -768,7 +830,8 @@ void __cdecl FUN_00dfeea0(int* p)
 extern int DAT_010e6394;
 
 // @fnv 0x00dfeee0
-void __cdecl FUN_00dfeee0(int* p)
+// src: GUESS 0x00dfeee0 (confidence: low)
+void __cdecl Object_UpdateFields_00dfeee0(int* p)
 {
     if (p)
         *p = (int)&DAT_010e6394;
@@ -776,7 +839,8 @@ void __cdecl FUN_00dfeee0(int* p)
 
 extern int DAT_010e66fc;
 // @fnv 0x00dfeff0
-void __cdecl FUN_00dfeff0(int* p)
+// src: GUESS 0x00dfeff0 (confidence: low)
+void __cdecl Runtime_UpdateState_00dfeff0(int* p)
 {
     if (p)
         *p = (int)&DAT_010e66fc;
@@ -784,7 +848,8 @@ void __cdecl FUN_00dfeff0(int* p)
 
 extern int DAT_010e676c;
 // @fnv 0x00dff0d0
-void __cdecl FUN_00dff0d0(int* p)
+// src: GUESS 0x00dff0d0 (confidence: low)
+void __cdecl Runtime_UpdateState_00dff0d0(int* p)
 {
     if (p)
         *p = (int)&DAT_010e676c;
@@ -813,14 +878,16 @@ void __cdecl finishLoadedObjecthkpMouseSpringAction(void* pObject, void* b)
 
 typedef void(__thiscall* VTableFn)(void*, int);
 // @fnv 0x00dff3c0
-void __cdecl FUN_00dff3c0(void* p)
+// src: GUESS 0x00dff3c0 (confidence: low)
+void __cdecl Object_ProcessState_00dff3c0(void* p)
 {
     ((VTableFn*)*(void**)p)[0](p, 0);
 }
 
 extern int DAT_010e75cc;
 // @fnv 0x00dff5e0
-void FUN_00dff5e0(int* p)
+// src: GUESS 0x00dff5e0 (confidence: low)
+void Object_UpdateFields_00dff5e0(int* p)
 {
     if (p)
         *p = (int)&DAT_010e75cc;
@@ -828,7 +895,8 @@ void FUN_00dff5e0(int* p)
 
 extern int DAT_010e75dc;
 // @fnv 0x00dff600
-void __cdecl FUN_00dff600(int* p)
+// src: GUESS 0x00dff600 (confidence: low)
+void __cdecl Object_UpdateFields_00dff600(int* p)
 {
     if (p)
         *p = (int)&DAT_010e75dc;
@@ -836,28 +904,32 @@ void __cdecl FUN_00dff600(int* p)
 
 extern int DAT_010e75ec;
 // @fnv 0x00dff620
-void __cdecl FUN_00dff620(int** p)
+// src: GUESS 0x00dff620 (confidence: low)
+void __cdecl Object_UpdateFields_00dff620(int** p)
 {
     if (p)
         *p = &DAT_010e75ec;
 }
 
 // @fnv 0x00dff9e0
-void __cdecl FUN_00dff9e0(void** p)
+// src: GUESS 0x00dff9e0 (confidence: low)
+void __cdecl Object_InvokeVirtualMethod_00dff9e0(void** p)
 {
     (**(void(__thiscall**)(void*, int))(*p))(p, 0);
 }
 
 typedef int(__thiscall* Vfn)(void*, int);
 // @fnv 0x00dffa30
-int __cdecl FUN_00dffa30(void* obj)
+// src: GUESS 0x00dffa30 (confidence: low)
+int __cdecl Runtime_EvaluateValue_00dffa30(void* obj)
 {
     return reinterpret_cast<Vfn>(**reinterpret_cast<void***>(obj))(obj, 0);
 }
 
 extern int DAT_010e7c24;
 // @fnv 0x00dffc80
-void __cdecl FUN_00dffc80(int* p)
+// src: GUESS 0x00dffc80 (confidence: low)
+void __cdecl Object_UpdateFields_00dffc80(int* p)
 {
     if (p)
         *p = (int)&DAT_010e7c24;
@@ -865,7 +937,8 @@ void __cdecl FUN_00dffc80(int* p)
 
 extern int DAT_010cc0d8;
 // @fnv 0x00dffda0
-void __cdecl FUN_00dffda0(int* p)
+// src: GUESS 0x00dffda0 (confidence: low)
+void __cdecl Object_UpdateFields_00dffda0(int* p)
 {
     if (p)
         *p = (int)&DAT_010cc0d8;
@@ -876,14 +949,16 @@ struct FUN_00dffdc0_vt
     virtual void m0(int);
 };
 // @fnv 0x00dffdc0
-void __cdecl FUN_00dffdc0(FUN_00dffdc0_vt* p)
+// src: GUESS 0x00dffdc0 (confidence: low)
+void __cdecl Object_InvokeVirtualMethod_00dffdc0(FUN_00dffdc0_vt* p)
 {
     p->m0(0);
 }
 
 extern int DAT_010d3838;
 // @fnv 0x00dffe40
-void __cdecl FUN_00dffe40(int* p)
+// src: GUESS 0x00dffe40 (confidence: low)
+void __cdecl Object_UpdateFields_00dffe40(int* p)
 {
     if (p)
         *p = (int)&DAT_010d3838;
@@ -892,7 +967,8 @@ void __cdecl FUN_00dffe40(int* p)
 extern int DAT_010cb798;
 
 // @fnv 0x00dffee0
-void FUN_00dffee0(int* p)
+// src: GUESS 0x00dffee0 (confidence: low)
+void Object_UpdateFields_00dffee0(int* p)
 {
     if (p)
         *p = (int)&DAT_010cb798;
@@ -903,7 +979,8 @@ struct FUN_00dfff60_vt
     virtual int __thiscall v0(int);
 };
 // @fnv 0x00dfff60
-int __cdecl FUN_00dfff60(FUN_00dfff60_vt* p)
+// src: GUESS 0x00dfff60 (confidence: low)
+int __cdecl Object_InvokeVirtualMethod_00dfff60(FUN_00dfff60_vt* p)
 {
     return p->v0(0);
 }
@@ -913,14 +990,16 @@ struct FUN_00dfffc0_VT
     virtual void m0(int);
 };
 // @fnv 0x00dfffc0
-void __cdecl FUN_00dfffc0(FUN_00dfffc0_VT* p)
+// src: GUESS 0x00dfffc0 (confidence: low)
+void __cdecl Object_InvokeVirtualMethod_00dfffc0(FUN_00dfffc0_VT* p)
 {
     p->m0(0);
 }
 
 extern void* DAT_010e80b4;
 // @fnv 0x00dfffe0
-void __cdecl FUN_00dfffe0(void** p)
+// src: GUESS 0x00dfffe0 (confidence: low)
+void __cdecl Object_UpdateFields_00dfffe0(void** p)
 {
     if (p)
         *p = &DAT_010e80b4;
@@ -972,7 +1051,8 @@ void FUN_00de87c0_class::SwapFields()
 }
 
 // @fnv 0x00de81a0
-void __cdecl FUN_00de81a0(void* pObject, void* arg)
+// src: GUESS 0x00de81a0 (confidence: low)
+void __cdecl Object_ProcessState_00de81a0(void* pObject, void* arg)
 {
     if (pObject)
         ((FUN_00d21de0_Class*)pObject)->hkpSimpleContactConstraintAtom_hkpSimpleContactConstraintAtom(arg);
@@ -989,7 +1069,8 @@ struct FUN_00de8550_t
     void* m_8;
 };
 // @fnv 0x00de8550
-void __cdecl FUN_00de8550(FUN_00de8550_t* pObject, int iValue)
+// src: GUESS 0x00de8550 (confidence: low)
+void __cdecl hkpBridgeConstraintAtom_init_ProcessState_00de8550(FUN_00de8550_t* pObject, int iValue)
 {
     if (pObject && iValue)
         ((FUN_00d21ce0_cls*)pObject)->hkpBridgeConstraintAtom_init(pObject->m_8);
@@ -1060,14 +1141,16 @@ int __cdecl _nlz(int arg)
 
 typedef void(__thiscall* Vfn0)(void*, int);
 // @fnv 0x00df6460
-void __cdecl FUN_00df6460(void** p)
+// src: GUESS 0x00df6460 (confidence: low)
+void __cdecl Object_ProcessState_00df6460(void** p)
 {
     ((Vfn0) * (void**)*p)(p, 0);
 }
 
 typedef int(__thiscall* VFunc_00dfb270)(void*, int);
 // @fnv 0x00dfb270
-int __cdecl FUN_00dfb270(void* p)
+// src: GUESS 0x00dfb270 (confidence: low)
+int __cdecl Runtime_EvaluateValue_00dfb270(void* p)
 {
     return ((VFunc_00dfb270*)*(void**)p)[0](p, 0);
 }
@@ -1085,7 +1168,8 @@ void __cdecl CallMethodOnBothHelpers(FUN_00cb0a70_m_helper* pHelper, int iValue)
 
 typedef void(__thiscall* VFunc00dfb3f0)(void*, int);
 // @fnv 0x00dfb3f0
-void __cdecl FUN_00dfb3f0(void** p)
+// src: GUESS 0x00dfb3f0 (confidence: low)
+void __cdecl Runtime_Helper_00dfb3f0(void** p)
 {
     ((VFunc00dfb3f0) * ((void***)p)[0])(p, 0);
 }
@@ -1095,7 +1179,8 @@ struct FUN_00dfb450_vt
     virtual void m0(int);
 };
 // @fnv 0x00dfb450
-void __cdecl FUN_00dfb450(FUN_00dfb450_vt* p)
+// src: GUESS 0x00dfb450 (confidence: low)
+void __cdecl Runtime_ForwardCall_00dfb450(FUN_00dfb450_vt* p)
 {
     p->m0(0);
 }
@@ -1105,7 +1190,8 @@ struct FUN_00dfb890_vt
     virtual void v0(int);
 };
 // @fnv 0x00dfb890
-void __cdecl FUN_00dfb890(FUN_00dfb890_vt* p)
+// src: GUESS 0x00dfb890 (confidence: low)
+void __cdecl Runtime_ForwardCall_00dfb890(FUN_00dfb890_vt* p)
 {
     p->v0(0);
 }
@@ -1113,7 +1199,8 @@ void __cdecl FUN_00dfb890(FUN_00dfb890_vt* p)
 extern int DAT_010c4dec;
 
 // @fnv 0x00dfb9f0
-void FUN_00dfb9f0(int* pTarget, int iValue)
+// src: GUESS 0x00dfb9f0 (confidence: low)
+void Runtime_UpdateState_00dfb9f0(int* pTarget, int iValue)
 {
     if (pTarget)
     {
@@ -1124,21 +1211,24 @@ void FUN_00dfb9f0(int* pTarget, int iValue)
 
 typedef void(__thiscall* VTable0_00dfba70)(void*, int);
 // @fnv 0x00dfba70
-void __cdecl FUN_00dfba70(void* p)
+// src: GUESS 0x00dfba70 (confidence: low)
+void __cdecl Runtime_Helper_00dfba70(void* p)
 {
     ((VTable0_00dfba70**)(void**)p)[0][0](p, 0);
 }
 
 typedef void(__thiscall* VFn0)(void*, int);
 // @fnv 0x00dfbb30
-void __cdecl FUN_00dfbb30(void* p)
+// src: GUESS 0x00dfbb30 (confidence: low)
+void __cdecl Runtime_UpdateState_00dfbb30(void* p)
 {
     VFn0 f = (VFn0) * (void**)*(void**)p;
     f(p, 0);
 }
 
 // @fnv 0x00dfbbf0
-void __cdecl FUN_00dfbbf0(void* pObject, int a)
+// src: GUESS 0x00dfbbf0 (confidence: low)
+void __cdecl Object_ProcessState_00dfbbf0(void* pObject, int a)
 {
     if (pObject)
         ((FUN_00cb0a70_m_helper*)pObject)->m(a);
@@ -1149,13 +1239,15 @@ struct S_00d49310_Lock
     ~S_00d49310_Lock();
 };
 // @fnv 0x00dfbc20
-void __cdecl FUN_00dfbc20(S_00d49310_Lock* self)
+// src: GUESS 0x00dfbc20 (confidence: medium)
+void __cdecl Object_DestroyFields(S_00d49310_Lock* self)
 {
     self->S_00d49310_Lock::~S_00d49310_Lock();
 }
 
 // @fnv 0x00dfbc30
-void __cdecl FUN_00dfbc30(void* pTarget, void* b)
+// src: GUESS 0x00dfbc30 (confidence: low)
+void __cdecl Runtime_ProcessState_00dfbc30(void* pTarget, void* b)
 {
     if (pTarget)
         ((FUN_00cb0a70_m_helper*)((char*)pTarget + 4))->m((int)b);
@@ -1174,51 +1266,58 @@ struct S_00dfb720_Elem
 };
 
 // @fnv 0x00dfbca0
-void __cdecl FUN_00dfbca0(S_00dfb720_Elem* p)
+// src: GUESS 0x00dfbca0 (confidence: medium)
+void __cdecl Object_DestroyFields_00dfbca0(S_00dfb720_Elem* p)
 {
     p->S_00dfb720_Elem::~S_00dfb720_Elem();
 }
 
 typedef void(__thiscall* VTable0)(void*, int);
 // @fnv 0x00dfbcd0
-void __cdecl FUN_00dfbcd0(void* p)
+// src: GUESS 0x00dfbcd0 (confidence: low)
+void __cdecl Runtime_Helper_00dfbcd0(void* p)
 {
     ((VTable0*)*(void**)p)[0](p, 0);
 }
 
 typedef void(__thiscall* VFunc1)(void*, int);
 // @fnv 0x00dfbdd0
-void __cdecl FUN_00dfbdd0(void* p)
+// src: GUESS 0x00dfbdd0 (confidence: low)
+void __cdecl Runtime_Helper_00dfbdd0(void* p)
 {
     ((VFunc1*)*(void**)p)[0](p, 0);
 }
 
 struct FUN_00dfc040_vt
 {
-    virtual void __thiscall FUN_00dfc040(int);
+    virtual void __thiscall Object_ForwardCall_00dfc040(int);
 };
 // @fnv 0x00dfc040
-void __cdecl FUN_00dfc040(FUN_00dfc040_vt* p)
+// src: GUESS 0x00dfc040 (confidence: low)
+void __cdecl Object_ForwardCall_00dfc040(FUN_00dfc040_vt* p)
 {
-    p->FUN_00dfc040(0);
+    p->Object_ForwardCall_00dfc040(0);
 }
 
 typedef void(__thiscall* V00dfc790)(void*, int);
 // @fnv 0x00dfc790
-void __cdecl FUN_00dfc790(void** p)
+// src: GUESS 0x00dfc790 (confidence: low)
+void __cdecl Runtime_Helper_00dfc790(void** p)
 {
     ((V00dfc790)(*(void**)*p))(p, 0);
 }
 
 // @fnv 0x00dfc7f0
-void __cdecl FUN_00dfc7f0(int* p)
+// src: GUESS 0x00dfc7f0 (confidence: low)
+void __cdecl Runtime_UpdateState_00dfc7f0(int* p)
 {
     int* vt = (int*)(*(void**)p);
     ((void(__thiscall*)(void*, int))(*vt))((void*)p, 0);
 }
 
 // @fnv 0x00dfc8d0
-void __cdecl FUN_00dfc8d0(void** p)
+// src: GUESS 0x00dfc8d0 (confidence: low)
+void __cdecl Runtime_UpdateState_00dfc8d0(void** p)
 {
     void** vt = (void**)*p;
     reinterpret_cast<VTable0>(vt[0])(p, 0);
@@ -1226,7 +1325,8 @@ void __cdecl FUN_00dfc8d0(void** p)
 
 typedef void(__thiscall* Vfn_00dfcb60)(void*, int);
 // @fnv 0x00dfcb60
-void __cdecl FUN_00dfcb60(void* p)
+// src: GUESS 0x00dfcb60 (confidence: low)
+void __cdecl Object_UpdateFields_00dfcb60(void* p)
 {
     Vfn_00dfcb60 fn = ((Vfn_00dfcb60*)*(void**)p)[0];
     fn(p, 0);
@@ -1237,7 +1337,8 @@ struct FUN_00dfcc30_vt
     virtual void v0(int);
 };
 // @fnv 0x00dfcc30
-void __cdecl FUN_00dfcc30(FUN_00dfcc30_vt* p)
+// src: GUESS 0x00dfcc30 (confidence: low)
+void __cdecl Runtime_ForwardCall_00dfcc30(FUN_00dfcc30_vt* p)
 {
     p->v0(0);
 }
@@ -1247,7 +1348,8 @@ struct FUN_00dd0420_Class
     FUN_00dd0420_Class* __thiscall hkpGenericConstraintDataScheme_hkpGenericConstraintDataScheme(int);
 };
 // @fnv 0x00dfcd80
-void __cdecl FUN_00dfcd80(FUN_00dd0420_Class* self, int a)
+// src: GUESS 0x00dfcd80 (confidence: low)
+void __cdecl Object_ProcessState_00dfcd80(FUN_00dd0420_Class* self, int a)
 {
     if (self)
         self->hkpGenericConstraintDataScheme_hkpGenericConstraintDataScheme(a);
@@ -1258,7 +1360,8 @@ struct FUN_00dfce00_vt
     virtual void __thiscall v0(int);
 };
 // @fnv 0x00dfce00
-void __cdecl FUN_00dfce00(FUN_00dfce00_vt* p)
+// src: GUESS 0x00dfce00 (confidence: low)
+void __cdecl Object_InvokeVirtualMethod_00dfce00(FUN_00dfce00_vt* p)
 {
     p->v0(0);
 }
@@ -1268,42 +1371,47 @@ struct FUN_00dfcf00_vt
     virtual void m_iWordAt00(int);
 };
 // @fnv 0x00dfcf00
-void __cdecl FUN_00dfcf00(FUN_00dfcf00_vt* p)
+// src: GUESS 0x00dfcf00 (confidence: medium)
+void __cdecl Object_M_iWordAt00_Thunk(FUN_00dfcf00_vt* p)
 {
     p->m_iWordAt00(0);
 }
 
 struct FUN_00dfd240_vt
 {
-    virtual void __thiscall FUN_00dfd240(int);
+    virtual void __thiscall Object_ForwardCall_00dfd240(int);
 };
 // @fnv 0x00dfd240
-void __cdecl FUN_00dfd240(FUN_00dfd240_vt* p)
+// src: GUESS 0x00dfd240 (confidence: low)
+void __cdecl Object_ForwardCall_00dfd240(FUN_00dfd240_vt* p)
 {
-    p->FUN_00dfd240(0);
+    p->Object_ForwardCall_00dfd240(0);
 }
 
 typedef void(__thiscall* Vfn_00dfd620)(void*, int);
 // @fnv 0x00dfd620
-void __cdecl FUN_00dfd620(void* p)
+// src: GUESS 0x00dfd620 (confidence: low)
+void __cdecl Object_ProcessState_00dfd620(void* p)
 {
     ((Vfn_00dfd620*)*(void**)p)[0](p, 0);
 }
 
 struct DFD680MeshData
 {
-    void FUN_00dfd680();
+    void ReleaseMeshArrays_00dfd680();
 };
 // @fnv 0x00dfd670
-void __cdecl FUN_00dfd670(DFD680MeshData* p)
+// src: GUESS 0x00dfd670 (confidence: low)
+void __cdecl Runtime_ForwardCall_00dfd670(DFD680MeshData* p)
 {
-    p->FUN_00dfd680();
+    p->ReleaseMeshArrays_00dfd680();
 }
 
 extern int DAT_010e311c;
 // If p is non-null, stores &DAT_010e311c at p[0] and calls m(a) on the helper objects at p+5 and p+16.
 // @fnv 0x00dfd7d0
-void FUN_00dfd7d0(int* pObject, int aiValue)
+// src: GUESS 0x00dfd7d0 (confidence: low)
+void Object_UpdateState_00dfd7d0(int* pObject, int aiValue)
 {
     if (pObject)
     {
@@ -1314,21 +1422,24 @@ void FUN_00dfd7d0(int* pObject, int aiValue)
 }
 
 // @fnv 0x00dfda70
-void __cdecl FUN_00dfda70(void* p)
+// src: GUESS 0x00dfda70 (confidence: low)
+void __cdecl Runtime_UpdateState_00dfda70(void* p)
 {
     void(__thiscall * fn)(void*, int) = ((void(__thiscall*)(void*, int)) * (*(void***)p));
     fn(p, 0);
 }
 
 // @fnv 0x00dfdad0
-void FUN_00dfdad0(int* a, int iValue)
+// src: GUESS 0x00dfdad0 (confidence: low)
+void Runtime_ProcessState_00dfdad0(int* a, int iValue)
 {
     if (a)
         ((FUN_00cb0a70_m_helper*)(a + 1))->m(iValue);
 }
 
 // @fnv 0x00dfdb00
-void __cdecl FUN_00dfdb00(void* p)
+// src: GUESS 0x00dfdb00 (confidence: low)
+void __cdecl Object_ProcessState_00dfdb00(void* p)
 {
     ((VFunc0*)*(void**)p)[0](p, 0);
 }
@@ -1338,7 +1449,8 @@ struct FUN_00dfdb20_vt
     virtual void v0(int);
 };
 // @fnv 0x00dfdb20
-void __cdecl FUN_00dfdb20(FUN_00dfdb20_vt* p)
+// src: GUESS 0x00dfdb20 (confidence: low)
+void __cdecl Object_InvokeVirtualMethod_00dfdb20(FUN_00dfdb20_vt* p)
 {
     p->v0(0);
 }
@@ -1355,20 +1467,22 @@ struct S_00e3eaa0_Elem
     ~S_00e3eaa0_Elem();
 };
 // @fnv 0x00dfdd50
-void __cdecl FUN_00dfdd50(S_00e3eaa0_Elem* p)
+// src: GUESS 0x00dfdd50 (confidence: low)
+void __cdecl Runtime_ForwardCall_00dfdd50(S_00e3eaa0_Elem* p)
 {
     p->S_00e3eaa0_Elem::~S_00e3eaa0_Elem();
 }
 
 struct FUN_00e3f900_class
 {
-    int FUN_00e3f900(int);
+    int ProcessAndReturnValue_00e3f900(int);
 };
 // @fnv 0x00dfdd60
-void __cdecl FUN_00dfdd60(FUN_00e3f900_class* p, int a)
+// src: GUESS 0x00dfdd60 (confidence: low)
+void __cdecl Object_ProcessState_00dfdd60(FUN_00e3f900_class* p, int a)
 {
     if (p)
-        p->FUN_00e3f900(a);
+        p->ProcessAndReturnValue_00e3f900(a);
 }
 
 // @fnv 0x00dfdf70
@@ -1384,7 +1498,8 @@ struct S_00d49310_Lock
     ~S_00d49310_Lock();
 };
 // @fnv 0x00dfdfa0
-void __cdecl FUN_00dfdfa0(S_00d49310_Lock* p)
+// src: GUESS 0x00dfdfa0 (confidence: medium)
+void __cdecl Object_DestroyFields_00dfdfa0(S_00d49310_Lock* p)
 {
     p->S_00d49310_Lock::~S_00d49310_Lock();
 }
@@ -1395,21 +1510,24 @@ struct ArrayPair
     ~ArrayPair();
 };
 // @fnv 0x00dfe0c0
-void __cdecl FUN_00dfe0c0(ArrayPair* p)
+// src: GUESS 0x00dfe0c0 (confidence: medium)
+void __cdecl Object_DestroyFields_00dfe0c0(ArrayPair* p)
 {
     p->ArrayPair::~ArrayPair();
 }
 
 typedef void(__thiscall* Vfn_00dfe270)(void*, int);
 // @fnv 0x00dfe270
-void __cdecl FUN_00dfe270(void* p)
+// src: GUESS 0x00dfe270 (confidence: low)
+void __cdecl Runtime_UpdateState_00dfe270(void* p)
 {
     Vfn_00dfe270 fn = *(Vfn_00dfe270*)*(void**)p;
     fn(p, 0);
 }
 
 // @fnv 0x00dfe2b0
-void __cdecl FUN_00dfe2b0(void* p)
+// src: GUESS 0x00dfe2b0 (confidence: low)
+void __cdecl Runtime_Helper_00dfe2b0(void* p)
 {
     ((void(__thiscall*)(void*, int)) * (*(void***)p))(p, 0);
 }
@@ -1422,7 +1540,7 @@ struct FUN_00ce5360_class
     int m_8;
     int m_iThirdValue;
     int m_10;
-    int FUN_00ce5360(int a);
+    int ComputeValue_00ce5360(int a);
 };
 // @fnv 0x00dfe2d0
 // src: HAVOK_LIB 0x00dfe2d0
@@ -1432,7 +1550,7 @@ void __cdecl finishLoadedObjecthkaSkeletonMapper(FUN_00ce5360_class* pObject, in
     {
         int* p = (int*)pObject;
         *p = (int)&DAT_010cb864;
-        ((FUN_00ce5360_class*)((char*)pObject + 0x10))->FUN_00ce5360(iValue);
+        ((FUN_00ce5360_class*)((char*)pObject + 0x10))->ComputeValue_00ce5360(iValue);
     }
 }
 
@@ -1441,14 +1559,16 @@ struct FUN_00dfe320_vt
     virtual void m_iWordAt00(int);
 };
 // @fnv 0x00dfe320
-void __cdecl FUN_00dfe320(FUN_00dfe320_vt* p)
+// src: GUESS 0x00dfe320 (confidence: medium)
+void __cdecl Object_M_iWordAt00_Thunk_00dfe320(FUN_00dfe320_vt* p)
 {
     p->m_iWordAt00(0);
 }
 
 extern int DAT_010e56d4;
 // @fnv 0x00dfe4a0
-int* FUN_00dfe4a0()
+// src: GUESS 0x00dfe4a0 (confidence: low)
+int* Object_GetGlobalObjectAddress_00dfe4a0()
 {
     return &DAT_010e56d4;
 }
@@ -1458,13 +1578,15 @@ struct FUN_00dfe4e0_vt
     virtual void m0(int);
 };
 // @fnv 0x00dfe4e0
-void __cdecl FUN_00dfe4e0(FUN_00dfe4e0_vt* p)
+// src: GUESS 0x00dfe4e0 (confidence: low)
+void __cdecl Object_InvokeVirtualMethod_00dfe4e0(FUN_00dfe4e0_vt* p)
 {
     p->m0(0);
 }
 
 // @fnv 0x00dfe590
-void __cdecl FUN_00dfe590(void* p)
+// src: GUESS 0x00dfe590 (confidence: low)
+void __cdecl Runtime_UpdateState_00dfe590(void* p)
 {
     void(__thiscall * fn)(void*, int);
     fn = (void(__thiscall*)(void*, int)) * ((void**)*((void**)p));
@@ -1488,7 +1610,8 @@ void __cdecl finishLoadedObjecthkaBoneAttachment(void* pObject, int iValue)
 
 extern int DAT_010e5a58;
 // @fnv 0x00dfe990
-void __cdecl FUN_00dfe990(void* apObject, int aiValue)
+// src: GUESS 0x00dfe990 (confidence: low)
+void __cdecl Object_UpdateState_00dfe990(void* apObject, int aiValue)
 {
     if (apObject)
     {
@@ -1498,7 +1621,8 @@ void __cdecl FUN_00dfe990(void* apObject, int aiValue)
 }
 
 // @fnv 0x00dfeb40
-void __cdecl FUN_00dfeb40(void* p)
+// src: GUESS 0x00dfeb40 (confidence: low)
+void __cdecl Object_UpdateFields_00dfeb40(void* p)
 {
     void(__thiscall * fn)(void*, int);
     fn = *reinterpret_cast<void(__thiscall**)(void*, int)>(*reinterpret_cast<void**>(p));
@@ -1506,14 +1630,16 @@ void __cdecl FUN_00dfeb40(void* p)
 }
 
 // @fnv 0x00dfebb0
-void __cdecl FUN_00dfebb0(void** p)
+// src: GUESS 0x00dfebb0 (confidence: low)
+void __cdecl Runtime_Helper_00dfebb0(void** p)
 {
     ((void(__thiscall*)(void*, int))(**(void****)p))(p, 0);
 }
 
 typedef void(__thiscall* Vfn0)(void*, int);
 // @fnv 0x00dfebf0
-void __cdecl FUN_00dfebf0(void* p)
+// src: GUESS 0x00dfebf0 (confidence: low)
+void __cdecl Runtime_Helper_00dfebf0(void* p)
 {
     ((Vfn0*)*(void**)p)[0](p, 0);
 }
@@ -1523,7 +1649,8 @@ struct FUN_00dfec30_vt
     virtual void m0(int);
 };
 // @fnv 0x00dfec30
-void __cdecl FUN_00dfec30(FUN_00dfec30_vt* p)
+// src: GUESS 0x00dfec30 (confidence: low)
+void __cdecl Runtime_ForwardCall_00dfec30(FUN_00dfec30_vt* p)
 {
     p->m0(0);
 }
@@ -1533,7 +1660,8 @@ struct FUN_00dfecf0_vt
     virtual void v0(int);
 };
 // @fnv 0x00dfecf0
-void __cdecl FUN_00dfecf0(FUN_00dfecf0_vt* p)
+// src: GUESS 0x00dfecf0 (confidence: low)
+void __cdecl Runtime_ForwardCall_00dfecf0(FUN_00dfecf0_vt* p)
 {
     p->v0(0);
 }
@@ -1543,14 +1671,16 @@ struct FUN_00dfede0_vt
     virtual void v0(int);
 };
 // @fnv 0x00dfede0
-void __cdecl FUN_00dfede0(FUN_00dfede0_vt* p)
+// src: GUESS 0x00dfede0 (confidence: low)
+void __cdecl Object_InvokeVirtualMethod_00dfede0(FUN_00dfede0_vt* p)
 {
     p->v0(0);
 }
 
 typedef int(__thiscall* Vfn_00dfeec0)(void*, int);
 // @fnv 0x00dfeec0
-int __cdecl FUN_00dfeec0(void* p)
+// src: GUESS 0x00dfeec0 (confidence: low)
+int __cdecl Object_GetIndexedValue_00dfeec0(void* p)
 {
     return ((Vfn_00dfeec0*)*(void**)p)[0](p, 0);
 }
@@ -1560,7 +1690,8 @@ struct FUN_00dfef00_vt
     virtual void __thiscall m0(int);
 };
 // @fnv 0x00dfef00
-void __cdecl FUN_00dfef00(FUN_00dfef00_vt* p)
+// src: GUESS 0x00dfef00 (confidence: low)
+void __cdecl Object_InvokeVirtualMethod_00dfef00(FUN_00dfef00_vt* p)
 {
     p->m0(0);
 }
@@ -1570,37 +1701,42 @@ struct FUN_00dff1d0_vt
     virtual void m0(int);
 };
 // @fnv 0x00dff1d0
-void __cdecl FUN_00dff1d0(FUN_00dff1d0_vt* p)
+// src: GUESS 0x00dff1d0 (confidence: low)
+void __cdecl Runtime_ForwardCall_00dff1d0(FUN_00dff1d0_vt* p)
 {
     p->m0(0);
 }
 
 typedef void(__thiscall* VTable0)(void*, int);
 // @fnv 0x00dff300
-void __cdecl FUN_00dff300(void** p)
+// src: GUESS 0x00dff300 (confidence: low)
+void __cdecl Object_ProcessState_00dff300(void** p)
 {
     ((VTable0)(*(void**)*p))(p, 0);
 }
 
 struct FUN_00dff370_vt
 {
-    virtual void __thiscall FUN_00dff370(int);
+    virtual void __thiscall Runtime_ForwardCall_00dff370(int);
 };
 // @fnv 0x00dff370
-void __cdecl FUN_00dff370(FUN_00dff370_vt* p)
+// src: GUESS 0x00dff370 (confidence: low)
+void __cdecl Runtime_ForwardCall_00dff370(FUN_00dff370_vt* p)
 {
-    p->FUN_00dff370(0);
+    p->Runtime_ForwardCall_00dff370(0);
 }
 
 // @fnv 0x00dff540
-void __cdecl FUN_00dff540(void** p)
+// src: GUESS 0x00dff540 (confidence: low)
+void __cdecl Object_ProcessState_00dff540(void** p)
 {
     ((Vfn)(*(void**)*p))(p, 0);
 }
 
 typedef void(__thiscall* VTable0)(void*, int);
 // @fnv 0x00dff580
-void __cdecl FUN_00dff580(void** p)
+// src: GUESS 0x00dff580 (confidence: low)
+void __cdecl Object_ProcessState_00dff580(void** p)
 {
     ((VTable0)(*(VTable0*)*p))(p, 0);
 }
@@ -1608,7 +1744,8 @@ void __cdecl FUN_00dff580(void** p)
 typedef void(__thiscall* VTable0)(void*, int);
 
 // @fnv 0x00dff5c0
-void __cdecl FUN_00dff5c0(void* p)
+// src: GUESS 0x00dff5c0 (confidence: low)
+void __cdecl Object_ProcessState_00dff5c0(void* p)
 {
     ((VTable0*)*(void**)p)[0](p, 0);
 }
@@ -1620,7 +1757,8 @@ struct FUN_00dff9b0_m : FUN_00cb0a70
     void __thiscall m(int);
 };
 // @fnv 0x00dff9b0
-void __cdecl FUN_00dff9b0(FUN_00dff9b0_m* pObject, int aiValue)
+// src: GUESS 0x00dff9b0 (confidence: low)
+void __cdecl Object_UpdateState_00dff9b0(FUN_00dff9b0_m* pObject, int aiValue)
 {
     if (pObject)
     {
@@ -1632,7 +1770,8 @@ void __cdecl FUN_00dff9b0(FUN_00dff9b0_m* pObject, int aiValue)
 
 typedef void(__thiscall* VTblFn0)(void*, int);
 // @fnv 0x00dffc10
-void __cdecl FUN_00dffc10(void* p)
+// src: GUESS 0x00dffc10 (confidence: low)
+void __cdecl Runtime_Helper_00dffc10(void* p)
 {
     ((VTblFn0*)*(void**)p)[0](p, 0);
 }
@@ -1642,24 +1781,27 @@ struct FUN_00dffc60_vt
     virtual void m0(int);
 };
 // @fnv 0x00dffc60
-void __cdecl FUN_00dffc60(FUN_00dffc60_vt* p)
+// src: GUESS 0x00dffc60 (confidence: low)
+void __cdecl Object_InvokeVirtualMethod_00dffc60(FUN_00dffc60_vt* p)
 {
     p->m0(0);
 }
 
 struct FUN_00dffd80_vt
 {
-    virtual void __thiscall FUN_00cb0a70(int);
+    virtual void __thiscall ReturnSelf(int);
 };
 // @fnv 0x00dffd80
-void __cdecl FUN_00dffd80(FUN_00dffd80_vt* p)
+// src: GUESS 0x00dffd80 (confidence: low)
+void __cdecl Object_ForwardCall_00dffd80(FUN_00dffd80_vt* p)
 {
-    p->FUN_00cb0a70(0);
+    p->ReturnSelf(0);
 }
 
 typedef void(__thiscall* VTableFn)(void*, int);
 // @fnv 0x00dffe20
-void __cdecl FUN_00dffe20(void* p)
+// src: GUESS 0x00dffe20 (confidence: low)
+void __cdecl Object_ProcessState_00dffe20(void* p)
 {
     ((VTableFn*)*(void**)p)[0](p, 0);
 }
@@ -1669,14 +1811,16 @@ struct FUN_00dffe60_vt
     virtual void m_iWordAt00(int);
 };
 // @fnv 0x00dffe60
-void __cdecl FUN_00dffe60(FUN_00dffe60_vt* p)
+// src: GUESS 0x00dffe60 (confidence: medium)
+void __cdecl Object_M_iWordAt00_Thunk_00dffe60(FUN_00dffe60_vt* p)
 {
     p->m_iWordAt00(0);
 }
 
 typedef void(__thiscall* Vfn0)(void*, int);
 // @fnv 0x00dfff00
-void __cdecl FUN_00dfff00(void* p)
+// src: GUESS 0x00dfff00 (confidence: low)
+void __cdecl Object_ProcessState_00dfff00(void* p)
 {
     ((Vfn0*)*((void**)p))[0](p, 0);
 }
@@ -1764,11 +1908,12 @@ class FUN_00de3090_cls
     int m_04;
     int m_08;
     int m_0c;
-    void FUN_00de3090();
+    void ClearField0c();
 };
 
 // @fnv 0x00de3090
-void FUN_00de3090_cls::FUN_00de3090()
+// src: GUESS 0x00de3090 (confidence: low)
+void FUN_00de3090_cls::ClearField0c()
 {
     m_0c = 0;
 }
@@ -1972,11 +2117,12 @@ class FNVFloatGetter_cls
     int unk88;
     int unk8C;
     float m_90;
-    float FUN_00de48e0();
+    float GetField90_00de48e0();
 };
 
 // @fnv 0x00de48e0
-float FNVFloatGetter_cls::FUN_00de48e0()
+// src: GUESS 0x00de48e0 (confidence: low)
+float FNVFloatGetter_cls::GetField90_00de48e0()
 {
     return m_90;
 }
@@ -2021,11 +2167,12 @@ struct FUN_00de48f0_cls
     int m_8c;
     int m_90;
     float m_94;
-    float FUN_00de48f0();
+    float GetField94();
 };
 
 // @fnv 0x00de48f0
-float FUN_00de48f0_cls::FUN_00de48f0()
+// src: GUESS 0x00de48f0 (confidence: low)
+float FUN_00de48f0_cls::GetField94()
 {
     return m_94;
 }
@@ -2071,10 +2218,11 @@ struct CpuObject
     unsigned int unk90;
     unsigned int unk94;
     float value;
-    float FUN_00de4900();
+    float GetValue_00de4900();
 };
 // @fnv 0x00de4900
-float CpuObject::FUN_00de4900()
+// src: GUESS 0x00de4900 (confidence: high)
+float CpuObject::GetValue_00de4900()
 {
     return value;
 }
@@ -2121,11 +2269,12 @@ struct FUN_00de4910_cls
     int m_94;
     int m_98;
     int m_9c;
-    int FUN_00de4910();
+    int GetField9c();
 };
 
 // @fnv 0x00de4910
-int FUN_00de4910_cls::FUN_00de4910()
+// src: GUESS 0x00de4910 (confidence: low)
+int FUN_00de4910_cls::GetField9c()
 {
     return m_9c;
 }
@@ -2187,10 +2336,11 @@ void FUN_00de4920_cls::CopyVec4ToBuffer(int* volatile pOut)
 namespace fnv_00de4e00 {
 struct CpuObject
 {
-    char* FUN_00de4e00();
+    char* ComputeValue_00de4e00();
 };
 // @fnv 0x00de4e00
-char* CpuObject::FUN_00de4e00()
+// src: GUESS 0x00de4e00 (confidence: low)
+char* CpuObject::ComputeValue_00de4e00()
 {
     return reinterpret_cast<char*>(this) + 128;
 }
@@ -2235,11 +2385,12 @@ struct FUN_00de4e10_cls
     int unk88;
     int unk8C;
 
-    char* FUN_00de4e10();
+    char* GetFieldAtOffset90();
 };
 
 // @fnv 0x00de4e10
-char* FUN_00de4e10_cls::FUN_00de4e10()
+// src: GUESS 0x00de4e10 (confidence: low)
+char* FUN_00de4e10_cls::GetFieldAtOffset90()
 {
     return (char*)this + 0x90;
 }
@@ -2295,10 +2446,11 @@ struct CpuObject
     unsigned int unk80;
     unsigned int unk84;
     float value;
-    float FUN_00de5340();
+    float GetValue_00de5340();
 };
 // @fnv 0x00de5340
-float CpuObject::FUN_00de5340()
+// src: GUESS 0x00de5340 (confidence: high)
+float CpuObject::GetValue_00de5340()
 {
     return value;
 }
@@ -2340,10 +2492,11 @@ struct FUN_00de5350_cls
     int unk7C;
     int unk80;
     float m_84;
-    float FUN_00de5350();
+    float GetField84();
 };
 // @fnv 0x00de5350
-float FUN_00de5350_cls::FUN_00de5350()
+// src: GUESS 0x00de5350 (confidence: low)
+float FUN_00de5350_cls::GetField84()
 {
     return m_84;
 }
@@ -2351,11 +2504,12 @@ float FUN_00de5350_cls::FUN_00de5350()
 class FUN_00de5360_cls
 {
   public:
-    void* FUN_00de5360();
+    void* GetFieldAtOffset80_00de5360();
 };
 
 // @fnv 0x00de5360
-void* FUN_00de5360_cls::FUN_00de5360()
+// src: GUESS 0x00de5360 (confidence: low)
+void* FUN_00de5360_cls::GetFieldAtOffset80_00de5360()
 {
     return *(void**)((char*)this + 0x80);
 }
@@ -2363,7 +2517,8 @@ void* FUN_00de5360_cls::FUN_00de5360()
 extern void* DAT_01269ce8;
 
 // @fnv 0x00de8150
-int __cdecl FUN_00de8150()
+// src: GUESS 0x00de8150 (confidence: low)
+int __cdecl Runtime_EvaluateValue_00de8150()
 {
     return reinterpret_cast<int>(&DAT_01269ce8);
 }
@@ -2371,7 +2526,8 @@ int __cdecl FUN_00de8150()
 extern int DAT_01269d18;
 
 // @fnv 0x00de8170
-int* __cdecl FUN_00de8170()
+// src: GUESS 0x00de8170 (confidence: low)
+int* __cdecl Runtime_GetDAT01269d18Address()
 {
     return &DAT_01269d18;
 }
@@ -2379,7 +2535,8 @@ int* __cdecl FUN_00de8170()
 extern int DAT_01269d48;
 
 // @fnv 0x00de8190
-void* FUN_00de8190()
+// src: GUESS 0x00de8190 (confidence: low)
+void* Runtime_GetDAT01269d48Address()
 {
     return &DAT_01269d48;
 }
@@ -2387,7 +2544,8 @@ void* FUN_00de8190()
 extern int g_unk01269d78;
 
 // @fnv 0x00de81d0
-void* __cdecl FUN_00de81d0()
+// src: GUESS 0x00de81d0 (confidence: low)
+void* __cdecl Runtime_GetUnk01269d78Address()
 {
     return &g_unk01269d78;
 }
@@ -2395,7 +2553,8 @@ void* __cdecl FUN_00de81d0()
 struct CpuOpaque;
 extern CpuOpaque DAT_01269da8;
 // @fnv 0x00de81f0
-CpuOpaque* __cdecl FUN_00de81f0()
+// src: GUESS 0x00de81f0 (confidence: low)
+CpuOpaque* __cdecl Runtime_GetDAT01269da8Address()
 {
     return &DAT_01269da8;
 }
@@ -2403,7 +2562,8 @@ CpuOpaque* __cdecl FUN_00de81f0()
 extern int DAT_01269dd8;
 
 // @fnv 0x00de8210
-void* __cdecl FUN_00de8210()
+// src: GUESS 0x00de8210 (confidence: low)
+void* __cdecl Runtime_GetDAT01269dd8Address()
 {
     return &DAT_01269dd8;
 }
@@ -2411,7 +2571,8 @@ void* __cdecl FUN_00de8210()
 extern int g_unk01269e08;
 
 // @fnv 0x00de8230
-int* FUN_00de8230()
+// src: GUESS 0x00de8230 (confidence: low)
+int* Runtime_GetUnk01269e08Address()
 {
     return &g_unk01269e08;
 }
@@ -2423,7 +2584,8 @@ struct GlobalObject
 extern GlobalObject g_global;
 
 // @fnv 0x00de8250
-GlobalObject* __cdecl FUN_00de8250()
+// src: GUESS 0x00de8250 (confidence: high)
+GlobalObject* __cdecl Runtime_GetGlobalAddress()
 {
     return &g_global;
 }
@@ -2431,7 +2593,8 @@ GlobalObject* __cdecl FUN_00de8250()
 struct CpuOpaque;
 extern CpuOpaque DAT_01269e68;
 // @fnv 0x00de8270
-CpuOpaque* __cdecl FUN_00de8270()
+// src: GUESS 0x00de8270 (confidence: low)
+CpuOpaque* __cdecl Runtime_GetDAT01269e68Address()
 {
     return &DAT_01269e68;
 }
@@ -2439,7 +2602,8 @@ CpuOpaque* __cdecl FUN_00de8270()
 extern int g_unk01269e98;
 
 // @fnv 0x00de8290
-void* __cdecl FUN_00de8290()
+// src: GUESS 0x00de8290 (confidence: low)
+void* __cdecl Runtime_GetUnk01269e98Address()
 {
     return &g_unk01269e98;
 }
@@ -2447,7 +2611,8 @@ void* __cdecl FUN_00de8290()
 extern int g_unk01269ec8;
 
 // @fnv 0x00de82b0
-void* __cdecl FUN_00de82b0()
+// src: GUESS 0x00de82b0 (confidence: low)
+void* __cdecl Runtime_GetUnk01269ec8Address()
 {
     return &g_unk01269ec8;
 }
@@ -2455,7 +2620,8 @@ void* __cdecl FUN_00de82b0()
 class GlobalObjectO2_00d472a0;
 extern GlobalObjectO2_00d472a0 g_01269ef8;
 // @fnv 0x00de82d0
-GlobalObjectO2_00d472a0* __cdecl FUN_00de82d0()
+// src: GUESS 0x00de82d0 (confidence: low)
+GlobalObjectO2_00d472a0* __cdecl Runtime_GetField01269ef8Address()
 {
     return &g_01269ef8;
 }
@@ -2463,7 +2629,8 @@ GlobalObjectO2_00d472a0* __cdecl FUN_00de82d0()
 extern int DAT_01269f28;
 
 // @fnv 0x00de82f0
-void* __cdecl FUN_00de82f0()
+// src: GUESS 0x00de82f0 (confidence: low)
+void* __cdecl Runtime_GetDAT01269f28Address()
 {
     return &DAT_01269f28;
 }
@@ -2471,7 +2638,8 @@ void* __cdecl FUN_00de82f0()
 extern int g_unkGlobal01269f58;
 
 // @fnv 0x00de8310
-void* __cdecl FUN_00de8310()
+// src: GUESS 0x00de8310 (confidence: low)
+void* __cdecl Runtime_GetUnkGlobal01269f58Address()
 {
     return &g_unkGlobal01269f58;
 }
@@ -2479,7 +2647,8 @@ void* __cdecl FUN_00de8310()
 extern int DAT_01269f88;
 
 // @fnv 0x00de8330
-void* __cdecl FUN_00de8330()
+// src: GUESS 0x00de8330 (confidence: low)
+void* __cdecl Runtime_GetDAT01269f88Address()
 {
     return &DAT_01269f88;
 }
@@ -2487,7 +2656,8 @@ void* __cdecl FUN_00de8330()
 // FUN_00de8350 : a one-line function - getter
 extern int g_target_00de8350;
 // @fnv 0x00de8350
-void* FUN_00de8350()
+// src: GUESS 0x00de8350 (confidence: low)
+void* Runtime_GetTarget00de8350Address()
 {
     return &g_target_00de8350;
 }
@@ -2495,14 +2665,16 @@ void* FUN_00de8350()
 extern int DAT_0126a018;
 
 // @fnv 0x00de8390
-void* __cdecl FUN_00de8390()
+// src: GUESS 0x00de8390 (confidence: low)
+void* __cdecl Runtime_GetDAT0126a018Address()
 {
     return &DAT_0126a018;
 }
 
 extern int DAT_0126a048;
 // @fnv 0x00de83b0
-int* FUN_00de83b0()
+// src: GUESS 0x00de83b0 (confidence: low)
+int* Runtime_GetDAT0126a048Address()
 {
     return &DAT_0126a048;
 }
@@ -2510,7 +2682,8 @@ int* FUN_00de83b0()
 struct CpuOpaque;
 extern CpuOpaque DAT_0126a078;
 // @fnv 0x00de83d0
-CpuOpaque* __cdecl FUN_00de83d0()
+// src: GUESS 0x00de83d0 (confidence: low)
+CpuOpaque* __cdecl Runtime_GetDAT0126a078Address()
 {
     return &DAT_0126a078;
 }
@@ -2518,7 +2691,8 @@ CpuOpaque* __cdecl FUN_00de83d0()
 extern int DAT_0126a0a8;
 
 // @fnv 0x00de83f0
-void* __cdecl FUN_00de83f0()
+// src: GUESS 0x00de83f0 (confidence: low)
+void* __cdecl Runtime_GetDAT0126a0a8Address()
 {
     return &DAT_0126a0a8;
 }
@@ -2526,14 +2700,16 @@ void* __cdecl FUN_00de83f0()
 extern int DAT_0126a0d8;
 
 // @fnv 0x00de8410
-void* __cdecl FUN_00de8410()
+// src: GUESS 0x00de8410 (confidence: low)
+void* __cdecl Runtime_GetDAT0126a0d8Address()
 {
     return &DAT_0126a0d8;
 }
 
 extern int DAT_0126a108;
 // @fnv 0x00de8430
-int* __cdecl FUN_00de8430()
+// src: GUESS 0x00de8430 (confidence: low)
+int* __cdecl Runtime_GetDAT0126a108Address()
 {
     return &DAT_0126a108;
 }
@@ -2541,7 +2717,8 @@ int* __cdecl FUN_00de8430()
 extern int DAT_0126a138;
 
 // @fnv 0x00de8450
-void* __cdecl FUN_00de8450()
+// src: GUESS 0x00de8450 (confidence: low)
+void* __cdecl Runtime_GetDAT0126a138Address()
 {
     return &DAT_0126a138;
 }
@@ -2549,7 +2726,8 @@ void* __cdecl FUN_00de8450()
 extern int DAT_0126a168;
 
 // @fnv 0x00de8470
-void* __cdecl FUN_00de8470()
+// src: GUESS 0x00de8470 (confidence: low)
+void* __cdecl Runtime_GetDAT0126a168Address()
 {
     return &DAT_0126a168;
 }
@@ -2557,7 +2735,8 @@ void* __cdecl FUN_00de8470()
 extern int DAT_0126a198;
 
 // @fnv 0x00de8490
-int* __cdecl FUN_00de8490()
+// src: GUESS 0x00de8490 (confidence: low)
+int* __cdecl Runtime_GetDAT0126a198Address()
 {
     return &DAT_0126a198;
 }
@@ -2565,7 +2744,8 @@ int* __cdecl FUN_00de8490()
 extern int DAT_0126a1c8;
 
 // @fnv 0x00de84b0
-void* __cdecl FUN_00de84b0()
+// src: GUESS 0x00de84b0 (confidence: low)
+void* __cdecl Runtime_GetDAT0126a1c8Address()
 {
     return &DAT_0126a1c8;
 }
@@ -2573,7 +2753,8 @@ void* __cdecl FUN_00de84b0()
 extern FUN_00de87c0_class DAT_0126a1f8;
 
 // @fnv 0x00de84d0
-FUN_00de87c0_class* __cdecl FUN_00de84d0()
+// src: GUESS 0x00de84d0 (confidence: low)
+FUN_00de87c0_class* __cdecl Runtime_GetDAT0126a1f8Address()
 {
     return &DAT_0126a1f8;
 }
@@ -2583,7 +2764,8 @@ FUN_00de87c0_class* __cdecl FUN_00de84d0()
 extern int DAT_0126a228;
 
 // @fnv 0x00de84f0
-int* __cdecl FUN_00de84f0()
+// src: GUESS 0x00de84f0 (confidence: low)
+int* __cdecl Runtime_GetDAT0126a228Address()
 {
     return &DAT_0126a228;
 }
@@ -2591,7 +2773,8 @@ int* __cdecl FUN_00de84f0()
 struct CpuOpaque;
 extern CpuOpaque DAT_0126a258;
 // @fnv 0x00de8510
-CpuOpaque* __cdecl FUN_00de8510()
+// src: GUESS 0x00de8510 (confidence: low)
+CpuOpaque* __cdecl Runtime_GetDAT0126a258Address()
 {
     return &DAT_0126a258;
 }
@@ -2599,7 +2782,8 @@ CpuOpaque* __cdecl FUN_00de8510()
 extern int g_0126a288;
 
 // @fnv 0x00de8530
-int* __cdecl FUN_00de8530()
+// src: GUESS 0x00de8530 (confidence: low)
+int* __cdecl Runtime_GetField0126a288Address()
 {
     return &g_0126a288;
 }
@@ -2613,7 +2797,8 @@ struct FUN_00de8570_cls
 };
 
 // @fnv 0x00de8570
-void __cdecl FUN_00de8570(FUN_00de8570_cls* pTarget, int nIndex)
+// src: GUESS 0x00de8570 (confidence: low)
+void __cdecl hkpBridgeConstraintAtom_init_ProcessState_00de8570(FUN_00de8570_cls* pTarget, int nIndex)
 {
     if (pTarget != 0)
     {
@@ -2627,7 +2812,8 @@ void __cdecl FUN_00de8570(FUN_00de8570_cls* pTarget, int nIndex)
 extern int DAT_0126a378;
 
 // @fnv 0x00de8750
-void* __cdecl FUN_00de8750()
+// src: GUESS 0x00de8750 (confidence: low)
+void* __cdecl Runtime_GetDAT0126a378Address()
 {
     return &DAT_0126a378;
 }
@@ -2635,7 +2821,8 @@ void* __cdecl FUN_00de8750()
 extern int g_unk126a3a8;
 
 // @fnv 0x00de8770
-void* __cdecl FUN_00de8770()
+// src: GUESS 0x00de8770 (confidence: low)
+void* __cdecl Runtime_GetUnk126a3a8Address()
 {
     return &g_unk126a3a8;
 }
@@ -2882,7 +3069,8 @@ struct Handler_cls
 };
 
 // @fnv 0x00df6440
-void __cdecl FUN_00df6440(Handler_cls* pHandler, int value)
+// src: GUESS 0x00df6440 (confidence: low)
+void __cdecl Object_ProcessState_00df6440(Handler_cls* pHandler, int value)
 {
     if (pHandler != 0)
         pHandler->Handle(value);
@@ -2891,7 +3079,8 @@ void __cdecl FUN_00df6440(Handler_cls* pHandler, int value)
 extern int g_0126a430;
 
 // @fnv 0x00df6490
-int* __cdecl FUN_00df6490()
+// src: GUESS 0x00df6490 (confidence: low)
+int* __cdecl Runtime_GetField0126a430Address()
 {
     return &g_0126a430;
 }
@@ -2899,7 +3088,8 @@ int* __cdecl FUN_00df6490()
 extern int DAT_0126a478;
 
 // @fnv 0x00df64b0
-void* __cdecl FUN_00df64b0()
+// src: GUESS 0x00df64b0 (confidence: low)
+void* __cdecl Runtime_GetDAT0126a478Address()
 {
     return &DAT_0126a478;
 }
@@ -2907,7 +3097,8 @@ void* __cdecl FUN_00df64b0()
 extern "C" int DAT_0126a4a8;
 
 // @fnv 0x00df64c0
-extern "C" void* __cdecl FUN_00df64c0()
+// src: GUESS 0x00df64c0 (confidence: low)
+extern "C" void* __cdecl Object_GetGlobalObjectAddress_00df64c0()
 {
     return &DAT_0126a4a8;
 }
@@ -2951,7 +3142,7 @@ struct ParserContext
 {
     int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c, unk20, unk24, unk28, unk2c, unk30, unk34, unk38, unk3c,
         unk40, result44;
-    int __thiscall FUN_00e63af0(int, void*, float*);
+    int __thiscall ClipRangeByPlane(int, void*, float*);
 };
 struct FloatPair
 {
@@ -2969,7 +3160,7 @@ int __thiscall FloatPair::hkWingedEdge_findVisibilityBoundaryEdges(ParserContext
     *outA = 0;
     first = (float)initial;
     second = DAT_0104da48;
-    ctx->result44 = ctx->FUN_00e63af0(input, this, &second);
+    ctx->result44 = ctx->ClipRangeByPlane(input, this, &second);
     if (ctx->result44 == 1)
         return TraverseNode(ctx, input, outA, outB);
     return 2;
@@ -2978,7 +3169,8 @@ int __thiscall FloatPair::hkWingedEdge_findVisibilityBoundaryEdges(ParserContext
 struct CpuOpaque;
 extern CpuOpaque DAT_0126a5f8;
 // @fnv 0x00dfb260
-CpuOpaque* __cdecl FUN_00dfb260()
+// src: GUESS 0x00dfb260 (confidence: low)
+CpuOpaque* __cdecl Object_GetGlobalObjectAddress_00dfb260()
 {
     return &DAT_0126a5f8;
 }
@@ -2986,7 +3178,8 @@ CpuOpaque* __cdecl FUN_00dfb260()
 extern int g_unk0126aa18;
 
 // @fnv 0x00dfb280
-int* __cdecl FUN_00dfb280()
+// src: GUESS 0x00dfb280 (confidence: low)
+int* __cdecl Object_GetGlobalObjectAddress_00dfb280()
 {
     return &g_unk0126aa18;
 }
@@ -2997,7 +3190,8 @@ struct FUN_00dfb2d0_class
 };
 
 // @fnv 0x00dfb290
-void __cdecl FUN_00dfb290(FUN_00dfb2d0_class* pObject, int a)
+// src: GUESS 0x00dfb290 (confidence: low)
+void __cdecl Object_ProcessState_00dfb290(FUN_00dfb2d0_class* pObject, int a)
 {
     if (pObject)
         pObject->FUN_00dfb2d0(a);
@@ -3006,7 +3200,8 @@ void __cdecl FUN_00dfb290(FUN_00dfb2d0_class* pObject, int a)
 extern int DAT_0126aac0;
 
 // @fnv 0x00dfb360
-int* __cdecl FUN_00dfb360()
+// src: GUESS 0x00dfb360 (confidence: low)
+int* __cdecl Object_GetGlobalObjectAddress_00dfb360()
 {
     return &DAT_0126aac0;
 }
@@ -3014,7 +3209,8 @@ int* __cdecl FUN_00dfb360()
 extern int DAT_0126aaf0;
 
 // @fnv 0x00dfb380
-void* __cdecl FUN_00dfb380()
+// src: GUESS 0x00dfb380 (confidence: low)
+void* __cdecl Object_GetGlobalObjectAddress_00dfb380()
 {
     return &DAT_0126aaf0;
 }
@@ -3022,7 +3218,8 @@ void* __cdecl FUN_00dfb380()
 extern int DAT_0126abe0;
 
 // @fnv 0x00dfb3c0
-int* __cdecl FUN_00dfb3c0(void)
+// src: GUESS 0x00dfb3c0 (confidence: low)
+int* __cdecl Object_GetGlobalObjectAddress_00dfb3c0(void)
 {
     return &DAT_0126abe0;
 }
@@ -3036,7 +3233,8 @@ struct FUN_00dfb3d0_cls
 };
 
 // @fnv 0x00dfb3d0
-void __cdecl FUN_00dfb3d0(FUN_00dfb3d0_cls* pObject, int a1)
+// src: GUESS 0x00dfb3d0 (confidence: low)
+void __cdecl Object_ProcessState_00dfb3d0(FUN_00dfb3d0_cls* pObject, int a1)
 {
     if (pObject != 0)
     {
@@ -3047,7 +3245,8 @@ void __cdecl FUN_00dfb3d0(FUN_00dfb3d0_cls* pObject, int a1)
 extern unsigned char DAT_0126ac10;
 
 // @fnv 0x00dfb420
-void* __cdecl FUN_00dfb420()
+// src: GUESS 0x00dfb420 (confidence: low)
+void* __cdecl Object_GetGlobalObjectAddress_00dfb420()
 {
     return &DAT_0126ac10;
 }
@@ -3058,7 +3257,8 @@ struct FUN_00e2ebc0_cls
 };
 
 // @fnv 0x00dfb430
-void __cdecl FUN_00dfb430(FUN_00e2ebc0_cls* pObject, void* pArg)
+// src: GUESS 0x00dfb430 (confidence: low)
+void __cdecl Object_ProcessState_00dfb430(FUN_00e2ebc0_cls* pObject, void* pArg)
 {
     if (pObject != 0)
         pObject->Init(pArg);
@@ -3066,7 +3266,8 @@ void __cdecl FUN_00dfb430(FUN_00e2ebc0_cls* pObject, void* pArg)
 
 extern "C" int DAT_0126ac58;
 // @fnv 0x00dfb480
-int* __cdecl FUN_00dfb480(void)
+// src: GUESS 0x00dfb480 (confidence: low)
+int* __cdecl Object_GetGlobalObjectAddress_00dfb480(void)
 {
     return &DAT_0126ac58;
 }
@@ -3074,14 +3275,16 @@ int* __cdecl FUN_00dfb480(void)
 extern int DAT_0126acd0;
 
 // @fnv 0x00dfb4d0
-int __cdecl FUN_00dfb4d0()
+// src: GUESS 0x00dfb4d0 (confidence: low)
+int __cdecl Runtime_EvaluateValue_00dfb4d0()
 {
     return reinterpret_cast<int>(&DAT_0126acd0);
 }
 
 extern int DAT_0126ad00;
 // @fnv 0x00dfb4f0
-void* __cdecl FUN_00dfb4f0()
+// src: GUESS 0x00dfb4f0 (confidence: low)
+void* __cdecl Runtime_GetDAT0126ad00Address()
 {
     return &DAT_0126ad00;
 }
@@ -3089,7 +3292,8 @@ void* __cdecl FUN_00dfb4f0()
 extern int DAT_0126ad30;
 
 // @fnv 0x00dfb510
-void* __cdecl FUN_00dfb510()
+// src: GUESS 0x00dfb510 (confidence: low)
+void* __cdecl Runtime_GetDAT0126ad30Address()
 {
     return &DAT_0126ad30;
 }
@@ -3097,7 +3301,8 @@ void* __cdecl FUN_00dfb510()
 extern void* DAT_0126ad60;
 
 // @fnv 0x00dfb540
-int __cdecl FUN_00dfb540()
+// src: GUESS 0x00dfb540 (confidence: low)
+int __cdecl Object_ComputeValue_00dfb540()
 {
     return reinterpret_cast<int>(&DAT_0126ad60);
 }
@@ -3109,7 +3314,8 @@ class DFB550Object
 };
 
 // @fnv 0x00dfb550
-void FUN_00dfb550(DFB550Object* pkObject)
+// src: GUESS 0x00dfb550 (confidence: low)
+void Runtime_DestroySubobject_00dfb550(DFB550Object* pkObject)
 {
     pkObject->~DFB550Object();
 }
@@ -3117,7 +3323,8 @@ void FUN_00dfb550(DFB550Object* pkObject)
 extern int DAT_0126ad90;
 
 // @fnv 0x00dfb560
-int* __cdecl FUN_00dfb560()
+// src: GUESS 0x00dfb560 (confidence: low)
+int* __cdecl Object_GetGlobalObjectAddress_00dfb560()
 {
     return &DAT_0126ad90;
 }
@@ -3147,7 +3354,8 @@ class DFB570Object
 };
 
 // @fnv 0x00dfb570
-void FUN_00dfb570(void* apMemory, int finishing)
+// src: GUESS 0x00dfb570 (confidence: low)
+void Runtime_AllocateStorage_00dfb570(void* apMemory, int finishing)
 {
     DFB570FinishFlag flag;
     flag.m_bFinishing = finishing;
@@ -3157,7 +3365,8 @@ void FUN_00dfb570(void* apMemory, int finishing)
 extern int DAT_010ddc5c;
 
 // @fnv 0x00dfb590
-void* __cdecl FUN_00dfb590()
+// src: GUESS 0x00dfb590 (confidence: low)
+void* __cdecl Runtime_GetDAT010ddc5cAddress()
 {
     return &DAT_010ddc5c;
 }
@@ -3165,7 +3374,8 @@ void* __cdecl FUN_00dfb590()
 extern int DAT_0126add8;
 
 // @fnv 0x00dfb860
-int* __cdecl FUN_00dfb860()
+// src: GUESS 0x00dfb860 (confidence: low)
+int* __cdecl Object_GetGlobalObjectAddress_00dfb860()
 {
     return &DAT_0126add8;
 }
@@ -3173,7 +3383,8 @@ int* __cdecl FUN_00dfb860()
 extern unsigned char g_fnvDat0126ae08;
 
 // @fnv 0x00dfb880
-void* FUN_00dfb880()
+// src: GUESS 0x00dfb880 (confidence: low)
+void* Object_GetGlobalObjectAddress_00dfb880()
 {
     return &g_fnvDat0126ae08;
 }
@@ -3181,7 +3392,8 @@ void* FUN_00dfb880()
 // FUN_00dfb8a0 : a one-line function - getter
 extern int g_target_00dfb8a0;
 // @fnv 0x00dfb8a0
-void* FUN_00dfb8a0()
+// src: GUESS 0x00dfb8a0 (confidence: low)
+void* Object_GetGlobalObjectAddress_00dfb8a0()
 {
     return &g_target_00dfb8a0;
 }
@@ -3217,7 +3429,8 @@ void __cdecl ResetVTable(ResetVTableObj* pObj, int bUpdate)
 extern int DAT_010de0ec;
 
 // @fnv 0x00dfb8d0
-void* FUN_00dfb8d0()
+// src: GUESS 0x00dfb8d0 (confidence: low)
+void* Runtime_GetDAT010de0ecAddress()
 {
     return &DAT_010de0ec;
 }
@@ -3225,7 +3438,8 @@ void* FUN_00dfb8d0()
 struct CpuOpaque;
 extern CpuOpaque DAT_0126ae80;
 // @fnv 0x00dfb920
-CpuOpaque* __cdecl FUN_00dfb920()
+// src: GUESS 0x00dfb920 (confidence: low)
+CpuOpaque* __cdecl Object_GetGlobalObjectAddress_00dfb920()
 {
     return &DAT_0126ae80;
 }
@@ -3233,7 +3447,8 @@ CpuOpaque* __cdecl FUN_00dfb920()
 extern int DAT_0126aeb0;
 
 // @fnv 0x00dfb940
-void* __cdecl FUN_00dfb940()
+// src: GUESS 0x00dfb940 (confidence: low)
+void* __cdecl Object_GetGlobalObjectAddress_00dfb940()
 {
     return &DAT_0126aeb0;
 }
@@ -3241,41 +3456,45 @@ void* __cdecl FUN_00dfb940()
 class CalleeObj
 {
   public:
-    void FUN_00ce5360(void* pParam);
+    void ComputeValue_00ce5360(void* pParam);
 };
 
 // @fnv 0x00dfb950
-void __cdecl FUN_00dfb950(CalleeObj* pCallee, void* pSecond)
+// src: GUESS 0x00dfb950 (confidence: low)
+void __cdecl Runtime_ProcessState_00dfb950(CalleeObj* pCallee, void* pSecond)
 {
     if (pCallee != 0)
     {
-        pCallee->FUN_00ce5360(pSecond);
+        pCallee->ComputeValue_00ce5360(pSecond);
     }
 }
 
 extern int DAT_0126aee0;
 
 // @fnv 0x00dfb970
-int* __cdecl FUN_00dfb970()
+// src: GUESS 0x00dfb970 (confidence: low)
+int* __cdecl Runtime_GetDAT0126aee0Address()
 {
     return &DAT_0126aee0;
 }
 
 struct FUN_00ce5370_cls
 {
-    void __thiscall FUN_00ce5370();
+    void __thiscall UpdateState_00ce5370();
 };
 
 // @fnv 0x00dfb980
-void __cdecl FUN_00dfb980(FUN_00ce5370_cls* p)
+// src: GUESS 0x00dfb980 (confidence: low)
+void __cdecl Object_ForwardCall_00dfb980(FUN_00ce5370_cls* p)
 {
-    p->FUN_00ce5370();
+    p->UpdateState_00ce5370();
 }
 
 extern int DAT_0126af10;
 
 // @fnv 0x00dfb990
-int* __cdecl FUN_00dfb990()
+// src: GUESS 0x00dfb990 (confidence: low)
+int* __cdecl Runtime_GetDAT0126af10Address()
 {
     return &DAT_0126af10;
 }
@@ -3295,21 +3514,24 @@ struct FUN_00dfb9a0_cls
 };
 
 // @fnv 0x00dfb9a0
-int __cdecl FUN_00dfb9a0(FUN_00dfb9a0_cls* pObj)
+// src: GUESS 0x00dfb9a0 (confidence: low)
+int __cdecl Object_InvokeVirtualMethod_00dfb9a0(FUN_00dfb9a0_cls* pObj)
 {
     return pObj->v00(0);
 }
 
 extern int DAT_0126af40;
 // @fnv 0x00dfb9b0
-int* __cdecl FUN_00dfb9b0(void)
+// src: GUESS 0x00dfb9b0 (confidence: low)
+int* __cdecl Runtime_GetDAT0126af40Address(void)
 {
     return &DAT_0126af40;
 }
 
 extern int DAT_0126af88;
 // @fnv 0x00dfba40
-int* FUN_00dfba40()
+// src: GUESS 0x00dfba40 (confidence: low)
+int* Object_GetGlobalObjectAddress_00dfba40()
 {
     return &DAT_0126af88;
 }
@@ -3323,7 +3545,8 @@ class FUN_00dfba50_cls
 };
 
 // @fnv 0x00dfba50
-void __cdecl FUN_00dfba50(FUN_00dfba50_cls* pObject, int a1)
+// src: GUESS 0x00dfba50 (confidence: low)
+void __cdecl Object_ProcessState_00dfba50(FUN_00dfba50_cls* pObject, int a1)
 {
     if (pObject != 0)
     {
@@ -3334,7 +3557,8 @@ void __cdecl FUN_00dfba50(FUN_00dfba50_cls* pObject, int a1)
 extern int g_unk0126afb8;
 
 // @fnv 0x00dfbaa0
-void* __cdecl FUN_00dfbaa0()
+// src: GUESS 0x00dfbaa0 (confidence: low)
+void* __cdecl Object_GetGlobalObjectAddress_00dfbaa0()
 {
     return &g_unk0126afb8;
 }
@@ -3387,7 +3611,8 @@ void __cdecl cleanupLoadedObjecthkaMeshBindingMapping(FUN_00dfbac0_cls* apBuffer
 struct CpuOpaque;
 extern CpuOpaque DAT_0126b000;
 // @fnv 0x00dfbb20
-CpuOpaque* __cdecl FUN_00dfbb20()
+// src: GUESS 0x00dfbb20 (confidence: low)
+CpuOpaque* __cdecl Object_GetGlobalObjectAddress_00dfbb20()
 {
     return &DAT_0126b000;
 }
@@ -3395,7 +3620,8 @@ CpuOpaque* __cdecl FUN_00dfbb20()
 extern int DAT_0126b030;
 
 // @fnv 0x00dfbb40
-void* __cdecl FUN_00dfbb40()
+// src: GUESS 0x00dfbb40 (confidence: low)
+void* __cdecl Object_GetGlobalObjectAddress_00dfbb40()
 {
     return &DAT_0126b030;
 }
@@ -3413,7 +3639,8 @@ struct FUN_00dfbb50_cls
 };
 
 // @fnv 0x00dfbb50
-void __cdecl FUN_00dfbb50(FUN_00dfbb50_cls* apObject, int a)
+// src: GUESS 0x00dfbb50 (confidence: low)
+void __cdecl Object_UpdateState_00dfbb50(FUN_00dfbb50_cls* apObject, int a)
 {
     if (apObject)
     {
@@ -3428,7 +3655,8 @@ void __cdecl FUN_00dfbb50(FUN_00dfbb50_cls* apObject, int a)
 extern int DAT_010de90c;
 
 // @fnv 0x00dfbb70
-void* __cdecl FUN_00dfbb70()
+// src: GUESS 0x00dfbb70 (confidence: low)
+void* __cdecl Runtime_GetDAT010de90cAddress()
 {
     return &DAT_010de90c;
 }
@@ -3436,7 +3664,8 @@ void* __cdecl FUN_00dfbb70()
 extern "C" int DAT_0126b078;
 
 // @fnv 0x00dfbc10
-extern "C" void* __cdecl FUN_00dfbc10()
+// src: GUESS 0x00dfbc10 (confidence: low)
+extern "C" void* __cdecl Runtime_GetGlobal0126B078Address()
 {
     return &DAT_0126b078;
 }
@@ -3444,7 +3673,8 @@ extern "C" void* __cdecl FUN_00dfbc10()
 struct CpuOpaque;
 extern CpuOpaque DAT_0126b0a8;
 // @fnv 0x00dfbc50
-CpuOpaque* __cdecl FUN_00dfbc50()
+// src: GUESS 0x00dfbc50 (confidence: low)
+CpuOpaque* __cdecl Runtime_GetDAT0126b0a8Address()
 {
     return &DAT_0126b0a8;
 }
@@ -3452,7 +3682,8 @@ CpuOpaque* __cdecl FUN_00dfbc50()
 extern int DAT_0126b0d8;
 
 // @fnv 0x00dfbc60
-int* __cdecl FUN_00dfbc60()
+// src: GUESS 0x00dfbc60 (confidence: low)
+int* __cdecl Object_GetGlobalObjectAddress_00dfbc60()
 {
     return &DAT_0126b0d8;
 }
@@ -3465,7 +3696,8 @@ struct GlobalObject
 extern GlobalObject g_global;
 
 // @fnv 0x00dfbcc0
-GlobalObject* __cdecl FUN_00dfbcc0()
+// src: GUESS 0x00dfbcc0 (confidence: low)
+GlobalObject* __cdecl Object_GetGlobalObjectAddress_00dfbcc0()
 {
     return &g_global;
 }
@@ -3474,7 +3706,8 @@ GlobalObject* __cdecl FUN_00dfbcc0()
 extern int DAT_0126b138;
 
 // @fnv 0x00dfbce0
-void* __cdecl FUN_00dfbce0()
+// src: GUESS 0x00dfbce0 (confidence: low)
+void* __cdecl Object_GetGlobalObjectAddress_00dfbce0()
 {
     return &DAT_0126b138;
 }
@@ -3531,7 +3764,8 @@ void __cdecl InitVTable(FUN_00dfbcf0_obj* self, int flag)
 extern int DAT_010dec3c;
 
 // @fnv 0x00dfbd30
-void* __cdecl FUN_00dfbd30()
+// src: GUESS 0x00dfbd30 (confidence: low)
+void* __cdecl Runtime_GetDAT010dec3cAddress()
 {
     return &DAT_010dec3c;
 }
@@ -3539,7 +3773,8 @@ void* __cdecl FUN_00dfbd30()
 extern int DAT_0126b180;
 
 // @fnv 0x00dfbdc0
-void* __cdecl FUN_00dfbdc0()
+// src: GUESS 0x00dfbdc0 (confidence: low)
+void* __cdecl Object_GetGlobalObjectAddress_00dfbdc0()
 {
     return &DAT_0126b180;
 }
@@ -3547,7 +3782,8 @@ void* __cdecl FUN_00dfbdc0()
 extern int DAT_0126b1b0;
 
 // @fnv 0x00dfbde0
-void* __cdecl FUN_00dfbde0()
+// src: GUESS 0x00dfbde0 (confidence: low)
+void* __cdecl Object_GetGlobalObjectAddress_00dfbde0()
 {
     return &DAT_0126b1b0;
 }
@@ -3555,7 +3791,8 @@ void* __cdecl FUN_00dfbde0()
 extern int DAT_0126b1f8;
 
 // @fnv 0x00dfbe90
-void* __cdecl FUN_00dfbe90()
+// src: GUESS 0x00dfbe90 (confidence: low)
+void* __cdecl Runtime_GetDAT0126b1f8Address()
 {
     return &DAT_0126b1f8;
 }
@@ -3563,7 +3800,8 @@ void* __cdecl FUN_00dfbe90()
 extern unsigned char DAT_0126b228;
 
 // @fnv 0x00dfbeb0
-void* __cdecl FUN_00dfbeb0()
+// src: GUESS 0x00dfbeb0 (confidence: low)
+void* __cdecl Runtime_GetDAT0126b228Address()
 {
     return &DAT_0126b228;
 }
@@ -3571,7 +3809,8 @@ void* __cdecl FUN_00dfbeb0()
 extern int DAT_0126b258;
 
 // @fnv 0x00dfbed0
-void* __cdecl FUN_00dfbed0()
+// src: GUESS 0x00dfbed0 (confidence: low)
+void* __cdecl Runtime_GetDAT0126b258Address()
 {
     return &DAT_0126b258;
 }
@@ -3579,7 +3818,8 @@ void* __cdecl FUN_00dfbed0()
 struct CpuOpaque;
 extern CpuOpaque DAT_0126b288;
 // @fnv 0x00dfbef0
-CpuOpaque* __cdecl FUN_00dfbef0()
+// src: GUESS 0x00dfbef0 (confidence: low)
+CpuOpaque* __cdecl Runtime_GetDAT0126b288Address()
 {
     return &DAT_0126b288;
 }
@@ -3587,7 +3827,8 @@ CpuOpaque* __cdecl FUN_00dfbef0()
 extern int DAT_0126b2b8;
 
 // @fnv 0x00dfbf20
-void* __cdecl FUN_00dfbf20()
+// src: GUESS 0x00dfbf20 (confidence: low)
+void* __cdecl Object_GetGlobalObjectAddress_00dfbf20()
 {
     return &DAT_0126b2b8;
 }
@@ -3598,7 +3839,8 @@ struct FUN_00dfbf30_class
 };
 
 // @fnv 0x00dfbf30
-void __cdecl FUN_00dfbf30(void* p)
+// src: GUESS 0x00dfbf30 (confidence: low)
+void __cdecl Runtime_ForwardCall_00dfbf30(void* p)
 {
     ((FUN_00dfbf30_class*)p)->m0(0);
 }
@@ -3606,13 +3848,15 @@ void __cdecl FUN_00dfbf30(void* p)
 extern int DAT_0126b2e8;
 
 // @fnv 0x00dfbf40
-int* __cdecl FUN_00dfbf40()
+// src: GUESS 0x00dfbf40 (confidence: low)
+int* __cdecl Object_GetGlobalObjectAddress_00dfbf40()
 {
     return &DAT_0126b2e8;
 }
 
 // @fnv 0x00dfbf60
-int* __cdecl FUN_00dfbf60()
+// src: GUESS 0x00dfbf60 (confidence: low)
+int* __cdecl Object_GetGlobalObjectAddress_00dfbf60()
 {
     return &DAT_010df89c;
 }
@@ -3620,7 +3864,8 @@ int* __cdecl FUN_00dfbf60()
 extern int DAT_0126b330;
 
 // @fnv 0x00dfc030
-void* __cdecl FUN_00dfc030()
+// src: GUESS 0x00dfc030 (confidence: low)
+void* __cdecl Runtime_GetDAT0126b330Address()
 {
     return &DAT_0126b330;
 }
@@ -3631,7 +3876,8 @@ void* __cdecl FUN_00dfc030()
 extern int g_target_FUN_00dfc050;
 
 // @fnv 0x00dfc050
-void* __cdecl FUN_00dfc050()
+// src: GUESS 0x00dfc050 (confidence: low)
+void* __cdecl Runtime_GetTargetFUN00dfc050Address()
 {
     return &g_target_FUN_00dfc050;
 }
@@ -3639,7 +3885,8 @@ void* __cdecl FUN_00dfc050()
 // FUN_00dfc070 : a one-line function - getter
 extern int g_target_00dfc070;
 // @fnv 0x00dfc070
-void* FUN_00dfc070()
+// src: GUESS 0x00dfc070 (confidence: low)
+void* Runtime_GetTarget00dfc070Address()
 {
     return &g_target_00dfc070;
 }
@@ -3647,7 +3894,8 @@ void* FUN_00dfc070()
 extern int DAT_0126b3a8;
 
 // @fnv 0x00dfc100
-int* __cdecl FUN_00dfc100()
+// src: GUESS 0x00dfc100 (confidence: low)
+int* __cdecl Object_GetGlobalObjectAddress_00dfc100()
 {
     return &DAT_0126b3a8;
 }
@@ -3661,7 +3909,8 @@ void __thiscall S_00dfc110_vt::m0(int)
 {}
 
 // @fnv 0x00dfc110
-void __cdecl FUN_00dfc110(void* p)
+// src: GUESS 0x00dfc110 (confidence: low)
+void __cdecl Runtime_ForwardCall_00dfc110(void* p)
 {
     ((S_00dfc110_vt*)p)->m0(0);
 }
@@ -3669,7 +3918,8 @@ void __cdecl FUN_00dfc110(void* p)
 extern int g_0126b3d8;
 
 // @fnv 0x00dfc120
-int* __cdecl FUN_00dfc120()
+// src: GUESS 0x00dfc120 (confidence: low)
+int* __cdecl Object_GetGlobalObjectAddress_00dfc120()
 {
     return &g_0126b3d8;
 }
@@ -3677,7 +3927,8 @@ int* __cdecl FUN_00dfc120()
 extern int DAT_010dff44;
 
 // @fnv 0x00dfc140
-int* __cdecl FUN_00dfc140()
+// src: GUESS 0x00dfc140 (confidence: low)
+int* __cdecl Object_GetGlobalObjectAddress_00dfc140()
 {
     return &DAT_010dff44;
 }
@@ -3735,12 +3986,13 @@ struct FUN_00dfc150_cls : public BufferBase
     unsigned int m_count1;
     unsigned int m_cap1;
 
-    void FUN_00dfc150();
+    void FreeOwnedBuffersAndDestroyBase();
 };
 
 // Frees both owned buffers through the global allocator, resets their data pointers, counts and capacities, then destroys the base object.
 // @fnv 0x00dfc150
-void FUN_00dfc150_cls::FUN_00dfc150()
+// src: GUESS 0x00dfc150 (confidence: medium)
+void FUN_00dfc150_cls::FreeOwnedBuffersAndDestroyBase()
 {
     hkMemoryRouter* h = hkMemoryRouter_getInstance();
     Allocator* alloc = reinterpret_cast<Allocator*>(h->m_heap);
@@ -3771,7 +4023,8 @@ void FUN_00dfc150_cls::FUN_00dfc150()
 extern unsigned char DAT_0126b420;
 
 // @fnv 0x00dfc220
-void* __cdecl FUN_00dfc220()
+// src: GUESS 0x00dfc220 (confidence: low)
+void* __cdecl Object_GetGlobalObjectAddress_00dfc220()
 {
     return &DAT_0126b420;
 }
@@ -3784,7 +4037,8 @@ struct GlobalObject
 extern GlobalObject g_global;
 
 // @fnv 0x00dfc240
-GlobalObject* __cdecl FUN_00dfc240()
+// src: GUESS 0x00dfc240 (confidence: low)
+GlobalObject* __cdecl Object_GetGlobalObjectAddress_00dfc240()
 {
     return &g_global;
 }
@@ -3792,7 +4046,8 @@ GlobalObject* __cdecl FUN_00dfc240()
 
 extern char DAT_0126b498;
 // @fnv 0x00dfc260
-char* __cdecl FUN_00dfc260()
+// src: GUESS 0x00dfc260 (confidence: low)
+char* __cdecl Object_GetGlobalObjectAddress_00dfc260()
 {
     return &DAT_0126b498;
 }
@@ -3800,7 +4055,8 @@ char* __cdecl FUN_00dfc260()
 extern int DAT_010e00cc;
 
 // @fnv 0x00dfc290
-void* FUN_00dfc290()
+// src: GUESS 0x00dfc290 (confidence: low)
+void* Runtime_GetDAT010e00ccAddress()
 {
     return &DAT_010e00cc;
 }
@@ -3808,7 +4064,8 @@ void* FUN_00dfc290()
 extern int DAT_010e00dc;
 
 // @fnv 0x00dfc2b0
-int* __cdecl FUN_00dfc2b0()
+// src: GUESS 0x00dfc2b0 (confidence: low)
+int* __cdecl Runtime_GetDAT010e00dcAddress()
 {
     return &DAT_010e00dc;
 }
@@ -3817,7 +4074,8 @@ int* __cdecl FUN_00dfc2b0()
 extern int DAT_0126b528;
 
 // @fnv 0x00dfc360
-int* __cdecl FUN_00dfc360()
+// src: GUESS 0x00dfc360 (confidence: low)
+int* __cdecl Object_GetGlobalObjectAddress_00dfc360()
 {
     return &DAT_0126b528;
 }
@@ -3825,7 +4083,8 @@ int* __cdecl FUN_00dfc360()
 extern int g_unk0126b4e0;
 
 // @fnv 0x00dfc370
-void* __cdecl FUN_00dfc370()
+// src: GUESS 0x00dfc370 (confidence: low)
+void* __cdecl Runtime_GetUnk0126b4e0Address()
 {
     return &g_unk0126b4e0;
 }
@@ -3833,20 +4092,22 @@ void* __cdecl FUN_00dfc370()
 extern void* DAT_0126b558;
 
 // @fnv 0x00dfc390
-void* FUN_00dfc390()
+// src: GUESS 0x00dfc390 (confidence: low)
+void* Runtime_GetDAT0126b558Address()
 {
     return &DAT_0126b558;
 }
 
 struct FUN_00e05c20_class
 {
-    void __thiscall FUN_00e05c20();
+    void __thiscall ReleaseSectorAndSubtrackArrays();
 };
 
 // @fnv 0x00dfc3a0
-void __cdecl FUN_00dfc3a0(FUN_00e05c20_class* p)
+// src: GUESS 0x00dfc3a0 (confidence: low)
+void __cdecl Object_ForwardCall_00dfc3a0(FUN_00e05c20_class* p)
 {
-    p->FUN_00e05c20();
+    p->ReleaseSectorAndSubtrackArrays();
 }
 
 struct FUN_00dfc3b0_target
@@ -3855,7 +4116,8 @@ struct FUN_00dfc3b0_target
 };
 
 // @fnv 0x00dfc3b0
-void __cdecl FUN_00dfc3b0(FUN_00dfc3b0_target* pTarget)
+// src: GUESS 0x00dfc3b0 (confidence: low)
+void __cdecl Runtime_ForwardCall_00dfc3b0(FUN_00dfc3b0_target* pTarget)
 {
     pTarget->Run();
 }
@@ -3863,7 +4125,8 @@ void __cdecl FUN_00dfc3b0(FUN_00dfc3b0_target* pTarget)
 // FUN_00dfc440 : a one-line function - getter
 extern int g_target_00dfc440;
 // @fnv 0x00dfc440
-void* FUN_00dfc440()
+// src: GUESS 0x00dfc440 (confidence: low)
+void* Object_GetGlobalObjectAddress_00dfc440()
 {
     return &g_target_00dfc440;
 }
@@ -3875,7 +4138,8 @@ class VirtualDispatchObj
 };
 
 // @fnv 0x00dfc450
-void __cdecl FUN_00dfc450(VirtualDispatchObj* p)
+// src: GUESS 0x00dfc450 (confidence: low)
+void __cdecl Runtime_ForwardCall_00dfc450(VirtualDispatchObj* p)
 {
     p->Invoke0(0);
 }
@@ -3883,7 +4147,8 @@ void __cdecl FUN_00dfc450(VirtualDispatchObj* p)
 extern void* DAT_0126b588;
 
 // @fnv 0x00dfc460
-int __cdecl FUN_00dfc460()
+// src: GUESS 0x00dfc460 (confidence: low)
+int __cdecl Object_ComputeValue_00dfc460()
 {
     return reinterpret_cast<int>(&DAT_0126b588);
 }
@@ -3891,7 +4156,8 @@ int __cdecl FUN_00dfc460()
 extern int DAT_010e04ac;
 
 // @fnv 0x00dfc480
-void* __cdecl FUN_00dfc480()
+// src: GUESS 0x00dfc480 (confidence: low)
+void* __cdecl Object_GetGlobalObjectAddress_00dfc480()
 {
     return &DAT_010e04ac;
 }
@@ -3899,7 +4165,8 @@ void* __cdecl FUN_00dfc480()
 extern int g_unk0126b678;
 
 // @fnv 0x00dfc4d0
-void* __cdecl FUN_00dfc4d0()
+// src: GUESS 0x00dfc4d0 (confidence: low)
+void* __cdecl Runtime_GetUnk0126b678Address()
 {
     return &g_unk0126b678;
 }
@@ -3907,7 +4174,8 @@ void* __cdecl FUN_00dfc4d0()
 extern int DAT_0126b648;
 
 // @fnv 0x00dfc4f0
-int* __cdecl FUN_00dfc4f0()
+// src: GUESS 0x00dfc4f0 (confidence: low)
+int* __cdecl Runtime_GetDAT0126b648Address()
 {
     return &DAT_0126b648;
 }
@@ -3915,7 +4183,8 @@ int* __cdecl FUN_00dfc4f0()
 extern int DAT_0126b600;
 
 // @fnv 0x00dfc510
-int* __cdecl FUN_00dfc510()
+// src: GUESS 0x00dfc510 (confidence: low)
+int* __cdecl Runtime_GetDAT0126b600Address()
 {
     return &DAT_0126b600;
 }
@@ -3923,7 +4192,8 @@ int* __cdecl FUN_00dfc510()
 extern int DAT_010e0654;
 
 // @fnv 0x00dfc530
-int* __cdecl FUN_00dfc530()
+// src: GUESS 0x00dfc530 (confidence: low)
+int* __cdecl Runtime_GetDAT010e0654Address()
 {
     return &DAT_010e0654;
 }
@@ -3931,7 +4201,8 @@ int* __cdecl FUN_00dfc530()
 extern int DAT_0126b6a8;
 
 // @fnv 0x00dfc590
-int* __cdecl FUN_00dfc590(void)
+// src: GUESS 0x00dfc590 (confidence: low)
+int* __cdecl Runtime_GetDAT0126b6a8Address(void)
 {
     return &DAT_0126b6a8;
 }
@@ -3939,7 +4210,8 @@ int* __cdecl FUN_00dfc590(void)
 // FUN_00dfc5b0 : a one-line function - getter
 extern int g_target_00dfc5b0;
 // @fnv 0x00dfc5b0
-void* FUN_00dfc5b0()
+// src: GUESS 0x00dfc5b0 (confidence: low)
+void* Runtime_GetTarget00dfc5b0Address()
 {
     return &g_target_00dfc5b0;
 }
@@ -3947,7 +4219,8 @@ void* FUN_00dfc5b0()
 extern int DAT_0126b708;
 
 // @fnv 0x00dfc5d0
-int* __cdecl FUN_00dfc5d0()
+// src: GUESS 0x00dfc5d0 (confidence: low)
+int* __cdecl Runtime_GetDAT0126b708Address()
 {
     return &DAT_0126b708;
 }
@@ -3955,7 +4228,8 @@ int* __cdecl FUN_00dfc5d0()
 extern int DAT_0126b738;
 
 // @fnv 0x00dfc5f0
-void* __cdecl FUN_00dfc5f0()
+// src: GUESS 0x00dfc5f0 (confidence: low)
+void* __cdecl Runtime_GetDAT0126b738Address()
 {
     return &DAT_0126b738;
 }
@@ -3965,7 +4239,8 @@ struct FUN_00dfc600_vt
     virtual void __thiscall m0(int);
 };
 // @fnv 0x00dfc600
-void __cdecl FUN_00dfc600(FUN_00dfc600_vt* p)
+// src: GUESS 0x00dfc600 (confidence: low)
+void __cdecl Object_InvokeVirtualMethod_00dfc600(FUN_00dfc600_vt* p)
 {
     p->m0(0);
 }
@@ -3973,7 +4248,8 @@ void __cdecl FUN_00dfc600(FUN_00dfc600_vt* p)
 extern unsigned char DAT_0126b768;
 
 // @fnv 0x00dfc610
-void* __cdecl FUN_00dfc610()
+// src: GUESS 0x00dfc610 (confidence: low)
+void* __cdecl Runtime_GetDAT0126b768Address()
 {
     return &DAT_0126b768;
 }
@@ -3981,7 +4257,8 @@ void* __cdecl FUN_00dfc610()
 extern int DAT_0102e368;
 
 // @fnv 0x00dfc630
-int* __cdecl FUN_00dfc630()
+// src: GUESS 0x00dfc630 (confidence: low)
+int* __cdecl Runtime_GetDAT0102e368Address()
 {
     return &DAT_0102e368;
 }
@@ -3989,7 +4266,8 @@ int* __cdecl FUN_00dfc630()
 extern int DAT_0126b7b0;
 
 // @fnv 0x00dfc660
-int* __cdecl FUN_00dfc660()
+// src: GUESS 0x00dfc660 (confidence: low)
+int* __cdecl Object_GetGlobalObjectAddress_00dfc660()
 {
     return &DAT_0126b7b0;
 }
@@ -3997,7 +4275,8 @@ int* __cdecl FUN_00dfc660()
 // FUN_00dfc680 : a one-line function - getter
 extern int g_target_00dfc680;
 // @fnv 0x00dfc680
-void* FUN_00dfc680()
+// src: GUESS 0x00dfc680 (confidence: low)
+void* Object_GetGlobalObjectAddress_00dfc680()
 {
     return &g_target_00dfc680;
 }
@@ -4008,7 +4287,8 @@ struct FUN_00dfc690_vt
 };
 
 // @fnv 0x00dfc690
-void __cdecl FUN_00dfc690(FUN_00dfc690_vt* p)
+// src: GUESS 0x00dfc690 (confidence: low)
+void __cdecl Runtime_ForwardCall_00dfc690(FUN_00dfc690_vt* p)
 {
     p->m0(0);
 }
@@ -4016,7 +4296,8 @@ void __cdecl FUN_00dfc690(FUN_00dfc690_vt* p)
 extern int DAT_0126b810;
 
 // @fnv 0x00dfc6a0
-void* __cdecl FUN_00dfc6a0()
+// src: GUESS 0x00dfc6a0 (confidence: low)
+void* __cdecl Object_GetGlobalObjectAddress_00dfc6a0()
 {
     return &DAT_0126b810;
 }
@@ -4024,7 +4305,8 @@ void* __cdecl FUN_00dfc6a0()
 extern int DAT_010d0a64;
 
 // @fnv 0x00dfc6d0
-int* __cdecl FUN_00dfc6d0()
+// src: GUESS 0x00dfc6d0 (confidence: low)
+int* __cdecl Runtime_GetDAT010d0a64Address()
 {
     return &DAT_010d0a64;
 }
@@ -4032,7 +4314,8 @@ int* __cdecl FUN_00dfc6d0()
 extern char DAT_0126b858;
 
 // @fnv 0x00dfc6f0
-void* FUN_00dfc6f0()
+// src: GUESS 0x00dfc6f0 (confidence: low)
+void* Runtime_GetDAT0126b858Address()
 {
     return &DAT_0126b858;
 }
@@ -4040,7 +4323,8 @@ void* FUN_00dfc6f0()
 class GlobalObjectO2_00d472a0;
 extern GlobalObjectO2_00d472a0 g_0126b888;
 // @fnv 0x00dfc710
-GlobalObjectO2_00d472a0* __cdecl FUN_00dfc710()
+// src: GUESS 0x00dfc710 (confidence: low)
+GlobalObjectO2_00d472a0* __cdecl Runtime_GetField0126b888Address()
 {
     return &g_0126b888;
 }
@@ -4048,7 +4332,8 @@ GlobalObjectO2_00d472a0* __cdecl FUN_00dfc710()
 extern int DAT_010d0aac;
 
 // @fnv 0x00dfc740
-int* __cdecl FUN_00dfc740()
+// src: GUESS 0x00dfc740 (confidence: low)
+int* __cdecl Object_GetGlobalObjectAddress_00dfc740()
 {
     return &DAT_010d0aac;
 }
@@ -4056,7 +4341,8 @@ int* __cdecl FUN_00dfc740()
 extern int g_unk0126b8d0;
 
 // @fnv 0x00dfc760
-int* __cdecl FUN_00dfc760()
+// src: GUESS 0x00dfc760 (confidence: low)
+int* __cdecl Object_GetGlobalObjectAddress_00dfc760()
 {
     return &g_unk0126b8d0;
 }
@@ -4068,7 +4354,8 @@ struct Handler_cls
 };
 
 // @fnv 0x00dfc770
-void __cdecl FUN_00dfc770(Handler_cls* pHandler, int value)
+// src: GUESS 0x00dfc770 (confidence: low)
+void __cdecl Runtime_ProcessState_00dfc770(Handler_cls* pHandler, int value)
 {
     if (pHandler != 0)
         pHandler->Handle(value);
@@ -4078,7 +4365,8 @@ void __cdecl FUN_00dfc770(Handler_cls* pHandler, int value)
 extern int g_0126b900;
 
 // @fnv 0x00dfc7c0
-int* __cdecl FUN_00dfc7c0()
+// src: GUESS 0x00dfc7c0 (confidence: low)
+int* __cdecl Object_GetGlobalObjectAddress_00dfc7c0()
 {
     return &g_0126b900;
 }
@@ -4086,7 +4374,8 @@ int* __cdecl FUN_00dfc7c0()
 extern int DAT_0126b948;
 
 // @fnv 0x00dfc7e0
-int* __cdecl FUN_00dfc7e0()
+// src: GUESS 0x00dfc7e0 (confidence: low)
+int* __cdecl Object_GetGlobalObjectAddress_00dfc7e0()
 {
     return &DAT_0126b948;
 }
@@ -4094,7 +4383,8 @@ int* __cdecl FUN_00dfc7e0()
 extern int DAT_0126b978;
 
 // @fnv 0x00dfc800
-void* __cdecl FUN_00dfc800()
+// src: GUESS 0x00dfc800 (confidence: low)
+void* __cdecl Object_GetGlobalObjectAddress_00dfc800()
 {
     return &DAT_0126b978;
 }
@@ -4106,7 +4396,8 @@ class DFC810Object
 };
 
 // @fnv 0x00dfc810
-void __cdecl FUN_00dfc810(DFC810Object* pkObject, void* pvData)
+// src: GUESS 0x00dfc810 (confidence: low)
+void __cdecl Runtime_ProcessState_00dfc810(DFC810Object* pkObject, void* pvData)
 {
     if (pkObject)
         pkObject->Process(pvData);
@@ -4242,7 +4533,8 @@ FUN_00dfc850::FUN_00dfc850(int aiValue) : SpawnedBase(aiValue)
 extern int DAT_0126b9c0;
 
 // @fnv 0x00dfc8c0
-int* __cdecl FUN_00dfc8c0()
+// src: GUESS 0x00dfc8c0 (confidence: low)
+int* __cdecl Object_GetGlobalObjectAddress_00dfc8c0()
 {
     return &DAT_0126b9c0;
 }
@@ -4250,14 +4542,16 @@ int* __cdecl FUN_00dfc8c0()
 extern int g_unk0126b9f0;
 
 // @fnv 0x00dfc8e0
-int* __cdecl FUN_00dfc8e0()
+// src: GUESS 0x00dfc8e0 (confidence: low)
+int* __cdecl Object_GetGlobalObjectAddress_00dfc8e0()
 {
     return &g_unk0126b9f0;
 }
 
 extern int DAT_010e11ec;
 // @fnv 0x00dfc910
-int* __cdecl FUN_00dfc910()
+// src: GUESS 0x00dfc910 (confidence: low)
+int* __cdecl Runtime_GetDAT010e11ecAddress()
 {
     return &DAT_010e11ec;
 }
@@ -4265,7 +4559,8 @@ int* __cdecl FUN_00dfc910()
 extern int g_0126ba38;
 
 // @fnv 0x00dfc930
-int* __cdecl FUN_00dfc930()
+// src: GUESS 0x00dfc930 (confidence: low)
+int* __cdecl Runtime_GetField0126ba38Address()
 {
     return &g_0126ba38;
 }
@@ -4276,7 +4571,8 @@ struct FUN_00dfc940_class
 };
 
 // @fnv 0x00dfc940
-void __cdecl FUN_00dfc940(FUN_00dfc940_class* p)
+// src: GUESS 0x00dfc940 (confidence: low)
+void __cdecl Object_InvokeVirtualMethod_00dfc940(FUN_00dfc940_class* p)
 {
     p->m0(0);
 }
@@ -4284,7 +4580,8 @@ void __cdecl FUN_00dfc940(FUN_00dfc940_class* p)
 extern int DAT_0126ba68;
 
 // @fnv 0x00dfc950
-void* __cdecl FUN_00dfc950()
+// src: GUESS 0x00dfc950 (confidence: low)
+void* __cdecl Runtime_GetDAT0126ba68Address()
 {
     return &DAT_0126ba68;
 }
@@ -4367,7 +4664,8 @@ void __cdecl finishLoadedObjecthkpRagdollLimitsData(S_00dfc970_Obj* pObj, int fl
 extern int DAT_010d0af4;
 
 // @fnv 0x00dfc9a0
-int* __cdecl FUN_00dfc9a0()
+// src: GUESS 0x00dfc9a0 (confidence: low)
+int* __cdecl Object_GetGlobalObjectAddress_00dfc9a0()
 {
     return &DAT_010d0af4;
 }
@@ -4375,7 +4673,8 @@ int* __cdecl FUN_00dfc9a0()
 extern int DAT_0126bab0;
 
 // @fnv 0x00dfc9c0
-int* __cdecl FUN_00dfc9c0()
+// src: GUESS 0x00dfc9c0 (confidence: low)
+int* __cdecl Object_GetGlobalObjectAddress_00dfc9c0()
 {
     return &DAT_0126bab0;
 }
@@ -4387,7 +4686,8 @@ class DFC9D0Object
 };
 
 // @fnv 0x00dfc9d0
-void FUN_00dfc9d0(DFC9D0Object* pkObject)
+// src: GUESS 0x00dfc9d0 (confidence: low)
+void Runtime_DestroySubobject_00dfc9d0(DFC9D0Object* pkObject)
 {
     pkObject->~DFC9D0Object();
 }
@@ -4395,7 +4695,8 @@ void FUN_00dfc9d0(DFC9D0Object* pkObject)
 extern int DAT_0126bae0;
 
 // @fnv 0x00dfc9e0
-int* __cdecl FUN_00dfc9e0()
+// src: GUESS 0x00dfc9e0 (confidence: low)
+int* __cdecl Object_GetGlobalObjectAddress_00dfc9e0()
 {
     return &DAT_0126bae0;
 }
@@ -4403,7 +4704,8 @@ int* __cdecl FUN_00dfc9e0()
 extern int DAT_010cb71c;
 
 // @fnv 0x00dfca30
-void* __cdecl FUN_00dfca30()
+// src: GUESS 0x00dfca30 (confidence: low)
+void* __cdecl Runtime_GetDAT010cb71cAddress()
 {
     return &DAT_010cb71c;
 }
@@ -4411,7 +4713,8 @@ void* __cdecl FUN_00dfca30()
 extern int DAT_0126bb28;
 
 // @fnv 0x00dfca50
-void* __cdecl FUN_00dfca50()
+// src: GUESS 0x00dfca50 (confidence: low)
+void* __cdecl Runtime_GetDAT0126bb28Address()
 {
     return &DAT_0126bb28;
 }
@@ -4423,7 +4726,8 @@ class DFCA60Object
 };
 
 // @fnv 0x00dfca60
-void FUN_00dfca60(DFCA60Object* pkObject)
+// src: GUESS 0x00dfca60 (confidence: low)
+void Object_InvokeVirtualMethod_00dfca60(DFCA60Object* pkObject)
 {
     pkObject->~DFCA60Object();
 }
@@ -4431,7 +4735,8 @@ void FUN_00dfca60(DFCA60Object* pkObject)
 extern char g_unk0126bb58;
 
 // @fnv 0x00dfca70
-void* __cdecl FUN_00dfca70()
+// src: GUESS 0x00dfca70 (confidence: low)
+void* __cdecl Runtime_GetUnk0126bb58Address()
 {
     return &g_unk0126bb58;
 }
@@ -4439,7 +4744,8 @@ void* __cdecl FUN_00dfca70()
 extern int DAT_010da04c;
 
 // @fnv 0x00dfcaa0
-int* __cdecl FUN_00dfcaa0()
+// src: GUESS 0x00dfcaa0 (confidence: low)
+int* __cdecl Object_GetGlobalObjectAddress_00dfcaa0()
 {
     return &DAT_010da04c;
 }
@@ -4447,7 +4753,8 @@ int* __cdecl FUN_00dfcaa0()
 extern int DAT_0126bba0;
 
 // @fnv 0x00dfcac0
-int* __cdecl FUN_00dfcac0()
+// src: GUESS 0x00dfcac0 (confidence: low)
+int* __cdecl Object_GetGlobalObjectAddress_00dfcac0()
 {
     return &DAT_0126bba0;
 }
@@ -4455,21 +4762,24 @@ int* __cdecl FUN_00dfcac0()
 extern void* DAT_0126bbd0;
 
 // @fnv 0x00dfcae0
-int __cdecl FUN_00dfcae0()
+// src: GUESS 0x00dfcae0 (confidence: low)
+int __cdecl Object_ComputeValue_00dfcae0()
 {
     return reinterpret_cast<int>(&DAT_0126bbd0);
 }
 
 extern int DAT_010d0b3c;
 // @fnv 0x00dfcb10
-int* __cdecl FUN_00dfcb10()
+// src: GUESS 0x00dfcb10 (confidence: low)
+int* __cdecl Runtime_GetDAT010d0b3cAddress()
 {
     return &DAT_010d0b3c;
 }
 
 extern int DAT_0126bc18;
 // @fnv 0x00dfcb30
-void* __cdecl FUN_00dfcb30()
+// src: GUESS 0x00dfcb30 (confidence: low)
+void* __cdecl Runtime_GetDAT0126bc18Address()
 {
     return &DAT_0126bc18;
 }
@@ -4481,7 +4791,8 @@ struct Handler_cls
 };
 
 // @fnv 0x00dfcb40
-void __cdecl FUN_00dfcb40(Handler_cls* pHandler, int value)
+// src: GUESS 0x00dfcb40 (confidence: low)
+void __cdecl Object_ProcessState_00dfcb40(Handler_cls* pHandler, int value)
 {
     if (pHandler != 0)
         pHandler->Handle(value);
@@ -4490,7 +4801,8 @@ void __cdecl FUN_00dfcb40(Handler_cls* pHandler, int value)
 
 extern int DAT_0126bc48;
 // @fnv 0x00dfcb90
-int* __cdecl FUN_00dfcb90()
+// src: GUESS 0x00dfcb90 (confidence: low)
+int* __cdecl Runtime_GetDAT0126bc48Address()
 {
     return &DAT_0126bc48;
 }
@@ -4498,7 +4810,8 @@ int* __cdecl FUN_00dfcb90()
 extern int DAT_0126bc90;
 
 // @fnv 0x00dfcbb0
-int* __cdecl FUN_00dfcbb0()
+// src: GUESS 0x00dfcbb0 (confidence: low)
+int* __cdecl Runtime_GetDAT0126bc90Address()
 {
     return &DAT_0126bc90;
 }
@@ -4511,7 +4824,8 @@ struct FUN_00dfcbc0_vt
 
 // Calls the first virtual of the object passed in as the only argument.
 // @fnv 0x00dfcbc0
-void __cdecl FUN_00dfcbc0(FUN_00dfcbc0_vt* pObject)
+// src: GUESS 0x00dfcbc0 (confidence: low)
+void __cdecl Object_InvokeVirtualMethod_00dfcbc0(FUN_00dfcbc0_vt* pObject)
 {
     pObject->m0(0);
 }
@@ -4519,14 +4833,16 @@ void __cdecl FUN_00dfcbc0(FUN_00dfcbc0_vt* pObject)
 extern int DAT_0126bcc0;
 
 // @fnv 0x00dfcbd0
-void* __cdecl FUN_00dfcbd0()
+// src: GUESS 0x00dfcbd0 (confidence: low)
+void* __cdecl Runtime_GetDAT0126bcc0Address()
 {
     return &DAT_0126bcc0;
 }
 
 extern void* DAT_010d37e4;
 // @fnv 0x00dfcc00
-void** __cdecl FUN_00dfcc00()
+// src: GUESS 0x00dfcc00 (confidence: low)
+void** __cdecl Object_GetGlobalObjectAddress_00dfcc00()
 {
     return &DAT_010d37e4;
 }
@@ -4534,7 +4850,8 @@ void** __cdecl FUN_00dfcc00()
 // FUN_00dfcc20 : a one-line function - getter
 extern int g_target_00dfcc20;
 // @fnv 0x00dfcc20
-void* FUN_00dfcc20()
+// src: GUESS 0x00dfcc20 (confidence: low)
+void* Object_GetGlobalObjectAddress_00dfcc20()
 {
     return &g_target_00dfcc20;
 }
@@ -4545,7 +4862,8 @@ struct S_00dfcc40_Obj
 };
 extern S_00dfcc40_Obj DAT_0126bd38;
 // @fnv 0x00dfcc40
-S_00dfcc40_Obj* __cdecl FUN_00dfcc40()
+// src: GUESS 0x00dfcc40 (confidence: low)
+S_00dfcc40_Obj* __cdecl Object_GetGlobalObjectAddress_00dfcc40()
 {
     return &DAT_0126bd38;
 }
@@ -4553,7 +4871,8 @@ S_00dfcc40_Obj* __cdecl FUN_00dfcc40()
 // FUN_00dfcc70 : a one-line function - getter
 extern int g_target_00dfcc70;
 // @fnv 0x00dfcc70
-void* FUN_00dfcc70()
+// src: GUESS 0x00dfcc70 (confidence: low)
+void* Runtime_GetTarget00dfcc70Address()
 {
     return &g_target_00dfcc70;
 }
@@ -4561,7 +4880,8 @@ void* FUN_00dfcc70()
 extern int DAT_0126bd80;
 
 // @fnv 0x00dfcc90
-int* __cdecl FUN_00dfcc90()
+// src: GUESS 0x00dfcc90 (confidence: low)
+int* __cdecl Runtime_GetDAT0126bd80Address()
 {
     return &DAT_0126bd80;
 }
@@ -4574,7 +4894,8 @@ struct VtblForwarder
 };
 
 // @fnv 0x00dfcca0
-int __cdecl FUN_00dfcca0(VtblForwarder* p)
+// src: GUESS 0x00dfcca0 (confidence: low)
+int __cdecl Object_InvokeVirtualMethod_00dfcca0(VtblForwarder* p)
 {
     return p->v0(0);
 }
@@ -4582,7 +4903,8 @@ int __cdecl FUN_00dfcca0(VtblForwarder* p)
 // FUN_00dfccb0 : a one-line function - getter
 extern int g_target_00dfccb0;
 // @fnv 0x00dfccb0
-void* FUN_00dfccb0()
+// src: GUESS 0x00dfccb0 (confidence: low)
+void* Runtime_GetTarget00dfccb0Address()
 {
     return &g_target_00dfccb0;
 }
@@ -4590,7 +4912,8 @@ void* FUN_00dfccb0()
 extern int DAT_010d0be4;
 
 // @fnv 0x00dfcce0
-void* __cdecl FUN_00dfcce0()
+// src: GUESS 0x00dfcce0 (confidence: low)
+void* __cdecl Object_GetGlobalObjectAddress_00dfcce0()
 {
     return &DAT_010d0be4;
 }
@@ -4598,7 +4921,8 @@ void* __cdecl FUN_00dfcce0()
 extern int DAT_0126bdf8;
 
 // @fnv 0x00dfcd00
-void* __cdecl FUN_00dfcd00()
+// src: GUESS 0x00dfcd00 (confidence: low)
+void* __cdecl Object_GetGlobalObjectAddress_00dfcd00()
 {
     return &DAT_0126bdf8;
 }
@@ -4606,7 +4930,8 @@ void* __cdecl FUN_00dfcd00()
 struct CpuOpaque;
 extern CpuOpaque DAT_0126be28;
 // @fnv 0x00dfcd20
-CpuOpaque* __cdecl FUN_00dfcd20()
+// src: GUESS 0x00dfcd20 (confidence: low)
+CpuOpaque* __cdecl Object_GetGlobalObjectAddress_00dfcd20()
 {
     return &DAT_0126be28;
 }
@@ -4614,7 +4939,8 @@ CpuOpaque* __cdecl FUN_00dfcd20()
 extern int DAT_010c91ec;
 
 // @fnv 0x00dfcd50
-int* FUN_00dfcd50()
+// src: GUESS 0x00dfcd50 (confidence: low)
+int* Runtime_GetDAT010c91ecAddress()
 {
     return &DAT_010c91ec;
 }
@@ -4622,7 +4948,8 @@ int* FUN_00dfcd50()
 extern int DAT_0126be70;
 
 // @fnv 0x00dfcd70
-int* __cdecl FUN_00dfcd70()
+// src: GUESS 0x00dfcd70 (confidence: low)
+int* __cdecl Runtime_GetDAT0126be70Address()
 {
     return &DAT_0126be70;
 }
@@ -4630,7 +4957,8 @@ int* __cdecl FUN_00dfcd70()
 extern int DAT_0126bea0;
 
 // @fnv 0x00dfcda0
-void* __cdecl FUN_00dfcda0()
+// src: GUESS 0x00dfcda0 (confidence: low)
+void* __cdecl Object_GetGlobalObjectAddress_00dfcda0()
 {
     return &DAT_0126bea0;
 }
@@ -4641,7 +4969,8 @@ struct FUN_00dfcdb0_target
 };
 
 // @fnv 0x00dfcdb0
-void __cdecl FUN_00dfcdb0(FUN_00dfcdb0_target* pTarget)
+// src: GUESS 0x00dfcdb0 (confidence: low)
+void __cdecl Runtime_ForwardCall_00dfcdb0(FUN_00dfcdb0_target* pTarget)
 {
     pTarget->Run();
 }
@@ -4649,7 +4978,8 @@ void __cdecl FUN_00dfcdb0(FUN_00dfcdb0_target* pTarget)
 extern char DAT_0126bed0;
 
 // @fnv 0x00dfcdd0
-void* __cdecl FUN_00dfcdd0()
+// src: GUESS 0x00dfcdd0 (confidence: low)
+void* __cdecl Runtime_GetDAT0126bed0Address()
 {
     return &DAT_0126bed0;
 }
@@ -4659,7 +4989,8 @@ struct DFD5E0
     void __thiscall FUN_00d53df0(void* p);
 };
 // @fnv 0x00dfcde0
-void __cdecl FUN_00dfcde0(void* pTarget, void* b)
+// src: GUESS 0x00dfcde0 (confidence: low)
+void __cdecl Object_ProcessState_00dfcde0(void* pTarget, void* b)
 {
     if (pTarget != 0)
     {
@@ -4670,7 +5001,8 @@ void __cdecl FUN_00dfcde0(void* pTarget, void* b)
 extern int DAT_0126bf00;
 
 // @fnv 0x00dfce30
-void* __cdecl FUN_00dfce30()
+// src: GUESS 0x00dfce30 (confidence: low)
+void* __cdecl Runtime_GetDAT0126bf00Address()
 {
     return &DAT_0126bf00;
 }
@@ -4678,7 +5010,8 @@ void* __cdecl FUN_00dfce30()
 extern int DAT_0126bf48;
 
 // @fnv 0x00dfce50
-int* __cdecl FUN_00dfce50()
+// src: GUESS 0x00dfce50 (confidence: low)
+int* __cdecl Runtime_GetDAT0126bf48Address()
 {
     return &DAT_0126bf48;
 }
@@ -4692,7 +5025,8 @@ struct VtblForwarder
 };
 
 // @fnv 0x00dfce60
-int __cdecl FUN_00dfce60(VtblForwarder* p)
+// src: GUESS 0x00dfce60 (confidence: low)
+int __cdecl Object_InvokeVirtualMethod_00dfce60(VtblForwarder* p)
 {
     return p->v0(0);
 }
@@ -4701,14 +5035,16 @@ int __cdecl FUN_00dfce60(VtblForwarder* p)
 extern int DAT_0126bf78;
 
 // @fnv 0x00dfce70
-void* __cdecl FUN_00dfce70()
+// src: GUESS 0x00dfce70 (confidence: low)
+void* __cdecl Runtime_GetDAT0126bf78Address()
 {
     return &DAT_0126bf78;
 }
 
 extern int DAT_010d0cd4;
 // @fnv 0x00dfcea0
-int* __cdecl FUN_00dfcea0()
+// src: GUESS 0x00dfcea0 (confidence: low)
+int* __cdecl Object_GetGlobalObjectAddress_00dfcea0()
 {
     return &DAT_010d0cd4;
 }
@@ -4716,7 +5052,8 @@ int* __cdecl FUN_00dfcea0()
 struct CpuOpaque;
 extern CpuOpaque DAT_0126bfc0;
 // @fnv 0x00dfcec0
-CpuOpaque* __cdecl FUN_00dfcec0()
+// src: GUESS 0x00dfcec0 (confidence: low)
+CpuOpaque* __cdecl Object_GetGlobalObjectAddress_00dfcec0()
 {
     return &DAT_0126bfc0;
 }
@@ -4724,7 +5061,8 @@ CpuOpaque* __cdecl FUN_00dfcec0()
 extern int DAT_0126bff0;
 
 // @fnv 0x00dfcef0
-void* __cdecl FUN_00dfcef0()
+// src: GUESS 0x00dfcef0 (confidence: low)
+void* __cdecl Runtime_GetDAT0126bff0Address()
 {
     return &DAT_0126bff0;
 }
@@ -4732,7 +5070,8 @@ void* __cdecl FUN_00dfcef0()
 extern int DAT_0126c020;
 
 // @fnv 0x00dfcf10
-void* __cdecl FUN_00dfcf10()
+// src: GUESS 0x00dfcf10 (confidence: low)
+void* __cdecl Runtime_GetDAT0126c020Address()
 {
     return &DAT_0126c020;
 }
@@ -4743,7 +5082,8 @@ struct FUN_00dfcf20_cls
 };
 
 // @fnv 0x00dfcf20
-void __cdecl FUN_00dfcf20(FUN_00dfcf20_cls* pObject, int aiValue)
+// src: GUESS 0x00dfcf20 (confidence: low)
+void __cdecl Object_ProcessState_00dfcf20(FUN_00dfcf20_cls* pObject, int aiValue)
 {
     if (pObject != 0)
     {
@@ -4802,7 +5142,8 @@ FUN_00dfcf60_cls* FUN_00dfcf60_cls::InitializeVtables(int flag)
 extern int DAT_0126c068;
 
 // @fnv 0x00dfd0c0
-void* FUN_00dfd0c0()
+// src: GUESS 0x00dfd0c0 (confidence: low)
+void* Object_GetGlobalObjectAddress_00dfd0c0()
 {
     return &DAT_0126c068;
 }
@@ -4813,7 +5154,8 @@ struct FUN_00dfd0d0_cls
 };
 
 // @fnv 0x00dfd0d0
-void FUN_00dfd0d0(FUN_00dfd0d0_cls* pTarget)
+// src: GUESS 0x00dfd0d0 (confidence: low)
+void Runtime_ForwardCall_00dfd0d0(FUN_00dfd0d0_cls* pTarget)
 {
     pTarget->Call(0);
 }
@@ -4821,7 +5163,8 @@ void FUN_00dfd0d0(FUN_00dfd0d0_cls* pTarget)
 extern int DAT_0126c098;
 
 // @fnv 0x00dfd0e0
-void* FUN_00dfd0e0()
+// src: GUESS 0x00dfd0e0 (confidence: low)
+void* Object_GetGlobalObjectAddress_00dfd0e0()
 {
     return &DAT_0126c098;
 }
@@ -4829,7 +5172,8 @@ void* FUN_00dfd0e0()
 extern "C" void* DAT_010e222c;
 
 // @fnv 0x00dfd120
-void* __cdecl FUN_00dfd120()
+// src: GUESS 0x00dfd120 (confidence: low)
+void* __cdecl Object_GetGlobalObjectAddress_00dfd120()
 {
     return &DAT_010e222c;
 }
@@ -4881,13 +5225,15 @@ FUN_00dfd130_cls* FUN_00dfd130_cls::FUN_00dfd130(unsigned char acFlags)
 
 extern unsigned char DAT_0126c0e0;
 // @fnv 0x00dfd1b0
-unsigned char* __cdecl FUN_00dfd1b0()
+// src: GUESS 0x00dfd1b0 (confidence: low)
+unsigned char* __cdecl Runtime_GetDAT0126c0e0Address()
 {
     return &DAT_0126c0e0;
 }
 
 // @fnv 0x00dfd1c0
-void __cdecl FUN_00dfd1c0(void* p)
+// src: GUESS 0x00dfd1c0 (confidence: low)
+void __cdecl Object_ProcessAndTransformResult_00dfd1c0(void* p)
 {
     (*(void(__thiscall**)(void*, int)) * (int*)p)(p, 0);
 }
@@ -4895,7 +5241,8 @@ void __cdecl FUN_00dfd1c0(void* p)
 extern int DAT_0126c110;
 
 // @fnv 0x00dfd1d0
-void* __cdecl FUN_00dfd1d0()
+// src: GUESS 0x00dfd1d0 (confidence: low)
+void* __cdecl Runtime_GetDAT0126c110Address()
 {
     return &DAT_0126c110;
 }
@@ -4909,7 +5256,8 @@ class FUN_00dfd1e0_cls
 };
 
 // @fnv 0x00dfd1e0
-void __cdecl FUN_00dfd1e0(FUN_00dfd1e0_cls* pObject, int aiValue)
+// src: GUESS 0x00dfd1e0 (confidence: low)
+void __cdecl Object_ProcessState_00dfd1e0(FUN_00dfd1e0_cls* pObject, int aiValue)
 {
     if (pObject != 0)
     {
@@ -4920,7 +5268,8 @@ void __cdecl FUN_00dfd1e0(FUN_00dfd1e0_cls* pObject, int aiValue)
 extern int DAT_0126c158;
 
 // @fnv 0x00dfd230
-int* __cdecl FUN_00dfd230()
+// src: GUESS 0x00dfd230 (confidence: low)
+int* __cdecl Runtime_GetDAT0126c158Address()
 {
     return &DAT_0126c158;
 }
@@ -4928,7 +5277,8 @@ int* __cdecl FUN_00dfd230()
 // FUN_00dfd250 : a one-line function - getter
 extern int g_target_00dfd250;
 // @fnv 0x00dfd250
-void* FUN_00dfd250()
+// src: GUESS 0x00dfd250 (confidence: low)
+void* Runtime_GetTarget00dfd250Address()
 {
     return &g_target_00dfd250;
 }
@@ -4939,7 +5289,8 @@ struct S_00dfd260_Foo
 };
 
 // @fnv 0x00dfd260
-void __cdecl FUN_00dfd260(S_00dfd260_Foo* pFoo, int arg)
+// src: GUESS 0x00dfd260 (confidence: low)
+void __cdecl Object_ProcessState_00dfd260(S_00dfd260_Foo* pFoo, int arg)
 {
     if (pFoo)
     {
@@ -4950,7 +5301,8 @@ void __cdecl FUN_00dfd260(S_00dfd260_Foo* pFoo, int arg)
 extern int DAT_0126c1d0;
 
 // @fnv 0x00dfd2a0
-int* __cdecl FUN_00dfd2a0()
+// src: GUESS 0x00dfd2a0 (confidence: low)
+int* __cdecl Object_GetGlobalObjectAddress_00dfd2a0()
 {
     return &DAT_0126c1d0;
 }
@@ -4958,7 +5310,8 @@ int* __cdecl FUN_00dfd2a0()
 extern int DAT_0126c200;
 
 // @fnv 0x00dfd2c0
-int* __cdecl FUN_00dfd2c0()
+// src: GUESS 0x00dfd2c0 (confidence: low)
+int* __cdecl Object_GetGlobalObjectAddress_00dfd2c0()
 {
     return &DAT_0126c200;
 }
@@ -4966,7 +5319,8 @@ int* __cdecl FUN_00dfd2c0()
 class GlobalObjectO2_00d472a0;
 extern GlobalObjectO2_00d472a0 g_0126c230;
 // @fnv 0x00dfd2d0
-GlobalObjectO2_00d472a0* __cdecl FUN_00dfd2d0()
+// src: GUESS 0x00dfd2d0 (confidence: low)
+GlobalObjectO2_00d472a0* __cdecl Runtime_GetField0126c230Address()
 {
     return &g_0126c230;
 }
@@ -4977,7 +5331,8 @@ struct FUN_00dfd2e0_Class
 };
 
 // @fnv 0x00dfd2e0
-void __cdecl FUN_00dfd2e0(FUN_00dfd2e0_Class* param_1)
+// src: GUESS 0x00dfd2e0 (confidence: low)
+void __cdecl Object_InvokeVirtualMethod_00dfd2e0(FUN_00dfd2e0_Class* param_1)
 {
     param_1->VF00(0);
 }
@@ -4985,7 +5340,8 @@ void __cdecl FUN_00dfd2e0(FUN_00dfd2e0_Class* param_1)
 // FUN_00dfd2f0 : a one-line function - getter
 extern int g_target_00dfd2f0;
 // @fnv 0x00dfd2f0
-void* FUN_00dfd2f0()
+// src: GUESS 0x00dfd2f0 (confidence: low)
+void* Runtime_GetTarget00dfd2f0Address()
 {
     return &g_target_00dfd2f0;
 }
@@ -4996,7 +5352,8 @@ struct FUN_00e3dbd0_class
 };
 
 // @fnv 0x00dfd300
-void __cdecl FUN_00dfd300(FUN_00e3dbd0_class* object, int value)
+// src: GUESS 0x00dfd300 (confidence: low)
+void __cdecl Object_ProcessState_00dfd300(FUN_00e3dbd0_class* object, int value)
 {
     if (object != 0)
         object->FUN_00e3dbd0(value);
@@ -5004,29 +5361,32 @@ void __cdecl FUN_00dfd300(FUN_00e3dbd0_class* object, int value)
 
 struct FUN_00dfd380_Class
 {
-    void __thiscall FUN_00dfd380();
+    void __thiscall ReleaseFourArrays();
 };
 
 // @fnv 0x00dfd360
-void __cdecl FUN_00dfd360(int* param_1)
+// src: GUESS 0x00dfd360 (confidence: low)
+void __cdecl Object_ForwardCall_00dfd360(int* param_1)
 {
-    reinterpret_cast<FUN_00dfd380_Class*>(param_1)->FUN_00dfd380();
+    reinterpret_cast<FUN_00dfd380_Class*>(param_1)->ReleaseFourArrays();
 }
 
 struct FnvCpu_FUN_00dfd370_CpuTarget
 {
-    void FUN_00dfd440();
+    void ReleaseThreeArrays();
 };
 // @fnv 0x00dfd370
-void __cdecl FUN_00dfd370(FnvCpu_FUN_00dfd370_CpuTarget* target)
+// src: GUESS 0x00dfd370 (confidence: low)
+void __cdecl Runtime_ForwardCall_00dfd370(FnvCpu_FUN_00dfd370_CpuTarget* target)
 {
-    target->FUN_00dfd440();
+    target->ReleaseThreeArrays();
 }
 
 // FUN_00dfd4e0 : a one-line function - getter
 extern int g_target_00dfd4e0;
 // @fnv 0x00dfd4e0
-void* FUN_00dfd4e0()
+// src: GUESS 0x00dfd4e0 (confidence: low)
+void* Object_GetGlobalObjectAddress_00dfd4e0()
 {
     return &g_target_00dfd4e0;
 }
@@ -5034,7 +5394,8 @@ void* FUN_00dfd4e0()
 extern int DAT_0126c2d8;
 
 // @fnv 0x00dfd500
-void* __cdecl FUN_00dfd500()
+// src: GUESS 0x00dfd500 (confidence: low)
+void* __cdecl Object_GetGlobalObjectAddress_00dfd500()
 {
     return &DAT_0126c2d8;
 }
@@ -5042,7 +5403,8 @@ void* __cdecl FUN_00dfd500()
 struct CpuOpaque;
 extern CpuOpaque DAT_0126c308;
 // @fnv 0x00dfd540
-CpuOpaque* __cdecl FUN_00dfd540()
+// src: GUESS 0x00dfd540 (confidence: low)
+CpuOpaque* __cdecl Object_GetGlobalObjectAddress_00dfd540()
 {
     return &DAT_0126c308;
 }
@@ -5050,7 +5412,8 @@ CpuOpaque* __cdecl FUN_00dfd540()
 extern int DAT_0126c338;
 
 // @fnv 0x00dfd560
-int* __cdecl FUN_00dfd560()
+// src: GUESS 0x00dfd560 (confidence: low)
+int* __cdecl Object_GetGlobalObjectAddress_00dfd560()
 {
     return &DAT_0126c338;
 }
@@ -5061,22 +5424,24 @@ int* __cdecl FUN_00dfd560()
 class FUN_00dfd570_cls
 {
   public:
-    void FUN_00e3df50(int a1);
+    void ReturnSelf(int a1);
 };
 
 // @fnv 0x00dfd570
-void __cdecl FUN_00dfd570(FUN_00dfd570_cls* pObject, int aiValue)
+// src: GUESS 0x00dfd570 (confidence: low)
+void __cdecl Object_ProcessState_00dfd570(FUN_00dfd570_cls* pObject, int aiValue)
 {
     if (pObject != 0)
     {
-        pObject->FUN_00e3df50(aiValue);
+        pObject->ReturnSelf(aiValue);
     }
 }
 
 extern int DAT_0126c368;
 
 // @fnv 0x00dfd590
-int* __cdecl FUN_00dfd590()
+// src: GUESS 0x00dfd590 (confidence: low)
+int* __cdecl Runtime_GetDAT0126c368Address()
 {
     return &DAT_0126c368;
 }
@@ -5111,7 +5476,8 @@ void __cdecl ClearAndFreeData(FUN_00dfd5a0_cls* obj)
 extern int DAT_0126c398;
 
 // @fnv 0x00dfd5f0
-int __cdecl FUN_00dfd5f0()
+// src: GUESS 0x00dfd5f0 (confidence: low)
+int __cdecl Runtime_EvaluateValue_00dfd5f0()
 {
     return reinterpret_cast<int>(&DAT_0126c398);
 }
@@ -5123,7 +5489,8 @@ class FUN_00dfd600_cls
 };
 
 // @fnv 0x00dfd600
-void __cdecl FUN_00dfd600(FUN_00dfd600_cls* target, unsigned int value)
+// src: GUESS 0x00dfd600 (confidence: low)
+void __cdecl Object_ProcessState_00dfd600(FUN_00dfd600_cls* target, unsigned int value)
 {
     if (target != 0)
     {
@@ -5134,7 +5501,8 @@ void __cdecl FUN_00dfd600(FUN_00dfd600_cls* target, unsigned int value)
 // FUN_00dfd650 : a one-line function - getter
 extern int g_target_00dfd650;
 // @fnv 0x00dfd650
-void* FUN_00dfd650()
+// src: GUESS 0x00dfd650 (confidence: low)
+void* Runtime_GetTarget00dfd650Address()
 {
     return &g_target_00dfd650;
 }
@@ -5142,7 +5510,8 @@ void* FUN_00dfd650()
 extern int DAT_0126c410;
 
 // @fnv 0x00dfd790
-int* __cdecl FUN_00dfd790()
+// src: GUESS 0x00dfd790 (confidence: low)
+int* __cdecl Runtime_GetDAT0126c410Address()
 {
     return &DAT_0126c410;
 }
@@ -5150,7 +5519,8 @@ int* __cdecl FUN_00dfd790()
 extern int DAT_0126c440;
 
 // @fnv 0x00dfd7b0
-void* __cdecl FUN_00dfd7b0()
+// src: GUESS 0x00dfd7b0 (confidence: low)
+void* __cdecl Runtime_GetDAT0126c440Address()
 {
     return &DAT_0126c440;
 }
@@ -5158,7 +5528,8 @@ void* __cdecl FUN_00dfd7b0()
 extern int DAT_0126c488;
 
 // @fnv 0x00dfd930
-void* __cdecl FUN_00dfd930()
+// src: GUESS 0x00dfd930 (confidence: low)
+void* __cdecl Runtime_GetDAT0126c488Address()
 {
     return &DAT_0126c488;
 }
@@ -5166,7 +5537,8 @@ void* __cdecl FUN_00dfd930()
 extern int DAT_0126c4b8;
 
 // @fnv 0x00dfd950
-int* __cdecl FUN_00dfd950()
+// src: GUESS 0x00dfd950 (confidence: low)
+int* __cdecl Runtime_GetDAT0126c4b8Address()
 {
     return &DAT_0126c4b8;
 }
@@ -5182,41 +5554,45 @@ struct FUN_00dfd990_class
     FUN_00cb0a70_class field14;
 };
 // @fnv 0x00dfd990
-void __cdecl FUN_00dfd990(FUN_00dfd990_class* object, int value)
+// src: GUESS 0x00dfd990 (confidence: low)
+void __cdecl Runtime_SetVtableAndProcessState_00dfd990(FUN_00dfd990_class* object, int value)
 {
     if (object)
     {
         object->vtable = &DAT_010e33dc;
-        object->field14.FUN_00cb0a70(value);
+        object->field14.ReturnSelf(value);
     }
 }
 
 extern int DAT_0126c500;
 
 // @fnv 0x00dfda40
-void* FUN_00dfda40()
+// src: GUESS 0x00dfda40 (confidence: low)
+void* Object_GetGlobalObjectAddress_00dfda40()
 {
     return &DAT_0126c500;
 }
 
 struct S_00e3f510_Foo
 {
-    void __thiscall FUN_00e3f510(int);
+    void __thiscall SetVptr_00e3f510(int);
 };
 
 // @fnv 0x00dfda50
-void __cdecl FUN_00dfda50(void* pObject, int aiValue)
+// src: GUESS 0x00dfda50 (confidence: low)
+void __cdecl Object_ProcessState_00dfda50(void* pObject, int aiValue)
 {
     if (pObject)
     {
-        ((S_00e3f510_Foo*)pObject)->FUN_00e3f510(aiValue);
+        ((S_00e3f510_Foo*)pObject)->SetVptr_00e3f510(aiValue);
     }
 }
 
 extern int DAT_0126c530;
 
 // @fnv 0x00dfdaa0
-int* __cdecl FUN_00dfdaa0()
+// src: GUESS 0x00dfdaa0 (confidence: low)
+int* __cdecl Object_GetGlobalObjectAddress_00dfdaa0()
 {
     return &DAT_0126c530;
 }
@@ -5228,16 +5604,18 @@ struct AdjacentObjects
 };
 
 // @fnv 0x00dfdab0
-void __cdecl FUN_00dfdab0(AdjacentObjects* objects)
+// src: GUESS 0x00dfdab0 (confidence: low)
+void __cdecl Runtime_ProcessState_00dfdab0(AdjacentObjects* objects)
 {
-    objects->second.FUN_00cb0c00();
-    objects->first.FUN_00cb0c00();
+    objects->second.Object_UpdateFields_00cb0c00();
+    objects->first.Object_UpdateFields_00cb0c00();
 }
 
 extern int DAT_0126c578;
 
 // @fnv 0x00dfdaf0
-void* __cdecl FUN_00dfdaf0()
+// src: GUESS 0x00dfdaf0 (confidence: low)
+void* __cdecl Runtime_GetDAT0126c578Address()
 {
     return &DAT_0126c578;
 }
@@ -5245,7 +5623,8 @@ void* __cdecl FUN_00dfdaf0()
 // FUN_00dfdb10 : a one-line function - getter
 extern int g_target_00dfdb10;
 // @fnv 0x00dfdb10
-void* FUN_00dfdb10()
+// src: GUESS 0x00dfdb10 (confidence: low)
+void* Runtime_GetTarget00dfdb10Address()
 {
     return &g_target_00dfdb10;
 }
@@ -5253,14 +5632,16 @@ void* FUN_00dfdb10()
 extern int DAT_0126c5f0;
 
 // @fnv 0x00dfdb30
-void* __cdecl FUN_00dfdb30()
+// src: GUESS 0x00dfdb30 (confidence: low)
+void* __cdecl Runtime_GetDAT0126c5f0Address()
 {
     return &DAT_0126c5f0;
 }
 
 extern int DAT_010e351c;
 // @fnv 0x00dfdb60
-int* __cdecl FUN_00dfdb60()
+// src: GUESS 0x00dfdb60 (confidence: low)
+int* __cdecl Object_GetGlobalObjectAddress_00dfdb60()
 {
     return &DAT_010e351c;
 }
@@ -5268,7 +5649,8 @@ int* __cdecl FUN_00dfdb60()
 extern "C" void* DAT_010e352c;
 
 // @fnv 0x00dfdb80
-void* __cdecl FUN_00dfdb80()
+// src: GUESS 0x00dfdb80 (confidence: low)
+void* __cdecl Object_GetGlobalObjectAddress_00dfdb80()
 {
     return &DAT_010e352c;
 }
@@ -5276,7 +5658,8 @@ void* __cdecl FUN_00dfdb80()
 extern int DAT_0126c638;
 
 // @fnv 0x00dfdd20
-int* FUN_00dfdd20()
+// src: GUESS 0x00dfdd20 (confidence: low)
+int* Object_GetGlobalObjectAddress_00dfdd20()
 {
     return &DAT_0126c638;
 }
@@ -5284,7 +5667,8 @@ int* FUN_00dfdd20()
 extern int DAT_0126c668;
 
 // @fnv 0x00dfdd80
-int __cdecl FUN_00dfdd80()
+// src: GUESS 0x00dfdd80 (confidence: low)
+int __cdecl Object_ComputeValue_00dfdd80()
 {
     return reinterpret_cast<int>(&DAT_0126c668);
 }
@@ -5292,7 +5676,8 @@ int __cdecl FUN_00dfdd80()
 extern int DAT_0126c698;
 
 // @fnv 0x00dfddc0
-int* __cdecl FUN_00dfddc0()
+// src: GUESS 0x00dfddc0 (confidence: low)
+int* __cdecl Object_GetGlobalObjectAddress_00dfddc0()
 {
     return &DAT_0126c698;
 }
@@ -5300,7 +5685,8 @@ int* __cdecl FUN_00dfddc0()
 extern int DAT_0126c6c8;
 
 // @fnv 0x00dfdde0
-void* FUN_00dfdde0()
+// src: GUESS 0x00dfdde0 (confidence: low)
+void* Object_GetGlobalObjectAddress_00dfdde0()
 {
     return &DAT_0126c6c8;
 }
@@ -5308,7 +5694,8 @@ void* FUN_00dfdde0()
 struct CpuOpaque;
 extern CpuOpaque DAT_0126c6f8;
 // @fnv 0x00dfde00
-CpuOpaque* __cdecl FUN_00dfde00()
+// src: GUESS 0x00dfde00 (confidence: low)
+CpuOpaque* __cdecl Object_GetGlobalObjectAddress_00dfde00()
 {
     return &DAT_0126c6f8;
 }
@@ -5320,7 +5707,8 @@ struct FUN_00dfde10_vtable
 };
 
 // @fnv 0x00dfde10
-void __cdecl FUN_00dfde10(void* p)
+// src: GUESS 0x00dfde10 (confidence: low)
+void __cdecl Runtime_ForwardCall_00dfde10(void* p)
 {
     reinterpret_cast<FUN_00dfde10_vtable*>(p)->slot0(0);
 }
@@ -5328,21 +5716,24 @@ void __cdecl FUN_00dfde10(void* p)
 extern int DAT_0126c728;
 
 // @fnv 0x00dfde20
-int __cdecl FUN_00dfde20()
+// src: GUESS 0x00dfde20 (confidence: low)
+int __cdecl Object_ComputeValue_00dfde20()
 {
     return reinterpret_cast<int>(&DAT_0126c728);
 }
 
 extern int DAT_010d3cc0;
 // @fnv 0x00dfde50
-int* __cdecl FUN_00dfde50()
+// src: GUESS 0x00dfde50 (confidence: low)
+int* __cdecl Runtime_GetDAT010d3cc0Address()
 {
     return &DAT_010d3cc0;
 }
 
 extern char DAT_0126c770;
 // @fnv 0x00dfde70
-char* __cdecl FUN_00dfde70(void)
+// src: GUESS 0x00dfde70 (confidence: low)
+char* __cdecl Runtime_GetDAT0126c770Address(void)
 {
     return &DAT_0126c770;
 }
@@ -5350,7 +5741,8 @@ char* __cdecl FUN_00dfde70(void)
 extern int DAT_0126c7a0;
 
 // @fnv 0x00dfde90
-void* __cdecl FUN_00dfde90()
+// src: GUESS 0x00dfde90 (confidence: low)
+void* __cdecl Runtime_GetDAT0126c7a0Address()
 {
     return &DAT_0126c7a0;
 }
@@ -5358,7 +5750,8 @@ void* __cdecl FUN_00dfde90()
 struct CpuOpaque;
 extern CpuOpaque DAT_0126c7d0;
 // @fnv 0x00dfdeb0
-CpuOpaque* __cdecl FUN_00dfdeb0()
+// src: GUESS 0x00dfdeb0 (confidence: low)
+CpuOpaque* __cdecl Runtime_GetDAT0126c7d0Address()
 {
     return &DAT_0126c7d0;
 }
@@ -5372,7 +5765,8 @@ class FUN_00dfdec0_cls
 };
 
 // @fnv 0x00dfdec0
-void __cdecl FUN_00dfdec0(FUN_00dfdec0_cls* pObject, int aiValue)
+// src: GUESS 0x00dfdec0 (confidence: low)
+void __cdecl Object_ProcessState_00dfdec0(FUN_00dfdec0_cls* pObject, int aiValue)
 {
     if (pObject != 0)
     {
@@ -5383,7 +5777,8 @@ void __cdecl FUN_00dfdec0(FUN_00dfdec0_cls* pObject, int aiValue)
 extern unsigned char DAT_0126c800;
 
 // @fnv 0x00dfdee0
-void* __cdecl FUN_00dfdee0()
+// src: GUESS 0x00dfdee0 (confidence: low)
+void* __cdecl Object_GetGlobalObjectAddress_00dfdee0()
 {
     return &DAT_0126c800;
 }
@@ -5393,22 +5788,24 @@ void* __cdecl FUN_00dfdee0()
 class FUN_00dfdef0_cls
 {
   public:
-    void FUN_00e0f700(int a1);
+    void GetSelf_00e0f700(int a1);
 };
 
 // @fnv 0x00dfdef0
-void __cdecl FUN_00dfdef0(FUN_00dfdef0_cls* pObject, int aiValue)
+// src: GUESS 0x00dfdef0 (confidence: low)
+void __cdecl Object_ProcessState_00dfdef0(FUN_00dfdef0_cls* pObject, int aiValue)
 {
     if (pObject != 0)
     {
-        pObject->FUN_00e0f700(aiValue);
+        pObject->GetSelf_00e0f700(aiValue);
     }
 }
 
 extern int g_unk0126c830;
 
 // @fnv 0x00dfdf10
-void* __cdecl FUN_00dfdf10()
+// src: GUESS 0x00dfdf10 (confidence: low)
+void* __cdecl Runtime_GetUnk0126c830Address()
 {
     return &g_unk0126c830;
 }
@@ -5416,7 +5813,8 @@ void* __cdecl FUN_00dfdf10()
 extern int DAT_0126c860;
 
 // @fnv 0x00dfdf30
-int* __cdecl FUN_00dfdf30()
+// src: GUESS 0x00dfdf30 (confidence: low)
+int* __cdecl Runtime_GetDAT0126c860Address()
 {
     return &DAT_0126c860;
 }
@@ -5424,7 +5822,8 @@ int* __cdecl FUN_00dfdf30()
 struct CpuOpaque;
 extern CpuOpaque DAT_0126c890;
 // @fnv 0x00dfdf40
-CpuOpaque* __cdecl FUN_00dfdf40()
+// src: GUESS 0x00dfdf40 (confidence: low)
+CpuOpaque* __cdecl Object_GetGlobalObjectAddress_00dfdf40()
 {
     return &DAT_0126c890;
 }
@@ -5436,7 +5835,8 @@ class DFDF50Object
 };
 
 // @fnv 0x00dfdf50
-void __cdecl FUN_00dfdf50(DFDF50Object* pkObject)
+// src: GUESS 0x00dfdf50 (confidence: low)
+void __cdecl Runtime_DestroySubobject_00dfdf50(DFDF50Object* pkObject)
 {
     pkObject->~DFDF50Object();
 }
@@ -5444,7 +5844,8 @@ void __cdecl FUN_00dfdf50(DFDF50Object* pkObject)
 extern int DAT_0126c8c0;
 
 // @fnv 0x00dfdf60
-int* __cdecl FUN_00dfdf60()
+// src: GUESS 0x00dfdf60 (confidence: low)
+int* __cdecl Object_GetGlobalObjectAddress_00dfdf60()
 {
     return &DAT_0126c8c0;
 }
@@ -5452,20 +5853,22 @@ int* __cdecl FUN_00dfdf60()
 extern int DAT_010e3e5c;
 
 // @fnv 0x00dfdfc0
-int* __cdecl FUN_00dfdfc0()
+// src: GUESS 0x00dfdfc0 (confidence: low)
+int* __cdecl Object_GetGlobalObjectAddress_00dfdfc0()
 {
     return &DAT_010e3e5c;
 }
 
 struct FUN_00ddc870_class
 {
-    void __thiscall FUN_00ddc870();
+    void __thiscall ProcessEntries_00ddc870();
 };
 
 // @fnv 0x00dfdfd0
-void __cdecl FUN_00dfdfd0(FUN_00ddc870_class* self)
+// src: GUESS 0x00dfdfd0 (confidence: low)
+void __cdecl Object_ForwardCall_00dfdfd0(FUN_00ddc870_class* self)
 {
-    self->FUN_00ddc870();
+    self->ProcessEntries_00ddc870();
 }
 
 namespace fnv_00dfdfe0 {
@@ -5511,7 +5914,7 @@ struct ArrayStorage
             int remaining = length;
             do
             {
-                reinterpret_cast<FUN_00cb0c00_class*>(current)->FUN_00cb0c00();
+                reinterpret_cast<FUN_00cb0c00_class*>(current)->Object_UpdateFields_00cb0c00();
                 ++current;
             } while (--remaining != 0);
         }
@@ -5540,7 +5943,8 @@ void ArrayContainer::ResetAndDestroy()
 extern int DAT_0126c908;
 
 // @fnv 0x00dfe090
-int* __cdecl FUN_00dfe090()
+// src: GUESS 0x00dfe090 (confidence: low)
+int* __cdecl Runtime_GetDAT0126c908Address()
 {
     return &DAT_0126c908;
 }
@@ -5548,7 +5952,8 @@ int* __cdecl FUN_00dfe090()
 extern int DAT_0126c938;
 
 // @fnv 0x00dfe0a0
-void* __cdecl FUN_00dfe0a0()
+// src: GUESS 0x00dfe0a0 (confidence: low)
+void* __cdecl Object_GetGlobalObjectAddress_00dfe0a0()
 {
     return &DAT_0126c938;
 }
@@ -5556,7 +5961,8 @@ void* __cdecl FUN_00dfe0a0()
 extern int DAT_0126c968;
 
 // @fnv 0x00dfe0e0
-void* __cdecl FUN_00dfe0e0()
+// src: GUESS 0x00dfe0e0 (confidence: low)
+void* __cdecl Object_GetGlobalObjectAddress_00dfe0e0()
 {
     return &DAT_0126c968;
 }
@@ -5564,7 +5970,8 @@ void* __cdecl FUN_00dfe0e0()
 extern int DAT_0126c998;
 
 // @fnv 0x00dfe100
-void* __cdecl FUN_00dfe100()
+// src: GUESS 0x00dfe100 (confidence: low)
+void* __cdecl Object_GetGlobalObjectAddress_00dfe100()
 {
     return &DAT_0126c998;
 }
@@ -5572,7 +5979,8 @@ void* __cdecl FUN_00dfe100()
 // FUN_00dfe120 : a one-line function - getter
 extern int g_target_00dfe120;
 // @fnv 0x00dfe120
-void* FUN_00dfe120()
+// src: GUESS 0x00dfe120 (confidence: low)
+void* Object_GetGlobalObjectAddress_00dfe120()
 {
     return &g_target_00dfe120;
 }
@@ -5580,7 +5988,8 @@ void* FUN_00dfe120()
 extern int DAT_0126c9f8;
 
 // @fnv 0x00dfe140
-void* __cdecl FUN_00dfe140()
+// src: GUESS 0x00dfe140 (confidence: low)
+void* __cdecl Object_GetGlobalObjectAddress_00dfe140()
 {
     return &DAT_0126c9f8;
 }
@@ -5588,7 +5997,8 @@ void* __cdecl FUN_00dfe140()
 // FUN_00dfe160 : a one-line function - getter
 extern int g_target_00dfe160;
 // @fnv 0x00dfe160
-void* FUN_00dfe160()
+// src: GUESS 0x00dfe160 (confidence: low)
+void* Object_GetGlobalObjectAddress_00dfe160()
 {
     return &g_target_00dfe160;
 }
@@ -5596,7 +6006,8 @@ void* FUN_00dfe160()
 extern int DAT_0126ca58;
 
 // @fnv 0x00dfe180
-int* __cdecl FUN_00dfe180()
+// src: GUESS 0x00dfe180 (confidence: low)
+int* __cdecl Object_GetGlobalObjectAddress_00dfe180()
 {
     return &DAT_0126ca58;
 }
@@ -5604,7 +6015,8 @@ int* __cdecl FUN_00dfe180()
 extern int DAT_0126ca88;
 
 // @fnv 0x00dfe1a0
-int __cdecl FUN_00dfe1a0()
+// src: GUESS 0x00dfe1a0 (confidence: low)
+int __cdecl Object_ComputeValue_00dfe1a0()
 {
     return reinterpret_cast<int>(&DAT_0126ca88);
 }
@@ -5612,7 +6024,8 @@ int __cdecl FUN_00dfe1a0()
 extern int DAT_0126cab8;
 
 // @fnv 0x00dfe1c0
-int* __cdecl FUN_00dfe1c0()
+// src: GUESS 0x00dfe1c0 (confidence: low)
+int* __cdecl Object_GetGlobalObjectAddress_00dfe1c0()
 {
     return &DAT_0126cab8;
 }
@@ -5620,7 +6033,8 @@ int* __cdecl FUN_00dfe1c0()
 extern int DAT_0126cae8;
 
 // @fnv 0x00dfe1e0
-void* __cdecl FUN_00dfe1e0()
+// src: GUESS 0x00dfe1e0 (confidence: low)
+void* __cdecl Object_GetGlobalObjectAddress_00dfe1e0()
 {
     return &DAT_0126cae8;
 }
@@ -5628,7 +6042,8 @@ void* __cdecl FUN_00dfe1e0()
 extern int DAT_0126cb18;
 
 // @fnv 0x00dfe1f0
-void* __cdecl FUN_00dfe1f0()
+// src: GUESS 0x00dfe1f0 (confidence: low)
+void* __cdecl Runtime_GetDAT0126cb18Address()
 {
     return &DAT_0126cb18;
 }
@@ -5662,7 +6077,8 @@ class FUN_00dfe250_cls
 };
 
 // @fnv 0x00dfe250
-void __cdecl FUN_00dfe250(FUN_00dfe250_cls* pObject, int aiValue)
+// src: GUESS 0x00dfe250 (confidence: low)
+void __cdecl Object_ProcessState_00dfe250(FUN_00dfe250_cls* pObject, int aiValue)
 {
     if (pObject != 0)
     {
@@ -5674,7 +6090,8 @@ void __cdecl FUN_00dfe250(FUN_00dfe250_cls* pObject, int aiValue)
 extern char g_unk0126cb48;
 
 // @fnv 0x00dfe2a0
-void* __cdecl FUN_00dfe2a0()
+// src: GUESS 0x00dfe2a0 (confidence: low)
+void* __cdecl Object_GetGlobalObjectAddress_00dfe2a0()
 {
     return &g_unk0126cb48;
 }
@@ -5682,7 +6099,8 @@ void* __cdecl FUN_00dfe2a0()
 extern void* DAT_0126cb90;
 
 // @fnv 0x00dfe2c0
-int __cdecl FUN_00dfe2c0()
+// src: GUESS 0x00dfe2c0 (confidence: low)
+int __cdecl Object_ComputeValue_00dfe2c0()
 {
     return reinterpret_cast<int>(&DAT_0126cb90);
 }
@@ -5690,7 +6108,8 @@ int __cdecl FUN_00dfe2c0()
 // FUN_00dfe330 : a one-line function - getter
 extern int g_target_00dfe330;
 // @fnv 0x00dfe330
-void* FUN_00dfe330()
+// src: GUESS 0x00dfe330 (confidence: low)
+void* Runtime_GetTarget00dfe330Address()
 {
     return &g_target_00dfe330;
 }
@@ -5698,7 +6117,8 @@ void* FUN_00dfe330()
 extern int DAT_010e5474;
 
 // @fnv 0x00dfe350
-unsigned int __cdecl FUN_00dfe350()
+// src: GUESS 0x00dfe350 (confidence: low)
+unsigned int __cdecl Runtime_EvaluateValue_00dfe350()
 {
     return reinterpret_cast<unsigned int>(&DAT_010e5474);
 }
@@ -5710,7 +6130,8 @@ struct FUN_00cb0a70_obj
 };
 
 // @fnv 0x00dfe410
-void __cdecl FUN_00dfe410(FUN_00cb0a70_obj* pObject, int value)
+// src: GUESS 0x00dfe410 (confidence: low)
+void __cdecl Object_ProcessState_00dfe410(FUN_00cb0a70_obj* pObject, int value)
 {
     if (pObject)
     {
@@ -5721,21 +6142,24 @@ void __cdecl FUN_00dfe410(FUN_00cb0a70_obj* pObject, int value)
 // FUN_00dfe460 : a one-line function - getter
 extern int g_target_00dfe460;
 // @fnv 0x00dfe460
-void* FUN_00dfe460()
+// src: GUESS 0x00dfe460 (confidence: low)
+void* Object_GetGlobalObjectAddress_00dfe460()
 {
     return &g_target_00dfe460;
 }
 
 // @fnv 0x00dfe470
-void __cdecl FUN_00dfe470(FUN_00dfe430_class* p)
+// src: GUESS 0x00dfe470 (confidence: low)
+void __cdecl Runtime_ForwardCall_00dfe470(FUN_00dfe430_class* p)
 {
-    p->FUN_00cb0a70(0);
+    p->ReturnSelf(0);
 }
 
 extern int DAT_0126cc68;
 
 // @fnv 0x00dfe480
-void* __cdecl FUN_00dfe480()
+// src: GUESS 0x00dfe480 (confidence: low)
+void* __cdecl Object_GetGlobalObjectAddress_00dfe480()
 {
     return &DAT_0126cc68;
 }
@@ -5744,7 +6168,8 @@ void* __cdecl FUN_00dfe480()
 extern char g_unk0126ccb0;
 
 // @fnv 0x00dfe4f0
-void* __cdecl FUN_00dfe4f0()
+// src: GUESS 0x00dfe4f0 (confidence: low)
+void* __cdecl Runtime_GetUnk0126ccb0Address()
 {
     return &g_unk0126ccb0;
 }
@@ -5752,7 +6177,8 @@ void* __cdecl FUN_00dfe4f0()
 extern int DAT_010e57a4;
 
 // @fnv 0x00dfe510
-int* FUN_00dfe510()
+// src: GUESS 0x00dfe510 (confidence: low)
+int* Runtime_GetDAT010e57a4Address()
 {
     return &DAT_010e57a4;
 }
@@ -5761,7 +6187,8 @@ int* FUN_00dfe510()
 extern char g_unk0126ccf8;
 
 // @fnv 0x00dfe5a0
-void* __cdecl FUN_00dfe5a0()
+// src: GUESS 0x00dfe5a0 (confidence: low)
+void* __cdecl Object_GetGlobalObjectAddress_00dfe5a0()
 {
     return &g_unk0126ccf8;
 }
@@ -5769,14 +6196,16 @@ void* __cdecl FUN_00dfe5a0()
 struct CpuOpaque;
 extern CpuOpaque DAT_0126cd40;
 // @fnv 0x00dfe680
-CpuOpaque* __cdecl FUN_00dfe680()
+// src: GUESS 0x00dfe680 (confidence: low)
+CpuOpaque* __cdecl Object_GetGlobalObjectAddress_00dfe680()
 {
     return &DAT_0126cd40;
 }
 
 extern int DAT_010e58c8;
 // @fnv 0x00dfe6a0
-int* __cdecl FUN_00dfe6a0()
+// src: GUESS 0x00dfe6a0 (confidence: low)
+int* __cdecl Object_GetGlobalObjectAddress_00dfe6a0()
 {
     return &DAT_010e58c8;
 }
@@ -5787,7 +6216,8 @@ struct FUN_00dfe6e0_Class
 };
 
 // @fnv 0x00dfe6e0
-void __cdecl FUN_00dfe6e0(FUN_00dfe6e0_Class* param_1)
+// src: GUESS 0x00dfe6e0 (confidence: low)
+void __cdecl Object_InvokeVirtualMethod_00dfe6e0(FUN_00dfe6e0_Class* param_1)
 {
     param_1->vf00(0);
 }
@@ -5795,7 +6225,8 @@ void __cdecl FUN_00dfe6e0(FUN_00dfe6e0_Class* param_1)
 extern unsigned char DAT_0126cd88;
 
 // @fnv 0x00dfe6f0
-void* __cdecl FUN_00dfe6f0()
+// src: GUESS 0x00dfe6f0 (confidence: low)
+void* __cdecl Runtime_GetDAT0126cd88Address()
 {
     return &DAT_0126cd88;
 }
@@ -5803,7 +6234,8 @@ void* __cdecl FUN_00dfe6f0()
 extern int DAT_010e59ac;
 
 // @fnv 0x00dfe710
-int __cdecl FUN_00dfe710()
+// src: GUESS 0x00dfe710 (confidence: low)
+int __cdecl Runtime_EvaluateValue_00dfe710()
 {
     return reinterpret_cast<int>(&DAT_010e59ac);
 }
@@ -5814,7 +6246,8 @@ struct FUN_00dfe970_class
 };
 
 // @fnv 0x00dfe970
-void __cdecl FUN_00dfe970(FUN_00dfe970_class* p)
+// src: GUESS 0x00dfe970 (confidence: low)
+void __cdecl Runtime_ForwardCall_00dfe970(FUN_00dfe970_class* p)
 {
     p->m_iWordAt00(0);
 }
@@ -5822,7 +6255,8 @@ void __cdecl FUN_00dfe970(FUN_00dfe970_class* p)
 extern int g_unk0126cdd0;
 
 // @fnv 0x00dfe980
-void* __cdecl FUN_00dfe980()
+// src: GUESS 0x00dfe980 (confidence: low)
+void* __cdecl Object_GetGlobalObjectAddress_00dfe980()
 {
     return &g_unk0126cdd0;
 }
@@ -5830,7 +6264,8 @@ void* __cdecl FUN_00dfe980()
 extern int DAT_0126ce18;
 
 // @fnv 0x00dfeab0
-int __cdecl FUN_00dfeab0()
+// src: GUESS 0x00dfeab0 (confidence: low)
+int __cdecl Runtime_EvaluateValue_00dfeab0()
 {
     return reinterpret_cast<int>(&DAT_0126ce18);
 }
@@ -5865,7 +6300,8 @@ void __cdecl InitObjectVtables(int* pObject, int bFlag)
 
 extern int DAT_010e5ae4;
 // @fnv 0x00dfeb00
-int* FUN_00dfeb00()
+// src: GUESS 0x00dfeb00 (confidence: low)
+int* Object_GetGlobalObjectAddress_00dfeb00()
 {
     return &DAT_010e5ae4;
 }
@@ -5873,7 +6309,8 @@ int* FUN_00dfeb00()
 extern int DAT_0126ce60;
 
 // @fnv 0x00dfeb50
-int* __cdecl FUN_00dfeb50()
+// src: GUESS 0x00dfeb50 (confidence: low)
+int* __cdecl Runtime_GetDAT0126ce60Address()
 {
     return &DAT_0126ce60;
 }
@@ -5881,7 +6318,8 @@ int* __cdecl FUN_00dfeb50()
 extern int DAT_010e5b68;
 
 // @fnv 0x00dfeb70
-int* __cdecl FUN_00dfeb70()
+// src: GUESS 0x00dfeb70 (confidence: low)
+int* __cdecl Runtime_GetDAT010e5b68Address()
 {
     return &DAT_010e5b68;
 }
@@ -5913,14 +6351,16 @@ FnvCpu_FUN_00dfeb80_CpuObject* FnvCpu_FUN_00dfeb80_CpuObject::FUN_00dfeb80(unsig
 extern int DAT_0126cea8;
 
 // @fnv 0x00dfebc0
-int* __cdecl FUN_00dfebc0()
+// src: GUESS 0x00dfebc0 (confidence: low)
+int* __cdecl Object_GetGlobalObjectAddress_00dfebc0()
 {
     return &DAT_0126cea8;
 }
 
 extern int DAT_010e5b4c;
 // @fnv 0x00dfebe0
-int* __cdecl FUN_00dfebe0()
+// src: GUESS 0x00dfebe0 (confidence: low)
+int* __cdecl Object_GetGlobalObjectAddress_00dfebe0()
 {
     return &DAT_010e5b4c;
 }
@@ -5929,7 +6369,8 @@ extern int DAT_0126cef0;
 
 // Returns the address of a global object (mov eax, offset global; ret).
 // @fnv 0x00dfec00
-int* __cdecl FUN_00dfec00()
+// src: GUESS 0x00dfec00 (confidence: low)
+int* __cdecl Object_GetGlobalObjectAddress_00dfec00()
 {
     return &DAT_0126cef0;
 }
@@ -5937,7 +6378,8 @@ int* __cdecl FUN_00dfec00()
 extern int DAT_010e5bfc;
 
 // @fnv 0x00dfec20
-int* __cdecl FUN_00dfec20()
+// src: GUESS 0x00dfec20 (confidence: low)
+int* __cdecl Object_GetGlobalObjectAddress_00dfec20()
 {
     return &DAT_010e5bfc;
 }
@@ -5948,7 +6390,8 @@ int* __cdecl FUN_00dfec20()
 extern int g_target_FUN_00dfec40;
 
 // @fnv 0x00dfec40
-void* __cdecl FUN_00dfec40()
+// src: GUESS 0x00dfec40 (confidence: low)
+void* __cdecl Object_GetGlobalObjectAddress_00dfec40()
 {
     return &g_target_FUN_00dfec40;
 }
@@ -5960,7 +6403,8 @@ class DFEC50Object
 };
 
 // @fnv 0x00dfec50
-void __cdecl FUN_00dfec50(DFEC50Object* pkObject)
+// src: GUESS 0x00dfec50 (confidence: low)
+void __cdecl Runtime_DestroySubobject_00dfec50(DFEC50Object* pkObject)
 {
     pkObject->~DFEC50Object();
 }
@@ -5968,7 +6412,8 @@ void __cdecl FUN_00dfec50(DFEC50Object* pkObject)
 // FUN_00dfec60 : a one-line function - getter
 extern int g_target_00dfec60;
 // @fnv 0x00dfec60
-void* FUN_00dfec60()
+// src: GUESS 0x00dfec60 (confidence: low)
+void* Object_GetGlobalObjectAddress_00dfec60()
 {
     return &g_target_00dfec60;
 }
@@ -5977,7 +6422,8 @@ void* FUN_00dfec60()
 extern int DAT_010e5d94;
 
 // @fnv 0x00dfec80
-int* __cdecl FUN_00dfec80()
+// src: GUESS 0x00dfec80 (confidence: low)
+int* __cdecl Object_GetGlobalObjectAddress_00dfec80()
 {
     return &DAT_010e5d94;
 }
@@ -5985,7 +6431,8 @@ int* __cdecl FUN_00dfec80()
 extern int DAT_010e5da8;
 
 // @fnv 0x00dfeca0
-void* __cdecl FUN_00dfeca0()
+// src: GUESS 0x00dfeca0 (confidence: low)
+void* __cdecl Object_GetGlobalObjectAddress_00dfeca0()
 {
     return &DAT_010e5da8;
 }
@@ -5993,7 +6440,8 @@ void* __cdecl FUN_00dfeca0()
 extern int DAT_0126cfc8;
 
 // @fnv 0x00dfecc0
-void* __cdecl FUN_00dfecc0()
+// src: GUESS 0x00dfecc0 (confidence: low)
+void* __cdecl Object_GetGlobalObjectAddress_00dfecc0()
 {
     return &DAT_0126cfc8;
 }
@@ -6001,7 +6449,8 @@ void* __cdecl FUN_00dfecc0()
 extern int DAT_010e5e9c;
 
 // @fnv 0x00dfece0
-int* __cdecl FUN_00dfece0()
+// src: GUESS 0x00dfece0 (confidence: low)
+int* __cdecl Object_GetGlobalObjectAddress_00dfece0()
 {
     return &DAT_010e5e9c;
 }
@@ -6009,13 +6458,15 @@ int* __cdecl FUN_00dfece0()
 // FUN_00dfed00 : a one-line function - getter
 extern int g_target_00dfed00;
 // @fnv 0x00dfed00
-void* FUN_00dfed00()
+// src: GUESS 0x00dfed00 (confidence: low)
+void* Object_GetGlobalObjectAddress_00dfed00()
 {
     return &g_target_00dfed00;
 }
 
 // @fnv 0x00dfed20
-int* FUN_00dfed20()
+// src: GUESS 0x00dfed20 (confidence: low)
+int* Object_GetGlobalObjectAddress_00dfed20()
 {
     return &DAT_010e5ff4;
 }
@@ -6023,7 +6474,8 @@ int* FUN_00dfed20()
 extern int DAT_0126d058;
 
 // @fnv 0x00dfedf0
-int __cdecl FUN_00dfedf0()
+// src: GUESS 0x00dfedf0 (confidence: low)
+int __cdecl Runtime_EvaluateValue_00dfedf0()
 {
     return reinterpret_cast<int>(&DAT_0126d058);
 }
@@ -6031,7 +6483,8 @@ int __cdecl FUN_00dfedf0()
 extern int DAT_010e60c4;
 
 // @fnv 0x00dfee10
-int* __cdecl FUN_00dfee10()
+// src: GUESS 0x00dfee10 (confidence: low)
+int* __cdecl Runtime_GetDAT010e60c4Address()
 {
     return &DAT_010e60c4;
 }
@@ -6039,7 +6492,8 @@ int* __cdecl FUN_00dfee10()
 extern int DAT_0126d0a0;
 
 // @fnv 0x00dfee90
-int* __cdecl FUN_00dfee90()
+// src: GUESS 0x00dfee90 (confidence: low)
+int* __cdecl Runtime_GetDAT0126d0a0Address()
 {
     return &DAT_0126d0a0;
 }
@@ -6047,7 +6501,8 @@ int* __cdecl FUN_00dfee90()
 extern int DAT_010e62a4;
 
 // @fnv 0x00dfeeb0
-void* __cdecl FUN_00dfeeb0()
+// src: GUESS 0x00dfeeb0 (confidence: low)
+void* __cdecl Runtime_GetDAT010e62a4Address()
 {
     return &DAT_010e62a4;
 }
@@ -6055,7 +6510,8 @@ void* __cdecl FUN_00dfeeb0()
 extern int DAT_0126d0e8;
 
 // @fnv 0x00dfeed0
-int __cdecl FUN_00dfeed0()
+// src: GUESS 0x00dfeed0 (confidence: low)
+int __cdecl Runtime_EvaluateValue_00dfeed0()
 {
     return reinterpret_cast<int>(&DAT_0126d0e8);
 }
@@ -6063,7 +6519,8 @@ int __cdecl FUN_00dfeed0()
 extern int DAT_010e6394;
 
 // @fnv 0x00dfeef0
-int* __cdecl FUN_00dfeef0()
+// src: GUESS 0x00dfeef0 (confidence: low)
+int* __cdecl Runtime_GetDAT010e6394Address()
 {
     return &DAT_010e6394;
 }
@@ -6071,7 +6528,8 @@ int* __cdecl FUN_00dfeef0()
 extern int DAT_0126d130;
 
 // @fnv 0x00dfef10
-void* __cdecl FUN_00dfef10()
+// src: GUESS 0x00dfef10 (confidence: low)
+void* __cdecl Runtime_GetDAT0126d130Address()
 {
     return &DAT_0126d130;
 }
@@ -6102,7 +6560,8 @@ void __cdecl ResetVtables(HavokObject* object)
 extern int DAT_010debf4;
 
 // @fnv 0x00dfef40
-int __cdecl FUN_00dfef40()
+// src: GUESS 0x00dfef40 (confidence: low)
+int __cdecl Object_ComputeValue_00dfef40()
 {
     return reinterpret_cast<int>(&DAT_010debf4);
 }
@@ -6114,7 +6573,8 @@ class DFEF80Object
 };
 
 // @fnv 0x00dfef80
-void FUN_00dfef80(DFEF80Object* pkObject)
+// src: GUESS 0x00dfef80 (confidence: low)
+void Object_InvokeVirtualMethod_00dfef80(DFEF80Object* pkObject)
 {
     pkObject->~DFEF80Object();
 }
@@ -6123,7 +6583,8 @@ void FUN_00dfef80(DFEF80Object* pkObject)
 extern int DAT_0126d190;
 
 // @fnv 0x00dfefc0
-int* FUN_00dfefc0()
+// src: GUESS 0x00dfefc0 (confidence: low)
+int* Object_GetGlobalObjectAddress_00dfefc0()
 {
     return &DAT_0126d190;
 }
@@ -6137,7 +6598,8 @@ struct FUN_00dfefd0_cls
 };
 
 // @fnv 0x00dfefd0
-int __cdecl FUN_00dfefd0(FUN_00dfefd0_cls* pObj)
+// src: GUESS 0x00dfefd0 (confidence: low)
+int __cdecl Runtime_ForwardCall_00dfefd0(FUN_00dfefd0_cls* pObj)
 {
     return pObj->v00(0);
 }
@@ -6145,7 +6607,8 @@ int __cdecl FUN_00dfefd0(FUN_00dfefd0_cls* pObj)
 extern int DAT_0126d1d8;
 
 // @fnv 0x00dfefe0
-void* __cdecl FUN_00dfefe0()
+// src: GUESS 0x00dfefe0 (confidence: low)
+void* __cdecl Object_GetGlobalObjectAddress_00dfefe0()
 {
     return &DAT_0126d1d8;
 }
@@ -6153,7 +6616,8 @@ void* __cdecl FUN_00dfefe0()
 extern int DAT_010e66fc;
 
 // @fnv 0x00dff000
-int* __cdecl FUN_00dff000()
+// src: GUESS 0x00dff000 (confidence: low)
+int* __cdecl Object_GetGlobalObjectAddress_00dff000()
 {
     return &DAT_010e66fc;
 }
@@ -6164,7 +6628,8 @@ struct FUN_00dff0b0_class
 };
 
 // @fnv 0x00dff0b0
-void __cdecl FUN_00dff0b0(FUN_00dff0b0_class* p)
+// src: GUESS 0x00dff0b0 (confidence: low)
+void __cdecl Runtime_ForwardCall_00dff0b0(FUN_00dff0b0_class* p)
 {
     p->m0(0);
 }
@@ -6172,7 +6637,8 @@ void __cdecl FUN_00dff0b0(FUN_00dff0b0_class* p)
 extern int DAT_0126d220;
 
 // @fnv 0x00dff0c0
-void* __cdecl FUN_00dff0c0()
+// src: GUESS 0x00dff0c0 (confidence: low)
+void* __cdecl Object_GetGlobalObjectAddress_00dff0c0()
 {
     return &DAT_0126d220;
 }
@@ -6180,7 +6646,8 @@ void* __cdecl FUN_00dff0c0()
 extern int DAT_010e676c;
 
 // @fnv 0x00dff0e0
-int* __cdecl FUN_00dff0e0()
+// src: GUESS 0x00dff0e0 (confidence: low)
+int* __cdecl Object_GetGlobalObjectAddress_00dff0e0()
 {
     return &DAT_010e676c;
 }
@@ -6191,7 +6658,8 @@ struct FUN_00dff120_Class
 };
 
 // @fnv 0x00dff120
-void __cdecl FUN_00dff120(FUN_00dff120_Class* param_1)
+// src: GUESS 0x00dff120 (confidence: low)
+void __cdecl Object_InvokeVirtualMethod_00dff120(FUN_00dff120_Class* param_1)
 {
     param_1->vf00(0);
 }
@@ -6200,7 +6668,8 @@ void __cdecl FUN_00dff120(FUN_00dff120_Class* param_1)
 extern int DAT_0126d268;
 
 // @fnv 0x00dff160
-int* __cdecl FUN_00dff160()
+// src: GUESS 0x00dff160 (confidence: low)
+int* __cdecl Object_GetGlobalObjectAddress_00dff160()
 {
     return &DAT_0126d268;
 }
@@ -6213,7 +6682,8 @@ struct FUN_00dff170_cls
 };
 
 // @fnv 0x00dff170
-void __cdecl FUN_00dff170(FUN_00dff170_cls* pObject, int aiValue)
+// src: GUESS 0x00dff170 (confidence: low)
+void __cdecl Object_ProcessState_00dff170(FUN_00dff170_cls* pObject, int aiValue)
 {
     if (pObject != 0)
     {
@@ -6227,7 +6697,8 @@ struct FUN_00dff190_cls
 };
 
 // @fnv 0x00dff190
-void __cdecl FUN_00dff190(FUN_00dff190_cls* pObject)
+// src: GUESS 0x00dff190 (confidence: low)
+void __cdecl Object_ForwardCall_00dff190(FUN_00dff190_cls* pObject)
 {
     pObject->m_v00(0);
 }
@@ -6235,7 +6706,8 @@ void __cdecl FUN_00dff190(FUN_00dff190_cls* pObject)
 extern int DAT_0126d298;
 
 // @fnv 0x00dff1c0
-int __cdecl FUN_00dff1c0()
+// src: GUESS 0x00dff1c0 (confidence: low)
+int __cdecl Object_ComputeValue_00dff1c0()
 {
     return reinterpret_cast<int>(&DAT_0126d298);
 }
@@ -6243,7 +6715,8 @@ int __cdecl FUN_00dff1c0()
 extern int DAT_0126d2f8;
 
 // @fnv 0x00dff1e0
-int __cdecl FUN_00dff1e0()
+// src: GUESS 0x00dff1e0 (confidence: low)
+int __cdecl Object_ComputeValue_00dff1e0()
 {
     return reinterpret_cast<int>(&DAT_0126d2f8);
 }
@@ -6254,7 +6727,8 @@ struct FUN_00dff250_class
 };
 
 // @fnv 0x00dff250
-void __cdecl FUN_00dff250(FUN_00dff250_class* p)
+// src: GUESS 0x00dff250 (confidence: low)
+void __cdecl Runtime_ForwardCall_00dff250(FUN_00dff250_class* p)
 {
     p->m0(0);
 }
@@ -6262,7 +6736,8 @@ void __cdecl FUN_00dff250(FUN_00dff250_class* p)
 extern int DAT_0126d328;
 
 // @fnv 0x00dff260
-void* __cdecl FUN_00dff260()
+// src: GUESS 0x00dff260 (confidence: low)
+void* __cdecl Object_GetGlobalObjectAddress_00dff260()
 {
     return &DAT_0126d328;
 }
@@ -6284,7 +6759,8 @@ class DFF2E0Object
 };
 
 // @fnv 0x00dff2e0
-void FUN_00dff2e0(void* apMemory, int finishing)
+// src: GUESS 0x00dff2e0 (confidence: medium)
+void Object_ConstructInPlace(void* apMemory, int finishing)
 {
     if (apMemory)
     {
@@ -6297,7 +6773,8 @@ void FUN_00dff2e0(void* apMemory, int finishing)
 extern int DAT_0126d370;
 
 // @fnv 0x00dff330
-int* __cdecl FUN_00dff330()
+// src: GUESS 0x00dff330 (confidence: low)
+int* __cdecl Runtime_GetDAT0126d370Address()
 {
     return &DAT_0126d370;
 }
@@ -6305,7 +6782,8 @@ int* __cdecl FUN_00dff330()
 extern int DAT_0126d3d0;
 
 // @fnv 0x00dff3b0
-int __cdecl FUN_00dff3b0()
+// src: GUESS 0x00dff3b0 (confidence: low)
+int __cdecl Runtime_EvaluateValue_00dff3b0()
 {
     return reinterpret_cast<int>(&DAT_0126d3d0);
 }
@@ -6313,7 +6791,8 @@ int __cdecl FUN_00dff3b0()
 extern int DAT_0126d418;
 
 // @fnv 0x00dff3d0
-int* __cdecl FUN_00dff3d0()
+// src: GUESS 0x00dff3d0 (confidence: low)
+int* __cdecl Runtime_GetDAT0126d418Address()
 {
     return &DAT_0126d418;
 }
@@ -6381,7 +6860,8 @@ void __cdecl ConstructSpawnedObject(void* apMemory)
 struct CpuOpaque;
 extern CpuOpaque DAT_010e6dec;
 // @fnv 0x00dff430
-CpuOpaque* __cdecl FUN_00dff430()
+// src: GUESS 0x00dff430 (confidence: low)
+CpuOpaque* __cdecl Runtime_GetDAT010e6decAddress()
 {
     return &DAT_010e6dec;
 }
@@ -6452,7 +6932,8 @@ struct FUN_00e46300_class
 };
 
 // @fnv 0x00dff4c0
-void __cdecl FUN_00dff4c0(FUN_00e46300_class* pObject, int aiValue)
+// src: GUESS 0x00dff4c0 (confidence: low)
+void __cdecl Object_ProcessState_00dff4c0(FUN_00e46300_class* pObject, int aiValue)
 {
     if (pObject)
         pObject->FUN_00e46300(aiValue);
@@ -6464,7 +6945,8 @@ struct DFF4E0Object
 };
 
 // @fnv 0x00dff4e0
-void FUN_00dff4e0(DFF4E0Object* pkObject)
+// src: GUESS 0x00dff4e0 (confidence: medium)
+void Object_Destroy_Thunk(DFF4E0Object* pkObject)
 {
     pkObject->Destroy(false);
 }
@@ -6472,7 +6954,8 @@ void FUN_00dff4e0(DFF4E0Object* pkObject)
 extern unsigned char DAT_0126d448;
 
 // @fnv 0x00dff510
-void* __cdecl FUN_00dff510()
+// src: GUESS 0x00dff510 (confidence: low)
+void* __cdecl Runtime_GetDAT0126d448Address()
 {
     return &DAT_0126d448;
 }
@@ -6494,7 +6977,8 @@ class DFF520Object
 };
 
 // @fnv 0x00dff520
-void FUN_00dff520(void* apMemory, int finishing)
+// src: GUESS 0x00dff520 (confidence: medium)
+void Object_ConstructInPlace_00dff520(void* apMemory, int finishing)
 {
     if (apMemory)
     {
@@ -6507,7 +6991,8 @@ void FUN_00dff520(void* apMemory, int finishing)
 extern int DAT_0126d490;
 
 // @fnv 0x00dff570
-int __cdecl FUN_00dff570()
+// src: GUESS 0x00dff570 (confidence: low)
+int __cdecl Runtime_EvaluateValue_00dff570()
 {
     return reinterpret_cast<int>(&DAT_0126d490);
 }
@@ -6515,7 +7000,8 @@ int __cdecl FUN_00dff570()
 struct CpuOpaque;
 extern CpuOpaque DAT_0126d4d8;
 // @fnv 0x00dff590
-CpuOpaque* __cdecl FUN_00dff590()
+// src: GUESS 0x00dff590 (confidence: low)
+CpuOpaque* __cdecl Runtime_GetDAT0126d4d8Address()
 {
     return &DAT_0126d4d8;
 }
@@ -6523,7 +7009,8 @@ CpuOpaque* __cdecl FUN_00dff590()
 struct CpuOpaque;
 extern CpuOpaque DAT_0126d508;
 // @fnv 0x00dff5b0
-CpuOpaque* __cdecl FUN_00dff5b0()
+// src: GUESS 0x00dff5b0 (confidence: low)
+CpuOpaque* __cdecl Runtime_GetDAT0126d508Address()
 {
     return &DAT_0126d508;
 }
@@ -6531,21 +7018,24 @@ CpuOpaque* __cdecl FUN_00dff5b0()
 extern int DAT_0126d550;
 
 // @fnv 0x00dff5d0
-void* __cdecl FUN_00dff5d0()
+// src: GUESS 0x00dff5d0 (confidence: low)
+void* __cdecl Runtime_GetDAT0126d550Address()
 {
     return &DAT_0126d550;
 }
 
 extern int DAT_010e75cc;
 // @fnv 0x00dff5f0
-int* __cdecl FUN_00dff5f0()
+// src: GUESS 0x00dff5f0 (confidence: low)
+int* __cdecl Runtime_GetDAT010e75ccAddress()
 {
     return &DAT_010e75cc;
 }
 
 extern int DAT_010e75dc;
 // @fnv 0x00dff610
-int* __cdecl FUN_00dff610()
+// src: GUESS 0x00dff610 (confidence: low)
+int* __cdecl Runtime_GetDAT010e75dcAddress()
 {
     return &DAT_010e75dc;
 }
@@ -6553,7 +7043,8 @@ int* __cdecl FUN_00dff610()
 extern int DAT_010e75ec;
 
 // @fnv 0x00dff630
-int __cdecl FUN_00dff630()
+// src: GUESS 0x00dff630 (confidence: low)
+int __cdecl Runtime_EvaluateValue_00dff630()
 {
     return reinterpret_cast<int>(&DAT_010e75ec);
 }
@@ -6567,7 +7058,8 @@ class FUN_00dff870_cls
 
 // Calls the first virtual of the object passed in, with argument 0.
 // @fnv 0x00dff870
-int __cdecl FUN_00dff870(FUN_00dff870_cls* p)
+// src: GUESS 0x00dff870 (confidence: low)
+int __cdecl Runtime_ForwardCall_00dff870(FUN_00dff870_cls* p)
 {
     return p->v0(0);
 }
@@ -6575,7 +7067,8 @@ int __cdecl FUN_00dff870(FUN_00dff870_cls* p)
 extern int DAT_0126d5c8;
 
 // @fnv 0x00dff880
-int* __cdecl FUN_00dff880()
+// src: GUESS 0x00dff880 (confidence: low)
+int* __cdecl Object_GetGlobalObjectAddress_00dff880()
 {
     return &DAT_0126d5c8;
 }
@@ -6588,7 +7081,8 @@ struct FUN_00dff890_cls
 };
 
 // @fnv 0x00dff890
-void __cdecl FUN_00dff890(FUN_00dff890_cls* pObject, int aValue)
+// src: GUESS 0x00dff890 (confidence: low)
+void __cdecl Object_ProcessState_00dff890(FUN_00dff890_cls* pObject, int aValue)
 {
     if (pObject != 0)
         pObject->InitializeRecordPointers(aValue);
@@ -6643,7 +7137,8 @@ FNVRecordPointers* __thiscall FNVRecordPointers::InitializeRecordPointers(int un
 extern int DAT_0126d610;
 
 // @fnv 0x00dffa20
-void* __cdecl FUN_00dffa20()
+// src: GUESS 0x00dffa20 (confidence: low)
+void* __cdecl Object_GetGlobalObjectAddress_00dffa20()
 {
     return &DAT_0126d610;
 }
@@ -6651,7 +7146,8 @@ void* __cdecl FUN_00dffa20()
 extern int g_unk0126d658;
 
 // @fnv 0x00dffa40
-void* __cdecl FUN_00dffa40()
+// src: GUESS 0x00dffa40 (confidence: low)
+void* __cdecl Object_GetGlobalObjectAddress_00dffa40()
 {
     return &g_unk0126d658;
 }
@@ -6664,7 +7160,8 @@ struct FUN_00dffa50_cls
 };
 
 // @fnv 0x00dffa50
-void __cdecl FUN_00dffa50(FUN_00dffa50_cls* pObject, int value)
+// src: GUESS 0x00dffa50 (confidence: low)
+void __cdecl Object_ProcessState_00dffa50(FUN_00dffa50_cls* pObject, int value)
 {
     if (pObject != 0)
     {
@@ -6763,7 +7260,8 @@ struct Handler_cls
 };
 
 // @fnv 0x00dffb80
-void __cdecl FUN_00dffb80(Handler_cls* pHandler, int value)
+// src: GUESS 0x00dffb80 (confidence: low)
+void __cdecl Object_ProcessState_00dffb80(Handler_cls* pHandler, int value)
 {
     if (pHandler != 0)
         pHandler->Handle(value);
@@ -6777,7 +7275,8 @@ class FUN_00dffba0_cls
 };
 
 // @fnv 0x00dffba0
-void __cdecl FUN_00dffba0(FUN_00dffba0_cls* p)
+// src: GUESS 0x00dffba0 (confidence: low)
+void __cdecl Object_InvokeVirtualMethod_00dffba0(FUN_00dffba0_cls* p)
 {
     p->v0(0);
 }
@@ -6785,7 +7284,8 @@ void __cdecl FUN_00dffba0(FUN_00dffba0_cls* p)
 extern int DAT_0126d688;
 
 // @fnv 0x00dffbd0
-int* __cdecl FUN_00dffbd0()
+// src: GUESS 0x00dffbd0 (confidence: low)
+int* __cdecl Runtime_GetDAT0126d688Address()
 {
     return &DAT_0126d688;
 }
@@ -6793,7 +7293,8 @@ int* __cdecl FUN_00dffbd0()
 extern int DAT_0126d6e8;
 
 // @fnv 0x00dffc50
-void* __cdecl FUN_00dffc50()
+// src: GUESS 0x00dffc50 (confidence: low)
+void* __cdecl Runtime_GetDAT0126d6e8Address()
 {
     return &DAT_0126d6e8;
 }
@@ -6801,7 +7302,8 @@ void* __cdecl FUN_00dffc50()
 struct CpuOpaque;
 extern CpuOpaque DAT_0126d718;
 // @fnv 0x00dffc70
-CpuOpaque* __cdecl FUN_00dffc70()
+// src: GUESS 0x00dffc70 (confidence: low)
+CpuOpaque* __cdecl Runtime_GetDAT0126d718Address()
 {
     return &DAT_0126d718;
 }
@@ -6809,7 +7311,8 @@ CpuOpaque* __cdecl FUN_00dffc70()
 extern int DAT_010e7c24;
 
 // @fnv 0x00dffc90
-int* __cdecl FUN_00dffc90()
+// src: GUESS 0x00dffc90 (confidence: low)
+int* __cdecl Runtime_GetDAT010e7c24Address()
 {
     return &DAT_010e7c24;
 }
@@ -6817,14 +7320,16 @@ int* __cdecl FUN_00dffc90()
 extern int DAT_0126d760;
 
 // @fnv 0x00dffd90
-void* FUN_00dffd90()
+// src: GUESS 0x00dffd90 (confidence: low)
+void* Runtime_GetDAT0126d760Address()
 {
     return &DAT_0126d760;
 }
 
 extern int DAT_010cc0d8;
 // @fnv 0x00dffdb0
-int* __cdecl FUN_00dffdb0()
+// src: GUESS 0x00dffdb0 (confidence: low)
+int* __cdecl Runtime_GetDAT010cc0d8Address()
 {
     return &DAT_010cc0d8;
 }
@@ -6832,7 +7337,8 @@ int* __cdecl FUN_00dffdb0()
 // FUN_00dffdd0 : a one-line function - getter
 extern int g_target_00dffdd0;
 // @fnv 0x00dffdd0
-void* FUN_00dffdd0()
+// src: GUESS 0x00dffdd0 (confidence: low)
+void* Runtime_GetTarget00dffdd0Address()
 {
     return &g_target_00dffdd0;
 }
@@ -6949,7 +7455,8 @@ void ConstructSpawnedDerived(SpawnedObject* apObject, int flag)
 extern int DAT_010c6e34;
 
 // @fnv 0x00dffe10
-void* FUN_00dffe10()
+// src: GUESS 0x00dffe10 (confidence: low)
+void* Runtime_GetDAT010c6e34Address()
 {
     return &DAT_010c6e34;
 }
@@ -6957,7 +7464,8 @@ void* FUN_00dffe10()
 extern int DAT_0126d7f0;
 
 // @fnv 0x00dffe30
-void* __cdecl FUN_00dffe30()
+// src: GUESS 0x00dffe30 (confidence: low)
+void* __cdecl Runtime_GetDAT0126d7f0Address()
 {
     return &DAT_0126d7f0;
 }
@@ -6965,7 +7473,8 @@ void* __cdecl FUN_00dffe30()
 extern int DAT_010d3838;
 
 // @fnv 0x00dffe50
-void* __cdecl FUN_00dffe50()
+// src: GUESS 0x00dffe50 (confidence: low)
+void* __cdecl Runtime_GetDAT010d3838Address()
 {
     return &DAT_010d3838;
 }
@@ -6973,7 +7482,8 @@ void* __cdecl FUN_00dffe50()
 extern char g_unk0126d838;
 
 // @fnv 0x00dffe70
-void* __cdecl FUN_00dffe70()
+// src: GUESS 0x00dffe70 (confidence: low)
+void* __cdecl Runtime_GetUnk0126d838Address()
 {
     return &g_unk0126d838;
 }
@@ -6982,7 +7492,8 @@ extern void* DAT_010c59f4;
 extern void* DAT_010c6d54;
 
 // @fnv 0x00dffe80
-void __cdecl FUN_00dffe80(void* apObject, int b)
+// src: GUESS 0x00dffe80 (confidence: low)
+void __cdecl Object_UpdateFields_00dffe80(void* apObject, int b)
 {
     if (apObject != 0)
     {
@@ -7015,7 +7526,8 @@ namespace fnv_00dffeb0 {
 extern int DAT_010c6d54;
 
 // @fnv 0x00dffeb0
-int* __cdecl FUN_00dffeb0()
+// src: GUESS 0x00dffeb0 (confidence: low)
+int* __cdecl Runtime_GetDAT010c6d54Address()
 {
     return &DAT_010c6d54;
 }
@@ -7030,7 +7542,8 @@ class FUN_00dffec0_cls
 
 // Calls the first virtual of the object passed in, with argument 0.
 // @fnv 0x00dffec0
-int __cdecl FUN_00dffec0(FUN_00dffec0_cls* p)
+// src: GUESS 0x00dffec0 (confidence: low)
+int __cdecl Object_InvokeVirtualMethod_00dffec0(FUN_00dffec0_cls* p)
 {
     return p->v0(0);
 }
@@ -7038,7 +7551,8 @@ int __cdecl FUN_00dffec0(FUN_00dffec0_cls* p)
 extern int DAT_0126d880;
 
 // @fnv 0x00dffed0
-void* __cdecl FUN_00dffed0()
+// src: GUESS 0x00dffed0 (confidence: low)
+void* __cdecl Runtime_GetDAT0126d880Address()
 {
     return &DAT_0126d880;
 }
@@ -7046,7 +7560,8 @@ void* __cdecl FUN_00dffed0()
 extern int DAT_010cb798;
 
 // @fnv 0x00dffef0
-int* __cdecl FUN_00dffef0()
+// src: GUESS 0x00dffef0 (confidence: low)
+int* __cdecl Runtime_GetDAT010cb798Address()
 {
     return &DAT_010cb798;
 }
@@ -7054,7 +7569,8 @@ int* __cdecl FUN_00dffef0()
 extern int DAT_0126d8c8;
 
 // @fnv 0x00dfff10
-int __cdecl FUN_00dfff10()
+// src: GUESS 0x00dfff10 (confidence: low)
+int __cdecl Runtime_EvaluateValue_00dfff10()
 {
     return reinterpret_cast<int>(&DAT_0126d8c8);
 }
@@ -7093,7 +7609,8 @@ void __cdecl InitSpawnedObject(SpawnedObject* pObject, int iNotifyFlag)
 extern int DAT_010da004;
 
 // @fnv 0x00dfff50
-int* __cdecl FUN_00dfff50()
+// src: GUESS 0x00dfff50 (confidence: low)
+int* __cdecl Runtime_GetDAT010da004Address()
 {
     return &DAT_010da004;
 }
@@ -7101,7 +7618,8 @@ int* __cdecl FUN_00dfff50()
 extern int DAT_0126d910;
 
 // @fnv 0x00dfff70
-int* __cdecl FUN_00dfff70()
+// src: GUESS 0x00dfff70 (confidence: low)
+int* __cdecl Runtime_GetDAT0126d910Address()
 {
     return &DAT_0126d910;
 }
@@ -7123,14 +7641,16 @@ void __cdecl CallFooMethodIfNotNull(S_00dfff80_Foo* pFoo, int aiValue)
 // FUN_00dfffd0 : a one-line function - getter
 extern int g_target_00dfffd0;
 // @fnv 0x00dfffd0
-void* FUN_00dfffd0()
+// src: GUESS 0x00dfffd0 (confidence: low)
+void* Runtime_GetTarget00dfffd0Address()
 {
     return &g_target_00dfffd0;
 }
 
 extern void* DAT_010e80b4;
 // @fnv 0x00dffff0
-void** __cdecl FUN_00dffff0()
+// src: GUESS 0x00dffff0 (confidence: low)
+void** __cdecl Runtime_GetDAT010e80b4Address()
 {
     return &DAT_010e80b4;
 }
@@ -7362,7 +7882,7 @@ struct Header
     unsigned flags, unk0c, size;
     float scale, a, b;
 };
-void FUN_00df19e0(int, hkVector4*, Matrix64*, void*, void*, void*, void*, void*, int);
+void Object_ProcessEntries_00df19e0(int, hkVector4*, Matrix64*, void*, void*, void*, void*, void*, int);
 // @fnv 0x00df21c0
 void WriteInputHeader(Input* input, void*, Header** ppCursor)
 {
@@ -7389,7 +7909,7 @@ void WriteInputHeader(Input* input, void*, Header** ppCursor)
         *matrixDst++ = *matrices++;
     header->scale = input->scale;
     header->flags = input->flags;
-    FUN_00df19e0(input->count, reinterpret_cast<hkVector4*>(input->vector), input->matrices, (char*)*ppCursor + 0x20,
+    Object_ProcessEntries_00df19e0(input->count, reinterpret_cast<hkVector4*>(input->vector), input->matrices, (char*)*ppCursor + 0x20,
                  (char*)*ppCursor + 0x20 + count * 0x90, (char*)header + 0x40 + header->count * 0x4f0, input->source,
                  (char*)header + 0x20 + header->count * 0xf0, count * 0x3c0);
     *ppCursor = (Header*)((char*)*ppCursor + header->size);
@@ -7398,7 +7918,8 @@ void WriteInputHeader(Input* input, void*, Header** ppCursor)
 extern "C" const __m128 DAT_011b9490;
 
 // @fnv 0x00df2740
-extern "C" __m128 __cdecl FUN_00df2740()
+// src: GUESS 0x00df2740 (confidence: low)
+extern "C" __m128 __cdecl Object_GetDAT_011b9490_00df2740()
 {
     return DAT_011b9490;
 }
@@ -7578,36 +8099,40 @@ void __cdecl finishLoadedObjecthkpRagdollConstraintData(void* pvObject, int iFin
 
 struct FnvCpu_FUN_00de1150_CpuObject
 {
-    char* FUN_00de1150();
+    char* EvaluateValue_00de1150();
 };
 // @fnv 0x00de1150
-char* FnvCpu_FUN_00de1150_CpuObject::FUN_00de1150()
+// src: GUESS 0x00de1150 (confidence: low)
+char* FnvCpu_FUN_00de1150_CpuObject::EvaluateValue_00de1150()
 {
     return reinterpret_cast<char*>(this) + 96;
 }
 
 struct FnvCpu_FUN_00de1160_CpuObject
 {
-    char* FUN_00de1160();
+    char* ComputeValue_00de1160();
 };
 // @fnv 0x00de1160
-char* FnvCpu_FUN_00de1160_CpuObject::FUN_00de1160()
+// src: GUESS 0x00de1160 (confidence: low)
+char* FnvCpu_FUN_00de1160_CpuObject::ComputeValue_00de1160()
 {
     return reinterpret_cast<char*>(this) + 112;
 }
 
 struct FnvCpu_FUN_00de4de0_CpuObject
 {
-    char* FUN_00de4de0();
+    char* ComputeValue_00de4de0();
 };
 // @fnv 0x00de4de0
-char* FnvCpu_FUN_00de4de0_CpuObject::FUN_00de4de0()
+// src: GUESS 0x00de4de0 (confidence: low)
+char* FnvCpu_FUN_00de4de0_CpuObject::ComputeValue_00de4de0()
 {
     return reinterpret_cast<char*>(this) + 96;
 }
 
 // @fnv 0x00de4df0
-void* __fastcall FUN_00de4df0(char* self, int)
+// src: GUESS 0x00de4df0 (confidence: low)
+void* __fastcall Object_EvaluateValue_00de4df0(char* self, int)
 {
     return self + 0x70;
 }
@@ -7923,7 +8448,8 @@ struct stub_cls
 };
 
 // @fnv 0x00df30c0
-static __declspec(noinline) void FUN_00df30c0(stub_cls* self, int v)
+// src: GUESS 0x00df30c0 (confidence: low)
+static __declspec(noinline) void Object_SetUnk00_00df30c0(stub_cls* self, int v)
 {
     self->unk00 = v;
 }
@@ -7932,7 +8458,7 @@ extern "C" int stub_val(void);
 
 void stub_caller(stub_cls* self)
 {
-    FUN_00df30c0(self, stub_val());
+    Object_SetUnk00_00df30c0(self, stub_val());
 }
 
 struct DF30D0Pair
@@ -8067,20 +8593,23 @@ struct FnvCpu_FUN_00df8920_CpuObject
     unsigned int unk08;
     unsigned int unk0c;
     float value;
-    float FUN_00df8920();
+    float GetValue_00df8920();
 };
 // @fnv 0x00df8920
-float FnvCpu_FUN_00df8920_CpuObject::FUN_00df8920()
+// src: GUESS 0x00df8920 (confidence: high)
+float FnvCpu_FUN_00df8920_CpuObject::GetValue_00df8920()
 {
     return value;
 }
 
 // @fnv 0x00df9870
-void __cdecl FUN_00df9870()
+// src: GUESS 0x00df9870 (confidence: high)
+void __cdecl Runtime_DoNothing_00df9870()
 {}
 
 // @fnv 0x00df9b10
-void FUN_00df9b10()
+// src: GUESS 0x00df9b10 (confidence: high)
+void Runtime_DoNothing_00df9b10()
 {}
 
 // @fnv 0x00dfb250
@@ -8613,7 +9142,8 @@ struct FnvCpu_FUN_00dfee80_CpuInterface
     virtual void Invoke(int value);
 };
 // @fnv 0x00dfee80
-void __cdecl FUN_00dfee80(FnvCpu_FUN_00dfee80_CpuInterface* object)
+// src: GUESS 0x00dfee80 (confidence: low)
+void __cdecl Object_InvokeVirtualMethod_00dfee80(FnvCpu_FUN_00dfee80_CpuInterface* object)
 {
     object->Invoke(0);
 }
@@ -8623,7 +9153,8 @@ struct DestructibleDFF
     virtual ~DestructibleDFF();
 };
 // @fnv 0x00dff5a0
-void __cdecl FUN_00dff5a0(DestructibleDFF* pkObject)
+// src: GUESS 0x00dff5a0 (confidence: medium)
+void __cdecl Object_DestructibleDFF_Thunk(DestructibleDFF* pkObject)
 {
     pkObject->~DestructibleDFF();
 }
@@ -8649,7 +9180,7 @@ struct S00de0fe0_Obj10
     int unk0c;
     int unk10;
     void __thiscall hkpShapeDisplayBuilder_hkpShapeDisplayBuilder(int* value);
-    void __thiscall FUN_00de0f90(int count, S00de0fe0_Element*** array);
+    void __thiscall UpdateState_00de0f90(int count, S00de0fe0_Element*** array);
 };
 
 struct S00de0fe0_Local
@@ -8684,7 +9215,7 @@ void __cdecl hkpShapeDisplayBuilder_addObjectToDebugDisplay(int arg1, int arg2, 
     local.arr.data = 0;
     local.arr.count = 0;
     local.arr.cap = 0x80000000;
-    local.o.FUN_00de0f90(arg1, &local.arr.data);
+    local.o.UpdateState_00de0f90(arg1, &local.arr.data);
 
     ((S00de0fe0_C983Obj*)DAT_012681e0)->ForEachCall((int*)&local.arr, arg2, arg3, 0, arg1);
 
@@ -8720,7 +9251,8 @@ class GlobalObjectO2_00d472a0;
 extern GlobalObjectO2_00d472a0 g_01269fe8;
 
 // @fnv 0x00de8370
-GlobalObjectO2_00d472a0* __cdecl FUN_00de8370()
+// src: GUESS 0x00de8370 (confidence: low)
+GlobalObjectO2_00d472a0* __cdecl Runtime_GetField01269fe8Address()
 {
     return &g_01269fe8;
 }
@@ -8734,14 +9266,15 @@ struct cls_d530
 extern "C" cls_d530* d530_target(void);
 
 // @fnv 0x00def530
-static __declspec(noinline) void FUN_00def530(float value, cls_d530* target)
+// src: GUESS 0x00def530 (confidence: low)
+static __declspec(noinline) void Runtime_UpdateState_00def530(float value, cls_d530* target)
 {
     target->m_04 = value;
 }
 
 void d530_caller(cls_d530* self, float f)
 {
-    FUN_00def530(f, d530_target());
+    Runtime_UpdateState_00def530(f, d530_target());
 }
 
 struct d540_cls
@@ -8751,14 +9284,15 @@ struct d540_cls
 };
 extern "C" d540_cls* d540_target(void);
 // @fnv 0x00def540
-static __declspec(noinline) void FUN_00def540(float a, float b, d540_cls* t)
+// src: GUESS 0x00def540 (confidence: low)
+static __declspec(noinline) void Object_UpdateFields_00def540(float a, float b, d540_cls* t)
 {
     t->unk00 = a;
     t->unk04 = b;
 }
 void d540_caller(float fa, float fb)
 {
-    FUN_00def540(fa, fb, d540_target());
+    Object_UpdateFields_00def540(fa, fb, d540_target());
 }
 
 extern "C" Vec4* def550_target(void);
@@ -8778,18 +9312,20 @@ void def550_caller(float a, float b, float c, float d)
 }
 
 // @fnv 0x00df0690
-void FUN_00df0690()
+// src: GUESS 0x00df0690 (confidence: high)
+void Runtime_DoNothing_00df0690()
 {}
 
 // @fnv 0x00df30a0
-__declspec(noinline) static void FUN_00df30a0(int* piTarget, int iValue)
+// src: GUESS 0x00df30a0 (confidence: low)
+__declspec(noinline) static void Object_UpdateFields_00df30a0(int* piTarget, int iValue)
 {
     *piTarget = iValue;
 }
 
 void E30A0Store(int* piTarget, int iValue)
 {
-    FUN_00df30a0(piTarget, iValue);
+    Object_UpdateFields_00df30a0(piTarget, iValue);
 }
 
 struct ProfileEvent
@@ -8953,11 +9489,12 @@ struct FUN_00df9840_Class
     void* member10;
     int unk14;
     volatile long* member18;
-    void FUN_00df9840();
+    void ProcessState_00df9840();
 };
 // Atomically adds 1 to *member18 if set, then calls FUN_00d043c0(member10, 1) if member10 is set.
 // @fnv 0x00df9840
-void FUN_00df9840_Class::FUN_00df9840()
+// src: GUESS 0x00df9840 (confidence: low)
+void FUN_00df9840_Class::ProcessState_00df9840()
 {
     if (member18)
     {
@@ -9026,28 +9563,30 @@ struct FUN_00dfb5a0_cls
     int m_iArrayLength;
     unsigned int m_uCap;
 
-    void FUN_00dfb5a0();
+    void UpdateFields_00dfb5a0();
 };
 
 template <class T> inline void DestructElementsDFB5A0(T* p, int n)
 {
     for (int i = 0; i < n; ++i)
     {
-        p[i].FUN_00cb0c00();
+        p[i].Object_UpdateFields_00cb0c00();
     }
 }
 struct ElemDFB5A0
 {
     int unk00;
     FUN_00cb0c00_class m_04;
-    void FUN_00cb0c00()
+// src: GUESS 0x00cb0c00 (confidence: low)
+    void Object_UpdateFields_00cb0c00()
     {
-        m_04.FUN_00cb0c00();
+        m_04.Object_UpdateFields_00cb0c00();
     }
 };
 // Destructs the array elements, frees m_pData unless the top capacity bit is set, resets it to empty, then calls FUN_00cb0c00 on this.
 // @fnv 0x00dfb5a0
-void FUN_00dfb5a0_cls::FUN_00dfb5a0()
+// src: GUESS 0x00dfb5a0 (confidence: low)
+void FUN_00dfb5a0_cls::UpdateFields_00dfb5a0()
 {
     hkMemoryAllocator* pAlloc = reinterpret_cast<hkMemoryAllocator*>(hkMemoryRouter_getInstance()->m_heap);
     DestructElementsDFB5A0((ElemDFB5A0*)m_pData, m_iArrayLength);
@@ -9058,7 +9597,7 @@ void FUN_00dfb5a0_cls::FUN_00dfb5a0()
     }
     m_pData = 0;
     m_uCap = 0x80000000u;
-    ((FUN_00cb0c00_class*)this)->FUN_00cb0c00();
+    ((FUN_00cb0c00_class*)this)->Object_UpdateFields_00cb0c00();
 }
 
 void __cdecl ResizeAudioStream(hkMemoryAllocator* alloc, void* array, int sizeOfElement);
@@ -9104,7 +9643,8 @@ void Registry_de30::hkpUserConvexRadiusBuilder_registerUserConvexRadiusDisplayBu
 }
 
 // @fnv 0x00de9b00
-void __cdecl FUN_00de9b00()
+// src: GUESS 0x00de9b00 (confidence: high)
+void __cdecl Object_DoNothing_00de9b00()
 {}
 
 namespace fnv_00df2640 {
@@ -9281,14 +9821,15 @@ int S00df2640_cls::hkpBroadPhaseJob_popJobTask(S00df2640_a1* a1, S00df2640_a2* a
 }  // namespace fnv_00df2640
 
 // @fnv 0x00df30b0
-static __declspec(noinline) void FUN_00df30b0(stub_cls* target, int value)
+// src: GUESS 0x00df30b0 (confidence: low)
+static __declspec(noinline) void Runtime_UpdateState_00df30b0(stub_cls* target, int value)
 {
     target->unk00 = value;
 }
 
 void df30b0_caller(stub_cls* target)
 {
-    FUN_00df30b0(target, stub_val());
+    Runtime_UpdateState_00df30b0(target, stub_val());
 }
 
 // FUN_00df30f0: store the 16-byte vector *s into element idx of the array d.
@@ -9297,13 +9838,14 @@ void df30b0_caller(stub_cls* target)
 // choose its own register convention for it; hcaller keeps an out-of-line,
 // separately-scheduled copy of the helper in the object file.
 // @fnv 0x00df30f0
-static void FUN_00df30f0(__m128* apDest, int aiIndex, const __m128* apSource)
+// src: GUESS 0x00df30f0 (confidence: high)
+static void Runtime_SetVectorArrayElement(__m128* apDest, int aiIndex, const __m128* apSource)
 {
     apDest[aiIndex] = *apSource;
 }
 void hcaller(__m128* d, int idx, const __m128* s)
 {
-    FUN_00df30f0(d, idx, s);
+    Runtime_SetVectorArrayElement(d, idx, s);
 }
 
 struct FNVVec16
@@ -9329,7 +9871,8 @@ struct FNVPair8
 };
 
 // @fnv 0x00df3330
-int FUN_00df3330(FNVPair8* out, FNVVec16* src, __m128* dst, unsigned int index, unsigned int n, int count)
+// src: GUESS 0x00df3330 (confidence: low)
+int Runtime_ProcessEntries_00df3330(FNVPair8* out, FNVVec16* src, __m128* dst, unsigned int index, unsigned int n, int count)
 {
     src += n;
     out[index].m_uiKey = n & 0x7fffffffu;
@@ -9410,7 +9953,8 @@ struct Jac
 
 // Stores into out: (a[0]-b[0]) rotated by the inverse of j->rot, plus m0 times a[1] minus m1 times b[1].
 // @fnv 0x00df5e80
-void __cdecl FUN_00df5e80(const Jac* j, const hkVector4* a, const hkVector4* b, OutRef out)
+// src: GUESS 0x00df5e80 (confidence: low)
+void __cdecl hkVector4_UpdateFields_00df5e80(const Jac* j, const hkVector4* a, const hkVector4* b, OutRef out)
 {
     __m128 d = _mm_sub_ps(a[0].m_vComponents, b[0].m_vComponents);
     __m128 ang;
@@ -10875,17 +11419,18 @@ struct FUN_00dfdd90_cls
 {
     int unk00;
     SubObject* m_pSub;
-    void __thiscall FUN_00cb0c00();
+    void __thiscall Object_UpdateFields_00cb0c00();
 };
 
 // Calls FUN_00c905b0 on m_pSub if set, clears m_pSub, then calls FUN_00cb0c00 on p.
 // @fnv 0x00dfdd90
-void __cdecl FUN_00dfdd90(FUN_00dfdd90_cls* p)
+// src: GUESS 0x00dfdd90 (confidence: medium)
+void __cdecl Runtime_ReleaseSubobjectAndClear(FUN_00dfdd90_cls* p)
 {
     if (p->m_pSub != 0)
         p->m_pSub->FUN_00c905b0();
     p->m_pSub = 0;
-    p->FUN_00cb0c00();
+    p->Object_UpdateFields_00cb0c00();
 }
 
 hkMemoryRouter* __cdecl hkMemoryRouter_getInstance() throw();
@@ -10913,7 +11458,7 @@ FUN_00de10b0_cls::~FUN_00de10b0_cls()
 // declare, so the second base's vtable gets a thunk that moves `this` back by the first base's size (0x28).
 struct PrimaryBase
 {
-    virtual void FUN_00de3040();
+    virtual void AdjustThisAndForward_00de3040();
     int unk04;
     int unk08;
     int unk0C;
@@ -10927,14 +11472,15 @@ struct PrimaryBase
 
 struct SecondaryBase
 {
-    virtual void FUN_00de3040();
+    virtual void AdjustThisAndForward_00de3040();
 };
 
 struct Derived : PrimaryBase, SecondaryBase
 {
     Derived();
 // @fnv 0x00de3040
-    virtual void FUN_00de3040();
+// src: GUESS 0x00de3040 (confidence: low)
+    virtual void AdjustThisAndForward_00de3040();
 };
 
 Derived::Derived()
@@ -10968,9 +11514,10 @@ struct Holder
     void* data2;
     int size2;
     int cap2;
-    void __thiscall FUN_00dfed30();
+    void __thiscall SetVtableAndProcessState_00dfed30();
 };
-void Holder::FUN_00dfed30()
+// src: GUESS 0x00dfed30 (confidence: low)
+void Holder::SetVtableAndProcessState_00dfed30()
 {
     Manager* mgr = hkMemoryRouter_getInstance();
     Heap* mem = mgr->heap;
@@ -10994,20 +11541,21 @@ namespace fnv_00dff440 {
 // sub ecx,8; jmp target  ==  MSVC adjustor thunk (multiple inheritance, second base at +8).
 struct PrimaryBase
 {
-    virtual void FUN_00dff440();
+    virtual void AdjustThisAndForward_00dff440();
     int unk04;
 };
 
 struct SecondaryBase
 {
-    virtual void FUN_00dff440();
+    virtual void AdjustThisAndForward_00dff440();
 };
 
 struct Derived : PrimaryBase, SecondaryBase
 {
     Derived();
 // @fnv 0x00dff440
-    virtual void FUN_00dff440();
+// src: GUESS 0x00dff440 (confidence: low)
+    virtual void AdjustThisAndForward_00dff440();
 };
 
 Derived::Derived()
@@ -11041,7 +11589,7 @@ namespace fnv_00dff460 {
 // sub ecx,0x14; jmp target  ==  MSVC adjustor thunk (second base of multiple inheritance).
 struct PrimaryBase
 {
-    virtual void FUN_00dff460();
+    virtual void AdjustThisAndForward_00dff460();
     int unk04;
     int unk08;
     int unk0C;
@@ -11050,14 +11598,15 @@ struct PrimaryBase
 
 struct SecondaryBase
 {
-    virtual void FUN_00dff460();
+    virtual void AdjustThisAndForward_00dff460();
 };
 
 struct Derived : PrimaryBase, SecondaryBase
 {
     Derived();
 // @fnv 0x00dff460
-    virtual void FUN_00dff460();
+// src: GUESS 0x00dff460 (confidence: low)
+    virtual void AdjustThisAndForward_00dff460();
 };
 
 Derived::Derived()
@@ -11097,7 +11646,8 @@ static inline float S00de9bd0_clamp(float t)
 
 // Finds sign changes between the three d values, writes two edge/fraction entries to out ordered by orientation, and returns the edge mask (0 if not two).
 // @fnv 0x00de9bd0
-int __cdecl FUN_00de9bd0(const float* d, S00de9bd0_Edge* apEdges, float orientation)
+// src: GUESS 0x00de9bd0 (confidence: medium)
+int __cdecl Runtime_FindTriangleEdgeSignChanges(const float* d, S00de9bd0_Edge* apEdges, float orientation)
 {
     float t[3];
     t[0] = 0.0f;
@@ -11468,12 +12018,13 @@ struct InertiaHolder
     V4 m_invMass;  // 0x60
     int unk70;
     Rot3* m_pRot;  // 0x74
-    float FUN_00df6380(const Pair4* p);
+    float ProcessAndReturnValue_00df6380(const Pair4* p);
 };
 
 // Returns the x+y+z sum of squared p->a and squared, m_pRot-rotated p->b, each scaled by the reciprocal of m_invMass clamped with DAT_010c7200.
 // @fnv 0x00df6380
-float InertiaHolder::FUN_00df6380(const Pair4* p)
+// src: GUESS 0x00df6380 (confidence: low)
+float InertiaHolder::ProcessAndReturnValue_00df6380(const Pair4* p)
 {
     V4 v;
     setRotatedInverseDir(v, *m_pRot, p->b);
@@ -11504,7 +12055,7 @@ struct JobSrc
     int m_i38, m_3c, m_40, m_44, m_48, m_4c, m_50, m_54;
     int* m_p58;
     int m_5c, m_60, m_64, m_68, m_6c;
-    void FUN_00df9840();
+    void ProcessState_00df9840();
 };
 
 struct EnumU8
@@ -11614,17 +12165,17 @@ int __cdecl hkpRayCastQueryJobQueueUtils_finishRayCastQueryJob(void* a1, void* a
     case 1:
     case 4:
         if (--*counter == 0)
-            src->FUN_00df9840();
+            src->ProcessState_00df9840();
         break;
     case 2:
-        src->FUN_00df9840();
+        src->ProcessState_00df9840();
         break;
     case 5:
         if (counter)
             --*counter;
         if (!src->m_60)
         {
-            src->FUN_00df9840();
+            src->ProcessState_00df9840();
             break;
         }
         if (*counter)
@@ -11635,11 +12186,11 @@ int __cdecl hkpRayCastQueryJobQueueUtils_finishRayCastQueryJob(void* a1, void* a
         return 0;
     case 3:
         if (src->m_i38 < 8)
-            src->FUN_00df9840();
+            src->ProcessState_00df9840();
         break;
     case 6:
         if (*counter == 0)
-            src->FUN_00df9840();
+            src->ProcessState_00df9840();
         break;
     case 7: {
         new (&out->m_10) JobB(src->m_54, src->m_p58, src->m_44, src->m_48, src->m_60, src->m_5c);
@@ -11658,7 +12209,8 @@ int __cdecl hkpRayCastQueryJobQueueUtils_finishRayCastQueryJob(void* a1, void* a
 }
 
 // @fnv 0x00df9ad0
-void FUN_00df9ad0()
+// src: GUESS 0x00df9ad0 (confidence: high)
+void Runtime_DoNothing_00df9ad0()
 {}
 
 class SolBool
@@ -11708,7 +12260,8 @@ struct BndSplit
 };
 // Partitions BndBounds entries into left/right destination buffers using the longest axis mean, fills BndSplit, and swaps source/destination pointers.
 // @fnv 0x00df33b0
-int __cdecl FUN_00df33b0(const BndBuffers* buffers, int begin, int end, BndSplit* split, BndBuffers* swapped,
+// src: GUESS 0x00df33b0 (confidence: medium)
+int __cdecl Runtime_PartitionBoundsOnLongestAxis(const BndBuffers* buffers, int begin, int end, BndSplit* split, BndBuffers* swapped,
                          const BndBounds* bounds)
 {
     int rightCount;

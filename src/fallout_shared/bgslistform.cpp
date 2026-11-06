@@ -149,7 +149,7 @@ void _FUN_00485910(unsigned int, unsigned int);
 // src: XBOX_PDB 0x0058fcc0
 void BGSListForm::Save_0058fcc0()
 {
-    reinterpret_cast<TESForm*>(this)->FUN_004855a0();
+    reinterpret_cast<TESForm*>(this)->BeginFormRecord();
     BSSimpleList<TESForm*>* pCondition = GetList();
     while (pCondition && !pCondition->IsEmpty())
     {
@@ -158,7 +158,7 @@ void BGSListForm::Save_0058fcc0()
         _FUN_00485910(0x4d414e4c, formID6);
         pCondition = pCondition->GetNext();
     }
-    reinterpret_cast<TESForm*>(this)->FUN_00485680();
+    reinterpret_cast<TESForm*>(this)->FinishFormRecord();
 }
 
 // @fnv 0x0058fbc0

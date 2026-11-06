@@ -47,11 +47,12 @@ struct FUN_00863e00_cls
 {
     virtual void vfn();
     void FUN_008641d0(int a, int b);
-    int* FUN_00863e00(int a, int b);
+    int* ProcessAndReturnValue_00863e00(int a, int b);
 };
 // Calls FUN_008641d0 with the two arguments, stores the address of DAT_01081fa0 at offset 0 of this, and returns this.
 // @fnv 0x00863e00
-int* FUN_00863e00_cls::FUN_00863e00(int a, int b)
+// src: GUESS 0x00863e00 (confidence: low)
+int* FUN_00863e00_cls::ProcessAndReturnValue_00863e00(int a, int b)
 {
     FUN_008641d0(a, b);
     *(int**)((char*)this + 0) = &DAT_01081fa0;
@@ -90,11 +91,12 @@ void __thiscall FUN_00865870_Class::NiTMap_TESForm_BGSLoadGameSubBuffer_NewItem(
 struct FUN_00865980_class
 {
     void __thiscall FUN_008659a0();
-    int __thiscall FUN_00865980();
+    int __thiscall ProcessAndReturnValue_00865980();
 };
 
 // @fnv 0x00865980
-int __thiscall FUN_00865980_class::FUN_00865980()
+// src: GUESS 0x00865980 (confidence: low)
+int __thiscall FUN_00865980_class::ProcessAndReturnValue_00865980()
 {
     FUN_008659a0();
     return (int)this;
@@ -171,11 +173,12 @@ struct FUN_00869a40_Class
 {
     void* m_ppVirtualMethodTable;
     int m_field;
-    void FUN_00869a40();
+    void UpdateFields_00869a40();
 };
 
 // @fnv 0x00869a40
-void FUN_00869a40_Class::FUN_00869a40()
+// src: GUESS 0x00869a40 (confidence: low)
+void FUN_00869a40_Class::UpdateFields_00869a40()
 {
     m_ppVirtualMethodTable = &DAT_010827f0;
     NiTNewInterface_Deallocate(m_field);
@@ -216,7 +219,7 @@ FUN_00869c60::FUN_00869c60(unsigned int auiFirst, unsigned int auiSecond)
 
 struct FUN_00869cc0_class
 {
-    void FUN_00869ce0();
+    void SetVirtualTable_00869ce0();
     void NiTObjectArray_Animation_Free();
 };
 
@@ -224,7 +227,7 @@ struct FUN_00869cc0_class
 // src: COMMUNITY 0x00869cc0
 void FUN_00869cc0_class::NiTObjectArray_Animation_Free()
 {
-    FUN_00869ce0();
+    SetVirtualTable_00869ce0();
 }
 
 extern int DAT_01082810;
@@ -233,11 +236,12 @@ struct FUN_00869ce0_cls
 {
     int vtbl;
     int field4;
-    void FUN_00869ce0();
+    void SetVirtualTable_00869ce0();
 };
 // Sets the vtable pointer to DAT_01082810 and calls FUN_008696c0 with field4.
 // @fnv 0x00869ce0
-void FUN_00869ce0_cls::FUN_00869ce0()
+// src: GUESS 0x00869ce0 (confidence: low)
+void FUN_00869ce0_cls::SetVirtualTable_00869ce0()
 {
     vtbl = (int)&DAT_01082810;
     NiTNewInterface_Deallocate(field4);
@@ -250,12 +254,13 @@ struct FUN_00869e30_class
 {
     void* p;
     int f;
-    void FUN_00869e30();
+    void UpdateState_00869e30();
 };
 
 // Sets p to point at DAT_01082820 and calls FUN_004b0220 with f.
 // @fnv 0x00869e30
-void FUN_00869e30_class::FUN_00869e30()
+// src: GUESS 0x00869e30 (confidence: low)
+void FUN_00869e30_class::UpdateState_00869e30()
 {
     p = &DAT_01082820;
     j_Deallocate_NiTNewInterface_V_NiPointer_VNiAVObject_SAXPAV_NiPointer_VNiAVObject_Z(f);
@@ -301,11 +306,12 @@ void FUN_00876a00_Class::ImageSpaceEffectDepthOfField_ReturnMaskTexture()
 struct FUN_00877a10_Class
 {
     void __thiscall FUN_0044f650();
-    void __thiscall FUN_00877a10();
+    void __thiscall ForwardCall_00877a10();
 };
 
 // @fnv 0x00877a10
-void __thiscall FUN_00877a10_Class::FUN_00877a10()
+// src: GUESS 0x00877a10 (confidence: low)
+void __thiscall FUN_00877a10_Class::ForwardCall_00877a10()
 {
     FUN_0044f650();
 }
@@ -461,14 +467,15 @@ extern int DAT_010840d0;
 struct FUN_0087d2c0_class
 {
     void* vtable;
-    void FUN_0087d340(int a, int b);
-    FUN_0087d2c0_class* FUN_0087d2c0();
+    void UpdateFields_0087d340(int a, int b);
+    FUN_0087d2c0_class* SetVirtualTableAndProcessState_0087d2c0();
 };
 // @fnv 0x0087d2c0
-FUN_0087d2c0_class* FUN_0087d2c0_class::FUN_0087d2c0()
+// src: GUESS 0x0087d2c0 (confidence: low)
+FUN_0087d2c0_class* FUN_0087d2c0_class::SetVirtualTableAndProcessState_0087d2c0()
 {
     vtable = &DAT_010840d0;
-    FUN_0087d340(0, 0);
+    UpdateFields_0087d340(0, 0);
     return this;
 }
 
@@ -476,10 +483,11 @@ extern int DAT_010840d0;
 struct GlobalObject_00869f00
 {
     void Clear(bool);
-    void FUN_0087d320();
+    void ResetVirtualTableAndClear_0087d320();
 };
 // @fnv 0x0087d320
-void GlobalObject_00869f00::FUN_0087d320()
+// src: GUESS 0x0087d320 (confidence: medium)
+void GlobalObject_00869f00::ResetVirtualTableAndClear_0087d320()
 {
     *reinterpret_cast<int*>(this) = (int)&DAT_010840d0;
     Clear(true);
@@ -506,13 +514,14 @@ struct Arr3520
 {
     void* p;
     void RemoveAll(bool);
-    void FUN_0087d480();
+    void ResetVirtualTableAndRemoveAll();
 };
 
 extern int DAT_010840e4;
 
 // @fnv 0x0087d480
-void Arr3520::FUN_0087d480()
+// src: GUESS 0x0087d480 (confidence: medium)
+void Arr3520::ResetVirtualTableAndRemoveAll()
 {
     p = &DAT_010840e4;
     RemoveAll(true);
@@ -710,17 +719,17 @@ void* __thiscall FUN_00863f60_cls::InitAndMaybeFree(unsigned int flags)
 
 struct FUN_008637a0_class
 {
-    void __thiscall FUN_008637a0();
+    void __thiscall ReleaseStorage_008637a0();
 };
 struct FUN_00863f90_class
 {
-    void __thiscall FUN_008637a0();
+    void __thiscall ReleaseStorage_008637a0();
     void* __thiscall FUN_00863f90(unsigned int flags);
 };
 // @fnv 0x00863f90
 void* __thiscall FUN_00863f90_class::FUN_00863f90(unsigned int flags)
 {
-    FUN_008637a0();
+    ReleaseStorage_008637a0();
     if (flags & 1)
         Deallocate(this);
     return this;
@@ -729,14 +738,14 @@ void* __thiscall FUN_00863f90_class::FUN_00863f90(unsigned int flags)
 extern "C" void __cdecl Deallocate(void*);
 struct FUN_008638c0_Class
 {
-    void __thiscall FUN_008638c0();
+    void __thiscall ReleaseStorage_008638c0();
     void* __thiscall FUN_00863fc0(unsigned int flags);
 };
 // Calls FUN_008638c0, then frees this via Deallocate when flags has bit 0 set, and returns this.
 // @fnv 0x00863fc0
 void* __thiscall FUN_008638c0_Class::FUN_00863fc0(unsigned int flags)
 {
-    FUN_008638c0();
+    ReleaseStorage_008638c0();
     if (flags & 1)
         Deallocate(this);
     return this;
@@ -775,7 +784,7 @@ void* __thiscall FUN_00864020_Class::FUN_00864020(unsigned int flags)
 
 struct FUN_00863d60_obj
 {
-    void __thiscall FUN_00863d60();
+    void __thiscall ReleaseStorage_00863d60();
 };
 
 struct FUN_00864050_class
@@ -786,7 +795,7 @@ struct FUN_00864050_class
 // @fnv 0x00864050
 void* __thiscall FUN_00864050_class::FUN_00864050(unsigned int flags)
 {
-    reinterpret_cast<FUN_00863d60_obj*>(this)->FUN_00863d60();
+    reinterpret_cast<FUN_00863d60_obj*>(this)->ReleaseStorage_00863d60();
     if (flags & 1)
         Deallocate(this);
     return this;
@@ -794,7 +803,7 @@ void* __thiscall FUN_00864050_class::FUN_00864050(unsigned int flags)
 
 struct FUN_00857350_obj
 {
-    void FUN_00857350();
+    void ForwardCall_00857350();
 };
 struct FUN_00864080_shell
 {
@@ -803,7 +812,7 @@ struct FUN_00864080_shell
 // @fnv 0x00864080
 void* __thiscall FUN_00864080_shell::FUN_00864080(unsigned int flags)
 {
-    ((FUN_00857350_obj*)this)->FUN_00857350();
+    ((FUN_00857350_obj*)this)->ForwardCall_00857350();
     if (flags & 1)
         Deallocate(this);
     return this;
@@ -899,13 +908,13 @@ unsigned int __thiscall FUN_00869600_Class::BSSimpleArray_GetOptimalCapacity()
 
 struct FUN_00869a20_class
 {
-    void FUN_00869a40();
+    void UpdateFields_00869a40();
     void* FUN_00869a70(unsigned int flags);
 };
 // @fnv 0x00869a70
 void* FUN_00869a20_class::FUN_00869a70(unsigned int flags)
 {
-    FUN_00869a40();
+    UpdateFields_00869a40();
     if (flags & 1)
         Deallocate(this);
     return this;
@@ -954,14 +963,14 @@ void __cdecl NiTNewInterface_Deallocate(int);
 void __cdecl NiTNewInterface_Deallocate(int);
 struct FUN_00869d10_cls
 {
-    void __thiscall FUN_00869ce0();
+    void __thiscall SetVirtualTable_00869ce0();
     FUN_00869d10_cls* __thiscall FUN_00869d10(unsigned int flags);
 };
 // Calls FUN_00869ce0, then deallocates this if bit 0 of flags is set, and returns this.
 // @fnv 0x00869d10
 FUN_00869d10_cls* __thiscall FUN_00869d10_cls::FUN_00869d10(unsigned int flags)
 {
-    FUN_00869ce0();
+    SetVirtualTable_00869ce0();
     if (flags & 1)
         Deallocate(this);
     return this;
@@ -969,14 +978,14 @@ FUN_00869d10_cls* __thiscall FUN_00869d10_cls::FUN_00869d10(unsigned int flags)
 
 struct FUN_00869e10_class
 {
-    void FUN_00869e30();
+    void UpdateState_00869e30();
     void* FUN_00869e60(unsigned int flags);
 };
 
 // @fnv 0x00869e60
 void* FUN_00869e10_class::FUN_00869e60(unsigned int flags)
 {
-    FUN_00869e30();
+    UpdateState_00869e30();
     if (flags & 1)
         Deallocate(this);
     return this;
@@ -1177,10 +1186,11 @@ void* __thiscall FUN_00877d50_Class::FUN_00877d50(unsigned int flags)
 struct FUN_00877e10_Class
 {
     void SetEntry(unsigned int, unsigned int);
-    unsigned int FUN_00877e10(unsigned int a, unsigned int b);
+    unsigned int EvaluateValue_00877e10(unsigned int a, unsigned int b);
 };
 // @fnv 0x00877e10
-unsigned int FUN_00877e10_Class::FUN_00877e10(unsigned int a, unsigned int b)
+// src: GUESS 0x00877e10 (confidence: low)
+unsigned int FUN_00877e10_Class::EvaluateValue_00877e10(unsigned int a, unsigned int b)
 {
     if (a >= reinterpret_cast<unsigned short*>(this)[4])
         reinterpret_cast<StrArr*>(this)->SetSize(reinterpret_cast<unsigned short*>(this)[7] + a);
@@ -1262,12 +1272,13 @@ void __thiscall FUN_008798a0_Class::ImageSpaceManager_ResetViewport()
 
 struct FUN_0087a670_shell
 {
-    int* __thiscall FUN_0087a670(int a, int b);
+    int* __thiscall UpdateState_0087a670(int a, int b);
 };
 
 // Stores a at offset 0, b at offset 4, sets offset 12 to 0 and offset 8 to the value at offset 0, then returns this.
 // @fnv 0x0087a670
-int* __thiscall FUN_0087a670_shell::FUN_0087a670(int aiFirst, int aiSecond)
+// src: GUESS 0x0087a670 (confidence: low)
+int* __thiscall FUN_0087a670_shell::UpdateState_0087a670(int aiFirst, int aiSecond)
 {
     *(int*)this = aiFirst;
     *(int*)((char*)this + 4) = aiSecond;
@@ -1468,7 +1479,8 @@ struct Arr
 };
 // Iterates pArr, wraps each element in a GO, and passes it to pDest->FUN_008693f0 only when the GO converts to a non-zero value.
 // @fnv 0x00869560
-void FUN_00869560(Arr* pArr, FUN_008693f0_Class* pDest)
+// src: GUESS 0x00869560 (confidence: low)
+void Object_ProcessEntries_00869560(Arr* pArr, FUN_008693f0_Class* pDest)
 {
     for (unsigned int i = 0; i < pArr->GetSize(); i++)
     {
@@ -1606,12 +1618,13 @@ struct FUN_0087d340_Class
 {
     virtual void vfn_00();
     virtual int vfn_04(unsigned int);
-    void FUN_0087d3d0(int, unsigned int);
-    void FUN_0087d340(unsigned int requested, unsigned int savedSize);
+    void ProcessEntries_0087d3d0(int, unsigned int);
+    void UpdateFields_0087d340(unsigned int requested, unsigned int savedSize);
 };
 
 // @fnv 0x0087d340
-void FUN_0087d340_Class::FUN_0087d340(unsigned int requested, unsigned int savedSize)
+// src: GUESS 0x0087d340 (confidence: low)
+void FUN_0087d340_Class::UpdateFields_0087d340(unsigned int requested, unsigned int savedSize)
 {
     *(int*)((char*)this + 4) = 0;
     *(int*)((char*)this + 8) = 0;
@@ -1627,7 +1640,7 @@ void FUN_0087d340_Class::FUN_0087d340(unsigned int requested, unsigned int saved
     }
     if (savedSize > 0)
     {
-        FUN_0087d3d0(*(int*)((char*)this + 4), savedSize);
+        ProcessEntries_0087d3d0(*(int*)((char*)this + 4), savedSize);
         *(int*)((char*)this + 8) = savedSize;
     }
 }
@@ -1949,10 +1962,11 @@ void* __cdecl NiFree(void*);
 extern int DAT_010822a8;
 struct FUN_00865840_class : NiTPointerMap<int, int>
 {
-    void FUN_00865840();
+    void UpdateFields_00865840();
 };
 // @fnv 0x00865840
-void FUN_00865840_class::FUN_00865840()
+// src: GUESS 0x00865840 (confidence: low)
+void FUN_00865840_class::UpdateFields_00865840()
 {
     *(void**)this = (void*)&DAT_010822a8;
     RemoveAll();
@@ -1989,7 +2003,7 @@ void FUN_00865890_Class::InitAndDispatch(int* piData)
 
 struct FUN_00865840_shell
 {
-    void FUN_00865840();
+    void UpdateFields_00865840();
 };
 void Deallocate(void*);
 struct FUN_008658d0 : FUN_00865840_shell
@@ -1999,7 +2013,7 @@ struct FUN_008658d0 : FUN_00865840_shell
 // @fnv 0x008658d0
 void* FUN_008658d0::DeleteThis(unsigned int flags)
 {
-    FUN_00865840();
+    UpdateFields_00865840();
     if (flags & 1)
         Deallocate(this);
     return this;
@@ -2431,12 +2445,13 @@ extern void* __cdecl operator new(unsigned int, void*);
 
 struct FUN_0087d3d0_Class
 {
-    void FUN_0087d3d0(int a, unsigned int count);
+    void ProcessEntries_0087d3d0(int a, unsigned int count);
 };
 
 // Calls operator new(8, ...) for each of count elements at successive 8-byte offsets from a.
 // @fnv 0x0087d3d0
-void FUN_0087d3d0_Class::FUN_0087d3d0(int aiBase, unsigned int count)
+// src: GUESS 0x0087d3d0 (confidence: low)
+void FUN_0087d3d0_Class::ProcessEntries_0087d3d0(int aiBase, unsigned int count)
 {
     unsigned int i;
     void* p2;
@@ -2455,7 +2470,7 @@ struct FUN_0087ea80_shell
 void FUN_0087ea80_shell::bhkRagdollController_Setphkobject090(unsigned int a)
 {
     // The callee is bhkWorldObject::FUN_004ae750 (0x004ae750), not ScriptLocals::GetLocalData (0x00541c80).
-    *(unsigned int*)((char*)this + 0x90) = (unsigned int)((bhkWorldObject*)a)->FUN_004ae750();
+    *(unsigned int*)((char*)this + 0x90) = (unsigned int)((bhkWorldObject*)a)->Bipedanim_GetReferenceFlagsOrZero();
 }
 
 
@@ -2653,12 +2668,13 @@ struct S_00867510_Class
     bool unk40;
     int unk44;
 
-    S_00867510_Class* __thiscall FUN_00867510();
+    S_00867510_Class* __thiscall InitializeFields_00867510();
 };
 
 // Initializes the object's fields: sets most floats to DAT_01012054, unk30/unk34 to -1, unk40 to false, unk38/unk3c to 0.0f, unk44 to 0, and returns this.
 // @fnv 0x00867510
-S_00867510_Class* __thiscall S_00867510_Class::FUN_00867510()
+// src: GUESS 0x00867510 (confidence: low)
+S_00867510_Class* __thiscall S_00867510_Class::InitializeFields_00867510()
 {
     unk00 = DAT_01012054;
     unk04 = DAT_01012054;
@@ -3055,12 +3071,13 @@ struct FadeNodeLocal_cls
     virtual void vfn_08();
     virtual void vfn_0c();
     virtual bool vfn_10(char* pBuf);
-    void FUN_0086c750();
+    void ForwardCall_0086c750();
 };
 
 // Repeatedly calls vfn_10 with a 32-byte scratch buffer until it returns false.
 // @fnv 0x0086c750
-void FadeNodeLocal_cls::FUN_0086c750()
+// src: GUESS 0x0086c750 (confidence: low)
+void FadeNodeLocal_cls::ForwardCall_0086c750()
 {
     char buffer[0x20];
     while (this->vfn_10(buffer))
@@ -3110,7 +3127,7 @@ struct FUN_00876a20_out
 };
 struct FUN_00876a20_list
 {
-    FUN_00876a20_out* FUN_00559450();
+    FUN_00876a20_out* Modelloader_GetReferencedThis();
 };
 struct FUN_00876a20_arg
 {
@@ -3168,7 +3185,7 @@ void FUN_00876a20_shell::TESMain_DrawWorld_ScreenSplatter(FUN_00876a20_arg* apAr
     bool bOld = DAT_011a9604;
     DAT_011a9604 = false;
     apArg->SetFromCamera(ScreenSplatter_GetCamera());
-    unk94.FUN_00559450()->BSShaderAccumulator_RenderScreenSplatter();
+    unk94.Modelloader_GetReferencedThis()->BSShaderAccumulator_RenderScreenSplatter();
     DAT_011a9604 = bOld;
 }
 
@@ -3395,7 +3412,7 @@ extern char FUN_00a00000;
 
 struct Member14_b3616
 {
-    void FUN_0044fae0();
+    void Object_InitializeCriticalSection_Thunk();
 };
 
 struct FUN_00878030_cls
@@ -3413,7 +3430,7 @@ struct FUN_00878030_cls
 // src: COMMUNITY 0x00878030
 FUN_00878030_cls* FUN_00878030_cls::MemoryLevelManager_MemoryLevelManager()
 {
-    m_Sub14.FUN_0044fae0();
+    m_Sub14.Object_InitializeCriticalSection_Thunk();
     m_pDatA = &DAT_01400000;
     m_uiFlags1 = 0xf00000;
     m_pDatB = &FUN_00a00000;
@@ -3869,7 +3886,7 @@ struct FUN_00633c90
     FUN_00633c90(int);
     ~FUN_00633c90();
     void FUN_0066b0d0(void*);
-    BSShaderAccumulator* FUN_00559450();
+    BSShaderAccumulator* Modelloader_GetReferencedThis();
 };
 extern FUN_00633c90 DAT_011dec64;
 class FUN_00a712f0
@@ -3991,13 +4008,13 @@ FUN_0086c160::FUN_0086c160(int aiArg1, int aiArg2)
     DAT_011dec64.FUN_0066b0d0(0);
     acc88.FUN_0066b0d0(new BSShaderAccumulator(99, 1, 759));
     acc8c.FUN_0066b0d0(new BSShaderAccumulator(99, 1, 759));
-    acc8c.FUN_00559450()->FUN_004a1040(12);
-    acc8c.FUN_00559450()->MobileObject_SetSoundCallBackSuccess(true);
+    acc8c.Modelloader_GetReferencedThis()->FUN_004a1040(12);
+    acc8c.Modelloader_GetReferencedThis()->MobileObject_SetSoundCallBackSuccess(true);
     acc90.FUN_0066b0d0(new BSShaderAccumulator(99, 1, 759));
-    acc90.FUN_00559450()->FUN_004a1040(12);
-    acc90.FUN_00559450()->MobileObject_SetSoundCallBackSuccess(true);
+    acc90.Modelloader_GetReferencedThis()->FUN_004a1040(12);
+    acc90.Modelloader_GetReferencedThis()->MobileObject_SetSoundCallBackSuccess(true);
     acc94.FUN_0066b0d0(new BSShaderAccumulator(100, 1, 4));
-    acc94.FUN_00559450()->FUN_004a1040(13);
+    acc94.Modelloader_GetReferencedThis()->FUN_004a1040(13);
     acc98.FUN_0066b0d0(new BSShaderAccumulator(99, 1, 759));
     flag9c = false;
     acca0.FUN_0066b0d0(new FUN_00a712f0);
@@ -5861,7 +5878,7 @@ struct Delete86
 struct List86
 {
     void FUN_0066b0d0(int);
-    struct Entry86* FUN_00559450();
+    struct Entry86* Modelloader_GetReferencedThis();
 };
 struct Entry86
 {
@@ -5909,7 +5926,7 @@ FUN_0086c880::~FUN_0086c880()
     DAT_011dea18 = 0;
     DAT_011dea1c = 0;
     Controls_DeleteInstance();
-    DAT_011deb7c.FUN_00559450()->FUN_00483710();
+    DAT_011deb7c.Modelloader_GetReferencedThis()->FUN_00483710();
     DAT_011deb7c.FUN_0066b0d0(0);
     DAT_011d6e5c.FUN_0066b0d0(0);
     DAT_011deb34.FUN_0066b0d0(0);
@@ -6384,7 +6401,7 @@ class SSFile
     unsigned int unk10;
     SSFile(const char* pcPath, int iMode, int iAccess, int iFlags);
     ~SSFile();
-    int FUN_00559450();
+    int Modelloader_GetReferencedThis();
     void SetAndReturnPointer(const void* pvData, unsigned __int64 uiSize, unsigned __int64* puiWritten);
 };
 
@@ -6485,7 +6502,7 @@ void SaveScreenshot(const char* pcPath)
     else
         BSsprintf(acPathCur, 0x104, "%s%d.bmp", DAT_011df0f8.FUN_00403df0(), *DAT_011df124.Setting_Int());
     SSFile kFileLast(acPathCur, 2, 2, 0);
-    if (!kFileLast.FUN_00559450())
+    if (!kFileLast.Modelloader_GetReferencedThis())
     {
         unsigned int uiWidth = pkImageNew->NiPixelData_GetWidth(0, 0);
         unsigned int uiHeightRes = Renderer_GetScreenHeight();
@@ -6813,7 +6830,7 @@ struct H
     void FUN_0046ffb0();
     void FUN_00937030();
     void FUN_00822a80();
-    void FUN_008153b0();
+    void UpdateState_008153b0();
     void FUN_0092ec40();
     void* GetHavokWorldObjectCountInSceneGraph_0084e3a0();
     void RemoveEntry(void*);

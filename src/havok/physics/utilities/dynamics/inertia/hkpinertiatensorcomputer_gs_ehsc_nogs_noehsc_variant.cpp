@@ -17,11 +17,11 @@
 struct Object
 {
 };
-void __cdecl FUN_00cebdf0(float* source, float value, Object* destination);
+void __cdecl Hkpinertiatensorcomputer_CopyAndScalePropertyBlock(float* source, float value, Object* destination);
 void __cdecl hkpInertiaTensorComputer_setAndScaleToDensity(float* source, float scale, Object* destination);
 struct Receiver
 {
-    void FUN_00cecc90(float value);
+    void SetScalarAndRescaleVector(float value);
 };
 struct State
 {
@@ -213,7 +213,7 @@ struct Matrix
     hkVector4 c0, c1, c2;
 };
 extern const hkVector4 DAT_01017d10;
-void FUN_00d5ac50(char*, Matrix*, hkVector4*, hkVector4*, hkVector4*);
+void HkgeometryutilityGsEhscNogsNoehsc_ComputeValues_00d5ac50(char*, Matrix*, hkVector4*, hkVector4*, hkVector4*);
 struct Shape
 {
     virtual void v0();
@@ -225,7 +225,7 @@ struct Shape
     virtual void v6();
     virtual void getAabb(const Transform*, float, hkAabb*);
 };
-void FUN_00cedae0(Shape* shape, const Matrix* input, hkVector4* outA, hkVector4* outB);
+void Object_GetAABBExtentAxes(Shape* shape, const Matrix* input, hkVector4* outA, hkVector4* outB);
 
 
 extern const float DAT_01011d78;
@@ -233,7 +233,7 @@ extern const double DAT_010240b0;
 struct CE50Matrix
 {
     hkVector4 row0, row1, row2;
-    void FUN_00c6cd00(const CE50Matrix* source);
+    void CopyThreeVectors(const CE50Matrix* source);
     void Subtract(const CE50Matrix* source);
 };
 struct CE50Body
@@ -276,7 +276,8 @@ static __declspec(noinline) void hkMatrix3_mul(CE50Body* body, float scale)
     body->inertia.row2.z *= scale;
 }
 // @fnv 0x00cece50
-int __cdecl FUN_00cece50(float* src, float mass, float thickness, CE50Body* out, ...)
+// src: GUESS 0x00cece50 (confidence: low)
+int __cdecl hkVector4_UpdateState_00cece50(float* src, float mass, float thickness, CE50Body* out, ...)
 {
     if (!(mass <= 0.0f) && src[0] > thickness && src[1] > thickness && src[2] > thickness && !(thickness <= 0.0f))
     {
@@ -292,7 +293,7 @@ int __cdecl FUN_00cece50(float* src, float mass, float thickness, CE50Body* out,
         hkpInertiaTensorComputer_computeBoxVolumeMassProperties(src, outerVolume, &outer);
         hkpInertiaTensorComputer_computeBoxVolumeMassProperties(&inner.x, innerVolume, &inside);
         _mm_store_ps(&out->center.x, _mm_setzero_ps());
-        out->inertia.FUN_00c6cd00(&outer.inertia);
+        out->inertia.CopyThreeVectors(&outer.inertia);
         out->inertia.Subtract(&inside.inertia);
         out->mass = outer.mass - inside.mass;
         out->volume = outer.volume - inside.volume;
@@ -307,7 +308,8 @@ extern const float DAT_0104da48;
 extern const float DAT_01016248;
 extern const __m128 DAT_010c44d0;
 extern const __m128 DAT_010ec7f0;
-__declspec(noinline) void __cdecl FUN_00cec7f0(int first, int count, float* b, float* a)
+// src: GUESS 0x00cec7f0 (confidence: high)
+__declspec(noinline) void __cdecl Hkpinertiatensorcomputer_ComputePointsAabbCenterAndExtent(int first, int count, float* b, float* a)
 {
     _mm_store_ps(b, _mm_setzero_ps());
     _mm_store_ps(a, _mm_setzero_ps());
@@ -385,7 +387,7 @@ __declspec(align(16)) struct Solver
     float unk60;
     float unk64;
     float unk68, unk6c, unk70, unk74, unk78, unk7c, unk80, unk84, unk88;
-    void __thiscall FUN_00ced390(State* self, float* a);
+    void __thiscall ProcessEntries_00ced390(State* self, float* a);
     void __thiscall InternalInertiaTensorComputer_computeInertialTensorInternal(float value, float ratio, float* vec, float* mat);
 };
 
@@ -463,7 +465,8 @@ struct MeshInput
 };
 
 // Accumulate signed tetrahedron moments from the translated boundary mesh.
-__declspec(noinline) void Solver::FUN_00ced390(State* self, float* shift)
+// src: GUESS 0x00ced390 (confidence: low)
+__declspec(noinline) void Solver::ProcessEntries_00ced390(State* self, float* shift)
 {
     MeshInput* mesh = (MeshInput*)self;
     unk64 = unk68 = unk6c = unk70 = unk74 = unk78 = unk7c = unk80 = unk84 = unk88 = 0.0f;
@@ -512,13 +515,14 @@ inline float MaxVal(float a, float b)
 }
 
 // @fnv 0x00ced8e0
-int __cdecl FUN_00ced8e0(State* self, float value, OutBlock* out)
+// src: GUESS 0x00ced8e0 (confidence: low)
+int __cdecl Object_ProcessEntries_00ced8e0(State* self, float value, OutBlock* out)
 {
     if (value <= 0.0f)
         return 1;
     hkVector4 b;
     hkVector4 a;
-    FUN_00cec7f0(self->first, self->count, (float*)&b, (float*)&a);
+    Hkpinertiatensorcomputer_ComputePointsAabbCenterAndExtent(self->first, self->count, (float*)&b, (float*)&a);
     Work w;
     w.pair.x = 0.0f;
     w.pair.y = 0.0f;
@@ -530,7 +534,7 @@ int __cdecl FUN_00ced8e0(State* self, float value, OutBlock* out)
     __m128 bv = _mm_load_ps((float*)&b);
     _mm_store_ps(&w.mat.unk00_0, bv);
     _mm_store_ps((float*)&a, _mm_xor_ps(DAT_010c44d0, bv));
-    w.solver.FUN_00ced390(self, (float*)&a);
+    w.solver.ProcessEntries_00ced390(self, (float*)&a);
     float r = w.solver.unk64;
     if (r <= 0.0f)
     {

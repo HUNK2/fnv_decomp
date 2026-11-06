@@ -82,7 +82,7 @@ int* __cdecl hkpWorldOperationUtil_addConstraintImmediately(hkpWorld* object, in
         }
         if (object->m_iPendingOperationQueueCount == 1 && object->m_iQueuedOperationCount != 0)
         {
-            object->FUN_00c91140();
+            object->UpdateFields_00c91140();
         }
     }
     return value;
@@ -93,7 +93,8 @@ void DetachRecord(void* p);
 
 // If ctx->m_kConstraintListeners.m_iElementCount is nonzero, calls NotifyTargets with ctx and p, then always calls DetachRecord on p.
 // @fnv 0x00cb3da0
-void FUN_00cb3da0(hkpWorld* ctx, void* p)
+// src: GUESS 0x00cb3da0 (confidence: medium)
+void Object_NotifyAndDetachRecord(hkpWorld* ctx, void* p)
 {
     if (ctx->m_kConstraintListeners.m_iElementCount != 0)
         NotifyTargets(ctx, p);
@@ -720,7 +721,7 @@ struct S_00c6aca0_Cont
     int unk08;
     int unk0c;
     ~S_00c6aca0_Cont();
-    void FUN_00c67f20();
+    void DeleteListNodesAndReleaseOwner();
 };
 
 struct S_00c6aca0_Mm
@@ -861,7 +862,7 @@ FUN_00c6aca0::~FUN_00c6aca0()
             delete p;
     }
     unk70.m_iElementCount = 0;
-    unk90.FUN_00c67f20();
+    unk90.DeleteListNodesAndReleaseOwner();
 }
 
 // Returns false if b is null, true if a is null, otherwise compares a's inner unkD4 against b's inner unkD4.
@@ -1708,7 +1709,7 @@ struct S00cb5310_List
 
 extern int DAT_01267e30;
 void ResizeAudioStream(void* alloc, S00cb5310_List* list, int n);
-bool FUN_00d28560(float* p, hkpEntity** arr, int n, int size);
+bool Object_ProcessEntries_00d28560(float* p, hkpEntity** arr, int n, int size);
 void UpdateRotationInterpolation(float f, void* p);
 void hkpWorldCallbackUtil_fireIslandDeactivated(hkpWorld* a1, hkpSimulationIsland* a2);
 // If FUN_00d28560 passes, moves node a2 from the owner's m_28 array to its m_34 list, updates its pieces and calls FUN_00d011b0; else sets a flag bit and returns.
@@ -1721,7 +1722,7 @@ void __cdecl hkpWorldOperationUtil_internalDeactivateIsland(hkpWorld* apOwner, h
     long holder;
     holder = apNode->entities.count;
     float* pf = &reinterpret_cast<float&>(apOwner->pad1C8[8]);
-    if (FUN_00d28560(pf, pForm, holder, 0xe0) == 0)
+    if (Object_ProcessEntries_00d28560(pf, pForm, holder, 0xe0) == 0)
     {
         apNode->flags26 = (unsigned char)((apNode->flags26 & 0xf7) | 4);
         return;
@@ -2928,7 +2929,7 @@ void __cdecl hkpWorldOperationUtil_internalMergeTwoIslands(hkpWorld* apWorld, hk
             o->FUN_00c91120();
         if (o->m_iPendingOperationQueueCount == 1 && o->m_iQueuedOperationCount != 0)
         {
-            o->FUN_00c91140();
+            o->UpdateFields_00c91140();
             return;
         }
     }
@@ -3893,7 +3894,7 @@ void hkpWorldOperationUtil_setRigidBodyMotionType(MotionObj* apMotionObj, int ai
                 if (pForm->m_iPendingOperationCount != 0)
                     pForm->FUN_00c91120();
                 if (pForm->m_iPendingOperationQueueCount == 1 && pForm->m_iQueuedOperationCount != 0)
-                    pForm->FUN_00c91140();
+                    pForm->UpdateFields_00c91140();
             }
             FreeVec((void**)&vec.data, &vec.size, &vec.cap, 8);
             FreeVec(&esi.data, &esi.size, &esi.cap, 4);

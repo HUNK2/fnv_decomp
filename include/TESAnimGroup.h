@@ -39,7 +39,7 @@ class TESAnimGroup : public NiRefObject
 
     void __thiscall FUN_005f22d0();
     void* __thiscall FUN_005f22a0(unsigned int flags);
-    void __thiscall FUN_00496910();
+    void __thiscall Animation_ResetVtableAndFinishScriptRunLock();
 
     struct AnimGroupSound
     {

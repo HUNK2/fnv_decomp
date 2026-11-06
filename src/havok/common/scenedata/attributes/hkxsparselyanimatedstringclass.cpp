@@ -29,10 +29,10 @@ struct S_00e01900_Router
 struct S_00e01900_Ref
 {
     void* m_ptr;
-    void FUN_00cb0c00() throw();
+    void Object_UpdateFields_00cb0c00() throw();
     ~S_00e01900_Ref() throw()
     {
-        FUN_00cb0c00();
+        Object_UpdateFields_00cb0c00();
     }
 };
 

@@ -120,7 +120,7 @@ struct WeatherEntryList
     void __thiscall Sort(int(__cdecl*)(WeatherEntry*, WeatherEntry*));
 };
 
-int __cdecl FUN_0076b2e0(WeatherEntry*, WeatherEntry*);
+int __cdecl Random_GetSign(WeatherEntry*, WeatherEntry*);
 
 struct FUN_007687b0_shell : WeatherEntryList
 {
@@ -130,7 +130,7 @@ struct FUN_007687b0_shell : WeatherEntryList
 // @fnv 0x007687b0
 void FUN_007687b0_shell::SortWeatherEntries()
 {
-    this->Sort(&FUN_0076b2e0);
+    this->Sort(&Random_GetSign);
 }
 
 // Returns the larger of the two unsigned byte arguments.
@@ -143,7 +143,8 @@ char MaxByte(unsigned char a, unsigned char b)
 extern "C" unsigned int __cdecl RandomUnsignedInt(unsigned int);
 
 // @fnv 0x0076b2e0
-unsigned int __cdecl FUN_0076b2e0()
+// src: GUESS 0x0076b2e0 (confidence: medium)
+unsigned int __cdecl Random_GetSign()
 {
     return RandomUnsignedInt(2) * 2 - 1;
 }
@@ -235,11 +236,12 @@ struct T7021b0
 };
 struct C7687d0
 {
-    void __thiscall FUN_007687d0();
+    void __thiscall DestroyStoredObject();
 };
 // Reads a pointer from this, and if it is non-null calls its DestroyOrFree with 3.
 // @fnv 0x007687d0
-void __thiscall C7687d0::FUN_007687d0()
+// src: GUESS 0x007687d0 (confidence: medium)
+void __thiscall C7687d0::DestroyStoredObject()
 {
     T7021b0* q;
     {
@@ -255,10 +257,11 @@ struct FUN_00768920_shell
 {
     void* p;
     void* q;
-    void __thiscall FUN_00768920(void* n);
+    void __thiscall AllocateElementStorage_00768920(void* n);
 };
 // @fnv 0x00768920
-void __thiscall FUN_00768920_shell::FUN_00768920(void* n)
+// src: GUESS 0x00768920 (confidence: medium)
+void __thiscall FUN_00768920_shell::AllocateElementStorage_00768920(void* n)
 {
     void* pOldBuffer = p;
     void* pNewBuffer;
@@ -346,13 +349,13 @@ struct STR_0076b200
     unsigned int f4;
     STR_0076b200();   // 0x0096a2d0 (zeroes both words)
     ~STR_0076b200();  // 0x00702220 (frees f0)
-    void FUN_00768920(unsigned int);
+    void AllocateElementStorage_00768920(unsigned int);
     STR_0076b200* AssignFrom(STR_0076b200*);
 };
 // @fnv 0x0076b200
 STR_0076b200* STR_0076b200::AssignFrom(STR_0076b200* apSource)
 {
-    FUN_00768920(apSource->f4);
+    AllocateElementStorage_00768920(apSource->f4);
     __memcpy(f0, apSource->f0, f4);
     return this;
 }
@@ -491,7 +494,7 @@ FUN_00768810::FUN_00768810(unsigned int aiSize)
     pItems = new STR_0076b200[aiSize];
 
     for (i = 0; i < uiSize; ++i)
-        pItems[i].FUN_00768920(uiSize);
+        pItems[i].AllocateElementStorage_00768920(uiSize);
 }
 
 struct FUN_007021b0_cls
@@ -591,7 +594,7 @@ struct MenuRowFactory
 };
 struct EntryListNode
 {
-    int __thiscall FUN_00559450();
+    int __thiscall Modelloader_GetReferencedThis();
     ValueRow** __thiscall NiTPointerListBase_NiTPointerAllocator_unsigned_int_Tile_GetNext(int* iterator);
     void __thiscall NiTPointerListBase_NiTPointerAllocator_unsigned_int_BSMultiBoundRoom_AddTail(ValueRow** item);
 };
@@ -601,7 +604,7 @@ void __thiscall HackingMenu::AddValueRows(unsigned int count, const unsigned int
 {
     ValueRow* item;
     {
-        int iterator = ((EntryListNode*)((char*)this + 0x168))->FUN_00559450();
+        int iterator = ((EntryListNode*)((char*)this + 0x168))->Modelloader_GetReferencedThis();
         while (iterator != 0)
         {
             item = *(((EntryListNode*)((char*)this + 0x168))->NiTPointerListBase_NiTPointerAllocator_unsigned_int_Tile_GetNext(&iterator));
@@ -621,7 +624,7 @@ struct Entry
 {
     unsigned char* data;
     unsigned int count;
-    int FUN_0076ae90();
+    int GetLargestLowByteFrequency();
     int FindByteIndices(unsigned int index, unsigned char* result);
 };
 struct FUN_007687d0
@@ -630,23 +633,24 @@ struct FUN_007687d0
     unsigned int count;
     ~FUN_007687d0();
     unsigned int FUN_00726070();
-    Entry* FUN_00559450();
-    FUN_007687d0 FUN_0076af90(unsigned char* result, int j);
+    Entry* Modelloader_GetReferencedThis();
+    FUN_007687d0 CopyWithPermutedRowsAndColumns(unsigned char* result, int j);
 };
 unsigned int __cdecl BSMAX(unsigned int a, unsigned int b);
 unsigned int __cdecl FUN_0042f5a0(unsigned int a, unsigned int b);
 struct Context
 {
-    unsigned int FUN_00769520(FUN_007687d0* input);
+    unsigned int ComputeRecursiveEntryValue_00769520(FUN_007687d0* input);
 };
 // Scans input entries for the smallest value, recursing into sub-entries when it exceeds 2, and returns the combined result plus one.
 // @fnv 0x00769520
-unsigned int Context::FUN_00769520(FUN_007687d0* input)
+// src: GUESS 0x00769520 (confidence: low)
+unsigned int Context::ComputeRecursiveEntryValue_00769520(FUN_007687d0* input)
 {
     unsigned char minimum = 255;
     for (unsigned int i = 0; i < input->FUN_00726070(); ++i)
     {
-        unsigned char current = input->FUN_00559450()[i].FUN_0076ae90();
+        unsigned char current = input->Modelloader_GetReferencedThis()[i].GetLargestLowByteFrequency();
         if (current < minimum)
             minimum = current;
     }
@@ -663,16 +667,16 @@ unsigned int Context::FUN_00769520(FUN_007687d0* input)
         unsigned int best = input->FUN_00726070();
         for (unsigned int outer = 0; outer < input->FUN_00726070(); ++outer)
         {
-            if (input->FUN_00559450()[outer].FUN_0076ae90() == minimum)
+            if (input->Modelloader_GetReferencedThis()[outer].GetLargestLowByteFrequency() == minimum)
             {
                 unsigned int worst = 0;
                 for (unsigned int inner = 0; inner < input->FUN_00726070(); ++inner)
                 {
                     unsigned char results[32];
-                    if (input->FUN_00559450()[outer].FindByteIndices(inner, results) == minimum)
+                    if (input->Modelloader_GetReferencedThis()[outer].FindByteIndices(inner, results) == minimum)
                     {
-                        FUN_007687d0 a = input->FUN_0076af90(results, minimum);
-                        unsigned int j = FUN_00769520(&a);
+                        FUN_007687d0 a = input->CopyWithPermutedRowsAndColumns(results, minimum);
+                        unsigned int j = ComputeRecursiveEntryValue_00769520(&a);
                         worst = BSMAX(worst, j);
                     }
                 }
@@ -922,7 +926,7 @@ struct FUN_0076ae90_cls
 {
     unsigned char* buf;
     unsigned int cnt;
-    unsigned int __thiscall FUN_0076ae90();
+    unsigned int __thiscall GetLargestLowByteFrequency();
 };
 
 void* __cdecl ourMemset(void*, int, unsigned int);
@@ -935,7 +939,8 @@ struct FUN_0076ae90_tbl
 
 // Counts occurrences of each byte below 0x20 in buf and folds the counts into a running result via MaxByte.
 // @fnv 0x0076ae90
-unsigned int FUN_0076ae90_cls::FUN_0076ae90()
+// src: GUESS 0x0076ae90 (confidence: medium)
+unsigned int FUN_0076ae90_cls::GetLargestLowByteFrequency()
 {
     unsigned int i;
     unsigned int j;
@@ -1330,7 +1335,7 @@ struct FileObj
 };
 struct EntryRow
 {
-    unsigned char* __thiscall FUN_00559450();
+    unsigned char* __thiscall Modelloader_GetReferencedThis();
 };
 struct MatrixWrapper : FUN_007687d0
 {
@@ -1461,14 +1466,14 @@ void __thiscall HackingMenu::SelectWordSet(unsigned int requestedCount)
         for (WordsView* col = ((WordsView*)((char*)this + 0x180)); col && *col->FUN_006815c0();
              col = col->FUN_00726070())
         {
-            ((EntryRow*)&bonus.FUN_00559450()[row])->FUN_00559450()[columnIndex] =
+            ((EntryRow*)&bonus.Modelloader_GetReferencedThis()[row])->Modelloader_GetReferencedThis()[columnIndex] =
                 (currentNode == col) ? 0xFF
                                      : this->CountMatchingChars(*currentNode->FUN_006815c0(), *col->FUN_006815c0());
             ++columnIndex;
         }
         ++row;
     }
-    *(void**)((char*)this + 0x1a0) = (void*)reinterpret_cast<Context*>(this)->FUN_00769520(&bonus);
+    *(void**)((char*)this + 0x1a0) = (void*)reinterpret_cast<Context*>(this)->ComputeRecursiveEntryValue_00769520(&bonus);
     *(void**)((char*)this + 0x1a0) = (void*)BSStringCapacityMaximum(4, *(unsigned int*)((char*)this + 0x1a0));
     *(void**)((char*)this + 0x1a4) = *(void**)((char*)this + 0x1a0);
 }
@@ -2439,7 +2444,7 @@ struct G7Row
 {
     unsigned char* pData;
     int iCount;
-    unsigned char* FUN_00559450();
+    unsigned char* Modelloader_GetReferencedThis();
 };
 struct G7Grid
 {
@@ -2448,22 +2453,23 @@ struct G7Grid
     G7Grid(unsigned char size);
     G7Grid(const G7Grid& other);
     ~G7Grid();
-    G7Row* FUN_00559450();
-    G7Grid FUN_0076af90(const unsigned char* order, unsigned char size);
+    G7Row* Modelloader_GetReferencedThis();
+    G7Grid CopyWithPermutedRowsAndColumns(const unsigned char* order, unsigned char size);
 };
 }
 using namespace grid76a;
 
 // Creates a new G7Grid by reordering rows and columns of this grid according to the given permutation order.
 // @fnv 0x0076af90
-G7Grid G7Grid::FUN_0076af90(const unsigned char* order, unsigned char size)
+// src: GUESS 0x0076af90 (confidence: high)
+G7Grid G7Grid::CopyWithPermutedRowsAndColumns(const unsigned char* order, unsigned char size)
 {
     G7Grid kResult(size);
     for (int i = 0; i < size; i++)
     {
         for (int j = 0; j < size; j++)
         {
-            kResult.FUN_00559450()[i].FUN_00559450()[j] = m_pRows[order[i]].FUN_00559450()[order[j]];
+            kResult.Modelloader_GetReferencedThis()[i].Modelloader_GetReferencedThis()[j] = m_pRows[order[i]].Modelloader_GetReferencedThis()[order[j]];
         }
     }
     return kResult;

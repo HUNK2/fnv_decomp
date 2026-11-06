@@ -167,7 +167,7 @@ void NiCullingProcess::BSCullingProcess_Process_00c4f070(NiNodeX* a, NiAVObject*
         m_pkVisibleSet = saved;
 }
 
-void __cdecl FUN_00a29680(const char* pcFormat, ...);
+void __cdecl Object_DoNothing(const char* pcFormat, ...);
 
 inline NiFixedString::operator const char*() const
 {
@@ -191,7 +191,7 @@ void BSCullingProcess::AppendVirtual(NiGeometry& kVisible)
     }
     if (!bRegistered)
     {
-        FUN_00a29680("NiCullingProcess::Append> Geometry failed RegisterObject, not rendering: %s\n",
+        Object_DoNothing("NiCullingProcess::Append> Geometry failed RegisterObject, not rendering: %s\n",
                      kVisible.GetName() ? kVisible.GetName() : "NULL");
     }
 }

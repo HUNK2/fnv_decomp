@@ -20,7 +20,7 @@ class FUN_00577110_cls
 {
   public:
     FUN_00577110_slot* GetSlot(unsigned int index, LocalBlock20* scratch);
-    void FUN_00577110();
+    void ProcessState_00577110();
 };
 
 class __declspec(align(16)) LocalBlock20
@@ -38,7 +38,8 @@ class FUN_00577110_slot
 };
 
 // @fnv 0x00577110
-void FUN_00577110_cls::FUN_00577110()
+// src: GUESS 0x00577110 (confidence: low)
+void FUN_00577110_cls::ProcessState_00577110()
 {
     LocalBlock20 local;
     local.Init();

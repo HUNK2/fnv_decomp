@@ -950,7 +950,7 @@ struct GlobalShell
 };
 struct StateShell
 {
-    int FUN_00559450();
+    int Modelloader_GetReferencedThis();
     void PathManager_CancelCurrentPathsAndPause_0(int);
 };
 struct InvShell
@@ -998,7 +998,7 @@ void TESActorBaseData::SetTemplateReference(::TESObjectREFR* ref)
             }
             ((RefShell*)ref)->reset(0, 1);
         }
-        if (GetPathManager()->FUN_00559450())
+        if (GetPathManager()->Modelloader_GetReferencedThis())
             GetPathManager()->PathManager_CancelCurrentPathsAndPause_0(((RefShell*)ref)->BSFile_GetDevice()->FUN_00418520());
         ((RefShell*)ref)->BSFile_GetDevice()->FUN_0041aeb0();
         ((RefShell*)ref)->BSFile_GetDevice()->ExtraDataList_RemoveScript();

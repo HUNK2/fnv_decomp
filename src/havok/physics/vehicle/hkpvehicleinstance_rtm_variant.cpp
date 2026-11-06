@@ -55,11 +55,12 @@ extern "C" double __cdecl sqrt(double);
 
 // hkpVehicleInstance.h does not declare this unit's wheel-impulse helper.
 struct WheelImpulseVehicle : hkpVehicleInstance {
-    void FUN_00e371d0(float deltaTime, int wheelNum, float force);
+    void ComputeValues_00e371d0(float deltaTime, int wheelNum, float force);
 };
 
 // @fnv 0x00e371d0
-void WheelImpulseVehicle::FUN_00e371d0(float deltaTime, int wheelNum, float force) {
+// src: GUESS 0x00e371d0 (confidence: low)
+void WheelImpulseVehicle::ComputeValues_00e371d0(float deltaTime, int wheelNum, float force) {
     float impulseScalar = force * deltaTime;
     hkpVehicleInstanceWheelInfo& wheelInfo = this->m_kWheelInfoArray.m_data[wheelNum];
     VehicleVector4 impulse;
@@ -183,11 +184,12 @@ static __forceinline LocalM128 fnv_normalize3(LocalM128 v)
 }
 
 struct FnvVehicle : hkpVehicleInstance {
-    void FUN_00e37350(int w_it, float linearForceAtWheel, float suspensionForceAtWheel, float estimatedCarSpeed, FnvAxleParams& axle_params);
+    void ComputeValues_00e37350(int w_it, float linearForceAtWheel, float suspensionForceAtWheel, float estimatedCarSpeed, FnvAxleParams& axle_params);
 };
 
 // @fnv 0x00e37350
-void FnvVehicle::FUN_00e37350(int w_it, float linearForceAtWheel, float suspensionForceAtWheel, float estimatedCarSpeed, FnvAxleParams& axle_params)
+// src: GUESS 0x00e37350 (confidence: low)
+void FnvVehicle::ComputeValues_00e37350(int w_it, float linearForceAtWheel, float suspensionForceAtWheel, float estimatedCarSpeed, FnvAxleParams& axle_params)
 {
     float threshold = DAT_0104da4c;
     float forwardLen2;
@@ -248,10 +250,11 @@ struct TorqueOutputRef {
     TorqueOutputRef(TorqueOutput* q) : p(q) {}
 };
 struct TorqueVehicle : hkpVehicleInstance {
-    void FUN_00e376e0(float dt, TorqueOutputRef output) const;
+    void UpdateFields_00e376e0(float dt, TorqueOutputRef output) const;
 };
 // @fnv 0x00e376e0
-void TorqueVehicle::FUN_00e376e0(float dt, TorqueOutputRef output) const
+// src: GUESS 0x00e376e0 (confidence: low)
+void TorqueVehicle::UpdateFields_00e376e0(float dt, TorqueOutputRef output) const
 {
     const hkpVehicleData* d = (const hkpVehicleData*)m_data;
     if (d->m_fTorqueFactor != 0.0f) {
@@ -274,7 +277,7 @@ inline void Vec4::mul4(float r) { float t = r; LocalM128 s = _mm_load_ss(&t); ge
 
 struct TimeInterval;
 
-struct Sub150 { void FUN_00d72030(void* p); };
+struct Sub150 { void InitializeFields_00d72030(void* p); };
 
 struct Out37
 {
@@ -375,11 +378,12 @@ void hkRigidMotionUtilApplyForcesAndBuildAccumulators(const TimeInterval& info, 
 // The shared vehicle has no declaration for this velocity-output helper.
 struct VehicleVelocityVehicle : hkpVehicleInstance
 {
-    void FUN_00e37740(const TimeInterval& info, Out37& out);
+    void UpdateFields_00e37740(const TimeInterval& info, Out37& out);
 };
 
 // @fnv 0x00e37740
-void VehicleVelocityVehicle::FUN_00e37740(const TimeInterval& info, Out37& out)
+// src: GUESS 0x00e37740 (confidence: low)
+void VehicleVelocityVehicle::UpdateFields_00e37740(const TimeInterval& info, Out37& out)
 {
     hkpMotion* motions[1];
     motions[0] = &m_pEntity->m_pMotionState;
@@ -394,7 +398,7 @@ void VehicleVelocityVehicle::FUN_00e37740(const TimeInterval& info, Out37& out)
     __declspec(align(16)) Vec4 angVel(_mm_mul_ps(angularFactor, ms->m_kDeltaAngle.m_vComponents));
 
     *(LocalM128*)&out.m_kGravity = m_data->m_vChassisUnitInertiaAndMassInv.m_vComponents;
-    out.m_sub150.FUN_00d72030(&out.unkd0);
+    out.m_sub150.InitializeFields_00d72030(&out.unkd0);
     out.m_sub170.hkVector4_setRotatedDir(&out.unk120, angVel);
     *(LocalM128*)&out.m_kTranslationalVelocity = *(LocalM128*)&linVel;
 }

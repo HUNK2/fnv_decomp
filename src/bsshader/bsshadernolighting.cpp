@@ -1521,7 +1521,7 @@ extern "C" unsigned int DAT_01202048;
 }
 
 extern unsigned char DAT_01011584[];
-void* __cdecl FUN_00aa13e0(unsigned int size);
+void* __cdecl Object_DispatchCommandFour(unsigned int size);
 
 inline void NiD3DShaderConstantMap::IncRefCount()
 {

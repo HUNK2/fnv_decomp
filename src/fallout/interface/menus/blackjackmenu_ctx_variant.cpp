@@ -24,7 +24,7 @@ struct FUN_007316f0_shell
 {
     void ClearField();
 };
-int __cdecl FUN_00733f80();
+int __cdecl Object_Return0x439();
 struct FUN_007399d0_shell
 {
     void BlackJackMenu_Shuffle();
@@ -71,7 +71,7 @@ struct FUN_00733f50_shell
     int m0;
     int m1;
     short m2;
-    FUN_00733f50_shell* FUN_00733f50();
+    FUN_00733f50_shell* ClearFields_00733f50();
 };
 struct FUN_00733f90_shell
 {
@@ -314,7 +314,7 @@ struct Tail1_cls
 };
 struct Mgr_cls
 {
-    Tail1_cls* __thiscall FUN_00559450(int, NiUpdateData*);
+    Tail1_cls* __thiscall Modelloader_GetReferencedThis(int, NiUpdateData*);
 };
 extern Mgr_cls DAT_011d9098;
 extern char str_01070e58[];
@@ -1528,7 +1528,7 @@ struct CardInfo
 };
 struct GlobalPtr
 {
-    NiNode* FUN_00559450();
+    NiNode* Modelloader_GetReferencedThis();
 };
 struct BlackjackMenuShell
 {

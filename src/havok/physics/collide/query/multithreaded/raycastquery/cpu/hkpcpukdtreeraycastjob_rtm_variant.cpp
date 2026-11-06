@@ -221,13 +221,14 @@ struct FloatMatrix3
     LocalM128 col2;
 };
 
-void __cdecl FUN_00e2ab00(InputStruct* input, FloatMatrix3* m1, FloatMatrix3* m2);
+void __cdecl Object_ProcessAndReturnValue_00e2ab00(InputStruct* input, FloatMatrix3* m1, FloatMatrix3* m2);
 void __cdecl hkKdTreeUtils_castRayBundleIterative(unsigned char* out, void* a1, FloatMatrix3* m1, FloatMatrix3* m2, FUN_00e4dde0* obj,
                           int flag);
 extern int DAT_011b3830[];
 
 // @fnv 0x00e2acf0
-void FUN_00e2acf0(void* a1, InputStruct* a2, void* a3, float* a4)
+// src: GUESS 0x00e2acf0 (confidence: low)
+void hkKdTreeUtils_castRayBundleIterative_ProcessEntries_00e2acf0(void* a1, InputStruct* a2, void* a3, float* a4)
 {
     if (!a1)
         return;
@@ -259,7 +260,7 @@ void FUN_00e2acf0(void* a1, InputStruct* a2, void* a3, float* a4)
 
     FloatMatrix3 m1;
     FloatMatrix3 m2;
-    FUN_00e2ab00(a2, &m1, &m2);
+    Object_ProcessAndReturnValue_00e2ab00(a2, &m1, &m2);
 
     unsigned char result;
     hkKdTreeUtils_castRayBundleIterative(&result, a1, &m1, &m2, &obj, DAT_011b3830[a2->count]);

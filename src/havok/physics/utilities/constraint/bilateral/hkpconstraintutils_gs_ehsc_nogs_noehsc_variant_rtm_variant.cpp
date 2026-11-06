@@ -298,7 +298,8 @@ __forceinline const hkVector4& hkpRigidBody::getCenterOfMassLocal()
 }
 
 // @fnv 0x00e5a800
-void __cdecl FUN_00e5a800(Instance* constraint)
+// src: GUESS 0x00e5a800 (confidence: low)
+void __cdecl Object_ProcessAndReturnValue_00e5a800(Instance* constraint)
 {
     SourceData* data = constraint->unk0c;
     hkpSetLocalTransformsConstraintAtom* transformsAtom = 0;

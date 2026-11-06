@@ -91,9 +91,9 @@ class LocalPoint3Ext
     float GetSquaredXYLength() const;
     float Length() const;
 
-    AimVector FUN_00439ef0(const AimVector& point) const;
-    LocalPoint3Ext FUN_00439ef0(const NiPoint3& point) const;
-    NiPoint3* FUN_00439ef0(NiPoint3* output, const NiPoint3& point) const;
+    AimVector SubtractIntoVector(const AimVector& point) const;
+    LocalPoint3Ext SubtractIntoVector(const NiPoint3& point) const;
+    NiPoint3* SubtractIntoVector(NiPoint3* output, const NiPoint3& point) const;
     AimVector FUN_00439e90(const AimVector& point) const;
     bool FUN_00439090(const AimVector& point) const;
     float FUN_00457990() const;
@@ -101,8 +101,8 @@ class LocalPoint3Ext
     void FUN_006815c0();
     float FUN_004a7290() const;
     float FUN_00457910();
-    LocalPoint3Ext& FUN_0063c8a0(const NiPoint3& point);
-    NiPoint3 FUN_004a0bd0() const;
+    LocalPoint3Ext& ComputeValue_0063c8a0(const NiPoint3& point);
+    NiPoint3 GetNegatedVector() const;
 };
 #include "../../../../include/NiPoint3.h"
 #include "../../../../include/Setting.h"
@@ -3287,7 +3287,7 @@ int State057::UpdateDirection(Actor* actor, unsigned direction)
         return 4;
     else if (!active && direction == 0)
     {
-        NiPoint3 f = position.FUN_00439ef0(*(NiPoint3*)((const Actor*)actor)->GetPos());
+        NiPoint3 f = position.SubtractIntoVector(*(NiPoint3*)((const Actor*)actor)->GetPos());
         if (f.FUN_00457990() < *DAT_011cf968.Setting_Float_00403e20())
             return 4;
     }
@@ -3676,7 +3676,7 @@ struct B006815c0
 {
     float unk00, unk04, unk08;
     B006815c0();
-    ZPoint FUN_00439ef0(const ZPoint&) const;
+    ZPoint SubtractIntoVector(const ZPoint&) const;
 };
 struct ZAnim
 {
@@ -4134,7 +4134,7 @@ void ZMelee::UpdateMeleeCombat()
         else if (!actor2->Actor_IsStoppingMovement() && actor2->Actor_GetCurrentPathfindingGoal(&kPos))
         {
             float _radius = CombatUtilities_GetAttackerTargetExtentSum(actor2, target2);
-            float delta = kPos.FUN_00439ef0(target2->Pos()).NiPoint3_XYLength() - _radius;
+            float delta = kPos.SubtractIntoVector(target2->Pos()).NiPoint3_XYLength() - _radius;
             ready3 = IsWithinThreshold(delta, kReach, 0);
         }
         if (!ready3)
@@ -4809,7 +4809,7 @@ struct Ptr
     Avoid* p;
     Ptr(Avoid*);
     ~Ptr();
-    Avoid* FUN_00559450();
+    Avoid* Modelloader_GetReferencedThis();
 };
 struct Shape
 {
@@ -4857,10 +4857,10 @@ void C009ce5b0::CombatProcedureAttackMelee_MoveToFaceTargetLocation(NiPoint3* ap
         CombatUtilities_CalculateLOS(actor2, target, apPosition, target->v07d(), 0, 30))
     {
         Ptr avoidX(new Avoid);
-        avoidX.FUN_00559450()->AppendNode(Shape(target->v07d(), *((Setting*)&DAT_011cf4e0)->Setting_Float_00403e20(),
+        avoidX.Modelloader_GetReferencedThis()->AppendNode(Shape(target->v07d(), *((Setting*)&DAT_011cf4e0)->Setting_Float_00403e20(),
                                                   *((Setting*)&DAT_011cf120)->Setting_Float_00403e20()));
         actor2->PathToLocation(&request, &location.FUN_005c3420(), (unsigned)location.FUN_006dd4f0(), (unsigned)location.FUN_00441110(), 5.0f,
-                             avoidX.FUN_00559450());
+                             avoidX.Modelloader_GetReferencedThis());
     }
     else
     {

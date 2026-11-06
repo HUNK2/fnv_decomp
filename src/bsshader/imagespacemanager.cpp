@@ -615,7 +615,8 @@ void __fastcall InitTVShader(Obj_00b8c0e0* pObj, int)
 
 int __cdecl ImageSpaceEffectRadialBlur_GetBoundParams(int, int, int*);
 // @fnv 0x00b8b1c0
-int __stdcall FUN_00b8b1c0(int a, int b)
+// src: GUESS 0x00b8b1c0 (confidence: medium)
+int __stdcall Object_ImageSpaceEffectRadialBlur_GetBoundParams_Thunk(int a, int b)
 {
     return ImageSpaceEffectRadialBlur_GetBoundParams(a, b, &b);
 }
@@ -2068,7 +2069,7 @@ void ImageSpaceManager::ApplyParamModifier_00b8cb30(int mode, int aiIndex, float
 // the vtables and the adjusting thunk.
 struct PrimaryBase
 {
-    virtual void FUN_00b8bd80();
+    virtual void AdjustThisAndForward_00b8bd80();
     int unk04;
     int unk08;
     int unk0C;
@@ -2099,14 +2100,15 @@ struct PrimaryBase
 
 struct SecondaryBase
 {
-    virtual void FUN_00b8bd80();
+    virtual void AdjustThisAndForward_00b8bd80();
 };
 
 struct Derived : PrimaryBase, SecondaryBase
 {
     Derived();
 // @fnv 0x00b8bd80
-    virtual void FUN_00b8bd80();
+// src: GUESS 0x00b8bd80 (confidence: low)
+    virtual void AdjustThisAndForward_00b8bd80();
 };
 
 Derived::Derived()
@@ -2163,10 +2165,10 @@ Derived::Derived()
 }  // namespace fnv_00b8bfd0
 
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+void* __cdecl Object_DispatchCommandFour(unsigned int size);
 inline void* __cdecl operator new(unsigned int size)
 {
-    return FUN_00aa13e0(size);
+    return Object_DispatchCommandFour(size);
 }
 void __cdecl operator delete(void*);
 

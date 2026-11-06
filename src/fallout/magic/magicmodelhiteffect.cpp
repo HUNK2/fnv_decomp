@@ -588,7 +588,7 @@ class FUN_0081cc70_refvt
 
 struct FUN_0081cc70_helper
 {
-    NiAVObject* FUN_00559450();
+    NiAVObject* Modelloader_GetReferencedThis();
 };
 
 NiTimeController__CycleType __fastcall GetSequenceCycleType(NiControllerSequence* sequence);
@@ -606,12 +606,12 @@ bool MagicModelHitEffect::Update(float afTime)
     {
         return false;
     }
-    if (((FUN_0081cc70_helper*)&spRetainedObject)->FUN_00559450() != 0)
+    if (((FUN_0081cc70_helper*)&spRetainedObject)->Modelloader_GetReferencedThis() != 0)
     {
         AttachToTarget();
         SkyShaderProperty* prop = NiObject_DynamicCast(
             &DAT_011f36ac,
-            reinterpret_cast<NiProperty*>(((NiObjectNET*)((FUN_0081cc70_helper*)&spRetainedObject)->FUN_00559450())->GetControllers()));
+            reinterpret_cast<NiProperty*>(((NiObjectNET*)((FUN_0081cc70_helper*)&spRetainedObject)->Modelloader_GetReferencedThis())->GetControllers()));
         if (prop != 0)
         {
             NiControllerSequence* seq =
@@ -670,7 +670,7 @@ struct Form505
 
 struct Holder505
 {
-    Node505* FUN_00559450();
+    Node505* Modelloader_GetReferencedThis();
 };
 extern B006815c0 DAT_011f426c;
 // The base node-attachment helper takes the retained object as an argument.
@@ -693,7 +693,7 @@ void MagicModelHitEffect::AttachToTarget()
         node = reinterpret_cast<Node505*>(pTarget->GetNiNode());
     }
     reinterpret_cast<MagicHitEffectNodeAttacher*>(this)->AttachNode(
-        reinterpret_cast<Holder505*>(&spRetainedObject)->FUN_00559450());
+        reinterpret_cast<Holder505*>(&spRetainedObject)->Modelloader_GetReferencedThis());
     if (node)
     {
         B006815c0 vecPosition;
@@ -727,10 +727,10 @@ void MagicModelHitEffect::AttachToTarget()
         {
             vecPosition = node->NiAVObject_GetWorldTranslate();
         }
-        if (reinterpret_cast<Holder505*>(&spRetainedObject)->FUN_00559450())
+        if (reinterpret_cast<Holder505*>(&spRetainedObject)->Modelloader_GetReferencedThis())
         {
-            reinterpret_cast<Holder505*>(&spRetainedObject)->FUN_00559450()->NiAVObject_SetTranslate(vecPosition);
-            reinterpret_cast<Holder505*>(&spRetainedObject)->FUN_00559450()->SetRotate_0043fa80(node->NiAVObject_GetRotate_006a9540());
+            reinterpret_cast<Holder505*>(&spRetainedObject)->Modelloader_GetReferencedThis()->NiAVObject_SetTranslate(vecPosition);
+            reinterpret_cast<Holder505*>(&spRetainedObject)->Modelloader_GetReferencedThis()->SetRotate_0043fa80(node->NiAVObject_GetRotate_006a9540());
         }
     }
 }
@@ -739,7 +739,7 @@ void MagicModelHitEffect::AttachToTarget()
 struct ObjectPtrLocal
 {
     NiAVObject* object;
-    NiAVObject* FUN_00559450();
+    NiAVObject* Modelloader_GetReferencedThis();
 };
 struct SaveManagerLocal
 {
@@ -774,11 +774,11 @@ void MagicModelHitEffect::FinishLoadGameTES(ActiveEffect* effect, TESObjectREFR*
     DAT_011de45c->FUN_00600ab0(previous);
     unsigned short version3;
     DAT_011de45c->TESSaveLoadGame_LoadGameDataOLD(&version3, 2);
-    if (reinterpret_cast<ObjectPtrLocal*>(&spRetainedObject)->FUN_00559450())
+    if (reinterpret_cast<ObjectPtrLocal*>(&spRetainedObject)->Modelloader_GetReferencedThis())
     {
         void* controller4 = NiObject_DynamicCast(
             &DAT_011f36ac,
-            reinterpret_cast<NiObjectNET*>(reinterpret_cast<ObjectPtrLocal*>(&spRetainedObject)->FUN_00559450())
+            reinterpret_cast<NiObjectNET*>(reinterpret_cast<ObjectPtrLocal*>(&spRetainedObject)->Modelloader_GetReferencedThis())
                 ->GetControllers());
         if (controller4)
         {
@@ -788,7 +788,7 @@ void MagicModelHitEffect::FinishLoadGameTES(ActiveEffect* effect, TESObjectREFR*
             if (actor4 && effect && (aProcess = dynamic_cast<MiddleHighProcess*>(actor4->MobileObject::FUN_008d8520())) &&
                 static_cast<const MiddleHighProcess*>(aProcess)->GetAnimation())
                 time_ = static_cast<const MiddleHighProcess*>(aProcess)->GetAnimation()->FUN_00453700();
-            TESObjectREFR_LoadControllerManager(controller4, reinterpret_cast<ObjectPtrLocal*>(&spRetainedObject)->FUN_00559450(), time_);
+            TESObjectREFR_LoadControllerManager(controller4, reinterpret_cast<ObjectPtrLocal*>(&spRetainedObject)->Modelloader_GetReferencedThis(), time_);
         }
     }
     DAT_011de45c->FUN_00600ab0(saved);

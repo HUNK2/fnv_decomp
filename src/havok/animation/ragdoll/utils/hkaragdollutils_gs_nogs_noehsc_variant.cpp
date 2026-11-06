@@ -10,7 +10,7 @@
 extern "C"
 {
     int __cdecl hkaRagdollUtils_reorderForRagdoll(void*, void*);
-    int __cdecl FUN_00ce9db0(void*, void*);
+    int __cdecl HkaragdollutilsFpfast_ProcessEntries_00ce9db0(void*, void*);
     int __cdecl alignConstraintSpacesToChildren(void*);
 }
 
@@ -20,7 +20,7 @@ int __cdecl hkaRagdollUtils_reorderAndAlignForRagdoll(void* p1, void* p2, void* 
 {
     if (hkaRagdollUtils_reorderForRagdoll(p1, p2))
         return 1;
-    if (FUN_00ce9db0(p2, p3))
+    if (HkaragdollutilsFpfast_ProcessEntries_00ce9db0(p2, p3))
         return 1;
     if (alignConstraintSpacesToChildren(p2))
         return 1;

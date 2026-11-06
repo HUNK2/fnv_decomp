@@ -502,7 +502,7 @@ struct Container
     hkReferencedObject** data;
     int count;
     unsigned capacityFlags;
-    void FUN_00d56800();
+    void ProcessEntries_00d56800();
 };
 struct FUN_00d55b40_Shape
 {
@@ -581,8 +581,8 @@ struct bhkShapeOwner
     int unk_b4;
     int GetShapeKey();
 };
-void __stdcall FUN_00d554e0(int a);
-void __stdcall FUN_00d554f0(int a0);
+void __stdcall Object_DoNothing_00d554e0(int a);
+void __stdcall hkpExtendedMeshShape_DoNothing(int a0);
 struct ElemD562
 {
     unsigned char m_b0;

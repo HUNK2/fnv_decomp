@@ -48,10 +48,11 @@ struct Inner
 struct This
 {
     Inner* object;
-    void FUN_00dba690();
+    void ForwardCall_00dba690();
 };
 // @fnv 0x00dba690
-void This::FUN_00dba690()
+// src: GUESS 0x00dba690 (confidence: low)
+void This::ForwardCall_00dba690()
 {
     object->v3();
 }
@@ -114,10 +115,11 @@ struct Target
 struct Wrapper
 {
     Target* target;
-    void FUN_00dba6f0();
+    void ForwardCall_00dba6f0();
 };
 // @fnv 0x00dba6f0
-void Wrapper::FUN_00dba6f0()
+// src: GUESS 0x00dba6f0 (confidence: low)
+void Wrapper::ForwardCall_00dba6f0()
 {
     target->invoke();
 }
@@ -139,10 +141,11 @@ struct HkdataobjectInterfaceView
 struct FUN_00dba730_cls
 {
     HkdataobjectInterfaceView* ptr;
-    void FUN_00dba730();
+    void ForwardCall_00dba730();
 };
 // @fnv 0x00dba730
-void FUN_00dba730_cls::FUN_00dba730()
+// src: GUESS 0x00dba730 (confidence: low)
+void FUN_00dba730_cls::ForwardCall_00dba730()
 {
     ptr->f9();
 }
@@ -167,11 +170,12 @@ struct FUN_00dba740_Owner
 {
     FUN_00dba740_Target* unk00;
 
-    void FUN_00dba740(int a);
+    void InvokeVirtualMethod_00dba740(int a);
 };
 
 // @fnv 0x00dba740
-void FUN_00dba740_Owner::FUN_00dba740(int a)
+// src: GUESS 0x00dba740 (confidence: low)
+void FUN_00dba740_Owner::InvokeVirtualMethod_00dba740(int a)
 {
     unk00->unk2C(a);
 }
@@ -203,10 +207,11 @@ struct S_00dba890_Impl
 struct S_00dba890_Wrap
 {
     S_00dba890_Impl* m_pClassImpl;
-    S_00dba890_Vec FUN_00dba890(int i);
+    S_00dba890_Vec Get_Thunk(int i);
 };
 // @fnv 0x00dba890
-S_00dba890_Vec S_00dba890_Wrap::FUN_00dba890(int i)
+// src: GUESS 0x00dba890 (confidence: medium)
+S_00dba890_Vec S_00dba890_Wrap::Get_Thunk(int i)
 {
     return m_pClassImpl->Get(i);
 }
@@ -226,11 +231,12 @@ struct DBA8C0Owner
 {
     DBA8C0Target* unk00;
 
-    void FUN_00dba8c0(int a);
+    void InvokeVirtualMethod_00dba8c0(int a);
 };
 
 // @fnv 0x00dba8c0
-void DBA8C0Owner::FUN_00dba8c0(int a)
+// src: GUESS 0x00dba8c0 (confidence: low)
+void DBA8C0Owner::InvokeVirtualMethod_00dba8c0(int a)
 {
     unk00->unk18(a);
 }
@@ -393,10 +399,11 @@ struct Wrapper
 {
     Delegate* delegate;
     void* value;
-    void FUN_00dbaa00();
+    void InvokeVirtualMethod_00dbaa00();
 };
 // @fnv 0x00dbaa00
-void Wrapper::FUN_00dbaa00()
+// src: GUESS 0x00dbaa00 (confidence: low)
+void Wrapper::InvokeVirtualMethod_00dbaa00()
 {
     delegate->Target(value);
 }
@@ -461,10 +468,11 @@ struct AudioHandle
 {
     AudioInterface* system;
     void* object;
-    void FUN_00dbab10(unsigned int, unsigned int);
+    void Apply_Thunk(unsigned int, unsigned int);
 };
 // @fnv 0x00dbab10
-void AudioHandle::FUN_00dbab10(unsigned int a, unsigned int b)
+// src: GUESS 0x00dbab10 (confidence: medium)
+void AudioHandle::Apply_Thunk(unsigned int a, unsigned int b)
 {
     system->Apply(object, a, b);
 }
@@ -497,10 +505,11 @@ struct S_00dbab30_Ref
 {
     S_00dbab30_Target* m_target;
     int m_04;
-    int FUN_00dbab30(int b);
+    int ForwardCall_00dbab30(int b);
 };
 // @fnv 0x00dbab30
-int S_00dbab30_Ref::FUN_00dbab30(int b)
+// src: GUESS 0x00dbab30 (confidence: low)
+int S_00dbab30_Ref::ForwardCall_00dbab30(int b)
 {
     return m_target->unk50(m_04, b);
 }
@@ -516,11 +525,12 @@ struct FUN_00dbab70_obj
 struct FUN_00dbab70_cls
 {
     FUN_00dbab70_obj* m_pEntryObject;
-    void FUN_00dbab70();
+    void ReleaseStorage_00dbab70();
 };
 
 // @fnv 0x00dbab70
-void FUN_00dbab70_cls::FUN_00dbab70()
+// src: GUESS 0x00dbab70 (confidence: low)
+void FUN_00dbab70_cls::ReleaseStorage_00dbab70()
 {
     FUN_00dbab70_obj* pObj = m_pEntryObject;
     if (pObj)
@@ -543,11 +553,12 @@ struct ResultPair
 struct FUN_00dbabb0_cls
 {
     void* m_pIntegerData;
-    ResultPair FUN_00dbabb0(void* apExtra);
+    ResultPair CreateResultPair(void* apExtra);
 };
 
 // @fnv 0x00dbabb0
-ResultPair FUN_00dbabb0_cls::FUN_00dbabb0(void* apExtra)
+// src: GUESS 0x00dbabb0 (confidence: medium)
+ResultPair FUN_00dbabb0_cls::CreateResultPair(void* apExtra)
 {
     return ResultPair(m_pIntegerData, apExtra);
 }
@@ -562,11 +573,12 @@ struct S_00dbabd0_Inner
 struct S_00dbabd0
 {
     S_00dbabd0_Inner* m_inner;
-    void FUN_00dbabd0();
+    void ForwardCall_00dbabd0();
 };
 
 // @fnv 0x00dbabd0
-void S_00dbabd0::FUN_00dbabd0()
+// src: GUESS 0x00dbabd0 (confidence: low)
+void S_00dbabd0::ForwardCall_00dbabd0()
 {
     m_inner->v2();
 }
@@ -584,10 +596,11 @@ struct Target
 struct Wrapper
 {
     Target* target;
-    void FUN_00dbac00();
+    void InvokeVirtualMethod_00dbac00();
 };
 // @fnv 0x00dbac00
-void Wrapper::FUN_00dbac00()
+// src: GUESS 0x00dbac00 (confidence: low)
+void Wrapper::InvokeVirtualMethod_00dbac00()
 {
     target->Invoke();
 }
@@ -601,10 +614,11 @@ struct Inner_dbac40
 struct Outer_dbac40
 {
     Inner_dbac40* p;
-    void FUN_00dbac40();
+    void InvokeVirtualMethod_00dbac40();
 };
 // @fnv 0x00dbac40
-void Outer_dbac40::FUN_00dbac40()
+// src: GUESS 0x00dbac40 (confidence: low)
+void Outer_dbac40::InvokeVirtualMethod_00dbac40()
 {
     p->v1();
 }
@@ -627,10 +641,11 @@ struct FUN_00dbac70_cls
 {
     dbac70_Target* m_p;
     int m_f;
-    void __thiscall FUN_00dbac70();
+    void __thiscall ForwardCall_00dbac70();
 };
 // @fnv 0x00dbac70
-void FUN_00dbac70_cls::FUN_00dbac70()
+// src: GUESS 0x00dbac70 (confidence: low)
+void FUN_00dbac70_cls::ForwardCall_00dbac70()
 {
     m_p->v10(m_f);
 }
@@ -769,10 +784,11 @@ struct FUN_00dbad00_cls
 {
     dbad00_Target* m_p;
     int m_f;
-    void __thiscall FUN_00dbad00(int* a);
+    void __thiscall InvokeVirtualMethod_00dbad00(int* a);
 };
 // @fnv 0x00dbad00
-void FUN_00dbad00_cls::FUN_00dbad00(int* piValue)
+// src: GUESS 0x00dbad00 (confidence: low)
+void FUN_00dbad00_cls::InvokeVirtualMethod_00dbad00(int* piValue)
 {
     m_p->v21(m_f, *piValue);
 }
@@ -799,10 +815,11 @@ struct AudioHandle
 {
     AudioInterface* system;
     void* object;
-    void FUN_00dbad20(float);
+    void Apply_Thunk(float);
 };
 // @fnv 0x00dbad20
-void AudioHandle::FUN_00dbad20(float value)
+// src: GUESS 0x00dbad20 (confidence: medium)
+void AudioHandle::Apply_Thunk(float value)
 {
     system->Apply(object, value);
 }
@@ -832,10 +849,11 @@ struct Wrapper
 {
     Delegate* delegate;
     void* value;
-    void FUN_00dbad40(void*);
+    void InvokeVirtualMethod_00dbad40(void*);
 };
 // @fnv 0x00dbad40
-void Wrapper::FUN_00dbad40(void* arg)
+// src: GUESS 0x00dbad40 (confidence: low)
+void Wrapper::InvokeVirtualMethod_00dbad40(void* arg)
 {
     delegate->Target(value, arg);
 }
@@ -858,10 +876,11 @@ struct FUN_00dbad60_cls
 {
     dbad60_Target* m_p;
     int m_f;
-    void __thiscall FUN_00dbad60(int a, int b);
+    void __thiscall InvokeVirtualMethod_00dbad60(int a, int b);
 };
 // @fnv 0x00dbad60
-void FUN_00dbad60_cls::FUN_00dbad60(int aiArg, int aiUnused)
+// src: GUESS 0x00dbad60 (confidence: low)
+void FUN_00dbad60_cls::InvokeVirtualMethod_00dbad60(int aiArg, int aiUnused)
 {
     m_p->v9(m_f, aiArg);
 }
@@ -923,11 +942,12 @@ struct DBADC0Binding
     DBADC0Target* m_target;
     void* m_data;
 
-    void FUN_00dbadc0(void* arg);
+    void InvokeVirtualMethod_00dbadc0(void* arg);
 };
 
 // @fnv 0x00dbadc0
-void DBADC0Binding::FUN_00dbadc0(void* arg)
+// src: GUESS 0x00dbadc0 (confidence: low)
+void DBADC0Binding::InvokeVirtualMethod_00dbadc0(void* arg)
 {
     m_target->call(m_data, arg);
 }
@@ -1028,13 +1048,13 @@ struct FUN_00dbaf10_cls
     FUN_00dbaf10_callback* vtbl;
     void* p1;
     void* p2;
-    int __thiscall FUN_00dba6f0();
+    int __thiscall ForwardCall_00dba6f0();
     void __thiscall DispatchRecords(void* records);
 };
 // @fnv 0x00dbaf10
 void __thiscall FUN_00dbaf10_cls::DispatchRecords(void* records)
 {
-    int count = FUN_00dba6f0();
+    int count = ForwardCall_00dba6f0();
     int index = 0;
     if (count > 0)
     {
@@ -1050,7 +1070,8 @@ void __thiscall FUN_00dbaf10_cls::DispatchRecords(void* records)
 
 extern char __stdcall Equals(void*);
 // @fnv 0x00dbaf90
-bool __stdcall FUN_00dbaf90(void* param_1)
+// src: GUESS 0x00dbaf90 (confidence: low)
+bool __stdcall Hkdataobject_UpdateState_00dbaf90(void* param_1)
 {
     char result = Equals(param_1);
     return result == 0;
@@ -1097,11 +1118,12 @@ DBAFB0Result DBAFB0Handle::GetResult()
 struct FUN_00dba650_cls
 {
     unsigned int m_00;
-    FUN_00dba650_cls* FUN_00dba650(unsigned int value);
+    FUN_00dba650_cls* SetField00(unsigned int value);
 };
 
 // @fnv 0x00dba650
-FUN_00dba650_cls* FUN_00dba650_cls::FUN_00dba650(unsigned int value)
+// src: GUESS 0x00dba650 (confidence: low)
+FUN_00dba650_cls* FUN_00dba650_cls::SetField00(unsigned int value)
 {
     this->m_00 = value;
     return this;
@@ -1110,10 +1132,11 @@ FUN_00dba650_cls* FUN_00dba650_cls::FUN_00dba650(unsigned int value)
 struct CpuObject
 {
     int value;
-    bool FUN_00dba670();
+    bool TestValue();
 };
 // @fnv 0x00dba670
-bool CpuObject::FUN_00dba670()
+// src: GUESS 0x00dba670 (confidence: low)
+bool CpuObject::TestValue()
 {
     return value == 0;
 }
@@ -1174,11 +1197,12 @@ struct Sub_dba700
 struct Owner_dba700
 {
     Sub_dba700* m_target;
-    void __thiscall FUN_00dba700(void* a);
+    void __thiscall InvokeVirtualMethod_00dba700(void* a);
 };
 
 // @fnv 0x00dba700
-void __thiscall Owner_dba700::FUN_00dba700(void* a)
+// src: GUESS 0x00dba700 (confidence: low)
+void __thiscall Owner_dba700::InvokeVirtualMethod_00dba700(void* a)
 {
     m_target->v20(a);
 }
@@ -1197,10 +1221,11 @@ struct FnvCpu_FUN_00dba710_CpuInterface
 struct FnvCpu_FUN_00dba710_CpuOwner
 {
     FnvCpu_FUN_00dba710_CpuInterface* target;
-    void FUN_00dba710(int arg0);
+    void ForwardCall_00dba710(int arg0);
 };
 // @fnv 0x00dba710
-void FnvCpu_FUN_00dba710_CpuOwner::FUN_00dba710(int arg0)
+// src: GUESS 0x00dba710 (confidence: low)
+void FnvCpu_FUN_00dba710_CpuOwner::ForwardCall_00dba710(int arg0)
 {
     target->Invoke(arg0);
 }
@@ -1288,11 +1313,12 @@ struct DBA7F0Ref
 {
     DBA7F0Object* m_pRetainedObject;
 
-    void FUN_00dba7f0();
+    void ReleaseStorage_00dba7f0();
 };
 
 // @fnv 0x00dba7f0
-void DBA7F0Ref::FUN_00dba7f0()
+// src: GUESS 0x00dba7f0 (confidence: low)
+void DBA7F0Ref::ReleaseStorage_00dba7f0()
 {
     DBA7F0Object* object = m_pRetainedObject;
     if (object)
@@ -1355,11 +1381,12 @@ struct VTarget
 struct FUN_00dba870_cls
 {
     VTarget* m_pFlagTarget;
-    void* __thiscall FUN_00dba870(void* a, void* b);
+    void* __thiscall UpdateState_00dba870(void* a, void* b);
 };
 
 // @fnv 0x00dba870
-void* FUN_00dba870_cls::FUN_00dba870(void* a, void* b)
+// src: GUESS 0x00dba870 (confidence: low)
+void* FUN_00dba870_cls::UpdateState_00dba870(void* a, void* b)
 {
     VTarget* target = this->m_pFlagTarget;
     target->v3(a, b);
@@ -1379,11 +1406,12 @@ struct FUN_00dba8b0_tgt
 struct FUN_00dba8b0_cls
 {
     FUN_00dba8b0_tgt* m_00;
-    void __thiscall FUN_00dba8b0();
+    void __thiscall ForwardCall_00dba8b0();
 };
 
 // @fnv 0x00dba8b0
-void FUN_00dba8b0_cls::FUN_00dba8b0()
+// src: GUESS 0x00dba8b0 (confidence: low)
+void FUN_00dba8b0_cls::ForwardCall_00dba8b0()
 {
     m_00->unk14();
 }
@@ -1402,10 +1430,11 @@ struct FnvCpu_FUN_00dba8d0_CpuInterface
 struct FnvCpu_FUN_00dba8d0_CpuOwner
 {
     FnvCpu_FUN_00dba8d0_CpuInterface* target;
-    void FUN_00dba8d0(int arg0);
+    void ForwardCall_00dba8d0(int arg0);
 };
 // @fnv 0x00dba8d0
-void FnvCpu_FUN_00dba8d0_CpuOwner::FUN_00dba8d0(int arg0)
+// src: GUESS 0x00dba8d0 (confidence: low)
+void FnvCpu_FUN_00dba8d0_CpuOwner::ForwardCall_00dba8d0(int arg0)
 {
     target->Invoke(arg0);
 }
@@ -1447,11 +1476,12 @@ struct Sub_dba8e0
 struct Owner_dba8e0
 {
     Sub_dba8e0* m_target;
-    void __thiscall FUN_00dba8e0(void* a);
+    void __thiscall InvokeVirtualMethod_00dba8e0(void* a);
 };
 
 // @fnv 0x00dba8e0
-void __thiscall Owner_dba8e0::FUN_00dba8e0(void* a)
+// src: GUESS 0x00dba8e0 (confidence: low)
+void __thiscall Owner_dba8e0::InvokeVirtualMethod_00dba8e0(void* a)
 {
     m_target->v20(a);
 }
@@ -1474,11 +1504,12 @@ struct FUN_00dba8f0_cls
 {
     Dispatch* m_pDispatch;
 
-    void* FUN_00dba8f0(void* apFirst, void* apSecond);
+    void* EvaluateValue_00dba8f0(void* apFirst, void* apSecond);
 };
 
 // @fnv 0x00dba8f0
-void* FUN_00dba8f0_cls::FUN_00dba8f0(void* apFirst, void* apSecond)
+// src: GUESS 0x00dba8f0 (confidence: low)
+void* FUN_00dba8f0_cls::EvaluateValue_00dba8f0(void* apFirst, void* apSecond)
 {
     m_pDispatch->V24(apFirst, apSecond);
     return apFirst;
@@ -1495,10 +1526,11 @@ struct FnvCpu_FUN_00dba910_CpuInterface
 struct FnvCpu_FUN_00dba910_CpuOwner
 {
     FnvCpu_FUN_00dba910_CpuInterface* target;
-    void FUN_00dba910(int arg0);
+    void ForwardCall_00dba910(int arg0);
 };
 // @fnv 0x00dba910
-void FnvCpu_FUN_00dba910_CpuOwner::FUN_00dba910(int arg0)
+// src: GUESS 0x00dba910 (confidence: low)
+void FnvCpu_FUN_00dba910_CpuOwner::ForwardCall_00dba910(int arg0)
 {
     target->Invoke(arg0);
 }
@@ -1525,11 +1557,12 @@ struct S_00dba990
     S_00dba990_Target* m_pFlagTarget;
     void* m_arg;
 
-    int FUN_00dba990();
+    int ForwardCall_00dba990();
 };
 
 // @fnv 0x00dba990
-int S_00dba990::FUN_00dba990()
+// src: GUESS 0x00dba990 (confidence: low)
+int S_00dba990::ForwardCall_00dba990()
 {
     return m_pFlagTarget->v12(m_arg);
 }
@@ -1556,12 +1589,13 @@ struct FUN_00dba9d0_cls
 {
     InnerObj* m_00;
     void* m_04;
-    void* __thiscall FUN_00dba9d0(FUN_00dba760_cls* arg);
+    void* __thiscall GetWrappedDataObject(FUN_00dba760_cls* arg);
 };
 
 // Calls v13 on m_00 with m_04, passes the result to arg's FUN_00dba760, and returns arg.
 // @fnv 0x00dba9d0
-void* __thiscall FUN_00dba9d0_cls::FUN_00dba9d0(FUN_00dba760_cls* arg)
+// src: GUESS 0x00dba9d0 (confidence: medium)
+void* __thiscall FUN_00dba9d0_cls::GetWrappedDataObject(FUN_00dba760_cls* arg)
 {
     void* result = m_00->v13(m_04);
 
@@ -1595,11 +1629,12 @@ struct FUN_00dbaa30_cls
 {
     FUN_00dbaa30_target* m_00;
     void* m_04;
-    void __thiscall FUN_00dbaa30(int a1);
+    void __thiscall ForwardCall_00dbaa30(int a1);
 };
 
 // @fnv 0x00dbaa30
-void __thiscall FUN_00dbaa30_cls::FUN_00dbaa30(int aiValue)
+// src: GUESS 0x00dbaa30 (confidence: low)
+void __thiscall FUN_00dbaa30_cls::ForwardCall_00dbaa30(int aiValue)
 {
     m_00->v40(m_04, (__int64)aiValue);
 }
@@ -1711,11 +1746,12 @@ struct FUN_00dbaa90_cls
     SpawnedDispatcher* m_pDispatcher;
     void* m_pFlagTarget;
 
-    void FUN_00dbaa90(int a, int b);
+    void ForwardCall_00dbaa90(int a, int b);
 };
 
 // @fnv 0x00dbaa90
-void FUN_00dbaa90_cls::FUN_00dbaa90(int aiArg1, int aiArg2)
+// src: GUESS 0x00dbaa90 (confidence: low)
+void FUN_00dbaa90_cls::ForwardCall_00dbaa90(int aiArg1, int aiArg2)
 {
     m_pDispatcher->v40(m_pFlagTarget, aiArg1, aiArg2);
 }
@@ -1747,11 +1783,12 @@ struct FUN_00dbaad0_cls
 {
     FUN_00dbaad0_target* m_00;
     void* m_04;
-    void __thiscall FUN_00dbaad0(int a1);
+    void __thiscall ForwardCall_00dbaad0(int a1);
 };
 
 // @fnv 0x00dbaad0
-void FUN_00dbaad0_cls::FUN_00dbaad0(int aiValue)
+// src: GUESS 0x00dbaad0 (confidence: low)
+void FUN_00dbaad0_cls::ForwardCall_00dbaad0(int aiValue)
 {
     m_00->v12(m_04, aiValue);
 }
@@ -1766,11 +1803,12 @@ struct FUN_00dbab90_cls
 {
     void* m_pObservedSource;
 
-    SpawnedPair __thiscall FUN_00dbab90(void* value);
+    SpawnedPair __thiscall UpdateState_00dbab90(void* value);
 };
 
 // @fnv 0x00dbab90
-SpawnedPair FUN_00dbab90_cls::FUN_00dbab90(void* value)
+// src: GUESS 0x00dbab90 (confidence: low)
+SpawnedPair FUN_00dbab90_cls::UpdateState_00dbab90(void* value)
 {
     SpawnedPair r;
     r.first = m_pObservedSource;
@@ -1791,11 +1829,12 @@ struct DBABE0Binding
 {
     DBABE0Target* m_target;
 
-    void FUN_00dbabe0(void* arg);
+    void Get_Thunk(void* arg);
 };
 
 // @fnv 0x00dbabe0
-void DBABE0Binding::FUN_00dbabe0(void* arg)
+// src: GUESS 0x00dbabe0 (confidence: medium)
+void DBABE0Binding::Get_Thunk(void* arg)
 {
     m_target->get(arg);
 }
@@ -1809,10 +1848,11 @@ struct CpuInterface
 struct CpuObject
 {
     CpuInterface* target;
-    void FUN_00dbac10();
+    void ForwardCall_00dbac10();
 };
 // @fnv 0x00dbac10
-void CpuObject::FUN_00dbac10()
+// src: GUESS 0x00dbac10 (confidence: low)
+void CpuObject::ForwardCall_00dbac10()
 {
     target->Invoke();
 }
@@ -1846,11 +1886,12 @@ struct FUN_00dbad80_cls
 {
     VirtualTarget00* m_pFlagTarget;
     void* m_pArg;
-    void __thiscall FUN_00dbad80(int a1, int a2);
+    void __thiscall InvokeVirtualMethod_00dbad80(int a1, int a2);
 };
 
 // @fnv 0x00dbad80
-void __thiscall FUN_00dbad80_cls::FUN_00dbad80(int aiArg1, int aiArg2)
+// src: GUESS 0x00dbad80 (confidence: low)
+void __thiscall FUN_00dbad80_cls::InvokeVirtualMethod_00dbad80(int aiArg1, int aiArg2)
 {
     m_pFlagTarget->v19(m_pArg, aiArg1, aiArg2);
 }
@@ -2044,10 +2085,11 @@ struct FnvCpu_FUN_00dbae30_CpuInterface
 struct FnvCpu_FUN_00dbae30_CpuOwner
 {
     FnvCpu_FUN_00dbae30_CpuInterface* target;
-    void FUN_00dbae30(int arg0);
+    void ForwardCall_00dbae30(int arg0);
 };
 // @fnv 0x00dbae30
-void FnvCpu_FUN_00dbae30_CpuOwner::FUN_00dbae30(int arg0)
+// src: GUESS 0x00dbae30 (confidence: low)
+void FnvCpu_FUN_00dbae30_CpuOwner::ForwardCall_00dbae30(int arg0)
 {
     target->Invoke(arg0);
 }
@@ -2087,11 +2129,12 @@ struct FUN_00dbae60_Inner
 struct FUN_00dbae60_cls
 {
     FUN_00dbae60_Inner* m_00;
-    void __thiscall FUN_00dbae60(int a);
+    void __thiscall InvokeVirtualMethod_00dbae60(int a);
 };
 
 // @fnv 0x00dbae60
-void FUN_00dbae60_cls::FUN_00dbae60(int a)
+// src: GUESS 0x00dbae60 (confidence: low)
+void FUN_00dbae60_cls::InvokeVirtualMethod_00dbae60(int a)
 {
     m_00->Tail(a);
 }
@@ -2134,11 +2177,12 @@ struct FUN_00dbae80_cls
 {
     Controller_cls* controller;  // +0x00
     void* p1;                    // +0x04
-    void __thiscall FUN_00dbae80(void* a, void* b);
+    void __thiscall InvokeVirtualMethod_00dbae80(void* a, void* b);
 };
 
 // @fnv 0x00dbae80
-void __thiscall FUN_00dbae80_cls::FUN_00dbae80(void* a, void* b)
+// src: GUESS 0x00dbae80 (confidence: low)
+void __thiscall FUN_00dbae80_cls::InvokeVirtualMethod_00dbae80(void* a, void* b)
 {
     controller->v25(a, b);
 }
@@ -2178,10 +2222,11 @@ struct Sub_dbae90
 struct Own_dbae90
 {
     Sub_dbae90* m_sub;
-    void __thiscall FUN_00dbae90(void* a);
+    void __thiscall ForwardCall_00dbae90(void* a);
 };
 // @fnv 0x00dbae90
-void __thiscall Own_dbae90::FUN_00dbae90(void* a)
+// src: GUESS 0x00dbae90 (confidence: low)
+void __thiscall Own_dbae90::ForwardCall_00dbae90(void* a)
 {
     m_sub->v60(a);
 }
@@ -2213,7 +2258,7 @@ struct S_00dbaed0_Target
 struct S_00dbaed0_Obj
 {
     S_00dbaed0_Target* m_target;
-    int FUN_00dba730();
+    int ForwardCall_00dba730();
     void DispatchItems(S_00dbaed0_Elem** items);
 };
 
@@ -2221,7 +2266,7 @@ struct S_00dbaed0_Obj
 // @fnv 0x00dbaed0
 void S_00dbaed0_Obj::DispatchItems(S_00dbaed0_Elem** items)
 {
-    int n = FUN_00dba730();
+    int n = ForwardCall_00dba730();
     for (int i = 0; i < n; i++)
         m_target->vfn28(i, *items + i);
 }
@@ -2410,7 +2455,8 @@ void FUN_00dbac50_cls::DispatchToVTableSlot8(int aiArg)
 }
 
 // @fnv 0x00dba660
-void __cdecl FUN_00dba660()
+// src: GUESS 0x00dba660 (confidence: high)
+void __cdecl Object_DoNothing_00dba660()
 {}
 
 struct ObjectValue
@@ -2493,15 +2539,15 @@ struct DB8000_Router
 struct DB8000_Handle
 {
     unsigned int m_00;
-    DB8000_Handle* FUN_00dba650(unsigned int value);
-    void FUN_00dba660();
+    DB8000_Handle* SetField00(unsigned int value);
+    void Object_DoNothing_00dba660();
 };
 
 struct DB8000_Ref
 {
     void* m_pRetainedObject;
     void hkDataObject_hkDataObject(void* p);
-    void FUN_00dba7f0();
+    void ReleaseStorage_00dba7f0();
 };
 
 struct DB8000_PtrArrayLocalForm
@@ -2608,9 +2654,9 @@ struct DB8000_Self
     virtual unsigned int vfn9(const char* name);
 
     void hkDataWorldDict_renameClass(DB8000_Handle* h, const char* name);
-    void FUN_00dc73f0(DB8000_Handle* h, int a, int b);
+    void RenameClassMember(DB8000_Handle* h, int a, int b);
     void FUN_00dc7d20(DB8000_Handle* h, int a, int b, int c, int d);
-    void FUN_00dc7600(DB8000_Handle* h, int a);
+    void ProcessEntries_00dc7600(DB8000_Handle* h, int a);
     void InitAndRun(const char* name, DB8000_PtrArrayLocalForm* out);
     void AssignRefCountedSlot(DB8000_Handle* h1, DB8000_Handle* h2);
     void CallWithReset(const char* name, DB8000_PtrArrayLocalForm* out);
@@ -2654,7 +2700,7 @@ static __declspec(noinline) int __cdecl applyPatchesFinally(DB8000_Self* self, D
             }
 
             DB8000_Handle hMain;
-            hMain.FUN_00dba650(self->vfn9(name));
+            hMain.SetField00(self->vfn9(name));
 
             if (item->m_name0 != 0 && item->m_name1 != 0 && hkString_strCmp(item->m_name0, item->m_name1) != 0)
             {
@@ -2670,14 +2716,14 @@ static __declspec(noinline) int __cdecl applyPatchesFinally(DB8000_Self* self, D
                     switch (op->m_type)
                     {
                     case 3:
-                        self->FUN_00dc73f0(&hMain, op->m_data->m_00, op->m_data->m_04);
+                        self->RenameClassMember(&hMain, op->m_data->m_00, op->m_data->m_04);
                         break;
                     case 1:
                         self->FUN_00dc7d20(&hMain, op->m_data->m_00, op->m_data->m_04, op->m_data->m_08,
                                            op->m_data->m_0c);
                         break;
                     case 2:
-                        self->FUN_00dc7600(&hMain, op->m_data->m_00);
+                        self->ProcessEntries_00dc7600(&hMain, op->m_data->m_00);
                         break;
                     case 4: {
                         DB8000_Callback pCallback = (DB8000_Callback)op->m_data->m_04;
@@ -2689,7 +2735,7 @@ static __declspec(noinline) int __cdecl applyPatchesFinally(DB8000_Self* self, D
                             DB8000_Ref ref4;
                             ref4.hkDataObject_hkDataObject(arr4.m_data[kIndex]);
                             pCallback(&ref4);
-                            ref4.FUN_00dba7f0();
+                            ref4.ReleaseStorage_00dba7f0();
                         }
                         arr4.ClearAndRelease();
                         break;
@@ -2698,15 +2744,15 @@ static __declspec(noinline) int __cdecl applyPatchesFinally(DB8000_Self* self, D
                         const char* pString = (const char*)op->m_data->m_04;
                         unsigned int val = pString ? self->vfn9(pString) : 0;
                         DB8000_Handle hSub7;
-                        hSub7.FUN_00dba650(val);
+                        hSub7.SetField00(val);
                         self->AssignRefCountedSlot(&hMain, &hSub7);
-                        hSub7.FUN_00dba660();
+                        hSub7.Object_DoNothing_00dba660();
                         break;
                     }
                     case 5: {
                         DB8000_OpData* d = op->m_data;
                         DB8000_Handle hSub5;
-                        hSub5.FUN_00dba650(self->vfn9((const char*)d->m_00));
+                        hSub5.SetField00(self->vfn9((const char*)d->m_00));
                         DB8000_PtrArrayLocalForm arr5;
                         arr5.init();
                         self->CallWithReset(name, &arr5);
@@ -2715,10 +2761,10 @@ static __declspec(noinline) int __cdecl applyPatchesFinally(DB8000_Self* self, D
                             DB8000_Ref ref5;
                             ref5.hkDataObject_hkDataObject(arr5.m_data[kIndex]);
                             self->hkDataWorldDict_castObject(&ref5, &hSub5);
-                            ref5.FUN_00dba7f0();
+                            ref5.ReleaseStorage_00dba7f0();
                         }
                         arr5.ClearAndRelease();
-                        hSub5.FUN_00dba660();
+                        hSub5.Object_DoNothing_00dba660();
                         break;
                     }
                     default:
@@ -2738,7 +2784,7 @@ static __declspec(noinline) int __cdecl applyPatchesFinally(DB8000_Self* self, D
                 self->hkDataWorldDict_setClassVersion(&hMain, unk0c);
             }
 
-            hMain.FUN_00dba660();
+            hMain.Object_DoNothing_00dba660();
             ++i;
         } while (i < items->m_iElementCount);
     }
@@ -2757,11 +2803,12 @@ struct DataClassMemberAccess
 {
     S_00dbaed0_Target* m_pClassImpl;
 
-    void FUN_00dba720(int index, S_00dbaed0_Elem* info) const;
+    void InvokeVirtualMethod_00dba720(int index, S_00dbaed0_Elem* info) const;
 };
 
 // @fnv 0x00dba720
-void DataClassMemberAccess::FUN_00dba720(int index, S_00dbaed0_Elem* info) const
+// src: GUESS 0x00dba720 (confidence: low)
+void DataClassMemberAccess::InvokeVirtualMethod_00dba720(int index, S_00dbaed0_Elem* info) const
 {
     m_pClassImpl->vfn28(index, info);
 }
@@ -2801,11 +2848,12 @@ struct MemberValueHandle
     MemberValueTarget* implementation;
     const char* name;
 
-    void FUN_00dbaa10(const MemberValueHandle& value);
+    void Assign_Thunk(const MemberValueHandle& value);
 };
 
 // @fnv 0x00dbaa10
-void MemberValueHandle::FUN_00dbaa10(const MemberValueHandle& value)
+// src: GUESS 0x00dbaa10 (confidence: medium)
+void MemberValueHandle::Assign_Thunk(const MemberValueHandle& value)
 {
     implementation->Assign(name, value);
 }
@@ -2821,11 +2869,12 @@ struct ArrayReserveTarget
 struct ArrayReserveHandle
 {
     ArrayReserveTarget* m_inner;
-    void FUN_00dbabf0(int a);
+    void ForwardCall_00dbabf0(int a);
 };
 
 // @fnv 0x00dbabf0
-void ArrayReserveHandle::FUN_00dbabf0(int a)
+// src: GUESS 0x00dbabf0 (confidence: low)
+void ArrayReserveHandle::ForwardCall_00dbabf0(int a)
 {
     m_inner->v0C(a);
 }
@@ -2869,11 +2918,12 @@ struct BulkArrayTarget
 struct BulkArrayWrapper
 {
     BulkArrayTarget* m_inner;
-    void FUN_00dbae20(const short* values, int count);
+    void InvokeVirtualMethod_00dbae20(const short* values, int count);
 };
 
 // @fnv 0x00dbae20
-void BulkArrayWrapper::FUN_00dbae20(const short* values, int count)
+// src: GUESS 0x00dbae20 (confidence: low)
+void BulkArrayWrapper::InvokeVirtualMethod_00dbae20(const short* values, int count)
 {
     m_inner->v7C(values, count);
 }
@@ -2915,11 +2965,12 @@ struct ArrayBulkIntTarget
 struct ArrayBulkIntBinding
 {
     ArrayBulkIntTarget* m_pArrayBulkIntTarget;
-    void FUN_00dbae40(const int* values, int count);
+    void InvokeVirtualMethod_00dbae40(const int* values, int count);
 };
 
 // @fnv 0x00dbae40
-void ArrayBulkIntBinding::FUN_00dbae40(const int* values, int count)
+// src: GUESS 0x00dbae40 (confidence: low)
+void ArrayBulkIntBinding::InvokeVirtualMethod_00dbae40(const int* values, int count)
 {
     m_pArrayBulkIntTarget->Forward(values, count);
 }
@@ -2960,11 +3011,12 @@ struct ArrayBulkInterface
 struct ArrayBulkHandle
 {
     ArrayBulkInterface* implementation;
-    void FUN_00dbae50(const unsigned int* values, int count);
+    void AssignAll_Thunk(const unsigned int* values, int count);
 };
 
 // @fnv 0x00dbae50
-void ArrayBulkHandle::FUN_00dbae50(const unsigned int* values, int count)
+// src: GUESS 0x00dbae50 (confidence: medium)
+void ArrayBulkHandle::AssignAll_Thunk(const unsigned int* values, int count)
 {
     implementation->assignAll(values, count);
 }
@@ -2981,7 +3033,8 @@ struct ArrayBulkOwner
 };
 
 // @fnv 0x00dbae70
-void __fastcall FUN_00dbae70(ArrayBulkOwner* self, int forwarded)
+// src: GUESS 0x00dbae70 (confidence: low)
+void __fastcall Hkdataobject_UpdateState_00dbae70(ArrayBulkOwner* self, int forwarded)
 {
     ArrayBulkTarget* object = self->object;
     object->vtbl[26](object, forwarded);
@@ -3008,14 +3061,15 @@ DataObjectHandle* DataObjectHandle::hkDataObject_hkDataObject(RefObj* apObject)
 
 struct DataClassResult : FUN_00dba650_cls
 {
-    DataClassResult* FUN_00dba650(unsigned int value);
+    DataClassResult* SetField00(unsigned int value);
     DataClassResult(unsigned int value)
     {
-        FUN_00dba650(value);
+        SetField00(value);
     }
 };
 
-__declspec(noinline) DataClassResult* DataClassResult::FUN_00dba650(unsigned int value)
+// src: GUESS 0x00dba650 (confidence: low)
+__declspec(noinline) DataClassResult* DataClassResult::SetField00(unsigned int value)
 {
     m_00 = value;
     return this;
@@ -3035,11 +3089,12 @@ struct DataClassProvider
 struct DataClassAccess
 {
     DataClassProvider* provider;
-    DataClassResult FUN_00dbac20();
+    DataClassResult ProcessAndReturnValue_00dbac20();
 };
 
 // @fnv 0x00dbac20
-DataClassResult DataClassAccess::FUN_00dbac20()
+// src: GUESS 0x00dbac20 (confidence: low)
+DataClassResult DataClassAccess::ProcessAndReturnValue_00dbac20()
 {
     return DataClassResult(provider->getClassValue());
 }

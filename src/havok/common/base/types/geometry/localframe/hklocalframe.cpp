@@ -115,10 +115,11 @@ struct FnvCpu_FUN_00df6680_CpuObject
     unsigned int unk4c;
     unsigned int unk50;
     int value;
-    int FUN_00df6680();
+    int GetValue_00df6680();
 };
 // @fnv 0x00df6680
-int FnvCpu_FUN_00df6680_CpuObject::FUN_00df6680()
+// src: GUESS 0x00df6680 (confidence: high)
+int FnvCpu_FUN_00df6680_CpuObject::GetValue_00df6680()
 {
     return value;
 }
@@ -308,10 +309,10 @@ __forceinline hkArray<T, Allocator>::~hkArray() throw()
 struct FUN_00cb0c00_class
 {
     const char* m_pcText;
-    void FUN_00cb0c00() throw();
+    void Object_UpdateFields_00cb0c00() throw();
     ~FUN_00cb0c00_class() throw()
     {
-        FUN_00cb0c00();
+        Object_UpdateFields_00cb0c00();
     }
 };
 

@@ -143,5 +143,5 @@ struct FUN_00e108b0_cls
     int m_len;
     unsigned int m_cap;
 
-    FUN_00e108b0_cls* FUN_00e108b0();
+    FUN_00e108b0_cls* InitializeStringBuffer();
 };

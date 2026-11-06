@@ -135,7 +135,7 @@ struct S_00dd94c0_Entry
     int unk00;
     int unk04;
     int unk08;
-    void FUN_00cb0c00() throw();
+    void Object_UpdateFields_00cb0c00() throw();
 };
 
 typedef hkArrayBase<S_00dd94c0_Entry> S_00dd94c0_Array;
@@ -147,7 +147,7 @@ S_00dd94c0_Heap& h = reinterpret_cast<S_00dd94c0_Heap&>(sharedAlloc);
         int n = m_iElementCount;
         S_00dd94c0_Entry* p = m_data;
         for (int i = 0; i < n; i++, p++)
-            p->FUN_00cb0c00();
+            p->Object_UpdateFields_00cb0c00();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
             h.ReturnMemory(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(S_00dd94c0_Entry));
@@ -207,7 +207,7 @@ struct S_00dd9380_StringPtr
 {
     unsigned int m_pcText;
     void FUN_00cb0a60();
-    void FUN_00cb0c10(const char* s);
+    void UpdateState_00cb0c10(const char* s);
     const char* cString() const
     {
         return (const char*)(m_pcText & ~1u);
@@ -296,7 +296,7 @@ int S_00dd9380::hkProcessFactory_registerProcess(const char* name, int value)
     if (e == 0)
     {
         e = &m_entries.AllocatePair();
-        e->m_name.FUN_00cb0c10(name);
+        e->m_name.UpdateState_00cb0c10(name);
         e->m_uiFilterValue = value;
         e->m_iOwnerObjectOffset = m_nextId++;
     }

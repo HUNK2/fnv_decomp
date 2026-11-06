@@ -567,7 +567,7 @@ struct Pending
     int pairCount;
     int pairCapacity;
     void EnterTlsGuard();
-    void FUN_00cf7c10();
+    void DrainPendingPhysicsOperations();
 };
 extern "C" void __cdecl LessThanPairPriority(IslandMergeRequest*, IslandMergeRequest*);
 extern "C" void __cdecl hkAlgorithm_quickSortRecursive(IslandMergeRequest*, int, int, void(__cdecl*)(IslandMergeRequest*, IslandMergeRequest*));
@@ -604,7 +604,8 @@ static __forceinline void freeEntities(EntityArray& a)
 }
 // Drains pending physics pairs and queued operations, dispatching each to the world and releasing the associated bodies and memory.
 // @fnv 0x00cf7c10
-void Pending::FUN_00cf7c10()
+// src: GUESS 0x00cf7c10 (confidence: medium)
+void Pending::DrainPendingPhysicsOperations()
 {
     EnterTlsGuard();
     OpArray todo;
@@ -859,7 +860,7 @@ void Pending::FUN_00cf7c10()
             break;
         }
         if (operations.size)
-            FUN_00cf7c10();
+            DrainPendingPhysicsOperations();
     }
     todo.SwapThreeInts(this);
     operations.size = 0;
@@ -934,12 +935,13 @@ struct Owner
     Buffer<Elem20> second;
     Buffer<Elem16> third;
 
-    void FUN_00cf75f0();
+    void ClearThreeBuffers();
 };
 
 // Clears the third, second, and first buffer members of the Owner object in that order.
 // @fnv 0x00cf75f0
-void Owner::FUN_00cf75f0()
+// src: GUESS 0x00cf75f0 (confidence: high)
+void Owner::ClearThreeBuffers()
 {
     third.clear();
     second.clear();

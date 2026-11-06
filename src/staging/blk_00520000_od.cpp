@@ -317,7 +317,7 @@ void* __thiscall FUN_00528e10_Class::FUN_00528e10(unsigned int flags)
 void __cdecl Deallocate(void*);
 struct FUN_00529330_Class
 {
-    void __thiscall FUN_00529330();
+    void __thiscall ProcessEntries_00529330();
 };
 struct FUN_00529300_Class
 {
@@ -327,7 +327,7 @@ struct FUN_00529300_Class
 // @fnv 0x00529300
 void* __thiscall FUN_00529300_Class::FUN_00529300(unsigned int flags)
 {
-    ((FUN_00529330_Class*)this)->FUN_00529330();
+    ((FUN_00529330_Class*)this)->ProcessEntries_00529330();
     if (flags & 1)
         Deallocate(this);
     return this;
@@ -335,13 +335,13 @@ void* __thiscall FUN_00529300_Class::FUN_00529300(unsigned int flags)
 
 struct FUN_005293c0_Class
 {
-    void __thiscall FUN_0044f420();
+    void __thiscall ProcessEntries_0044f420();
     void* __thiscall FUN_005293c0(unsigned int flags);
 };
 // @fnv 0x005293c0
 void* __thiscall FUN_005293c0_Class::FUN_005293c0(unsigned int flags)
 {
-    FUN_0044f420();
+    ProcessEntries_0044f420();
     if (flags & 1)
         operator delete(this);
     return this;
@@ -456,11 +456,12 @@ struct FUN_00527350
     int f2c;
     int f30;
     char f34;
-    void FUN_00527350_Init();
+    void ResetAndResolveBucketIterator();
 };
 // Clears f10, f14 and f34, resolves fc from DAT_011c95c8 (falling back to GetDefaultBucket), then stores GetFirstPos() into f18.
 // @fnv 0x00527350
-void FUN_00527350::FUN_00527350_Init()
+// src: GUESS 0x00527350 (confidence: medium)
+void FUN_00527350::ResetAndResolveBucketIterator()
 {
     f10 = 0;
     f14 = 0;
@@ -928,7 +929,7 @@ struct Handle
     FUN_005287e0_Class* value;
     Handle(int);
     ~Handle();
-    FUN_005287e0_Class* FUN_00559450();
+    FUN_005287e0_Class* Modelloader_GetReferencedThis();
 };
 struct Local_cls;
 struct Obj20_cls;
@@ -954,9 +955,9 @@ void TESQueuedCellManager::ProcessQueries()
         Handle y(0);
         if (static_cast<TESQueuedCellManagerRequestCalls*>(this)->AdvanceRequest(&query, &x, &y, 1))
         {
-            if (y.FUN_00559450()->BSTask_IsCompleted())
+            if (y.Modelloader_GetReferencedThis()->BSTask_IsCompleted())
             {
-                y.FUN_00559450()->v5();
+                y.Modelloader_GetReferencedThis()->v5();
             }
         }
     }
@@ -989,7 +990,7 @@ struct Obj20_cls
     int m_00;
     Obj20_cls(int a);
     ~Obj20_cls();
-    Holder_cls* FUN_00559450();
+    Holder_cls* Modelloader_GetReferencedThis();
 };
 
 extern IOManager* DAT_01202d98;
@@ -1005,10 +1006,10 @@ void TESQueuedCellManager::ExteriorCellLoader_WaitForTasks()
         Obj20_cls o4(0);
         if (static_cast<TESQueuedCellManagerRequestCalls*>(this)->AdvanceRequest(&a, &b, &o4, 1))
         {
-            static_cast<IOManagerTaskCalls*>(DAT_01202d98)->WaitForTask(o4.FUN_00559450());
-            if (o4.FUN_00559450()->BSTask_IsCompleted())
+            static_cast<IOManagerTaskCalls*>(DAT_01202d98)->WaitForTask(o4.Modelloader_GetReferencedThis());
+            if (o4.Modelloader_GetReferencedThis()->BSTask_IsCompleted())
             {
-                o4.FUN_00559450()->v5();
+                o4.Modelloader_GetReferencedThis()->v5();
             }
         }
     }
@@ -1721,15 +1722,16 @@ struct Cls
     void* m_iWordAt00;
     unsigned long m_iWordAt04;
     ArrayItem* m_8;
-    unsigned int __thiscall FUN_00559450();
-    void __thiscall FUN_00529330();
+    unsigned int __thiscall Modelloader_GetReferencedThis();
+    void __thiscall ProcessEntries_00529330();
 };
 
 // @fnv 0x00529330
-void __thiscall Cls::FUN_00529330()
+// src: GUESS 0x00529330 (confidence: low)
+void __thiscall Cls::ProcessEntries_00529330()
 {
     unsigned int i = 0;
-    for (; i < this->FUN_00559450(); ++i)
+    for (; i < this->Modelloader_GetReferencedThis(); ++i)
     {
         void* t = this->m_8[i].m_iWordAt04;
         void* t2 = t;
@@ -1772,7 +1774,7 @@ bool TerrainOwner::ComputeTerrainNormalAndTangent(TerrainInput* input, NiPoint3*
     location = NiPoint3(TESObjectLAND_GetWorldCellX() + 2048.0, TESObjectLAND_GetWorldCellY() + 2048.0, 0.0f);
     NiPoint3 center = origin + location;
     center.z = 0.0f;
-    if (center.FUN_004390c0(position))
+    if (center.HasEqualComponents(position))
     {
         TESObjectLAND_GetNormal(input->region, input->position, *normal);
         *tangent = *normal;
@@ -1831,7 +1833,7 @@ struct Head175
     void* value;
     Head175(int);
     ~Head175();
-    void* FUN_00559450();
+    void* Modelloader_GetReferencedThis();
 };
 // @fnv 0x005281f0
 // src: COMMUNITY 0x005281f0
@@ -1845,7 +1847,7 @@ int TESQueuedCellManager::ExteriorCellLoader_TryCancelTasks()
         Head175 itemHead(0);
         if (static_cast<TESQueuedCellManagerRequestCalls*>(this)->AdvanceRequest(&query, &currentValue, &itemHead, 1))
         {
-            if (!static_cast<IOManagerTaskCalls*>(DAT_01202d98)->RunQueuedTask(itemHead.FUN_00559450(), 0))
+            if (!static_cast<IOManagerTaskCalls*>(DAT_01202d98)->RunQueuedTask(itemHead.Modelloader_GetReferencedThis(), 0))
                 ++count;
         }
     }

@@ -11,7 +11,8 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 // @fnv 0x00a487e0
-NiAnimationKey::KeyContent __stdcall NiQuaternionInterpolator::FUN_00a487e0()
+// src: GUESS 0x00a487e0 (confidence: low)
+NiAnimationKey::KeyContent __stdcall NiQuaternionInterpolator::ComputeValue_00a487e0()
 {
     return NiAnimationKey::ROTKEY;
 }
@@ -99,7 +100,7 @@ bool __fastcall IsQuaternionPose(NiQuaternionInterpolator* self, void*, unsigned
 {
     if (self->m_spQuaternionData.m_pObject != 0)
         return false;
-    bool bIsDefault = !((NiBound*)&self->m_kQuaternionValue)->FUN_00a92660(g_NiBoundDefault);
+    bool bIsDefault = !((NiBound*)&self->m_kQuaternionValue)->Object_HasEqualFloatComponents(g_NiBoundDefault);
     return bIsDefault;
 }
 
@@ -128,7 +129,7 @@ inline TimedRotationKey* NiRotData::ComputePositionAtTime(unsigned int& uiNumKey
 inline bool QuaternionEqual(const NiQuaternion& a, const NiQuaternion& b)
 {
     // The original equality routine is declared by the shared NiBound header.
-    return ((NiBound*)&a)->FUN_00a92660((const NiBound&)b);
+    return ((NiBound*)&a)->Object_HasEqualFloatComponents((const NiBound&)b);
 }
 
 struct TimedRotationKey

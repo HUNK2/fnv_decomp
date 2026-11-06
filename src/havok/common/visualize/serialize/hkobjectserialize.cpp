@@ -235,11 +235,11 @@ struct Buffer
     unsigned short state, references;
     Sink* stream;
     bool byteSwap;
-    void FUN_00d60830(Sink*, ByteSwap) throw();
-    void FUN_00d609a0(unsigned int, unsigned int) throw();
+    void hkOArchive_InitializeWriterWithByteSwap(Sink*, ByteSwap) throw();
+    void hkOArchive_WriteBinaryData_Thunk_00d609e0(unsigned int, unsigned int) throw();
     void WriteInt(unsigned int) throw();
     void hkOArchive_write32u(unsigned int) throw();
-    void FUN_00d60590() throw();
+    void ReleaseReference_00d60590() throw();
 };
 
 // Serializes a1-a4, data pairs/triples, and payload into sink via buffer, returning total bytes written or -1 on failure.
@@ -253,17 +253,17 @@ static __declspec(noinline) int _writeData(unsigned int a1, unsigned int a2, uns
     unsigned int bytes;
     unsigned int count;
     Buffer buffer;
-    buffer.FUN_00d60830(sink, byteSwap);
-    buffer.FUN_00d609a0(a1, a2);
+    buffer.hkOArchive_InitializeWriterWithByteSwap(sink, byteSwap);
+    buffer.hkOArchive_WriteBinaryData_Thunk_00d609e0(a1, a2);
     if (!*sink->Get(&status))
     {
-        buffer.FUN_00d60590();
+        buffer.ReleaseReference_00d60590();
         return -1;
     }
-    buffer.FUN_00d609a0(a3, a4);
+    buffer.hkOArchive_WriteBinaryData_Thunk_00d609e0(a3, a4);
     if (!*sink->Get(&status))
     {
-        buffer.FUN_00d60590();
+        buffer.ReleaseReference_00d60590();
         return -1;
     }
     count = data->pairCount;
@@ -275,7 +275,7 @@ static __declspec(noinline) int _writeData(unsigned int a1, unsigned int a2, uns
         buffer.WriteInt(data->pairs[i].second);
         if (!*sink->Get(&status))
         {
-            buffer.FUN_00d60590();
+            buffer.ReleaseReference_00d60590();
             return -1;
         }
         bytes += 8;
@@ -286,11 +286,11 @@ static __declspec(noinline) int _writeData(unsigned int a1, unsigned int a2, uns
     for (unsigned int i = 0; i < count; ++i)
     {
         buffer.WriteInt(data->triples[i].first);
-        buffer.FUN_00d609a0(data->triples[i].second, 0);
-        buffer.FUN_00d609a0(data->triples[i].third, 0);
+        buffer.hkOArchive_WriteBinaryData_Thunk_00d609e0(data->triples[i].second, 0);
+        buffer.hkOArchive_WriteBinaryData_Thunk_00d609e0(data->triples[i].third, 0);
         if (!*sink->Get(&status))
         {
-            buffer.FUN_00d60590();
+            buffer.ReleaseReference_00d60590();
             return -1;
         }
         bytes += 20;
@@ -298,16 +298,16 @@ static __declspec(noinline) int _writeData(unsigned int a1, unsigned int a2, uns
     buffer.hkOArchive_write32u(payloadBytes);
     if (!*sink->Get(&status))
     {
-        buffer.FUN_00d60590();
+        buffer.ReleaseReference_00d60590();
         return -1;
     }
     sink->Put(payload, payloadBytes);
     if (!*sink->Get(&status))
     {
-        buffer.FUN_00d60590();
+        buffer.ReleaseReference_00d60590();
         return -1;
     }
-    buffer.FUN_00d60590();
+    buffer.ReleaseReference_00d60590();
     return bytes + payloadBytes + 4;
 }
 
@@ -487,17 +487,17 @@ static __declspec(noinline) int _writeData(FixupLists* fixups, Sink* output, uns
     Buffer archive;
     ByteSwap endian;
     endian.value = swap;
-    archive.FUN_00d60830(output, endian);
-    archive.FUN_00d609a0(idLow, idHigh);
+    archive.hkOArchive_InitializeWriterWithByteSwap(output, endian);
+    archive.hkOArchive_WriteBinaryData_Thunk_00d609e0(idLow, idHigh);
     if (!*output->Get(&ok))
     {
-        archive.FUN_00d60590();
+        archive.ReleaseReference_00d60590();
         return -1;
     }
-    archive.FUN_00d609a0(classLow, classHigh);
+    archive.hkOArchive_WriteBinaryData_Thunk_00d609e0(classLow, classHigh);
     if (!*output->Get(&ok))
     {
-        archive.FUN_00d60590();
+        archive.ReleaseReference_00d60590();
         return -1;
     }
     count = fixups->pairCount;
@@ -509,7 +509,7 @@ static __declspec(noinline) int _writeData(FixupLists* fixups, Sink* output, uns
         archive.WriteInt(fixups->pairs[j].second);
         if (!*output->Get(&ok))
         {
-            archive.FUN_00d60590();
+            archive.ReleaseReference_00d60590();
             return -1;
         }
         total += 8;
@@ -520,11 +520,11 @@ static __declspec(noinline) int _writeData(FixupLists* fixups, Sink* output, uns
     for (unsigned int j = 0; j < count; ++j)
     {
         archive.WriteInt(fixups->triples[j].first);
-        archive.FUN_00d609a0(fixups->triples[j].second, 0);
-        archive.FUN_00d609a0(fixups->triples[j].third, 0);
+        archive.hkOArchive_WriteBinaryData_Thunk_00d609e0(fixups->triples[j].second, 0);
+        archive.hkOArchive_WriteBinaryData_Thunk_00d609e0(fixups->triples[j].third, 0);
         if (!*output->Get(&ok))
         {
-            archive.FUN_00d60590();
+            archive.ReleaseReference_00d60590();
             return -1;
         }
         total += 20;
@@ -532,16 +532,16 @@ static __declspec(noinline) int _writeData(FixupLists* fixups, Sink* output, uns
     archive.hkOArchive_write32u(payloadSize);
     if (!*output->Get(&ok))
     {
-        archive.FUN_00d60590();
+        archive.ReleaseReference_00d60590();
         return -1;
     }
     output->Put(payload, payloadSize);
     if (!*output->Get(&ok))
     {
-        archive.FUN_00d60590();
+        archive.ReleaseReference_00d60590();
         return -1;
     }
-    archive.FUN_00d60590();
+    archive.ReleaseReference_00d60590();
     return total + payloadSize + 4;
 }
 

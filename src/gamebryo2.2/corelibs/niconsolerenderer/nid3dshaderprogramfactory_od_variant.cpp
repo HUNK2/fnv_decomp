@@ -28,7 +28,7 @@ struct Lst
 int __fastcall NiD3D10ShaderProgramFactory_GetFirstProgramDirectory(Lst* l, int, Nd** pos);
 void NiD3DShaderProgramFactory__SDMInit();
 extern "C" void __cdecl __Dummy_00b6fef0(void*, unsigned int);
-void __cdecl FUN_00e93e00();
+void __cdecl UpdateFields_00e93e00();
 struct P03MM
 {
     void* __thiscall Allocate(unsigned int size);

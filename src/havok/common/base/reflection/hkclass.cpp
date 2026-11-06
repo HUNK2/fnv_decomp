@@ -262,11 +262,11 @@ struct SmallFlag
 struct hkOArchive_ExplicitDtorView
 {
     unsigned int unk00, unk04, unk08, unk0c;
-    void __thiscall FUN_00d60830(void* stream, SmallFlag swap);
+    void __thiscall hkOArchive_InitializeWriterWithByteSwap(void* stream, SmallFlag swap);
     void __thiscall WriteInt(int value);
     void __thiscall FUN_00d60900(unsigned short value);
     int __thiscall hkOArchive_writeRaw(const void* data, int bytes);
-    void __thiscall FUN_00d60590();
+    void __thiscall ReleaseReference_00d60590();
 };
 // 0x00d868a0 indexes 12-byte native-type properties at 0x011b6ab0, not hkTypeInfo objects.
 struct NativeTypeProperties
@@ -282,7 +282,7 @@ int __cdecl hkString_strLen(const char* str);
 __declspec(noinline) void __fastcall SerializeClass(const hkClass* cls, void*, void* stream)
 {
     hkOArchive_ExplicitDtorView out;
-    out.FUN_00d60830(stream, SmallFlag(false));
+    out.hkOArchive_InitializeWriterWithByteSwap(stream, SmallFlag(false));
     out.WriteInt(cls->m_iNumImplementedInterfaces);
     for (int enumIndex = 0; enumIndex < cls->m_kDeclaredEnums.m_iElementCount; ++enumIndex)
     {
@@ -328,7 +328,7 @@ __declspec(noinline) void __fastcall SerializeClass(const hkClass* cls, void*, v
         out.FUN_00d60900(info.m_flags);
     }
     out.WriteInt(cls->m_kDeclaredMembers.m_iElementCount);
-    out.FUN_00d60590();
+    out.ReleaseReference_00d60590();
 }
 
 struct FUN_00db7870
@@ -337,7 +337,7 @@ struct FUN_00db7870
     int unk04;
     int unk08;
     FUN_00db7870(int);
-    unsigned int FUN_00db7860();
+    unsigned int ComputeValue_00db7860();
 };
 
 // Computes a CRC over this class and, unless SIGNATURE_LOCAL is set, over its parent chain, returning the CRC value.
@@ -355,7 +355,7 @@ unsigned int __fastcall ComputeSignature(const hkClass* cls, void*, int signatur
         }
         c = GetParent(c);
     }
-    return crc.FUN_00db7860();
+    return crc.ComputeValue_00db7860();
 }
 
 void __cdecl hkString_memCpy(void* dst, const void* src, int n);
@@ -680,7 +680,8 @@ hkResult __fastcall ReadDeclaredDefaultValue(const hkClass* cls, void*, int iInd
 int __fastcall WriteDefaultValueAddress(const hkClass* cls, void*, int index, int stream);
 typedef int (__thiscall *DefaultWriter)(const hkClass*, int, int);
 
-static __declspec(noinline) int FUN_00e03100(const hkClassMember* node)
+// src: GUESS 0x00e03100 (confidence: low)
+static __declspec(noinline) int Object_ProcessAndReturnValue_00e03100(const hkClassMember* node)
 {
     if (node->getCstyleArraySize())
         return node->getCstyleArraySize();
@@ -688,7 +689,8 @@ static __declspec(noinline) int FUN_00e03100(const hkClassMember* node)
 }
 
 // @fnv 0x00e03240
-int __cdecl FUN_00e03240(const hkClass* holder, const hkClassMember* node, int value, int flags)
+// src: GUESS 0x00e03240 (confidence: low)
+int __cdecl hkClass_ProcessEntries_00e03240(const hkClass* holder, const hkClassMember* node, int value, int flags)
 {
     int result = reinterpret_cast<DefaultWriter>(WriteDefaultValueAddress)(holder, value, flags);
 
@@ -699,7 +701,7 @@ int __cdecl FUN_00e03240(const hkClass* holder, const hkClassMember* node, int v
     if (!childHolder)
         return result;
 
-    int rounds = FUN_00e03100(node);
+    int rounds = Object_ProcessAndReturnValue_00e03100(node);
     if (rounds <= 0)
         return result;
 
@@ -710,7 +712,7 @@ int __cdecl FUN_00e03240(const hkClass* holder, const hkClassMember* node, int v
         {
             const hkClassMember* child = &childHolder->getMember(index);
 
-            if (!FUN_00e03240(childHolder, child, index, flags))
+            if (!hkClass_ProcessEntries_00e03240(childHolder, child, index, flags))
                 result = 0;
         }
     } while (--outerCount);

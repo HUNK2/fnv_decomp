@@ -22,7 +22,8 @@ void TESValueForm::CopyComponent(BaseFormComponent* component)
 }
 
 // @fnv 0x0048e9b0
-unsigned short TESValueForm::FUN_0048e9b0(unsigned int aiFlags)
+// src: GUESS 0x0048e9b0 (confidence: medium)
+unsigned short TESValueForm::GetFlaggedDataSize(unsigned int aiFlags)
 {
     unsigned short isize = 0;
     if (aiFlags & 2)

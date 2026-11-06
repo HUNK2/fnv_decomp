@@ -50,7 +50,7 @@ struct xHit
 struct xHitList
 {
     int FUN_00726070();
-    xHit* FUN_00807770(int);
+    xHit* EvaluateValue_00807770(int);
 };
 struct xTag
 {
@@ -172,13 +172,13 @@ extern xActor* xg_11f21cc;
 extern xActor* xg_player_11dea3c;
 struct xOutHit
 {
-    void FUN_006212c0(xHit*);
+    void InitializeFields_006212c0(xHit*);
     xVec4* FUN_006815c0();
 };
 void xFUN_00458620(xP3&, xVec4*);
 struct xPtr
 {
-    xPhantom* FUN_00559450();
+    xPhantom* Modelloader_GetReferencedThis();
     void* m_p;
 };
 struct xCaster
@@ -191,14 +191,14 @@ struct xCaster
 bool xCaster::CameraCaster_Pick(const xP3& akFrom, xP3& akTo, xOutHit* apOut)
 {
     bool RESULT = false;
-    if (m_iWordAt00.FUN_00559450())
+    if (m_iWordAt00.Modelloader_GetReferencedThis())
     {
         xVec4 FROM;
         xCollector COL;
         xVec4b TO;
         xFUN_004a3e00(&FROM, akFrom);
         xFUN_004a3e00(&TO, akTo);
-        m_iWordAt00.FUN_00559450()->InvokeInterfaceCall(&FROM, &TO, &COL, 0);
+        m_iWordAt00.Modelloader_GetReferencedThis()->InvokeInterfaceCall(&FROM, &TO, &COL, 0);
         RESULT = COL.hkpAllCdPointCollector_hasHit().FUN_005609f0();
         if (RESULT)
         {
@@ -219,7 +219,7 @@ bool xCaster::CameraCaster_Pick(const xP3& akFrom, xP3& akTo, xOutHit* apOut)
             }
             while (!FOUND && I < COL.TESDataHandler_GetWorldSpaceList()->FUN_00726070())
             {
-                void* SHAPE = COL.TESDataHandler_GetWorldSpaceList()->FUN_00807770(I)->m_48;
+                void* SHAPE = COL.TESDataHandler_GetWorldSpaceList()->EvaluateValue_00807770(I)->m_48;
                 xFilter FILTER(xFUN_0043b540(SHAPE));
                 int TYPE = FILTER.CFilter_GetLayer();
                 xNode* NODE = xFUN_00c7fa90(SHAPE);
@@ -262,11 +262,11 @@ bool xCaster::CameraCaster_Pick(const xP3& akFrom, xP3& akTo, xOutHit* apOut)
                 if (!FOUND)
                     I++;
                 else if (ISX)
-                    void* LAST = COL.TESDataHandler_GetWorldSpaceList()->FUN_00807770(I)->m_48;
+                    void* LAST = COL.TESDataHandler_GetWorldSpaceList()->EvaluateValue_00807770(I)->m_48;
             }
             if (FOUND)
             {
-                apOut->FUN_006212c0(COL.TESDataHandler_GetWorldSpaceList()->FUN_00807770(I));
+                apOut->InitializeFields_006212c0(COL.TESDataHandler_GetWorldSpaceList()->EvaluateValue_00807770(I));
                 xFUN_00458620(akTo, apOut->FUN_006815c0());
             }
             else

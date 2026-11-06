@@ -15,13 +15,14 @@ void* __cdecl NiPSysEmitterPlanarAngleCtlr_GetRTTI()
 
 struct NiPSysEmitterPlanarAngleCtlr : NiPSysModifierFloatCtlr
 {
-    void FUN_00c2b560(float& fValue);
+    void UpdateFields_00c2b560(float& fValue);
     void SetTargetFloatValue_00c2b570(float fValue);
     void* CreateTargetObj(void* arg);
 };
 
 // @fnv 0x00c2b560
-void NiPSysEmitterPlanarAngleCtlr::FUN_00c2b560(float& fValue)
+// src: GUESS 0x00c2b560 (confidence: low)
+void NiPSysEmitterPlanarAngleCtlr::UpdateFields_00c2b560(float& fValue)
 {
     fValue = *(float*)((char*)m_pkTargetModifier + 0x28);
 }
@@ -48,7 +49,7 @@ void __thiscall NiPSysEmitterPlanarAngleCtlr::SetTargetFloatValue_00c2b570(float
     *(float*)((char*)m_pkTargetModifier + 0x28) = fValue;
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int);
+void* __cdecl Object_DispatchCommandFour(unsigned int);
 
 inline void* operator new(unsigned int, void* object) throw()
 {
@@ -64,7 +65,7 @@ void __cdecl FUN_00c32de0();
 void* NiPSysEmitterPlanarAngleCtlr::CreateTargetObj(void* arg)
 {
     NiPSysEmitterPlanarAngleCtlr* obj =
-        (NiPSysEmitterPlanarAngleCtlr*)FUN_00aa13e0(sizeof(NiPSysEmitterPlanarAngleCtlr));
+        (NiPSysEmitterPlanarAngleCtlr*)Object_DispatchCommandFour(sizeof(NiPSysEmitterPlanarAngleCtlr));
     if (obj)
     {
         ::new (obj) NiPSysModifierFloatCtlr;

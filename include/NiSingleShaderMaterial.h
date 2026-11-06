@@ -13,7 +13,7 @@ class NiSingleShaderMaterial : public NiMaterial
 {
 public:
     virtual ~NiSingleShaderMaterial();
-    virtual void* FUN_00aa06e0();
+    virtual void* GetGlobalObjectAddress_00aa06e0();
     virtual void vf03();
     virtual void vf04();
     virtual void vf05();

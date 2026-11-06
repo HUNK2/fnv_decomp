@@ -275,24 +275,25 @@ struct FUN_00cb18f0_Obj
     int __thiscall FindSlot(int value);
 };
 
-extern "C" void __cdecl FUN_00dc1960(unsigned int value1, void* value2, void* value3, int value4);
+extern "C" void __cdecl Object_ComputeMemberLayoutRecursively(unsigned int value1, void* value2, void* value3, int value4);
 
 class FUN_00dc1bb0_Class
 {
   public:
-    void FUN_00dc1bb0(unsigned int param1, unsigned int param2, int param3);
+    void UpdateState_00dc1bb0(unsigned int param1, unsigned int param2, int param3);
 };
 
 // Calls FindSlot on the object with param1 and, if the result exceeds object->unk08, calls FUN_00dc1960 with this, object and param3.
 // @fnv 0x00dc1bb0
-void FUN_00dc1bb0_Class::FUN_00dc1bb0(unsigned int uiValue, unsigned int pObject, int param3)
+// src: GUESS 0x00dc1bb0 (confidence: low)
+void FUN_00dc1bb0_Class::UpdateState_00dc1bb0(unsigned int uiValue, unsigned int pObject, int param3)
 {
     FUN_00cb18f0_Obj* object = reinterpret_cast<FUN_00cb18f0_Obj*>(pObject);
     int result = object->FindSlot(uiValue);
 
     if (result > object->unk08)
     {
-        FUN_00dc1960(uiValue, this, object, param3);
+        Object_ComputeMemberLayoutRecursively(uiValue, this, object, param3);
     }
 }
 
@@ -387,7 +388,7 @@ struct NodeListEx
     int FUN_00d46f00() const;
     const NodeEx& FUN_00d46f60(int index) const;
     const NodeListEx* FUN_00d46d50() const;
-    int FUN_00d46e20() const;
+    int GetUnk0C_00d46e20() const;
     int FUN_00d46f70() const;
     const NodeEx& FUN_00d46f80(int index) const;
     int FUN_00d470d0() const;
@@ -429,7 +430,8 @@ struct Array
 };
 // Recursively visits child node lists, then computes and stores member offsets and total size for each node list based on layout options.
 // @fnv 0x00dc1960
-void __cdecl FUN_00dc1960(NodeListEx& root, const LayoutOptions& options, Arg2& visited, int arg3)
+// src: GUESS 0x00dc1960 (confidence: medium)
+void __cdecl Object_ComputeMemberLayoutRecursively(NodeListEx& root, const LayoutOptions& options, Arg2& visited, int arg3)
 {
     Manager* i = hkMemoryRouter_getInstance();
     visited.hkMapBase_unsigned_long_unsigned_long_hkMapOperations_unsigned_long_insert(i->unk10, (&root), 0);
@@ -448,7 +450,7 @@ void __cdecl FUN_00dc1960(NodeListEx& root, const LayoutOptions& options, Arg2& 
                 {
                     if (visited.IsMissing(tmp->FUN_00d86910()))
                     {
-                        FUN_00dc1960(*tmp->FUN_00d86910(), options, visited, arg3);
+                        Object_ComputeMemberLayoutRecursively(*tmp->FUN_00d86910(), options, visited, arg3);
                     }
                 }
                 r++;
@@ -474,7 +476,7 @@ void __cdecl FUN_00dc1960(NodeListEx& root, const LayoutOptions& options, Arg2& 
     for (int tmp = 0; tmp < nodeArray.m_iElementCount; ++tmp)
     {
         NodeListEx* idx = nodeArray.m_data[tmp];
-        for (int r = 0; r < idx->FUN_00d46e20(); ++r)
+        for (int r = 0; r < idx->GetUnk0C_00d46e20(); ++r)
         {
             int iRemainder = n % iPointerSize;
             if (iRemainder != 0)

@@ -790,7 +790,8 @@ void* LocalDialogMenu::ScalarDeletingDestructor(unsigned int flags)
 }
 
 // @fnv 0x00764290
-void FUN_00764290()
+// src: GUESS 0x00764290 (confidence: low)
+void DialogMenu_ProcessEntries_00764290()
 {
     MenuTopic* pMenuTopicEntry;
     TopicMenuController* pmgr;

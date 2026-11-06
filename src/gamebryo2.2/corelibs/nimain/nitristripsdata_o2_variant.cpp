@@ -35,7 +35,7 @@ struct SharedData_S
 {
     char pad_00[0x0c];
     int refCount;
-    void FUN_00a8a670();
+    void ForwardCall_00a8a670();
 };
 
 void _NiFree(void*);
@@ -53,7 +53,7 @@ void __fastcall SetTriangleStripData(NiTriStripsData* self, void*, unsigned shor
             SharedData_S* releasedData = (SharedData_S*)self->GetGroup();
             if (--releasedData->refCount == 0)
             {
-                releasedData->FUN_00a8a670();
+                releasedData->ForwardCall_00a8a670();
                 _delete(releasedData, 0x10);
             }
         }
@@ -63,7 +63,7 @@ void __fastcall SetTriangleStripData(NiTriStripsData* self, void*, unsigned shor
             SharedData_S* releasedData = (SharedData_S*)self->GetGroup();
             if (--releasedData->refCount == 0)
             {
-                releasedData->FUN_00a8a670();
+                releasedData->ForwardCall_00a8a670();
                 _delete(releasedData, 0x10);
             }
         }
@@ -368,14 +368,14 @@ struct NiSharedDataA76
     int unk04;
     int unk08;
     int m_iRefCount;
-    void FUN_00a8a670() throw();
+    void ForwardCall_00a8a670() throw();
 };
 
 inline void ReleaseShared(NiSharedDataA76* pkShared) throw()
 {
     if (--pkShared->m_iRefCount == 0)
     {
-        pkShared->FUN_00a8a670();
+        pkShared->ForwardCall_00a8a670();
         operator_delete_sized(pkShared, 0x10);
     }
 }

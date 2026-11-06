@@ -102,9 +102,9 @@ void TESNPC::InitDefaultWorn(TESObjectREFR* a2, bool a3, bool a4, bool a5, bool 
             p = item->FUN_0044ddc0();
             if ((!res || !res->HasBipedModel(i, false, NULL)) && !a2->TESObjectREFR_WearingObject(p))
             {
-                if (item->FUN_00559450())
+                if (item->Modelloader_GetReferencedThis())
                 {
-                    pExtra = item->FUN_00559450()->GetItem();
+                    pExtra = item->Modelloader_GetReferencedThis()->GetItem();
                 }
                 else
                 {
@@ -145,9 +145,9 @@ void TESNPC::InitDefaultWorn(TESObjectREFR* a2, bool a3, bool a4, bool a5, bool 
             {
                 ExtraDataList* fWeight;
                 fWeight = NULL;
-                if (pWeaponExtra->FUN_00559450())
+                if (pWeaponExtra->Modelloader_GetReferencedThis())
                 {
-                    fWeight = pWeaponExtra->FUN_00559450()->GetItem();
+                    fWeight = pWeaponExtra->Modelloader_GetReferencedThis()->GetItem();
                     pItem = false;
                 }
                 else

@@ -684,13 +684,13 @@ struct RepairExtraNode
     RepairExtraNode* FUN_00726070();
     void FUN_0063f7b0();
     void FUN_005ae3d0(ExtraDataList*&);
-    void FUN_00905330(ExtraDataList*&);
+    void RemoveMatchingItem(ExtraDataList*&);
 };
 struct RepairInventoryItem : HealthOwner
 {
     TESBoundObject* FUN_0044ddc0();
     bool HasEffect(int);
-    RepairExtraNode* FUN_00559450();
+    RepairExtraNode* Modelloader_GetReferencedThis();
 };
 struct RepairInventoryChanges
 {
@@ -715,8 +715,8 @@ void RepairMenu::ApplyRepair(void* source)
         repairVal *= FUN_004873d0(((RepairInventoryItem*)DAT_011da760)->FUN_0044ddc0());
     RepairInventoryItem* entryTmp =
         FUN_004bf220(g_thePlayer)->FUN_004bfba0(((RepairInventoryItem*)DAT_011da760)->FUN_0044ddc0(), true, false);
-    ExtraDataList* extra7 = ((RepairInventoryItem*)DAT_011da760)->FUN_00559450()
-                                ? ((RepairInventoryItem*)DAT_011da760)->FUN_00559450()->FUN_006815c0()
+    ExtraDataList* extra7 = ((RepairInventoryItem*)DAT_011da760)->Modelloader_GetReferencedThis()
+                                ? ((RepairInventoryItem*)DAT_011da760)->Modelloader_GetReferencedThis()->FUN_006815c0()
                                 : 0;
     ExtraDataList* repairA = new ExtraDataList;
     int count = -1;
@@ -726,16 +726,16 @@ void RepairMenu::ApplyRepair(void* source)
     repairA->ExtraDataList_SetCount(1);
     repairA->SetExtraHealth(repairVal);
     FUN_004d5c60(34);
-    ((RepairInventoryItem*)DAT_011da760)->FUN_00559450()->FUN_0063f7b0();
+    ((RepairInventoryItem*)DAT_011da760)->Modelloader_GetReferencedThis()->FUN_0063f7b0();
     if (count > 1)
         extra7->ExtraDataList_SetCount(count - 1);
-    for (RepairExtraNode* node = entryTmp->FUN_00559450(); node && node->FUN_006815c0(); node = node->FUN_00726070())
+    for (RepairExtraNode* node = entryTmp->Modelloader_GetReferencedThis(); node && node->FUN_006815c0(); node = node->FUN_00726070())
     {
         if (!node->FUN_006815c0()->ExtraDataList_CompareListForContainer(repairA, true, false) &&
             !repairA->ExtraDataList_CompareListForContainer(node->FUN_006815c0(), true, false))
         {
             node->FUN_006815c0()->ExtraDataList_SetCount(node->FUN_006815c0()->ExtraDataList_GetCount() + 1);
-            ((RepairInventoryItem*)DAT_011da760)->FUN_00559450()->FUN_005ae3d0(node->FUN_006815c0());
+            ((RepairInventoryItem*)DAT_011da760)->Modelloader_GetReferencedThis()->FUN_005ae3d0(node->FUN_006815c0());
             found9 = true;
         }
     }
@@ -743,18 +743,18 @@ void RepairMenu::ApplyRepair(void* source)
     {
         if (count > 1)
         {
-            entryTmp->FUN_00559450()->FUN_005ae3d0(repairA);
-            ((RepairInventoryItem*)DAT_011da760)->FUN_00559450()->FUN_005ae3d0(repairA);
+            entryTmp->Modelloader_GetReferencedThis()->FUN_005ae3d0(repairA);
+            ((RepairInventoryItem*)DAT_011da760)->Modelloader_GetReferencedThis()->FUN_005ae3d0(repairA);
         }
         else
         {
             extra7->SetExtraHealth(repairVal);
-            ((RepairInventoryItem*)DAT_011da760)->FUN_00559450()->FUN_005ae3d0(extra7);
+            ((RepairInventoryItem*)DAT_011da760)->Modelloader_GetReferencedThis()->FUN_005ae3d0(extra7);
         }
     }
     else if (count == 1)
     {
-        entryTmp->FUN_00559450()->FUN_00905330(extra7);
+        entryTmp->Modelloader_GetReferencedThis()->RemoveMatchingItem(extra7);
     }
     if (found9 || count == 1)
     {

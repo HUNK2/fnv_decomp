@@ -144,7 +144,8 @@ struct SolverMotionState
 
 extern void SolverMotionReport();
 
-static __declspec(noinline) void FUN_00d23f50(SolverMotionState& info)
+// src: GUESS 0x00d23f50 (confidence: low)
+static __declspec(noinline) void hkVector4_ProcessEntries_00d23f50(SolverMotionState& info)
 {
     info.m_iActivePlaneCount--;
     SolverMotionReport();
@@ -247,7 +248,7 @@ extern "C" void __cdecl hkSimplexSolverSolve(const SolverMotionInput& input, Sol
         plane.m_pPlaneStatus->m_fValue1 = (plane.m_pPlaneStatus->m_fValue1 + 1.192092896e-07f) * 2.0f;
         plane.m_uiEdgeIndex = hitIndex;
 
-        FUN_00d23f50(info);
+        hkVector4_ProcessEntries_00d23f50(info);
     }
 }
 }

@@ -102,18 +102,18 @@ public:
     double DotProduct(const PodPoint3& point);
     float Length() const;
 
-    PodPoint3& FUN_00439180(float scalar);
+    PodPoint3& ScaleComponents(float scalar);
     PodPoint3 FUN_00439e90(const PodPoint3& shift) const;
     PodPoint3* FUN_00439e90(PodPoint3* output, const PodPoint3* other) const;
-    PodPoint3 FUN_00439ef0(const PodPoint3& other) const;
-    void FUN_00439ef0();
+    PodPoint3 SubtractIntoVector(const PodPoint3& other) const;
+    void SubtractIntoVector();
     PodPoint3 FUN_004b3800(const PodPoint3& axis) const;
     void Unitize_004a0c10();
     float FUN_00457910();
     float FUN_00457990() const;
     double FUN_004a7290();
     PodPoint3* FUN_006815c0();
-    PodPoint3* FUN_00416870(float x, float y, float z);
+    PodPoint3* SetComponents(float x, float y, float z);
     void FUN_0043d410(float x, int y, int z);
     char* GetViewerString_00a59af0(const char* text);
 
@@ -723,12 +723,13 @@ struct LockExtraData
 typedef char _sizecheck_REFR_LOCK[sizeof(LockExtraData) == 20 ? 1 : -1];
 struct FUN_00411b00_shell : public LockExtraData
 {
-    void FUN_00411b00();
+    void LockExtraData_ClearFields();
 };
 
 // Clears the lock fields of the object: byte, key pointer, flags, and the two unsigned ints, then returns the object.
 // @fnv 0x00411b00
-LockExtraData* __fastcall FUN_00411b00(LockExtraData* pThis)
+// src: GUESS 0x00411b00 (confidence: high)
+LockExtraData* __fastcall LockExtraData_ClearFields(LockExtraData* pThis)
 {
     pThis->m_uiLockState = 0;
     pThis->pKey = 0;
@@ -758,7 +759,8 @@ struct Y00411e40
 };
 // Calls FUN_0040ec80 with 0x92, sets vt to &DAT_01014458 and f to 0, then returns p.
 // @fnv 0x00411e40
-Y00411e40* __fastcall FUN_00411e40(Y00411e40* apThis)
+// src: GUESS 0x00411e40 (confidence: low)
+Y00411e40* __fastcall Object_InitializeFields_00411e40(Y00411e40* apThis)
 {
     apThis->FUN_0040ec80(0x92);
     apThis->vt = &DAT_01014458;
@@ -998,7 +1000,8 @@ struct _ref_006815c0_t
 };
 
 // @fnv 0x00414470
-void* __fastcall FUN_00414470(char* pThis)
+// src: GUESS 0x00414470 (confidence: low)
+void* __fastcall ExtraDataList_EvaluateValue_00414470(char* pThis)
 {
     ((_ref_006815c0_t*)pThis)->_ref_006815c0();
     ((_ref_006815c0_t*)(pThis + 8))->_ref_006815c0();
@@ -1123,11 +1126,12 @@ struct RadioReferenceData
 typedef char _sizecheck_RADIO_DATA[sizeof(RadioReferenceData) == 16 ? 1 : -1];
 struct FUN_00416b40_shell : public RadioReferenceData
 {
-    void FUN_00416b40();
+    void RadioReferenceData_InitializeFields();
 };
 
 // @fnv 0x00416b40
-RadioReferenceData* __fastcall FUN_00416b40(RadioReferenceData* _this)
+// src: GUESS 0x00416b40 (confidence: medium)
+RadioReferenceData* __fastcall RadioReferenceData_InitializeFields(RadioReferenceData* _this)
 {
     _this->fRadius = 0.0f;
     _this->m_iIntegerValue = 1;
@@ -2332,7 +2336,7 @@ struct FUN_0041cf30_shell : public ExtraDataList
 
 struct Crime
 {
-    void FUN_009eba00(Actor*);
+    void RemoveActorAndDecrementCount(Actor*);
 };
 
 struct ExtraPlayerCrimeList_local : public LegacyExtraData
@@ -2347,7 +2351,7 @@ struct BaseExtraList_local
 
 extern "C"
 {
-    void __cdecl FUN_009eba00();
+    void __cdecl RemoveActorAndDecrementCount();
     void __cdecl BaseExtraList_RemoveExtra();
 }
 
@@ -2365,7 +2369,7 @@ void FUN_0041cf30_shell::ExtraDataList_RemovePlayerCrimeListExtra(Actor* apActor
             while (pCurrentElementNext && pCurrentElementNext->GetItem() != 0)
             {
                 Crime* pcrime = pCurrentElementNext->GetItem();
-                reinterpret_cast<void(__thiscall*)(Crime*, Actor*)>(&FUN_009eba00)(pcrime, apActor);
+                reinterpret_cast<void(__thiscall*)(Crime*, Actor*)>(&RemoveActorAndDecrementCount)(pcrime, apActor);
                 pCurrentElementNext = pCurrentElementNext->GetNext();
             }
             reinterpret_cast<BSSimpleList<int>*>(pExtra->pCrimeList)->RemoveAll();
@@ -4429,7 +4433,8 @@ struct Dummy0042f800
 
 // Sets the object's vtable pointer to DAT_010159d4, calls FUN_0042fcb0 with 0, 0, and returns the object.
 // @fnv 0x0042f800
-void* __fastcall FUN_0042f800(int** apObject)
+// src: GUESS 0x0042f800 (confidence: low)
+void* __fastcall Object_ProcessAndReturnValue_0042f800(int** apObject)
 {
     *apObject = &DAT_010159d4;
     reinterpret_cast<Dummy0042f800*>(apObject)->FUN_0042fcb0(0, 0);
@@ -4445,7 +4450,8 @@ struct FUN_0042f830_struct
 };
 
 // @fnv 0x0042f830
-void __fastcall FUN_0042f830(FUN_0042f830_struct* pThis)
+// src: GUESS 0x0042f830 (confidence: low)
+void __fastcall BSSimpleArray_NavMeshPtr_1024_Clear_SetVtableAndProcessState_0042f830(FUN_0042f830_struct* pThis)
 {
     pThis->vftable = (int)&DAT_010159d4;
     pThis->BSSimpleArray_NavMeshPtr_1024_Clear(1);
@@ -4481,22 +4487,23 @@ S0042fa20* S0042fa20::NavMeshPtr_NavMeshPtr(int a)
     return this;
 }
 
-void __fastcall FUN_0042fda0(void* pThis);
+void __fastcall Object_ReleaseReferencedObject(void* pThis);
 
 // @fnv 0x0042fa40
-void __fastcall FUN_0042fa40(void* pThis)
+// src: GUESS 0x0042fa40 (confidence: low)
+void __fastcall Object_ForwardCall_0042fa40(void* pThis)
 {
-    FUN_0042fda0(pThis);
+    Object_ReleaseReferencedObject(pThis);
 }
 
 namespace fnv_00458b50 {
-void __fastcall FUN_0042fda0(void* pThis);
+void __fastcall Object_ReleaseReferencedObject(void* pThis);
 
 // @fnv 0x00458b50
 // src: XBOX_PDB 0x00458b50
 void __fastcall AnimatingText_GetFullText(void* pThis)
 {
-    FUN_0042fda0(pThis);
+    Object_ReleaseReferencedObject(pThis);
 }
 }  // namespace fnv_00458b50
 
@@ -6263,7 +6270,7 @@ void FUN_0042f300_shell::ExtraDataList_SetPatrolRefInUse(TESObjectREFR* apUser)
 
 struct FUN_0040f780_struct
 {
-    void FUN_0040f7b0();
+    void SetVtableAndProcessState_0040f7b0();
     void* FUN_0040f780(unsigned int flags);
 };
 void _Deallocate(void*);
@@ -6271,7 +6278,7 @@ void _Deallocate(void*);
 // @fnv 0x0040f780
 void* FUN_0040f780_struct::FUN_0040f780(unsigned int flags)
 {
-    FUN_0040f7b0();
+    SetVtableAndProcessState_0040f7b0();
     if (flags & 1)
         _Deallocate(this);
     return this;
@@ -6340,7 +6347,8 @@ BSExtraData* FUN_004187d0_Class::ExtraDataList_GetPoison()
 }
 
 // @fnv 0x00418f40
-void GO::FUN_00418f40()
+// src: GUESS 0x00418f40 (confidence: medium)
+void GO::DestroyFields()
 {
     GO::~GO();
 }
@@ -6349,7 +6357,7 @@ void _Deallocate(void*);
 
 struct FUN_00419350
 {
-    void FUN_00438bf0();
+    void ForwardCall_00438bf0();
     void* DeleteThis(unsigned int flags);
 };
 
@@ -6357,7 +6365,7 @@ struct FUN_00419350
 // @fnv 0x00419350
 void* FUN_00419350::DeleteThis(unsigned int flags)
 {
-    FUN_00438bf0();
+    ForwardCall_00438bf0();
     if (flags & 1)
         _Deallocate(this);
     return this;
@@ -6727,7 +6735,7 @@ void __cdecl _Deallocate(ExtraCollisionData*);
 // @fnv 0x00421130
 void* ExtraCollisionData::FUN_00421130(unsigned int flags)
 {
-    FUN_00421160();
+    ReleaseStorage();
     if (flags & 1)
         _Deallocate(this);
     return this;
@@ -7037,13 +7045,14 @@ struct _DummyExtraDataList
 {
     int* vtable;
     void BaseExtraList_RemoveAll(bool);
-    void FUN_0040f7b0();
+    void SetVtableAndProcessState_0040f7b0();
 };
 
 extern int DAT_01014300;
 
 // @fnv 0x0040f7b0
-void __thiscall _DummyExtraDataList::FUN_0040f7b0()
+// src: GUESS 0x0040f7b0 (confidence: low)
+void __thiscall _DummyExtraDataList::SetVtableAndProcessState_0040f7b0()
 {
     vtable = &DAT_01014300;
     BaseExtraList_RemoveAll(true);
@@ -7072,11 +7081,12 @@ void __cdecl BSEndian(int*, EndianSizeTag<2>);
 
 struct FUN_004140f0_struct
 {
-    void FUN_004140f0();
+    void ProcessState_004140f0();
 };
 
 // @fnv 0x004140f0
-void FUN_004140f0_struct::FUN_004140f0()
+// src: GUESS 0x004140f0 (confidence: low)
+void FUN_004140f0_struct::ProcessState_004140f0()
 {
     BSEndian((int*)(this + 0), EndianSizeTag<2>());
     BSEndian((int*)(this + 4), EndianSizeTag<2>());
@@ -7095,7 +7105,7 @@ void _Deallocate(void*);
 // @fnv 0x00418f10
 void* GO::FUN_00418f10(unsigned int flags)
 {
-    GO::FUN_00418f40();
+    GO::DestroyFields();
     if (flags & 1)
         _Deallocate(this);
     return this;
@@ -7103,7 +7113,7 @@ void* GO::FUN_00418f10(unsigned int flags)
 
 struct FUN_006665a0_shell
 {
-    void FUN_006665a0();
+    void ClearBuffer_006665a0();
     void* DeleteIfFlagged(unsigned int flags);
 };
 
@@ -7112,7 +7122,7 @@ void _Deallocate(void* p);
 // @fnv 0x00419220
 void* FUN_006665a0_shell::DeleteIfFlagged(unsigned int flags)
 {
-    FUN_006665a0();
+    ClearBuffer_006665a0();
     if (flags & 1)
         _Deallocate(this);
     return this;
@@ -7439,7 +7449,7 @@ namespace fnv_004103b0 {
 extern void* kVtbl_ExtraDataList[];
 struct FUN_0040f780_struct
 {
-    void FUN_0040f7b0();
+    void SetVtableAndProcessState_0040f7b0();
 };
 struct FUN_004103b0_class
 {
@@ -7449,7 +7459,7 @@ struct FUN_004103b0_class
 FUN_004103b0_class::~FUN_004103b0_class()
 {
     *reinterpret_cast<void**>(this) = kVtbl_ExtraDataList;
-    reinterpret_cast<FUN_0040f780_struct*>(this)->FUN_0040f7b0();
+    reinterpret_cast<FUN_0040f780_struct*>(this)->SetVtableAndProcessState_0040f7b0();
 }
 }  // namespace fnv_004103b0
 
@@ -8231,14 +8241,14 @@ namespace fnv_00418e00 {
 void __cdecl _Deallocate(void*);
 struct FUN_004aae50_shell
 {
-    void FUN_004aae50();
+    void CompleteModelLoadTask_Thunk();
     void* FUN_00418e00(unsigned int flags);
 };
 // Calls FUN_004aae50, then deallocates this when flags has bit 0 set, and returns this.
 // @fnv 0x00418e00
 void* FUN_004aae50_shell::FUN_00418e00(unsigned int flags)
 {
-    FUN_004aae50();
+    CompleteModelLoadTask_Thunk();
     if (flags & 1)
         _Deallocate(this);
     return this;
@@ -10037,7 +10047,7 @@ struct Dummy_0041dda0
 };
 struct ContNode
 {
-    void FUN_00905330(BSExtraData**);
+    void RemoveMatchingItem(BSExtraData**);
     bool ref_008256d0();
 };
 // @fnv 0x0041dda0
@@ -10049,7 +10059,7 @@ void Dummy_0041dda0::ExtraDataList_RemoveEnableStateChild(BSExtraData* extra)
         BSExtraData* pData = ((BaseExtraList*)this)->GetExtraData(0x38);
         if (pData)
         {
-            ((ContNode*)((char*)pData + 0xc))->FUN_00905330(&extra);
+            ((ContNode*)((char*)pData + 0xc))->RemoveMatchingItem(&extra);
             if (((ContNode*)((char*)pData + 0xc))->ref_008256d0())
                 ((Dummy_00410020*)this)->BaseExtraList_RemoveExtra(pData, true);
         }
@@ -10060,7 +10070,7 @@ void Dummy_0041dda0::ExtraDataList_RemoveEnableStateChild(BSExtraData* extra)
 namespace fnv_0041e0d0 {
 struct DroppedItemNode
 {
-    void FUN_00905330(const void*);
+    void RemoveMatchingItem(const void*);
     unsigned char FUN_008256d0();
 };
 
@@ -10081,7 +10091,7 @@ void FUN_0041e0d0_shell::ExtraDataList_RemoveDroppedItem(void* apItem)
         ExtraDroppedItemList* pextra = (ExtraDroppedItemList*)GetExtraData(0x3a);
         if (pextra)
         {
-            ((DroppedItemNode*)((char*)pextra + 0xc))->FUN_00905330(&apItem);
+            ((DroppedItemNode*)((char*)pextra + 0xc))->RemoveMatchingItem(&apItem);
             if (((DroppedItemNode*)((char*)pextra + 0xc))->FUN_008256d0())
                 ((Dummy_00410020*)this)->BaseExtraList_RemoveExtra(reinterpret_cast<BSExtraData*>(pextra), true);
         }
@@ -10092,7 +10102,7 @@ void FUN_0041e0d0_shell::ExtraDataList_RemoveDroppedItem(void* apItem)
 namespace fnv_0041e600 {
 struct FUN_00905330_stub
 {
-    void FUN_00905330(const void*);
+    void RemoveMatchingItem(const void*);
 };
 struct FUN_008256d0_stub
 {
@@ -10114,7 +10124,7 @@ void FUN_0041e600::DetachExtraData(void* apChild)
         BSExtraData* pextra = GetExtraData(0x52);
         if (pextra)
         {
-            ((FUN_00905330_stub*)((char*)pextra + 0xc))->FUN_00905330(&apChild);
+            ((FUN_00905330_stub*)((char*)pextra + 0xc))->RemoveMatchingItem(&apChild);
             if (((FUN_008256d0_stub*)((char*)pextra + 0xc))->FUN_008256d0())
                 ((FUN_00410020_stub*)this)->BaseExtraList_RemoveExtra(pextra, true);
         }
@@ -10129,7 +10139,7 @@ struct FUN_00433a00_t
 
 struct ContNode
 {
-    void FUN_00905330(void*);
+    void RemoveMatchingItem(void*);
 };
 
 struct _ref_008256d0_shell
@@ -10157,7 +10167,7 @@ void FUN_0041e960_shell::ExtraDataList_RemoveActivateParent(void* value)
             void* result = ((FUN_00433a00_t*)extra)->ExtraActivateRef_GetData(value);
             if (result)
             {
-                ((ContNode*)((char*)extra + 0xc))->FUN_00905330(&result);
+                ((ContNode*)((char*)extra + 0xc))->RemoveMatchingItem(&result);
                 void* temp = result;
                 _Deallocate(temp);
                 if (((_ref_008256d0_shell*)((char*)extra + 0xc))->_ref_008256d0())
@@ -12439,10 +12449,11 @@ struct Extra_00432870 : public LegacyExtraData
 struct FUN_0041c930_shell : public ExtraDataList
 {
     void ExtraDataList_RemovePackageExtra();
-    void FUN_0041c930(Package_0041c930*, unsigned int, unsigned int, unsigned char, unsigned char, unsigned char);
+    void AllocateStorage_0041c930(Package_0041c930*, unsigned int, unsigned int, unsigned char, unsigned char, unsigned char);
 };
 // @fnv 0x0041c930
-void FUN_0041c930_shell::FUN_0041c930(Package_0041c930* package, unsigned int value, unsigned int options,
+// src: GUESS 0x0041c930 (confidence: low)
+void FUN_0041c930_shell::AllocateStorage_0041c930(Package_0041c930* package, unsigned int value, unsigned int options,
                                       unsigned char flag1, unsigned char flag2, unsigned char flag3)
 {
     if (package != 0 && ((package->FUN_00674d40() && package->FUN_0041ca90() != 1) || package->FUN_00674e40() ||
@@ -13054,11 +13065,12 @@ struct S_0041fe10_Owner
     int unk04;
     int unk08;
     S_0041fe10_Item* unk0c;
-    void FUN_0041fe10();
+    void ReleaseStorage_0041fe10();
 };
 // Deletes the item held in unk0c if present, then sets unk0c to null.
 // @fnv 0x0041fe10
-void S_0041fe10_Owner::FUN_0041fe10()
+// src: GUESS 0x0041fe10 (confidence: low)
+void S_0041fe10_Owner::ReleaseStorage_0041fe10()
 {
     if (unk0c)
         delete unk0c;
@@ -13501,7 +13513,8 @@ extern char DAT_010151f0;
 void __cdecl FormHeapFreeAndLog_00401030(void* pointer);
 
 // @fnv 0x00421160
-void ExtraCollisionData::FUN_00421160()
+// src: GUESS 0x00421160 (confidence: medium)
+void ExtraCollisionData::ReleaseStorage()
 {
     *reinterpret_cast<void**>(this) = &DAT_010151f0;
     void* changes = m_pCollisionData;
@@ -14253,12 +14266,12 @@ namespace ExtraSave {
 struct Form
 {
     unsigned int GetHavokWorldObjectCountInSceneGraph_0084e3a0();
-    void FUN_0043a420();
-    void FUN_00438c10();
+    void SaveDoorTeleportData();
+    void ReleaseStorage_00438c10();
     void WriteToStream();
     void FUN_00483710();
     void RagDollData_Save();
-    void FUN_00438f90();
+    void EvaluateValue_00438f90();
 };
 
 struct TwoComponentVector
@@ -14290,7 +14303,7 @@ struct Primitive
 struct PlanePointer
 {
     Plane* value;
-    Plane* FUN_00559450();
+    Plane* Modelloader_GetReferencedThis();
 };
 struct LockRecord
 {
@@ -14298,7 +14311,7 @@ struct LockRecord
     unsigned int key;
     unsigned char flags;
     int unk0c, unk10;
-    void FUN_00411b00();
+    void LockExtraData_ClearFields();
     void PACK_SCHED_DATA_Endian();
 };
 struct PathingActorState
@@ -14348,7 +14361,7 @@ struct DecalRecord
     };
     PodPoint3 position;
     PodPoint3 rotation;
-    void FUN_0055a400();
+    void Object_ProcessAndReturnValue_0055a400();
     void SwapEndian();
 };
 template <class T> struct List
@@ -14402,8 +14415,8 @@ struct PlaneRecord
     TwoComponentVector size;
     PodPoint3 center;
     float x, y, z, angle;
-    void FUN_00414470();
-    void FUN_004140f0();
+    void ExtraDataList_EvaluateValue_00414470();
+    void ProcessState_004140f0();
 };
 struct FourForms
 {
@@ -14516,7 +14529,7 @@ void ExtraList::WriteToSave()
         case 42: {
             PathingActorState* lockSlot0 = extra->lock;
             LockRecord recordSlot0;
-            recordSlot0.FUN_00411b00();
+            recordSlot0.LockExtraData_ClearFields();
             recordSlot0.flags = lockSlot0->flags;
             recordSlot0.level = lockSlot0->level;
             if (lockSlot0->key)
@@ -14544,12 +14557,12 @@ void ExtraList::WriteToSave()
             break;
         }
         case 43: {
-            extra->form->FUN_0043a420();
+            extra->form->SaveDoorTeleportData();
             break;
         }
         case 44: {
             TESForm_AddChunk('KRMX');
-            extra->form->FUN_00438c10();
+            extra->form->ReleaseStorage_00438c10();
             break;
         }
         case 144: {
@@ -14787,7 +14800,7 @@ void ExtraList::WriteToSave()
             {
                 DecalRecord* source = cursor->FUN_006815c0();
                 DecalRecord record;
-                record.FUN_0055a400();
+                record.Object_ProcessAndReturnValue_0055a400();
                 FUN_00401460(&record, source, 28);
                 record.formId = source->form->GetHavokWorldObjectCountInSceneGraph_0084e3a0();
                 if (TESForm_QEndianSwapOnSave())
@@ -14847,7 +14860,7 @@ void ExtraList::WriteToSave()
         case 98: {
             Form* teleport = extra->form;
             if (teleport)
-                teleport->FUN_00438f90();
+                teleport->EvaluateValue_00438f90();
             break;
         }
         case 30: {
@@ -14910,16 +14923,16 @@ void ExtraList::WriteToSave()
         }
         case 113: {
             PlaneRecord recordSlot0;
-            recordSlot0.FUN_00414470();
-            Plane* planeSlot0 = extra->plane.FUN_00559450();
+            recordSlot0.ExtraDataList_EvaluateValue_00414470();
+            Plane* planeSlot0 = extra->plane.Modelloader_GetReferencedThis();
             recordSlot0.size = planeSlot0->FUN_007d6bb0();
             recordSlot0.center = planeSlot0->FUN_00413f40();
             planeSlot0->CopyData().GetAxisAngle(&recordSlot0.angle, &recordSlot0.x, &recordSlot0.y, &recordSlot0.z);
             if (TESForm_QEndianSwapOnSave())
-                recordSlot0.FUN_004140f0();
+                recordSlot0.ProcessState_004140f0();
             AppendChunk('PCOX', &recordSlot0, 36);
             if (TESForm_QEndianSwapOnSave())
-                recordSlot0.FUN_004140f0();
+                recordSlot0.ProcessState_004140f0();
             break;
         }
         case 118: {
@@ -14938,16 +14951,16 @@ void ExtraList::WriteToSave()
         }
         case 120: {
             PlaneRecord recordSlot0;
-            recordSlot0.FUN_00414470();
-            Plane* planeSlot0 = extra->plane.FUN_00559450();
+            recordSlot0.ExtraDataList_EvaluateValue_00414470();
+            Plane* planeSlot0 = extra->plane.Modelloader_GetReferencedThis();
             recordSlot0.size = planeSlot0->FUN_007d6bb0();
             recordSlot0.center = planeSlot0->FUN_00413f40();
             planeSlot0->CopyData().GetAxisAngle(&recordSlot0.angle, &recordSlot0.x, &recordSlot0.y, &recordSlot0.z);
             if (TESForm_QEndianSwapOnSave())
-                recordSlot0.FUN_004140f0();
+                recordSlot0.ProcessState_004140f0();
             AppendChunk('LTPX', &recordSlot0, 36);
             if (TESForm_QEndianSwapOnSave())
-                recordSlot0.FUN_004140f0();
+                recordSlot0.ProcessState_004140f0();
             break;
         }
         case 119: {
@@ -15263,7 +15276,7 @@ struct OcclusionLoad
     float rotX, rotY, rotZ;
     float width, height, depth, angle;
     OcclusionLoad();
-    void FUN_004140f0();
+    void ProcessState_004140f0();
 };
 struct Matrix
 {
@@ -15981,7 +15994,7 @@ void loader::List::LoadExtraData(File* file, void* owner)
         memset(&data, 0, 36);
         file->FUN_00472890(&data, 36);
         if (file->FUN_00401680())
-            data.FUN_004140f0();
+            data.ProcessState_004140f0();
         Plane* pData = new Plane;
         pData->BSOcclusionPlane_SetHalfExtents(&data);
         pData->BSOcclusionPlane_SetCenter(&data.rotX);
@@ -15996,7 +16009,7 @@ void loader::List::LoadExtraData(File* file, void* owner)
         memset(&data, 0, 36);
         file->FUN_00472890(&data, 36);
         if (file->FUN_00401680())
-            data.FUN_004140f0();
+            data.ProcessState_004140f0();
         break;
     }
     break;
@@ -16379,7 +16392,7 @@ void FUN_0041d7b0_cls::RemoveRunOnceItems(char abKeepFlag)
             }
             if (item->bFlag04 != abKeepFlag || match)
             {
-                reinterpret_cast<ContNode*>(owner->pRunOnceList)->FUN_00905330(&item);
+                reinterpret_cast<ContNode*>(owner->pRunOnceList)->RemoveMatchingItem(&item);
                 RunOnceItem* doomed = item;
                 FormHeapFreeAndLog_00401030(doomed);
                 cur = owner->pRunOnceList;
@@ -16399,7 +16412,7 @@ struct RefListNode
     TESObjectREFR*** FUN_006815c0();
     RefListNode* FUN_00726070();
     void FUN_0063f7b0();
-    void FUN_00905330(TESObjectREFR*** entry);
+    void RemoveMatchingItem(TESObjectREFR*** entry);
 };
 struct FUN_0041ef20_shell : ExtraDataList
 {
@@ -16424,7 +16437,7 @@ void FUN_0041ef20_shell::ExtraDataList_RemoveActivateRefChild(TESObjectREFR* ref
                 {
                     if (previous)
                     {
-                        previous->FUN_00905330(&item);
+                        previous->RemoveMatchingItem(&item);
                     }
                     else
                     {
@@ -17599,7 +17612,7 @@ struct FUN_0043a160
     unsigned int unk04;
     unsigned int unk08;
     FUN_0043a160();
-    void FUN_0043a9a0();
+    void LoadFields();
     unsigned int unk0C;
     unsigned int unk10;
     unsigned int unk14;
@@ -17670,7 +17683,7 @@ struct Extras
     void ExtraDataList_SetScriptLocals(ScriptLocals*);
     void SetLeveledItemIndex(unsigned int);
     void SetExtraDataByte(unsigned char);
-    void FUN_0041c930(TESPackage*, unsigned int, unsigned int, unsigned char, unsigned char, unsigned char);
+    void AllocateStorage_0041c930(TESPackage*, unsigned int, unsigned int, unsigned char, unsigned char, unsigned char);
     void SetTrespassPackage(TESPackage*);
     void ExtraDataList_SetReferencePointer(unsigned int);
     void FUN_0041d700(TESPackage*, unsigned char);
@@ -17971,7 +17984,7 @@ void Extras::ExtraDataList_LoadGame(unsigned int auiChangeFlags, unsigned int un
             if (!quYjuqT)
                 quYjuqT = dynamic_cast<TESPackage*>(TESForm_GetFormByNumericID(qidnYUK));
             if (quYjuqT)
-                FUN_0041c930(quYjuqT, qoPB, qtOMjSX, qCWCA, qbfQdhM, 0);
+                AllocateStorage_0041c930(quYjuqT, qoPB, qtOMjSX, qCWCA, qbfQdhM, 0);
             break;
         }
         case 26: {
@@ -18078,7 +18091,7 @@ void Extras::ExtraDataList_LoadGame(unsigned int auiChangeFlags, unsigned int un
             if (auiChangeFlags & 0x20000)
             {
                 FUN_0043a160* data = new FUN_0043a160;
-                data->FUN_0043a9a0();
+                data->LoadFields();
                 ExtraDataList_SetTeleportPtr(data);
             }
             break;
@@ -18355,8 +18368,8 @@ void __cdecl ActiveEffect_SaveActiveEffectListBGS(BufObj* a1, void* a2);
 struct ListObj
 {
     ExtradatalistListNodeView** FUN_006815c0();
-    void FUN_0083fb10(BufObj* a1);
-    void FUN_0043aa40(BufObj* a1);
+    void SaveState_0083fb10(BufObj* a1);
+    void SaveFields_0043aa40(BufObj* a1);
     ListObj* FUN_00726070();
     int FUN_0045cd60();
     unsigned char InterfaceManager_GetMenuMode();
@@ -18378,7 +18391,7 @@ struct Obj8f
     int f0;
     int f4;
     ~Obj8f();
-    int FUN_00559450();
+    int Modelloader_GetReferencedThis();
 };
 struct Node
 {
@@ -18459,7 +18472,7 @@ struct MidObj
 };
 struct FieldC
 {
-    MidObj* FUN_00559450();
+    MidObj* Modelloader_GetReferencedThis();
 };
 struct VObj54
 {
@@ -18905,7 +18918,7 @@ void Owner::WriteNodeList(BufObj* apBuffer)
             }
             case 0x4d: {
                 Node* t = node;
-                t->m_0c->FUN_0083fb10(apBuffer);
+                t->m_0c->SaveState_0083fb10(apBuffer);
                 break;
             }
             case 0x4e: {
@@ -18949,13 +18962,13 @@ void Owner::WriteNodeList(BufObj* apBuffer)
             case 0x60: {
                 Node* t = node;
                 int res =
-                    ((FieldC*)&t->m_0c)->FUN_00559450() ? ((FieldC*)&t->m_0c)->FUN_00559450()->FUN_00825c00() : -1;
+                    ((FieldC*)&t->m_0c)->Modelloader_GetReferencedThis() ? ((FieldC*)&t->m_0c)->Modelloader_GetReferencedThis()->FUN_00825c00() : -1;
                 apBuffer->FUN_00865e50(&res, 4, 0);
                 break;
             }
             case 0x2b: {
                 Node* t = node;
-                t->m_0c->FUN_0043aa40(apBuffer);
+                t->m_0c->SaveFields_0043aa40(apBuffer);
                 break;
             }
             case 0x3c: {
@@ -19021,8 +19034,8 @@ void Owner::WriteNodeList(BufObj* apBuffer)
             }
             case 0x8f: {
                 Node* t = node;
-                apBuffer->FUN_00865e70(t->ExtraSecuritronFace_GetPersonality(0).FUN_00559450());
-                apBuffer->FUN_00865e70(t->CallWithField14(0).FUN_00559450());
+                apBuffer->FUN_00865e70(t->ExtraSecuritronFace_GetPersonality(0).Modelloader_GetReferencedThis());
+                apBuffer->FUN_00865e70(t->CallWithField14(0).Modelloader_GetReferencedThis());
                 break;
             }
             case 0x92: {
@@ -20406,12 +20419,12 @@ struct FUN_0040ecb0
 struct FUN_0041fdb0 : FUN_0040ecb0
 {
     virtual ~FUN_0041fdb0();
-    void FUN_0041fe10();
+    void ReleaseStorage_0041fe10();
 };
 // @fnv 0x0041fdb0
 FUN_0041fdb0::~FUN_0041fdb0()
 {
-    FUN_0041fe10();
+    ReleaseStorage_0041fe10();
 }
 
 namespace extra421 {
@@ -20746,7 +20759,7 @@ struct ResolveNode
     ResolveNode* FUN_00726070();
     bool FUN_008256d0();
     void FUN_00726c60(TESObjectREFR**);
-    void FUN_00905330(void**);
+    void RemoveMatchingItem(void**);
     void FUN_0063f7b0();
 };
 struct ResolveItem
@@ -21212,7 +21225,7 @@ void ResolveExtraOwner::ExtraDataList_InitItem(TESForm* owner)
                     FNV_Warning(reinterpret_cast<const char*>(0x010148ec) /* MASTERFILE: Unable to find activate reference %08X. */, id);
                     if (previous)
                     {
-                        previous->FUN_00905330(reinterpret_cast<void**>(&item));
+                        previous->RemoveMatchingItem(reinterpret_cast<void**>(&item));
                         node = previous->FUN_00726070();
                     }
                     else

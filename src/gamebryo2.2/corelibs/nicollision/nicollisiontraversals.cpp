@@ -85,21 +85,21 @@ public:
     float GetSquaredXYLength() const;
     Elem16& expand(Allocator& allocator);
 
-    void FUN_00416870(float x, float y, float z);
+    void SetComponents(float x, float y, float z);
     bool FUN_00439090(const LocalVec3* other);
-    bool FUN_004390c0(const LocalVec3* other);
-    bool FUN_004390c0(const LocalVec3* other) const;
-    bool FUN_004390c0(const char* other);
-    void FUN_00439180(float scale);
+    bool HasEqualComponents(const LocalVec3* other);
+    bool HasEqualComponents(const LocalVec3* other) const;
+    bool HasEqualComponents(const char* other);
+    void ScaleComponents(float scale);
     LocalVec3 FUN_00439e90(const LocalVec3& other);
     LocalVec3 FUN_00439e90(const LocalVec3& other) const;
-    void FUN_00439ef0();
-    LocalVec3 FUN_00439ef0(const LocalVec3& other);
-    LocalVec3 FUN_00439ef0(const LocalVec3& other) const;
-    LocalVec3 FUN_00439ef0(LocalVec3* other);
-    LocalVec3 FUN_00439ef0(const LocalVec3* other);
-    void FUN_00439ef0(LocalVec3* output, const LocalVec3* other);
-    LocalVec3* FUN_00439ef0(void* output, void* other);
+    void SubtractIntoVector();
+    LocalVec3 SubtractIntoVector(const LocalVec3& other);
+    LocalVec3 SubtractIntoVector(const LocalVec3& other) const;
+    LocalVec3 SubtractIntoVector(LocalVec3* other);
+    LocalVec3 SubtractIntoVector(const LocalVec3* other);
+    void SubtractIntoVector(LocalVec3* output, const LocalVec3* other);
+    LocalVec3* SubtractIntoVector(void* output, void* other);
     void FUN_0043d410(float x, int y, int z);
     void FUN_0043d410(float x, unsigned int y, unsigned int z);
     float FUN_00457910();
@@ -109,22 +109,22 @@ public:
     float FUN_004a7290();
     float FUN_004a7290() const;
     LocalVec3 FUN_004b3800(const LocalVec3& other) const;
-    LocalVec3 FUN_0053d280(float divisor);
+    LocalVec3 ProcessAndReturnValue_0053d280(float divisor);
     float NiPoint3_XYLength();
     float NiPoint3_XYLength() const;
-    void FUN_0063c8a0(const LocalVec3* other);
-    void FUN_0063c8a0(void* other);
+    void ComputeValue_0063c8a0(const LocalVec3* other);
+    void ComputeValue_0063c8a0(void* other);
     void FUN_006815c0();
     float CVec3_Distance(LocalVec3* other);
     float CVec3_Distance(const LocalVec3& other) const;
-    LocalVec3 FUN_00b05000(const Mat& matrix);
-    LocalVec3 FUN_00b05000(const Matrix4* matrix);
+    LocalVec3 TransformPointByMatrix4(const Mat& matrix);
+    LocalVec3 TransformPointByMatrix4(const Matrix4* matrix);
     void Normalize_00b12790();
     LocalVec3 Diff_00b13040(void* other);
     LocalVec3 Diff_00b13040(const LocalVec3& other) const;
     float FUN_00b2a180(void* other);
-    LocalVec3& FUN_00b2a1c0(void* other);
-    void FUN_00ddc870();
+    LocalVec3& AddComponents(void* other);
+    void ProcessEntries_00ddc870();
     void FUN_00e0f6e0();
 };
 #include "../../../../include/Normal.h"
@@ -536,7 +536,7 @@ bool __cdecl NiCollisionTraversals_FindIntersections(NiPoint3* pPoint1, NiPoint3
             return RaycastShape(pPoint1, pPoint2, pContext, node);
         if (DAT_0126fa65 && NiObject_IsKindOf(&DAT_011f4a48, node))
         {
-            NiPoint3 d = node->unk8c.FUN_00439ef0(*pPoint1);
+            NiPoint3 d = node->unk8c.SubtractIntoVector(*pPoint1);
             if (pPoint2->DotProduct(d) < DAT_01011d78)
                 return false;
             float len = d.FUN_00457990();
@@ -545,7 +545,7 @@ bool __cdecl NiCollisionTraversals_FindIntersections(NiPoint3* pPoint1, NiPoint3
         }
         if (DAT_0126fa64 && NiObject_IsKindOf(&DAT_011f5f64, node))
         {
-            NiPoint3 d = node->unk8c.FUN_00439ef0(*pPoint1);
+            NiPoint3 d = node->unk8c.SubtractIntoVector(*pPoint1);
             if (pPoint2->DotProduct(d) < DAT_01011d78)
                 return false;
             S_00e9c490_Entry* pEntry = pContext->unk18.GetTexture(node);
@@ -675,7 +675,7 @@ struct P4
     }
     P4 AddDelta(const P4&);
 };
-P4 __cdecl FUN_00532f40(float, const P4&);
+P4 __cdecl Object_ProcessAndReturnValue_00532f40(float, const P4&);
 extern NiPoint2 DAT_011f4980;
 extern P4 DAT_011a9be0;
 struct Matrix
@@ -1067,9 +1067,9 @@ bool __cdecl RaycastGeometry(const RaycastPoint* origin, const RaycastPoint* dir
                 P4* colors = geometry->data->colors;
                 if (colors)
                 {
-                    P4 blended = FUN_00532f40(b0, colors[i0])
-                                     .AddDelta(FUN_00532f40(b1, colors[i1]))
-                                     .AddDelta(FUN_00532f40(b2, colors[i2]));
+                    P4 blended = Object_ProcessAndReturnValue_00532f40(b0, colors[i0])
+                                     .AddDelta(Object_ProcessAndReturnValue_00532f40(b1, colors[i1]))
+                                     .AddDelta(Object_ProcessAndReturnValue_00532f40(b2, colors[i2]));
                     hit->color = blended;
                 }
                 else
@@ -1339,7 +1339,7 @@ struct Vec2
 };
 extern Vec2 __cdecl FUN_00532fd0(float, const Vec2&);
 extern LocalVec3 __cdecl FUN_004a3760(float, const LocalVec3&);
-extern Vec4 __cdecl FUN_00532f40(float, const Vec4&);
+extern Vec4 __cdecl Object_ProcessAndReturnValue_00532f40(float, const Vec4&);
 
 struct QueryResult
 {
@@ -1722,7 +1722,7 @@ bool __cdecl IntersectShape(const LocalVec3* rayStart, const LocalVec3* rayDirec
                     colors.NiGeometryDataIteratorNiColorA_Get(a, &ca);
                     colors.NiGeometryDataIteratorNiColorA_Get(b, &cb);
                     colors.NiGeometryDataIteratorNiColorA_Get(c, &cc);
-                    Vec4 sum = FUN_00532f40(weight, ca) + FUN_00532f40(u, cb) + FUN_00532f40(v, cc);
+                    Vec4 sum = Object_ProcessAndReturnValue_00532f40(weight, ca) + Object_ProcessAndReturnValue_00532f40(u, cb) + Object_ProcessAndReturnValue_00532f40(v, cc);
                     result->tangent = sum;
                 }
                 else
@@ -1730,8 +1730,8 @@ bool __cdecl IntersectShape(const LocalVec3* rayStart, const LocalVec3* rayDirec
                     Vec4* directColors = shape->mesh->colors;
                     if (directColors)
                     {
-                        Vec4 sum = FUN_00532f40(weight, directColors[a]) + FUN_00532f40(u, directColors[b]) +
-                                   FUN_00532f40(v, directColors[c]);
+                        Vec4 sum = Object_ProcessAndReturnValue_00532f40(weight, directColors[a]) + Object_ProcessAndReturnValue_00532f40(u, directColors[b]) +
+                                   Object_ProcessAndReturnValue_00532f40(v, directColors[c]);
                         result->tangent = sum;
                     }
                     else
@@ -1803,8 +1803,8 @@ struct Vec2
 };
 extern Vec2 __cdecl FUN_00532fd0(float, const Vec2&);
 extern NiPoint3 __cdecl FUN_004a3760(float, const NiPoint3&);
-extern Vec4 __cdecl FUN_00532f40(float, const Vec4&);
-extern __declspec(noalias) NiPoint3 __cdecl FUN_004b3ae0(const NiPoint3&, const float*);
+extern Vec4 __cdecl Object_ProcessAndReturnValue_00532f40(float, const Vec4&);
+extern __declspec(noalias) NiPoint3 __cdecl NiPoint3_TransformByMatrix3(const NiPoint3&, const float*);
 
 
 
@@ -2024,8 +2024,8 @@ bool __cdecl RaycastShape(const NiPoint3* rayStart, const NiPoint3* rayDirection
         const Transform& xform = shape->World();
         NiPoint3 difference = *rayStart - *reinterpret_cast<const NiPoint3*>(&xform.position);
         float invScale = (float)(1.0f / xform.scale);
-        NiPoint3 localStart = FUN_004b3ae0(difference, &reinterpret_cast<const Mat3&>(xform.rotation).m00) * invScale;
-        NiPoint3 localDirection = FUN_004b3ae0(*rayDirection, &reinterpret_cast<const Mat3&>(xform.rotation).m00) * invScale;
+        NiPoint3 localStart = NiPoint3_TransformByMatrix3(difference, &reinterpret_cast<const Mat3&>(xform.rotation).m00) * invScale;
+        NiPoint3 localDirection = NiPoint3_TransformByMatrix3(*rayDirection, &reinterpret_cast<const Mat3&>(xform.rotation).m00) * invScale;
         bool anyHit = false;
         const unsigned short triangleCount = shape->mesh->GetTriangleTotal();
         bool ownsPositions = false;
@@ -2043,7 +2043,7 @@ bool __cdecl RaycastShape(const NiPoint3* rayStart, const NiPoint3* rayDirection
             if (!positions.data)
             {
                 QueryResult* result = options->output.GetTexture(shape);
-                NiPoint3 offset = reinterpret_cast<const NiPoint3*>(&shape->World().position)->FUN_00439ef0(*rayStart);
+                NiPoint3 offset = reinterpret_cast<const NiPoint3*>(&shape->World().position)->SubtractIntoVector(*rayStart);
                 result->distance = offset.FUN_00457990();
                 return true;
             }
@@ -2168,9 +2168,9 @@ bool __cdecl RaycastShape(const NiPoint3* rayStart, const NiPoint3* rayDirection
                         colors.NiGeometryDataIteratorNiColorA_Get(a, reinterpret_cast<Vec4*>(&ca));
                         colors.NiGeometryDataIteratorNiColorA_Get(b, reinterpret_cast<Vec4*>(&cb));
                         colors.NiGeometryDataIteratorNiColorA_Get(c, reinterpret_cast<Vec4*>(&cc));
-                        Vec4 sum = FUN_00532f40(weight, *reinterpret_cast<const Vec4*>(&ca))
-                            + FUN_00532f40(u, *reinterpret_cast<const Vec4*>(&cb))
-                            + FUN_00532f40(v, *reinterpret_cast<const Vec4*>(&cc));
+                        Vec4 sum = Object_ProcessAndReturnValue_00532f40(weight, *reinterpret_cast<const Vec4*>(&ca))
+                            + Object_ProcessAndReturnValue_00532f40(u, *reinterpret_cast<const Vec4*>(&cb))
+                            + Object_ProcessAndReturnValue_00532f40(v, *reinterpret_cast<const Vec4*>(&cc));
                         memcpy(&result->tangent, &sum, sizeof(sum));
                     }
                     else
@@ -2178,8 +2178,8 @@ bool __cdecl RaycastShape(const NiPoint3* rayStart, const NiPoint3* rayDirection
                         Vec4* directColors = shape->mesh->colors;
                         if (directColors)
                         {
-                            Vec4 sum = FUN_00532f40(weight, directColors[a]) + FUN_00532f40(u, directColors[b]) +
-                                       FUN_00532f40(v, directColors[c]);
+                            Vec4 sum = Object_ProcessAndReturnValue_00532f40(weight, directColors[a]) + Object_ProcessAndReturnValue_00532f40(u, directColors[b]) +
+                                       Object_ProcessAndReturnValue_00532f40(v, directColors[c]);
                             memcpy(&result->tangent, &sum, sizeof(sum));
                         }
                     }

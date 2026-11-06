@@ -177,13 +177,13 @@ struct FnMap
     ~FnMap() throw()
     {
         ProcessArgument(hkMemoryRouter_getInstance()->m_heap);
-        FUN_00a29680();
+        Object_DoNothing();
     }
     void __thiscall EnsureCapacity(hkMemoryAllocator*, int) throw();
     void __thiscall hkMapBase_unsigned_long_unsigned_long_hkMapOperations_unsigned_long_insert(hkMemoryAllocator*, int, int) throw();
     int __thiscall FindSlot(int) throw();
     void __thiscall ProcessArgument(hkMemoryAllocator*) throw();
-    void __thiscall FUN_00a29680() throw();
+    void __thiscall Object_DoNothing() throw();
 };
 struct FnNodePair
 {
@@ -241,7 +241,7 @@ struct FnDiagnostic
     int cursor;
     int capacity;
     void __thiscall FUN_00cb1600(char*, int) throw();
-    void __thiscall FUN_00cc01c0(const char*) throw();
+    void __thiscall ProcessAndReturnValue_00cc01c0(const char*) throw();
     void __thiscall FUN_00cc00e0() throw();
 };
 struct FnLogger
@@ -257,7 +257,7 @@ inline void reportError(const char* message, unsigned int id, int line)
     unsigned int buffer[128];
     FnDiagnostic diagnostic;
     diagnostic.FUN_00cb1600((char*)buffer, 512);
-    diagnostic.FUN_00cc01c0(message);
+    diagnostic.ProcessAndReturnValue_00cc01c0(message);
     DAT_01268360->report(1, id, (char*)buffer, ".\\Constraint\\Chain\\hkpPoweredChainMapper.cpp", line);
     diagnostic.FUN_00cc00e0();
 }

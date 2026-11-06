@@ -125,7 +125,8 @@ void FAMThread::WaitForThread()
 }
 
 // @fnv 0x0082f7b0
-unsigned int __fastcall FUN_0082f7b0(FAMThread* pThis)
+// src: GUESS 0x0082f7b0 (confidence: low)
+unsigned int __fastcall Falloutaudiomedia_ProcessEntries_0082f7b0(FAMThread* pThis)
 {
     pThis->state |= 2;
     while (pThis->state & 1)
@@ -192,19 +193,20 @@ float __cdecl ComputeAttenuatedVolume(int aeMediaType, float attenuation)
     return vol;
 }
 
-float __cdecl FUN_0082fff0(float);
+float __cdecl Falloutaudiomedia_ForwardCall_0082fff0(float);
 
 // @fnv 0x0082ffd0
 // src: COMMUNITY 0x0082ffd0
 float log_0082ffd0(float _X)
 {
-    return FUN_0082fff0(_X);
+    return Falloutaudiomedia_ForwardCall_0082fff0(_X);
 }
 
 double __cdecl FUN_00ecbc80(double);
 
 // @fnv 0x0082fff0
-float __cdecl FUN_0082fff0(float value)
+// src: GUESS 0x0082fff0 (confidence: low)
+float __cdecl Falloutaudiomedia_ForwardCall_0082fff0(float value)
 {
     return static_cast<float>(FUN_00ecbc80(value));
 }

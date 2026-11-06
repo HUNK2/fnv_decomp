@@ -110,7 +110,7 @@ NiStringExtraData* __fastcall NiStringExtraData_Destroy(NiStringExtraData* self,
     {
         FUN_00fdf1c4_import(pData - 8);
     }
-    self->FUN_00a7b300();
+    self->DestroyFields_00a7b300();
     if (acFlags & 1)
     {
         FUN_00aa1460(self, 0x10);
@@ -119,7 +119,7 @@ NiStringExtraData* __fastcall NiStringExtraData_Destroy(NiStringExtraData* self,
 }
 
 namespace fnv_00a74300 {
-extern "C" void* __cdecl FUN_00aa13e0(unsigned int);
+extern "C" void* __cdecl Object_DispatchCommandFour(unsigned int);
 extern "C" char* DAT_0109b220;
 extern "C" void* DAT_0109d39c;
 extern "C" void(__stdcall* DAT_00fdf1c0)(void*);
@@ -128,7 +128,7 @@ extern "C" void(__stdcall* DAT_00fdf1c4)(void*);
 // @fnv 0x00a74300
 void* __fastcall NiStringExtraData_CreateCopy(NiStringExtraData* self, void*, int arg)
 {
-    NiStringExtraData* esi = (NiStringExtraData*)FUN_00aa13e0(0x10);
+    NiStringExtraData* esi = (NiStringExtraData*)Object_DispatchCommandFour(0x10);
     if (esi != 0)
     {
         esi->FUN_00a7b2e0();

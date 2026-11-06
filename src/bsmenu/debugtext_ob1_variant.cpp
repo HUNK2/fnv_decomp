@@ -868,7 +868,8 @@ struct TextList {
   --count;
   return data;
  }
- DynamicEntry* FUN_00a11c40(DynamicEntry*& entry) {
+// src: GUESS 0x00a11c40 (confidence: low)
+ DynamicEntry* ProcessAndReturnValue_00a11c40(DynamicEntry*& entry) {
   Link* position=Find(entry);
   return position?RemoveNode(position):entry;
  }
@@ -907,7 +908,7 @@ void DebugText_Idle() {
  while (iter) {
   DynamicEntry* entry2=_debug->list.Next(iter);
   if (((SceneNode*)entry2->node)->GetRefs()<2) {
-   delete _debug->list.FUN_00a11c40(entry2);
+   delete _debug->list.ProcessAndReturnValue_00a11c40(entry2);
   } else if (entry2->lifetime>0.0) {
    entry2->lifetime-=GetElapsed();
    if (entry2->lifetime<0.0) {
@@ -915,7 +916,7 @@ void DebugText_Idle() {
     ((SceneNode*)entry2->node)->GetParent()->Remove(entry2->node);
     entry2->node.FUN_0066b0d0(0);
     ReleaseLock();
-    delete _debug->list.FUN_00a11c40(entry2);
+    delete _debug->list.ProcessAndReturnValue_00a11c40(entry2);
    }
   }
  }
@@ -1290,10 +1291,11 @@ struct ArrQ : BSSimpleArray<void*> {
 struct MgrQ {
     int unk[0x2270 / 4];
     ArrQ m_kNode;
-    int FUN_00a0f730(const char* name, int key);
+    int SetEntryText(const char* name, int key);
 };
 // @fnv 0x00a0f730
-int MgrQ::FUN_00a0f730(const char* name, int key)
+// src: GUESS 0x00a0f730 (confidence: medium)
+int MgrQ::SetEntryText(const char* name, int key)
 {
     bool found = false;
     for (unsigned int i = 0; !found && i < m_kNode.Count(); i++) {
@@ -1347,7 +1349,8 @@ __forceinline T* CastParentIfKind(const NiRTTI& kRTTI, NiObject* pkObject)
 }
 
 // @fnv 0x00a11470
-unsigned char __cdecl FUN_00a11470(NiObject* pkObject, int a, int b, float c)
+// src: GUESS 0x00a11470 (confidence: medium)
+unsigned char __cdecl NiObject_AddFloatingTextForCompatibleObject(NiObject* pkObject, int a, int b, float c)
 {
     NiObject* pkCast = CastIfKind<NiObject>(DAT_011f4428, pkObject);
     if (pkCast == 0 && pkObject != 0)
@@ -1371,7 +1374,7 @@ namespace fnv_00a11560 {
 
 extern NiRTTI DAT_011f4428;
 
-void __cdecl FUN_00a11640(NiAVObject* a, int b);
+void __cdecl Object_ProcessEntries_00a11640(NiAVObject* a, int b);
 
 __forceinline NiAVObject* A11560ParentKind(NiAVObject* a) {
     NiAVObject* p = a->m_pkParent;
@@ -1381,7 +1384,8 @@ __forceinline NiAVObject* A11560ParentKind(NiAVObject* a) {
 }
 
 // @fnv 0x00a11560
-void __cdecl FUN_00a11560(NiAVObject* a1, int a2) {
+// src: GUESS 0x00a11560 (confidence: low)
+void __cdecl NiAVObject_UpdateFields_00a11560(NiAVObject* a1, int a2) {
     NiAVObject* r;
     if (a1 == 0)
         r = 0;
@@ -1390,7 +1394,7 @@ void __cdecl FUN_00a11560(NiAVObject* a1, int a2) {
     if (r == 0 && a1 != 0)
         r = A11560ParentKind(a1);
     if (r)
-        FUN_00a11640(r, a2);
+        Object_ProcessEntries_00a11640(r, a2);
 }
 }  // namespace fnv_00a11560
 
@@ -1538,7 +1542,7 @@ struct A11List {
     inline unsigned int RemoveHead();
     inline unsigned int RemoveTail();
     inline unsigned int RemovePos(A11Node** p);
-    unsigned int __thiscall FUN_00a11c40(unsigned int* aKey);
+    unsigned int __thiscall ProcessAndReturnValue_00a11c40(unsigned int* aKey);
 };
 
 inline A11Node* A11List::Find(unsigned int* aKey) {
@@ -1622,7 +1626,8 @@ inline unsigned int A11List::RemovePos(A11Node** p) {
 }
 
 // @fnv 0x00a11c40
-unsigned int A11List::FUN_00a11c40(unsigned int* aKey) {
+// src: GUESS 0x00a11c40 (confidence: low)
+unsigned int A11List::ProcessAndReturnValue_00a11c40(unsigned int* aKey) {
     A11Node* r7;
     r7 = Find(aKey);
     return r7 != 0 ? RemovePos(&r7) : *aKey;
@@ -1758,19 +1763,20 @@ struct TextList {
         iter = iter->next;
         return *value;
     }
-    inline DebugItem* FUN_00a11c40(DebugItem*& entry);
-    void FUN_00a1c2d0();
+    inline DebugItem* ProcessAndReturnValue_00a11c40(DebugItem*& entry);
+    void ClearLinkedNodes();
     ~TextList() {
         TextList* self = this;
         ListGuard guard;
-        self->FUN_00a1c2d0();
+        self->ClearLinkedNodes();
     }
 };
 
-inline DebugItem* TextList::FUN_00a11c40(DebugItem*& entry) {
+// src: GUESS 0x00a11c40 (confidence: low)
+inline DebugItem* TextList::ProcessAndReturnValue_00a11c40(DebugItem*& entry) {
     unsigned s0, s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15, s16;
     s0 = s1 = s2 = s3 = s4 = s5 = s6 = s7 = s8 = s9 = s10 = s11 = s12 = s13 = s14 = s15 = s16 = 0;
-    if (s0 == 1) return FUN_00a11c40(entry);
+    if (s0 == 1) return ProcessAndReturnValue_00a11c40(entry);
     return entry;
 }
 
@@ -1798,7 +1804,7 @@ FUN_00a0dcc0::~FUN_00a0dcc0()
             item->node->GetParent()->Remove(item->node);
             item->node.FUN_0066b0d0(0);
         }
-        delete list.FUN_00a11c40(item);
+        delete list.ProcessAndReturnValue_00a11c40(item);
     }
     ReleaseLock();
 }
@@ -2023,7 +2029,8 @@ struct ListOwner
 };
 
 // @fnv 0x00a11640
-void __cdecl FUN_00a11640(ListOwner* pkOwner, int iEntry)
+// src: GUESS 0x00a11640 (confidence: low)
+void __cdecl Object_ProcessEntries_00a11640(ListOwner* pkOwner, int iEntry)
 {
     DebugTextExtraData* pkHit = 0;
     unsigned int i = 0;

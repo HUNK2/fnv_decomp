@@ -134,7 +134,7 @@ bool __fastcall EvaluateAtTime(NiBSplineCompFloatInterpolator* self, int, float 
     return true;
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+void* __cdecl Object_DispatchCommandFour(unsigned int size);
 static const float kMaxCompScalar = 3.402823466e+38F;
 extern int DAT_01099b2c;
 
@@ -152,7 +152,7 @@ void __fastcall CopyFloatInterpolator(NiBSplineFloatInterpolator* self, int, NiB
 // @fnv 0x00a515c0
 NiBSplineCompFloatInterpolator* __fastcall CloneCompFloatInterpolator(NiBSplineCompFloatInterpolator* self, int, CloningProcess& cloning)
 {
-    NiBSplineCompFloatInterpolator* p = (NiBSplineCompFloatInterpolator*)FUN_00aa13e0(0x2c);
+    NiBSplineCompFloatInterpolator* p = (NiBSplineCompFloatInterpolator*)Object_DispatchCommandFour(0x2c);
     if (p)
     {
         InitializeCompFloatInterpolator(p);

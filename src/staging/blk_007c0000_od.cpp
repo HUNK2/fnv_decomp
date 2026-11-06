@@ -90,7 +90,8 @@ void __cdecl SPECIALBookMenu_Create35()
 extern int* DAT_011daa38;
 // If DAT_011daa38 is set and its byte at offset 0x54 is nonzero, calls FUN_007c9dc0(1) and InvokeCallbacksForSlot on it.
 // @fnv 0x007cabb0
-void FUN_007cabb0()
+// src: GUESS 0x007cabb0 (confidence: medium)
+void Runtime_TurnPageForwardAndInvokeCallbacks()
 {
     if (DAT_011daa38 && *(unsigned char*)((unsigned char*)DAT_011daa38 + 0x54))
     {
@@ -103,7 +104,8 @@ namespace fnv_007cabf0 {
 extern int* DAT_011daa38;
 // If DAT_011daa38 is set and its byte at offset 0x54 is nonzero, calls FUN_007c9dc0(0) and InvokeCallbacksForSlot on it.
 // @fnv 0x007cabf0
-void FUN_007cabf0()
+// src: GUESS 0x007cabf0 (confidence: medium)
+void Runtime_TurnPageBackwardAndInvokeCallbacks()
 {
     if (DAT_011daa38 && *(unsigned char*)((char*)DAT_011daa38 + 0x54))
     {
@@ -561,7 +563,8 @@ void __cdecl SPECIALBookMenu_Close();
 
 // If DAT_011daa38 is set and FUN_00794d80 returns its element 22, calls FUN_007c6120; otherwise plays the "UIActivateNothing" sound via BSAudio.
 // @fnv 0x007cac30
-void __cdecl FUN_007cac30()
+// src: GUESS 0x007cac30 (confidence: high)
+void __cdecl BSAudio_CloseBookMenuOrPlayInactiveSound()
 {
     if (DAT_011daa38 && SPECIALBookMenu_GetTotalPointsUsed(DAT_011daa38) == DAT_011daa38[22])
     {
@@ -617,22 +620,23 @@ struct FUN_00450f90_Obj
 
 struct FUN_00559450_Owner
 {
-    FUN_00450f90_Obj* FUN_00559450(int flag);
+    FUN_00450f90_Obj* Modelloader_GetReferencedThis(int flag);
 };
 
 bool __cdecl InterfaceManager_Has360Controller();
 
 // @fnv 0x007ca700
-void __cdecl FUN_007ca700(void* pObject)
+// src: GUESS 0x007ca700 (confidence: low)
+void __cdecl Object_UpdateFields_007ca700(void* pObject)
 {
     int iValue = *(int*)((char*)pObject + 0x24);
     if (((FUN_007ca700_Virt*)(DAT_011dea3c + 0xa4))->v07(iValue) > 1)
     {
-        ((FUN_00559450_Owner*)((char*)pObject + 8))->FUN_00559450(0)->FUN_00450f90();
+        ((FUN_00559450_Owner*)((char*)pObject + 8))->Modelloader_GetReferencedThis(0)->FUN_00450f90();
     }
     else
     {
-        ((FUN_00559450_Owner*)((char*)pObject + 8))->FUN_00559450(1)->FUN_00450f90();
+        ((FUN_00559450_Owner*)((char*)pObject + 8))->Modelloader_GetReferencedThis(1)->FUN_00450f90();
     }
     if (InterfaceManager_Has360Controller())
     {
@@ -640,7 +644,7 @@ void __cdecl FUN_007ca700(void* pObject)
         {
             if (iValue != *(int*)((char*)DAT_011daa38 + 0x4c) + 4)
             {
-                ((FUN_00559450_Owner*)((char*)pObject + 8))->FUN_00559450(1)->FUN_00450f90();
+                ((FUN_00559450_Owner*)((char*)pObject + 8))->Modelloader_GetReferencedThis(1)->FUN_00450f90();
             }
         }
     }
@@ -648,7 +652,7 @@ void __cdecl FUN_007ca700(void* pObject)
 
 struct FUN_007ca860_Obj
 {
-    void* FUN_00559450();
+    void* Modelloader_GetReferencedThis();
 };
 struct FUN_007ca860_Vt
 {
@@ -728,12 +732,12 @@ extern int* DAT_011daa38;
 void __cdecl CallVfunc60WithGlobalOffset(FUN_007ca860_Arg* arg)
 {
     arg->unk0C->vfunc60(
-        0, 0, reinterpret_cast<FUN_007ca860_Obj*>(reinterpret_cast<char*>(DAT_011daa38) + 0x1c0)->FUN_00559450());
+        0, 0, reinterpret_cast<FUN_007ca860_Obj*>(reinterpret_cast<char*>(DAT_011daa38) + 0x1c0)->Modelloader_GetReferencedThis());
 }
 
 struct FUN_00559450_Source
 {
-    unsigned int __thiscall FUN_00559450();
+    unsigned int __thiscall Modelloader_GetReferencedThis();
 };
 struct FUN_007ca8e0_Params
 {
@@ -748,11 +752,11 @@ void __cdecl DispatchSourceCallback(FUN_007ca8e0_Params* params)
 {
     if (SPECIALBookMenu_GetTotalPointsUsed(DAT_011daa38) < *(int*)((char*)DAT_011daa38 + 0x58))
     {
-        params->callback->FUN_000000f0(0, 0, ((FUN_00559450_Source*)((char*)DAT_011daa38 + 0x1d0))->FUN_00559450());
+        params->callback->FUN_000000f0(0, 0, ((FUN_00559450_Source*)((char*)DAT_011daa38 + 0x1d0))->Modelloader_GetReferencedThis());
     }
     else
     {
-        params->callback->FUN_000000f0(0, 0, ((FUN_00559450_Source*)((char*)DAT_011daa38 + 0x1cc))->FUN_00559450());
+        params->callback->FUN_000000f0(0, 0, ((FUN_00559450_Source*)((char*)DAT_011daa38 + 0x1cc))->Modelloader_GetReferencedThis());
     }
 }
 
@@ -888,7 +892,8 @@ class B7CE970Object
 
 // Deletes the object passed in pkObject.
 // @fnv 0x007ce970
-void FUN_007ce970(void* pvContext, B7CE970Object* pkObject)
+// src: GUESS 0x007ce970 (confidence: low)
+void Runtime_ReleaseStorage_007ce970(void* pvContext, B7CE970Object* pkObject)
 {
     delete pkObject;
 }
@@ -1423,7 +1428,7 @@ struct CsTarget
 };
 struct CsSub
 {
-    CsTarget* FUN_00559450(int flag);
+    CsTarget* Modelloader_GetReferencedThis(int flag);
 };
 struct CsParam
 {
@@ -1441,24 +1446,25 @@ struct CsParam
 extern char* DAT_011dea3c;
 
 // @fnv 0x007ca7a0
-void __cdecl FUN_007ca7a0(CsParam* param_1)
+// src: GUESS 0x007ca7a0 (confidence: low)
+void __cdecl Object_UpdateFields_007ca7a0(CsParam* param_1)
 {
     int iValue = param_1->unk24;
     if (((CsVObj*)(DAT_011dea3c + 0xa4))->vf07(iValue) < 10 &&
         (DAT_011daa38 == 0 || SPECIALBookMenu_GetTotalPointsUsed(DAT_011daa38) < *(int*)((char*)DAT_011daa38 + 0x58)))
     {
-        param_1->sub08.FUN_00559450(0)->FUN_00450f90();
+        param_1->sub08.Modelloader_GetReferencedThis(0)->FUN_00450f90();
     }
     else
     {
-        param_1->sub08.FUN_00559450(1)->FUN_00450f90();
+        param_1->sub08.Modelloader_GetReferencedThis(1)->FUN_00450f90();
     }
 
     if (InterfaceManager_Has360Controller() && *(int*)((char*)DAT_011daa38 + 0x48) == 8)
     {
         if (iValue != *(int*)((char*)DAT_011daa38 + 0x4c) + 4)
         {
-            param_1->sub08.FUN_00559450(1)->FUN_00450f90();
+            param_1->sub08.Modelloader_GetReferencedThis(1)->FUN_00450f90();
         }
     }
 }
@@ -1671,7 +1677,8 @@ class Event7CA
 
 // Calls Apply on the event's target with first and second set to 0 and the owner's handle object.
 // @fnv 0x007ca8a0
-void __cdecl FUN_007ca8a0(Event7CA* pkEvent)
+// src: GUESS 0x007ca8a0 (confidence: low)
+void __cdecl Object_ProcessState_007ca8a0(Event7CA* pkEvent)
 {
     pkEvent->m_pkTarget->Apply(0, 0, g_pkOwner7CA->m_kHandle.Get());
 }
@@ -1679,7 +1686,7 @@ void __cdecl FUN_007ca8a0(Event7CA* pkEvent)
 class Mgr
 {
   public:
-    int FUN_00559450();
+    int Modelloader_GetReferencedThis();
     void FUN_004037f0(int v);
     void BSStringT_MakeUpper();
     int FUN_00403df0(int v);
@@ -1855,7 +1862,7 @@ extern Mgr DAT_011d5074;
 // src: COMMUNITY 0x007cc6e0
 void __cdecl StartMenu_CreateMenuElements()
 {
-    if (!DAT_011dabcc.FUN_00559450())
+    if (!DAT_011dabcc.Modelloader_GetReferencedThis())
     {
         DAT_011dabcc.FUN_004037f0(DAT_011d4630.FUN_00403df0(0));
         DAT_011dabcc.BSStringT_MakeUpper();
@@ -1908,10 +1915,10 @@ void __cdecl StartMenu_CreateMenuElements()
     DAT_011dab50.FUN_007cb2e0(new FUN_007d6350(DAT_011d2520.FUN_004c69f0(), DAT_007d19c0, 0x10, 2, 0x10, 0));
     DAT_011dab50.FUN_007cb2e0(new FUN_007d6350(DAT_011d2f34.FUN_004c69f0(), DAT_007d1750, 0x10, 2, 0x10, 0));
     DAT_011dab50.FUN_007cb2e0(new FUN_007d6350(DAT_011d2940.FUN_004c69f0(), DAT_007d1840, 0x10, 0, 4, 0x37,
-                                               DAT_011daad0.FUN_00559450(), DAT_011dabcc.FUN_00559450(),
+                                               DAT_011daad0.Modelloader_GetReferencedThis(), DAT_011dabcc.Modelloader_GetReferencedThis(),
                                                DAT_011d5074.FUN_00403df0(), DAT_011d2124.FUN_00403df0()));
     DAT_011dab50.FUN_007cb2e0(new FUN_007d6350(DAT_011d23c4.FUN_004c69f0(), DAT_007d1900, 0x10, 0, 4, 0x37,
-                                               DAT_011daad0.FUN_00559450(), DAT_011dabcc.FUN_00559450(),
+                                               DAT_011daad0.Modelloader_GetReferencedThis(), DAT_011dabcc.Modelloader_GetReferencedThis(),
                                                DAT_011d5074.FUN_00403df0(), DAT_011d2124.FUN_00403df0()));
     DAT_011dab50.FUN_007cb2e0(new FUN_007d6350(DAT_011d21f0.FUN_004c69f0(), DAT_007d1b40, 0x10, 0, 3, 0x37,
                                                DAT_011d4270.FUN_00403df0(), DAT_011d2cdc.FUN_00403df0(),
@@ -2002,7 +2009,8 @@ struct FUN_007ca960_Owner
 };
 
 // @fnv 0x007ca960
-void __cdecl FUN_007ca960(void* apSelf)
+// src: GUESS 0x007ca960 (confidence: low)
+void __cdecl Object_ProcessAndReturnValue_007ca960(void* apSelf)
 {
     if (!DAT_011daa38)
         return;

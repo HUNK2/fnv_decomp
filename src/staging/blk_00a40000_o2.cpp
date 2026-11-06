@@ -498,12 +498,13 @@ struct FUN_004a4650_ListBase
 };
 struct FUN_00a5a390_shell
 {
-    void FUN_00a5a390();
+    void ReleaseStorage_00a5a390();
     void DestroyFogProperty();
 };
 
 // @fnv 0x00a5a390
-void FUN_00a5a390_shell::FUN_00a5a390()
+// src: GUESS 0x00a5a390 (confidence: low)
+void FUN_00a5a390_shell::ReleaseStorage_00a5a390()
 {
     char* p = (char*)this;
     void* old = *(void**)(p + 0x20);
@@ -582,7 +583,8 @@ A51BF0* CreateA51BF0()
 }
 
 // @fnv 0x00a42070
-float FUN_00a42070(float param_1, float param_2, float param_3, float param_4, float param_5)
+// src: GUESS 0x00a42070 (confidence: low)
+float Runtime_UpdateState_00a42070(float param_1, float param_2, float param_3, float param_4, float param_5)
 {
     float fTerm1 = (param_5 + param_3) - (param_4 - param_2) * 2.0f;
     float fTerm2 = (param_4 - param_2) * 3.0f - (param_3 * 2.0f + param_5);
@@ -935,11 +937,12 @@ class A42380Owner
     int unk38;
     NiPointer<NiRefObject> m_spTransformData;
 
-    void FUN_00a42380(NiRefObject* pkData);
+    void UpdateFields_00a42380(NiRefObject* pkData);
 };
 
 // @fnv 0x00a42380
-void A42380Owner::FUN_00a42380(NiRefObject* pkData)
+// src: GUESS 0x00a42380 (confidence: low)
+void A42380Owner::UpdateFields_00a42380(NiRefObject* pkData)
 {
     if (pkData)
         m_spTransformData = pkData;
@@ -1714,12 +1717,13 @@ class A5B660StringTable
 
     static A5B660StringTable* ms_pStringTable;
 
-    static void FUN_00a5b660();
+    static void ClearStaticStringTable();
 };
 
 // Deletes the static string table instance and clears the pointer to null.
 // @fnv 0x00a5b660
-void A5B660StringTable::FUN_00a5b660()
+// src: GUESS 0x00a5b660 (confidence: medium)
+void A5B660StringTable::ClearStaticStringTable()
 {
     delete ms_pStringTable;
     ms_pStringTable = 0;
@@ -1786,7 +1790,7 @@ __declspec(noinline) NiRefObject::~NiRefObject()
     InterlockedDecrement((volatile long*)&ms_lObjectCount);
 }
 
-extern void* __cdecl FUN_00aa13e0(unsigned int);
+extern void* __cdecl Object_DispatchCommandFour(unsigned int);
 extern int DAT_0109b5ac;
 extern int DAT_0101fbd4;
 struct NiObjectBase
@@ -1806,7 +1810,7 @@ struct ObjectState
 // src: EXE 0x00a5f030
 NiObjectBase* __cdecl NiNode_CreateObject()
 {
-    NiObjectBase* object = static_cast<NiObjectBase*>(FUN_00aa13e0(0xac));
+    NiObjectBase* object = static_cast<NiObjectBase*>(Object_DispatchCommandFour(0xac));
     if (object)
     {
         object->FUN_00a5aa20();
@@ -1902,11 +1906,12 @@ struct FUN_00a5fca0_cls
 
     void NiTexture_RemoveTextureFromList();
     void DestroyFogProperty();
-    void FUN_00a5fca0();
+    void UpdateFields_00a5fca0();
 };
 
 // @fnv 0x00a5fca0
-void FUN_00a5fca0_cls::FUN_00a5fca0()
+// src: GUESS 0x00a5fca0 (confidence: low)
+void FUN_00a5fca0_cls::UpdateFields_00a5fca0()
 {
     *(void* volatile*)&m_vptr = (void*)&DAT_0109b9ec;
     CountedRef* a = *(CountedRef* volatile*)&m_3c;
@@ -2396,11 +2401,12 @@ class FUN_00a47420_cls
     int unk28;
     NiPointer<NiRefObject> m_pReferencedObject;
 
-    void FUN_00a47420(NiRefObject* obj);
+    void SetReferencedObject_00a47420(NiRefObject* obj);
 };
 
 // @fnv 0x00a47420
-void FUN_00a47420_cls::FUN_00a47420(NiRefObject* apObject)
+// src: GUESS 0x00a47420 (confidence: medium)
+void FUN_00a47420_cls::SetReferencedObject_00a47420(NiRefObject* apObject)
 {
     m_pReferencedObject = apObject;
 }
@@ -2501,7 +2507,7 @@ struct Result
     int unk30;
     static void* operator new(unsigned int) throw();
     Result(const char*, int, int) throw();
-    void FUN_00a47420(Obj*) throw();
+    void SetReferencedObject_00a47420(Obj*) throw();
     void AddSeq(void*, Obj*) throw();
 };
 struct Stream
@@ -2667,7 +2673,7 @@ Result* __cdecl CreateResultFromStreamObject(Stream* stream, unsigned int index,
         Obj* found = extra ? extra->Cast(&g_011f3f28) : 0;
         if (found)
         {
-            result->FUN_00a47420(found);
+            result->SetReferencedObject_00a47420(found);
             source->RemoveExtraDataAt((unsigned short)i);
             break;
         }
@@ -3205,7 +3211,7 @@ NiObject* NiObject::Clone()
     return pkClone;
 }
 
-extern void* __cdecl FUN_00aa13e0(unsigned int size);
+extern void* __cdecl Object_DispatchCommandFour(unsigned int size);
 extern char* __cdecl FUN_00a5b690(const char* text);
 extern void __cdecl NiStandardizeFilePath(void* fixed);
 extern void __cdecl NiImageConverter_ConvertFilenameToPlatformSpecific_(void* fixed, void* out);
@@ -3289,7 +3295,7 @@ struct FnvSourceTexture
 // src: COMMUNITY 0x00a5fe30
 FnvSourceTexture* __cdecl NiSourceTexture_CreateTexture(int source, const char* name, const int* size, unsigned char flags)
 {
-    FnvSourceTexture* object = (FnvSourceTexture*)FUN_00aa13e0(0x48);
+    FnvSourceTexture* object = (FnvSourceTexture*)Object_DispatchCommandFour(0x48);
     if (object)
         object = object->NiSourceTexture_NiSourceTexture();
     else
@@ -3328,7 +3334,7 @@ FnvSourceTexture* __cdecl NiSourceTexture_CreateTexture(int source, const char* 
 }
 
 namespace fnv_00a5ff10 {
-extern void* __cdecl FUN_00aa13e0(unsigned int);
+extern void* __cdecl Object_DispatchCommandFour(unsigned int);
 extern void* __cdecl FUN_00a5b690(void*);
 extern int DAT_0109b220;
 extern unsigned char DAT_011a9594;
@@ -3421,7 +3427,7 @@ struct OwnerTriple
 // src: XBOX_PDB 0x00a5ff10
 Texture* __cdecl NiSourceTexture_Create(RefCounted* parent, void* filename, const OwnerTriple* apOwnerFields)
 {
-    void* memory = FUN_00aa13e0(0x48);
+    void* memory = Object_DispatchCommandFour(0x48);
     Texture* object = memory ? static_cast<Texture*>(((FUN_00a5fc10_class*)memory)->NiSourceTexture_NiSourceTexture()) : 0;
     OwnerTriple* storage = reinterpret_cast<OwnerTriple*>(&object->m_pSharedOwner);
     storage->m_pSharedOwner = apOwnerFields->m_pSharedOwner;
@@ -3498,7 +3504,7 @@ struct S00a427e0_Track : NiObject
     virtual void Reset();
     virtual void GetTimeRange(float&, float&);
     virtual void SetTimeRange(float, float);
-    void FUN_00a42380(S00a427e0_Interp*);
+    void UpdateFields_00a42380(S00a427e0_Interp*);
 };
 struct S00a427e0_Ctrl : NiObject
 {
@@ -3572,7 +3578,7 @@ void __cdecl NiOldAnimationConverter_ConvertRollController(StubController* p)
             if (S00a427e0_NiIsKindOf(&DAT_011f3f90, track))
             {
                 void* data = sequence->data;
-                track->FUN_00a42380(new S00a427e0_Interp(data));
+                track->UpdateFields_00a42380(new S00a427e0_Interp(data));
                 CopyControllerSettings(sequence, controller);
                 float start, end;
                 track->GetTimeRange(start, end);
@@ -3601,11 +3607,12 @@ void __cdecl _NiFree_00aa10f0(void*);
 struct ArrayBuffer
 {
     void* m_pBuffer;
-    void FUN_00a541e0();
+    void _NiFree_00aa10f0_Thunk();
 };
 
 // @fnv 0x00a541e0
-void ArrayBuffer::FUN_00a541e0()
+// src: GUESS 0x00a541e0 (confidence: medium)
+void ArrayBuffer::_NiFree_00aa10f0_Thunk()
 {
     _NiFree_00aa10f0(m_pBuffer);
 }

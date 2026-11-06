@@ -26,7 +26,7 @@ struct BIPED_MODEL_OLD
 {
     unsigned short m_uiBipedModelFlags;
     unsigned char m_ucBipedModelData;
-    void FUN_00512810();
+    void BSEndian_Thunk();
 };
 class RegionDataEntry
 {
@@ -92,7 +92,7 @@ bool TESObjectARMA::Load(TESFile* file)
                 BIPED_MODEL_OLD oldData;
                 file->GetChunkData(&oldData, 4);
                 if (file->IsEndianConversionRequired())
-                    oldData.FUN_00512810();
+                    oldData.BSEndian_Thunk();
                 bipedFlags = oldData.m_ucBipedModelData;
                 partMask = oldData.m_uiBipedModelFlags;
             }
@@ -274,7 +274,8 @@ template <int N> struct EndianSizeTag
 void __cdecl BSEndian(unsigned short*, EndianSizeTag<2>);
 // Byte-swaps the 16-bit value at the start of this object by calling BSEndian.
 // @fnv 0x00512810
-void BIPED_MODEL_OLD::FUN_00512810()
+// src: GUESS 0x00512810 (confidence: medium)
+void BIPED_MODEL_OLD::BSEndian_Thunk()
 {
     BSEndian((unsigned short*)this, EndianSizeTag<2>());
 }

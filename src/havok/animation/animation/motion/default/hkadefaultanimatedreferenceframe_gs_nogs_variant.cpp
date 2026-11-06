@@ -136,7 +136,7 @@ extern int DAT_01268700;
 extern int DAT_010e57a4;
 extern const char DAT_010ebe28[], DAT_010ebdec[], DAT_010ebdcc[], DAT_01012630[], DAT_010ebde0[], DAT_010ebd70[];
 extern "C" void __cdecl hkaDefaultAnimatedReferenceFrame_project(const Config* cfg, const void* v1, void* outV, const void* v2) throw();
-extern "C" void __cdecl FUN_00e41bf0(void* outTransform, float time, const hkQsTransform* transforms, int numTransforms,
+extern "C" void __cdecl hkQsTransform_UpdateState_00e41bf0(void* outTransform, float time, const hkQsTransform* transforms, int numTransforms,
                                      float duration) throw();
 
 extern "C" hkMemoryRouter* __cdecl hkMemoryRouter_getInstance() throw();
@@ -295,7 +295,7 @@ FUN_00e41830::FUN_00e41830(const Config& config) throw() : m_ppVirtualMethodTabl
         __m128 unitScale = _mm_set1_ps(1.0f);
         float time = (float)i * dt;
         hkQsTransform curTransform;
-        FUN_00e41bf0(&curTransform, time, config.m_kTransforms, config.m_numQsTransforms, config.m_fAnimationDuration);
+        hkQsTransform_UpdateState_00e41bf0(&curTransform, time, config.m_kTransforms, config.m_numQsTransforms, config.m_fAnimationDuration);
         hkQsTransform qh;
         qh.m_rotation.setMulInverse(&curTransform.m_rotation, &startTransform.m_rotation);
         qh.m_vTranslation.v = _mm_sub_ps(curTransform.m_vTranslation.v, startTransform.m_vTranslation.v);

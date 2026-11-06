@@ -63,7 +63,7 @@ void __stdcall NiParticles_GetViewerStrings(StrArr* apStrArr)
     apStrArr->SetAt(uiSize, psz);
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+void* __cdecl Object_DispatchCommandFour(unsigned int size);
 extern int DAT_010a11d4;
 
 inline void* operator new(unsigned int, void* memory) { return memory; }
@@ -71,7 +71,7 @@ inline void* operator new(unsigned int, void* memory) { return memory; }
 // @fnv 0x00a9b250
 NiParticles* __fastcall CreateAndInitObject(NiParticles* self, void*, unsigned int arg)
 {
-    NiParticles* p = (NiParticles*)FUN_00aa13e0(0xc4);
+    NiParticles* p = (NiParticles*)Object_DispatchCommandFour(0xc4);
     if (p != 0)
     {
         ::new (p) NiGeometry;

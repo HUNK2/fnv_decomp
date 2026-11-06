@@ -335,13 +335,13 @@ struct TESObjectDoorController
 struct Obj006fac;
 struct Ref006fac
 {
-    Obj006fac* FUN_00559450();
+    Obj006fac* Modelloader_GetReferencedThis();
     void FUN_0066b0d0(void*);
     int data;
 };
 struct Obj006fac
 {
-    Obj006fac* FUN_00559450();
+    Obj006fac* Modelloader_GetReferencedThis();
     Obj006fac* BGSTerrainManager_GetLODLandRoot();
     Obj006fac* FUN_006629f0();
     Obj006fac* NiObjectNET_GetControllers();
@@ -475,7 +475,7 @@ struct Target006fac
     int p1c, p20, p24;
     unsigned char enabled, done;
     void BGSTerrainChunk_Attach();
-    Obj006fac* FUN_00559450();
+    Obj006fac* Modelloader_GetReferencedThis();
     void UpdateWaterReferences(int);
     void BGSTerrainChunk_InitializeShaderProperty();
     void AddSelfToList();
@@ -487,7 +487,7 @@ struct B5D0Status
 };
 struct B5D0Item
 {
-    B5D0Status* FUN_00559450();
+    B5D0Status* Modelloader_GetReferencedThis();
     void BGSTerrainChunk_Show();
     void SetAllAppCulled();
 };

@@ -54,7 +54,8 @@ done:
 int __cdecl FUN_00eca7f4(int);
 // Returns false for slash-prefixed paths or a drive letter followed by a colon in the first two characters; otherwise true.
 // @fnv 0x00aa2cc0
-bool __cdecl FUN_00aa2cc0(const char* pcPath)
+// src: GUESS 0x00aa2cc0 (confidence: medium)
+bool __cdecl Path_IsRelative(const char* pcPath)
 {
     char c1stChar;
     char c2ndChar;

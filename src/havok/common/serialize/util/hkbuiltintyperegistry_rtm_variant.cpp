@@ -59,7 +59,8 @@ void __cdecl FUN_00d47860()
 extern hkMemoryRouter* _D1A0E0GetMemoryRouter();
 
 // @fnv 0x00d47820
-hkDefaultBuiltinTypeRegistry* FUN_00d47820()
+// src: GUESS 0x00d47820 (confidence: medium)
+hkDefaultBuiltinTypeRegistry* hkDefaultBuiltinTypeRegistry_AllocateStorage()
 {
     if (DAT_01269b10 != 0 && DAT_01269b14 != 0 && DAT_01269b18 != 0)
     {

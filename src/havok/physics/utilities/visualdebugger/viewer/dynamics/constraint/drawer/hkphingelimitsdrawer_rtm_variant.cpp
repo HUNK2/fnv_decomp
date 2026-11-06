@@ -82,7 +82,7 @@ struct T
     void hkpConstraintDrawer_updateCommonParameters(Src* a, Mat4* b, Mat4* c);
     void hkpConstraintDrawer_drawPivots(int a, int b);
     void hkpConstraintDrawer_drawBodyFrames(int a, int b);
-    void FUN_00de6d80(Src* a1, Visitor* a2, int a3, int a4);
+    void ProcessEntries_00de6d80(Src* a1, Visitor* a2, int a3, int a4);
 };
 
 int __cdecl PackColorBigEndian(float a, float b, float c, float d);
@@ -90,7 +90,8 @@ int __cdecl PackColorBigEndian(float a, float b, float c, float d);
 typedef void(__thiscall* DrawFn)(Visitor*, void*, void*, int, int, int);
 
 // @fnv 0x00de6d80
-void T::FUN_00de6d80(Src* a1, Visitor* a2, int a3, int a4)
+// src: GUESS 0x00de6d80 (confidence: low)
+void T::ProcessEntries_00de6d80(Src* a1, Visitor* a2, int a3, int a4)
 {
     struct Work
     {

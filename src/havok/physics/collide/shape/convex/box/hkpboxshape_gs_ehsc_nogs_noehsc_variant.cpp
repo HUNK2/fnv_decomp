@@ -10,7 +10,7 @@ typedef ::__m128 LocalM128;
 #include "havok/hkpBoxShape.h"
 #include "../../../../../../../include/MemoryManager.h"
 #include "../../../../../../../include/hkMemoryRouter.h"
-int __cdecl FUN_00c9db70();
+int __cdecl hkpBoxShape_ReturnConstant_8();
 float __cdecl NiMin(float a, float b);
 extern "C" void* DAT_0102e388;
 struct FUN_00c9db80_class
@@ -26,7 +26,7 @@ struct FUN_00c9e1b0_class
     void* FUN_00c9e1b0(unsigned char flags);
 };
 hkMemoryRouter* __cdecl _D1A0E0GetMemoryRouter();
-int __stdcall FUN_00c9e1a0(int a1, int a2);
+int __stdcall Object_Return0x30(int a1, int a2);
 extern "C" int DAT_01268940;
 void __cdecl hkReferencedObject_calcContentStatistics(int a, int* b);
 void __cdecl hkpBoxShape_calcContentStatistics(int a, int* b);

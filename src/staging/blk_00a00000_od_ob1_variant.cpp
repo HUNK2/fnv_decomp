@@ -27,7 +27,7 @@ struct FUN_00a1e1a0_class
 {
     int m_vtbl;
     int m_field;
-    void __thiscall FUN_00a1e1a0();
+    void __thiscall ReleaseStorage_00a1e1a0();
 };
 struct FUN_00a11d80_Class
 {
@@ -53,7 +53,7 @@ struct StrA
     unsigned int _Myres;
     bool _Inside(const char*);
     bool _Grow(unsigned int, bool);
-    StrA& FUN_00a0c570(const StrA&, unsigned int, unsigned int);
+    StrA& UpdateState_00a0c570(const StrA&, unsigned int, unsigned int);
     StrA& std_string_append(const char* _Ptr, unsigned int _Count);
 };
 void* __cdecl _NiMalloc(unsigned int);
@@ -156,7 +156,7 @@ struct S00a0d390
 struct FUN_00a0d960_class : S00a0d390
 {
     void* m_data;
-    void FUN_00a0d960();
+    void ReleaseStorage_00a0d960();
 };
 struct _BSAHelper
 {
@@ -219,7 +219,7 @@ void NiFree(void*);
 struct FUN_00a1e880_class : S00a0d390
 {
     void* m_data;
-    void FUN_00a1e880();
+    void SetVirtualTable_00a1e880();
 };
 // FUN_00a1ea70 (unit_1a635d660b3a.cpp) - 48B scalar-deleting-destructor shape
 // v0: verbatim transcription of IDA a1ea70..0xa1eaa0 (push ebp/mov/sub esp,20h/
@@ -266,7 +266,7 @@ class S_00a0c9f0
 struct FUN_00a0d790_class : S00a0d390
 {
     void* m_data;
-    void FUN_00a0d790();
+    void UpdateState_00a0d790();
 };
 extern int DAT_01094e9c;
 extern void* __cdecl _NiFree_00aa10f0(void*);
@@ -373,7 +373,8 @@ inline void NiFixedString::operator delete(void* pvMem)
 
 
 // @fnv 0x00a1c790
-void __cdecl FUN_00a1c790()
+// src: GUESS 0x00a1c790 (confidence: low)
+void __cdecl Runtime_ReleaseStorage_00a1c790()
 {
     delete DAT_011f34cc;
 }
@@ -475,10 +476,11 @@ struct StrB
     {
         StrTraitsB::assign(_Myptr()[_Mysize = _Newsize], char());
     }
-    StrB& FUN_00a0c570(const StrB& _Right, unsigned int _Roff, unsigned int _Count);
+    StrB& UpdateState_00a0c570(const StrB& _Right, unsigned int _Roff, unsigned int _Count);
 };
 // @fnv 0x00a0c570
-StrB& StrB::FUN_00a0c570(const StrB& _Right, unsigned int _Roff, unsigned int _Count)
+// src: GUESS 0x00a0c570 (confidence: low)
+StrB& StrB::UpdateState_00a0c570(const StrB& _Right, unsigned int _Roff, unsigned int _Count)
 {
     if (_Right.size() < _Roff)
         FUN_00ec30e8();
@@ -614,15 +616,16 @@ struct S00a1bc20_Guard
 class S00a1bc20_Obj
 {
   public:
-    void FUN_00a1c2d0();
-    void FUN_00a1bc20();
+    void ClearLinkedNodes();
+    void ProcessState_00a1bc20();
 };
 
 // @fnv 0x00a1bc20
-void S00a1bc20_Obj::FUN_00a1bc20()
+// src: GUESS 0x00a1bc20 (confidence: low)
+void S00a1bc20_Obj::ProcessState_00a1bc20()
 {
     S00a1bc20_Guard guard;
-    this->FUN_00a1c2d0();
+    this->ClearLinkedNodes();
 }
 
 void __cdecl NiFreeE900(void* pvMem);

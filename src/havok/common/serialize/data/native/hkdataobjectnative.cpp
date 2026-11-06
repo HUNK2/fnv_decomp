@@ -405,25 +405,29 @@ int hkDataClassNative::getMemberIndexByName(const char* param_1) const
 }
 
 // @fnv 0x00dbba40
-__int64 __stdcall FUN_00dbba40(int)
+// src: GUESS 0x00dbba40 (confidence: high)
+__int64 __stdcall Object_ReturnZero_00dbba40(int)
 {
     return 0;
 }
 
 // @fnv 0x00dc9520
-int __stdcall FUN_00dc9520(unsigned int arg0)
+// src: GUESS 0x00dc9520 (confidence: low)
+int __stdcall Object_ComputeValue_00dc9520(unsigned int arg0)
 {
     return (int)(arg0 + 1u);
 }
 
 // @fnv 0x00dbb120
-int __stdcall FUN_00dbb120(int arg0)
+// src: GUESS 0x00dbb120 (confidence: high)
+int __stdcall Object_ReturnZero_00dbb120(int arg0)
 {
     return 0;
 }
 
 // @fnv 0x00dbb130
-int __stdcall FUN_00dbb130(int a, int b)
+// src: GUESS 0x00dbb130 (confidence: high)
+int __stdcall Hkdataobjectnative_ReturnZero(int a, int b)
 {
     return 0;
 }
@@ -637,11 +641,11 @@ void NativeWorldContents::SetContents(void* pvObject, hkClass& kClass)
         unsigned int streamStorage[sizeof(hkOstream) / sizeof(unsigned int)];
         hkOstream& kReportStream = *reinterpret_cast<hkOstream*>(streamStorage);
         kReportStream.FUN_00cb1600(auiReportBuf, sizeof(auiReportBuf));
-        kReportStream.FUN_00cc01c0("Cannot set contents with object at 0x")
+        kReportStream.ProcessAndReturnValue_00cc01c0("Cannot set contents with object at 0x")
             .operator<<(pvObject)
-            .FUN_00cc01c0(". Class '")
-            .FUN_00cc01c0(kClass.getName())
-            .FUN_00cc01c0("' is not registered in the hkDataWorldNative. Ignore it.");
+            .ProcessAndReturnValue_00cc01c0(". Class '")
+            .ProcessAndReturnValue_00cc01c0(kClass.getName())
+            .ProcessAndReturnValue_00cc01c0("' is not registered in the hkDataWorldNative. Ignore it.");
         DAT_01268360->message(1, 0x1800473b, (char*)auiReportBuf, ".\\Data\\Native\\hkDataObjectNative.cpp", 0x2fc);
         kReportStream.FUN_00cc00e0();
         m_pvObject = 0;
@@ -673,8 +677,8 @@ struct FUN_00d871a0_Data
 {
     int memberData;
     int key;
-    void FUN_00d871a0(void* value, int argument);
-    const char* FUN_00d871e0(const int* argument);
+    void ProcessAndReturnValue_00d871a0(void* value, int argument);
+    const char* ComputeValue_00d871e0(const int* argument);
 };
 struct FUN_00dbbae0_Class
 {
@@ -689,8 +693,8 @@ struct FUN_00dbbae0_Class
 int FUN_00dbbae0_Class::hkDataObjectNative_hasMember(int iKey)
 {
     FUN_00d871a0_Data lookup;
-    lookup.FUN_00d871a0(&unk0C, iKey);
-    return *lookup.FUN_00d871e0(&iKey) != 0;
+    lookup.ProcessAndReturnValue_00d871a0(&unk0C, iKey);
+    return *lookup.ComputeValue_00d871e0(&iKey) != 0;
 }
 
 class hkOwnerDBBB;
@@ -931,29 +935,29 @@ class hkClassMemberAccessor
 
     hkClassMemberAccessor(void* obj, void* name) throw()
     {
-        FUN_00d871a0(obj, name);
+        ProcessAndReturnValue_00d871a0(obj, name);
     }
-    void FUN_00d871a0(void* obj, void* name) throw();
+    void ProcessAndReturnValue_00d871a0(void* obj, void* name) throw();
     hkClassMember* hkClassMemberAccessor_getClassMember() throw();
     unsigned int* hkClassMemberAccessor_asCstring(int i) throw();
     unsigned int* hkClassMemberAccessor_asStringPtr(int i) throw();
 
-    void FUN_00d871a0(hkVariant& kObject, const hkClassMember* pkMember) throw();
+    void ProcessAndReturnValue_00d871a0(hkVariant& kObject, const hkClassMember* pkMember) throw();
     hkClassMemberAccessor(hkVariant& kObject, const hkClassMember* pkMember)
     {
-        FUN_00d871a0(kObject, pkMember);
+        ProcessAndReturnValue_00d871a0(kObject, pkMember);
     }
 
     const hkClassMember& hkClassMemberAccessor_getClassMember() const throw();
-    signed char& FUN_00d872e0(int iIndex) throw();
-    unsigned char& FUN_00d872f0(int iIndex) throw();
-    short& FUN_00d872c0(int iIndex) throw();
-    unsigned short& FUN_00d872d0(int iIndex) throw();
-    int& FUN_00d87270(int iIndex) throw();
-    unsigned int& FUN_00d87280(int iIndex) throw();
-    __int64& FUN_00d87290(int iIndex) throw();
-    unsigned __int64& FUN_00d872a0(int iIndex) throw();
-    unsigned long& FUN_00d872b0(int iIndex) throw();
+    signed char& ComputeValue_00d872e0(int iIndex) throw();
+    unsigned char& GetFilterValueWithOffset(int iIndex) throw();
+    short& Object_ComputeValue_00d872c0(int iIndex) throw();
+    unsigned short& GetElementPointer2(int iIndex) throw();
+    int& GetElementPointer_00d87270(int iIndex) throw();
+    unsigned int& ComputeValue_00d87280(int iIndex) throw();
+    __int64& Hkclassmemberaccessor_GetElementPointer8(int iIndex) throw();
+    unsigned __int64& ComputeValue_00d872a0(int iIndex) throw();
+    unsigned long& GetElementPointer_00d872b0(int iIndex) throw();
 };
 
 class hkObjDBC3
@@ -1008,23 +1012,23 @@ __int64 hkDataObjectNative::GetMemberValueAsInt64(const hkClassMember* pkHandle)
         case hkClassMember::TYPE_BOOL:
         case hkClassMember::TYPE_CHAR:
         case hkClassMember::TYPE_INT8:
-            return kAccessor.FUN_00d872e0(0);
+            return kAccessor.ComputeValue_00d872e0(0);
         case hkClassMember::TYPE_UINT8:
-            return kAccessor.FUN_00d872f0(0);
+            return kAccessor.GetFilterValueWithOffset(0);
         case hkClassMember::TYPE_INT16:
-            return kAccessor.FUN_00d872c0(0);
+            return kAccessor.Object_ComputeValue_00d872c0(0);
         case hkClassMember::TYPE_UINT16:
-            return kAccessor.FUN_00d872d0(0);
+            return kAccessor.GetElementPointer2(0);
         case hkClassMember::TYPE_INT32:
-            return kAccessor.FUN_00d87270(0);
+            return kAccessor.GetElementPointer_00d87270(0);
         case hkClassMember::TYPE_UINT32:
-            return kAccessor.FUN_00d87280(0);
+            return kAccessor.ComputeValue_00d87280(0);
         case hkClassMember::TYPE_INT64:
-            return kAccessor.FUN_00d87290(0);
+            return kAccessor.Hkclassmemberaccessor_GetElementPointer8(0);
         case hkClassMember::TYPE_UINT64:
-            return kAccessor.FUN_00d872a0(0);
+            return kAccessor.ComputeValue_00d872a0(0);
         case hkClassMember::TYPE_ULONG:
-            return kAccessor.FUN_00d872b0(0);
+            return kAccessor.GetElementPointer_00d872b0(0);
         case hkClassMember::TYPE_ENUM:
         case hkClassMember::TYPE_FLAGS:
             eType = static_cast<hkClassMember::Type>(kMember.m_eSubtype);
@@ -1044,12 +1048,13 @@ struct FUN_00dba490_class
     int m_10;
     int m_14;
 
-    void FUN_00dba490();
+    void FreeArrayStorageAndReset();
 };
 
 // Gets a heap, conditionally frees m_0C using a size derived from m_14, then resets m_0C and m_14.
 // @fnv 0x00dba490
-void FUN_00dba490_class::FUN_00dba490()
+// src: GUESS 0x00dba490 (confidence: medium)
+void FUN_00dba490_class::FreeArrayStorageAndReset()
 {
     hkMemoryRouter* result = _D1A0E0GetMemoryRouter();
     hkMemoryAllocator* heap = reinterpret_cast<hkMemoryAllocator*>(result->m_heap);
@@ -1137,7 +1142,8 @@ hkNodeRefDBB6 hkLibDBB6::hkDataWorldNative_getContents()
 
 // Returns 0.0f.
 // @fnv 0x00dbba10
-float __stdcall FUN_00dbba10(void* pArg)
+// src: GUESS 0x00dbba10 (confidence: high)
+float __stdcall Hkdataobjectnative_ReturnZero_00dbba10(void* pArg)
 {
     return 0.0f;
 }
@@ -1277,7 +1283,7 @@ struct DbbOwner
 {
     int unk00;
     int unk04;
-    void __thiscall FUN_00dbb4f0(int a, int b);
+    void __thiscall SetNativeDataObjectFromPair(int a, int b);
 };
 
 // src: XBOX_PDB 0x00dbb260
@@ -1293,7 +1299,8 @@ static __declspec(noinline) void hkNativeDataObjectImplCreate(Pair* p, DbbOwner*
 
 // Stores the two input integers into a Pair and passes it to FUN_00dbb260 for in-place modification.
 // @fnv 0x00dbb4f0
-void DbbOwner::FUN_00dbb4f0(int aiFirst, int aiSecond)
+// src: GUESS 0x00dbb4f0 (confidence: medium)
+void DbbOwner::SetNativeDataObjectFromPair(int aiFirst, int aiSecond)
 {
     Pair p;
     p.a = aiFirst;
@@ -1371,11 +1378,11 @@ static __declspec(noinline) Node680* hkNativeDataObjectImplCreate(Pair* p, Dispa
             unsigned int streamStorage[sizeof(hkOstream) / sizeof(unsigned int)];
             hkOstream& stream = *reinterpret_cast<hkOstream*>(streamStorage);
             stream.FUN_00cb1600(buffer, 512);
-            stream.FUN_00cc01c0(DAT_010d64bc)
+            stream.ProcessAndReturnValue_00cc01c0(DAT_010d64bc)
                 .operator<<(reinterpret_cast<void*>(p->a))
-                .FUN_00cc01c0(DAT_010d64d0)
-                .FUN_00cc01c0(reinterpret_cast<hkClass*>(p->b)->getName())
-                .FUN_00cc01c0(DAT_010d64dc);
+                .ProcessAndReturnValue_00cc01c0(DAT_010d64d0)
+                .ProcessAndReturnValue_00cc01c0(reinterpret_cast<hkClass*>(p->b)->getName())
+                .ProcessAndReturnValue_00cc01c0(DAT_010d64dc);
             DAT_01268360->message(1, 0x1800473a, buffer, DAT_010d6394, 0x2c7);
             stream.FUN_00cc00e0();
             p->a = 0;
@@ -1547,9 +1554,9 @@ struct S00dbc150_Pair
 
     S00dbc150_Pair(void* obj, const char* name)
     {
-        FUN_00d871a0(obj, name);
+        ProcessAndReturnValue_00d871a0(obj, name);
     }
-    void FUN_00d871a0(void* obj, const char* name);
+    void ProcessAndReturnValue_00d871a0(void* obj, const char* name);
     void* hkClassMemberAccessor_getAddress();
     const hkClassMember* hkClassMemberAccessor_getClassMember();
 };
@@ -1692,7 +1699,7 @@ struct VariantC4D0
 {
     int m_00;
     int m_04;
-    void FUN_00d871a0(void* obj, int name);
+    void ProcessAndReturnValue_00d871a0(void* obj, int name);
     int* hkClassMemberAccessor_getClassMember();
     int* hkClassMemberAccessor_asVariant(int a);
     void* hkClassMemberAccessor_getAddress();
@@ -1793,7 +1800,7 @@ int FUN_00dbc4d0_Class::hkDataObjectNative_asObject(int name)
 {
     const hkClassMember* member;
     VariantC4D0 v;
-    v.FUN_00d871a0(&m_0C, name);
+    v.ProcessAndReturnValue_00d871a0(&m_0C, name);
     member = (const hkClassMember*)v.hkClassMemberAccessor_getClassMember();
     Pair result;
     result.a = 0;
@@ -1878,11 +1885,11 @@ static __declspec(noinline) hkVariant
                 unsigned int streamStorage[sizeof(hkOstream) / sizeof(unsigned int)];
                 hkOstream& stream = *reinterpret_cast<hkOstream*>(streamStorage);
                 stream.FUN_00cb1600(buffer, 512);
-                stream.FUN_00cc01c0("Could not find the most derived class for virtual object ")
-                    .FUN_00cc01c0(pClass->getName())
-                    .FUN_00cc01c0(" at ")
+                stream.ProcessAndReturnValue_00cc01c0("Could not find the most derived class for virtual object ")
+                    .ProcessAndReturnValue_00cc01c0(pClass->getName())
+                    .ProcessAndReturnValue_00cc01c0(" at ")
                     .operator<<(object)
-                    .FUN_00cc01c0(". The object is replaced with HK_NULL.");
+                    .ProcessAndReturnValue_00cc01c0(". The object is replaced with HK_NULL.");
                 DAT_01268360->message(1, 0x3476d70f, (char*)buffer, ".\\Data\\Native\\hkDataObjectNative.cpp", 55);
                 stream.FUN_00cc00e0();
                 return result;

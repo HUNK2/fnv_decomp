@@ -336,12 +336,13 @@ static __forceinline void Arr16_e499_SetSizeAndGrow(hkArrayBase<hkUint16>& self,
 class Compressed_e499 : public hkpCompressedSampledHeightFieldShape
 {
   public:
-    Compressed_e499* FUN_00e499d0(const HfSrc_e499* hf);
+    Compressed_e499* InitializeFields_00e499d0(const HfSrc_e499* hf);
 };
 
 // Initializes a compressed heightfield from a source heightfield by copying parameters, computing height range, and storing scaled 16-bit heights.
 // @fnv 0x00e499d0
-Compressed_e499* Compressed_e499::FUN_00e499d0(const HfSrc_e499* apSourceHeightField)
+// src: GUESS 0x00e499d0 (confidence: low)
+Compressed_e499* Compressed_e499::InitializeFields_00e499d0(const HfSrc_e499* apSourceHeightField)
 {
     m_sReferenceCount = 1;
     m_ulUserData = 0;

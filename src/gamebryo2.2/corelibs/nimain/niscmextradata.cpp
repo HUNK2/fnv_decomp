@@ -23,7 +23,7 @@ void* NiSCMExtraData::Destroy(unsigned int auiFlags)
     *(int*)this = (int)&DAT_0110129c;
     NiFreeAlias(tmp);
     NiFreeAlias(m_2c);
-    NiExtraData::FUN_00a7b300();
+    NiExtraData::DestroyFields_00a7b300();
     if (auiFlags & 1)
         ::operator delete(this, 0x30);
     return this;
@@ -33,7 +33,8 @@ void* __cdecl _NiMalloc_00aa1070(int);
 
 // The shared header has no initialization method or named fields for these counts.
 // @fnv 0x00ee8910
-NiSCMExtraData* __fastcall FUN_00ee8910(NiSCMExtraData* self, void*, int a, int aiCountA, int aiCountB)
+// src: GUESS 0x00ee8910 (confidence: low)
+NiSCMExtraData* __fastcall NiSCMExtraData_UpdateState_00ee8910(NiSCMExtraData* self, void*, int a, int aiCountA, int aiCountB)
 {
     self->NiExtraData::FUN_00a7b2e0();
     *reinterpret_cast<void**>(self) = &DAT_0110129c;

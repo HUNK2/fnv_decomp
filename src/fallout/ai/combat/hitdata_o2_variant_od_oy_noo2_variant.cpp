@@ -791,7 +791,7 @@ void Target9B6::HitData_SetTargetedLimb(Event9B6* pkEvent)
             m_kPathOffset = pkContact->m_kPathOffset;
             m_kLightVector = pkEvent->GetDirection();
             m_kLightVector.Unitize();
-            m_kLightVector.FUN_0063c8a0(-pkContact->m_kPlaneNormal);
+            m_kLightVector.ComputeValue_0063c8a0(-pkContact->m_kPlaneNormal);
             m_kLightVector.Unitize();
         }
     }
@@ -853,7 +853,7 @@ void Target9B6::HitData_SetTargetedLimb(Event9B6* pkEvent)
         {
             NiPoint3 kTargetPos = *m_pkTarget->Get3D()->GetBoundingVolume().FUN_006815c0();
             NiPoint3 kAttackerPos = *m_pkAttacker->Get3D()->GetBoundingVolume().FUN_006815c0();
-            m_kPathOffset = kTargetPos + (m_pkAttacker->GetEyePosition(1) - kTargetPos).FUN_0053d280(6.0f);
+            m_kPathOffset = kTargetPos + (m_pkAttacker->GetEyePosition(1) - kTargetPos).ProcessAndReturnValue_0053d280(6.0f);
             m_kLightVector = kTargetPos - kAttackerPos;
             SpherePick9B6 kPick;
             hkVector4 kTargetCenter;

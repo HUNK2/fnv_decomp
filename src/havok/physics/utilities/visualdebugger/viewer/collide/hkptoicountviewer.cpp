@@ -21,7 +21,8 @@ void __stdcall ClearTwoInts(int* piFirst, int* piSecond)
 extern int g_D67960Value;
 
 // @fnv 0x00d67960
-int __cdecl FUN_00d67960()
+// src: GUESS 0x00d67960 (confidence: low)
+int __cdecl Object_GetG_D67960Value_00d67960()
 {
     return g_D67960Value;
 }
@@ -39,7 +40,7 @@ struct Item
 {
     int value;
     Link link;
-    void FUN_00d67bc0(Sink*);
+    void ProcessState_00d67bc0(Sink*);
 };
 struct Prefix
 {
@@ -51,7 +52,8 @@ struct Derived : Prefix, Item
 {
 };
 // @fnv 0x00d67bc0
-void Item::FUN_00d67bc0(Sink* sink)
+// src: GUESS 0x00d67bc0 (confidence: low)
+void Item::ProcessState_00d67bc0(Sink* sink)
 {
     sink->removeEntityListener_00c9c670(static_cast<Item*>(reinterpret_cast<Derived*>(reinterpret_cast<char*>(this) - sizeof(Prefix))));
     link.hkMapBase_unsigned_long_unsigned_long_hkMapOperations_unsigned_long_remove(sink);
@@ -303,7 +305,7 @@ struct BaseHelper
 {
     void hkpToiCountViewer_displayCountForBody(void* entry, int mode);
 };
-int __cdecl FUN_00d679c0(float* direction);
+int __cdecl Object_GetSignedLargestComponentIndex(float* direction);
 struct Context
 {
     void ProcessQuery(Query* query);
@@ -312,7 +314,7 @@ struct Context
 // @fnv 0x00d68130
 void Context::ProcessQuery(Query* query)
 {
-    int mode = FUN_00d679c0(&query->direction.x);
+    int mode = Object_GetSignedLargestComponentIndex(&query->direction.x);
     for (int groupIndex = 0; groupIndex < query->groupCount; ++groupIndex)
     {
         EntryListNode* list = &query->groups[groupIndex]->entries;
@@ -587,7 +589,8 @@ __declspec(align(16)) struct SquaredLanes
 
 // Finds the index of the largest squared component of a vector and returns it offset by 3 if the original component is positive.
 // @fnv 0x00d679c0
-int __cdecl FUN_00d679c0(const __m128* apVector)
+// src: GUESS 0x00d679c0 (confidence: medium)
+int __cdecl Object_GetSignedLargestComponentIndex(const __m128* apVector)
 {
     __m128 vSquared = _mm_and_ps(_mm_mul_ps(*apVector, *apVector), DAT_01017d10);
     SquaredLanes lanes;
@@ -771,7 +774,7 @@ struct ContactViewer
     void hkpToiCountViewer_displayCountForBody(void* entry, int mode);
 };
 
-extern void __cdecl FUN_00d67a50(int owner, int id, void* entry, int mode, const char* name, unsigned int info,
+extern void __cdecl HkptoicountviewerGsEhscNogsNoehsc_UpdateState_00d67a50(int owner, int id, void* entry, int mode, const char* name, unsigned int info,
                                  float value, BSAudioValue flags);
 
 // @fnv 0x00d68030
@@ -788,7 +791,7 @@ void ContactViewer::hkpToiCountViewer_displayCountForBody(void* entry, int mode)
         name.Format("%d(%d)", flags & 0xffffff, tag);
     else
         name.Format("%d", flags & 0xffffff);
-    FUN_00d67a50(m_18, m_notifier.v1(), entry, mode, name.m_data, 0xff800000u, 0.1f, BSAudioValue());
+    HkptoicountviewerGsEhscNogsNoehsc_UpdateState_00d67a50(m_18, m_notifier.v1(), entry, mode, name.m_data, 0xff800000u, 0.1f, BSAudioValue());
     m_table.m_entries[index].m_flags = flags & 0xffffff;
     name.Release();
 }
@@ -796,7 +799,7 @@ void ContactViewer::hkpToiCountViewer_displayCountForBody(void* entry, int mode)
 struct D681E0Primary
 {
     virtual void vfunc00();
-    virtual void FUN_00d681e0();
+    virtual void AdjustThisAndForward_00d681e0();
 
     int unk04;
     int unk08;
@@ -809,7 +812,7 @@ struct D681E0Primary
 
 struct D681E0Secondary
 {
-    virtual void FUN_00d681e0();
+    virtual void AdjustThisAndForward_00d681e0();
 };
 
 struct D681E0Object : D681E0Primary, D681E0Secondary
@@ -817,7 +820,8 @@ struct D681E0Object : D681E0Primary, D681E0Secondary
     D681E0Object();
 
 // @fnv 0x00d681e0
-    virtual void FUN_00d681e0();
+// src: GUESS 0x00d681e0 (confidence: low)
+    virtual void AdjustThisAndForward_00d681e0();
 };
 
 D681E0Object::D681E0Object()
@@ -828,7 +832,7 @@ D681E0Object::D681E0Object()
 // so the secondary base sits at +0x28 and MSVC emits the this-adjusting thunk.
 struct AdjPrimaryBase
 {
-    virtual void FUN_00d68200();
+    virtual void AdjustThisAndForward_00d68200();
     int unk04;
     int unk08;
     int unk0C;
@@ -842,14 +846,15 @@ struct AdjPrimaryBase
 
 struct AdjSecondaryBase
 {
-    virtual void FUN_00d68200();
+    virtual void AdjustThisAndForward_00d68200();
 };
 
 struct AdjDerived : AdjPrimaryBase, AdjSecondaryBase
 {
     AdjDerived();
 // @fnv 0x00d68200
-    virtual void FUN_00d68200();
+// src: GUESS 0x00d68200 (confidence: low)
+    virtual void AdjustThisAndForward_00d68200();
 };
 
 AdjDerived::AdjDerived()

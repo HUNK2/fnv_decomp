@@ -709,7 +709,7 @@ struct TlsBlock_t
     int m_2b4;
 };
 extern __declspec(thread) TlsBlock_t g_tlsBlock;
-void* __cdecl FUN_00aa13e0(unsigned int size);
+void* __cdecl Object_DispatchCommandFour(unsigned int size);
 void bhkSerializable_CloneCritLock();
 void bhkSerializable_CloneCritUnlock();
 struct TlsGuard_t
@@ -729,7 +729,7 @@ struct TlsGuard_t
 };
 inline void* operator new(unsigned int n)
 {
-    return FUN_00aa13e0(n);
+    return Object_DispatchCommandFour(n);
 }
 struct FUN_00c9efa0_cls
 {
@@ -1670,7 +1670,7 @@ struct MemMgr_ca0090
 };
 struct Sub_ca0090
 {
-    void FUN_004b4db0(void* a);
+    void SetQuaternionComponentsFromVector(void* a);
 };
 struct FUN_00ca0090_cls
 {
@@ -2192,7 +2192,7 @@ class S0056e810_Vector
 class S0056e810_Quaternion
 {
   public:
-    S0056e810_Quaternion& FUN_004b4db0(const S0056e810_Vector& v);  // set from vector
+    S0056e810_Quaternion& SetQuaternionComponentsFromVector(const S0056e810_Vector& v);  // set from vector
     float m_fVectorY;
     float m_fVectorZ;
     float m_fScalarPart;
@@ -2266,7 +2266,7 @@ class S0056e810_Object
 void S0056e810_Object::bhkBoxShape_Init(const S0056e810_Vector& v)
 {
     S0056e810_Rotation kRotationBasis;
-    kRotationBasis.m_kQuat.FUN_004b4db0(v);
+    kRotationBasis.m_kQuat.SetQuaternionComponentsFromVector(v);
     vfB0(&kRotationBasis);
 }
 

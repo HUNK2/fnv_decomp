@@ -26,9 +26,9 @@ extern const char DAT_010d8038[];
 struct S00ddf070_StringPtr
 {
     const char* m_pcText;
-    S00ddf070_StringPtr* FUN_00cb0b80(const char* s) throw();
+    S00ddf070_StringPtr* InitializeTextHandle(const char* s) throw();
     S00ddf070_StringPtr* FUN_00cb0bd0(const S00ddf070_StringPtr& other) throw();
-    void FUN_00cb0c00() throw();
+    void Object_UpdateFields_00cb0c00() throw();
     const char* cString() const
     {
         return (const char*)((unsigned int)m_pcText & ~1u);
@@ -48,7 +48,7 @@ struct S00ddf070_Node
     const char* m_name;
     int unk50;
     int unk54;
-    S00ddf070_Node* FUN_00e0d000(S00ddf070_Node* parent, const char* name, int type) throw();
+    S00ddf070_Node* DoNothing_00e0d000(S00ddf070_Node* parent, const char* name, int type) throw();
 };
 struct S00ddf070_Heap
 {
@@ -84,7 +84,7 @@ static __declspec(noinline) S00ddf070_Node* _newNode(S00ddf070_Node* parent, con
         {
             {
                 S00ddf070_StringPtr strName;
-                strName.FUN_00cb0b80(name);
+                strName.InitializeTextHandle(name);
                 S00ddf070_Heap& heap = *(S00ddf070_Heap*)&hkMemoryRouter_getInstance()->heap();
                 if (strings->m_iElementCount == (strings->m_iCapacityState & 0x3fffffff))
                     ResizeAudioStream(&heap, strings, 4);
@@ -92,12 +92,12 @@ static __declspec(noinline) S00ddf070_Node* _newNode(S00ddf070_Node* parent, con
                 if (dest)
                     dest->FUN_00cb0bd0(strName);
                 strings->m_iElementCount++;
-                strName.FUN_00cb0c00();
+                strName.Object_UpdateFields_00cb0c00();
             }
             name = strings->back().cString();
         }
         void* mem = ((S00ddf070_Heap*)&hkMemoryRouter_getInstance()->heap())->AllocateMemoryBlock(0x58);
-        child = mem ? ((S00ddf070_Node*)mem)->FUN_00e0d000(parent, name, 1) : 0;
+        child = mem ? ((S00ddf070_Node*)mem)->DoNothing_00e0d000(parent, name, 1) : 0;
     }
     child->m_uiFilterValue[0] += (float)value;
     child->m_uiFilterValue[1] += (float)count;

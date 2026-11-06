@@ -23,14 +23,14 @@ GlobalObjectO2_00a7b610* __cdecl NiFloatExtraData_GetRTTI()
 }
 
 extern void* DAT_010a0ec4;
-extern void __cdecl FUN_00a7b300();
+extern void __cdecl DestroyFields_00a7b300();
 extern void __cdecl operator delete(void*, unsigned int);
 
 // @fnv 0x00a9a4b0
 void* NiFloatExtraData::Destroy(unsigned int flags)
 {
     *reinterpret_cast<void**>(this) = &DAT_010a0ec4;
-    ::FUN_00a7b300();
+    ::DestroyFields_00a7b300();
     if (flags & 1)
         ::operator delete(this, 0x10);
     return this;

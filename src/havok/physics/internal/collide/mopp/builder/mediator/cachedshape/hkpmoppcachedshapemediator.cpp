@@ -300,11 +300,12 @@ struct FUN_00dd5660_cls
     int unk10;
     int unk14;
     int unk18;
-    int FUN_00dd5660();
+    int GetUnk18_00dd5660();
 };
 
 // @fnv 0x00dd5660
-int FUN_00dd5660_cls::FUN_00dd5660()
+// src: GUESS 0x00dd5660 (confidence: low)
+int FUN_00dd5660_cls::GetUnk18_00dd5660()
 {
     return unk18;
 }

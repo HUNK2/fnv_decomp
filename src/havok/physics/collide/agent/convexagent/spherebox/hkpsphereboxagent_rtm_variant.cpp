@@ -50,15 +50,15 @@ struct Conversion {
     bool enabled;
     bool supported;
 };
-struct Registry { void FUN_00cfbbe0(Conversion*, int, int); };
+struct Registry { void AppendRecordAndRegisterAgents(Conversion*, int, int); };
 void hkpSphereBoxAgent_createBoxSphereAgent();
-void FUN_00d3cfc0();
+void Object_UpdateFields_00d3cfc0();
 void FlipAndDispatchCollector();
-void FUN_00d3ac80();
+void Object_UpdateFields_00d3ac80();
 void CreateD3C380Obj();
 void hkpSphereBoxAgent_staticGetPenetrations();
 void hkpSphereBoxAgent_staticGetClosestPoints();
-void FUN_00daf8e0();
+void Object_ProcessEntries_00daf8e0();
 void __cdecl hkpSphereBoxAgent_registerAgent(Registry* registry);
 extern float DAT_0104da48;
 extern void __cdecl hkpSphereBoxAgent_staticGetClosestPoints(void*, void*, int, void*);
@@ -115,7 +115,7 @@ struct FlipCollectorLocal {
     unsigned char unk04;
     int unk08;
 };
-void __cdecl FUN_00d3cfc0(int aiArg1, int aiArg2, int aiArg3, int a4);
+void __cdecl Object_UpdateFields_00d3cfc0(int aiArg1, int aiArg2, int aiArg3, int a4);
 struct CpuCallData { void* descriptor; float bound; unsigned int value; };
 extern float DAT_0104da48;
 extern unsigned char DAT_010ce7fc;

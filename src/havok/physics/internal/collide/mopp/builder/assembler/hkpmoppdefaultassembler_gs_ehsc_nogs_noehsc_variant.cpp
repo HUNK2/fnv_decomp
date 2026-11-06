@@ -924,7 +924,7 @@ class FUN_00e095d0_cls
     unsigned int unk40;
     unsigned int unk44;
 
-    FUN_00e095d0_cls* __thiscall FUN_00e095d0(FUN_00e095d0_cls* src, unsigned int a2, unsigned int a3);
+    FUN_00e095d0_cls* __thiscall UpdateState_00e095d0(FUN_00e095d0_cls* src, unsigned int a2, unsigned int a3);
     void __thiscall CopyOffsets(unsigned int a);
     void __thiscall BuildScaledRanges(unsigned int a, unsigned int b);
     void __thiscall hkpMoppAssemblerNodeInfo_calcMaxExtentsSignificantBits();
@@ -1197,7 +1197,7 @@ struct S_00e07d60
     __m128 v;
     int i;
     char b;
-    void FUN_00e07d60(const S_00e07d60_Info& info);
+    void UpdateFields_00e07d60(const S_00e07d60_Info& info);
 };
 namespace e083 {
 struct PairArray

@@ -114,21 +114,21 @@ public:
     float GetSquaredXYLength() const;
     Elem16& expand(Allocator& allocator);
 
-    void FUN_00416870(float x, float y, float z);
+    void SetComponents(float x, float y, float z);
     bool FUN_00439090(const LocalVec3* other);
-    bool FUN_004390c0(const LocalVec3* other);
-    bool FUN_004390c0(const LocalVec3* other) const;
-    bool FUN_004390c0(const char* other);
-    void FUN_00439180(float scale);
+    bool HasEqualComponents(const LocalVec3* other);
+    bool HasEqualComponents(const LocalVec3* other) const;
+    bool HasEqualComponents(const char* other);
+    void ScaleComponents(float scale);
     LocalVec3 FUN_00439e90(const LocalVec3& other);
     LocalVec3 FUN_00439e90(const LocalVec3& other) const;
-    void FUN_00439ef0();
-    LocalVec3 FUN_00439ef0(const LocalVec3& other);
-    LocalVec3 FUN_00439ef0(const LocalVec3& other) const;
-    LocalVec3 FUN_00439ef0(LocalVec3* other);
-    LocalVec3 FUN_00439ef0(const LocalVec3* other);
-    void FUN_00439ef0(LocalVec3* output, const LocalVec3* other);
-    LocalVec3* FUN_00439ef0(void* output, void* other);
+    void SubtractIntoVector();
+    LocalVec3 SubtractIntoVector(const LocalVec3& other);
+    LocalVec3 SubtractIntoVector(const LocalVec3& other) const;
+    LocalVec3 SubtractIntoVector(LocalVec3* other);
+    LocalVec3 SubtractIntoVector(const LocalVec3* other);
+    void SubtractIntoVector(LocalVec3* output, const LocalVec3* other);
+    LocalVec3* SubtractIntoVector(void* output, void* other);
     void FUN_0043d410(float x, int y, int z);
     void FUN_0043d410(float x, unsigned int y, unsigned int z);
     float FUN_00457910();
@@ -138,22 +138,22 @@ public:
     float FUN_004a7290();
     float FUN_004a7290() const;
     LocalVec3 FUN_004b3800(const LocalVec3& other) const;
-    LocalVec3 FUN_0053d280(float divisor);
+    LocalVec3 ProcessAndReturnValue_0053d280(float divisor);
     float NiPoint3_XYLength();
     float NiPoint3_XYLength() const;
-    void FUN_0063c8a0(const LocalVec3* other);
-    void FUN_0063c8a0(void* other);
+    void ComputeValue_0063c8a0(const LocalVec3* other);
+    void ComputeValue_0063c8a0(void* other);
     void FUN_006815c0();
     float CVec3_Distance(LocalVec3* other);
     float CVec3_Distance(const LocalVec3& other) const;
-    LocalVec3 FUN_00b05000(const Mat& matrix);
-    LocalVec3 FUN_00b05000(const Matrix4* matrix);
+    LocalVec3 TransformPointByMatrix4(const Mat& matrix);
+    LocalVec3 TransformPointByMatrix4(const Matrix4* matrix);
     void Normalize_00b12790();
     LocalVec3 Diff_00b13040(void* other);
     LocalVec3 Diff_00b13040(const LocalVec3& other) const;
     float FUN_00b2a180(void* other);
-    LocalVec3& FUN_00b2a1c0(void* other);
-    void FUN_00ddc870();
+    LocalVec3& AddComponents(void* other);
+    void ProcessEntries_00ddc870();
     void FUN_00e0f6e0();
 };
 
@@ -244,7 +244,7 @@ void __thiscall FUN_00a99870_Class::CopyMembers_00a99870(int, int)
 {}
 struct FUN_00c61430_Class
 {
-    void __thiscall FUN_00c61430(int, int);
+    void __thiscall ForwardCall_00c61430(int, int);
 };
 struct FUN_00c61450_Class
 {
@@ -314,7 +314,7 @@ struct FUN_00c63950_class
 };
 struct GlobalObject_00a7b610;
 extern GlobalObject_00a7b610 g_012043c8;
-void __cdecl FUN_00c63c30(int, int);
+void __cdecl NiFixedString_CopyMemory_00c63c30(int, int);
 void __cdecl CallWithSameArgumentTwice(int a);
 struct FUN_00c644d0_Class
 {
@@ -356,7 +356,7 @@ struct FUN_00c65680_Class
 };
 struct FUN_00c600c0_class
 {
-    void* __thiscall FUN_00c5fd50();
+    void* __thiscall UpdateState_00c5fd50();
     void* __thiscall FUN_00c600c0(unsigned int flags);
     static void __cdecl operator delete(void* p, unsigned int size);
 };
@@ -552,7 +552,7 @@ struct FUN_00a7b330_shell
 };
 struct FUN_00c61830_class
 {
-    void FUN_00c61830(void* a, void* b);
+    void ForwardCall_00c61830(void* a, void* b);
 };
 struct FUN_00c62390_class
 {
@@ -587,7 +587,7 @@ struct FUN_00c64980_Class : A46BB0Object
 };
 struct FUN_0043ba10_shell
 {
-    FUN_0043ba10_shell* FUN_0043ba10(unsigned int);
+    FUN_0043ba10_shell* AssignInternedString(unsigned int);
 };
 struct FUN_00c64dc0_Class
 {
@@ -607,14 +607,14 @@ struct FUN_00c64e70_Class
     void __thiscall FUN_00c64e70();
     void* __thiscall FUN_00c65650(unsigned int flags);
 };
-void* __cdecl FUN_00aa13e0(unsigned int size);
+void* __cdecl Object_DispatchCommandFour(unsigned int size);
 struct SpawnedObject_b9118
 {
     char m00[0x60];
     SpawnedObject_b9118();
     static void* operator new(unsigned int size)
     {
-        return FUN_00aa13e0(size);
+        return Object_DispatchCommandFour(size);
     }
 };
 SpawnedObject_b9118* BSPSysSimpleColorModifier_CreateObject();
@@ -844,14 +844,14 @@ struct FUN_00c63780_c
     NiPoint3 v;
     void ResetVector();
 };
-void* __cdecl FUN_00aa13e0(unsigned int size);
+void* __cdecl Object_DispatchCommandFour(unsigned int size);
 struct PositionModifierObject_b9439
 {
     char m00[0x3c];
     PositionModifierObject_b9439();
     static void* operator new(unsigned int size)
     {
-        return FUN_00aa13e0(size);
+        return Object_DispatchCommandFour(size);
     }
 };
 PositionModifierObject_b9439* CreatePositionModifierObject();
@@ -1838,7 +1838,8 @@ inline bool C616Contains(C616Node* node)
 }
 
 // @fnv 0x00c61630
-void* FUN_00c61630(NiAVObject* host)
+// src: GUESS 0x00c61630 (confidence: low)
+void* NiAVObject_UpdateState_00c61630(NiAVObject* host)
 {
     void* result2 = 0;
     if (host != 0)
@@ -2602,7 +2603,7 @@ struct ArrayC62
     void* m_00;
     PtrC62* m_04;
     unsigned short m_08, m_0a, m_0c, m_0e;
-    PtrC62 FUN_00c62d10(unsigned int i);
+    PtrC62 UpdateState_00c62d10(unsigned int i);
 };
 inline void FrameC62()
 {
@@ -2613,7 +2614,8 @@ inline void FrameC62()
     (void)&slots;
 }
 // @fnv 0x00c62d10
-PtrC62 ArrayC62::FUN_00c62d10(unsigned int i)
+// src: GUESS 0x00c62d10 (confidence: low)
+PtrC62 ArrayC62::UpdateState_00c62d10(unsigned int i)
 {
     if (i >= m_0a)
         return PtrC62();
@@ -2837,7 +2839,8 @@ struct ObjC63
 };
 
 // @fnv 0x00c63c30
-bool __cdecl FUN_00c63c30(ObjC63* obj, ObjC63* root)
+// src: GUESS 0x00c63c30 (confidence: low)
+bool __cdecl NiFixedString_CopyMemory_00c63c30(ObjC63* obj, ObjC63* root)
 {
     if (obj->v0c())
     {
@@ -2886,7 +2889,7 @@ bool __cdecl FUN_00c63c30(ObjC63* obj, ObjC63* root)
                 Child* c = (Child*)p->children.GetAt(i);
                 if (c)
                 {
-                    if (FUN_00c63c30((ObjC63*)c, root))
+                    if (NiFixedString_CopyMemory_00c63c30((ObjC63*)c, root))
                         c = 0;
                 }
                 i++;
@@ -2948,7 +2951,7 @@ class C649F0_Object : public NiObject
     C649F0_Sub m_08;
     static void* operator new(unsigned int size)
     {
-        return FUN_00aa13e0(size);
+        return Object_DispatchCommandFour(size);
     }
     virtual ~C649F0_Object();
 };
@@ -3179,7 +3182,8 @@ inline void NiFixedString::operator delete(void* p)
 namespace fnv_00c655d0 {
 extern NiFixedString* DAT_012043ec;
 // @fnv 0x00c655d0
-void FUN_00c655d0()
+// src: GUESS 0x00c655d0 (confidence: low)
+void Runtime_ReleaseStorage_00c655d0()
 {
     delete DAT_012043ec;
     DAT_012043ec = 0;
@@ -3384,11 +3388,11 @@ struct ListBaseB3
 struct ListB3 : ListBaseB3
 {
     int unk00, unk04, unk08;
-    void FUN_00c64710();
+    void ReleaseStorage_00c64710();
     __forceinline ~ListB3()
     {
         int a, b, c;
-        FUN_00c64710();
+        ReleaseStorage_00c64710();
     }
 };
 extern MemoryManager DAT_011f6238;
@@ -3419,7 +3423,7 @@ BSDecalPlacementVectorExtraData_DtorView::~BSDecalPlacementVectorExtraData_DtorV
 extern "C" int __cdecl rand();
 inline void ScalePoint(NiPoint3& point, float scale)
 {
-    point.FUN_00439180(scale);
+    point.ScaleComponents(scale);
 }
 struct M68Q
 {
@@ -3534,7 +3538,7 @@ void FUN_00c62390_cls::BSPSysArrayEmitter_GetPointFromObject(void* a, void* b, v
         NodeQ* pParent = *(NodeQ**)((char*)a + 0x18);
         if (GetMode() != 1 && pParent)
         {
-            *(NiPoint3*)b = ((NodeQ*)a)->kPos.FUN_00439ef0(pParent->kPos);
+            *(NiPoint3*)b = ((NodeQ*)a)->kPos.SubtractIntoVector(pParent->kPos);
             Dead3();
             *(NiPoint3*)b = pParent->kPos.FUN_00439e90(((NiPoint3*)b)->ApplyScaled(Rand01()));
             Dead6();
@@ -3689,7 +3693,7 @@ struct PtrArray61
         return m_pBase[i];
     }
     void NiTArray_NiPointer_NiAVObject_NiTMallocInterface_NiPointer_NiAVObject_SetAt(unsigned int i, Ptr61& p);
-    Ptr61 FUN_00c62d10(unsigned int i);
+    Ptr61 UpdateState_00c62d10(unsigned int i);
     void Compact();
 };
 struct Base61
@@ -3753,7 +3757,7 @@ void Emitter61::BSPSysArrayEmitter_ProcessClone(Cloning61& kCloning)
             }
             else
             {
-                pkDest9->m_kArray.FUN_00c62d10(uiCount4);
+                pkDest9->m_kArray.UpdateState_00c62d10(uiCount4);
             }
         }
         S61_Pad12();

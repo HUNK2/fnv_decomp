@@ -168,7 +168,7 @@ struct S_00d5ac50_P
 
 extern __m128 DAT_010c44d0;
 
-S_00d5ac50_R FUN_00d5a6e0(S_00d5ac50_M& m, int iters);
+S_00d5ac50_R Object_ProcessEntries_00d5a6e0(S_00d5ac50_M& m, int iters);
 
 static __forceinline __m128& S_q(S_00d5ac50_V& v)
 {
@@ -186,9 +186,10 @@ static __forceinline float S_dot3(__m128 x)
 }
 
 // @fnv 0x00d5ac50
-S_00d5ac50_R FUN_00d5ac50(S_00d5ac50_M& m, S_00d5ac50_V* p0, S_00d5ac50_V* p1, S_00d5ac50_V* p2)
+// src: GUESS 0x00d5ac50 (confidence: low)
+S_00d5ac50_R HkgeometryutilityGsEhscNogsNoehsc_ComputeValues_00d5ac50(S_00d5ac50_M& m, S_00d5ac50_V* p0, S_00d5ac50_V* p1, S_00d5ac50_V* p2)
 {
-    S_00d5ac50_R r = FUN_00d5a6e0(m, 30);
+    S_00d5ac50_R r = Object_ProcessEntries_00d5a6e0(m, 30);
     S_00d5ac50_V& o0 = *p0;
     S_00d5ac50_V& o1 = *p1;
     S_00d5ac50_V& o2 = *p2;

@@ -21,11 +21,11 @@ struct FUN_00d37690_Class {
 };
 void hkpMultiRayConvexAgent_createMultiRayConvexAgent(int a, int b, int c, int d);
 void FUN_00d37780(int a, int b, int c, int d);
-void FUN_00d37860(int a, int b, int c, int d);
-void FUN_00d378a0(int a, int b, int c, int d);
+void Object_ProcessState_00d37860(int a, int b, int c, int d);
+void Object_UpdateFields_00d378a0(int a, int b, int c, int d);
 void hkpMultiRayConvexAgent_staticGetClosestPoints(int a, int b, int c, int d);
-void FUN_00daf8e0();
-void FUN_00d3ac80();
+void Object_ProcessEntries_00daf8e0();
+void Object_UpdateFields_00d3ac80();
 struct FUN_00cfbbe0_Arg {
     void* f0;
     void* f1;
@@ -35,7 +35,7 @@ struct FUN_00cfbbe0_Arg {
     char f5;
 };
 struct FUN_00cfbbe0_Class {
-    void __thiscall FUN_00cfbbe0(FUN_00cfbbe0_Arg* a, int b, int c);
+    void __thiscall AppendRecordAndRegisterAgents(FUN_00cfbbe0_Arg* a, int b, int c);
 };
 void hkpMultiRayConvexAgent_registerAgent(int a);
 struct Handler {
@@ -67,12 +67,12 @@ struct S_00d37860_Collector : S_00d37860_Base {
     virtual void f1();
 };
 void hkpMultiRayConvexAgent_staticGetPenetrations(void* b, void* a, void* c, S_00d37860_Collector* collector);
-void FUN_00d37860(void* a, void* b, void* c, int filter);
+void Object_ProcessState_00d37860(void* a, void* b, void* c, int filter);
 struct Payload { const char* name; float value; int id; };
 extern float DAT_0104da48;
 extern const char DAT_010ce7fc[];
 void hkpMultiRayConvexAgent_staticGetClosestPoints(int, int, int, Payload*);
-void FUN_00d378a0(int a, int b, int c, int d);
+void Object_UpdateFields_00d378a0(int a, int b, int c, int d);
 struct D376B0Allocator;
 struct D376B0MemoryRouter {
     int unk00;

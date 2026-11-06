@@ -648,7 +648,7 @@ void hkVector4::SetRotatedDirection(const hkVector4& source, const hkVector4& pa
     kE.broadcast(0);
     kD.addMul4(kE, reinterpret_cast<const hkVector4&>(source.getQuad()));
     hkVector4 kF;
-    kF.FUN_00630df0(reinterpret_cast<const hkVector4&>(source.getQuad()), param);
+    kF.ComputeValues_00630df0(reinterpret_cast<const hkVector4&>(source.getQuad()), param);
     kD.addMul4(kB, kF);
     setAdd4(kD, kD);
 }
@@ -668,7 +668,8 @@ void hkVector4::setAddMul4(const hkVector4& a, const hkVector4& b, const hkVecto
 }
 
 // @fnv 0x00630df0
-void hkVector4::FUN_00630df0(const hkVector4& a, const hkVector4& b)
+// src: GUESS 0x00630df0 (confidence: low)
+void hkVector4::ComputeValues_00630df0(const hkVector4& a, const hkVector4& b)
 {
     const __m128 cross0 = _mm_mul_ps(_mm_shuffle_ps(a.m_vComponents, a.m_vComponents, _MM_SHUFFLE(3, 0, 2, 1)),
                                      _mm_shuffle_ps(b.m_vComponents, b.m_vComponents, _MM_SHUFFLE(3, 1, 0, 2)));

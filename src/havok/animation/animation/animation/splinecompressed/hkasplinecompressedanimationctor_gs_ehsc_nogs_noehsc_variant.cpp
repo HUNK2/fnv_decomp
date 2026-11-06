@@ -342,9 +342,9 @@ struct Se31d50_ErrStream
     void* unk08;
     void FUN_00cb1600(void* buf, int bufSize);
     void FUN_00cc00e0();
-    Se31d50_ErrStream& FUN_00cc01c0(const char* s);
+    Se31d50_ErrStream& ProcessAndReturnValue_00cc01c0(const char* s);
     Se31d50_ErrStream& WriteInt(int i);
-    Se31d50_ErrStream& FUN_00cc02d0(unsigned int u);
+    Se31d50_ErrStream& EvaluateValue_00cc02d0(unsigned int u);
     Se31d50_ErrStream& WriteFloat(float f);
     __forceinline Se31d50_ErrStream(void* buf, int bufSize)
     {
@@ -356,7 +356,7 @@ struct Se31d50_ErrStream
     }
     __forceinline Se31d50_ErrStream& operator<<(const char* s)
     {
-        return FUN_00cc01c0(s);
+        return ProcessAndReturnValue_00cc01c0(s);
     }
     __forceinline Se31d50_ErrStream& operator<<(int i)
     {
@@ -364,7 +364,7 @@ struct Se31d50_ErrStream
     }
     __forceinline Se31d50_ErrStream& operator<<(unsigned int i)
     {
-        return FUN_00cc02d0(i);
+        return EvaluateValue_00cc02d0(i);
     }
     __forceinline Se31d50_ErrStream& operator<<(float f)
     {
@@ -416,14 +416,14 @@ struct Se31d50_Anim
     int m_iEndian;
     int getSizeInBytes() const;
     void AppendScaledValues(int n, int p, const Se31d50_FltArr& U);
-    void FUN_00e319e0(unsigned char mask, Se31d50_RotQ q, const hkVector4& s, int n, const Se31d50_VecArr& p);
+    void ProcessEntries_00e319e0(unsigned char mask, Se31d50_RotQ q, const hkVector4& s, int n, const Se31d50_VecArr& p);
     void WriteCompressedAnimation(unsigned char mask, Se31d50_ScalQ q, const hkVector4& s,
                                   const hkVector4& mn, const hkVector4& mx, int n, const Se31d50_VecArr& p);
     void hkaSplineCompressedAnimation_initialize(const Se31d50_Raw& raw, const Se31d50_PerTrack& trackParams,
                       const Se31d50_AnimParams& animationParams);
-    static hkVector4 FUN_00e31410(const Se31d50_VecArr& d);
-    static hkVector4 FUN_00e31470(const Se31d50_VecArr& d);
-    static hkVector4 FUN_00e314c0(const Se31d50_VecArr& d);
+    static hkVector4 Runtime_ProcessEntries_00e31410(const Se31d50_VecArr& d);
+    static hkVector4 hkArrayBase_ProcessEntries_00e31470(const Se31d50_VecArr& d);
+    static hkVector4 hkArrayBase_ProcessEntries_00e314c0(const Se31d50_VecArr& d);
     static unsigned char hkaSplineCompressedAnimation_isStatic(const hkVector4& mean, const hkVector4& mn, const hkVector4& mx,
                                       float tol, const hkVector4& id);
     static unsigned char PackBitFields(Se31d50_ScalQ t, Se31d50_RotQ r, Se31d50_ScalQ s);
@@ -431,13 +431,14 @@ struct Se31d50_Anim
     static void hkaSplineCompressedAnimation_writeZeros(int n, Se31d50_ByteArr& out);
     static void hkaSplineCompressedAnimation_writeAlign(int align, Se31d50_ByteArr& out);
     static void FillInterpolatedValues(int n, Se31d50_FltArr& U, float a, float b);
-    static void FUN_00e310c0(const hkQsTransform* t, int numTracks, int numFrames, int first, int track, Se31d50_VecArr& a,
+    static void hkVector4_ProcessEntries_00e310c0(const hkQsTransform* t, int numTracks, int numFrames, int first, int track, Se31d50_VecArr& a,
                              Se31d50_VecArr& b, Se31d50_VecArr& c);
-    static void FUN_00e31180(const float* f, int numTracks, int numFrames, int first, int track, Se31d50_VecArr& a);
+    static void Object_ProcessEntries_00e31180(const float* f, int numTracks, int numFrames, int first, int track, Se31d50_VecArr& a);
 };
 
 extern "C" double __cdecl fabs(double);
-__declspec(noinline) hkVector4 Se31d50_Anim::FUN_00e31410(const Se31d50_VecArr& data)
+// src: GUESS 0x00e31410 (confidence: low)
+__declspec(noinline) hkVector4 Se31d50_Anim::Runtime_ProcessEntries_00e31410(const Se31d50_VecArr& data)
 {
     hkVector4 mean;
     mean.setZero4();
@@ -449,7 +450,8 @@ __declspec(noinline) hkVector4 Se31d50_Anim::FUN_00e31410(const Se31d50_VecArr& 
     mean.setMul4(1.0f / n, mean);
     return mean;
 }
-__declspec(noinline) hkVector4 Se31d50_Anim::FUN_00e31470(const Se31d50_VecArr& data)
+// src: GUESS 0x00e31470 (confidence: low)
+__declspec(noinline) hkVector4 Se31d50_Anim::hkArrayBase_ProcessEntries_00e31470(const Se31d50_VecArr& data)
 {
     hkVector4 m = data[0];
     const int n = data.GetLogicalSize();
@@ -459,7 +461,8 @@ __declspec(noinline) hkVector4 Se31d50_Anim::FUN_00e31470(const Se31d50_VecArr& 
     }
     return m;
 }
-__declspec(noinline) hkVector4 Se31d50_Anim::FUN_00e314c0(const Se31d50_VecArr& data)
+// src: GUESS 0x00e314c0 (confidence: low)
+__declspec(noinline) hkVector4 Se31d50_Anim::hkArrayBase_ProcessEntries_00e314c0(const Se31d50_VecArr& data)
 {
     hkVector4 m = data[0];
     const int n = data.GetLogicalSize();
@@ -506,7 +509,8 @@ __declspec(noinline) void Se31d50_Anim::FillInterpolatedValues(int n, Se31d50_Fl
         U[i] = (float)i / n * (b - a) + a;
     }
 }
-__declspec(noinline) void Se31d50_Anim::FUN_00e310c0(const hkQsTransform* src, int numTracks, int numFrames, int first,
+// src: GUESS 0x00e310c0 (confidence: low)
+__declspec(noinline) void Se31d50_Anim::hkVector4_ProcessEntries_00e310c0(const hkQsTransform* src, int numTracks, int numFrames, int first,
                                                      int track, Se31d50_VecArr& a, Se31d50_VecArr& b, Se31d50_VecArr& c)
 {
     for (int i = 0; i < numFrames; i++)
@@ -517,7 +521,8 @@ __declspec(noinline) void Se31d50_Anim::FUN_00e310c0(const hkQsTransform* src, i
         c[i].set(t.m_vScale(0), t.m_vScale(1), t.m_vScale(2), 0.0f);
     }
 }
-__declspec(noinline) void Se31d50_Anim::FUN_00e31180(const float* f, int numTracks, int numFrames, int first, int track,
+// src: GUESS 0x00e31180 (confidence: low)
+__declspec(noinline) void Se31d50_Anim::Object_ProcessEntries_00e31180(const float* f, int numTracks, int numFrames, int first, int track,
                                                      Se31d50_VecArr& a)
 {
     for (int i = 0; i < numFrames; i++)
@@ -621,17 +626,17 @@ void Se31d50_Anim::hkaSplineCompressedAnimation_initialize(const Se31d50_Raw& ra
                 }
                 if (isFloat == 0)
                 {
-                    FUN_00e310c0(raw.m_kTransforms.begin(), m_iNumTransformTracks, nf, f, t, data[0], data[1], data[2]);
+                    hkVector4_ProcessEntries_00e310c0(raw.m_kTransforms.begin(), m_iNumTransformTracks, nf, f, t, data[0], data[1], data[2]);
                 }
                 else
                 {
-                    FUN_00e31180(raw.m_kFloats.begin(), m_iNumberOfFloatTracks, nf, f, t, data[0]);
+                    Object_ProcessEntries_00e31180(raw.m_kFloats.begin(), m_iNumberOfFloatTracks, nf, f, t, data[0]);
                 }
                 for (int c = 0; c < numComponents; c++)
                 {
-                    hkVector4 mean = FUN_00e31410(data[c]);
-                    hkVector4 minV = FUN_00e31470(data[c]);
-                    hkVector4 maxV = FUN_00e314c0(data[c]);
+                    hkVector4 mean = Runtime_ProcessEntries_00e31410(data[c]);
+                    hkVector4 minV = hkArrayBase_ProcessEntries_00e31470(data[c]);
+                    hkVector4 maxV = hkArrayBase_ProcessEntries_00e314c0(data[c]);
                     if (c == 1)
                     {
                         mean.normalize4();
@@ -685,15 +690,15 @@ void Se31d50_Anim::hkaSplineCompressedAnimation_initialize(const Se31d50_Raw& ra
                     }
                     if (c == 1)
                     {
-                        FUN_00e319e0(mask, params.m_eRotationQuantizationType, mean, controlPoints.GetLogicalSize() - 1,
+                        ProcessEntries_00e319e0(mask, params.m_eRotationQuantizationType, mean, controlPoints.GetLogicalSize() - 1,
                                      controlPoints);
                     }
                     else
                     {
                         if (mask & 0xf0)
                         {
-                            minV = FUN_00e31470(controlPoints);
-                            maxV = FUN_00e314c0(controlPoints);
+                            minV = hkArrayBase_ProcessEntries_00e31470(controlPoints);
+                            maxV = hkArrayBase_ProcessEntries_00e314c0(controlPoints);
                         }
                         WriteCompressedAnimation(mask,
                                                  (isFloat == 0)
@@ -713,13 +718,13 @@ void Se31d50_Anim::hkaSplineCompressedAnimation_initialize(const Se31d50_Raw& ra
     {
         char reportBuf[512];
         Se31d50_ErrStream ostr(reportBuf, sizeof(reportBuf));
-        ostr.FUN_00cc01c0(str_010eb4b4).WriteInt(m_iBlockCount);
+        ostr.ProcessAndReturnValue_00cc01c0(str_010eb4b4).WriteInt(m_iBlockCount);
         DAT_01268360->message(0, -1, reportBuf, str_010eb470, 366);
     }
     {
         char reportBuf[512];
         Se31d50_ErrStream ostr(reportBuf, sizeof(reportBuf));
-        ostr.FUN_00cc01c0(str_010eb444).WriteInt(GetValueAt2C()).FUN_00cc01c0(str_010eb468);
+        ostr.ProcessAndReturnValue_00cc01c0(str_010eb444).WriteInt(GetValueAt2C()).ProcessAndReturnValue_00cc01c0(str_010eb468);
         DAT_01268360->message(0, -1, reportBuf, str_010eb470, 367);
     }
     const unsigned int originalSize =
@@ -727,17 +732,17 @@ void Se31d50_Anim::hkaSplineCompressedAnimation_initialize(const Se31d50_Raw& ra
     {
         char reportBuf[512];
         Se31d50_ErrStream ostr(reportBuf, sizeof(reportBuf));
-        ostr.FUN_00cc01c0(str_010eb418)
-            .FUN_00cc02d0(originalSize)
-            .FUN_00cc01c0(str_010eb428)
+        ostr.ProcessAndReturnValue_00cc01c0(str_010eb418)
+            .EvaluateValue_00cc02d0(originalSize)
+            .ProcessAndReturnValue_00cc01c0(str_010eb428)
             .WriteInt(getSizeInBytes())
-            .FUN_00cc01c0(str_010eb468);
+            .ProcessAndReturnValue_00cc01c0(str_010eb468);
         DAT_01268360->message(0, -1, reportBuf, str_010eb470, 372);
     }
     {
         char reportBuf[512];
         Se31d50_ErrStream ostr(reportBuf, sizeof(reportBuf));
-        ostr.FUN_00cc01c0(str_010eb400).WriteFloat((float)originalSize / getSizeInBytes()).FUN_00cc01c0(str_010eb414);
+        ostr.ProcessAndReturnValue_00cc01c0(str_010eb400).WriteFloat((float)originalSize / getSizeInBytes()).ProcessAndReturnValue_00cc01c0(str_010eb414);
         DAT_01268360->message(0, -1, reportBuf, str_010eb470, 373);
     }
     DAT_01268360->endSection();

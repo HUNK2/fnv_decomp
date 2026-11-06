@@ -131,7 +131,8 @@ ExtraNavMeshPortal::ExtraNavMeshPortal(TwoIntRecord v) : BSExtraData(0x5a), hand
 
 // If the stored object pointer is non-null, calls FUN_00401970 on the NiAVObject at offset 0x1c within it.
 // @fnv 0x0042fda0
-void __fastcall FUN_0042fda0(int* pObjectPtr)
+// src: GUESS 0x0042fda0 (confidence: medium)
+void __fastcall Object_ReleaseReferencedObject(int* pObjectPtr)
 {
     if (*pObjectPtr != 0)
     {
@@ -602,12 +603,13 @@ template <> BSSimpleArray<NavMeshClosedDoorInfo, 1024>::~BSSimpleArray()
 
 struct FUN_00691e70_shell
 {
-    void FUN_00691e70(unsigned char* param1, unsigned short param2, unsigned int param3);
+    void UpdateState_00691e70(unsigned char* param1, unsigned short param2, unsigned int param3);
 };
 
 // Stores a 16-bit value at offset 4 and a 32-bit value at offset 6 of the given buffer.
 // @fnv 0x00691e70
-void __thiscall FUN_00691e70_shell::FUN_00691e70(unsigned char* pBuffer, unsigned short usValue, unsigned int uiValue)
+// src: GUESS 0x00691e70 (confidence: low)
+void __thiscall FUN_00691e70_shell::UpdateState_00691e70(unsigned char* pBuffer, unsigned short usValue, unsigned int uiValue)
 {
     *reinterpret_cast<unsigned short*>(pBuffer + 4) = usValue;
     *reinterpret_cast<unsigned int*>(pBuffer + 6) = uiValue;
@@ -843,11 +845,12 @@ struct UnkHost
 {
     char _pad[12];
     Unk6b f2;
-    void FUN_00691f30(UnkParam*);
+    void ProcessState_00691f30(UnkParam*);
 };
 // Calls FUN_0065de30(0) on a1->f, then passes a1 to f2.FreeMemory.
 // @fnv 0x00691f30
-void UnkHost::FUN_00691f30(UnkParam* pParam)
+// src: GUESS 0x00691f30 (confidence: low)
+void UnkHost::ProcessState_00691f30(UnkParam* pParam)
 {
     pParam->f.FUN_0065de30(0);
     f2.FreeMemory(pParam);
@@ -1154,11 +1157,12 @@ struct FUN_0069b030_S
     virtual ~FUN_0069b030_S();
     virtual int Write(unsigned int);
     void ConstructPairCells(int, unsigned int);
-    void FUN_00692520(unsigned int requested, unsigned int savedSize);
+    void UpdateFields_00692520(unsigned int requested, unsigned int savedSize);
 };
 
 // @fnv 0x00692520
-void FUN_0069b030_S::FUN_00692520(unsigned int requested, unsigned int savedSize)
+// src: GUESS 0x00692520 (confidence: low)
+void FUN_0069b030_S::UpdateFields_00692520(unsigned int requested, unsigned int savedSize)
 {
     ((int*)this)[1] = 0;
     ((int*)this)[2] = 0;
@@ -1267,7 +1271,7 @@ struct InfoView
 
 struct MeshView
 {
-    char* FUN_00559450();
+    char* Modelloader_GetReferencedThis();
     unsigned int GetHavokWorldObjectCountInSceneGraph_0084e3a0();
     unsigned int NavMesh_GetTriangleCount();
     unsigned int NavMeshInfo_GetWorldSpace();
@@ -1323,19 +1327,19 @@ bool NavMesh::Validate(int a0)
     {
         if (FUN_00ec7595(reinterpret_cast<NiPoint3&>(Vertices.GetAt(i)).x) == 0 || FUN_00408840(reinterpret_cast<NiPoint3&>(Vertices.GetAt(i)).x) > DAT_0106ab98)
         {
-            Warning_005b5e40(DAT_0106ab40, GetHavokWorldObjectCountInSceneGraph_0084e3a0(), p.FUN_00559450());
+            Warning_005b5e40(DAT_0106ab40, GetHavokWorldObjectCountInSceneGraph_0084e3a0(), p.Modelloader_GetReferencedThis());
             hadError = true;
             break;
         }
         if (FUN_00ec7595(reinterpret_cast<NiPoint3&>(Vertices.GetAt(i)).y) == 0 || FUN_00408840(reinterpret_cast<NiPoint3&>(Vertices.GetAt(i)).y) > DAT_0106ab98)
         {
-            Warning_005b5e40(DAT_0106aae8, GetHavokWorldObjectCountInSceneGraph_0084e3a0(), p.FUN_00559450());
+            Warning_005b5e40(DAT_0106aae8, GetHavokWorldObjectCountInSceneGraph_0084e3a0(), p.Modelloader_GetReferencedThis());
             hadError = true;
             break;
         }
         if (FUN_00ec7595(reinterpret_cast<NiPoint3&>(Vertices.GetAt(i)).z) == 0 || FUN_00408840(reinterpret_cast<NiPoint3&>(Vertices.GetAt(i)).z) > DAT_0106ab98)
         {
-            Warning_005b5e40(DAT_0106aa90, GetHavokWorldObjectCountInSceneGraph_0084e3a0(), p.FUN_00559450());
+            Warning_005b5e40(DAT_0106aa90, GetHavokWorldObjectCountInSceneGraph_0084e3a0(), p.Modelloader_GetReferencedThis());
             hadError = true;
             break;
         }
@@ -1343,7 +1347,7 @@ bool NavMesh::Validate(int a0)
 
     if (Triangles.GetSize() >= 0x7d0)
     {
-        Warning_005b5e40(DAT_0106aa28, GetHavokWorldObjectCountInSceneGraph_0084e3a0(), p.FUN_00559450(), Triangles.GetSize());
+        Warning_005b5e40(DAT_0106aa28, GetHavokWorldObjectCountInSceneGraph_0084e3a0(), p.Modelloader_GetReferencedThis(), Triangles.GetSize());
     }
 
     for (unsigned int j = 0; j < Triangles.GetSize(); j++)
@@ -1353,7 +1357,7 @@ bool NavMesh::Validate(int a0)
         {
             if (!triA->IsEdgeFlagSet(k) && triA->IsEdgeConnected(k) != 0 && triA->GetEdgeExtraInfo_0068f2c0(k) >= Triangles.GetSize())
             {
-                Warning_005b5e40(DAT_0106a9c0, GetHavokWorldObjectCountInSceneGraph_0084e3a0(), p.FUN_00559450(), j, k);
+                Warning_005b5e40(DAT_0106a9c0, GetHavokWorldObjectCountInSceneGraph_0084e3a0(), p.Modelloader_GetReferencedThis(), j, k);
                 triA->SetArrayValue(k, 0xffff);
                 hadError = true;
             }
@@ -1361,7 +1365,7 @@ bool NavMesh::Validate(int a0)
         NiPoint3 normal = FUN_006971e0((unsigned short)j);
         if (normal.z < 0.0f)
         {
-            Warning_005b5e40(DAT_0106a960, GetHavokWorldObjectCountInSceneGraph_0084e3a0(), p.FUN_00559450(), j);
+            Warning_005b5e40(DAT_0106a960, GetHavokWorldObjectCountInSceneGraph_0084e3a0(), p.Modelloader_GetReferencedThis(), j);
             SwapTriangleEdges((unsigned short)j);
             hadError = true;
         }
@@ -1376,7 +1380,7 @@ bool NavMesh::Validate(int a0)
             {
                 if (sh->GetEdgeExtraInfo_0068f2c0(tri7) >= m_kEdgeExtraInfo.GetSize())
                 {
-                    Warning_005b5e40(DAT_0106a8f0, GetHavokWorldObjectCountInSceneGraph_0084e3a0(), p.FUN_00559450(), b, tri7);
+                    Warning_005b5e40(DAT_0106a8f0, GetHavokWorldObjectCountInSceneGraph_0084e3a0(), p.Modelloader_GetReferencedThis(), b, tri7);
                     sh->ClearFlag(tri7);
                     hadError = true;
                     continue;
@@ -1399,10 +1403,10 @@ bool NavMesh::Validate(int a0)
                     NavMeshPtr pTri;
                     if (pRetrievedObject->m_04->FUN_00690860(&pTri))
                     {
-                        if (pRetrievedObject->m_08 >= ((MeshView*)pTri.FUN_00559450())->NavMesh_GetTriangleCount())
+                        if (pRetrievedObject->m_08 >= ((MeshView*)pTri.Modelloader_GetReferencedThis())->NavMesh_GetTriangleCount())
                         {
-                            Warning_005b5e40(DAT_0106a860, GetHavokWorldObjectCountInSceneGraph_0084e3a0(), p.FUN_00559450(), b, tri7,
-                                         ((MeshView*)pTri.FUN_00559450())->GetHavokWorldObjectCountInSceneGraph_0084e3a0(), pRetrievedObject->m_08);
+                            Warning_005b5e40(DAT_0106a860, GetHavokWorldObjectCountInSceneGraph_0084e3a0(), p.Modelloader_GetReferencedThis(), b, tri7,
+                                         ((MeshView*)pTri.Modelloader_GetReferencedThis())->GetHavokWorldObjectCountInSceneGraph_0084e3a0(), pRetrievedObject->m_08);
                             UpdateTriangleExtraInfo(sh->GetEdgeExtraInfo_0068f2c0(tri7));
                             hadError = true;
                             continue;
@@ -1410,8 +1414,8 @@ bool NavMesh::Validate(int a0)
                     }
                     if (reinterpret_cast<InfoView*>(GetParentCell())->FUN_0054ddd0() != pRetrievedObject->m_04->NavMeshInfo_GetWorldSpace())
                     {
-                        Warning_005b5e40(DAT_0106a7d8, GetHavokWorldObjectCountInSceneGraph_0084e3a0(), p.FUN_00559450(), b, tri7,
-                                     pRetrievedObject->m_04->FUN_00559450());
+                        Warning_005b5e40(DAT_0106a7d8, GetHavokWorldObjectCountInSceneGraph_0084e3a0(), p.Modelloader_GetReferencedThis(), b, tri7,
+                                     pRetrievedObject->m_04->Modelloader_GetReferencedThis());
                         UpdateTriangleExtraInfo(sh->GetEdgeExtraInfo_0068f2c0(tri7));
                         hadError = true;
                         continue;
@@ -1426,17 +1430,17 @@ bool NavMesh::Validate(int a0)
         NavMeshTriangle* tri4 = FUN_005582f0((unsigned short)t4);
         if (tri4->GetVert_005582d0(0) == tri4->GetVert_005582d0(1))
         {
-            Warning_005b5e40(DAT_0106a770, GetHavokWorldObjectCountInSceneGraph_0084e3a0(), p.FUN_00559450(), t4, tri4->GetVert_005582d0(0));
+            Warning_005b5e40(DAT_0106a770, GetHavokWorldObjectCountInSceneGraph_0084e3a0(), p.Modelloader_GetReferencedThis(), t4, tri4->GetVert_005582d0(0));
             hadError = true;
         }
         if (tri4->GetVert_005582d0(0) == tri4->GetVert_005582d0(2))
         {
-            Warning_005b5e40(DAT_0106a708, GetHavokWorldObjectCountInSceneGraph_0084e3a0(), p.FUN_00559450(), t4, tri4->GetVert_005582d0(0));
+            Warning_005b5e40(DAT_0106a708, GetHavokWorldObjectCountInSceneGraph_0084e3a0(), p.Modelloader_GetReferencedThis(), t4, tri4->GetVert_005582d0(0));
             hadError = true;
         }
         if (tri4->GetVert_005582d0(1) == tri4->GetVert_005582d0(2))
         {
-            Warning_005b5e40(DAT_0106a6a0, GetHavokWorldObjectCountInSceneGraph_0084e3a0(), p.FUN_00559450(), t4, tri4->GetVert_005582d0(1));
+            Warning_005b5e40(DAT_0106a6a0, GetHavokWorldObjectCountInSceneGraph_0084e3a0(), p.Modelloader_GetReferencedThis(), t4, tri4->GetVert_005582d0(1));
             hadError = true;
         }
     }
@@ -1447,19 +1451,19 @@ bool NavMesh::Validate(int a0)
         if (tri5->GetEdgeExtraInfo_0068f2c0(0) == tri5->GetEdgeExtraInfo_0068f2c0(1) && tri5->GetEdgeExtraInfo_0068f2c0(0) != 0xffff &&
             tri5->IsEdgeFlagSet(0) == tri5->IsEdgeFlagSet(1))
         {
-            Warning_005b5e40(DAT_0106a640, GetHavokWorldObjectCountInSceneGraph_0084e3a0(), p.FUN_00559450(), e7, tri5->GetEdgeExtraInfo_0068f2c0(0));
+            Warning_005b5e40(DAT_0106a640, GetHavokWorldObjectCountInSceneGraph_0084e3a0(), p.Modelloader_GetReferencedThis(), e7, tri5->GetEdgeExtraInfo_0068f2c0(0));
             hadError = true;
         }
         if (tri5->GetEdgeExtraInfo_0068f2c0(0) == tri5->GetEdgeExtraInfo_0068f2c0(2) && tri5->GetEdgeExtraInfo_0068f2c0(0) != 0xffff &&
             tri5->IsEdgeFlagSet(0) == tri5->IsEdgeFlagSet(2))
         {
-            Warning_005b5e40(DAT_0106a5e0, GetHavokWorldObjectCountInSceneGraph_0084e3a0(), p.FUN_00559450(), e7, tri5->GetEdgeExtraInfo_0068f2c0(0));
+            Warning_005b5e40(DAT_0106a5e0, GetHavokWorldObjectCountInSceneGraph_0084e3a0(), p.Modelloader_GetReferencedThis(), e7, tri5->GetEdgeExtraInfo_0068f2c0(0));
             hadError = true;
         }
         if (tri5->GetEdgeExtraInfo_0068f2c0(1) == tri5->GetEdgeExtraInfo_0068f2c0(2) && tri5->GetEdgeExtraInfo_0068f2c0(1) != 0xffff &&
             tri5->IsEdgeFlagSet(1) == tri5->IsEdgeFlagSet(2))
         {
-            Warning_005b5e40(DAT_0106a580, GetHavokWorldObjectCountInSceneGraph_0084e3a0(), p.FUN_00559450(), e7, tri5->GetEdgeExtraInfo_0068f2c0(1));
+            Warning_005b5e40(DAT_0106a580, GetHavokWorldObjectCountInSceneGraph_0084e3a0(), p.Modelloader_GetReferencedThis(), e7, tri5->GetEdgeExtraInfo_0068f2c0(1));
             hadError = true;
         }
     }
@@ -1495,7 +1499,7 @@ bool NavMesh::Validate(int a0)
                             continue;
                         if (e8 != tIn)
                         {
-                            Warning_005b5e40(DAT_0106a520, GetHavokWorldObjectCountInSceneGraph_0084e3a0(), p.FUN_00559450(), t6, tri3);
+                            Warning_005b5e40(DAT_0106a520, GetHavokWorldObjectCountInSceneGraph_0084e3a0(), p.Modelloader_GetReferencedThis(), t6, tri3);
                             hadError = true;
                         }
                         if (!tri6->IsEdgeFlagSet(e6))
@@ -1504,18 +1508,18 @@ bool NavMesh::Validate(int a0)
                             {
                                 if (tri->IsEdgeFlagSet(t5))
                                 {
-                                    Warning_005b5e40(DAT_0106a480, GetHavokWorldObjectCountInSceneGraph_0084e3a0(), p.FUN_00559450(), t6, e6, tri3, tri3,
+                                    Warning_005b5e40(DAT_0106a480, GetHavokWorldObjectCountInSceneGraph_0084e3a0(), p.Modelloader_GetReferencedThis(), t6, e6, tri3, tri3,
                                                  t5);
                                     hadError = true;
                                 }
                                 if (tri6->GetEdgeExtraInfo_0068f2c0(e6) != tri3)
                                 {
-                                    Warning_005b5e40(DAT_0106a418, GetHavokWorldObjectCountInSceneGraph_0084e3a0(), p.FUN_00559450(), t6, e6, tri3);
+                                    Warning_005b5e40(DAT_0106a418, GetHavokWorldObjectCountInSceneGraph_0084e3a0(), p.Modelloader_GetReferencedThis(), t6, e6, tri3);
                                     hadError = true;
                                 }
                                 if (tri->GetEdgeExtraInfo_0068f2c0(t5) != t6)
                                 {
-                                    Warning_005b5e40(DAT_0106a418, GetHavokWorldObjectCountInSceneGraph_0084e3a0(), p.FUN_00559450(), tri3, t5, t6);
+                                    Warning_005b5e40(DAT_0106a418, GetHavokWorldObjectCountInSceneGraph_0084e3a0(), p.Modelloader_GetReferencedThis(), tri3, t5, t6);
                                     hadError = true;
                                 }
                             }
@@ -1524,7 +1528,7 @@ bool NavMesh::Validate(int a0)
                         {
                             if (!tri->IsEdgeFlagSet(t5))
                             {
-                                Warning_005b5e40(DAT_0106a3b0, GetHavokWorldObjectCountInSceneGraph_0084e3a0(), p.FUN_00559450(), tri3, t5);
+                                Warning_005b5e40(DAT_0106a3b0, GetHavokWorldObjectCountInSceneGraph_0084e3a0(), p.Modelloader_GetReferencedThis(), tri3, t5);
                                 hadError = true;
                             }
                         }
@@ -1554,7 +1558,7 @@ bool NavMesh::Validate(int a0)
                 }
                 if (!s)
                 {
-                    Warning_005b5e40(DAT_0106a330, GetHavokWorldObjectCountInSceneGraph_0084e3a0(), p.FUN_00559450(), e10, tri8->GetEdgeExtraInfo_0068f2c0(e9),
+                    Warning_005b5e40(DAT_0106a330, GetHavokWorldObjectCountInSceneGraph_0084e3a0(), p.Modelloader_GetReferencedThis(), e10, tri8->GetEdgeExtraInfo_0068f2c0(e9),
                                  tri8->GetEdgeExtraInfo_0068f2c0(e9));
                     hadError = true;
                 }
@@ -1570,7 +1574,7 @@ bool NavMesh::Validate(int a0)
                         q = 0;
                     if (tri8->GetVert_005582d0(bIdx) != h->GetVert_005582d0(q) || tri8->GetVert_005582d0(c) != h->GetVert_005582d0(c2))
                     {
-                        Warning_005b5e40(DAT_0106a2c8, GetHavokWorldObjectCountInSceneGraph_0084e3a0(), p.FUN_00559450(), e10, tri8->GetEdgeExtraInfo_0068f2c0(e9));
+                        Warning_005b5e40(DAT_0106a2c8, GetHavokWorldObjectCountInSceneGraph_0084e3a0(), p.Modelloader_GetReferencedThis(), e10, tri8->GetEdgeExtraInfo_0068f2c0(e9));
                         hadError = true;
                     }
                 }
@@ -1584,12 +1588,12 @@ bool NavMesh::Validate(int a0)
         NavMeshTriangle* coverTri = FUN_005582f0(triC);
         if (coverTri == 0)
         {
-            Warning_005b5e40(DAT_0106a260, GetHavokWorldObjectCountInSceneGraph_0084e3a0(), p.FUN_00559450(), ci, triC);
+            Warning_005b5e40(DAT_0106a260, GetHavokWorldObjectCountInSceneGraph_0084e3a0(), p.Modelloader_GetReferencedThis(), ci, triC);
             hadError = true;
         }
         else if (!coverTri->HasFlags())
         {
-            Warning_005b5e40(DAT_0106a1f0, GetHavokWorldObjectCountInSceneGraph_0084e3a0(), p.FUN_00559450(), ci, triC);
+            Warning_005b5e40(DAT_0106a1f0, GetHavokWorldObjectCountInSceneGraph_0084e3a0(), p.Modelloader_GetReferencedThis(), ci, triC);
             hadError = true;
         }
     }

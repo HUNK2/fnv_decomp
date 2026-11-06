@@ -37,7 +37,7 @@ public:
     unsigned int m_pRayCursor;
 
     void Realloc(unsigned int);
-    void FUN_00a56e60(unsigned int ItemUpdateArray);
+    void ProcessEntries_00a56e60(unsigned int ItemUpdateArray);
     unsigned int Find(Item* item);
     int Find(unsigned int value);
     void Add(Item* item);
@@ -119,10 +119,11 @@ void __cdecl InitializeGameSystems();
 void __cdecl NiMainSDM_Shutdown();
 void __cdecl NiStaticDataManager_SetRootLibrary(void*, void*);
 struct FUN_00a8a5f0_class {
-    void* FUN_00a8a5f0();
+    void* UpdateState_00a8a5f0();
 };
 // @fnv 0x00a8a5f0
-void* FUN_00a8a5f0_class::FUN_00a8a5f0()
+// src: GUESS 0x00a8a5f0 (confidence: low)
+void* FUN_00a8a5f0_class::UpdateState_00a8a5f0()
 {
     void* old = (void*)DAT_011f5b84;
     ++DAT_011f5b84;
@@ -657,11 +658,12 @@ struct FUN_00a96800_shell {
     void* m_60;
     void* m_64;
     void* m_68;
-    void FUN_00a96800();
+    void ReleaseStorage_00a96800();
     void DestroyGeometryData();
 };
 // @fnv 0x00a96800
-void FUN_00a96800_shell::FUN_00a96800()
+// src: GUESS 0x00a96800 (confidence: medium)
+void FUN_00a96800_shell::ReleaseStorage_00a96800()
 {
     void* pOld = m_4c;
     *(void**)this = &DAT_010a05e4;
@@ -688,11 +690,12 @@ struct FUN_00a81bd0_class {
     void* m_10;
     void* m_14;
     void* m_18;
-    void FUN_00a81bd0();
+    void UpdateState_00a81bd0();
 };
 
 // @fnv 0x00a81bd0
-void FUN_00a81bd0_class::FUN_00a81bd0()
+// src: GUESS 0x00a81bd0 (confidence: low)
+void FUN_00a81bd0_class::UpdateState_00a81bd0()
 {
     m_iWordAt00 = &DAT_0109e470;
     NiFree(m_iWordAt04);
@@ -712,11 +715,12 @@ extern int (__stdcall* DAT_00fdf1c4)(void*);
 extern const void* vftable_NiRefObject;
 
 struct FUN_00a8f810_class {
-    void FUN_00a8f810();
+    void SetVtableAndProcessState_00a8f810();
 };
 
 // @fnv 0x00a8f810
-void FUN_00a8f810_class::FUN_00a8f810()
+// src: GUESS 0x00a8f810 (confidence: low)
+void FUN_00a8f810_class::SetVtableAndProcessState_00a8f810()
 {
     *(const void**)this = &DAT_0109f73c;
     Stub* s = (Stub*)DAT_011f5e34;
@@ -742,10 +746,11 @@ void __cdecl NiFree(void*);
 struct FUN_00a8a670_shell {
     void* m_iWordAt00;
     void* m_iWordAt04;
-    void FUN_00a8a670();
+    void ForwardCall_00a8a670();
 };
 // @fnv 0x00a8a670
-void FUN_00a8a670_shell::FUN_00a8a670()
+// src: GUESS 0x00a8a670 (confidence: low)
+void FUN_00a8a670_shell::ForwardCall_00a8a670()
 {
     NiFree(m_iWordAt04);
 }
@@ -871,12 +876,13 @@ struct FUN_00a80580_cls {
     NiRefObject* m_bc;
 
     void BaseTeardown();
-    void FUN_00a80580();
+    void UpdateFields_00a80580();
 };
 
 // Releases the two NiRefObject members via reference counting, cleans up m_sub9c, then calls BaseTeardown.
 // @fnv 0x00a80580
-void FUN_00a80580_cls::FUN_00a80580()
+// src: GUESS 0x00a80580 (confidence: low)
+void FUN_00a80580_cls::UpdateFields_00a80580()
 {
     *(void* volatile*)&m_vptr = (void*)&DAT_0109e04c;
     NiRefObject* first = *(NiRefObject* volatile*)&m_b8;
@@ -960,7 +966,7 @@ float __cdecl NiFastATan2(float y, float x)
     return r;
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+void* __cdecl Object_DispatchCommandFour(unsigned int size);
 extern int DAT_0109e32c;
 
 struct FUN_00a81760_obj
@@ -977,7 +983,7 @@ struct FUN_00a81760_obj
 // src: EXE 0x00a81760
 FUN_00a81760_obj* __cdecl NiTriShapeDynamicData_CreateObject()
 {
-    FUN_00a81760_obj* p = (FUN_00a81760_obj*)FUN_00aa13e0(0x5c);
+    FUN_00a81760_obj* p = (FUN_00a81760_obj*)Object_DispatchCommandFour(0x5c);
     if (p != 0)
     {
         p->FUN_00a7b690();
@@ -1085,11 +1091,12 @@ FUN_00a81ba0_cls::FUN_00a81ba0_cls()
 struct FUN_00a84c60_cls
 {
     unsigned short m_00;
-    FUN_00a84c60_cls* FUN_00a84c60();
+    FUN_00a84c60_cls* ClearField00_00a84c60();
 };
 
 // @fnv 0x00a84c60
-FUN_00a84c60_cls* FUN_00a84c60_cls::FUN_00a84c60()
+// src: GUESS 0x00a84c60 (confidence: low)
+FUN_00a84c60_cls* FUN_00a84c60_cls::ClearField00_00a84c60()
 {
     m_00 = 0;
     return this;
@@ -1200,7 +1207,7 @@ void CloneObject::CopyRefCountedPointers(CloneObject* destination, void* process
     }
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int size) throw();
+void* __cdecl Object_DispatchCommandFour(unsigned int size) throw();
 extern int DAT_01069b14;
 
 struct SpawnedObject
@@ -1227,7 +1234,7 @@ struct SpawnedObject
 // src: EXE 0x00a866f0
 SpawnedObject* __cdecl NiSkinInstance_CreateObject() throw()
 {
-    SpawnedObject* p = (SpawnedObject*)FUN_00aa13e0(0x34);
+    SpawnedObject* p = (SpawnedObject*)Object_DispatchCommandFour(0x34);
     if (p != 0)
     {
         p->InitBase();
@@ -1323,7 +1330,7 @@ struct FUN_00a88c60_Point2 {
     float unk00;
     float unk04;
 
-    bool __thiscall FUN_0051c330(const FUN_00a88c60_Point2* other);
+    bool __thiscall ForwardCall_0051c330(const FUN_00a88c60_Point2* other);
 };
 
 struct FUN_00a88c60_Class {
@@ -1344,14 +1351,15 @@ struct FUN_00a88c60_Class {
     int unk40;
     int unk44;
 
-    int __thiscall FUN_00a88c60(FUN_00a88c60_Class* other);
+    int __thiscall ProcessAndReturnValue_00a88c60(FUN_00a88c60_Class* other);
 };
 
 // @fnv 0x00a88c60
-int __thiscall FUN_00a88c60_Class::FUN_00a88c60(FUN_00a88c60_Class* other) {
+// src: GUESS 0x00a88c60 (confidence: low)
+int __thiscall FUN_00a88c60_Class::ProcessAndReturnValue_00a88c60(FUN_00a88c60_Class* other) {
     if (unk08 == other->unk08 && unk00 == other->unk00 && unk04 == other->unk04) {
-        if (!unk0C.FUN_0051c330(&other->unk0C) && unk44 == other->unk44) {
-            if (!unk14.FUN_0051c330(&other->unk14)) {
+        if (!unk0C.ForwardCall_0051c330(&other->unk0C) && unk44 == other->unk44) {
+            if (!unk14.ForwardCall_0051c330(&other->unk14)) {
                 return 0;
             }
         }
@@ -1538,12 +1546,13 @@ struct FUN_00a8bdf0_cls {
     void (__thiscall* m_04)(FUN_00a8bdf0_cls* self, unsigned char* out);
     int m_08;
     int m_0c;
-    void FUN_00a8bdf0(unsigned char* dst, unsigned int a2, unsigned int count);
+    void CopyGeneratedRows(unsigned char* dst, unsigned int a2, unsigned int count);
 };
 
 // Fills a 0x40-byte buffer via m_00 and m_04, then copies a2*4 bytes from it into dst count times, advancing dst by m_0c and src by 0x10 each iteration.
 // @fnv 0x00a8bdf0
-void FUN_00a8bdf0_cls::FUN_00a8bdf0(unsigned char* dst, unsigned int a2, unsigned int count)
+// src: GUESS 0x00a8bdf0 (confidence: medium)
+void FUN_00a8bdf0_cls::CopyGeneratedRows(unsigned char* dst, unsigned int a2, unsigned int count)
 {
     
     unsigned char aucBuffer[0x40];
@@ -1645,7 +1654,7 @@ FUN_00a910f0_class* FUN_00a910f0_class::FUN_00a910f0(unsigned char flags) {
 namespace fnv_00a91120 {
 struct S_a91120_Alloc { void* Game_DoHeapAlloc(unsigned int size); };
 extern S_a91120_Alloc DAT_011f6238;
-void* __cdecl FUN_00a90290(unsigned int count);
+void* __cdecl Runtime_GetIndexedValue_00a90290(unsigned int count);
 struct S_a91120_Blk {
     unsigned char* unk00;
     unsigned int unk04;
@@ -1654,7 +1663,7 @@ struct S_a91120_Blk {
     S_a91120_Blk(unsigned int n) throw() {
         unk04 = n;
         unk08 = 0;
-        if (n > 0) unk00 = (unsigned char*)FUN_00a90290(n);
+        if (n > 0) unk00 = (unsigned char*)Runtime_GetIndexedValue_00a90290(n);
         else unk00 = 0;
     }
     unsigned char* GetAt(unsigned int i) {
@@ -1730,10 +1739,11 @@ struct NiObjectShell {
     unsigned int unk8c;
     NiRefObject* volatile reference;
     void FUN_00a5d3d0();
-    void FUN_00a98240();
+    void UpdateFields_00a98240();
 };
 // @fnv 0x00a98240
-void NiObjectShell::FUN_00a98240() {
+// src: GUESS 0x00a98240 (confidence: low)
+void NiObjectShell::UpdateFields_00a98240() {
     vtable = (void*)&DAT_010a08ac;
     NiRefObject* oldReference = reference;
     if (oldReference) {
@@ -1821,12 +1831,12 @@ struct NiParticleObject : NiParticleBase {
     NiParticleSubobject firstMember;
     NiParticleSubobject secondMember;
 };
-extern void* __cdecl FUN_00aa13e0(unsigned int);
+extern void* __cdecl Object_DispatchCommandFour(unsigned int);
 extern const char DAT_010a1024;
 // @fnv 0x00a9aea0
 NiParticleObject* __cdecl CreateNiParticleObject() {
     NiParticleObject* object =
-        (NiParticleObject*)FUN_00aa13e0(0xcc);
+        (NiParticleObject*)Object_DispatchCommandFour(0xcc);
     if (object) {
         object->FUN_00a5ecb0(0);
         object->vtable = (void*)&DAT_010a1024;
@@ -1844,11 +1854,12 @@ extern int DAT_010a13ac;
 void __declspec(noreturn) FUN_00aa0dc0();
 
 struct FUN_00a9b4a0_Class {
-    void __thiscall FUN_00a9b4a0();
+    void __thiscall UpdateFields_00a9b4a0();
 };
 
 // @fnv 0x00a9b4a0
-void __thiscall FUN_00a9b4a0_Class::FUN_00a9b4a0() {
+// src: GUESS 0x00a9b4a0 (confidence: low)
+void __thiscall FUN_00a9b4a0_Class::UpdateFields_00a9b4a0() {
     *reinterpret_cast<void**>(this) = reinterpret_cast<void*>(&DAT_010a13ac);
     FUN_00aa0dc0();
 }
@@ -2447,7 +2458,8 @@ struct SdmBase {
 
 // Looks up pKey's value in the global hash table's bucket chain and returns the matching node's stored value, or 0 if not found.
 // @fnv 0x00a8fe20
-unsigned int __cdecl FUN_00a8fe20(unsigned int* pKey)
+// src: GUESS 0x00a8fe20 (confidence: medium)
+unsigned int __cdecl Object_FindGlobalHashValue(unsigned int* pKey)
 {
     unsigned int key = *pKey;
     if (key == (unsigned int)DAT_0109b220) goto zero;
@@ -3232,12 +3244,13 @@ public:
     unsigned short unk08;
     unsigned short m_0a;
     unsigned short m_0c;
-    void FUN_00a9ba90(unsigned int idx, NiRefObject** a2);
+    void SetReferenceSlotAndUpdateCounts(unsigned int idx, NiRefObject** a2);
 };
 
 // Sets the NiRefStub at idx, updating m_0a/m_0c and swapping the reference with ref-counted destroy/increment.
 // @fnv 0x00a9ba90
-void FUN_00a9ba90_cls::FUN_00a9ba90(unsigned int idx, NiRefObject** apRefStub) {
+// src: GUESS 0x00a9ba90 (confidence: medium)
+void FUN_00a9ba90_cls::SetReferenceSlotAndUpdateCounts(unsigned int idx, NiRefObject** apRefStub) {
     if (!(NiReferenceSlotKeyInitialized & 1)) {
         NiReferenceSlotKeyInitialized |= 1;
         NiReferenceSlotKey.m_00 = 0;
@@ -3738,12 +3751,13 @@ struct MaterialLibraryView {
     void* vtbl;
     int m_iWordAt04;
     int m_8;
-    void FUN_00a8fdb0();
+    void ProcessEntries_00a8fdb0();
 };
 
 // Swap-removes this from the pointer array at DAT_011f5e44, releases m_8 via DAT_00fdf1c4 unless it is _EmptyFS, and sets the NiRefObject vtable.
 // @fnv 0x00a8fdb0
-void MaterialLibraryView::FUN_00a8fdb0()
+// src: GUESS 0x00a8fdb0 (confidence: low)
+void MaterialLibraryView::ProcessEntries_00a8fdb0()
 {
     vtbl = &DAT_0109f7f4;
     unsigned int count = DAT_011f5e4c;

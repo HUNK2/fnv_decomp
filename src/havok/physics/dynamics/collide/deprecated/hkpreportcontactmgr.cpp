@@ -95,7 +95,7 @@ struct FUN_00cfcc30_class
     void* m_ppVirtualMethodTable;
     unsigned short m_flag;
 
-    void FUN_00cfc590();
+    void SetVtable();
     FUN_00cfcc30_class* FUN_00cfcc30(unsigned char flags);
 };
 
@@ -117,7 +117,7 @@ FUN_00cfcc30_router* _D1A0E0GetMemoryRouter();
 // @fnv 0x00cfcc30
 FUN_00cfcc30_class* FUN_00cfcc30_class::FUN_00cfcc30(unsigned char flags)
 {
-    FUN_00cfc590();
+    SetVtable();
 
     if (flags & 1)
     {

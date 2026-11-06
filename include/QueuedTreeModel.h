@@ -30,7 +30,7 @@ public:
     bool QueuedModel_GetDescription(char* apDescription, unsigned int aiBufferSize);
     void QueueTreeModelLoad();
     void Run_0043da00();
-    void FUN_0043d8f0();
+    void SetVtableAndProcessState_0043d8f0();
     void* FUN_0043d8c0(unsigned int flags);
 
     unsigned char padding[0x48 - sizeof(QueuedModel)];

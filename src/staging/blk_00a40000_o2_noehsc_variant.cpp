@@ -122,7 +122,7 @@ struct FUN_004a4650_ListBase
 };
 struct FUN_00a5a390_shell
 {
-    void FUN_00a5a390();
+    void ReleaseStorage_00a5a390();
     void DestroyFogProperty();
 };
 extern char DAT_010976ec;
@@ -148,7 +148,7 @@ struct A51BF0
     void FUN_00a5d3a0();
 };
 A51BF0* CreateA51BF0();
-float FUN_00a42070(float param_1, float param_2, float param_3, float param_4, float param_5);
+float Runtime_UpdateState_00a42070(float param_1, float param_2, float param_3, float param_4, float param_5);
 struct FUN_00a44f90_class
 {
     void* vtbl;
@@ -286,7 +286,7 @@ class A42380Owner
     int unk38;
     NiPointer<NiRefObject> m_spTransformData;
 
-    void FUN_00a42380(NiRefObject* pkData);
+    void UpdateFields_00a42380(NiRefObject* pkData);
 };
 extern const NiRTTI NiNodeRTTI_a42b70;
 extern const NiRTTI CtrlRTTI_A_a42b70;
@@ -776,7 +776,7 @@ class A5B660StringTable
 
     static A5B660StringTable* ms_pStringTable;
 
-    static void FUN_00a5b660();
+    static void ClearStaticStringTable();
 };
 struct FUN_00a5b870_cls
 {
@@ -788,7 +788,7 @@ struct FUN_00a5b870_cls
     void __thiscall SetEntry(unsigned int index, unsigned short* value);
 };
 // NiRefObject
-extern void* __cdecl FUN_00aa13e0(unsigned int);
+extern void* __cdecl Object_DispatchCommandFour(unsigned int);
 extern int DAT_0109b5ac;
 extern int DAT_0101fbd4;
 struct NiObjectBase
@@ -858,7 +858,7 @@ struct FUN_00a5fca0_cls
 
     void NiTexture_RemoveTextureFromList();
     void DestroyFogProperty();
-    void FUN_00a5fca0();
+    void UpdateFields_00a5fca0();
 };
 // Destructor of an owning pointer array: remove and free every element, then the base frees the storage.
 extern MemoryManager g_kA1450MemoryManager;
@@ -1193,7 +1193,7 @@ struct Result
     int unk30;
     static void* operator new(unsigned int) throw();
     Result(const char*, int, int) throw();
-    void FUN_00a47420(Obj*) throw();
+    void SetReferencedObject_00a47420(Obj*) throw();
     void AddSeq(void*, Obj*) throw();
 };
 Result* __cdecl CreateResultFromStreamObject(NiStream* stream, unsigned int index, const char* name);
@@ -1346,7 +1346,7 @@ class CloningProcessA5d6
     int m_eCloneCopyMode;
     char m_bExactType;
 };
-extern void* __cdecl FUN_00aa13e0(unsigned int size);
+extern void* __cdecl Object_DispatchCommandFour(unsigned int size);
 extern char* __cdecl FUN_00a5b690(const char* text);
 extern void __cdecl NiStandardizeFilePath(void* fixed);
 extern void __cdecl NiImageConverter_ConvertFilenameToPlatformSpecific_(void* fixed, void* out);

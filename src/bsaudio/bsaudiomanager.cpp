@@ -158,7 +158,8 @@ S_00ae5f70* __thiscall C_00ae5f70::Init(S_00ae5f70* pObject, int a2, int a3, int
 
 // Compares the unsigned ints pointed to by a and b, returning -1 if the first is smaller, 1 if larger, else 0.
 // @fnv 0x00ae5fb0
-int __cdecl FUN_00ae5fb0(unsigned int* puiLeft, unsigned int* puiRight)
+// src: GUESS 0x00ae5fb0 (confidence: high)
+int __cdecl BSAudioManager_CompareUnsignedValues(unsigned int* puiLeft, unsigned int* puiRight)
 {
     unsigned int v1 = *puiLeft;
     unsigned int v2 = *puiRight;
@@ -222,7 +223,8 @@ extern int DAT_010a3718;
 
 // Sets the vtable pointer to DAT_010a3718, touches the field at offset 0x30, then calls the base destructor.
 // @fnv 0x00ae7020
-void __thiscall AudioLoadTask::FUN_00ae7020()
+// src: GUESS 0x00ae7020 (confidence: medium)
+void __thiscall AudioLoadTask::DestroyFields_00ae7020()
 {
     *reinterpret_cast<void**>(this) = &DAT_010a3718;
     SoundAssetTmp = SoundAssetTmp;
@@ -290,14 +292,14 @@ extern P03MM* g_memoryManager;
 
 struct FUN_00ae7870_shell
 {
-    void __thiscall FUN_00ae78a0();
+    void __thiscall CloseAudioManagerHandles();
     void* __thiscall FUN_00ae7870(unsigned int flags);
 };
 
 // @fnv 0x00ae7870
 void* FUN_00ae7870_shell::FUN_00ae7870(unsigned int flags)
 {
-    FUN_00ae78a0();
+    CloseAudioManagerHandles();
     if (flags & 1)
         ((P03MM*)&g_memoryManager)->DeallocateAlias(this);
     return this;
@@ -308,7 +310,7 @@ void* FUN_00ae7870_shell::FUN_00ae7870(unsigned int flags)
 // @fnv 0x00ae7b10
 void* __thiscall AudioLoadTask::FUN_00ae7b10(unsigned int flags)
 {
-    FUN_00ae7020();
+    DestroyFields_00ae7020();
     if (flags & 1)
         reinterpret_cast<MemoryManager*>(&g_memoryManager)->Deallocate(this);
     return this;
@@ -322,11 +324,12 @@ struct Host00ae8ef0
 {
     char _p[12];
     AudioPointerAllocator<unsigned int> alloc;
-    void __thiscall FUN_00ae8ef0(void* p);
+    void __thiscall ClearAndFreeEntry(void* p);
 };
 // Clears the pointer at offset 8 of p, then deallocates p through the allocator.
 // @fnv 0x00ae8ef0
-void __thiscall Host00ae8ef0::FUN_00ae8ef0(void* p)
+// src: GUESS 0x00ae8ef0 (confidence: medium)
+void __thiscall Host00ae8ef0::ClearAndFreeEntry(void* p)
 {
     int d1;
     int d2;
@@ -981,12 +984,13 @@ void AE8470List::SortList(int(__cdecl* pfnCompare)(AE8470Item*, AE8470Item*))
 
 struct FUN_00ae8550_shell
 {
-    void __thiscall FUN_00ae8550(int* values, int(__cdecl* compare)(int, int), int count);
+    void __thiscall SortValuesByComparison(int* values, int(__cdecl* compare)(int, int), int count);
 };
 
 // Sorts the values array in place using a Shell sort with a Knuth gap sequence and the given comparison function.
 // @fnv 0x00ae8550
-void __thiscall FUN_00ae8550_shell::FUN_00ae8550(int* values, int(__cdecl* compare)(int, int), int count)
+// src: GUESS 0x00ae8550 (confidence: high)
+void __thiscall FUN_00ae8550_shell::SortValuesByComparison(int* values, int(__cdecl* compare)(int, int), int count)
 {
     int offset;
     {
@@ -1539,11 +1543,12 @@ struct FUN_00ae8650_cls
     unsigned int m_00, m_04, m_08, m_0c;
     void* m_10;
     float m_14, m_18, m_1c;
-    FUN_00ae8650_cls* FUN_00ae8650();
+    FUN_00ae8650_cls* InitializeFields();
 };
 // Initializes all members to zero and increments the reference count of the object stored in m_10 if it is non-null.
 // @fnv 0x00ae8650
-FUN_00ae8650_cls* FUN_00ae8650_cls::FUN_00ae8650()
+// src: GUESS 0x00ae8650 (confidence: medium)
+FUN_00ae8650_cls* FUN_00ae8650_cls::InitializeFields()
 {
     void* pTarget;
     {
@@ -1694,7 +1699,7 @@ void BSAudioManagerThread::ExitThread_00ae7ac0()
     BSSemaphore_adf080* semaphore = &workSemaphore3c;
     ReleaseSemaphore(semaphore->semaphore, 1, 0);
     InterlockedIncrement(&semaphore->count);
-    FUN_00aa6590(0, 0);
+    ForwardCall_00aa6590(0, 0);
 }
 
 struct S00ae6f10_SubObj_00ae6f10

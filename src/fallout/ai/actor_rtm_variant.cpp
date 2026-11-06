@@ -298,7 +298,7 @@ struct ActorListNodeView;
 
 struct ChildPtr
 {
-    NiAVObject* FUN_00559450();
+    NiAVObject* Modelloader_GetReferencedThis();
 };
 
 // Exe 0x00886cb0: unit-local ListNode view; declarations and layout are preserved.
@@ -506,7 +506,7 @@ void Actor::UpdateMovement_00886cb0(float afDelta, int aiUnused)
             __declspec(align(4)) unsigned char boundStorage[sizeof(NiBound)];
             memcpy(boundStorage, p3D->NiAVObject_GetWorldBound(), sizeof(boundStorage));
             float fDistance =
-                kCameraPos.FUN_00439ef0(*reinterpret_cast<NiBound*>(boundStorage)->FUN_006815c0()).FUN_00457990() -
+                kCameraPos.SubtractIntoVector(*reinterpret_cast<NiBound*>(boundStorage)->FUN_006815c0()).FUN_00457990() -
                 reinterpret_cast<NiBound*>(boundStorage)->FUN_0084d030() * DAT_01021798;
             bool bFar = false;
             NiObject* pFade = reinterpret_cast<NiObject*>(p3D->IsFadeNode());
@@ -598,10 +598,10 @@ void Actor::UpdateMovement_00886cb0(float afDelta, int aiUnused)
                 if (kType.CFilter_GetLayer() == 0x1d)
                     bhkUtilFunctions_SetLayer(pFaceRoot, 8);
                 pData->bhkRigidBody_SetActive(1);
-                while (pIter && pIter->FUN_006815c0()->FUN_00559450())
+                while (pIter && pIter->FUN_006815c0()->Modelloader_GetReferencedThis())
                 {
                     FaceProp* pFace =
-                        (FaceProp*)NiObject_DynamicCast(&DAT_012683ec, (int)pIter->FUN_006815c0()->FUN_00559450());
+                        (FaceProp*)NiObject_DynamicCast(&DAT_012683ec, (int)pIter->FUN_006815c0()->Modelloader_GetReferencedThis());
                     if (pFace)
                     {
                         float fDesiredHeadingAngle = GetCurrentTargetDistance(0);
@@ -639,9 +639,9 @@ void Actor::UpdateMovement_00886cb0(float afDelta, int aiUnused)
                 if (kType.CFilter_GetLayer() == 0x1d)
                     bhkUtilFunctions_SetLayer(pFaceRoot, 8);
                 pData->bhkRigidBody_SetActive(1);
-                while (pIter && pIter->FUN_006815c0()->FUN_00559450())
+                while (pIter && pIter->FUN_006815c0()->Modelloader_GetReferencedThis())
                 {
-                    PropertyHolder* pProps = (PropertyHolder*)pIter->FUN_006815c0()->FUN_00559450();
+                    PropertyHolder* pProps = (PropertyHolder*)pIter->FUN_006815c0()->Modelloader_GetReferencedThis();
                     ShaderProp* pShader = pProps->FUN_vt44();
                     if (pShader)
                     {

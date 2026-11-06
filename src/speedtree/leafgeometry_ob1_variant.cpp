@@ -81,21 +81,21 @@ public:
     float GetSquaredXYLength() const;
     Elem16& expand(Allocator& allocator);
 
-    void FUN_00416870(float x, float y, float z);
+    void SetComponents(float x, float y, float z);
     bool FUN_00439090(const LocalVec3* other);
-    bool FUN_004390c0(const LocalVec3* other);
-    bool FUN_004390c0(const LocalVec3* other) const;
-    bool FUN_004390c0(const char* other);
-    void FUN_00439180(float scale);
+    bool HasEqualComponents(const LocalVec3* other);
+    bool HasEqualComponents(const LocalVec3* other) const;
+    bool HasEqualComponents(const char* other);
+    void ScaleComponents(float scale);
     LocalVec3 FUN_00439e90(const LocalVec3& other);
     LocalVec3 FUN_00439e90(const LocalVec3& other) const;
-    void FUN_00439ef0();
-    LocalVec3 FUN_00439ef0(const LocalVec3& other);
-    LocalVec3 FUN_00439ef0(const LocalVec3& other) const;
-    LocalVec3 FUN_00439ef0(LocalVec3* other);
-    LocalVec3 FUN_00439ef0(const LocalVec3* other);
-    void FUN_00439ef0(LocalVec3* output, const LocalVec3* other);
-    LocalVec3* FUN_00439ef0(void* output, void* other);
+    void SubtractIntoVector();
+    LocalVec3 SubtractIntoVector(const LocalVec3& other);
+    LocalVec3 SubtractIntoVector(const LocalVec3& other) const;
+    LocalVec3 SubtractIntoVector(LocalVec3* other);
+    LocalVec3 SubtractIntoVector(const LocalVec3* other);
+    void SubtractIntoVector(LocalVec3* output, const LocalVec3* other);
+    LocalVec3* SubtractIntoVector(void* output, void* other);
     void FUN_0043d410(float x, int y, int z);
     void FUN_0043d410(float x, unsigned int y, unsigned int z);
     float FUN_00457910();
@@ -105,22 +105,22 @@ public:
     float FUN_004a7290();
     float FUN_004a7290() const;
     LocalVec3 FUN_004b3800(const LocalVec3& other) const;
-    LocalVec3 FUN_0053d280(float divisor);
+    LocalVec3 ProcessAndReturnValue_0053d280(float divisor);
     float NiPoint3_XYLength();
     float NiPoint3_XYLength() const;
-    void FUN_0063c8a0(const LocalVec3* other);
-    void FUN_0063c8a0(void* other);
+    void ComputeValue_0063c8a0(const LocalVec3* other);
+    void ComputeValue_0063c8a0(void* other);
     void FUN_006815c0();
     float CVec3_Distance(LocalVec3* other);
     float CVec3_Distance(const LocalVec3& other) const;
-    LocalVec3 FUN_00b05000(const Mat& matrix);
-    LocalVec3 FUN_00b05000(const Matrix4* matrix);
+    LocalVec3 TransformPointByMatrix4(const Mat& matrix);
+    LocalVec3 TransformPointByMatrix4(const Matrix4* matrix);
     void Normalize_00b12790();
     LocalVec3 Diff_00b13040(void* other);
     LocalVec3 Diff_00b13040(const LocalVec3& other) const;
     float FUN_00b2a180(void* other);
-    LocalVec3& FUN_00b2a1c0(void* other);
-    void FUN_00ddc870();
+    LocalVec3& AddComponents(void* other);
+    void ProcessEntries_00ddc870();
     void FUN_00e0f6e0();
 };
 #include "../../include/CVec3.h"
@@ -225,7 +225,8 @@ struct CRegion
 {
     GlobalObject_00b3f100 lo, hi;
     CRegion();
-    inline CRegion FUN_00b3caa0(const LocalVec3& p) const
+// src: GUESS 0x00b3caa0 (confidence: low)
+    inline CRegion ComputeValue_00b3caa0(const LocalVec3& p) const
     {
         CRegion result = *this;
         if (p.x < result.lo.values[0])
@@ -242,7 +243,8 @@ struct CRegion
             result.hi.values[2] = p.z;
         return result;
     }
-    inline CRegion FUN_00b3c9a0(const CRegion& b) const
+// src: GUESS 0x00b3c9a0 (confidence: low)
+    inline CRegion ProcessEntries_00b3c9a0(const CRegion& b) const
     {
         CRegion result = *this;
         for (int i = 0; i < 3; ++i)
@@ -428,13 +430,13 @@ void LeafGeometry::CLeafGeometry_ComputeExtents(CRegion& output)
                 const float* vertex5 = &lod->vertices[k * 3];
                 LocalVec3 position(vertex5);
                 float radius = radii[lod->textures[k] / 2];
-                bounds = bounds.FUN_00b3caa0(LocalVec3(position.x + radius, position.y, position.z));
-                bounds = bounds.FUN_00b3caa0(LocalVec3(position.x - radius, position.y, position.z));
-                bounds = bounds.FUN_00b3caa0(LocalVec3(position.x, position.y + radius, position.z));
-                bounds = bounds.FUN_00b3caa0(LocalVec3(position.x, position.y - radius, position.z));
-                bounds = bounds.FUN_00b3caa0(LocalVec3(position.x, position.y, position.z + radius));
-                bounds = bounds.FUN_00b3caa0(LocalVec3(position.x, position.y, position.z - radius));
-                output = output.FUN_00b3c9a0(bounds);
+                bounds = bounds.ComputeValue_00b3caa0(LocalVec3(position.x + radius, position.y, position.z));
+                bounds = bounds.ComputeValue_00b3caa0(LocalVec3(position.x - radius, position.y, position.z));
+                bounds = bounds.ComputeValue_00b3caa0(LocalVec3(position.x, position.y + radius, position.z));
+                bounds = bounds.ComputeValue_00b3caa0(LocalVec3(position.x, position.y - radius, position.z));
+                bounds = bounds.ComputeValue_00b3caa0(LocalVec3(position.x, position.y, position.z + radius));
+                bounds = bounds.ComputeValue_00b3caa0(LocalVec3(position.x, position.y, position.z - radius));
+                output = output.ProcessEntries_00b3c9a0(bounds);
             }
         }
     }
@@ -469,7 +471,8 @@ inline float& CVec3::operator[](int nIndex)
     return (&x)[nIndex];
 }
 
-inline CVec3 CVec3::FUN_00b05000(const Matrix4f& cTransform)
+// src: GUESS 0x00b05000 (confidence: medium)
+inline CVec3 CVec3::TransformPointByMatrix4(const Matrix4f& cTransform)
 {
     CVec3 result;
     result.x =
@@ -487,7 +490,8 @@ inline CVec3 CVec3::FUN_00b05000(const Matrix4f& cTransform)
     return result;
 }
 
-inline CVec3 CVec3::FUN_00b05000(const Matrix4f& cTransform) const
+// src: GUESS 0x00b05000 (confidence: medium)
+inline CVec3 CVec3::TransformPointByMatrix4(const Matrix4f& cTransform) const
 {
     float fX = cTransform.m_afMatrix[12] + cTransform.m_afMatrix[8] * z +
                cTransform.m_afMatrix[4] * y + cTransform.m_afMatrix[0] * x;
@@ -539,11 +543,12 @@ struct S00b28280_Leaf
     short unk2a;
     S00b28280_Lod* m_pLeafLod;
 
-    void FUN_00b28280(const Matrix4f& cTransform);
+    void ProcessEntries_00b28280(const Matrix4f& cTransform);
 };
 
 // @fnv 0x00b28280
-void S00b28280_Leaf::FUN_00b28280(const Matrix4f& cTransform)
+// src: GUESS 0x00b28280 (confidence: low)
+void S00b28280_Leaf::ProcessEntries_00b28280(const Matrix4f& cTransform)
 {
     if (m_pLeafLod && m_pRockingGroups)
     {
@@ -560,14 +565,14 @@ void S00b28280_Leaf::FUN_00b28280(const Matrix4f& cTransform)
             {
                 pLeafVertex4 = pLodA->m_ppFloatData + j_ * 3;
                 CVec3 cCoord6(pLeafVertex4[0], pLeafVertex4[1], pLeafVertex4[2]);
-                cCoord6 = cCoord6.FUN_00b05000(cTransform);
+                cCoord6 = cCoord6.TransformPointByMatrix4(cTransform);
                 _memmove(pLeafVertex4, &cCoord6, 12);
 
                 if (m_bValueAt00)
                 {
                     float* kPLeafNormal = pLodA->m_pLeafNormals + j_ * 3;
                     CVec3 cNormal5(kPLeafNormal[0], kPLeafNormal[1], kPLeafNormal[2]);
-                    cNormal5 = cNormal5.FUN_00b05000(cTransform);
+                    cNormal5 = cNormal5.TransformPointByMatrix4(cTransform);
                     _memmove(kPLeafNormal, &cNormal5, 12);
                 }
             }
@@ -910,7 +915,7 @@ void CLeafGeometryWind::CLeafGeometry_ComputeWindEffect(unsigned short usLod)
             (cPos.*static_cast<void (CVec3::*)(float, float, float)>(&CVec3::Set))(
                 pOrigCoord[0], pOrigCoord[1], pOrigCoord[2]);
             unsigned char ucWindMatrix = pLod->m_pByteArrayAt38[i];
-            cPos = static_cast<const CVec3&>(cPos).FUN_00b05000(
+            cPos = static_cast<const CVec3&>(cPos).TransformPointByMatrix4(
                 reinterpret_cast<const ::Matrix4f&>(WindEngine::GetWindMatrix(ucWindMatrix)));
             (cNewPos.*static_cast<void (CVec3::*)(float, float, float)>(&CVec3::Set))(
                 Interpolate(pOrigCoord[0], cPos[0], fWeight), Interpolate(pOrigCoord[1], cPos[1], fWeight),

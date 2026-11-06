@@ -847,14 +847,14 @@ struct blob8
     char b[8];
 };
 
-hkpRigidBody* __fastcall FUN_004ae750(void*);
+hkpRigidBody* __fastcall Bipedanim_GetReferenceFlagsOrZero(void*);
 float __fastcall hkpRigidBody_getMass(hkpRigidBody*);
 
 // @fnv 0x004b5400
 // src: XBOX_PDB 0x004b5400
 float __fastcall bhkRigidBody_GetMass(void* pThis)
 {
-    hkpRigidBody* pb = FUN_004ae750(pThis);
+    hkpRigidBody* pb = Bipedanim_GetReferenceFlagsOrZero(pThis);
     return pb ? hkpRigidBody_getMass(pb) : 0.0f;
 }
 
@@ -1567,10 +1567,11 @@ extern int DAT_01268118;
 struct Fake004b50c0
 {
     void FUN_004b50f0();
-    Fake004b50c0* FUN_004b50c0();
+    Fake004b50c0* InitializeFields_004b50c0();
 };
 // @fnv 0x004b50c0
-Fake004b50c0* Fake004b50c0::FUN_004b50c0()
+// src: GUESS 0x004b50c0 (confidence: low)
+Fake004b50c0* Fake004b50c0::InitializeFields_004b50c0()
 {
     FUN_004b50f0();
     *(int*)this = (int)&DAT_0102009c;

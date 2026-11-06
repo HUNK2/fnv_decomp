@@ -85,11 +85,12 @@ extern int EmptyFS;
 
 struct FUN_007613f0_shell
 {
-    int* __thiscall FUN_007613f0();
+    int* __thiscall UpdateState_007613f0();
 };
 
 // @fnv 0x007613f0
-int* __thiscall FUN_007613f0_shell::FUN_007613f0()
+// src: GUESS 0x007613f0 (confidence: low)
+int* __thiscall FUN_007613f0_shell::UpdateState_007613f0()
 {
     *(int*)this = EmptyFS;
     return (int*)this;
@@ -242,7 +243,7 @@ struct ValueSource
 struct InputState
 {
     bool FUN_0052aa80(int);
-    ValueSource* FUN_00559450();
+    ValueSource* Modelloader_GetReferencedThis();
     void FUN_0066b0d0(int);
 };
 struct Screen
@@ -284,10 +285,10 @@ void __cdecl CreditsMenu_DoClose()
             Renderer_GetNIRenderer()->NiXenonRenderer_LockRenderer();
             if (screen->input.FUN_0052aa80(0))
             {
-                if (screen->input.FUN_00559450()->NiAVObject_GetParent() != 0)
+                if (screen->input.Modelloader_GetReferencedThis()->NiAVObject_GetParent() != 0)
                 {
-                    CallbackTarget* pCallbackTarget = screen->input.FUN_00559450()->NiAVObject_GetParent();
-                    pCallbackTarget->HandleValue(screen->input.FUN_00559450());
+                    CallbackTarget* pCallbackTarget = screen->input.Modelloader_GetReferencedThis()->NiAVObject_GetParent();
+                    pCallbackTarget->HandleValue(screen->input.Modelloader_GetReferencedThis());
                 }
             }
             screen->input.FUN_0066b0d0(0);
@@ -409,23 +410,23 @@ namespace n75f750 {
 
 struct StrHolder
 {
-    const char* FUN_00559450();
+    const char* Modelloader_GetReferencedThis();
 };
 struct ValueReferencePair
 {
     bool FUN_00846b10();
     char* BGSSaveLoadFileEntry_GetPlayerName();
-    const char* FUN_00559450();
+    const char* Modelloader_GetReferencedThis();
 };
 struct SaveNode
 {
-    SaveNode* FUN_00559450();
+    SaveNode* Modelloader_GetReferencedThis();
     ValueReferencePair** FUN_006815c0();
     SaveNode* FUN_00726070();
 };
 struct SaveMgr
 {
-    SaveNode* FUN_00559450();
+    SaveNode* Modelloader_GetReferencedThis();
     void BGSSaveLoadManager_SetupSavesList();
     int unk00;
     int unk04;
@@ -460,19 +461,19 @@ void __cdecl Interface_CreateMessageMenu(const char* apMessage, int a2, int a3, 
 void __cdecl CheckSaveNameConflict()
 {
     DAT_011c3f3c->SetValue(0.0f);
-    if (DAT_011daac0->IsFlagSet(static_cast<StartMenu::Flag>(0x40000000)) && BSstrlen(DAT_011de134->kName.FUN_00559450()))
+    if (DAT_011daac0->IsFlagSet(static_cast<StartMenu::Flag>(0x40000000)) && BSstrlen(DAT_011de134->kName.Modelloader_GetReferencedThis()))
     {
         DAT_011de134->BGSSaveLoadManager_SetupSavesList();
-        if (DAT_011de134 && DAT_011de134->FUN_00559450())
+        if (DAT_011de134 && DAT_011de134->Modelloader_GetReferencedThis())
         {
-            SaveNode* pkNode = DAT_011de134->FUN_00559450();
+            SaveNode* pkNode = DAT_011de134->Modelloader_GetReferencedThis();
             while (pkNode && *pkNode->FUN_006815c0())
             {
                 DAT_011d9474 = (int)*pkNode->FUN_006815c0();
                 if (((ValueReferencePair*)DAT_011d9474)->FUN_00846b10() &&
                     ((ValueReferencePair*)DAT_011d9474)->BGSSaveLoadFileEntry_GetPlayerName() &&
-                    BSstristr(DAT_011de134->kName.FUN_00559450(),
-                                 ((ValueReferencePair*)DAT_011d9474)->FUN_00559450()))
+                    BSstristr(DAT_011de134->kName.Modelloader_GetReferencedThis(),
+                                 ((ValueReferencePair*)DAT_011d9474)->Modelloader_GetReferencedThis()))
                 {
                     Interface_CreateMessageMenu(DAT_011d39b4.FUN_004c69f0(), 0, 0, ContinuePlayingAfterCreditsCallback, 0, 0x12, 0.0f, 0.0f,
                                  DAT_011d34f8.FUN_00403df0(), DAT_011d3684.FUN_00403df0(), 0);
@@ -621,7 +622,7 @@ struct CreditNode : CreditMemObject
 
 struct CreditTextureSource
 {
-    const char* FUN_00559450();
+    const char* Modelloader_GetReferencedThis();
 };
 
 extern char DAT_011a9598;
@@ -674,7 +675,7 @@ CreditNode* CreditsMenu::CreateImage(CreditTextureSource* apSource, int aiWidth,
 
     CreditFixedString kNameNew;
     char acPathCur[260];
-    BSsprintf(acPathCur, 260, "Textures\\Interface\\Credits\\%s", apSource->FUN_00559450());
+    BSsprintf(acPathCur, 260, "Textures\\Interface\\Credits\\%s", apSource->Modelloader_GetReferencedThis());
     pShapeCur->AssignFixedString(CreditFixedString(acPathCur));
     CreditTexture* pTextureOld = FUN_00a5fd70(CreditFixedString(acPathCur), &DAT_011a9598, true, 0);
 
@@ -1130,7 +1131,7 @@ struct CreditString
     unsigned int size;
     CreditString();
     ~CreditString();
-    const char* FUN_00559450();
+    const char* Modelloader_GetReferencedThis();
 };
 struct CreditTextureName
 {
@@ -1270,14 +1271,14 @@ struct CreditSceneNode
     void NiAVObject_SetTranslate(const CreditPoint&);
     void NiAVObject_AttachProperty(CreditMaterial*);
     void NiAVObject_SetTranslate_004bc1f0(float, float, float);
-    void FUN_00a29680();
+    void Object_DoNothing();
     void NiAVObject_Update(const CreditUpdate&);
 };
-void* FUN_00aa13e0(unsigned int);
+void* Object_DispatchCommandFour(unsigned int);
 void FUN_00aa13f0(void*);
 __forceinline void* CreditSceneNode::operator new(unsigned int n)
 {
-    return FUN_00aa13e0(n);
+    return Object_DispatchCommandFour(n);
 }
 __forceinline void CreditSceneNode::operator delete(void* p, unsigned int)
 {
@@ -1285,7 +1286,7 @@ __forceinline void CreditSceneNode::operator delete(void* p, unsigned int)
 }
 __forceinline void* CreditMaterial::operator new(unsigned int n)
 {
-    return FUN_00aa13e0(n);
+    return Object_DispatchCommandFour(n);
 }
 __forceinline void CreditMaterial::operator delete(void* p, unsigned int)
 {
@@ -1347,12 +1348,12 @@ void CreditsMenu::InitCreditsRoot()
         return;
     }
     root.FUN_0066b0d0(new CreditSceneNode(0));
-    root.FUN_00559450()->NiAVObject_SetTranslate(CreditPoint(0.0f, 0.0f, -1020.0f));
+    root.Modelloader_GetReferencedThis()->NiAVObject_SetTranslate(CreditPoint(0.0f, 0.0f, -1020.0f));
     Renderer_GetNIRenderer()->NiXenonRenderer_LockRenderer();
-    reinterpret_cast<CreditSceneNode*>(tile->GetModel_0056c7f0())->Attach(root.FUN_00559450(), true);
+    reinterpret_cast<CreditSceneNode*>(tile->GetModel_0056c7f0())->Attach(root.Modelloader_GetReferencedThis(), true);
     CreditMaterial* material6 = new CreditMaterial;
     material6->NiAlphaProperty_SetAlphaBlending(true);
-    root.FUN_00559450()->NiAVObject_AttachProperty(material6);
+    root.Modelloader_GetReferencedThis()->NiAVObject_AttachProperty(material6);
     CreditFont* face8 = FUN_005bd5b0(font)->FUN_005bd5c0();
     CreditString token_10;
     while (cursor < length)
@@ -1396,7 +1397,7 @@ void CreditsMenu::InitCreditsRoot()
                     cursor += 16;
                     WriteTextUntilDelimiter(token_10);
                     CreditSceneNode* image6 = CreateImage(token_10, imageWidth7, imageHeight, alpha_11);
-                    root.FUN_00559450()->Attach(image6, true);
+                    root.Modelloader_GetReferencedThis()->Attach(image6, true);
                     y -= imageHeight;
                     height += imageHeight;
                     break;
@@ -1424,7 +1425,7 @@ void CreditsMenu::InitCreditsRoot()
                     WriteTextUntilDelimiter(token_10);
                     CreditString texture;
                     BSStringT_char_SPrintF(&texture, DAT_01072420, token_10);
-                    backgrounds.FUN_007614c0(CreditTextureName(texture.FUN_00559450()));
+                    backgrounds.FUN_007614c0(CreditTextureName(texture.Modelloader_GetReferencedThis()));
                     break;
                 }
                 }
@@ -1441,7 +1442,7 @@ void CreditsMenu::InitCreditsRoot()
                 CreditSceneNode* text =
                     face8->Font_MakeString(0.0f, 0.0f, 0.0f, token_10, &options, align, color, true, true);
                 text->NiAVObject_SetTranslate_004bc1f0((float)x, 0.0f, (float)y);
-                root.FUN_00559450()->Attach(text, true);
+                root.Modelloader_GetReferencedThis()->Attach(text, true);
                 y -= (int)face8->NiPSysSpawnModifier_GetLifeSpan();
                 height += (int)face8->NiPSysSpawnModifier_GetLifeSpan();
                 break;
@@ -1453,10 +1454,10 @@ void CreditsMenu::InitCreditsRoot()
     }
     delete[] buffer;
     buffer = 0;
-    FUN_00b57e30(root.FUN_00559450(), 0, 0);
-    root.FUN_00559450()->FUN_00a29680();
+    FUN_00b57e30(root.Modelloader_GetReferencedThis(), 0, 0);
+    root.Modelloader_GetReferencedThis()->Object_DoNothing();
     CreditUpdate update(0.0f, 0, 0);
-    root.FUN_00559450()->NiAVObject_Update(update);
+    root.Modelloader_GetReferencedThis()->NiAVObject_Update(update);
     Renderer_GetNIRenderer()->NiXenonRenderer_UnlockRenderer();
 }
 

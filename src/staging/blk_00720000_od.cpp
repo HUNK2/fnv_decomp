@@ -252,12 +252,13 @@ struct FUN_00725f40_shell
     int unk18;
     int unk1c;
     float unk20;
-    int FUN_00726920();
-    void FUN_00725f40();
+    int GetUnfilteredItemCount();
+    void UpdateScrollTraits();
 };
 // Reads a float from unk0c, computes a scroll delta from unk20 versus that value, and writes it plus an item count to unk0c and unk14.
 // @fnv 0x00725f40
-void FUN_00725f40_shell::FUN_00725f40()
+// src: GUESS 0x00725f40 (confidence: medium)
+void FUN_00725f40_shell::UpdateScrollTraits()
 {
     if (unk0c != 0)
     {
@@ -271,7 +272,7 @@ void FUN_00725f40_shell::FUN_00725f40()
                 if (unk20 > iStack_c)
                 {
                     iItemCount = BSMAX_00647b70(
-                        (int)FUN_004e4430((float)(unsigned int)FUN_00726920() * (unk20 - iStack_c) / unk20) + 1, 2);
+                        (int)FUN_004e4430((float)(unsigned int)GetUnfilteredItemCount() * (unk20 - iStack_c) / unk20) + 1, 2);
                 }
                 if (iItemCount > 1)
                 {
@@ -365,13 +366,14 @@ struct FUN_0072c700_cls
     float m_20;
 
     void AccumulateTileHeight(Tile* o);
-    void FUN_0072cba0();
-    void FUN_0072c880();
-    void FUN_0072c700();
+    void UpdateScrollTraits_0072cba0();
+    void UpdateHighlightTraits();
+    void UpdateEntryMetrics_0072c700();
 };
 
 // @fnv 0x0072c700
-void FUN_0072c700_cls::FUN_0072c700()
+// src: GUESS 0x0072c700 (confidence: low)
+void FUN_0072c700_cls::UpdateEntryMetrics_0072c700()
 {
     m_1c = 0;
     m_20 = 0.0f;
@@ -384,8 +386,8 @@ void FUN_0072c700_cls::FUN_0072c700()
             AccumulateTileHeight((*cur->FUN_006815c0())->m_00);
         }
     }
-    FUN_0072cba0();
-    FUN_0072c880();
+    UpdateScrollTraits_0072cba0();
+    UpdateHighlightTraits();
 }
 
 extern double DAT_01012060;
@@ -406,12 +408,13 @@ struct FUN_0072cba0_cls
     float m_20;
 
     unsigned int GetVisibleCount();
-    void FUN_0072cba0();
+    void UpdateScrollTraits_0072cba0();
 };
 
 // Computes a scroll item count from the tile's float at 0xfb0 versus m_20 and stores _scroll_delta and _number_of_items on the tiles.
 // @fnv 0x0072cba0
-void FUN_0072cba0_cls::FUN_0072cba0()
+// src: GUESS 0x0072cba0 (confidence: medium)
+void FUN_0072cba0_cls::UpdateScrollTraits_0072cba0()
 {
     if (unk0c)
     {

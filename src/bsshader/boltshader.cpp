@@ -698,7 +698,7 @@ void __cdecl BoltShader_Stop(Fn1470Owner* pOwner, Fn1470Result* pWanted)
     DAT_01201f54 = 0;
 }
 
-extern "C" void* __cdecl FUN_00aa13e0(unsigned int);
+extern "C" void* __cdecl Object_DispatchCommandFour(unsigned int);
 
 extern MemoryManager _g_memoryManager;
 
@@ -728,7 +728,7 @@ class FUN_00ba63e0 : public NiObject
     int unk24;
     int unk28;
     FUN_00ba63e0(unsigned short, unsigned int);
-    void FUN_00a72ca0(unsigned int);
+    void SetSize_Thunk(unsigned int);
     void NiAdditionalGeometryData_SetDataBlock(unsigned int, void*, unsigned int, unsigned int);
     void NiAdditionalGeometryData_SetDataStream(unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int);
 };
@@ -955,7 +955,7 @@ Obj_bc18d0* BoltShader_GetBoltGeometry()
     FUN_00a7b630* pkData = new FUN_00a7b630(usNumVertices, pVertices, 0, 0, 0, 0, 0, usNumTriangles, pIndices);
 
     FUN_00ba63e0* pkExt = new FUN_00ba63e0(usNumVertices, 1);
-    pkExt->FUN_00a72ca0(1);
+    pkExt->SetSize_Thunk(1);
     pkExt->NiAdditionalGeometryData_SetDataBlock(0, GetOrCreateTable(), (unsigned short)usNumVertices * 4, 1);
     pkExt->NiAdditionalGeometryData_SetDataStream(0, 0, 0, 1, usNumVertices, 4, 4);
 

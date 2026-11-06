@@ -804,7 +804,8 @@ char* TESFile::GetDecompressedBuffer()
 extern __int64 __cdecl FUN_00ec3bf0(__int64);
 // Replaces the value at p with the result of FUN_00ec3bf0 applied to it.
 // @fnv 0x004717f0
-void __cdecl FUN_004717f0(__int64* pValue)
+// src: GUESS 0x004717f0 (confidence: low)
+void __cdecl TESFile_TransformReferencedInt64(__int64* pValue)
 {
     __int64* q = pValue;
     *q = FUN_00ec3bf0(*q);
@@ -1040,7 +1041,7 @@ extern "C" void* __cdecl _alloca(unsigned int);
 template <int N> struct EndianSizeTag
 {
 };
-void __cdecl FUN_004717f0(void*, EndianSizeTag<0>);
+void __cdecl TESFile_TransformReferencedInt64(void*, EndianSizeTag<0>);
 struct ContainerItemExtraFileData
 {
     void Endian();
@@ -1115,7 +1116,7 @@ int TESFile::ReadTESInfo()
             fnv_00471400::_ULARGE_INTEGER* plargeint = new fnv_00471400::_ULARGE_INTEGER;
             GetChunkData(plargeint, 8);
             if (IsEndianConversionRequired())
-                fnv_00471400::FUN_004717f0(plargeint, fnv_00471400::EndianSizeTag<0>());
+                fnv_00471400::TESFile_TransformReferencedInt64(plargeint, fnv_00471400::EndianSizeTag<0>());
             ((SoundListView*)GetMasterDataList())->AddTail(*(char**)&plargeint);
         }
         break;

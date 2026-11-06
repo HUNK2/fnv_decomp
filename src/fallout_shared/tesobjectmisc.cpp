@@ -162,7 +162,7 @@ unsigned short __thiscall FUN_0051b020_shell::TESObjectMISC_GetSaveSize(unsigned
 {
     unsigned short isize = 0;
     isize += (unsigned short)((TESForm*)this)->TESForm::GetSaveSize(aiFlags);
-    isize += ((TESValueForm*)((char*)this + 0x74))->FUN_0048e9b0(aiFlags);
+    isize += ((TESValueForm*)((char*)this + 0x74))->GetFlaggedDataSize(aiFlags);
     return isize;
 }
 
@@ -235,7 +235,7 @@ struct FUN_0051ae80_shell
 // src: XBOX_PDB 0x0051ae80
 void FUN_0051ae80_shell::TESObjectMISC_Save()
 {
-    ((TESForm*)this)->FUN_004855a0();
+    ((TESForm*)this)->BeginFormRecord();
     ((S_00487010*)((char*)this + 0x30))->Save_00487010();
     ((S_0048a520*)((char*)this + 0x3c))->ProcessAndFreeData(0x4c444f4d, 0x54444f4d, 0x53444f4d);
     ((FUN_0048e370_obj*)((char*)this + 0x5c))->TESTexture_Save(0x4e4f4349);
@@ -249,7 +249,7 @@ void FUN_0051ae80_shell::TESObjectMISC_Save()
         unsigned int formID = ((TESForm**)((char*)this + 0xa8))[0]->GetFormID();
         TESForm_AddChunk_00485910(0x4d414e52, formID);
     }
-    ((TESForm*)this)->FUN_00485680();
+    ((TESForm*)this)->FinishFormRecord();
 }
 
 struct FUN_008cdd90_shell

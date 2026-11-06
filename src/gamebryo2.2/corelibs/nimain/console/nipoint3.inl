@@ -40,7 +40,7 @@ NiPoint3 NiPoint3::CrossProduct(const NiPoint3& kPoint) const
         x * kPoint.y - y * kPoint.x);
     float fScaleMultiplier = static_cast<const NiPoint3&>(kCross).ComputeMagnitude();
     if (fScaleMultiplier > DAT_01017cf8)
-        return kCross.FUN_0053d280(fScaleMultiplier);
+        return kCross.ProcessAndReturnValue_0053d280(fScaleMultiplier);
     else
         return NiPoint3(0.0f, 0.0f, 0.0f);
 }

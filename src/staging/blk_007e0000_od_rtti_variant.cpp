@@ -18,11 +18,11 @@ struct BSAudio_
     void BSAudio_PauseAllOfType(int, int);
     void BSAudio_PauseWorldSounds();
 };
-extern "C" void __cdecl FUN_007004e0();
+extern "C" void __cdecl ForwardCall_007004e0();
 struct FUN_007f7770_Class
 {
-    void __thiscall FUN_007004e0();
-    void __thiscall FUN_007f7770();
+    void __thiscall ForwardCall_007004e0();
+    void __thiscall ForwardCall_007f7770();
 };
 extern float DAT_012007d0;
 extern float DAT_012007d4;
@@ -54,7 +54,7 @@ struct FUN_007fd620_Class
 struct RaceSexMenu
 {
     void OnRaceSelected(void*);
-    void FUN_007fe910(void* apList);
+    void OnRaceSelected_Thunk(void* apList);
 };
 struct NavMeshPtr
 {
@@ -127,7 +127,7 @@ struct FUN_007fecc0_Class
     unsigned char _1[3];
     float fTime;
     float fValue;
-    void __thiscall FUN_007fecc0();
+    void __thiscall ActivateAndResetTimer();
 };
 struct FUN_007eb8d0_Class
 {

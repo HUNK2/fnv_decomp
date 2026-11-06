@@ -96,7 +96,7 @@ struct FieldMod
 };
 
 extern int DAT_010be99c;
-void* __cdecl FUN_00aa13e0(unsigned int size);
+void* __cdecl Object_DispatchCommandFour(unsigned int size);
 
 struct RadialFieldObject_00c285d0 : FUN_00c31ff0
 {
@@ -123,7 +123,7 @@ struct FUN_00c285d0_cls
 // src: XBOX_PDB 0x00c285d0
 void* FUN_00c285d0_cls::NiPSysRadialFieldModifier_CreateClone(unsigned int a1)
 {
-    RadialFieldObject_00c285d0* p = new (FUN_00aa13e0(0x34)) RadialFieldObject_00c285d0;
+    RadialFieldObject_00c285d0* p = new (Object_DispatchCommandFour(0x34)) RadialFieldObject_00c285d0;
     NiPSysFieldModifier_CopyMembers(p, a1);
     return p;
 }

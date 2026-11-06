@@ -138,7 +138,7 @@ public:
     __forceinline const ActorVectorLocal_00ce3a00& getImag() const { return m_vec; }
     __forceinline void operator=(const ActorQuaternionLocal_00ce3a00& q) { m_vec = q.m_vec; }
     void setMul(const ActorQuaternionLocal_00ce3a00& q0, const ActorQuaternionLocal_00ce3a00& q1);
-    void FUN_00cd9d10(const ActorVectorLocal_00ce3a00& from, const ActorVectorLocal_00ce3a00& to);
+    void ComputeValues_00cd9d10(const ActorVectorLocal_00ce3a00& from, const ActorVectorLocal_00ce3a00& to);
     ActorVectorLocal_00ce3a00 m_vec;
 };
 
@@ -474,7 +474,7 @@ char* __cdecl FUN_00a5b690(const char*);
 extern char* DAT_0109b220;
 __declspec(dllimport) long __stdcall InterlockedIncrement(long*);
 __declspec(dllimport) long __stdcall InterlockedDecrement(long*);
-void* __cdecl FUN_00aa13e0(unsigned int);
+void* __cdecl Object_DispatchCommandFour(unsigned int);
 
 __forceinline void RetainString(char* text) {
     if (text != DAT_0109b220) { InternedHeader& header = *((InternedHeader*)text - 1); InterlockedIncrement(&header.references); }
@@ -508,7 +508,7 @@ struct CachedScene : RefBase {
     }
     virtual void Reserved();
     virtual void Destroy();
-    __forceinline static void* operator new(unsigned int n) { return FUN_00aa13e0(n); }
+    __forceinline static void* operator new(unsigned int n) { return Object_DispatchCommandFour(n); }
     static void operator delete(void*);
 };
 struct SceneRef {
@@ -599,9 +599,9 @@ struct PoseBuffer {
     unsigned char reserved61, reserved62, reserved63;
     int reserved64, reserved68, reserved6c;
     PoseBuffer() { hkaSkeletonMapperData_hkaSkeletonMapperData(); }
-    ~PoseBuffer() { FUN_00ce5370(); }
+    ~PoseBuffer() { UpdateState_00ce5370(); }
     void hkaSkeletonMapperData_hkaSkeletonMapperData();
-    void FUN_00ce5370();
+    void UpdateState_00ce5370();
 };
 struct FUN_00ce4a20 {
     int reserved0;
@@ -1576,7 +1576,7 @@ extern float DAT_01050c98, DAT_01050c48, DAT_01011d78, DAT_01012068;
 extern void* UNK_010c4dec;
 static __forceinline void* AllocateBuffer(unsigned n) { hkMemoryRouter* context=&hkMemoryRouter::getInstance(); Heap* heap=reinterpret_cast<Heap*&>(context->m_heap); return (heap->Allocate)(n); }
 static __forceinline int Maximum(int first,int second) { return first >= second ? first : second; }
-struct SmallMember { unsigned data; __forceinline SmallMember() { FUN_00cb0a60(); } __forceinline ~SmallMember() { FUN_00cb0c00(); } void FUN_00cb0a60(); void FUN_00cb0c00(); };
+struct SmallMember { unsigned data; __forceinline SmallMember() { FUN_00cb0a60(); } __forceinline ~SmallMember() { Object_UpdateFields_00cb0c00(); } void FUN_00cb0a60(); void Object_UpdateFields_00cb0c00(); };
 struct Entry { SmallMember member; unsigned char enabled; __forceinline Entry():enabled(0) {} };
 extern void __cdecl hkArrayUtil__reserve(Heap&, void*, int, unsigned);
 // Mesh data arrays use 0x30-byte records of three SIMD packets; these are not the shared 0x40-byte Transform.
@@ -3285,8 +3285,8 @@ public:
 
 
 hkBool __cdecl WalkChainUntilLimit(const hkaSkeleton& skeleton, short start, short end, hkArray<short>& chain);
-extern "C" void __cdecl FUN_00cde1d0(const hkaSkeleton& skeleton, hkQsTransform* pose);
-extern "C" void __cdecl FUN_00cde2d0(const hkaSkeleton& skeleton, const hkQsTransform* ref, hkQsTransform* pose);
+extern "C" void __cdecl hkaSkeleton_RestoreLockedBoneTranslations(const hkaSkeleton& skeleton, hkQsTransform* pose);
+extern "C" void __cdecl hkQsTransform_ProcessEntries_00cde2d0(const hkaSkeleton& skeleton, const hkQsTransform* ref, hkQsTransform* pose);
 
 // Preserve the original access types when viewing the shared mapper storage.
 template <class T> class ReferenceCountedPointer {
@@ -3332,7 +3332,8 @@ __forceinline void hkMonitorStream::TimerCommand::setTime() {
     m_time0 = ticks;
 }
 
-static __declspec(noinline) void FUN_00ce2a50(ActorVectorLocal_00ce3a00& a, ActorVectorLocal_00ce3a00& b) {
+// src: GUESS 0x00ce2a50 (confidence: low)
+static __declspec(noinline) void hkVector4_ComputeValues_00ce2a50(ActorVectorLocal_00ce3a00& a, ActorVectorLocal_00ce3a00& b) {
     ActorVectorLocal_00ce3a00 aLen; aLen.SetAllComponents(a.lengthSquared3());
     ActorVectorLocal_00ce3a00 bLen; bLen.SetAllComponents(b.lengthSquared3());
     ActorVectorLocal_00ce3a00 lens; lens.setXYZW(aLen, bLen);
@@ -3415,10 +3416,10 @@ void __cdecl hkaSkeletonMapper::mapPose(const hkQsTransform* poseAModelSpace, co
 
                 ActorVectorLocal_00ce3a00 currentDirection; currentDirection.setSub4(currentEndModelSpacePos, startModelSpacePos);
                 ActorVectorLocal_00ce3a00 desiredDirection; desiredDirection.setSub4(desiredEndModelSpacePos, startModelSpacePos);
-                FUN_00ce2a50(currentDirection, desiredDirection);
+                hkVector4_ComputeValues_00ce2a50(currentDirection, desiredDirection);
 
                 ActorQuaternionLocal_00ce3a00 rotationQuaternion;
-                rotationQuaternion.FUN_00cd9d10(currentDirection, desiredDirection);
+                rotationQuaternion.ComputeValues_00cd9d10(currentDirection, desiredDirection);
 
                 ActorQuaternionLocal_00ce3a00 currentRot = poseBModelSpace[startBoneB].getRotation();
                 ActorQuaternionLocal_00ce3a00 temp;
@@ -3472,10 +3473,10 @@ void __cdecl hkaSkeletonMapper::mapPose(const hkQsTransform* poseAModelSpace, co
     }
     switch (source) {
     case 1:
-        FUN_00cde1d0(*(reinterpret_cast<const ReferenceCountedPointer<const hkaSkeleton>&>(m_kMappingData.m_pSkeletonB)), poseBModelSpace);
+        hkaSkeleton_RestoreLockedBoneTranslations(*(reinterpret_cast<const ReferenceCountedPointer<const hkaSkeleton>&>(m_kMappingData.m_pSkeletonB)), poseBModelSpace);
         break;
     case 2:
-        FUN_00cde2d0(*(reinterpret_cast<const ReferenceCountedPointer<const hkaSkeleton>&>(m_kMappingData.m_pSkeletonB)), originalPoseBLocalSpace, poseBModelSpace);
+        hkQsTransform_ProcessEntries_00cde2d0(*(reinterpret_cast<const ReferenceCountedPointer<const hkaSkeleton>&>(m_kMappingData.m_pSkeletonB)), originalPoseBLocalSpace, poseBModelSpace);
         break;
     }
     {

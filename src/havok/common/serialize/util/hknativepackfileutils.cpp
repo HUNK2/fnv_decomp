@@ -11,11 +11,12 @@ extern "C" void __cdecl ProcessElements(int, int, int);
 
 struct FUN_00dc0ed0_class
 {
-    void FUN_00dc0ed0(int a, int b);
+    void ProcessElements_Thunk(int a, int b);
 };
 
 // @fnv 0x00dc0ed0
-void FUN_00dc0ed0_class::FUN_00dc0ed0(int aiFirst, int aiSecond)
+// src: GUESS 0x00dc0ed0 (confidence: medium)
+void FUN_00dc0ed0_class::ProcessElements_Thunk(int aiFirst, int aiSecond)
 {
     ProcessElements(*(int*)((char*)this + 8), aiSecond, aiFirst);
 }
@@ -31,12 +32,13 @@ struct FUN_00dc0ef0_class
     int m_10;
     int m_14;
     int m_18;
-    void FUN_00dc0ef0();
+    void UpdateState_00dc0ef0();
 };
 
 // If m_14 is set, calls FUN_00dc0de0 on m_08 and m_0c, then clears m_14 and m_18.
 // @fnv 0x00dc0ef0
-void FUN_00dc0ef0_class::FUN_00dc0ef0()
+// src: GUESS 0x00dc0ef0 (confidence: low)
+void FUN_00dc0ef0_class::UpdateState_00dc0ef0()
 {
     if (m_14)
     {
@@ -148,7 +150,7 @@ struct S_00dc0de0_Map
         return m_kPrimitiveElement[it].val;
     }
     void ClearAndRelease(hkMemoryAllocator& alloc);
-    void FUN_00a29680();
+    void Object_DoNothing();
 };
 
 struct S_00dc0de0_Elem
@@ -203,13 +205,14 @@ void hkNativePackfileUtils_unload(S_00dc0de0* s)
     }
     s->m_ppData._clearAndDeallocate(GetHeap(hkMemoryRouter_getInstance()));
     map.ClearAndRelease(GetHeap(hkMemoryRouter_getInstance()));
-    map.FUN_00a29680();
+    map.Object_DoNothing();
 }
 
 extern char DAT_010d6ab4[];
 
 // @fnv 0x00dc0eb0
-void* __cdecl FUN_00dc0eb0()
+// src: GUESS 0x00dc0eb0 (confidence: low)
+void* __cdecl Hknativepackfileutils_GetDAT010d6ab4()
 {
     return DAT_010d6ab4;
 }
@@ -222,15 +225,16 @@ struct FUN_00dc0ec0_cls
     int unk0c;
     int unk10;
     int unk14;
-    int FUN_00dc0ec0(int first, int second);
+    int GetUnk14_00dc0ec0(int first, int second);
 };
 // @fnv 0x00dc0ec0
-int FUN_00dc0ec0_cls::FUN_00dc0ec0(int first, int second)
+// src: GUESS 0x00dc0ec0 (confidence: low)
+int FUN_00dc0ec0_cls::GetUnk14_00dc0ec0(int first, int second)
 {
     return unk14;
 }
 
-extern "C" int __cdecl FUN_00dc07d0(void*, void*) throw();
+extern "C" int __cdecl hkPackfile_ComputeNativeStorageSize(void*, void*) throw();
 extern "C" void __cdecl hkArrayUtil__reserve(void*, void*, int, int) throw();
 extern "C" void* __cdecl UnpackPackfile(void*, void*, void*, int, void*) throw();
 extern "C" void* DAT_010d6a94;
@@ -331,7 +335,7 @@ struct S_00dc0cd0_Resource
 void* __cdecl CreateResourceFromArray(void* arg0, void* arg1, void* arg2) throw()
 {
     S_00dc0cd0_ArrayLocalForm tempArray;
-    int needed = FUN_00dc07d0(arg0, arg1);
+    int needed = hkPackfile_ComputeNativeStorageSize(arg0, arg1);
     tempArray.SetSizeAndGrow(needed);
     void* pKey = UnpackPackfile(arg0, arg1, tempArray.m_data, needed, arg2);
     S_00dc0cd0_Map* map = (S_00dc0cd0_Map*)((char*)tempArray.m_data + 8);
@@ -371,11 +375,12 @@ struct FUN_00dc0f20_cls
     int m_14;
     int m_18;
 
-    void FUN_00dc0f20();
+    void UpdateFields_00dc0f20();
 };
 
 // @fnv 0x00dc0f20
-void FUN_00dc0f20_cls::FUN_00dc0f20()
+// src: GUESS 0x00dc0f20 (confidence: low)
+void FUN_00dc0f20_cls::UpdateFields_00dc0f20()
 {
     m_vptr = (int)&DAT_010d6a94;
     if (m_14 != 0)
@@ -705,7 +710,8 @@ struct Table_dc07b0
 };
 
 // @fnv 0x00dc07b0
-static __declspec(noinline) int FUN_00dc07b0(Table_dc07b0* apTable, int aiIndex, int a, int b)
+// src: GUESS 0x00dc07b0 (confidence: low)
+static __declspec(noinline) int Hknativepackfileutils_EvaluateValue_00dc07b0(Table_dc07b0* apTable, int aiIndex, int a, int b)
 {
     if (apTable->entries[aiIndex].unk18 != 0)
     {
@@ -722,10 +728,10 @@ volatile int g_out_dc07b0;
 
 void CallTarget_dc07b0()
 {
-    g_out_dc07b0 = FUN_00dc07b0(g_t_dc07b0, g_idx_dc07b0, g_a_dc07b0, g_b_dc07b0);
+    g_out_dc07b0 = Hknativepackfileutils_EvaluateValue_00dc07b0(g_t_dc07b0, g_idx_dc07b0, g_a_dc07b0, g_b_dc07b0);
 }
 
-extern "C" int __cdecl FUN_00cb17f0(int);
+extern "C" int __cdecl Hkmap_ProcessEntries_00cb17f0(int);
 
 struct hkPackfileSectionHeader
 {
@@ -758,7 +764,8 @@ struct hkPackfileSectionHeader
 };
 
 // @fnv 0x00dc07d0
-extern "C" int __cdecl FUN_00dc07d0(void* packfileData, void* packfileSize) throw()
+// src: GUESS 0x00dc07d0 (confidence: medium)
+extern "C" int __cdecl hkPackfile_ComputeNativeStorageSize(void* packfileData, void* packfileSize) throw()
 {
     const hkPackfileHeader* header = (const hkPackfileHeader*)packfileData;
     int dataSize = 0;
@@ -770,7 +777,7 @@ extern "C" int __cdecl FUN_00dc07d0(void* packfileData, void* packfileSize) thro
         numVirtualFixups += sections[i].getVirtualFixupsSize() / (3 * (int)sizeof(int));
         dataSize += sections[i].getDataSize() + sections[i].getExportsSize() + sections[i].getImportsSize();
     }
-    int mapSize = FUN_00cb17f0(numVirtualFixups);
+    int mapSize = Hkmap_ProcessEntries_00cb17f0(numVirtualFixups);
     return 0x20 + header->m_iNumSections * (int)sizeof(hkPackfileSectionHeader) + dataSize + mapSize;
 }
 

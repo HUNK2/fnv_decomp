@@ -28,7 +28,7 @@ public:
     unsigned short GetCount();
     void Update(int arg);
     unsigned short GetRefCount_0047d3d0();
-    ActorCause* FUN_0066e010(Actor* actor);
+    ActorCause* UpdateState_0066e010(Actor* actor);
 
     static void ClearActorCauseList(BGSLoadGameBuffer* buffer);
     static void SaveActorCauses(BGSLoadGameBuffer* buffer);

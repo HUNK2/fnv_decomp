@@ -60,11 +60,12 @@ extern int DAT_01023ec4;
 
 struct FUN_004f5920_shell
 {
-    void FUN_004f5920();
+    void SetVirtualTable_004f5920();
 };
 
 // @fnv 0x004f5920
-void FUN_004f5920_shell::FUN_004f5920()
+// src: GUESS 0x004f5920 (confidence: low)
+void FUN_004f5920_shell::SetVirtualTable_004f5920()
 {
     *reinterpret_cast<int**>(this) = &DAT_01023ec4;
 }
@@ -72,7 +73,7 @@ void FUN_004f5920_shell::FUN_004f5920()
 namespace fnv_004f55d0 {
 struct FUN_004f5920_shell
 {
-    void FUN_004f5920();
+    void SetVirtualTable_004f5920();
 };
 void __cdecl _Deallocate(void*);
 struct FUN_004f55d0_shell
@@ -83,7 +84,7 @@ struct FUN_004f55d0_shell
 // @fnv 0x004f55d0
 void* FUN_004f55d0_shell::FUN_004f55d0(unsigned int flags)
 {
-    ((FUN_004f5920_shell*)this)->FUN_004f5920();
+    ((FUN_004f5920_shell*)this)->SetVirtualTable_004f5920();
     if (flags & 1)
         _Deallocate(this);
     return this;

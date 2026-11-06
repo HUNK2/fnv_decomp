@@ -249,7 +249,7 @@ extern InterfaceManager* InterfaceManager_GetSingleton();
 class InputManager
 {
   public:
-    void FUN_00a25560(GAMEPAD_BUTTON);
+    void UpdateGlobalMaskedBits(GAMEPAD_BUTTON);
 };
 extern OSGlobals* g_osGlobals;
 extern int Renderer_GetScreenWidth();
@@ -337,7 +337,7 @@ void InterfaceManager::SendGamepadButton(int button)
     {
         InputManager* input = g_osGlobals->Main_GetControls();
         GAMEPAD_BUTTON converted = (GAMEPAD_BUTTON)ConvertGamepadButton(button);
-        input->FUN_00a25560(converted);
+        input->UpdateGlobalMaskedBits(converted);
     }
 }
 // @fnv 0x00715d40
@@ -398,7 +398,8 @@ bool InterfaceManager::IsInterfaceMenuActive()
 
 // Initialises the object's fields: clears offsets 0x0, 0xc and 0x10, sets offset 0x4 to 0.0f and offset 0x8 to 0.001f, then returns pThis.
 // @fnv 0x0070a8a0
-void* __fastcall FUN_0070a8a0(void* pThis)
+// src: GUESS 0x0070a8a0 (confidence: low)
+void* __fastcall Object_InitializeFields_0070a8a0(void* pThis)
 {
     *(int*)((char*)pThis + 0xc) = 0;
     *(int*)((char*)pThis + 0x10) = 0;
@@ -790,7 +791,7 @@ void WaitForTasksAndClearScripts()
 
 class NavMesh;
 class TESLoadScreen;
-bool __cdecl FUN_009a3830(NavMesh* const&, NavMesh* const&);
+bool __cdecl Actor_AreReferencedValuesEqual(NavMesh* const&, NavMesh* const&);
 
 struct S3de0
 {
@@ -800,7 +801,7 @@ struct S3de0
 // src: COMMUNITY 0x00713de0
 void S3de0::InterfaceManager_RemoveTileFromUpdateList(NavMesh* p)
 {
-    unsigned int idx = ((BSSimpleArray<NavMesh*, 1024>*)&g_011d8b44)->Find(p, 0, FUN_009a3830);
+    unsigned int idx = ((BSSimpleArray<NavMesh*, 1024>*)&g_011d8b44)->Find(p, 0, Actor_AreReferencedValuesEqual);
     if (idx != 0xFFFFFFFF)
         ((BSSimpleArray<NavMesh*, 1024>*)&g_011d8b44)->UpdateEntryValue(idx, 1);
 }
@@ -1607,7 +1608,7 @@ unsigned int __cdecl PackRgba(unsigned int aiRed, unsigned int aiGreen, unsigned
 }
 
 class NavMesh;
-bool __cdecl FUN_009a3830(NavMesh* const&, NavMesh* const&);
+bool __cdecl Actor_AreReferencedValuesEqual(NavMesh* const&, NavMesh* const&);
 
 
 // Returns whether Find locates aValue in the array using FUN_009a3830, i.e. the index is not -1.
@@ -1615,7 +1616,7 @@ bool __cdecl FUN_009a3830(NavMesh* const&, NavMesh* const&);
 // src: XBOX_PDB 0x009962f0
 template <> bool BSSimpleArray<NavMesh*, 1024>::BSSimpleArray_BGSBodyPart_1024_IsInArray(NavMesh*& aValue)
 {
-    return ((BSSimpleArray<NavMesh*, 1024>*)this)->Find((NavMesh* const&)aValue, 0, FUN_009a3830) != (unsigned int)-1;
+    return ((BSSimpleArray<NavMesh*, 1024>*)this)->Find((NavMesh* const&)aValue, 0, Actor_AreReferencedValuesEqual) != (unsigned int)-1;
 }
 
 
@@ -3577,7 +3578,7 @@ struct FUN_00703060_shell
 
 struct GlobalObject_0045cfe0
 {
-    void FUN_0045ce80(int);
+    void ProcessAndReturnValue_0045ce80(int);
 };
 struct Dummy_00718c90;
 
@@ -3643,8 +3644,8 @@ void FUN_0070adb0_shell::InitInterface(bool abInitialLoad)
     faspect = InterfaceManager_GetRealScreenWidth() / InterfaceManager_GetRealScreenHeight();
     if (faspect == DAT_0106efa0 || 1.0f / faspect == DAT_010290b8)
     {
-        g_011deec0.FUN_0045ce80(0x50);
-        g_011d8d44.FUN_0045ce80(0x50);
+        g_011deec0.ProcessAndReturnValue_0045ce80(0x50);
+        g_011d8d44.ProcessAndReturnValue_0045ce80(0x50);
     }
 
     NiPointer<BSFogProperty> m_spFogProperty(new BSFogProperty);
@@ -5423,7 +5424,7 @@ int FUN_00714d90_shell::PushMenuStackEntry(int aiID)
 namespace fnv_00715e00 {
 struct S0042fa20
 {
-    S0042fa20* FUN_0045ce80(int);
+    S0042fa20* ProcessAndReturnValue_0045ce80(int);
 };
 
 struct GlobalObject_0045cfe0
@@ -5446,11 +5447,11 @@ void FUN_00715e00_t::SetTileValues(int aiWidth, int aiHeight)
 {
     if (aiWidth > 0)
     {
-        ((S0042fa20*)&g_011d8bd8)->FUN_0045ce80(aiWidth);
+        ((S0042fa20*)&g_011d8bd8)->ProcessAndReturnValue_0045ce80(aiWidth);
         if (aiHeight > 0)
-            ((S0042fa20*)&g_011d8bf0)->FUN_0045ce80(aiHeight);
+            ((S0042fa20*)&g_011d8bf0)->ProcessAndReturnValue_0045ce80(aiHeight);
         else
-            ((S0042fa20*)&g_011d8bf0)->FUN_0045ce80(aiWidth);
+            ((S0042fa20*)&g_011d8bf0)->ProcessAndReturnValue_0045ce80(aiWidth);
     }
     ((Tile*)*(Tile**)((char*)this + 0x9c))->Set(0xfc0, InterfaceManager_GetScreenSafeX(), true);
     ((Tile*)*(Tile**)((char*)this + 0x9c))->Set(0xfbf, InterfaceManager_GetScreenSafeY(), true);
@@ -5829,7 +5830,7 @@ struct FUN_007e6620_Button
 };
 struct FUN_007e6620_t : public Menu
 {
-    void FUN_007e6700();
+    void ProcessState_007e6700();
     bool HandleTileClick(int aiTileID);
 };
 
@@ -5851,7 +5852,7 @@ bool FUN_007e6620_t::HandleTileClick(int aiTileID)
         if (((FUN_007e6620_Button*)((char*)this + 0x34))->GetByteAtOffset33())
         {
             ((FUN_007e6620_Button*)((char*)this + 0x34))->TextEditMenu_Data_HandleKey(aiTileID);
-            FUN_007e6700();
+            ProcessState_007e6700();
             return true;
         }
         else
@@ -5977,7 +5978,7 @@ bool FUN_007185e0_class::SetFlag2(int index)
 
 char __fastcall GetByteAtOffset33(char*);
 void __fastcall ToggleFlagOnInterval(char*);
-void __fastcall FUN_007e6700(void*);
+void __fastcall ProcessState_007e6700(void*);
 
 
 // @fnv 0x007e65f0
@@ -5987,7 +5988,7 @@ void InterfaceTextEditAccess::TextEditMenu_Update()
     if ((unsigned char)GetByteAtOffset33((char*)this + 0x34))
     {
         ToggleFlagOnInterval((char*)this + 0x34);
-        ::FUN_007e6700(this);
+        ::ProcessState_007e6700(this);
     }
 }
 
@@ -6812,7 +6813,7 @@ struct StrObj
 {
     StrObj();
     ~StrObj();
-    const char* FUN_00559450();
+    const char* Modelloader_GetReferencedThis();
     void* m_data;
     int m_len;
 };
@@ -7261,7 +7262,7 @@ struct Obj50
     int d1;
     int d2;
     int d3;
-    void FUN_00509890(int);
+    void UpdateState_00509890(int);
     unsigned int FUN_005094b0();
 };
 struct BoundObj
@@ -7287,7 +7288,7 @@ struct CellB
 struct TeleObj
 {
     CellA* DoorTeleportData_GetTeleportCell();
-    CellB* FUN_00559450();
+    CellB* Modelloader_GetReferencedThis();
 };
 
 struct LockObj
@@ -7523,14 +7524,14 @@ void FUN_00710ad0_shell::DrawDebugInfo()
         FUN_00714d70(baseY);
         m_pReference = (Refr*)baseY;
         BSStringT_char_SPrintF(&aai, kStr0, m_pReference->TESObjectREFR_GetFullName(), m_pReference->GetHavokWorldObjectCountInSceneGraph_0084e3a0());
-        DebugText_Instance(true)->Print(aai.FUN_00559450(), DAT_0103a1c4, (float)found, 2, -1, DAT_01012054, 0, 0);
+        DebugText_Instance(true)->Print(aai.Modelloader_GetReferencedThis(), DAT_0103a1c4, (float)found, 2, -1, DAT_01012054, 0, 0);
         if (m_fdd)
         {
             if (m_pReference->BSFile_GetDevice()->ExtraDataList_GetScript() != 0)
             {
                 BSStringT_char_SPrintF(&aai, kStr1, ((FormObj*)m_pReference->BSFile_GetDevice()->ExtraDataList_GetScript())->fv130(),
                              ((FormObj*)m_pReference->BSFile_GetDevice()->ExtraDataList_GetScript())->GetHavokWorldObjectCountInSceneGraph_0084e3a0());
-                DebugText_Instance(true)->Print(aai.FUN_00559450(), DAT_0103a1c4, (float)lineH, 2, -1, DAT_01012054, 0,
+                DebugText_Instance(true)->Print(aai.Modelloader_GetReferencedThis(), DAT_0103a1c4, (float)lineH, 2, -1, DAT_01012054, 0,
                                                  0);
                 lineH += savedY;
             }
@@ -7543,7 +7544,7 @@ void FUN_00710ad0_shell::DrawDebugInfo()
                     {
                         BSStringT_char_SPrintF(&aai, kStr2, abo->FUN_008d8520()->pv4c8()->fv130(),
                                      abo->FUN_008d8520()->pv4c8()->GetHavokWorldObjectCountInSceneGraph_0084e3a0());
-                        DebugText_Instance(true)->Print(aai.FUN_00559450(), DAT_0103a1c4, (float)lineH, 2, -1,
+                        DebugText_Instance(true)->Print(aai.Modelloader_GetReferencedThis(), DAT_0103a1c4, (float)lineH, 2, -1,
                                                          DAT_01012054, 0, 0);
                         lineH += savedY;
                     }
@@ -7553,14 +7554,14 @@ void FUN_00710ad0_shell::DrawDebugInfo()
             {
                 BSStringT_char_SPrintF(&aai, kStr3, m_pReference->TESObjectREFR_GetOwner()->fv130(),
                              m_pReference->TESObjectREFR_GetOwner()->GetHavokWorldObjectCountInSceneGraph_0084e3a0());
-                DebugText_Instance(true)->Print(aai.FUN_00559450(), DAT_0103a1c4, (float)lineH, 2, -1, DAT_01012054, 0,
+                DebugText_Instance(true)->Print(aai.Modelloader_GetReferencedThis(), DAT_0103a1c4, (float)lineH, 2, -1, DAT_01012054, 0,
                                                  0);
                 lineH += savedY;
             }
             if ((short)m_pReference->BSFile_GetDevice()->ExtraDataList_GetCount() != 1)
             {
                 BSStringT_char_SPrintF(&aai, kStr4, (int)m_pReference->BSFile_GetDevice()->ExtraDataList_GetCount());
-                DebugText_Instance(true)->Print(aai.FUN_00559450(), DAT_0103a1c4, (float)lineH, 2, -1, DAT_01012054, 0,
+                DebugText_Instance(true)->Print(aai.Modelloader_GetReferencedThis(), DAT_0103a1c4, (float)lineH, 2, -1, DAT_01012054, 0,
                                                  0);
                 lineH += savedY;
             }
@@ -7578,7 +7579,7 @@ void FUN_00710ad0_shell::DrawDebugInfo()
                         BSStringT_char_SPrintF(&aai, kStr6, aco->FUN_008d8520()->pv4c8()->fv130(),
                                      aco->FUN_008d8520()->pv4c8()->GetHavokWorldObjectCountInSceneGraph_0084e3a0(), aco->FUN_008d8520()->pv4d0());
                     }
-                    DebugText_Instance(true)->Print(aai.FUN_00559450(), DAT_0103a1c4, (float)lineH, 2, -1,
+                    DebugText_Instance(true)->Print(aai.Modelloader_GetReferencedThis(), DAT_0103a1c4, (float)lineH, 2, -1,
                                                      DAT_01012054, 0, 0);
                     lineH += savedY;
                 }
@@ -7586,7 +7587,7 @@ void FUN_00710ad0_shell::DrawDebugInfo()
             if (m_pReference->TESObjectREFR_IsFurniture())
             {
                 BSStringT_char_SPrintF(&aai, kStr7, (int)(m_pReference->FUN_00430830()->z * DAT_0102f248));
-                DebugText_Instance(true)->Print(aai.FUN_00559450(), DAT_0103a1c4, (float)lineH, 2, -1, DAT_01012054, 0,
+                DebugText_Instance(true)->Print(aai.Modelloader_GetReferencedThis(), DAT_0103a1c4, (float)lineH, 2, -1, DAT_01012054, 0,
                                                  0);
                 lineH += savedY;
                 float dr[3];
@@ -7594,7 +7595,7 @@ void FUN_00710ad0_shell::DrawDebugInfo()
                 BoundObj* cy;
                 Obj50 co;
                 int ce;
-                co.FUN_00509890(255);
+                co.UpdateState_00509890(255);
                 ce = 0;
                 while (m_pReference->TESObjectREFR_GetMarkerAtIndex(ce, &co))
                 {
@@ -7606,14 +7607,14 @@ void FUN_00710ad0_shell::DrawDebugInfo()
                         BSStringT_char_SPrintF(&aai, kStr8, FUN_00509510(dn) ? kStr9 : kStr10, dn, (double)dr[0], (double)dr[1],
                                      (double)dr[2], (int)(cy->GetFurnitureHeading(dn) * DAT_0102f248),
                                      m_pReference->TESObjectREFR_GetMarkerUsed(ce, 1) ? kStr11 : kStr12);
-                        DebugText_Instance(true)->Print(aai.FUN_00559450(), DAT_0103a1c4, (float)lineH, 2, -1,
+                        DebugText_Instance(true)->Print(aai.Modelloader_GetReferencedThis(), DAT_0103a1c4, (float)lineH, 2, -1,
                                                          DAT_01012054, 0, 0);
                         lineH += savedY;
                     }
                     else
                     {
                         BSStringT_char_SPrintF(&aai, kStr13, FUN_00509510(dn) ? kStr9 : kStr10, dn);
-                        DebugText_Instance(true)->Print(aai.FUN_00559450(), DAT_0103a1c4, (float)lineH, 2, -1,
+                        DebugText_Instance(true)->Print(aai.Modelloader_GetReferencedThis(), DAT_0103a1c4, (float)lineH, 2, -1,
                                                          DAT_01012054, 0, 0);
                         lineH += savedY;
                     }
@@ -7625,13 +7626,13 @@ void FUN_00710ad0_shell::DrawDebugInfo()
                 LockObj* lockObj = m_pReference->TESObjectREFR_GetLock();
                 BSStringT_char_SPrintF(&aai, kStr14, DAT_01184a98[lockObj->FUN_004309e0(m_pReference)]->FUN_00403df0(),
                              lockObj->FUN_005021a0() ? kStr15 : kStr16);
-                DebugText_Instance(true)->Print(aai.FUN_00559450(), DAT_0103a1c4, (float)lineH, 2, -1, DAT_01012054, 0,
+                DebugText_Instance(true)->Print(aai.Modelloader_GetReferencedThis(), DAT_0103a1c4, (float)lineH, 2, -1, DAT_01012054, 0,
                                                  0);
                 lineH += savedY;
                 if (lockObj->m_f4 != 0)
                 {
                     BSStringT_char_SPrintF(&aai, kStr17, lockObj->m_f4->m_fn.TESModel_GetModel());
-                    DebugText_Instance(true)->Print(aai.FUN_00559450(), DAT_0103a1c4, (float)lineH, 2, -1,
+                    DebugText_Instance(true)->Print(aai.Modelloader_GetReferencedThis(), DAT_0103a1c4, (float)lineH, 2, -1,
                                                      DAT_01012054, 0, 0);
                     lineH += savedY;
                 }
@@ -7640,7 +7641,7 @@ void FUN_00710ad0_shell::DrawDebugInfo()
             {
                 TeleObj* tele2 = m_pReference->FUN_00568e50();
                 CellA* cellA7 = tele2->DoorTeleportData_GetTeleportCell();
-                CellB* cellB28 = tele2->FUN_00559450();
+                CellB* cellB28 = tele2->Modelloader_GetReferencedThis();
                 const char* s705;
                 const char* s6c45;
                 s705 = kStr18;
@@ -7658,7 +7659,7 @@ void FUN_00710ad0_shell::DrawDebugInfo()
                     s6c45 = cellB28->TESObjectREFR_GetFullName();
                 }
                 BSStringT_char_SPrintF(&aai, kStr20, s705, s6c45);
-                DebugText_Instance(true)->Print(aai.FUN_00559450(), DAT_0103a1c4, (float)lineH, 2, -1, DAT_01012054, 0,
+                DebugText_Instance(true)->Print(aai.Modelloader_GetReferencedThis(), DAT_0103a1c4, (float)lineH, 2, -1, DAT_01012054, 0,
                                                  0);
                 lineH += savedY;
             }
@@ -7676,7 +7677,7 @@ void FUN_00710ad0_shell::DrawDebugInfo()
                 if (abk & 8)
                     FUN_00406d50(buf, 256, kStr25);
                 BSStringT_char_SPrintF(&aai, ConvertFromUni(buf, false));
-                DebugText_Instance(true)->Print(aai.FUN_00559450(), DAT_0103a1c4, (float)lineH, 2, -1, DAT_01012054, 0,
+                DebugText_Instance(true)->Print(aai.Modelloader_GetReferencedThis(), DAT_0103a1c4, (float)lineH, 2, -1, DAT_01012054, 0,
                                                  0);
                 lineH += savedY;
             }
@@ -7775,12 +7776,13 @@ class B714930Semaphore
     int unk04;
     void* m_pSemaphore;
 
-    int FUN_00714930();
+    int InitializeLockAndReleaseSemaphore();
 };
 
 // Initializes the lock, releases the semaphore by one, and returns the stored value.
 // @fnv 0x00714930
-int B714930Semaphore::FUN_00714930()
+// src: GUESS 0x00714930 (confidence: high)
+int B714930Semaphore::InitializeLockAndReleaseSemaphore()
 {
     InitScriptRunLock(this);
     ReleaseSemaphore(m_pSemaphore, 1, 0);
@@ -7926,11 +7928,12 @@ class FUN_00717230_cls
     int m_14;
     void* m_18;
 
-    unsigned char FUN_00717230(int arg);
+    unsigned char EvaluateValue_00717230(int arg);
 };
 
 // @fnv 0x00717230
-unsigned char FUN_00717230_cls::FUN_00717230(int arg)
+// src: GUESS 0x00717230 (confidence: low)
+unsigned char FUN_00717230_cls::EvaluateValue_00717230(int arg)
 {
     struct
     {
@@ -8016,7 +8019,7 @@ struct MenuPanel_cls
 
 struct InputHelper_cls
 {
-    void FUN_005407b0();
+    void UpdateState_005407b0();
 };
 
 struct OSGlobals_cls
@@ -8041,7 +8044,7 @@ void FUN_00719740_cls::InterfaceManager_SetXBOXController(bool flag)
 {
     DAT_011d8c4c.Setting_SetValueB(flag);
     InterfaceMgr_cls::InterfaceManager_GetSingleton(flag == 0)->UpdateControllerState();
-    DAT_011dea0c->Main_GetControls(flag)->FUN_005407b0();
+    DAT_011dea0c->Main_GetControls(flag)->UpdateState_005407b0();
 }
 
 struct FUN_007e6700_Helper
@@ -8063,12 +8066,13 @@ struct FUN_007e6700_Class
     char padding38[0x58 - 0x38];
     FUN_007e6700_Callback callback;
 
-    void __thiscall FUN_007e6700();
+    void __thiscall ProcessState_007e6700();
 };
 
 // Calls object28 with 0xFC4 and a helper result, then if callback is set calls object2C with 0xFAF and the callback's result.
 // @fnv 0x007e6700
-void __thiscall FUN_007e6700_Class::FUN_007e6700()
+// src: GUESS 0x007e6700 (confidence: low)
+void __thiscall FUN_007e6700_Class::ProcessState_007e6700()
 {
     object28->Set(0xFC4, (const char*)helper.GetDisplayText(1));
 
@@ -8149,7 +8153,7 @@ struct UISmartPointer
 {
     OwnedUIObject* ptr;
     ~UISmartPointer();
-    OwnedUIObject* FUN_00559450();
+    OwnedUIObject* Modelloader_GetReferencedThis();
     void FUN_0066b0d0(OwnedUIObject*);
 };
 struct UIList
@@ -8396,7 +8400,7 @@ void FUN_00a16850();
 void MenuManager_Free();
 void Tile_FreeTraitList();
 void Menu_FreeXMLArchive();
-void FUN_00718bf0();
+void Runtime_UpdateState_00718bf0();
 void ClearAllElements();
 void Interface_ClearTempModel();
 void ClearStartMenuEntries();
@@ -8516,14 +8520,14 @@ FUN_0070a920::~FUN_0070a920()
     DestroyMenuConsoleSingleton();
     ClearPendingObject();
     FUN_00a16850();
-    if (rootA.FUN_00559450())
+    if (rootA.Modelloader_GetReferencedThis())
     {
-        ((EmptySoundHandle*)rootA.FUN_00559450())->FUN_00483710();
+        ((EmptySoundHandle*)rootA.Modelloader_GetReferencedThis())->FUN_00483710();
         rootA.FUN_0066b0d0(0);
     }
-    if (rootB.FUN_00559450())
+    if (rootB.Modelloader_GetReferencedThis())
     {
-        ((EmptySoundHandle*)rootB.FUN_00559450())->FUN_00483710();
+        ((EmptySoundHandle*)rootB.Modelloader_GetReferencedThis())->FUN_00483710();
         rootB.FUN_0066b0d0(0);
     }
     DAT_011d8909 = 1;
@@ -8540,7 +8544,7 @@ FUN_0070a920::~FUN_0070a920()
     InterfaceManager_FreeTimerList();
     Menu_FreeXMLArchive();
     DAT_011d8b54.FUN_00470470();
-    FUN_00718bf0();
+    Runtime_UpdateState_00718bf0();
     ClearAllElements();
     Interface_ClearTempModel();
     delete object174;
@@ -8756,7 +8760,7 @@ struct AccumulatorHolder
 };
 struct AccumulatorPtr
 {
-    AccumulatorHolder* FUN_00559450();
+    AccumulatorHolder* Modelloader_GetReferencedThis();
     AccumulatorHolder* object;
 };
 
@@ -8846,8 +8850,8 @@ void Manager::InterfaceManager_InitSecond()
     first->ShadowSceneNode_SetSceneGraphIndex(1);
     second = new Accumulator;
     second->ShadowSceneNode_SetSceneGraphIndex(3);
-    accumulatorA.FUN_00559450()->BSShaderAccumulator_SetShadowSceneNode(first);
-    accumulatorB.FUN_00559450()->BSShaderAccumulator_SetShadowSceneNode(first);
+    accumulatorA.Modelloader_GetReferencedThis()->BSShaderAccumulator_SetShadowSceneNode(first);
+    accumulatorB.Modelloader_GetReferencedThis()->BSShaderAccumulator_SetShadowSceneNode(first);
     TileImage* e = HUDMainMenu_Create();
     HUDMainMenu_UpdateVisibilityState(4);
     if (e)
@@ -11864,9 +11868,9 @@ struct TextInputField
     char unk23;
 
     int BSStringT_char_Length();
-    const char* FUN_00559450();
+    const char* Modelloader_GetReferencedThis();
     void FUN_00438390(const char* text);
-    bool FUN_00717230(const char* text);
+    bool EvaluateValue_00717230(const char* text);
     void TextEditMenu_Data_HandleKey(int key);
 };
 
@@ -11885,7 +11889,7 @@ void TextInputField::TextEditMenu_Data_HandleKey(int key)
     if (BSStringT_char_Length() == 0)
         ourStrcpy(abuf, "");
     else
-        ourStrcpy(abuf, FUN_00559450());
+        ourStrcpy(abuf, Modelloader_GetReferencedThis());
     len = BSStringT_char_Length();
     switch (key)
     {
@@ -11977,7 +11981,7 @@ void TextInputField::TextEditMenu_Data_HandleKey(int key)
             abuf[iM] = abuf[iM - 1];
         abuf[iM] = (char)key;
         abuf[len + 1] = 0;
-        if (iMaxWidth == -1 || FUN_00717230(abuf))
+        if (iMaxWidth == -1 || EvaluateValue_00717230(abuf))
         {
             len++;
             iCursor++;
@@ -12430,12 +12434,13 @@ struct FUN_007149b0_StandIn
     int unk04;
     HANDLE unk08;
 
-    int FUN_007149b0(unsigned int a);
+    int WaitWithTimeout(unsigned int a);
 };
 
 // Waits on the HANDLE in unk08 for a milliseconds; returns 1 on WAIT_TIMEOUT, otherwise calls FUN_004019a0 on this and returns its result.
 // @fnv 0x007149b0
-int FUN_007149b0_StandIn::FUN_007149b0(unsigned int auiTimeoutMs)
+// src: GUESS 0x007149b0 (confidence: medium)
+int FUN_007149b0_StandIn::WaitWithTimeout(unsigned int auiTimeoutMs)
 {
     unsigned int result = WaitForSingleObject(unk08, auiTimeoutMs);
 

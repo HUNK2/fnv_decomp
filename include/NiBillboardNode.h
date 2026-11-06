@@ -29,7 +29,7 @@ class NiBillboardNode : public NiNode
     using NiNode::IsEqual;
     using NiNode::UpdateDownwardPass;
 
-    void FUN_0051cfe0();
+    void ForwardCall_0051cfe0();
     void* Destroy(unsigned int flags);
     void NiAVObject_SetSelectiveUpdate(bool value);
     void SetMode_0051d000(int flags);

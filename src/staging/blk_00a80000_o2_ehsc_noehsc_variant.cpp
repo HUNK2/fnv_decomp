@@ -44,7 +44,7 @@ void __cdecl InitializeGameSystems();
 void __cdecl NiMainSDM_Shutdown();
 void __cdecl NiStaticDataManager_SetRootLibrary(void*, void*);
 struct FUN_00a8a5f0_class {
-    void* FUN_00a8a5f0();
+    void* UpdateState_00a8a5f0();
 };
 struct FUN_00a8f060_class {
     void NiPixelData_FreeData();
@@ -261,7 +261,7 @@ struct FUN_00a96800_shell {
     void* m_60;
     void* m_64;
     void* m_68;
-    void FUN_00a96800();
+    void ReleaseStorage_00a96800();
     void DestroyGeometryData();
 };
 extern int DAT_0109e470;
@@ -274,7 +274,7 @@ struct FUN_00a81bd0_class {
     void* m_10;
     void* m_14;
     void* m_18;
-    void FUN_00a81bd0();
+    void UpdateState_00a81bd0();
 };
 struct Stub {
     void NiTStringPointerMap_NiAVObject_RemoveAt(void* p);
@@ -284,14 +284,14 @@ extern void* _EmptyFS;
 extern int (__stdcall* DAT_00fdf1c4)(void*);
 extern const void* vftable_NiRefObject;
 struct FUN_00a8f810_class {
-    void FUN_00a8f810();
+    void SetVtableAndProcessState_00a8f810();
 };
 struct CloningProcess;
 void __cdecl NiFree(void*);
 struct FUN_00a8a670_shell {
     void* m_iWordAt00;
     void* m_iWordAt04;
-    void FUN_00a8a670();
+    void ForwardCall_00a8a670();
 };
 extern const void* vftable_SdmDerived;
 extern const void* vftable_SdmBase;
@@ -349,7 +349,7 @@ struct FUN_00a80580_cls {
     SpawnedRef* m_bc;
 
     void BaseTeardown();
-    void FUN_00a80580();
+    void UpdateFields_00a80580();
 };
 extern const void* DAT_0109e174;
 void FUN_00a5d3d0();
@@ -360,7 +360,7 @@ extern float DAT_011ab3f8;
 static const float kPi = 3.1415927f;
 extern "C" double __cdecl fabs(double);
 float __cdecl NiFastATan2(float y, float x);
-void* __cdecl FUN_00aa13e0(unsigned int size);
+void* __cdecl Object_DispatchCommandFour(unsigned int size);
 extern int DAT_0109e32c;
 struct FUN_00a81760_obj
 {
@@ -439,7 +439,7 @@ struct FUN_00a81ba0_cls
 struct FUN_00a84c60_cls
 {
     unsigned short m_00;
-    FUN_00a84c60_cls* FUN_00a84c60();
+    FUN_00a84c60_cls* ClearField00_00a84c60();
 };
 struct FUN_00a84ca0_entry {
     int unk00;
@@ -501,7 +501,7 @@ struct CloneObject {
     void CreateVertexBufferSet(CloneObject* destination, void* process);
     void CopyRefCountedPointers(CloneObject* destination, void* process);
 };
-void* __cdecl FUN_00aa13e0(unsigned int size) throw();
+void* __cdecl Object_DispatchCommandFour(unsigned int size) throw();
 extern int DAT_01069b14;
 struct SpawnedObject
 {
@@ -590,7 +590,7 @@ struct FUN_00a88c60_Point2 {
     float unk00;
     float unk04;
 
-    bool __thiscall FUN_0051c330(const FUN_00a88c60_Point2* other);
+    bool __thiscall ForwardCall_0051c330(const FUN_00a88c60_Point2* other);
 };
 struct FUN_00a88c60_Class {
     float unk00;
@@ -610,7 +610,7 @@ struct FUN_00a88c60_Class {
     int unk40;
     int unk44;
 
-    int __thiscall FUN_00a88c60(FUN_00a88c60_Class* other);
+    int __thiscall ProcessAndReturnValue_00a88c60(FUN_00a88c60_Class* other);
 };
 void NiCompUtility_DecompressFloatArray(const short* psCompressed, unsigned int uiUnused, float fProjectionAlongAim, float fHalfRange, float* pfValues, unsigned int ItemUpdateArray);
 struct FUN_00a89760_base {
@@ -688,7 +688,7 @@ struct FUN_00a8bdf0_cls {
     void (__thiscall* m_04)(FUN_00a8bdf0_cls* self, unsigned char* out);
     int m_08;
     int m_0c;
-    void FUN_00a8bdf0(unsigned char* dst, unsigned int a2, unsigned int count);
+    void CopyGeneratedRows(unsigned char* dst, unsigned int a2, unsigned int count);
 };
 class FUN_00a8f140_cls {
 public:
@@ -798,13 +798,13 @@ struct NiParticleObject : NiParticleBase {
     NiParticleSubobject firstMember;
     NiParticleSubobject secondMember;
 };
-extern void* __cdecl FUN_00aa13e0(unsigned int);
+extern void* __cdecl Object_DispatchCommandFour(unsigned int);
 extern const char DAT_010a1024;
 NiParticleObject* __cdecl CreateNiParticleObject();
 extern int DAT_010a13ac;
 void __declspec(noreturn) FUN_00aa0dc0();
 struct FUN_00a9b4a0_Class {
-    void __thiscall FUN_00a9b4a0();
+    void __thiscall UpdateFields_00a9b4a0();
 };
 extern unsigned short DAT_011f5f7c;
 extern unsigned short DAT_011f5f7e;
@@ -1186,7 +1186,7 @@ struct SdmBase {
     unsigned int m_bucketCount;
     HashNode_cls** m_buckets;
 };
-unsigned int __cdecl FUN_00a8fe20(unsigned int* pKey);
+unsigned int __cdecl Object_FindGlobalHashValue(unsigned int* pKey);
 extern const void* DAT_0109f7f4;
 extern unsigned int DAT_011f5e48;
 struct FNVObj {
@@ -1512,6 +1512,7 @@ struct SpawnedRecord {
 };
 
 // @fnv 0x00a90290
-SpawnedRecord* FUN_00a90290(unsigned int n) {
+// src: GUESS 0x00a90290 (confidence: low)
+SpawnedRecord* Runtime_GetIndexedValue_00a90290(unsigned int n) {
     return new SpawnedRecord[n];
 }

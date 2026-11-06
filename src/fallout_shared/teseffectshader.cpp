@@ -248,10 +248,10 @@ class ParticleShaderProperty
     void PathingRequestCoveredMove_SetAttackerHeight(float);
     void PathingRequestCoveredMove_SetAttackerSneakHeight(float);
     void PathingRequestCoveredMove_SetAttackerHealth(float);
-    void FUN_005076e0(float);
+    void SetFieldAtOffsetF4_005076e0(float);
     void NiCamera_SetMinNearPlaneDist(float);
     void NiCamera_SetMaxFarNearRatio(float);
-    void FUN_00507720(float);
+    void SetFieldAtOffset100_00507720(float);
     void PathingRequestCoveredMove_SetCombatCoverSearchInfo(int);
     void FUN_00505e50(int);
     void ParticleShaderProperty_SetBlendOp(int);
@@ -326,7 +326,7 @@ bool _FUN_00401500();
 // @fnv 0x005060f0
 void TESEffectShader::SaveForm()
 {
-    TESForm::FUN_004855a0();
+    TESForm::BeginFormRecord();
 
     if (reinterpret_cast<TESModel*>(reinterpret_cast<char*>(this) + 0x14c)->GetModelLength() == 0)
     {
@@ -379,7 +379,7 @@ void TESEffectShader::SaveForm()
 
     Data.pAddonModels = psaveAddon;
 
-    TESForm::FUN_00485680();
+    TESForm::FinishFormRecord();
 }
 
 // @fnv 0x005064d0
@@ -556,10 +556,10 @@ void TESEffectShader::CopySettingsTo(ParticleShaderProperty* apDestination, NiSo
     apDestination->PathingRequestCoveredMove_SetAttackerHeight(Data.m_fShaderFloatParameter14);
     apDestination->PathingRequestCoveredMove_SetAttackerSneakHeight(Data.m_fShaderFloatParameter15);
     apDestination->PathingRequestCoveredMove_SetAttackerHealth(Data.m_fShaderFloatParameter16);
-    apDestination->FUN_005076e0(Data.m_fShaderFloatParameter7);
+    apDestination->SetFieldAtOffsetF4_005076e0(Data.m_fShaderFloatParameter7);
     apDestination->NiCamera_SetMinNearPlaneDist(Data.m_fShaderFloatParameter8);
     apDestination->NiCamera_SetMaxFarNearRatio(Data.m_fShaderFloatParameter9);
-    apDestination->FUN_00507720(Data.m_fShaderFloatParameter10);
+    apDestination->SetFieldAtOffset100_00507720(Data.m_fShaderFloatParameter10);
     apDestination->PathingRequestCoveredMove_SetCombatCoverSearchInfo(Data.m_eAlphaSourceBlend);
     apDestination->FUN_00505e50(Data.m_eAlphaDestinationBlend);
     apDestination->ParticleShaderProperty_SetBlendOp(Data.m_eAlphaBlendOperation);

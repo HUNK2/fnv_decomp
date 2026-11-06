@@ -47,7 +47,7 @@ struct FnvVtObj
 {
     int m_vptr;
 
-    FnvVtObj* FUN_00ce25f0(unsigned int unusedArg);
+    FnvVtObj* SetVptr(unsigned int unusedArg);
 };
 struct ReferenceObject : hkReferencedObject
 {
@@ -214,7 +214,7 @@ struct FUN_00ce14b0_standin
     unsigned short unk22;
     unsigned short unk24;
 
-    void FUN_00ce14b0(unsigned short a, unsigned short b, unsigned short c, const void* data);
+    void UpdateState_00ce14b0(unsigned short a, unsigned short b, unsigned short c, const void* data);
 };
 struct FUN_00ce1680_Body
 {
@@ -267,7 +267,7 @@ extern "C"
     extern __m128 DAT_010c4c00;
     extern __m128 DAT_010c4c10;
 }
-void __cdecl FUN_00ce2d10(unsigned int p0, void* p1, unsigned int p2, int p3, unsigned int p4);
+void __cdecl Runtime_ProcessEntries_00ce2d10(unsigned int p0, void* p1, unsigned int p2, int p3, unsigned int p4);
 struct Vec4x3
 {
     __m128 r0;
@@ -286,7 +286,7 @@ struct PoseW
 };
 struct RagdollHelper : public hkaRagdollInstance
 {
-    void FUN_00ce1560(PoseW pose);
+    void ApplyPoseAndClearVelocities(PoseW pose);
 };
 template <class T> struct InitArray : ObjectArray<T>
 {
@@ -593,13 +593,14 @@ struct PoseVelocity_MyQsTransform
 
 struct PoseVelocity_RagdollPoseUpdater : public hkaRagdollInstance
 {
-    void FUN_00ce1ca0(const PoseVelocity_MyQsTransform* poseA, const PoseVelocity_MyQsTransform& worldFromModelA,
+    void ProcessEntries_00ce1ca0(const PoseVelocity_MyQsTransform* poseA, const PoseVelocity_MyQsTransform& worldFromModelA,
                       const PoseVelocity_MyQsTransform* poseB, const PoseVelocity_MyQsTransform& worldFromModelB,
                       float deltaTime);
 };
 
 // @fnv 0x00ce1ca0
-void PoseVelocity_RagdollPoseUpdater::FUN_00ce1ca0(const PoseVelocity_MyQsTransform* poseA,
+// src: GUESS 0x00ce1ca0 (confidence: low)
+void PoseVelocity_RagdollPoseUpdater::ProcessEntries_00ce1ca0(const PoseVelocity_MyQsTransform* poseA,
                                                    const PoseVelocity_MyQsTransform& worldFromModelA,
                                                    const PoseVelocity_MyQsTransform* poseB,
                                                    const PoseVelocity_MyQsTransform& worldFromModelB, float deltaTime)

@@ -270,7 +270,7 @@ struct FUN_006fd980_shell
     void* pBlock;
     int f18, f1c;
     FUN_006fd980_shell* pChildren[4];
-    void FUN_006fd7b0(int a);
+    void ClearSelectedParts(int a);
     void BGSTerrainNode_UnloadDataRecurse(int a);
 };
 // @fnv 0x006fd980
@@ -278,7 +278,7 @@ struct FUN_006fd980_shell
 void FUN_006fd980_shell::BGSTerrainNode_UnloadDataRecurse(int aiFlags)
 {
     if (pChunk || pBlock)
-        FUN_006fd7b0(aiFlags);
+        ClearSelectedParts(aiFlags);
     for (int i = 0; i < 4; i++)
     {
         if (pChildren[i])
@@ -592,12 +592,13 @@ struct FUN_006fd7b0_Owner
     int unk58;
     bool bCheckOwner;
 
-    void FUN_006fd7b0(unsigned int auiFlags);
+    void ClearSelectedParts(unsigned int auiFlags);
 };
 
 // Deletes pPartA/pPartB/pPartC according to auiFlags bits, conditionally keeping pPartA, and clears pFlagHolder->bActive.
 // @fnv 0x006fd7b0
-void FUN_006fd7b0_Owner::FUN_006fd7b0(unsigned int auiFlags)
+// src: GUESS 0x006fd7b0 (confidence: medium)
+void FUN_006fd7b0_Owner::ClearSelectedParts(unsigned int auiFlags)
 {
     if (bInitialized && pPartA && (auiFlags & 1))
     {
@@ -727,7 +728,7 @@ struct TerrainUpdate
     bool GetByteAtOffset5C();
     bool BGSTerrainNode_CheckMeshSolidUnderMe(bool);
     void UpdateTileFromChunk();
-    void FUN_006fd7b0(int);
+    void ClearSelectedParts(int);
     void BGSTerrainNode_UnloadDataRecurse(int);
     WorldRefUpdate* Get();
     bool BGSTerrainNode_CheckIntersectsLoadedRange();
@@ -759,7 +760,7 @@ void TerrainUpdate::UpdateTerrainNode(void* arg, bool update)
                 if (children[loadedIndex2]->chunk && children[loadedIndex2]->chunk->GetInitialized())
                     children[loadedIndex2]->UpdateTileFromChunk();
             }
-            FUN_006fd7b0(1);
+            ClearSelectedParts(1);
         }
         if (BGSTerrainNode_CheckMeshSolidUnderMe(true))
             childrenLoaded = true;
@@ -941,7 +942,7 @@ struct Thread006f
 };
 struct Ret006f
 {
-    Ret006f* FUN_00559450();
+    Ret006f* Modelloader_GetReferencedThis();
 };
 struct Node006f;
 struct FUN_006f5160
@@ -972,7 +973,7 @@ struct Node006f
     bool BGSTerrainNode_ShouldLoadBlock(int);
     bool BGSTerrainNode_ShouldLoadBlockLowPriority(int);
     void BGSTerrainNode_UpdateBlockVisibility(bool);
-    Ret006f* FUN_00559450();
+    Ret006f* Modelloader_GetReferencedThis();
     void UpdateBlock(int, bool);
 };
 // @fnv 0x006fdfc0
@@ -998,9 +999,9 @@ void Node006f::UpdateBlock(int a, bool abFlag)
             if (block)
             {
                 if (block->GetByteAtOffset35() && flag)
-                    block->ResetAndCreateTask(FUN_00559450()->FUN_00559450(), f4, f8, fa);
+                    block->ResetAndCreateTask(Modelloader_GetReferencedThis()->Modelloader_GetReferencedThis(), f4, f8, fa);
                 else if (!block->GetByteAtOffset35() && !flag)
-                    block->BGSDistantObjectBlock_SwitchToHigh(FUN_00559450()->FUN_00559450(), f4, f8, fa);
+                    block->BGSDistantObjectBlock_SwitchToHigh(Modelloader_GetReferencedThis()->Modelloader_GetReferencedThis(), f4, f8, fa);
             }
             if (block->GetField24())
                 block->BGSDistantObjectBlock_Detach();

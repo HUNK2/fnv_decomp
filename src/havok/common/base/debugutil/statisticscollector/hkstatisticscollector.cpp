@@ -11,11 +11,12 @@ struct FUN_00d06f70_s
     int* p;
     int x;
     int y;
-    void FUN_00d06f70();
+    void InitializeFields_00d06f70();
 };
 
 // @fnv 0x00d06f70
-void FUN_00d06f70_s::FUN_00d06f70()
+// src: GUESS 0x00d06f70 (confidence: low)
+void FUN_00d06f70_s::InitializeFields_00d06f70()
 {
     y = 0;
     p = &DAT_0102e388;

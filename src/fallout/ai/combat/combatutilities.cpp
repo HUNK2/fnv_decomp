@@ -574,9 +574,9 @@ struct S_009a68b0_Pt
     {}
     S_009a68b0_Pt(float a, float b, float c) : x(a), y(b), z(c)
     {}
-    S_009a68b0_Pt FUN_00439ef0(S_009a68b0_Pt* other);
+    S_009a68b0_Pt SubtractIntoVector(S_009a68b0_Pt* other);
     S_009a68b0_Pt FUN_00439e90(S_009a68b0_Pt* other);
-    S_009a68b0_Pt* FUN_00439180(float f);
+    S_009a68b0_Pt* ScaleComponents(float f);
     void Unitize_004a0c10();
 };
 
@@ -605,17 +605,17 @@ S_009a68b0_Pt CombatUtilities_ComputeFaceTargetLocation(Actor* ref, Actor* obj, 
     }
     else
     {
-        S_009a68b0_Pt diff = ((S_009a68b0_Pt*)static_cast<const TESObjectREFR*>((TESObjectREFR*)ref)->GetPos())->FUN_00439ef0(apPoint);
+        S_009a68b0_Pt diff = ((S_009a68b0_Pt*)static_cast<const TESObjectREFR*>((TESObjectREFR*)ref)->GetPos())->SubtractIntoVector(apPoint);
         diff.Unitize_004a0c10();
     }
-    dir3.FUN_00439180(CombatUtilities_ComputeFaceTargetDistance(ref, obj, f));
+    dir3.ScaleComponents(CombatUtilities_ComputeFaceTargetDistance(ref, obj, f));
     return apPoint->FUN_00439e90(&dir3);
 }
 
 struct ConePoint
 {
     float x, y, z;
-    ConePoint FUN_00439ef0(const ConePoint& kOther) const;
+    ConePoint SubtractIntoVector(const ConePoint& kOther) const;
     float FUN_00457990() const;
 };
 
@@ -909,7 +909,7 @@ bool __cdecl IsTargetInCone(Actor* pkShooter, Actor* pkTarget, float* pfAngleOut
     if (pkShooter == (Actor*)g_thePlayer_011dea3c && pkShooter->FUN_008d8520() && ((ConeProcess*)pkShooter->FUN_008d8520())->GetLoadedForm() &&
         ((ConeProcess*)pkShooter->FUN_008d8520())->GetLoadedForm()->FUN_0048f7f0())
         iSkillOut = ((ConeProcess*)pkShooter->FUN_008d8520())->GetLoadedForm()->FUN_0048f7f0()->FUN_005f2420();
-    ConePoint kDeltaA = ((ConePoint*)static_cast<const TESObjectREFR*>(pkTarget)->GetPos())->FUN_00439ef0(*(ConePoint*)static_cast<const TESObjectREFR*>(pkShooter)->GetPos());
+    ConePoint kDeltaA = ((ConePoint*)static_cast<const TESObjectREFR*>(pkTarget)->GetPos())->SubtractIntoVector(*(ConePoint*)static_cast<const TESObjectREFR*>(pkShooter)->GetPos());
     float fHeadingLoc = FUN_004b1550(&kDeltaA);
     float fAimDirectionOffset = 0.0f;
     if (pkShooter == (Actor*)g_thePlayer_011dea3c)
@@ -1062,7 +1062,7 @@ extern GlobalSetting g_011cfb78;
 // @fnv 0x009a7e00
 float __cdecl ComputeProjectileFlightTime(BGSProjectile* actor, NiPoint3 from, NiPoint3 to, bool flag, float speed)
 {
-    NiPoint3 vDelta = from.FUN_00439ef0(to);
+    NiPoint3 vDelta = from.SubtractIntoVector(to);
     float fVel = speed;
     if (speed == DAT_01012060)
     {
@@ -1225,7 +1225,7 @@ extern float DAT_011a5594;
 
 struct NiVecOps
 {
-    void __thiscall FUN_00439ef0(CombatPoint3* tmp, CombatPoint3* src);
+    void __thiscall SubtractIntoVector(CombatPoint3* tmp, CombatPoint3* src);
     float __thiscall FUN_004a7290();
     CombatPoint3* __thiscall ApplyScaled(CombatPoint3* out, float scale);
     CombatPoint3* __thiscall FUN_00439e90(CombatPoint3* tmp, CombatPoint3* ret);
@@ -1249,7 +1249,7 @@ CombatPoint3* __cdecl CombatUtilities_GetAngleToProjectedPoint_009a8970(CombatPo
         return out;
     }
 
-    reinterpret_cast<NiVecOps*>(&c)->FUN_00439ef0(&tmp, &b);
+    reinterpret_cast<NiVecOps*>(&c)->SubtractIntoVector(&tmp, &b);
     t3 = reinterpret_cast<NiVecOps*>(&tmp)->FUN_004a7290();
 
     if ((double)t3 == DAT_01012060)
@@ -1292,7 +1292,7 @@ struct TrajWeapon
 
 void __cdecl GetTargetLocationWithOffset(TrajVec* out, void* a3, int mode);
 void __cdecl GetTriple12(TrajVec* out, void* a3);
-void __cdecl FUN_009a8df0(TrajOut* out, Actor* target, TrajVec p, TrajVec q, void* a4, BGSProjectile* actor, float speed,
+void __cdecl BGSProjectile_UpdateState_009a8df0(TrajOut* out, Actor* target, TrajVec p, TrajVec q, void* a4, BGSProjectile* actor, float speed,
                           bool flag);
 
 extern "C" double DAT_01012060;
@@ -1351,7 +1351,7 @@ TrajOut* __cdecl ComputeTrajectory(TrajOut* out, Actor* target, void* a3, void* 
     GetTargetLocationWithOffset(&t3, a3, mode);
     TrajVec t2;
     GetTriple12(&t2, a3);
-    FUN_009a8df0(out, target, t3, t2, a4, actor, speed, flag);
+    BGSProjectile_UpdateState_009a8df0(out, target, t3, t2, a4, actor, speed, flag);
     return out;
 }
 
@@ -1372,14 +1372,15 @@ struct S_009a8d80_P3
 };
 extern S_009a8d80_P3 DAT_011f426c;
 struct S_009a8d80_Obj;
-S_009a8d80_P3 __cdecl FUN_009a8df0(TESObjectREFR* a1, S_009a8d80_P3 a2, S_009a8d80_P3 a3, S_009a8d80_Obj* a4,
+S_009a8d80_P3 __cdecl BGSProjectile_UpdateState_009a8df0(TESObjectREFR* a1, S_009a8d80_P3 a2, S_009a8d80_P3 a3, S_009a8d80_Obj* a4,
                                    BGSProjectile* a5, float a6, bool a7);
 // Forwards the reference, the point dereferenced from a2, DAT_011f426c, a3, a4, a5 and a6 to FUN_009a8df0 and returns its result.
 // @fnv 0x009a8d80
-S_009a8d80_P3 __cdecl FUN_009a8d80(TESObjectREFR* a1, const S_009a8d80_P3* pPoint, S_009a8d80_Obj* a3,
+// src: GUESS 0x009a8d80 (confidence: low)
+S_009a8d80_P3 __cdecl TESObjectREFR_ForwardCall_009a8d80(TESObjectREFR* a1, const S_009a8d80_P3* pPoint, S_009a8d80_Obj* a3,
                                    BGSProjectile* a4, float a5, bool a6)
 {
-    return FUN_009a8df0(a1, *pPoint, DAT_011f426c, a3, a4, a5, a6);
+    return BGSProjectile_UpdateState_009a8df0(a1, *pPoint, DAT_011f426c, a3, a4, a5, a6);
 }
 }  // namespace fnv_009a8d80
 
@@ -1396,7 +1397,8 @@ void __cdecl CombatUtilities_GetProjectedPointForTarget(FUN_009a8df0_vec* out, F
                           float f2, unsigned char flag);
 
 // @fnv 0x009a8df0
-FUN_009a8df0_vec* __cdecl FUN_009a8df0(FUN_009a8df0_vec* out, int a2, FUN_009a8df0_vec vecB, FUN_009a8df0_vec vecA,
+// src: GUESS 0x009a8df0 (confidence: low)
+FUN_009a8df0_vec* __cdecl BGSProjectile_UpdateState_009a8df0(FUN_009a8df0_vec* out, int a2, FUN_009a8df0_vec vecB, FUN_009a8df0_vec vecA,
                                        FUN_009a8df0_vec* p28, BGSProjectile* obj, float a30, unsigned char a34)
 {
     float f;
@@ -1429,7 +1431,7 @@ FUN_009a8df0_vec* __cdecl FUN_009a8df0(FUN_009a8df0_vec* out, int a2, FUN_009a8d
 struct AimPoint
 {
     float x, y, z;
-    AimPoint FUN_00439ef0(const AimPoint& kOther) const;
+    AimPoint SubtractIntoVector(const AimPoint& kOther) const;
     AimPoint FUN_00439e90(const AimPoint& kOther) const;
     AimPoint ApplyScaled(float fScale) const;
     float FUN_00457990() const;
@@ -1460,7 +1462,7 @@ AimPoint __cdecl CombatUtilities_GetProjectedPointForTarget(AimPoint kTarget, Ai
         float fDist = 0.0f;
         for (int i = 0; i < iIterationsVal2; i++)
         {
-            AimPoint kDiff = kPos4.FUN_00439ef0(kTarget);
+            AimPoint kDiff = kPos4.SubtractIntoVector(kTarget);
             fDist = kDiff.FUN_00457990();
             if (fDist < 1.0 || fDist > 8192.0)
                 break;
@@ -1475,7 +1477,7 @@ AimPoint __cdecl CombatUtilities_GetProjectedPointForTarget(AimPoint kTarget, Ai
         float fAngleTmp = 0.0f;
         for (int j = 0; j < iIterationsVal2; j++)
         {
-            AimPoint kDelta = kPos4.FUN_00439ef0(kTarget);
+            AimPoint kDelta = kPos4.SubtractIntoVector(kTarget);
             kFHeight = kDelta.z;
             kDelta.z = 0.0f;
             fHorizDistX = kDelta.FUN_00457990();
@@ -1485,7 +1487,7 @@ AimPoint __cdecl CombatUtilities_GetProjectedPointForTarget(AimPoint kTarget, Ai
             kFTime = CombatUtilities_ComputeProjectileTime(fHorizDistX, fAngleTmp, fSpeed);
             kPos4 = kStart.FUN_00439e90(kMotionVelocity.ApplyScaled(kFTime));
         }
-        AimPoint kFlatVal2 = kPos4.FUN_00439ef0(kTarget);
+        AimPoint kFlatVal2 = kPos4.SubtractIntoVector(kTarget);
         kFlatVal2.z = 0.0f;
         fHorizDistX = kFlatVal2.FUN_00457990();
         kPos4.z = tan_0057dd70(fAngleTmp) * fHorizDistX + kTarget.z;
@@ -1496,7 +1498,7 @@ AimPoint __cdecl CombatUtilities_GetProjectedPointForTarget(AimPoint kTarget, Ai
 struct S_009a9180_Weapon
 {
     float TESCombatStyle_GetWeaponMinRangeMult();
-    float FUN_00508050();
+    float GetFieldAtOffset44();
 };
 
 struct S_009a9180_Data
@@ -1529,7 +1531,7 @@ void CombatUtilities_ComputeOptimalWeaponRanges(Actor* pActor, S_009a9180_Data* 
         if (!pData->IsFlag20Set())
         {
             *pfMin = pWeapon->TESCombatStyle_GetWeaponMinRangeMult() * *pfMin;
-            *pfMax = pWeapon->FUN_00508050() * *pfMax;
+            *pfMax = pWeapon->GetFieldAtOffset44() * *pfMax;
         }
         *pfDerived = *pfMax * *DAT_011ce87c.Setting_Float_00403e20();
         BGSProjectile* pObj = pData->GetOrFallback(pActor->GetFieldBC());
@@ -1548,7 +1550,7 @@ void CombatUtilities_ComputeOptimalWeaponRanges(Actor* pActor, S_009a9180_Data* 
     else
     {
         *pfMin = pWeapon->TESCombatStyle_GetWeaponMinRangeMult() * *pfMin;
-        *pfMax = pWeapon->FUN_00508050() * *pfMax;
+        *pfMax = pWeapon->GetFieldAtOffset44() * *pfMax;
         *pfDerived = *pfMax * *DAT_011ce87c.Setting_Float_00403e20();
     }
 }
@@ -1558,7 +1560,7 @@ struct DebugPoint
     float x;
     float y;
     float z;
-    DebugPoint FUN_00439ef0(const DebugPoint& kPt) const;
+    DebugPoint SubtractIntoVector(const DebugPoint& kPt) const;
     DebugPoint ApplyScaled(float fScale) const;
     DebugPoint FUN_00439e90(const DebugPoint& kPt) const;
 };
@@ -1582,7 +1584,7 @@ void __cdecl DrawDebugLine(const DebugPoint& kStart, const DebugPoint& kEnd, int
 {
     NiColorA aKTipColor = pkTipColor ? *pkTipColor : NiColorA(1.0f, 0.0f, 0.0f, 1.0f);
     NiColorA kLineColor6 = pkLineColor ? *pkLineColor : NiColorA(1.0f, 1.0f, 0.0f, 1.0f);
-    DebugPoint kMid = bScaled ? (kEnd.FUN_00439ef0(kStart)).ApplyScaled(fScale).FUN_00439e90(kStart) : kEnd;
+    DebugPoint kMid = bScaled ? (kEnd.SubtractIntoVector(kStart)).ApplyScaled(fScale).FUN_00439e90(kStart) : kEnd;
     NiAVObject* pkLine_ = MakeLine(kStart, kLineColor6, kMid, kLineColor6, true);
     g_TES->FUN_00458e20(pkLine_, *g_011f1c24.Float());
     if (bScaled)
@@ -1727,7 +1729,7 @@ bool AssignCombatPlanAngles(Actor* apRef, Actor* apTargetRef)
                                 holder[layout.count].pos = *(NiPoint3*)slot->FUN_00436aa0();
                                 holder[layout.count].angle =
                                     57.2957763671875f *
-                                    GetDirectionAngle(holder[layout.count].pos.FUN_00439ef0(*(const NiPoint3*)&layout.origin));
+                                    GetDirectionAngle(holder[layout.count].pos.SubtractIntoVector(*(const NiPoint3*)&layout.origin));
                                 holder[layout.count].dir = (char)ScaleByRatio(holder[layout.count].angle);
                                 if ((m->FUN_004fd3e0() != 0) && (1 == m->FUN_004fd3e0()->GetType()))
                                 {

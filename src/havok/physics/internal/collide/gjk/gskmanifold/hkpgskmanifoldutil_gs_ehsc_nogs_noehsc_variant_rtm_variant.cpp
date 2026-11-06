@@ -154,7 +154,7 @@ static __forceinline __m128 Dot3_3vs3(const __m128& a0, const __m128& b0, const 
     m2 = ctmp;
     return _mm_add_ps(_mm_add_ps(m0, m1), m2);
 }
-static int FUN_00dad720(S_00dad720_Rec* rec, S_00dad720_Vec* vecs, S_00dad720_Out* out);
+static int Object_ProcessAndReturnValue_00dad720(S_00dad720_Rec* rec, S_00dad720_Vec* vecs, S_00dad720_Out* out);
 volatile int g_rec;
 volatile int g_vecs;
 volatile int g_out;

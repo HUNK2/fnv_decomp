@@ -265,7 +265,7 @@ void BoxEmitterInit::NiPSysBoxEmitter_ComputeVolumeInitialPositionAndVelocity(co
     float fY = rand() / DAT_01029790;
     float fZ = rand() / DAT_01029790;
     kPos = NiPoint3((fZ - 0.5f) * width, (fY - 0.5f) * height, (fX - 0.5f) * depth);
-    kPos = kTransform.FUN_00524c40(kPos);
+    kPos = kTransform.ComputeValue_00524c40(kPos);
     kWorldPosition = NiPoint3(reinterpret_cast<const NiPoint3*>(&kRot.m_pEntry[0][0])->Dot(kWorldPosition),
                               kRot.m_pEntry[1][0] * kWorldPosition.x + kRot.m_pEntry[1][1] * kWorldPosition.y +
                                   kRot.m_pEntry[1][2] * kWorldPosition.z,

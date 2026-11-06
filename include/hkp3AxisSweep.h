@@ -106,7 +106,7 @@ public:
     void removeObject(unsigned int* handle, SweepPairsX* pairs);
     void calcAabbCache(ItemList* items, unsigned int out);
     __declspec(noinline) void calcAabbCacheInternal(Blk* array, unsigned int out);
-    __declspec(noinline) void FUN_00d10b30(Node16* buf, int index, Node16* node);
+    __declspec(noinline) void Hkp3axissweepGsEhscNogsNoehsc_ProcessEntries_00d10b30(Node16* buf, int index, Node16* node);
     void addObject_00d142b0(int* handle, Input* input, PairArr* outPairs);
     void removeObjectBatch(RemovedHandleList* removed, int pairs);
 

@@ -50,11 +50,12 @@ struct BoolGuard
 struct Cls
 {
     void __thiscall Other(int value);
-    void FUN_00626420(int value);
+    void UpdateFields_00626420(int value);
 };
 
 // @fnv 0x00626420
-void Cls::FUN_00626420(int value)
+// src: GUESS 0x00626420 (confidence: low)
+void Cls::UpdateFields_00626420(int value)
 {
     BoolGuard g = {};
     Other(g.Get(this, value));

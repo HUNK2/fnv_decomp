@@ -246,7 +246,8 @@ void TESCreature::SetByteAt12D(unsigned char aiVal)
 }
 
 // @fnv 0x005fbdb0
-void TESCreature::FUN_005fbdb0(unsigned char aeType)
+// src: GUESS 0x005fbdb0 (confidence: medium)
+void TESCreature::SetTypeAtOffset12C(unsigned char aeType)
 {
     *((char*)this + 0x12c) = aeType;
 }
@@ -1018,7 +1019,7 @@ void __cdecl TESForm_AddChunk_00485910(unsigned int, int);
 // @fnv 0x005f7c20
 void TESCreature::SaveForm()
 {
-    FUN_004855a0();
+    BeginFormRecord();
     TESFullName::Save_00487010();
     TESModel::WriteToBuffer(0x4c444f4d, 0x54444f4d);
     TESSpellList::TESSpellList_SaveSubRecord();
@@ -1080,7 +1081,7 @@ void TESCreature::SaveForm()
         unsigned int weaponId = ((TESForm*)m_pCreatureListForm)->GetHavokWorldObjectCountInSceneGraph_0084e3a0();
         TESForm_AddChunk_00485910(0x4d414e4c, weaponId);
     }
-    FUN_00485680();
+    FinishFormRecord();
 }
 
 extern "C" void* _alloca(unsigned int);
@@ -1500,7 +1501,7 @@ struct ExtraDataNode
 struct InventoryEntryData
 {
     TESBoundObject* FUN_0044ddc0();
-    ExtraDataNode* FUN_00559450();
+    ExtraDataNode* Modelloader_GetReferencedThis();
     int FUN_00726070();
     ~InventoryEntryData();
 };
@@ -1540,8 +1541,8 @@ void TESCreature::UpdateModel3D(TESObjectREFR* reference, bool unused, bool equi
         if (aWeapon && !reference->TESObjectREFR_WearingObject(aWeapon->FUN_0044ddc0()))
         {
             ExtraDataList* extra = 0;
-            if (aWeapon->FUN_00559450())
-                extra = aWeapon->FUN_00559450()->FUN_006815c0();
+            if (aWeapon->Modelloader_GetReferencedThis())
+                extra = aWeapon->Modelloader_GetReferencedThis()->FUN_006815c0();
             reference->EquipItem(aWeapon->FUN_0044ddc0(), aWeapon->FUN_00726070(), extra, false);
         }
     }

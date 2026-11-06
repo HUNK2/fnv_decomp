@@ -49,7 +49,7 @@ struct Object858
 
 struct Payload858
 {
-    void FUN_00d85ba0(const Payload858* pkSrc);
+    void ProcessAndReturnValue_00d85ba0(const Payload858* pkSrc);
     void AssignFrom(const Payload858* pkSrc);
     void CopyStateFrom(const Payload858* pkSrc);
 };
@@ -96,7 +96,7 @@ Object858* __cdecl hkpConstraintDataCloningUtil_cloneIfCanHaveMotors(Object858* 
     {
     case 7: {
         Type7Object858* pkResult = Allocate858(0x140)->FUN_00cdf2f0();
-        pkResult->kPayload.FUN_00d85ba0(&((Type7Object858*)pkSource)->kPayload);
+        pkResult->kPayload.ProcessAndReturnValue_00d85ba0(&((Type7Object858*)pkSource)->kPayload);
         pkResult->iValue = pkSource->iValue;
         Clonable858** ppkChildren = pkResult->apkChildren;
         for (int i = 0; i < 3; i++)
@@ -156,7 +156,7 @@ struct Node858 : Object858
     int unk14;
     Object858* pkChild;
     float unk1c;
-    Object858* FUN_00cdf6d0();
+    Object858* GetFieldC();
 };
 struct Breakable858 : Object858
 {
@@ -287,7 +287,7 @@ Object858* __cdecl hkpConstraintDataCloningUtil_deepClone(Object858* pkSource)
     }
     case 13: {
         Node858* pkNode = (Node858*)pkSource;
-        Object858* pkChild = hkpConstraintDataCloningUtil_deepClone(pkNode->FUN_00cdf6d0());
+        Object858* pkChild = hkpConstraintDataCloningUtil_deepClone(pkNode->GetFieldC());
         if (!pkChild)
             return 0;
         Node858* pkClone = AllocA<Raw858b>(0x20)->FUN_00cdf710(pkChild);

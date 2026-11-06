@@ -20,18 +20,19 @@
 
 struct FUN_006e0590_shell
 {
-    void FUN_006e0590();
+    void ForwardCall_006e0590();
 };
 
 struct FUN_006e10a0_shell
 {
-    void FUN_006e10a0();
+    void ResetVirtualTableAndClear_006e10a0();
 };
 
 // @fnv 0x006e0590
-void FUN_006e0590_shell::FUN_006e0590()
+// src: GUESS 0x006e0590 (confidence: low)
+void FUN_006e0590_shell::ForwardCall_006e0590()
 {
-    ((FUN_006e10a0_shell*)(reinterpret_cast<char*>(this) + 4))->FUN_006e10a0();
+    ((FUN_006e10a0_shell*)(reinterpret_cast<char*>(this) + 4))->ResetVirtualTableAndClear_006e10a0();
 }
 
 // @fnv 0x006a62f0
@@ -94,7 +95,7 @@ struct FUN_006e0560_shell : FUN_006e0590_shell
 // @fnv 0x006e0560
 void* __thiscall FUN_006e0560_shell::DestroyIfFlagged(unsigned int flags)
 {
-    FUN_006e0590();
+    ForwardCall_006e0590();
     if (flags & 1)
         ::operator delete(this);
     return this;
@@ -251,12 +252,13 @@ struct FUN_006df9c0_shell
     BSSimpleArray<signed char> m_aiIndexedValues;
     unsigned char pad2[0x14];
 
-    void __thiscall FUN_006df9c0(BGSSaveGameBuffer*);
+    void __thiscall SaveFields_006df9c0(BGSSaveGameBuffer*);
 };
 
 // Saves the byte, a 4-byte value at offset 0x18, and, when m_byte is zero, the count and each element returned by FUN_006e0ed0.
 // @fnv 0x006df9c0
-void __thiscall FUN_006df9c0_shell::FUN_006df9c0(BGSSaveGameBuffer* buffer)
+// src: GUESS 0x006df9c0 (confidence: medium)
+void __thiscall FUN_006df9c0_shell::SaveFields_006df9c0(BGSSaveGameBuffer* buffer)
 {
     buffer->SaveData(this, 1, 0);
     buffer->SaveData((void*)((char*)this + 0x18), 4, 0);
@@ -414,7 +416,7 @@ struct NavMeshKey;
 
 struct NavMeshLookup
 {
-    NavMeshLookup* __thiscall FUN_00559450();
+    NavMeshLookup* __thiscall Modelloader_GetReferencedThis();
     unsigned char* __thiscall GetTriangleScore(NavMeshLookup* rhs);
     bool __thiscall FUN_0069ad00(NavMeshKey* key);
     IndexList* __thiscall NavMesh_GetTrianglesForGridCell(unsigned int identifier);
@@ -425,7 +427,7 @@ struct NavMeshKey
     NavMeshLookup* pointer;
     NavMeshKey();
     ~NavMeshKey();
-    NavMeshLookup* __thiscall FUN_00559450();
+    NavMeshLookup* __thiscall Modelloader_GetReferencedThis();
 };
 
 typedef BSSimpleArray<signed char> NavMeshResults;
@@ -447,7 +449,7 @@ struct FUN_006df440_owner
 // @fnv 0x006df440
 bool FUN_006df440_owner::InitFromLookup(NavMeshLookup* apLookup)
 {
-    unsigned char* const bytes = apLookup->FUN_00559450()->GetTriangleScore(lookup->FUN_00559450());
+    unsigned char* const bytes = apLookup->Modelloader_GetReferencedThis()->GetTriangleScore(lookup->Modelloader_GetReferencedThis());
     if (!bytes)
         return false;
 
@@ -455,7 +457,7 @@ bool FUN_006df440_owner::InitFromLookup(NavMeshLookup* apLookup)
     if (!lookup->FUN_0069ad00(&key))
         return false;
 
-    IndexList* const indices = key.FUN_00559450()->NavMesh_GetTrianglesForGridCell(identifier);
+    IndexList* const indices = key.Modelloader_GetReferencedThis()->NavMesh_GetTrianglesForGridCell(identifier);
     if (!indices)
         return false;
 
@@ -815,7 +817,7 @@ struct FUN_0044edb0_shell
 };
 struct FUN_00559450_shell
 {
-    void* __thiscall FUN_00559450(unsigned int*);
+    void* __thiscall Modelloader_GetReferencedThis(unsigned int*);
 };
 struct FUN_00853130_shell
 {
@@ -845,7 +847,7 @@ bool __thiscall FUN_006e0b50_cls::PathingLOSGridMap_IsLocationSeen(void* aArg)
         return false;
     }
     value = 0;
-    if (((FUN_00853130_shell*)((char*)this + 8))->FUN_00853130(((FUN_00559450_shell*)pHolder)->FUN_00559450(&value)))
+    if (((FUN_00853130_shell*)((char*)this + 8))->FUN_00853130(((FUN_00559450_shell*)pHolder)->Modelloader_GetReferencedThis(&value)))
     {
         return ((FUN_006dfdc0_shell*)value)->PathingLOSGrid_IsLocationSeen(aArg);
     }
@@ -929,7 +931,7 @@ bool __thiscall Owner6df780::UpdateNavMeshResults(PathingLocation* a1, unsigned 
     NavMeshKey key;
     if (!lookup->FUN_0069ad00(&key))
         return false;
-    IndexList* list3 = key.FUN_00559450()->NavMesh_GetTrianglesForGridCell(identifier);
+    IndexList* list3 = key.Modelloader_GetReferencedThis()->NavMesh_GetTrianglesForGridCell(identifier);
     if (valid)
     {
         if (a2)

@@ -178,12 +178,13 @@ struct S_00e064f0_Obj : hkReferencedObject
 struct FUN_00e064f0_class
 {
     int unk00, unk04, unk08, unk0C, unk10;
-    S_00e064f0_Obj* FUN_00e064f0();
+    S_00e064f0_Obj* AllocateStorage_00e064f0();
 };
 
 // Allocates an S_00e064f0_Obj, copies unk0C bytes from unk08+(unk10-unk0C) into its array, frees unk10, clears unk10 and unk0C, and sets unk08 to the old count.
 // @fnv 0x00e064f0
-S_00e064f0_Obj* FUN_00e064f0_class::FUN_00e064f0()
+// src: GUESS 0x00e064f0 (confidence: low)
+S_00e064f0_Obj* FUN_00e064f0_class::AllocateStorage_00e064f0()
 {
     int n = unk0C;
     S_00e064f0_Obj* pNewObj = new S_00e064f0_Obj;

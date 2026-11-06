@@ -46,13 +46,13 @@ GlobalObjectO2_00a7b610* FUN_004392e0_shell::GetGlobalObject()
     return &g_011f4408;
 }
 
-extern "C" void __cdecl FUN_00439320();
+extern "C" void __cdecl ForwardCall_00439320();
 extern "C" void __cdecl __Dummy_00b6fef0(void*, unsigned int);
 
 // @fnv 0x004392f0
 void* NiAlphaProperty::FUN_004392f0(unsigned int flags)
 {
-    this->NiAlphaProperty::FUN_00439320();
+    this->NiAlphaProperty::ForwardCall_00439320();
     if (flags & 1)
         __Dummy_00b6fef0(this, 0x1c);
     return this;
@@ -240,20 +240,20 @@ bool __cdecl BoundIntersectsCell(BoundRef* pRef, int m_iGridPositionX, int m_iGr
         NiPoint3 kCenterZ = pRef->GetBoundCenter();
         const NiMatrix3 kRot9 = pRef->TESObjectREFR_GetOrientation();
         kRot9.GetCol(0, kXY);
-        kXY.FUN_00439180(kExtentLoc.x);
+        kXY.ScaleComponents(kExtentLoc.x);
         kRot9.GetCol(1, kY_);
-        kY_.FUN_00439180(kExtentLoc.y);
+        kY_.ScaleComponents(kExtentLoc.y);
         kRot9.GetCol(2, kZ6);
-        kZ6.FUN_00439180(kExtentLoc.z);
+        kZ6.ScaleComponents(kExtentLoc.z);
 
         akCornersY[0] = kCenterZ.FUN_00439e90(kXY).FUN_00439e90(kY_).FUN_00439e90(kZ6);
-        akCornersY[1] = kCenterZ.FUN_00439e90(kXY).FUN_00439e90(kY_).FUN_00439ef0(kZ6);
-        akCornersY[2] = kCenterZ.FUN_00439e90(kXY).FUN_00439ef0(kY_).FUN_00439e90(kZ6);
-        akCornersY[3] = kCenterZ.FUN_00439e90(kXY).FUN_00439ef0(kY_).FUN_00439ef0(kZ6);
-        akCornersY[4] = kCenterZ.FUN_00439ef0(kXY).FUN_00439e90(kY_).FUN_00439e90(kZ6);
-        akCornersY[5] = kCenterZ.FUN_00439ef0(kXY).FUN_00439e90(kY_).FUN_00439ef0(kZ6);
-        akCornersY[6] = kCenterZ.FUN_00439ef0(kXY).FUN_00439ef0(kY_).FUN_00439e90(kZ6);
-        akCornersY[7] = kCenterZ.FUN_00439ef0(kXY).FUN_00439ef0(kY_).FUN_00439ef0(kZ6);
+        akCornersY[1] = kCenterZ.FUN_00439e90(kXY).FUN_00439e90(kY_).SubtractIntoVector(kZ6);
+        akCornersY[2] = kCenterZ.FUN_00439e90(kXY).SubtractIntoVector(kY_).FUN_00439e90(kZ6);
+        akCornersY[3] = kCenterZ.FUN_00439e90(kXY).SubtractIntoVector(kY_).SubtractIntoVector(kZ6);
+        akCornersY[4] = kCenterZ.SubtractIntoVector(kXY).FUN_00439e90(kY_).FUN_00439e90(kZ6);
+        akCornersY[5] = kCenterZ.SubtractIntoVector(kXY).FUN_00439e90(kY_).SubtractIntoVector(kZ6);
+        akCornersY[6] = kCenterZ.SubtractIntoVector(kXY).SubtractIntoVector(kY_).FUN_00439e90(kZ6);
+        akCornersY[7] = kCenterZ.SubtractIntoVector(kXY).SubtractIntoVector(kY_).SubtractIntoVector(kZ6);
 
         char aacFaces_2[8][4] = {{0, 1, 2, 4}, {3, 1, 2, 7}, {5, 1, 4, 7}, {6, 2, 4, 7}};
         NiPoint3 kKIntersect;

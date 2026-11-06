@@ -54,11 +54,12 @@ struct FnvVtObj
 {
     int m_vptr;
 
-    FnvVtObj* FUN_00e3f510(unsigned int unusedArg);
+    FnvVtObj* SetVptr_00e3f510(unsigned int unusedArg);
 };
 
 // @fnv 0x00e3f510
-FnvVtObj* FnvVtObj::FUN_00e3f510(unsigned int unusedArg)
+// src: GUESS 0x00e3f510 (confidence: low)
+FnvVtObj* FnvVtObj::SetVptr_00e3f510(unsigned int unusedArg)
 {
     m_vptr = (int)&DAT_010ebab8;
     return this;
@@ -163,12 +164,13 @@ class hkxAttributeMapE3F3
     hkArray<EnvironmentVariable> m_pCustomAttributes;
 
     int FindEntryByKey(const char* pcName) throw();
-    int FUN_00e3f3b0(const char* pcName, const char* pcValue) throw();
+    int SetOrRemoveCustomAttribute(const char* pcName, const char* pcValue) throw();
 };
 
 // Sets or removes a custom attribute by name, returning 1 if a missing attribute was requested for removal, otherwise 0.
 // @fnv 0x00e3f3b0
-int hkxAttributeMapE3F3::FUN_00e3f3b0(const char* pcName, const char* pcValue) throw()
+// src: GUESS 0x00e3f3b0 (confidence: high)
+int hkxAttributeMapE3F3::SetOrRemoveCustomAttribute(const char* pcName, const char* pcValue) throw()
 {
     int iIndex = FindEntryByKey(pcName);
     if (pcValue == 0)

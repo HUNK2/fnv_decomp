@@ -20,7 +20,7 @@ public:
     void Update();
     void SetValue(unsigned char);
     void* DestroyIfFlagged(unsigned int);
-    void FUN_00af3120();
+    void SetVirtualTable_00af3120();
     DownloadableContentManager& QDLCUtility();
     PathingRequest* QDLCUtility() const;
     void* QDLCUtility() volatile;

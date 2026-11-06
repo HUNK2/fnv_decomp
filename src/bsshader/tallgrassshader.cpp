@@ -227,7 +227,8 @@ void BSShaderProperty_SetFlagRecurse(Obj* pObj, int a, bool b)
 
 extern int DAT_010b8480;
 // @fnv 0x00ba9230
-void __fastcall FUN_00ba9230(void** self, int)
+// src: GUESS 0x00ba9230 (confidence: low)
+void __fastcall Tallgrassshader_ReleaseStorage_00ba9230(void** self, int)
 {
     void* p = self[1];
     self[0] = &DAT_010b8480;
@@ -981,7 +982,7 @@ bool Shader_bad060::TallGrassShader_LoadStagesAndPasses()
     return true;
 }
 
-extern "C" void* __cdecl FUN_00aa13e0(unsigned int);
+extern "C" void* __cdecl Object_DispatchCommandFour(unsigned int);
 extern "C" char DAT_010a1e50, DAT_010af648, DAT_01011584;
 extern "C" char DAT_010b8c54, DAT_010b8c48, DAT_010b8c34, DAT_010b8c24;
 extern "C" char DAT_010b8c10, DAT_010b8bfc, DAT_010b8bec;
@@ -991,7 +992,7 @@ struct ShaderVariableMap : RefObj_bacd00
     ShaderVariableMap(void* context, int mode);
     static void* operator new(unsigned int)
     {
-        return FUN_00aa13e0(0x44);
+        return Object_DispatchCommandFour(0x44);
     }
     virtual void Register(const void* name, unsigned int type, int a, int b, int c, const void* desc, int stride,
                           int count, const void* data, int optional);

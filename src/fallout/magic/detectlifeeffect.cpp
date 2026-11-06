@@ -146,7 +146,7 @@ bool __cdecl UpdateEffectShaderOnActor(Actor* pkRef, bool bStopEffect)
     float fDistSq = fZero * *DAT_011d15e0.Setting_Float_00403e20();
     fDistSq *= fDistSq;
     NiPoint3 kPlayerPos9 = *static_cast<const Actor*>(DAT_011dea3c)->GetPos();
-    if (static_cast<const NiPoint3&>(kPlayerPos9).FUN_00439ef0(*static_cast<const Actor*>(pkRef)->GetPos()).FUN_004a7290() < fDistSq && !pkRef->HasHealth(false) &&
+    if (static_cast<const NiPoint3&>(kPlayerPos9).SubtractIntoVector(*static_cast<const Actor*>(pkRef)->GetPos()).FUN_004a7290() < fDistSq && !pkRef->HasHealth(false) &&
         !pkRef->MobileObject::FUN_008d8520()->FUN_0045cd60() && !pkRef->FUN_00477ba0())
     {
         if (!bStopEffect)

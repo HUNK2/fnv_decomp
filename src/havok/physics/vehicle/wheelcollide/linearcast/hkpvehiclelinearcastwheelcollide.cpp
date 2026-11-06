@@ -488,7 +488,7 @@ struct __declspec(align(16)) LCCastInput
 
 struct FUN_006212c0_Context
 {
-    void FUN_006212c0(void* data);
+    void InitializeFields_006212c0(void* data);
 };
 
 // Casts the wheel's shape, writes a hit flag byte through hitOut, and on a hit passes the cast data to context via FUN_006212c0.
@@ -522,7 +522,7 @@ void hkpVehicleLinearCastWheelCollide::CastWheel(int hitOut, hkUint32 b, hkUint8
 
     if (input.m_50 != 0)
     {
-        ((FUN_006212c0_Context*)(*(volatile int*)&context))->FUN_006212c0(&input.m_30);
+        ((FUN_006212c0_Context*)(*(volatile int*)&context))->InitializeFields_006212c0(&input.m_30);
         hkUint8* __restrict pHitOut = (hkUint8*)(*(volatile int*)&hitOut);
         *pHitOut = 1;
     }

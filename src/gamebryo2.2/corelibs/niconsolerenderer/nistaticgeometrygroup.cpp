@@ -510,7 +510,7 @@ VbNode* __fastcall GetOrCreateNode(NiStaticGeometryGroup* group, void*, VbDesc* 
     return r;
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int n);
+void* __cdecl Object_DispatchCommandFour(unsigned int n);
 void __cdecl NiVBSet_DetermineUsageAndPool(void* object);
 struct S00e94b80_Unknown
 {
@@ -524,7 +524,7 @@ struct S00e94b80_Heap
 static S00e94b80_Heap s00e94b80_heap;
 inline void* operator new(unsigned int n, S00e94b80_Heap) throw()
 {
-    return FUN_00aa13e0(n);
+    return Object_DispatchCommandFour(n);
 }
 // Allocates a FUN_00e94b00, assigns its fields, AddRefs b when nonnull, releases the prior stored pointer otherwise, and calls FUN_00e941a0.
 // @fnv 0x00e94b80

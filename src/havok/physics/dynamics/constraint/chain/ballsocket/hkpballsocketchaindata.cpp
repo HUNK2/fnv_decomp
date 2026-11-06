@@ -143,7 +143,8 @@ void hkpBallSocketChainData::InitChainData(char* out)
 
 extern int g_target_00d53c90;
 // @fnv 0x00d53c90
-void* FUN_00d53c90()
+// src: GUESS 0x00d53c90 (confidence: low)
+void* hkpBallSocketChainData_GetTarget00d53c90Address()
 {
     return &g_target_00d53c90;
 }

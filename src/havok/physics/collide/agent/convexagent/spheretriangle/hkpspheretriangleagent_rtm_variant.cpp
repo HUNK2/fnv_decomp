@@ -65,10 +65,10 @@ public:
     PacketCallLocal_00d3dd90(const LocalM128& vector);
 
     PacketCallLocal_00d3dd90* hkVector4_hkVector4(float x, float y, float z, float w);
-    void FUN_004a3f10(PacketCallLocal_00d3dd90* vector);
-    void __thiscall FUN_004b4db0(const PacketCallLocal_00d3dd90* vector);
-    PacketCallLocal_00d3dd90& FUN_00e531a0(int parameter);
-    PacketCallLocal_00d3dd90 FUN_00e53260(int parameter);
+    void SetValue(PacketCallLocal_00d3dd90* vector);
+    void __thiscall SetQuaternionComponentsFromVector(const PacketCallLocal_00d3dd90* vector);
+    PacketCallLocal_00d3dd90& ComputeValue_00e531a0(int parameter);
+    PacketCallLocal_00d3dd90 ProcessAndReturnValue_00e53260(int parameter);
     void normalize_005611c0();
 
     void operator=(const PacketCallLocal_00d3dd90& vector);
@@ -147,8 +147,8 @@ struct Functor_d3e110 {
     float m_fHitFraction;
     int m_uiFilterValue;
 };
-void __cdecl FUN_00d3d8c0(int a, int b, int c, Functor_d3e110* f);
-void __cdecl FUN_00d3e110(int a, int b, int aiArg3, int d);
+void __cdecl hkpCdBody_ProcessAndReturnValue_00d3d8c0(int a, int b, int c, Functor_d3e110* f);
+void __cdecl Hkpspheretriangleagent_UpdateState_00d3e110(int a, int b, int aiArg3, int d);
 struct SpawnedInner
 {
     virtual void unk00();

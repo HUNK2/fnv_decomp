@@ -14,7 +14,7 @@ public:
     virtual MoppCodeHeader* slotB4(char* pAllocated);
 
     void* GetHavokShape();
-    void* FUN_004ae750();
+    void* Bipedanim_GetReferenceFlagsOrZero();
     void bhkSphereShape_Init(float radius);
     void bhkShape_CopyMembers(void* a, ArgB* b);
     void CopyMembers_00ca0740(void* a, ArgB* b);

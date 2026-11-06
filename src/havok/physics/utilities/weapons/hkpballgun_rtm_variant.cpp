@@ -196,7 +196,7 @@ template <typename T> struct CapacityGrowingArray
 };
 
 void hkpInertiaTensorComputer_setShapeVolumeMassProperties(const hkpShapeBase* shape, hkReal mass, FUN_00cf5ea0& out);
-int FUN_00e464e0(hkpWorld* world, const hkVector4& start, hkReal radius, const hkVector4& end,
+int hkpWorldq_CastSphereAndStoreHit(hkpWorld* world, const hkVector4& start, hkReal radius, const hkVector4& end,
                  hkpBallGunSweepOutput& output);
 void hkpFirstPersonGun_calcVelocityToTarget(const hkVector4& position, const hkVector4& target, const hkVector4& gravity,
                   hkReal speed, hkVector4& velocityOut);
@@ -228,7 +228,7 @@ void __fastcall fireBallGun(hkpBallGun* gun, void*, hkpWorld* world, const hkQua
     ci.m_vContactPosition.setAdd4(start, gun->m_kBulletDirection);
 
     hkpBallGunSweepOutput output;
-    if (!FUN_00e464e0(world, start, gun->m_fBulletRadius, end, output))
+    if (!hkpWorldq_CastSphereAndStoreHit(world, start, gun->m_fBulletRadius, end, output))
     {
         hkpFirstPersonGun_calcVelocityToTarget(ci.m_vContactPosition, output.m_vContactPosition, world->m_kGravity, gun->m_fBulletVelocity,
                      ci.m_kTranslationalVelocity);

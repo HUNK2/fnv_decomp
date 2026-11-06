@@ -267,11 +267,12 @@ class SelfX
     int m2c;
     int m30;
     int m34;
-    void FUN_0058e250();
+    void SwapMemberByteOrder();
 };
 // Calls FUN_00401080 with TagX() for each listed member.
 // @fnv 0x0058e250
-void SelfX::FUN_0058e250()
+// src: GUESS 0x0058e250 (confidence: medium)
+void SelfX::SwapMemberByteOrder()
 {
     BSEndian_00401080(&m00, TagX());
     BSEndian_00401080(&m14, TagX());
@@ -311,7 +312,7 @@ struct FUN_00485e00_shell
 
 struct FUN_00593320_shell
 {
-    void FUN_00593320(void*);
+    void ProcessState_00593320(void*);
 };
 
 bool _FUN_00401500();
@@ -322,7 +323,7 @@ void _FUN_00485910(int, int);
 // src: XBOX_PDB 0x0058e450
 void BGSImpactData::Save_0058e450()
 {
-    TESForm::FUN_004855a0();
+    TESForm::BeginFormRecord();
 
     reinterpret_cast<TESModel*>(reinterpret_cast<unsigned char*>(this) + 0x18)
         ->WriteToBuffer(0x4c444f4d, 0x54444f4d);
@@ -343,7 +344,7 @@ void BGSImpactData::Save_0058e450()
     if (!IsFlagSet())
     {
         reinterpret_cast<FUN_00593320_shell*>(reinterpret_cast<unsigned char*>(this) + 0x54)
-            ->FUN_00593320(reinterpret_cast<void*>(0x54444f44));
+            ->ProcessState_00593320(reinterpret_cast<void*>(0x54444f44));
     }
 
     {
@@ -376,7 +377,7 @@ void BGSImpactData::Save_0058e450()
         }
     }
 
-    TESForm::FUN_00485680();
+    TESForm::FinishFormRecord();
 }
 
 void* __fastcall BGSTextureSet_GetDecalData(char*);

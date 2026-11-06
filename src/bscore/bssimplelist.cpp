@@ -207,12 +207,13 @@ struct FUN_004bc550_t
     void* m_04;
     int m_08;
 
-    FUN_004bc550_t* FUN_004bc550(int a1, void* a2);
+    FUN_004bc550_t* InitializeFields_004bc550(int a1, void* a2);
 };
 
 // Initialises the object by storing a1 in m_08, allocating a new SL into m_00, and storing a2 in m_04.
 // @fnv 0x004bc550
-FUN_004bc550_t* FUN_004bc550_t::FUN_004bc550(int aiValue, void* a2)
+// src: GUESS 0x004bc550 (confidence: low)
+FUN_004bc550_t* FUN_004bc550_t::InitializeFields_004bc550(int aiValue, void* a2)
 {
     m_08 = aiValue;
     m_00 = new SL();
@@ -597,7 +598,7 @@ struct B006815c0
 
 
 
-CombatTargetTimestamp* __fastcall FUN_004300a0(CombatTargetTimestamp*);
+CombatTargetTimestamp* __fastcall CombatTargetTimestamp_ClearTimeStamp(CombatTargetTimestamp*);
 extern float DAT_010673a0;
 
 struct FUN_0066e590
@@ -620,7 +621,7 @@ struct FUN_0066e590
 // @fnv 0x0066e590
 FUN_0066e590::FUN_0066e590()
 {
-    FUN_004300a0((CombatTargetTimestamp*)m_abyActorState);
+    CombatTargetTimestamp_ClearTimeStamp((CombatTargetTimestamp*)m_abyActorState);
     pActor = 0;
     m_eDetectionLevel = 0;
     m_bHasLineOfSight = false;
@@ -801,12 +802,13 @@ struct ItemChangeListNode
     ItemChangeListNode* m_pkNext;
     ~ItemChangeListNode();
     bool IsEmpty();
-    void FUN_00905330(InventoryStackRecord* const& item);
+    void RemoveMatchingItem(InventoryStackRecord* const& item);
 };
 
 // Removes a matching node; when it is the head, copies its successor into the head or clears the head, and otherwise unlinks and deletes it.
 // @fnv 0x00905330
-void ItemChangeListNode::FUN_00905330(InventoryStackRecord* const& item)
+// src: GUESS 0x00905330 (confidence: medium)
+void ItemChangeListNode::RemoveMatchingItem(InventoryStackRecord* const& item)
 {
     if (!item || IsEmpty())
         return;

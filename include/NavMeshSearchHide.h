@@ -29,7 +29,7 @@ public:
     virtual bool CollectConnections(const SearchNode*, BSSimpleArray<SearchNode*, 1024>*);
     virtual bool HasReachedGoal(const SearchNode*);
 
-    void FUN_006a9d60();
+    void UpdateFields_006a9d60();
     void* DestroyIfFlagged(unsigned int flags);
 
     void InitEntry(SearchNode* pkEntry, NavMesh* pkMesh, unsigned short usNode);

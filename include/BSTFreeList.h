@@ -16,7 +16,7 @@ public:
     void Lock();
     void Unlock();
     void PushFront(BSTFreeListElem<T>*&);
-    void FUN_006ecb10(BSTFreeListElem<T>*&);
+    void PrepareNodeAndPushFront(BSTFreeListElem<T>*&);
     void Elem(BSTFreeListElem<T>*&);
     bool BSTFreeList_Allocate_0(BSTFreeListElem<T>*&, const T&);
 

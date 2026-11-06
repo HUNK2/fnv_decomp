@@ -675,7 +675,7 @@ void NavInfo::InitializeFromMeshSource(MeshSource* source)
                     NavMeshPtr reference;
                     if (link->info.pointer->FUN_00690860(reference))
                     {
-                        if (reinterpret_cast<MeshSource*>(reference.FUN_00559450())->FUN_00440d80())
+                        if (reinterpret_cast<MeshSource*>(reference.Modelloader_GetReferencedThis())->FUN_00440d80())
                             add3 = false;
                         else if (isPreferred)
                         {
@@ -734,7 +734,7 @@ void NavInfo::InitializeFromMeshSource(MeshSource* source)
     if (vertices > 0)
     {
         for (unsigned int v = 0; v < vertices; ++v)
-            point.FUN_0063c8a0(source->GetVertex_0068f0a0((unsigned short)v));
+            point.ComputeValue_0063c8a0(source->GetVertex_0068f0a0((unsigned short)v));
         point.ScaleByInverse((float)vertices);
     }
     unsigned int triangles = source->NavMesh_GetTriangleCount();

@@ -269,7 +269,7 @@ struct SpawnedObject
     int m_1c;
 };
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+void* __cdecl Object_DispatchCommandFour(unsigned int size);
 
 // @fnv 0x00ee8760
 // src: COMMUNITY 0x00ee8760
@@ -288,7 +288,7 @@ SpawnedObject* __cdecl NiRenderTargetGroup_Create_(void* a1, NiRenderer* apSourc
         return 0;
     }
     SpawnedObject* pSpawned;
-    void* mem = FUN_00aa13e0(0x28);
+    void* mem = Object_DispatchCommandFour(0x28);
     if (mem != 0)
     {
         pSpawned = reinterpret_cast<SpawnedObject*>(FUN_00ee8500(mem));

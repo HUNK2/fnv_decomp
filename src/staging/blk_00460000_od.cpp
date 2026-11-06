@@ -94,14 +94,15 @@ void FUN_00462e60_Class::SetByteAt428(unsigned char value)
 
 struct FUN_00464f40_class
 {
-    void __thiscall FUN_00470110();
-    void __thiscall FUN_00464f40();
+    void __thiscall SetVtableAndProcessState_00470110();
+    void __thiscall ForwardCall_00464f40();
 };
 
 // @fnv 0x00464f40
-void __thiscall FUN_00464f40_class::FUN_00464f40()
+// src: GUESS 0x00464f40 (confidence: low)
+void __thiscall FUN_00464f40_class::ForwardCall_00464f40()
 {
-    FUN_00470110();
+    SetVtableAndProcessState_00470110();
 }
 
 
@@ -391,11 +392,12 @@ struct FUN_00474760_This
 {
     const char* p;
     ActorCombatGroup** q;
-    void __thiscall FUN_00474760();
+    void __thiscall ReleaseStorage_00474760();
 };
 
 // @fnv 0x00474760
-void __thiscall FUN_00474760_This::FUN_00474760()
+// src: GUESS 0x00474760 (confidence: medium)
+void __thiscall FUN_00474760_This::ReleaseStorage_00474760()
 {
     p = " HG";
     NiTMallocInterface<ActorCombatGroup*>::Deallocate(q);
@@ -648,12 +650,13 @@ struct FUN_00474730_Map
     void* m_data;
     void* m_ptr;
     void RemoveAll();
-    void FUN_00474730();
+    void UpdateState_00474730();
 };
 
 // Sets the vtable pointer, removes all entries, and frees the m_ptr allocation.
 // @fnv 0x00474730
-void FUN_00474730_Map::FUN_00474730()
+// src: GUESS 0x00474730 (confidence: low)
+void FUN_00474730_Map::UpdateState_00474730()
 {
     m_vtbl = &DAT_0101a384;
     RemoveAll();
@@ -669,11 +672,12 @@ class TESObjectREFR;
 struct FUN_004792c0_Class
     : NiTMapBase<DFALL<NiTMapItem<TESObjectREFR*, unsigned int> >, TESObjectREFR*, unsigned int>
 {
-    void __thiscall FUN_004792c0();
+    void __thiscall ReleaseStorage_004792c0();
 };
 
 // @fnv 0x004792c0
-void __thiscall FUN_004792c0_Class::FUN_004792c0()
+// src: GUESS 0x004792c0 (confidence: medium)
+void __thiscall FUN_004792c0_Class::ReleaseStorage_004792c0()
 {
     *(void**)this = (void*)&DAT_0101a91c;
     this->RemoveAll();
@@ -682,7 +686,7 @@ void __thiscall FUN_004792c0_Class::FUN_004792c0()
 
 struct FUN_0045d930_class
 {
-    void __thiscall FUN_0046ffd0();
+    void __thiscall SetVtableAndProcessState_0046ffd0();
     void* __thiscall FUN_00470320(unsigned int flags);
 };
 
@@ -690,7 +694,7 @@ struct FUN_0045d930_class
 // @fnv 0x00470320
 void* __thiscall FUN_0045d930_class::FUN_00470320(unsigned int flags)
 {
-    FUN_0046ffd0();
+    SetVtableAndProcessState_0046ffd0();
     if (flags & 1)
         operator delete(this);
     return this;
@@ -699,14 +703,14 @@ void* __thiscall FUN_0045d930_class::FUN_00470320(unsigned int flags)
 namespace fnv_00470350 {
 struct FUN_0045d930_class
 {
-    void __thiscall FUN_0045d930();
+    void __thiscall ForwardCall_0045d930();
     void* __thiscall FUN_00470350(unsigned int flags);
 };
 void* __cdecl Deallocate(void*);
 // @fnv 0x00470350
 void* FUN_0045d930_class::FUN_00470350(unsigned int flags)
 {
-    FUN_0045d930();
+    ForwardCall_0045d930();
     if (flags & 1)
         Deallocate(this);
     return this;
@@ -715,7 +719,7 @@ void* FUN_0045d930_class::FUN_00470350(unsigned int flags)
 
 struct FUN_0045d950_Class
 {
-    void __thiscall FUN_00470070();
+    void __thiscall SetVtableAndProcessState_00470070();
     void* __thiscall FUN_00470380(unsigned int flags);
 };
 
@@ -723,7 +727,7 @@ struct FUN_0045d950_Class
 // @fnv 0x00470380
 void* FUN_0045d950_Class::FUN_00470380(unsigned int flags)
 {
-    FUN_00470070();
+    SetVtableAndProcessState_00470070();
     if (flags & 1)
         operator delete(this);
     return this;
@@ -732,7 +736,7 @@ void* FUN_0045d950_Class::FUN_00470380(unsigned int flags)
 namespace fnv_004703b0 {
 struct FUN_0045d950_Class
 {
-    void __thiscall FUN_0045d950();
+    void __thiscall ForwardCall_0045d950();
 };
 struct FUN_004703b0_Class : FUN_0045d950_Class
 {
@@ -742,7 +746,7 @@ struct FUN_004703b0_Class : FUN_0045d950_Class
 // @fnv 0x004703b0
 void* FUN_004703b0_Class::FUN_004703b0(unsigned int flags)
 {
-    FUN_0045d950_Class::FUN_0045d950();
+    FUN_0045d950_Class::ForwardCall_0045d950();
     if (flags & 1)
         operator delete(this);
     return this;
@@ -757,7 +761,7 @@ struct FUN_004703e0_class : public FUN_00464f40_class
 // @fnv 0x004703e0
 void* __thiscall FUN_004703e0_class::FUN_004703e0(unsigned int flags)
 {
-    FUN_00470110();
+    SetVtableAndProcessState_00470110();
     if (flags & 1)
         operator delete(this);
     return this;
@@ -774,7 +778,7 @@ struct FUN_00470410_class : public FUN_00464f40_class
 // @fnv 0x00470410
 void* __thiscall FUN_00470410_class::FUN_00470410(unsigned int flags)
 {
-    FUN_00464f40();
+    ForwardCall_00464f40();
     if (flags & 1)
         operator delete(this);
     return this;
@@ -798,17 +802,17 @@ void* __thiscall FUN_004746d0_Class::FUN_00474530(unsigned int flags)
 // Scalar deleting destructor 0x004747c0 is emitted for the shared map base.
 
 void __cdecl Deallocate(void*);
-void FUN_00474730();
+void UpdateState_00474730();
 struct FUN_004747f0_class
 {
-    void FUN_00474730();
+    void UpdateState_00474730();
     void* FUN_004747f0(unsigned int flags);
 };
 // Calls FUN_00474730, then deallocates this when flags has bit 0 set, and returns this.
 // @fnv 0x004747f0
 void* FUN_004747f0_class::FUN_004747f0(unsigned int flags)
 {
-    FUN_00474730();
+    UpdateState_00474730();
     if (flags & 1)
         Deallocate(this);
     return this;
@@ -835,14 +839,14 @@ void* __thiscall FUN_00474850_class::FUN_00474850(unsigned int flags)
 struct FUN_004752e0_Class
 {
     void* __thiscall FUN_004752e0(unsigned int flags);
-    void __thiscall FUN_00475310();
+    void __thiscall UpdateState_00475310();
 };
 
 // Calls FUN_00475310, then deletes this object if bit 0 of flags is set, and returns this.
 // @fnv 0x004752e0
 void* __thiscall FUN_004752e0_Class::FUN_004752e0(unsigned int flags)
 {
-    FUN_00475310();
+    UpdateState_00475310();
     if (flags & 1)
         operator delete(this);
     return this;
@@ -856,7 +860,7 @@ struct FUN_004792f0_Class : FUN_004792c0_Class
 // @fnv 0x004792f0
 void* __thiscall FUN_004792f0_Class::FUN_004792f0(unsigned int flags)
 {
-    FUN_004792c0();
+    ReleaseStorage_004792c0();
     if (flags & 1)
         operator delete(this);
     return this;
@@ -949,7 +953,8 @@ void __thiscall FUN_0046e8e0_This::TESDataHandler_PrintTextureInfo(KFModel* a, i
 
 extern int DAT_01019a14;
 // @fnv 0x0046ffd0
-void __thiscall FUN_0045d930_class::FUN_0046ffd0()
+// src: GUESS 0x0046ffd0 (confidence: low)
+void __thiscall FUN_0045d930_class::SetVtableAndProcessState_0046ffd0()
 {
     *(void**)this = (void*)&DAT_01019a14;
     NiTMallocInterface<void*>::Deallocate(*(void***)((char*)this + 4));
@@ -1119,7 +1124,7 @@ struct FUN_00474820_Class
 // @fnv 0x00474820
 void* __thiscall FUN_00474820_Class::FUN_00474820(unsigned int flags)
 {
-    ((FUN_00474760_This*)this)->FUN_00474760();
+    ((FUN_00474760_This*)this)->ReleaseStorage_00474760();
     if (flags & 1)
         _Deallocate(this);
     return this;
@@ -1143,11 +1148,12 @@ struct FUN_00474a40_shell
 {
     unsigned int vtbl;
     TESForm* form;
-    TESForm* FUN_00474a40();
+    TESForm* GetFormIfType55();
 };
 // Returns form if it is non-null and its FNV_GetFormType() equals 0x55, otherwise returns null.
 // @fnv 0x00474a40
-TESForm* FUN_00474a40_shell::FUN_00474a40()
+// src: GUESS 0x00474a40 (confidence: medium)
+TESForm* FUN_00474a40_shell::GetFormIfType55()
 {
     return form && form->FNV_GetFormType() == 0x55 ? form : 0;
 }
@@ -1203,11 +1209,12 @@ struct FUN_004781b0_This
     int field0;
     unsigned char field4;
     unsigned char field5;
-    FUN_004781b0_This* __thiscall FUN_004781b0();
+    FUN_004781b0_This* __thiscall ClearFields_004781b0();
 };
 // Sets field0, field4 and field5 to zero and returns this.
 // @fnv 0x004781b0
-FUN_004781b0_This* __thiscall FUN_004781b0_This::FUN_004781b0()
+// src: GUESS 0x004781b0 (confidence: low)
+FUN_004781b0_This* __thiscall FUN_004781b0_This::ClearFields_004781b0()
 {
     field0 = 0;
     field4 = 0;
@@ -1594,7 +1601,8 @@ char FUN_0046fdd0_Class::IsFieldEqual(int aiValue)
 extern int DAT_01019a24;
 
 // @fnv 0x00470070
-void __thiscall FUN_0045d950_Class::FUN_00470070()
+// src: GUESS 0x00470070 (confidence: low)
+void __thiscall FUN_0045d950_Class::SetVtableAndProcessState_00470070()
 {
     *(int*)this = (int)&DAT_01019a24;
     NiTMallocInterface<ActorCombatGroup*>::Deallocate(*(ActorCombatGroup***)((char*)this + 4));
@@ -1635,10 +1643,11 @@ bool FUN_0047bcf0_class::IsFlag80Clear()
 struct FUN_0047eb90_Class
 {
     void FUN_005fc970(int, char);
-    void FUN_0047eb90(int value);
+    void ForwardCall_0047eb90(int value);
 };
 // @fnv 0x0047eb90
-void FUN_0047eb90_Class::FUN_0047eb90(int value)
+// src: GUESS 0x0047eb90 (confidence: low)
+void FUN_0047eb90_Class::ForwardCall_0047eb90(int value)
 {
     FUN_005fc970(0x10, (char)value);
 }
@@ -1768,12 +1777,13 @@ class FUN_00475310_cls
     int unk10;
     FUN_00475310_obj* m_14;
 
-    void FUN_00475310();
+    void UpdateState_00475310();
 };
 
 // Calls vSlot10(1) on m_14 if it is non-null.
 // @fnv 0x00475310
-void FUN_00475310_cls::FUN_00475310()
+// src: GUESS 0x00475310 (confidence: low)
+void FUN_00475310_cls::UpdateState_00475310()
 {
     FUN_00475310_obj* obj = m_14;
     FUN_00475310_obj* p = obj;
@@ -2402,7 +2412,7 @@ struct FUN_0047ead0_cls
     FUN_0047ead0_cls* FUN_00726070();
     void TESFaction_SetPCAttack(int v);
     void TESFaction_SetPCMurder(int v);
-    void FUN_0047eb90(int v);
+    void ForwardCall_0047eb90(int v);
     void TESActorBaseData_SetPCFactionFlags(int mode);
 };
 
@@ -2431,7 +2441,7 @@ void FUN_0047ead0_cls::TESActorBaseData_SetPCFactionFlags(int mode)
                         vt->TESFaction_SetPCMurder(1);
                         break;
                     case 2:
-                        vt->FUN_0047eb90(1);
+                        vt->ForwardCall_0047eb90(1);
                         break;
                     }
                 }
@@ -4951,7 +4961,8 @@ bool BGSDestructibleObjectForm::IsEqualToBase(BaseFormComponent* other)
 }
 
 // @fnv 0x00470110
-void __thiscall FUN_00464f40_class::FUN_00470110()
+// src: GUESS 0x00470110 (confidence: low)
+void __thiscall FUN_00464f40_class::SetVtableAndProcessState_00470110()
 {
     *reinterpret_cast<void***>(this) = reinterpret_cast<void**>(&DAT_01019a34);
     NiTMallocInterface<void*>::Deallocate(reinterpret_cast<FNVPointerArray*>(this)->m_pBase);

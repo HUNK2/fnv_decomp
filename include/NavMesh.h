@@ -52,7 +52,7 @@ public:
     void* DestroyNavMesh(unsigned int flags);
     void __thiscall FUN_0068ed70();
     // The explicit base cleanup entry takes the NiRefObject subobject as this.
-    void __thiscall FUN_00496910();
+    void __thiscall Animation_ResetVtableAndFinishScriptRunLock();
 
     void ForceSetFormID(unsigned int formID);
     void CopyNavMeshDataTo(NavMeshPtr&);
@@ -127,9 +127,9 @@ public:
     void ClearAllObstacles();
     unsigned int AddObstacleUndoData(ObstacleData*);
     bool Navmesh_RemoveClosedDoor(unsigned int);
-    unsigned int FUN_0069a940(unsigned short, BSSimpleArray<unsigned short, 1024>*);
-    void FUN_0069a9d0(unsigned short, unsigned int);
-    bool FUN_006967f0(unsigned short, unsigned short);
+    unsigned int AppendTriangleVerticesInList(unsigned short, BSSimpleArray<unsigned short, 1024>*);
+    void LookupPOVValueWithInitialization(unsigned short, unsigned int);
+    bool AddTrianglesToXYGridCells(unsigned short, unsigned short);
     void CreateGrid();
     bool FUN_006dcee0(void*, FindTriangleForLocationFilter*);
 

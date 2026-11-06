@@ -849,7 +849,8 @@ struct FUN_00a370a0_obj
     int field0;
 };
 // @fnv 0x00a370a0
-FUN_00a370a0_obj* __fastcall FUN_00a370a0(FUN_00a370a0_obj* self, int)
+// src: GUESS 0x00a370a0 (confidence: low)
+FUN_00a370a0_obj* __fastcall Object_InitializeFields_00a370a0(FUN_00a370a0_obj* self, int)
 {
     self->field0 = 0;
     return self;

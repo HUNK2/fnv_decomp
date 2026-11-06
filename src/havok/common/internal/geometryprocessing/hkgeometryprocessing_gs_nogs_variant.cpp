@@ -16,13 +16,13 @@ struct FUN_00dee620
     void* m_pVTable;
     __thiscall FUN_00dee620(int testFlag);
 };
-extern "C" void __cdecl FUN_00dedf10(void*, void*, void*, void*, int, int);
+extern "C" void __cdecl hkVector4_ProcessEntries_00dedf10(void*, void*, void*, void*, int, int);
 void __cdecl hkGeometryProcessing_generateRandomDistribution(void* first, void* second, void* third, void* fourth);
 struct FUN_00dee6b0_Class
 {
     int unk00;
     float unk04;
-    float FUN_00dee6b0(int testFlag);
+    float GetUnk04(int testFlag);
 };
 extern int DAT_010cd664;
 hkMemoryRouter* __cdecl hkMemoryRouter_getInstance() throw();
@@ -44,7 +44,8 @@ struct __declspec(align(16)) SphereOutput276
     __m128 value;
 };
 // @fnv 0x00de9650
-extern "C" void FUN_00de9650(SphereInput276* in, SphereOutput276* out)
+// src: GUESS 0x00de9650 (confidence: medium)
+extern "C" void Geometry_MapCoordinatesToSphere(SphereInput276* in, SphereOutput276* out)
 {
     float u = 2.0 * in->a - 1.0;
     float v = 2.0 * in->b - 1.0;
@@ -150,8 +151,8 @@ struct Vec4Array
 
 struct Owner
 {
-    void FUN_00e11530(Vec4Pair* out);
-    float FUN_00e13660(Vec4* p, Vec4* q, unsigned char* ok);
+    void ProcessEntries_00e11530(Vec4Pair* out);
+    float ProcessAndReturnValue_00e13660(Vec4* p, Vec4* q, unsigned char* ok);
 };
 
 struct Obj
@@ -182,7 +183,7 @@ bool __cdecl hkGeometryProcessingInternals_generateRandomDistribution(Owner* sel
     unsigned char flag;
     int tries;
 
-    self->FUN_00e11530(&pair);
+    self->ProcessEntries_00e11530(&pair);
     base = pair.a;
     _mm_store_ps((float*)(void*)&delta,
                  _mm_sub_ps(pairStorage[1], pairStorage[0]));
@@ -194,7 +195,7 @@ bool __cdecl hkGeometryProcessingInternals_generateRandomDistribution(Owner* sel
         flag = 1;
         obj->NextFloat4(&cur);
         _mm_store_ps((float*)(void*)&cur, _mm_add_ps(_mm_mul_ps(*(__m128*)&cur, *(__m128*)&delta), *(__m128*)&base));
-        self->FUN_00e13660(&cur, &scratch, &flag);
+        self->ProcessAndReturnValue_00e13660(&cur, &scratch, &flag);
         if (flag != 0)
         {
             cur.w = 1.0f;

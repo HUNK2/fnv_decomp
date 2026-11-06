@@ -8,7 +8,7 @@ struct FUN_004f4f90_node : BSSimpleList<unsigned int>
 {
     unsigned int* FUN_006815c0();
     FUN_004f4f90_node* FUN_00726070();
-    void FUN_00905330(unsigned int* out);
+    void RemoveMatchingItem(unsigned int* out);
     void FUN_005ae3d0(unsigned int* out);
 };
 
@@ -44,7 +44,7 @@ int FUN_004f4f90_shell::TESRegionDataSound_GetMediaSetBattle()
     }
     if (found != 0)
     {
-        ((FUN_004f4f90_node*)&sounds.battleMediaSetList)->FUN_00905330(&found);
+        ((FUN_004f4f90_node*)&sounds.battleMediaSetList)->RemoveMatchingItem(&found);
         ((FUN_004f4f90_node*)&sounds.battleMediaSetList)->FUN_005ae3d0(&found);
         return TESForm_GetFormByNumericID(found);
     }

@@ -130,7 +130,7 @@ __declspec(align(16)) class FUN_00d6aec0_obj
     int unkE8;
     int unkEC;
 };
-int FUN_00d6aec0() throw();
+int Object_ProcessAndReturnValue_00d6aec0() throw();
 #include <xmmintrin.h>
 #include <math.h>
 #include "../../include/Vec4.h"
@@ -263,14 +263,14 @@ struct D6Idx
 };
 extern "C" void __cdecl hk1dLinearBilateralConstraintBuildJacobian(D6Vec3* s, void* d, void* e);
 extern "C" V16* __cdecl D6GetArray(void);
-void FUN_00d6c030(D6Owner* a, V16* b, D6Idx* c, void* d, void* e);
+void Runtime_UpdateState_00d6c030(D6Owner* a, V16* b, D6Idx* c, void* d, void* e);
 volatile D6Owner* g_d6Owner;
 volatile D6Idx* g_d6Idx;
 volatile void* g_d6D;
 volatile void* g_d6E;
 extern "C" __declspec(noinline) void d6c030_dummy_caller(void)
 {
-    FUN_00d6c030((D6Owner*)g_d6Owner, D6GetArray(), (D6Idx*)g_d6Idx, (void*)g_d6D, (void*)g_d6E);
+    Runtime_UpdateState_00d6c030((D6Owner*)g_d6Owner, D6GetArray(), (D6Idx*)g_d6Idx, (void*)g_d6D, (void*)g_d6E);
 }
 
 namespace SimdC {
@@ -468,7 +468,8 @@ __declspec(noinline) void hkQuaternion::setMul(const hkQuaternion& a, const hkQu
 }
 
 // @fnv 0x00d6b510
-static __declspec(noinline) void FUN_00d6b510(Binding* binding, Weight* weights, const PoseQsTransform* root,
+// src: GUESS 0x00d6b510 (confidence: low)
+static __declspec(noinline) void hkQuaternion_ProcessEntries_00d6b510(Binding* binding, Weight* weights, const PoseQsTransform* root,
                                               PoseQsTransform* output, const PoseQsTransform* __restrict transforms)
 {
     for (int i = 0; i < binding->count; ++i)
@@ -511,5 +512,5 @@ static __declspec(noinline) void FUN_00d6b510(Binding* binding, Weight* weights,
 void RunCompose_d6b510(Binding* binding, Weight* weights, const PoseQsTransform* root, PoseQsTransform* output,
                        const PoseQsTransform* __restrict transforms)
 {
-    FUN_00d6b510(binding, weights, root, output, transforms);
+    hkQuaternion_ProcessEntries_00d6b510(binding, weights, root, output, transforms);
 }

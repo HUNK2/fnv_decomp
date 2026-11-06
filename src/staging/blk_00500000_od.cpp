@@ -77,21 +77,23 @@ void __thiscall FUN_005076c0Class::PathingRequestCoveredMove_SetAttackerHealth(f
 
 struct FUN_005076e0_Class
 {
-    void FUN_005076e0(float value);
+    void SetFieldAtOffsetF4_005076e0(float value);
 };
 
 // @fnv 0x005076e0
-void FUN_005076e0_Class::FUN_005076e0(float value)
+// src: GUESS 0x005076e0 (confidence: low)
+void FUN_005076e0_Class::SetFieldAtOffsetF4_005076e0(float value)
 {
     *(float*)((char*)this + 0xf4) = value;
 }
 
 struct FUN_00507720_Class
 {
-    void __thiscall FUN_00507720(float value);
+    void __thiscall SetFieldAtOffset100_00507720(float value);
 };
 // @fnv 0x00507720
-void __thiscall FUN_00507720_Class::FUN_00507720(float value)
+// src: GUESS 0x00507720 (confidence: low)
+void __thiscall FUN_00507720_Class::SetFieldAtOffset100_00507720(float value)
 {
     *(float*)((char*)this + 0x100) = value;
 }
@@ -162,11 +164,12 @@ unsigned int FUN_00507d80_Class::FOPipboyManager_Get3rdPersonPipboyRoot()
 
 struct FUN_00508050_Class
 {
-    float FUN_00508050();
+    float GetFieldAtOffset44();
 };
 
 // @fnv 0x00508050
-float FUN_00508050_Class::FUN_00508050()
+// src: GUESS 0x00508050 (confidence: low)
+float FUN_00508050_Class::GetFieldAtOffset44()
 {
     return *(float*)((char*)this + 0x44);
 }
@@ -188,12 +191,13 @@ extern "C" void __cdecl _ref_006815c0();
 struct FUN_00509890_class
 {
     void __thiscall _ref_006815c0();
-    void* __thiscall FUN_00509890(bool);
+    void* __thiscall UpdateState_00509890(bool);
 };
 
 // Calls _ref_006815c0, zeroes the short at offset 0xc, stores flag at offset 0xe, and returns this.
 // @fnv 0x00509890
-void* __thiscall FUN_00509890_class::FUN_00509890(bool flag)
+// src: GUESS 0x00509890 (confidence: low)
+void* __thiscall FUN_00509890_class::UpdateState_00509890(bool flag)
 {
     _ref_006815c0();
     *reinterpret_cast<short*>(reinterpret_cast<char*>(this) + 0xc) = 0;
@@ -249,13 +253,14 @@ bool FUN_0050d230_class::TESObjectLIGH_GetPulseSlow() const
 
 struct FUN_00510110_class
 {
-    void FUN_005102e0();
-    void FUN_00510110();
+    void ProcessEntries_005102e0();
+    void ForwardCall_00510110();
 };
 // @fnv 0x00510110
-void FUN_00510110_class::FUN_00510110()
+// src: GUESS 0x00510110 (confidence: low)
+void FUN_00510110_class::ForwardCall_00510110()
 {
-    FUN_005102e0();
+    ProcessEntries_005102e0();
 }
 
 struct FUN_00510360_Class
@@ -284,11 +289,12 @@ extern "C" int __cdecl _BSStringLength(const char*);
 struct FUN_005103a0_class
 {
     void __thiscall FindSubstring(const char* a, const char* b, int c);
-    void __thiscall FUN_005103a0(const char* a, const char* b);
+    void __thiscall ProcessState_005103a0(const char* a, const char* b);
 };
 
 // @fnv 0x005103a0
-void __thiscall FUN_005103a0_class::FUN_005103a0(const char* a, const char* b)
+// src: GUESS 0x005103a0 (confidence: low)
+void __thiscall FUN_005103a0_class::ProcessState_005103a0(const char* a, const char* b)
 {
     FindSubstring(a, b, _BSStringLength(a));
 }
@@ -352,12 +358,13 @@ struct FUN_00519b20_cls
 {
     void* m_p;
     void __thiscall ConstructArray(void* arg);
-    void* __thiscall FUN_00519b20(void* arg);
+    void* __thiscall InitializeFields_00519b20(void* arg);
 };
 
 // Calls ConstructArray with arg, sets m_p to the address of DAT_0102b3d0, and returns this.
 // @fnv 0x00519b20
-void* __thiscall FUN_00519b20_cls::FUN_00519b20(void* arg)
+// src: GUESS 0x00519b20 (confidence: low)
+void* __thiscall FUN_00519b20_cls::InitializeFields_00519b20(void* arg)
 {
     ConstructArray(arg);
     m_p = &DAT_0102b3d0;
@@ -377,22 +384,23 @@ unsigned int __cdecl GetFloatAsUInt()
 }
 }  // namespace fnv_0051cee0
 
-extern "C" unsigned int __cdecl FUN_00a5e930(void*);
+extern "C" unsigned int __cdecl UpdateFields_00c5faa0(void*);
 
 struct Unk_00a5e930
 {
-    unsigned int __thiscall FUN_00a5e930();
+    unsigned int __thiscall UpdateFields_00c5faa0();
 };
 
 struct FUN_0051cfe0_Class
 {
-    unsigned int __thiscall FUN_0051cfe0();
+    unsigned int __thiscall ForwardCall_0051cfe0();
 };
 
 // @fnv 0x0051cfe0
-unsigned int __thiscall FUN_0051cfe0_Class::FUN_0051cfe0()
+// src: GUESS 0x0051cfe0 (confidence: low)
+unsigned int __thiscall FUN_0051cfe0_Class::ForwardCall_0051cfe0()
 {
-    return ((Unk_00a5e930*)this)->FUN_00a5e930();
+    return ((Unk_00a5e930*)this)->UpdateFields_00c5faa0();
 }
 
 struct FUN_0051f4d0_class
@@ -408,11 +416,12 @@ unsigned int FUN_0051f4d0_class::GetField1CC()
 
 struct FUN_0051f4f0_Class
 {
-    void FUN_0051f4f0(int value);
+    void UpdateState_0051f4f0(int value);
 };
 
 // @fnv 0x0051f4f0
-void FUN_0051f4f0_Class::FUN_0051f4f0(int value)
+// src: GUESS 0x0051f4f0 (confidence: low)
+void FUN_0051f4f0_Class::UpdateState_0051f4f0(int value)
 {
     *(int*)((char*)this + 0x1cc) = value;
 }
@@ -439,11 +448,12 @@ struct FUN_00519c50_class
     int _0x4;
     void* _0x8;
     void __thiscall NiTPointerMap_RemoveAll();
-    void __thiscall FUN_00519c50();
+    void __thiscall ReleaseStorage_00519c50();
 };
 
 // @fnv 0x00519c50
-void __thiscall FUN_00519c50_class::FUN_00519c50()
+// src: GUESS 0x00519c50 (confidence: low)
+void __thiscall FUN_00519c50_class::ReleaseStorage_00519c50()
 {
     pVft = &DAT_0102b3f0;
     NiTPointerMap_RemoveAll();
@@ -508,7 +518,7 @@ struct FUN_00519c80_class
 // @fnv 0x00519c80
 void* __thiscall FUN_00519c80_class::FUN_00519c80(unsigned int flags)
 {
-    ((FUN_00519c50_class*)this)->FUN_00519c50();
+    ((FUN_00519c50_class*)this)->ReleaseStorage_00519c50();
     if (flags & 1)
         _Deallocate(this);
     return this;
@@ -856,10 +866,10 @@ bool __cdecl InitSettingsDefaults()
         DAT_011c8fa0 |= 4;
 
     if (*g_011c9054.Int() != 0 && *g_011c9054.Int() != 1 && *g_011c9054.Int() != 2)
-        g_011c9054.FUN_0045ce80(1);
+        g_011c9054.ProcessAndReturnValue_0045ce80(1);
 
     if (*g_011c907c.Int() != 0 && *g_011c907c.Int() != 1 && *g_011c907c.Int() != 2)
-        g_011c907c.FUN_0045ce80(2);
+        g_011c907c.ProcessAndReturnValue_0045ce80(2);
 
     if (*g_011c8fb0.Float() == 0.0)
         reinterpret_cast<AssignSettingFloatFn>(AssignSettingFloat)(&g_011c8fb0, 1.0f);
@@ -1490,10 +1500,11 @@ struct S_5102e0_List
     int unk00;
     int unk04;
     S_5102e0_Node* head;
-    void FUN_005102e0();
+    void ProcessEntries_005102e0();
 };
 // @fnv 0x005102e0
-void S_5102e0_List::FUN_005102e0()
+// src: GUESS 0x005102e0 (confidence: low)
+void S_5102e0_List::ProcessEntries_005102e0()
 {
     while (head)
     {
@@ -1894,7 +1905,7 @@ struct Ptr
 {
     void* m_p;
     ~Ptr();
-    Obj* FUN_00559450();
+    Obj* Modelloader_GetReferencedThis();
 };
 struct TimeGlobal
 {
@@ -1963,7 +1974,7 @@ struct Host
 bool Host::TESObjectLIGH_Update_(Ptr p1, float* apTime, NiPoint3* p3)
 {
     Obj* s;
-    s = p1.FUN_00559450();
+    s = p1.Modelloader_GetReferencedThis();
     {
         bool obj = false;
         if ((m_a8 & 8) || (m_a8 & 0x40))
@@ -2009,15 +2020,15 @@ bool Host::TESObjectLIGH_Update_(Ptr p1, float* apTime, NiPoint3* p3)
             float p;
             p = (float)(unk24 * idx * a2 / DAT_01011590);
             unk24 = (unk24 + p > DAT_01012060) ? p : 0.0f;
-            p1.FUN_00559450()->NiAVObject_SetTranslate_004bc1f0((float)(idx * unk24), (float)(a2 * unk24), (float)(cost * unk24));
+            p1.Modelloader_GetReferencedThis()->NiAVObject_SetTranslate_004bc1f0((float)(idx * unk24), (float)(a2 * unk24), (float)(cost * unk24));
             if (AILinearTaskThreadManager_ShouldQueue3DTask())
             {
-                FUN_004537b0(p1.FUN_00559450())->TaskQueueInterface_QueueObjectUpdate();
+                FUN_004537b0(p1.Modelloader_GetReferencedThis())->TaskQueueInterface_QueueObjectUpdate();
             }
             else
             {
                 NiUpdateData upd(0.0f, false, 0);
-                p1.FUN_00559450()->NiAVObject_Update(upd);
+                p1.Modelloader_GetReferencedThis()->NiAVObject_Update(upd);
             }
             float frac;
             frac =
@@ -2027,14 +2038,14 @@ bool Host::TESObjectLIGH_Update_(Ptr p1, float* apTime, NiPoint3* p3)
                             DAT_01011590 / DAT_01021928);
             frac = BSMAX_00404010(DAT_01012054, BSMIN(1.0f, frac));
             frac = (float)(frac * DAT_01011588 + DAT_01011588);
-            p1.FUN_00559450()->NiLight_SetDimmer((float)((frac * DAT_010290c0 + DAT_010290b8) * m_b4));
+            p1.Modelloader_GetReferencedThis()->NiLight_SetDimmer((float)((frac * DAT_010290c0 + DAT_010290b8) * m_b4));
         }
         else
         {
             if ((m_a8 & 0x80) || (m_a8 & 0x100) || (p3 && *reinterpret_cast<const float*>(reinterpret_cast<const char*>(p3) + 0x0C) == 0.0))
             {
                 float tim2;
-                tim2 = p1.FUN_00559450()->TESCombatStyle_GetDodgeDuringAttackMult();
+                tim2 = p1.Modelloader_GetReferencedThis()->TESCombatStyle_GetDodgeDuringAttackMult();
                 float cnt;
                 cnt = DAT_011f6394.FUN_0084d030();
                 float fin = DAT_0101e2bc;
@@ -2044,7 +2055,7 @@ bool Host::TESObjectLIGH_Update_(Ptr p1, float* apTime, NiPoint3* p3)
                     tim2 = (float)(tim2 + fin * cnt);
                 else
                     tim2 = (float)(tim2 - fin * cnt);
-                p1.FUN_00559450()->NiLight_SetDimmer(tim2);
+                p1.Modelloader_GetReferencedThis()->NiLight_SetDimmer(tim2);
                 if (FUN_00408840((float)(tim2 - *apTime)) < fin)
                 {
                     if (p3 && *reinterpret_cast<const float*>(reinterpret_cast<const char*>(p3) + 0x0C) == 0.0)

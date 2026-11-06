@@ -81,11 +81,12 @@ struct FUN_008c8190_shell
     int a;
     int b;
     int c;
-    FUN_008c8190_shell* FUN_008c8190();
+    FUN_008c8190_shell* InitializeFields_008c8190();
 };
 // Sets the object's a field to 2 and clears b and c, then returns this.
 // @fnv 0x008c8190
-FUN_008c8190_shell* FUN_008c8190_shell::FUN_008c8190()
+// src: GUESS 0x008c8190 (confidence: low)
+FUN_008c8190_shell* FUN_008c8190_shell::InitializeFields_008c8190()
 {
     a = 2;
     b = 0;
@@ -110,14 +111,14 @@ FUN_008c8370_shell* FUN_008c8370_shell::FUN_008c8370(unsigned int flags)
 
 struct FUN_008c8400_shell
 {
-    void FUN_008c8430();
+    void SetVtableAndProcessState_008c8430();
     FUN_008c8400_shell* FUN_008c8400(unsigned int flags);
 };
 // Calls FUN_008c8430, deletes this when flags has bit 0 set, and returns this.
 // @fnv 0x008c8400
 FUN_008c8400_shell* FUN_008c8400_shell::FUN_008c8400(unsigned int flags)
 {
-    FUN_008c8430();
+    SetVtableAndProcessState_008c8430();
     if (flags & 1)
         operator delete(this);
     return this;
@@ -128,10 +129,11 @@ struct FUN_008c8430_shell
 {
     int* vtbl;
     void FUN_008c83a0();
-    void FUN_008c8430();
+    void SetVtableAndProcessState_008c8430();
 };
 // @fnv 0x008c8430
-void FUN_008c8430_shell::FUN_008c8430()
+// src: GUESS 0x008c8430 (confidence: low)
+void FUN_008c8430_shell::SetVtableAndProcessState_008c8430()
 {
     vtbl = &DAT_01085728;
     FUN_008c83a0();
@@ -174,14 +176,14 @@ FUN_008c8830_shell* FUN_008c8830_shell::Construct(int p)
 void __cdecl operator delete(void*);
 struct FUN_008c8860_shell
 {
-    void FUN_008c8890();
+    void SetVtableAndProcessState_008c8890();
     void* FUN_008c8860(unsigned int flags);
 };
 // Calls FUN_008c8890, deletes this when flags has bit 0 set, and returns this.
 // @fnv 0x008c8860
 void* FUN_008c8860_shell::FUN_008c8860(unsigned int flags)
 {
-    FUN_008c8890();
+    SetVtableAndProcessState_008c8890();
     if (flags & 1)
         operator delete(this);
     return this;
@@ -192,10 +194,11 @@ struct FUN_008c8890_shell
 {
     int* vtbl;
     void FUN_008c83a0();
-    void FUN_008c8890();
+    void SetVtableAndProcessState_008c8890();
 };
 // @fnv 0x008c8890
-void FUN_008c8890_shell::FUN_008c8890()
+// src: GUESS 0x008c8890 (confidence: low)
+void FUN_008c8890_shell::SetVtableAndProcessState_008c8890()
 {
     vtbl = &DAT_01085768;
     FUN_008c83a0();
@@ -256,13 +259,13 @@ FUN_008c89a0::FUN_008c89a0(int aiValue) : FUN_008c82e0(aiValue)
 void __cdecl operator delete(void*);
 struct FUN_008c89d0_shell
 {
-    void FUN_008c8a00();
+    void SetVirtualTableAndProcessState_008c8a00();
     void* Destroy(unsigned int flags);
 };
 // @fnv 0x008c89d0
 void* FUN_008c89d0_shell::Destroy(unsigned int flags)
 {
-    FUN_008c8a00();
+    SetVirtualTableAndProcessState_008c8a00();
     if (flags & 1)
         operator delete(this);
     return this;
@@ -273,10 +276,11 @@ struct FUN_008c8a00_shell
 {
     int* vtbl;
     void FUN_008c83a0();
-    void FUN_008c8a00();
+    void SetVirtualTableAndProcessState_008c8a00();
 };
 // @fnv 0x008c8a00
-void FUN_008c8a00_shell::FUN_008c8a00()
+// src: GUESS 0x008c8a00 (confidence: low)
+void FUN_008c8a00_shell::SetVirtualTableAndProcessState_008c8a00()
 {
     vtbl = &DAT_01085788;
     FUN_008c83a0();
@@ -315,13 +319,13 @@ void FUN_008c8a50_shell::ActorUpdateTaskData_HandleEndMessage(int aiUnused)
 void __cdecl operator delete(void*);
 struct FUN_008c8b20_shell
 {
-    void FUN_008c8b50();
+    void SetVtableAndProcessState_008c8b50();
     void* DestroyOrReturnSelf(unsigned int flags);
 };
 // @fnv 0x008c8b20
 void* FUN_008c8b20_shell::DestroyOrReturnSelf(unsigned int flags)
 {
-    FUN_008c8b50();
+    SetVtableAndProcessState_008c8b50();
     if (flags & 1)
         operator delete(this);
     return this;
@@ -332,10 +336,11 @@ struct FUN_008c8b50_shell
 {
     int* vtbl;
     void FUN_008c83a0();
-    void FUN_008c8b50();
+    void SetVtableAndProcessState_008c8b50();
 };
 // @fnv 0x008c8b50
-void FUN_008c8b50_shell::FUN_008c8b50()
+// src: GUESS 0x008c8b50 (confidence: low)
+void FUN_008c8b50_shell::SetVtableAndProcessState_008c8b50()
 {
     vtbl = &DAT_010857a8;
     FUN_008c83a0();
@@ -397,14 +402,14 @@ FUN_008c9020::FUN_008c9020(int a) : FUN_008c82e0(a)
 void __cdecl operator delete(void*);
 struct FUN_008c9050_shell
 {
-    void FUN_008c9080();
+    void SetVirtualTableAndProcessState_008c9080();
     void* FUN_008c9050(unsigned int flags);
 };
 // Calls FUN_008c9080, deletes this when flags has bit 0 set, and returns this.
 // @fnv 0x008c9050
 void* FUN_008c9050_shell::FUN_008c9050(unsigned int flags)
 {
-    FUN_008c9080();
+    SetVirtualTableAndProcessState_008c9080();
     if (flags & 1)
         operator delete(this);
     return this;
@@ -415,10 +420,11 @@ struct FUN_008c9080_shell
 {
     int* vtbl;
     void FUN_008c83a0();
-    void FUN_008c9080();
+    void SetVirtualTableAndProcessState_008c9080();
 };
 // @fnv 0x008c9080
-void FUN_008c9080_shell::FUN_008c9080()
+// src: GUESS 0x008c9080 (confidence: low)
+void FUN_008c9080_shell::SetVirtualTableAndProcessState_008c9080()
 {
     vtbl = &DAT_010857c8;
     FUN_008c83a0();
@@ -467,14 +473,14 @@ FUN_008c9170::FUN_008c9170(int a) : FUN_008c82e0(a)
 void __cdecl operator delete(void*);
 struct FUN_008c91a0_shell
 {
-    void FUN_008c91d0();
+    void UpdateState_008c91d0();
     void* FUN_008c91a0(unsigned int flags);
 };
 // Calls FUN_008c91d0, then frees this with operator delete when flags has bit 0 set, and returns this.
 // @fnv 0x008c91a0
 void* FUN_008c91a0_shell::FUN_008c91a0(unsigned int flags)
 {
-    FUN_008c91d0();
+    UpdateState_008c91d0();
     if (flags & 1)
         operator delete(this);
     return this;
@@ -486,11 +492,12 @@ struct FUN_008c91d0_shell
 {
     void* m_vft;
     void FUN_008c83a0();
-    void FUN_008c91d0();
+    void UpdateState_008c91d0();
 };
 
 // @fnv 0x008c91d0
-void FUN_008c91d0_shell::FUN_008c91d0()
+// src: GUESS 0x008c91d0 (confidence: low)
+void FUN_008c91d0_shell::UpdateState_008c91d0()
 {
     m_vft = &DAT_010857e8;
     FUN_008c83a0();
@@ -676,7 +683,8 @@ void FUN_008ca330_shell::AITaskThreadManager_WaitForThread(int aiIndex)
 extern int DAT_0108583c;
 
 // @fnv 0x008ca3c0
-void __fastcall FUN_008ca3c0(void* thisPtr)
+// src: GUESS 0x008ca3c0 (confidence: low)
+void __fastcall Object_SetVirtualTable_008ca3c0(void* thisPtr)
 {
     *static_cast<void**>(thisPtr) = &DAT_0108583c;
 }
@@ -684,14 +692,14 @@ void __fastcall FUN_008ca3c0(void* thisPtr)
 void __cdecl operator delete(void*);
 struct FUN_008ca3e0_shell
 {
-    void FUN_008ca3c0();
+    void Object_SetVirtualTable_008ca3c0();
     void* FUN_008ca3e0(unsigned int flags);
 };
 // Calls FUN_008ca3c0, deletes this when flags has bit 0 set, and returns this.
 // @fnv 0x008ca3e0
 void* FUN_008ca3e0_shell::FUN_008ca3e0(unsigned int flags)
 {
-    FUN_008ca3c0();
+    Object_SetVirtualTable_008ca3c0();
     if (flags & 1)
         operator delete(this);
     return this;
@@ -744,7 +752,8 @@ struct FUN_008ca520_shell
 extern int DAT_01085864;
 
 // @fnv 0x008ca500
-void __fastcall FUN_008ca500(void* this_ptr)
+// src: GUESS 0x008ca500 (confidence: low)
+void __fastcall Object_UpdateFields_008ca500(void* this_ptr)
 {
     *(void**)this_ptr = &DAT_01085864;
     ((FUN_008ca520_shell*)this_ptr)->InitVtbl();
@@ -767,14 +776,14 @@ void FUN_008ca520_shell::InitVtbl()
 void __cdecl operator delete(void*);
 struct FUN_008ca540_shell
 {
-    void FUN_008ca500();
+    void Object_UpdateFields_008ca500();
     void* FUN_008ca540(unsigned int flags);
 };
 // Calls FUN_008ca500, then deletes this when flags has bit 0 set, and returns this.
 // @fnv 0x008ca540
 void* FUN_008ca540_shell::FUN_008ca540(unsigned int flags)
 {
-    FUN_008ca500();
+    Object_UpdateFields_008ca500();
     if (flags & 1)
         operator delete(this);
     return this;
@@ -1066,11 +1075,11 @@ FUN_008ca480::~FUN_008ca480()
 struct Node_008ca620;
 struct Arg_008ca620
 {
-    void FUN_008caa70(void* p);
+    void InitializeFields_008caa70(void* p);
 };
 struct List_008ca620
 {
-    void FUN_008ca770(Node_008ca620** pp);
+    void ProcessState_008ca770(Node_008ca620** pp);
 };
 struct Node_008ca620
 {
@@ -1093,9 +1102,9 @@ bool Obj_008ca620::PopNode(Arg_008ca620* a)
     Node_008ca620* node = m_0c;
     if (node)
     {
-        a->FUN_008caa70(node->_ref_006815c0());
+        a->InitializeFields_008caa70(node->_ref_006815c0());
         m_0c = node->m_0c;
-        m_08->FUN_008ca770(&node);
+        m_08->ProcessState_008ca770(&node);
         bPopped = true;
     }
     else

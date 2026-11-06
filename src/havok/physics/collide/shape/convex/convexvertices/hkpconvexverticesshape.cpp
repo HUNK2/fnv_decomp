@@ -85,10 +85,10 @@ public:
     PacketCallLocal_00d59cc0(const __m128& vector);
 
     PacketCallLocal_00d59cc0* hkVector4_hkVector4(float x, float y, float z, float w);
-    void FUN_004a3f10(PacketCallLocal_00d59cc0* vector);
-    void __thiscall FUN_004b4db0(const PacketCallLocal_00d59cc0* vector);
-    PacketCallLocal_00d59cc0& FUN_00e531a0(int parameter);
-    PacketCallLocal_00d59cc0 FUN_00e53260(int parameter);
+    void SetValue(PacketCallLocal_00d59cc0* vector);
+    void __thiscall SetQuaternionComponentsFromVector(const PacketCallLocal_00d59cc0* vector);
+    PacketCallLocal_00d59cc0& ComputeValue_00e531a0(int parameter);
+    PacketCallLocal_00d59cc0 ProcessAndReturnValue_00e53260(int parameter);
     void normalize_005611c0();
 
     void operator=(const PacketCallLocal_00d59cc0& vector);
@@ -178,7 +178,7 @@ struct RefObj { void RetainReference(); void removeReference(); };
 struct DDCC60World { void removeReference(); };
 // Local fallback: shared hkpConvexVerticesShape lacks AssignReference and FUN_00d59f40.
 struct FUN_00d5a320 {
-    void FUN_00d59f40();
+    void ProcessEntries_00d59f40();
     void AssignReference(RefObj* p, bool b);
 };
 // Releases the current reference at this+0x60, stores p there, and if b and p are set calls FUN_00d59f40.
@@ -188,7 +188,7 @@ void FUN_00d5a320::AssignReference(RefObj* apRef, bool b)
     if (apRef) apRef->RetainReference();
     if (*(DDCC60World**)((char*)this + 0x60)) (*(DDCC60World**)((char*)this + 0x60))->removeReference();
     *(RefObj**)((char*)this + 0x60) = apRef;
-    if (b && apRef) FUN_00d59f40();
+    if (b && apRef) ProcessEntries_00d59f40();
 }
 
 hkMemoryRouter* _D1A0E0GetMemoryRouter();
@@ -245,10 +245,11 @@ const hkArray<hkVector4>& hkpConvexVerticesShape::GetPlaneEquations() const
 
 struct CallTarget_00d5a410 { int hkArrayBase_hkVector4_spliceInto(int, int, int, int, int); };
 struct SearchObject {
-    int FUN_00d5a4c0(unsigned int arg0, unsigned int arg1, unsigned int arg2, unsigned int arg3);
+    int ProcessAndReturnValue_00d5a4c0(unsigned int arg0, unsigned int arg1, unsigned int arg2, unsigned int arg3);
 };
 // @fnv 0x00d5a4c0
-int SearchObject::FUN_00d5a4c0(unsigned int arg0, unsigned int arg1, unsigned int arg2, unsigned int arg3)
+// src: GUESS 0x00d5a4c0 (confidence: low)
+int SearchObject::ProcessAndReturnValue_00d5a4c0(unsigned int arg0, unsigned int arg1, unsigned int arg2, unsigned int arg3)
 {
     unsigned int uiCallResult = (unsigned int)((CallTarget_00d5a410*)this)->hkArrayBase_hkVector4_spliceInto((int)arg0, (int)arg1, (int)0u, (int)arg2, (int)arg3);
     return (int)uiCallResult;
@@ -568,7 +569,7 @@ struct ConvexD5A360 {
     int unk50;
     hkArray<Vector4D5A360, ArrayD5A360Policy> m_kVertices;
     int m_iConnectivity;
-    void FUN_00d59f40();
+    void ProcessEntries_00d59f40();
     void SetVertices(const hkArray<Vector4D5A360, ArrayD5A360Policy>& kVertices);
 };
 
@@ -578,7 +579,7 @@ void ConvexD5A360::SetVertices(const hkArray<Vector4D5A360, ArrayD5A360Policy>& 
 {
     m_kVertices = kVertices;
     if (m_iConnectivity)
-        FUN_00d59f40();
+        ProcessEntries_00d59f40();
 }
 
 // @fnv 0x00d58d20

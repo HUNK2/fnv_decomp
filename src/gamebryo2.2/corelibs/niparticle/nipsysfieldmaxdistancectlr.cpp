@@ -42,7 +42,7 @@ void __stdcall NiPSysFieldMaxDistanceCtlr_GetViewerStrings(StrArr* pkStrings)
     pkStrings->SetAt(uSize, psz);
 }
 
-extern "C" void* __cdecl FUN_00aa13e0(unsigned int);
+extern "C" void* __cdecl Object_DispatchCommandFour(unsigned int);
 extern char DAT_010bf354[];
 
 inline void* operator new(unsigned int, void* location)
@@ -58,7 +58,7 @@ void __cdecl FUN_00c32de0();
 // src: XBOX_PDB 0x00c2b070
 void* NiPSysFieldMaxDistanceCtlr::CreateClone_00c2b070(unsigned int a1)
 {
-    NiPSysFieldMaxDistanceCtlr* p = (NiPSysFieldMaxDistanceCtlr*)FUN_00aa13e0(0x40);
+    NiPSysFieldMaxDistanceCtlr* p = (NiPSysFieldMaxDistanceCtlr*)Object_DispatchCommandFour(0x40);
     if (p != 0)
     {
         ::new (p) NiPSysModifierFloatCtlr;

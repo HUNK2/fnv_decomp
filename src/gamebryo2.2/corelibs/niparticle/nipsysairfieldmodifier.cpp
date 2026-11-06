@@ -741,7 +741,7 @@ struct AirPoint3
     bool FUN_00439090(const AirPoint3&) const;
     float FUN_00457910();
     void Unitize_004a0c10();
-    AirPoint3 FUN_0053d280(float) const;
+    AirPoint3 ProcessAndReturnValue_0053d280(float) const;
     AirPoint3 operator+(const AirPoint3& v) const
     {
         return AirPoint3(x + v.x, y + v.y, z + v.z);
@@ -859,7 +859,7 @@ void AirModifier::NiPSysAirFieldModifier_Update(float time, NiPSysData* apPartic
     AirPoint3 unitVelocity = NiPoint3_ZERO;
     if (previousPosition.FUN_00439090(DAT_011af220) && previousTime != 3.4028234663852886e38 && previousTime != time)
     {
-        unitVelocity = ((AirVector(ownerWorld.m_Translate) - previousPosition) * inheritVelocity).FUN_0053d280(time - previousTime);
+        unitVelocity = ((AirVector(ownerWorld.m_Translate) - previousPosition) * inheritVelocity).ProcessAndReturnValue_0053d280(time - previousTime);
     }
     previousTime = time;
     previousPosition = AirVector(ownerWorld.m_Translate);

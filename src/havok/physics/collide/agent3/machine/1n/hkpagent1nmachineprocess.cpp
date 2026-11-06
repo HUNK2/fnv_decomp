@@ -50,7 +50,8 @@ void S00da4a50_Wrap(Updater* self, int flag, Pair* dest, Pair* src, Updater* oth
 }
 
 // @fnv 0x00da4960
-static __declspec(noinline) int FUN_00da4960(int savedValue, Out* out, Updater* obj, int value)
+// src: GUESS 0x00da4960 (confidence: low)
+static __declspec(noinline) int Object_ProcessAndReturnValue_00da4960(int savedValue, Out* out, Updater* obj, int value)
 {
     int result = obj->update(savedValue, value);
     out->res = result;
@@ -64,7 +65,7 @@ extern int volatile probeValue;
 extern int volatile probeSink;
 void callProbe()
 {
-    probeSink = FUN_00da4960(probeSaved, probeOut, probeObj, probeValue);
+    probeSink = Object_ProcessAndReturnValue_00da4960(probeSaved, probeOut, probeObj, probeValue);
 }
 
 struct Entry00da4970

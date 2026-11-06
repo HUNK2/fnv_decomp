@@ -389,7 +389,8 @@ unsigned int TESFile::GetOffset()
 extern int DAT_01014210;
 
 // @fnv 0x0040ecb0
-void __fastcall FUN_0040ecb0(int* p)
+// src: GUESS 0x0040ecb0 (confidence: low)
+void __fastcall TESForm_UpdateState_0040ecb0(int* p)
 {
     *p = (int)&DAT_01014210;
 }
@@ -1009,12 +1010,13 @@ void FUN_004849d0_shell::SetFlag200(bool abVal)
 
 struct FUN_00484bf0_shell
 {
-    unsigned short __thiscall FUN_00484bf0(unsigned int aiFlags);
+    unsigned short __thiscall GetFlaggedDataSize(unsigned int aiFlags);
 };
 
 // Returns 4 when bit 0 of aiFlags is set, otherwise 0.
 // @fnv 0x00484bf0
-unsigned short __thiscall FUN_00484bf0_shell::FUN_00484bf0(unsigned int aiFlags)
+// src: GUESS 0x00484bf0 (confidence: medium)
+unsigned short __thiscall FUN_00484bf0_shell::GetFlaggedDataSize(unsigned int aiFlags)
 {
     unsigned short isize = 0;
     if (aiFlags & 1)
@@ -1072,7 +1074,8 @@ void __cdecl TESForm_AddChunkArray_00485710(void* arg0, void* arg1, void* arg2)
 extern void __cdecl TESForm_AddChunkArray16(void*, void*, void*);
 
 // @fnv 0x00485730
-void __cdecl FUN_00485730(void* apArg1, void* apArg2, void* apArg3)
+// src: GUESS 0x00485730 (confidence: low)
+void __cdecl TESForm_AddChunkArray16_ForwardCall_00485730(void* apArg1, void* apArg2, void* apArg3)
 {
     TESForm_AddChunkArray16(apArg1, apArg2, apArg3);
 }
@@ -1572,10 +1575,11 @@ extern int DAT_011c54d0;
 bool TESForm_QEndianSwapOnSave();
 struct Holder : public TESForm
 {
-    void FUN_00485680();
+    void FinishFormRecord();
 };
 // @fnv 0x00485680
-void Holder::FUN_00485680()
+// src: GUESS 0x00485680 (confidence: medium)
+void Holder::FinishFormRecord()
 {
     FormRecordHeader* pForm;
     if (IsTemporary())
@@ -2162,7 +2166,7 @@ class TesformOffset08View : public TESForm
 {
   public:
     unsigned int GetFlags();
-    void FUN_004855a0();
+    void BeginFormRecord();
 };
 
 extern void* DAT_011c54cc;
@@ -2179,7 +2183,8 @@ extern FormEnumEntry DAT_01187008[];
 int __cdecl return15();
 
 // @fnv 0x004855a0
-void TesformOffset08View::FUN_004855a0()
+// src: GUESS 0x004855a0 (confidence: medium)
+void TesformOffset08View::BeginFormRecord()
 {
     FormRecordHeader* pForm;
 

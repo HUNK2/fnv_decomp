@@ -104,10 +104,10 @@ struct LevItemSerialization : public TESLevItem
 // @fnv 0x0050b530
 void LevItemSerialization::Save()
 {
-    TESForm::FUN_004855a0();
+    TESForm::BeginFormRecord();
     TESForm::ClearData();
     TESLeveledList::Save();
-    TESForm::FUN_00485680();
+    TESForm::FinishFormRecord();
 }
 
 // @fnv 0x0050adb0

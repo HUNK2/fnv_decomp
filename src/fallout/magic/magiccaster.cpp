@@ -746,11 +746,12 @@ class FUN_008153b0_cls
   public:
     void* m_vtbl;
     MagicEffectCollection* m_pLight;
-    void FUN_008153b0();
+    void UpdateState_008153b0();
 };
 
 // @fnv 0x008153b0
-void FUN_008153b0_cls::FUN_008153b0()
+// src: GUESS 0x008153b0 (confidence: low)
+void FUN_008153b0_cls::UpdateState_008153b0()
 {
     MagicEffectCollection* target;
     MagicEffectCollection* light;
@@ -2454,7 +2455,7 @@ struct ExplosionValues
 class ExplosionPoint : public NiPoint3
 {
   public:
-    NiPoint3 __thiscall FUN_00439ef0(const NiPoint3&) const;
+    NiPoint3 __thiscall SubtractIntoVector(const NiPoint3&) const;
     float __thiscall FUN_00457990() const;
 };
 
@@ -3093,7 +3094,7 @@ void ExplosionCaster::ApplyExplosion(ExplosionActor* target, NiPoint3 origin, Ef
     NiPoint3 s = *target->GetPosition();
     s.z += a * 0.75;
     // Displacement used to calculate the distance.
-    NiPoint3 p = ((ExplosionPoint&)s).FUN_00439ef0(origin);
+    NiPoint3 p = ((ExplosionPoint&)s).SubtractIntoVector(origin);
     h = ((ExplosionPoint&)p).FUN_00457990();
     i = ComputeBlastPower((int)strength, (int)(effect->GetArea() * *originalRuntimeFloatSetting1112.Float()), h,
                           target->values.FUN_0066ef20(10), target->values.FUN_0066ef20(11), target->GetFatigueRatio());
@@ -3115,8 +3116,8 @@ void ExplosionCaster::ApplyExplosion(ExplosionActor* target, NiPoint3 origin, Ef
             {
                 NiTransform transform;
                 node->NiAVObject_GetWorldRotate(&transform)->FUN_004b4880();
-                localOrigin = *reinterpret_cast<NiPoint3*>(&transform.FUN_00524c40(reinterpret_cast<const NiPoint3&>(origin)));
-                localPosition = *reinterpret_cast<NiPoint3*>(&transform.FUN_00524c40(reinterpret_cast<const NiPoint3&>(s)));
+                localOrigin = *reinterpret_cast<NiPoint3*>(&transform.ComputeValue_00524c40(reinterpret_cast<const NiPoint3&>(origin)));
+                localPosition = *reinterpret_cast<NiPoint3*>(&transform.ComputeValue_00524c40(reinterpret_cast<const NiPoint3&>(s)));
             }
             target->Impulse(caster, 2.0 * i, 0.0f, &localPosition, &localOrigin);
         }

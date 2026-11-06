@@ -28,9 +28,9 @@ public:
     void ListBox_enum_ActorValue_Index_UpdateHighlightBoxPos();
     void ListBox_enum_MiscStatManager_MiscStatID_UpdateHighlightBoxPos();
     void ListBox_ItemChange_ScrollToHighlight();
-    void FUN_007a73e0();
+    void UpdateHighlightTraits_007a73e0();
     __declspec(dllexport) void UpdateHighlight();
-    void FUN_0072c2b0();
+    void UpdateState_0072c2b0();
 };
 // HighlightValue_computersmenu: local type (was include/HighlightValue.h, which had no evidence of one real class); its methods are 0x00a09130 Tile::Value::AddRefValueAction, 0x00a09410 Tile::Value::SetFloat
 #include "../../../../include/Tile.h"
@@ -381,12 +381,13 @@ struct FUN_0075a5e0_shell
 {
     char _pad[4];
     TerminalNodeSortList m_kNode;
-    void __thiscall FUN_0075a5e0(int(__cdecl* f)(void*, void*));
+    void __thiscall SortAndResetEntries(int(__cdecl* f)(void*, void*));
 };
 
 // Sorts the list using the given comparison function, then calls ResetAndProcessNodes on this object.
 // @fnv 0x0075a5e0
-void __thiscall FUN_0075a5e0_shell::FUN_0075a5e0(int(__cdecl* f)(void*, void*))
+// src: GUESS 0x0075a5e0 (confidence: medium)
+void __thiscall FUN_0075a5e0_shell::SortAndResetEntries(int(__cdecl* f)(void*, void*))
 {
     m_kNode.Sort(f);
     reinterpret_cast<FUN_0075aa50_shell*>(this)->ResetAndProcessNodes();
@@ -706,11 +707,12 @@ class SetTileHelper
     char _pad[0x10];
     Tile* m_pTile10;
 
-    bool FUN_0075a610(Tile* apTile);
+    bool HasEnabledTrait(Tile* apTile);
 };
 
 // @fnv 0x0075a610
-bool SetTileHelper::FUN_0075a610(Tile* apTile)
+// src: GUESS 0x0075a610 (confidence: high)
+bool SetTileHelper::HasEnabledTrait(Tile* apTile)
 {
     if (((Shell*)this)->IsTileTraitEnabled() &&
         (apTile == 0 || (((Shell*)this)->ContainsKey(apTile) &&
@@ -2203,7 +2205,7 @@ struct BStr
     int m_len;
     BStr();
     ~BStr();
-    const char* FUN_00559450();
+    const char* Modelloader_GetReferencedThis();
 };
 struct Obj
 {
@@ -2307,9 +2309,9 @@ void __thiscall ComputersMenu::DoClick(int aiTileIndex, Tile* apTile)
             {
                 obj->SetFlag4(true);
                 obj->TERMINAL_MENU_ITEM_RunResultScript(reference);
-                if (obj->m_str.FUN_00559450())
+                if (obj->m_str.Modelloader_GetReferencedThis())
                 {
-                    reinterpret_cast<Mgr*>(manager)->InsertAtPosition(obj->m_str.FUN_00559450(), m_pTiles[5]->Tile_GetValue(0xfc4),
+                    reinterpret_cast<Mgr*>(manager)->InsertAtPosition(obj->m_str.Modelloader_GetReferencedThis(), m_pTiles[5]->Tile_GetValue(0xfc4),
                                                  reinterpret_cast<TileCompatibility*>(m_pTiles[5])->FindTraitValue(0xfa3), 0);
                     unka0 = Cmd_GetSessionTime_Execute() + *DAT_011d3e50.Setting_Int() * 1000;
                 }
@@ -2321,7 +2323,7 @@ void __thiscall ComputersMenu::DoClick(int aiTileIndex, Tile* apTile)
                         {
                             BStr str;
                             BSStringT_char_SPrintF(&str, DAT_011d3ca0.FUN_00403df0(), obj->m_note->TESFullName::GetFullName());
-                            DispatchMessageToSink(str.FUN_00559450(), 0,
+                            DispatchMessageToSink(str.Modelloader_GetReferencedThis(), 0,
                                                   "Interface\\Icons\\Message Icons\\glow_message_giftbox.dds", 0, 2.0f,
                                                   false);
                         }
@@ -2375,7 +2377,7 @@ void ComputersMenu::BuildAnimation()
                                     (int)reinterpret_cast<TileCompatibility*>(tile4c)->FindTraitValue(0xfa3), -1);
         fnv_00758ad0::DAT_0119f278 = promptDelay;
         BSStringT_char_SPrintF(&text, "%s%s", "> ", g_011d2ee0.FUN_00403df0());
-        reinterpret_cast<FUN_00759da0_shell*>(manager)->InsertAtPosition(text.FUN_00559450(), (int)tile50->Tile_GetValue(0xfc4),
+        reinterpret_cast<FUN_00759da0_shell*>(manager)->InsertAtPosition(text.Modelloader_GetReferencedThis(), (int)tile50->Tile_GetValue(0xfc4),
                                     (int)reinterpret_cast<TileCompatibility*>(tile50)->FindTraitValue(0xfa3), -1);
         fnv_00758ad0::DAT_0119f278 = introDelay;
         reinterpret_cast<FUN_00759da0_shell*>(manager)->InsertAtPosition(g_011d430c.FUN_004c69f0(), (int)tile54->Tile_GetValue(0xfc4),
@@ -2385,7 +2387,7 @@ void ComputersMenu::BuildAnimation()
         ourMemset(password, 0, 16);
         ourMemset(password, '*', reinterpret_cast<TerminalReference*>(terminal)->BGSTerminal_GetHackMiniGameValue(reference));
         BSStringT_char_SPrintF(&text, "%s%s", "> ", password);
-        reinterpret_cast<FUN_00759da0_shell*>(manager)->InsertAtPosition(text.FUN_00559450(), (int)tile58->Tile_GetValue(0xfc4),
+        reinterpret_cast<FUN_00759da0_shell*>(manager)->InsertAtPosition(text.Modelloader_GetReferencedThis(), (int)tile58->Tile_GetValue(0xfc4),
                                     (int)reinterpret_cast<TileCompatibility*>(tile58)->FindTraitValue(0xfa3), -1);
     }
 }

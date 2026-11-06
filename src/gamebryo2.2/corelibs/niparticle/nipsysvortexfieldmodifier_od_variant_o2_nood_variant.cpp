@@ -28,11 +28,11 @@ struct TPoint3
     {
         return TPoint3(x - kPt.x, y - kPt.y, z - kPt.z);
     }
-    bool FUN_004390c0(const TPoint3& kPt) const;
+    bool HasEqualComponents(const TPoint3& kPt) const;
     float FUN_00457990() const;
     void Unitize_004a0c10();
-    TPoint3& FUN_00439180(float fScalar);
-    TPoint3& FUN_0063c8a0(const TPoint3& kPt);
+    TPoint3& ScaleComponents(float fScalar);
+    TPoint3& ComputeValue_0063c8a0(const TPoint3& kPt);
 };
 
 extern const TPoint3 DAT_011f426c;
@@ -146,9 +146,9 @@ struct TFieldModifier
     TPoint3 m_kLightVector;
 
     void NiPSysVortexFieldModifier_Update(float fTime, TPSysData* pkData);
-    void FUN_00c269b0(float fTime, TPSysData* pkData);
-    void FUN_00c26c00(float fTime, TPSysData* pkData);
-    __declspec(noalias) TPoint3 FUN_00c26820(const TPoint3& kFieldPos, const TPoint3& kFieldDir, const TPoint3& kPos);
+    void ApplyVortexVelocityWithinDistance(float fTime, TPSysData* pkData);
+    void ApplyParticleForces(float fTime, TPSysData* pkData);
+    __declspec(noalias) TPoint3 Object_ProcessAndReturnValue_00c26820(const TPoint3& kFieldPos, const TPoint3& kFieldDir, const TPoint3& kPos);
 };
 
 // @fnv 0x00c26de0
@@ -159,7 +159,7 @@ void TFieldModifier::NiPSysVortexFieldModifier_Update(float fTime, TPSysData* pk
         return;
     if (pkData->GetShaderParticleCount() == 0)
         return;
-    if (m_kLightVector.FUN_004390c0(DAT_011f426c))
+    if (m_kLightVector.HasEqualComponents(DAT_011f426c))
         return;
     if (!m_pkFieldObject)
         return;
@@ -167,9 +167,9 @@ void TFieldModifier::NiPSysVortexFieldModifier_Update(float fTime, TPSysData* pk
     if (m_fFieldAttenuation == 0.0f)
     {
         if (m_bEnableMaxDistance)
-            FUN_00c269b0(fTime, pkData);
+            ApplyVortexVelocityWithinDistance(fTime, pkData);
         else
-            FUN_00c26c00(fTime, pkData);
+            ApplyParticleForces(fTime, pkData);
         return;
     }
 
@@ -208,12 +208,12 @@ void TFieldModifier::NiPSysVortexFieldModifier_Update(float fTime, TPSysData* pk
                 {
                     if (!m_bEnableMaxDistance || fDist <= m_fDistanceLimit)
                     {
-                        TPoint3 kForce = FUN_00c26820(kFieldPos, kFieldDir, kPos);
+                        TPoint3 kForce = Object_ProcessAndReturnValue_00c26820(kFieldPos, kFieldDir, kPos);
                         if (m_fFieldAttenuation == 0.0f)
-                            kForce.FUN_00439180(fDeltaT * m_fInfluence);
+                            kForce.ScaleComponents(fDeltaT * m_fInfluence);
                         else
-                            kForce.FUN_00439180(fDeltaT * m_fInfluence / NiPow(fDist, m_fFieldAttenuation));
-                        pkInfo->m_kValue.FUN_0063c8a0(kForce);
+                            kForce.ScaleComponents(fDeltaT * m_fInfluence / NiPow(fDist, m_fFieldAttenuation));
+                        pkInfo->m_kValue.ComputeValue_0063c8a0(kForce);
                     }
                 }
             }

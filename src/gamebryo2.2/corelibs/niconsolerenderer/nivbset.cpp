@@ -101,7 +101,7 @@ void FUN_00e94220_cls::InsertSortedNode(NiVBBlock* node)
 
 extern unsigned int DAT_011c0cdc;
 extern int DAT_010f0f8c;
-void* __cdecl FUN_00aa13e0(unsigned int);
+void* __cdecl Object_DispatchCommandFour(unsigned int);
 __forceinline NiVBBlock* InitializeVBBlock(NiVBBlock* block)
 {
     block->m_chips.unk34 = 0;
@@ -120,7 +120,7 @@ void __cdecl AllocateVBBlocks()
 {
     for (unsigned int i = 0; i < DAT_011c0cdc; ++i)
     {
-        NiVBBlock* pRawBlock = static_cast<NiVBBlock*>(FUN_00aa13e0(sizeof(NiVBBlock)));
+        NiVBBlock* pRawBlock = static_cast<NiVBBlock*>(Object_DispatchCommandFour(sizeof(NiVBBlock)));
         NiVBBlock* p = pRawBlock ? InitializeVBBlock(pRawBlock) : 0;
         NiVBBlock* previous = reinterpret_cast<NiVBBlock*>(p->m_3c);
         NiVBBlock* next = reinterpret_cast<NiVBBlock*>(p->m_40);
@@ -382,12 +382,13 @@ struct VBSetCleanup
     unsigned int usage;
     unsigned int pool;
     CleanupBlockArray blocks;
-    void FUN_00e943c0();
+    void DestroyFields_00e943c0();
 };
 
 // Releases each block's VB interface, links non-null blocks into a list, releases the buffer, and destroys the array.
 // @fnv 0x00e943c0
-void VBSetCleanup::FUN_00e943c0()
+// src: GUESS 0x00e943c0 (confidence: medium)
+void VBSetCleanup::DestroyFields_00e943c0()
 {
     for (unsigned int i = 0; i < blocks.m_usSize; ++i)
     {

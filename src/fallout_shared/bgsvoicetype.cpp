@@ -42,13 +42,13 @@ void __cdecl AppendChunk(unsigned int, void*, unsigned int);
 // src: XBOX_PDB 0x005f0140
 void BGSVoiceType::Save_005f0140()
 {
-    FUN_004855a0();
+    BeginFormRecord();
     if (TESForm_QEndianSwapOnSave())
         reinterpret_cast<TESForm*>(&Data)->TESForm::ClearData();
     AppendChunk(0x4d414e44, &Data, 1);
     if (TESForm_QEndianSwapOnSave())
         reinterpret_cast<TESForm*>(&Data)->TESForm::ClearData();
-    FUN_00485680();
+    FinishFormRecord();
 }
 
 // @fnv 0x005f00d0

@@ -66,10 +66,11 @@ struct FUN_00c90e60_cls
     float m_fRadiusOverHeight;
     float m_fHeightOverHalfRadius;
     float m_fHalfRadiusOverHeight;
-    void FUN_00c90e60(float fRadius, float m_fGlyphExtent);
+    void UpdateFields_00c90e60(float fRadius, float m_fGlyphExtent);
 };
 // @fnv 0x00c90e60
-void FUN_00c90e60_cls::FUN_00c90e60(float fRadius, float m_fGlyphExtent)
+// src: GUESS 0x00c90e60 (confidence: low)
+void FUN_00c90e60_cls::UpdateFields_00c90e60(float fRadius, float m_fGlyphExtent)
 {
     m_fBoundRadius = fRadius;
     float fHalfRadius = fRadius * 0.5;

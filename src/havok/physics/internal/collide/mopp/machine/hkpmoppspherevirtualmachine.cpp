@@ -14,7 +14,7 @@ void __cdecl ValidateHavokKeyCode(unsigned char*);
 struct FmtObj {
     int unk00, unk04, unk08;
     void FUN_00cb1600(char* buf, int size);
-    void FUN_00cc01c0(void* s);
+    void ProcessAndReturnValue_00cc01c0(void* s);
     void FUN_00cc00e0();
 };
 struct Reporter {
@@ -29,7 +29,7 @@ __forceinline void reportCorruption() {
     unsigned int buffer[128];
     FmtObj stream;
     stream.FUN_00cb1600(reinterpret_cast<char*>(buffer), sizeof(buffer));
-    stream.FUN_00cc01c0("Unknown command - This mopp data has been corrupted (check for memory trashing), or an hkpMoppBvTreeShape has been pointed at invalid mopp data.\n");
+    stream.ProcessAndReturnValue_00cc01c0("Unknown command - This mopp data has been corrupted (check for memory trashing), or an hkpMoppBvTreeShape has been pointed at invalid mopp data.\n");
     if (DAT_01268360->Report(3, 0x1298feddu, reinterpret_cast<char*>(buffer), ".\\Collide\\Mopp\\Machine\\hkpMoppSphereVirtualMachine.cpp", 292))
         __debugbreak();
     stream.FUN_00cc00e0();

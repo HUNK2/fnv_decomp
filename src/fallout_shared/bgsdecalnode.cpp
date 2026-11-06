@@ -48,7 +48,8 @@ void BGSDecalNode::AttachChild_004ee4d0(NiAVObject* apAVObj, bool abFirstAvailab
 }
 
 // @fnv 0x004ee560
-void BGSDecalNode::FUN_004ee560(int aiValue)
+// src: GUESS 0x004ee560 (confidence: low)
+void BGSDecalNode::ProcessState_004ee560(int aiValue)
 {
     GO g(0);
     InsertChild(reinterpret_cast<BSTempEffect*>(aiValue), &g);
@@ -242,7 +243,7 @@ BGSDecalNode::BGSDecalNode(NiNode* parent, unsigned char flag) : NiNode(0)
 
 struct FUN_004ee610_view
 {
-    BSTempEffect* FUN_00559450();
+    BSTempEffect* Modelloader_GetReferencedThis();
     void FUN_00a59e00(int aValue);
 };
 
@@ -263,10 +264,10 @@ void BGSDecalNode::OnVisible_004ee610(int a1)
         while (node != 0 && !node->BSSimpleList_NiRefObjectPtr_IsEmpty())
         {
             {
-                GO local((int)node->FUN_006815c0()->FUN_00559450()->Get3D());
-                if (reinterpret_cast<FUN_004ee610_view*>(&local)->FUN_00559450())
+                GO local((int)node->FUN_006815c0()->Modelloader_GetReferencedThis()->Get3D());
+                if (reinterpret_cast<FUN_004ee610_view*>(&local)->Modelloader_GetReferencedThis())
                 {
-                    reinterpret_cast<FUN_004ee610_view*>(reinterpret_cast<FUN_004ee610_view*>(&local)->FUN_00559450())
+                    reinterpret_cast<FUN_004ee610_view*>(reinterpret_cast<FUN_004ee610_view*>(&local)->Modelloader_GetReferencedThis())
                         ->FUN_00a59e00(a1);
                 }
                 node = node->FUN_00726070();

@@ -23,40 +23,44 @@ void __cdecl CopyConstructEntry(int a, int b);
 
 struct FUN_006601f0_Class
 {
-    void __thiscall FUN_006601f0(int a, int b);
+    void __thiscall CopyConstructEntry_Thunk(int a, int b);
 };
 
 // @fnv 0x006601f0
-void __thiscall FUN_006601f0_Class::FUN_006601f0(int aiArg1, int aiArg2)
+// src: GUESS 0x006601f0 (confidence: medium)
+void __thiscall FUN_006601f0_Class::CopyConstructEntry_Thunk(int aiArg1, int aiArg2)
 {
     CopyConstructEntry(aiArg1, aiArg2);
 }
 
-extern "C" void __cdecl FUN_00660340(void*, void*, void*, void*);
+extern "C" void __cdecl Object_DispatchIteratorRange_00660340(void*, void*, void*, void*);
 
 // @fnv 0x00660210
-void __cdecl FUN_00660210(void* a1, void* a2, void* a3, void* a4)
+// src: GUESS 0x00660210 (confidence: low)
+void __cdecl Runtime_ForwardCall_00660210(void* a1, void* a2, void* a3, void* a4)
 {
-    FUN_00660340(a1, a2, a3, a4);
+    Object_DispatchIteratorRange_00660340(a1, a2, a3, a4);
 }
 
-extern "C" void __cdecl FUN_006603a0(void* a, void* b, void* c, void* d);
+extern "C" void __cdecl Object_DispatchIteratorRange_006603a0(void* a, void* b, void* c, void* d);
 
 // @fnv 0x00660230
-void __cdecl FUN_00660230(void* apArg1, void* apArg2, void* apArg3, void* apArg4)
+// src: GUESS 0x00660230 (confidence: low)
+void __cdecl Runtime_ForwardCall_00660230(void* apArg1, void* apArg2, void* apArg3, void* apArg4)
 {
-    FUN_006603a0(apArg1, apArg2, apArg3, apArg4);
+    Object_DispatchIteratorRange_006603a0(apArg1, apArg2, apArg3, apArg4);
 }
 
 extern "C" int __cdecl ConstructInPlace(int, int);
 
 struct FUN_00660300_Class
 {
-    int __thiscall FUN_00660300(int a, int b);
+    int __thiscall ConstructInPlace_Thunk(int a, int b);
 };
 
 // @fnv 0x00660300
-int __thiscall FUN_00660300_Class::FUN_00660300(int aiArg1, int aiArg2)
+// src: GUESS 0x00660300 (confidence: medium)
+int __thiscall FUN_00660300_Class::ConstructInPlace_Thunk(int aiArg1, int aiArg2)
 {
     return ConstructInPlace(aiArg1, aiArg2);
 }
@@ -65,11 +69,12 @@ extern "C" void __cdecl CopyConstructElement(int, int);
 
 struct FUN_00660320_Class
 {
-    void __thiscall FUN_00660320(int a, int b);
+    void __thiscall CopyConstructElement_Thunk(int a, int b);
 };
 
 // @fnv 0x00660320
-void __thiscall FUN_00660320_Class::FUN_00660320(int aiFirst, int aiSecond)
+// src: GUESS 0x00660320 (confidence: medium)
+void __thiscall FUN_00660320_Class::CopyConstructElement_Thunk(int aiFirst, int aiSecond)
 {
     CopyConstructElement(aiFirst, aiSecond);
 }
@@ -190,11 +195,12 @@ extern int DAT_01068884;
 
 struct FUN_0067ad70_Class
 {
-    void FUN_0067ad70();
+    void SetVtableAndProcessState_0067ad70();
 };
 
 // @fnv 0x0067ad70
-void FUN_0067ad70_Class::FUN_0067ad70()
+// src: GUESS 0x0067ad70 (confidence: low)
+void FUN_0067ad70_Class::SetVtableAndProcessState_0067ad70()
 {
     *reinterpret_cast<int*>(this) = reinterpret_cast<int>(&DAT_01068884);
 }
@@ -217,11 +223,12 @@ extern "C" int DAT_01068aa4;
 struct FUN_0067d970_Class
 {
     int m;
-    void __thiscall FUN_0067d970();
+    void __thiscall SetM();
 };
 
 // @fnv 0x0067d970
-void __thiscall FUN_0067d970_Class::FUN_0067d970()
+// src: GUESS 0x0067d970 (confidence: low)
+void __thiscall FUN_0067d970_Class::SetM()
 {
     m = (int)&DAT_01068aa4;
 }
@@ -301,15 +308,16 @@ struct StatisticalArray
 {
     int _pad[3];
     int m_base;
-    unsigned int __thiscall FUN_0065cc30();
-    int __thiscall FUN_00662890(unsigned int);
+    unsigned int __thiscall EvaluateValue_0065cc30();
+    int __thiscall GetElementChecked_00662890(unsigned int);
 };
 unsigned int __cdecl FUN_00ec7c56();
 // Bounds-checks index a against the array count, then returns m_base plus a times 0x38.
 // @fnv 0x00662890
-int __thiscall StatisticalArray::FUN_00662890(unsigned int uiIndex)
+// src: GUESS 0x00662890 (confidence: medium)
+int __thiscall StatisticalArray::GetElementChecked_00662890(unsigned int uiIndex)
 {
-    if (uiIndex >= FUN_0065cc30())
+    if (uiIndex >= EvaluateValue_0065cc30())
         FUN_00ec7c56();
     do
     {
@@ -415,18 +423,18 @@ void* __thiscall FUN_00666270_Holder::InitAndMaybeDeallocate(unsigned int flags)
     return this;
 }
 
-void __cdecl FUN_006665c0();
+void __cdecl ReleaseEntries_006665c0();
 void __cdecl Deallocate(void*);
 struct FUN_00666570_Class
 {
-    void __thiscall FUN_006665c0();
+    void __thiscall ReleaseEntries_006665c0();
     void* __thiscall FUN_00666570(unsigned int flags);
 };
 // Calls FUN_006665c0, then frees this with Deallocate when flags has bit 0 set, and returns this.
 // @fnv 0x00666570
 void* __thiscall FUN_00666570_Class::FUN_00666570(unsigned int flags)
 {
-    FUN_006665c0();
+    ReleaseEntries_006665c0();
     if (flags & 1)
         Deallocate(this);
     return this;
@@ -434,7 +442,7 @@ void* __thiscall FUN_00666570_Class::FUN_00666570(unsigned int flags)
 
 struct T_
 {
-    void FUN_004a3f10(void*);
+    void SetValue(void*);
 };
 struct FUN_0066c9c0_Class
 {
@@ -446,8 +454,8 @@ struct FUN_0066c9c0_Class
 // src: XBOX_PDB 0x0066c9c0
 void FUN_0066c9c0_Class::hkContactPoint_set(T_& x, T_& y, float afValue)
 {
-    a.FUN_004a3f10(&x);
-    ((T_*)((char*)&a) + 16)->FUN_004a3f10(&y);
+    a.SetValue(&x);
+    ((T_*)((char*)&a) + 16)->SetValue(&y);
     ((bhkCharacterController*)((char*)&a + 16))->GetVectorElement(3) = afValue;
 }
 
@@ -496,14 +504,15 @@ void __thiscall FUN_0066dae0_Class::hkArrayBase_hkVector4_clearAndDeallocate(voi
 namespace fnv_0066db30 {
 struct T_
 {
-    void FUN_004a3f10(void* a);
+    void SetValue(void* a);
 };
 // Calls FUN_004a3f10 with c on each of b 16-byte elements starting at a.
 // @fnv 0x0066db30
-void FUN_0066db30(void** apElements, int iCount, void* c)
+// src: GUESS 0x0066db30 (confidence: medium)
+void Runtime_AssignVectorValueToElements(void** apElements, int iCount, void* c)
 {
     for (int i = 0; i < iCount; ++i)
-        ((T_*)((char*)apElements + i * 16))->FUN_004a3f10(c);
+        ((T_*)((char*)apElements + i * 16))->SetValue(c);
 }
 }  // namespace fnv_0066db30
 
@@ -533,14 +542,14 @@ void __thiscall FUN_0066db70_Class::hkMemoryAllocator_bufFree_hkpRootCdBodyPair(
 void __cdecl Deallocate(void* p);
 struct FUN_0066df40_Class
 {
-    void __thiscall FUN_0066df40();
+    void __thiscall ClearEffectsAndRegisterOwner();
     void* __thiscall FUN_0066e300(unsigned int flags);
 };
 // Calls FUN_0066df40, frees this with Deallocate when flags has bit 1 set, and returns this.
 // @fnv 0x0066e300
 void* __thiscall FUN_0066df40_Class::FUN_0066e300(unsigned int flags)
 {
-    FUN_0066df40();
+    ClearEffectsAndRegisterOwner();
     if (flags & 1)
         Deallocate(this);
     return this;
@@ -665,7 +674,7 @@ extern "C" void __cdecl Deallocate(void*);
 
 struct FUN_0067d940_Class
 {
-    void __thiscall FUN_0067d970();
+    void __thiscall SetM();
     void* __thiscall FUN_0067d940(unsigned int flags);
 };
 
@@ -673,7 +682,7 @@ struct FUN_0067d940_Class
 // @fnv 0x0067d940
 void* __thiscall FUN_0067d940_Class::FUN_0067d940(unsigned int flags)
 {
-    FUN_0067d970();
+    SetM();
     if (flags & 1)
         Deallocate(this);
     return this;
@@ -834,7 +843,8 @@ PackageList::~PackageList()
 
 // @fnv 0x00660400
 template <class T> struct BSSimpleList;
-BSSimpleList<int>* FUN_00660400(BSSimpleList<int>* a)
+// src: GUESS 0x00660400 (confidence: medium)
+BSSimpleList<int>* BSSimpleList_GetNext_Thunk(BSSimpleList<int>* a)
 {
     return a->GetNext();
 }
@@ -976,7 +986,8 @@ char* __cdecl C0130CopyOpt(char* first, char* last, C0130Iterator dest, C0130Sca
 
 // Copies the range between the checked base pointers of first and last into dest, passing the pointer-category tag and a range-checked tag.
 // @fnv 0x00660130
-char* __cdecl FUN_00660130(C0130Iterator first, C0130Iterator last, C0130Iterator dest)
+// src: GUESS 0x00660130 (confidence: medium)
+char* __cdecl Runtime_CopyCheckedRange(C0130Iterator first, C0130Iterator last, C0130Iterator dest)
 {
     return C0130CopyOpt(C0130CheckedBase(first), C0130CheckedBase(last), dest, C0130PtrCat(first, dest),
                         C0130RangeCheckedTag());
@@ -1002,19 +1013,20 @@ char* __cdecl C0190CopyOpt(char* first, char* last, C0190Iterator dest, C0190Sca
                            C0190RangeCheckedTag checked);
 
 // @fnv 0x00660190
-char* __cdecl FUN_00660190(C0190Iterator first, C0190Iterator last, C0190Iterator dest)
+// src: GUESS 0x00660190 (confidence: low)
+char* __cdecl Runtime_EvaluateValue_00660190(C0190Iterator first, C0190Iterator last, C0190Iterator dest)
 {
     return C0190CopyOpt(C0190CheckedBase(first), C0190CheckedBase(last), dest, C0190PtrCat(first, dest),
                         C0190RangeCheckedTag());
 }
 
-void __cdecl FUN_00660400(void* a1, unsigned char flag);
+void __cdecl BSSimpleList_GetNext_Thunk(void* a1, unsigned char flag);
 
 // @fnv 0x00660250
 void __cdecl CallWithUninitializedFlag(void* a1)
 {
     unsigned char flag;
-    FUN_00660400(a1, flag);
+    BSSimpleList_GetNext_Thunk(a1, flag);
 }
 
 void* operator new(unsigned int uiSize, void* pvWhere);
@@ -1044,7 +1056,8 @@ struct SpawnedFlagBox
 };
 
 // @fnv 0x006603a0
-extern "C" void __cdecl FUN_006603a0(void* a, void* b, void* c, void* d)
+// src: GUESS 0x006603a0 (confidence: low)
+extern "C" void __cdecl Object_DispatchIteratorRange_006603a0(void* a, void* b, void* c, void* d)
 {
     SpawnedFlagBox flagA3 = {};
     bool flagB;
@@ -1116,11 +1129,12 @@ struct FUN_006665c0_cls
     FUN_006665c0_Entry* m_08;
 
     unsigned int GetCount();
-    void FUN_006665c0();
+    void ReleaseEntries_006665c0();
 };
 
 // @fnv 0x006665c0
-void FUN_006665c0_cls::FUN_006665c0()
+// src: GUESS 0x006665c0 (confidence: medium)
+void FUN_006665c0_cls::ReleaseEntries_006665c0()
 {
     unsigned int i;
     FUN_006665c0_Item* item;
@@ -1619,12 +1633,13 @@ void E640Cls::ActorCause_InitItem(BGSSaveFormBuffer* buffer)
 
 struct S_00660510_Context
 {
-    void __thiscall FUN_00660300(int dest, int src);
-    void __thiscall FUN_0065ea40(int element);
+    void __thiscall ConstructInPlace_Thunk(int dest, int src);
+    void __thiscall ForwardCall_0065ea40(int element);
 };
 
 // @fnv 0x00660510
-int __cdecl FUN_00660510(int first, int last, int dest, S_00660510_Context* context)
+// src: GUESS 0x00660510 (confidence: low)
+int __cdecl Runtime_ProcessEntries_00660510(int first, int last, int dest, S_00660510_Context* context)
 {
     int start = dest;
 
@@ -1632,14 +1647,14 @@ int __cdecl FUN_00660510(int first, int last, int dest, S_00660510_Context* cont
     {
         for (; first != last; dest += 0x1c, first += 0x1c)
         {
-            context->FUN_00660300(dest, first);
+            context->ConstructInPlace_Thunk(dest, first);
         }
     }
     catch (...)
     {
         for (; start != dest; start += 0x1c)
         {
-            context->FUN_0065ea40(start);
+            context->ForwardCall_0065ea40(start);
         }
 
         throw;
@@ -1654,8 +1669,8 @@ struct Elem6605
 };
 struct Alloc6605
 {
-    void FUN_00660320(Elem6605* pDest, const Elem6605& kSrc);
-    void FUN_0065ea60(Elem6605* pElem);
+    void CopyConstructElement_Thunk(Elem6605* pDest, const Elem6605& kSrc);
+    void ForwardCall_0065ea60(Elem6605* pElem);
 };
 struct NonscalarTag6605
 {
@@ -1673,12 +1688,12 @@ Elem6605* __cdecl CopyConstructRange(Elem6605* _First, Elem6605* _Last, Elem6605
     try
     {
         for (; _First != _Last; ++_Dest, ++_First)
-            _Al.FUN_00660320(_Dest, *_First);
+            _Al.CopyConstructElement_Thunk(_Dest, *_First);
     }
     catch (...)
     {
         for (; _Next != _Dest; ++_Next)
-            _Al.FUN_0065ea60(_Next);
+            _Al.ForwardCall_0065ea60(_Next);
         throw;
     }
     return _Dest;
@@ -1735,16 +1750,17 @@ void DetClassExtended::ClearAndReset()
     *reinterpret_cast<NiPoint3*>(m_08) = DAT_011f426c;
 }
 
-extern "C" void __cdecl FUN_00660510(void* first, void* last, void* destCont, void* destPtr, bool ptrCat, bool checked);
+extern "C" void __cdecl Runtime_ProcessEntries_00660510(void* first, void* last, void* destCont, void* destPtr, bool ptrCat, bool checked);
 
 // copy-style dispatch: unwrap both source iterators, classify the pointer pair, forward to the worker
 // Computes a pointer-category flag from first and destCont, then forwards to FUN_00660510 with a zeroed SpawnedFlagBox.
 // @fnv 0x00660340
-extern "C" void __cdecl FUN_00660340(void* first, void* last, void* destCont, void* destPtr)
+// src: GUESS 0x00660340 (confidence: low)
+extern "C" void __cdecl Object_DispatchIteratorRange_00660340(void* first, void* last, void* destCont, void* destPtr)
 {
     SpawnedFlagBox checked = {};
     bool ptrCat = std_Move_cat_unsigned_char(&first, &destCont);
-    FUN_00660510(CallWithFlag(&first), CallWithFlag(&last), destCont, destPtr, ptrCat, checked.v);
+    Runtime_ProcessEntries_00660510(CallWithFlag(&first), CallWithFlag(&last), destCont, destPtr, ptrCat, checked.v);
 }
 
 struct FUN_006e6da0
@@ -1778,7 +1794,7 @@ struct TagD9E0
 };
 
 void __cdecl ResizeAudioStream(void* pAlloc, void* pArray, int iElemSize);
-void __cdecl FUN_0066db30(ElemD9E0* pDest, int iCount, const ElemD9E0& kVal, TagD9E0 kTag);
+void __cdecl Runtime_AssignVectorValueToElements(ElemD9E0* pDest, int iCount, const ElemD9E0& kVal, TagD9E0 kTag);
 
 // local form of hkArrayBase: 0x0066d9e0 needs the /Od append/capacity split with the call at 0x0062a100; the shared form changes bytes.
 class ArrD9E0
@@ -1798,7 +1814,7 @@ void ArrD9E0::PushBack(void* pAlloc, const ElemD9E0& kVal)
 {
     if (m_iElementCount == GetSizeMasked())
         ResizeAudioStream(pAlloc, this, 0x10);
-    FUN_0066db30(m_data + m_iElementCount, 1, kVal, TagD9E0());
+    Runtime_AssignVectorValueToElements(m_data + m_iElementCount, 1, kVal, TagD9E0());
     m_iElementCount++;
 }
 
@@ -1819,8 +1835,8 @@ void FUN_0066da50::hkArray_hkVector4_hkContainerHeapAllocator_clearAndDeallocate
 
 struct FUN_00660070_cls
 {
-    void FUN_0065e9a0(int a);
-    void FUN_006601f0(int a, int b);
+    void PrintDebugMessage_Thunk(int a);
+    void CopyConstructEntry_Thunk(int a, int b);
 };
 
 // Copies 6-byte elements in [a1, a2) to a3 via a4->FUN_006601f0; on exception calls a4->FUN_0065e9a0 on those already copied; returns the new dest end.
@@ -1832,14 +1848,14 @@ int __cdecl CopyRange(int apSrc, int apEnd, int apDst, FUN_00660070_cls* a4)
     {
         for (; apSrc != apEnd; apDst += 6, apSrc += 6)
         {
-            a4->FUN_006601f0(apDst, apSrc);
+            a4->CopyConstructEntry_Thunk(apDst, apSrc);
         }
     }
     catch (...)
     {
         for (; pRollback != apDst; pRollback += 6)
         {
-            a4->FUN_0065e9a0(pRollback);
+            a4->PrintDebugMessage_Thunk(pRollback);
         }
         throw;
     }
@@ -1877,7 +1893,7 @@ extern B6DF40Registry g_011d6124;
 class B6DF40Owner
 {
   public:
-    void FUN_0066df40();
+    void ClearEffectsAndRegisterOwner();
 
     int m_iArrayLength;
     B6DF40List* m_pkEffects;
@@ -1889,7 +1905,8 @@ class B6DF40Owner
 
 // Frees all effects in m_pkEffects, then registers this owner with g_011d6124 unless loading a save with m_iRefID of -1.
 // @fnv 0x0066df40
-void B6DF40Owner::FUN_0066df40()
+// src: GUESS 0x0066df40 (confidence: medium)
+void B6DF40Owner::ClearEffectsAndRegisterOwner()
 {
     m_iArrayLength = 0;
     while (m_pkEffects && !m_pkEffects->IsEmpty())
@@ -1930,12 +1947,13 @@ struct S_0067caa0_Foo
     int unk20;
 
     void __thiscall FUN_0067ad20();
-    S_0067caa0_Foo* __thiscall FUN_0067caa0();
+    S_0067caa0_Foo* __thiscall InitializeFields_0067caa0();
 };
 
 // Calls FUN_0067ad20, sets vtbl to DAT_01068a64, initializes the listed fields to constants (unk1c from DAT_010162c0), and returns this.
 // @fnv 0x0067caa0
-S_0067caa0_Foo* __thiscall S_0067caa0_Foo::FUN_0067caa0()
+// src: GUESS 0x0067caa0 (confidence: low)
+S_0067caa0_Foo* __thiscall S_0067caa0_Foo::InitializeFields_0067caa0()
 {
     FUN_0067ad20();
 

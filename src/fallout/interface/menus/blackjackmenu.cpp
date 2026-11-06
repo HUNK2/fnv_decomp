@@ -64,7 +64,8 @@ void BlackJackMenu::SetTile(int aiID, Tile* apTile)
 }
 
 // @fnv 0x00733f80
-int __cdecl FUN_00733f80()
+// src: GUESS 0x00733f80 (confidence: high)
+int __cdecl Object_Return0x439()
 {
     return 0x439;
 }
@@ -161,11 +162,12 @@ struct FUN_00733f50_shell
     int m0;
     int m1;
     short m2;
-    FUN_00733f50_shell* FUN_00733f50();
+    FUN_00733f50_shell* ClearFields_00733f50();
 };
 // Sets the three fields m0, m1 and m2 to zero and returns this.
 // @fnv 0x00733f50
-FUN_00733f50_shell* FUN_00733f50_shell::FUN_00733f50()
+// src: GUESS 0x00733f50 (confidence: low)
+FUN_00733f50_shell* FUN_00733f50_shell::ClearFields_00733f50()
 {
     m0 = 0;
     m1 = 0;
@@ -1314,7 +1316,7 @@ struct Tail1_cls
 
 struct Mgr_cls
 {
-    Tail1_cls* __thiscall FUN_00559450(int, Local12_cls*);
+    Tail1_cls* __thiscall Modelloader_GetReferencedThis(int, Local12_cls*);
 };
 
 extern Mgr_cls DAT_011d9098;
@@ -1355,7 +1357,7 @@ void __thiscall FUN_007399f0_cls::BlackJackMenu_HighlightSelectedDeck()
     }
 
     tmp.FUN_0043d410(0.0f, 0, 0);
-    DAT_011d9098.FUN_00559450(1, &tmp)->FUN_0043b4a0()->NiAVObject_Update();
+    DAT_011d9098.Modelloader_GetReferencedThis(1, &tmp)->FUN_0043b4a0()->NiAVObject_Update();
 }
 
 struct RootPtrX
@@ -1695,7 +1697,7 @@ template <class T> struct Pointer90
 {
     T* p;
     Pointer90& FUN_0066b0d0(T*);
-    T* FUN_00559450();
+    T* Modelloader_GetReferencedThis();
 };
 extern Pointer90<NiAVObject> DAT_011d90bc;
 extern int DAT_011f36ac;
@@ -2637,20 +2639,20 @@ void Menu90::InitBlackjackScene()
     NiNode* root8 = rootdb4;
     DAT_011d90bc.FUN_0066b0d0(BSUtilities_GetObjectByName(rootdb4, "object1"));
     ((Pointer90<NiNode>*)&DAT_011d9098)->FUN_0066b0d0(new NiNode(0));
-    ((Pointer90<NiNode>*)&DAT_011d9098)->FUN_00559450()->AttachChildInAvailableSlot(static_cast<NiAVObject*>(rootdb4), true);
-    ((Pointer90<NiNode>*)&DAT_011d9098)->FUN_00559450()->AttachChildInAvailableSlot(static_cast<NiAVObject*>(rootdb8), true);
-    ((Pointer90<NiNode>*)&DAT_011d9098)->FUN_00559450()->AttachChildInAvailableSlot(static_cast<NiAVObject*>(rootdbc), true);
-    ((Pointer90<NiNode>*)&DAT_011d9098)->FUN_00559450()->AttachChildInAvailableSlot(static_cast<NiAVObject*>(rootdc0), true);
+    ((Pointer90<NiNode>*)&DAT_011d9098)->Modelloader_GetReferencedThis()->AttachChildInAvailableSlot(static_cast<NiAVObject*>(rootdb4), true);
+    ((Pointer90<NiNode>*)&DAT_011d9098)->Modelloader_GetReferencedThis()->AttachChildInAvailableSlot(static_cast<NiAVObject*>(rootdb8), true);
+    ((Pointer90<NiNode>*)&DAT_011d9098)->Modelloader_GetReferencedThis()->AttachChildInAvailableSlot(static_cast<NiAVObject*>(rootdbc), true);
+    ((Pointer90<NiNode>*)&DAT_011d9098)->Modelloader_GetReferencedThis()->AttachChildInAvailableSlot(static_cast<NiAVObject*>(rootdc0), true);
     for (int i = 0; i < 6; i++)
     {
-        ((Pointer90<NiNode>*)&DAT_011d9098)->FUN_00559450()->AttachChildInAvailableSlot(static_cast<NiAVObject*>(cards[i]), true);
-        ((Pointer90<NiNode>*)&DAT_011d9098)->FUN_00559450()->AttachChildInAvailableSlot(static_cast<NiAVObject*>(backs[i]), true);
+        ((Pointer90<NiNode>*)&DAT_011d9098)->Modelloader_GetReferencedThis()->AttachChildInAvailableSlot(static_cast<NiAVObject*>(cards[i]), true);
+        ((Pointer90<NiNode>*)&DAT_011d9098)->Modelloader_GetReferencedThis()->AttachChildInAvailableSlot(static_cast<NiAVObject*>(backs[i]), true);
     }
     UpdateChipPositions();
     BlackJackMenu_SetSideHandVisibility(0);
     HideArrowNodes();
     const NiUpdateData update110(0.0f, false, false);
-    ((Pointer90<NiNode>*)&DAT_011d9098)->FUN_00559450()->Update(update110);
+    ((Pointer90<NiNode>*)&DAT_011d9098)->Modelloader_GetReferencedThis()->Update(update110);
     Controller90* controller158 = reinterpret_cast<Controller90*>(rootdb4->NiObjectNET_GetController(reinterpret_cast<NiRTTI*>(&DAT_011f36ac)));
     if (controller158)
     {
@@ -2707,8 +2709,8 @@ void Menu90::InitBlackjackScene()
         NiTimeController_StartAnimations(rootdc0);
     }
     const NiUpdateData update210(0.0f, false, false);
-    ((Pointer90<NiNode>*)&DAT_011d9098)->FUN_00559450()->Update(update210);
-    if (!DAT_011d90bc.FUN_00559450())
+    ((Pointer90<NiNode>*)&DAT_011d9098)->Modelloader_GetReferencedThis()->Update(update210);
+    if (!DAT_011d90bc.Modelloader_GetReferencedThis())
         DAT_011d90bc.FUN_0066b0d0(BlackJackMenu_SetupCamera());
     NiAVObject* object33 = BSUtilities_GetObjectByName(rootdb4, "Deck:0");
     Property90* property2 = (!reinterpret_cast<Property90*>(object33->GetProperty(3)) ? false
@@ -2717,10 +2719,10 @@ void Menu90::InitBlackjackScene()
                             ? reinterpret_cast<Property90*>(object33->GetProperty(3))
                             : 0;
     if (property2)
-        property2->SetTexture(0, 0, scene.FUN_00559450());
-    ((NiNode*)FUN_00450b80(1))->AttachChildInAvailableSlot(static_cast<NiAVObject*>(((Pointer90<NiNode>*)&DAT_011d9098)->FUN_00559450()), true);
-    float scale18 = ((Pointer90<NiNode>*)&DAT_011d9098)->FUN_00559450()->NiAVObject_GetWorldBound()->FUN_0084d030() * 3.0;
-    ((ShadowSceneNode*)FUN_00450b80(1))->FUN_00b5ca70(((Pointer90<NiNode>*)&DAT_011d9098)->FUN_00559450(), scale18);
+        property2->SetTexture(0, 0, scene.Modelloader_GetReferencedThis());
+    ((NiNode*)FUN_00450b80(1))->AttachChildInAvailableSlot(static_cast<NiAVObject*>(((Pointer90<NiNode>*)&DAT_011d9098)->Modelloader_GetReferencedThis()), true);
+    float scale18 = ((Pointer90<NiNode>*)&DAT_011d9098)->Modelloader_GetReferencedThis()->NiAVObject_GetWorldBound()->FUN_0084d030() * 3.0;
+    ((ShadowSceneNode*)FUN_00450b80(1))->FUN_00b5ca70(((Pointer90<NiNode>*)&DAT_011d9098)->Modelloader_GetReferencedThis(), scale18);
 }
 
 struct FUN_00733f50
@@ -2993,7 +2995,7 @@ Tile* BlackJackMenu_Create(SetMgr* casino, int minimum, int maximum, int require
         delete oldMenu;
     Tile* pTile = pInterface->CombatController_GetCombatState()->Tile_ReadFile(DAT_01070c38);
     DAT_011d9050 = (DAT_011d9050_S*)pTile->Tile_GetMenu();
-    if (DAT_011d9050 && ((BlackJackMenu*)DAT_011d9050)->GetClass() == FUN_00733f80())
+    if (DAT_011d9050 && ((BlackJackMenu*)DAT_011d9050)->GetClass() == Object_Return0x439())
     {
         ((BlackJackMenu*)DAT_011d9050)->FUN_00a1dc70((TileMenu*)pTile, false);
         if (!static_cast<unsigned char>(((BlackJackMenu*)DAT_011d9050)->BlackJackMenu_HasTiles()))
@@ -3409,7 +3411,7 @@ struct CardInfo
 
 struct GlobalPtr
 {
-    NiNode* FUN_00559450();
+    NiNode* Modelloader_GetReferencedThis();
 };
 
 struct BlackjackMenuShell
@@ -3448,7 +3450,7 @@ void BlackjackMenuShell::BlackJackMenu_SwapCardTextures(int a1, int aiIndex, Car
         return;
     }
 
-    node2 = BSUtilities_GetObjectByName(((GlobalPtr*)&g_011d9098)->FUN_00559450()->FUN_0043b4a0(a1), aBuf1);
+    node2 = BSUtilities_GetObjectByName(((GlobalPtr*)&g_011d9098)->Modelloader_GetReferencedThis()->FUN_0043b4a0(a1), aBuf1);
     _prop = (!reinterpret_cast<Property90*>(node2->GetProperty(3))
                  ? 0
                  : (reinterpret_cast<Property90*>(node2->GetProperty(3))->FUN_00441110() >= 8 && reinterpret_cast<Property90*>(node2->GetProperty(3))->FUN_00441110() <= 12))
@@ -3456,10 +3458,10 @@ void BlackjackMenuShell::BlackJackMenu_SwapCardTextures(int a1, int aiIndex, Car
                 : 0;
     if (_prop)
     {
-        _prop->SetTexture(0, 0, apCardInfo->unk08.FUN_00559450());
+        _prop->SetTexture(0, 0, apCardInfo->unk08.Modelloader_GetReferencedThis());
     }
 
-    node2 = BSUtilities_GetObjectByName(((GlobalPtr*)&g_011d9098)->FUN_00559450()->FUN_0043b4a0(a1), buf2);
+    node2 = BSUtilities_GetObjectByName(((GlobalPtr*)&g_011d9098)->Modelloader_GetReferencedThis()->FUN_0043b4a0(a1), buf2);
     _prop = (!reinterpret_cast<Property90*>(node2->GetProperty(3))
                  ? 0
                  : (reinterpret_cast<Property90*>(node2->GetProperty(3))->FUN_00441110() >= 8 && reinterpret_cast<Property90*>(node2->GetProperty(3))->FUN_00441110() <= 12))
@@ -3467,7 +3469,7 @@ void BlackjackMenuShell::BlackJackMenu_SwapCardTextures(int a1, int aiIndex, Car
                 : 0;
     if (_prop)
     {
-        _prop->SetTexture(0, 0, apCardInfo->unk0c.FUN_00559450());
+        _prop->SetTexture(0, 0, apCardInfo->unk0c.Modelloader_GetReferencedThis());
     }
 }
 

@@ -9,7 +9,7 @@ struct FaceGenImageView
     float* pixels;
     unsigned int stride;
     FaceGenImageView();
-    float* FUN_0064dbd0();
+    float* ForwardCall_0064dbd0();
 };
 struct FaceGenColor
 {
@@ -36,13 +36,13 @@ class FaceGenImage : public NiMemObject
     unsigned char data[44];
     FaceGenImage(unsigned int);
     FaceGenImage* GetOrConvertImage();
-    void FUN_0064db50(unsigned int, FaceGenColor*);
+    void ApplyToCopy_Thunk(unsigned int, FaceGenColor*);
     FaceGenImageView _Doraise();
 };
 struct TextureChannel
 {
     unsigned char data[24];
-    const signed char* FUN_0065cc70(unsigned int);
+    const signed char* GetElementChecked_0065cc70(unsigned int);
 };
 struct TextureRow
 {
@@ -53,8 +53,8 @@ struct TextureRow
 struct TextureBasis
 {
     unsigned char data[24];
-    unsigned int FUN_0065cea0();
-    TextureRow* FUN_0065cec0(unsigned int);
+    unsigned int GetPointerSpanCount_0065cea0();
+    TextureRow* ProcessEntries_0065cec0(unsigned int);
 };
 struct FaceGenTextureFile
 {
@@ -72,7 +72,7 @@ struct FaceGenCoordinateValue
 struct FaceGenCoordinateBasis
 {
     unsigned char data[32];
-    FaceGenCoordinateValue FUN_0060b370(unsigned int, unsigned int);
+    FaceGenCoordinateValue ForwardCall_0060b370(unsigned int, unsigned int);
 };
 class BSFaceGenTexture
 {

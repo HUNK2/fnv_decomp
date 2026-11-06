@@ -41,7 +41,7 @@ public:
     virtual void PopulateInfo(hkpConstraintDataInfo& infoOut) const;
     virtual void vf16();
 
-    int FUN_00e3b670();
+    int ReturnConstant_102();
     void getRuntimeInfo_00e3b770(int unused, RuntimeInfo* result);
     void buildJacobian_00e3ba40(const QueryInput& input, QueryOutput& output);
     void getConstraintInfo_00e3b720(int* info) const;

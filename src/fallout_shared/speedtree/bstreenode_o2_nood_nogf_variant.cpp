@@ -68,7 +68,7 @@ extern "C" void __cdecl HK2NI_00624b10(NiMatrix3* pOut, const hkRotation* pIn);
 extern "C" void __cdecl FUN_00458620(NiPoint3* pOut, const hkVector4* pIn);
 
 
-__declspec(restrict) void* __cdecl FUN_00aa13e0(unsigned int uiSize);
+__declspec(restrict) void* __cdecl Object_DispatchCommandFour(unsigned int uiSize);
 void __cdecl FUN_00aa1460(void* p);
 
 

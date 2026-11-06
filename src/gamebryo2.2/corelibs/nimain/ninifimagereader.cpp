@@ -116,7 +116,7 @@ extern int DAT_0109f3d0[];
 
 struct A8NiStream
 {
-    void __thiscall FUN_00a65300();
+    void __thiscall Object_ReleaseStorage_00a65300();
 };
 
 struct A8Class
@@ -182,15 +182,16 @@ struct A8Class
     int unkFC;
     A8NiStream unk100;
 
-    void __thiscall FUN_00a8ada0();
+    void __thiscall ProcessState_00a8ada0();
 };
 
 // Sets unk00 to DAT_0109f3e4, calls unk100.FUN_00a65300, sets unk00 to DAT_0109f3d0, and deletes the critical section at unk80.
 // @fnv 0x00a8ada0
-void __thiscall A8Class::FUN_00a8ada0()
+// src: GUESS 0x00a8ada0 (confidence: low)
+void __thiscall A8Class::ProcessState_00a8ada0()
 {
     unk00 = DAT_0109f3e4;
-    unk100.FUN_00a65300();
+    unk100.Object_ReleaseStorage_00a65300();
     unk00 = DAT_0109f3d0;
     DeleteCriticalSection(&unk80);
 }

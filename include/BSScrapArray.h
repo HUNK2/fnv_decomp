@@ -10,7 +10,7 @@ class BSScrapArray
 {
 public:
     BSScrapArray();
-    T& FUN_006a1440(unsigned int index); // exe 0x006a1440
+    T& Object_GetIndexedValue_006a1440(unsigned int index); // exe 0x006a1440
     BSScrapArray(unsigned int capacity, unsigned int size, unsigned int allocator); // exe 0x006ad1b0/0x006ad250
     virtual ~BSScrapArray();
     virtual T* _Allocate(unsigned int count);

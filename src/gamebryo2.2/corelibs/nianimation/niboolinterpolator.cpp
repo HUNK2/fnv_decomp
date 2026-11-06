@@ -7,7 +7,8 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 // @fnv 0x00a53070
-int __stdcall FUN_00a53070(unsigned short usChannel)
+// src: GUESS 0x00a53070 (confidence: high)
+int __stdcall NiBoolInterpolator_ReturnConstant_5(unsigned short usChannel)
 {
     return 5;
 }

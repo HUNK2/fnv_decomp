@@ -141,7 +141,8 @@ template <class T> struct PointerParam
     }
 };
 // @fnv 0x00ce2d10
-void __cdecl FUN_00ce2d10(const PoseQsTransform* parents, PointerParam<const PoseQsTransform> local, const short* indices,
+// src: GUESS 0x00ce2d10 (confidence: low)
+void __cdecl Runtime_ProcessEntries_00ce2d10(const PoseQsTransform* parents, PointerParam<const PoseQsTransform> local, const short* indices,
                           int count, PoseQsTransform* output)
 {
     if (!indices)
@@ -212,11 +213,12 @@ struct Cls
 {
     unsigned short m0, m2, m4, m6;
     LocalM128 v10, v20, v30, v40, v50, v60;
-    Cls* FUN_00ce4a50(Cls* src);
+    Cls* InitializeFields_00ce4a50(Cls* src);
 };
 
 // @fnv 0x00ce4a50
-Cls* Cls::FUN_00ce4a50(Cls* src)
+// src: GUESS 0x00ce4a50 (confidence: low)
+Cls* Cls::InitializeFields_00ce4a50(Cls* src)
 {
     m0 = src->m0;
     m2 = src->m2;
@@ -372,7 +374,7 @@ static inline void S00cfac20_release(hkMemoryRouter* stack, char* p)
 struct S00cfac20_Grp
 {
     void RecordAndDispatch(S00cfac20_Builder* b, S00cfac20_Ray* ray, void* ctx, void* mem, char* out);
-    void FUN_00cfac20(S00cfac20_Builder* b, S00cfac20_Ray* rays, int count, void* ctx, char* out);
+    void ProcessEntries_00cfac20(S00cfac20_Builder* b, S00cfac20_Ray* rays, int count, void* ctx, char* out);
 };
 static inline void S00cfac20_timer(const char* name)
 {
@@ -410,7 +412,8 @@ static __forceinline void S00cfac20_calcAabb(const S00cfac20_Ray* rays, int coun
     }
 }
 // @fnv 0x00cfac20
-void S00cfac20_Grp::FUN_00cfac20(S00cfac20_Builder* b, S00cfac20_Ray* rays, int count, void* ctx, char* out)
+// src: GUESS 0x00cfac20 (confidence: low)
+void S00cfac20_Grp::ProcessEntries_00cfac20(S00cfac20_Builder* b, S00cfac20_Ray* rays, int count, void* ctx, char* out)
 {
     char* dst;
     int j;
@@ -625,11 +628,12 @@ struct ShapeData
     bool m_flag;
     int m_uiItemCount;
 
-    ShapeData& FUN_00ce4ae0(const ShapeData& other);
+    ShapeData& AssignFields_00ce4ae0(const ShapeData& other);
 };
 
 // @fnv 0x00ce4ae0
-ShapeData& ShapeData::FUN_00ce4ae0(const ShapeData& other)
+// src: GUESS 0x00ce4ae0 (confidence: low)
+ShapeData& ShapeData::AssignFields_00ce4ae0(const ShapeData& other)
 {
     m_kFirstReferencedObject = other.m_kFirstReferencedObject;
     m_kSecondReferencedObject = other.m_kSecondReferencedObject;

@@ -67,11 +67,12 @@ struct Base_00a26eb0
 struct Holder_00a26eb0 : Base_00a26eb0
 {
     float m;
-    void FUN_00a26eb0(NiStream&);
+    void LoadBaseAndMemberValue(NiStream&);
 };
 // Calls the base stream reader, then reads 4 bytes from the input stream into m and advances the stream position by the bytes read.
 // @fnv 0x00a26eb0
-void Holder_00a26eb0::FUN_00a26eb0(NiStream& stream)
+// src: GUESS 0x00a26eb0 (confidence: medium)
+void Holder_00a26eb0::LoadBaseAndMemberValue(NiStream& stream)
 {
     Base_00a26eb0::AccumulateAnimSink(stream);
     stream.GetBinaryStream()->Read(static_cast<void*>(&m));

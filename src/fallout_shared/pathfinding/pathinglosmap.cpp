@@ -188,8 +188,8 @@ bool PathingLOSMap::BuildNavMeshMap(NavMeshCollection* pNavMeshArray)
     m_uTotalCount = 0;
     for (i = 0; i < pNavMeshArray->FUN_0044ddc0(); i++)
     {
-        m_map.SetAt(pNavMeshArray->FUN_00877a30(i).FUN_00559450()->GetHavokWorldObjectCountInSceneGraph_0084e3a0(), m_uTotalCount);
-        m_uTotalCount += pNavMeshArray->FUN_00877a30(i).FUN_00559450()->NavMesh_GetTriangleCount();
+        m_map.SetAt(pNavMeshArray->FUN_00877a30(i).Modelloader_GetReferencedThis()->GetHavokWorldObjectCountInSceneGraph_0084e3a0(), m_uTotalCount);
+        m_uTotalCount += pNavMeshArray->FUN_00877a30(i).Modelloader_GetReferencedThis()->NavMesh_GetTriangleCount();
         m_shell1c.AppendValue(pNavMeshArray->FUN_00877a30(i));
     }
     if (m_pData)
@@ -206,7 +206,7 @@ bool PathingLOSMap::BuildNavMeshMap(NavMeshCollection* pNavMeshArray)
 
 struct SeqEntry
 {
-    SeqEntry* FUN_00559450();
+    SeqEntry* Modelloader_GetReferencedThis();
     Script* GetHavokWorldObjectCountInSceneGraph_0084e3a0();
 };
 
@@ -242,7 +242,7 @@ char PathingLOSMap::GetNavMeshAndTriangleForIndex(unsigned int limit, SpawnedTar
     for (accum = 0; accum < ((SeqList*)((char*)this + 0x1c))->FUN_0044ddc0(); accum++)
     {
         unsigned int len;
-        Script* script = ((SeqList*)((char*)this + 0x1c))->FUN_00877a30(accum)->FUN_00559450()->GetHavokWorldObjectCountInSceneGraph_0084e3a0();
+        Script* script = ((SeqList*)((char*)this + 0x1c))->FUN_00877a30(accum)->Modelloader_GetReferencedThis()->GetHavokWorldObjectCountInSceneGraph_0084e3a0();
         if (!((SubMatcher*)((char*)this + 8))->FUN_00853130(script, &len))
         {
             return 0;

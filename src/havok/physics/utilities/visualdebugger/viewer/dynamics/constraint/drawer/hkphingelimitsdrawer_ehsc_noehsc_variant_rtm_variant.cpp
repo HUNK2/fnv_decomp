@@ -344,7 +344,7 @@ __forceinline void HingeConstraintDrawer::drawHinge(hkpConstraintInstance* const
     {
         hkReal thetaMax = lhinge->getMaxAngularLimit();
         hkReal thetaMin = lhinge->getMinAngularLimit();
-        m_fAngularLimit.FUN_00de4950(getArcRadiusForDraw(), thetaMin, thetaMax, getNumArcSegmentsForDraw(),
+        m_fAngularLimit.UpdateState_00de4950(getArcRadiusForDraw(), thetaMin, thetaMax, getNumArcSegmentsForDraw(),
                                      m_vVectorAtOffset50, axisInWorld, axisPerpInWorld);
         hkArray<hkDisplayGeometry*> geometry;
         geometry.setSize(1);
@@ -368,7 +368,8 @@ __forceinline void HingeConstraintDrawer::drawHinge(hkpConstraintInstance* const
     }
 }
 // @fnv 0x00de5fe0
-extern "C" __declspec(noinline) void __fastcall FUN_00de5fe0(HingeConstraintDrawer* drawer, void*,
+// src: GUESS 0x00de5fe0 (confidence: medium)
+extern "C" __declspec(noinline) void __fastcall hkpConstraintInstance_DrawHinge_Thunk(HingeConstraintDrawer* drawer, void*,
                                                              hkpConstraintInstance* constraint,
                                                              hkDebugDisplayHandler* handler, int id, int tag)
 {

@@ -98,12 +98,12 @@ void* NiParticlesData_CreateObject()
 }
 
 void __cdecl _delete(void*, unsigned int);
-void __cdecl FUN_00a96800();
+void __cdecl ReleaseStorage_00a96800();
 // Calls FUN_00a96800, then deletes this with size 0x70 if flags has bit 0 set, and returns this.
 // @fnv 0x00a96a10
 void* __thiscall ParticleDataMethods::Destroy(unsigned int flags)
 {
-    FUN_00a96800();
+    ReleaseStorage_00a96800();
     if (flags & 1)
         _delete(this, 0x70);
     return this;
@@ -202,7 +202,7 @@ void ParticleViewData::NiParticlesData_SortParticles(ParticleViewFrame* pViewFra
     }
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int uiSize);
+void* __cdecl Object_DispatchCommandFour(unsigned int uiSize);
 __forceinline NiParticlesData* InitializeParticleData(NiParticlesData* p) throw()
 {
     if (p)
@@ -231,7 +231,7 @@ __forceinline NiParticlesData* InitializeParticleData(NiParticlesData* p) throw(
 // @fnv 0x00a96660
 NiParticlesData* __cdecl CreateParticlesDataWithRadii()
 {
-    NiParticlesData* pkObj = InitializeParticleData((NiParticlesData*)FUN_00aa13e0(sizeof(NiParticlesData)));
+    NiParticlesData* pkObj = InitializeParticleData((NiParticlesData*)Object_DispatchCommandFour(sizeof(NiParticlesData)));
     pkObj->m_bHasRadii = true;
     return pkObj;
 }

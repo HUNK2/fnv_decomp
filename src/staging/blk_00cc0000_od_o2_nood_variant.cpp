@@ -1878,13 +1878,13 @@ struct Cc7Local
     Cc7Bool linearA[3], linearB[3];
     Cc7Bool angularA, angularB, pivotA, pivotB;
     void InitFromHelper(void* source);
-    void FUN_00d52000(void* out);
-    void FUN_00d51c30(void* tmp);
-    void* FUN_00d520a0(void* out);
-    void* FUN_00d51d40(void* tmp);
+    void ProcessAndReturnValue_00d52000(void* out);
+    void UpdateState_00d51c30(void* tmp);
+    void* ProcessAndReturnValue_00d520a0(void* out);
+    void* ProcessAndReturnValue_00d51d40(void* tmp);
     void AddBridgeAtoms();
     void AppendEntryAndAdvance();
-    void FUN_00d52ae0(float value);
+    void ProcessAndReturnValue_00d52ae0(float value);
     void hkpConstraintConstructionKit_restoreStrength();
     void AppendZeroItem();
 };
@@ -1929,13 +1929,13 @@ void Cc7Owner::hkFixedConstraintCinfo_Fix(void* arg)
     Cc7Tmp first, second;
     first.hkTransform_setMulInverseMul(m0c + 0xf0, arg);
     second.hkTransform_setMulInverseMul(base + 0xf0, arg);
-    kit.FUN_00d52000(&first.translation);
-    kit.FUN_00d51c30(&first);
-    m14 = kit.FUN_00d520a0(&second.translation);
-    m18 = kit.FUN_00d51d40(&second);
+    kit.ProcessAndReturnValue_00d52000(&first.translation);
+    kit.UpdateState_00d51c30(&first);
+    m14 = kit.ProcessAndReturnValue_00d520a0(&second.translation);
+    m18 = kit.ProcessAndReturnValue_00d51d40(&second);
     kit.AddBridgeAtoms();
     kit.AppendEntryAndAdvance();
-    kit.FUN_00d52ae0(g_011c5c70_arg1);
+    kit.ProcessAndReturnValue_00d52ae0(g_011c5c70_arg1);
     kit.hkpConstraintConstructionKit_restoreStrength();
     kit.AppendZeroItem();
 }
@@ -2812,11 +2812,12 @@ class BoundsOwner
     int unk0c;
     BoundsEntry* m_pEntries;
     void hkaPose_syncModelSpace();
-    void FUN_00cda610(BoundsBox* out);
+    void ProcessEntries_00cda610(BoundsBox* out);
 };
 
 // @fnv 0x00cda610
-void BoundsOwner::FUN_00cda610(BoundsBox* out)
+// src: GUESS 0x00cda610 (confidence: low)
+void BoundsOwner::ProcessEntries_00cda610(BoundsBox* out)
 {
     out->m_kMinimumCorner.SetAll(DAT_0104da48);
     out->m_kMaximumCorner.SetAll(DAT_0104e148);
@@ -3503,11 +3504,12 @@ struct ContactManifold
     AlignedPairData m_kStorage[8];
     ContactManifold* m_other;
 
-    void FUN_00cd3080();
+    void ProcessEntries_00cd3080();
 };
 
 // @fnv 0x00cd3080
-void ContactManifold::FUN_00cd3080()
+// src: GUESS 0x00cd3080 (confidence: low)
+void ContactManifold::ProcessEntries_00cd3080()
 {
     AutoMemContext context(0x10);
     int sharedIndex;
@@ -3793,7 +3795,7 @@ void CylinderInitOwner::bhkCylinderShape_Init(ParamSrc* p)
 
 void* __cdecl FUN_00ec44d0(void*, const void*, unsigned);
 
-void* __cdecl FUN_00aa13e0(unsigned);
+void* __cdecl Object_DispatchCommandFour(unsigned);
 
 void __cdecl FreeStorage(void*);
 
@@ -3908,7 +3910,7 @@ struct Mesh : FUN_00a5d3a0
 
     static void* operator new(unsigned n)
     {
-        return FUN_00aa13e0(n);
+        return Object_DispatchCommandFour(n);
     }
 
     Mesh() : count(0), parts(0)
@@ -5036,7 +5038,7 @@ struct HavokObjectCC3
 
 struct VectorListCC3
 {
-    void FUN_004b4db0(const hkVector4& v);
+    void SetQuaternionComponentsFromVector(const hkVector4& v);
 };
 
 struct PropertiesCC3
@@ -5095,8 +5097,8 @@ void WorldObjectCC3::bhkDashpotAction_CopyCinfo(PropertiesCC3* pkOut)
             v1 = pkObject->m_v30;
         }
     }
-    pkOut->m_kVectors.FUN_004b4db0(v0);
-    pkOut->m_kVectors.FUN_004b4db0(v1);
+    pkOut->m_kVectors.SetQuaternionComponentsFromVector(v0);
+    pkOut->m_kVectors.SetQuaternionComponentsFromVector(v1);
     pkOut->m_f30 = GetF40();
     pkOut->m_f34 = GetF44();
 }

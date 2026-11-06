@@ -781,8 +781,8 @@ void FUN_00c86d20_Class::bhkMouseSpringAction_CopyCinfo(OutputData* dest)
         InnerData* current = inner;
         if (current)
         {
-            dest->a10.FUN_004b4db0(&current->q20);
-            dest->b20.FUN_004b4db0(&current->q30);
+            dest->a10.SetQuaternionComponentsFromVector(&current->q20);
+            dest->b20.SetQuaternionComponentsFromVector(&current->q30);
             dest->z38 = current->z48;
             return;
         }
@@ -1391,11 +1391,12 @@ class BeamPassShader
     NiD3DPointer<NiD3DPixelShader> m_spPixelShaderObject;
     NiD3DPointer<NiD3DVertexShader> m_spVertexShaderObject;
 
-    void FUN_00ba59e0();
+    void UpdateFields_00ba59e0();
 };
 
 // @fnv 0x00ba59e0
-void BeamPassShader::FUN_00ba59e0()
+// src: GUESS 0x00ba59e0 (confidence: low)
+void BeamPassShader::UpdateFields_00ba59e0()
 {
     NiD3DPassPtr spRenderPass;
     StageReturnPtr spStage;
@@ -1734,7 +1735,7 @@ void Obj::ParticleShader_SetupGeometryConstants(Arg* arg)
             Transform& transform = *reinterpret_cast<Transform*>(transformStorage);
             geom->GetWorldTransform().FUN_004b4880(&transform);
             NiPoint3 result;
-            NiPoint3* __restrict moved = transform.FUN_00524c40(&result, &point);
+            NiPoint3* __restrict moved = transform.ComputeValue_00524c40(&result, &point);
             memcpy(&point, moved, sizeof(NiPoint3));
         }
         unkec.x = point.x;
@@ -1891,7 +1892,7 @@ RefObjC86D* __cdecl bhkMouseSpringAction_CreateObject()
 
 void bhkSerializable_CloneCritLock();
 void bhkSerializable_CloneCritUnlock();
-void* __cdecl FUN_00aa13e0(unsigned int bytes);
+void* __cdecl Object_DispatchCommandFour(unsigned int bytes);
 extern int DAT_0102016c;
 extern int DAT_0102009c;
 extern int DAT_0101ffcc;
@@ -1906,13 +1907,13 @@ class AllocatedNode
 
     static void* operator new(unsigned int n)
     {
-        return FUN_00aa13e0(n);
+        return Object_DispatchCommandFour(n);
     }
-    void FUN_00c87c30();
+    void UpdateState_00c87c30();
 
     AllocatedNode()
     {
-        FUN_00c87c30();
+        UpdateState_00c87c30();
         vtable = &DAT_0102016c;
         unk0c = 0;
         ++DAT_01268154;

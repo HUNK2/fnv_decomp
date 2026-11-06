@@ -1268,7 +1268,7 @@ extern int DAT_011c3ea4;
 int* __fastcall Setting_Int(int*);
 bool AILinearTaskThreadManager_QRunningThreads();
 void* __stdcall FUN_004537b0(ActiveEffect*);
-void __fastcall FUN_00905330(void*);
+void __fastcall RemoveMatchingItem(void*);
 void __fastcall QueueTaskWithValue(void*);
 
 class FUN_008251c0_cls
@@ -1293,7 +1293,7 @@ void FUN_008251c0_cls::MagicTarget_RemoveEffect(ActiveEffect* pEffect, bool b)
         pEffect->SetFlag(true);
         return;
     }
-    FUN_00905330(vfn_8(&pEffect));
+    RemoveMatchingItem(vfn_8(&pEffect));
     vfn_18(pEffect);
     if (*Setting_Int(&DAT_011c3ea4) > 1 && AILinearTaskThreadManager_QRunningThreads())
     {

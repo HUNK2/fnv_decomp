@@ -152,19 +152,20 @@ void hkpAabbTreeCollidableRaycaster::CollectRayHit(int request)
 // sub ecx,4; jmp target  ==  MSVC adjustor thunk for a virtual overridden in a class with two bases.
 struct PrimaryBaseA
 {
-    virtual void FUN_00d9a260();
+    virtual void AdjustThisAndForward_00d9a260();
 };
 
 struct SecondaryBaseA
 {
-    virtual void FUN_00d9a260();
+    virtual void AdjustThisAndForward_00d9a260();
 };
 
 struct DerivedA : PrimaryBaseA, SecondaryBaseA
 {
     DerivedA();
 // @fnv 0x00d9a260
-    virtual void FUN_00d9a260();
+// src: GUESS 0x00d9a260 (confidence: low)
+    virtual void AdjustThisAndForward_00d9a260();
 };
 
 DerivedA::DerivedA()

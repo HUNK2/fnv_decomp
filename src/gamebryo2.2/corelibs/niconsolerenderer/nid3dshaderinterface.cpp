@@ -139,7 +139,8 @@ struct Rel
 void __fastcall FUN_00a8f490(NiD3DShaderInterface*);
 // Sets the object's vtable, clears r and s, releases dev if set, nulls dev, then calls FUN_00a8f490.
 // @fnv 0x00e81a50
-void __fastcall FUN_00e81a50(NiD3DShaderInterface* pObj, int)
+// src: GUESS 0x00e81a50 (confidence: high)
+void __fastcall NiD3DShaderInterface_ReleaseD3DDeviceAndClearRendererState(NiD3DShaderInterface* pObj, int)
 {
     *(int**)pObj = &DAT_010ef39c;
     Rel* d = (Rel*)pObj->m_pkD3DDevice;

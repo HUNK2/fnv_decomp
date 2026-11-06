@@ -79,14 +79,14 @@ bool NiBlendAccumTransformInterpolator::UpdateAccumulatedTransform(float time, N
 struct Q
 {
     float w, x, y, z;
-    bool FUN_00a92660(const Q&) const;
+    bool Object_HasEqualFloatComponents(const Q&) const;
 };
 // The shared transform has no equality declaration; retain the implementation as a free function.
 // @fnv 0x00a391c0
 bool __fastcall EqualQuatTransforms(const NiQuatTransform* self, int, const NiQuatTransform& other)
 {
     return self->x == other.x && self->y == other.y && self->z == other.z &&
-           reinterpret_cast<const Q*>(&self->qx)->FUN_00a92660(*reinterpret_cast<const Q*>(&other.qx)) &&
+           reinterpret_cast<const Q*>(&self->qx)->Object_HasEqualFloatComponents(*reinterpret_cast<const Q*>(&other.qx)) &&
            self->scale == other.scale;
 }
 
@@ -114,7 +114,8 @@ __declspec(noinline) NiBlendAccumTransformInterpolator* __fastcall ConstructAccu
 
 void __fastcall DestroyInterpolatorArray(void*);
 // @fnv 0x00a39290
-void __fastcall FUN_00a39290(NiBlendAccumTransformInterpolator* apObject, int unused)
+// src: GUESS 0x00a39290 (confidence: low)
+void __fastcall NiBlendAccumTransformInterpolator_ReleaseStorage_00a39290(NiBlendAccumTransformInterpolator* apObject, int unused)
 {
     *reinterpret_cast<void**>(apObject) = &DAT_01096784;
     g_memoryManager.Deallocate(apObject->m_pAccumulationData);
@@ -391,7 +392,7 @@ struct MatrixAccum;
 struct QQuatOps
 {
     float w, x, y, z;
-    QQuatOps FUN_00a2bcf0(const QQuatOps&) const;
+    QQuatOps MultiplyQuaternion(const QQuatOps&) const;
     void NiQuaternion_ToRotation(MatrixAccum*);
 };
 extern QQuatOps DAT_011a9ea4;
@@ -434,7 +435,7 @@ void __fastcall UpdateAccumulationItem(NiBlendAccumTransformInterpolator* self, 
             QQuatOps* __restrict source = FUN_00a6dc00(&result, *reinterpret_cast<QQuatOps*>(&state->value.qx));
             secondRotation = *source;
         }
-        QQuatOps productRotation = firstRotation.FUN_00a2bcf0(secondRotation);
+        QQuatOps productRotation = firstRotation.MultiplyQuaternion(secondRotation);
         productRotation.NiQuaternion_ToRotation(reinterpret_cast<MatrixAccum*>(state->rotation));
     }
     if (time < state->time && !self->m_bHasAccumulation)
@@ -463,7 +464,7 @@ void __fastcall UpdateAccumulationItem(NiBlendAccumTransformInterpolator* self, 
                 QQuatOps* __restrict source = FUN_00a6dc00(&result, *reinterpret_cast<QQuatOps*>(&first.qx));
                 firstRotation = *source;
             }
-            QQuatOps productRotation = secondRotation.FUN_00a2bcf0(firstRotation);
+            QQuatOps productRotation = secondRotation.MultiplyQuaternion(firstRotation);
             productRotation.NiQuaternion_ToRotation(reinterpret_cast<MatrixAccum*>(state->rotation));
         }
         first.Invert(&inverse);
@@ -493,7 +494,7 @@ struct Inner_00a6db50
     float w, x, y, z;
     void Set(float w, float x, float y, float z);
     Inner_00a6db50 Negate() const;
-    Inner_00a6db50 FUN_00a39120(float factor) const;
+    Inner_00a6db50 ScaleFourComponents(float factor) const;
     Inner_00a6db50& operator+=(const Inner_00a6db50& other)
     {
         w = other.w + w;
@@ -587,7 +588,7 @@ bool __fastcall BlendAccumulatedValues(NiBlendAccumTransformInterpolator* self, 
             {
                 bFirstRotation = false;
             }
-            kSourceRotation = kSourceRotation.FUN_00a39120(temp);
+            kSourceRotation = kSourceRotation.ScaleFourComponents(temp);
             firstRotation += kSourceRotation;
             hasRotation = true;
         }

@@ -158,7 +158,7 @@ class NiControllerSequence : public NiObject
     void Update_00a34ba0(float time, bool update);
     bool StartBlend(NiControllerSequence* target, float time, float timeout, int priority,
                       float sequenceWeight, float targetWeight, NiControllerSequence* partner);
-    void FUN_00a35640();
+    void ProcessState_00a35640();
 
     NiFixedString m_kName;
     unsigned int m_uiNumControlledBlocks;

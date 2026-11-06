@@ -490,7 +490,8 @@ struct Dummy0042f800
 };
 
 // @fnv 0x00822580
-void* __fastcall FUN_00822580(int** ppObject)
+// src: GUESS 0x00822580 (confidence: low)
+void* __fastcall Object_ProcessAndReturnValue_00822580(int** ppObject)
 {
     *ppObject = &DAT_010159d4;
     reinterpret_cast<Dummy0042f800*>(ppObject)->FUN_0042fcb0(0, 0);
@@ -593,7 +594,8 @@ struct Arr3520
 extern int DAT_0107b824;
 
 // @fnv 0x00822560
-void __fastcall FUN_00822560(Arr3520* pArray)
+// src: GUESS 0x00822560 (confidence: medium)
+void __fastcall Object_ResetVirtualTableAndRemoveAll(Arr3520* pArray)
 {
     *(int*)pArray = (int)&DAT_0107b824;
     pArray->RemoveAll(true);
@@ -659,11 +661,12 @@ extern int DAT_010159d4;
 
 struct FUN_008225b0_shell : Arr3520
 {
-    void FUN_008225b0();
+    void UpdateState_008225b0();
 };
 
 // @fnv 0x008225b0
-void FUN_008225b0_shell::FUN_008225b0()
+// src: GUESS 0x008225b0 (confidence: low)
+void FUN_008225b0_shell::UpdateState_008225b0()
 {
     m_data = &DAT_010159d4;
     RemoveAll(true);
@@ -715,13 +718,14 @@ struct GlobalObject_00869f00
 {
     int* m_data;
     void Clear(bool);
-    void FUN_00822630();
+    void UpdateState_00822630();
 };
 
 extern int DAT_0107b84c;
 
 // @fnv 0x00822630
-void GlobalObject_00869f00::FUN_00822630()
+// src: GUESS 0x00822630 (confidence: low)
+void GlobalObject_00869f00::UpdateState_00822630()
 {
     m_data = &DAT_0107b84c;
     Clear(true);
@@ -749,18 +753,19 @@ struct Caller00822860
 struct FUN_00822530_shell
 {
     void* vtable;
-    FUN_00822530_shell* FUN_00822530();
+    FUN_00822530_shell* InitializeArrayView();
 };
 // Sets the object's vtable to DAT_0107b824, calls FUN_00822860 with 0 and false, and returns this.
 // @fnv 0x00822530
-FUN_00822530_shell* FUN_00822530_shell::FUN_00822530()
+// src: GUESS 0x00822530 (confidence: medium)
+FUN_00822530_shell* FUN_00822530_shell::InitializeArrayView()
 {
     vtable = &DAT_0107b824;
     reinterpret_cast<Caller00822860*>(this)->BSSimpleArray_NiPointer_ObstacleUndoData_1024_InitialSetup(0, false);
     return this;
 }
 
-void __fastcall FUN_00822560(void*);
+void __fastcall Object_ResetVirtualTableAndRemoveAll(void*);
 void __cdecl _Deallocate(void*);
 struct S008226F0
 {
@@ -769,7 +774,7 @@ struct S008226F0
 // @fnv 0x008226f0
 void* S008226F0::FUN_008226f0(unsigned int flags)
 {
-    FUN_00822560(this);
+    Object_ResetVirtualTableAndRemoveAll(this);
     if (flags & 1)
         _Deallocate(this);
     return this;
@@ -778,14 +783,14 @@ void* S008226F0::FUN_008226f0(unsigned int flags)
 void __cdecl _Deallocate(void*);
 struct ThisHolder
 {
-    void FUN_008225b0();
+    void UpdateState_008225b0();
     void* FUN_00822720(unsigned int);
 };
 // Calls FUN_008225b0, then deallocates this when flags has bit 0 set, and returns this.
 // @fnv 0x00822720
 void* ThisHolder::FUN_00822720(unsigned int flags)
 {
-    FUN_008225b0();
+    UpdateState_008225b0();
     if (flags & 1)
         _Deallocate(this);
     return this;
@@ -793,7 +798,7 @@ void* ThisHolder::FUN_00822720(unsigned int flags)
 
 struct Struct00822750
 {
-    void FUN_00822630();
+    void UpdateState_00822630();
     void* FUN_00822750(unsigned int);
 };
 void __cdecl _Deallocate(void*);
@@ -801,7 +806,7 @@ void __cdecl _Deallocate(void*);
 // @fnv 0x00822750
 void* Struct00822750::FUN_00822750(unsigned int flags)
 {
-    FUN_00822630();
+    UpdateState_00822630();
     if (flags & 1)
         _Deallocate(this);
     return this;
@@ -861,7 +866,8 @@ void MagicShaderHitEffect::SaveGameBGS_00822250(BGSSaveFormBuffer* pBuffer)
 
 // Computes a size: starts at 0, adds 4 twice, then adds the result of GetSaveSize(0, pTarget), and returns it.
 // @fnv 0x00822060
-unsigned short MagicShaderHitEffect::FUN_00822060()
+// src: GUESS 0x00822060 (confidence: medium)
+unsigned short MagicShaderHitEffect::GetReferenceSaveSize()
 {
     unsigned short isize;
     isize = 0;
@@ -1067,7 +1073,7 @@ void MagicShaderHitEffect::InitHitEffect(ActiveEffect* apEffect, TESObjectREFR* 
     bool btempFinished;
     float ftempAge;
 
-    FUN_008d05e0(apEffect, apTarget, 0);
+    DoNothing_008d05e0(apEffect, apTarget, 0);
 
     if (apEffect != 0)
     {
@@ -1167,7 +1173,8 @@ struct ShaderBaseApplyLoad
 
 // Calls FUN_009dace0 with a1, saves m_20 and m_24, calls vfn_c4, restores both fields, then calls vfn_94(0.0f).
 // @fnv 0x008223d0
-void MagicShaderHitEffect::FUN_008223d0(unsigned int a1)
+// src: GUESS 0x008223d0 (confidence: medium)
+void MagicShaderHitEffect::LoadPreservingPlaybackState(unsigned int a1)
 {
     float saved;
     unsigned char savedFlag;
@@ -1464,7 +1471,7 @@ struct Scene
 template <class T> struct Ref
 {
     T* value;
-    T* FUN_00559450();
+    T* Modelloader_GetReferencedThis();
 };
 struct Property
 {

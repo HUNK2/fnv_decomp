@@ -4659,7 +4659,7 @@ FUN_008c2b60_node* __fastcall FUN_00717e50(void* apList);
 
 struct FUN_008c2e30_spell
 {
-    bool FUN_008c2e30();
+    bool ContainsAnyFlag_Thunk();
 };
 
 
@@ -4904,7 +4904,7 @@ void FUN_008c2b60_shell::ApplyActorSpells()
     while (pNode2)
     {
         SpellItem* pSpell_2 = *pNode2->FUN_006815c0();
-        if (pSpell_2 && MagicSystem_IsSpellTypePermanent((int)pSpell_2->GetSpellType()) && !((FUN_008c2e30_spell*)pSpell_2)->FUN_008c2e30())
+        if (pSpell_2 && MagicSystem_IsSpellTypePermanent((int)pSpell_2->GetSpellType()) && !((FUN_008c2e30_spell*)pSpell_2)->ContainsAnyFlag_Thunk())
             ((MagicTarget*)((char*)this + 0x94))->FUN_00824400(pSpell_2, 0, 0);
         pNode2 = pNode2->FUN_00726070();
     }
@@ -5559,7 +5559,7 @@ struct SightVec
 {
     float x, y, z;
     void FUN_006815c0();
-    SightVec* FUN_00439ef0(SightVec*, const SightVec&);
+    SightVec* SubtractIntoVector(SightVec*, const SightVec&);
     float FUN_00457990();
 };
 struct SightBase;
@@ -6871,7 +6871,7 @@ bool SightActor::Actor_LineOfSight(bool force, SightActor* other, bool mode, int
                         if (ShortRay())
                         {
                             SightVec difference;
-                            float distance = end.FUN_00439ef0(&difference, start)->FUN_00457990();
+                            float distance = end.SubtractIntoVector(&difference, start)->FUN_00457990();
                             float fraction = DAT_011a32dc / distance;
                             collector.FUN_006d3b00(fraction);
                         }
@@ -6994,7 +6994,7 @@ struct PhysicsAccess
 struct QueryPoint : NiPoint3
 {
     QueryPoint();
-    QueryPoint FUN_00439ef0(const QueryPoint&) const;
+    QueryPoint SubtractIntoVector(const QueryPoint&) const;
     QueryPoint FUN_00439e90(const QueryPoint&) const;
 };
 
@@ -7023,7 +7023,7 @@ struct HitStorage
     int capacity;
     HitPair entries[128];
     int FUN_00726070();
-    HitPair* FUN_00626660(int);
+    HitPair* ComputeValue_00626660(int);
 };
 struct FUN_009b2db0 : HitStorage
 {
@@ -7129,7 +7129,7 @@ bool WaterActor::Explosion_TestExplosionUnderWater()
             QueryWorld* query = physics ? physics->FUN_006286d0() : 0;
             if (query)
             {
-                QueryPoint from = ((QueryPoint*)((const TESObjectREFR*)this)->GetPos())->FUN_00439ef0(FUN_004a3760(1.0f, DAT_011a9490));
+                QueryPoint from = ((QueryPoint*)((const TESObjectREFR*)this)->GetPos())->SubtractIntoVector(FUN_004a3760(1.0f, DAT_011a9490));
                 QueryPoint to = ((QueryPoint*)((const TESObjectREFR*)this)->GetPos())->FUN_00439e90(FUN_004a3760(1.0f, DAT_011a9490));
                 FUN_00437c10 ray;
                 NI2HK(ray.from, from);
@@ -7138,7 +7138,7 @@ bool WaterActor::Explosion_TestExplosionUnderWater()
                 query->Query(ray, hits);
                 for (int i = 0; !bBelow && i < hits.FUN_00726070(); ++i)
                 {
-                    HitPair* hit = hits.FUN_00626660(i);
+                    HitPair* hit = hits.ComputeValue_00626660(i);
                     HitBody* body = hit->body;
                     void* root = body->hkpTypedBroadPhaseHandle_getOwner();
                     void* object = GetAVObjectForCollidable(root);

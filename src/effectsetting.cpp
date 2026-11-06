@@ -389,11 +389,12 @@ void EffectSetting::BSShaderProperty_SetDepthBias(float afBaseCost)
 
 struct FUN_00591300_shell : public TESFullName
 {
-    void FUN_00591300();
+    void BSStringT_Thunk();
 };
 
 // @fnv 0x00591300
-void FUN_00591300_shell::FUN_00591300()
+// src: GUESS 0x00591300 (confidence: medium)
+void FUN_00591300_shell::BSStringT_Thunk()
 {
     ((BSStringT<char>*)((char*)this + 4))->BSStringT<char>::~BSStringT<char>();
 }

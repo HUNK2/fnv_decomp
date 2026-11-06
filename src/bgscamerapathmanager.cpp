@@ -111,7 +111,8 @@ struct FUN_0058bc00_obj
 };
 // Sets the object's vtbl to DAT_01032748 and deallocates its data array via NiTMallocInterface.
 // @fnv 0x0058bc00
-void __fastcall FUN_0058bc00(FUN_0058bc00_obj* self)
+// src: GUESS 0x0058bc00 (confidence: medium)
+void __fastcall Object_ReleaseStorage(FUN_0058bc00_obj* self)
 {
     self->vtbl = &DAT_01032748;
     NiTMallocInterface<ActorCombatGroup*>::Deallocate(self->data);

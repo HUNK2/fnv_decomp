@@ -106,8 +106,8 @@ struct FUN_00d52140_cls
     int unk14;
     unsigned char m_18;
     unsigned char m_19;
-    int FUN_00d52000(hkVector4* t);
-    void FUN_00d520a0(hkVector4* t);
+    int ProcessAndReturnValue_00d52000(hkVector4* t);
+    void ProcessAndReturnValue_00d520a0(hkVector4* t);
     int hkpConstraintConstructionKit_setPivotsHelper(char* a1, char* a2, const LocalM128* a3);
 };
 
@@ -119,8 +119,8 @@ int FUN_00d52140_cls::hkpConstraintConstructionKit_setPivotsHelper(char* a1, cha
     hkVector4 t2;
     t1.hkVector4_setTransformedInversePos((const hkTransform*)(a1 + 0xf0), (const hkVector4*)a3);
     t2.hkVector4_setTransformedInversePos((const hkTransform*)(a2 + 0xf0), (const hkVector4*)a3);
-    int iResult = this->FUN_00d52000(&t1);
-    this->FUN_00d520a0(&t2);
+    int iResult = this->ProcessAndReturnValue_00d52000(&t1);
+    this->ProcessAndReturnValue_00d520a0(&t2);
     this->m_18 = 1;
     this->m_19 = 1;
     return iResult;
@@ -174,7 +174,7 @@ struct hkGeometryBufferD
 class hkCommandWriterD
 {
   public:
-    int FUN_00d521b0(unsigned char ucKind, float fX, float fY);
+    int AppendCommandWithVector2Parameter(unsigned char ucKind, float fX, float fY);
 
     unsigned int unk;
     hkGeometryBufferD* m_pBuffer;
@@ -182,7 +182,8 @@ class hkCommandWriterD
 
 // Appends a command and a 2D vector parameter to the geometry buffer, updates byte/command/param counts, and returns the parameter index.
 // @fnv 0x00d521b0
-int hkCommandWriterD::FUN_00d521b0(unsigned char ucKind, float fX, float fY)
+// src: GUESS 0x00d521b0 (confidence: medium)
+int hkCommandWriterD::AppendCommandWithVector2Parameter(unsigned char ucKind, float fX, float fY)
 {
     hkArrayD_AddBack(m_pBuffer->m_commands, 0x10);
     hkArrayD_AddBack<int>(m_pBuffer->m_commands, ucKind);
@@ -351,12 +352,13 @@ struct GeomWriter
 {
     int m_00;
     GeomBuffer* m_buffer;
-    int FUN_00d524d0(unsigned char a1, unsigned char a2, float a3, float a4);
+    int AppendSineVectorCommand(unsigned char a1, unsigned char a2, float a3, float a4);
 };
 
 // Appends command 0x13 with a1 and a2, then a vector (sin(a3), sin(a4), 0, 0) to the buffer, updates its counters, and returns the vector's index.
 // @fnv 0x00d524d0
-int GeomWriter::FUN_00d524d0(unsigned char a1, unsigned char a2, float a3, float a4)
+// src: GUESS 0x00d524d0 (confidence: medium)
+int GeomWriter::AppendSineVectorCommand(unsigned char a1, unsigned char a2, float a3, float a4)
 {
     m_buffer->m_cmds.pushBack(0x13);
     m_buffer->m_cmds.pushBack(a1);

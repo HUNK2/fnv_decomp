@@ -34,7 +34,8 @@ unsigned int BSSimpleArray<Tile::Value*, 8>::Add(Tile::Value*& value)
 }
 
 // @fnv 0x006E6DA0
-void* __cdecl FUN_006e6da0(unsigned int size, void* place)
+// src: GUESS 0x006e6da0 (confidence: high)
+void* __cdecl Memory_ReturnPlacementAddress(unsigned int size, void* place)
 {
     return place;
 }
@@ -120,7 +121,7 @@ void BSSimpleArray<NavMeshInfo*, 1024>::InitializeItems(NavMeshInfo** items, uns
 {
     for (unsigned int i = 0; i < count; i = i + 1)
     {
-        void* destination = FUN_006e6da0(sizeof(NavMeshInfo*), items + i);
+        void* destination = Memory_ReturnPlacementAddress(sizeof(NavMeshInfo*), items + i);
     }
 }
 

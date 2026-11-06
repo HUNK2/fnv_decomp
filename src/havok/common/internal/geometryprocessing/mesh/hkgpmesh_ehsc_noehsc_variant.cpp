@@ -35,7 +35,7 @@ struct FUN_00e234e0_
 };
 struct FUN_00e238e0_
 {
-    void FUN_00e238e0();
+    void ProcessState_00e238e0();
 };
 void __cdecl ProcessEntries();
 void __cdecl hkgpAbstractMeshDefinitions_List_struct_hkgpTriangulatorType_struct_hkgpTriangulatorBase_VertexBase_struct_hkgpTriangulatorBase_TriangleBase_struct_hkgpTriangulatorBase_DefaultEdgeData_struct_hkContainerHeapAllocator_struct_hkContainerHeapAllocator_1_Triangle_struct_hkgpAbstractMeshDefinitions_List_struct_hkgpTriangulatorType_struct_hkgpTriangulatorBase_VertexBase_struct_hkgpTriangulatorBase_TriangleBase_struct_hkgpTriangulatorBase_DefaultEdgeData_struct_hkContainerHeapAllocator_struct_hkContainerHeapAllocator_1_Vertex_struct_hkgpTriangulatorBase_VertexBase_struct_hkGeometryProcessing_PoolAllocator_struct_hkgpTriangulatorType_struct_hkgpTriangulatorBase_VertexBase_struct_hkgpTriangulatorBase_TriangleBase_struct_hkgpTriangulatorBase_DefaultEdgeData_struct_hkContainerHeapAllocator_struct_hkContainerHeapAllocator_1_Vertex_32_struct_hkContainerHeapAllocator_Item_struct_hkGeometryProcessing_PoolAllocator_struct_hkgpTriangulatorType_struct_hkgpTriangulatorBase_VertexBase_struct_hkgpTriangulatorBase_TriangleBase_struct_hkgpTriangulatorBase_DefaultEdgeData_struct_hkContainerHeapAllocator_struct_hkContainerHeapAllocator_1_Triangle_32_struct_hkContainerHeapAllocator_reset();
@@ -82,7 +82,7 @@ struct S_00e120e0_Collector
     }
     virtual void Add();
 };
-void __cdecl FUN_00d1d570(void* pWorld, const S_00e120e0_Vec& kData, S_00e120e0_Collector* pCollector);
+void __cdecl AabbTree_ProcessIfPresent_00d1d570(void* pWorld, const S_00e120e0_Vec& kData, S_00e120e0_Collector* pCollector);
 struct S_00e120e0
 {
     int unk00;
@@ -183,7 +183,7 @@ struct FUN_00d76ca0
         return allocate(reinterpret_cast<Allocator&>(hkMemoryRouter::getInstance().heap()), bytes);
     }
     __declspec(nothrow) void hkgpConvexHull_build(hkVector4*, int, const Options&);
-    __declspec(nothrow) int FUN_00d74e10();
+    __declspec(nothrow) int GetInnerField1A8();
 };
 struct Hull
 {
@@ -260,7 +260,7 @@ struct CharBuffer
     char* end;
     unsigned int capacity;
     void FUN_00cb1600(char*, unsigned int);
-    CharBuffer* FUN_00cc01c0(const char*);
+    CharBuffer* ProcessAndReturnValue_00cc01c0(const char*);
     CharBuffer* WriteInt(int);
     void FUN_00cc00e0();
 };
@@ -511,7 +511,7 @@ struct This
     int unk08;
     Node* head;
     unsigned int count;
-    Manager* FUN_00e23530();
+    Manager* AllocateChainedSlotBlock();
     void PushFront(Node* volatile source);
 };
 struct S_00e25f00_Alloc
@@ -622,7 +622,7 @@ struct Inputs_00e118e0
 };
 struct FUN_00e118e0_class
 {
-    void __thiscall FUN_00e11710(void*, void*, void*, void*, void*);
+    void __thiscall ValidateTriangleAndComputePlane(void*, void*, void*, void*, void*);
     void __thiscall hkgpMesh_setPlane(const volatile Inputs_00e118e0*, void*, void*);
 };
 struct E12160Vertex
@@ -816,7 +816,7 @@ struct __declspec(align(16)) HullTriangle
 };
 struct HullTrianglePool
 {
-    HullTriangle* FUN_00e241a0(HullTriangle* storage);
+    HullTriangle* UpdateFields_00e241a0(HullTriangle* storage);
 };
 struct FUN_00e19cf0_cls
 {
@@ -830,7 +830,7 @@ struct FUN_00e19cf0_cls
     int unk1C;
     HullTrianglePool m_kNodePool;
 
-    void FUN_00e11710(float* a, float* b, float* c, HullPlane* out, char normalize);
+    void ValidateTriangleAndComputePlane(float* a, float* b, float* c, HullPlane* out, char normalize);
     HullTriangle* CreateTriangle(HullVertex* a, HullVertex* b, HullVertex* c);
 };
 extern "C" double __cdecl sqrt(double);
@@ -1006,7 +1006,7 @@ struct FUN_00e22c80_cls
     unsigned int m_04;
     unsigned int m_08;
 
-    FUN_00e22c80_cls* FUN_00e22c80(unsigned int value, FUN_00e22c80_cls* src);
+    FUN_00e22c80_cls* ComputeValue_00e22c80(unsigned int value, FUN_00e22c80_cls* src);
 };
 extern unsigned int DAT_01267e30;
 extern unsigned int DAT_01267e34;
@@ -1791,7 +1791,7 @@ struct Holder
 {
     FreeCtx* m_00;
 };
-FreeCtx* __cdecl FUN_00e23530(void);
+FreeCtx* __cdecl AllocateChainedSlotBlock(void);
 class FUN_00e241a0_cls
 {
   public:
@@ -1801,7 +1801,7 @@ class FUN_00e241a0_cls
     PoolNode* m_0c;
     int m_10;
 
-    void FUN_00e241a0(void* value);
+    void UpdateFields_00e241a0(void* value);
 };
 struct FUN_00e247a0_cls
 {
@@ -1896,7 +1896,7 @@ BSAudio* __cdecl hkMemoryRouter_getInstance();
 struct FUN_00d9be30_cls
 {
     int m_vptr;
-    void FUN_00d9be30();
+    void UpdateState_00d9be30();
 };
 struct FUN_00d9c010_cls
 {
@@ -1970,7 +1970,7 @@ struct FUN_00e18a50_cls
     int m_cnt1;
     unsigned int m_cap1;
 
-    void FUN_00e18a50();
+    void UpdateState_00e18a50();
     void ResetState();
 };
 // Havok ray/plane-triangle cast step: intersect the cast ray with the triangle's plane, test the hit point
@@ -2080,7 +2080,7 @@ struct FUN_00e227f0_cls
 {
     unsigned int unk00;
     SceneSet* m_04;
-    void* FUN_00e227f0(BufferAddress138 bufferAddress);
+    void* ComputeValues_00e227f0(BufferAddress138 bufferAddress);
 };
 struct __declspec(align(16)) S_Vec
 {
@@ -2100,8 +2100,8 @@ struct S_00e11910_Src
 };
 struct S_00e11910_Cls
 {
-    char FUN_00e11710(float* a, float* b, float* c, S_Vec* out, int normalize);
-    char FUN_00e11910(S_00e11910_Src* self);
+    char ValidateTriangleAndComputePlane(float* a, float* b, float* c, S_Vec* out, int normalize);
+    char UpdateTriangleNormal(S_00e11910_Src* self);
 };
 struct E11B00Vertex
 {
@@ -2122,7 +2122,7 @@ struct E11B00Hull
 
     void updateFaces();
     static void updateStatistics();
-    void FUN_00e11b00(const hkVector4& scale);
+    void ScaleMeshVerticesAndUpdateStatistics(const hkVector4& scale);
 };
 struct S_00e12260_Aabb
 {
@@ -2149,7 +2149,7 @@ struct S_00e12260_Collector : S_00e12260_CollectorBase
     virtual void AddHit(int hit);
 };
 void hkAabbUtil_calcAabb_00cbeb70(const hkVector4* verts, int numVerts, S_00e12260_Aabb& aabbOut);
-void FUN_00d1d570(void* tree, const S_00e12260_Aabb& aabb, S_00e12260_Collector* collector);
+void AabbTree_ProcessIfPresent_00d1d570(void* tree, const S_00e12260_Aabb& aabb, S_00e12260_Collector* collector);
 struct S_00e12260
 {
     int unk00;
@@ -2169,7 +2169,7 @@ struct S_00e12260
     int unk38;
     int unk3C;
     int unk40;
-    int FUN_00e12260(const hkVector4& a, const hkVector4& b, const hkVector4& c);
+    int CountTriangleTreeHits(const hkVector4& a, const hkVector4& b, const hkVector4& c);
 };
 struct S_00e13660_Res
 {
@@ -2198,8 +2198,8 @@ struct S_00e13660_Res
 };
 struct FUN_00e13660_cls
 {
-    void FUN_00e13210(unsigned int a1, S_00e13660_Res* out);
-    float FUN_00e13660(unsigned int a1, __m128* out, bool* flag);
+    void FindClosestMeshTriangle(unsigned int a1, S_00e13660_Res* out);
+    float ProcessAndReturnValue_00e13660(unsigned int a1, __m128* out, bool* flag);
 };
 typedef unsigned int HullU32;
 struct HullTriAN
@@ -2414,10 +2414,10 @@ struct FUN_00e121c0_probe
     int m_i30;
     float m_f34;
 };
-void __cdecl FUN_00d1d0b0(void* owner, const void* a, const void* b, FUN_00e121c0_probe* out, float f);
+void __cdecl hkVector4_VisitRayIntersectedTreeLeaves(void* owner, const void* a, const void* b, FUN_00e121c0_probe* out, float f);
 struct FUN_00e121c0_cls
 {
-    float FUN_00e121c0(const __m128* a, const __m128* b, int* outI);
+    float ProcessAndReturnValue_00e121c0(const __m128* a, const __m128* b, int* outI);
 };
 inline const S_00e13910_Edge& nullMeshEdge()
 {
@@ -2616,7 +2616,7 @@ struct S_00e11a90_Class
     S_00e11a90_Node* head;
 
     void ResetNodeVectors();
-    void __thiscall FUN_00e11a90(int value);
+    void __thiscall ProcessEntries_00e11a90(int value);
 };
 __declspec(nothrow) void ReleaseSubobject();
 struct S_00e12360_Vtx
@@ -2653,7 +2653,7 @@ __forceinline float S_00e12360_Len(const S_00e12360_Node* n)
 }
 struct S_00e12360_This : S_00e12360_Mesh
 {
-    void FUN_00e12360(float scale);
+    void SortNodesByTriangleMagnitude(float scale);
 };
 struct HullFloodTriangle
 {
@@ -2834,8 +2834,8 @@ struct S_00e14160
     int unk28;
     S_00e14160_Tri* m_tris;
 
-    float FUN_00e13660(const hkVector4& p, hkVector4* out, int flag);
-    float FUN_00e14160(const hkVector4& dir, float limit);
+    float ProcessAndReturnValue_00e13660(const hkVector4& p, hkVector4* out, int flag);
+    float AccumulateNodeDistancesToLimit(const hkVector4& dir, float limit);
 };
 static __forceinline __m128 S_dot3(__m128 a, __m128 b)
 {
@@ -2847,7 +2847,7 @@ struct E142Hull
 {
     const hkVector4* hkgpConvexHull_getCenterOfMass();
 };
-void __cdecl FUN_00de9650(const hkVector4* in, hkVector4* out);
+void __cdecl Geometry_MapCoordinatesToSphere(const hkVector4* in, hkVector4* out);
 static inline float E142ToReal(__m128 v)
 {
     float f;
@@ -3065,7 +3065,7 @@ struct FUN_00e226b0_cls
 {
     unsigned int unk00;
     SceneSet* m_04;
-    void FUN_00e226b0(SceneVec* v, SceneVec* out);
+    void FindSupportingBoneCandidate(SceneVec* v, SceneVec* out);
 };
 static __forceinline float SceneDot3(const SceneVec* a, const SceneVec* b)
 {
@@ -3103,7 +3103,7 @@ struct TriAreaGreater
         return ToReal(area(a)) > ToReal(area(b));
     }
 };
-void __cdecl FUN_00e22a50(CastTri** pArr, int d, int h, TriAreaGreater cmpLess);
+void __cdecl Hkgpmesh_SortTrianglePointerRange(CastTri** pArr, int d, int h, TriAreaGreater cmpLess);
 struct MemAllocator
 {
     virtual void v00();
@@ -3312,13 +3312,13 @@ struct __declspec(align(16)) Mat3Diffs
     }
     __m128* FUN_00cd51c0(Vec4F* out);
 };
-float __cdecl FUN_00e13870(char* self, unsigned int idx);
+float __cdecl Hkgpmesh_ComputeValues_00e13870(char* self, unsigned int idx);
 // FUN_00e144d0 : thiscall, float x, __m128* a, __m128* out, int count
 // Clamped-distance accumulation with a dot3 weighted correction.
 struct CollideShape
 {
-    double FUN_00e13660(__m128* out, const __m128* v, unsigned char* flag);
-    float FUN_00e144d0(float x, __m128* a, __m128* out, int count);
+    double ProcessAndReturnValue_00e13660(__m128* out, const __m128* v, unsigned char* flag);
+    float ProcessEntries_00e144d0(float x, __m128* a, __m128* out, int count);
 };
 struct __declspec(align(16)) Float4Bits
 {
@@ -3350,7 +3350,7 @@ static __forceinline __m128 CellCorner(const float& x, const float& y, const flo
 {
     return _mm_setr_ps(x, y, z, DAT_01011d78);
 }
-void __cdecl FUN_00de9590(CellBounds*) throw();
+void __cdecl Hkgeometryprocessing_GetCubeBoundsFromLargestExtent(CellBounds*) throw();
 struct BuildInput
 {
     hkVector4* data;
@@ -3370,9 +3370,9 @@ struct FUN_00d76ca0
     FUN_00d76ca0() throw();
     ~FUN_00d76ca0() throw()
     {
-        FUN_00d76940();
+        ReleaseStorage_00d76940();
     }
-    void FUN_00d76940() throw();
+    void ReleaseStorage_00d76940() throw();
     int hkgpConvexHull_build_00d77200(const BuildInput&, const BuildOptions*) throw();
     bool hkgpConvexHull_isPointInside(const CellVec&, int, float) throw();
 };
@@ -3428,8 +3428,8 @@ template <class T> struct CellArray
 struct CellMesh
 {
     void hkgpMesh_fetchPositions(CellArray<hkVector4>&) throw();
-    CellBounds FUN_00e11530() throw();
-    float FUN_00e13660(const CellVec&, CellVec*, bool*) throw();
+    CellBounds ProcessEntries_00e11530() throw();
+    float ProcessAndReturnValue_00e13660(const CellVec&, CellVec*, bool*) throw();
     void CollectPoints(int depthLimit, float scale, CellArray<CellVec>& output, bool invert);
 };
 struct FUN_00e21dd0_cls
@@ -3888,10 +3888,10 @@ template <typename T, int N> struct S00e1c5e0_PoolAllocator
         ++pool->m_uiBufferCapacity;
         return item;
     }
-    Pool* FUN_00e23530();
+    Pool* AllocateChainedSlotBlock();
     Pool* GetOrCreatePool()
     {
-        return FUN_00e23530();
+        return AllocateChainedSlotBlock();
     }
     PoolArray m_pools;
 };
@@ -4043,14 +4043,14 @@ struct S00e1c5e0_MapBase
     {}
     ~S00e1c5e0_MapBase()
     {
-        FUN_00a29680();
+        Object_DoNothing();
     }
     void EnsureCapacity(Allocator* a, int numElements);
     int hkMapBase_unsigned_long_unsigned_long_hkMapOperations_unsigned_long_insert(Allocator* a, S00e1c5e0_Ulong key, S00e1c5e0_Ulong val);
     S00e1c5e0_Ulong LookupHashEntry(S00e1c5e0_Ulong key, S00e1c5e0_Ulong def) const;
     int hkMapBase_unsigned_long_unsigned_long_hkMapOperations_unsigned_long_remove(S00e1c5e0_Ulong key);
     void ProcessArgument(Allocator* a);
-    void FUN_00a29680();
+    void Object_DoNothing();
     void* m_kPrimitiveElement;
     int m_iCapacityFlags;
     int m_iPairCount;

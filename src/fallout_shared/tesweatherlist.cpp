@@ -78,11 +78,12 @@ struct FUN_00582570_Data
     int unk0;
     int unk1;
     int unk2;
-    FUN_00582570_Data* FUN_00582570();
+    FUN_00582570_Data* ClearFields_00582570();
 };
 // Sets the three integer fields to zero and returns this.
 // @fnv 0x00582570
-FUN_00582570_Data* FUN_00582570_Data::FUN_00582570()
+// src: GUESS 0x00582570 (confidence: low)
+FUN_00582570_Data* FUN_00582570_Data::ClearFields_00582570()
 {
     unk2 = 0;
     unk1 = 0;

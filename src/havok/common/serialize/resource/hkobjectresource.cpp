@@ -110,7 +110,8 @@ hkBool FUN_00d46d40_s::hkClass_isSuperClass(FUN_00d46d40_s* pkNode)
 }
 
 // @fnv 0x00e04e50
-int __cdecl FUN_00e04e50()
+// src: GUESS 0x00e04e50 (confidence: high)
+int __cdecl Hkobjectresource_ReturnZero()
 {
     return 0;
 }

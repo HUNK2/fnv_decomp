@@ -593,7 +593,8 @@ void __stdcall ShadowLightShader_SetupGeometryConstants_WorldBoundCenter(void* p
 
 
 // @fnv 0x00b79930
-void __fastcall FUN_00b79930(NiD3DPass** slot)
+// src: GUESS 0x00b79930 (confidence: high)
+void __fastcall NiD3DPass_ReleasePassReference(NiD3DPass** slot)
 {
     NiD3DPass* p = *slot;
     if (p && --p->m_uiRefCount == 0)

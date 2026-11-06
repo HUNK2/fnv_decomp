@@ -108,7 +108,7 @@ void NiD3DShaderProgramFactory__SDMInit()
 }
 
 extern "C" void __cdecl __Dummy_00b6fef0(void*, unsigned int);
-void __cdecl FUN_00e93e00();
+void __cdecl UpdateFields_00e93e00();
 
 struct FUN_00e93f30_shell
 {
@@ -119,7 +119,7 @@ struct FUN_00e93f30_shell
 void* __thiscall FUN_00e93f30_shell::DestroyShaderProgramFactory(unsigned int flags)
 {
     NiD3DShaderProgramFactory* self = (NiD3DShaderProgramFactory*)this;
-    FUN_00e93e00();
+    UpdateFields_00e93e00();
     if (flags & 1)
     {
         __Dummy_00b6fef0(self, 0x1c);
@@ -503,11 +503,12 @@ struct FUN_00e93e00_Obj : public FUN_00e93cc0_Obj
     ShaderProgramStandIn_00e93e00* unk14;
     ShaderProgramStandIn_00e93e00* unk18;
 
-    void __thiscall FUN_00e93e00();
+    void __thiscall UpdateFields_00e93e00();
 };
 
 // @fnv 0x00e93e00
-void FUN_00e93e00_Obj::FUN_00e93e00()
+// src: GUESS 0x00e93e00 (confidence: low)
+void FUN_00e93e00_Obj::UpdateFields_00e93e00()
 {
     *reinterpret_cast<int*>(this) = reinterpret_cast<int>(&DAT_010f0f70);
 

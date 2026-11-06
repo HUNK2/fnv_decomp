@@ -435,7 +435,7 @@ void SaveDescriptionChunk(void*, unsigned int);
 // @fnv 0x005e8300
 void BGSNote::SaveNote()
 {
-    TESForm::FUN_004855a0();
+    TESForm::BeginFormRecord();
     TESFullName::Save_00487010();
     TESModel::WriteToBuffer(0x4c444f4d, 0x54444f4d);
     TESTexture::Save(0x4e4f4349);
@@ -488,7 +488,7 @@ void BGSNote::SaveNote()
         break;
     }
     }
-    TESForm::FUN_00485680();
+    TESForm::FinishFormRecord();
 }
 
 // Copies generic components, flags, speaker, type-specific data and owner quests from another BGSNote into this one.

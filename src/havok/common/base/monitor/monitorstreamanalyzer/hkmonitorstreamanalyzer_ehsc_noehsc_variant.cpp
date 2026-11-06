@@ -789,10 +789,11 @@ void FUN_00e10630_cls::ProcessItems(int a1, int a2)
 }
 struct FUN_00e0f700_s
 {
-    void* FUN_00e0f700(int dummy);
+    void* GetSelf_00e0f700(int dummy);
 };
 // @fnv 0x00e0f700
-void* FUN_00e0f700_s::FUN_00e0f700(int dummy)
+// src: GUESS 0x00e0f700 (confidence: high)
+void* FUN_00e0f700_s::GetSelf_00e0f700(int dummy)
 {
     return this;
 }
@@ -1965,7 +1966,7 @@ struct PrintStream
     int unk08;
     void __thiscall FUN_00cc0630(PrintArray* a1);
     void __thiscall InvokeSubObject(char a1);
-    void __thiscall FUN_00cc01c0(const char* a1);
+    void __thiscall ProcessAndReturnValue_00cc01c0(const char* a1);
     void __thiscall FUN_00cc00e0();
 };
 struct PrintNode
@@ -2089,7 +2090,7 @@ void __cdecl hkMonitorStreamAnalyzer_showCombinedThreadSummaryRec(PrintStream* s
             }
             hkOstream_printf(&line, "%-6.3f (%i)", (double)(idx / spus), countSpus);
         }
-        stream->FUN_00cc01c0(pad.data);
+        stream->ProcessAndReturnValue_00cc01c0(pad.data);
         stream->InvokeSubObject('\n');
     }
     if (!cfg->unk10 || (node->flags & 1))
@@ -2352,7 +2353,7 @@ struct ReportResult
 };
 struct ReportNode : FUN_00e0d000Total
 {
-    void FUN_00e10930();
+    void ProcessEntries_00e10930();
 };
 struct ReportMap
 {
@@ -2475,7 +2476,7 @@ static __declspec(noinline) void printStatisticsByType(FUN_00e0d000* root, float
                 WriteItemStats(stream, 0.0f, reinterpret_cast<S_00e0bfe0_Item*>(&node->childFUN_00e0d000.data[j]));
             }
         }
-        node->FUN_00e10930();
+        node->ProcessEntries_00e10930();
         reinterpret_cast<ReportRouter*>(hkMemoryRouter_getInstance())->stats().freeNode(node, 0x70);
     }
     nodes.release();
@@ -2559,7 +2560,7 @@ struct Se0e0c0_MapBase
     {}
     void EnsureCapacity(Se0e0c0_Allocator& alloc, int n);
     void ProcessArgument(Se0e0c0_Allocator& alloc);
-    void FUN_00a29680();
+    void Object_DoNothing();
     int get(unsigned long key, unsigned long* out) const;
     int insert(Se0e0c0_Allocator& alloc, unsigned long key, unsigned long val);
     __forceinline Se0e0c0_Dummy* GetFirstIterator() const
@@ -2597,7 +2598,7 @@ struct Se0e0c0_PointerMap : Se0e0c0_MapBase
     __forceinline ~Se0e0c0_PointerMap()
     {
         ProcessArgument(Se0e0c0_Heap().get(this));
-        FUN_00a29680();
+        Object_DoNothing();
     }
 };
 
@@ -2996,12 +2997,12 @@ struct ColorMapBase
     int LookupBucketValue(unsigned long key, unsigned long* out) const;
     int hkMapBase_unsigned_long_unsigned_long_hkMapOperations_unsigned_long_insert(S_e0ce00_Alloc*, unsigned long key, unsigned long value);
     void ProcessArgument(S_e0ce00_Alloc*);
-    void FUN_00a29680();
+    void Object_DoNothing();
     __forceinline ColorMapBase() : m_entries(0), m_iElementCount(0), m_mod(-1)
     {}
     __forceinline ~ColorMapBase()
     {
-        FUN_00a29680();
+        Object_DoNothing();
     }
 };
 struct ColorMapStorage : ColorMapBase

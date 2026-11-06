@@ -372,7 +372,7 @@ struct FUN_0057b700_class
     int ZoneEntry_GetTargetEntry(int);
     void ZoneEntry_RemoveTargetEntry(int);
 };
-bool __cdecl FUN_009a3830(int const*, int const*);
+bool __cdecl Actor_AreReferencedValuesEqual(int const*, int const*);
 // @fnv 0x0062e500
 void EffectItem::Process(TESObjectREFR* aiKey, int auiValue)
 {
@@ -380,7 +380,7 @@ void EffectItem::Process(TESObjectREFR* aiKey, int auiValue)
     unsigned int uindex;
     if (ptarget2)
     {
-        uindex = ((LS3de0*)((char*)ptarget2 + 0x50))->Find(*(unsigned int*)&auiValue, 0, FUN_009a3830);
+        uindex = ((LS3de0*)((char*)ptarget2 + 0x50))->Find(*(unsigned int*)&auiValue, 0, Actor_AreReferencedValuesEqual);
         if (uindex != (unsigned int)-1)
             ((LS3de0*)((char*)ptarget2 + 0x50))->UpdateEntryValue(uindex, 1);
         if (!((TeswaterlistenerOffset08View*)((char*)ptarget2 + 0x50))->GetFlags())
@@ -459,7 +459,7 @@ FUN_00631230_shell* FUN_00631180_shell::TESWaterListener_CreateZoneEntry(TESObje
     return apWZone;
 }
 
-bool __cdecl FUN_009a3830(int const*, int const*);
+bool __cdecl Actor_AreReferencedValuesEqual(int const*, int const*);
 
 struct RefList : LS3de0
 {
@@ -526,7 +526,7 @@ LinkedNode* NodeOwner::FindOrCreateNode(int key, unsigned int ref, int arg)
     LinkedNode* pNode = pHead ? (LinkedNode*)ZoneEntry_GetTargetEntry(key) : 0;
     if (pNode)
     {
-        if (pNode->refs.Find(ref, 0, FUN_009a3830) == -1)
+        if (pNode->refs.Find(ref, 0, Actor_AreReferencedValuesEqual) == -1)
             pNode->refs.Add(ref);
     }
     else
@@ -582,7 +582,7 @@ struct FUN_0062e590 : SpawnedBase
 // @fnv 0x0062e590
 FUN_0062e590::FUN_0062e590(int a1, int aiValue) : SpawnedBase(a1, 0), m_50()
 {
-    if (m_50.FUN_00719b20(&aiValue, 0, FUN_009a3830) == -1)
+    if (m_50.FUN_00719b20(&aiValue, 0, Actor_AreReferencedValuesEqual) == -1)
     {
         m_50.FUN_007cb2e0(&aiValue);
     }
@@ -990,11 +990,12 @@ void __cdecl TESWaterListener_PlaySplashEffects(float a1, NiPoint3 aPosition)
 struct FUN_00630d30_cls
 {
     __m128 m_vec;
-    void FUN_00630d30(const __m128* a, const __m128* b);
+    void AddComponentProductInPlace(const __m128* a, const __m128* b);
 };
 // Adds the element-wise product of two vectors to m_vec using SSE intrinsics.
 // @fnv 0x00630d30
-void FUN_00630d30_cls::FUN_00630d30(const __m128* apFirst, const __m128* apSecond)
+// src: GUESS 0x00630d30 (confidence: high)
+void FUN_00630d30_cls::AddComponentProductInPlace(const __m128* apFirst, const __m128* apSecond)
 {
     m_vec = _mm_add_ps(m_vec, _mm_mul_ps(*apFirst, *apSecond));
 }

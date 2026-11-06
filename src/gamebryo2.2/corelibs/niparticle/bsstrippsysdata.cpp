@@ -955,7 +955,7 @@ void FUN_00c26410_cls::BSStripPSysData_LoadBinary(S_00c26410_Stream* pkStream)
 }
 
 extern const void* DAT_010be514[];
-void* __cdecl FUN_00aa13e0(unsigned int size);
+void* __cdecl Object_DispatchCommandFour(unsigned int size);
 
 struct StripCloneC263 : S_00c26000_Strip
 {
@@ -967,7 +967,7 @@ struct StripCloneC263 : S_00c26000_Strip
 
     static void* operator new(unsigned int size)
     {
-        return FUN_00aa13e0(size);
+        return Object_DispatchCommandFour(size);
     }
 
     StripCloneC263* BSStripPSysData_CreateClone(S_00c26000_Proc& cloning);

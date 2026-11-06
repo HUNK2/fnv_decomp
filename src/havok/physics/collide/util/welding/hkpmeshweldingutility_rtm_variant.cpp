@@ -46,7 +46,8 @@ struct ComparisonResult
         return value;
     }
 };
-__declspec(noinline) ComparisonResult FUN_00ddcda0(const Record& left, const Record& right)
+// src: GUESS 0x00ddcda0 (confidence: low)
+__declspec(noinline) ComparisonResult Object_CompareField08_00ddcda0(const Record& left, const Record& right)
 {
     return ComparisonResult(left.key > right.key);
 }
@@ -60,7 +61,7 @@ void hkAlgorithm_quickSortRecursive_struct_hkEntry_class_hkAlgorithm_less_struct
 // Exe 0x00dde4c0: unit-local DynamicArray view; declarations and layout are preserved.
 struct HkpmeshweldingutilityDynamicArrayView
 {
-    void FUN_00ddecb0(int a, int b, int c, int d);
+    void SpliceElements_Thunk(int a, int b, int c, int d);
 };
 struct S_00ddecf0_Key
 {
@@ -86,7 +87,7 @@ struct S_00ddecf0_Array
 {
     S_00ddecf0_Key* m_data;
     int m_iElementCount;
-    void FUN_00ddecd0(S_00ddecf0_Heap& heap, int index, const S_00ddecf0_Key& key);
+    void ForwardCall_00ddecd0(S_00ddecf0_Heap& heap, int index, const S_00ddecf0_Key& key);
 };
 struct S_00ddecf0
 {
@@ -96,7 +97,7 @@ struct S_00ddecf0
 };
 extern double DAT_010cd5a8;
 extern double DAT_0101ff40;
-float FUN_00ddd7e0(int a1, int* pOut, float* pF);
+float Object_ComputeDihedralSinCos(int a1, int* pOut, float* pF);
 int GetIndexForValue(int aiArg);
 struct Iface
 {
@@ -284,8 +285,8 @@ static __forceinline void S_00ddeab0_GrowArrayCapacity(hkArrayBase<S_00ddeab0_El
     }
 struct S_00ddecd0
 {
-    void FUN_00ddecb0(int a, int b, int c, int flag);
-    void FUN_00ddecd0(int a, int b, int c);
+    void SpliceElements_Thunk(int a, int b, int c, int flag);
+    void ForwardCall_00ddecd0(int a, int b, int c);
 };
 struct ObjInner
 {
@@ -321,7 +322,7 @@ extern const float DAT_01017d00;
 extern const LocalM128 DAT_01017d10;
 struct hkUtilDDCE
 {
-    static hkBool FUN_00ddced0(const Transform& kA, const Transform& kB);
+    static hkBool ForwardCall_00ddced0(const Transform& kA, const Transform& kB);
 };
 struct FUN_00ddea00_src
 {
@@ -376,7 +377,7 @@ extern "C" LocalM128 _mm_shuffle_ps(LocalM128, LocalM128, int);
 extern "C" LocalM128 _mm_mul_ps(LocalM128, LocalM128);
 extern "C" LocalM128 _mm_add_ss(LocalM128, LocalM128);
 extern "C" void _mm_store_ss(float*, LocalM128);
-int __cdecl FUN_00ddd6f0(const LocalM128* a, const LocalM128* b, int index, LocalM128* out, int* result);
+int __cdecl Hkpmeshweldingutility_MergeTriangleVectors(const LocalM128* a, const LocalM128* b, int index, LocalM128* out, int* result);
 extern "C"
 {
 
@@ -532,7 +533,7 @@ struct Shape
     float unk10, unk14, unk18, unk1c;
     Vec4 p0, p1, p2;
 };
-volatile unsigned char* __cdecl FUN_00ddcf60(volatile unsigned char* out, const Vec4* a, const Vec4* b, const Shape* s);
+volatile unsigned char* __cdecl Object_TestTriangleVertexProximity(volatile unsigned char* out, const Vec4* a, const Vec4* b, const Shape* s);
 extern "C"
 {
     LocalM128 _mm_mul_ps(LocalM128, LocalM128);
@@ -553,7 +554,7 @@ static __forceinline float hkAtan2(float y, float x)
 }
 void __cdecl FUN_00ddd620_triNormal(const hkVector4q& a, const hkVector4q& b, const hkVector4q& c,
                                     hkVector4q& normalOut);
-float FUN_00ddd7e0(const hkVector4q* v, float* sinOut, float* cosOut);
+float Object_ComputeDihedralSinCos(const hkVector4q* v, float* sinOut, float* cosOut);
 extern "C" LocalM128 _mm_load_ps(float const* _A);
 extern "C" void _mm_store_ps(float* _V, LocalM128 _A);
 struct __declspec(align(16)) Row
@@ -705,8 +706,8 @@ struct S00dde4c0_Str
     int unk08;
     int unk0c;
     void FUN_00cb1600(void* buf, int n);
-    S00dde4c0_Str& FUN_00cc01c0(const char* s);
-    S00dde4c0_Str& FUN_00cc02d0(int v);
+    S00dde4c0_Str& ProcessAndReturnValue_00cc01c0(const char* s);
+    S00dde4c0_Str& EvaluateValue_00cc02d0(int v);
     void FUN_00cc00e0();
 };
 struct S00dde4c0_Err
@@ -717,7 +718,7 @@ struct S00dde4c0_Err
     virtual void report(int a, unsigned int id, const char* msg, const char* file, int line);
 };
 
-int __cdecl FUN_00ddd6f0(const Vec4* tri, const void* shape, int idx, S00dde4c0_Out* out, int* winding);
+int __cdecl Hkpmeshweldingutility_MergeTriangleVectors(const Vec4* tri, const void* shape, int idx, S00dde4c0_Out* out, int* winding);
 unsigned int __cdecl hkpMeshWeldingUtility_modifyCombinedEdgesBitcode(unsigned int f, unsigned int idx, unsigned int v);
 
 // @fnv 0x00dde4c0
@@ -756,7 +757,7 @@ int __cdecl hkpMeshWeldingUtility_calcBitcodeForTriangleEdge(S00dde4c0_Mesh* mes
             continue;
         int winding[2];
         S00dde4c0_Out out;
-        if (FUN_00ddd6f0(verts, &shape->data, idx, &out, winding) != 4)
+        if (Hkpmeshweldingutility_MergeTriangleVectors(verts, &shape->data, idx, &out, winding) != 4)
             continue;
         if (checkWinding && winding[0] != (winding[1] + 1) % 3)
         {
@@ -764,11 +765,11 @@ int __cdecl hkpMeshWeldingUtility_calcBitcodeForTriangleEdge(S00dde4c0_Mesh* mes
             {
                 S00dde4c0_Str sb;
                 sb.FUN_00cb1600(&buffer, 0x200);
-                sb.FUN_00cc01c0(str_010d7fc8)
-                    .FUN_00cc02d0(skip)
-                    .FUN_00cc01c0(str_010d8004)
-                    .FUN_00cc02d0(other)
-                    .FUN_00cc01c0(str_010d8014);
+                sb.ProcessAndReturnValue_00cc01c0(str_010d7fc8)
+                    .EvaluateValue_00cc02d0(skip)
+                    .ProcessAndReturnValue_00cc01c0(str_010d8004)
+                    .EvaluateValue_00cc02d0(other)
+                    .ProcessAndReturnValue_00cc01c0(str_010d8014);
                 ((S00dde4c0_Err*)::DAT_01268360)->report(1, 0xabba751e, (const char*)&buffer, str_010d7f50, 0x2c9);
                 sb.FUN_00cc00e0();
             }

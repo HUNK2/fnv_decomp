@@ -23,7 +23,7 @@ public:
     void GetTriListAtPosition(const NiPoint3& arPos, NavMeshTriList*& arpList);
     void GetTriListAtPosition(const NiPoint3* apPos, NavMeshTriList** appList);
     void InitFromPoints(const NiPoint3& arMin, const NiPoint3& arMax, unsigned int auiCount);
-    unsigned int FUN_00559450();
+    unsigned int Modelloader_GetReferencedThis();
     void SetTriangleData(unsigned short ausTriangle, unsigned int auiCol, unsigned int auiRow);
     NiPoint3 NavMeshGrid_GetGridPosition(unsigned int auiCol, unsigned int auiRow);
     void Clear_0069d2d0();

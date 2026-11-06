@@ -33,7 +33,7 @@ void __cdecl TESForm_AddChunk_00485910(unsigned int, unsigned int);
 // src: COMMUNITY 0x00407300
 void EffectSetting::SaveAlt()
 {
-    FUN_004855a0();
+    BeginFormRecord();
     TESFullName::Save_00487010();
     TESDescription::Save_00482cb0();
     TESIcon::Save(CHUNK_ICON);
@@ -77,5 +77,5 @@ void EffectSetting::SaveAlt()
          pkIter = pkIter->GetNext())
         TESForm_AddChunk_00485910(CHUNK_ESCE, static_cast<const TESForm*>(savedPkEffect)->GetFormID());
 
-    FUN_00485680();
+    FinishFormRecord();
 }

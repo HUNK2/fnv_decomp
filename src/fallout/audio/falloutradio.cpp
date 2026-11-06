@@ -503,7 +503,8 @@ FUN_008373d0_struct* __fastcall ClearStruct(FUN_008373d0_struct* pThis)
 void __fastcall BSSimpleList_float_RemoveAll(void* pThis);
 
 // @fnv 0x008373f0
-void __fastcall FUN_008373f0(void* pThis)
+// src: GUESS 0x008373f0 (confidence: medium)
+void __fastcall BSSimpleList_float_RemoveAll_Thunk(void* pThis)
 {
     BSSimpleList_float_RemoveAll(pThis);
 }
@@ -925,14 +926,14 @@ void FUN_00835690_shell::SetFlag80(bool abSet)
 void _Deallocate(void*);
 struct Holder00832160
 {
-    void FUN_008321c0();
+    void ForwardCall_008321c0();
     void* FUN_00832160(unsigned int);
 };
 // Calls FUN_008321c0, deallocates this when flags has bit 0 set, and returns this.
 // @fnv 0x00832160
 void* Holder00832160::FUN_00832160(unsigned int flags)
 {
-    this->FUN_008321c0();
+    this->ForwardCall_008321c0();
     if (flags & 1)
         _Deallocate(this);
     return this;
@@ -1042,7 +1043,7 @@ bool FalloutRadio_GetBroadcastState(TESObjectREFR* apTargetStation)
 TESForm* __cdecl GetFormByID(unsigned int);
 struct ListStandIn
 {
-    void FUN_008363a0(void*);
+    void ProcessEntries_008363a0(void*);
 };
 struct StateStandIn
 {
@@ -1055,7 +1056,7 @@ struct StateStandIn
 void StateStandIn::FalloutRadio_FORadioStation_InitLoadGame(void* apLoadGameBuffer)
 {
     f0 = f0 ? dynamic_cast<TESObjectREFR*>(GetFormByID((unsigned int)f0)) : 0;
-    f4.FUN_008363a0(apLoadGameBuffer);
+    f4.ProcessEntries_008363a0(apLoadGameBuffer);
 }
 
 void _Deallocate(void*);
@@ -1126,7 +1127,7 @@ struct FUN_00833150_shell
     int a;
     FUN_00833170 b;
     int c;
-    FUN_00833150_shell* FUN_00833150();
+    FUN_00833150_shell* EvaluateValue_00833150();
 };
 
 FUN_00833170::FUN_00833170()
@@ -1136,7 +1137,8 @@ void FUN_00833170::Call()
 {}
 
 // @fnv 0x00833150
-FUN_00833150_shell* FUN_00833150_shell::FUN_00833150()
+// src: GUESS 0x00833150 (confidence: low)
+FUN_00833150_shell* FUN_00833150_shell::EvaluateValue_00833150()
 {
     b.Call();
     return this;
@@ -1150,11 +1152,12 @@ struct FUN_00836470_shell
 
 struct FUN_008366c0_shell
 {
-    void __thiscall FUN_008366c0(int a);
+    void __thiscall UpdateSoundItems_Thunk(int a);
 };
 
 // @fnv 0x008366c0
-void __thiscall FUN_008366c0_shell::FUN_008366c0(int a)
+// src: GUESS 0x008366c0 (confidence: medium)
+void __thiscall FUN_008366c0_shell::UpdateSoundItems_Thunk(int a)
 {
     ((FUN_00836470_shell*)((char*)this + 4))->UpdateSoundItems(a);
 }
@@ -1624,7 +1627,7 @@ struct SoundForm
 struct Info
 {
     bool FUN_00700270(int);
-    const char* FUN_00559450();
+    const char* Modelloader_GetReferencedThis();
 };
 struct Entry
 {
@@ -1899,7 +1902,7 @@ void UpdateRadio(bool force)
                                                             0x100101, track->FUN_0083c820()->BGSSaveFormBuffer_GetForm());
             else
                 DAT_011dd5bc =
-                    BSAudio_QInstance()->BSAudio_GetSoundHandleByFilename(track->FUN_0083c820()->TESDataHandler_GetWorldSpaceList()->FUN_00559450(), 0x100101, 0);
+                    BSAudio_QInstance()->BSAudio_GetSoundHandleByFilename(track->FUN_0083c820()->TESDataHandler_GetWorldSpaceList()->Modelloader_GetReferencedThis(), 0x100101, 0);
             DAT_011dd5bc.SetCompletionCallback(
                 reinterpret_cast<BSSoundHandle::CompletionCallback>(FalloutRadio_SoundCompletionCallback), DAT_011dd42c);
             DAT_011dd5bc.SetSynchStartTime(DAT_011dd42c->state.elapsed);
@@ -2162,7 +2165,7 @@ void __cdecl UpdateRadioReceivers(int updateMode)
         FalloutRadio::RadioStationState* receiver = current->GetItem();
         bool remove = false;
         if (receiver != 0)
-            reinterpret_cast<FUN_008366c0_shell*>(receiver)->FUN_008366c0(updateMode);
+            reinterpret_cast<FUN_008366c0_shell*>(receiver)->UpdateSoundItems_Thunk(updateMode);
         else
             remove = true;
         if (remove)
@@ -2766,7 +2769,7 @@ class RadioUpdateObj
     RadioUpdateObj* FUN_006815c0();
     RadioUpdateObj* TESDataHandler_GetWorldSpaceList();
     const char* TESSound_GetFilename();
-    const char* FUN_00559450();
+    const char* Modelloader_GetReferencedThis();
     void* TESObjectREFR_GetWorldSpace();
     TESObjectCELL* FUN_008d6f30();
     int FUN_004181e0();
@@ -3344,10 +3347,10 @@ void __cdecl FalloutRadio_UpdateStation(FalloutRadio::RadioStationState* apState
                 char buf[0x104];
                 if (aActor->FUN_0083c820()->BGSSaveFormBuffer_GetForm())
                     aEnabled = true;
-                if (aActor->FUN_0083c820() && aActor->FUN_0083c820()->FUN_006815c0()->FUN_00559450())
+                if (aActor->FUN_0083c820() && aActor->FUN_0083c820()->FUN_006815c0()->Modelloader_GetReferencedThis())
                 {
-                    aCont = BSstrlen((RadioUpdateObj*)aActor->FUN_0083c820()->FUN_006815c0()->FUN_00559450());
-                    aSame = aCont > 1 && aActor->FUN_0083c820()->TESDataHandler_GetWorldSpaceList()->FUN_00559450();
+                    aCont = BSstrlen((RadioUpdateObj*)aActor->FUN_0083c820()->FUN_006815c0()->Modelloader_GetReferencedThis());
+                    aSame = aCont > 1 && aActor->FUN_0083c820()->TESDataHandler_GetWorldSpaceList()->Modelloader_GetReferencedThis();
                 }
                 if (aEnabled)
                 {
@@ -3369,7 +3372,7 @@ void __cdecl FalloutRadio_UpdateStation(FalloutRadio::RadioStationState* apState
                 }
                 else if (aSame)
                 {
-                    FUN_00406d30(buf, 0x104, aActor->FUN_0083c820()->TESDataHandler_GetWorldSpaceList()->FUN_00559450());
+                    FUN_00406d30(buf, 0x104, aActor->FUN_0083c820()->TESDataHandler_GetWorldSpaceList()->Modelloader_GetReferencedThis());
                     ((RadioUpdateState*)apState)->sub.FalloutRadio_StationState_SetPlayingSong(0);
                 }
                 else

@@ -373,14 +373,14 @@ struct String114
     String114(String114*);  // 0x4047f0
     ~String114();           // 0x4037d0
     void FUN_00438470(String114*);
-    void* FUN_00559450();
+    void* Modelloader_GetReferencedThis();
 };
 struct Handle114
 {
     unsigned int a, b, c;
     Handle114(const Handle114&);  // 0x418900
     ~Handle114();                 // 0x483710
-    void* FUN_00559450();
+    void* Modelloader_GetReferencedThis();
     Handle114& BSAudio_GetSoundHandleByFilename();
     Handle114& FUN_00418900(const Handle114&);
     void FUN_00ad8be0(float, float);
@@ -844,7 +844,7 @@ struct Obj114
     void* BSStringT_char_Length();
     Obj114* BGSExplosion_GetImpactDataSet();
     String114* TESDataHandler_GetWorldSpaceList();
-    void* FUN_00559450();
+    void* Modelloader_GetReferencedThis();
     bool BSSoundHandle_BSSoundHandle_008c1bc0();
 };
 struct Manager114
@@ -1094,7 +1094,7 @@ void PackageDialogueSupport::DialoguePackage_Speak(bool process)
                         Obj114* topic21 = reinterpret_cast<Obj114*&>(response)->BGSSaveFormBuffer_GetForm()->GetHavokWorldObjectCountInSceneGraph_0084e3a0();
                         Handle114 handle23 = speaker23->PlaySoundByFormID(topic21, 0, 0x40000102, 1);
                         Manager114* manager3 = BSAudioManager_QInstance_00ad9060();
-                        manager3->BSAudioManager_SetCompletionCallback(handle23.FUN_00559450(), MobileObject_SoundFileCallBack, reinterpret_cast<Obj114*&>(pActor)->GetHavokWorldObjectCountInSceneGraph_0084e3a0());
+                        manager3->BSAudioManager_SetCompletionCallback(handle23.Modelloader_GetReferencedThis(), MobileObject_SoundFileCallBack, reinterpret_cast<Obj114*&>(pActor)->GetHavokWorldObjectCountInSceneGraph_0084e3a0());
                         reinterpret_cast<bool&>(unkCC) = false;
                         speak13 = false;
                     }
@@ -1112,7 +1112,7 @@ void PackageDialogueSupport::DialoguePackage_Speak(bool process)
                             reinterpret_cast<Obj114*&>(m_pkMobileObject) = speaker23;
                             speaker23->SetFlag86(reinterpret_cast<Obj114*&>(response)->GetField24());
                             float duration13 = speaker23->v284(
-                                text6.FUN_00559450(), &reinterpret_cast<Handle114&>(unk80), reinterpret_cast<Obj114*&>(response)->FUN_0044ddc0(), reinterpret_cast<Obj114*&>(response)->GetHavokWorldObjectCountInSceneGraph_0084e3a0(),
+                                text6.Modelloader_GetReferencedThis(), &reinterpret_cast<Handle114&>(unk80), reinterpret_cast<Obj114*&>(response)->FUN_0044ddc0(), reinterpret_cast<Obj114*&>(response)->GetHavokWorldObjectCountInSceneGraph_0084e3a0(),
                                 reinterpret_cast<Obj114*&>(response)->FUN_006815c0()->BSStringT_char_Length(), reinterpret_cast<Obj114*&>(response)->NiAVObject_GetParent(),
                                 reinterpret_cast<Obj114*&>(response)->FUN_00441110(), reinterpret_cast<Obj114*&>(pTargetActor), 1, 0, 1, 1, reinterpret_cast<bool&>(unkA0));
                             if (reinterpret_cast<Obj114*&>(m_pLinkedReference))
@@ -1126,7 +1126,7 @@ void PackageDialogueSupport::DialoguePackage_Speak(bool process)
                                     reinterpret_cast<Obj114*&>(m_pkMobileObject) = reinterpret_cast<Obj114*&>(m_pLinkedReference);
                                     reinterpret_cast<Obj114*&>(m_pLinkedReference)->SetFlag86(reinterpret_cast<Obj114*&>(response)->GetField24());
                                     duration13 = reinterpret_cast<Obj114*&>(m_pLinkedReference)->v284(
-                                        text6.FUN_00559450(), &reinterpret_cast<Handle114&>(unk80), reinterpret_cast<Obj114*&>(response)->FUN_0044ddc0(),
+                                        text6.Modelloader_GetReferencedThis(), &reinterpret_cast<Handle114&>(unk80), reinterpret_cast<Obj114*&>(response)->FUN_0044ddc0(),
                                         reinterpret_cast<Obj114*&>(response)->GetHavokWorldObjectCountInSceneGraph_0084e3a0(), reinterpret_cast<Obj114*&>(response)->FUN_006815c0()->BSStringT_char_Length(),
                                         reinterpret_cast<Obj114*&>(response)->NiAVObject_GetParent(), reinterpret_cast<Obj114*&>(response)->FUN_00441110(), target20, 0, 0, 0, 1, 1);
                                 }
@@ -1136,7 +1136,7 @@ void PackageDialogueSupport::DialoguePackage_Speak(bool process)
                             else
                             {
                                 Manager114* manager228 = BSAudioManager_QInstance_00ad9060();
-                                manager228->BSAudioManager_SetCompletionCallback(reinterpret_cast<Handle114&>(unk80).FUN_00559450(), MobileObject_DialogueConversationCallBack, reinterpret_cast<Obj114*&>(pActor)->GetHavokWorldObjectCountInSceneGraph_0084e3a0());
+                                manager228->BSAudioManager_SetCompletionCallback(reinterpret_cast<Handle114&>(unk80).Modelloader_GetReferencedThis(), MobileObject_DialogueConversationCallBack, reinterpret_cast<Obj114*&>(pActor)->GetHavokWorldObjectCountInSceneGraph_0084e3a0());
                                 if (reinterpret_cast<Obj114*&>(pActor) != reinterpret_cast<Obj114*&>(pTargetActor))
                                     reinterpret_cast<float&>(state) = 50.0f;
                                 speaker23->flag80 = 0;
@@ -1153,7 +1153,7 @@ void PackageDialogueSupport::DialoguePackage_Speak(bool process)
                                     reinterpret_cast<Obj114*&>(item)->FUN_0083c850(0);
                                 reinterpret_cast<Obj114*&>(m_pkMobileObject) = speaker23;
                                 speaker23->SetFlag86(reinterpret_cast<Obj114*&>(response)->GetField24());
-                                speaker23->v284(text6.FUN_00559450(), &reinterpret_cast<Handle114&>(unk80), reinterpret_cast<Obj114*&>(response)->FUN_0044ddc0(),
+                                speaker23->v284(text6.Modelloader_GetReferencedThis(), &reinterpret_cast<Handle114&>(unk80), reinterpret_cast<Obj114*&>(response)->FUN_0044ddc0(),
                                                 reinterpret_cast<Obj114*&>(response)->GetHavokWorldObjectCountInSceneGraph_0084e3a0(), reinterpret_cast<Obj114*&>(response)->FUN_006815c0()->BSStringT_char_Length(),
                                                 reinterpret_cast<Obj114*&>(response)->NiAVObject_GetParent(), reinterpret_cast<Obj114*&>(response)->FUN_00441110(), reinterpret_cast<Obj114*&>(pTargetActor), 1, 0, 0, 1,
                                                 reinterpret_cast<bool&>(unkA0));
@@ -1169,7 +1169,7 @@ void PackageDialogueSupport::DialoguePackage_Speak(bool process)
                                                 target24 = reinterpret_cast<Obj114*&>(pActor);
                                             reinterpret_cast<Obj114*&>(m_pkMobileObject) = reinterpret_cast<Obj114*&>(m_pLinkedReference);
                                             reinterpret_cast<Obj114*&>(m_pLinkedReference)->SetFlag86(reinterpret_cast<Obj114*&>(response)->GetField24());
-                                            reinterpret_cast<Obj114*&>(m_pLinkedReference)->v284(text6.FUN_00559450(), &reinterpret_cast<Handle114&>(unk80), reinterpret_cast<Obj114*&>(response)->FUN_0044ddc0(),
+                                            reinterpret_cast<Obj114*&>(m_pLinkedReference)->v284(text6.Modelloader_GetReferencedThis(), &reinterpret_cast<Handle114&>(unk80), reinterpret_cast<Obj114*&>(response)->FUN_0044ddc0(),
                                                         reinterpret_cast<Obj114*&>(response)->GetHavokWorldObjectCountInSceneGraph_0084e3a0(),
                                                         reinterpret_cast<Obj114*&>(response)->FUN_006815c0()->BSStringT_char_Length(),
                                                         reinterpret_cast<Obj114*&>(response)->NiAVObject_GetParent(), reinterpret_cast<Obj114*&>(response)->FUN_00441110(), target24, 0,
@@ -1178,7 +1178,7 @@ void PackageDialogueSupport::DialoguePackage_Speak(bool process)
                                     }
                                 }
                                 Manager114* manager334 = BSAudioManager_QInstance_00ad9060();
-                                manager334->BSAudioManager_SetCompletionCallback(reinterpret_cast<Handle114&>(unk80).FUN_00559450(), MobileObject_DialogueConversationCallBack, reinterpret_cast<Obj114*&>(pActor)->GetHavokWorldObjectCountInSceneGraph_0084e3a0());
+                                manager334->BSAudioManager_SetCompletionCallback(reinterpret_cast<Handle114&>(unk80).Modelloader_GetReferencedThis(), MobileObject_DialogueConversationCallBack, reinterpret_cast<Obj114*&>(pActor)->GetHavokWorldObjectCountInSceneGraph_0084e3a0());
                                 speaker23->flag80 = 0;
                                 reset26 = false;
                                 reinterpret_cast<Obj114*&>(m_pkMobileObject) = speaker23;
@@ -1206,9 +1206,9 @@ void PackageDialogueSupport::DialoguePackage_Speak(bool process)
                 char path27[512];
                 String114 text22;
                 String114 copy14(reinterpret_cast<Obj114*&>(response)->TESDataHandler_GetWorldSpaceList());
-                if (reinterpret_cast<Obj114*&>(response)->TESDataHandler_GetWorldSpaceList()->FUN_00559450())
+                if (reinterpret_cast<Obj114*&>(response)->TESDataHandler_GetWorldSpaceList()->Modelloader_GetReferencedThis())
                 {
-                    FUN_00406d30(path27, 512, reinterpret_cast<Obj114*&>(response)->TESDataHandler_GetWorldSpaceList()->FUN_00559450());
+                    FUN_00406d30(path27, 512, reinterpret_cast<Obj114*&>(response)->TESDataHandler_GetWorldSpaceList()->Modelloader_GetReferencedThis());
                     if (reinterpret_cast<Obj114*&>(m_pkMobileObject))
                     {
                         reinterpret_cast<Obj114*&>(m_pkMobileObject)->MobileObject_StopCurrentDialogue();
@@ -1220,11 +1220,11 @@ void PackageDialogueSupport::DialoguePackage_Speak(bool process)
                         Obj114* data310 = reinterpret_cast<Obj114*&>(m_pLinkedReference)->BGSSaveFormBuffer_GetForm();
                         reinterpret_cast<Obj114*&>(m_pLinkedReference)->SetFlag86(reinterpret_cast<Obj114*&>(response)->GetField24());
                         reinterpret_cast<Obj114*&>(m_pkMobileObject) = reinterpret_cast<Obj114*&>(m_pLinkedReference);
-                        reinterpret_cast<Obj114*&>(m_pLinkedReference)->v284(text22.FUN_00559450(), &reinterpret_cast<Handle114&>(unk80), reinterpret_cast<Obj114*&>(response)->FUN_0044ddc0(), reinterpret_cast<Obj114*&>(response)->GetHavokWorldObjectCountInSceneGraph_0084e3a0(),
+                        reinterpret_cast<Obj114*&>(m_pLinkedReference)->v284(text22.Modelloader_GetReferencedThis(), &reinterpret_cast<Handle114&>(unk80), reinterpret_cast<Obj114*&>(response)->FUN_0044ddc0(), reinterpret_cast<Obj114*&>(response)->GetHavokWorldObjectCountInSceneGraph_0084e3a0(),
                                     reinterpret_cast<Obj114*&>(response)->FUN_006815c0()->BSStringT_char_Length(), reinterpret_cast<Obj114*&>(response)->NiAVObject_GetParent(),
                                     reinterpret_cast<Obj114*&>(response)->FUN_00441110(), reinterpret_cast<Obj114*&>(pTargetActor), 0, 0, 0, 1, 1);
                         Manager114* manager45 = BSAudioManager_QInstance_00ad9060();
-                        manager45->BSAudioManager_SetCompletionCallback(reinterpret_cast<Handle114&>(unk80).FUN_00559450(), MobileObject_DialogueConversationCallBack, reinterpret_cast<Obj114*&>(m_pLinkedReference)->GetHavokWorldObjectCountInSceneGraph_0084e3a0());
+                        manager45->BSAudioManager_SetCompletionCallback(reinterpret_cast<Handle114&>(unk80).Modelloader_GetReferencedThis(), MobileObject_DialogueConversationCallBack, reinterpret_cast<Obj114*&>(m_pLinkedReference)->GetHavokWorldObjectCountInSceneGraph_0084e3a0());
                         reinterpret_cast<Obj114*&>(m_pLinkedReference)->flag80 = 0;
                         reset26 = false;
                     }
@@ -1242,10 +1242,10 @@ void PackageDialogueSupport::DialoguePackage_Speak(bool process)
                 }
                 if ((this == DAT_011dea3c->process || DAT_011f122d) && reinterpret_cast<Obj114*&>(conversation)->FUN_0083c820() &&
                     reinterpret_cast<Obj114*&>(conversation)->FUN_0083c820()->FUN_0083c820() &&
-                    reinterpret_cast<Obj114*&>(conversation)->FUN_0083c820()->FUN_0083c820()->FUN_006815c0()->FUN_00559450())
+                    reinterpret_cast<Obj114*&>(conversation)->FUN_0083c820()->FUN_0083c820()->FUN_006815c0()->Modelloader_GetReferencedThis())
                 {
                     if (*DAT_011d8928.FUN_00408d60() || (actor18->v100() && actor18->BSSoundHandle_BSSoundHandle_008c1bc0()))
-                        Interface_ShowSubtitle(reinterpret_cast<Obj114*&>(conversation)->FUN_0083c820()->FUN_0083c820()->FUN_006815c0()->FUN_00559450(), reinterpret_cast<Handle114&>(unk80),
+                        Interface_ShowSubtitle(reinterpret_cast<Obj114*&>(conversation)->FUN_0083c820()->FUN_0083c820()->FUN_006815c0()->Modelloader_GetReferencedThis(), reinterpret_cast<Handle114&>(unk80),
                                      actor18->v1f4(), reinterpret_cast<Obj114*&>(pTargetActor), 0);
                 }
                 if (reinterpret_cast<float&>(state) <= 0.0 && reinterpret_cast<Obj114*&>(pTargetActor) != actor18)

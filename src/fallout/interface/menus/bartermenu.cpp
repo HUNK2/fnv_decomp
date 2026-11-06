@@ -303,7 +303,7 @@ float __stdcall FUN_00a01530(int a);
 void __cdecl DialogMenu_ServiceStart();
 int __cdecl BSMAX_00647b70(int a, int b);
 int __cdecl MinInt(int a, int b);
-int __cdecl FUN_00649050(int a, int* b, int* c);
+int __cdecl Gameplayformulas_GetSkillPriceMultipliers(int a, int* b, int* c);
 void __cdecl InterfaceManager_PlayMenuSound(int a);
 
 // Validates arg0, resolves the inventory menu object, initializes its labels and settings from the config, and stores it in DAT_011d8fa4.
@@ -384,7 +384,7 @@ int __cdecl InitInventoryMenu(int arg0, int aiValue)
         ((BarterMenu*)DAT_011d8fa4)->m_pkMerchant = reinterpret_cast<TESObjectREFR*>(arg0);
         ((BarterMenu*)DAT_011d8fa4)->unk88 = MinInt(BSMAX_00647b70(aiValue, -100), 100);
         ((BarterMenu*)DAT_011d8fa4)->m_fBarterTotal = 0.0f;
-        FUN_00649050(((SubEA*)((char*)DAT_011dea3c + 0xa4))->FUN_0066ef20(0x20), reinterpret_cast<int*>(&((BarterMenu*)DAT_011d8fa4)->m_f94),
+        Gameplayformulas_GetSkillPriceMultipliers(((SubEA*)((char*)DAT_011dea3c + 0xa4))->FUN_0066ef20(0x20), reinterpret_cast<int*>(&((BarterMenu*)DAT_011d8fa4)->m_f94),
                      reinterpret_cast<int*>(&((BarterMenu*)DAT_011d8fa4)->m_f98));
         InterfaceManager_PlayMenuSound(0x24);
         ((BarterMenu*)DAT_011d8fa4)->FUN_00a1dc20(0);
@@ -466,9 +466,9 @@ void BarterMenu::HandleTileClick(int iTileIndex, Tile* pkTile)
                          TruncateFloatToInt(pkTile->FUN_00a011b0(Tile_TextToTrait(s_szNumBartered)));
             if (Interface_IsConsoleVisible())
             {
-                TESObjectREFR* pkOrig = g_pkSelectedItem_011d8fa8->FUN_00559450() &&
-                                        g_pkSelectedItem_011d8fa8->FUN_00559450()->GetItem()
-                                    ? ((BmExtraList*)g_pkSelectedItem_011d8fa8->FUN_00559450()->GetItem())->ExtraDataList_GetOriginalReference()
+                TESObjectREFR* pkOrig = g_pkSelectedItem_011d8fa8->Modelloader_GetReferencedThis() &&
+                                        g_pkSelectedItem_011d8fa8->Modelloader_GetReferencedThis()->GetItem()
+                                    ? ((BmExtraList*)g_pkSelectedItem_011d8fa8->Modelloader_GetReferencedThis()->GetItem())->ExtraDataList_GetOriginalReference()
                                     : 0;
                 if (pkOrig)
                     Interface_PrintLine(s_szOrigRef, static_cast<const TESObjectREFR*>(pkOrig)->GetName(), pkOrig->GetHavokWorldObjectCountInSceneGraph_0084e3a0());
@@ -696,7 +696,7 @@ struct OwnExtraList
 
 struct OwnItem
 {
-    BSSimpleList<OwnExtraList*>* FUN_00559450();
+    BSSimpleList<OwnExtraList*>* Modelloader_GetReferencedThis();
     void* FUN_0044ddc0();
     int FUN_00726070();
     void FUN_006ecd40(int iCount);
@@ -724,7 +724,7 @@ void __cdecl BarterMenu_RemoveStolenItems(int iUnused, OwnItem* pkItem)
                                 ? g_pkBarterMenu_011d8fa4->m_pkMerchant
                                 : 0;
     BSSimpleList<OwnExtraList*> kRemoveY;
-    for (BSSimpleList<OwnExtraList*>* pkNode = pkItem->FUN_00559450(); pkNode && pkNode->GetItem(); pkNode = pkNode->GetNext())
+    for (BSSimpleList<OwnExtraList*>* pkNode = pkItem->Modelloader_GetReferencedThis(); pkNode && pkNode->GetItem(); pkNode = pkNode->GetNext())
     {
         OwnExtraList* pkExtra = pkNode->GetItem();
         if (pkMerchant_ && pkExtra->ExtraDataList_GetOwner())
@@ -741,7 +741,7 @@ void __cdecl BarterMenu_RemoveStolenItems(int iUnused, OwnItem* pkItem)
     for (BSSimpleList<OwnExtraList*>* pkIter = &kRemoveY; pkIter && pkIter->GetItem(); pkIter = pkIter->GetNext())
     {
         pkItem->FUN_006ecd40(pkItem->FUN_00726070() - (pkIter->GetItem())->ExtraDataList_GetCount());
-        pkItem->FUN_00559450()->Remove(pkIter->GetItem());
+        pkItem->Modelloader_GetReferencedThis()->Remove(pkIter->GetItem());
     }
     kRemoveY.RemoveAll();
 }
@@ -827,8 +827,8 @@ InventoryStackRecord* BarterMenu::FindMatchingEntry(BSSimpleList<InventoryStackR
         InventoryStackRecord* item5 = node2->GetItem();
         if (target->FUN_0044ddc0() == item5->FUN_0044ddc0())
         {
-            void* local7 = target->FUN_00559450() ? target->FUN_00559450()->GetItem() : 0;
-            void* local_14 = item5->FUN_00559450() ? item5->FUN_00559450()->GetItem() : 0;
+            void* local7 = target->Modelloader_GetReferencedThis() ? target->Modelloader_GetReferencedThis()->GetItem() : 0;
+            void* local_14 = item5->Modelloader_GetReferencedThis() ? item5->Modelloader_GetReferencedThis()->GetItem() : 0;
             if (local7 == local_14)
             {
                 result2 = item5;
@@ -1333,13 +1333,13 @@ void __thiscall BarterMenu::RebuildInventoryLists(int arg)
                 InventoryStackRecord* r =
                     new InventoryStackRecord((kZero->GetItem())->FUN_0044ddc0(), (int)(kZero->GetItem())->FUN_00726070());
                 void* _tempExtra;
-                _tempExtra = (kZero->GetItem())->FUN_00559450()
-                                 ? (kZero->GetItem())->FUN_00559450()->GetItem()
+                _tempExtra = (kZero->GetItem())->Modelloader_GetReferencedThis()
+                                 ? (kZero->GetItem())->Modelloader_GetReferencedThis()->GetItem()
                                  : 0;
                 tmp = 0;
                 if (0 != _tempExtra)
                 {
-                    r->FUN_00559450()->AddTail(reinterpret_cast<ExtraDataList* const&>(_tempExtra));
+                    r->Modelloader_GetReferencedThis()->AddTail(reinterpret_cast<ExtraDataList* const&>(_tempExtra));
                 }
                 tmp = reinterpret_cast<ListObj&>(m_kMerchantList).ListBox_ItemChange_AddItem(r, (const char*)r->GetFullName(), 0, 0);
                 ((Tile*)tmp)->FUN_00700320(DAT_011d8fb4, 1);
@@ -1357,13 +1357,13 @@ void __thiscall BarterMenu::RebuildInventoryLists(int arg)
                 InventoryStackRecord* r;
                 void* _tempExtra;
                 r = new InventoryStackRecord((kZero->GetItem())->FUN_0044ddc0(), (int)(kZero->GetItem())->FUN_00726070());
-                _tempExtra = (kZero->GetItem())->FUN_00559450()
-                                 ? (kZero->GetItem())->FUN_00559450()->GetItem()
+                _tempExtra = (kZero->GetItem())->Modelloader_GetReferencedThis()
+                                 ? (kZero->GetItem())->Modelloader_GetReferencedThis()->GetItem()
                                  : 0;
                 tmp = 0;
                 if (_tempExtra != 0)
                 {
-                    r->FUN_00559450()->AddTail(reinterpret_cast<ExtraDataList* const&>(_tempExtra));
+                    r->Modelloader_GetReferencedThis()->AddTail(reinterpret_cast<ExtraDataList* const&>(_tempExtra));
                 }
                 tmp = reinterpret_cast<ListObj&>(m_kPlayerList).ListBox_ItemChange_AddItem(r, (const char*)r->GetFullName(), 0, 0);
                 ((Tile*)tmp)->FUN_00700320(DAT_011d8fb4, 1);
@@ -1484,7 +1484,7 @@ void BarterMenu::CompleteBarterTransaction()
     for (BSSimpleList<InventoryStackRecord*>* pNode6 = &m_kMerchantItems; pNode6 && pNode6->GetItem(); pNode6 = pNode6->GetNext())
     {
         InventoryStackRecord* pItem = pNode6->GetItem();
-        ExtraDataList* pExtraList = pItem->FUN_00559450() ? pItem->FUN_00559450()->GetItem() : 0;
+        ExtraDataList* pExtraList = pItem->Modelloader_GetReferencedThis() ? pItem->Modelloader_GetReferencedThis()->GetItem() : 0;
         if (pExtraList)
             fnv_0072fd10::Script_SetActionFlag(m_merchant, pExtraList, 0x4000);
         fnv_0072fd10::g_transferMgr_011c3f2c->ProcessInventoryRecords(pItem, pItem->FUN_00726070(), m_merchant);
@@ -1494,7 +1494,7 @@ void BarterMenu::CompleteBarterTransaction()
     for (BSSimpleList<InventoryStackRecord*>* pNode3 = &m_kPlayerItems; pNode3 && pNode3->GetItem(); pNode3 = pNode3->GetNext())
     {
         InventoryStackRecord* pItem3 = pNode3->GetItem();
-        ExtraDataList* pExtraList5 = pItem3->FUN_00559450() ? pItem3->FUN_00559450()->GetItem() : 0;
+        ExtraDataList* pExtraList5 = pItem3->Modelloader_GetReferencedThis() ? pItem3->Modelloader_GetReferencedThis()->GetItem() : 0;
         if (pExtraList5)
             fnv_0072fd10::Script_SetActionFlag((TESObjectREFR*)fnv_0072fd10::g_player_011dea3c, pExtraList5, 0x4000);
         fnv_0072fd10::g_player_011dea3c->RemoveItem(pItem3->FUN_0044ddc0(), pExtraList5, pItem3->FUN_00726070(), 0, 0, pTarget3, 0, 0, 1,

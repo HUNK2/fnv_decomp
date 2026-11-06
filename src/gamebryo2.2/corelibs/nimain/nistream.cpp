@@ -916,7 +916,7 @@ struct S_00a48070_Obj
     char m_acSecondPathBuffer[0x104];
     char m_acLastPath[0x104];
     void FUN_00a66150();
-    void FUN_00a65300();
+    void Object_ReleaseStorage_00a65300();
     bool OpenFile(const char* p);
 };
 
@@ -941,7 +941,7 @@ void CreateOrReleaseRef(const char* apPath, int p2, NiObject** ppRef, void* p4)
     {
         FUN_00a47f40(&obj, p2, ppRef, p4);
     }
-    obj.FUN_00a65300();
+    obj.Object_ReleaseStorage_00a65300();
 }
 
 void __fastcall _Call_a5d3a0(void*);
@@ -2715,7 +2715,7 @@ template <> void NiTLargeArray<NiPointer<NiObject>, NiTNewInterface<NiPointer<Ni
 extern int DAT_0109bdcc, DAT_0109bd54, DAT_0109bc64, DAT_0109bd4c, DAT_0109bd98, DAT_01081fc8, DAT_0109bc3c;
 void __cdecl FUN_00a47600(void*);
 void _NiFreeAlias(void*);
-void FUN_00a644a0(void*);
+void Object_ProcessEntries_00a644a0(void*);
 struct VObj
 {
     virtual void* Del(int);
@@ -2758,7 +2758,8 @@ struct FUN_00a65300_holder
 };
 // Calls Del(1) on three members, clears top-level objects and the map, and passes stored pointers to cleanup routines.
 // @fnv 0x00a65300
-void __fastcall FUN_00a65300(FUN_00a65300_holder* s)
+// src: GUESS 0x00a65300 (confidence: low)
+void __fastcall Object_ReleaseStorage_00a65300(FUN_00a65300_holder* s)
 {
     s->vt = &DAT_0109bdcc;
     if (s->istr)
@@ -2777,7 +2778,7 @@ void __fastcall FUN_00a65300(FUN_00a65300_holder* s)
     _NiFreeAlias(s->l264);
     _NiFreeAlias(s->l254);
     s->vt_234 = &DAT_0109bd4c;
-    FUN_00a644a0(s->a238);
+    Object_ProcessEntries_00a644a0(s->a238);
     s->vt_21c = &DAT_0109bd98;
     FUN_00a47600(s->a220);
     s->vt_204 = &DAT_01081fc8;
@@ -3452,7 +3453,7 @@ FUN_00a66050_obj* __fastcall FUN_00a66050(FUN_00a66050_obj* apObject, int, unsig
 }
 
 namespace fnv_00a66070 {
-void __cdecl FUN_00a644a0(void*);
+void __cdecl Object_ProcessEntries_00a644a0(void*);
 
 extern MemoryManager g_memoryManager;
 extern int DAT_0109bd4c;
@@ -3468,7 +3469,7 @@ void* Holder66070::FUN_00a66070(unsigned int flags)
 {
     void* tmp = mem;
     vf = (void*)&DAT_0109bd4c;
-    FUN_00a644a0(tmp);
+    Object_ProcessEntries_00a644a0(tmp);
     if (flags & 1)
         g_memoryManager._DeallocateAlias(this);
     return this;
@@ -4243,7 +4244,8 @@ struct GlobalObjectO2_00c67fe0
 };
 extern GlobalObjectO2_00c67fe0 g_01267830;
 // @fnv 0x00c681b0
-void FUN_00c681b0()
+// src: GUESS 0x00c681b0 (confidence: medium)
+void NiStream_RegisterThread_Thunk()
 {
     g_01267830.RegisterThread();
 }

@@ -717,7 +717,7 @@ extern void __stdcall FUN_00401050(void* storage, unsigned int elementSize, unsi
 extern void __cdecl FUN_004a7800(void* value);
 extern void* __cdecl FUN_00ec44d0(void* target, const void* source, unsigned int bytes);
 extern unsigned char DAT_010c2c38;
-extern void* __cdecl FUN_00aa13e0(unsigned int bytes);
+extern void* __cdecl Object_DispatchCommandFour(unsigned int bytes);
 struct FilterArray
 {
     FilterData values[8];
@@ -845,7 +845,7 @@ struct CollisionGenerator : CollisionShape
     unsigned int unkc0;
     static __forceinline void* operator new(unsigned int size)
     {
-        return FUN_00aa13e0(size);
+        return Object_DispatchCommandFour(size);
     }
     static void operator delete(void*);
     CollisionGenerator(unsigned int count, NiPoint3* vertices, int unused, FilterData* _filters, int a, int b, int c,

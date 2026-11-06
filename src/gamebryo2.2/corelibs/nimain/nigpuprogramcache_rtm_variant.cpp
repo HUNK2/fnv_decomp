@@ -72,7 +72,7 @@ class FixedStringMap
 
     void GetNextEntry(MapItem*& pos, NiFixedString& key, NiObjPtr& val);
 };
-bool __cdecl FUN_00aa2cc0(const char*) throw();
+bool __cdecl Path_IsRelative(const char*) throw();
 bool __cdecl NiPath_GetCurrentWorkingDirectory(char*, unsigned int) throw();
 int __cdecl BuildAbsolutePath(char*, unsigned int, const char*, const char*) throw();
 // helpers of the game (declared only)
@@ -279,7 +279,7 @@ void __cdecl NiStreamLoadBinary_00a575b0(NiFile* pkFile, unsigned int* puiValue)
 extern "C" size_t strlen(const char*);
 extern char* _EmptyFS;
 bool __cdecl NiFile_CreateDirectoryRecursive(const char* h);
-void __cdecl FUN_00e984d0(void* s, const char* name, unsigned int len);
+void __cdecl Runtime_UpdateState_00e984d0(void* s, const char* name, unsigned int len);
 struct StreamObj : public NiFile
 {
     unsigned int m_pos;
@@ -357,8 +357,8 @@ struct ShaderEntry : NiRefObject
     int unk28;
     ShaderEntry() throw();
     void SetName(const NiFixedString& s);
-    void FUN_00eea650(const NiFixedString& s);
-    void FUN_00eea690(const NiFixedString& s);
+    void AssignReferencedString_00eea650(const NiFixedString& s);
+    void AssignReferencedString_00eea690(const NiFixedString& s);
     void SetLookAtName(const NiFixedString& s);
     void AssignRefCounted(const NiFixedString& s);
     void SetCreator_00eea540(unsigned int v);
@@ -570,12 +570,12 @@ bool ShaderLib::NiGPUProgramCache_LoadEntry(S_00a8d8b0* s, bool& changed)
             ReadStr(s, buf);
             void* t2Storage[sizeof(NiFixedString) / sizeof(void*)];
             NiFixedString& t2 = *ConstructCacheString(t2Storage, buf);
-            e->FUN_00eea650(t2);
+            e->AssignReferencedString_00eea650(t2);
             t2.~NiFixedString();
             ReadStr(s, buf);
             void* t3Storage[sizeof(NiFixedString) / sizeof(void*)];
             NiFixedString& t3 = *ConstructCacheString(t3Storage, buf);
-            e->FUN_00eea690(t3);
+            e->AssignReferencedString_00eea690(t3);
             t3.~NiFixedString();
             ReadStr(s, buf);
             void* t4Storage[sizeof(NiFixedString) / sizeof(void*)];

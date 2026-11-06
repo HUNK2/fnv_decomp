@@ -283,7 +283,7 @@ inline PhysicsMaterial* hkpSimpleContactConstraintAtom::getContactPointPropertie
         m_usMaxNumContactPoints * 0x20 + i * m_ucContactPointPropertiesStriding);
 }
 
-void __cdecl FUN_00cfd950(hkpSimpleContactConstraintAtom* pkAtom, int iIndex);
+void __cdecl hkpSimpleContactConstraintAtom_RemoveContactPointAndShift(hkpSimpleContactConstraintAtom* pkAtom, int iIndex);
 hkpSimpleContactConstraintAtom* __cdecl ShrinkBlockIfSparse(hkpSimpleContactConstraintAtom* pkAtom, int iNumFreeElemsLeft, hkBool& bAtomReallocated);
 void __cdecl ReplaceEntry(hkpConstraintInstance* pkConstraint, hkpSimpleContactConstraintAtom* pkOldAtom, hkpSimpleContactConstraintAtom* pkNewAtom, int iNewSize);
 
@@ -314,7 +314,7 @@ int hkpSimpleContactConstraintData::freeContactPoint(hkpConstraintOwner& kConstr
     else
         kConInfo.add(0x40, 1, 1);
 
-    FUN_00cfd950(pkAtom, iIndex);
+    hkpSimpleContactConstraintAtom_RemoveContactPointAndShift(pkAtom, iIndex);
     reinterpret_cast<hkUint8*>(pkAtom->getContactPointPropertiesStream(static_cast<hkInt16>(iIndex)))[0xf] &= ~2;
     pkAtom = ShrinkBlockIfSparse(m_pAtom, 1, bAtomReallocated);
     m_pAtom = pkAtom;
@@ -721,7 +721,7 @@ struct hkRigidBodyStub
     hkSmallArray<void*> m_kContactListeners;
 
     void hkpRigidBody_getPointVelocity(const hkVector4& p, hkVector4& vecOut) const;
-    float FUN_00cac860() const;
+    float ProcessAndReturnValue_00cac860() const;
 };
 
 struct hkContactPointAddedEventStub
@@ -818,8 +818,8 @@ hkContactPointId hkpSimpleConstraintContactMgr::addContactPointImpl(const hkCdBo
     if (input.m_flag6d && cpi->getRestitution() == 0.0f
         && rbA->m_kContactListeners.getSize() <= 0 && rbB->m_kContactListeners.getSize() <= 0)
     {
-        float invMassB = rbB->FUN_00cac860();
-        float invMassSum = rbA->FUN_00cac860() + invMassB;
+        float invMassB = rbB->ProcessAndReturnValue_00cac860();
+        float invMassSum = rbA->ProcessAndReturnValue_00cac860() + invMassB;
         float f = 1.0f / (invMassSum + 1e-10f);
         cpi->m_fAccumulatedImpulse = f * -0.2f * projectedVel;
         cpi->m_fImpulseLimit = 0.0f;
@@ -955,7 +955,8 @@ static __forceinline void memCpy4(void* dst, const void* src, int numWords)
 
 // Removes the contact point at iIndex from pkAtom by shifting later contact points and their properties down and decrementing m_usNumContactPoints.
 // @fnv 0x00cfd950
-void __cdecl FUN_00cfd950(hkpSimpleContactConstraintAtom* pkAtom, int iIndex)
+// src: GUESS 0x00cfd950 (confidence: high)
+void __cdecl hkpSimpleContactConstraintAtom_RemoveContactPointAndShift(hkpSimpleContactConstraintAtom* pkAtom, int iIndex)
 {
     int numContactPoints = pkAtom->m_usNumContactPoints - 1;
     pkAtom->m_usNumContactPoints = hkUint16(numContactPoints);

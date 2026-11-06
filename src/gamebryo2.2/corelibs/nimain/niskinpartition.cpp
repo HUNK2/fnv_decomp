@@ -80,10 +80,11 @@ struct S : NiRefObject
 {
     int f8;
     void* fC;
-    void __thiscall FUN_00a824d0();
+    void __thiscall SetVtableAndProcessState_00a824d0();
 };
 // @fnv 0x00a824d0
-void __thiscall S::FUN_00a824d0()
+// src: GUESS 0x00a824d0 (confidence: low)
+void __thiscall S::SetVtableAndProcessState_00a824d0()
 {
     *(void**)this = (void*)&DAT_0109e47c;
     if (NiRenderer::ms_pRenderer)
@@ -176,12 +177,13 @@ void FUN_00a82710_shell::NiTSet_UInt16_Add(unsigned int n)
 struct FUN_00a82890_shell
 {
     char __thiscall ContainsAllValues(void*);
-    char __thiscall FUN_00a82890(const unsigned short* a, const void* b);
+    char __thiscall ContainsAllIndexedTriples(const unsigned short* a, const void* b);
 };
 
 // Calls ContainsAllValues on three offsets into b taken from a, returning 0 if any call fails and 1 otherwise.
 // @fnv 0x00a82890
-char __thiscall FUN_00a82890_shell::FUN_00a82890(const unsigned short* a, const void* apBase)
+// src: GUESS 0x00a82890 (confidence: medium)
+char __thiscall FUN_00a82890_shell::ContainsAllIndexedTriples(const unsigned short* a, const void* apBase)
 {
     for (unsigned int i = 0; i < 3; ++i)
         if (!ContainsAllValues((char*)apBase + a[i] * 12))
@@ -192,14 +194,14 @@ char __thiscall FUN_00a82890_shell::FUN_00a82890(const unsigned short* a, const 
 void __cdecl _delete(void*, unsigned int);
 struct FUN_00a82c70_holder
 {
-    void FUN_00a824d0();
+    void SetVtableAndProcessState_00a824d0();
     void* DestroyIfFlagged(unsigned int);
 };
 // Calls FUN_00a824d0, then deletes this with size 0x10 when bit 0 of a is set, and returns this.
 // @fnv 0x00a82c70
 void* FUN_00a82c70_holder::DestroyIfFlagged(unsigned int auiFlags)
 {
-    FUN_00a824d0();
+    SetVtableAndProcessState_00a824d0();
     if (auiFlags & 1)
         _delete(this, 0x10);
     return this;
@@ -275,11 +277,12 @@ struct FUN_00a826b0_shell
     void* m_p;
     unsigned int m_uiItemCount;
     unsigned int m_uiBufferCapacity;
-    void FUN_00a826b0(unsigned int n);
+    void ReleaseStorage_00a826b0(unsigned int n);
 };
 
 // @fnv 0x00a826b0
-void FUN_00a826b0_shell::FUN_00a826b0(unsigned int n)
+// src: GUESS 0x00a826b0 (confidence: low)
+void FUN_00a826b0_shell::ReleaseStorage_00a826b0(unsigned int n)
 {
     if (n == m_uiItemCount)
         return;
@@ -619,7 +622,7 @@ int __cdecl FindMatchingItem(ItemSet* pItemSet, const unsigned short* a2, const 
         if (flags[i] == key)
         {
             void*& pItem = pItemSet->m_items[i];
-            if (((FUN_00a82890_shell*)pItem)->FUN_00a82890(a2, a3))
+            if (((FUN_00a82890_shell*)pItem)->ContainsAllIndexedTriples(a2, a3))
             {
                 flags[i] = 1;
                 return (int)i;
@@ -1713,7 +1716,7 @@ public:
     unsigned int m_pRayCursor;
 
     void Realloc(unsigned int);
-    void FUN_00a56e60(unsigned int ItemUpdateArray);
+    void ProcessEntries_00a56e60(unsigned int ItemUpdateArray);
     unsigned int Find(Item* item);
     int Find(unsigned int value);
     void Add(Item* item);

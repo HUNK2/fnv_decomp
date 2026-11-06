@@ -47,12 +47,13 @@ struct FUN_0081aa80_shell
     void* m_kPointA;
     void* m_kPointB;
     void* m_iThirdValue;
-    FUN_0081aa80_shell* FUN_0081aa80(void* a, void* b, void* c);
+    FUN_0081aa80_shell* ComputeValue_0081aa80(void* a, void* b, void* c);
 };
 
 // Stores the three arguments into the object's fields and returns this.
 // @fnv 0x0081aa80
-FUN_0081aa80_shell* FUN_0081aa80_shell::FUN_0081aa80(void* pFirst, void* pSecond, void* pThird)
+// src: GUESS 0x0081aa80 (confidence: low)
+FUN_0081aa80_shell* FUN_0081aa80_shell::ComputeValue_0081aa80(void* pFirst, void* pSecond, void* pThird)
 {
     m_kPointA = pFirst;
     m_kPointB = pSecond;

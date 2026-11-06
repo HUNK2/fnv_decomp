@@ -58,7 +58,7 @@ void __cdecl RemoveDotSlash(char* pcPath)
 namespace fnv_00aa2ac0 {
 void __cdecl NiPath_Standardize(char*);
 void __cdecl RemoveDotSlash(char*);
-char __cdecl FUN_00aa2cc0(char*);
+char __cdecl Path_IsRelative(char*);
 char* __cdecl SkipPathPrefix(char*);
 
 // Runs path helpers, then removes each `\..` occurrence and its preceding path component.
@@ -67,7 +67,7 @@ void __cdecl RemoveParentDirSegments(char* path)
 {
     NiPath_Standardize(path);
     RemoveDotSlash(path);
-    if (FUN_00aa2cc0(path))
+    if (Path_IsRelative(path))
     {
         if (!path)
             return;

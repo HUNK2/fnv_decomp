@@ -17,7 +17,7 @@ class NiIntegersExtraData : public NiExtraData
     virtual void GetViewerStrings(NiViewerStringsArray* pkStrings);
 
     void AssignPointerArray(int a, int b);
-    void FUN_00a99950();
+    void SetVtableAndProcessState_00a99950();
     NiIntegersExtraData* NiIntegersExtraData_00a99980(int a, int b);
     NiIntegersExtraData* FUN_00a99a50(int flag);
     bool IsEqual_00a998e0(NiIntegersExtraData* pObject);

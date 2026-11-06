@@ -739,7 +739,8 @@ struct hkTransformL
 
 
 // @fnv 0x00cf1710
-void __cdecl FUN_00cf1710(const hkSweptTransform& sweptTrans, float t, float deltaTimeAddon,
+// src: GUESS 0x00cf1710 (confidence: low)
+void __cdecl hkSweptTransform_ComputeValues_00cf1710(const hkSweptTransform& sweptTrans, float t, float deltaTimeAddon,
                           hkTransformL& transformOut)
 {
     const __m128 r0 = _mm_load_ps(reinterpret_cast<const float*>(&sweptTrans.m_qRotation0));
@@ -860,13 +861,14 @@ struct __declspec(align(16)) Quat
     float x, y, z, w;
     void setMulInverse(const hkQuaternion* a, const hkQuaternion* b);
     float GetAngle();
-    Bool8* FUN_00ce1500(Bool8* o);
+    Bool8* ProcessAndReturnValue_00ce1500(Bool8* o);
     void hkQuaternion_getAxis(hkVector4* out);
 };
 
 
 // @fnv 0x00cf2180
-void __cdecl FUN_00cf2180(const TimeInterval& info, const hkVector4& pos1, const hkQuaternion& rot1, MotionState& ms)
+// src: GUESS 0x00cf2180 (confidence: low)
+void __cdecl hkVector4_UpdateFields_00cf2180(const TimeInterval& info, const hkVector4& pos1, const hkQuaternion& rot1, MotionState& ms)
 {
     hkSweptTransform& st = ms.m_kSweptTransform;
     st.m_vCenterOfMass0 = st.m_vCenterOfMass1;
@@ -879,7 +881,7 @@ void __cdecl FUN_00cf2180(const TimeInterval& info, const hkVector4& pos1, const
     float angle = diff.GetAngle();
     hkVector4 axis;
     Bool8 ok;
-    if (diff.FUN_00ce1500(&ok)->b != 0)
+    if (diff.ProcessAndReturnValue_00ce1500(&ok)->b != 0)
     {
         hkVector4 t;
         diff.hkQuaternion_getAxis(&t);

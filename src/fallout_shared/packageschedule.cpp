@@ -235,11 +235,12 @@ struct DurationData : BoundHolder
     char Main_GameReset();
     char FUN_0086a460();
     int _ref_00726070();
-    char FUN_0067fe10(DurationData* other);
+    char EvaluateValue_0067fe10(DurationData* other);
 };
 // Returns 1 if other is null or any of five compared values differ, otherwise returns 0.
 // @fnv 0x0067fe10
-char DurationData::FUN_0067fe10(DurationData* other)
+// src: GUESS 0x0067fe10 (confidence: low)
+char DurationData::EvaluateValue_0067fe10(DurationData* other)
 {
     if (!other)
         return 1;

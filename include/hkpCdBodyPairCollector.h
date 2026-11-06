@@ -14,5 +14,5 @@ public:
     void dtor();
     void* hkpCdBodyPairCollector_hkpCdBodyPairCollector();
     void* FUN_0062d3f0(unsigned int flags);
-    void FUN_0062d420();
+    void SetVirtualTable_0062d420();
 };

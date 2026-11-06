@@ -298,7 +298,8 @@ struct SweptTransformSamples
 
 // Stores motionState and sample info in out, then evaluates swept transforms at times based on delta angle, filling m_kTransforms and m_numQsTransforms.
 // @fnv 0x00cbec90
-void FUN_00cbec90(const hkMotionStateq* motionState, SweptTransformSamples* out)
+// src: GUESS 0x00cbec90 (confidence: medium)
+void hkMotionStateq_SampleSweptMotionTransforms(const hkMotionStateq* motionState, SweptTransformSamples* out)
 {
     out->m_kMotionState = motionState;
     out->m_info.hkTransform_setInverse(motionState);

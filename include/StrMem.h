@@ -29,7 +29,7 @@ public:
 
     StrMem& FUN_00404820(const char*);
     unsigned int BSStringT_char_Length();
-    char* FUN_00559450();
-    const char* FUN_00559450() const;
+    char* Modelloader_GetReferencedThis();
+    const char* Modelloader_GetReferencedThis() const;
     void __thiscall AnimatingText_Initialize();
 };

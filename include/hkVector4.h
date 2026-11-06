@@ -197,12 +197,12 @@ class hkVector4
     int lessZero3() const;
 
     hkVector4 FUN_00630b40() const;
-    float FUN_004586d0() const;
+    float EvaluateValue_004586d0() const;
     void normalize3_0062aea0();
     void hkVector4_mul4(const hkSimdReal& scalar);
-    void FUN_00630df0(const hkVector4& a, const hkVector4& b);
+    void ComputeValues_00630df0(const hkVector4& a, const hkVector4& b);
     hkSimdReal& hkVector4_getSimdAt(hkSimdReal& value, int index) const;
-    int FUN_00e4dc70(const hkVector4& vector, const hkVector4* vectors, void* data);
+    int GetTriangleEdgeSignMask(const hkVector4& vector, const hkVector4* vectors, void* data);
 
 #ifdef FNV64_HKVECTOR4_PACKET_BODIES
     __forceinline hkVector4(__m128 value) : m_vComponents(value) {}
@@ -339,10 +339,10 @@ class hkVector4
     int maxAxisSecond() const;
     int maxAxis() const;
     float GetAngle();
-    void FUN_00416870(float x, float y, float z);
-    hkVector4 FUN_00439ef0(const hkVector4& vector);
+    void SetComponents(float x, float y, float z);
+    hkVector4 SubtractIntoVector(const hkVector4& vector);
     hkVector4 FUN_00439e90(const hkVector4& vector);
-    void FUN_00439180(float value);
+    void ScaleComponents(float value);
     void Unitize_004a0c10();
     void setMul(const hkVector4* a, const hkVector4* b);
     void setMulInverse(const hkVector4* a, const hkVector4* b);
@@ -353,10 +353,10 @@ class hkVector4
     template <int I> void splat(const hkVector4& vector);
     // Typed vector calls recovered from the former FourFloatVector declarations.
     hkVector4* hkVector4_hkVector4(float x, float y, float z, float w);
-    void FUN_004a3f10(hkVector4* vector);
-    void __thiscall FUN_004b4db0(const hkVector4* vector);
-    hkVector4& FUN_00e531a0(int parameter);
-    hkVector4 FUN_00e53260(int parameter);
+    void SetValue(hkVector4* vector);
+    void __thiscall SetQuaternionComponentsFromVector(const hkVector4* vector);
+    hkVector4& ComputeValue_00e531a0(int parameter);
+    hkVector4 ProcessAndReturnValue_00e53260(int parameter);
     float& At(int index);
     const float& At(int index) const;
     __m128 length3PacketCall() const;

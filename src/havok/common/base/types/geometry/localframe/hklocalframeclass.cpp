@@ -76,7 +76,7 @@ extern int DAT_0102e388;
 
 struct FUN_00cb0c00_class
 {
-    void FUN_00cb0c00();
+    void Object_UpdateFields_00cb0c00();
 };
 
 
@@ -91,7 +91,7 @@ struct SomeClass
 // @fnv 0x00da0800
 void* SomeClass::FUN_00da0800(unsigned int flags)
 {
-    ((FUN_00cb0c00_class*)((char*)this + 8))->FUN_00cb0c00();
+    ((FUN_00cb0c00_class*)((char*)this + 8))->Object_UpdateFields_00cb0c00();
     this->vptr = (void*)&DAT_0102e388;
     if (flags & 1)
     {
@@ -166,11 +166,12 @@ struct FUN_00da0840_Obj
     int unk58;
     int unk5C;
 
-    int FUN_00da0840();
+    int GetUnk5C_00da0840();
 };
 
 // @fnv 0x00da0840
-int FUN_00da0840_Obj::FUN_00da0840()
+// src: GUESS 0x00da0840 (confidence: low)
+int FUN_00da0840_Obj::GetUnk5C_00da0840()
 {
     return unk5C;
 }

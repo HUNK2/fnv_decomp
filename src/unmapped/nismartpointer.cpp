@@ -11,11 +11,12 @@ struct KFModel
 struct NiPointer_KFModel
 {
     KFModel* m_pObject;
-    NiPointer_KFModel& FUN_0044b070(KFModel* pObject);
+    NiPointer_KFModel& UpdateState_0044b070(KFModel* pObject);
 };
 
 // @fnv 0x0044b070
-NiPointer_KFModel& NiPointer_KFModel::FUN_0044b070(KFModel* pObject)
+// src: GUESS 0x0044b070 (confidence: low)
+NiPointer_KFModel& NiPointer_KFModel::UpdateState_0044b070(KFModel* pObject)
 {
     if (m_pObject != pObject)
     {
@@ -37,10 +38,11 @@ struct LoadedFile
 struct NiPointer_LoadedFile
 {
     LoadedFile* m_pObject;
-    NiPointer_LoadedFile& FUN_0044b220(LoadedFile* pObject);
+    NiPointer_LoadedFile& AssignRetainedObject_0044b220(LoadedFile* pObject);
 };
 // @fnv 0x0044b220
-NiPointer_LoadedFile& NiPointer_LoadedFile::FUN_0044b220(LoadedFile* pObject)
+// src: GUESS 0x0044b220 (confidence: medium)
+NiPointer_LoadedFile& NiPointer_LoadedFile::AssignRetainedObject_0044b220(LoadedFile* pObject)
 {
     if (m_pObject != pObject)
     {

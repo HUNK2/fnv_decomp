@@ -25,7 +25,7 @@ public:
     void* __thiscall getConstraintInfo(int param);
     void SetLocalTransforms(const hkTransform& bodyATransform, const hkTransform& bodyBTransform,
                             const hkVector4& pivot, const hkVector4& axis);
-    void FUN_00cbe400(const hkVector4& pivotA, const hkVector4& pivotB,
+    void SetConstraintPivotFrames(const hkVector4& pivotA, const hkVector4& pivotB,
                      const hkVector4& axisA, const hkVector4& axisB);
     hkBool hkpPointToPlaneConstraintData_isValid() const;
 };
@@ -86,7 +86,8 @@ unsigned int hkpHingeConstraintData::getNotifiedBodyIndex()
 }
 
 // @fnv 0x00cbe230
-int __cdecl FUN_00cbe230()
+// src: GUESS 0x00cbe230 (confidence: high)
+int __cdecl hkpHingeConstraintData_ReturnOne()
 {
     return 1;
 }
@@ -348,7 +349,8 @@ static __forceinline void hkSetCross(hkVector4qView_00cbe400& out, const hkVecto
 
 // Stores pivotA and pivotB as translations, and builds rotation matrices for A and B from axisA and axisB using hkCalculatePerpendicularVector and hkSetCross.
 // @fnv 0x00cbe400
-void hkpHingeConstraintData::FUN_00cbe400(const hkVector4& pivotA, const hkVector4& pivotB, const hkVector4& axisA,
+// src: GUESS 0x00cbe400 (confidence: medium)
+void hkpHingeConstraintData::SetConstraintPivotFrames(const hkVector4& pivotA, const hkVector4& pivotB, const hkVector4& axisA,
                                             const hkVector4& axisB)
 {
     using namespace fnv_00cbe400;

@@ -84,7 +84,8 @@ struct FUN_00a7b870_T
 };
 
 // @fnv 0x00a7b870
-FUN_00a7b870_T* __fastcall FUN_00a7b870(FUN_00a7b870_T* self, int)
+// src: GUESS 0x00a7b870 (confidence: medium)
+FUN_00a7b870_T* __fastcall NiTriShapeData_ClearFields(FUN_00a7b870_T* self, int)
 {
     self->a = 0;
     self->b = 0;

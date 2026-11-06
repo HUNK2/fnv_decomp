@@ -59,7 +59,8 @@ int TraitMenu_GetMenuID_0()
 }
 
 // @fnv 0x007e6dd0
-bool TraitMenu::FUN_007e6dd0()
+// src: GUESS 0x007e6dd0 (confidence: high)
+bool TraitMenu::HasAllNineTiles()
 {
     for (int i = 0; i < 9; ++i)
     {
@@ -89,7 +90,8 @@ extern int DAT_011daf5c;
 extern int DAT_011daf74;
 
 // @fnv 0x007e7630
-void FUN_007e7630(Tile* apTile)
+// src: GUESS 0x007e7630 (confidence: medium)
+void Tile_ClearTraitAndUpdateEffectChanges(Tile* apTile)
 {
     if (apTile->ContainsTrait(DAT_011daf5c))
     {
@@ -395,7 +397,8 @@ extern int DAT_011daf70;
 extern float DAT_01023cd8;
 extern float DAT_0101e704;
 // @fnv 0x007e7670
-void FUN_007e7670(Tile* pDest, BGSPerk* pPlayer)
+// src: GUESS 0x007e7670 (confidence: low)
+void Tile_UpdateState_007e7670(Tile* pDest, BGSPerk* pPlayer)
 {
     float fValue;
     if (pPlayer->BGSPerk_IsPerkAvailable(DAT_011dea3c) && pPlayer->GetByteAt39() <= DAT_011dea3c->GetLevel())
@@ -507,7 +510,7 @@ struct DataHandlerView
 };
 extern DataHandlerView* DAT_011c3f2c;
 extern int DAT_011daf64, DAT_011daf68;
-void __cdecl FUN_007e7670(Tile*, void*);
+void __cdecl Tile_UpdateState_007e7670(Tile*, void*);
 // Loads trait_menu.xml, builds the trait menu, fills its perk list with eligible perks, sets its labels and counts, and returns the menu tile or 0 on failure.
 // @fnv 0x007e6990
 // src: XBOX_PDB 0x007e6990
@@ -522,7 +525,7 @@ Tile* __cdecl TraitMenu_Create()
     if (DAT_011daf74 && ((TraitMenu*)DAT_011daf74)->GetClass() == TraitMenu_GetMenuID_0())
     {
         ((TraitMenu*)DAT_011daf74)->FUN_00a1dc70((TileMenu*)manager, false);
-        if (!((TraitMenu*)DAT_011daf74)->FUN_007e6dd0())
+        if (!((TraitMenu*)DAT_011daf74)->HasAllNineTiles())
         {
             FNV_Warning("MENUS: Trait Menu Creation Failed... Are your menu and art resources up to date?");
             return 0;
@@ -560,7 +563,7 @@ Tile* __cdecl TraitMenu_Create()
         ((TraitMenu*)DAT_011daf74)->FUN_00726070()->Set(DAT_011daf64, ((TraitMenu*)DAT_011daf74)->selected);
         ((TraitMenu*)DAT_011daf74)->FUN_00726070()->Set(DAT_011daf68, ((TraitMenu*)DAT_011daf74)->count);
         ((TraitMenu*)DAT_011daf74)->UpdateValueDifferenceMessage();
-        ((TraitMenu*)DAT_011daf74)->box.Traverse(FUN_007e7670, 0, 0x7fffffff);
+        ((TraitMenu*)DAT_011daf74)->box.Traverse(Tile_UpdateState_007e7670, 0, 0x7fffffff);
         ((TraitMenu*)DAT_011daf74)->box.Sort(Trait_CompareForSorting);
         ((TraitMenu*)DAT_011daf74)->box.UpdateScrollTile(true);
         return manager;
@@ -609,7 +612,7 @@ extern int DAT_011daf70;
 extern int DAT_011daf64;
 void __cdecl Interface_PlayMenuSound(int);
 void __cdecl TraitMenu_Close();
-void __cdecl FUN_007e7630(Tile* apTile);
+void __cdecl Tile_ClearTraitAndUpdateEffectChanges(Tile* apTile);
 
 // Handles tile actions by ID: toggles perk selection and refreshes the tile, or resets the selection and traverses the list.
 // @fnv 0x007e7280
@@ -639,7 +642,7 @@ void TraitMenu::HandleTileAction(int aiTileID, Tile* apTile)
         Interface_PlayMenuSound(1);
         iNumSelected = 0;
         GetTile()->Set(DAT_011daf64, iNumSelected);
-        kList.Traverse(FUN_007e7630, 0, 0x7fffffff);
+        kList.Traverse(Tile_ClearTraitAndUpdateEffectChanges, 0, 0x7fffffff);
         UpdatePerkList();
         break;
     }

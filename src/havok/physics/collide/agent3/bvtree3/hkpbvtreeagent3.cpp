@@ -5,10 +5,11 @@
 void* __cdecl InitAndReturnTail(void*, void*, void*);
 void __fastcall hkBvTreeAgent3_process(void* self, int, void*, int);
 void __fastcall CallWithValueSource(void* self, int, int, int);
-void __fastcall FUN_00d2d430(void* self, int, int, int);
-void __fastcall FUN_00d2d480(void* self, int, int, int);
+void __fastcall hkBvTreeAgent3_ProcessState_00d2d430(void* self, int, int, int);
+void __fastcall Object__hkAgent1nMachine_WarpTime_Thunk(void* self, int, int, int);
 // @fnv 0x00d2d9d0
-void FUN_00d2d9d0(void* pObject)
+// src: GUESS 0x00d2d9d0 (confidence: low)
+void hkBvTreeAgent3_process_UpdateState_00d2d9d0(void* pObject)
 {
     *(void**)pObject = (void*)&InitAndReturnTail;
     *(void**)((char*)pObject + 0x2c) = (void*)&hkBvTreeAgent3_process;
@@ -18,16 +19,17 @@ void FUN_00d2d9d0(void* pObject)
     *(int*)((char*)pObject + 0x10) = 0;
     *(int*)((char*)pObject + 0x14) = 0;
     *(void**)((char*)pObject + 0x18) = (void*)&CallWithValueSource;
-    *(void**)((char*)pObject + 0x1c) = (void*)&FUN_00d2d430;
+    *(void**)((char*)pObject + 0x1c) = (void*)&hkBvTreeAgent3_ProcessState_00d2d430;
     *(int*)((char*)pObject + 0x20) = 0xd2d460;
-    *(void**)((char*)pObject + 0x24) = (void*)&FUN_00d2d480;
+    *(void**)((char*)pObject + 0x24) = (void*)&Object__hkAgent1nMachine_WarpTime_Thunk;
     *(int*)((char*)pObject + 4) = 0xda6dc0;
     *(char*)((char*)pObject + 0x30) = 1;
 }
 
 extern "C" void __cdecl _hkAgent1nMachine_WarpTime(void*, float, float, int);
 // @fnv 0x00d2d480
-void __cdecl FUN_00d2d480(void*, void* target, float first, float second, int flags)
+// src: GUESS 0x00d2d480 (confidence: medium)
+void __cdecl Object__hkAgent1nMachine_WarpTime_Thunk(void*, void* target, float first, float second, int flags)
 {
     _hkAgent1nMachine_WarpTime(target, first, second, flags);
 }
@@ -42,7 +44,8 @@ struct Hkpbvtreeagent3InterfaceView
     virtual void f4();
 };
 // @fnv 0x00d2d4b0
-void FUN_00d2d4b0(Hkpbvtreeagent3InterfaceView** a)
+// src: GUESS 0x00d2d4b0 (confidence: low)
+void Hkpbvtreeagent3_ForwardCall_00d2d4b0(Hkpbvtreeagent3InterfaceView** a)
 {
     (*a)->f4();
 }
@@ -185,20 +188,22 @@ struct Agent
 };
 
 extern "C" void __cdecl hkpAgentMachineUtil_calc1nStatistics(int, int, void*);
-extern "C" void __cdecl FUN_00da3510(int, int);
+extern "C" void __cdecl hkpAgent1nSector_ProcessEntries_00da3510(int, int);
 
 // Calls p->f6 with the type name hkBvTreeAgent3, then FUN_00d97250 with a2, a3 and p, then p->f7().
 // @fnv 0x00d2d430
-void __cdecl FUN_00d2d430(int a1, int a2, int a3, Agent* pAgent)
+// src: GUESS 0x00d2d430 (confidence: low)
+void __cdecl hkBvTreeAgent3_ProcessState_00d2d430(int a1, int a2, int a3, Agent* pAgent)
 {
     pAgent->f6("hkBvTreeAgent3");
     hkpAgentMachineUtil_calc1nStatistics(a2, a3, pAgent);
     pAgent->f7();
 }
 
-void __cdecl FUN_00d2d460(int a, int b, int c)
+// src: GUESS 0x00d2d460 (confidence: low)
+void __cdecl Object_ForwardCall_00d2d460(int a, int b, int c)
 {
-    FUN_00da3510(b, c);
+    hkpAgent1nSector_ProcessEntries_00da3510(b, c);
 }
 
 extern "C" void _ReadWriteBarrier(void);
@@ -391,8 +396,8 @@ struct S00d2d890_Obj
     int unk0c;
 };
 char** hkMemoryRouter_getInstance();
-int FUN_00d2d4f0(int a, int b, S00d2d890_Local* l, void* c, int d, int e, char* f, int g);
-int FUN_00d2d4b0(int a, S00d2d890_Hits* h);
+int hkpCdBody_UpdateState_00d2d4f0(int a, int b, S00d2d890_Local* l, void* c, int d, int e, char* f, int g);
+int Hkpbvtreeagent3_ForwardCall_00d2d4b0(int a, S00d2d890_Hits* h);
 int hkAgent1nMachine_Process(int a, void* b, int c, char* d, int e);
 
 // Takes 0x4000 bytes from an arena, calls FUN_00d2d4f0, FUN_00d2d4b0 and FUN_00da4aa0 between timing markers, restores the arena and returns child + 0x10.
@@ -421,9 +426,9 @@ char* __cdecl hkBvTreeAgent3_process(char* self, int a1, char* child, int a3, in
     int c = *(int*)(self + 0xc);
     int p1 = *(int*)(self + 4);
     int p0 = *(int*)self;
-    int numHits = FUN_00d2d4f0(p0, p1, &loc, self + 0x70, c, 0, mark, 0x1000);
+    int numHits = hkpCdBody_UpdateState_00d2d4f0(p0, p1, &loc, self + 0x70, c, 0, mark, 0x1000);
     int tree = *(int*)(self + 4);
-    int r4b = FUN_00d2d4b0(tree, &hits);
+    int r4b = Hkpbvtreeagent3_ForwardCall_00d2d4b0(tree, &hits);
 
     t = (S00d2d890_Buf*)TlsGetValue(DAT_0126835c);
     if (t->cur < t->end)
@@ -455,7 +460,7 @@ struct FUN_00cfbd60_Obj
 {
     void AddEntry(void* a1, int a2, int a3);
 };
-__declspec(noinline) void FUN_00d2d9d0(void* pObject);
+__declspec(noinline) void hkBvTreeAgent3_process_UpdateState_00d2d9d0(void* pObject);
 
 struct __declspec(align(16)) S_00d2da20_AgentFuncs
 {
@@ -493,6 +498,6 @@ struct __declspec(align(16)) S_00d2da20_AgentFuncs
 void hkBvTreeAgent3_registerAgent3(FUN_00cfbd60_Obj* target)
 {
     S_00d2da20_AgentFuncs agentFuncs;
-    FUN_00d2d9d0(&agentFuncs);
+    hkBvTreeAgent3_process_UpdateState_00d2d9d0(&agentFuncs);
     target->AddEntry(&agentFuncs, -1, 8);
 }

@@ -212,7 +212,7 @@ void __fastcall BSBatchRenderer_ClearAlphaLists(BSBatchRenderer* pThis, int, uns
 }
 
 
-void __fastcall FUN_00c4ed40(void*);
+void __fastcall ProcessState_00c4ed40(void*);
 extern RecursiveSpinLock g_011c5f80;
 extern unsigned int DAT_011c5f84;
 
@@ -243,7 +243,7 @@ void __fastcall BSShaderAccumulator_ClearAllBoundVolumes(Self_00b655b0* self)
             void* sub = item->ptr;
             if (sub)
             {
-                FUN_00c4ed40(sub);
+                ProcessState_00c4ed40(sub);
                 g_memoryManager.Deallocate(sub);
                 item->ptr = 0;
             }
@@ -281,7 +281,8 @@ struct BSBatchRenderer__PassList
 extern const void* const* vftable_BSBatchRenderer__PassList;
 
 // @fnv 0x00b656b0
-void __fastcall FUN_00b656b0(BSBatchRenderer__PassList* pThis, int)
+// src: GUESS 0x00b656b0 (confidence: medium)
+void __fastcall BSBatchRenderer__PassList_ResetPassListAndStorage(BSBatchRenderer__PassList* pThis, int)
 {
     *(volatile unsigned int*)pThis = (unsigned int)&vftable_BSBatchRenderer__PassList;
     pThis->ResetPassList();
@@ -505,7 +506,7 @@ void FUN_00b63090_shell::DispatchBatchRenderer()
 }
 
 namespace fnv_00b63620 {
-void __fastcall FUN_00c4ed40(void*);
+void __fastcall ProcessState_00c4ed40(void*);
 struct QueryStub
 {
     unsigned char BSOcclusionQuery_GetResult(unsigned int*, int);
@@ -537,7 +538,7 @@ void __fastcall BSShaderAccumulator_ClearSunQueries(AccumStub* self)
             QueryStub* q = self->m_aEntries[i].query;
             if (q)
             {
-                FUN_00c4ed40(q);
+                ProcessState_00c4ed40(q);
                 g_memoryManager.Deallocate(q);
             }
             self->m_aEntries[i].query = 0;
@@ -587,7 +588,7 @@ struct AccumView
     unsigned int cachedId;
     bool cachedResult;
 };
-void __fastcall FUN_00c4ed40(void*);
+void __fastcall ProcessState_00c4ed40(void*);
 
 // Looks up a volume by id in the accumulator's list, optionally runs its query, and returns/caches the volume's boolean state.
 // @fnv 0x00b63680
@@ -632,7 +633,7 @@ bool FUN_00b63680_shell::CheckVolumeState(unsigned int uiVolumeId, bool abRunQue
                     RenderQuery* q = vol->m_pRenderQuery;
                     if (q)
                     {
-                        FUN_00c4ed40(q);
+                        ProcessState_00c4ed40(q);
                         g_memoryManager.Deallocate(q);
                     }
                     vol->m_pRenderQuery = 0;
@@ -682,7 +683,8 @@ void __fastcall BSShaderAccumulator_SortAlphaPasses(AccumStub* pAccum)
 
 namespace fnv_00b65570 {
 // @fnv 0x00b65570
-void __fastcall FUN_00b65570(char* self, int unused)
+// src: GUESS 0x00b65570 (confidence: medium)
+void __fastcall BSShaderLightingProperty_ClearLights_Thunk(char* self, int unused)
 {
     reinterpret_cast<BSShaderLightingProperty*>(self + 0xc)->ClearLights();
 }
@@ -819,9 +821,9 @@ inline NiTPointerMap<NiAVObject*, bool>::~NiTPointerMap()
 }
 
 namespace fnv_00b656e0 {
-void __fastcall FUN_00c4ed40(void*);
-void __fastcall FUN_00bd9150(void*);
-void __fastcall FUN_00ba8cd0(char*);
+void __fastcall ProcessState_00c4ed40(void*);
+void __fastcall Runtime_ReleaseStorage_00bd9150(void*);
+void __fastcall BSShaderProperty_ReleaseStorage_00ba8cd0(char*);
 extern RecursiveSpinLock g_011c5f80;
 extern unsigned int DAT_011c5f84;
 struct OMNode
@@ -914,7 +916,7 @@ struct OMMember1a4
     char pad[0x10];
     ~OMMember1a4()
     {
-        FUN_00ba8cd0((char*)this);
+        BSShaderProperty_ReleaseStorage_00ba8cd0((char*)this);
     }
 };
 struct OMPolyObj
@@ -925,7 +927,7 @@ struct OMObjC4
 {
     ~OMObjC4()
     {
-        FUN_00c4ed40(this);
+        ProcessState_00c4ed40(this);
     }
     static void operator delete(void* p)
     {
@@ -936,7 +938,7 @@ struct OMObjD9
 {
     ~OMObjD9()
     {
-        FUN_00bd9150(this);
+        Runtime_ReleaseStorage_00bd9150(this);
     }
     static void operator delete(void* p)
     {
@@ -1455,10 +1457,11 @@ void RenderAccumulator::BSShaderAccumulator_RenderBatches(unsigned int uiFirstPa
 class BSShaderAccumulatorPassIndexList_W : public BSSimpleList<unsigned short>
 {
   public:
-    void FUN_00b64f10();
+    void RemoveAll_Thunk();
 };
 // @fnv 0x00b64f10
-void BSShaderAccumulatorPassIndexList_W::FUN_00b64f10()
+// src: GUESS 0x00b64f10 (confidence: medium)
+void BSShaderAccumulatorPassIndexList_W::RemoveAll_Thunk()
 {
     RemoveAll();
 }
@@ -2939,7 +2942,7 @@ struct S00b66050_heap
 
 struct S00b66050_obj
 {
-    void FUN_00c4ed40();
+    void ProcessState_00c4ed40();
 };
 
 struct S00b66050_entry
@@ -3079,7 +3082,7 @@ void S00b66050_cls::RemoveEntry(unsigned int key)
                 S00b66050_obj* p = entry->m_ptr;
                 if (p != 0)
                 {
-                    p->FUN_00c4ed40();
+                    p->ProcessState_00c4ed40();
                     DAT_011f6238.Free(p);
                 }
                 entry->m_ptr = 0;
@@ -3095,7 +3098,7 @@ class RenderQuery
 {
   public:
     unsigned char BSOcclusionQuery_GetResultNoWait(unsigned int* result, int wait);
-    void FUN_00c4ed40();
+    void ProcessState_00c4ed40();
 };
 extern double DAT_010737c8;
 class SunQueryAccum : public BSShaderAccumulator
@@ -3135,7 +3138,7 @@ void SunQueryAccum::PollQuery(unsigned int uiSlot)
         RenderQuery* query = pSunTests[uiSlot].m_pRenderQuery;
         if (query)
         {
-            query->FUN_00c4ed40();
+            query->ProcessState_00c4ed40();
             g_memoryManager.Deallocate(query);
         }
         pSunTests[uiSlot].m_pRenderQuery = 0;
@@ -3765,9 +3768,9 @@ struct FUN_00bd9120
     }
     FUN_00bd9120();
 };
-void* __cdecl FUN_00aa13e0(unsigned);
+void* __cdecl Object_DispatchCommandFour(unsigned);
 void* __cdecl _NiMalloc_00aa1070(unsigned);
-void* __cdecl FUN_00aa13e0(unsigned);
+void* __cdecl Object_DispatchCommandFour(unsigned);
 void* __cdecl FUN_00ec61c0(void*, int, unsigned);
 template <>
 inline NiTMapBase<NiTPointerAllocator<unsigned int>, NiAVObject*, bool>::NiTMapBase(unsigned int hashSize)

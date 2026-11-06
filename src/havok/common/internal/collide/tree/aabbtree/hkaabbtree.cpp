@@ -79,7 +79,7 @@ __forceinline hkArray<T, Allocator>::~hkArray()
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 struct FUN_00d9be20_class {
-    void FUN_00d9be20();
+    void UpdateFields_00d9be20();
 };
 
 struct FUN_00d9be30_class {
@@ -91,28 +91,30 @@ struct FUN_00d9be30_class {
     int m14;
     int m18;
     int m1c;
-    void FUN_00d9be30();
+    void UpdateState_00d9be30();
 };
 
 // @fnv 0x00d9be30
-void FUN_00d9be30_class::FUN_00d9be30()
+// src: GUESS 0x00d9be30 (confidence: low)
+void FUN_00d9be30_class::UpdateState_00d9be30()
 {
-    reinterpret_cast<FUN_00d9be20_class*>(reinterpret_cast<char*>(this) + 0x1c)->FUN_00d9be20();
+    reinterpret_cast<FUN_00d9be20_class*>(reinterpret_cast<char*>(this) + 0x1c)->UpdateFields_00d9be20();
     m10 = 0;
     m14 = 0x7fffffff;
     m18 = 0;
 }
 
 struct FUN_00d9be20_cls {
-    void __thiscall FUN_00d9be20();
+    void __thiscall UpdateFields_00d9be20();
 };
 struct FUN_00d9bed0_cls {
-    void __thiscall FUN_00d9bed0();
+    void __thiscall UpdateState_00d9bed0();
 };
 // @fnv 0x00d9bed0
-void __thiscall FUN_00d9bed0_cls::FUN_00d9bed0()
+// src: GUESS 0x00d9bed0 (confidence: low)
+void __thiscall FUN_00d9bed0_cls::UpdateState_00d9bed0()
 {
-    ((FUN_00d9be20_cls*)((char*)this + 0x1c))->FUN_00d9be20();
+    ((FUN_00d9be20_cls*)((char*)this + 0x1c))->UpdateFields_00d9be20();
     *(int*)((char*)this + 0x10) = 0;
     *(unsigned short*)((char*)this + 0x14) = 0x7fff;
     *(int*)((char*)this + 0x18) = 0;
@@ -124,10 +126,11 @@ struct Obj_d9be20 {
     int m8;
     int mc;
     int m10;
-    void FUN_00d9be20();
+    void UpdateFields_00d9be20();
 };
 // @fnv 0x00d9be20
-void Obj_d9be20::FUN_00d9be20() { m4 = 0; m10 = 0; }
+// src: GUESS 0x00d9be20 (confidence: low)
+void Obj_d9be20::UpdateFields_00d9be20() { m4 = 0; m10 = 0; }
 
 #ifndef _INCLUDED_MM2
 union __declspec(intrin_type) __declspec(align(16)) __m128 {
@@ -637,7 +640,7 @@ struct S_00d9d650_Tree
     int m_iNodeCount;
     S_00d9d650_Pool m_kNodePool;
 
-    void FUN_00d9d1c0(S_00d9d650_Aabb* aabbs, const int* keys, int n, S_00d9d650_Node* root, hkArray<int>& out, int depth);
+    void ProcessEntries_00d9d1c0(S_00d9d650_Aabb* aabbs, const int* keys, int n, S_00d9d650_Node* root, hkArray<int>& out, int depth);
     void MergeNode(S_00d9d650_Node* root, int a, int b);
     void TraverseTree(S_00d9d650_Node* root, int a);
     void BuildTree(const S_00d9d650_Aabb* aabbs, const int* keys, int n, hkArray<int>& out) throw();
@@ -672,7 +675,7 @@ void S_00d9d650_Tree::BuildTree(const S_00d9d650_Aabb* aabbs, const int* keys, i
         }
         else
         {
-            FUN_00d9d1c0(tmp.m_data, keys, n, m_pTreeNode, out, 0);
+            ProcessEntries_00d9d1c0(tmp.m_data, keys, n, m_pTreeNode, out, 0);
         }
         MergeNode(m_pTreeNode, m_14, 0x7fffffff);
         TraverseTree(m_pTreeNode, 0);
@@ -755,7 +758,8 @@ void Pool_d9c520::TraverseNodeTree(Node_d9c520* node, int second)
 void __cdecl AppendElement();
 
 // @fnv 0x00d9c2d0
-void __cdecl FUN_00d9c2d0(int param_1, unsigned short param_2) {
+// src: GUESS 0x00d9c2d0 (confidence: medium)
+void __cdecl Hkaabbtree_AppendElement_Thunk(int param_1, unsigned short param_2) {
     AppendElement();
 }
 
@@ -768,7 +772,7 @@ struct NodeD9C7 {
 
 class FreeListD9C7 {
 public:
-    void FUN_00d9c2d0(NodeD9C7* pkNode);
+    void Hkaabbtree_AppendElement_Thunk(NodeD9C7* pkNode);
 };
 
 class FUN_00d9c7d0_C {
@@ -791,12 +795,12 @@ void FUN_00d9c7d0_C::hkAabbTree_struct_hkAabbTreeData_hkAabbTreeAabb16_unsigned_
     if (!(m_pkTreeNode->m_usFlags & 0x8000)) {
         NodeD9C7* pkOther;
         hkAabbTree_struct_hkAabbTreeData_hkAabbTreeAabb16_unsigned_short_removeLeafInternal(pkNode, &pkOther);
-        m_kFreeList.FUN_00d9c2d0(pkOther);
+        m_kFreeList.Hkaabbtree_AppendElement_Thunk(pkOther);
     } else {
         m_sValue = 0x7fff;
         m_pkTreeNode = 0;
     }
-    m_kFreeList.FUN_00d9c2d0(pkNode);
+    m_kFreeList.Hkaabbtree_AppendElement_Thunk(pkNode);
     m_iArrayLength--;
 }
 
@@ -881,7 +885,7 @@ struct S_00d9af30_Node {
 };
 struct S_00d9af30_Pool {
     S_00d9af30_Node* m_pData;
-    S_00d9af30_Node* __thiscall FUN_00d9a4c0(int);
+    S_00d9af30_Node* __thiscall ComputeValue_00d9a4c0(int);
 };
 struct S_00d9af30 {
     int unk00;
@@ -900,8 +904,8 @@ void __thiscall S_00d9af30::MergeNode(S_00d9af30_Node* apNode, int a, int b)
 {
     apNode->unk2c = b;
     if ((apNode->m_flags & 0x80000000) == 0) {
-        S_00d9af30_Node* pLeft = m_kNodePool.FUN_00d9a4c0(apNode->unk20);
-        S_00d9af30_Node* r = m_kNodePool.FUN_00d9a4c0(apNode->unk24);
+        S_00d9af30_Node* pLeft = m_kNodePool.ComputeValue_00d9a4c0(apNode->unk20);
+        S_00d9af30_Node* r = m_kNodePool.ComputeValue_00d9a4c0(apNode->unk24);
         pLeft->m_flags = (pLeft->m_flags & 0x80000000) | a;
         r->m_flags = (r->m_flags & 0x80000000) | a;
         MergeNode(pLeft, apNode->unk20, apNode->unk24);
@@ -917,10 +921,10 @@ struct __declspec(align(16)) Block32 {
 };
 
 struct S00d9a4c0_Cls {
-    Block32* __thiscall FUN_00d9a4c0(int key);
+    Block32* __thiscall ComputeValue_00d9a4c0(int key);
 };
 
-__declspec(noalias) void __stdcall FUN_00d9b240(int key, unsigned int* out);
+__declspec(noalias) void __stdcall ProcessEntries_00d9b240(int key, unsigned int* out);
 
 struct MapD9 {
     int m00;
@@ -931,27 +935,28 @@ struct MapD9 {
     int m14;
     int m18;
     S00d9a4c0_Cls m1c;
-    void FUN_00d9afe0(int a1, int a2, int a3);
-    void FUN_00d9be50(int key, const Block32* src);
+    void ProcessEntries_00d9afe0(int a1, int a2, int a3);
+    void SetBlockForKey(int key, const Block32* src);
 };
 
 // Stores a Block32 value for key, replacing an existing entry or inserting a new one via FUN_00d9afe0.
 // @fnv 0x00d9be50
-void MapD9::FUN_00d9be50(int key, const Block32* src) {
+// src: GUESS 0x00d9be50 (confidence: medium)
+void MapD9::SetBlockForKey(int key, const Block32* src) {
     if (m14 == key) {
-        Block32* out = m1c.FUN_00d9a4c0(key);
+        Block32* out = m1c.ComputeValue_00d9a4c0(key);
         out->m10 = src->m10;
         out->m00 = src->m00;
         return;
     }
     unsigned int tmp;
-    FUN_00d9b240(key, &tmp);
-    Block32* out = m1c.FUN_00d9a4c0(key);
+    ProcessEntries_00d9b240(key, &tmp);
+    Block32* out = m1c.ComputeValue_00d9a4c0(key);
     __m128 hi = src->m10;
     __m128 lo = src->m00;
     out->m00 = lo;
     out->m10 = hi;
-    FUN_00d9afe0(m14, key, tmp);
+    ProcessEntries_00d9afe0(m14, key, tmp);
 }
 
 extern __m128 DAT_010c7170;
@@ -1012,7 +1017,7 @@ struct TreeDeleteD9C2 {
     int unk04, unk08, unk0c, unk10, unk14, unk18;
     TreeDeleteNodeManagerD9C2 m_kNodeCollection;
 
-    void FUN_00d9be30();
+    void UpdateState_00d9be30();
     TreeDeleteD9C2* FUN_00d9c2e0(unsigned char flags);
 };
 
@@ -1021,7 +1026,7 @@ struct TreeDeleteD9C2 {
 TreeDeleteD9C2* TreeDeleteD9C2::FUN_00d9c2e0(unsigned char flags)
 {
     m_ppVirtualMethodTable = DAT_010d40a4;
-    FUN_00d9be30();
+    UpdateState_00d9be30();
     m_kNodeCollection.ClearBuffers();
     if (flags & 1) {
         hkMemoryRouter* holder = hkMemoryRouter_getInstance();

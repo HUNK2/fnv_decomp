@@ -124,14 +124,14 @@ struct MediaSelector
 };
 struct FormRef
 {
-    int FUN_00559450();
+    int Modelloader_GetReferencedThis();
 };
 extern int __cdecl hkpGetRigidBody(int object);
 extern float __cdecl CalcEffectCost(float value, int area, int duration, int magnitude, bool special);
 extern int __cdecl FUN_00ec62c0();
 extern void __cdecl NI2HK(NiPoint3* destination, NiPoint3* source);
 extern int* __cdecl Setting_Float_00403e20(unsigned int);
-extern void* __cdecl FUN_00416870(float, float, float);
+extern void* __cdecl SetComponents(float, float, float);
 
 // @fnv 0x00817b90
 // src: XBOX_PDB 0x00817b90
@@ -151,7 +151,7 @@ void Master::MagicCaster_DoExplosion(NiPoint3 center, ListHandle* item, void* fi
             NI2HK((NiPoint3*)&space.low, &center.FUN_00439e90(NiPoint3(-size, -size, -size)));
             NI2HK((NiPoint3*)&space.high, &center.FUN_00439e90(NiPoint3(size, size, size)));
             MediaSelector obj;
-            space.field00 = obj.CFilter_CFilter(0x29, bhkCollisionFilter_GetNewSystemGroup(0))->FUN_00559450();
+            space.field00 = obj.CFilter_CFilter(0x29, bhkCollisionFilter_GetNewSystemGroup(0))->Modelloader_GetReferencedThis();
             PhantomShape results(&space);
             void* world = item->TESObjectCELL_GetbhkWorld();
             results.bhkWorldObject_Add(world);

@@ -6,11 +6,12 @@
 
 struct NiPSysFieldMagnitudeCtlr : NiPSysModifierFloatCtlr
 {
-    void __thiscall FUN_00c29ea0(float& fValue);
+    void __thiscall UpdateFields_00c29ea0(float& fValue);
 };
 
 // @fnv 0x00c29ea0
-void __thiscall NiPSysFieldMagnitudeCtlr::FUN_00c29ea0(float& fValue)
+// src: GUESS 0x00c29ea0 (confidence: low)
+void __thiscall NiPSysFieldMagnitudeCtlr::UpdateFields_00c29ea0(float& fValue)
 {
     fValue = *(float*)((char*)m_pkTargetModifier + 0x1C);
 }
@@ -26,11 +27,12 @@ void* __cdecl NiPSysFieldMagnitudeCtlr_GetRTTI()
 
 struct NiPSysFieldMagnitudeCtlr_shell : NiPSysFieldMagnitudeCtlr
 {
-    void __thiscall FUN_00c2b150(float value);
+    void __thiscall SetTargetModifierFloat7(float value);
 };
 
 // @fnv 0x00c2b150
-void __thiscall NiPSysFieldMagnitudeCtlr_shell::FUN_00c2b150(float value)
+// src: GUESS 0x00c2b150 (confidence: medium)
+void __thiscall NiPSysFieldMagnitudeCtlr_shell::SetTargetModifierFloat7(float value)
 {
     ((float*)m_pkTargetModifier)[7] = value;
 }

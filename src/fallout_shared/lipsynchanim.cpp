@@ -33,7 +33,7 @@ bool LipSyncAnimation::ApplyToAnimationData(BSFaceGenAnimationData* animation, f
 // @fnv 0x004d5850
 void* LipSyncAnimation::DeleteThis(unsigned int flags)
 {
-    FUN_004d5080();
+    ReleaseStorage_004d5080();
     if (flags & 1)
         operator delete(this);
     return this;

@@ -502,11 +502,12 @@ void MeshShapeHelper::hkpMeshShape_getAabb(const hkTransform& placement, hkReal 
 class MeshScalingSetter : public hkpMeshShape
 {
   public:
-    void FUN_00dccf40(const hkVector4& value);
+    void UpdateFields_00dccf40(const hkVector4& value);
 };
 
 // @fnv 0x00dccf40
-void MeshScalingSetter::FUN_00dccf40(const hkVector4& value)
+// src: GUESS 0x00dccf40 (confidence: low)
+void MeshScalingSetter::UpdateFields_00dccf40(const hkVector4& value)
 {
     LocalM128 data = _mm_load_ps(&value.x);
     _mm_store_ps(&m_kScaling.x, data);

@@ -15,18 +15,19 @@ struct Node185
 {
     InventoryStackRecord* item;
     Node185* next;
-    void FUN_00ae83e0();
+    void ProcessEntries_00ae83e0();
 // @fnv 0x00ae83e0
     inline ~Node185()
     {
-        FUN_00ae83e0();
+        ProcessEntries_00ae83e0();
     }
     static inline void operator delete(void* pointer)
     {
         g_memoryManager.MemoryManager_Deallocate(pointer);
     }
 };
-void Node185::FUN_00ae83e0()
+// src: GUESS 0x00ae83e0 (confidence: low)
+void Node185::ProcessEntries_00ae83e0()
 {
     while (next)
     {
@@ -63,11 +64,12 @@ template <class T> struct List_00a0cbe0
         return m_pkNext == 0 && m_item == 0;
     }
     void RemoveAll();
-    void FUN_00a0cbe0(const T& item);
+    void ProcessEntries_00a0cbe0(const T& item);
 };
 
 // @fnv 0x00a0cbe0
-template <class T> void List_00a0cbe0<T>::FUN_00a0cbe0(const T& item)
+// src: GUESS 0x00a0cbe0 (confidence: low)
+template <class T> void List_00a0cbe0<T>::ProcessEntries_00a0cbe0(const T& item)
 {
     if (!item || IsEmpty())
         return;

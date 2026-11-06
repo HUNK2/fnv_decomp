@@ -188,7 +188,7 @@ struct FaceGenCoordinateValue
 class FaceGenCoordinateBasis
 {
   public:
-    FaceGenCoordinateValue FUN_0060b370(unsigned int, unsigned int);
+    FaceGenCoordinateValue ForwardCall_0060b370(unsigned int, unsigned int);
 };
 class NiTexture;
 class FaceGenUndo;
@@ -228,7 +228,7 @@ TESForm* GetFormByID(unsigned int);
 int Warning(const char*, ...);
 
 
-bool FUN_009a3830(BGSHeadPart*&, BGSHeadPart*&);
+bool Actor_AreReferencedValuesEqual(BGSHeadPart*&, BGSHeadPart*&);
 extern unsigned char DAT_011a9448;
 extern "C" const NiPoint3 NiPoint3_ZERO;
 class ActorAnimData
@@ -337,7 +337,7 @@ void TESNPC::ResetFormData()
     for (int r = 0; r < 2; ++r)
         for (int c = 0; c < 2; ++c)
             if (m_kFaceGenCoordinates[r][c].NiAVObject_GetParent())
-                m_kFaceGenCoordinates[r][c].FUN_0060b3b0();
+                m_kFaceGenCoordinates[r][c].FillMemory_0060b3b0();
     for (int i = 0; i < 14; ++i)
     {
         data.skills[i] = 5;
@@ -596,7 +596,7 @@ bool TESNPC::Load(TESFile* file)
                     if (file->IsEndianConversionRequired())
                         BSEndian(&cursor.values[index], EndianSizeTag<4>());
                     *const_cast<float*>(
-                        reinterpret_cast<FaceGenCoordinateBasis*>(&m_kFaceGenCoordinates[cursor.row][cursor.column])->FUN_0060b370(index, 0).NiTSet_NiControllerSequence_NiTMallocInterface_NiControllerSequence_GetAt()) =
+                        reinterpret_cast<FaceGenCoordinateBasis*>(&m_kFaceGenCoordinates[cursor.row][cursor.column])->ForwardCall_0060b370(index, 0).NiTSet_NiControllerSequence_NiTMallocInterface_NiControllerSequence_GetAt()) =
                         cursor.values[index];
                 }
                 break;
@@ -972,8 +972,8 @@ void TESNPC::UpdateModel3D(TESObjectREFR* refr, bool armor, bool weapon, bool up
             if ((!equipment.pBodyModel || !equipment.pBodyModel->HasBipedModel(iBipedObject, false, 0)) &&
                 !refr->TESObjectREFR_WearingObject(pItemObject))
             {
-                if (equipment.pArmorItem->FUN_00559450())
-                    equipment.pExtraData = equipment.pArmorItem->FUN_00559450()->GetItem();
+                if (equipment.pArmorItem->Modelloader_GetReferencedThis())
+                    equipment.pExtraData = equipment.pArmorItem->Modelloader_GetReferencedThis()->GetItem();
                 else
                     equipment.pExtraData = 0;
                 if (iBipedObject == 2)
@@ -1001,9 +1001,9 @@ void TESNPC::UpdateModel3D(TESObjectREFR* refr, bool armor, bool weapon, bool up
             if (!refr->TESObjectREFR_WearingObject(pArmorItem->FUN_0044ddc0()))
             {
                 ExtraDataList* pExtraData = 0;
-                if (pArmorItem->FUN_00559450())
+                if (pArmorItem->Modelloader_GetReferencedThis())
                 {
-                    pExtraData = pArmorItem->FUN_00559450()->GetItem();
+                    pExtraData = pArmorItem->Modelloader_GetReferencedThis()->GetItem();
                     bDeleteItem = false;
                 }
                 else
@@ -1683,14 +1683,15 @@ struct H_0060b3b0
     char pad[0x18];
     unsigned int a;
     unsigned int b;
-    float* FUN_006578b0(unsigned int) const;
-    void FUN_0060b3b0();
+    float* GetElementPointerChecked(unsigned int) const;
+    void FillMemory_0060b3b0();
 };
 // Zeroes the buffer returned by FUN_006578b0(0), clearing a*b*4 bytes.
 // @fnv 0x0060b3b0
-void H_0060b3b0::FUN_0060b3b0()
+// src: GUESS 0x0060b3b0 (confidence: medium)
+void H_0060b3b0::FillMemory_0060b3b0()
 {
-    memset(FUN_006578b0(0), 0, a * b * 4);
+    memset(GetElementPointerChecked(0), 0, a * b * 4);
 }
 
 struct S_0060b3f0
@@ -1758,7 +1759,7 @@ extern BSFaceGenManager* DAT_011d59e8;
 // @fnv 0x006045f0
 int __cdecl GetFaceGenManagerValue()
 {
-    return static_cast<const NP&>(DAT_011d59e8 ? *reinterpret_cast<NP*>(&DAT_011d59e8->m_spBaseTexture) : NP(0)).FUN_00559450();
+    return static_cast<const NP&>(DAT_011d59e8 ? *reinterpret_cast<NP*>(&DAT_011d59e8->m_spBaseTexture) : NP(0)).Modelloader_GetReferencedThis();
 }
 
 
@@ -1832,7 +1833,8 @@ TESRace* TESNPCRaceQueries::GetRaceOrNull()
 extern NiFixedString* DAT_011c6210;
 
 // @fnv 0x006041c0
-NiFixedString* __cdecl FUN_006041c0()
+// src: GUESS 0x006041c0 (confidence: low)
+NiFixedString* __cdecl NiFixedString_GetDAT_011c6210_006041c0()
 {
     return DAT_011c6210;
 }
@@ -1975,14 +1977,15 @@ void* TESNPCDeleteAccess::FUN_00601370(unsigned int flags)
 
 struct FUN_006013a0_shell
 {
-    void __thiscall FUN_0060b9b0();
-    void __thiscall FUN_006013a0();
+    void __thiscall SetVtableAndProcessState_0060b9b0();
+    void __thiscall ForwardCall_006013a0();
 };
 
 // @fnv 0x006013a0
-void __thiscall FUN_006013a0_shell::FUN_006013a0()
+// src: GUESS 0x006013a0 (confidence: low)
+void __thiscall FUN_006013a0_shell::ForwardCall_006013a0()
 {
-    FUN_0060b9b0();
+    SetVtableAndProcessState_0060b9b0();
 }
 
 extern SettingT_GameSettingCollection_ g_011d2718;
@@ -2016,7 +2019,7 @@ void FUN_00603bb0_Owner::TESNPC_ClearFaceGenModels()
 }
 
 namespace fnv_006072c0 {
-int __fastcall FUN_00559450(int*);
+int __fastcall Modelloader_GetReferencedThis(int*);
 struct Inner6072
 {
     char _c[16];
@@ -2032,7 +2035,7 @@ struct Outer6072
 // src: COMMUNITY 0x006072c0
 NiSkinInstance* Outer6072::BSFaceGenModel_GetSkinInstance()
 {
-    return (p && FUN_00559450(&p->_v)) ? ((NiTriBasedGeom*)FUN_00559450(&p->_v))->GetSkinInstance() : 0;
+    return (p && Modelloader_GetReferencedThis(&p->_v)) ? ((NiTriBasedGeom*)Modelloader_GetReferencedThis(&p->_v))->GetSkinInstance() : 0;
 }
 }  // namespace fnv_006072c0
 
@@ -2092,11 +2095,12 @@ S8* S8::FaceGenDataBuffer_SetsBufferUnk000Unk004toSelfPlusOffsetMultByFour(S8* o
 void __cdecl FillRange(int, int, int, void*);
 struct Unk060b8a0
 {
-    int FUN_0060b8a0(int, int, int);
+    int ProcessAndReturnValue_0060b8a0(int, int, int);
 };
 // Calls FillRange with the three arguments and this+8, then returns a + b*4.
 // @fnv 0x0060b8a0
-int Unk060b8a0::FUN_0060b8a0(int aiFirst, int aiSecond, int aiThird)
+// src: GUESS 0x0060b8a0 (confidence: low)
+int Unk060b8a0::ProcessAndReturnValue_0060b8a0(int aiFirst, int aiSecond, int aiThird)
 {
     FillRange(aiFirst, aiSecond, aiThird, (char*)this + 8);
     return aiFirst + aiSecond * 4;
@@ -2116,7 +2120,7 @@ void* FUN_0060b8e0_shell::FaceGenDataBufferUnk000_SetUnk004toSelfPlusOffsetMultB
     return this;
 }
 
-int __fastcall FUN_00559450(int*);
+int __fastcall Modelloader_GetReferencedThis(int*);
 struct S_0060b980
 {
     int* p;
@@ -2127,7 +2131,7 @@ struct S_0060b980
 // src: COMMUNITY 0x0060b980
 int S_0060b980::FaceGenData_Iterator_FaceGenData_GetUnk00()
 {
-    return p ? FUN_00559450(p) : 0;
+    return p ? Modelloader_GetReferencedThis(p) : 0;
 }
 
 extern int DAT_0104aae0;
@@ -2136,11 +2140,12 @@ struct Holder_FUN_0060b9b0
 {
     void* vfptr;
     void* m_data;
-    void FUN_0060b9b0();
+    void SetVtableAndProcessState_0060b9b0();
 };
 // Sets the vtable pointer to DAT_0104aae0 and calls FUN_004ede70 on m_data.
 // @fnv 0x0060b9b0
-void Holder_FUN_0060b9b0::FUN_0060b9b0()
+// src: GUESS 0x0060b9b0 (confidence: low)
+void Holder_FUN_0060b9b0::SetVtableAndProcessState_0060b9b0()
 {
     vfptr = (void*)&DAT_0104aae0;
     NiTMallocInterface_unsigned_int_Deallocate(m_data);
@@ -2185,7 +2190,7 @@ void* STR_0060b9e0::NiTPrimitiveArray_FaceGenUndo_NiTPrimitiveArray(unsigned int
 
 struct NpcList_t
 {
-    void FUN_00905330(TESNPC* const&);
+    void RemoveMatchingItem(TESNPC* const&);
 };
 
 // @fnv 0x006013c0
@@ -2194,7 +2199,7 @@ TESNPC::~TESNPC()
     TESNPC::ClearData();
     if (TESActorBaseData::GetFlag(4))
     {
-        ((NpcList_t*)&DAT_011cb764)->FUN_00905330(this);
+        ((NpcList_t*)&DAT_011cb764)->RemoveMatchingItem(this);
     }
 }
 
@@ -2408,7 +2413,7 @@ struct FaceValue
 struct FaceMatrix
 {
     unsigned int NiAVObject_GetParent();
-    FaceValue FUN_0060b370(unsigned int index, unsigned int column);
+    FaceValue ForwardCall_0060b370(unsigned int index, unsigned int column);
 };
 struct GameForm
 {
@@ -2432,13 +2437,13 @@ extern bool __cdecl TESForm_QEndianSwapOnSave();
 
 struct NPCSerializer
 {
-    void FUN_004855a0();
+    void BeginFormRecord();
     void TESForm_SaveData();
     HeadPartNode* InterfaceManager_GetVATSEffect();
     GameForm* FUN_00603b50();
     float GetHairLength();
     GameForm* FUN_00602150();
-    void FUN_00485680();
+    void FinishFormRecord();
     void WriteToStream();
 };
 
@@ -2447,7 +2452,7 @@ struct NPCSerializer
 void NPCSerializer::WriteToStream()
 {
     unsigned int count;
-    FUN_004855a0();
+    BeginFormRecord();
     ((SaveField*)((char*)this + 0xd0))->Save_00487010();
     ((SaveField*)((char*)this + 0xdc))->WriteToBuffer(0x4c444f4d, 0x54444f4d);
     ((SaveField*)((char*)this + 0x30))->DestroySoundHandles();
@@ -2502,7 +2507,7 @@ void NPCSerializer::WriteToStream()
         ourMemset(bytes, 0, values);
         for (unsigned int index = 0; index < formID; ++index)
         {
-            bytes[index] = *((FaceMatrix*)((char*)this + 0x134))->FUN_0060b370(index, 0).NiTSet_NiControllerSequence_NiTMallocInterface_NiControllerSequence_GetAt();
+            bytes[index] = *((FaceMatrix*)((char*)this + 0x134))->ForwardCall_0060b370(index, 0).NiTSet_NiControllerSequence_NiTMallocInterface_NiControllerSequence_GetAt();
         }
         TESForm_AddChunkArray_00485710(0x53474746, bytes, formID);
         FormHeapFreeAndLog_00401030(bytes);
@@ -2517,7 +2522,7 @@ void NPCSerializer::WriteToStream()
         for (unsigned int indexSecond = 0; indexSecond < formID; ++indexSecond)
         {
             valuesSecond[indexSecond] =
-                *((FaceMatrix*)((char*)this + 0x154))->FUN_0060b370(indexSecond, 0).NiTSet_NiControllerSequence_NiTMallocInterface_NiControllerSequence_GetAt();
+                *((FaceMatrix*)((char*)this + 0x154))->ForwardCall_0060b370(indexSecond, 0).NiTSet_NiControllerSequence_NiTMallocInterface_NiControllerSequence_GetAt();
         }
         TESForm_AddChunkArray_00485710(0x41474746, valuesSecond, formID);
         FormHeapFreeAndLog_00401030(valuesSecond);
@@ -2531,7 +2536,7 @@ void NPCSerializer::WriteToStream()
         ourMemset(valuesThird, 0, bytesThird);
         for (unsigned int indexThird = 0; indexThird < formID; ++indexThird)
         {
-            valuesThird[indexThird] = *((FaceMatrix*)((char*)this + 0x174))->FUN_0060b370(indexThird, 0).NiTSet_NiControllerSequence_NiTMallocInterface_NiControllerSequence_GetAt();
+            valuesThird[indexThird] = *((FaceMatrix*)((char*)this + 0x174))->ForwardCall_0060b370(indexThird, 0).NiTSet_NiControllerSequence_NiTMallocInterface_NiControllerSequence_GetAt();
         }
         TESForm_AddChunkArray_00485710(0x53544746, valuesThird, formID);
         FormHeapFreeAndLog_00401030(valuesThird);
@@ -2541,7 +2546,7 @@ void NPCSerializer::WriteToStream()
     TESForm_AddChunk_00485950(0x354d414e, *(unsigned short*)((char*)this + 0x1d0));
     TESForm_AddChunk_00485910(0x364d414e, *(float*)((char*)this + 0x1f4));
     TESForm_AddChunk_00485910(0x374d414e, *(float*)((char*)this + 0x1f8));
-    FUN_00485680();
+    FinishFormRecord();
 }
 
 void __cdecl LoadFullNameChunk(TESFullName* apName, TESFile* apFile);
@@ -2799,7 +2804,7 @@ bool NpcLoadShell::TESNPC_Load(TESFile* apFile)
             {
                 if (apFile->IsEndianConversionRequired())
                     BSEndian(&buf3[i], EndianSizeTag<4>());
-                *(float*)reinterpret_cast<FaceGenCoordinateBasis*>(&m_kFaceGenCoordinates[iRow_2][aType])->FUN_0060b370(i, 0).NiTSet_NiControllerSequence_NiTMallocInterface_NiControllerSequence_GetAt() = buf3[i];
+                *(float*)reinterpret_cast<FaceGenCoordinateBasis*>(&m_kFaceGenCoordinates[iRow_2][aType])->ForwardCall_0060b370(i, 0).NiTSet_NiControllerSequence_NiTMallocInterface_NiControllerSequence_GetAt() = buf3[i];
             }
             break;
         }
@@ -3749,7 +3754,7 @@ extern FaceSetting DAT_011cb7a0;
 
 
 void FUN_006521f0(void*);
-void FUN_00652fc0(float, void*, void*);
+void Object_ProcessState_00652fc0(float, void*, void*);
 float BSFaceGenManager_GetFaceCoordAttribute(void*, int, int);
 void BSFaceGenManager_SetFaceCoordAttribute(void*, int, int, float);
 float FUN_005c5420();
@@ -3788,7 +3793,7 @@ void FaceNpc::RandomizeFace(bool keepAge, bool keepShape, bool keepOther)
     FaceMatrixLocal _result[2][2];
     float first2, second, value, other7;
     FUN_006521f0(_result);
-    FUN_00652fc0(*DAT_011cb7a0.Setting_Float_00403e20(), GetFormRace()->GetMeanFaceCoord(static_cast<SEX>(FUN_005f0cc0())), source9);
+    Object_ProcessState_00652fc0(*DAT_011cb7a0.Setting_Float_00403e20(), GetFormRace()->GetMeanFaceCoord(static_cast<SEX>(FUN_005f0cc0())), source9);
     first2 = BSFaceGenManager_GetFaceCoordAttribute(source9, 0, 0);
     second = BSFaceGenManager_GetFaceCoordAttribute(source9, 0, 1);
     if (keepAge)
@@ -5757,7 +5762,7 @@ void TESNPCFaceSerialization::SerializeFaceGenData(int unused)
                 unsigned int col = 0;
                 for (; col < cols; ++col)
                 {
-                    float value = *reinterpret_cast<FaceGenCoordinateBasis*>(&m_kFaceGenCoordinates[i2][j])->FUN_0060b370(row, col).NiTSet_NiControllerSequence_NiTMallocInterface_NiControllerSequence_GetAt();
+                    float value = *reinterpret_cast<FaceGenCoordinateBasis*>(&m_kFaceGenCoordinates[i2][j])->ForwardCall_0060b370(row, col).NiTSet_NiControllerSequence_NiTMallocInterface_NiControllerSequence_GetAt();
                     ((PC7d*)this)->TESForm_SaveGameDataOLD((unsigned int)&value, 4);
                 }
             }
@@ -5875,7 +5880,7 @@ struct Vec410
     unsigned int std_vector_float_std_allocator_float_size() const;
     IterPair& CallWithSelf(IterPair* out);
     void Insert(unsigned int, unsigned int, unsigned int, float const&);
-    Facade410 FUN_0044a170();
+    Facade410 SetIteratorDataAndOwner();
     FoundPair std_vector_float_std_allocator_float_erase(int, int, int, int);
     void std_vector_float_std_allocator_float_resize_0060b410(unsigned int level, float value);
 };
@@ -5895,7 +5900,7 @@ void Vec410::std_vector_float_std_allocator_float_resize_0060b410(unsigned int l
         IterPair seek;
         IterPair res = CallWithSelf(&seek);
         FoundPair target;
-        target = FUN_0044a170().FaceGenDataBuffer_SetsBufferUnk000Unk004toSelfPlusOffsetMultByFour(level);
+        target = SetIteratorDataAndOwner().FaceGenDataBuffer_SetsBufferUnk000Unk004toSelfPlusOffsetMultByFour(level);
         std_vector_float_std_allocator_float_erase(target.v0, target.v1, res.v0, res.v1);
     }
 }
@@ -6477,7 +6482,7 @@ struct FloatInsertIterator
 struct FloatInsertAllocator
 {
     unsigned int state;
-    float* FUN_0044abd0(unsigned int count);
+    float* ForwardCall_0044abd0(unsigned int count);
     void FUN_0064df10(float* first, unsigned int count);
 };
 struct FloatInsertVector
@@ -6491,14 +6496,14 @@ struct FloatInsertVector
     unsigned int FaceGenData_GetUnk014MinusMinDivBy4() const;
     unsigned int std_vector_float_std_allocator_float_size() const;
     unsigned int FaceGenData_Return1() const;
-    float* FUN_0060bb40(float*, float*, float*);
-    float* FUN_0060b8a0(float*, unsigned int, const float&);
+    float* ForwardCall_0060bb40(float*, float*, float*);
+    float* ProcessAndReturnValue_0060b8a0(float*, unsigned int, const float&);
     void std_vector_float_std_allocator_float_Destroy(float*, float*);
     void Insert(FloatInsertIterator where, unsigned int count, const float& value);
 };
 void __cdecl ThrowVectorTooLong();
-void __cdecl FUN_0060bb70(float*, float*, const float&);
-float* __cdecl FUN_0060bba0(float*, float*, float*);
+void __cdecl Runtime_ProcessRangeWithCallFlags(float*, float*, const float&);
+float* __cdecl Object_DispatchIteratorRange_0060bba0(float*, float*, float*);
 
 // Inserts count copies of value at where, growing or reallocating the buffer when capacity is insufficient.
 // @fnv 0x0060b4d0
@@ -6514,13 +6519,13 @@ void FloatInsertVector::Insert(FloatInsertIterator where, unsigned int count, co
         capacity = FaceGenData_Return1() - capacity / 2 < capacity ? 0 : capacity + capacity / 2;
         if (capacity < std_vector_float_std_allocator_float_size() + count)
             capacity = std_vector_float_std_allocator_float_size() + count;
-        float* ptr = allocator.FUN_0044abd0(capacity);
+        float* ptr = allocator.ForwardCall_0044abd0(capacity);
         float* pWritePos = ptr;
         try
         {
-            pWritePos = FUN_0060bb40(first, where.current, ptr);
-            pWritePos = FUN_0060b8a0(pWritePos, count, value);
-            FUN_0060bb40(where.current, last, pWritePos);
+            pWritePos = ForwardCall_0060bb40(first, where.current, ptr);
+            pWritePos = ProcessAndReturnValue_0060b8a0(pWritePos, count, value);
+            ForwardCall_0060bb40(where.current, last, pWritePos);
         }
         catch (...)
         {
@@ -6541,10 +6546,10 @@ void FloatInsertVector::Insert(FloatInsertIterator where, unsigned int count, co
     else if ((unsigned int)(last - where.current) < count)
     {
         float tmp = value;
-        FUN_0060bb40(where.current, last, where.current + count);
+        ForwardCall_0060bb40(where.current, last, where.current + count);
         try
         {
-            FUN_0060b8a0(last, count - (last - where.current), tmp);
+            ProcessAndReturnValue_0060b8a0(last, count - (last - where.current), tmp);
         }
         catch (...)
         {
@@ -6552,15 +6557,15 @@ void FloatInsertVector::Insert(FloatInsertIterator where, unsigned int count, co
             throw;
         }
         last += count;
-        FUN_0060bb70(where.current, last - count, tmp);
+        Runtime_ProcessRangeWithCallFlags(where.current, last - count, tmp);
     }
     else
     {
         float tmp = value;
         float* oldend = last;
-        last = FUN_0060bb40(oldend - count, oldend, last);
-        FUN_0060bba0(where.current, oldend - count, oldend);
-        FUN_0060bb70(where.current, where.current + count, tmp);
+        last = ForwardCall_0060bb40(oldend - count, oldend, last);
+        Object_DispatchIteratorRange_0060bba0(where.current, oldend - count, oldend);
+        Runtime_ProcessRangeWithCallFlags(where.current, where.current + count, tmp);
     }
 }
 
@@ -6695,10 +6700,10 @@ void TESNPC::LoadGame(BGSLoadFormBuffer* buffer)
                         float value = 0.0f;
                         reinterpret_cast<Buffer75*>(buffer)->LoadData(&value, 4);
 
-                        if (*reinterpret_cast<FaceGenCoordinateBasis*>(&coordinates20[set][group])->FUN_0060b370(row, col).NiTSet_NiControllerSequence_NiTMallocInterface_NiControllerSequence_GetAt() != value)
+                        if (*reinterpret_cast<FaceGenCoordinateBasis*>(&coordinates20[set][group])->ForwardCall_0060b370(row, col).NiTSet_NiControllerSequence_NiTMallocInterface_NiControllerSequence_GetAt() != value)
                         {
 
-                            *const_cast<float*>(reinterpret_cast<FaceGenCoordinateBasis*>(&coordinates20[set][group])->FUN_0060b370(row, col).NiTSet_NiControllerSequence_NiTMallocInterface_NiControllerSequence_GetAt()) = value;
+                            *const_cast<float*>(reinterpret_cast<FaceGenCoordinateBasis*>(&coordinates20[set][group])->ForwardCall_0060b370(row, col).NiTSet_NiControllerSequence_NiTMallocInterface_NiControllerSequence_GetAt()) = value;
                             changed1 |= 8;
                         }
                     }
@@ -6757,7 +6762,7 @@ void TESNPC::LoadGame(BGSLoadFormBuffer* buffer)
 
                     if (part)
                     {
-                        int found = saved14.FUN_00719b20(part, 0, FUN_009a3830);
+                        int found = saved14.FUN_00719b20(part, 0, Actor_AreReferencedValuesEqual);
                         if (found == -1)
                         {
                             partsChanged41 = true;
@@ -6819,7 +6824,7 @@ struct Shell_00608f00_RowVal : public Shell_00608f00_Row
 class Shell_00608f00_Mat
 {
   public:
-    Shell_00608f00_RowVal FUN_0060b370(int);
+    Shell_00608f00_RowVal ForwardCall_0060b370(int);
 };
 class Shell_00608f00_Item
 {
@@ -6876,7 +6881,7 @@ void TESNPCSaveBufferWriter::TESNPC_SaveGame_00608f00(BGSSaveFormBuffer* apFile)
                 {
                     for (unsigned int l = 0; l < cols; l++)
                     {
-                        float fValue = ((Shell_00608f00_Mat*)&pCoord[i][j])->FUN_0060b370(k).NiTSet_NiControllerSequence_NiTMallocInterface_NiControllerSequence_GetAt(l);
+                        float fValue = ((Shell_00608f00_Mat*)&pCoord[i][j])->ForwardCall_0060b370(k).NiTSet_NiControllerSequence_NiTMallocInterface_NiControllerSequence_GetAt(l);
                         apFile->FUN_00865e50(&fValue, 4, 0);
                     }
                 }

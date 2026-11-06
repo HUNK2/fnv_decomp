@@ -39,7 +39,8 @@ void* __fastcall NiPSysModifierBoolCtlr_CreatePoseInterpolator(void* pThis, int,
 }
 
 // @fnv 0x00c32bc0
-bool __fastcall FUN_00c32bc0(const void* pThis, int, void* pkInterpolator, unsigned short usIndex)
+// src: GUESS 0x00c32bc0 (confidence: low)
+bool __fastcall Object_InvokeVirtualMethod_00c32bc0(const void* pThis, int, void* pkInterpolator, unsigned short usIndex)
 {
     return (*(bool(__thiscall**)(void*))(*(int*)pkInterpolator + 0xa4))(pkInterpolator);
 }
@@ -249,7 +250,7 @@ void NiPSysModifierActiveCtlr_LinkObject()
 }
 
 #include <windows.h>
-void* __cdecl FUN_00aa13e0(unsigned int size);
+void* __cdecl Object_DispatchCommandFour(unsigned int size);
 
 struct RefCountedStandIn
 {
@@ -283,7 +284,7 @@ void __fastcall NiPSysModifierBoolCtlr_LinkObject(NiPSysModifierBoolCtlr* contro
         return;
     }
     void* pSource = arg->FUN_00a63430();
-    void* n = FUN_00aa13e0(0x20);
+    void* n = Object_DispatchCommandFour(0x20);
     RefCountedStandIn* pNew;
     if (n != 0)
     {

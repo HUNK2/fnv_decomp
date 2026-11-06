@@ -368,11 +368,12 @@ struct WVehicle
     hkpVehicleFrictionStatus m_kFrictionStatus;
     int unk9c;
     hkBool* m_kSecondRealArray;
-    void FUN_00e38310(float deltaTime, const int* groundBody, const WGround* ground);
+    void ProcessEntries_00e38310(float deltaTime, const int* groundBody, const WGround* ground);
 };
 
 // @fnv 0x00e38310
-void WVehicle::FUN_00e38310(float deltaTime, const int* groundBody, const WGround* ground)
+// src: GUESS 0x00e38310 (confidence: low)
+void WVehicle::ProcessEntries_00e38310(float deltaTime, const int* groundBody, const WGround* ground)
 {
     for (int w = 0; w < m_data->m_iWheelCount; ++w)
     {

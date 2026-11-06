@@ -89,11 +89,12 @@ struct Cls_d48150
         }
         return i;
     }
-    int FUN_00d48150(void* ctx, int key);
+    int ProcessEntries_00d48150(void* ctx, int key);
 };
 
 // @fnv 0x00d48150
-int Cls_d48150::FUN_00d48150(void* apContext, int key)
+// src: GUESS 0x00d48150 (confidence: low)
+int Cls_d48150::ProcessEntries_00d48150(void* apContext, int key)
 {
     int iIndex = idx(key);
     for (; iIndex < m_iElementCount; iIndex++)

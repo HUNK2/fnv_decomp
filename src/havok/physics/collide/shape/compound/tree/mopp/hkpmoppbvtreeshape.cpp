@@ -256,7 +256,7 @@ struct __declspec(align(16)) S54520_Work
     int t5c;
     int t60;
     int t64;
-    void FUN_00dd2df0(hkBool*, const hkpShapeContainer*, hkpMoppCode*, const ShapeRayCastQuery&, ShapeRayCastOutput*);
+    void UpdateState_00dd2df0(hkBool*, const hkpShapeContainer*, hkpMoppCode*, const ShapeRayCastQuery&, ShapeRayCastOutput*);
 };
 struct S54520_Frame
 {
@@ -296,7 +296,7 @@ hkBool hkpMoppBvTreeShape::IntersectRayWithShape(const ShapeRayCastQuery& input,
     frame.m_vm.m_z0 = 0;
     frame.m_vm.m_z1 = 0;
     reinterpret_cast<signed char&>(box.m_eBuildType) = 2;
-    frame.m_vm.FUN_00dd2df0(&out,
+    frame.m_vm.UpdateState_00dd2df0(&out,
                           m_pChildAtom.m_pContainedShape ? static_cast<const hkpShapeContainer*>(static_cast<const hkpShapeCollection*>(m_pChildAtom.m_pContainedShape)) : 0,
                           &box, input, &output);
     output.m_uiShapeKeyIndex--;
@@ -385,7 +385,7 @@ struct hkpMoppRayBundleVirtualMachine
     int m_80, m_84, m_88, m_8c, m_90, m_94, m_98, m_9c;
     int m_a0, m_a4, m_a8, m_ac, m_b0, m_b4, m_b8, m_bc;
     int m_c0, m_c4, m_c8, m_cc, m_d0, m_d4, m_d8, m_dc;
-    Vector4Comparison FUN_00dd4870(const hkpShapeContainer* pkCollection, const hkpMoppCode* pkCode,
+    Vector4Comparison UpdateState_00dd4870(const hkpShapeContainer* pkCollection, const hkpMoppCode* pkCode,
                                          const ShapeRayBundleCastInput& kInput,
                                          ShapeRayCastOutputArray& kResults,
                                          const Vector4Comparison& kRayMask) throw();
@@ -420,7 +420,7 @@ Vector4Comparison hkpMoppBvTreeShape::castRayBundleImpl(const ShapeRayBundleCast
             : (const hkpShapeContainer*)0;
 
     hkpMoppRayBundleVirtualMachine kVm;
-    Vector4Comparison kRet = kVm.FUN_00dd4870(pkContainer, pkCode, kInput, kResults, kRayMask);
+    Vector4Comparison kRet = kVm.UpdateState_00dd4870(pkContainer, pkCode, kInput, kResults, kRayMask);
 
     for (int i = 0; i < 4; i++)
     {

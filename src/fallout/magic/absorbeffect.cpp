@@ -776,7 +776,7 @@ void AbsorbEffect::Finish()
 }
 
 namespace fnv_008034c0 {
-void* __cdecl FUN_00aa13e0(unsigned int uiSize);
+void* __cdecl Object_DispatchCommandFour(unsigned int uiSize);
 void __cdecl BoltFree(void* pvMem);
 
 
@@ -786,7 +786,7 @@ struct BoltExtraData
     BoltExtraData();
     static void* operator new(unsigned int uiSize)
     {
-        return FUN_00aa13e0(uiSize);
+        return Object_DispatchCommandFour(uiSize);
     }
     static void operator delete(void* pvMem)
     {
@@ -1126,7 +1126,7 @@ void AbsorbEffect::Update3D_00803b70(float value)
         NiPoint3 v7 = DAT_011f426c;
         v7 = ((NiAVObject*)spNode50)->NiAVObject_GetWorldTranslate();
         ((NiAVObject*)spBolt)->NiAVObject_SetTranslate(&v7);
-        NiPoint3 r = ((NiAVObject*)spNode54)->NiAVObject_GetWorldTranslate().FUN_00439ef0(v7);
+        NiPoint3 r = ((NiAVObject*)spNode54)->NiAVObject_GetWorldTranslate().SubtractIntoVector(v7);
         FUN_006815c0 mat;
         float t = r.z;
         r.z = 0.0f;

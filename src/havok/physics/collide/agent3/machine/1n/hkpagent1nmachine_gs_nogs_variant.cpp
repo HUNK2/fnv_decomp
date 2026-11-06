@@ -211,7 +211,7 @@ struct CollisionAgentContext
 {
     char* m_pCollisionDispatcher;
 };
-void FUN_00da3510(AgentSectorPointerArray& agentTrack, CollisionAgentContext& input);
+void hkpAgent1nSector_ProcessEntries_00da3510(AgentSectorPointerArray& agentTrack, CollisionAgentContext& input);
 typedef void (__cdecl *Da35FuncPtr)(void* entry, void* payload, float fa, float fb, void* holder);
 void __cdecl _hkAgent1nMachine_WarpTime(hkpAgent1nSector*** container, float fa, float fb, void** holder);
 static void* __cdecl Da35Search(hkpAgent1nSector*** container, int key1, int key2, void** out)
@@ -637,7 +637,8 @@ return HK_CONTACT_PAIR_NO_CONFLICT;
 }
 return HK_CONTACT_PAIR_REJECT_NEW;}
 // @fnv 0x00da3930
-void __cdecl FUN_00da3930(hkpAgent3Input&input,const hkpShapeContainer*shapeCollection,WorldOperationEntry&output)
+// src: GUESS 0x00da3930 (confidence: low)
+void __cdecl hkpAgent3Input_ProcessEntries_00da3930(hkpAgent3Input&input,const hkpShapeContainer*shapeCollection,WorldOperationEntry&output)
 {
 int numConflictContacts=0;
 hkUint16 conflictContacts[HK_MAX_CONTACT_POINT];

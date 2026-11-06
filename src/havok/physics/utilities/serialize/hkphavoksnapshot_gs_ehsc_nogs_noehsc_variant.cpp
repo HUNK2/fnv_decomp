@@ -26,7 +26,7 @@ struct Object
 {
     void* unk00;
     unsigned short unk04;
-    void FUN_00cc0ae0();
+    void ProcessEntries_00cc0ae0();
     Object* FUN_00cc0dd0(unsigned int flags);
 };
 struct D481D0StringPtr

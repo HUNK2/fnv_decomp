@@ -152,7 +152,7 @@ void __fastcall WriteColorToStream(NiColorExtraData* self, void*, StreamShell& k
     kStream.FUN_0096ae90(uiPos, &p);
 }
 
-extern "C" void* __cdecl FUN_00aa13e0(unsigned int size);
+extern "C" void* __cdecl Object_DispatchCommandFour(unsigned int size);
 extern int DAT_0109eccc;
 extern int DAT_011a9bd0;
 extern int DAT_011a9bd4;
@@ -164,7 +164,7 @@ extern int DAT_011a9bdc;
 // src: EXE 0x00a89490
 unsigned int* __cdecl NiColorExtraData_CreateObject()
 {
-    unsigned int* ptr = (unsigned int*)FUN_00aa13e0(0x1c);
+    unsigned int* ptr = (unsigned int*)Object_DispatchCommandFour(0x1c);
 
     if (ptr != NULL)
     {

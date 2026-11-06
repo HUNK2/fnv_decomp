@@ -34,7 +34,7 @@ struct StrBufD32
     char m_kStorage[0x80];
 
     void InitBuffer();
-    void FUN_00cbbd40();
+    void UpdateFields_00cbbd40();
 };
 void __cdecl hkStringBuf_printf(StrBufD32* pBuf, const char* pcFmt, ...);
 
@@ -134,7 +134,7 @@ void* hkBsdSocket::pollForNewClient()
             }
             if (s == -1)
             {
-                kMsg.FUN_00cbbd40();
+                kMsg.UpdateFields_00cbbd40();
                 return 0;
             }
             int iNoDelay = 1;
@@ -142,7 +142,7 @@ void* hkBsdSocket::pollForNewClient()
             void* p = GetHeapAllocator(hkMemoryRouter::getInstance()).blockAlloc(0x24);
             ((unsigned short*)p)[2] = 0x24;
             void* pkSocket = ((hkBsdSocket*)p)->InitWithParam(s);
-            kMsg.FUN_00cbbd40();
+            kMsg.UpdateFields_00cbbd40();
             return pkSocket;
         }
     }

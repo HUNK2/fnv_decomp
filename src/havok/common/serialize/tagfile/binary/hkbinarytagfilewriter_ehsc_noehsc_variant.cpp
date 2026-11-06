@@ -48,7 +48,7 @@ struct UnkHolder
     int a;
     int b;
     int c;
-    void __thiscall FUN_00dbedb0(UnkRet*, int);
+    void __thiscall ProcessEntries_00dbedb0(UnkRet*, int);
 };
 struct FUN_00dc0380
 {
@@ -62,30 +62,30 @@ struct FUN_00dc0380
 struct ObjectHandle
 {
     void* object;
-    __declspec(nothrow) int FUN_00dbac00();
-    __declspec(nothrow) void FUN_00dbab70();
+    __declspec(nothrow) int InvokeVirtualMethod_00dbac00();
+    __declspec(nothrow) void ReleaseStorage_00dbab70();
     ~ObjectHandle()
     {
-        FUN_00dbab70();
+        ReleaseStorage_00dbab70();
     }
 };
 struct StringHandle
 {
     void* object;
     __declspec(nothrow) int hkDataObject_isNull();
-    __declspec(nothrow) void FUN_00dba7f0();
+    __declspec(nothrow) void ReleaseStorage_00dba7f0();
     ~StringHandle()
     {
-        FUN_00dba7f0();
+        ReleaseStorage_00dba7f0();
     }
 };
 struct Value
 {
-    int FUN_00dbac40();
+    int InvokeVirtualMethod_00dbac40();
     int CallVirtualWithArg();
     float ApplyValue();
-    void* FUN_00dbac70();
-    __declspec(nothrow) ObjectHandle FUN_00dbacd0();
+    void* ForwardCall_00dbac70();
+    __declspec(nothrow) ObjectHandle GetMemberArrayValue();
     __declspec(nothrow) StringHandle CreateValueInto();
 };
 int __stdcall IsTruthy(Value* value);
@@ -137,7 +137,7 @@ struct ArrayDeallocator
 struct Element
 {
     int m_i00;
-    void FUN_00dba7f0();
+    void ReleaseStorage_00dba7f0();
 };
 struct SubObject
 {
@@ -187,9 +187,9 @@ struct FUN_00dc05b0_writer
     void __thiscall FUN_00dc0500(int, int);
     void __thiscall WriteInt(unsigned int);
     void __thiscall WriteVarint(unsigned int, unsigned int);
-    void __thiscall FUN_00dbf450(int, int);
-    void __thiscall FUN_00dc00b0(int);
-    void __thiscall FUN_00dc0460();
+    void __thiscall WriteReferencedObjectRecursively(int, int);
+    void __thiscall ProcessEntries_00dc00b0(int);
+    void __thiscall ProcessState_00dc0460();
 };
 struct CallbackTarget
 {
@@ -356,7 +356,7 @@ struct S_00dc0500_Holder : UnkHolder
         b = 0;
         c = -1;
         BSAudio* p = hkMemoryRouter_getInstance();
-        FUN_00dbedb0((UnkRet*)((hkMemoryRouter*)p)->m_heap, 0);
+        ProcessEntries_00dbedb0((UnkRet*)((hkMemoryRouter*)p)->m_heap, 0);
     }
 };
 struct S_00dc0500_Arr
@@ -394,7 +394,7 @@ struct S_dbf1a0_Handle
     void* m_ptr;
     S_dbf1a0_Handle(void* p) throw()
     {
-        FUN_00dba650(p);
+        SetField00(p);
     }
     S_dbf1a0_Handle() throw()
     {
@@ -402,15 +402,15 @@ struct S_dbf1a0_Handle
     }
     ~S_dbf1a0_Handle() throw()
     {
-        FUN_00dba660();
+        Object_DoNothing_00dba660();
     }
 
-    void __thiscall FUN_00dba650(void* p) throw();
-    void __thiscall FUN_00dba660() throw();
+    void __thiscall SetField00(void* p) throw();
+    void __thiscall Object_DoNothing_00dba660() throw();
     const char* __thiscall hkDataClass_getName() const throw();
-    int __thiscall FUN_00dba690() const throw();
+    int __thiscall ForwardCall_00dba690() const throw();
     S_dbf1a0_Handle __thiscall SetShiftedValue() const throw();
-    int __thiscall FUN_00dba6f0() const throw();
+    int __thiscall ForwardCall_00dba6f0() const throw();
     void __thiscall DispatchRecords(void* arr) const throw();
 };
 struct S_dbf1a0_Elem
@@ -541,18 +541,18 @@ struct Rec
 struct Wrap
 {
     void* m_p;
-    __declspec(nothrow) int FUN_00dbac10() const;
-    __declspec(nothrow) Pair FUN_00dbabb0(int idx) const;
-    __declspec(nothrow) Pair FUN_00dbab90(int idx) const;
-    __declspec(nothrow) int FUN_00dbac00() const;
-    __declspec(nothrow) void FUN_00dbab70();
-    __declspec(nothrow) void FUN_00dba7f0();
-    __declspec(nothrow) ObjC FUN_00dbac20() const;
-    __declspec(nothrow) void FUN_00dba660();
+    __declspec(nothrow) int ForwardCall_00dbac10() const;
+    __declspec(nothrow) Pair CreateResultPair(int idx) const;
+    __declspec(nothrow) Pair UpdateState_00dbab90(int idx) const;
+    __declspec(nothrow) int InvokeVirtualMethod_00dbac00() const;
+    __declspec(nothrow) void ReleaseStorage_00dbab70();
+    __declspec(nothrow) void ReleaseStorage_00dba7f0();
+    __declspec(nothrow) ObjC ProcessAndReturnValue_00dbac20() const;
+    __declspec(nothrow) void Object_DoNothing_00dba660();
     __declspec(nothrow) Wrap InvokeCallbackInto(int v) const;
     ~Wrap()
     {
-        FUN_00dbab70();
+        ReleaseStorage_00dbab70();
     }
 };
 struct Node50
@@ -566,12 +566,12 @@ struct Node50
 struct ObjC
 {
     void* m_00;
-    __declspec(nothrow) int FUN_00dba730();
+    __declspec(nothrow) int ForwardCall_00dba730();
     __declspec(nothrow) void DispatchItems(hkArrayBase<Rec>& a);
-    __declspec(nothrow) void FUN_00dba660();
+    __declspec(nothrow) void Object_DoNothing_00dba660();
     ~ObjC()
     {
-        FUN_00dba660();
+        Object_DoNothing_00dba660();
     }
 };
 struct __declspec(align(8)) Obj2
@@ -625,7 +625,7 @@ struct Host
     __declspec(nothrow) void WriteVarint(__int64 v);
     __declspec(nothrow) void HashUInt(float f);
     __declspec(nothrow) void WriteFloatArray(void* p, int v);
-    __declspec(nothrow) void FUN_00dc00b0(const StringHandle& v);
+    __declspec(nothrow) void ProcessEntries_00dc00b0(const StringHandle& v);
     __declspec(nothrow) void WriteString(int v);
     __declspec(nothrow) void hkOArchive_writeRaw(void* p, int n);
     __declspec(nothrow) int IsTruthy(Pair* p);
@@ -642,27 +642,27 @@ struct S_00dbfef0_X
 struct S_00dbfef0_Node
 {
     int QueryAndWriteResult();
-    int FUN_00dba990();
-    float FUN_00dbaa00();
+    int ForwardCall_00dba990();
+    float InvokeVirtualMethod_00dbaa00();
     int DispatchToInterface(int n);
     int hkDataObject_Value_asString();
-    int FUN_00dba9d0(S_00dbfef0_B* out);
+    int GetWrappedDataObject(S_00dbfef0_B* out);
     void GetResult(S_00dbfef0_A* out);
 };
 struct S_00dbfef0_B
 {
     S_00dbfef0_X* p;
-    void FUN_00dba7f0();
+    void ReleaseStorage_00dba7f0();
     int hkDataClass_getName();
-    void FUN_00dba660();
+    void Object_DoNothing_00dba660();
 };
 struct S_00dbfef0_A
 {
     S_00dbfef0_Node* p;
-    int FUN_00dbac00();
-    int FUN_00dbac10();
-    void FUN_00dbac20(S_00dbfef0_B* b);
-    void FUN_00dbab70();
+    int InvokeVirtualMethod_00dbac00();
+    int ForwardCall_00dbac10();
+    void ProcessAndReturnValue_00dbac20(S_00dbfef0_B* b);
+    void ReleaseStorage_00dbab70();
 };
 struct S_00dbfef0_Sub
 {
@@ -685,7 +685,7 @@ struct S_00dbfef0_Visitor
     void WriteVarint(__int64 v);
     void WriteString(int v);
     void WriteArray(S_00dbfef0_A* a, int n);
-    void FUN_00dc00b0(int v);
+    void ProcessEntries_00dc00b0(int v);
     void WriteNode(S_00dbfef0_Node* node, S_00dbfef0_B b);
 };
 
@@ -787,10 +787,11 @@ struct ObjCloner
     DataWorld* m_pOwningWorld;
     HandleMap m_kHandleMap;
     PtrArrayLocalForm<DataObj*> m_objs;
-    DataObj FUN_00dbedd0(const DataObj& src);
+    DataObj AllocateStorage_00dbedd0(const DataObj& src);
 };
 // @fnv 0x00dbedd0
-DataObj ObjCloner::FUN_00dbedd0(const DataObj& src)
+// src: GUESS 0x00dbedd0 (confidence: low)
+DataObj ObjCloner::AllocateStorage_00dbedd0(const DataObj& src)
 {
     if (m_pOwningWorld && !src.GetObjectKind())
     {

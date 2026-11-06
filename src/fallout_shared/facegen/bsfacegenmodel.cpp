@@ -95,7 +95,7 @@ class GeometryBufferView
     unsigned int count;
     GeometryBufferView();
     unsigned int* FUN_00717e50();
-    void* FUN_00559450();
+    void* Modelloader_GetReferencedThis();
     void NiGeometryDataIteratorNiPoint3_Get(unsigned int, NiPoint3&);
     void FUN_0065b390(unsigned int, const NiPoint3&);
 };
@@ -108,9 +108,9 @@ class FaceGenTriData
     unsigned int data[60];
     FaceGenTriData();
     ~FaceGenTriData();
-    unsigned int FUN_0065a5a0();
+    unsigned int ProcessEntries_0065a5a0();
     unsigned int std_vector_FR2Vect3TC_float_std_allocator_FR2Vect3TC_float_size();
-    NiPoint3& FUN_0065c720(unsigned int);
+    NiPoint3& GetCheckedElement(unsigned int);
 };
 class FaceGenGeometryModel
 {
@@ -255,7 +255,7 @@ bool BSFaceGenModel::LoadModelMesh(const char* egmPath, const char* nifPath, con
         unsigned int tri;
         if (fffReadTriFile(triPath, i) &&
             ((NiTriBasedGeom*)((const NiPointer<NiAVObject>&)m_pGeometryModel->m_pRenderedNodeEntry).operator->())->GetVertexCount() ==
-                i->FUN_0065a5a0())
+                i->ProcessEntries_0065a5a0())
         {
             if (part != HAIR_PART_HAIR_PART_NONE)
                 ((NiPointer<NiAVObject>&)m_pGeometryModel->m_spFaceMorphData) =
@@ -276,8 +276,8 @@ bool BSFaceGenModel::LoadModelMesh(const char* egmPath, const char* nifPath, con
                     for (tri = 0; tri < m_pGeometryModel->m_uiAdditionalVertexCount; tri++)
                     {
                         m_pGeometryModel->pAdditionalVertices[tri] = NiPoint3(
-                            i->FUN_0065c720(i->FUN_0065a5a0() + tri).x, i->FUN_0065c720(i->FUN_0065a5a0() + tri).y,
-                            i->FUN_0065c720(i->FUN_0065a5a0() + tri).z);
+                            i->GetCheckedElement(i->ProcessEntries_0065a5a0() + tri).x, i->GetCheckedElement(i->ProcessEntries_0065a5a0() + tri).y,
+                            i->GetCheckedElement(i->ProcessEntries_0065a5a0() + tri).z);
                     }
                 }
             }
@@ -390,21 +390,22 @@ struct StatisticalEntry;
 class StatisticalArray
 {
   public:
-    unsigned int FUN_0065cc30();
-    StatisticalEntry* FUN_00662890(unsigned int);
+    unsigned int EvaluateValue_0065cc30();
+    StatisticalEntry* GetElementChecked_00662890(unsigned int);
 };
 
 // @fnv 0x0065a5a0
-unsigned int FaceGenTriData::FUN_0065a5a0()
+// src: GUESS 0x0065a5a0 (confidence: low)
+unsigned int FaceGenTriData::ProcessEntries_0065a5a0()
 {
     unsigned int uiMinValue = std_vector_FR2Vect3TC_float_std_allocator_FR2Vect3TC_float_size();
-    for (unsigned int uiIndex = 0; uiIndex < ((StatisticalArray*)((char*)this + 0xd8))->FUN_0065cc30(); ++uiIndex)
+    for (unsigned int uiIndex = 0; uiIndex < ((StatisticalArray*)((char*)this + 0xd8))->EvaluateValue_0065cc30(); ++uiIndex)
     {
-        if (*(unsigned int*)((char*)((StatisticalArray*)((char*)this + 0xd8))->FUN_00662890(uiIndex) + 0x1c) <
+        if (*(unsigned int*)((char*)((StatisticalArray*)((char*)this + 0xd8))->GetElementChecked_00662890(uiIndex) + 0x1c) <
             uiMinValue)
         {
             uiMinValue =
-                *(unsigned int*)((char*)((StatisticalArray*)((char*)this + 0xd8))->FUN_00662890(uiIndex) + 0x1c);
+                *(unsigned int*)((char*)((StatisticalArray*)((char*)this + 0xd8))->GetElementChecked_00662890(uiIndex) + 0x1c);
         }
     }
     return uiMinValue;
@@ -554,7 +555,8 @@ void __cdecl FUN_00ec7c56();
 
 // Bounds-checks _Pos against FUN_0065c700() and returns the NiPoint3 element at that index from the array at data[3].
 // @fnv 0x0065c720
-NiPoint3& FaceGenTriData::FUN_0065c720(unsigned int uiIndex)
+// src: GUESS 0x0065c720 (confidence: medium)
+NiPoint3& FaceGenTriData::GetCheckedElement(unsigned int uiIndex)
 {
     if (uiIndex >= std_vector_FR2Vect3TC_float_std_allocator_FR2Vect3TC_float_size())
     {
@@ -638,7 +640,7 @@ struct FUN_0065bbc0_h
 };
 struct FUN_00559450_h
 {
-    NiTriBasedGeom* FUN_00559450();
+    NiTriBasedGeom* Modelloader_GetReferencedThis();
 };
 
 // @fnv 0x0065a910
@@ -649,7 +651,7 @@ bool FUN_0065a910_shell::BSFaceGenModel_ApplyCoordinateToNewMesh(void* apCoord, 
         return false;
     if (!((FUN_0065bbc0_h*)this)->CloneTriBasedGeom(aspReturnMesh))
         return false;
-    if (!ApplyFaceGenMorphs((FaceGenCoordinate*)apCoord, ((FUN_00559450_h*)aspReturnMesh)->FUN_00559450(), true))
+    if (!ApplyFaceGenMorphs((FaceGenCoordinate*)apCoord, ((FUN_00559450_h*)aspReturnMesh)->Modelloader_GetReferencedThis(), true))
     {
         *(NP*)aspReturnMesh = (void*)0;
         return false;
@@ -708,7 +710,8 @@ void* DelStandIn::FUN_0065a650(unsigned int flags)
 }
 
 // @fnv 0x00657bc0
-int __fastcall FUN_00657bc0(int param_1)
+// src: GUESS 0x00657bc0 (confidence: low)
+int __fastcall Object_GetPointerSpanCount_00657bc0(int param_1)
 {
     return (*(int*)(param_1 + 0x10) - *(int*)(param_1 + 0xc)) / 6;
 }
@@ -875,7 +878,7 @@ struct S7010
 {
     unsigned int Length();
 };
-int __fastcall FUN_00559450(int*);
+int __fastcall Modelloader_GetReferencedThis(int*);
 struct FUN_0065cca0
 {
     unsigned int uiNumMorphs;
@@ -905,13 +908,13 @@ bool FUN_0065bf80_shell::EnsureMorphData()
         if (!((S7010*)m_pGeometryModel)->Length())
             return false;
         *(FUN_00659560**)((char*)m_pGeometryModel + 8) =
-            new FUN_00659560((const char*)FUN_00559450((int*)m_pGeometryModel));
+            new FUN_00659560((const char*)Modelloader_GetReferencedThis((int*)m_pGeometryModel));
     }
     return true;
 }
 }  // namespace fnv_0065bf80
 
-int __fastcall FUN_00657bc0(FaceGenVector<ThreeComponentVector<short> >* pDeltas);
+int __fastcall Object_GetPointerSpanCount_00657bc0(FaceGenVector<ThreeComponentVector<short> >* pDeltas);
 struct FUN_0065c110_t : public BSFaceGenModel
 {
     unsigned int GetEGMSize();
@@ -931,7 +934,7 @@ unsigned int FUN_0065c110_t::GetEGMSize()
         {
             uiSize += m_pGeometryModel->m_pModelData->modes[i].size() * 0x18;
             for (j = 0; j < m_pGeometryModel->m_pModelData->modes[i].size(); j++)
-                uiSize += FUN_00657bc0(&m_pGeometryModel->m_pModelData->modes[i][j].kVertexPositionLocal) * 6;
+                uiSize += Object_GetPointerSpanCount_00657bc0(&m_pGeometryModel->m_pModelData->modes[i][j].kVertexPositionLocal) * 6;
         }
     }
     return uiSize;
@@ -959,7 +962,7 @@ struct FileSizeInfo
     void* hFile;
     FileSizeInfo(const char* apcPath, AccessMode aeAccessMode, OpenMode aeOpenMode, bool abSynchronousNoBuffer);
     ~FileSizeInfo();
-    ErrorCode FUN_00559450();
+    ErrorCode Modelloader_GetReferencedThis();
     ErrorCode BSSystemFile_GetSize(unsigned __int64& auiSize);
     static ErrorCode GetFileSize(const char* apcPath, unsigned __int64& auiSize);
 };
@@ -970,7 +973,7 @@ FileSizeInfo::ErrorCode FileSizeInfo::GetFileSize(const char* apcPath, unsigned 
 {
     FileSizeInfo::ErrorCode eError;
     FileSizeInfo File(apcPath, AM_READ, OM_NONE, false);
-    eError = File.FUN_00559450();
+    eError = File.Modelloader_GetReferencedThis();
     if (eError == BSSF_OK)
         eError = File.BSSystemFile_GetSize(auiSize);
     else
@@ -1107,7 +1110,8 @@ extern NiFixedString* DAT_011d5b50;
 
 // Calls FUN_004b9900(1) on DAT_011d5b50 if it is non-null, then sets DAT_011d5b50 to null.
 // @fnv 0x0065c5f0
-void FUN_0065c5f0()
+// src: GUESS 0x0065c5f0 (confidence: low)
+void NiFixedString_UpdateState_0065c5f0()
 {
     NiFixedString* pName;
     {
@@ -1177,11 +1181,12 @@ struct FUN_0065c090_shell
     int unk00;
     int unk04;
     FUN_0065c090_Inner* unk08;
-    bool FUN_0065c090();
+    bool UpdateState_0065c090();
 };
 
 // @fnv 0x0065c090
-bool FUN_0065c090_shell::FUN_0065c090()
+// src: GUESS 0x0065c090 (confidence: low)
+bool FUN_0065c090_shell::UpdateState_0065c090()
 {
     if (unk08 && unk08->unk08)
     {
@@ -1275,7 +1280,7 @@ bool FUN_0065a970_shell::ApplyMorphs(FaceGenCoordinate* apCoordinate, NiTriBased
         {
             pData->NiGeometryData_GetVerticesIterator(kIteratorNum);
             uiNumAdditionalVal = *kIteratorNum.FUN_00717e50();
-            pVerticesCount = (NiPoint3*)kIteratorNum.FUN_00559450();
+            pVerticesCount = (NiPoint3*)kIteratorNum.Modelloader_GetReferencedThis();
         }
     }
 

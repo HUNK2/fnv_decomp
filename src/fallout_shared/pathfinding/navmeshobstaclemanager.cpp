@@ -178,11 +178,12 @@ struct S4ee810
     int base;
     int x;
     void GlobalObject_00633c90(int);
-    S4ee810* FUN_004ee810();
+    S4ee810* UpdateState_004ee810();
 };
 // Calls GlobalObject_00633c90 with 0, sets x to 0, and returns this.
 // @fnv 0x004ee810
-S4ee810* S4ee810::FUN_004ee810()
+// src: GUESS 0x004ee810 (confidence: low)
+S4ee810* S4ee810::UpdateState_004ee810()
 {
     GlobalObject_00633c90(0);
     x = 0;
@@ -666,7 +667,8 @@ int* __fastcall BSTasklet_BSTasklet(int* pObject)
 extern int DAT_0106c5d8;
 
 // @fnv 0x006c5e70
-void __fastcall FUN_006c5e70(int** ppObject)
+// src: GUESS 0x006c5e70 (confidence: low)
+void __fastcall NavMeshObstacleManager_UpdateState_006c5e70(int** ppObject)
 {
     *ppObject = &DAT_0106c5d8;
 }
@@ -694,12 +696,13 @@ struct FUN_006c5fc0_shell
 {
     void* vftable;
     void FUN_006c6260(unsigned int uiHashSize);
-    FUN_006c5fc0_shell* FUN_006c5fc0(unsigned int uiHashSize);
+    FUN_006c5fc0_shell* InitializeFields_006c5fc0(unsigned int uiHashSize);
 };
 
 // Calls FUN_006c6260 with uiHashSize, sets the vftable to DAT_0106c5e0, and returns this.
 // @fnv 0x006c5fc0
-FUN_006c5fc0_shell* FUN_006c5fc0_shell::FUN_006c5fc0(unsigned int uiHashSize)
+// src: GUESS 0x006c5fc0 (confidence: low)
+FUN_006c5fc0_shell* FUN_006c5fc0_shell::InitializeFields_006c5fc0(unsigned int uiHashSize)
 {
     FUN_006c6260(uiHashSize);
     vftable = &DAT_0106c5e0;
@@ -712,12 +715,13 @@ struct FUN_006c6070_Class
 {
     void* vftable;
     void NiTMapBase_DFALL_NiTMapItem_bhkRigidBody_NiPointer_ObstacleData_bhkRigidBody_NiPointer_ObstacleData_NiTMapBase_DFALL_NiTMapItem_bhkRigidBody_NiPointer_ObstacleData_bhkRigidBody_NiPointer_ObstacleData(unsigned int);
-    void* FUN_006c6070(unsigned int uiHashSize);
+    void* SetVtableAndProcessState_006c6070(unsigned int uiHashSize);
 };
 
 // Calls FUN_006c68b0 with uiHashSize, sets the vftable to DAT_0106c600, and returns this.
 // @fnv 0x006c6070
-void* FUN_006c6070_Class::FUN_006c6070(unsigned int uiHashSize)
+// src: GUESS 0x006c6070 (confidence: low)
+void* FUN_006c6070_Class::SetVtableAndProcessState_006c6070(unsigned int uiHashSize)
 {
     NiTMapBase_DFALL_NiTMapItem_bhkRigidBody_NiPointer_ObstacleData_bhkRigidBody_NiPointer_ObstacleData_NiTMapBase_DFALL_NiTMapItem_bhkRigidBody_NiPointer_ObstacleData_bhkRigidBody_NiPointer_ObstacleData(uiHashSize);
     vftable = &DAT_0106c600;
@@ -735,7 +739,8 @@ void __fastcall FUN_005890c0(int* self, FUN_006c60a0_arg a);
 
 // Calls FUN_005890c0 on self, then stores the address of DAT_01031fac into *self and returns self.
 // @fnv 0x006c60a0
-int* __fastcall FUN_006c60a0(int* self, FUN_006c60a0_arg aArg)
+// src: GUESS 0x006c60a0 (confidence: low)
+int* __fastcall Object_InitializeFields_006c60a0(int* self, FUN_006c60a0_arg aArg)
 {
     FUN_005890c0(self, aArg);
     *self = (int)&DAT_01031fac;
@@ -787,7 +792,8 @@ namespace fnv_006c6c10 {
 
 // Sets the object's first field to the string "0rl" and calls FUN_006b3eb0(0, false) on the array, returning pThis.
 // @fnv 0x006c6c10
-void* __fastcall FUN_006c6c10(void* pThis)
+// src: GUESS 0x006c6c10 (confidence: low)
+void* __fastcall BSSimpleArray_UpdateState_006c6c10(void* pThis)
 {
     *reinterpret_cast<const char**>(pThis) = "0rl";
     reinterpret_cast<BSSimpleArray<NavMeshInfo*, 1024>*>(pThis)->BSSimpleArray_float_1024_InitialSetup(0, false);
@@ -803,7 +809,8 @@ struct GlobalObject_00869f00
 };
 
 // @fnv 0x006c6de0
-void __fastcall FUN_006c6de0(GlobalObject_00869f00* pThis)
+// src: GUESS 0x006c6de0 (confidence: medium)
+void __fastcall Object_ResetVirtualTableAndClear_006c6de0(GlobalObject_00869f00* pThis)
 {
     *(int**)pThis = &DAT_0106c708;
     pThis->Clear(true);
@@ -834,14 +841,14 @@ struct Flt
 {
     operator unsigned int() const;
 };
-NiPoint3* __cdecl FUN_004b3ae0(NiPoint3*, const NiPoint3&, const float*);
+NiPoint3* __cdecl NiPoint3_TransformByMatrix3(NiPoint3*, const NiPoint3&, const float*);
 // @fnv 0x006c3570
 // src: XBOX_PDB 0x006c3570
 bool NavMeshObstacleManager_IsPointInBox(NiPoint3* pPoint, Flt* b, float c, float fMaxZ)
 {
     // The transform writes every component; leave its output uninitialized.
     float r[3];
-    FUN_004b3ae0(reinterpret_cast<NiPoint3*>(r), *pPoint - *(NiPoint3*)((unsigned int)*b + 0x10), (const float*)((unsigned int)*b + 0x1c));
+    NiPoint3_TransformByMatrix3(reinterpret_cast<NiPoint3*>(r), *pPoint - *(NiPoint3*)((unsigned int)*b + 0x10), (const float*)((unsigned int)*b + 0x1c));
     if (r[2] < -c || r[2] > fMaxZ)
         return false;
     if (r[0] < *(float*)((unsigned int)*b + 0x40) || r[0] > *(float*)((unsigned int)*b + 0x4c))
@@ -1087,11 +1094,12 @@ extern int DAT_0106c3c4;
 
 struct FUN_006c0150_shell
 {
-    void FUN_006c0150();
+    void SetVtableAndProcessState_006c0150();
 };
 
 // @fnv 0x006c0150
-void FUN_006c0150_shell::FUN_006c0150()
+// src: GUESS 0x006c0150 (confidence: low)
+void FUN_006c0150_shell::SetVtableAndProcessState_006c0150()
 {
     *reinterpret_cast<int*>(this) = (int)&DAT_0106c3c4;
 }
@@ -1177,13 +1185,14 @@ namespace fnv_006c1e40 {
 
 struct FUN_006c1e40_shell
 {
-    void FUN_006c1e40(void* arg1);
+    void RemoveEntityListener_006c1e40(void* arg1);
 };
 
 // @fnv 0x006c1e40
-void FUN_006c1e40_shell::FUN_006c1e40(void* arg1)
+// src: GUESS 0x006c1e40 (confidence: medium)
+void FUN_006c1e40_shell::RemoveEntityListener_006c1e40(void* arg1)
 {
-    void* result = ((bhkWorldObject*)this)->FUN_004ae750();
+    void* result = ((bhkWorldObject*)this)->Bipedanim_GetReferenceFlagsOrZero();
     if (result)
     {
         ((hkpEntity*)result)->removeEntityListener_00c9c670(arg1);
@@ -1200,13 +1209,14 @@ struct FUN_00c9c0f0_shell
 
 struct FUN_006c1e70_shell
 {
-    void FUN_006c1e70(int a1);
+    void RemoveWorldObjectListener(int a1);
 };
 
 // @fnv 0x006c1e70
-void FUN_006c1e70_shell::FUN_006c1e70(int a1)
+// src: GUESS 0x006c1e70 (confidence: medium)
+void FUN_006c1e70_shell::RemoveWorldObjectListener(int a1)
 {
-    int result = (int)((bhkWorldObject*)this)->FUN_004ae750();
+    int result = (int)((bhkWorldObject*)this)->Bipedanim_GetReferenceFlagsOrZero();
     if (result)
     {
         ((FUN_00c9c0f0_shell*)result)->RemoveListener(a1);
@@ -1231,7 +1241,7 @@ void* __thiscall ObstacleData_shell::FUN_006c2490(unsigned int flags)
     return this;
 }
 
-void __fastcall FUN_006c5e70(int**);
+void __fastcall NavMeshObstacleManager_UpdateState_006c5e70(int**);
 void __cdecl operator delete(void*);
 
 struct FUN_006c5e90_shell
@@ -1243,7 +1253,7 @@ struct FUN_006c5e90_shell
 // @fnv 0x006c5e90
 void* __thiscall FUN_006c5e90_shell::FUN_006c5e90(unsigned int flags)
 {
-    FUN_006c5e70((int**)this);
+    NavMeshObstacleManager_UpdateState_006c5e70((int**)this);
     if (flags & 1)
         operator delete(this);
     return this;
@@ -1252,7 +1262,7 @@ void* __thiscall FUN_006c5e90_shell::FUN_006c5e90(unsigned int flags)
 namespace fnv_006c0120 {
 struct FUN_006c0150_shell
 {
-    void FUN_006c0150(void);
+    void SetVtableAndProcessState_006c0150(void);
 };
 
 extern void _Deallocate(void*);
@@ -1266,7 +1276,7 @@ struct FUN_006c0120_shell : FUN_006c0150_shell
 // @fnv 0x006c0120
 void* FUN_006c0120_shell::FUN_006c0120(unsigned int flags)
 {
-    FUN_006c0150();
+    SetVtableAndProcessState_006c0150();
     if (flags & 1)
         _Deallocate(this);
     return this;
@@ -1276,14 +1286,15 @@ void* FUN_006c0120_shell::FUN_006c0120(unsigned int flags)
 namespace fnv_006c0170 {
 struct FUN_006c0150_shell
 {
-    void FUN_006c0150();
-    void FUN_006c0170();
+    void SetVtableAndProcessState_006c0150();
+    void ForwardCall_006c0170();
 };
 
 // @fnv 0x006c0170
-void FUN_006c0150_shell::FUN_006c0170()
+// src: GUESS 0x006c0170 (confidence: low)
+void FUN_006c0150_shell::ForwardCall_006c0170()
 {
-    FUN_006c0150();
+    SetVtableAndProcessState_006c0150();
 }
 }  // namespace fnv_006c0170
 
@@ -1313,10 +1324,11 @@ void __thiscall FUN_006c1d60_shell::NavMeshObstacleManager_AddListeners(HavokBod
 struct FUN_0061f580_shell
 {
     const char* m_p;
-    hkpEntity* FUN_0061f580();
+    hkpEntity* ComputeValue_0061f580();
 };
 // @fnv 0x0061f580
-hkpEntity* FUN_0061f580_shell::FUN_0061f580()
+// src: GUESS 0x0061f580 (confidence: low)
+hkpEntity* FUN_0061f580_shell::ComputeValue_0061f580()
 {
     m_p = "pFU";
     return (hkpEntity*)this;
@@ -1338,14 +1350,14 @@ FUN_006923c0::FUN_006923c0()
 void __cdecl _Deallocate(void*);
 struct Dummy
 {
-    void FUN_006c0170();
+    void ForwardCall_006c0170();
     void* FUN_006c00d0(unsigned int);
 };
 // Calls FUN_006c0170, then if the low bit of flags is set calls _Deallocate on this, and returns this.
 // @fnv 0x006c00d0
 void* Dummy::FUN_006c00d0(unsigned int flags)
 {
-    FUN_006c0170();
+    ForwardCall_006c0170();
     if (flags & 1)
         _Deallocate(this);
     return this;
@@ -1374,7 +1386,7 @@ struct FUN_006c0210_shell
 {
     int* vtbl;
     FUN_006c0210_shell();
-    void FUN_0061f580();
+    void ComputeValue_0061f580();
 };
 
 extern int DAT_0106c3d4;
@@ -1382,11 +1394,11 @@ extern int DAT_0106c3d4;
 // @fnv 0x006c0210
 FUN_006c0210_shell::FUN_006c0210_shell()
 {
-    FUN_0061f580();
+    ComputeValue_0061f580();
     vtbl = &DAT_0106c3d4;
 }
 
-void __fastcall FUN_006c0260(void*);
+void __fastcall UpdateFields_006c0260(void*);
 void __cdecl _Deallocate(void*);
 struct FUN_006c0230_shell
 {
@@ -1395,7 +1407,7 @@ struct FUN_006c0230_shell
 // @fnv 0x006c0230
 void* FUN_006c0230_shell::FUN_006c0230(unsigned int flags)
 {
-    FUN_006c0260(this);
+    UpdateFields_006c0260(this);
     if (flags & 1)
         _Deallocate(this);
     return this;
@@ -1480,8 +1492,8 @@ void HavokBodyListenerAccess::bhkEntity_AddEntityListener(int a)
 
 struct S_param
 {
-    void FUN_006c1e70(int);
-    void FUN_006c1e40(int);
+    void RemoveWorldObjectListener(int);
+    void RemoveEntityListener_006c1e40(int);
 };
 struct S_this
 {
@@ -1494,13 +1506,13 @@ struct S_this
 // src: COMMUNITY 0x006c1e00
 void S_this::NavMeshObstacleManager_RemoveActivationListener(S_param* apParam)
 {
-    apParam->FUN_006c1e70(f120);
-    apParam->FUN_006c1e40(f124);
+    apParam->RemoveWorldObjectListener(f120);
+    apParam->RemoveEntityListener_006c1e40(f124);
 }
 
 struct C006c6fe0
 {
-    bool FUN_006c6fe0();
+    bool PopQueueValue();
 };
 struct C00449f80
 {
@@ -1516,7 +1528,7 @@ struct C006c6030
 bool C006c6030::LockFreeQueue_bhkRigidBody_Pop(void* apArg)
 {
     ((RecursiveSpinLock*)((char*)this + 0x20))->Lock(0);
-    bool b = ((C00449f80*)this)->LockFreeMap_GetInterface_0(apArg)->FUN_006c6fe0();
+    bool b = ((C00449f80*)this)->LockFreeMap_GetInterface_0(apArg)->PopQueueValue();
     ((RecursiveSpinLock*)((char*)this + 0x20))->Unlock();
     return b;
 }
@@ -1525,17 +1537,18 @@ namespace fnv_006c0260 {
 extern void* DAT_0106c3d4;
 struct FUN_00554650_shell
 {
-    void FUN_00554650();
+    void UpdateState_00554650();
 };
 struct FUN_006c0260_shell
 {
-    void FUN_006c0260();
+    void UpdateFields_006c0260();
 };
 // @fnv 0x006c0260
-void FUN_006c0260_shell::FUN_006c0260()
+// src: GUESS 0x006c0260 (confidence: low)
+void FUN_006c0260_shell::UpdateFields_006c0260()
 {
     *(void**)this = &DAT_0106c3d4;
-    ((FUN_00554650_shell*)this)->FUN_00554650();
+    ((FUN_00554650_shell*)this)->UpdateState_00554650();
 }
 }  // namespace fnv_006c0260
 
@@ -1896,7 +1909,7 @@ struct FUN_006c5ce0_shell : public NavMeshObstacleManager
 };
 
 void BSSleep(unsigned long);
-bool FUN_009a3830(const int*, const int*);
+bool Actor_AreReferencedValuesEqual(const int*, const int*);
 namespace BSTasklet_BSTasklet {
 struct FUN_006c5e70
 {
@@ -1935,7 +1948,7 @@ bool FUN_006c5ce0_shell::NavMeshObstacleManager_PushTask(ObstacleTaskData* apTas
         {
             ((RecursiveSpinLock*)((char*)this + 0x160))->Lock(0);
             unsigned int iremoveIndex =
-                ((LS3de0*)((char*)this + 0x13c))->Find((unsigned int&)apTaskData, 0, FUN_009a3830);
+                ((LS3de0*)((char*)this + 0x13c))->Find((unsigned int&)apTaskData, 0, Actor_AreReferencedValuesEqual);
             if (iremoveIndex != -1)
                 ((GlobalObject_00869f00*)((char*)this + 0x13c))->Remove(iremoveIndex, true);
             ((RecursiveSpinLock*)((char*)this + 0x160))->Unlock();
@@ -2207,7 +2220,7 @@ struct FUN_006c1190_s
 };
 struct FUN_00905330_s
 {
-    void FUN_00905330(unsigned int*);
+    void RemoveMatchingItem(unsigned int*);
 };
 struct ListStand
 {
@@ -2293,7 +2306,7 @@ void FUN_006c45e0_shell::ProcessAddedRefs()
         }
     }
     for (unsigned int i = 0; i < ((NavmeshobstaclemanagerOffset08View*)&addedRefs)->GetFlags(); i++)
-        ((FUN_00905330_s*)((char*)this + 0x2c))->FUN_00905330(((Arr*)&addedRefs)->GetAt(i));
+        ((FUN_00905330_s*)((char*)this + 0x2c))->RemoveMatchingItem(((Arr*)&addedRefs)->GetAt(i));
 }
 }  // namespace fnv_006c45e0
 
@@ -2534,11 +2547,12 @@ extern int DAT_0106c3c4;
 struct FUN_006c0100_t
 {
     int v;
-    void* __thiscall FUN_006c0100();
+    void* __thiscall InitializeFields_006c0100();
 };
 
 // @fnv 0x006c0100
-void* __thiscall FUN_006c0100_t::FUN_006c0100()
+// src: GUESS 0x006c0100 (confidence: low)
+void* __thiscall FUN_006c0100_t::InitializeFields_006c0100()
 {
     v = (int)&DAT_0106c3c4;
     return this;
@@ -3402,7 +3416,7 @@ void ManagerView::NavMeshObstacleManager_ClearAllObstacles()
                 NavMeshPtr mesh;
                 if (((MeshInfoView*)obstacle->meshes.GetAt(j))->FUN_00690860(mesh))
                 {
-                    ResetNavMeshObstacleData(mesh.FUN_00559450());
+                    ResetNavMeshObstacleData(mesh.Modelloader_GetReferencedThis());
                 }
             }
         }
@@ -3704,7 +3718,7 @@ void Mgr_c1190::RegisterKey(Key_c1190* key)
 
 struct InnerPtr
 {
-    void* FUN_00559450();
+    void* Modelloader_GetReferencedThis();
 };
 struct InnerArr
 {
@@ -3884,7 +3898,7 @@ void HostA::RemoveEntry(unsigned int key)
     for (unsigned int i = 0; i < (reinterpret_cast<ObstArr*>(static_cast<ReferenceObstacleArray*>(array)))->arr.GetFlags(); i++)
     {
         NiPointer<ObstacleData> item(*reinterpret_cast<NiPointer<ObstacleData>*>((reinterpret_cast<ObstArr*>(static_cast<ReferenceObstacleArray*>(array)))->arr.GetAt(i)));
-        ptrMap.RemoveKey(reinterpret_cast<ObView*>(item.operator->())->inner.FUN_00559450());
+        ptrMap.RemoveKey(reinterpret_cast<ObView*>(item.operator->())->inner.Modelloader_GetReferencedThis());
         list.BSSimpleList_NiPointer_bhkAction_Remove(item);
         if (flag)
             AttachChildFromSource(item);
@@ -4200,7 +4214,7 @@ struct Collision
 struct Pointer
 {
     Collision* value;
-    Collision* FUN_00559450();
+    Collision* Modelloader_GetReferencedThis();
 };
 struct Obstacle
 {
@@ -4229,7 +4243,7 @@ extern float DAT_01017a3c, DAT_0106c3ac, DAT_01016970, DAT_01015f5c;
 // @fnv 0x006c2650
 bool UpdateObstacleBounds(Obstacle* obstacle)
 {
-    Collision* collision = obstacle->collision.FUN_00559450();
+    Collision* collision = obstacle->collision.Modelloader_GetReferencedThis();
     if (!collision)
         return false;
     Body* body = collision->GetReferenceFlags();
@@ -4283,12 +4297,12 @@ bool UpdateObstacleBounds(Obstacle* obstacle)
     }
     if (upAxis.z < DAT_01012060)
     {
-        upAxis = upAxis.FUN_004a0bd0();
-        forwardAxis = forwardAxis.FUN_004a0bd0();
+        upAxis = upAxis.GetNegatedVector();
+        forwardAxis = forwardAxis.GetNegatedVector();
     }
     upAxis = DAT_011a9484;
     sideAxis = upAxis.FUN_0053d1a0(forwardAxis);
-    forwardAxis = sideAxis.FUN_004b3800(upAxis).FUN_004a0bd0();
+    forwardAxis = sideAxis.FUN_004b3800(upAxis).GetNegatedVector();
     obstacle->rotation.FUN_004769c0(0, forwardAxis);
     obstacle->rotation.FUN_004769c0(1, sideAxis);
     obstacle->rotation.FUN_004769c0(2, upAxis);
@@ -4312,12 +4326,12 @@ bool UpdateObstacleBounds(Obstacle* obstacle)
         if (FUN_00408840(fmod_004b1500(worldCorners[snap].x, DAT_01017a3c)) < DAT_0106c3ac)
         {
             worldCorners[snap].x += DAT_0106c3ac * 2.0f;
-            localCorners[snap] = fromWorldMat.FUN_004b4500(worldCorners[snap].FUN_00439ef0(obstacle->position));
+            localCorners[snap] = fromWorldMat.FUN_004b4500(worldCorners[snap].SubtractIntoVector(obstacle->position));
         }
         if (FUN_00408840(fmod_004b1500(worldCorners[snap].y, DAT_01017a3c)) < DAT_0106c3ac)
         {
             worldCorners[snap].y += DAT_0106c3ac * 2.0f;
-            localCorners[snap] = fromWorldMat.FUN_004b4500(worldCorners[snap].FUN_00439ef0(obstacle->position));
+            localCorners[snap] = fromWorldMat.FUN_004b4500(worldCorners[snap].SubtractIntoVector(obstacle->position));
         }
     }
     obstacle->localMin = NiPoint3(DAT_01016970, DAT_01016970, DAT_01016970);
@@ -5678,7 +5692,7 @@ struct L1
     void* a;
     void* b;
     bool BSSimpleList_TESLevSpell_IsInList(TESObjectREFR* const& r);
-    void FUN_00905330(TESObjectREFR* const& r);
+    void RemoveMatchingItem(TESObjectREFR* const& r);
 };
 struct L2
 {
@@ -5711,10 +5725,10 @@ void Own60::NavMeshObstacleManager_OnDoorRemove(TESObjectREFR* ref)
         if (!IsSlidingDoor(door))
             NavMeshObstacleManager_RemoveObstacleForReference(ref);
     }
-    m_2c.FUN_00905330(ref);
+    m_2c.RemoveMatchingItem(ref);
     if (m_f0.BSSimpleList_TESLevSpell_IsInList(ref))
     {
-        m_f0.FUN_00905330(ref);
+        m_f0.RemoveMatchingItem(ref);
     }
     else if (!m_f8.BSSimpleList_TESLevSpell_IsInList(ref->GetHavokWorldObjectCountInSceneGraph_0084e3a0()))
     {
@@ -5724,14 +5738,14 @@ void Own60::NavMeshObstacleManager_OnDoorRemove(TESObjectREFR* ref)
 
 struct RotationMatrix
 {
-    void FUN_00439ef0(NiPoint3* result, const NiPoint3* input);
+    void SubtractIntoVector(NiPoint3* result, const NiPoint3* input);
 };
 
 struct WorldObject;
 
 struct Reference
 {
-    WorldObject* FUN_00559450();
+    WorldObject* Modelloader_GetReferencedThis();
 };
 
 extern float g_0106c3a4;
@@ -5743,24 +5757,24 @@ void __cdecl NavMeshObstacleManager_UpdateObstacleActiveStatus(Reference* refere
 {
     // The rotation fills this uninitialized output; NiPoint3 default construction calls out of line.
     float transformed[3];
-    reinterpret_cast<RotationMatrix*>(reinterpret_cast<char*>(reference->FUN_00559450()) + 0x64)
-        ->FUN_00439ef0(reinterpret_cast<NiPoint3*>(transformed),
-                       reinterpret_cast<const NiPoint3*>(reinterpret_cast<char*>(reference->FUN_00559450()) + 0x58));
+    reinterpret_cast<RotationMatrix*>(reinterpret_cast<char*>(reference->Modelloader_GetReferencedThis()) + 0x64)
+        ->SubtractIntoVector(reinterpret_cast<NiPoint3*>(transformed),
+                       reinterpret_cast<const NiPoint3*>(reinterpret_cast<char*>(reference->Modelloader_GetReferencedThis()) + 0x58));
 
     if (transformed[2] < g_0106c3a4)
     {
-        *reinterpret_cast<unsigned char*>(reinterpret_cast<char*>(reference->FUN_00559450()) + 0x74) = 0;
+        *reinterpret_cast<unsigned char*>(reinterpret_cast<char*>(reference->Modelloader_GetReferencedThis()) + 0x74) = 0;
     }
     else
     {
         float zLimit = g_0106c3a4 * 2.0;
         if (zLimit > transformed[2] && transformed[0] < g_0106c3a8 && transformed[1] < g_0106c3a8)
         {
-            *reinterpret_cast<unsigned char*>(reinterpret_cast<char*>(reference->FUN_00559450()) + 0x74) = 0;
+            *reinterpret_cast<unsigned char*>(reinterpret_cast<char*>(reference->Modelloader_GetReferencedThis()) + 0x74) = 0;
         }
         else
         {
-            *reinterpret_cast<unsigned char*>(reinterpret_cast<char*>(reference->FUN_00559450()) + 0x74) = 1;
+            *reinterpret_cast<unsigned char*>(reinterpret_cast<char*>(reference->Modelloader_GetReferencedThis()) + 0x74) = 1;
         }
     }
 }
@@ -5934,12 +5948,12 @@ struct ElemX
     } m78;
 };
 
-void* FUN_00aa13e0(unsigned n);
+void* Object_DispatchCommandFour(unsigned n);
 struct NewX
 {
     void* operator new(unsigned n)
     {
-        return FUN_00aa13e0(n);
+        return Object_DispatchCommandFour(n);
     }
     static void operator delete(void*, unsigned int);
     char pad[0x1c];
@@ -5968,7 +5982,7 @@ struct NodeX
     bool FUN_008256d0();
     ObjX** FUN_006815c0();
     NodeX* FUN_00726070();
-    void FUN_00905330(ObjX** o);
+    void RemoveMatchingItem(ObjX** o);
 };
 struct TblX
 {
@@ -6031,7 +6045,7 @@ bool SelfX::NavMeshObstacleManager_ProcessNewDoors()
                 m110.FUN_006c6920(pkObj->GetHavokWorldObjectCountInSceneGraph_0084e3a0(), spScreenData);
                 bChanged = true;
             }
-            m_kList.FUN_00905330(&pkObj);
+            m_kList.RemoveMatchingItem(&pkObj);
             pkNode = &m_kList;
         }
         else
@@ -6102,7 +6116,7 @@ struct PortalArray
     int unk0c;
 
     unsigned int FUN_0044ddc0();
-    Portal* FUN_006a1440(unsigned int uiIndex);
+    Portal* Object_GetIndexedValue_006a1440(unsigned int uiIndex);
     void BSSimpleArray_RemoveFast_0(unsigned int uiIndex, bool bShift);
 };
 
@@ -6243,7 +6257,7 @@ bool ObstacleManager::MatchPortalEdges()
         PortalSet* pkSet = &pkOwner->m_kPortalSet;
         for (unsigned int j = 0; j < pkSet->m_kPortals.FUN_0044ddc0(); j++)
         {
-            PortalInfo kFirstPortal(pkSet->m_kPortals.FUN_006a1440(j));
+            PortalInfo kFirstPortal(pkSet->m_kPortals.Object_GetIndexedValue_006a1440(j));
             if (kFirstPortal.m_usTriangle >= GetNavMeshTriangleCount((NavMesh*)pkOwner->m_spNavMesh))
             {
                 Warning_005b5e40(s_szBadTriangle);
@@ -6266,7 +6280,7 @@ bool ObstacleManager::MatchPortalEdges()
                 PortalSet* pkOtherPortals = &pkOtherObstacle->m_kPortalSet;
                 for (unsigned int l = 0; l < pkOtherPortals->m_kPortals.FUN_0044ddc0(); l++)
                 {
-                    PortalInfo kOther(pkOtherPortals->m_kPortals.FUN_006a1440(l));
+                    PortalInfo kOther(pkOtherPortals->m_kPortals.Object_GetIndexedValue_006a1440(l));
                     if (kOther.m_usTriangle >= GetNavMeshTriangleCount((NavMesh*)pkOtherObstacle->m_spNavMesh))
                     {
                         Warning_005b5e40(s_szBadTriangle);
@@ -6278,8 +6292,8 @@ bool ObstacleManager::MatchPortalEdges()
                     NiPoint3 kB2 = *(NiPoint3*)((NavMesh*)pkOtherObstacle->m_spNavMesh)
                                         ->GetEdgeVertices(kOther.m_usTriangle, kOther.m_iEdge)
                                         .p2;
-                    if (kCornerB.FUN_00439ef0(kStartA).GetSquaredXYLength() < DAT_0106c3a0 &&
-                        kEdgeStart.FUN_00439ef0(kB2).GetSquaredXYLength() < DAT_0106c3a0)
+                    if (kCornerB.SubtractIntoVector(kStartA).GetSquaredXYLength() < DAT_0106c3a0 &&
+                        kEdgeStart.SubtractIntoVector(kB2).GetSquaredXYLength() < DAT_0106c3a0)
                     {
                         ConnectEdges(pkOwner->m_spNavMesh, kFirstPortal, pkOtherObstacle->m_spNavMesh, kOther);
                         if (1)
@@ -6304,7 +6318,7 @@ bool ObstacleManager::MatchPortalEdges()
             {
                 for (unsigned int m = 0; m < pkSet->m_kOpenPortals.FUN_0044ddc0(); m++)
                 {
-                    PortalInfo kOpenInfo(pkSet->m_kOpenPortals.FUN_006a1440(m));
+                    PortalInfo kOpenInfo(pkSet->m_kOpenPortals.Object_GetIndexedValue_006a1440(m));
                     PortalInfo kLinked;
                     if (((NavMesh*)pkOwner->m_spSourceNavMesh)->GetMatchingEdge_1((const NavMeshEdgeRef*)&kOpenInfo, (NavMeshEdgeOut*)&kLinked))
                     {
@@ -6328,7 +6342,7 @@ bool ObstacleManager::MatchPortalEdges()
                         }
                         if (!(NavMesh*)apSearchNavMesh)
                         {
-                            PortalInfo kInfo2(pkSet->m_kOpenPortals.FUN_006a1440(m));
+                            PortalInfo kInfo2(pkSet->m_kOpenPortals.Object_GetIndexedValue_006a1440(m));
                             EdgeLink* pkEdge = (EdgeLink*)((NavMesh*)pkOwner->m_spSourceNavMesh)
                                                   ->GetEdgeExtraInfo(kInfo2.m_usTriangle, kInfo2.m_iEdge);
                             if (pkEdge)
@@ -6356,8 +6370,8 @@ bool ObstacleManager::MatchPortalEdges()
                             NiPoint3 kB3 = *(NiPoint3*)((NavMesh*)apSearchNavMesh)
                                                 ->GetEdgeVertices(kLinked.m_usTriangle, kLinked.m_iEdge)
                                                 .p2;
-                            if (kCornerB.FUN_00439ef0(kA3).GetSquaredXYLength() < DAT_0106c3a0 &&
-                                kEdgeStart.FUN_00439ef0(kB3).GetSquaredXYLength() < DAT_0106c3a0)
+                            if (kCornerB.SubtractIntoVector(kA3).GetSquaredXYLength() < DAT_0106c3a0 &&
+                                kEdgeStart.SubtractIntoVector(kB3).GetSquaredXYLength() < DAT_0106c3a0)
                             {
                                 ConnectEdges(pkOwner->m_spNavMesh, kFirstPortal, apSearchNavMesh, kLinked);
                                 if (1)
@@ -6443,7 +6457,7 @@ struct RigidBody
 struct RigidBodyPtr1920
 {
     RigidBody* m_pObject;
-    RigidBody* FUN_00559450() const;
+    RigidBody* Modelloader_GetReferencedThis() const;
 };
 struct ObstData1920
 {
@@ -6534,10 +6548,10 @@ void ObsMgr::NavMeshObstacleManager_ProcessMovingReferences()
         NiPointer<ObstData1920> item(node->FUN_006815c0());
         node = node->FUN_00726070();
         Holder3 h;
-        h.FUN_004a3c90(item.operator->()->m_pRigidBody.FUN_00559450()->GetReferenceFlags()->hkpRigidBody_getPosition());
+        h.FUN_004a3c90(item.operator->()->m_pRigidBody.Modelloader_GetReferencedThis()->GetReferenceFlags()->hkpRigidBody_getPosition());
         NiPoint3 v;
         FUN_00458620(&v, &h);
-        if (v.FUN_00439ef0(item.operator->()->pos).FUN_004a7290() > kObsDist &&
+        if (v.SubtractIntoVector(item.operator->()->pos).FUN_004a7290() > kObsDist &&
             g_timeGlobal.FUN_00825c00() - item.operator->()->lastUpdate >= uiTimeLimitMs)
             NavMeshObstacleManager_UpdateObstacle(&item);
     }
@@ -6610,7 +6624,7 @@ struct PendingRefs0c80
 {
     ::TESObjectREFR* item;
     PendingRefs0c80* next;
-    void FUN_00905330(::TESObjectREFR** item);
+    void RemoveMatchingItem(::TESObjectREFR** item);
 };
 
 struct RemovedIDs0c80
@@ -6652,7 +6666,7 @@ void RemoveObstacleManagerView::NavMeshObstacleManager_RemoveObstacleForReferenc
 {
     if (!reinterpret_cast< ::SettingT< ::INISettingCollection>*>(&::fnv_006c0c30::g_011d73e4)->Bool()[0])
         return;
-    pending.FUN_00905330(&ref);
+    pending.RemoveMatchingItem(&ref);
     if (!removed.IsInList(reinterpret_cast< ::TESForm*>(ref)->GetFormID()))
     {
         ::NiPointer<RefObstData1920> spArray(0);

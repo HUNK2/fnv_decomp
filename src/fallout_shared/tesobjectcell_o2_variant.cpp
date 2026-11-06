@@ -51,11 +51,12 @@ struct FUN_00bb39e0_shell
     int m_00;
     int m_04;
     void* m_08;
-    void FUN_00bb39e0(const void* src, unsigned int count);
+    void UpdateFields_00bb39e0(const void* src, unsigned int count);
 };
 
 // @fnv 0x00bb39e0
-void FUN_00bb39e0_shell::FUN_00bb39e0(const void* src, unsigned int count)
+// src: GUESS 0x00bb39e0 (confidence: low)
+void FUN_00bb39e0_shell::UpdateFields_00bb39e0(const void* src, unsigned int count)
 {
     if (src && m_08)
     {

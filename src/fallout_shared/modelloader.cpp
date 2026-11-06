@@ -199,10 +199,10 @@ class ModelLoader
     void DispatchAnimIdle(QueuedFile*);
     void UpdateReferenceNode(TESObjectREFR*, NiNode*);
     void UpdateModelNode(NiNode*);
-    void FUN_004431d0();
-    void FUN_00443220();
-    void FUN_00449940();
-    void FUN_004499a0();
+    void ForwardCall_004431d0();
+    void ForwardCall_00443220();
+    void Object_SetVirtualTable_00449940();
+    void Object_SetVirtualTable_004499a0();
 };
 
 
@@ -590,27 +590,31 @@ NiPoint3& NiAVObject::GetTranslate_0043c490()
 }
 
 // @fnv 0x0043c470
-int NiAVObject::FUN_0043c470()
+// src: GUESS 0x0043c470 (confidence: low)
+int NiAVObject::EvaluateValue_0043c470()
 {
     return *reinterpret_cast<unsigned char*>(reinterpret_cast<char*>(this) + 3);
 }
 
 // @fnv 0x00441b80
-void QueuedReference::FUN_00441b80()
+// src: GUESS 0x00441b80 (confidence: low)
+void QueuedReference::ForwardCall_00441b80()
 {
     FUN_004414f0();
 }
 
 // @fnv 0x004431d0
-void ModelLoader::FUN_004431d0()
+// src: GUESS 0x004431d0 (confidence: low)
+void ModelLoader::ForwardCall_004431d0()
 {
-    FUN_00449940();
+    Object_SetVirtualTable_00449940();
 }
 
 // @fnv 0x00443220
-void ModelLoader::FUN_00443220()
+// src: GUESS 0x00443220 (confidence: low)
+void ModelLoader::ForwardCall_00443220()
 {
-    FUN_004499a0();
+    Object_SetVirtualTable_004499a0();
 }
 
 // @fnv 0x004491f0
@@ -1105,14 +1109,14 @@ void FUN_0043c7d0_shell::QueuedModel_SetAddRefCount(unsigned char aByte)
     MLSetFlag_2(aByte, (char*)this + 0x3c);
 }
 
-void __fastcall FUN_0044b160(void*);
+void __fastcall Object_ReleaseReferencedObject_0044b160(void*);
 
 struct _Mem_00441d20
 {
     int a;
     ~_Mem_00441d20()
     {
-        FUN_0044b160(this);
+        Object_ReleaseReferencedObject_0044b160(this);
     }
 };
 
@@ -1233,13 +1237,13 @@ struct FUN_0043cf90_shell : public QueuedModel
     bool QueuedModel_GetForceLoad();
 };
 
-bool __cdecl FUN_0044af60(unsigned char);
+bool __cdecl Object_IsMask0x10Set(unsigned char);
 
 // @fnv 0x0043cf90
 // src: COMMUNITY 0x0043cf90
 bool FUN_0043cf90_shell::QueuedModel_GetForceLoad()
 {
-    return FUN_0044af60(*((unsigned char*)this + 0x3c));
+    return Object_IsMask0x10Set(*((unsigned char*)this + 0x3c));
 }
 
 struct FUN_0043cfb0_shell : public QueuedModel
@@ -1247,13 +1251,13 @@ struct FUN_0043cfb0_shell : public QueuedModel
     bool QueuedModel_GetFaceGenModel();
 };
 
-bool __cdecl FUN_0044afa0(unsigned char);
+bool __cdecl Object_IsMask0x20Set(unsigned char);
 
 // @fnv 0x0043cfb0
 // src: COMMUNITY 0x0043cfb0
 bool FUN_0043cfb0_shell::QueuedModel_GetFaceGenModel()
 {
-    return FUN_0044afa0(*((unsigned char*)this + 0x3c));
+    return Object_IsMask0x20Set(*((unsigned char*)this + 0x3c));
 }
 
 struct FUN_0043d490_shell : public QueuedModel
@@ -1351,14 +1355,14 @@ void QueuedMagicItem::OnChildCompletion()
 }
 
 namespace fnv_0043e1b0 {
-void __fastcall FUN_0044b160(void*);
+void __fastcall Object_ReleaseReferencedObject_0044b160(void*);
 
 struct _Mem_00441d20
 {
     int a;
     ~_Mem_00441d20()
     {
-        FUN_0044b160(this);
+        Object_ReleaseReferencedObject_0044b160(this);
     }
 };
 
@@ -1558,11 +1562,12 @@ extern int DAT_01016ca4;
 struct S4411
 {
     void FUN_0043fd40(int, int);
-    S4411* FUN_004411d0(int a, int b);
+    S4411* SetVtableAndProcessState_004411d0(int a, int b);
 };
 // Calls FUN_0043fd40 with the two arguments, sets the object's first field to point at DAT_01016ca4, and returns this.
 // @fnv 0x004411d0
-S4411* S4411::FUN_004411d0(int aiArg1, int aiArg2)
+// src: GUESS 0x004411d0 (confidence: low)
+S4411* S4411::SetVtableAndProcessState_004411d0(int aiArg1, int aiArg2)
 {
     FUN_0043fd40(aiArg1, aiArg2);
     *reinterpret_cast<int**>(this) = &DAT_01016ca4;
@@ -1820,14 +1825,14 @@ S1b20* S1b20::InitWithPlayer(int a)
 }
 
 namespace fnv_00441d20 {
-void __fastcall FUN_0044b160(void*);
+void __fastcall Object_ReleaseReferencedObject_0044b160(void*);
 
 struct _Mem_00441d20
 {
     int a;
     ~_Mem_00441d20()
     {
-        FUN_0044b160(this);
+        Object_ReleaseReferencedObject_0044b160(this);
     }
 };
 
@@ -2491,7 +2496,8 @@ bool Q449::LockFreeMap_char_const_T_Data_RemoveAt(void* arData)
 void __fastcall FUN_0044a040(void*);
 
 // @fnv 0x00449680
-void __fastcall FUN_00449680(void* p)
+// src: GUESS 0x00449680 (confidence: low)
+void __fastcall Object_ForwardCall_00449680(void* p)
 {
     FUN_0044a040(p);
 }
@@ -2571,7 +2577,8 @@ extern int DAT_01017288;
 void __fastcall LockFreeMap_char_const_Model_LockFreeMapIterator_LockFreeMapIterator(void*);
 
 // @fnv 0x004498e0
-void* __fastcall FUN_004498e0(void* apObject)
+// src: GUESS 0x004498e0 (confidence: low)
+void* __fastcall Object_ProcessAndReturnValue_004498e0(void* apObject)
 {
     LockFreeMap_char_const_Model_LockFreeMapIterator_LockFreeMapIterator(apObject);
     *reinterpret_cast<void**>(apObject) = &DAT_01017288;
@@ -2584,7 +2591,8 @@ void* __fastcall FUN_004498e0(void* apObject)
 extern int DAT_01017294;
 
 // @fnv 0x00449940
-void __fastcall FUN_00449940(void** apOut)
+// src: GUESS 0x00449940 (confidence: low)
+void __fastcall Object_SetVirtualTable_00449940(void** apOut)
 {
     *apOut = &DAT_01017294;
 }
@@ -2593,7 +2601,8 @@ void __fastcall FUN_0044cbb0(void* pThis);
 extern int DAT_010172a0;
 
 // @fnv 0x00449960
-void* __fastcall FUN_00449960(char* pThis)
+// src: GUESS 0x00449960 (confidence: low)
+void* __fastcall Object_InitializeFields_00449960(char* pThis)
 {
     FUN_0044cbb0(pThis);
     *reinterpret_cast<int**>(pThis) = &DAT_010172a0;
@@ -2605,7 +2614,8 @@ void* __fastcall FUN_00449960(char* pThis)
 extern int DAT_010172ac;
 
 // @fnv 0x004499a0
-void __fastcall FUN_004499a0(int** ppTarget)
+// src: GUESS 0x004499a0 (confidence: low)
+void __fastcall Object_SetVirtualTable_004499a0(int** ppTarget)
 {
     *ppTarget = &DAT_010172ac;
 }
@@ -2613,7 +2623,8 @@ void __fastcall FUN_004499a0(int** ppTarget)
 extern int DAT_010172b8;
 
 // @fnv 0x004499c0
-void __fastcall FUN_004499c0(void* pThis)
+// src: GUESS 0x004499c0 (confidence: low)
+void __fastcall Object_SetVirtualTable_004499c0(void* pThis)
 {
     *(int**)pThis = &DAT_010172b8;
 }
@@ -2621,7 +2632,8 @@ void __fastcall FUN_004499c0(void* pThis)
 extern int DAT_010172c4;
 
 // @fnv 0x004499e0
-void __fastcall FUN_004499e0(void* pThis)
+// src: GUESS 0x004499e0 (confidence: low)
+void __fastcall Object_SetVirtualTable_004499e0(void* pThis)
 {
     *(int**)pThis = &DAT_010172c4;
 }
@@ -2629,7 +2641,8 @@ void __fastcall FUN_004499e0(void* pThis)
 extern int DAT_010172d0;
 
 // @fnv 0x00449a00
-void __fastcall FUN_00449a00(int** appTarget)
+// src: GUESS 0x00449a00 (confidence: low)
+void __fastcall Object_SetVirtualTable_00449a00(int** appTarget)
 {
     *appTarget = &DAT_010172d0;
 }
@@ -2740,11 +2753,12 @@ struct _Out_0044a170
 struct _Dummy_0044a170
 {
     int a, b, c, d;
-    _Out_0044a170* FUN_0044a170(_Out_0044a170* out);
+    _Out_0044a170* SetIteratorDataAndOwner(_Out_0044a170* out);
 };
 
 // @fnv 0x0044a170
-_Out_0044a170* _Dummy_0044a170::FUN_0044a170(_Out_0044a170* out)
+// src: GUESS 0x0044a170 (confidence: medium)
+_Out_0044a170* _Dummy_0044a170::SetIteratorDataAndOwner(_Out_0044a170* out)
 {
     out->FaceGenData_Iterator_Set(this->d, this);
     return out;
@@ -2934,7 +2948,8 @@ struct FUN_0044b160_ptr
 void __fastcall Model_DecRefCount(FUN_0044b160_ptr::Target*);
 
 // @fnv 0x0044b160
-void __fastcall FUN_0044b160(FUN_0044b160_ptr* _this)
+// src: GUESS 0x0044b160 (confidence: medium)
+void __fastcall Object_ReleaseReferencedObject_0044b160(FUN_0044b160_ptr* _this)
 {
     if (_this->m_pObject)
         Model_DecRefCount(_this->m_pObject);
@@ -2997,7 +3012,8 @@ void FUN_0044b180_shell::LoadedFile_DecRefCount()
 void __fastcall FUN_0044b2e0(void* pThis);
 
 // @fnv 0x0044b2c0
-void __fastcall FUN_0044b2c0(void** pThis)
+// src: GUESS 0x0044b2c0 (confidence: low)
+void __fastcall Object_ProcessState_0044b2c0(void** pThis)
 {
     if (*pThis)
     {
@@ -3008,7 +3024,8 @@ void __fastcall FUN_0044b2c0(void** pThis)
 void __fastcall BSTask_int64_DecRefCount(void* pThis);
 
 // @fnv 0x0044cbf0
-void __fastcall FUN_0044cbf0(void** apObject)
+// src: GUESS 0x0044cbf0 (confidence: high)
+void __fastcall BSTask_int64_DecRefCount_ReleaseTaskReference(void** apObject)
 {
     if (*apObject)
     {
@@ -3062,7 +3079,8 @@ void FUN_0044fac0_S::SettingCollectionList_Setting_Next(RefT* apRef)
 __declspec(dllimport) void __stdcall InitializeCriticalSection(void*);
 
 // @fnv 0x0044fae0
-void* __fastcall FUN_0044fae0(void* apCriticalSection)
+// src: GUESS 0x0044fae0 (confidence: high)
+void* __fastcall Object_InitializeCriticalSection_Thunk(void* apCriticalSection)
 {
     InitializeCriticalSection(apCriticalSection);
     return apCriticalSection;
@@ -3154,11 +3172,12 @@ struct AC_0042f730
 struct S_0042f730
 {
     AC_0042f730* m_pObject;
-    S_0042f730* FUN_00528cb0(AC_0042f730* pObject);
+    S_0042f730* SetObjectAndAddReference(AC_0042f730* pObject);
 };
 // Stores pObject in m_pObject and, if it is non-null, calls FUN_0044bbc0 on it; returns this.
 // @fnv 0x00528cb0
-S_0042f730* S_0042f730::FUN_00528cb0(AC_0042f730* pObject)
+// src: GUESS 0x00528cb0 (confidence: high)
+S_0042f730* S_0042f730::SetObjectAndAddReference(AC_0042f730* pObject)
 {
     m_pObject = pObject;
     if (m_pObject)
@@ -3186,7 +3205,8 @@ const char* __fastcall NiGeometry_GetModelData(const char* pThis)
 }  // namespace fnv_005495f0
 
 // @fnv 0x00559450
-int __fastcall FUN_00559450(int* pThis)
+// src: GUESS 0x00559450 (confidence: low)
+int __fastcall Modelloader_GetReferencedThis(int* pThis)
 {
     return *pThis;
 }
@@ -3803,14 +3823,14 @@ struct FUN_0065d3a0
 struct FUN_00449fd0 : public FUN_0065d3a0
 {
     FUN_00449fd0();
-    void FUN_0044a240(int);
+    void InitializeElementStorage(int);
 };
 
 // Constructs the base with a default reference and initializes the object by calling FUN_0044a240 with 0.
 // @fnv 0x00449fd0
 FUN_00449fd0::FUN_00449fd0() : FUN_0065d3a0(_ref_006815c0())
 {
-    FUN_0044a240(0);
+    InitializeElementStorage(0);
 }
 }  // namespace fnv_00449fd0
 
@@ -3845,7 +3865,7 @@ struct EraseRangeIterator
 {
     int first;
     int second;
-    bool FUN_0065dfd0(const EraseRangeIterator&);
+    bool IsNotIdentical(const EraseRangeIterator&);
 };
 int __cdecl std_Move_float_float(int, int, int);
 // 0x0044a1a0 erases an iterator range and updates the container end at 0x10; this is not ModelLoader.
@@ -3863,7 +3883,7 @@ EraseRangeIterator IteratorRangeStorage::std_vector_float_std_allocator_float_er
 {
     EraseRangeIterator r1 = std_vector_float_std_allocator_float_Make_iter(aiFirstA, aiFirstB);
     EraseRangeIterator r2 = std_vector_float_std_allocator_float_Make_iter(aiSecondA, aiSecondB);
-    if (r1.FUN_0065dfd0(r2))
+    if (r1.IsNotIdentical(r2))
     {
         int tmp = std_Move_float_float(r2.second, field10, r1.second);
         std_vector_float_std_allocator_float_Destroy(tmp, field10);
@@ -4687,7 +4707,7 @@ unsigned int Holder::ModelLoader_GetQueuedTextureFromMap(void* arg)
 
 struct VecAllocBase
 {
-    int* FUN_0044abd0(unsigned int);
+    int* ForwardCall_0044abd0(unsigned int);
 };
 void __cdecl ThrowVectorTooLong();
 struct VecAlloc
@@ -4697,11 +4717,12 @@ struct VecAlloc
     int* pCur;
     int* pEnd;
     unsigned int FaceGenData_Return1();
-    bool FUN_0044a240(unsigned int);
+    bool InitializeElementStorage(unsigned int);
 };
 // Resets the vector to empty, then allocates space for n elements if n is nonzero and the capacity allows; returns true on success.
 // @fnv 0x0044a240
-bool VecAlloc::FUN_0044a240(unsigned int n)
+// src: GUESS 0x0044a240 (confidence: medium)
+bool VecAlloc::InitializeElementStorage(unsigned int n)
 {
     pBegin = 0;
     pCur = 0;
@@ -4718,7 +4739,7 @@ bool VecAlloc::FUN_0044a240(unsigned int n)
         }
         else
         {
-            pBegin = ((VecAllocBase*)((char*)this + 8))->FUN_0044abd0(n);
+            pBegin = ((VecAllocBase*)((char*)this + 8))->ForwardCall_0044abd0(n);
             pCur = pBegin;
             pEnd = pBegin + n;
         }
@@ -4746,7 +4767,7 @@ struct TESObjectREFR_GetFlags_Helper
 };
 struct FlagSink
 {
-    void FUN_0044b300(unsigned int);
+    void ProcessAndReturnValue_0044b300(unsigned int);
 };
 void __cdecl BSFaceGenManager_LockFaceGenAccess();
 void __cdecl BSFaceGenManager_UnlockFaceGenAccess();
@@ -4767,7 +4788,7 @@ bool __fastcall LookupModelAndGetFlags(Map62d0* self, GetAtArgs aLookupArgs)
     if (((Map62d0*)((char*)self + 4))->NiTMapBase_DFALL_NiTMapItem_bhkRigidBody_NiPointer_ObstacleData_bhkRigidBody_NiPointer_ObstacleData_GetAt((unsigned int)aLookupArgs.apcKey, entry))
     {
         *aLookupArgs.aspModel = (void*)((unsigned int)*(Flt*)&entry + 8);
-        aLookupArgs.out->FUN_0044b300(
+        aLookupArgs.out->ProcessAndReturnValue_0044b300(
             ((TESObjectREFR_GetFlags_Helper*)(unsigned int)*(Flt*)aLookupArgs.aspModel)->GetFlags());
         bFound = true;
     }
@@ -4808,14 +4829,14 @@ void _Deallocate(void*);
 
 struct FUN_0051d400_shell
 {
-    void FUN_0051d400();
+    void ReleaseStorage_0051d400();
     void* DeleteIfFlagged(unsigned int flags);
 };
 
 // @fnv 0x0043d640
 void* FUN_0051d400_shell::DeleteIfFlagged(unsigned int flags)
 {
-    FUN_0051d400();
+    ReleaseStorage_0051d400();
     if (flags & 1)
         _Deallocate(this);
     return this;
@@ -4834,11 +4855,12 @@ void QueuedTreeBillboard::QueueForPostProcess()
 struct FaceGenPaletteBase
 {
     ~FaceGenPaletteBase();
-    void FUN_0043dc50();
+    void ForwardCall_0043dc50();
 };
 
 // @fnv 0x0043dc50
-void FaceGenPaletteBase::FUN_0043dc50()
+// src: GUESS 0x0043dc50 (confidence: low)
+void FaceGenPaletteBase::ForwardCall_0043dc50()
 {
     FaceGenPaletteBase::~FaceGenPaletteBase();
 }
@@ -4896,14 +4918,15 @@ void* AttachDistant3DTask::FUN_00440680(unsigned int flags)
 
 struct FUN_00441980_Class
 {
-    void FUN_00440eb0();
-    void FUN_00441980();
+    void ForwardCall_00440eb0();
+    void DoNothing_00441980();
 };
 
 // @fnv 0x00441980
-void FUN_00441980_Class::FUN_00441980()
+// src: GUESS 0x00441980 (confidence: high)
+void FUN_00441980_Class::DoNothing_00441980()
 {
-    FUN_00440eb0();
+    ForwardCall_00440eb0();
 }
 
 // Calls FUN_004422c0, then deletes this if flags has bit 0 set, and returns this.
@@ -4950,7 +4973,7 @@ void FUN_00449170_Class::BSTask_int64_SetTaskCanceled()
 
 struct FUN_00449a20_cls
 {
-    void FUN_004490e0();
+    void DoNothing_004490e0();
     void* FUN_00449a20(unsigned int flags);
 };
 
@@ -4960,14 +4983,14 @@ void _Deallocate(void* p);
 // @fnv 0x00449a20
 void* FUN_00449a20_cls::FUN_00449a20(unsigned int flags)
 {
-    FUN_004490e0();
+    DoNothing_004490e0();
     if (flags & 1)
         _Deallocate(this);
     return this;
 }
 
 void __cdecl _Deallocate(void*);
-void __fastcall FUN_004499c0(void*);
+void __fastcall Object_SetVirtualTable_004499c0(void*);
 
 struct FUN_00449ba0Class
 {
@@ -4977,13 +5000,13 @@ struct FUN_00449ba0Class
 // @fnv 0x00449ba0
 void* FUN_00449ba0Class::FUN_00449ba0(unsigned int flags)
 {
-    FUN_004499c0(this);
+    Object_SetVirtualTable_004499c0(this);
     if (flags & 1)
         _Deallocate(this);
     return this;
 }
 
-void __fastcall FUN_004499e0(void*);
+void __fastcall Object_SetVirtualTable_004499e0(void*);
 void __cdecl _Deallocate(void*);
 
 struct FUN_00449bd0_Class
@@ -4995,13 +5018,13 @@ struct FUN_00449bd0_Class
 // @fnv 0x00449bd0
 void* FUN_00449bd0_Class::FUN_00449bd0(unsigned int flags)
 {
-    FUN_004499e0(this);
+    Object_SetVirtualTable_004499e0(this);
     if (flags & 1)
         _Deallocate(this);
     return this;
 }
 
-void __fastcall FUN_00449a00(int**);
+void __fastcall Object_SetVirtualTable_00449a00(int**);
 void __cdecl _Deallocate(void*);
 
 struct FUN_00449c00_class
@@ -5012,7 +5035,7 @@ struct FUN_00449c00_class
 // @fnv 0x00449c00
 void* FUN_00449c00_class::FUN_00449c00(unsigned int flags)
 {
-    FUN_00449a00((int**)this);
+    Object_SetVirtualTable_00449a00((int**)this);
     if (flags & 1)
         _Deallocate(this);
     return this;
@@ -5024,11 +5047,12 @@ const NiFixedString& BSXFlags_Tag();
 struct FUN_00449d40_class
 {
     void __thiscall FUN_00449d60();
-    void __thiscall FUN_00449d40();
+    void __thiscall ForwardCall_00449d40();
 };
 
 // @fnv 0x00449d40
-void __thiscall FUN_00449d40_class::FUN_00449d40()
+// src: GUESS 0x00449d40 (confidence: low)
+void __thiscall FUN_00449d40_class::ForwardCall_00449d40()
 {
     FUN_00449d60();
 }
@@ -5039,11 +5063,12 @@ const NiFixedString& BSXFlags_Tag();
 struct FUN_00449ea0_cls
 {
     void FUN_00449ec0();
-    void FUN_00449ea0();
+    void ForwardCall_00449ea0();
 };
 
 // @fnv 0x00449ea0
-void FUN_00449ea0_cls::FUN_00449ea0()
+// src: GUESS 0x00449ea0 (confidence: low)
+void FUN_00449ea0_cls::ForwardCall_00449ea0()
 {
     FUN_00449ec0();
 }
@@ -5135,7 +5160,8 @@ void SetFlag8(unsigned char param1, unsigned char* param2)
 
 namespace fnv_0044af60 {
 // @fnv 0x0044af60
-char FUN_0044af60(unsigned char a)
+// src: GUESS 0x0044af60 (confidence: medium)
+char Object_IsMask0x10Set(unsigned char a)
 {
     return (a & 0x10) != 0;
 }
@@ -5166,12 +5192,13 @@ namespace fnv_0044b030 {
 struct KFModel
 {
     KFModel* vtable;
-    void FUN_0044b030();
+    void ReleaseKFModelReference();
     void KFModel_DecRefCount();
 };
 
 // @fnv 0x0044b030
-void KFModel::FUN_0044b030()
+// src: GUESS 0x0044b030 (confidence: high)
+void KFModel::ReleaseKFModelReference()
 {
     if (vtable)
         vtable->KFModel_DecRefCount();
@@ -5182,11 +5209,12 @@ int __cdecl InitScriptRunLock(void*);
 
 struct FUN_0044b2a0_Class
 {
-    void __thiscall FUN_0044b2a0();
+    void __thiscall InitScriptRunLock_Thunk();
 };
 
 // @fnv 0x0044b2a0
-void __thiscall FUN_0044b2a0_Class::FUN_0044b2a0()
+// src: GUESS 0x0044b2a0 (confidence: medium)
+void __thiscall FUN_0044b2a0_Class::InitScriptRunLock_Thunk()
 {
     InitScriptRunLock((char*)this + 0x20);
 }
@@ -5280,7 +5308,7 @@ namespace fnv_0043ea00 {
 
 struct FUN_00440640_shell
 {
-    void FUN_00440640();
+    void ForwardCall_00440640();
     void* FUN_00440610(unsigned int flags);
 };
 
@@ -5290,7 +5318,7 @@ void _Deallocate(void*);
 // @fnv 0x00440610
 void* FUN_00440640_shell::FUN_00440610(unsigned int flags)
 {
-    FUN_00440640();
+    ForwardCall_00440640();
     if (flags & 1)
         _Deallocate(this);
     return this;
@@ -5313,7 +5341,7 @@ NiNode* FUN_00440e30_This::TESForm_GetFormTypeString()
 namespace fnv_00440e80 {
 struct FUN_00441980_Class
 {
-    void FUN_00440eb0(void);
+    void ForwardCall_00440eb0(void);
     void* FUN_00440e80(unsigned int flags);
 };
 void _Deallocate(void* p);
@@ -5321,7 +5349,7 @@ void _Deallocate(void* p);
 // @fnv 0x00440e80
 void* FUN_00441980_Class::FUN_00440e80(unsigned int flags)
 {
-    FUN_00440eb0();
+    ForwardCall_00440eb0();
     if (flags & 1)
         _Deallocate(this);
     return this;
@@ -5331,11 +5359,12 @@ void* FUN_00441980_Class::FUN_00440e80(unsigned int flags)
 namespace fnv_00441950 {
 struct FUN_00441980_Class
 {
-    void FUN_00441980(void);
+    void DoNothing_00441980(void);
     void* FUN_00441950(unsigned int flags);
 };
 
-void FUN_00441980_Class::FUN_00441980(void)
+// src: GUESS 0x00441980 (confidence: high)
+void FUN_00441980_Class::DoNothing_00441980(void)
 {}
 
 extern "C" void __cdecl _Deallocate(void*);
@@ -5344,7 +5373,7 @@ extern "C" void __cdecl _Deallocate(void*);
 // @fnv 0x00441950
 void* FUN_00441980_Class::FUN_00441950(unsigned int flags)
 {
-    FUN_00441980();
+    DoNothing_00441980();
     if (flags & 1)
         _Deallocate(this);
     return this;
@@ -5369,7 +5398,7 @@ void __thiscall FUN_00443ff0Class::QueuedModel_SetFaceGenModel(unsigned char auc
 namespace fnv_00446a10 {
 struct FaceGenPaletteBase
 {
-    void FUN_0043dc50(void);
+    void ForwardCall_0043dc50(void);
     void* FUN_00446a10(unsigned int flags);
 };
 
@@ -5379,7 +5408,7 @@ void _Deallocate(void* p);
 // @fnv 0x00446a10
 void* FaceGenPaletteBase::FUN_00446a10(unsigned int flags)
 {
-    FUN_0043dc50();
+    ForwardCall_0043dc50();
     if (flags & 1)
         _Deallocate(this);
     return this;
@@ -5388,11 +5417,12 @@ void* FaceGenPaletteBase::FUN_00446a10(unsigned int flags)
 
 struct FUN_00449920Class
 {
-    void FUN_00449920();
+    void UpdateFields_00449920();
 };
 
 // @fnv 0x00449920
-void FUN_00449920Class::FUN_00449920()
+// src: GUESS 0x00449920 (confidence: low)
+void FUN_00449920Class::UpdateFields_00449920()
 {
     ((char*)this)[0x10] = 0;
 }
@@ -5421,7 +5451,7 @@ void* FUN_00449a50_StandIn::FUN_00449a50(unsigned int flags)
 namespace fnv_00449a80 {
 struct FUN_00449d40_class
 {
-    void FUN_00449d40();
+    void ForwardCall_00449d40();
     void* LockFreeCaseInsensitiveStringMap_KFModel_Destroy(unsigned int flags);
 };
 void _Deallocate(void*);
@@ -5431,7 +5461,7 @@ void _Deallocate(void*);
 // src: COMMUNITY 0x00449a80
 void* FUN_00449d40_class::LockFreeCaseInsensitiveStringMap_KFModel_Destroy(unsigned int flags)
 {
-    FUN_00449d40();
+    ForwardCall_00449d40();
     if (flags & 1)
         _Deallocate(this);
     return this;
@@ -5449,14 +5479,14 @@ struct FUN_00449ae0_Class
 // @fnv 0x00449ae0
 void* __thiscall FUN_00449ae0_Class::DestroyModelLoader(unsigned int flags)
 {
-    ((ModelLoader*)this)->FUN_004431d0();
+    ((ModelLoader*)this)->ForwardCall_004431d0();
     if (flags & 1)
         _Deallocate(this);
     return this;
 }
 }  // namespace fnv_00449ae0
 
-void __fastcall FUN_00449940(void**);
+void __fastcall Object_SetVirtualTable_00449940(void**);
 
 struct FUN_00449b10_Class
 {
@@ -5468,7 +5498,7 @@ void __cdecl _Deallocate(void*);
 // @fnv 0x00449b10
 void* __thiscall FUN_00449b10_Class::FUN_00449b10(unsigned int flags)
 {
-    FUN_00449940((void**)this);
+    Object_SetVirtualTable_00449940((void**)this);
     if (flags & 1)
         _Deallocate(this);
     return this;
@@ -5511,7 +5541,8 @@ void* __thiscall FUN_00449ea0_cls::FUN_00449f20(unsigned int flags)
 
 namespace fnv_0044afa0 {
 // @fnv 0x0044afa0
-char FUN_0044afa0(unsigned char param_1)
+// src: GUESS 0x0044afa0 (confidence: medium)
+char Object_IsMask0x20Set(unsigned char param_1)
 {
     return (param_1 & 0x20) != 0;
 }
@@ -5520,24 +5551,25 @@ char FUN_0044afa0(unsigned char param_1)
 namespace fnv_0044b270 {
 struct FUN_0044b2a0_Class
 {
-    void FUN_0044b2a0(void);
+    void InitScriptRunLock_Thunk(void);
 };
 
 class FUN_0044b270_Class
 {
   public:
     FUN_0044b2a0_Class* m_pData;
-    FUN_0044b270_Class* FUN_0044b270(FUN_0044b2a0_Class* a);
+    FUN_0044b270_Class* SetDataAndNotify(FUN_0044b2a0_Class* a);
 };
 
 // Stores the given object in m_pData and, if it is non-null, calls its FUN_0044b2a0 method; returns this.
 // @fnv 0x0044b270
-FUN_0044b270_Class* FUN_0044b270_Class::FUN_0044b270(FUN_0044b2a0_Class* apData)
+// src: GUESS 0x0044b270 (confidence: medium)
+FUN_0044b270_Class* FUN_0044b270_Class::SetDataAndNotify(FUN_0044b2a0_Class* apData)
 {
     m_pData = apData;
     if (m_pData != 0)
     {
-        m_pData->FUN_0044b2a0();
+        m_pData->InitScriptRunLock_Thunk();
     }
     return this;
 }
@@ -5572,11 +5604,12 @@ int __fastcall ClearLowBit(int* piValue)
 struct FUN_0044df00Class
 {
     void __thiscall ClearLowBit();
-    void __thiscall FUN_0044df00();
+    void __thiscall ClearLowBit_Thunk();
 };
 
 // @fnv 0x0044df00
-void __thiscall FUN_0044df00Class::FUN_0044df00()
+// src: GUESS 0x0044df00 (confidence: medium)
+void __thiscall FUN_0044df00Class::ClearLowBit_Thunk()
 {
     ClearLowBit();
 }
@@ -5638,11 +5671,12 @@ bool FUN_0043e880_Class::QueuedAnimIdle_GetDescription(char* apDescription, unsi
 struct FUN_0043e920_class
 {
     void FUN_0043e1b0();
-    void FUN_0043e920();
+    void DoNothing_0043e920();
 };
 
 // @fnv 0x0043e920
-void FUN_0043e920_class::FUN_0043e920()
+// src: GUESS 0x0043e920 (confidence: high)
+void FUN_0043e920_class::DoNothing_0043e920()
 {
     FUN_0043e1b0();
 }
@@ -5681,11 +5715,12 @@ void* S4411::InitWithGlobal(int aiArg1, int aiArg2)
 struct FUN_00440eb0_class
 {
     void FUN_0043fe40();
-    void FUN_00440eb0();
+    void ForwardCall_00440eb0();
 };
 
 // @fnv 0x00440eb0
-void FUN_00440eb0_class::FUN_00440eb0()
+// src: GUESS 0x00440eb0 (confidence: low)
+void FUN_00440eb0_class::ForwardCall_00440eb0()
 {
     FUN_0043fe40();
 }
@@ -5749,7 +5784,7 @@ struct FUN_0044b270
 {
     FUN_0044b270(int);
     ~FUN_0044b270();
-    void FUN_0044b300(void*);
+    void ProcessAndReturnValue_0044b300(void*);
 };
 
 struct FUN_00442130 : FUN_00441d80
@@ -5766,7 +5801,7 @@ struct FUN_00442130 : FUN_00441d80
 FUN_00442130::FUN_00442130(void* apModel, void* apMeshData) : FUN_00441d80(0, 5), m_model(0), m_meshData(0)
 {
     m_model = apModel;
-    m_meshData.FUN_0044b300(apMeshData);
+    m_meshData.ProcessAndReturnValue_0044b300(apMeshData);
 }
 }  // namespace fnv_00442130
 
@@ -5806,11 +5841,12 @@ void __fastcall SignalAtOffset18(char*);
 
 struct FUN_00446ff0 : ModelLoader
 {
-    void FUN_00446ff0_();
+    void ProcessQueuedFileAndSignal();
 };
 
 // @fnv 0x00446ff0
-void FUN_00446ff0::FUN_00446ff0_()
+// src: GUESS 0x00446ff0 (confidence: high)
+void FUN_00446ff0::ProcessQueuedFileAndSignal()
 {
     ProcessQueuedFile();
     SignalAtOffset18(reinterpret_cast<char*>(this));
@@ -5858,12 +5894,13 @@ int __cdecl FinishScriptRunLock(void*);
 struct FUN_004490e0_Class
 {
     void* m_p;
-    void FUN_004490e0();
+    void DoNothing_004490e0();
 };
 
 // Points m_p at DAT_01017138 and calls FinishScriptRunLock on DAT_011c3b38.
 // @fnv 0x004490e0
-void FUN_004490e0_Class::FUN_004490e0()
+// src: GUESS 0x004490e0 (confidence: high)
+void FUN_004490e0_Class::DoNothing_004490e0()
 {
     m_p = &DAT_01017138;
     FinishScriptRunLock(&DAT_011c3b38);
@@ -5887,17 +5924,19 @@ struct FUN_00905330
 };
 struct FUN_0044f870
 {
-    void __thiscall FUN_0044f870_0044f870(void* ap);
+    void __thiscall Remove_Thunk(void* ap);
 };
 // @fnv 0x0044f870
-void __thiscall FUN_0044f870::FUN_0044f870_0044f870(void* ap)
+// src: GUESS 0x0044f870 (confidence: medium)
+void __thiscall FUN_0044f870::Remove_Thunk(void* ap)
 {
     ((FUN_00905330*)((char*)this + 0x10c))->Remove(&ap);
 }
 
 // Stores the tagged pointer, updates its flag, and returns this.
 // @fnv 0x006ecba0
-void* GO::FUN_006ecba0(bool abFlag, void* apValue)
+// src: GUESS 0x006ecba0 (confidence: medium)
+void* GO::SetTaggedPointer(bool abFlag, void* apValue)
 {
     p = apValue;
     LockFreeMap_MarkedPointer_SetMark(abFlag);
@@ -7806,11 +7845,12 @@ struct KFModel
 struct S0044afe0
 {
     KFModel* p;
-    S0044afe0* FUN_0044afe0(KFModel* a);
+    S0044afe0* SetRetainedKFModel(KFModel* a);
 };
 // Stores the given KFModel pointer in p and, if it is non-null, calls its FUN_0044b010 method; returns this.
 // @fnv 0x0044afe0
-S0044afe0* S0044afe0::FUN_0044afe0(KFModel* apModel)
+// src: GUESS 0x0044afe0 (confidence: medium)
+S0044afe0* S0044afe0::SetRetainedKFModel(KFModel* apModel)
 {
     p = apModel;
     if (p != 0)
@@ -7824,7 +7864,7 @@ bool __cdecl CompareAndSwapEx(void*, int, int);
 int __fastcall ClearLowBit(int*);
 struct FUN_0044df00Class
 {
-    char* FUN_0044df00();
+    char* ClearLowBit_Thunk();
 };
 struct Flt
 {
@@ -7875,12 +7915,12 @@ bool FUN_00528ce0_shell::LockFreeMap_TESObjectREFR_NiPointer_QueuedReference_Loc
         {
             unsigned int kOld;
             unsigned int kNew;
-            reinterpret_cast<GO*>(&kOld)->FUN_006ecba0(false, (void*)ClearLowBit((int*)((char*)this + 0x18)));
-            reinterpret_cast<GO*>(&kNew)->FUN_006ecba0(true, (void*)ClearLowBit((int*)((char*)this + 0x18)));
-            if (!CompareAndSwapEx(((FUN_0044df00Class*)((char*)this + 0x14))->FUN_0044df00() + 8,
+            reinterpret_cast<GO*>(&kOld)->SetTaggedPointer(false, (void*)ClearLowBit((int*)((char*)this + 0x18)));
+            reinterpret_cast<GO*>(&kNew)->SetTaggedPointer(true, (void*)ClearLowBit((int*)((char*)this + 0x18)));
+            if (!CompareAndSwapEx(((FUN_0044df00Class*)((char*)this + 0x14))->ClearLowBit_Thunk() + 8,
                               (unsigned int)*(Flt*)&kNew, (unsigned int)*(Flt*)&kOld))
                 continue;
-            reinterpret_cast<GO*>(&kCur)->FUN_006ecba0(false, (void*)ClearLowBit((int*)((char*)this + 0x14)));
+            reinterpret_cast<GO*>(&kCur)->SetTaggedPointer(false, (void*)ClearLowBit((int*)((char*)this + 0x14)));
             if (CompareAndSwapEx(*(void**)((char*)this + 0x10), (unsigned int)*(Flt*)&kOld, (unsigned int)*(Flt*)&kCur))
                 FUN_005292a0(ClearLowBit((int*)((char*)this + 0x14)));
             else
@@ -8188,14 +8228,14 @@ struct S_0044dbc0
 };
 struct FUN_00449c50 : S_0044dbc0
 {
-    void FUN_0044c480(int);
+    void ClearBucketsAndRecreateManager(int);
     virtual ~FUN_00449c50();
 };
 // Destructor that calls FUN_0044c480 with argument 1.
 // @fnv 0x00449c50
 FUN_00449c50::~FUN_00449c50()
 {
-    FUN_0044c480(1);
+    ClearBucketsAndRecreateManager(1);
 }
 
 struct TESObjectREFR_GetFlags_Helper
@@ -8261,16 +8301,17 @@ FUN_00449ec0::~FUN_00449ec0()
 namespace fnv_0044b300 {
 struct FUN_0044b2a0_Class
 {
-    void FUN_0044b2a0();
+    void InitScriptRunLock_Thunk();
 };
 void __fastcall FUN_0044b2e0(void*);
 struct FUN_0044b300_Class
 {
     FUN_0044b2a0_Class* m_pObject;
-    FUN_0044b300_Class* FUN_0044b300(FUN_0044b2a0_Class* value);
+    FUN_0044b300_Class* ProcessAndReturnValue_0044b300(FUN_0044b2a0_Class* value);
 };
 // @fnv 0x0044b300
-FUN_0044b300_Class* FUN_0044b300_Class::FUN_0044b300(FUN_0044b2a0_Class* apObject)
+// src: GUESS 0x0044b300 (confidence: low)
+FUN_0044b300_Class* FUN_0044b300_Class::ProcessAndReturnValue_0044b300(FUN_0044b2a0_Class* apObject)
 {
     if (m_pObject != apObject)
     {
@@ -8278,7 +8319,7 @@ FUN_0044b300_Class* FUN_0044b300_Class::FUN_0044b300(FUN_0044b2a0_Class* apObjec
             FUN_0044b2e0(m_pObject);
         m_pObject = apObject;
         if (m_pObject)
-            m_pObject->FUN_0044b2a0();
+            m_pObject->InitScriptRunLock_Thunk();
     }
     return this;
 }
@@ -8343,10 +8384,11 @@ struct KFModel
 struct KFModelPtr
 {
     KFModel* p;
-    KFModel* FUN_009052e0(const KFModelPtr& other);
+    KFModel* AssignRetainedObject_009052e0(const KFModelPtr& other);
 };
 // @fnv 0x009052e0
-KFModel* KFModelPtr::FUN_009052e0(const KFModelPtr& other)
+// src: GUESS 0x009052e0 (confidence: medium)
+KFModel* KFModelPtr::AssignRetainedObject_009052e0(const KFModelPtr& other)
 {
     if (p != other.p)
     {
@@ -8436,18 +8478,19 @@ void __cdecl _Deallocate(void* ptr);
 class FUN_0043e920_class
 {
   public:
-    void FUN_0043e920();
+    void DoNothing_0043e920();
     void* FUN_0043e8f0(unsigned int flags);
 };
 
-void FUN_0043e920_class::FUN_0043e920()
+// src: GUESS 0x0043e920 (confidence: high)
+void FUN_0043e920_class::DoNothing_0043e920()
 {}
 
 // Calls FUN_0043e920, deallocates this when flags has bit 0 set, and returns this.
 // @fnv 0x0043e8f0
 void* FUN_0043e920_class::FUN_0043e8f0(unsigned int flags)
 {
-    FUN_0043e920();
+    DoNothing_0043e920();
     if (flags & 1)
         _Deallocate(this);
     return this;
@@ -8569,7 +8612,7 @@ unsigned int FUN_00446990_StandIn::GetObjectFlags()
 namespace fnv_00449ab0 {
 struct FUN_00449ea0_cls
 {
-    void FUN_00449ea0(void);
+    void ForwardCall_00449ea0(void);
     void* LockFreeCaseInsensitiveStringMap_LoadedFile_Destroy(unsigned int flags);
 };
 
@@ -8579,14 +8622,14 @@ void _Deallocate(void* p);
 // src: COMMUNITY 0x00449ab0
 void* FUN_00449ea0_cls::LockFreeCaseInsensitiveStringMap_LoadedFile_Destroy(unsigned int flags)
 {
-    FUN_00449ea0();
+    ForwardCall_00449ea0();
     if (flags & 1)
         _Deallocate(this);
     return this;
 }
 }  // namespace fnv_00449ab0
 
-void __fastcall FUN_004499a0(int**);
+void __fastcall Object_SetVirtualTable_004499a0(int**);
 void __cdecl _Deallocate(void*);
 
 struct FUN_00449b70_Class
@@ -8597,7 +8640,7 @@ struct FUN_00449b70_Class
 // @fnv 0x00449b70
 void* FUN_00449b70_Class::FUN_00449b70(unsigned int flags)
 {
-    FUN_004499a0((int**)this);
+    Object_SetVirtualTable_004499a0((int**)this);
     if (flags & 1)
         _Deallocate(this);
     return this;
@@ -8754,7 +8797,7 @@ char* FUN_00449dc0_Class::LockFreeStringMap_Model_GenerateKey(char const* apStri
 namespace fnv_009066d0 {
 struct FUN_0044df00Class
 {
-    int FUN_0044df00();
+    int ClearLowBit_Thunk();
 };
 
 struct FUN_00529000_Class
@@ -8796,16 +8839,16 @@ bool FUN_009066d0_Class::LockFreeMap_TESObjectREFR_NiPointer_QueuedReference_Loc
         unsigned int go2;
         unsigned int go1;
 
-        reinterpret_cast<GO*>(&go3)->FUN_006ecba0(false, (void*)ClearLowBit((int*)&member18));
-        reinterpret_cast<GO*>(&go2)->FUN_006ecba0(true, (void*)ClearLowBit((int*)&member18));
+        reinterpret_cast<GO*>(&go3)->SetTaggedPointer(false, (void*)ClearLowBit((int*)&member18));
+        reinterpret_cast<GO*>(&go2)->SetTaggedPointer(true, (void*)ClearLowBit((int*)&member18));
 
-        if (!CompareAndSwapEx((void*)(member14.FUN_0044df00() + 8), reinterpret_cast<GO*>(&go2)->operator unsigned int(),
+        if (!CompareAndSwapEx((void*)(member14.ClearLowBit_Thunk() + 8), reinterpret_cast<GO*>(&go2)->operator unsigned int(),
                           reinterpret_cast<GO*>(&go3)->operator unsigned int()))
         {
             continue;
         }
 
-        reinterpret_cast<GO*>(&go1)->FUN_006ecba0(false, (void*)ClearLowBit((int*)&member14));
+        reinterpret_cast<GO*>(&go1)->SetTaggedPointer(false, (void*)ClearLowBit((int*)&member14));
 
         if (CompareAndSwapEx(member10, reinterpret_cast<GO*>(&go3)->operator unsigned int(), reinterpret_cast<GO*>(&go1)->operator unsigned int()))
         {
@@ -8868,12 +8911,13 @@ struct FUN_0043d540_cls : FUN_0043bd10_base
     int unk34;
     int m_iValue38;
 
-    FUN_0043d540_cls* FUN_0043d540(int a1, int a2, int a3);
+    FUN_0043d540_cls* InitializeFields_0043d540(int a1, int a2, int a3);
 };
 
 // Calls the base constructor with a1 and a2, sets the vtable pointer to DAT_0101698c, stores a3 in m_iValue38, and returns this.
 // @fnv 0x0043d540
-FUN_0043d540_cls* FUN_0043d540_cls::FUN_0043d540(int a1, int a2, int aiValue)
+// src: GUESS 0x0043d540 (confidence: low)
+FUN_0043d540_cls* FUN_0043d540_cls::InitializeFields_0043d540(int a1, int a2, int aiValue)
 {
     FUN_0043bd10(a1, a2);
     m_pVTable = (void*)DAT_0101698c;
@@ -9231,18 +9275,19 @@ FUN_0043ef10::FUN_0043ef10(SaveLoadTarget* target, unsigned int flags, unsigned 
 
 struct SpawnedCallee
 {
-    void FUN_00528cb0(void* pObject);
+    void SetObjectAndAddReference(void* pObject);
 };
 
 struct FUN_0043f060_cls : public SpawnedCallee
 {
-    void FUN_0043f060();
+    void ForwardCall_0043f060();
 };
 
 // @fnv 0x0043f060
-void FUN_0043f060_cls::FUN_0043f060()
+// src: GUESS 0x0043f060 (confidence: low)
+void FUN_0043f060_cls::ForwardCall_0043f060()
 {
-    FUN_00528cb0(0);
+    SetObjectAndAddReference(0);
 }
 
 class FUN_0043f220_cls
@@ -9937,8 +9982,8 @@ struct RefPtr
     void* m;
     RefPtr(void*);
     ~RefPtr();
-    Obj3D* FUN_00559450();
-    void FUN_006f74f0(void*);
+    Obj3D* Modelloader_GetReferencedThis();
+    void AssignTaskReference(void*);
 };
 struct Base3D
 {
@@ -10178,37 +10223,37 @@ void ML::ModelLoader_QueueReference(Ref* ref, int aiValue, bool a3)
     RefPtr p(0);
     if (q8->Lookup(ref, &p))
     {
-        int v = p.FUN_00559450()->IOTask_GetIOTaskPriority();
+        int v = p.Modelloader_GetReferencedThis()->IOTask_GetIOTaskPriority();
         if (v != aiValue)
-            p.FUN_00559450()->SetX(aiValue);
+            p.Modelloader_GetReferencedThis()->SetX(aiValue);
         return;
     }
     AutoMemHelper memCtx(0x31, 1, "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\ModelLoader.cpp", 0xc4e);
     if (ref == DAT_011dea3c)
     {
         AutoMemHelper c2(0x34, 1, "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\ModelLoader.cpp", 0xc53);
-        p.FUN_006f74f0(new TaskA(aiValue));
+        p.AssignTaskReference(new TaskA(aiValue));
     }
     else
     {
         switch (ref->BGSSaveFormBuffer_GetForm()->FUN_00401170())
         {
         case 0x25: {
-            p.FUN_006f74f0(new TaskB(ref, aiValue));
+            p.AssignTaskReference(new TaskB(ref, aiValue));
             break;
         }
         case 0x2a: {
             AutoMemHelper memCtx3(0x32, 1, "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\ModelLoader.cpp", 0xc6b);
-            p.FUN_006f74f0(new TaskC(ref, aiValue));
+            p.AssignTaskReference(new TaskC(ref, aiValue));
             break;
         }
         case 0x2b: {
             AutoMemHelper memCtx4(0x32, 1, "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\ModelLoader.cpp", 0xc72);
-            p.FUN_006f74f0(new TaskD(ref, aiValue));
+            p.AssignTaskReference(new TaskD(ref, aiValue));
             break;
         }
         default: {
-            p.FUN_006f74f0(new TaskE(ref, aiValue));
+            p.AssignTaskReference(new TaskE(ref, aiValue));
             break;
         }
         }
@@ -10221,7 +10266,7 @@ void ML::ModelLoader_QueueReference(Ref* ref, int aiValue, bool a3)
         if (b)
             qc->Add(ref, &p, true);
         else
-            p.FUN_00559450()->Y();
+            p.Modelloader_GetReferencedThis()->Y();
         if (ref->FUN_008d6f30())
         {
             ref->FUN_008d6f30()->InitScriptRunLockForObject();
@@ -10231,7 +10276,7 @@ void ML::ModelLoader_QueueReference(Ref* ref, int aiValue, bool a3)
     }
     else
     {
-        p.FUN_006f74f0(0);
+        p.AssignTaskReference(0);
     }
 }
 
@@ -10638,12 +10683,13 @@ class B449Map
 {
   public:
     B449Entry* LockFreeMap_GetInterface_0(void* pKey, int iIndex);
-    bool FUN_004498b0(void* pKey, int iIndex);
+    bool UpdateState_004498b0(void* pKey, int iIndex);
 };
 
 // Looks up the entry for pKey and iIndex and returns the result of its InvokeWithArgs check.
 // @fnv 0x004498b0
-bool B449Map::FUN_004498b0(void* pKey, int iIndex)
+// src: GUESS 0x004498b0 (confidence: low)
+bool B449Map::UpdateState_004498b0(void* pKey, int iIndex)
 {
     bool bResult = LockFreeMap_GetInterface_0(pKey, iIndex)->InvokeWithArgs();
     return bResult;
@@ -10995,7 +11041,7 @@ struct Mgr_00626c50
 {
     unsigned int unk00;
     unsigned int unk04;
-    void* FUN_00559450(unsigned int key);
+    void* Modelloader_GetReferencedThis(unsigned int key);
 };
 
 struct Local_00626c50
@@ -11249,10 +11295,10 @@ struct FUN_00626c50_cls
 void FUN_00626c50_cls::HitCaster_SetShapeGroup(unsigned int auiValue)
 {
     Local_00626c50 local;
-    reinterpret_cast<Z_00626c50*>(m_3a0.FUN_00559450((unsigned int)&local))->bhkWorldObject_GetCollisionFilter();
+    reinterpret_cast<Z_00626c50*>(m_3a0.Modelloader_GetReferencedThis((unsigned int)&local))->bhkWorldObject_GetCollisionFilter();
     local.CFilter_SetGroup(auiValue);
     m_3a8 = auiValue;
-    reinterpret_cast<Y_00626c50*>(m_3a0.FUN_00559450(local.v))->bhkWorldObject_SetCollisionFilter();
+    reinterpret_cast<Y_00626c50*>(m_3a0.Modelloader_GetReferencedThis(local.v))->bhkWorldObject_SetCollisionFilter();
 }
 
 class C1C50Filter
@@ -11326,13 +11372,13 @@ struct NodeLink
 {
     SyncNode* value;
     SyncNode* ClearLowBit();
-    SyncNode* FUN_0044df00();
+    SyncNode* ClearLowBit_Thunk();
 };
 struct StateValue
 {
     int value;
-    void FUN_006ecba0(bool, SyncNode*);
-    int FUN_00559450();
+    void SetTaggedPointer(bool, SyncNode*);
+    int Modelloader_GetReferencedThis();
 };
 struct Controller
 {
@@ -11382,14 +11428,14 @@ bool Worker::AdvanceState(int aiArg1, int aiArg2)
             break;
         }
         StateValue after;
-        after.FUN_006ecba0(false, pending.ClearLowBit());
+        after.SetTaggedPointer(false, pending.ClearLowBit());
         StateValue now;
-        now.FUN_006ecba0(true, pending.ClearLowBit());
-        if (!CompareAndSwapEx(&current.FUN_0044df00()->state, now.FUN_00559450(), after.FUN_00559450()))
+        now.SetTaggedPointer(true, pending.ClearLowBit());
+        if (!CompareAndSwapEx(&current.ClearLowBit_Thunk()->state, now.Modelloader_GetReferencedThis(), after.Modelloader_GetReferencedThis()))
             continue;
         StateValue before;
-        before.FUN_006ecba0(false, current.ClearLowBit());
-        if (CompareAndSwapEx(state, after.FUN_00559450(), before.FUN_00559450()))
+        before.SetTaggedPointer(false, current.ClearLowBit());
+        if (CompareAndSwapEx(state, after.Modelloader_GetReferencedThis(), before.Modelloader_GetReferencedThis()))
             AddRace(current.ClearLowBit());
         else
             ProcessNodeChain(aiArg1, aiArg2);
@@ -11418,7 +11464,7 @@ struct FUN_006ec830_target
 struct FUN_006ec830_cls
 {
     FUN_006ec830_target* m_00;
-    int FUN_006ec9b0(int p);
+    int UpdateState_006ec9b0(int p);
     int InvokeWithArgs(int a1, int a2);
 };
 
@@ -11426,7 +11472,7 @@ struct FUN_006ec830_cls
 // @fnv 0x006ec830
 int FUN_006ec830_cls::InvokeWithArgs(int aiArg1, int aiArg2)
 {
-    return FUN_006ec9b0(m_00->Call(aiArg1, aiArg1, aiArg2));
+    return UpdateState_006ec9b0(m_00->Call(aiArg1, aiArg1, aiArg2));
 }
 
 namespace fnv_00906af0 {
@@ -11569,7 +11615,7 @@ void __fastcall BSStream_FreeAllObjects(void*);
 void* __fastcall FUN_00413f40(void*);
 void* __fastcall FUN_0043b1b0(void*);
 bool __cdecl WildCard_Match(int, const char*);
-void* __cdecl FUN_00aa13e0(unsigned int);
+void* __cdecl Object_DispatchCommandFour(unsigned int);
 void __cdecl FUN_004b5d10(void*);
 void* __fastcall NiObjectNET_GetControllers(void*);
 void* __cdecl NiObject_DynamicCast(void*, void*);
@@ -11822,7 +11868,7 @@ void ThisS::Model_InitModel(const char* apName, BSStream* apSource, unsigned cha
                                                                         {
                                                                             m_sub.FUN_0066b0d0(
                                                                                 (SortObj*)new NiSortAdjustNode(0));
-                                                                            ((BigV*)FUN_00559450((int*)&m_sub))
+                                                                            ((BigV*)Modelloader_GetReferencedThis((int*)&m_sub))
                                                                                 ->vF8(0, elem);
                                                                         }
                                                                         else
@@ -11846,13 +11892,13 @@ void ThisS::Model_InitModel(const char* apName, BSStream* apSource, unsigned cha
                                                                                     elem->v18() != 0)
                                                                                 {
                                                                                     pForm = elem;
-                                                                                    if (FUN_00559450((int*)&m_sub) == 0)
+                                                                                    if (Modelloader_GetReferencedThis((int*)&m_sub) == 0)
                                                                                     {
                                                                                         m_sub.FUN_0066b0d0(
                                                                                             (SortObj*)new NiSortAdjustNode(
                                                                                                 0));
                                                                                     }
-                                                                                    ((BigV*)FUN_00559450((int*)&m_sub))
+                                                                                    ((BigV*)Modelloader_GetReferencedThis((int*)&m_sub))
                                                                                         ->vF8(iDynIndex++, pForm);
                                                                                     q = true;
                                                                                 }
@@ -11861,11 +11907,11 @@ void ThisS::Model_InitModel(const char* apName, BSStream* apSource, unsigned cha
                                                                     }
                                                                     if (q)
                                                                     {
-                                                                        FUN_004b5d10((void*)FUN_00559450((int*)&m_sub));
+                                                                        FUN_004b5d10((void*)Modelloader_GetReferencedThis((int*)&m_sub));
                                                                         if (DAT_01185520)
                                                                         {
                                                                             z = NiObjectNET_GetControllers(
-                                                                                (void*)FUN_00559450((int*)&m_sub));
+                                                                                (void*)Modelloader_GetReferencedThis((int*)&m_sub));
                                                                             ctrlObj = NiObject_DynamicCast(&DAT_011f36ac, z);
                                                                             if (ctrlObj != 0)
                                                                             {
@@ -11873,13 +11919,13 @@ void ThisS::Model_InitModel(const char* apName, BSStream* apSource, unsigned cha
                                                                                 if (prop != 0)
                                                                                 {
                                                                                     if (FUN_0043b1b0(FUN_00413f40(
-                                                                                            (void*)FUN_00559450(
+                                                                                            (void*)Modelloader_GetReferencedThis(
                                                                                                 (int*)&m_sub))) != 0)
                                                                                     {
                                                                                         ((CtrlV*)prop)
                                                                                             ->v90(
                                                                                                 FUN_00413f40(
-                                                                                                    (void*)FUN_00559450(
+                                                                                                    (void*)Modelloader_GetReferencedThis(
                                                                                                         (int*)&m_sub)),
                                                                                                 0);
                                                                                     }
@@ -11888,7 +11934,7 @@ void ThisS::Model_InitModel(const char* apName, BSStream* apSource, unsigned cha
                                                                         }
                                                                         flagB = false;
                                                                         MessageHandler_IncDisableWarningCount(true);
-                                                                        tmp = ((PropObj*)FUN_00559450((int*)&m_sub))
+                                                                        tmp = ((PropObj*)Modelloader_GetReferencedThis((int*)&m_sub))
                                                                                   ->FUN_00a59d30(NiZBufferProperty_GetType());
                                                                         if (tmp != 0)
                                                                         {
@@ -11897,12 +11943,12 @@ void ThisS::Model_InitModel(const char* apName, BSStream* apSource, unsigned cha
                                                                                     ->NiZBufferProperty_IsEqualFast((
                                                                                         unsigned short*)NiZBufferProperty_GetDefault()))
                                                                             {
-                                                                                ((PropObj*)FUN_00559450((int*)&m_sub))
+                                                                                ((PropObj*)Modelloader_GetReferencedThis((int*)&m_sub))
                                                                                     ->NiAVObject_RemoveProperty(NiZBufferProperty_GetType());
                                                                                 flagB = true;
                                                                             }
                                                                         }
-                                                                        tmp = ((PropObj*)FUN_00559450((int*)&m_sub))
+                                                                        tmp = ((PropObj*)Modelloader_GetReferencedThis((int*)&m_sub))
                                                                                   ->FUN_00a59d30(NiVertexColorProperty_GetType());
                                                                         if (0 != tmp)
                                                                         {
@@ -11911,7 +11957,7 @@ void ThisS::Model_InitModel(const char* apName, BSStream* apSource, unsigned cha
                                                                                     ->NiZBufferProperty_IsEqualFast((
                                                                                         unsigned short*)NiVertexColorProperty_GetDefault()))
                                                                             {
-                                                                                ((PropObj*)FUN_00559450((int*)&m_sub))
+                                                                                ((PropObj*)Modelloader_GetReferencedThis((int*)&m_sub))
                                                                                     ->NiAVObject_RemoveProperty(NiVertexColorProperty_GetType());
                                                                                 flagB = true;
                                                                             }
@@ -11933,13 +11979,13 @@ void ThisS::Model_InitModel(const char* apName, BSStream* apSource, unsigned cha
                                                                         if (a2)
                                                                         {
                                                                             flagC = false;
-                                                                            if (a3 || HasMorpherController((void*)FUN_00559450(
+                                                                            if (a3 || HasMorpherController((void*)Modelloader_GetReferencedThis(
                                                                                           (int*)&m_sub)))
                                                                             {
                                                                                 flagC = true;
                                                                             }
                                                                             FUN_00b57e30(
-                                                                                (void*)FUN_00559450((int*)&m_sub), a3,
+                                                                                (void*)Modelloader_GetReferencedThis((int*)&m_sub), a3,
                                                                                 flagC);
                                                                         }
                                                                     }
@@ -11965,11 +12011,12 @@ extern int DAT_010169d4;
 
 struct FUN_0043d8f0_Class : public FUN_0043c830
 {
-    void FUN_0043d8f0();
+    void SetVtableAndProcessState_0043d8f0();
 };
 
 // @fnv 0x0043d8f0
-void FUN_0043d8f0_Class::FUN_0043d8f0()
+// src: GUESS 0x0043d8f0 (confidence: low)
+void FUN_0043d8f0_Class::SetVtableAndProcessState_0043d8f0()
 {
     *reinterpret_cast<int*>(this) = reinterpret_cast<int>(&DAT_010169d4);
     this->FUN_0043c830::~FUN_0043c830();
@@ -12113,7 +12160,7 @@ struct Manager
 };
 extern Manager* DAT_011c3b3c;
 void* TES_GetLODMult(Form*);
-void FUN_0040ab50();
+void MagicItem_IncrementGlobalCounter();
 struct Main
 {
     virtual void slot0();
@@ -12206,7 +12253,7 @@ void Main::UpdateModels()
                     }
                 }
                 if (!reference->FUN_00408880() && !reference->FUN_004088a0() && reference->IsFlagSet_00403e60(0x40000))
-                    FUN_0040ab50();
+                    MagicItem_IncrementGlobalCounter();
                 reference->FUN_00408790();
             }
             iterator = static_cast<Iterator*>(iterator->FUN_00726070());
@@ -12294,7 +12341,7 @@ struct FUN_0043e840_shell : public ModelLoader
 void FUN_0043e840_shell::QueuedAnimIdle_Cancel(int aiArg1, int aiArg2)
 {
     QueuedFile_Cancel(aiArg1, aiArg2);
-    g_modelLoader->DispatchAnimIdle((QueuedFile*)FUN_00559450((int*)((char*)this + 0x3c)));
+    g_modelLoader->DispatchAnimIdle((QueuedFile*)Modelloader_GetReferencedThis((int*)((char*)this + 0x3c)));
 }
 
 struct FUN_0043eac0_class
@@ -12392,7 +12439,7 @@ struct LoadedNode
 struct NodePointer
 {
     LoadedNode* node;
-    LoadedNode* FUN_00559450();
+    LoadedNode* Modelloader_GetReferencedThis();
 };
 struct AnimationManager
 {
@@ -12429,17 +12476,17 @@ void AttachTask::QueuedHead_Attach(RefActor* actor, int arg)
     AutoMemContext manager((MEM_CONTEXT)0x37, true,
                              "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\ModelLoader.cpp", 0x613);
     AnimationManager* scope = actor->BGSSaveFormBuffer_GetForm();
-    scope->AttachHeadModels(actor, arg, first.FUN_00559450(), second.FUN_00559450());
+    scope->AttachHeadModels(actor, arg, first.Modelloader_GetReferencedThis(), second.Modelloader_GetReferencedThis());
     if (actor != DAT_011dea3c)
     {
-        FUN_004b6dc0(first.FUN_00559450(), actor->GetHavokWorldObjectCountInSceneGraph_0084e3a0());
-        if (second.FUN_00559450())
-            FUN_004b6dc0(second.FUN_00559450(), actor->GetHavokWorldObjectCountInSceneGraph_0084e3a0());
+        FUN_004b6dc0(first.Modelloader_GetReferencedThis(), actor->GetHavokWorldObjectCountInSceneGraph_0084e3a0());
+        if (second.Modelloader_GetReferencedThis())
+            FUN_004b6dc0(second.Modelloader_GetReferencedThis(), actor->GetHavokWorldObjectCountInSceneGraph_0084e3a0());
     }
-    if (second.FUN_00559450())
-        second.FUN_00559450()->owner = actor;
-    if (first.FUN_00559450())
-        first.FUN_00559450()->owner = actor;
+    if (second.Modelloader_GetReferencedThis())
+        second.Modelloader_GetReferencedThis()->owner = actor;
+    if (first.Modelloader_GetReferencedThis())
+        first.Modelloader_GetReferencedThis()->owner = actor;
 }
 }  // namespace fnv_0043ed90
 
@@ -12596,7 +12643,7 @@ struct FnvMaster
 struct FnvRefPtr
 {
     FnvSceneNode* value;
-    FnvSceneNode* FUN_00559450();
+    FnvSceneNode* Modelloader_GetReferencedThis();
     void FUN_0066b0d0(FnvSceneNode*);
     void FUN_0066b0d0(FnvSceneNode*, FnvSceneNode*, FnvSceneNode*, int);
 };
@@ -12620,7 +12667,7 @@ struct FnvHandle
     FnvSceneNode* object;
     FnvHandle(FnvSceneNode*);
     ~FnvHandle();
-    FnvSceneNode* FUN_00559450();
+    FnvSceneNode* Modelloader_GetReferencedThis();
     void FUN_0066b0d0(FnvSceneNode*);
 };
 struct FnvEntry
@@ -12701,20 +12748,20 @@ void FnvRoot::QueuedHelmet_CheckFinished()
         {
             for (int index = 0; index < 20; ++index)
             {
-                if (references[index].FUN_00559450() && references[index].FUN_00559450()->NiTimeController_GetNext() &&
-                    references[index].FUN_00559450()->NiTimeController_GetNext()->NiObjectNET_GetControllers())
+                if (references[index].Modelloader_GetReferencedThis() && references[index].Modelloader_GetReferencedThis()->NiTimeController_GetNext() &&
+                    references[index].Modelloader_GetReferencedThis()->NiTimeController_GetNext()->NiObjectNET_GetControllers())
                 {
-                    children[index].FUN_0066b0d0(master28->LoadSlotObject(), attachments[index].FUN_00559450(),
-                                                 references[index].FUN_00559450()->NiTimeController_GetNext()->NiObjectNET_GetControllers(),
+                    children[index].FUN_0066b0d0(master28->LoadSlotObject(), attachments[index].Modelloader_GetReferencedThis(),
+                                                 references[index].Modelloader_GetReferencedThis()->NiTimeController_GetNext()->NiObjectNET_GetControllers(),
                                                  index);
-                    if (children[index].FUN_00559450())
+                    if (children[index].Modelloader_GetReferencedThis())
                     {
                         bool found = false;
-                        for (unsigned int i = 0; i < ((FnvList*)children[index].FUN_00559450())->FUN_0043b480(); ++i)
+                        for (unsigned int i = 0; i < ((FnvList*)children[index].Modelloader_GetReferencedThis())->FUN_0043b480(); ++i)
                         {
                             FnvSceneNode* linkedNode;
                             {
-                                FnvSceneNode* node = ((FnvList*)children[index].FUN_00559450())->FUN_0043b4a0(i);
+                                FnvSceneNode* node = ((FnvList*)children[index].Modelloader_GetReferencedThis())->FUN_0043b4a0(i);
                                 if (!node || !node->vfn18())
                                     continue;
                                 {
@@ -12730,15 +12777,15 @@ void FnvRoot::QueuedHelmet_CheckFinished()
                         }
                         if (!found)
                         {
-                            FnvSceneNode* fallback = attachments[index].FUN_00559450()
-                                                         ? attachments[index].FUN_00559450()
+                            FnvSceneNode* fallback = attachments[index].Modelloader_GetReferencedThis()
+                                                         ? attachments[index].Modelloader_GetReferencedThis()
                                                          : master28->BipedAnim_LoadFaceGenModel(index);
                             if (fallback)
                             {
-                                for (unsigned int j = 0; j < ((FnvList*)children[index].FUN_00559450())->FUN_0043b480();
+                                for (unsigned int j = 0; j < ((FnvList*)children[index].Modelloader_GetReferencedThis())->FUN_0043b480();
                                      ++j)
                                 {
-                                    FnvSceneNode* node = ((FnvList*)children[index].FUN_00559450())->FUN_0043b4a0(j);
+                                    FnvSceneNode* node = ((FnvList*)children[index].Modelloader_GetReferencedThis())->FUN_0043b4a0(j);
                                     {
                                         FnvSceneNode* geometry = node;
                                         if (geometry && geometry->NiGeometry_GetModelData() && master28->FUN_0043f010() &&
@@ -12749,8 +12796,8 @@ void FnvRoot::QueuedHelmet_CheckFinished()
                                             FnvEntry p[4];   // Resource entries for the selected geometry.
                                             FnvHandle h(0);  // Retains the active scene object.
                                             geometry->NiGeometry_GetModelData(&current.object)->FUN_00a5d510();
-                                            h.FUN_0066b0d0(current.FUN_00559450());
-                                            geometry->vfnE4(h.FUN_00559450());
+                                            h.FUN_0066b0d0(current.Modelloader_GetReferencedThis());
+                                            geometry->vfnE4(h.Modelloader_GetReferencedThis());
                                             a->FUN_00603ad0(p);
                                             if (!BSFaceGenManager_GetUseFaceGenHeads() || fallback->ApplyMorphs(p, geometry, 0))
                                             {
@@ -13121,14 +13168,14 @@ class FUN_004408f0_cls
 // src: XBOX_PDB 0x004408f0
 void FUN_004408f0_cls::QueuedReference_Cancel(int a1, int a2)
 {
-    if (FUN_00559450((int*)&m_38) != 0)
+    if (Modelloader_GetReferencedThis((int*)&m_38) != 0)
     {
-        ((SLHelper*)FUN_00559450((int*)&m_38))->Callee();
+        ((SLHelper*)Modelloader_GetReferencedThis((int*)&m_38))->Callee();
     }
     Mid(a1, a2);
-    if (FUN_00559450((int*)&m_34) != 0)
+    if (Modelloader_GetReferencedThis((int*)&m_34) != 0)
     {
-        m_28->Callee2(FUN_00559450((int*)&m_34));
+        m_28->Callee2(Modelloader_GetReferencedThis((int*)&m_34));
         ((SLNode*)&m_34)->Callee3(0);
         m_28->v1cc(0, 0);
     }
@@ -13640,13 +13687,13 @@ struct FUN_0043c6e0
 
 struct QPtr444
 {
-    QTask444* FUN_00559450() const;
+    QTask444* Modelloader_GetReferencedThis() const;
 };
 
 struct QOut444
 {
     void FUN_0092c820(const GlobalObject_00528cb0& kPtr);
-    void FUN_006f74f0(QueuedFile* pkFile);
+    void AssignTaskReference(QueuedFile* pkFile);
 };
 
 struct QEntry444
@@ -13681,18 +13728,18 @@ void FUN_004440d0_shell::QueueTaskByKey(int iKey, QOut444& kOut, int iPriority, 
         if (pkParent)
         {
             GlobalObject_00528cb0 kTask((int)new FUN_0043c960(pkEntry, iPriority));
-            ((QPtr444*)&kTask)->FUN_00559450()->FUN_00443aa0(pkParent);
-            ((QPtr444*)&kTask)->FUN_00559450()->QueueA();
+            ((QPtr444*)&kTask)->Modelloader_GetReferencedThis()->FUN_00443aa0(pkParent);
+            ((QPtr444*)&kTask)->Modelloader_GetReferencedThis()->QueueA();
             kOut.FUN_0092c820(kTask);
             return;
         }
-        kOut.FUN_006f74f0(0);
+        kOut.AssignTaskReference(0);
         return;
     }
     GlobalObject_00528cb0 kNewTask((int)new FUN_0043c6e0(iKey, iPriority, iExtra, bFlagA, bFlagB));
-    ((QPtr444*)&kNewTask)->FUN_00559450()->QueuedModel_SetFaceGenModel(bFlagC);
-    ((QPtr444*)&kNewTask)->FUN_00559450()->FUN_00443aa0(pkParent);
-    ((QPtr444*)&kNewTask)->FUN_00559450()->Queue8();
+    ((QPtr444*)&kNewTask)->Modelloader_GetReferencedThis()->QueuedModel_SetFaceGenModel(bFlagC);
+    ((QPtr444*)&kNewTask)->Modelloader_GetReferencedThis()->FUN_00443aa0(pkParent);
+    ((QPtr444*)&kNewTask)->Modelloader_GetReferencedThis()->Queue8();
     kOut.FUN_0092c820(kNewTask);
 }
 
@@ -13879,9 +13926,9 @@ struct LoadScopeGuard : public S_0042f730
 {
     LoadScopeGuard(AC_0042f730* p)
     {
-        FUN_00528cb0(p);
+        SetObjectAndAddReference(p);
     }
-    int FUN_00559450(int a1);
+    int Modelloader_GetReferencedThis(int a1);
     ~LoadScopeGuard();
 };
 
@@ -13899,7 +13946,7 @@ struct FUN_00445430_cls
 
 LoadScopeGuard::~LoadScopeGuard()
 {
-    FUN_0044cbf0((void**)this);
+    BSTask_int64_DecRefCount_ReleaseTaskReference((void**)this);
 }
 
 // @fnv 0x00445430
@@ -13909,7 +13956,7 @@ void FUN_00445430_cls::ModelLoader_CancelReplacementKFList(unsigned int a1)
     LoadScopeGuard guard(0);
     if (m_14->v2(a1, &guard))
     {
-        DAT_01202d98->BSTaskManager_CancelTask(guard.FUN_00559450(0));
+        DAT_01202d98->BSTaskManager_CancelTask(guard.Modelloader_GetReferencedThis(0));
     }
 }
 
@@ -13935,9 +13982,9 @@ struct LoadScopeGuard : public S_0042f730
 {
     LoadScopeGuard(AC_0042f730* p)
     {
-        FUN_00528cb0(p);
+        SetObjectAndAddReference(p);
     }
-    int FUN_00559450(int a1);
+    int Modelloader_GetReferencedThis(int a1);
     ~LoadScopeGuard();
 };
 
@@ -13956,7 +14003,7 @@ struct FUN_00445570_cls
 
 LoadScopeGuard::~LoadScopeGuard()
 {
-    FUN_0044cbf0((void**)this);
+    BSTask_int64_DecRefCount_ReleaseTaskReference((void**)this);
 }
 
 // @fnv 0x00445570
@@ -13966,13 +14013,13 @@ void FUN_00445570_cls::ModelLoader_CancelReference(unsigned int a1)
     LoadScopeGuard guardA(0);
     if (m_08->v2(a1, &guardA))
     {
-        DAT_01202d98->BSTaskManager_CancelTask(guardA.FUN_00559450(0));
+        DAT_01202d98->BSTaskManager_CancelTask(guardA.Modelloader_GetReferencedThis(0));
         m_0c->v5(a1);
     }
     LoadScopeGuard guardB(0);
     if (m_18->v2(a1, &guardB))
     {
-        DAT_01202d98->BSTaskManager_CancelTask(guardB.FUN_00559450(0));
+        DAT_01202d98->BSTaskManager_CancelTask(guardB.Modelloader_GetReferencedThis(0));
     }
 }
 }  // namespace fnv_00445570
@@ -14648,12 +14695,13 @@ struct Q449_b
     int unk1c;
     RecursiveSpinLock lock;
     R449_b* LockFreeMap_GetInterface_0(void* a1, int* a2);
-    bool FUN_00449700(void* a1, int a2);
+    bool ProcessAndReturnValue_00449700(void* a1, int a2);
 };
 
 // Locks the lock, calls FUN_00449f80 with a1 and a2, invokes TryInsertAndFinish on the result, unlocks, and returns that bool.
 // @fnv 0x00449700
-bool Q449_b::FUN_00449700(void* a1, int iValue)
+// src: GUESS 0x00449700 (confidence: low)
+bool Q449_b::ProcessAndReturnValue_00449700(void* a1, int iValue)
 {
     lock.Lock(0);
     bool res = LockFreeMap_GetInterface_0(a1, &iValue)->TryInsertAndFinish();
@@ -14738,25 +14786,25 @@ bool Traversal::FindKeyInTraversal(int index, const int* key)
         *reinterpret_cast<SyncNode**>(unk08) = current.ClearLowBit();
         ProgramFlow();
         StateValue retry;
-        retry.FUN_006ecba0(false, current.ClearLowBit());
-        if (FUN_00559450(state) != retry.FUN_00559450())
+        retry.SetTaggedPointer(false, current.ClearLowBit());
+        if (Modelloader_GetReferencedThis(state) != retry.Modelloader_GetReferencedThis())
             continue;
         while (true)
         {
             if (!current.ClearLowBit())
                 return false;
-            pending = *reinterpret_cast<NodeLink*>(&current.FUN_0044df00()->state);
+            pending = *reinterpret_cast<NodeLink*>(&current.ClearLowBit_Thunk()->state);
             *reinterpret_cast<SyncNode**>(unk04) = pending.ClearLowBit();
             ProgramFlow();
-            if (FUN_00559450(reinterpret_cast<int*>(&pending)) != FUN_00559450(&current.FUN_0044df00()->state))
+            if (Modelloader_GetReferencedThis(reinterpret_cast<int*>(&pending)) != Modelloader_GetReferencedThis(&current.ClearLowBit_Thunk()->state))
             {
                 initial = true;
                 break;
             }
             int observed = current.ClearLowBit()->unk04;
             StateValue value;
-            value.FUN_006ecba0(false, current.ClearLowBit());
-            if (FUN_00559450(state) != value.FUN_00559450())
+            value.SetTaggedPointer(false, current.ClearLowBit());
+            if (Modelloader_GetReferencedThis(state) != value.Modelloader_GetReferencedThis())
             {
                 initial = true;
                 break;
@@ -14765,15 +14813,15 @@ bool Traversal::FindKeyInTraversal(int index, const int* key)
             {
                 if (observed == *key)
                     return true;
-                state = &current.FUN_0044df00()->state;
+                state = &current.ClearLowBit_Thunk()->state;
                 *reinterpret_cast<SyncNode**>(unk0c) = current.ClearLowBit();
                 ProgramFlow();
             }
             else
             {
                 StateValue next;
-                next.FUN_006ecba0(false, pending.ClearLowBit());
-                if (CompareAndSwapEx(state, next.FUN_00559450(), value.FUN_00559450()))
+                next.SetTaggedPointer(false, pending.ClearLowBit());
+                if (CompareAndSwapEx(state, next.Modelloader_GetReferencedThis(), value.Modelloader_GetReferencedThis()))
                 {
                     AddRace(current.ClearLowBit());
                 }
@@ -14856,7 +14904,7 @@ class FUN_00490fa0_cls
 void FUN_00490fa0_cls::Animation_QueueReplacementAnimation(FUN_00490fa0_src* pSource)
 {
     FUN_00490fa0_lk lk(pSource->FUN_005585e0());
-    if (FUN_00559450((int*)&lk) == 0)
+    if (Modelloader_GetReferencedThis((int*)&lk) == 0)
         return;
     QueuedChildren_AddFinishedChild((char*)pSource);
     QueuedChildren_AddFinishedChild((char*)pSource);
@@ -14908,25 +14956,25 @@ bool SearchWorker::ProcessNode(int key, int output)
         *currentGuard = current.ClearLowBit();
         ProgramFlow();
         StateValue j;
-        j.FUN_006ecba0(false, current.ClearLowBit());
-        if (FUN_00559450(state) != j.FUN_00559450())
+        j.SetTaggedPointer(false, current.ClearLowBit());
+        if (Modelloader_GetReferencedThis(state) != j.Modelloader_GetReferencedThis())
             continue;
         while (true)
         {
             if (!current.ClearLowBit())
                 return false;
-            pending = *(NodeLink*)&current.FUN_0044df00()->state;
+            pending = *(NodeLink*)&current.ClearLowBit_Thunk()->state;
             *pendingGuard = pending.ClearLowBit();
             ProgramFlow();
-            if (FUN_00559450((int*)&pending) != FUN_00559450(&current.FUN_0044df00()->state))
+            if (Modelloader_GetReferencedThis((int*)&pending) != Modelloader_GetReferencedThis(&current.ClearLowBit_Thunk()->state))
             {
                 p = true;
                 break;
             }
             int e = current.ClearLowBit()->unk00;
             StateValue h;
-            h.FUN_006ecba0(false, current.ClearLowBit());
-            if (FUN_00559450(state) != h.FUN_00559450())
+            h.SetTaggedPointer(false, current.ClearLowBit());
+            if (Modelloader_GetReferencedThis(state) != h.Modelloader_GetReferencedThis())
             {
                 p = true;
                 break;
@@ -14935,15 +14983,15 @@ bool SearchWorker::ProcessNode(int key, int output)
             {
                 if (controller->Accept(e, output))
                     return controller->Finish(e, output);
-                state = &current.FUN_0044df00()->state;
+                state = &current.ClearLowBit_Thunk()->state;
                 *removedGuard = current.ClearLowBit();
                 ProgramFlow();
             }
             else
             {
                 StateValue desired;
-                desired.FUN_006ecba0(false, pending.ClearLowBit());
-                if (CompareAndSwapEx(state, desired.FUN_00559450(), h.FUN_00559450()))
+                desired.SetTaggedPointer(false, pending.ClearLowBit());
+                if (CompareAndSwapEx(state, desired.Modelloader_GetReferencedThis(), h.Modelloader_GetReferencedThis()))
                     FUN_005292a0(current.ClearLowBit());
                 else
                 {
@@ -16232,25 +16280,25 @@ bool Worker::ProcessNodeChain(int a1, int a2)
         current = *(NodeLink*)state;
         *(int*)unk08 = (int)current.ClearLowBit();
         ProgramFlow();
-        svA2.FUN_006ecba0(0, current.ClearLowBit());
-        if (((StateValue*)state)->FUN_00559450() != svA2.FUN_00559450())
+        svA2.SetTaggedPointer(0, current.ClearLowBit());
+        if (((StateValue*)state)->Modelloader_GetReferencedThis() != svA2.Modelloader_GetReferencedThis())
             continue;
         while (1)
         {
             if (!current.ClearLowBit())
                 return false;
-            pending = *(NodeLink*)((char*)current.FUN_0044df00() + 8);
+            pending = *(NodeLink*)((char*)current.ClearLowBit_Thunk() + 8);
             *(int*)unk04 = (int)pending.ClearLowBit();
             ProgramFlow();
-            if (((StateValue*)&pending)->FUN_00559450() !=
-                ((StateValue*)((char*)current.FUN_0044df00() + 8))->FUN_00559450())
+            if (((StateValue*)&pending)->Modelloader_GetReferencedThis() !=
+                ((StateValue*)((char*)current.ClearLowBit_Thunk() + 8))->Modelloader_GetReferencedThis())
             {
                 flag_ = 1;
                 break;
             }
             nodeVal = *(int*)current.ClearLowBit();
-            svB.FUN_006ecba0(0, current.ClearLowBit());
-            if (((StateValue*)state)->FUN_00559450() != svB.FUN_00559450())
+            svB.SetTaggedPointer(0, current.ClearLowBit());
+            if (((StateValue*)state)->Modelloader_GetReferencedThis() != svB.Modelloader_GetReferencedThis())
             {
                 flag_ = 1;
                 break;
@@ -16259,14 +16307,14 @@ bool Worker::ProcessNodeChain(int a1, int a2)
             {
                 if (((ControllerV*)controller)->Call34(nodeVal, a2))
                     return ((ControllerV*)controller)->Call38(nodeVal, a2);
-                state = (int*)((char*)current.FUN_0044df00() + 8);
+                state = (int*)((char*)current.ClearLowBit_Thunk() + 8);
                 *(int*)unk0c = (int)current.ClearLowBit();
                 ProgramFlow();
             }
             else
             {
-                svC2.FUN_006ecba0(0, pending.ClearLowBit());
-                if (CompareAndSwapEx(state, svC2.FUN_00559450(), svB.FUN_00559450()))
+                svC2.SetTaggedPointer(0, pending.ClearLowBit());
+                if (CompareAndSwapEx(state, svC2.Modelloader_GetReferencedThis(), svB.Modelloader_GetReferencedThis()))
                 {
                     AddRace(current.ClearLowBit());
                 }
@@ -16290,8 +16338,8 @@ struct FUN_006ecba0
 {
     MatchNode* value;
     MatchNode* ClearLowBit();
-    MatchNode* FUN_0044df00();
-    unsigned int FUN_00559450();
+    MatchNode* ClearLowBit_Thunk();
+    unsigned int Modelloader_GetReferencedThis();
     bool LockFreeMap_MarkedPointer_GetMark();
     FUN_006ecba0(bool, MatchNode*);
 };
@@ -16339,23 +16387,23 @@ bool MatchOwner::LockFreeMap_TESObjectREFR_NiPointer_QueuedReference_LockFreeMap
         *hazardCurrent = current.ClearLowBit();
         ProgramFlow();
         FUN_006ecba0 retry(false, current.ClearLowBit());
-        if (cursor->FUN_00559450() != retry.FUN_00559450())
+        if (cursor->Modelloader_GetReferencedThis() != retry.Modelloader_GetReferencedThis())
             continue;
         while (true)
         {
             if (!current.ClearLowBit())
                 return false;
-            next = current.FUN_0044df00()->next;
+            next = current.ClearLowBit_Thunk()->next;
             *hazardNext = next.ClearLowBit();
             ProgramFlow();
-            if (next.FUN_00559450() != current.FUN_0044df00()->next.FUN_00559450())
+            if (next.Modelloader_GetReferencedThis() != current.ClearLowBit_Thunk()->next.Modelloader_GetReferencedThis())
             {
                 first = true;
                 break;
             }
             FUN_0044e370 observed(&current.ClearLowBit()->payload);
             FUN_006ecba0 ref(false, current.ClearLowBit());
-            if (cursor->FUN_00559450() != ref.FUN_00559450())
+            if (cursor->Modelloader_GetReferencedThis() != ref.Modelloader_GetReferencedThis())
             {
                 first = true;
                 break;
@@ -16364,14 +16412,14 @@ bool MatchOwner::LockFreeMap_TESObjectREFR_NiPointer_QueuedReference_LockFreeMap
             {
                 if (observed.LightRefData_IsEqual(output))
                     return true;
-                cursor = &current.FUN_0044df00()->next;
+                cursor = &current.ClearLowBit_Thunk()->next;
                 *hazardRemoved = current.ClearLowBit();
                 ProgramFlow();
             }
             else
             {
                 FUN_006ecba0 replacement(false, next.ClearLowBit());
-                if (CompareAndSwapEx(cursor, replacement.FUN_00559450(), ref.FUN_00559450()))
+                if (CompareAndSwapEx(cursor, replacement.Modelloader_GetReferencedThis(), ref.Modelloader_GetReferencedThis()))
                 {
                     FUN_005292a0(current.ClearLowBit());
                 }
@@ -16675,7 +16723,7 @@ struct Model43
 };
 struct Ptr43
 {
-    Model43* FUN_00559450();
+    Model43* Modelloader_GetReferencedThis();
 };
 // Returns a NiPoint3 by value (hidden result pointer first, as the original pushes it).
 NiPoint3 __cdecl TESObjectREFR_GetBoundMax(Obj43*);
@@ -16705,13 +16753,13 @@ struct C43
 void C43::QueuedModel_Finish()
 {
     Guard43 guard(field18, true, &DAT_01016840, 997);
-    if (ptr.FUN_00559450())
+    if (ptr.Modelloader_GetReferencedThis())
     {
         if (QueuedModel_GetAddRefCount())
-            ptr.FUN_00559450()->Model_IncManualRefCount();
-        if (!QueuedModel_GetCachedModel() && ptr.FUN_00559450()->NiObjectNET_GetControllers())
+            ptr.Modelloader_GetReferencedThis()->Model_IncManualRefCount();
+        if (!QueuedModel_GetCachedModel() && ptr.Modelloader_GetReferencedThis()->NiObjectNET_GetControllers())
         {
-            Fade43* node2 = ptr.FUN_00559450()->NiObjectNET_GetControllers()->v4();
+            Fade43* node2 = ptr.Modelloader_GetReferencedThis()->NiObjectNET_GetControllers()->v4();
             if (node2)
             {
                 Update43 update4;
@@ -16719,7 +16767,7 @@ void C43::QueuedModel_Finish()
                 node2->NiAVObject_Update(update4);
                 float radius = node2->NiAVObject_GetWorldBound().FUN_0084d030();
                 if (radius < 0.0010000000474974513)
-                    radius = TESObjectREFR_GetBoundMax(ptr.FUN_00559450()->NiObjectNET_GetControllers()).z * 0.5;
+                    radius = TESObjectREFR_GetBoundMax(ptr.Modelloader_GetReferencedThis()->NiObjectNET_GetControllers()).z * 0.5;
                 float maximum = 3.402823466e+38f;
                 maximum = (*reinterpret_cast<unsigned int*>(reinterpret_cast<Setting*>(&DAT_011c63cc)->Setting_Int()) << 12) * 0.5 - (radius + 2048.0);
                 float scaled5 = radius * *((Setting*)&DAT_011c3be4)->Setting_Float_00403e20();
@@ -16729,7 +16777,7 @@ void C43::QueuedModel_Finish()
                 node2->FUN_00b4dfd0(range * *((Setting*)&DAT_011c3bb8)->Setting_Float_00403e20(), range);
                 node2->BSFadeNode_SetLODMultType(field38);
             }
-            if (!(*(Loader43**)&DAT_011c3b3c)->CallFoo(FUN_0045cd60(), ptr.FUN_00559450()))
+            if (!(*(Loader43**)&DAT_011c3b3c)->CallFoo(FUN_0045cd60(), ptr.Modelloader_GetReferencedThis()))
                 (*(Loader43**)&DAT_011c3b3c)->ModelLoader_FindModel(FUN_0045cd60(), ptr);
         }
     }
@@ -16832,7 +16880,7 @@ class QueueObj
     virtual void d10();
     virtual void* d14(QHeadLocal** out);
     void FUN_0092c820(NiPointer<QNewFile>& p);
-    void FUN_006f74f0(QNewFile* p);
+    void AssignTaskReference(QNewFile* p);
 };
 
 class QHolderObj
@@ -16893,7 +16941,7 @@ void QueueModelHolder::ModelLoader_QueueModel_00443dc0(int pQueueObj, QueueObj* 
             a2->FUN_0092c820(sp);
             return;
         }
-        a2->FUN_006f74f0(0);
+        a2->AssignTaskReference(0);
         return;
     }
     NiPointer<QNewFile> sp(new QNewFile((void*)pQueueObj, a3, a5, bFlag1, bFlag2));
@@ -16929,14 +16977,14 @@ struct Ref448
     void* p;
     Ref448(int);
     ~Ref448();
-    void* FUN_00559450();
+    void* Modelloader_GetReferencedThis();
 };
 struct RefB448
 {
     void* p;
     RefB448(int);
     ~RefB448();
-    void* FUN_00559450();
+    void* Modelloader_GetReferencedThis();
 };
 struct String448
 {
@@ -16944,14 +16992,14 @@ struct String448
     int n;
     String448();
     ~String448();
-    void* FUN_00559450();
+    void* Modelloader_GetReferencedThis();
 };
 struct Head448
 {
     void* p;
     Head448(Task448*);
     ~Head448();
-    Task448* FUN_00559450();
+    Task448* Modelloader_GetReferencedThis();
 };
 struct Manager448
 {
@@ -16977,20 +17025,20 @@ void Owner448::LoadTaskFromPath(Task448* pTask, int x, void* parent, int unused)
     FUN_00406d50(pathX, 260, pTask->v5());
     String448 s3;
     BuildEgmFilename(&s3, pathX, -1);
-    if (FUN_00652110() && FUN_00652110()->LookupModelAndGetFlags(s3.FUN_00559450(), &a, &b) && a.FUN_00559450() &&
-        b.FUN_00559450())
+    if (FUN_00652110() && FUN_00652110()->LookupModelAndGetFlags(s3.Modelloader_GetReferencedThis(), &a, &b) && a.Modelloader_GetReferencedThis() &&
+        b.Modelloader_GetReferencedThis())
     {
         if (parent)
         {
-            Head448 h3(new Task448(a.FUN_00559450(), b.FUN_00559450()));
-            h3.FUN_00559450()->FUN_00443aa0(parent);
-            h3.FUN_00559450()->v10();
+            Head448 h3(new Task448(a.Modelloader_GetReferencedThis(), b.Modelloader_GetReferencedThis()));
+            h3.Modelloader_GetReferencedThis()->FUN_00443aa0(parent);
+            h3.Modelloader_GetReferencedThis()->v10();
         }
         return;
     }
     String448 t2;
     BuildTriPathAndSet(&t2, pathX, -1);
-    ModelLoader_QueueFaceGenFile(t2.FUN_00559450(), x, parent, 1);
+    ModelLoader_QueueFaceGenFile(t2.Modelloader_GetReferencedThis(), x, parent, 1);
 }
 }  // namespace fnv_00448080
 
@@ -17127,7 +17175,7 @@ struct NiObjQ
 struct SPBaseQ
 {
     NiObjQ* m_p;
-    NiObjQ* FUN_00559450();
+    NiObjQ* Modelloader_GetReferencedThis();
 };
 struct FUN_00633c90 : SPBaseQ
 {
@@ -17138,7 +17186,7 @@ struct FUN_00528cb0 : SPBaseQ
 {
     FUN_00528cb0(NiObjQ* p);
     ~FUN_00528cb0();
-    FUN_00528cb0& FUN_006f74f0(NiObjQ* p);
+    FUN_00528cb0& AssignTaskReference(NiObjQ* p);
 };
 struct FUN_0043bef0 : NiObjQ
 {
@@ -17177,18 +17225,18 @@ bool FUN_004436c0_Class::LoadTexture(const char* pcName, void* p2, void* p3)
 {
     FUN_00633c90 spA5(0);
     FindTextureByPath(pcName, &spA5);
-    if (spA5.FUN_00559450())
+    if (spA5.Modelloader_GetReferencedThis())
     {
         bool bSkip = false;
-        if (spA5.FUN_00559450()->NiTexture_GetTextureQualityLevel() == 3 && !IsLoadTexturesDegraded())
+        if (spA5.Modelloader_GetReferencedThis()->NiTexture_GetTextureQualityLevel() == 3 && !IsLoadTexturesDegraded())
             bSkip = true;
         if (!bSkip)
         {
             if (p3)
             {
-                FUN_00528cb0 spB4(new FUN_0043bef0(spA5.FUN_00559450(), p2));
-                spB4.FUN_00559450()->FUN_00443aa0(p3);
-                spB4.FUN_00559450()->v28();
+                FUN_00528cb0 spB4(new FUN_0043bef0(spA5.Modelloader_GetReferencedThis(), p2));
+                spB4.Modelloader_GetReferencedThis()->FUN_00443aa0(p3);
+                spB4.Modelloader_GetReferencedThis()->v28();
                 return true;
             }
             return false;
@@ -17205,15 +17253,15 @@ bool FUN_004436c0_Class::LoadTexture(const char* pcName, void* p2, void* p3)
     FUN_00528cb0 spC4(0);
     if (pRes_)
     {
-        spC4.FUN_006f74f0(new FUN_0043be60(pRes_, p2));
-        reinterpret_cast<QueuedFileEntry*>(spC4.FUN_00559450())->SetFileName_00c3cee0(acPath7);
+        spC4.AssignTaskReference(new FUN_0043be60(pRes_, p2));
+        reinterpret_cast<QueuedFileEntry*>(spC4.Modelloader_GetReferencedThis())->SetFileName_00c3cee0(acPath7);
     }
     else
     {
-        spC4.FUN_006f74f0(new FUN_0043bd10(pcName, p2));
+        spC4.AssignTaskReference(new FUN_0043bd10(pcName, p2));
     }
-    spC4.FUN_00559450()->FUN_00443aa0(p3);
-    spC4.FUN_00559450()->v20();
+    spC4.Modelloader_GetReferencedThis()->FUN_00443aa0(p3);
+    spC4.Modelloader_GetReferencedThis()->v20();
     return true;
 }
 }  // namespace fnv_004436c0
@@ -17289,7 +17337,7 @@ char* StrMapX::GetLowercaseKey(const char* pKey)
 struct NodeX;
 struct PtrX
 {
-    void FUN_006f74f0(void* p);
+    void AssignTaskReference(void* p);
     void FUN_0092c820(PtrX* p);
 };
 struct NodeX
@@ -17332,7 +17380,7 @@ bool QueueX::Pop(PtrX& kOut)
         if (!pkNext)
         {
             *m_ppkHazard0 = 0;
-            kOut.FUN_006f74f0(0);
+            kOut.AssignTaskReference(0);
             return false;
         }
         if (pkHead == pkTail)
@@ -17344,7 +17392,7 @@ bool QueueX::Pop(PtrX& kOut)
         if (CompareAndSwapEx(&m_pkList->m_pkHead, pkNext, pkHead))
         {
             m_pkList->Vc();
-            pkNext->m_kData.FUN_006f74f0(0);
+            pkNext->m_kData.AssignTaskReference(0);
             break;
         }
     }
@@ -17475,17 +17523,19 @@ LoaderMgr::~LoaderMgr()
 namespace fnv_00440640 {
 struct FUN_00449a20_cls
 {
-    void FUN_004490e0();
-    void FUN_00440640();
+    void DoNothing_004490e0();
+    void ForwardCall_00440640();
 };
 
-void FUN_00449a20_cls::FUN_004490e0()
+// src: GUESS 0x004490e0 (confidence: high)
+void FUN_00449a20_cls::DoNothing_004490e0()
 {}
 
 // @fnv 0x00440640
-void FUN_00449a20_cls::FUN_00440640()
+// src: GUESS 0x00440640 (confidence: low)
+void FUN_00449a20_cls::ForwardCall_00440640()
 {
-    FUN_004490e0();
+    DoNothing_004490e0();
 }
 }  // namespace fnv_00440640
 
@@ -17746,12 +17796,13 @@ class FUN_00c3b970_cls
   public:
     NiRefObject* m_pReferencedObject;
 
-    FUN_00c3b970_cls& FUN_00c3b970(NiRefObject* obj);
+    FUN_00c3b970_cls& AssignReferencedObject(NiRefObject* obj);
 };
 
 // Swaps the referenced object, releasing the old reference and acquiring a new one when the pointer changes.
 // @fnv 0x00c3b970
-FUN_00c3b970_cls& FUN_00c3b970_cls::FUN_00c3b970(NiRefObject* apRefObject)
+// src: GUESS 0x00c3b970 (confidence: high)
+FUN_00c3b970_cls& FUN_00c3b970_cls::AssignReferencedObject(NiRefObject* apRefObject)
 {
     NiRefObject* pOldRefObject;
     NiRefObject* pNewRefObject;
@@ -17790,7 +17841,7 @@ int ParentByteQuery::NiTexture_GetTextureQualityLevel()
 
 {
 
-    return FUN_0059bb30(this) ? reinterpret_cast<NiAVObject*>(&FUN_0059bb30(this)->GetTranslate_0043c490())->FUN_0043c470() : 0;
+    return FUN_0059bb30(this) ? reinterpret_cast<NiAVObject*>(&FUN_0059bb30(this)->GetTranslate_0043c490())->EvaluateValue_0043c470() : 0;
 }
 
 struct CharacterClone : public QueuedCharacter
@@ -17873,7 +17924,7 @@ struct ModelLoaderDeleteEntry449 : public ModelLoader
 // @fnv 0x00449b40
 void* ModelLoaderDeleteEntry449::FUN_00449b40(unsigned int flags)
 {
-    this->FUN_00443220();
+    this->ForwardCall_00443220();
     if (flags & 1)
         _Deallocate(this);
     return this;
@@ -17991,7 +18042,7 @@ void QueuedHelmet::UpdateFaceGenModels()
 // @fnv 0x0043d8c0
 void* QueuedTreeModel::FUN_0043d8c0(unsigned int flags)
 {
-    this->FUN_0043d8f0();
+    this->SetVtableAndProcessState_0043d8f0();
 
     if (flags & 1)
         fnv_0043d8c0::_Deallocate(this);

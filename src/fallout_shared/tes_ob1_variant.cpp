@@ -237,11 +237,11 @@ struct FUN_00458f20_shell
 {
     const void* const* BSTempNode_GetRTTI() const;
 };
-extern "C" void __fastcall FUN_00a5e930(void*);
+extern "C" void __fastcall UpdateFields_00c5faa0(void*);
 extern int DAT_01017d24;
 struct FUN_00458f70_shell
 {
-    void __thiscall FUN_00458f70();
+    void __thiscall SetVtableAndProcessState_00458f70();
 };
 struct AnimIdle;
 struct Animation;
@@ -424,7 +424,7 @@ struct FUN_00454b90_shell
 };
 struct FUN_00458f30_shell
 {
-    void FUN_00458f70();
+    void SetVtableAndProcessState_00458f70();
     void* DestroyIfFlagged(unsigned int flags);
 };
 void _delete(void* obj, unsigned int size);
@@ -1049,7 +1049,7 @@ struct LookupResult
     LookupEntry* entry;
     LookupResult(int initialState);
     ~LookupResult();
-    LookupEntry* FUN_00559450();
+    LookupEntry* Modelloader_GetReferencedThis();
 };
 void __cdecl FindTextureByPath(void* object, LookupResult* result);
 void __cdecl BSTexturePalette_RemoveTexture(LookupEntry* entry);
@@ -2517,7 +2517,7 @@ struct ReloadNode
     unsigned object;
     ReloadNode(int);
     ~ReloadNode();
-    void* FUN_00559450();
+    void* Modelloader_GetReferencedThis();
 };
 struct TileReloadContext
 {
@@ -2640,7 +2640,7 @@ struct ReloadManager
 };
 struct ReloadInterface
 {
-    void FUN_00b65570();
+    void BSShaderLightingProperty_ClearLights_Thunk();
     void BSShaderAccumulator_ClearAllQueries();
 };
 ReloadInterface* ReloadGetInterface();
@@ -3204,8 +3204,8 @@ struct CellTest
 struct AddonQueuePointer
 {
     QueuedFile* object;
-    QueuedFile* FUN_00559450();
-    AddonQueuePointer& FUN_006f74f0(QueuedFile* file);
+    QueuedFile* Modelloader_GetReferencedThis();
+    AddonQueuePointer& AssignTaskReference(QueuedFile* file);
 };
 struct AddonFormBase
 {

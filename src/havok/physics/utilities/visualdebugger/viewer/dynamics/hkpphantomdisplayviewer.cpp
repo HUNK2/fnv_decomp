@@ -173,10 +173,11 @@ struct FnvCpu_FUN_00d66370_CpuTarget
 };
 struct FnvCpu_FUN_00d66370_CpuOwner
 {
-    void FUN_00d66370();
+    void ProcessState_00d66370();
 };
 // @fnv 0x00d66370
-void FnvCpu_FUN_00d66370_CpuOwner::FUN_00d66370()
+// src: GUESS 0x00d66370 (confidence: low)
+void FnvCpu_FUN_00d66370_CpuOwner::ProcessState_00d66370()
 {
     reinterpret_cast<FnvCpu_FUN_00d66370_CpuTarget*>(reinterpret_cast<char*>(this) + (-32))->removeWorld();
 }
@@ -196,13 +197,13 @@ struct PrimaryBase
 
 struct SecondaryBase
 {
-    virtual void FUN_00d66380();
+    virtual void AttachToIsland_Thunk();
 };
 
 struct Derived : PrimaryBase, SecondaryBase
 {
     Derived();
-    virtual void FUN_00d66380();
+    virtual void AttachToIsland_Thunk();
 };
 
 Derived::Derived()
@@ -210,7 +211,8 @@ Derived::Derived()
 
 // Calls the base constructor AttachToIsland on this object.
 // @fnv 0x00d66380
-void Derived::FUN_00d66380()
+// src: GUESS 0x00d66380 (confidence: medium)
+void Derived::AttachToIsland_Thunk()
 {
     this->PrimaryBase::AttachToIsland();
 }
@@ -218,7 +220,8 @@ void Derived::FUN_00d66380()
 extern int DAT_01268ff0;
 
 // @fnv 0x00d66b10
-int __cdecl FUN_00d66b10()
+// src: GUESS 0x00d66b10 (confidence: low)
+int __cdecl Hkpphantomdisplayviewer_GetDAT01268ff0()
 {
     return DAT_01268ff0;
 }
@@ -233,10 +236,11 @@ struct FUN_00d66330_StandIn
     void* unk14;
     void* unk18;
     hkpPhysicsContext* m_pShapeCollection;
-    void FUN_00d66330();
+    void ProcessEntries_00d66330();
 };
 // @fnv 0x00d66330
-void FUN_00d66330_StandIn::FUN_00d66330()
+// src: GUESS 0x00d66330 (confidence: low)
+void FUN_00d66330_StandIn::ProcessEntries_00d66330()
 {
     if (m_pShapeCollection)
     {
@@ -751,7 +755,7 @@ namespace fnv_00d66b20 {
 // declare, so the second base's vtable gets a thunk that moves `this` back by the first base's size (0x20).
 struct PrimaryBase
 {
-    virtual void FUN_00d66b20();
+    virtual void AdjustThisAndForward_00d66b20();
     int unk04;
     int unk08;
     int unk0C;
@@ -763,14 +767,15 @@ struct PrimaryBase
 
 struct SecondaryBase
 {
-    virtual void FUN_00d66b20();
+    virtual void AdjustThisAndForward_00d66b20();
 };
 
 struct Derived : PrimaryBase, SecondaryBase
 {
     Derived();
 // @fnv 0x00d66b20
-    virtual void FUN_00d66b20();
+// src: GUESS 0x00d66b20 (confidence: low)
+    virtual void AdjustThisAndForward_00d66b20();
 };
 
 Derived::Derived()
@@ -807,7 +812,7 @@ namespace fnv_00d66b40 {
 // declare, so the second base's vtable gets a thunk that moves `this` back by the first base's size (0x28).
 struct PrimaryBase
 {
-    virtual void FUN_00d66b40();
+    virtual void AdjustThisAndForward_00d66b40();
     int unk04;
     int unk08;
     int unk0C;
@@ -821,14 +826,15 @@ struct PrimaryBase
 
 struct SecondaryBase
 {
-    virtual void FUN_00d66b40();
+    virtual void AdjustThisAndForward_00d66b40();
 };
 
 struct Derived : PrimaryBase, SecondaryBase
 {
     Derived();
 // @fnv 0x00d66b40
-    virtual void FUN_00d66b40();
+// src: GUESS 0x00d66b40 (confidence: low)
+    virtual void AdjustThisAndForward_00d66b40();
 };
 
 Derived::Derived()
@@ -954,7 +960,7 @@ struct Vw66530Str
     int unk04;
     int unk08;
     void FUN_00cb1600(char* buf, int size);
-    void FUN_00cc01c0(const char* s);
+    void ProcessAndReturnValue_00cc01c0(const char* s);
     void FUN_00cc00e0();
 };
 
@@ -972,7 +978,7 @@ struct Vw66530Col
     int unk0C;
     int unk10;
     void hkpShapeDisplayBuilder_hkpShapeDisplayBuilder(Vw66530Obj* o);
-    void FUN_00de0f90(int root, hkArrayBase<Vw66530Entry*>* out);
+    void UpdateState_00de0f90(int root, hkArrayBase<Vw66530Entry*>* out);
 };
 
 struct Vw66530Disp
@@ -1020,14 +1026,14 @@ void Vw66530Self::hkpPhantomDisplayViewer_phantomAddedCallback(Vw66530Arg* arg)
         goto done;
     o.hkpShapeDisplayBuilder_hkpShapeDisplayBuilderEnvironment_hkpShapeDisplayBuilderEnvironment();
     col.hkpShapeDisplayBuilder_hkpShapeDisplayBuilder(&o);
-    col.FUN_00de0f90(root, &entries);
+    col.UpdateState_00de0f90(root, &entries);
     for (int i = entries.m_iElementCount - 1; i >= 0; i--)
     {
         Vw66530Entry* pEntry = entries.m_data[i];
         if (pEntry->unk50 == 6 && pEntry->unk08 == 0)
         {
             str.FUN_00cb1600((char*)buf, 0x200);
-            str.FUN_00cc01c0(str_010d196c);
+            str.ProcessAndReturnValue_00cc01c0(str_010d196c);
             DAT_01268360->log(0, -1, (char*)buf, str_010d1be8, 0x91);
             str.FUN_00cc00e0();
             entries.removeAt(i);

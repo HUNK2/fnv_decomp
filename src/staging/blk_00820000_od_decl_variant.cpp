@@ -66,7 +66,7 @@ struct FUN_0082ee80_class
 extern "C" void* DAT_0107cb6c;
 struct FUN_0082f140_class
 {
-    void FUN_0082f140();
+    void SetVirtualTable_0082f140();
 };
 void __fastcall NiCriticalSection_Lock(void*);
 struct FUN_0082f190_class
@@ -77,7 +77,7 @@ void __fastcall NiCriticalSection_Lock(void*);
 struct FUN_0082f520Class
 {
     void* p;
-    void* __thiscall FUN_0082f520(void* v);
+    void* __thiscall ProcessAndReturnValue_0082f520(void* v);
 };
 struct FUN_00831e00_class
 {
@@ -86,7 +86,7 @@ struct FUN_00831e00_class
 extern "C" void __stdcall ReceiveConnection(int, int, int);
 struct FUN_00831f40_Class
 {
-    void FUN_00831f40(int a, int b);
+    void ReceiveConnection_Thunk(int a, int b);
 };
 struct FUN_008321c0_Class
 {
@@ -95,7 +95,7 @@ struct FUN_008321c0_Class
     int m_iThirdValue;
     int m_iFourthElementInteger;
     void FUN_00836030();
-    void FUN_008321c0();
+    void ForwardCall_008321c0();
 };
 struct FUN_00836240
 {
@@ -130,7 +130,7 @@ extern "C" void* __cdecl _NiFreeAlias(void*);
 extern void* DAT_0107ca64;
 struct FUN_0082efb0
 {
-    void FUN_0082efb0_init();
+    void SetVtableAndProcessState_0082efb0();
 };
 struct FUN_00438690
 {
@@ -156,7 +156,7 @@ struct FUN_0082eee0_class
 void __cdecl Deallocate(void*);
 struct FUN_00831f80_class
 {
-    void __thiscall FUN_00831fb0();
+    void __thiscall SetVtableAndProcessState_00831fb0();
     void* __thiscall FUN_00831f80(unsigned int flags);
 };
 extern int DAT_0107cd54;
@@ -170,7 +170,7 @@ struct FUN_00831fb0_class
     int b;
     int c;
     int d;
-    void __thiscall FUN_00831fb0();
+    void __thiscall SetVtableAndProcessState_00831fb0();
 };
 struct FUN_00836600_class
 {
@@ -185,7 +185,7 @@ void __cdecl Deallocate(void*);
 struct FUN_0083b740_Class
 {
     void* __thiscall FUN_0083b740(unsigned int flags);
-    void __thiscall FUN_0083b710();
+    void __thiscall SetVtableAndProcessState_0083b710();
 };
 struct FUN_0083b770
 {
@@ -403,13 +403,13 @@ struct FUN_00831de0_Class
     int ForwardToMember();
 };
 typedef void(__stdcall* FUN_00831eb0_callback)(void*, int, int);
-void __stdcall FUN_00831eb0(void* object, int a, int b);
+void __stdcall BSSimpleList_UpdateState_00831eb0(void* object, int a, int b);
 struct FUN_00831ee0_class
 {
     virtual void FUN_00831ee0_virtual0();
     virtual void __stdcall FUN_00831ee0_virtual1();
 };
-void __stdcall FUN_00831ee0(void* p);
+void __stdcall Object_UpdateFields_00831ee0(void* p);
 struct GlobalObject_0083b5e0
 {
     ~GlobalObject_0083b5e0();
@@ -826,7 +826,7 @@ struct FUN_0082f9c0_obj
     virtual int unk00(int a);
 };
 void __cdecl FalloutAudioMedia_Shutdown();
-int __stdcall FUN_00831f70(int unused);
+int __stdcall Runtime_ReturnZero(int unused);
 // PlayWeaponSound v2 (worker11): pack types reused; extra callees via shell classes
 struct Entry
 {
@@ -1122,7 +1122,7 @@ struct EffectTime
 };
 struct EffectHandle
 {
-    EffectTime* FUN_00559450();
+    EffectTime* Modelloader_GetReferencedThis();
 };
 struct SpellTimes
 {

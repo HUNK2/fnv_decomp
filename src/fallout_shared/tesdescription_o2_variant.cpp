@@ -24,7 +24,7 @@ void __cdecl WriteDescChunk(void*, int);
 class D1CC0Primary
 {
   public:
-    virtual void FUN_00501cc0(unsigned int uiValue);
+    virtual void AdjustThisAndForward_00501cc0(unsigned int uiValue);
     int unk04;
     int unk08;
     int unk0C;
@@ -44,7 +44,7 @@ class D1CC0Primary
 class D1CC0Secondary
 {
   public:
-    virtual void FUN_00501cc0(unsigned int uiValue);
+    virtual void AdjustThisAndForward_00501cc0(unsigned int uiValue);
 };
 
 class D1CC0Derived : public D1CC0Primary, public D1CC0Secondary
@@ -52,7 +52,8 @@ class D1CC0Derived : public D1CC0Primary, public D1CC0Secondary
   public:
     D1CC0Derived();
 // @fnv 0x00501cc0
-    virtual void FUN_00501cc0(unsigned int uiValue);
+// src: GUESS 0x00501cc0 (confidence: low)
+    virtual void AdjustThisAndForward_00501cc0(unsigned int uiValue);
 };
 
 D1CC0Derived::D1CC0Derived()

@@ -56,11 +56,12 @@ struct CharacterStateSlotTable
 {
     int m_auiShapeKeys[2];
     hkReferencedObject* m_states[32];
-    hkReferencedObject* FUN_00cbc510(int index);
+    hkReferencedObject* GetIndexedValue_00cbc510(int index);
 };
 
 // @fnv 0x00cbc510
-hkReferencedObject* CharacterStateSlotTable::FUN_00cbc510(int index)
+// src: GUESS 0x00cbc510 (confidence: low)
+hkReferencedObject* CharacterStateSlotTable::GetIndexedValue_00cbc510(int index)
 {
     return m_states[index];
 }

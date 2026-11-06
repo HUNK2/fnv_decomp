@@ -107,21 +107,21 @@ public:
     float GetSquaredXYLength() const;
     Elem16& expand(Allocator& allocator);
 
-    void FUN_00416870(float x, float y, float z);
+    void SetComponents(float x, float y, float z);
     bool FUN_00439090(const LocalVec3* other);
-    bool FUN_004390c0(const LocalVec3* other);
-    bool FUN_004390c0(const LocalVec3* other) const;
-    bool FUN_004390c0(const char* other);
-    void FUN_00439180(float scale);
+    bool HasEqualComponents(const LocalVec3* other);
+    bool HasEqualComponents(const LocalVec3* other) const;
+    bool HasEqualComponents(const char* other);
+    void ScaleComponents(float scale);
     LocalVec3 FUN_00439e90(const LocalVec3& other);
     LocalVec3 FUN_00439e90(const LocalVec3& other) const;
-    void FUN_00439ef0();
-    LocalVec3 FUN_00439ef0(const LocalVec3& other);
-    LocalVec3 FUN_00439ef0(const LocalVec3& other) const;
-    LocalVec3 FUN_00439ef0(LocalVec3* other);
-    LocalVec3 FUN_00439ef0(const LocalVec3* other);
-    void FUN_00439ef0(LocalVec3* output, const LocalVec3* other);
-    LocalVec3* FUN_00439ef0(void* output, void* other);
+    void SubtractIntoVector();
+    LocalVec3 SubtractIntoVector(const LocalVec3& other);
+    LocalVec3 SubtractIntoVector(const LocalVec3& other) const;
+    LocalVec3 SubtractIntoVector(LocalVec3* other);
+    LocalVec3 SubtractIntoVector(const LocalVec3* other);
+    void SubtractIntoVector(LocalVec3* output, const LocalVec3* other);
+    LocalVec3* SubtractIntoVector(void* output, void* other);
     void FUN_0043d410(float x, int y, int z);
     void FUN_0043d410(float x, unsigned int y, unsigned int z);
     float FUN_00457910();
@@ -131,22 +131,22 @@ public:
     float FUN_004a7290();
     float FUN_004a7290() const;
     LocalVec3 FUN_004b3800(const LocalVec3& other) const;
-    LocalVec3 FUN_0053d280(float divisor);
+    LocalVec3 ProcessAndReturnValue_0053d280(float divisor);
     float NiPoint3_XYLength();
     float NiPoint3_XYLength() const;
-    void FUN_0063c8a0(const LocalVec3* other);
-    void FUN_0063c8a0(void* other);
+    void ComputeValue_0063c8a0(const LocalVec3* other);
+    void ComputeValue_0063c8a0(void* other);
     void FUN_006815c0();
     float CVec3_Distance(LocalVec3* other);
     float CVec3_Distance(const LocalVec3& other) const;
-    LocalVec3 FUN_00b05000(const Mat& matrix);
-    LocalVec3 FUN_00b05000(const Matrix4* matrix);
+    LocalVec3 TransformPointByMatrix4(const Mat& matrix);
+    LocalVec3 TransformPointByMatrix4(const Matrix4* matrix);
     void Normalize_00b12790();
     LocalVec3 Diff_00b13040(void* other);
     LocalVec3 Diff_00b13040(const LocalVec3& other) const;
     float FUN_00b2a180(void* other);
-    LocalVec3& FUN_00b2a1c0(void* other);
-    void FUN_00ddc870();
+    LocalVec3& AddComponents(void* other);
+    void ProcessEntries_00ddc870();
     void FUN_00e0f6e0();
 };
 #include "../../include/NiFixedString.h"
@@ -413,7 +413,8 @@ int __thiscall FUN_00e8aa40_Class::FUN_00e8aa40(bool abFree)
 }
 
 // @fnv 0x00e8b490
-void __stdcall FUN_00e8b490(int* paiValues, int iFirst, int iSecond)
+// src: GUESS 0x00e8b490 (confidence: low)
+void __stdcall Runtime_UpdateState_00e8b490(int* paiValues, int iFirst, int iSecond)
 {
     paiValues[1] = iFirst;
     paiValues[2] = iSecond;
@@ -449,10 +450,11 @@ void __cdecl NiVBSet_DetermineUsageAndPool(void* apData)
 }
 
 struct FUN_00e95b80_Class {
-    void __thiscall FUN_00e95b80();
+    void __thiscall SetVirtualTable_00e95b80();
 };
 // @fnv 0x00e95b80
-void __thiscall FUN_00e95b80_Class::FUN_00e95b80()
+// src: GUESS 0x00e95b80 (confidence: low)
+void __thiscall FUN_00e95b80_Class::SetVirtualTable_00e95b80()
 {
     void** p = *(void***)((char*)this + 0x10);
     if (p) {
@@ -480,11 +482,12 @@ extern "C" void __cdecl NiFreeAlias(void*);
 extern int DAT_010f0f7c;
 
 struct FUN_00e98640_Class {
-    void __thiscall FUN_00e98640();
+    void __thiscall ReleaseStorage_00e98640();
 };
 
 // @fnv 0x00e98640
-void __thiscall FUN_00e98640_Class::FUN_00e98640()
+// src: GUESS 0x00e98640 (confidence: medium)
+void __thiscall FUN_00e98640_Class::ReleaseStorage_00e98640()
 {
     void* p = *(void**)((char*)this + 0x30);
     *(int*)((char*)this + 0x2c) = (int)&DAT_010f0f7c;
@@ -667,21 +670,22 @@ void __fastcall ClearFields(void* self)
     *(int*)((char*)self + 0xac) = 0;
 }
 
-extern "C" void __cdecl FUN_00aa1490(void*, unsigned int);
+extern "C" void __cdecl NiMemObject_ReleaseStorage_00aa1490(void*, unsigned int);
 struct FUN_00e89560_Class {
     void* m_ptr;
     void* m_obj;
-    void __thiscall FUN_00e89560();
+    void __thiscall ReleaseStorage_00e89560();
 };
 // @fnv 0x00e89560
-void __thiscall FUN_00e89560_Class::FUN_00e89560()
+// src: GUESS 0x00e89560 (confidence: medium)
+void __thiscall FUN_00e89560_Class::ReleaseStorage_00e89560()
 {
     if (m_ptr)
-        FUN_00aa1490((char*)m_ptr - 4, 0xb8);
+        NiMemObject_ReleaseStorage_00aa1490((char*)m_ptr - 4, 0xb8);
     void* obj = *(void**)((char*)this + 8);
     if (obj)
     {
-        ((FUN_00e89560_Class*)obj)->FUN_00e89560();
+        ((FUN_00e89560_Class*)obj)->ReleaseStorage_00e89560();
         g_memoryManager.Deallocate(obj);
     }
 }
@@ -1158,14 +1162,14 @@ void FUN_00e887d0_Class::SetFieldValues(int aiValue1, int aiValue2, int aiUnused
 struct FUN_00e88b00_Class {
     int m_auiShapeKeys[0x1100 / 4];
     virtual ~FUN_00e88b00_Class();
-    int __thiscall FUN_00e88b00();
+    int __thiscall UpdateFields_00e88b00();
     int __thiscall DestroyIfFlagged(bool flag);
 };
 // Calls FUN_00e88b00, then deletes this with size 0x1100 if flag bit 0 is set, and returns this.
 // @fnv 0x00e88bf0
 int FUN_00e88b00_Class::DestroyIfFlagged(bool abDelete)
 {
-    FUN_00e88b00();
+    UpdateFields_00e88b00();
     if (abDelete & 1)
         operator delete(this, 0x1100);
     return (int)this;
@@ -1207,14 +1211,14 @@ void __cdecl _NiFree(void*);
 
 extern "C" void __cdecl operator delete(void*, unsigned int);
 struct FUN_00e8ceb0_Class {
-    void __thiscall FUN_00e8ceb0();
+    void __thiscall ReleaseStorage_00e8ceb0();
     void* __thiscall FUN_00e8d200(bool flag);
 };
 // Calls FUN_00e8ceb0, then if flag bit 0 is set frees this with operator delete, and returns this.
 // @fnv 0x00e8d200
 void* FUN_00e8ceb0_Class::FUN_00e8d200(bool abFree)
 {
-    FUN_00e8ceb0();
+    ReleaseStorage_00e8ceb0();
     if (abFree & 1)
         operator delete(this, 0x100);
     return this;
@@ -1257,10 +1261,11 @@ void __cdecl NiStaticDataManager_AddLibrary(void*, void*);
 void __cdecl NiDX9RendererSDM_Init();
 void __cdecl NiDX9RendererSDM_Shutdown();
 struct FUN_00e91e30_This {
-    void* FUN_00e91e30();
+    void* UpdateState_00e91e30();
 };
 // @fnv 0x00e91e30
-void* FUN_00e91e30_This::FUN_00e91e30()
+// src: GUESS 0x00e91e30 (confidence: low)
+void* FUN_00e91e30_This::UpdateState_00e91e30()
 {
     int old = DAT_0126fa04;
     ++DAT_0126fa04;
@@ -1473,11 +1478,12 @@ struct FUN_00e96c90_Class {
     FUN_00e89970_Object* m_38;
 
     void __thiscall FUN_00e89970();
-    void __thiscall FUN_00e96c90();
+    void __thiscall UpdateState_00e96c90();
 };
 
 // @fnv 0x00e96c90
-void __thiscall FUN_00e96c90_Class::FUN_00e96c90()
+// src: GUESS 0x00e96c90 (confidence: low)
+void __thiscall FUN_00e96c90_Class::UpdateState_00e96c90()
 {
     m_ppVirtualMethodTable = &DAT_010f10f4;
     NiFree(m_30);
@@ -6641,13 +6647,13 @@ void* __thiscall FUN_00e89410_Class::GetItemByIndex(unsigned int index)
 }
 
 struct ScalarDeletingObject {
-    void FUN_00e89560();
+    void ReleaseStorage_00e89560();
     void* DestroyScalarObject(unsigned char flags);
 };
 // Calls FUN_00e89560, frees this via g_memoryManager when flags has bit 0 set, and returns this.
 // @fnv 0x00e89440
 void* ScalarDeletingObject::DestroyScalarObject(unsigned char flags) {
-    FUN_00e89560();
+    ReleaseStorage_00e89560();
     if (flags & 1)
         g_memoryManager.Deallocate(this);
     return this;
@@ -6675,10 +6681,11 @@ struct FUN_00e89840_Class {
     ReleaseInterface* m_20;
     int m_24;
     int m_28;
-    void FUN_00e89840();
+    void UpdateFields_00e89840();
 };
 // @fnv 0x00e89840
-void FUN_00e89840_Class::FUN_00e89840()
+// src: GUESS 0x00e89840 (confidence: low)
+void FUN_00e89840_Class::UpdateFields_00e89840()
 {
     m_ppVirtualMethodTable = &DAT_010ef73c;
     _NiFree_00aa10f0(m_0c);
@@ -8152,7 +8159,7 @@ struct CubeMapSurface {
 };
 extern "C" void __cdecl NiDX9SourceTextureData_CopyDataToSurfaceLevel(int a, unsigned int b, int c, int d);
 extern "C" void* __cdecl GetHResultName(int r);
-extern "C" void __cdecl FUN_00a29680(const char* fmt, unsigned int i, void* s);
+extern "C" void __cdecl Object_DoNothing(const char* fmt, unsigned int i, void* s);
 struct FUN_00e8aaf0_cls {
     int unk00;
     int unk04;
@@ -8194,7 +8201,7 @@ void FUN_00e8aaf0_cls::NiDX9SourceCubeMapData_CopyDataToSurface(int pData, int i
         do {
             int r = src->GetSurfaceLevel(orig, i, &iFace);
             if (r < 0) {
-                FUN_00a29680("NiDX9SourceCubeMapData::CopyDataToSurface> Failed GetSurfaceLevel (%d)- %s", i, GetHResultName(r));
+                Object_DoNothing("NiDX9SourceCubeMapData::CopyDataToSurface> Failed GetSurfaceLevel (%d)- %s", i, GetHResultName(r));
                 return;
             }
             NiDX9SourceTextureData_CopyDataToSurfaceLevel(pData, i, iFace, orig);
@@ -8232,7 +8239,7 @@ struct CubeMapSurface {
 };
 extern "C" void __cdecl NiDX9SourceTextureData_CopyRendererDataToSurfaceLevel(int a, unsigned int b, int c, int d);
 extern "C" void* __cdecl GetHResultName(int r);
-extern "C" void __cdecl FUN_00a29680(const char* fmt, unsigned int i, void* s);
+extern "C" void __cdecl Object_DoNothing(const char* fmt, unsigned int i, void* s);
 struct FUN_00e8ab70_cls {
     int unk00;
     int unk04;
@@ -8274,7 +8281,7 @@ void FUN_00e8ab70_cls::NiDX9SourceCubeMapData_CopyRendererDataToCubeMapFace(int 
         do {
             int r = src->GetSurfaceLevel(orig, i, &a2);
             if (r < 0) {
-                FUN_00a29680("NiDX9SourceCubeMapData::CopyDataToSurface> Failed GetSurfaceLevel (%d)- %s", i, GetHResultName(r));
+                Object_DoNothing("NiDX9SourceCubeMapData::CopyDataToSurface> Failed GetSurfaceLevel (%d)- %s", i, GetHResultName(r));
                 return;
             }
             NiDX9SourceTextureData_CopyRendererDataToSurfaceLevel(aiData, i, a2, orig);
@@ -8539,11 +8546,12 @@ struct Target {
  unsigned int bits[8];
  void ClearBit(unsigned int index) { unsigned int word=index>>5; unsigned int mask=1<<(index&31); bits[word]&=~mask; }
  Item* NiTMapIterator_GetFirstPos();
- void FUN_00e8b630();
+ void ProcessEntries_00e8b630();
 };
 // Empties the map: removes and deletes all items, returns pooled nodes, releases object, clears both base maps and frees the bucket array.
 // @fnv 0x00e8b630
-void Target::FUN_00e8b630() {
+// src: GUESS 0x00e8b630 (confidence: low)
+void Target::ProcessEntries_00e8b630() {
  while(count) {
   Item* node=NiTMapIterator_GetFirstPos();
   Key* key=node->key;
@@ -8925,7 +8933,7 @@ public:
     unsigned int m_04;
     unsigned int m_08;
 
-    void FUN_00e8e290(unsigned int newCap);
+    void ResizeStringArray(unsigned int newCap);
     void PushBack(char* const* src);
 };
 
@@ -8934,7 +8942,7 @@ public:
 void FUN_00e8e330_cls::PushBack(char* const* src)
 {
     if (m_08 == m_04) {
-        FUN_00e8e290(m_04 > 0 ? m_04 * 2 : 1);
+        ResizeStringArray(m_04 > 0 ? m_04 * 2 : 1);
     }
     unsigned int idx = m_08;
     char** slot = &m_00[idx];
@@ -9340,7 +9348,8 @@ struct FUN_00e984d0_Struct {
 };
 
 // @fnv 0x00e984d0
-void __cdecl FUN_00e984d0(FUN_00e984d0_Struct* pStruct, int aiArg1, int aiArg2)
+// src: GUESS 0x00e984d0 (confidence: low)
+void __cdecl Runtime_UpdateState_00e984d0(FUN_00e984d0_Struct* pStruct, int aiArg1, int aiArg2)
 {
     int local = 1;
     pStruct->unk04 += pStruct->unk0c(pStruct, aiArg1, aiArg2, &local, 1);
@@ -9348,10 +9357,11 @@ void __cdecl FUN_00e984d0(FUN_00e984d0_Struct* pStruct, int aiArg1, int aiArg2)
 
 struct FnvCpu_FUN_00e98e10_CpuTarget { void NiPick_Results_ClearArray(); };
 struct FnvCpu_FUN_00e98e10_CpuOwner {
-    void FUN_00e98e10();
+    void ProcessState_00e98e10();
 };
 // @fnv 0x00e98e10
-void FnvCpu_FUN_00e98e10_CpuOwner::FUN_00e98e10()
+// src: GUESS 0x00e98e10 (confidence: low)
+void FnvCpu_FUN_00e98e10_CpuOwner::ProcessState_00e98e10()
 {
     reinterpret_cast<FnvCpu_FUN_00e98e10_CpuTarget*>(reinterpret_cast<char*>(this) + (24))->NiPick_Results_ClearArray();
 }
@@ -9447,7 +9457,7 @@ struct FUN_00e9e840_Class
     virtual bool m_virtual08(int value);
     virtual bool m_virtual09(int value);
 
-    bool __thiscall FUN_00e9e840(int value);
+    bool __thiscall ProcessAndTransformResult_00e9e840(int value);
 };
 
 // @fnv 0x00e9e840
@@ -9501,7 +9511,8 @@ inline bool FUN_00e9e840_Class::m_virtual09(int value)
     return value != 0;
 }
 
-bool FUN_00e9e840_Class::FUN_00e9e840(int value)
+// src: GUESS 0x00e9e840 (confidence: low)
+bool FUN_00e9e840_Class::ProcessAndTransformResult_00e9e840(int value)
 {
     return !m_virtual09(value);
 }
@@ -10093,11 +10104,11 @@ public:
 };
 
 FixedStr* NiTNewInterface_NiFixedString_Allocate(unsigned int ItemUpdateArray);   // array new
-void FUN_00a644a0(FixedStr* pkArray);           // array delete
+void Object_ProcessEntries_00a644a0(FixedStr* pkArray);           // array delete
 
 class FixedStrArray {
 public:
-    void FUN_00e8e290(unsigned int uiMaxSize);
+    void ResizeStringArray(unsigned int uiMaxSize);
 
     FixedStr* m_pBase;
     unsigned int m_uiMaxSize;
@@ -10106,7 +10117,8 @@ public:
 
 // Reallocates the string array to uiMaxSize, copies existing elements into the new buffer, frees the old buffer and updates m_pBase and m_uiMaxSize.
 // @fnv 0x00e8e290
-void FixedStrArray::FUN_00e8e290(unsigned int uiNewMaxSize)
+// src: GUESS 0x00e8e290 (confidence: medium)
+void FixedStrArray::ResizeStringArray(unsigned int uiNewMaxSize)
 {
     if (uiNewMaxSize == m_uiMaxSize)
         return;
@@ -10118,7 +10130,7 @@ void FixedStrArray::FUN_00e8e290(unsigned int uiNewMaxSize)
     } else {
         pkNew = 0;
     }
-    FUN_00a644a0(m_pBase);
+    Object_ProcessEntries_00a644a0(m_pBase);
     m_pBase = pkNew;
     m_uiMaxSize = uiNewMaxSize;
 }
@@ -10789,7 +10801,7 @@ __declspec(noinline) IDirect3DIndexBuffer9Like* NiDX9IndexBufferManager::CreateI
         }
         return (IDirect3DIndexBuffer9Like*)result;
     }
-    ((void (__cdecl *)(const char*))FUN_00a29680)(str_010f0184);
+    ((void (__cdecl *)(const char*))Object_DoNothing)(str_010f0184);
     return 0;
 }
 
@@ -11552,13 +11564,13 @@ S00e8f360_IB* __fastcall EnsureIndexBuffer(NiDX9IndexBufferManager* self, void*,
     {
         S00e8f360_IB* fresh = 0;
         if (((S00e8f360_Dev*)self->m_pDirect3DDevice)->CreateIndexBuffer(size, usage, S00e8f360_FMT16, pool, &fresh, 0) < 0) {
-            ((S00e8f360_LogFn)FUN_00a29680)(str_010f0184);
+            ((S00e8f360_LogFn)Object_DoNothing)(str_010f0184);
             fresh = 0;
         }
         buffer = fresh;
     }
     if (!buffer) {
-        ((S00e8f360_LogFn)FUN_00a29680)(str_010f0200);
+        ((S00e8f360_LogFn)Object_DoNothing)(str_010f0200);
         return 0;
     }
 fill:
@@ -11579,7 +11591,7 @@ fill:
             }
             buffer->Unlock();
         } else {
-            ((S00e8f360_LogFn)FUN_00a29680)(str_010eddd0);
+            ((S00e8f360_LogFn)Object_DoNothing)(str_010eddd0);
             buffer->Unlock();
             buffer->Release();
             buffer = 0;
@@ -11661,7 +11673,7 @@ IDirect3DIndexBuffer9Like* NiDX9IndexBufferManager::ResizeTempLineConnectivityIB
         pkIB = CreateIndexBuffer(uiSize, uiUsage, 0x65, ePool, 0);
         if (pkIB == 0)
         {
-            reinterpret_cast<void (__cdecl*)(const char*)>(FUN_00a29680)("NiDX9IndexBufferManager::ResizeTempLineConnectivity> "
+            reinterpret_cast<void (__cdecl*)(const char*)>(Object_DoNothing)("NiDX9IndexBufferManager::ResizeTempLineConnectivity> "
                 "Failed to create index buffer\n");
             return 0;
         }
@@ -11694,7 +11706,7 @@ IDirect3DIndexBuffer9Like* NiDX9IndexBufferManager::ResizeTempLineConnectivityIB
         }
         else
         {
-            reinterpret_cast<void (__cdecl*)(const char*)>(FUN_00a29680)("NiDX9IndexBufferManager::PackBuffer> "
+            reinterpret_cast<void (__cdecl*)(const char*)>(Object_DoNothing)("NiDX9IndexBufferManager::PackBuffer> "
                 "Failed to lock index buffer\n");
             pkIB->Unlock();
             pkIB->Release();
@@ -11922,7 +11934,7 @@ FUN_00e9ec90::~FUN_00e9ec90() {
 static const void* kNull = 0;
 extern "C" void* __cdecl memset(void*, int, unsigned int);
 extern "C" void _ReadWriteBarrier();
-void* FUN_00aa13e0(unsigned int size);
+void* Object_DispatchCommandFour(unsigned int size);
 
 struct S00e8fa80_Node {
     volatile unsigned int key;
@@ -11946,7 +11958,7 @@ struct S00e8fa80_Obj {
     S00e8fa80_Node* GetOrCreateNode(int a, unsigned int b, int c);
 };
 
-void* FUN_00aa13e0(unsigned int size);
+void* Object_DispatchCommandFour(unsigned int size);
 
 // Packs a and b into a key, looks up the selected map by c, and creates a new node if the key is not found.
 // @fnv 0x00e8fa80
@@ -11959,7 +11971,7 @@ S00e8fa80_Node* S00e8fa80_Obj::GetOrCreateNode(int aiHigh, unsigned int aiLow, i
     case 1:
         map = &map2c;
         if (!map->FUN_00a53c30(packed, result)) {
-            S00e8fa80_Node* node = (S00e8fa80_Node*)FUN_00aa13e0(0x1c);
+            S00e8fa80_Node* node = (S00e8fa80_Node*)Object_DispatchCommandFour(0x1c);
             node->Initialize();
             node->key = packed;
             map->InsertOrUpdate(packed, node);
@@ -11969,7 +11981,7 @@ S00e8fa80_Node* S00e8fa80_Obj::GetOrCreateNode(int aiHigh, unsigned int aiLow, i
     case 0:
         map = &map1c;
         if (!map->FUN_00a53c30(packed, result)) {
-            S00e8fa80_Node* node = (S00e8fa80_Node*)FUN_00aa13e0(0x1c);
+            S00e8fa80_Node* node = (S00e8fa80_Node*)Object_DispatchCommandFour(0x1c);
             node->Initialize();
             node->key = packed;
             map->InsertOrUpdate(packed, node);
@@ -11979,7 +11991,7 @@ S00e8fa80_Node* S00e8fa80_Obj::GetOrCreateNode(int aiHigh, unsigned int aiLow, i
     case 2:
         map = &map3c;
         if (!map->FUN_00a53c30(packed, result)) {
-            S00e8fa80_Node* node = (S00e8fa80_Node*)FUN_00aa13e0(0x1c);
+            S00e8fa80_Node* node = (S00e8fa80_Node*)Object_DispatchCommandFour(0x1c);
             node->Initialize();
             node->key = packed;
             map->InsertOrUpdate(packed, node);
@@ -12669,12 +12681,13 @@ struct FUN_00e88b00_Class {
     S_00e88b00_FastObject* unk10f8;
     int unk10fc;
 
-    void __thiscall FUN_00e88b00();
+    void __thiscall UpdateFields_00e88b00();
 };
 
 // Releases unk74, unk10f8 and unk100's object, calls unkf8.FUN_00e940a0, then sets m_vptr to DAT_0101dce4 and calls DAT_00fdf1c4 on DAT_011f4400.
 // @fnv 0x00e88b00
-void __thiscall FUN_00e88b00_Class::FUN_00e88b00()
+// src: GUESS 0x00e88b00 (confidence: low)
+void __thiscall FUN_00e88b00_Class::UpdateFields_00e88b00()
 {
     S_00e88b00_AllocFn fn = (S_00e88b00_AllocFn)DAT_00fdf1c4;
 
@@ -12725,7 +12738,7 @@ namespace fnv_00e8aa70 {
 
 extern char DAT_010efcf0[];
 extern char* __cdecl GetHResultName(int);
-extern void __cdecl FUN_00a29680(char*, char*);
+extern void __cdecl Object_DoNothing(char*, char*);
 
 struct CubeTextureResource
 {
@@ -12753,7 +12766,7 @@ bool __thiscall CubeTextureResource::NiDX9SourceCubeMapData_CreateCubeMap()
 
     if (result < 0)
     {
-        FUN_00a29680(DAT_010efcf0, GetHResultName(result));
+        Object_DoNothing(DAT_010efcf0, GetHResultName(result));
         return false;
     }
     *reinterpret_cast<IDirect3DCubeTexture9**>(reinterpret_cast<char*>(this) + 0x64) = texture;
@@ -13873,10 +13886,10 @@ struct CreationContext {
         f = adapterFormat;
     }
 };
-extern void* __cdecl FUN_00aa13e0(unsigned int);
+extern void* __cdecl Object_DispatchCommandFour(unsigned int);
 extern TextureSurface* __cdecl DispatchIfHighBitSet(TextureInput*, unsigned int, int);
 extern ResourceManager* __cdecl FUN_00a76640();
-extern void __cdecl FUN_00a29680(const void*, ...);
+extern void __cdecl Object_DoNothing(const void*, ...);
 extern int __cdecl FUN_00e7bd20(TextureDescription*);
 extern char DAT_010efd88, DAT_010ed4dc;
 extern unsigned char DAT_011f4508;
@@ -13900,10 +13913,10 @@ DeviceResource* __cdecl NiDX9SourceCubeMapData_Create(TextureInput* input, Resou
         if (renderTargets[slot + 1]) { ++slot; break; }
     }
     if (slot == 22) {
-        FUN_00a29680(&DAT_010efd88);
+        Object_DoNothing(&DAT_010efd88);
         return 0;
     }
-    void* allocation = FUN_00aa13e0(0x88);
+    void* allocation = Object_DispatchCommandFour(0x88);
     DeviceResource* result = allocation ? reinterpret_cast<DeviceResource*>(new (allocation) PlainResource58(input, config)) : 0;
     DirectResource* directResource = input->GetDirect();
     const TextureInput::InputDescription& preferences = input->GetPreferences();
@@ -13926,7 +13939,7 @@ DeviceResource* __cdecl NiDX9SourceCubeMapData_Create(TextureInput* input, Resou
     if (!directResource && !surface) {
         surface = DispatchIfHighBitSet(input, 0x80000008, 1);
         result->fallback = true;
-        FUN_00a29680(&DAT_010ed4dc, input->GetFilename());
+        Object_DoNothing(&DAT_010ed4dc, input->GetFilename());
     } else if (directResource) {
         TextureDescription* description = const_cast<TextureDescription*>(&directResource->GetDescription());
         unsigned int width = directResource->GetWidth();
@@ -14349,7 +14362,7 @@ struct FUN_00e8b0c0_Class {
     char m_6e[0x84 - 0x6e];
     int m_84;
 
-    void __thiscall FUN_00e8b0c0();
+    void __thiscall UpdateChangedEntries();
     void __thiscall NiDX9SourceCubeMapData_CopyDataToSurface(FUN_00e8b0c0_Ret* p, int idx);
 };
 
@@ -14357,7 +14370,8 @@ extern "C" bool __stdcall SetProgram(void* a);
 
 // If the item at m_08->m_3c changed (m_68 != m_84 or FUN_00e68760 true), calls v5, sets m_84, and calls FUN_00e8aaf0 per entry of the result if m_64.
 // @fnv 0x00e8b0c0
-void FUN_00e8b0c0_Class::FUN_00e8b0c0()
+// src: GUESS 0x00e8b0c0 (confidence: medium)
+void FUN_00e8b0c0_Class::UpdateChangedEntries()
 {
     if (m_6c != 0) {
         return;
@@ -14491,10 +14505,10 @@ FUN_00e98910_Class::NiD3DShaderConstantManager_NiD3DShaderConstantManager(int* c
 }
 
 extern "C" void __cdecl NiFree(void*);
-extern "C" void __cdecl FUN_00aa1490(void*, unsigned int);
+extern "C" void __cdecl NiMemObject_ReleaseStorage_00aa1490(void*, unsigned int);
 
 struct E895A0_Sdo {
-    void FUN_00e89560();
+    void ReleaseStorage_00e89560();
     void* DestroyScalarObject(unsigned char flags);
 };
 
@@ -14513,18 +14527,19 @@ struct E895A0_Object {
     int m_04;
     int m_08;
     E895A0_Node* m_0c;
-    void __thiscall FUN_00e895a0();
+    void __thiscall ReleaseStorage_00e895a0();
 };
 
 // Sets m_08 to 0, frees node m_0c's block, calls FUN_00e89440(1) on its next node, deallocates the node, then calls NiFree on m_00.
 // @fnv 0x00e895a0
-void E895A0_Object::FUN_00e895a0()
+// src: GUESS 0x00e895a0 (confidence: medium)
+void E895A0_Object::ReleaseStorage_00e895a0()
 {
     E895A0_Node* node = m_0c;
     m_08 = 0;
     if (node) {
         if (node->m_block)
-            FUN_00aa1490((char*)node->m_block - 4, 0xb8);
+            NiMemObject_ReleaseStorage_00aa1490((char*)node->m_block - 4, 0xb8);
         if (node->m_next)
             node->m_next->DestroyScalarObject(1);
         g_memoryManager.Deallocate(node);
@@ -14533,7 +14548,7 @@ void E895A0_Object::FUN_00e895a0()
 }
 
 extern "C++" void __cdecl operator delete(void*, int);
-struct E95B80SV { void FUN_00e95b80(); };
+struct E95B80SV { void SetVirtualTable_00e95b80(); };
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long* p);
 
 
@@ -14673,7 +14688,7 @@ NiDX9IndexBufferManager::~NiDX9IndexBufferManager() throw()
                         ComReferenceInterface* pkIB = pkEntry->m_pkIndexBuffer;
                         if (pkIB)
                             pkIB->Release();
-                        ((E95B80SV*)pkEntry)->FUN_00e95b80();
+                        ((E95B80SV*)pkEntry)->SetVirtualTable_00e95b80();
                         operator delete(pkEntry, 0x38);
                     }
                 }

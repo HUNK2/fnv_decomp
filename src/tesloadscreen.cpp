@@ -254,8 +254,8 @@ int TESLoadScreen::GetLoadScreenTypeDataType()
 // @fnv 0x005a68b0
 void TESLoadScreen::InitializeComponent()
 {
-    TESForm::FUN_004855a0();
-    TESForm::FUN_00485680();
+    TESForm::BeginFormRecord();
+    TESForm::FinishFormRecord();
 }
 
 // @fnv 0x005a67e0

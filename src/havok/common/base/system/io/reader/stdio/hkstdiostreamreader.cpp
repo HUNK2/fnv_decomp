@@ -156,7 +156,7 @@ struct Prefix
 
 struct FUN_00cb0a70_Class
 {
-    void FUN_00cb0a70(int);
+    void ReturnSelf(int);
 };
 struct FUN_00d2c7e0_class : Prefix
 {
@@ -168,7 +168,7 @@ struct FUN_00d2c7e0_class : Prefix
 FUN_00d2c7e0_class::FUN_00d2c7e0_class(int value)
 {
     vtable = (int)&DAT_010cc2fc;
-    sub.FUN_00cb0a70(value);
+    sub.ReturnSelf(value);
 }
 
 struct FUN_00d2bd00_cls

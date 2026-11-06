@@ -28,13 +28,13 @@ struct S_00d3ef70_Dispatcher {
 };
 
 S_00d3ef70_Agent* hkpSphereCapsuleAgent_createCapsuleSphereAgent(const S_00d3ef70_CdBody&, const S_00d3ef70_CdBody&, const S_00d3ef70_Input&, void*);
-void FUN_00d3f040(const S_00d3ef70_CdBody&, const S_00d3ef70_CdBody&, const S_00d3ef70_Input&, S_00d3ef70_Collector&);
-void FUN_00d3f4c0(const S_00d3ef70_CdBody&, const S_00d3ef70_CdBody&, const S_00d3ef70_Input&, S_00d3ef70_Collector&);
-void FUN_00d3ac80(const S_00d3ef70_CdBody&, const S_00d3ef70_CdBody&, const S_00d3ef70_Input&, S_00d3ef70_Collector&, S_00d3ef70_Collector*);
-S_00d3ef70_Agent* FUN_00d3e270(const S_00d3ef70_CdBody&, const S_00d3ef70_CdBody&, const S_00d3ef70_Input&, void*);
+void Object_UpdateFields_00d3f040(const S_00d3ef70_CdBody&, const S_00d3ef70_CdBody&, const S_00d3ef70_Input&, S_00d3ef70_Collector&);
+void Object_ProcessAndReturnValue_00d3f4c0(const S_00d3ef70_CdBody&, const S_00d3ef70_CdBody&, const S_00d3ef70_Input&, S_00d3ef70_Collector&);
+void Object_UpdateFields_00d3ac80(const S_00d3ef70_CdBody&, const S_00d3ef70_CdBody&, const S_00d3ef70_Input&, S_00d3ef70_Collector&, S_00d3ef70_Collector*);
+S_00d3ef70_Agent* hkMemoryRouter_getInstance_AllocateAndInitializeObject16(const S_00d3ef70_CdBody&, const S_00d3ef70_CdBody&, const S_00d3ef70_Input&, void*);
 void hkpSphereCapsuleAgent_staticGetPenetrations(const S_00d3ef70_CdBody&, const S_00d3ef70_CdBody&, const S_00d3ef70_Input&, S_00d3ef70_Collector&);
 void FUN_00d3ebe0(const S_00d3ef70_CdBody&, const S_00d3ef70_CdBody&, const S_00d3ef70_Input&, S_00d3ef70_Collector&);
-void FUN_00daf8e0(const S_00d3ef70_CdBody&, const S_00d3ef70_CdBody&, const S_00d3ef70_Input&, S_00d3ef70_Collector&, S_00d3ef70_Collector*);
+void Object_ProcessEntries_00daf8e0(const S_00d3ef70_CdBody&, const S_00d3ef70_CdBody&, const S_00d3ef70_Input&, S_00d3ef70_Collector&, S_00d3ef70_Collector*);
 
 // Registers two collision agent function tables with the dispatcher for the type pairs (5,1) and (1,5).
 // @fnv 0x00d3ef70
@@ -44,19 +44,19 @@ void hkpSphereCapsuleAgent_registerAgent(S_00d3ef70_Dispatcher* dispatcher)
     {
         S_00d3ef70_AgentFuncs agentFuncs;
         agentFuncs.m_pCreateFunc = hkpSphereCapsuleAgent_createCapsuleSphereAgent;
-        agentFuncs.m_pQueryPenetrationsFunc = FUN_00d3f040;
-        agentFuncs.m_getClosestPointsFunc = FUN_00d3f4c0;
-        agentFuncs.m_pLinearCastFunc = FUN_00d3ac80;
+        agentFuncs.m_pQueryPenetrationsFunc = Object_UpdateFields_00d3f040;
+        agentFuncs.m_getClosestPointsFunc = Object_ProcessAndReturnValue_00d3f4c0;
+        agentFuncs.m_pLinearCastFunc = Object_UpdateFields_00d3ac80;
         agentFuncs.m_bIsFlipped = true;
         agentFuncs.m_bIsPredictive = false;
         dispatcher->registerCollisionAgent(agentFuncs, 5, 1);
     }
     {
         S_00d3ef70_AgentFuncs agentFuncs;
-        agentFuncs.m_pCreateFunc = FUN_00d3e270;
+        agentFuncs.m_pCreateFunc = hkMemoryRouter_getInstance_AllocateAndInitializeObject16;
         agentFuncs.m_pQueryPenetrationsFunc = hkpSphereCapsuleAgent_staticGetPenetrations;
         agentFuncs.m_getClosestPointsFunc = FUN_00d3ebe0;
-        agentFuncs.m_pLinearCastFunc = FUN_00daf8e0;
+        agentFuncs.m_pLinearCastFunc = Object_ProcessEntries_00daf8e0;
         agentFuncs.m_bIsFlipped = false;
         agentFuncs.m_bIsPredictive = false;
         dispatcher->registerCollisionAgent(agentFuncs, 1, 5);
@@ -152,7 +152,8 @@ void __cdecl hkpSphereCapsuleAgent_staticGetPenetrations(unsigned int a, unsigne
 
 // Builds a FUN_00d3f040_tmp with value a3, flag 0 and str pointing at DAT_010ce81c, then calls FUN_00d3e330(a1, a0, a2, &t).
 // @fnv 0x00d3f040
-void __cdecl FUN_00d3f040(unsigned int a0, unsigned int a1, unsigned int a2, unsigned int uiValue)
+// src: GUESS 0x00d3f040 (confidence: low)
+void __cdecl Object_UpdateFields_00d3f040(unsigned int a0, unsigned int a1, unsigned int a2, unsigned int uiValue)
 {
     FUN_00d3f040_tmp t;
     t.value = uiValue;

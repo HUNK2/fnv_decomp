@@ -30,8 +30,8 @@ struct FUN_00d3b3d0_Class
 typedef void(__cdecl* HandlerFn)();
 void __cdecl hkpCapsuleCapsuleAgent_createCapsuleCapsuleAgent();
 void __cdecl hkpCapsuleCapsuleAgent_staticGetPenetrations();
-void __cdecl FUN_00d3bd80();
-void __cdecl FUN_00daf8e0();
+void __cdecl UpdateFields_00d3bd80();
+void __cdecl Object_ProcessEntries_00daf8e0();
 struct HandlerSet
 {
     HandlerFn m_pfnFirst;
@@ -43,7 +43,7 @@ struct HandlerSet
 };
 struct Registry
 {
-    void FUN_00cfbbe0(HandlerSet* apHandlers, int aiFirst, int aiSecond);
+    void AppendRecordAndRegisterAgents(HandlerSet* apHandlers, int aiFirst, int aiSecond);
 };
 void __cdecl RegisterHandlers(Registry* apRegistry);
 void __cdecl hkpCapsuleCapsuleAgent_staticGetPenetrations(const void* a, const void* b, const void* c, void* d);

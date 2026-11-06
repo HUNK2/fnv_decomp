@@ -81,9 +81,9 @@ struct FUN_00d74420_Context
     int m_iThirdValue;  // +0x08, initialized to 0x80000000
     void _SharedShapeData_recursivelyParseShapeReferences(int value);
     void _SharedShapeData_removeSingleReferencedShapeData();
-    void FUN_00d74aa0();
+    void ProcessEntries_00d74aa0();
 };
-int FUN_00d739f0(int a1, int a2, FUN_00d74420_Context* ctx, int a3);
+int hkpShape_ProcessEntries_00d739f0(int a1, int a2, FUN_00d74420_Context* ctx, int a3);
 int RunContextOperation(int a1, int a2, int a3, int* out);
 // Other units bind GetMonitorStream to 0x00c85750; the allocator is at +0x10.
 void __cdecl ResizeAudioStream(void* pvAlloc, void* apvArray, int iElemSize);
@@ -162,7 +162,8 @@ struct EntryD738
     int m_iObjectReferenceCount;
 };
 
-static __declspec(noinline) void FUN_00d737d0(hkpShape* shape, hkArray<hkpShape*>* out)
+// src: GUESS 0x00d737d0 (confidence: high)
+static __declspec(noinline) void hkpShape_AppendChildShapesByType(hkpShape* shape, hkArray<hkpShape*>* out)
 {
     switch (shape->getType())
     {
@@ -212,7 +213,7 @@ static __forceinline void addShapeD738(ShapeData* self, int value)
     ((hkReferencedObject*)value)->addReference();
 
     hkArray<hkpShape*> children;
-    FUN_00d737d0((hkpShape*)value, &children);
+    hkpShape_AppendChildShapesByType((hkpShape*)value, &children);
     for (int i = 0; i < children.m_iElementCount; i++)
         self->_SharedShapeData_recursivelyParseShapeReferences((int)children.m_data[i]);
 }
@@ -386,7 +387,8 @@ __forceinline void TransformPointArray(const hkTransform& t, const hkVector4* ve
     } while (--i >= 0);
 }
 // @fnv 0x00d739f0
-const hkpShape* FUN_00d739f0(const hkpShape* transformShape, const Options& options, D749Table& sharedShapeData,
+// src: GUESS 0x00d739f0 (confidence: low)
+const hkpShape* hkpShape_ProcessEntries_00d739f0(const hkpShape* transformShape, const Options& options, D749Table& sharedShapeData,
                              Results& resultsOut)
 {
     const int transformShapeType = transformShape->getType();
@@ -455,7 +457,7 @@ const hkpShape* FUN_00d739f0(const hkpShape* transformShape, const Options& opti
                 hkpTransformShape* wrapperMem = static_cast<hkpTransformShape*>(shapeNew(0x70));
                 const hkpShape* childTransformShape = reinterpret_cast<hkpTransformShape*(__thiscall*)(hkpTransformShape*, const hkpShape*, const hkTransform*)>(FUN_00cf5990)(wrapperMem, grandChildShape, &parentFromChild);
                 const hkpShape* collapsedGrandChild =
-                    FUN_00d739f0(childTransformShape, options, sharedShapeData, resultsOut);
+                    hkpShape_ProcessEntries_00d739f0(childTransformShape, options, sharedShapeData, resultsOut);
                 newChildren.pushBack(collapsedGrandChild);
                 childTransformShape->removeReference();
             }

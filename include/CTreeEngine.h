@@ -25,7 +25,7 @@ public:
         ~SptFilename();
         void fopen_0044a730(bool built, unsigned int n);
         SptFilename& AssignFromString(const SptFilename& rhs);
-        SptFilename& FUN_00b2b910(const SptFilename& rhs);
+        SptFilename& EvaluateValue_00b2b910(const SptFilename& rhs);
         void operator=(const SptFilename& rhs);
     };
 
@@ -110,7 +110,7 @@ public:
     void CTreeEngine_GetSize(float* a, float* b);
     void SetSize_00b2bd20(float fSize, float fVariance);
     float GetNormalizedValue();
-    void FUN_00b2bdc0(float a, float b);
+    void UpdateFields_00b2bdc0(float a, float b);
     void InitSeed(unsigned int seed);
     void InitSeed(int seed);
     bool Parse_00b2b550(CTreeFileAccessImpl* file);
@@ -118,7 +118,7 @@ public:
     void ParseLeafCluster(ElementIterator* a);
     void CTreeEngine_ParseFlareSeed(ElementIterator* a);
     void ParseLodInfo(ElementIterator* a);
-    void FUN_00b2c790(ElementIterator* a);
+    void ProcessEntries_00b2c790(ElementIterator* a);
     void BuildBranchLods();
     void ParseTextureControls(TreeFileAccess* file);
     void ParseFlareInfo(Reader* a);

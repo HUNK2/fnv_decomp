@@ -17,7 +17,7 @@ struct CallTarget_00e5c370
 };
 struct SearchObject
 {
-    int FUN_00e5c420(unsigned int arg0, unsigned int arg1, unsigned int arg2, unsigned int arg3);
+    int ProcessAndReturnValue_00e5c420(unsigned int arg0, unsigned int arg1, unsigned int arg2, unsigned int arg3);
 };
 hkMemoryRouter* __cdecl hkMemoryRouter_getInstance() throw();
 struct DispatchTarget
@@ -124,7 +124,7 @@ struct KeyOwnerA
 };
 struct Sub18
 {
-    void FUN_00e5c440(hkMemoryAllocator* a, int b, Pair32* c);
+    void ProcessAndReturnValue_00e5c440(hkMemoryAllocator* a, int b, Pair32* c);
 };
 struct OwnerC
 {
@@ -339,7 +339,7 @@ struct Stream
 {
     int unk00, unk04, unk08;
     void FUN_00cb1600(void*, int);
-    void FUN_00cc01c0(const char*);
+    void ProcessAndReturnValue_00cc01c0(const char*);
     void FUN_00cc00e0();
 };
 struct Reporter;
@@ -416,7 +416,7 @@ FUN_00dd0530* __cdecl hkpConstraintChainUtil_buildPoweredChain(Edges& edges, Byt
         if (hkpConstraintUtils_getConstraintPivots(edges[i], first, second) == 1)
         {
             validationStream.FUN_00cb1600(buffer, 512);
-            validationStream.FUN_00cc01c0(unsupported);
+            validationStream.ProcessAndReturnValue_00cc01c0(unsupported);
             DAT_01268360->vtable->report(DAT_01268360, 1, 0xabbad88d, buffer, filename, 183);
             validationStream.FUN_00cc00e0();
             chain->FUN_00c905b0();
@@ -429,7 +429,7 @@ FUN_00dd0530* __cdecl hkpConstraintChainUtil_buildPoweredChain(Edges& edges, Byt
             if (edges[i]->getB() != result->nodes.back())
             {
                 validationStream.FUN_00cb1600(buffer, 512);
-                validationStream.FUN_00cc01c0(unordered);
+                validationStream.ProcessAndReturnValue_00cc01c0(unordered);
                 DAT_01268360->vtable->report(DAT_01268360, 1, 0xabbad88d, buffer, filename, 194);
                 validationStream.FUN_00cc00e0();
                 chain->FUN_00c905b0();
@@ -445,7 +445,7 @@ FUN_00dd0530* __cdecl hkpConstraintChainUtil_buildPoweredChain(Edges& edges, Byt
         {
             Stream validationStream;
             validationStream.FUN_00cb1600(buffer, 512);
-            validationStream.FUN_00cc01c0(nomotors);
+            validationStream.ProcessAndReturnValue_00cc01c0(nomotors);
             DAT_01268360->vtable->report(DAT_01268360, 1, 0xabba88d3, buffer, filename, 207);
             validationStream.FUN_00cc00e0();
             chain->FUN_00c905b0();
@@ -796,10 +796,10 @@ struct S5ba30_ErrStream
     void* m_pStreamWriter;
     S5ba30_ErrStream(void* buf, int bufSize);
     ~S5ba30_ErrStream();
-    S5ba30_ErrStream& FUN_00cc01c0(const char* str);
+    S5ba30_ErrStream& ProcessAndReturnValue_00cc01c0(const char* str);
     __forceinline S5ba30_ErrStream& operator<<(const char* str)
     {
-        return FUN_00cc01c0(str);
+        return ProcessAndReturnValue_00cc01c0(str);
     }
 };
 

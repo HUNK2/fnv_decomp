@@ -27,7 +27,7 @@ public:
     virtual ID3DXConstantTable* vf39();
     virtual void SetShaderInterface(ID3DXConstantTable* pkTable);
 
-    void __thiscall FUN_00e96c90();
+    void __thiscall UpdateState_00e96c90();
     void* __thiscall FUN_00e95cd0(unsigned int flags);
     unsigned int GetVariableCount();
     void SetEntryPoint_00e95cf0(const char* pcEntryPoint);

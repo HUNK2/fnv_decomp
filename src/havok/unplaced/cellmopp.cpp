@@ -166,11 +166,12 @@ FUN_00622490::FUN_00622490()
 struct FUN_00622570_Class
 {
     unsigned char m_kPointB;
-    unsigned char* FUN_00622570(unsigned char b);
+    unsigned char* UpdateState_00622570(unsigned char b);
 };
 
 // @fnv 0x00622570
-unsigned char* FUN_00622570_Class::FUN_00622570(unsigned char aucValue)
+// src: GUESS 0x00622570 (confidence: low)
+unsigned char* FUN_00622570_Class::UpdateState_00622570(unsigned char aucValue)
 {
     m_kPointB = aucValue;
     return &m_kPointB;
@@ -338,7 +339,7 @@ struct HeightFieldProjectionFlag
 {
     unsigned char m_kPointB;
     void FUN_006815c0();
-    unsigned char* FUN_00622570(unsigned char b);
+    unsigned char* UpdateState_00622570(unsigned char b);
 };
 extern float DAT_01012054;
 struct SampledHeightFieldParameters : HeightFieldScaleAndResolution
@@ -356,7 +357,7 @@ SampledHeightFieldParameters* SampledHeightFieldParameters::InitializeHeightFiel
     m14 = 2;
     m18 = 0.0f;
     m1c = DAT_01012054;
-    m20.FUN_00622570(0);
+    m20.UpdateState_00622570(0);
     return this;
 }
 

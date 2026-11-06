@@ -114,11 +114,12 @@ class FUN_00e401d0Owner
     hkQsTransform* m_pkTransforms;
     int m_iNumTransforms;
 
-    void FUN_00e401d0(int iTrack, const hkQsTransform& kTransform);
+    void ProcessEntries_00e401d0(int iTrack, const hkQsTransform& kTransform);
 };
 
 // @fnv 0x00e401d0
-void FUN_00e401d0Owner::FUN_00e401d0(int iTrack, const hkQsTransform& kTransform)
+// src: GUESS 0x00e401d0 (confidence: low)
+void FUN_00e401d0Owner::ProcessEntries_00e401d0(int iTrack, const hkQsTransform& kTransform)
 {
     int iTransformCountPerTrack = m_iNumTransforms / m_iNumTracks;
     for (int i = 0; i < iTransformCountPerTrack; i++)

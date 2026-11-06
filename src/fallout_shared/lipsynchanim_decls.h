@@ -18,7 +18,7 @@ class LipSyncAnimation
 
     bool ApplyToAnimationData(BSFaceGenAnimationData* animation, float endDelay);
     void* DeleteThis(unsigned int flags);
-    void FUN_004d5080();
+    void ReleaseStorage_004d5080();
     float GetNegativeMagnitude(bool, bool, bool, bool, bool);
 };
 

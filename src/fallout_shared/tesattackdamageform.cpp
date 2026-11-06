@@ -150,7 +150,7 @@ void TESCreature::CopyFromTemplateForm(TESActorBase* selectedForm)
             reinterpret_cast<TESResponse*>(reinterpret_cast<char*>(&actorData) - offsetof(TESActorBaseData, actorData))
                 ->SetSpeakerIdle((TESIdleForm*)static_cast<const TESCreature*>(templateSelection.creature)->GetVoiceType());
             SetKarmaValue(static_cast<const TESCreature*>(templateSelection.creature)->GetHealthRegeneration());
-            FUN_005fbdb0(templateSelection.creature->FUN_0059f3a0());
+            SetTypeAtOffset12C(templateSelection.creature->FUN_0059f3a0());
             FUN_005f8bd0(templateSelection.creature->GetField158());
             SetCombatStyle(static_cast<const TESCreature*>(templateSelection.creature)->GetCombatStyle());
         }

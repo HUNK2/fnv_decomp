@@ -72,11 +72,12 @@ struct FUN_00d04370_cls
 {
     HANDLE m_hHandle;
 
-    void FUN_00d04370();
+    void ForwardCall_00d04370();
 };
 
 // @fnv 0x00d04370
-void FUN_00d04370_cls::FUN_00d04370()
+// src: GUESS 0x00d04370 (confidence: low)
+void FUN_00d04370_cls::ForwardCall_00d04370()
 {
     CloseHandle(m_hHandle);
 }

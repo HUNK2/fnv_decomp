@@ -106,10 +106,11 @@ class Process
     int unk18;
     int unk1c;
     void* listenerVftable;
-    void FUN_00ddcb50();
+    void SetVtableAndProcessState_00ddcb50();
 };
 // @fnv 0x00ddcb50
-void Process::FUN_00ddcb50()
+// src: GUESS 0x00ddcb50 (confidence: low)
+void Process::SetVtableAndProcessState_00ddcb50()
 {
     vftable = &DAT_010d7ed0;
     baseVftable = &DAT_010d7eb0;
@@ -184,7 +185,8 @@ S_00ddcb90_Base2* hkDebugDisplayProcess_create()
 namespace fnv_00ddcbe0 {
 extern int DAT_01269cdc;
 // @fnv 0x00ddcbe0
-int FUN_00ddcbe0()
+// src: GUESS 0x00ddcbe0 (confidence: low)
+int Object_GetDAT_01269cdc_00ddcbe0()
 {
     return DAT_01269cdc;
 }
@@ -210,7 +212,7 @@ struct Process
     unsigned short unk04;
     unsigned short unk06;
     int unk08;
-    void FUN_00ddcb50();
+    void SetVtableAndProcessState_00ddcb50();
     Process* hkDebugDisplayProcess_Destroy(unsigned char flags);
 };
 // Calls FUN_00ddcb50, and if flags has bit 0 set, releases this process with size unk04 through the allocator from FUN_00c85750; returns this.
@@ -218,7 +220,7 @@ struct Process
 // src: COMMUNITY 0x00ddcc10
 Process* Process::hkDebugDisplayProcess_Destroy(unsigned char flags)
 {
-    FUN_00ddcb50();
+    SetVtableAndProcessState_00ddcb50();
     if (flags & 1)
     {
         ProcessServices* services = hkMemoryRouter_getInstance();
@@ -469,20 +471,21 @@ namespace fnv_00ddcc00 {
 // declare, so the second base's vtable gets a thunk that moves `this` back by the first base's size (8).
 struct PrimaryBase
 {
-    virtual void FUN_00ddcc00();
+    virtual void AdjustThisAndForward_00ddcc00();
     int unk04;
 };
 
 struct SecondaryBase
 {
-    virtual void FUN_00ddcc00();
+    virtual void AdjustThisAndForward_00ddcc00();
 };
 
 struct Derived : PrimaryBase, SecondaryBase
 {
     Derived();
 // @fnv 0x00ddcc00
-    virtual void FUN_00ddcc00();
+// src: GUESS 0x00ddcc00 (confidence: low)
+    virtual void AdjustThisAndForward_00ddcc00();
 };
 
 Derived::Derived()

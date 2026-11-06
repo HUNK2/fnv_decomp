@@ -88,7 +88,7 @@ void* __thiscall GlobalObject_00788300::Destroy(unsigned int flags)
 
 struct FUN_0078d8d0_Class
 {
-    void __thiscall FUN_0078d8b0();
+    void __thiscall LoadingMenu_UpdateState_0078d8b0();
     void* __thiscall FUN_0078d8d0(unsigned int flags);
 };
 
@@ -98,7 +98,7 @@ void __cdecl Deallocate(void*);
 // @fnv 0x0078d8d0
 void* __thiscall FUN_0078d8d0_Class::FUN_0078d8d0(unsigned int flags)
 {
-    FUN_0078d8b0();
+    LoadingMenu_UpdateState_0078d8b0();
     if (flags & 1)
         Deallocate(this);
     return this;
@@ -125,7 +125,8 @@ char __thiscall FUN_0078e090_class::LockPickMenu_HasTiles()
 extern "C" void __cdecl CreateLoveTesterMenu(int a);
 
 // @fnv 0x007915e0
-void __cdecl FUN_007915e0()
+// src: GUESS 0x007915e0 (confidence: medium)
+void __cdecl Object_CreateLoveTesterMenu_Thunk()
 {
     CreateLoveTesterMenu(0x23);
 }

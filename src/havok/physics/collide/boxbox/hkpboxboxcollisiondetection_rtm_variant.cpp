@@ -263,7 +263,7 @@ struct ThisCls
     LocalM128 m_100;
     LocalM128 m_110;
     LocalM128 m_120;
-    __declspec(noinline) int FUN_00db0ec0(Vec4f* arg);
+    __declspec(noinline) int ProcessAndReturnValue_00db0ec0(Vec4f* arg);
 };
 static __forceinline float recipEps(float s)
 {
@@ -316,7 +316,8 @@ static __forceinline void rotatedVector(hkVector4& d, const AxisRows& rows, cons
 }
 
 // @fnv 0x00db0ec0
-__declspec(noinline) int ThisCls::FUN_00db0ec0(Vec4f* arg)
+// src: GUESS 0x00db0ec0 (confidence: low)
+__declspec(noinline) int ThisCls::ProcessAndReturnValue_00db0ec0(Vec4f* arg)
 {
 
     float* __restrict p70 = (float*)&m_70;
@@ -592,7 +593,7 @@ struct Owner
     float radius;
     float minimumNormalLength;
     unsigned char* Compute(unsigned char* flag, Blob* out);
-    __declspec(noinline) void FUN_00db1990(ContactList* p0, Input* p1, float p2);
+    __declspec(noinline) void ProcessEntries_00db1990(ContactList* p0, Input* p1, float p2);
 };
 
 __forceinline LocalM128 LdV(const unsigned int* p)
@@ -701,7 +702,8 @@ __declspec(noinline) unsigned char* Owner::Compute(unsigned char* result, Blob* 
 }
 
 // @fnv 0x00db1990
-__declspec(noinline) void Owner::FUN_00db1990(ContactList* p0, Input* p1, float p2)
+// src: GUESS 0x00db1990 (confidence: low)
+__declspec(noinline) void Owner::ProcessEntries_00db1990(ContactList* p0, Input* p1, float p2)
 {
     unsigned char c;
     if (*p0->Lookup(&c, p1) != 0)
@@ -868,7 +870,7 @@ struct __declspec(align(16)) MyDb0920
     int unk2C;
     int unk30;
     int unk34;
-    void FUN_00db0920();
+    void InitializeEmptyEntries();
 };
 
 struct ContactScalar
@@ -1030,23 +1032,24 @@ struct BoxAgent
     int unk7C;
     int m_unk80;
 
-    void FUN_00d40940();
-    int FUN_00db0ec0(void* pUnk80);
+    void UpdateFields_00d40940();
+    int ProcessAndReturnValue_00db0ec0(void* pUnk80);
     __declspec(noalias) int hkpBoxBoxCollisionDetection_findClosestPoint(MyDb0920* a1, Local0c* a2, Local10* a3);
 
-    __declspec(noinline) hkBool& FUN_00db2750(hkBool& valid, hkContactPoint& outPoint);
+    __declspec(noinline) hkBool& UpdateState_00db2750(hkBool& valid, hkContactPoint& outPoint);
 };
 
 // @fnv 0x00db2750
-__declspec(noinline) hkBool& BoxAgent::FUN_00db2750(hkBool& valid, hkContactPoint& outPoint)
+// src: GUESS 0x00db2750 (confidence: low)
+__declspec(noinline) hkBool& BoxAgent::UpdateState_00db2750(hkBool& valid, hkContactPoint& outPoint)
 {
     valid = false;
     MyDb0920 local_80;
-    local_80.FUN_00db0920();
+    local_80.InitializeEmptyEntries();
     Local0c local_0c;
     local_0c.m_flags = 0;
-    this->FUN_00d40940();
-    if (this->FUN_00db0ec0(&this->m_unk80) == 0)
+    this->UpdateFields_00d40940();
+    if (this->ProcessAndReturnValue_00db0ec0(&this->m_unk80) == 0)
     {
         ResultWork work;
         Local10& local_10 = work.result;
@@ -2069,8 +2072,8 @@ struct NDetector
     const float tolerance, boundaryTolerance;
     int unkB8, unkBC;
     NV dinA, dinB;
-    void FUN_00d40940() const;
-    int FUN_00db0ec0(const NV&) const;
+    void UpdateFields_00d40940() const;
+    int ProcessAndReturnValue_00db0ec0(const NV&) const;
     __declspec(noalias) int hkpBoxBoxCollisionDetection_findClosestPoint(NManifold&, NFeature&, NCache&) const;
     __declspec(noalias) NBool TestEdgeEdgeContact(NCache&) const;
     void CheckFeatureCacheCoverage(NManifold&, int, int) const;
@@ -2562,7 +2565,7 @@ __declspec(noinline) void NDetector::hkpBoxBoxCollisionDetection_calcManifold(NM
         float minimum;
         unsigned int keyBits;
     };
-    FUN_00d40940();
+    UpdateFields_00d40940();
     NRecord* saved = output->cursor;
     refresh(m);
     NBool request = query(m);
@@ -2577,10 +2580,10 @@ __declspec(noinline) void NDetector::hkpBoxBoxCollisionDetection_calcManifold(NM
         minimum -= tolerance4(0) * DAT_0103c7c8;
         NV bound;
         bound.setAll3(minimum);
-        intersect = FUN_00db0ec0(bound);
+        intersect = ProcessAndReturnValue_00db0ec0(bound);
     }
     else
-        intersect = FUN_00db0ec0(tolerance4);
+        intersect = ProcessAndReturnValue_00db0ec0(tolerance4);
     if (intersect != 0)
         return;
     NFeature& feature = *new (&keyBits) NFeature;

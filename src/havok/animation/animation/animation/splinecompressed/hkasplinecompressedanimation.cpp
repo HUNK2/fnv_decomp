@@ -35,7 +35,8 @@ int __cdecl GetIndexedValueWithOffset(int offset, const int* values, int index, 
 }
 
 // @fnv 0x00e32ed0
-int __stdcall FUN_00e32ed0(int a1, int a2)
+// src: GUESS 0x00e32ed0 (confidence: high)
+int __stdcall hkaSplineCompressedAnimation_ReturnConstant_3(int a1, int a2)
 {
     return 3;
 }
@@ -474,7 +475,7 @@ void hkaSplineCompressedAnimation::sampleIndividualFloatTracks(hkReal time, cons
 }
 
 extern void* __cdecl hkMemoryRouter_getInstance(void);
-extern void __cdecl FUN_00dfb5a0(int value);
+extern void __cdecl UpdateFields_00dfb5a0(int value);
 extern void __cdecl FUN_00c905b0(void);
 
 extern int DAT_010de0ec;
@@ -632,7 +633,8 @@ void __cdecl DecodeSplineFrame(const unsigned char** data, int a2, float a3, flo
 
 // The shared header has no declaration for this ECX-receiver query.
 // @fnv 0x00e32ec0
-int __fastcall FUN_00e32ec0(const hkaSplineCompressedAnimation* animation)
+// src: GUESS 0x00e32ec0 (confidence: medium)
+int __fastcall hkaSplineCompressedAnimation_GetFrameCount(const hkaSplineCompressedAnimation* animation)
 {
     return animation->m_iFrameCount;
 }

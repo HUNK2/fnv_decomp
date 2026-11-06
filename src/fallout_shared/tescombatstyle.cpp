@@ -133,7 +133,7 @@ void __cdecl AppendChunk(unsigned int, void*, unsigned int);
 // @fnv 0x005053c0
 void __fastcall SaveCombatStyle(TESCombatStyle* self)
 {
-    self->FUN_004855a0();
+    self->BeginFormRecord();
     if (TESForm_QEndianSwapOnSave())
         self->Data.SwapEndianFields();
     AppendChunk(0x44545343, &self->Data, 0x5c);
@@ -149,7 +149,7 @@ void __fastcall SaveCombatStyle(TESCombatStyle* self)
     AppendChunk(0x44535343, &self->m_kUnsignedIntArray16, 0x40);
     if (TESForm_QEndianSwapOnSave())
         self->m_kUnsignedIntArray16.SwapEndianFields();
-    self->FUN_00485680();
+    self->FinishFormRecord();
 }
 
 void __memcpy(void* __dst, const void* __src, unsigned int __n);

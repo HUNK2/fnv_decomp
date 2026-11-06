@@ -68,7 +68,7 @@ struct S_00d92690_Mgr
 };
 
 hkpSimpleContactConstraintAtom* AllocateBlock(int cap, int a, int b, int maxCap);
-void FUN_00d925b0(hkpSimpleContactConstraintAtom* dst, hkpSimpleContactConstraintAtom* src);
+void hkpSimpleContactConstraintAtom_ProcessEntries_00d925b0(hkpSimpleContactConstraintAtom* dst, hkpSimpleContactConstraintAtom* src);
 int RoundUpToBucketSize(int size);
 S_00d92690_Mgr* hkMemoryRouter_getInstance();
 
@@ -86,7 +86,7 @@ hkpSimpleContactConstraintAtom* hkpSimpleContactConstraintAtomUtil_expandOne(hkp
         if (iNewCapacity >= apContainer->m_usMaxNumContactPointProperties)
             iNewCapacity = apContainer->m_usMaxNumContactPointProperties;
         result = AllocateBlock(iNewCapacity, apContainer->m_ucNumReservedContactPoints, apContainer->m_ucNumContactPointProperties, apContainer->m_usMaxNumContactPointProperties);
-        FUN_00d925b0(result, apContainer);
+        hkpSimpleContactConstraintAtom_ProcessEntries_00d925b0(result, apContainer);
         int size = RoundUpToBucketSize(apContainer->m_usSizeOfAllAtoms);
         hkMemoryRouter_getInstance()->GetAllocator()->Free(apContainer, size);
         pContainer = result;
@@ -101,7 +101,8 @@ hkpSimpleContactConstraintAtom* hkpSimpleContactConstraintAtomUtil_expandOne(hkp
 }
 
 // @fnv 0x00d92810
-int __cdecl FUN_00d92810()
+// src: GUESS 0x00d92810 (confidence: high)
+int __cdecl hkpSimpleContactConstraintData_ReturnConstant_11()
 {
     return 11;
 }
@@ -191,9 +192,9 @@ struct S_00d92fd0_Atom
     int unk04, unk08, unk0c, unk10;
     S_00d92fd0_Atom* next;
     void nullsub_31(int a, float b, int c, int d, int e, int f);
-    void FUN_00d21d10(int a, float b, int c, int d, int e, int f);
-    void FUN_00d21fc0(int a, float b, int c, int d, int e, int f);
-    void FUN_00d22260(int a, float b, int c, int d, int e, int f);
+    void UpdateState_00d21d10(int a, float b, int c, int d, int e, int f);
+    void CopyData_00d21fc0(int a, float b, int c, int d, int e, int f);
+    void ProcessState_00d22260(int a, float b, int c, int d, int e, int f);
 };
 struct S_00d92fd0_Alloc : S_00d92690_Alloc
 {
@@ -253,13 +254,13 @@ void S_00d92fd0_This::DispatchAtomHandlers(int aiArg1, float afArg2, int aiArg3,
             x->nullsub_31(aiArg1, afArg2, aiArg3, aiArg4, aiArg5, aiArg6);
             break;
         case 0x17:
-            x->FUN_00d21d10(aiArg1, afArg2, aiArg3, aiArg4, aiArg5, aiArg6);
+            x->UpdateState_00d21d10(aiArg1, afArg2, aiArg3, aiArg4, aiArg5, aiArg6);
             break;
         case 0x1a:
-            x->FUN_00d21fc0(aiArg1, afArg2, aiArg3, aiArg4, aiArg5, aiArg6);
+            x->CopyData_00d21fc0(aiArg1, afArg2, aiArg3, aiArg4, aiArg5, aiArg6);
             break;
         case 0x1c:
-            x->FUN_00d22260(aiArg1, afArg2, aiArg3, aiArg4, aiArg5, aiArg6);
+            x->ProcessState_00d22260(aiArg1, afArg2, aiArg3, aiArg4, aiArg5, aiArg6);
             break;
         }
     }
@@ -306,7 +307,8 @@ unsigned int FUN_00d93140_cls::ReplaceOrAppendByte(unsigned char value)
 }
 
 // @fnv 0x00d927f0
-int __stdcall FUN_00d927f0(int arg)
+// src: GUESS 0x00d927f0 (confidence: high)
+int __stdcall hkpSimpleContactConstraintData_ReturnZero(int arg)
 {
     return 0;
 }
@@ -336,8 +338,8 @@ struct hkNodeX
 
     void ScaleInverseInertia(int a1, int a2, int a3, int a4, int a5);
     void SetGlobalVectors(int a1, int a2, int a3, int a4, int a5);
-    void FUN_00d21f50(int a1, int a2, int a3, int a4, int a5);
-    void FUN_00d22160(int a1, int a2, int a3, int a4, int a5);
+    void CopyMemory_00d21f50(int a1, int a2, int a3, int a4, int a5);
+    void UpdateFields_00d22160(int a1, int a2, int a3, int a4, int a5);
 };
 
 struct hkHolderX
@@ -384,10 +386,10 @@ void hkClsX::DispatchNodeCallbacks(int a1, int a2, int a3, int a4, int a5)
             node->SetGlobalVectors(a1, a2, a3, a4, a5);
             break;
         case 0x1A:
-            node->FUN_00d21f50(a1, a2, a3, a4, a5);
+            node->CopyMemory_00d21f50(a1, a2, a3, a4, a5);
             break;
         case 0x1C:
-            node->FUN_00d22160(a1, a2, a3, a4, a5);
+            node->UpdateFields_00d22160(a1, a2, a3, a4, a5);
             break;
         }
         node = node->next;
@@ -1009,7 +1011,7 @@ extern float hkpSimpleContactConstraintUtil_calculateSeparatingVelocity(const S0
                           const hkContactPoint* cp);
 extern void hkpWorldCallbackUtil_fireContactPointCallback(S00d92900_World* world, S00d92900_Event& event);
 extern void hkpEntityCallbackUtil_fireContactPointCallbackInternal(S00d92900_Body* entity, S00d92900_Event& event);
-extern void FUN_00d9ee50(S00d92900_Data* data, const hkContactPoint& cp, S00d92900_CollideParams& params,
+extern void hkMatrix3_setMul_ProcessEntries_00d9ee50(S00d92900_Data* data, const hkContactPoint& cp, S00d92900_CollideParams& params,
                          S00d92900_Body* rbA, S00d92900_Body* rbB, S00d92900_Accum* accA, S00d92900_Accum* accB,
                          S00d92900_Output& output);
 extern void hkpWorldCallbackUtil_fireContactImpulseLimitBreached(S00d92900_World* world, const S00d92900_BreachInfo* info, int num);
@@ -1103,7 +1105,7 @@ static __forceinline void dispatchContacts(S00d92900_Data* constraintData, const
                     S00d92900_Accum* bodyA = in->m_pBodyA;
                     S00d92900_Accum* bodyB = in->m_pBodyB;
                     S00d92900_Output output;
-                    FUN_00d9ee50(constraintData, *cp, params, rbA, rbB, bodyA, bodyB, output);
+                    hkMatrix3_setMul_ProcessEntries_00d9ee50(constraintData, *cp, params, rbA, rbB, bodyA, bodyB, output);
                     S00d92900_Props* props = cpp->asProperties();
                     if (params.m_bCollisionOption)
                     {

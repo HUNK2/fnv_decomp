@@ -31,14 +31,14 @@ FUN_009f91b0::FUN_009f91b0()
 
 struct FUN_009e9c10
 {
-    void FUN_009e9c30();
+    void SetVtableAndProcessState_009e9c30();
     void Call();
 };
 
 // @fnv 0x009e9c10
 void FUN_009e9c10::Call()
 {
-    FUN_009e9c30();
+    SetVtableAndProcessState_009e9c30();
 }
 
 extern "C" void* DAT_010939ec;
@@ -218,7 +218,7 @@ struct FUN_009f90f0_Class
     unsigned int m_iThirdValue;
     virtual ~FUN_009f90f0_Class();
     virtual unsigned int Write(unsigned int);
-    void FUN_009f8de0(unsigned int, unsigned int);
+    void ProcessEntries_009f8de0(unsigned int, unsigned int);
     void BSSimpleArray_SpectatorThreatInfo_1024_Initialize(unsigned int requested, unsigned int savedSize);
 };
 
@@ -240,7 +240,7 @@ void FUN_009f90f0_Class::BSSimpleArray_SpectatorThreatInfo_1024_Initialize(unsig
     }
     if (savedSize > 0)
     {
-        FUN_009f8de0(m_iWordAt04, savedSize);
+        ProcessEntries_009f8de0(m_iWordAt04, savedSize);
         m_8 = savedSize;
     }
 }
@@ -349,7 +349,8 @@ void* GlobalObject_009e9bb0::ReleaseIfFlagged(unsigned int flags)
 extern int DAT_01092930;
 
 // @fnv 0x009e9c30
-void FUN_009e9c10::FUN_009e9c30()
+// src: GUESS 0x009e9c30 (confidence: low)
+void FUN_009e9c10::SetVtableAndProcessState_009e9c30()
 {
     *(void**)this = &DAT_01092930;
     NiTMallocInterface<Actor*>::Deallocate(*(Actor***)((char*)this + 4));
@@ -366,7 +367,7 @@ struct FUN_009e9c60_Class : FUN_009e9c10
 // @fnv 0x009e9c60
 void* FUN_009e9c60_Class::FUN_009e9c60(unsigned int flags)
 {
-    FUN_009e9c30();
+    SetVtableAndProcessState_009e9c30();
     if (flags & 1)
         _Deallocate(this);
     return this;
@@ -998,7 +999,7 @@ void ReferenceLinkController::SetSourceReference(GameReference* apSource)
 
 struct FUN_0045cec0
 {
-    void* FUN_00559450();
+    void* Modelloader_GetReferencedThis();
     void FUN_0066b0d0(int release);
     ~FUN_0045cec0();
 };
@@ -1086,11 +1087,11 @@ struct FUN_009f6c90
 // @fnv 0x009f6c90
 FUN_009f6c90::~FUN_009f6c90()
 {
-    if (ref.FUN_00559450())
+    if (ref.Modelloader_GetReferencedThis())
     {
-        if (((Reference*)ref.FUN_00559450())->NiAVObject_GetParent())
+        if (((Reference*)ref.Modelloader_GetReferencedThis())->NiAVObject_GetParent())
         {
-            ((Reference*)ref.FUN_00559450())->NiAVObject_GetParent()->NotifyOwner(ref.FUN_00559450());
+            ((Reference*)ref.Modelloader_GetReferencedThis())->NiAVObject_GetParent()->NotifyOwner(ref.Modelloader_GetReferencedThis());
         }
         ref.FUN_0066b0d0(0);
     }
@@ -1140,7 +1141,7 @@ struct ItemCls;
 struct MidCls;
 struct DestCls
 {
-    void FUN_00905330(FUN_009eb660* const&);
+    void RemoveMatchingItem(FUN_009eb660* const&);
 };
 struct MidCls
 {
@@ -1217,7 +1218,7 @@ struct SrcCls
 };
 struct ItemCls
 {
-    void FUN_0047eb90(int);
+    void ForwardCall_0047eb90(int);
     bool Actor_IsAlarmed();
     void Actor_EndInterruptPackage(int);
     MidCls* BSFile_GetDevice();
@@ -1293,14 +1294,14 @@ FUN_009eb660::~FUN_009eb660()
         if (f08 != 0)
         {
             if (f08->BSFile_GetDevice()->ExtraDataList_GetPlayerCrimeList() != 0)
-                f08->BSFile_GetDevice()->ExtraDataList_GetPlayerCrimeList()->FUN_00905330(this);
+                f08->BSFile_GetDevice()->ExtraDataList_GetPlayerCrimeList()->RemoveMatchingItem(this);
         }
         pB6 = m38;
         while (pB6 != 0 && !pB6->FUN_008256d0())
         {
             node5 = (ItemCls*)*pB6->FUN_006815c0();
             if (!DAT_011e0e80.IsActorInOtherList(node5, this))
-                node5->FUN_0047eb90(0);
+                node5->ForwardCall_0047eb90(0);
             pB6 = pB6->FUN_00726070();
         }
         pACopy = FUN_0044ddc0();
@@ -1311,7 +1312,7 @@ FUN_009eb660::~FUN_009eb660()
                 destA8 = pACopy;
                 itemB = destA8->BSFile_GetDevice()->ExtraDataList_GetPlayerCrimeList();
                 if (itemB != 0)
-                    itemB->FUN_00905330(this);
+                    itemB->RemoveMatchingItem(this);
             }
         }
         pA3 = DAT_011e0e80.FindDialogueSpeakers(this, 1);
@@ -1322,7 +1323,7 @@ FUN_009eb660::~FUN_009eb660()
                 item6->Actor_EndInterruptPackage(0);
             destB_ = item6->BSFile_GetDevice()->ExtraDataList_GetPlayerCrimeList();
             if (destB_ != 0)
-                destB_->FUN_00905330(this);
+                destB_->RemoveMatchingItem(this);
         }
     }
     if (m38 != 0)
@@ -1374,7 +1375,7 @@ NiPoint3 __cdecl ComputeAdjustedTargetPosition(TESObjectREFR* target, TESObjectR
         result5 = _dir;
         ParentCellStub* cellB = target->GetParentCellStub();
         Pathing_FindPointOnNavMesh(target->TESObjectREFR_GetWorldSpace(), cellB, &_dir, 200.0f, &result5);
-        if (result5.FUN_004390c0(_dir))
+        if (result5.HasEqualComponents(_dir))
         {
         }
     }
@@ -1529,7 +1530,7 @@ struct Pather
 NiPoint3 Pather::GetPathPoint(TESObjectREFR* ref)
 {
     NiPoint3 result = destination;
-    if (destination.FUN_004390c0(NiPoint3::ZERO))
+    if (destination.HasEqualComponents(NiPoint3::ZERO))
     {
         destination = RandomOffsetVectorFromOrigin(*static_cast<const TESObjectREFR*>(ref)->GetPos(), 800.0f, 1000.0f, 0);
         Pathing_FindPointOnNavMesh(ref->TESObjectREFR_GetWorldSpace(), ref->GetParentCellStub(), static_cast<const TESObjectREFR*>(ref)->GetPos(), 300.0f, &destination);

@@ -506,12 +506,13 @@ struct FUN_00b5af80_self
     void* obj;
     int a;
     int b;
-    void FUN_00b5af80(bool destroy);
+    void UpdateFields_00b5af80(bool destroy);
 };
 
 // If obj is set, releases it when destroy is true (clearing obj and b), then resets a to 0.
 // @fnv 0x00b5af80
-void FUN_00b5af80_self::FUN_00b5af80(bool destroy)
+// src: GUESS 0x00b5af80 (confidence: low)
+void FUN_00b5af80_self::UpdateFields_00b5af80(bool destroy)
 {
     if (obj)
     {
@@ -2723,7 +2724,7 @@ struct List_b9fcc0
     RefPtr_b9fcc0 Remove(void* object);
 };
 
-int __cdecl FUN_00b5a980(int*, int*);
+int __cdecl Object_ComputeValue_00b5a980(int*, int*);
 
 struct Container_b5a
 {
@@ -2941,7 +2942,7 @@ void __fastcall RemoveLightFromNode(ShadowSceneNode* self, int, void** object, v
             Item1* item = reinterpret_cast<Item1**>(node->kMultiboundRooms.pBuffer)[i];
             if (item && item->container.count)
             {
-                int index = item->container.Find(object, 0, &FUN_00b5a980);
+                int index = item->container.Find(object, 0, &Object_ComputeValue_00b5a980);
                 if (index != -1)
                     item->container.RemoveAt(index, true);
             }
@@ -2985,7 +2986,8 @@ void __fastcall RemoveLightFromNode(ShadowSceneNode* self, int, void** object, v
 void FUN_00e74d40();
 
 // @fnv 0x00b5c7c0
-void FUN_00b5c7c0()
+// src: GUESS 0x00b5c7c0 (confidence: low)
+void Object_ForwardCall_00b5c7c0()
 {
     FUN_00e74d40();
 }
@@ -4427,7 +4429,7 @@ struct GlobalObject_0096a2d0
     }
 };
 extern "C" GlobalObject_0096a2d0 DAT_011f9ea0;
-extern "C" void* __cdecl FUN_00aa13e0(unsigned int);
+extern "C" void* __cdecl Object_DispatchCommandFour(unsigned int);
 
 struct ActiveLightList : public NiTPointerListBase<NiTPointerAllocator<unsigned int>, NiPointer<NiRefObject> >
 {
@@ -4480,7 +4482,7 @@ ShadowSceneLight* __fastcall FindSceneObjectLight(ShadowSceneNode* self, int, vo
 }  // namespace fnv_00b5cbd0
 
 extern unsigned int DAT_011c16bc;
-void* __cdecl FUN_00aa13e0(unsigned int size);
+void* __cdecl Object_DispatchCommandFour(unsigned int size);
 void __cdecl FUN_00aa1460(void* p);
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* p);
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* p);
@@ -4490,7 +4492,7 @@ class S00b5cd00_Light
   public:
     static void* operator new(unsigned int size)
     {
-        return FUN_00aa13e0(size);
+        return Object_DispatchCommandFour(size);
     }
     static void operator delete(void* p)
     {
@@ -5217,7 +5219,7 @@ struct LightContext
     unsigned int unk024;
     unsigned int count;
 };
-extern int __cdecl FUN_00b5a980(int*, int*);
+extern int __cdecl Object_ComputeValue_00b5a980(int*, int*);
 
 class ShadowSceneUpdater : public ShadowSceneNode
 {
@@ -5265,7 +5267,7 @@ __declspec(noinline) void ShadowSceneUpdater::RemoveLightFromNode(RefPtr_b9fcc0&
             GeometryLinks* geometry = reinterpret_cast<GeometryLinks**>(item->kMultiboundRooms.pBuffer)[i];
             if (geometry && geometry->objects.count)
             {
-                unsigned int index = geometry->objects.FindFirstMatch(&value, 0, FUN_00b5a980);
+                unsigned int index = geometry->objects.FindFirstMatch(&value, 0, Object_ComputeValue_00b5a980);
                 if (index != ~0u)
                     geometry->objects.BSSimpleArray_ShadowSceneLight_1024_Remove(index, true);
             }
@@ -6324,7 +6326,7 @@ struct Pt4
     }
 };
 
-int __cdecl FUN_00b5a980(int*, int*);
+int __cdecl Object_ComputeValue_00b5a980(int*, int*);
 
 template <class T> struct ArrayLikeT
 {
@@ -6338,7 +6340,7 @@ template <class T> struct ArrayLikeT
 
     __forceinline int Find(const T& key)
     {
-        return FindFirstMatch(&key, 0, FUN_00b5a980);
+        return FindFirstMatch(&key, 0, Object_ComputeValue_00b5a980);
     }
 
     __forceinline void Clear()

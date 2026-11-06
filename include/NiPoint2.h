@@ -36,11 +36,12 @@ public:
     {
         return x == point.x && y == point.y;
     }
-    __declspec(noinline) bool FUN_0051c330(const NiPoint2& point) const
+// src: GUESS 0x0051c330 (confidence: low)
+    __declspec(noinline) bool ForwardCall_0051c330(const NiPoint2& point) const
     {
         return !(*this == point);
     }
-    bool FUN_00452df0(const NiPoint2& point) const;
+    bool HasEqualFloatPair(const NiPoint2& point) const;
 
     float Length();
     float SqrLength();

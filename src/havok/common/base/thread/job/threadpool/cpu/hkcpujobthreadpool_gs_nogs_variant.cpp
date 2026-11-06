@@ -114,7 +114,7 @@ extern char DAT_0102e388;
 void hkReferencedObject_setLockMode(int);
 struct EventObjD2C
 {
-    void FUN_00d04370();
+    void ForwardCall_00d04370();
     void FUN_00d04390(int);
 };
 struct ThreadObjD2C
@@ -132,7 +132,7 @@ struct ThreadObjD2C
     int unk24;
     int unk28;
     EventObjD2C m_pTail;
-    void FUN_00d87a70();
+    void hkThread_stopThread_ForwardCall_00d87a70();
 };
 struct VBaseD2C
 {
@@ -149,7 +149,7 @@ struct ClsD2C : VBaseD2C, ArrBaseD2C
 {
     int m_uiItemCount;
     void hkCpuJobThreadPool_waitForCompletion();
-    void FUN_00d2cf00();
+    void ProcessEntries_00d2cf00();
 };
 
 extern "C" __declspec(dllimport) void* __stdcall CreateThread(void* lpThreadAttributes, unsigned long dwStackSize,

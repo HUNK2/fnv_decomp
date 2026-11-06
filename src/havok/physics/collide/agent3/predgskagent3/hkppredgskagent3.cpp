@@ -276,7 +276,8 @@ extern "C" void __cdecl ReleaseAllEntries(void* p, int obj, int data);
 
 // Calls ReleaseAllEntries on the record at b+0x0C, computes an aligned size from three bytes, clears byte 2 of a, and returns b plus that size.
 // @fnv 0x00d41860
-extern "C" int __cdecl FUN_00d41860_impl(int apOut, int apRecord, int aObj, int aData)
+// src: GUESS 0x00d41860 (confidence: low)
+extern "C" int __cdecl Object_ProcessAndReturnValue_00d41860(int apOut, int apRecord, int aObj, int aData)
 {
     unsigned char* rec = (unsigned char*)apRecord + 0x0C;
 

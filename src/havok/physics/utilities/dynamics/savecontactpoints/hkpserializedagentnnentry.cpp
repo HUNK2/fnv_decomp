@@ -32,12 +32,13 @@ struct Hk_e05c20_track
 {
     hkArray<hkpAgent1nSector*> m_kSectors;
     hkArray<hkpSerializedSubTrack1nInfo*> m_kSubTracks;
-    void FUN_00e05c20();
+    void ReleaseSectorAndSubtrackArrays();
 };
 
 // Frees all hkpAgent1nSector and hkpSerializedSubTrack1nInfo entries, then returns the underlying array memory to the heap and resets both arrays.
 // @fnv 0x00e05c20
-void Hk_e05c20_track::FUN_00e05c20()
+// src: GUESS 0x00e05c20 (confidence: medium)
+void Hk_e05c20_track::ReleaseSectorAndSubtrackArrays()
 {
     if ((m_kSectors.m_iCapacityState & 0x80000000) == 0)
     {
@@ -57,7 +58,7 @@ void Hk_e05c20_track::FUN_00e05c20()
             hkpSerializedSubTrack1nInfo* p = m_kSubTracks.m_data[i];
             if (p)
             {
-                reinterpret_cast<Hk_e05c20_track*>(p)->FUN_00e05c20();
+                reinterpret_cast<Hk_e05c20_track*>(p)->ReleaseSectorAndSubtrackArrays();
                 hkMemoryRouter_getInstance()->heap().deleteObj(p, 0x20);
             }
         }

@@ -13,11 +13,12 @@ extern void __cdecl FUN_00ddcc60();
 
 struct FUN_00d62fe0_cls
 {
-    void __thiscall FUN_00d62fe0();
+    void __thiscall UpdateFields_00d62fe0();
 };
 
 // @fnv 0x00d62fe0
-void __thiscall FUN_00d62fe0_cls::FUN_00d62fe0()
+// src: GUESS 0x00d62fe0 (confidence: low)
+void __thiscall FUN_00d62fe0_cls::UpdateFields_00d62fe0()
 {
     *(int*)this = (int)&DAT_010d1720;
     *(int*)((char*)this + 8) = (int)&DAT_010d1700;
@@ -185,7 +186,7 @@ struct FUN_00d63250_cls
     unsigned short m_uSize;
     unsigned short m_u06;
 
-    void FUN_00d62fe0();
+    void UpdateFields_00d62fe0();
 
     FUN_00d63250_cls* Destroy(unsigned char acFlags);
     static void operator delete(void* apMemory) throw();
@@ -195,7 +196,7 @@ struct FUN_00d63250_cls
 // @fnv 0x00d63250
 FUN_00d63250_cls* FUN_00d63250_cls::Destroy(unsigned char acFlags)
 {
-    FUN_00d62fe0();
+    UpdateFields_00d62fe0();
     if (acFlags & 1)
     {
         hkMemoryRouter* pHolder = hkMemoryRouter_getInstance();
@@ -270,7 +271,7 @@ ThunkOwner::ThunkOwner()
 struct D63240Primary
 {
     virtual void vfunc00();
-    virtual void FUN_00d63240();
+    virtual void AdjustThisAndForward_00d63240();
 
     int unk04;
     int unk08;
@@ -283,7 +284,7 @@ struct D63240Primary
 
 struct D63240Secondary
 {
-    virtual void FUN_00d63240();
+    virtual void AdjustThisAndForward_00d63240();
 };
 
 struct D63240Object : D63240Primary, D63240Secondary
@@ -291,7 +292,8 @@ struct D63240Object : D63240Primary, D63240Secondary
     D63240Object();
 
 // @fnv 0x00d63240
-    virtual void FUN_00d63240();
+// src: GUESS 0x00d63240 (confidence: low)
+    virtual void AdjustThisAndForward_00d63240();
 };
 
 D63240Object::D63240Object()

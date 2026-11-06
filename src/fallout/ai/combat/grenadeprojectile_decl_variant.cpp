@@ -24,7 +24,8 @@ void NiPoint3_UnitizeVector(NiPoint3*);
 void TESHavokUtilities_AddVelocity(NiAVObject*, const NiPoint3&, bool);
 
 // @fnv 0x009b4740
-bool __fastcall FUN_009b4740(GrenadeProjectile* projectile)
+// src: GUESS 0x009b4740 (confidence: low)
+bool __fastcall Object_ProcessAndReturnValue_009b4740(GrenadeProjectile* projectile)
 {
     if (!projectile->kImpacts.IsEmpty())
     {

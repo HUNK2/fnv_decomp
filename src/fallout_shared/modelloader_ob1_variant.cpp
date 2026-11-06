@@ -26,13 +26,13 @@ struct Fg_aaed70_CIter
     float* m_ptr;
     const void* m_pOwnerObject;
     Fg_aaed70_CIter(float*, const void*);
-    void FUN_00659190();
-    bool FUN_0065dfd0(const Fg_aaed70_CIter&) const;
-    const float& FUN_0064dda0() const;
+    void DoNothing();
+    bool IsNotIdentical(const Fg_aaed70_CIter&) const;
+    const float& ProcessEntries_0064dda0() const;
     Fg_aaed70_CIter operator++(int)
     {
         Fg_aaed70_CIter tmp = *this;
-        FUN_00659190();
+        DoNothing();
         return tmp;
     }
 };
@@ -52,12 +52,12 @@ struct Fg_aaed70_Iter : Fg_aaed70_CIter
         int w2;
         int w3;
         int w4;
-        return (float&)FUN_0064dda0();
+        return (float&)ProcessEntries_0064dda0();
     }
     Fg_aaed70_Iter operator++(int)
     {
         Fg_aaed70_Iter tmp = *this;
-        FUN_00659190();
+        DoNothing();
         return tmp;
     }
 };
@@ -92,11 +92,12 @@ struct Fg_aaed70_Mat
         unsigned int n = m1c * m18;
         data.resize(n, 0.0f);
     }
-    Fg_aaed70_Mat FUN_00aaed70(const Fg_aaed70_Mat& other) const;
+    Fg_aaed70_Mat ProcessEntries_00aaed70(const Fg_aaed70_Mat& other) const;
 };
 
 // @fnv 0x00aaed70
-Fg_aaed70_Mat Fg_aaed70_Mat::FUN_00aaed70(const Fg_aaed70_Mat& other) const
+// src: GUESS 0x00aaed70 (confidence: low)
+Fg_aaed70_Mat Fg_aaed70_Mat::ProcessEntries_00aaed70(const Fg_aaed70_Mat& other) const
 {
     if (m18 == other.m18 && m1c == other.m1c)
     {
@@ -109,9 +110,9 @@ Fg_aaed70_Mat Fg_aaed70_Mat::FUN_00aaed70(const Fg_aaed70_Mat& other) const
     Fg_aaed70_Iter it3(ret.data._Myfirst, &ret.data);
     Fg_aaed70_CIter it9(data._Myfirst, &data);
     Fg_aaed70_CIter it2(other.data._Myfirst, &other.data);
-    for (; it9.FUN_0065dfd0(data.end()); it9++, it2++, it3++)
+    for (; it9.IsNotIdentical(data.end()); it9++, it2++, it3++)
     {
-        *it3 = it9.FUN_0064dda0() - it2.FUN_0064dda0();
+        *it3 = it9.ProcessEntries_0064dda0() - it2.ProcessEntries_0064dda0();
     }
     return ret;
 }
@@ -897,7 +898,7 @@ struct SpY
         if (m_p)
             m_p->DecRef();
     }
-    SpY& FUN_00c3b970(RefY* p);
+    SpY& AssignReferencedObject(RefY* p);
 };
 struct ObjY : RefY
 {
@@ -1364,7 +1365,7 @@ bool WalkY::BSStream_RegisterSaveObject(ObjY* pkObj)
             pkNode2 = (ObjY*)(pkObj->NiObject_IsKindOf_006532c0(&DAT_011f4304) ? pkObj : 0);
         if (pkNode2 && Lookup(pkNode2))
         {
-            spNew9.FUN_00c3b970(new Z(pkNode2->m8));
+            spNew9.AssignReferencedObject(new Z(pkNode2->m8));
             pkCur = spNew9.m_p;
         }
         else
@@ -1611,10 +1612,11 @@ struct S00c3fce0_cls
 {
     bool LockFreeMap_int64_NiPointer_BSTask_int64_GetNext(S00c3fce0_Iter*, S00c3fce0_Key*, S00c3fce0_Ptr*, bool);
     void BSTaskManager_CancelTask(S00c3fce0_Obj*, int);
-    void FUN_00c3fce0();
+    void ProcessEntries_00c3fce0();
 };
 // @fnv 0x00c3fce0
-void S00c3fce0_cls::FUN_00c3fce0()
+// src: GUESS 0x00c3fce0 (confidence: low)
+void S00c3fce0_cls::ProcessEntries_00c3fce0()
 {
     bool changed = true;
     int x1;
@@ -1636,7 +1638,7 @@ void S00c3fce0_cls::FUN_00c3fce0()
 }
 
 __declspec(dllimport) long __stdcall InterlockedDecrement(long*);
-void* __cdecl FUN_00aa13e0(unsigned int size);
+void* __cdecl Object_DispatchCommandFour(unsigned int size);
 extern int DAT_010c13f4;
 extern int DAT_01069d84;
 class FUN_00a5d3a0
@@ -1695,7 +1697,7 @@ class C3B270_Object : public FUN_00a5d3a0
     C3B270_Sub m_08;
     static void* operator new(unsigned int size)
     {
-        return FUN_00aa13e0(size);
+        return Object_DispatchCommandFour(size);
     }
     virtual void vf00();
     __forceinline C3B270_Object()
@@ -1704,7 +1706,8 @@ class C3B270_Object : public FUN_00a5d3a0
 struct C3B270_Ref
 {
     C3B270_Object* m_pObject;
-    C3B270_Ref& FUN_00c3b970(C3B270_Object* object)
+// src: GUESS 0x00c3b970 (confidence: high)
+    C3B270_Ref& AssignReferencedObject(C3B270_Object* object)
     {
         if (m_pObject != object)
         {
@@ -2104,11 +2107,11 @@ bool C3B270_Owner::BSStream_SaveStream()
 {
     if (m_5C4)
     {
-        m_5C8.FUN_00c3b970(new C3B270_Object);
+        m_5C8.AssignReferencedObject(new C3B270_Object);
         FUN_00a66370(m_5C8);
     }
     bool result = NiStream_SaveStream();
-    m_5C8.FUN_00c3b970(0);
+    m_5C8.AssignReferencedObject(0);
     return result;
 }
 

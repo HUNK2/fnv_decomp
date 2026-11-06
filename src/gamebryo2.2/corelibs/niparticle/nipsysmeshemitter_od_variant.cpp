@@ -10,15 +10,16 @@ struct NiAVObject;
 extern void* g_01202508;
 void* __cdecl NiPSysCylinderEmitter_GetRTTI();
 
-extern "C" int __cdecl FUN_006397b0();
+extern "C" int __cdecl Runtime_GetRandomNumber_Thunk();
 extern double DAT_01029790;
 
 // @fnv 0x00639780
-float __cdecl FUN_00639780()
+// src: GUESS 0x00639780 (confidence: low)
+float __cdecl Object_ProcessAndReturnValue_00639780()
 {
     int v;
     float result;
-    v = FUN_006397b0();
+    v = Runtime_GetRandomNumber_Thunk();
     result = (float)v / DAT_01029790;
     return result;
 }

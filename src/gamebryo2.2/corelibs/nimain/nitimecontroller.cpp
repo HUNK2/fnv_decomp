@@ -565,7 +565,8 @@ void __fastcall GetTimeControllerViewerStrings(NiTimeController* controller, int
 }
 
 // @fnv 0x00a29680
-void __cdecl FUN_00a29680()
+// src: GUESS 0x00a29680 (confidence: high)
+void __cdecl Object_DoNothing()
 {}
 
 
@@ -644,12 +645,13 @@ class FUN_00a362f0_cls
     Fld m_f3c;
     Fld m_f40;
     Card9 m_aiIndexedValues;
-    void* FUN_00a362f0();
+    void* InitializeFields_00a362f0();
 };
 
 // Initializes all fields of FUN_00a362f0_cls with global constants and returns this.
 // @fnv 0x00a362f0
-void* FUN_00a362f0_cls::FUN_00a362f0()
+// src: GUESS 0x00a362f0 (confidence: low)
+void* FUN_00a362f0_cls::InitializeFields_00a362f0()
 {
     volatile float* __restrict p = (volatile float*)this;
 

@@ -57,7 +57,7 @@ struct FUN_005a7220_class
 };
 struct FUN_005a71d0_class
 {
-    void* __thiscall FUN_005a71d0();
+    void* __thiscall UpdateState_005a71d0();
 };
 struct FUN_005a7220_cls
 {
@@ -173,7 +173,7 @@ struct FUN_005a78a0 : FUN_00483370, FUN_00402d00
 };
 struct FUN_004855a0_shell
 {
-    void FUN_004855a0();
+    void BeginFormRecord();
 };
 struct FUN_00487010_shell
 {
@@ -189,7 +189,7 @@ struct FUN_00485e20_shell
 };
 struct FUN_00485680_shell
 {
-    void FUN_00485680();
+    void FinishFormRecord();
 };
 unsigned char __cdecl TESForm_QEndianSwapOnSave();
 struct FUN_005a7a90_shell

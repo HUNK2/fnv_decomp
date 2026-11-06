@@ -72,10 +72,11 @@ struct S_00cf5880
 {
     int unk0;
     void FindNextEnabledChild(int a);
-    void FUN_00cf5880();
+    void FindNextEnabledChild_Thunk();
 };
 // @fnv 0x00cf5880
-void S_00cf5880::FUN_00cf5880()
+// src: GUESS 0x00cf5880 (confidence: medium)
+void S_00cf5880::FindNextEnabledChild_Thunk()
 {
     FindNextEnabledChild(-1);
 }
@@ -94,7 +95,7 @@ struct __declspec(align(16)) BufAligned32
 
 struct FUN_00cf4fb0_Obj
 {
-    void FUN_00cf4fb0(void* a1);
+    void ProcessEntries_00cf4fb0(void* a1);
 };
 
 struct FUN_00cf5420_class
@@ -108,7 +109,7 @@ void FUN_00cf5420_class::hkpListShape_recalcAabbExtents()
 {
     BufAligned32 bufAligned;
     FUN_00cf4fb0_Obj* obj = (FUN_00cf4fb0_Obj*)this;
-    obj->FUN_00cf4fb0(&bufAligned);
+    obj->ProcessEntries_00cf4fb0(&bufAligned);
 }
 
 extern const hkClass DAT_01269198;
@@ -631,7 +632,7 @@ hkBool S00cf5140_Obj::hkpListShape_castRayImpl(const S00cf5140_Input& input, S00
 // declare, so the second base's vtable gets a thunk that moves `this` back by the first base's size (0x10).
 struct PrimaryBase
 {
-    virtual void FUN_00cf5820();
+    virtual void AdjustThisAndForward_00cf5820();
     int unk04;
     int unk08;
     int unk0C;
@@ -639,14 +640,15 @@ struct PrimaryBase
 
 struct SecondaryBase
 {
-    virtual void FUN_00cf5820();
+    virtual void AdjustThisAndForward_00cf5820();
 };
 
 struct Derived : PrimaryBase, SecondaryBase
 {
     Derived();
 // @fnv 0x00cf5820
-    virtual void FUN_00cf5820();
+// src: GUESS 0x00cf5820 (confidence: low)
+    virtual void AdjustThisAndForward_00cf5820();
 };
 
 Derived::Derived()

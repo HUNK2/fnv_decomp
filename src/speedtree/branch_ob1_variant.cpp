@@ -12,7 +12,7 @@
 extern int DAT_011ad14c;
 struct FUN_00b14ae0_class
 {
-    float FUN_00b14ae0(int id, float a, float b);
+    float ComputeValue_00b14ae0(int id, float a, float b);
 };
 unsigned int __cdecl FUN_00ec7c56(void);
 struct FUN_00b15170
@@ -65,7 +65,7 @@ struct Link
 };
 struct Owner
 {
-    bool FUN_00b13b50(Link* link, float input);
+    bool TestThresholdAndRandomLimit(Link* link, float input);
 };
 struct B4230Point3
 {
@@ -80,7 +80,7 @@ struct B4230Point3
 // build the x87 register-to-register multiply instead of the memory-operand one.
 struct FUN_00b14b10_class
 {
-    float FUN_00b14b10(float value, float factor);
+    float UpdateState_00b14b10(float value, float factor);
 };
 struct b14_sub
 {
@@ -144,7 +144,7 @@ struct FUN_00b14be0_cls
     int m_24;
     void FindSegment(OutPair* out, float v);
 };
-float __cdecl FUN_00b15110(Link* link);
+float __cdecl Branch_UpdateState_00b15110(Link* link);
 // The class that owns ProjectOntoLine (in the game it derives from the vector
 // class, so `this` points at the three floats a, b and c).
 struct MyThis
@@ -235,7 +235,8 @@ extern float runtimeInitializationFloat4160;
 extern const double DAT_010a4d90;
 extern int __cdecl FUN_00ecadb8();
 extern const double DAT_01029790;
-inline float __cdecl FUN_00b14e90(float lower, float upper)
+// src: GUESS 0x00b14e90 (confidence: high)
+inline float __cdecl Branch_GetRandomFloatInRange(float lower, float upper)
 {
     float fraction = FUN_00ecadb8() / DAT_01029790;
     float range = upper - lower;
@@ -322,7 +323,8 @@ struct CreationValuesVector
         insert_many(where, 1, value);
         return begin() + offset;
     }
-    void FUN_00b15280(CreationValues* values)
+// src: GUESS 0x00b15280 (confidence: low)
+    void UpdateFields_00b15280(CreationValues* values)
     {
         unsigned used = size();
         if (used < capacity())
@@ -408,22 +410,22 @@ void ParticleEmitter::CIdvBranch_ComputeFlareEntries(CreationSettings* settings)
 {
     if (settings->count != 0)
     {
-        float initial = FUN_00b14e90(0.0f, runtimeInitializationFloat4160);
+        float initial = Branch_GetRandomFloatInRange(0.0f, runtimeInitializationFloat4160);
         float perStep = runtimeInitializationFloat4160 / (float)settings->count;
         for (int i = 0; i < settings->count; ++i)
         {
             CreationValues values = {0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f};
-            values.angle = (float)i * FUN_00b14e90(settings->interval * perStep, perStep) + initial;
+            values.angle = (float)i * Branch_GetRandomFloatInRange(settings->interval * perStep, perStep) + initial;
             if (values.angle > runtimeInitializationFloat4160)
                 values.angle -= runtimeInitializationFloat4160;
             values.forward = settings->forward;
             values.magnitude = settings->verticalDeviation;
             values.spread =
-                radians(FUN_00b14e90(settings->spread - settings->deviation, settings->spread + settings->deviation));
-            values.vertical = FUN_00b14e90(settings->vertical - settings->verticalRange,
+                radians(Branch_GetRandomFloatInRange(settings->spread - settings->deviation, settings->spread + settings->deviation));
+            values.vertical = Branch_GetRandomFloatInRange(settings->vertical - settings->verticalRange,
                                            settings->vertical + settings->verticalRange);
-            values.sideways = FUN_00b14e90(settings->tilt - settings->sideways, settings->tilt + settings->sideways);
-            channel.FUN_00b15280(&values);
+            values.sideways = Branch_GetRandomFloatInRange(settings->tilt - settings->sideways, settings->tilt + settings->sideways);
+            channel.UpdateFields_00b15280(&values);
         }
     }
 }
@@ -470,16 +472,17 @@ struct FNV_scratch_t
 struct FUN_00b151a0_class
 {
     void* m_p00;
-    void FUN_00b1fca0();
-    void FUN_00b151a0();
+    void ReleaseStorage_00b1fca0();
+    void UpdateFields_00b151a0();
 };
 
 // @fnv 0x00b151a0
-void FUN_00b151a0_class::FUN_00b151a0()
+// src: GUESS 0x00b151a0 (confidence: low)
+void FUN_00b151a0_class::UpdateFields_00b151a0()
 {
     {
         FNV_scratch_t tmp;
-        this->FUN_00b1fca0();
+        this->ReleaseStorage_00b1fca0();
     }
     {
         void* q = this->m_p00;
@@ -594,8 +597,8 @@ struct BranchMatrix
         return BranchPoint(p.z * m02 + (p.y * m01 + p.x * m00), p.z * m12 + (p.y * m11 + p.x * m10),
                            p.z * m22 + (p.y * m21 + p.x * m20));
     }
-    inline void FUN_00b12d50(float, BranchPoint);
-    inline void FUN_00b12c00(float, float);
+    inline void UpdateState_00b12d50(float, BranchPoint);
+    inline void UpdateFields_00b12c00(float, float);
     inline void SetRotationAxisAngle(float, BranchPoint);
     inline BranchMatrix Multiply(const BranchMatrix&);
 };
@@ -679,8 +682,8 @@ struct BranchManager
 {
     bool GetByteAtOffset4C();
     int CFrondEngine_GetLevel();
-    void FUN_00b188d0();
-    void FUN_00b18a60(BranchPoint, BranchMatrix, float, unsigned int);
+    void ProcessState_00b188d0();
+    void UpdateFields_00b18a60(BranchPoint, BranchMatrix, float, unsigned int);
     void CFrondEngine_EndGuide(float);
 };
 extern BranchManager* DAT_011f8c00;
@@ -736,7 +739,7 @@ struct BranchIterator
 struct BranchTag
 {
 };
-BranchChild* __cdecl FUN_00b244a0(BranchChild*, unsigned int, const BranchChild&, int*, BranchTag, bool);
+BranchChild* __cdecl Object_FillElementRange(BranchChild*, unsigned int, const BranchChild&, int*, BranchTag, bool);
 struct BranchChildren
 {
     int unk00, unk04, unk08;
@@ -759,25 +762,27 @@ struct BranchChildren
     {
         return BranchIterator(end, this);
     }
-    void FUN_00b21e00(BranchIterator, unsigned int, const BranchChild&);
-    BranchIterator FUN_00b1fab0(BranchIterator where, const BranchChild& value)
+    void InsertFilledElements_00b21e00(BranchIterator, unsigned int, const BranchChild&);
+// src: GUESS 0x00b1fab0 (confidence: low)
+    BranchIterator UpdateState_00b1fab0(BranchIterator where, const BranchChild& value)
     {
         int offset = size() == 0 ? 0 : where - Begin();
-        FUN_00b21e00(where, 1, value);
+        InsertFilledElements_00b21e00(where, 1, value);
         return Begin() + offset;
     }
-    void FUN_00b1e4c0(const BranchChild& value)
+// src: GUESS 0x00b1e4c0 (confidence: medium)
+    void AppendElementWithGrowth(const BranchChild& value)
     {
         int qPad[32];
         if (size() < allocated())
         {
             BranchChild* oldEnd = end;
             BranchTag tag;
-            FUN_00b244a0(oldEnd, 1, value, &unk08, tag, false);
+            Object_FillElementRange(oldEnd, 1, value, &unk08, tag, false);
             end = oldEnd + 1;
         }
         else
-            FUN_00b1fab0(End(), value);
+            UpdateState_00b1fab0(End(), value);
     }
 };
 inline BranchIterator::BranchIterator(BranchChild* p, BranchChildren* v) : proxy(0), position(p)
@@ -817,9 +822,9 @@ struct FUN_00b10dc0
     ~FUN_00b10dc0();
     void CIdvBranch_BuildBlossomVectors();
     void CIdvBranch_ComputeFlareEntries(BranchConfig*);
-    float FUN_00b14ae0(int, float, float);
-    float FUN_00b14b10(float, float);
-    void FUN_00b14450(FUN_00b130a0*, float, float, unsigned short, BranchMesh*, const BranchPoint&, float, unsigned int,
+    float ComputeValue_00b14ae0(int, float, float);
+    float UpdateState_00b14b10(float, float);
+    void ProcessEntries_00b14450(FUN_00b130a0*, float, float, unsigned short, BranchMesh*, const BranchPoint&, float, unsigned int,
                       float, int);
     void CIdvBranch_ComputeBranchNormals(BranchMesh*, unsigned short);
     void FindSegment(BranchChild*, float);
@@ -859,7 +864,8 @@ inline void BranchMatrix::SetRotationAxisAngle(float angle, BranchPoint axis)
     m21 = complement * y * z - sine * x;
     m22 = complement * z * z + cosine;
 }
-inline void BranchMatrix::FUN_00b12d50(float angle, BranchPoint axis)
+// src: GUESS 0x00b12d50 (confidence: low)
+inline void BranchMatrix::UpdateState_00b12d50(float angle, BranchPoint axis)
 {
     BranchMatrix rotation;
     float sine = (float)FUN_00eca060((float)(angle / DAT_010a4d90));
@@ -877,7 +883,8 @@ inline void BranchMatrix::FUN_00b12d50(float angle, BranchPoint axis)
     rotation.m22 = complement * z * z + cosine;
     *this = rotation.Multiply(*this);
 }
-inline void BranchMatrix::FUN_00b12c00(float first, float second)
+// src: GUESS 0x00b12c00 (confidence: low)
+inline void BranchMatrix::UpdateFields_00b12c00(float first, float second)
 {
     BranchMatrix rotation;
     float c1 = (float)FUN_00ec9f30((float)(first / DAT_010a4d90));
@@ -967,8 +974,8 @@ void FUN_00b10dc0::CIdvBranch_Compute(unsigned int seed, float scale, int level,
         float qrEZrs = material->orientation->Sample(0.0f);
         qhxpxJd->matrix = transform;
         BranchPoint qsSDDgz = transform.TransformVector(axis);
-        qhxpxJd->matrix.FUN_00b12d50(base, qsSDDgz);
-        qhxpxJd->matrix.FUN_00b12c00(config + qrEZrs, qSVM);
+        qhxpxJd->matrix.UpdateState_00b12d50(base, qsSDDgz);
+        qhxpxJd->matrix.UpdateFields_00b12c00(config + qrEZrs, qSVM);
         qhxpxJd->direction = DAT_011f8c40.FUN_00b12890(qhxpxJd->matrix);
         qhxpxJd->radius = material->radius->CIdvBezierSpline_Evaluate(0.0f) * length;
         float qfTOqo = material->variation->CIdvBezierSpline_Evaluate(0.0f) * thickness;
@@ -989,12 +996,12 @@ void FUN_00b10dc0::CIdvBranch_Compute(unsigned int seed, float scale, int level,
         float qHXYKT = weight;
         if (level <= DAT_011ad14c)
         {
-            qhxpxJd->weight = FUN_00b14ae0(level, 0.0f, qfTOqo);
+            qhxpxJd->weight = ComputeValue_00b14ae0(level, 0.0f, qfTOqo);
             qHXYKT = qhxpxJd->weight;
         }
         else if (DAT_011f8c04)
         {
-            qhxpxJd->weight = FUN_00b14b10(weight, qfTOqo);
+            qhxpxJd->weight = UpdateState_00b14b10(weight, qfTOqo);
             qHXYKT = qhxpxJd->weight;
         }
         if (!animation)
@@ -1002,12 +1009,12 @@ void FUN_00b10dc0::CIdvBranch_Compute(unsigned int seed, float scale, int level,
             float factor = 0.0f;
             if (level != 0)
                 factor = parentFactor;
-            FUN_00b14450(qhxpxJd, 0.0f, factor, type, mesh, shape, qHXYKT, id, step, level);
+            ProcessEntries_00b14450(qhxpxJd, 0.0f, factor, type, mesh, shape, qHXYKT, id, step, level);
         }
         else
         {
-            DAT_011f8c00->FUN_00b188d0();
-            DAT_011f8c00->FUN_00b18a60(qhxpxJd->position, qhxpxJd->matrix, qHXYKT, id);
+            DAT_011f8c00->ProcessState_00b188d0();
+            DAT_011f8c00->UpdateFields_00b18a60(qhxpxJd->position, qhxpxJd->matrix, qHXYKT, id);
         }
         float qvyWyw = 0.0f;
         entries->distance = 0.0f;
@@ -1031,18 +1038,18 @@ void FUN_00b10dc0::CIdvBranch_Compute(unsigned int seed, float scale, int level,
             qGfbX->matrix = qGfbX->matrix.Multiply(qnuVZg);
             float qBCzzXA = material->orientation->Sample(qZAdkzg);
             float qxQHW = material->orientation->Sample(qZAdkzg);
-            qGfbX->matrix.FUN_00b12c00(qxQHW, qBCzzXA);
+            qGfbX->matrix.UpdateFields_00b12c00(qxQHW, qBCzzXA);
             qGfbX->direction = DAT_011f8c40.FUN_00b12890(qGfbX->matrix);
             qGfbX->position = qpqRa ? qpqRa->position + qpqRa->direction * radius : origin;
             float qrzAir = weight;
             if (level <= DAT_011ad14c)
             {
-                qGfbX->weight = FUN_00b14ae0(level, qZAdkzg, qrKBG);
+                qGfbX->weight = ComputeValue_00b14ae0(level, qZAdkzg, qrKBG);
                 qrzAir = qGfbX->weight;
             }
             else if (DAT_011f8c04)
             {
-                qGfbX->weight = FUN_00b14b10(weight, qrKBG);
+                qGfbX->weight = UpdateState_00b14b10(weight, qrKBG);
                 qrzAir = qGfbX->weight;
             }
             if (!animation)
@@ -1058,10 +1065,10 @@ void FUN_00b10dc0::CIdvBranch_Compute(unsigned int seed, float scale, int level,
                 }
                 else
                     currentFactor = parentFactor;
-                FUN_00b14450(qGfbX, qZAdkzg, currentFactor, type, mesh, shape, qrzAir, id, step, level);
+                ProcessEntries_00b14450(qGfbX, qZAdkzg, currentFactor, type, mesh, shape, qrzAir, id, step, level);
             }
             else
-                DAT_011f8c00->FUN_00b18a60(qGfbX->position, qGfbX->matrix, qrzAir, id);
+                DAT_011f8c00->UpdateFields_00b18a60(qGfbX->position, qGfbX->matrix, qrzAir, id);
             qpqRa = qGfbX;
             qvyWyw += radius;
             entries[segment].distance = qvyWyw;
@@ -1128,7 +1135,7 @@ void FUN_00b10dc0::CIdvBranch_Compute(unsigned int seed, float scale, int level,
                     qHVMR.object->CIdvBranch_Compute(seed, scale, level, qJDuOZ, qxWmVch, qpia, entries[qHVMR.idx].matrix,
                                                entries[qHVMR.idx].direction, mesh, context, qQMZREG, id, qZWI);
                     if (!DAT_011f8c00->GetByteAtOffset4C() || level < DAT_011f8c00->CFrondEngine_GetLevel())
-                        childList.FUN_00b1e4c0(qHVMR);
+                        childList.AppendElementWithGrowth(qHVMR);
                     else
                     {
                         delete qHVMR.object;
@@ -1341,7 +1348,8 @@ struct IndexSet : IndexValues
     {
         erase(begin(), end());
     }
-    void FUN_00b15390(const unsigned& value)
+// src: GUESS 0x00b15390 (confidence: low)
+    void UpdateState_00b15390(const unsigned& value)
     {
         if (size() < capacity())
         {
@@ -1409,13 +1417,13 @@ void S_00b13a40_Obj::CIdvBranch_BuildBlossomVectors()
     {
         if (((S_00b13a40_Holder*)DAT_011f8bf4)->m_vec.At(i).m_flag)
         {
-            DAT_011f8c68.FUN_00b15390(i * 2);
-            DAT_011f8c68.FUN_00b15390(i * 2 + 1);
+            DAT_011f8c68.UpdateState_00b15390(i * 2);
+            DAT_011f8c68.UpdateState_00b15390(i * 2 + 1);
         }
         else
         {
-            DAT_011f8c18.FUN_00b15390(i * 2);
-            DAT_011f8c18.FUN_00b15390(i * 2 + 1);
+            DAT_011f8c18.UpdateState_00b15390(i * 2);
+            DAT_011f8c18.UpdateState_00b15390(i * 2 + 1);
         }
     }
 }
@@ -1446,7 +1454,7 @@ struct Vec54
 };
 struct Obj80
 {
-    void FUN_00b15390(void* p);
+    void UpdateState_00b15390(void* p);
 };
 extern Obj80 DAT_011f8c80;
 struct Elem54
@@ -1566,11 +1574,11 @@ extern float DAT_01017130;
 extern float DAT_0108cb00;
 extern float DAT_01022958;
 extern double DAT_01030f28;
-float __cdecl FUN_00b15110(int a);
+float __cdecl Branch_UpdateState_00b15110(int a);
 struct Host : Owner
 {
     inline bool IsPointClearOfEntries(int a, int b, void* c);
-    void FUN_00b13c10(int p0, float p1, Link* p2, MathPoint* p3, MathPoint* p4, float p5, int p6, void* p7);
+    void AllocateStorage_00b13c10(int p0, float p1, Link* p2, MathPoint* p3, MathPoint* p4, float p5, int p6, void* p7);
 };
 struct IndexList
 {
@@ -1712,12 +1720,13 @@ inline bool Host::IsPointClearOfEntries(int a, int b, void* c)
     return allowed;
 }
 // @fnv 0x00b13c10
-void Host::FUN_00b13c10(int p0, float p1, Link* p2, MathPoint* p3, MathPoint* p4, float p5, int p6, void* p7)
+// src: GUESS 0x00b13c10 (confidence: low)
+void Host::AllocateStorage_00b13c10(int p0, float p1, Link* p2, MathPoint* p3, MathPoint* p4, float p5, int p6, void* p7)
 {
     if (!((Vec54*)&DAT_011f8bf4->unk10)->empty())
     {
         int id = 0;
-        bool flag20 = emptyA() ? false : FUN_00b13b50(p2, p1);
+        bool flag20 = emptyA() ? false : TestThresholdAndRandomLimit(p2, p1);
         if (flag20)
         {
             unsigned idx = 0;
@@ -1766,7 +1775,7 @@ void Host::FUN_00b13c10(int p0, float p1, Link* p2, MathPoint* p3, MathPoint* p4
             float vZ = p1;
             if (((Settings*)DAT_011f8bf4)->enabled != 0)
             {
-                vZ = FUN_00b15110((int)p2);
+                vZ = Branch_UpdateState_00b15110((int)p2);
                 vZ = vZ + (1.0f - vZ) * p1;
                 vZ = vZ * vZ * vZ;
                 scale7 = (float)(1.0 - ((Settings*)DAT_011f8bf4)->factor) * (1.0f - vZ) + vZ;
@@ -1774,10 +1783,10 @@ void Host::FUN_00b13c10(int p0, float p1, Link* p2, MathPoint* p3, MathPoint* p4
             ResObj* res = new FUN_00b40070(p0, (unsigned short)(int)(scale7 * 255.0),
                                            (int)((G4Obj*)&g_011f8c05)->FUN_00b3f130(0.0f, DAT_01022958, p5, p6) %
                                                ((Settings*)DAT_011f8bf4)->count);
-            ((Obj80*)p7)->FUN_00b15390(&res);
+            ((Obj80*)p7)->UpdateState_00b15390(&res);
             if (DAT_011f8bf4->unk0c == 1)
             {
-                DAT_011f8c80.FUN_00b15390(&res);
+                DAT_011f8c80.UpdateState_00b15390(&res);
             }
             Elem54* elem4 = (Elem54*)((Vec54*)&DAT_011f8bf4->unk10)->at(id / 2);
             res->setId(id);
@@ -1890,7 +1899,8 @@ struct RingGeometry
 struct RingModifier
 {
     float fAngleDifference, fImpulseRadiusSquared, fAngleFalloff, fDuration, fTimeFalloff, fWaterLevelItem;
-    float FUN_00b14980(float afAngle, float afTime)
+// src: GUESS 0x00b14980 (confidence: low)
+    float ProcessAndReturnValue_00b14980(float afAngle, float afTime)
     {
         float fResult = 0.0f;
         float m_kCenter = fAngleDifference;
@@ -1947,11 +1957,11 @@ struct RingBuilder
     unsigned short unk20;
     unsigned short count;
     void CIndexedGeometry_AddVertexTexCoord0(const RingUV* uv, int index);
-    void FUN_00b305f0(const RingPoint* point);
-    void FUN_00b30660(const float* point);
-    void FUN_00b300c0(const PlainPoint* point);
-    void FUN_00b30020(const RingColor* color);
-    void FUN_00b30560(float value, bool flag);
+    void UpdateState_00b305f0(const RingPoint* point);
+    void UpdateFields_00b30660(const float* point);
+    void UpdateFields_00b300c0(const PlainPoint* point);
+    void UpdateFields_00b30020(const RingColor* color);
+    void AppendInvertedValueAndDispatchIndex(float value, bool flag);
     bool isEnabled() const
     {
         return enabled;
@@ -1962,12 +1972,13 @@ struct RingOwner
     int unk00, unk04, unk08, unk0c, unk10, unk14, unk18;
     int unk1c, unk20, unk24, unk28, unk2c, unk30, unk34;
     RingModifiers modifiers;
-    void FUN_00b14450(RingGeometry* geometry, float amount, float fade, int segments, RingBuilder* builder,
+    void ProcessEntries_00b14450(RingGeometry* geometry, float amount, float fade, int segments, RingBuilder* builder,
                       RingPoint* uvScale, float value, bool flag, float uvOffset, int linear);
 };
 
 // @fnv 0x00b14450
-void RingOwner::FUN_00b14450(RingGeometry* geometry, float amount, float fade, int segments, RingBuilder* builder,
+// src: GUESS 0x00b14450 (confidence: low)
+void RingOwner::ProcessEntries_00b14450(RingGeometry* geometry, float amount, float fade, int segments, RingBuilder* builder,
                              RingPoint* uvScale, float value, bool flag, float uvOffset, int linear)
 {
     float fProgress = 0.0f;
@@ -2010,13 +2021,13 @@ void RingOwner::FUN_00b14450(RingGeometry* geometry, float amount, float fade, i
         tangentTmp[0] = cosine6 * geometry->axisU.x + fSin * geometry->axisV.x;
         tangentTmp[1] = cosine6 * geometry->axisU.y + fSin * geometry->axisV.y;
         tangentTmp[2] = cosine6 * geometry->axisU.z + fSin * geometry->axisV.z;
-        builder->FUN_00b305f0(&tangentTmp);
-        builder->FUN_00b30660(tangentTmp.FUN_00b12810(direction3));
+        builder->UpdateState_00b305f0(&tangentTmp);
+        builder->UpdateFields_00b30660(tangentTmp.FUN_00b12810(direction3));
         float fScale = 1.0f;
         float displacement = 0.0f;
         for (unsigned int uiModifier = 0; uiModifier < modifiers.size(); ++uiModifier)
         {
-            displacement += modifiers[uiModifier].FUN_00b14980(angle5, amount);
+            displacement += modifiers[uiModifier].ProcessAndReturnValue_00b14980(angle5, amount);
         }
         fScale += displacement;
         PlainPoint kPosition;
@@ -2034,10 +2045,10 @@ void RingOwner::FUN_00b14450(RingGeometry* geometry, float amount, float fade, i
             direction3 = kIntersectionOffset;
             FUN_00ec44d0(&kPosition, &delta4, sizeof(kPosition));
         }
-        builder->FUN_00b300c0(&kPosition);
-        builder->FUN_00b30020(&color);
+        builder->UpdateFields_00b300c0(&kPosition);
+        builder->UpdateFields_00b30020(&color);
         if (builder->isEnabled())
-            builder->FUN_00b30560(value, flag);
+            builder->AppendInvertedValueAndDispatchIndex(value, flag);
         ++builder->count;
         fProgress += aIncrement;
     }
@@ -2188,8 +2199,8 @@ struct VecQ_acda90
         UFillN_acda90(_Ptr, _Count, _Val, _Alval);
         return _Ptr + _Count;
     }
-    ItQ_acda90 FUN_00b154d0(CItQ_acda90 _Where, const ElQ_acda90& _Val);
-    void FUN_00b15280(const ElQ_acda90& _Val);
+    ItQ_acda90 UpdateState_00b154d0(CItQ_acda90 _Where, const ElQ_acda90& _Val);
+    void UpdateFields_00b15280(const ElQ_acda90& _Val);
 };
 inline CItQ_acda90::CItQ_acda90(ElQ_acda90* _Ptr, const VecQ_acda90* _Pvector) : _Myaux(0)
 {
@@ -2213,13 +2224,14 @@ inline void Dead12_acda90()
     int d10;
 }
 // @fnv 0x00b15280
-void VecQ_acda90::FUN_00b15280(const ElQ_acda90& _Val)
+// src: GUESS 0x00b15280 (confidence: low)
+void VecQ_acda90::UpdateFields_00b15280(const ElQ_acda90& _Val)
 {
     if (size() < capacity())
         _Mylast = _Ufill(_Mylast, 1, _Val);
     else
     {
-        FUN_00b154d0(end(), _Val);
+        UpdateState_00b154d0(end(), _Val);
         Dead12_acda90();
     }
 }
@@ -2246,11 +2258,11 @@ inline CatQ_acad60 PtrCat_acad60(int*&, int*&)
     CatQ_acad60 c;
     return c;
 }
-void __cdecl FUN_00b36b10(int* _First, unsigned int _Count, const int& _Val);
+void __cdecl Runtime_ProcessState_00b36b10(int* _First, unsigned int _Count, const int& _Val);
 inline void UFill2_acad60(int* _First, unsigned int _Count, const int& _Val, AlQ_acad60& _Al, CatQ_acad60, TagQ_acad60)
 {
     Dead8_acad60();
-    FUN_00b36b10(_First, _Count, _Val);
+    Runtime_ProcessState_00b36b10(_First, _Count, _Val);
 }
 inline void UFillN_acad60(int* _First, unsigned int _Count, const int& _Val, AlQ_acad60& _Al)
 {
@@ -2298,8 +2310,8 @@ struct VecQ_acad60
         UFillN_acad60(_Ptr, _Count, _Val, _Alval);
         return _Ptr + _Count;
     }
-    ItQ_acad60 FUN_00b156b0(CItQ_acad60 _Where, const int& _Val);
-    void FUN_00b15390(const int& _Val);
+    ItQ_acad60 UpdateState_00b156b0(CItQ_acad60 _Where, const int& _Val);
+    void UpdateState_00b15390(const int& _Val);
 };
 inline CItQ_acad60::CItQ_acad60(int* _Ptr, const VecQ_acad60* _Pvector) : _Myaux(0)
 {
@@ -2309,13 +2321,14 @@ inline CItQ_acad60::CItQ_acad60(int* _Ptr, const VecQ_acad60* _Pvector) : _Myaux
     _Myptr = _Ptr;
 }
 // @fnv 0x00b15390
-void VecQ_acad60::FUN_00b15390(const int& _Val)
+// src: GUESS 0x00b15390 (confidence: low)
+void VecQ_acad60::UpdateState_00b15390(const int& _Val)
 {
     if (size() < capacity())
         _Mylast = _Ufill(_Mylast, 1, _Val);
     else
     {
-        FUN_00b156b0(end(), _Val);
+        UpdateState_00b156b0(end(), _Val);
         Dead11_acad60();
     }
 }
@@ -2768,10 +2781,11 @@ struct ParticleFalloff
     float unk0c;
     float unk10;
     float unk14;
-    float FUN_00b14980(float a, float b);
+    float ProcessAndReturnValue_00b14980(float a, float b);
 };
 // @fnv 0x00b14980
-float ParticleFalloff::FUN_00b14980(float a, float b)
+// src: GUESS 0x00b14980 (confidence: low)
+float ParticleFalloff::ProcessAndReturnValue_00b14980(float a, float b)
 {
     float result2 = 0.0f;
     float loTmp;
@@ -2850,7 +2864,7 @@ struct StripDataX
     short unk20;
     unsigned short m_22;
     Pt3X* CIndexedGeometry_GetVertexCoord(int index);
-    void FUN_00b30190(const Pt3X& normal);
+    void AppendThreeFloatComponents(const Pt3X& normal);
 };
 
 // @fnv 0x00b14ed0
@@ -2895,7 +2909,7 @@ void FUN_00b10dc0::CIdvBranch_ComputeBranchNormals(BranchMesh* data, unsigned sh
             Pt3X dy3 = *d2 - *c5;
             dy3.Normalize_00b12790();
             Pt3X n3 = dx.FUN_00b12810(dy3);
-            ((StripDataX*)data)->FUN_00b30190(n3);
+            ((StripDataX*)data)->AppendThreeFloatComponents(n3);
             ((StripDataX*)data)->m_22++;
         }
     }

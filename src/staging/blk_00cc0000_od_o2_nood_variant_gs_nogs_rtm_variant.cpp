@@ -1173,13 +1173,13 @@ struct Cc7Local
     Cc7Bool linearA[3], linearB[3];
     Cc7Bool angularA, angularB, pivotA, pivotB;
     void InitFromHelper(void* source);
-    void FUN_00d52000(void* out);
-    void FUN_00d51c30(void* tmp);
-    void* FUN_00d520a0(void* out);
-    void* FUN_00d51d40(void* tmp);
+    void ProcessAndReturnValue_00d52000(void* out);
+    void UpdateState_00d51c30(void* tmp);
+    void* ProcessAndReturnValue_00d520a0(void* out);
+    void* ProcessAndReturnValue_00d51d40(void* tmp);
     void AddBridgeAtoms();
     void AppendEntryAndAdvance();
-    void FUN_00d52ae0(float value);
+    void ProcessAndReturnValue_00d52ae0(float value);
     void hkpConstraintConstructionKit_restoreStrength();
     void AppendZeroItem();
 };
@@ -1933,7 +1933,7 @@ class BoundsOwner
     int unk0c;
     BoundsEntry* m_pEntries;
     void hkaPose_syncModelSpace();
-    void FUN_00cda610(BoundsBox* out);
+    void ProcessEntries_00cda610(BoundsBox* out);
 };
 extern __declspec(thread) int DAT_tls_field;
 struct S00cc2530_ScopedHeap306
@@ -2504,7 +2504,7 @@ struct ContactManifold
     AlignedPairData m_kStorage[8];
     ContactManifold* m_other;
 
-    void FUN_00cd3080();
+    void ProcessEntries_00cd3080();
 };
 extern "C" __m128 _mm_setzero_ps();
 extern float DAT_011b153c;
@@ -2664,7 +2664,7 @@ class CylinderInitOwner
     void __thiscall bhkCylinderShape_Init(ParamSrc*);
 };
 void* __cdecl FUN_00ec44d0(void*, const void*, unsigned);
-void* __cdecl FUN_00aa13e0(unsigned);
+void* __cdecl Object_DispatchCommandFour(unsigned);
 void __cdecl FreeStorage(void*);
 using ::MemoryManager;
 using ::_g_memoryManager;
@@ -2769,7 +2769,7 @@ struct Mesh : FUN_00a5d3a0
 
     static void* operator new(unsigned n)
     {
-        return FUN_00aa13e0(n);
+        return Object_DispatchCommandFour(n);
     }
 
     Mesh() : count(0), parts(0)
@@ -3138,11 +3138,12 @@ struct Quat_cdb910
 {
     hkVector4 m_vec;
     void hkQuaternionf_setFlippedRotation(const hkVector4& from);
-    void FUN_00cdb910(float t, const hkVector4& from, const hkVector4& to);
+    void UpdateState_00cdb910(float t, const hkVector4& from, const hkVector4& to);
 };
 
 // @fnv 0x00cdb910
-void Quat_cdb910::FUN_00cdb910(float t, const hkVector4& from, const hkVector4& to)
+// src: GUESS 0x00cdb910 (confidence: low)
+void Quat_cdb910::UpdateState_00cdb910(float t, const hkVector4& from, const hkVector4& to)
 {
     float d = from.dot3scalar(to);
     float c = t * d + (1.0f - t);

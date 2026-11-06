@@ -32,7 +32,7 @@ void __thiscall NiPSysInitialRotSpeedCtlr::AppendString(StrArr* pkStrings)
     pkStrings->SetAt(nCount, p);
 }
 
-extern "C" void* __cdecl FUN_00aa13e0(unsigned int);
+extern "C" void* __cdecl Object_DispatchCommandFour(unsigned int);
 extern char DAT_010bedbc[];
 
 struct CtorBase_cls
@@ -54,7 +54,7 @@ struct FUN_00c29fb0_cls
 // src: XBOX_PDB 0x00c29fb0
 void* FUN_00c29fb0_cls::NiPSysInitialRotSpeedCtlr_CreateClone(unsigned int a1)
 {
-    FUN_00c29fb0_cls* p = (FUN_00c29fb0_cls*)FUN_00aa13e0(0x40);
+    FUN_00c29fb0_cls* p = (FUN_00c29fb0_cls*)Object_DispatchCommandFour(0x40);
     if (p != 0)
     {
         ((CtorBase_cls*)p)->ctorBase();

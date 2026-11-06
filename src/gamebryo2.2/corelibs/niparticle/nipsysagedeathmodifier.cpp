@@ -419,7 +419,7 @@ void __thiscall NiPSysAirFieldSpreadCtlr::SetTargetFloatValue_00c2f3f0(float fVa
     target->unk64 = fClamped;
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+void* __cdecl Object_DispatchCommandFour(unsigned int size);
 struct Host2f440
 {
     void FUN_00c32de0(FUN_00c32d80* obj, int arg);
@@ -429,7 +429,7 @@ struct Host2f440
 // @fnv 0x00c2f440
 FUN_00c32d80* Host2f440::CreateAndInit(int arg)
 {
-    FUN_00c32d80* p = (FUN_00c32d80*)FUN_00aa13e0(0x40);
+    FUN_00c32d80* p = (FUN_00c32d80*)Object_DispatchCommandFour(0x40);
     if (p)
     {
         new (p) FUN_00c32d80;

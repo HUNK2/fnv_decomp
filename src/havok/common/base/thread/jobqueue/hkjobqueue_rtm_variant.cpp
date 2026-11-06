@@ -136,7 +136,7 @@ struct S_00d056a0_Elem {
 struct S_00d056a0 {
     S_00d056a0_Elem* m_data;
     int m_iElementCount;
-    void FUN_00d056a0();
+    void UpdateFields_00d056a0();
 };
 struct D057A0Element {
     int unk00;
@@ -707,7 +707,7 @@ struct SubObj
     int m_i10;
     int m_i14;
     SubObj() throw();
-    void FUN_00d05b50(SrcCfg* p) throw();
+    void UpdateState_00d05b50(SrcCfg* p) throw();
 };
 struct PoolEntry
 {
@@ -756,7 +756,7 @@ struct D05490Array
 void hkDefaultPopJobFunc();
 void hkDefaultFinishJobFunc();
 void defaultPopDispatchFunc();
-void FUN_00d04570();
+void Runtime_UpdateState_00d04570();
 struct FUN_00d05490 : D05490Base
 {
     void FinishInit() throw();
@@ -1134,7 +1134,7 @@ struct Refs
     bool IsClear(int m) const { if (f18 & m) return false; return true; }
 };
 void __cdecl hkSemaphoreBusyWait_release(int value, int flag);
-void __cdecl FUN_00d043b0(int value);
+void __cdecl hkSemaphore_acquire_ForwardCall_00d043b0(int value);
 typedef int (__cdecl *ItemFn)(void* self, Refs* refs, ItemBuf* item, int arg);
 struct Host
 {
@@ -1238,7 +1238,7 @@ tail_check:
         refs->pending[idx]++;
         hkJobQueue_unlockQueue(refs);
         CaptureMarker((void*)str_010ccd70);
-        FUN_00d043b0((int)m_iSlotIds[idx]);
+        hkSemaphore_acquire_ForwardCall_00d043b0((int)m_iSlotIds[idx]);
         CaptureMarker((void*)str_010c41f8);
         return -1;
     }

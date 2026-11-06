@@ -4,7 +4,7 @@
 
 struct FUN_006ed4e0_shell
 {
-    void FUN_006ed510();
+    void ForwardCall_006ed510();
     void* DestroyIfFlagged(unsigned int flags);
 };
 
@@ -12,7 +12,7 @@ struct FUN_006ed4e0_shell
 // @fnv 0x006ed4e0
 void* FUN_006ed4e0_shell::DestroyIfFlagged(unsigned int flags)
 {
-    FUN_006ed510();
+    ForwardCall_006ed510();
     if (flags & 1)
         operator delete(this);
     return this;
@@ -25,11 +25,12 @@ struct FUN_006f25d0_shell
 
 struct FUN_006ed510_shell
 {
-    void __thiscall FUN_006ed510();
+    void __thiscall ForwardCall_006ed510();
 };
 
 // @fnv 0x006ed510
-void __thiscall FUN_006ed510_shell::FUN_006ed510()
+// src: GUESS 0x006ed510 (confidence: low)
+void __thiscall FUN_006ed510_shell::ForwardCall_006ed510()
 {
     ((FUN_006f25d0_shell*)((char*)this + 0x2c))->FUN_006f25d0();
 }
@@ -161,7 +162,7 @@ struct SubSlot
 struct ArgObj
 {
     unsigned int FUN_0044ddc0();
-    void* FUN_006b3160(unsigned int aIndex);
+    void* GetIndexedValue_006b3160(unsigned int aIndex);
 };
 
 struct Holder
@@ -232,8 +233,8 @@ bool FUN_006ed530_cls::PathSmoother_SmoothPath(NodeA* apNode, ArgObj* apArgObj, 
 
     if (apArgObj->FUN_0044ddc0() == 1)
     {
-        PathSmoother_AddPathingNode(apTripleA, (*(Holder**)apArgObj->FUN_006b3160(0))->GetNavMeshInfo_0068efb0());
-        PathSmoother_AddPathingNode(apTripleB, (*(Holder**)apArgObj->FUN_006b3160(0))->GetNavMeshInfo_0068efb0());
+        PathSmoother_AddPathingNode(apTripleA, (*(Holder**)apArgObj->GetIndexedValue_006b3160(0))->GetNavMeshInfo_0068efb0());
+        PathSmoother_AddPathingNode(apTripleB, (*(Holder**)apArgObj->GetIndexedValue_006b3160(0))->GetNavMeshInfo_0068efb0());
         return true;
     }
 

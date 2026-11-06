@@ -117,7 +117,7 @@ void* FUN_006f8800_shell::BGSDistantTreeBlock_TreeGroup_Destroy(unsigned int fla
 namespace fnv_006f8830 {
 struct H9770
 {
-    void FUN_006f9770();
+    void SetVtableAndProcessState_006f9770();
 };
 struct FUN_006f8830
 {
@@ -130,7 +130,7 @@ struct FUN_006f8830
 // @fnv 0x006f8830
 FUN_006f8830::~FUN_006f8830()
 {
-    _08.FUN_006f9770();
+    _08.SetVtableAndProcessState_006f9770();
 }
 }  // namespace fnv_006f8830
 
@@ -250,7 +250,7 @@ struct NavMeshSearchLOSArray
 };
 struct ShaderProp
 {
-    void __thiscall FUN_006fa090(void* a, void* b);
+    void __thiscall ProcessEntries_006fa090(void* a, void* b);
 };
 struct FUN_006f9c70_shell
 {
@@ -262,7 +262,7 @@ void FUN_006f9c70_shell::BGSDistantTreeBlock_TreeTypes_FreeAll(bool freeStorage)
 {
     if (*(void**)((char*)this + 4))
     {
-        ((ShaderProp*)this)->FUN_006fa090(*(void**)((char*)this + 4), *(void**)((char*)this + 8));
+        ((ShaderProp*)this)->ProcessEntries_006fa090(*(void**)((char*)this + 4), *(void**)((char*)this + 8));
         if (freeStorage)
         {
             ((NavMeshSearchLOSArray*)this)->FUN_006a8500();
@@ -576,7 +576,7 @@ struct Obj44 : NiMemObject
 {
     char _pad[44];
     Obj44(unsigned short);
-    void FUN_00a72ca0(int);
+    void SetSize_Thunk(int);
     void NiAdditionalGeometryData_SetDataStreamCount(int);
     void NiAdditionalGeometryData_SetDataBlock(int, void*, int, int);
     void NiAdditionalGeometryData_SetDataStream(int, int, int, int, unsigned short, int, int);
@@ -598,7 +598,7 @@ struct NiGPUProgramOwner
 {
     void SetProgram(NiGPUProgram*);
 };
-int __fastcall FUN_00559450(int*);
+int __fastcall Modelloader_GetReferencedThis(int*);
 struct InParam
 {
     int unk0;
@@ -742,13 +742,13 @@ void BuildNavMeshGeometry(void* pInParam)
     for (tB = 0; tB < cntB; ++tB)
         arrFk[tB] = (float)(tB >> 3);
     obj304 = new Obj44((unsigned short)cntB);
-    obj304->FUN_00a72ca0(1);
+    obj304->SetSize_Thunk(1);
     obj304->NiAdditionalGeometryData_SetDataStreamCount(1);
     obj304->NiAdditionalGeometryData_SetDataBlock(0, arrFk, (int)(cntB * 4), 1);
     obj304->NiAdditionalGeometryData_SetDataStream(0, 0, 0, 1, (unsigned short)cntB, 4, 4);
     delete[] arrFk;
     GO refObj((int)new Obj88((unsigned short)cntB, arrA3, arrCy, 0, arrB5, 1, 0, (unsigned short)cntA3, idx2));
-    ((NiGPUProgramOwner*)FUN_00559450((int*)&refObj))->SetProgram((NiGPUProgram*)obj304);
+    ((NiGPUProgramOwner*)Modelloader_GetReferencedThis((int*)&refObj))->SetProgram((NiGPUProgram*)obj304);
     ((InParam*)pInParam)->m1c = *(NavMeshPtr*)&refObj;
     ((NiPointer<NiRefObject>*)&refObj)->operator=(static_cast<NiRefObject*>(0));
 }
@@ -1006,14 +1006,15 @@ struct FUN_006f9080_owner
     char unk1b[0x1c];
     Callee callee;
 
-    void FUN_006f9080();
+    void ForwardCall_006f9080();
 };
 
 void Callee::FUN_0045cec0()
 {}
 
 // @fnv 0x006f9080
-void FUN_006f9080_owner::FUN_006f9080()
+// src: GUESS 0x006f9080 (confidence: low)
+void FUN_006f9080_owner::ForwardCall_006f9080()
 {
     callee.FUN_0045cec0();
 }
@@ -1258,7 +1259,7 @@ struct TreeGeometry
 struct TreeGeometryPtr
 {
     TreeGeometry* object;
-    TreeGeometry* FUN_00559450();
+    TreeGeometry* Modelloader_GetReferencedThis();
 };
 struct TreePositions
 {
@@ -1300,8 +1301,8 @@ NiBound* TreeBoundsOwner::ComputeTreeBounds(NiBound* result, BoundTreeBlock* blo
         count.z = BSMIN(count.z, block->instances.GetElementAt(i)->z);
         limit.z = BSMAX_00404010(limit.z, block->instances.GetElementAt(i)->z);
     }
-    NiPoint3 center = count + (limit - count).FUN_0053d280(2.0f);
-    float radius = (limit - center).Length() + block->geometry.FUN_00559450()->GetBound()->FUN_0084d030();
+    NiPoint3 center = count + (limit - count).ProcessAndReturnValue_0053d280(2.0f);
+    float radius = (limit - center).Length() + block->geometry.Modelloader_GetReferencedThis()->GetBound()->FUN_0084d030();
     bound.SetCenterAndRadius(reinterpret_cast<const NiPoint3&>(center), radius);
     memcpy(result, &bound, sizeof(bound));
     return result;

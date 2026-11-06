@@ -42,7 +42,7 @@ struct ArrD
     ArrD(int a, int b, void* c);
     ~ArrD();
     unsigned int FUN_0044ddc0();
-    Elem20* FUN_006b3160(int idx);
+    Elem20* GetIndexedValue_006b3160(int idx);
 };
 struct ArrE
 {
@@ -609,7 +609,7 @@ bool __cdecl Pathing_FindClosePointViaNavMesh(void* req, NiPoint3* out)
     ArrE arrE3(0x20, 0, 0);
     if (!big3.Search(req, &info2, &arrD3, &arrE3))
         return false;
-    Elem20 elem = *arrD3.FUN_006b3160(arrD3.FUN_0044ddc0() - 1);
+    Elem20 elem = *arrD3.GetIndexedValue_006b3160(arrD3.FUN_0044ddc0() - 1);
     NiPoint3 pts[3];
     TriX* triPtr7 = ((MeshX*)elem.mesh)->FUN_005582f0(elem.tri);
     *(NiPoint3*)&pts[0] = ((MeshX*)elem.mesh)->GetVertex_0068f0a0(triPtr7->GetVert_005582d0(0));

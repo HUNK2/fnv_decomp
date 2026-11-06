@@ -57,7 +57,8 @@ struct GunArg3;
 // The shared class lacks both constructors and the release, attach and action methods defined here.
 
 // @fnv 0x00e45fb0
-void hkpGravityGun::FUN_00e45fb0(int, int, int)
+// src: GUESS 0x00e45fb0 (confidence: high)
+void hkpGravityGun::DropPickedObjectIfPresent(int, int, int)
 {
     if (m_kPickedBodies.m_iElementCount != 0)
         hkpGravityGun_dropObject(0);
@@ -279,7 +280,8 @@ bool hkpGravityGun::isGrabbed(const GGRigidBody* body) const
 
 // Finds the best rigid body to grab by scoring candidates in active and inactive islands, then ray-casting to verify line of sight.
 // @fnv 0x00e45a60
-GGRigidBody* hkpGravityGun::FUN_00e45a60(const GGTransform& viewTransform, const GGRigidBody* characterBody,
+// src: GUESS 0x00e45a60 (confidence: medium)
+GGRigidBody* hkpGravityGun::FindVisibleRigidBodyToGrab(const GGTransform& viewTransform, const GGRigidBody* characterBody,
                                       const GGWorld* world)
 {
     hkpRigidBody* pickedBody = 0;
@@ -418,7 +420,7 @@ void hkpGravityGun::stepGun(hkReal dt, hkpWorld* world, GunArg3* a3, GunTransfor
         }
         else
         {
-            FUN_00e45fb0(apGunTransform, a3, world);
+            DropPickedObjectIfPresent(apGunTransform, a3, world);
             *(__m128*)&v2 = *(__m128*)&a3->unk120;
             for (int i = 0; i < m_kListeners.m_iElementCount; ++i)
             {

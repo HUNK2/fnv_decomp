@@ -226,9 +226,10 @@ struct FaceGenCoordinateValue
 // Returns a coordinate value wrapping the element pointer at row i, computed from the column count.
 // @fnv 0x0060b370
 template <>
-FaceGenCoordinateValue FaceGenMatrix<float>::FUN_0060b370(unsigned int aiRow)
+// src: GUESS 0x0060b370 (confidence: low)
+FaceGenCoordinateValue FaceGenMatrix<float>::ForwardCall_0060b370(unsigned int aiRow)
 {
-    return FaceGenCoordinateValue(FUN_006578b0(0, m_uiColumnCount) + aiRow * m_uiColumnCount);
+    return FaceGenCoordinateValue(GetElementPointerChecked(0, m_uiColumnCount) + aiRow * m_uiColumnCount);
 }
 
 extern int DAT_01065678;
@@ -339,7 +340,8 @@ FUN_00651520::FUN_00651520()
 
 namespace fnv_00651630 {
 // @fnv 0x00651630
-void* __fastcall FUN_00651630(FaceGenMatrix<float>* pThis)
+// src: GUESS 0x00651630 (confidence: medium)
+void* __fastcall BSFaceGenManager_InitializeFaceGenMatrix(FaceGenMatrix<float>* pThis)
 {
     pThis->FaceGenMatrix<float>::FaceGenMatrix();
     return pThis;
@@ -351,7 +353,8 @@ void FUN_ctor();
 void FUN_dtor();
 
 // @fnv 0x00651670
-void* __fastcall FUN_00651670(void* p)
+// src: GUESS 0x00651670 (confidence: low)
+void* __fastcall BSFaceGenManager_EvaluateValue_00651670(void* p)
 {
     FUN_ehvec_ctor(p, 0x20, 2, &FUN_ctor, &FUN_dtor);
     return p;
@@ -814,11 +817,12 @@ struct FUN_00657a50_shell
     char pad[0xc];
     OpaqueDataBlock* first;
     unsigned int std_vector_FanLinCtlS_std_allocator_FanLinCtlS_size();
-    OpaqueDataBlock* FUN_00657a50(unsigned int i);
+    OpaqueDataBlock* GetElementPointerChecked(unsigned int i);
 };
 // Returns a pointer to the element at index i after bounds-checking it against the count from FUN_00657a30.
 // @fnv 0x00657a50
-OpaqueDataBlock* FUN_00657a50_shell::FUN_00657a50(unsigned int uiIndex)
+// src: GUESS 0x00657a50 (confidence: high)
+OpaqueDataBlock* FUN_00657a50_shell::GetElementPointerChecked(unsigned int uiIndex)
 {
     if (!(uiIndex < std_vector_FanLinCtlS_std_allocator_FanLinCtlS_size()))
         FUN_00ec7c56();
@@ -847,9 +851,9 @@ struct FloatVec
 {
     unsigned int std_vector_float_std_allocator_float_size() const;
     unsigned int FaceGenData_GetUnk014MinusMinDivBy4() const;
-    float* FUN_0060b8a0(float*, unsigned int, const float&);
+    float* ProcessAndReturnValue_0060b8a0(float*, unsigned int, const float&);
     VIterD CallWithSelf();
-    VIter FUN_00657c50(VIter, const float&);
+    VIter UpdateState_00657c50(VIter, const float&);
     void PushBack(const float& _Val);
     char pad[0x10];
     float* _Mylast;
@@ -859,9 +863,9 @@ struct FloatVec
 void FloatVec::PushBack(const float& afValue)
 {
     if (std_vector_float_std_allocator_float_size() < FaceGenData_GetUnk014MinusMinDivBy4())
-        _Mylast = FUN_0060b8a0(_Mylast, 1, afValue);
+        _Mylast = ProcessAndReturnValue_0060b8a0(_Mylast, 1, afValue);
     else
-        FUN_00657c50(CallWithSelf(), afValue);
+        UpdateState_00657c50(CallWithSelf(), afValue);
 }
 
 namespace fnv_00655fa0 {
@@ -959,7 +963,7 @@ void* BSFaceGenUtils_GetDefaultDetailModulationTexture();
 void* BSShader_GetDefNormalMap();
 void* __fastcall GetObjectiveTargetList(void*);
 void SetGeometryCompressFlags(NiAVObject*, unsigned int, unsigned int);
-bool FUN_009a3830(const NiFixedString&, const NiFixedString&);
+bool Actor_AreReferencedValuesEqual(const NiFixedString&, const NiFixedString&);
 int _sprintf_s(char*, unsigned int, const char*, ...);
 unsigned int _strlen(const char*);
 int __strnicmp(const char*, const char*, unsigned int);
@@ -1239,15 +1243,15 @@ void ApplyFaceGenTextures(NiAVObject* apNode, FaceGenData* arNpcData)
         if (pchild)
         {
             unsigned int icompress = 1;
-            if (FUN_009a3830(((NiAVObject*)pchild)->GetName(), leftEye) ||
-                FUN_009a3830(((NiAVObject*)pchild)->GetName(), rightEye))
+            if (Actor_AreReferencedValuesEqual(((NiAVObject*)pchild)->GetName(), leftEye) ||
+                Actor_AreReferencedValuesEqual(((NiAVObject*)pchild)->GetName(), rightEye))
             {
                 icompress = 0;
                 BSShaderManager::UpdateObjectTypeRecurse(pchild, false, false);
             }
             else if (__strnicmp(*(NiFixedString*)&((NiAVObject*)pchild)->GetName(),
                                 *(NiFixedString*)&hair, _strlen(*(NiFixedString*)&hair)) == 0 ||
-                     FUN_009a3830(((NiAVObject*)pchild)->GetName(), headAccessory))
+                     Actor_AreReferencedValuesEqual(((NiAVObject*)pchild)->GetName(), headAccessory))
             {
                 BSShaderManager::UpdateObjectTypeRecurse(pchild, false, false);
                 void* pgeomdata = ((PropHelper*)pchild)->GetProperty(3);
@@ -1675,7 +1679,7 @@ BSFaceGenManager::BSFaceGenManager()
         {
             if (m_kCtls.ctl[i][j].std_vector_FanLinCtlS_std_allocator_FanLinCtlS_size())
             {
-                pctl = reinterpret_cast<fnv_00650ea0::OpaqueDataBlock*>(m_kCtls.ctl[i][j].FUN_00657a50(0));
+                pctl = reinterpret_cast<fnv_00650ea0::OpaqueDataBlock*>(m_kCtls.ctl[i][j].GetElementPointerChecked(0));
                 if (pctl)
                 {
                     m_kSam.coords[i][j].resize(reinterpret_cast<FaceGenMatrix<float>*>(pctl->ctl)->FUN_00441110(),
@@ -2785,7 +2789,8 @@ extern unsigned int __fastcall std_vector_FanLinCtlS_std_allocator_FanLinCtlS_si
 
 // Indexes into the face gen manager's array at offset 0xb8 by a*0x30+b*0x18, calls FUN_00657a30 on that entry and returns the result minus one.
 // @fnv 0x006521b0
-unsigned int __cdecl FUN_006521b0(int a, int b)
+// src: GUESS 0x006521b0 (confidence: medium)
+unsigned int __cdecl BSFaceGenManager_GetFaceGenManagerVectorSize(int a, int b)
 {
     return std_vector_FanLinCtlS_std_allocator_FanLinCtlS_size(reinterpret_cast<const _vec_60*>(&BSFaceGenManager::GetFaceGenManager()->m_kCtls.ctl[a][b])) -
            1;
@@ -2839,11 +2844,12 @@ struct FUN_0065fd10_class
 {
     int _p[3];
     int _f;
-    FUN_0065e000_class* FUN_0065fd10(FUN_0065e000_class*);
+    FUN_0065e000_class* EvaluateValue_0065fd10(FUN_0065e000_class*);
 };
 // Calls FUN_0065da80 on a with this object's _f and this pointer, then returns a.
 // @fnv 0x0065fd10
-FUN_0065e000_class* FUN_0065fd10_class::FUN_0065fd10(FUN_0065e000_class* a)
+// src: GUESS 0x0065fd10 (confidence: low)
+FUN_0065e000_class* FUN_0065fd10_class::EvaluateValue_0065fd10(FUN_0065e000_class* a)
 {
     a->FaceGenData_Iterator_Set_(_f, (int)this);
     return a;
@@ -2858,11 +2864,12 @@ struct FUN_0065fd40_class
 {
     char pad[16];
     int f10;
-    FUN_0065e000_class* FUN_0065fd40(FUN_0065e000_class*);
+    FUN_0065e000_class* ProcessAndReturnValue_0065fd40(FUN_0065e000_class*);
 };
 // Calls FUN_0065da80 on a with f10 and this, then returns a.
 // @fnv 0x0065fd40
-FUN_0065e000_class* FUN_0065fd40_class::FUN_0065fd40(FUN_0065e000_class* a)
+// src: GUESS 0x0065fd40 (confidence: low)
+FUN_0065e000_class* FUN_0065fd40_class::ProcessAndReturnValue_0065fd40(FUN_0065e000_class* a)
 {
     a->FaceGenData_Iterator_Set_(f10, (int)this);
     return a;
@@ -3563,7 +3570,7 @@ struct MatrixProxy
     void SetDimensions(unsigned int, unsigned int);
     void FUN_006581e0(MatrixProxy*);
     void std_vector_float_std_allocator_float_clear();
-    float* FUN_006578b0(unsigned int);
+    float* GetElementPointerChecked(unsigned int);
     void PushBack(const float&);
 };
 // @fnv 0x00652e00
@@ -3591,8 +3598,8 @@ void BSFaceGenManager_OffsetFaceGenCoord(MatrixProxy (*a)[2], MatrixProxy (*b)[2
                     out[i][j].std_vector_float_std_allocator_float_clear();
                     for (unsigned int k = 0; k < count; ++k)
                     {
-                        float bv = *a[i][j].FUN_006578b0(k);
-                        float av = *b[i][j].FUN_006578b0(k);
+                        float bv = *a[i][j].GetElementPointerChecked(k);
+                        float av = *b[i][j].GetElementPointerChecked(k);
                         out[i][j].PushBack(av - bv);
                     }
                 }
@@ -3717,12 +3724,13 @@ struct FgMatrixVT
     MatView View();
     MatIter Begin() const;
     MatIter End() const;
-    FgMatrixVT FUN_00658500(const FgMatrixVT& other) const;
+    FgMatrixVT AddMatrixElements(const FgMatrixVT& other) const;
 };
 
 // Asserts matching dimensions, then returns a new matrix whose elements are the element-wise sum of this matrix and other.
 // @fnv 0x00658500
-FgMatrixVT FgMatrixVT::FUN_00658500(const FgMatrixVT& other) const
+// src: GUESS 0x00658500 (confidence: medium)
+FgMatrixVT FgMatrixVT::AddMatrixElements(const FgMatrixVT& other) const
 {
     (m_uiRowCount == other.m_uiRowCount && m_uiColumnCount == other.m_uiColumnCount)
         ? (void)0
@@ -3749,24 +3757,26 @@ struct FG_00659100_pair
 struct FG_00659100_cls
 {
     FG_00659100_pair m_pair;
-    void FUN_00659190();
-    FG_00659100_pair* FUN_00659100(FG_00659100_pair* pOut, int iUnused);
+    void DoNothing();
+    FG_00659100_pair* ProcessAndReturnValue_00659100(FG_00659100_pair* pOut, int iUnused);
 };
 
 // Copies m_pair to a local, calls FUN_00659190, writes the saved pair to pOut and returns pOut.
 // @fnv 0x00659100
-FG_00659100_pair* FG_00659100_cls::FUN_00659100(FG_00659100_pair* pOutPair, int iUnused)
+// src: GUESS 0x00659100 (confidence: low)
+FG_00659100_pair* FG_00659100_cls::ProcessAndReturnValue_00659100(FG_00659100_pair* pOutPair, int iUnused)
 {
     FG_00659100_pair tmp = this->m_pair;
 
-    this->FUN_00659190();
+    this->DoNothing();
 
     *pOutPair = tmp;
 
     return pOutPair;
 }
 
-void FG_00659100_cls::FUN_00659190()
+// src: GUESS 0x00659190 (confidence: high)
+void FG_00659100_cls::DoNothing()
 {}
 
 struct SegThing
@@ -3837,11 +3847,12 @@ void __stdcall FUN_0065ee50_Helper(void* p, unsigned int size, int count, void (
 
 struct FUN_006516a0_class
 {
-    void FUN_006516a0();
+    void ForwardCall_006516a0();
 };
 
 // @fnv 0x006516a0
-void FUN_006516a0_class::FUN_006516a0()
+// src: GUESS 0x006516a0 (confidence: low)
+void FUN_006516a0_class::ForwardCall_006516a0()
 {
     FUN_0065ee50_Helper(this, 0x20, 2, FUN_dtor);
 }
@@ -4246,7 +4257,7 @@ struct FG547NewProperty
     int unk40;
     int unk44;
     int unk48;
-    void FUN_00a75650();
+    void Lighting30shaderproperty_StoreAndAddReference_00a75650();
 };
 extern const char DAT_01065720[], DAT_01019710[], DAT_010657f8[], DAT_010657e4[], DAT_01200464[];
 extern const NiPoint3 DAT_011f426c;
@@ -4256,7 +4267,7 @@ const char* BuildEgmFilename(BSStringT<char>*, const char*, int);
 const char* BuildTriPathAndSet(BSStringT<char>*, const char*, int);
 BSFaceGenModel* GetOrCreateFaceGenModel(const char*, const char*, const char*, const char*, int, int, int);
 unsigned int NiMaterialProperty_GetType();
-NiFixedString* FUN_006041c0();
+NiFixedString* NiFixedString_GetDAT_011c6210_006041c0();
 FG547Property* NiObject_DynamicCast(const char*, FG547Property*);
 bool FUN_00605d20();
 void MatchGeometryVertices(FG547Node*, FG547Node*, float, int, int);
@@ -4362,11 +4373,11 @@ bool __cdecl BuildCharacterParts(FG547Node** root, FG547Node** alternate, FG547D
             FG547Property* shader = ((FG547Node*)(FGEntry*)accessory)->FUN_00a59d30(NiMaterialProperty_GetType());
             FG547Property* base = shader;
             if (base)
-                base->AssignFixedString(*FUN_006041c0());
+                base->AssignFixedString(*NiFixedString_GetDAT_011c6210_006041c0());
             else
             {
                 base = (FG547Property*)new FUN_00a75650;
-                base->AssignFixedString(*FUN_006041c0());
+                base->AssignFixedString(*NiFixedString_GetDAT_011c6210_006041c0());
                 ((FG547Node*)(FGEntry*)accessory)->NiAVObject_AttachProperty(base);
             }
         }
@@ -4528,9 +4539,9 @@ struct MxConstIter
 {
     float* m_p0;
     void* m_p1;
-    MxConstIter FUN_00659100(int);
+    MxConstIter ProcessAndReturnValue_00659100(int);
     bool operator!=(const MxConstIter& o) const;
-    const float& FUN_0064dda0() const;
+    const float& ProcessEntries_0064dda0() const;
 };
 struct MxIter
 {
@@ -4556,10 +4567,10 @@ FaceGenMatrix<float>* FaceGenMatrix<float>::AddMatrix(FaceGenMatrix<float>* othe
         ReportAssertionViolation("d:\\_fallout3\\platforms\\common\\code\\sdk\\facegen\\matrixVT.hpp", 0x24f);
     }
     MxIter a = begin();
-    MxConstIter b5 = other->FUN_0065fd10();
-    for (; a != end() && b5 != other->FUN_0065fd40(); a++, b5.FUN_00659100(0))
+    MxConstIter b5 = other->EvaluateValue_0065fd10();
+    for (; a != end() && b5 != other->ProcessAndReturnValue_0065fd40(); a++, b5.ProcessAndReturnValue_00659100(0))
     {
-        *a += double(b5.FUN_0064dda0());
+        *a += double(b5.ProcessEntries_0064dda0());
     }
     return this;
 }
@@ -4654,8 +4665,8 @@ void BSFaceGenManager_MergeFaceGenCoord(FaceGenMatrix<float> a1[2][2], FaceGenMa
                     a3[i][j].std_vector_float_std_allocator_float_clear();
                     for (unsigned int k = 0; k < var_18; ++k)
                     {
-                        float sum = *a1[i][j].FUN_006578b0(k);
-                        float var_28 = *a2[i][j].FUN_006578b0(k);
+                        float sum = *a1[i][j].GetElementPointerChecked(k);
+                        float var_28 = *a2[i][j].GetElementPointerChecked(k);
                         a3[i][j].PushBack(sum + var_28);
                     }
                     if (a5 > 0.0)
@@ -4692,7 +4703,7 @@ struct FaceGenMorphArray
     FaceGenMorph* m_pRecordEnd;
     int unk14;
     unsigned int std_vector_FanLinCtlS_std_allocator_FanLinCtlS_size();
-    FaceGenMorph& FUN_00657a50(unsigned int uiIndex);
+    FaceGenMorph& GetElementPointerChecked(unsigned int uiIndex);
 };
 
 // Returns the first coordinate value of a morph at uiIndex for the given pcCoords, or 0.0f if out of range or pcCoords is null.
@@ -4707,9 +4718,9 @@ float GetMorphCoordinateValue(char* pcCoords, unsigned int uiRenderPassIndex, un
         {
             fValue = reinterpret_cast<FaceGenMorphArray(*)[2]>(BSFaceGenManager::GetFaceGenManager()->m_kCtls.ctl)
                          [uiRenderPassIndex][uiSub]
-                         .FUN_00657a50(uiIndex)
+                         .GetElementPointerChecked(uiIndex)
                          .FUN_00658360(pcCoords + uiRenderPassIndex * 0x40 + uiSub * 0x20)
-                         .FUN_0060b370(0)
+                         .ForwardCall_0060b370(0)
                          .NiTSet_NiControllerSequence_NiTMallocInterface_NiControllerSequence_GetAt(0);
         }
     }
@@ -4781,12 +4792,13 @@ struct FUN_00659190_class
     bool __thiscall ActorCause_IsValid();
     unsigned char* __thiscall FaceGenData_Iterator_FaceGenData_GetUnk00();
 
-    FUN_00659190_class* __thiscall FUN_00659190();
+    FUN_00659190_class* __thiscall DoNothing();
 };
 
 // Calls two checks, increments a field by 4, and returns this.
 // @fnv 0x00659190
-FUN_00659190_class* __thiscall FUN_00659190_class::FUN_00659190()
+// src: GUESS 0x00659190 (confidence: high)
+FUN_00659190_class* __thiscall FUN_00659190_class::DoNothing()
 {
     if (!ActorCause_IsValid())
         FUN_00ec7c56();

@@ -284,7 +284,8 @@ extern S_004f1300_Save* DAT_011de45c;
 extern S_004f1300_Mgr* DAT_011c3f2c;
 
 // @fnv 0x004f1300
-void __cdecl FUN_004f1300()
+// src: GUESS 0x004f1300 (confidence: low)
+void __cdecl Object_ProcessEntries_004f1300()
 {
     unsigned short m_usPassCountLocal = 0;
     unsigned short* pusCount4 = DAT_011de45c->FUN_00825c00();
@@ -360,7 +361,7 @@ struct LstBQ
 // @fnv 0x004f0a40
 void TESRegion::SaveForm()
 {
-    FUN_004855a0();
+    BeginFormRecord();
     RefQ* pRef_gmplt = (RefQ*)GetParentWorldSpace();
     if (pRef_gmplt)
     {
@@ -379,5 +380,5 @@ void TESRegion::SaveForm()
         (*pIterB_jeqla->FUN_006815c0())->Save();
         pIterB_jeqla = pIterB_jeqla->FUN_00726070();
     }
-    FUN_00485680();
+    FinishFormRecord();
 }

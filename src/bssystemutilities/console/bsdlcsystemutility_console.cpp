@@ -126,7 +126,8 @@ struct FUN_00af2850
 extern FUN_00af2850* DAT_011f7244;
 // Deletes the global object pointed to by DAT_011f7244 and clears the pointer.
 // @fnv 0x00af2760
-void __cdecl FUN_00af2760()
+// src: GUESS 0x00af2760 (confidence: medium)
+void __cdecl Object_ClearGlobalObject()
 {
     if (DAT_011f7244)
     {
@@ -397,7 +398,7 @@ struct NodQ
 struct LstQ
 {
     NodQ kHead;
-    void FUN_00ae83e0();
+    void ProcessEntries_00ae83e0();
 };
 struct OwnQ
 {
@@ -418,5 +419,5 @@ void OwnQ::ClearItems(bool bFlag)
         delete pNode->pItem;
         pNode = pNode->pNext;
     }
-    kList.FUN_00ae83e0();
+    kList.ProcessEntries_00ae83e0();
 }

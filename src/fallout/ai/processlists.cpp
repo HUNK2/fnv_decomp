@@ -2833,7 +2833,7 @@ struct FUN_009722e0_shell
 };
 struct FUN_0047eb90_shell
 {
-    void FUN_0047eb90(int);
+    void ForwardCall_0047eb90(int);
 };
 struct FUN_0041cf00_shell
 {
@@ -2875,7 +2875,7 @@ SL* FUN_00971fd0_shell::ProcessLists_RemoveCrimesForYieldCheck(float afTime)
                     {
                         FUN_0047eb90_shell* pRef = *(FUN_0047eb90_shell**)pNode->_ref_006815c0();
                         if (!((FUN_009722e0_shell*)&g_kProcessLists)->IsActorInOtherList(pRef, pItem))
-                            pRef->FUN_0047eb90(0);
+                            pRef->ForwardCall_0047eb90(0);
                         pNode = (NodeS*)((TESFormList*)pNode)->GetFirst();
                     }
                 }
@@ -4577,7 +4577,7 @@ struct FUN_009726e0_idx
 
 struct FUN_009726e0_elem
 {
-    void FUN_00905330(FUN_009726e0_idx** pp);
+    void RemoveMatchingItem(FUN_009726e0_idx** pp);
 };
 
 struct FUN_009726e0_cls
@@ -4599,7 +4599,7 @@ void FUN_009726e0_cls::ProcessLists_RemoveCrimeGlobalCrimeList(FUN_009726e0_idx*
         FUN_009726e0_elem* e = m_44[pIndex->FUN_00726070()];
         if (e != 0)
         {
-            e->FUN_00905330(&pIndex);
+            e->RemoveMatchingItem(&pIndex);
         }
     }
 }
@@ -5175,7 +5175,7 @@ struct BNode9749
 };
 struct Mid9749
 {
-    ObjV* FUN_00559450();
+    ObjV* Modelloader_GetReferencedThis();
 };
 extern int DAT_011dc6b4;
 bool __cdecl NiObject_IsKindOf(const void*, ObjV*);
@@ -5194,7 +5194,7 @@ void FUN_009749b0_shell::ProcessLists_FinishMagicHitEffect(int id)
         BNode9749* n = &list;
         while (n)
         {
-            ObjV* o = ((Mid9749*)n->FUN_006815c0())->FUN_00559450();
+            ObjV* o = ((Mid9749*)n->FUN_006815c0())->Modelloader_GetReferencedThis();
             if (o && NiObject_IsKindOf(&DAT_011dc6b4, o))
             {
                 ObjV* r = o;
@@ -5853,7 +5853,7 @@ struct Obj
     Obj* fc0;
     Obj* BSFile_GetDevice();
     Obj* ExtraDataList_GetFollowerExtra();
-    void FUN_00905330(void* a);
+    void RemoveMatchingItem(void* a);
     Obj* FUN_008d8520();
     Obj* EffectSetting_GetLight();
     void EffectSetting_SetLight(int a);
@@ -5963,7 +5963,7 @@ void Host::ProcessLists_ReferDestructorNullOut(Obj* apObject)
             if (DAT_011dea3c->BSFile_GetDevice()->ExtraDataList_GetFollowerExtra()->f0c != 0)
             {
                 tmpParam3 = apObject;
-                DAT_011dea3c->BSFile_GetDevice()->ExtraDataList_GetFollowerExtra()->f0c->FUN_00905330(&tmpParam3);
+                DAT_011dea3c->BSFile_GetDevice()->ExtraDataList_GetFollowerExtra()->f0c->RemoveMatchingItem(&tmpParam3);
             }
         }
         if (DAT_011dea3c->FUN_008d8520() != 0)
@@ -8819,7 +8819,7 @@ struct FUN_00994ef0_Class
 };
 struct FUN_0098420_shell
 {
-    void FUN_009f8420(Actor*);
+    void ProcessEntries_009f8420(Actor*);
 };
 
 bool __fastcall IsInPackageType(Actor*);
@@ -9205,7 +9205,7 @@ void FUN_0096f600_shell::ProcessLists_NullOutTargetRef(Actor* arg1, bool abClear
                                     }
                                     if (0 != v428)
                                     {
-                                        v428->FUN_009f8420(val);
+                                        v428->ProcessEntries_009f8420(val);
                                     }
                                 }
                             }
@@ -9555,7 +9555,7 @@ struct W9715
 };
 struct Z9715
 {
-    W9715* FUN_00559450();
+    W9715* Modelloader_GetReferencedThis();
 };
 
 struct Obj9715 : Mob9715
@@ -9838,7 +9838,7 @@ RetCls* Cls9715::CollectCombatTargets(Obj9715* arg1, Node9715* apNodeList)
                                 W9715* obj4c = 0;
                                 if (obj48)
                                 {
-                                    obj4c = obj48->FUN_00559450();
+                                    obj4c = obj48->Modelloader_GetReferencedThis();
                                     if (obj4c->FUN_008d6f30() == cId ||
                                         (obj4c->FUN_008d6f30() == 0 && obj4c->TESObjectREFR_GetWorldSpace() == ptr->TESObjectREFR_GetWorldSpace()))
                                     {
@@ -10007,7 +10007,7 @@ bool FUN_009722e0_shell::IsActorInOtherList(Actor* pActor, FUN_009722e0_member* 
 namespace fnv_00972aa0 {
 struct S_972aa0_Actor
 {
-    void FUN_0047eb90(int a);
+    void ForwardCall_0047eb90(int a);
 };
 struct S_972aa0_ActorNode
 {
@@ -10027,7 +10027,7 @@ struct S_972aa0_Node
 };
 struct S_972aa0_List
 {
-    void FUN_00905330(S_972aa0_Crime* const& crime);
+    void RemoveMatchingItem(S_972aa0_Crime* const& crime);
 };
 struct S_972aa0_Lists
 {
@@ -10077,10 +10077,10 @@ void S_972aa0_Owner::RemoveCrimeById(unsigned int uiCrimeId)
                 {
                     S_972aa0_Actor* actor = *actors->FUN_006815c0();
                     if (!DAT_011e0e80.IsActorInOtherList(actor, crime))
-                        actor->FUN_0047eb90(0);
+                        actor->ForwardCall_0047eb90(0);
                     actors = actors->FUN_00726070();
                 }
-                list->FUN_00905330(crime);
+                list->RemoveMatchingItem(crime);
                 node = (S_972aa0_Node*)list;
             }
             else
@@ -10189,7 +10189,7 @@ struct FUN_00978c50
     FUN_00978c50();
     ~FUN_00978c50();
     unsigned int BSSimpleArray_NiPoint3_1024_AddUninitialized();
-    EffectUpdate& FUN_006a1440(unsigned int);
+    EffectUpdate& Object_GetIndexedValue_006a1440(unsigned int);
     unsigned int GetSize();
     EffectUpdate& BSSimpleArray_NiPoint3_1024_GetAt(int);
 };
@@ -10227,10 +10227,10 @@ void EffectProcessLists::ProcessLists_UpdateTempEffectsParallel(float delta)
             if (effect)
             {
                 unsigned int slot = updateBuffer.BSSimpleArray_NiPoint3_1024_AddUninitialized();
-                updateBuffer.FUN_006a1440(slot).effect = effect;
-                updateBuffer.FUN_006a1440(slot).delta = delta;
-                updateBuffer.FUN_006a1440(slot).global = 1;
-                updateBuffer.FUN_006a1440(slot).finished = 0;
+                updateBuffer.Object_GetIndexedValue_006a1440(slot).effect = effect;
+                updateBuffer.Object_GetIndexedValue_006a1440(slot).delta = delta;
+                updateBuffer.Object_GetIndexedValue_006a1440(slot).global = 1;
+                updateBuffer.Object_GetIndexedValue_006a1440(slot).finished = 0;
             }
             node = node->GetNext();
         }
@@ -10241,10 +10241,10 @@ void EffectProcessLists::ProcessLists_UpdateTempEffectsParallel(float delta)
             if (effect)
             {
                 unsigned int slot = updateBuffer.BSSimpleArray_NiPoint3_1024_AddUninitialized();
-                updateBuffer.FUN_006a1440(slot).effect = effect;
-                updateBuffer.FUN_006a1440(slot).delta = delta;
-                updateBuffer.FUN_006a1440(slot).global = 0;
-                updateBuffer.FUN_006a1440(slot).finished = 0;
+                updateBuffer.Object_GetIndexedValue_006a1440(slot).effect = effect;
+                updateBuffer.Object_GetIndexedValue_006a1440(slot).delta = delta;
+                updateBuffer.Object_GetIndexedValue_006a1440(slot).global = 0;
+                updateBuffer.Object_GetIndexedValue_006a1440(slot).finished = 0;
             }
             node = node->GetNext();
         }
@@ -10338,14 +10338,14 @@ struct FUN_008f25e0
     ~FUN_008f25e0();
     TESForm* GetHavokWorldObjectCountInSceneGraph_0084e3a0();
     TESForm* FUN_0044ddc0();
-    void FUN_009eba00(Actor*);
+    void RemoveActorAndDecrementCount(Actor*);
 };
 struct CrimeListView
 {
     bool FUN_008256d0();
     FUN_008f25e0** FUN_006815c0();
     CrimeListView* FUN_00726070();
-    void FUN_00905330(FUN_008f25e0* const&);
+    void RemoveMatchingItem(FUN_008f25e0* const&);
     void FUN_0063f7b0();
 };
 struct CrimeProcess : ProcessLists
@@ -10368,7 +10368,7 @@ void CrimeProcess::ProcessLists_NullOutActorInCrimeList(TESForm* form)
             {
                 if (previous)
                 {
-                    previous->FUN_00905330(removed);
+                    previous->RemoveMatchingItem(removed);
                     current = previous->FUN_00726070();
                 }
                 else
@@ -10379,7 +10379,7 @@ void CrimeProcess::ProcessLists_NullOutActorInCrimeList(TESForm* form)
             else if (form->IsActor())
             {
                 Actor* actor = static_cast<Actor*>(form);
-                removed->FUN_009eba00(actor);
+                removed->RemoveActorAndDecrementCount(actor);
             }
             if (!crime)
             {
@@ -12483,7 +12483,7 @@ struct Sh0041cb10
 };
 struct Sh0041c930
 {
-    void FUN_0041c930(int a, int b, int c, int d, int e, int f);
+    void AllocateStorage_0041c930(int a, int b, int c, int d, int e, int f);
 };
 struct Sh0042ce10
 {
@@ -12562,7 +12562,7 @@ void Menu75x::ProcessLists_NullOutActorsPackage(int arg)
             }
             if (((Sh0041cb10*)((::TESObjectREFR*)p)->BSFile_GetDevice())->ExtraDataList_GetPackageExtra() == (void*)arg)
             {
-                ((Sh0041c930*)((::TESObjectREFR*)p)->BSFile_GetDevice())->FUN_0041c930(0, 0, 0, 0, 0, 0);
+                ((Sh0041c930*)((::TESObjectREFR*)p)->BSFile_GetDevice())->AllocateStorage_0041c930(0, 0, 0, 0, 0, 0);
             }
             p = 0;
         }
@@ -12958,11 +12958,12 @@ struct Radio652
     bool unk11;
     int unk14;
     ReceiverList652 receivers;
-    void FUN_00836240(Buffer652*);
+    void LoadRadioFields(Buffer652*);
 };
 // Reads radio fields, receiver list, and optional conversation from a Buffer652 stream.
 // @fnv 0x00836240
-void Radio652::FUN_00836240(Buffer652* buffer)
+// src: GUESS 0x00836240 (confidence: medium)
+void Radio652::LoadRadioFields(Buffer652* buffer)
 {
     buffer->LoadData(&unk08, 4);
     buffer->LoadData(&unk0c, 4);

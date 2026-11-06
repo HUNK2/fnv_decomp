@@ -4,11 +4,12 @@
 
 struct NiPSysEmitterDeclinationCtlr
 {
-    void FUN_00c2a1b0(float& fValue);
+    void GetTargetValueAtOffset20(float& fValue);
 };
 
 // @fnv 0x00c2a1b0
-void __thiscall NiPSysEmitterDeclinationCtlr::FUN_00c2a1b0(float& fValue)
+// src: GUESS 0x00c2a1b0 (confidence: medium)
+void __thiscall NiPSysEmitterDeclinationCtlr::GetTargetValueAtOffset20(float& fValue)
 {
     void* p = *(void**)((char*)this + 0x3C);
     fValue = *(float*)((char*)p + 0x20);
@@ -26,11 +27,12 @@ void* __cdecl NiPSysEmitterDeclinationCtlr_GetRTTI()
 namespace fnv_00c2b9b0 {
 struct NiPSysEmitterDeclinationCtlr
 {
-    void FUN_00c2b9b0(float fValue);
+    void SetTargetValueAtOffset20(float fValue);
 };
 
 // @fnv 0x00c2b9b0
-void NiPSysEmitterDeclinationCtlr::FUN_00c2b9b0(float fValue)
+// src: GUESS 0x00c2b9b0 (confidence: medium)
+void NiPSysEmitterDeclinationCtlr::SetTargetValueAtOffset20(float fValue)
 {
     void* pMember = *(void**)((char*)this + 0x3c);
     *(float*)((char*)pMember + 0x20) = fValue;

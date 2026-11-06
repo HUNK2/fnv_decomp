@@ -17,7 +17,7 @@ __forceinline const float& hkVector4::operator()(int i) const { return m_vCompon
 __forceinline float& hkVector4::operator()(int i) { return m_vComponents.m128_f32[i]; }
 
 struct FUN_00d9be20_class {
-    void FUN_00d9be20();
+    void UpdateFields_00d9be20();
 };
 struct FUN_00d9be30_class {
     int m0;
@@ -28,13 +28,13 @@ struct FUN_00d9be30_class {
     int m14;
     int m18;
     int m1c;
-    void FUN_00d9be30();
+    void UpdateState_00d9be30();
 };
 struct FUN_00d9be20_cls {
-    void __thiscall FUN_00d9be20();
+    void __thiscall UpdateFields_00d9be20();
 };
 struct FUN_00d9bed0_cls {
-    void __thiscall FUN_00d9bed0();
+    void __thiscall UpdateState_00d9bed0();
 };
 struct Obj_d9be20 {
     int m0;
@@ -42,7 +42,7 @@ struct Obj_d9be20 {
     int m8;
     int mc;
     int m10;
-    void FUN_00d9be20();
+    void UpdateFields_00d9be20();
 };
 struct Key {
     int a;
@@ -231,7 +231,7 @@ struct S_00d9d650_Tree
     int m_iNodeCount;
     S_00d9d650_Pool m_kNodePool;
 
-    void FUN_00d9d1c0(S_00d9d650_Aabb* aabbs, const int* keys, int n, S_00d9d650_Node* root, S_00d9d650_Array<int>& out, int depth);
+    void ProcessEntries_00d9d1c0(S_00d9d650_Aabb* aabbs, const int* keys, int n, S_00d9d650_Node* root, S_00d9d650_Array<int>& out, int depth);
     void MergeNode(S_00d9d650_Node* root, int a, int b);
     void TraverseTree(S_00d9d650_Node* root, int a);
     void BuildTree(const S_00d9d650_Aabb* aabbs, const int* keys, int n, S_00d9d650_Array<int>& out) throw();
@@ -271,7 +271,7 @@ struct Pool_d9c520
     void TraverseNodeTree(Node_d9c520* node, int second);
 };
 void __cdecl AppendElement();
-void __cdecl FUN_00d9c2d0(int param_1, unsigned short param_2);
+void __cdecl Hkaabbtree_AppendElement_Thunk(int param_1, unsigned short param_2);
 #include "fnv_asm_helpers.h"   // project x87 helpers (fnv_SinCos, fnv_FloatToInt), kept last so earlier code is unchanged
 struct NodeD9C7 {
     char unk00[0x10];
@@ -279,7 +279,7 @@ struct NodeD9C7 {
 };
 class FreeListD9C7 {
 public:
-    void FUN_00d9c2d0(NodeD9C7* pkNode);
+    void Hkaabbtree_AppendElement_Thunk(NodeD9C7* pkNode);
 };
 class FUN_00d9c7d0_C {
 public:
@@ -422,7 +422,7 @@ struct S00d9c610_AabbTree {
     hkVector4 m_kAabbMin;
     hkVector4 m_kAabbMaximum;
     hkVector4 m_kAabbScale;
-    void FUN_00d9b580(unsigned short insertPointIdx, unsigned short newLeafIdx, unsigned short scratchNodeIdx);
+    void ProcessEntries_00d9b580(unsigned short insertPointIdx, unsigned short newLeafIdx, unsigned short scratchNodeIdx);
     unsigned short hkAabbTree_hkAabbTreeData_hkAabbTreeAabb16_unsigned_short_add(const S00d9c610_Aabb& aabb, void* userData);
 };
 
@@ -451,7 +451,7 @@ unsigned short S00d9c610_AabbTree::hkAabbTree_hkAabbTreeData_hkAabbTreeAabb16_un
     {
         unsigned short scratchNodeIdx;
         m_kNodeManager.PopGlyphRecord(m_pAabbRootNode, m_usManagerValue, scratchNodeIdx);
-        FUN_00d9b580(m_usManagerValue, leafIdx, scratchNodeIdx);
+        ProcessEntries_00d9b580(m_usManagerValue, leafIdx, scratchNodeIdx);
     }
     m_iNodeCount++;
     return leafIdx;

@@ -372,7 +372,7 @@ struct ConstraintMasterRecord
     int m_2c;
 };
 
-void FUN_00c9d250(void* a1, int a2, int a3, void* a4);
+void hkpConstraintInstance_SortConstraintInstances(void* a1, int a2, int a3, void* a4);
 // @fnv 0x00c9c860
 void __fastcall updateConstraintSlaveIndices(hkpEntity* self, int)
 {
@@ -382,7 +382,7 @@ void __fastcall updateConstraintSlaveIndices(hkpEntity* self, int)
     }
     if (self->m_kSlaveConstraints.m_iElementCount > 1)
     {
-        FUN_00c9d250(self->m_kSlaveConstraints.m_data, 0, self->m_kSlaveConstraints.m_iElementCount - 1, self);
+        hkpConstraintInstance_SortConstraintInstances(self->m_kSlaveConstraints.m_data, 0, self->m_kSlaveConstraints.m_iElementCount - 1, self);
     }
     for (int i = 0; i < self->m_kSlaveConstraints.m_iElementCount; ++i)
     {
@@ -1085,7 +1085,8 @@ struct hkEntryLessD250
 
 // Recursively sorts the hkpConstraintInstance array in place using the quicksort algorithm with the hkEntryLessD250 comparator.
 // @fnv 0x00c9d250
-void __cdecl FUN_00c9d250(hkpConstraintInstance** pArr, int aiLow, int aiHigh, hkEntryLessD250 cmpLess)
+// src: GUESS 0x00c9d250 (confidence: medium)
+void __cdecl hkpConstraintInstance_SortConstraintInstances(hkpConstraintInstance** pArr, int aiLow, int aiHigh, hkEntryLessD250 cmpLess)
 {
     int i, iRight;
     hkpConstraintInstance* x;
@@ -1116,7 +1117,7 @@ begin:
     } while (i <= iRight);
 
     if (aiLow < iRight)
-        FUN_00c9d250(pArr, aiLow, iRight, cmpLess);
+        hkpConstraintInstance_SortConstraintInstances(pArr, aiLow, iRight, cmpLess);
     if (i < aiHigh)
     {
         aiLow = i;

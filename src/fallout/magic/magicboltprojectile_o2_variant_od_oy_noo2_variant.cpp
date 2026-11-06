@@ -68,7 +68,7 @@ struct xPtr
     xPtr(int);
     ~xPtr();
     void FUN_0066b0d0(void*);
-    void* FUN_00559450();
+    void* Modelloader_GetReferencedThis();
     void* m_p;
 };
 int xFUN_0081e440(void*);
@@ -200,7 +200,7 @@ xProj::xProj(xActorV* apA, int b, int c, int d, xP3 kP1, xP3 kP2)
     xPtr OLD(xFUN_0081e440(GetAVEffect()));
     OLD.FUN_0066b0d0(0);
     InitEffect();
-    TESObjectREFR_Set3DSimple(m_b4.FUN_00559450());
+    TESObjectREFR_Set3DSimple(m_b4.Modelloader_GetReferencedThis());
     MagicBoltProjectile_InitHavok();
     xVec4 V(-xg_107a8b0, 0.0f, 0.0f, 0.0f);
     FUN_009306d0()->bhkCharacterProxy_SetLinearVelocity(&V);
@@ -211,12 +211,12 @@ xProj::xProj(xActorV* apA, int b, int c, int d, xP3 kP1, xP3 kP2)
         void* NAME = GetAVEffect()->BGSProjectile_GetExplosion()->GetHavokWorldObjectCountInSceneGraph_0084e3a0();
         if (m_c8.FUN_00ad8ce0())
             m_c8.FUN_00ad8d10();
-        if (m_c0.FUN_00559450())
+        if (m_c0.Modelloader_GetReferencedThis())
         {
             m_c8 = xAudio::BSAudio_QInstance()->GetSoundHandleByFormID_00ad73b0(NAME, 0x102);
             xP3 POS2 = *FUN_00436aa0();
             m_c8.FUN_00ad8b60(POS2.x, POS2.y, POS2.z);
-            m_c8.FUN_00ad8f20(m_c0.FUN_00559450());
+            m_c8.FUN_00ad8f20(m_c0.Modelloader_GetReferencedThis());
             m_c8.FUN_00ad8830(true);
         }
     }

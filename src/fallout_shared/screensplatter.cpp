@@ -278,7 +278,8 @@ float DecalCaster_GetMaxDecalWidthLarge()
 
 // Calls FUN_004b9900(1) on DAT_011c7830 if non-null, then sets DAT_011c7830 to null.
 // @fnv 0x004e00d0
-void FUN_004e00d0()
+// src: GUESS 0x004e00d0 (confidence: low)
+void NiFixedString_UpdateState_004e00d0()
 {
     NiFixedString* b;
     {
@@ -290,7 +291,8 @@ void FUN_004e00d0()
 }
 
 // @fnv 0x004e0800
-void FUN_004e0800()
+// src: GUESS 0x004e0800 (confidence: low)
+void Object_ProcessEntries_004e0800()
 {
     if (DAT_011c7834)
     {
@@ -554,12 +556,13 @@ struct FUN_004e04e0_cls : FUN_004e04e0_base
     unsigned int m_08;
     FUN_004e04e0_quad m_0c;
 
-    FUN_004e04e0_cls* FUN_004e04e0(const FUN_004e04e0_quad* value);
+    FUN_004e04e0_cls* InitializeFields_004e04e0(const FUN_004e04e0_quad* value);
 };
 
 // Sets the vtable, copies the given quad into m_0c, and returns this after calling FUN_00a7b440 on FUN_004e0320().
 // @fnv 0x004e04e0
-FUN_004e04e0_cls* FUN_004e04e0_cls::FUN_004e04e0(const FUN_004e04e0_quad* pQuad)
+// src: GUESS 0x004e04e0 (confidence: low)
+FUN_004e04e0_cls* FUN_004e04e0_cls::InitializeFields_004e04e0(const FUN_004e04e0_quad* pQuad)
 {
     FUN_00a7b440(BSSplatterExtraData_Tag());
     m_pVTable = (void*)DAT_01022a24;

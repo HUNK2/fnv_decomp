@@ -27,7 +27,8 @@ Tile* __fastcall TileRect_PostParse(TileRect*, TraitValueArguments)
 }
 
 // @fnv 0x00aaa650
-Tile* __fastcall FUN_00aaa650(TileRect*, TraitValueArguments)
+// src: GUESS 0x00aaa650 (confidence: high)
+Tile* __fastcall Tile_ReturnZero(TileRect*, TraitValueArguments)
 {
     return 0;
 }

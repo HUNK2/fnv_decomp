@@ -96,12 +96,12 @@ void* Standin::DestroyIfFlagged(unsigned int flags)
 struct FUN_004855a0_shell
 {
     void M();
-    void FUN_004855a0();
+    void BeginFormRecord();
 };
 struct FUN_00485680_shell
 {
     void M();
-    void FUN_00485680();
+    void FinishFormRecord();
 };
 struct S_0048a520_shell
 {

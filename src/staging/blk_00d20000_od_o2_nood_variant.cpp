@@ -93,7 +93,8 @@ struct ContactBody
 };
 
 // @fnv 0x00d28560
-bool FUN_00d28560(void* unused, char** items, int count, int offset)
+// src: GUESS 0x00d28560 (confidence: low)
+bool Object_ProcessEntries_00d28560(void* unused, char** items, int count, int offset)
 {
     for (int i = count - 1; i >= 0; i--)
     {
@@ -447,11 +448,12 @@ struct LinearCastState
 struct CastObj
 {
     void __thiscall hkpBvTreeAgent_processCollision(int a, int b, int c, LinearCastState& s);
-    void __thiscall FUN_00d31610(int a1, int a2, int a3, LinearCastState& st);
+    void __thiscall ProcessEntries_00d31610(int a1, int a2, int a3, LinearCastState& st);
 };
 
 // @fnv 0x00d31610
-void __thiscall CastObj::FUN_00d31610(int a1, int a2, int a3, LinearCastState& st)
+// src: GUESS 0x00d31610 (confidence: low)
+void __thiscall CastObj::ProcessEntries_00d31610(int a1, int a2, int a3, LinearCastState& st)
 {
     LinearCastState* s = &st;
     float oldDistance = s->m_fClosestPointDistanceSquared;
@@ -530,11 +532,12 @@ class SimplexProcessor
 {
   public:
     void FUN_00d369a0(int a, int b, int c, Simplex* s);
-    void FUN_00d36d60(int a, int b, int c, Simplex* s);
+    void ProcessEntries_00d36d60(int a, int b, int c, Simplex* s);
 };
 
 // @fnv 0x00d36d60
-void SimplexProcessor::FUN_00d36d60(int a, int b, int c, Simplex* s)
+// src: GUESS 0x00d36d60 (confidence: low)
+void SimplexProcessor::ProcessEntries_00d36d60(int a, int b, int c, Simplex* s)
 {
     SimplexVertex* v = s->m_kRayEnd;
     float oldDistance = s->m_fClosestPointDistanceSquared;
@@ -605,7 +608,8 @@ struct SortList
 };
 
 // @fnv 0x00d23380
-void FUN_00d23380(SortList* list)
+// src: GUESS 0x00d23380 (confidence: low)
+void Object_ProcessEntries_00d23380(SortList* list)
 {
     for (int i = 0; i < list->m_iNumberOfEntries - 1; i++)
     {
@@ -665,7 +669,8 @@ class S00d2c8a0_Derived : public S00d2c8a0_Base
 
 // Havok getVtable helper: placement-construct into a local buffer with the finish-loading flag.
 // @fnv 0x00d2c8a0
-const void* __cdecl FUN_00d2c8a0()
+// src: GUESS 0x00d2c8a0 (confidence: medium)
+const void* __cdecl Object_GetConstructedVirtualTable()
 {
     __declspec(align(16)) char buffer[sizeof(S00d2c8a0_Derived)];
     S00d2c8a0_Derived* pObject = new (buffer) S00d2c8a0_Derived(NotFinishing());
@@ -732,11 +737,12 @@ struct AgentBase
 
 struct Agent : AgentBase
 {
-    void FUN_00d32850(int a, int b, int c, Simplex* s);
+    void ProcessEntries_00d32850(int a, int b, int c, Simplex* s);
 };
 
 // @fnv 0x00d32850
-void Agent::FUN_00d32850(int a, int b, int c, Simplex* s)
+// src: GUESS 0x00d32850 (confidence: low)
+void Agent::ProcessEntries_00d32850(int a, int b, int c, Simplex* s)
 {
     SimplexVertex* v = s->m_kRayEnd;
     float oldDistance = s->m_fClosestPointDistanceSquared;
@@ -783,7 +789,8 @@ struct SortPair
 };
 
 // @fnv 0x00d36520
-extern "C" void FUN_00d36520(SortPair* arr, int lo, int hi, unsigned int extra)
+// src: GUESS 0x00d36520 (confidence: low)
+extern "C" void Object_ProcessEntries_00d36520(SortPair* arr, int lo, int hi, unsigned int extra)
 {
     int i;
     int j;
@@ -820,7 +827,7 @@ extern "C" void FUN_00d36520(SortPair* arr, int lo, int hi, unsigned int extra)
         } while (i <= j);
         if (lo < j)
         {
-            FUN_00d36520(arr, lo, j, extra);
+            Object_ProcessEntries_00d36520(arr, lo, j, extra);
         }
         if (i >= hi)
         {
@@ -909,12 +916,13 @@ struct AgentBase
 
 struct Agent : AgentBase
 {
-    void FUN_00d36e80(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const ShapeSweepParameters& input,
+    void CopyData_00d36e80(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const ShapeSweepParameters& input,
                       hkpCdPointCollector& collector, hkpCdPointCollector* startCollector);
 };
 
 // @fnv 0x00d36e80
-void Agent::FUN_00d36e80(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const ShapeSweepParameters& input,
+// src: GUESS 0x00d36e80 (confidence: low)
+void Agent::CopyData_00d36e80(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const ShapeSweepParameters& input,
                          hkpCdPointCollector& collector, hkpCdPointCollector* startCollector)
 {
     ShapeSweepParameters flippedInput;
@@ -1039,13 +1047,13 @@ void Agent::hkpSymmetricAgentLinearCast_hkpMultiRayConvexAgent_processCollision(
 }  // namespace fnv_00d37c10
 
 hkpAgentData* __cdecl InitOutputDefaults(const AgentProcessingInput&, FourByteState*, hkpAgentData*);
-void __cdecl FUN_00d39130(FourByteState*, hkpAgentData*, hkpContactMgr*, hkpConstraintOwner&,
+void __cdecl Runtime_ReleaseHandles_Thunk(FourByteState*, hkpAgentData*, hkpContactMgr*, hkpConstraintOwner&,
                          hkpCollisionDispatcher*);
 hkpAgentData* __cdecl ReleaseHandles(FourByteState*, hkpAgentData*, hkpContactMgr*, hkpConstraintOwner&);
 void __cdecl RemoveKeyFromTable(FourByteState*, hkpAgentData*, hkContactPointId);
 void __cdecl InsertIntoSlotArray(FourByteState*, hkpAgentData*, hkContactPointId);
 void __cdecl nullsub_15(FourByteState*, hkpAgentData*, hkContactPointId);
-void __cdecl FUN_00d39150(const AgentProcessingInput&, FourByteState*, hkpAgentData*, hkVector4&);
+void __cdecl hkCollideCapsuleUtilCapsVsTri_ProcessEntries_00d39150(const AgentProcessingInput&, FourByteState*, hkpAgentData*, hkVector4&);
 hkpAgentData* __cdecl hkCapsuleTriangleAgent3_process(const AgentSubtypeMarker&, FourByteState*, hkpAgentData*, hkVector4*,
                                  WorldOperationEntry&);
 
@@ -1065,12 +1073,12 @@ void __cdecl hkCapsuleTriangleAgent3_registerAgent3(hkpCollisionDispatcher* pkDi
     kFuncs.m_bIsPredictive = false;
     kFuncs.m_pCreateFunc = InitOutputDefaults;
     kFuncs.m_pAgentFunction8 = hkCapsuleTriangleAgent3_process;
-    kFuncs.m_pAgentFunction7 = FUN_00d39150;
+    kFuncs.m_pAgentFunction7 = hkCollideCapsuleUtilCapsVsTri_ProcessEntries_00d39150;
     kFuncs.m_pAgentFunction3 = ReleaseHandles;
     kFuncs.m_pAgentFunction4 = RemoveKeyFromTable;
     kFuncs.m_pAgentFunction5 = InsertIntoSlotArray;
     kFuncs.m_pCreateZombieFunc = nullsub_15;
-    kFuncs.m_pAgent3DestroyFuncs = FUN_00d39130;
+    kFuncs.m_pAgent3DestroyFuncs = Runtime_ReleaseHandles_Thunk;
     pkDispatcher->AddEntry(&kFuncs, 5, 3);
 }
 
@@ -1466,11 +1474,12 @@ struct __declspec(align(16)) D2fCollector : D2fRayHitCollector
 struct D2fWorld
 {
     void hkpBvTreeAgent_linearCast(int a, int b, D2fInput* in, D2fCollector* c1, D2fCollector* c2);
-    void FUN_00d2f460(int a1, int a2, const D2fInput* a3, int a4, void* a5);
+    void CopyData_00d2f460(int a1, int a2, const D2fInput* a3, int a4, void* a5);
 };
 
 // @fnv 0x00d2f460
-void D2fWorld::FUN_00d2f460(int a1, int a2, const D2fInput* a3, int a4, void* a5)
+// src: GUESS 0x00d2f460 (confidence: medium)
+void D2fWorld::CopyData_00d2f460(int a1, int a2, const D2fInput* a3, int a4, void* a5)
 {
     D2fInput tmp;
     memcpy(&tmp, a3, sizeof(tmp));

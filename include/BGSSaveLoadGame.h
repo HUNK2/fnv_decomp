@@ -119,7 +119,7 @@ public:
     bool IsLoading();
     bool BGSSaveLoadGame_GetSaveGameLoading();
     bool BGSSaveLoadGame_GetLoadingMovedRefs();
-    SavedEntryMap* FUN_00559450();
+    SavedEntryMap* Modelloader_GetReferencedThis();
     bool BGSSaveLoadGame_GetPlayerLocationInvalid();
     void __thiscall RevertCurrentChanges(int, int);
     void FUN_00849730(void*, int);

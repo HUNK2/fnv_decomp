@@ -334,18 +334,18 @@ void VirtualActorPathHandler::PrintPathDebugInfo(IDebugText* apDebugText, DEBUGT
 
 
 unsigned int __fastcall PathingSolution_GetVirtualNodeCount(void* p);
-void* __fastcall FUN_00559450(void* p);
+void* __fastcall Modelloader_GetReferencedThis(void* p);
 
 
 // If the container at unk0c is valid and index is in range, copies the NiPoint3 at that index into out and returns true; otherwise returns false.
 // @fnv 0x009eb230
 bool VirtualActorPathHandler::GetPointAtIndex(unsigned int index, NiPoint3* out)
 {
-    if (FUN_00559450(&pCurrentPathingSolution) != 0)
+    if (Modelloader_GetReferencedThis(&pCurrentPathingSolution) != 0)
     {
-        if (index < PathingSolution_GetVirtualNodeCount(FUN_00559450(&pCurrentPathingSolution)))
+        if (index < PathingSolution_GetVirtualNodeCount(Modelloader_GetReferencedThis(&pCurrentPathingSolution)))
         {
-            *out = ((PathingGraphNode*)((PathingSolution*)FUN_00559450(&pCurrentPathingSolution))->GetVirtualNode(index))
+            *out = ((PathingGraphNode*)((PathingSolution*)Modelloader_GetReferencedThis(&pCurrentPathingSolution))->GetVirtualNode(index))
                        ->GetLocation()
                        .GetLocation();
             return true;

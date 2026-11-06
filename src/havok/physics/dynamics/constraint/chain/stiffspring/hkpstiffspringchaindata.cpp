@@ -95,7 +95,8 @@ void hkpStiffSpringChainData::getRuntimeInfo_00e3af80(bool bFlag, unsigned int* 
 }
 
 // @fnv 0x00e3af30
-int __cdecl FUN_00e3af30()
+// src: GUESS 0x00e3af30 (confidence: high)
+int __cdecl hkpStiffSpringChainData_ReturnConstant_0x64()
 {
     return 0x64;
 }

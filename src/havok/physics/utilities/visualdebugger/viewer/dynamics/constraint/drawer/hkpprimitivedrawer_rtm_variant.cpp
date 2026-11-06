@@ -71,8 +71,8 @@ struct ArrowDrawTarget
 
 struct ArrowDrawObject : ::CpuObject
 {
-    void FUN_00e11180(const ArrowDrawVector* p1, int p2, const ArrowDrawVector* p3, int p4, float p5, int p6, int p7);
-    void FUN_00e10d50(const ArrowDrawVector* a0, int a1, const ArrowDrawVector* a2, int a3, float a4, int a5, int a6);
+    void ProcessEntries_00e11180(const ArrowDrawVector* p1, int p2, const ArrowDrawVector* p3, int p4, float p5, int p6, int p7);
+    void ComputeValues_00e10d50(const ArrowDrawVector* a0, int a1, const ArrowDrawVector* a2, int a3, float a4, int a5, int a6);
 };
 
 static __forceinline ArrowDrawMath::LocalM128 Hk_e10d50_splat(float f)
@@ -100,7 +100,8 @@ static __forceinline ArrowDrawMath::LocalM128 Hk_e10d50_rot(const ArrowDrawMath:
 }
 
 // @fnv 0x00e10d50
-void ArrowDrawObject::FUN_00e10d50(const ArrowDrawVector* a0, int a1, const ArrowDrawVector* a2, int a3, float a4,
+// src: GUESS 0x00e10d50 (confidence: low)
+void ArrowDrawObject::ComputeValues_00e10d50(const ArrowDrawVector* a0, int a1, const ArrowDrawVector* a2, int a3, float a4,
                                    int a5, int a6)
 {
     ArrowDrawVector p1, p2;

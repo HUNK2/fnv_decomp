@@ -272,7 +272,8 @@ void* FUN_00b61220_class::DestroyIfFlagged(int aiFlags)
 }
 
 // @fnv 0x00b63bd0
-void __stdcall FUN_00b63bd0(void* apObject, int aiValue, char c)
+// src: GUESS 0x00b63bd0 (confidence: low)
+void __stdcall Object_UpdateState_00b63bd0(void* apObject, int aiValue, char c)
 {
     *(int*)((char*)apObject + 4) = aiValue;
     *(char*)((char*)apObject + 8) = c;
@@ -316,7 +317,8 @@ void ShaderAccumulatorLocal::BSShaderAccumulator_FinishAccumulatingPostResolveDe
 }
 
 // @fnv 0x00b66760
-int __cdecl FUN_00b66760(int a)
+// src: GUESS 0x00b66760 (confidence: low)
+int __cdecl Object_ComputeValue_00b66760(int a)
 {
     if (a != 252 && a != 258)
         return 0;
@@ -474,7 +476,8 @@ int __cdecl IsParticleShaderRendererEnabled()
 }
 
 // @fnv 0x00b603d0
-void* __cdecl FUN_00b603d0()
+// src: GUESS 0x00b603d0 (confidence: low)
+void* __cdecl Runtime_ForwardCall_00b603d0()
 {
     return g_memoryManager.Allocate(0xc);
 }
@@ -854,11 +857,12 @@ extern void(__stdcall* DAT_00fdf1c4)(void*);
 
 struct FUN_00b66850_class
 {
-    void FUN_00b66850();
+    void ReleaseStorage_00b66850();
 };
 
 // @fnv 0x00b66850
-void FUN_00b66850_class::FUN_00b66850()
+// src: GUESS 0x00b66850 (confidence: low)
+void FUN_00b66850_class::ReleaseStorage_00b66850()
 {
     char* p = (char*)this;
     *(int*)p = (int)&DAT_010ae0c0;
@@ -3387,7 +3391,7 @@ void FUN_00b6fd10_cls::SetValue(int value)
     m_6c = value;
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+void* __cdecl Object_DispatchCommandFour(unsigned int size);
 
 struct Blob60_cls
 {
@@ -3428,7 +3432,7 @@ class BlobBase_cls
 
     static void* operator new(unsigned int size) throw()
     {
-        return FUN_00aa13e0(size);
+        return Object_DispatchCommandFour(size);
     }
 };
 
@@ -6999,7 +7003,7 @@ struct B6AE60Obj
     B6AE60Obj();
     static void* operator new(unsigned int size) throw()
     {
-        return FUN_00aa13e0(size);
+        return Object_DispatchCommandFour(size);
     }
 };
 // Allocates and constructs a B6AE60Obj via its operator new and returns the new object.
@@ -7270,13 +7274,13 @@ void j_DList_Init()
     FUN_004ed900();
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+void* __cdecl Object_DispatchCommandFour(unsigned int size);
 struct FUN_00b6abb0
 {
     FUN_00b6abb0();
     static void* operator new(unsigned int size, unsigned int requestedSize)
     {
-        return FUN_00aa13e0(requestedSize);
+        return Object_DispatchCommandFour(requestedSize);
     }
     unsigned int m_type;
 };
@@ -10436,7 +10440,8 @@ RendererCleanup* RendererCleanup::FUN_00b7fd20(unsigned int flags)
 }
 
 // @fnv 0x00b7fd40
-void __cdecl FUN_00b7fd40()
+// src: GUESS 0x00b7fd40 (confidence: low)
+void __cdecl Object_ProcessState_00b7fd40()
 {
     extern void FUN_00b7fc50(void);
     FUN_00b7fc50();
@@ -10543,13 +10548,13 @@ struct FUN_00537bf0
     FUN_00537bf0(unsigned int);
     static void* operator new(unsigned int n)
     {
-        return FUN_00aa13e0(n);
+        return Object_DispatchCommandFour(n);
     }
     static void operator delete(void* p)
     {
         g_memoryManager.Deallocate(p);
     }
-    void FUN_00a72ca0(int);
+    void SetSize_Thunk(int);
     void NiAdditionalGeometryData_SetDataStreamCount(int);
     void NiAdditionalGeometryData_SetDataBlock(int, void*, unsigned int, int);
     void NiAdditionalGeometryData_SetDataStream(int, int, int, int, unsigned int, int, int);
@@ -10625,7 +10630,7 @@ FUN_00537bf0* ShaderGeometryOwner::BuildShaderGeometry(GeometryInput* input)
             else
                 ClearExtra();
             FUN_00537bf0* buffer = new FUN_00537bf0(count);
-            buffer->FUN_00a72ca0(2);
+            buffer->SetSize_Thunk(2);
             buffer->NiAdditionalGeometryData_SetDataStreamCount(2);
             buffer->NiAdditionalGeometryData_SetDataBlock(1, extraVertices, (unsigned short)count * 32, 0);
             buffer->NiAdditionalGeometryData_SetDataStream(0, 1, 0, 4, count, 16, 32);
@@ -11174,7 +11179,7 @@ class B61PropBase
     unsigned char unk1b;
     static void* operator new(unsigned int uiSize)
     {
-        return FUN_00aa13e0(uiSize);
+        return Object_DispatchCommandFour(uiSize);
     }
     static void operator delete(void* pvMem)
     {
@@ -11234,7 +11239,7 @@ class B61TriShapeData : public B61Ref
   public:
     static void* operator new(unsigned int uiSize)
     {
-        return FUN_00aa13e0(uiSize);
+        return Object_DispatchCommandFour(uiSize);
     }
     static void operator delete(void* pvMem)
     {
@@ -11270,7 +11275,7 @@ class B61TriStripsData : public B61Ref
   public:
     static void* operator new(unsigned int uiSize)
     {
-        return FUN_00aa13e0(uiSize);
+        return Object_DispatchCommandFour(uiSize);
     }
     static void operator delete(void* pvMem)
     {
@@ -11727,7 +11732,7 @@ class B61Entry : public B61Ref
     unsigned short m_usGroup;
     static void* operator new(unsigned int uiSize)
     {
-        return FUN_00aa13e0(uiSize);
+        return Object_DispatchCommandFour(uiSize);
     }
     static void operator delete(void* pvMem, void* pvPlace);
     B61Entry();
@@ -12436,7 +12441,7 @@ struct ShaderColor
 struct ShaderTransform
 {
     int unk00;
-    ShaderVector* FUN_00439ef0(ShaderVector* result, const ShaderVector* source);
+    ShaderVector* SubtractIntoVector(ShaderVector* result, const ShaderVector* source);
 };
 struct RenderProperty
 {
@@ -12671,7 +12676,7 @@ void S00b7ba70_Updater::ShadowLightShader_SetupGeometryConstants_AmbientEmittanc
                 position = reinterpret_cast<ShaderVector*>(&DAT_011f4288);
             SceneVectorData* scene = view->scene;
             ShaderVector relative, scaled;
-            scene->transform.FUN_00439ef0(&relative, position);
+            scene->transform.SubtractIntoVector(&relative, position);
             SceneVectorData* colourScene = light->scene;
             colourScene->color.ScaleTo(&scaled, colourScene->factor);
             float distance = relative.FUN_00457990() / scene->radius;
@@ -14159,7 +14164,8 @@ struct B64440A2
 };
 
 // @fnv 0x00b64440
-bool __cdecl FUN_00b64440(RSSettings* apSettings, B64440A2* a2, void* a3, RSPacket* apPacket, RSResponse* apResponse)
+// src: GUESS 0x00b64440 (confidence: low)
+bool __cdecl Object_ProcessAndReturnValue_00b64440(RSSettings* apSettings, B64440A2* a2, void* a3, RSPacket* apPacket, RSResponse* apResponse)
 {
     if (a2->m_b8->m_1c < 50.0)
         return true;

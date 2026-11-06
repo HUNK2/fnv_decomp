@@ -45,7 +45,7 @@ struct FUN_00c6c290_holder
 };
 struct FUN_0066d410_shell : public FUN_00c6c290_holder
 {
-    void FUN_0066d410();
+    void ForwardCall_0066d410();
 };
 extern const NiRTTI g_012683d0;
 struct FUN_0066d430_shell
@@ -55,13 +55,13 @@ struct FUN_0066d430_shell
 void __cdecl __Dummy_00b6fef0(void* p, unsigned int size);
 struct FUN_0066d440_shell
 {
-    void FUN_0066d470();
+    void ForwardCall_0066d470();
     void* FUN_0066d440(unsigned int flags);
 };
 struct FUN_0066d470_shell
 {
-    void FUN_0066d410();
-    void FUN_0066d470();
+    void ForwardCall_0066d410();
+    void ForwardCall_0066d470();
 };
 struct FUN_0066d510_shell
 {
@@ -283,7 +283,7 @@ struct S00cb7750
     Inner00cb7750* m_10;
     void __thiscall bhkSPCollisionObject_hktoNiTransform();
 };
-void* __fastcall FUN_00c6b910(void*);
+void* __fastcall NiRTTI_UpdateState_00c6b910(void*);
 extern int DAT_01066b94;
 BSFadeNode* bhkPCollisionObject_CreateObject();
 struct Middle

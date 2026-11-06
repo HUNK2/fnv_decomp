@@ -108,12 +108,13 @@ struct FUN_00eea650_stand_in
     unsigned int m_uiUnknown2;
     const char* m_pString;
 
-    void FUN_00eea650(const FUN_00ee8a10& src);
+    void AssignReferencedString_00eea650(const FUN_00ee8a10& src);
 };
 
 // Copies the source string pointer, incrementing its refcount and decrementing the old string's refcount when they differ.
 // @fnv 0x00eea650
-void FUN_00eea650_stand_in::FUN_00eea650(const FUN_00ee8a10& aSource)
+// src: GUESS 0x00eea650 (confidence: high)
+void FUN_00eea650_stand_in::AssignReferencedString_00eea650(const FUN_00ee8a10& aSource)
 {
     const char* pcSourceString = aSource.m_pString;
     if (m_pString != pcSourceString)
@@ -573,12 +574,13 @@ struct FixedStringHolder
     unsigned int m_uiUnknown3;
     const char* m_pString;
 
-    void FUN_00eea690(const char** source);
+    void AssignReferencedString_00eea690(const char** source);
 };
 
 // Assigns the string from source to m_pString, incrementing the new string's refcount and decrementing the old one unless either is _EmptyFS.
 // @fnv 0x00eea690
-void FixedStringHolder::FUN_00eea690(const char** source)
+// src: GUESS 0x00eea690 (confidence: high)
+void FixedStringHolder::AssignReferencedString_00eea690(const char** source)
 {
     const char* newString = *source;
     if (m_pString != newString)

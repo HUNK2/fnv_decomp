@@ -74,7 +74,7 @@ struct FUN_00de8910_Class
     float unk04;
     float unk08;
     float unk0c;
-    void FUN_00de8910(float s);
+    void UpdateState_00de8910(float s);
 };
 struct FUN_00de8da0_Class
 {
@@ -84,7 +84,8 @@ struct FUN_00de8da0_Class
     float unk0c;
     void hkMatrix4_setMul(void* dst, const float* src);
 };
-__declspec(noinline) void FUN_00de8910_Class::FUN_00de8910(float s)
+// src: GUESS 0x00de8910 (confidence: low)
+__declspec(noinline) void FUN_00de8910_Class::UpdateState_00de8910(float s)
 {
     unk00 = s;
     unsigned u = (unsigned)(int)s;
@@ -96,7 +97,7 @@ struct S00de9270_cls
     float unk04;
     float unk08;
     float unk0c;
-    void FUN_00de9270(void* dst, const hkMatrix4* src);
+    void hkMatrix4_MultiplyByAdjustedMatrix(void* dst, const hkMatrix4* src);
 };
 
 extern "C"
@@ -249,12 +250,13 @@ class S00de92d0_Matrix3
 class S00de92d0_GeometryProcessing
 {
   public:
-    static bool __cdecl FUN_00de92d0(const S00de92d0_Vector4& p0, const S00de92d0_Vector4& p1,
+    static bool __cdecl EvaluateValue_00de92d0(const S00de92d0_Vector4& p0, const S00de92d0_Vector4& p1,
                                      const S00de92d0_Vector4& p2, S00de92d0_Vector4& intersection);
 };
 
 // @fnv 0x00de92d0
-bool __cdecl S00de92d0_GeometryProcessing::FUN_00de92d0(const S00de92d0_Vector4& p0, const S00de92d0_Vector4& p1,
+// src: GUESS 0x00de92d0 (confidence: low)
+bool __cdecl S00de92d0_GeometryProcessing::EvaluateValue_00de92d0(const S00de92d0_Vector4& p0, const S00de92d0_Vector4& p1,
                                                         const S00de92d0_Vector4& p2, S00de92d0_Vector4& intersection)
 {
     S00de92d0_Matrix3 m;

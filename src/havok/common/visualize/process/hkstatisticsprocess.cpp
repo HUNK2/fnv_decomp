@@ -89,21 +89,21 @@ public:
     float GetSquaredXYLength() const;
     Elem16& expand(Allocator& allocator);
 
-    void FUN_00416870(float x, float y, float z);
+    void SetComponents(float x, float y, float z);
     bool FUN_00439090(const LocalVec3* other);
-    bool FUN_004390c0(const LocalVec3* other);
-    bool FUN_004390c0(const LocalVec3* other) const;
-    bool FUN_004390c0(const char* other);
-    void FUN_00439180(float scale);
+    bool HasEqualComponents(const LocalVec3* other);
+    bool HasEqualComponents(const LocalVec3* other) const;
+    bool HasEqualComponents(const char* other);
+    void ScaleComponents(float scale);
     LocalVec3 FUN_00439e90(const LocalVec3& other);
     LocalVec3 FUN_00439e90(const LocalVec3& other) const;
-    void FUN_00439ef0();
-    LocalVec3 FUN_00439ef0(const LocalVec3& other);
-    LocalVec3 FUN_00439ef0(const LocalVec3& other) const;
-    LocalVec3 FUN_00439ef0(LocalVec3* other);
-    LocalVec3 FUN_00439ef0(const LocalVec3* other);
-    void FUN_00439ef0(LocalVec3* output, const LocalVec3* other);
-    LocalVec3* FUN_00439ef0(void* output, void* other);
+    void SubtractIntoVector();
+    LocalVec3 SubtractIntoVector(const LocalVec3& other);
+    LocalVec3 SubtractIntoVector(const LocalVec3& other) const;
+    LocalVec3 SubtractIntoVector(LocalVec3* other);
+    LocalVec3 SubtractIntoVector(const LocalVec3* other);
+    void SubtractIntoVector(LocalVec3* output, const LocalVec3* other);
+    LocalVec3* SubtractIntoVector(void* output, void* other);
     void FUN_0043d410(float x, int y, int z);
     void FUN_0043d410(float x, unsigned int y, unsigned int z);
     float FUN_00457910();
@@ -113,22 +113,22 @@ public:
     float FUN_004a7290();
     float FUN_004a7290() const;
     LocalVec3 FUN_004b3800(const LocalVec3& other) const;
-    LocalVec3 FUN_0053d280(float divisor);
+    LocalVec3 ProcessAndReturnValue_0053d280(float divisor);
     float NiPoint3_XYLength();
     float NiPoint3_XYLength() const;
-    void FUN_0063c8a0(const LocalVec3* other);
-    void FUN_0063c8a0(void* other);
+    void ComputeValue_0063c8a0(const LocalVec3* other);
+    void ComputeValue_0063c8a0(void* other);
     void FUN_006815c0();
     float CVec3_Distance(LocalVec3* other);
     float CVec3_Distance(const LocalVec3& other) const;
-    LocalVec3 FUN_00b05000(const Mat& matrix);
-    LocalVec3 FUN_00b05000(const Matrix4* matrix);
+    LocalVec3 TransformPointByMatrix4(const Mat& matrix);
+    LocalVec3 TransformPointByMatrix4(const Matrix4* matrix);
     void Normalize_00b12790();
     LocalVec3 Diff_00b13040(void* other);
     LocalVec3 Diff_00b13040(const LocalVec3& other) const;
     float FUN_00b2a180(void* other);
-    LocalVec3& FUN_00b2a1c0(void* other);
-    void FUN_00ddc870();
+    LocalVec3& AddComponents(void* other);
+    void ProcessEntries_00ddc870();
     void FUN_00e0f6e0();
 };
 #include "../../../../../include/Vec4.h"
@@ -225,7 +225,8 @@ FUN_00ddc0b0::~FUN_00ddc0b0() throw()
 extern int DAT_01269cd8;
 
 // @fnv 0x00ddc820
-int FUN_00ddc820()
+// src: GUESS 0x00ddc820 (confidence: low)
+int Object_GetDAT_01269cd8_00ddc820()
 {
     return DAT_01269cd8;
 }
@@ -283,7 +284,7 @@ struct ObjA
     int m_iArrayLength;
     void EnsureCapacity(Allocator* ctx, int zero);
     void ProcessArgument(Allocator* ctx);
-    void FUN_00a29680();
+    void Object_DoNothing();
     __forceinline int first() const
     {
         int i;
@@ -310,7 +311,7 @@ struct Sub8
 {
     int m_00;
     int m_04;
-    void FUN_00cb0c10(int a);
+    void UpdateState_00cb0c10(int a);
 };
 struct Elem16
 {
@@ -513,7 +514,7 @@ void ThisCls::WriteToStream(int aiUnused)
         {
             Elem16* pElem = &vecProcessed.expand(*reinterpret_cast<Allocator*>(GetSingleton()->m_heap));
             pElem->m_00 = (long long)objRecords.m_pData[iRecordIdx].a;
-            pElem->m_08.FUN_00cb0c10(objRecords.m_pData[iRecordIdx].b);
+            pElem->m_08.UpdateState_00cb0c10(objRecords.m_pData[iRecordIdx].b);
             iRecordIdx = objRecords.next(iRecordIdx);
         }
     }
@@ -549,12 +550,12 @@ void ThisCls::WriteToStream(int aiUnused)
         }
     }
     objStr.m_00 = &DAT_0102e388;
-    vecProcessed.FUN_00ddc870();
+    vecProcessed.ProcessEntries_00ddc870();
     {
         hkMemoryRouter* pSingleton8 = GetSingleton();
         objRecords.ProcessArgument(reinterpret_cast<Allocator*>(pSingleton8->m_heap));
     }
-    objRecords.FUN_00a29680();
+    objRecords.Object_DoNothing();
     if (iTotalRangeLen < 1)
     {
         hkMemoryRouter* pSingleton9 = GetSingleton();
@@ -866,7 +867,8 @@ struct Elem
 }  // namespace fnv_00ddc870
 
 // @fnv 0x00ddc870
-void LocalVec3::FUN_00ddc870()
+// src: GUESS 0x00ddc870 (confidence: low)
+void LocalVec3::ProcessEntries_00ddc870()
 {
     using namespace fnv_00ddc870;
     hkMemoryRouter* holder = fnv_00ddc870::hkMemoryRouter_getInstance();

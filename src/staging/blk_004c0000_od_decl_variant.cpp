@@ -40,7 +40,7 @@ struct FUN_004d4e10_StandIn
 void __cdecl ClearGlobalArray();
 struct FUN_004d5d40_Class
 {
-    void __thiscall FUN_004d5d40();
+    void __thiscall ClearGlobalArray_Thunk();
 };
 extern void(__stdcall* DAT_00fdf28c)(void*, int, int, int);
 struct FUN_004d7490_Class
@@ -107,7 +107,7 @@ struct FUN_004d8fa0_StandIn
 struct FUN_004d9190_Class
 {
     void __thiscall FUN_004d91b0();
-    void __thiscall FUN_004d9190();
+    void __thiscall ForwardCall_004d9190();
 };
 struct FUN_004dc020_Class
 {
@@ -139,9 +139,9 @@ struct FUN_004dd220_Class
 {
     unsigned int GetField5C8();
 };
-void* __stdcall FUN_004dd240(unsigned int size);
+void* __stdcall Object_AllocateStorage(unsigned int size);
 void __stdcall ClearAndFreePointer(void*);
-int __cdecl FUN_004dd2a0(void* p);
+int __cdecl Object_ProcessAndReturnValue_004dd2a0(void* p);
 struct FUN_004de290_StandIn
 {
     float m_f0;
@@ -154,7 +154,7 @@ struct FUN_004de2b0_StandIn
 };
 extern unsigned char DAT_011c77e9;
 extern float DAT_011c77ec;
-char FUN_004def00(float f, char c);
+char Object_ComputeValue_004def00(float f, char c);
 struct GlobalObject_004aff00
 {
     void RemoveAll();
@@ -180,7 +180,7 @@ void RandomFloatNeg1To1();
 void _NiFreeAlias(void*);
 struct FUN_004d4f10_StandIn : public NiTPointerMap<int, int>
 {
-    void FUN_004d4f10();
+    void ReleaseStorage_004d4f10();
 };
 extern "C" void NiFreeAlias(void*);
 extern int DAT_01021004;
@@ -189,7 +189,7 @@ struct FUN_004d90d0_Class
     void* m_p0;
     void* m_p4;
     void* m_p8;
-    void FUN_004d90d0();
+    void UpdateState_004d90d0();
 };
 void Deallocate(void*);
 struct FUN_004d8fd0_Class
@@ -209,7 +209,7 @@ struct FUN_004d4e40_Holder
 };
 struct FUN_004d4de0_Class
 {
-    void* __thiscall FUN_004d4de0(unsigned int);
+    void* __thiscall ProcessAndReturnValue_004d4de0(unsigned int);
 };
 extern "C" void* __cdecl NiMalloc(unsigned int size);
 extern "C" void* __cdecl memset(void* dest, int value, unsigned int count);
@@ -234,12 +234,12 @@ struct FUN_004d5c20_Base
 struct FUN_004d5c20_StandIn
 {
     FUN_004d5c20_Base* m_p0;
-    void __thiscall FUN_004d5c20();
+    void __thiscall UpdateFields_004d5c20();
 };
 void __cdecl _Deallocate(void*);
 struct FUN_004d5dd0_Class
 {
-    void __thiscall FUN_004d5c20();
+    void __thiscall UpdateFields_004d5c20();
     void* __thiscall FUN_004d5dd0(unsigned int);
 };
 extern void* DAT_011c6d50[43];
@@ -430,7 +430,7 @@ void InterfaceSceneGraph_Destroy();
 extern "C" unsigned char __cdecl TESRenderer_GetFullScreen(void);
 struct S0042fa20
 {
-    S0042fa20* FUN_0045ce80(int);
+    S0042fa20* ProcessAndReturnValue_0045ce80(int);
 };
 extern S0042fa20 g_011c75d4;
 extern S0042fa20 g_011c7654;
@@ -458,11 +458,12 @@ struct FUN_004dcdf0_Class
         Arr a;
         MyArr_GetAt m;
     } _4;
-    unsigned int __thiscall FUN_004dcdf0(unsigned int index);
+    unsigned int __thiscall GetElementOrZero(unsigned int index);
 };
 __pragma(comment(linker, "/alternatename:?GetAt@MyArr_GetAt@@QAEPAIH@Z=?GetAt@Arr@@QAEPAIH@Z"))
 // @fnv 0x004dcdf0
-    unsigned int __thiscall FUN_004dcdf0_Class::FUN_004dcdf0(unsigned int index)
+// src: GUESS 0x004dcdf0 (confidence: high)
+    unsigned int __thiscall FUN_004dcdf0_Class::GetElementOrZero(unsigned int index)
 {
     if (index < _4.a.GetSize())
         return *(_4.m.GetAt((int)index));
@@ -472,11 +473,11 @@ void __stdcall ClearAndFreePointer(void* p);
 void __cdecl _Deallocate(void*);
 struct FUN_004de550_StandIn
 {
-    void __thiscall FUN_0045d240();
+    void __thiscall ForwardCall_0045d240();
     void* __thiscall FUN_004de550(unsigned int);
 };
 extern NiPointer<NiTexture> DAT_011c7804[];
-bool __cdecl FUN_004deed0(char const* a, unsigned char b);
+bool __cdecl Runtime_EvaluateValue_004deed0(char const* a, unsigned char b);
 struct FUN_004d4f70
 {
     unsigned int m_uiCount;
@@ -494,7 +495,7 @@ struct FUN_004d5080_Class
     void* unk08;
     void* unk0C;
 
-    void __thiscall FUN_004d5080();
+    void __thiscall ReleaseStorage_004d5080();
 };
 struct GlobalObject_0044f440
 {
@@ -708,7 +709,7 @@ void __fastcall NiTArray_char_NiTMallocInterface_char_RemoveAll(NiTArray_Layout*
 class ActorPathingMessageQueue;
 struct Name
 {
-    const char* FUN_00559450() const;
+    const char* Modelloader_GetReferencedThis() const;
 };
 struct ItemClass
 {
@@ -813,7 +814,7 @@ struct FUN_004d9100
 };
 Node7* __cdecl NiObject_DynamicCast(void*, Node7*);
 const char* __cdecl ConvertFromUni(const char*, bool);
-const char* __fastcall FUN_00559450(void*);
+const char* __fastcall Modelloader_GetReferencedThis(void*);
 void __cdecl BSstrncpy(char*, const char*, unsigned);
 struct Insert7
 {
@@ -834,7 +835,7 @@ struct C7
 };
 struct FUN_0062e150_Obj
 {
-    int* FUN_0062e150(int a1);
+    int* GetElementPointer16(int a1);
 };
 struct FUN_004d8610_cls
 {
@@ -1017,7 +1018,7 @@ struct DisplayInfo4de1
     int iRectBottom;
 };
 extern int(__stdcall* DAT_00fdf2f0)(const char*, unsigned long, DisplayDevice4de1*, unsigned long);
-int __cdecl FUN_004dd2c0(int iPrimaryDisplay, EyefinityInfo4de1* pkInfo, int* piNumTargets,
+int __cdecl Display_QueryEyefinityInfo(int iPrimaryDisplay, EyefinityInfo4de1* pkInfo, int* piNumTargets,
                          DisplayInfo4de1** ppkTargets);
 int __cdecl FUN_00ec9d4a(const char* pcFormat, ...);
 extern bool DAT_01189484;
@@ -1050,14 +1051,14 @@ extern void* DAT_011c7810;
 extern void* DAT_011c781c;
 struct FUN_00559450_Helper
 {
-    void* FUN_00559450();
+    void* Modelloader_GetReferencedThis();
 };
 struct FUN_0066b0d0_Helper
 {
     void NiNode_RemoveAllChildren();
     void FUN_0066b0d0(int);
 };
-void FUN_004def20();
+void Object_ProcessEntries_004def20();
 void* __cdecl operator new(unsigned int uiSize);
 void __cdecl operator delete(void* pvMem);
 class C4DF040Object

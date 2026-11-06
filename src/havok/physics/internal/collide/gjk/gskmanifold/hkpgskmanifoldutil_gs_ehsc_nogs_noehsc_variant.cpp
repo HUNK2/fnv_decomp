@@ -375,7 +375,8 @@ static __forceinline __m128 Dot3_3vs3(const __m128& a0, const __m128& b0, const 
 }
 
 // @fnv 0x00dad720
-static __declspec(noinline) int FUN_00dad720(S_00dad720_Rec* rec, S_00dad720_Vec* vecs, S_00dad720_Out* out)
+// src: GUESS 0x00dad720 (confidence: low)
+static __declspec(noinline) int Object_ProcessAndReturnValue_00dad720(S_00dad720_Rec* rec, S_00dad720_Vec* vecs, S_00dad720_Out* out)
 {
     const __m128& pa = *(__m128*)((char*)vecs + rec->m_kPointA);
     const __m128& pb = *(__m128*)((char*)vecs + rec->m_kPointB);
@@ -413,7 +414,7 @@ volatile int g_res;
 void CallTarget_dad720()
 {
     S_00dad720_Out* o = (S_00dad720_Out*)g_out;
-    g_res = FUN_00dad720((S_00dad720_Rec*)g_rec, (S_00dad720_Vec*)g_vecs, o);
+    g_res = Object_ProcessAndReturnValue_00dad720((S_00dad720_Rec*)g_rec, (S_00dad720_Vec*)g_vecs, o);
 }
 
 #include <xmmintrin.h>
@@ -493,7 +494,8 @@ struct TriangleClosestPointInfo
 };
 
 // @fnv 0x00dad860
-static __declspec(noinline) int FUN_00dad860(const MeshVertexBasisData& work, const AlignedPairData& point,
+// src: GUESS 0x00dad860 (confidence: low)
+static __declspec(noinline) int Object_ProcessAndReturnValue_00dad860(const MeshVertexBasisData& work, const AlignedPairData& point,
                                              TriangleClosestPointInfo& out)
 {
     const hkVector4& a0 = work.getVertexA(point.m_vert0);
@@ -530,7 +532,7 @@ const AlignedPairData* volatile g_point;
 TriangleClosestPointInfo* volatile g_out;
 int S00dad860_Call()
 {
-    return FUN_00dad860(*g_work, *g_point, *g_out);
+    return Object_ProcessAndReturnValue_00dad860(*g_work, *g_point, *g_out);
 }
 }  // namespace fnv_00dad860
 

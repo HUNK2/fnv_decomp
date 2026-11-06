@@ -83,9 +83,9 @@ public:
     void ListBox_enum_ActorValue_Index_UpdateHighlightBoxPos();
     void ListBox_enum_MiscStatManager_MiscStatID_UpdateHighlightBoxPos();
     void ListBox_ItemChange_ScrollToHighlight();
-    void FUN_007a73e0();
+    void UpdateHighlightTraits_007a73e0();
     __declspec(dllexport) void UpdateHighlight();
-    void FUN_0072c2b0();
+    void UpdateState_0072c2b0();
 };
 // HighlightTile_mapmenu: local type (was include/HighlightTile.h, which had no evidence of one real class); its methods are 0x00700320 Tile::Set, 0x0071aa60 Tile::SetSpeechChallengeFailure, 0x0071aa80 Tile::ShouldPaintRed, 0x00a00f30 Tile::GetValue
 // HighlightValue_mapmenu: local type (was include/HighlightValue.h, which had no evidence of one real class); its methods are 0x00a09130 Tile::Value::AddRefValueAction, 0x00a09410 Tile::Value::SetFloat
@@ -454,7 +454,7 @@ extern int DAT_01075530;
 struct Dummy_007a1a70
 {
     void* vtable;
-    void FUN_007a63f0(int, int);
+    void UpdateState_007a63f0(int, int);
 };
 
 // Sets the object's vtable to DAT_01075530 and calls FUN_007a63f0 with 0, 0, returning the object.
@@ -463,7 +463,7 @@ struct Dummy_007a1a70
 Dummy_007a1a70* __fastcall BSSimpleArray_BSStringT_char_1024_BSSimpleArray(Dummy_007a1a70* pThis)
 {
     pThis->vtable = &DAT_01075530;
-    pThis->FUN_007a63f0(0, 0);
+    pThis->UpdateState_007a63f0(0, 0);
     return pThis;
 }
 
@@ -653,7 +653,7 @@ void OnPCFastTravel();
 
 struct FUN_0053d280_shell
 {
-    MapPoint3 FUN_0053d280(float) const;
+    MapPoint3 ProcessAndReturnValue_0053d280(float) const;
 };
 struct FUN_0083b9a0_shell
 {
@@ -843,14 +843,14 @@ void MapMenu::HandleSelection(int aiID, Tile* apTarget)
                 {
                     m_pCurrentMapSpace = m_pCurrentMapForm;
                     reinterpret_cast<MapPoint3&>(m_kPlayerWorldPosition) = MapToWorldPosition(
-                        ((const FUN_0053d280_shell*)&reinterpret_cast<MapPoint3&>(m_kPlayerWorldPosition))->FUN_0053d280(m_pMapTile->GetFloat(0xfb1)),
+                        ((const FUN_0053d280_shell*)&reinterpret_cast<MapPoint3&>(m_kPlayerWorldPosition))->ProcessAndReturnValue_0053d280(m_pMapTile->GetFloat(0xfb1)),
                         m_pCurrentMapSpace->GetFormType() == ENUM_FORM_ID_WRLD_ID ? (TESWorldSpace*)m_pCurrentMapSpace : 0);
                     reinterpret_cast<MapPoint3&>(m_kPlayerWorldPosition) = reinterpret_cast<MapPoint3&>(m_kPlayerWorldPosition);
                 }
                 else
                 {
                     reinterpret_cast<MapPoint3&>(m_kPlayerWorldPosition) = MapToWorldPosition(
-                        ((const FUN_0053d280_shell*)&reinterpret_cast<MapPoint3&>(m_kPlayerWorldPosition))->FUN_0053d280(m_pMapTile->GetFloat(0xfb1)),
+                        ((const FUN_0053d280_shell*)&reinterpret_cast<MapPoint3&>(m_kPlayerWorldPosition))->ProcessAndReturnValue_0053d280(m_pMapTile->GetFloat(0xfb1)),
                         0);
                     m_pCurrentMapSpace = CalculatePlayerMarkerSpace(reinterpret_cast<MapPoint3&>(m_kPlayerWorldPosition));
                     if (m_pCurrentMapSpace)
@@ -1201,11 +1201,12 @@ extern int DAT_01075530;
 
 struct FUN_007a1aa0_shell : public MapArray<BSStringT<char>, 1024>
 {
-    void FUN_007a1aa0();
+    void ResetVirtualTableAndClear_007a1aa0();
 };
 
 // @fnv 0x007a1aa0
-void FUN_007a1aa0_shell::FUN_007a1aa0()
+// src: GUESS 0x007a1aa0 (confidence: medium)
+void FUN_007a1aa0_shell::ResetVirtualTableAndClear_007a1aa0()
 {
     *reinterpret_cast<int**>(this) = &DAT_01075530;
     Clear(true);
@@ -1577,7 +1578,7 @@ struct FUN_004a0c90_shell
 extern FUN_004a0c90_shell DAT_011a9448;
 extern double _DAT_01012060;
 
-NiPoint3 __cdecl FUN_004b3ae0(NiPoint3 const&, float const*);
+NiPoint3 __cdecl NiPoint3_TransformByMatrix3(NiPoint3 const&, float const*);
 // The approved cell header lacks the original north-rotation accessor.
 float __fastcall GetMapCellNorthRotation(TESObjectCELL*);
 
@@ -1592,7 +1593,7 @@ void TESObjectCELL::AdjustCoordForNorthRotation(NiPoint3& source, NiPoint3& dest
     {
         shell = DAT_011a9448;
         shell.FUN_004a0c90(f);
-        destination = FUN_004b3ae0(source, reinterpret_cast<float const*>(&shell));
+        destination = NiPoint3_TransformByMatrix3(source, reinterpret_cast<float const*>(&shell));
     }
     else
     {
@@ -2858,7 +2859,7 @@ struct Metrics
 };
 struct ElementList
 {
-    int FUN_00559450();
+    int Modelloader_GetReferencedThis();
     int* NiTPointerListBase_NiTPointerAllocator_unsigned_int_Tile_GetNext(int* cursor);
 };
 struct CollectionHolder
@@ -3005,7 +3006,7 @@ bool MapMenu::HandleControllerInput(int command, Tile* ignored)
         case 9:
             if (m_iMapDisplayMode == 0x21)
             {
-                int cursor = reinterpret_cast<CollectionHolder*>(m_pTiles[4])->list.FUN_00559450();
+                int cursor = reinterpret_cast<CollectionHolder*>(m_pTiles[4])->list.Modelloader_GetReferencedThis();
                 while (cursor != 0)
                 {
                     int value = *reinterpret_cast<CollectionHolder*>(m_pTiles[4])->list.NiTPointerListBase_NiTPointerAllocator_unsigned_int_Tile_GetNext(&cursor);
@@ -3645,7 +3646,7 @@ namespace MapMarkerUpdate {
 struct Reference;
 struct TargetPtr
 {
-    Reference* FUN_00559450();
+    Reference* Modelloader_GetReferencedThis();
 };
 struct SearchHit
 {
@@ -4293,7 +4294,7 @@ void MapMenu::UpdatePlayerMapMarker()
                 if (Pathing_BuildTeleportDoorPath(Query(MapMarkerUpdate::DAT_011dea3c), Query(), &results, 3, 0.0f, &origin, 2))
                 {
                     if (results.hits.FUN_0044ddc0() > 0)
-                        (*reinterpret_cast<Reference**>(&m_pFirstMapReference)) = (*results.hits.BSSimpleArray_TeleportLink_1024_GetLast())->FUN_00568e50()->FUN_00559450();
+                        (*reinterpret_cast<Reference**>(&m_pFirstMapReference)) = (*results.hits.BSSimpleArray_TeleportLink_1024_GetLast())->FUN_00568e50()->Modelloader_GetReferencedThis();
                     if (!(*reinterpret_cast<Reference**>(&m_pFirstMapReference)))
                         (*reinterpret_cast<Reference**>(&m_pFirstMapReference)) = MapMarkerUpdate::DAT_011dea3c;
                 }
@@ -4955,7 +4956,7 @@ F7E0Ref* F7E0Picker::SelectTarget(F7E0Ref* pkRef, PathingPath* pkData)
 namespace fnv_0079f8d0 {
 struct RefHandle053
 {
-    TESObjectREFR* FUN_00559450();
+    TESObjectREFR* Modelloader_GetReferencedThis();
 };
 struct Ref053 : TESObjectREFR
 {
@@ -4967,7 +4968,7 @@ struct PathArray053
     TESObjectREFR** data;
     unsigned int size, capacity, grow;
     unsigned int FUN_0044ddc0();
-    TESObjectREFR*& FUN_00558dd0(unsigned int);
+    TESObjectREFR*& GetElementAddress16(unsigned int);
 };
 double __cdecl ForwardFloatAndInt(float, int);
 float __cdecl NiSqrt_004579e0(float);
@@ -4994,7 +4995,7 @@ void Map053::MapMenu_CreateWaypointPath(TESObjectREFR* start, TESObjectREFR* end
     startPos->Set(0xfaa, id);
     startPos->Set(0xfa9, 0.0f, true);
     if (((TESForm*)_FNV_GetObjectReference((RefH*)start))->GetFormType() == 0x1c &&
-        ((Ref053*)((Ref053*)start)->FUN_00568e50()->FUN_00559450())->TESObjectREFR_GetInterior())
+        ((Ref053*)((Ref053*)start)->FUN_00568e50()->Modelloader_GetReferencedThis())->TESObjectREFR_GetInterior())
         startPos->Set(0x1004, 1);
     first.AddTail(startPos);
     int waypoints = 0;
@@ -5002,18 +5003,18 @@ void Map053::MapMenu_CreateWaypointPath(TESObjectREFR* start, TESObjectREFR* end
     int begin = (*reinterpret_cast<PathArray053*>(&path->Doors)).FUN_0044ddc0() - 1;
     for (unsigned int i = 0; i < (*reinterpret_cast<PathArray053*>(&path->Doors)).FUN_0044ddc0(); i++)
     {
-        if ((*reinterpret_cast<PathArray053*>(&path->Doors)).FUN_00558dd0(i) == start ||
-            ((Ref053*)(*reinterpret_cast<PathArray053*>(&path->Doors)).FUN_00558dd0(i))->FUN_00568e50()->FUN_00559450() == start)
+        if ((*reinterpret_cast<PathArray053*>(&path->Doors)).GetElementAddress16(i) == start ||
+            ((Ref053*)(*reinterpret_cast<PathArray053*>(&path->Doors)).GetElementAddress16(i))->FUN_00568e50()->Modelloader_GetReferencedThis() == start)
             waypoints = i + 1;
-        if ((*reinterpret_cast<PathArray053*>(&path->Doors)).FUN_00558dd0(i) == end ||
-            ((Ref053*)(*reinterpret_cast<PathArray053*>(&path->Doors)).FUN_00558dd0(i))->FUN_00568e50()->FUN_00559450() == end)
+        if ((*reinterpret_cast<PathArray053*>(&path->Doors)).GetElementAddress16(i) == end ||
+            ((Ref053*)(*reinterpret_cast<PathArray053*>(&path->Doors)).GetElementAddress16(i))->FUN_00568e50()->Modelloader_GetReferencedThis() == end)
             begin = i - 1;
     }
     for (int j = waypoints; j <= begin; j++)
     {
-        TESObjectREFR* ref = !((Ref053*)(*reinterpret_cast<PathArray053*>(&path->Doors)).FUN_00558dd0(j))->TESObjectREFR_GetInterior() ? (*reinterpret_cast<PathArray053*>(&path->Doors)).FUN_00558dd0(j) : 0;
+        TESObjectREFR* ref = !((Ref053*)(*reinterpret_cast<PathArray053*>(&path->Doors)).GetElementAddress16(j))->TESObjectREFR_GetInterior() ? (*reinterpret_cast<PathArray053*>(&path->Doors)).GetElementAddress16(j) : 0;
         if (!ref)
-            ref = ((Ref053*)(*reinterpret_cast<PathArray053*>(&path->Doors)).FUN_00558dd0(j))->FUN_00568e50()->FUN_00559450();
+            ref = ((Ref053*)(*reinterpret_cast<PathArray053*>(&path->Doors)).GetElementAddress16(j))->FUN_00568e50()->Modelloader_GetReferencedThis();
         if (ref && !((Ref053*)ref)->TESObjectREFR_GetInterior())
         {
             Tile* middle = DAT_011da368->CreateTileFromTemplate(m_pMapTile, "WaypointTemplate", 0);
@@ -5021,7 +5022,7 @@ void Map053::MapMenu_CreateWaypointPath(TESObjectREFR* start, TESObjectREFR* end
             middle->Set(DAT_011da350, middlePos.x, true);
             middle->Set(DAT_011da34c, middlePos.y, true);
             middle->Set(0xfaa, id);
-            if (((Ref053*)((Ref053*)(*reinterpret_cast<PathArray053*>(&path->Doors)).FUN_00558dd0(j))->FUN_00568e50()->FUN_00559450())->TESObjectREFR_GetInterior())
+            if (((Ref053*)((Ref053*)(*reinterpret_cast<PathArray053*>(&path->Doors)).GetElementAddress16(j))->FUN_00568e50()->Modelloader_GetReferencedThis())->TESObjectREFR_GetInterior())
                 middle->Set(0x1004, 1);
             first.AddTail(middle);
         }
@@ -5099,9 +5100,9 @@ struct ListInserter
     const char* templateName;
     unsigned short nextID, unk1e;
     bool ListBox_unsigned_int_GetFlag(unsigned int);
-    void FUN_007a6480();
+    void ProcessEntries_007a6480();
     void AccumulateTileHeight(InsertTile*);
-    void FUN_007a6920();
+    void UpdateScrollTraits_007a6920();
     int GetRaceCount();
     InsertTile* InsertTileFromTemplate(void*, const char*, InsertCompare, const char*);
 };
@@ -5121,7 +5122,7 @@ InsertTile* ListInserter::InsertTileFromTemplate(void* data, const char* text, I
         {
             items.BSSimpleList_ActiveEffect_Insert(new FUN_007a62e0(pTile, data), compare);
             if (ListBox_unsigned_int_GetFlag(0))
-                FUN_007a6480();
+                ProcessEntries_007a6480();
         }
         else
         {
@@ -5129,7 +5130,7 @@ InsertTile* ListInserter::InsertTileFromTemplate(void* data, const char* text, I
             if (ListBox_unsigned_int_GetFlag(0))
             {
                 AccumulateTileHeight(pTile);
-                FUN_007a6920();
+                UpdateScrollTraits_007a6920();
             }
             pTile->FUN_00700320(0xfac, nextID++);
         }
@@ -5413,8 +5414,8 @@ struct InsertBox
     bool ListBox_unsigned_int_GetFlag(unsigned int);
     void AccumulateTileHeight(Tile*);
     int GetRaceCount();
-    void FUN_007a7260();
-    void FUN_007a7700();
+    void ProcessEntries_007a7260();
+    void UpdateScrollTraits_007a7700();
     Tile* ListBox_TESObjectREFR_AddItem(int item, const char* text, int (*sortFunc)(LBItem*, LBItem*), const char* altTemplate);
 };
 // Creates a tile for an item via the parent menu, sets its text and value, adds it to the list (sorted or appended), and updates the filtered-count value.
@@ -5434,7 +5435,7 @@ Tile* InsertBox::ListBox_TESObjectREFR_AddItem(int item, const char* text, int (
         {
             list.BSSimpleList_ActiveEffect_Insert(new LBItem(tile, &item), sortFunc);
             if (ListBox_unsigned_int_GetFlag(0))
-                FUN_007a7260();
+                ProcessEntries_007a7260();
         }
         else
         {
@@ -5442,7 +5443,7 @@ Tile* InsertBox::ListBox_TESObjectREFR_AddItem(int item, const char* text, int (
             if (ListBox_unsigned_int_GetFlag(0))
             {
                 AccumulateTileHeight(tile);
-                FUN_007a7700();
+                UpdateScrollTraits_007a7700();
             }
             tile->Set(0xfac, itemCount++);
         }
@@ -5724,12 +5725,13 @@ struct FUN_007a7700_Menu
     Tile* pItemCount;
     char pad18[8];
     float fScrollRange;
-    unsigned int FUN_007a71b0();
-    void FUN_007a7700();
+    unsigned int GetUnfilteredRaceCount();
+    void UpdateScrollTraits_007a7700();
 };
 // Computes the scroll page count from fScrollRange and the tile's page size, then stores _scroll_delta and _number_of_items on the tiles.
 // @fnv 0x007a7700
-void FUN_007a7700_Menu::FUN_007a7700()
+// src: GUESS 0x007a7700 (confidence: medium)
+void FUN_007a7700_Menu::UpdateScrollTraits_007a7700()
 {
     if (m_pHighlightedTile)
     {
@@ -5739,7 +5741,7 @@ void FUN_007a7700_Menu::FUN_007a7700()
         {
             if (fScrollRange > fPageSize)
                 iCount =
-                    BSMAX_00647b70((int)FUN_004e4430(FUN_007a71b0() * (fScrollRange - fPageSize) / fScrollRange) + 1, 2);
+                    BSMAX_00647b70((int)FUN_004e4430(GetUnfilteredRaceCount() * (fScrollRange - fPageSize) / fScrollRange) + 1, 2);
             if (iCount > 1)
                 m_pHighlightedTile->Set(Tile::GetTraitID("_scroll_delta"), (fScrollRange - fPageSize) / (iCount - 1),
                                         true);
@@ -6016,9 +6018,9 @@ struct FUN_007a3d20_cls
     float unk20;
 
     void ListBox_TESObjectREFR_Filter(bool (*pfnFilter)(int));
-    void FUN_007a7700();
-    Tile* FUN_007a6250();
-    void FUN_007a73e0();
+    void UpdateScrollTraits_007a7700();
+    Tile* ForwardCall_007a6250();
+    void UpdateHighlightTraits_007a73e0();
     void AccumulateTileHeight(Tile*);
 };
 
@@ -6058,12 +6060,12 @@ void FUN_007a3d20_cls::ListBox_TESObjectREFR_Filter(bool (*pfnFilter)(int))
     }
 
     this->parentTile->Set(numFiltered, (unsigned int)count);
-    this->FUN_007a7700();
+    this->UpdateScrollTraits_007a7700();
     if (this->selected == 0 && selIdx >= 0)
         this->selected = this->vfn14(selIdx, 0);
     if (this->selected == 0 && selIdx >= 0)
-        this->selected = this->FUN_007a6250();
-    this->FUN_007a73e0();
+        this->selected = this->ForwardCall_007a6250();
+    this->UpdateHighlightTraits_007a73e0();
 }
 
 int Tile_AddUserTrait(const char* pszName, int iIndex);
@@ -6309,7 +6311,7 @@ extern AMStringSetting DAT_011d3960;
 
 struct AMSubtitleText
 {
-    const char* FUN_00559450();
+    const char* Modelloader_GetReferencedThis();
 };
 struct AMSubtitles
 {
@@ -6360,7 +6362,7 @@ void __fastcall UpdateHolotapePlayback(MapMenu* menu)
             menu->m_fMapZoom = (iCount - 1) * 500 + iTotalLoc;
             reinterpret_cast<AMSoundNode*&>(menu->m_pkActiveSoundList)->FUN_006815c0()->Play(false);
             reinterpret_cast<unsigned int&>(menu->m_iMapSelectionIndex) = DAT_011f6394.FUN_00825c00();
-            Interface_ShowSubtitle(reinterpret_cast<AMSubtitles&>(menu->SubtitlesToShow).GetElement(0)->FUN_00559450(), *reinterpret_cast<AMSoundNode*&>(menu->m_pkActiveSoundList)->FUN_006815c0(),
+            Interface_ShowSubtitle(reinterpret_cast<AMSubtitles&>(menu->SubtitlesToShow).GetElement(0)->Modelloader_GetReferencedThis(), *reinterpret_cast<AMSoundNode*&>(menu->m_pkActiveSoundList)->FUN_006815c0(),
                          DAT_011dea3c->GetPosition(), DAT_011dea3c, 0);
             reinterpret_cast<AMSubtitles&>(menu->SubtitlesToShow).RemoveAt(0, 1);
         }
@@ -6385,7 +6387,7 @@ void __fastcall UpdateHolotapePlayback(MapMenu* menu)
             reinterpret_cast<AMSoundNode*&>(menu->m_pkActiveSoundList) = reinterpret_cast<AMSoundNode*&>(menu->m_pkActiveSoundList)->GetHavokWorldObjectCountInSceneGraph_0084e3a0();
             reinterpret_cast<AMSoundNode*&>(menu->m_pkActiveSoundList)->FUN_006815c0()->Play(false);
             DAT_011da410 = 0;
-            Interface_ShowSubtitle(reinterpret_cast<AMSubtitles&>(menu->SubtitlesToShow).GetElement(0)->FUN_00559450(), *reinterpret_cast<AMSoundNode*&>(menu->m_pkActiveSoundList)->FUN_006815c0(),
+            Interface_ShowSubtitle(reinterpret_cast<AMSubtitles&>(menu->SubtitlesToShow).GetElement(0)->Modelloader_GetReferencedThis(), *reinterpret_cast<AMSoundNode*&>(menu->m_pkActiveSoundList)->FUN_006815c0(),
                          DAT_011dea3c->GetPosition(), DAT_011dea3c, 1);
             reinterpret_cast<AMSubtitles&>(menu->SubtitlesToShow).RemoveAt(0, 1);
         }

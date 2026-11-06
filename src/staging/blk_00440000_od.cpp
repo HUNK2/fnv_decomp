@@ -279,27 +279,29 @@ void __thiscall FUN_0044a2c0_class::FaceGenData_Return1()
 extern int DAT_010173dc;
 struct Dummy44a3a0
 {
-    void FUN_0044a3d0();
+    void SetVtableAndProcessState_0044a3d0();
 };
 struct Dummy44a400 : Dummy44a3a0
 {
-    void FUN_0044a400();
+    void UpdateFields_0044a400();
 };
 // @fnv 0x0044a400
-void Dummy44a400::FUN_0044a400()
+// src: GUESS 0x0044a400 (confidence: low)
+void Dummy44a400::UpdateFields_0044a400()
 {
     *(int**)(void*)this = (int*)&DAT_010173dc;
-    FUN_0044a3d0();
+    SetVtableAndProcessState_0044a3d0();
 }
 
 struct Unk65
 {
     void FUN_0065de30(int*);
-    void* FUN_0044a7b0(int param);
+    void* EvaluateValue_0044a7b0(int param);
 };
 
 // @fnv 0x0044a7b0
-void* Unk65::FUN_0044a7b0(int param)
+// src: GUESS 0x0044a7b0 (confidence: low)
+void* Unk65::EvaluateValue_0044a7b0(int param)
 {
     FUN_0065de30(&param);
     return this;
@@ -324,10 +326,11 @@ int __thiscall FUN_0044a9a0_Class::std_length_error_length_error(int aiValue)
 void __cdecl std_allocator_SIdvLeafTexture_allocator_SIdvLeafTexture(int, int);
 struct FUN_0044abd0_Class
 {
-    void __thiscall FUN_0044abd0(int);
+    void __thiscall ForwardCall_0044abd0(int);
 };
 // @fnv 0x0044abd0
-void __thiscall FUN_0044abd0_Class::FUN_0044abd0(int aiValue)
+// src: GUESS 0x0044abd0 (confidence: low)
+void __thiscall FUN_0044abd0_Class::ForwardCall_0044abd0(int aiValue)
 {
     std_allocator_SIdvLeafTexture_allocator_SIdvLeafTexture(aiValue, 0);
 }
@@ -530,11 +533,12 @@ struct FUN_0044f400_class
     void* m_08;
     void* m_0c;
     void __thiscall LockFreeQueue_LockFreeQueueInterface_ScanForDeletedNodes();
-    void __thiscall FUN_0044f400();
+    void __thiscall ScanUntilNoDeletedNodes_0044f400();
 };
 
 // @fnv 0x0044f400
-void __thiscall FUN_0044f400_class::FUN_0044f400()
+// src: GUESS 0x0044f400 (confidence: low)
+void __thiscall FUN_0044f400_class::ScanUntilNoDeletedNodes_0044f400()
 {
     while (m_0c)
         LockFreeQueue_LockFreeQueueInterface_ScanForDeletedNodes();
@@ -992,20 +996,21 @@ void FUN_0045a350_cls::ClearIdlePointer()
 }
 }  // namespace fnv_0045a350
 
-void __cdecl FUN_00649ec0();
-void __cdecl FUN_0065c5f0();
-void __cdecl FUN_006627e0();
-void __cdecl FUN_004f9360();
-void __cdecl FUN_004e00d0();
+void __cdecl Object_UpdateFields_00649ec0();
+void __cdecl NiFixedString_UpdateState_0065c5f0();
+void __cdecl Object_UpdateFields_006627e0();
+void __cdecl Object_UpdateFields_004f9360();
+void __cdecl NiFixedString_UpdateState_004e00d0();
 
 // @fnv 0x0045b050
-void __cdecl FUN_0045b050()
+// src: GUESS 0x0045b050 (confidence: low)
+void __cdecl Runtime_ProcessState_0045b050()
 {
-    FUN_00649ec0();
-    FUN_0065c5f0();
-    FUN_006627e0();
-    FUN_004f9360();
-    FUN_004e00d0();
+    Object_UpdateFields_00649ec0();
+    NiFixedString_UpdateState_0065c5f0();
+    Object_UpdateFields_006627e0();
+    Object_UpdateFields_004f9360();
+    NiFixedString_UpdateState_004e00d0();
 }
 
 
@@ -1155,28 +1160,30 @@ int __thiscall FUN_0045cea0_Class::SetValueAndGetSelf(int aiValue)
 
 struct FUN_0045d930_class
 {
-    void __thiscall FUN_0046ffd0();
-    void __thiscall FUN_0045d930();
+    void __thiscall SetVtableAndProcessState_0046ffd0();
+    void __thiscall ForwardCall_0045d930();
 };
 
 // @fnv 0x0045d930
-void __thiscall FUN_0045d930_class::FUN_0045d930()
+// src: GUESS 0x0045d930 (confidence: low)
+void __thiscall FUN_0045d930_class::ForwardCall_0045d930()
 {
-    FUN_0046ffd0();
+    SetVtableAndProcessState_0046ffd0();
 }
 
-extern "C" void __cdecl FUN_00470070();
+extern "C" void __cdecl SetVtableAndProcessState_00470070();
 
 struct FUN_0045d950_Class
 {
-    void __thiscall FUN_00470070();
-    void __thiscall FUN_0045d950();
+    void __thiscall SetVtableAndProcessState_00470070();
+    void __thiscall ForwardCall_0045d950();
 };
 
 // @fnv 0x0045d950
-void __thiscall FUN_0045d950_Class::FUN_0045d950()
+// src: GUESS 0x0045d950 (confidence: low)
+void __thiscall FUN_0045d950_Class::ForwardCall_0045d950()
 {
-    FUN_00470070();
+    SetVtableAndProcessState_00470070();
 }
 
 void __cdecl TESFile_DeleteFileList(void*);
@@ -1409,11 +1416,12 @@ struct ObjA
 struct FUN_0044e370_class
 {
     ObjA* m_p;
-    void* __thiscall FUN_0044e370(ObjA** pArg);
+    void* __thiscall UpdateState_0044e370(ObjA** pArg);
 };
 // Stores the ObjA pointer from pArg into m_p and, if non-null, calls its FUN_0092c870, then returns this.
 // @fnv 0x0044e370
-void* __thiscall FUN_0044e370_class::FUN_0044e370(ObjA** pArg)
+// src: GUESS 0x0044e370 (confidence: low)
+void* __thiscall FUN_0044e370_class::UpdateState_0044e370(ObjA** pArg)
 {
     m_p = *pArg;
     if (m_p)
@@ -1458,7 +1466,7 @@ void* __thiscall FUN_0044ed50_Class::FUN_0044ed50(unsigned int flags)
 void __cdecl operator delete(void*);
 struct FUN_0044f200_Class
 {
-    void __thiscall FUN_0044f200();
+    void __thiscall DrainFilteredQueue_0044f200();
 };
 struct FUN_0044ed80_Class
 {
@@ -1468,7 +1476,7 @@ struct FUN_0044ed80_Class
 // @fnv 0x0044ed80
 void* __thiscall FUN_0044ed80_Class::FUN_0044ed80(unsigned int flags)
 {
-    ((FUN_0044f200_Class*)this)->FUN_0044f200();
+    ((FUN_0044f200_Class*)this)->DrainFilteredQueue_0044f200();
     if (flags & 1)
         operator delete(this);
     return this;
@@ -1484,7 +1492,7 @@ struct FUN_0044f3b0_Class : FUN_0044f400_class
 // @fnv 0x0044f3b0
 void* __thiscall FUN_0044f3b0_Class::FUN_0044f3b0(unsigned int flags)
 {
-    FUN_0044f400();
+    ScanUntilNoDeletedNodes_0044f400();
     if (flags & 1)
         Deallocate(this);
     return this;
@@ -1562,12 +1570,12 @@ void* FUN_0045c5f0_class::FUN_0045c5f0(unsigned int flags)
 struct FUN_00510110_class
 {
     void* FUN_0045df10(unsigned int flags);
-    void FUN_00510110();
+    void ForwardCall_00510110();
 };
 // @fnv 0x0045df10
 void* FUN_00510110_class::FUN_0045df10(unsigned int flags)
 {
-    FUN_00510110();
+    ForwardCall_00510110();
     if (flags & 1)
         operator delete(this);
     return this;
@@ -1800,7 +1808,8 @@ struct NarrowString
 };
 extern int DAT_010173e8;
 // @fnv 0x0044a3d0
-void Dummy44a3a0::FUN_0044a3d0()
+// src: GUESS 0x0044a3d0 (confidence: low)
+void Dummy44a3a0::SetVtableAndProcessState_0044a3d0()
 {
     *(void**)this = (void*)&DAT_010173e8;
     ((NarrowString*)((char*)this + 12))->NarrowString::~NarrowString();
@@ -1815,7 +1824,7 @@ struct FUN_0044a420_Class
 // @fnv 0x0044a420
 void* __thiscall FUN_0044a420_Class::FUN_0044a420(unsigned int flags)
 {
-    ((Dummy44a400*)this)->FUN_0044a400();
+    ((Dummy44a400*)this)->UpdateFields_0044a400();
     if (flags & 1)
         _Deallocate(this);
     return this;
@@ -1875,11 +1884,12 @@ char* __thiscall FUN_0044a970_Cls::std_string__Myptr()
 struct FUN_0044a9d0_Class
 {
     unsigned int __thiscall std_allocator_char_max_size();
-    unsigned int __thiscall FUN_0044a9d0();
+    unsigned int __thiscall GetAllocatorLimitMinusTerminator();
 };
 // Calls FUN_0065f7f0 and returns 1 when the result is at most 1, otherwise the result minus 1.
 // @fnv 0x0044a9d0
-unsigned int __thiscall FUN_0044a9d0_Class::FUN_0044a9d0()
+// src: GUESS 0x0044a9d0 (confidence: medium)
+unsigned int __thiscall FUN_0044a9d0_Class::GetAllocatorLimitMinusTerminator()
 {
     unsigned int a = std_allocator_char_max_size();
     return (a <= 1) ? 1 : a - 1;
@@ -1916,11 +1926,12 @@ bool __thiscall std::basic_string<char, std::char_traits<char>, std::allocator<c
 
 struct Alloc44abf0
 {
-    unsigned int __thiscall FUN_0044abf0() const;
+    unsigned int __thiscall GetFourByteElementMaxCount() const;
 };
 // Computes (unsigned)-1 / 4 and returns it, or 1 if that result is zero.
 // @fnv 0x0044abf0
-unsigned int __thiscall Alloc44abf0::FUN_0044abf0() const
+// src: GUESS 0x0044abf0 (confidence: high)
+unsigned int __thiscall Alloc44abf0::GetFourByteElementMaxCount() const
 {
     unsigned int _Count = (unsigned int)-1 / 4;
     return (_Count > 0 ? _Count : 1);
@@ -2415,13 +2426,13 @@ void TES_InitFadeOutMultipliers()
 
 struct Unk_00450bc0
 {
-    void __thiscall FUN_00c44b70();
+    void __thiscall ReleaseStorage_00c44b70();
     void* __thiscall FUN_00450bc0(unsigned int);
 };
 // @fnv 0x00450bc0
 void* __thiscall Unk_00450bc0::FUN_00450bc0(unsigned int flags)
 {
-    FUN_00c44b70();
+    ReleaseStorage_00c44b70();
     if (flags & 1)
         _Deallocate(this);
     return this;
@@ -2846,7 +2857,7 @@ struct FUN_0044df20_b
 struct FUN_0044df00Class
 {
     void* m_pHead;
-    int* FUN_0044df00();
+    int* ClearLowBit_Thunk();
 };
 struct DebugInterface
 {
@@ -2893,13 +2904,13 @@ bool FUN_006ec9b0_Class::LockFreeMapInterface_GetNext(int a, int* pKey, int* pOu
         {
             if (ClearLowBit((int*)&m_list18))
             {
-                if (((FUN_0044df20_b*)m_list18.FUN_0044df00())->Call())
+                if (((FUN_0044df20_b*)m_list18.ClearLowBit_Thunk())->Call())
                     continue;
-                m_pEntryObject->v30(*m_list18.FUN_0044df00(), pKey);
-                *pOut = m_list18.FUN_0044df00()[1];
+                m_pEntryObject->v30(*m_list18.ClearLowBit_Thunk(), pKey);
+                *pOut = m_list18.ClearLowBit_Thunk()[1];
                 bResult = true;
                 DebugInterface::PrintDebugMessage();
-                if (((FUN_0044df20_b*)m_list18.FUN_0044df00())->Call())
+                if (((FUN_0044df20_b*)m_list18.ClearLowBit_Thunk())->Call())
                 {
                     *pOut = 0;
                     continue;
@@ -2916,13 +2927,13 @@ bool FUN_006ec9b0_Class::LockFreeMapInterface_GetNext(int a, int* pKey, int* pOu
         {
             if (ClearLowBit((int*)&m_list14))
             {
-                if (((FUN_0044df20_b*)m_list14.FUN_0044df00())->Call())
+                if (((FUN_0044df20_b*)m_list14.ClearLowBit_Thunk())->Call())
                     continue;
-                m_pEntryObject->v30(*m_list14.FUN_0044df00(), pKey);
-                *pOut = m_list14.FUN_0044df00()[1];
+                m_pEntryObject->v30(*m_list14.ClearLowBit_Thunk(), pKey);
+                *pOut = m_list14.ClearLowBit_Thunk()[1];
                 bResult = true;
                 DebugInterface::PrintDebugMessage();
-                if (((FUN_0044df20_b*)m_list14.FUN_0044df00())->Call())
+                if (((FUN_0044df20_b*)m_list14.ClearLowBit_Thunk())->Call())
                 {
                     *pOut = 0;
                     continue;
@@ -2942,11 +2953,12 @@ bool FUN_006ec9b0_Class::LockFreeMapInterface_GetNext(int a, int* pKey, int* pOu
 
 struct FUN_00452df0_class
 {
-    bool FUN_00452df0(float* a);
+    bool HasEqualFloatPair(float* a);
 };
 // Returns true when the two floats at this and the two floats at a are pairwise equal.
 // @fnv 0x00452df0
-bool FUN_00452df0_class::FUN_00452df0(float* afValues)
+// src: GUESS 0x00452df0 (confidence: high)
+bool FUN_00452df0_class::HasEqualFloatPair(float* afValues)
 {
     return *(float*)this == *afValues && *(float*)((char*)this + 4) == afValues[1];
 }
@@ -3074,10 +3086,11 @@ int __thiscall FUN_0044e3a0_Class::ThreadSpecificInterfaceManager_AddInterface(F
 struct FUN_0044f420_class
 {
     void __thiscall FUN_0044f070();
-    void __thiscall FUN_0044f420();
+    void __thiscall ProcessEntries_0044f420();
 };
 // @fnv 0x0044f420
-void FUN_0044f420_class::FUN_0044f420()
+// src: GUESS 0x0044f420 (confidence: low)
+void FUN_0044f420_class::ProcessEntries_0044f420()
 {
     while (*(int*)((char*)this + 0x20))
         FUN_0044f070();
@@ -3164,16 +3177,17 @@ int __thiscall FUN_00454420_Class::GetEntry(unsigned int aiIndex)
 
 struct FUN_00877a10_Class
 {
-    void FUN_00877a10();
+    void ForwardCall_00877a10();
 };
 struct FUN_0045d240_Class : FUN_00877a10_Class
 {
-    void FUN_0045d240();
+    void ForwardCall_0045d240();
 };
 // @fnv 0x0045d240
-void FUN_0045d240_Class::FUN_0045d240()
+// src: GUESS 0x0045d240 (confidence: low)
+void FUN_0045d240_Class::ForwardCall_0045d240()
 {
-    FUN_00877a10_Class::FUN_00877a10();
+    FUN_00877a10_Class::ForwardCall_00877a10();
 }
 
 struct Vector2
@@ -3426,7 +3440,7 @@ struct TaggedPointer
 {
     Node* node;
     TaggedPointer(int, Node*);
-    Node** FUN_00559450();
+    Node** Modelloader_GetReferencedThis();
 };
 struct List
 {
@@ -3485,7 +3499,7 @@ bool Object::InsertOrReplaceNode(int a, int b, int* value, bool replace)
         TaggedPointer previous2(0, list.ClearLowBit());
         TaggedPointer current2(0, node7);
         node7->next = previous2.node;
-        if (CompareAndSwapEx(lock, current2.FUN_00559450(), previous2.FUN_00559450()))
+        if (CompareAndSwapEx(lock, current2.Modelloader_GetReferencedThis(), previous2.Modelloader_GetReferencedThis()))
         {
             object->notify();
             break;
@@ -3687,7 +3701,7 @@ void** std_Move_float_float_0044e4a0(void** _First, void** _Last, void** _Dest, 
 
 struct X6f74f0
 {
-    void FUN_006f74f0(int);
+    void AssignTaskReference(int);
 };
 struct X6ecd40
 {
@@ -3711,7 +3725,7 @@ struct S
 // src: COMMUNITY 0x0044e4f0
 void S::LockFreeQueue_Interface_NiPointer_IOTask_DeleteNode(void* arg0)
 {
-    ((X6f74f0*)((char*)arg0 + 4))->FUN_006f74f0(0);
+    ((X6f74f0*)((char*)arg0 + 4))->AssignTaskReference(0);
     ((X6ecd40*)arg0)->FUN_006ecd40(*(int*)((char*)this + 0x10));
     *(void**)((char*)this + 0x10) = arg0;
     *(int*)((char*)this + 0xc) = *(int*)((char*)this + 0xc) + 1;
@@ -3734,7 +3748,7 @@ struct ListNode_44ea60
 struct ListIter_44ea60
 {
     void* m_pHead;
-    ListNode_44ea60* FUN_0044df00();
+    ListNode_44ea60* ClearLowBit_Thunk();
     void* Assign(bool abFlag, void* apNode);
     operator void*() const;
 };
@@ -3791,11 +3805,11 @@ bool Walker_44ea60::FindAndProcessNode(int a, int* b, int* apiValueOut)
             bResult = false;
             break;
         }
-        m_pEntryObject->v30(m_list14.FUN_0044df00()->item, b);
-        *apiValueOut = m_list14.FUN_0044df00()->value;
+        m_pEntryObject->v30(m_list14.ClearLowBit_Thunk()->item, b);
+        *apiValueOut = m_list14.ClearLowBit_Thunk()->value;
         bResult = true;
         ProgramFlow();
-        if (m_list14.FUN_0044df00()->Call())
+        if (m_list14.ClearLowBit_Thunk()->Call())
         {
             continue;
         }
@@ -3835,7 +3849,7 @@ void FUN_0044edd0_owner::DispatchAndDelete(FUN_0044edd0_Disposable* pDisposable)
 
 struct Inner
 {
-    void FUN_00559450();
+    void Modelloader_GetReferencedThis();
 };
 struct Target
 {
@@ -3851,7 +3865,7 @@ struct Target
 // src: COMMUNITY 0x0044f3e0
 void Target::LockFreeMap_GetMaxThreads()
 {
-    member14->FUN_00559450();
+    member14->Modelloader_GetReferencedThis();
 }
 
 struct S_00453720_Obj
@@ -4193,11 +4207,12 @@ struct S_0044f600
 
 struct S_0045d220 : public S_0044f600
 {
-    void* __thiscall FUN_0045d220();
+    void* __thiscall SetVirtualTableAndProcessState_0045d220();
 };
 
 // @fnv 0x0045d220
-void* S_0045d220::FUN_0045d220()
+// src: GUESS 0x0045d220 (confidence: low)
+void* S_0045d220::SetVirtualTableAndProcessState_0045d220()
 {
     this->InitializeVtbl();
     this->m_vtbl = &DAT_01018508;
@@ -4373,7 +4388,7 @@ void __cdecl ProgramFlow();
 struct Ptr_44e550
 {
     void* m_p;
-    void* FUN_006ecba0(bool a, void* b);
+    void* SetTaggedPointer(bool a, void* b);
     void SetQuantity(unsigned int n);
     void LockFreeMap_MarkedPointer_SetMark(bool set);
     operator void*() const;
@@ -4398,7 +4413,7 @@ struct Entry_44e550
 struct List_44e550
 {
     void* m_pHead;
-    Entry_44e550* FUN_0044df00();
+    Entry_44e550* ClearLowBit_Thunk();
 };
 int __fastcall ClearLowBit(List_44e550*);
 
@@ -4439,7 +4454,7 @@ bool Owner_44e550::j_GetFirst_LockFreeMapInterface_LockFreeMap_PAVTESObjectREFR_
     bool result = false;
     ProgramFlow();
     Ptr_44e550 cur;
-    cur.FUN_006ecba0(false, 0);
+    cur.SetTaggedPointer(false, 0);
     while (1)
     {
         unk10 = m_pEntryObject->GetElementAddress(a1);
@@ -4454,10 +4469,10 @@ bool Owner_44e550::j_GetFirst_LockFreeMapInterface_LockFreeMap_PAVTESObjectREFR_
             result = false;
             break;
         }
-        m_pEntryObject->v30(m_list14.FUN_0044df00()->key, a2);
-        apDest->Assign(m_list14.FUN_0044df00()->head);
+        m_pEntryObject->v30(m_list14.ClearLowBit_Thunk()->key, a2);
+        apDest->Assign(m_list14.ClearLowBit_Thunk()->head);
         result = true;
-        if (m_list14.FUN_0044df00()->Call())
+        if (m_list14.ClearLowBit_Thunk()->Call())
             continue;
         break;
     }
@@ -4476,7 +4491,7 @@ struct Node_44e680
 struct List_44e680
 {
     void* m_pHead;
-    int* FUN_0044df00();
+    int* ClearLowBit_Thunk();
 };
 struct Obj_44e680
 {
@@ -4497,7 +4512,7 @@ struct Obj_44e680
 struct Ptr_44e680
 {
     Ptr_44e680& FUN_0092c820(const int* src);
-    void FUN_006f74f0(int);
+    void AssignTaskReference(int);
 };
 struct Queue_44e680
 {
@@ -4525,14 +4540,14 @@ bool Queue_44e680::FindEntry(int a, int* pKey, Ptr_44e680* pOut)
         {
             if (ClearLowBit((int*)&m_list18))
             {
-                if (((Node_44e680*)m_list18.FUN_0044df00())->Call())
+                if (((Node_44e680*)m_list18.ClearLowBit_Thunk())->Call())
                     continue;
-                m_pEntryObject->v30(*m_list18.FUN_0044df00(), pKey);
-                pOut->FUN_0092c820(m_list18.FUN_0044df00() + 1);
+                m_pEntryObject->v30(*m_list18.ClearLowBit_Thunk(), pKey);
+                pOut->FUN_0092c820(m_list18.ClearLowBit_Thunk() + 1);
                 bResult = true;
-                if (((Node_44e680*)m_list18.FUN_0044df00())->Call())
+                if (((Node_44e680*)m_list18.ClearLowBit_Thunk())->Call())
                 {
-                    pOut->FUN_006f74f0(0);
+                    pOut->AssignTaskReference(0);
                     continue;
                 }
                 break;
@@ -4547,14 +4562,14 @@ bool Queue_44e680::FindEntry(int a, int* pKey, Ptr_44e680* pOut)
         {
             if (ClearLowBit((int*)&m_list14))
             {
-                if (((Node_44e680*)m_list14.FUN_0044df00())->Call())
+                if (((Node_44e680*)m_list14.ClearLowBit_Thunk())->Call())
                     continue;
-                m_pEntryObject->v30(*m_list14.FUN_0044df00(), pKey);
-                pOut->FUN_0092c820(m_list14.FUN_0044df00() + 1);
+                m_pEntryObject->v30(*m_list14.ClearLowBit_Thunk(), pKey);
+                pOut->FUN_0092c820(m_list14.ClearLowBit_Thunk() + 1);
                 bResult = true;
-                if (((Node_44e680*)m_list14.FUN_0044df00())->Call())
+                if (((Node_44e680*)m_list14.ClearLowBit_Thunk())->Call())
                 {
-                    pOut->FUN_006f74f0(0);
+                    pOut->AssignTaskReference(0);
                     continue;
                 }
                 break;
@@ -5126,7 +5141,7 @@ struct Grid
 };
 struct List
 {
-    void* FUN_00559450();
+    void* Modelloader_GetReferencedThis();
     void* DereferenceIfNotNull(void*);
     void** AddEight(void*);
 };
@@ -5146,7 +5161,7 @@ struct Region
 
 struct Area
 {
-    List* FUN_005a8080();
+    List* ComputeValue_005a8080();
     Region* FUN_006733e0();
 };
 struct ViewUpdater
@@ -5162,13 +5177,13 @@ struct Handle
     Entity* pointer;
     Handle(Entity*);
     ~Handle();
-    Entity* FUN_00559450();
+    Entity* Modelloader_GetReferencedThis();
     void FUN_0066b0d0(Entity*);
 };
 struct EntityList
 {
     bool NiTListBase_DFALL_NiTListItem_BSAnimGroupSequence_const_BSAnimGroupSequence_const_IsEmpty();
-    void* FUN_00559450();
+    void* Modelloader_GetReferencedThis();
     Handle* NiTPointerListBase_NiTPointerAllocator_unsigned_int_Tile_GetNext(void**);
 };
 struct State
@@ -5292,15 +5307,15 @@ void World::TES_UpdateMultiBoundVisibility(View* view)
     if (DetailedActorPathHandler_GetCurrentNodeIndex())
     {
         Region* region = 0;
-        void* position = DetailedActorPathHandler_GetCurrentNodeIndex()->FUN_005a8080()->FUN_00559450();
+        void* position = DetailedActorPathHandler_GetCurrentNodeIndex()->ComputeValue_005a8080()->Modelloader_GetReferencedThis();
         void* next9 = 0;
         while (position)
         {
-            next9 = DetailedActorPathHandler_GetCurrentNodeIndex()->FUN_005a8080()->DereferenceIfNotNull(position);
+            next9 = DetailedActorPathHandler_GetCurrentNodeIndex()->ComputeValue_005a8080()->DereferenceIfNotNull(position);
             if (position)
             {
-                region = (Region*)*DetailedActorPathHandler_GetCurrentNodeIndex()->FUN_005a8080()->AddEight(position);
-                void* actorPos3 = region->actors.FUN_00559450();
+                region = (Region*)*DetailedActorPathHandler_GetCurrentNodeIndex()->ComputeValue_005a8080()->AddEight(position);
+                void* actorPos3 = region->actors.Modelloader_GetReferencedThis();
                 void* actorNext = 0;
                 while (actorPos3)
                 {
@@ -5324,7 +5339,7 @@ void World::TES_UpdateMultiBoundVisibility(View* view)
         region = DetailedActorPathHandler_GetCurrentNodeIndex()->FUN_006733e0();
         if (region)
         {
-            void* pos2 = region->actors.FUN_00559450();
+            void* pos2 = region->actors.Modelloader_GetReferencedThis();
             void* next2 = 0;
             while (pos2)
             {
@@ -5352,27 +5367,27 @@ void World::TES_UpdateMultiBoundVisibility(View* view)
         if (!active8)
             active8 = view;
         NiPoint3 point3 = view->NiAVObject_GetWorldTranslate().FUN_00439e90(view->FUN_0045bba0().ApplyScaled(view->FUN_0045bbe0()->m_fNearPlane));
-        if (chosen.FUN_00559450())
+        if (chosen.Modelloader_GetReferencedThis())
         {
-            if (!chosen.FUN_00559450()->Contains(point3))
+            if (!chosen.Modelloader_GetReferencedThis()->Contains(point3))
                 chosen.FUN_0066b0d0(0);
             else
-                renderer->UpdateVisibility(chosen.FUN_00559450(), query.GetHavokWorldObjectCountInSceneGraph_0084e3a0(), query.FUN_005d8a70(true));
+                renderer->UpdateVisibility(chosen.Modelloader_GetReferencedThis(), query.GetHavokWorldObjectCountInSceneGraph_0084e3a0(), query.FUN_005d8a70(true));
         }
         bool firstB = true;
-        if (!chosen.FUN_00559450())
+        if (!chosen.Modelloader_GetReferencedThis())
         {
             EntityList* list = renderer->ShadowSceneNode_QPortalGraph()->FUN_00891170();
             if (!list->NiTListBase_DFALL_NiTListItem_BSAnimGroupSequence_const_BSAnimGroupSequence_const_IsEmpty())
             {
-                void* p = list->FUN_00559450();
+                void* p = list->Modelloader_GetReferencedThis();
                 while (p)
                 {
-                    Entity* entity = list->NiTPointerListBase_NiTPointerAllocator_unsigned_int_Tile_GetNext(&p)->FUN_00559450();
+                    Entity* entity = list->NiTPointerListBase_NiTPointerAllocator_unsigned_int_Tile_GetNext(&p)->Modelloader_GetReferencedThis();
                     if (entity && entity->Contains(point3))
                     {
                         renderer->UpdateVisibility(entity, query.GetHavokWorldObjectCountInSceneGraph_0084e3a0(), query.FUN_005d8a70(firstB));
-                        if (!chosen.FUN_00559450())
+                        if (!chosen.Modelloader_GetReferencedThis())
                         {
                             chosen.FUN_0066b0d0(entity);
                             firstB = false;
@@ -5381,9 +5396,9 @@ void World::TES_UpdateMultiBoundVisibility(View* view)
                 }
             }
         }
-        if (!chosen.FUN_00559450())
+        if (!chosen.Modelloader_GetReferencedThis())
             renderer->UpdateVisibility(0, query.GetHavokWorldObjectCountInSceneGraph_0084e3a0(), query.FUN_005d8a70(firstB));
-        renderer->ShadowSceneNode_QPortalGraph()->BSPortalGraph_SetRoomRoot(chosen.FUN_00559450());
+        renderer->ShadowSceneNode_QPortalGraph()->BSPortalGraph_SetRoomRoot(chosen.Modelloader_GetReferencedThis());
     }
     DAT_011c3c0f.FUN_00483710();
 }
@@ -6422,7 +6437,7 @@ struct AutoMemQ
 };
 struct CurQ
 {
-    unsigned int FUN_00559450();
+    unsigned int Modelloader_GetReferencedThis();
     ~CurQ();
 };
 struct SPQ
@@ -6462,7 +6477,7 @@ void __thiscall FUN_0044e170_Class::LockFreeQueue_NiPointer_IOTask_RemoveAll(boo
 {
     lock.Lock(0);
     AutoMemQ memory(6, true, "d:\\_fallout3\\platforms\\common\\code\\bsmain\\ThreadSafeStructures.inl", 0x115);
-    unsigned int oldCurrent = current->FUN_00559450();
+    unsigned int oldCurrent = current->Modelloader_GetReferencedThis();
     delete current;
     current = 0;
     owner = 0;
@@ -6606,7 +6621,7 @@ struct ItemObj
     int m_iWordAt00;
     ItemObj(int);
     ~ItemObj();
-    void* FUN_00559450(int);
+    void* Modelloader_GetReferencedThis(int);
 };
 
 struct IterA
@@ -6714,7 +6729,7 @@ void ModelLoader::CancelAllFiles_00448420()
         int firstValue = 0;
         ItemObj firstItem3(0);
         if (m_08->AdvanceRequest(&first, &firstValue, &firstItem3, 1))
-            DAT_01202d98->BSTaskManager_CancelTask(firstItem3.FUN_00559450(0));
+            DAT_01202d98->BSTaskManager_CancelTask(firstItem3.Modelloader_GetReferencedThis(0));
     }
     m_0c->LockFreeMap_RemoveAll(0);
     IterB second;
@@ -6723,7 +6738,7 @@ void ModelLoader::CancelAllFiles_00448420()
         int secondValue = 0;
         ItemObj secondItem(0);
         if (m_10->AdvanceRequest(&second, &secondValue, &secondItem, 1))
-            DAT_01202d98->BSTaskManager_CancelTask(secondItem.FUN_00559450(0));
+            DAT_01202d98->BSTaskManager_CancelTask(secondItem.Modelloader_GetReferencedThis(0));
     }
     IterC third8;
     while (!third8.LockFreeMap_char_const_Model_LockFreeMapIterator_GetFinished())
@@ -6731,7 +6746,7 @@ void ModelLoader::CancelAllFiles_00448420()
         int thirdValue = 0;
         ItemObj thirdItem6(0);
         if (m_18->AdvanceRequest(&third8, &thirdValue, &thirdItem6, 1))
-            DAT_01202d98->BSTaskManager_CancelTask(thirdItem6.FUN_00559450(0));
+            DAT_01202d98->BSTaskManager_CancelTask(thirdItem6.Modelloader_GetReferencedThis(0));
     }
     DAT_01202d98->v21();
     DAT_01202d98->IOManager_Resume();

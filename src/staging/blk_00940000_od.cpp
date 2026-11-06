@@ -2771,7 +2771,7 @@ struct Actor97
 struct Vec97
 {
     float x, y, z;
-    Vec97& FUN_00439ef0();
+    Vec97& SubtractIntoVector();
     float FUN_00457990();
 };
 struct World97
@@ -3407,7 +3407,7 @@ void Update97::UpdateScopeZoom(float elapsed)
                                             float h;
                                             b = DAT_011f21cc->getRoot();
                                             a = b->NiAVObject_GetWorldBound();
-                                            DAT_011e07d0->NiAVObject_GetWorldTranslate(&g, a->FUN_006815c0())->FUN_00439ef0();
+                                            DAT_011e07d0->NiAVObject_GetWorldTranslate(&g, a->FUN_006815c0())->SubtractIntoVector();
                                             e = g.FUN_00457990();
                                             d = a->FUN_0084d030() * GetSettingDouble(&DAT_011e0b84) / e;
                                             c = *DAT_011ce5a0.Setting_Float_00403e20() - *DAT_011ce344.Setting_Float_00403e20();
@@ -3703,7 +3703,7 @@ struct State
 {
     int unk0;
     int unk4;
-    int FUN_00559450();
+    int Modelloader_GetReferencedThis();
 };
 struct Owner
 {
@@ -4126,9 +4126,9 @@ void Owner::PlayerCharacter_HandlePhysicsGrab(float delta)
         second = status == 2;
         if (status == 1)
             Interface_SetDragDroppingState(2);
-        if (!pressed && !DAT_011e0d5c && !state.FUN_00559450() && !first && !second)
+        if (!pressed && !DAT_011e0d5c && !state.Modelloader_GetReferencedThis() && !first && !second)
             return;
-        if (state.FUN_00559450())
+        if (state.Modelloader_GetReferencedThis())
         {
             if (mode == 1)
             {
@@ -4157,7 +4157,7 @@ void Owner::PlayerCharacter_HandlePhysicsGrab(float delta)
                     if (*DAT_011d1230.Setting_Float_00403e20() >= value)
                     {
                         PlayerCharacter_CreateMouseSpring(actor, 1, 1000.0f);
-                        if (state.FUN_00559450())
+                        if (state.Modelloader_GetReferencedThis())
                             actor->FUN_SLOT48(4);
                         pressed = false;
                         DAT_011e0d5c = true;

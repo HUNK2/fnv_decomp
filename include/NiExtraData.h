@@ -24,7 +24,7 @@ class NiExtraData : public NiObject
     bool FUN_00448a40();
     bool BSXFlags_IsEditorMarker();
     void FUN_00a7b2e0();
-    void FUN_00a7b300();
+    void DestroyFields_00a7b300();
     void CopyMembers_00a7b330(void* destination, void* cloning);
     void CopyMembers_00a7b330(void* destination, CloningProcess* cloning);
     void BSAttachPoints_LinkObject(NiStream& stream);

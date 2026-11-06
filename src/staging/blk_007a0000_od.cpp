@@ -44,11 +44,12 @@ struct Unk65
 
 struct Unk65a
 {
-    Unk65* __thiscall FUN_007ab230(Unk65* other);
+    Unk65* __thiscall EvaluateValue_007ab230(Unk65* other);
 };
 
 // @fnv 0x007ab230
-Unk65* __thiscall Unk65a::FUN_007ab230(Unk65* other)
+// src: GUESS 0x007ab230 (confidence: low)
+Unk65* __thiscall Unk65a::EvaluateValue_007ab230(Unk65* other)
 {
     other->FUN_0065de30((int)this);
     return other;
@@ -320,13 +321,13 @@ struct FUN_007a51c0_cls
     virtual ~FUN_007a51c0_cls();
     FUN_007a51c0_m4 m_04;
 
-    void FUN_007a54d0();
+    void ReleaseStorage_007a54d0();
 };
 
 // @fnv 0x007a51c0
 FUN_007a51c0_cls::~FUN_007a51c0_cls()
 {
-    FUN_007a54d0();
+    ReleaseStorage_007a54d0();
     InterfaceManager_UnregisterListBox(this);
 }
 
@@ -364,16 +365,17 @@ struct SpawnedObject
     virtual void v04();
     virtual void v05(int value);
 
-    int FUN_007a71b0(int mode);
+    int GetUnfilteredRaceCount(int mode);
 
-    void FUN_007a6250();
+    void ForwardCall_007a6250();
 };
 
 // Calls FUN_007a71b0 with 0, subtracts 1 from the result, and passes it to v05.
 // @fnv 0x007a6250
-void SpawnedObject::FUN_007a6250()
+// src: GUESS 0x007a6250 (confidence: low)
+void SpawnedObject::ForwardCall_007a6250()
 {
-    this->v05(this->FUN_007a71b0(0) - 1);
+    this->v05(this->GetUnfilteredRaceCount(0) - 1);
 }
 
 struct SceneThing
@@ -586,7 +588,7 @@ struct ActiveEffectCollection
 {
     unsigned int unk00, unk04, unk08, unk0c, unk10, unk14;
     float rate;
-    int FUN_00559450();
+    int Modelloader_GetReferencedThis();
     ActiveEffectEntry*** NiTPointerListBase_NiTPointerAllocator_unsigned_int_Tile_GetNext(int* iterator);
     void RaceSexMenu_MenuOptionList_ScrollBy(int amount);
 };
@@ -596,7 +598,7 @@ void ActiveEffectCollection::RaceSexMenu_MenuOptionList_ScrollBy(int amount)
 {
     if (rate <= DAT_01012060)
         return;
-    int it = FUN_00559450();
+    int it = Modelloader_GetReferencedThis();
     while (it)
     {
         ActiveEffectEntry* pEffect = **NiTPointerListBase_NiTPointerAllocator_unsigned_int_Tile_GetNext(&it);
@@ -653,7 +655,8 @@ struct Item
     bool m_bSkip;
 };
 // @fnv 0x007a7260
-void Menu::FUN_007a7260()
+// src: GUESS 0x007a7260 (confidence: low)
+void Menu::ProcessEntries_007a7260()
 {
     // Preserve the original word/float accesses at 0x1c/0x20 and list head at 0x04.
     *reinterpret_cast<unsigned short*>(&m_bIsSpecial) = 0;
@@ -666,6 +669,6 @@ void Menu::FUN_007a7260()
             AccumulateTileHeight(it->FUN_006815c0()->m_pFlagTarget);
         }
     }
-    FUN_007a7700();
-    FUN_007a73e0();
+    UpdateScrollTraits_007a7700();
+    UpdateHighlightTraits_007a73e0();
 }

@@ -133,7 +133,8 @@ __declspec(align(16)) class FUN_00d6aec0_obj
 };
 
 // @fnv 0x00d6aec0
-int FUN_00d6aec0() throw()
+// src: GUESS 0x00d6aec0 (confidence: low)
+int Object_ProcessAndReturnValue_00d6aec0() throw()
 {
     FUN_00d6aec0_obj obj((FUN_00d6aec0_seed()));
     return obj.unk00;
@@ -329,7 +330,8 @@ extern "C" void __cdecl hk1dLinearBilateralConstraintBuildJacobian(D6Vec3* s, vo
 extern "C" Vec4* __cdecl D6GetArray(void);
 
 // @fnv 0x00d6c030
-static __declspec(noinline) void FUN_00d6c030(D6Owner* a, Vec4* b, D6Idx* c, void* d, void* e)
+// src: GUESS 0x00d6c030 (confidence: low)
+static __declspec(noinline) void Runtime_UpdateState_00d6c030(D6Owner* a, Vec4* b, D6Idx* c, void* d, void* e)
 {
     D6Vec3 s;
     *(__m128*)&s.ax = *(__m128*)&a->f30;
@@ -345,5 +347,5 @@ volatile void* g_d6E;
 
 extern "C" __declspec(noinline) void d6c030_dummy_caller(void)
 {
-    FUN_00d6c030((D6Owner*)g_d6Owner, D6GetArray(), (D6Idx*)g_d6Idx, (void*)g_d6D, (void*)g_d6E);
+    Runtime_UpdateState_00d6c030((D6Owner*)g_d6Owner, D6GetArray(), (D6Idx*)g_d6Idx, (void*)g_d6D, (void*)g_d6E);
 }

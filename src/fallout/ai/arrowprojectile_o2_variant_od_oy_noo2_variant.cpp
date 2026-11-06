@@ -172,7 +172,7 @@ struct __declspec(align(16)) DObj
 
 struct Shape
 {
-    ResObj* __thiscall FUN_004ae750();
+    ResObj* __thiscall Bipedanim_GetReferenceFlagsOrZero();
 };
 
 struct P1Obj
@@ -243,7 +243,7 @@ void* __cdecl ArrowProjectile_PickSceneGraph(void* p1, NiPoint3 a, NiPoint3 b, f
                                 oc.m0.hkVector4_setTransformedInversePos(&oe, &va);
                                 oc.m1.hkVector4_setTransformedInversePos(&oe, &vb);
                                 Sub2 bt;
-                                shape->FUN_004ae750()->ForwardToV8(&bt, &oc, &od);
+                                shape->Bipedanim_GetReferenceFlagsOrZero()->ForwardToV8(&bt, &oc, &od);
                                 Sub2 bt2;
                                 if (od.hkpShapeRayCastCollectorOutput_hasHit(&bt2)->FUN_005609f0())
                                 {

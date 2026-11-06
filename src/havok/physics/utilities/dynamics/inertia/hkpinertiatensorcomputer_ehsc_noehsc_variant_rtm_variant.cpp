@@ -29,11 +29,11 @@
 struct Object
 {
 };
-void __cdecl FUN_00cebdf0(float* source, float value, Object* destination);
+void __cdecl Hkpinertiatensorcomputer_CopyAndScalePropertyBlock(float* source, float value, Object* destination);
 void __cdecl hkpInertiaTensorComputer_setAndScaleToDensity(float* source, float scale, Object* destination);
 struct Receiver
 {
-    void FUN_00cecc90(float value);
+    void SetScalarAndRescaleVector(float value);
 };
 struct State
 {
@@ -216,7 +216,7 @@ struct Matrix
 };
 
 extern const hkVector4 DAT_01017d10;
-void FUN_00d5ac50(char*, Matrix*, hkVector4*, hkVector4*, hkVector4*);
+void HkgeometryutilityGsEhscNogsNoehsc_ComputeValues_00d5ac50(char*, Matrix*, hkVector4*, hkVector4*, hkVector4*);
 struct Shape
 {
     virtual void v0();
@@ -228,7 +228,7 @@ struct Shape
     virtual void v6();
     virtual void getAabb(const Transform*, float, hkAabb*);
 };
-void FUN_00cedae0(Shape* shape, const Matrix* input, hkVector4* outA, hkVector4* outB);
+void Object_GetAABBExtentAxes(Shape* shape, const Matrix* input, hkVector4* outA, hkVector4* outB);
 struct MotionLike
 {
     int unk00;
@@ -245,7 +245,7 @@ struct MotionLike
     __m128 field80;
     float field90;
 };
-void FUN_00cebdb0(const MotionLike* source, MotionLike* destination);
+void Hkpinertiatensorcomputer_CopySelectedSourceFields(const MotionLike* source, MotionLike* destination);
 extern "C" __m128 _mm_load_ss(const float*);
 struct Sub
 {
@@ -279,7 +279,7 @@ static __declspec(noinline) void hkMatrix3_mul(hkpMassProperties* out, float val
     out->m_iBufferSize *= value;
     out->m_fViscosityFriction *= value;
 }
-int __cdecl FUN_00ceccf0(float start, float span, float t, hkpMassProperties* out);
+int __cdecl hkpInertiaTensorComputer_computeSphereVolumeMassProperties_UpdateState_00ceccf0(float start, float span, float t, hkpMassProperties* out);
 // Incident-edge walk: detach edges touching `unk`, recurse to the other end,
 // then fold the node's inertia diagonal with the children's sum and max.
 // Local array is an inplace hkArray (cap 16, dont-free flag 0x80000000).
@@ -378,14 +378,14 @@ struct Track
     int interpolation;
     void FUN_00d76ca0();
     void hkgpConvexHull_build_00d77200(void* state, Probe* probe);
-    int FUN_00d74e10();
-    void FUN_00d762f0();
+    int GetInnerField1A8();
+    void ForwardCall_00d762f0();
     float GetMass();
     double hkgpConvexHull_getVolume();
     __m128* hkgpConvexHull_getCenterOfMass();
     __m128* hkgpConvexHull_getWorldInertia();
     void hkgpConvexHull_expandByPlanarMargin(float scale);
-    void FUN_00d76940();
+    void ReleaseStorage_00d76940();
 };
 struct RowMatrix
 {
@@ -978,14 +978,16 @@ __declspec(noinline) void __cdecl hkpInertiaTensorComputer_shiftInertiaToCom(con
     inertia(0, 2) += mass * shift(0) * shift(2);
     inertia(2, 0) = inertia(0, 2);
 }
-__declspec(noinline) void __cdecl FUN_00ced6b0(const hkGeometry* geom, hkReal mass, hkpMassProperties& result)
+// src: GUESS 0x00ced6b0 (confidence: medium)
+__declspec(noinline) void __cdecl hkpInertiaTensorComputer_computeBoxVolumeMassProperties_ComputeGeometryMassProperties(const hkGeometry* geom, hkReal mass, hkpMassProperties& result)
 {
     result.m_fViscosityFriction += mass;
     result.m_iBufferSize += (hkReal)geom->m_kVertices.m_iElementCount;
 }
 
 // @fnv 0x00cee290
-int __cdecl FUN_00cee290(const hkVector4& v0, const hkVector4& v1, const hkVector4& v2, hkReal mass,
+// src: GUESS 0x00cee290 (confidence: low)
+int __cdecl hkVector4_UpdateState_00cee290(const hkVector4& v0, const hkVector4& v1, const hkVector4& v2, hkReal mass,
                          hkReal surfaceThickness, hkpMassProperties& result)
 {
     if (mass <= 0.0f)
@@ -1080,7 +1082,7 @@ int __cdecl FUN_00cee290(const hkVector4& v0, const hkVector4& v1, const hkVecto
             inertiaExpand(geom.m_uiTriangleCount, 1)->set(1, 4, 5);
             inertiaExpand(geom.m_uiTriangleCount, 1)->set(2, 5, 4);
             inertiaExpand(geom.m_uiTriangleCount, 1)->set(2, 3, 5);
-            FUN_00ced6b0(&geom, mass, massProperties);
+            hkpInertiaTensorComputer_computeBoxVolumeMassProperties_ComputeGeometryMassProperties(&geom, mass, massProperties);
         }
         com = massProperties.m_kCenterOfMass1;
         inertia = massProperties.m_kInertiaTensor;

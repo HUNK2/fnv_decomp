@@ -404,7 +404,7 @@ void BGSCameraPath::Save_0058ac10()
         BGSCameraShot* pshot;
         unsigned int shotFormID;
 
-        TESForm::FUN_004855a0();
+        TESForm::BeginFormRecord();
         reinterpret_cast<TESConditionSave_bgscamerapath*>(GetConditions())->ProcessItems();
 
         memset(&ids, 0, 8);
@@ -449,7 +449,7 @@ void BGSCameraPath::Save_0058ac10()
         }
     }
 
-    TESForm::FUN_00485680();
+    TESForm::FinishFormRecord();
 }
 
 void* __cdecl __memcpy(void*, const void*, unsigned int);

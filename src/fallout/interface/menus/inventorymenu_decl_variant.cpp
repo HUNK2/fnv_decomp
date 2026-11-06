@@ -607,7 +607,7 @@ struct Entry
     Form* FUN_0044ddc0();
     float ItemChange_GetItemHealth(bool);
     int FUN_00726070();
-    ExtraNode* FUN_00559450();
+    ExtraNode* Modelloader_GetReferencedThis();
     bool ItemChange_GetWorn(bool);
     void* FUN_004459e0(int);
 };
@@ -648,7 +648,7 @@ struct ItemLabelPlayer
 struct ItemLabelChildren
 {
     Tile** FUN_007b5370();
-    void* FUN_00559450();
+    void* Modelloader_GetReferencedThis();
     Tile** AddEight(void*);
 };
 int __cdecl _sprintf_s(char*, unsigned int, const char*, ...);
@@ -657,7 +657,7 @@ void __cdecl UpdateItemLabel(Tile* tile, ItemLabelSource* item);
 // thiscall, no stack args (ret): menu refresh/close path.
 extern "C" void* DAT_011d9ea8;
 extern "C" int DAT_011d9ebc;
-void* __fastcall FUN_00559450(void* obj);
+void* __fastcall Modelloader_GetReferencedThis(void* obj);
 void __cdecl InventoryMenu_UpdateInventoryMenu();
 void __cdecl InventoryMenu_AddToChangedItemsListIfWorn(void* tile, int index);
 struct Sh006815c0

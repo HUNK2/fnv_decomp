@@ -49,7 +49,8 @@ ScrapHeapBuffer* FUN_00aa5410_Helper::InitWithAlignedSize(unsigned int size)
 
 // Zeroes the int fields at offsets 0x200, 0x204 and 0x220/0x224 of pThis and returns pThis.
 // @fnv 0x00aa5860
-void* __fastcall FUN_00aa5860(char* pThis)
+// src: GUESS 0x00aa5860 (confidence: low)
+void* __fastcall Object_InitializeFields_00aa5860(char* pThis)
 {
     *(int*)(pThis + 0x200) = 0;
     *(int*)(pThis + 0x204) = 0;
@@ -438,11 +439,12 @@ unsigned int FUN_00aa5800_s::ScrapHeap_GetAllocationCount()
 struct FUN_00aa58b0_holder
 {
     void ScrapHeapManager_FreeAllBuffers();
-    void FUN_00aa58b0();
+    void ScrapHeapManager_FreeAllBuffers_Thunk();
 };
 
 // @fnv 0x00aa58b0
-void FUN_00aa58b0_holder::FUN_00aa58b0()
+// src: GUESS 0x00aa58b0 (confidence: medium)
+void FUN_00aa58b0_holder::ScrapHeapManager_FreeAllBuffers_Thunk()
 {
     ScrapHeapManager_FreeAllBuffers();
 }

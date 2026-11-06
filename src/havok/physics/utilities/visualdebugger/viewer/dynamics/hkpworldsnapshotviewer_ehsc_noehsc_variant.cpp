@@ -18,7 +18,7 @@ extern int DAT_010d1720;
 extern void __cdecl FUN_00ddcc60();
 struct FUN_00d62fe0_cls
 {
-    void __thiscall FUN_00d62fe0();
+    void __thiscall UpdateFields_00d62fe0();
 };
 extern int DAT_01268fc0;
 extern int DAT_01268fc4;

@@ -234,7 +234,7 @@ void hkReferencedObject_setLockMode(int);
 
 struct EventObjD2C
 {
-    void FUN_00d04370();
+    void ForwardCall_00d04370();
     void FUN_00d04390(int);
 };
 
@@ -253,7 +253,7 @@ struct ThreadObjD2C
     int unk24;
     int unk28;
     EventObjD2C m_pTail;
-    void FUN_00d87a70();
+    void hkThread_stopThread_ForwardCall_00d87a70();
 };
 
 struct VBaseD2C
@@ -273,11 +273,12 @@ struct ClsD2C : VBaseD2C, ArrBaseD2C
 {
     int m_uiItemCount;
     void hkCpuJobThreadPool_waitForCompletion();
-    void FUN_00d2cf00();
+    void ProcessEntries_00d2cf00();
 };
 
 // @fnv 0x00d2cf00
-void ClsD2C::FUN_00d2cf00()
+// src: GUESS 0x00d2cf00 (confidence: low)
+void ClsD2C::ProcessEntries_00d2cf00()
 {
     *(void**)this = (void*)&DAT_010ce774;
     hkCpuJobThreadPool_waitForCompletion();
@@ -291,7 +292,7 @@ void ClsD2C::FUN_00d2cf00()
         hkSemaphore_acquire(&ArrBaseD2C::m_threads[5].m_pTail);
     }
     hkReferencedObject_setLockMode(0);
-    ArrBaseD2C::m_threads[5].m_pTail.FUN_00d04370();
+    ArrBaseD2C::m_threads[5].m_pTail.ForwardCall_00d04370();
     int k = 5;
     ArrBaseD2C* ab = static_cast<ArrBaseD2C*>(this);
     ThreadObjD2C(*arr)[6] = &ab->m_threads;
@@ -299,8 +300,8 @@ void ClsD2C::FUN_00d2cf00()
     do
     {
         --th;
-        th->m_evt.FUN_00d04370();
-        th->FUN_00d87a70();
+        th->m_evt.ForwardCall_00d04370();
+        th->hkThread_stopThread_ForwardCall_00d87a70();
     } while (--k >= 0);
     *(void**)this = (void*)&DAT_0102e388;
 }

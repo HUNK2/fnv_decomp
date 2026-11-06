@@ -114,7 +114,8 @@ void __thiscall ReanimateEffect::Revert_008276e0(Actor* apActor)
 
 // Allocates and constructs a reanimation effect from the three arguments, returning the new object.
 // @fnv 0x008273c0
-ReanimateEffect* FUN_008273c0(MagicCaster* apCaster, MagicItem* apSpell, EffectItem* apEffect)
+// src: GUESS 0x008273c0 (confidence: medium)
+ReanimateEffect* Object_ConstructObject(MagicCaster* apCaster, MagicItem* apSpell, EffectItem* apEffect)
 {
     return new ReanimateEffect(apCaster, apSpell, apEffect);
 }

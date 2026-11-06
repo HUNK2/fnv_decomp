@@ -14,10 +14,11 @@ struct RTTIEntry
 {
     const void* name;
     const void* base;
-    void FUN_0061bcf0();
+    void UpdateState_0061bcf0();
 };
 // @fnv 0x0061bcf0
-void RTTIEntry::FUN_0061bcf0()
+// src: GUESS 0x0061bcf0 (confidence: low)
+void RTTIEntry::UpdateState_0061bcf0()
 {
     name = DAT_0104d448;
     NiTMallocInterface_unsigned_int_Deallocate(base);

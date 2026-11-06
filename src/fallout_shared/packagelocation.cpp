@@ -186,7 +186,8 @@ unsigned int BGSMessageInitAccess::GetIconFormID()
 
 // Sets the first byte of the object to 3 and zeroes the two 32-bit fields at offsets 4 and 8, then returns the object.
 // @fnv 0x0067f030
-LocationDescriptor* __fastcall FUN_0067f030(LocationDescriptor* pObject)
+// src: GUESS 0x0067f030 (confidence: low)
+LocationDescriptor* __fastcall Packagelocation_UpdateState_0067f030(LocationDescriptor* pObject)
 {
     *(char*)pObject = 3;
     *(unsigned int*)((char*)pObject + 4) = 0;
@@ -196,11 +197,12 @@ LocationDescriptor* __fastcall FUN_0067f030(LocationDescriptor* pObject)
 
 struct FUN_0067f110_shell : public LocationDescriptor
 {
-    void FUN_0067f110();
+    void InitializeFields_0067f110();
 };
 
 // @fnv 0x0067f110
-void FUN_0067f110_shell::FUN_0067f110()
+// src: GUESS 0x0067f110 (confidence: low)
+void FUN_0067f110_shell::InitializeFields_0067f110()
 {
     m_ucLocationType = -1;
     m_pLocationData = 0;
@@ -725,11 +727,12 @@ bool FUN_0067f220_cls::LookupAndStore(int a1, int a2, unsigned char* pucOut)
 extern TESSaveLoadGame* DAT_011de45c;
 struct FUN_0067fa00_shell : public LocationDescriptor
 {
-    void FUN_0067fa00();
+    void SaveTargetReference();
 };
 // Serializes a form ID and object reference through the save/load game, writing the object's form ID for cases 0-4 and the pointer for case 5.
 // @fnv 0x0067fa00
-void FUN_0067fa00_shell::FUN_0067fa00()
+// src: GUESS 0x0067fa00 (confidence: medium)
+void FUN_0067fa00_shell::SaveTargetReference()
 {
     DAT_011de45c->TESSaveLoadGame_SaveGameDataOLD(this, 1);
     DAT_011de45c->TESSaveLoadGame_SaveGameDataOLD(&m_pLocationData, 4);

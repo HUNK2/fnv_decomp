@@ -86,7 +86,7 @@ void FUN_00527b70_shell::BGSWorldLocation_SaveGame(BGSSaveGameBuffer* apSaveGame
 }
 
 void* __cdecl _ref_004839c0(unsigned int);
-bool __cdecl FUN_00527b20(void*);
+bool __cdecl TESForm_ProcessAndReturnValue_00527b20(void*);
 struct FUN_00527ba0_This
 {
     char _pad[12];
@@ -99,7 +99,7 @@ void FUN_00527ba0_This::BGSLoadGameBuffer_LoadBGSWorldLocation(BGSLoadGameBuffer
 {
     apLoadGameBuffer->ReadTypedData(this, 12);
     m_pPathingCell = _ref_004839c0(apLoadGameBuffer->ReadFormIdentifier());
-    if (!FUN_00527b20(m_pPathingCell))
+    if (!TESForm_ProcessAndReturnValue_00527b20(m_pPathingCell))
         m_pPathingCell = 0;
 }
 
@@ -157,7 +157,8 @@ struct FUN_00425fd0_shell
 
 // Returns true if form is null, has form type 0x41, or is a cell whose FUN_00425fd0 check succeeds; otherwise false.
 // @fnv 0x00527b20
-bool __cdecl FUN_00527b20(TESForm* form)
+// src: GUESS 0x00527b20 (confidence: low)
+bool __cdecl TESForm_ProcessAndReturnValue_00527b20(TESForm* form)
 {
     if (form == 0)
         return true;

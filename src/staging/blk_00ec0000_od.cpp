@@ -78,11 +78,12 @@ void* FUN_00ec1f20Class::Movie_Movie()
 struct FUN_00ec1f40Class
 {
     void __thiscall Movie_Stop();
-    void __thiscall FUN_00ec1f40();
+    void __thiscall Movie_Stop_Thunk();
 };
 
 // @fnv 0x00ec1f40
-void __thiscall FUN_00ec1f40Class::FUN_00ec1f40()
+// src: GUESS 0x00ec1f40 (confidence: medium)
+void __thiscall FUN_00ec1f40Class::Movie_Stop_Thunk()
 {
     Movie_Stop();
 }
@@ -90,7 +91,8 @@ void __thiscall FUN_00ec1f40Class::FUN_00ec1f40()
 namespace fnv_00ec20a0 {
 extern MemoryManager g_memoryManager;
 // @fnv 0x00ec20a0
-void __stdcall FUN_00ec20a0(void* apMemory)
+// src: GUESS 0x00ec20a0 (confidence: medium)
+void __stdcall Object_ReleaseStorage_00ec20a0(void* apMemory)
 {
     g_memoryManager.Deallocate(apMemory);
 }
@@ -117,11 +119,12 @@ struct FUN_00ec2c10
     int m_0028;
     int m_002c;
     void __thiscall SetThreadPriorityLevel(int);
-    void __thiscall FUN_00ec2c10_init();
+    void __thiscall IncreaseThreadPriorityUpToFive();
 };
 // If m_002c is below 5, calls SetThreadPriorityLevel with m_002c + 1.
 // @fnv 0x00ec2c10
-void __thiscall FUN_00ec2c10::FUN_00ec2c10_init()
+// src: GUESS 0x00ec2c10 (confidence: high)
+void __thiscall FUN_00ec2c10::IncreaseThreadPriorityUpToFive()
 {
     if (m_002c < 5)
         SetThreadPriorityLevel(m_002c + 1);
@@ -391,14 +394,15 @@ struct FUN_00ec19a0_Class
 {
     int m_0000;
     void* m_0004;
-    void __thiscall FUN_00ec19a0();
+    void __thiscall WaitForStoredHandle();
 };
 
 extern "C" __declspec(dllimport) void __stdcall FUN_00fdf1c8(void* a, int b);
 
 // If m_0004 is non-null, calls FUN_00fdf1c8 with m_0004 and -1.
 // @fnv 0x00ec19a0
-void FUN_00ec19a0_Class::FUN_00ec19a0()
+// src: GUESS 0x00ec19a0 (confidence: medium)
+void FUN_00ec19a0_Class::WaitForStoredHandle()
 {
     if (m_0004)
         FUN_00fdf1c8(m_0004, -1);
@@ -481,10 +485,11 @@ struct FUN_00ec1a90_Class
 };
 struct FUN_00ec1d30_Class : FUN_00ec1a90_Class
 {
-    void __thiscall FUN_00ec1d30();
+    void __thiscall UpdateState_00ec1d30();
 };
 // @fnv 0x00ec1d30
-void __thiscall FUN_00ec1d30_Class::FUN_00ec1d30()
+// src: GUESS 0x00ec1d30 (confidence: low)
+void __thiscall FUN_00ec1d30_Class::UpdateState_00ec1d30()
 {
     int a;
     int b;
@@ -607,10 +612,11 @@ struct GridDesc
     unsigned int cellSize;
 };
 
-void __cdecl FUN_00ec0720(int target, float x, float y, float sx, float sy, unsigned int w, unsigned int h);
+void __cdecl Object_UpdateFields_00ec0720(int target, float x, float y, float sx, float sy, unsigned int w, unsigned int h);
 
 // @fnv 0x00ec0550
-void __cdecl FUN_00ec0550(GridDesc* grid, float startX, float startY, float scaleX, float scaleY)
+// src: GUESS 0x00ec0550 (confidence: low)
+void __cdecl Runtime_ProcessEntries_00ec0550(GridDesc* grid, float startX, float startY, float scaleX, float scaleY)
 {
     float x;
     unsigned int row;
@@ -627,12 +633,12 @@ void __cdecl FUN_00ec0550(GridDesc* grid, float startX, float startY, float scal
         x = startX;
         for (col_2 = 0; col_2 < grid->cols; col_2++)
         {
-            FUN_00ec0720(grid->unk00, x, y_, scaleX, scaleY, grid->cellSize, grid->cellSize);
+            Object_UpdateFields_00ec0720(grid->unk00, x, y_, scaleX, scaleY, grid->cellSize, grid->cellSize);
             x += stepX4;
         }
         if (grid->extraX)
         {
-            FUN_00ec0720(grid->unk00, x, y_, scaleX, scaleY, grid->extraX, grid->cellSize);
+            Object_UpdateFields_00ec0720(grid->unk00, x, y_, scaleX, scaleY, grid->extraX, grid->cellSize);
         }
         y_ += stepY;
     }
@@ -641,12 +647,12 @@ void __cdecl FUN_00ec0550(GridDesc* grid, float startX, float startY, float scal
         x = startX;
         for (col_2 = 0; col_2 < grid->cols; col_2++)
         {
-            FUN_00ec0720(grid->unk00, x, y_, scaleX, scaleY, grid->cellSize, grid->extraY);
+            Object_UpdateFields_00ec0720(grid->unk00, x, y_, scaleX, scaleY, grid->cellSize, grid->extraY);
             x += stepX4;
         }
         if (grid->extraX)
         {
-            FUN_00ec0720(grid->unk00, x, y_, scaleX, scaleY, grid->extraX, grid->extraY);
+            Object_UpdateFields_00ec0720(grid->unk00, x, y_, scaleX, scaleY, grid->extraX, grid->extraY);
         }
     }
 }
@@ -1003,7 +1009,7 @@ void __thiscall FUN_00ec25e0_cls::MoviePlayer_Stop()
     {
         FUN_00ec1f40Class* t2 = m_000c;
         FUN_00ec1f40Class* p = t2;
-        p != 0 ? (p->FUN_00ec1f40(), (((0, 1) & 1) ? DAT_011f6238.MemoryManager_Deallocate(p) : (void)0), p) : 0;
+        p != 0 ? (p->Movie_Stop_Thunk(), (((0, 1) & 1) ? DAT_011f6238.MemoryManager_Deallocate(p) : (void)0), p) : 0;
         m_000c = 0;
     }
     MoviePlayer_Resume();
@@ -1102,7 +1108,7 @@ struct S_00ec2d80_Class
     int m_003c;
     S_00ec2f00_Class m_0040;
 
-    void __thiscall FUN_00ec2d80(int a, int b);
+    void __thiscall UpdateFields_00ec2d80(int a, int b);
 };
 
 extern S_00aa3e40_Class DAT_011f6238;
@@ -1111,7 +1117,8 @@ char* __cdecl FUN_00ec6130(int a);
 void __cdecl FUN_00ec65a6(char* a, char* b, int c);
 
 // @fnv 0x00ec2d80
-void __thiscall S_00ec2d80_Class::FUN_00ec2d80(int a, int b)
+// src: GUESS 0x00ec2d80 (confidence: low)
+void __thiscall S_00ec2d80_Class::UpdateFields_00ec2d80(int a, int b)
 {
     char* p;
     char* oB;
@@ -1977,7 +1984,8 @@ struct FUN_00ec0720_Device : FUN_00ec0460_cls
 };
 
 // @fnv 0x00ec0720
-void __cdecl FUN_00ec0720(FUN_00ec0720_Device* pDevice, float x, float y, float fScaleX, float fScaleY, int iWidth,
+// src: GUESS 0x00ec0720 (confidence: low)
+void __cdecl Object_UpdateFields_00ec0720(FUN_00ec0720_Device* pDevice, float x, float y, float fScaleX, float fScaleY, int iWidth,
                           int iHeight)
 {
     FUN_00ec0720_Vertex vertices[12];

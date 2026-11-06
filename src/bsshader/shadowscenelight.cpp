@@ -1077,7 +1077,7 @@ void ShadowSceneCameraUpdate::UpdateShadow(void* unused, unsigned char* renderFl
             float scale = static_cast<const volatile float&>(scaleSource->m_kWorld.m_fScale);
             NiPoint3* __restrict output = &tempOffset;
             const NiPoint3* input = &pExtraData->offset;
-            b.FUN_0063c8a0(*ShadowScale(*input, output, scale));
+            b.ComputeValue_0063c8a0(*ShadowScale(*input, output, scale));
             ShadowScale(pExtraData->extent, &c, ShadowOrderedScale(spShadowScene.m_pObject));
             if (c.z > c.x + c.y)
             {

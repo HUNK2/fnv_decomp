@@ -315,7 +315,7 @@ struct BoardVector : XY
         out.y = -y;
         out.z = -z;
     }
-    __declspec(noalias) void FUN_0053d280(BoardVector&, float) const;
+    __declspec(noalias) void ProcessAndReturnValue_0053d280(BoardVector&, float) const;
 };
 inline float LengthPair(float a, float b)
 {
@@ -358,7 +358,7 @@ struct BoardMatrix : NiMatrix3
     }
     BoardMatrix* FUN_0043f8d0(BoardMatrix*, const BoardMatrix&) const;
 };
-__declspec(noalias) BoardVector* FUN_004b3ae0(BoardVector*, const BoardVector&, const BoardMatrix&);
+__declspec(noalias) BoardVector* NiPoint3_TransformByMatrix3(BoardVector*, const BoardVector&, const BoardMatrix&);
 struct BoardTransform
 {
     BoardMatrix rotate;
@@ -445,9 +445,9 @@ void NiBillboardNode::RotateToCamera(const BoardObject* cameraObject)
             ((const BoardTransform&)camera->m_kWorld).rotate.GetColumn(2, kTmp);
             kRight = kTmp;
         }
-        kWorldPosition = (*FUN_004b3ae0(&results.dir03, kWorldPosition, world.rotate));
-        kUp = (*FUN_004b3ae0(&results.up03, kUp, world.rotate));
-        kRight = (*FUN_004b3ae0(&results.right03, kRight, world.rotate));
+        kWorldPosition = (*NiPoint3_TransformByMatrix3(&results.dir03, kWorldPosition, world.rotate));
+        kUp = (*NiPoint3_TransformByMatrix3(&results.up03, kUp, world.rotate));
+        kRight = (*NiPoint3_TransformByMatrix3(&results.right03, kRight, world.rotate));
         LengthInPlace(fScaleMultiplier, kUp.y, kRight.y);
         if (fScaleMultiplier > DAT_010959f4)
         {
@@ -480,7 +480,7 @@ void NiBillboardNode::RotateToCamera(const BoardObject* cameraObject)
         kTmp.x = camera->m_kWorld.m_Translate.x - world.translate.x;
         kTmp.y = camera->m_kWorld.m_Translate.y - world.translate.y;
         kTmp.z = camera->m_kWorld.m_Translate.z - world.translate.z;
-        (*FUN_004b3ae0(&results.dir1, kTmp, world.rotate)).FUN_0053d280(kWorldPosition, world.scale);
+        (*NiPoint3_TransformByMatrix3(&results.dir1, kTmp, world.rotate)).ProcessAndReturnValue_0053d280(kWorldPosition, world.scale);
         fScaleMultiplier = BoardRootFloat(kWorldPosition.x * kWorldPosition.x + kWorldPosition.z * kWorldPosition.z);
         if (!(fScaleMultiplier < DAT_0109deb8))
         {
@@ -515,9 +515,9 @@ void NiBillboardNode::RotateToCamera(const BoardObject* cameraObject)
             ((const BoardTransform&)camera->m_kWorld).rotate.GetColumn(2, kTmp);
             kWorldPosition = kTmp;
         }
-        kRight = (*FUN_004b3ae0(&results.right24, kRight, world.rotate));
-        kUp = (*FUN_004b3ae0(&results.up24, kUp, world.rotate));
-        kWorldPosition = (*FUN_004b3ae0(&results.dir24, kWorldPosition, world.rotate));
+        kRight = (*NiPoint3_TransformByMatrix3(&results.right24, kRight, world.rotate));
+        kUp = (*NiPoint3_TransformByMatrix3(&results.up24, kUp, world.rotate));
+        kWorldPosition = (*NiPoint3_TransformByMatrix3(&results.dir24, kWorldPosition, world.rotate));
         kRot.SetColumn(0, kWorldPosition);
         kRot.SetColumn(1, kUp);
         kRot.SetColumn(2, kRight);
@@ -527,7 +527,7 @@ void NiBillboardNode::RotateToCamera(const BoardObject* cameraObject)
         kTmp.x = camera->m_kWorld.m_Translate.x - world.translate.x;
         kTmp.y = camera->m_kWorld.m_Translate.y - world.translate.y;
         kTmp.z = camera->m_kWorld.m_Translate.z - world.translate.z;
-        (*FUN_004b3ae0(&results.dir5, kTmp, world.rotate)).FUN_0053d280(kWorldPosition, world.scale);
+        (*NiPoint3_TransformByMatrix3(&results.dir5, kTmp, world.rotate)).ProcessAndReturnValue_0053d280(kWorldPosition, world.scale);
         double vy = kWorldPosition.y;
         double vx = kWorldPosition.x;
         fScaleMultiplier = BoardRootFloat((float)(vx * vx + vy * vy));
@@ -567,7 +567,7 @@ void NiBillboardNode::RotateToCamera(const BoardObject* cameraObject)
 #undef flags
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int bytes);
+void* __cdecl Object_DispatchCommandFour(unsigned int bytes);
 
 extern const void* DAT_0102bf44[];
 
@@ -586,7 +586,7 @@ inline NiBillboardNode* InitializeBillboardClone(void* storage)
 // src: XBOX_PDB 0x00a7e710
 BillboardClone* NiBillboardNode::CreateClone_00a7e710(void* context)
 {
-    void* storage = FUN_00aa13e0(sizeof(NiBillboardNode));
+    void* storage = Object_DispatchCommandFour(sizeof(NiBillboardNode));
     NiBillboardNode* clone = storage ? InitializeBillboardClone(storage) : 0;
     NiNode::CopyMemberData(clone, *(CloningProcess*)context);
     *(short*)&clone->unkAC = *(short*)&unkAC;

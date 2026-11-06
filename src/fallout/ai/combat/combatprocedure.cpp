@@ -38,7 +38,7 @@ void FUN_0097f450_shell::SetAttacker(unsigned char bAttacker)
 // @fnv 0x009ca6e0
 void* __thiscall CombatProcedure::DestroyIfFlagged(unsigned int flags)
 {
-    FUN_009ca6c0();
+    SetVirtualTable_009ca6c0();
     if (flags & 1)
         operator delete(this);
     return this;

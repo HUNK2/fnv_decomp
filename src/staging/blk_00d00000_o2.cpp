@@ -48,10 +48,11 @@ struct FUN_00d0a270_class
     void* p8;
     void* pc;
     FUN_00d97710_class* pv;
-    void FUN_00d0a270(int ai);
+    void ClearEntryByKey_Thunk(int ai);
 };
 // @fnv 0x00d0a270
-void FUN_00d0a270_class::FUN_00d0a270(int ai)
+// src: GUESS 0x00d0a270 (confidence: medium)
+void FUN_00d0a270_class::ClearEntryByKey_Thunk(int ai)
 {
     pv->ClearEntryByKey(ai + 0x10);
 }
@@ -60,7 +61,8 @@ struct D107A0RTTI;
 extern D107A0RTTI g_D107A0RTTI;
 
 // @fnv 0x00d10790
-D107A0RTTI* __cdecl FUN_00d10790()
+// src: GUESS 0x00d10790 (confidence: low)
+D107A0RTTI* __cdecl Runtime_GetD107A0RTTIAddress()
 {
     return &g_D107A0RTTI;
 }
@@ -90,7 +92,8 @@ struct FUN_00c9ce00_cls
 };
 
 // @fnv 0x00d1f180
-void __cdecl FUN_00d1f180(FUN_00c9ce00_cls* obj, int v)
+// src: GUESS 0x00d1f180 (confidence: low)
+void __cdecl Object_ProcessState_00d1f180(FUN_00c9ce00_cls* obj, int v)
 {
     if (obj)
         obj->FUN_00c9ce00(v);
@@ -222,7 +225,8 @@ void FUN_00d07910_cls::NotifyElements()
 
 // File-static helper with a compiler-chosen register convention.
 // @fnv 0x00d10ab0
-static __declspec(noinline) unsigned int FUN_00d10ab0(unsigned int uiValue)
+// src: GUESS 0x00d10ab0 (confidence: low)
+static __declspec(noinline) unsigned int Runtime_EvaluateValue_00d10ab0(unsigned int uiValue)
 {
     if (uiValue != 0xffff)
         uiValue++;
@@ -231,13 +235,14 @@ static __declspec(noinline) unsigned int FUN_00d10ab0(unsigned int uiValue)
 
 unsigned int D10AB0NextOdd(const unsigned int* puiValue)
 {
-    return FUN_00d10ab0(*puiValue);
+    return Runtime_EvaluateValue_00d10ab0(*puiValue);
 }
 
 extern int DAT_01268838;
 
 // @fnv 0x00d1f110
-int* __cdecl FUN_00d1f110()
+// src: GUESS 0x00d1f110 (confidence: low)
+int* __cdecl Runtime_GetDAT01268838Address()
 {
     return &DAT_01268838;
 }
@@ -245,7 +250,8 @@ int* __cdecl FUN_00d1f110()
 extern int g_unk01268868;
 
 // @fnv 0x00d1f130
-void* __cdecl FUN_00d1f130()
+// src: GUESS 0x00d1f130 (confidence: low)
+void* __cdecl Runtime_GetUnk01268868Address()
 {
     return &g_unk01268868;
 }
@@ -253,7 +259,8 @@ void* __cdecl FUN_00d1f130()
 // FUN_00d1f140 : a one-line function - getter
 extern int g_target_00d1f140;
 // @fnv 0x00d1f140
-void* FUN_00d1f140()
+// src: GUESS 0x00d1f140 (confidence: low)
+void* Object_GetGlobalObjectAddress_00d1f140()
 {
     return &g_target_00d1f140;
 }
@@ -265,14 +272,16 @@ class D1F150Object
 };
 
 // @fnv 0x00d1f150
-void FUN_00d1f150(D1F150Object* pkObject)
+// src: GUESS 0x00d1f150 (confidence: low)
+void Runtime_DestroySubobject_00d1f150(D1F150Object* pkObject)
 {
     pkObject->~D1F150Object();
 }
 
 extern int DAT_012688c8;
 // @fnv 0x00d1f160
-int* __cdecl FUN_00d1f160()
+// src: GUESS 0x00d1f160 (confidence: low)
+int* __cdecl Object_GetGlobalObjectAddress_00d1f160()
 {
     return &DAT_012688c8;
 }
@@ -283,7 +292,8 @@ struct FUN_00d1f1c0_target
 };
 
 // @fnv 0x00d1f1c0
-void __cdecl FUN_00d1f1c0(FUN_00d1f1c0_target* pTarget)
+// src: GUESS 0x00d1f1c0 (confidence: low)
+void __cdecl Object_InvokeVirtualMethod_00d1f1c0(FUN_00d1f1c0_target* pTarget)
 {
     pTarget->Run();
 }
@@ -489,7 +499,8 @@ int __cdecl DispatchNodeByKind(void* pContext, D01E50Node* node)
 
 int __fastcall hkSemaphore_acquire(void*);
 // @fnv 0x00d043b0
-int __cdecl FUN_00d043b0(void* ap)
+// src: GUESS 0x00d043b0 (confidence: low)
+int __cdecl hkSemaphore_acquire_ForwardCall_00d043b0(void* ap)
 {
     return hkSemaphore_acquire(ap);
 }
@@ -521,10 +532,11 @@ struct FnvCpu_FUN_00d04430_CpuObject
     unsigned int unk10;
     unsigned int unk14;
     FnvCpu_FUN_00d04430_CpuScalar* value;
-    int FUN_00d04430();
+    int EvaluateValue_00d04430();
 };
 // @fnv 0x00d04430
-int FnvCpu_FUN_00d04430_CpuObject::FUN_00d04430()
+// src: GUESS 0x00d04430 (confidence: low)
+int FnvCpu_FUN_00d04430_CpuObject::EvaluateValue_00d04430()
 {
     return value->value;
 }
@@ -565,7 +577,7 @@ void nullsub_9()
 
 struct FUN_00d06f70_s
 {
-    void FUN_00d06f70();
+    void InitializeFields_00d06f70();
 };
 
 struct FUN_00d07070_s : FUN_00d06f70_s
@@ -579,7 +591,7 @@ struct FUN_00d07070_s : FUN_00d06f70_s
 // @fnv 0x00d07070
 int __thiscall FUN_00d07070_s::FUN_00d07070(unsigned char flag)
 {
-    this->FUN_00d06f70();
+    this->InitializeFields_00d06f70();
 
     if (flag & 1)
     {
@@ -708,7 +720,8 @@ void __cdecl nullsub_14()
 {}
 
 // @fnv 0x00d043f0
-void __stdcall FUN_00d043f0(int)
+// src: GUESS 0x00d043f0 (confidence: high)
+void __stdcall Runtime_DoNothing_00d043f0(int)
 {}
 
 inline void* operator new(unsigned int, void* address)
@@ -843,12 +856,13 @@ struct ArrayRecord
     char flag;
     int value;
     ArrayOfArrays arrays;
-    ArrayRecord& FUN_00d05b50(const ArrayRecord& source);
+    ArrayRecord& UpdateState_00d05b50(const ArrayRecord& source);
 };
 
 // Copies type, flag, value and arrays from source into this ArrayRecord and returns a reference to this.
 // @fnv 0x00d05b50
-ArrayRecord& ArrayRecord::FUN_00d05b50(const ArrayRecord& source)
+// src: GUESS 0x00d05b50 (confidence: low)
+ArrayRecord& ArrayRecord::UpdateState_00d05b50(const ArrayRecord& source)
 {
     type = source.type;
     flag = source.flag;
@@ -858,7 +872,8 @@ ArrayRecord& ArrayRecord::FUN_00d05b50(const ArrayRecord& source)
 }
 
 // @fnv 0x00d05dd0
-void FUN_00d05dd0()
+// src: GUESS 0x00d05dd0 (confidence: high)
+void Runtime_DoNothing_00d05dd0()
 {}
 
 extern "C" int __cdecl hkStringBuf_printf(void* dst, const char* format, ...);
@@ -954,12 +969,13 @@ struct FUN_00d107d0_t
         void* p8b;
     };
     int c;
-    FUN_00d107d0_t* FUN_00d107d0(int v);
+    FUN_00d107d0_t* InitializeFields_00d107d0(int v);
 };
 
 // Sets b to 1, points p8a/p0/p8b at DAT_010c63bc/DAT_010cd598/DAT_010cd588, stores v in c, and returns this.
 // @fnv 0x00d107d0
-FUN_00d107d0_t* FUN_00d107d0_t::FUN_00d107d0(int v)
+// src: GUESS 0x00d107d0 (confidence: low)
+FUN_00d107d0_t* FUN_00d107d0_t::InitializeFields_00d107d0(int v)
 {
     b = 1;
     p8a = &DAT_010c63bc;
@@ -1010,7 +1026,8 @@ extern "C" void __cdecl QueryKdTree(int a, int b, int c, const LocalM128* d, con
 
 // Subtracts the vector at p+0x30 from the one at p+0x40 and calls QueryKdTree with p->m00 twice, p->m1C, the difference and the p+0x30 values.
 // @fnv 0x00d1b7f0
-void __cdecl FUN_00d1b7f0(S00d1b7f0_Input* p, int argB, int argC)
+// src: GUESS 0x00d1b7f0 (confidence: low)
+void __cdecl Runtime_ComputeValues_00d1b7f0(S00d1b7f0_Input* p, int argB, int argC)
 {
     S00d1b7f0_Frame frame;
 
@@ -1115,7 +1132,8 @@ struct DispatchContext
 extern "C" void _ReadWriteBarrier(void);
 // Computes a byte offset from the node subtype and invokes the handler pointer stored at that offset in the context's handler table.
 // @fnv 0x00d04570
-int __cdecl FUN_00d04570(DispatchContext* apContext, int b, DispatchNode* apNode)
+// src: GUESS 0x00d04570 (confidence: low)
+int __cdecl Runtime_UpdateState_00d04570(DispatchContext* apContext, int b, DispatchNode* apNode)
 {
     unsigned off = apNode->subtype << 4;
 
@@ -1124,11 +1142,13 @@ int __cdecl FUN_00d04570(DispatchContext* apContext, int b, DispatchNode* apNode
 }
 
 // @fnv 0x00d05dc0
-void FUN_00d05dc0()
+// src: GUESS 0x00d05dc0 (confidence: high)
+void Object_DoNothing_00d05dc0()
 {}
 
 // @fnv 0x00d083d0
-void __cdecl FUN_00d083d0()
+// src: GUESS 0x00d083d0 (confidence: high)
+void __cdecl Runtime_DoNothing_00d083d0()
 {}
 
 struct D10E90Obj
@@ -1137,7 +1157,8 @@ struct D10E90Obj
 };
 
 // @fnv 0x00d10e90
-static __declspec(noinline) unsigned short FUN_00d10e90(D10E90Obj* obj)
+// src: GUESS 0x00d10e90 (confidence: low)
+static __declspec(noinline) unsigned short Runtime_EvaluateValue_00d10e90(D10E90Obj* obj)
 {
     return obj->unk00;
 }
@@ -1147,7 +1168,7 @@ extern unsigned short d10e90_sink;
 
 void d10e90_caller(void)
 {
-    d10e90_sink = FUN_00d10e90(d10e90_stub());
+    d10e90_sink = Runtime_EvaluateValue_00d10e90(d10e90_stub());
 }
 
 class MyClass
@@ -1175,7 +1196,8 @@ int* MyClass::GetField20()
 extern LocalM128 DAT_011b3810;
 
 // @fnv 0x00d1b280
-LocalM128 __cdecl FUN_00d1b280()
+// src: GUESS 0x00d1b280 (confidence: low)
+LocalM128 __cdecl Object_GetDAT_011b3810_00d1b280()
 {
     return DAT_011b3810;
 }
@@ -1306,11 +1328,12 @@ struct D01B40_Obj
 struct D01B40_cls
 {
     D01B40_Obj* pObj;
-    bool* FUN_00d01b40(bool* pbResult);
+    bool* ProcessAndReturnValue_00d01b40(bool* pbResult);
 };
 // Writes false to pbResult if pObj is null, if unk0C is 0xF, or if unk0C is 7, 9 or 0x17 and GetValue() exceeds 100; otherwise true.
 // @fnv 0x00d01b40
-bool* D01B40_cls::FUN_00d01b40(bool* pbResult)
+// src: GUESS 0x00d01b40 (confidence: low)
+bool* D01B40_cls::ProcessAndReturnValue_00d01b40(bool* pbResult)
 {
     if (!pObj)
     {
@@ -1629,7 +1652,8 @@ struct HkRayBundle
 };
 // Transposes four from vectors and four to vectors into bundles, then returns an HkRayBundle built from them with the given mask.
 // @fnv 0x00d1bb50
-HkRayBundle __cdecl FUN_00d1bb50(const HkVec4& from0, const HkVec4& to0, const HkVec4& from1, const HkVec4& to1,
+// src: GUESS 0x00d1bb50 (confidence: low)
+HkRayBundle __cdecl Runtime_UpdateState_00d1bb50(const HkVec4& from0, const HkVec4& to0, const HkVec4& from1, const HkVec4& to1,
                                  const HkVec4& from2, const HkVec4& to2, const HkVec4& from3, const HkVec4& to3,
                                  int mask)
 {
@@ -1726,7 +1750,8 @@ extern "C" float _mm_cvtss_f32(LocalM128 a);
 
 // Returns the squared distance from the point at b to the box with min at a and max at a+4 floats, or 0.0f when the point is inside.
 // @fnv 0x00d1bad0
-float __cdecl FUN_00d1bad0(float* a, float* b)
+// src: GUESS 0x00d1bad0 (confidence: low)
+float __cdecl Runtime_ComputeValues_00d1bad0(float* a, float* b)
 {
     LocalM128 va2 = *reinterpret_cast<LocalM128*>(a + 4);
     LocalM128 vb = *reinterpret_cast<LocalM128*>(b);

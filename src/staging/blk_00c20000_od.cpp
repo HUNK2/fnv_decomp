@@ -48,12 +48,13 @@ extern MemoryManager g_memoryManager;
 
 struct FUN_00c3a640_Class
 {
-    void* FUN_00c3a640(unsigned int size);
+    void* AllocateStorage_00c3a640(unsigned int size);
 };
 
 // Allocates size*4 bytes through g_memoryManager and returns the resulting pointer.
 // @fnv 0x00c3a640
-void* FUN_00c3a640_Class::FUN_00c3a640(unsigned int size)
+// src: GUESS 0x00c3a640 (confidence: medium)
+void* FUN_00c3a640_Class::AllocateStorage_00c3a640(unsigned int size)
 {
     void* result = g_memoryManager.Allocate(size << 2);
     return result;
@@ -64,11 +65,12 @@ extern MemoryManager g_memoryManager;
 
 struct FUN_00c3a670_Class
 {
-    void* FUN_00c3a670(void* old, unsigned int count);
+    void* Reallocate_Thunk(void* old, unsigned int count);
 };
 
 // @fnv 0x00c3a670
-void* __thiscall FUN_00c3a670_Class::FUN_00c3a670(void* apBlock, unsigned int count)
+// src: GUESS 0x00c3a670 (confidence: medium)
+void* __thiscall FUN_00c3a670_Class::Reallocate_Thunk(void* apBlock, unsigned int count)
 {
     return g_memoryManager.Reallocate(apBlock, count * 4);
 }
@@ -102,34 +104,37 @@ void* __thiscall FUN_00c3ba70_Class::BSNodeReferences_GetRTTI()
 }
 
 // @fnv 0x00c3c200
-int __cdecl FUN_00c3c200()
+// src: GUESS 0x00c3c200 (confidence: low)
+int __cdecl Object_ComputeValue_00c3c200()
 {
     int v = 0;
     return v;
 }
 
 extern const void* DAT_010c14e8;
-extern void __cdecl FUN_00c3d930();
+extern void __cdecl SetVtableAndProcessState_00c3d930();
 
 struct FUN_00c3c520_class
 {
     const void* vtbl;
-    void __thiscall FUN_00c3c520();
+    void __thiscall SetVirtualTable_00c3c520();
 };
 
 // @fnv 0x00c3c520
-void __thiscall FUN_00c3c520_class::FUN_00c3c520()
+// src: GUESS 0x00c3c520 (confidence: low)
+void __thiscall FUN_00c3c520_class::SetVirtualTable_00c3c520()
 {
     vtbl = &DAT_010c14e8;
-    ((void(__thiscall*)(void*))FUN_00c3d930)(this);
+    ((void(__thiscall*)(void*))SetVtableAndProcessState_00c3d930)(this);
 }
 
 extern int DAT_010c1510;
 // @fnv 0x00c3c570
-void __thiscall QueuedParents::FUN_00c3c570()
+// src: GUESS 0x00c3c570 (confidence: low)
+void __thiscall QueuedParents::SetVtableAndProcessState_00c3c570()
 {
     *reinterpret_cast<int**>(this) = &DAT_010c1510;
-    FUN_00c3d930();
+    SetVtableAndProcessState_00c3d930();
 }
 
 extern int DAT_010c14fc;
@@ -138,12 +143,13 @@ struct FUN_00c3d930_Class
 {
     void* vftable;
     void __thiscall BSSimpleArray_NiPointer_QueuedFile_1024_Clear(int);
-    void __thiscall FUN_00c3d930();
+    void __thiscall SetVtableAndProcessState_00c3d930();
 };
 
 // Sets the vftable to DAT_010c14fc and calls FUN_00c3d980 with 1.
 // @fnv 0x00c3d930
-void __thiscall FUN_00c3d930_Class::FUN_00c3d930()
+// src: GUESS 0x00c3d930 (confidence: low)
+void __thiscall FUN_00c3d930_Class::SetVtableAndProcessState_00c3d930()
 {
     char buf[0x18];
     vftable = &DAT_010c14fc;
@@ -313,7 +319,7 @@ void __thiscall BSMultiBoundNode::UpdateDownwardPass_00c3a5b0(NiUpdateData& aUpd
 
 struct FUN_00c3a620_Class
 {
-    void __thiscall FUN_00c3a620();
+    void __thiscall SetVirtualTableAndProcessState_00c3a620();
 };
 struct FUN_00c3a6a0_Class
 {
@@ -322,7 +328,7 @@ struct FUN_00c3a6a0_Class
 // @fnv 0x00c3a6a0
 void* __thiscall FUN_00c3a6a0_Class::FUN_00c3a6a0(unsigned int flags)
 {
-    ((FUN_00c3a620_Class*)this)->FUN_00c3a620();
+    ((FUN_00c3a620_Class*)this)->SetVirtualTableAndProcessState_00c3a620();
     if (flags & 1)
         ((MemoryManager*)&g_memoryManager)->Deallocate(this);
     return this;
@@ -407,7 +413,8 @@ void* __thiscall FUN_00c3c070_Class::std__Ref_count_base__Get_deleter(int arg)
 extern "C" unsigned char DAT_011af49c;
 
 // @fnv 0x00c3c0c0
-void __cdecl FUN_00c3c0c0()
+// src: GUESS 0x00c3c0c0 (confidence: low)
+void __cdecl Object_ProcessEntries_00c3c0c0()
 {
     for (int i = 0; i < 0x18; ++i)
         ((unsigned char*)0x11f6370)[i] = 0;
@@ -422,7 +429,7 @@ struct FUN_00c3d380_Class : public FUN_00c3c520_class
 // @fnv 0x00c3d380
 void* __thiscall FUN_00c3d380_Class::FUN_00c3d380(unsigned int flags)
 {
-    FUN_00c3c520();
+    SetVirtualTable_00c3c520();
     if (flags & 1)
         ((MemoryManager*)&g_memoryManager)->Deallocate(this);
     return this;
@@ -457,7 +464,7 @@ struct FUN_00c3d950_Class
 // @fnv 0x00c3d950
 void* __thiscall FUN_00c3d950_Class::FUN_00c3d950(unsigned int flags)
 {
-    ((FUN_00c3d930_Class*)this)->FUN_00c3d930();
+    ((FUN_00c3d930_Class*)this)->SetVtableAndProcessState_00c3d930();
     if (flags & 1)
         ((MemoryManager*)&g_memoryManager)->Deallocate(this);
     return this;
@@ -467,11 +474,12 @@ void* __thiscall FUN_00c3d950_Class::FUN_00c3d950(unsigned int flags)
 struct FUN_00c3fca0_Class
 {
     void __thiscall BSTaskManager_int64_RemoveTask(void* a);
-    void __thiscall FUN_00c3fca0(void* p);
+    void __thiscall ProcessStateTransitionFourToFive_00c3fca0(void* p);
 };
 // Sets the field at offset 0xc to 4, calls the object's virtual method at vtable index 2, then sets the field to 5 and calls FUN_0044e050.
 // @fnv 0x00c3fca0
-void __thiscall FUN_00c3fca0_Class::FUN_00c3fca0(void* apObject)
+// src: GUESS 0x00c3fca0 (confidence: low)
+void __thiscall FUN_00c3fca0_Class::ProcessStateTransitionFourToFive_00c3fca0(void* apObject)
 {
     *(int*)((char*)apObject + 0xc) = 4;
     ((void(__thiscall*)(void*))(*(void***)apObject)[2])(apObject);
@@ -791,7 +799,7 @@ extern MemoryManager g_memoryManager;
 // @fnv 0x00c3d3b0
 void* QueuedParents::FUN_00c3d3b0(unsigned int flags)
 {
-    FUN_00c3c570();
+    SetVtableAndProcessState_00c3c570();
     if (flags & 1)
         ((MemoryManager*)&g_memoryManager)->Deallocate(this);
     return this;
@@ -1110,12 +1118,13 @@ struct FUN_00c3a220_cls
     void* m_vptr;
 
     void InitBuffer(int a, int b);
-    FUN_00c3a220_cls* FUN_00c3a220();
+    FUN_00c3a220_cls* SetVirtualTable_00c3a220();
 };
 
 // Sets the vtable pointer to DAT_010c117c, calls InitBuffer with 0 and 0, and returns this.
 // @fnv 0x00c3a220
-FUN_00c3a220_cls* FUN_00c3a220_cls::FUN_00c3a220()
+// src: GUESS 0x00c3a220 (confidence: low)
+FUN_00c3a220_cls* FUN_00c3a220_cls::SetVirtualTable_00c3a220()
 {
     int unk04;
     int unk08;
@@ -1179,11 +1188,12 @@ struct FUN_00c3a4b0_cls
     FUN_00c3a4b0_node* m_00;
     void* m_04;
     FUN_00c3a4b0_sub m_08;
-    unsigned int __thiscall FUN_00c3a4b0();
+    unsigned int __thiscall UpdateState_00c3a4b0();
 };
 
 // @fnv 0x00c3a4b0
-unsigned int FUN_00c3a4b0_cls::FUN_00c3a4b0()
+// src: GUESS 0x00c3a4b0 (confidence: low)
+unsigned int FUN_00c3a4b0_cls::UpdateState_00c3a4b0()
 {
     FUN_00c3a4b0_node unusedNode;
     FUN_00c3a4b0_node* pRemoved = this->m_00;
@@ -1221,7 +1231,7 @@ struct FUN_00c3a530_cls
     FUN_00c3a530_node* m_00;
     FUN_00c3a530_node* m_04;
     FUN_00c3a530_alloc m_08;
-    void* FUN_00c3a530();
+    void* UpdateState_00c3a530();
 };
 
 struct FUN_00c3a530_pad
@@ -1233,7 +1243,8 @@ struct FUN_00c3a530_pad
 
 // Removes the head node from a linked list, clears its payload pointer, frees the node, decrements the count and returns the payload.
 // @fnv 0x00c3a530
-void* FUN_00c3a530_cls::FUN_00c3a530()
+// src: GUESS 0x00c3a530 (confidence: low)
+void* FUN_00c3a530_cls::UpdateState_00c3a530()
 {
     FUN_00c3a530_pad pad;
     FUN_00c3a530_node* pNode = m_04;
@@ -1268,7 +1279,7 @@ extern "C" void* DAT_010c117c;
 class SpawnedBase
 {
   public:
-    void FUN_00b5af80(unsigned int flags);
+    void UpdateFields_00b5af80(unsigned int flags);
     int m_vptr;
     int unk04;
 };
@@ -1276,16 +1287,17 @@ class SpawnedBase
 class FUN_00c3a620_cls : public SpawnedBase
 {
   public:
-    void FUN_00c3a620();
+    void SetVirtualTableAndProcessState_00c3a620();
 };
 
 // Sets the object's vtable pointer to DAT_010c117c and calls SpawnedBase::FUN_00b5af80 with flags 1.
 // @fnv 0x00c3a620
-void FUN_00c3a620_cls::FUN_00c3a620()
+// src: GUESS 0x00c3a620 (confidence: low)
+void FUN_00c3a620_cls::SetVirtualTableAndProcessState_00c3a620()
 {
     int unk00;
     this->m_vptr = (int)&DAT_010c117c;
-    this->SpawnedBase::FUN_00b5af80(1);
+    this->SpawnedBase::UpdateFields_00b5af80(1);
 }
 }  // namespace fnv_00c3a620
 
@@ -1481,7 +1493,8 @@ MessageHandler::~MessageHandler()
 }
 
 // @fnv 0x00c3be40
-int FUN_00c3be40()
+// src: GUESS 0x00c3be40 (confidence: high)
+int Object_ReturnZero_00c3be40()
 {
     return 0;
 }
@@ -2344,12 +2357,13 @@ struct S00c3a2e0_Cls
     unsigned int unk04;
     S00c3a2e0_Alloc unk08;
 
-    void FUN_00c3a2e0();
+    void ProcessEntries_00c3a2e0();
 };
 
 // Walks the list from unk00, calls FUN_0066b0d0(0) on each node and passes it to FUN_0045cee0, then zeroes unk08.unk00, unk00 and unk04.
 // @fnv 0x00c3a2e0
-void S00c3a2e0_Cls::FUN_00c3a2e0()
+// src: GUESS 0x00c3a2e0 (confidence: low)
+void S00c3a2e0_Cls::ProcessEntries_00c3a2e0()
 {
     S00c3a2e0_Node* pNext;
     S00c3a2e0_Node* p;
@@ -2477,13 +2491,14 @@ struct FUN_00c42b60_class
     int unk08;
     int count;
     Node090* head;
-    int FUN_00c42b80();
-    void FUN_00c3f090(Node090* node);
+    int CopyData_00c42b80();
+    void UpdateReferenceState_00c3f090(Node090* node);
 };
 
 // Clears node's pointer (via FUN_0044dd60), pushes node onto head, increments count, and calls FUN_00c42b80 when count equals vtbl->limit.
 // @fnv 0x00c3f090
-void FUN_00c42b60_class::FUN_00c3f090(Node090* node)
+// src: GUESS 0x00c3f090 (confidence: low)
+void FUN_00c42b60_class::UpdateReferenceState_00c3f090(Node090* node)
 {
     int CN2;
     int CN;
@@ -2507,7 +2522,7 @@ void FUN_00c42b60_class::FUN_00c3f090(Node090* node)
     count++;
     int CNVal = vtbl->limit;
     if (count == CNVal)
-        FUN_00c42b80();
+        CopyData_00c42b80();
 }
 
 struct FUN_00c41610_Obj

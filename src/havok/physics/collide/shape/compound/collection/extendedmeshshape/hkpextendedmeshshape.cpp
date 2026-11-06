@@ -96,21 +96,21 @@ public:
     float GetSquaredXYLength() const;
     Elem16& expand(Allocator& allocator);
 
-    void FUN_00416870(float x, float y, float z);
+    void SetComponents(float x, float y, float z);
     bool FUN_00439090(const LocalVec3* other);
-    bool FUN_004390c0(const LocalVec3* other);
-    bool FUN_004390c0(const LocalVec3* other) const;
-    bool FUN_004390c0(const char* other);
-    void FUN_00439180(float scale);
+    bool HasEqualComponents(const LocalVec3* other);
+    bool HasEqualComponents(const LocalVec3* other) const;
+    bool HasEqualComponents(const char* other);
+    void ScaleComponents(float scale);
     LocalVec3 FUN_00439e90(const LocalVec3& other);
     LocalVec3 FUN_00439e90(const LocalVec3& other) const;
-    void FUN_00439ef0();
-    LocalVec3 FUN_00439ef0(const LocalVec3& other);
-    LocalVec3 FUN_00439ef0(const LocalVec3& other) const;
-    LocalVec3 FUN_00439ef0(LocalVec3* other);
-    LocalVec3 FUN_00439ef0(const LocalVec3* other);
-    void FUN_00439ef0(LocalVec3* output, const LocalVec3* other);
-    LocalVec3* FUN_00439ef0(void* output, void* other);
+    void SubtractIntoVector();
+    LocalVec3 SubtractIntoVector(const LocalVec3& other);
+    LocalVec3 SubtractIntoVector(const LocalVec3& other) const;
+    LocalVec3 SubtractIntoVector(LocalVec3* other);
+    LocalVec3 SubtractIntoVector(const LocalVec3* other);
+    void SubtractIntoVector(LocalVec3* output, const LocalVec3* other);
+    LocalVec3* SubtractIntoVector(void* output, void* other);
     void FUN_0043d410(float x, int y, int z);
     void FUN_0043d410(float x, unsigned int y, unsigned int z);
     float FUN_00457910();
@@ -120,22 +120,22 @@ public:
     float FUN_004a7290();
     float FUN_004a7290() const;
     LocalVec3 FUN_004b3800(const LocalVec3& other) const;
-    LocalVec3 FUN_0053d280(float divisor);
+    LocalVec3 ProcessAndReturnValue_0053d280(float divisor);
     float NiPoint3_XYLength();
     float NiPoint3_XYLength() const;
-    void FUN_0063c8a0(const LocalVec3* other);
-    void FUN_0063c8a0(void* other);
+    void ComputeValue_0063c8a0(const LocalVec3* other);
+    void ComputeValue_0063c8a0(void* other);
     void FUN_006815c0();
     float CVec3_Distance(LocalVec3* other);
     float CVec3_Distance(const LocalVec3& other) const;
-    LocalVec3 FUN_00b05000(const Mat& matrix);
-    LocalVec3 FUN_00b05000(const Matrix4* matrix);
+    LocalVec3 TransformPointByMatrix4(const Mat& matrix);
+    LocalVec3 TransformPointByMatrix4(const Matrix4* matrix);
     void Normalize_00b12790();
     LocalVec3 Diff_00b13040(void* other);
     LocalVec3 Diff_00b13040(const LocalVec3& other) const;
     float FUN_00b2a180(void* other);
-    LocalVec3& FUN_00b2a1c0(void* other);
-    void FUN_00ddc870();
+    LocalVec3& AddComponents(void* other);
+    void ProcessEntries_00ddc870();
     void FUN_00e0f6e0();
 };
 #include "../../../../../../../../include/hkReferencedObject.h"
@@ -1067,10 +1067,11 @@ struct Container
     hkReferencedObject** data;
     int count;
     unsigned capacityFlags;
-    void FUN_00d56800();
+    void ProcessEntries_00d56800();
 };
 // @fnv 0x00d56800
-void Container::FUN_00d56800()
+// src: GUESS 0x00d56800 (confidence: low)
+void Container::ProcessEntries_00d56800()
 {
     hkMemoryAllocator* allocator = audio()->m_heap;
     int savedCount = count;
@@ -1099,7 +1100,7 @@ struct Elem40
 {
     int v00, v04, v08, v0c, v10, v14, v18, v1c;
     int v20, v24, v28, v2c, v30, v34, v38, v3c;
-    void FUN_00d56800();
+    void ProcessEntries_00d56800();
 };
 
 struct Elem60
@@ -1117,7 +1118,7 @@ template <class T> static __forceinline void destroyAndDeallocate(::hkArray<T>& 
     T* p = a.m_data;
     for (int i = 0; i < n; i++)
     {
-        p[i].FUN_00d56800();
+        p[i].ProcessEntries_00d56800();
     }
     a.m_iElementCount = 0;
     if ((a.m_iCapacityState & 0x80000000) == 0)
@@ -1142,12 +1143,13 @@ struct Obj
     hkArray<Elem60> mb4;
     hkArray<Elem40> mc0;
     hkArray<short> mcc;
-    void FUN_00d56e00();
+    void ReleaseMeshArrays();
 };
 
 // Resets the object's two vtables and clears the mcc, mc0 and mb4 arrays, destroying mc0's elements and freeing their storage.
 // @fnv 0x00d56e00
-void Obj::FUN_00d56e00()
+// src: GUESS 0x00d56e00 (confidence: medium)
+void Obj::ReleaseMeshArrays()
 {
     m_vtbl = DAT_010d0ecc;
     m_vtbl10 = DAT_010d0ea8;
@@ -1267,11 +1269,13 @@ int bhkShapeOwner::GetShapeKey()
 }
 
 // @fnv 0x00d554e0
-void __stdcall FUN_00d554e0(int a)
+// src: GUESS 0x00d554e0 (confidence: high)
+void __stdcall Object_DoNothing_00d554e0(int a)
 {}
 
 // @fnv 0x00d554f0
-void __stdcall FUN_00d554f0(int a0)
+// src: GUESS 0x00d554f0 (confidence: high)
+void __stdcall hkpExtendedMeshShape_DoNothing(int a0)
 {}
 
 extern "C" LocalM128 _mm_setzero_ps();
@@ -1533,7 +1537,8 @@ void CallTarget_d558b0()
 }
 
 // @fnv 0x00d55500
-void FUN_00d55500()
+// src: GUESS 0x00d55500 (confidence: high)
+void Object_DoNothing_00d55500()
 {}
 
 extern "C"
@@ -1949,7 +1954,7 @@ extern "C" LocalM128 _mm_mul_ps(LocalM128, LocalM128);
 extern LocalM128 DAT_010c71d0;
 struct MeshEntry
 {
-    void FUN_00d4ad60(int);
+    void CopySubpartFields(int);
 };
 struct MeshOwner
 {
@@ -1998,14 +2003,15 @@ struct MeshOwner
     int m_children;
     S_00d56880_Elem* AppendElement();
     int hkpExtendedMeshShape__getNumChildShapesInShapesSubpart(int);
-    int FUN_00d56900(volatile int);
+    int AppendShapeAndExpandBounds(volatile int);
 };
 // Appends a shape element, expands the owner AABB to include it, and returns the new element index.
 // @fnv 0x00d56900
-int MeshOwner::FUN_00d56900(volatile int key)
+// src: GUESS 0x00d56900 (confidence: medium)
+int MeshOwner::AppendShapeAndExpandBounds(volatile int key)
 {
     S_00d56880_Elem* elem = AppendElement();
-    ((MeshEntry*)elem)->FUN_00d4ad60(key);
+    ((MeshEntry*)elem)->CopySubpartFields(key);
     hkAabb bounds;
     LocalM128 lo = _mm_sub_ps(m_kCenterPosition, m_vHalfExtents);
     LocalM128 hi = _mm_add_ps(m_vHalfExtents, m_kCenterPosition);
@@ -2293,7 +2299,8 @@ extern float DAT_01011d78;
 
 // Scales a LocalVec3 point, transforms it via a matrix, and expands the hkAabb min/max corners to include the result.
 // @fnv 0x00d55600
-static __declspec(noinline) void __cdecl FUN_00d55600(const LocalVec3* apPoint, const LocalVec3* scale, const void* transform,
+// src: GUESS 0x00d55600 (confidence: medium)
+static __declspec(noinline) void __cdecl Object_ExpandAABBWithTransformedPoint(const LocalVec3* apPoint, const LocalVec3* scale, const void* transform,
                                                       hkAabb* aabb)
 {
     float x = apPoint->x * scale->x;
@@ -2310,14 +2317,14 @@ static __declspec(noinline) void __cdecl FUN_00d55600(const LocalVec3* apPoint, 
 
 void keep_alive_b11424(const LocalVec3* self, const LocalVec3* scale, const void* transform, hkAabb* aabb)
 {
-    FUN_00d55600(self, scale, transform, aabb);
+    Object_ExpandAABBWithTransformedPoint(self, scale, transform, aabb);
 }
 
 extern "C" LocalM128 _mm_load_ps1(const float* p);
 extern "C" LocalM128 _mm_min_ps(LocalM128, LocalM128);
 struct hkpD563Tree
 {
-    void FUN_00d4abf0(void* arg);
+    void UpdateState_00d4abf0(void* arg);
 };
 
 struct hkpD563Key
@@ -2370,7 +2377,7 @@ void hkpD563Shape::hkpExtendedMeshShape_addTrianglesSubpart(void* arg)
 
     hkpD563Tree* tree = hkpExtendedMeshShape_expandOneTriangleSubparts();
 
-    tree->FUN_00d4abf0(arg);
+    tree->UpdateState_00d4abf0(arg);
 
     hkAabb existing;
 
@@ -2498,7 +2505,7 @@ struct ShapesSubpartT
         m_pVertexBase = 0;
         m_ulUserData = 0;
     }
-    ShapesSubpartT* FUN_00d56660(hkConvexShapeS* const* childShapes, int numChildShapes,
+    ShapesSubpartT* InitializeConvexSubpartTransform(hkConvexShapeS* const* childShapes, int numChildShapes,
                                  const hkTransform& transform);
 };
 
@@ -2513,7 +2520,8 @@ static __forceinline hkVector4CompS compareEquals3(const hkVector4& a, const Loc
 
 // Initializes a convex subpart with child shapes and a transform, storing translation flags in the w component of m_vTranslation.
 // @fnv 0x00d56660
-ShapesSubpartT* ShapesSubpartT::FUN_00d56660(hkConvexShapeS* const* childShapes, int numChildShapes,
+// src: GUESS 0x00d56660 (confidence: medium)
+ShapesSubpartT* ShapesSubpartT::InitializeConvexSubpartTransform(hkConvexShapeS* const* childShapes, int numChildShapes,
                                              const hkTransform& transform)
 {
     initSubpart(1);

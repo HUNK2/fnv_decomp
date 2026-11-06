@@ -848,7 +848,8 @@ struct Node008061b0
 };
 // Walks the node chain from a, calling s13(b) on each node's item until a node satisfies _ref_008256d0 or the chain ends.
 // @fnv 0x008061b0
-void FUN_008061b0(Node008061b0* pNode, Actor* b)
+// src: GUESS 0x008061b0 (confidence: high)
+void Actor_RevertActiveEffectsInChain(Node008061b0* pNode, Actor* b)
 {
     while (pNode && !pNode->_ref_008256d0())
     {
@@ -897,7 +898,8 @@ void ActiveEffect_SaveActiveEffectListBGS(BGSSaveFormBuffer* pBuffer, BSSimpleLi
 extern TESSaveLoadGame* DAT_011de45c;
 
 // @fnv 0x00805810
-unsigned short FUN_00805810(void* pObject, void* pArg)
+// src: GUESS 0x00805810 (confidence: low)
+unsigned short ActiveEffect_UpdateState_00805810(void* pObject, void* pArg)
 {
     unsigned short result = 0;
 
@@ -1014,7 +1016,7 @@ struct SaveSizeForm
     virtual const char* GetEditorName();
 };
 SaveSizeForm* LookupFormByNumericID(unsigned int id);
-unsigned short FUN_00805810(void* pObject, void* pArg);
+unsigned short ActiveEffect_UpdateState_00805810(void* pObject, void* pArg);
 void __cdecl DebugSaveSizeOutput(const char* fmt, ...);
 
 struct SaveSizeListNode
@@ -1039,7 +1041,7 @@ unsigned short ActiveEffect_GetActiveEffectListSaveSize(SaveSizeListNode* pNodeL
     uiSize += 2;
     while (pNodeList && !pNodeList->_ref_008256d0())
     {
-        uiSize += FUN_00805810(*pNodeList->_ref_006815c0(), pArg);
+        uiSize += ActiveEffect_UpdateState_00805810(*pNodeList->_ref_006815c0(), pArg);
         pNodeList = pNodeList->_ref_00726070();
     }
     if (*g_011de4e8.Bool())

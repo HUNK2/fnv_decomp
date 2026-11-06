@@ -73,7 +73,7 @@ struct MessageStream {
 
     void FUN_00cb1600(char*, int);
 
-    void FUN_00cc01c0(const char*);
+    void ProcessAndReturnValue_00cc01c0(const char*);
 
     void FUN_00cc00e0();
 
@@ -234,7 +234,7 @@ BranchWork work;
 
                 message.FUN_00cb1600((char*)buffer, 512);
 
-                message.FUN_00cc01c0("Unknown command - This mopp data has been corrupted (check for memory trashing), or an hkpMoppBvTreeShape has been pointed at invalid mopp data.\n");
+                message.ProcessAndReturnValue_00cc01c0("Unknown command - This mopp data has been corrupted (check for memory trashing), or an hkpMoppBvTreeShape has been pointed at invalid mopp data.\n");
 
                 if (DAT_01268360->report(3, 0x1298fedd, (char*)buffer, ".\\Collide\\Mopp\\Machine\\hkpMoppModifyVirtualMachine.cpp", 0x125)) __debugbreak();
 

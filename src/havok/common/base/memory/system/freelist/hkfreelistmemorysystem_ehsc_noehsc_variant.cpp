@@ -18,7 +18,7 @@ struct FUN_00cd06a0
     void* m_p00;
     FUN_00cd06a0(int aiArg);
     void hkThreadMemory_releaseCachedMemory();
-    void FUN_00cbf1a0();
+    void UpdateFields_00cbf1a0();
 };
 struct Inner
 {
@@ -959,10 +959,10 @@ struct S_00cd0a60_sub0ad0
     int unk24;
     int unk28;
     int unk2c;
-    void FUN_00cf6da0(int a1);
+    void ProcessAndReturnValue_00cf6da0(int a1);
     __forceinline S_00cd0a60_sub0ad0()
     {
-        FUN_00cf6da0(0);
+        ProcessAndReturnValue_00cf6da0(0);
     }
 };
 struct S_00cd0a60_sub0b00
@@ -1201,7 +1201,7 @@ struct FUN_00cd0c70_cls
 {
     int unk00;
 
-    FUN_00cd0c70_cls* FUN_00cd0c70(int aiUnused);
+    FUN_00cd0c70_cls* EvaluateValue_00cd0c70(int aiUnused);
 };
 struct CD07B0_Allocator
 {
@@ -1289,10 +1289,10 @@ extern int DAT_010cad0c;
 extern int DAT_010cacd0;
 
 void __fastcall hkThreadMemory_releaseCachedMemory(void* self);
-void __fastcall FUN_00cbf1a0(void* self);
+void __fastcall UpdateFields_00cbf1a0(void* self);
 void __fastcall ResetVftableAndDeleteCriticalSection(void* self);
-void __fastcall FUN_00d5ffd0(void* self);
-void __fastcall FUN_00cbbfe0(void* self);
+void __fastcall SetVtableAndProcessState_00d5ffd0(void* self);
+void __fastcall SetVirtualTable_00cbbfe0(void* self);
 
 struct Base_cd09d0
 {
@@ -1303,7 +1303,7 @@ struct Base_cd09d0
     ~Base_cd09d0()
     {
         m_08 = &DAT_010cad0c;
-        FUN_00cbbfe0(this);
+        SetVirtualTable_00cbbfe0(this);
     }
 };
 struct Mem1c_cd09d0
@@ -1395,7 +1395,7 @@ struct Mem1c_cd09d0
     int unk0a80, unk0a84, unk0a88, unk0a8c, unk0a90, unk0a94, unk0a98;
     ~Mem1c_cd09d0()
     {
-        FUN_00d5ffd0(this);
+        SetVtableAndProcessState_00d5ffd0(this);
     }
 };
 struct MemAB8_cd09d0
@@ -1408,7 +1408,7 @@ struct MemAB8_cd09d0
     ~MemAB8_cd09d0()
     {
         DeleteCriticalSection(&m_kLock);
-        FUN_00cbf1a0(this);
+        UpdateFields_00cbf1a0(this);
     }
 };
 struct MemB30_cd09d0
@@ -1445,7 +1445,7 @@ struct Block_cd09d0
     {
         m_vptr = &DAT_010cacd0;
         hkThreadMemory_releaseCachedMemory(this);
-        FUN_00cbf1a0(this);
+        UpdateFields_00cbf1a0(this);
     }
 };
 class Pool_cd09d0 : public Base_cd09d0

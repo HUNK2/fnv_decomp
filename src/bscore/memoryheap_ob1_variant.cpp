@@ -50,7 +50,7 @@ struct FakeHeap
     void FUN_00aa7930();
     void* FUN_00aa7e20(unsigned int);
 };
-void __fastcall FUN_00aa9d10(void* this_ptr);
+void __fastcall MemoryHeap_DoNothing(void* this_ptr);
 struct FUN_00b02710_Cls
 {
     void AbstractHeap_CommitPages(void*, int);

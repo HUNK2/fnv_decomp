@@ -143,10 +143,11 @@ struct FUN_0060f3a0_node
 struct FUN_0060f3a0_shell
 {
     FUN_0060f3a0_node* GetPosition();
-    void FUN_0060f3a0();
+    void ProcessEntries_0060f3a0();
 };
 // @fnv 0x0060f3a0
-void FUN_0060f3a0_shell::FUN_0060f3a0()
+// src: GUESS 0x0060f3a0 (confidence: low)
+void FUN_0060f3a0_shell::ProcessEntries_0060f3a0()
 {
     FUN_0060f3a0_node* node = GetPosition();
     while (node && !node->_ref_008256d0())
@@ -552,11 +553,12 @@ struct FUN_004f6730_shell
 {
     int m_pad00;
     FUN_004f66c0_node m_kNode;
-    bool FUN_004f6730(FUN_004f6730_shell* other);
+    bool HasEqualListContents(FUN_004f6730_shell* other);
 };
 
 // @fnv 0x004f6730
-bool FUN_004f6730_shell::FUN_004f6730(FUN_004f6730_shell* other)
+// src: GUESS 0x004f6730 (confidence: medium)
+bool FUN_004f6730_shell::HasEqualListContents(FUN_004f6730_shell* other)
 {
     FUN_004f66c0_node* list2 = this ? &m_kNode : 0;
     FUN_004f66c0_node* list1 = other ? &other->m_kNode : 0;
@@ -614,10 +616,11 @@ bool Cmd_PlayerInRegion_Eval(void* apUnused, void* apRegion, void* apUnused2, do
     return true;
 }
 
-bool __cdecl FUN_0061f420(unsigned int, unsigned int);
+bool __cdecl Object_ComputeValue_0061f420(unsigned int, unsigned int);
 
 // @fnv 0x0061f360
-void FUN_0061f360(void* pItem, void* pNode)
+// src: GUESS 0x0061f360 (confidence: low)
+void Object_ProcessEntries_0061f360(void* pItem, void* pNode)
 {
     if (pItem && pNode)
     {
@@ -634,7 +637,7 @@ void FUN_0061f360(void* pItem, void* pNode)
                 if (item == pItem)
                     return;
 
-                if (FUN_0061f420((unsigned int)item, (unsigned int)pItem))
+                if (Object_ComputeValue_0061f420((unsigned int)item, (unsigned int)pItem))
                 {
                     ((G2*)node)->AddHead((FUN_0066deb0* const&)pItem);
                     return;
@@ -714,11 +717,12 @@ struct FUN_008363a0_shell
     Conversation* m_conv;
     char pad04[0x14];
     FUN_008363a0_node m_kNode;
-    void FUN_008363a0(BGSLoadFormBuffer* buf);
+    void ProcessEntries_008363a0(BGSLoadFormBuffer* buf);
 };
 
 // @fnv 0x008363a0
-void FUN_008363a0_shell::FUN_008363a0(BGSLoadFormBuffer* pBuffer)
+// src: GUESS 0x008363a0 (confidence: low)
+void FUN_008363a0_shell::ProcessEntries_008363a0(BGSLoadFormBuffer* pBuffer)
 {
     if (m_conv)
     {
@@ -1495,11 +1499,12 @@ struct FUN_004d65a0_Class
     HWND window;
     int unk10, unk14;
     TreeMap65 map;
-    void FUN_004d65a0(unsigned int key);
+    void ProcessTreeItemHandles_004d65a0(unsigned int key);
 };
 // For a nonzero key, builds a list from repeated 0x110A results and sends 0x1102 with wParam 2 for each listed handle.
 // @fnv 0x004d65a0
-void FUN_004d65a0_Class::FUN_004d65a0(unsigned int key)
+// src: GUESS 0x004d65a0 (confidence: low)
+void FUN_004d65a0_Class::ProcessTreeItemHandles_004d65a0(unsigned int key)
 {
     if (key)
     {

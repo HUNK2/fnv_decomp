@@ -598,7 +598,7 @@ struct ReferenceLightData
 
 float __cdecl BSMAX_00404010(float, float);
 float __cdecl BSMIN(float, float);
-ReferenceLightData* __fastcall FUN_00572750(PlayerCharacter* apPlayer);
+ReferenceLightData* __fastcall ProcessAndReturnValue_0057bd40(PlayerCharacter* apPlayer);
 extern double _gModifierZero;
 extern SettingT_GameSettingCollection_ g_011db308;
 
@@ -617,7 +617,7 @@ void FOPipboyManager::UpdatePipboyLightFade(float afTime)
     ffade = BSMAX_00404010(0.0f, ffade);
     if (m_fThirdPersonLightIntensity == 0.0)
         ffade = 1.0f - ffade;
-    plightref = FUN_00572750(g_thePlayer);
+    plightref = ProcessAndReturnValue_0057bd40(g_thePlayer);
     if (plightref && plightref->m_pMenuLight)
         ((NiPointLight*)plightref->m_pMenuLight)->NiLight_SetDimmer(ffade);
 }

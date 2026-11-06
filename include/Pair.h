@@ -26,10 +26,10 @@ public:
     static void* operator new(unsigned int size, void* p) throw();
 
     Pair& Imath_Vec2_int_Vec2_int(const Pair& other);
-    __declspec(nothrow) Wrap FUN_00dbacd0();
+    __declspec(nothrow) Wrap GetMemberArrayValue();
     __declspec(nothrow) StringHandle CreateValueInto();
     __declspec(nothrow) Node50* DispatchToVTableSlot8(int mode);
-    __declspec(nothrow) int FUN_00dbac70();
+    __declspec(nothrow) int ForwardCall_00dbac70();
     __declspec(nothrow) float ApplyValue();
     __declspec(nothrow) int CallVirtualWithArg();
 };

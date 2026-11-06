@@ -52,7 +52,8 @@ void* __fastcall PopulateWheelInfo(hkpWheelConstraintData* self, void*, int aiIn
 }
 
 // @fnv 0x00d4e5b0
-int __cdecl FUN_00d4e5b0()
+// src: GUESS 0x00d4e5b0 (confidence: high)
+int __cdecl hkpWheelConstraintData_ReturnConstant_9()
 {
     return 9;
 }

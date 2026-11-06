@@ -65,7 +65,8 @@ extern NiRTTI g_011f49a4;
 
 // Walks pkTarget's NiRTTI base chain and returns true if it reaches g_011f49a4, false for a null target or RTTI.
 // @fnv 0x00a4f5e0
-bool __stdcall FUN_00a4f5e0(NiObjectNET* pkTarget)
+// src: GUESS 0x00a4f5e0 (confidence: medium)
+bool __stdcall Object_HasRTTIInBaseChain(NiObjectNET* pkTarget)
 {
     if (!pkTarget)
         return false;

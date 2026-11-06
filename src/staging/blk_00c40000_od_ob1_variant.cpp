@@ -192,21 +192,21 @@ public:
     float GetSquaredXYLength() const;
     Elem16& expand(Allocator& allocator);
 
-    void FUN_00416870(float x, float y, float z);
+    void SetComponents(float x, float y, float z);
     bool FUN_00439090(const LocalVec3* other);
-    bool FUN_004390c0(const LocalVec3* other);
-    bool FUN_004390c0(const LocalVec3* other) const;
-    bool FUN_004390c0(const char* other);
-    void FUN_00439180(float scale);
+    bool HasEqualComponents(const LocalVec3* other);
+    bool HasEqualComponents(const LocalVec3* other) const;
+    bool HasEqualComponents(const char* other);
+    void ScaleComponents(float scale);
     LocalVec3 FUN_00439e90(const LocalVec3& other);
     LocalVec3 FUN_00439e90(const LocalVec3& other) const;
-    void FUN_00439ef0();
-    LocalVec3 FUN_00439ef0(const LocalVec3& other);
-    LocalVec3 FUN_00439ef0(const LocalVec3& other) const;
-    LocalVec3 FUN_00439ef0(LocalVec3* other);
-    LocalVec3 FUN_00439ef0(const LocalVec3* other);
-    void FUN_00439ef0(LocalVec3* output, const LocalVec3* other);
-    LocalVec3* FUN_00439ef0(void* output, void* other);
+    void SubtractIntoVector();
+    LocalVec3 SubtractIntoVector(const LocalVec3& other);
+    LocalVec3 SubtractIntoVector(const LocalVec3& other) const;
+    LocalVec3 SubtractIntoVector(LocalVec3* other);
+    LocalVec3 SubtractIntoVector(const LocalVec3* other);
+    void SubtractIntoVector(LocalVec3* output, const LocalVec3* other);
+    LocalVec3* SubtractIntoVector(void* output, void* other);
     void FUN_0043d410(float x, int y, int z);
     void FUN_0043d410(float x, unsigned int y, unsigned int z);
     float FUN_00457910();
@@ -216,22 +216,22 @@ public:
     float FUN_004a7290();
     float FUN_004a7290() const;
     LocalVec3 FUN_004b3800(const LocalVec3& other) const;
-    LocalVec3 FUN_0053d280(float divisor);
+    LocalVec3 ProcessAndReturnValue_0053d280(float divisor);
     float NiPoint3_XYLength();
     float NiPoint3_XYLength() const;
-    void FUN_0063c8a0(const LocalVec3* other);
-    void FUN_0063c8a0(void* other);
+    void ComputeValue_0063c8a0(const LocalVec3* other);
+    void ComputeValue_0063c8a0(void* other);
     void FUN_006815c0();
     float CVec3_Distance(LocalVec3* other);
     float CVec3_Distance(const LocalVec3& other) const;
-    LocalVec3 FUN_00b05000(const Mat& matrix);
-    LocalVec3 FUN_00b05000(const Matrix4* matrix);
+    LocalVec3 TransformPointByMatrix4(const Mat& matrix);
+    LocalVec3 TransformPointByMatrix4(const Matrix4* matrix);
     void Normalize_00b12790();
     LocalVec3 Diff_00b13040(void* other);
     LocalVec3 Diff_00b13040(const LocalVec3& other) const;
     float FUN_00b2a180(void* other);
-    LocalVec3& FUN_00b2a1c0(void* other);
-    void FUN_00ddc870();
+    LocalVec3& AddComponents(void* other);
+    void ProcessEntries_00ddc870();
     void FUN_00e0f6e0();
 };
 #include "../../include/MemoryManager.h"
@@ -286,14 +286,14 @@ extern int DAT_010c1670;
 extern int DAT_01016024;
 struct FUN_00c40990_Class
 {
-    void __thiscall FUN_00c40990();
+    void __thiscall SetVtableAndProcessState_00c40990();
 };
 struct FUN_00c42b60_class
 {
-    int __thiscall FUN_00c42b80();
+    int __thiscall CopyData_00c42b80();
     int a;
     int b;
-    void FUN_00c42b60();
+    void ProcessEntries_00c42b60();
 };
 void __cdecl EnsureArenaAllocated(void*);
 struct FUN_00c42da0_Class
@@ -309,7 +309,7 @@ struct FUN_00c430a0_class
 struct FUN_00c430b0_class
 {
     void __thiscall NiIntegerExtraData_CopyMembers(int a1, int a2);
-    void __thiscall FUN_00c430b0(int a1, int a2);
+    void __thiscall ForwardCall_00c430b0(int a1, int a2);
 };
 
 struct FUN_00c430d0 : public NiIntegerExtraData
@@ -368,10 +368,10 @@ struct FUN_00c44cb0_class
     void CallStoredCallback();
 };
 extern int DAT_010178bc;
-void __cdecl FUN_00a5e930(void*);
+void __cdecl UpdateFields_00c5faa0(void*);
 struct FUN_00c44e20
 {
-    void FUN_00a5e930();
+    void UpdateFields_00c5faa0();
     ~FUN_00c44e20();
 };
 struct FUN_00c452a0_Class
@@ -618,11 +618,11 @@ extern GlobalObject_00a7b610 g_01204378;
 extern int DAT_010c31a4;
 struct Unk_00a5e930
 {
-    void __thiscall FUN_00a5e930();
+    void __thiscall UpdateFields_00c5faa0();
 };
 struct FUN_00c5faa0
 {
-    void FUN_00a5e930();
+    void UpdateFields_00c5faa0();
 };
 extern const char* const g_01201f84_arg1;
 struct FUN_00c5fc60_class
@@ -657,10 +657,10 @@ struct FUN_00c40930_Class
     void __thiscall FUN_00c3f8c0();
     void* __thiscall FUN_00c40930(unsigned int flags);
 };
-void __cdecl FUN_00c43070(void*);
+void __cdecl SetVtableAndProcessState_00c43070(void*);
 struct FUN_00c43620_Class
 {
-    void __thiscall FUN_00c43070();
+    void __thiscall SetVtableAndProcessState_00c43070();
     void* __thiscall FUN_00c43620(unsigned int flags);
     static void __cdecl operator delete(void* p, unsigned int size);
 };
@@ -784,7 +784,7 @@ struct FUN_00c54ec0_class
 };
 struct FUN_00a7b300_shell
 {
-    void __thiscall FUN_00a7b300();
+    void __thiscall DestroyFields_00a7b300();
 };
 struct FUN_00c55330_class
 {
@@ -829,7 +829,7 @@ struct FUN_00c5ced0 : FUN_00a744a0
 };
 struct FUN_00c5cfd0_class
 {
-    void __thiscall FUN_00c5cfd0(int a, int b, int c, int d);
+    void __thiscall UpdateState_00c5cfd0(int a, int b, int c, int d);
 };
 extern "C" void __cdecl BSAttachPoints_InitSDM();
 extern "C" void __cdecl BSBound_InitSDM();
@@ -841,14 +841,14 @@ void __cdecl BSXFlags_InitSDM();
 extern "C" unsigned char DAT_01204364;
 void __cdecl BSMain_InitSDM();
 extern unsigned char DAT_01204364;
-void __cdecl FUN_00c655d0();
-void __cdecl FUN_00c552a0();
-void __cdecl FUN_00c54760();
-void __cdecl FUN_00c61990();
-void __cdecl FUN_00c5f2e0();
-void __cdecl FUN_00c61760();
-void __cdecl FUN_00c435a0();
-void __cdecl FUN_00c5d520();
+void __cdecl Runtime_ReleaseStorage_00c655d0();
+void __cdecl Object_UpdateFields_00c552a0();
+void __cdecl Object_UpdateFields_00c54760();
+void __cdecl Runtime_ReleaseReference_00c61990();
+void __cdecl Object_UpdateFields_00c5f2e0();
+void __cdecl Object_UpdateFields_00c61760();
+void __cdecl Object_UpdateFields_00c435a0();
+void __cdecl Object_UpdateFields_00c5d520();
 struct FUN_00c5dea0_Entry
 {
     unsigned char mFlag;
@@ -1104,7 +1104,7 @@ struct FUN_00c48fe0_Class
     int m_0020;
     int m_0024;
     int m_0028;
-    int FUN_00c48fe0();
+    int CountTypeSevenAndEightEntries();
 };
 struct FUN_00c4a5a0_class
 {
@@ -1210,8 +1210,8 @@ extern int DAT_010a0d24;
 extern int DAT_010c1854;
 struct FUN_00c43070_shell
 {
-    void FUN_00a7b300();
-    void FUN_00c43070();
+    void DestroyFields_00a7b300();
+    void SetVtableAndProcessState_00c43070();
 };
 
 
@@ -1237,7 +1237,7 @@ struct MyBase
 {
     void __thiscall NiNode_SaveBinary(NiStream& stream);
 };
-void __cdecl FUN_00a29550(NiStream& stream, unsigned char* p);
+void __cdecl Runtime_UpdateState_00a29550(NiStream& stream, unsigned char* p);
 struct FUN_00c43950_Class : MyBase
 {
     void __thiscall BSValueNode_SaveBinary(NiStream& stream);
@@ -1256,7 +1256,7 @@ struct FUN_00c457e0_class
 struct FUN_00c46230_Class
 {
     void* m0;
-    void __thiscall FUN_00c46230();
+    void __thiscall StoreAndAddReference_00c46230();
 };
 void __cdecl FUN_00c31750();
 struct FUN_00c46930_class
@@ -1321,7 +1321,7 @@ struct FUN_006dc6e0_Class
 };
 struct FUN_00c4a960_Class
 {
-    void FUN_00c4a840();
+    void UpdateFields_00c4a840();
     void* FUN_00c4a960(unsigned int flags);
 };
 struct FUN_00c4ab80_class
@@ -1469,9 +1469,9 @@ class FUN_00c42b40_cls
     int unk1C;
     int m_20;
     void Step();
-    void FUN_00c42b40();
+    void StepUntilStateIsZero();
 };
-void* __cdecl FUN_00aa13e0(unsigned int size);
+void* __cdecl Object_DispatchCommandFour(unsigned int size);
 extern int DAT_011f49e0;
 struct SpawnedObject_b9874
 {
@@ -1480,7 +1480,7 @@ struct SpawnedObject_b9874
     void Init(int* arg);
     static void* operator new(unsigned int size)
     {
-        return FUN_00aa13e0(size);
+        return Object_DispatchCommandFour(size);
     }
 };
 SpawnedObject_b9874* BSXFlags_CreateObject();
@@ -1496,12 +1496,12 @@ struct S_00c437c0 : FUN_00c43850_Class
 {
     S_00c437c0_Obj* CreateObject(unsigned int stream);
 };
-void* __cdecl FUN_00aa13e0(unsigned int size);
+void* __cdecl Object_DispatchCommandFour(unsigned int size);
 struct SpawnedObject_b9504 : FUN_00c43660
 {
     static void* operator new(unsigned int size) throw()
     {
-        return FUN_00aa13e0(size);
+        return Object_DispatchCommandFour(size);
     }
 };
 FUN_00c43660* __cdecl BSValueNode_CreateObject();
@@ -1672,7 +1672,7 @@ struct FUN_00c459d0_frame
 };
 void __cdecl NiObjectGarbage_ClearAll(unsigned char a1);
 extern int DAT_010c1c5c;
-extern void* __cdecl FUN_00c46170(unsigned int count);
+extern void* __cdecl Runtime_GetIndexedValue_00c46170(unsigned int count);
 struct S_00c46530_Class
 {
     void* m_vtbl;
@@ -1700,7 +1700,7 @@ S_00c46530_Class* __thiscall S_00c46530_Class::FUN_00c46530(unsigned short param
 
     if (this->m_uiItemCount > 0)
     {
-        this->m_result = FUN_00c46170(this->m_uiItemCount);
+        this->m_result = Runtime_GetIndexedValue_00c46170(this->m_uiItemCount);
     }
     else
     {
@@ -1829,7 +1829,7 @@ struct FUN_00c46da0_class : BaseForCall
 {
     bool __thiscall BSMultiBoundNode_IsEqual(NiObject* other);
 };
-void* __cdecl FUN_00aa13e0(unsigned int size);
+void* __cdecl Object_DispatchCommandFour(unsigned int size);
 struct NewObject_b9649
 {
     unsigned int unk00;
@@ -1880,7 +1880,7 @@ struct NewObject_b9649
     NewObject_b9649();
     static void* operator new(unsigned int size)
     {
-        return FUN_00aa13e0(size);
+        return Object_DispatchCommandFour(size);
     }
 };
 NewObject_b9649* CreateNewObject();
@@ -2553,7 +2553,7 @@ struct FUN_00c4a1b0_cls
 {
     int m_vptr;
 
-    FUN_00c4a1b0_cls* FUN_00c4a1b0();
+    FUN_00c4a1b0_cls* SetVtableAndProcessState_00c4a1b0();
 };
 class CachedRef_b5611
 {
@@ -3161,7 +3161,7 @@ struct C55CD0Point3
 };
 void C55CD0DrawBox(const C55CD0Point3& kMinBoundsCur, const C55CD0Point3& kMaxPoint, float fA, float fB, float fC, float fD,
                    unsigned int uiColor, unsigned int uiOutline);
-void FUN_00c55cd0(const C55CD0Point3& kTargetCenter, float fSize, unsigned int uiColor);
+void Runtime_UpdateState_00c55cd0(const C55CD0Point3& kTargetCenter, float fSize, unsigned int uiColor);
 struct S_00c5ae70_Result
 {
     int unk00;
@@ -3543,7 +3543,7 @@ class FUN_00c5de30_cls
     unsigned short unkBA;
     unsigned int unkBC;
     unsigned int m_c0;
-    void __thiscall FUN_00c5de30();
+    void __thiscall UpdateState_00c5de30();
 };
 struct FUN_00c5de70_sub
 {
@@ -3632,7 +3632,8 @@ inline int FUN_00c5e010_Node::vf08()
 {
     return 0;
 }
-bool __cdecl FUN_00c5e010(int object)
+// src: GUESS 0x00c5e010 (confidence: low)
+bool __cdecl Runtime_ProcessEntries_00c5e010(int object)
 {
     FUN_00c5e010_Node* initial = *reinterpret_cast<FUN_00c5e010_Node**>(reinterpret_cast<char*>(object) + 0x0C);
     FUN_00c5e010_Node* current = initial;
@@ -4150,9 +4151,9 @@ struct FUN_00c5fd50_cls
 {
     void* m_vtbl;
     void FUN_00c31750();
-    void FUN_00c5fd50();
+    void UpdateState_00c5fd50();
 };
-void* __cdecl FUN_00aa13e0(unsigned int);
+void* __cdecl Object_DispatchCommandFour(unsigned int);
 struct PositionModifierInstance
 {
     FUN_00c5fd30 modifier;
@@ -4164,7 +4165,7 @@ struct PositionModifierInstance
     void* next;
     static __forceinline void* operator new(unsigned int amount)
     {
-        return FUN_00aa13e0(amount);
+        return Object_DispatchCommandFour(amount);
     }
 };
 FUN_00c5fd30* __cdecl CreatePositionModifierInstance();
@@ -4780,14 +4781,15 @@ struct ShapeList
     void* vtable;
     ShapeEntry** data;
     unsigned count;
-    void FUN_00c409e0();
+    void SetVirtualTable_00c409e0();
 };
 static inline void FreeShapeArray(void* memory)
 {
     ((SpawnHeap_cls*)&DAT_011f6238)->MemoryManager_Deallocate(memory);
 }
 // @fnv 0x00c409e0
-void ShapeList::FUN_00c409e0()
+// src: GUESS 0x00c409e0 (confidence: low)
+void ShapeList::SetVirtualTable_00c409e0()
 {
     vtable = &DAT_010c16dc;
     unsigned index;
@@ -4980,7 +4982,8 @@ struct Pointer351
     }
 };
 // @fnv 0x00c46170
-void* FUN_00c46170(unsigned int count)
+// src: GUESS 0x00c46170 (confidence: low)
+void* Runtime_GetIndexedValue_00c46170(unsigned int count)
 {
     return new Pointer351[count];
 }
@@ -5200,11 +5203,12 @@ struct TokStack_c48ca0
         return 0;
     }
     void ShiftElements(int iDelta, bool bClear);
-    void FUN_00c48ca0();
+    void ProcessEntries_00c48ca0();
 };
 
 // @fnv 0x00c48ca0
-void TokStack_c48ca0::FUN_00c48ca0()
+// src: GUESS 0x00c48ca0 (confidence: low)
+void TokStack_c48ca0::ProcessEntries_00c48ca0()
 {
     bool bPush = true;
     if (m_kArray.m_pData[TopIdx()].iType == 4)
@@ -5247,7 +5251,7 @@ void TokStack_c48ca0::FUN_00c48ca0()
 TokStack_c48ca0 g_ts;
 void __cdecl use_all()
 {
-    g_ts.FUN_00c48ca0();
+    g_ts.ProcessEntries_00c48ca0();
 }
 
 struct C4F320Child
@@ -5642,13 +5646,14 @@ struct Heap_c55
 extern int EmptyFS_c55;
 extern NiFixedString* g_pkString_c55;
 // @fnv 0x00c552a0
-void FUN_00c552a0()
+// src: GUESS 0x00c552a0 (confidence: low)
+void Object_UpdateFields_00c552a0()
 {
     delete g_pkString_c55;
     g_pkString_c55 = 0;
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int);
+void* __cdecl Object_DispatchCommandFour(unsigned int);
 struct Vec3A
 {
     float x, y, z;
@@ -6046,11 +6051,12 @@ struct MapSI
         return 0;
     }
     RefPtrSI Resolve(ListItemSI* const& pos);
-    RefPtrSI FUN_00c5bda0(const RefPtrSI& key);
+    RefPtrSI ProcessAndReturnValue_00c5bda0(const RefPtrSI& key);
 };
 
 // @fnv 0x00c5bda0
-RefPtrSI MapSI::FUN_00c5bda0(const RefPtrSI& key)
+// src: GUESS 0x00c5bda0 (confidence: low)
+RefPtrSI MapSI::ProcessAndReturnValue_00c5bda0(const RefPtrSI& key)
 {
     ListItemSI* pos = FindPos(key);
     return pos ? Resolve(pos) : key;
@@ -7127,7 +7133,7 @@ struct DerQ : FUN_00c450d0
         unkA4, unkA8, unkAC;
     static void* operator new(unsigned int size)
     {
-        return FUN_00aa13e0(size);
+        return Object_DispatchCommandFour(size);
     }
     DerQ()
     {
@@ -7253,10 +7259,11 @@ struct ArrW
             return true;
         return false;
     }
-    void FUN_00c4e760(unsigned int uiIndex, bool bShrink);
+    void AllocateStorage_00c4e760(unsigned int uiIndex, bool bShrink);
 };
 // @fnv 0x00c4e760
-void ArrW::FUN_00c4e760(unsigned int uiIndex, bool bShrink)
+// src: GUESS 0x00c4e760 (confidence: low)
+void ArrW::AllocateStorage_00c4e760(unsigned int uiIndex, bool bShrink)
 {
     if (bShrink && ShouldShrink())
     {
@@ -7412,7 +7419,7 @@ struct C55010Obj : NiExtraData
     NiPoint3 m_18;
     static void* operator new(unsigned int size)
     {
-        return FUN_00aa13e0(size);
+        return Object_DispatchCommandFour(size);
     }
     C55010Obj(const NiFixedString& name) : NiExtraData(name)
     {
@@ -8060,11 +8067,12 @@ struct C41Owner
         if (retiredCount == threshold)
             LockFreeMap_TESObjectREFR_NiPointer_QueuedReference_LockFreeMapInterface_ScanForDeletedNodes();
     }
-    bool FUN_00c41ac0(int, C41Object**);
+    bool ProcessEntries_00c41ac0(int, C41Object**);
 };
 
 // @fnv 0x00c41ac0
-bool C41Owner::FUN_00c41ac0(int index, C41Object** wanted)
+// src: GUESS 0x00c41ac0 (confidence: low)
+bool C41Owner::ProcessEntries_00c41ac0(int index, C41Object** wanted)
 {
     C41Link* bucket = &m_00->m_0c[index];
     bool retry;
@@ -8195,7 +8203,7 @@ inline int S00c420d0_One()
 
 struct S00c420d0_Item
 {
-    void __thiscall FUN_00c42b40();
+    void __thiscall StepUntilStateIsZero();
 };
 
 struct S00c420d0_Pair
@@ -8209,11 +8217,12 @@ struct S00c420d0_cls
     unsigned int m_uiItemCount;
     unsigned int m_unk04;
     S00c420d0_Pair* m_pairs;
-    void FUN_00c420d0();
+    void ProcessEntries_00c420d0();
 };
 
 // @fnv 0x00c420d0
-void S00c420d0_cls::FUN_00c420d0()
+// src: GUESS 0x00c420d0 (confidence: low)
+void S00c420d0_cls::ProcessEntries_00c420d0()
 {
     unsigned int i = 0;
     {
@@ -8228,7 +8237,7 @@ void S00c420d0_cls::FUN_00c420d0()
                 {
                     item = this->m_pairs[i].m_pObject;
                     p = item;
-                    (p != 0) ? (r = p, reinterpret_cast<FUN_00c42b40_cls*>(r)->FUN_00c42b40(),
+                    (p != 0) ? (r = p, reinterpret_cast<FUN_00c42b40_cls*>(r)->StepUntilStateIsZero(),
                                 (S00c420d0_One() & 1) ? reinterpret_cast<SpawnHeap_cls*>(&DAT_011f6238)->MemoryManager_Deallocate(r)
                                                       : (void)0,
                                 r)
@@ -9058,7 +9067,7 @@ struct IniSetting
     int flags;
     SETTING_VALUE value;
     char* name;
-    void FUN_00c33170(const char* value);
+    void SetStringAndPromoteKeyOwnership(const char* value);
     __forceinline char* GetName()
     {
         char* resultName = name;
@@ -9158,7 +9167,7 @@ bool IniCollection::INISettingCollection_ReadSetting(IniSetting* setting)
                     {
                         count = GetPrivateProfileStringA(key17, section2, setting ? setting->value.str : 0,
                                                          stringValue2, 256, filename);
-                        setting->FUN_00c33170(stringValue2);
+                        setting->SetStringAndPromoteKeyOwnership(stringValue2);
                     }
                     break;
                 case 1: {
@@ -10276,7 +10285,7 @@ struct ObjC4aa40 : FUN_00c450d0
     int unkac;
     __forceinline static void* operator new(unsigned int size)
     {
-        return FUN_00aa13e0(size);
+        return Object_DispatchCommandFour(size);
     }
     __forceinline ObjC4aa40()
     {
@@ -10307,7 +10316,7 @@ BSDebrisNode* __cdecl BSDebrisNode_CreateObject()
     return new BSDebrisNode;
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+void* __cdecl Object_DispatchCommandFour(unsigned int size);
 
 extern int DAT_010c20d4;
 
@@ -10338,7 +10347,7 @@ struct S00c4af00_Obj : FUN_00c450d0
     }
     static void* operator new(unsigned int size) throw()
     {
-        return FUN_00aa13e0(size);
+        return Object_DispatchCommandFour(size);
     }
 };
 
@@ -10381,7 +10390,7 @@ struct C4B0C0_Obj : FUN_00c450d0
     int uAC;
     static void* operator new(unsigned int size)
     {
-        return FUN_00aa13e0(size);
+        return Object_DispatchCommandFour(size);
     }
     __forceinline C4B0C0_Obj()
     {
@@ -10754,12 +10763,14 @@ FUN_00c4ccd0::~FUN_00c4ccd0()
 
 // These arithmetic calls bind to NiPoint3 at 0x0063c8a0 and 0x0053d280.
 // Keep the /Ob1 bodies visible on the shared declaration.
-inline NiPoint3 NiPoint3::FUN_0053d280(float scale) const
+// src: GUESS 0x0053d280 (confidence: low)
+inline NiPoint3 NiPoint3::ProcessAndReturnValue_0053d280(float scale) const
 {
     float inverse = 1.0f / scale;
     return NiPoint3(x * inverse, y * inverse, z * inverse);
 }
-inline NiPoint3 NiPoint3::FUN_00439ef0(const NiPoint3& other) const
+// src: GUESS 0x00439ef0 (confidence: high)
+inline NiPoint3 NiPoint3::SubtractIntoVector(const NiPoint3& other) const
 {
     return NiPoint3(x - other.x, y - other.y, z - other.z);
 }
@@ -10784,18 +10795,19 @@ struct Mesh370
     int count;
     unsigned int unk28, unk2c, unk30;
     NiPoint3 center;
-    void FUN_00c4ce00();
+    void ProcessEntries_00c4ce00();
 };
 // @fnv 0x00c4ce00
-void Mesh370::FUN_00c4ce00()
+// src: GUESS 0x00c4ce00 (confidence: low)
+void Mesh370::ProcessEntries_00c4ce00()
 {
     NiPoint3 sum = _DAT_011f426c;
     for (int i = 0; i < count; ++i)
-        sum.FUN_0063c8a0(data->points[i]);
-    NiPoint3 average = sum.FUN_0053d280((float)count);
+        sum.ComputeValue_0063c8a0(data->points[i]);
+    NiPoint3 average = sum.ProcessAndReturnValue_0053d280((float)count);
     for (int j = 0; j < count; ++j)
     {
-        data->SetPoint(j, static_cast<const NiPoint3&>(data->GetPoint(j)).FUN_00439ef0(average));
+        data->SetPoint(j, static_cast<const NiPoint3&>(data->GetPoint(j)).SubtractIntoVector(average));
     }
     center = average;
 }
@@ -11153,10 +11165,11 @@ inline NiPoint3 NiPoint3::operator-(const NiPoint3& other) const
 struct Owner299
 {
     NiTPrimitiveArray<NiPoint3>* points;
-    float FUN_00c4da80(int first, int second, int third);
+    float ProcessAndReturnValue_00c4da80(int first, int second, int third);
 };
 // @fnv 0x00c4da80
-float Owner299::FUN_00c4da80(int first, int second, int third)
+// src: GUESS 0x00c4da80 (confidence: low)
+float Owner299::ProcessAndReturnValue_00c4da80(int first, int second, int third)
 {
 
     NiPoint3 delta[2] = {points->GetAt(second) - points->GetAt(first), points->GetAt(third) - points->GetAt(first)};
@@ -11184,7 +11197,7 @@ struct S00c4db20_Child
 {
     int unk00;
     S00c4db20_Pt* m_pPoints;
-    void FUN_00c4e760(int idx, int b);
+    void AllocateStorage_00c4e760(int idx, int b);
     S00c4db20_Pt& GetPt(int n)
     {
         return m_pPoints[n];
@@ -11208,7 +11221,7 @@ struct S00c4db20_Self
     void RemovePt(int n)
     {
         S00c4db20_Pt u;
-        m_pChildObject->FUN_00c4e760(n, 1);
+        m_pChildObject->AllocateStorage_00c4e760(n, 1);
     }
     int GetPointSide(S00c4db20_Pt curr, S00c4db20_Pt prev, S00c4db20_Pt next);
 };
@@ -12907,7 +12920,7 @@ bool Q52Obj::NiBSBoneLODController_SetBoneLOD(unsigned idx)
 
 void* __cdecl _NiMalloc_00aa1070(unsigned int);
 void __cdecl _NiFree_00aa10f0(void*);
-void* __cdecl FUN_00aa13e0(unsigned int);
+void* __cdecl Object_DispatchCommandFour(unsigned int);
 struct Q5Item;
 struct Q5Hold
 {
@@ -12943,7 +12956,7 @@ struct Q5Obj
     static __forceinline void* operator new(unsigned int amount)
     {
         int dq[2];
-        return FUN_00aa13e0(amount);
+        return Object_DispatchCommandFour(amount);
     }
     Q5Obj();
     bool InitializeData_00c52d80(Q5Item* it);
@@ -13319,7 +13332,7 @@ inline long NiAtomicDecrementB06(long& lValue)
 
 struct RefSetB06
 {
-    NiPointer<NiRefObject> FUN_00c5bda0(const NiPointer<NiRefObject>& spRetainedObject);
+    NiPointer<NiRefObject> ProcessAndReturnValue_00c5bda0(const NiPointer<NiRefObject>& spRetainedObject);
     void* m_pUserData;
 };
 
@@ -13345,7 +13358,7 @@ void OwnerB06::BSPortalGraph_RemoveRoom(NiRefObject* pkObject)
     if (pkObject)
     {
         NiPointer<NiRefObject> spRetainedObject(pkObject);
-        m_kSet.FUN_00c5bda0(spRetainedObject);
+        m_kSet.ProcessAndReturnValue_00c5bda0(spRetainedObject);
     }
 }
 
@@ -13459,11 +13472,12 @@ struct TempEffectList
     unsigned short unk44;
     unsigned short unk46;
 
-    void __thiscall FUN_00c5b4d0();
+    void __thiscall UpdateReferenceState_00c5b4d0();
 };
 
 // @fnv 0x00c5b4d0
-void __thiscall TempEffectList::FUN_00c5b4d0()
+// src: GUESS 0x00c5b4d0 (confidence: low)
+void __thiscall TempEffectList::UpdateReferenceState_00c5b4d0()
 {
     unsigned int i = 0;
     for (; i < (unsigned int)unk46; ++i)
@@ -15641,11 +15655,12 @@ inline void operator delete[](void* p)
 struct OwnerC44
 {
     ObjC44** unk00;
-    void FUN_00c44b70();
+    void ReleaseStorage_00c44b70();
 };
 
 // @fnv 0x00c44b70
-void OwnerC44::FUN_00c44b70()
+// src: GUESS 0x00c44b70 (confidence: low)
+void OwnerC44::ReleaseStorage_00c44b70()
 {
     for (unsigned int i = 0; i < 1; ++i)
     {
@@ -17049,7 +17064,7 @@ struct FUN_00aa3e40_alloc
     void* __thiscall Game_DoHeapAlloc(unsigned int size);
 };
 extern "C" char DAT_011f6238;
-void* __cdecl FUN_00aa13e0(unsigned int size);
+void* __cdecl Object_DispatchCommandFour(unsigned int size);
 extern "C" double __cdecl cos(double angle);
 extern "C" double __cdecl sin(double angle);
 
@@ -17190,7 +17205,7 @@ extern const float DAT_01016248;
 extern const float DAT_01012054;
 extern char DAT_010c2c80[];
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+void* __cdecl Object_DispatchCommandFour(unsigned int size);
 int* __cdecl FUN_00a5b690(const char* value);
 extern int DAT_0109b220;
 
@@ -17226,7 +17241,8 @@ inline float LocalVec3::FUN_00457910()
     }
     return magnitude;
 }
-inline LocalVec3 LocalVec3::FUN_00439ef0(const LocalVec3& v) const
+// src: GUESS 0x00439ef0 (confidence: high)
+inline LocalVec3 LocalVec3::SubtractIntoVector(const LocalVec3& v) const
 {
     return LocalVec3(x - v.x, y - v.y, z - v.z);
 }
@@ -17251,7 +17267,7 @@ NiNode* BSTestObjects_Create3DArrow(const LocalVec3& start, const LocalVec3& end
                        const Color4* tipColor)
 {
     NiNode* rootNode4 = new NiNode(0);
-    LocalVec3 direction6 = end.FUN_00439ef0(start);
+    LocalVec3 direction6 = end.SubtractIntoVector(start);
     float lengthX = direction6.FUN_00457910();
     float length = 0.0f;
     float tipLength3 = width * DAT_01034208;
@@ -17359,7 +17375,8 @@ extern MemoryManager _g_memoryManager;
 extern NiFixedString* DAT_01204374;
 
 // @fnv 0x00c5f2e0
-void __cdecl FUN_00c5f2e0()
+// src: GUESS 0x00c5f2e0 (confidence: low)
+void __cdecl Object_UpdateFields_00c5f2e0()
 {
     delete DAT_01204374;
     DAT_01204374 = 0;
@@ -17466,7 +17483,8 @@ struct RemovalMapState
     RemovalMapLink next;
     RemovalMapNode* retired;
     unsigned int retiredCount;
-    inline bool FUN_00c41ac0(int index, int value)
+// src: GUESS 0x00c41ac0 (confidence: low)
+    inline bool ProcessEntries_00c41ac0(int index, int value)
     {
         volatile long* link = &owner->entries[index];
         while (true)
@@ -17547,15 +17565,16 @@ struct RemovalMapState
             Collect();
     }
     void Collect();
-    bool FUN_00c40680(int, int);
+    bool ProcessEntries_00c40680(int, int);
 };
 // @fnv 0x00c40680
-bool RemovalMapState::FUN_00c40680(int arg1, int arg2)
+// src: GUESS 0x00c40680 (confidence: low)
+bool RemovalMapState::ProcessEntries_00c40680(int arg1, int arg2)
 {
     bool result = false;
     while (true)
     {
-        if (!FUN_00c41ac0(arg1, arg2))
+        if (!ProcessEntries_00c41ac0(arg1, arg2))
         {
             result = false;
             break;
@@ -17570,7 +17589,7 @@ bool RemovalMapState::FUN_00c40680(int arg1, int arg2)
         if (((RemovalMapLink*)head)->Compare(expected.Value(), old.Value()))
             LockFreeMap_TESObjectREFR_NiPointer_QueuedReference_LockFreeMapInterface_DeleteNode((RemovalMapNode*)current.Pointer());
         else
-            FUN_00c41ac0(arg1, arg2);
+            ProcessEntries_00c41ac0(arg1, arg2);
         result = true;
         break;
     }
@@ -17851,7 +17870,8 @@ void __cdecl BSXFlags_InitSDM()
 namespace fnv_00c435a0 {
 
 // @fnv 0x00c435a0
-void __cdecl FUN_00c435a0()
+// src: GUESS 0x00c435a0 (confidence: low)
+void __cdecl Object_UpdateFields_00c435a0()
 {
     delete (NiFixedString*)DAT_01202ddc;
     DAT_01202ddc = 0;
@@ -18195,7 +18215,7 @@ class FUN_00a746e0 : public NiAVObject
   public:
     static void* operator new(unsigned int size)
     {
-        return FUN_00aa13e0(size);
+        return Object_DispatchCommandFour(size);
     }
     static void operator delete(void* p);
     FUN_00a746e0(int n, NiPoint3* pts, ColorA* cols, int a, int b, int c, unsigned char* flags);
@@ -18976,7 +18996,7 @@ extern const float DAT_01016248;
 extern const float DAT_01012054;
 extern char DAT_010c2c80[];
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+void* __cdecl Object_DispatchCommandFour(unsigned int size);
 
 struct Mesh : NiMemObject
 {
@@ -19390,11 +19410,12 @@ struct C42List
     int m_04, m_08;
     unsigned m_0c;
     C42Node* m_10;
-    void FUN_00c42b80();
+    void CopyData_00c42b80();
 };
 extern "C" void* __cdecl memmove(void*, const void*, unsigned);
 // @fnv 0x00c42b80
-void C42List::FUN_00c42b80()
+// src: GUESS 0x00c42b80 (confidence: low)
+void C42List::CopyData_00c42b80()
 {
     C42Guard _ctx(6);
     unsigned _iCount = m_00->Count() * 2;

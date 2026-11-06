@@ -236,7 +236,7 @@ public:
                            int entries, int depth);
     void RegisterAgentType(char* table, int agentType, int typeA, int typeB, int origA, int origB,
                            int entries, int depth);
-    void FUN_00cfbbe0(CollisionAgentFunctionTable* record, int typeA, int typeB);
+    void AppendRecordAndRegisterAgents(CollisionAgentFunctionTable* record, int typeA, int typeB);
     void AddSpawnEntry(SpawnRequest* request, int typeA, int typeB);
     void AddSpawnEntry(CollisionAgentFunctionTable* record, int typeA, int typeB);
     int AddEntry(SrcRec* record, int typeA, int typeB);

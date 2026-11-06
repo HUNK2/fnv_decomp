@@ -61,18 +61,20 @@ extern int DAT_010a5890;
 
 struct FUN_00b3f0a0_Class
 {
-    void __thiscall FUN_00b3f0a0();
+    void __thiscall SetVirtualTable_00b3f0a0();
 };
 
 // @fnv 0x00b3f0a0
-void __thiscall FUN_00b3f0a0_Class::FUN_00b3f0a0()
+// src: GUESS 0x00b3f0a0 (confidence: low)
+void __thiscall FUN_00b3f0a0_Class::SetVirtualTable_00b3f0a0()
 {
     *(int*)this = (int)&DAT_010a5890;
 }
 
 // Adds other's x, y and z to this point's components and returns this point.
 // @fnv 0x00b2a1c0
-NiPoint3& NiPoint3::FUN_00b2a1c0(const NiPoint3& other)
+// src: GUESS 0x00b2a1c0 (confidence: medium)
+NiPoint3& NiPoint3::AddComponents(const NiPoint3& other)
 {
     x += other.x;
     y += other.y;
@@ -103,12 +105,13 @@ int FUN_00b393b0_Class::GetVtblAndValue(int pOut)
 
 struct FUN_00b3c4b0_class
 {
-    FUN_00b3c4b0_class* __thiscall FUN_00b3c4b0(int a);
+    FUN_00b3c4b0_class* __thiscall UpdateState_00b3c4b0(int a);
 };
 
 // Zeroes five floats at offsets 0x0-0x10, clamps a to at most 5, stores it at 0x14, and returns this.
 // @fnv 0x00b3c4b0
-FUN_00b3c4b0_class* __thiscall FUN_00b3c4b0_class::FUN_00b3c4b0(int a)
+// src: GUESS 0x00b3c4b0 (confidence: low)
+FUN_00b3c4b0_class* __thiscall FUN_00b3c4b0_class::UpdateState_00b3c4b0(int a)
 {
     *(float*)(this + 0x10) = 0.0f;
     *(float*)(this + 0xc) = 0.0f;
@@ -127,11 +130,12 @@ struct FUN_00b3c5a0_class
 {
     float data[0x14 / 4];
     int count;
-    float FUN_00b3c5a0();
+    float ComputeRootOfSumSquares();
 };
 
 // @fnv 0x00b3c5a0
-float FUN_00b3c5a0_class::FUN_00b3c5a0()
+// src: GUESS 0x00b3c5a0 (confidence: medium)
+float FUN_00b3c5a0_class::ComputeRootOfSumSquares()
 {
     float fSumSquares = 0.0f;
     for (int i = 0; i < count; ++i)
@@ -143,13 +147,13 @@ struct FUN_00b3c600_class
 {
     float* pData;
     int* pCount;
-    double __thiscall FUN_00b3c5a0();
+    double __thiscall ComputeRootOfSumSquares();
     void NormalizeData();
 };
 // @fnv 0x00b3c600
 void FUN_00b3c600_class::NormalizeData()
 {
-    float fDivisor = FUN_00b3c5a0();
+    float fDivisor = ComputeRootOfSumSquares();
     if (fDivisor != 0.0)
     {
         for (int i = 0; i < *(int*)((char*)this + 0x14); ++i)
@@ -323,12 +327,13 @@ struct FUN_00b34d90_class
     int value;
     char* end;
 
-    void __thiscall FUN_00b34d90();
+    void __thiscall FreeBufferAndClearRange();
 };
 
 // Frees the buffer at begin if set, then resets begin, value and end to zero.
 // @fnv 0x00b34d90
-void FUN_00b34d90_class::FUN_00b34d90()
+// src: GUESS 0x00b34d90 (confidence: medium)
+void FUN_00b34d90_class::FreeBufferAndClearRange()
 {
     {
         bool flagCopy;
@@ -592,8 +597,8 @@ void* FUN_00b277b0_cls::Destroy(unsigned int flags)
 }  // namespace fnv_00b277b0
 
 // InitBuffer
-extern "C" int __cdecl FUN_00b2e4a0(unsigned int count, int flag);
-extern "C" void __cdecl FUN_00b0fb80();
+extern "C" int __cdecl Object_AllocateElementStorage_00b2e4a0(unsigned int count, int flag);
+extern "C" void __cdecl BxLengthError_Thunk();
 
 struct FnvB2e080
 {
@@ -624,11 +629,11 @@ bool __thiscall FnvB2e080::InitBuffer(unsigned int count)
         n = 0x030C30C3;
         if ((n > 0 ? n : 1) < count)
         {
-            FUN_00b0fb80();
+            BxLengthError_Thunk();
         }
         else
         {
-            this->f0c = FUN_00b2e4a0(count, 0);
+            this->f0c = Object_AllocateElementStorage_00b2e4a0(count, 0);
             this->f10 = this->f0c;
             this->f14 = count * 0x54 + this->f0c;
         }
@@ -651,13 +656,14 @@ struct FUN_00b2e250_cls
     unsigned int m_0c;
     unsigned int m_10;
     void Update(int newValue, int oldValue);
-    SpanPair* FUN_00b2e250(SpanPair* out, int unk04, unsigned int idx1, int unk14, unsigned int idx2);
+    SpanPair* UpdateState_00b2e250(SpanPair* out, int unk04, unsigned int idx1, int unk14, unsigned int idx2);
 };
 
-extern "C" int __cdecl FUN_00b2e3f0(int, int, int);
+extern "C" int __cdecl Runtime_EvaluateValue_00b2e3f0(int, int, int);
 
 // @fnv 0x00b2e250
-SpanPair* FUN_00b2e250_cls::FUN_00b2e250(SpanPair* out, int iUnused, unsigned int uiIndex1, int iUnused2,
+// src: GUESS 0x00b2e250 (confidence: low)
+SpanPair* FUN_00b2e250_cls::UpdateState_00b2e250(SpanPair* out, int iUnused, unsigned int uiIndex1, int iUnused2,
                                          unsigned int uiIndex2)
 {
     SpanPair a;
@@ -681,7 +687,7 @@ SpanPair* FUN_00b2e250_cls::FUN_00b2e250(SpanPair* out, int iUnused, unsigned in
     b.b = uiIndex2;
     if (a.Compare(b))
     {
-        r = FUN_00b2e3f0(b.b, m_10, a.b);
+        r = Runtime_EvaluateValue_00b2e3f0(b.b, m_10, a.b);
         Update(r, m_10);
         m_10 = r;
     }
@@ -693,7 +699,7 @@ struct ProbePair
 {
     unsigned int m_00;
     unsigned int m_04;
-    bool FUN_00b16830(const ProbePair* key);
+    bool AreValuesEqual_00b16830(const ProbePair* key);
 };
 
 struct FUN_00b335c0_tmp
@@ -722,11 +728,12 @@ struct FUN_00b335c0_cls
     unsigned int unk08;
     unsigned int m_0c;
     unsigned int m_10;
-    ProbePair FUN_00b335c0(unsigned int a2, unsigned int a3, unsigned int a4, unsigned int a5);
+    ProbePair ProcessAndReturnValue_00b335c0(unsigned int a2, unsigned int a3, unsigned int a4, unsigned int a5);
 };
 
 // @fnv 0x00b335c0
-ProbePair FUN_00b335c0_cls::FUN_00b335c0(unsigned int auiUnused, unsigned int a3, unsigned int auiUnused2,
+// src: GUESS 0x00b335c0 (confidence: low)
+ProbePair FUN_00b335c0_cls::ProcessAndReturnValue_00b335c0(unsigned int auiUnused, unsigned int a3, unsigned int auiUnused2,
                                          unsigned int a5)
 {
     ProbePair result;
@@ -747,7 +754,7 @@ ProbePair FUN_00b335c0_cls::FUN_00b335c0(unsigned int auiUnused, unsigned int a3
         }
         key.m_00 = this->unk00;
         key.m_04 = a5;
-        if (result.FUN_00b16830(&key))
+        if (result.AreValuesEqual_00b16830(&key))
         {
             r = std__Move(key.m_04, this->m_10, result.m_04);
             {
@@ -796,14 +803,15 @@ struct FUN_00b33af0_cls
     unsigned int m_0c;
     unsigned int m_10;
     unsigned int m_14;
-    FUN_00b33af0_pair* FUN_00b33af0(FUN_00b33af0_pair* out, unsigned int unk0c, unsigned int a, unsigned int unk14,
+    FUN_00b33af0_pair* UpdateState_00b33af0(FUN_00b33af0_pair* out, unsigned int unk0c, unsigned int a, unsigned int unk14,
                                     unsigned int b);
 };
 
-extern "C" unsigned int __cdecl FUN_00b35c30(unsigned int, unsigned int, unsigned int);
+extern "C" unsigned int __cdecl Runtime_EvaluateValue_00b35c30(unsigned int, unsigned int, unsigned int);
 
 // @fnv 0x00b33af0
-FUN_00b33af0_pair* FUN_00b33af0_cls::FUN_00b33af0(FUN_00b33af0_pair* out, unsigned int unk0c, unsigned int a,
+// src: GUESS 0x00b33af0 (confidence: low)
+FUN_00b33af0_pair* FUN_00b33af0_cls::UpdateState_00b33af0(FUN_00b33af0_pair* out, unsigned int unk0c, unsigned int a,
                                                   unsigned int unk14, unsigned int b)
 {
     FUN_00b33af0_pair p9;
@@ -827,7 +835,7 @@ FUN_00b33af0_pair* FUN_00b33af0_cls::FUN_00b33af0(FUN_00b33af0_pair* out, unsign
     p2.b = b;
     if (p9.CompareTo(&p2))
     {
-        r = FUN_00b35c30(p2.b, this->m_10, p9.b);
+        r = Runtime_EvaluateValue_00b35c30(p2.b, this->m_10, p9.b);
         it9.m_00 = this->m_10;
         it9.m_04 = it9.m_00;
         it9.m_08 = r;
@@ -852,7 +860,8 @@ extern "C" int DAT_01140ef8;
 extern "C" int DAT_010176f8;
 
 // @fnv 0x00b35f00
-extern "C" void __cdecl FUN_00b35f00(unsigned int n)
+// src: GUESS 0x00b35f00 (confidence: low)
+extern "C" void __cdecl Object_UpdateFields_00b35f00(unsigned int n)
 {
     Hldr0044 h;
     unsigned int tmp;
@@ -1023,11 +1032,12 @@ struct FUN_00b3c660_cls
     int count;
     FUN_00b3c660_cls(int n);
     ~FUN_00b3c660_cls();
-    FUN_00b3c660_cls FUN_00b3c660(FUN_00b3c660_cls* other);
+    FUN_00b3c660_cls ProcessEntries_00b3c660(FUN_00b3c660_cls* other);
 };
 
 // @fnv 0x00b3c660
-FUN_00b3c660_cls FUN_00b3c660_cls::FUN_00b3c660(FUN_00b3c660_cls* other)
+// src: GUESS 0x00b3c660 (confidence: low)
+FUN_00b3c660_cls FUN_00b3c660_cls::ProcessEntries_00b3c660(FUN_00b3c660_cls* other)
 {
     int n = -1;
     if (count < other->count)
@@ -1092,7 +1102,7 @@ struct ScaledVec6
     ScaledVec6(int n)
     {
         FUN_00b3c4b0_class* p = reinterpret_cast<FUN_00b3c4b0_class*>(this);
-        p->FUN_00b3c4b0(n);
+        p->UpdateState_00b3c4b0(n);
     }
     ~ScaledVec6()
     {
@@ -1300,10 +1310,11 @@ struct FUN_00b3fdd0_class
     int unk54;
     int unk58;
     FUN_00b37880_class* unk5c;
-    void __thiscall FUN_00b3fdd0(FUN_00b37880_class* value);
+    void __thiscall UpdateState_00b3fdd0(FUN_00b37880_class* value);
 };
 // @fnv 0x00b3fdd0
-void __thiscall FUN_00b3fdd0_class::FUN_00b3fdd0(FUN_00b37880_class* value)
+// src: GUESS 0x00b3fdd0 (confidence: low)
+void __thiscall FUN_00b3fdd0_class::UpdateState_00b3fdd0(FUN_00b37880_class* value)
 {
     if (unk5c != value)
     {
@@ -1355,11 +1366,12 @@ struct PtrVector
     void** m_ppLast;   // +0x10
     void** m_ppEnd;    // +0x14
 
-    void*& FUN_00b31230(unsigned int uiPos);
+    void*& EvaluateValue_00b31230(unsigned int uiPos);
 };
 
 // @fnv 0x00b31230
-void*& PtrVector::FUN_00b31230(unsigned int uiPos)
+// src: GUESS 0x00b31230 (confidence: low)
+void*& PtrVector::EvaluateValue_00b31230(unsigned int uiPos)
 {
     if (uiPos >= (unsigned int)(m_ppLast - m_ppFirst))
         FUN_00ec7c56();
@@ -1372,11 +1384,12 @@ struct FUN_00b2ac30_t
 {
     int* m_00;
     int m_04;
-    bool FUN_00b2ac30(FUN_00b2ac30_t* other);
+    bool EvaluateValue_00b2ac30(FUN_00b2ac30_t* other);
 };
 
 // @fnv 0x00b2ac30
-bool FUN_00b2ac30_t::FUN_00b2ac30(FUN_00b2ac30_t* other)
+// src: GUESS 0x00b2ac30 (confidence: low)
+bool FUN_00b2ac30_t::EvaluateValue_00b2ac30(FUN_00b2ac30_t* other)
 {
     if (!(static_cast<bool>(static_cast<int>(m_00 != 0)) && static_cast<bool>(static_cast<int>(m_00 == other->m_00))))
         FUN_00ec7c56();
@@ -1434,7 +1447,7 @@ struct ElemAlloc
     char c;
 };
 
-void __cdecl FUN_00b35ca0(int* pFirst, unsigned int ItemUpdateArray, const int& kVal, ElemAlloc& kAl);
+void __cdecl Object_ProcessState_00b35ca0(int* pFirst, unsigned int ItemUpdateArray, const int& kVal, ElemAlloc& kAl);
 
 class IntVector
 {
@@ -1447,12 +1460,13 @@ class IntVector
     int* m_pRecordEnd;
 
     bool ResizeArray(unsigned int ItemUpdateArray);
-    void FUN_00b17f50();
-    void FUN_00b32600(unsigned int ItemUpdateArray, const int& kVal);
+    void UpdateState_00b17f50();
+    void UpdateFields_00b32600(unsigned int ItemUpdateArray, const int& kVal);
 };
 
 // @fnv 0x00b32600
-void IntVector::FUN_00b32600(unsigned int ItemUpdateArray, const int& kVal)
+// src: GUESS 0x00b32600 (confidence: low)
+void IntVector::UpdateFields_00b32600(unsigned int ItemUpdateArray, const int& kVal)
 {
     int aiUnused[0x26];
     if (ResizeArray(ItemUpdateArray))
@@ -1461,12 +1475,12 @@ void IntVector::FUN_00b32600(unsigned int ItemUpdateArray, const int& kVal)
         {
             int* pPtr = m_pFirst;
             int aiMore[7];
-            FUN_00b35ca0(pPtr, ItemUpdateArray, kVal, m_kAl);
+            Object_ProcessState_00b35ca0(pPtr, ItemUpdateArray, kVal, m_kAl);
             m_pLast = pPtr + ItemUpdateArray;
         }
         catch (...)
         {
-            FUN_00b17f50();
+            UpdateState_00b17f50();
             throw;
         }
     }
@@ -1480,11 +1494,12 @@ struct S_00b3db50
     int mC;
     int m10;
     int m14;
-    void FUN_00b3db50();
+    void UpdateState_00b3db50();
 };
 // Frees the mC buffer via _Deallocate after calling Update, then zeroes mC, m10, and m14.
 // @fnv 0x00b3db50
-void S_00b3db50::FUN_00b3db50()
+// src: GUESS 0x00b3db50 (confidence: low)
+void S_00b3db50::UpdateState_00b3db50()
 {
     int p0, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10;
     if (mC)
@@ -1513,17 +1528,18 @@ struct RecordSequence
     int m_00, m_04, m_08;
     SequenceRecord* m_0c;
     SequenceRecord* m_10;
-    bool FUN_00b1f590(int n);
-    void FUN_00b32c60();
-    void FUN_00b32780(int n, const SequenceRecord* value);
+    bool UpdateState_00b1f590(int n);
+    void UpdateFields_00b32c60();
+    void InitializeFilledElements_00b32780(int n, const SequenceRecord* value);
 };
-extern void __cdecl FUN_00b360a0(SequenceRecord*, int, const SequenceRecord*, void*, unsigned char, unsigned char);
+extern void __cdecl Object_ProcessEntries_00b360a0(SequenceRecord*, int, const SequenceRecord*, void*, unsigned char, unsigned char);
 // If FUN_00b1f590(n) succeeds, calls FUN_00b360a0 on m_0c with n and value and sets m_10 to m_0c + n; on exception calls FUN_00b32c60 and rethrows.
 // @fnv 0x00b32780
-void RecordSequence::FUN_00b32780(int n, const SequenceRecord* value)
+// src: GUESS 0x00b32780 (confidence: medium)
+void RecordSequence::InitializeFilledElements_00b32780(int n, const SequenceRecord* value)
 {
     int filler[25];
-    if (FUN_00b1f590(n))
+    if (UpdateState_00b1f590(n))
     {
         try
         {
@@ -1535,7 +1551,7 @@ void RecordSequence::FUN_00b32780(int n, const SequenceRecord* value)
             b = c;
             SequenceCopyTag p = {};
             h = a;
-            FUN_00b360a0(b, n, value, &m_08, h, p.v);
+            Object_ProcessEntries_00b360a0(b, n, value, &m_08, h, p.v);
             m_10 = c + n;
             {
                 int tail[14];
@@ -1543,13 +1559,13 @@ void RecordSequence::FUN_00b32780(int n, const SequenceRecord* value)
         }
         catch (...)
         {
-            FUN_00b32c60();
+            UpdateFields_00b32c60();
             throw;
         }
     }
 }
 
-extern "C" void* __cdecl FUN_00b35b60(unsigned int, unsigned int, unsigned int);
+extern "C" void* __cdecl Object_ProcessAndReturnValue_00b35b60(unsigned int, unsigned int, unsigned int);
 
 struct S_B33030
 {
@@ -1558,14 +1574,15 @@ struct S_B33030
     unsigned int m_last;
     unsigned int m_kRayEnd;
 
-    void __thiscall FUN_00b33110(unsigned int, unsigned int);
+    void __thiscall ForwardCall_00b33110(unsigned int, unsigned int);
 
-    ProbePair FUN_00b33030(ProbePair first, ProbePair last);
+    ProbePair UpdateState_00b33030(ProbePair first, ProbePair last);
 };
 
 // If _First.FUN_00b16830(&_Last) is true, calls FUN_00b35b60 and FUN_00b33110 and sets m_last to the new value; returns the first iterator.
 // @fnv 0x00b33030
-ProbePair S_B33030::FUN_00b33030(ProbePair first, ProbePair last)
+// src: GUESS 0x00b33030 (confidence: low)
+ProbePair S_B33030::UpdateState_00b33030(ProbePair first, ProbePair last)
 {
     ProbePair _First;
     ProbePair _Last;
@@ -1586,10 +1603,10 @@ ProbePair S_B33030::FUN_00b33030(ProbePair first, ProbePair last)
         _Last.m_00 = this->unk00[0];
         _Last.m_04 = last.m_04;
 
-        if (_First.FUN_00b16830(&_Last))
+        if (_First.AreValuesEqual_00b16830(&_Last))
         {
-            new_last = (unsigned int)FUN_00b35b60(_Last.m_04, this->m_last, _First.m_04);
-            this->FUN_00b33110(new_last, this->m_last);
+            new_last = (unsigned int)Object_ProcessAndReturnValue_00b35b60(_Last.m_04, this->m_last, _First.m_04);
+            this->ForwardCall_00b33110(new_last, this->m_last);
             this->m_last = new_last;
         }
     }
@@ -1611,7 +1628,8 @@ struct RandomTag
 };
 // Writes the unsigned short at src into each of the count elements of dst.
 // @fnv 0x00b36b80
-void FUN_00b36b80(unsigned short* dst, unsigned int count, const unsigned short* src)
+// src: GUESS 0x00b36b80 (confidence: high)
+void Object_FillUInt16Range(unsigned short* dst, unsigned int count, const unsigned short* src)
 {
     CheckedTag aChecked = {};
     ScalarTag categoryB;
@@ -1724,7 +1742,7 @@ FUN_00b29fd0_cls* FUN_00b29fd0_cls::CLightingEngine_CLightingEngine()
 
 struct FUN_00b3f070 : FUN_00b3f0a0_Class
 {
-    void FUN_00b3f0a0();
+    void SetVirtualTable_00b3f0a0();
     virtual ~FUN_00b3f070();
 };
 
@@ -1873,12 +1891,13 @@ class OwnerB3ff90
     unsigned int unk0064;
     unsigned int unk0068;
     FUN_00b37880_class* m_6c;
-    void FUN_00b3ff90(FUN_00b37880_class* a);
+    void UpdateState_00b3ff90(FUN_00b37880_class* a);
 };
 
 // If a differs from m_6c, calls FUN_00b37880 then FUN_00401030 on the old m_6c, and stores a in m_6c.
 // @fnv 0x00b3ff90
-void OwnerB3ff90::FUN_00b3ff90(FUN_00b37880_class* a)
+// src: GUESS 0x00b3ff90 (confidence: low)
+void OwnerB3ff90::UpdateState_00b3ff90(FUN_00b37880_class* a)
 {
     if (m_6c != a)
     {

@@ -104,12 +104,12 @@ struct TESObjectARMOOldBipedModel
 {
     unsigned short slots;
     unsigned char flags;
-    void FUN_00512810();
+    void BSEndian_Thunk();
 };
 struct TESObjectARMOOldData
 {
     unsigned short rating;
-    void FUN_00512810();
+    void BSEndian_Thunk();
 };
 
 extern "C" void* __cdecl memset(void*, int, unsigned int);
@@ -220,7 +220,7 @@ bool TESObjectARMO::Load(TESFile* file)
                 TESObjectARMOOldBipedModel oldBipedModel;
                 file->GetChunkData(&oldBipedModel, sizeof(oldBipedModel));
                 if (file->IsEndianConversionRequired())
-                    oldBipedModel.FUN_00512810();
+                    oldBipedModel.BSEndian_Thunk();
                 bipedFlags = oldBipedModel.flags;
                 partMask = oldBipedModel.slots;
             }
@@ -390,7 +390,7 @@ bool TESObjectARMO::Load(TESFile* file)
                 memset(&oldArmoData, 0, sizeof(oldArmoData));
                 ReadTypedData(file, &oldArmoData, sizeof(oldArmoData));
                 if (file->IsEndianConversionRequired())
-                    oldArmoData.FUN_00512810();
+                    oldArmoData.BSEndian_Thunk();
                 memcpy(&data, &oldArmoData, sizeof(oldArmoData));
                 data.cFlags = 0;
             }
@@ -481,8 +481,8 @@ void AppendChunk(unsigned int, void*, unsigned int);
 void TESForm_AddChunk_00485910(unsigned int, unsigned int);
 struct FUN_004855a0_shell
 {
-    void FUN_004855a0();
-    void FUN_00485680();
+    void BeginFormRecord();
+    void FinishFormRecord();
     void TESForm_SaveData();
 };
 
@@ -530,7 +530,7 @@ struct ArmorSerializer : TESObjectARMO
 // @fnv 0x00513d90
 void ArmorSerializer::Save()
 {
-    ((FUN_004855a0_shell*)this)->FUN_004855a0();
+    ((FUN_004855a0_shell*)this)->BeginFormRecord();
     TESFullName::Save_00487010();
     TESScriptableForm::Save();
     TESEnchantableForm::Save();
@@ -576,7 +576,7 @@ void ArmorSerializer::Save()
             }
         }
     }
-    ((FUN_004855a0_shell*)this)->FUN_00485680();
+    ((FUN_004855a0_shell*)this)->FinishFormRecord();
 }
 
 void* __cdecl operator new(unsigned int);

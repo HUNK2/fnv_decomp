@@ -146,7 +146,7 @@ template <> __forceinline hkArray<char, hkContainerTempAllocator>::~hkArray()
 
 inline hkStringBuf::~hkStringBuf() throw()
 {
-    FUN_00cbbd40();
+    UpdateFields_00cbbd40();
 }
 
 inline hkStringBuf& hkStringBuf::operator=(const char* pcString)
@@ -156,7 +156,8 @@ inline hkStringBuf& hkStringBuf::operator=(const char* pcString)
 }
 
 // @fnv 0x00cbbd40
-__declspec(noinline) void hkStringBuf::FUN_00cbbd40() throw()
+// src: GUESS 0x00cbbd40 (confidence: low)
+__declspec(noinline) void hkStringBuf::UpdateFields_00cbbd40() throw()
 {
     hkMemoryRouter* pHolder = (&hkMemoryRouter::getInstance());
     hkMemoryAllocator* r = reinterpret_cast<hkMemoryAllocator*>(pHolder->m_temp);
@@ -207,7 +208,7 @@ void InitWinsock()
             unsigned int streamStorage[sizeof(hkOstream) / sizeof(unsigned int)];
             hkOstream& ostr = *reinterpret_cast<hkOstream*>(streamStorage);
             ostr.FUN_00cb1600(L.buf, 0x200);
-            ostr.FUN_00cc01c0(str_010d5004);
+            ostr.ProcessAndReturnValue_00cc01c0(str_010d5004);
             if (DAT_01268360->message(3, 0x321825f8, (const char*)L.buf, str_010d4fdc, 0x48))
                 __debugbreak();
             ostr.FUN_00cc00e0();
@@ -329,7 +330,7 @@ int hkBsdSocket::listen_00da30d0(int iPort) throw()
         unsigned int auiReportBuf[128];
         hkOstream kReportStream(auiReportBuf, sizeof(auiReportBuf));
         reinterpret_cast<AppendSocketHostMethod>(AppendSocketHost)(
-            &kReportStream.FUN_00cc01c0(str_010d505c), kHost).FUN_00cc01c0(str_010d5070).WriteInt(iPort);
+            &kReportStream.ProcessAndReturnValue_00cc01c0(str_010d505c), kHost).ProcessAndReturnValue_00cc01c0(str_010d5070).WriteInt(iPort);
         DAT_01268360->message(0, -1, (const char*)auiReportBuf, str_010d4fdc, 364);
     }
     return 0;

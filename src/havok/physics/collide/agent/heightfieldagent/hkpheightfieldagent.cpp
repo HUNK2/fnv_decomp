@@ -64,10 +64,10 @@ public:
     PacketCallLocal_00d323f0(const __m128& vector);
 
     PacketCallLocal_00d323f0* hkVector4_hkVector4(float x, float y, float z, float w);
-    void FUN_004a3f10(PacketCallLocal_00d323f0* vector);
-    void __thiscall FUN_004b4db0(const PacketCallLocal_00d323f0* vector);
-    PacketCallLocal_00d323f0& FUN_00e531a0(int parameter);
-    PacketCallLocal_00d323f0 FUN_00e53260(int parameter);
+    void SetValue(PacketCallLocal_00d323f0* vector);
+    void __thiscall SetQuaternionComponentsFromVector(const PacketCallLocal_00d323f0* vector);
+    PacketCallLocal_00d323f0& ComputeValue_00e531a0(int parameter);
+    PacketCallLocal_00d323f0 ProcessAndReturnValue_00e53260(int parameter);
     void normalize_005611c0();
 
     void operator=(const PacketCallLocal_00d323f0& vector);
@@ -240,13 +240,13 @@ void __stdcall hkpHeightFieldAgent_getClosestPoints(void* apArg1, void* apArg2, 
 typedef void (*S_00d321e0_Func)();
 
 void hkpHeightFieldAgent_createHeightFieldAAgent();
-void FUN_00d32370();
-void FUN_00d323b0();
-void FUN_00d323f0();
+void hkpHeightFieldAgent_staticGetPenetrations_UpdateState_00d32370();
+void hkpHeightFieldAgent_staticGetClosestPoints_ProcessState_00d323b0();
+void Hkpheightfieldagent_UpdateState_00d323f0();
 void AllocateTargetObj();
 void hkpHeightFieldAgent_staticGetPenetrations();
 void hkpHeightFieldAgent_staticGetClosestPoints();
-void FUN_00d31d30();
+void hkpHeightFieldAgent_ProcessSphereQueries();
 
 struct S_00d321e0_AgentFuncs {
     S_00d321e0_Func m_pCreateFunc;
@@ -258,7 +258,7 @@ struct S_00d321e0_AgentFuncs {
 };
 
 struct S_00d321e0_Dispatcher {
-    void FUN_00cfbbe0(S_00d321e0_AgentFuncs& f, int typeA, int typeB);
+    void AppendRecordAndRegisterAgents(S_00d321e0_AgentFuncs& f, int typeA, int typeB);
 };
 
 // @fnv 0x00d321e0
@@ -268,22 +268,22 @@ void hkpHeightFieldAgent_registerAgent(S_00d321e0_Dispatcher* dispatcher)
     {
         S_00d321e0_AgentFuncs af;
         af.m_pCreateFunc = hkpHeightFieldAgent_createHeightFieldAAgent;
-        af.m_pQueryPenetrationsFunc = FUN_00d32370;
-        af.m_pGetPenetrationsFunc = FUN_00d323b0;
-        af.m_pLinearCastFunc = FUN_00d323f0;
+        af.m_pQueryPenetrationsFunc = hkpHeightFieldAgent_staticGetPenetrations_UpdateState_00d32370;
+        af.m_pGetPenetrationsFunc = hkpHeightFieldAgent_staticGetClosestPoints_ProcessState_00d323b0;
+        af.m_pLinearCastFunc = Hkpheightfieldagent_UpdateState_00d323f0;
         af.m_bIsFlipped = true;
         af.m_bIsPredictive = true;
-        dispatcher->FUN_00cfbbe0(af, 0x19, 0x1a);
+        dispatcher->AppendRecordAndRegisterAgents(af, 0x19, 0x1a);
     }
     {
         S_00d321e0_AgentFuncs af;
         af.m_pCreateFunc = AllocateTargetObj;
         af.m_pQueryPenetrationsFunc = hkpHeightFieldAgent_staticGetPenetrations;
         af.m_pGetPenetrationsFunc = hkpHeightFieldAgent_staticGetClosestPoints;
-        af.m_pLinearCastFunc = FUN_00d31d30;
+        af.m_pLinearCastFunc = hkpHeightFieldAgent_ProcessSphereQueries;
         af.m_bIsFlipped = false;
         af.m_bIsPredictive = true;
-        dispatcher->FUN_00cfbbe0(af, 0x1a, 0x19);
+        dispatcher->AppendRecordAndRegisterAgents(af, 0x1a, 0x19);
     }
 }
 
@@ -312,7 +312,8 @@ void __cdecl hkpHeightFieldAgent_staticGetClosestPoints(int a, int b, int c, D32
 
 // Constructs a D323B0Collector from d and passes it with b, a, c to FUN_00d319e0.
 // @fnv 0x00d323b0
-void __cdecl FUN_00d323b0(int aiArg1, int aiArg2, int aiArg3, int aiData)
+// src: GUESS 0x00d323b0 (confidence: low)
+void __cdecl hkpHeightFieldAgent_staticGetClosestPoints_ProcessState_00d323b0(int aiArg1, int aiArg2, int aiArg3, int aiData)
 {
     D323B0Collector collector(aiData);
     hkpHeightFieldAgent_staticGetClosestPoints(aiArg2, aiArg1, aiArg3, &collector);
@@ -347,13 +348,13 @@ void Owner::NotifyAndClear(int value) {
     clear(1);
 }
 
-extern "C" void __cdecl FUN_00d31d30(void* arg0, void* arg1, void* arg2, void* arg3, void* arg4);
+extern "C" void __cdecl hkpHeightFieldAgent_ProcessSphereQueries(void* arg0, void* arg1, void* arg2, void* arg3, void* arg4);
 // Forwards all five arguments unchanged to FUN_00d31d30.
 // @fnv 0x00d32030
 // src: HAVOK_SRC 0x00d32030
 extern "C" void __stdcall hkpHeightFieldAgent_linearCast(void* arg0, void* arg1, void* arg2, void* arg3, void* arg4)
 {
-    FUN_00d31d30(arg0, arg1, arg2, arg3, arg4);
+    hkpHeightFieldAgent_ProcessSphereQueries(arg0, arg1, arg2, arg3, arg4);
 }
 
 extern "C" void __cdecl hkpHeightFieldAgent_staticGetPenetrations(void* arg0, void* arg1, void* arg2, void* arg3);
@@ -376,7 +377,8 @@ struct FUN_00d32370_cls {
 
 // Builds a FUN_00d32370_cls with vt set to DAT_010ce81c and d set to a4, then calls FUN_00d317d0 with a2, a1, a3 and the struct.
 // @fnv 0x00d32370
-void __cdecl FUN_00d32370(int aiArg1, int aiArg2, int aiArg3, int a4) {
+// src: GUESS 0x00d32370 (confidence: low)
+void __cdecl hkpHeightFieldAgent_staticGetPenetrations_UpdateState_00d32370(int aiArg1, int aiArg2, int aiArg3, int a4) {
     FUN_00d32370_cls local;
     local.flag = 0;
     local.d = a4;
@@ -406,11 +408,12 @@ struct Argument {
 extern "C" const float DAT_0104da48;
 extern "C" const __m128 DAT_010c44d0;
 extern "C" const char UNK_010ce80c;
-extern "C" void __cdecl FUN_00d31d30(int, int, const CopyPacket*, const Argument*, const Argument*);
+extern "C" void __cdecl hkpHeightFieldAgent_ProcessSphereQueries(int, int, const CopyPacket*, const Argument*, const Argument*);
 
 // Copies a CopyPacket with its orientation sign-flipped and calls FUN_00d31d30 with one or two Argument descriptors built from the source.
 // @fnv 0x00d323f0
-void __cdecl FUN_00d323f0(int a, int b, const CopyPacket* source, int id1, int id2) {
+// src: GUESS 0x00d323f0 (confidence: low)
+void __cdecl Hkpheightfieldagent_UpdateState_00d323f0(int a, int b, const CopyPacket* source, int id1, int id2) {
     __m128 orient = _mm_load_ps(&source->orientation.x);
     __m128 inverted = _mm_xor_ps(orient, DAT_010c44d0);
     Argument first;
@@ -427,9 +430,9 @@ void __cdecl FUN_00d323f0(int a, int b, const CopyPacket* source, int id1, int i
         second.scale = DAT_0104da48;
         second.orientation = source->orientation;
         second.identifier = id2;
-        FUN_00d31d30(b, a, &copy, &first, &second);
+        hkpHeightFieldAgent_ProcessSphereQueries(b, a, &copy, &first, &second);
     } else {
-        FUN_00d31d30(b, a, &copy, &first, 0);
+        hkpHeightFieldAgent_ProcessSphereQueries(b, a, &copy, &first, 0);
     }
 }
 }  // namespace fnv_00d323f0

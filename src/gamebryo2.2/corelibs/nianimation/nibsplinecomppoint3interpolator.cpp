@@ -151,14 +151,14 @@ NiBSplineCompPoint3Interpolator* __fastcall NiBSplineCompPoint3Interpolator_Clon
     return pNew;
 }
 
-extern void* FUN_00aa13e0(unsigned int bytes) throw();
+extern void* Object_DispatchCommandFour(unsigned int bytes) throw();
 
 // Allocates and initializes a compressed point3 interpolator.
 // @fnv 0x00a513c0
 void* __cdecl NiBSplineCompPoint3Interpolator_Create()
 {
     NiBSplineCompPoint3Interpolator* result =
-        (NiBSplineCompPoint3Interpolator*)FUN_00aa13e0(sizeof(NiBSplineCompPoint3Interpolator));
+        (NiBSplineCompPoint3Interpolator*)Object_DispatchCommandFour(sizeof(NiBSplineCompPoint3Interpolator));
     if (result)
     {
         reinterpret_cast<BSplinePoint3Operations*>(result)->Construct(0, 0xffff, 0);

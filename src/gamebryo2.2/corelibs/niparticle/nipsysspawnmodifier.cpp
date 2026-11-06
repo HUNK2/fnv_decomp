@@ -200,13 +200,13 @@ void __fastcall AppendSpawnSettingsStrings(NiPSysSpawnModifier* modifier, void*,
     }
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+void* __cdecl Object_DispatchCommandFour(unsigned int size);
 extern int DAT_010be124;
 
 // @fnv 0x00c23d10
 NiPSysSpawnModifier* __fastcall CloneSpawnModifier(NiPSysSpawnModifier* modifier, void*, CloningProcess& process)
 {
-    NiPSysSpawnModifier* pkNew = (NiPSysSpawnModifier*)FUN_00aa13e0(0x34);
+    NiPSysSpawnModifier* pkNew = (NiPSysSpawnModifier*)Object_DispatchCommandFour(0x34);
     if (pkNew != 0)
     {
         pkNew->NiPSysModifier::NiPSysModifier();

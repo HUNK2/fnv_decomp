@@ -26,7 +26,7 @@ class UnsignedIdHandle
   public:
     int type;
     int value;
-    int FUN_00559450();
+    int Modelloader_GetReferencedThis();
     int FUN_00726070();
 };
 class CombatStateValues
@@ -45,7 +45,7 @@ bool CombatGoal::vf00(CombatStateValues* values)
     while (current && current->GetItem())
     {
         value = current->GetItem();
-        state = value->FUN_00559450();
+        state = value->Modelloader_GetReferencedThis();
         type = value->FUN_00726070();
         if (state == 21)
         {

@@ -209,7 +209,7 @@ bool __fastcall IsEqualWithBound(NiBSPNode* apNode, void*, NiObject* pkObject)
 }
 
 extern char vtable_010a1024;
-void* __cdecl FUN_00aa13e0(unsigned int bytes);
+void* __cdecl Object_DispatchCommandFour(unsigned int bytes);
 void __cdecl InitializeNode();
 void __cdecl InitializePlane();
 struct ChildNode
@@ -221,7 +221,7 @@ struct ChildNode
 // src: XBOX_PDB 0x00a9ae00
 void* __fastcall NiBSPNode_CreateClone(NiBSPNode* apNode, void*, void* arg)
 {
-    char* memory = (char*)FUN_00aa13e0(0xcc);
+    char* memory = (char*)Object_DispatchCommandFour(0xcc);
     char* result;
     if (memory)
     {

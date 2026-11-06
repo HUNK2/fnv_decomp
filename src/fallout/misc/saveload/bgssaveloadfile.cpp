@@ -138,7 +138,8 @@ void BGSSaveLoadFileEntry::ReadTypedData()
 
 // Deletes the BSFile object stored at offset 0x104 of pThis.
 // @fnv 0x008462c0
-void __fastcall FUN_008462c0(char* pThis)
+// src: GUESS 0x008462c0 (confidence: low)
+void __fastcall Object_ProcessState_008462c0(char* pThis)
 {
     delete *reinterpret_cast<BSFile**>(pThis + 0x104);
 }
@@ -205,7 +206,8 @@ SaveLoadFile* __cdecl BGSSaveLoadFile_Create(const char* apName, bool abFlag, un
 
 // Deletes the objects stored at indices 0, 6, 5, 3 and 4 of the array pointed to by pThis.
 // @fnv 0x00846690
-void __fastcall FUN_00846690(void** pThis)
+// src: GUESS 0x00846690 (confidence: low)
+void __fastcall Bgssaveloadfile_ReleaseStorage_00846690(void** pThis)
 {
     delete pThis[0];
     delete pThis[6];

@@ -41,7 +41,7 @@ struct FUN_00e7cdf0_shell
     int _p5;
     int _p6;
 };
-void __cdecl FUN_00e7d1b0();
+void __cdecl ReleaseStorage_00e7d1b0();
 void __cdecl operator delete(void* p, unsigned int size);
 struct FUN_00e7d230_cls
 {
@@ -57,7 +57,7 @@ struct FUN_00e7f790_Class
 {
     void __thiscall DestroyList();
 };
-int __cdecl FUN_00e60c70(int a);
+int __cdecl Runtime_EvaluateValue_00e60c70(int a);
 struct FUN_00e67fd0_cls
 {
     void __thiscall ClearEntries();
@@ -242,7 +242,7 @@ struct FUN_00e63ec0_Class
     int _04;
     int* _08;
     int _0c;
-    int __thiscall FUN_00e63ec0(int a, int* out);
+    int __thiscall ProcessEntries_00e63ec0(int a, int* out);
 };
 extern MM g_memoryManager;
 void* __cdecl _NiFree(void*);
@@ -275,11 +275,11 @@ struct FUN_00e7d1b0_Class
     void* _18;
     void* _1c;
     void* _20;
-    void __thiscall FUN_00e7d1b0();
+    void __thiscall ReleaseStorage_00e7d1b0();
 };
 struct FUN_00e7d690_Class
 {
-    void __thiscall FUN_00e7d4e0();
+    void __thiscall UpdateFields_00e7d4e0();
     FUN_00e7d690_Class* __thiscall FUN_00e7d690(int flags);
 };
 struct FUN_00e7ef80_Node
@@ -327,7 +327,7 @@ struct FUN_00e611d0_Object
 };
 void __cdecl AppendIndexSequence(int, int, int, int, int);
 void __cdecl AppendIndices(int, int, int, int, int);
-void __cdecl FUN_00e611d0(FUN_00e611d0_Object* object, int value);
+void __cdecl hkMemoryRouter_AppendObjectIndicesByType(FUN_00e611d0_Object* object, int value);
 struct FUN_00e61230_Buffer
 {
     unsigned int field00;
@@ -350,7 +350,7 @@ struct FUN_00e61230_Receiver
     virtual void begin(void* value, unsigned int mode, FUN_00e61230_Buffer* buffer) = 0;
     virtual void end(FUN_00e61230_Buffer* buffer) = 0;
 };
-extern "C" void __cdecl FUN_00e611d0(FUN_00e61230_Buffer* buffer, unsigned int stage);
+extern "C" void __cdecl hkMemoryRouter_AppendObjectIndicesByType(FUN_00e61230_Buffer* buffer, unsigned int stage);
 void __cdecl RunReceiverStage(FUN_00e61230_Receiver* receiver, void* value, unsigned int stage);
 struct E65000Entry
 {
@@ -390,7 +390,7 @@ struct IndexSource_e67420
     unsigned int* m_puiIndices;
     int m_iIntCount;
 
-    bool FUN_00e67420(unsigned int iIndex, unsigned int* p0, unsigned int* p1, unsigned int* p2);
+    bool ComputeValue_00e67420(unsigned int iIndex, unsigned int* p0, unsigned int* p1, unsigned int* p2);
 };
 class FUN_00e67660_cls;
 class FnvEnt67;
@@ -1400,7 +1400,7 @@ struct CopyPixels
     unsigned bytesPerPixel;
 };
 const char* __cdecl GetHResultName(long);
-void __cdecl FUN_00a29680(const char*, ...);
+void __cdecl Object_DoNothing(const char*, ...);
 void __cdecl NiDX9SourceTextureData_CopyDataToSurfaceLevel(CopyPixels* pixels, unsigned level, CopySurface* surface, unsigned face);
 struct TexDevice
 {
@@ -1703,7 +1703,7 @@ struct TextureOwner
 extern int DAT_0126efc0;
 extern bool DAT_0126f0d0;
 const char* __cdecl GetHResultName(long);
-void __cdecl FUN_00a29680(const char*, ...);
+void __cdecl Object_DoNothing(const char*, ...);
 inline bool IsPowerOfTwo(unsigned n)
 {
     if (!n)
@@ -1887,7 +1887,7 @@ struct CubeMapSurface
 };
 extern "C" void __cdecl NiDX9SourceTextureData_CopyDataToSurfaceLevel(int a, unsigned int b, int c, int d);
 extern "C" void* __cdecl GetHResultName(int r);
-extern "C" void __cdecl FUN_00a29680(const char* fmt, unsigned int i, void* s);
+extern "C" void __cdecl Object_DoNothing(const char* fmt, unsigned int i, void* s);
 struct FUN_00e68870_arg
 {
     int unk00;
@@ -2511,7 +2511,7 @@ struct FUN_00e7bc90 : Base_e7bc90
 };
 struct FUN_00e7bcd0_Item
 {
-    void FUN_00e7bb50();
+    void ReleaseStorage_00e7bb50();
 };
 void __cdecl FUN_00aa1460(void* p, int size);
 void __cdecl _NiFree_00aa10f0(void* p);
@@ -2797,7 +2797,7 @@ class BE7F610Heap
 };
 extern BE7F610Heap g_kE7F610Heap;
 void __cdecl _NiFree_00aa10f0(void* pvMem);
-void __cdecl FUN_00aa1490(void* pvMem, unsigned int uiAlignment);
+void __cdecl NiMemObject_ReleaseStorage_00aa1490(void* pvMem, unsigned int uiAlignment);
 class BE7F610Object
 {
   public:
@@ -2821,7 +2821,7 @@ class BE7F610Buffer : public BE7F610Object
   public:
     __forceinline ~BE7F610Buffer()
     {
-        FUN_00aa1490(m_pResource, 0x10);
+        NiMemObject_ReleaseStorage_00aa1490(m_pResource, 0x10);
         if (m_pkLeaf)
             m_pkLeaf->FUN_00e7f050(1);
     }
@@ -4099,8 +4099,8 @@ inline bool isTri(int t)
     }
     return false;
 }
-void __cdecl FUN_00e60e40(int type, int count, int data, IntArray* out);
-void __cdecl FUN_00e60f50(int type, int data, int count, int base, IntArray* out);
+void __cdecl Object_AppendPrimitiveIndices(int type, int count, int data, IntArray* out);
+void __cdecl hkArray_AppendTriangleIndicesWithOffset(int type, int data, int count, int base, IntArray* out);
 void __cdecl AppendIndices(int type, int data, int count, int base, U16Array* out);
 void __cdecl BuildIndexArray(IndexSource* src, IntArray* out);
 struct hkPairE63E
@@ -4200,7 +4200,7 @@ struct FUN_00e76620_cls
 void __cdecl hkArrayUtil__reserve(void*, IndexArray*, int, int);
 void __cdecl AppendIndexSequence(int type, int count, int start, IndexArray* output, void* allocator);
 void* __cdecl hkString_memCpy(void* pDst, const void* pSrc, int iNumBytes);
-void __cdecl FUN_00e60f50(int iType, const int* piIndices, int iNumIndices, int iOffset, hkArray<int>& kOut);
+void __cdecl hkArray_AppendTriangleIndicesWithOffset(int iType, const int* piIndices, int iNumIndices, int iOffset, hkArray<int>& kOut);
 extern "C" double DAT_010229b8;
 static float rand01_00e62ac0(unsigned seed);
 volatile unsigned g_e62ac0_seed = 12345u;
@@ -5034,7 +5034,7 @@ struct FUN_00e7b260 : ModeItem404
 
     FUN_00e7b260(S00e7b590_D3D* dev, int ctx, D3DDEVTYPE id, D3DFORMAT key, bool fullscreen, bool windowed) throw();
 };
-void* __cdecl FUN_00aa13e0(unsigned int size);
+void* __cdecl Object_DispatchCommandFour(unsigned int size);
 class GlobalObject_0096a2d0
 {
 
@@ -5214,7 +5214,7 @@ struct Tex
     void SetValues(unsigned, unsigned);
 };
 const char* FUN_00e7a9a0(int);
-void FUN_00a29680(const char*, ...);
+void Object_DoNothing(const char*, ...);
 extern int DAT_0126f580;
 extern int DAT_0126f590;
 class RT
@@ -5252,7 +5252,7 @@ class RT
     bool NiDX9ImplicitBufferData_Recreate(Swap* pkSwap);
 };
 int ApplyOperator(int op, int val);
-void __cdecl FUN_00e60e40(int type, int count, int data, IntArray* out);
+void __cdecl Object_AppendPrimitiveIndices(int type, int count, int data, IntArray* out);
 typedef ::__m128 LocalM128;
 using ::_mm_sub_ps;
 using ::_mm_mul_ps;
@@ -5279,7 +5279,7 @@ struct BarycentricResult
 {
     float u, v, w;
 };
-void __cdecl FUN_00e61a10(const LocalM128* point, const LocalM128* a, const LocalM128* b, const LocalM128* c,
+void __cdecl Runtime_ComputeTriangleBarycentricWeights(const LocalM128* point, const LocalM128* a, const LocalM128* b, const LocalM128* c,
                           BarycentricResult* result);
 void __cdecl nullsub_337();
 bool __cdecl SetModeFlags(int mode, int* outValue, unsigned int* flags);
@@ -5745,11 +5745,12 @@ struct Owner
     int unk6fc;
     Block m_kBlock;
 
-    int FUN_00e695c0(int iArg);
+    int SelectFormatTileValue_Thunk(int iArg);
 };
 
 // @fnv 0x00e695c0
-int Owner::FUN_00e695c0(int iArg)
+// src: GUESS 0x00e695c0 (confidence: medium)
+int Owner::SelectFormatTileValue_Thunk(int iArg)
 {
     return SelectFormatTileValue(iArg, &m_kBlock);
 }
@@ -5786,10 +5787,10 @@ struct ClosestList
     }
     int NiDX9AdapterDesc_ModeDesc_GetClosestRefreshRate(int target);
 };
-int FUN_00e7ccf0(unsigned int index);
+int Runtime_GetIndexMask(unsigned int index);
 class GlobalObjectO2_00a7b610;
 extern GlobalObjectO2_00a7b610 g_0126f59c;
-GlobalObjectO2_00a7b610* FUN_00e7cd30();
+GlobalObjectO2_00a7b610* Runtime_GetField0126f59cAddress();
 class FUN_00e7a5e0_Object
 {
   public:
@@ -5835,7 +5836,7 @@ struct MoppErrorStream
 
     void FUN_00cb1600(char*, int);
 
-    void FUN_00cc01c0(const char*);
+    void ProcessAndReturnValue_00cc01c0(const char*);
 
     void FUN_00cc00e0();
 };
@@ -6062,7 +6063,7 @@ void MoppFindAllVirtualMachine::hkpMoppFindAllVirtualMachine_queryOnTreeLeft(con
 
             stream.FUN_00cb1600(buffer, sizeof(buffer));
 
-            stream.FUN_00cc01c0(
+            stream.ProcessAndReturnValue_00cc01c0(
                 "Unknown command - This mopp data has been corrupted (check for memory trashing), or an hkpMoppBvTreeShape has been pointed at invalid mopp data.\n");
 
             if (reinterpret_cast<MoppError*>(DAT_01268360)

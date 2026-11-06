@@ -1751,7 +1751,7 @@ struct ActionData
     unsigned int object;
     unsigned short count;
     unsigned char type;
-    void* FUN_00509890(unsigned char);
+    void* UpdateState_00509890(unsigned char);
     unsigned int FUN_005094b0();
 };
 bool FUN_005094f0(unsigned int);
@@ -2119,7 +2119,7 @@ bool ActionHandler::TESFurniture_Activate(ActionReference* reference, ActionActo
     {
         unsigned int result = 0;
         ActionData data;
-        data.FUN_00509890(255);
+        data.UpdateState_00509890(255);
         if (!reference->TESObjectREFR_GetClosestFreeMarker((unsigned int)activator->GetActionEntry(), 1, 1, &data, &result, 1))
             return false;
         if (FUN_005094f0(data.FUN_005094b0()))
@@ -3002,7 +3002,7 @@ struct AAInventory
 {
     AAEntry* ExtraDataList_GetPackageExtra();
     int ExtraDataList_GetPackageExtraTarget(int iA, int iB, int iC);
-    void FUN_0041c930(AAEntry* pkEntryCur, int iA, int iCount);
+    void AllocateStorage_0041c930(AAEntry* pkEntryCur, int iA, int iCount);
 };
 struct AAPackage
 {
@@ -3805,7 +3805,7 @@ bool AAHandler::OnActivate(TESObjectREFR* pkRef, TESObjectREFR* pkActivatorRef, 
         if (pkEntryCur && pkEntryCur->FUN_0041ca90() == 0xf)
         {
             AAInventory* pkInventory = pkActorVal->BSFile_GetDevice();
-            pkActivator->BSFile_GetDevice()->FUN_0041c930(pkEntryCur, 4, pkInventory->ExtraDataList_GetPackageExtraTarget(0, 0, 0));
+            pkActivator->BSFile_GetDevice()->AllocateStorage_0041c930(pkEntryCur, 4, pkInventory->ExtraDataList_GetPackageExtraTarget(0, 0, 0));
             pkActorVal->FUN_008d8520()->GiveItem(pkActivator, pkEntryCur);
             if (pkEntryCur->FUN_00670f90())
                 pkActivator->TakeItem(pkEntryCur, DAT_011de7b8.FUN_00867d60());

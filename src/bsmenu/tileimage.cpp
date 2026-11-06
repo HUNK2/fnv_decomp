@@ -361,7 +361,7 @@ inline void NiNode::SetExtraBuffer(void* buffer)
 }
 
 namespace ImageNodeBuild {
-extern void* __cdecl FUN_00aa13e0(unsigned int);
+extern void* __cdecl Object_DispatchCommandFour(unsigned int);
 }
 
 template <class T> inline NiPointer<T>& NiPointer<T>::operator=(const NiPointer<T>& kSrc)
@@ -418,7 +418,7 @@ __forceinline void* NiPoint2::operator new[](size_t n)
 
 namespace ImageNodeBuild {
 extern void* __cdecl _NiMalloc_00aa1070(unsigned int);
-extern void* __cdecl FUN_00aa13e0(unsigned int);
+extern void* __cdecl Object_DispatchCommandFour(unsigned int);
 extern void* __cdecl BSShaderManager_GetShader(unsigned int);
 extern void* __cdecl FUN_00706d30();
 extern void* __cdecl FUN_00706df0();
@@ -431,7 +431,7 @@ struct FUN_00c5cf30
 {
     static __forceinline void* operator new(size_t)
     {
-        return FUN_00aa13e0(0xd4);
+        return Object_DispatchCommandFour(0xd4);
     }
     FUN_00c5cf30(int, NiPoint3*, NiPoint3*, int, NiPoint2*, int, int, int, unsigned short*, int, int, unsigned int);
 };
@@ -448,7 +448,7 @@ struct FUN_00a1f610 : NiExtraData
     NiNode* node;
     static __forceinline void* operator new(size_t)
     {
-        return FUN_00aa13e0(0x14);
+        return Object_DispatchCommandFour(0x14);
     }
     FUN_00a1f610(void* owner, NiNode* model) : tile(owner), node(model)
     {

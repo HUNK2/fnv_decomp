@@ -248,12 +248,13 @@ struct FUN_00e108b0_cls
     int m_len;
     unsigned int m_cap;
 
-    FUN_00e108b0_cls* FUN_00e108b0();
+    FUN_00e108b0_cls* InitializeStringBuffer();
 };
 
 // Initialises the string buffer (data, length, capacity), grows it to at least 0x40 if needed, appends a null terminator and returns this.
 // @fnv 0x00e108b0
-FUN_00e108b0_cls* FUN_00e108b0_cls::FUN_00e108b0()
+// src: GUESS 0x00e108b0 (confidence: medium)
+FUN_00e108b0_cls* FUN_00e108b0_cls::InitializeStringBuffer()
 {
     m_pData = 0;
     m_len = 0;
@@ -620,10 +621,11 @@ __declspec(noinline) MeshBool __cdecl CheckDuplicateValues(const MeshTriangle& t
     return MeshBool(tri.a == tri.b || tri.a == tri.c || tri.b == tri.c);
 }
 
-void __cdecl FUN_00da0f10(ScriptProgram*, MeshArray<MeshVertex>*, MeshArray<int>*, float);
+void __cdecl hkMemoryRouter_getInstance_ProcessEntries_00da0f10(ScriptProgram*, MeshArray<MeshVertex>*, MeshArray<int>*, float);
 
 // @fnv 0x00da12b0
-void __cdecl FUN_00da12b0(ScriptProgram* mesh, float tolerance, bool unique, MeshArray<int>* vertexMap,
+// src: GUESS 0x00da12b0 (confidence: low)
+void __cdecl hkMemoryAllocator_ProcessEntries_00da12b0(ScriptProgram* mesh, float tolerance, bool unique, MeshArray<int>* vertexMap,
                           MeshArray<int>* triangleMap)
 {
 
@@ -633,7 +635,7 @@ void __cdecl FUN_00da12b0(ScriptProgram* mesh, float tolerance, bool unique, Mes
 
     MeshArray<MeshVertex> vertices = {0, 0, 0x80000000};
 
-    FUN_00da0f10(mesh, &vertices, vertexMap, tolerance);
+    hkMemoryRouter_getInstance_ProcessEntries_00da0f10(mesh, &vertices, vertexMap, tolerance);
 
     if (unique)
     {

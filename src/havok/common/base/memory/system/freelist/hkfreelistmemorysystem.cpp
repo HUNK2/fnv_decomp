@@ -24,7 +24,7 @@ struct FUN_00cd06a0
     void* m_p00;
     FUN_00cd06a0(int aiArg);
     void hkThreadMemory_releaseCachedMemory();
-    void FUN_00cbf1a0();
+    void UpdateFields_00cbf1a0();
 };
 
 // @fnv 0x00cd06a0
@@ -32,7 +32,7 @@ FUN_00cd06a0::FUN_00cd06a0(int aiArg)
 {
     m_p00 = &DAT_010cacd0;
     hkThreadMemory_releaseCachedMemory();
-    FUN_00cbf1a0();
+    UpdateFields_00cbf1a0();
 }
 
 struct Inner
@@ -1098,10 +1098,10 @@ struct S_00cd0a60_sub0ad0
     int unk24;
     int unk28;
     int unk2c;
-    void FUN_00cf6da0(int a1);
+    void ProcessAndReturnValue_00cf6da0(int a1);
     __forceinline S_00cd0a60_sub0ad0()
     {
-        FUN_00cf6da0(0);
+        ProcessAndReturnValue_00cf6da0(0);
     }
 };
 
@@ -1357,11 +1357,12 @@ struct FUN_00cd0c70_cls
 {
     int unk00;
 
-    FUN_00cd0c70_cls* FUN_00cd0c70(int aiUnused);
+    FUN_00cd0c70_cls* EvaluateValue_00cd0c70(int aiUnused);
 };
 
 // @fnv 0x00cd0c70
-FUN_00cd0c70_cls* FUN_00cd0c70_cls::FUN_00cd0c70(int aiUnused)
+// src: GUESS 0x00cd0c70 (confidence: low)
+FUN_00cd0c70_cls* FUN_00cd0c70_cls::EvaluateValue_00cd0c70(int aiUnused)
 {
     ((Helper*)this)->FUN_00cd09d0();
     return this;
@@ -1553,7 +1554,7 @@ void FUN_00cd0830_cls::AcquireSlot(unsigned int* out, unsigned int a2, unsigned 
 
 struct FUN_00cbf1a0_t
 {
-    void FUN_00cbf1a0();
+    void UpdateFields_00cbf1a0();
 };
 
 struct FUN_00cd0c50_cls
@@ -1573,7 +1574,7 @@ struct FUN_00cd0c50_cls
 FUN_00cd0c50_cls* FUN_00cd0c50_cls::Destroy(int a1)
 {
     DeleteCriticalSection((LPCRITICAL_SECTION)((char*)this + 0x18));
-    reinterpret_cast<FUN_00cbf1a0_t*>(this)->FUN_00cbf1a0();
+    reinterpret_cast<FUN_00cbf1a0_t*>(this)->UpdateFields_00cbf1a0();
     return this;
 }
 
@@ -1586,7 +1587,7 @@ void __cdecl ResizeAudioStream(void* pAllocator, void* pArray, unsigned int auiN
 
 struct Target_cc01
 {
-    void FUN_00cc01c0(char* pText);
+    void ProcessAndReturnValue_00cc01c0(char* pText);
 };
 
 struct VSlotObj
@@ -1640,8 +1641,8 @@ struct FUN_00cd0b30_cls
 void FUN_00cd0b30_cls::hkFreeListMemorySystem_printStatistics(int apTarget)
 {
     char* self = (char*)this;
-    ((Target_cc01*)apTarget)->FUN_00cc01c0(&str_010cade0);
-    ((Target_cc01*)apTarget)->FUN_00cc01c0(&str_010cadb4);
+    ((Target_cc01*)apTarget)->ProcessAndReturnValue_00cc01c0(&str_010cade0);
+    ((Target_cc01*)apTarget)->ProcessAndReturnValue_00cc01c0(&str_010cadb4);
 
     CtorLocal localData;
     localData.m_cA = 0x80000000u;

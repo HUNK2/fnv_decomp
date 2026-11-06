@@ -62,18 +62,18 @@ public:
     double DotProduct(const PodPoint3& point);
     float Length() const;
 
-    PodPoint3& FUN_00439180(float scalar);
+    PodPoint3& ScaleComponents(float scalar);
     PodPoint3 FUN_00439e90(const PodPoint3& shift) const;
     PodPoint3* FUN_00439e90(PodPoint3* output, const PodPoint3* other) const;
-    PodPoint3 FUN_00439ef0(const PodPoint3& other) const;
-    void FUN_00439ef0();
+    PodPoint3 SubtractIntoVector(const PodPoint3& other) const;
+    void SubtractIntoVector();
     PodPoint3 FUN_004b3800(const PodPoint3& axis) const;
     void Unitize_004a0c10();
     float FUN_00457910();
     float FUN_00457990() const;
     double FUN_004a7290();
     PodPoint3* FUN_006815c0();
-    PodPoint3* FUN_00416870(float x, float y, float z);
+    PodPoint3* SetComponents(float x, float y, float z);
     void FUN_0043d410(float x, int y, int z);
     char* GetViewerString_00a59af0(const char* text);
 
@@ -112,8 +112,8 @@ public:
     float GetSquaredXYLength() const;
 
     void Unitize_004a0c10();
-    LocalPt3* FUN_00439ef0(LocalPt3* out, LocalPt3* other);
-    LocalPt3 FUN_00439ef0(const LocalPt3& rhs);
+    LocalPt3* SubtractIntoVector(LocalPt3* out, LocalPt3* other);
+    LocalPt3 SubtractIntoVector(const LocalPt3& rhs);
     bool FUN_00439090(LocalPt3* other);
     float FUN_00457990() const;
 
@@ -205,21 +205,21 @@ public:
     float GetSquaredXYLength() const;
     Elem16& expand(Allocator& allocator);
 
-    void FUN_00416870(float x, float y, float z);
+    void SetComponents(float x, float y, float z);
     bool FUN_00439090(const LocalVec3* other);
-    bool FUN_004390c0(const LocalVec3* other);
-    bool FUN_004390c0(const LocalVec3* other) const;
-    bool FUN_004390c0(const char* other);
-    void FUN_00439180(float scale);
+    bool HasEqualComponents(const LocalVec3* other);
+    bool HasEqualComponents(const LocalVec3* other) const;
+    bool HasEqualComponents(const char* other);
+    void ScaleComponents(float scale);
     LocalVec3 FUN_00439e90(const LocalVec3& other);
     LocalVec3 FUN_00439e90(const LocalVec3& other) const;
-    void FUN_00439ef0();
-    LocalVec3 FUN_00439ef0(const LocalVec3& other);
-    LocalVec3 FUN_00439ef0(const LocalVec3& other) const;
-    LocalVec3 FUN_00439ef0(LocalVec3* other);
-    LocalVec3 FUN_00439ef0(const LocalVec3* other);
-    void FUN_00439ef0(LocalVec3* output, const LocalVec3* other);
-    LocalVec3* FUN_00439ef0(void* output, void* other);
+    void SubtractIntoVector();
+    LocalVec3 SubtractIntoVector(const LocalVec3& other);
+    LocalVec3 SubtractIntoVector(const LocalVec3& other) const;
+    LocalVec3 SubtractIntoVector(LocalVec3* other);
+    LocalVec3 SubtractIntoVector(const LocalVec3* other);
+    void SubtractIntoVector(LocalVec3* output, const LocalVec3* other);
+    LocalVec3* SubtractIntoVector(void* output, void* other);
     void FUN_0043d410(float x, int y, int z);
     void FUN_0043d410(float x, unsigned int y, unsigned int z);
     float FUN_00457910();
@@ -229,22 +229,22 @@ public:
     float FUN_004a7290();
     float FUN_004a7290() const;
     LocalVec3 FUN_004b3800(const LocalVec3& other) const;
-    LocalVec3 FUN_0053d280(float divisor);
+    LocalVec3 ProcessAndReturnValue_0053d280(float divisor);
     float NiPoint3_XYLength();
     float NiPoint3_XYLength() const;
-    void FUN_0063c8a0(const LocalVec3* other);
-    void FUN_0063c8a0(void* other);
+    void ComputeValue_0063c8a0(const LocalVec3* other);
+    void ComputeValue_0063c8a0(void* other);
     void FUN_006815c0();
     float CVec3_Distance(LocalVec3* other);
     float CVec3_Distance(const LocalVec3& other) const;
-    LocalVec3 FUN_00b05000(const Mat& matrix);
-    LocalVec3 FUN_00b05000(const Matrix4* matrix);
+    LocalVec3 TransformPointByMatrix4(const Mat& matrix);
+    LocalVec3 TransformPointByMatrix4(const Matrix4* matrix);
     void Normalize_00b12790();
     LocalVec3 Diff_00b13040(void* other);
     LocalVec3 Diff_00b13040(const LocalVec3& other) const;
     float FUN_00b2a180(void* other);
-    LocalVec3& FUN_00b2a1c0(void* other);
-    void FUN_00ddc870();
+    LocalVec3& AddComponents(void* other);
+    void ProcessEntries_00ddc870();
     void FUN_00e0f6e0();
 };
 
@@ -972,7 +972,7 @@ struct PtOp
     float x;
     float y;
     float z;
-    PtOp FUN_00439ef0(const PtOp& o) const;
+    PtOp SubtractIntoVector(const PtOp& o) const;
 };
 struct Prim;
 struct Param
@@ -1160,7 +1160,7 @@ bool OccShape::BSMultiBoundAABB_WithinFrustum(NiFrustumPlanes* pkPlanes)
 }
 
 class CloningProcess;
-void* __cdecl FUN_00aa13e0(unsigned int size);
+void* __cdecl Object_DispatchCommandFour(unsigned int size);
 struct FUN_00c4f8e0
 {
     int unk000;
@@ -1233,7 +1233,7 @@ struct FUN_00c4f8e0
     {
         int unused[4];
         (void)unused;
-        return FUN_00aa13e0(size);
+        return Object_DispatchCommandFour(size);
     }
     FUN_00c4f8e0();
 };
@@ -1411,7 +1411,7 @@ bool __thiscall C50380_Sphere::BSMultiBoundSphere_QPointWithin(PodPoint3* other)
 {
     // Preserve the frame space reserved for the original inline point helpers.
     DeadQ4();
-    float fDist = other->FUN_00439ef0(m_kCenter).FUN_00457990();
+    float fDist = other->SubtractIntoVector(m_kCenter).FUN_00457990();
     return (fDist < m_fBoundRadius) ? true : false;
 }
 
@@ -1644,7 +1644,7 @@ struct FUN_00c47770
 struct FUN_00c3a620
 {  // member at +0xb0; destructor at 0x00c3a620
     unsigned int unk00, unk04, unk08, unk0C;
-    void FUN_00b5af80(int iMode);
+    void UpdateFields_00b5af80(int iMode);
     ~FUN_00c3a620();
 };
 
@@ -1672,7 +1672,7 @@ class Owner_c4f550 : public FUN_00a5e930
 Owner_c4f550::~Owner_c4f550()
 {
     delete m_pkOwned;
-    m_kList.FUN_00b5af80(1);
+    m_kList.UpdateFields_00b5af80(1);
     m_uiCount = 0;
 }
 }  // namespace fnv_00c4f550
@@ -1899,21 +1899,21 @@ struct OrientedBox
         PodPoint3 axisY = PodPoint3::ZERO;
         PodPoint3 axisZ = PodPoint3::ZERO;
         rotation.GetColumn(0, axisX);
-        axisX.FUN_00439180(extents.x);
+        axisX.ScaleComponents(extents.x);
         rotation.GetColumn(1, axisY);
-        axisY.FUN_00439180(extents.y);
+        axisY.ScaleComponents(extents.y);
         axisZ.x = rotation.entries[0][2];
         axisZ.y = rotation.entries[1][2];
         axisZ.z = rotation.entries[2][2];
-        axisZ.FUN_00439180(extents.z);
+        axisZ.ScaleComponents(extents.z);
         vertices[0] = center + axisX + axisY + axisZ;
-        vertices[1] = (center + axisX + axisY).FUN_00439ef0(axisZ);
-        vertices[2] = (center + axisX).FUN_00439ef0(axisY) + axisZ;
-        vertices[3] = (center + axisX).FUN_00439ef0(axisY).FUN_00439ef0(axisZ);
-        vertices[4] = center.FUN_00439ef0(axisX) + axisY + axisZ;
-        vertices[5] = (center.FUN_00439ef0(axisX) + axisY).FUN_00439ef0(axisZ);
-        vertices[6] = center.FUN_00439ef0(axisX).FUN_00439ef0(axisY) + axisZ;
-        vertices[7] = center.FUN_00439ef0(axisX).FUN_00439ef0(axisY).FUN_00439ef0(axisZ);
+        vertices[1] = (center + axisX + axisY).SubtractIntoVector(axisZ);
+        vertices[2] = (center + axisX).SubtractIntoVector(axisY) + axisZ;
+        vertices[3] = (center + axisX).SubtractIntoVector(axisY).SubtractIntoVector(axisZ);
+        vertices[4] = center.SubtractIntoVector(axisX) + axisY + axisZ;
+        vertices[5] = (center.SubtractIntoVector(axisX) + axisY).SubtractIntoVector(axisZ);
+        vertices[6] = center.SubtractIntoVector(axisX).SubtractIntoVector(axisY) + axisZ;
+        vertices[7] = center.SubtractIntoVector(axisX).SubtractIntoVector(axisY).SubtractIntoVector(axisZ);
     }
 
     bool BSMultiBoundOBB_WithinFrustum(NiFrustumPlanes*);

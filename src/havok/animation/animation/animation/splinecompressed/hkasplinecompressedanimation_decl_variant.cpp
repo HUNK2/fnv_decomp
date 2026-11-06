@@ -10,7 +10,7 @@
 
 extern char DAT_010c3aa0[];
 extern void __cdecl _hkErrorMessage(const char* message);
-extern int __cdecl FUN_00e29910();
+extern int __cdecl Hksystemtime_Time64_Thunk();
 extern "C" void _ReadWriteBarrier(void);
 
 static int hexDigit(char c)
@@ -88,7 +88,7 @@ int __cdecl hkaProcessFlyingColors(bool* valid)
     if (expires)
     {
         first = (first ^ 0xd4efe34a) & 0x7fffffff;
-        int now = FUN_00e29910() >> 8;
+        int now = Hksystemtime_Time64_Thunk() >> 8;
         int remaining = first - now;
         if (first < now || remaining > 0x96c99)
         {

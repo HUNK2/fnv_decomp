@@ -337,7 +337,7 @@ struct CoverClock
     void FUN_008d7f40(float);
     float GetElapsedTime();
     float GetValue();
-    float FUN_006a7f50();
+    float AStarSearch_EvaluateValue_006a7f50();
     void Reset();
 };
 struct CoverRequest
@@ -566,7 +566,7 @@ struct CoverStamp
 {
     int value;
     float GetElapsedTime();
-    float FUN_006a7f50();
+    float AStarSearch_EvaluateValue_006a7f50();
 };
 struct CoverState
 {
@@ -711,7 +711,7 @@ void CombatProcedureBeInCover::UpdateCoverState()
     }
     case 3: {
         CoverStamp stamp = combat7->GetStamp();
-        if (stamp.FUN_006a7f50() > (*(CoverClock*)&m_waitTimer).FUN_006a7f50())
+        if (stamp.AStarSearch_EvaluateValue_006a7f50() > (*(CoverClock*)&m_waitTimer).AStarSearch_EvaluateValue_006a7f50())
         {
             eState = COVER_STATE_FIRING_OUT_OF_COVER;
             (*(CoverClock*)&m_firingTimer).FUN_008d7f40((((CoverManager*)m_pCombatController))->GetCurrentCombatStyle()->GetRandomValue());

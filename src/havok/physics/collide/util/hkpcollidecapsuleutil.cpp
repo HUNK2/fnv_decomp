@@ -241,7 +241,8 @@ static __forceinline LocalM128 broadcastFloat(float f)
 
 // Computes the triangle normal scaled by p[3], builds m from the edges scaled by p[0..2] crossed with the normal (transposed), and sets m's last column from p.
 // @fnv 0x00cd6120
-static __declspec(noinline) void FUN_00cd6120(const float* apParams, const hkVector4* apVertices, hkVector4& normal,
+// src: GUESS 0x00cd6120 (confidence: low)
+static __declspec(noinline) void hkVector4_UpdateFields_00cd6120(const float* apParams, const hkVector4* apVertices, hkVector4& normal,
                                               hkMatrix4& m)
 {
     hkVector4 e1;
@@ -292,7 +293,7 @@ volatile void* g_m;
 
 void dummy_caller()
 {
-    FUN_00cd6120((const float*)g_p, (const hkVector4*)g_v, *(hkVector4*)g_n, *(hkMatrix4*)g_m);
+    hkVector4_UpdateFields_00cd6120((const float*)g_p, (const hkVector4*)g_v, *(hkVector4*)g_n, *(hkMatrix4*)g_m);
 }
 
 extern const double DAT_010c9300;

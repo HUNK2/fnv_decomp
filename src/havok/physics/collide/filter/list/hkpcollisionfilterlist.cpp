@@ -507,12 +507,13 @@ class FilterListAE90
     FilterRefE4** m_data;
     int m_iElementCount;
     int m_iCapacityState;
-    void FUN_00e4ae90();
+    void ProcessEntries_00e4ae90();
 };
 
 // Releases each FilterRefE4 reference, deallocates m_data, empties the list and sets the vftable pointer to DAT_0102e388.
 // @fnv 0x00e4ae90
-void FilterListAE90::FUN_00e4ae90()
+// src: GUESS 0x00e4ae90 (confidence: low)
+void FilterListAE90::ProcessEntries_00e4ae90()
 {
     FilterRouterE4* router = GetFilterRouterE4();
     FilterRefE4** data = m_data;

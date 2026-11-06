@@ -366,7 +366,7 @@ struct BodyUpdate
         return (flags >> 6) & 1;
     }
     bool bhkWorldObject_Add(void*);
-    void FUN_00a29680();
+    void Object_DoNothing();
     void UpdateMatchingNodes(void*);
     void* bhkWorldObject_GethkWorld();
     bool InWorld()
@@ -374,9 +374,9 @@ struct BodyUpdate
         NativeThing* body = native;
         if (!body)
             return false;
-        FUN_00a29680();
+        Object_DoNothing();
         bool inWorld = body->world != 0;
-        FUN_00a29680();
+        Object_DoNothing();
         return inWorld;
     }
     int MotionType() const
@@ -864,7 +864,7 @@ extern int DAT_0126810c;
 extern int DAT_012681fc;
 extern int DAT_012681bc;
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+void* __cdecl Object_DispatchCommandFour(unsigned int size);
 
 struct OwnerBase
 {
@@ -876,7 +876,7 @@ struct OwnerBase
 
     static void* operator new(unsigned int size) throw()
     {
-        return FUN_00aa13e0(size);
+        return Object_DispatchCommandFour(size);
     }
 };
 
@@ -1878,7 +1878,7 @@ class WorldObject_c8d3
     int unk04;
     Entity_c8d3* m_pkEntity;
 
-    void FUN_00a29680();
+    void Object_DoNothing();
     void GetAabb(hkAabb& kOut);
 };
 
@@ -1892,9 +1892,9 @@ void WorldObject_c8d3::GetAabb(hkAabb& kOut)
         Entity_c8d3* pkEntity = m_pkEntity;
         if (pkEntity)
         {
-            FUN_00a29680();
+            Object_DoNothing();
             pkBody = static_cast<hkpCdBody*>(pkEntity);
-            FUN_00a29680();
+            Object_DoNothing();
         }
     }
     const hkpShape* pkShape = pkBody ? pkBody->getShape() : 0;
@@ -2321,7 +2321,7 @@ struct BodyBuild
     virtual void FinishBuild(BuildSettings* settings);
     unsigned int unk04;
     BodyNative* native;
-    void FUN_00a29680();
+    void Object_DoNothing();
     void GetAabb(hkAabb* bounds);
     float bhkRigidBody_GethkMaxLinearVelocity();
     BodyMotion* GetMotion()
@@ -2329,9 +2329,9 @@ struct BodyBuild
         BodyNative* p = native;
         if (!p)
             return 0;
-        FUN_00a29680();
+        Object_DoNothing();
         BodyMotion* result = p ? &p->motion : 0;
-        FUN_00a29680();
+        Object_DoNothing();
         return result;
     }
     void ConfigureBody(BuildSettings* settings);
@@ -2446,16 +2446,16 @@ struct CollisionOwner
     void* vtable;
     void* unk04;
     void* node;
-    void FUN_00a29680();
+    void Object_DoNothing();
     void DispatchCollision(Receiver*);
     __forceinline BodySlot* GetSlot()
     {
         char* base = (char*)node;
         if (base)
         {
-            FUN_00a29680();
+            Object_DoNothing();
             base += 16;
-            FUN_00a29680();
+            Object_DoNothing();
             if (base)
                 return (BodySlot*)base;
         }

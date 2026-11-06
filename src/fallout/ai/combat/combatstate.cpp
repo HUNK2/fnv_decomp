@@ -447,12 +447,13 @@ struct CoordinateTriple
 
 struct FUN_009a2d80_shell
 {
-    void FUN_009a2d80(void* buffer);
+    void SaveFieldsAndTimeStamp(void* buffer);
 };
 
 // Calls FUN_00527b70 on this and SaveTimeStamp on the object at offset 0x10, passing buffer to both.
 // @fnv 0x009a2d80
-void FUN_009a2d80_shell::FUN_009a2d80(void* buffer)
+// src: GUESS 0x009a2d80 (confidence: medium)
+void FUN_009a2d80_shell::SaveFieldsAndTimeStamp(void* buffer)
 {
     reinterpret_cast<CoordinateTriple*>(this)->BGSWorldLocation_SaveGame(buffer);
     reinterpret_cast<CombatTargetTimestamp*>(reinterpret_cast<char*>(this) + 0x10)->SaveTimeStamp(buffer);
@@ -467,7 +468,8 @@ struct GlobalObject_00869f00
 extern int DAT_0108e068;
 
 // @fnv 0x009a3410
-void __fastcall FUN_009a3410(GlobalObject_00869f00* this_)
+// src: GUESS 0x009a3410 (confidence: low)
+void __fastcall CombatState_UpdateState_009a3410(GlobalObject_00869f00* this_)
 {
     this_->m_ptr = &DAT_0108e068;
     this_->Clear(true);
@@ -484,11 +486,12 @@ extern int DAT_0108e090;
 
 struct FUN_009a35f0_shell : GlobalObject_00869f00
 {
-    void FUN_009a35f0();
+    void UpdateState_009a35f0();
 };
 
 // @fnv 0x009a35f0
-void FUN_009a35f0_shell::FUN_009a35f0()
+// src: GUESS 0x009a35f0 (confidence: low)
+void FUN_009a35f0_shell::UpdateState_009a35f0()
 {
     m_Data = reinterpret_cast<int>(&DAT_0108e090);
     this->Clear(true);
@@ -516,14 +519,14 @@ FUN_006d3280_s* FUN_006d3280_s::ClearFlags()
 void _Deallocate(void*);
 struct FUN_006d3370_s
 {
-    void FUN_006d33a0();
+    void ForwardCall_006d33a0();
     FUN_006d3370_s* FUN_006d3370(unsigned int flags);
 };
 // Calls FUN_006d33a0, then frees this with _Deallocate if flags has bit 1 set, and returns this.
 // @fnv 0x006d3370
 FUN_006d3370_s* FUN_006d3370_s::FUN_006d3370(unsigned int flags)
 {
-    FUN_006d33a0();
+    ForwardCall_006d33a0();
     if (flags & 1)
         _Deallocate(this);
     return this;
@@ -1291,7 +1294,7 @@ namespace fnv_009a0ec0 {
 struct S20;
 struct H4
 {
-    S20* __thiscall FUN_006b3160(unsigned int);
+    S20* __thiscall GetIndexedValue_006b3160(unsigned int);
 };
 struct FUN_007881d0_shell
 {
@@ -1327,11 +1330,11 @@ void __thiscall FUN_009a0ec0_shell::SetNodeBlockAndTimestamp(const FUN_009a0ec0_
     FUN_009a0ec0_Ts timeStamp;
     unsigned int index = reinterpret_cast<FUN_007881d0_shell*>(reinterpret_cast<char*>(this) + 0x174)->BSSimpleArray_CombatMember_1024_AddUninitialized();
     reinterpret_cast<FUN_009a0ec0_Node*>(
-        reinterpret_cast<H4*>(reinterpret_cast<char*>(this) + 0x174)->FUN_006b3160(index))
+        reinterpret_cast<H4*>(reinterpret_cast<char*>(this) + 0x174)->GetIndexedValue_006b3160(index))
         ->block = *apBlock;
     reinterpret_cast<CombatTimeStamp_ctor*>(&timeStamp)->CombatTargetTimestamp(Actor::GetActorScale());
     reinterpret_cast<FUN_009a0ec0_Node*>(
-        reinterpret_cast<H4*>(reinterpret_cast<char*>(this) + 0x174)->FUN_006b3160(index))
+        reinterpret_cast<H4*>(reinterpret_cast<char*>(this) + 0x174)->GetIndexedValue_006b3160(index))
         ->ts = timeStamp;
 }
 }  // namespace fnv_009a0ec0
@@ -1416,10 +1419,11 @@ struct FUN_009a2d20_s
 {
     int a;
     CombatTargetTimestamp ts;
-    void FUN_009a2d20(BGSSaveFormBuffer* buf);
+    void SaveFields_009a2d20(BGSSaveFormBuffer* buf);
 };
 // @fnv 0x009a2d20
-void FUN_009a2d20_s::FUN_009a2d20(BGSSaveFormBuffer* apBuffer)
+// src: GUESS 0x009a2d20 (confidence: medium)
+void FUN_009a2d20_s::SaveFields_009a2d20(BGSSaveFormBuffer* apBuffer)
 {
     apBuffer->SaveData(this, 4, 0);
     ts.SaveTimeStamp(apBuffer);
@@ -1433,11 +1437,12 @@ struct FUN_009a2d50_s
 {
     int a;
     CombatTargetTimestamp ts;
-    void FUN_009a2d50(BGSLoadFormBuffer* buf);
+    void LoadValueAndTimestamp(BGSLoadFormBuffer* buf);
 };
 // Reads 4 bytes of this object from buf, then loads the ts member from the same buffer.
 // @fnv 0x009a2d50
-void FUN_009a2d50_s::FUN_009a2d50(BGSLoadFormBuffer* buf)
+// src: GUESS 0x009a2d50 (confidence: medium)
+void FUN_009a2d50_s::LoadValueAndTimestamp(BGSLoadFormBuffer* buf)
 {
     buf->ReadTypedData(this, 4);
     ts.LoadGame((::BGSLoadGameBuffer*)buf);
@@ -1453,10 +1458,11 @@ struct FUN_00527ba0_t
 };
 struct FUN_009a2db0_shell : FUN_00527ba0_t
 {
-    void FUN_009a2db0(BGSLoadGameBuffer* buf);
+    void LoadWorldLocationAndTimestamp(BGSLoadGameBuffer* buf);
 };
 // @fnv 0x009a2db0
-void FUN_009a2db0_shell::FUN_009a2db0(BGSLoadGameBuffer* buf)
+// src: GUESS 0x009a2db0 (confidence: high)
+void FUN_009a2db0_shell::LoadWorldLocationAndTimestamp(BGSLoadGameBuffer* buf)
 {
     BGSLoadGameBuffer_LoadBGSWorldLocation(buf);
     ((CombatTargetTimestamp*)((char*)this + 0x10))->LoadGame((::BGSLoadGameBuffer*)buf);
@@ -1477,10 +1483,11 @@ struct CombatSaveData
     unsigned char unk08[16];
     int unk18;
     int unk1C;
-    void FUN_009a3130(BGSSaveFormBuffer*);
+    void SaveState_009a3130(BGSSaveFormBuffer*);
 };
 // @fnv 0x009a3130
-void CombatSaveData::FUN_009a3130(BGSSaveFormBuffer* apSaveGameBuffer)
+// src: GUESS 0x009a3130 (confidence: medium)
+void CombatSaveData::SaveState_009a3130(BGSSaveFormBuffer* apSaveGameBuffer)
 {
     apSaveGameBuffer->SaveData((void*)&unk0, 1, 0);
     apSaveGameBuffer->SaveData((void*)&unk1, 1, 0);
@@ -1967,7 +1974,7 @@ FUN_009a33e0_shell* FUN_009a33e0_shell::BSSimpleArray_TESObjectWEAP_1024_BSSimpl
 extern int DAT_0108e07c;
 struct FUN_009a39f0_t
 {
-    void FUN_009a39f0(unsigned int, unsigned int);
+    void UpdateState_009a39f0(unsigned int, unsigned int);
 };
 struct FUN_009a3430_shell : FUN_009a39f0_t
 {
@@ -1979,7 +1986,7 @@ struct FUN_009a3430_shell : FUN_009a39f0_t
 FUN_009a3430_shell* FUN_009a3430_shell::BSSimpleArray_UnreachableCoverLocation_1024_BSSimpleArray_UnreachableCoverLocation_1024()
 {
     *(int**)this = &DAT_0108e07c;
-    FUN_009a39f0(0, 0);
+    UpdateState_009a39f0(0, 0);
     return this;
 }
 
@@ -1991,10 +1998,11 @@ struct GlobalObject_00869f00
 };
 struct FUN_009a3460_shell : GlobalObject_00869f00
 {
-    void FUN_009a3460();
+    void ResetVirtualTableAndClear_009a3460();
 };
 // @fnv 0x009a3460
-void FUN_009a3460_shell::FUN_009a3460()
+// src: GUESS 0x009a3460 (confidence: medium)
+void FUN_009a3460_shell::ResetVirtualTableAndClear_009a3460()
 {
     *(int**)this = &DAT_0108e07c;
     Clear(true);
@@ -2129,14 +2137,14 @@ struct PrimaryBase : FUN_009a0a40_shell
 };
 
 struct GlobalObject_00869f00;
-void __fastcall FUN_009a3410(GlobalObject_00869f00*);
+void __fastcall CombatState_UpdateState_009a3410(GlobalObject_00869f00*);
 
 struct Base_009a3410
 {
     int pad;
     ~Base_009a3410()
     {
-        FUN_009a3410((GlobalObject_00869f00*)this);
+        CombatState_UpdateState_009a3410((GlobalObject_00869f00*)this);
     }
 };
 
@@ -2153,20 +2161,20 @@ struct FUN_006e4d00_shell
 struct FUN_009a3460_shell
 {
     int pad;
-    void FUN_009a3460();
+    void ResetVirtualTableAndClear_009a3460();
     ~FUN_009a3460_shell()
     {
-        FUN_009a3460();
+        ResetVirtualTableAndClear_009a3460();
     }
 };
 
 struct FUN_009a35f0_class
 {
     int pad;
-    void FUN_009a35f0();
+    void UpdateState_009a35f0();
     ~FUN_009a35f0_class()
     {
-        FUN_009a35f0();
+        UpdateState_009a35f0();
     }
 };
 
@@ -2378,7 +2386,7 @@ struct FUN_005407b0_Class
 {
     char pad0[0x14];
     LocS loc;
-    void FUN_005407b0(char);
+    void UpdateState_005407b0(char);
 };
 
 struct Field18C
@@ -2426,7 +2434,7 @@ void FUN_0099a8d0_struct::CombatState_TargetChanged()
         bool bSafe = CombatState_CheckCoverSafe(&field_E4->loc, field_E4->loc.GetLocation(), (NiPoint3*)&local_14, ptr4, 0);
         if (!bSafe || !CombatState_GetHasTarget360LineOfSight(this))
         {
-            field_E4->FUN_005407b0(1);
+            field_E4->UpdateState_005407b0(1);
         }
     }
     if (field_18C)
@@ -4549,7 +4557,7 @@ struct CombatStamp
 {
     int value;
     void FUN_00435de0(float);
-    float FUN_006a7f50();
+    float AStarSearch_EvaluateValue_006a7f50();
     double FUN_00435e00();
 };
 
@@ -5012,7 +5020,7 @@ void CombatUpdate::CombatState_UpdateImmediateData()
             else
                 danger = 0;
         }
-        if (idleTime.FUN_006a7f50() != -DAT_0108df70 && !owner_21->Actor_IsAttacking())
+        if (idleTime.AStarSearch_EvaluateValue_006a7f50() != -DAT_0108df70 && !owner_21->Actor_IsAttacking())
         {
             timeD3.FUN_00435de0(-DAT_0108df70);
             idleTime = timeD3;
@@ -5588,7 +5596,7 @@ struct Entry
 {
     Weapon* FUN_0044ddc0();
     float ItemChange_GetItemHealth(int);
-    Extras* FUN_00559450();
+    Extras* Modelloader_GetReferencedThis();
 };
 struct AmmoState
 {
@@ -5747,7 +5755,7 @@ struct Scores
     Scores(int, int);
     ~Scores();
     unsigned int BSSimpleArray_CombatMember_1024_AddUninitialized();
-    WeaponScore& FUN_006b3160(unsigned int);
+    WeaponScore& GetIndexedValue_006b3160(unsigned int);
     WeaponScore& BSSimpleArray_CombatMember_1024_GetAt(unsigned int);
     unsigned int FUN_0044ddc0();
     void RemoveEntries(unsigned int, int);
@@ -5967,9 +5975,9 @@ void Manager::EvaluateWeaponScores()
             if (actor->Actor_CanUseWeapon((::Weapon*)weaponSlot32Slot15, 1))
             {
                 unsigned int index = scoresSlot20.BSSimpleArray_CombatMember_1024_AddUninitialized();
-                ourMemset(&scoresSlot20.FUN_006b3160(index), 0, 20);
-                scoresSlot20.FUN_006b3160(index).weapon = weaponSlot32Slot15;
-                scoresSlot20.FUN_006b3160(index).health = entry->ItemChange_GetItemHealth(1) / 100.0f;
+                ourMemset(&scoresSlot20.GetIndexedValue_006b3160(index), 0, 20);
+                scoresSlot20.GetIndexedValue_006b3160(index).weapon = weaponSlot32Slot15;
+                scoresSlot20.GetIndexedValue_006b3160(index).health = entry->ItemChange_GetItemHealth(1) / 100.0f;
             }
             break;
         }
@@ -5980,8 +5988,8 @@ void Manager::EvaluateWeaponScores()
     }
     Weapon* forcedSlot30 = 0;
     Entry* equippedSlot10 = ((Process*)actor->FUN_008d8520())->Equipped();
-    if (equippedSlot10 && equippedSlot10->FUN_00559450() && *equippedSlot10->FUN_00559450()->FUN_006815c0() &&
-        (*equippedSlot10->FUN_00559450()->FUN_006815c0())->ExtraDataList_GetCanNotWear())
+    if (equippedSlot10 && equippedSlot10->Modelloader_GetReferencedThis() && *equippedSlot10->Modelloader_GetReferencedThis()->FUN_006815c0() &&
+        (*equippedSlot10->Modelloader_GetReferencedThis()->FUN_006815c0())->ExtraDataList_GetCanNotWear())
         forcedSlot30 = equippedSlot10->FUN_0044ddc0();
     if (!forcedSlot30)
     {
@@ -6800,7 +6808,7 @@ bool __cdecl CombatState_CheckCoverLOS(void* pNodeA, ParentSpaceNode* pNodeB, in
     ParentSpaceNode s2;
     if ((unsigned char)c == 0)
     {
-        ((NiPoint3*)pNodeB)->FUN_00439ef0((NiPoint3*)&s2, (const NiPoint3*)((FUN_005c3420_cls*)pNodeA)->FUN_005c3420(&s1));
+        ((NiPoint3*)pNodeB)->SubtractIntoVector((NiPoint3*)&s2, (const NiPoint3*)((FUN_005c3420_cls*)pNodeA)->FUN_005c3420(&s1));
         if ((double)((NiPoint3*)&s2)->FUN_004a7290() > DAT_0108d658)
         {
             return false;
@@ -7114,7 +7122,7 @@ struct PickWrap
 };
 struct PickPtr
 {
-    PickWrap* FUN_00559450();
+    PickWrap* Modelloader_GetReferencedThis();
 };
 struct PickProc
 {
@@ -7578,8 +7586,8 @@ bool WeaponSearch::SelectBestWeaponTarget()
             return false;
     }
     PickPtr* aId = aC1->FUN_008d8520()->GetActive();
-    if (aId && aId->FUN_00559450() && aId->FUN_00559450()->FUN_006815c0()->node &&
-        aId->FUN_00559450()->FUN_006815c0()->node->ExtraDataList_GetCanNotWear())
+    if (aId && aId->Modelloader_GetReferencedThis() && aId->Modelloader_GetReferencedThis()->FUN_006815c0()->node &&
+        aId->Modelloader_GetReferencedThis()->FUN_006815c0()->node->ExtraDataList_GetCanNotWear())
         return false;
     g_011f1a60.FUN_00483710();
     PickLoc aI4 = aC1->TESObjectREFR_GetWorldLocation();
@@ -8038,11 +8046,11 @@ struct Stamp435
 
 struct Item435
 {
-    void FUN_009a2d20(Save435*);
+    void SaveFields_009a2d20(Save435*);
 };
 struct ItemB435
 {
-    void FUN_009a2d80(Save435*);
+    void SaveFieldsAndTimeStamp(Save435*);
 };
 struct List435
 {
@@ -8062,12 +8070,12 @@ struct OptionalB435
 };
 struct OptionalC435
 {
-    void FUN_009a3130(Save435*);
+    void SaveState_009a3130(Save435*);
 };
 struct Float435
 {
     float value;
-    float FUN_006a7f50();
+    float AStarSearch_EvaluateValue_006a7f50();
 };
 struct Location435
 {
@@ -8238,11 +8246,11 @@ void Owner435::SaveToStream(Save435* pSaveBuffer)
     unsigned char flags = 0;
     if (optionalE4)
         flags |= 1;
-    if (location1.range.FUN_006a7f50() != -DAT_0108df70)
+    if (location1.range.AStarSearch_EvaluateValue_006a7f50() != -DAT_0108df70)
         flags |= 2;
     if (optionalE8)
         flags |= 4;
-    if (location2.range.FUN_006a7f50() != -DAT_0108df70)
+    if (location2.range.AStarSearch_EvaluateValue_006a7f50() != -DAT_0108df70)
         flags |= 8;
     if (optional18c)
         flags |= 16;
@@ -8256,10 +8264,10 @@ void Owner435::SaveToStream(Save435* pSaveBuffer)
     if (optional18c)
         optional18c->CombatLocation_SaveGameBGS(pSaveBuffer);
     if (optionalC)
-        optionalC->FUN_009a3130(pSaveBuffer);
-    if (location1.range.FUN_006a7f50() != -DAT_0108df70)
+        optionalC->SaveState_009a3130(pSaveBuffer);
+    if (location1.range.AStarSearch_EvaluateValue_006a7f50() != -DAT_0108df70)
         location1.CombatCoverSearch_SaveGameBGS(pSaveBuffer);
-    if (location2.range.FUN_006a7f50() != -DAT_0108df70)
+    if (location2.range.AStarSearch_EvaluateValue_006a7f50() != -DAT_0108df70)
         location2.CombatCoverSearch_SaveGameBGS(pSaveBuffer);
     {
         unsigned uiList164Count = &list164 ? list164.FUN_0044ddc0() : 0;
@@ -8267,7 +8275,7 @@ void Owner435::SaveToStream(Save435* pSaveBuffer)
         for (unsigned uiList164Index = 0; uiList164Index < uiList164Count; uiList164Index++)
         {
             Item435* item2 = list164.BSSimpleArray_GroupMemberData_1024_GetAt(uiList164Index);
-            item2->FUN_009a2d20(pSaveBuffer);
+            item2->SaveFields_009a2d20(pSaveBuffer);
         }
     }
     {
@@ -8276,7 +8284,7 @@ void Owner435::SaveToStream(Save435* pSaveBuffer)
         for (unsigned m = 0; m < uiList174Count; m++)
         {
             ItemB435* item3 = list174.BSSimpleArray_CombatMember_1024_GetAt(m);
-            item3->FUN_009a2d80(pSaveBuffer);
+            item3->SaveFieldsAndTimeStamp(pSaveBuffer);
         }
     }
     s184.SaveTimeStamp(pSaveBuffer);
@@ -8443,7 +8451,7 @@ bool FUN_0099b5a0_holder::CombatState_FindGrenadeThrowLocation(A1_99* a1, char* 
             v9 = pt84;
         }
         v9.z += CombatUtilities_GetTargetFiringZOffset(spellB, 2, 0);
-        NiPoint3 d_ = v9.FUN_00439ef0(*(const NiPoint3*)posVal);
+        NiPoint3 d_ = v9.SubtractIntoVector(*(const NiPoint3*)posVal);
         float len = d_.GetSquaredXYLength();
         if (f6 * f6 < len)
             continue;
@@ -9093,7 +9101,7 @@ struct CombatSpot;
 struct CombatCell
 {
     bool FUN_00439090(void* apKey);
-    bool FUN_004390c0(void* apKey);
+    bool HasEqualComponents(void* apKey);
 };
 
 struct CombatPos
@@ -9494,7 +9502,7 @@ bool CombatState::FindCombatLocation_0099ac20(int aiType)
         if (!pFinalSpot->CallReferencedFunction())
             pFinalSpot->CombatLocation_SetSpace(pActorOld->TESObjectREFR_GetSpace());
         CombatFind::CombatPos kSpotPosTmp = *pFinalSpot->FUN_006815c0();
-        if (kSpotPosTmp.FUN_006815c0()->FUN_004390c0(&CombatFind::DAT_011f426c) || CombatState_CheckMovement_009a02a0((::CombatPos*)&kSpotPosTmp, 1, bFlag))
+        if (kSpotPosTmp.FUN_006815c0()->HasEqualComponents(&CombatFind::DAT_011f426c) || CombatState_CheckMovement_009a02a0((::CombatPos*)&kSpotPosTmp, 1, bFlag))
         {
             float fDistance = 0.0f;
             if (CombatFind::DAT_011a5650[aiType].bMeasure)

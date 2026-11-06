@@ -69,10 +69,11 @@ void* __thiscall FUN_006cf250_Class::AllocateBuffer(unsigned int count)
 extern "C" void* __cdecl _Reallocate(void* p, unsigned int size);
 struct FUN_006cf280_Class
 {
-    void* __thiscall FUN_006cf280(void* p, unsigned int n);
+    void* __thiscall _Reallocate_Thunk_006cf280(void* p, unsigned int n);
 };
 // @fnv 0x006cf280
-void* __thiscall FUN_006cf280_Class::FUN_006cf280(void* p, unsigned int n)
+// src: GUESS 0x006cf280 (confidence: medium)
+void* __thiscall FUN_006cf280_Class::_Reallocate_Thunk_006cf280(void* p, unsigned int n)
 {
     return _Reallocate(p, n * 0x18);
 }
@@ -109,10 +110,11 @@ struct GlobalObject_00869f00
 struct FUN_006cfaa0
 {
     int* vfptr;
-    void FUN_006cfaa0_();
+    void ResetVirtualTableAndClear_006cfaa0();
 };
 // @fnv 0x006cfaa0
-void FUN_006cfaa0::FUN_006cfaa0_()
+// src: GUESS 0x006cfaa0 (confidence: medium)
+void FUN_006cfaa0::ResetVirtualTableAndClear_006cfaa0()
 {
     vfptr = &DAT_0106c9e0;
     ((GlobalObject_00869f00*)this)->Clear(true);
@@ -167,10 +169,11 @@ struct PSNodeStub
 };
 struct FUN_006e9260Class : PSNodeStub
 {
-    void FUN_006e9260();
+    void SetVirtualTableAndProcessState_006e9260();
 };
 // @fnv 0x006e9260
-void FUN_006e9260Class::FUN_006e9260()
+// src: GUESS 0x006e9260 (confidence: low)
+void FUN_006e9260Class::SetVirtualTableAndProcessState_006e9260()
 {
     vfptr = (int*)&DAT_0106d4e8;
     FUN_006cf120(true);
@@ -189,18 +192,20 @@ void* __cdecl Reallocate(void* p, int size);
 
 struct FUN_006e93f0
 {
-    void* __thiscall FUN_006e93f0_(void* p, int n);
+    void* __thiscall Reallocate_Thunk(void* p, int n);
 };
 
 // @fnv 0x006e93f0
-void* __thiscall FUN_006e93f0::FUN_006e93f0_(void* p, int aiCount)
+// src: GUESS 0x006e93f0 (confidence: medium)
+void* __thiscall FUN_006e93f0::Reallocate_Thunk(void* p, int aiCount)
 {
     return Reallocate(p, aiCount * 0x3c);
 }
 
 // Returns true if this point's x, y and z are all equal to the corresponding components of a.
 // @fnv 0x004390c0
-bool NiPoint3::FUN_004390c0(const NiPoint3& aPoint)
+// src: GUESS 0x004390c0 (confidence: high)
+bool NiPoint3::HasEqualComponents(const NiPoint3& aPoint)
 {
     return x == aPoint.x && y == aPoint.y && z == aPoint.z;
 }
@@ -494,7 +499,7 @@ void* __thiscall FUN_006cfd40_Class::FUN_006cfd40(unsigned int flags)
 struct FUN_006e9410_shell
 {
     void FUN_006e90a0(int a, int b);
-    void* FUN_006e8f40(int a, void* b);
+    void* GetElementAddress30_006e8f40(int a, void* b);
 };
 struct FUN_006e9530_shell
 {
@@ -510,7 +515,7 @@ void __thiscall FUN_006e9410_class::BSSimpleArray_VirtualPathingNode_1024_Copy(v
 {
     ((FUN_006e9410_shell*)arg)->FUN_006e90a0(*(int*)((char*)this + 8), 1);
     for (unsigned int i = 0; i < *(unsigned int*)((char*)this + 8); ++i)
-        ((FUN_006e9530_shell*)((FUN_006e9410_shell*)arg)->FUN_006e8f40(i, (char*)*(void**)((char*)this + 4) + i * 0x30))
+        ((FUN_006e9530_shell*)((FUN_006e9410_shell*)arg)->GetElementAddress30_006e8f40(i, (char*)*(void**)((char*)this + 4) + i * 0x30))
             ->VirtualPathingNode_Copy();
 }
 
@@ -632,10 +637,11 @@ struct FUN_006dc590
     TypeValueCount* pBuffer;
     unsigned int iSize;
     unsigned int SimpleArrayStorage;
-    void __thiscall FUN_006dc590_(unsigned int aiNewSize, unsigned int aiCopyCount);
+    void __thiscall UpdateState_006dc590(unsigned int aiNewSize, unsigned int aiCopyCount);
 };
 // @fnv 0x006dc590
-void __thiscall FUN_006dc590::FUN_006dc590_(unsigned int aiNewSize, unsigned int aiCopyCount)
+// src: GUESS 0x006dc590 (confidence: low)
+void __thiscall FUN_006dc590::UpdateState_006dc590(unsigned int aiNewSize, unsigned int aiCopyCount)
 {
     if (pBuffer)
     {
@@ -805,7 +811,7 @@ void FUN_009f6540_Class::BSSimpleArray_TeleportLink_1024_ReallocateBuffer(unsign
 
 struct FUN_006e1280_Class
 {
-    void FUN_006e1280(char* p, unsigned int n);
+    void VisitPlacementAddresses(char* p, unsigned int n);
 };
 
 struct FUN_006cf520_Class
@@ -824,7 +830,7 @@ int __thiscall FUN_006cf520_Class::BSScrapArray_bool_1024_Add(const unsigned cha
 {
     int iVar1;
     iVar1 = ((FUN_006d0450_Class*)this)->GetNextIndex();
-    ((FUN_006e1280_Class*)this)->FUN_006e1280((char*)(*(int*)((char*)this + 4) + iVar1), 1);
+    ((FUN_006e1280_Class*)this)->VisitPlacementAddresses((char*)(*(int*)((char*)this + 4) + iVar1), 1);
     *(unsigned char*)(*(int*)((char*)this + 4) + iVar1) = *aValue;
     return iVar1;
 }
@@ -1090,12 +1096,13 @@ struct FUN_006cf900_Class : EH
         int m_08;
     } m_Location;
 
-    FUN_006cf900_Class& FUN_006cf900(const FUN_006cf900_Class* aLocation);
+    FUN_006cf900_Class& CopyFields_006cf900(const FUN_006cf900_Class* aLocation);
 };
 
 // Copies the base EH part and the m_Location sub-object from aLocation into this object and returns *this.
 // @fnv 0x006cf900
-FUN_006cf900_Class& FUN_006cf900_Class::FUN_006cf900(const FUN_006cf900_Class* aLocation)
+// src: GUESS 0x006cf900 (confidence: medium)
+FUN_006cf900_Class& FUN_006cf900_Class::CopyFields_006cf900(const FUN_006cf900_Class* aLocation)
 {
     EH::operator=(*aLocation);
     m_Location = aLocation->m_Location;
@@ -1512,7 +1519,7 @@ struct FUN_0069cfe0_Elem
 struct FUN_0069cfe0_Dst
 {
     void FUN_0069cea0(unsigned int count, int flag);
-    FUN_0069cfe0_Elem* FUN_006a1440(unsigned int index);
+    FUN_0069cfe0_Elem* Object_GetIndexedValue_006a1440(unsigned int index);
 };
 
 struct FUN_0069cfe0_cls
@@ -1530,7 +1537,7 @@ void FUN_0069cfe0_cls::CopyElementsTo(FUN_0069cfe0_Dst* dst)
     dst->FUN_0069cea0(this->m_08, 1);
     for (unsigned int i = 0; i < this->m_08; i++)
     {
-        *dst->FUN_006a1440(i) = *(this->m_04 + i);
+        *dst->Object_GetIndexedValue_006a1440(i) = *(this->m_04 + i);
     }
 }
 
@@ -1642,7 +1649,7 @@ struct ParamHost
 
 struct ItemFinish
 {
-    void FUN_006cf900();
+    void CopyFields_006cf900();
 };
 
 struct FUN_006cf8a0_cls
@@ -1661,7 +1668,7 @@ void FUN_006cf8a0_cls::ProcessItems(ParamHost* pHost)
     pHost->Prepare(iCount, 1);
     for (unsigned int i = 0; i < iCount; i++)
     {
-        ((ItemFinish*)pHost->ProcessItem(i, &pItems[i]))->FUN_006cf900();
+        ((ItemFinish*)pHost->ProcessItem(i, &pItems[i]))->CopyFields_006cf900();
     }
 }
 
@@ -1672,7 +1679,7 @@ struct FUN_006cf940_Item
 
 struct FUN_006cf940_Owner
 {
-    void FUN_006cff60(unsigned int count, int flag);
+    void ResizeArrayStorage(unsigned int count, int flag);
     FUN_006cf940_Item* FUN_00691750(unsigned int index, char* pItem);
 };
 
@@ -1689,7 +1696,7 @@ struct FUN_006cf940_cls
 // src: COMMUNITY 0x006cf940
 void FUN_006cf940_cls::BSSimpleArray_CopyTo_0(FUN_006cf940_Owner* pOwner)
 {
-    pOwner->FUN_006cff60(this->m_08, 1);
+    pOwner->ResizeArrayStorage(this->m_08, 1);
     for (unsigned int i = 0; i < this->m_08; ++i)
     {
         pOwner->FUN_00691750(i, this->m_04 + i * 0x28)->FUN_006dcce0();
@@ -1805,7 +1812,7 @@ struct FUN_006d0540_shell
     int unk08;
     int unk0c;
 
-    void __thiscall FUN_006d0540(void* newItem, void* oldItem, unsigned int count);
+    void __thiscall CopyOverlappingElements30(void* newItem, void* oldItem, unsigned int count);
 };
 
 struct FUN_006cfe70_Class : public FUN_006d0540_shell
@@ -1826,7 +1833,7 @@ void __thiscall FUN_006cfe70_Class::BSSimpleArray_VirtualPathingNode_1024_Reallo
         else
         {
             void* newItem = this->vf04(value);
-            this->FUN_006d0540(newItem, this->unk04, count);
+            this->CopyOverlappingElements30(newItem, this->unk04, count);
             FreeSimpleArrayStorage(this);
             this->unk04 = newItem;
         }
@@ -1874,7 +1881,7 @@ void FUN_006e3c90_cls::ConstructSpawnedObjects(char* base, unsigned int count)
 struct FUN_006e9470_Helper
 {
     void BSSimpleArray_PathingNode_1024_SetSize(unsigned int count, int flag);
-    void* FUN_006e8f80(int index, void* item);
+    void* GetPathingGraphNodeAddress(int index, void* item);
 };
 
 struct FUN_006e9470_Obj
@@ -1898,25 +1905,26 @@ void FUN_006e9470_cls::BSSimpleArray_PathingNode_1024_Copy(FUN_006e9470_Helper* 
     pHelper->BSSimpleArray_PathingNode_1024_SetSize(m_08, 1);
     for (unsigned int i = 0; i < m_08; i++)
     {
-        ((FUN_006e9470_Obj*)pHelper->FUN_006e8f80(i, m_04 + i * 60))->FUN_006e9570();
+        ((FUN_006e9470_Obj*)pHelper->GetPathingGraphNodeAddress(i, m_04 + i * 60))->FUN_006e9570();
     }
 }
 
 struct S_00a0d000_Class
 {
-    virtual unsigned int FUN_00a0d000();
+    virtual unsigned int ReserveSlotAndIncrementSize();
     virtual void* FUN_00a0d010(unsigned int size);
 
     void* pBuffer;
     unsigned int m_uiSize;
     unsigned int m_uiReservedSize;
 
-    void FUN_00a0d0c0(unsigned int newCapacity, unsigned int copyCount);
+    void UpdateFields_00a0d0c0(unsigned int newCapacity, unsigned int copyCount);
 };
 
 // Grows the buffer when size equals reserved size, then increments m_uiSize and returns the index of the newly added slot.
 // @fnv 0x00a0d000
-unsigned int S_00a0d000_Class::FUN_00a0d000()
+// src: GUESS 0x00a0d000 (confidence: medium)
+unsigned int S_00a0d000_Class::ReserveSlotAndIncrementSize()
 {
     unsigned int allocationSize;
     unsigned int newCapacity;
@@ -1944,7 +1952,7 @@ unsigned int S_00a0d000_Class::FUN_00a0d000()
         else
         {
             newCapacity = (this->m_uiReservedSize > 8) ? this->m_uiReservedSize + 8 : this->m_uiReservedSize << 1;
-            this->FUN_00a0d0c0(newCapacity, this->m_uiSize);
+            this->UpdateFields_00a0d0c0(newCapacity, this->m_uiSize);
             this->m_uiReservedSize = newCapacity;
         }
     }
@@ -2099,8 +2107,8 @@ FUN_006cf570::FUN_006cf570(unsigned int initialSize, unsigned int growth, void* 
 
 struct FUN_0069f920_Sub
 {
-    void* __thiscall FUN_006a1920();
-    void* __thiscall FUN_006e8f80(unsigned int);
+    void* __thiscall ProcessAndReturnValue_006a1920();
+    void* __thiscall GetPathingGraphNodeAddress(unsigned int);
 };
 struct FUN_006e2280
 {
@@ -2121,8 +2129,8 @@ struct FUN_0069f920_cls
 // src: COMMUNITY 0x0069f920
 void* __thiscall FUN_0069f920_cls::PathingSolution_AddPathingNode(int aiArg1, int aiArg2)
 {
-    void* pNode = unk20.FUN_006a1920();
-    void* pPlace = unk20.FUN_006e8f80((unsigned int)pNode);
+    void* pNode = unk20.ProcessAndReturnValue_006a1920();
+    void* pPlace = unk20.GetPathingGraphNodeAddress((unsigned int)pNode);
     new (pPlace) FUN_006e2280(aiArg1, aiArg2);
     return pNode;
 }

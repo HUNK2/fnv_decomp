@@ -3197,7 +3197,7 @@ public:
     int unka8;
     int unkac;
     bool m_bRefreshManifoldInCheckSupport;
-    void FUN_00cae7f0(S00cae900_Collector& collector);
+    void AllocateStorage_00cae7f0(S00cae900_Collector& collector);
     void ahkpCharacterProxy_checkSupportWithCollector(const hkVector4& direction, S00cae900_SurfaceInfo& ground, S00cae900_Collector& startPointCollector);
 };
 
@@ -3208,7 +3208,7 @@ void S00cae900_Proxy::ahkpCharacterProxy_checkSupportWithCollector(const hkVecto
     S00cae900_timer("TtcheckSupport");
     if (m_bRefreshManifoldInCheckSupport)
     {
-        FUN_00cae7f0(startPointCollector);
+        AllocateStorage_00cae7f0(startPointCollector);
     }
     S00cae900_LocalArray<S00cae900_ConstraintInfo> surfaceConstraints(m_kContactManifold.GetLogicalSize() + m_uiUserPlanes + 10);
     surfaceConstraints.setSizeUnchecked(m_kContactManifold.GetLogicalSize());
@@ -3620,11 +3620,12 @@ public:
     int unka0;
     float m_fMaximumSlopeAngle;
     void hkpCharacterProxy_fireConstraintsProcessed(void* manifold, void* input);
-    void FUN_00caefd0(const hkVector4& direction, S00caefd0_SurfaceInfo& ground) const;
+    void ProcessEntries_00caefd0(const hkVector4& direction, S00caefd0_SurfaceInfo& ground) const;
 };
 
 // @fnv 0x00caefd0
-void S00caefd0_Proxy::FUN_00caefd0(const hkVector4& direction, S00caefd0_SurfaceInfo& ground) const
+// src: GUESS 0x00caefd0 (confidence: low)
+void S00caefd0_Proxy::ProcessEntries_00caefd0(const hkVector4& direction, S00caefd0_SurfaceInfo& ground) const
 {
     S00caefd0_timer("TtcheckSupport");
     S00caefd0_LocalArray<S00caefd0_ConstraintInfo> surfaceConstraints(m_kContactManifold.GetLogicalSize() + m_uiUserPlanes + 10);

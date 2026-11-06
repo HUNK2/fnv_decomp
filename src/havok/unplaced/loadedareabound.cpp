@@ -465,7 +465,7 @@ struct MgrNode
 {
     bool FUN_008256d0();
     Refr** FUN_006815c0();
-    void FUN_00905330(Refr** pp);
+    void RemoveMatchingItem(Refr** pp);
     MgrNode* FUN_00726070();
 };
 struct IOMgr
@@ -614,7 +614,7 @@ void ThisCls::ProcessLists_PlaceActorsinBedsOrChairs()
                                                                 if (idx13 == -1 ||
                                                                     !currentReference->TESObjectREFR_GetMarkerAtIndex(idx13, _object))
                                                                 {
-                                                                    iter->FUN_00905330(&currentReference);
+                                                                    iter->RemoveMatchingItem(&currentReference);
                                                                     iter = DAT_011dea10->TES_GetBedChairList();
                                                                     flag49 = true;
                                                                 }
@@ -657,7 +657,7 @@ void ThisCls::ProcessLists_PlaceActorsinBedsOrChairs()
                                                                     if (idx13 == -1 ||
                                                                         !currentReference->TESObjectREFR_GetMarkerAtIndex(idx13, _object))
                                                                     {
-                                                                        iter->FUN_00905330(&currentReference);
+                                                                        iter->RemoveMatchingItem(&currentReference);
                                                                         iter = DAT_011dea10->TES_GetBedChairList();
                                                                         flag4a = true;
                                                                     }
@@ -776,13 +776,14 @@ struct Arg3
 
 struct FUN_00628df0_class
 {
-    void FUN_00628df0(Arg1* a1, Arg2* a2, Arg3* a3);
+    void ProcessEntries_00628df0(Arg1* a1, Arg2* a2, Arg3* a3);
     void LoadedAreaBound_WarpActor(TESObjectREFR* r);
 };
 
 // For each a2 item with a string, calls a3's target vfunc_0x3c; if the a1 checks fail and the item type is 0x1e, passes its REFR to FUN_006295e0.
 // @fnv 0x00628df0
-void FUN_00628df0_class::FUN_00628df0(Arg1* a1, Arg2* apItems, Arg3* apTarget)
+// src: GUESS 0x00628df0 (confidence: low)
+void FUN_00628df0_class::ProcessEntries_00628df0(Arg1* a1, Arg2* apItems, Arg3* apTarget)
 {
     FUN_00437c10 tmp;
     for (int i = 0; i < apItems->FUN_00726070(); ++i)

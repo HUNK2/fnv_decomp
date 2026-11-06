@@ -48,12 +48,13 @@ struct DisplayTarget
 
 struct CpuObjectDerived : CpuObject
 {
-    void FUN_00e10a20(const hkVector4* center, hkVector4* axis, hkVector4* perp, float startAngle, float endAngle,
+    void ProcessEntries_00e10a20(const hkVector4* center, hkVector4* axis, hkVector4* perp, float startAngle, float endAngle,
                       float radius, int numSegments, int a8, int a9, int a10);
 };
 
 // @fnv 0x00e10a20
-void CpuObjectDerived::FUN_00e10a20(const hkVector4* center, hkVector4* axis, hkVector4* perp, float startAngle,
+// src: GUESS 0x00e10a20 (confidence: low)
+void CpuObjectDerived::ProcessEntries_00e10a20(const hkVector4* center, hkVector4* axis, hkVector4* perp, float startAngle,
                                     float endAngle, float radius, int numSegments, int a8, int a9, int a10)
 {
     perp->normalize3();

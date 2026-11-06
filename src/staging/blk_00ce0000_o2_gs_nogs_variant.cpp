@@ -47,7 +47,7 @@ unsigned short hkMath_min2_unsigned_short(unsigned short a, unsigned short b);
 extern int DAT_010cb864;
 struct FUN_00ce4ae0_cls
 {
-    int __thiscall FUN_00ce4ae0(int);
+    int __thiscall AssignFields_00ce4ae0(int);
     void __thiscall hkaSkeletonMapperData_hkaSkeletonMapperData();
 };
 struct FUN_00ce4a20_cls
@@ -56,10 +56,10 @@ struct FUN_00ce4a20_cls
     short m_kPointB;
     short m_iThirdValue;
     int m_iFourthElementInteger;
-    int __thiscall FUN_00ce4a20(int a);
+    int __thiscall ProcessAndReturnValue_00ce4a20(int a);
 };
 extern int DAT_0102e378;
-void __cdecl FUN_00cf69a0(int* a);
+void __cdecl Object_UpdateFields_00cf69a0(int* a);
 struct FUN_00cf69c0_class
 {
     int m_kPointA;
@@ -85,7 +85,7 @@ struct FUN_00cf4820_class
 extern int DAT_0102e388;
 struct FUN_00cf86d0_cls
 {
-    void FUN_00cf86d0();
+    void SetVtableAndProcessState_00cf86d0();
 };
 // FUN_00ce29e0: member function that (re)initialises the object.
 //   - installs the base vtable pointer at [this],
@@ -96,7 +96,7 @@ extern int DAT_0102e388;
 // Sub-object at +0x10; FUN_00ce5370 is the game's constructor for it.
 struct FUN_00ce5370_cls
 {
-    void FUN_00ce5370();
+    void UpdateState_00ce5370();
 };
 struct FUN_00ce29e0_cls
 {
@@ -105,7 +105,7 @@ struct FUN_00ce29e0_cls
     int unk08;               // +0x08
     int unk0C;               // +0x0C
     FUN_00ce5370_cls m_sub;  // +0x10
-    void FUN_00ce29e0();
+    void UpdateFields_00ce29e0();
 };
 struct FnvSpawnedObject;
 struct FnvProbe
@@ -128,7 +128,7 @@ struct FnvSpawnedObject
     unsigned char* Check(FnvSpawnedObject** ref);
 };
 bool __cdecl hkaSkeletonMapper_checkTransform(int unused, FnvSpawnedObject* obj);
-void __cdecl FUN_00ce2ca0(int a1, int a2, int* a3, int a4);
+void __cdecl Object_UpdateFields_00ce2ca0(int a1, int a2, int* a3, int a4);
 void __cdecl hkaSkeletonMapper_mapExtractedMotion(int param_1, int param_2, int param_3);
 void __cdecl hkaSkeletonMapper_mapPoseLocalSpace(int a1, int a2, int a3, int a4, int a5, int a6);
 void __cdecl hkaSkeletonMapper_mapPoseLocalSpace_00ce4330(int a1, int a2, int a3, int a4);
@@ -336,13 +336,13 @@ class FUN_00cf4f70_cls
 };
 struct FUN_00cf6980_class
 {
-    virtual void FUN_00cf6980(int);
+    virtual void Object_ForwardCall_00cf6980(int);
 };
-void __cdecl FUN_00cf6980(FUN_00cf6980_class* object);
+void __cdecl Object_ForwardCall_00cf6980(FUN_00cf6980_class* object);
 extern int DAT_01268748;
-int* __cdecl FUN_00cf6990();
+int* __cdecl Runtime_GetDAT01268748Address();
 extern int DAT_0102e378;
-int* __cdecl FUN_00cf69b0();
+int* __cdecl Runtime_GetDAT0102e378Address();
 extern int DAT_01268794;
 extern "C" __declspec(dllimport) void __stdcall FUN_00fdf05c(int value);
 extern "C" __declspec(dllimport) void __stdcall FUN_00fdf100(int value);
@@ -359,13 +359,13 @@ struct FUN_00cf6d50_cls
     int m_00;
     unsigned short m_04;
     unsigned short m_06;
-    void FUN_00cf6d50();
+    void UpdateState_00cf6d50();
 };
 struct FUN_00cf6f80_cls
 {
     unsigned int m_ucLowNibble;
     unsigned int m_ucHighNibble;
-    unsigned __int64 FUN_00cf6f80();
+    unsigned __int64 ComputeValue_00cf6f80();
 };
 // FUN_00cf8710 : thiscall member returning a bool.
 //
@@ -499,17 +499,18 @@ class F4A30Creator
 };
 F4A30Creator* __cdecl F4A30FindCreator(int iTypeID);
 F4A30Result* CreateF4A30Result(F4A30Node* pkNode, void* pvContext);
-void __cdecl FUN_00ce51f0();
-void __cdecl FUN_00ce5300();
+void __cdecl BuildMatrixFromRotationScaleAndPosition();
+void __cdecl Object_ForwardCall_00ce5300();
 class FUN_00ce5360_This
 {
   public:
 // @fnv 0x00ce5360
     virtual ~FUN_00ce5360_This()
     {}
-    unsigned int FUN_00ce5360(unsigned int arg);
+    unsigned int ComputeValue_00ce5360(unsigned int arg);
 };
-unsigned int FUN_00ce5360_This::FUN_00ce5360(unsigned int arg)
+// src: GUESS 0x00ce5360 (confidence: low)
+unsigned int FUN_00ce5360_This::ComputeValue_00ce5360(unsigned int arg)
 {
     return reinterpret_cast<unsigned int>(this);
 }
@@ -779,8 +780,8 @@ class hkObjCF46
 
     void SaveToArchive(NiStream* ar);
 };
-unsigned int __cdecl FUN_00d87a40() throw();
-unsigned int __cdecl FUN_00d87a40() throw();
+unsigned int __cdecl Object_ForwardCall_00d87a40() throw();
+unsigned int __cdecl Object_ForwardCall_00d87a40() throw();
 struct CC9F10Shape
 {
     void FUN_00c90510();
@@ -865,16 +866,16 @@ struct hkPairCF74
     hkEntityCF74* m_kPointB;
 };
 hkBool __cdecl LessThanPairPriority(const hkPairCF74& x, const hkPairCF74& y);
-void* __cdecl FUN_00cfb050(void* pvUnused, bool* pbOut, void* pvResult);
+void* __cdecl Runtime_UpdateState_00cfb050(void* pvUnused, bool* pbOut, void* pvResult);
 void nullsub_7();
-int __cdecl FUN_00cfb070(int a, int b, int c);
+int __cdecl Runtime_GetC(int a, int b, int c);
 void __stdcall nullsub_59(int, int, int, int, int);
 extern int DAT_0102e388;
 struct FUN_00cfc590_class
 {
     int* vtable;
 
-    void __thiscall FUN_00cfc590();
+    void __thiscall SetVtable();
 };
 extern int DAT_010cc86c;
 struct S_00cfc5a0
@@ -937,7 +938,7 @@ struct FUN_00cfc5a0
 
     FUN_00cfc5a0(int a1, S_00cfc5a0* a2, S_00cfc5a0* a3);
 };
-void FUN_00cfdb40();
+void Object_DoNothing_00cfdb40();
 // Per-thread profiler ring: TlsGetValue(index) -> buffer with head@+4 / end@+0xc,
 // 0xc-byte events {tag, timestamp, pad}.
 struct CE0020Event
@@ -1028,8 +1029,8 @@ class CE0020Subject
 };
 void __cdecl hkpWorldConstraintUtil_removeAndDeleteModifier(CE0020Target* pTarget, CE0020Subject* pSubject, int iType);
 void __cdecl EnableConstraintsAndZeroArrays(CE0020Target* pTarget, CE0020Subject* pSubject);
-void __cdecl FUN_00ce2d10();
-void __cdecl FUN_00ce2f30();
+void __cdecl Runtime_ProcessEntries_00ce2d10();
+void __cdecl Runtime_ForwardCall_00ce2f30();
 template <class T> inline void NiStreamLoadBinaryCF42(NiBinaryStream& kStream, T& kValue)
 {
     unsigned int uiSize = sizeof(T);
@@ -1119,7 +1120,7 @@ struct AllocScope
     }
 };
 hkReferencedObject* __cdecl bhkConstraintManager_LoadBinary(NiStream& kStream);
-void FUN_00cf6d10();
+void Runtime_DoNothing_00cf6d10();
 class hkRefObjCF70 : public hkBaseObject
 {
   public:
@@ -1185,7 +1186,8 @@ __forceinline void hkVector4::setSqrtInverse4(const hkVector4& v)
 }
 
 // @fnv 0x00ce2a50
-static __declspec(noinline) void FUN_00ce2a50(hkVector4* a, hkVector4* b)
+// src: GUESS 0x00ce2a50 (confidence: low)
+static __declspec(noinline) void hkVector4_ComputeValues_00ce2a50(hkVector4* a, hkVector4* b)
 {
     hkVector4 len2;
     SimdReal la = a->lengthSquared3SimdCall();
@@ -1201,7 +1203,7 @@ static __declspec(noinline) void FUN_00ce2a50(hkVector4* a, hkVector4* b)
 
 void CallerX(hkVector4* a, hkVector4* b)
 {
-    FUN_00ce2a50(a, b);
+    hkVector4_ComputeValues_00ce2a50(a, b);
 }
 
 struct SubMatrix
@@ -1293,7 +1295,8 @@ extern "C" TransformOwner* cf8b60_self(void);
 extern "C" __m128* cf8b60_quat(void);
 
 // @fnv 0x00cf8b60
-static __declspec(noinline) void FUN_00cf8b60(TransformOwner* self, __m128* pQuat)
+// src: GUESS 0x00cf8b60 (confidence: low)
+static __declspec(noinline) void Object_UpdateFields_00cf8b60(TransformOwner* self, __m128* pQuat)
 {
     SubMatrix* m = &self->m_matrix;
     m->hkRotation_set((const float*)pQuat);
@@ -1306,7 +1309,7 @@ static __declspec(noinline) void FUN_00cf8b60(TransformOwner* self, __m128* pQua
 
 void cf8b60_caller(void)
 {
-    FUN_00cf8b60(cf8b60_self(), cf8b60_quat());
+    Object_UpdateFields_00cf8b60(cf8b60_self(), cf8b60_quat());
 }
 
 struct ResultByte
@@ -1349,7 +1352,8 @@ struct VectorValue
 };
 extern double DAT_01032980;
 // @fnv 0x00ceb6f0
-ResultByte FUN_00ceb6f0(float& outT, float& outU, float& outV, const VectorValue& position,
+// src: GUESS 0x00ceb6f0 (confidence: low)
+ResultByte Runtime_UpdateState_00ceb6f0(float& outT, float& outU, float& outV, const VectorValue& position,
                         const VectorValue& direction, const VectorValue& a, const VectorValue& b, const VectorValue& c,
                         bool cull)
 {

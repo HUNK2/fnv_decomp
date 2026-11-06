@@ -24,7 +24,7 @@ struct EventInfo
     int unk40, unk44, unk48, unk4c;
     int eventHandle;  // 0x50
     EventInfo* hkpWorldRayCastOutput_hkpWorldRayCastOutput_00696c30(EventInfo* entry);
-    EventInfo* FUN_009c1a70(EventInfo* entry);
+    EventInfo* CopyRayCastResultAndRootCollidable(EventInfo* entry);
 };
 struct EventCursor
 {
@@ -269,7 +269,7 @@ int __cdecl Projectile_ProcessTargetPick(Scene* scene, Controller* player, int e
                                     {
                                         if (pickQuery.DialoguePackage_GetCurrentDialogItem()->TESDataHandler_GetWorldSpaceList()->FUN_00726070() > 0)
                                         {
-                                            info.FUN_009c1a70(pickQuery.DialoguePackage_GetCurrentDialogItem()->TESDataHandler_GetWorldSpaceList()->GetEntryAt(0));
+                                            info.CopyRayCastResultAndRootCollidable(pickQuery.DialoguePackage_GetCurrentDialogItem()->TESDataHandler_GetWorldSpaceList()->GetEntryAt(0));
                                             candidate = true;
                                         }
                                     }

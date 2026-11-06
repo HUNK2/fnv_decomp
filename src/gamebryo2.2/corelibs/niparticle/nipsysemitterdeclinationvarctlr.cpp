@@ -15,18 +15,20 @@ void* __cdecl NiPSysEmitterDeclinationVarCtlr_GetRTTI()
 
 struct NiPSysEmitterDeclinationVarCtlr : NiPSysModifierFloatCtlr
 {
-    void FUN_00c2a0b0(float fValue);
-    void FUN_00c2b8c0(float& fValue);
+    void SetTargetValueAtOffset24(float fValue);
+    void UpdateFields_00c2b8c0(float& fValue);
 };
 
 // @fnv 0x00c2a0b0
-void NiPSysEmitterDeclinationVarCtlr::FUN_00c2a0b0(float fValue)
+// src: GUESS 0x00c2a0b0 (confidence: medium)
+void NiPSysEmitterDeclinationVarCtlr::SetTargetValueAtOffset24(float fValue)
 {
     *(float*)((char*)m_pkTargetModifier + 0x24) = fValue;
 }
 
 // @fnv 0x00c2b8c0
-void NiPSysEmitterDeclinationVarCtlr::FUN_00c2b8c0(float& fValue)
+// src: GUESS 0x00c2b8c0 (confidence: low)
+void NiPSysEmitterDeclinationVarCtlr::UpdateFields_00c2b8c0(float& fValue)
 {
     fValue = *(float*)((char*)m_pkTargetModifier + 0x24);
 }
@@ -48,7 +50,7 @@ void __stdcall NiPSysEmitterDeclinationVarCtlr_GetViewerStrings(StrArr* pStringA
 
 extern int DAT_010bfb54;
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+void* __cdecl Object_DispatchCommandFour(unsigned int size);
 
 struct SpawnedObject
 {
@@ -83,7 +85,7 @@ struct FUN_00c2b8d0_cls
 // src: XBOX_PDB 0x00c2b8d0
 SpawnedObject* FUN_00c2b8d0_cls::NiPSysEmitterDeclinationVarCtlr_CreateClone(void* arg)
 {
-    SpawnedObject* obj = (SpawnedObject*)FUN_00aa13e0(0x40);
+    SpawnedObject* obj = (SpawnedObject*)Object_DispatchCommandFour(0x40);
     if (obj != 0)
     {
         obj->FUN_00c32d80();

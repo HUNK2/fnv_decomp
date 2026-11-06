@@ -19,13 +19,13 @@ struct FUN_00dee620
     void* m_pVTable;
     __thiscall FUN_00dee620(int testFlag);
 };
-extern "C" void __cdecl FUN_00dedf10(void*, void*, void*, void*, int, int);
+extern "C" void __cdecl hkVector4_ProcessEntries_00dedf10(void*, void*, void*, void*, int, int);
 void __cdecl hkGeometryProcessing_generateRandomDistribution(void* first, void* second, void* third, void* fourth);
 struct FUN_00dee6b0_Class
 {
     int unk00;
     float unk04;
-    float FUN_00dee6b0(int testFlag);
+    float GetUnk04(int testFlag);
 };
 extern int DAT_010cd664;
 hkMemoryRouter* __cdecl hkMemoryRouter_getInstance() throw();
@@ -42,7 +42,8 @@ double __cdecl Atan2(float y, float x);
 
 
 // @fnv 0x00de98c0
-void FUN_00de98c0(const NiPoint3* v, __m128* out)
+// src: GUESS 0x00de98c0 (confidence: low)
+void NiPoint3_UpdateFields_00de98c0(const NiPoint3* v, __m128* out)
 {
     float ly = v->y;
     float lx = v->x;

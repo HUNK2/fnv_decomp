@@ -83,7 +83,7 @@ void __fastcall AppendVertexColorProperties(NiVertexColorProperty* self, void*, 
     strings->SetAt(index, value);
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+void* __cdecl Object_DispatchCommandFour(unsigned int size);
 void __stdcall CreateVertexBufferSet(void* self, unsigned int arg);
 
 // @fnv 0x00a5f210
@@ -91,7 +91,7 @@ void* __fastcall CloneVertexColorProperty(NiVertexColorProperty* self, void*, un
 {
     if (self->m_spControllers != 0)
     {
-        NiVertexColorProperty* p = static_cast<NiVertexColorProperty*>(FUN_00aa13e0(0x1c));
+        NiVertexColorProperty* p = static_cast<NiVertexColorProperty*>(Object_DispatchCommandFour(0x1c));
         if (p)
         {
             p->NiProperty::NiProperty();

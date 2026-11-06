@@ -35,11 +35,12 @@ void* MagicFogProjectile::DestroyIfFlagged(unsigned int flags)
 // Retained: MagicFogProjectile does not declare FUN_0081a920.
 struct FUN_0081a920_shell
 {
-    bool FUN_0081a920();
+    bool ProcessAndTransformResult_0081a920();
 };
 // Returns true when the int at offset 0xb4 is not 1 and the object is not deleted.
 // @fnv 0x0081a920
-bool FUN_0081a920_shell::FUN_0081a920()
+// src: GUESS 0x0081a920 (confidence: low)
+bool FUN_0081a920_shell::ProcessAndTransformResult_0081a920()
 {
     return *(int*)((char*)this + 0xb4) != 1 && !reinterpret_cast<const TESForm*>(this)->IsDeleted();
 }

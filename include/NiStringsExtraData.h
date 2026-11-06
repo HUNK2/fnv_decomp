@@ -16,7 +16,7 @@ class NiStringsExtraData : public NiExtraData
     virtual void GetViewerStrings(NiViewerStringsArray* apStrings);
 
     void __thiscall FreeStrings();
-    void __thiscall FUN_00a7b300();
+    void __thiscall DestroyFields_00a7b300();
     void* __thiscall FUN_00a94970(unsigned int flags);
     void __thiscall CopyStringsExtraData(NiStringsExtraData* pDest, void* pCloning);
     void LoadStringArray(NiStream* stream);

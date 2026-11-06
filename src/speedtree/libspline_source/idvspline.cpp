@@ -542,11 +542,12 @@ struct Host00b3b050
 {
     int m0;
     int m1;
-    Host00b3b050* FUN_00b3b050(int a, int* b);
+    Host00b3b050* UpdateState_00b3b050(int a, int* b);
 };
 // Sets m0 to 0 and m1 to a, calls FUN_00ec7c56 if b is null, then stores *b into m0 and returns this.
 // @fnv 0x00b3b050
-Host00b3b050* Host00b3b050::FUN_00b3b050(int aiValue, int* piValue)
+// src: GUESS 0x00b3b050 (confidence: low)
+Host00b3b050* Host00b3b050::UpdateState_00b3b050(int aiValue, int* piValue)
 {
     m0 = 0;
     m1 = aiValue;
@@ -589,7 +590,7 @@ struct Holder0394
     char _pad[0x18];
     Node0394* f18;
     int f1c;
-    void FUN_00b3a050(Node0394*);
+    void ProcessEntries_00b3a050(Node0394*);
     void ResetList();
 };
 // Calls FUN_00b3a050 on f18->f1, then points f18's f1, f0 and f2 links back to f18 and clears f1c.
@@ -598,7 +599,7 @@ void Holder0394::ResetList()
 {
     int padA;
     int padB;
-    FUN_00b3a050(f18->f1);
+    ProcessEntries_00b3a050(f18->f1);
     f18->f1 = f18;
     f1c = 0;
     {
@@ -620,14 +621,14 @@ struct FUN_00b3b810_shell
     char _pad[0x18];
     NodeB* f18;
     int f1c;
-    NodeB* FUN_00b3b880();
+    NodeB* ReleaseStorage_00b3b880();
     void InitNode();
 };
 // Gets a node via FUN_00b3b880, sets its byte at 0x2d to 1, points its f0/f4/f8 links at itself, and clears f1c.
 // @fnv 0x00b3b810
 void FUN_00b3b810_shell::InitNode()
 {
-    f18 = FUN_00b3b880();
+    f18 = ReleaseStorage_00b3b880();
     ((unsigned char*)f18)[0x2d] = 1;
     f18->f4 = f18;
     NodeB* p = f18;
@@ -641,11 +642,12 @@ struct FUN_00b3b1d0_shell
     char _pad[0x18];
     NodeB* f18;
     int f1c;
-    void FUN_00b3b1d0(NodeB*);
+    void UpdateState_00b3b1d0(NodeB*);
 };
 
 // @fnv 0x00b3b1d0
-void FUN_00b3b1d0_shell::FUN_00b3b1d0(NodeB* apNode)
+// src: GUESS 0x00b3b1d0 (confidence: low)
+void FUN_00b3b1d0_shell::UpdateState_00b3b1d0(NodeB* apNode)
 {
     NodeB* pNode = apNode->f8;
 
@@ -679,11 +681,12 @@ void FUN_00b3b1d0_shell::FUN_00b3b1d0(NodeB* apNode)
 
 struct FUN_00b3b280_owner : FUN_00b3b810_shell
 {
-    void FUN_00b3b280(NodeB* pArg);
+    void UpdateFields_00b3b280(NodeB* pArg);
 };
 
 // @fnv 0x00b3b280
-void FUN_00b3b280_owner::FUN_00b3b280(NodeB* pNode)
+// src: GUESS 0x00b3b280 (confidence: low)
+void FUN_00b3b280_owner::UpdateFields_00b3b280(NodeB* pNode)
 {
     NodeB* pOld = pNode->f0;
     NodeB* pPrev;
@@ -707,21 +710,22 @@ void FUN_00b3b280_owner::FUN_00b3b280(NodeB* pNode)
     pNode->f4 = pOld;
 }
 
-void __cdecl FUN_00b3b540(int, int);
+void __cdecl Object_AllocateElementStorage_00b3b540(int, int);
 
 struct FUN_00b3b9d0_shell
 {
-    void FUN_00b3b9d0(int);
+    void ProcessState_00b3b9d0(int);
 };
 
 // @fnv 0x00b3b9d0
-void FUN_00b3b9d0_shell::FUN_00b3b9d0(int aiValue)
+// src: GUESS 0x00b3b9d0 (confidence: low)
+void FUN_00b3b9d0_shell::ProcessState_00b3b9d0(int aiValue)
 {
     int local1;
     int local2;
     int local3;
     int local4;
-    FUN_00b3b540(aiValue, 0);
+    Object_AllocateElementStorage_00b3b540(aiValue, 0);
 }
 
 extern "C" char DAT_010a57e8;
@@ -801,7 +805,8 @@ extern void* DAT_010176f8;
 extern const char* const DAT_01140ef8;
 // Throws an exception if a*0x30 would overflow an unsigned int, otherwise calls operator new with a*0x30 bytes.
 // @fnv 0x00b3b540
-void __cdecl FUN_00b3b540(int aiCount, int aiUnused)
+// src: GUESS 0x00b3b540 (confidence: medium)
+void __cdecl Object_AllocateElementStorage_00b3b540(int aiCount, int aiUnused)
 {
     if ((unsigned int)aiCount <= 0)
         aiCount = 0;
@@ -849,14 +854,14 @@ struct FUN_00b377c0
     FUN_00b31270 m3;
     FUN_00b31270 m4;
     FUN_00b377c0(int a0);
-    void FUN_00b1c7a0(int a0);
+    void ProcessAndReturnValue_00b1c7a0(int a0);
 };
 // @fnv 0x00b377c0
 FUN_00b377c0::FUN_00b377c0(int a0) : m0(), m1(), m2(), m3(), m4()
 {
     char buf[0x108];
     int u1;
-    FUN_00b1c7a0(a0);
+    ProcessAndReturnValue_00b1c7a0(a0);
 }
 
 unsigned int __cdecl FUN_00ec7c56(void);

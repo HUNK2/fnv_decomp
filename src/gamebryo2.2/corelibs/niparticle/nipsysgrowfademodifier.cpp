@@ -190,7 +190,7 @@ inline void* operator new(unsigned int, void* p)
 {
     return p;
 }
-extern "C" void* __cdecl FUN_00aa13e0(unsigned int size);
+extern "C" void* __cdecl Object_DispatchCommandFour(unsigned int size);
 class A4b0Cls : public NiPSysModifier
 {
   public:
@@ -215,7 +215,7 @@ class A4b0Cls : public NiPSysModifier
 // src: XBOX_PDB 0x00c2a4b0
 NiPSysModifier* A4b0Cls::NiPSysGrowFadeModifier_CreateClone(CloningProcess* cloning)
 {
-    void* mem = FUN_00aa13e0(sizeof(A4b0Cls));
+    void* mem = Object_DispatchCommandFour(sizeof(A4b0Cls));
     A4b0Cls* p = mem ? ::new (mem) A4b0Cls : 0;
     NiPSysModifier::CopyMemberData(p, *cloning);
     p->m_18 = m_18;

@@ -52,12 +52,12 @@ public:
     void FUN_00cb26e0(const hkRotation& rotation);
     void hkQuaternion_decomposeRestAxis(const hkVector4& axis, hkQuaternion& restOut, float& angleOut) const;
     void hkQuaternion_decomposeRestAxis(void* axis, void* restOut, float* angleOut);
-    void FUN_00cdb910(float gain, const IkVector4& from, const IkVector4& to);
+    void UpdateState_00cdb910(float gain, const IkVector4& from, const IkVector4& to);
     void setMulInverse(const hkQuaternion& q0, const hkQuaternion& q1);
     void setMulInverse(const void* a, const void* b) throw();
     void D3D_ComputeClearColor(const hkQuaternion& q0, const hkQuaternion& q1, float t);
-    void FUN_00d6bec0(const hkQuaternion& to, hkVector4& angleOut) const;
-    void FUN_00cd9d10(const hkVector4& from, const hkVector4& to);
+    void UpdateFields_00d6bec0(const hkQuaternion& to, hkVector4& angleOut) const;
+    void ComputeValues_00cd9d10(const hkVector4& from, const hkVector4& to);
     void hkQuaternion_setInverseMul(const hkQuaternion& a, const hkQuaternion& b);
     void removeAxisComponent(const hkVector4& v);
 

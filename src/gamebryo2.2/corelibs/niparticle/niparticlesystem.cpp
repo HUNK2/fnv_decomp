@@ -88,7 +88,7 @@ struct ParticleListCleanup
 };
 struct S_00a80580
 {
-    void __thiscall FUN_00a80580();
+    void __thiscall UpdateFields_00a80580();
 };
 void __cdecl _delete(void*, unsigned int);
 
@@ -97,7 +97,7 @@ void __cdecl _delete(void*, unsigned int);
 void* __fastcall DestroyParticleSystem(NiParticleSystem* system, void*, unsigned int auiFlags)
 {
     ((ParticleListCleanup*)((char*)system + 0xC8))->RemoveAll();
-    ((S_00a80580*)system)->FUN_00a80580();
+    ((S_00a80580*)system)->UpdateFields_00a80580();
     if (auiFlags & 1)
         _delete(system, 0x110);
     return system;
@@ -218,12 +218,12 @@ void NiParticleSystem::PerformSystemReset()
     }
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int);
+void* __cdecl Object_DispatchCommandFour(unsigned int);
 // @fnv 0x00c1b7f0
 // src: EXE 0x00c1b7f0
 NiParticleSystem* __cdecl NiParticleSystem_CreateObject()
 {
-    NiParticleSystem* p = (NiParticleSystem*)FUN_00aa13e0(0x110);
+    NiParticleSystem* p = (NiParticleSystem*)Object_DispatchCommandFour(0x110);
     if (p)
         return p->NiParticleSystem_00c1b5c0();
     return 0;

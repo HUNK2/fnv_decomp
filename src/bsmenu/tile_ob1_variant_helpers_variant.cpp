@@ -67,7 +67,7 @@ struct S00a0d390
     int f4;
     void* f8;
     void ClearAll();
-    void FUN_00a0d390();
+    void ReleaseStorage_00a0d390();
 };
 struct FUN_00a03c90_shell : public Tile {
     Menu* Tile_GetMenu();
@@ -376,7 +376,7 @@ struct FUN_00a0d280_cls {
     int m_08;
     Sub_0043a010 m_sub;
 
-    void FUN_00a0d280();
+    void ProcessState_00a0d280();
 };
 struct MM {
     void* Allocate(unsigned int auiSize);
@@ -472,12 +472,12 @@ struct Item_00a0ba50 {
 
     static void operator delete(void* apMemory) { DAT_011f6238.MemoryManager_Deallocate(apMemory); }
 };
-void __cdecl FUN_00a0ba50();
+void __cdecl Tile_DeleteGlobalItems();
 void __cdecl AutoTileLock_AutoTileLock();
-extern "C" void __cdecl FUN_00a04500();
+extern "C" void __cdecl Object___imp__LeaveCriticalSection_Thunk();
 struct TileSearchLock {
     TileSearchLock() { AutoTileLock_AutoTileLock(); }
-    ~TileSearchLock() { FUN_00a04500(); }
+    ~TileSearchLock() { Object___imp__LeaveCriticalSection_Thunk(); }
 };
 struct TileFloatList {
     void* m_vtbl;
@@ -518,7 +518,7 @@ struct FUN_00a0ac80 {
     FUN_00a0ac80();
 };
 void AutoTileLock_AutoTileLock();
-void FUN_00a04500();
+void Object___imp__LeaveCriticalSection_Thunk();
 class TileV;
 class TileValueV
 {
@@ -532,7 +532,7 @@ class FnvTileLock
 {
 public:
     FnvTileLock() { AutoTileLock_AutoTileLock(); }
-    ~FnvTileLock() { FUN_00a04500(); }
+    ~FnvTileLock() { Object___imp__LeaveCriticalSection_Thunk(); }
 };
 inline bool HasValue(TileValueV* pList, int m_iValueId)
 {
@@ -559,7 +559,7 @@ public:
     NiTListItem<TileV*>* GetHeadPos() { return m_pkChildList; }
     TileV*& GetNext(NiTListItem<TileV*>*& pos) { TileV*& element = pos->m_element; pos = pos->m_pkNext; return element; }
     float GetFloat(int);
-    void FUN_00a0b420(TileValueV* pValues, float fValue);
+    void ProcessEntries_00a0b420(TileValueV* pValues, float fValue);
 };
 void NiSinCos_004169a0(float,float&,float&);
 struct Mat { float m00,m01,m02,m10,m11,m12,m20,m21,m22; void FUN_0043f850(float angle) { float sn,cs; NiSinCos_004169a0(angle,sn,cs); float negativeSin=-sn; float cosine=cs; m00=cosine; m01=0; m02=negativeSin; m10=0; m11=1; m12=0; m20=sn; m21=0; m22=cosine; } NiPoint3 FUN_004b4500(const NiPoint3* v) { return NiPoint3(m00*v->x+m01*v->y+m02*v->z,m10*v->x+m11*v->y+m12*v->z,m20*v->x+m21*v->y+m22*v->z); } };
@@ -795,11 +795,11 @@ public:
 extern const char* DAT_011f34cc;
 
 void AutoTileLock_AutoTileLock();
-void FUN_00a04500();
+void Object___imp__LeaveCriticalSection_Thunk();
 
 struct TileListLock {
     TileListLock() { AutoTileLock_AutoTileLock(); }
-    ~TileListLock() { FUN_00a04500(); }
+    ~TileListLock() { Object___imp__LeaveCriticalSection_Thunk(); }
 };
 
 struct ExtraNode {
@@ -837,11 +837,11 @@ int Tile_GetTileFromNode(ExtraNode* pkNode)
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* lpAddend);
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* lpAddend);
 void __cdecl AutoTileLock_AutoTileLock();
-void __cdecl FUN_00a04500();
+void __cdecl Object___imp__LeaveCriticalSection_Thunk();
 class MenuLockA01 {
 public:
     MenuLockA01() { AutoTileLock_AutoTileLock(); }
-    ~MenuLockA01() { FUN_00a04500(); }
+    ~MenuLockA01() { Object___imp__LeaveCriticalSection_Thunk(); }
 };
 class RefObjectA01 {
 public:
@@ -1071,12 +1071,12 @@ struct MenuArray {
 extern MenuArray DAT_011f3508;
 int __cdecl Tile_GetMenuByClass(int id);
 void __cdecl AutoTileLock_AutoTileLock();
-void __cdecl FUN_00a04500();
+void __cdecl Object___imp__LeaveCriticalSection_Thunk();
 extern const double _gModifierZero;
 class MenuLockB35 {
 public:
     MenuLockB35() { AutoTileLock_AutoTileLock(); }
-    ~MenuLockB35() { FUN_00a04500(); }
+    ~MenuLockB35() { Object___imp__LeaveCriticalSection_Thunk(); }
 };
 unsigned int __cdecl BSstrlen(const char* text);
 unsigned int __cdecl BSMAX(unsigned int a, unsigned int b);
@@ -1296,9 +1296,9 @@ struct EvalStack {
  data[index]=*value;
  return index;
  }
- void FUN_006db720();
+ void ResetVirtualTableAndClear_006db720();
  __forceinline EvalStack(unsigned start=0,unsigned growth=0) { vtable=&DAT_0106cc64; BSSimpleArray_float_1024_InitialSetup(start,growth); }
- __forceinline ~EvalStack() { FUN_006db720(); }
+ __forceinline ~EvalStack() { ResetVirtualTableAndClear_006db720(); }
  __forceinline void RemoveLast(unsigned count) {
   if(!size) return;
   for(unsigned i=0;i<count;++i) {}
@@ -1320,7 +1320,7 @@ struct EvalTile {
  int unk04,unk08,unk0c,unk10,unk14,unk18,unk1c,unk20,unk24,unk28,unk2c;
  unsigned flags;
  __forceinline bool Flag(unsigned mask) { return (flags&mask)!=0; }
- EvalReference* FUN_00a0a0b0(int,int);
+ EvalReference* GetIndexedTraitValue(int,int);
  void Tile_FinalPostParse(int,float,const char*);
 };
 struct TraitLookup { bool FUN_00a1e380(int,int*); };
@@ -1375,7 +1375,7 @@ void EvalValue::Tile_Value_SetFloat(bool update) {
    text3=reference5->text;
    if(reference5->trait>=10000) DAT_011f3308.FUN_00a1e380(reference5->trait,&lookup4);
    if(lookup4==-1) {
-    resolvedA=reference5->tile->FUN_00a0a0b0(reference5->trait,fnv_FloatToInt(fValue));
+    resolvedA=reference5->tile->GetIndexedTraitValue(reference5->trait,fnv_FloatToInt(fValue));
     if(resolvedA) { operandTmp=resolvedA->value; text3=resolvedA->text; }
    }
   }

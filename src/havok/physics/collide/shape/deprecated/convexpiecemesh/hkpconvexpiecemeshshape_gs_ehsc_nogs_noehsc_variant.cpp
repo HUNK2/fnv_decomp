@@ -24,7 +24,7 @@ struct HkpStandIn
 {
     virtual void v0() = 0;
 
-    void FUN_00e490d0();
+    void ForwardCall_00e490d0();
     HkpStandIn* FUN_00e01010(int flags);
 
     unsigned short value;
@@ -98,7 +98,7 @@ int FUN_00e49290_Class::hkpConvexPieceMeshShape_getCollisionFilterInfo(unsigned 
 
     return this->owner->target.FUN_00e49290_f4(result);
 }
-int FUN_00e49030();
+int hkpConvexPieceMeshShape_ReturnZero();
 struct Ref
 {
     void FUN_00c905b0() throw();
@@ -129,7 +129,7 @@ struct D : P, S
     Ptr m1c;
     __forceinline ~D()
     {}
-    void FUN_00e490d0();
+    void ForwardCall_00e490d0();
 };
 #include <xmmintrin.h>
 inline void* __cdecl operator new(unsigned int, void* pvWhere) throw()
@@ -226,7 +226,7 @@ class PieceAgentE49
     MeshShapeE49* m_pkMesh;
     float m_fBoundRadius;
 
-    FUN_00e607c0* FUN_00e49120(unsigned int uiIndex, void* pvMemory);
+    FUN_00e607c0* ProcessEntries_00e49120(unsigned int uiIndex, void* pvMemory);
 };
 
 class PieceSourceE49 : public PieceBaseE49, public PieceAgentE49
@@ -242,7 +242,8 @@ class PieceSourceE49 : public PieceBaseE49, public PieceAgentE49
 };
 
 // @fnv 0x00e49120
-FUN_00e607c0* PieceAgentE49::FUN_00e49120(unsigned int uiIndex, void* pvMemory)
+// src: GUESS 0x00e49120 (confidence: low)
+FUN_00e607c0* PieceAgentE49::ProcessEntries_00e49120(unsigned int uiIndex, void* pvMemory)
 {
     FUN_00e607c0* pkPieces = new (pvMemory) FUN_00e607c0(m_fBoundRadius);
     pkPieces->m_pkMesh = m_pkMesh;

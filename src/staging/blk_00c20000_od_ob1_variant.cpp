@@ -89,14 +89,14 @@ public:
     float GetX();
     float GetY();
 
-    bool FUN_004390c0(const LocalPoint& other) const;
-    LocalPoint FUN_00439ef0(const LocalPoint& other);
+    bool HasEqualComponents(const LocalPoint& other) const;
+    LocalPoint SubtractIntoVector(const LocalPoint& other);
     LocalPoint FUN_00439e90(const LocalPoint& other);
     void Unitize_004a0c10();
     char* GetViewerString_00a59af0(const char* text);
     float FUN_004a7290() const;
     float FUN_00435e00();
-    float FUN_006a7f50();
+    float AStarSearch_EvaluateValue_006a7f50();
 
     float& at(int index);
     float at(int index) const;
@@ -155,7 +155,7 @@ struct FUN_00c3a610_Class
 extern MemoryManager g_memoryManager;
 struct FUN_00c3a640_Class
 {
-    void* FUN_00c3a640(unsigned int size);
+    void* AllocateStorage_00c3a640(unsigned int size);
 };
 extern "C" void* g_012043dc;
 struct FUN_00c3b9e0_Class
@@ -167,13 +167,13 @@ struct FUN_00c3ba70_Class
 {
     void* __thiscall BSNodeReferences_GetRTTI();
 };
-int __cdecl FUN_00c3c200();
+int __cdecl Object_ComputeValue_00c3c200();
 extern const void* DAT_010c14e8;
-extern void __cdecl FUN_00c3d930();
+extern void __cdecl SetVtableAndProcessState_00c3d930();
 struct FUN_00c3c520_class
 {
     const void* vtbl;
-    void __thiscall FUN_00c3c520();
+    void __thiscall SetVirtualTable_00c3c520();
 };
 extern int DAT_010c1510;
 extern int DAT_010c14fc;
@@ -223,7 +223,7 @@ struct FUN_00c3a140_Class
 };
 struct FUN_00c3a620_Class
 {
-    void __thiscall FUN_00c3a620();
+    void __thiscall SetVirtualTableAndProcessState_00c3a620();
 };
 struct FUN_00c3a6a0_Class
 {
@@ -242,11 +242,11 @@ struct FUN_00c3c070_Class
     void* __thiscall std__Ref_count_base__Get_deleter(int arg);
 };
 extern "C" unsigned char DAT_011af49c;
-void __cdecl FUN_00c3c0c0();
+void __cdecl Object_ProcessEntries_00c3c0c0();
 struct FUN_00c3fca0_Class
 {
     void __thiscall BSTaskManager_int64_RemoveTask(void* a);
-    void __thiscall FUN_00c3fca0(void* p);
+    void __thiscall ProcessStateTransitionFourToFive_00c3fca0(void* p);
 };
 struct FUN_00c3fe00_Class
 {
@@ -523,7 +523,7 @@ struct FUN_00c3a220_cls
     void* m_vptr;
 
     void InitBuffer(int a, int b);
-    FUN_00c3a220_cls* FUN_00c3a220();
+    FUN_00c3a220_cls* SetVirtualTable_00c3a220();
 };
 struct FUN_00c3a350_cls
 {
@@ -668,7 +668,7 @@ struct FUN_00c3bda0_Class : BSCoreMessage
 {
     ~FUN_00c3bda0_Class();
 };
-int FUN_00c3be40();
+int Object_ReturnZero_00c3be40();
 int __cdecl MessageHandler_Output();
 extern "C" __declspec(dllimport) DWORD __stdcall GetCurrentThreadId();
 extern "C" void __cdecl CbtHookProc(int code, WPARAM wParam, LPARAM lParam);
@@ -868,7 +868,8 @@ struct CullerData
     BoundShape* pBound;
 };
 
-inline NiPoint3 NiPoint3::FUN_00439ef0(const NiPoint3& other)
+// src: GUESS 0x00439ef0 (confidence: high)
+inline NiPoint3 NiPoint3::SubtractIntoVector(const NiPoint3& other)
 {
     return NiPoint3(x - other.x, y - other.y, z - other.z);
 }
@@ -905,7 +906,7 @@ extern const double DAT_010c0f58;
 // src: COMMUNITY 0x00c35ae0
 bool FNVClip::BSOcclusionShape_TestLineSegmentAllPlanes(NiPoint3* begin, NiPoint3* end, FNVPlane* face, FNVPlaneSet* region)
 {
-    NiPoint3 direction = end->FUN_00439ef0(*begin);
+    NiPoint3 direction = end->SubtractIntoVector(*begin);
     NiPoint3 normal = face->normal;
     float denom = normal.DotProduct(direction);
     float fraction;
@@ -2128,12 +2129,13 @@ namespace fnv_00c359d0 {
 class SegmentPlaneTester
 {
   public:
-    bool FUN_00c359d0(const NiPoint3& kStart, const NiPoint3& kEnd, const NiPlane& m_kFogPlane, const NiPlane& kBound0,
+    bool UpdateState_00c359d0(const NiPoint3& kStart, const NiPoint3& kEnd, const NiPlane& m_kFogPlane, const NiPlane& kBound0,
                       const NiPlane& kBound1);
 };
 
 // @fnv 0x00c359d0
-bool SegmentPlaneTester::FUN_00c359d0(const NiPoint3& kStart, const NiPoint3& kEnd, const NiPlane& m_kFogPlane,
+// src: GUESS 0x00c359d0 (confidence: low)
+bool SegmentPlaneTester::UpdateState_00c359d0(const NiPoint3& kStart, const NiPoint3& kEnd, const NiPlane& m_kFogPlane,
                                       const NiPlane& kBound0, const NiPlane& kBound1)
 {
     NiPoint3 kDir4 = kEnd - kStart;
@@ -2349,9 +2351,9 @@ struct Map_d0 : Map_d0_base
 {
     inline ~Map_d0()
     {
-        FUN_00c3a2e0();
+        ProcessEntries_00c3a2e0();
     }
-    void FUN_00c3a2e0();
+    void ProcessEntries_00c3a2e0();
     void DeleteItem(ListItem*);
 };
 
@@ -2388,7 +2390,8 @@ inline void List_c0::FUN_004ed900()
     head = 0;
     tail = 0;
 }
-inline void Map_d0::FUN_00c3a2e0()
+// src: GUESS 0x00c3a2e0 (confidence: low)
+inline void Map_d0::ProcessEntries_00c3a2e0()
 {
     Map_d0* self = this;
     ListItem* current = head;
@@ -2412,7 +2415,8 @@ struct Array_dc
     void* data;
     unsigned size;
     unsigned capacity;
-    inline void FUN_00b5af80(bool b)
+// src: GUESS 0x00b5af80 (confidence: low)
+    inline void UpdateFields_00b5af80(bool b)
     {
         void* allocation = data;
         if (allocation)
@@ -2443,8 +2447,8 @@ FUN_00c39770::~FUN_00c39770()
 {
     m_b4.FUN_00b71300();
     m_c0.FUN_004ed900();
-    m_d0.FUN_00c3a2e0();
-    m_dc.FUN_00b5af80(true);
+    m_d0.ProcessEntries_00c3a2e0();
+    m_dc.UpdateFields_00b5af80(true);
     if (m_c0.unk0C)
         FlushRef();
 }
@@ -2944,7 +2948,7 @@ struct S00c3a180_cls
     unsigned int unk0C;
 
     void FUN_004ed900();
-    void FUN_00c3a180();
+    void ProcessState_00c3a180();
 };
 
 struct S00c3a180_Scope
@@ -2959,7 +2963,8 @@ struct S00c3a180_Scope
 };
 
 // @fnv 0x00c3a180
-void S00c3a180_cls::FUN_00c3a180()
+// src: GUESS 0x00c3a180 (confidence: low)
+void S00c3a180_cls::ProcessState_00c3a180()
 {
     S00c3a180_Scope s;
     FUN_004ed900();
@@ -2973,16 +2978,17 @@ struct ScopeGuardA3a1
 
 struct FUN_00c3a1d0_cls
 {
-    void FUN_00c3a2e0();
-    void FUN_00c3a1d0();
+    void ProcessEntries_00c3a2e0();
+    void ProcessState_00c3a1d0();
 };
 
 // @fnv 0x00c3a1d0
-void FUN_00c3a1d0_cls::FUN_00c3a1d0()
+// src: GUESS 0x00c3a1d0 (confidence: low)
+void FUN_00c3a1d0_cls::ProcessState_00c3a1d0()
 {
     int s0, s1, s2, s3, s4, s5;
     ScopeGuardA3a1 guard;
-    FUN_00c3a2e0();
+    ProcessEntries_00c3a2e0();
 }
 
 typedef NiTListItem<void* > Node250;
@@ -3508,7 +3514,7 @@ struct OwnArr
         RefObj*& r = m_data[i];
         return r;
     }
-    void FUN_00c3d5e0(unsigned, int);
+    void ReleaseEntries_00c3d5e0(unsigned, int);
 };
 extern IOManager* DAT_01202d98;
 }  // namespace fnv_00c3cb70
@@ -3539,7 +3545,7 @@ void IOTask::QueuedFile_Cancel(int state, RefObj* obj)
             {
                 if (((fnv_00c3cb70::OwnArr*&)((QueuedFile*)this)->pAdditionalParents)->GetAt(i) == obj)
                 {
-                    ((fnv_00c3cb70::OwnArr*&)((QueuedFile*)this)->pAdditionalParents)->FUN_00c3d5e0(i, 1);
+                    ((fnv_00c3cb70::OwnArr*&)((QueuedFile*)this)->pAdditionalParents)->ReleaseEntries_00c3d5e0(i, 1);
                     break;
                 }
             }
@@ -3688,11 +3694,12 @@ struct FUN_00c3d5e0_Class
     void** m_pBase;
     unsigned int m_uiSize;
     void __thiscall FUN_0042fb60(void* dst, void* src, unsigned int count);
-    void __thiscall FUN_00c3d5e0(unsigned int uiStart, unsigned int ItemUpdateArray);
+    void __thiscall ReleaseEntries_00c3d5e0(unsigned int uiStart, unsigned int ItemUpdateArray);
 };
 
 // @fnv 0x00c3d5e0
-void __thiscall FUN_00c3d5e0_Class::FUN_00c3d5e0(unsigned int uiStart, unsigned int ItemUpdateArray)
+// src: GUESS 0x00c3d5e0 (confidence: low)
+void __thiscall FUN_00c3d5e0_Class::ReleaseEntries_00c3d5e0(unsigned int uiStart, unsigned int ItemUpdateArray)
 {
     unsigned int i;
     unsigned int base;
@@ -4527,7 +4534,7 @@ struct Helper360
 
 struct Result360
 {
-    char __thiscall FUN_00c40680();
+    char __thiscall ProcessEntries_00c40680();
 };
 
 struct Obj360
@@ -4549,7 +4556,7 @@ struct Obj360
 char __thiscall Obj360::LockFreeMap_int64_NiPointer_BSTask_int64_Func06(void* a, Ref360 b)
 {
     lock.Lock(0);
-    char r = ((Result360*)((Helper360*)this)->LockFreeMap_GetInterface(a, &b))->FUN_00c40680();
+    char r = ((Result360*)((Helper360*)this)->LockFreeMap_GetInterface(a, &b))->ProcessEntries_00c40680();
     lock.Unlock();
     return r;
 }

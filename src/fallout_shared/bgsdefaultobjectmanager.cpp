@@ -128,7 +128,7 @@ void BGSDefaultObjectManager::Save()
 {
     unsigned int pidarray4[34];
     int i;
-    FUN_004855a0();
+    BeginFormRecord();
     for (i = 0; i < 34; ++i)
     {
         if (m_apDefaultObjects[i])
@@ -137,5 +137,5 @@ void BGSDefaultObjectManager::Save()
             pidarray4[i] = 0;
     }
     TESForm_AddChunkArray_00485710(0x41544144, pidarray4, 34);
-    FUN_00485680();
+    FinishFormRecord();
 }

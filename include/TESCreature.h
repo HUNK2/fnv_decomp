@@ -72,7 +72,7 @@ public:
     SOUND_LEVEL FUN_009c0070();
     void TESBoundObject_CopyBoundData(TESCreature* other);
     unsigned char FUN_0059f3a0();
-    void FUN_005fbdb0(unsigned char value);
+    void SetTypeAtOffset12C(unsigned char value);
     void FUN_005f8bd0(BGSListForm* list);
     void FUN_00507780(float value);
     SoundOps* PickCreatureSound(int type);

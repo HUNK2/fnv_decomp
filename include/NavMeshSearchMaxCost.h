@@ -21,7 +21,7 @@ public:
     virtual bool CollectConnections(const SearchNode*, BSSimpleArray<SearchNode*, 1024>*);
     virtual bool HasReachedGoal(const SearchNode*);
 
-    void FUN_006ab480();
+    void UpdateFields_006ab480();
     void* __thiscall Destroy(unsigned int flags);
     int GetField2048();
     bool IsGoalNode_006abb60(const SearchNode* apNode);

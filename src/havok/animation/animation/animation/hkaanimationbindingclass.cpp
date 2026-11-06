@@ -68,7 +68,7 @@ struct CalleeA
 };
 struct CalleeB
 {
-    void FUN_00cb0c00();
+    void Object_UpdateFields_00cb0c00();
 };
 
 // @fnv 0x00dfe9e0
@@ -101,6 +101,6 @@ void Record::ClearReferences()
         reinterpret_cast<CalleeA*>(p)->FUN_00c905b0();
     }
     pState->unk0c = 0;
-    reinterpret_cast<CalleeB*>(&pState->unk08)->FUN_00cb0c00();
+    reinterpret_cast<CalleeB*>(&pState->unk08)->Object_UpdateFields_00cb0c00();
     pState->vptr = (void*)&DAT_0102e388;
 }

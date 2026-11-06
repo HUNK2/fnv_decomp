@@ -113,13 +113,13 @@ struct CpuObject
 {
     unsigned int unk00;
     unsigned short size;
-    void FUN_00dd51d0();
+    void InitializeFields_00dd51d0();
     CpuObject* FUN_00dd55a0(unsigned int flags);
 };
 // @fnv 0x00dd55a0
 CpuObject* CpuObject::FUN_00dd55a0(unsigned int flags)
 {
-    FUN_00dd51d0();
+    InitializeFields_00dd51d0();
     if (flags & 1)
     {
         CpuAllocatorHolder* holder = hkMemoryRouter_getInstance();
@@ -139,10 +139,11 @@ struct FnvCpu_FUN_00dd5290_CpuObject
     unsigned int unk04;
     unsigned int unk08;
     int value;
-    int FUN_00dd5290();
+    int GetValue();
 };
 // @fnv 0x00dd5290
-int FnvCpu_FUN_00dd5290_CpuObject::FUN_00dd5290()
+// src: GUESS 0x00dd5290 (confidence: low)
+int FnvCpu_FUN_00dd5290_CpuObject::GetValue()
 {
     return value;
 }

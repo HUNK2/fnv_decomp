@@ -19,7 +19,8 @@ int __stdcall hkObjectCopier_areMembersCompatible(const void* a, const void* b)
 }
 
 // @fnv 0x00e049c0
-int __cdecl FUN_00e049c0(int a, int b)
+// src: GUESS 0x00e049c0 (confidence: low)
+int __cdecl Object_ComputeValue_00e049c0(int a, int b)
 {
     return a < b ? a : b;
 }
@@ -27,10 +28,11 @@ int __cdecl FUN_00e049c0(int a, int b)
 extern int DAT_0102e388;
 struct Object {
     int* vtable;
-    void FUN_00e03160();
+    void SetVirtualTable_00e03160();
 };
 // @fnv 0x00e03160
-void Object::FUN_00e03160() {
+// src: GUESS 0x00e03160 (confidence: low)
+void Object::SetVirtualTable_00e03160() {
     vtable = &DAT_0102e388;
 }
 
@@ -108,7 +110,8 @@ public:
 };
 
 // @fnv 0x00e03100
-static int FUN_00e03100(Obj* apObj) {
+// src: GUESS 0x00e03100 (confidence: low)
+static int Object_ProcessAndReturnValue_00e03100(Obj* apObj) {
     if (apObj->m()) {
         return apObj->m();
     }
@@ -119,7 +122,7 @@ static int FUN_00e03100(Obj* apObj) {
 // compiler keeps it (and gives it the register argument convention).
 int keep_alive(Obj* p) {
     int r = p->m();
-    return FUN_00e03100(p) + r;
+    return Object_ProcessAndReturnValue_00e03100(p) + r;
 }
 
 struct FUN_00e03120 {
@@ -229,7 +232,8 @@ int __cdecl FUN_00e03360_ext2(VObj* p);
 
 // Module-local helper: the manager hands it the object it just looked up
 // together with a mode value.
-__declspec(noinline) static void FUN_00e03360(VObj* p, int n)
+// src: GUESS 0x00e03360 (confidence: low)
+__declspec(noinline) static void Object_UpdateFields_00e03360(VObj* p, int n)
 {
     int k = FUN_00e03360_ext1(n);
     FUN_00e03360_ext2(p);
@@ -242,7 +246,7 @@ __declspec(noinline) static void FUN_00e03360(VObj* p, int n)
 static int AppendListEntry(Ctx* ctx, List* list, int a, int b)
 {
     VObj* value = ctx->hkOArchive_getStreamWriter();
-    FUN_00e03360(value, 2);
+    Object_UpdateFields_00e03360(value, 2);
     value = ctx->hkOArchive_getStreamWriter()->v20();
     E04A00MemoryRouter& router = hkMemoryRouter_getInstance();
     if (list->m_uiItemCount == (int)(list->m_iCapacityState & 0x3fffffffu))
@@ -269,9 +273,9 @@ struct Scratch16 {
     unsigned int unk04;
     unsigned int unk08;
     unsigned int unk0C;
-    void FUN_00d60830(unsigned int a, unsigned int b);
+    void hkOArchive_InitializeWriterWithByteSwap(unsigned int a, unsigned int b);
     unsigned char* ForwardValueToObject(unsigned int* out);
-    void FUN_00d60590();
+    void ReleaseReference_00d60590();
 };
 struct FUN_00e04920_cls {
     unsigned int unk00;
@@ -295,14 +299,14 @@ int FUN_00e04920_cls::hkObjectCopier_copyObject(unsigned int a1, unsigned int a2
 {
     Scratch16 scratch;
     VObj* original = reinterpret_cast<VObj*>(a3);
-    scratch.FUN_00d60830(a3, static_cast<unsigned int>(m_flag14));
+    scratch.hkOArchive_InitializeWriterWithByteSwap(a3, static_cast<unsigned int>(m_flag14));
     unsigned int uiIntermediate = hkObjectCopier_saveBody(a1, a2, &scratch, a4);
-    FUN_00e03360(original, 16);
+    Object_UpdateFields_00e03360(original, 16);
     hkObjectCopier_saveExtras(a1, a2, &scratch, a4, uiIntermediate, a5, 0);
-    FUN_00e03360(original, 16);
+    Object_UpdateFields_00e03360(original, 16);
     unsigned char* status = scratch.ForwardValueToObject(&a1);
     unsigned int success = (*status == 0);
-    scratch.FUN_00d60590();
+    scratch.ReleaseReference_00d60590();
     return success;
 }
 
@@ -409,7 +413,8 @@ struct LocalCharArray : CharArrayLocalForm
 
 // Gets the reader offset and, when the computed mask is nonzero, reads n minus that mask bytes into a local buffer.
 // @fnv 0x00e03360
-static __declspec(noinline) void __cdecl FUN_00e03360(Reader* apReader, int aiCount)
+// src: GUESS 0x00e03360 (confidence: low)
+static __declspec(noinline) void __cdecl Object_UpdateFields_00e03360(Reader* apReader, int aiCount)
 {
     int align = apReader->GetReadOffset();
     LocalCharArray buf(aiCount);
@@ -422,8 +427,8 @@ static __declspec(noinline) void __cdecl FUN_00e03360(Reader* apReader, int aiCo
 
 void keep_alive_b11425(Reader* obj, int a, int b)
 {
-    FUN_00e03360(obj, a);
-    FUN_00e03360(obj, b + a);
+    Object_UpdateFields_00e03360(obj, a);
+    Object_UpdateFields_00e03360(obj, b + a);
 }
 
 struct DiagnosticWriter {
@@ -431,7 +436,7 @@ struct DiagnosticWriter {
     int unk04;                                             // +4
     void* p;                                               // +8
     void FUN_00cb1600(void* buf, int size);                // (this,buf,size), ret 8
-    void FUN_00cc01c0(const char* msg);                    // (this,msg), ret 4
+    void ProcessAndReturnValue_00cc01c0(const char* msg);                    // (this,msg), ret 4
     void FUN_00cc00e0();                                   // (this), ret
 };
 
@@ -452,7 +457,8 @@ extern const char str_010ea3c8[];
 
 // Calls WriteSwapped for listed type values, adjusting its integer arguments for cases 12 through 18; other values enter the diagnostic path.
 // @fnv 0x00e03170
-static __declspec(noinline) void FUN_00e03170(unsigned int a, unsigned int aiSize, unsigned int type, Target* apTarget, void* apData)
+// src: GUESS 0x00e03170 (confidence: medium)
+static __declspec(noinline) void Hkobjectcopier_WriteSwappedDataByType(unsigned int a, unsigned int aiSize, unsigned int type, Target* apTarget, void* apData)
 {
     switch (type - 1) {
     case 11: case 12: case 13: case 14: case 15: case 16: case 17:
@@ -472,7 +478,7 @@ fail:
         unsigned int buf[128];
         DiagnosticWriter w;
         w.FUN_00cb1600(buf, 0x200);
-        w.FUN_00cc01c0(str_010ea3e4);
+        w.ProcessAndReturnValue_00cc01c0(str_010ea3e4);
         if (DAT_01268360->v3(3, 0x747e1e03u, (char*)buf, str_010ea3c8, 0xfb))
             __debugbreak();
         w.FUN_00cc00e0();
@@ -483,7 +489,7 @@ fail:
 
 void target_driver(unsigned int type, unsigned int count, unsigned int size, void* data, Target* target)
 {
-    FUN_00e03170(count, size, type, target, data);
+    Hkobjectcopier_WriteSwappedDataByType(count, size, type, target, data);
 }
 
 namespace fnv_00e036b0 {
@@ -534,8 +540,8 @@ struct Inner {
 };
 struct InnerHolder { int f00; int f04; int f08; int f0c; Inner* f10; };
 struct Chain {
-    Chain* FUN_00cc01c0(const void* s, void* a);
-    Chain* FUN_00cc01c0();
+    Chain* ProcessAndReturnValue_00cc01c0(const void* s, void* a);
+    Chain* ProcessAndReturnValue_00cc01c0();
     void FUN_00cc00e0();
 };
 struct StrBuf {
@@ -576,10 +582,11 @@ extern int DAT_010ea4ac;
 extern int DAT_010ea47c;
 extern int DAT_010ea3c8;
 extern int DAT_010ea448;
-int __cdecl FUN_00e049c0(int a, int b);
-int __cdecl FUN_00e03240(DescriptorList* a, Item* it, int i, int e);
+int __cdecl Object_ComputeValue_00e049c0(int a, int b);
+int __cdecl hkClass_ProcessEntries_00e03240(DescriptorList* a, Item* it, int i, int e);
 
-static __declspec(noinline) int FUN_00e03100(Item* p) {
+// src: GUESS 0x00e03100 (confidence: low)
+static __declspec(noinline) int Object_ProcessAndReturnValue_00e03100(Item* p) {
     if (p->getCstyleArraySize()) return p->getCstyleArraySize();
     return 1;
 }
@@ -592,12 +599,13 @@ struct DiagnosticWriterOrig {
     int unk04;
     void* p;
     void FUN_00cb1600(void* buf, int size);
-    DiagnosticWriterOrig* FUN_00cc01c0(const void* msg);
+    DiagnosticWriterOrig* ProcessAndReturnValue_00cc01c0(const void* msg);
     void FUN_00cc00e0();
 };
 static DiagnosticWriterOrig& wch(DiagnosticWriter& w) { return *(DiagnosticWriterOrig*)&w; }
 
-static __declspec(noinline) void FUN_00e03170(Target* obj, unsigned int type, unsigned int size, unsigned int count, void* data) {
+// src: GUESS 0x00e03170 (confidence: medium)
+static __declspec(noinline) void Hkobjectcopier_WriteSwappedDataByType(Target* obj, unsigned int type, unsigned int size, unsigned int count, void* data) {
     switch (type) {
     case 12:
     case 13:
@@ -628,7 +636,7 @@ static __declspec(noinline) void FUN_00e03170(Target* obj, unsigned int type, un
         unsigned int storage[128];
         DiagnosticWriter w;
         w.FUN_00cb1600(storage, sizeof(storage));
-        w.FUN_00cc01c0((const char*)str_010ea3e4);
+        w.ProcessAndReturnValue_00cc01c0((const char*)str_010ea3e4);
         if (DAT_01268360->v3(3, 0x747e1e03, (char*)storage, (const char*)&DAT_010ea3c8, 0xfb)) __debugbreak();
         w.FUN_00cc00e0();
         return;
@@ -684,7 +692,7 @@ int Host::hkObjectCopier_saveBody(StreamObj* apSourceStream, StreamObj* apLookup
                 continue;
             }
             if (fl & 1) {
-                FUN_00e03240(apDescriptorList, pItem, state0.index, (int)state1.ebp);
+                hkClass_ProcessEntries_00e03240(apDescriptorList, pItem, state0.index, (int)state1.ebp);
                 continue;
             }
         }
@@ -696,25 +704,25 @@ int Host::hkObjectCopier_saveBody(StreamObj* apSourceStream, StreamObj* apLookup
             case 0: case 1: case 2: case 3: case 4: case 5: case 6: case 7:
             case 8: case 9: case 10: case 11: case 12: case 13: case 14: case 15:
             case 16: case 17: case 31: {
-                int x = FUN_00e03100(nb);
-                int y = FUN_00e03100(pItem);
+                int x = Object_ProcessAndReturnValue_00e03100(nb);
+                int y = Object_ProcessAndReturnValue_00e03100(pItem);
                 int v = pItem->FUN_00d86980();
-                FUN_00e03170((Target*)apOutputStream, pItem->type, v / y, FUN_00e049c0(x,y), (void*)iSourceOffset);
+                Hkobjectcopier_WriteSwappedDataByType((Target*)apOutputStream, pItem->type, v / y, Object_ComputeValue_00e049c0(x,y), (void*)iSourceOffset);
                 break;
             }
             case 29: {
-                int x = FUN_00e03100(nb);
-                int y = FUN_00e03100(pItem);
-                int r = FUN_00e049c0(x, y);
+                int x = Object_ProcessAndReturnValue_00e03100(nb);
+                int y = Object_ProcessAndReturnValue_00e03100(pItem);
+                int r = Object_ComputeValue_00e049c0(x, y);
                 WriteUIntArray(r, (const unsigned int*)iSourceOffset, (Writer*)apOutputStream, (int)this->f0c);
                 break;
             }
             case 23: {
                 if (nb->f08 == 0) break;
                 if (pItem->f08 == 0) break;
-                int denominator = FUN_00e03100(nb);
-                int u = FUN_00e03100(pItem);
-                int iCount = FUN_00e049c0(*(volatile int*)&denominator, u);
+                int denominator = Object_ProcessAndReturnValue_00e03100(nb);
+                int u = Object_ProcessAndReturnValue_00e03100(pItem);
+                int iCount = Object_ComputeValue_00e049c0(*(volatile int*)&denominator, u);
                 void* h1 = nb->FUN_00d86930();
                 void* h2 = pItem->FUN_00d86930();
                 int v = nb->FUN_00d86980();
@@ -743,7 +751,7 @@ int Host::hkObjectCopier_saveBody(StreamObj* apSourceStream, StreamObj* apLookup
             case 18: break;
             case 19: case 20: case 28: case 32: {
                 int count;
-                int rawCount = FUN_00e03100(pItem);
+                int rawCount = Object_ProcessAndReturnValue_00e03100(pItem);
                 scratch.pair[0] = 0; scratch.pair[1] = 0;
                 if (rawCount <= 0) break;
                 count = rawCount;
@@ -764,11 +772,11 @@ int Host::hkObjectCopier_saveBody(StreamObj* apSourceStream, StreamObj* apLookup
                     } else {
                         
                         scratch.missing.FUN_00cb1600(storage, 0x200);
-                        wch(scratch.missing).FUN_00cc01c0((const void*)&DAT_010ea47c)
-                          ->FUN_00cc01c0((const void*)apLookupStream->FUN_00d46d40())
-                          ->FUN_00cc01c0((const void*)&DAT_010ea4ac)
-                          ->FUN_00cc01c0((const void*)nb->getName())
-                          ->FUN_00cc01c0((const void*)&DAT_01044c28);
+                        wch(scratch.missing).ProcessAndReturnValue_00cc01c0((const void*)&DAT_010ea47c)
+                          ->ProcessAndReturnValue_00cc01c0((const void*)apLookupStream->FUN_00d46d40())
+                          ->ProcessAndReturnValue_00cc01c0((const void*)&DAT_010ea4ac)
+                          ->ProcessAndReturnValue_00cc01c0((const void*)nb->getName())
+                          ->ProcessAndReturnValue_00cc01c0((const void*)&DAT_01044c28);
                         DAT_01268360->v3(1, 0xabba5a55, (char*)storage, (const char*)&DAT_010ea3c8, 0x1b8);
                         scratch.missing.FUN_00cc00e0();
                         ebpInt = 0;
@@ -794,7 +802,7 @@ int Host::hkObjectCopier_saveBody(StreamObj* apSourceStream, StreamObj* apLookup
                 void* h2 = pItem->getClass();
                 if (!h1) break;
                 if (!h2) break;
-                int iRemaining = FUN_00e049c0(FUN_00e03100(nb), FUN_00e03100(pItem));
+                int iRemaining = Object_ComputeValue_00e049c0(Object_ProcessAndReturnValue_00e03100(nb), Object_ProcessAndReturnValue_00e03100(pItem));
                 int k = 0;
                 if (iRemaining <= 0) break;
                 do {
@@ -807,7 +815,7 @@ int Host::hkObjectCopier_saveBody(StreamObj* apSourceStream, StreamObj* apLookup
             }
             case 27: {
                 scratch.buf4[0] = 0; scratch.buf4[1] = 0; scratch.buf4[2] = 0; scratch.buf4[3] = 0;
-                int rawCount = FUN_00e049c0(FUN_00e03100(nb), FUN_00e03100(pItem));
+                int rawCount = Object_ComputeValue_00e049c0(Object_ProcessAndReturnValue_00e03100(nb), Object_ProcessAndReturnValue_00e03100(pItem));
                 if (rawCount <= 0) break;
                 int iRemaining = rawCount;
                 do {
@@ -819,9 +827,9 @@ int Host::hkObjectCopier_saveBody(StreamObj* apSourceStream, StreamObj* apLookup
             case 30: {
                 if (nb->f08 == 0) break;
                 if (pItem->f08 == 0) break;
-                int denominator = FUN_00e03100(nb);
-                int u = FUN_00e03100(pItem);
-                int iCount = FUN_00e049c0(*(volatile int*)&denominator, u);
+                int denominator = Object_ProcessAndReturnValue_00e03100(nb);
+                int u = Object_ProcessAndReturnValue_00e03100(pItem);
+                int iCount = Object_ComputeValue_00e049c0(*(volatile int*)&denominator, u);
                 state1.flagh1 = nb->FUN_00d86930();
                 state0.flagh2 = pItem->FUN_00d86930();
                 int v = nb->FUN_00d86980();
@@ -871,7 +879,7 @@ int Host::hkObjectCopier_saveBody(StreamObj* apSourceStream, StreamObj* apLookup
             case 22: default: {
                 
                         scratch.bad.FUN_00cb1600(storage, 0x200);
-                scratch.bad.FUN_00cc01c0((const char*)&DAT_010ea448);
+                scratch.bad.ProcessAndReturnValue_00cc01c0((const char*)&DAT_010ea448);
                 int iResult = DAT_01268360->v3(3, 0x641e3e03, (char*)storage, (const char*)&DAT_010ea3c8, 0x225);
                 if (iResult) __debugbreak();
                 scratch.bad.FUN_00cc00e0();
@@ -879,7 +887,7 @@ int Host::hkObjectCopier_saveBody(StreamObj* apSourceStream, StreamObj* apLookup
             }
             }
             } else {
-                FUN_00e03240(apDescriptorList, pItem, state0.index, (int)state1.ebp);
+                hkClass_ProcessEntries_00e03240(apDescriptorList, pItem, state0.index, (int)state1.ebp);
             }
         }
     }

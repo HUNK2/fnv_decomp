@@ -36,7 +36,7 @@ struct CollisionFilter
     CollisionFilter(int);
     void CFilter_SetLayer(int);
     void CFilter_SetGroup(unsigned int);
-    void* FUN_00559450() const;
+    void* Modelloader_GetReferencedThis() const;
 };
 class FUN_0056e2d0 : public NiMemObject
 {
@@ -846,7 +846,7 @@ struct xModel
 };
 struct xModelPtr
 {
-    xModel* FUN_00559450();
+    xModel* Modelloader_GetReferencedThis();
 };
 struct xBody
 {
@@ -888,7 +888,7 @@ struct xRef
 };
 struct xBodyPtr
 {
-    xBody* FUN_00559450();
+    xBody* Modelloader_GetReferencedThis();
     int m_iWordAt00;
 };
 struct xCaster
@@ -910,7 +910,7 @@ struct MotionWorld
 };
 struct MotionPointer
 {
-    MotionWorld* FUN_00559450();
+    MotionWorld* Modelloader_GetReferencedThis();
 };
 struct MotionStatus
 {
@@ -1216,13 +1216,13 @@ class S006288c0_Shape
 class S006288c0_Bounds
 {
   public:
-    void FUN_006281a0(const S006288c0_Aabb& aabb);
+    void AssignFields_006281a0(const S006288c0_Aabb& aabb);
 };
 class S006288c0_Object
 {
   public:
-    S006288c0_Shape* FUN_004ae750();
-    void FUN_00a29680();
+    S006288c0_Shape* Bipedanim_GetReferenceFlagsOrZero();
+    void Object_DoNothing();
     void bhkAabbPhantom_GetAabb(S006288c0_Bounds* bounds);
 };
 struct __declspec(align(16)) Text628980
@@ -1289,7 +1289,7 @@ struct Filter628980
 struct Owner628980
 {
     void Expand(void*, List628980*);
-    void FUN_00628980(Filter628980*, List628980*);
+    void ProcessEntries_00628980(Filter628980*, List628980*);
 };
 void* __cdecl hkpGetRigidBody(const void*);
 void* __cdecl bhkEntity_Getbhk(const void*);
@@ -1764,7 +1764,7 @@ template <class T> class ShapeCastPointer
 {
   public:
     T* m_pObject;
-    T* FUN_00559450() const;
+    T* Modelloader_GetReferencedThis() const;
 };
 class ShapePhantom
 {

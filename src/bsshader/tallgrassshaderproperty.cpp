@@ -316,7 +316,8 @@ struct TallGrassShaderPropertyInstance
 };
 // Allocates and constructs a new tall grass shader property instance.
 // @fnv 0x00b60f50
-TallGrassShaderPropertyInstance* FUN_00b60f50_Create()
+// src: GUESS 0x00b60f50 (confidence: high)
+TallGrassShaderPropertyInstance* Tallgrassshaderproperty_CreateTallGrassShaderPropertyInstance()
 {
     return new TallGrassShaderPropertyInstance;
 }

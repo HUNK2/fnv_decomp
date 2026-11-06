@@ -94,7 +94,7 @@ struct RefB09
     virtual void vr03b();
     virtual hkVector4* GetPosF0(hkVector4* pOut);
     HandleB09* bhkWorldObject_GetCollisionFilter(HandleB09* pOut);
-    void* FUN_004ae750();
+    void* Bipedanim_GetReferenceFlagsOrZero();
     void bhkRigidBody_ApplyLinearImpulseNi(const NiPoint3& kImpulse);
     void bhkRigidBody_ApplyAngularImpulseNi(const NiPoint3& kImpulse);
 };
@@ -258,7 +258,7 @@ void OwnerB09::Explosion_PushRigidBody(RefB09* pRef)
             bool bMatched = false;
             if (QUserData())
             {
-                FormB09* pForm = FUN_004b5a20(pRef->FUN_004ae750());
+                FormB09* pForm = FUN_004b5a20(pRef->Bipedanim_GetReferenceFlagsOrZero());
                 void* pBase = pForm ? pForm->FUN_0044ddc0() : 0;
                 void* pOther = TESObjectREFR_FindReferenceFor3D(pBase);
                 if (pOther && pOther == QUserData())
@@ -323,7 +323,7 @@ struct FUN_00621c40
     unsigned int keyB;
     unsigned int shapePathB[8];
     FUN_00621c40();
-    FUN_00621c40& FUN_006212c0(const FUN_00621c40&);
+    FUN_00621c40& InitializeFields_006212c0(const FUN_00621c40&);
 };
 struct Predicate369
 {
@@ -339,7 +339,7 @@ void hkAlgorithm_quickSortRecursive_hkpRootCdPoint_hkAlgorithm_less_hkpRootCdPoi
 restart: {
     int j = hi;
     int i = lo;
-    pivot.FUN_006212c0(base[(lo + hi) >> 1]);
+    pivot.InitializeFields_006212c0(base[(lo + hi) >> 1]);
     do
     {
         while (predicate.CompareBool(base[i], pivot))
@@ -353,9 +353,9 @@ restart: {
                 FUN_00621c40 temp;
                 FUN_00621c40* high = &base[j];
                 FUN_00621c40* low = &base[i];
-                temp.FUN_006212c0(*high);
-                high->FUN_006212c0(*low);
-                low->FUN_006212c0(temp);
+                temp.InitializeFields_006212c0(*high);
+                high->InitializeFields_006212c0(*low);
+                low->InitializeFields_006212c0(temp);
             }
             --j;
             ++i;

@@ -21,7 +21,7 @@ public:
     virtual ~hkaRagdollInstance() throw();
     virtual hkaRagdollInstance* hkaRagdollInstance_clone(int cloneMode) const throw();
 
-    void FUN_00ce1560(const hkQsTransform* pose);
+    void ApplyPoseAndClearVelocities(const hkQsTransform* pose);
     int addToWorld(void* world, unsigned char flag);
     void hkaRagdollInstance_getPoseWorldSpace(hkQsTransform* poseOut, const hkQsTransform& root,
                       const hkQsTransform* localPose);
@@ -29,10 +29,10 @@ public:
     void getWorldPose(hkQsTransform* poseOut);
     void hkaRagdollInstance_getPoseModelSpace(hkQsTransform* poseOut, const hkQsTransform& worldFromModel);
     void hkaRagdollInstance_setPoseWorldSpace(const hkQsTransform* pose, const hkQsTransform& worldFromModel);
-    void FUN_00ce1ca0(const hkQsTransform* poseA, const hkQsTransform& worldFromModelA,
+    void ProcessEntries_00ce1ca0(const hkQsTransform* poseA, const hkQsTransform& worldFromModelA,
                       const hkQsTransform* poseB, const hkQsTransform& worldFromModelB,
                       float deltaTime);
-    void FUN_00ce2000(int bone, hkQsTransform& out);
+    void ProcessAndReturnValue_00ce2000(int bone, hkQsTransform& out);
     void hkaRagdollInstance_getApproxWorldFromBoneTransformAt(int bone, float time, hkQsTransform& out);
     void hkaRagdollInstance_getApproxWorldFromBoneTransformAt(int bone, float time, void* out);
     void hkaRagdollInstance_commonInit(const hkArray<hkpRigidBody*>& rigidBodies,

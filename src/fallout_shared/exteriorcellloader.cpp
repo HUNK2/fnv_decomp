@@ -63,11 +63,12 @@ extern int DAT_0102d078;
 struct FUN_00528800_shell
 {
     int m_val;
-    void FUN_00528800();
+    void UpdateFields_00528800();
 };
 
 // @fnv 0x00528800
-void FUN_00528800_shell::FUN_00528800()
+// src: GUESS 0x00528800 (confidence: low)
+void FUN_00528800_shell::UpdateFields_00528800()
 {
     m_val = (int)&DAT_0102d078;
 }
@@ -135,7 +136,7 @@ struct FUN_00528840_shell : public FUN_00528800_shell
 // @fnv 0x00528840
 void* FUN_00528840_shell::FUN_00528840(unsigned int flags)
 {
-    FUN_00528800();
+    UpdateFields_00528800();
     if (flags & 1)
         _Deallocate(this);
     return this;

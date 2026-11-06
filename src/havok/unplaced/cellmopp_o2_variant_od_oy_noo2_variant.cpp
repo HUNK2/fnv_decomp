@@ -742,7 +742,7 @@ struct Owner_Ext : public Owner
     void bhkShape_Link(bool flag);
     void bhkBvTreeShape_Link(bool flag);
 };
-extern "C" void* __cdecl FUN_00aa13e0(unsigned int);
+extern "C" void* __cdecl Object_DispatchCommandFour(unsigned int);
 extern "C" void __cdecl bhkSerializable_CloneCritLock();
 extern "C" void __cdecl bhkSerializable_CloneCritUnlock();
 extern "C" char DAT_01030bf4[];
@@ -772,7 +772,7 @@ struct SpawnedObject
     }
     void* operator new(unsigned int size) throw()
     {
-        return FUN_00aa13e0(size);
+        return Object_DispatchCommandFour(size);
     }
 };
 struct FUN_00cb05d0_cls
@@ -852,7 +852,7 @@ struct FUN_00cb06c0_cls
     int unk04;
     void* unk08;
     void* unk0c;
-    void FUN_00cb0030(void* value);
+    void UpdateState_00cb0030(void* value);
     void* bhkTriSampledHeightFieldBvTreeShape_CreateCinfo(bool* out);
 };
 struct S00cb0820_Alloc
@@ -921,7 +921,7 @@ struct S00cb0820_Shape : S00cb0820_Ref
     int unk0c;
     int unk10;
     int unk14;
-    void FUN_00d248a0(S00cb0820_Src* src, int n);
+    void ProcessAndReturnValue_00d248a0(S00cb0820_Src* src, int n);
 };
 struct S00cb0820_Shape70 : S00cb0820_Shape
 {
@@ -949,7 +949,7 @@ struct S00cb0820_Shape70 : S00cb0820_Shape
     int unk6c;
     S00cb0820_Shape70(S00cb0820_Src* src)
     {
-        FUN_00d248a0(src, 2);
+        ProcessAndReturnValue_00d248a0(src, 2);
         m_vtbl = &DAT_010c853c;
         double d = unk14 - DAT_01012070;
         unk60 = src->unk30;
@@ -1070,7 +1070,7 @@ extern xFltSetting xg_11cc1d8;
 struct xFilter
 {
     xFilter(int, int, int);
-    unsigned int FUN_00559450();
+    unsigned int Modelloader_GetReferencedThis();
     unsigned int m_uiFilterValue;
 };
 struct __declspec(align(16)) xPhantomCinfo
@@ -1125,7 +1125,7 @@ struct xPtr
 {
     xPtr(void*);
     ~xPtr();
-    void* FUN_00559450();
+    void* Modelloader_GetReferencedThis();
     void* m_p;
 };
 int __fastcall xFUN_00620b80(void*);
@@ -1155,7 +1155,7 @@ bool xMgr::CellMopp_Create(xRef** apList, unsigned int auiCount, float afVal)
             CI.bhkRigidBodyCinfo_SetMotionType(5);
             CI.PathingRequestCoveredMove_SetAttackerHealth(*xg_11cc1d8.Setting_Float_00403e20());
             xFilter FILTER(0x11, 1, 0);
-            CI.bhkRigidBodyCinfo_SetCollisionFilter(FILTER.FUN_00559450());
+            CI.bhkRigidBodyCinfo_SetCollisionFilter(FILTER.Modelloader_GetReferencedThis());
             for (unsigned int I = 0; I < auiCount; I++)
             {
                 xRef* REF = apList[I];
@@ -1168,7 +1168,7 @@ bool xMgr::CellMopp_Create(xRef** apList, unsigned int auiCount, float afVal)
                     SC.m_44 = afVal;
                     SC.m_10.UpdateBoundsFromElements();
                     xPtr SHAPE(new xShape(&SC));
-                    CI.bhkRigidBodyCinfo_SetShape_0(xFUN_00620b80(SHAPE.FUN_00559450()));
+                    CI.bhkRigidBodyCinfo_SetShape_0(xFUN_00620b80(SHAPE.Modelloader_GetReferencedThis()));
                     xPhantom* PHANTOM = new xPhantom(&CI);
                     PHANTOM->bhkWorldObject_SetAVObject(REF, &xg_11f4a20);
                     m_8.NiTObjectArray_NiPointer_bhkRigidBody_Add(PHANTOM);

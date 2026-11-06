@@ -455,7 +455,7 @@ struct ActiSave
     SoundId* m_pTalkingActivator;
     BSStringT<char> m_kActivationPrompt;
 
-    void FUN_004855a0();
+    void BeginFormRecord();
     void FinishSave();
     BSStringT<char> GetString();
     void Save();
@@ -465,7 +465,7 @@ struct ActiSave
 // @fnv 0x00510f00
 void ActiSave::Save()
 {
-    FUN_004855a0();
+    BeginFormRecord();
     name30.Save_00487010();
     model3c.ProcessAndFreeData(0x4c444f4d, 0x54444f4d, 0x53444f4d);
     script5c.Save_0048cca0();

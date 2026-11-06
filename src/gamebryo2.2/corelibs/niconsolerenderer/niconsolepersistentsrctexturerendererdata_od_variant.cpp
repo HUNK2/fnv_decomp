@@ -59,10 +59,11 @@ extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile lo
 struct S_00c362c0
 {
     NiObject* ptr;
-    void FUN_00c362c0();
+    void UpdateFields_00c362c0();
 };
 // @fnv 0x00c362c0
-void S_00c362c0::FUN_00c362c0()
+// src: GUESS 0x00c362c0 (confidence: low)
+void S_00c362c0::UpdateFields_00c362c0()
 {
     NiObject* p;
     if (ptr)

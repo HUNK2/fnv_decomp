@@ -31,14 +31,14 @@ struct S_00d3ef70_Dispatcher
     void registerCollisionAgent(S_00d3ef70_AgentFuncs& f, int typeA, int typeB);
 };
 S_00d3ef70_Agent* hkpSphereCapsuleAgent_createCapsuleSphereAgent(const S_00d3ef70_CdBody&, const S_00d3ef70_CdBody&, const S_00d3ef70_Input&, void*);
-void FUN_00d3f040(const S_00d3ef70_CdBody&, const S_00d3ef70_CdBody&, const S_00d3ef70_Input&, S_00d3ef70_Collector&);
-void FUN_00d3f4c0(const S_00d3ef70_CdBody&, const S_00d3ef70_CdBody&, const S_00d3ef70_Input&, S_00d3ef70_Collector&);
-void FUN_00d3ac80(const S_00d3ef70_CdBody&, const S_00d3ef70_CdBody&, const S_00d3ef70_Input&, S_00d3ef70_Collector&,
+void Object_UpdateFields_00d3f040(const S_00d3ef70_CdBody&, const S_00d3ef70_CdBody&, const S_00d3ef70_Input&, S_00d3ef70_Collector&);
+void Object_ProcessAndReturnValue_00d3f4c0(const S_00d3ef70_CdBody&, const S_00d3ef70_CdBody&, const S_00d3ef70_Input&, S_00d3ef70_Collector&);
+void Object_UpdateFields_00d3ac80(const S_00d3ef70_CdBody&, const S_00d3ef70_CdBody&, const S_00d3ef70_Input&, S_00d3ef70_Collector&,
                   S_00d3ef70_Collector*);
-S_00d3ef70_Agent* FUN_00d3e270(const S_00d3ef70_CdBody&, const S_00d3ef70_CdBody&, const S_00d3ef70_Input&, void*);
+S_00d3ef70_Agent* hkMemoryRouter_getInstance_AllocateAndInitializeObject16(const S_00d3ef70_CdBody&, const S_00d3ef70_CdBody&, const S_00d3ef70_Input&, void*);
 void hkpSphereCapsuleAgent_staticGetPenetrations(const S_00d3ef70_CdBody&, const S_00d3ef70_CdBody&, const S_00d3ef70_Input&, S_00d3ef70_Collector&);
 void FUN_00d3ebe0(const S_00d3ef70_CdBody&, const S_00d3ef70_CdBody&, const S_00d3ef70_Input&, S_00d3ef70_Collector&);
-void FUN_00daf8e0(const S_00d3ef70_CdBody&, const S_00d3ef70_CdBody&, const S_00d3ef70_Input&, S_00d3ef70_Collector&,
+void Object_ProcessEntries_00daf8e0(const S_00d3ef70_CdBody&, const S_00d3ef70_CdBody&, const S_00d3ef70_Input&, S_00d3ef70_Collector&,
                   S_00d3ef70_Collector*);
 void hkpSphereCapsuleAgent_registerAgent(S_00d3ef70_Dispatcher* dispatcher);
 class InnerCls
@@ -102,4 +102,4 @@ struct FUN_00d3f040_tmp
     unsigned int value;
 };
 void __cdecl hkpSphereCapsuleAgent_staticGetPenetrations(unsigned int a, unsigned int b, unsigned int c, FUN_00d3f040_tmp* p);
-void __cdecl FUN_00d3f040(unsigned int a0, unsigned int a1, unsigned int a2, unsigned int a3);
+void __cdecl Object_UpdateFields_00d3f040(unsigned int a0, unsigned int a1, unsigned int a2, unsigned int a3);

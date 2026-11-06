@@ -260,7 +260,7 @@ __declspec(align(16)) struct FUN_009c1aa0_Class
     float f44;
     float f48;
 
-    FUN_009c1aa0_Class& __thiscall FUN_009c1aa0(const FUN_009c1aa0_Class& src);
+    FUN_009c1aa0_Class& __thiscall ProcessEntries_009c1aa0(const FUN_009c1aa0_Class& src);
     bool DidHit() const
     {
         return gate < 1.0f;
@@ -535,7 +535,7 @@ void __thiscall Cls::hkKdTreeCpuBroadphaseBundleCastCollector_addMidPhaseHit(Par
                     (flags80[i] == 0 || bundleOutput.entries[i].gate < f0c->entries[i].gate))
                 {
                     DestEntry* dst = &f0c->entries[i];
-                    ((FUN_009c1aa0_Class*)dst)->FUN_009c1aa0(bundleOutput.entries[i]);
+                    ((FUN_009c1aa0_Class*)dst)->ProcessEntries_009c1aa0(bundleOutput.entries[i]);
                     dst->info50 = *(int*)&(&bundleOutput.entries[i])[1].x;
                     f0c->entries[i].field50 = p1;
                     const KdRayRotation& rot = transform.getRotation();

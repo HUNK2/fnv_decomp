@@ -195,7 +195,7 @@ void* __cdecl NiVertexColorProperty_GetRTTI();
 extern "C" int g_011f443c;
 int __cdecl NiZBufferProperty_GetRTTI();
 int __cdecl NiZBufferProperty_GetType_0();
-int __cdecl FUN_00dc9e60();
+int __cdecl Object_ComputeValue_00dc9e60();
 struct FUN_00e695f0_shell
 {
     char pad[0x8a4];
@@ -505,7 +505,7 @@ struct P03MM
 };
 extern void* DAT_0126f550;
 extern const void* DAT_010ee898;
-void __cdecl FUN_00e7a760();
+void __cdecl Object_ProcessEntries_00e7a760();
 void __cdecl NiD3DShaderDeclaration__SDMInit();
 extern int DAT_0126f0ec;
 struct FUN_00e69920_shell
@@ -722,7 +722,7 @@ struct ICom78510
 };
 struct H78510
 {
-    void __thiscall FUN_00e78be0();
+    void __thiscall ProcessEntries_00e78be0();
 };
 struct S78510
 {
@@ -2092,7 +2092,7 @@ extern "C" void* g_0126f0e8;
 extern "C" void*(__stdcall* g_0126f0dc)(unsigned int);
 extern "C" unsigned int DAT_0126f0f8;
 bool __cdecl InitD3D9CreateFunctions();
-void* __cdecl FUN_00aa13e0(unsigned int size);
+void* __cdecl Object_DispatchCommandFour(unsigned int size);
 void* __cdecl NiDX9SystemDesc_Get();
 struct RendererListNode
 {
@@ -3732,7 +3732,7 @@ struct SourceManager
 };
 extern const char DAT_010ed96c[];
 char* __cdecl GetHRESULTText(unsigned int status);
-void __cdecl FUN_00a29680(const char* format, const char* message);
+void __cdecl Object_DoNothing(const char* format, const char* message);
 struct Renderer
 {
     void* __thiscall LockRenderSource(SourceManager* manager, int* pitch);
@@ -3911,7 +3911,7 @@ class FUN_00e6de70_cls
     bool __thiscall NiDX9Renderer_UnLockDynamicTexture(FUN_00e6de70_A* a1);
 };
 const char* __cdecl GetHResultName(int code);
-void __cdecl FUN_00a29680(const char* fmt, const char* text);
+void __cdecl Object_DoNothing(const char* fmt, const char* text);
 class NiRenderedCubeMap;
 class NiDX9RenderedCubeMapData;
 struct RendererResourceMap : NiDX9Renderer
@@ -4735,7 +4735,7 @@ struct ResourceParameters
 };
 extern const char DAT_010edbb8[];
 extern const char* DAT_0109b220;
-void* __cdecl FUN_00aa13e0(unsigned int size);
+void* __cdecl Object_DispatchCommandFour(unsigned int size);
 const char* __cdecl FUN_00a5b690(const char* name);
 RefObject* __cdecl NiSourceTexture_Create(RenderResource* resource, const char* name, ResourceParameters* parameters);
 struct RendererBridge
@@ -9430,7 +9430,7 @@ static inline unsigned int PackColor_e78910(const short* v, unsigned short comps
 }
 int PackVertexColors(Stream_e78910* s);
 extern const char DAT_010ee7cc[];
-void __cdecl FUN_00aa1490(void* apMemory, unsigned int auiSize);
+void __cdecl NiMemObject_ReleaseStorage_00aa1490(void* apMemory, unsigned int auiSize);
 struct FUN_00e78be0_cls
 {
     void* m_vptr00;
@@ -9445,7 +9445,7 @@ struct FUN_00e78be0_cls
     char* m_pArr24;
 
     void BaseTeardown();
-    void FUN_00e78be0() throw();
+    void ProcessEntries_00e78be0() throw();
 };
 void* _fnv_zlib_memset(void* dst, int val, unsigned int size);
 struct FUN_00e79370_Info
@@ -13824,7 +13824,7 @@ extern "C" const char* __stdcall D3DXGetPixelShaderProfile_00ee6e28(void* pDevic
 extern const char* DAT_0109b220;
 const char* __cdecl FUN_00a5b690(const char* name) throw();
 int __cdecl GetGlobalDataPtr() throw();
-void* __cdecl FUN_00aa13e0(unsigned int size) throw();
+void* __cdecl Object_DispatchCommandFour(unsigned int size) throw();
 
 struct ShaderName
 {
@@ -13849,7 +13849,7 @@ struct ShaderEntry
 {
     static void* operator new(unsigned int size)
     {
-        return FUN_00aa13e0(size);
+        return Object_DispatchCommandFour(size);
     }
     ShaderEntry(unsigned int id, int target, int type, const ShaderName& name, const char* libraryName, int a2, int a3,
                 int a5, int a4) throw();

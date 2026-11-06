@@ -55,7 +55,7 @@ void __cdecl RemoveEntryByKey(void);
 void __cdecl FindOrClaimEntry(void);
 void __cdecl nullsub_16(void);
 void __cdecl ResetEntryAgents(void);
-void __cdecl FUN_00d3fe70(void);
+void __cdecl Runtime_ResetEntryAgents_Thunk(void);
 void __cdecl hkBoxBoxAgent3_process(void);
 void __cdecl hkBoxBoxAgent3_initAgentFunc(void* apObject);
 void __cdecl DispatchInputRecord();
@@ -68,31 +68,31 @@ void __cdecl FindEntryByKey();
 void __cdecl ForwardToTarget();
 void __cdecl hkPredGskAgent3_initAgentFunc(int* pObject);
 extern int DAT_010cf9a4;
-void __cdecl FUN_00d48350(int* p);
+void __cdecl Runtime_UpdateState_00d48350(int* p);
 struct FUN_00d49580_vtbl
 {
     virtual void v0(int);
 };
-void __cdecl FUN_00d49580(FUN_00d49580_vtbl* p);
+void __cdecl Object_InvokeVirtualMethod_00d49580(FUN_00d49580_vtbl* p);
 extern int DAT_010305a8;
 extern int DAT_010ce31c;
 extern int DAT_010cfb34;
-void __cdecl FUN_00d495a0(int* pObject, int b);
-void __cdecl FUN_00d4b190(void* p);
+void __cdecl Object_UpdateFields_00d495a0(int* pObject, int b);
+void __cdecl Runtime_Helper_00d4b190(void* p);
 struct FUN_00d4b250_class
 {
-    void __thiscall FUN_00d4b250(int);
+    void __thiscall Runtime_ForwardCall_00d4b250(int);
 };
 struct FUN_00d4b250_vt
 {
-    virtual void __thiscall FUN_00d4b250(int);
+    virtual void __thiscall Runtime_ForwardCall_00d4b250(int);
 };
-void __cdecl FUN_00d4b250(FUN_00d4b250_vt* p);
+void __cdecl Runtime_ForwardCall_00d4b250(FUN_00d4b250_vt* p);
 struct FUN_00d4be50_vt
 {
-    virtual void FUN_00d4be50(int);
+    virtual void Runtime_ForwardCall_00d4be50(int);
 };
-void __cdecl FUN_00d4be50(FUN_00d4be50_vt* p);
+void __cdecl Runtime_ForwardCall_00d4be50(FUN_00d4be50_vt* p);
 struct CollisionAgentFunctionTable
 {
     void* f0;
@@ -104,12 +104,12 @@ struct CollisionAgentFunctionTable
 };
 struct Agent
 {
-    void __thiscall FUN_00cfbbe0(CollisionAgentFunctionTable*, int, int);
+    void __thiscall AppendRecordAndRegisterAgents(CollisionAgentFunctionTable*, int, int);
 };
-void __cdecl FUN_00d442c0();
-void __cdecl FUN_00d34790();
+void __cdecl Object_ConstructObject_00d442c0();
+void __cdecl hkCollectorD347_ProcessState_00d34790();
 void __cdecl QueryClosestPoints();
-void __cdecl FUN_00d34810();
+void __cdecl hkpShapeCollectionAgent_staticLinearCast_UpdateState_00d34810();
 void __cdecl AllocateAndInitBlock();
 void __cdecl hkpShapeCollectionAgent_staticGetPenetrations();
 void __cdecl GetClosestPointsShapeCollection();
@@ -119,26 +119,26 @@ struct FUN_00d48330_vt
 {
     virtual void v0(int);
 };
-void __cdecl FUN_00d48330(FUN_00d48330_vt* p);
-void __cdecl FUN_00d49510(FUN_00d49580_vtbl* p);
+void __cdecl Runtime_ForwardCall_00d48330(FUN_00d48330_vt* p);
+void __cdecl Runtime_ForwardCall_00d49510(FUN_00d49580_vtbl* p);
 struct FUN_00d4b1f0_vt
 {
-    virtual void __thiscall FUN_00d4b1f0(int);
+    virtual void __thiscall Runtime_ForwardCall_00d4b1f0(int);
 };
-void __cdecl FUN_00d4b1f0(FUN_00d4b1f0_vt* p);
+void __cdecl Runtime_ForwardCall_00d4b1f0(FUN_00d4b1f0_vt* p);
 struct FUN_00d4b320_vt
 {
     virtual void v0(int);
 };
-void __cdecl FUN_00d4b320(FUN_00d4b320_vt* p);
-void __cdecl FUN_00d4beb0(FUN_00d49580_vtbl* p);
+void __cdecl Object_InvokeVirtualMethod_00d4b320(FUN_00d4b320_vt* p);
+void __cdecl Runtime_ForwardCall_00d4beb0(FUN_00d49580_vtbl* p);
 struct FUN_00d4bf30_vt
 {
-    virtual void FUN_00d4bf30(int);
+    virtual void Runtime_ForwardCall_00d4bf30(int);
 };
-void __cdecl FUN_00d4bf30(FUN_00d4bf30_vt* p);
+void __cdecl Runtime_ForwardCall_00d4bf30(FUN_00d4bf30_vt* p);
 extern const char* const g_01268eb4_arg1;
-const char* const* __cdecl FUN_00d4bf60();
+const char* const* __cdecl Object_GetGlobalObjectAddress_00d4bf60();
 struct FUN_00d4fe40_cls
 {
     char pad[0xa2];
@@ -211,28 +211,28 @@ static FNVDispatchNode* FNVTailOf(FNVDispatchNode* n)
     return t;
 }
 int __cdecl DispatchToType1dNodes(FNVDispatchNode* pNodeA, FNVDispatchNode* pNodeB, int iCode);
-void __cdecl FUN_00d42800();
+void __cdecl Object_ProcessAndReturnValue_00d42800();
 void __cdecl CallVirtualMethod();
 void __cdecl nullsub_17();
 void __cdecl nullsub_18();
-void __cdecl FUN_00d42960(Agent* apAgent);
+void __cdecl Object_UpdateFields_00d42960(Agent* apAgent);
 struct S_00d48300_Callee
 {
     int unk00;
 
-    void __thiscall FUN_00cb0a70(int);
+    void __thiscall ReturnSelf(int);
 };
 struct S_00d48300_Foo
 {
     S_00d48300_Callee unk00;
     S_00d48300_Callee unk04;
 
-    S_00d48300_Foo* __thiscall FUN_00d48300(volatile int);
+    S_00d48300_Foo* __thiscall ProcessAndReturnValue_00d48300(volatile int);
 };
 extern int DAT_01268b9c;
-void* __cdecl FUN_00d48340();
+void* __cdecl Object_GetGlobalObjectAddress_00d48340();
 extern int DAT_010cf9a4;
-int* __cdecl FUN_00d48360();
+int* __cdecl Object_GetGlobalObjectAddress_00d48360();
 struct S_00d483a0_Result
 {
     char v;
@@ -275,17 +275,17 @@ void* __cdecl hkSerializeUtil_loadOnHeap(void* p, void* b, void* c, void* d);
 void* __cdecl InitAndCall(void* volatile a1, void* volatile a2, void* volatile a3, void* volatile a4,
                           void* volatile a5);
 extern int DAT_01268bcc;
-int* __cdecl FUN_00d49520();
+int* __cdecl Object_GetGlobalObjectAddress_00d49520();
 extern int DAT_01268c14;
-int __cdecl FUN_00d49590();
+int __cdecl Runtime_EvaluateValue_00d49590();
 extern int DAT_010cfb34;
-int __cdecl FUN_00d495f0();
+int __cdecl Runtime_EvaluateValue_00d495f0();
 extern int DAT_010cfd10;
 struct FnvVtObj
 {
     int m_vptr;
 
-    FnvVtObj* FUN_00d49c40(unsigned int unusedArg);
+    FnvVtObj* SetVirtualTable_00d49c40(unsigned int unusedArg);
 };
 extern int DAT_010cfd44;
 extern int DAT_010cfd20;
@@ -362,37 +362,38 @@ struct FUN_00d49c50_cls
 };
 extern "C" int DAT_01268c8c;
 // @fnv 0x00d4b160
-extern "C" void* __cdecl FUN_00d4b160()
+// src: GUESS 0x00d4b160 (confidence: low)
+extern "C" void* __cdecl Object_GetGlobalObjectAddress_00d4b160()
 {
     return &DAT_01268c8c;
 }
 struct S_00d4b170
 {
-    void FUN_00d4a170(int a);
+    void SetVptr_00d4a170(int a);
 };
-void __cdecl FUN_00d4b170(S_00d4b170* pTarget, int a);
+void __cdecl Runtime_ProcessState_00d4b170(S_00d4b170* pTarget, int a);
 extern int DAT_01268cbc;
-void* __cdecl FUN_00d4b1c0();
+void* __cdecl Object_GetGlobalObjectAddress_00d4b1c0();
 struct S_00d49c40
 {
-    void __thiscall FUN_00d49c40(int a);
+    void __thiscall SetVirtualTable_00d49c40(int a);
 };
-void __cdecl FUN_00d4b1d0(S_00d49c40* pObject, int a);
+void __cdecl Object_ProcessState_00d4b1d0(S_00d49c40* pObject, int a);
 extern int DAT_01268d04;
-int __cdecl FUN_00d4b220();
+int __cdecl Object_ComputeValue_00d4b220();
 // Forwarding helper: if the object pointer is valid, pass the second
 // argument on to the object's own handler.
 struct FUN_00d4a180_cls
 {
     void __thiscall FUN_00d4a180(int a);
 };
-void __cdecl FUN_00d4b230(FUN_00d4a180_cls* pTarget, int aiValue);
+void __cdecl Runtime_ProcessState_00d4b230(FUN_00d4a180_cls* pTarget, int aiValue);
 extern int DAT_01268d4c;
-int* __cdecl FUN_00d4b280();
+int* __cdecl Object_GetGlobalObjectAddress_00d4b280();
 extern int DAT_01268d94;
-void* __cdecl FUN_00d4b2a0();
+void* __cdecl Object_GetGlobalObjectAddress_00d4b2a0();
 extern unsigned char DAT_01268dc4;
-void* __cdecl FUN_00d4b2c0();
+void* __cdecl Object_GetGlobalObjectAddress_00d4b2c0();
 // Null-guarded forwarder: the first argument is an object pointer; when it
 // is non-null the second argument is handed to a member function of that
 // object.
@@ -401,9 +402,9 @@ class FUN_00d4b2d0_cls
   public:
     void hkpExtendedMeshShape_ShapesSubpart_ShapesSubpart(int a1);
 };
-void __cdecl FUN_00d4b2d0(FUN_00d4b2d0_cls* pObject, int aiValue);
+void __cdecl hkpExtendedMeshShape_ShapesSubpart_ShapesSubpart_ProcessState_00d4b2d0(FUN_00d4b2d0_cls* pObject, int aiValue);
 extern int DAT_01268df4;
-void* __cdecl FUN_00d4b2f0();
+void* __cdecl Runtime_GetDAT01268df4Address();
 // Null-guarded forwarder: the first argument is an object pointer; when it
 // is non-null the second argument is handed to a member function of that
 // object.
@@ -412,14 +413,14 @@ class FUN_00d4b300_cls
   public:
     void FUN_00d56f10(int a1);
 };
-void __cdecl FUN_00d4b300(FUN_00d4b300_cls* pObject, int aiValue);
+void __cdecl Object_ProcessState_00d4b300(FUN_00d4b300_cls* pObject, int aiValue);
 extern int DAT_01268e24;
-void* FUN_00d4b350();
+void* Runtime_GetDAT01268e24Address();
 struct TailTarget
 {
     void Run();
 };
-void __cdecl FUN_00d4b380(TailTarget* pTarget);
+void __cdecl Object_InvokeVirtualMethod_00d4b380(TailTarget* pTarget);
 // Constructor of a scene-graph style node: initialises the base node
 // (FUN_00dcd310) and then the derived node's own vtable pointers and
 // member state.
@@ -462,18 +463,18 @@ class D4BE30World
   public:
     void UpdateEntity(void* pvEntity);
 };
-void FUN_00d4be30(D4BE30World* pkWorld, void* pvEntity);
+void Runtime_ProcessState_00d4be30(D4BE30World* pkWorld, void* pvEntity);
 extern int DAT_01268e6c;
-int* FUN_00d4be80();
+int* Object_GetGlobalObjectAddress_00d4be80();
 struct FUN_00d4ba30_class
 {
     void __thiscall FUN_00d4ba30(int);
 };
-void __cdecl FUN_00d4be90(FUN_00d4ba30_class* pObject, int value);
+void __cdecl Object_ProcessState_00d4be90(FUN_00d4ba30_class* pObject, int value);
 extern int g_unk01268eb4;
-void* __cdecl FUN_00d4bee0();
+void* __cdecl Object_GetGlobalObjectAddress_00d4bee0();
 extern int g_unk01268efc;
-void* __cdecl FUN_00d4bf00();
+void* __cdecl Object_GetGlobalObjectAddress_00d4bf00();
 struct D4BF10FinishFlag
 {
     int m_bFinishing;
@@ -488,7 +489,7 @@ class D4BF10Object
         return p;
     }
 };
-void FUN_00d4bf10(void* apMemory, int finishing);
+void Runtime_AllocateStorage_00d4bf10(void* apMemory, int finishing);
 extern int DAT_01268f74;
 class FUN_00d50020_base
 {
@@ -506,7 +507,7 @@ class FUN_00d50020 : public FUN_00d50020_base
 extern int DAT_01268188;
 extern int DAT_01268f74;
 extern __declspec(thread) int g_ThreadMemoryContext;
-void* __cdecl FUN_00aa13e0(unsigned int size);
+void* __cdecl Object_DispatchCommandFour(unsigned int size);
 void __cdecl bhkSerializable_CloneCritLock();
 void __cdecl bhkSerializable_CloneCritUnlock();
 struct DataBase
@@ -515,7 +516,7 @@ struct DataBase
     virtual ~DataBase();
     static void* operator new(unsigned int size)
     {
-        return FUN_00aa13e0(size);
+        return Object_DispatchCommandFour(size);
     }
 };
 struct DataIntermediate : DataBase
@@ -944,7 +945,7 @@ class FUN_00cc0500
 };
 struct OstreamD53
 {
-    OstreamD53& FUN_00cc01c0(const char* pcText);
+    OstreamD53& ProcessAndReturnValue_00cc01c0(const char* pcText);
 };
 extern hkError* DAT_01268360;
 struct WorldObjD53
@@ -1065,7 +1066,7 @@ struct ConstraintD53
     char pad0c[4];
     unsigned char m_ucFlags;
 
-    void FUN_00a29680();
+    void Object_DoNothing();
 };
 struct EntryD53
 {
@@ -1086,9 +1087,9 @@ __forceinline hkBool IsInWorldD53(HolderD53* pkHolder)
 }
 __forceinline bool HasWorldD53(ConstraintD53* pkConstraint, HolderD53* pkHolder)
 {
-    pkConstraint->FUN_00a29680();
+    pkConstraint->Object_DoNothing();
     bool bResult = IsInWorldD53(pkHolder);
-    pkConstraint->FUN_00a29680();
+    pkConstraint->Object_DoNothing();
     return bResult;
 }
 __forceinline void* GetEntityD53(WorldObjD53* pkObj)
@@ -1375,7 +1376,7 @@ class hkListNodeD46D
     int unk00;
     hkListNodeD46D* m_next;
 
-    int FUN_00d46d70() const;
+    int ProcessEntries_00d46d70() const;
 };
 class hkBlockD46E
 {
@@ -1387,15 +1388,15 @@ class hkBlockD46E
 
     int SumLinkedValues() const;
 };
-int __stdcall FUN_00d46e00(int arg0);
-int __stdcall FUN_00d46e10(int arg0);
+int __stdcall Object_ReturnZero_00d46e00(int arg0);
+int __stdcall Runtime_ReturnZero_00d46e10(int arg0);
 struct FUN_00d46e20_cls
 {
     void* unk00;
     void* unk04;
     void* unk08;
     int unk0C;
-    int __thiscall FUN_00d46e20();
+    int __thiscall GetUnk0C_00d46e20();
 };
 struct hkListNodeD46E
 {
@@ -1430,7 +1431,7 @@ struct FnvCpu_FUN_00d46ef0_CpuObject
     unsigned int unk0c;
     unsigned int unk10;
     int value;
-    int FUN_00d46ef0();
+    int GetValue();
 };
 struct FUN_00c90510_Obj
 {
@@ -1443,29 +1444,29 @@ struct FUN_00d47730_cls
 };
 struct FUN_00d48300_Obj
 {
-    void FUN_00d48300(int a1);
+    void ProcessAndReturnValue_00d48300(int a1);
 };
-void __cdecl FUN_00d47f40(FUN_00d48300_Obj* obj, int aiValue);
+void __cdecl Object_ProcessState_00d47f40(FUN_00d48300_Obj* obj, int aiValue);
 class GlobalObjectO2_00d472a0;
 extern GlobalObjectO2_00d472a0 g_01268b24;
-GlobalObjectO2_00d472a0* __cdecl FUN_00d47f60();
+GlobalObjectO2_00d472a0* __cdecl Object_GetGlobalObjectAddress_00d47f60();
 struct FnvCpu_FUN_00d47f70_CpuTarget
 {
     void FUN_00d48320(int value);
 };
-void __cdecl FUN_00d47f70(FnvCpu_FUN_00d47f70_CpuTarget* pCpuTarget, int value);
+void __cdecl Runtime_ProcessState_00d47f70(FnvCpu_FUN_00d47f70_CpuTarget* pCpuTarget, int value);
 struct CpuOpaque;
 extern CpuOpaque DAT_01268b54;
-CpuOpaque* __cdecl FUN_00d47f90();
+CpuOpaque* __cdecl Runtime_GetDAT01268b54Address();
 struct Sh00c905b0
 {
     void FUN_00c905b0();
 };
 struct Sh00cb0c00
 {
-    void FUN_00cb0c00();
+    void Object_UpdateFields_00cb0c00();
 };
-void __cdecl FUN_00d47fa0(void* obj);
+void __cdecl Object_UpdateFields_00d47fa0(void* obj);
 struct FUN_00d47fe0_cls
 {
     void __thiscall Destroy(int value);
@@ -1480,7 +1481,7 @@ class FUN_00dcc160_cls
 {
   public:
     FUN_00dcc160_cls* InitFromValue(void* pvSource);
-    void FUN_00dcc160();
+    void SetVirtualTable_00dcc160();
 
     int m_iUnk00;
     int m_iUnk04;
@@ -1566,7 +1567,7 @@ struct FnvCpu_FUN_00d54d60_CpuObject
     unsigned int unk10;
     unsigned int unk14;
     float value;
-    void FUN_00d54d60(float input);
+    void SetValue_00d54d60(float input);
 };
 struct FnvCpu_FUN_00d54d70_CpuObject
 {
@@ -1587,7 +1588,7 @@ struct FUN_00d54da0_Class
     int unk0c;
     float m_10;
 
-    void FUN_00d54da0(float value);
+    void SetField10_00d54da0(float value);
 };
 struct FnvCpu_FUN_00d54db0_CpuObject
 {
@@ -1607,10 +1608,10 @@ struct FUN_00d54dc0_cls
     int unk10;
     float unk14;
 
-    void __thiscall FUN_00d54dc0(float value);
+    void __thiscall SetUnk14_00d54dc0(float value);
 };
 float __fastcall hkpMoppCompilerInput_getAbsoluteFitToleranceOfInternalNodes(char* self, int);
-void __cdecl FUN_00d55510();
+void __cdecl Runtime_DoNothing_00d55510();
 typedef unsigned int D57Uint32;
 static __forceinline void D57MemCpy16NonEmpty(void* dst, const void* src, int numQuads)
 {
@@ -1627,8 +1628,8 @@ static __forceinline void D57MemCpy16NonEmpty(void* dst, const void* src, int nu
     } while (--numQuads > 0);
 }
 void __cdecl CopySixteenByteBlocks(int* pDest, const int* pSrc);
-void FUN_00d57150();
-int __stdcall FUN_00d584f0(int iUnused0, int iUnused1);
+void Runtime_DoNothing_00d57150();
+int __stdcall Runtime_ReturnConstant_0x60(int iUnused0, int iUnused1);
 struct FUN_00d58ce0_DisplayObj
 {
     virtual void vf00();
@@ -1752,8 +1753,8 @@ struct Hk48fc0_String
 {
     char* m_pText;
     void __thiscall FUN_00cb0a60();
-    void __thiscall FUN_00cb0c00();
-    Hk48fc0_String* __thiscall FUN_00cb0c10(const char* pText);
+    void __thiscall Object_UpdateFields_00cb0c00();
+    Hk48fc0_String* __thiscall UpdateState_00cb0c10(const char* pText);
     int __thiscall Equals(const char* pText);
 };
 struct Hk48fc0_Magic
@@ -1802,7 +1803,7 @@ extern Hk48fc0_Loader* DAT_01269b74;
 struct Hk48fc0_Contents
 {
     void* m_pData;
-    void __thiscall FUN_00dba7f0();
+    void __thiscall ReleaseStorage_00dba7f0();
     void __thiscall hkVersionPatchManager_applyPatches(void* pArg1, void* pArg2);
 };
 struct Hk48fc0_Data
@@ -1811,12 +1812,12 @@ struct Hk48fc0_Data
     void* m_pData;
     int m_nRef;
     void __thiscall hkDataWorldDict_hkDataWorldDict();
-    void __thiscall FUN_00dc8080();
+    void __thiscall ReleaseStorage_00dc8080();
     void* __thiscall ForwardToReceiver(Hk48fc0_Contents* pOut);
 };
 void __cdecl hkSerializeUtil_detectFormat(void* pStream, Hk48fc0_Format* pFormat);
 void* __cdecl hkDataObjectUtil_toObjectWithRegistry(void* pData, void* pAllocator, void* pLoader);
-int __cdecl FUN_00d48950(void* pObj, void* pArg1, void* pArg2, void* pArg3);
+int __cdecl Hkserializeutil_UpdateState_00d48950(void* pObj, void* pArg1, void* pArg2, void* pArg3);
 void __cdecl hkBinaryTagfileReader_load(void* pArg1, void* pArg2, void* pArg3);
 __declspec(noinline) static int Hk48fc0_ReadTagfile(Hk48fc0_Data* pObj, void* pError, void* pStream, void* pAllocator)
 {
@@ -1824,7 +1825,7 @@ __declspec(noinline) static int Hk48fc0_ReadTagfile(Hk48fc0_Data* pObj, void* pE
     hkBinaryTagfileReader_load(&kBuf, &pStream, pObj);
     if (pError)
     {
-        if (FUN_00d48950(pObj, pError, DAT_01269b70, pAllocator) == 0)
+        if (Hkserializeutil_UpdateState_00d48950(pObj, pError, DAT_01269b70, pAllocator) == 0)
         {
             return 1;
         }
@@ -2015,9 +2016,9 @@ struct FNVMemoryManager
 struct D47180Cls
 {
     int FUN_00d47130(int, int*, int*);
-    int FUN_00d47180(int arg);
+    int IsHelperResultFalse_00d47180(int arg);
 };
-static char* FUN_00d48420(char* p);
+static char* Object_ProcessEntries_00d48420(char* p);
 volatile char* g_d48420_p;
 char* d48420_caller();
 struct FieldWord
@@ -2068,7 +2069,7 @@ struct S_00d49660_Foo
     float unk6c;
     unsigned char unk70;
 
-    void __thiscall FUN_00d248a0(int, int);
+    void __thiscall ProcessAndReturnValue_00d248a0(int, int);
     S_00d49660_Foo* __thiscall hkpStorageSampledHeightFieldShape_hkpStorageSampledHeightFieldShape(int, int, float);
 };
 extern int DAT_010cfb34;
@@ -2988,7 +2989,7 @@ struct FnvCpu_FUN_00d541b0_CpuObject
     unsigned int unk1c;
     __m128 field20;
     __m128 field30;
-    void FUN_00d541b0(hkVector4* input0, hkVector4* input1);
+    void InitializeFields_00d541b0(hkVector4* input0, hkVector4* input1);
 };
 struct FnvCpu_FUN_00d54e40_CpuObject
 {
@@ -3038,7 +3039,7 @@ struct OwnerS
     char unk11;
     char unk12;
     unsigned char flags[5];
-    int FUN_00d51970(const hkVector4& value, int index);
+    int AppendVectorCommandAndSetFlag(const hkVector4& value, int index);
 };
 struct S
 {
@@ -3268,7 +3269,7 @@ extern int DAT_010d0cd4;
 extern float DAT_0104da48;
 struct FUN_00ca9360_sub
 {
-    void __fastcall FUN_00ca9360(int count, float* value);
+    void __fastcall FindFloatTableIndex(int count, float* value);
 };
 struct FUN_00d54290
 {
@@ -3349,10 +3350,11 @@ struct ConstraintBuilder
     int unk00;
     ConstraintState* state;
     int count;
-    int FUN_00d52ae0(float value);
+    int ProcessAndReturnValue_00d52ae0(float value);
 };
 // @fnv 0x00d52ae0
-int ConstraintBuilder::FUN_00d52ae0(float value)
+// src: GUESS 0x00d52ae0 (confidence: low)
+int ConstraintBuilder::ProcessAndReturnValue_00d52ae0(float value)
 {
     ++count;
     state->events.AddBack(0x16);
@@ -3461,10 +3463,11 @@ struct AngularFrictionWriter
 {
     int unk00;
     AngularFrictionState* state;
-    int FUN_00d528e0(unsigned char value, float f);
+    int ProcessAndReturnValue_00d528e0(unsigned char value, float f);
 };
 // @fnv 0x00d528e0
-int AngularFrictionWriter::FUN_00d528e0(unsigned char value, float f)
+// src: GUESS 0x00d528e0 (confidence: low)
+int AngularFrictionWriter::ProcessAndReturnValue_00d528e0(unsigned char value, float f)
 {
     d51::AddBack(state->values, 0x14);
     d51::AddBack(state->values, value);
@@ -3563,8 +3566,8 @@ struct FUN_00dd4bf0_Class
     void CopyFromSourceData(const Sub3*);
     void AssignFromSource(const FUN_00dd50f0_Class*);
     int ComputeRequiredSize(void*);
-    void* FUN_00dd4cb0(void*, void*, int);
-    void FUN_00dd4b00();
+    void* AllocateStorage_00dd4cb0(void*, void*, int);
+    void Object_DoNothing_00dd4b00();
 };
 
 struct Arg2Struct
@@ -3679,7 +3682,7 @@ void* __cdecl hkpMoppUtility_buildCodeInternal(void* arg0, void* arg1, Arg2Struc
     hkError* error = DAT_01268360;
     error->setEnabled(0x7dd65995, false);
 
-    void* retVal = big_obj.FUN_00dd4cb0(arg0, buffer, size);
+    void* retVal = big_obj.AllocateStorage_00dd4cb0(arg0, buffer, size);
 
     DAT_01268360->setEnabled(0x7dd65995, prevWarning);
 
@@ -3693,7 +3696,7 @@ void* __cdecl hkpMoppUtility_buildCodeInternal(void* arg0, void* arg1, Arg2Struc
     ((StackAllocator*)a2->m_temp)->deallocate(buffer, size);
 
     struct4c.ClearArrays();
-    big_obj.FUN_00dd4b00();
+    big_obj.Object_DoNothing_00dd4b00();
 
     return retVal;
 }

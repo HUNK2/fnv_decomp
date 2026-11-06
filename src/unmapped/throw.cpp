@@ -7,10 +7,11 @@ struct FUN_0044a500_s
     FUN_0044a500_s* CallAndReturnSelf(int);
     void fopen_0044a730(char, int);
     int AssignSubstring(int, int, void*);
-    FUN_0044a500_s* FUN_0044a500(int);
+    FUN_0044a500_s* InitializeFields_0044a500(int);
 };
 // @fnv 0x0044a500
-FUN_0044a500_s* FUN_0044a500_s::FUN_0044a500(int a)
+// src: GUESS 0x0044a500 (confidence: low)
+FUN_0044a500_s* FUN_0044a500_s::InitializeFields_0044a500(int a)
 {
     CallAndReturnSelf(a);
     fopen_0044a730(0, 0);

@@ -6,18 +6,19 @@
 
 struct FUN_0083d420_shell
 {
-    unsigned char FUN_0083d890();
-    unsigned short FUN_0083d420();
+    unsigned char Length_Thunk();
+    unsigned short ProcessAndReturnValue_0083d420();
 };
 
 // Sums the sizes returned by two FUN_0083d890 calls plus one each, then adds 8, and returns the total.
 // @fnv 0x0083d420
-unsigned short FUN_0083d420_shell::FUN_0083d420()
+// src: GUESS 0x0083d420 (confidence: low)
+unsigned short FUN_0083d420_shell::ProcessAndReturnValue_0083d420()
 {
     unsigned short result = 0;
-    unsigned char b2 = FUN_0083d890();
+    unsigned char b2 = Length_Thunk();
     result += (unsigned short)b2 + 1;
-    unsigned char b1 = ((FUN_0083d420_shell*)((char*)this + 0x10))->FUN_0083d890();
+    unsigned char b1 = ((FUN_0083d420_shell*)((char*)this + 0x10))->Length_Thunk();
     result += (unsigned short)b1 + 1;
     result += 4;
     result += 4;
@@ -31,11 +32,12 @@ struct S7010
 
 struct FUN_0083d890_shell : S7010
 {
-    unsigned int FUN_0083d890();
+    unsigned int Length_Thunk();
 };
 
 // @fnv 0x0083d890
-unsigned int FUN_0083d890_shell::FUN_0083d890()
+// src: GUESS 0x0083d890 (confidence: medium)
+unsigned int FUN_0083d890_shell::Length_Thunk()
 {
     return Length();
 }
@@ -56,11 +58,11 @@ struct FUN_0083d490_shell : FUN_0083d420_shell
 // @fnv 0x0083d490
 void FUN_0083d490_shell::SaveToGame()
 {
-    unsigned char c1 = FUN_0083d890();
+    unsigned char c1 = Length_Thunk();
     g_TESSaveLoadGame->TESSaveLoadGame_SaveGameDataOLD(&c1, 1);
     if (c1)
         g_TESSaveLoadGame->TESSaveLoadGame_SaveGameDataOLD((void*)(unsigned int)((Flt*)this)->operator unsigned int(), c1);
-    unsigned char c2 = ((FUN_0083d420_shell*)((char*)this + 0x10))->FUN_0083d890();
+    unsigned char c2 = ((FUN_0083d420_shell*)((char*)this + 0x10))->Length_Thunk();
     g_TESSaveLoadGame->TESSaveLoadGame_SaveGameDataOLD(&c2, 1);
     if (c2)
         g_TESSaveLoadGame->TESSaveLoadGame_SaveGameDataOLD((void*)(unsigned int)((Flt*)((char*)this + 0x10))->operator unsigned int(), c2);

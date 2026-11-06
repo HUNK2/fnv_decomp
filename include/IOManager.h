@@ -49,7 +49,7 @@ public:
     void IOManager_ForceHighestPriority();
     void IOManager_Resume();
     void IOManager_AddPostProcessTask(IOManager* task);
-    void FUN_00c3fce0();
+    void ProcessEntries_00c3fce0();
     void CancelAllTasks();
 
     char unk04[0x18 - 0x04];

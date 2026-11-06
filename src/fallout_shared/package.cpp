@@ -3462,10 +3462,11 @@ void _Deallocate(void*);
 struct Holder
 {
     void FUN_004797c0();
-    void* FUN_00670b60(unsigned int flags);
+    void* DoNothing_00670b60(unsigned int flags);
 };
 // @fnv 0x00670b60
-void* Holder::FUN_00670b60(unsigned int flags)
+// src: GUESS 0x00670b60 (confidence: high)
+void* Holder::DoNothing_00670b60(unsigned int flags)
 {
     FUN_004797c0();
     if (flags & 1)
@@ -3685,10 +3686,11 @@ extern int DAT_01068988;
 struct S0067bfd0
 {
     void FUN_0067ad20();
-    S0067bfd0* FUN_0067bfd0();
+    S0067bfd0* SetVtableAndProcessState_0067bfd0();
 };
 // @fnv 0x0067bfd0
-S0067bfd0* S0067bfd0::FUN_0067bfd0()
+// src: GUESS 0x0067bfd0 (confidence: low)
+S0067bfd0* S0067bfd0::SetVtableAndProcessState_0067bfd0()
 {
     FUN_0067ad20();
     *reinterpret_cast<unsigned int*>(this) = reinterpret_cast<unsigned int>(&DAT_01068988);
@@ -5316,8 +5318,8 @@ void FUN_00673200_shell::TESPackage_SetConditions(BGSIdleCollection* apIdles)
 }  // namespace fnv_00673200
 
 namespace fnv_006738b0 {
-void __fastcall FUN_004855a0(TESForm*);
-void __fastcall FUN_00485680(TESForm*);
+void __fastcall BeginFormRecord(TESForm*);
+void __fastcall FinishFormRecord(TESForm*);
 
 class LocationDescriptor
 {
@@ -5402,7 +5404,7 @@ struct FUN_006738b0_shell
 // src: XBOX_PDB 0x006738b0
 void FUN_006738b0_shell::TESPackage_Save()
 {
-    FUN_004855a0(reinterpret_cast<TESForm*>(this));
+    BeginFormRecord(reinterpret_cast<TESForm*>(this));
 
     if (_FUN_00401500())
         reinterpret_cast<S*>(reinterpret_cast<char*>(this) + 0x1C)->PACKAGE_DATA_Endian();
@@ -5442,7 +5444,7 @@ void FUN_006738b0_shell::TESPackage_Save()
     reinterpret_cast<FUN_0067dc80*>(reinterpret_cast<char*>(this) + 0x5C)->Save(0x41454F50);
     reinterpret_cast<FUN_0067dc80*>(reinterpret_cast<char*>(this) + 0x6C)->Save(0x41434F50);
 
-    FUN_00485680(reinterpret_cast<TESForm*>(this));
+    FinishFormRecord(reinterpret_cast<TESForm*>(this));
 }
 }  // namespace fnv_006738b0
 
@@ -6333,12 +6335,13 @@ struct FUN_0067b170_cls
     int m_iValue1c;
 
     void FUN_0067ad20();
-    FUN_0067b170_cls* FUN_0067b170();
+    FUN_0067b170_cls* UpdateState_0067b170();
 };
 
 // Calls FUN_0067ad20, sets the vtable and m_fValue04 from globals, and zeroes the remaining fields before returning this.
 // @fnv 0x0067b170
-FUN_0067b170_cls* FUN_0067b170_cls::FUN_0067b170()
+// src: GUESS 0x0067b170 (confidence: low)
+FUN_0067b170_cls* FUN_0067b170_cls::UpdateState_0067b170()
 {
     FUN_0067ad20();
     m_pVTable = (void*)&DAT_010688ac;
@@ -9573,7 +9576,7 @@ bool IsValidPickTarget(PickForm* form, PickContext* pContext)
 
 struct Location679120
 {
-    void FUN_0067fa00();
+    void SaveTargetReference();
 };
 struct Target679120
 {
@@ -9622,7 +9625,7 @@ void Package679120::SavePackage()
         presence |= 2;
     TESForm_SaveGameDataOLD(&presence, 1);
     if (location)
-        ((Location679120*)location)->FUN_0067fa00();
+        ((Location679120*)location)->SaveTargetReference();
     if (target)
         ((Target679120*)target)->SaveLoad();
     DAT_011de45c->TESSaveLoadGame_SaveGameDataOLD(&procedureArrayIndex, 4);
@@ -12468,7 +12471,7 @@ struct PackageTargetComparison
 };
 struct PackageListComparison
 {
-    bool FUN_0067fe10(PackageListComparison*);
+    bool EvaluateValue_0067fe10(PackageListComparison*);
 };
 struct PackageSpellComparison
 {
@@ -12629,7 +12632,7 @@ bool PackageComparison::TESPackage_Compare(TESForm* form)
     }
     if (TESPackage_GetPackageSchedule())
     {
-        if (TESPackage_GetPackageSchedule()->FUN_0067fe10(other->TESPackage_GetPackageSchedule()))
+        if (TESPackage_GetPackageSchedule()->EvaluateValue_0067fe10(other->TESPackage_GetPackageSchedule()))
             return true;
     }
     else if (other->TESPackage_GetPackageSchedule())

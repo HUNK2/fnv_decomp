@@ -59,7 +59,7 @@ struct Simplex
     GskVectorPacketLocal_00da98f0 unk60, unk70, unk80, unk90;
     GskVectorPacketLocal_00da98f0 verticesB[4];
     GskVectorPacketLocal_00da98f0 supportB[4];
-    int FUN_00da8500(const GskVectorPacketLocal_00da98f0*, const GskVectorPacketLocal_00da98f0*, int);
+    int TestTriangleOrientationAndSwapVertices(const GskVectorPacketLocal_00da98f0*, const GskVectorPacketLocal_00da98f0*, int);
     void hkpGsk_reduceDimensionExtended();
 };
 // @fnv 0x00da98f0
@@ -70,7 +70,7 @@ void Simplex::hkpGsk_reduceDimensionExtended()
     {
         for (int i = 0; i < countA; ++i)
         {
-            if (FUN_00da8500(&verticesA[i], verticesB, 0) == 7)
+            if (TestTriangleOrientationAndSwapVertices(&verticesA[i], verticesB, 0) == 7)
             {
                 verticesA[0] = verticesA[i];
                 countA = 1;
@@ -82,7 +82,7 @@ void Simplex::hkpGsk_reduceDimensionExtended()
     {
         for (int j = 0; j < countB; ++j)
         {
-            if (FUN_00da8500(&verticesB[j], verticesA, 0) == 7)
+            if (TestTriangleOrientationAndSwapVertices(&verticesB[j], verticesA, 0) == 7)
             {
                 supportB[0] = supportB[j];
                 verticesB[0] = verticesB[j];
@@ -295,8 +295,9 @@ struct Result
     __m128 v;
 };
 // @fnv 0x00da8350
+// src: GUESS 0x00da8350 (confidence: low)
 static __declspec(noinline) Result
-    FUN_00da8350(const __m128* pkPoint, const __m128* pkOrigin, const __m128* pkNormal, __m128* pkNormalOut)
+    HkpgskGsNogs_ComputeValues_00da8350(const __m128* pkPoint, const __m128* pkOrigin, const __m128* pkNormal, __m128* pkNormalOut)
 {
 
     __m128 kDelta = _mm_sub_ps(*pkPoint, *pkOrigin);
@@ -318,5 +319,5 @@ __m128* volatile gOut;
 __m128* volatile gD;
 void Caller()
 {
-    *gD = FUN_00da8350(gP, gO, gN, gOut).v;
+    *gD = HkpgskGsNogs_ComputeValues_00da8350(gP, gO, gN, gOut).v;
 }

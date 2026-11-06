@@ -23,7 +23,7 @@ inline void hkVector4::setZero4()
     m_vComponents = _mm_setzero_ps();
 }
 
-void __cdecl FUN_00d8aac0(void* owner, void* current, int eventCode, int flags);
+void __cdecl Object_UpdateFields_00d8aac0(void* owner, void* current, int eventCode, int flags);
 // Optionally resets currentA/currentB to their reset values, zeroes the float range up to end, and notifies callbacks when current differs from desired.
 // @fnv 0x00d88340
 // src: HAVOK_LIB 0x00d88340
@@ -42,9 +42,9 @@ void __cdecl hkpConstraintSolverSetup_subSolve(hkpConstraintSolverResources* sta
     }
     state->m_akBufferStates[2].m_pValues = state->m_akBufferStates[2].m_pTileTemplate;
     if (state->m_akBufferStates[0].m_pValues != state->m_akBufferStates[0].m_pTileTemplate)
-        FUN_00d8aac0(state->m_pSolverInfo, state->m_akBufferStates[0].m_pValues, reinterpret_cast<int>(state->m_pVelocityAccumulatorA), reinterpret_cast<int>(state->m_akBufferStates[2].m_pRayStart));
+        Object_UpdateFields_00d8aac0(state->m_pSolverInfo, state->m_akBufferStates[0].m_pValues, reinterpret_cast<int>(state->m_pVelocityAccumulatorA), reinterpret_cast<int>(state->m_akBufferStates[2].m_pRayStart));
     if (state->m_akBufferStates[1].m_pValues != state->m_akBufferStates[1].m_pTileTemplate)
-        FUN_00d8aac0(state->m_pSolverInfo, state->m_akBufferStates[1].m_pValues, reinterpret_cast<int>(state->m_pVelocityAccumulatorA), reinterpret_cast<int>(state->m_akBufferStates[2].m_pRayStart));
+        Object_UpdateFields_00d8aac0(state->m_pSolverInfo, state->m_akBufferStates[1].m_pValues, reinterpret_cast<int>(state->m_pVelocityAccumulatorA), reinterpret_cast<int>(state->m_akBufferStates[2].m_pRayStart));
     state->m_akBufferStates[0].m_pValues = state->m_akBufferStates[0].m_pTileTemplate;
     state->m_akBufferStates[1].m_pValues = state->m_akBufferStates[1].m_pTileTemplate;
 }
@@ -167,7 +167,8 @@ hkpVelocityAccumulator* __cdecl hkRigidMotionUtilApplyForcesAndBuildAccumulators
                                                  hkpVelocityAccumulator* pkAccumulatorsOut);
 
 // @fnv 0x00d88670
-void __cdecl FUN_00d88670(hkpConstraintSolverResources& kResources, hkpEntity* const* ppkEntities,
+// src: GUESS 0x00d88670 (confidence: low)
+void __cdecl hkpConstraintSolverResources_ProcessEntries_00d88670(hkpConstraintSolverResources& kResources, hkpEntity* const* ppkEntities,
                           unsigned int uiNumEntities)
 {
     if (!uiNumEntities)
@@ -616,7 +617,8 @@ struct S883_TaskHeader
 
 // Lays out accumulator, schema and solver-element-temporary regions in buffer, sets taskHeader pointers and sizes, and initialises the first accumulator as fixed.
 // @fnv 0x00d883c0
-int __cdecl FUN_00d883c0(const S883_Island& island, char* buffer, int bufferSize, S883_TaskHeader& taskHeader)
+// src: GUESS 0x00d883c0 (confidence: low)
+int __cdecl Object_ProcessAndReturnValue_00d883c0(const S883_Island& island, char* buffer, int bufferSize, S883_TaskHeader& taskHeader)
 {
     taskHeader.m_buffer = buffer;
     int numEntities = island.GetEntities().GetLogicalSize();

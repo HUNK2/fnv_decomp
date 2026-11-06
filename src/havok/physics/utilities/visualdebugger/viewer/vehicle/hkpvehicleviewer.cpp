@@ -34,7 +34,8 @@ void __cdecl D625A0MemMove(void* dst, const void* src, unsigned int nbytes);
 
 extern char d_010d17d0;
 // @fnv 0x00d634d0
-char* FUN_00d634d0()
+// src: GUESS 0x00d634d0 (confidence: low)
+char* Hkpvehicleviewer_GetD010d17d0Address()
 {
     return &d_010d17d0;
 }
@@ -130,7 +131,8 @@ extern hkProcessFactory* DAT_01269cd0;
 extern const char DAT_010d17c4;
 extern void AllocAndInitObject();
 // @fnv 0x00d63da0
-void __cdecl FUN_00d63da0()
+// src: GUESS 0x00d63da0 (confidence: low)
+void __cdecl Object_UpdateFields_00d63da0()
 {
     DAT_01268fcc = DAT_01269cd0->RegisterProcess(&DAT_010d17c4, (void*)AllocAndInitObject);
 }
@@ -138,7 +140,8 @@ void __cdecl FUN_00d63da0()
 extern int g_D63DC0Value;
 
 // @fnv 0x00d63dc0
-int __cdecl FUN_00d63dc0()
+// src: GUESS 0x00d63dc0 (confidence: low)
+int __cdecl Object_GetG_D63DC0Value_00d63dc0()
 {
     return g_D63DC0Value;
 }
@@ -476,20 +479,21 @@ static TO g_thunk;
 // `this` back by the size of the primary base (8 = vptr + one int field).
 struct PrimaryBase
 {
-    virtual void FUN_00d63de0();
+    virtual void AdjustThisAndForward_00d63de0();
     int unk04;
 };
 
 struct SecondaryBase
 {
-    virtual void FUN_00d63de0();
+    virtual void AdjustThisAndForward_00d63de0();
 };
 
 struct Derived : PrimaryBase, SecondaryBase
 {
     Derived();
 // @fnv 0x00d63de0
-    virtual void FUN_00d63de0();
+// src: GUESS 0x00d63de0 (confidence: low)
+    virtual void AdjustThisAndForward_00d63de0();
 };
 
 Derived::Derived()
@@ -518,20 +522,21 @@ Parent::Parent()
 struct A1_00d63e00
 {
     A1_00d63e00();
-    virtual void FUN_00d63e00();
+    virtual void AdjustThisAndForward_00d63e00();
     char pad[0x28];
 };
 struct A2_00d63e00
 {
     A2_00d63e00();
-    virtual void FUN_00d63e00();
+    virtual void AdjustThisAndForward_00d63e00();
 };
 struct Own_00d63e00 : A1_00d63e00, A2_00d63e00
 {
     Own_00d63e00();
     virtual void key_fn();
 // @fnv 0x00d63e00
-    void FUN_00d63e00();
+// src: GUESS 0x00d63e00 (confidence: low)
+    void AdjustThisAndForward_00d63e00();
 };
 Own_00d63e00::Own_00d63e00()
 {}

@@ -32,7 +32,7 @@ public:
     ~CombatThreatRecord_blk_009a0000_od();
     bool IsXLessThan(float);
     void LoadGame(BGSLoadGameBuffer*);
-    void __thiscall FUN_009a5e50();
+    void __thiscall SetVtableAndProcessState_009a5e50();
 };
 #include "../../include/CombatThreatMap.h"
 #include "../../include/CombatWorldStateListNode.h"
@@ -184,29 +184,31 @@ extern int DAT_0108e0a4;
 struct GlobalObject_00869f00
 {
     void Clear(bool);
-    void FUN_009a3810();
+    void SetVtableAndProcessState_009a3810();
 };
 
 // @fnv 0x009a3810
-void GlobalObject_00869f00::FUN_009a3810()
+// src: GUESS 0x009a3810 (confidence: low)
+void GlobalObject_00869f00::SetVtableAndProcessState_009a3810()
 {
     *reinterpret_cast<int**>(this) = &DAT_0108e0a4;
     Clear(true);
 }
 }  // namespace fnv_009a3810
 
-CombatTargetTimestamp* __fastcall FUN_004300a0(CombatTargetTimestamp*);
+CombatTargetTimestamp* __fastcall CombatTargetTimestamp_ClearTimeStamp(CombatTargetTimestamp*);
 
 struct FUN_009a3d90_class
 {
     int m0;
-    CombatTargetTimestamp* __thiscall FUN_009a3d90();
+    CombatTargetTimestamp* __thiscall EvaluateValue_009a3d90();
 };
 
 // @fnv 0x009a3d90
-CombatTargetTimestamp* __thiscall FUN_009a3d90_class::FUN_009a3d90()
+// src: GUESS 0x009a3d90 (confidence: low)
+CombatTargetTimestamp* __thiscall FUN_009a3d90_class::EvaluateValue_009a3d90()
 {
-    FUN_004300a0(reinterpret_cast<CombatTargetTimestamp*>(this + 1));
+    CombatTargetTimestamp_ClearTimeStamp(reinterpret_cast<CombatTargetTimestamp*>(this + 1));
     return reinterpret_cast<CombatTargetTimestamp*>(this);
 }
 
@@ -245,13 +247,14 @@ extern int DAT_01084fec;
 struct AX
 {
     void BSSimpleArray_float_1024_InitialSetup(unsigned int, unsigned int);
-    AX* FUN_009a42f0(unsigned int a, unsigned int b);
+    AX* SetVtableAndProcessState_009a42f0(unsigned int a, unsigned int b);
 };
 // src: XBOX_PDB 0x006b3eb0
 void AX::BSSimpleArray_float_1024_InitialSetup(unsigned int a, unsigned int b)
 {}
 // @fnv 0x009a42f0
-AX* AX::FUN_009a42f0(unsigned int a, unsigned int b)
+// src: GUESS 0x009a42f0 (confidence: low)
+AX* AX::SetVtableAndProcessState_009a42f0(unsigned int a, unsigned int b)
 {
     *(int*)this = (int)&DAT_01084fec;
     BSSimpleArray_float_1024_InitialSetup(a, b);
@@ -437,11 +440,12 @@ struct FUN_009a4480_Class
     void* vfn_04;
     void* p;
     void __thiscall RemoveAll();
-    void __thiscall FUN_009a4480();
+    void __thiscall ReleaseStorage_009a4480();
 };
 // Sets the vtable pointer, calls RemoveAll, then frees the p member with NiFreeAlias.
 // @fnv 0x009a4480
-void __thiscall FUN_009a4480_Class::FUN_009a4480()
+// src: GUESS 0x009a4480 (confidence: medium)
+void __thiscall FUN_009a4480_Class::ReleaseStorage_009a4480()
 {
     vfn_00 = &DAT_0108e278;
     RemoveAll();
@@ -454,7 +458,8 @@ void __cdecl NiFreeAlias(void* p);
 
 // Sets the vtable pointer, clears the pointer map, and frees p_08.
 // @fnv 0x009a5e50
-void __thiscall CombatThreatRecord_blk_009a0000_od::FUN_009a5e50()
+// src: GUESS 0x009a5e50 (confidence: low)
+void __thiscall CombatThreatRecord_blk_009a0000_od::SetVtableAndProcessState_009a5e50()
 {
     *reinterpret_cast<void**>(this) = &DAT_0108e328;
     reinterpret_cast<NiTPointerMap<int, int>*>(this)->RemoveAll();
@@ -464,7 +469,7 @@ void __thiscall CombatThreatRecord_blk_009a0000_od::FUN_009a5e50()
 struct GlobalObject_00869f00
 {
 };
-void __fastcall FUN_009a3410(GlobalObject_00869f00*);
+void __fastcall CombatState_UpdateState_009a3410(GlobalObject_00869f00*);
 void __cdecl operator delete(void*);
 struct FUN_009a3850_Class : public GlobalObject_00869f00
 {
@@ -474,7 +479,7 @@ struct FUN_009a3850_Class : public GlobalObject_00869f00
 // @fnv 0x009a3850
 void* __thiscall FUN_009a3850_Class::FUN_009a3850(unsigned int flags)
 {
-    FUN_009a3410(this);
+    CombatState_UpdateState_009a3410(this);
     if (flags & 1)
         operator delete(this);
     return this;
@@ -483,13 +488,13 @@ void* __thiscall FUN_009a3850_Class::FUN_009a3850(unsigned int flags)
 extern "C" void Deallocate(void* p);
 struct FUN_009a3460_shell
 {
-    void FUN_009a3460();
+    void ResetVirtualTableAndClear_009a3460();
     void* __thiscall FUN_009a3880(unsigned int flags);
 };
 // @fnv 0x009a3880
 void* FUN_009a3460_shell::FUN_009a3880(unsigned int flags)
 {
-    FUN_009a3460();
+    ResetVirtualTableAndClear_009a3460();
     if (flags & 1)
         Deallocate(this);
     return this;
@@ -497,7 +502,7 @@ void* FUN_009a3460_shell::FUN_009a3880(unsigned int flags)
 
 struct FUN_009a35f0_class
 {
-    void __thiscall FUN_009a35f0();
+    void __thiscall UpdateState_009a35f0();
 };
 struct FUN_009a38b0_class
 {
@@ -507,7 +512,7 @@ struct FUN_009a38b0_class
 // @fnv 0x009a38b0
 void* __thiscall FUN_009a38b0_class::FUN_009a38b0(unsigned int flags)
 {
-    ((FUN_009a35f0_class*)this)->FUN_009a35f0();
+    ((FUN_009a35f0_class*)this)->UpdateState_009a35f0();
     if (flags & 1)
         operator delete(this);
     return this;
@@ -516,14 +521,14 @@ void* __thiscall FUN_009a38b0_class::FUN_009a38b0(unsigned int flags)
 void __cdecl Deallocate(void*);
 struct FUN_009a38e0_Class
 {
-    void __thiscall FUN_009a3810();
+    void __thiscall SetVtableAndProcessState_009a3810();
     void* __thiscall FUN_009a38e0(unsigned int flags);
 };
 // Calls FUN_009a3810, then frees this with Deallocate when flags has bit 0 set, and returns this.
 // @fnv 0x009a38e0
 void* __thiscall FUN_009a38e0_Class::FUN_009a38e0(unsigned int flags)
 {
-    FUN_009a3810();
+    SetVtableAndProcessState_009a3810();
     if (flags & 1)
         Deallocate(this);
     return this;
@@ -572,7 +577,7 @@ struct FUN_009a44b0_Class : public FUN_009a4480_Class
 // @fnv 0x009a44b0
 void* __thiscall FUN_009a44b0_Class::FUN_009a44b0(unsigned int flags)
 {
-    FUN_009a4480();
+    ReleaseStorage_009a4480();
     if (flags & 1)
         operator delete(this);
     return this;
@@ -580,10 +585,11 @@ void* __thiscall FUN_009a44b0_Class::FUN_009a44b0(unsigned int flags)
 
 struct FUN_009a4e90_shell
 {
-    void FUN_009a4e90(BGSSaveFormBuffer* buffer);
+    void SaveState_009a4e90(BGSSaveFormBuffer* buffer);
 };
 // @fnv 0x009a4e90
-void FUN_009a4e90_shell::FUN_009a4e90(BGSSaveFormBuffer* buffer)
+// src: GUESS 0x009a4e90 (confidence: medium)
+void FUN_009a4e90_shell::SaveState_009a4e90(BGSSaveFormBuffer* buffer)
 {
     buffer->SaveData((char*)this + 4, 4, 0);
     ((CombatTargetTimestamp*)((char*)this + 8))->SaveTimeStamp(buffer);
@@ -759,7 +765,7 @@ struct FUN_009b0c50_Class
 // src: COMMUNITY 0x009b0c50
 void FUN_009b0c50_Class::bhkRigidBody_ApplyLinearImpulse(int a)
 {
-    hkpRigidBody* p = reinterpret_cast<hkpRigidBody*>(reinterpret_cast<bhkWorldObject*>(this)->FUN_004ae750());
+    hkpRigidBody* p = reinterpret_cast<hkpRigidBody*>(reinterpret_cast<bhkWorldObject*>(this)->Bipedanim_GetReferenceFlagsOrZero());
     if (p)
     {
         reinterpret_cast<PhysicsMutationNotification*>(this)->GetLocalData();
@@ -786,7 +792,7 @@ struct FUN_009b0cf0_class
 // src: COMMUNITY 0x009b0cf0
 void __thiscall FUN_009b0cf0_class::bhkRigidBody_ApplyAngularImpulse(int a)
 {
-    void* p = ((bhkWorldObject*)this)->FUN_004ae750();
+    void* p = ((bhkWorldObject*)this)->Bipedanim_GetReferenceFlagsOrZero();
     if (p)
     {
         ((PhysicsMutationNotification*)this)->GetLocalData();
@@ -1282,10 +1288,11 @@ struct FUN_009aa150_Class
     int m0;
     int m4;
     int __thiscall GetKeywordName();
-    void __thiscall FUN_009aa150(char* a, unsigned int b, int c);
+    void __thiscall UpdateState_009aa150(char* a, unsigned int b, int c);
 };
 // @fnv 0x009aa150
-void __thiscall FUN_009aa150_Class::FUN_009aa150(char* pBuffer, unsigned int uiBufferSize, int c)
+// src: GUESS 0x009aa150 (confidence: low)
+void __thiscall FUN_009aa150_Class::UpdateState_009aa150(char* pBuffer, unsigned int uiBufferSize, int c)
 {
     if (c == -1)
         c = m4;
@@ -1522,7 +1529,7 @@ struct FUN_009a39f0_class
     int mc;
 
     void __thiscall ConstructObjects(int a, int b);
-    void __thiscall FUN_009a39f0(unsigned int requested, unsigned int savedSize);
+    void __thiscall UpdateState_009a39f0(unsigned int requested, unsigned int savedSize);
 };
 
 // @fnv 0x009a39f0
@@ -1534,7 +1541,8 @@ inline int FUN_009a39f0_class::FUN_009a39f0_virtual1(unsigned int size)
     return 0;
 }
 
-void __thiscall FUN_009a39f0_class::FUN_009a39f0(unsigned int requested, unsigned int savedSize)
+// src: GUESS 0x009a39f0 (confidence: low)
+void __thiscall FUN_009a39f0_class::UpdateState_009a39f0(unsigned int requested, unsigned int savedSize)
 {
     m4 = 0;
     m8 = 0;
@@ -1671,7 +1679,7 @@ void CombatThreatMap::SaveThreats(BGSSaveFormBuffer* buffer)
         if (key)
         {
             reinterpret_cast<FUN_00865db0_shell*>(buffer)->FUN_00865db0(uiThreatKey, 0);
-            reinterpret_cast<FUN_009a4e90_shell*>(key)->FUN_009a4e90(buffer);
+            reinterpret_cast<FUN_009a4e90_shell*>(key)->SaveState_009a4e90(buffer);
             ++position;
         }
     }
@@ -1703,7 +1711,7 @@ void __cdecl Deallocate(void*);
 // @fnv 0x009a5e80
 void* __fastcall DeleteCombatThreatRecord(CombatThreatRecord_blk_009a0000_od* record, void*, unsigned int flags)
 {
-    record->FUN_009a5e50();
+    record->SetVtableAndProcessState_009a5e50();
     if (flags & 1)
         Deallocate(record);
     return record;
@@ -1754,11 +1762,12 @@ struct FUN_009ab970_Class
     {
         float x, y, z;
     };
-    Point3Value& FUN_009ab970(Point3Value& akDest);
+    Point3Value& CopyVectorAtOffsetD30(Point3Value& akDest);
 };
 // Copies the Point3Value stored at offset 0xd30 of this object into akDest and returns it.
 // @fnv 0x009ab970
-FUN_009ab970_Class::Point3Value& FUN_009ab970_Class::FUN_009ab970(Point3Value& akDest)
+// src: GUESS 0x009ab970 (confidence: medium)
+FUN_009ab970_Class::Point3Value& FUN_009ab970_Class::CopyVectorAtOffsetD30(Point3Value& akDest)
 {
     akDest = *reinterpret_cast<Point3Value*>(reinterpret_cast<unsigned char*>(this) + 0xd30);
     return akDest;
@@ -1819,28 +1828,30 @@ struct FUN_0057c530Class
 
 struct FUN_009b2db0_Class
 {
-    void FUN_009b2db0();
+    void ForwardCall_009b2db0();
 };
 
 // @fnv 0x009b2db0
-void FUN_009b2db0_Class::FUN_009b2db0()
+// src: GUESS 0x009b2db0 (confidence: low)
+void FUN_009b2db0_Class::ForwardCall_009b2db0()
 {
     ((FUN_0057c530Class*)this)->FUN_0057c530();
 }
 
 struct CalleeObj
 {
-    void FUN_00622570(bool);
+    void UpdateState_00622570(bool);
 };
 struct FUN_009b2dd0_Class
 {
-    CalleeObj* FUN_009b2dd0(CalleeObj* p);
+    CalleeObj* EvaluateValue_009b2dd0(CalleeObj* p);
 };
 // Calls p->FUN_00622570 with whether the object's field at offset 12 differs from the field at offset 0, then returns p.
 // @fnv 0x009b2dd0
-CalleeObj* FUN_009b2dd0_Class::FUN_009b2dd0(CalleeObj* apCallee)
+// src: GUESS 0x009b2dd0 (confidence: low)
+CalleeObj* FUN_009b2dd0_Class::EvaluateValue_009b2dd0(CalleeObj* apCallee)
 {
-    apCallee->FUN_00622570(reinterpret_cast<int*>(this)[3] != reinterpret_cast<int*>(this)[0]);
+    apCallee->UpdateState_00622570(reinterpret_cast<int*>(this)[3] != reinterpret_cast<int*>(this)[0]);
     return apCallee;
 }
 
@@ -1879,10 +1890,11 @@ void __cdecl hkAlgorithm_quickSort_hkpRootCdPoint_hkAlgorithm_less_hkpRootCdPoin
 namespace fnv_009b3100 {
 struct FUN_009b3100_class
 {
-    float FUN_009b3100();
+    float ProcessAndTransformResult_009b3100();
 };
 // @fnv 0x009b3100
-float FUN_009b3100_class::FUN_009b3100()
+// src: GUESS 0x009b3100 (confidence: low)
+float FUN_009b3100_class::ProcessAndTransformResult_009b3100()
 {
     return (*(bhkCharacterController*)((char*)this + 0x10)).GetVectorElement(3);
 }
@@ -1950,11 +1962,12 @@ struct FUN_008256d0_shell
 
 struct FUN_009b8a20_class
 {
-    void __thiscall FUN_009b8a20();
+    void __thiscall AdvanceStateAtOffset150_009b8a20();
 };
 
 // @fnv 0x009b8a20
-void FUN_009b8a20_class::FUN_009b8a20()
+// src: GUESS 0x009b8a20 (confidence: low)
+void FUN_009b8a20_class::AdvanceStateAtOffset150_009b8a20()
 {
     if (*reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x150) == 3)
     {
@@ -3082,7 +3095,7 @@ const char* FUN_009aa120_cls::GetKeywordName()
 
 struct UnsignedIdHandle
 {
-    int FUN_00559450();
+    int Modelloader_GetReferencedThis();
     unsigned int FUN_00726070();
 };
 struct WorldStateNode
@@ -3099,7 +3112,7 @@ bool WorldStateNode::FindStateByType(int type, unsigned int* puiOutput)
     while (current != 0)
     {
         UnsignedIdHandle* state = current->FUN_006815c0();
-        if (state != 0 && state->FUN_00559450() == type)
+        if (state != 0 && state->Modelloader_GetReferencedThis() == type)
         {
             *puiOutput = state->FUN_00726070();
             return true;
@@ -3629,12 +3642,13 @@ class FUN_009b2e30_cls
     int unk08;
     int unk0c;
     void Callee0062e230(void* p, int a, int b);
-    FUN_009b2e30_cls* FUN_009b2e30(int a);
+    FUN_009b2e30_cls* EvaluateValue_009b2e30(int a);
 };
 
 // Calls Callee0062e230 on the member at offset 0x0c with a and 0x80, then returns this.
 // @fnv 0x009b2e30
-FUN_009b2e30_cls* FUN_009b2e30_cls::FUN_009b2e30(int a)
+// src: GUESS 0x009b2e30 (confidence: low)
+FUN_009b2e30_cls* FUN_009b2e30_cls::EvaluateValue_009b2e30(int a)
 {
     Callee0062e230(&unk0c, a, 0x80);
     return this;
@@ -5253,7 +5267,7 @@ struct TargetVector
     TargetVector ApplyScaled(float scale) const;
     TargetVector FUN_004b3800(const TargetVector& other) const;
     TargetVector FUN_00439e90(const TargetVector& other) const;
-    TargetVector FUN_00439ef0(const TargetVector& other) const;
+    TargetVector SubtractIntoVector(const TargetVector& other) const;
 };
 struct TargetActor
 {
@@ -5266,7 +5280,7 @@ struct TargetSettings
 {
     unsigned char unk00, unk01, unk02, unk03;
     bool enabled, reverse;
-    float FUN_009a95f0();
+    float EvaluateValue_009a95f0();
 };
 extern const TargetVector DAT_011a9484;
 // @fnv 0x009a93e0
@@ -5281,7 +5295,7 @@ void __cdecl CombatUtilities_CalculateCoverPositions_009a93e0(float distance, Ta
     float radiusA = 128.0f;
     TargetVector delta5 = actor->direction.ApplyScaled(-offset);
     TargetVector cross3 = actor->direction.FUN_004b3800(DAT_011a9484);
-    float scale3 = settings->FUN_009a95f0();
+    float scale3 = settings->EvaluateValue_009a95f0();
     TargetVector origin = actor->position.FUN_00439e90(cross3.ApplyScaled(scale3)).FUN_00439e90(delta5);
     if (!actor->IsLedgeCover_006e4820())
     {
@@ -5292,7 +5306,7 @@ void __cdecl CombatUtilities_CalculateCoverPositions_009a93e0(float distance, Ta
             if (actor->PathingCoverLocation_IsStandCover() || settings->enabled)
             {
                 if (settings->reverse)
-                    *second = actor->position.FUN_00439ef0(cross3.ApplyScaled(radiusX)).FUN_00439e90(delta5);
+                    *second = actor->position.SubtractIntoVector(cross3.ApplyScaled(radiusX)).FUN_00439e90(delta5);
                 else
                     *second = actor->alternate.FUN_00439e90(cross3.ApplyScaled(radiusX)).FUN_00439e90(delta5);
             }
@@ -6423,7 +6437,7 @@ struct Obj082
     Obj082* GetFieldC8();
     Obj082* GetFieldE0();
     float GetCachedValue();
-    int FUN_00559450();
+    int Modelloader_GetReferencedThis();
     int BSFile_GetDevice();
     void CallProcessAt778();
     void SetEffectValue(int, float, int);
@@ -6458,7 +6472,7 @@ void Obj082::ProcessHits()
         iter = iter->FUN_00726070();
         if (entry && entry->object && !entry->skip && !entry->object->FUN_00477ba0() && !entry->object->FUN_00440da0())
         {
-            float radius = entry->object->Position()->FUN_00439ef0(*Position()).FUN_00457990();
+            float radius = entry->object->Position()->SubtractIntoVector(*Position()).FUN_00457990();
             float distance = ComputeSquaredRatioComplement(Explosion_GetRadius(), radius);
             float factor = NiAVObject_GetWorldScale();
             float damage = factor > 0.0 ? ComputeSquaredRatioComplement(factor, radius) : 1.0f;
@@ -6482,7 +6496,7 @@ void Obj082::ProcessHits()
                 Obj082* amount = entry->object->IsActor() ? entry->object : 0;
                 if (amount)
                     amount->CallProcessAt778();
-                Script_SetActionFlag(GetSource() ? (void*)GetSource()->FUN_00559450() : 0, entry->object->BSFile_GetDevice(), 0x80);
+                Script_SetActionFlag(GetSource() ? (void*)GetSource()->Modelloader_GetReferencedThis() : 0, entry->object->BSFile_GetDevice(), 0x80);
                 if (GetFieldE0())
                     Script_SetActionFlag(GetFieldE0(), entry->object->BSFile_GetDevice(), 0x100);
                 else
@@ -7212,7 +7226,7 @@ void __cdecl hkAlgorithm_quickSort_hkpRootCdPoint(void* a, int aiValue)
 struct BoundReader
 {
     unsigned int rawValue;
-    float __thiscall FUN_006a7f50();
+    float __thiscall AStarSearch_EvaluateValue_006a7f50();
 };
 struct CombatRange
 {
@@ -7226,7 +7240,7 @@ struct CombatRange
 // @fnv 0x009a4960
 bool CombatRange::Contains(float value)
 {
-    return m_lower.FUN_006a7f50() <= value && value <= m_upper.FUN_006a7f50();
+    return m_lower.AStarSearch_EvaluateValue_006a7f50() <= value && value <= m_upper.AStarSearch_EvaluateValue_006a7f50();
 }
 
 struct FUN_009a95f0_cls
@@ -7235,11 +7249,12 @@ struct FUN_009a95f0_cls
     unsigned char unk;
     unsigned char m_b2;
     unsigned char m_b3;
-    float FUN_009a95f0();
+    float EvaluateValue_009a95f0();
 };
 // Returns (m_b2 / DAT_01011590 + m_b3) * m_b0 as a float.
 // @fnv 0x009a95f0
-float FUN_009a95f0_cls::FUN_009a95f0()
+// src: GUESS 0x009a95f0 (confidence: low)
+float FUN_009a95f0_cls::EvaluateValue_009a95f0()
 {
     return ((float)m_b2 / DAT_01011590 + (float)m_b3) * (float)m_b0;
 }

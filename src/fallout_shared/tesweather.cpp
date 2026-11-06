@@ -340,7 +340,7 @@ class WeatherSave : public TESWeather
 // src: XBOX_PDB 0x005813d0
 void WeatherSave::TESWeather_Save()
 {
-    TESForm::FUN_004855a0();
+    TESForm::BeginFormRecord();
     reinterpret_cast<WeatherImageSpaceFunctions*>(reinterpret_cast<char*>(this) + sizeof(TESForm))->ReleaseSoundSlots();
     unsigned int auiChunkIds[8] = {0x4d414e44, 0x4d414e43, 0x4d414e41, 0x4d414e42,
                                    0x4d414e45, 0x4d414e47, 0x4d414e4a, 0x4d414e4b};
@@ -372,7 +372,7 @@ void WeatherSave::TESWeather_Save()
         if (TESForm_QEndianSwapOnSave())
             node->GetItem()->TwoValues_Endian();
     }
-    TESForm::FUN_00485680();
+    TESForm::FinishFormRecord();
 }
 
 extern "C" int memcmp(const void* buf1, const void* buf2, unsigned int count);

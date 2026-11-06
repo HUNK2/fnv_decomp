@@ -48,10 +48,11 @@ struct FUN_00906160_shell
 };
 struct FUN_00905e30_shell : FUN_00906160_shell
 {
-    void* __thiscall FUN_00905e30();
+    void* __thiscall EvaluateValue_00905e30();
 };
 // @fnv 0x00905e30
-void* __thiscall FUN_00905e30_shell::FUN_00905e30()
+// src: GUESS 0x00905e30 (confidence: low)
+void* __thiscall FUN_00905e30_shell::EvaluateValue_00905e30()
 {
     FUN_00906160(10, 37, 12);
     return this;
@@ -364,7 +365,7 @@ struct G
     int unk00;
     G(int a);
     ~G();
-    int FUN_00559450(int a);
+    int Modelloader_GetReferencedThis(int a);
 };
 
 extern IOManager* DAT_01202d98;
@@ -398,7 +399,7 @@ FUN_00905e50_Class::~FUN_00905e50_Class()
             if (AdvanceRequest(&iter, &n, &g2, 1))
             {
                 CallVirtual5(n);
-                DAT_01202d98->BSTaskManager_CancelTask(g2.FUN_00559450(0));
+                DAT_01202d98->BSTaskManager_CancelTask(g2.Modelloader_GetReferencedThis(0));
             }
         }
     }

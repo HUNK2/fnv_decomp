@@ -45,11 +45,12 @@ class AxisDisplayOwner
 {
   public:
     hkDebugDisplayHandler* m_handler;
-    void FUN_00e10bf0(const hkVector4& pos, const hkMatrix3& rot, hkReal size, int color, int id, int tag);
+    void UpdateState_00e10bf0(const hkVector4& pos, const hkMatrix3& rot, hkReal size, int color, int id, int tag);
 };
 
 // @fnv 0x00e10bf0
-void AxisDisplayOwner::FUN_00e10bf0(const hkVector4& pos, const hkMatrix3& rot, hkReal size, int color, int id, int tag)
+// src: GUESS 0x00e10bf0 (confidence: low)
+void AxisDisplayOwner::UpdateState_00e10bf0(const hkVector4& pos, const hkMatrix3& rot, hkReal size, int color, int id, int tag)
 {
     hkVector4 x = rot.m_kColumn0;
     hkVector4 y = rot.m_kColumn1;
@@ -89,7 +90,7 @@ struct VectorArg
 struct CircleDrawer
 {
     hkDebugDisplayHandler* drawer;
-    void FUN_00e10f60(float angle, __m128* base, __m128* a10, VectorArg a14, int count, int a1c, float a20, int a24,
+    void ProcessEntries_00e10f60(float angle, __m128* base, __m128* a10, VectorArg a14, int count, int a1c, float a20, int a24,
                       int a28);
 };
 
@@ -132,7 +133,8 @@ static __forceinline __m128 Rotate(const hkQuaternion& quat, const __m128& vecto
 }
 
 // @fnv 0x00e10f60
-void CircleDrawer::FUN_00e10f60(float angle, __m128* base, __m128* a10, VectorArg a14, int count, int a1c, float a20,
+// src: GUESS 0x00e10f60 (confidence: low)
+void CircleDrawer::ProcessEntries_00e10f60(float angle, __m128* base, __m128* a10, VectorArg a14, int count, int a1c, float a20,
                                 int a24, int a28)
 {
     hkThreadMemory* h = hkThreadMemory::GetMonitorStream();
@@ -206,12 +208,13 @@ static __forceinline __m128 PlaneDrawRotate(__m128 q, __m128 p)
 
 struct PlaneDrawObject : CpuObject
 {
-    void FUN_00e11180(const hkVector4* p1, int p2, const hkVector4* p3, int p4, float p5, int p6, int p7);
-    void FUN_00e10d50(const hkVector4* p1, int p2, const hkVector4* v, int p4, float p5, int p6, int p7);
+    void ProcessEntries_00e11180(const hkVector4* p1, int p2, const hkVector4* p3, int p4, float p5, int p6, int p7);
+    void ComputeValues_00e10d50(const hkVector4* p1, int p2, const hkVector4* v, int p4, float p5, int p6, int p7);
 };
 
 // @fnv 0x00e11180
-void PlaneDrawObject::FUN_00e11180(const hkVector4* p1, int p2, const hkVector4* p3, int p4, float p5,
+// src: GUESS 0x00e11180 (confidence: low)
+void PlaneDrawObject::ProcessEntries_00e11180(const hkVector4* p1, int p2, const hkVector4* p3, int p4, float p5,
                                    int p6, int p7)
 {
     float s = (float)((double)p5 * DAT_010eacc0);
@@ -275,6 +278,6 @@ void PlaneDrawObject::FUN_00e11180(const hkVector4* p1, int p2, const hkVector4*
     spl = _mm_shuffle_ps(spl, sel, 0);
     *(__m128*)&L = _mm_mul_ps(spl, ll);
 
-    this->FUN_00e10d50(p1, p2, &L, p4, p5, p6, p7);
+    this->ComputeValues_00e10d50(p1, p2, &L, p4, p5, p6, p7);
 }
 }  // namespace fnv_00e11180

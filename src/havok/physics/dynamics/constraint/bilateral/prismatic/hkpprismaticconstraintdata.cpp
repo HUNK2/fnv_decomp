@@ -95,7 +95,8 @@ hkpPrismaticConstraintData::~hkpPrismaticConstraintData() throw()
 
 // FUN_00d4f8c0: cdecl constant-return leaf (mov eax,6; ret)
 // @fnv 0x00d4f8c0
-int FUN_00d4f8c0()
+// src: GUESS 0x00d4f8c0 (confidence: high)
+int Object_ReturnSix_00d4f8c0()
 {
     return 6;
 }

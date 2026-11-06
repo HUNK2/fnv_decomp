@@ -100,22 +100,22 @@ struct FUN_00647ac0_Class
 };
 struct FUN_0064db00_class
 {
-    int FUN_0064dc30();
-    bool FUN_0064db00();
+    int GetFieldAtOffset10();
+    bool ForwardCall_0064db00();
 };
 struct FUN_0064db50_class
 {
     void __thiscall ApplyToCopy(int a, int b);
-    void __thiscall FUN_0064db50(int a, int b);
+    void __thiscall ApplyToCopy_Thunk(int a, int b);
 };
 struct FUN_0064dbd0_Class
 {
-    void FUN_0064dda0();
-    void FUN_0064dbd0();
+    void ProcessEntries_0064dda0();
+    void ForwardCall_0064dbd0();
 };
 struct FUN_0064dc30_class
 {
-    int __thiscall FUN_0064dc30();
+    int __thiscall GetFieldAtOffset10();
 };
 struct FUN_0064de50_class
 {
@@ -129,7 +129,7 @@ struct CF_0081c630
 void CF_0081c630::Init()
 {}
 CF_0081c630* __fastcall InitAndReturn(CF_0081c630* p);
-extern "C" void __cdecl FUN_0064e2d0();
+extern "C" void __cdecl UpdateState_0064e2d0();
 struct FUN_0064de90_class
 {
     void __thiscall max_size_0064de90();
@@ -139,32 +139,32 @@ struct FUN_0064deb0_Class
     void Insert(int, int, int, int);
     void ForwardToFUN0064df50(int a, int b, int c, int d);
 };
-extern "C" void __cdecl FUN_0064e3f0(int, int, int);
+extern "C" void __cdecl Range_ProcessWithMoveCategory_0064e3f0(int, int, int);
 struct FUN_0064dee0_Class
 {
     void __thiscall ForwardToHelper(int, int);
 };
-extern "C" void __cdecl FUN_0064e430(int, int);
+extern "C" void __cdecl Array_AllocateElements16Checked(int, int);
 struct FUN_0064df30_class
 {
-    void __thiscall FUN_0064df30(int a);
+    void __thiscall ForwardCall_0064df30(int a);
 };
-extern "C" void __cdecl FUN_0064e630(void* a, void* b, void* c, void* d);
+extern "C" void __cdecl Range_ForwardWithCategoryAndFlags_0064e630(void* a, void* b, void* c, void* d);
 struct FUN_0064e480_Class
 {
-    void __thiscall FUN_0064e480(void* a, void* b, void* c);
+    void __thiscall ForwardCall_0064e480(void* a, void* b, void* c);
 };
 struct FUN_0065e9a0_holder
 {
-    void FUN_0065e9a0(int* p);
+    void PrintDebugMessage_Thunk(int* p);
 };
-void FUN_0064e600(int* a, int* b, FUN_0065e9a0_holder* c);
+void Object_ProcessEntries_0064e600(int* a, int* b, FUN_0065e9a0_holder* c);
 extern "C" void __cdecl CopyConstructBlock(void*, void*);
 struct FUN_0064e7d0_class
 {
-    void __thiscall FUN_0064e7d0(void* a, void* b);
+    void __thiscall CopyConstructBlock_Thunk(void* a, void* b);
 };
-extern "C" void __cdecl FUN_0064e920(int, int, int, int);
+extern "C" void __cdecl Object_DispatchIteratorRange_0064e920(int, int, int, int);
 void __cdecl ForwardToHandler(int a, int b, int c, int d);
 struct DecalStub
 {
@@ -174,7 +174,7 @@ struct DecalStub
 };
 struct FUN_00657880_class
 {
-    bool FUN_00658160(int);
+    bool ProcessAndReturnValue_00658160(int);
     bool operator==(int other);
 };
 struct FUN_00657be0_class
@@ -191,15 +191,15 @@ struct FUN_00657fd0
 {
     void __thiscall Method_00657fd0();
 };
-extern "C" void __cdecl FUN_00658bd0(int a1, int a2, int a3);
+extern "C" void __cdecl Range_ProcessWithMoveCategory_00658bd0(int a1, int a2, int a3);
 struct FUN_00657ff0_Class
 {
-    void FUN_00657ff0(int a1, int a2);
+    void ForwardCall_00657ff0(int a1, int a2);
 };
-extern "C" void __cdecl FUN_00658c10(int a, int b);
+extern "C" void __cdecl Array_AllocateElements60Checked(int a, int b);
 struct FUN_00658020_Class
 {
-    void __thiscall FUN_00658020(int a);
+    void __thiscall ForwardCall_00658020(int a);
 };
 struct FUN_00658130
 {
@@ -216,15 +216,15 @@ struct FUN_00658040
     int m_C;
     void __thiscall Call_00658040();
 };
-extern "C" void __cdecl FUN_00658c60(int, int, int);
+extern "C" void __cdecl Object_DispatchIteratorRange_00658c60(int, int, int);
 struct FUN_00658060_Class
 {
-    void __thiscall FUN_00658060(int a, int b);
+    void __thiscall ForwardCall_00658060(int a, int b);
 };
-void __cdecl FUN_00658ca0(int a, int b);
+void __cdecl Object_AllocateStorage_00658ca0(int a, int b);
 struct FUN_00658090_Class
 {
-    void __thiscall FUN_00658090(int a);
+    void __thiscall ForwardCall_00658090(int a);
 };
 struct FUN_00658930_class
 {
@@ -242,11 +242,11 @@ extern "C" void* __cdecl NiFreeAlias(void*);
 struct FUN_00658d30_class
 {
     void __thiscall FUN_00658d50();
-    void __thiscall FUN_00658d30();
+    void __thiscall ForwardCall_00658d30();
 };
 struct FUN_00659170
 {
-    void FUN_00659190();
+    void DoNothing();
     FUN_00659170();
 };
 struct FUN_00659210_Class
@@ -257,10 +257,10 @@ struct FUN_006592f0
 {
     void __thiscall operator()(void*);
 };
-void FUN_00659260(void* a, void* b, FUN_006592f0* c);
+void Object_InvokeCallbackForRange(void* a, void* b, FUN_006592f0* c);
 struct FUN_00659310_
 {
-    void __thiscall FUN_00659310(void*);
+    void __thiscall ForwardCall_00659310(void*);
 };
 void __cdecl ForEachItem(void* obj, void* end, FUN_00659310_* item);
 extern int DAT_010658b0;
@@ -279,132 +279,132 @@ struct FUN_00659540_class
     void* m_iWordAt00;
     void* m_iWordAt04;
     void* m_8;
-    void FUN_00659540();
+    void ForwardCall_00659540();
 };
 struct FUN_0065cc30_class
 {
-    int __thiscall FUN_0065cc30();
+    int __thiscall EvaluateValue_0065cc30();
 };
 struct FUN_0065cc50_Class
 {
-    int FUN_0065cc50();
+    int GetFieldAtOffset10();
 };
 struct FUN_0065cea0_class
 {
-    int __thiscall FUN_0065cea0();
+    int __thiscall GetPointerSpanCount_0065cea0();
 };
 struct FUN_0065cf90_class
 {
     void FaceGenData_Iterator_Clears();
-    void* FUN_0065cf90();
+    void* EvaluateValue_0065cf90();
 };
 struct FUN_0065cfb0_Class
 {
     void __thiscall FUN_0065d6e0();
-    void __thiscall FUN_0065cfb0();
+    void __thiscall ForwardCall_0065cfb0();
 };
 struct FUN_0065db40_class
 {
     void FaceGenData_Iterator_ClearsData();
     void* FaceGenData_Iterator_Clears();
 };
-void __cdecl FUN_0065e2d0(int, int, int);
+void __cdecl Runtime_UpdateState_0065e2d0(int, int, int);
 struct FUN_0065db60_class
 {
-    void __thiscall FUN_0065db60(int a, int b);
+    void __thiscall ForwardCall_0065db60(int a, int b);
 };
 struct FUN_0065e020_class
 {
-    void __thiscall FUN_0065e020();
+    void __thiscall ComputeValue_0065e020();
 };
 struct FUN_0065db90_class
 {
-    void __thiscall FUN_0065db90();
+    void __thiscall ForwardCall_0065db90();
 };
-extern "C" void __cdecl FUN_0065e310(int, int);
+extern "C" void __cdecl Array_AllocateElements12Checked(int, int);
 struct FUN_0065dbb0_class
 {
-    void __thiscall FUN_0065dbb0(int arg);
+    void __thiscall ForwardCall_0065dbb0(int arg);
 };
-extern "C" void __cdecl FUN_0065e360(int, int, int);
+extern "C" void __cdecl Object_DispatchIteratorRange_0065e360(int, int, int);
 struct FUN_0065dbf0_class
 {
     void CallWithThisOffset(int a, int b);
 };
-extern "C" void __cdecl FUN_0065e3a0(int, int);
+extern "C" void __cdecl Object_UpdateFields_0065e3a0(int, int);
 struct FUN_0065dc20_class
 {
-    void __thiscall FUN_0065dc20(int a);
+    void __thiscall ForwardCall_0065dc20(int a);
 };
-extern "C" void __cdecl FUN_0065e3f0(int a, int b, int c);
+extern "C" void __cdecl Runtime_UpdateState_0065e3f0(int a, int b, int c);
 struct FUN_0065dc60Class
 {
-    void FUN_0065dc60(int a, int b);
+    void ForwardCall_0065dc60(int a, int b);
 };
-extern "C" void __cdecl FUN_0065e430(int, int);
+extern "C" void __cdecl Runtime_UpdateState_0065e430(int, int);
 struct FUN_0065dd50_Class
 {
-    void __thiscall FUN_0065dd50(int a);
+    void __thiscall ForwardCall_0065dd50(int a);
 };
 struct FUN_0065dd70_Class
 {
-    void __thiscall FUN_0065dd70();
+    void __thiscall Helper_0065dd70();
 };
-extern "C" void __cdecl FUN_0065e0b0(void*);
-extern "C" void __cdecl FUN_0065e4c0(int, int);
+extern "C" void __cdecl UpdateState_0065e0b0(void*);
+extern "C" void __cdecl Object_AllocateElementStorage(int, int);
 struct FUN_0065ddc0_class
 {
-    void __thiscall FUN_0065ddc0(int a);
+    void __thiscall ForwardCall_0065ddc0(int a);
 };
 struct FUN_0065dde0_Class
 {
-    void FUN_0065e0e0();
-    void FUN_0065dde0();
+    void ComputeValue_0065e0e0();
+    void ForwardCall_0065dde0();
 };
-extern "C" void __cdecl FUN_0065e510(int, int, int);
+extern "C" void __cdecl Range_ProcessWithMoveCategory_0065e510(int, int, int);
 struct FUN_0065de00_Class
 {
-    void FUN_0065de00(int a, int b);
+    void ForwardCall_0065de00(int a, int b);
 };
-extern "C" void __cdecl FUN_0065e5a0(int, int, int);
+extern "C" void __cdecl Object_DispatchIteratorRange_0065e5a0(int, int, int);
 struct FUN_0065de80_Class
 {
-    void FUN_0065de80(int a, int b);
+    void ForwardCall_0065de80(int a, int b);
 };
-extern "C" void __cdecl FUN_0065e5e0(int, int);
+extern "C" void __cdecl Object_ProcessAndReturnValue_0065e5e0(int, int);
 struct FUN_0065deb0_Class
 {
-    void __thiscall FUN_0065deb0(int arg);
+    void __thiscall ForwardCall_0065deb0(int arg);
 };
-extern "C" void __cdecl FUN_0065e630(void*, void*, void*);
+extern "C" void __cdecl Runtime_ForwardCall_0065e630(void*, void*, void*);
 struct FUN_0065df10_class
 {
-    void __thiscall FUN_0065df10(void* b, void* c);
+    void __thiscall ForwardCall_0065df10(void* b, void* c);
 };
-void __cdecl FUN_0065e670(int a, int b);
+void __cdecl Runtime_UpdateState_0065e670(int a, int b);
 struct FUN_0065df40_class
 {
-    void __thiscall FUN_0065df40(int a);
+    void __thiscall ForwardCall_0065df40(int a);
 };
 struct FUN_0065df60_class
 {
-    void FUN_0065e170();
-    void FUN_0065df60();
+    void UpdateState_0065e170();
+    void ForwardCall_0065df60();
 };
 extern "C" void __cdecl CallWithByteResult(int, int, int);
 struct FUN_0065df80_class
 {
-    void __thiscall FUN_0065df80(int a, int b);
+    void __thiscall CallWithByteResult_Thunk(int a, int b);
 };
 struct FUN_0065dfb0_Class
 {
-    void __thiscall FUN_0065dfb0(int a);
+    void __thiscall ForwardCall_0065dfb0(int a);
 };
-extern "C" void __cdecl FUN_0065e700(int a, int b);
+extern "C" void __cdecl Object_AllocateElementStorage_0065e700(int a, int b);
 struct FUN_0065dfd0_class
 {
     bool __thiscall FaceGenData_Iterator_AreIdentical(int);
-    bool __thiscall FUN_0065dfd0(int);
+    bool __thiscall IsNotIdentical(int);
 };
 struct FUN_0065e000_class
 {
@@ -415,46 +415,46 @@ struct FUN_0065e9a0
 {
     void __thiscall Destroy(void* p);
 };
-void FUN_0065e820(void* a, void* b, FUN_0065e9a0* c);
+void Object_DestroyElementRange(void* a, void* b, FUN_0065e9a0* c);
 struct FUN_0065e9a0_t
 {
-    void __thiscall FUN_0065e9a0(void*);
+    void __thiscall PrintDebugMessage_Thunk(void*);
 };
-void __cdecl FUN_0065e850(void* a, void* b, void* c);
+void __cdecl Runtime_ProcessEntries_0065e850(void* a, void* b, void* c);
 struct FUN_0065ea00_class
 {
-    void __thiscall FUN_0065ea00(void*);
+    void __thiscall ForwardCall_0065ea00(void*);
 };
-void __cdecl FUN_0065e8e0(void* first, void* last, FUN_0065ea00_class* obj);
+void __cdecl Object_ProcessEntries_0065e8e0(void* first, void* last, FUN_0065ea00_class* obj);
 struct FUN_0065ea60_class
 {
-    void __thiscall FUN_0065ea60(void*);
+    void __thiscall ForwardCall_0065ea60(void*);
 };
-void FUN_0065e970(void* p, void* e, void* obj);
-extern "C" void __cdecl FUN_0065eb00(int);
+void Runtime_ProcessEntries_0065e970(void* p, void* e, void* obj);
+extern "C" void __cdecl Object_ForwardCall_0065eb00(int);
 struct FUN_0065e9c0_class
 {
-    void __thiscall FUN_0065e9c0(int arg);
+    void __thiscall ForwardCall_0065e9c0(int arg);
 };
-extern "C" void __cdecl FUN_0065eb10(void*);
+extern "C" void __cdecl Object_ForwardCall_0065eb10(void*);
 struct FUN_0065e9e0_Class
 {
-    void __thiscall FUN_0065e9e0(void* a);
+    void __thiscall ForwardCall_0065e9e0(void* a);
 };
-extern "C" void __cdecl FUN_0065eb30(int);
+extern "C" void __cdecl Runtime_ForwardCall_0065eb30(int);
 struct FUN_0065ea20_Class
 {
-    void __thiscall FUN_0065ea20(int a);
+    void __thiscall ForwardCall_0065ea20(int a);
 };
-void FUN_0065eb40(int a);
+void Object_ForwardCall_0065eb40(int a);
 struct FUN_0065ea40_class
 {
-    void FUN_0065ea40(int a);
+    void ForwardCall_0065ea40(int a);
 };
-void __cdecl FUN_0065eb50(void* a);
+void __cdecl Runtime_ForwardCall_0065eb50(void* a);
 struct FUN_0065ea60_cls
 {
-    void __thiscall FUN_0065ea60(void* a);
+    void __thiscall ForwardCall_0065ea60(void* a);
 };
 struct FUN_0065ee70_class
 {
@@ -462,51 +462,51 @@ struct FUN_0065ee70_class
 };
 struct FUN_0065ee30_class
 {
-    void __thiscall FUN_0065ee30();
+    void __thiscall ForwardCall_0065ee30();
 };
 extern "C" void __cdecl CallInterfaceWithResult(int, int, int);
 struct FUN_0065f2b0_class
 {
     void __thiscall std_vector_float_std_allocator_float_Destroy(int a, int b);
 };
-extern "C" void __cdecl FUN_0065f9a0(int, int, int);
+extern "C" void __cdecl Object_DispatchIteratorRange_0065f9a0(int, int, int);
 struct FUN_0065f400_class
 {
-    void __thiscall FUN_0065f400(int a, int b);
+    void __thiscall ForwardCall_0065f400(int a, int b);
 };
 struct FUN_0065f7c0_Class
 {
-    void FUN_0065f7c0();
+    void ComputeValue_0065f7c0();
 };
 struct FUN_0065f580_Class
 {
-    void FUN_0065f580();
+    void ForwardCall_0065f580();
 };
-extern "C" void __cdecl FUN_0065f9e0(int a, int b);
+extern "C" void __cdecl Object_AllocateElementStorage_0065f9e0(int a, int b);
 struct FUN_0065f6c0_class
 {
-    void __thiscall FUN_0065f6c0(int a);
+    void __thiscall ForwardCall_0065f6c0(int a);
 };
 extern "C" void* __cdecl AllocateChecked(void*, void*);
 struct FUN_0065f7a0_Class
 {
     void* __thiscall std_allocator_char_allocate(void* arg);
 };
-extern "C" void __cdecl FUN_0065fde0(int, int, int, int);
+extern "C" void __cdecl Object_DispatchIteratorRange_0065fde0(int, int, int, int);
 struct FUN_0065f890_class
 {
-    void __thiscall FUN_0065f890(int a1, int a2, int a3);
+    void __thiscall ForwardCall_0065f890(int a1, int a2, int a3);
 };
-extern "C" void __cdecl FUN_0065fea0(int, int, int, int);
+extern "C" void __cdecl Object_ProcessAndReturnValue_0065fea0(int, int, int, int);
 struct FUN_0065f930_Class
 {
-    void __thiscall FUN_0065f930(int a, int b, int c);
+    void __thiscall ForwardCall_0065f930(int a, int b, int c);
 };
 extern "C" void _NiFreeAlias(void*);
 extern void* DAT_010658d0;
 struct FUN_00658e70_cls : public NiTPointerMap<int, int>
 {
-    void FUN_00658e70();
+    void SetVtableAndProcessState_00658e70();
 };
 struct Flt
 {
@@ -569,29 +569,30 @@ struct Tgt
 };
 struct FUN_0064e2d0_Holder
 {
-    unsigned int __thiscall FUN_0064e2d0() const;
+    unsigned int __thiscall UpdateState_0064e2d0() const;
 };
 struct FUN_0064e300_Class
 {
-    int __thiscall FUN_0064e300();
+    int __thiscall GetPointerSpanCount_0064e300();
 };
-extern "C" void __cdecl FUN_0064e550(int a, int b, int c, void* d);
+extern "C" void __cdecl Runtime_CopyToUninitializedStorage(int a, int b, int c, void* d);
 struct FUN_0064e340_class
 {
-    void* __thiscall FUN_0064e340(int a, int b, int c);
+    void* __thiscall ProcessAndReturnValue_0064e340(int a, int b, int c);
 };
 char __cdecl std_Move_cat_unsigned_char(int*, int*);
-void __cdecl FUN_0064e600(int, int, int, char);
-extern "C" void __cdecl FUN_0064e3f0(int, int, int);
+void __cdecl Object_ProcessEntries_0064e600(int, int, int, char);
+extern "C" void __cdecl Range_ProcessWithMoveCategory_0064e3f0(int, int, int);
 // @fnv 0x0064e3f0
-extern "C" void __cdecl FUN_0064e3f0(int a, int b, int c)
+// src: GUESS 0x0064e3f0 (confidence: low)
+extern "C" void __cdecl Range_ProcessWithMoveCategory_0064e3f0(int a, int b, int c)
 {
     char v = std_Move_cat_unsigned_char(&a, &b);
-    FUN_0064e600(a, b, c, v);
+    Object_ProcessEntries_0064e600(a, b, c, v);
 }
 int __cdecl CallWithFlag(int* p);
-void __cdecl FUN_0064e680(int a, int b, int c);
-void __cdecl FUN_0064e4b0(int a, int b, int c);
+void __cdecl Object_ProcessEntries_0064e680(int a, int b, int c);
+void __cdecl Runtime_ProcessRangeWithCallFlags_0064e4b0(int a, int b, int c);
 struct FUN_0064e680_S
 {
     int m0;
@@ -599,7 +600,7 @@ struct FUN_0064e680_S
     int m2;
     int m3;
 };
-void FUN_0064e680(FUN_0064e680_S* a, FUN_0064e680_S* b, FUN_0064e680_S* c);
+void Object_ProcessEntries_0064e680(FUN_0064e680_S* a, FUN_0064e680_S* b, FUN_0064e680_S* c);
 struct FUN_0064e7f0_S
 {
     int f0;
@@ -618,20 +619,20 @@ struct FUN_0064e980_Block
 void* __cdecl CopyBlocksBackward(void* a, FUN_0064e980_Block* b, FUN_0064e980_Block* c);
 struct Holder00aad6b0
 {
-    void __thiscall FUN_00aad6b0();
+    void __thiscall ProcessEntries_00aad6b0();
 };
-void __cdecl FUN_00652fc0(float a1, int a2, int a3);
+void __cdecl Object_ProcessState_00652fc0(float a1, int a2, int a3);
 struct Class_00658100
 {
-    unsigned int __thiscall FUN_00658100();
+    unsigned int __thiscall ComputeValue_00658100();
 };
 struct Dummy658130
 {
-    unsigned __thiscall FUN_00658130();
+    unsigned __thiscall UpdateState_00658130();
 };
 unsigned char __cdecl std_Move_cat_unsigned_char(void*, void*);
-void __cdecl FUN_00659260(int, int, int, unsigned char);
-void FUN_00658bd0(int a1, int a2, int a3);
+void __cdecl Object_InvokeCallbackForRange(int, int, int, unsigned char);
+void Range_ProcessWithMoveCategory_00658bd0(int a1, int a2, int a3);
 void __cdecl operator delete(void* p);
 struct FUN_00658bb0_Class
 {
@@ -662,7 +663,7 @@ struct S_006590c0
 };
 struct FUN_006a68b0_Class
 {
-    void FUN_006a68b0();
+    void ForwardCall_006a68b0();
 };
 void __cdecl operator delete(void*);
 struct FUN_00659140_Class
@@ -695,12 +696,12 @@ struct FUN_00659380_cls
 {
     void __thiscall FUN_00659380(int a);
 };
-void __cdecl FUN_00659360(int a);
+void __cdecl Object_ForwardCall_00659360(int a);
 struct FUN_006593b0_class
 {
     void __thiscall FUN_006593b0(int a);
 };
-void __cdecl FUN_00659370(int a);
+void __cdecl Runtime_ForwardCall_00659370(int a);
 void __cdecl operator delete(void*);
 struct FUN_00659380_class
 {
@@ -754,16 +755,16 @@ struct FUN_0065cc70_Holder
     int m_iWordAt04;
     int m_8;
     int m_C;
-    int __thiscall FUN_0065cc70(unsigned int param);
+    int __thiscall GetElementChecked_0065cc70(unsigned int param);
 };
 struct TextureBasis
 {
-    unsigned int FUN_0065cea0();
+    unsigned int GetPointerSpanCount_0065cea0();
 };
 unsigned int __cdecl FUN_00ec7c56();
 struct Holder : TextureBasis
 {
-    int FUN_0065cec0(unsigned int);
+    int ProcessEntries_0065cec0(unsigned int);
 };
 struct Holder65cf50
 {
@@ -785,13 +786,13 @@ struct FUN_0065d150_class
     void* m_14;
     void __thiscall ClearStorage();
 };
-void __cdecl FUN_0065e480(int a1, int a2, void* a3);
+void __cdecl Object_DispatchIteratorRange_0065e480(int a1, int a2, void* a3);
 struct FUN_0065dd90_Class
 {
     int m_iWordAt00;
     int m_iWordAt04;
     int m_8;
-    void __thiscall FUN_0065dd90(int a1, int a2);
+    void __thiscall ForwardCall_0065dd90(int a1, int a2);
 };
 struct _Out_0044a170
 {
@@ -803,19 +804,19 @@ struct FUN_0065ded0_Class
 };
 struct FUN_0065e020_Cls
 {
-    int __thiscall FUN_0065e020();
+    int __thiscall ComputeValue_0065e020();
 };
 struct FUN_0065e050_Holder
 {
-    int __thiscall FUN_0065e050();
+    int __thiscall UpdateState_0065e050();
 };
 struct FUN_0065e080_S
 {
-    int __thiscall FUN_0065e080();
+    int __thiscall ComputeValue_0065e080();
 };
 struct FUN_0065e0b0_Class
 {
-    unsigned int FUN_0065e0b0();
+    unsigned int UpdateState_0065e0b0();
 };
 struct FUN_0065e110_Holder
 {
@@ -823,66 +824,66 @@ struct FUN_0065e110_Holder
 };
 struct S_0065e140
 {
-    unsigned int FUN_0065e140();
+    unsigned int ComputeValue_0065e140();
 };
 struct FUN_0065e170_Cls
 {
-    unsigned __thiscall FUN_0065e170();
+    unsigned __thiscall UpdateState_0065e170();
 };
 unsigned char __cdecl std_Move_cat_unsigned_char(void*, void*);
-void __cdecl FUN_0065e8e0(int, int, int, unsigned char);
-void FUN_0065e510(int a, int b, int c);
+void __cdecl Object_ProcessEntries_0065e8e0(int, int, int, unsigned char);
+void Range_ProcessWithMoveCategory_0065e510(int a, int b, int c);
 unsigned char __cdecl std_Move_cat_unsigned_char(void*, void*);
-void __cdecl FUN_0065e910(int, int, int, int);
-void __cdecl FUN_0065e5a0(int a, int b, int c);
-void __cdecl FUN_0065e880(int a1, int a2, FUN_0065e9c0_class* a3);
-void __cdecl FUN_0065e8b0(char* a, char* b, FUN_0065e9e0_Class* c);
-void FUN_0065e910(int _First, int _Last, FUN_0065ea20_Class* _Dest);
-void FUN_0065e940(int a, int b, FUN_0065ea40_class* c);
+void __cdecl Runtime_ProcessEntries_0065e910(int, int, int, int);
+void __cdecl Object_DispatchIteratorRange_0065e5a0(int a, int b, int c);
+void __cdecl Object_ProcessEntries_0065e880(int a1, int a2, FUN_0065e9c0_class* a3);
+void __cdecl Runtime_ProcessEntries_0065e8b0(char* a, char* b, FUN_0065e9e0_Class* c);
+void Runtime_ProcessEntries_0065e910(int _First, int _Last, FUN_0065ea20_Class* _Dest);
+void Object_ProcessEntries_0065e940(int a, int b, FUN_0065ea40_class* c);
 struct S_0065eb60
 {
-    void __thiscall FUN_0065eb60(void* p);
+    void __thiscall CopyFields_0065eb60(void* p);
 };
-char* __cdecl FUN_0065ea80(char* a, char* b, char* c);
+char* __cdecl Object_ProcessEntries_0065ea80(char* a, char* b, char* c);
 struct S_0065eb90
 {
     void __thiscall FUN_0065eb90(int);
 };
-int FUN_0065eac0(int param_1, int param_2, int param_3);
+int Object_ProcessEntries_0065eac0(int param_1, int param_2, int param_3);
 struct FUN_0065ec10_class
 {
     void __thiscall FUN_0065ec10(int b);
 };
-void __cdecl FUN_0065eb00(int a);
+void __cdecl Object_ForwardCall_0065eb00(int a);
 struct FUN_0065ec40_class
 {
     void FUN_0065ec40(int a);
 };
-void FUN_0065eb10(FUN_0065ec40_class* self, int a);
+void Object_ForwardCall_0065eb10(FUN_0065ec40_class* self, int a);
 struct FUN_0065ec70_class
 {
     void FUN_0065ec70(int a);
 };
-void __cdecl FUN_0065eb20(FUN_0065ec70_class* self);
+void __cdecl Object_ForwardCall_0065eb20(FUN_0065ec70_class* self);
 struct FUN_0065ecd0_Class
 {
     void FUN_0065ecd0(int a);
 };
-void FUN_0065eb40(int a);
+void Object_ForwardCall_0065eb40(int a);
 struct FUN_0065ed00_Class
 {
     void __thiscall FUN_0065ed00(int a);
 };
-void __cdecl FUN_0065eb50(int a);
+void __cdecl Runtime_ForwardCall_0065eb50(int a);
 struct Sub_0065eed0
 {
-    void __thiscall FUN_0065eed0(const Sub_0065eed0*);
+    void __thiscall AssignVectorContents(const Sub_0065eed0*);
 };
 struct Owner_0065eb60
 {
     float m_iWordAt00;
     Sub_0065eed0 m_iWordAt04;
-    Owner_0065eb60& __thiscall FUN_0065eb60(const Owner_0065eb60&);
+    Owner_0065eb60& __thiscall CopyFields_0065eb60(const Owner_0065eb60&);
 };
 void __cdecl operator delete(void*);
 struct FUN_0065eca0_class
@@ -897,7 +898,7 @@ struct FUN_0065ecd0_class
 void __cdecl operator delete(void* p);
 struct FUN_0065ed00_class
 {
-    void __thiscall FUN_0065ee50();
+    void __thiscall ForwardCall_0065ee50();
     void* __thiscall FUN_0065ed00(unsigned int flags);
 };
 void FUN_0065f060();
@@ -906,7 +907,7 @@ struct FUN_0065ee50_S
 {
     char m_auiShapeKeys[16];
     char m_aiIndexedValues[72];
-    void FUN_0065ee50();
+    void ForwardCall_0065ee50();
 };
 struct S_0065f2e0
 {
@@ -916,7 +917,7 @@ struct S_0065f2e0
     int m_iThirdValue;
     int _10;
     int m_14;
-    int FUN_0065f2e0();
+    int GetPointerSpanCount_0065f2e0();
 };
 struct FUN_0065f4b0_Class
 {
@@ -926,19 +927,19 @@ struct FUN_0065f4b0_Class
     int m_C;
     int m_10;
     int m_14;
-    int FUN_0065f4b0();
+    int GetPointerRangeLengthOrZero();
 };
 struct S_0065f7c0
 {
-    unsigned int FUN_0065f7c0();
+    unsigned int ComputeValue_0065f7c0();
 };
 struct FUN_0065f7f0_Class
 {
     unsigned int __thiscall std_allocator_char_max_size() const;
 };
 unsigned char __cdecl std_Move_cat_unsigned_char(void* a, void* b);
-void __cdecl FUN_0065ff00(void* a, void* b, void* c, unsigned char d);
-void __cdecl FUN_0065f9a0(void* a, void* b, void* c);
+void __cdecl Object_ProcessEntries_0065ff00(void* a, void* b, void* c, unsigned char d);
+void __cdecl Object_DispatchIteratorRange_0065f9a0(void* a, void* b, void* c);
 struct FUN_0065fb10_Class
 {
     void __thiscall FUN_0065fb10(const FUN_0065fb10_Class& other);
@@ -947,21 +948,21 @@ struct FUN_0065fa80_Holder
 {
     float m_iWordAt00;
     FUN_0065fb10_Class m_iWordAt04;
-    FUN_0065fa80_Holder& __thiscall FUN_0065fa80(const FUN_0065fa80_Holder& other);
+    FUN_0065fa80_Holder& __thiscall AssignFields_0065fa80(const FUN_0065fa80_Holder& other);
 };
 int __cdecl FUN_00ec7ce3(void* a1, unsigned int a2, void* a3, unsigned int a4);
-char* FUN_0065fe60(char* a1, char* a2, char* a3);
-void __cdecl FUN_0065ff00(char* _First, char* _Last, FUN_0065e9a0_holder* _Dest);
-extern "C" void __cdecl FUN_00660130(int a, int b, int c, int d, int e, int f);
+char* Object_ProcessAndReturnValue_0065fe60(char* a1, char* a2, char* a3);
+void __cdecl Object_ProcessEntries_0065ff00(char* _First, char* _Last, FUN_0065e9a0_holder* _Dest);
+extern "C" void __cdecl Runtime_CopyCheckedRange(int a, int b, int c, int d, int e, int f);
 struct FUN_0065ff30_Class
 {
-    void __thiscall FUN_0065ff30(int a, int b, int c, int d, int e);
+    void __thiscall ForwardCall_0065ff30(int a, int b, int c, int d, int e);
 };
 struct FUN_0065ff60_class
 {
-    void __thiscall FUN_0065ff60(int a, int b, int c, int d, int e);
+    void __thiscall ForwardCall_0065ff60(int a, int b, int c, int d, int e);
 };
-extern "C" void __cdecl FUN_00660190(int a, int b, int c, int d, int e, int f);
+extern "C" void __cdecl Runtime_EvaluateValue_00660190(int a, int b, int c, int d, int e, int f);
 struct NiRTTI;
 struct NiProperty;
 struct PropHelper
@@ -1009,11 +1010,11 @@ struct FUN_00657e60_Class
     int m_iThirdValue;
     int m_10;
     int m_14;
-    void __thiscall FUN_00657e60();
+    void __thiscall ReleaseStorage_00657e60();
 };
 struct H_0060b3b0
 {
-    float* FUN_006578b0(unsigned int a) const;
+    float* GetElementPointerChecked(unsigned int a) const;
 };
 int __cdecl _memcmp(const void* a, const void* b, unsigned int n);
 struct FUN_0065d460_Class
@@ -1024,7 +1025,7 @@ struct FUN_0065d460_Class
     void* m_iThirdValue;
     void* m_10;
     void* m_14;
-    void __thiscall FUN_0065d460();
+    void __thiscall ReleaseStorage_0065d460();
 };
 struct FUN_0065d660_Class
 {
@@ -1034,7 +1035,7 @@ struct FUN_0065d660_Class
     int m_iThirdValue;
     int m_10;
     int m_14;
-    void __thiscall FUN_0065d660();
+    void __thiscall ReleaseStorage_0065d660();
 };
 struct FUN_0065d860_class
 {
@@ -1044,15 +1045,15 @@ struct FUN_0065d860_class
     void* m_iThirdValue;
     void* m_10;
     void* m_14;
-    void __thiscall FUN_0065d860();
+    void __thiscall ReleaseStorage_0065d860();
 };
 struct EGMDeltaList;
-int __fastcall FUN_00657bc0(EGMDeltaList*);
+int __fastcall Object_GetPointerSpanCount_00657bc0(EGMDeltaList*);
 struct Elem_65eed0
 {
     short a, b, c;
 };
-Elem_65eed0* __cdecl FUN_0065f820(Elem_65eed0*, Elem_65eed0*, Elem_65eed0*);
+Elem_65eed0* __cdecl Object_DispatchIteratorRange_0065f820(Elem_65eed0*, Elem_65eed0*, Elem_65eed0*);
 struct Vec_65eed0
 {
     void* unk00;
@@ -1061,10 +1062,10 @@ struct Vec_65eed0
     Elem_65eed0* _Myfirst;
     Elem_65eed0* _Mylast;
     Elem_65eed0* _Myend;
-    void FUN_0065f320();
-    bool FUN_0065f380(unsigned int);
-    Elem_65eed0* FUN_0065f890(Elem_65eed0*, Elem_65eed0*, Elem_65eed0*);
-    Vec_65eed0* FUN_0065eed0(Vec_65eed0* _Right);
+    void UpdateFields_0065f320();
+    bool ProcessAndReturnValue_0065f380(unsigned int);
+    Elem_65eed0* ForwardCall_0065f890(Elem_65eed0*, Elem_65eed0*, Elem_65eed0*);
+    Vec_65eed0* AssignVectorContents(Vec_65eed0* _Right);
 };
 struct FUN_0065f430_class
 {
@@ -1074,7 +1075,7 @@ struct FUN_0065f430_class
     void* m_iThirdValue;
     int m_10;
     int m_14;
-    void FUN_0065f430();
+    void UpdateState_0065f430();
 };
 struct FUN_0064cc90_Class
 {
@@ -1160,13 +1161,13 @@ struct FUN_0065d560_Class
 };
 struct FUN_0065da00_class
 {
-    void FUN_0065da00();
+    void ReleaseStorage_0065da00();
 };
 struct FUN_0065dbd0_Class
 {
     int a0;
     int a4;
-    int FUN_0065dbd0();
+    int ForwardCall_0065dbd0();
 };
 struct FUN_0065dc40_Class
 {
@@ -1176,22 +1177,22 @@ struct FUN_0065de60_Class
 {
     int m_iWordAt00;
     int m_iWordAt04;
-    int FUN_0065de60();
+    int GetPositiveValue_Thunk();
 };
 struct FUN_0065def0_class
 {
     int m_iWordAt00;
     int m_iWordAt04;
-    unsigned int FUN_0065def0();
+    unsigned int ForwardCall_0065def0();
 };
-void* __cdecl FUN_0065eb30(unsigned int a);
+void* __cdecl Runtime_ForwardCall_0065eb30(unsigned int a);
 struct CIdvFilenameDestructorHelper
 {
     void __thiscall NarrowString();
 };
 struct FUN_0065ed30_class
 {
-    void __thiscall FUN_0065ed30();
+    void __thiscall NarrowString_Thunk();
 };
 struct CIdvFilenameDtorHelper
 {
@@ -1199,7 +1200,7 @@ struct CIdvFilenameDtorHelper
 };
 struct FUN_0065ed50_Class
 {
-    void FUN_0065ed50();
+    void Dtor_Thunk();
 };
 struct FUN_0044a9d0_Class
 {
@@ -1271,7 +1272,7 @@ struct Link_006428b0
 };
 struct Container_006428b0
 {
-    Link_006428b0* FUN_00559450(int index);
+    Link_006428b0* Modelloader_GetReferencedThis(int index);
 };
 struct Object_006428b0
 {
@@ -1639,15 +1640,15 @@ class IteratorRangeSequence
     Iter64D begin();
     Iter64D end();
     Iter64D erase(ConstIter64D kFirst, ConstIter64D kLast);
-    void FUN_0064db70();
+    void ClearAllElements();
 };
 struct PairDword
 {
     int a;
     int b;
-    bool FUN_0065dfd0(PairDword* other);
+    bool IsNotIdentical(PairDword* other);
 };
-extern "C" int __cdecl FUN_0064e380(int, int, int);
+extern "C" int __cdecl Object_DispatchIteratorRange_0064e380(int, int, int);
 class FUN_0064dc50_cls
 {
   public:
@@ -1658,7 +1659,7 @@ class FUN_0064dc50_cls
     int m_10;
     PairDword* std_vector_float_std_allocator_float_Make_iter(PairDword* out, int a, int b);
     void ForwardToHelper(int a, int b);
-    PairDword FUN_0064dc50(int p1, int p2, int p3, int p4);
+    PairDword UpdateState_0064dc50(int p1, int p2, int p3, int p4);
 };
 struct Vec2i
 {
@@ -1706,7 +1707,7 @@ struct FUN_0064dda0_cls
     unsigned int m_iWordAt04;
     unsigned char __thiscall CheckValid();
     FUN_0064dda0_target* __thiscall GetTarget();
-    unsigned int __thiscall FUN_0064dda0();
+    unsigned int __thiscall ProcessEntries_0064dda0();
 };
 unsigned int __cdecl FUN_00ec7c56(void);
 struct S_0064ddf0_Container
@@ -1745,7 +1746,8 @@ struct bad_alloc : public exception
 };
 }
 // @fnv 0x0064e430
-extern "C" void __cdecl FUN_0064e430(int count, int unused)
+// src: GUESS 0x0064e430 (confidence: high)
+extern "C" void __cdecl Array_AllocateElements16Checked(int count, int unused)
 {
     if ((unsigned int)count <= 0u)
         count = 0;
@@ -1764,7 +1766,7 @@ struct C64E550Allocator;
 C64E550PtrCategory C64E550PtrCat(void* first, void* dest);
 void C64E550UninitCopy(C64E550Element* first, C64E550Element* last, C64E550Element* dest, C64E550Allocator* alloc,
                        C64E550PtrCategory category, C64E550CheckedTag tag);
-void FUN_0064e550(C64E550Element* first, C64E550Element* last, C64E550Element* dest, C64E550Allocator* alloc);
+void Runtime_CopyToUninitializedStorage(C64E550Element* first, C64E550Element* last, C64E550Element* dest, C64E550Allocator* alloc);
 void __cdecl ForwardToHandler(int a, int b, void* c, void* d, unsigned char r, unsigned char flag);
 unsigned char __cdecl std_Move_cat_unsigned_char(void* p);
 int __cdecl CallWithFlag(int* p);
@@ -1773,25 +1775,27 @@ struct FUN_0064e630_flag
     bool m_flag;
 };
 // @fnv 0x0064e630
-extern "C" void __cdecl FUN_0064e630(void* a, void* b, void* c, void* d)
+// src: GUESS 0x0064e630 (confidence: low)
+extern "C" void __cdecl Range_ForwardWithCategoryAndFlags_0064e630(void* a, void* b, void* c, void* d)
 {
     FUN_0064e630_flag aa = {};
     unsigned char zz = std_Move_cat_unsigned_char(&c);
     ForwardToHandler(CallWithFlag((int*)&a), CallWithFlag((int*)&b), c, d, zz, aa.m_flag);
 }
-extern "C" void __cdecl FUN_0064e860(void* a1, void* a2, void* a3, unsigned char a4, unsigned char a5,
+extern "C" void __cdecl Object_ProcessAndReturnValue_0064e860(void* a1, void* a2, void* a3, unsigned char a4, unsigned char a5,
                                      unsigned char a6);
 struct SpawnedFlagBox
 {
     unsigned char v;
 };
 // @fnv 0x0064e6c0
-extern "C" void __cdecl FUN_0064e6c0(void* a1, void* a2, void* a3, unsigned char a4)
+// src: GUESS 0x0064e6c0 (confidence: low)
+extern "C" void __cdecl Object_DispatchIteratorRange_0064e6c0(void* a1, void* a2, void* a3, unsigned char a4)
 {
     SpawnedFlagBox flagA3 = {};
     unsigned char flagB;
     flagB = std_Move_cat_unsigned_char(&a1, &a3);
-    FUN_0064e860(a1, a2, a3, a4, flagB, flagA3.v);
+    Object_ProcessAndReturnValue_0064e860(a1, a2, a3, a4, flagB, flagA3.v);
 }
 struct S_0064e860_Block
 {
@@ -1814,7 +1818,7 @@ struct S_0064e860_TagC
 };
 void* __cdecl CopyBlocksBackward(S_0064e860_Block* a, S_0064e860_Block* b, int c, S_0064e860_TagA t1,
                                  S_0064e860_TagB t2, S_0064e860_TagC t3);
-S_0064e860_Block* __cdecl FUN_0064e860(S_0064e860_Block* first, S_0064e860_Block* last, S_0064e860_Block* dest);
+S_0064e860_Block* __cdecl Object_ProcessAndReturnValue_0064e860(S_0064e860_Block* first, S_0064e860_Block* last, S_0064e860_Block* dest);
 struct S_0064e8c0_Blk
 {
     int unk00;
@@ -1823,17 +1827,18 @@ struct S_0064e8c0_Blk
     int unk0C;
 };
 void __cdecl CopyConstructBlock(void* where, S_0064e8c0_Blk* src);
-extern "C" void __cdecl FUN_0064e9c0(int a, int b, int c, int d, int e, int f);
+extern "C" void __cdecl Object_ProcessEntries_0064e9c0(int a, int b, int c, int d, int e, int f);
 struct FlagBox5317
 {
     unsigned char v;
 };
 // @fnv 0x0064e920
-extern "C" void __cdecl FUN_0064e920(int a, int b, int c, int d)
+// src: GUESS 0x0064e920 (confidence: low)
+extern "C" void __cdecl Object_DispatchIteratorRange_0064e920(int a, int b, int c, int d)
 {
     FlagBox5317 flag1 = {};
     unsigned char flag2 = std_Move_cat_unsigned_char((void*)&a, (void*)&c);
-    FUN_0064e9c0(CallWithFlag((int*)&a), CallWithFlag((int*)&b), c, d, flag2, flag1.v);
+    Object_ProcessEntries_0064e9c0(CallWithFlag((int*)&a), CallWithFlag((int*)&b), c, d, flag2, flag1.v);
 }
 struct FUN_0064fcd0_Other
 {
@@ -1905,7 +1910,7 @@ struct S_006503b0_Slot
     S_006503b0_Slot(int);
     ~S_006503b0_Slot();
     void FUN_0066b0d0(int);
-    S_006503b0_Elem* FUN_00559450();
+    S_006503b0_Elem* Modelloader_GetReferencedThis();
 };
 struct S_006503b0_Elem
 {
@@ -1934,7 +1939,7 @@ struct ModelHelper
 };
 struct InnerPointer
 {
-    ModelHelper* FUN_00559450();
+    ModelHelper* Modelloader_GetReferencedThis();
 };
 struct ModelRecord
 {
@@ -1947,7 +1952,7 @@ struct NPX
     ModelRecord* ptr;
     NPX(int);
     ~NPX();
-    ModelRecord* FUN_00559450();
+    ModelRecord* Modelloader_GetReferencedThis();
 };
 struct FileNames
 {
@@ -1992,7 +1997,7 @@ struct FUN_00657c50_cls
     void* __thiscall Get1(void* out);
     Holder_657c50* __thiscall Get3(void* out, void* a, void* x);
     void __thiscall Apply(int a, int b, int c, int d);
-    void* __thiscall FUN_00657c50(void* a, EntryOffsetCursor b, int c, int d);
+    void* __thiscall UpdateState_00657c50(void* a, EntryOffsetCursor b, int c, int d);
 };
 struct Sub_657cd0_08
 {
@@ -2020,11 +2025,11 @@ struct FUN_00657d50_cls
     int m_0c;
     int m_10;
     int m_14;
-    void __thiscall FUN_00657d50();
+    void __thiscall UpdateState_00657d50();
 };
 struct FUN_00657d50_callee_a
 {
-    void __thiscall FUN_00657ff0(int a1, int a2);
+    void __thiscall ForwardCall_00657ff0(int a1, int a2);
 };
 struct FUN_00657d50_callee_b
 {
@@ -2045,7 +2050,7 @@ struct FUN_00657dd0_cls
     char* m_10;
     char* m_14;
     unsigned int GetCount();
-    bool FUN_00657dd0(unsigned int index);
+    bool UpdateState_00657dd0(unsigned int index);
 };
 struct FUN_00657ee0_sub
 {
@@ -2063,7 +2068,7 @@ struct FUN_00657ee0_cls
 
     unsigned int __thiscall Count();
     static void __cdecl Grow();
-    bool __thiscall FUN_00657ee0(unsigned int a);
+    bool __thiscall AllocateElementStorage(unsigned int a);
 };
 class SpanEntry;
 class FUN_006580b0_cls
@@ -2099,7 +2104,7 @@ struct FNV_HashMap
     FNV_MapNode** buckets;
     int count;
     bool keepExisting;
-    FNV_MapNode* FUN_006c63e0();
+    FNV_MapNode* InvokeVirtualMethod_006c63e0();
     void InsertOrUpdate(int id, FNV_MapKey key);
 };
 struct Hldr0044
@@ -2113,7 +2118,8 @@ extern "C" void __stdcall FUN_00ec7894(Hldr0044* p, void* dat);
 extern "C" void __cdecl FormHeap_Allocate(int scaled);
 extern "C" int DAT_01140ef8;
 // @fnv 0x00658c10
-extern "C" void __cdecl FUN_00658c10(int a, int b)
+// src: GUESS 0x00658c10 (confidence: medium)
+extern "C" void __cdecl Array_AllocateElements60Checked(int a, int b)
 {
     Hldr0044 h;
 
@@ -2164,7 +2170,7 @@ struct FUN_0065cd70_Elem
     int unk10;
     int unk14;
 
-    void FUN_0065cd70();
+    void ClearAllElements();
     ~FUN_0065cd70_Elem();
 };
 struct FUN_00659600
@@ -2197,7 +2203,7 @@ struct PacketScope
     PacketScope(unsigned int selector);
     ~PacketScope();
 };
-void __cdecl FUN_00ab2640(PacketScope* scope, void* owner, PacketEntry* begin, PacketEntry* next);
+void __cdecl Object_ProcessEntries_00ab2640(PacketScope* scope, void* owner, PacketEntry* begin, PacketEntry* next);
 struct FUN_00659670
 {
     unsigned int mode;
@@ -2311,7 +2317,7 @@ struct Mem_65ca30
 struct FUN_0065ca30
 {
     Mem_65ca30 m_mem;
-    void FUN_0065d460();
+    void ReleaseStorage_0065d460();
     ~FUN_0065ca30();
 };
 struct FUN_006815c0
@@ -2324,7 +2330,7 @@ struct FUN_0065de30
 {
     unsigned int value;
     FUN_0065de30(const FUN_0065de30&);
-    unsigned int FUN_0044abd0(int flag);
+    unsigned int ForwardCall_0044abd0(int flag);
 };
 struct FUN_008c71b0
 {
@@ -2348,7 +2354,7 @@ struct FUN_0065d3a0
 struct FUN_0065ca90 : FUN_0065d3a0
 {
     FUN_0065ca90();
-    void __thiscall FUN_0065d4e0(int value);
+    void __thiscall AllocateElementStorage_0065d4e0(int value);
 };
 // Container default constructor: base storage takes a default allocator, then reserve nothing.
 class C5CB60Allocator
@@ -2378,7 +2384,7 @@ struct FUN_0065cfb0_Base
 };
 struct FUN_0065cd10 : FUN_0065cfb0_Base
 {
-    void FUN_0065d860();
+    void ReleaseStorage_0065d860();
     ~FUN_0065cd10();
 };
 struct B65CD70ConstIterator
@@ -2397,7 +2403,7 @@ class B65CD70Vector
     B65CD70Iterator end();
     B65CD70Iterator erase(B65CD70ConstIterator kFirst, B65CD70ConstIterator kLast);
 
-    void FUN_0065cd70();
+    void ClearAllElements();
 };
 class C65CE40List
 {
@@ -2423,7 +2429,7 @@ class FUN_0065cef0_cls
 {
   public:
     FNVPair8* CallWithSelf(FNVPair8* out);
-    FNVPair8* FUN_0044a170(FNVPair8* out);
+    FNVPair8* SetIteratorDataAndOwner(FNVPair8* out);
     void BuildAndComparePair(FNVPair8* out, FNVPair8 y, FNVPair8 x);
     void std_vector_FffModeTexS_std_allocator_FffModeTexS_clear();
 };
@@ -2464,7 +2470,7 @@ struct FUN_0065d0d0_cls
 };
 struct S_0065d1c0_Element
 {
-    int __thiscall FUN_0065dc20(unsigned int a);
+    int __thiscall ForwardCall_0065dc20(unsigned int a);
 };
 struct S_0065d1c0_Class
 {
@@ -2475,7 +2481,7 @@ struct S_0065d1c0_Class
     int m_10;
     int m_14;
 
-    unsigned int __thiscall FUN_0065dbd0();
+    unsigned int __thiscall ForwardCall_0065dbd0();
     bool __thiscall AllocateElements(unsigned int a);
 };
 extern void __cdecl ThrowVectorTooLong();
@@ -2494,12 +2500,12 @@ struct FUN_0065d2b0_cls
     int m_10;
     int m_14;
     unsigned int GetCount();
-    bool FUN_0065d2b0(int n);
+    bool UpdateState_0065d2b0(int n);
 };
 struct S_0065d3e0_Pool
 {
     int unk00;
-    char* FUN_0065ddc0(unsigned n);
+    char* ForwardCall_0065ddc0(unsigned n);
 };
 void __cdecl ThrowVectorTooLong();
 struct S_0065d3e0_Class
@@ -2510,7 +2516,7 @@ struct S_0065d3e0_Class
     char* unk0c;
     char* unk10;
     char* unk14;
-    unsigned FUN_0065dd70();
+    unsigned Helper_0065dd70();
     bool AllocateBuffer(unsigned n);
 };
 class FUN_0065d4e0_Pool
@@ -2530,7 +2536,7 @@ class FUN_0065d4e0_cls
     unsigned int m_14;
 
     unsigned int GetCount();
-    bool FUN_0065d4e0(unsigned int n);
+    bool AllocateElementStorage_0065d4e0(unsigned int n);
 };
 void FUN_0065d4e0_GrowFail();
 struct FUN_0065d5e0_sub
@@ -2608,7 +2614,7 @@ struct D980Vector
     D980Elem* _Myend;
 
     unsigned int max_size();
-    bool FUN_0065d980(unsigned int _Capacity);
+    bool ProcessAndReturnValue_0065d980(unsigned int _Capacity);
 };
 struct FUN_0065dae0_target
 {
@@ -2626,7 +2632,7 @@ struct FUN_0065dae0_cls
 };
 struct FUN_0065e0e0_cls
 {
-    unsigned int FUN_0065e0e0();
+    unsigned int ComputeValue_0065e0e0();
 };
 struct S_0065e1a0
 {
@@ -2644,7 +2650,7 @@ struct LengthErrorB9431
     LengthErrorB9431(int msg);
     ~LengthErrorB9431() throw();
 };
-void* __cdecl FUN_0065e4c0(unsigned int count);
+void* __cdecl Object_AllocateElementStorage(unsigned int count);
 struct S_0065e550_Err
 {
     virtual void vf00();
@@ -2654,7 +2660,7 @@ struct S_0065e550_Err
     ~S_0065e550_Err();
 };
 void* __cdecl operator new(unsigned int size);
-void* __cdecl FUN_0065e550(unsigned int n);
+void* __cdecl Runtime_AllocateElementArray52Checked(unsigned int n);
 struct LengthErrB9739
 {
     virtual void v0();
@@ -2663,14 +2669,14 @@ struct LengthErrB9739
     LengthErrB9739(int msg);
     ~LengthErrB9739() throw();
 };
-void* __cdecl FUN_0065e700(unsigned int count);
+void* __cdecl Object_AllocateElementStorage_0065e700(unsigned int count);
 unsigned char __cdecl std_Move_cat_unsigned_char(void* a, void* b);
 struct EmptyTag
 {
 };
 int __cdecl CallWithFlag(int*);
-int __cdecl FUN_0065eac0(int, int, int, EmptyTag, EmptyTag, EmptyTag);
-int __cdecl FUN_0065e7c0(int first, int last, int destination);
+int __cdecl Object_ProcessEntries_0065eac0(int, int, int, EmptyTag, EmptyTag, EmptyTag);
+int __cdecl Object_ProcessAndReturnValue_0065e7c0(int first, int last, int destination);
 class FUN_0065f060_base
 {
   public:
@@ -2703,7 +2709,7 @@ struct Vec_65f0c0
     void _Destroy(char* first, char* last);
     char* _Ucopy(char* first, char* last, char* dest);
     bool _Buy(unsigned int n);
-    Vec_65f0c0& FUN_0065f0c0(const Vec_65f0c0& _Right);
+    Vec_65f0c0& CopyFields_0065f0c0(const Vec_65f0c0& _Right);
 };
 struct Pair8_b6530
 {
@@ -2713,8 +2719,8 @@ struct Pair8_b6530
 struct Vec_65eed0_callees_b6530
 {
     Pair8_b6530* CallWithSelf(Pair8_b6530* out);
-    Pair8_b6530* FUN_0044a170(Pair8_b6530* out);
-    void FUN_0065f5a0(Pair8_b6530* out, Pair8_b6530 a, Pair8_b6530 b);
+    Pair8_b6530* SetIteratorDataAndOwner(Pair8_b6530* out);
+    void ProcessAndReturnValue_0065f5a0(Pair8_b6530* out, Pair8_b6530 a, Pair8_b6530 b);
 };
 struct C65F700Node;
 struct C65F700Iterator
@@ -2737,7 +2743,7 @@ class C65F700List
     int unk0C;
     C65F700Node* m_pkHead;
 
-    C65F700Iterator FUN_0065f700(void* pvFirstCont, C65F700Node* pitFirst, void* pvLastCont, C65F700Node* pitLast);
+    C65F700Iterator UnlinkEqualIteratorRange(void* pvFirstCont, C65F700Node* pitFirst, void* pvLastCont, C65F700Node* pitLast);
 };
 struct S_0065f8c0_PtrTag
 {
@@ -2756,9 +2762,9 @@ struct S_0065f8c0_IterTag
 S_0065f8c0_PtrTag __cdecl std_Move_cat_unsigned_char(char** first, char** dest);
 S_0065f8c0_IterTag __cdecl return_value(char** first, char** dest);
 char* __cdecl CallWithFlag(char** p);
-char* __cdecl FUN_0065fe60(char* first, char* last, char* dest, S_0065f8c0_IterTag a, S_0065f8c0_PtrTag b,
+char* __cdecl Object_ProcessAndReturnValue_0065fe60(char* first, char* last, char* dest, S_0065f8c0_IterTag a, S_0065f8c0_PtrTag b,
                            S_0065f8c0_ChkTag c);
-char* __cdecl FUN_0065f8c0(char* first, char* last, char* dest);
+char* __cdecl Object_DispatchIteratorRange_0065f8c0(char* first, char* last, char* dest);
 extern void FUN_0065f060();
 extern void FUN_0065fc10();
 void __stdcall FUN_00ecaebb(void* dst, void* src, unsigned int size, unsigned int count, void (*copyCtor)(),
@@ -2769,7 +2775,7 @@ struct FUN_0065fab0_cls
     int m_iWordAt04;
     int m_8;
     int m_iThirdValue;
-    FUN_0065fab0_cls* FUN_0065fab0(FUN_0065fab0_cls* src);
+    FUN_0065fab0_cls* CopyFieldsAndConstructElementArray(FUN_0065fab0_cls* src);
 };
 int __cdecl return_value(int a);
 int __cdecl CopyTripleShorts(int a, int b, int r, bool z, bool y, bool x);
@@ -2795,8 +2801,8 @@ struct S_0065ff90_Dest
     unsigned int m_iElementCount;
 };
 _DummyTag __cdecl std_Move_cat_unsigned_char(S_0065ff90_Dest* dest);
-void __cdecl FUN_00660210(int first, int last, S_0065ff90_Dest dest, _DummyTag cat, S_0065ff90_Tag tag);
-void __cdecl FUN_0065ff90(int first, int last, S_0065ff90_Dest dest);
+void __cdecl Runtime_ForwardCall_00660210(int first, int last, S_0065ff90_Dest dest, _DummyTag cat, S_0065ff90_Tag tag);
+void __cdecl Runtime_ProcessRangeWithCallFlags_0065ff90(int first, int last, S_0065ff90_Dest dest);
 #include "../../include/NiMemObject.h"
 struct FUN_0064ec10_obj
 {
@@ -2829,7 +2835,7 @@ struct CloneComponent
 struct LinkedList
 {
     int head, tail, count;
-    void* FUN_00559450();
+    void* Modelloader_GetReferencedThis();
     FUN_0064ec10_obj*& AddEight(void*);
     void* DereferenceIfNotNull(void*);
     void NiTPointerListBase_NiTPointerAllocator_unsigned_int_BSMultiBoundRoom_AddTail(void* const&);
@@ -3056,7 +3062,7 @@ struct C658CA0Element
     int unk80;
     int unk84;
 };
-C658CA0Element* __cdecl FUN_00658ca0(unsigned int ItemUpdateArray, C658CA0Element*);
+C658CA0Element* __cdecl Object_AllocateStorage_00658ca0(unsigned int ItemUpdateArray, C658CA0Element*);
 struct Node_658d50
 {
     Node_658d50* next;
@@ -3086,7 +3092,7 @@ struct FUN_00658e10 : ObjectCleanupBase658e10
 };
 struct FUN_00659080_Class
 {
-    void __thiscall FUN_00659080(FUN_00659140_Class* obj);
+    void __thiscall UpdateFields_00659080(FUN_00659140_Class* obj);
 };
 struct FUN_0065c9c0 : FUN_0065d3a0
 {
@@ -3117,12 +3123,12 @@ class FUN_0065cca0_cls : public B65CCA0Base
     void Reset(int iFlags);
 };
 unsigned char* __cdecl return_value(unsigned char* out, int* a1, int* a2);
-void __cdecl FUN_0065e760(int a, int b, int c, unsigned char d, unsigned char e, unsigned char f);
+void __cdecl Object_ProcessAndReturnValue_0065e760(int a, int b, int c, unsigned char d, unsigned char e, unsigned char f);
 struct FlagA
 {
     bool v;
 };
-void __cdecl FUN_0065e1f0(int a, int b, int c);
+void __cdecl Runtime_UpdateState_0065e1f0(int a, int b, int c);
 struct RangeCheckedTag65E
 {
 };
@@ -3147,7 +3153,7 @@ struct FUN_0044d6c0_class
     int unk08;
     void* __thiscall std_bad_alloc_bad_alloc(void** a);
 };
-void __cdecl FUN_0065e3a0(int param_1, int);
+void __cdecl Object_UpdateFields_0065e3a0(int param_1, int);
 struct B65E760Item
 {
     int unk00;
@@ -3168,9 +3174,9 @@ struct B65E760CheckedTag
 {
 };
 B65E760Item* __cdecl B65E760Unchecked(B65E760Item** ppkIter);
-B65E760Item* __cdecl FUN_0065ea80(B65E760Item* pkCurrentObject, B65E760Item* pkLast, B65E760Item* pkDest,
+B65E760Item* __cdecl Object_ProcessEntries_0065ea80(B65E760Item* pkCurrentObject, B65E760Item* pkLast, B65E760Item* pkDest,
                                   B65E760IterCategory kCategory, B65E760ScalarTag kScalar, B65E760CheckedTag kChecked);
-B65E760Item* __cdecl FUN_0065e760(B65E760Item* pkCurrentObject, B65E760Item* pkLast, B65E760Item* pkDest);
+B65E760Item* __cdecl Object_ProcessAndReturnValue_0065e760(B65E760Item* pkCurrentObject, B65E760Item* pkLast, B65E760Item* pkDest);
 struct FUN_0065ee70 : FUN_0065cfb0
 {
     ~FUN_0065ee70();
@@ -3185,7 +3191,7 @@ struct EA0CategoryTag
 char* EA0Unwrap(char** ppcIter);
 EA0CategoryTag EA0Category(char** ppcFirst, char** ppcDest);
 char* EA0CopyImpl(char* pcFirst, char* pcLast, char* pcDest, int iCount, EA0CategoryTag kCategory, EA0RangeTag kRange);
-char* FUN_0065fea0(char* pcFirst, char* pcLast, char* pcDest, int iCount);
+char* Object_ProcessAndReturnValue_0065fea0(char* pcFirst, char* pcLast, char* pcDest, int iCount);
 struct FUN_00657b50 : FUN_0065d3a0
 {
     FUN_00657b50();
@@ -3214,7 +3220,7 @@ PtrCat __cdecl std_Move_cat_unsigned_char(It& a, It& b);
 RaTag __cdecl return_value(const It& a, const It& b);
 It __cdecl ComputeIndexAndCall(int first, int last, It dest, RaTag cat, PtrCat pc, RCTag rc);
 }
-Elem_65eed0* __cdecl FUN_0065f820(Elem_65eed0* first, Elem_65eed0* last, Elem_65eed0* dest);
+Elem_65eed0* __cdecl Object_DispatchIteratorRange_0065f820(Elem_65eed0* first, Elem_65eed0* last, Elem_65eed0* dest);
 namespace de {
 struct RCTag
 {
@@ -3226,7 +3232,8 @@ PtrCat __cdecl std_Move_cat_unsigned_char(int& a, int& b);
 int __cdecl CopyRange(int first, int last, int dest, int al, PtrCat pc, RCTag rc);
 }
 // @fnv 0x0065fde0
-extern "C" void __cdecl FUN_0065fde0(int first, int last, int dest, int al)
+// src: GUESS 0x0065fde0 (confidence: low)
+extern "C" void __cdecl Object_DispatchIteratorRange_0065fde0(int first, int last, int dest, int al)
 {
     using namespace de;
     de::CopyRange(CallWithFlag(&first), CallWithFlag(&last), dest, al, de::std_Move_cat_unsigned_char(first, dest), RCTag());
@@ -3236,15 +3243,16 @@ struct TagA
     char v;
 };
 TagA* __cdecl return_value(TagA* flag, int* a, int* b);
-int __cdecl FUN_0064e5a0(int a, int b, int c, TagA d, unsigned char e, TagA f);
+int __cdecl Object_ProcessAndReturnValue_0064e5a0(int a, int b, int c, TagA d, unsigned char e, TagA f);
 // @fnv 0x0064e380
-extern "C" int __cdecl FUN_0064e380(int arg1, int arg2, int arg3)
+// src: GUESS 0x0064e380 (confidence: low)
+extern "C" int __cdecl Object_DispatchIteratorRange_0064e380(int arg1, int arg2, int arg3)
 {
     TagA flag1 = {};
     char flag2 = std_Move_cat_unsigned_char(&arg1, &arg3);
     TagA flag3;
 
-    return FUN_0064e5a0(CallWithFlag(&arg1), CallWithFlag(&arg2), arg3, *return_value(&flag3, &arg1, &arg3), flag2,
+    return Object_ProcessAndReturnValue_0064e5a0(CallWithFlag(&arg1), CallWithFlag(&arg2), arg3, *return_value(&flag3, &arg1, &arg3), flag2,
                         flag1);
 }
 int __cdecl CallWithFlag(int* p);
@@ -3252,7 +3260,7 @@ struct Tag
 {
 };
 void __cdecl SpawnCallee6(int a1, int a2, int a3, Tag a4, Tag a5, Tag a6);
-int __cdecl FUN_0064e5a0(int a1, int a2, int a3);
+int __cdecl Object_ProcessAndReturnValue_0064e5a0(int a1, int a2, int a3);
 void __cdecl ConstructArrayWithRollback(char* dst, unsigned int count, void* value, FUN_0064e7d0_class* obj);
 struct Elem64e9
 {
@@ -3260,8 +3268,8 @@ struct Elem64e9
 };
 struct Alloc64e9
 {
-    void FUN_0064e7d0(Elem64e9* pDest, const Elem64e9& kSrc);
-    void FUN_0065e9a0(Elem64e9* pElem);
+    void CopyConstructBlock_Thunk(Elem64e9* pDest, const Elem64e9& kSrc);
+    void PrintDebugMessage_Thunk(Elem64e9* pElem);
 };
 struct NonscalarTag64e9
 {
@@ -3269,7 +3277,7 @@ struct NonscalarTag64e9
 struct CheckedTag64e9
 {
 };
-Elem64e9* __cdecl FUN_0064e9c0(Elem64e9* _First, Elem64e9* _Last, Elem64e9* _Dest, Alloc64e9& _Al, NonscalarTag64e9,
+Elem64e9* __cdecl Object_ProcessEntries_0064e9c0(Elem64e9* _First, Elem64e9* _Last, Elem64e9* _Dest, Alloc64e9& _Al, NonscalarTag64e9,
                                CheckedTag64e9);
 class FUN_006624c0 : public NiMemObject
 {
@@ -3302,7 +3310,7 @@ struct VecItemVector
 
     unsigned int max_size() const;
     static void _Xlen();
-    bool FUN_0065d7e0(unsigned int _Capacity);
+    bool ProcessAndReturnValue_0065d7e0(unsigned int _Capacity);
 };
 struct S_0065fb10_Elem
 {
@@ -3329,12 +3337,12 @@ struct S_0065fb10_Base
     S_0065fb10_Elem* _Myend;
     S_0065fb10_Base(S_0065fb10_Alloc al);
     ~S_0065fb10_Base();
-    unsigned int FUN_00657bc0() const;
-    bool FUN_0065f380(unsigned int n);
-    S_0065fb10_Iter FUN_0065fd10() const;
-    S_0065fb10_Iter FUN_0065fd40() const;
-    S_0065fb10_Elem* FUN_0065ff30(S_0065fb10_Iter first, S_0065fb10_Iter last, S_0065fb10_Elem* dest);
-    void FUN_0065f430();
+    unsigned int Object_GetPointerSpanCount_00657bc0() const;
+    bool ProcessAndReturnValue_0065f380(unsigned int n);
+    S_0065fb10_Iter EvaluateValue_0065fd10() const;
+    S_0065fb10_Iter ProcessAndReturnValue_0065fd40() const;
+    S_0065fb10_Elem* ForwardCall_0065ff30(S_0065fb10_Iter first, S_0065fb10_Iter last, S_0065fb10_Elem* dest);
+    void UpdateState_0065f430();
 };
 struct FUN_0065fb10 : S_0065fb10_Base
 {
@@ -3358,7 +3366,7 @@ struct SlotIdStorage
     void* m_pHeadNode;
     void* m_last;
     void* m_kRayEnd;
-    void FUN_0064db70();
+    void ClearAllElements();
     ~SlotIdStorage();
 };
 struct FUN_0064ce20 : Base64ce20
@@ -3385,9 +3393,9 @@ struct PtrCatE4E0
 CatTagE4E0 __cdecl std_Move_cat_unsigned_char(const ItE4E0& it);
 PtrCatE4E0 __cdecl return_value(const ItE4E0& a, const ItE4E0& b);
 int* __cdecl CallWithFlag(ItE4E0& it);
-void __cdecl FUN_0064e6c0(int* pFirst, int* pLast, ItE4E0 kDest, PtrCatE4E0 kPtrCat, CatTagE4E0 kCat,
+void __cdecl Object_DispatchIteratorRange_0064e6c0(int* pFirst, int* pLast, ItE4E0 kDest, PtrCatE4E0 kPtrCat, CatTagE4E0 kCat,
                           RangeTagE4E0 kRange);
-void __cdecl FUN_0064e4e0(ItE4E0 kFirst, ItE4E0 kLast, ItE4E0 kDest);
+void __cdecl Object_DispatchIteratorRange_0064e4e0(ItE4E0 kFirst, ItE4E0 kLast, ItE4E0 kDest);
 struct Allocator65C750
 {
     Allocator65C750();
@@ -3418,12 +3426,12 @@ struct FUN_0065fc10 : FUN_0065d3a0
     int* m_pHeadNode;
     int* m_last;
     int* m_kRayEnd;
-    int FUN_0065cc50();
-    bool FUN_00657ee0(unsigned int n);
-    ItQ FUN_0065fd40();
-    ItQ FUN_0065fd10();
-    int* FUN_0065ff60(ItQ f, ItQ l, int* d);
-    void FUN_00657f60();
+    int GetFieldAtOffset10();
+    bool AllocateElementStorage(unsigned int n);
+    ItQ ProcessAndReturnValue_0065fd40();
+    ItQ EvaluateValue_0065fd10();
+    int* ForwardCall_0065ff60(ItQ f, ItQ l, int* d);
+    void ReleaseStorage_00657f60();
     FUN_0065fc10(FUN_0065fc10& r);
 };
 class FloatSource
@@ -3449,7 +3457,7 @@ struct FUN_0065d3a0
 {
     FUN_0065d3a0(FUN_006815c0 al) throw();
     ~FUN_0065d3a0();
-    void FUN_0065d2b0(int value);
+    void UpdateState_0065d2b0(int value);
 };
 
 struct FUN_0065c8f0 : FUN_0065d3a0
@@ -3460,7 +3468,7 @@ struct FUN_0065c8f0 : FUN_0065d3a0
 // @fnv 0x0065c8f0
 FUN_0065c8f0::FUN_0065c8f0() : FUN_0065d3a0(FUN_006815c0())
 {
-    FUN_0065d2b0(0);
+    UpdateState_0065d2b0(0);
 }
 
 }
@@ -3501,7 +3509,7 @@ struct Elem6_f380
 };
 struct Alloc_f380
 {
-    Elem6_f380* FUN_0065f6c0(unsigned int n);
+    Elem6_f380* ForwardCall_0065f6c0(unsigned int n);
 };
 void __cdecl ThrowVectorTooLong();
 struct VecF380
@@ -3512,8 +3520,8 @@ struct VecF380
     Elem6_f380* _Myfirst;
     Elem6_f380* _Mylast;
     Elem6_f380* _Myend;
-    unsigned int FUN_0065f580() const;
-    bool FUN_0065f380(unsigned int _Capacity);
+    unsigned int ForwardCall_0065f580() const;
+    bool ProcessAndReturnValue_0065f380(unsigned int _Capacity);
 };
 #include <math.h>
 using ::SettingT;
@@ -3542,12 +3550,12 @@ struct BGSLoadGameBuffer;
 void __cdecl PrintDebugMessage(BGSLoadGameBuffer*);
 struct FUN_0065e9a0_Class
 {
-    void __thiscall FUN_0065e9a0(BGSLoadGameBuffer* p);
+    void __thiscall PrintDebugMessage_Thunk(BGSLoadGameBuffer* p);
 };
-void __cdecl FUN_0065eb20(void*);
+void __cdecl Object_ForwardCall_0065eb20(void*);
 struct FUN_0065ea00_Class
 {
-    void __thiscall FUN_0065ea00(void* a);
+    void __thiscall ForwardCall_0065ea00(void* a);
 };
 
 void* __cdecl operator new(unsigned int size, unsigned int allocation);
@@ -3556,5 +3564,5 @@ void __cdecl operator delete(void* object, unsigned int allocation);
 // @fnv 0x0065dc90
 FUN_0065dc90::FUN_0065dc90(FUN_0065de30 argument) : FUN_006815c0(), member(argument)
 {
-    object = new (member.FUN_0044abd0(1)) FUN_008c71b0(this);
+    object = new (member.ForwardCall_0044abd0(1)) FUN_008c71b0(this);
 }

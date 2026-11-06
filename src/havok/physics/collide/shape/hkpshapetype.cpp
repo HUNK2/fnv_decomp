@@ -5,7 +5,8 @@
 #include "../../../../../include/hkpCollisionDispatcher.h"
 
 // @fnv 0x00d46410
-void FUN_00d46410(hkpCollisionDispatcher* dispatcher)
+// src: GUESS 0x00d46410 (confidence: low)
+void hkpCollisionDispatcher_ProcessState_00d46410(hkpCollisionDispatcher* dispatcher)
 {
     dispatcher->registerAlternateShapeType(1, 0x12);
     dispatcher->registerAlternateShapeType(3, 0x12);

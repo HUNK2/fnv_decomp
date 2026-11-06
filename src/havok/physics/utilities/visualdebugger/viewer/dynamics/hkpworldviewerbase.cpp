@@ -225,7 +225,8 @@ struct Flag
 
 // Compares unk08 of two Item objects and returns a Flag holding whether the first is less than the second.
 // @fnv 0x00ddcda0
-Flag __cdecl FUN_00ddcda0(Item* apLeft, Item* apRight)
+// src: GUESS 0x00ddcda0 (confidence: low)
+Flag __cdecl Object_CompareField08_00ddcda0(Item* apLeft, Item* apRight)
 {
     bool r;
     if (apLeft->unk08 < apRight->unk08)
@@ -352,20 +353,21 @@ Derived::Derived()
 struct A1_00ddcd60
 {
     A1_00ddcd60();
-    virtual void FUN_00ddcd60();
+    virtual void AdjustThisAndForward_00ddcd60();
     char pad[0x04];
 };
 struct A2_00ddcd60
 {
     A2_00ddcd60();
-    virtual void FUN_00ddcd60();
+    virtual void AdjustThisAndForward_00ddcd60();
 };
 struct Own_00ddcd60 : A1_00ddcd60, A2_00ddcd60
 {
     Own_00ddcd60();
     virtual void key_fn();
 // @fnv 0x00ddcd60
-    void FUN_00ddcd60();
+// src: GUESS 0x00ddcd60 (confidence: low)
+    void AdjustThisAndForward_00ddcd60();
 };
 Own_00ddcd60::Own_00ddcd60()
 {}

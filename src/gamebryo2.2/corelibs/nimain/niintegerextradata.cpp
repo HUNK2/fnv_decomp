@@ -38,7 +38,7 @@ extern int DAT_010a0d24;
 void __fastcall DestroyIntegerExtraData(NiIntegerExtraData* data)
 {
     *reinterpret_cast<int**>(data) = &DAT_010a0d24;
-    data->NiExtraData::FUN_00a7b300();
+    data->NiExtraData::DestroyFields_00a7b300();
 }
 
 // @fnv 0x00a99cd0
@@ -61,7 +61,7 @@ void __cdecl operator delete(void*, unsigned int);
 void* __fastcall DeleteIntegerExtraData(NiIntegerExtraData* data, void*, unsigned int auiFlags)
 {
     *reinterpret_cast<int**>(data) = &DAT_010a0d24;
-    data->NiExtraData::FUN_00a7b300();
+    data->NiExtraData::DestroyFields_00a7b300();
     if (auiFlags & 1)
         ::operator delete(data, 0x10);
     return data;
@@ -95,12 +95,12 @@ void __fastcall GetIntegerExtraDataViewerStrings(NiIntegerExtraData* data, void*
     apViewerStrings->SetAt(index, pString);
 }
 
-extern "C" void* __cdecl FUN_00aa13e0(unsigned int);
+extern "C" void* __cdecl Object_DispatchCommandFour(unsigned int);
 // @fnv 0x00a99c80
 NiIntegerExtraData* __fastcall CreateIntegerExtraData(NiIntegerExtraData* data, void*, unsigned int argument)
 {
     NiIntegerExtraData* result;
-    NiIntegerExtraData* allocated = (NiIntegerExtraData*)FUN_00aa13e0(16);
+    NiIntegerExtraData* allocated = (NiIntegerExtraData*)Object_DispatchCommandFour(16);
     if (allocated != 0)
     {
         allocated->FUN_00a7b2e0();

@@ -26,12 +26,12 @@ struct SharedData_S
 {
     char pad[0xc];
     int m_uiRefCount;
-    void FUN_00a8a670();
+    void ForwardCall_00a8a670();
     void DecRefCount()
     {
         if (--m_uiRefCount == 0)
         {
-            FUN_00a8a670();
+            ForwardCall_00a8a670();
             ::operator delete(this, 0x10);
         }
     }

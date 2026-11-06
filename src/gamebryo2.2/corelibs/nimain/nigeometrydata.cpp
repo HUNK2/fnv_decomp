@@ -398,7 +398,7 @@ inline void NiObjectGroup::DecRefCount()
 {
     if (--m_uiRefCount == 0)
     {
-        FUN_00a8a670();
+        ForwardCall_00a8a670();
         _delete(this, 0x10);
     }
 }
@@ -1681,7 +1681,8 @@ struct BoundEquality : NiBound
         return (static_cast<const Point3Equality&>(m_kCenter) == kBound.m_kCenter &&
                 m_fBoundRadius == kBound.m_fBoundRadius);
     }
-    __declspec(noinline) bool FUN_00a926b0(const NiBound& kBound) const
+// src: GUESS 0x00a926b0 (confidence: high)
+    __declspec(noinline) bool IsDifferent(const NiBound& kBound) const
     {
         return !(*this == kBound);
     }
@@ -1742,7 +1743,7 @@ bool GeometryEquality::NiGeometryData_IsEqual(NiObject* pkObject)
         }
     }
 
-    if (static_cast<BoundEquality*>(&m_kBound)->FUN_00a926b0(pkData->m_kBound))
+    if (static_cast<BoundEquality*>(&m_kBound)->IsDifferent(pkData->m_kBound))
         return false;
 
     if ((m_pkColor && !pkData->m_pkColor) || (!m_pkTexture && pkData->m_pkTexture))
@@ -1769,7 +1770,7 @@ bool GeometryEquality::NiGeometryData_IsEqual(NiObject* pkObject)
         unsigned int ItemUpdateArray = (m_usDataFlags & TEXTURE_SET_MASK) * m_usVertices;
         for (i = 0; i < ItemUpdateArray; i++)
         {
-            if (m_pkTexture[i].FUN_0051c330(pkData->m_pkTexture[i]))
+            if (m_pkTexture[i].ForwardCall_0051c330(pkData->m_pkTexture[i]))
                 return false;
         }
     }
@@ -1892,7 +1893,7 @@ typedef void*(__thiscall* CtorStubEA0)(void*);
 extern "C" void __stdcall _vector_constructor_iterator(void* apvArray, unsigned int uiElemSize, int iCount,
                                                        CtorStubEA0 pfnCtor);
 void FUN_00a67aa0(NiStream& kStream, void* pvDest, int iCount);
-void FUN_00a29680(const char* pcFmt, const char* pcName, int iKBytes);
+void Object_DoNothing(const char* pcFmt, const char* pcName, int iKBytes);
 
 class GeomEA0 : public ObjEA0
 {
@@ -2094,7 +2095,7 @@ void GeomEA0::ReadBinary(NiStream& kStream)
                 NiPoint2* pkTemp = new NiPoint2[uiExtraCount];
                 FUN_00a67aa0(kStream, pkTemp, uiExtraCount);
                 g_memoryManager.Deallocate(pkTemp);
-                FUN_00a29680(&UNK_0109c040, kStream.m_acFileName, (uiExtraCount * 8) >> 10);
+                Object_DoNothing(&UNK_0109c040, kStream.m_acFileName, (uiExtraCount * 8) >> 10);
             }
         }
     }

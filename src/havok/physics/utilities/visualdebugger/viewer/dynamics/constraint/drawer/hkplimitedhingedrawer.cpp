@@ -41,7 +41,7 @@ struct Matrix
 };
 struct Shape
 {
-    void FUN_00de4950(float, float, float, int, const HingeVectorStorageLocal_00de*, const HingeVectorStorageLocal_00de*, const HingeVectorStorageLocal_00de*);
+    void UpdateState_00de4950(float, float, float, int, const HingeVectorStorageLocal_00de*, const HingeVectorStorageLocal_00de*, const HingeVectorStorageLocal_00de*);
 };
 struct Array
 {
@@ -116,7 +116,7 @@ struct Viewer
     void hkpConstraintDrawer_updateCommonParameters(Input*, Matrix*, Matrix*);
     void hkpConstraintDrawer_drawBodyFrames(int, int);
     void hkpConstraintDrawer_drawPivots(int, int);
-    void FUN_00de7a70(Input*, Display*, int, int);
+    void DrawHingeConstraintGeometry(Input*, Display*, int, int);
 };
 __forceinline __m128 broadcast(float value)
 {
@@ -131,7 +131,8 @@ __forceinline __m128 broadcastScalar(float value)
 }
 // Draws lines via display->line and, when data->enabled and the range is small, a shape via display->geometry, using vectors transformed from input->data.
 // @fnv 0x00de7a70
-void Viewer::FUN_00de7a70(Input* input, Display* display, int id, int tag)
+// src: GUESS 0x00de7a70 (confidence: medium)
+void Viewer::DrawHingeConstraintGeometry(Input* input, Display* display, int id, int tag)
 {
     LimitedHingeDataView* data = input->data;
     context.hkpPrimitiveDrawer_setDisplayHandler(display);
@@ -168,7 +169,7 @@ void Viewer::FUN_00de7a70(Input* input, Display* display, int id, int tag)
         float high = data->maximum, low = data->minimum;
         if (high - low < 100000000376832.0)
         {
-            shape.FUN_00de4950(scale * multiplier, low, high, flags, &origin, &axes.axis, &axes.other);
+            shape.UpdateState_00de4950(scale * multiplier, low, high, flags, &origin, &axes.axis, &axes.other);
             scratch.shapes.data = 0;
             scratch.shapes.size = 0;
             scratch.shapes.capacity = 0x80000000;

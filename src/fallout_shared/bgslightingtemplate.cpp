@@ -91,13 +91,13 @@ extern "C" bool __cdecl TESForm_QEndianSwapOnSave();
 // @fnv 0x00526730
 void LightingTemplateOperations::SaveForm()
 {
-    FUN_004855a0();
+    BeginFormRecord();
     if (TESForm_QEndianSwapOnSave())
         Data.Endian();
     TESForm___SaveData(&Data, sizeof(Data));
     if (TESForm_QEndianSwapOnSave())
         Data.Endian();
-    FUN_00485680();
+    FinishFormRecord();
 }
 
 struct SwapTag

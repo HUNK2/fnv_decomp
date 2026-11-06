@@ -18,21 +18,21 @@ extern int DAT_0104e3d0;
 struct FUN_0062d740_shell
 {
     int m_field;
-    void FUN_0062d740();
+    void UpdateFields_0062d740();
 };
 struct FUN_0062dee0_shell
 {
     CombatWorldStateListNode* m_kNode;
-    bool FUN_0062dee0(int arg);
+    bool ProcessEntries_0062dee0(int arg);
 };
 extern int DAT_0104e3f4;
 struct FUN_0062e040_shell
 {
-    void FUN_0062e040();
+    void SetVirtualTable_0062e040();
 };
 struct FUN_0062c700_shell
 {
-    void FUN_0062c700();
+    void ForwardCall_0062c700();
 };
 struct FUN_0062dfe0_shell
 {
@@ -124,7 +124,7 @@ namespace fnv_0062e3c0 {
 // `this` back by the size of the primary base (0x14 = vptr + four int fields).
 struct PrimaryBase
 {
-    virtual void FUN_0062e3c0();
+    virtual void AdjustThisAndForward_0062e3c0();
     int unk04;
     int unk08;
     int unk0C;
@@ -133,14 +133,15 @@ struct PrimaryBase
 
 struct SecondaryBase
 {
-    virtual void FUN_0062e3c0();
+    virtual void AdjustThisAndForward_0062e3c0();
 };
 
 struct Derived : PrimaryBase, SecondaryBase
 {
     Derived();
 // @fnv 0x0062e3c0
-    virtual void FUN_0062e3c0();
+// src: GUESS 0x0062e3c0 (confidence: low)
+    virtual void AdjustThisAndForward_0062e3c0();
 };
 
 Derived::Derived()

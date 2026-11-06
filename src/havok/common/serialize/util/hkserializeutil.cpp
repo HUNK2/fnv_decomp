@@ -7,20 +7,22 @@
 #include "../../../../../include/Pair.h"
 #include "../../../../../include/hkStringPtr.h"
 
-void __cdecl FUN_00d48620(int a, int b, int c);
+void __cdecl Object_ForwardCall_00d48620(int a, int b, int c);
 
 // @fnv 0x00d48640
-void __cdecl FUN_00d48640(int a, int b)
+// src: GUESS 0x00d48640 (confidence: low)
+void __cdecl Object_ForwardCall_00d48640(int a, int b)
 {
-    FUN_00d48620(a, b, 1);
+    Object_ForwardCall_00d48620(a, b, 1);
 }
 
-extern "C" void __cdecl FUN_00d485a0(int, int, int, int, int);
+extern "C" void __cdecl Object_ProcessAndReturnValue_00d485a0(int, int, int, int, int);
 
 // @fnv 0x00d48660
-void __cdecl FUN_00d48660(int a, int b, int c)
+// src: GUESS 0x00d48660 (confidence: low)
+void __cdecl Object_ForwardCall_00d48660(int a, int b, int c)
 {
-    FUN_00d485a0(a, b, c, 1, 0);
+    Object_ProcessAndReturnValue_00d485a0(a, b, c, 1, 0);
 }
 
 extern int DAT_0102e388;
@@ -31,11 +33,12 @@ struct FUN_00dcc160_cls
     void* vtbl;
     int a;
     hkReferencedObject* b;
-    void FUN_00dcc160();
+    void SetVirtualTable_00dcc160();
 };
 
 // @fnv 0x00dcc160
-void FUN_00dcc160_cls::FUN_00dcc160()
+// src: GUESS 0x00dcc160 (confidence: low)
+void FUN_00dcc160_cls::SetVirtualTable_00dcc160()
 {
     hkReferencedObject* old = b;
     vtbl = &DAT_010d7540;
@@ -105,7 +108,7 @@ struct FUN_00dbc670_shell
     void FUN_00dbc670();
     void hkPackfileWriter_setContents(int, int, int);
     int ProcessPoly(int, int);
-    void FUN_00dbc6e0();
+    void SetVirtualTableAndProcessState_00dbc6e0();
 };
 struct GlobalDispatch
 {
@@ -128,7 +131,7 @@ int __cdecl hkSerializeUtil_savePackfile(int a1, int a2, int a3, int a4, int use
             shell->FUN_00dbc670();
             shell->hkPackfileWriter_setContents(a1, a2, a6);
             int result = shell->ProcessPoly(a3, a4);
-            shell->FUN_00dbc6e0();
+            shell->SetVirtualTableAndProcessState_00dbc6e0();
             return result;
         }
         return DAT_01269b74->Dispatch(a1, a2, a3, a4, a6);
@@ -141,7 +144,7 @@ extern void* hkSerializeUtil_load(void* obj_b, int a2, int a3);
 struct CtorBox
 {
     CtorBox* InitFromValue(void* arg);
-    void FUN_00dcc160();
+    void SetVirtualTable_00dcc160();
 
     void* f0;
     int f4;
@@ -156,7 +159,7 @@ void* __cdecl hkSerializeUtil_load_00d48ec0(void* a1, int a2, int a3)
     CtorBox obj;
     CtorBox* p = obj.InitFromValue(a1);
     void* res = hkSerializeUtil_load(p->b, a2, a3);
-    obj.FUN_00dcc160();
+    obj.SetVirtualTable_00dcc160();
     return res;
 }
 
@@ -200,7 +203,7 @@ struct Object180
     int unk04;
     void* unk08;
     Object180* __thiscall hkIstream_hkIstream_00dcc6a0(void* input, int arg2);
-    void __thiscall FUN_00dcc160();
+    void __thiscall SetVirtualTable_00dcc160();
 };
 // @fnv 0x00d48f00
 // src: XBOX_PDB 0x00d48f00
@@ -214,7 +217,7 @@ int __cdecl hkSerializeUtil_load_00d48f00(Header180* pHeader, int arg2, int arg3
     Object180* result = wrapper.hkIstream_hkIstream_00dcc6a0(pHeader, arg2);
     void* payload = result->unk08;
     int value = hkSerializeUtil_load(payload, arg3, arg4);
-    wrapper.FUN_00dcc160();
+    wrapper.SetVirtualTable_00dcc160();
     return value;
 }
 }  // namespace fnv_00d48f00
@@ -343,14 +346,14 @@ struct GlobalObj
 struct Obj5
 {
     void* hkDataClass_getName();
-    void FUN_00dba660();
+    void Object_DoNothing_00dba660();
 };
 
 struct Obj2
 {
     void GetObjectValue(Obj5* apOut);
     int hkDataObject_isNull();
-    void FUN_00dba660();
+    void Object_DoNothing_00dba660();
     void GetSourcePair(Pair* apOut);
 };
 
@@ -404,12 +407,12 @@ Obj1* FUN_00d49420_cls::ProcessPair(Obj1* apArg1, Obj2* apArg2)
             m_08->unk0c(&first, &second);
             if (first == reinterpret_cast<void*>(pair.a) && second == pSecond)
             {
-                local28.FUN_00dba660();
+                local28.Object_DoNothing_00dba660();
             }
             else
             {
                 unk20(apArg1, first, second);
-                local28.FUN_00dba660();
+                local28.Object_DoNothing_00dba660();
                 return apArg1;
             }
         }
@@ -420,7 +423,8 @@ Obj1* FUN_00d49420_cls::ProcessPair(Obj1* apArg1, Obj2* apArg2)
 
 extern volatile int DAT_01269b70;
 
-static __declspec(noinline) int FUN_00d48950(int d, int a, int b, int c)
+// src: GUESS 0x00d48950 (confidence: low)
+static __declspec(noinline) int Hkserializeutil_UpdateState_00d48950(int d, int a, int b, int c)
 {
     int* pb = &b;
     if (d)
@@ -433,7 +437,7 @@ static __declspec(noinline) int FUN_00d48950(int d, int a, int b, int c)
 struct Holder_cls
 {
     int unk00;
-    void FUN_00dba7f0();
+    void ReleaseStorage_00dba7f0();
 };
 
 struct Pending_cls
@@ -451,18 +455,19 @@ struct Owner_cls
 
 // Initialises a Pending_cls and Holder_cls, then returns 1 if a condition on edi_in fails, otherwise calls Owner_cls::FUN_00dba0d0.
 // @fnv 0x00d48a90
-static __declspec(noinline) int FUN_00d48a90(int a1, int esi_in, int edi_in, int ebx_in)
+// src: GUESS 0x00d48a90 (confidence: low)
+static __declspec(noinline) int hkBinaryTagfileReader_load_EvaluateValue_00d48a90(int a1, int esi_in, int edi_in, int ebx_in)
 {
     Pending_cls p;
     Holder_cls h;
 
     p.FUN_00dc5d30();
     p.hkBinaryTagfileReader_load(&h, a1, esi_in);
-    h.FUN_00dba7f0();
+    h.ReleaseStorage_00dba7f0();
 
     if (edi_in != 0)
     {
-        if (FUN_00d48950(edi_in, esi_in, DAT_01269b70, ebx_in) == 0)
+        if (Hkserializeutil_UpdateState_00d48950(edi_in, esi_in, DAT_01269b70, ebx_in) == 0)
         {
             return 1;
         }
@@ -472,7 +477,7 @@ static __declspec(noinline) int FUN_00d48a90(int a1, int esi_in, int edi_in, int
 
 int __cdecl S00d48a90_Entry(int a1)
 {
-    return FUN_00d48a90(a1, 0, 0, 0);
+    return hkBinaryTagfileReader_load_EvaluateValue_00d48a90(a1, 0, 0, 0);
 }
 
 struct S00d48d30_Bool
@@ -547,7 +552,8 @@ int S00d48d30_Finish(int opts);
 void hkSerializeUtil_detectFormat(void* stream, int* out) throw();
 int __cdecl hkDataObjectUtil_toResourceWithRegistry(const S00d48d30_Ref& r, int opts);
 
-static __declspec(noinline) int FUN_00d48a90(S00d48d30_Stream* s, S00d48d30_Reader* reader, S00d48d30_Result* out)
+// src: GUESS 0x00d48a90 (confidence: low)
+static __declspec(noinline) int hkBinaryTagfileReader_load_EvaluateValue_00d48a90(S00d48d30_Stream* s, S00d48d30_Reader* reader, S00d48d30_Result* out)
 {
     reader->prepare();
     if (reader->open(s) == 0)
@@ -563,7 +569,8 @@ static __declspec(noinline) int FUN_00d48a90(S00d48d30_Stream* s, S00d48d30_Read
     return 0;
 }
 
-static __declspec(noinline) int FUN_00d48760(S00d48d30_Stream* s, S00d48d30_Format* format, S00d48d30_Result* out,
+// src: GUESS 0x00d48760 (confidence: low)
+static __declspec(noinline) int Object_ProcessAndReturnValue_00d48760(S00d48d30_Stream* s, S00d48d30_Format* format, S00d48d30_Result* out,
                                              int opts)
 {
     if (format->m_type < 2)
@@ -619,11 +626,11 @@ int __cdecl hkSerializeUtil_load(S00d48d30_Stream* apStream, S00d48d30_Result* a
     {
     case 2:
     case 3:
-        return FUN_00d48760(apStream, &format, apResult,
+        return Object_ProcessAndReturnValue_00d48760(apStream, &format, apResult,
                             reinterpret_cast<S00d48d30_Service*>(DAT_01268b08)->getLoadOptions());
     case 4: {
         S00d48d30_Reader reader;
-        if (FUN_00d48a90(apStream, &reader, apResult) == 0)
+        if (hkBinaryTagfileReader_load_EvaluateValue_00d48a90(apStream, &reader, apResult) == 0)
         {
             return hkDataObjectUtil_toResourceWithRegistry(reader.ForwardToReceiver(), aiOptions);
         }
@@ -683,7 +690,8 @@ struct S00d48680_Obj
 
 // Reads data into arr from obj, growing the buffer via FUN_00c908c0 when the requested size exceeds the current capacity.
 // @fnv 0x00d48680
-static __declspec(noinline) void FUN_00d48680(S00d48680_Obj* apReader, S00d48680_Arr* apBuffer)
+// src: GUESS 0x00d48680 (confidence: medium)
+static __declspec(noinline) void Object_ReadIntoGrowingBuffer(S00d48680_Obj* apReader, S00d48680_Arr* apBuffer)
 {
     unsigned char flag;
     if (apReader->v9(flag))
@@ -731,7 +739,7 @@ static __declspec(noinline) void FUN_00d48680(S00d48680_Obj* apReader, S00d48680
 
 void __cdecl S00d48680_Entry(S00d48680_Obj* obj, S00d48680_Arr* arr)
 {
-    FUN_00d48680(obj, arr);
+    Object_ReadIntoGrowingBuffer(obj, arr);
 }
 
 struct HashPolicy
@@ -827,17 +835,18 @@ struct RootObject
 {
     ObjectImpl* impl;
     void hkDataObject_hkDataObject(ObjectImpl*) throw();
-    __declspec(noinline) void FUN_00dba7f0() throw();
+    __declspec(noinline) void ReleaseStorage_00dba7f0() throw();
     RootObject(ObjectImpl* p) throw()
     {
         hkDataObject_hkDataObject(p);
     }
     void clear() throw()
     {
-        FUN_00dba7f0();
+        ReleaseStorage_00dba7f0();
     }
 };
-__declspec(noinline) void RootObject::FUN_00dba7f0() throw()
+// src: GUESS 0x00dba7f0 (confidence: low)
+__declspec(noinline) void RootObject::ReleaseStorage_00dba7f0() throw()
 {
     if (impl)
     {
@@ -862,7 +871,7 @@ struct NativeWorld
     void Initialize() throw();
     void FUN_00dbb3f0() throw();
     void SetReferencedObject(const ClassRegistry*) throw();
-    ObjectImpl* FUN_00dbb4f0(void*, const RuntimeClass&) const throw();
+    ObjectImpl* SetNativeDataObjectFromPair(void*, const RuntimeClass&) const throw();
     NativeWorld() throw()
     {
         Initialize();
@@ -912,7 +921,7 @@ extern "C" const char* __cdecl hkVersionUtil_getCurrentVersion() throw();
 extern "C" Resource* __cdecl CreateResourceFromArray(const void*, int, const TypeRegistry*) throw();
 extern unsigned int DAT_011b7b88;
 extern const char str_010cf9d8[];
-void __cdecl FUN_00d48680(LoadStream&, LoadBuffer&) throw();
+void __cdecl Object_ReadIntoGrowingBuffer(LoadStream&, LoadBuffer&) throw();
 struct DeprecatedLoader
 {
     virtual void v0();
@@ -922,7 +931,8 @@ struct DeprecatedLoader
     virtual void v4();
     virtual Resource* load(LoadStream&, const LoadFormat&, LoadError*) throw();
 };
-static __declspec(noinline) __declspec(nothrow) Resource* FUN_00d48760(LoadStream& input, const LoadFormat& format,
+// src: GUESS 0x00d48760 (confidence: low)
+static __declspec(noinline) __declspec(nothrow) Resource* Object_ProcessAndReturnValue_00d48760(LoadStream& input, const LoadFormat& format,
                                                                        LoadError* error,
                                                                        const TypeRegistry& types) throw()
 {
@@ -936,7 +946,7 @@ static __declspec(noinline) __declspec(nothrow) Resource* FUN_00d48760(LoadStrea
                 buffer.data = 0;
                 buffer.size = 0;
                 buffer.capacity = 0x80000000;
-                FUN_00d48680(input, buffer);
+                Object_ReadIntoGrowingBuffer(input, buffer);
                 Resource* result = CreateResourceFromArray(buffer.data, buffer.size, &types);
                 LoadMemory* memory = (LoadMemory*)hkMemoryRouter_getInstance();
                 buffer.size = 0;
@@ -960,20 +970,21 @@ static __declspec(noinline) __declspec(nothrow) Resource* FUN_00d48760(LoadStrea
 
 // Loads a resource via FUN_00d48760, resolves its class in classes, and constructs an ObjectResource from the parsed data.
 // @fnv 0x00d48840
-static __declspec(noinline) ObjectResource* FUN_00d48840(LoadStream* input, LoadFormat& format, LoadError* error,
+// src: GUESS 0x00d48840 (confidence: medium)
+static __declspec(noinline) ObjectResource* Object_LoadClassResource(LoadStream* input, LoadFormat& format, LoadError* error,
                                                          const ClassRegistry* classes, const TypeRegistry* types)
 {
     TypeRegistry unfinished(0);
     unfinished.hkTypeInfoRegistry_merge(*types);
     ResourceRef resource;
-    resource.take((Resource*)FUN_00d48760((S00d48d30_Stream*)input, (S00d48d30_Format*)&format,
+    resource.take((Resource*)Object_ProcessAndReturnValue_00d48760((S00d48d30_Stream*)input, (S00d48d30_Format*)&format,
                                           (S00d48d30_Result*)error, (int)&unfinished));
     NativeWorld data;
     data.SetReferencedObject(classes);
     const RuntimeClass* rootClass = classes->find(resource->name());
     if (rootClass)
     {
-        RootObject root(data.FUN_00dbb4f0(resource->contents(0, types), *rootClass));
+        RootObject root(data.SetNativeDataObjectFromPair(resource->contents(0, types), *rootClass));
         ObjectResource* result = hkDataObjectUtil_toObjectWithRegistry(root, classes, types);
         root.clear();
         data.clear();
@@ -994,7 +1005,7 @@ const TypeRegistry* volatile typeSource;
 ObjectResource* volatile outputSink;
 void CallHeapLoader()
 {
-    outputSink = FUN_00d48840(inputSource, *formatSource, errorSource, classSource, typeSource);
+    outputSink = Object_LoadClassResource(inputSource, *formatSource, errorSource, classSource, typeSource);
 }
 
 extern const char str_010cf9f4[];
@@ -1067,7 +1078,8 @@ struct S00d48950_Sys
 
 // For each root item, checks lookup and adds it to target's set when versions differ; returns 0 with result code 4 on failure, otherwise 1.
 // @fnv 0x00d48950
-static __declspec(noinline) int FUN_00d48950(S00d48950_Result* result, S00d48950_Target* target,
+// src: GUESS 0x00d48950 (confidence: low)
+static __declspec(noinline) int Hkserializeutil_UpdateState_00d48950(S00d48950_Result* result, S00d48950_Target* target,
                                              S00d48950_Lookup* lookup, S00d48950_Root* root)
 {
     target->hkVersionPatchManager_recomputePatchDependencies();
@@ -1110,5 +1122,5 @@ S00d48950_Root* volatile g00d48950_root;
 volatile int g00d48950_out;
 void S00d48950_Caller()
 {
-    g00d48950_out = FUN_00d48950(g00d48950_result, g00d48950_target, g00d48950_lookup, g00d48950_root);
+    g00d48950_out = Hkserializeutil_UpdateState_00d48950(g00d48950_result, g00d48950_target, g00d48950_lookup, g00d48950_root);
 }

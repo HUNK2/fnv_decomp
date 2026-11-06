@@ -199,7 +199,8 @@ inline hkxNode::hkxNode(FinishingFlag flag) throw()
 {}
 
 // @fnv 0x00dfd800
-void* __cdecl FUN_00dfd800()
+// src: GUESS 0x00dfd800 (confidence: low)
+void* __cdecl Object_ProcessAndReturnValue_00dfd800()
 {
     __declspec(align(16)) unsigned char storage[sizeof(hkxNode)];
     ::new (storage) hkxNode(FinishingFlag(0));

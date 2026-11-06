@@ -119,9 +119,10 @@ void hkFreeListAllocator::FreeBlocks(void** blocks, int numBlocks, int blockSize
 
 // The shared class has no declaration for this return-this destruction wrapper.
 // @fnv 0x00d603e0
-hkFreeListAllocator* __fastcall FUN_00d603e0(hkFreeListAllocator* self, void*, unsigned int uiFlags)
+// src: GUESS 0x00d603e0 (confidence: low)
+hkFreeListAllocator* __fastcall hkFreeListAllocator_ProcessAndReturnValue_00d603e0(hkFreeListAllocator* self, void*, unsigned int uiFlags)
 {
-    self->hkFreeListAllocator::FUN_00d5ffd0();
+    self->hkFreeListAllocator::SetVtableAndProcessState_00d5ffd0();
     return self;
 }
 
@@ -129,12 +130,13 @@ struct FUN_00d61f30_shell
 {
     void FUN_00d61cc0();
     void AppendStrings(int a, int b, int c, int d, int e, int f);
-    void FUN_00d61f30(int a, int b, int c, int d, int e, int f);
+    void AppendStringsAfterInitialization(int a, int b, int c, int d, int e, int f);
 };
 
 // Calls FUN_00d61cc0, then forwards the six arguments to AppendStrings.
 // @fnv 0x00d61f30
-void FUN_00d61f30_shell::FUN_00d61f30(int a, int b, int c, int d, int e, int f)
+// src: GUESS 0x00d61f30 (confidence: medium)
+void FUN_00d61f30_shell::AppendStringsAfterInitialization(int a, int b, int c, int d, int e, int f)
 {
     FUN_00d61cc0();
     AppendStrings(a, b, c, d, e, f);
@@ -164,7 +166,8 @@ void hkFreeListAllocator::blockAlloc_00d5f970(int a)
 }
 
 // @fnv 0x00d5fba0
-int hkFreeListAllocator::FUN_00d5fba0()
+// src: GUESS 0x00d5fba0 (confidence: low)
+int hkFreeListAllocator::GetUnkA94_00d5fba0()
 {
     return unkA94;
 }
@@ -1000,12 +1003,13 @@ extern "C" __declspec(dllimport) void __stdcall DeleteCriticalSection(void*);
 
 struct EmbeddedMember
 {
-    void __thiscall FUN_00dd7ec0();
+    void __thiscall ProcessEntries_00dd7ec0();
 };
 
 // Sets the vtable, calls cleanup and member functions, deletes the critical section, then calls another member function.
 // @fnv 0x00d5ffd0
-void hkFreeListAllocator::FUN_00d5ffd0()
+// src: GUESS 0x00d5ffd0 (confidence: low)
+void hkFreeListAllocator::SetVtableAndProcessState_00d5ffd0()
 {
     *reinterpret_cast<void**>(this) = &DAT_010d1464;
     hkFreeListAllocator::quit_00d5ff50();
@@ -1014,7 +1018,7 @@ void hkFreeListAllocator::FUN_00d5ffd0()
     {
         (--end)->freeAllMemory();
     }
-    reinterpret_cast<EmbeddedMember*>(unk28)->FUN_00dd7ec0();
+    reinterpret_cast<EmbeddedMember*>(unk28)->ProcessEntries_00dd7ec0();
     DeleteCriticalSection(&m_cs);
     hkMemoryAllocator::~hkMemoryAllocator();
 }

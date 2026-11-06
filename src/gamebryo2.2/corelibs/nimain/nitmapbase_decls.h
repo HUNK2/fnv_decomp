@@ -43,7 +43,7 @@ struct FUN_00404d30_Owner
 struct FUN_00845690_Owner
 {
     FUN_00845690_Owner* Destructor(unsigned int flags);
-    void FUN_008456c0();
+    void Object_ForwardCall_008456c0();
 };
 class TESObjectCELL;
 class TESObjectCELL;

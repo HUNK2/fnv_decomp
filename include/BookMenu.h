@@ -51,7 +51,7 @@ public:
     void* FUN_00726070();
     int GetClass_0073acf0();
     void* FUN_0073ad00(unsigned int flags);
-    void FUN_0073ad30();
+    void SetVtableAndProcessState_0073ad30();
     bool IsWellFormedMenu();
     void DoDownClick(int aiID, Tile* apTarget);
     void DoStillDown(int aiID, Tile* apTarget);

@@ -108,7 +108,7 @@ struct HashTableBase
     void InsertKeyValue(void* allocator, unsigned int first, unsigned int second, __int64 value);
     void hkMapBase_unsigned_int64_unsigned_int64_hkMapOperations_unsigned_int64_remove(int index);
     void hkMapBase_unsigned_int64_unsigned_int64_hkMapOperations_unsigned_int64_clearAndDeallocate(void* allocator);
-    void FUN_00a29680();
+    void Object_DoNothing();
 };
 struct ScratchAllocator
 {
@@ -304,7 +304,7 @@ void __cdecl hkpTypedBroadPhaseDispatcher_removeDuplicates(EdgeArray* apEdgesA, 
     }
     ShrinkEdges(apEdgesA, size, GetPool()->allocator);
     table.hkMapBase_unsigned_int64_unsigned_int64_hkMapOperations_unsigned_int64_clearAndDeallocate(GetPool()->allocator);
-    table.FUN_00a29680();
+    table.Object_DoNothing();
     ScratchAllocator& scratchRef = GetPool()->Scratch();
     if ((descriptor & 0x80000000) == 0)
         scratchRef.Release(pBuffer, descriptor & 0x3fffffff);

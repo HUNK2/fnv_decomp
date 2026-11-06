@@ -32,7 +32,8 @@ NiDepthStencilBuffer* NiDepthStencilBuffer::Create(unsigned int width, unsigned 
 extern "C" void* g_011f6048;
 
 // @fnv 0x00aa06e0
-void* NiSingleShaderMaterial::FUN_00aa06e0()
+// src: GUESS 0x00aa06e0 (confidence: low)
+void* NiSingleShaderMaterial::GetGlobalObjectAddress_00aa06e0()
 {
     return &g_011f6048;
 }
@@ -174,7 +175,7 @@ NiSingleShaderMaterial* NiSingleShaderMaterial::Destroy(unsigned char acFlags)
     return this;
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int uiSize) throw();
+void* __cdecl Object_DispatchCommandFour(unsigned int uiSize) throw();
 
 inline NiFixedString::operator const char*() const
 {
@@ -197,7 +198,7 @@ private:
     };
 };
 
-NiSingleShaderMaterial* __cdecl FUN_00a8fe20(const char* const& pcName) throw();
+NiSingleShaderMaterial* __cdecl Object_FindGlobalHashValue(const char* const& pcName) throw();
 
 // The approved header lacks the non-throwing material constructor.
 extern "C" __declspec(nothrow) void ConstructSingleShaderMaterial();
@@ -212,10 +213,10 @@ inline NiSingleShaderMaterial* InitializeSingleShaderMaterial(NiSingleShaderMate
 // @fnv 0x00aa08d0
 NiSingleShaderMaterial* __cdecl FindOrCreateShaderEntry(const char* pcName, bool bFlag)
 {
-    NiSingleShaderMaterial* pkFound = FUN_00a8fe20(NiFixedString(pcName));
+    NiSingleShaderMaterial* pkFound = Object_FindGlobalHashValue(NiFixedString(pcName));
     if (pkFound)
         return pkFound;
-    NiSingleShaderMaterial* material = reinterpret_cast<NiSingleShaderMaterial*>(FUN_00aa13e0(sizeof(NiSingleShaderMaterial)));
+    NiSingleShaderMaterial* material = reinterpret_cast<NiSingleShaderMaterial*>(Object_DispatchCommandFour(sizeof(NiSingleShaderMaterial)));
     return material ? InitializeSingleShaderMaterial(material,
         DeferredConstruction<NiFixedString>().Construct(pcName), pcName, bFlag) : 0;
 }

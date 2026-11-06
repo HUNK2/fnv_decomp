@@ -61,7 +61,7 @@ extern "C" void __cdecl __Dummy_00b6fef0(void*, unsigned int);
 // @fnv 0x00a35820
 void* NiControllerSequence::FUN_00a35820(unsigned int flags)
 {
-    FUN_00a35640();
+    ProcessState_00a35640();
     if (flags & 1)
         __Dummy_00b6fef0(this, 0x74);
     return this;
@@ -288,7 +288,8 @@ struct FUN_00a31740_shell
 
 
 // @fnv 0x00a35640
-void NiControllerSequence::FUN_00a35640()
+// src: GUESS 0x00a35640 (confidence: low)
+void NiControllerSequence::ProcessState_00a35640()
 {
     *reinterpret_cast<void**>(this) = &DAT_01096584;
 
@@ -801,7 +802,7 @@ struct FUN_00a317e0_interp
     void* unk04;
     void* unk08;
     void* unk0C;
-    void __thiscall FUN_00a31260();
+    void __thiscall ReleaseReferencedObjectsAndResetFlags();
 };
 
 struct FUN_00a317e0_tag
@@ -823,7 +824,7 @@ __declspec(noalias) void __thiscall NiControllerSequence::AssignInterpolatorRef(
     if (pNewRef)
         DAT_00fdf1c0((int*)&pNewRef->m_uiRefCount);
 
-    reinterpret_cast<FUN_00a317e0_interp*>(m_pInterpArray + index)->FUN_00a31260();
+    reinterpret_cast<FUN_00a317e0_interp*>(m_pInterpArray + index)->ReleaseReferencedObjectsAndResetFlags();
 
     reinterpret_cast<FUN_00a317e0_tag*>(m_pkIDTags + index)->ResetStrings();
 
@@ -1785,13 +1786,13 @@ void A33950Object::LoadFromStream(void* streamObject)
         SequenceReadStream(*stream)->ReadScalar(&flag0d, 1);
 }
 
-extern "C" void* __cdecl FUN_00aa13e0(unsigned int size);
+extern "C" void* __cdecl Object_DispatchCommandFour(unsigned int size);
 
 
 // @fnv 0x00a344f0
 NiObject* NiControllerSequence::MakeClone(CloningProcess& cloning)
 {
-    void* p = FUN_00aa13e0(0x74);
+    void* p = Object_DispatchCommandFour(0x74);
     void* result = p ? ((NiControllerSequence*)p)->FUN_00a316a0() : 0;
     NiControllerSequence_CopyMembers((NiControllerSequence*)result, (int)&cloning);
     return (NiObject*)result;
@@ -2100,7 +2101,7 @@ char* __cdecl FUN_00a5b690(const char*);
 void __cdecl FUN_00fdad60();
 void __cdecl FUN_00fdad80();
 extern "C" int __cdecl atexit(void(__cdecl*)());
-void* __cdecl FUN_00aa13e0(unsigned int);
+void* __cdecl Object_DispatchCommandFour(unsigned int);
 // The shared NiInterpController has no explicit constructor declaration.
 // Initialize that base through the original constructor before the shared fields.
 void* __fastcall NiInterpController_NiInterpController(void*);
@@ -2252,7 +2253,7 @@ bool NiControllerSequence::ResolveTransformInterpolators(NiAVObject* targetObjec
         if (usExistingTargets && !ctrl)
         {
             MorphController31910* tag;
-            tag = (MorphController31910*)FUN_00aa13e0(0x40);
+            tag = (MorphController31910*)Object_DispatchCommandFour(0x40);
             if (tag)
             {
                 ctrl = ConstructMultiTargetController((NiMultiTargetTransformController*)tag, usExistingTargets);
@@ -2270,7 +2271,7 @@ bool NiControllerSequence::ResolveTransformInterpolators(NiAVObject* targetObjec
         }
         if (uiMorphEntries && !pMorphCtrl)
         {
-            MorphController31910* tag = (MorphController31910*)FUN_00aa13e0(0x44);
+            MorphController31910* tag = (MorphController31910*)Object_DispatchCommandFour(0x44);
             if (tag)
             {
                 tag = tag->FUN_00a36070(uiMorphEntries, usMorphTargetCount);
@@ -3386,7 +3387,7 @@ extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volati
 
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 
-extern "C" void* __cdecl FUN_00aa13e0(unsigned int);
+extern "C" void* __cdecl Object_DispatchCommandFour(unsigned int);
 
 
 namespace a3 {
@@ -3518,7 +3519,7 @@ void __cdecl ConvertOldSequence(OldSequence* pkOld, SeqPtr<NiControllerSequence>
 
 {
 
-    void* pvRaw = FUN_00aa13e0(0x74);
+    void* pvRaw = Object_DispatchCommandFour(0x74);
 
     unsigned int ItemUpdateArray = pvRaw != 0 ? pkOld->m_usElementCount : 0;
 
@@ -3741,12 +3742,13 @@ class S00a31880_FUN_00a31880_cls
     unsigned char m_0c;
     unsigned char m_0d;
 
-    S00a31880_FUN_00a31880_cls* FUN_00a31880(S00a31880_FUN_00a31880_cls* src);
+    S00a31880_FUN_00a31880_cls* CopyRetainedFields(S00a31880_FUN_00a31880_cls* src);
 };
 
 // Copies reference-counted pointers and plain fields from src, managing ref counts for the two NiRefObject pointers.
 // @fnv 0x00a31880
-S00a31880_FUN_00a31880_cls* S00a31880_FUN_00a31880_cls::FUN_00a31880(S00a31880_FUN_00a31880_cls* src)
+// src: GUESS 0x00a31880 (confidence: medium)
+S00a31880_FUN_00a31880_cls* S00a31880_FUN_00a31880_cls::CopyRetainedFields(S00a31880_FUN_00a31880_cls* src)
 {
     NiRefObject* pOldRef0 = m_00;
     if (pOldRef0 != src->m_00)

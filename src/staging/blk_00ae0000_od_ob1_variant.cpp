@@ -36,7 +36,7 @@ struct FUN_00ae8dc0_Class
     bool IsEqual(int a, int b);
 };
 extern "C" long __cdecl _fseek(void* stream, long offset, int whence);
-long __cdecl FUN_00aea180(void* stream, long offset, int whence, int pad);
+long __cdecl Object_SeekStreamIfPresent(void* stream, long offset, int whence, int pad);
 extern int DAT_010a39d8;
 struct FUN_00ad7000_stub
 {
@@ -45,7 +45,7 @@ struct FUN_00ad7000_stub
 struct FUN_00aea210_Class
 {
     void* vtbl;
-    void FUN_00aea210();
+    void SetVtableAndProcessState_00aea210();
 };
 struct FUN_00aea890_Class
 {
@@ -63,37 +63,37 @@ struct FUN_00aeaab0_Class
     void* m_pObjectAt88;
     char bVisible;
     int m_iValueAt90;
-    void FUN_00aeaab0();
+    void SetVtableAndProcessState_00aeaab0();
 };
 extern "C" long __cdecl _fseek(void* stream, long offset, int whence);
-long __cdecl FUN_00af1cf0(void* stream, long offset, int whence, int pad);
+long __cdecl Runtime_SeekStreamOrFail_00af1cf0(void* stream, long offset, int whence, int pad);
 extern int DAT_010a4288;
 struct FUN_00af2f20_Class
 {
-    void __thiscall FUN_00af2f20();
+    void __thiscall SetVirtualTable_00af2f20();
 };
 struct FUN_00af3120_Class
 {
-    void __thiscall FUN_00af3120();
+    void __thiscall SetVirtualTable_00af3120();
 };
 extern int DAT_010a42cc;
 struct FUN_00af33f0_Class
 {
     void* vtbl;
     int x;
-    void* FUN_00af33f0();
+    void* SetVtableAndProcessState_00af33f0();
 };
 extern int DAT_010a42cc;
 struct FUN_00af3420_Class
 {
     void* vtbl;
-    void __thiscall FUN_00af3420();
+    void __thiscall SetVirtualTable_00af3420();
 };
 extern int DAT_010a42dc;
 struct FUN_00af35c0_Class
 {
     void* vtbl;
-    void FUN_00af35c0();
+    void SetVirtualTable_00af35c0();
 };
 extern int DAT_010a42ec;
 struct FUN_00af38d0_Class
@@ -107,7 +107,7 @@ extern int DAT_010a42fc;
 struct FUN_00af39c0_Class
 {
     void* vtbl;
-    void FUN_00af39c0();
+    void SetVirtualTable_00af39c0();
 };
 extern int DAT_010a4318;
 struct FUN_00af3a80_Class
@@ -132,7 +132,7 @@ struct FUN_00afd960_Class
 {
     void* vtbl;
     int iField;
-    void FUN_00afd960();
+    void ProcessState_00afd960();
 };
 struct FileFinder
 {
@@ -179,7 +179,7 @@ struct DownloadableContentManager
 {
     static void __cdecl GetRandomGenerator();
 };
-char __cdecl FUN_00af2750();
+char __cdecl Runtime_EvaluateValue_00af2750();
 struct FUN_00af2c50_Class
 {
     bool return_0_5(int a, int b);
@@ -263,10 +263,10 @@ struct S00a0d390
     void* p;
 
     void __thiscall ClearAll();
-    void __thiscall FUN_00ae8c30();
+    void __thiscall SetVtableAndProcessState_00ae8c30();
 };
 void __cdecl _NiFree(void* p);
-long FUN_00aeabf0(void* stream, long offset, int whence, int pad);
+long Runtime_SeekStreamOrFail(void* stream, long offset, int whence, int pad);
 struct FUN_00aefd90_Class
 {
     void __thiscall BSWin32GameSound_SetEmitterFront(int a, int b, int c);
@@ -287,7 +287,7 @@ struct FUN_00af2ed0_Class
 extern int DAT_010a42ec;
 struct FUN_00af3900_Class
 {
-    void __thiscall FUN_00af3900();
+    void __thiscall SetVirtualTable_00af3900();
 };
 struct FUN_00af3980_Class
 {
@@ -342,7 +342,7 @@ struct FUN_00ae78a0_cls
     int unk3C;
     void* m_h40;
     void FUN_00aa63c0();
-    void FUN_00ae78a0();
+    void CloseAudioManagerHandles();
 };
 struct FUN_00ae8010_node
 {
@@ -587,10 +587,11 @@ struct S_00ae9290_Class
 {
     void* p;
 
-    void __thiscall FUN_00ae9290();
+    void __thiscall UpdateState_00ae9290();
 };
 // @fnv 0x00ae9290
-void __thiscall S_00ae9290_Class::FUN_00ae9290()
+// src: GUESS 0x00ae9290 (confidence: low)
+void __thiscall S_00ae9290_Class::UpdateState_00ae9290()
 {
     if (this->p != 0)
     {
@@ -2311,7 +2312,7 @@ struct FnvEmptyThiscall70_Class
 // instead of a bare `pop ebp; ret`.
 struct FnvEmptyThiscall_Class
 {
-    void FUN_00af2c80();
+    void DoNothing_00af2c80();
 };
 extern "C" __declspec(dllimport) bool __cdecl SteamAPI_IsSteamRunning();
 extern "C" __declspec(dllimport) unsigned int __cdecl SteamUser();
@@ -2356,7 +2357,7 @@ struct FUN_00afdb80_cls
     char pad00[8];
     unsigned int* m_08;
 
-    void FUN_00afdb80();
+    void UpdateFields_00afdb80();
 };
 unsigned int* __cdecl FUN_00ec3bad(unsigned int* value);
 struct FUN_00afdc00_Item
@@ -3209,11 +3210,12 @@ class AE8DE0_Class
   public:
     int unk00;
 
-    void FUN_00ae8de0(AE8DE0_Record* a1, int a2, NiObjPtr a3);
+    void UpdateFields_00ae8de0(AE8DE0_Record* a1, int a2, NiObjPtr a3);
 };
 
 // @fnv 0x00ae8de0
-void AE8DE0_Class::FUN_00ae8de0(AE8DE0_Record* a1, int a2, NiObjPtr a3)
+// src: GUESS 0x00ae8de0 (confidence: low)
+void AE8DE0_Class::UpdateFields_00ae8de0(AE8DE0_Record* a1, int a2, NiObjPtr a3)
 {
     a1->m_04 = a2;
     a1->m_08 = a3;
@@ -3241,11 +3243,12 @@ struct FUN_00ae8e70_cls
     void* m_08;
 
     void ClearAll();
-    void FUN_00ae8e70();
+    void SetVtableAndProcessState_00ae8e70();
 };
 
 // @fnv 0x00ae8e70
-void FUN_00ae8e70_cls::FUN_00ae8e70()
+// src: GUESS 0x00ae8e70 (confidence: low)
+void FUN_00ae8e70_cls::SetVtableAndProcessState_00ae8e70()
 {
     *(void**)this = (void*)&DAT_010a3308;
     {
@@ -4970,11 +4973,12 @@ struct ArchiveHeader
     unsigned int m_uiCRC;
     unsigned short m_usElementCount;
 
-    void FUN_00afd9d0();
+    void ProcessState_00afd9d0();
 };
 
 // @fnv 0x00afd9d0
-void ArchiveHeader::FUN_00afd9d0()
+// src: GUESS 0x00afd9d0 (confidence: low)
+void ArchiveHeader::ProcessState_00afd9d0()
 {
     NiEndianSwap(m_uiMagic, Flag());
     NiEndianSwap(m_uiSize, Flag());
@@ -5622,7 +5626,8 @@ struct AudioVec
     {}
     AudioVec(float a, float b, float c) : x(a), y(b), z(c)
     {}
-    inline AudioVec FUN_00439ef0(const AudioVec& rhs) const
+// src: GUESS 0x00439ef0 (confidence: high)
+    inline AudioVec SubtractIntoVector(const AudioVec& rhs) const
     {
         const AudioVec* self = this;
         return AudioVec(self->x - rhs.x, self->y - rhs.y, self->z - rhs.z);
@@ -5891,9 +5896,9 @@ void AudioSound::BSWin32GameSound_UpdateEmitterPosition()
                 float projection = 0.0f, squaredLength = 0.0f, fractionX = 0.0f;
                 AudioVec center = GetSystem()->GetListener()->Position();
                 AudioVec direction2;
-                direction2 = source.FUN_00439ef0(point);
+                direction2 = source.SubtractIntoVector(point);
                 AudioVec delta;
-                delta = center.FUN_00439ef0(point);
+                delta = center.SubtractIntoVector(point);
                 projection = delta.DotProduct(direction2);
                 if (projection <= 0.0)
                 {
@@ -5924,12 +5929,12 @@ void AudioSound::BSWin32GameSound_UpdateEmitterPosition()
             float distance = this->distance;
             if (IsSegment() && HasSegment() && GetSystem()->GetListener())
             {
-                distance = projected3.FUN_00439ef0(GetSystem()->GetListener()->Position()).FUN_00457990();
+                distance = projected3.SubtractIntoVector(GetSystem()->GetListener()->Position()).FUN_00457990();
                 this->distance = distance;
             }
             else if (GetSystem()->GetListener())
             {
-                distance = point.FUN_00439ef0(GetSystem()->GetListener()->Position()).FUN_00457990();
+                distance = point.SubtractIntoVector(GetSystem()->GetListener()->Position()).FUN_00457990();
                 this->distance = distance;
             }
             if (Absolute(outer - inner) > 10.0 && outer * DAT_010290f8 > distance)

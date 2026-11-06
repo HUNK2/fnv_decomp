@@ -61,22 +61,22 @@ inline hkpCollisionDispatcher::Agent3FunctionTable::Agent3FunctionTable()
 // src/havok/physics/collide/agent3/convexlist3/hkpconvexlistagent3.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent3/convexlist3/hkpconvexlistagent3.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-void __cdecl FUN_00da3510(void* a, void* b);
+void __cdecl hkpAgent1nSector_ProcessEntries_00da3510(void* a, void* b);
 
 // @fnv 0x00d32b20
 void __cdecl CallIfNotFlagged(int aiUnused, int pObject, int c)
 {
     if (!(*(char*)(pObject + 0xb) & 0x20))
-        FUN_00da3510((void*)(pObject + 0x10), (void*)c);
+        hkpAgent1nSector_ProcessEntries_00da3510((void*)(pObject + 0x10), (void*)c);
 }
 
 void __cdecl SetFlagAndCall(int, int, int);
 void __cdecl hkConvexListAgent3_process(int, int, int);
-void __cdecl FUN_00d32ca0(int, int, int);
-void __cdecl FUN_00d32bd0(int, int, int);
-void __cdecl FUN_00d32be0(int, int, int);
-void __cdecl FUN_00d32c00(int, int, int);
-void __cdecl FUN_00d32c20(int, int, int);
+void __cdecl Object_ProcessAndReturnValue_00d32ca0(int, int, int);
+void __cdecl Hkpconvexlistagent3_ForwardCall_00d32bd0(int, int, int);
+void __cdecl Object_UpdateFields_00d32be0(int, int, int);
+void __cdecl Object_UpdateFields_00d32c00(int, int, int);
+void __cdecl Object_ProcessState_00d32c20(int, int, int);
 void __cdecl hkConvexListAgent3_updateFilter(int, int, int);
 void __cdecl hkConvexListAgent3_calcStatistics(int, int, int);
 void __cdecl hkConvexListAgent3_warpTime(int, int, int);
@@ -89,11 +89,11 @@ void __cdecl hkConvexListAgent3_initAgentFunc(hkpCollisionDispatcher::Agent3Func
     hkpCollisionDispatcher::Agent3FunctionTable* p = &kFuncs;
     p->m_pCreateFunc = reinterpret_cast<hkAgent3::CreateFunc>(&SetFlagAndCall);
     p->m_pAgentFunction8 = reinterpret_cast<hkAgent3::ProcessFunc>(&hkConvexListAgent3_process);
-    p->m_pAgentFunction7 = reinterpret_cast<hkAgent3::SepNormalFunc>(&FUN_00d32ca0);
-    p->m_pAgentFunction3 = reinterpret_cast<hkAgent3::CleanupFunc>(&FUN_00d32bd0);
-    p->m_pAgentFunction4 = reinterpret_cast<hkAgent3::RemovePointFunc>(&FUN_00d32be0);
-    p->m_pAgentFunction5 = reinterpret_cast<hkAgent3::CommitPotentialFunc>(&FUN_00d32c00);
-    p->m_pCreateZombieFunc = reinterpret_cast<hkAgent3::CreateZombieFunc>(&FUN_00d32c20);
+    p->m_pAgentFunction7 = reinterpret_cast<hkAgent3::SepNormalFunc>(&Object_ProcessAndReturnValue_00d32ca0);
+    p->m_pAgentFunction3 = reinterpret_cast<hkAgent3::CleanupFunc>(&Hkpconvexlistagent3_ForwardCall_00d32bd0);
+    p->m_pAgentFunction4 = reinterpret_cast<hkAgent3::RemovePointFunc>(&Object_UpdateFields_00d32be0);
+    p->m_pAgentFunction5 = reinterpret_cast<hkAgent3::CommitPotentialFunc>(&Object_UpdateFields_00d32c00);
+    p->m_pCreateZombieFunc = reinterpret_cast<hkAgent3::CreateZombieFunc>(&Object_ProcessState_00d32c20);
     p->m_pUpdateFilterFunc = reinterpret_cast<hkAgent3::UpdateFilterFunc>(&hkConvexListAgent3_updateFilter);
     p->m_pCalcStats = reinterpret_cast<hkAgent3::CalcStatisticsFunc>(&hkConvexListAgent3_calcStatistics);
     p->m_pAgentFunction10 = reinterpret_cast<hkAgent3::InvalidateTimFunc>(&CallIfNotFlagged);
@@ -168,7 +168,8 @@ void __cdecl SetFlagAndCall(int aiArg1, int aiArg2, int c)
 void __cdecl RemoveEntryById(void);
 
 // @fnv 0x00d32be0
-void __cdecl FUN_00d32be0(int, int apObject, int)
+// src: GUESS 0x00d32be0 (confidence: low)
+void __cdecl Object_UpdateFields_00d32be0(int, int apObject, int)
 {
     if ((reinterpret_cast<unsigned char*>(apObject)[0x0b] & 0x20) != 0)
     {
@@ -180,7 +181,8 @@ void __cdecl FUN_00d32be0(int, int apObject, int)
 void __cdecl InsertSlotId(void);
 
 // @fnv 0x00d32c00
-void __cdecl FUN_00d32c00(int aiUnused, int apObject, int aiUnused2)
+// src: GUESS 0x00d32c00 (confidence: low)
+void __cdecl Object_UpdateFields_00d32c00(int aiUnused, int apObject, int aiUnused2)
 {
     if ((reinterpret_cast<unsigned char*>(apObject)[0x0b] & 0x20) != 0)
     {
@@ -192,7 +194,8 @@ void __cdecl FUN_00d32c00(int aiUnused, int apObject, int aiUnused2)
 void __cdecl FindEntryByKey(int, int, int);
 
 // @fnv 0x00d32c20
-void __cdecl FUN_00d32c20(int aiArg1, int apArg2, int aiArg3)
+// src: GUESS 0x00d32c20 (confidence: low)
+void __cdecl Object_ProcessState_00d32c20(int aiArg1, int apArg2, int aiArg3)
 {
     if ((reinterpret_cast<unsigned char*>(apArg2)[0x0b] & 0x20) != 0)
         FindEntryByKey(aiArg1, apArg2, aiArg3);
@@ -493,7 +496,7 @@ int hkpConvexListProcessorD333::ProcessConvexListChildren(const hkpCdBody& kBody
 
 struct ValueBlock
 {
-    void FUN_00d33330(ValueBlock* destination);
+    void CopyMemory_00d33330(ValueBlock* destination);
 };
 
 struct Callback
@@ -529,7 +532,7 @@ void Container::hkpProcessCollisionOutputBackup_rollbackOutput(void* unusedA, vo
     {
         callback->OnValueChange(*reinterpret_cast<unsigned int*>(source + 4), source + 0x3050);
         reinterpret_cast<ValueBlock*>(source + 0x3010)
-            ->FUN_00d33330(reinterpret_cast<ValueBlock*>(destination + 0x1010));
+            ->CopyMemory_00d33330(reinterpret_cast<ValueBlock*>(destination + 0x1010));
     }
 
     *reinterpret_cast<unsigned int*>(source) = tag;
@@ -571,7 +574,8 @@ void __cdecl hkConvexListAgent3_destroy(void* agent, ConvexListAgentRecord* shap
 
 void __cdecl FUN_00d41860();
 // @fnv 0x00d32bd0
-void __cdecl FUN_00d32bd0(int a, int b, int c)
+// src: GUESS 0x00d32bd0 (confidence: low)
+void __cdecl Hkpconvexlistagent3_ForwardCall_00d32bd0(int a, int b, int c)
 {
     FUN_00d41860();
 }
@@ -593,7 +597,8 @@ extern __m128 DAT_01268370;
 void __cdecl hkPredGskAgent3_sepNormal(int, int, int, int);
 // If bit 5 of the flag byte at c+11 is set, delegates to FUN_00d41930; otherwise writes DAT_01268370 to output and sets its fourth float to DAT_010CEB6C.
 // @fnv 0x00d32ca0
-void __cdecl FUN_00d32ca0(int a, int b, int c, int output)
+// src: GUESS 0x00d32ca0 (confidence: low)
+void __cdecl Object_ProcessAndReturnValue_00d32ca0(int a, int b, int c, int output)
 {
     if ((*reinterpret_cast<const unsigned char*>(c + 11) & 0x20) != 0)
     {
@@ -671,11 +676,12 @@ struct __declspec(align(16)) FUN_00d33330_t
     int gamma, delta;
     volatile int epsilon, zeta;
     int coefficients[12];
-    FUN_00d33330_t& FUN_00d33330(const FUN_00d33330_t& other);
+    FUN_00d33330_t& CopyMemory_00d33330(const FUN_00d33330_t& other);
 };
 // Copies first, second, alpha, beta, gamma, delta, epsilon, zeta and 48 bytes of coefficients from other, and returns *this.
 // @fnv 0x00d33330
-FUN_00d33330_t& FUN_00d33330_t::FUN_00d33330(const FUN_00d33330_t& other)
+// src: GUESS 0x00d33330 (confidence: low)
+FUN_00d33330_t& FUN_00d33330_t::CopyMemory_00d33330(const FUN_00d33330_t& other)
 {
     first = other.first;
     second = other.second;

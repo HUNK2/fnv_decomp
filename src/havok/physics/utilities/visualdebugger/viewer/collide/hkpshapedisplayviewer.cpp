@@ -24,11 +24,12 @@ struct FUN_00d65f70_class
     int m_14;
     int m_18;
     int m_1c;
-    void FUN_00d65f70();
+    void ProcessEntries_00d65f70();
 };
 // If m_1c is set, iterates its count at offset 0x70 and calls FUN_00d65970 on each entry from the array at 0x6c.
 // @fnv 0x00d65f70
-void FUN_00d65f70_class::FUN_00d65f70()
+// src: GUESS 0x00d65f70 (confidence: low)
+void FUN_00d65f70_class::ProcessEntries_00d65f70()
 {
     if (m_1c)
     {
@@ -131,11 +132,12 @@ struct FUN_00d653e0_cls
     int unk4c;
     int unk50;
     FUN_00cb1a60_t sub54;
-    void FUN_00d653e0();
+    void ResetEntries_Thunk();
 };
 
 // @fnv 0x00d653e0
-void FUN_00d653e0_cls::FUN_00d653e0()
+// src: GUESS 0x00d653e0 (confidence: medium)
+void FUN_00d653e0_cls::ResetEntries_Thunk()
 {
     sub54.ResetEntries();
 }
@@ -216,10 +218,11 @@ struct Target
 };
 struct Adjustor
 {
-    void FUN_00d65fb0();
+    void ForwardCall_00d65fb0();
 };
 // @fnv 0x00d65fb0
-void Adjustor::FUN_00d65fb0()
+// src: GUESS 0x00d65fb0 (confidence: low)
+void Adjustor::ForwardCall_00d65fb0()
 {
     ((Target*)((char*)this - 0x20))->hkpShapeDisplayViewer_addWorld();
 }
@@ -227,7 +230,8 @@ void Adjustor::FUN_00d65fb0()
 extern int g_D661D0Value;
 
 // @fnv 0x00d661d0
-int __cdecl FUN_00d661d0()
+// src: GUESS 0x00d661d0 (confidence: low)
+int __cdecl Hkpshapedisplayviewer_GetD661D0Value()
 {
     return g_D661D0Value;
 }
@@ -273,7 +277,7 @@ struct SpawnedBuf
     int unk08;
 
     void ProcessArgument(hkMemoryAllocator* apAlloc);
-    void FUN_00a29680();
+    void Object_DoNothing();
 };
 
 struct FUN_00d66080_cls
@@ -320,19 +324,19 @@ void FUN_00d66080_cls::Destroy()
         SpawnedBuf* pBuf = &m_buf54;
         hkMemoryRouter* pHolder = (hkMemoryRouter*)hkMemoryRouter_getInstance();
         pBuf->ProcessArgument(reinterpret_cast<hkMemoryAllocator*>(pHolder->m_heap));
-        pBuf->FUN_00a29680();
+        pBuf->Object_DoNothing();
     }
     {
         SpawnedBuf* pBuf = &m_buf48;
         hkMemoryRouter* pHolder = (hkMemoryRouter*)hkMemoryRouter_getInstance();
         pBuf->ProcessArgument(reinterpret_cast<hkMemoryAllocator*>(pHolder->m_heap));
-        pBuf->FUN_00a29680();
+        pBuf->Object_DoNothing();
     }
     {
         SpawnedBuf* pBuf = &m_buf3c;
         hkMemoryRouter* pHolder = (hkMemoryRouter*)hkMemoryRouter_getInstance();
         pBuf->ProcessArgument(reinterpret_cast<hkMemoryAllocator*>(pHolder->m_heap));
-        pBuf->FUN_00a29680();
+        pBuf->Object_DoNothing();
     }
 
     hkMemoryRouter* pHolder = (hkMemoryRouter*)hkMemoryRouter_getInstance();
@@ -372,12 +376,13 @@ struct FUN_00d66160_cls
     int m_14;
     int m_18;
     int m_1c;
-    void FUN_00d66160(int arg);
+    void UpdateFields_00d66160(int arg);
 };
 
 // Calls FindItemIndex on the owner object at this-0x20 and, if the result is non-negative, passes it to FUN_00d65fc0.
 // @fnv 0x00d66160
-void FUN_00d66160_cls::FUN_00d66160(int arg)
+// src: GUESS 0x00d66160 (confidence: low)
+void FUN_00d66160_cls::UpdateFields_00d66160(int arg)
 {
     OwnerObject* pOwner = (OwnerObject*)((char*)this - 0x20);
     int result = pOwner->FindItemIndex(arg);
@@ -1015,7 +1020,7 @@ void TtShapeDisplayInner::hkpShapeDisplayViewer_postSimulationCallback(int arg)
 struct D661E0Primary
 {
     virtual void vfunc00();
-    virtual void FUN_00d661e0();
+    virtual void AdjustThisAndForward_00d661e0();
 
     int unk04;
     int unk08;
@@ -1028,7 +1033,7 @@ struct D661E0Primary
 
 struct D661E0Secondary
 {
-    virtual void FUN_00d661e0();
+    virtual void AdjustThisAndForward_00d661e0();
 };
 
 struct D661E0Object : D661E0Primary, D661E0Secondary
@@ -1036,7 +1041,8 @@ struct D661E0Object : D661E0Primary, D661E0Secondary
     D661E0Object();
 
 // @fnv 0x00d661e0
-    virtual void FUN_00d661e0();
+// src: GUESS 0x00d661e0 (confidence: low)
+    virtual void AdjustThisAndForward_00d661e0();
 };
 
 D661E0Object::D661E0Object()
@@ -1075,7 +1081,7 @@ Derived::Derived()
 struct A1_00d66200
 {
     A1_00d66200();
-    virtual void FUN_00d66200();
+    virtual void AdjustThisAndForward_00d66200();
     char pad[0x24];
 };
 
@@ -1083,14 +1089,15 @@ struct A2_00d66200
 {
     A2_00d66200();
 // @fnv 0x00d66200
-    virtual void FUN_00d66200();
+// src: GUESS 0x00d66200 (confidence: low)
+    virtual void AdjustThisAndForward_00d66200();
 };
 
 struct Own_00d66200 : A1_00d66200, A2_00d66200
 {
     Own_00d66200();
     virtual void key_fn();  // key function - defined, so the vftable is emitted
-    void FUN_00d66200();    // the shared override - declared only
+    void AdjustThisAndForward_00d66200();    // the shared override - declared only
 };
 
 Own_00d66200::Own_00d66200()

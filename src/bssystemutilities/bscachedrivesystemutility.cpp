@@ -29,14 +29,14 @@ void FUN_00af3920_shell::BSCacheDriveSystemUtility_DoInitialize()
 extern MemoryManager g_memoryManager;
 struct Host03950
 {
-    void FUN_00af3900();
+    void SetVirtualTable_00af3900();
     void* ReleaseIfFlagged(unsigned int);
 };
 // Calls FUN_00af3900, deallocates this via g_memoryManager when flags has bit 1 set, and returns this.
 // @fnv 0x00af3950
 void* Host03950::ReleaseIfFlagged(unsigned int flags)
 {
-    FUN_00af3900();
+    SetVirtualTable_00af3900();
     if (flags & 1)
         g_memoryManager.Deallocate(this);
     return this;

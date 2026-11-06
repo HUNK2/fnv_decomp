@@ -23,7 +23,8 @@ void __thiscall FUN_00d21a30_class::hkpConstraintData_addInstance(int a, int pBu
 }
 
 // @fnv 0x00d21a50
-int __stdcall FUN_00d21a50(int a)
+// src: GUESS 0x00d21a50 (confidence: low)
+int __stdcall hkpConstraintData_GetA(int a)
 {
     return a;
 }

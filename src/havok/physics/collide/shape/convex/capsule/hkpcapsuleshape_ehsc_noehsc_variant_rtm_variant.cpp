@@ -293,7 +293,7 @@ __declspec(noinline) void __cdecl hkpCapsuleShape_closestPointLineSeg(const S00d
         pt.setAddMul4(B, dB, u);
     }
 }
-S00d22760_Bool __cdecl FUN_00cd85c0(float radius, const S00d22760_Input& input, S00d22760_Output& results);
+S00d22760_Bool __cdecl Object_ProcessAndReturnValue_00cd85c0(float radius, const S00d22760_Input& input, S00d22760_Output& results);
 
 class S00d22760_Capsule : public hkpConvexShape {
 public:
@@ -402,7 +402,7 @@ __declspec(noinline) S00d22760_Bool S00d22760_Capsule::hkpCapsuleShape_castRayIm
             const int extra = (ptHeight <= 0.0f) ? HIT_CAP0 : HIT_CAP1;
             subInput.m_vFrom.setSub4(input.m_vFrom, getVertex(extra));
             subInput.m_vTo.setSub4(input.m_vTo, getVertex(extra));
-            if (FUN_00cd85c0(m_fSphereRadius, subInput, results)) {
+            if (Object_ProcessAndReturnValue_00cd85c0(m_fSphereRadius, subInput, results)) {
                 results.m_iExtraInfo = extra;
                 return S00d22760_Bool(true);
             }

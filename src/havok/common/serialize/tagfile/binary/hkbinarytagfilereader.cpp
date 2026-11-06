@@ -55,7 +55,7 @@ struct FUN_00dc6020_cls
     unsigned int m_flags38;
 
     void FreeAllBlocks();
-    void FUN_00dd91f0();
+    void ReleaseArchiveReader();
 };
 
 // @fnv 0x00dc6020
@@ -103,7 +103,7 @@ void FUN_00dc6020_cls::FreeAllBlocks()
     m_p18 = 0;
     m_flags20 = 0x80000000;
 
-    return FUN_00dd91f0();
+    return ReleaseArchiveReader();
 }
 
 extern "C" hkMemoryRouter& __cdecl hkMemoryRouter_getInstance();
@@ -139,11 +139,11 @@ char* __cdecl AllocateWithHeader(hkMemoryAllocator* pkAlloc, int iNumBytes) thro
 // @fnv 0x00dc5d90
 char* hkBinaryTagfileReader::ReadString()
 {
-    int iLen = FUN_00dc5bd0();
+    int iLen = ReadSignedVarInt32();
     if (iLen > 0)
     {
         char* pcString = AllocateWithHeader(&readerHeap(hkMemoryRouter_getInstance()), iLen + 1);
-        FUN_00dd90d0(pcString, iLen);
+        ForwardCall_00dd90d0(pcString, iLen);
         pcString[iLen] = 0;
         m_pStringFunctions.pushBack(pcString);
         return pcString;
@@ -192,7 +192,7 @@ void hkBinaryTagfileReader::ReadBits(int iNumBits, hkArray<char>& kBitsOut) thro
 }
 
 extern "C" char* __fastcall ReadString(void* p);
-extern "C" int __fastcall FUN_00dc5bd0(void* p);
+extern "C" int __fastcall ReadSignedVarInt32(void* p);
 void __cdecl hkArrayUtil__reserve(void*, void*, int, int);
 void __cdecl ResizeAudioStream(void*, void*, int);
 
@@ -293,7 +293,7 @@ int TagFileReader::ReadTagFileEntry()
     entry.s.m_items.m_iCapacityState = 0x80000000;
 
     entry.s.m_str = ReadString(this);
-    entry.s.m_type = FUN_00dc5bd0(this);
+    entry.s.m_type = ReadSignedVarInt32(this);
 
     if (!*getP10()->vtable_18(&entry.outVal))
     {
@@ -301,7 +301,7 @@ int TagFileReader::ReadTagFileEntry()
         return 1;
     }
 
-    int iObjectIndex = FUN_00dc5bd0(this);
+    int iObjectIndex = ReadSignedVarInt32(this);
     if (iObjectIndex >= 0 && m_kTrackedObjects[iObjectIndex])
     {
         entry.s.m_obj = m_kTrackedObjects[iObjectIndex]->getName(); // src: HAVOK_SRC
@@ -311,7 +311,7 @@ int TagFileReader::ReadTagFileEntry()
         entry.s.m_obj = 0;
     }
 
-    int iItemCount = FUN_00dc5bd0(this);
+    int iItemCount = ReadSignedVarInt32(this);
     {
         hkMemoryRouter* r = _D1A0E0GetMemoryRouter();
         hkMemoryAllocator* ctx = r->m_heap;
@@ -331,8 +331,8 @@ int TagFileReader::ReadTagFileEntry()
     {
         Item* item = &entry.s.m_items.m_data[i];
         item->m_name = ReadString(this);
-        item->m_type = FUN_00dc5bd0(this);
-        item->m_extra = (item->m_type & 0x20) ? FUN_00dc5bd0(this) : 0;
+        item->m_type = ReadSignedVarInt32(this);
+        item->m_extra = (item->m_type & 0x20) ? ReadSignedVarInt32(this) : 0;
         int lowType = item->m_type & 0xf;
         char* pAltName = (lowType == 9 || lowType == 8) ? ReadString(this) : 0;
         item->m_altName = pAltName;
@@ -384,7 +384,8 @@ __forceinline void ReadTagfileVarInt(hkBinaryTagfileReader& kReader, __int64& kV
 
 // Reads a variable-length integer from the reader and returns it as a 32-bit signed value.
 // @fnv 0x00dc5bd0
-int hkBinaryTagfileReader::FUN_00dc5bd0() throw()
+// src: GUESS 0x00dc5bd0 (confidence: high)
+int hkBinaryTagfileReader::ReadSignedVarInt32() throw()
 {
     __int64 iVarInt;
     ReadTagfileVarInt(*this, iVarInt);
@@ -432,7 +433,7 @@ struct FUN_00dc5d50_Local
     void* unk38;
 
     void Reader_Reader(unsigned int, unsigned int);
-    void FUN_00dc6e50(unsigned int);
+    void ProcessEntries_00dc6e50(unsigned int);
     void FreeAllBlocks();
 };
 
@@ -442,7 +443,7 @@ unsigned int __stdcall hkBinaryTagfileReader_load(unsigned int a, unsigned int b
 {
     FUN_00dc5d50_Local local;
     local.Reader_Reader(b, c);
-    local.FUN_00dc6e50(a);
+    local.ProcessEntries_00dc6e50(a);
     local.FreeAllBlocks();
     return a;
 }
@@ -629,11 +630,11 @@ class hkOstreamTF
     }
     hkOstreamTF& operator<<(const char* pcString)
     {
-        return FUN_00cc01c0(pcString);
+        return ProcessAndReturnValue_00cc01c0(pcString);
     }
     void FUN_00cb1600(void* pvBuffer, int iSize);
     void FUN_00cc00e0();
-    hkOstreamTF& FUN_00cc01c0(const char* pcString);
+    hkOstreamTF& ProcessAndReturnValue_00cc01c0(const char* pcString);
     void* m_ppVirtualMethodTable;
     unsigned short m_usMemSizeAndFlags;
     short m_sReferenceCount;
@@ -664,15 +665,15 @@ class hkDataClassTF
   public:
     hkDataClassTF(hkDataClassImpl* pkImpl)
     {
-        FUN_00dba650(pkImpl);
+        SetField00(pkImpl);
     }
     void close()
     {
-        FUN_00dba660();
+        Object_DoNothing_00dba660();
     }
-    void FUN_00dba650(hkDataClassImpl* pkImpl);
-    void FUN_00dba660();
-    int FUN_00dba730() const;
+    void SetField00(hkDataClassImpl* pkImpl);
+    void Object_DoNothing_00dba660();
+    int ForwardCall_00dba730() const;
     void DispatchItems(hkArrayTFLocalForm<MemberInfoTF>& kInfo) const;
     hkDataClassImpl* m_pClassImpl;
 };
@@ -715,16 +716,16 @@ class hkDataObjectTF
     }
     void close()
     {
-        FUN_00dba7f0();
+        ReleaseStorage_00dba7f0();
     }
     void hkDataObject_hkDataObject(hkDataObjectImplTF* pkImpl);
     void AssignRef(const hkDataObjectTF& kOther);
-    void FUN_00dba7f0();
-    ValueRawTF* FUN_00dba870(ValueRawTF* out, const char* pcName);
+    void ReleaseStorage_00dba7f0();
+    ValueRawTF* UpdateState_00dba870(ValueRawTF* out, const char* pcName);
     ValueTF operator[](const char* pcName)
     {
         ValueRawTF raw;
-        return *FUN_00dba870(&raw, pcName);
+        return *UpdateState_00dba870(&raw, pcName);
     }
     hkDataObjectImplTF* getImplementation() const
     {
@@ -746,11 +747,11 @@ class hkBinaryTagfileReaderTF
   public:
     int ReadTag()
     {
-        return ::FUN_00dc5bd0(this);
+        return ::ReadSignedVarInt32(this);
     }
     void ReadBits(int iNumMembers, hkArrayTFLocalForm<bool>& kUsed);
-    void FUN_00dc6720(hkDataObjectImplTF* impl, void* handle, const MemberInfoTF& kInfo);
-    hkDataObjectTF FUN_00dc6970(int aiAllocationTag);
+    void ReadTypedTagValue(hkDataObjectImplTF* impl, void* handle, const MemberInfoTF& kInfo);
+    hkDataObjectTF ReadDataObject(int aiAllocationTag);
     int unk00;
     int unk04;
     int unk08;
@@ -765,7 +766,8 @@ class hkBinaryTagfileReaderTF
 };
 // Reads a data object from the binary tagfile stream, resolves its class and members, reads present values, and returns the object.
 // @fnv 0x00dc6970
-hkDataObjectTF hkBinaryTagfileReaderTF::FUN_00dc6970(int aiAllocationTag)
+// src: GUESS 0x00dc6970 (confidence: medium)
+hkDataObjectTF hkBinaryTagfileReaderTF::ReadDataObject(int aiAllocationTag)
 {
     int iTagType = aiAllocationTag;
     if (iTagType == -1)
@@ -775,7 +777,7 @@ hkDataObjectTF hkBinaryTagfileReaderTF::FUN_00dc6970(int aiAllocationTag)
     if (iTagType == 6)
         return hkDataObjectTF(0);
     hkDataClassTF kClass(m_kLookupMap[ReadTag()]);
-    int iNumMembers = kClass.FUN_00dba730();
+    int iNumMembers = kClass.ForwardCall_00dba730();
     hkDataObjectTF kObj(m_pOwningWorld->GetObject(kClass));
     switch (iTagType)
     {
@@ -806,8 +808,8 @@ hkDataObjectTF hkBinaryTagfileReaderTF::FUN_00dc6970(int aiAllocationTag)
         if (kUsedMembers[i])
         {
             ValueRawTF raw;
-            ValueRawTF* r = kObj.FUN_00dba870(&raw, kInfo.m_name);
-            FUN_00dc6720(r->m_pClassImpl, r->m_handle, kInfo);
+            ValueRawTF* r = kObj.UpdateState_00dba870(&raw, kInfo.m_name);
+            ReadTypedTagValue(r->m_pClassImpl, r->m_handle, kInfo);
         }
     }
     return hkDataObjectTF(kObj, kMembers, kUsedMembers, kClass);
@@ -887,33 +889,33 @@ struct TagClass;
 struct TagString
 {
     void* object;
-    void FUN_00dba7f0() throw();
+    void ReleaseStorage_00dba7f0() throw();
     __forceinline ~TagString() throw()
     {
-        FUN_00dba7f0();
+        ReleaseStorage_00dba7f0();
     }
 };
 struct TagArrayRef
 {
     void* object;
-    int FUN_00dbac10();
-    TagArrayValue FUN_00dbab90(int) throw();
+    int ForwardCall_00dbac10();
+    TagArrayValue UpdateState_00dbab90(int) throw();
     void hkDataArray_setAll_00dbae10(const char*, int);
-    void FUN_00dbae80(const float*, int);
-    void FUN_00dbabe0(int);
-    TagClass FUN_00dbac20();
+    void InvokeVirtualMethod_00dbae80(const float*, int);
+    void Get_Thunk(int);
+    TagClass ProcessAndReturnValue_00dbac20();
     TagArrayRef InvokeCallbackInto(const char*);
-    void FUN_00dbab70();
+    void ReleaseStorage_00dbab70();
 };
 struct TagArrayValue
 {
     void* array;
     int index;
     void InvokeOnInterface(int);
-    void FUN_00dbad60(const float*, int);
-    void FUN_00dbad00(const TagString&) throw();
-    void FUN_00dbadc0(const char*);
-    TagArrayRef FUN_00dbacd0();
+    void InvokeVirtualMethod_00dbad60(const float*, int);
+    void InvokeVirtualMethod_00dbad00(const TagString&) throw();
+    void InvokeVirtualMethod_00dbadc0(const char*);
+    TagArrayRef GetMemberArrayValue();
 };
 struct TagMember
 {
@@ -928,24 +930,25 @@ struct TagMember
 struct TagClass
 {
     void* object;
-    int FUN_00dba730();
+    int ForwardCall_00dba730();
     void DispatchItems(TagArray<TagMember>&);
-    void FUN_00dba660();
+    void Object_DoNothing_00dba660();
 };
 struct TagReader
 {
-    int FUN_00dc5bd0();
+    int ReadSignedVarInt32();
     void hkIArchive_readArrayGeneric(void*, int, int);
-    TagString FUN_00dc6970(int) throw();
+    TagString ReadDataObject(int) throw();
     const char* ReadString();
     void ReadBits(int, TagArray<char>&);
-    void FUN_00dc6100(TagArrayRef*, int);
+    void ReadTypedArray(TagArrayRef*, int);
 };
 // Reads an array of 'count' elements from the tag stream into the given TagArrayRef, dispatching on the element type code.
 // @fnv 0x00dc6100
-void TagReader::FUN_00dc6100(TagArrayRef* array, int count)
+// src: GUESS 0x00dc6100 (confidence: medium)
+void TagReader::ReadTypedArray(TagArrayRef* array, int count)
 {
-    switch (array->FUN_00dbac10())
+    switch (array->ForwardCall_00dbac10())
     {
     case 1: {
         TagArray<char> values(count);
@@ -957,30 +960,30 @@ void TagReader::FUN_00dc6100(TagArrayRef* array, int count)
     }
     case 2:
         for (int i = 0; i < count; ++i)
-            array->FUN_00dbab90(i).InvokeOnInterface(FUN_00dc5bd0());
+            array->UpdateState_00dbab90(i).InvokeOnInterface(ReadSignedVarInt32());
         break;
     case 3: {
         TagArray<float> values(count);
         values.reserve(reinterpret_cast<hkMemoryAllocator*>(getTagRouter()->m_temp), count);
         values.size = count;
         hkIArchive_readArrayGeneric(values.data, 4, count);
-        array->FUN_00dbae80(values.data, values.size);
+        array->InvokeVirtualMethod_00dbae80(values.data, values.size);
         values.release(reinterpret_cast<hkMemoryAllocator*>(getTagRouter()->m_temp));
         break;
     }
     case 4: {
-        int width = FUN_00dc5bd0();
+        int width = ReadSignedVarInt32();
         float values[4] = {0, 0, 0, 0};
         for (int i = 0; i < count; ++i)
         {
             hkIArchive_readArrayGeneric(values, 4, width);
-            array->FUN_00dbab90(i).FUN_00dbad60(values, 4);
+            array->UpdateState_00dbab90(i).InvokeVirtualMethod_00dbad60(values, 4);
         }
         break;
     }
     case 6:
     case 7: {
-        int width = 4 * (array->FUN_00dbac10() - 3);
+        int width = 4 * (array->ForwardCall_00dbac10() - 3);
         for (int i = 0; i < count; ++i)
         {
             float values[16];
@@ -990,24 +993,24 @@ void TagReader::FUN_00dc6100(TagArrayRef* array, int count)
                 hkIArchive_readArrayGeneric(&value, 4, 1);
                 values[j] = value;
             }
-            array->FUN_00dbab90(i).FUN_00dbad60(values, width);
+            array->UpdateState_00dbab90(i).InvokeVirtualMethod_00dbad60(values, width);
         }
         break;
     }
     case 8:
         for (int i = 0; i < count; ++i)
         {
-            array->FUN_00dbab90(i).FUN_00dbad00(FUN_00dc6970(-1));
+            array->UpdateState_00dbab90(i).InvokeVirtualMethod_00dbad00(ReadDataObject(-1));
         }
         break;
     case 10:
         for (int i = 0; i < count; ++i)
-            array->FUN_00dbab90(i).FUN_00dbadc0(ReadString());
+            array->UpdateState_00dbab90(i).InvokeVirtualMethod_00dbadc0(ReadString());
         break;
     case 9: {
-        array->FUN_00dbabe0(count);
-        TagClass pClassInfo = array->FUN_00dbac20();
-        int membersCount = pClassInfo.FUN_00dba730();
+        array->Get_Thunk(count);
+        TagClass pClassInfo = array->ProcessAndReturnValue_00dbac20();
+        int membersCount = pClassInfo.ForwardCall_00dba730();
         TagLocalArray<char> presentBits;
         presentBits.allocateLocal(128);
         ReadBits(membersCount, presentBits);
@@ -1031,18 +1034,18 @@ void TagReader::FUN_00dc6100(TagArrayRef* array, int count)
                     TagArrayRef field = array->InvokeCallbackInto(member.name);
                     if (!member.tupleSize)
                     {
-                        FUN_00dc6100(&field, count);
+                        ReadTypedArray(&field, count);
                     }
                     else
                     {
                         for (int j = 0; j < count; ++j)
                         {
-                            TagArrayRef item = field.FUN_00dbab90(j).FUN_00dbacd0();
-                            FUN_00dc6100(&item, member.tupleSize);
-                            item.FUN_00dbab70();
+                            TagArrayRef item = field.UpdateState_00dbab90(j).GetMemberArrayValue();
+                            ReadTypedArray(&item, member.tupleSize);
+                            item.ReleaseStorage_00dbab70();
                         }
                     }
-                    field.FUN_00dbab70();
+                    field.ReleaseStorage_00dbab70();
                 }
                 ++i;
                 byteOffset += sizeof(TagMember);
@@ -1050,7 +1053,7 @@ void TagReader::FUN_00dc6100(TagArrayRef* array, int count)
         }
         members.releaseLocal();
         presentBits.releaseLocal();
-        pClassInfo.FUN_00dba660();
+        pClassInfo.Object_DoNothing_00dba660();
         break;
     }
     }
@@ -1068,26 +1071,26 @@ struct RefA
 {
     void* object;
     void hkDataObject_hkDataObject(void*);
-    void FUN_00dba7f0();
+    void ReleaseStorage_00dba7f0();
 };
 struct RefB
 {
     void* object;
     void FUN_00dbab50(void*);
-    void FUN_00dbab70();
-    void FUN_00dbabe0(int);
+    void ReleaseStorage_00dbab70();
+    void Get_Thunk(int);
 };
 struct ParamP
 {
     void* object;
     int member;
     int QueryAndWriteResult();
-    void FUN_00dbaa30(int);
-    void FUN_00dbaa90(int, int);
-    void FUN_00dbab10(float*, int);
+    void ForwardCall_00dbaa30(int);
+    void ForwardCall_00dbaa90(int, int);
+    void Apply_Thunk(float*, int);
     void DispatchToObject(RefA*);
     void DispatchFloatToVtbl(float);
-    void FUN_00dbab30(const char*);
+    void ForwardCall_00dbab30(const char*);
 };
 extern "C" unsigned __int64 __fastcall ReadVarInt(void*);
 extern "C" float __fastcall hkIArchive_readFloat32(void*);
@@ -1107,14 +1110,15 @@ struct ValueWorld
 };
 struct ValueReader : TagFileReader
 {
-    void FUN_00dc6100(RefB*, int);
+    void ReadTypedArray(RefB*, int);
     void hkIArchive_readArrayGeneric(void*, int, int);
-    void FUN_00dc6970(RefA*, int);
-    void FUN_00dc6720(ParamP, const Item20*);
+    void ReadDataObject(RefA*, int);
+    void ReadTypedTagValue(ParamP, const Item20*);
 };
 // Reads a typed value from the tag file stream into ParamP based on Item20 flags, handling scalars, vectors, objects, and references.
 // @fnv 0x00dc6720
-void ValueReader::FUN_00dc6720(ParamP value, const Item20* item)
+// src: GUESS 0x00dc6720 (confidence: medium)
+void ValueReader::ReadTypedTagValue(ParamP value, const Item20* item)
 {
     RefA owner;
     if (item->flags & 0x20)
@@ -1123,29 +1127,29 @@ void ValueReader::FUN_00dc6720(ParamP value, const Item20* item)
         void* created = reinterpret_cast<ValueWorld*>(m_p10)->vtable_14(&owner, item);
         RefB reference;
         reference.FUN_00dbab50(created);
-        FUN_00dc6100(&reference, item->tupleSize);
-        reference.FUN_00dbab70();
-        owner.FUN_00dba7f0();
+        ReadTypedArray(&reference, item->tupleSize);
+        reference.ReleaseStorage_00dbab70();
+        owner.ReleaseStorage_00dba7f0();
         return;
     }
     if (item->flags & 0x10)
     {
         Item20 local;
         memcpy(&local, item, sizeof(local));
-        int index = FUN_00dc5bd0(this);
+        int index = ReadSignedVarInt32(this);
         if (value.QueryAndWriteResult() == 0x19 && item->objectClass == 0)
         {
-            int objectIndex = FUN_00dc5bd0(this);
+            int objectIndex = ReadSignedVarInt32(this);
             local.objectClass = m_kTrackedObjects.m_data[objectIndex];
         }
         owner.hkDataObject_hkDataObject(value.object);
         void* created = reinterpret_cast<ValueWorld*>(m_p10)->vtable_14(&owner, &local);
         RefB reference;
         reference.FUN_00dbab50(created);
-        reference.FUN_00dbabe0(index);
-        FUN_00dc6100(&reference, index);
-        reference.FUN_00dbab70();
-        owner.FUN_00dba7f0();
+        reference.Get_Thunk(index);
+        ReadTypedArray(&reference, index);
+        reference.ReleaseStorage_00dbab70();
+        owner.ReleaseStorage_00dba7f0();
         return;
     }
     switch (item->flags)
@@ -1153,12 +1157,12 @@ void ValueReader::FUN_00dc6720(ParamP value, const Item20* item)
     case 1: {
         unsigned char scalar;
         hkIArchive_readArrayGeneric(&scalar, 1, 1);
-        value.FUN_00dbaa30(scalar);
+        value.ForwardCall_00dbaa30(scalar);
         break;
     }
     case 2: {
         unsigned __int64 scalar = ReadVarInt(this);
-        value.FUN_00dbaa90((int)scalar, (int)(scalar >> 32));
+        value.ForwardCall_00dbaa90((int)scalar, (int)(scalar >> 32));
         break;
     }
     case 3: {
@@ -1177,19 +1181,19 @@ void ValueReader::FUN_00dc6720(ParamP value, const Item20* item)
             hkIArchive_readArrayGeneric(&scalar, 4, 1);
             values[i] = scalar;
         }
-        value.FUN_00dbab10(values, count);
+        value.Apply_Thunk(values, count);
         break;
     }
     case 8:
     case 9: {
         RefA object;
-        FUN_00dc6970(&object, -1);
+        ReadDataObject(&object, -1);
         value.DispatchToObject(&object);
-        object.FUN_00dba7f0();
+        object.ReleaseStorage_00dba7f0();
         break;
     }
     case 10:
-        value.FUN_00dbab30(ReadString(this));
+        value.ForwardCall_00dbab30(ReadString(this));
         break;
     default:
         break;

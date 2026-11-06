@@ -41,7 +41,8 @@ __declspec(align(16)) struct HavokObjDfd
 };
 
 // @fnv 0x00dfd320
-void* __cdecl FUN_00dfd320()
+// src: GUESS 0x00dfd320 (confidence: medium)
+void* __cdecl Object_GetConstructedVirtualTable_00dfd320()
 {
     FinishingFlag f;
     f.m_bFinishing = 0;
@@ -71,7 +72,8 @@ struct __declspec(align(16)) DFFObject
 };
 
 // @fnv 0x00dff1a0
-void* FUN_00dff1a0()
+// src: GUESS 0x00dff1a0 (confidence: low)
+void* Object_ProcessAndReturnValue_00dff1a0()
 {
     FinishingFlag f;
     f.m_bFinishing = 0;
@@ -93,7 +95,8 @@ struct __declspec(align(16)) FinishLoadedShape
 };
 
 // @fnv 0x00dff550
-void* __cdecl FUN_00dff550()
+// src: GUESS 0x00dff550 (confidence: low)
+void* __cdecl Runtime_UpdateState_00dff550()
 {
     FinishingFlag f;
     f.m_bFinishing = 0;
@@ -161,11 +164,12 @@ struct S_00de2010_Class
     S_00de2010_Vec unk50;
     S_00de2010_Vec unk60;
 
-    void FUN_00de2010(const S_00de2010_Vec* arg0, const S_00de2010_Vec* arg1);
+    void InitializeFields_00de2010(const S_00de2010_Vec* arg0, const S_00de2010_Vec* arg1);
 };
 
 // @fnv 0x00de2010
-void S_00de2010_Class::FUN_00de2010(const S_00de2010_Vec* arg0, const S_00de2010_Vec* arg1)
+// src: GUESS 0x00de2010 (confidence: low)
+void S_00de2010_Class::InitializeFields_00de2010(const S_00de2010_Vec* arg0, const S_00de2010_Vec* arg1)
 {
     // translation, then the four rows of the rotation/transform matrix
     unk60 = arg0[0];
@@ -209,11 +213,12 @@ struct __declspec(align(16)) SetupTarget
     float m_float98;
     int m_int9C;
 
-    void FUN_00de4950(float f98, float f90, float f94, int i9C, const Vec4& v80, const Vec4& v60, const Vec4& v70);
+    void UpdateState_00de4950(float f98, float f90, float f94, int i9C, const Vec4& v80, const Vec4& v60, const Vec4& v70);
 };
 
 // @fnv 0x00de4950
-void SetupTarget::FUN_00de4950(float f98, float f90, float f94, int i9C, const Vec4& v80, const Vec4& v60,
+// src: GUESS 0x00de4950 (confidence: low)
+void SetupTarget::UpdateState_00de4950(float f98, float f90, float f94, int i9C, const Vec4& v80, const Vec4& v60,
                                const Vec4& v70)
 {
     reinterpret_cast<__m128&>(m_vec80) = reinterpret_cast<const __m128&>(v80);
@@ -321,11 +326,12 @@ struct FUN_00de5370_cls
     int m_i80;
     float m_f84;
     float m_f88;
-    void FUN_00de5370(float f1, float f2, int i1, const __m128* p1, const __m128* p2);
+    void InitializeFields_00de5370(float f1, float f2, int i1, const __m128* p1, const __m128* p2);
 };
 
 // @fnv 0x00de5370
-void FUN_00de5370_cls::FUN_00de5370(float f1, float f2, int i1, const __m128* p1, const __m128* p2)
+// src: GUESS 0x00de5370 (confidence: low)
+void FUN_00de5370_cls::InitializeFields_00de5370(float f1, float f2, int i1, const __m128* p1, const __m128* p2)
 {
     m_f84 = f1;
     m_v60 = *p2;
@@ -418,11 +424,12 @@ FUN_00de53b0::FUN_00de53b0(float f1, float f2, int i1, const Vec4& p1, const Vec
 struct ScaleMatrix
 {
     __m128 row0, row1, row2, row3;
-    const __m128* FUN_00de88a0(const __m128* scalar, const ScaleMatrix* matrix);
+    const __m128* ProcessAndReturnValue_00de88a0(const __m128* scalar, const ScaleMatrix* matrix);
 };
 
 // @fnv 0x00de88a0
-const __m128* ScaleMatrix::FUN_00de88a0(const __m128* scalar, const ScaleMatrix* matrix)
+// src: GUESS 0x00de88a0 (confidence: low)
+const __m128* ScaleMatrix::ProcessAndReturnValue_00de88a0(const __m128* scalar, const ScaleMatrix* matrix)
 {
     row0 = _mm_mul_ps(_mm_shuffle_ps(*scalar, *scalar, 0), matrix->row0);
     row1 = _mm_mul_ps(_mm_shuffle_ps(*scalar, *scalar, 0), matrix->row1);
@@ -474,7 +481,8 @@ struct MotionArgument
 };
 
 // @fnv 0x00df07c0
-void __cdecl FUN_00df07c0(const unsigned char* pucLockedAxes, MotionArgument pkMotion)
+// src: GUESS 0x00df07c0 (confidence: low)
+void __cdecl Object_ProcessEntries_00df07c0(const unsigned char* pucLockedAxes, MotionArgument pkMotion)
 {
     if (*pucLockedAxes)
     {
@@ -491,7 +499,8 @@ void __cdecl FUN_00df07c0(const unsigned char* pucLockedAxes, MotionArgument pkM
 }
 
 // @fnv 0x00df3120
-void __stdcall FUN_00df3120(__m128* dest, unsigned int index, __m128* src)
+// src: GUESS 0x00df3120 (confidence: low)
+void __stdcall Object_UpdateFields_00df3120(__m128* dest, unsigned int index, __m128* src)
 {
     *(__m128*)((char*)dest + (index << 4)) = *src;
 }
@@ -508,7 +517,8 @@ struct MetaEntry
 };
 
 // @fnv 0x00df32d0
-void __cdecl FUN_00df32d0(MetaEntry* meta, BlkVector4fView* src, __m128* dst, unsigned int metaIndex, unsigned int index)
+// src: GUESS 0x00df32d0 (confidence: low)
+void __cdecl Runtime_UpdateState_00df32d0(MetaEntry* meta, BlkVector4fView* src, __m128* dst, unsigned int metaIndex, unsigned int index)
 {
     __declspec(align(16)) BlkVector4fView u = src[index];
     MetaEntry e;
@@ -528,7 +538,8 @@ inline __m128 RotateDF5D20(__m128 v, const __m128* rows)
 }
 
 // @fnv 0x00df5d20
-__m128* __cdecl FUN_00df5d20(__m128* fields, const __m128* input, __m128* outA, __m128* outB)
+// src: GUESS 0x00df5d20 (confidence: low)
+__m128* __cdecl Object_ProcessAndReturnValue_00df5d20(__m128* fields, const __m128* input, __m128* outA, __m128* outB)
 {
     __m128 rotated = RotateDF5D20(*input, fields + 16);
     __m128 scaleA = _mm_shuffle_ps(fields[6], fields[6], 0xff);
@@ -794,7 +805,8 @@ class __declspec(align(16)) S00dfb2b0_Object
 
 // Havok getVtable helper: build the object with the finish-loading flag and read its vtable pointer.
 // @fnv 0x00dfb2b0
-const void* __cdecl FUN_00dfb2b0()
+// src: GUESS 0x00dfb2b0 (confidence: medium)
+const void* __cdecl Runtime_GetVtableFromTemporary_00dfb2b0()
 {
     FinishingFlag flag;
     flag.m_bFinishing = 0;
@@ -892,7 +904,8 @@ class __declspec(align(16)) S00dfb400_Object
 
 // Havok getVtable helper: build the object with the finish-loading flag and read its vtable pointer.
 // @fnv 0x00dfb400
-const void* __cdecl FUN_00dfb400()
+// src: GUESS 0x00dfb400 (confidence: medium)
+const void* __cdecl Object_GetConstructedVirtualTable_00dfb400()
 {
     FinishingFlag flag;
     flag.m_bFinishing = 0;
@@ -920,7 +933,8 @@ class __declspec(align(16)) S00dfb460_Object
 
 // Havok getVtable helper: build the object with the finish-loading flag and read its vtable pointer.
 // @fnv 0x00dfb460
-const void* __cdecl FUN_00dfb460()
+// src: GUESS 0x00dfb460 (confidence: medium)
+const void* __cdecl Object_GetConstructedVirtualTable_00dfb460()
 {
     FinishingFlag flag;
     flag.m_bFinishing = 0;
@@ -948,7 +962,8 @@ class __declspec(align(16)) S00dfba80_Object
 
 // Havok getVtable helper: build the object with the finish-loading flag and read its vtable pointer.
 // @fnv 0x00dfba80
-const void* __cdecl FUN_00dfba80()
+// src: GUESS 0x00dfba80 (confidence: medium)
+const void* __cdecl Object_GetConstructedVirtualTable_00dfba80()
 {
     FinishingFlag flag;
     flag.m_bFinishing = 0;
@@ -976,7 +991,8 @@ class __declspec(align(16)) S00dfc7a0_Object
 
 // Havok getVtable helper: build the object with the finish-loading flag and read its vtable pointer.
 // @fnv 0x00dfc7a0
-const void* __cdecl FUN_00dfc7a0()
+// src: GUESS 0x00dfc7a0 (confidence: medium)
+const void* __cdecl Object_GetConstructedVirtualTable_00dfc7a0()
 {
     FinishingFlag flag;
     flag.m_bFinishing = 0;
@@ -1082,7 +1098,8 @@ struct __declspec(align(16)) DFC830Obj
 };
 
 // @fnv 0x00dfc830
-void* FUN_00dfc830()
+// src: GUESS 0x00dfc830 (confidence: low)
+void* Runtime_EvaluateValue_00dfc830()
 {
     DFC830Obj holder;
     FinishingFlag zero(0);
@@ -1114,7 +1131,8 @@ class __declspec(align(16)) S00dfcb70_Object
 
 // Havok getVtable helper: build the object with the finish-loading flag and read its vtable pointer.
 // @fnv 0x00dfcb70
-const void* __cdecl FUN_00dfcb70()
+// src: GUESS 0x00dfcb70 (confidence: medium)
+const void* __cdecl Runtime_GetVtableFromTemporary_00dfcb70()
 {
     FinishingFlag flag;
     flag.m_bFinishing = 0;
@@ -1143,7 +1161,8 @@ struct __declspec(align(16)) FUN_00d53df0
     int unk3C;
 };
 // @fnv 0x00dfce10
-int __cdecl FUN_00dfce10()
+// src: GUESS 0x00dfce10 (confidence: low)
+int __cdecl Runtime_EvaluateValue_00dfce10()
 {
     FinishingFlag kHandle(0);
     FUN_00d53df0 kQuery(kHandle);
@@ -1178,7 +1197,8 @@ class __declspec(align(16)) S00dfcf40_Object
 
 // Havok getVtable helper: build the object with the finish-loading flag and read its vtable pointer.
 // @fnv 0x00dfcf40
-const void* __cdecl FUN_00dfcf40()
+// src: GUESS 0x00dfcf40 (confidence: medium)
+const void* __cdecl Object_GetConstructedVirtualTable_00dfcf40()
 {
     FinishingFlag flag;
     flag.m_bFinishing = 0;
@@ -1222,7 +1242,8 @@ class __declspec(align(16)) S00dfd200_Object
 
 // Havok getVtable helper: build the object with the finish-loading flag and read its vtable pointer.
 // @fnv 0x00dfd200
-const void* __cdecl FUN_00dfd200()
+// src: GUESS 0x00dfd200 (confidence: medium)
+const void* __cdecl Object_GetConstructedVirtualTable_00dfd200()
 {
     FinishingFlag flag;
     flag.m_bFinishing = 0;
@@ -1266,7 +1287,8 @@ class __declspec(align(16)) S00dfd280_Object
 
 // Havok getVtable helper: build the object with the finish-loading flag and read its vtable pointer.
 // @fnv 0x00dfd280
-const void* __cdecl FUN_00dfd280()
+// src: GUESS 0x00dfd280 (confidence: medium)
+const void* __cdecl Object_GetConstructedVirtualTable_00dfd280()
 {
     FinishingFlag flag;
     flag.m_bFinishing = 0;
@@ -1319,7 +1341,8 @@ struct __declspec(align(16)) Dfd630Obj
 };
 
 // @fnv 0x00dfd630
-void* FUN_00dfd630()
+// src: GUESS 0x00dfd630 (confidence: low)
+void* Runtime_EvaluateValue_00dfd630()
 {
     Dfd630Obj holder;
     FinishingFlag z(0);
@@ -1332,7 +1355,7 @@ unsigned int DAT_010e33dc;
 struct FUN_00dfd9b0_sub
 {
     int m_00;
-    void FUN_00cb0a70(FinishingFlag arg);
+    void ReturnSelf(FinishingFlag arg);
 };
 
 struct __declspec(align(16)) FUN_00dfd9b0_holder
@@ -1372,12 +1395,13 @@ struct __declspec(align(16)) FUN_00dfd9b0_holder
 };
 
 // @fnv 0x00dfd9b0
-unsigned int* FUN_00dfd9b0()
+// src: GUESS 0x00dfd9b0 (confidence: low)
+unsigned int* Runtime_UpdateState_00dfd9b0()
 {
     FUN_00dfd9b0_holder holder;
     FinishingFlag arg(0);
     holder.m_pTable = &DAT_010e33dc;
-    holder.m_sub.FUN_00cb0a70(arg);
+    holder.m_sub.ReturnSelf(arg);
     return holder.m_pTable;
 }
 
@@ -1397,7 +1421,8 @@ class __declspec(align(16)) S00dfda80_Object
 
 // Havok getVtable helper: build the object with the finish-loading flag and read its vtable pointer.
 // @fnv 0x00dfda80
-const void* __cdecl FUN_00dfda80()
+// src: GUESS 0x00dfda80 (confidence: medium)
+const void* __cdecl Object_GetConstructedVirtualTable_00dfda80()
 {
     FinishingFlag flag;
     flag.m_bFinishing = 0;
@@ -1425,7 +1450,8 @@ class __declspec(align(16)) S00dfe280_Object
 
 // Havok getVtable helper: build the object with the finish-loading flag and read its vtable pointer.
 // @fnv 0x00dfe280
-const void* __cdecl FUN_00dfe280()
+// src: GUESS 0x00dfe280 (confidence: medium)
+const void* __cdecl Object_GetConstructedVirtualTable_00dfe280()
 {
     FinishingFlag flag;
     flag.m_bFinishing = 0;
@@ -1438,7 +1464,7 @@ int DAT_010cb864;
 struct ZSubDFE2F0
 {
     int m_00;
-    void FUN_00ce5360(FinishingFlag arg);
+    void ComputeValue_00ce5360(FinishingFlag arg);
 };
 
 struct __declspec(align(16)) ZHolderDFE2F0
@@ -1484,7 +1510,7 @@ int* getVtablehkaSkeletonMapper()
     ZHolderDFE2F0 holder;
     FinishingFlag arg(0);
     holder.unk00 = (int)&DAT_010cb864;
-    holder.m_sub.FUN_00ce5360(arg);
+    holder.m_sub.ComputeValue_00ce5360(arg);
     return *(int**)&holder.unk00;
 }
 
@@ -1530,7 +1556,7 @@ struct __declspec(align(16)) FUN_00dfe440_obj
     unsigned int unk94;
     unsigned int unk98;
     unsigned int unk9C;
-    void FUN_00e40ca0(FinishingFlag arg);
+    void InitializeFields_00e40ca0(FinishingFlag arg);
 };
 
 // @fnv 0x00dfe440
@@ -1538,13 +1564,13 @@ struct __declspec(align(16)) FUN_00dfe440_obj
 int getVtablehkaFootstepAnalysisInfo()
 {
     FUN_00dfe440_obj obj;
-    obj.FUN_00e40ca0(FinishingFlag());
+    obj.InitializeFields_00e40ca0(FinishingFlag());
     return obj.m_pVTable;
 }
 
 struct FUN_00dff130_sub
 {
-    void FUN_00cb0a70(FinishingFlag kHandle);
+    void ReturnSelf(FinishingFlag kHandle);
     int m_00;
 };
 extern int DAT_010cc2fc;
@@ -1579,7 +1605,7 @@ int* __cdecl getVtablehkpReorientAction()
     FinishingFlag kHandle(0);
     FUN_00dff130_obj kObj;
     kObj.m_pVtbl = &DAT_010cc2fc;
-    kObj.m_kSub.FUN_00cb0a70(kHandle);
+    kObj.m_kSub.ReturnSelf(kHandle);
     return &DAT_010e6834;
 }
 
@@ -1619,7 +1645,8 @@ class __declspec(align(16)) S00dff310_Object
 
 // Havok getVtable helper: build the object with the finish-loading flag and read its vtable pointer.
 // @fnv 0x00dff310
-const void* __cdecl FUN_00dff310()
+// src: GUESS 0x00dff310 (confidence: medium)
+const void* __cdecl Runtime_GetVtableFromTemporary_00dff310()
 {
     FinishingFlag flag;
     flag.m_bFinishing = 0;
@@ -1659,7 +1686,8 @@ class __declspec(align(16)) S00dff4f0_Object
 
 // Havok getVtable helper: build the object with the finish-loading flag and read its vtable pointer.
 // @fnv 0x00dff4f0
-const void* __cdecl FUN_00dff4f0()
+// src: GUESS 0x00dff4f0 (confidence: medium)
+const void* __cdecl Runtime_GetVtableFromTemporary_00dff4f0()
 {
     FinishingFlag flag;
     flag.m_bFinishing = 0;
@@ -1691,7 +1719,8 @@ class __declspec(align(16)) S00dff8b0_Object
 
 // Havok getVtable helper: build the object with the finish-loading flag and read its vtable pointer.
 // @fnv 0x00dff8b0
-const void* __cdecl FUN_00dff8b0()
+// src: GUESS 0x00dff8b0 (confidence: medium)
+const void* __cdecl Runtime_GetVtableFromTemporary_00dff8b0()
 {
     FinishingFlag flag;
     flag.m_bFinishing = 0;
@@ -1723,7 +1752,8 @@ class __declspec(align(16)) S00dffa70_Object
 
 // Havok getVtable helper: build the object with the finish-loading flag and read its vtable pointer.
 // @fnv 0x00dffa70
-const void* __cdecl FUN_00dffa70()
+// src: GUESS 0x00dffa70 (confidence: medium)
+const void* __cdecl Runtime_GetVtableFromTemporary_00dffa70()
 {
     FinishingFlag flag;
     flag.m_bFinishing = 0;
@@ -1763,7 +1793,8 @@ class __declspec(align(16)) S00dffbb0_Object
 
 // Havok getVtable helper: build the object with the finish-loading flag and read its vtable pointer.
 // @fnv 0x00dffbb0
-const void* __cdecl FUN_00dffbb0()
+// src: GUESS 0x00dffbb0 (confidence: medium)
+const void* __cdecl Runtime_GetVtableFromTemporary_00dffbb0()
 {
     FinishingFlag flag;
     flag.m_bFinishing = 0;
@@ -1780,7 +1811,8 @@ class __declspec(align(16)) S00dfffa0_Object
 };
 
 // @fnv 0x00dfffa0
-const void* __cdecl FUN_00dfffa0()
+// src: GUESS 0x00dfffa0 (confidence: low)
+const void* __cdecl Object_ProcessAndReturnValue_00dfffa0()
 {
     FinishingFlag flag;
     flag.m_bFinishing = 0;
@@ -1919,9 +1951,9 @@ struct Output56
 };
 
 int hkKdTreeBuilder_struct_hkKdTreeProjectedEntry_const_struct_hkKdTreeProjectedEntry_restrict_0_writeEmptyLeaf(Output56* a, int b, int c);
-int FUN_00df32d0(Output56* a, int b, int c, int d, int e, int f);
-int FUN_00df3330(Output56* a, int b, int c, int d, int e, int f, int g);
-__declspec(noalias) int FUN_00df4ec0(SplitB* a, int b, int c, SplitA* sa, int* p5, SplitB* sb, SIMD56::LocalM128* v20,
+int Runtime_UpdateState_00df32d0(Output56* a, int b, int c, int d, int e, int f);
+int Runtime_ProcessEntries_00df3330(Output56* a, int b, int c, int d, int e, int f, int g);
+__declspec(noalias) int ProcessEntries_00df4ec0(SplitB* a, int b, int c, SplitA* sa, int* p5, SplitB* sb, SIMD56::LocalM128* v20,
                                      SIMD56::LocalM128* v40);
 
 // @fnv 0x00df56a0
@@ -1937,12 +1969,12 @@ int hkKdTreeBuilder_hkKdTreeProjectedEntry_const_hkKdTreeProjectedEntry_restrict
     }
     if (1 == i)
     {
-        FUN_00df32d0(*p2, p->m0->f0, p3, p->m4, p->m0c, p->m30);
+        Runtime_UpdateState_00df32d0(*p2, p->m0->f0, p3, p->m4, p->m0c, p->m30);
         return i;
     }
     if (4 >= i)
     {
-        *p5 += FUN_00df3330(*p2, p->m0->f0, p3, p->m4, p->m0c, i, p->m30);
+        *p5 += Runtime_ProcessEntries_00df3330(*p2, p->m0->f0, p3, p->m4, p->m0c, i, p->m30);
         return 1;
     }
     int t[3];
@@ -1955,9 +1987,9 @@ int hkKdTreeBuilder_hkKdTreeProjectedEntry_const_hkKdTreeProjectedEntry_restrict
     {
         SplitA ptr;
         SplitB j;
-        if (FUN_00df4ec0(p->m0, p->m0c, p->m10, &ptr, p5, &j, &p->m20, &p->m40) == 1)
+        if (ProcessEntries_00df4ec0(p->m0, p->m0c, p->m10, &ptr, p5, &j, &p->m20, &p->m40) == 1)
         {
-            *p5 += FUN_00df3330(*p2, p->m0->f0, p3, p->m4, p->m0c, i, p->m30);
+            *p5 += Runtime_ProcessEntries_00df3330(*p2, p->m0->f0, p3, p->m4, p->m0c, i, p->m30);
             return 1;
         }
         y.setPlanes(ptr.lo, ptr.hi);
@@ -2065,8 +2097,8 @@ class __declspec(align(16)) S00dfe5e0_Object
     {
         FinishingFlag arg;
         arg.m_bFinishing = flag.m_bFinishing;
-        m_kFirst.FUN_00cb0a70(arg);
-        m_kSecond.FUN_00cb0a70(arg);
+        m_kFirst.ReturnSelf(arg);
+        m_kSecond.ReturnSelf(arg);
     }
     virtual void vf00();
     int unk04;
@@ -2256,7 +2288,7 @@ class __declspec(align(16)) AnimationBindingVtableProbe
     AnimationBindingVtableProbe(FinishingFlag flag)
     {
         FinishingFlag argument(flag.m_bFinishing);
-        m_skeletonName.FUN_00cb0a70(argument);
+        m_skeletonName.ReturnSelf(argument);
     }
     virtual void vf00();
     int unk04;
@@ -2314,12 +2346,13 @@ struct __declspec(align(16)) SpringVtableObject
 };
 
 // @fnv 0x00dfef90
-const void* __cdecl FUN_00dfef90()
+// src: GUESS 0x00dfef90 (confidence: low)
+const void* __cdecl Runtime_UpdateState_00dfef90()
 {
     FinishingFlag finish(0);
     SpringVtableObject object;
     object.m_ppVirtualMethodTable = &DAT_010cc2fc;
-    object.m_name.FUN_00cb0a70(finish);
+    object.m_name.ReturnSelf(finish);
     return &DAT_010d08f4;
 }
 
@@ -2357,7 +2390,7 @@ const void* __cdecl getVtablehkpPhysicsSystemWithContacts()
     FinishingFlag flag(0);
     ContactSystemView object;
     object.table = &DAT_010cce28;
-    object.name.FUN_00cb0a70(flag);
+    object.name.ReturnSelf(flag);
     return &DAT_010d07f4;
 }
 
@@ -2392,12 +2425,13 @@ struct __declspec(align(16)) VtableProbeDff2b0
 };
 
 // @fnv 0x00dff2b0
-const void* __cdecl FUN_00dff2b0()
+// src: GUESS 0x00dff2b0 (confidence: low)
+const void* __cdecl Runtime_UpdateState_00dff2b0()
 {
     FinishingFlag flag(0);
     VtableProbeDff2b0 object;
     object.m_ppVirtualMethodTable = &DAT_010cc2fc;
-    object.m_name.FUN_00cb0a70(flag);
+    object.m_name.ReturnSelf(flag);
     return &DAT_010c8e94;
 }
 
@@ -2420,7 +2454,8 @@ class __declspec(align(16)) S00dff380_Object : public S00dfbe20_Mid
 };
 
 // @fnv 0x00dff380
-const void* __cdecl FUN_00dff380()
+// src: GUESS 0x00dff380 (confidence: low)
+const void* __cdecl Object_ProcessAndReturnValue_00dff380()
 {
     FinishingFlag flag;
     flag.m_bFinishing = 0;
@@ -2440,12 +2475,13 @@ struct __declspec(align(16)) DashpotTypeInfoObject
 };
 
 // @fnv 0x00dff9f0
-int* __cdecl FUN_00dff9f0()
+// src: GUESS 0x00dff9f0 (confidence: low)
+int* __cdecl Runtime_UpdateState_00dff9f0()
 {
     FinishingFlag finishing(0);
     DashpotTypeInfoObject object;
     object.m_pAction.m_pVtbl = &DAT_010cc2fc;
-    object.m_pAction.m_kSub.FUN_00cb0a70(finishing);
+    object.m_pAction.m_kSub.ReturnSelf(finishing);
     return &DAT_010d0994;
 }
 
@@ -2472,11 +2508,12 @@ struct __declspec(align(16)) AngularActionVtableObject
 };
 
 // @fnv 0x00dffc20
-const void* __cdecl FUN_00dffc20()
+// src: GUESS 0x00dffc20 (confidence: low)
+const void* __cdecl Object_ProcessAndReturnValue_00dffc20()
 {
     FinishingFlag flag(0);
     AngularActionVtableObject object;
     object.m_ppVirtualMethodTable = &DAT_010cc2fc;
-    object.m_name.FUN_00cb0a70(flag);
+    object.m_name.ReturnSelf(flag);
     return &DAT_010d09f4;
 }

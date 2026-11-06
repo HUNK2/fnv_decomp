@@ -38,7 +38,8 @@ void __cdecl hkReferencedObject_setLockMode(int v)
 extern int DAT_0102e388;
 
 // @fnv 0x00c903d0
-int* __cdecl FUN_00c903d0()
+// src: GUESS 0x00c903d0 (confidence: low)
+int* __cdecl hkReferencedObject_GetDAT0102e388Address()
 {
     return &DAT_0102e388;
 }
@@ -172,7 +173,7 @@ struct FUN_00e3e840_result
 
 struct FUN_00e5c4d0_class
 {
-    void FUN_00e5c4d0(FUN_00e3e840_data* data, int key);
+    void FindOrCreateEntryReference(FUN_00e3e840_data* data, int key);
 };
 
 struct FUN_00e3e840_class
@@ -200,7 +201,7 @@ FUN_00e3e840_result* FUN_00e3e840_class::FindWorldByKey(FUN_00e3e840_result* res
 
             do
             {
-                reinterpret_cast<FUN_00e5c4d0_class*>(m_pItems + offset)->FUN_00e5c4d0(&data, key);
+                reinterpret_cast<FUN_00e5c4d0_class*>(m_pItems + offset)->FindOrCreateEntryReference(&data, key);
 
                 if (data.m_pWorld)
                 {
@@ -421,7 +422,7 @@ struct Owner_9bf0
 {
     unsigned int unk00, unk04, unk08, unk0c, unk10, unk14;
     Object_9bf0* m_object;
-    void FUN_00c89bf0(Object_9bf0* next);
+    void UpdateState_00c89bf0(Object_9bf0* next);
 };
 struct RestoreMode_9bf0
 {
@@ -436,7 +437,8 @@ struct RestoreMode_9bf0
     }
 };
 // @fnv 0x00c89bf0
-void Owner_9bf0::FUN_00c89bf0(Object_9bf0* apObject)
+// src: GUESS 0x00c89bf0 (confidence: low)
+void Owner_9bf0::UpdateState_00c89bf0(Object_9bf0* apObject)
 {
     RestoreMode_9bf0 scoped;
     if (apObject)
@@ -554,10 +556,11 @@ struct FUN_00ca9b40_class
     short m_uCount;
     int m_extraneousState;
     ObjectRef* m_pObject;
-    void FUN_00ca9b40(ObjectRef* pObject);
+    void UpdateFields_00ca9b40(ObjectRef* pObject);
 };
 // @fnv 0x00ca9b40
-void FUN_00ca9b40_class::FUN_00ca9b40(ObjectRef* pObject)
+// src: GUESS 0x00ca9b40 (confidence: low)
+void FUN_00ca9b40_class::UpdateFields_00ca9b40(ObjectRef* pObject)
 {
     ThreadFlagGuard guard;
     if (pObject)
@@ -592,7 +595,7 @@ struct DeviceOwner
     int unk00, unk04, unk08, unk0c;
     DeviceSubobject m_subobject;
     int unk14, unk18, m_payload;
-    void FUN_00ca9b40(Resource*);
+    void UpdateFields_00ca9b40(Resource*);
 };
 struct InputObject
 {
@@ -615,7 +618,7 @@ void FUN_00ca9ce0_class::ProcessInput(InputObject* input)
     hkConstraintCinfo_LoadBinary(input);
     DeviceOwner* owner = m_pOwnerObject;
     Resource* resource = bhkConstraintManager_LoadBinary(input);
-    owner->FUN_00ca9b40(resource);
+    owner->UpdateFields_00ca9b40(resource);
     owner->m_subobject.hkpBridgeConstraintAtom_init(owner);
     resource->FUN_00c905b0();
     DeviceCallback* callback = input->GetCallback();
@@ -904,12 +907,13 @@ struct Obj_00c89b60
     int unk0C;
     int unk10;
     Ref_00c89b60* m_pReference;
-    void __thiscall FUN_00c89b60(Ref_00c89b60* r);
+    void __thiscall SetRetainedReference(Ref_00c89b60* r);
 };
 
 // Sets m_pReference to r, calling FUN_00c90510 on the new reference and FUN_00c905b0 on the old one if present.
 // @fnv 0x00c89b60
-void __thiscall Obj_00c89b60::FUN_00c89b60(Ref_00c89b60* apReference)
+// src: GUESS 0x00c89b60 (confidence: medium)
+void __thiscall Obj_00c89b60::SetRetainedReference(Ref_00c89b60* apReference)
 {
     Scope_00c89b60 s;
     if (apReference)
@@ -1233,18 +1237,19 @@ struct Container_e3eb
     int unk1C, unk20, unk24;
     Container_e3eb** m_children;
     int m_numChildren;
-    hkRefPtr_e3eb<Resource_e3eb> FUN_00e3eb10(Resource_e3eb* target) throw();
+    hkRefPtr_e3eb<Resource_e3eb> FindResourceRecursively(Resource_e3eb* target) throw();
 };
 
 // Recursively searches this container and its children for the given Resource_e3eb, returning a reference-counted pointer to it or an empty reference.
 // @fnv 0x00e3eb10
-hkRefPtr_e3eb<Resource_e3eb> Container_e3eb::FUN_00e3eb10(Resource_e3eb* apResource) throw()
+// src: GUESS 0x00e3eb10 (confidence: high)
+hkRefPtr_e3eb<Resource_e3eb> Container_e3eb::FindResourceRecursively(Resource_e3eb* apResource) throw()
 {
     if (m_resource == apResource)
         return hkRefPtr_e3eb<Resource_e3eb>(m_resource);
     for (int i = 0; i < m_numChildren; i++)
     {
-        hkRefPtr_e3eb<Resource_e3eb> found = m_children[i]->FUN_00e3eb10(apResource);
+        hkRefPtr_e3eb<Resource_e3eb> found = m_children[i]->FindResourceRecursively(apResource);
         if (found.m_pRetainedObject)
             return found;
     }
@@ -1287,12 +1292,13 @@ struct E5C4Foo
     int unk0;
     E5C4Entry* d;
     int FindEntryIndex(E5C4Obj* k);
-    E5C4Ref FUN_00e5c4d0(E5C4Key k);
+    E5C4Ref FindOrCreateEntryReference(E5C4Key k);
 };
 
 // Looks up an entry by key in d; if missing, assigns a new object via k.AssignObject, then returns a copy of the stored E5C4Ref.
 // @fnv 0x00e5c4d0
-E5C4Ref E5C4Foo::FUN_00e5c4d0(E5C4Key akKey)
+// src: GUESS 0x00e5c4d0 (confidence: medium)
+E5C4Ref E5C4Foo::FindOrCreateEntryReference(E5C4Key akKey)
 {
     int bCreated = 0;
     volatile int tmp[2];

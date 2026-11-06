@@ -168,14 +168,14 @@ void BGSImpactDataSet::RefreshImpactData(ImpactSwap* swap)
 
 struct FUN_0040f2a0
 {
-    void FUN_0058f010();
+    void NiTPointerMap_DeleteImpactDataMaps();
     void* DeleteThis(unsigned int flags);
 };
 // Calls FUN_0058f010, frees this when flags has bit 0 set, and returns this.
 // @fnv 0x0040f2a0
 void* FUN_0040f2a0::DeleteThis(unsigned int flags)
 {
-    FUN_0058f010();
+    NiTPointerMap_DeleteImpactDataMaps();
     if (flags & 1)
         operator delete(this);
     return this;
@@ -191,7 +191,7 @@ void BGSImpactDataSet::Save()
 {
     int iIndex;
     unsigned int auiFormIDs[12];
-    TESForm::FUN_004855a0();
+    TESForm::BeginFormRecord();
     for (iIndex = 0; iIndex < 12; iIndex++)
     {
         if (m_apImpactData[iIndex])
@@ -200,7 +200,7 @@ void BGSImpactDataSet::Save()
             auiFormIDs[iIndex] = 0;
     }
     TESForm_AddChunkArray_00485710(0x41544144, auiFormIDs, 12);
-    TESForm::FUN_00485680();
+    TESForm::FinishFormRecord();
 }
 
 struct FUN_0058efd0
@@ -219,7 +219,8 @@ FUN_0058efd0::FUN_0058efd0()
 
 // Deletes each of the 12 item pointers in the array and sets them to null.
 // @fnv 0x0058f010
-void __fastcall FUN_0058f010(NiTPointerMap<BGSImpactData*, BGSImpactData*>** apItems)
+// src: GUESS 0x0058f010 (confidence: medium)
+void __fastcall NiTPointerMap_DeleteImpactDataMaps(NiTPointerMap<BGSImpactData*, BGSImpactData*>** apItems)
 {
     for (int i = 0; i < 12; i++)
     {

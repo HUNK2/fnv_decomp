@@ -187,9 +187,9 @@ struct FUN_00d0d0d0_cls {
         int unk00; int unk04; int unk08;
         Callback* unk0c;
         void ProcessArgument(void* managerValue);
-        void FUN_00a29680();
+        void Object_DoNothing();
     } sub3c;
-    void FUN_00cf86d0();
+    void SetVtableAndProcessState_00cf86d0();
     void Destroy();
 };
 // @fnv 0x00d0d0d0
@@ -198,7 +198,7 @@ void FUN_00d0d0d0_cls::Destroy() {
     if (sub3c.unk0c)
         sub3c.unk0c->Invoke(1);
     sub3c.ProcessArgument((void*)hkMemoryRouter_getInstance()->m_heap);
-    sub3c.FUN_00a29680();
+    sub3c.Object_DoNothing();
     hkMemoryRouter* manager = hkMemoryRouter_getInstance();
     Receiver* writer = (Receiver*)manager->m_heap;
     unk34 = 0;
@@ -207,7 +207,7 @@ void FUN_00d0d0d0_cls::Destroy() {
 skip_writer:
     unk30 = 0;
     unk38 = 0x80000000;
-    FUN_00cf86d0();
+    SetVtableAndProcessState_00cf86d0();
 }
 
 void __cdecl InitAndDispatch();
@@ -234,7 +234,7 @@ struct Context {
  int& otherPending(){return *reinterpret_cast<int*>(reinterpret_cast<char*>(this)+144);}
  unsigned char& locked(){return *reinterpret_cast<unsigned char*>(reinterpret_cast<char*>(this)+156);}
  int& mode(){return *reinterpret_cast<int*>(reinterpret_cast<char*>(this)+164);}
- void FUN_00c91120();void FUN_00c91140();
+ void FUN_00c91120();void UpdateFields_00c91140();
 };
 struct Body { unsigned char& motion(){return *reinterpret_cast<unsigned char*>(reinterpret_cast<char*>(this)+232);} void* state(){return reinterpret_cast<char*>(this)+240;} };
 void __cdecl hkSweptTransformUtil_backStepMotionState(float,void*);
@@ -268,7 +268,7 @@ void Controller::ProcessBodies(Body** bodies,int count,Context* context,int flag
  else if(active)process(bodies,count,context,2);
  if(--context->depth()==0&&!context->locked()) {
  if(context->pending())context->FUN_00c91120();
- if(context->mode()==1&&context->otherPending())context->FUN_00c91140();
+ if(context->mode()==1&&context->otherPending())context->UpdateFields_00c91140();
  }
  context->world()->time()=saved;
 }
@@ -781,7 +781,7 @@ struct HolderBase {
 };
 
 void __cdecl ResizeAudioStream(void* alloc, NiPoint3* vec, unsigned int elemSize);
-int __cdecl FUN_00d9f6f0(int a, int b, int c, int d, void* e);
+int __cdecl hkVector4_ProcessEntries_00d9f6f0(int a, int b, int c, int d, void* e);
 int __cdecl hkLs_areVelocitiesOk(float f, Entry* entry, void* out, int a, int b);
 
 // @fnv 0x00d0ceb0
@@ -795,7 +795,7 @@ unsigned char* __cdecl CollectMatchingEntries(unsigned char* pResult, SrcA* pSrc
         do {
             Entry* e = (Entry*)((char*)reinterpret_cast<Entry*&>(pVec->x) + iOffset);
             if (e->m_00->m_1c == 5) {
-                int r = FUN_00d9f6f0(pSrc->m_04, e->m_04, pSrc->m_0c, 0x100, auiBuffer);
+                int r = hkVector4_ProcessEntries_00d9f6f0(pSrc->m_04, e->m_04, pSrc->m_0c, 0x100, auiBuffer);
                 int ret = hkLs_areVelocitiesOk(pSrc->m_00->m_08, e, auiBuffer, r, a4);
                 if (ret >= 0) {
                     if (dst == 0) {
@@ -1637,7 +1637,8 @@ struct EntryList_b2089
 };
 
 // @fnv 0x00d0bf30
-void FUN_00d0bf30(World_b2089* world, EntryList_b2089* pEntries)
+// src: GUESS 0x00d0bf30 (confidence: low)
+void hkVector4_setRotatedDir_ProcessEntries_00d0bf30(World_b2089* world, EntryList_b2089* pEntries)
 {
     for (int i = 0; i < pEntries->m_iArrayLength; ++i)
     {
@@ -1775,7 +1776,7 @@ struct CollisionQueue {
         ++size;
     }
 };
-void __cdecl FUN_00d9f250(hkVector4*, float, CollisionParameters*, CollisionMotion*, CollisionMotion*, CollisionManager*, CollisionOutput*);
+void __cdecl hkpCollision_ProcessBodyResponse(hkVector4*, float, CollisionParameters*, CollisionMotion*, CollisionMotion*, CollisionManager*, CollisionOutput*);
 void __cdecl hkpWorldCallbackUtil_fireContactImpulseLimitBreached(void*, CollisionStateData*, int);
 // @fnv 0x00d0c480
 void __cdecl ProcessCollisionEvent(void* context, CollisionEvent* event, float deltaTime, CollisionQueue* queue)
@@ -1792,7 +1793,7 @@ void __cdecl ProcessCollisionEvent(void* context, CollisionEvent* event, float d
     params.restitution = event->properties.restitution * (1.0 / 128.0);
     params.maximumImpulse = event->properties.maximumImpulse == 0 ? DAT_0104da48 : DAT_010c7948[event->properties.maximumImpulse];
     CollisionOutput result;
-    FUN_00d9f250(&event->position, event->time, &params, motionA, motionB, event->manager, &result);
+    hkpCollision_ProcessBodyResponse(&event->position, event->time, &params, motionA, motionB, event->manager, &result);
     if (params.limitBreached) {
         CollisionStateData callbackEvent;
         callbackEvent.type = 2;
@@ -2564,7 +2565,7 @@ struct Ctx {
     int m_2f8; int m_2fc; float m_300;
     Sub1E0* solverInfo() { return &m_1e0; }
     void FUN_00c91120();
-    void FUN_00c91140();
+    void UpdateFields_00c91140();
 };
 void __cdecl hkpWorldCallbackUtil_fireIslandPostCollideCallback(Ctx*, BodyL*, Param*);
 template<int Mode> static inline void TickWrite(const char* name, volatile unsigned int& t)
@@ -2588,7 +2589,7 @@ static inline void ReleaseCtx(Ctx* c)
     if (c->m_9c != 0) return;
     if (c->m_8c) c->FUN_00c91120();
     if (c->m_a4 != 1) return;
-    if (c->m_90) c->FUN_00c91140();
+    if (c->m_90) c->UpdateFields_00c91140();
 }
 struct ThisFull {
     int m_00; int m_04; int m_08;
@@ -2662,7 +2663,7 @@ struct Tmp {
     void hkMapBase_unsigned_long_unsigned_long_hkMapOperations_unsigned_long_insert(void* a, int id, int z);
     int FindSlot(void* o);
     void ProcessArgument(void* a);
-    void FUN_00a29680();
+    void Object_DoNothing();
 };
 
 struct IFace {
@@ -2838,7 +2839,7 @@ void FUN_00d0c290_cls::hkpContinuousSimulation_removeToiEventsOfEntities(int* id
         }
         hkMemoryRouter* h = hkMemoryRouter_getInstance();
         t.ProcessArgument((void*)h->m_heap);
-        t.FUN_00a29680();
+        t.Object_DoNothing();
     }
 }
 
@@ -2851,7 +2852,7 @@ struct Tmp {
     void hkMapBase_unsigned_long_unsigned_long_hkMapOperations_unsigned_long_insert(void* a, int id, int z);
     int FindSlot(void* o);
     void ProcessArgument(void* a);
-    void FUN_00a29680();
+    void Object_DoNothing();
 };
 
 struct IFace {
@@ -3382,7 +3383,7 @@ struct S_00d0e210_World {
     int unkA0;
     int unkA4;
     void FUN_00c91120();
-    void FUN_00c91140();
+    void UpdateFields_00c91140();
     void lockCriticalOperations() throw() { m_iCriticalOperationsLockCount++; }
     void unlockCriticalOperations() throw()
     {
@@ -3390,7 +3391,7 @@ struct S_00d0e210_World {
             if (m_iPendingOperationCount != 0)
                 FUN_00c91120();
             if (unkA4 == 1 && m_iQueuedOperationCount != 0)
-                FUN_00c91140();
+                UpdateFields_00c91140();
         }
     }
 };
@@ -3986,7 +3987,7 @@ static __forceinline void unlockContext(Context* ctx) {
         if (ctx->pending())
             ctx->FUN_00c91120();
         if (ctx->mode() == 1 && ctx->otherPending())
-            ctx->FUN_00c91140();
+            ctx->UpdateFields_00c91140();
     }
 }
 
@@ -4963,18 +4964,18 @@ struct TraceStream {
 };
 __declspec(nothrow) void hkSweptTransformUtil_backStepMotionState(float,hkMotionState&) throw();
 __declspec(nothrow) void hkSolveUpload() throw();
-__declspec(nothrow) void FUN_00d88670(Resources&,DynamicNode* const*,int) throw();
+__declspec(nothrow) void hkpConstraintSolverResources_ProcessEntries_00d88670(Resources&,DynamicNode* const*,int) throw();
 __declspec(nothrow) BoolFlag hkpConstraintSolverSetup_internalIsMemoryOkForNewAccumulators(Resources&,DynamicNode**,int) throw();
 __declspec(nothrow) BoolFlag CheckTotalsWithinLimits(Resources&,Constraint**,int) throw();
 __declspec(nothrow) void hkpConstraintSolverSetup_subSolve(Resources&,int) throw();
 __declspec(nothrow) void hkpConstraintSolverSetup_internalAddJacobianSchemas(Resources&,Constraint**,int,List<SchemaRecord>&) throw();
-__declspec(nothrow) void FUN_00d0cb00(Resources&,ProcessInput&,List<SchemaRecord>&,int&,Constraint::ConstraintPriority,StateTable&,const List<DynamicNode*>&,List<DynamicNode*>&) throw();
+__declspec(nothrow) void Object_ProcessEntries_00d0cb00(Resources&,ProcessInput&,List<SchemaRecord>&,int&,Constraint::ConstraintPriority,StateTable&,const List<DynamicNode*>&,List<DynamicNode*>&) throw();
 __declspec(nothrow) void hkLs_toiActivateEntitiesAndCheckConstraints(ProcessInput&,Constraint::ConstraintPriority,float,const List<DynamicNode*>&,StateTable&,List<DynamicNode*>&,List<Constraint*>&) throw();
 __declspec(nothrow) void hkLs_backstepAndFreezeEntireIsland(float,SolverIsland*,StateTable&,List<DynamicNode*>&) throw();
 __declspec(nothrow) void hkpWorldAgentUtil_invalidateTim(DynamicNode*,const CollisionInput&) throw();
-__declspec(nothrow) void FUN_00d0bf30(Resources&,const List<DynamicNode*>&) throw();
+__declspec(nothrow) void hkVector4_setRotatedDir_ProcessEntries_00d0bf30(Resources&,const List<DynamicNode*>&) throw();
 __declspec(nothrow) BoolFlag CollectMatchingEntries(Resources&,const List<SchemaRecord>&,ProcessInput&,List<Violation>*) throw();
-__declspec(nothrow) void FUN_00d8aac0(const ResourceInfo&,Schema*,Accumulator*,SolverElement*) throw();
+__declspec(nothrow) void Object_UpdateFields_00d8aac0(const ResourceInfo&,Schema*,Accumulator*,SolverElement*) throw();
 __declspec(nothrow) void hkpConstraintSolverSetup_oneStepIntegrate(const ResourceInfo&,const TimeInterval&,const Accumulator*,DynamicNode* const*,int) throw();
 __declspec(nothrow) void UpdateIslandMotionStates(SolverIsland*,StateTable&,Resources&) throw();
 __declspec(nothrow) void PartitionMotionPairs(List<SchemaRecord>&,int&,int) throw();
@@ -5038,7 +5039,7 @@ struct SolveConstraint {
 };
 struct SolveRecord { SolveConstraint* constraint; void* schema; float depth; };
 struct SolveViolation { SolveConstraint* constraint; const SolvePoint* point; const void* properties; };
-extern "C" __declspec(nothrow) int __cdecl FUN_00d9f6f0(void*,void*,void*,int,float*) throw();
+extern "C" __declspec(nothrow) int __cdecl hkVector4_ProcessEntries_00d9f6f0(void*,void*,void*,int,float*) throw();
 extern "C" __declspec(nothrow) int __cdecl hkLs_areVelocitiesOk(float,SolveRecord*,float*,int,void*) throw();
 __declspec(noinline) __declspec(nothrow) BoolFlag CollectMatchingEntries(Resources& originalResources,const List<SchemaRecord>& originalRecords,ProcessInput& scene,List<Violation>* originalViolations)
 {
@@ -5053,7 +5054,7 @@ __declspec(noinline) __declspec(nothrow) BoolFlag CollectMatchingEntries(Resourc
     for(int i=0;i<records->GetLogicalSize();++i) {
         SolveRecord& record=records->begin()[i];
         if(record.constraint->priority!=5) continue;
-        int n=FUN_00d9f6f0(resources->solver,record.schema,resources->accumulators,256,velocities);
+        int n=hkVector4_ProcessEntries_00d9f6f0(resources->solver,record.schema,resources->accumulators,256,velocities);
         int violated=hkLs_areVelocitiesOk(resources->step->delta,&record,velocities,n,&scene);
         if(violated<0) continue;
         if(!rejected) return BoolFlag(false);
@@ -5115,7 +5116,7 @@ int hkLs_localizedSolveToi(const Limits& limits,Resources& resources,PairEvent& 
     if(0) TraceStream::GetMonitorStream().dontPrintf("sub.scr","SCR %f %s %s",event.time,event.bodies[0]->getName(),event.bodies[1]->getName());
     hkSolveUpload();
 
-    FUN_00d88670(resources,&touched[0],touched.GetLogicalSize());
+    hkpConstraintSolverResources_ProcessEntries_00d88670(resources,&touched[0],touched.GetLogicalSize());
     BoolFlag fresh=true;
     InlineList<DynamicNode*,64> moreTouched;
     InlineList<Constraint*,64> moreConstraints;
@@ -5127,7 +5128,7 @@ int hkLs_localizedSolveToi(const Limits& limits,Resources& resources,PairEvent& 
             if(!fresh) {
                 if(processed<records.GetLogicalSize()) {
                     contacts.clear();
-                    FUN_00d0cb00(resources,*world->input,records,checkpoint,limits.priority,states,touched,contacts);
+                    Object_ProcessEntries_00d0cb00(resources,*world->input,records,checkpoint,limits.priority,states,touched,contacts);
                     if(!contacts.GetLogicalSize()) goto solveFull;
                 } else goto solveFull;
             }
@@ -5152,7 +5153,7 @@ int hkLs_localizedSolveToi(const Limits& limits,Resources& resources,PairEvent& 
                 goto solveFull;
             }
             for(int i=0;i<contacts.GetLogicalSize();++i) if(0) TraceStream::GetMonitorStream().dontPrintf("sub-act","act ent:%s",contacts[i]->getName());
-            FUN_00d88670(resources,moreTouched.begin(),moreTouched.GetLogicalSize());
+            hkpConstraintSolverResources_ProcessEntries_00d88670(resources,moreTouched.begin(),moreTouched.GetLogicalSize());
 
             hkpConstraintSolverSetup_internalAddJacobianSchemas(resources,moreConstraints.begin(),moreConstraints.GetLogicalSize(),records);
             processed=checkpoint;
@@ -5177,14 +5178,14 @@ solveFull:
         hkpConstraintSolverSetup_subSolve(resources,0);
     }
     UnsignedShortArray<Schema>& sc1=resources.m_akBufferStates[1];if(sc1.m_pRayStart!=sc1.m_pTileTemplate) {
-        FUN_00d0bf30(resources,touched);
+        hkVector4_setRotatedDir_ProcessEntries_00d0bf30(resources,touched);
         BoolFlag satisfied=CollectMatchingEntries(resources,records,*world->input,0);
         if(!satisfied) {
             int tries=limits.extraSteps;
             UnsignedShortArray<Schema>& sc2=resources.m_akBufferStates[1];
             while(!satisfied && --tries>=0) {
-                FUN_00d8aac0(*resources.m_pSolverInfo,sc2.m_pRayStart,resources.m_pVelocityAccumulatorA,resources.m_pBufferA);
-                FUN_00d0bf30(resources,touched);
+                Object_UpdateFields_00d8aac0(*resources.m_pSolverInfo,sc2.m_pRayStart,resources.m_pVelocityAccumulatorA,resources.m_pBufferA);
+                hkVector4_setRotatedDir_ProcessEntries_00d0bf30(resources,touched);
                 satisfied=CollectMatchingEntries(resources,records,*world->input,0);
             }
         }
@@ -5493,11 +5494,12 @@ struct FUN_00d0d020_cls {
     void *m_48;
     int m_4c;
 
-    FUN_00d0d020_cls *FUN_00d0d020(Owner *a1);
+    FUN_00d0d020_cls *InitializeFields_00d0d020(Owner *a1);
 };
 
 // @fnv 0x00d0d020
-FUN_00d0d020_cls *FUN_00d0d020_cls::FUN_00d0d020(Owner *apOwner) {
+// src: GUESS 0x00d0d020 (confidence: low)
+FUN_00d0d020_cls *FUN_00d0d020_cls::InitializeFields_00d0d020(Owner *apOwner) {
     // the base constructor (0x00cf87c0) takes the owner pointer as its argument
     ((Stub_cf87c0 *)this)->FUN_00cf87c0(apOwner);
     m_vptr = (int)&DAT_010cd45c;
@@ -5637,7 +5639,7 @@ struct CtrObj {
     int unkA0;
     int m_a4;
     void FUN_00c91120();
-    void FUN_00c91140();
+    void UpdateFields_00c91140();
 };
 struct Arg0 {
     int unk00; int unk04; int unk08; int unk0c; int unk10; int unk14; int unk18; int unk1c;
@@ -5780,8 +5782,8 @@ struct BigObj {
     int m_11c;
     float m_120;
     int unk124, unk128, unk12c;
-    void FUN_00d105b0(void* arg);
-    void FUN_00c90e60(float a, float b);
+    void UpdateState_00d105b0(void* arg);
+    void UpdateFields_00c90e60(float a, float b);
 };
 struct Times {
     float tA;
@@ -5908,7 +5910,7 @@ static __forceinline void prepareProbe(Arg0* world,const Entry70& event,float de
     step.tB=world->hkpWorld_getCurrentPsiTime();
     step.diff=step.tB-step.tA;
     step.recip=1.0f/step.diff;
-    solver.FUN_00d105b0(&world->m_1e0);
+    solver.UpdateState_00d105b0(&world->m_1e0);
     solver.m_114=1;
     solver.m_120=1.0f;
     solver.m_118=1;
@@ -5917,7 +5919,7 @@ static __forceinline void prepareProbe(Arg0* world,const Entry70& event,float de
     solver.m_110=1.0f/delta;
     solver.m_v10.m_vComponents=_mm_setzero_ps();
     solver.m_v20.m_vComponents=_mm_setzero_ps();
-    solver.FUN_00c90e60(DAT_01016248,DAT_0104f498);
+    solver.UpdateFields_00c90e60(DAT_01016248,DAT_0104f498);
     input.hkpConstraintQueryIn_set(&solver,&step.tA,world->m_1b8);
 }
 int __cdecl hkLs_localizedSolveToi(const EventQuery&,SolverState&,Entry70&,PhaseObj&,Arg0*,PtrArr&,SolverFlagView&,float);
@@ -6148,7 +6150,7 @@ void Self::hkpContinuousSimulation_simulateToi(Arg0* world,Entry70* pair,float d
     CtrObj* c=m_ctr;
     if(--c->m_ref94==0 && !c->m_9c) {
         if(c->unk8c)c->FUN_00c91120();
-        if(c->m_a4==1 && c->unk90)c->FUN_00c91140();
+        if(c->m_a4==1 && c->unk90)c->UpdateFields_00c91140();
     }
     clockOne(DAT_01076f38);
     hkMemoryRouter* router3=hkMemoryRouter_getInstance();

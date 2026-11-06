@@ -85,7 +85,7 @@ public:
     void SetConstraintData(hkpConstraintData* data);
     virtual ~hkpBreakableConstraintData() throw();
     // The deleting wrapper at 0x00cc48b0 calls this destructor body out of line.
-    __declspec(noinline) void FUN_00d4e000();
+    __declspec(noinline) void UpdateFields_00d4e000();
     hkpBreakableConstraintData* Destroy(unsigned int flags);
     void getRuntimeInfo(int, void* out);
     void PopulateInfo(hkpConstraintDataInfo& info) const;
@@ -125,7 +125,8 @@ extern void* DAT_010d0a1c;
 extern void* _DAT_0102e388;
 
 // @fnv 0x00d4e000
-void hkpBreakableConstraintData::FUN_00d4e000()
+// src: GUESS 0x00d4e000 (confidence: low)
+void hkpBreakableConstraintData::UpdateFields_00d4e000()
 {
     hkpConstraintData* oldData = m_pConstraintData;
     *reinterpret_cast<void**>(this) = &DAT_010d0a1c;
@@ -134,7 +135,8 @@ void hkpBreakableConstraintData::FUN_00d4e000()
 }
 
 // @fnv 0x00d4dec0
-int __cdecl FUN_00d4dec0()
+// src: GUESS 0x00d4dec0 (confidence: high)
+int __cdecl Object_Return0xc()
 {
     return 0xc;
 }
@@ -159,7 +161,7 @@ FnvCpu_FUN_00cc48b0_CpuAllocatorHolder* __cdecl hkMemoryRouter_getInstance();
 // @fnv 0x00cc48b0
 hkpBreakableConstraintData* hkpBreakableConstraintData::Destroy(unsigned int flags)
 {
-    FUN_00d4e000();
+    UpdateFields_00d4e000();
     if (flags & 1)
     {
         FnvCpu_FUN_00cc48b0_CpuAllocatorHolder* holder = hkMemoryRouter_getInstance();

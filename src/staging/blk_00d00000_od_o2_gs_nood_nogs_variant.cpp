@@ -63,7 +63,7 @@ void __cdecl tranformPhantom(hkpPhantom* phantom, const hkTransform& transform)
         current.m_kColumn1 = c1.q;
         current.m_kColumn2 = c2.q;
         current.m_vTranslation = t.q;
-        current.FUN_00cb23e0(transform);
+        current.ProcessTransformedMatrixCopy_00cb23e0(transform);
         sp->hkpShapePhantom_setTransform(current);
         break;
     }

@@ -62,11 +62,12 @@ void _NiFreeAlias(void*);
 struct S
 {
     void RemoveObject(int, int);
-    void FUN_00a73080();
+    void ReleaseEntries_00a73080();
     char _pad[0x28];
 };
 // @fnv 0x00a73080
-void S::FUN_00a73080()
+// src: GUESS 0x00a73080 (confidence: medium)
+void S::ReleaseEntries_00a73080()
 {
     *(void**)this = (void*)&DAT_0102e274;
     for (unsigned int i = 0; i < *(unsigned short*)((char*)this + 0x26); ++i)
@@ -366,7 +367,7 @@ FUN_00a734c0::FUN_00a734c0()
     m_18 = 0;
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int);
+void* __cdecl Object_DispatchCommandFour(unsigned int);
 
 struct Obj_a73e20
 {
@@ -377,7 +378,7 @@ struct Obj_a73e20
 // src: EXE 0x00a73e20
 Obj_a73e20* __cdecl NiAdditionalGeometryData_CreateObject()
 {
-    Obj_a73e20* p = (Obj_a73e20*)FUN_00aa13e0(0x2c);
+    Obj_a73e20* p = (Obj_a73e20*)Object_DispatchCommandFour(0x2c);
     if (p)
         return p->FUN_00a734c0();
     return 0;

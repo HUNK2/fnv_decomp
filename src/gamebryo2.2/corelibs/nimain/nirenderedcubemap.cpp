@@ -35,7 +35,7 @@ void __cdecl operator delete(void* p, size_t size);
 // @fnv 0x00ee8440
 void* __fastcall FUN_00ee8440(NiRenderedCubeMap* cubeMap, void*, unsigned int flags)
 {
-    cubeMap->FUN_00ee82b0();
+    cubeMap->ReleaseReference_00ee82b0();
     if (flags & 1)
         operator delete(cubeMap, 0x64);
     return cubeMap;
@@ -75,7 +75,8 @@ struct Item
 };
 
 // @fnv 0x00ee82b0
-void NiRenderedCubeMap::FUN_00ee82b0()
+// src: GUESS 0x00ee82b0 (confidence: medium)
+void NiRenderedCubeMap::ReleaseReference_00ee82b0()
 {
     NiRefObject** next = (NiRefObject**)(m_ppCubeMapFaces + 6);
     int count = 5;

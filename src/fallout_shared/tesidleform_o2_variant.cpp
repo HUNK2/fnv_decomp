@@ -54,7 +54,7 @@ struct FUN_00600d90_shell
 };
 struct FUN_00600d70_shell
 {
-    void FUN_00600d70();
+    void ForwardCall_00600d70();
 };
 
 // FUN_005ff880 : 8-byte MSVC this-adjusting (virtual) thunk.
@@ -72,7 +72,7 @@ struct FUN_00600d70_shell
 // adjusting thunk.
 struct IdlePrimaryBase
 {
-    virtual void FUN_005ff880();
+    virtual void AdjustThisAndForward_005ff880();
     int m_04;
     int m_08;
     int m_0c;
@@ -82,14 +82,15 @@ struct IdlePrimaryBase
 
 struct IdleSecondaryBase
 {
-    virtual void FUN_005ff880();
+    virtual void AdjustThisAndForward_005ff880();
 };
 
 struct IdleDerived : IdlePrimaryBase, IdleSecondaryBase
 {
     IdleDerived();
 // @fnv 0x005ff880
-    virtual void FUN_005ff880();
+// src: GUESS 0x005ff880 (confidence: low)
+    virtual void AdjustThisAndForward_005ff880();
 };
 
 IdleDerived::IdleDerived()

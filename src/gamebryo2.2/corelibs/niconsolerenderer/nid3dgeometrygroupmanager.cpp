@@ -16,7 +16,7 @@ public:
     unsigned int m_pRayCursor;
 
     void Realloc(unsigned int);
-    void FUN_00a56e60(unsigned int ItemUpdateArray);
+    void ProcessEntries_00a56e60(unsigned int ItemUpdateArray);
     unsigned int Find(Item* item);
     int Find(unsigned int value);
     void Add(Item* item);

@@ -119,7 +119,7 @@ struct Ref
 };
 struct RefHandle
 {
-    Ref* FUN_00559450();
+    Ref* Modelloader_GetReferencedThis();
 };
 struct HitBody
 {
@@ -203,23 +203,23 @@ void ImpactTask::BGSDecalEmitter_Update()
 {
     if (FUN_0071b160(1)->MenuConsole_IsVisible() || IsStartMenuFlag1Set())
         return;
-    if (!reference.FUN_00559450()->GetHavokWorldObjectCountInSceneGraph_0084e3a0() || !reference.FUN_00559450()->FUN_00490e40())
+    if (!reference.Modelloader_GetReferencedThis()->GetHavokWorldObjectCountInSceneGraph_0084e3a0() || !reference.Modelloader_GetReferencedThis()->FUN_00490e40())
     {
         finished = true;
         return;
     }
-    if (remaining > 0 && impact && reference.FUN_00559450()->ActorPackage_GetPackageStartTime() <= reference.FUN_00559450()->FUN_00488d50())
+    if (remaining > 0 && impact && reference.Modelloader_GetReferencedThis()->ActorPackage_GetPackageStartTime() <= reference.Modelloader_GetReferencedThis()->FUN_00488d50())
     {
         NiPoint3 direction;
-        reference.FUN_00559450()->FUN_00490e40()->NiAVObject_GetRotate_006a9540()->FUN_00476930(2, direction);
+        reference.Modelloader_GetReferencedThis()->FUN_00490e40()->NiAVObject_GetRotate_006a9540()->FUN_00476930(2, direction);
         direction.Unitize_004a0c10();
-        NiPoint3 origin = reference.FUN_00559450()->FUN_00490e40()->GetTranslate_0043c490();
+        NiPoint3 origin = reference.Modelloader_GetReferencedThis()->FUN_00490e40()->GetTranslate_0043c490();
         float radius = FUN_00476b70(impact->BGSImpactData_GetDecalMinWidth(), impact->GetModifierValue());
         Splatter* splatter = FUN_00622a70(radius, true);
         splatter->FUN_006233c0(0);
         splatter->DecalCaster_SetCollision(8, 0);
         splatter->DecalCaster_SetCollision(29, 0);
-        Cell* cell = reference.FUN_00559450()->GetHavokWorldObjectCountInSceneGraph_0084e3a0();
+        Cell* cell = reference.Modelloader_GetReferencedThis()->GetHavokWorldObjectCountInSceneGraph_0084e3a0();
         World* world = cell ? cell->TESObjectCELL_GetbhkWorld() : 0;
         FUN_004a3c20 ray;
         if (world)
@@ -231,7 +231,7 @@ void ImpactTask::BGSDecalEmitter_Update()
             end.y += FUN_00476b70(DAT_0101e578, DAT_01017868);
             end.z += FUN_00476b70(DAT_0101e578, DAT_01017868);
             float drop = -*DAT_011c584c.Setting_Float_00403e20() *
-                         (reference.FUN_00559450()->ActorPackage_GetPackageStartTime() / reference.FUN_00559450()->FUN_00488d50());
+                         (reference.Modelloader_GetReferencedThis()->ActorPackage_GetPackageStartTime() / reference.Modelloader_GetReferencedThis()->FUN_00488d50());
             end.z += drop;
             if (*DAT_011c5868.Setting_Int() > 0)
             {
@@ -261,7 +261,7 @@ void ImpactTask::BGSDecalEmitter_Update()
                     {
                         key = ray.DialoguePackage_GetCurrentDialogItem()->TESDataHandler_GetWorldSpaceList()->GetEntryAt(hit)->keys[keyIndex];
                     }
-                    Shape* shape = bhkShape_Getbhk(body->shape.FUN_00559450());
+                    Shape* shape = bhkShape_Getbhk(body->shape.Modelloader_GetReferencedThis());
                     if (!shape)
                         continue;
                     unsigned int material = shape->bhkShape_GetSubshapeMaterial(key);
@@ -269,7 +269,7 @@ void ImpactTask::BGSDecalEmitter_Update()
                     if (!texture)
                         continue;
                     NiPoint3 position = static_cast<const NiPoint3&>(origin).FUN_00439e90(FUN_004a3760(
-                        ray.DialoguePackage_GetCurrentDialogItem()->TESDataHandler_GetWorldSpaceList()->GetEntryAt(hit)->fraction, static_cast<const NiPoint3&>(end).FUN_00439ef0(origin)));
+                        ray.DialoguePackage_GetCurrentDialogItem()->TESDataHandler_GetWorldSpaceList()->GetEntryAt(hit)->fraction, static_cast<const NiPoint3&>(end).SubtractIntoVector(origin)));
                     NiPoint3 normal;
                     HK2NINS(normal, ray.DialoguePackage_GetCurrentDialogItem()->TESDataHandler_GetWorldSpaceList()->GetEntryAt(hit)->normal);
                     bool landscape = FUN_008c71b0(body->hkpCollidable_getCollisionFilterInfo()).CFilter_GetGroup() == 1;

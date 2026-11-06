@@ -216,7 +216,7 @@ void* __cdecl NiVertexColorProperty_GetRTTI();
 extern "C" int g_011f443c;
 int __cdecl NiZBufferProperty_GetRTTI();
 int __cdecl NiZBufferProperty_GetType_0();
-int __cdecl FUN_00dc9e60();
+int __cdecl Object_ComputeValue_00dc9e60();
 struct FUN_00e695f0_shell {
     char pad[0x8a4];
     unsigned char flag;
@@ -477,7 +477,7 @@ struct FUN_00e76320
 struct P03MM { void* Allocate(unsigned int size); };
 extern void* DAT_0126f550;
 extern const void* DAT_010ee898;
-bool __cdecl FUN_00e7a760();
+bool __cdecl Object_ProcessEntries_00e7a760();
 void __cdecl NiD3DShaderDeclaration__SDMInit();
 extern int DAT_0126f0ec;
 struct FUN_00e69920_shell {
@@ -625,7 +625,7 @@ extern int DAT_010ee70c;
 extern MemoryManager g_memoryManager;
 void __cdecl _delete(void*, unsigned int);
 struct ICom78510 { virtual int __stdcall Q(); virtual int __stdcall A(); virtual int __stdcall R(); };
-struct H78510 { void __thiscall FUN_00e78be0(); };
+struct H78510 { void __thiscall ProcessEntries_00e78be0(); };
 struct S78510 { char pad[0x2c]; void* p1; ICom78510* p2; char tail[4]; void* __thiscall FUN_00e78510(unsigned int); };
 extern "C" void __cdecl FUN_00ee88b0();
 extern const char DAT_010ee7cc[];
@@ -1916,7 +1916,7 @@ extern "C" void* g_0126f0e8;
 extern "C" void* (__stdcall* g_0126f0dc)(unsigned int);
 extern "C" unsigned int DAT_0126f0f8;
 bool __cdecl InitD3D9CreateFunctions();
-void* __cdecl FUN_00aa13e0(unsigned int size);
+void* __cdecl Object_DispatchCommandFour(unsigned int size);
 void* __cdecl NiDX9SystemDesc_Get();
 struct RendererListNode
 {
@@ -2880,7 +2880,7 @@ struct SourceManager {
 };
 extern const char DAT_010ed96c[];
 char* __cdecl GetHRESULTText(unsigned int status);
-void __cdecl FUN_00a29680(const char* format, const char* message);
+void __cdecl Object_DoNothing(const char* format, const char* message);
 struct Renderer {
     void* __thiscall LockRenderSource(SourceManager* manager, int* pitch);
 };
@@ -2920,7 +2920,7 @@ public:
     bool __thiscall NiDX9Renderer_UnLockDynamicTexture(FUN_00e6de70_A* a1);
 };
 const char* __cdecl GetHResultName(int code);
-void __cdecl FUN_00a29680(const char* fmt, const char* text);
+void __cdecl Object_DoNothing(const char* fmt, const char* text);
 struct RendererResourceMap : NiDX9Renderer {
     unsigned int unk8A4;
     unsigned int unk8A8;
@@ -3717,7 +3717,7 @@ struct ResourceParameters {
 };
 extern const char DAT_010edbb8[];
 extern const char* DAT_0109b220;
-void* __cdecl FUN_00aa13e0(unsigned int size);
+void* __cdecl Object_DispatchCommandFour(unsigned int size);
 const char* __cdecl FUN_00a5b690(const char* name);
 RefObject* __cdecl NiSourceTexture_Create(RenderResource* resource, const char* name, ResourceParameters* parameters);
 struct RendererBridge {
@@ -8068,7 +8068,7 @@ static inline unsigned int PackColor_e78910(const short* v, unsigned short comps
 }
 int PackVertexColors(Stream_e78910* s);
 extern const char DAT_010ee7cc[];
-void __cdecl FUN_00aa1490(void* apMemory, unsigned int auiSize);
+void __cdecl NiMemObject_ReleaseStorage_00aa1490(void* apMemory, unsigned int auiSize);
 struct FUN_00e78be0_cls {
     void* m_vptr00;
     unsigned int unk04;
@@ -8082,7 +8082,7 @@ struct FUN_00e78be0_cls {
     char* m_pArr24;
 
     void BaseTeardown();
-    void FUN_00e78be0() throw();
+    void ProcessEntries_00e78be0() throw();
 };
 void* _fnv_zlib_memset(void* dst, int val, unsigned int size);
 struct FUN_00e79370_Info {
@@ -12740,7 +12740,7 @@ struct DevX { DevVT* vt; };
 struct BufDataX { char pad[0xc]; PixFmtX* m_pkRenderPixelFormat; int m_10; SurfX* m_pkSurface; };
 struct BufX { char pad[0x10]; BufDataX* m_pRendererData; };
 struct RectUX { unsigned int m_fMinimumU, m_fMaximumU, m_fMinimumV, m_fMaximumV; };
-void FUN_00a29680(const char* fmt, ...);
+void Object_DoNothing(const char* fmt, ...);
 const char* GetHResultName(long hr);
 class RendX {
 public:
@@ -14518,11 +14518,12 @@ struct FnvSlotRaw {
 };
 
 extern unsigned int DAT_0126f508[17];
-void* FUN_00aa13e0(unsigned int size);
+void* Object_DispatchCommandFour(unsigned int size);
 void NiD3DShaderDeclaration_SetDefaultPackingFunction(unsigned int a, unsigned int b);
 
 // @fnv 0x00e7a760
-bool FUN_00e7a760() {
+// src: GUESS 0x00e7a760 (confidence: low)
+bool Object_ProcessEntries_00e7a760() {
     if (reinterpret_cast<FnvSlotTable*>(DAT_0126f550)->u0a == 0x12) {
         return true;
     }
@@ -14546,7 +14547,7 @@ bool FUN_00e7a760() {
 
     for (unsigned int i = 0; i < 0x12; ++i) {
         FnvSlotObj* local;
-        void* p = FUN_00aa13e0(0x14);
+        void* p = Object_DispatchCommandFour(0x14);
         FnvSlotObj* __restrict obj = p ? reinterpret_cast<FnvSlotRaw*>(p)->FUN_00e7a640() : 0;
         local = obj;
         obj->idx = i;

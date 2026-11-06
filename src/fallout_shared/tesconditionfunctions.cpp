@@ -900,22 +900,24 @@ void FUN_0059ceb0_shell::bhkPickData_SetClosestCollector(hkpClosestRayHitCollect
     m_pAllCollector = 0;
 }
 
-void __fastcall FUN_0059cf00(void* this_ptr);
+void __fastcall Object_UpdateFields_0059cf00(void* this_ptr);
 
 // @fnv 0x0059cee0
-void __fastcall FUN_0059cee0(void* this_ptr)
+// src: GUESS 0x0059cee0 (confidence: low)
+void __fastcall Object_ForwardCall_0059cee0(void* this_ptr)
 {
-    FUN_0059cf00(this_ptr);
+    Object_UpdateFields_0059cf00(this_ptr);
 }
 
 extern int DAT_01034ec4;
-void __fastcall FUN_004a3ae0(void*);
+void __fastcall SetVirtualTable_004a3ae0(void*);
 
 // @fnv 0x0059cf00
-void __fastcall FUN_0059cf00(void** pThis)
+// src: GUESS 0x0059cf00 (confidence: low)
+void __fastcall Object_UpdateFields_0059cf00(void** pThis)
 {
     *pThis = &DAT_01034ec4;
-    FUN_004a3ae0(pThis);
+    SetVirtualTable_004a3ae0(pThis);
 }
 
 void __cdecl DebugLog(char const*, ...);
@@ -2968,7 +2970,8 @@ extern __declspec(thread) bool bConditionPrint;
 
 
 // @fnv 0x005a2e20
-bool __cdecl FUN_005a2e20(TESObjectREFR* reference, void* pOwner, void* pUnused, double& result)
+// src: GUESS 0x005a2e20 (confidence: low)
+bool __cdecl TESObjectREFR_ProcessAndReturnValue_005a2e20(TESObjectREFR* reference, void* pOwner, void* pUnused, double& result)
 {
     TESForm* owner = static_cast<TESForm*>(pOwner);
     if (!owner)
@@ -7036,7 +7039,8 @@ bool __cdecl Script_IsLimbGoneConditionFunction(TESObjectREFR* reference, void* 
 
 
 // @fnv 0x005a4160
-bool FUN_005a4160(TESObjectREFR* reference, void* arg1, void* arg2, double& result)
+// src: GUESS 0x005a4160 (confidence: low)
+bool TESObjectREFR_ProcessAndReturnValue_005a4160(TESObjectREFR* reference, void* arg1, void* arg2, double& result)
 {
     result = 0.0;
     if (reference && reference->IsActor())
@@ -17980,7 +17984,7 @@ struct SphereBound
     // Raw coordinate storage retains the original trivial construction.
     float center[3];
     float radius;
-    void FUN_006240d0();
+    void BGSPrimitive_EvaluateValue_006240d0();
     void FUN_0098ddd0(NiPoint3*);
     void FUN_0063f790(float);
 };
@@ -18115,7 +18119,7 @@ bool __cdecl Cmd_GetLineOfSight_Eval(TESObjectREFR* reference, void* target, voi
                 else if (other->TESObjectREFR_IsMarker())
                 {
                     SphereBound sphereBound;
-                    sphereBound.FUN_006240d0();
+                    sphereBound.BGSPrimitive_EvaluateValue_006240d0();
                     sphereBound.FUN_0098ddd0(other->GetPos());
                     sphereBound.FUN_0063f790(1.0f);
                     if (IsBoundVisible(&sphereBound, camera))

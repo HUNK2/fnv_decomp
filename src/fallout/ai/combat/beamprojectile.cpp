@@ -159,7 +159,7 @@ void BeamProjectile::ScaleBeamGeometryLength(NiAVObject* apObject, float scale)
     if (apObject)
     {
         ((NiTriShape*)apObject)->GetSourceFilesFromForm()->m_fRadius *= scale;
-        ((NiTriShape*)apObject)->GetSourceFilesFromForm()->m_kCenter.FUN_00439180(scale);
+        ((NiTriShape*)apObject)->GetSourceFilesFromForm()->m_kCenter.ScaleComponents(scale);
         NiGeometryData* data = ((NiGeometry*)apObject)->GetModelData();
         if (data)
         {
@@ -1058,7 +1058,7 @@ struct FUN_00979510_sub88
 };
 struct FUN_00979510_obj
 {
-    void* FUN_00439ef0(float* out, void* x);
+    void* SubtractIntoVector(float* out, void* x);
 };
 struct FUN_00979510_res
 {
@@ -1079,7 +1079,7 @@ unsigned char BeamProjectile::AddImpact(void* a1, void* a2, void* a3, void* a4, 
         {
             if (((BeamHitHandler*)this)->ProcessHit(a1, a2, a3, a4, a5, a6))
             {
-                Projectile_SetRange(((FUN_00979510_res*)((FUN_00979510_obj*)a2)->FUN_00439ef0(&fOut, ((const BeamProjectile*)this)->GetPos()))
+                Projectile_SetRange(((FUN_00979510_res*)((FUN_00979510_obj*)a2)->SubtractIntoVector(&fOut, ((const BeamProjectile*)this)->GetPos()))
                                        ->FUN_00457990());
                 return 1;
             }
@@ -1215,7 +1215,7 @@ done:
 struct S_00979a70_Vec3
 {
     float x, y, z;
-    void FUN_00439180(float s);
+    void ScaleComponents(float s);
 };
 
 struct S_00979a70_Obj;
@@ -1251,7 +1251,7 @@ void BeamProjectile::ScaleNode(NiAVObject* node, float fScale, float fDivisor)
         {
             float s = fScale / fDivisor;
             S_00979a70_Vec3 v = *((S_00979a70_Obj*)node)->GetTranslate_0043c490();
-            v.FUN_00439180(s);
+            v.ScaleComponents(s);
             ((S_00979a70_Obj*)node)->NiAVObject_SetTranslate(&v);
         }
         if (NiObject_IsKindOf(&DAT_011f4acc, (S_00979a70_Obj*)node))

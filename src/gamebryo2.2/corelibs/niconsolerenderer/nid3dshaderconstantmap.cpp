@@ -1453,7 +1453,7 @@ unsigned int __stdcall NiD3DShaderConstantMap_PerformOperatorMultiply(FUN_00e84b
 
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
-void* __cdecl FUN_00aa13e0(unsigned int);
+void* __cdecl Object_DispatchCommandFour(unsigned int);
 char* __cdecl FUN_00a5b690(const char*);
 void __cdecl _NiFree_00aa10f0(void*);
 void* __cdecl _NiMalloc_00aa1070(unsigned int);
@@ -1529,7 +1529,7 @@ unsigned int ShaderConstantMap_83650::NiD3DShaderConstantMap_AddConstantEntry(co
                                                    const char* property, unsigned int elementSize, int elementType,
                                                    void* data, bool copied)
 {
-    void* memory = FUN_00aa13e0(sizeof(NiShaderConstantMapEntry));
+    void* memory = Object_DispatchCommandFour(sizeof(NiShaderConstantMapEntry));
     NiShaderConstantMapEntry* entry = memory ? ::new (memory) NiShaderConstantMapEntry() : 0;
     char* name;
     if (!shader)
@@ -2458,14 +2458,14 @@ bool __cdecl FillLightConstantData(void* apConstantData, unsigned int uiConstant
                 point.y = (float)(apTargetLight->m_kWorldLocation.y * -1048576.0);
                 point.z = (float)(apTargetLight->m_kWorldLocation.z * -1048576.0);
                 {
-                    NiPoint3* __restrict r = work.lightWorld.Get().FUN_00524c40(&work.distantModelPosition, point);
+                    NiPoint3* __restrict r = work.lightWorld.Get().ComputeValue_00524c40(&work.distantModelPosition, point);
                     point = *r;
                 }
             }
             else
             {
                 CopyPointValue(point,
-                               *work.lightWorld.Get().FUN_00524c40(&work.modelPosition, apTargetLight->m_kWorldSpaceTransform.m_Translate));
+                               *work.lightWorld.Get().ComputeValue_00524c40(&work.modelPosition, apTargetLight->m_kWorldSpaceTransform.m_Translate));
             }
             fData[0] = point.x;
             fData[1] = point.y;
@@ -2488,7 +2488,7 @@ bool __cdecl FillLightConstantData(void* apConstantData, unsigned int uiConstant
                 {
                     NiPoint3* __restrict r =
                         ((NiPoint3*)&kWorldBound.m_kCenter)
-                            ->FUN_00439ef0(&work.pointLightDirection, apTargetLight->m_kWorldSpaceTransform.m_Translate);
+                            ->SubtractIntoVector(&work.pointLightDirection, apTargetLight->m_kWorldSpaceTransform.m_Translate);
                     point = *r;
                 }
                 ((NiPoint3*)&point)->Unitize_004a0c10();
@@ -2522,7 +2522,7 @@ bool __cdecl FillLightConstantData(void* apConstantData, unsigned int uiConstant
                 {
                     NiPoint3* __restrict r =
                         ((NiPoint3*)&kWorldBound.m_kCenter)
-                            ->FUN_00439ef0(&work.pointLightModelDirection, apTargetLight->m_kWorldSpaceTransform.m_Translate);
+                            ->SubtractIntoVector(&work.pointLightModelDirection, apTargetLight->m_kWorldSpaceTransform.m_Translate);
                     point = *r;
                 }
                 ((NiPoint3*)&point)->Unitize_004a0c10();
@@ -2706,7 +2706,7 @@ bool __cdecl FillLightConstantData(void* apConstantData, unsigned int uiConstant
             kWorld.FUN_004b4880(work.inverse.Get());
             point = apTargetLight->m_kWorldDirection;
             {
-                NiPoint3* __restrict r = work.inverse.Get().FUN_00524c40(&work.modelDirection, point);
+                NiPoint3* __restrict r = work.inverse.Get().ComputeValue_00524c40(&work.modelDirection, point);
                 point = *r;
             }
             fData[0] = point.x;
@@ -2758,7 +2758,7 @@ bool __cdecl FillLightConstantData(void* apConstantData, unsigned int uiConstant
                 work.scaledAtten.x = work.plane.normal.x * work.plane.distance;
                 work.scaledAtten.y = work.plane.normal.y * work.plane.distance;
                 work.scaledAtten.z = work.plane.normal.z * work.plane.distance;
-                work.inverse.Get().FUN_00524c40(&work.plane.normal, work.scaledAtten);
+                work.inverse.Get().ComputeValue_00524c40(&work.plane.normal, work.scaledAtten);
                 fData[0] = point.x;
                 fData[1] = point.y;
                 fData[2] = point.z;
@@ -2827,7 +2827,7 @@ bool __cdecl FillLightConstantData(void* apConstantData, unsigned int uiConstant
             work.matrix.m[3][3] = 1.0f;
             kWorld.FUN_004b4880(work.inverse.Get());
             point = apTargetLight->m_kWorldDirection;
-            CopyPoint24(point, *work.inverse.Get().FUN_00524c40(&work.modelWorldDirection, point));
+            CopyPoint24(point, *work.inverse.Get().ComputeValue_00524c40(&work.modelWorldDirection, point));
             FUN_00b71a40((float*)&work.matrix,
                          *((NiMatrix3_ext*)&kWorld.m_Rotate)
                               ->FUN_004768c0(&work.inverseWorldRotation.Get())

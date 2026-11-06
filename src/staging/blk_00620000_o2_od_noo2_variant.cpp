@@ -32,7 +32,7 @@ struct FUN_00628d10_cls
     unsigned int unk0C;
     Sub16 m_sub;
     void hkVector4_compareLessThanEqual4(Vec16* out, void* other);
-    void FUN_00622570(bool flag);
+    void UpdateState_00622570(bool flag);
     FUN_00628d10_cls* hkAabb_contains(FUN_00628d10_cls* a, FUN_00628d10_cls* b);
 };
 
@@ -46,6 +46,6 @@ FUN_00628d10_cls* FUN_00628d10_cls::hkAabb_contains(FUN_00628d10_cls* a, FUN_006
     this->hkVector4_compareLessThanEqual4(&r0, b);
     ((Sub16*)((char*)b + 0x10))->hkVector4_compareLessThanEqual4(&r1, (char*)this + 0x10);
     r2.hkVector4Comparison_setAnd(&r0, &r1);
-    a->FUN_00622570(r2.hkVector4Comparison_allAreSet(7) != 0);
+    a->UpdateState_00622570(r2.hkVector4Comparison_allAreSet(7) != 0);
     return a;
 }

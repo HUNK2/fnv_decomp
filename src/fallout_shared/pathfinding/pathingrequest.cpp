@@ -364,11 +364,12 @@ extern "C" void* __cdecl Reallocate(void*, unsigned int);
 
 struct FUN_006e3c40_shell
 {
-    void* __thiscall FUN_006e3c40(void* apBuffer, unsigned int aiNewSizeInItem);
+    void* __thiscall Reallocate_Thunk_006e3c40(void* apBuffer, unsigned int aiNewSizeInItem);
 };
 
 // @fnv 0x006e3c40
-void* __thiscall FUN_006e3c40_shell::FUN_006e3c40(void* apBuffer, unsigned int aiNewSizeInItem)
+// src: GUESS 0x006e3c40 (confidence: medium)
+void* __thiscall FUN_006e3c40_shell::Reallocate_Thunk_006e3c40(void* apBuffer, unsigned int aiNewSizeInItem)
 {
     return Reallocate(apBuffer, aiNewSizeInItem * 0x24);
 }

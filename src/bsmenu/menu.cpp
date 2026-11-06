@@ -638,11 +638,12 @@ struct FUN_00a1e4d0_shell
     unsigned char pad2[4];
     unsigned short m_usGrowBy;
     void Resize(unsigned int);
-    unsigned int FUN_00a1e4d0(unsigned int uiIndex, Tile*& element);
+    unsigned int SetAtWithGrowth(unsigned int uiIndex, Tile*& element);
 };
 // Grows the array if uiIndex is beyond m_usMaxSize, stores element at uiIndex via SetAt, and returns uiIndex.
 // @fnv 0x00a1e4d0
-unsigned int FUN_00a1e4d0_shell::FUN_00a1e4d0(unsigned int uiIndex, Tile*& element)
+// src: GUESS 0x00a1e4d0 (confidence: high)
+unsigned int FUN_00a1e4d0_shell::SetAtWithGrowth(unsigned int uiIndex, Tile*& element)
 {
     unsigned int a;
     unsigned int b;
@@ -704,7 +705,7 @@ struct XMLEntry
 BSFile* __cdecl FileFinder_GetFile_(const char* apPath, int a, int b);
 int __cdecl Tile_ParseFile(const char* apName, const char* apData, unsigned int auLength);
 void __cdecl Menu_SetParsedXML(const char* apName, int aiValue);
-void __cdecl FUN_00a0ba50();
+void __cdecl Tile_DeleteGlobalItems();
 
 // @fnv 0x00a1d280
 // src: COMMUNITY 0x00a1d280
@@ -733,7 +734,7 @@ bool Menu_LoadFinalMasterXML()
                     Menu_SetParsedXML(pEntry->acName, iTemplate);
                     pCurrent += pEntry->GetLength() + 0x84;
                 }
-                FUN_00a0ba50();
+                Tile_DeleteGlobalItems();
                 delete[] pBuffer;
             }
             else

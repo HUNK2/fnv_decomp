@@ -204,7 +204,8 @@ struct FUN_00dd9270_Class
     void FindEntry();
 };
 // @fnv 0x00d61240
-void __cdecl FUN_00d61240()
+// src: GUESS 0x00d61240 (confidence: medium)
+void __cdecl Object_FindEntry_Thunk()
 {
     ((FUN_00dd9270_Class*)DAT_01269cd0)->FindEntry();
 }
@@ -236,7 +237,8 @@ void* FUN_00d61260_Class::hkServerProcessHandler_Destroy(int flags)
 extern int DAT_01268fb8;
 
 // @fnv 0x00d61210
-int __cdecl FUN_00d61210()
+// src: GUESS 0x00d61210 (confidence: low)
+int __cdecl Hkserverprocesshandler_GetDAT01268fb8()
 {
     return DAT_01268fb8;
 }
@@ -398,10 +400,10 @@ class hkMapBaseD610
 
     ~hkMapBaseD610() throw()
     {
-        FUN_00a29680();
+        Object_DoNothing();
     }
     void ProcessArgument(hkMemoryAllocator& kAlloc) throw();
-    void FUN_00a29680() throw();
+    void Object_DoNothing() throw();
 };
 
 class hkPointerMapD610
@@ -494,7 +496,8 @@ struct FUN_00dd9240_Class
     void hkProcessFactory_getProcessName();
 };
 // @fnv 0x00d61250
-void __cdecl FUN_00d61250()
+// src: GUESS 0x00d61250 (confidence: low)
+void __cdecl hkProcessFactory_getProcessName_ForwardCall_00d61250()
 {
     ((FUN_00dd9240_Class*)DAT_01269cd0)->hkProcessFactory_getProcessName();
 }
@@ -704,21 +707,22 @@ int Part_d60e::hkServerProcessHandler_deleteProcess(void* key)
 // the shared virtual implementation.
 struct ThunkPrimaryBase
 {
-    virtual void FUN_00d61220();
+    virtual void AdjustThisAndForward_00d61220();
     int unk04;
     int unk08;
 };
 
 struct ThunkSecondaryBase
 {
-    virtual void FUN_00d61220();
+    virtual void AdjustThisAndForward_00d61220();
 };
 
 struct ThunkDerived : ThunkPrimaryBase, ThunkSecondaryBase
 {
     ThunkDerived();
 // @fnv 0x00d61220
-    virtual void FUN_00d61220();
+// src: GUESS 0x00d61220 (confidence: low)
+    virtual void AdjustThisAndForward_00d61220();
 };
 
 ThunkDerived::ThunkDerived()

@@ -23,7 +23,7 @@ struct FUN_00db7a80_Class
 };
 struct Object
 {
-    void FUN_00e03160();
+    void SetVirtualTable_00e03160();
 };
 struct FUN_00e049d0_Class : Object
 {
@@ -44,8 +44,8 @@ struct FUN_00d871a0
     int m_04;
 
     FUN_00d871a0(void*, int);
-    bool& FUN_00d871e0(bool&);
-    void* FUN_00d871f0();
+    bool& ComputeValue_00d871e0(bool&);
+    void* GetValue();
     FUN_00d86980_Class* hkClassMemberAccessor_getClassMember();
 };
 extern "C" void* __cdecl hkString_memCpy(void*, const void*, unsigned int);
@@ -80,12 +80,12 @@ class hkPointerMapDC12
     {}
     ~hkPointerMapDC12() throw()
     {
-        FUN_00a29680();
+        Object_DoNothing();
     }
 
     void EnsureCapacity(hkMemoryAllocatorDC12& kAlloc, int iNumElems) throw();
     void ProcessArgument(hkMemoryAllocatorDC12& kAlloc) throw();
-    void FUN_00a29680() throw();
+    void Object_DoNothing() throw();
 };
 class hkVisitorDC12
 {
@@ -97,7 +97,7 @@ class hkVisitorDC12
         hkStructureLayout_hkStructureLayout();
     }
     void hkStructureLayout_hkStructureLayout() throw();
-    void FUN_00dc1bb0(void* pvObject, hkPointerMapDC12& kDone, int iFlags) throw();
+    void UpdateState_00dc1bb0(void* pvObject, hkPointerMapDC12& kDone, int iFlags) throw();
 };
 // @fnv 0x00dc1230
 extern "C" void __cdecl VisitObjectList(int iList, int iFlags)
@@ -108,7 +108,7 @@ extern "C" void __cdecl VisitObjectList(int iList, int iFlags)
     hkPointerMapDC12 kDone;
     kDone.EnsureCapacity(*reinterpret_cast<hkMemoryAllocatorDC12*>((&hkMemoryRouter::getInstance())->m_heap), 0);
     for (int i = 0; ppvList[i]; i++)
-        kVisitor.FUN_00dc1bb0(ppvList[i], kDone, 1);
+        kVisitor.UpdateState_00dc1bb0(ppvList[i], kDone, 1);
     kDone.ProcessArgument(*reinterpret_cast<hkMemoryAllocatorDC12*>((&hkMemoryRouter::getInstance())->m_heap));
 }
 class FUN_00d27520
@@ -173,12 +173,13 @@ struct S00dc15a0_Array
     int m_capFlags;
 };
 extern "C" void __cdecl hkArrayUtil__reserve(S00dc15a0_Buffer* buffer, int** indices, int size, int elementSize);
-static __declspec(noinline) int FUN_00dc12c0(S00dc15a0_Params* params, int value, int flags, S00dc15a0_Array* arr)
+// src: GUESS 0x00dc12c0 (confidence: low)
+static __declspec(noinline) int Object_ComputeValue_00dc12c0(S00dc15a0_Params* params, int value, int flags, S00dc15a0_Array* arr)
 {
     arr->m_iElementCount = (int)&params + (int)&value + (int)&flags;
     return arr->m_capFlags;
 }
-int __cdecl FUN_00dc15a0(S00dc15a0_Params* params, int value, int flags);
+int __cdecl Object_BuildIndexArrayAndDispatch(S00dc15a0_Params* params, int value, int flags);
 
 extern "C" void _ReadWriteBarrier();
 struct ByteBuffer
@@ -237,11 +238,11 @@ struct OffsetMap
     void EnsureCapacity(CopyAllocator*, int);
     void hkMapBase_unsigned_long_unsigned_long_hkMapOperations_unsigned_long_insert(CopyAllocator*, void*, int);
     void ProcessArgument(CopyAllocator*);
-    void FUN_00a29680();
+    void Object_DoNothing();
     ~OffsetMap()
     {
         ProcessArgument(reinterpret_cast<CopyAllocator*>((&hkMemoryRouter::getInstance())->m_heap));
-        FUN_00a29680();
+        Object_DoNothing();
     }
 };
 struct ByteBufferWriter
@@ -308,7 +309,7 @@ struct CopyWriter : Object
     int hkObjectCopier_copyObject(void*, int, int, int, Relocations*);
     ~CopyWriter()
     {
-        FUN_00e03160();
+        SetVirtualTable_00e03160();
     }
 };
 struct CopyListener
@@ -340,7 +341,8 @@ struct ListenerInput
     {}
 };
 // @fnv 0x00dc12c0
-static __declspec(noinline) char* FUN_00dc12c0(IndexArray* indices, ObjectInput objectInput, OffsetInput offsetInput,
+// src: GUESS 0x00dc12c0 (confidence: low)
+static __declspec(noinline) char* Object_ComputeValue_00dc12c0(IndexArray* indices, ObjectInput objectInput, OffsetInput offsetInput,
                                                CopyListener* listener)
 {
     ByteBuffer buffer;
@@ -419,7 +421,7 @@ static __declspec(noinline) char* FUN_00dc12c0(IndexArray* indices, ObjectInput 
 extern "C" IndexArray* get_indices();
 char* invoke_copy(ObjectInput a, OffsetInput b, ListenerInput c)
 {
-    return FUN_00dc12c0(get_indices(), a, b, c.p);
+    return Object_ComputeValue_00dc12c0(get_indices(), a, b, c.p);
 }
 
 inline ByteBuffer::~ByteBuffer()

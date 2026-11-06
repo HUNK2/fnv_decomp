@@ -14,7 +14,7 @@ struct FUN_00d2dd30_class
 {
     void __thiscall FUN_00d2dd30(void* a, void* b, void* c, void* d);
 };
-extern "C" void __cdecl FUN_00da3510(void* a, void* b);
+extern "C" void __cdecl hkpAgent1nSector_ProcessEntries_00da3510(void* a, void* b);
 struct FUN_00d2ddd0_class
 {
     void __thiscall FUN_00d2ddd0(int a);
@@ -73,9 +73,9 @@ inline void* hkAlloc(int n)
 }
 void* __cdecl hkpBvTreeStreamAgent_createShapeBvAgent(int a, int b, int c, int d);
 void hkpBvTreeStreamAgent_createBvTreeShapeAgent();
-void FUN_00d2e970();
-void FUN_00d2e9b0();
-void FUN_00d2e9f0();
+void hkpSymmetricAgentFlipBodyCollector_UpdateState_00d2e970();
+void hkpSymmetricAgentFlipCollector_UpdateState_00d2e9b0();
+void hkpBvTreeAgent_staticLinearCast_UpdateState_00d2e9f0();
 void hkpBvTreeStreamAgent_createShapeBvAgent();
 void hkpBvTreeAgent_staticGetClosestPoints();
 void hkpBvTreeAgent_staticLinearCast();
@@ -90,7 +90,7 @@ struct Conversion
 };
 struct Registry
 {
-    void FUN_00cfbbe0(Conversion*, int, int);
+    void AppendRecordAndRegisterAgents(Conversion*, int, int);
 };
 void hkpBvTreeStreamAgent_registerMultiRayAgent(Registry* registry);
 typedef void*(__cdecl* S_00d2e8e0_CreateFunc)(void*, void*, void*, void*);
@@ -98,9 +98,9 @@ typedef void(__cdecl* S_00d2e8e0_GetPenetrationsFunc)(void*, void*, void*, void*
 typedef void(__cdecl* S_00d2e8e0_GetClosestPointsFunc)(void*, void*, void*, void*);
 typedef void(__cdecl* S_00d2e8e0_LinearCastFunc)(void*, void*, void*, void*, void*);
 void* hkpBvTreeStreamAgent_dispatchBvTreeConvexList(void*, void*, void*, void*);
-void FUN_00d2e970(void*, void*, void*, void*);
-void FUN_00d2e9b0(void*, void*, void*, void*);
-void FUN_00d2e9f0(void*, void*, void*, void*, void*);
+void hkpSymmetricAgentFlipBodyCollector_UpdateState_00d2e970(void*, void*, void*, void*);
+void hkpSymmetricAgentFlipCollector_UpdateState_00d2e9b0(void*, void*, void*, void*);
+void hkpBvTreeAgent_staticLinearCast_UpdateState_00d2e9f0(void*, void*, void*, void*, void*);
 void* hkpBvTreeStreamAgent_dispatchConvexListBvTree(void*, void*, void*, void*);
 void hkpBvTreeAgent_staticGetClosestPoints(void*, void*, void*, void*);
 void hkpBvTreeAgent_staticLinearCast(void*, void*, void*, void*, void*);
@@ -115,16 +115,16 @@ struct S_00d2e8e0_AgentFuncs
 };
 struct S_00d2e8e0_Dispatcher
 {
-    void FUN_00cfbbe0(S_00d2e8e0_AgentFuncs& f, int typeA, int typeB);
+    void AppendRecordAndRegisterAgents(S_00d2e8e0_AgentFuncs& f, int typeA, int typeB);
 };
-void FUN_00d2e8e0(S_00d2e8e0_Dispatcher* dispatcher);
+void Object_RegisterSymmetricAgentFunctions(S_00d2e8e0_Dispatcher* dispatcher);
 void __cdecl hkpBvTreeAgent_staticGetClosestPoints(int a, int b, int c, hkpCdPointCollector* collector);
-void __cdecl FUN_00d2e9b0(int a, int b, int c, int d);
+void __cdecl hkpSymmetricAgentFlipCollector_UpdateState_00d2e9b0(int a, int b, int c, int d);
 extern float DAT_0104da48;
 struct Context
 {
     void hkpShapeCollectionAgent_getClosestPoints(void* first, void* second, void* third, hkpSymmetricAgentFlipCollector* collector);
-    void FUN_00d2edd0(void* first, void* second, void* third, void* fourth);
+    void UpdateState_00d2edd0(void* first, void* second, void* third, void* fourth);
 };
 extern "C" void* __cdecl hkStatisticsCollector_getAllocatedSize(void* ptr, unsigned int size);
 extern "C" void __cdecl hkpAgentMachineUtil_calc1nStatistics(void* a, int b, void* c);
@@ -171,7 +171,7 @@ struct BufOwner
     PackedBuffer m_buf;
     void __thiscall VisitPackedBuffer(VisitTarget* target, int flags);
 };
-void __cdecl FUN_00d2e970(void* bodyA, void* bodyB, void* arg3, void* orig_collector);
+void __cdecl hkpSymmetricAgentFlipBodyCollector_UpdateState_00d2e970(void* bodyA, void* bodyB, void* arg3, void* orig_collector);
 struct FUN_00d2eb50_nib
 {
     unsigned char lo : 4;
@@ -214,7 +214,7 @@ struct SearchObject
 struct FUN_00d43cd0_class
 {
     void __thiscall ProcessCollisionEntries(void* a, void* b, void* c, void* d);
-    void __thiscall FUN_00d2ed90(void* a1, void* a2, void* a3, void* a4);
+    void __thiscall UpdateState_00d2ed90(void* a1, void* a2, void* a3, void* a4);
 };
 
 #include <xmmintrin.h>
@@ -326,12 +326,13 @@ class hkpAgentBase
 class hkpSymmetricAgentT : public hkpAgentBase
 {
   public:
-    void FUN_00d2ee10(const hkpCdBody& bodyA, S2ee10_Ref bodyB, const CollisionAgentContext& input,
+    void ProcessEntries_00d2ee10(const hkpCdBody& bodyA, S2ee10_Ref bodyB, const CollisionAgentContext& input,
                       S2ee10_Output& output);
 };
 
 // @fnv 0x00d2ee10
-void hkpSymmetricAgentT::FUN_00d2ee10(const hkpCdBody& bodyA, S2ee10_Ref bodyB, const CollisionAgentContext& input,
+// src: GUESS 0x00d2ee10 (confidence: low)
+void hkpSymmetricAgentT::ProcessEntries_00d2ee10(const hkpCdBody& bodyA, S2ee10_Ref bodyB, const CollisionAgentContext& input,
                                       S2ee10_Output& output)
 {
     float oldTime = output.m_fTimeOfImpact.m_uiCommandId;

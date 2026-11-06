@@ -103,10 +103,11 @@ bool Crime::IsActorInList(Actor* apActor)
 struct FUN_009eba00_t
 {
     int m_uiItemCount;
-    void FUN_009eba00(Actor* a);
+    void RemoveActorAndDecrementCount(Actor* a);
 };
 // @fnv 0x009eba00
-void FUN_009eba00_t::FUN_009eba00(Actor* apActor)
+// src: GUESS 0x009eba00 (confidence: medium)
+void FUN_009eba00_t::RemoveActorAndDecrementCount(Actor* apActor)
 {
     reinterpret_cast<BSSimpleList<Actor*>*>(reinterpret_cast<char*>(this) + 0x1c)->Remove(apActor);
     m_uiItemCount = m_uiItemCount - 1;
@@ -1396,7 +1397,7 @@ struct AlarmActorList
     Actor** FUN_006815c0();
     AlarmActorList* FUN_00726070();
     void FUN_00726c60(Actor* const& actor);
-    void FUN_00905330(Actor** data);
+    void RemoveMatchingItem(Actor** data);
     void FUN_0063f7b0();
 };
 struct AlarmPackageData
@@ -1446,7 +1447,7 @@ void AlarmPackageData::Crime_InitLoadGame(void* unused)
         {
             if (previous)
             {
-                previous->FUN_00905330(current->FUN_006815c0());
+                previous->RemoveMatchingItem(current->FUN_006815c0());
                 current = previous->FUN_00726070();
             }
             else

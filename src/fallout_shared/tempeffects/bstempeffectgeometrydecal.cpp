@@ -87,7 +87,7 @@ void* __cdecl __Dummy_00b6fef0(void* p, unsigned int size);
 // @fnv 0x006885e0
 void* __thiscall BSDismemberSkinInstance::FUN_006885e0(unsigned int flags)
 {
-    FUN_00688610();
+    SetVtableAndProcessState_00688610();
     if (flags & 1)
         __Dummy_00b6fef0(this, 0x40);
     return this;
@@ -198,7 +198,8 @@ void* __thiscall BSDismemberSkinInstance::ConstructShell(int aiArg1, int aiArg2,
 }
 
 // @fnv 0x00688610
-void __thiscall BSDismemberSkinInstance::FUN_00688610()
+// src: GUESS 0x00688610 (confidence: low)
+void __thiscall BSDismemberSkinInstance::SetVtableAndProcessState_00688610()
 {
     *reinterpret_cast<int**>(this) = &DAT_01069a84;
     if (unk38)
@@ -282,7 +283,7 @@ bool BSTempEffectGeometryDecal::ShouldAddTriangle(int triangle, int base, bool s
 
 struct DtorOwner00685e80
 {
-    void FUN_00a81bd0();
+    void UpdateState_00a81bd0();
 };
 typedef void (__thiscall DtorOwner00685e80::*DtorMemberPointer)();
 extern void __stdcall FUN_0065ee50_Helper(void* object, unsigned int size, int count, DtorMemberPointer destructor);
@@ -296,12 +297,12 @@ void* FUN_00685e80_Class::DestroyOrFree(unsigned int flags)
 {
     if (flags & 2)
     {
-        FUN_0065ee50_Helper(this, 0x2c, *(int*)((char*)this - 4), &DtorOwner00685e80::FUN_00a81bd0);
+        FUN_0065ee50_Helper(this, 0x2c, *(int*)((char*)this - 4), &DtorOwner00685e80::UpdateState_00a81bd0);
         if (flags & 1)
             operator delete((char*)this - 4);
         return (char*)this - 4;
     }
-    ((DtorOwner00685e80*)this)->FUN_00a81bd0();
+    ((DtorOwner00685e80*)this)->UpdateState_00a81bd0();
     if (flags & 1)
         operator delete(this);
     return this;
@@ -557,7 +558,7 @@ struct Obj_cls
     virtual void v56();
     virtual void v57();
     virtual void v58(void* p);
-    Obj_cls* FUN_00559450();
+    Obj_cls* Modelloader_GetReferencedThis();
     Obj_cls* NiAVObject_GetParent();
     int NiNode_GetChildCount();
     void RemoveEffect(void* p);
@@ -671,7 +672,7 @@ struct Pt3Obj
     float y;
     float z;
     void FUN_006815c0();
-    void FUN_00439180(float f);
+    void ScaleComponents(float f);
 };
 struct ArrayPoint : Pt3Obj
 {
@@ -753,7 +754,7 @@ struct BigObj2c
     ~BigObj2c();
 };
 void* __cdecl _NiMalloc_00aa1070(unsigned int n);
-void* __cdecl FUN_00aa13e0(unsigned int n);
+void* __cdecl Object_DispatchCommandFour(unsigned int n);
 struct Obj18c
 {
     int m_00;
@@ -1162,7 +1163,7 @@ void BSTempEffectGeometryDecal::BuildSkinPartitions()
             arr10LocalCD[kValueBC].w = 1.0f - tmp200ValueAC;
             if ((double)arr10LocalCD[kValueBC].w < DAT_01030f28)
                 arr10LocalCD[kValueBC].w = 0.0f;
-            pt50LocalAN.FUN_00439180(*(float*)&thirteenLocalAI.m_30);
+            pt50LocalAN.ScaleComponents(*(float*)&thirteenLocalAI.m_30);
             (*reinterpret_cast<NiPoint3*>(gPtBValueBI)) = DAT_011f426c;
             NiMatrix3_TransformVertices(&thirteenLocalAI, &thirteenLocalAI.m_24, 1, &pt50LocalAN, &(*reinterpret_cast<NiPoint3*>(gPtBValueBI)));
             NiMatrix3_TransformVertices(&sph1LocalAC, &DAT_011f426c, 1, &(*reinterpret_cast<NiPoint3*>(gPtBValueBI)), &(*reinterpret_cast<NiPoint3*>(gPtAValueAG)));
@@ -1492,7 +1493,7 @@ struct DPoint
     float x, y, z;
     DPoint();
     DPoint& Subtract(const DPoint&);
-    DPoint& FUN_00439180(float);
+    DPoint& ScaleComponents(float);
     float DotProduct(const DPoint&);
 };
 struct DMatrix
@@ -1722,7 +1723,7 @@ void BSTempEffectGeometryDecal::BuildDecalGeometry()
         vertex_3 = positions_6[projectionVertex];
         normal_35 = normals_17[projectionVertex];
         DPoint world_20 = NiPoint3_ZERO;
-        vertex_3.FUN_00439180(transform_40.scale);
+        vertex_3.ScaleComponents(transform_40.scale);
         NiMatrix3_TransformVertices(&transform_40.rotation, &transform_40.position, 1, &vertex_3, &world_20);
         NiMatrix3_TransformVertices(&basis_6, &NiPoint3_ZERO, 1, &world_20, &projected_8);
         texcoords_0[projectionVertex].x = projected_8.x / m_50 + 0.5f;

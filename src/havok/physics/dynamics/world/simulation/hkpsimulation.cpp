@@ -263,7 +263,7 @@ void hkpSimulationV::ResetSimulationState(hkpEntity** entities, int numEntities,
         }
         if (world->m_iPendingOperationQueueCount == 1 && world->m_iQueuedOperationCount)
         {
-            world->FUN_00c91140();
+            world->UpdateFields_00c91140();
         }
     }
 }
@@ -279,13 +279,13 @@ hkMemoryRouter* __cdecl hkMemoryRouter_getInstance();
 struct FnvCpu_FUN_00cfa7a0_CpuObject {
     unsigned int unk00;
     unsigned short size;
-    void FUN_00cf86d0();
+    void SetVtableAndProcessState_00cf86d0();
     FnvCpu_FUN_00cfa7a0_CpuObject* FUN_00cfa7a0(unsigned int flags);
 };
 // @fnv 0x00cfa7a0
 FnvCpu_FUN_00cfa7a0_CpuObject* FnvCpu_FUN_00cfa7a0_CpuObject::FUN_00cfa7a0(unsigned int flags)
 {
-    FUN_00cf86d0();
+    SetVtableAndProcessState_00cf86d0();
     if (flags & 1) {
         hkMemoryRouter* holder = hkMemoryRouter_getInstance();
         ((FnvCpu_FUN_00cfa7a0_CpuAllocator*)holder->m_heap)->Invoke(this, size);
@@ -1244,7 +1244,7 @@ struct MemoryRequirements { int max, sum; Island* biggest; };
 static __forceinline void unlockWorldOperations(hkpWorld* world) {
     if (--world->m_iCriticalOperationsLockCount == 0 && !world->m_bBlockExecutingPendingOperations) {
         if (world->m_iPendingOperationCount) world->FUN_00c91120();
-        if (world->m_iPendingOperationQueueCount == 1 && world->m_iQueuedOperationCount) world->FUN_00c91140();
+        if (world->m_iPendingOperationQueueCount == 1 && world->m_iQueuedOperationCount) world->UpdateFields_00c91140();
     }
 }
 
@@ -1549,7 +1549,7 @@ struct S00cfa080_Obj {
  void __thiscall hkpSimulation_collideInternal(hkVector4* p);
 };
 extern "C" void __cdecl hkpSimulation_collideEntitiesBroadPhaseDiscrete(unsigned int, unsigned int, hkpWorld*);
-extern "C" void __cdecl FUN_00cff3c0(O*, void*, O*);
+extern "C" void __cdecl hkpConstraintOwner_ProcessEntries_00cff3c0(O*, void*, O*);
 extern "C" void __cdecl hkpWorldCallbackUtil_fireIslandPostCollideCallback(hkpWorld*,O*,hkVector4*);
 __forceinline void stampN(const char* name) {
  hkMonitorStream* t = (hkMonitorStream*)TlsGetValue(DAT_0126835c);
@@ -1582,7 +1582,7 @@ __forceinline void stampEnd() {
 __forceinline void done(hkpWorld* w) {
  if (--w->m_iCriticalOperationsLockCount == 0 && w->m_bBlockExecutingPendingOperations.m_cBooleanValue == 0) {
   if(w->m_iPendingOperationCount != 0) w->FUN_00c91120();
-  if(w->m_iPendingOperationQueueCount == 1 && w->m_iQueuedOperationCount != 0) w->FUN_00c91140();
+  if(w->m_iPendingOperationQueueCount == 1 && w->m_iQueuedOperationCount != 0) w->UpdateFields_00c91140();
  }
 }
 // @fnv 0x00cfa080
@@ -1615,7 +1615,7 @@ void S00cfa080_Obj::hkpSimulation_collideInternal(hkVector4* p) {
   stamp(&str_010cc54c, tb);
   obj->unk060 = obj->unk000 + 0x1c60;
   obj->unk014 = 0;
-  FUN_00cff3c0(entry, &entry->unk058, obj);
+  hkpConstraintOwner_ProcessEntries_00cff3c0(entry, &entry->unk058, obj);
   stamp(str_010c41f8, t1);
   if(DAT_01269200 == 1) break;
   if(m_pOwningWorld->m_kIslandPostCollideListeners.m_iElementCount != 0) {
@@ -1710,7 +1710,7 @@ struct PairMap {
     void __thiscall hkMapBase_unsigned_long_unsigned_long_hkMapOperations_unsigned_long_insert(Allocator*, void*, int);
     int __thiscall FindSlot(int);
     void __thiscall ProcessArgument(Allocator*);
-    void __thiscall FUN_00a29680();
+    void __thiscall Object_DoNothing();
 };
 struct RootBody {
     int unk00;
@@ -1936,7 +1936,7 @@ inline void releaseAll(PairArray& pairs, PairMap& visited) {
     pairs.data=0; pairs.capacity=0x80000000;
     Allocator* finalHeap=reinterpret_cast<Allocator*>(((hkMemoryRouter*)hkMemoryRouter_getInstance())->m_heap);
     visited.ProcessArgument(finalHeap);
-    visited.FUN_00a29680();
+    visited.Object_DoNothing();
 }
 inline float hkMaxF(float a,float b){return a>b?a:b;}
 struct SimulationContext {
@@ -2125,7 +2125,7 @@ void __thiscall FNVOwner_CFA5F0::hkpSimulation_collideEntitiesDiscrete(int arg1,
     hkpSimulation_collideEntitiesNarrowPhaseDiscrete(arg1,arg2,&state,arg5);
     if (--sim->m_iCriticalOperationsLockCount == 0 && !sim->m_bBlockExecutingPendingOperations.m_cBooleanValue) {
         if (sim->m_iPendingOperationCount) sim->FUN_00c91120();
-        if (sim->m_iPendingOperationQueueCount == 1 && sim->m_iQueuedOperationCount) sim->FUN_00c91140();
+        if (sim->m_iPendingOperationQueueCount == 1 && sim->m_iQueuedOperationCount) sim->UpdateFields_00c91140();
     }
     if (state.result64) {
         FNVAudioHolder_CFA5F0* holder = hkMemoryRouter_getInstance();

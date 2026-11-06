@@ -466,7 +466,7 @@ void __cdecl TESForm_AddChunk_00485910(unsigned int, unsigned int);
 // @fnv 0x005f5540
 void __thiscall TESChallenge::Initialize()
 {
-    TESForm::FUN_004855a0();
+    TESForm::BeginFormRecord();
     TESFullName::Save_00487010();
     TESIcon::Save(0x4e4f4349);
     BGSMessageIcon::Save(0x4f43494d);
@@ -487,7 +487,7 @@ void __thiscall TESChallenge::Initialize()
         unsigned int v2 = ((TESForm**)((char*)this + 0x78))[0]->GetFormID();
         TESForm_AddChunk_00485910(0x4d414e58, v2);
     }
-    TESForm::FUN_00485680();
+    TESForm::FinishFormRecord();
 }
 
 

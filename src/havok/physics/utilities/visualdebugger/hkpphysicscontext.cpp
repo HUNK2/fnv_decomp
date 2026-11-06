@@ -13,8 +13,8 @@
 // src/havok/physics/utilities/visualdebugger/hkpphysicscontext.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/hkpphysicscontext.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-void __cdecl FUN_00d6ad40();
-void __cdecl FUN_00d6a850();
+void __cdecl Object_UpdateFields_00d6ad40();
+void __cdecl hkpMidphaseViewer_Create_SetDAT01269024();
 void __cdecl RegisterCenterOfMass();
 void __cdecl RegisterConstraintsProcessFactory();
 void __cdecl RegisterConvexRadius();
@@ -28,7 +28,7 @@ void __cdecl RegisterPhantomsProcess();
 void __cdecl RegisterShapesProcess();
 void __cdecl hkpSimulationIslandViewer_registerViewer();
 void __cdecl RegisterSweptTransformsTask();
-void __cdecl FUN_00d63da0();
+void __cdecl Object_UpdateFields_00d63da0();
 void __cdecl InitWorldMemory();
 void __cdecl RegisterSnapshotCommands();
 void __cdecl RegisterWeldingViewer();
@@ -37,8 +37,8 @@ void __cdecl RegisterWeldingViewer();
 // src: XBOX_PDB 0x00cd1ed0
 void __cdecl hkpPhysicsContext_registerAllPhysicsProcesses()
 {
-    FUN_00d6ad40();
-    FUN_00d6a850();
+    Object_UpdateFields_00d6ad40();
+    hkpMidphaseViewer_Create_SetDAT01269024();
     RegisterCenterOfMass();
     RegisterConstraintsProcessFactory();
     RegisterConvexRadius();
@@ -52,7 +52,7 @@ void __cdecl hkpPhysicsContext_registerAllPhysicsProcesses()
     RegisterShapesProcess();
     hkpSimulationIslandViewer_registerViewer();
     RegisterSweptTransformsTask();
-    FUN_00d63da0();
+    Object_UpdateFields_00d63da0();
     InitWorldMemory();
     RegisterSnapshotCommands();
     RegisterWeldingViewer();
@@ -268,13 +268,14 @@ struct Prefix
 struct FUN_00cd2460_class;
 struct Secondary
 {
-    virtual int FUN_00cd2460(int value);
+    virtual int HkpPhysicsContext_removeWorld_Thunk(int value);
 };
 struct FUN_00cd2460_class : Prefix, Secondary
 {
 };
 // @fnv 0x00cd2460
-int __thiscall Secondary::FUN_00cd2460(int value)
+// src: GUESS 0x00cd2460 (confidence: medium)
+int __thiscall Secondary::HkpPhysicsContext_removeWorld_Thunk(int value)
 {
     return reinterpret_cast<Prefix*>(reinterpret_cast<char*>(this) - sizeof(Prefix))->hkpPhysicsContext_removeWorld(value);
 }
@@ -1295,11 +1296,12 @@ extern const CD2890Class g_CD2890WorldClass;
 
 struct CD2890World
 {
-    virtual const CD2890Class* FUN_00cd2890() const;
+    virtual const CD2890Class* GetCD2890WorldClassAddress() const;
 };
 
 // @fnv 0x00cd2890
-const CD2890Class* CD2890World::FUN_00cd2890() const
+// src: GUESS 0x00cd2890 (confidence: low)
+const CD2890Class* CD2890World::GetCD2890WorldClassAddress() const
 {
     return &g_CD2890WorldClass;
 }
@@ -1526,7 +1528,7 @@ FUN_00cd1e90_cls::~FUN_00cd1e90_cls()
 // sub ecx,0x58; jmp target == MSVC adjustor thunk (second base's vtable slot, this moved back by sizeof(PrimaryBase)=0x58).
 struct PrimaryBase
 {
-    virtual void FUN_00cd28a0();
+    virtual void AdjustThisAndForward_00cd28a0();
     int unk04;
     int unk08;
     int unk0C;
@@ -1552,14 +1554,15 @@ struct PrimaryBase
 
 struct SecondaryBase
 {
-    virtual void FUN_00cd28a0();
+    virtual void AdjustThisAndForward_00cd28a0();
 };
 
 struct ThunkOwner : PrimaryBase, SecondaryBase
 {
     ThunkOwner();
 // @fnv 0x00cd28a0
-    virtual void FUN_00cd28a0();
+// src: GUESS 0x00cd28a0 (confidence: low)
+    virtual void AdjustThisAndForward_00cd28a0();
 };
 
 ThunkOwner::ThunkOwner()
@@ -1619,7 +1622,7 @@ namespace fnv_00cd28c0 {
 // sub ecx,0x60; jmp DestroyIfFlagged == MSVC adjustor thunk (second base's vtable slot, this moved back by sizeof(PrimaryBase)=0x60).
 struct PrimaryBase
 {
-    virtual void FUN_00cd28c0();
+    virtual void AdjustThisAndForward_00cd28c0();
     int unk04;
     int unk08;
     int unk0C;
@@ -1647,14 +1650,15 @@ struct PrimaryBase
 
 struct SecondaryBase
 {
-    virtual void FUN_00cd28c0();
+    virtual void AdjustThisAndForward_00cd28c0();
 };
 
 struct Derived : PrimaryBase, SecondaryBase
 {
     Derived();
 // @fnv 0x00cd28c0
-    virtual void FUN_00cd28c0();
+// src: GUESS 0x00cd28c0 (confidence: low)
+    virtual void AdjustThisAndForward_00cd28c0();
 };
 
 Derived::Derived()
@@ -1712,14 +1716,14 @@ SpawnedObject::SpawnedObject()
 struct CD28E0Primary
 {
     virtual void vfunc00();
-    virtual void FUN_00cd28e0();
+    virtual void AdjustThisAndForward_00cd28e0();
 
     int unk04;
 };
 
 struct CD28E0Secondary
 {
-    virtual void FUN_00cd28e0();
+    virtual void AdjustThisAndForward_00cd28e0();
 };
 
 struct CD28E0Object : CD28E0Primary, CD28E0Secondary
@@ -1727,7 +1731,8 @@ struct CD28E0Object : CD28E0Primary, CD28E0Secondary
     CD28E0Object();
 
 // @fnv 0x00cd28e0
-    virtual void FUN_00cd28e0();
+// src: GUESS 0x00cd28e0 (confidence: low)
+    virtual void AdjustThisAndForward_00cd28e0();
 };
 
 CD28E0Object::CD28E0Object()

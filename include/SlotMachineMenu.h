@@ -85,7 +85,7 @@ public:
 
     void SetTile(int id, Tile* tile);
     int GetMenuID_007c0800();
-    char FUN_007c1450();
+    char HasAllTenTiles();
     bool InitReels();
     bool LoadAssets();
     void InitPayoutMenu();
@@ -94,7 +94,7 @@ public:
     void Update();
     void SwapBackfacingTextures();
     void SwapFrontfacingTextures();
-    void FUN_007c56e0();
+    void SelectSpinResults();
     int InterpretSpin();
     bool AdjustReels(int);
     void UpdateTileText();

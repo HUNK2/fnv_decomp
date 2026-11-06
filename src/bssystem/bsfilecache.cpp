@@ -277,11 +277,12 @@ void S::WaitWhilePaused()
 
 struct FUN_00b010d0_cls : public BSFileCache
 {
-    void FUN_00b010d0();
+    void ProcessEntries_00b010d0();
 };
 
 // @fnv 0x00b010d0
-void FUN_00b010d0_cls::FUN_00b010d0()
+// src: GUESS 0x00b010d0 (confidence: low)
+void FUN_00b010d0_cls::ProcessEntries_00b010d0()
 {
     if (m_eCacheState == FILE_CACHING_IN_PROGRESS)
     {

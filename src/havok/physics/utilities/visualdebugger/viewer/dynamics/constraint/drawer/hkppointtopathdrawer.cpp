@@ -233,12 +233,13 @@ struct Viewer
     void hkpConstraintDrawer_updateCommonParameters(Input* input, hkTransform* transform, hkTransform* extra);
     void hkpConstraintDrawer_drawBodyFrames(int id, int tag);
     void hkpConstraintDrawer_drawPivots(int id, int tag);
-    void FUN_00de7020(Input* input, LineDrawer* drawer, int id, int tag);
+    void UpdateViewerAndDrawPointLines(Input* input, LineDrawer* drawer, int id, int tag);
 };
 
 // Runs several viewer update steps, then draws lines between consecutive points of the scene's point source, transformed to world space, using drawer.
 // @fnv 0x00de7020
-void Viewer::FUN_00de7020(Input* input, LineDrawer* drawer, int id, int tag)
+// src: GUESS 0x00de7020 (confidence: medium)
+void Viewer::UpdateViewerAndDrawPointLines(Input* input, LineDrawer* drawer, int id, int tag)
 {
     BoneTransformData* scene = input->m_scene;
     // Vector-backed storage preserves the original stack layout and /GS classification.

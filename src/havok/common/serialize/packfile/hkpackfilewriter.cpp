@@ -70,11 +70,12 @@ struct FUN_00dbdae0
 {
     char m[0x2c];
     DepthLimit m_dl;
-    void FUN_00dbdae0_0(void* a, int b);
+    void UpdateFields_00dbdae0(void* a, int b);
 };
 // Gets the memory router's stream allocator and forwards it with a and b to m_dl.FUN_00cb1870.
 // @fnv 0x00dbdae0
-void FUN_00dbdae0::FUN_00dbdae0_0(void* a, int b)
+// src: GUESS 0x00dbdae0 (confidence: low)
+void FUN_00dbdae0::UpdateFields_00dbdae0(void* a, int b)
 {
     void* r = (&hkMemoryRouter::getInstance())->m_heap;
     m_dl.hkMapBase_unsigned_long_unsigned_long_hkMapOperations_unsigned_long_insert(r, a, b);
@@ -1247,11 +1248,11 @@ void __thiscall OwnerE150::hkPackfileWriter_addObject(void* apKey, void* a2, voi
         unsigned int streamStorage[sizeof(hkOstream) / sizeof(unsigned int)];
         hkOstream& stream = *reinterpret_cast<hkOstream*>(streamStorage);
         stream.FUN_00cb1600((char*)&errorBuffer, 0x200);
-        stream.FUN_00cc01c0(&DAT_010d6734)
-            .FUN_00cc01c0(((const hkClass*)a2)->getName())
-            .FUN_00cc01c0(&DAT_010d6760)
-            .FUN_00cc01c0(&DAT_010d67a8)
-            .FUN_00cc01c0(&DAT_010d67e0);
+        stream.ProcessAndReturnValue_00cc01c0(&DAT_010d6734)
+            .ProcessAndReturnValue_00cc01c0(((const hkClass*)a2)->getName())
+            .ProcessAndReturnValue_00cc01c0(&DAT_010d6760)
+            .ProcessAndReturnValue_00cc01c0(&DAT_010d67a8)
+            .ProcessAndReturnValue_00cc01c0(&DAT_010d67e0);
         DAT_01268360->message(1, (int)0xabbaabba, (const char*)&errorBuffer, &DAT_010d664c, 0x121);
         stream.FUN_00cc00e0();
         pMap->insert(apKey, -1);

@@ -110,11 +110,12 @@ struct FUN_00c6c290_holder
 
 struct FUN_0066d410_shell : public FUN_00c6c290_holder
 {
-    void FUN_0066d410();
+    void ForwardCall_0066d410();
 };
 
 // @fnv 0x0066d410
-void FUN_0066d410_shell::FUN_0066d410()
+// src: GUESS 0x0066d410 (confidence: low)
+void FUN_0066d410_shell::ForwardCall_0066d410()
 {
     FUN_00c6c290();
 }
@@ -136,14 +137,14 @@ void __cdecl __Dummy_00b6fef0(void* p, unsigned int size);
 
 struct FUN_0066d440_shell
 {
-    void FUN_0066d470();
+    void ForwardCall_0066d470();
     void* FUN_0066d440(unsigned int flags);
 };
 
 // @fnv 0x0066d440
 void* FUN_0066d440_shell::FUN_0066d440(unsigned int flags)
 {
-    this->FUN_0066d470();
+    this->ForwardCall_0066d470();
     if (flags & 1)
         __Dummy_00b6fef0(this, 20);
     return this;
@@ -151,14 +152,15 @@ void* FUN_0066d440_shell::FUN_0066d440(unsigned int flags)
 
 struct FUN_0066d470_shell
 {
-    void FUN_0066d410();
-    void FUN_0066d470();
+    void ForwardCall_0066d410();
+    void ForwardCall_0066d470();
 };
 
 // @fnv 0x0066d470
-void FUN_0066d470_shell::FUN_0066d470()
+// src: GUESS 0x0066d470 (confidence: low)
+void FUN_0066d470_shell::ForwardCall_0066d470()
 {
-    this->FUN_0066d410();
+    this->ForwardCall_0066d410();
 }
 
 struct FUN_0066d510_shell
@@ -373,7 +375,7 @@ struct FUN_0056e900_shell
 };
 struct FUN_006299a0_shell
 {
-    void __thiscall FUN_006299a0();
+    void __thiscall ProcessAndReturnValue_006299a0();
 };
 struct FUN_0066d770_shell
 {
@@ -385,7 +387,7 @@ struct FUN_0066d770_shell
 void* __thiscall FUN_0066d770_shell::hkMultiSphereShapeCinfo_hkMultiSphereShapeCinfo()
 {
     ((FUN_0056e900_shell*)this)->StepAndReturnThis();
-    ((FUN_006299a0_shell*)((char*)this + 4))->FUN_006299a0();
+    ((FUN_006299a0_shell*)((char*)this + 4))->ProcessAndReturnValue_006299a0();
     return this;
 }
 
@@ -679,7 +681,7 @@ void BSTreeNode::GetViewerStrings(NiViewerStringsArray* list)
     }
 }
 
-extern void* __cdecl FUN_00aa13e0(unsigned int size);
+extern void* __cdecl Object_DispatchCommandFour(unsigned int size);
 extern void* __cdecl FormHeap_Allocate(unsigned int size);
 extern float DAT_01016b78;
 extern void* __cdecl GetFltValueAtOffset16();
@@ -734,7 +736,7 @@ struct FUN_00a5ecb0
     FUN_00a5ecb0(int initial);
     static void* operator new(unsigned int size)
     {
-        return FUN_00aa13e0(size);
+        return Object_DispatchCommandFour(size);
     }
     static void operator delete(void*, unsigned int);
 };
@@ -791,7 +793,7 @@ struct FUN_0051cf00
     void FUN_006404b0(float size, float a, float b, float c);
     static void* operator new(unsigned int size)
     {
-        return FUN_00aa13e0(size);
+        return Object_DispatchCommandFour(size);
     }
     static void operator delete(void*, unsigned int);
 };
@@ -838,7 +840,7 @@ struct FUN_0066b640
     void bhkNiCollisionObject_SetWorldObject(void* p);
     static void* operator new(unsigned int size)
     {
-        return FUN_00aa13e0(size);
+        return Object_DispatchCommandFour(size);
     }
     static void operator delete(void*, unsigned int);
 };

@@ -50,16 +50,16 @@ struct FUN_009afbb0_shell
 {
     virtual ~FUN_009afbb0_shell();
     void* FUN_009afbb0(unsigned int flags);
-    void FUN_009afc10();
+    void ForwardCall_009afc10();
 };
-extern "C" void __cdecl FUN_009afbe0(void*);
+extern "C" void __cdecl Object_UpdateFields_009afbe0(void*);
 struct FUN_00621100_shell
 {
     void __thiscall SetVtable(void);
 };
 struct FUN_009afc10_shell
 {
-    void __thiscall FUN_009afc10();
+    void __thiscall ForwardCall_009afc10();
 };
 struct FUN_009afc50_shell
 {
@@ -318,7 +318,7 @@ struct FUN_00cbc6a0_Class
 extern __declspec(thread) int g_memoryContext;
 void __cdecl bhkSerializable_CloneCritLock();
 void __cdecl bhkSerializable_CloneCritUnlock();
-void* __cdecl FUN_00aa13e0(unsigned int size);
+void* __cdecl Object_DispatchCommandFour(unsigned int size);
 struct FUN_00cbc550_class
 {
     int unk00;
@@ -339,7 +339,7 @@ struct FUN_00cbc550_class
     int unk3c;
     static void* __cdecl operator new(unsigned int size)
     {
-        return FUN_00aa13e0(size);
+        return Object_DispatchCommandFour(size);
     }
     FUN_00cbc550_class();
 };
@@ -859,7 +859,7 @@ bool Host810::Explosion_RunLOSPick(NiPoint3 pos, Actor* actor)
         filter.CFilter_SetGroup(((Process810*)checkActor->FUN_009306d0())->bhkCharacterController_GetCollisionGroup());
     else
         filter.CFilter_SetGroup(bhkCollisionFilter_GetNewSystemGroup());
-    pos.FUN_0063c8a0(&array.ApplyScaled(*DAT_011d1344.Setting_Float_00403e20()));
+    pos.ComputeValue_0063c8a0(&array.ApplyScaled(*DAT_011d1344.Setting_Float_00403e20()));
     query.bhkPickData_SetFilter(filter.value);
     query.bhkPickData_SetFrom(pos);
     query.bhkPickData_SetTo(points[0]);
@@ -921,13 +921,13 @@ struct Color4
 struct Color3
 {
     float r, g, b;
-    Color3* FUN_00416870(float r, float g, float b);
+    Color3* SetComponents(float r, float g, float b);
 };
 
 struct Ptr4
 {
     void* p;
-    void* FUN_00559450();
+    void* Modelloader_GetReferencedThis();
 };
 
 extern Setting g_setA;
@@ -1022,7 +1022,7 @@ struct ResList
     int iC;
     ResList(int v);
     ~ResList();
-    void* FUN_00559450();
+    void* Modelloader_GetReferencedThis();
 };
 
 struct ProjList
@@ -1107,7 +1107,7 @@ struct RefObj
 {
     virtual void vf00();
     void* hkpCollidable_getCollisionFilterInfo();
-    void* FUN_00559450();
+    void* Modelloader_GetReferencedThis();
 };
 
 struct Hand4
@@ -1122,7 +1122,7 @@ struct Hand8
 
 struct Sub
 {
-    void* FUN_00559450();
+    void* Modelloader_GetReferencedThis();
     int NiAVObject_GetParent();
 };
 
@@ -1223,7 +1223,7 @@ struct NodeList
     ~NodeList();
     NodeList* FUN_00413f40();
     int FUN_00726070();
-    NodeRef* FUN_0062e150(int i);
+    NodeRef* GetElementPointer16(int i);
 };
 
 struct Query
@@ -1572,7 +1572,7 @@ struct Cell
 struct CellPtr
 {
     void* p;
-    Cell* FUN_00559450();
+    Cell* Modelloader_GetReferencedThis();
 };
 
 extern "C" void __cdecl hkpFixedBufferCdPointCollector_registerDefaultAddCdPointFunction();
@@ -1950,7 +1950,7 @@ struct SelfVt
 // src: XBOX_PDB 0x009ae6e0
 void ProjCls::Explosion_ApplyImpactDecals()
 {
-    if (unkA0.FUN_00559450() == 0)
+    if (unkA0.Modelloader_GetReferencedThis() == 0)
         return;
     if (unkE4 > 0 && unkD6 && !unkD7)
         Explosion_ApplyForces();
@@ -1958,12 +1958,12 @@ void ProjCls::Explosion_ApplyImpactDecals()
     {
         unkD4 = 1;
         ResList res(*g_setA.Setting_Int());
-        ProjList list(res.FUN_00559450(), *g_setA.Setting_Int());
+        ProjList list(res.Modelloader_GetReferencedThis(), *g_setA.Setting_Int());
         hkpFixedBufferCdPointCollector_registerDefaultAddCdPointFunction();
-        unkA0.FUN_00559450()->bhkSimpleShapePhantom_GetFixedClosestPoints(&list);
+        unkA0.Modelloader_GetReferencedThis()->bhkSimpleShapePhantom_GetFixedClosestPoints(&list);
         Flag1 fl;
         if (list.hkpFixedBufferCdPointCollector_hasHit(&fl)->FUN_005609f0())
-            hkAlgorithm_quickSort_hkpRootCdPoint(res.FUN_00559450(), list.FUN_009afc50());
+            hkAlgorithm_quickSort_hkpRootCdPoint(res.Modelloader_GetReferencedThis(), list.FUN_009afc50());
         if (*g_setB.Setting_Int() > 1)
         {
             for (int i = 0; i < list.FUN_009afc50(); i++)
@@ -2002,7 +2002,7 @@ void ProjCls::Explosion_ApplyImpactDecals()
                     Big4c0 q;
                     Big570 p;
                     NiPoint3 v = *((SelfVt*)this)->GetPos();
-                    NiPoint3 w = FUN_004a3760(g_f4, pos.FUN_00439ef0(v));
+                    NiPoint3 w = FUN_004a3760(g_f4, pos.SubtractIntoVector(v));
                     if (w.FUN_00457990() < g_maxLen)
                     {
                         v.Subtract(dir.ApplyScaled(g_f5));
@@ -2011,7 +2011,7 @@ void ProjCls::Explosion_ApplyImpactDecals()
                     p.bhkPickData_SetFrom(&v);
                     p.bhkPickData_SetLength(&w);
                     Hand4 h4;
-                    p.bhkPickData_SetFilter(unkA0.FUN_00559450()->bhkWorldObject_GetCollisionFilter(&h4)->p);
+                    p.bhkPickData_SetFilter(unkA0.Modelloader_GetReferencedThis()->bhkWorldObject_GetCollisionFilter(&h4)->p);
                     p.bhkPickData_SetAllCollector(&q);
                     int target = 0x24;
                     bool found = false;
@@ -2043,7 +2043,7 @@ void ProjCls::Explosion_ApplyImpactDecals()
                                     }
                                     else
                                     {
-                                        Owner* ow = bhkShape_Getbhk(h.unk50->FUN_00559450());
+                                        Owner* ow = bhkShape_Getbhk(h.unk50->Modelloader_GetReferencedThis());
                                         if (ow)
                                             target = ow->bhkShape_GetSubshapeMaterial(last);
                                     }
@@ -2058,7 +2058,7 @@ void ProjCls::Explosion_ApplyImpactDecals()
                     if (found)
                     {
                         memcpy(&unkE8, &pos, sizeof(unkE8));
-                        if (unkF4.FUN_004390c0(&g_zeroVec))
+                        if (unkF4.HasEqualComponents(&g_zeroVec))
                             memcpy(&unkF4, &dir, sizeof(unkF4));
                         if (*g_setB.Setting_Int() > 1)
                         {
@@ -2076,7 +2076,7 @@ void ProjCls::Explosion_ApplyImpactDecals()
                         if (wt)
                         {
                             bool flag = true;
-                            NiPoint3 dd = pos.FUN_00439ef0(*Main_WorldRootCamera()->NiAVObject_GetWorldTranslate());
+                            NiPoint3 dd = pos.SubtractIntoVector(*Main_WorldRootCamera()->NiAVObject_GetWorldTranslate());
                             if (Main_GetSceneIsComplex() || dd.FUN_00457990() > *g_floatSetting.Setting_Float_00403e20() ||
                                 !PointInFrustum(pos, Main_WorldRootCamera(), g_f6))
                                 flag = false;
@@ -2100,14 +2100,14 @@ void ProjCls::Explosion_ApplyImpactDecals()
                                     char cc = (char)FUN_00406cc0(FUN_00476b70(0.0f, g_f9));
                                     for (int k = 0; k < n; k++)
                                     {
-                                        RefObj* ref = nl.FUN_00413f40()->FUN_0062e150(k)->unk08;
+                                        RefObj* ref = nl.FUN_00413f40()->GetElementPointer16(k)->unk08;
                                         if (ref)
                                         {
                                             int id = target;
-                                            int idx = nl.FUN_00413f40()->FUN_0062e150(k)->unk0C;
+                                            int idx = nl.FUN_00413f40()->GetElementPointer16(k)->unk0C;
                                             if (idx != -1)
                                             {
-                                                Owner* ow = bhkShape_Getbhk(ref->FUN_00559450());
+                                                Owner* ow = bhkShape_Getbhk(ref->Modelloader_GetReferencedThis());
                                                 if (!ow)
                                                     continue;
                                                 Owner* o2 = ((PickVt*)ow)->GetOwner();
@@ -2116,7 +2116,7 @@ void ProjCls::Explosion_ApplyImpactDecals()
                                             }
                                             else
                                             {
-                                                Owner* ow = bhkShape_Getbhk(ref->FUN_00559450());
+                                                Owner* ow = bhkShape_Getbhk(ref->Modelloader_GetReferencedThis());
                                                 if (!ow)
                                                     continue;
                                                 id = ow->bhkShape_QMaterial();
@@ -2133,7 +2133,7 @@ void ProjCls::Explosion_ApplyImpactDecals()
                                                     if (a)
                                                     {
                                                         Hand8 hh;
-                                                        node = (Sub*)bhkWorldObject_GetProperty(&hh, a, &g_rtti)->FUN_00559450();
+                                                        node = (Sub*)bhkWorldObject_GetProperty(&hh, a, &g_rtti)->Modelloader_GetReferencedThis();
                                                         if (node && node->NiAVObject_GetParent())
                                                             node = (Sub*)node->NiAVObject_GetParent();
                                                     }
@@ -2164,7 +2164,7 @@ void ProjCls::Explosion_ApplyImpactDecals()
                                                 prm.unk54 = wt->FUN_004a40e0();
                                                 prm.unk58 = wt->TESCombatStyle_GetWeaponMinRangeMult();
                                                 Color3 col;
-                                                prm.unk60 = *col.FUN_00416870(
+                                                prm.unk60 = *col.SetComponents(
                                                     (float)(((unsigned char)((wt->GetNextFromSubobject()) & 0xff)) / g_d255),
                                                     (float)(((unsigned char)((((unsigned short)(wt->GetNextFromSubobject())) >>
                                                                               8) &
@@ -2192,15 +2192,15 @@ void ProjCls::Explosion_ApplyImpactDecals()
                                         dv.Unitize_004a0c10();
                                         break;
                                     case 1:
-                                        memcpy(&dv, &((SelfVt*)this)->GetPos()->FUN_00439ef0(pos), sizeof(dv));
+                                        memcpy(&dv, &((SelfVt*)this)->GetPos()->SubtractIntoVector(pos), sizeof(dv));
                                         dv.Unitize_004a0c10();
                                         break;
                                     case 2: {
-                                        NiPoint3 a = ((SelfVt*)this)->GetPos()->FUN_00439ef0(pos);
+                                        NiPoint3 a = ((SelfVt*)this)->GetPos()->SubtractIntoVector(pos);
                                         a.Unitize_004a0c10();
                                         NiPoint3 b = dir;
                                         b.Unitize_004a0c10();
-                                        memcpy(&dv, &FUN_004a3760((float)(b.DotProduct(a) * g_dmul), b).FUN_00439ef0(a), sizeof(dv));
+                                        memcpy(&dv, &FUN_004a3760((float)(b.DotProduct(a) * g_dmul), b).SubtractIntoVector(a), sizeof(dv));
                                         break;
                                     }
                                     default:

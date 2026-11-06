@@ -44,16 +44,16 @@ struct FUN_009afbb0_shell
 {
     virtual ~FUN_009afbb0_shell();
     void* FUN_009afbb0(unsigned int flags);
-    void FUN_009afc10();
+    void ForwardCall_009afc10();
 };
-extern "C" void __cdecl FUN_009afbe0(void*);
+extern "C" void __cdecl Object_UpdateFields_009afbe0(void*);
 struct FUN_00621100_shell
 {
     void __thiscall SetVtable(void);
 };
 struct FUN_009afc10_shell
 {
-    void __thiscall FUN_009afc10();
+    void __thiscall ForwardCall_009afc10();
 };
 struct FUN_009afc50_shell
 {
@@ -88,10 +88,10 @@ struct UnkObj
     virtual void f1();
     virtual void f2(void*, int);
 };
-void __cdecl FUN_009afbe0(void* a1);
+void __cdecl Object_UpdateFields_009afbe0(void* a1);
 struct H00622570
 {
-    void __thiscall FUN_00622570(bool);
+    void __thiscall UpdateState_00622570(bool);
 };
 struct S009afc70
 {
@@ -584,7 +584,7 @@ struct GlobalObject_0042f730
     GlobalObject_0042f730(void* p);
     ~GlobalObject_0042f730();
     int m_ptr;
-    void FUN_0042f780(void* p);
+    void AssignRetainedObject(void* p);
 };
 struct GlobalObject_006815c0
 {
@@ -636,7 +636,7 @@ class B17A0Node
 struct Holder0042f780
 {
     int m_00;
-    Holder0042f780* FUN_0042f780(ActorCause* p);
+    Holder0042f780* AssignRetainedObject(ActorCause* p);
 };
 struct HeadW7
 {
@@ -830,7 +830,7 @@ struct ActorProcX
 };
 struct ActorPtrX
 {
-    Actor* FUN_00559450();
+    Actor* Modelloader_GetReferencedThis();
 };
 extern Explosion* DAT_011dea3c;
 struct ExtraX
@@ -872,7 +872,8 @@ struct Node00cbd500
 };
 
 // @fnv 0x00cbd500
-void __stdcall FUN_00cbd500(Node00cbd500* p)
+// src: GUESS 0x00cbd500 (confidence: medium)
+void __stdcall Object_ReleaseStorage_00cbd500(Node00cbd500* p)
 {
     p->unk08 = 0;
     g_memoryManager.Deallocate(p);
@@ -887,7 +888,7 @@ struct LiquidVec
 
     float x, y, z;
 
-    bool __thiscall FUN_004390c0(const LiquidVec&);
+    bool __thiscall HasEqualComponents(const LiquidVec&);
 
     float __thiscall FUN_00457910();
 
@@ -1503,7 +1504,7 @@ struct LiquidBody
     unsigned unk04;
     LiquidRigid* object;
 
-    void __thiscall FUN_00a29680();
+    void __thiscall Object_DoNothing();
 
     __forceinline void CopyPosition(LiquidVec& out)
     {
@@ -1578,7 +1579,8 @@ __forceinline float LiquidMax(float v, float m)
     return v < DAT_01011598 ? m : v;
 }
 
-__declspec(noinline) bool LiquidVec::FUN_004390c0(const LiquidVec& p)
+// src: GUESS 0x004390c0 (confidence: high)
+__declspec(noinline) bool LiquidVec::HasEqualComponents(const LiquidVec& p)
 {
     bool a = x == p.x;
     bool b = y == p.y;
@@ -1644,10 +1646,10 @@ void LiquidActionCandidate::bhkLiquidAction_Update(float delta)
 
             LiquidContact contact;
 
-            if (object && object->getNumConstraints() && position.FUN_004390c0(DAT_011f426c))
+            if (object && object->getNumConstraints() && position.HasEqualComponents(DAT_011f426c))
             {
 
-                for (int i = 0; position.FUN_004390c0(DAT_011f426c) && i < object->getNumConstraints(); ++i)
+                for (int i = 0; position.HasEqualComponents(DAT_011f426c) && i < object->getNumConstraints(); ++i)
                 {
 
                     LiquidConstraint* c = object->GetEntry(i);
@@ -1745,11 +1747,11 @@ void LiquidActionCandidate::bhkLiquidAction_Update(float delta)
             if (world)
             {
 
-                body->FUN_00a29680();
+                body->Object_DoNothing();
 
                 world->OnTrigger(velocity);
 
-                body->FUN_00a29680();
+                body->Object_DoNothing();
             }
 
             {
@@ -1856,11 +1858,11 @@ void LiquidActionCandidate::bhkLiquidAction_Update(float delta)
                 if (world)
                 {
 
-                    body->FUN_00a29680();
+                    body->Object_DoNothing();
 
                     world->activate_00c9c1d0();
 
-                    body->FUN_00a29680();
+                    body->Object_DoNothing();
                 }
             }
         }

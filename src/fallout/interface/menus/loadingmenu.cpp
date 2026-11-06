@@ -846,7 +846,8 @@ class GlobalObject_00869f00
 };
 
 // @fnv 0x0078d8b0
-void __fastcall FUN_0078d8b0(GlobalObject_00869f00* pThis)
+// src: GUESS 0x0078d8b0 (confidence: low)
+void __fastcall LoadingMenu_UpdateState_0078d8b0(GlobalObject_00869f00* pThis)
 {
     *(int**)pThis = &DAT_0107410c;
     pThis->Clear(true);

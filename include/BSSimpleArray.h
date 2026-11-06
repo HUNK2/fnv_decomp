@@ -56,7 +56,7 @@ public:
     void BSSimpleArray_float_1024_InitialSetup(unsigned int, bool);
     void BSSimpleArray_NiPointer_ObstacleUndoData_1024_InitialSetup(unsigned int, bool);
     bool NiTListBase_DFALL_NiTListItem_BSAnimGroupSequence_const_BSAnimGroupSequence_const_IsEmpty() const;
-    const T& FUN_006b3160(unsigned int index) const;
+    const T& GetIndexedValue_006b3160(unsigned int index) const;
     const T& BSSimpleArray_CombatMember_1024_GetAt(unsigned int index) const;
     void BSSimpleArray_NiPointer_NiAVObject_1024_Add(const T& value);
     bool BSSimpleArray_BGSBodyPart_1024_IsInArray(T& value);
@@ -65,7 +65,7 @@ public:
 
     // Per-instantiation helpers whose real names are unknown (each unit binds them to its instantiation's address).
     BSSimpleArray(unsigned int, bool);
-    T& FUN_006a1440(unsigned int index);
+    T& Object_GetIndexedValue_006a1440(unsigned int index);
     unsigned int AppendElement(const T& value);
     unsigned int Append(const T& value);
     T& GetElement(unsigned int index);

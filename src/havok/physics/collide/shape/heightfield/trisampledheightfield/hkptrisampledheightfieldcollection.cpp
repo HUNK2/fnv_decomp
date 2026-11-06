@@ -98,7 +98,8 @@ hkpTriSampledHeightFieldCollection* FUN_00d26880_StandIn::hkpTriSampledHeightFie
 }
 
 // @fnv 0x00d26390
-int FUN_00d26390()
+// src: GUESS 0x00d26390 (confidence: high)
+int hkpTriSampledHeightFieldCollection_ReturnZero()
 {
     return 0;
 }
@@ -132,7 +133,8 @@ int __thiscall FUN_00d263a0_cls::GetNextKey(unsigned int key)
 }
 
 // @fnv 0x00d26440
-int __stdcall FUN_00d26440(int arg0)
+// src: GUESS 0x00d26440 (confidence: high)
+int __stdcall Object_ReturnZero_00d26440(int arg0)
 {
     return 0;
 }
@@ -420,7 +422,7 @@ struct S00d26510_Tri : public S00d26510_Convex
 struct S00d26510_Container
 {
     virtual ~S00d26510_Container();
-    virtual const S00d26510_ShapeB* FUN_00d26510(unsigned int key, void* buffer) const;
+    virtual const S00d26510_ShapeB* AllocateStorage_00d26510(unsigned int key, void* buffer) const;
 };
 
 struct S00d26510_Coll : public S00d26510_Shape, public S00d26510_Container
@@ -435,7 +437,7 @@ struct S00d26510_Coll : public S00d26510_Shape, public S00d26510_Container
     LocalM128 m_kTriangleExtrusion;
 
     hkpSampledHeightFieldShape* getHF() const;
-    virtual const S00d26510_ShapeB* FUN_00d26510(unsigned int key, void* buffer) const;
+    virtual const S00d26510_ShapeB* AllocateStorage_00d26510(unsigned int key, void* buffer) const;
 };
 
 __declspec(noinline) hkpSampledHeightFieldShape* S00d26510_Coll::getHF() const
@@ -445,7 +447,8 @@ __declspec(noinline) hkpSampledHeightFieldShape* S00d26510_Coll::getHF() const
 
 // Constructs a triangle shape in the provided buffer from heightfield vertices, welding data, and extrusion vector.
 // @fnv 0x00d26510
-const S00d26510_ShapeB* S00d26510_Coll::FUN_00d26510(unsigned int key, void* buffer) const
+// src: GUESS 0x00d26510 (confidence: low)
+const S00d26510_ShapeB* S00d26510_Coll::AllocateStorage_00d26510(unsigned int key, void* buffer) const
 {
     const S00d26510_Coll* coll = this;
     const hkpSampledHeightFieldShape* hf = coll->getHF();

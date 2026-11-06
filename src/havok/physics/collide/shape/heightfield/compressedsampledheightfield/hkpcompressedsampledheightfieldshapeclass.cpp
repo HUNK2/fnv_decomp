@@ -112,7 +112,7 @@ struct BufferContext
     BufferManager* manager;
 };
 BufferContext* __cdecl hkMemoryRouter_getInstance();
-void __fastcall FUN_00d24660(FUN_00e01140_cls*);
+void __fastcall SetVirtualTable_00d24660(FUN_00e01140_cls*);
 
 struct FUN_00e01180_cls : FUN_00e01140_cls
 {
@@ -131,7 +131,7 @@ FUN_00e01180_cls* FUN_00e01180_cls::FUN_00e01180(unsigned int flags)
     }
     unk60 = 0;
     unk68 = 0x80000000;
-    FUN_00d24660(this);
+    SetVirtualTable_00d24660(this);
     if (flags & 1)
     {
         BufferContext* context = hkMemoryRouter_getInstance();

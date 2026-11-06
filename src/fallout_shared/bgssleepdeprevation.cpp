@@ -179,7 +179,7 @@ void BGSSleepDeprevationStage_AddStage(BGSSleepDeprevationStage* stage)
 }
 
 extern unsigned int DAT_011c31b0;
-BGSSleepDeprevationStage* __cdecl FUN_004027e0(unsigned int);
+BGSSleepDeprevationStage* __cdecl Object_GetGlobalArrayElement(unsigned int);
 
 class Calendar
 {
@@ -194,7 +194,7 @@ BGSSleepDeprevationStage* __cdecl GetSleepDeprivationStage(float level)
     BGSSleepDeprevationStage* result = 0;
     for (unsigned int index = 0; index < DAT_011c31b0 && !result; ++index)
     {
-        BGSSleepDeprevationStage* stage = FUN_004027e0(index);
+        BGSSleepDeprevationStage* stage = Object_GetGlobalArrayElement(index);
         if (stage && level >= reinterpret_cast<Calendar*>(stage)->GetDaysPassed())
             result = stage;
     }

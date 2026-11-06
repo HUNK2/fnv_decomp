@@ -25,15 +25,15 @@ public:
     int unk20;
     hkArray<char*> m_pStringFunctions;
 
-    int FUN_00dc5bd0() throw();
+    int ReadSignedVarInt32() throw();
     __int64 ReadVarInt();
     void hkIArchive_readArrayGeneric(void* pvBuf, int iElemSize, int iNumElems) throw();
     void ReadBits(int iNumBits, hkArray<char>& kBitsOut) throw();
-    void FUN_00dd90d0(void* pvBuf, int iNumBytes) throw();
+    void ForwardCall_00dd90d0(void* pvBuf, int iNumBytes) throw();
     char* ReadString();
     void ReadByteArray(void* buf, int size, int count);
     int ReadTag();
     int readMetadata();
     DataObjectImplReference readObjectTopLevel(int tag);
-    DataObjectImplReference FUN_00dc6e50();
+    DataObjectImplReference ProcessEntries_00dc6e50();
 };

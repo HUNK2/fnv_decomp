@@ -172,7 +172,7 @@ struct Node : BSMultiBoundRoom
     NiPoint3* GetExtraPartList();
     NiPoint3* FUN_0050d100();
     NiPoint3* FUN_009c1a50();
-    NiPoint3* FUN_005a8080();
+    NiPoint3* ComputeValue_005a8080();
     Light* TESAmmo_GetAmmoEffectList();
     float GetFieldE8Float();
 };
@@ -331,8 +331,8 @@ void Atmosphere::UpdateAtmosphere(Sky* node, float f)
                                                     *p4.FUN_00414430(reinterpret_cast<Node*>(node)->FUN_009c1a50()->x, reinterpret_cast<Node*>(node)->FUN_009c1a50()->y,
                                                                      reinterpret_cast<Node*>(node)->FUN_009c1a50()->z, 1.0);
                                                 DAT_011ff900 =
-                                                    *t.FUN_00414430(reinterpret_cast<Node*>(node)->FUN_005a8080()->x, reinterpret_cast<Node*>(node)->FUN_005a8080()->y,
-                                                                    reinterpret_cast<Node*>(node)->FUN_005a8080()->z, 1.0f);
+                                                    *t.FUN_00414430(reinterpret_cast<Node*>(node)->ComputeValue_005a8080()->x, reinterpret_cast<Node*>(node)->ComputeValue_005a8080()->y,
+                                                                    reinterpret_cast<Node*>(node)->ComputeValue_005a8080()->z, 1.0f);
                                             }
                                         }
                                         if (0 != reinterpret_cast<Fog*>(m_spFog.operator->()))

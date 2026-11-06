@@ -179,7 +179,7 @@ bool __stdcall NiColorExtraDataController_InterpolatorIsCorrectType(NiInterpolat
     return reinterpret_cast<InterpVT_00a4faa0*>(pkInterpolator)->IsCorrectType();
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+void* __cdecl Object_DispatchCommandFour(unsigned int size);
 extern int DAT_0109947c;
 
 extern "C" void FUN_00c312f0();
@@ -188,7 +188,7 @@ extern "C" void FUN_00c312f0();
 // @fnv 0x00a4fb80
 NiColorExtraDataController* __fastcall CreateObject(NiColorExtraDataController* self, void*, unsigned int arg)
 {
-    NiColorExtraDataController* p = (NiColorExtraDataController*)FUN_00aa13e0(0x40);
+    NiColorExtraDataController* p = (NiColorExtraDataController*)Object_DispatchCommandFour(0x40);
     if (p != 0)
     {
         InitTimeController((int*)p);

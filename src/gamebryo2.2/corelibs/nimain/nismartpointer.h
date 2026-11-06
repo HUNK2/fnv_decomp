@@ -95,7 +95,7 @@ MemoryManager* MemoryManager_Instance()
 // @fnv 0x0042f4c0
 NavMeshPtr& NavMeshPtr::operator=(const NavMeshPtr& other)
 {
-    return FUN_0042fdc0(other);
+    return AssignRetainedObject_0042fdc0(other);
 }
 
 // @fnv 0x006d1bc0

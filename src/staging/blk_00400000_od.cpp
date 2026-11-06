@@ -63,11 +63,12 @@ struct Dummy
 
 struct FUN_00404b70 : Dummy
 {
-    void FUN_00404b71();
+    void ForwardCall_00404b70();
 };
 
 // @fnv 0x00404b70
-void FUN_00404b70::FUN_00404b71()
+// src: GUESS 0x00404b70 (confidence: low)
+void FUN_00404b70::ForwardCall_00404b70()
 {
     FUN_00404c00();
 }
@@ -77,11 +78,12 @@ extern "C" void* DAT_01012188;
 struct Twin_008d0360
 {
     bool GetBooleanValue();
-    void FUN_00404c80();
+    void UpdateFields_00404c80();
 };
 
 // @fnv 0x00404c80
-void Twin_008d0360::FUN_00404c80()
+// src: GUESS 0x00404c80 (confidence: low)
+void Twin_008d0360::UpdateFields_00404c80()
 {
     *reinterpret_cast<void**>(this) = &DAT_01012188;
     GetBooleanValue();
@@ -110,11 +112,12 @@ void* __thiscall FUN_00404d50_class::ConstructWithVTable(int aiArg, char acArg)
 struct FUN_00405230_Class
 {
     void __thiscall FUN_00405250();
-    void __thiscall FUN_00405230();
+    void __thiscall ForwardCall_00405230();
 };
 
 // @fnv 0x00405230
-void __thiscall FUN_00405230_Class::FUN_00405230()
+// src: GUESS 0x00405230 (confidence: low)
+void __thiscall FUN_00405230_Class::ForwardCall_00405230()
 {
     FUN_00405250();
 }
@@ -376,7 +379,7 @@ void __cdecl Deallocate(void*);
 
 struct FUN_00405370_Class
 {
-    void __thiscall FUN_00405370();
+    void __thiscall SetVtableAndProcessState_00405370();
     void* __thiscall FUN_004053a0(unsigned int flags);
 };
 
@@ -384,7 +387,7 @@ struct FUN_00405370_Class
 // @fnv 0x004053a0
 void* __thiscall FUN_00405370_Class::FUN_004053a0(unsigned int flags)
 {
-    FUN_00405370();
+    SetVtableAndProcessState_00405370();
     if (flags & 1)
         Deallocate(this);
     return this;
@@ -466,7 +469,8 @@ extern int _DAT_011c31b0;
 extern void* _DAT_011c31b4;
 // Returns the element at index from the array at _DAT_011c31b4 if index is within the count _DAT_011c31b0, otherwise returns null.
 // @fnv 0x004027e0
-void* __cdecl FUN_004027e0(unsigned int index)
+// src: GUESS 0x004027e0 (confidence: medium)
+void* __cdecl Object_GetGlobalArrayElement(unsigned int index)
 {
     return index >= 0 && index < (unsigned int)_DAT_011c31b0 ? ((void**)_DAT_011c31b4)[index] : 0;
 }
@@ -506,7 +510,7 @@ struct FUN_004055a0_Class
 // @fnv 0x004055a0
 void* __thiscall FUN_004055a0_Class::FUN_004055a0(unsigned int flags)
 {
-    ((FUN_00405230_Class*)this)->FUN_00405230();
+    ((FUN_00405230_Class*)this)->ForwardCall_00405230();
     if (flags & 1)
         _Deallocate(this);
     return this;
@@ -639,12 +643,13 @@ struct SettingBase_01012120
     float _04;
     const char* _08;
     virtual ~SettingBase_01012120();
-    SettingBase_01012120* __thiscall FUN_0040e130(const char* a, float b);
+    SettingBase_01012120* __thiscall InitializeFloatSetting(const char* a, float b);
 };
 extern int vftable_SettingBase_01012120;
 // Sets the vtable pointer, stores the string in _08 and the float in _04, then returns this.
 // @fnv 0x0040e130
-SettingBase_01012120* __thiscall SettingBase_01012120::FUN_0040e130(const char* a, float afValue)
+// src: GUESS 0x0040e130 (confidence: medium)
+SettingBase_01012120* __thiscall SettingBase_01012120::InitializeFloatSetting(const char* a, float afValue)
 {
     *(void**)this = (void*)&vftable_SettingBase_01012120;
     _08 = a;
@@ -1155,7 +1160,8 @@ bool __cdecl EnchantmentItem_IsValidEffectForEnchantment(TESBoundObject* object,
 
 // Stores &DAT_01012278 in a field of the map, calls RemoveAll, then calls FUN_00aa10f0 on m_ppkHashTable.
 // @fnv 0x00405370
-void __thiscall FUN_00405370_Class::FUN_00405370()
+// src: GUESS 0x00405370 (confidence: low)
+void __thiscall FUN_00405370_Class::SetVtableAndProcessState_00405370()
 {
     *reinterpret_cast<void**>(this) = &DAT_01012278;  // the vftable pointer
     reinterpret_cast<NiTPointerMap<const char*, Setting*>*>(this)->RemoveAll();

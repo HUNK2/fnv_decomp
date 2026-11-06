@@ -33,7 +33,8 @@ struct S_00de2980_World
 };
 
 // @fnv 0x00de2980
-__declspec(noinline) void hkpPhysicsContextWorldListener::FUN_00de2980(void* world) throw()
+// src: GUESS 0x00de2980 (confidence: low)
+__declspec(noinline) void hkpPhysicsContextWorldListener::UpdateFields_00de2980(void* world) throw()
 {
     hkpContactPointViewer* owner = reinterpret_cast<hkpContactPointViewer*>(reinterpret_cast<char*>(this) - sizeof(hkReferencedObject) - sizeof(hkProcess));
     hkpWorldPostSimulationListener* listener;
@@ -88,7 +89,7 @@ __forceinline hkpWorldPostSimulationListener::~hkpWorldPostSimulationListener() 
 __forceinline hkpContactPointViewer::~hkpContactPointViewer() throw()
 {
     for (int i = 0; this->contacts && i < this->contacts->size; ++i)
-        this->hkpPhysicsContextWorldListener::FUN_00de2980(this->contacts->data[i]);
+        this->hkpPhysicsContextWorldListener::UpdateFields_00de2980(this->contacts->data[i]);
 }
 // @fnv 0x00de2a40
 void hkpContactPointViewer::DestroyContactPointViewer() throw()

@@ -94,7 +94,8 @@ FUN_00e60c30_cls* FUN_00e60c30_cls::Destroy(unsigned char acFlags)
 }
 
 // @fnv 0x00e60670
-int FUN_00e60670()
+// src: GUESS 0x00e60670 (confidence: high)
+int Hkpconvexpieceshape_ReturnZero()
 {
     return 0;
 }
@@ -221,12 +222,13 @@ public:
     __m128* m_kVertices;
     int m_iStridedVertexCount;
 
-    void FUN_00e60800(const hkTransform& kLocalToWorld, float fTolerance, Aabb_e608& kOut) const;
+    void GetExpandedWorldVertexBounds(const hkTransform& kLocalToWorld, float fTolerance, Aabb_e608& kOut) const;
 };
 
 // Computes the world-space AABB of the shape's vertices via kLocalToWorld, then expands it by m_fSphereRadius plus fTolerance into kOut.
 // @fnv 0x00e60800
-void Shape_e608::FUN_00e60800(const hkTransform& kLocalToWorld, float fTolerance, Aabb_e608& kOut) const
+// src: GUESS 0x00e60800 (confidence: medium)
+void Shape_e608::GetExpandedWorldVertexBounds(const hkTransform& kLocalToWorld, float fTolerance, Aabb_e608& kOut) const
 {
     kOut.m_kMinimumCorner = _mm_set1_ps(3.40282e+38f);
     kOut.m_kMaximumCorner = _mm_set1_ps(-3.40282e+38f);
@@ -512,7 +514,7 @@ void FUN_00e60b00_cls::ProcessCollisionShapes(const BodyA* bodyA, const BodyB* b
 // sub ecx,0x14; jmp Destroy == MSVC adjustor thunk (Derived overrides a virtual both bases declare).
 struct AdjPrimaryBase
 {
-    virtual void FUN_00e60c20();
+    virtual void AdjustThisAndForward_00e60c20();
     int unk04;
     int unk08;
     int unk0C;
@@ -521,14 +523,15 @@ struct AdjPrimaryBase
 
 struct AdjSecondaryBase
 {
-    virtual void FUN_00e60c20();
+    virtual void AdjustThisAndForward_00e60c20();
 };
 
 struct AdjDerived : AdjPrimaryBase, AdjSecondaryBase
 {
     AdjDerived();
 // @fnv 0x00e60c20
-    virtual void FUN_00e60c20();
+// src: GUESS 0x00e60c20 (confidence: low)
+    virtual void AdjustThisAndForward_00e60c20();
 };
 
 AdjDerived::AdjDerived()

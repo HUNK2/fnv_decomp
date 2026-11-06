@@ -152,7 +152,7 @@ static unsigned char approxEquals(S00d5ad60_cls* self, float* other, float thres
 typedef ::__m128 LocalM128;
 extern "C" LocalM128 _mm_setr_ps(float, float, float, float);
 extern float DAT_01011d78;
-static int FUN_00d5ad90(const float* pVec, float fTol);
+static int Hkgeometryutility_IsMaximumAbsoluteComponentNearOne(const float* pVec, float fTol);
 int __cdecl S00d5ad90_Wrap(const float* pVec, float fTol);
 struct S00d5c060_Src
 {
@@ -176,7 +176,7 @@ struct __declspec(align(16)) S00d5c060_Result
 };
 char* __cdecl AllocateWithHeader(D5C110Allocator* alloc, int size);
 char* __cdecl hkMemoryRouter_easyFree(D5C110Allocator* owner, char* data);
-void __cdecl FUN_00d5beb0(S00d5c060_Result* self, char* data, int count, int flags, float scale);
+void __cdecl Hkgeometryutility_ProcessEntries_00d5beb0(S00d5c060_Result* self, char* data, int count, int flags, float scale);
 S00d5c060_Result hkGeometryUtility_createMinBoundingSphere(const S00d5c060_Src* src, float scale);
 
 extern "C" LocalM128 _mm_load_ps(const float*);
@@ -223,7 +223,8 @@ static __forceinline int S00d5a6e0_FindCol(const float* sub, int start)
 }
 
 // @fnv 0x00d5a6e0
-hkBool __cdecl FUN_00d5a6e0(float m[3][4], int maxIterations)
+// src: GUESS 0x00d5a6e0 (confidence: low)
+hkBool __cdecl Object_ProcessEntries_00d5a6e0(float m[3][4], int maxIterations)
 {
     float maxLen = 0.0f;
     for (int i = 0; i < 3; i++)
@@ -433,7 +434,8 @@ template <typename T> inline T* S00d5ae60_addByteOffset(T* base, long offset)
 }
 
 // @fnv 0x00d5ae60
-static __declspec(noinline) void FUN_00d5ae60(const float* verts, int numVerts, int striding,
+// src: GUESS 0x00d5ae60 (confidence: low)
+static __declspec(noinline) void Object_ProcessEntries_00d5ae60(const float* verts, int numVerts, int striding,
                                               S00d5ae60_Vector4& halfExtents, const S00d5ae60_Vector4* axes,
                                               S00d5ae60_Vector4& center)
 {
@@ -498,5 +500,5 @@ struct S00d5ae60_Strided
 void S00d5ae60_calcObb(const S00d5ae60_Strided& sv, S00d5ae60_Vector4& halfExtents, S00d5ae60_Vector4* axes,
                        S00d5ae60_Vector4& center)
 {
-    FUN_00d5ae60(sv.m_kVertices, sv.m_iStridedVertexCount, sv.m_iVertexStride, halfExtents, axes, center);
+    Object_ProcessEntries_00d5ae60(sv.m_kVertices, sv.m_iStridedVertexCount, sv.m_iVertexStride, halfExtents, axes, center);
 }

@@ -81,7 +81,7 @@ public:
     void hkTransform_setMul(const hkTransform& a, const hkTransform& b);
     void hkTransform_setMulInverseMul(const hkTransform& a, const hkTransform& b);
     void hkTransform_setMulInverseMul(const void* a, const void* b);
-    void FUN_00cb23e0(const hkTransform& transform);
+    void ProcessTransformedMatrixCopy_00cb23e0(const hkTransform& transform);
     void bhkRigidBodyCinfo_SetPosition(const hkVector4& vector);
 
     static void* __cdecl operator new(size_t nbytes);

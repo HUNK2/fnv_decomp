@@ -425,10 +425,11 @@ struct E65Solver
     E65Key m_key;
     hkBool m_flag;
     void hkpMoppKDopGeometriesVirtualMachine_queryMoppKDopGeometriesRecurse(E65Out* out, int v);
-    void FUN_00e65d90(E65Input* in, E65Key* key, int param);
+    void ProcessEntries_00e65d90(E65Input* in, E65Key* key, int param);
 };
 // @fnv 0x00e65d90
-void E65Solver::FUN_00e65d90(E65Input* apInput, E65Key* __restrict key, int aiDataBlock)
+// src: GUESS 0x00e65d90 (confidence: low)
+void E65Solver::ProcessEntries_00e65d90(E65Input* apInput, E65Key* __restrict key, int aiDataBlock)
 {
     m_kIntegerDataBlock = aiDataBlock;
     E65Out out;
@@ -519,7 +520,7 @@ struct MoppErrorStream
 
     void FUN_00cb1600(char*, int);
 
-    void FUN_00cc01c0(const char*);
+    void ProcessAndReturnValue_00cc01c0(const char*);
 
     void FUN_00cc00e0();
 };
@@ -780,7 +781,7 @@ void hkpMoppFindAllVirtualMachine::queryOnTree(const MoppState* state, const uns
 
             errorStream.FUN_00cb1600(reinterpret_cast<char*>(errorBuffer), sizeof(errorBuffer));
 
-            errorStream.FUN_00cc01c0(
+            errorStream.ProcessAndReturnValue_00cc01c0(
                 "Unknown command - This mopp data has been corrupted (check for memory trashing), or an hkpMoppBvTreeShape has been pointed at invalid mopp data.\n");
 
             if (reinterpret_cast<MoppError*>(DAT_01268360)
@@ -1422,7 +1423,7 @@ void S_00e65140_VM::hkpMoppKDopGeometriesVirtualMachine_queryMoppKDopGeometriesR
             unsigned int assertBuf[128];
             MoppErrorStream ostr;
             ostr.FUN_00cb1600((char*)assertBuf, 0x200);
-            ostr.FUN_00cc01c0(
+            ostr.ProcessAndReturnValue_00cc01c0(
                 "Unknown command - This mopp data has been corrupted (check for memory trashing), or an hkpMoppBvTreeShape has been pointed at invalid mopp data.\n");
             if (reinterpret_cast<MoppError*>(DAT_01268360)
                     ->message(3, 0x1298fedd, (const char*)assertBuf,

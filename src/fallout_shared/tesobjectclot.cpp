@@ -35,7 +35,7 @@ struct FUN_00485e00_shell
 // src: XBOX_PDB 0x00515f40
 void TESObjectCLOT::Save_00515f40()
 {
-    TESForm::FUN_004855a0();
+    TESForm::BeginFormRecord();
     TESFullName::Save_00487010();
     TESScriptableForm::Save_0048cca0();
     TESEnchantableForm::Save();
@@ -43,7 +43,7 @@ void TESObjectCLOT::Save_00515f40()
     BGSDestructibleObjectForm::Save();
     BGSEquipType::Save();
     reinterpret_cast<FUN_00485e00_shell*>(this)->TESForm_SaveData();
-    TESForm::FUN_00485680();
+    TESForm::FinishFormRecord();
 }
 
 void __cdecl operator delete(void*);
@@ -120,7 +120,7 @@ struct RecordReader
 };
 struct BipedFlags
 {
-    void FUN_00512810();
+    void BSEndian_Thunk();
     void QuestPerkEntryData_Endian();
 };
 void __cdecl ReadFullName(TESFullName*, RecordReader*);
@@ -189,7 +189,7 @@ bool ClothingLoader::ReadFromStream(RecordReader* reader)
                 unsigned int bipedData;
                 reader->FUN_00472890(&bipedData, 4);
                 if (reader->FUN_00401680())
-                    reinterpret_cast<BipedFlags*>(&bipedData)->FUN_00512810();
+                    reinterpret_cast<BipedFlags*>(&bipedData)->BSEndian_Thunk();
                 this->bipedFlags = ((unsigned char*)&bipedData)[2];
                 this->partMask = *(unsigned short*)&bipedData;
             }

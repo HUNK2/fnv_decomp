@@ -42,11 +42,11 @@ struct FUN_005076c0Class
 };
 struct FUN_005076e0_Class
 {
-    void FUN_005076e0(float value);
+    void SetFieldAtOffsetF4_005076e0(float value);
 };
 struct FUN_00507720_Class
 {
-    void __thiscall FUN_00507720(float value);
+    void __thiscall SetFieldAtOffset100_00507720(float value);
 };
 struct FUN_00507740_Class
 {
@@ -74,13 +74,13 @@ struct FUN_00507d80_Class
 };
 struct FUN_00508050_Class
 {
-    float FUN_00508050();
+    float GetFieldAtOffset44();
 };
 extern "C" void __cdecl _ref_006815c0();
 struct FUN_00509890_class
 {
     void __thiscall _ref_006815c0();
-    void* __thiscall FUN_00509890(bool);
+    void* __thiscall UpdateState_00509890(bool);
 };
 struct FUN_0050d1d0_class
 {
@@ -100,8 +100,8 @@ struct FUN_0050d230_class
 };
 struct FUN_00510110_class
 {
-    void FUN_005102e0();
-    void FUN_00510110();
+    void ProcessEntries_005102e0();
+    void ForwardCall_00510110();
 };
 struct FUN_00510360_Class
 {
@@ -115,7 +115,7 @@ extern "C" int __cdecl _BSStringLength(const char*);
 struct FUN_005103a0_class
 {
     void __thiscall FindSubstring(const char* a, const char* b, int c);
-    void __thiscall FUN_005103a0(const char* a, const char* b);
+    void __thiscall ProcessState_005103a0(const char* a, const char* b);
 };
 extern "C" int __cdecl _memcmp(const void* s1, const void* s2, unsigned int n);
 void __cdecl std_char_traits_char_compare(const void* s1, const void* s2, unsigned int n);
@@ -144,16 +144,16 @@ struct FUN_00519b20_cls
 {
     void* m_p;
     void __thiscall ConstructArray(void* arg);
-    void* __thiscall FUN_00519b20(void* arg);
+    void* __thiscall InitializeFields_00519b20(void* arg);
 };
-extern "C" unsigned int __cdecl FUN_00a5e930(void*);
+extern "C" unsigned int __cdecl UpdateFields_00c5faa0(void*);
 struct Unk_00a5e930
 {
-    unsigned int __thiscall FUN_00a5e930();
+    unsigned int __thiscall UpdateFields_00c5faa0();
 };
 struct FUN_0051cfe0_Class
 {
-    unsigned int __thiscall FUN_0051cfe0();
+    unsigned int __thiscall ForwardCall_0051cfe0();
 };
 struct FUN_0051f4d0_class
 {
@@ -161,7 +161,7 @@ struct FUN_0051f4d0_class
 };
 struct FUN_0051f4f0_Class
 {
-    void FUN_0051f4f0(int value);
+    void UpdateState_0051f4f0(int value);
 };
 struct FUN_0051f530_class
 {
@@ -175,7 +175,7 @@ struct FUN_00519c50_class
     int _0x4;
     void* _0x8;
     void __thiscall NiTPointerMap_RemoveAll();
-    void __thiscall FUN_00519c50();
+    void __thiscall ReleaseStorage_00519c50();
 };
 extern "C" void __cdecl _Deallocate(void*);
 void __cdecl FUN_005010f0();
@@ -393,11 +393,11 @@ struct TESObjectREFR_Flags
 };
 struct S_004ed780
 {
-    S_004ed780* FUN_004ed780(float value);
+    S_004ed780* ProcessAndReturnValue_004ed780(float value);
 };
 struct FUN_0050e620_S
 {
-    bool FUN_0050e620(unsigned char value);
+    bool IOTask_SetPriority_Thunk(unsigned char value);
 };
 struct GlobalObject_0045cf30 : FUN_0050e620_S
 {
@@ -822,7 +822,7 @@ struct S_5102e0_List
     int unk00;
     int unk04;
     S_5102e0_Node* head;
-    void FUN_005102e0();
+    void ProcessEntries_005102e0();
 };
 extern unsigned int g_010173f0;
 extern "C" unsigned int __cdecl FindNextMatch(void* p, unsigned int n, char* c);
@@ -1112,7 +1112,7 @@ struct Ptr
 {
     void* m_p;
     ~Ptr();
-    Obj* FUN_00559450();
+    Obj* Modelloader_GetReferencedThis();
 };
 struct TimeGlobal
 {
@@ -1260,7 +1260,7 @@ bool SkillBookEffect552::TESObjectBOOK_Read(TESObjectREFR* reference)
             FUN_004d5c60(15);
             BSStringT_char_SPrintF(&message, g_011d49c0.FUN_00403df0(), ActorValue::GetActorValueName(skill2),
                          static_cast<int>(amount5));
-            QueueUIMessage(message.FUN_00559450(), 1, 0, 0, DAT_010162c0, false);
+            QueueUIMessage(message.Modelloader_GetReferencedThis(), 1, 0, 0, DAT_010162c0, false);
             applied = true;
         }
     }

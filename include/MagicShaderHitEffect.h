@@ -40,7 +40,7 @@ class MagicShaderHitEffect : public MagicHitEffect
 
     void ApplyAndCleanup();
     unsigned short GetEffectSaveSize(ActiveEffect* apEffect, TESObjectREFR* apTarget);
-    unsigned short FUN_00822060();
+    unsigned short GetReferenceSaveSize();
     bool CheckShouldSave_00822010();
     void SaveGameTES_008220c0();
     bool LoadGame_00822130();
@@ -48,11 +48,11 @@ class MagicShaderHitEffect : public MagicHitEffect
     void LoadGame_00821ed0(ActiveEffect* apEffect, TESObjectREFR* apTarget);
     void SaveGameBGS_00822250(BGSSaveFormBuffer* apBuffer);
     void LoadGame_008222f0(BGSLoadGameBuffer* apBuffer);
-    void FUN_008223d0(unsigned int a1);
+    void LoadPreservingPlaybackState(unsigned int a1);
 
     ActiveEffect* GetEffect();
     void GetSceneGraphData(bool&, bool&, float&, NiAVObject*&, NiAVObject*&);
-    void FUN_008d05e0(ActiveEffect*, TESObjectREFR*, void*);
+    void DoNothing_008d05e0(ActiveEffect*, TESObjectREFR*, void*);
     void InitHitEffect(ActiveEffect*, TESObjectREFR*, void*);
     ShaderHitTarget* GetHitTarget();
     float GetTimeLeft();

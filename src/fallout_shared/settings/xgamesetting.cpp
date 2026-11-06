@@ -27,7 +27,7 @@ bool GameSettingCollection::ReadSetting(Setting& setting)
             case 6:
                 char* buffer = static_cast<char*>(_alloca(file->GetChunkSize()));
                 result = file->GetChunkData(buffer, 0);
-                setting.FUN_00c33170(buffer);
+                setting.SetStringAndPromoteKeyOwnership(buffer);
                 break;
             }
         }

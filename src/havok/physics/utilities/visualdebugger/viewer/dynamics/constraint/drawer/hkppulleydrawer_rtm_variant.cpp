@@ -114,11 +114,12 @@ struct ConstraintVisualizer
     void hkpConstraintDrawer_updateCommonParameters(hkpConstraintInstance* constraint, hkTransform& refLocalToWorld, hkTransform& attLocalToWorld);
     void hkpConstraintDrawer_drawPivots(int id, int tag);
     void hkpConstraintDrawer_drawBodyFrames(int id, int tag);
-    void FUN_00de6550(hkpConstraintInstance* constraint, hkDebugDisplayHandler* displayHandler, int id, int tag);
+    void ProcessEntries_00de6550(hkpConstraintInstance* constraint, hkDebugDisplayHandler* displayHandler, int id, int tag);
 };
 
 // @fnv 0x00de6550
-void ConstraintVisualizer::FUN_00de6550(hkpConstraintInstance* constraint, hkDebugDisplayHandler* displayHandler, int id,
+// src: GUESS 0x00de6550 (confidence: low)
+void ConstraintVisualizer::ProcessEntries_00de6550(hkpConstraintInstance* constraint, hkDebugDisplayHandler* displayHandler, int id,
                                    int tag)
 {
     hkpPulleyConstraintData* pulley = static_cast<hkpPulleyConstraintData*>(constraint->m_data);

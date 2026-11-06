@@ -16,11 +16,12 @@ struct FUN_00b007d0_shell
 
 struct FUN_00b00860_shell
 {
-    void FUN_00b00860();
+    void BSSystemDir_DoClose_Thunk();
 };
 
 // @fnv 0x00b00860
-void FUN_00b00860_shell::FUN_00b00860()
+// src: GUESS 0x00b00860 (confidence: medium)
+void FUN_00b00860_shell::BSSystemDir_DoClose_Thunk()
 {
     ((FUN_00b007d0_shell*)this)->BSSystemDir_DoClose();
 }
@@ -77,11 +78,12 @@ extern int DAT_010a48e8;
 
 struct FUN_00b029a0_class
 {
-    void __thiscall FUN_00b029a0();
+    void __thiscall SetVirtualTable_00b029a0();
 };
 
 // @fnv 0x00b029a0
-void __thiscall FUN_00b029a0_class::FUN_00b029a0()
+// src: GUESS 0x00b029a0 (confidence: low)
+void __thiscall FUN_00b029a0_class::SetVirtualTable_00b029a0()
 {
     *(int**)(this) = &DAT_010a48e8;
 }
@@ -111,7 +113,8 @@ int* __thiscall FUN_00b008f0_class::return_0_2()
 
 extern int DAT_011f8250;
 // @fnv 0x00b00970
-void FUN_00b00970(int value)
+// src: GUESS 0x00b00970 (confidence: low)
+void Runtime_SetDAT011f8250(int value)
 {
     DAT_011f8250 = value;
 }
@@ -247,11 +250,12 @@ float* FUN_00b12b50_class::TransformVector(float* dst, const float* src) const
 struct FUN_00b008b0_t
 {
     int m0;
-    FUN_00b008b0_t* __thiscall FUN_00b008b0(int v);
+    FUN_00b008b0_t* __thiscall SetM0(int v);
 };
 
 // @fnv 0x00b008b0
-FUN_00b008b0_t* __thiscall FUN_00b008b0_t::FUN_00b008b0(int aiValue)
+// src: GUESS 0x00b008b0 (confidence: low)
+FUN_00b008b0_t* __thiscall FUN_00b008b0_t::SetM0(int aiValue)
 {
     m0 = aiValue;
     return this;
@@ -744,13 +748,13 @@ void B02670Task::CompleteTask()
 }
 
 void FUN_00ec7c56();
-unsigned int FUN_00b10730(unsigned int a, unsigned int b, unsigned int c);
+unsigned int Runtime_UpdateState_00b10730(unsigned int a, unsigned int b, unsigned int c);
 
 struct FUN_00b0e510_pair
 {
     unsigned int m_00;
     unsigned int m_04;
-    unsigned char FUN_00b10490(FUN_00b0e510_pair* other);
+    unsigned char ProcessEntries_00b10490(FUN_00b0e510_pair* other);
 };
 
 struct FUN_00b0e510_tmp
@@ -785,12 +789,13 @@ class FUN_00b0e510_cls
     unsigned int m_0c;
     unsigned int m_10;
 
-    FUN_00b0e510_pair* FUN_00b0e510(FUN_00b0e510_pair* out, unsigned int a0, unsigned int a1, unsigned int a2,
+    FUN_00b0e510_pair* ProcessEntries_00b0e510(FUN_00b0e510_pair* out, unsigned int a0, unsigned int a1, unsigned int a2,
                                     unsigned int a3);
 };
 
 // @fnv 0x00b0e510
-FUN_00b0e510_pair* FUN_00b0e510_cls::FUN_00b0e510(FUN_00b0e510_pair* out, unsigned int a0, unsigned int a1,
+// src: GUESS 0x00b0e510 (confidence: low)
+FUN_00b0e510_pair* FUN_00b0e510_cls::ProcessEntries_00b0e510(FUN_00b0e510_pair* out, unsigned int a0, unsigned int a1,
                                                   unsigned int a2, unsigned int a3)
 {
     FUN_00b0e510_pair lo;
@@ -819,9 +824,9 @@ FUN_00b0e510_pair* FUN_00b0e510_cls::FUN_00b0e510(FUN_00b0e510_pair* out, unsign
     } while (0);
     hi.m_00 = this->m_00;
     hi.m_04 = a3;
-    if (lo.FUN_00b10490(&hi) != 0)
+    if (lo.ProcessEntries_00b10490(&hi) != 0)
     {
-        r = FUN_00b10730(hi.m_04, this->m_10, lo.m_04);
+        r = Runtime_UpdateState_00b10730(hi.m_04, this->m_10, lo.m_04);
         big.unk00 = this->m_10;
         big.unk04 = big.unk00;
         big.unk08 = r;
@@ -838,12 +843,13 @@ struct FUN_00b10490_class
 {
     int first;
     int second;
-    bool __thiscall FUN_00b10490(const FUN_00b10490_class* rhs);
+    bool __thiscall ProcessEntries_00b10490(const FUN_00b10490_class* rhs);
 };
 
 // Calls FUN_00ec7c56 when first is zero or differs from rhs->first, then returns whether second differs from rhs->second.
 // @fnv 0x00b10490
-bool __thiscall FUN_00b10490_class::FUN_00b10490(const FUN_00b10490_class* rhs)
+// src: GUESS 0x00b10490 (confidence: low)
+bool __thiscall FUN_00b10490_class::ProcessEntries_00b10490(const FUN_00b10490_class* rhs)
 {
     if (!((unsigned char)(int)(first != 0) && (unsigned char)(int)(first == rhs->first)))
     {
@@ -974,13 +980,14 @@ float* VecInterpolate(float* dst, FUN_00b0cf90_class* pOwner, ScratchHelper* pHe
     return dst;
 }
 
-void __cdecl FUN_00b17b40(int, int, int, int, unsigned char, unsigned char);
+void __cdecl Object_CopyElements12(int, int, int, int, unsigned char, unsigned char);
 struct Flag
 {
     unsigned char v;
 };
 // @fnv 0x00b17740
-void __cdecl FUN_00b17740(int a, int b, int c, int d)
+// src: GUESS 0x00b17740 (confidence: low)
+void __cdecl Object_UpdateFields_00b17740(int a, int b, int c, int d)
 {
     Flag zero = {};
     unsigned char raw4;
@@ -990,7 +997,7 @@ void __cdecl FUN_00b17740(int a, int b, int c, int d)
         int tau_p;
         int zeta_a;
         zeta_a = a;
-        FUN_00b17b40(zeta_a, dd_b, c, d, copy, zero.v);
+        Object_CopyElements12(zeta_a, dd_b, c, d, copy, zero.v);
     }
 }
 
@@ -1007,12 +1014,13 @@ struct BB17790CheckedTag
 {
 };
 
-void __cdecl FUN_00b17c20(BB17790Iterator kFirst, BB17790Iterator kLast, int* piDest, void* pvAllocator,
+void __cdecl Object_ProcessEntries_00b17c20(BB17790Iterator kFirst, BB17790Iterator kLast, int* piDest, void* pvAllocator,
                           BB17790PtrCategory kCategory, BB17790CheckedTag kChecked);
 
 // Forwards the iterator range, destination pointer and allocator to FUN_00b17c20 along with an uninitialized category and a checked tag.
 // @fnv 0x00b17790
-void __cdecl FUN_00b17790(BB17790Iterator kFirst, BB17790Iterator kLast, int* piDest, void* pvAllocator)
+// src: GUESS 0x00b17790 (confidence: low)
+void __cdecl Runtime_UpdateState_00b17790(BB17790Iterator kFirst, BB17790Iterator kLast, int* piDest, void* pvAllocator)
 {
     BB17790CheckedTag kChecked = {};
     BB17790PtrCategory kCategorySource4;
@@ -1020,7 +1028,7 @@ void __cdecl FUN_00b17790(BB17790Iterator kFirst, BB17790Iterator kLast, int* pi
     BB17790Iterator kLastBase = kLast;
     int* kDest;
     BB17790Iterator kFirstBase3 = kFirst;
-    FUN_00b17c20(kFirstBase3, kLastBase, piDest, pvAllocator, kCategory, kChecked);
+    Object_ProcessEntries_00b17c20(kFirstBase3, kLastBase, piDest, pvAllocator, kCategory, kChecked);
 }
 
 struct SortEntry
@@ -1125,8 +1133,8 @@ struct FUN_00b17e90_pad
     unsigned int u80;
 };
 
-void FUN_00b0fb80();
-int* FUN_00b16b00(unsigned int count, int zero);
+void BxLengthError_Thunk();
+int* Object_AllocateElementStorage_00b16b00(unsigned int count, int zero);
 
 // @fnv 0x00b17e90
 bool FUN_00b17e90_cls::ResizeArray(unsigned int count)
@@ -1145,11 +1153,11 @@ bool FUN_00b17e90_cls::ResizeArray(unsigned int count)
         cap = 0x3fffffff;
         if ((cap > 0 ? cap : 1) < count)
         {
-            FUN_00b0fb80();
+            BxLengthError_Thunk();
         }
         else
         {
-            m_0c = FUN_00b16b00(count, 0);
+            m_0c = Object_AllocateElementStorage_00b16b00(count, 0);
             m_10 = m_0c;
             m_14 = m_0c + count;
         }
@@ -1303,7 +1311,8 @@ extern "C" char DAT_01140ef8[];
 extern "C" void __stdcall FUN_00ec7894(void* err2, const char* msg);
 
 // @fnv 0x00b16b00
-int* FUN_00b16b00(unsigned int count, int aiUnused)
+// src: GUESS 0x00b16b00 (confidence: medium)
+int* Object_AllocateElementStorage_00b16b00(unsigned int count, int aiUnused)
 {
     if (count <= 0)
         count = 0;
@@ -1439,7 +1448,8 @@ void CollectDirectoryEntries(const char* pattern, const char* path, BSSimpleList
 }
 
 // @fnv 0x00b10830
-void __cdecl FUN_00b10830(unsigned int count)
+// src: GUESS 0x00b10830 (confidence: low)
+void __cdecl Runtime_SetVtableAndProcessState_00b10830(unsigned int count)
 {
     if (count <= 0u)
     {
@@ -1466,7 +1476,8 @@ typedef struct B10C20Elem
 
 // Copies each element from the range [first, last) into dest, returning the advanced dest pointer.
 // @fnv 0x00b10c20
-B10C20Elem* __cdecl FUN_00b10c20(B10C20Elem* first, B10C20Elem* last, B10C20Elem* dest)
+// src: GUESS 0x00b10c20 (confidence: medium)
+B10C20Elem* __cdecl Object_CopyElementRange(B10C20Elem* first, B10C20Elem* last, B10C20Elem* dest)
 {
     B10C20Elem* original = dest;
     try
@@ -1542,7 +1553,8 @@ struct CopyElem12
 
 // Copies each CopyElem12 from the range [src, srcEnd) into dst, returning the advanced destination pointer.
 // @fnv 0x00b17b40
-CopyElem12* __cdecl FUN_00b17b40(CopyElem12* src, CopyElem12* srcEnd, CopyElem12* dst)
+// src: GUESS 0x00b17b40 (confidence: medium)
+CopyElem12* __cdecl Object_CopyElements12(CopyElem12* src, CopyElem12* srcEnd, CopyElem12* dst)
 {
     CopyElem12* begin = dst;
     try
@@ -1732,7 +1744,7 @@ struct B0Vector
     B0Elem* m_pHeadNode;
     B0Elem* m_last;
     B0Elem* m_pFreeList;
-    void FUN_00b0ea80();
+    void ReleaseEntries_00b0ea80();
 };
 struct B0Locals
 {
@@ -1747,7 +1759,8 @@ struct B0Locals
 };
 // Deallocates the B0Elem node array and resets m_pHeadNode, m_last, and m_pFreeList to null.
 // @fnv 0x00b0ea80
-void B0Vector::FUN_00b0ea80()
+// src: GUESS 0x00b0ea80 (confidence: medium)
+void B0Vector::ReleaseEntries_00b0ea80()
 {
     if (m_pHeadNode != 0)
     {
@@ -1783,12 +1796,13 @@ struct FUN_00b10940_pair
     unsigned int hi;
 };
 
-void __cdecl FUN_00b10c20(unsigned int a1, unsigned int a2, unsigned int a3, unsigned int a4, FUN_00b10940_cat a5,
+void __cdecl Object_CopyElementRange(unsigned int a1, unsigned int a2, unsigned int a3, unsigned int a4, FUN_00b10940_cat a5,
                           FUN_00b10940_tag a6);
 
 // Forwards first, last, dest and al to FUN_00b10c20 along with an uninitialized one-byte tag and a zeroed one-byte kind.
 // @fnv 0x00b10940
-void __cdecl FUN_00b10940(unsigned int first, unsigned int last, unsigned int dest, unsigned int al)
+// src: GUESS 0x00b10940 (confidence: low)
+void __cdecl Object_UpdateFields_00b10940(unsigned int first, unsigned int last, unsigned int dest, unsigned int al)
 {
     FUN_00b10940_tag kind = {};
     FUN_00b10940_cat tag;
@@ -1797,7 +1811,7 @@ void __cdecl FUN_00b10940(unsigned int first, unsigned int last, unsigned int de
     unsigned int n = last;
     FUN_00b10940_pair val;
     val.lo = first;
-    FUN_00b10c20(val.lo, n, dest, al, tag, kind);
+    Object_CopyElementRange(val.lo, n, dest, al, tag, kind);
 }
 
 void __cdecl FormHeapFreeAndLog_00401030(int block);
@@ -1810,7 +1824,7 @@ struct FUN_00b15600_cls
     int m_0c;
     int m_10;
     int m_14;
-    void FUN_00b15600();
+    void ReleaseEntries_00b15600();
 };
 
 struct Rng
@@ -1820,7 +1834,8 @@ struct Rng
 };
 // If m_0c is set, passes it to FUN_00401030; then zeroes m_0c, m_10 and m_14.
 // @fnv 0x00b15600
-void FUN_00b15600_cls::FUN_00b15600()
+// src: GUESS 0x00b15600 (confidence: medium)
+void FUN_00b15600_cls::ReleaseEntries_00b15600()
 {
     if (!!m_0c)
     {
@@ -1871,7 +1886,7 @@ struct FUN_00afd390_class
 {
     const char* text;
     unsigned int flags;
-    void* FUN_00afd390(const char*, int);
+    void* UpdateState_00afd390(const char*, int);
 };
 struct DirectoryArchive
 {
@@ -1905,7 +1920,7 @@ int DirectoryArchive::Archive_InvalidateOlderFilesByPath(const char* root, const
     result = (unsigned char)strlen(data2);
     if (result > 1)
         data2[result - 1] = 0;
-    meshName3.FUN_00afd390(data2, 2);
+    meshName3.UpdateState_00afd390(data2, 2);
     value = false;
     if (FindHashEntry(&meshName3, &countB, 0))
         value = true;
@@ -1923,7 +1938,7 @@ int DirectoryArchive::Archive_InvalidateOlderFilesByPath(const char* root, const
             if (CompareFileTime(&data5.ftLastWriteTime, since) > 0)
             {
                 FUN_00afd390_class fileName;
-                fileName.FUN_00afd390(data5.cFileName, 0);
+                fileName.UpdateState_00afd390(data5.cFileName, 0);
                 if (Archive_InvalidateFile_(countB, &fileName, 0))
                     count3++;
             }
@@ -1936,7 +1951,8 @@ int DirectoryArchive::Archive_InvalidateOlderFilesByPath(const char* root, const
 
 // Looks up path with DAT_00fdf070, copies the match's last write time into out and closes the handle; returns whether the lookup succeeded.
 // @fnv 0x00b01b60
-bool FUN_00b01b60(const char* path, DirFileTime* apOutTime)
+// src: GUESS 0x00b01b60 (confidence: medium)
+bool File_GetLastWriteTime(const char* path, DirFileTime* apOutTime)
 {
     void* h;
     DirectoryFindData findData;

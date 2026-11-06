@@ -29,7 +29,8 @@ void __thiscall TESEatPackageData::Save_0067bbb0()
 }
 
 // @fnv 0x0067bfa0
-void TESEatPackageData::FUN_0067bfa0(BGSLoadFormBuffer* apLoadGameBuffer)
+// src: GUESS 0x0067bfa0 (confidence: low)
+void TESEatPackageData::ProcessState_0067bfa0(BGSLoadFormBuffer* apLoadGameBuffer)
 {
     if (m_pPackageTarget != 0)
     {

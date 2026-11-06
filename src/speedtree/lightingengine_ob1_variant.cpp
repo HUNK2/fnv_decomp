@@ -92,21 +92,21 @@ public:
     float GetSquaredXYLength() const;
     Elem16& expand(Allocator& allocator);
 
-    void FUN_00416870(float x, float y, float z);
+    void SetComponents(float x, float y, float z);
     bool FUN_00439090(const LocalVec3* other);
-    bool FUN_004390c0(const LocalVec3* other);
-    bool FUN_004390c0(const LocalVec3* other) const;
-    bool FUN_004390c0(const char* other);
-    void FUN_00439180(float scale);
+    bool HasEqualComponents(const LocalVec3* other);
+    bool HasEqualComponents(const LocalVec3* other) const;
+    bool HasEqualComponents(const char* other);
+    void ScaleComponents(float scale);
     LocalVec3 FUN_00439e90(const LocalVec3& other);
     LocalVec3 FUN_00439e90(const LocalVec3& other) const;
-    void FUN_00439ef0();
-    LocalVec3 FUN_00439ef0(const LocalVec3& other);
-    LocalVec3 FUN_00439ef0(const LocalVec3& other) const;
-    LocalVec3 FUN_00439ef0(LocalVec3* other);
-    LocalVec3 FUN_00439ef0(const LocalVec3* other);
-    void FUN_00439ef0(LocalVec3* output, const LocalVec3* other);
-    LocalVec3* FUN_00439ef0(void* output, void* other);
+    void SubtractIntoVector();
+    LocalVec3 SubtractIntoVector(const LocalVec3& other);
+    LocalVec3 SubtractIntoVector(const LocalVec3& other) const;
+    LocalVec3 SubtractIntoVector(LocalVec3* other);
+    LocalVec3 SubtractIntoVector(const LocalVec3* other);
+    void SubtractIntoVector(LocalVec3* output, const LocalVec3* other);
+    LocalVec3* SubtractIntoVector(void* output, void* other);
     void FUN_0043d410(float x, int y, int z);
     void FUN_0043d410(float x, unsigned int y, unsigned int z);
     float FUN_00457910();
@@ -116,22 +116,22 @@ public:
     float FUN_004a7290();
     float FUN_004a7290() const;
     LocalVec3 FUN_004b3800(const LocalVec3& other) const;
-    LocalVec3 FUN_0053d280(float divisor);
+    LocalVec3 ProcessAndReturnValue_0053d280(float divisor);
     float NiPoint3_XYLength();
     float NiPoint3_XYLength() const;
-    void FUN_0063c8a0(const LocalVec3* other);
-    void FUN_0063c8a0(void* other);
+    void ComputeValue_0063c8a0(const LocalVec3* other);
+    void ComputeValue_0063c8a0(void* other);
     void FUN_006815c0();
     float CVec3_Distance(LocalVec3* other);
     float CVec3_Distance(const LocalVec3& other) const;
-    LocalVec3 FUN_00b05000(const Mat& matrix);
-    LocalVec3 FUN_00b05000(const Matrix4* matrix);
+    LocalVec3 TransformPointByMatrix4(const Mat& matrix);
+    LocalVec3 TransformPointByMatrix4(const Matrix4* matrix);
     void Normalize_00b12790();
     LocalVec3 Diff_00b13040(void* other);
     LocalVec3 Diff_00b13040(const LocalVec3& other) const;
     float FUN_00b2a180(void* other);
-    LocalVec3& FUN_00b2a1c0(void* other);
-    void FUN_00ddc870();
+    LocalVec3& AddComponents(void* other);
+    void ProcessEntries_00ddc870();
     void FUN_00e0f6e0();
 };
 
@@ -171,7 +171,8 @@ inline LocalVec3 LocalVec3::ScaleSwizzled(float value)
 {
     return LocalVec3(x * value, y * value, z * value);
 }
-inline LocalVec3& LocalVec3::FUN_00b2a1c0(void* ptr)
+// src: GUESS 0x00b2a1c0 (confidence: medium)
+inline LocalVec3& LocalVec3::AddComponents(void* ptr)
 {
     const LocalVec3& rhs = *(const LocalVec3*)ptr;
     x += rhs.x;
@@ -234,16 +235,16 @@ struct Iterator
     {
         FUN_00b42980(value, owner);
     }
-    bool FUN_00b2ac30(Iterator*);
-    GameContext*& FUN_00b2ab50();
-    void FUN_00b2abc0();
+    bool EvaluateValue_00b2ac30(Iterator*);
+    GameContext*& EvaluateValue_00b2ab50();
+    void ProcessAndReturnValue_00b2abc0();
     __forceinline bool operator!=(Iterator const& rhs)
     {
-        return !FUN_00b2ac30((Iterator*)&rhs);
+        return !EvaluateValue_00b2ac30((Iterator*)&rhs);
     }
     __forceinline GameContext*& operator->()
     {
-        return FUN_00b2ab50();
+        return EvaluateValue_00b2ab50();
     }
 };
 struct Record
@@ -313,7 +314,7 @@ void Scene::CLightingEngine_ComputeLeafStaticLighting(int output, Record* record
         for (int i = 0; i < count; ++i)
         {
             Iterator it = records[i].begin();
-            for (; it != records[i].end(); it.FUN_00b2abc0())
+            for (; it != records[i].end(); it.ProcessAndReturnValue_00b2abc0())
             {
                 void* location = &it->location;
                 void* rotationW = &it->rotation;
@@ -358,7 +359,7 @@ void Scene::CLightingEngine_ComputeLeafStaticLighting(int output, Record* record
                             LocalVec3 attenuation((weight * DAT_011ad168[j].scale.x) * origin20[0],
                                              (weight * DAT_011ad168[j].scale.y) * origin20[1],
                                              (weight * DAT_011ad168[j].scale.z) * origin20[2]);
-                            result5.FUN_00b2a1c0(
+                            result5.AddComponents(
                                 &pos29.AddVector(combined5.AddVector(attenuation).ScaleSwizzled(falloff)));
                         }
                     }

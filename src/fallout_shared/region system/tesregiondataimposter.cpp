@@ -165,7 +165,7 @@ struct Node4f11
 };
 struct Head4f11
 {
-    bool FUN_004f3610();
+    bool CheckAllActionStates();
 };
 
 class Obj4f11
@@ -185,7 +185,7 @@ bool Obj4f11::TESRegion_Validate()
     ContNode* pNode = m_pNext;
     if (!m_pNext || !m_pHead)
         return false;
-    if (!m_pHead->FUN_004f3610())
+    if (!m_pHead->CheckAllActionStates())
         return false;
     while (pNode && *((Node4f11*)pNode)->FUN_006815c0())
     {

@@ -12,7 +12,7 @@ void ScriptVariableInfo::Load(TESFile* file)
     {
         file->GetChunkData(this, 24);
         if (file->IsEndianConversionRequired())
-            reinterpret_cast<ScriptVariableEndian*>(this)->FUN_005e2870();
+            reinterpret_cast<ScriptVariableEndian*>(this)->ProcessState_005e2870();
     }
 }
 
@@ -33,7 +33,8 @@ SL_standin* SL_standin::SCRIPT_LOCAL_SCRIPT_LOCAL(SL_standin* apCopy)
 
 // Zeroes the object's first field, sets the double at offset 0x8 to 0.0, clears the bool at 0x10, and returns the object.
 // @fnv 0x005e28e0
-ScriptLocalVariable* __fastcall FUN_005e28e0(ScriptLocalVariable* apObject)
+// src: GUESS 0x005e28e0 (confidence: low)
+ScriptLocalVariable* __fastcall Object_ComputeValue_005e28e0(ScriptLocalVariable* apObject)
 {
     *(unsigned int*)((char*)apObject + 0x0) = 0;
     *(double*)((char*)apObject + 0x8) = 0.0;
@@ -53,11 +54,12 @@ struct FUN_005e29a0_shell
     unsigned char m_kPointB;
     char m_pAuxiliaryObject[3];
     Dummy00501c30 m_dum;
-    bool FUN_005e29a0(FUN_005e29a0_shell* other);
+    bool ProcessAndReturnValue_005e29a0(FUN_005e29a0_shell* other);
 };
 
 // @fnv 0x005e29a0
-bool FUN_005e29a0_shell::FUN_005e29a0(FUN_005e29a0_shell* other)
+// src: GUESS 0x005e29a0 (confidence: low)
+bool FUN_005e29a0_shell::ProcessAndReturnValue_005e29a0(FUN_005e29a0_shell* other)
 {
     if (!other)
         return true;

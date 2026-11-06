@@ -11,7 +11,7 @@
 extern "C"
 {
     int __cdecl hkaRagdollUtils_reorderForRagdoll(void*, void*);
-    int __cdecl FUN_00ce9db0(void*, void*);
+    int __cdecl HkaragdollutilsFpfast_ProcessEntries_00ce9db0(void*, void*);
     int __cdecl alignConstraintSpacesToChildren(void*);
 }
 int __cdecl hkaRagdollUtils_reorderAndAlignForRagdoll(void* p1, void* p2, void* p3);
@@ -291,9 +291,9 @@ extern "C" int __cdecl hkaRagdollUtils_reorderForRagdoll(void* first, void* seco
     {
         int messageStorage[128];
         hkErrStream message(messageStorage, 512);
-        writeInt(writeInt(message.FUN_00cc01c0(DAT_010cbde0), nodeCount - 1)
-            .FUN_00cc01c0(DAT_010cbdec), linkCount)
-            .FUN_00cc01c0(DAT_010cbe00);
+        writeInt(writeInt(message.ProcessAndReturnValue_00cc01c0(DAT_010cbde0), nodeCount - 1)
+            .ProcessAndReturnValue_00cc01c0(DAT_010cbdec), linkCount)
+            .ProcessAndReturnValue_00cc01c0(DAT_010cbe00);
         DAT_01268360->message(1, 0xabba54bb, reinterpret_cast<const char*>(messageStorage), DAT_010cbd34, 0x144);
         return 1;
     }
@@ -468,7 +468,8 @@ struct __declspec(align(16)) PivotXform
 };
 
 // @fnv 0x00ce9db0
-int __cdecl FUN_00ce9db0(A1W constraints, void* warnOnAlignment)
+// src: GUESS 0x00ce9db0 (confidence: low)
+int __cdecl HkaragdollutilsFpfast_ProcessEntries_00ce9db0(A1W constraints, void* warnOnAlignment)
 {
     const int numConstraints = constraints.p->count;
     int result = 0;

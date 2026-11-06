@@ -97,7 +97,7 @@ struct S00b2b490_Elem
     int unk0c;
     int unk10;
     int unk14;
-    void FUN_00b17f50();
+    void UpdateState_00b17f50();
     void* FUN_00b2b490(unsigned int flags);
 };
 
@@ -121,7 +121,7 @@ void* S00b2b490_Elem::FUN_00b2b490(unsigned int flags)
     }
     {
         S00b2b490_Guard g;
-        FUN_00b17f50();
+        UpdateState_00b17f50();
     }
     {
         void* p = m0;
@@ -243,7 +243,8 @@ struct SptString : SptStringBase
         return length;
     }
     int compare(unsigned int, unsigned int, const char*, unsigned int) const;
-    int FUN_00ac9da0(const SptString& rhs) const
+// src: GUESS 0x00ac9da0 (confidence: low)
+    int UpdateFields_00ac9da0(const SptString& rhs) const
     {
         unsigned int n = rhs.size();
         const char* p = rhs.pointer();
@@ -255,7 +256,7 @@ struct SptString : SptStringBase
 __forceinline bool operator==(const SptString& left, const SptString& right)
 {
     int unused;
-    return left.FUN_00ac9da0(right) == 0;
+    return left.UpdateFields_00ac9da0(right) == 0;
 }
 __forceinline bool operator!=(const SptString& left, const SptString& right)
 {
@@ -305,7 +306,7 @@ inline CTreeEngine::SptFilename::~SptFilename()
 }
 __forceinline void CTreeEngine::SptFilename::operator=(const SptFilename& rhs)
 {
-    FUN_00b2b910(SptFilename(rhs));
+    EvaluateValue_00b2b910(SptFilename(rhs));
 }
 
 struct CTreeFileAccessBuffer
@@ -412,7 +413,8 @@ bool CTreeEngine::Parse_00b2b550(CTreeFileAccessImpl* file)
 
 
 // @fnv 0x00b2b910
-CTreeEngine::SptFilename& CTreeEngine::SptFilename::FUN_00b2b910(const SptFilename& rhs)
+// src: GUESS 0x00b2b910 (confidence: low)
+CTreeEngine::SptFilename& CTreeEngine::SptFilename::EvaluateValue_00b2b910(const SptFilename& rhs)
 {
     typedef std::basic_string<char, std::char_traits<char>, std::allocator<char> > FilenameString;
     reinterpret_cast<FilenameString*>(this)->assign(reinterpret_cast<const FilenameString&>(rhs), 0, DAT_010173f0);
@@ -1410,7 +1412,7 @@ struct S2bde0_RStr : S2bde0_Str
 struct S2bde0_Name : S2bde0_Str
 {
     using S2bde0_Str::operator=;
-    S2bde0_Str FUN_00b09f90();
+    S2bde0_Str ProcessEntries_00b09f90();
 };
 inline S2bde0_Str::S2bde0_Str(S2bde0_RStr s)
 {
@@ -1443,7 +1445,7 @@ struct FUN_00b09480 : S2bde0_ExBase
 struct S2bde0_Parser
 {
     float CTreeFileAccess_ParseFloat();
-    bool FUN_00b06180();
+    bool ProcessAndTransformResult_00b06180();
     S2bde0_RStr CTreeFileAccess_ParseString();
 };
 struct S2bde0_Ctx
@@ -1543,7 +1545,7 @@ void CTreeEngine::ParseTreeInfo(ElementIterator* p)
             (*(S2bde0_Name*)&m_pcFileName) = kTmp;
         }
             {
-                (*(S2bde0_Name*)&m_pcFileName) = (*(S2bde0_Name*)&m_pcFileName).FUN_00b09f90();
+                (*(S2bde0_Name*)&m_pcFileName) = (*(S2bde0_Name*)&m_pcFileName).ProcessEntries_00b09f90();
                 break;
             }
         case 0x7d5: {
@@ -1561,7 +1563,7 @@ void CTreeEngine::ParseTreeInfo(ElementIterator* p)
             ((ElementIterator*)p)->GetNextElement();
             break;
         case 0x7d2:
-            ((S2bde0_Parser*)p)->FUN_00b06180();
+            ((S2bde0_Parser*)p)->ProcessAndTransformResult_00b06180();
             break;
         case 0x7d6:
             (*(float*)&unk4c) = ((S2bde0_Parser*)p)->CTreeFileAccess_ParseFloat();
@@ -1570,7 +1572,7 @@ void CTreeEngine::ParseTreeInfo(ElementIterator* p)
             (*(float*)&unk50) = ((S2bde0_Parser*)p)->CTreeFileAccess_ParseFloat();
             break;
         case 0x3f6:
-            FUN_00b2c790(p);
+            ProcessEntries_00b2c790(p);
             break;
         default:
             throw FUN_00b09480("malformed general tree information", false);
@@ -1620,11 +1622,11 @@ struct Iter : CIter
         (CIter&)* this = (const CIter&)o;
     }
     void FUN_00b42980(Elem** p, FUN_00b17db0* v);
-    void FUN_00b2e330(int i);
+    void UpdateState_00b2e330(int i);
     Iter operator+(int i)
     {
         Iter tmp = *this;
-        tmp.FUN_00b2e330(i);
+        tmp.UpdateState_00b2e330(i);
         return tmp;
     }
 };
@@ -1649,9 +1651,9 @@ struct FUN_00b17db0 : VB
     ~FUN_00b17db0()
     {
         int d[7];
-        FUN_00b17f50();
+        UpdateState_00b17f50();
     }
-    void FUN_00b17f50();
+    void UpdateState_00b17f50();
     unsigned int size()
     {
         return m_kRayEnd - m_pRayStart;
@@ -1666,9 +1668,9 @@ struct FUN_00b17db0 : VB
     {
         return Iter(m_pRayStart, this);
     }
-    void FUN_00b15390(Elem** pp);
-    Iter FUN_00b2def0(CIter p);
-    Iter FUN_00b156b0(CIter p, Elem** pp);
+    void UpdateState_00b15390(Elem** pp);
+    Iter EvaluateValue_00b2def0(CIter p);
+    Iter UpdateState_00b156b0(CIter p, Elem** pp);
 };
 
 struct FUN_00b3f100
@@ -1766,8 +1768,8 @@ void CTreeEngine::BuildBranchLods()
         if (v_z > v_maxA * fDist)
         {
             Dead9();
-            v_cntIn.FUN_00b15390(&k[dir]);
-            k.FUN_00b2def0(k.begin() + dir);
+            v_cntIn.UpdateState_00b15390(&k[dir]);
+            k.EvaluateValue_00b2def0(k.begin() + dir);
             dir--;
         }
         else
@@ -1785,7 +1787,7 @@ void CTreeEngine::BuildBranchLods()
     {
         int v_n;
         for (v_n = 0; v_n < v_cntIn.size(); v_n++)
-            k.FUN_00b156b0(k.begin(), &v_cntIn[v_n]);
+            k.UpdateState_00b156b0(k.begin(), &v_cntIn[v_n]);
     }
     Dead9();
     unsigned int v_k;
@@ -1945,7 +1947,7 @@ struct LodQ
     int ai[6];
     LodQ();
     ~LodQ();
-    void FUN_00b15390(const int& v);
+    void UpdateState_00b15390(const int& v);
 };
 inline void DeadTop()
 {
@@ -1979,7 +1981,7 @@ void CTreeEngine::ParseLeafCluster(ElementIterator* p)
         {
             if (iTok != 0x1b5c)
                 throw FUN_00b09480("malformed leaf lod data", false);
-            (*(LodQ**)&unkec)[iCount].FUN_00b15390(CBillboardLeaf_Parse((Parser*)p));
+            (*(LodQ**)&unkec)[iCount].UpdateState_00b15390(CBillboardLeaf_Parse((Parser*)p));
             iTok = p->GetNextElement();
         }
         iCount++;
@@ -2168,12 +2170,12 @@ inline Elem* _Checked_base(Elem* const& _It)
     _Unchanged_checked_iterator_base_type_tag _Base_tag;
     return _Checked_base(_It, _Base_tag);
 }
-Elem* __cdecl FUN_00b2e500(Elem*, Elem*, Elem*, random_access_iterator_tag, _Nonscalar_ptr_iterator_tag,
+Elem* __cdecl Object_ProcessAndReturnValue_00b2e500(Elem*, Elem*, Elem*, random_access_iterator_tag, _Nonscalar_ptr_iterator_tag,
                            _Range_checked_iterator_tag);
-Elem* __cdecl FUN_00b2e3f0(Elem*, Elem*, Elem*);
+Elem* __cdecl Runtime_EvaluateValue_00b2e3f0(Elem*, Elem*, Elem*);
 inline Elem* copy_new(Elem* _First, Elem* _Last, Elem* _Dest)
 {
-    return FUN_00b2e500(_Checked_base(_First), _Checked_base(_Last), _Dest, _Iter_random(_First, _Dest),
+    return Object_ProcessAndReturnValue_00b2e500(_Checked_base(_First), _Checked_base(_Last), _Dest, _Iter_random(_First, _Dest),
                         _Ptr_cat(_First, _Dest), _Range_checked_iterator_tag());
 }
 void __cdecl operator delete(void*);
@@ -2184,10 +2186,10 @@ struct Alloc
         ::operator delete(_Ptr);
     }
 };
-Elem* __cdecl FUN_00b2e570(Elem*, Elem*, Elem*, Alloc&, _Nonscalar_ptr_iterator_tag, _Range_checked_iterator_tag);
+Elem* __cdecl Runtime_ProcessEntries_00b2e570(Elem*, Elem*, Elem*, Alloc&, _Nonscalar_ptr_iterator_tag, _Range_checked_iterator_tag);
 inline Elem* unchecked_uninitialized_copy(Elem* _First, Elem* _Last, Elem* _Dest, Alloc& _Al)
 {
-    return FUN_00b2e570(_Checked_base(_First), _Checked_base(_Last), _Dest, _Al, _Ptr_cat(_First, _Dest),
+    return Runtime_ProcessEntries_00b2e570(_Checked_base(_First), _Checked_base(_Last), _Dest, _Al, _Ptr_cat(_First, _Dest),
                         _Range_checked_iterator_tag());
 }
 struct BaseAux
@@ -2298,8 +2300,8 @@ struct Elem54Vector : VecVal
     {
         return _Myfirst == 0 ? 0 : _Myend - _Myfirst;
     }
-    void FUN_00b2df90();
-    void FUN_00b2e140(Elem*, Elem*);
+    void ClearAllElements();
+    void B2EDestroyRange_Thunk(Elem*, Elem*);
     bool InitBuffer(unsigned int);
     Elem* _Ucopy(Elem* _First, Elem* _Last, Elem* _Ptr)
     {
@@ -2315,11 +2317,11 @@ Elem54Vector& Elem54Vector::CTreeEngine_SetLeafTextures(const Elem54Vector& _Rig
     {
         S00b2db10_padA();
         if (_Right.size() == 0)
-            FUN_00b2df90();
+            ClearAllElements();
         else if (_Right.size() <= size())
         {
             Elem* z = copy_new(_Right._Myfirst, _Right._Mylast, _Myfirst);
-            FUN_00b2e140(z, _Mylast);
+            B2EDestroyRange_Thunk(z, _Mylast);
             _Mylast = _Myfirst + _Right.size();
             S00b2db10_padB();
         }
@@ -2327,7 +2329,7 @@ Elem54Vector& Elem54Vector::CTreeEngine_SetLeafTextures(const Elem54Vector& _Rig
         {
             Elem* z;
             z = _Right._Myfirst + size();
-            FUN_00b2e3f0(_Right._Myfirst, z, _Myfirst);
+            Runtime_EvaluateValue_00b2e3f0(_Right._Myfirst, z, _Myfirst);
             S00b2db10_padC();
             S00b2db10_padC2();
             _Mylast = _Ucopy(z, _Right._Mylast, _Mylast);
@@ -2337,7 +2339,7 @@ Elem54Vector& Elem54Vector::CTreeEngine_SetLeafTextures(const Elem54Vector& _Rig
         {
             if (_Myfirst != 0)
             {
-                FUN_00b2e140(_Myfirst, _Mylast);
+                B2EDestroyRange_Thunk(_Myfirst, _Mylast);
                 this->_Alval.deallocate(_Myfirst, _Myend - _Myfirst);
             }
             if (InitBuffer(_Right.size()))
@@ -2455,7 +2457,7 @@ struct S00b2c790_Error
 struct S00b2c790_Sub
 {
     void std_vector_clear();
-    void FUN_00b15390(int* value);
+    void UpdateState_00b15390(int* value);
 };
 
 __forceinline S00b2c790_Sub* TreeSub(CTreeEngine* tree)
@@ -2469,10 +2471,11 @@ __forceinline void TreeClear()
     local[0x38 / sizeof(int)] = 0;
 }
 
-int __cdecl FUN_00b3f8e0(ElementIterator* value);
+int __cdecl Object_ProcessEntries_00b3f8e0(ElementIterator* value);
 
 // @fnv 0x00b2c790
-void CTreeEngine::FUN_00b2c790(ElementIterator* parser)
+// src: GUESS 0x00b2c790 (confidence: low)
+void CTreeEngine::ProcessEntries_00b2c790(ElementIterator* parser)
 {
     S00b2c790_Error error2;
     int count_2;
@@ -2486,8 +2489,8 @@ void CTreeEngine::FUN_00b2c790(ElementIterator* parser)
     count_2 = reinterpret_cast<ElementIterator*>(parser)->GetNextElement();
     for (index4 = 0; index4 < count_2; ++index4)
     {
-        item5 = FUN_00b3f8e0(reinterpret_cast<ElementIterator*>(parser));
-        TreeSub(this)->FUN_00b15390(&item5);
+        item5 = Object_ProcessEntries_00b3f8e0(reinterpret_cast<ElementIterator*>(parser));
+        TreeSub(this)->UpdateState_00b15390(&item5);
     }
 
     branchCount = reinterpret_cast<ElementIterator*>(parser)->GetNextElement();

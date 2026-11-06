@@ -12,68 +12,68 @@
 #include "../../include/hkMemoryAllocator.h"
 #include "../../include/hkArray.h"
 #include "../../include/hkBool.h"
-extern "C" void __cdecl FUN_00cb0a70(void*);
+extern "C" void __cdecl ReturnSelf(void*);
 extern int DAT_010d461c;
 struct FUN_00da07b0_class
 {
-    void __thiscall FUN_00cb0a70(void*);
+    void __thiscall ReturnSelf(void*);
 };
 void __cdecl finishLoadedObjecthkSimpleLocalFrame(void* a, void* b);
 void __cdecl InitBlockPool(void*);
 void* __cdecl InitAndReturnTail(void* a, void* b, void* c);
-void __cdecl FUN_00da08c0(void** a);
+void __cdecl Object_InvokeVirtualMethod_00da08c0(void** a);
 extern int DAT_010c59f4;
 extern int DAT_010c6bec;
-void __cdecl FUN_00da08e0(void* a, int b);
+void __cdecl Object_UpdateFields_00da08e0(void* a, int b);
 extern int DAT_010c6fd0;
-void __cdecl FUN_00da0b10(int* p);
+void __cdecl Runtime_UpdateState_00da0b10(int* p);
 extern int DAT_010d6014;
 struct FUN_00db7ab0_class
 {
-    void* __thiscall FUN_00db7ab0(void* a, void* b, void* c);
+    void* __thiscall SetVtableAndProcessState_00db7ab0(void* a, void* b, void* c);
 };
 int __cdecl Crc32ShiftRight8(unsigned int a);
-void __cdecl FUN_00da6dc0(void*);
-void __cdecl FUN_00da6de0(void*);
-void __cdecl FUN_00da6e30(void*);
-void __cdecl FUN_00da6e60(void*);
+void __cdecl Object_HkAgent1nMachine_Destroy_Thunk(void*);
+void __cdecl hkListAgent3_ProcessAndReturnValue_00da6de0(void*);
+void __cdecl Hkplistagent3_HkAgent1nMachine_WarpTime_Thunk(void*);
+void __cdecl Object_UpdateFields_00da6e60(void*);
 void __cdecl BuildEventIndex(void);
 void* __cdecl InitAndReturnTail(void* a, void* b, void* c);
-void* __cdecl FUN_00da6e10(void* a, void* b, void* c);
-void __cdecl FUN_00da6fd0(void* p);
+void* __cdecl Runtime_ForwardCall_00da6e10(void* a, void* b, void* c);
+void __cdecl Object_InitializeDispatchFunctionTable(void* p);
 void __cdecl finishLoadedObjecthkpLinkedCollidable(char* a, int b);
 struct FUN_00da0740_vt
 {
     virtual void v0(int);
 };
-void __cdecl FUN_00da0740(FUN_00da0740_vt* p);
+void __cdecl Object_InvokeVirtualMethod_00da0740(FUN_00da0740_vt* p);
 struct FUN_00cb0a70_class
 {
-    void __thiscall FUN_00cb0a70(int);
+    void __thiscall ReturnSelf(int);
 };
-void __cdecl FUN_00da0760(void* a, void* b);
+void __cdecl Object_UpdateFields_00da0760(void* a, void* b);
 struct FUN_00db7cf0_class
 {
     int __thiscall hkVersionPatchManager_UidFromClassVersion_getName(int a, int b);
 };
 extern int g_unk0126958c;
-void* __cdecl FUN_00da0610();
+void* __cdecl Runtime_GetUnk0126958cAddress();
 extern char DAT_012695bc;
-char* __cdecl FUN_00da0630(void);
+char* __cdecl Runtime_GetDAT012695bcAddress(void);
 extern int DAT_012695ec;
-int* __cdecl FUN_00da0660(void);
+int* __cdecl Object_GetGlobalObjectAddress_00da0660(void);
 extern int g_unk0126961c;
-int* __cdecl FUN_00da0670();
+int* __cdecl Runtime_GetUnk0126961cAddress();
 struct FUN_00da0720_Class
 {
     virtual void vf00(int value);
 };
-void __cdecl FUN_00da0720(FUN_00da0720_Class* param_1);
+void __cdecl Object_InvokeVirtualMethod_00da0720(FUN_00da0720_Class* param_1);
 struct CpuOpaque;
 extern CpuOpaque DAT_0126967c;
-CpuOpaque* __cdecl FUN_00da0730();
+CpuOpaque* __cdecl Runtime_GetDAT0126967cAddress();
 extern int DAT_012696c4;
-int* __cdecl FUN_00da0750();
+int* __cdecl Runtime_GetDAT012696c4Address();
 // FUN_00da08a0 : cdecl, 13 bytes
 //   mov ecx, [esp+4]
 //   mov eax, [ecx]
@@ -86,13 +86,13 @@ struct FUN_00da08a0_cls
 {
     virtual int v00(int a);
 };
-int __cdecl FUN_00da08a0(FUN_00da08a0_cls* pObj);
+int __cdecl Object_InvokeVirtualMethod_00da08a0(FUN_00da08a0_cls* pObj);
 extern int DAT_0126970c;
-int* __cdecl FUN_00da08b0();
+int* __cdecl Runtime_GetDAT0126970cAddress();
 extern int DAT_01269754;
-void* __cdecl FUN_00da08d0(void);
+void* __cdecl Runtime_GetDAT01269754Address(void);
 extern int DAT_010c6bec;
-void* __cdecl FUN_00da0910(void);
+void* __cdecl Runtime_GetDAT010c6becAddress(void);
 struct DA0920FinishFlag
 {
     int m_bFinishing;
@@ -275,45 +275,45 @@ class DA0920Object : public DA0920Base
 };
 void ConstructDA0920Object(void* p, int finishing);
 extern int g_unk010c6c64;
-void* __cdecl FUN_00da0950();
+void* __cdecl Runtime_GetUnk010c6c64Address();
 extern int DAT_0126979c;
-void* __cdecl FUN_00da0970();
+void* __cdecl Runtime_GetDAT0126979cAddress();
 extern void* DAT_012697cc;
-void* FUN_00da09a0();
+void* Object_GetGlobalObjectAddress_00da09a0();
 struct CpuOpaque;
 extern CpuOpaque DAT_012697fc;
-CpuOpaque* __cdecl FUN_00da09c0();
+CpuOpaque* __cdecl Object_GetGlobalObjectAddress_00da09c0();
 extern int DAT_0126982c;
-void* __cdecl FUN_00da09e0();
+void* __cdecl Object_GetGlobalObjectAddress_00da09e0();
 struct CpuOpaque;
 extern CpuOpaque DAT_0126985c;
-CpuOpaque* __cdecl FUN_00da0a00();
+CpuOpaque* __cdecl Object_GetGlobalObjectAddress_00da0a00();
 extern int DAT_0126988c;
-void* __cdecl FUN_00da0a20();
+void* __cdecl Object_GetGlobalObjectAddress_00da0a20();
 // FUN_00da0a40 : a one-line function - getter
 extern int g_target_00da0a40;
-void* FUN_00da0a40();
+void* Object_GetGlobalObjectAddress_00da0a40();
 extern int DAT_012698ec;
-void* __cdecl FUN_00da0a60();
+void* __cdecl Object_GetGlobalObjectAddress_00da0a60();
 // FUN_00da0a80 : returns the address of a global data object.
 extern int DAT_0126991c;
-int* __cdecl FUN_00da0a80(void);
+int* __cdecl Object_GetGlobalObjectAddress_00da0a80(void);
 extern int DAT_0126994c;
-int __cdecl FUN_00da0aa0();
+int __cdecl Object_ComputeValue_00da0aa0();
 struct CpuOpaque;
 extern CpuOpaque DAT_0126997c;
-CpuOpaque* __cdecl FUN_00da0ac0();
+CpuOpaque* __cdecl Object_GetGlobalObjectAddress_00da0ac0();
 extern int DAT_012699ac;
-int* __cdecl FUN_00da0ae0(void);
+int* __cdecl Object_GetGlobalObjectAddress_00da0ae0(void);
 struct FUN_00da0af0_Class
 {
     virtual void vf00(int value);
 };
-void __cdecl FUN_00da0af0(FUN_00da0af0_Class* param_1);
+void __cdecl Runtime_ForwardCall_00da0af0(FUN_00da0af0_Class* param_1);
 extern int DAT_01269a0c;
-void* __cdecl FUN_00da0b00();
+void* __cdecl Object_GetGlobalObjectAddress_00da0b00();
 extern int DAT_010c6fd0;
-void* __cdecl FUN_00da0b20();
+void* __cdecl Object_GetGlobalObjectAddress_00da0b20();
 unsigned char* __cdecl CheckDuplicateValues(unsigned char* result, int* values);
 struct FUN_00db0060_class
 {
@@ -432,7 +432,7 @@ struct MapHolder
 // ForwardToInner: forwards a 64-bit value to a member function held at this->m_08.
 struct SpawnedInner
 {
-    void FUN_00db7c70(__int64 v);
+    void GetB(__int64 v);
 };
 struct SpawnedOuter
 {
@@ -448,13 +448,13 @@ struct CallTarget_00dba270
 };
 struct SearchObject
 {
-    int FUN_00dba320(unsigned int arg0, unsigned int arg1, unsigned int arg2, unsigned int arg3);
+    int ProcessAndReturnValue_00dba320(unsigned int arg0, unsigned int arg1, unsigned int arg2, unsigned int arg3);
 };
 class DBA340Object
 {
   public:
-    int FUN_00dba320(void* pvA, void* pvB, void* pvC, int iFlag);
-    int FUN_00dba340(void* pvA, void* pvB, void* pvC);
+    int ProcessAndReturnValue_00dba320(void* pvA, void* pvB, void* pvC, int iFlag);
+    int ForwardCall_00dba340(void* pvA, void* pvB, void* pvC);
 };
 struct DBB100Class
 {
@@ -476,7 +476,7 @@ struct DBB100Writer
     virtual void unk0C();
     virtual void WriteCString(const char* s);
 };
-static void FUN_00dbb100(const DBB100Registry* registry, const void* object, DBB100Writer* writer);
+static void Object_UpdateFields_00dbb100(const DBB100Registry* registry, const void* object, DBB100Writer* writer);
 void DBB100WriteClassNames(const DBB100Registry* registry, const void** objects, DBB100Writer* writer);
 hkMemoryRouter* __cdecl da06d0_getRouter();
 struct Elem
@@ -710,16 +710,16 @@ struct DA2D70Object
     int unk00;
     unsigned short unk04;
 
-    void __thiscall FUN_00da2930();
+    void __thiscall ReleaseStackTraceModule();
     void* __thiscall NotifyAudioListener(int flags);
 };
 extern BSAudio* __cdecl hkMemoryRouter_getInstance();
 void __cdecl nullsub_21();
 void __cdecl hkAgent1nMachine_VisitAllAgents(int a, int b, void* pvCallback);
 void __cdecl ProcessCollisionEntry();
-void __cdecl FUN_00da4900(int a, int b);
-void* __cdecl FUN_00da3510(void*, void*);
-void* __cdecl FUN_00da6e10(void* a, void* b, void* c);
+void __cdecl Object_HkAgent1nMachine_VisitAllAgents_Thunk(int a, int b);
+void* __cdecl hkpAgent1nSector_ProcessEntries_00da3510(void*, void*);
+void* __cdecl Runtime_ForwardCall_00da6e10(void* a, void* b, void* c);
 extern int DAT_010cf7d4;
 extern int DAT_010cf804;
 extern char str_010cf830[];
@@ -763,10 +763,10 @@ struct FUN_00db7c00_obj
 {
     virtual void vslot00(int value);
 };
-void __cdecl FUN_00db7c00(FUN_00db7c00_obj* p);
+void __cdecl Object_Vslot00_Thunk(FUN_00db7c00_obj* p);
 // 0x00db7c10  /MT /O2 /GS /EHsc /Gy   target: B8 28 9B 26 01 C3  (mov eax, offset DAT_01269b28; ret)
 extern int DAT_01269b28;
-int* FUN_00db7c10();
+int* Runtime_GetDAT01269b28Address();
 extern int DAT_010cce28;
 struct hkLoadedObjectDB7C
 {
@@ -828,7 +828,7 @@ class DispatcherDA34
     void SetEntry(int type, RegisterInfoDA34 info);
 };
 void __cdecl hkpCollisionQueryJobQueueUtils_registerWithJobQueue(DispatcherDA34* dispatcher);
-void FUN_00da82d0();
+void Runtime_DoNothing_00da82d0();
 inline unsigned int mySeparatedYZ(const SweepBounds& a, const SweepBounds& b)
 {
     return ((a.maxZ - b.minZ) | (a.maxY - b.minY) | (b.maxY - a.minY) | (b.maxZ - a.minZ)) & 0x80000000u;
@@ -933,7 +933,7 @@ float volatile g_out_db09f0;
 void drive_db09f0(void);
 extern int DAT_010d52d0;
 extern "C" unsigned int stub_val(void);
-static int* FUN_00db0db0(unsigned int a);
+static int* Runtime_GetMaskedValue_00db0db0(unsigned int a);
 int stub_caller(void);
 struct FUN_00db7c80_class
 {
@@ -941,7 +941,7 @@ struct FUN_00db7c80_class
     int unk04;
     int unk08;
     int m_0c;
-    int* FUN_00db7c80();
+    int* Get0cAddress_00db7c80();
 };
 
 
@@ -971,13 +971,14 @@ template <class T, class Allocator> __forceinline hkArray<T, Allocator>::~hkArra
     hkArrayBase<T>::_clearAndDeallocate(Allocator().get(this));
 }
 
-void __cdecl FUN_00da12b0(int iParam, float fParam, hkBool bFlag, hkArray<int>& kFirst,
+void __cdecl hkMemoryAllocator_ProcessEntries_00da12b0(int iParam, float fParam, hkBool bFlag, hkArray<int>& kFirst,
                           hkArray<int>& kSecond) throw();
 
 // @fnv 0x00da24b0
-void __cdecl FUN_00da24b0(int iParam, float fParam)
+// src: GUESS 0x00da24b0 (confidence: low)
+void __cdecl hkArray_ProcessState_00da24b0(int iParam, float fParam)
 {
     hkArray<int> kFirst;
     hkArray<int> kSecond;
-    FUN_00da12b0(iParam, fParam, false, kFirst, kSecond);
+    hkMemoryAllocator_ProcessEntries_00da12b0(iParam, fParam, false, kFirst, kSecond);
 }

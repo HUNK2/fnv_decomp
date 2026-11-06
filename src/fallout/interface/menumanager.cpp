@@ -194,19 +194,21 @@ int FUN_006317a0_struct::AddEight(int aiValue)
 
 struct FUN_0071e3e0_shell
 {
-    void FUN_0071e3e0();
+    void ForwardCall_0071e3e0();
 };
 
-void FUN_0071e3f0();
+void Menumanager_ClearDAT011d8d54();
 
 // @fnv 0x0071e3e0
-void FUN_0071e3e0_shell::FUN_0071e3e0()
+// src: GUESS 0x0071e3e0 (confidence: low)
+void FUN_0071e3e0_shell::ForwardCall_0071e3e0()
 {
-    FUN_0071e3f0();
+    Menumanager_ClearDAT011d8d54();
 }
 
 // @fnv 0x0071e3f0
-void FUN_0071e3f0()
+// src: GUESS 0x0071e3f0 (confidence: low)
+void Menumanager_ClearDAT011d8d54()
 {
     DAT_011d8d54 = 0;
 }
@@ -283,11 +285,12 @@ struct FilteredListCounter
 {
     char pad[0xc];
     Tile* tile;
-    unsigned int FUN_00726710();
+    unsigned int GetUnfilteredRaceCount();
 };
 // Returns the result of GetRaceCount on this minus tile's float value at the _num_filtered setting.
 // @fnv 0x00726710
-unsigned int FilteredListCounter::FUN_00726710()
+// src: GUESS 0x00726710 (confidence: medium)
+unsigned int FilteredListCounter::GetUnfilteredRaceCount()
 {
     static int numFiltered = GetTileValueID("_num_filtered", -1);
     return GetRaceCount((char*)this) - (unsigned int)tile->GetFloat(numFiltered);
@@ -605,7 +608,7 @@ struct FUN_007254d0_t : public ListBoxBase_t, public FUN_004ee7d0_node
     unsigned short usItemCount;
     float fTotalHeight;
     void ListBox_StatsMenu_StatusEffect_Synchronize();
-    void FUN_00725970();
+    void UpdateState_00725970();
     void UpdateSpeechChallengeTrait();
     void AccumulateTileHeight(Tile*);
 };
@@ -625,7 +628,7 @@ void FUN_007254d0_t::ListBox_StatsMenu_StatusEffect_Synchronize()
             AccumulateTileHeight((*pnode->FUN_006815c0())->pTile);
         }
     }
-    FUN_00725970();
+    UpdateState_00725970();
     UpdateSpeechChallengeTrait();
 }
 
@@ -769,7 +772,7 @@ extern "C" void __cdecl _Deallocate(void*);
 
 struct FUN_0071e3e0_shell
 {
-    void FUN_0071e3e0();
+    void ForwardCall_0071e3e0();
 };
 
 struct FUN_0071e3b0_shell : FUN_0071e3e0_shell
@@ -781,7 +784,7 @@ struct FUN_0071e3b0_shell : FUN_0071e3e0_shell
 // @fnv 0x0071e3b0
 void* FUN_0071e3b0_shell::FUN_0071e3b0(unsigned int flags)
 {
-    FUN_0071e3e0();
+    ForwardCall_0071e3e0();
     if (flags & 1)
         _Deallocate(this);
     return this;
@@ -1130,7 +1133,7 @@ void* Cls_720110::FUN_00720110(unsigned int flags)
 extern int _data_011c16bc;
 struct FUN_00723f30_shell
 {
-    void FUN_00723f30();
+    void SetVtableAndProcessState_00723f30();
 };
 struct FUN_00723f80
 {
@@ -1146,7 +1149,7 @@ struct FUN_007203c0 : FUN_00723f80
 // @fnv 0x007203c0
 FUN_007203c0::~FUN_007203c0()
 {
-    fld10.FUN_00723f30();
+    fld10.SetVtableAndProcessState_00723f30();
 }
 
 extern int _data_011c16bc;
@@ -1177,7 +1180,7 @@ struct FUN_00724070
 };
 struct Helper_00723fd0
 {
-    void FUN_00723fd0();
+    void UpdateState_00723fd0();
 };
 struct FUN_00720800 : public FUN_00724070
 {
@@ -1187,13 +1190,13 @@ struct FUN_00720800 : public FUN_00724070
 // @fnv 0x00720800
 FUN_00720800::~FUN_00720800()
 {
-    m.FUN_00723fd0();
+    m.UpdateState_00723fd0();
 }
 
 // @fnv 0x00720a40
 void* QuantityMenu::FUN_00720a40(unsigned int flags)
 {
-    FUN_00720a70();
+    ClearGlobalAndDestroyMenu();
     if (flags & 1)
         _Deallocate(this);
     return this;
@@ -1204,7 +1207,8 @@ extern int DAT_011da618;
 }  // namespace fnv_00720a70
 // Sets the object's first field to the string "@\nr", clears DAT_011da618, then calls the Menu destructor on this.
 // @fnv 0x00720a70
-void QuantityMenu::FUN_00720a70()
+// src: GUESS 0x00720a70 (confidence: medium)
+void QuantityMenu::ClearGlobalAndDestroyMenu()
 {
     *(const char**)this = "@\nr";
     fnv_00720a70::DAT_011da618 = 0;

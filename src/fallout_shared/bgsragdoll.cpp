@@ -412,7 +412,8 @@ FootIKConstruction::FootIKConstruction() : bEnabled(false)
 
 // Sets the first seven floats of pThis to 0.0f and returns pThis.
 // @fnv 0x005ed8c0
-float* __fastcall FUN_005ed8c0(float* pThis)
+// src: GUESS 0x005ed8c0 (confidence: low)
+float* __fastcall Object_ComputeValue_005ed8c0(float* pThis)
 {
     pThis[0] = 0.0f;
     pThis[1] = 0.0f;
@@ -851,7 +852,7 @@ namespace fnv_005ee110 {
 bool __cdecl _FUN_00401500();
 void __cdecl _FUN_00485910(unsigned int, unsigned int);
 void __cdecl _FUN_00485990(unsigned int, void*, unsigned int);
-void __cdecl FUN_00485730(void*, void*, void*);
+void __cdecl TESForm_AddChunkArray16_ForwardCall_00485730(void*, void*, void*);
 void __cdecl TESForm_AddChunkArray(unsigned int, void*, unsigned int);
 
 // @fnv 0x005ee110
@@ -859,7 +860,7 @@ void __fastcall SaveRagdoll(BGSRagdoll* ragdoll)
 {
     SaveMetadata saveData;
 
-    reinterpret_cast<TESForm*>(ragdoll)->FUN_004855a0();
+    reinterpret_cast<TESForm*>(ragdoll)->BeginFormRecord();
 
     reinterpret_cast<TESModel*>(reinterpret_cast<unsigned char*>(ragdoll) + 0x18)
         ->WriteToBuffer(0x4c444f4d, 0x54444f4d);
@@ -925,7 +926,7 @@ void __fastcall SaveRagdoll(BGSRagdoll* ragdoll)
 
     if (reinterpret_cast<BSSimpleArray<SandboxProcedureData, 1024>*>(reinterpret_cast<unsigned char*>(ragdoll) + 0x80)->GetSize() > 0)
     {
-        FUN_00485730(reinterpret_cast<void*>(0x42464152),
+        TESForm_AddChunkArray16_ForwardCall_00485730(reinterpret_cast<void*>(0x42464152),
                      &reinterpret_cast<BSSimpleArray<unsigned short, 1024>*>(reinterpret_cast<unsigned char*>(ragdoll) + 0x80)->GetAt(0),
                      reinterpret_cast<void*>(
                          reinterpret_cast<BSSimpleArray<SandboxProcedureData, 1024>*>(reinterpret_cast<unsigned char*>(ragdoll) + 0x80)->GetSize()));
@@ -949,7 +950,7 @@ void __fastcall SaveRagdoll(BGSRagdoll* ragdoll)
                          1);
     }
 
-    reinterpret_cast<TESForm*>(ragdoll)->FUN_00485680();
+    reinterpret_cast<TESForm*>(ragdoll)->FinishFormRecord();
 }
 }  // namespace fnv_005ee110
 

@@ -55,11 +55,12 @@ struct FUN_00c7b0f0_shell
     int m_kPointA;
     int m_kPointB;
     int m_iThirdValue;
-    void FUN_00c7b0f0();
+    void UpdateState_00c7b0f0();
 };
 
 // @fnv 0x00c7b0f0
-void FUN_00c7b0f0_shell::FUN_00c7b0f0()
+// src: GUESS 0x00c7b0f0 (confidence: low)
+void FUN_00c7b0f0_shell::UpdateState_00c7b0f0()
 {
     void* p = hkMemoryRouter_getInstance();
     VTableObj* pTarget = *(VTableObj**)((char*)p + 0x10);
@@ -110,14 +111,14 @@ void __thiscall NiD3DShaderProgram::SetCreator_00eea540(NiD3DShaderProgramCreato
 }
 
 extern "C" void __cdecl operator delete(void*, unsigned int);
-void __cdecl FUN_00e89b70();
+void __cdecl RemoveDeviceAndClearShader();
 
 
 // Calls FUN_00e89b70, then frees this with operator delete when flags has bit 0 set, and returns this.
 // @fnv 0x00be0b70
 void* __fastcall DestroyVertexShader(NiD3DVertexShader* shader, void*, unsigned int flags)
 {
-    FUN_00e89b70();
+    RemoveDeviceAndClearShader();
     if (flags & 1)
         operator delete(shader, 0x3c);
     return shader;
@@ -129,7 +130,7 @@ extern "C" void __cdecl operator delete(void*, unsigned int);
 // @fnv 0x00e95cd0
 void* __thiscall NiD3DHLSLPixelShader::FUN_00e95cd0(unsigned int flags)
 {
-    FUN_00e96c90();
+    UpdateState_00e96c90();
     if (flags & 1)
         ::operator delete(this, 0x3c);
     return this;
@@ -217,7 +218,7 @@ void __cdecl _delete(void*, unsigned int);
 // @fnv 0x00e95e00
 void* __thiscall NiD3DHLSLVertexShader::DestroyVertexShader(unsigned int flags)
 {
-    FUN_00e971d0();
+    SetVtableAndProcessState_00e971d0();
     if (flags & 1)
         _delete(this, 0x48);
     return this;
@@ -461,7 +462,7 @@ struct S_00e58ea0_Arr
     int unk0c;
     int unk10;
     void InitFloatArray(int a, int b, float c);
-    void FUN_00c7b0f0();
+    void UpdateState_00c7b0f0();
 };
 
 struct S_00e58ea0_cls
@@ -469,17 +470,18 @@ struct S_00e58ea0_cls
     int unk00;
     int NiRenderTargetGroup_GetRendererData();
     void hkaSparseLSQMatrix_float_MultiplyAdd(S_00e58ea0_Gen* a, S_00e58ea0_Gen* b, S_00e58ea0_Arr* pkOut);
-    S_00e58ea0_Gen* FUN_00e58ea0(S_00e58ea0_Gen* a1, S_00e58ea0_Gen* a2);
+    S_00e58ea0_Gen* ProcessAndReturnValue_00e58ea0(S_00e58ea0_Gen* a1, S_00e58ea0_Gen* a2);
 };
 
 // @fnv 0x00e58ea0
-S_00e58ea0_Gen* S_00e58ea0_cls::FUN_00e58ea0(S_00e58ea0_Gen* a1, S_00e58ea0_Gen* a2)
+// src: GUESS 0x00e58ea0 (confidence: low)
+S_00e58ea0_Gen* S_00e58ea0_cls::ProcessAndReturnValue_00e58ea0(S_00e58ea0_Gen* a1, S_00e58ea0_Gen* a2)
 {
     a1->InitFloatArray(a2->NiD3DShaderProgram_GetName(), a2->NiD3DShaderProgram_GetShaderProgramName(), 0.0f);
     S_00e58ea0_Arr tmpArr;
     tmpArr.InitFloatArray(NiRenderTargetGroup_GetRendererData(), a2->NiD3DShaderProgram_GetShaderProgramName(), 0.0f);
     hkaSparseLSQMatrix_float_MultiplyAdd(a1, a2, &tmpArr);
-    tmpArr.FUN_00c7b0f0();
+    tmpArr.UpdateState_00c7b0f0();
     return a1;
 }
 
@@ -899,10 +901,11 @@ struct FnvCpu_FUN_00e09630_CpuObject
     unsigned int unk38;
     unsigned int unk3c;
     int value;
-    int FUN_00e09630();
+    int GetValue();
 };
 // @fnv 0x00e09630
-int FnvCpu_FUN_00e09630_CpuObject::FUN_00e09630()
+// src: GUESS 0x00e09630 (confidence: low)
+int FnvCpu_FUN_00e09630_CpuObject::GetValue()
 {
     return value;
 }
@@ -1156,14 +1159,14 @@ struct SolverVector
     int rows;
     int columns;
     int NiD3DShaderProgram_GetName();
-    SolverVector* FUN_00e58e80(SolverVector* out, SolverVector* other);
+    SolverVector* Object_ProcessAndReturnValue_00e58e80(SolverVector* out, SolverVector* other);
     void CopyFrom(SolverVector* other);
     void InitArray(int rows, int columns);
-    void FUN_00c7b0f0();
+    void UpdateState_00c7b0f0();
 };
 struct SolverMatrix
 {
-    SolverVector* FUN_00e58ea0(SolverVector* out, SolverVector* other);
+    SolverVector* ProcessAndReturnValue_00e58ea0(SolverVector* out, SolverVector* other);
     int NiRenderTargetGroup_GetRendererData();
     void hkaSparseLSQMatrix_float_Multiply(SolverVector*, SolverVector*, SolverVector*);
     void hkaSparseLSQMatrix_float_MultiplyAdd(SolverVector*, SolverVector*, SolverVector*);
@@ -1181,8 +1184,8 @@ bool* ConjugateGradientSolve(bool* abConverged, SolverMatrix* matrix, SolverVect
     int size = apInitialGuess->NiD3DShaderProgram_GetName();
     SolverVector temp;
     SolverVector pResidual, p, pMatVec, x;
-    apRhs->FUN_00e58e80(&pResidual, matrix->FUN_00e58ea0(&temp, apInitialGuess));
-    temp.FUN_00c7b0f0();
+    apRhs->Object_ProcessAndReturnValue_00e58e80(&pResidual, matrix->ProcessAndReturnValue_00e58ea0(&temp, apInitialGuess));
+    temp.UpdateState_00c7b0f0();
     p.CopyFrom(&pResidual);
     pMatVec.InitArray(size, 1);
     x.InitArray(matrix->NiRenderTargetGroup_GetRendererData(), 1);
@@ -1221,10 +1224,10 @@ bool* ConjugateGradientSolve(bool* abConverged, SolverMatrix* matrix, SolverVect
         } while (i < aiMaxIterations);
     *abConverged = false;
 done:
-    x.FUN_00c7b0f0();
-    pMatVec.FUN_00c7b0f0();
-    p.FUN_00c7b0f0();
-    pResidual.FUN_00c7b0f0();
+    x.UpdateState_00c7b0f0();
+    pMatVec.UpdateState_00c7b0f0();
+    p.UpdateState_00c7b0f0();
+    pResidual.UpdateState_00c7b0f0();
     return abConverged;
 }
 

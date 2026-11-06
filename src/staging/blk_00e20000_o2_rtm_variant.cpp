@@ -43,14 +43,14 @@ struct FUN_00e3f340_Class
 };
 struct FUN_00e3f900_class
 {
-    int __thiscall FUN_00cb0a70(int a);
-    int __thiscall FUN_00e3f900(int a);
+    int __thiscall ReturnSelf(int a);
+    int __thiscall ProcessAndReturnValue_00e3f900(int a);
 };
 int __cdecl hkaSplineCompressedAnimation_packMaskAndQuantizationType(int a, int b);
 struct S_00df8990_Obj;
 extern void(__cdecl* DAT_0126ec04)(void*, void*, S_00df8990_Obj*);
-void __cdecl FUN_00e2b9b0(void*, void*, S_00df8990_Obj*);
-void __cdecl FUN_00e2ba90();
+void __cdecl Runtime_ProcessEntries_00e2b9b0(void*, void*, S_00df8990_Obj*);
+void __cdecl Runtime_SetDAT0126ec04();
 extern int DAT_010eb3b8[];
 extern int DAT_010eb3d0[];
 int __cdecl hkaSplineCompressedAnimation_handleEndianQuaternion(int a, int b);
@@ -76,7 +76,7 @@ struct FUN_00e3b4d0_Class
 int __cdecl CompareStringsCaseInsensitive(int, int);
 struct FUN_00e3ec30_Class
 {
-    int __thiscall FUN_00e3ec30(int arg);
+    int __thiscall ProcessEntries_00e3ec30(int arg);
 };
 struct D481D0RefVariant
 {
@@ -84,13 +84,13 @@ struct D481D0RefVariant
 };
 struct FUN_00e3f8d0_class
 {
-    void FUN_00e3f8d0(void* a, const void* b);
+    void Set_Thunk(void* a, const void* b);
 };
 struct FUN_00e29620_class
 {
-    void __thiscall FUN_00e29620(int param);
+    void __thiscall ProcessEntries_00e29620(int param);
 };
-void __cdecl FUN_00e298f0(FUN_00e29620_class* object, int param);
+void __cdecl Runtime_ForwardCall_00e298f0(FUN_00e29620_class* object, int param);
 struct SplitChunk
 {
     int unk00;
@@ -1144,10 +1144,10 @@ void __cdecl SwapBytesAndAdvance(int iByteCount, unsigned char** ppBuffer);
 void __cdecl FillInterpolatedValues(int count, float** array, float first, float last);
 unsigned int __cdecl hkaSplineCompressedAnimation_handleEndianKnots(unsigned char a1, unsigned int* a2);
 int __cdecl hkaSplineCompressedAnimation_handleEndianScalarControlPoints(unsigned char a1, unsigned int a2, unsigned int a3, unsigned int* a4);
-void __cdecl FUN_00e31740(unsigned char flag, unsigned int uiValue, unsigned int* puiOut);
+void __cdecl Object_UpdateFields_00e31740(unsigned char flag, unsigned int uiValue, unsigned int* puiOut);
 int __cdecl hkaSplineCompressedAnimation_handleEndianKnots(int a, int* c);
 void __cdecl AlignAndAdvance(int a, int result, int b, int* c);
-void __cdecl FUN_00e31780(int a, int b, int* c);
+void __cdecl Object_UpdateFields_00e31780(int a, int b, int* c);
 int __cdecl FindKeyInterval(int aiLowIndex, int aiHighIndex, unsigned char key, unsigned char* aucTable);
 unsigned char* StoreBoolFlag(unsigned char* pDest, int value);
 struct FUN_00e33910_item
@@ -1480,7 +1480,7 @@ struct E3F0F0Owner
     int* m_piFirst;
     int* m_piLast;
 
-    void FUN_00e3f0f0();
+    void ProcessState_00e3f0f0();
 };
 struct FUN_00e3f210_cls
 {
@@ -1525,7 +1525,7 @@ class BE3E7E0Table
     BE3E7E0Entry* FindEntryByName(const char* pcName);
 };
 void __cdecl SetEntity();
-void __cdecl FUN_00e36f40();
+void __cdecl Object_SetEntity_Thunk();
 struct FUN_00e39e80_class
 {
     int unk00;
@@ -1536,14 +1536,14 @@ struct FUN_00e39e80_class
     int unk14;
     int unk18;
     float unk1C;
-    float FUN_00e39e80();
+    float GetUnk1C_00e39e80();
 };
 struct FUN_00e3df50_Class
 {
-    FUN_00e3df50_Class* __thiscall FUN_00e3df50(int param);
+    FUN_00e3df50_Class* __thiscall ReturnSelf(int param);
 };
 int __cdecl hkxVertexBuffer_getVertexDataPtr(int param_1, int* param_2);
-int __cdecl FUN_00e3e020(int param_1, int* param_2);
+int __cdecl Object_HkxVertexBuffer_getVertexDataPtr_Thunk(int param_1, int* param_2);
 struct FNVTreeNode
 {
     int unk00;
@@ -1568,7 +1568,7 @@ class Base
     int unk04;
     int unk08;
     int unk0C;
-    int FUN_00e3f270();
+    int GetUnk0C();
 };
 struct FUN_00e31080
 {
@@ -1627,7 +1627,7 @@ struct FUN_00e3f370_cls
 // Without /GL the cdecl stack parameter forces "mov eax,[esp+4]" first,
 // which the original does not have.
 __int64 __cdecl __time64(__int64* t);
-static __int64 FUN_00e29900(__int64* t);
+static __int64 Object___time64_Thunk(__int64* t);
 __int64* volatile g_ptr;
 __int64 probe_caller(void);
 typedef __int64 (*probe_fn)(void);
@@ -1748,7 +1748,7 @@ struct FUN_00e39e50_cls
 {
     __m128 m_v0;
     __m128 m_v1;
-    FUN_00e39e50_cls* __thiscall FUN_00e39e50();
+    FUN_00e39e50_cls* __thiscall InitializeFields_00e39e50();
 };
 extern float DAT_010d0c80;
 struct S3b010Links
@@ -1868,7 +1868,8 @@ inline void SetPair(Cell* pkCell, int iByte, int iPair, unsigned char ucValue)
 }
 
 // @fnv 0x00e3b790
-void FUN_00e3b790(Grid* pkGrid, int iByte, int iPair)
+// src: GUESS 0x00e3b790 (confidence: high)
+void Runtime_ClearCellBitPair(Grid* pkGrid, int iByte, int iPair)
 {
     Cell* pkCell = &pkGrid->m_pkArray->m_pkCells[pkGrid->m_pkInfo->m_iIndex];
     SetPair(pkCell, iByte, iPair, 0);
@@ -1888,14 +1889,15 @@ struct Mesh
     int unk018;
     unsigned short* m_pusIndices;
 
-    void FUN_00e3cd50(int iV0, int iV1, int iV2, float fValue, int iArg0, int iArg1, int iArg2);
-    void FUN_00e3d200(int iTri, float fValue, int iArg0, int iArg1, int iArg2);
+    void ProcessState_00e3cd50(int iV0, int iV1, int iV2, float fValue, int iArg0, int iArg1, int iArg2);
+    void ForwardCall_00e3d200(int iTri, float fValue, int iArg0, int iArg1, int iArg2);
 };
 
 // @fnv 0x00e3d200
-void Mesh::FUN_00e3d200(int iTri, float fValue, int iArg0, int iArg1, int iArg2)
+// src: GUESS 0x00e3d200 (confidence: low)
+void Mesh::ForwardCall_00e3d200(int iTri, float fValue, int iArg0, int iArg1, int iArg2)
 {
-    FUN_00e3cd50(m_pusIndices[iTri] * 3, m_pusIndices[iTri + 1] * 3, m_pusIndices[iTri + 2] * 3, fValue, iArg0, iArg1,
+    ProcessState_00e3cd50(m_pusIndices[iTri] * 3, m_pusIndices[iTri + 1] * 3, m_pusIndices[iTri + 2] * 3, fValue, iArg0, iArg1,
                  iArg2);
 }
 
@@ -1923,7 +1925,7 @@ template <class T> struct hkRefPtr_e3e8
     }
 };
 hkRefPtr_e3e8<Resource_e3e8> __stdcall FindWorldByKey(const char* name) throw();
-Resource_e3e8* __stdcall FUN_00e3e8e0(const char* name, Resource_e3e8* expected);
+Resource_e3e8* __stdcall Object_FindNamedWorldWithExpectedType(const char* name, Resource_e3e8* expected);
 struct S_00e3f280_Entry
 {
     int unk00;
@@ -1935,7 +1937,7 @@ struct S_00e3f280_Class
     int unk04;
     S_00e3f280_Entry* unk08;
 
-    int __thiscall FUN_00e3f280(int index);
+    int __thiscall GetMaskedValue0xfffffffe(int index);
     int __thiscall GetEntryValue(int index);
 };
 int S_00e3f280_Class::GetEntryValue(int index)
@@ -2039,16 +2041,16 @@ extern int DAT_010dbaf8, DAT_010dbae4, DAT_010dbad8, DAT_010dbacc, DAT_010dbb04;
 void __cdecl hkKdTreeUtils_castRayIterative(void*, void*, S_00df8990_Obj*, void*, void*);
 void __cdecl hkTreeRayCastJobUtil_castRayKdTree(void* caster, S_00df8990_Obj* source, int value, CastOutput* output);
 void __cdecl nullsub_334();
-void FUN_00e2cfd0();
+void Runtime_DoNothing_00e2cfd0();
 #include <xmmintrin.h>
-float __cdecl FUN_00e52f40();
-float __cdecl FUN_00e52f50();
-float __cdecl FUN_00e52f60();
-float __cdecl FUN_00e52f70();
-float __cdecl FUN_00e52f80();
-float __cdecl FUN_00e52f90();
+float __cdecl Object_GetGlobalValue_00e52f40();
+float __cdecl Runtime_GetField010ec960();
+float __cdecl Object_GetGlobalValue_00e52f60();
+float __cdecl Runtime_GetField010ec964();
+float __cdecl Object_GetDAT_010ec968_00e52f80();
+float __cdecl Runtime_GetDAT0104da4c();
 float __cdecl hkaSplineCompressedAnimation_TrackCompressionParams_approximateQuantizationAccuracy(int type);
-float __cdecl FUN_00e32ea0(int type);
+float __cdecl Object_ComputeValue_00e32ea0(int type);
 extern "C" void _ReadWriteBarrier(void);
 struct Chain
 {
@@ -2104,7 +2106,7 @@ struct Manager
     Cell<int> used;
     Cell<Chain*> tail;
 };
-void __cdecl FUN_00e2b9b0(Chain* chain, Node* source, Manager* manager);
+void __cdecl Runtime_ProcessEntries_00e2b9b0(Chain* chain, Node* source, Manager* manager);
 extern "C" void _ReadWriteBarrier();
 struct PlaneIndex
 {
@@ -2149,7 +2151,7 @@ struct SplitInput
     PlaneList nodes;
 };
 hkMemoryRouter* hkStackMemory_getInstance() throw();
-void FUN_00e2c100(SplitInput*, PackedPlane*, PackedPlane*, int, int, int, int, int, float*, int*, int, int, int, int,
+void Object_ProcessEntries_00e2c100(SplitInput*, PackedPlane*, PackedPlane*, int, int, int, int, int, float*, int*, int, int, int, int,
                   int*, int*, int*, int*, PackedPlane*, PackedPlane*) throw();
 struct WorkStack
 {
@@ -2398,10 +2400,11 @@ struct FanBuilder
             vertices[k].referee = 0;
         return chain == current ? 0 : 2;
     }
-    int FUN_00e2d1b0(int count, FanEdge* chain, FanVertex* apex);
+    int AllocateTriangleFan(int count, FanEdge* chain, FanVertex* apex);
 };
 // @fnv 0x00e2d1b0
-int FanBuilder::FUN_00e2d1b0(int count, FanEdge* chain, FanVertex* apex)
+// src: GUESS 0x00e2d1b0 (confidence: medium)
+int FanBuilder::AllocateTriangleFan(int count, FanEdge* chain, FanVertex* apex)
 {
     FanTriangle* fresh[100];
     allocate(count, fresh);
@@ -2468,7 +2471,8 @@ struct RayVector : FanSpace::FanVec
     }
 };
 // @fnv 0x00e29920
-extern "C" bool __cdecl FUN_00e29920(const RayVector& a, const RayVector& b, const RayVector& c, const RayVector& d,
+// src: GUESS 0x00e29920 (confidence: low)
+extern "C" bool __cdecl Object_ProcessAndReturnValue_00e29920(const RayVector& a, const RayVector& b, const RayVector& c, const RayVector& d,
                                      const RayVector& e, const RayVector& f, float g, float h)
 {
     if (float(c.dot3(f)) < g)

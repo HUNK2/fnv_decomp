@@ -160,7 +160,7 @@ struct FUN_00c1f5f0_shell : NiPSysMeshEmitter
     void __thiscall PickEmitterParticle(NiGeometry*, NiPoint3&, NiPoint3&);
     void __thiscall GetRandomEmitterParticle(NiSkinInstance*, NiGeometry*, NiPoint3&, NiPoint3&);
     void __thiscall NiPSysMeshEmitter_EmitFromSkinnedEdge(NiSkinInstance*, NiGeometry*, NiPoint3&, NiPoint3&);
-    void __thiscall FUN_00c1e4e0(NiSkinInstance*, NiGeometry*, NiPoint3&, NiPoint3&);
+    void __thiscall SampleSkinPartitionTriangle(NiSkinInstance*, NiGeometry*, NiPoint3&, NiPoint3&);
     void __thiscall EmitFromMesh(NiGeometry*, NiPoint3&, NiPoint3&);
 
     void __thiscall NiPSysMeshEmitter_ComputeInitialPositionAndVelocity(NiPoint3& kPosition, NiPoint3& kMotionVelocity);
@@ -221,7 +221,7 @@ void __thiscall FUN_00c1f5f0_shell::NiPSysMeshEmitter_ComputeInitialPositionAndV
     case 4:
         if (pkEmitData)
         {
-            FUN_00c1e4e0(pkSkin, pkGeomEmitter, kPosition, kMotionVelocity);
+            SampleSkinPartitionTriangle(pkSkin, pkGeomEmitter, kPosition, kMotionVelocity);
             return;
         }
         PickEmitterParticle(pkGeomEmitter, kPosition, kMotionVelocity);
@@ -238,7 +238,7 @@ void __thiscall FUN_00c1f5f0_shell::NiPSysMeshEmitter_ComputeInitialPositionAndV
     }
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int);
+void* __cdecl Object_DispatchCommandFour(unsigned int);
 
 struct SkinData_c1d170
 {
@@ -254,7 +254,7 @@ struct Partition_c1d170
                         unsigned int uiBonesPerVertex, unsigned int uiStart, bool bForce, bool barg7, bool barg8);
     static void* __cdecl operator new(unsigned int s) throw()
     {
-        return FUN_00aa13e0(s);
+        return Object_DispatchCommandFour(s);
     }
 };
 
@@ -433,7 +433,7 @@ void MeshEmitter_c1cf50::ComputeEmitterParticleTransform(NiAVObject* geometry, N
     transform.FUN_004b4880(inverseWorld);
     inverseWorld.FUN_0062c250(&transform, geometryWorld);
     struct ParticleScratch { NiPoint3 scaled; NiPoint3 rotated; } scratch;
-    { NiPoint3* value = transform.FUN_00524c40(reinterpret_cast<NiPoint3*>(&scratch.rotated), reinterpret_cast<const NiPoint3&>(arPosition)); memcpy(&arPosition, value, sizeof(arPosition)); }
+    { NiPoint3* value = transform.ComputeValue_00524c40(reinterpret_cast<NiPoint3*>(&scratch.rotated), reinterpret_cast<const NiPoint3&>(arPosition)); memcpy(&arPosition, value, sizeof(arPosition)); }
     switch (velocityMode)
     {
     case 0:
@@ -514,7 +514,7 @@ struct Emit_c1f880
 // src: XBOX_PDB 0x00c1f880
 Emit_c1f880* Emit_c1f880::NiPSysMeshEmitter_CreateClone(unsigned int uiArg)
 {
-    Emit_c1f880* pkNew = (Emit_c1f880*)FUN_00aa13e0(0x88);
+    Emit_c1f880* pkNew = (Emit_c1f880*)Object_DispatchCommandFour(0x88);
     Emit_c1f880* pkResult;
     if (pkNew != 0)
     {
@@ -582,7 +582,8 @@ NiPSysMeshEmitterObject* __cdecl CreateNiPSysMeshEmitterObject()
 extern "C" void __cdecl FUN_00c31750();
 
 // @fnv 0x00c1fa20
-void __cdecl FUN_00c1fa20()
+// src: GUESS 0x00c1fa20 (confidence: low)
+void __cdecl Object_ForwardCall_00c1fa20()
 {
     FUN_00c31750();
 }
@@ -1002,7 +1003,7 @@ bool SkinEmitter::GetRandomEmitterParticle(SkinInst* skin, SkinGeometry* geometr
 }  // namespace fnv_00c1dec0
 
 int __cdecl FUN_00ecadb8();
-float __cdecl FUN_00639780();
+float __cdecl Object_ProcessAndReturnValue_00639780();
 void __cdecl NiPoint3_UnitizeVector(NiPoint3*);
 NiPoint3 __cdecl FUN_004a3760(float, const NiPoint3&);
 extern NiPoint3 NiPoint3_ZERO;
@@ -1074,7 +1075,7 @@ struct MyPoint3 : NiPoint3
     {
         return MyPoint3(x * f, y * f, z * f);
     }
-    NiPoint3 __thiscall FUN_0053d280(float) const;
+    NiPoint3 __thiscall ProcessAndReturnValue_0053d280(float) const;
     float __thiscall FUN_00457990();
 };
 
@@ -1120,13 +1121,14 @@ struct EmitterAccessor
     bool __thiscall ComputeEmitterParticleTransform(NiGeometry* pkGeometry, NiPoint3& kPosition,
                                                     NiPoint3& kMotionVelocity);
 
-    bool __thiscall FUN_00c1e4e0(NiSkinInstance* pkSkinInstance, NiGeometry* pkGeometry, NiPoint3& kPosition,
+    bool __thiscall SampleSkinPartitionTriangle(NiSkinInstance* pkSkinInstance, NiGeometry* pkGeometry, NiPoint3& kPosition,
                                  NiPoint3& kMotionVelocity);
 };
 
 // Picks a random skin partition and triangle, samples two vertices and normals, computes a position, and may update motion velocity.
 // @fnv 0x00c1e4e0
-bool EmitterAccessor::FUN_00c1e4e0(NiSkinInstance* pkSkinInstance, NiGeometry* pkGeometry, NiPoint3& kPosition,
+// src: GUESS 0x00c1e4e0 (confidence: medium)
+bool EmitterAccessor::SampleSkinPartitionTriangle(NiSkinInstance* pkSkinInstance, NiGeometry* pkGeometry, NiPoint3& kPosition,
                                    NiPoint3& kMotionVelocity)
 {
     if (!pkGeometry || !((MyGeomVtbl*)pkGeometry)->GetModelData())
@@ -1146,7 +1148,7 @@ bool EmitterAccessor::FUN_00c1e4e0(NiSkinInstance* pkSkinInstance, NiGeometry* p
     if (!pkPartition->m_usTriangles)
         return this->GetRandomEmitterParticle(pkSkinInstance, pkGeometry, kPosition, kMotionVelocity);
 
-    unsigned int uiTriangle = (unsigned int)(pkPartition->m_usTriangles * FUN_00639780());
+    unsigned int uiTriangle = (unsigned int)(pkPartition->m_usTriangles * Object_ProcessAndReturnValue_00639780());
     int iMaxTriangle = (int)pkPartition->m_usTriangles - 1;
     if ((int)uiTriangle >= iMaxTriangle)
         uiTriangle = iMaxTriangle;
@@ -1188,13 +1190,13 @@ bool EmitterAccessor::FUN_00c1e4e0(NiSkinInstance* pkSkinInstance, NiGeometry* p
     this->SkinVertex(kPos0, kNorm0, pkGeometry, pkData, pkPartition, usV0);
     this->SkinVertex(kPos1, kNorm1, pkGeometry, pkData, pkPartition, usV1);
     {
-        NiPoint3 kTmp = ((MyPoint3&)kPos0 + (MyPoint3&)kPos1).FUN_0053d280(2.0f);
+        NiPoint3 kTmp = ((MyPoint3&)kPos0 + (MyPoint3&)kPos1).ProcessAndReturnValue_0053d280(2.0f);
         memcpy(&kPosition, &kTmp, sizeof(kPosition));
     }
 
     if (this->m_iEmissionDirection == 0)
     {
-        NiPoint3 kNormal = ((MyPoint3&)kNorm0 + (MyPoint3&)kNorm1).FUN_0053d280(2.0f);
+        NiPoint3 kNormal = ((MyPoint3&)kNorm0 + (MyPoint3&)kNorm1).ProcessAndReturnValue_0053d280(2.0f);
         NiPoint3_UnitizeVector(&kNormal);
         float fSpeed = ((MyPoint3*)&kMotionVelocity)->FUN_00457990();
         CopyParticlePoint(kMotionVelocity, FUN_004a3760(fSpeed, kNormal));
@@ -1202,7 +1204,7 @@ bool EmitterAccessor::FUN_00c1e4e0(NiSkinInstance* pkSkinInstance, NiGeometry* p
 
     if (this->m_iEmissionType == 4)
     {
-        CopyParticlePoint(kPosition, ((MyPoint3&)kPos1 - (MyPoint3&)kPos0) * FUN_00639780() + (MyPoint3&)kPos0);
+        CopyParticlePoint(kPosition, ((MyPoint3&)kPos1 - (MyPoint3&)kPos0) * Object_ProcessAndReturnValue_00639780() + (MyPoint3&)kPos0);
     }
 
     this->ComputeEmitterParticleTransform(pkGeometry, kPosition, kMotionVelocity);
@@ -2209,7 +2211,7 @@ struct NiSkinSlot790
     void __thiscall FUN_00c1f420(NiGeometry** pp);
 };
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+void* __cdecl Object_DispatchCommandFour(unsigned int size);
 
 struct FUN_00c1f790_cls : NiPSysMeshEmitter
 {
@@ -2236,7 +2238,7 @@ void __thiscall FUN_00c1f790_cls::SetSkinGeom(NiGeometry* pkGeom)
         if (skin != 0)
         {
             unsigned int edi = reinterpret_cast<unsigned int>(skin->m_pkSkinMeshPartition.m_pObject);
-            p = (NiSkinRaw790*)FUN_00aa13e0(12);
+            p = (NiSkinRaw790*)Object_DispatchCommandFour(12);
             if (edi != 0)
             {
                 if (p != 0)
@@ -2253,7 +2255,7 @@ void __thiscall FUN_00c1f790_cls::SetSkinGeom(NiGeometry* pkGeom)
         }
         else
         {
-            p = (NiSkinRaw790*)FUN_00aa13e0(12);
+            p = (NiSkinRaw790*)Object_DispatchCommandFour(12);
         }
         if (p != 0)
         {
@@ -2320,14 +2322,14 @@ struct MeshParticleGroup
 struct MeshVectorOps
 {
     float x, y, z;
-    void FUN_0053d280(NiPoint3* output, float scalar) const;
+    void ProcessAndReturnValue_0053d280(NiPoint3* output, float scalar) const;
 
     float FUN_00457990() const;
 };
 __forceinline NiPoint3 ScaleVector(const NiPoint3& value, float scalar)
 {
     NiPoint3 result;
-    reinterpret_cast<const MeshVectorOps*>(&value)->FUN_0053d280(&result, scalar);
+    reinterpret_cast<const MeshVectorOps*>(&value)->ProcessAndReturnValue_0053d280(&result, scalar);
     return result;
 }
 __forceinline void AddVector(NiPoint3& output, const NiPoint3& a, const NiPoint3& b)
@@ -2436,7 +2438,7 @@ bool MeshReconstruction::NiPSysMeshEmitter_EmitFromSkinnedEdge(NiSkinInstance* a
         scratch.y = triangle.v1.y + triangle.v0.y;
         scratch.z = triangle.v1.z + triangle.v0.z;
         AddAccumulator(triangle.accumulator, scratch, triangle.v2);
-        reinterpret_cast<MeshVectorOps*>(&triangle.accumulator)->FUN_0053d280(&triangle.v2, DAT_01017718);
+        reinterpret_cast<MeshVectorOps*>(&triangle.accumulator)->ProcessAndReturnValue_0053d280(&triangle.v2, DAT_01017718);
         NiPoint3_UnitizeVector(&triangle.v2);
         float magnitude = reinterpret_cast<MeshVectorOps*>(&velocity)->FUN_00457990();
         NiPoint3* result = FUN_004a3760(&triangle.accumulator, magnitude, &triangle.v2);

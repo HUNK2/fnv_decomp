@@ -193,7 +193,7 @@ struct CompileState
     unsigned unk28, unk2c, unk30;
     unsigned variableCount;
     bool partial;
-    CompileVariables* FUN_005a8080();
+    CompileVariables* ComputeValue_005a8080();
     bool ScriptCompileData_GetReferencedObject(CompileWord*, bool, bool);
     ScriptReferencedObject* GetNodeValue(unsigned);
 };
@@ -280,7 +280,7 @@ struct CompileExpression
     CompileExpression();
     ~CompileExpression();
     char* ConvertToPostfix(char*, int*);
-    int FUN_00559450();
+    int Modelloader_GetReferencedThis();
 };
 
 struct LineCompiler
@@ -437,7 +437,7 @@ bool LineCompiler::ScriptCompiler_CompileLine(CompileScript* script, CompileStat
                 compiler->variableCount++;
                 variableInfo0->id = compiler->variableCount;
             }
-            compiler->FUN_005a8080()->AddTail(variableInfo0);
+            compiler->ComputeValue_005a8080()->AddTail(variableInfo0);
 
             if (line->kind == 31)
             {
@@ -514,7 +514,7 @@ bool LineCompiler::ScriptCompiler_CompileLine(CompileScript* script, CompileStat
         }
         expressionCodeVal9 = expression5.ConvertToPostfix(setText20, &setLength1);
 
-        if (expression5.FUN_00559450())
+        if (expression5.Modelloader_GetReferencedThis())
         {
             ReportScriptError(compiler, "InfixToPostfix Error.");
             return false;
@@ -549,9 +549,9 @@ bool LineCompiler::ScriptCompiler_CompileLine(CompileScript* script, CompileStat
 
         expressionCodeVal9 = expression5.ConvertToPostfix(branchText7, &branchLength10);
 
-        if (expression5.FUN_00559450())
+        if (expression5.Modelloader_GetReferencedThis())
         {
-            ReportScriptError(compiler, DAT_0118c594[expression5.FUN_00559450()]);
+            ReportScriptError(compiler, DAT_0118c594[expression5.Modelloader_GetReferencedThis()]);
             return false;
         }
         int branchJump11 = ScanBlockLines(compiler, line);

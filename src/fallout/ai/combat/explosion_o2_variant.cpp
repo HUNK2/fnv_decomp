@@ -39,16 +39,16 @@ struct FUN_009afbb0_shell
 {
     virtual ~FUN_009afbb0_shell();
     void* FUN_009afbb0(unsigned int flags);
-    void FUN_009afc10();
+    void ForwardCall_009afc10();
 };
-extern "C" void __cdecl FUN_009afbe0(void*);
+extern "C" void __cdecl Object_UpdateFields_009afbe0(void*);
 struct FUN_00621100_shell
 {
     void __thiscall SetVtable(void);
 };
 struct FUN_009afc10_shell
 {
-    void __thiscall FUN_009afc10();
+    void __thiscall ForwardCall_009afc10();
 };
 struct FUN_009afc50_shell
 {
@@ -366,7 +366,7 @@ void FUN_00cbc6a0_Class::bhkLiquidAction_SaveBinary(unsigned char* arg)
 extern __declspec(thread) int g_memoryContext;
 void __cdecl bhkSerializable_CloneCritLock();
 void __cdecl bhkSerializable_CloneCritUnlock();
-void* __cdecl FUN_00aa13e0(unsigned int size);
+void* __cdecl Object_DispatchCommandFour(unsigned int size);
 inline AutoMemContext::AutoMemContext()
 {
     m_eMemoryContext = (MEM_CONTEXT)g_memoryContext;
@@ -396,7 +396,7 @@ struct FUN_00cbc550_class
     int unk3c;
     static void* __cdecl operator new(unsigned int size)
     {
-        return FUN_00aa13e0(size);
+        return Object_DispatchCommandFour(size);
     }
     FUN_00cbc550_class();
 };

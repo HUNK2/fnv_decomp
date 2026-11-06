@@ -74,7 +74,7 @@ struct S_009ab280_Target
 struct S_009ab280_Sub
 {
     int unk00;
-    S_009ab280_Target* FUN_00559450();
+    S_009ab280_Target* Modelloader_GetReferencedThis();
 };
 struct S_009ab280_Owner
 {
@@ -201,9 +201,9 @@ void ContinuousBeamProjectile::InitContinuousBeam()
     // The shared class does not yet name the trailing state at +0x154.
     *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x154) = 0;
     Projectile_Initialize();
-    if (reinterpret_cast<S_009ab280_Sub*>(&m_spUnk150)->FUN_00559450())
+    if (reinterpret_cast<S_009ab280_Sub*>(&m_spUnk150)->Modelloader_GetReferencedThis())
     {
-        reinterpret_cast<S_009ab280_Sub*>(&m_spUnk150)->FUN_00559450()->FOHUDEffectManager_SetBlurIntensityHUD(GetFirstLightParameter());
+        reinterpret_cast<S_009ab280_Sub*>(&m_spUnk150)->Modelloader_GetReferencedThis()->FOHUDEffectManager_SetBlurIntensityHUD(GetFirstLightParameter());
     }
     S_009ab280_Owner* owner = reinterpret_cast<S_009ab280_Owner*>(Projectile_GetShooter());
     if (owner)
@@ -242,7 +242,7 @@ struct ScTransform
 {
     char pad00[0xc];
     float m_fScale;
-    void FUN_00439180(float fScale);
+    void ScaleComponents(float fScale);
 };
 struct ScData
 {
@@ -382,7 +382,7 @@ void ContinuousBeamProjectile::ScaleObject(NiAVObject* pkObject, float fScale)
     if (pkObject)
     {
         reinterpret_cast<ScAVObject*>(pkObject)->GetSourceFilesFromForm()->m_fScale *= fScale;
-        reinterpret_cast<ScAVObject*>(pkObject)->GetSourceFilesFromForm()->FUN_00439180(fScale);
+        reinterpret_cast<ScAVObject*>(pkObject)->GetSourceFilesFromForm()->ScaleComponents(fScale);
         ScGeom* pkGeom = reinterpret_cast<ScAVObject*>(pkObject)->NiGeometry_GetModelData();
         if (pkGeom)
         {

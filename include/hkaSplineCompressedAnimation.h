@@ -95,7 +95,7 @@ public:
     int getSizeInBytes() const;
     void AppendScaledValues(int n, int degree, const hkArray<hkReal>& knots);
     void AppendScaledValues(int n, int degree, hkArray<hkReal>& knots);
-    void FUN_00e319e0(hkUint8 mask, RotationQuantization quantization,
+    void ProcessEntries_00e319e0(hkUint8 mask, RotationQuantization quantization,
                       const hkVector4& staticValue, int n, const hkArray<hkVector4>& points);
     void WriteCompressedAnimation(hkUint8 mask, ScalarQuantization quantization,
                                   const hkVector4& staticValue, const hkVector4& minValue,
@@ -104,9 +104,9 @@ public:
                       const PerTrackCompressionParams& trackParams,
                       const AnimationCompressionParams& animationParams);
 
-    static hkVector4 FUN_00e31410(const hkArray<hkVector4>& data);
-    static hkVector4 FUN_00e31470(const hkArray<hkVector4>& data);
-    static hkVector4 FUN_00e314c0(const hkArray<hkVector4>& data);
+    static hkVector4 Runtime_ProcessEntries_00e31410(const hkArray<hkVector4>& data);
+    static hkVector4 hkArrayBase_ProcessEntries_00e31470(const hkArray<hkVector4>& data);
+    static hkVector4 hkArrayBase_ProcessEntries_00e314c0(const hkArray<hkVector4>& data);
     static hkUint8 hkaSplineCompressedAnimation_isStatic(const hkVector4& mean, const hkVector4& minValue,
                                const hkVector4& maxValue, hkReal tolerance, const hkVector4& identity);
     static hkUint8 PackBitFields(ScalarQuantization translation, RotationQuantization rotation,
@@ -115,10 +115,10 @@ public:
     static void hkaSplineCompressedAnimation_writeZeros(int n, hkArray<hkUint8>& out);
     static void hkaSplineCompressedAnimation_writeAlign(int alignment, hkArray<hkUint8>& out);
     static void FillInterpolatedValues(int n, hkArray<hkReal>& values, hkReal first, hkReal last);
-    static void FUN_00e310c0(const hkQsTransform* transforms, int numTracks, int numFrames,
+    static void hkVector4_ProcessEntries_00e310c0(const hkQsTransform* transforms, int numTracks, int numFrames,
                              int first, int track, hkArray<hkVector4>& translation,
                              hkArray<hkVector4>& rotation, hkArray<hkVector4>& scale);
-    static void FUN_00e31180(const hkReal* floats, int numTracks, int numFrames,
+    static void Object_ProcessEntries_00e31180(const hkReal* floats, int numTracks, int numFrames,
                              int first, int track, hkArray<hkVector4>& values);
 
     hkInt32 m_iFrameCount;

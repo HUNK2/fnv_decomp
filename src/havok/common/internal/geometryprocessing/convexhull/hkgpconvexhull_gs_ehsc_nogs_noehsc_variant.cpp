@@ -104,10 +104,10 @@ public:
     int maxAxis() const;
     float GetAngle();
 
-    void FUN_00416870(float x, float y, float z);
-    HullVectorCallLocal_00d75cb0 FUN_00439ef0(const HullVectorCallLocal_00d75cb0& vector);
+    void SetComponents(float x, float y, float z);
+    HullVectorCallLocal_00d75cb0 SubtractIntoVector(const HullVectorCallLocal_00d75cb0& vector);
     HullVectorCallLocal_00d75cb0 FUN_00439e90(const HullVectorCallLocal_00d75cb0& vector);
-    void FUN_00439180(float value);
+    void ScaleComponents(float value);
     void Unitize_004a0c10();
     void normalize_005611c0();
     void setMul(const HullVectorCallLocal_00d75cb0* a, const HullVectorCallLocal_00d75cb0* b);
@@ -153,7 +153,7 @@ struct FUN_00d75850_class {
 int __stdcall hkgpConvexHull_getNeighbour(const int* p, int i);
 struct FUN_00d7c200_cls { void __thiscall FreeAll(); };
 struct FUN_00d7c950_cls {
-    void __thiscall FUN_00d7c950();
+    void __thiscall ProcessState_00d7c950();
 };
 int __stdcall hkgpConvexHull_getVertex(int* arr, int idx);
 struct CpuScalar {
@@ -271,7 +271,7 @@ struct CpuObject {
     unsigned int unk00;
     unsigned int unk04;
     CpuScalar* value;
-    int FUN_00d74df0();
+    int GetNestedValue();
 };
 struct ValueBlock {
     int m_i00;
@@ -352,9 +352,9 @@ struct PayloadOwner {
     int unk0c;
     int m_iPayload;
 };
-int* __stdcall FUN_00d74ed0(PayloadOwner* apOwner);
+int* __stdcall Hkgpconvexhull_GetPayloadAddress(PayloadOwner* apOwner);
 struct TargetCallee {
-    void FUN_00d7a5a0(void* p1, void* p2, void* p3, void* p4, float p5);
+    void ProcessEntries_00d7a5a0(void* p1, void* p2, void* p3, void* p4, float p5);
 };
 struct FUN_00d74ee0_Class : FUN_00d74dd0_Class {
     void ForwardToCallee(void* p1, void* p2, void* p3, void* p4, float p5);
@@ -376,7 +376,7 @@ struct D75060Outer {
     int unk04;
     D75060Inner* unk08;
 
-    int FUN_00d75060();
+    int GetUnk24_00d75060();
 };
 struct TextBuffer {
     int unk00;
@@ -384,9 +384,9 @@ struct TextBuffer {
     int unk08;
     int storage[128];
     void FUN_00cb1600(char* buffer, int capacity);
-    TextBuffer* FUN_00cc01c0(const char* first, const char* middle, const char* last);
-    TextBuffer* FUN_00cc01c0();
-    TextBuffer* FUN_00cc02d0();
+    TextBuffer* ProcessAndReturnValue_00cc01c0(const char* first, const char* middle, const char* last);
+    TextBuffer* ProcessAndReturnValue_00cc01c0();
+    TextBuffer* EvaluateValue_00cc02d0();
     void FUN_00cc00e0();
 };
 struct ChildData {
@@ -543,7 +543,7 @@ struct Owner {
     int unk34;
     int hkgpConvexHull_getIndex(Request* request);
 };
-int __stdcall FUN_00d75120(int* p);
+int __stdcall Object_ReadPointedValue_00d75120(int* p);
 struct D75130Inner {
     int unk00;
     int unk04;
@@ -568,9 +568,9 @@ struct D75130Outer {
     int unk04;
     D75130Inner* unk08;
 
-    int FUN_00d75130();
+    int EvaluateValue_00d75130();
 };
-int __stdcall FUN_00d75200(const int* value);
+int __stdcall Object_ReadPointedValue_00d75200(const int* value);
 struct S_00d75210_ErrStream {
     void* m_vt;
     int unk04;
@@ -731,19 +731,19 @@ struct D762F0Owner {
     int unk04;
     D762F0Target* m_target;
 
-    void FUN_00d762f0();
+    void ForwardCall_00d762f0();
 };
-struct D76910Inner { void FUN_00d7cf00(); };
+struct D76910Inner { void ProcessEntries_00d7cf00(); };
 struct D76910Owner {
     int unk00;
     int unk04;
     D76910Inner* inner;
-    void FUN_00d76910();
+    void ForwardCall_00d76910();
 };
 struct FUN_00d76990_State {
     int unk00;
     float unk04;
-    void FUN_00d7d2a0();
+    void ProcessEntries_00d7d2a0();
 };
 struct FUN_00d76990_Class {
     int unk00;
@@ -756,9 +756,9 @@ struct __declspec(align(16)) hkVec4 {
     float x, y, z, w;
 };
 struct Shape {
-    float FUN_00d768b0(const hkVec4& v);
-    float FUN_00d76840(const hkVec4& v);
-    float FUN_00d769c0(const NiPoint3& p);
+    float ComputeValues_00d768b0(const hkVec4& v);
+    float ProcessAndReturnValue_00d76840(const hkVec4& v);
+    float ProcessAndReturnValue_00d769c0(const NiPoint3& p);
 };
 struct AudioSink {
     void hkgpConvexHullImpl_generateIndexedFaces_int_int(void* apFirst, void* apSecond, bool abIsNull, void* apThird);
@@ -784,7 +784,7 @@ struct FUN_00d771c0_Owner {
     void hkgpConvexHull_build(int a, int b, const Vec4i& v);
 };
 struct FUN_00d83430_class {
-    void FUN_00d83430(int, int, int, float);
+    void AllocateStorage_00d83430(int, int, int, float);
 };
 struct FUN_00d790a0_class {
     int unk00;
@@ -801,13 +801,13 @@ struct S_00d79f90_Opts
 struct S_00d79f90_Result
 {
     virtual ~S_00d79f90_Result();
-    void FUN_00d78720(float f, const S_00d79f90_Opts& opts);
+    void ProcessEntries_00d78720(float f, const S_00d79f90_Opts& opts);
 };
 struct S_00d79f90_World
 {
     S_00d79f90_Result* hkgpConvexHull_clone();
 };
-void __cdecl FUN_00d79ab0(S_00d79f90_World* world, int a, void* b, float c);
+void __cdecl HkgpconvexhullGsEhscNogsNoehsc_ReleaseStorage_00d79ab0(S_00d79f90_World* world, int a, void* b, float c);
 void __cdecl hkgpConvexHull_booleanSubtraction_00d79580(S_00d79f90_Result* res, void* b, int n, float eps);
 void __cdecl hkgpConvexHull_createVoronoiFeatures(S_00d79f90_World* world, int a, void* b, int n, float d);
 struct S_00d7a010_Alloc {
@@ -957,7 +957,7 @@ struct FUN_00d74d90_cls {
     int m_i00;
     float m_f04;
 
-    FUN_00d74d90_cls* FUN_00d74d90();
+    FUN_00d74d90_cls* InitializeFields_00d74d90();
 };
 struct SpawnedInner {
     int unk000;
@@ -1073,7 +1073,7 @@ struct FUN_00d74e10_cls {
     int unk04;
     SpawnedInner* m_pInner;
 
-    int FUN_00d74e10();
+    int GetInnerField1A8();
 };
 struct FUN_00d74e20_class {
     void* m_00; void* m_04; char* m_08;
@@ -1097,16 +1097,16 @@ struct FUN_00d75050_cls {
     int unk04;
     Inner* m_pInner;
 
-    int FUN_00d75050();
+    int EvaluateValue_00d75050();
 };
 struct FUN_00d7a180_target {
-    void FUN_00d7a180();
+    void ProcessEntries_00d7a180();
 };
 struct FUN_00d752d0_cls {
     void* m_00;
     void* m_04;
     FUN_00d7a180_target* m_08;
-    void FUN_00d752d0();
+    void ForwardCall_00d752d0();
 };
 struct DiagStream {
     unsigned int m_00;
@@ -1114,9 +1114,9 @@ struct DiagStream {
     unsigned int m_08;
     unsigned int m_buf[128];
     void FUN_00cb1600(unsigned int* buf, unsigned int size);
-    DiagStream* FUN_00cc01c0(const char* fmt, unsigned int count, const char* tail);
-    DiagStream* FUN_00cc02d0();
-    void FUN_00cc01c0();
+    DiagStream* ProcessAndReturnValue_00cc01c0(const char* fmt, unsigned int count, const char* tail);
+    DiagStream* EvaluateValue_00cc02d0();
+    void ProcessAndReturnValue_00cc01c0();
     void FUN_00cc00e0();
 };
 struct DiagLogger {
@@ -1257,7 +1257,7 @@ struct FUN_00d75820_Tmp8 {
     int m04;
 };
 struct FUN_00d75820_Target {
-    void FUN_00d7a200(int a, float b, FUN_00d75820_Tmp8* c, int d);
+    void ProcessEntries_00d7a200(int a, float b, FUN_00d75820_Tmp8* c, int d);
 };
 struct FUN_00d75820_cls {
     int m00;
@@ -1267,7 +1267,7 @@ struct FUN_00d75820_cls {
     void CallTargetWithTemp(int a1, float a2, int a3);
 };
 struct FUN_00d7b330_cls {
-    void FUN_00d7b330(int a1, int a2, float a3);
+    void ProcessEntries_00d7b330(int a1, int a2, float a3);
 };
 struct FUN_00d76100_cls {
     void* unk00;
@@ -1276,7 +1276,7 @@ struct FUN_00d76100_cls {
     void hkgpConvexHull_isPointInside(int a1, int a2, float a3);
 };
 struct FUN_00d7caa0_class {
-    void __thiscall FUN_00d7caa0(float, int);
+    void __thiscall ProcessEntries_00d7caa0(float, int);
 };
 struct FUN_00d76920_class {
     void* m_00;
@@ -1294,7 +1294,7 @@ struct TailCallee {
 };
 class FUN_00d77bc0_cls {
 public:
-    void FUN_00d77bc0();
+    void UpdateFields_00d77bc0();
 };
 struct ArgPair
 {
@@ -1311,7 +1311,7 @@ struct D79090Owner {
     int unk04;
     D79090Target* m_target;
 
-    void FUN_00d79090();
+    void ForwardCall_00d79090();
 };
 // FUN_00d79510 (0x00d79510, 102 bytes)
 //
@@ -1606,12 +1606,12 @@ struct FnvCpu_FUN_00d74e00_CpuObject {
     unsigned int unk00;
     unsigned int unk04;
     int value;
-    int FUN_00d74e00();
+    int GetValue_00d74e00();
 };
 struct S_00cc01c0_Class {
-    S_00cc01c0_Class* FUN_00cc02d0();
-    void FUN_00cc01c0();
-    S_00cc01c0_Class* FUN_00cc01c0(const char*, int, char*);
+    S_00cc01c0_Class* EvaluateValue_00cc02d0();
+    void ProcessAndReturnValue_00cc01c0();
+    S_00cc01c0_Class* ProcessAndReturnValue_00cc01c0(const char*, int, char*);
 };
 struct S_00d752e0_Entity {
     int unk000;
@@ -1867,7 +1867,7 @@ struct S_00cb1600_Class {
     int unk208;
 
     void FUN_00cb1600(int*, unsigned int);
-    S_00cc01c0_Class* FUN_00cc01c0(const char*, int, char*);
+    S_00cc01c0_Class* ProcessAndReturnValue_00cc01c0(const char*, int, char*);
     void FUN_00cc00e0();
 };
 // Recursive quicksort partition over 12-byte records keyed by a float at +8;
@@ -1919,7 +1919,7 @@ struct DistanceLess {
         return values.first<values.second;
     }
 };
-void FUN_00d7aaf0(DistanceVector* pa,int lo,int hi,DistanceLess less);
+void Hkgpconvexhull_SortDistanceVectors(DistanceVector* pa,int lo,int hi,DistanceLess less);
 struct S00d7d1c0_Alloc {
     virtual void s0();
     virtual void s1();
@@ -2107,11 +2107,12 @@ struct S_00d75cb0
     int unk04;
     S_00d75cb0_Obj* m_obj;
 
-    void FUN_00d75cb0(int mode, const hkVector4& point, hkVector4& closest);
+    void ProcessEntries_00d75cb0(int mode, const hkVector4& point, hkVector4& closest);
 };
 
 // @fnv 0x00d75cb0
-void S_00d75cb0::FUN_00d75cb0(int mode, const hkVector4& point, hkVector4& closest)
+// src: GUESS 0x00d75cb0 (confidence: low)
+void S_00d75cb0::ProcessEntries_00d75cb0(int mode, const hkVector4& point, hkVector4& closest)
 {
     hkSimdReal best(DAT_0104da48);
 
@@ -2180,11 +2181,12 @@ struct FUN_00cc02d0_cls {
     int m_04;
     Cc0080Stream* m_08;
 
-    FUN_00cc02d0_cls* FUN_00cc02d0(int arg);
+    FUN_00cc02d0_cls* EvaluateValue_00cc02d0(int arg);
 };
 
 // @fnv 0x00cc02d0
-FUN_00cc02d0_cls* FUN_00cc02d0_cls::FUN_00cc02d0(int arg) {
+// src: GUESS 0x00cc02d0 (confidence: low)
+FUN_00cc02d0_cls* FUN_00cc02d0_cls::EvaluateValue_00cc02d0(int arg) {
     char buf[0x2728];
     Vsnprintf(buf, 0x2728, str_010c1a98, arg);
     writeString(m_08, buf);
@@ -2220,10 +2222,11 @@ struct TESFileRecordLoader {
 struct GridOwner {
     int unk00, unk04;
     TESFileRecordLoader* m_grid;
-    void FUN_00d74e80(GridVec4& out, const GridCell& c) const;
+    void GetCellPosition_Thunk(GridVec4& out, const GridCell& c) const;
 };
 // @fnv 0x00d74e80
-void GridOwner::FUN_00d74e80(GridVec4& out, const GridCell& c) const
+// src: GUESS 0x00d74e80 (confidence: medium)
+void GridOwner::GetCellPosition_Thunk(GridVec4& out, const GridCell& c) const
 {
     m_grid->getCellPosition(c, out);
 }
@@ -2248,8 +2251,8 @@ struct S00d756a0_Ostream {
     int m_04;
     int m_08;
     void FUN_00cb1600(char* buf, int size);
-    S00d756a0_Ostream* FUN_00cc01c0(const char* s);
-    S00d756a0_Ostream* FUN_00cc02d0(int v);
+    S00d756a0_Ostream* ProcessAndReturnValue_00cc01c0(const char* s);
+    S00d756a0_Ostream* EvaluateValue_00cc02d0(int v);
     void FUN_00cc00e0();
     S00d756a0_Ostream(char* buf, int size) { FUN_00cb1600(buf, size); }
     ~S00d756a0_Ostream() { FUN_00cc00e0(); }
@@ -2276,17 +2279,18 @@ struct S00d756a0_Shape {
     int m_04;
     char* m_08;
     void GetMassProperties(hkVector4* axes, hkVector4* ext);
-    void FUN_00d756a0(S00d756a0_Plain& out);
+    void UpdateFields_00d756a0(S00d756a0_Plain& out);
 };
 
 // @fnv 0x00d756a0
-void S00d756a0_Shape::FUN_00d756a0(S00d756a0_Plain& out)
+// src: GUESS 0x00d756a0 (confidence: low)
+void S00d756a0_Shape::UpdateFields_00d756a0(S00d756a0_Plain& out)
 {
     char* obj = m_08;
     if (*(bool*)(obj + 0x1b4) == false) {
         char buf[0x200];
         S00d756a0_Ostream os(buf, 0x200);
-        os.FUN_00cc01c0(str_010d358c)->FUN_00cc02d0(*(int*)(obj + 0x1b0))->FUN_00cc01c0(&DAT_0103d078);
+        os.ProcessAndReturnValue_00cc01c0(str_010d358c)->EvaluateValue_00cc02d0(*(int*)(obj + 0x1b0))->ProcessAndReturnValue_00cc01c0(&DAT_0103d078);
         if (DAT_01268360->message(3, 0x79f9d887, buf, str_010d3540, 0x14e)) {
             __debugbreak();
         }
@@ -2383,17 +2387,22 @@ struct PointNode {
 struct HullAccess {
     int unk00,unk04;
     Impl* data;
-    __declspec(noinline) int FUN_00d75050();
-    __declspec(noinline) PointNode* FUN_00d75060();
-    __declspec(noinline) Vec4* FUN_00d74ed0(PointNode* node);
-    __declspec(noinline) PointNode* FUN_00d75120(PointNode* node);
-    __declspec(noinline) Vec4* FUN_00d74e80(Vec4* out, PointNode* node);
+    __declspec(noinline) int EvaluateValue_00d75050();
+    __declspec(noinline) PointNode* GetUnk24_00d75060();
+    __declspec(noinline) Vec4* Hkgpconvexhull_GetPayloadAddress(PointNode* node);
+    __declspec(noinline) PointNode* Object_ReadPointedValue_00d75120(PointNode* node);
+    __declspec(noinline) Vec4* GetCellPosition_Thunk(Vec4* out, PointNode* node);
 };
-__declspec(noinline) int HullAccess::FUN_00d75050() { return data->u28; }
-__declspec(noinline) PointNode* HullAccess::FUN_00d75060() { return (PointNode*)data->u24; }
-__declspec(noinline) Vec4* HullAccess::FUN_00d74ed0(PointNode* node) { return &node->source; }
-__declspec(noinline) PointNode* HullAccess::FUN_00d75120(PointNode* node) { return node->next; }
-__declspec(noinline) Vec4* HullAccess::FUN_00d74e80(Vec4* out, PointNode* node) {
+// src: GUESS 0x00d75050 (confidence: low)
+__declspec(noinline) int HullAccess::EvaluateValue_00d75050() { return data->u28; }
+// src: GUESS 0x00d75060 (confidence: low)
+__declspec(noinline) PointNode* HullAccess::GetUnk24_00d75060() { return (PointNode*)data->u24; }
+// src: GUESS 0x00d74ed0 (confidence: high)
+__declspec(noinline) Vec4* HullAccess::Hkgpconvexhull_GetPayloadAddress(PointNode* node) { return &node->source; }
+// src: GUESS 0x00d75120 (confidence: low)
+__declspec(noinline) PointNode* HullAccess::Object_ReadPointedValue_00d75120(PointNode* node) { return node->next; }
+// src: GUESS 0x00d74e80 (confidence: medium)
+__declspec(noinline) Vec4* HullAccess::GetCellPosition_Thunk(Vec4* out, PointNode* node) {
     LocalM128 pos=_mm_setr_ps((float)node->x,(float)node->y,(float)node->z,0.0f);
     (*(LocalM128*)out)=_mm_add_ps(_mm_mul_ps(pos,(*(LocalM128*)&data->scale)),(*(LocalM128*)&data->offset));
     return out;
@@ -2407,11 +2416,12 @@ static __forceinline float scalar(LocalM128 q) { float f; _mm_store_ss(&f,q); re
 static __forceinline LocalM128 scaleBroadcast(float f) { LocalM128 q=_mm_load_ss(&f); return _mm_shuffle_ps(q,q,0); }
 struct Self {
     int unk00; int unk04; Impl* m_pClassImpl;
-    Box __thiscall FUN_00d75920(int index, float a2, float a3);
+    Box __thiscall ProcessEntries_00d75920(int index, float a2, float a3);
 };
 
 // @fnv 0x00d75920
-Box __thiscall Self::FUN_00d75920(int index, float a2, float a3)
+// src: GUESS 0x00d75920 (confidence: low)
+Box __thiscall Self::ProcessEntries_00d75920(int index, float a2, float a3)
 {
     int idx = index;
     Box* box = m_pClassImpl->boxes + idx;
@@ -2419,43 +2429,43 @@ Box __thiscall Self::FUN_00d75920(int index, float a2, float a3)
     if ((_mm_movemask_ps(_mm_cmple_ps((*(LocalM128*)&box->hi),
                                        (*(LocalM128*)&box->lo))) & 7) == 0)
         goto tail;
-    if (((HullAccess*)this)->FUN_00d75050() <= 0)
+    if (((HullAccess*)this)->EvaluateValue_00d75050() <= 0)
         goto tail;
     {
         PointNode* node;
         if (idx == 0) {
-            node = ((HullAccess*)this)->FUN_00d75060();
-            Vec4* p = ((HullAccess*)this)->FUN_00d74ed0(node);
+            node = ((HullAccess*)this)->GetUnk24_00d75060();
+            Vec4* p = ((HullAccess*)this)->Hkgpconvexhull_GetPayloadAddress(node);
             (*(LocalM128*)&box->lo) = ( (*(LocalM128*)p));
             (*(LocalM128*)&box->hi) = ( (*(LocalM128*)p));
-            node = ((HullAccess*)this)->FUN_00d75120(node);
+            node = ((HullAccess*)this)->Object_ReadPointedValue_00d75120(node);
             if (!node)
                 goto tail;
             for (;;) {
-                Vec4* q = ((HullAccess*)this)->FUN_00d74ed0(node);
+                Vec4* q = ((HullAccess*)this)->Hkgpconvexhull_GetPayloadAddress(node);
                 (*(LocalM128*)&box->lo) = ( _mm_min_ps((*(LocalM128*)&box->lo),
                                                           (*(LocalM128*)q)));
                 (*(LocalM128*)&box->hi) = ( _mm_max_ps((*(LocalM128*)&box->hi),
                                                           (*(LocalM128*)q)));
-                node = ((HullAccess*)this)->FUN_00d75120(node);
+                node = ((HullAccess*)this)->Object_ReadPointedValue_00d75120(node);
                 if (!node)
                     break;
             }
         } else {
-            node = ((HullAccess*)this)->FUN_00d75060();
+            node = ((HullAccess*)this)->GetUnk24_00d75060();
             (*(LocalM128*)&box->lo) = (
-                *(LocalM128*)((HullAccess*)this)->FUN_00d74e80(&temp.lo, node));
+                *(LocalM128*)((HullAccess*)this)->GetCellPosition_Thunk(&temp.lo, node));
             (*(LocalM128*)&box->hi) = (
-                *(LocalM128*)((HullAccess*)this)->FUN_00d74e80(&temp.lo, node));
-            node = ((HullAccess*)this)->FUN_00d75120(node);
+                *(LocalM128*)((HullAccess*)this)->GetCellPosition_Thunk(&temp.lo, node));
+            node = ((HullAccess*)this)->Object_ReadPointedValue_00d75120(node);
             if (!node)
                 goto tail;
             for (;;) {
-                Vec4* r = ((HullAccess*)this)->FUN_00d74e80(&temp.lo, node);
+                Vec4* r = ((HullAccess*)this)->GetCellPosition_Thunk(&temp.lo, node);
                 LocalM128 rq=(*(LocalM128*)r); _ReadWriteBarrier();
                 (*(LocalM128*)&box->lo)=_mm_min_ps((*(LocalM128*)&box->lo),rq); _ReadWriteBarrier();
                 box->hi.setMax(box->hi,*r);
-                node = ((HullAccess*)this)->FUN_00d75120(node);
+                node = ((HullAccess*)this)->Object_ReadPointedValue_00d75120(node);
                 if (!node)
                     break;
             }
@@ -2623,7 +2633,7 @@ struct S00d76120_cls {
         S00d76120_Owner* m_08;
         S00d76120_Owner* m_08b;
     };
-    void FUN_00d76120(int mode, S00d76120_ArrLocalForm& arr);
+    void ProcessState_00d76120(int mode, S00d76120_ArrLocalForm& arr);
 
     __forceinline void copyRaw(S00d76120_ArrLocalForm& arr) const
     {
@@ -2648,7 +2658,8 @@ struct S00d76120_cls {
 };
 
 // @fnv 0x00d76120
-void S00d76120_cls::FUN_00d76120(int mode, S00d76120_ArrLocalForm& arr) {
+// src: GUESS 0x00d76120 (confidence: low)
+void S00d76120_cls::ProcessState_00d76120(int mode, S00d76120_ArrLocalForm& arr) {
     if (mode == 0) {
         copyRaw(arr);
     } else {
@@ -3006,10 +3017,11 @@ struct S_00d77380_ArrayLocalForm { // local form of hkArray: 0x00d77380 needs th
 
 struct S_00d77380 {
     int CopyAndDispatch(const hkVector4* verts, int count, int a, int b);
-    int FUN_00d77380(S_00d77380_Strided* s, int a, int b);
+    int ProcessEntries_00d77380(S_00d77380_Strided* s, int a, int b);
 };
 // @fnv 0x00d77380
-int S_00d77380::FUN_00d77380(S_00d77380_Strided* s, int a, int b)
+// src: GUESS 0x00d77380 (confidence: low)
+int S_00d77380::ProcessEntries_00d77380(S_00d77380_Strided* s, int a, int b)
 {
     if (s->stride == 16)
         return CopyAndDispatch((const hkVector4*)s->data, s->count, a, b);
@@ -3039,9 +3051,9 @@ using ::_mm_store_ss;
 struct ExportStream {
     int unk00,unk04,unk08;
     void FUN_00cb1600(char*,int);
-    ExportStream* FUN_00cc01c0(const char*,int,char*);
-    ExportStream* FUN_00cc02d0();
-    void FUN_00cc01c0();
+    ExportStream* ProcessAndReturnValue_00cc01c0(const char*,int,char*);
+    ExportStream* EvaluateValue_00cc02d0();
+    void ProcessAndReturnValue_00cc01c0();
     void FUN_00cc00e0();
 };
 struct OffsetVector { int x,y,z,w; };
@@ -3073,30 +3085,35 @@ struct OffsetOwner {
     int unk00,unk04;
     ChildData* state;
     OffsetVector* hkgpConvexHull_getCenterOfMass();
-    OffsetVector* FUN_00d752d0();
+    OffsetVector* ForwardCall_00d752d0();
     int hkgpConvexHull_getNumPlanes();
     OffsetVector* hkgpConvexHull_getPlane(int);
-    __declspec(noinline) int FUN_00d74e10();
-    __declspec(noinline) void* FUN_00d74e00();
+    __declspec(noinline) int GetInnerField1A8();
+    __declspec(noinline) void* GetValue_00d74e00();
     ValueBlock GetValueBlock();
-    int FUN_00d75050();
-    PayloadOwner* FUN_00d75060();
-    __declspec(noinline) LocalM128* FUN_00d74ed0(PayloadOwner* n);
-    __declspec(noinline) PayloadOwner* FUN_00d75120(PayloadOwner* n);
-    void FUN_00d77840(LocalM128*,int,const ValueBlock&,void*);
-    void FUN_00d774a0(LocalM128*,int,void*);
-    void FUN_00d77380(const OffsetView&,const ValueBlock&,void*);
+    int EvaluateValue_00d75050();
+    PayloadOwner* GetUnk24_00d75060();
+    __declspec(noinline) LocalM128* Hkgpconvexhull_GetPayloadAddress(PayloadOwner* n);
+    __declspec(noinline) PayloadOwner* Object_ReadPointedValue_00d75120(PayloadOwner* n);
+    void ProcessEntries_00d77840(LocalM128*,int,const ValueBlock&,void*);
+    void ProcessEntries_00d774a0(LocalM128*,int,void*);
+    void ProcessEntries_00d77380(const OffsetView&,const ValueBlock&,void*);
     void hkgpConvexHull_build_00d77200(const OffsetView&,void*);
-    void FUN_00d762f0();
+    void ForwardCall_00d762f0();
     void SetValue(float,bool);
 };
-int OffsetOwner::FUN_00d74e10() { return state->unk1a8; }
-void* OffsetOwner::FUN_00d74e00() { return state; }
-LocalM128* OffsetOwner::FUN_00d74ed0(PayloadOwner* n) { return (LocalM128*)&n->m_iPayload; }
-PayloadOwner* OffsetOwner::FUN_00d75120(PayloadOwner* n) { return *(PayloadOwner**)n; }
+// src: GUESS 0x00d74e10 (confidence: medium)
+int OffsetOwner::GetInnerField1A8() { return state->unk1a8; }
+// src: GUESS 0x00d74e00 (confidence: high)
+void* OffsetOwner::GetValue_00d74e00() { return state; }
+// src: GUESS 0x00d74ed0 (confidence: high)
+LocalM128* OffsetOwner::Hkgpconvexhull_GetPayloadAddress(PayloadOwner* n) { return (LocalM128*)&n->m_iPayload; }
+// src: GUESS 0x00d75120 (confidence: low)
+PayloadOwner* OffsetOwner::Object_ReadPointedValue_00d75120(PayloadOwner* n) { return *(PayloadOwner**)n; }
 static __forceinline float OffsetMaximum(float a,float b) { return a>b?a:b; }
 // @fnv 0x00d78720
-void S_00d79f90_Result::FUN_00d78720(float f,const S_00d79f90_Opts& opts)
+// src: GUESS 0x00d78720 (confidence: low)
+void S_00d79f90_Result::ProcessEntries_00d78720(float f,const S_00d79f90_Opts& opts)
 {
     OffsetOwner* owner=(OffsetOwner*)this;
     ChildData* state=owner->state;
@@ -3105,11 +3122,11 @@ void S_00d79f90_Result::FUN_00d78720(float f,const S_00d79f90_Opts& opts)
         char buffer[512];
         ExportStream& stream=work.stream;
         stream.FUN_00cb1600(buffer,512);
-        stream.FUN_00cc01c0(str_010d3574,state->unk1b0,&DAT_0103d078)->FUN_00cc02d0()->FUN_00cc01c0();
+        stream.ProcessAndReturnValue_00cc01c0(str_010d3574,state->unk1b0,&DAT_0103d078)->EvaluateValue_00cc02d0()->ProcessAndReturnValue_00cc01c0();
         if(DAT_01268360->message(3,0x79f9d886,buffer,str_010d3540,0x148)) __debugbreak();
         stream.FUN_00cc00e0();
     }
-    OffsetVector centerCopy=*(owner->state->unk1b4?owner->hkgpConvexHull_getCenterOfMass():owner->FUN_00d752d0());
+    OffsetVector centerCopy=*(owner->state->unk1b4?owner->hkgpConvexHull_getCenterOfMass():owner->ForwardCall_00d752d0());
     LocalM128 center=(LocalM128&)centerCopy;
     OffsetArray& array=work.array;
     switch(opts.mode) {
@@ -3128,16 +3145,16 @@ void S_00d79f90_Result::FUN_00d78720(float f,const S_00d79f90_Opts& opts)
             ((hkVec4&)plane).w-=displacement;
             array.AddBack((LocalM128&)plane);
         }
-        if(owner->FUN_00d74e10()==2) owner->FUN_00d77840(array.data,array.size,owner->GetValueBlock(),owner->FUN_00d74e00());
-        else owner->FUN_00d774a0(array.data,array.size,owner->FUN_00d74e00());
+        if(owner->GetInnerField1A8()==2) owner->ProcessEntries_00d77840(array.data,array.size,owner->GetValueBlock(),owner->GetValue_00d74e00());
+        else owner->ProcessEntries_00d774a0(array.data,array.size,owner->GetValue_00d74e00());
         array.clearAndFree();
         break;
     }
     case 0: {
         array.init();
-        array.reserve(owner->FUN_00d75050());
-        for(PayloadOwner* node=owner->FUN_00d75060();node;node=owner->FUN_00d75120(node)) {
-            LocalM128* point=owner->FUN_00d74ed0(node);
+        array.reserve(owner->EvaluateValue_00d75050());
+        for(PayloadOwner* node=owner->GetUnk24_00d75060();node;node=owner->Object_ReadPointedValue_00d75120(node)) {
+            LocalM128* point=owner->Hkgpconvexhull_GetPayloadAddress(node);
             LocalM128 c=center;
             LocalM128 delta=_mm_sub_ps(*point,c);
             LocalM128 q=_mm_mul_ps(delta,delta);
@@ -3164,18 +3181,18 @@ void S_00d79f90_Result::FUN_00d78720(float f,const S_00d79f90_Opts& opts)
                 ++array.size;
             }
         }
-        if(owner->FUN_00d74e10()==2) {
+        if(owner->GetInnerField1A8()==2) {
             OffsetView view={array.data,array.size,16};
-            owner->FUN_00d77380(view,owner->GetValueBlock(),owner->FUN_00d74e00());
+            owner->ProcessEntries_00d77380(view,owner->GetValueBlock(),owner->GetValue_00d74e00());
         } else {
             OffsetView view={array.data,array.size,16};
-            owner->hkgpConvexHull_build_00d77200(view,owner->FUN_00d74e00());
+            owner->hkgpConvexHull_build_00d77200(view,owner->GetValue_00d74e00());
         }
         array.clearAndFree();
         break;
     }
     }
-    owner->FUN_00d762f0();
+    owner->ForwardCall_00d762f0();
     owner->SetValue(s_faderClearedAlpha,false);
 }
 
@@ -3236,7 +3253,8 @@ static __forceinline LocalM128 loadVector(const BlendInput* input,int index) {
     return _mm_setr_ps(p[0],p[1],p[2],input->stride>=16?p[3]:0.0f);
 }
 // @fnv 0x00d78ca0
-BlendObject* __cdecl FUN_00d78ca0(const BlendInput* a,const BlendInput* b,const LocalM128* scale) {
+// src: GUESS 0x00d78ca0 (confidence: low)
+BlendObject* __cdecl Object_ProcessEntries_00d78ca0(const BlendInput* a,const BlendInput* b,const LocalM128* scale) {
     int total=a->count;
     total*=b->count;
     BlendArray out;
@@ -3300,10 +3318,11 @@ struct Centroid352 {
     unsigned int unk2c,unk30,unk34,unk38,unk3c,unk40,unk44,unk48,unk4c;
     unsigned int unk50,unk54,unk58,unk5c,unk60,unk64,unk68,unk6c;
     HullVectorCallLocal_00d75cb0 centroid;
-    const HullVectorCallLocal_00d75cb0& FUN_00d7a180();
+    const HullVectorCallLocal_00d75cb0& ProcessEntries_00d7a180();
 };
 // @fnv 0x00d7a180
-const HullVectorCallLocal_00d75cb0& Centroid352::FUN_00d7a180() {
+// src: GUESS 0x00d7a180 (confidence: low)
+const HullVectorCallLocal_00d75cb0& Centroid352::ProcessEntries_00d7a180() {
 
     HullVectorCallLocal_00d75cb0& output = centroid;
     if (output.q.m128_f32[3] == DAT_0104e138) {
@@ -3352,14 +3371,15 @@ struct S_00d7a200_Owner {
     int unk00; int unk04; int unk08; int unk0c; int unk10; int unk14;
     int unk18; int unk1c; int unk20;
     S_00d7a200_Node* m_pFirstNode;
-    int FUN_00d7a200(const S_00d7a200_V4& plane, float tol, int* counts, float* range);
+    int ProcessEntries_00d7a200(const S_00d7a200_V4& plane, float tol, int* counts, float* range);
 };
 
 static __forceinline float S_00d7a200_Min(float a, float b) { return (b < a) ? b : a; }
 static __forceinline float S_00d7a200_Max(float a, float b) { return (a < b) ? b : a; }
 
 // @fnv 0x00d7a200
-int S_00d7a200_Owner::FUN_00d7a200(const S_00d7a200_V4& plane, float tol, int* counts, float* range)
+// src: GUESS 0x00d7a200 (confidence: low)
+int S_00d7a200_Owner::ProcessEntries_00d7a200(const S_00d7a200_V4& plane, float tol, int* counts, float* range)
 {
     float local[2];
     if (!range) range = local;
@@ -3402,7 +3422,7 @@ struct CharBuffer
     char* end;
     unsigned int capacity;
     void FUN_00cb1600(char*, unsigned int);
-    CharBuffer* FUN_00cc01c0(const char*);
+    CharBuffer* ProcessAndReturnValue_00cc01c0(const char*);
     void FUN_00cc00e0();
 };
 
@@ -3480,7 +3500,7 @@ void PoolAllocator40::hkGeometryProcessing_PoolAllocator_struct_hkgpConvexHullIm
         char buf[512];
         CharBuffer ostr;
         ostr.FUN_00cb1600(buf, 0x200);
-        ostr.FUN_00cc01c0(str_010d365c);
+        ostr.ProcessAndReturnValue_00cc01c0(str_010d365c);
         if (DAT_01268360->message(3, 0x90355365, buf, str_010d35f0, 0xaf))
             __debugbreak();
         ostr.FUN_00cc00e0();
@@ -3497,7 +3517,7 @@ struct CharBuffer
     char* end;
     unsigned int capacity;
     void FUN_00cb1600(char*, unsigned int);
-    CharBuffer* FUN_00cc01c0(const char*);
+    CharBuffer* ProcessAndReturnValue_00cc01c0(const char*);
     void FUN_00cc00e0();
 };
 
@@ -3576,7 +3596,7 @@ void PoolAllocator48::hkGeometryProcessing_PoolAllocator_struct_hkgpConvexHullIm
         char buf[512];
         CharBuffer ostr;
         ostr.FUN_00cb1600(buf, 0x200);
-        ostr.FUN_00cc01c0(str_010d365c);
+        ostr.ProcessAndReturnValue_00cc01c0(str_010d365c);
         if (DAT_01268360->message(3, 0x90355365, buf, str_010d35f0, 0xaf))
             __debugbreak();
         ostr.FUN_00cc00e0();
@@ -3619,7 +3639,7 @@ struct ProjectionVertex {
     hkVector4 value;
 };
 void __cdecl hkGeometryProcessing_buildTransposedArray(D76250VectorArrayLocalForm*,D76250VectorArrayLocalForm*);
-void __cdecl FUN_00dea810(D76250VectorArrayLocalForm*,const hkVector4*,hkVector4*);
+void __cdecl hkVector4_FindSupportingVertex(D76250VectorArrayLocalForm*,const hkVector4*,hkVector4*);
 struct ProjectionHull {
     int unk00,unk04,unk08,unk0c,unk10,unk14,unk18,unk1c,unk20;
     ProjectionVertex* vertices; int numVertices;
@@ -3634,9 +3654,9 @@ struct ProjectionHull {
     }
     __forceinline void support(const hkVector4& dir,hkVector4& out) {
         if(cached.m_iElementCount==0) build();
-        FUN_00dea810(&cached,&dir,&out);
+        hkVector4_FindSupportingVertex(&cached,&dir,&out);
     }
-    float FUN_00d7c610(const hkVector4& direction,float& lower,float& upper);
+    float GetDirectionalProjectionSpan(const hkVector4& direction,float& lower,float& upper);
 };
 static __forceinline float dot3(const hkVector4& a,const hkVector4& b) {
     LocalM128 p=_mm_mul_ps(a.m_vComponents,b.m_vComponents);
@@ -3645,7 +3665,8 @@ static __forceinline float dot3(const hkVector4& a,const hkVector4& b) {
     float f; _mm_store_ss(&f,_mm_add_ss(z,_mm_add_ss(y,p))); return f;
 }
 // @fnv 0x00d7c610
-float ProjectionHull::FUN_00d7c610(const hkVector4& direction,float& lower,float& upper) {
+// src: GUESS 0x00d7c610 (confidence: medium)
+float ProjectionHull::GetDirectionalProjectionSpan(const hkVector4& direction,float& lower,float& upper) {
     hkVector4 opposite;
     opposite.m_vComponents=_mm_xor_ps(direction.m_vComponents,DAT_010c44d0);
     hkVector4 first,second;
@@ -3661,9 +3682,9 @@ extern const char str_010d3574[];
 struct ExportStream {
     int unk00,unk04,unk08;
     void FUN_00cb1600(char*,int);
-    ExportStream* FUN_00cc01c0(const char*,int,char*);
-    ExportStream* FUN_00cc02d0();
-    void FUN_00cc01c0();
+    ExportStream* ProcessAndReturnValue_00cc01c0(const char*,int,char*);
+    ExportStream* EvaluateValue_00cc02d0();
+    void ProcessAndReturnValue_00cc01c0();
     void FUN_00cc00e0();
 };
 
@@ -3780,7 +3801,7 @@ int ExportShape::hkgpConvexHullImpl_generateIndexedFaces_unsigned_char_unsigned_
         char buffer[512];
         ExportStream& stream=workspace.stream;
         stream.FUN_00cb1600(buffer,512);
-        stream.FUN_00cc01c0(str_010d3574,index,&DAT_0103d078)->FUN_00cc02d0()->FUN_00cc01c0();
+        stream.ProcessAndReturnValue_00cc01c0(str_010d3574,index,&DAT_0103d078)->EvaluateValue_00cc02d0()->ProcessAndReturnValue_00cc01c0();
         if(DAT_01268360->message(3,0x79f9d886,buffer,str_010d3540,0x148)) __debugbreak();
         stream.FUN_00cc00e0();
     }
@@ -3900,11 +3921,12 @@ struct FUN_00d7a0b0_cls {
     int unk1C;
     int unk20;
     FUN_00d7a0b0_Vertex* m_kVertices;
-    void FUN_00d7a0b0(const FUN_00d7a0b0_Matrix* m, const LocalM128* scale, LocalM128* out);
+    void ProcessEntries_00d7a0b0(const FUN_00d7a0b0_Matrix* m, const LocalM128* scale, LocalM128* out);
 };
 
 // @fnv 0x00d7a0b0
-void FUN_00d7a0b0_cls::FUN_00d7a0b0(const FUN_00d7a0b0_Matrix* m, const LocalM128* scale, LocalM128* out)
+// src: GUESS 0x00d7a0b0 (confidence: low)
+void FUN_00d7a0b0_cls::ProcessEntries_00d7a0b0(const FUN_00d7a0b0_Matrix* m, const LocalM128* scale, LocalM128* out)
 {
 
     float best = 0.0f;
@@ -3964,7 +3986,7 @@ struct FUN_00d7a350_cls {
     int unk00, unk04, unk08, unk0C, unk10, unk14, unk18, unk1C, unk20;
     SpatialNode* m_24;
 
-    SpatialSimd FUN_00d7a350(const LocalM128& p);
+    SpatialSimd ProcessEntries_00d7a350(const LocalM128& p);
 };
 
 static __forceinline LocalM128 SpatialDist4(LocalM128 diff)
@@ -3976,7 +3998,8 @@ static __forceinline LocalM128 SpatialDist4(LocalM128 diff)
 }
 
 // @fnv 0x00d7a350
-SpatialSimd FUN_00d7a350_cls::FUN_00d7a350(const LocalM128& p)
+// src: GUESS 0x00d7a350 (confidence: low)
+SpatialSimd FUN_00d7a350_cls::ProcessEntries_00d7a350(const LocalM128& p)
 {
     SpatialVec4 bestS;
     _mm_store_ps(&bestS.x, _mm_load_ss(&DAT_01011d78));
@@ -4005,8 +4028,8 @@ struct D76250Allocator : S_00d7a010_Alloc {};
 struct PolygonStream {
     int unk00, unk04, unk08;
     void FUN_00cb1600(char*, int) throw();
-    PolygonStream& FUN_00cc01c0(const char*) throw();
-    PolygonStream& FUN_00cc02d0(unsigned int) throw();
+    PolygonStream& ProcessAndReturnValue_00cc01c0(const char*) throw();
+    PolygonStream& EvaluateValue_00cc02d0(unsigned int) throw();
     void FUN_00cc00e0() throw();
 };
 
@@ -4176,7 +4199,7 @@ int PolygonMesh::hkgpConvexHullImpl_generateIndexedFaces_int_int(PolygonArray<in
         char buffer[512];
         PolygonStream& stream = *(PolygonStream*)&scratch;
         stream.FUN_00cb1600(buffer, sizeof(buffer));
-        stream.FUN_00cc01c0(str_010d3574).FUN_00cc02d0((unsigned int)errorValue).FUN_00cc01c0((const char*)&DAT_0103d078);
+        stream.ProcessAndReturnValue_00cc01c0(str_010d3574).EvaluateValue_00cc02d0((unsigned int)errorValue).ProcessAndReturnValue_00cc01c0((const char*)&DAT_0103d078);
         if (DAT_01268360->message(3, 0x79f9d886, buffer, str_010d3540, 0x148)) __debugbreak();
         stream.FUN_00cc00e0();
     }
@@ -4277,9 +4300,9 @@ struct D81340Dbg {
     int unk04;
     int unk08;
     void __thiscall FUN_00cb1600(char* buf, unsigned int n);
-    D81340Dbg* __thiscall FUN_00cc01c0(const char* fmt, int a, const char* b);
-    D81340Dbg* __thiscall FUN_00cc02d0();
-    void __thiscall FUN_00cc01c0();
+    D81340Dbg* __thiscall ProcessAndReturnValue_00cc01c0(const char* fmt, int a, const char* b);
+    D81340Dbg* __thiscall EvaluateValue_00cc02d0();
+    void __thiscall ProcessAndReturnValue_00cc01c0();
     void __thiscall FUN_00cc00e0();
 };
 
@@ -4295,7 +4318,7 @@ struct D81340Workspace {
 struct D81340Transform { D81340Vec4 c0,c1,c2,c3; };
 
 struct D81340F090 { float __thiscall hkgpConvexHullImpl_getOrientedRectangle(const D81340Vec4& dir, void* b, void* c); };
-struct D81340F610 { int m_auiShapeKeys; float __thiscall FUN_00d7c610(const D81340Vec4& dir, float* b, float* c); };
+struct D81340F610 { int m_auiShapeKeys; float __thiscall GetDirectionalProjectionSpan(const D81340Vec4& dir, float* b, float* c); };
 
 struct D81340Cls {
     int unk00;
@@ -4411,13 +4434,14 @@ struct D81340Cls {
     unsigned char m_1b5;
     unsigned char unk1b6;
     unsigned char unk1b7;
-    float __thiscall FUN_00d7c610(int, float*, float*);
+    float __thiscall GetDirectionalProjectionSpan(int, float*, float*);
     float __thiscall hkgpConvexHullImpl_getOrientedRectangle(int, D81340Vec4*, D81340Transform*);
-    void __thiscall FUN_00d81340(D81340Vec4& a0, D81340Transform& a1);
+    void __thiscall ProcessEntries_00d81340(D81340Vec4& a0, D81340Transform& a1);
 };
 
 // @fnv 0x00d81340
-void D81340Cls::FUN_00d81340(D81340Vec4& a0, D81340Transform& a1) {
+// src: GUESS 0x00d81340 (confidence: low)
+void D81340Cls::ProcessEntries_00d81340(D81340Vec4& a0, D81340Transform& a1) {
     D81340Workspace workspace;
     if (m_1a8 < 3) {
         hkgpConvexHullImpl_getOrientedRectangle((int)&m_e0, &a0, &a1);
@@ -4427,7 +4451,7 @@ void D81340Cls::FUN_00d81340(D81340Vec4& a0, D81340Transform& a1) {
         char buffer[0x200];
         D81340Dbg& stream = workspace.stream;
         stream.FUN_00cb1600(buffer, 0x200);
-        stream.FUN_00cc01c0(str_010d3574, (int)m_1b0, &DAT_0103d078)->FUN_00cc02d0()->FUN_00cc01c0();
+        stream.ProcessAndReturnValue_00cc01c0(str_010d3574, (int)m_1b0, &DAT_0103d078)->EvaluateValue_00cc02d0()->ProcessAndReturnValue_00cc01c0();
         if (DAT_01268360->message(3, 0x79f9d886, buffer, str_010d3540, 0x148)) __debugbreak();
         stream.FUN_00cc00e0();
     }
@@ -4444,7 +4468,7 @@ void D81340Cls::FUN_00d81340(D81340Vec4& a0, D81340Transform& a1) {
     float s;
     for (int i = 0; i < m_58; ++i) {
         int elem = (int)m_54 + i * 16;
-        r = FUN_00d7c610(elem, &u18, &u1c);
+        r = GetDirectionalProjectionSpan(elem, &u18, &u1c);
         if (r < t24) {
             int elem2 = (int)m_54 + i * 16;
             t14 = hkgpConvexHullImpl_getOrientedRectangle(elem2, &v30, &v40) * (u1c - u18);
@@ -4470,15 +4494,16 @@ void D81340Cls::FUN_00d81340(D81340Vec4& a0, D81340Transform& a1) {
 
 struct SupportVector { LocalM128 q; };
 struct SupportShape {
-    void FUN_00d76320(const SupportVector& input, SupportVector& output);
-    float FUN_00d768b0(const SupportVector& input);
+    void ProcessEntries_00d76320(const SupportVector& input, SupportVector& output);
+    float ComputeValues_00d768b0(const SupportVector& input);
 };
 
 // @fnv 0x00d768b0
-float SupportShape::FUN_00d768b0(const SupportVector& input)
+// src: GUESS 0x00d768b0 (confidence: low)
+float SupportShape::ComputeValues_00d768b0(const SupportVector& input)
 {
     SupportVector normal;
-    FUN_00d76320(input, normal);
+    ProcessEntries_00d76320(input, normal);
     LocalM128 c = normal.q;
     LocalM128 a = input.q;
     LocalM128 offset = _mm_shuffle_ps(a, a, 0xff);
@@ -4633,8 +4658,8 @@ static __forceinline void Tt_setMul3(Tt_V4& out, const Tt_M3& a, const Tt_V4& b)
 
 struct S_00d77840 {
     int unk00;
-    int FUN_00d77380(D76250VectorArrayLocalForm* view, const hkVector4* sph, int a4);
-    int FUN_00d77840(const hkVector4* pts, int n, const hkVector4* sph, int a4);
+    int ProcessEntries_00d77380(D76250VectorArrayLocalForm* view, const hkVector4* sph, int a4);
+    int ProcessEntries_00d77840(const hkVector4* pts, int n, const hkVector4* sph, int a4);
 };
 
 static __forceinline void release_out(D76250VectorArrayLocalForm& out)
@@ -4650,7 +4675,8 @@ static __forceinline void release_out(D76250VectorArrayLocalForm& out)
 }
 
 // @fnv 0x00d77840
-int S_00d77840::FUN_00d77840(const hkVector4* pts, int n, const hkVector4* sph, int a4)
+// src: GUESS 0x00d77840 (confidence: low)
+int S_00d77840::ProcessEntries_00d77840(const hkVector4* pts, int n, const hkVector4* sph, int a4)
 {
     LocalM128 p;
     (void)p;
@@ -4720,7 +4746,7 @@ int S_00d77840::FUN_00d77840(const hkVector4* pts, int n, const hkVector4* sph, 
         view->m_data = out.m_data;
         view->m_iElementCount = out.m_iElementCount;
         view->m_iCapacityState = 0x10;
-        int result = FUN_00d77380(view, sph, a4);
+        int result = ProcessEntries_00d77380(view, sph, a4);
         release_out(out);
         return result;
     }
@@ -4876,14 +4902,14 @@ struct S00d79ab0_RadialSort {
     __forceinline S00d79ab0_RadialSort(const S00d79ab0_Vector4& c) : m_kCenterPosition(c) {}
     const S00d79ab0_Vector4& m_kCenterPosition;
 };
-void __cdecl FUN_00d7aaf0(S00d79ab0_Vector4* pArr, int d, int h, S00d79ab0_RadialSort cmpLess);
+void __cdecl Hkgpconvexhull_SortDistanceVectors(S00d79ab0_Vector4* pArr, int d, int h, S00d79ab0_RadialSort cmpLess);
 template <typename T, typename L>
 __forceinline void __cdecl S00d79ab0_quickSort(T* pArr, int iSize, L cmpLess)
 {
     if (iSize > 1) {
         int low = 0;
         int high = iSize - 1;
-        FUN_00d7aaf0(pArr, low, high, cmpLess);
+        Hkgpconvexhull_SortDistanceVectors(pArr, low, high, cmpLess);
     }
 }
 
@@ -4902,8 +4928,8 @@ struct S00d79ab0_Impl {
     S00d79ab0_Bool m_flag09;
     S00d79ab0_Bool m_flag0a;
     char unk0b;
-    S00d79ab0_SimdReal FUN_00d7a350(const S00d79ab0_Vector4& c) const;
-    int FUN_00d83430(float planeW, class S00d79ab0_Hull** posOut, class S00d79ab0_Hull** negOut, float thickness) const;
+    S00d79ab0_SimdReal ProcessEntries_00d7a350(const S00d79ab0_Vector4& c) const;
+    int AllocateStorage_00d83430(float planeW, class S00d79ab0_Hull** posOut, class S00d79ab0_Hull** negOut, float thickness) const;
 };
 struct S00d79ab0_ImplFlags {
     int unk1b0;
@@ -4918,7 +4944,7 @@ public:
     S00d79ab0_Hull* hkgpConvexHull_clone() const;
     int hkgpConvexHull_splitByPlane(const S00d79ab0_Vector4& plane, S00d79ab0_Hull** posOut, S00d79ab0_Hull** negOut, float thickness) const;
     void SetValue(float minCosAngle, bool keepPlanes);
-    int FUN_00d762f0();
+    int ForwardCall_00d762f0();
     int unk04;
     S00d79ab0_Impl* m_data;
     __forceinline bool hasIndexing() const { return reinterpret_cast<const S00d79ab0_ImplFlags*>(reinterpret_cast<const char*>(m_data) + 0x1b0)->m_bSecondImplementationFlag; }
@@ -4928,14 +4954,15 @@ public:
 // src: HAVOK_LIB 0x00d790a0
 __declspec(noinline) int S00d79ab0_Hull::hkgpConvexHull_splitByPlane(const S00d79ab0_Vector4& plane, S00d79ab0_Hull** posOut, S00d79ab0_Hull** negOut, float thickness) const
 {
-    return m_data->FUN_00d83430(plane.m_vComponents.m128_f32[3], posOut, negOut, thickness);
+    return m_data->AllocateStorage_00d83430(plane.m_vComponents.m128_f32[3], posOut, negOut, thickness);
 }
 
 template <typename T>
 inline T __cdecl S00d79ab0_max2(T x, T y) { return x > y ? x : y; }
 
 // @fnv 0x00d79ab0
-void __cdecl FUN_00d79ab0(const S00d79ab0_Hull* domain, const S00d79ab0_Array<S00d79ab0_Vector4>& points, S00d79ab0_Array<S00d79ab0_Hull*>& cells, float margin)
+// src: GUESS 0x00d79ab0 (confidence: low)
+void __cdecl HkgpconvexhullGsEhscNogsNoehsc_ReleaseStorage_00d79ab0(const S00d79ab0_Hull* domain, const S00d79ab0_Array<S00d79ab0_Vector4>& points, S00d79ab0_Array<S00d79ab0_Hull*>& cells, float margin)
 {
     const float eps = 1.1920928955078125e-06f;
     const float offset = S00d79ab0_max2(eps, margin * 2 + eps);
@@ -4987,7 +5014,7 @@ void __cdecl FUN_00d79ab0(const S00d79ab0_Hull* domain, const S00d79ab0_Array<S0
                     break;
                 case 2:
                     if (maxDistance < 0.0) {
-                        maxDistance = cell->m_data->FUN_00d7a350(center);
+                        maxDistance = cell->m_data->ProcessEntries_00d7a350(center);
                     }
                     if (distanceSquared > maxDistance * 4.0) {
                         j = sorted.GetLogicalSize();
@@ -5000,7 +5027,7 @@ void __cdecl FUN_00d79ab0(const S00d79ab0_Hull* domain, const S00d79ab0_Array<S0
             if (domain->hasIndexing())
                 cell->SetValue(0.9999f, false);
             if (domain->hasMassProperties())
-                cell->FUN_00d762f0();
+                cell->ForwardCall_00d762f0();
             cells.AddBack(cell);
         }
     }
@@ -5256,10 +5283,11 @@ struct S00d7cf00_Hull {
         for (const S00d7cf00_Vertex* v = m_firstVertex; v; v = v->m_next)
             *p++ = v->m_pObservedSource;
     }
-    float FUN_00d7cf00() const;
+    float ProcessEntries_00d7cf00() const;
 };
 // @fnv 0x00d7cf00
-float S00d7cf00_Hull::FUN_00d7cf00() const
+// src: GUESS 0x00d7cf00 (confidence: low)
+float S00d7cf00_Hull::ProcessEntries_00d7cf00() const
 {
     float sum = 0.0f;
     switch (m_eVertexFloatDimensions) {
@@ -5316,7 +5344,7 @@ struct __declspec(align(16)) S_00d827b0_Xf {
     float c1x, c1y, c1z, c1w;
     float c2x, c2y, c2z, c2w;
     float c3x, c3y, c3z, c3w;
-    void FUN_00de8e50(const S_00d827b0_Xf* other);
+    void MultiplyInPlace(const S_00d827b0_Xf* other);
 };
 
 static __forceinline LocalM128 S_00d827b0_load(const void* p) { return *(const LocalM128*)p; }
@@ -5352,7 +5380,7 @@ struct PlaneFace {
     S_00d827b0_Node* vertices[3];
 };
 
-extern "C" void __cdecl FUN_00d74c70(hkVector4* v, float t, S_00d827b0_Xf* out);
+extern "C" void __cdecl Hkgpconvexhull_ComputeValues_00d74c70(hkVector4* v, float t, S_00d827b0_Xf* out);
 
 struct FixBool { char value; };
 
@@ -5380,12 +5408,12 @@ struct S_00d827b0_Owner {
     FixBool m_b1b4;
     FixBool m_b1b5;
 
-    float FUN_00d7a810(S_00d827b0_Param* p, S_00d827b0_Xf* xf, hkVector4* out);
-    void FUN_00d7a0b0(S_00d827b0_Xf* xf, hkVector4* dir, hkVector4* out);
+    float ProcessEntries_00d7a810(S_00d827b0_Param* p, S_00d827b0_Xf* xf, hkVector4* out);
+    void ProcessEntries_00d7a0b0(S_00d827b0_Xf* xf, hkVector4* dir, hkVector4* out);
     void hkgpConvexHullImpl_build(hkVector4* data, int n, int a, int b);
-    void FUN_00d7d2a0();
+    void ProcessEntries_00d7d2a0();
     void hkgpConvexHullImpl_buildMassProperties_hkgpConvexHullImpl_PositionAsTransform();
-    void FUN_00d827b0(S_00d827b0_Param* param);
+    void CopyMemory_00d827b0(S_00d827b0_Param* param);
 };
 
 
@@ -5406,7 +5434,8 @@ static __forceinline LocalM128 dotThree(LocalM128 a, LocalM128 b)
     return _mm_add_ss(_mm_shuffle_ps(p,p,0xaa), _mm_add_ss(_mm_shuffle_ps(p,p,0x55),p));
 }
 
-__declspec(noinline) float S_00d827b0_Owner::FUN_00d7a810(S_00d827b0_Param* p, S_00d827b0_Xf* xf, hkVector4* out)
+// src: GUESS 0x00d7a810 (confidence: low)
+__declspec(noinline) float S_00d827b0_Owner::ProcessEntries_00d7a810(S_00d827b0_Param* p, S_00d827b0_Xf* xf, hkVector4* out)
 {
     float best = DAT_0104da4c;
     for (int i=0; i<p->count; ++i) {
@@ -5443,7 +5472,8 @@ __declspec(noinline) float S_00d827b0_Owner::FUN_00d7a810(S_00d827b0_Param* p, S
     return best;
 }
 
-extern "C" __declspec(noinline) void __cdecl FUN_00d74c70(hkVector4* v, float t, S_00d827b0_Xf* out)
+// src: GUESS 0x00d74c70 (confidence: low)
+extern "C" __declspec(noinline) void __cdecl Hkgpconvexhull_ComputeValues_00d74c70(hkVector4* v, float t, S_00d827b0_Xf* out)
 {
     float scale=t-1.0f;
     LocalM128 s=_mm_load_ss(&scale);
@@ -5468,7 +5498,8 @@ extern "C" __declspec(noinline) void __cdecl FUN_00d74c70(hkVector4* v, float t,
 
 
 // @fnv 0x00d827b0
-void S_00d827b0_Owner::FUN_00d827b0(S_00d827b0_Param* param)
+// src: GUESS 0x00d827b0 (confidence: low)
+void S_00d827b0_Owner::CopyMemory_00d827b0(S_00d827b0_Param* param)
 {
     FixBool b5 = m_b1b5;
     FixBool b4 = m_b1b4;
@@ -5481,7 +5512,7 @@ void S_00d827b0_Owner::FUN_00d827b0(S_00d827b0_Param* param)
         do {
             LocalM128 plane;
             hkVector4& vec = *(hkVector4*)&plane;
-            float result = FUN_00d7a810(param, &xf, &vec);
+            float result = ProcessEntries_00d7a810(param, &xf, &vec);
             if (!(result > DAT_01032980))
                 break;
 
@@ -5498,7 +5529,7 @@ void S_00d827b0_Owner::FUN_00d827b0(S_00d827b0_Param* param)
             S_00d827b0_uput(&support.quad.m128_f32[1], gy);
             S_00d827b0_uput(&support.quad.m128_f32[2], gz);
             S_00d827b0_uput(&support.quad.m128_f32[3], gw);
-            FUN_00d7a0b0(&xf, &neg, &support);
+            ProcessEntries_00d7a0b0(&xf, &neg, &support);
 
             const float& wkeep = plane.m128_f32[3];
             LocalM128 prod = _mm_mul_ps(support.quad, plane);
@@ -5512,8 +5543,8 @@ void S_00d827b0_Owner::FUN_00d827b0(S_00d827b0_Param* param)
             S_00d827b0_Xf backup;
             memcpy(&backup, &xf, 0x40);
             float t = (negSum + result) / negSum;
-            FUN_00d74c70(&vec, t, &xf);
-            xf.FUN_00de8e50(&backup);
+            Hkgpconvexhull_ComputeValues_00d74c70(&vec, t, &xf);
+            xf.MultiplyInPlace(&backup);
             ok = 1;
             ++iter;
         } while (iter < limit);
@@ -5558,7 +5589,7 @@ void S_00d827b0_Owner::FUN_00d827b0(S_00d827b0_Param* param)
 
             hkgpConvexHullImpl_build(arr.m_data, arr.m_iElementCount, 0, 0);
             if (b5.value)
-                FUN_00d7d2a0();
+                ProcessEntries_00d7d2a0();
             if (b4.value)
                 hkgpConvexHullImpl_buildMassProperties_hkgpConvexHullImpl_PositionAsTransform();
 
@@ -5731,7 +5762,7 @@ struct S00d82ad0_Stream {
     int unk04;
     int unk08;
     void FUN_00cb1600(char* buf, int size);
-    S00d82ad0_Stream& FUN_00cc01c0(const char* s);
+    S00d82ad0_Stream& ProcessAndReturnValue_00cc01c0(const char* s);
     S00d82ad0_Stream& WriteInt(int v);
     void FUN_00cc00e0();
 };
@@ -5891,9 +5922,9 @@ struct S00d82ad0_Hull {
         return r;
     }
 
-    bool FUN_00d82ad0(int numVerticesToKeep, bool abOptionalVertexReduction);
-    void FUN_00d827b0(S00d82ad0_VecArr& v);
-    void FUN_00d7d2a0();
+    bool ProcessEntries_00d82ad0(int numVerticesToKeep, bool abOptionalVertexReduction);
+    void CopyMemory_00d827b0(S00d82ad0_VecArr& v);
+    void ProcessEntries_00d7d2a0();
     void hkgpConvexHullImpl_buildMassProperties_hkgpConvexHullImpl_PositionAsTransform();
     int hkgpConvexHullImpl_build(hkVector4* p, int n, int a, int b);
 };
@@ -5962,7 +5993,8 @@ static __forceinline void S00d82ad0_sort(T* p, int size, L cmp = L())
 }
 
 // @fnv 0x00d82ad0
-bool S00d82ad0_Hull::FUN_00d82ad0(int numVerticesToKeep, bool abOptionalVertexReduction)
+// src: GUESS 0x00d82ad0 (confidence: low)
+bool S00d82ad0_Hull::ProcessEntries_00d82ad0(int numVerticesToKeep, bool abOptionalVertexReduction)
 {
     if (numVerticesToKeep < 4) numVerticesToKeep = 4;
     if (m_kVertices.m_iElementCount > numVerticesToKeep) {
@@ -5974,7 +6006,7 @@ bool S00d82ad0_Hull::FUN_00d82ad0(int numVerticesToKeep, bool abOptionalVertexRe
             char buf[0x200];
             S00d82ad0_Stream s;
             s.FUN_00cb1600(buf, 0x200);
-            s.FUN_00cc01c0("Invalid dimension for this operation (").WriteInt(3).FUN_00cc01c0(" required)");
+            s.ProcessAndReturnValue_00cc01c0("Invalid dimension for this operation (").WriteInt(3).ProcessAndReturnValue_00cc01c0(" required)");
             if (g_01268360->message(3, 0x79f9d888, buf, ".\\GeometryProcessing\\ConvexHull\\hkgpConvexHull.cpp", 0x154)) {
                 __debugbreak();
             }
@@ -6032,8 +6064,8 @@ bool S00d82ad0_Hull::FUN_00d82ad0(int numVerticesToKeep, bool abOptionalVertexRe
             }
             positions.destroy();
         }
-        if (abOptionalVertexReduction) FUN_00d827b0(originalVertices);
-        if (hasPlanes) FUN_00d7d2a0();
+        if (abOptionalVertexReduction) CopyMemory_00d827b0(originalVertices);
+        if (hasPlanes) ProcessEntries_00d7d2a0();
         if (hasIndexing) hkgpConvexHullImpl_buildMassProperties_hkgpConvexHullImpl_PositionAsTransform();
         edges.destroy();
         originalVertices.destroy();
@@ -6183,7 +6215,7 @@ struct VecArray : VecArrayBase {
 struct ErrorWork {
     int unk00, unk04, unk08;
     void FUN_00cb1600(void* buf, int size) throw();
-    ErrorWork& FUN_00cc01c0(const char* text) throw();
+    ErrorWork& ProcessAndReturnValue_00cc01c0(const char* text) throw();
     void FUN_00cc00e0() throw();
 };
 struct __declspec(align(16)) SplitRawVec { unsigned int x,y,z,w; };
@@ -6222,9 +6254,9 @@ struct HullImpl {
     HullVec m_vE0;
     int unk0f0; int unk0f4; int unk0f8; int unk0fc; int unk100; int unk104; int unk108; int unk10c; int unk110; int unk114; int unk118; int unk11c; int unk120; int unk124; int unk128; int unk12c; int unk130; int unk134; int unk138; int unk13c; int unk140; int unk144; int unk148; int unk14c; int unk150; int unk154; int unk158; int unk15c; int unk160; int unk164; int unk168; int unk16c; int unk170; int unk174; int unk178; int unk17c; int unk180; int unk184; int unk188; int unk18c; int unk190; int unk194; int unk198; int unk19c; int unk1a0; int unk1a4;
     int m_iDimension;
-    __declspec(noinline) int FUN_00d7a200(const HullVec&,float,int*,float*) const;
+    __declspec(noinline) int ProcessEntries_00d7a200(const HullVec&,float,int*,float*) const;
     int hkgpConvexHullImpl_build(const HullVec*,int,bool,const HullImpl*);
-    int FUN_00d83430(const HullVec& plane,FUN_00d76ca0** ppFront,FUN_00d76ca0** ppBack,float fEps) const;
+    int AllocateStorage_00d83430(const HullVec& plane,FUN_00d76ca0** ppFront,FUN_00d76ca0** ppBack,float fEps) const;
 };
 inline float HullCrtAbs(float f) { return (float)fabs((double)f); }
 inline float HullFabsf(float f) { return ::fabsf(f); }
@@ -6234,7 +6266,8 @@ inline float StageHigh(float f,float& dst){dst=(float)fabs((double)f); _ReadWrit
 inline float StageLow(float f,float& dst){dst=(float)fabs((double)f); _ReadWriteBarrier(); double result=dst; _ReadWriteBarrier(); dst=result; _ReadWriteBarrier(); return dst;}
 template<class T> inline T HullMin(T a,T b) { return a<b?a:b; }
 template<class T> inline T HullMax(T a,T b) { return a>b?a:b; }
-__declspec(noinline) int HullImpl::FUN_00d7a200(const HullVec& plane,float eps,int* counts,float* bounds) const {
+// src: GUESS 0x00d7a200 (confidence: low)
+__declspec(noinline) int HullImpl::ProcessEntries_00d7a200(const HullVec& plane,float eps,int* counts,float* bounds) const {
  float localBounds[2];
  if(!bounds) bounds=localBounds;
  counts[0]=counts[1]=0;
@@ -6252,7 +6285,8 @@ __declspec(noinline) int HullImpl::FUN_00d7a200(const HullVec& plane,float eps,i
  return 0;
 }
 // @fnv 0x00d83430
-int HullImpl::FUN_00d83430(const HullVec& plane, FUN_00d76ca0** ppFront, FUN_00d76ca0** ppBack, float fEps) const
+// src: GUESS 0x00d83430 (confidence: low)
+int HullImpl::AllocateStorage_00d83430(const HullVec& plane, FUN_00d76ca0** ppFront, FUN_00d76ca0** ppBack, float fEps) const
 {
     SplitWork workspace;
     {
@@ -6269,7 +6303,7 @@ int HullImpl::FUN_00d83430(const HullVec& plane, FUN_00d76ca0** ppFront, FUN_00d
     case 3: {
         int counts[2]={0,0};
         float range[2];
-        if (FUN_00d7a200(plane,fEps,counts,range)==3) {
+        if (ProcessEntries_00d7a200(plane,fEps,counts,range)==3) {
         VecArrayBase& front=workspace.current.front; front.m_pData=0; front.m_uiLogicalSize=0; front.m_iCapAndFlags=0x80000000;
 VecArrayBase& back=workspace.back; back.m_pData=0; back.m_uiLogicalSize=0; back.m_iCapAndFlags=0x80000000;
         float rMin=range[0],rMax=range[1];
@@ -6438,7 +6472,7 @@ const HullVec& position=*(const HullVec*)&workspace.current.position;
         unsigned int buf[128];
         ErrorWork& stream=workspace.current.stream;
         stream.FUN_00cb1600(buf, 0x200);
-        stream.FUN_00cc01c0("Current dimension not implemented for that operation");
+        stream.ProcessAndReturnValue_00cc01c0("Current dimension not implemented for that operation");
         if (((ErrReporter*)DAT_01268360)->Message(3, 0x3a86e3ef, (const char*)buf, ".\\GeometryProcessing\\ConvexHull\\hkgpConvexHull.cpp", 0x854)) {
             __debugbreak();
         }
@@ -6494,11 +6528,12 @@ struct CentroidHull {
     int unk100, unk104, unk108, unk10C;
     LocalM128 m_110;
 
-    void* FUN_00d7aa30();
+    void* ProcessEntries_00d7aa30();
 };
 
 // @fnv 0x00d7aa30
-void* CentroidHull::FUN_00d7aa30()
+// src: GUESS 0x00d7aa30 (confidence: low)
+void* CentroidHull::ProcessEntries_00d7aa30()
 {
     LocalM128* out = &m_80;
     if ((double)((float*)out)[3] == DAT_0104e138) {
@@ -6543,9 +6578,9 @@ extern const LocalM128 DAT_010c7160;
 struct MessageStream {
     int unk00, unk04, unk08;
     void FUN_00cb1600(void*, int);
-    MessageStream* FUN_00cc01c0(const char*, int, const char*);
-    MessageStream* FUN_00cc02d0();
-    void FUN_00cc01c0();
+    MessageStream* ProcessAndReturnValue_00cc01c0(const char*, int, const char*);
+    MessageStream* EvaluateValue_00cc02d0();
+    void ProcessAndReturnValue_00cc01c0();
     void FUN_00cc00e0();
 };
 struct BasisTransform {
@@ -6556,8 +6591,8 @@ struct PlaneShape {
     int unk00, unk04;
     ChildData* state;
     void GetMassProperties(BasisTransform*, void*);
-    float FUN_00d769c0(const PlaneVector&);
-    void FUN_00d76a20(PlaneVector* planes);
+    float ProcessAndReturnValue_00d769c0(const PlaneVector&);
+    void ProcessEntries_00d76a20(PlaneVector* planes);
 };
 static __forceinline LocalM128 dot3(const LocalM128& a, const LocalM128& b) {
     LocalM128 p = _mm_mul_ps(a,b);
@@ -6589,13 +6624,14 @@ static __forceinline void normalize(PlaneVector& out) {
     }
 }
 // @fnv 0x00d76a20
-void PlaneShape::FUN_00d76a20(PlaneVector* planes) {
+// src: GUESS 0x00d76a20 (confidence: low)
+void PlaneShape::ProcessEntries_00d76a20(PlaneVector* planes) {
     ChildData* data=state;
     if (!data->unk1b4) {
         char message[512];
         MessageStream stream;
         stream.FUN_00cb1600(message,512);
-        stream.FUN_00cc01c0(str_010d358c,data->unk1b0,&DAT_0103d078)->FUN_00cc02d0()->FUN_00cc01c0();
+        stream.ProcessAndReturnValue_00cc01c0(str_010d358c,data->unk1b0,&DAT_0103d078)->EvaluateValue_00cc02d0()->ProcessAndReturnValue_00cc01c0();
         if (DAT_01268360->message(3,0x79f9d887,(char*)message,str_010d3540,334)) __debugbreak();
         stream.FUN_00cc00e0();
     }
@@ -6607,9 +6643,9 @@ void PlaneShape::FUN_00d76a20(PlaneVector* planes) {
     float scores[3];
     __declspec(align(8)) int indices[3];
     indices[0]=0; indices[1]=1; indices[2]=2;
-    scores[0]=FUN_00d769c0(transform.axes[0]);
-    scores[1]=FUN_00d769c0(transform.axes[1]);
-    scores[2]=FUN_00d769c0(transform.axes[2]);
+    scores[0]=ProcessAndReturnValue_00d769c0(transform.axes[0]);
+    scores[1]=ProcessAndReturnValue_00d769c0(transform.axes[1]);
+    scores[2]=ProcessAndReturnValue_00d769c0(transform.axes[2]);
     for (int i=0;i<2;++i) {
         if (scores[i]<scores[i+1]) {
             swapValues(scores[i],scores[i+1]);
@@ -6643,13 +6679,13 @@ struct SamplePoint: hkVector4 {
 struct SampleBuilder {
     int unk00,unk04;
     ChildData* hull;
-    void FUN_00d76d80(hkVector4&,SampleTransform&);
+    void ForwardCall_00d76d80(hkVector4&,SampleTransform&);
     bool hkgpConvexHull_isPointInside(const hkVector4&,unsigned char,float);
 };
 struct SampleStream {
     int unk00,unk04,unk08;
     void FUN_00cb1600(char*,int);
-    void FUN_00cc01c0(const char*);
+    void ProcessAndReturnValue_00cc01c0(const char*);
     void FUN_00cc00e0();
 };
 struct SampleTrivialVector { LocalM128 m_vComponents; };
@@ -6672,7 +6708,7 @@ void __cdecl hkgpConvexHull_createRandomSamples(SampleBuilderRef builder,SampleR
     hkVector4 c=*(hkVector4*)&DAT_01268390;
     hkVector4 d=*(hkVector4*)&DAT_012683a0;
     SampleTransform transform(a,b,c,d);
-    builder.value->FUN_00d76d80((hkVector4&)workspace.extents,transform);
+    builder.value->ForwardCall_00d76d80((hkVector4&)workspace.extents,transform);
     for(int i=0;i<count;++i) {
         SamplePoint point;
         int trial=0;
@@ -6690,7 +6726,7 @@ void __cdecl hkgpConvexHull_createRandomSamples(SampleBuilderRef builder,SampleR
             char buffer[512];
             SampleStream& stream=workspace.stream;
             stream.FUN_00cb1600(buffer,512);
-            stream.FUN_00cc01c0(str_010d36fc);
+            stream.ProcessAndReturnValue_00cc01c0(str_010d36fc);
             DAT_01268360->message(1,0x1559e,buffer,str_010d3540,0xe22);
             stream.FUN_00cc00e0();
             return;
@@ -6816,10 +6852,11 @@ struct PlanePointArray: D76250VectorArrayLocalForm {
 };
 struct PlaneHull: ::PlaneHull {
     int hkgpConvexHull_build(const PlaneVector*,int,int);
-    int FUN_00d774a0(const PlaneVector*,int,int);
+    int ProcessEntries_00d774a0(const PlaneVector*,int,int);
 };
 // @fnv 0x00d774a0
-int PlaneHull::FUN_00d774a0(const PlaneVector* planes,int count,int config)
+// src: GUESS 0x00d774a0 (confidence: low)
+int PlaneHull::ProcessEntries_00d774a0(const PlaneVector* planes,int count,int config)
 {
     PlanePointArray points;
     markEnumeration("TtVertexEnumeration");
@@ -6984,7 +7021,7 @@ struct FacePtrMap {
     }
     int LookupHashEntry(HullFace* key, int def);
     void ProcessArgument(HullAllocator* alloc);
-    void FUN_00a29680();
+    void Object_DoNothing();
 };
 inline void PushEdge(HullArray<IndexEdge>& a, const IndexEdge& e)
 {
@@ -7157,15 +7194,16 @@ struct HullBuilder {
     int unk1b0;
     unsigned char unk1b4;
     unsigned char m_bPlanesBuilt;
-    HullFloat4* FUN_00d7aa30();
-    void FUN_00d7d2a0();
+    HullFloat4* ProcessEntries_00d7aa30();
+    void ProcessEntries_00d7d2a0();
 };
 inline LocalM128 Xform(const HullBuilder* h, const IndexVertex* v)
 {
     return _mm_add_ps(_mm_mul_ps(_mm_setr_ps((float)v->m_uiX, (float)v->m_uiY, (float)v->m_uiZ, 0.0f), h->m_110), h->m_f0);
 }
 // @fnv 0x00d7d2a0
-void HullBuilder::FUN_00d7d2a0()
+// src: GUESS 0x00d7d2a0 (confidence: low)
+void HullBuilder::ProcessEntries_00d7d2a0()
 {
     if (m_bPlanesBuilt != 0) {
         return;
@@ -7283,7 +7321,7 @@ void HullBuilder::FUN_00d7d2a0()
             heap->BufFree(stack.m_data, (scap & 0x3fffffff) * 8);
         }
     } else if (m_dimension == 2) {
-        HullFloat4 centroid = *FUN_00d7aa30();
+        HullFloat4 centroid = *ProcessEntries_00d7aa30();
         IndexVertex* prev = m_kVertices;
         if (prev != 0) {
             while (prev->m_pNext != 0) {
@@ -7372,7 +7410,7 @@ void HullBuilder::FUN_00d7d2a0()
         facePlanes.m_capAndFlags = 0x80000000;
     }
     map.ProcessArgument(((HullAllocator*)Holder()->m_heap));
-    map.FUN_00a29680();
+    map.Object_DoNothing();
     {
         hkMemoryRouter* hh = Holder();
         HullAllocator* heap = ((HullAllocator*)hh->m_temp);
@@ -7465,10 +7503,11 @@ template<class P> static __forceinline void probeScan(ProbeHull* h,const MatchVe
 struct ProbeObj {
     int unk00,unk04;
     ProbeHull* hull;
-    void FUN_00d75e30(int mode,const MatchVector& input,MatchVector& output);
+    void Helper_00d75e30(int mode,const MatchVector& input,MatchVector& output);
 };
 // @fnv 0x00d75e30
-void ProbeObj::FUN_00d75e30(int mode,const MatchVector& input,MatchVector& output) {
+// src: GUESS 0x00d75e30 (confidence: low)
+void ProbeObj::Helper_00d75e30(int mode,const MatchVector& input,MatchVector& output) {
     if(mode==0) probeScan<ProbeSource>(hull,input,output);
     else probeScan<ProbeTransform>(hull,input,output);
 }
@@ -7489,9 +7528,9 @@ double fabs(double);
 struct ClipStream {
     int unk00,unk04,unk08;
     void FUN_00cb1600(char*,int);
-    ClipStream* FUN_00cc01c0(const char*,int,char*);
-    ClipStream* FUN_00cc02d0();
-    void FUN_00cc01c0();
+    ClipStream* ProcessAndReturnValue_00cc01c0(const char*,int,char*);
+    ClipStream* EvaluateValue_00cc02d0();
+    void ProcessAndReturnValue_00cc01c0();
     void FUN_00cc00e0();
 };
 class ClipSimdReal {
@@ -7635,7 +7674,7 @@ struct ClipHull {
     unsigned char unk1b4;
     bool indexed;
     __forceinline void mustHaveIndex() const;
-    bool FUN_00d7a5a0(const ClipVector& a,const ClipVector& b,float& t0,float& t1,float planeThickness) const;
+    bool ProcessEntries_00d7a5a0(const ClipVector& a,const ClipVector& b,float& t0,float& t1,float planeThickness) const;
 };
 __forceinline void ClipHull::mustHaveIndex() const
 {
@@ -7643,13 +7682,14 @@ __forceinline void ClipHull::mustHaveIndex() const
         char buffer[512];
         ClipStream stream;
         stream.FUN_00cb1600(buffer,512);
-        stream.FUN_00cc01c0(str_010d3574,index,&DAT_0103d078)->FUN_00cc02d0()->FUN_00cc01c0();
+        stream.ProcessAndReturnValue_00cc01c0(str_010d3574,index,&DAT_0103d078)->EvaluateValue_00cc02d0()->ProcessAndReturnValue_00cc01c0();
         if(DAT_01268360->message(3,0x79f9d886,buffer,str_010d3540,0x148)) __debugbreak();
         stream.FUN_00cc00e0();
     }
 }
 // @fnv 0x00d7a5a0
-bool ClipHull::FUN_00d7a5a0(const ClipVector& a,const ClipVector& b,float& t0,float& t1,float planeThickness) const
+// src: GUESS 0x00d7a5a0 (confidence: low)
+bool ClipHull::ProcessEntries_00d7a5a0(const ClipVector& a,const ClipVector& b,float& t0,float& t1,float planeThickness) const
 {
     mustHaveIndex();
     ClipVector pa=a;
@@ -7847,7 +7887,7 @@ struct BevelHull {
     char m_1b4;
     char m_hasIndices;
 
-    void FUN_00d7caa0(float maxCos, BevelArray& out) const;
+    void ProcessEntries_00d7caa0(float maxCos, BevelArray& out) const;
     __forceinline BevelVector position(const BevelVertex* v) const {
         BevelVector point;
         point.set((float)v->m_pos[0],(float)v->m_pos[1],(float)v->m_pos[2],DAT_01011d78);
@@ -7859,17 +7899,18 @@ struct BevelHull {
 struct BevelStream {
     void* vtable; int unk04,unk08;
     void FUN_00cb1600(char*,int) throw();
-    BevelStream& FUN_00cc01c0(const char*) throw();
-    BevelStream& FUN_00cc02d0(unsigned int) throw();
+    BevelStream& ProcessAndReturnValue_00cc01c0(const char*) throw();
+    BevelStream& EvaluateValue_00cc02d0(unsigned int) throw();
     void FUN_00cc00e0() throw();
 };
 // @fnv 0x00d7caa0
-void BevelHull::FUN_00d7caa0(float maxCos, BevelArray& out) const {
+// src: GUESS 0x00d7caa0 (confidence: low)
+void BevelHull::ProcessEntries_00d7caa0(float maxCos, BevelArray& out) const {
     if(!m_hasIndices) {
         char msg[512];
         BevelStream stream;
         stream.FUN_00cb1600(msg,512);
-        stream.FUN_00cc01c0(str_010d3574).FUN_00cc02d0(m_uiUniqueId).FUN_00cc01c0((const char*)&DAT_0103d078);
+        stream.ProcessAndReturnValue_00cc01c0(str_010d3574).EvaluateValue_00cc02d0(m_uiUniqueId).ProcessAndReturnValue_00cc01c0((const char*)&DAT_0103d078);
         if(((S_00d75210_Error*)DAT_01268360)->message(3,0x79f9d886,msg,str_010d3540,328)) { __debugbreak(); stream.FUN_00cc00e0(); } else stream.FUN_00cc00e0();
     }
     if(m_eVertexFloatDimensions!=3) return;
@@ -7912,9 +7953,9 @@ struct BoxStream {
     int unk04;
     int unk08;
     BoxStream* FUN_00cb1600(void* buf, int size);
-    BoxStream* FUN_00cc01c0(const char*,int,char*);
-    BoxStream* FUN_00cc02d0();
-    void FUN_00cc01c0();
+    BoxStream* ProcessAndReturnValue_00cc01c0(const char*,int,char*);
+    BoxStream* EvaluateValue_00cc02d0();
+    void ProcessAndReturnValue_00cc01c0();
     void FUN_00cc00e0();
 };
 struct BoxScalar;
@@ -8142,7 +8183,7 @@ struct BoxHull {
     int m_uiEdgeIndex;
     char unk1b4;
     char m_hasIndex;
-    float FUN_00d7c610(const BoxVector& axis, float& mn, float& mx) const;
+    float GetDirectionalProjectionSpan(const BoxVector& axis, float& mn, float& mx) const;
     float hkgpConvexHullImpl_getOrientedRectangle(BoxPointer<const BoxVector*> plane, BoxVector& halfExtents, BoxTransform& transform) const;
 };
 
@@ -8154,7 +8195,7 @@ float BoxHull::hkgpConvexHullImpl_getOrientedRectangle(BoxPointer<const BoxVecto
         unsigned int buf[128];
         BoxStream s;
         s.FUN_00cb1600(buf, 0x200);
-        s.FUN_00cc01c0(str_010d3574,m_uiEdgeIndex,&DAT_0103d078)->FUN_00cc02d0()->FUN_00cc01c0();
+        s.ProcessAndReturnValue_00cc01c0(str_010d3574,m_uiEdgeIndex,&DAT_0103d078)->EvaluateValue_00cc02d0()->ProcessAndReturnValue_00cc01c0();
 int result=DAT_01268360->message(3, 0x79f9d886, (const char*)buf, str_010d3540, 0x148);
         if (result == 0) {
             s.FUN_00cc00e0();
@@ -8198,8 +8239,8 @@ int result=DAT_01268360->message(3, 0x79f9d886, (const char*)buf, str_010d3540, 
                         _mm_mul_ps(_mm_shuffle_ps(n.q(), n.q(), 0xd2), dir_yzx));
                     if(e.normalize()==0) {
                         float r0[2], r1[2];
-                        float f0 = FUN_00d7c610(n, r0[0], r0[1]);
-                        float f1 = FUN_00d7c610(e, r1[0], r1[1]);
+                        float f0 = GetDirectionalProjectionSpan(n, r0[0], r0[1]);
+                        float f1 = GetDirectionalProjectionSpan(e, r1[0], r1[1]);
                         float area = f0 * f1;
                         if (area < bestArea) {
                             bestArea = area;
@@ -8223,8 +8264,8 @@ int result=DAT_01268360->message(3, 0x79f9d886, (const char*)buf, str_010d3540, 
             n.q() = _mm_sub_ps(_mm_mul_ps(_mm_shuffle_ps(v.q(), v.q(), 0xd2), _mm_shuffle_ps(dir.q(), dir.q(), 0xc9)), _mm_mul_ps(_mm_shuffle_ps(v.q(), v.q(), 0xc9), _mm_shuffle_ps(dir.q(), dir.q(), 0xd2)));
             if(n.normalize()==0) {
                 float r0[2], r1[2];
-                float f0 = FUN_00d7c610(v, r0[0], r0[1]);
-                float f1 = FUN_00d7c610(n, r1[0], r1[1]);
+                float f0 = GetDirectionalProjectionSpan(v, r0[0], r0[1]);
+                float f1 = GetDirectionalProjectionSpan(n, r1[0], r1[1]);
                 float area = f0 * f1;
                 if (area < bestArea) {
                     bestArea = area;
@@ -8281,7 +8322,7 @@ struct S00d81510_Stream {
     int unk04;
     int unk08;
     S00d81510_Stream* FUN_00cb1600(void* buf, int size);
-    S00d81510_Stream& FUN_00cc01c0(const char* s);
+    S00d81510_Stream& ProcessAndReturnValue_00cc01c0(const char* s);
     void FUN_00cc00e0();
 };
 class S00d81510_SimdReal {
@@ -8462,13 +8503,13 @@ __forceinline bool operator!=(const S00d81510_Vertex& a, const S00d81510_Vertex&
 __forceinline int S00d81510_round(float x) { return (int)(x + (x < 0 ? -0.5f : 0.5f)); }
 
 struct S00d81510_Less {};
-void __cdecl FUN_00d7af90(S00d81510_Vertex* pArr, int d, int h, S00d81510_Less cmpLess);
+void __cdecl Hkgpconvexhull_SortRecordRange(S00d81510_Vertex* pArr, int d, int h, S00d81510_Less cmpLess);
 template <typename T, typename L> __forceinline void S00d81510_quickSort(T* pArr, int iSize, L cmpLess)
 {
     if (iSize > 1) {
         int low = 0;
         int high = iSize - 1;
-        FUN_00d7af90(pArr, low, high, cmpLess);
+        Hkgpconvexhull_SortRecordRange(pArr, low, high, cmpLess);
     }
 }
 template <typename T> __forceinline void S00d81510_quickSort(T* pArr, int iSize) { S00d81510_quickSort(pArr, iSize, S00d81510_Less()); }
@@ -8520,7 +8561,7 @@ public:
 
     void hkgpConvexHullImpl_reset(bool planar);
     bool hkgpConvexHullImpl_flushPending();
-    void FUN_00d7d2a0();
+    void ProcessEntries_00d7d2a0();
     void hkgpConvexHullImpl_buildMassProperties_hkgpConvexHullImpl_PositionAsTransform();
     int hkgpConvexHullImpl_build(const hkVector4* points, int numPoints, bool planar, const S00d81510_Hull* domainSource);
 
@@ -8602,7 +8643,7 @@ int S00d81510_Hull::hkgpConvexHullImpl_build(const hkVector4* points, int numPoi
                     char buffer[512];
                     S00d81510_Stream ostr;
                     ostr.FUN_00cb1600(buffer, 512);
-                    ostr.FUN_00cc01c0(str_010d3718);
+                    ostr.ProcessAndReturnValue_00cc01c0(str_010d3718);
                     if (DAT_01268360->message(3, 0x405a2174, buffer, str_010d3540, 0x228))
                         __debugbreak();
                     ostr.FUN_00cc00e0();
@@ -8748,7 +8789,7 @@ int S00d81510_Hull::hkgpConvexHullImpl_build(const hkVector4* points, int numPoi
         } while (redo);
     }
     if (m_eVertexFloatDimensions != -1) {
-        if (m_bFlagAtOffset09) FUN_00d7d2a0();
+        if (m_bFlagAtOffset09) ProcessEntries_00d7d2a0();
         if (m_bFlagAtOffset0A) hkgpConvexHullImpl_buildMassProperties_hkgpConvexHullImpl_PositionAsTransform();
     }
     return m_eVertexFloatDimensions;
@@ -8757,16 +8798,17 @@ int S00d81510_Hull::hkgpConvexHullImpl_build(const hkVector4* points, int numPoi
 // src: HAVOK_LIB 0x00d752c0
 __declspec(noinline) int __stdcall hkgpConvexHull_getVertex(int* arr, int idx) { return arr[idx + 2]; }
 struct HullPlaneOwner {
-    void FUN_00d75b80(LocalM128& out, const int* triangle);
+    void UpdateFields_00d75b80(LocalM128& out, const int* triangle);
 };
 // @fnv 0x00d75b80
-void __thiscall HullPlaneOwner::FUN_00d75b80(LocalM128& out, const int* triangle)
+// src: GUESS 0x00d75b80 (confidence: low)
+void __thiscall HullPlaneOwner::UpdateFields_00d75b80(LocalM128& out, const int* triangle)
 {
     OffsetOwner* owner = (OffsetOwner*)this;
-    LocalM128 p0 = *owner->FUN_00d74ed0((PayloadOwner*)hkgpConvexHull_getVertex((int*)triangle, 0));
-    LocalM128 p1 = *owner->FUN_00d74ed0((PayloadOwner*)hkgpConvexHull_getVertex((int*)triangle, 1));
+    LocalM128 p0 = *owner->Hkgpconvexhull_GetPayloadAddress((PayloadOwner*)hkgpConvexHull_getVertex((int*)triangle, 0));
+    LocalM128 p1 = *owner->Hkgpconvexhull_GetPayloadAddress((PayloadOwner*)hkgpConvexHull_getVertex((int*)triangle, 1));
     LocalM128 e1 = _mm_sub_ps(p1, p0);
-    LocalM128 p2 = *owner->FUN_00d74ed0((PayloadOwner*)hkgpConvexHull_getVertex((int*)triangle, 2));
+    LocalM128 p2 = *owner->Hkgpconvexhull_GetPayloadAddress((PayloadOwner*)hkgpConvexHull_getVertex((int*)triangle, 2));
     LocalM128 e2 = _mm_sub_ps(p2, p0);
 
     LocalM128 a = _mm_mul_ps(_mm_shuffle_ps(e2, e2, 0xc9), _mm_shuffle_ps(e1, e1, 0xd2));
@@ -8849,10 +8891,11 @@ struct PlaneHullQ {
     int unk00,unk04,unk08,unk0c,unk10,unk14,unk18,unk1c,unk20;
     PlaneVertexQ* vertices; int numVertices,unk2c,unk30,unk34,unk38;
     PlaneFaceQ* faces;
-    float FUN_00d7a810(const PlanePointsQ& points,const PlaneTransformQ& transform,PlaneVectorQ& out);
+    float ProcessEntries_00d7a810(const PlanePointsQ& points,const PlaneTransformQ& transform,PlaneVectorQ& out);
 };
 // @fnv 0x00d7a810
-float PlaneHullQ::FUN_00d7a810(const PlanePointsQ& points,const PlaneTransformQ& transform,PlaneVectorQ& out) {
+// src: GUESS 0x00d7a810 (confidence: low)
+float PlaneHullQ::ProcessEntries_00d7a810(const PlanePointsQ& points,const PlaneTransformQ& transform,PlaneVectorQ& out) {
     float best=DAT_0104da4c;
     for(int i=0;i<points.GetLogicalSize();++i) {
         const PlaneVectorQ& point=points[i];
@@ -9014,10 +9057,10 @@ struct S83_Fmt {
     int unk04;
     int unk08;
     void FUN_00cb1600(char* buffer, int capacity);
-    S83_Fmt* FUN_00cc01c0(const char* text);
-    S83_Fmt* FUN_00cc01c0(const char* text, int code, const char* tail);
-    S83_Fmt* FUN_00cc02d0();
-    void FUN_00cc01c0();
+    S83_Fmt* ProcessAndReturnValue_00cc01c0(const char* text);
+    S83_Fmt* ProcessAndReturnValue_00cc01c0(const char* text, int code, const char* tail);
+    S83_Fmt* EvaluateValue_00cc02d0();
+    void ProcessAndReturnValue_00cc01c0();
     void FUN_00cc00e0();
 };
 static __forceinline float S83_lenSq(const S83_Vertex* a, const S83_Vertex* b) {
@@ -9154,15 +9197,16 @@ struct S83_Mesh {
     int diagnosticCode;
     unsigned char flag1b4;
     unsigned char flag1b5;
-    void FUN_00d83f30(S83_Options* options);
-    void FUN_00d82ad0(int limit, bool reseat);
+    void ProcessEntries_00d83f30(S83_Options* options);
+    void ProcessEntries_00d82ad0(int limit, bool reseat);
     int hkgpConvexHullImpl_build(const S83_Vec4* points, int numPoints, int a, int b);
-    void FUN_00d7d2a0();
+    void ProcessEntries_00d7d2a0();
     void hkgpConvexHullImpl_buildMassProperties_hkgpConvexHullImpl_PositionAsTransform();
     void hkgpConvexHullImpl_generateIndexedFaces_int_int(S83_Array<int>* a, S83_Array<int>* b, int c, int d);
 };
 // @fnv 0x00d83f30
-void S83_Mesh::FUN_00d83f30(S83_Options* options)
+// src: GUESS 0x00d83f30 (confidence: low)
+void S83_Mesh::ProcessEntries_00d83f30(S83_Options* options)
 {
     unsigned char oldFlagA = flag1b4;
     unsigned char oldFlagB = flag1b5;
@@ -9178,7 +9222,7 @@ void S83_Mesh::FUN_00d83f30(S83_Options* options)
         int text[128];
         S83_Fmt fmt;
         fmt.FUN_00cb1600((char*)text, 0x200);
-        fmt.FUN_00cc01c0(str_010d37a8);
+        fmt.ProcessAndReturnValue_00cc01c0(str_010d37a8);
         if (DAT_01268360->message(3, 0x3e0abbab, (char*)text, str_010d3540, 0x57b))
             fnv_Breakpoint();
         fmt.FUN_00cc00e0();
@@ -9187,7 +9231,7 @@ void S83_Mesh::FUN_00d83f30(S83_Options* options)
     }
     if (options->vertexLimit >= 4) {
         int before = vertexCount;
-        FUN_00d82ad0(options->vertexLimit, options->reseat != 0);
+        ProcessEntries_00d82ad0(options->vertexLimit, options->reseat != 0);
         changed = vertexCount != before;
     }
     if (options->tolerance > 0.0f) {
@@ -9224,7 +9268,7 @@ void S83_Mesh::FUN_00d83f30(S83_Options* options)
                     pts.AddBack(v->point);
             }
             if (hkgpConvexHullImpl_build(pts.m_data, pts.m_iElementCount, 0, 0) == 3)
-                FUN_00d7d2a0();
+                ProcessEntries_00d7d2a0();
             changed = true;
             again = true;
 
@@ -9236,7 +9280,7 @@ void S83_Mesh::FUN_00d83f30(S83_Options* options)
             int text[128];
             S83_Fmt fmt;
             fmt.FUN_00cb1600((char*)text, 0x200);
-            fmt.FUN_00cc01c0(str_010d3574, diagnosticCode, &DAT_0103d078)->FUN_00cc02d0()->FUN_00cc01c0();
+            fmt.ProcessAndReturnValue_00cc01c0(str_010d3574, diagnosticCode, &DAT_0103d078)->EvaluateValue_00cc02d0()->ProcessAndReturnValue_00cc01c0();
             if (DAT_01268360->message(3, 0x79f9d886, (char*)text, str_010d3540, 0x148))
                 fnv_Breakpoint();
             fmt.FUN_00cc00e0();
@@ -9267,7 +9311,7 @@ void S83_Mesh::FUN_00d83f30(S83_Options* options)
             for (int i = 0; i < used.m_iElementCount; i++)
                 sub.m_data[i] = all.m_data[used.m_data[i]];
             if (hkgpConvexHullImpl_build(sub.m_data, sub.m_iElementCount, 0, 0) == 3)
-                FUN_00d7d2a0();
+                ProcessEntries_00d7d2a0();
 
 
         } while (state == 3);
@@ -9281,7 +9325,7 @@ void S83_Mesh::FUN_00d83f30(S83_Options* options)
         for (S83_Vertex* v = vertices; v; v = v->next)
             *dst++ = v->point;
         hkgpConvexHullImpl_build(all.m_data, all.m_iElementCount, 0, 0);
-        if (oldFlagB) FUN_00d7d2a0();
+        if (oldFlagB) ProcessEntries_00d7d2a0();
         if (oldFlagA) hkgpConvexHullImpl_buildMassProperties_hkgpConvexHullImpl_PositionAsTransform();
 
     }
@@ -9309,7 +9353,7 @@ struct S00d7fb80_Stream {
     int unk04;
     int unk08;
     S00d7fb80_Stream* FUN_00cb1600(void* buf, int size);
-    S00d7fb80_Stream& FUN_00cc01c0(const char* s);
+    S00d7fb80_Stream& ProcessAndReturnValue_00cc01c0(const char* s);
     void FUN_00cc00e0();
 };
 class S00d7fb80_SimdReal {
@@ -9739,7 +9783,7 @@ bool S00d7fb80_Hull::hkgpConvexHullImpl_flushPending()
         char buffer[512];
         S00d7fb80_Stream ostr;
         ostr.FUN_00cb1600(buffer, 512);
-        ostr.FUN_00cc01c0(str_010d36ec);
+        ostr.ProcessAndReturnValue_00cc01c0(str_010d36ec);
         if (DAT_01268360->message(3, 0x642cf968, buffer, str_010d3540, 0x2f4))
             fnv_Breakpoint();
         ostr.FUN_00cc00e0();
@@ -10057,7 +10101,7 @@ struct ExpandView {
 struct ExpandStream {
     int unk00,unk04,unk08;
     void FUN_00cb1600(char*,int);
-    void FUN_00cc01c0(const char*);
+    void ProcessAndReturnValue_00cc01c0(const char*);
     void FUN_00cc00e0();
 };
 struct ExpandValidity { int unk00,unk04,unk08; unsigned char unk0c,unk0d,unk0e,valid; };
@@ -10065,26 +10109,27 @@ union ExpandAV { ExpandArray points; ExpandStream stream; ExpandValidity validit
 struct ExpandShape {
     int unk00,unk04;
     ExpandState* state;
-    __declspec(noinline) int FUN_00d74e10();
-    const ExpandVector& FUN_00d752d0() const;
+    __declspec(noinline) int GetInnerField1A8();
+    const ExpandVector& ForwardCall_00d752d0() const;
     __declspec(noinline) void GetValueBlock(ExpandVector*) const;
-    int FUN_00d75050() const;
-    int FUN_00d75060() const;
-    const ExpandVector& FUN_00d74ed0(int) const;
-    __declspec(noinline) int FUN_00d75120(int) const;
-    int FUN_00d75130() const;
-    int FUN_00d75140() const;
-    int FUN_00d75200(int) const;
-    void FUN_00d75b80(ExpandVector*,int) const;
+    int EvaluateValue_00d75050() const;
+    int GetUnk24_00d75060() const;
+    const ExpandVector& Hkgpconvexhull_GetPayloadAddress(int) const;
+    __declspec(noinline) int Object_ReadPointedValue_00d75120(int) const;
+    int EvaluateValue_00d75130() const;
+    int ComputeValue_00d75140() const;
+    int Object_ReadPointedValue_00d75200(int) const;
+    void UpdateFields_00d75b80(ExpandVector*,int) const;
     int hkgpConvexHull_getVertex(int,int) const;
-    void FUN_00d76120(int,ExpandArray&) const;
+    void ProcessState_00d76120(int,ExpandArray&) const;
     __declspec(noinline) int hkgpConvexHull_build(const ExpandVector*,int,const ExpandHeader&);
     __declspec(noinline) int hkgpConvexHull_build_00d77200(const ExpandView&,const ExpandHeader&);
     void SetValue(float,bool);
-    void FUN_00d762f0();
+    void ForwardCall_00d762f0();
     bool hkgpConvexHull_expandByPlanarMargin(float radius);
 };
-__declspec(noinline) int ExpandShape::FUN_00d74e10() { return state->dimension; }
+// src: GUESS 0x00d74e10 (confidence: medium)
+__declspec(noinline) int ExpandShape::GetInnerField1A8() { return state->dimension; }
 __declspec(noinline) void ExpandShape::GetValueBlock(ExpandVector* out) const {
     memcpy(out,&state->normal,sizeof(*out));
 }
@@ -10108,7 +10153,8 @@ __declspec(noinline) int ExpandShape::hkgpConvexHull_build_00d77200(const Expand
     }
     int result=hkgpConvexHull_build(vertices.data,vertices.size,header); vertices.clearAndFree(); return result;
 }
-__declspec(noinline) int ExpandShape::FUN_00d75120(int v) const { return *(const int*)v; }
+// src: GUESS 0x00d75120 (confidence: low)
+__declspec(noinline) int ExpandShape::Object_ReadPointedValue_00d75120(int v) const { return *(const int*)v; }
 // @fnv 0x00d77be0
 // src: XBOX_PDB 0x00d77be0
 bool ExpandShape::hkgpConvexHull_expandByPlanarMargin(float radius)
@@ -10119,7 +10165,7 @@ bool ExpandShape::hkgpConvexHull_expandByPlanarMargin(float radius)
     struct __declspec(align(2)) { ExpandTruth flagB, flagA; } flags; flags.flagB=state->flagB;
     flags.flagA=state->flagA;
     __declspec(align(8)) ExpandAV av;
-    switch (FUN_00d74e10()) {
+    switch (GetInnerField1A8()) {
     case 0: {
         ExpandArray& points=av.points; points.init();
         ExpandVector seed;
@@ -10142,7 +10188,7 @@ seed.bits.w=source->first->point.bits.w;
     case 1: {
         ExpandArray& points=av.points; points.init();
         points.reserve(10);
-        FUN_00d76120(0,points);
+        ProcessState_00d76120(0,points);
         {
         ExpandVector a=points.data[0];
         ExpandVector b=points.data[1];
@@ -10172,13 +10218,13 @@ seed.bits.w=source->first->point.bits.w;
     }
     case 2: {
         ExpandArray& points=av.points; points.init();
-        ExpandVector seed=FUN_00d752d0();
+        ExpandVector seed=ForwardCall_00d752d0();
         ExpandVector normal;
         GetValueBlock(&normal);
-        points.reserve(3*FUN_00d75050());
-        FUN_00d76120(0,points);
-        for (int v=FUN_00d75060();v;v=FUN_00d75120(v)) {
-            const ExpandVector* position=&FUN_00d74ed0(v);
+        points.reserve(3*EvaluateValue_00d75050());
+        ProcessState_00d76120(0,points);
+        for (int v=GetUnk24_00d75060();v;v=Object_ReadPointedValue_00d75120(v)) {
+            const ExpandVector* position=&Hkgpconvexhull_GetPayloadAddress(v);
             const ExpandVector& pos=*position;
             points.AllocatePair().setAddMul(pos,normal,ExpandScalar(radius));
             points.AllocatePair().setAddMul(pos,normal,ExpandScalar(-radius));
@@ -10196,15 +10242,15 @@ seed.bits.w=source->first->point.bits.w;
     }
     case 3: {
         ExpandArray& points=av.points; points.init();
-        points.reserve(6*FUN_00d75130());
-        FUN_00d76120(0,points);
-        for (int f=FUN_00d75140();f;f=FUN_00d75200(f)) {
+        points.reserve(6*EvaluateValue_00d75130());
+        ProcessState_00d76120(0,points);
+        for (int f=ComputeValue_00d75140();f;f=Object_ReadPointedValue_00d75200(f)) {
             ExpandVector plane;
-            FUN_00d75b80(&plane,f);
+            UpdateFields_00d75b80(&plane,f);
             
             if (*(unsigned char*)plane.FUN_00c7f520(&av.validity.valid,DAT_010141cc)) {
                 for (int i=0;i<3;++i) {
-                    const ExpandVector& pos=FUN_00d74ed0(hkgpConvexHull_getVertex(f,i));
+                    const ExpandVector& pos=Hkgpconvexhull_GetPayloadAddress(hkgpConvexHull_getVertex(f,i));
                     points.AllocatePair().setAddMul(pos,plane,ExpandScalar(radius));
                 }
             }
@@ -10219,16 +10265,16 @@ seed.bits.w=source->first->point.bits.w;
         char buffer[512];
         ExpandStream& stream=av.stream;
         stream.FUN_00cb1600(buffer,512);
-        stream.FUN_00cc01c0("Invalid dimemsions for that operation");
+        stream.ProcessAndReturnValue_00cc01c0("Invalid dimemsions for that operation");
         if (DAT_01268360->message(3,0x172cdf48,buffer,".\\GeometryProcessing\\ConvexHull\\hkgpConvexHull.cpp",0xa77)) __debugbreak();
         stream.FUN_00cc00e0();
         } while(0);
         break;
     }
     }
-    if (FUN_00d74e10()==3) {
+    if (GetInnerField1A8()==3) {
         if (flags.flagB) SetValue(s_faderClearedAlpha,false);
-        if (flags.flagA) FUN_00d762f0();
+        if (flags.flagA) ForwardCall_00d762f0();
         return true;
     }
     return false;

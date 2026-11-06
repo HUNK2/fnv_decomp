@@ -656,14 +656,14 @@ struct FactionCompareAccess : TESFaction
     bool TESForm_CompareAllComponents(TESForm*);
     const FactionSaveData* NiAVObject_GetRotate_006a9540();
     TESReputation* GetField38();
-    BSSimpleList<FactionRankPresentation*>* FUN_005a8080();
+    BSSimpleList<FactionRankPresentation*>* ComputeValue_005a8080();
     bool IsDifferentFrom(TESForm* other);
 };
 
 struct RankStringAccess : BSStringT<char>
 {
     unsigned int BSStringT_char_Length() const;
-    const char* FUN_00559450() const;
+    const char* Modelloader_GetReferencedThis() const;
     int FUN_00408a80(const char*, bool) const;
 };
 
@@ -681,8 +681,8 @@ bool FactionCompareAccess::IsDifferentFrom(TESForm* other)
     if (pReputationData != faction2->GetField38())
         return true;
 
-    BSSimpleList<FactionRankPresentation*>* node1 = FUN_005a8080();
-    BSSimpleList<FactionRankPresentation*>* node2 = faction2->FUN_005a8080();
+    BSSimpleList<FactionRankPresentation*>* node1 = ComputeValue_005a8080();
+    BSSimpleList<FactionRankPresentation*>* node2 = faction2->ComputeValue_005a8080();
     while (node1 && !node1->IsEmpty())
     {
         if (!node2 || !node2->GetItem())
@@ -696,7 +696,7 @@ bool FactionCompareAccess::IsDifferentFrom(TESForm* other)
                 static_cast<RankStringAccess&>(current->m_kMaleRankName).BSStringT_char_Length())
                 return true;
             else if (static_cast<RankStringAccess&>(current2->m_kMaleRankName)
-                         .FUN_00408a80(static_cast<RankStringAccess&>(current->m_kMaleRankName).FUN_00559450(), false))
+                         .FUN_00408a80(static_cast<RankStringAccess&>(current->m_kMaleRankName).Modelloader_GetReferencedThis(), false))
                 return true;
         }
         if (static_cast<RankStringAccess&>(current2->m_kFemaleRankName).BSStringT_char_Length() ||
@@ -706,7 +706,7 @@ bool FactionCompareAccess::IsDifferentFrom(TESForm* other)
                 static_cast<RankStringAccess&>(current->m_kFemaleRankName).BSStringT_char_Length())
                 return true;
             else if (static_cast<RankStringAccess&>(current2->m_kFemaleRankName)
-                         .FUN_00408a80(static_cast<RankStringAccess&>(current->m_kFemaleRankName).FUN_00559450(),
+                         .FUN_00408a80(static_cast<RankStringAccess&>(current->m_kFemaleRankName).Modelloader_GetReferencedThis(),
                                        false))
                 return true;
         }

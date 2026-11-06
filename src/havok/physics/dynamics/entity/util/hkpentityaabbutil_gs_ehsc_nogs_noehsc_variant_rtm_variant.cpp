@@ -23,7 +23,7 @@ __forceinline void S_00d1b1d0_swap(T& x, T& y)
     x = y;
     y = t;
 }
-void FUN_00d1b1d0(S_00d1b1d0_Item* pItems, int iLow, int iHigh, S_00d1b1d0_Less cmpLess);
+void Hkpentityaabbutil_ProcessEntries_00d1b1d0(S_00d1b1d0_Item* pItems, int iLow, int iHigh, S_00d1b1d0_Less cmpLess);
 #include "fnv_asm_helpers.h"   // project x87 helpers (fnv_SinCos, fnv_FloatToInt), kept last so earlier code is unchanged
 
 // Computes quantized and expanded bounds for compound or single collision objects, sorts and scatters compound records.
@@ -189,7 +189,7 @@ InputField<int> count;
 Mat4Like start,inverseEnd;
 };
 extern "C" void* hkMemoryRouter_getInstance();
-extern "C" void FUN_00cbec90(void*,void*);
+extern "C" void hkMotionStateq_SampleSweptMotionTransforms(void*,void*);
 __forceinline void Vec4::transform(const Mat4Like& matrix,const Vec4& input) {
     __m128 x=_mm_shuffle_ps(reinterpret_cast<const __m128&>(input),reinterpret_cast<const __m128&>(input),0);
     __m128 rowx=_mm_mul_ps(matrix.r0.getQuad(),x);
@@ -350,7 +350,7 @@ extern "C" void hkpEntityAabbUtil_entityBatchRecalcAabb(const CollisionContext* 
             *stack+=(n*4+127)&~127;
             __declspec(align(16)) unsigned char sweepStorage[sizeof(OffsetInput)];
             OffsetInput& sweepInput=*reinterpret_cast<OffsetInput*>(sweepStorage);
-            FUN_00cbec90(object->m_pMotionState.GetMotionState(),&sweepInput);
+            hkMotionStateq_SampleSweptMotionTransforms(object->m_pMotionState.GetMotionState(),&sweepInput);
             FloatBounds total;
             const Vec4& position=object->m_pMotionState.GetMotionState()->getSweptTransform().center1;
             total.minimum.getQuad()=position.getQuad();
@@ -397,7 +397,7 @@ extern "C" void hkpEntityAabbUtil_entityBatchRecalcAabb(const CollisionContext* 
                     }
                     S_00d1b1d0_Less less;
                     *reinterpret_cast<unsigned char*>(&less) = 0;
-                    FUN_00d1b1d0(pairs,0,n-1,less);
+                    Hkpentityaabbutil_ProcessEntries_00d1b1d0(pairs,0,n-1,less);
                 } else if (n == 1) pairs[0].m_uiFilterValue = 0;
                 BoundsRecord* destination = (BoundsRecord*)collider->childBounds;
                 int* destinationKeys = reinterpret_cast<int*>(collider->childKeys);

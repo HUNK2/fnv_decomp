@@ -706,8 +706,8 @@ FUN_005960a0::~FUN_005960a0()
 
 struct MLCFormSaver
 {
-    void FUN_004855a0();
-    void FUN_00485680();
+    void BeginFormRecord();
+    void FinishFormRecord();
 };
 
 struct MLCFullNameSaver : public TESFullName
@@ -764,7 +764,7 @@ struct MLCSaver : public TESForm, public MLCFullNameSaver
 // @fnv 0x00596790
 void MLCSaver::SaveToStream()
 {
-    ((MLCFormSaver*)this)->FUN_004855a0();
+    ((MLCFormSaver*)this)->BeginFormRecord();
     MLCFullNameSaver::Save_00487010();
     TESForm_AddChunk_00485910(CHUNK_ID_NAM1_ID, (unsigned int)iFlags);
     SaveChunkFloat(CHUNK_ID_NAM2_ID, m_fLowerWeightThreshold);
@@ -846,7 +846,7 @@ void MLCSaver::SaveToStream()
         TESForm_AddChunk_00485910(0x4d414e52, auiFormId);
     }
     TESForm_AddChunk_00485910(CHUNK_ID_FNAM_ID, (unsigned int)m_eRequiredFightReaction);
-    ((MLCFormSaver*)this)->FUN_00485680();
+    ((MLCFormSaver*)this)->FinishFormRecord();
 }
 
 struct ListOps

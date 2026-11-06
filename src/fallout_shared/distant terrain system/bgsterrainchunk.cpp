@@ -574,13 +574,13 @@ struct TESObjectDoorController
 struct Obj006fac;
 struct Ref006fac
 {
-    Obj006fac* FUN_00559450();
+    Obj006fac* Modelloader_GetReferencedThis();
     void FUN_0066b0d0(void*);
     int data;
 };
 struct Obj006fac
 {
-    Obj006fac* FUN_00559450();
+    Obj006fac* Modelloader_GetReferencedThis();
     Obj006fac* BGSTerrainManager_GetLODLandRoot();
     Obj006fac* FUN_006629f0();
     Obj006fac* NiObjectNET_GetControllers();
@@ -714,7 +714,7 @@ struct Target006fac
     int p1c, p20, p24;
     unsigned char enabled, done;
     void BGSTerrainChunk_Attach();
-    Obj006fac* FUN_00559450();
+    Obj006fac* Modelloader_GetReferencedThis();
     void UpdateWaterReferences(int);
     void BGSTerrainChunk_InitializeShaderProperty();
     void AddSelfToList();
@@ -728,42 +728,42 @@ void Target006fac::BGSTerrainChunk_Attach()
     {
         FUN_00c37ec0* p = 0;
         ++*(int*)&DAT_011d85ec;
-        if (r10.FUN_00559450())
+        if (r10.Modelloader_GetReferencedThis())
         {
-            FUN_00559450()->FUN_00559450()->BGSTerrainManager_GetLODLandRoot()->attach(r10.FUN_00559450(), 1);
-            Obj006fac* i = r10.FUN_00559450()->FUN_006629f0()->NiObjectNET_GetControllers();
+            Modelloader_GetReferencedThis()->Modelloader_GetReferencedThis()->BGSTerrainManager_GetLODLandRoot()->attach(r10.Modelloader_GetReferencedThis(), 1);
+            Obj006fac* i = r10.Modelloader_GetReferencedThis()->FUN_006629f0()->NiObjectNET_GetControllers();
             NiPoint3 s = i->GetOffsetC();
             NiPoint3 eb = i->FUN_00500940();
             BSMultiBound* f;
             p = new FUN_00c37ec0;
-            s.z = root->FUN_00559450()->FUN_00559450()->GetFieldCC();
+            s.z = root->Modelloader_GetReferencedThis()->Modelloader_GetReferencedThis()->GetFieldCC();
             eb.z = 0.0f;
             p->position(s);
             p->BSMultiBound_SetHalfExtents(eb);
             r14.FUN_0066b0d0(new FUN_00c46970);
             f = new BSMultiBound;
             f->BSMultiBound_SetShape(p);
-            r14.FUN_00559450()->FUN_00439920(f);
+            r14.Modelloader_GetReferencedThis()->FUN_00439920(f);
             p = new FUN_00c37ec0;
-            s.z = root->FUN_00559450()->FUN_00559450()->GetFieldCC();
+            s.z = root->Modelloader_GetReferencedThis()->Modelloader_GetReferencedThis()->GetFieldCC();
             eb.z = 0.0f;
             p->position(s);
             p->BSMultiBound_SetHalfExtents(eb);
             r18.FUN_0066b0d0(new FUN_00c46970);
             f = new BSMultiBound;
             f->BSMultiBound_SetShape(p);
-            r18.FUN_00559450()->FUN_00439920(f);
+            r18.Modelloader_GetReferencedThis()->FUN_00439920(f);
         }
         else
         {
-            FUN_00559450()->FUN_00559450()->BGSTerrainManager_GetLODLandRoot()->attach(r4.FUN_00559450(), 1);
+            Modelloader_GetReferencedThis()->Modelloader_GetReferencedThis()->BGSTerrainManager_GetLODLandRoot()->attach(r4.Modelloader_GetReferencedThis(), 1);
         }
-        r4.FUN_00559450()->UpdateProperties();
+        r4.Modelloader_GetReferencedThis()->UpdateProperties();
         FUN_0043d410 a(0.0f, false, false);
-        r4.FUN_00559450()->NiAVObject_Update(a);
+        r4.Modelloader_GetReferencedThis()->NiAVObject_Update(a);
         UpdateWaterReferences(0);
         FUN_0043d410 h(0.0f, false, false);
-        FUN_00559450()->FUN_00559450()->BGSTerrainManager_GetLODLandRoot()->NiAVObject_Update(h);
+        Modelloader_GetReferencedThis()->Modelloader_GetReferencedThis()->BGSTerrainManager_GetLODLandRoot()->NiAVObject_Update(h);
         BGSTerrainChunk_InitializeShaderProperty();
         AddSelfToList();
         done = 1;
@@ -778,7 +778,7 @@ struct B5D0Status
 };
 struct B5D0Item
 {
-    B5D0Status* FUN_00559450();
+    B5D0Status* Modelloader_GetReferencedThis();
     void BGSTerrainChunk_Show();
     void SetAllAppCulled();
 };
@@ -796,7 +796,7 @@ void __cdecl UpdateListItems()
     while (node && !node->FUN_008256d0())
     {
         B5D0Item* item = *node->FUN_006815c0();
-        if (item->FUN_00559450()->GetByteAtOffset5C())
+        if (item->Modelloader_GetReferencedThis()->GetByteAtOffset5C())
         {
             item->BGSTerrainChunk_Show();
         }
@@ -1024,29 +1024,29 @@ struct Q28
 struct PQ
 {
     void* p;
-    Q28* FUN_00559450();
+    Q28* Modelloader_GetReferencedThis();
 };
 struct G3
 {
 };
 struct G2
 {
-    G3* FUN_00559450();
+    G3* Modelloader_GetReferencedThis();
     int NiObjectNET_GetControllers();
 };
 struct G1
 {
-    G2* FUN_00559450();
+    G2* Modelloader_GetReferencedThis();
 };
 struct G0
 {
     void* p;
-    G1* FUN_00559450();
+    G1* Modelloader_GetReferencedThis();
 };
 struct PS
 {
     void* p;
-    void* FUN_00559450();
+    void* Modelloader_GetReferencedThis();
     void FUN_0066b0d0(void* p);
 };
 struct MgrX
@@ -1075,29 +1075,29 @@ void SelfX::UpdateWaterReferences(bool bForce)
 {
     if (g_bFlag || bForce)
     {
-        if (mc.FUN_00559450())
+        if (mc.Modelloader_GetReferencedThis())
         {
             m20 = g_pkMgr
-                      ->DetailedActorPathHandler_GetCurrentNodeIndex(mc.FUN_00559450(), m0.FUN_00559450()->FUN_00559450()->FUN_00559450(),
-                                     m0.FUN_00559450()->FUN_00559450()->NiObjectNET_GetControllers(), m18.FUN_00559450(), 1)
+                      ->DetailedActorPathHandler_GetCurrentNodeIndex(mc.Modelloader_GetReferencedThis(), m0.Modelloader_GetReferencedThis()->Modelloader_GetReferencedThis()->Modelloader_GetReferencedThis(),
+                                     m0.Modelloader_GetReferencedThis()->Modelloader_GetReferencedThis()->NiObjectNET_GetControllers(), m18.Modelloader_GetReferencedThis(), 1)
                       ->CreateWaterReference();
             m18.FUN_0066b0d0(0);
             if (m20)
                 m18.FUN_0066b0d0(m20->F1d0()->Fc(0)->FUN_0043b4a0()->F14());
-            if (mc.FUN_00559450()->F28())
-                mc.FUN_00559450()->F28()->ResetRecordSelection();
+            if (mc.Modelloader_GetReferencedThis()->F28())
+                mc.Modelloader_GetReferencedThis()->F28()->ResetRecordSelection();
         }
-        if (m8.FUN_00559450())
+        if (m8.Modelloader_GetReferencedThis())
         {
             m1c = g_pkMgr
-                      ->DetailedActorPathHandler_GetCurrentNodeIndex(m8.FUN_00559450(), m0.FUN_00559450()->FUN_00559450()->FUN_00559450(),
-                                     m0.FUN_00559450()->FUN_00559450()->NiObjectNET_GetControllers(), m14.FUN_00559450(), 0)
+                      ->DetailedActorPathHandler_GetCurrentNodeIndex(m8.Modelloader_GetReferencedThis(), m0.Modelloader_GetReferencedThis()->Modelloader_GetReferencedThis()->Modelloader_GetReferencedThis(),
+                                     m0.Modelloader_GetReferencedThis()->Modelloader_GetReferencedThis()->NiObjectNET_GetControllers(), m14.Modelloader_GetReferencedThis(), 0)
                       ->CreateWaterReference();
             m14.FUN_0066b0d0(0);
             if (m1c)
                 m14.FUN_0066b0d0(m1c->F1d0()->Fc(0)->FUN_0043b4a0()->F14());
-            if (m8.FUN_00559450()->F28())
-                m8.FUN_00559450()->F28()->ResetRecordSelection();
+            if (m8.Modelloader_GetReferencedThis()->F28())
+                m8.Modelloader_GetReferencedThis()->F28()->ResetRecordSelection();
         }
     }
 }
@@ -1117,7 +1117,7 @@ struct ObjC
 };
 struct Sub4
 {
-    ObjC* FUN_00559450();
+    ObjC* Modelloader_GetReferencedThis();
 };
 struct Cls6fabc0
 {
@@ -1135,9 +1135,9 @@ int __cdecl Warning_005b5e40(void*, int, int, int);
 int Cls6fabc0::BGSTerrainChunk_GetTexture(int abFloat)
 {
     int result = 0;
-    if (m_iWordAt04.FUN_00559450())
+    if (m_iWordAt04.Modelloader_GetReferencedThis())
     {
-        ObjC* q = m_iWordAt04.FUN_00559450()->FUN_00a59d30(NiShadeProperty_GetType());
+        ObjC* q = m_iWordAt04.Modelloader_GetReferencedThis()->FUN_00a59d30(NiShadeProperty_GetType());
         ObjC* p = (q == 0 ? 0 : (q->FUN_00441110() >= 8 && q->FUN_00441110() <= 0xc)) ? q : 0;
         if (p)
         {
@@ -1236,17 +1236,17 @@ struct D6Node
 struct D6Root;
 struct D6Ref
 {
-    D6Root* FUN_00559450();
+    D6Root* Modelloader_GetReferencedThis();
     D6Node* NiObjectNET_GetControllers();
 };
 struct D6Owner
 {
-    D6Ref* FUN_00559450();
+    D6Ref* Modelloader_GetReferencedThis();
 };
 struct D6ChildPtr
 {
     D6Child* p;
-    D6Child* FUN_00559450();
+    D6Child* Modelloader_GetReferencedThis();
 };
 struct D6Queue
 {
@@ -1267,7 +1267,7 @@ struct D6Detacher
     D6ChildPtr kAttachB;
     D6Object* pObjectA;
     D6Object* pObjectB;
-    D6Owner* FUN_00559450();
+    D6Owner* Modelloader_GetReferencedThis();
     void BGSTerrainChunk_RemoveWaterFromSystem(bool force);
 };
 }
@@ -1282,30 +1282,30 @@ void D6Detacher::BGSTerrainChunk_RemoveWaterFromSystem(bool force)
 {
     if (DAT_0119f154 || force)
     {
-        if (kChildA.FUN_00559450() && pObjectA)
+        if (kChildA.Modelloader_GetReferencedThis() && pObjectA)
         {
             if (DAT_011dea10->DetailedActorPathHandler_GetCurrentNodeIndex())
             {
-                DAT_011dea10->DetailedActorPathHandler_GetCurrentNodeIndex()->DetachRef(pObjectA, pOwner->FUN_00559450()->FUN_00559450(),
-                                                        pOwner->FUN_00559450()->NiObjectNET_GetControllers());
+                DAT_011dea10->DetailedActorPathHandler_GetCurrentNodeIndex()->DetachRef(pObjectA, pOwner->Modelloader_GetReferencedThis()->Modelloader_GetReferencedThis(),
+                                                        pOwner->Modelloader_GetReferencedThis()->NiObjectNET_GetControllers());
             }
-            if (kAttachA.FUN_00559450())
+            if (kAttachA.Modelloader_GetReferencedThis())
             {
-                FUN_00559450()->FUN_00559450()->NiObjectNET_GetControllers()->InsertChild(kAttachA.FUN_00559450());
+                Modelloader_GetReferencedThis()->Modelloader_GetReferencedThis()->NiObjectNET_GetControllers()->InsertChild(kAttachA.Modelloader_GetReferencedThis());
             }
             delete pObjectA;
             pObjectA = 0;
         }
-        if (kChildB.FUN_00559450() && pObjectB)
+        if (kChildB.Modelloader_GetReferencedThis() && pObjectB)
         {
             if (DAT_011dea10->DetailedActorPathHandler_GetCurrentNodeIndex())
             {
-                DAT_011dea10->DetailedActorPathHandler_GetCurrentNodeIndex()->DetachRef(pObjectB, pOwner->FUN_00559450()->FUN_00559450(),
-                                                        pOwner->FUN_00559450()->NiObjectNET_GetControllers());
+                DAT_011dea10->DetailedActorPathHandler_GetCurrentNodeIndex()->DetachRef(pObjectB, pOwner->Modelloader_GetReferencedThis()->Modelloader_GetReferencedThis(),
+                                                        pOwner->Modelloader_GetReferencedThis()->NiObjectNET_GetControllers());
             }
-            if (kAttachB.FUN_00559450())
+            if (kAttachB.Modelloader_GetReferencedThis())
             {
-                FUN_00559450()->FUN_00559450()->NiObjectNET_GetControllers()->InsertChild(kAttachB.FUN_00559450());
+                Modelloader_GetReferencedThis()->Modelloader_GetReferencedThis()->NiObjectNET_GetControllers()->InsertChild(kAttachB.Modelloader_GetReferencedThis());
             }
             delete pObjectB;
             pObjectB = 0;

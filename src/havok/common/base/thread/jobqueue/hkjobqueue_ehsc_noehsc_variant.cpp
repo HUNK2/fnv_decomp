@@ -267,7 +267,7 @@ struct S_00d056a0
 {
     S_00d056a0_Elem* m_data;
     int m_iElementCount;
-    void FUN_00d056a0();
+    void UpdateFields_00d056a0();
 };
 struct D057A0Element
 {
@@ -864,7 +864,7 @@ struct SubObj
     int m_i10;
     int m_i14;
     SubObj() throw();
-    void FUN_00d05b50(SrcCfg* p) throw();
+    void UpdateState_00d05b50(SrcCfg* p) throw();
 };
 struct PoolEntry
 {
@@ -917,7 +917,7 @@ struct D05490Array
 void hkDefaultPopJobFunc();
 void hkDefaultFinishJobFunc();
 void defaultPopDispatchFunc();
-void FUN_00d04570();
+void Runtime_UpdateState_00d04570();
 struct FUN_00d05490 : D05490Base
 {
     void FinishInit() throw();

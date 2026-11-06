@@ -97,7 +97,7 @@ struct ObjectRef
 };
 struct Manager
 {
-    ObjectRef* FUN_00559450(int);
+    ObjectRef* Modelloader_GetReferencedThis(int);
 };
 extern Manager DAT_011da24c;
 // Rotates the lock object by an angle derived from amount and tile->FUN_00a011b0(0xfb1), then applies the rotation and position and updates it.
@@ -107,11 +107,11 @@ void LockPickMenu::UpdateLockRotation(float amount)
     NiAVObject* object;
     {
         NiMatrix3 matrix;
-        object = DAT_011da24c.FUN_00559450(1)->FUN_0043b4a0();
+        object = DAT_011da24c.Modelloader_GetReferencedThis(1)->FUN_0043b4a0();
         NiUpdateData kUpdateData(0.0f, false, false);
-        NiPoint3 offset = position.FUN_004a0bd0().FUN_00439e90(NiPoint3(0.0f, 0.0f, 0.6f));
+        NiPoint3 offset = position.GetNegatedVector().FUN_00439e90(NiPoint3(0.0f, 0.0f, 0.6f));
         matrix.MakeYRotation((float)((amount / m_64->FUN_00a011b0(0xfb1) * -180.0 + 90.0) * 0.01745329238474369));
-        object->NiAVObject_SetTranslate(position.FUN_00439e90(offset).FUN_00439ef0(matrix.operator*(offset)));
+        object->NiAVObject_SetTranslate(position.FUN_00439e90(offset).SubtractIntoVector(matrix.operator*(offset)));
         matrix = matrix.operator*(rotation);
         object->SetRotate_0043fa80(matrix);
         object->Update(kUpdateData);
@@ -156,7 +156,7 @@ extern float DAT_01030ff4;
 
 struct SingletonGetter
 {
-    void* FUN_00559450();
+    void* Modelloader_GetReferencedThis();
 };
 
 struct ProcBase
@@ -209,7 +209,7 @@ void __cdecl LockPickMenu_DrawScene()
     void* v1c3;
     void* v24;
 
-    if (reinterpret_cast<SingletonGetter*>(&DAT_011da24c)->FUN_00559450() == 0)
+    if (reinterpret_cast<SingletonGetter*>(&DAT_011da24c)->Modelloader_GetReferencedThis() == 0)
     {
         return;
     }
@@ -217,10 +217,10 @@ void __cdecl LockPickMenu_DrawScene()
     v6 = Main_GetWorldSceneGraph();
     v1c3 = reinterpret_cast<ObjB*>(v6)->FUN_008d80e0();
     reinterpret_cast<ObjC*>(v1c3)->BSCullingProcess_PushCullMode(1);
-    v18 = reinterpret_cast<SingletonGetter*>(&DAT_011da224)->FUN_00559450();
+    v18 = reinterpret_cast<SingletonGetter*>(&DAT_011da224)->Modelloader_GetReferencedThis();
     UpdateCameraFrustum(v18, DAT_01030ff4);
     Guard g(reinterpret_cast<ObjD*>(InterfaceManager_GetSingleton())->RaceSexMenu_GetProjectorFile());
-    reinterpret_cast<ObjC*>(v1c3)->BSCullingProcess_SetAccumulator(g.FUN_00559450());
+    reinterpret_cast<ObjC*>(v1c3)->BSCullingProcess_SetAccumulator(g.Modelloader_GetReferencedThis());
     if (v18 != 0)
     {
         v24 = v18;
@@ -231,7 +231,7 @@ void __cdecl LockPickMenu_DrawScene()
     }
     v14 = v24;
     BSShaderUtil_AccumulateScene(v14, FUN_00450b80(1), v1c3);
-    FUN_00b6c0d0(v14, g.FUN_00559450(), 0);
+    FUN_00b6c0d0(v14, g.Modelloader_GetReferencedThis(), 0);
     reinterpret_cast<ObjC*>(v1c3)->BSCullingProcess_SetAccumulator(0);
     g.FUN_0066b0d0(0);
     reinterpret_cast<ObjC*>(v1c3)->BSCullingProcess_PopCullMode();
@@ -480,7 +480,7 @@ int __cdecl BSStringT_char_SPrintF(StrMem* pkStr, const char* pFormat, ...);
 struct LockAnimNode
 {
     int* Setting_Int();
-    void FUN_0045ce80(int aiValue);
+    void ProcessAndReturnValue_0045ce80(int aiValue);
 };
 extern LockAnimNode* g_apLockNodes0_011a0328[5];
 extern LockAnimNode* g_apLockNodes1_011a033c[5];
@@ -581,10 +581,10 @@ void LockPickMenu::HandleLockPickAction(int aiCode, int aiUnused)
         g_iPickAngle_011da208 += iDelta;
         m_88 += iDelta / 2;
         BSStringT_char_SPrintF(&kStr, s_szIntFormat, g_iPickAngle_011da208);
-        unk3c->Tile_Set_00a01350(0xfc4, kStr.FUN_00559450(), true);
-        g_apLockNodes0_011a0328[m_70]->FUN_0045ce80(*g_apLockNodes0_011a0328[m_70]->Setting_Int() +
+        unk3c->Tile_Set_00a01350(0xfc4, kStr.Modelloader_GetReferencedThis(), true);
+        g_apLockNodes0_011a0328[m_70]->ProcessAndReturnValue_0045ce80(*g_apLockNodes0_011a0328[m_70]->Setting_Int() +
                                                      (int)(iDelta * (1.0f - fT)));
-        g_apLockNodes1_011a033c[m_70]->FUN_0045ce80(*g_apLockNodes1_011a033c[m_70]->Setting_Int() +
+        g_apLockNodes1_011a033c[m_70]->ProcessAndReturnValue_0045ce80(*g_apLockNodes1_011a033c[m_70]->Setting_Int() +
                                                      (int)(iDelta * fT));
         for (int i = 0; i < 6; i++)
         {
@@ -604,10 +604,10 @@ void LockPickMenu::HandleLockPickAction(int aiCode, int aiUnused)
         g_iDriverAngle_011da20c += iDeltaX;
         m_88 += iDeltaX;
         BSStringT_char_SPrintF(&kStrTmp, s_szIntFormat, g_iDriverAngle_011da20c);
-        unk48->Tile_Set_00a01350(0xfc4, kStrTmp.FUN_00559450(), true);
-        g_apLockNodes2_011a0350[m_70]->FUN_0045ce80(*g_apLockNodes2_011a0350[m_70]->Setting_Int() +
+        unk48->Tile_Set_00a01350(0xfc4, kStrTmp.Modelloader_GetReferencedThis(), true);
+        g_apLockNodes2_011a0350[m_70]->ProcessAndReturnValue_0045ce80(*g_apLockNodes2_011a0350[m_70]->Setting_Int() +
                                                      (int)(iDeltaX * (1.0f - fT2_2)));
-        g_apLockNodes3_011a0364[m_70]->FUN_0045ce80(*g_apLockNodes3_011a0364[m_70]->Setting_Int() +
+        g_apLockNodes3_011a0364[m_70]->ProcessAndReturnValue_0045ce80(*g_apLockNodes3_011a0364[m_70]->Setting_Int() +
                                                      (int)(iDeltaX * fT2_2));
         for (int j = 1; j < 6; j++)
         {
@@ -755,11 +755,11 @@ struct SortNode
 {
     SortNode* FUN_00a5ecb0(unsigned int a);
 };
-extern "C" void* __cdecl FUN_00aa13e0(unsigned int n);
+extern "C" void* __cdecl Object_DispatchCommandFour(unsigned int n);
 struct Glob
 {
     void FUN_0066b0d0(void* p);
-    void* FUN_00559450();
+    void* Modelloader_GetReferencedThis();
 };
 extern void* DAT_011f36ac;
 struct MatA
@@ -881,18 +881,18 @@ void LockPickMenu::InitLockInterface()
     ((NiNode*)idx)->NiAVObject_SetTranslate(position);
     ((NiNode*)idx)->SetRotate_0043fa80(&rotation);
     ((Glob*)&DAT_011da24c)->FUN_0066b0d0(new NiSortAdjustNode(0u));
-    ((VObj*)((Glob*)&DAT_011da24c)->FUN_00559450())->m_dc(pin, 1);
-    ((VObj*)((Glob*)&DAT_011da24c)->FUN_00559450())->m_dc(idx, 1);
+    ((VObj*)((Glob*)&DAT_011da24c)->Modelloader_GetReferencedThis())->m_dc(pin, 1);
+    ((VObj*)((Glob*)&DAT_011da24c)->Modelloader_GetReferencedThis())->m_dc(idx, 1);
     MatA ptr;
     ptr.FUN_006815c0();
     MatB z;
     z.FUN_006815c0();
     ptr.FUN_00524ac0(1.57079637f);
     z.FUN_004a0c90(1.57079637f);
-    ((NiNode*)((Glob*)&DAT_011da24c)->FUN_00559450())->SetRotate_0043fa80(&((Comb*)&ptr)->FUN_0043f8d0(&z));
-    ((NiNode*)((Glob*)&DAT_011da24c)->FUN_00559450())->NiAVObject_SetTranslate_004bc1f0(125.0f, 0.0f, 0.0f);
+    ((NiNode*)((Glob*)&DAT_011da24c)->Modelloader_GetReferencedThis())->SetRotate_0043fa80(&((Comb*)&ptr)->FUN_0043f8d0(&z));
+    ((NiNode*)((Glob*)&DAT_011da24c)->Modelloader_GetReferencedThis())->NiAVObject_SetTranslate_004bc1f0(125.0f, 0.0f, 0.0f);
     NiUpdateData i(0.0f, false, false);
-    ((NiNode*)((Glob*)&DAT_011da24c)->FUN_00559450())->NiAVObject_Update(i);
+    ((NiNode*)((Glob*)&DAT_011da24c)->Modelloader_GetReferencedThis())->NiAVObject_Update(i);
     void* s;
     s = ((NiNode*)pin)->NiObjectNET_GetController(reinterpret_cast<NiRTTI*>(&DAT_011f36ac));
     CtrlNode* r;
@@ -932,10 +932,10 @@ void LockPickMenu::InitLockInterface()
         NiTimeController_StartAnimations(idx);
     }
     ((Glob*)&DAT_011da224)->FUN_0066b0d0(Create3DCamera());
-    ((VObj*)FUN_00450b80(1))->m_dc(((Glob*)&DAT_011da24c)->FUN_00559450(), 1);
+    ((VObj*)FUN_00450b80(1))->m_dc(((Glob*)&DAT_011da24c)->Modelloader_GetReferencedThis(), 1);
     float val;
-    val = (float)(((TimeObj*)((NiNode*)((Glob*)&DAT_011da24c)->FUN_00559450())->NiAVObject_GetWorldBound())->FUN_0084d030() * 3.0);
-    ((SceneNode*)FUN_00450b80(1))->FUN_00b5ca70(((Glob*)&DAT_011da24c)->FUN_00559450(), val);
+    val = (float)(((TimeObj*)((NiNode*)((Glob*)&DAT_011da24c)->Modelloader_GetReferencedThis())->NiAVObject_GetWorldBound())->FUN_0084d030() * 3.0);
+    ((SceneNode*)FUN_00450b80(1))->FUN_00b5ca70(((Glob*)&DAT_011da24c)->Modelloader_GetReferencedThis(), val);
 }
 
 int __cdecl BSStringT_char_SPrintF(StrMem*, const char*, ...);
@@ -976,9 +976,9 @@ void LockPickMenu::UpdateSweetSpot()
               (*g_apLockNodes3_011a0364[m_70]->Setting_Int() - *g_apLockNodes2_011a0350[m_70]->Setting_Int()) *
                   fraction);
     BSStringT_char_SPrintF(&text, "%d", g_iPickAngle_011da208);
-    unk3c->Tile_Set_00a01350(0xfc4, text.FUN_00559450(), true);
+    unk3c->Tile_Set_00a01350(0xfc4, text.Modelloader_GetReferencedThis(), true);
     BSStringT_char_SPrintF(&text, "%d", g_iDriverAngle_011da20c);
-    unk48->Tile_Set_00a01350(0xfc4, text.FUN_00559450(), true);
+    unk48->Tile_Set_00a01350(0xfc4, text.Modelloader_GetReferencedThis(), true);
     m_88 = g_iDriverAngle_011da20c + g_iPickAngle_011da208 / 2;
     m_84 = m_64->FUN_00a011b0(0xfb1) * ((PickRandom*)FUN_00476c00())->FUN_004dff60();
     m_84 = BSMIN(BSMAX_00404010(m_84, (float)m_88), m_64->FUN_00a011b0(0xfb1) - m_88);
@@ -1176,7 +1176,7 @@ struct xCtrlMgr
 };
 struct xNodePtr
 {
-    NiNode* FUN_00559450();
+    NiNode* Modelloader_GetReferencedThis();
 };
 extern xNodePtr xg_spNode_11da24c;
 struct xMenuMode
@@ -1648,9 +1648,9 @@ void LockPickMenu::DoIdle_0078eb50()
         {
             xUpdateData UPD0(xg_fElapsed_11da2ac, true, false);
             xUpdateData UPD1(xg_fElapsed_11da2ac, true, false);
-            xg_spNode_11da24c.FUN_00559450()->FUN_0043b4a0(0)->NiAVObject_Update(reinterpret_cast<NiUpdateData&>(UPD0));
+            xg_spNode_11da24c.Modelloader_GetReferencedThis()->FUN_0043b4a0(0)->NiAVObject_Update(reinterpret_cast<NiUpdateData&>(UPD0));
             if (xg_fElapsed_11da2ac == 0.0 || !m_6c || m_30->FUN_00a011b0(xg_iTileId_11da1f8) > 0.0)
-                xg_spNode_11da24c.FUN_00559450()->FUN_0043b4a0(1)->NiAVObject_Update(reinterpret_cast<NiUpdateData&>(UPD1));
+                xg_spNode_11da24c.Modelloader_GetReferencedThis()->FUN_0043b4a0(1)->NiAVObject_Update(reinterpret_cast<NiUpdateData&>(UPD1));
             if (xg_fElapsed_11da2ac == 0.0 && m_6c)
             {
                 if (m_30->FUN_00a011b0(xg_iTileId_11da1f8) <= 0.0)
@@ -1661,8 +1661,8 @@ void LockPickMenu::DoIdle_0078eb50()
             if (reinterpret_cast<xSeq*>(m_9c)->GetEndKeyTime_00508100() <= xg_fElapsed_11da2ac)
             {
                 xCtrlMgr* qArxcFu =
-                    (xCtrlMgr*)((NiNode*)xg_spNode_11da24c.FUN_00559450()->FUN_0043b4a0(0u))->NiObjectNET_GetController(reinterpret_cast<NiRTTI*>(&xg_rtti_11f36ac));
-                NiAVObject* qAhbO = ((NiNode*)((NiNode*)xg_spNode_11da24c.FUN_00559450()->FUN_0043b4a0(0u))->FUN_0043b4a0(0u))->FUN_0043b4a0(2u);
+                    (xCtrlMgr*)((NiNode*)xg_spNode_11da24c.Modelloader_GetReferencedThis()->FUN_0043b4a0(0u))->NiObjectNET_GetController(reinterpret_cast<NiRTTI*>(&xg_rtti_11f36ac));
+                NiAVObject* qAhbO = ((NiNode*)((NiNode*)xg_spNode_11da24c.Modelloader_GetReferencedThis()->FUN_0043b4a0(0u))->FUN_0043b4a0(0u))->FUN_0043b4a0(2u);
                 NiPoint3 qxQHW = qAhbO->GetTranslate_0043c490();
                 m_28 = 2;
                 qArxcFu->FUN_0047b220(reinterpret_cast<xSeq*>(m_9c), 0.0f);
@@ -1676,7 +1676,7 @@ void LockPickMenu::DoIdle_0078eb50()
         if (m_a8)
         {
             xUpdateData UPDB(xg_fElapsed_11da2ac, true, false);
-            xg_spNode_11da24c.FUN_00559450()->FUN_0043b4a0(1)->NiAVObject_Update(reinterpret_cast<NiUpdateData&>(UPDB));
+            xg_spNode_11da24c.Modelloader_GetReferencedThis()->FUN_0043b4a0(1)->NiAVObject_Update(reinterpret_cast<NiUpdateData&>(UPDB));
             if (reinterpret_cast<xSeq*>(m_a8)->GetEndKeyTime_00508100() <= xg_fElapsed_11da2ac)
             {
                 m_28 = 2;
@@ -1848,7 +1848,7 @@ void LockPickMenu::DoIdle_0078eb50()
             {
                 reinterpret_cast<xSeq*>(m_ac)->SetPhase(reinterpret_cast<xSeq*>(m_ac)->NiPSysSpawnModifier_GetLifeSpan() + (1.0 - m_94) * (reinterpret_cast<xSeq*>(m_ac)->GetEndKeyTime_00508100() - reinterpret_cast<xSeq*>(m_ac)->NiPSysSpawnModifier_GetLifeSpan()),
                                    0);
-                xg_spNode_11da24c.FUN_00559450()->NiAVObject_Update(reinterpret_cast<NiUpdateData&>(qxWmVch));
+                xg_spNode_11da24c.Modelloader_GetReferencedThis()->NiAVObject_Update(reinterpret_cast<NiUpdateData&>(qxWmVch));
             }
             UpdateLockRotation(m_68->FUN_00a011b0(xg_iTileId2_11da1fc) + xg_iDir_11a0394 * 2.5);
             xg_iDir_11a0394 = -xg_iDir_11a0394;
@@ -1872,7 +1872,7 @@ void LockPickMenu::DoIdle_0078eb50()
         if (m_b0 && qpqRa)
         {
             xUpdateData UPD5(xg_fElapsed_11da2ac, true, false);
-            xg_spNode_11da24c.FUN_00559450()->FUN_0043b4a0(1)->NiAVObject_Update(reinterpret_cast<NiUpdateData&>(UPD5));
+            xg_spNode_11da24c.Modelloader_GetReferencedThis()->FUN_0043b4a0(1)->NiAVObject_Update(reinterpret_cast<NiUpdateData&>(UPD5));
             if (reinterpret_cast<xSeq*>(m_b0)->GetEndKeyTime_00508100() <= xg_fElapsed_11da2ac)
                 m_28 = 6;
         }
@@ -1886,8 +1886,8 @@ void LockPickMenu::DoIdle_0078eb50()
             m_8c = 0.0f;
             AdvanceSequence(0.0f);
             m_68->Tile_Set(xg_iTileId2_11da1fc, m_64->FUN_00a011b0(0xfb1) / 2.0, true);
-            xg_spNode_11da24c.FUN_00559450()->FUN_0043b4a0(1)->NiAVObject_SetTranslate(position);
-            xg_spNode_11da24c.FUN_00559450()->FUN_0043b4a0(1)->SetRotate_0043fa80(reinterpret_cast<const NiMatrix3&>(rotation));
+            xg_spNode_11da24c.Modelloader_GetReferencedThis()->FUN_0043b4a0(1)->NiAVObject_SetTranslate(position);
+            xg_spNode_11da24c.Modelloader_GetReferencedThis()->FUN_0043b4a0(1)->SetRotate_0043fa80(reinterpret_cast<const NiMatrix3&>(rotation));
             reinterpret_cast<xCtrlMgr*>(m_a4)->FUN_0048fef0(0.0f);
             reinterpret_cast<xCtrlMgr*>(m_a4)->FUN_0047aab0(reinterpret_cast<xSeq*>(m_a8), 0, 1, 1.0f, 0.0f, 0);
             if (xg_bMsg_11da2a4)
@@ -1900,7 +1900,7 @@ void LockPickMenu::DoIdle_0078eb50()
                 xQueueMsg(xg_s_11d34ec.FUN_00403df0(), 0, s_szIcon, 0, 2.0f, 0);
                 m_58->FUN_00700320(0xfa3, 0);
                 xUpdateData UPD6(0.0f, true, false);
-                xg_spNode_11da24c.FUN_00559450()->FUN_0043b4a0(1)->NiAVObject_Update(reinterpret_cast<NiUpdateData&>(UPD6));
+                xg_spNode_11da24c.Modelloader_GetReferencedThis()->FUN_0043b4a0(1)->NiAVObject_Update(reinterpret_cast<NiUpdateData&>(UPD6));
                 m_28 = 2;
             }
             else

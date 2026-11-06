@@ -22,7 +22,8 @@ struct CFF9B0SmallArray
 
 // Iterates the array backwards and removes every entry whose pointer is null via removeAtAndCopy.
 // @fnv 0x00cff9b0
-static void FUN_00cff9b0(CFF9B0SmallArray& cleanupArray)
+// src: GUESS 0x00cff9b0 (confidence: high)
+static void Hkpentitycallbackutil_RemoveNullEntries(CFF9B0SmallArray& cleanupArray)
 {
     for (int i = cleanupArray.m_iElementCount - 1; i >= 0; i--)
     {
@@ -34,8 +35,8 @@ static void FUN_00cff9b0(CFF9B0SmallArray& cleanupArray)
 // Callers so the file-static helper is emitted with its register calling convention.
 void CFF9B0CleanupListeners(CFF9B0SmallArray* a, CFF9B0SmallArray* b)
 {
-    FUN_00cff9b0(*a);
-    FUN_00cff9b0(*b);
+    Hkpentitycallbackutil_RemoveNullEntries(*a);
+    Hkpentitycallbackutil_RemoveNullEntries(*b);
 }
 
 extern "C" void _ReadWriteBarrier();
@@ -192,7 +193,8 @@ struct Timer833
     const char* command;
     unsigned int time0, time1;
 };
-static __declspec(noinline) void FUN_00cff9b0(Array833& listeners)
+// src: GUESS 0x00cff9b0 (confidence: high)
+static __declspec(noinline) void Hkpentitycallbackutil_RemoveNullEntries(Array833& listeners)
 {
     for (int index = listeners.size - 1; index >= 0; --index)
     {
@@ -239,7 +241,7 @@ void __cdecl hkpEntityCallbackUtil_fireContactPointCallbackInternal(World833* wo
             TimerEvent833("Et", endTicks);
         }
     }
-    FUN_00cff9b0(listeners);
+    Hkpentitycallbackutil_RemoveNullEntries(listeners);
 }
 
 namespace fnv_00d00060 {
@@ -399,7 +401,8 @@ struct Timer833
     const char* command;
     unsigned int time0, time1;
 };
-static __declspec(noinline) void FUN_00cff9b0(Array833& listeners)
+// src: GUESS 0x00cff9b0 (confidence: high)
+static __declspec(noinline) void Hkpentitycallbackutil_RemoveNullEntries(Array833& listeners)
 {
     for (int index = listeners.size - 1; index >= 0; --index)
     {
@@ -446,7 +449,7 @@ void __cdecl hkpEntityCallbackUtil_fireContactConstraintRemovedCallback(World833
             TimerEvent833("Et", endTicks);
         }
     }
-    FUN_00cff9b0(listeners);
+    Hkpentitycallbackutil_RemoveNullEntries(listeners);
 }
 }  // namespace fnv_00d00060
 
@@ -1055,7 +1058,7 @@ void __cdecl hkpEntityCallbackUtil_fireContactPointAddedInternal(ListenerOwner* 
             TimerWriteV(DAT_010c41f8, uiTimerEnd);
         }
     }
-    FUN_00cff9b0(kListeners);
+    Hkpentitycallbackutil_RemoveNullEntries(kListeners);
 }
 
 struct CEvent;
@@ -1084,7 +1087,7 @@ struct CEvent
     void* m_pOwnerObject;
 };
 extern unsigned int g_tcpTlsIndex;
-static void __declspec(noinline) FUN_00cff9b0(CFF9B0SmallArray& a);
+static void __declspec(noinline) Hkpentitycallbackutil_RemoveNullEntries(CFF9B0SmallArray& a);
 struct CManager
 {
     int unk000;
@@ -1260,7 +1263,7 @@ void hkpEntityCallbackUtil_fireContactPointRemovedInternal(CManager* mgr, CEvent
         }
     }
 
-    FUN_00cff9b0(*list);
+    Hkpentitycallbackutil_RemoveNullEntries(*list);
 }
 
 extern DWORD DAT_0126835c;
@@ -1422,7 +1425,7 @@ void __cdecl hkpEntityCallbackUtil_fireContactConstraintAddedCallback(void* apOw
         } while (--i >= 0);
     }
 
-    FUN_00cff9b0(*(CFF9B0SmallArray*)pItemTable);
+    Hkpentitycallbackutil_RemoveNullEntries(*(CFF9B0SmallArray*)pItemTable);
 }
 
 extern DWORD DAT_0126835c;
@@ -1493,5 +1496,5 @@ void __cdecl hkpEntityCallbackUtil_fireContactProcessInternal(void* pOwner, Task
             i--;
         } while (i >= 0);
     }
-    FUN_00cff9b0(*pArr);
+    Hkpentitycallbackutil_RemoveNullEntries(*pArr);
 }

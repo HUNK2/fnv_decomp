@@ -183,7 +183,7 @@ void __thiscall FUN_00589f50_shell::SetSound(void* apSound)
 
 struct Standin00589930
 {
-    void FUN_00589960();
+    void UpdateFields_00589960();
     void* FUN_00589930(unsigned int);
 };
 void __cdecl _Deallocate(void*);
@@ -191,7 +191,7 @@ void __cdecl _Deallocate(void*);
 // @fnv 0x00589930
 void* Standin00589930::FUN_00589930(unsigned int flags)
 {
-    FUN_00589960();
+    UpdateFields_00589960();
     if (flags & 1)
         _Deallocate(this);
     return this;
@@ -209,18 +209,19 @@ BGSCameraPath* BGSCameraPath::GetCameraPathAt(unsigned int uiIndex)
 
 extern int DAT_010320fc;
 
-void __fastcall FUN_0050e9f0(void*);
+void __fastcall UpdateState_0050e9f0(void*);
 
 struct FUN_00589960_shell
 {
-    void __thiscall FUN_00589960();
+    void __thiscall UpdateFields_00589960();
 };
 
 // @fnv 0x00589960
-void __thiscall FUN_00589960_shell::FUN_00589960()
+// src: GUESS 0x00589960 (confidence: low)
+void __thiscall FUN_00589960_shell::UpdateFields_00589960()
 {
     *reinterpret_cast<int**>(this) = &DAT_010320fc;
-    FUN_0050e9f0(this);
+    UpdateState_0050e9f0(this);
 }
 
 struct FUN_0058a120_shell : BGSAcousticSpace

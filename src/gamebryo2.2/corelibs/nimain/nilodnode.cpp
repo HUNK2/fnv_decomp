@@ -346,7 +346,7 @@ bool NiLODNode::IsEqual_00a99400(Holder* other)
     return true;
 }
 
-extern "C" void* __cdecl FUN_00aa13e0(unsigned);
+extern "C" void* __cdecl Object_DispatchCommandFour(unsigned);
 
 // The shared stream is opaque; keep this unit's inline transfer through its read callback.
 inline unsigned int NiBinaryStream::BinaryRead(void* buffer, unsigned int bytes,
@@ -386,7 +386,7 @@ void __thiscall NiLODNode::LoadBinary_00a994d0(NiStream* pStream)
         reinterpret_cast<NiSwitchNode*>(this), stream);
     if (LODGetFileVersion(stream) <= 0xa00010b)
     {
-        void* memory = FUN_00aa13e0(sizeof(NiRangeLODData));
+        void* memory = Object_DispatchCommandFour(sizeof(NiRangeLODData));
         NiRangeLODData* data;
         if (memory)
             data = ((NiRangeLODData*)memory)->InitializeRangeLODData();

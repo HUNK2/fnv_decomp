@@ -506,7 +506,7 @@ void __fastcall NiNode_UpdatePropertiesUpward(NiAVObject* pThis, int, NiProperty
     }
 }
 
-void __fastcall FUN_00a5e930(void* pThis);
+void __fastcall UpdateFields_00c5faa0(void* pThis);
 
 #include "../../../../include/NiMemObject.h"
 
@@ -514,7 +514,7 @@ void __fastcall FUN_00a5e930(void* pThis);
 // @fnv 0x00a5ece0
 void* __fastcall FUN_00a5ece0(void* pThis, int, unsigned int flags)
 {
-    FUN_00a5e930(pThis);
+    UpdateFields_00c5faa0(pThis);
     if (flags & 1)
     {
         NiMemObject::operator delete(pThis, 0xAC);

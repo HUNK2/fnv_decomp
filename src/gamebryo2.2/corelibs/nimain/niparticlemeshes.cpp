@@ -18,7 +18,7 @@ const NiRTTI* NiParticleMeshes::GetRTTI() const
     return reinterpret_cast<const NiRTTI*>(&g_011f5f14);
 }
 
-extern void __cdecl FUN_00a80580();
+extern void __cdecl UpdateFields_00a80580();
 extern "C" void __cdecl _delete(void*, unsigned int);
 
 // Calls FUN_00a80580, then deletes this with _delete when flags has bit 1 set, and returns this.
@@ -26,7 +26,7 @@ extern "C" void __cdecl _delete(void*, unsigned int);
 void* NiParticleMeshes::Delete(unsigned int flags)
 {
     NiParticleMeshes* p = this;
-    FUN_00a80580();
+    UpdateFields_00a80580();
     if (flags & 1)
         _delete(p, 0xcc);
     return p;
@@ -119,7 +119,7 @@ void NiParticleMeshes::RenderTarget(NiRenderer* pkRenderer)
     ((MeshesData*)m_spModelData.m_pObject)->m_pkTarget->OnVisible(*reinterpret_cast<NiCullingProcess*>(pkRenderer));
 }
 
-extern void* __cdecl FUN_00aa13e0(unsigned int size);
+extern void* __cdecl Object_DispatchCommandFour(unsigned int size);
 extern const char DAT_010a0a6c;
 
 
@@ -128,7 +128,7 @@ extern const char DAT_010a0a6c;
 // @fnv 0x00a98f00
 NiParticleMeshes* NiParticleMeshes::CreateAndInitObj(void* pArg)
 {
-    NiParticleMeshes* pObj = (NiParticleMeshes*)FUN_00aa13e0(0xcc);
+    NiParticleMeshes* pObj = (NiParticleMeshes*)Object_DispatchCommandFour(0xcc);
     if (pObj != 0)
     {
         pObj->Init();
@@ -201,7 +201,7 @@ void NiParticleMeshes::UpdateWorldData(NiUpdateData& kData)
     if (pkRenderer->m_bValueAt0C)
     {
         UpdateProperties();
-        FUN_00a29680();
+        Object_DoNothing();
         pkRenderer->m_bValueAt0C = false;
     }
 }

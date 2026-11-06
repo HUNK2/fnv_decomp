@@ -47,7 +47,7 @@ struct TwTypewriter
 
     bool AnimatingText_GetDisplayMode();
     bool AnimatingText_GetFlashMode();
-    const char* FUN_00559450();
+    const char* Modelloader_GetReferencedThis();
     unsigned int BSStringT_char_Length();
     bool FUN_00700270(const char* pcText);
     void AnimatingText_Update();
@@ -62,7 +62,7 @@ void TwTypewriter::AnimatingText_Update()
     {
         if (m_pkCursor && !AnimatingText_GetFlashMode())
             m_pkCursor->Tile_Value_SetFloat_00a0a270(1.0f, 1);
-        if (m_pkCursor && m_pkText && !FUN_00559450())
+        if (m_pkCursor && m_pkText && !Modelloader_GetReferencedThis())
             m_pkCursor->Tile_Value_SetFloat_00a0a270(0.0f, 1);
         if (m_pkText && m_pString && FUN_00700270(m_pString))
         {
@@ -73,7 +73,7 @@ void TwTypewriter::AnimatingText_Update()
                 uiCountZ = BSStringT_char_Length() - iStartTmp;
                 m_bDone = true;
             }
-            FUN_00401460(m_pString + iStartTmp, FUN_00559450() + iStartTmp, uiCountZ);
+            FUN_00401460(m_pString + iStartTmp, Modelloader_GetReferencedThis() + iStartTmp, uiCountZ);
             m_pkText->SetString(m_pString, 1);
         }
         else
@@ -127,7 +127,7 @@ struct FUN_00700110_cls
 
     bool AnimatingText_GetDisplayMode();
     bool AnimatingText_GetFlashMode();
-    int FUN_00559450();
+    int Modelloader_GetReferencedThis();
     void AnimatingText_ForceFinish();
 };
 
@@ -146,13 +146,13 @@ void FUN_00700110_cls::AnimatingText_ForceFinish()
                     m_0c->Tile_Value_SetFloat_00a0a270(1.0f, 1);
                 }
             }
-            if (m_0c != 0 && m_08 != 0 && FUN_00559450() == 0)
+            if (m_0c != 0 && m_08 != 0 && Modelloader_GetReferencedThis() == 0)
             {
                 m_0c->Tile_Value_SetFloat_00a0a270(0.0f, 1);
             }
             if (m_08 != 0 && m_24 != 0)
             {
-                FUN_00401460(m_24, FUN_00559450(), BSstrlen(FUN_00559450()));
+                FUN_00401460(m_24, Modelloader_GetReferencedThis(), BSstrlen(Modelloader_GetReferencedThis()));
                 m_08->SetString(m_24, 1);
                 m_29 = 1;
             }

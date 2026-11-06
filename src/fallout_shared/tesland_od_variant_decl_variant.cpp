@@ -105,7 +105,7 @@ template<int> struct EndianSizeTag {};
 void BSEndian(int*, EndianSizeTag<2>);
 void BSEndian(unsigned short*, EndianSizeTag<2>);
 struct FUN_00535a60_Class {
-    void FUN_00535a60();
+    void ProcessState_00535a60();
 };
 extern int DAT_011c9f04;
 int TESLandTexture_GetDefaultTexture();
@@ -119,11 +119,11 @@ struct FUN_00537ca0_class
 {
     const char* const* NiAdditionalGeometryData_GetRTTI();
 };
-struct FUN_00a73080_holder { void FUN_00a73080(); };
+struct FUN_00a73080_holder { void ReleaseEntries_00a73080(); };
 void __cdecl operator delete(void* p, unsigned int size);
 struct FUN_00540800_Class {
-    void FUN_00540800();
-    void FUN_00537ce0();
+    void UpdateFields_00540800();
+    void ForwardCall_00537ce0();
 };
 extern "C" void* g_011f4aac;
 struct FUN_00537d00_Class {
@@ -148,10 +148,10 @@ struct FUN_00538e30_class {
 extern int DAT_0102e378;
 struct FUN_00538e10_class {
     int* m_vtbl;
-    void __fastcall FUN_00538e10();
+    void __fastcall UpdateState_00538e10();
 };
 struct B1 { virtual ~B1(); void* FUN_00538e80(unsigned int); };
-void __cdecl FUN_00538eb0(void*);
+void __cdecl Tesland_UpdateState_00538eb0(void*);
 extern "C" void __cdecl FUN_00538f20();
 extern int DAT_0102e378;
 struct FUN_00538ef0_class {
@@ -159,14 +159,14 @@ struct FUN_00538ef0_class {
     int m_kPointA;
     int m_kPointB;
     void FUN_00538f20();
-    void* FUN_00538ef0();
+    void* UpdateState_00538ef0();
 };
 extern int DAT_0102e388;
 struct FUN_00538f20 {
     int* p;
     FUN_00538f20();
 };
-void __cdecl FUN_00538eb0(void*);
+void __cdecl Tesland_UpdateState_00538eb0(void*);
 struct FUN_00538f80 {
     void __thiscall FUN_00538fb0();
     void* __thiscall DeleteThis(unsigned int flags);
@@ -340,7 +340,7 @@ struct Prm
     char pad[4];
     unsigned short val;
 };
-void FUN_00538eb0(Prm* p);
+void Tesland_UpdateState_00538eb0(Prm* p);
 struct FUN_0053a5a0_Inner
 {
     char pad[32];
@@ -381,7 +381,7 @@ struct FUN_00537d60 : A51BF0Base {
     void SetOwner(TESQuest*);
     FUN_00537d60();
 };
-void* FUN_00537d60_Create(unsigned int a, unsigned int b, unsigned int c, int d, int e);
+void* Object_ProcessAndReturnValue_00537d60(unsigned int a, unsigned int b, unsigned int c, int d, int e);
 struct FUN_005330d8_class
 {
     void _FNV_GetObjectReference();
@@ -505,8 +505,8 @@ int TESLandTexture_GetDefaultTexture();
 void __fastcall QuestPerkEntryData_Endian(void* p);
 struct FUN_0084e3a0_Class { int GetHavokWorldObjectCountInSceneGraph_0084e3a0(); };
 struct FUN_00535aa0_Class { void OBJ_WEAP_CRITICAL_Endian(); };
-struct FUN_004855a0_shell { void FUN_004855a0(); };
-struct FUN_00485680_shell { void FUN_00485680(); };
+struct FUN_004855a0_shell { void BeginFormRecord(); };
+struct FUN_00485680_shell { void FinishFormRecord(); };
 extern double DAT_0102dfe0;
 extern double DAT_0101e568;
 extern double DAT_01012060;
@@ -934,7 +934,7 @@ extern NiPoint3 DAT_011f426c;
 extern NiPoint2 DAT_011f4980;
 extern UVBounds DAT_011a9bd0;
 struct TextureSample { short FUN_004a8ae0(); short FUN_0047d3f0(); unsigned int FUN_00726070(); };
-struct TexturePointer { TextureSample* FUN_00559450(); };
+struct TexturePointer { TextureSample* Modelloader_GetReferencedThis(); };
 struct TextureManager { void* FUN_006fce30(const NiPoint3&); void* FUN_006fce70(const NiPoint3&); TexturePointer* FUN_006fceb0(const NiPoint3&); };
 struct WorldManager { TextureManager* FUN_00586170(); };
 struct TESView { WorldManager* FUN_004fd3e0(); };
@@ -1519,7 +1519,7 @@ Model* FUN_006629f0(); void BSMultiBound_SetHalfExtents(const NiPoint3&);
 void Update(UpdateData&); void UpdateProperties();
 };
 struct Shape {unsigned short NiGeometry_GetVertexCount(); void* FUN_0049ec60(); Bound* GetSourceFilesFromForm(); GeomData* NiGeometry_GetModelData(); Property* CombatController_GetTarget();};
-struct PropPointer {void* FUN_00559450();};
+struct PropPointer {void* Modelloader_GetReferencedThis();};
 extern PropPointer g_011ca000;
 struct Renderer {virtual void v00();
 virtual void v04();
@@ -1666,13 +1666,13 @@ struct SceneObject {
 };
 struct ScenePointer {
     SceneObject* value;
-    SceneObject* FUN_00559450();
+    SceneObject* Modelloader_GetReferencedThis();
     bool FUN_0052aa80(int value) const;
     void FUN_0066b0d0(SceneObject* value);
 };
 struct QueuePointer {
     void* value;
-    void FUN_006f74f0(void* value);
+    void AssignTaskReference(void* value);
 };
 struct SceneController {
     bool bhkWorld_RemoveBody(SceneObject* object);
@@ -1735,7 +1735,7 @@ struct SceneCleanup {
     void TESObjectLAND_Detach3D();
 };
 ShadowSceneNode* __cdecl FUN_00450b80(int index);
-void* __cdecl FUN_0056d280(unsigned int size);
+void* __cdecl Object_AllocateStorage_0056d280(unsigned int size);
 void* __cdecl FUN_00401460(void* destination, const void* source, unsigned int size);
 struct Buffer538c00
 
@@ -1745,9 +1745,9 @@ struct Buffer538c00
 
     unsigned int m04;
 
-    void __thiscall FUN_00540750(unsigned int size);
+    void __thiscall UpdateState_00540750(unsigned int size);
 
-    void* __thiscall FUN_00559450();
+    void* __thiscall Modelloader_GetReferencedThis();
 
 };
 struct Output538c00
@@ -1777,7 +1777,7 @@ struct Output538c00
     unsigned int m2c;
 
     Output538c00();
-    static void* operator new(unsigned int bytes) { return FUN_0056d280(bytes); }
+    static void* operator new(unsigned int bytes) { return Object_AllocateStorage_0056d280(bytes); }
 
 };
 struct FUN_00538c00_Class

@@ -193,7 +193,7 @@ void __fastcall SavePlanarColliderBinary(NiPSysPlanarCollider* self, void*, NiSt
 
 extern float DAT_011a946c;
 extern float DAT_011a9478;
-void* __cdecl FUN_00aa13e0(unsigned int size);
+void* __cdecl Object_DispatchCommandFour(unsigned int size);
 void* __fastcall InitializePlanarCollider(void*, int, float, int, int, void*, void*, float, float, NiPoint3, NiPoint3);
 typedef NiPSysPlanarCollider* (__thiscall* InitializePlanarColliderFunction)(void*, float, int, int, void*, void*, float, float, NiPoint3, NiPoint3);
 
@@ -201,7 +201,7 @@ typedef NiPSysPlanarCollider* (__thiscall* InitializePlanarColliderFunction)(voi
 NiPSysPlanarCollider* __fastcall CreatePlanarColliderClone(NiPSysPlanarCollider* self, void*, CloningProcess& process)
 {
     NiPSysPlanarCollider* obj;
-    void* mem = FUN_00aa13e0(0x100);
+    void* mem = Object_DispatchCommandFour(0x100);
     if (mem != 0)
     {
         obj = reinterpret_cast<InitializePlanarColliderFunction>(&InitializePlanarCollider)(mem, 1.0f, 0, 0, 0, 0, 1.0f, 1.0f,
@@ -223,7 +223,7 @@ NiPSysPlanarCollider* __fastcall CreatePlanarColliderClone(NiPSysPlanarCollider*
 // @fnv 0x00c29af0
 int __cdecl CreatePlanarCollider()
 {
-    void* helper = FUN_00aa13e0(0x100);
+    void* helper = Object_DispatchCommandFour(0x100);
     if (helper)
     {
         return reinterpret_cast<int>(reinterpret_cast<InitializePlanarColliderFunction>(&InitializePlanarCollider)(helper, 1.0f, 0, 0, 0, 0, 1.0f, 1.0f,

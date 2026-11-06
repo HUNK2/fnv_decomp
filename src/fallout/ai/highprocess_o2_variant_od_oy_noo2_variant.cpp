@@ -24,7 +24,7 @@ struct xFilter
     void CFilter_SetLayer(int);
     void CFilter_SetGroup(unsigned int);
     int CFilter_GetGroup();
-    unsigned int FUN_00559450();
+    unsigned int Modelloader_GetReferencedThis();
     unsigned int m_uiFilterValue;
 };
 struct xHasFilter
@@ -64,7 +64,7 @@ int __fastcall xFUN_004ae750(void*);
 struct xBodyV;
 struct xPtr
 {
-    unsigned int FUN_00559450();
+    unsigned int Modelloader_GetReferencedThis();
     xBodyV* operator->();
     void FUN_0066b0d0(void*);
 };
@@ -820,7 +820,7 @@ void xController::HighProcess_SetupPhantom(xActor* apActor)
 {
     if (apActor->m_68->FUN_5f0())
     {
-        if (!m_434.FUN_00559450())
+        if (!m_434.Modelloader_GetReferencedThis())
         {
             xPoint3 HALF = *apActor->m_68->FUN_5f0()->FUN_00500940();
             float fActorScale = apActor->TESObjectREFR_GetScale_00567400();
@@ -837,7 +837,7 @@ void xController::HighProcess_SetupPhantom(xActor* apActor)
             if (OWNER)
                 FILTER.CFilter_SetGroup(OWNER->bhkCharacterController_GetCollisionFilter().CFilter_GetGroup());
             xCinfo CINFO;
-            CINFO.m_uiFilterInfo = FILTER.FUN_00559450();
+            CINFO.m_uiFilterInfo = FILTER.Modelloader_GetReferencedThis();
             CINFO.m_pCollisionShape = xFUN_004ae750(SHAPE);
             CINFO.m_vContactPosition.SetFromScaledVector3(apActor->FUN_1f4());
             m_434.FUN_0066b0d0(new xBody(&CINFO));

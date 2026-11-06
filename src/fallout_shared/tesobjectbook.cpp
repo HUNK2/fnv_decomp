@@ -203,7 +203,7 @@ unsigned short __thiscall TESObjectBOOK::GetSaveSize_00515220(unsigned int aiFla
 {
     unsigned short isize = 0;
     isize += static_cast<unsigned short>(TESForm::GetSaveSize(aiFlags));
-    isize += TESValueForm::FUN_0048e9b0(aiFlags);
+    isize += TESValueForm::GetFlaggedDataSize(aiFlags);
     if (aiFlags & 0x20)
         isize += 1;
     return isize;
@@ -301,7 +301,7 @@ bool __cdecl TESForm_QEndianSwapOnSave();
 // @fnv 0x00514de0
 void TESObjectBOOK::Destroy()
 {
-    TESForm::FUN_004855a0();
+    TESForm::BeginFormRecord();
     ((S_00487010*)((char*)this + 0x30))->Save_00487010();
     ((S_0048a520*)((char*)this + 0x3c))->ProcessAndFreeData(0x4c444f4d, 0x54444f4d, 0x53444f4d);
     ((FUN_0048e370_obj*)((char*)this + 0x5c))->TESTexture_Save(0x4e4f4349);
@@ -316,7 +316,7 @@ void TESObjectBOOK::Destroy()
     TESForm::TESForm___SaveData((Date*)((char*)this + 0xc0), 2);
     if (TESForm_QEndianSwapOnSave())
         ((Date*)((char*)this + 0xc0))->Date::~Date();
-    TESForm::FUN_00485680();
+    TESForm::FinishFormRecord();
 }
 
 // Destructor of the object; the body is empty.

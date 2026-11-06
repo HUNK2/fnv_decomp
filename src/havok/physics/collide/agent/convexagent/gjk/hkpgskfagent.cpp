@@ -17,7 +17,7 @@ inline hkpCollisionDispatcher::CollisionAgentFunctionTable::CollisionAgentFuncti
 
 void __cdecl TestGsk();
 void __cdecl FUN_00dac450();
-void __cdecl FUN_00daf8e0();
+void __cdecl Object_ProcessEntries_00daf8e0();
 
 // @fnv 0x00dacc70
 __declspec(noinline) void __cdecl hkpGskfAgent::InitAgentFunc(hkpCollisionDispatcher::CollisionAgentFunctionTable& f)
@@ -25,7 +25,7 @@ __declspec(noinline) void __cdecl hkpGskfAgent::InitAgentFunc(hkpCollisionDispat
     f.m_pCreateFunc = m_pVirtualFunction0;
     f.m_pQueryPenetrationsFunc = (hkpCollisionDispatcher::GetPenetrationsFunc)TestGsk;
     f.m_pGetPenetrationsFunc = (hkpCollisionDispatcher::GetClosestPointsFunc)FUN_00dac450;
-    f.m_pLinearCastFunc = (hkpCollisionDispatcher::LinearCastFunc)FUN_00daf8e0;
+    f.m_pLinearCastFunc = (hkpCollisionDispatcher::LinearCastFunc)Object_ProcessEntries_00daf8e0;
     f.m_bIsFlipped = false;
     f.m_bIsPredictive = false;
 }

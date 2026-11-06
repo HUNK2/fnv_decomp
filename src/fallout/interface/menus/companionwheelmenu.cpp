@@ -1556,8 +1556,8 @@ struct CStringArg_757690
     unsigned length;
     ~CStringArg_757690();
     unsigned __thiscall BSStringT_char_Length();
-    int __thiscall FUN_00559450();
-    int __thiscall FUN_00559450(int);
+    int __thiscall Modelloader_GetReferencedThis();
+    int __thiscall Modelloader_GetReferencedThis(int);
 };
 struct CInterface_757690
 {
@@ -1589,13 +1589,13 @@ void __thiscall CWheelMenu_757690::SetItemTextAndValue(CStringArg_757690 text, B
         {
             if (reinterpret_cast<CompanionWheelMenu*>(this)->tiles[12])
             {
-                reinterpret_cast<CompanionWheelMenu*>(this)->tiles[12]->Set(0xfc4, (const char*)text.FUN_00559450(1));
+                reinterpret_cast<CompanionWheelMenu*>(this)->tiles[12]->Set(0xfc4, (const char*)text.Modelloader_GetReferencedThis(1));
             }
             shift = (float)value.GetDuration();
             if (shift == DAT_01012060)
             {
                 shift =
-                    (float)((double)FUN_00ec6130(text.FUN_00559450()) * (*DAT_011d2178.Setting_Float_00403e20()) * DAT_01017b70);
+                    (float)((double)FUN_00ec6130(text.Modelloader_GetReferencedThis()) * (*DAT_011d2178.Setting_Float_00403e20()) * DAT_01017b70);
             }
             reinterpret_cast<CompanionWheelMenu*>(this)->textClearTime = (unsigned)((double)Cmd_GetSessionTime_Execute() + shift);
         }
@@ -2348,7 +2348,7 @@ bool Cmd_Say_Execute(void* paramInfo, void* scriptData, Reference* source, void*
         priorityFlag = true;
     Actor* actor = FUN_00ec43fb(source, 0, &DAT_011841cc, &DAT_011846d4, 0);
     int previous = *DAT_011cd378.Setting_Int();
-    DAT_011cd378.FUN_0045ce80(0x7fffffff);
+    DAT_011cd378.ProcessAndReturnValue_0045ce80(0x7fffffff);
     if (idleVal)
     {
         if (actor)
@@ -2422,7 +2422,7 @@ bool Cmd_Say_Execute(void* paramInfo, void* scriptData, Reference* source, void*
             events3.FUN_00ad8e60(TESObjectREFR_SayToCallBack, source->GetHavokWorldObjectCountInSceneGraph_0084e3a0());
         }
     }
-    DAT_011cd378.FUN_0045ce80(previous);
+    DAT_011cd378.ProcessAndReturnValue_0045ce80(previous);
     return true;
 }
 }
@@ -2564,7 +2564,7 @@ struct HealingExtraList
 };
 struct HealingInventoryEntry
 {
-    HealingExtraList* FUN_00559450();
+    HealingExtraList* Modelloader_GetReferencedThis();
     TESBoundObject* FUN_0044ddc0();
     void* FUN_004459e0(unsigned int);
 };
@@ -2795,9 +2795,9 @@ void CompanionHealingMenu::HealCompanion()
                     if (healthX < DAT_01012070)
                         companion->EquipItemWithCaster(
                             dynamic_cast<AlchemyItem*>(entry->FUN_0044ddc0()),
-                            entry->FUN_00559450() ? entry->FUN_00559450()->FUN_006815c0() : 0, 1);
+                            entry->Modelloader_GetReferencedThis() ? entry->Modelloader_GetReferencedThis()->FUN_006815c0() : 0, 1);
                     DAT_011dea3c->RemoveItem(entry->FUN_0044ddc0(),
-                                             entry->FUN_00559450() ? entry->FUN_00559450()->FUN_006815c0() : 0, 1, 0, 0,
+                                             entry->Modelloader_GetReferencedThis() ? entry->Modelloader_GetReferencedThis()->FUN_006815c0() : 0, 1, 0, 0,
                                              0, 0, 0, 1, 0);
                     companion->FUN_008c3c40(0, 1);
                     companion->Actor_RestoreActorValue(31, DAT_01013974);

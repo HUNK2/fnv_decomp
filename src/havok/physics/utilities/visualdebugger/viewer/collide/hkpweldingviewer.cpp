@@ -66,12 +66,13 @@ struct HKConstraint
     int unk00;
     int unk04;
     void* unk08;
-    void FUN_00d62680(HKWorldList* list);
+    void ProcessAndTransformResult_00d62680(HKWorldList* list);
 };
 
 // Passes a pointer to unk08 to the list's add method, or null when the adjusted this pointer is zero.
 // @fnv 0x00d62680
-void HKConstraint::FUN_00d62680(HKWorldList* pWorldList)
+// src: GUESS 0x00d62680 (confidence: low)
+void HKConstraint::ProcessAndTransformResult_00d62680(HKWorldList* pWorldList)
 {
     pWorldList->IsEntityAdded(((char*)this - 0x20) ? (void*)&unk08 : (void*)0);
 }
@@ -292,7 +293,8 @@ extern "C" void* __cdecl hkMemoryRouter_getInstance();
 
 // Allocates a 0x2c-byte Viewer from the manager's pool, sets its size field, constructs it with arg, and returns a pointer offset by 8 or null.
 // @fnv 0x00d62e20
-void* __cdecl FUN_00d62e20_impl(void* arg)
+// src: GUESS 0x00d62e20 (confidence: low)
+void* __cdecl Object_ProcessAndReturnValue_00d62e20(void* arg)
 {
     Manager* pManager = (Manager*)hkMemoryRouter_getInstance();
     Viewer* pViewer = pManager->unk10->alloc0x2c(0x2c);
@@ -306,7 +308,8 @@ void* __cdecl FUN_00d62e20_impl(void* arg)
 extern int g_D62E80Value;
 
 // @fnv 0x00d62e80
-int __cdecl FUN_00d62e80()
+// src: GUESS 0x00d62e80 (confidence: low)
+int __cdecl Object_GetG_D62E80Value_00d62e80()
 {
     return g_D62E80Value;
 }
@@ -373,14 +376,14 @@ Own_00d62e90* make_00d62e90()
 struct D62EA0Primary
 {
     virtual void vfunc00();
-    virtual void FUN_00d62ea0();
+    virtual void AdjustThisAndForward_00d62ea0();
 
     int unk04;
 };
 
 struct D62EA0Secondary
 {
-    virtual void FUN_00d62ea0();
+    virtual void AdjustThisAndForward_00d62ea0();
 };
 
 struct D62EA0Object : D62EA0Primary, D62EA0Secondary
@@ -388,7 +391,8 @@ struct D62EA0Object : D62EA0Primary, D62EA0Secondary
     D62EA0Object();
 
 // @fnv 0x00d62ea0
-    virtual void FUN_00d62ea0();
+// src: GUESS 0x00d62ea0 (confidence: low)
+    virtual void AdjustThisAndForward_00d62ea0();
 };
 
 D62EA0Object::D62EA0Object()

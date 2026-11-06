@@ -150,7 +150,8 @@ static __m128 dot3(__m128 a, __m128 b)
     __m128 v = _mm_mul_ps(a, b);
     return _mm_add_ss(_mm_shuffle_ps(v, v, 0xaa), _mm_add_ss(_mm_shuffle_ps(v, v, 0x55), v));
 }
-static __declspec(noinline) void FUN_00ce0ff0(SubObj* object, Pose32* pose)
+// src: GUESS 0x00ce0ff0 (confidence: low)
+static __declspec(noinline) void hkQuaternion_ComputeValues_00ce0ff0(SubObj* object, Pose32* pose)
 {
     __m128 axis = _mm_load_ps(reinterpret_cast<float*>(object));
     __declspec(align(16)) float absAxis[4];
@@ -195,7 +196,7 @@ int Owner::hkaPoseMatchingUtility_addCandidatePose(void* pose, int arg2, float t
     poseData.unk14 = time;
     poseData.unk10 = arg2;
     hkaPoseMatchingUtility_computeOrientation(pose, &poseData);
-    FUN_00ce0ff0(&sub, &poseData);
+    hkQuaternion_ComputeValues_00ce0ff0(&sub, &poseData);
     ArrayRouter* router = hkMemoryRouter_getInstance();
     if (count == (capacity & 0x3FFFFFFF))
         ResizeAudioStream(router->m_pStreamAllocator, this, 0x20);
@@ -361,11 +362,12 @@ class FUN_00ce2000Owner
     int unk28;
     hkaSkeleton* m_pkSkeleton;
 
-    void FUN_00ce2000(int iBone, hkQsTransform& kOut);
+    void ProcessAndReturnValue_00ce2000(int iBone, hkQsTransform& kOut);
 };
 
 // @fnv 0x00ce2000
-void FUN_00ce2000Owner::FUN_00ce2000(int iBone, hkQsTransform& kOut)
+// src: GUESS 0x00ce2000 (confidence: low)
+void FUN_00ce2000Owner::ProcessAndReturnValue_00ce2000(int iBone, hkQsTransform& kOut)
 {
     int iBody = m_piBoneToBody[iBone];
     if (iBody >= 0)
@@ -382,7 +384,7 @@ void FUN_00ce2000Owner::FUN_00ce2000(int iBone, hkQsTransform& kOut)
     hkQsTransform kParent;
     int iParent = m_pkSkeleton->m_kParentIndices.m_data[iBone];
     if (iParent >= 0)
-        FUN_00ce2000(iParent, kParent);
+        ProcessAndReturnValue_00ce2000(iParent, kParent);
     else
         kParent.setIdentity();
     ComposeReferenceTransform(kOut, kParent, m_pkSkeleton->m_kReferencePose.m_data[iBone]);
@@ -467,7 +469,7 @@ struct Ce12a0Self
 class Ce12a0Host
 {
   public:
-    void FUN_00ce12a0(void* a1, void* a2, hkQsTransform* a3, hkQsTransform* a4);
+    void UpdateFields_00ce12a0(void* a1, void* a2, hkQsTransform* a3, hkQsTransform* a4);
 };
 
 __forceinline void hkVector4::SetRotatedDirection(const hkVector4& q, const hkVector4& b)
@@ -487,7 +489,8 @@ __forceinline void hkVector4::SetRotatedDirection(const hkVector4& q, const hkVe
 }
 
 // @fnv 0x00ce12a0
-void Ce12a0Host::FUN_00ce12a0(void* a1, void* a2, hkQsTransform* a3, hkQsTransform* a4)
+// src: GUESS 0x00ce12a0 (confidence: low)
+void Ce12a0Host::UpdateFields_00ce12a0(void* a1, void* a2, hkQsTransform* a3, hkQsTransform* a4)
 {
     Ce12a0Self* self = (Ce12a0Self*)this;
     hkQuaternion q0, q1;
@@ -530,11 +533,12 @@ struct VectorTest
 {
     __m128 m_data;
 
-    ByteResult FUN_00ce1500() const;
+    ByteResult ProcessAndReturnValue_00ce1500() const;
 };
 
 // @fnv 0x00ce1500
-ByteResult VectorTest::FUN_00ce1500() const
+// src: GUESS 0x00ce1500 (confidence: low)
+ByteResult VectorTest::ProcessAndReturnValue_00ce1500() const
 {
     __m128 v = m_data;
     float scale = DAT_0104da4c;
@@ -633,7 +637,8 @@ extern __m128 DAT_010c71e0;
 extern __m128 DAT_010c4c00;
 
 // @fnv 0x00ce0ff0
-static __declspec(noinline) void FUN_00ce0ff0(const hkVector4& dir, hkQuaternion& q)
+// src: GUESS 0x00ce0ff0 (confidence: low)
+static __declspec(noinline) void hkQuaternion_ComputeValues_00ce0ff0(const hkVector4& dir, hkQuaternion& q)
 {
     hkVector4 perp;
     perp.m_vComponents = _mm_setzero_ps();
@@ -692,7 +697,7 @@ static __declspec(noinline) void FUN_00ce0ff0(const hkVector4& dir, hkQuaternion
 void AlignDirections(const hkVector4& dir, hkQuaternion* quaternions, int count)
 {
     for (int i = 0; i < count; ++i)
-        FUN_00ce0ff0(dir, quaternions[i]);
+        hkQuaternion_ComputeValues_00ce0ff0(dir, quaternions[i]);
 }
 
 #include <math.h>

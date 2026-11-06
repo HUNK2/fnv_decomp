@@ -300,10 +300,11 @@ extern int DAT_010b0a00;
 extern int DAT_010b09dc;
 struct FUN_00b8d950_class
 {
-    FUN_00b8d950_class* __thiscall FUN_00b8d950(bool flag);
+    FUN_00b8d950_class* __thiscall SetVtableAndProcessState_00b8d950(bool flag);
 };
 // @fnv 0x00b8d950
-FUN_00b8d950_class* __thiscall FUN_00b8d950_class::FUN_00b8d950(bool abFree)
+// src: GUESS 0x00b8d950 (confidence: low)
+FUN_00b8d950_class* __thiscall FUN_00b8d950_class::SetVtableAndProcessState_00b8d950(bool abFree)
 {
     *(int*)this = (int)&DAT_010b0a00;
     *(int*)((char*)this + 0x6c) = (int)&DAT_010b09dc;
@@ -922,11 +923,12 @@ extern int DAT_010b33f0;
 
 struct FUN_00b8ffb0_class
 {
-    FUN_00b8ffb0_class* __thiscall FUN_00b8ffb0(bool b);
+    FUN_00b8ffb0_class* __thiscall SetVtableAndProcessState_00b8ffb0(bool b);
 };
 
 // @fnv 0x00b8ffb0
-FUN_00b8ffb0_class* __thiscall FUN_00b8ffb0_class::FUN_00b8ffb0(bool abFree)
+// src: GUESS 0x00b8ffb0 (confidence: low)
+FUN_00b8ffb0_class* __thiscall FUN_00b8ffb0_class::SetVtableAndProcessState_00b8ffb0(bool abFree)
 {
     *(int*)this = (int)&DAT_010b33f0;
     *(int*)((char*)this + 0x6c) = (int)&DAT_010b33cc;
@@ -3761,10 +3763,11 @@ struct S_00b8d8c0_Cls
     virtual void v148()
     {}
     virtual void v14c();
-    void FUN_00b8d8c0();
+    void UpdateFields_00b8d8c0();
 };
 // @fnv 0x00b8d8c0
-void S_00b8d8c0_Cls::FUN_00b8d8c0()
+// src: GUESS 0x00b8d8c0 (confidence: low)
+void S_00b8d8c0_Cls::UpdateFields_00b8d8c0()
 {
     S_00b8d8c0_Desc s1;
     S_00b8d8c0_Desc s2;
@@ -4094,10 +4097,11 @@ struct S_00b8db50_Cls
     virtual void v148()
     {}
     virtual void v14c();
-    void FUN_00b8db50();
+    void UpdateState_00b8db50();
 };
 // @fnv 0x00b8db50
-void S_00b8db50_Cls::FUN_00b8db50()
+// src: GUESS 0x00b8db50 (confidence: low)
+void S_00b8db50_Cls::UpdateState_00b8db50()
 {
     S_00b8db50_Desc s1;
     S_00b8db50_Desc s2;
@@ -5351,12 +5355,13 @@ class FUN_00b8f590_cls
     virtual void v51();
     virtual void v52();
     virtual void v53();
-    void FUN_00b8f590();
+    void UpdateState_00b8f590();
 };
 
 // Fills a shader frame with the base.v.hlsl path, NOTEX and NULL names, zeroes its parameter blocks, then calls v4F and v53.
 // @fnv 0x00b8f590
-void FUN_00b8f590_cls::FUN_00b8f590()
+// src: GUESS 0x00b8f590 (confidence: low)
+void FUN_00b8f590_cls::UpdateState_00b8f590()
 {
     FUN_00b8f590_frame f;
     f.unk00 = "imagespace\\1x\\v\\base.v.hlsl";
@@ -5859,11 +5864,12 @@ struct FUN_00b8fc50_cls
     virtual void v144();
     virtual void v148();
     virtual void v14c();
-    void FUN_00b8fc50();
+    void UpdateState_00b8fc50();
 };
 // Fills two shader parameter blocks (base.v.hlsl/TEX2 and RadialBlur.p.hlsl/NUM_STEPS=10.0f), passes them to v13c with RBLURH/vs_1_1/ps_2_0, then calls v14c.
 // @fnv 0x00b8fc50
-void FUN_00b8fc50_cls::FUN_00b8fc50()
+// src: GUESS 0x00b8fc50 (confidence: low)
+void FUN_00b8fc50_cls::UpdateState_00b8fc50()
 {
     unsigned int f[0x26];
     f[0x13] = (unsigned int)"imagespace\\1x\\v\\base.v.hlsl";
@@ -8105,11 +8111,12 @@ class FUN_00b92e00_cls
     virtual void v51();
     virtual void v52();
     virtual void v53();
-    void FUN_00b92e00();
+    void UpdateFields_00b92e00();
 };
 
 // @fnv 0x00b92e00
-void FUN_00b92e00_cls::FUN_00b92e00()
+// src: GUESS 0x00b92e00 (confidence: low)
+void FUN_00b92e00_cls::UpdateFields_00b92e00()
 {
     FUN_00b92e00_frame f;
     f.unk4C = "water\\2_ab\\v\\displace.v.hlsl";
@@ -8492,11 +8499,12 @@ class FUN_00b931f0_cls
     virtual void v51();
     virtual void v52();
     virtual void v53();
-    void FUN_00b931f0();
+    void UpdateState_00b931f0();
 };
 
 // @fnv 0x00b931f0
-void FUN_00b931f0_cls::FUN_00b931f0()
+// src: GUESS 0x00b931f0 (confidence: low)
+void FUN_00b931f0_cls::UpdateState_00b931f0()
 {
     FUN_00b931f0_frame f;
     f.unk4C = "water\\2_ab\\v\\displace.v.hlsl";
@@ -8892,11 +8900,12 @@ struct Shader_b93420
     int unkc0;
     RefTarget_b93420* m_pkVertex;
     RefTarget_b93420* m_pkPixel;
-    bool FUN_00b93420();
+    bool ProcessEntries_00b93420();
 };
 
 // @fnv 0x00b93420
-bool Shader_b93420::FUN_00b93420()
+// src: GUESS 0x00b93420 (confidence: low)
+bool Shader_b93420::ProcessEntries_00b93420()
 {
     StageReturnRef stage;
     FUN_00e804d0(&m_pRenderPass);
@@ -9298,11 +9307,12 @@ class FUN_00b93b10_cls
     virtual void v82();
     virtual void v83();
 
-    void FUN_00b93b10();
+    void UpdateState_00b93b10();
 };
 
 // @fnv 0x00b93b10
-void FUN_00b93b10_cls::FUN_00b93b10()
+// src: GUESS 0x00b93b10 (confidence: low)
+void FUN_00b93b10_cls::UpdateState_00b93b10()
 {
     ShaderSourceA source;
     ShaderSourceB sourceB;
@@ -9582,11 +9592,12 @@ struct FUN_00b93db0_Object
     virtual void vf148();
     virtual void vf14C();
 
-    void __thiscall FUN_00b93db0();
+    void __thiscall UpdateState_00b93db0();
 };
 
 // @fnv 0x00b93db0
-void __thiscall FUN_00b93db0_Object::FUN_00b93db0()
+// src: GUESS 0x00b93db0 (confidence: low)
+void __thiscall FUN_00b93db0_Object::UpdateState_00b93db0()
 {
     FUN_00b93db0_First first;
     FUN_00b93db0_Second second;
@@ -11996,11 +12007,12 @@ struct FUN_00b8ff10_class : public S_00b8ff10_Base
     virtual void v82();
     virtual void v83();
 
-    void __thiscall FUN_00b8ff10();
+    void __thiscall UpdateState_00b8ff10();
 };
 
 // @fnv 0x00b8ff10
-void FUN_00b8ff10_class::FUN_00b8ff10()
+// src: GUESS 0x00b8ff10 (confidence: low)
+void FUN_00b8ff10_class::UpdateState_00b8ff10()
 {
     S_00b8ff10_Local1 local1;
     S_00b8ff10_Local2 local2;
@@ -13216,7 +13228,7 @@ struct CBB9180 : NiMemObj
         data_00_48, data_00_4c, data_00_50, data_00_54;
     CBB9180();
 };
-void* __cdecl FUN_00aa13e0(unsigned int n);
+void* __cdecl Object_DispatchCommandFour(unsigned int n);
 struct CB8EFA0
 {
     CB8EFA0* __thiscall FUN_00b8efa0();
@@ -15745,12 +15757,13 @@ FUN_00b8a8e0::~FUN_00b8a8e0()
 class WaterFFTDisplayEffect : public B8F080ImageSpaceEffect
 {
   public:
-    void FUN_00b941a0();
+    void CreateFFTDisplayShaders();
 };
 
 // Creates vertex and pixel shaders for the FFT display high-water effect and calls SetupShaders.
 // @fnv 0x00b941a0
-void WaterFFTDisplayEffect::FUN_00b941a0()
+// src: GUESS 0x00b941a0 (confidence: medium)
+void WaterFFTDisplayEffect::CreateFFTDisplayShaders()
 {
     B8F080ShaderFile kVertexDelta = {"imagespace\\1x\\v\\base.v.hlsl", {{NULL, NULL}}};
     B8F080ShaderFile kPixel = {"water\\2_ab\\p\\waterhmap.p.hlsl", {{"DISPLAY_HIGHW", NULL}, {NULL, NULL}}};
@@ -16436,21 +16449,22 @@ namespace fnv_00b8d840 {
 // vtable slot when the derived class inherits the same virtual from both bases.
 struct PrimaryBase
 {
-    virtual void FUN_00b8d840();
+    virtual void AdjustThisAndForward_00b8d840();
     int unk04;
     int unk08[25];
 };
 
 struct SecondaryBase
 {
-    virtual void FUN_00b8d840();
+    virtual void AdjustThisAndForward_00b8d840();
 };
 
 struct Derived : public PrimaryBase, public SecondaryBase
 {
     Derived();
 // @fnv 0x00b8d840
-    virtual void FUN_00b8d840();
+// src: GUESS 0x00b8d840 (confidence: low)
+    virtual void AdjustThisAndForward_00b8d840();
 };
 
 Derived::Derived()
@@ -16472,7 +16486,7 @@ namespace fnv_00b8d980 {
 // what makes the compiler emit the vtables and the adjusting thunk.
 struct PrimaryBase
 {
-    virtual void FUN_00b8d980();
+    virtual void AdjustThisAndForward_00b8d980();
     int unk04;
     int unk08;
     int unk0C;
@@ -16503,14 +16517,15 @@ struct PrimaryBase
 
 struct SecondaryBase
 {
-    virtual void FUN_00b8d980();
+    virtual void AdjustThisAndForward_00b8d980();
 };
 
 struct Derived : PrimaryBase, SecondaryBase
 {
     Derived();
 // @fnv 0x00b8d980
-    virtual void FUN_00b8d980();
+// src: GUESS 0x00b8d980 (confidence: low)
+    virtual void AdjustThisAndForward_00b8d980();
 };
 
 Derived::Derived()
@@ -16551,7 +16566,7 @@ namespace fnv_00b8dc20 {
 // the derived class defines only its constructor, so the compiler emits the this-adjusting thunk.
 struct PrimaryBase
 {
-    virtual void FUN_00b8dc20();
+    virtual void AdjustThisAndForward_00b8dc20();
     int unk04;
     int unk08;
     int unk0C;
@@ -16582,14 +16597,15 @@ struct PrimaryBase
 
 struct SecondaryBase
 {
-    virtual void FUN_00b8dc20();
+    virtual void AdjustThisAndForward_00b8dc20();
 };
 
 struct Derived : PrimaryBase, SecondaryBase
 {
     Derived();
 // @fnv 0x00b8dc20
-    virtual void FUN_00b8dc20();
+// src: GUESS 0x00b8dc20 (confidence: low)
+    virtual void AdjustThisAndForward_00b8dc20();
 };
 
 Derived::Derived()
@@ -16641,7 +16657,7 @@ Own_00b8dd70* make_00b8dd70()
 // thunk's jump is a relocation to an external symbol.
 struct ThunkPrimaryBase
 {
-    virtual void FUN_00b8dec0();
+    virtual void AdjustThisAndForward_00b8dec0();
     int unk04;
     int unk08;
     int unk0C;
@@ -16672,14 +16688,15 @@ struct ThunkPrimaryBase
 
 struct ThunkSecondaryBase
 {
-    virtual void FUN_00b8dec0();
+    virtual void AdjustThisAndForward_00b8dec0();
 };
 
 struct ThunkDerived : ThunkPrimaryBase, ThunkSecondaryBase
 {
     ThunkDerived();
 // @fnv 0x00b8dec0
-    virtual void FUN_00b8dec0();
+// src: GUESS 0x00b8dec0 (confidence: low)
+    virtual void AdjustThisAndForward_00b8dec0();
 };
 
 ThunkDerived::ThunkDerived()
@@ -16745,7 +16762,7 @@ namespace fnv_00b8e160 {
 // base: vtable pointer plus 26 int members (4 + 26*4 = 0x6c).
 struct PrimaryBase
 {
-    virtual void FUN_00b8e160();
+    virtual void AdjustThisAndForward_00b8e160();
     int unk04;
     int unk08;
     int unk0C;
@@ -16776,14 +16793,15 @@ struct PrimaryBase
 
 struct SecondaryBase
 {
-    virtual void FUN_00b8e160();
+    virtual void AdjustThisAndForward_00b8e160();
 };
 
 struct Derived : PrimaryBase, SecondaryBase
 {
     Derived();
 // @fnv 0x00b8e160
-    virtual void FUN_00b8e160();
+// src: GUESS 0x00b8e160 (confidence: low)
+    virtual void AdjustThisAndForward_00b8e160();
 };
 
 Derived::Derived()
@@ -16944,7 +16962,7 @@ namespace fnv_00b8f2e0 {
 // the derived class defines only its constructor, so the compiler emits the this-adjusting thunk.
 struct PrimaryBase
 {
-    virtual void FUN_00b8f2e0();
+    virtual void AdjustThisAndForward_00b8f2e0();
     int unk04;
     int unk08;
     int unk0C;
@@ -16975,14 +16993,15 @@ struct PrimaryBase
 
 struct SecondaryBase
 {
-    virtual void FUN_00b8f2e0();
+    virtual void AdjustThisAndForward_00b8f2e0();
 };
 
 struct Derived : PrimaryBase, SecondaryBase
 {
     Derived();
 // @fnv 0x00b8f2e0
-    virtual void FUN_00b8f2e0();
+// src: GUESS 0x00b8f2e0 (confidence: low)
+    virtual void AdjustThisAndForward_00b8f2e0();
 };
 
 Derived::Derived()
@@ -17005,7 +17024,7 @@ namespace fnv_00b8f4a0 {
 // jump remains a relocation to an external symbol.
 struct PrimaryBase
 {
-    virtual int* FUN_00b8f4a0(bool);
+    virtual int* AdjustThisAndForward_00b8f4a0(bool);
     int unk04;
     int unk08;
     int unk0C;
@@ -17036,14 +17055,15 @@ struct PrimaryBase
 
 struct SecondaryBase
 {
-    virtual int* FUN_00b8f4a0(bool);
+    virtual int* AdjustThisAndForward_00b8f4a0(bool);
 };
 
 struct Derived : PrimaryBase, SecondaryBase
 {
     Derived();
 // @fnv 0x00b8f4a0
-    virtual int* FUN_00b8f4a0(bool);
+// src: GUESS 0x00b8f4a0 (confidence: low)
+    virtual int* AdjustThisAndForward_00b8f4a0(bool);
 };
 
 Derived::Derived()
@@ -17106,7 +17126,7 @@ namespace fnv_00b8f700 {
 // the derived class defines only its constructor, so the compiler emits the this-adjusting thunk.
 struct PrimaryBase
 {
-    virtual void FUN_00b8f700();
+    virtual void AdjustThisAndForward_00b8f700();
     int unk04;
     int unk08;
     int unk0C;
@@ -17137,14 +17157,15 @@ struct PrimaryBase
 
 struct SecondaryBase
 {
-    virtual void FUN_00b8f700();
+    virtual void AdjustThisAndForward_00b8f700();
 };
 
 struct Derived : PrimaryBase, SecondaryBase
 {
     Derived();
 // @fnv 0x00b8f700
-    virtual void FUN_00b8f700();
+// src: GUESS 0x00b8f700 (confidence: low)
+    virtual void AdjustThisAndForward_00b8f700();
 };
 
 Derived::Derived()
@@ -17209,7 +17230,7 @@ namespace fnv_00b8f920 {
 // PrimaryBase = vptr (4) + 26 named ints (104) = 0x6c.
 struct PrimaryBase
 {
-    virtual void FUN_00b8f920();
+    virtual void AdjustThisAndForward_00b8f920();
     int unk04;
     int unk08;
     int unk0C;
@@ -17240,14 +17261,15 @@ struct PrimaryBase
 
 struct SecondaryBase
 {
-    virtual void FUN_00b8f920();
+    virtual void AdjustThisAndForward_00b8f920();
 };
 
 struct Derived : PrimaryBase, SecondaryBase
 {
     Derived();
 // @fnv 0x00b8f920
-    virtual void FUN_00b8f920();
+// src: GUESS 0x00b8f920 (confidence: low)
+    virtual void AdjustThisAndForward_00b8f920();
 };
 
 Derived::Derived()
@@ -17616,20 +17638,21 @@ Derived::Derived()
 
 struct Prim6c
 {
-    virtual void FUN_00b91b40();
+    virtual void AdjustThisAndForward_00b91b40();
     int p04, p08, p0c, p10, p14, p18, p1c, p20, p24, p28, p2c, p30, p34, p38, p3c, p40, p44, p48, p4c, p50, p54, p58,
         p5c, p60, p64, p68;
 };
 
 struct Sec6c
 {
-    virtual void FUN_00b91b40();
+    virtual void AdjustThisAndForward_00b91b40();
 };
 
 struct Host6c : Prim6c, Sec6c
 {
 // @fnv 0x00b91b40
-    virtual void FUN_00b91b40();
+// src: GUESS 0x00b91b40 (confidence: low)
+    virtual void AdjustThisAndForward_00b91b40();
 };
 
 static Host6c g_thunk6c;
@@ -17639,7 +17662,7 @@ namespace fnv_00b91ce0 {
 // Derived overrides a virtual declared by both bases; primary base size 0x6c = vptr + 26 ints.
 struct PrimaryBase
 {
-    virtual void FUN_00b91ce0();
+    virtual void AdjustThisAndForward_00b91ce0();
     int unk04;
     int unk08;
     int unk0C;
@@ -17670,14 +17693,15 @@ struct PrimaryBase
 
 struct SecondaryBase
 {
-    virtual void FUN_00b91ce0();
+    virtual void AdjustThisAndForward_00b91ce0();
 };
 
 struct Derived : PrimaryBase, SecondaryBase
 {
     Derived();
 // @fnv 0x00b91ce0
-    virtual void FUN_00b91ce0();
+// src: GUESS 0x00b91ce0 (confidence: low)
+    virtual void AdjustThisAndForward_00b91ce0();
 };
 
 Derived::Derived()
@@ -17739,7 +17763,7 @@ namespace fnv_00b91f80 {
 // declare, so the second base's vtable gets a thunk that moves `this` back by the first base's size (0x6c).
 struct PrimaryBase
 {
-    virtual void FUN_00b91f80();
+    virtual void AdjustThisAndForward_00b91f80();
     int m_i04;
     int m_i08;
     int m_i0C;
@@ -17770,14 +17794,15 @@ struct PrimaryBase
 
 struct SecondaryBase
 {
-    virtual void FUN_00b91f80();
+    virtual void AdjustThisAndForward_00b91f80();
 };
 
 struct Derived : PrimaryBase, SecondaryBase
 {
     Derived();
 // @fnv 0x00b91f80
-    virtual void FUN_00b91f80();
+// src: GUESS 0x00b91f80 (confidence: low)
+    virtual void AdjustThisAndForward_00b91f80();
 };
 
 Derived::Derived()
@@ -17791,7 +17816,7 @@ namespace fnv_00b922c0 {
 // the primary base (vptr 4 + 26 int fields 104 = 0x6c) before jumping.
 struct PrimaryBase
 {
-    virtual void FUN_00b922c0();
+    virtual void AdjustThisAndForward_00b922c0();
     int unk04;
     int unk08;
     int unk0C;
@@ -17822,14 +17847,15 @@ struct PrimaryBase
 
 struct SecondaryBase
 {
-    virtual void FUN_00b922c0();
+    virtual void AdjustThisAndForward_00b922c0();
 };
 
 struct Derived : PrimaryBase, SecondaryBase
 {
     Derived();
 // @fnv 0x00b922c0
-    virtual void FUN_00b922c0();
+// src: GUESS 0x00b922c0 (confidence: low)
+    virtual void AdjustThisAndForward_00b922c0();
 };
 
 Derived::Derived()
@@ -17840,7 +17866,7 @@ namespace fnv_00b92440 {
 // sub ecx,0x6c; jmp FUN_00b924d0  == MSVC adjustor thunk (multiple inheritance, primary base size 0x6c).
 struct PrimaryBase
 {
-    virtual void FUN_00b92440();
+    virtual void AdjustThisAndForward_00b92440();
     int unk04;
     int unk08;
     int unk0C;
@@ -17871,14 +17897,15 @@ struct PrimaryBase
 
 struct SecondaryBase
 {
-    virtual void FUN_00b92440();
+    virtual void AdjustThisAndForward_00b92440();
 };
 
 struct SpawnedObject : PrimaryBase, SecondaryBase
 {
     SpawnedObject();
 // @fnv 0x00b92440
-    virtual void FUN_00b92440();
+// src: GUESS 0x00b92440 (confidence: low)
+    virtual void AdjustThisAndForward_00b92440();
 };
 
 SpawnedObject::SpawnedObject()
@@ -17891,7 +17918,7 @@ namespace fnv_00b925a0 {
 // the same virtual; Derived redeclares it and defines only its constructor.
 struct PrimaryBase
 {
-    virtual void FUN_00b925a0();
+    virtual void AdjustThisAndForward_00b925a0();
     int unk04;
     int unk08;
     int unk0C;
@@ -17922,14 +17949,15 @@ struct PrimaryBase
 
 struct SecondaryBase
 {
-    virtual void FUN_00b925a0();
+    virtual void AdjustThisAndForward_00b925a0();
 };
 
 struct Derived : PrimaryBase, SecondaryBase
 {
     Derived();
 // @fnv 0x00b925a0
-    virtual void FUN_00b925a0();
+// src: GUESS 0x00b925a0 (confidence: low)
+    virtual void AdjustThisAndForward_00b925a0();
 };
 
 Derived::Derived()
@@ -17993,7 +18021,7 @@ namespace fnv_00b92920 {
 // sizeof(PrimaryBase) = vptr (4) + 26 int fields (104) = 0x6c.
 struct PrimaryBase
 {
-    virtual void FUN_00b92920();
+    virtual void AdjustThisAndForward_00b92920();
     int unk04;
     int unk08;
     int unk0C;
@@ -18024,14 +18052,15 @@ struct PrimaryBase
 
 struct SecondaryBase
 {
-    virtual void FUN_00b92920();
+    virtual void AdjustThisAndForward_00b92920();
 };
 
 struct Derived : PrimaryBase, SecondaryBase
 {
     Derived();
 // @fnv 0x00b92920
-    virtual void FUN_00b92920();
+// src: GUESS 0x00b92920 (confidence: low)
+    virtual void AdjustThisAndForward_00b92920();
 };
 
 Derived::Derived()
@@ -18093,7 +18122,7 @@ Derived::Derived()
 namespace fnv_00b92bc0 {
 struct Base1
 {
-    virtual void FUN_00b92bc0();
+    virtual void AdjustThisAndForward_00b92bc0();
     int unk04;
     int unk08;
     int unk0C;
@@ -18123,13 +18152,14 @@ struct Base1
 };
 struct Base2
 {
-    virtual void FUN_00b92bc0();
+    virtual void AdjustThisAndForward_00b92bc0();
 };
 struct Derived : Base1, Base2
 {
     Derived();
 // @fnv 0x00b92bc0
-    virtual void FUN_00b92bc0();
+// src: GUESS 0x00b92bc0 (confidence: low)
+    virtual void AdjustThisAndForward_00b92bc0();
 };
 Derived::Derived()
 {}
@@ -18255,7 +18285,7 @@ namespace fnv_00b93020 {
 // the vtables and the adjusting thunk.
 struct PrimaryBase
 {
-    virtual void FUN_00b93020();
+    virtual void AdjustThisAndForward_00b93020();
     int unk04;
     int unk08;
     int unk0C;
@@ -18286,14 +18316,15 @@ struct PrimaryBase
 
 struct SecondaryBase
 {
-    virtual void FUN_00b93020();
+    virtual void AdjustThisAndForward_00b93020();
 };
 
 struct Derived : PrimaryBase, SecondaryBase
 {
     Derived();
 // @fnv 0x00b93020
-    virtual void FUN_00b93020();
+// src: GUESS 0x00b93020 (confidence: low)
+    virtual void AdjustThisAndForward_00b93020();
 };
 
 Derived::Derived()
@@ -18349,7 +18380,7 @@ namespace fnv_00b932c0 {
 // sub ecx,0x6c; jmp target == MSVC adjustor thunk (secondary base vtable slot).
 struct ThunkPrimaryBase
 {
-    virtual void FUN_00b932c0();
+    virtual void AdjustThisAndForward_00b932c0();
     int unk04;
     int unk08;
     int unk0C;
@@ -18380,14 +18411,15 @@ struct ThunkPrimaryBase
 
 struct ThunkSecondaryBase
 {
-    virtual void FUN_00b932c0();
+    virtual void AdjustThisAndForward_00b932c0();
 };
 
 struct ThunkDerived : ThunkPrimaryBase, ThunkSecondaryBase
 {
     ThunkDerived();
 // @fnv 0x00b932c0
-    virtual void FUN_00b932c0();
+// src: GUESS 0x00b932c0 (confidence: low)
+    virtual void AdjustThisAndForward_00b932c0();
 };
 
 ThunkDerived::ThunkDerived()
@@ -18451,7 +18483,7 @@ namespace fnv_00b93740 {
 // vtable slot holds a thunk that steps `this` back over the primary base (0x6c bytes).
 struct PrimaryBase
 {
-    virtual void FUN_00b93740();
+    virtual void AdjustThisAndForward_00b93740();
     int unk04;
     int unk08;
     int unk0C;
@@ -18482,14 +18514,15 @@ struct PrimaryBase
 
 struct SecondaryBase
 {
-    virtual void FUN_00b93740();
+    virtual void AdjustThisAndForward_00b93740();
 };
 
 struct Derived : PrimaryBase, SecondaryBase
 {
     Derived();
 // @fnv 0x00b93740
-    virtual void FUN_00b93740();
+// src: GUESS 0x00b93740 (confidence: low)
+    virtual void AdjustThisAndForward_00b93740();
 };
 
 Derived::Derived()
@@ -18553,7 +18586,7 @@ Derived::Derived()
 // vtable emission -> [thunk] adjustor{0x6C} = sub ecx,0x6C; jmp override.
 struct Prim_b93be0
 {
-    virtual void FUN_00b93be0();
+    virtual void AdjustThisAndForward_00b93be0();
     int p04;
     int p08;
     int p0c;
@@ -18583,12 +18616,13 @@ struct Prim_b93be0
 };
 struct Sec_b93be0
 {
-    virtual void FUN_00b93be0();
+    virtual void AdjustThisAndForward_00b93be0();
 };
 struct ThunkHost_b93be0 : Prim_b93be0, Sec_b93be0
 {
 // @fnv 0x00b93be0
-    virtual void FUN_00b93be0();
+// src: GUESS 0x00b93be0 (confidence: low)
+    virtual void AdjustThisAndForward_00b93be0();
 };
 static ThunkHost_b93be0 g_b93be0_thunk;
 
@@ -18647,7 +18681,7 @@ namespace fnv_00b93e80 {
 // Primary base = vptr + 26 ints = 0x6c; derived redeclares the virtual and defines only its ctor.
 struct PrimaryBase
 {
-    virtual void FUN_00b93e80();
+    virtual void AdjustThisAndForward_00b93e80();
     int unk04;
     int unk08;
     int unk0C;
@@ -18678,14 +18712,15 @@ struct PrimaryBase
 
 struct SecondaryBase
 {
-    virtual void FUN_00b93e80();
+    virtual void AdjustThisAndForward_00b93e80();
 };
 
 struct Derived : PrimaryBase, SecondaryBase
 {
     Derived();
 // @fnv 0x00b93e80
-    virtual void FUN_00b93e80();
+// src: GUESS 0x00b93e80 (confidence: low)
+    virtual void AdjustThisAndForward_00b93e80();
 };
 
 Derived::Derived()
@@ -18747,7 +18782,7 @@ namespace fnv_00b94120 {
 // implementation that expects the primary base pointer.
 struct ThunkPrimaryBase
 {
-    virtual void FUN_00b94120(bool flag);
+    virtual void AdjustThisAndForward_00b94120(bool flag);
     int m_04;
     int m_08;
     int m_0c;
@@ -18778,14 +18813,15 @@ struct ThunkPrimaryBase
 
 struct ThunkSecondaryBase
 {
-    virtual void FUN_00b94120(bool flag);
+    virtual void AdjustThisAndForward_00b94120(bool flag);
 };
 
 struct ThunkDerived : ThunkPrimaryBase, ThunkSecondaryBase
 {
     ThunkDerived();
 // @fnv 0x00b94120
-    virtual void FUN_00b94120(bool flag);
+// src: GUESS 0x00b94120 (confidence: low)
+    virtual void AdjustThisAndForward_00b94120(bool flag);
 };
 
 ThunkDerived::ThunkDerived()
@@ -18797,7 +18833,7 @@ namespace fnv_00b943c0 {
 // the derived class defines only its constructor, so the compiler emits the this-adjusting thunk.
 struct PrimaryBase
 {
-    virtual void FUN_00b943c0();
+    virtual void AdjustThisAndForward_00b943c0();
     int unk04;
     int unk08;
     int unk0C;
@@ -18828,14 +18864,15 @@ struct PrimaryBase
 
 struct SecondaryBase
 {
-    virtual void FUN_00b943c0();
+    virtual void AdjustThisAndForward_00b943c0();
 };
 
 struct Derived : PrimaryBase, SecondaryBase
 {
     Derived();
 // @fnv 0x00b943c0
-    virtual void FUN_00b943c0();
+// src: GUESS 0x00b943c0 (confidence: low)
+    virtual void AdjustThisAndForward_00b943c0();
 };
 
 Derived::Derived()
@@ -19937,7 +19974,8 @@ int __cdecl UpdateInputFlags(int id, int flags);
 
 // Maps code (575, 648 to 718) to a small id with a switch, defaulting to 0, and returns FUN_00b815e0(id, 0).
 // @fnv 0x00b81d60
-int __stdcall FUN_00b81d60(int code)
+// src: GUESS 0x00b81d60 (confidence: low)
+int __stdcall Object_MapCodeAndDispatch_00b81d60(int code)
 {
     int id = 0;
     switch (code)
@@ -20168,11 +20206,12 @@ int __stdcall FUN_00b81d60(int code)
 class B8EE90CinematicShader : public B92700WaterEffect
 {
   public:
-    void FUN_00b8ee90();
+    void UpdateState_00b8ee90();
 };
 
 // @fnv 0x00b8ee90
-void B8EE90CinematicShader::FUN_00b8ee90()
+// src: GUESS 0x00b8ee90 (confidence: low)
+void B8EE90CinematicShader::UpdateState_00b8ee90()
 {
     B92700ShaderFile kVertexShader;
     kVertexShader.m_pcFile = "imagespace\\1x\\v\\base.v.hlsl";

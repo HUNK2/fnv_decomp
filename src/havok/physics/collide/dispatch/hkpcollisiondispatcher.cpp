@@ -243,12 +243,13 @@ class FUN_00cfbbe0_cls
 {
   public:
     void __thiscall RegisterAgentType(void* p, int flag, int a2, int a3, int a4, int a5, int h, int g);
-    void __thiscall FUN_00cfbbe0(FUN_00cfbbe0_rec* a1, int a2, int a3);
+    void __thiscall AppendRecordAndRegisterAgents(FUN_00cfbbe0_rec* a1, int a2, int a3);
 };
 
 // Copies a record into the array at offset 0x9a0 at the current index, calls RegisterAgentType on several sub-objects, and increments the index.
 // @fnv 0x00cfbbe0
-void FUN_00cfbbe0_cls::FUN_00cfbbe0(FUN_00cfbbe0_rec* pRecord, int a2, int a3)
+// src: GUESS 0x00cfbbe0 (confidence: medium)
+void FUN_00cfbbe0_cls::AppendRecordAndRegisterAgents(FUN_00cfbbe0_rec* pRecord, int a2, int a3)
 {
     char* base = (char*)this;
     Owner* o = (Owner*)this;
@@ -2550,10 +2551,10 @@ FUN_00cfc030_cls* FUN_00cfc030_cls::hkpCollisionDispatcher_hkpCollisionDispatche
 
 typedef void (*Callback)();
 
-void FUN_00cfb050();
+void Runtime_UpdateState_00cfb050();
 void nullsub_7();
-void FUN_00cfb070();
-void FUN_00d10790();
+void Runtime_GetC();
+void Runtime_GetD107A0RTTIAddress();
 void nullsub_12();
 void nullsub_11();
 void nullsub_13();
@@ -2569,7 +2570,7 @@ struct S00cfb080_IO
 
     void Init()
     {
-        m_pfnRead = FUN_00d10790;
+        m_pfnRead = Runtime_GetD107A0RTTIAddress;
         m_pfnWrite = nullsub_12;
         m_pfnSeek = nullsub_11;
         m_pfnClose = nullsub_13;
@@ -3526,7 +3527,7 @@ void S00cfb080_State::hkpCollisionDispatcher_resetCreationFunctions()
 
     m_kIO.Init();
 
-    m_pfnAlloc = FUN_00cfb050;
+    m_pfnAlloc = Runtime_UpdateState_00cfb050;
     m_pfnFree = nullsub_7;
     m_i16B8 = 0;
     m_i16BC = 0;
@@ -3537,7 +3538,7 @@ void S00cfb080_State::hkpCollisionDispatcher_resetCreationFunctions()
     m_i16D8 = 0;
     m_i16D0 = 0;
     m_i16D4 = 0;
-    m_pfnNotify = FUN_00cfb070;
+    m_pfnNotify = Runtime_GetC;
     m_i16F0 = 0;
     hkAgent3Bridge_registerAgent3(this);
     m_bPending = false;

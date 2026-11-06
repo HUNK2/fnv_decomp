@@ -174,7 +174,7 @@ struct Ctx
     int ProcessCallback(ArgStruct* a, ArgStruct* b, int z);
 };
 extern "C" void __cdecl MixChannels(Head* a1, char* a2, int a3, int a4, int a5, int a6, DWORD* a7);
-extern "C" void __cdecl FUN_00df37b0(Head* a1, char* a2, int a3, int a4, void* a5, int* a6, unsigned short* a7);
+extern "C" void __cdecl ProcessEntries_00df37b0(Head* a1, char* a2, int a3, int a4, void* a5, int* a6, unsigned short* a7);
 struct ContextHandle
 {
     Ctx* object;
@@ -254,7 +254,7 @@ int __cdecl BuildKdTreeDistributed(ContextHandle ctx, ArgStruct* input, ...)
         _mm_store_ps(&in[2].initialVector.x, initial);
         in[3].m_28 = -1;
         _mm_store_ps(&in[3].initialVector.x, initial);
-        FUN_00df37b0(&head, arg->m_28, arg->m_3c, arg->m_38, &in[0].m_20ptr, arg->m_34, &head.s0);
+        ProcessEntries_00df37b0(&head, arg->m_28, arg->m_3c, arg->m_38, &in[0].m_20ptr, arg->m_34, &head.s0);
         OutElem out[4];
         result = 0;
         int iQuarter = arg->m_40 / 4;

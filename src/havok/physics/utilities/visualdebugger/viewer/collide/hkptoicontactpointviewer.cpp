@@ -7,7 +7,8 @@
 
 extern int currentState;
 // @fnv 0x00d68260
-int __cdecl FUN_00d68260() {
+// src: GUESS 0x00d68260 (confidence: high)
+int __cdecl Object_GetCurrentState() {
     return currentState;
 }
 
@@ -146,12 +147,13 @@ public:
     int unk10; int unk14;
     Sub m_sub;          // +0x18
     ItemList* m_kNode;   // +0x1c
-    void FUN_00d68310();
+    void ProcessEntries_00d68310();
 };
 
 // Iterates the item list and calls m_sub.v1 on each item until the list ends or the count is reached.
 // @fnv 0x00d68310
-void FUN_00d68310_cls::FUN_00d68310() {
+// src: GUESS 0x00d68310 (confidence: low)
+void FUN_00d68310_cls::ProcessEntries_00d68310() {
     int i = 0;
     while (m_kNode != 0) {
         if (i >= m_kNode->count) break;
@@ -237,11 +239,12 @@ public:
     ListBlob_t* m_pEntries;
     Part2_t m_pTail;
 
-    void FUN_00d68350();
+    void ProcessEntries_00d68350();
 };
 
 // @fnv 0x00d68350
-void FUN_00d68350_cls::FUN_00d68350()
+// src: GUESS 0x00d68350 (confidence: low)
+void FUN_00d68350_cls::ProcessEntries_00d68350()
 {
     int i = 0;
     this->Part0_t::~Part0_t();
@@ -289,7 +292,7 @@ struct FUN_00d68270_Base0 {
 struct FUN_00d68270_Base1 {
     int unk00;
     int unk04;
-    void FUN_00d68270(struct FUN_00d68270_Arg* arg);
+    void ForwardCall_00d68270(struct FUN_00d68270_Arg* arg);
 };
 struct FUN_00d68270_Base2 {
     int unk00;
@@ -301,7 +304,8 @@ struct FUN_00d68270_Arg {
 };
 // Calls arg->FUN_00c93a20 with the address 8 bytes past this, treated as the Base2 part of the enclosing Derived object.
 // @fnv 0x00d68270
-void FUN_00d68270_Base1::FUN_00d68270(FUN_00d68270_Arg* arg)
+// src: GUESS 0x00d68270 (confidence: low)
+void FUN_00d68270_Base1::ForwardCall_00d68270(FUN_00d68270_Arg* arg)
 {
     arg->hkpWorld_addContactListener(reinterpret_cast<FUN_00d68270_Derived*>(reinterpret_cast<char*>(this) - sizeof(FUN_00d68270_Base0)));
 }
@@ -339,18 +343,19 @@ Derived::Derived()
 // FUN_00d68720 : MSVC this-adjusting thunk  (sub ecx, 0x08 ; jmp <impl>)
 struct A1_00d68720 {
     A1_00d68720();
-    virtual void FUN_00d68720();
+    virtual void AdjustThisAndForward_00d68720();
     char pad[0x04];
 };
 struct A2_00d68720 {
     A2_00d68720();
-    virtual void FUN_00d68720();
+    virtual void AdjustThisAndForward_00d68720();
 };
 struct Own_00d68720 : A1_00d68720, A2_00d68720 {
     Own_00d68720();
     virtual void key_fn();
 // @fnv 0x00d68720
-    void FUN_00d68720();
+// src: GUESS 0x00d68720 (confidence: low)
+    void AdjustThisAndForward_00d68720();
 };
 Own_00d68720::Own_00d68720() { }
 void Own_00d68720::key_fn() { }

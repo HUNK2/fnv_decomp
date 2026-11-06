@@ -28,7 +28,7 @@ struct FUN_00b3c910_class
 extern int DAT_010a5890;
 struct FUN_00b3f0a0_Class
 {
-    void __thiscall FUN_00b3f0a0();
+    void __thiscall SetVirtualTable_00b3f0a0();
 };
 unsigned int __cdecl FUN_00ec7c56();
 struct FUN_00b393b0_Class
@@ -38,20 +38,20 @@ struct FUN_00b393b0_Class
 };
 struct FUN_00b3c4b0_class
 {
-    FUN_00b3c4b0_class* __thiscall FUN_00b3c4b0(int a);
+    FUN_00b3c4b0_class* __thiscall UpdateState_00b3c4b0(int a);
 };
 double __cdecl FUN_00ec6054(double);
 struct FUN_00b3c5a0_class
 {
     float data[0x14 / 4];
     int count;
-    float FUN_00b3c5a0();
+    float ComputeRootOfSumSquares();
 };
 struct FUN_00b3c600_class
 {
     float* pData;
     int* pCount;
-    double __thiscall FUN_00b3c5a0();
+    double __thiscall ComputeRootOfSumSquares();
     void NormalizeData();
 };
 struct FUN_00b27660_class
@@ -120,7 +120,7 @@ struct FUN_00b34d90_class
     int value;
     char* end;
 
-    void __thiscall FUN_00b34d90();
+    void __thiscall FreeBufferAndClearRange();
 };
 struct FUN_00b3c470_class
 {
@@ -204,8 +204,8 @@ class FUN_00b276f0_cls
 };
 extern void __cdecl FormHeapFreeAndLog_00401030(void* p);
 // InitBuffer
-extern "C" int __cdecl FUN_00b2e4a0(unsigned int count, int flag);
-extern "C" void __cdecl FUN_00b0fb80();
+extern "C" int __cdecl Object_AllocateElementStorage_00b2e4a0(unsigned int count, int flag);
+extern "C" void __cdecl BxLengthError_Thunk();
 struct FnvB2e080
 {
     int f00;
@@ -230,14 +230,14 @@ struct FUN_00b2e250_cls
     unsigned int m_0c;
     unsigned int m_10;
     void Update(int newValue, int oldValue);
-    SpanPair* FUN_00b2e250(SpanPair* out, int unk04, unsigned int idx1, int unk14, unsigned int idx2);
+    SpanPair* UpdateState_00b2e250(SpanPair* out, int unk04, unsigned int idx1, int unk14, unsigned int idx2);
 };
-extern "C" int __cdecl FUN_00b2e3f0(int, int, int);
+extern "C" int __cdecl Runtime_EvaluateValue_00b2e3f0(int, int, int);
 struct ProbePair
 {
     unsigned int m_00;
     unsigned int m_04;
-    bool FUN_00b16830(const ProbePair* key);
+    bool AreValuesEqual_00b16830(const ProbePair* key);
 };
 struct FUN_00b335c0_tmp
 {
@@ -263,7 +263,7 @@ struct FUN_00b335c0_cls
     unsigned int unk08;
     unsigned int m_0c;
     unsigned int m_10;
-    ProbePair FUN_00b335c0(unsigned int a2, unsigned int a3, unsigned int a4, unsigned int a5);
+    ProbePair ProcessAndReturnValue_00b335c0(unsigned int a2, unsigned int a3, unsigned int a4, unsigned int a5);
 };
 struct FUN_00b33af0_pair
 {
@@ -296,10 +296,10 @@ struct FUN_00b33af0_cls
     unsigned int m_0c;
     unsigned int m_10;
     unsigned int m_14;
-    FUN_00b33af0_pair* FUN_00b33af0(FUN_00b33af0_pair* out, unsigned int unk0c, unsigned int a, unsigned int unk14,
+    FUN_00b33af0_pair* UpdateState_00b33af0(FUN_00b33af0_pair* out, unsigned int unk0c, unsigned int a, unsigned int unk14,
                                     unsigned int b);
 };
-extern "C" unsigned int __cdecl FUN_00b35c30(unsigned int, unsigned int, unsigned int);
+extern "C" unsigned int __cdecl Runtime_EvaluateValue_00b35c30(unsigned int, unsigned int, unsigned int);
 struct Hldr0044
 {
     int m_iWordAt00;
@@ -312,7 +312,8 @@ extern "C" void __cdecl FormHeap_Allocate(unsigned int scaled);
 extern "C" int DAT_01140ef8;
 extern "C" int DAT_010176f8;
 // @fnv 0x00b35f00
-extern "C" void __cdecl FUN_00b35f00(unsigned int n)
+// src: GUESS 0x00b35f00 (confidence: low)
+extern "C" void __cdecl Object_UpdateFields_00b35f00(unsigned int n)
 {
     Hldr0044 h;
     unsigned int tmp;
@@ -475,7 +476,7 @@ struct FUN_00b3c660_cls
     int count;
     FUN_00b3c660_cls(int n);
     ~FUN_00b3c660_cls();
-    FUN_00b3c660_cls FUN_00b3c660(FUN_00b3c660_cls* other);
+    FUN_00b3c660_cls ProcessEntries_00b3c660(FUN_00b3c660_cls* other);
 };
 struct FUN_00aa7830_cls
 {
@@ -500,7 +501,7 @@ struct ScaledVec6
     ScaledVec6(int n)
     {
         FUN_00b3c4b0_class* p = reinterpret_cast<FUN_00b3c4b0_class*>(this);
-        p->FUN_00b3c4b0(n);
+        p->UpdateState_00b3c4b0(n);
     }
     ~ScaledVec6()
     {
@@ -641,7 +642,7 @@ struct FUN_00b3fdd0_class
     int unk54;
     int unk58;
     FUN_00b37880_class* unk5c;
-    void __thiscall FUN_00b3fdd0(FUN_00b37880_class* value);
+    void __thiscall UpdateState_00b3fdd0(FUN_00b37880_class* value);
 };
 extern int DAT_010173e8;
 struct FUN_00b3c3b0_Sub
@@ -665,14 +666,14 @@ struct PtrVector
     void** m_ppLast;   // +0x10
     void** m_ppEnd;    // +0x14
 
-    void*& FUN_00b31230(unsigned int uiPos);
+    void*& EvaluateValue_00b31230(unsigned int uiPos);
 };
 unsigned int FUN_00ec7c56();
 struct FUN_00b2ac30_t
 {
     int* m_00;
     int m_04;
-    bool FUN_00b2ac30(FUN_00b2ac30_t* other);
+    bool EvaluateValue_00b2ac30(FUN_00b2ac30_t* other);
 };
 extern const double DAT_010a4d90;
 double __cdecl FUN_00ec9f30(double value);
@@ -696,7 +697,7 @@ struct ElemAlloc
 {
     char c;
 };
-void __cdecl FUN_00b35ca0(int* pFirst, unsigned int ItemUpdateArray, const int& kVal, ElemAlloc& kAl);
+void __cdecl Object_ProcessState_00b35ca0(int* pFirst, unsigned int ItemUpdateArray, const int& kVal, ElemAlloc& kAl);
 class IntVector
 {
   public:
@@ -708,8 +709,8 @@ class IntVector
     int* m_pRecordEnd;
 
     bool ResizeArray(unsigned int ItemUpdateArray);
-    void FUN_00b17f50();
-    void FUN_00b32600(unsigned int ItemUpdateArray, const int& kVal);
+    void UpdateState_00b17f50();
+    void UpdateFields_00b32600(unsigned int ItemUpdateArray, const int& kVal);
 };
 struct S_00b3db50
 {
@@ -719,7 +720,7 @@ struct S_00b3db50
     int mC;
     int m10;
     int m14;
-    void FUN_00b3db50();
+    void UpdateState_00b3db50();
 };
 struct Item32780
 {
@@ -735,12 +736,12 @@ struct ItemArrayStorage
     int m_00, m_04, m_08;
     Item32780* m_0c;
     Item32780* m_10;
-    bool FUN_00b1f590(int n);
-    void FUN_00b32c60();
-    void FUN_00b32780(int n, const Item32780* value);
+    bool UpdateState_00b1f590(int n);
+    void UpdateFields_00b32c60();
+    void InitializeFilledElements_00b32780(int n, const Item32780* value);
 };
-extern void __cdecl FUN_00b360a0(Item32780*, int, const Item32780*, void*, unsigned char, unsigned char);
-extern "C" void* __cdecl FUN_00b35b60(unsigned int, unsigned int, unsigned int);
+extern void __cdecl Object_ProcessEntries_00b360a0(Item32780*, int, const Item32780*, void*, unsigned char, unsigned char);
+extern "C" void* __cdecl Object_ProcessAndReturnValue_00b35b60(unsigned int, unsigned int, unsigned int);
 struct S_B33030
 {
     int unk00[3];
@@ -748,9 +749,9 @@ struct S_B33030
     unsigned int m_last;
     unsigned int m_kRayEnd;
 
-    void __thiscall FUN_00b33110(unsigned int, unsigned int);
+    void __thiscall ForwardCall_00b33110(unsigned int, unsigned int);
 
-    ProbePair FUN_00b33030(ProbePair first, ProbePair last);
+    ProbePair UpdateState_00b33030(ProbePair first, ProbePair last);
 };
 struct CheckedTag
 {
@@ -764,7 +765,7 @@ struct RandomTag
 {
     bool value;
 };
-void FUN_00b36b80(unsigned short* dst, unsigned int count, const unsigned short* src);
+void Object_FillUInt16Range(unsigned short* dst, unsigned int count, const unsigned short* src);
 #include <string.h>
 struct FUN_00b29fd0_Params
 {
@@ -796,7 +797,7 @@ struct FUN_00b29fd0_cls
 };
 struct FUN_00b3f070 : FUN_00b3f0a0_Class
 {
-    void FUN_00b3f0a0();
+    void SetVirtualTable_00b3f0a0();
     virtual ~FUN_00b3f070();
 };
 
@@ -1388,7 +1389,7 @@ struct AsVector : AsContainer
     {
         return AsUncheckedUninitCopy(_First, _Last, _Ptr, _Alval);
     }
-    AsIterator FUN_00b2def0(AsConstIterator _Where);
+    AsIterator EvaluateValue_00b2def0(AsConstIterator _Where);
 };
 inline AsConstIterator::AsConstIterator(AsElem* _Ptr, const AsContainer* _Pvector)
 {
@@ -1401,7 +1402,8 @@ inline AsConstIterator::AsConstIterator(AsElem* _Ptr, const AsContainer* _Pvecto
 using namespace eraseb2d;
 
 // @fnv 0x00b2def0
-AsIterator AsVector::FUN_00b2def0(AsConstIterator _Where)
+// src: GUESS 0x00b2def0 (confidence: low)
+AsIterator AsVector::EvaluateValue_00b2def0(AsConstIterator _Where)
 {
     AsUncheckedCopy(_Where._Myptr + 1, _Mylast, _Where._Myptr);
     _Destroy(_Mylast - 1, _Mylast);
@@ -1462,7 +1464,8 @@ struct PointerVectorStorage : ::std::_Container_base_aux_alloc_real< ::std::allo
     {
         ::std::_Destroy_range(start, finish, _Alval);
     }
-    void FUN_00b17f50()
+// src: GUESS 0x00b17f50 (confidence: low)
+    void UpdateState_00b17f50()
     {
         if (first)
         {
@@ -1494,7 +1497,7 @@ FUN_00b355d0::FUN_00b355d0(const FUN_00b355d0& source) : PointerVectorStorage(so
         }
         catch (...)
         {
-            FUN_00b17f50();
+            UpdateState_00b17f50();
             throw;
         }
     }

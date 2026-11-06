@@ -378,7 +378,8 @@ extern int DAT_0108a490;
 extern int DAT_0108a49c;
 
 // @fnv 0x0092eb50
-void* __fastcall FUN_0092eb50(char* this_ptr)
+// src: GUESS 0x0092eb50 (confidence: low)
+void* __fastcall TESObjectREFR_UpdateState_0092eb50(char* this_ptr)
 {
     ((TESObjectREFR*)this_ptr)->TESObjectREFR::TESObjectREFR();
     *(int**)(this_ptr + 0x00) = &DAT_0108a49c;
@@ -4660,7 +4661,7 @@ struct FUN_0042edb0_shell
 };
 struct FUN_0057bd40_shell
 {
-    TESTopic* FUN_0057bd40();
+    TESTopic* ProcessAndReturnValue_0057bd40();
 };
 struct SC_008c48d0
 {
@@ -4693,7 +4694,7 @@ void FUN_00934250_shell::MobileObject_StopCurrentDialogue()
     if (pProcess && pProcess->GetActorSoundHandle(0).IsValid())
     {
         TESTopicInfo* pTopicInfo = ((XActor*)this)->TESObjectREFR_GetSayToTopicInfo();
-        TESTopic* pMenuTopicEntry = ((FUN_0057bd40_shell*)this)->FUN_0057bd40();
+        TESTopic* pMenuTopicEntry = ((FUN_0057bd40_shell*)this)->ProcessAndReturnValue_0057bd40();
         ((SetSayToTopic_helper*)this)->SetDialogueTopic(0);
         ((FUN_0042edb0_shell*)GetExtraData())->ExtraDataList_RemoveSayToInfoExtra();
         if (pTopicInfo)
@@ -5095,7 +5096,7 @@ struct TESAngleHelper
 
 
 void* __fastcall FUN_006815c0(void*);
-void* __fastcall FUN_006240d0(void*);
+void* __fastcall BGSPrimitive_EvaluateValue_006240d0(void*);
 
 struct NiAVObjectVT
 {
@@ -5678,7 +5679,7 @@ bhkCharacterController* FUN_0092f260_shell::MobileObject_Move(float afDeltaTime,
                 ((bhkCharControllerVT*)pcon)->bhkCharacterController_CalculatePitchAndRoll();
                 float fzAngle = ((MobileObject*)this)->GetAngleOnReference().z;
                 MobileQuaternionLocal_0092f260 kQuat;
-                FUN_006240d0(&kQuat);
+                BGSPrimitive_EvaluateValue_006240d0(&kQuat);
                 kQuat.hkQuaternion_setAxisAngle((char*)pcon + 0x4c0, -fzAngle);
                 ((bhkCharControllerVT*)pcon)->bhkCharacterController_ApplyPitchAndRoll(&kQuat);
             }
@@ -7716,7 +7717,7 @@ struct CastObject
 };
 struct PointerView
 {
-    BaseCast* FUN_00559450();
+    BaseCast* Modelloader_GetReferencedThis();
 };
 struct NodeList
 {
@@ -7980,9 +7981,9 @@ float AngleView::GetAdjustedAngle()
                 {
                     World* list = base->bhkNiCollisionObject_GetWorldObject();
                     NodeList* world = list->FUN_007d6bb0();
-                    while (world && world->FUN_006815c0()->FUN_00559450())
+                    while (world && world->FUN_006815c0()->Modelloader_GetReferencedThis())
                     {
-                        CastObject* body = NiObject_DynamicCast(&DAT_012683ec, world->FUN_006815c0()->FUN_00559450());
+                        CastObject* body = NiObject_DynamicCast(&DAT_012683ec, world->FUN_006815c0()->Modelloader_GetReferencedThis());
                         world = world->FUN_00726070();
                         if (body)
                         {
@@ -8000,7 +8001,7 @@ float AngleView::GetAdjustedAngle()
 
 struct VoiceString
 {
-    const char* FUN_00559450();
+    const char* Modelloader_GetReferencedThis();
 };
 struct VoiceResponse
 {
@@ -8032,7 +8033,7 @@ struct VoiceNode
 };
 struct VoiceFile
 {
-    unsigned int FUN_00559450();
+    unsigned int Modelloader_GetReferencedThis();
     ~VoiceFile();
 };
 struct VoiceAudio
@@ -8212,10 +8213,10 @@ BSSoundHandle VoiceHost::PlayVoiceTopic(VoiceTopic* topic, void* listener, bool 
         VoiceResponse* pResponse = time->FUN_0083c820();
         if (pResponse)
         {
-            if (pResponse->TESDataHandler_GetWorldSpaceList()->FUN_00559450())
+            if (pResponse->TESDataHandler_GetWorldSpaceList()->Modelloader_GetReferencedThis())
             {
                 char path[512];
-                CopyVoicePath(path, 512, pResponse->TESDataHandler_GetWorldSpaceList()->FUN_00559450());
+                CopyVoicePath(path, 512, pResponse->TESDataHandler_GetWorldSpaceList()->Modelloader_GetReferencedThis());
                 if (bComputeDuration)
                 {
                     VoiceFile* file = 0;
@@ -8226,7 +8227,7 @@ BSSoundHandle VoiceHost::PlayVoiceTopic(VoiceTopic* topic, void* listener, bool 
                         file = FUN_004d52d0(name);
                         if (file)
                         {
-                            flags = file->FUN_00559450() / 30.0;
+                            flags = file->Modelloader_GetReferencedThis() / 30.0;
                             delete file;
                         }
                     }
@@ -8261,7 +8262,7 @@ BSSoundHandle VoiceHost::PlayVoiceTopic(VoiceTopic* topic, void* listener, bool 
             {
                 if (flags <= 0.0)
                     flags = 2.0f;
-                Interface_ShowSubtitle(pResponse->FUN_006815c0()->FUN_00559450(), pItem, GetPosition(), listener, finalFlag);
+                Interface_ShowSubtitle(pResponse->FUN_006815c0()->Modelloader_GetReferencedThis(), pItem, GetPosition(), listener, finalFlag);
             }
         }
     }
@@ -9689,7 +9690,7 @@ struct GlobalObject_0041a250
     ~GlobalObject_0041a250();
     void FUN_00418900(const GlobalObject_0041a250&);
     bool FUN_00ad8830(bool);
-    void* FUN_00559450(void*, unsigned);
+    void* Modelloader_GetReferencedThis(void*, unsigned);
 };
 struct Audio
 {
@@ -9959,7 +9960,7 @@ struct Obj
     int BSStringT_char_Length();
     int FUN_0044ddc0();
     Obj* TESDataHandler_GetWorldSpaceList();
-    void* FUN_00559450(GlobalObject_0041a250*, int, int, int, int, int, int, int, int, int, int);
+    void* Modelloader_GetReferencedThis(GlobalObject_0041a250*, int, int, int, int, int, int, int, int, int, int);
     Obj* FUN_008d6f30();
     void TESObjectCELL_UpdateLights();
     void MobileObject_UpdateInDialogue(float, Obj*, bool);
@@ -9997,18 +9998,18 @@ void Obj::MobileObject_UpdateInDialogue(float delta, Obj* target, bool skip)
                 _other.FUN_00418900(PlaySoundByFormID(id2, 0, 0x40000102, 1));
             }
             Audio* manager4 = BSAudioManager_QInstance_00ad9060();
-            manager4->BSAudioManager_SetCompletionCallback(_other.FUN_00559450((void*)MobileObject_SoundFileCallBack, GetHavokWorldObjectCountInSceneGraph_0084e3a0()));
+            manager4->BSAudioManager_SetCompletionCallback(_other.Modelloader_GetReferencedThis((void*)MobileObject_SoundFileCallBack, GetHavokWorldObjectCountInSceneGraph_0084e3a0()));
             pending = false;
             unk7F = 0;
             unk7C = 0;
         }
         if (pending & unk7F)
         {
-            float volumeA = v284(target->TESDataHandler_GetWorldSpaceList()->FUN_00559450(
+            float volumeA = v284(target->TESDataHandler_GetWorldSpaceList()->Modelloader_GetReferencedThis(
                 &sound, target->FUN_0044ddc0(), target->GetHavokWorldObjectCountInSceneGraph_0084e3a0(), target->FUN_006815c0()->BSStringT_char_Length(),
                 target->NiAVObject_GetParent(), target->FUN_00441110(DAT_011dea3c), 1, 1, 0, 1, 1));
             Audio* manager3 = BSAudioManager_QInstance_00ad9060();
-            manager3->BSAudioManager_SetCompletionCallback(sound.FUN_00559450((void*)MobileObject_ChangeDialogueAnimation, GetHavokWorldObjectCountInSceneGraph_0084e3a0()));
+            manager3->BSAudioManager_SetCompletionCallback(sound.Modelloader_GetReferencedThis((void*)MobileObject_ChangeDialogueAnimation, GetHavokWorldObjectCountInSceneGraph_0084e3a0()));
             unk80 = 0;
             FUN_008d8520()->v318(volumeA);
         }
@@ -11513,7 +11514,7 @@ struct SoundRef
     ~SoundRef();
     SoundRef& operator=(const SoundRef&);
     SoundRef& FUN_00418900(const SoundRef&);
-    unsigned int FUN_00559450();
+    unsigned int Modelloader_GetReferencedThis();
     void FUN_00ad8be0(float, float);
     bool FUN_00ad8b60(float, float, float);
     void FUN_00ad8f20(void*);
@@ -11528,7 +11529,7 @@ struct FUN_0040c0e0
     unsigned short capacity;
     FUN_0040c0e0(const char*);
     ~FUN_0040c0e0();
-    const char* FUN_00559450();
+    const char* Modelloader_GetReferencedThis();
 };
 struct Package
 {
@@ -11537,7 +11538,7 @@ struct Package
 struct Item
 {
     ~Item();
-    unsigned int FUN_00559450();
+    unsigned int Modelloader_GetReferencedThis();
     void FUN_004d5930(void*, float);
     double GetNegativeMagnitude();
     int FUN_004d5850(int);
@@ -12327,7 +12328,7 @@ float ActorObject::MobileObject_DoSpeechLoadLipFiles(const char* apSoundName, So
                         {
                             GetProcess()->v220(1);
                             GetProcess()->v85(1);
-                            g_011f11e0.StartLipSyncTask(this, callState2.FUN_00559450());
+                            g_011f11e0.StartLipSyncTask(this, callState2.Modelloader_GetReferencedThis());
                             return 0.0f;
                         }
                         else
@@ -12378,7 +12379,7 @@ float ActorObject::MobileObject_DoSpeechLoadLipFiles(const char* apSoundName, So
             }
             if (curItem)
             {
-                active = (float)((double)curItem->FUN_00559450() / DAT_0101db88);
+                active = (float)((double)curItem->Modelloader_GetReferencedThis() / DAT_0101db88);
                 curItem->FUN_004d5930(isPlayer, g_011c56fc_arg1);
             }
             if (update && GetProcess())
@@ -12399,7 +12400,7 @@ float ActorObject::MobileObject_DoSpeechLoadLipFiles(const char* apSoundName, So
             kSource = this;
             if (other && other->v64())
                 kSource = other;
-            mgr->BSAudioManager_SetPlayCallback(apSoundRef->FUN_00559450(), SetFormAccumulate, kSource->GetHavokWorldObjectCountInSceneGraph_0084e3a0());
+            mgr->BSAudioManager_SetPlayCallback(apSoundRef->Modelloader_GetReferencedThis(), SetFormAccumulate, kSource->GetHavokWorldObjectCountInSceneGraph_0084e3a0());
             if (!playFlag)
             {
                 NiPoint3 pos = *v125();

@@ -41,7 +41,7 @@ void* __thiscall FUN_00db7d00_class::hkVersionPatchManager_UidFromClassVersion_c
 
 struct DB7DD0Inner
 {
-    void FUN_00db7d60();
+    void ComputeValue_00db7d60();
 };
 
 struct DB7DD0Outer
@@ -57,7 +57,7 @@ struct DB7DD0Outer
 // src: XBOX_PDB 0x00db7dd0
 void DB7DD0Outer::hkVersionPatchManager_getUid()
 {
-    m_inner->FUN_00db7d60();
+    m_inner->ComputeValue_00db7d60();
 }
 
 hkMemoryRouter* __cdecl hkMemoryRouter_getInstance();
@@ -86,7 +86,8 @@ struct DepthLimit
 };
 
 // @fnv 0x00db7e70
-int __cdecl FUN_00db7e70(void* apTarget, void* apItem, GraphTable* apTable, DepthLimit* apDepth)
+// src: GUESS 0x00db7e70 (confidence: low)
+int __cdecl hkMemoryRouter_ProcessEntries_00db7e70(void* apTarget, void* apItem, GraphTable* apTable, DepthLimit* apDepth)
 {
     if (apDepth->FindSlot(apItem) > apDepth->m_iLimit)
     {
@@ -100,7 +101,7 @@ int __cdecl FUN_00db7e70(void* apTarget, void* apItem, GraphTable* apTable, Dept
             void* pKey = apTable->m_pEntries[iIndex].m_pKey;
             if (apTarget == pKey)
                 return 1;
-            if (FUN_00db7e70(apTarget, pKey, apTable, apDepth) != 0)
+            if (hkMemoryRouter_ProcessEntries_00db7e70(apTarget, pKey, apTable, apDepth) != 0)
                 return 1;
             iIndex = apTable->m_pEntries[iIndex].m_iNext;
         }
@@ -274,7 +275,8 @@ int S_00dbe710::AllocateSlot()
 }  // namespace fnv_00dbe710
 
 // @fnv 0x00db7cb0
-int __cdecl FUN_00db7cb0(int* values)
+// src: GUESS 0x00db7cb0 (confidence: low)
+int __cdecl Hkversionpatchmanager_EvaluateValue_00db7cb0(int* values)
 {
     if (values[2] == -1)
     {
@@ -335,10 +337,11 @@ struct Owner_t
     unsigned int unk04;
     unsigned int unk08;
     unsigned int unk0C;
-    int __thiscall FUN_00db7d60(unsigned int a, unsigned int b);
+    int __thiscall ComputeValue_00db7d60(unsigned int a, unsigned int b);
 };
 
-__declspec(noinline) int __thiscall Owner_t::FUN_00db7d60(unsigned int a, unsigned int b)
+// src: GUESS 0x00db7d60 (confidence: low)
+__declspec(noinline) int __thiscall Owner_t::ComputeValue_00db7d60(unsigned int a, unsigned int b)
 {
     return (int)a;
 }
@@ -379,7 +382,7 @@ int Cls_t::FindEntry(int a, int b, int aiFlag)
             }
         }
         unsigned int key = e->unk04;
-        unsigned int r = (unsigned int)m08->FUN_00db7d60(key, e->unk0C);
+        unsigned int r = (unsigned int)m08->ComputeValue_00db7d60(key, e->unk0C);
         idx = pIndex->hkMapBase_unsigned_int64_unsigned_int64_struct_hkMapOperations_unsigned_int64_getWithDefault((int)r, (int)key, -1, -1);
     }
     return -1;
@@ -444,7 +447,7 @@ struct FUN_00dc7fd0_sub
     unsigned int unk08;
     unsigned int unk0c;
     void FUN_00d87790(unsigned int a);
-    void FUN_00dc9e70();
+    void InitializeFields_00dc9e70();
 };
 
 struct FUN_00dc7fd0_subw
@@ -457,7 +460,7 @@ struct FUN_00dc7fd0_subw
     unsigned int unk14;
     unsigned int unk18;
     void FUN_00d87790(unsigned int a);
-    void FUN_00dc9e70();
+    void InitializeFields_00dc9e70();
 };
 
 struct FUN_00dc7fd0_cls
@@ -482,14 +485,14 @@ FUN_00dc7fd0_cls* FUN_00dc7fd0_cls::Initialize()
 {
     unsigned char flag = 0;
     this->FUN_00d87790(*(unsigned int*)&flag);
-    m_10.FUN_00dc9e70();
+    m_10.InitializeFields_00dc9e70();
     m_2c = 0;
-    m_30.FUN_00dc9e70();
+    m_30.InitializeFields_00dc9e70();
     flag = 0;
     m_4c.FUN_00d87790(*(unsigned int*)&flag);
     flag = 0;
     m_5c.FUN_00d87790(*(unsigned int*)&flag);
-    m_6c.FUN_00dc9e70();
+    m_6c.InitializeFields_00dc9e70();
     return this;
 }
 
@@ -617,7 +620,8 @@ struct Graph
 };
 
 // @fnv 0x00db83c0
-int __cdecl FUN_00db83c0(int node, hkIntArray* state, Graph* graph, int counter, hkIntArray* stack, int arg)
+// src: GUESS 0x00db83c0 (confidence: low)
+int __cdecl hkIntArray_ProcessEntries_00db83c0(int node, hkIntArray* state, Graph* graph, int counter, hkIntArray* stack, int arg)
 {
     if (state->m_data[node] == -1)
     {
@@ -629,7 +633,7 @@ int __cdecl FUN_00db83c0(int node, hkIntArray* state, Graph* graph, int counter,
             switch (state->m_data[other])
             {
             case -1:
-                counter = FUN_00db83c0(other, state, graph, counter, stack, arg);
+                counter = hkIntArray_ProcessEntries_00db83c0(other, state, graph, counter, stack, arg);
                 break;
             case -2: {
                 stack->pushBack(other);
@@ -878,14 +882,14 @@ struct ObjCB
     int hkMapBase_unsigned_int64_unsigned_int64_struct_hkMapOperations_unsigned_int64_findKey(unsigned __int64 key) throw();
     void InsertKeyValue(hkMemoryAllocator* a, unsigned __int64 key, __int64 value) throw();
     void hkMapBase_unsigned_int64_unsigned_int64_hkMapOperations_unsigned_int64_clearAndDeallocate(hkMemoryAllocator* a) throw();
-    void FUN_00a29680() throw();
+    void Object_DoNothing() throw();
 };
 struct StrX
 {
     int m_00;
-    void FUN_00dba650(void* a) throw();
-    int FUN_00dba670() throw();
-    void FUN_00dba660() throw();
+    void SetField00(void* a) throw();
+    int TestValue() throw();
+    void Object_DoNothing_00dba660() throw();
 };
 struct HelperX
 {
@@ -893,14 +897,14 @@ struct HelperX
     int m_04;
     int m_08;
     void hkDataWorldDict_hkDataWorldDict() throw();
-    void FUN_00dc8080() throw();
+    void ReleaseStorage_00dc8080() throw();
     void* hkDataWorldDict_findClass(int a) throw();
     void wrapClass(void* a) throw();
     void* CreateItem(void* a) throw();
     void hkDataWorldDict_findAllClasses(void* a) throw();
-    void FUN_00dc73f0(StrX* a, int b, int c) throw();
+    void RenameClassMember(StrX* a, int b, int c) throw();
     void FUN_00dc7d20(StrX* a, int b, int c, int d, int e) throw();
-    void FUN_00dc7600(StrX* a, int b) throw();
+    void ProcessEntries_00dc7600(StrX* a, int b) throw();
     void AssignRefCountedSlot(StrX* a, StrX* b) throw();
     void ReleaseRef(StrX* a) throw();
     void hkDataWorldDict_renameClass(StrX* a, int b) throw();
@@ -911,14 +915,14 @@ struct MgrA
     int m_00;
     int m_04;
     int m_08;
-    MgrA* FUN_00cc01c0(void* a) throw();
+    MgrA* ProcessAndReturnValue_00cc01c0(void* a) throw();
     MgrA* WriteInt(int a) throw();
     void FUN_00cb1600(void* a, int b) throw();
     void FUN_00cc00e0() throw();
     void FUN_00d87790(int a) throw();
     void hkCachedHashMap_hkStringMapOperations_hkContainerHeapAllocator_insert(int a, void* b) throw();
     void* GetValue(int a, int b) throw();
-    void FUN_00d87820(int a) throw();
+    void ProcessAndReturnValue_00d87820(int a) throw();
     int hkCachedHashMap_hkStringMapOperations_hkContainerHeapAllocator_getIterator() throw();
     void SetBoolFromThreshold(void* valid, int iterator) throw();
     void* hkCachedHashMap_hkStringMapOperations_hkContainerHeapAllocator_getValue(int a) throw();
@@ -936,7 +940,7 @@ struct MgrB
     int m_08;
     int m_0c;
     void FUN_00d87790(MapTag a) throw();
-    void FUN_00d87820(int a) throw();
+    void ProcessAndReturnValue_00d87820(int a) throw();
     void FreeBuffer() throw();
     void hkCachedHashMap_hkStringMapOperations_hkContainerHeapAllocator_insert(int a, void* b) throw();
     void* GetValue(int a, int b) throw();
@@ -999,7 +1003,8 @@ struct ArgA
     virtual void FUN_v8(void* a) throw();
     void copyClassFromWorld(int name, HelperX* world) throw();
 };
-__declspec(noinline) int __cdecl FUN_00db7cb0(int* v)
+// src: GUESS 0x00db7cb0 (confidence: low)
+__declspec(noinline) int __cdecl Hkversionpatchmanager_EvaluateValue_00db7cb0(int* v)
 {
     if (v[2] == -1)
     {
@@ -1018,7 +1023,7 @@ __declspec(noinline) int __cdecl FUN_00db7cb0(int* v)
 int __cdecl setAllDependeciesToDo(Vec16* out, int lo, int hi, void* a, void* b, ObjCB* c, ObjCB* d) throw();
 struct Owner8
 {
-    unsigned __int64 FUN_00db7d60(int a, int b) throw();
+    unsigned __int64 ComputeValue_00db7d60(int a, int b) throw();
 };
 struct This
 {
@@ -1027,7 +1032,7 @@ struct This
     Owner8* m_08;
     Elem** m_0c;
     int m_10;
-    int FUN_00db7d40(int a, int b) throw();
+    int HkVersionPatchManager_UidFromClassVersion_getName_Thunk(int a, int b) throw();
     int ForwardToInner(int a, int b) throw();
     int ProcessVersionPatches(ArgA* a, ArgA* b, VecP* c) throw();
 };
@@ -1039,7 +1044,7 @@ struct ClassWorld : HelperX
     }
     ~ClassWorld() throw()
     {
-        FUN_00dc8080();
+        ReleaseStorage_00dc8080();
     }
 };
 struct PointerMap : ObjCB
@@ -1055,7 +1060,7 @@ struct PointerMap : ObjCB
     ~PointerMap() throw()
     {
         hkMapBase_unsigned_int64_unsigned_int64_hkMapOperations_unsigned_int64_clearAndDeallocate((hkMemoryAllocator*)fnvc_adapt::hkMemoryRouter_getInstance().m_heap);
-        FUN_00a29680();
+        Object_DoNothing();
     }
 };
 // Validates version patches, resolves class dependencies, and registers updated class definitions into the world.
@@ -1097,12 +1102,12 @@ int This::ProcessVersionPatches(ArgA* apSource, ArgA* argB, VecP* apOutput)
     for (p = 0; p < m_10; p++)
     {
         Elem* elem = m_0c[p];
-        int ok = FUN_00db7cb0((int*)elem);
+        int ok = Hkversionpatchmanager_EvaluateValue_00db7cb0((int*)elem);
         if (!ok)
             return 1;
         if (elem->m_08 != -1)
             continue;
-        unsigned __int64 id = m_08->FUN_00db7d60(elem->m_04, elem->m_0c);
+        unsigned __int64 id = m_08->ComputeValue_00db7d60(elem->m_04, elem->m_0c);
         int idx = oPending.hkMapBase_unsigned_int64_unsigned_int64_struct_hkMapOperations_unsigned_int64_findKey(id);
         if (idx <= oPending.m_iCapacity)
             return 1;
@@ -1167,7 +1172,7 @@ int This::ProcessVersionPatches(ArgA* apSource, ArgA* argB, VecP* apOutput)
             }
             else
             {
-                int q1 = FUN_00db7d40(iKeyLo, iKeyHi);
+                int q1 = HkVersionPatchManager_UidFromClassVersion_getName_Thunk(iKeyLo, iKeyHi);
                 int q2 = ForwardToInner(iKeyLo, iKeyHi);
                 if (q2 != -1)
                 {
@@ -1178,21 +1183,21 @@ int This::ProcessVersionPatches(ArgA* apSource, ArgA* argB, VecP* apOutput)
                     {
                         MgrA oErrorStream;
                         oErrorStream.FUN_00cb1600(&oErr, 0x200);
-                        oErrorStream.FUN_00cc01c0((void*)"Found class ")
-                            ->FUN_00cc01c0((void*)q1)
-                            ->FUN_00cc01c0((void*)" of version ")
+                        oErrorStream.ProcessAndReturnValue_00cc01c0((void*)"Found class ")
+                            ->ProcessAndReturnValue_00cc01c0((void*)q1)
+                            ->ProcessAndReturnValue_00cc01c0((void*)" of version ")
                             ->WriteInt(pVerObj->FUN_00d47120())
-                            ->FUN_00cc01c0((void*)", but expected version ")
+                            ->ProcessAndReturnValue_00cc01c0((void*)", but expected version ")
                             ->WriteInt(q2)
-                            ->FUN_00cc01c0((void*)".\nMake sure required patches are registered to update the class ")
-                            ->FUN_00cc01c0((void*)q1)
-                            ->FUN_00cc01c0((void*)" from version ")
+                            ->ProcessAndReturnValue_00cc01c0((void*)".\nMake sure required patches are registered to update the class ")
+                            ->ProcessAndReturnValue_00cc01c0((void*)q1)
+                            ->ProcessAndReturnValue_00cc01c0((void*)" from version ")
                             ->WriteInt(q2)
-                            ->FUN_00cc01c0((void*)" to ")
+                            ->ProcessAndReturnValue_00cc01c0((void*)" to ")
                             ->WriteInt(pVerObj->FUN_00d47120())
-                            ->FUN_00cc01c0((void*)",\nor update the class definition with the //+version(")
+                            ->ProcessAndReturnValue_00cc01c0((void*)",\nor update the class definition with the //+version(")
                             ->WriteInt(q2)
-                            ->FUN_00cc01c0((void*)") annotation.");
+                            ->ProcessAndReturnValue_00cc01c0((void*)") annotation.");
                         DAT_01268360->FUN_v3(1, 0x3f79ddb1, &oErr, ".\\Version\\hkVersionPatchManager.cpp", 0x2fe);
                         oErrorStream.FUN_00cc00e0();
                         return 1;
@@ -1214,8 +1219,8 @@ int This::ProcessVersionPatches(ArgA* apSource, ArgA* argB, VecP* apOutput)
                 int saved = ce->m_00;
                 int key = ce->m_04 ? ce->m_04 : saved;
                 StrX oStr;
-                oStr.FUN_00dba650(world.hkDataWorldDict_findClass(key));
-                if (oStr.FUN_00dba670())
+                oStr.SetField00(world.hkDataWorldDict_findClass(key));
+                if (oStr.TestValue())
                 {
                     ClassCinfo oCinfo;
                     oCinfo.name = key;
@@ -1223,9 +1228,9 @@ int This::ProcessVersionPatches(ArgA* apSource, ArgA* argB, VecP* apOutput)
                     oCinfo.parent = 0;
                     {
                         StrX oTmpStr;
-                        oTmpStr.FUN_00dba650(world.CreateItem(&oCinfo));
+                        oTmpStr.SetField00(world.CreateItem(&oCinfo));
                         oStr.m_00 = oTmpStr.m_00;
-                        oTmpStr.FUN_00dba660();
+                        oTmpStr.Object_DoNothing_00dba660();
                     }
                 }
                 {
@@ -1236,13 +1241,13 @@ int This::ProcessVersionPatches(ArgA* apSource, ArgA* argB, VecP* apOutput)
                         switch (pr->m_00 - 1)
                         {
                         case 2:
-                            world.FUN_00dc73f0(&oStr, pr->m_04[1], pr->m_04[0]);
+                            world.RenameClassMember(&oStr, pr->m_04[1], pr->m_04[0]);
                             break;
                         case 1:
                             world.FUN_00dc7d20(&oStr, pr->m_04[0], pr->m_04[1], pr->m_04[2], pr->m_04[3]);
                             break;
                         case 0:
-                            world.FUN_00dc7600(&oStr, pr->m_04[0]);
+                            world.ProcessEntries_00dc7600(&oStr, pr->m_04[0]);
                             break;
                         case 3:
                             break;
@@ -1251,8 +1256,8 @@ int This::ProcessVersionPatches(ArgA* apSource, ArgA* argB, VecP* apOutput)
                         case 5: {
                             int* data5 = pr->m_04;
                             StrX removed;
-                            removed.FUN_00dba650(world.hkDataWorldDict_findClass(data5[0]));
-                            removed.FUN_00dba660();
+                            removed.SetField00(world.hkDataWorldDict_findClass(data5[0]));
+                            removed.Object_DoNothing_00dba660();
                             break;
                         }
                         case 6: {
@@ -1260,16 +1265,16 @@ int This::ProcessVersionPatches(ArgA* apSource, ArgA* argB, VecP* apOutput)
                             if (data6[0])
                             {
                                 StrX oTmpStr;
-                                oTmpStr.FUN_00dba650(world.hkDataWorldDict_findClass(data6[0]));
+                                oTmpStr.SetField00(world.hkDataWorldDict_findClass(data6[0]));
                                 world.AssignRefCountedSlot(&oStr, &oTmpStr);
-                                oTmpStr.FUN_00dba660();
+                                oTmpStr.Object_DoNothing_00dba660();
                             }
                             else
                             {
                                 StrX oTmpStr;
-                                oTmpStr.FUN_00dba650((void*)0);
+                                oTmpStr.SetField00((void*)0);
                                 world.AssignRefCountedSlot(&oStr, &oTmpStr);
-                                oTmpStr.FUN_00dba660();
+                                oTmpStr.Object_DoNothing_00dba660();
                             }
                         }
                         break;
@@ -1288,7 +1293,7 @@ int This::ProcessVersionPatches(ArgA* apSource, ArgA* argB, VecP* apOutput)
                         world.hkDataWorldDict_renameClass(&oStr, saved);
                     world.hkDataWorldDict_setClassVersion(&oStr, ce->m_08);
                 }
-                oStr.FUN_00dba660();
+                oStr.Object_DoNothing_00dba660();
             }
         }
     }
@@ -1317,7 +1322,7 @@ int This::ProcessVersionPatches(ArgA* apSource, ArgA* argB, VecP* apOutput)
             if (mga.GetValue(r, 0))
             {
                 int r2 = ((VObj*)pSource.m_pData[j5])->FUN_v2();
-                mga.FUN_00d87820(r2);
+                mga.ProcessAndReturnValue_00d87820(r2);
             }
         }
         int si = mga.hkCachedHashMap_hkStringMapOperations_hkContainerHeapAllocator_getIterator();
@@ -1463,7 +1468,7 @@ struct DBA1A0Class
     int unk1C;
 
     int hkVersionPatchManager_recomputePatchDependencies();
-    int __thiscall FUN_00dba1a0(int a1);
+    int __thiscall ProcessAndReturnValue_00dba1a0(int a1);
 };
 
 extern "C" int fnv_unknown_clobber(int a) throw();
@@ -1479,7 +1484,8 @@ static __declspec(noinline) int applyPatchesFinally(int* pArr, int iKey)
 
 // Returns 1 when the field checks pass; otherwise calls FUN_00db8000 with this+0xC and a1.
 // @fnv 0x00dba1a0
-int __thiscall DBA1A0Class::FUN_00dba1a0(int aiKey)
+// src: GUESS 0x00dba1a0 (confidence: low)
+int __thiscall DBA1A0Class::ProcessAndReturnValue_00dba1a0(int aiKey)
 {
     if ((unk1C & 0x7FFFFFFF) == 0 && unk10 != 0 && hkVersionPatchManager_recomputePatchDependencies() == 1)
         return 1;
@@ -1495,9 +1501,10 @@ struct W
 {
     int x, y;
     C* inner;
-    void __thiscall FUN_00db7d40(Pair);
+    void __thiscall HkVersionPatchManager_UidFromClassVersion_getName_Thunk(Pair);
 };
-void W::FUN_00db7d40(Pair pair)
+// src: GUESS 0x00db7d40 (confidence: medium)
+void W::HkVersionPatchManager_UidFromClassVersion_getName_Thunk(Pair pair)
 {
     inner->hkVersionPatchManager_UidFromClassVersion_getName(pair.a, pair.b);
 }
@@ -1521,7 +1528,7 @@ struct FUN_00dba4d0_cls
     int m_iArrayLength;
     unsigned int m_uCapBits;
 
-    void FUN_00dba340(void* allocator, int index, const SortedEntry* value);
+    void ForwardCall_00dba340(void* allocator, int index, const SortedEntry* value);
     void HeapArray_UidItem_insert(const SortedEntry* apValue);
 };
 
@@ -1535,7 +1542,7 @@ void FUN_00dba4d0_cls::HeapArray_UidItem_insert(const SortedEntry* apValue)
         if (apValue->m_key < cur.m_key)
         {
             hkMemoryRouter* pHolder = hkMemoryRouter_getInstance();
-            FUN_00dba340(pHolder->m_heap, i, apValue);
+            ForwardCall_00dba340(pHolder->m_heap, i, apValue);
             return;
         }
     }
@@ -1583,13 +1590,13 @@ CpuObject* CpuObject::FUN_00dba580(unsigned int flags)
 
 extern "C" void _ReadWriteBarrier(void);
 void __cdecl ResizeAudioStream(hkMemoryAllocator* apAllocator, void* apContainer, unsigned int auiElemSize);
-int __cdecl FUN_00db7cb0(unsigned int auiValue);
+int __cdecl Hkversionpatchmanager_EvaluateValue_00db7cb0(unsigned int auiValue);
 
 struct FUN_00db7ef0_sub
 {
     int unk00;
     int unk04;
-    void FUN_00cb1e00();
+    void ProcessEntries_00cb1e00();
 };
 
 struct FUN_00db7ef0_list
@@ -1607,13 +1614,14 @@ struct FUN_00db7ef0_cls
     FUN_00db7ef0_list m_kNode;
     FUN_00db7ef0_sub m_sub;
 
-    void FUN_00db7ef0(unsigned int auiValue);
+    void UpdateState_00db7ef0(unsigned int auiValue);
 };
 
 // @fnv 0x00db7ef0
-void FUN_00db7ef0_cls::FUN_00db7ef0(unsigned int auiValue)
+// src: GUESS 0x00db7ef0 (confidence: low)
+void FUN_00db7ef0_cls::UpdateState_00db7ef0(unsigned int auiValue)
 {
-    if (FUN_00db7cb0(auiValue) == 0)
+    if (Hkversionpatchmanager_EvaluateValue_00db7cb0(auiValue) == 0)
     {
         return;
     }
@@ -1631,7 +1639,7 @@ void FUN_00db7ef0_cls::FUN_00db7ef0(unsigned int auiValue)
     *pSlot = auiValue;
     pList->m_uiItemCount++;
 
-    m_sub.FUN_00cb1e00();
+    m_sub.ProcessEntries_00cb1e00();
 }
 
 struct S00db94b0_Ref_s
@@ -1762,14 +1770,15 @@ struct VersionUidCache
     } m_vec;
 
     unsigned int __thiscall GetOrSetInt(unsigned int a, unsigned int b);
-    unsigned __int64 FUN_00db7d60(unsigned int a1, int a2);
+    unsigned __int64 ComputeValue_00db7d60(unsigned int a1, int a2);
 };
 
 extern "C" void _ReadWriteBarrier(void);
 extern "C" void __cdecl ResizeAudioStream(void* alloc, void* vec, unsigned int n);
 // Finds item in m_vec via GetOrSetInt; if not found, grows capacity if needed, appends item, and returns index with a2 in high 32 bits.
 // @fnv 0x00db7d60
-unsigned __int64 VersionUidCache::FUN_00db7d60(unsigned int a1, int a2)
+// src: GUESS 0x00db7d60 (confidence: low)
+unsigned __int64 VersionUidCache::ComputeValue_00db7d60(unsigned int a1, int a2)
 {
     unsigned int item = reinterpret_cast<unsigned int>(reinterpret_cast<DB7D00_Shell*>(this)->hkVersionPatchManager_UidFromClassVersion_cache(a1));
     unsigned int uiSize = m_vec.m_uiItemCount;

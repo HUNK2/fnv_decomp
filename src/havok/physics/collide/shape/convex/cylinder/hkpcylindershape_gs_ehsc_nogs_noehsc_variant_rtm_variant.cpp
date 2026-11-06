@@ -27,7 +27,7 @@
 #include <string.h>
 __forceinline hkVector4::hkVector4(const hkVector4& v) { memcpy(this, &v, sizeof(*this)); }
 
-int __cdecl FUN_00d571b0();
+int __cdecl hkpCylinderShape_ReturnConstant_0x12();
 // FUN_00d571a0: __thiscall getter returning the float at this+0x14,
 // which is hkpCylinderShape::m_fCylinderRadius in the pack's layout
 //  m_type 0xC, m_fSphereRadius 0x10, m_fCylinderRadius 0x14).

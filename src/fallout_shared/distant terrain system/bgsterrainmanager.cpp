@@ -21,7 +21,7 @@ public:
     ~NiNodeHolder_bgsterrainmanager();
     operator NiNode*() const;
     void FUN_0066b0d0(CleanupObject* object);
-    CleanupObject* FUN_00559450();
+    CleanupObject* Modelloader_GetReferencedThis();
 };
 #include "../../../include/TESObjectREFR.h"
 #include "../../../include/BGSTerrainNode.h"

@@ -27,7 +27,7 @@ struct FirstBase
 {
     int unk00;
     int unk04;
-    void FUN_00d6a250(Receiver* apReceiver);
+    void ForwardCall_00d6a250(Receiver* apReceiver);
 };
 
 struct SecondBase
@@ -48,7 +48,8 @@ struct Receiver
 
 // Passes the enclosing FullObject (this minus 0x20) to the receiver's ClearValue.
 // @fnv 0x00d6a250
-void FirstBase::FUN_00d6a250(Receiver* apReceiver)
+// src: GUESS 0x00d6a250 (confidence: low)
+void FirstBase::ForwardCall_00d6a250(Receiver* apReceiver)
 {
     apReceiver->ClearValue((FullObject*)((char*)this - 0x20));
 }
@@ -164,7 +165,8 @@ extern void* DAT_01269024;
 void hkpMidphaseViewer_Create();
 
 // @fnv 0x00d6a850
-void FUN_00d6a850()
+// src: GUESS 0x00d6a850 (confidence: low)
+void hkpMidphaseViewer_Create_SetDAT01269024()
 {
     DAT_01269024 = DAT_01269cd0->Register(DAT_010d22e0, hkpMidphaseViewer_Create);
 }
@@ -249,7 +251,8 @@ namespace fnv_00d6a870 {
 extern int DAT_01269024;
 
 // @fnv 0x00d6a870
-int __cdecl FUN_00d6a870()
+// src: GUESS 0x00d6a870 (confidence: low)
+int __cdecl hkpMidphaseViewer_GetDAT01269024()
 {
     return DAT_01269024;
 }

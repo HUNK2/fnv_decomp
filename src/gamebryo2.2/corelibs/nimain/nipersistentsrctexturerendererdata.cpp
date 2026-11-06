@@ -86,14 +86,14 @@ bool NiPersistentSrcTextureRendererData::RegisterStreamables_00a98170(NiStream& 
 }
 
 
-void __cdecl FUN_00a98240();
+void __cdecl UpdateFields_00a98240();
 void __cdecl _delete(void*, unsigned int);
 
 // Calls FUN_00a98240, then deletes this with size 0x94 when f has bit 0 set, and returns this.
 // @fnv 0x00a98480
 void* __fastcall DestroyIfFlagged(NiPersistentSrcTextureRendererData* self, void*, unsigned int auiFlags)
 {
-    FUN_00a98240();
+    UpdateFields_00a98240();
     if (auiFlags & 1)
         _delete(self, 0x94);
     return self;
@@ -973,7 +973,7 @@ struct IDirect3DInterface_Custom
 
 struct E8B630_Obj
 {
-    void FUN_00e8b630() throw();
+    void ProcessEntries_00e8b630() throw();
 };
 
 struct PrePackObject
@@ -1810,7 +1810,7 @@ FUN_00e75a70::~FUN_00e75a70() throw()
     E8B630_Obj* object8c8 = m_p8c8;
     if (object8c8)
     {
-        object8c8->FUN_00e8b630();
+        object8c8->ProcessEntries_00e8b630();
         FUN_00aa1460(object8c8, 0x23c);
     }
     m_p8c8 = 0;

@@ -1966,7 +1966,8 @@ struct CollisionAgentContext
 
 // Walks the agent sectors, calling each entry's dispatcher function; for types 4, 5, 12 and 13 it first sets m_fFloatValue and zeroes the separating normal.
 // @fnv 0x00da3510
-void FUN_00da3510(AgentSectorPointerArray& agentTrack, CollisionAgentContext& input)
+// src: GUESS 0x00da3510 (confidence: low)
+void hkpAgent1nSector_ProcessEntries_00da3510(AgentSectorPointerArray& agentTrack, CollisionAgentContext& input)
 {
     hkpAgent1nSector* sector = agentTrack.m_kSectors.m_data[0];
     FourByteState* entry = sector->getBegin();
@@ -2418,7 +2419,8 @@ struct __declspec(align(16)) TOIBody
 
 // Computes dot products from the two bodies' position difference and directions, then returns 0, 1 or 2 from threshold comparisons.
 // @fnv 0x00da37d0
-static __declspec(noinline) int FUN_00da37d0(const TOIBody* b, const TOIBody* a, float p0, const float* p1, float p2)
+// src: GUESS 0x00da37d0 (confidence: low)
+static __declspec(noinline) int Hkpagent1nmachine_ComputeValues_00da37d0(const TOIBody* b, const TOIBody* a, float p0, const float* p1, float p2)
 {
     LocalM128 d = _mm_sub_ps(a->m_pos, b->m_pos);
     LocalM128 m0 = _mm_mul_ps(b->m_dir, d);
@@ -2458,5 +2460,5 @@ volatile int g_toiP;
 volatile int g_toiOut;
 void CallTarget_da37d0()
 {
-    g_toiOut = FUN_00da37d0((const TOIBody*)g_toiB, (const TOIBody*)g_toiA, g_toiF, (const float*)g_toiP, g_toiF);
+    g_toiOut = Hkpagent1nmachine_ComputeValues_00da37d0((const TOIBody*)g_toiB, (const TOIBody*)g_toiA, g_toiF, (const float*)g_toiP, g_toiF);
 }

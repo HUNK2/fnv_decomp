@@ -558,7 +558,8 @@ const char* __cdecl ActorValue_GetActorValueAbbreviation(ActorValue::Index aiInd
 extern "C" void __cdecl ClearActorValueSlots();
 
 // @fnv 0x0066efd0
-void __fastcall FUN_0066efd0(int)
+// src: GUESS 0x0066efd0 (confidence: medium)
+void __fastcall ActorValue_ClearActorValueSlots_Thunk(int)
 {
     ClearActorValueSlots();
 }
@@ -610,13 +611,13 @@ void __cdecl TESForm_AddChunkArray(unsigned int, void*, unsigned int);
 // @fnv 0x006703b0
 void ActorValueInfo::Save()
 {
-    TESForm::FUN_004855a0();
+    TESForm::BeginFormRecord();
     TESFullName::Save_00487010();
     TESDescription::Save_00482cb0();
     TESTexture::Save(0x4e4f4349);
     if (m_cAbbreviation.Length())
         TESForm_AddChunkArray(0x4d414e41, (void*)m_cAbbreviation.operator const char*(), m_cAbbreviation.Length() + 1);
-    TESForm::FUN_00485680();
+    TESForm::FinishFormRecord();
 }
 
 // Looks up the ActorValueInfo for aiIndex and returns its description via GetDesc, or null if the info is missing.

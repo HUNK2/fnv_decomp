@@ -28,7 +28,7 @@ struct FUN_00d605d0_Class
     void hkOArchive_write32u(unsigned int value);
     void hkOArchive_write8u(unsigned int value);
     void hkDisplaySerializeOStream_writeQuadVector4(unsigned int value);
-    void FUN_00d609a0(__int64 value);
+    void hkOArchive_WriteBinaryData_Thunk_00d609e0(__int64 value);
     void WriteInt(unsigned int value);
     const char* ForwardValueToObject(unsigned int* value);
 };
@@ -52,7 +52,7 @@ bool Record::SetConfigValues(unsigned int uiValueA, unsigned int uiValueB, unsig
         config->hkDisplaySerializeOStream_writeQuadVector4(uiValueA);
         config->hkDisplaySerializeOStream_writeQuadVector4(uiValueB);
         config->hkOArchive_write32u(uiValueC);
-        config->FUN_00d609a0(iValueD);
+        config->hkOArchive_WriteBinaryData_Thunk_00d609e0(iValueD);
         config->WriteInt(uiValueE);
     }
     bool hasValue;
@@ -93,7 +93,7 @@ bool FUN_00dd9ab0_cls::hkServerDebugDisplayHandler_displayPoint(unsigned int a1,
         m_pConfiguration->hkOArchive_write8u(7);
         m_pConfiguration->hkDisplaySerializeOStream_writeQuadVector4(a1);
         m_pConfiguration->hkOArchive_write32u(a2);
-        m_pConfiguration->FUN_00d609a0(a3);
+        m_pConfiguration->hkOArchive_WriteBinaryData_Thunk_00d609e0(a3);
         m_pConfiguration->WriteInt(a4);
     }
     if (m_pConfiguration == 0)
@@ -290,7 +290,7 @@ bool FUN_00dd9df0_cls::hkServerDebugDisplayHandler_addGeometry(unsigned int a1, 
         this->config->hkOArchive_write8u(1);
         ((ParentRec*)((char*)this - 8))->ApplyItemList(uiValue1Copy);
         ((ConfigAux*)this->config)->WriteTransform(a2);
-        this->config->FUN_00d609a0(a3);
+        this->config->hkOArchive_WriteBinaryData_Thunk_00d609e0(a3);
         this->config->WriteInt(a4);
     }
     bool ok;
@@ -337,7 +337,7 @@ bool FUN_00dd9f40_cls::SetAndCheck(unsigned int uiValue, unsigned int a2, int a3
         m_pConfiguration->hkOArchive_write8u(6);
         reinterpret_cast<FUN_00dd9da0_ext*>((char*)this - 8)->ApplyItemList(v);
         m_pConfiguration->hkOArchive_write32u(a2);
-        m_pConfiguration->FUN_00d609a0((__int64)a3);
+        m_pConfiguration->hkOArchive_WriteBinaryData_Thunk_00d609e0((__int64)a3);
         m_pConfiguration->WriteInt(a4);
     }
     if (m_pConfiguration == 0)
@@ -390,7 +390,7 @@ int FUN_00dda0e0_cls::hkServerDebugDisplayHandler_displayText(volatile unsigned 
         reinterpret_cast<FUN_00d605d0_ext*>(config)->WriteUInt16(n);
         reinterpret_cast<FUN_00d605d0_ext*>(config)->hkOArchive_writeRaw(v, n);
         config->WriteInt(b);
-        config->FUN_00d609a0((__int64)c);
+        config->hkOArchive_WriteBinaryData_Thunk_00d609e0((__int64)c);
         config->WriteInt(d);
     }
     bool ok = (config != 0) && (config->ForwardValueToObject((unsigned int*)&auiValue)[0] != 0);
@@ -430,7 +430,7 @@ bool FUN_00dda1a0_cls::WriteConfigEntry(const char* name, const float* vec, unsi
         reinterpret_cast<FUN_00d605d0_ext_cls*>(config)->WriteUInt16(length);
         reinterpret_cast<FUN_00d605d0_ext_cls*>(config)->hkOArchive_writeRaw(name, length);
         config->WriteInt(uiValueA);
-        config->FUN_00d609a0((__int64)iValueB);
+        config->hkOArchive_WriteBinaryData_Thunk_00d609e0((__int64)iValueB);
         config->WriteInt(uiValueC);
         reinterpret_cast<FUN_00d605d0_ext_cls*>(config)->HashUInt(vec[0]);
         reinterpret_cast<FUN_00d605d0_ext_cls*>(config)->HashUInt(vec[1]);
@@ -486,7 +486,7 @@ int FUN_00dda290_cls::WriteConfigValue(volatile unsigned int a, int aiValue, uns
         config->hkOArchive_write8u(0x14);
         reinterpret_cast<FUN_00dda290_ext*>(config)->WriteUInt16(n);
         reinterpret_cast<FUN_00dda290_ext*>(config)->hkOArchive_writeRaw(v, n);
-        config->FUN_00d609a0((__int64)aiValue);
+        config->hkOArchive_WriteBinaryData_Thunk_00d609e0((__int64)aiValue);
         config->WriteInt(c);
     }
     bool ok = (config != 0) && (config->ForwardValueToObject((unsigned int*)&a)[0] != 0);
@@ -570,7 +570,7 @@ struct FUN_00d60940_Class
 struct Stream : FUN_00d605d0_Class
 {
     void hkOArchive_write32u(unsigned int);
-    void FUN_00d609a0(unsigned int, int);
+    void hkOArchive_WriteBinaryData_Thunk_00d609e0(unsigned int, int);
     char* ForwardValueToObject(void*);
 };
 struct Output
@@ -590,7 +590,7 @@ int Output::WriteRecord(unsigned int first, unsigned int second, unsigned int th
         stream->hkOArchive_write32u(17);
         stream->hkOArchive_write8u(3);
         stream->hkOArchive_write32u(first);
-        stream->FUN_00d609a0(second, 0);
+        stream->hkOArchive_WriteBinaryData_Thunk_00d609e0(second, 0);
         ((FUN_00d60940_Class*)stream)->WriteInt(third);
     }
     bool failed = stream && *stream->ForwardValueToObject(&first);
@@ -614,7 +614,7 @@ struct S_00dd98c0_Target
     void hkOArchive_write32u(int a);
     void hkOArchive_write8u(int a);
     void WriteTransform(int a);
-    void FUN_00d609a0(int a, int b);
+    void hkOArchive_WriteBinaryData_Thunk_00d609e0(int a, int b);
     void WriteInt(int a);
     S_00dd98c0_Bool ForwardValueToObject();
 };
@@ -635,7 +635,7 @@ S_00dd98c0_Result S_00dd98c0::WriteValue(int a1, int a2, int a3)
         unk4->hkOArchive_write32u(0x29);
         unk4->hkOArchive_write8u(2);
         unk4->WriteTransform(a1);
-        unk4->FUN_00d609a0(a2, 0);
+        unk4->hkOArchive_WriteBinaryData_Thunk_00d609e0(a2, 0);
         unk4->WriteInt(a3);
     }
     bool ok = unk4 && unk4->ForwardValueToObject().m_cBooleanValue;
@@ -886,7 +886,7 @@ struct QsTransform_dda340
     Vec4 rotation;
     Vec4 scale;
 
-    void FUN_00ce5300(Transform_dda340* out);
+    void Object_ForwardCall_00ce5300(Transform_dda340* out);
 };
 
 struct MemoryAllocator_dda340
@@ -1029,7 +1029,7 @@ bool BehaviorGraphDisplaySerializer::Write(const hkArrayBase<unsigned int>& a1, 
         for (int i = 0; i < a8.m_iElementCount; ++i)
         {
             Transform_dda340 t;
-            a8.m_data[i].FUN_00ce5300(&t);
+            a8.m_data[i].Object_ForwardCall_00ce5300(&t);
             this->config->WriteTransform(&t);
         }
 
@@ -1168,7 +1168,7 @@ bool SecondaryDisplay::hkServerDebugDisplayHandler_displayGeometry(unsigned int 
         reinterpret_cast<FUN_00dd9da0_owner*>((char*)this - 8)->ApplyItemList(a2);
         config->WriteTransform(b);
         config->hkOArchive_write32u(c);
-        config->FUN_00d609a0((__int64)d);
+        config->hkOArchive_WriteBinaryData_Thunk_00d609e0((__int64)d);
         config->WriteInt(e);
     }
     bool ok = config != 0 && config->ForwardValueToObject(&a)[0] != 0;

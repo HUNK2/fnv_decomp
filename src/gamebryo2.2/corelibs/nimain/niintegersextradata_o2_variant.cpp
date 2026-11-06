@@ -22,13 +22,14 @@ char const* const* __cdecl NiIntegersExtraData_GetRTTI()
 
 extern "C" void __cdecl NiFreeAlias(void* p);
 // @fnv 0x00a99950
-void NiIntegersExtraData::FUN_00a99950()
+// src: GUESS 0x00a99950 (confidence: low)
+void NiIntegersExtraData::SetVtableAndProcessState_00a99950()
 {
     void* p = m_piValue;
     *(int*)this = (int)&DAT_010a0c7c;
     NiFreeAlias(p);
     m_piValue = 0;
-    NiExtraData::FUN_00a7b300();
+    NiExtraData::DestroyFields_00a7b300();
 }
 
 // @fnv 0x00a99980
@@ -64,7 +65,7 @@ NiIntegersExtraData* NiIntegersExtraData::FUN_00a99a50(int flag)
     *(int*)this = (int)&DAT_010a0c7c;
     NiFreeAlias(m_piValue);
     m_piValue = 0;
-    NiExtraData::FUN_00a7b300();
+    NiExtraData::DestroyFields_00a7b300();
     if (flag & 1)
         operator delete(this, 0x14);
     return this;

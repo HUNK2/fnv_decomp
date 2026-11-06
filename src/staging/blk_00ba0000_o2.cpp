@@ -129,21 +129,21 @@ public:
     float GetSquaredXYLength() const;
     Elem16& expand(Allocator& allocator);
 
-    void FUN_00416870(float x, float y, float z);
+    void SetComponents(float x, float y, float z);
     bool FUN_00439090(const LocalVec3* other);
-    bool FUN_004390c0(const LocalVec3* other);
-    bool FUN_004390c0(const LocalVec3* other) const;
-    bool FUN_004390c0(const char* other);
-    void FUN_00439180(float scale);
+    bool HasEqualComponents(const LocalVec3* other);
+    bool HasEqualComponents(const LocalVec3* other) const;
+    bool HasEqualComponents(const char* other);
+    void ScaleComponents(float scale);
     LocalVec3 FUN_00439e90(const LocalVec3& other);
     LocalVec3 FUN_00439e90(const LocalVec3& other) const;
-    void FUN_00439ef0();
-    LocalVec3 FUN_00439ef0(const LocalVec3& other);
-    LocalVec3 FUN_00439ef0(const LocalVec3& other) const;
-    LocalVec3 FUN_00439ef0(LocalVec3* other);
-    LocalVec3 FUN_00439ef0(const LocalVec3* other);
-    void FUN_00439ef0(LocalVec3* output, const LocalVec3* other);
-    LocalVec3* FUN_00439ef0(void* output, void* other);
+    void SubtractIntoVector();
+    LocalVec3 SubtractIntoVector(const LocalVec3& other);
+    LocalVec3 SubtractIntoVector(const LocalVec3& other) const;
+    LocalVec3 SubtractIntoVector(LocalVec3* other);
+    LocalVec3 SubtractIntoVector(const LocalVec3* other);
+    void SubtractIntoVector(LocalVec3* output, const LocalVec3* other);
+    LocalVec3* SubtractIntoVector(void* output, void* other);
     void FUN_0043d410(float x, int y, int z);
     void FUN_0043d410(float x, unsigned int y, unsigned int z);
     float FUN_00457910();
@@ -153,22 +153,22 @@ public:
     float FUN_004a7290();
     float FUN_004a7290() const;
     LocalVec3 FUN_004b3800(const LocalVec3& other) const;
-    LocalVec3 FUN_0053d280(float divisor);
+    LocalVec3 ProcessAndReturnValue_0053d280(float divisor);
     float NiPoint3_XYLength();
     float NiPoint3_XYLength() const;
-    void FUN_0063c8a0(const LocalVec3* other);
-    void FUN_0063c8a0(void* other);
+    void ComputeValue_0063c8a0(const LocalVec3* other);
+    void ComputeValue_0063c8a0(void* other);
     void FUN_006815c0();
     float CVec3_Distance(LocalVec3* other);
     float CVec3_Distance(const LocalVec3& other) const;
-    LocalVec3 FUN_00b05000(const Mat& matrix);
-    LocalVec3 FUN_00b05000(const Matrix4* matrix);
+    LocalVec3 TransformPointByMatrix4(const Mat& matrix);
+    LocalVec3 TransformPointByMatrix4(const Matrix4* matrix);
     void Normalize_00b12790();
     LocalVec3 Diff_00b13040(void* other);
     LocalVec3 Diff_00b13040(const LocalVec3& other) const;
     float FUN_00b2a180(void* other);
-    LocalVec3& FUN_00b2a1c0(void* other);
-    void FUN_00ddc870();
+    LocalVec3& AddComponents(void* other);
+    void ProcessEntries_00ddc870();
     void FUN_00e0f6e0();
 };
 #include "../../include/Vec4.h"
@@ -324,10 +324,11 @@ struct FUN_00ba3d10_Class
 {
     int m0;
     void* m1;
-    void __thiscall FUN_00ba3d10();
+    void __thiscall UpdateState_00ba3d10();
 };
 // @fnv 0x00ba3d10
-void __thiscall FUN_00ba3d10_Class::FUN_00ba3d10()
+// src: GUESS 0x00ba3d10 (confidence: low)
+void __thiscall FUN_00ba3d10_Class::UpdateState_00ba3d10()
 {
     void* p = m1;
     m0 = (int)&DAT_010b9d24;
@@ -537,11 +538,12 @@ void* __thiscall FUN_00bb3220_Class::GetEntryValue()
 
 struct FUN_00bb3240_Class
 {
-    unsigned int __thiscall FUN_00bb3240();
+    unsigned int __thiscall ComputeValue_00bb3240();
 };
 
 // @fnv 0x00bb3240
-unsigned int __thiscall FUN_00bb3240_Class::FUN_00bb3240()
+// src: GUESS 0x00bb3240 (confidence: low)
+unsigned int __thiscall FUN_00bb3240_Class::ComputeValue_00bb3240()
 {
     void* p = *reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x104);
     if (p)
@@ -551,11 +553,12 @@ unsigned int __thiscall FUN_00bb3240_Class::FUN_00bb3240()
 
 struct FUN_00bb3260_Class
 {
-    void* __thiscall FUN_00bb3260(void* a, unsigned short b);
+    void* __thiscall ComputeValue_00bb3260(void* a, unsigned short b);
 };
 
 // @fnv 0x00bb3260
-void* __thiscall FUN_00bb3260_Class::FUN_00bb3260(void* apData, unsigned short ausValue)
+// src: GUESS 0x00bb3260 (confidence: low)
+void* __thiscall FUN_00bb3260_Class::ComputeValue_00bb3260(void* apData, unsigned short ausValue)
 {
     void* p = *(void**)((char*)this + 0x104);
     if (p)
@@ -831,7 +834,7 @@ struct FUN_00ba63a0_Class
     char b[0x74];
     NiD3DPass* m0;
     NiD3DPass* m1;
-    void __thiscall FUN_00ba59e0();
+    void __thiscall UpdateFields_00ba59e0();
     bool __thiscall ParticleShader_Func_80();
 };
 // @fnv 0x00ba63a0
@@ -842,7 +845,7 @@ bool __thiscall FUN_00ba63a0_Class::ParticleShader_Func_80()
         NiD3DPass::CreateD3DPass(m0);
     if (!m1)
         NiD3DPass::CreateD3DPass(m1);
-    FUN_00ba59e0();
+    UpdateFields_00ba59e0();
     return true;
 }
 
@@ -919,7 +922,8 @@ extern float DAT_01200658;
 extern float DAT_01200668;
 // Stores a and b into DAT_01200658 and DAT_01200668, and adds c and d to DAT_01200608 and DAT_0120060c.
 // @fnv 0x00bb1390
-void __cdecl FUN_00bb1390(float afValue1, float afValue2, float afDelta1, float afDelta2)
+// src: GUESS 0x00bb1390 (confidence: low)
+void __cdecl Runtime_UpdateState_00bb1390(float afValue1, float afValue2, float afDelta1, float afDelta2)
 {
     DAT_01200658 = afValue1;
     DAT_01200668 = afValue2;
@@ -1240,11 +1244,12 @@ struct FUN_00bb3400_Class
     int* m_ac;
     int* m_b0;
 
-    int __thiscall FUN_00bb3400(NiAVObject* a, int b, int c);
+    int __thiscall ProcessAndReturnValue_00bb3400(NiAVObject* a, int b, int c);
 };
 
 // @fnv 0x00bb3400
-int FUN_00bb3400_Class::FUN_00bb3400(NiAVObject* apObject, int b, int c)
+// src: GUESS 0x00bb3400 (confidence: low)
+int FUN_00bb3400_Class::ProcessAndReturnValue_00bb3400(NiAVObject* apObject, int b, int c)
 {
     if (reinterpret_cast<char*>(apObject) + 0x9c == 0)
         apObject->UpdateSceneObject();
@@ -1275,7 +1280,7 @@ FUN_00bb3910_Class* __thiscall FUN_00bb3910_Class::FUN_00bb3910(unsigned char a)
 
 struct FUN_00bb39e0_shell
 {
-    void FUN_00bb39e0(const void*, unsigned int);
+    void UpdateFields_00bb39e0(const void*, unsigned int);
 };
 struct FUN_00bb3cb0_Class
 {
@@ -1288,7 +1293,7 @@ struct FUN_00bb3cb0_Class
 void __thiscall FUN_00bb3cb0_Class::SpeedTreeLeafShaderProperty_SetLeafMaps(const void* apData, unsigned int b)
 {
     if (m_0x88)
-        m_0x88->FUN_00bb39e0(apData, b);
+        m_0x88->UpdateFields_00bb39e0(apData, b);
 }
 
 struct A51BF0Base
@@ -2574,7 +2579,7 @@ void ParticleShader::CompileParticleShaders()
     pixelProgram = FUN_00be1750(sourcePath, &pixel.options, profile, binaryPath);
 }
 
-extern "C" void* __cdecl FUN_00aa13e0(unsigned int size);
+extern "C" void* __cdecl Object_DispatchCommandFour(unsigned int size);
 
 struct Obj_b10008
 {
@@ -2664,7 +2669,7 @@ struct Obj_b10008
     Obj_b10008();
     static void* operator new(unsigned int size)
     {
-        return FUN_00aa13e0(size);
+        return Object_DispatchCommandFour(size);
     }
 };
 
@@ -2953,7 +2958,7 @@ void FUN_00ba8560_cls::DispatchRefOp(ImgRef* pRef)
     m_lock.Leave();
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+void* __cdecl Object_DispatchCommandFour(unsigned int size);
 
 struct SpawnedObject
 {
@@ -2962,7 +2967,7 @@ struct SpawnedObject
 
     static void* operator new(unsigned int size)
     {
-        return FUN_00aa13e0(size);
+        return Object_DispatchCommandFour(size);
     }
 
     SpawnedObject();
@@ -4306,7 +4311,7 @@ struct SpawnedObject90
     unsigned int unk8C;
 };
 
-void* __cdecl FUN_00aa13e0(unsigned int aiSize);
+void* __cdecl Object_DispatchCommandFour(unsigned int aiSize);
 
 struct SpawnFactory
 {
@@ -4366,7 +4371,7 @@ struct SpawnedObject90
     unsigned int unk8C;
 };
 
-void* __cdecl FUN_00aa13e0(unsigned int aiSize);
+void* __cdecl Object_DispatchCommandFour(unsigned int aiSize);
 
 // Allocates and constructs a SpawnedObject90, returning the new object.
 // @fnv 0x00baee40
@@ -5323,7 +5328,7 @@ ShaderRenderCommand* __thiscall ShaderRenderState::PrecipitationShaderProperty_G
 
 namespace fnv_00bb1080 {
 extern "C" char DAT_010b9008[];
-extern "C" void* FUN_00aa13e0(unsigned int);
+extern "C" void* Object_DispatchCommandFour(unsigned int);
 struct FUN_00bb1080_tls
 {
     unsigned int unk0000;
@@ -5574,7 +5579,7 @@ class SpawnedObject
     }
     void* operator new(unsigned int size) throw()
     {
-        return FUN_00aa13e0(size);
+        return Object_DispatchCommandFour(size);
     }
 };
 
@@ -6011,7 +6016,7 @@ class FUN_00bb2580_cls
     int unk37C;
     int unk380;
     int m_384;
-    void FUN_00bb1f60(int a1, int a2, int a3, int a4, int a5, int a6, int a7);
+    void UpdateFields_00bb1f60(int a1, int a2, int a3, int a4, int a5, int a6, int a7);
     int SpeedTreeLeafShader_UpdatePipeline(int a1, int a2, int a3, int a4, int a5, int a6, int a7);
 };
 
@@ -6021,7 +6026,7 @@ class FUN_00bb2580_cls
 int FUN_00bb2580_cls::SpeedTreeLeafShader_UpdatePipeline(int a1, int a2, int a3, int a4, int a5, int a6, int a7)
 {
     v59();
-    FUN_00bb1f60(a1, a2, a3, a4, a5, a6, a7);
+    UpdateFields_00bb1f60(a1, a2, a3, a4, a5, a6, a7);
     DAT_0126f74c = m_384;
     return 0;
 }
@@ -6349,7 +6354,8 @@ S_00bb2fc0_Mat* __stdcall D3DXMatrixRotationYawPitchRoll_00ee6e04(S_00bb2fc0_Mat
 S_00bb2fc0_Mat* __stdcall D3DXMatrixTranspose_00ee6dd4(S_00bb2fc0_Mat* out, const S_00bb2fc0_Mat* in);
 
 // @fnv 0x00bb2fc0
-bool __cdecl FUN_00bb2fc0(unsigned int index, float x, float y)
+// src: GUESS 0x00bb2fc0 (confidence: low)
+bool __cdecl Object_ProcessAndReturnValue_00bb2fc0(unsigned int index, float x, float y)
 {
     if (index >= 4)
     {
@@ -6375,7 +6381,7 @@ GlobalObjectO2_00bb3130* __cdecl SpeedTreeBranchShaderProperty_GetRTTI()
     return &g_01200788;
 }
 
-extern "C" void* __cdecl FUN_00aa13e0(unsigned int size);
+extern "C" void* __cdecl Object_DispatchCommandFour(unsigned int size);
 
 struct BaseObj_b9933
 {
@@ -6457,7 +6463,7 @@ struct Obj_b9933 : public BaseObj_b9933
     }
     static void* operator new(unsigned int size)
     {
-        return FUN_00aa13e0(size);
+        return Object_DispatchCommandFour(size);
     }
 };
 
@@ -6617,19 +6623,20 @@ struct FUN_00bb3210_cls
     int unk100;
     void* m_104;
 
-    void* FUN_00bb3210();
+    void* GetField104();
 };
 
 // @fnv 0x00bb3210
-void* FUN_00bb3210_cls::FUN_00bb3210()
+// src: GUESS 0x00bb3210 (confidence: low)
+void* FUN_00bb3210_cls::GetField104()
 {
     return m_104;
 }
 
-extern "C" void* __cdecl FUN_00aa13e0(unsigned int size);
+extern "C" void* __cdecl Object_DispatchCommandFour(unsigned int size);
 __forceinline void* __cdecl operator new(unsigned int size)
 {
-    return FUN_00aa13e0(size);
+    return Object_DispatchCommandFour(size);
 }
 struct ImageSpaceTextureDescriptor
 {
@@ -6652,7 +6659,7 @@ struct ImageBuffer
     void* owner;
     unsigned int referenceCount;
     ImageBuffer(unsigned int layerCount, bool allocateStorage);
-    void __thiscall FUN_00a72ca0(bool enabled);
+    void __thiscall SetSize_Thunk(bool enabled);
     void __thiscall NiAdditionalGeometryData_SetDataBlock(bool owned, void* input);
     void __thiscall NiAdditionalGeometryData_SetDataStream(unsigned int a, unsigned int b, unsigned int c, unsigned int d, unsigned int layers,
                                  unsigned int width, unsigned int height);
@@ -6688,7 +6695,7 @@ ImageBuffer* __thiscall ImageProvider::SpeedTreeBranchShaderProperty_SetupGeomet
         {
             const unsigned int uiLayerCount = source->descriptor()->layerCount;
             ImageBuffer* buffer = new ImageBuffer(uiLayerCount, true);
-            buffer->FUN_00a72ca0(true);
+            buffer->SetSize_Thunk(true);
             buffer->NiAdditionalGeometryData_SetDataBlock(false, getLayerData(static_cast<unsigned short>(uiLayerCount) << 4, 0));
             buffer->NiAdditionalGeometryData_SetDataStream(0, 0, 0, 4, uiLayerCount, 16, 16);
             return buffer;
@@ -7657,7 +7664,7 @@ FUN_00bb3cd0::~FUN_00bb3cd0()
 
 extern char DAT_010b9828;
 
-void* FUN_00b71720();
+void* Object_InitializeFields_00b71720();
 
 struct FUN_00bb4080_Class
 {
@@ -7702,7 +7709,7 @@ struct FUN_00bb4080_Class
 // src: COMMUNITY 0x00bb4080
 void* FUN_00bb4080_Class::GeometryDecalShaderProperty_GeometryDecalShaderProperty()
 {
-    FUN_00b71720();
+    Object_InitializeFields_00b71720();
     this->unk00 = &DAT_010b9828;
     this->unk7C = 0;
     this->unk58 = 0x10;
@@ -7849,7 +7856,8 @@ FUN_00bb4540::FUN_00bb4540(SpawnArgIface* pSpawnArg) : SpawnBaseObj()
 extern int DAT_010b9910;
 
 // @fnv 0x00bb45b0
-void __fastcall FUN_00bb45b0(unsigned int* param_1)
+// src: GUESS 0x00bb45b0 (confidence: low)
+void __fastcall Runtime_UpdateState_00bb45b0(unsigned int* param_1)
 {
     *param_1 = reinterpret_cast<unsigned int>(&DAT_010b9910);
     FUN_00b67380(param_1);
@@ -7864,7 +7872,7 @@ void* Lighting30ShaderProperty_GetRTTI()
     return &g_target_00bb45c0;
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+void* __cdecl Object_DispatchCommandFour(unsigned int size);
 
 class ObjectBase_b9105
 {
@@ -7886,7 +7894,7 @@ class ObjectDerived_b9105 : public ObjectBase_b9105
     int m104;
     static void* operator new(unsigned int size)
     {
-        return FUN_00aa13e0(size);
+        return Object_DispatchCommandFour(size);
     }
 };
 
@@ -7897,7 +7905,7 @@ ObjectDerived_b9105* CreateObjectDerived()
     return new ObjectDerived_b9105();
 }
 
-extern "C" void* __cdecl FUN_00aa13e0(unsigned int size);
+extern "C" void* __cdecl Object_DispatchCommandFour(unsigned int size);
 
 struct ThreadState
 {
@@ -8171,7 +8179,7 @@ struct Obj_b9974 : public BaseObj_b9974
     int m104;
     static void* operator new(unsigned int size)
     {
-        return FUN_00aa13e0(size);
+        return Object_DispatchCommandFour(size);
     }
 };
 
@@ -8414,14 +8422,14 @@ void* BSDistantTreeShaderProperty_GetRTTI()
     return &g_target_00bb7200;
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+void* __cdecl Object_DispatchCommandFour(unsigned int size);
 
 struct FUN_00bb7170_Node
 {
     FUN_00bb7170_Node();
     static void* operator new(unsigned int size)
     {
-        return FUN_00aa13e0(size);
+        return Object_DispatchCommandFour(size);
     }
     int unk00;
     int unk04;
@@ -8520,7 +8528,7 @@ S_00bb7370_Obj* S_00bb7370_Obj::FUN_00bb7370(unsigned int flags)
 }
 }  // namespace fnv_00bb7370
 
-void* __cdecl FUN_00aa13e0(unsigned int);
+void* __cdecl Object_DispatchCommandFour(unsigned int);
 // Allocates a 0xb0-byte TileShaderProperty with flag false, returning the pointer.
 // @fnv 0x00bb7ef0
 // src: EXE 0x00bb7ef0
@@ -8672,7 +8680,7 @@ void ShaderPassParameters::AppendShaderParameters(StrArr* array)
     }
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int);
+void* __cdecl Object_DispatchCommandFour(unsigned int);
 void __cdecl FUN_00aa1460(void*, unsigned int);
 
 struct FogProp_bb8280
@@ -8683,7 +8691,7 @@ struct FogProp_bb8280
     FogProp_bb8280* Clone(void* pCloning);
     static void* __cdecl operator new(unsigned int s)
     {
-        return FUN_00aa13e0(s);
+        return Object_DispatchCommandFour(s);
     }
     static void __cdecl operator delete(void* p, unsigned int s)
     {
@@ -9136,11 +9144,12 @@ class ISKernelEffect
 
     void ImageSpaceEffectWaterFFT_FillWaterUtilityBuffers();
     void ImageSpaceEffectWaterFFT_FillFFTUtilityTextures(int iSize, int iSamples);
-    void FUN_00ba2590();
+    void AllocateStorage_00ba2590();
 };
 
 // @fnv 0x00ba2590
-void ISKernelEffect::FUN_00ba2590()
+// src: GUESS 0x00ba2590 (confidence: low)
+void ISKernelEffect::AllocateStorage_00ba2590()
 {
     int i;
     m_ppfWeightsA = new float*[DAT_01200054 + 1];
@@ -12315,7 +12324,7 @@ ImageBuffer* BB3FC0ImageProvider::SpeedTreeLeafShaderProperty_CreateRendererSpec
 {
     unsigned int count = getLayerCount();
     ImageBuffer* buffer = new ImageBuffer(count, true);
-    buffer->FUN_00a72ca0(true);
+    buffer->SetSize_Thunk(true);
     buffer->NiAdditionalGeometryData_SetDataBlock(false, getLayerData(count << 4, 0));
     buffer->NiAdditionalGeometryData_SetDataStream(0, 0, 0, 4, count, 0x10, 0x10);
     return buffer;
@@ -15301,14 +15310,15 @@ FUN_00ba2d40_cls* FUN_00ba2d40_cls::Semaphore_Create()
 class FUN_00ba2d70_cls
 {
   public:
-    void FUN_00ba2d70();
+    void ForwardCall_00ba2d70();
 
     int unk00;
     HANDLE m_hHandle;
 };
 
 // @fnv 0x00ba2d70
-void FUN_00ba2d70_cls::FUN_00ba2d70()
+// src: GUESS 0x00ba2d70 (confidence: low)
+void FUN_00ba2d70_cls::ForwardCall_00ba2d70()
 {
     CloseHandle(m_hHandle);
 }
@@ -15972,10 +15982,11 @@ struct Shader
     {
         return fogPixel;
     }
-    void FUN_00bb1f60(Geometry*, int, int, PassInfo*, int, int, Bound*);
+    void UpdateFields_00bb1f60(Geometry*, int, int, PassInfo*, int, int, Bound*);
 };
 // @fnv 0x00bb1f60
-void Shader::FUN_00bb1f60(Geometry* geometry, int unused1, int unused2, PassInfo* info, int FlushUsageData, int unused4,
+// src: GUESS 0x00bb1f60 (confidence: low)
+void Shader::UpdateFields_00bb1f60(Geometry* geometry, int unused1, int unused2, PassInfo* info, int FlushUsageData, int unused4,
                           Bound* bound)
 {
     unsigned int mode = info->mode;
@@ -17316,7 +17327,7 @@ struct IST
     void __thiscall ImageSpaceTexture_SetTexture(void* a);
     void __thiscall ImageSpaceTexture_SetBorrowed(int a);
     void __thiscall ImageSpaceTexture_ReturnRenderedTexture();
-    IST* __thiscall FUN_00ba3940(IST* a);
+    IST* __thiscall InitializeFields_00ba3940(IST* a);
 };
 struct Node
 {
@@ -17797,7 +17808,7 @@ void __thiscall Badb90This::ImageSpaceEffectHDR_Render(int a0, int a1, int a2, i
         TexRefObj* r = BSShaderManager_GetShader(9);
         r->AddTexture(t);
     }
-    texC.FUN_00ba3940(texA.FUN_00ba3940(&texB));
+    texC.InitializeFields_00ba3940(texA.InitializeFields_00ba3940(&texB));
 
     while (w > 1 || a2 > 1)
     {
@@ -17833,7 +17844,7 @@ void __thiscall Badb90This::ImageSpaceEffectHDR_Render(int a0, int a1, int a2, i
                         texA.ImageSpaceTexture_ReturnRenderedTexture();
                 }
             }
-            texA.FUN_00ba3940(&texB);
+            texA.InitializeFields_00ba3940(&texB);
         }
     }
     {
@@ -17850,7 +17861,7 @@ void __thiscall Badb90This::ImageSpaceEffectHDR_Render(int a0, int a1, int a2, i
                                       1.0f / (float)(unsigned int)rt1->GetH38(), 0.0f, 0.0f);
             }
             holder->Draw4(a0, a1, argNode, 1);
-            GlobalTex().FUN_00ba3940(&texB);
+            GlobalTex().InitializeFields_00ba3940(&texB);
         }
         else
         {
@@ -17865,7 +17876,7 @@ void __thiscall Badb90This::ImageSpaceEffectHDR_Render(int a0, int a1, int a2, i
             }
             holder->Draw4(a0, a1, argNode, 1);
             GlobalTex().ImageSpaceTexture_ReturnRenderedTexture();
-            GlobalTex().FUN_00ba3940(&texB);
+            GlobalTex().InitializeFields_00ba3940(&texB);
         }
     }
     texE.ImageSpaceTexture_BorrowRenderedTexture(2);

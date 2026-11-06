@@ -77,11 +77,12 @@ struct FUN_00de7580_cls
     void hkpConstraintDrawer_updateCommonParameters(Arg_00de7580* a1, hkTransform* a2, hkTransform* a3);
     void hkpConstraintDrawer_drawPivots(int a1, int a2);
     void hkpConstraintDrawer_drawBodyFrames(int a1, int a2);
-    void FUN_00de7580(ArgHolder_00de7580 a1, Render_00de7580* a2, int a3, int a4);
+    void UpdateFields_00de7580(ArgHolder_00de7580 a1, Render_00de7580* a2, int a3, int a4);
 };
 
 // @fnv 0x00de7580
-void FUN_00de7580_cls::FUN_00de7580(ArgHolder_00de7580 a1, Render_00de7580* a2, int a3, int a4)
+// src: GUESS 0x00de7580 (confidence: low)
+void FUN_00de7580_cls::UpdateFields_00de7580(ArgHolder_00de7580 a1, Render_00de7580* a2, int a3, int a4)
 {
     // Pointer storage preserves the original uninitialized temporaries without adding a /GS cookie.
     __declspec(align(16)) void* transform44Storage[sizeof(hkTransform) / sizeof(void*)];
