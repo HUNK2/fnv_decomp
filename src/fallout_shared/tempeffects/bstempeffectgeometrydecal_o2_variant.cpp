@@ -41,7 +41,7 @@ void* __thiscall FUN_00a81f90_class::NiSkinPartition_NiSkinPartition()
 
 #include <windows.h>
 #include "../../../include/NiSkinInstance.h"
-void __cdecl FUN_00aa10f0(void* p) throw();
+void __cdecl _NiFree_00aa10f0(void* p) throw();
 struct S_00a85580_RefObject
 {
     virtual ~S_00a85580_RefObject() throw();
@@ -150,7 +150,7 @@ struct FUN_00a85580 : S_00a85580_Object
 // @fnv 0x00a85580
 FUN_00a85580::~FUN_00a85580() throw()
 {
-    FUN_00aa10f0(unk14);
+    _NiFree_00aa10f0(unk14);
     if (DAT_011f4748)
         DAT_011f4748->PurgeSkinInstance(this);
 }

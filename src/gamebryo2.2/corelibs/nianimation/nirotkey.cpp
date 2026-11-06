@@ -119,7 +119,7 @@ class FUN_00a3e9a0_cls
     float GetAccumulatedValue();
 };
 
-void __cdecl FUN_00aa10f0(float* p);
+void __cdecl _NiFree_00aa10f0(float* p);
 void* __cdecl FUN_00aa1070(unsigned int n);
 
 // If m_24 is negative, allocates a float array sized from m_18->m_08, fills running sums via FUN_00a3e680, stores the last value in m_24, and returns m_24.
@@ -130,7 +130,7 @@ float FUN_00a3e9a0_cls::GetAccumulatedValue()
     {
         unsigned int count = m_18 ? m_18->m_08 : 0;
         unsigned int bytes = count * 4;
-        FUN_00aa10f0(m_20);
+        _NiFree_00aa10f0(m_20);
         m_20 = (float*)FUN_00aa1070(bytes);
         m_20[0] = 0.0f;
         unsigned int uiIndex = 0;

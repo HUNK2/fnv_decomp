@@ -365,7 +365,8 @@ void __cdecl AdvancePosition(NiBinaryStream* a, void* b, unsigned int c);
 
 // Reads a length-prefixed string and advances the stream position; returns false for a zero size or null buffer.
 // @fnv 0x00ee92d0
-bool __stdcall FUN_00ee92d0(NiBinaryStream* self, unsigned int pBuffer, unsigned int a3)
+// src: GAMEBRYO_LIB 0x00ee92d0
+bool __stdcall NiGPUProgramCache_LoadStringA(NiBinaryStream* self, unsigned int pBuffer, unsigned int a3)
 {
     if (a3 == 0)
         goto fail;
@@ -426,7 +427,7 @@ bool NiGPUProgramCache::WriteToStream(NiFile* pStream, NiRefObject* pObject, int
 {
     S_00ee97e0_Obj* pObj = reinterpret_cast<S_00ee97e0_Obj*>(pObject);
     S_00ee97e0_Write(pStream, &m_uiReserved);
-    FUN_00ee9230(pStream, *piValue);
+    NiGPUProgramCache_SaveString(pStream, *piValue);
     int f8 = pObj->unk08;
     if (!vf90(pStream, f8))
         return false;
@@ -435,11 +436,11 @@ bool NiGPUProgramCache::WriteToStream(NiFile* pStream, NiRefObject* pObject, int
     for (unsigned int i = 0; i < count; i++)
     {
         S_00ee97e0_Elem* e = pObj->unk0c[i];
-        FUN_00ee9230(pStream, *e->FUN_00a62660());
-        FUN_00ee9230(pStream, *e->FUN_00eea4f0());
-        FUN_00ee9230(pStream, *e->FUN_00eea500());
-        FUN_00ee9230(pStream, *e->FUN_00eea510());
-        FUN_00ee9230(pStream, *e->FUN_00eea520());
+        NiGPUProgramCache_SaveString(pStream, *e->FUN_00a62660());
+        NiGPUProgramCache_SaveString(pStream, *e->FUN_00eea4f0());
+        NiGPUProgramCache_SaveString(pStream, *e->FUN_00eea500());
+        NiGPUProgramCache_SaveString(pStream, *e->FUN_00eea510());
+        NiGPUProgramCache_SaveString(pStream, *e->FUN_00eea520());
         int a = e->FUN_00be0ad0();
         S_00ee97e0_Write(pStream, &a);
         int b = e->FUN_00aa1ac0();
@@ -1010,7 +1011,8 @@ inline void S_00ee9230_WriteBinary(NiBinaryStream* pkStream, const void* pvBuffe
 
 // Writes a length-prefixed null-terminated string to pkStream, using a zero length when pcString is null.
 // @fnv 0x00ee9230
-bool __stdcall FUN_00ee9230(NiBinaryStream* pkStream, const char* pcString)
+// src: GAMEBRYO_LIB 0x00ee9230
+bool __stdcall NiGPUProgramCache_SaveString(NiBinaryStream* pkStream, const char* pcString)
 {
     if (pcString == 0)
     {
@@ -1072,19 +1074,19 @@ bool NiGPUProgramCache::LoadCacheFile()
                 return false;
             }
 
-            FUN_00ee92d0(pkFile, acBuffer, 0x200);
+            NiGPUProgramCache_LoadStringA(pkFile, acBuffer, 0x200);
             if (FUN_00aa1360(acBuffer, GetShaderType()) != 0)
             {
                 delete pkFile;
                 return false;
             }
-            FUN_00ee92d0(pkFile, acBuffer, 0x200);
+            NiGPUProgramCache_LoadStringA(pkFile, acBuffer, 0x200);
             if (FUN_00aa1360(acBuffer, GetRendererName()) != 0)
             {
                 delete pkFile;
                 return false;
             }
-            FUN_00ee92d0(pkFile, acBuffer, 0x200);
+            NiGPUProgramCache_LoadStringA(pkFile, acBuffer, 0x200);
             if (FUN_00aa1360(acBuffer, GetPlatformName()) != 0)
             {
                 delete pkFile;
@@ -1188,9 +1190,9 @@ bool NiGPUProgramCache::FUN_00ee9620()
         unsigned int version = 5;
         S00ee9620_SaveBinary(s, version);
 
-        FUN_00ee9230(s, reinterpret_cast<unsigned int>(GetShaderType()));
-        FUN_00ee9230(s, reinterpret_cast<unsigned int>(GetRendererName()));
-        FUN_00ee9230(s, reinterpret_cast<unsigned int>(GetPlatformName().m_kHandle));
+        NiGPUProgramCache_SaveString(s, reinterpret_cast<unsigned int>(GetShaderType()));
+        NiGPUProgramCache_SaveString(s, reinterpret_cast<unsigned int>(GetRendererName()));
+        NiGPUProgramCache_SaveString(s, reinterpret_cast<unsigned int>(GetPlatformName().m_kHandle));
 
         MapItem* pItem = reinterpret_cast<OwnerMap*>(&m_kObjectMap)->FUN_00ee8ac0();
         while (pItem != 0)

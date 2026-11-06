@@ -80,7 +80,7 @@ struct FUN_00dbc670_storage
 struct FUN_00dbc670_shell
 {
     void FUN_00dbc670();
-    void FUN_00dbda50(int, int, int);
+    void hkPackfileWriter_setContents(int, int, int);
     int ProcessPoly(int, int);
     void FUN_00dbc6e0();
 };
@@ -119,13 +119,13 @@ struct S_00d49310_Result
 };
 void FUN_00d48af0(void* stream, int* out) throw();
 S_00d49310_Result FUN_00d49310(void* stream);
-int FUN_00cb0fa0(const char* a, const char* b);
+int hkString_strCmp(const char* a, const char* b);
 static inline int S_00d49350_Compare(const char* a, const char* b)
 {
     if (a)
     {
         if (b)
-            return FUN_00cb0fa0(a, b);
+            return hkString_strCmp(a, b);
         return 1;
     }
     return b ? -1 : 0;

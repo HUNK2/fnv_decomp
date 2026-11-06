@@ -43,7 +43,7 @@ Derived::Derived()
 
 #include <math.h>
 static float NI_HALF_PI;
-float FUN_00a811f0(float y, float x);
+float NiFastATan2(float y, float x);
 
 inline float NiASin(float fValue)
 {
@@ -65,24 +65,25 @@ struct RotationMatrix
     float m00, m01, m02;
     float m10, m11, m12;
     float m20, m21, m22;
-    bool FUN_00a59400(float& x, float& y, float& z);
+    bool NiMatrix3_ToEulerAnglesZXY(float& x, float& y, float& z);
 };
 
 // @fnv 0x00a59400
-bool RotationMatrix::FUN_00a59400(float& x, float& y, float& z)
+// src: GAMEBRYO_LIB 0x00a59400
+bool RotationMatrix::NiMatrix3_ToEulerAnglesZXY(float& x, float& y, float& z)
 {
     y = -NiASin(m21);
     if (y < NI_HALF_PI)
     {
         if (y > -NI_HALF_PI)
         {
-            x = -FUN_00a811f0(-m01, m11);
-            z = -FUN_00a811f0(-m20, m22);
+            x = -NiFastATan2(-m01, m11);
+            z = -NiFastATan2(-m20, m22);
             return true;
         }
         else
         {
-            float fRmY = FUN_00a811f0(m02, m00);
+            float fRmY = NiFastATan2(m02, m00);
             z = 0.0f;
             x = fRmY - z;
             return false;
@@ -90,7 +91,7 @@ bool RotationMatrix::FUN_00a59400(float& x, float& y, float& z)
     }
     else
     {
-        float fRpY = FUN_00a811f0(m02, m00);
+        float fRpY = NiFastATan2(m02, m00);
         z = 0.0f;
         x = z - fRpY;
         return false;

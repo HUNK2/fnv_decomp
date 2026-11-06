@@ -9006,7 +9006,7 @@ struct MotionActor
     bool FUN_004938e0();
     float FUN_00567400();
 };
-void FUN_00a582f0(const MotionMatrix*, const MotionPoint*, int, const MotionPoint*, MotionPoint*);
+void NiMatrix3_TransformVertices(const MotionMatrix*, const MotionPoint*, int, const MotionPoint*, MotionPoint*);
 struct MovementAnimation
 {
     unsigned int flags;
@@ -9089,7 +9089,7 @@ bool MovementAnimation::GetMovement(MotionPoint* apMovement, MotionActor* actor,
     if (removeZ)
         delta3.z = 0.0f;
     if (rotate)
-        FUN_00a582f0(&rotation5, &origin3, 1, &delta3, apMovement);
+        NiMatrix3_TransformVertices(&rotation5, &origin3, 1, &delta3, apMovement);
     else
         *apMovement = delta3;
     return true;

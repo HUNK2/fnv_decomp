@@ -232,11 +232,12 @@ struct Track_e3a1 {
     int m_numKeys;
     int m_pRayCursor;
     hkArray<Key_e3a1> m_keys;
-    void FUN_00e3a1e0(int numKeys);
+    void hkpTyremarksWheel_setNumPoints(int numKeys);
 };
 
 // @fnv 0x00e3a1e0
-void Track_e3a1::FUN_00e3a1e0(int numKeys)
+// src: HAVOK_LIB 0x00e3a1e0
+void Track_e3a1::hkpTyremarksWheel_setNumPoints(int numKeys)
 {
     m_pRayCursor = numKeys;
     m_numKeys = 0;

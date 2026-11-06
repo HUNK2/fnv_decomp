@@ -30,7 +30,7 @@ extern "C" const char str_010f1628[];
 extern "C" const char str_010f12a8[];
 
 extern "C" void* __cdecl FUN_00ec61c0(void* d, int v, unsigned int n);
-extern "C" void __cdecl FUN_00aa10f0(void* p);
+extern "C" void __cdecl _NiFree_00aa10f0(void* p);
 extern "C" bool __cdecl FindShaderProgramFile(const char* in, char* out, unsigned int n);
 
 extern "C" __declspec(dllimport) void* __stdcall CreateFileA(const char*, unsigned int, unsigned int, void*,
@@ -87,7 +87,7 @@ bool __stdcall FUN_00e981f0(const char* apFilePath, void** apOutBuffer, unsigned
     CloseHandle(hFile);
     if (uiBytesRead != uiFileSize)
     {
-        FUN_00aa10f0(pBuffer);
+        _NiFree_00aa10f0(pBuffer);
         return false;
     }
     *outSize = uiFileSize;

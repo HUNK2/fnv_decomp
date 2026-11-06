@@ -13,12 +13,12 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 struct FUN_00cb7460_class
 {
-    int __thiscall FUN_00cb7460(int value);
+    int __thiscall hkpAgentNnTrack_getSectorSize(int value);
 };
 void ClearSlotReference(int* thisPtr, int* p);
-void FUN_00d27ac0(int first, int second);
-void FUN_00d00960(int first, int second);
-void FUN_00cb3c80(int first, int second);
+void hkpWorldConstraintUtil_addConstraint(int first, int second);
+void hkpWorldCallbackUtil_fireConstraintAdded(int first, int second);
+void hkpWorldOperationUtil_addConstraintToCriticalLockedIsland(int first, int second);
 struct FUN_00cb3ca0_object
 {
     int unk00;
@@ -69,9 +69,9 @@ struct FUN_00cb3ca0_object
     void __thiscall FUN_00c91120();
     void __thiscall FUN_00c91140();
 };
-void __cdecl FUN_00d27ac0(FUN_00cb3ca0_object* object, int* value);
-void __cdecl FUN_00d00960(FUN_00cb3ca0_object* object, int* value);
-int* __cdecl FUN_00cb3ca0(FUN_00cb3ca0_object* object, int* value, int shouldNotify);
+void __cdecl hkpWorldConstraintUtil_addConstraint(FUN_00cb3ca0_object* object, int* value);
+void __cdecl hkpWorldCallbackUtil_fireConstraintAdded(FUN_00cb3ca0_object* object, int* value);
+int* __cdecl hkpWorldOperationUtil_addConstraintImmediately(FUN_00cb3ca0_object* object, int* value, int shouldNotify);
 struct S_00cb3da0_Ctx
 {
     int unk0;
@@ -289,7 +289,7 @@ struct CB3DD0World
 };
 void __cdecl NotifyTargets(CB3DD0World* world, CB3DD0Entity* entity);
 void __cdecl DetachRecord(CB3DD0Entity* entity);
-void __cdecl FUN_00cb3dd0(CB3DD0World* world, CB3DD0Entity* entity, int fireCallbacks);
+void __cdecl hkpWorldOperationUtil_removeConstraintImmediately(CB3DD0World* world, CB3DD0Entity* entity, int fireCallbacks);
 struct CleanupList
 {
     int unk00;
@@ -308,7 +308,7 @@ struct CleanupList
     hkpSimulationIsland** secondObjects;
     int secondCount;
 };
-void __cdecl FUN_00cb3e90(CleanupList* apCleanupList);
+void __cdecl hkpWorldOperationUtil_validateWorld(CleanupList* apCleanupList);
 struct Obj;
 struct Obj
 {
@@ -320,7 +320,7 @@ struct Obj
     hkpSimulationIsland* m_cc;
 };
 __declspec(nothrow) void __cdecl RemoveListItem(Obj* o, hkpSimulationIsland* a);
-void __cdecl FUN_00cb4740(Obj* ctx, Obj* o);
+void __cdecl hkpWorldOperationUtil_removeEntitySI(Obj* ctx, Obj* o);
 struct S_00cb5d00_Heap
 {
     virtual void unk00();
@@ -644,7 +644,7 @@ struct S_00cb5d00_Query
     int unk20;
     int unk24;
 };
-void FUN_00cb5d00(S_00cb5d00_Owner* owner, S_00cb5d00_Query* query);
+void hkpWorldOperationUtil_removePhantomBP(S_00cb5d00_Owner* owner, S_00cb5d00_Query* query);
 struct Object
 {
     int unk00;
@@ -700,7 +700,7 @@ struct Object
     unsigned char enabled;
 };
 extern void __cdecl PropagateStateToChildren(Object*, int*);
-void __cdecl FUN_00cb6f30(Object* object);
+void __cdecl hkpWorldOperationUtil_splitSimulationIslands(Object* object);
 struct Box
 {
     char pad[0x14];
@@ -1187,7 +1187,7 @@ struct S_00cb3f90_Obj
     int unk44;
     S_00cb3f90_Sub* m_pSub;
 };
-S_00cb3f90_Bool FUN_00cb3f90(S_00cb3f90_Obj* pObjA, S_00cb3f90_Obj* pObjB);
+S_00cb3f90_Bool worldOperationUtil_less_hkSimulationIslandPtr(S_00cb3f90_Obj* pObjA, S_00cb3f90_Obj* pObjB);
 struct ObjB;
 struct ObjA
 {
@@ -1292,8 +1292,8 @@ struct FUN_00cb5570_arg
     ObjB* owner;
     ObjB* other;
 };
-void __cdecl FUN_00cb4c60(ObjA* a1, int a2, int a3);
-void __cdecl FUN_00cb5570(ObjA* apObjA, ObjB* apOwner, ObjB* apOther);
+void __cdecl hkpWorldOperationUtil_internalMergeTwoIslands(ObjA* a1, int a2, int a3);
+void __cdecl hkpWorldOperationUtil_mergeIslands(ObjA* apObjA, ObjB* apOwner, ObjB* apOther);
 // Stand-in model for the objects the original touches.
 // The polymorphic target: vtable slots 0x10 / 0x1c / 0x20 are used.
 struct VObj
@@ -1557,7 +1557,7 @@ struct Owner
 };
 // The thread local accessor at 0xc85750.
 void* __cdecl tlsSlot_cb5c10();
-void __cdecl FUN_00cb5c10(Owner* pOwner, Evt* pEvent);
+void __cdecl hkpWorldOperationUtil_removeEntityBP(Owner* pOwner, Evt* pEvent);
 struct FUN_00cb7480_node
 {
     int unk00;
@@ -1601,7 +1601,7 @@ struct FUN_00cb7480_cls
     int m_10;
     int m_14;
 
-    void FUN_00cb7480(FUN_00cb7480_holder* a1, FUN_00cb7480_delta* a2);
+    void hkpConstraintOwner_subConstraintInfo(FUN_00cb7480_holder* a1, FUN_00cb7480_delta* a2);
 };
 inline void* operator new(unsigned int, void* p)
 {
@@ -1834,8 +1834,8 @@ extern int DAT_01267e30;
 void ResizeAudioStream(void* alloc, S00cb5310_List* list, int n);
 bool FUN_00d28560(float* p, S00cb5310_Piece** arr, int n, int size);
 void UpdateRotationInterpolation(float f, void* p);
-void FUN_00d011b0(S00cb5310_Owner* a1, hkpSimulationIsland* a2);
-void __cdecl FUN_00cb5310(S00cb5310_Owner* a1, hkpSimulationIsland* a2);
+void hkpWorldCallbackUtil_fireIslandDeactivated(S00cb5310_Owner* a1, hkpSimulationIsland* a2);
+void __cdecl hkpWorldOperationUtil_internalDeactivateIsland(S00cb5310_Owner* a1, hkpSimulationIsland* a2);
 struct Cb5750_Deferred
 {
     unsigned char tag;
@@ -2335,14 +2335,14 @@ struct ShapeList
     Shape** m_items;
     int m_uiItemCount;
 };
-static void FUN_00cb41e0(int*** indexMap, int** counts, ShapeList* list, int** flags);
+static void estimateSolverSize(int*** indexMap, int** counts, ShapeList* list, int** flags);
 int keep_alive_b11420(ShapeList* list, int** flags, int*** indexMap, int** counts);
 template <class T> inline void S00cb4c60_copy(T* p, int n, const T& v)
 {
     for (int i = 0; i < n; ++i)
         p[i] = v;
 }
-void __cdecl FUN_00c908c0(void*, void*, int, int);
+void __cdecl hkArrayUtil__reserve(void*, void*, int, int);
 void __cdecl ResizeAudioStream(void*, void*, int);
 template <class T> inline int hkArrayNative<T>::getCapacity() const
 {
@@ -2356,7 +2356,7 @@ template <class T> inline void hkArrayNative<T>::reserve(int n)
     {
         int cap2 = 2 * cap;
         int newSize = (n < cap2) ? cap2 : n;
-        FUN_00c908c0(&a, this, newSize, sizeof(T));
+        hkArrayUtil__reserve(&a, this, newSize, sizeof(T));
     }
 }
 template <class T> inline void hkArrayNative<T>::AddBack(const T& t)
@@ -2387,9 +2387,9 @@ struct ConstraintRuntimeInfo
     int unk28;
     int unk2c;
 };
-void __cdecl FUN_00cb5100(hkpWorld*, hkpSimulationIsland*, hkBool);
-void __cdecl FUN_00cff290(void*, void*);
-void __cdecl FUN_00c908c0(void*, void*, int, int);
+void __cdecl hkpWorldOperationUtil_internalActivateIsland(hkpWorld*, hkpSimulationIsland*, hkBool);
+void __cdecl _hkAgentNnMachine_AppendTrack(void*, void*);
+void __cdecl hkArrayUtil__reserve(void*, void*, int, int);
 void __cdecl ResizeAudioStream(void*, void*, int);
 void __cdecl ClearSlotReference(hkpWorld*, hkpSimulationIsland*);
 static inline int GrowCap(int cap, int need)
@@ -2399,14 +2399,14 @@ static inline int GrowCap(int cap, int need)
         nc = need;
     return nc;
 }
-void __cdecl FUN_00cb4c60(hkpWorld* a1, hkpSimulationIsland* P, hkpSimulationIsland* Q);
+void __cdecl hkpWorldOperationUtil_internalMergeTwoIslands(hkpWorld* a1, hkpSimulationIsland* P, hkpSimulationIsland* Q);
 struct IslandList
 {
     hkpSimulationIsland** items;
     int count;
     int capacity;
 };
-void __cdecl FUN_00cb6060(hkpSimulationIsland* data, Object* object, IslandList* list, int value);
+void __cdecl hkpWorldOperationUtil_splitSimulationIsland(hkpSimulationIsland* data, Object* object, IslandList* list, int value);
 void __cdecl AddItemToContainer(Object* object, hkpSimulationIsland* item);
 void __cdecl PropagateStateToChildren(Object* object, int* data);
 #include <windows.h>
@@ -2867,7 +2867,7 @@ struct S00cb5100_Arr
         ++m_iElementCount;
     }
 };
-void FUN_00cf1480(float a, float b, void* p);
+void hkSweptTransformUtil_setTimeInformation(float a, float b, void* p);
 void ProcessBlocks(hkpSimulationIsland* b, float f, float g, int h);
 struct S00cb5100_World
 {
@@ -3083,7 +3083,7 @@ static inline bool S00cb5100_lt(unsigned char a, unsigned char b)
 {
     return a < b;
 }
-void FUN_00cb5100(S00cb5100_World* w, hkpSimulationIsland* b, bool merge);
+void hkpWorldOperationUtil_internalActivateIsland(S00cb5100_World* w, hkpSimulationIsland* b, bool merge);
 #include <xmmintrin.h>
 extern float DAT_01017d00;
 __forceinline int c6a870Equals3(const __m128& a, const __m128& b, float eps = 0.001f)
@@ -3220,7 +3220,7 @@ struct C6A870_World
     int f020, f024;
     C6A870_Array<C6A870_Item*> m_items;
 };
-void __cdecl FUN_00cb55d0(C6A870_World* world);
+void __cdecl hkpWorldOperationUtil_cleanupDirtyIslands(C6A870_World* world);
 void __cdecl AddItemToContainer(C6A870_World* world, C6A870_Item* item);
 struct C6A870_Self;
 typedef C6A870_World*(__thiscall* C6A870_Query)(C6A870_Self*);
@@ -3768,16 +3768,16 @@ struct CallB
 };
 struct CallInner
 {
-    void FUN_00c946e0(void* p, void* q, int a);
+    void hkpWorld_updateCollisionFilterOnEntity(void* p, void* q, int a);
     void FUN_00c91120();
     void FUN_00c91140();
 };
-void FUN_00cf9c60(void* p, int a, void* b);
-void FUN_00cb5000(MotionObj* a0, void* b);
+void hkpSimulation_collideEntitiesBroadPhaseDiscrete(void* p, int a, void* b);
+void hkpWorldOperationUtil_removeAttachedConstraints(MotionObj* a0, void* b);
 void CollectActorEntries(Inner* s, MotionObj* a0, void* a);
 void CollectProducers(Inner* s, MotionObj* a0, void* a);
-void FUN_00cb4740(Inner* s, MotionObj* a0);
-void FUN_00cb3ca0(Inner* s, void* e, int z);
+void hkpWorldOperationUtil_removeEntitySI(Inner* s, MotionObj* a0);
+void hkpWorldOperationUtil_addConstraintImmediately(Inner* s, void* e, int z);
 struct ModeBool
 {
     bool value;
@@ -3800,12 +3800,12 @@ struct ModeBool
         return test();
     }
 };
-void FUN_00cb4230(MotionObj* a0, int mode, ModeBool fMode, ModeBool fCur, Inner* s);
-void FUN_00cb4640(Inner* s, int a5, int a7);
+void hkpWorldOperationUtil_replaceMotionObject(MotionObj* a0, int mode, ModeBool fMode, ModeBool fCur, Inner* s);
+void hkpWorldOperationUtil_addEntitySI(Inner* s, int a5, int a7);
 void ApplyConstraintsToEntity(Inner* s, int a8, void* p);
-void FUN_00cb3ee0(void* m, MotionObj* a3, void* w, int mode);
-void FUN_00cff290(void* m, void* w);
-void FUN_00cb5570(Inner* in, MotionObj* a0, MotionObj* e);
+void hkpWorldOperationUtil_removeAttachedAgentsConnectingTheEntityAndAFixedPartnerEntityPlus(void* m, MotionObj* a3, void* w, int mode);
+void _hkAgentNnMachine_AppendTrack(void* m, void* w);
+void hkpWorldOperationUtil_mergeIslands(Inner* in, MotionObj* a0, MotionObj* e);
 void UpdateRotationInterpolation(float f, void* p);
 void NotifyEntityRemoved(void* p, MotionObj* a3);
 struct VecB
@@ -3863,7 +3863,7 @@ static __forceinline void FreeVec(void** dataP, int* sizeP, int* capP, int elem)
     *dataP = 0;
     *capP = (int)0x80000000;
 }
-void FUN_00cb6f70(MotionObj* a0, int mode, int a2, MotionObj* a3, int a4, int a5, int a6, int a7, int a8);
+void hkpWorldOperationUtil_setRigidBodyMotionType(MotionObj* a0, int mode, int a2, MotionObj* a3, int a4, int a5, int a6, int a7, int a8);
 struct S00cb4230_Vec4
 {
     float& operator()(int a)
@@ -4107,7 +4107,7 @@ struct MotionBase : RefHeader31
     void FUN_00c905b0();
     void FUN_00d1dff0();
     void SetFlagBits(int a, int b, int c);
-    void FUN_00c86610(MotionBase* p);
+    void getMotionStateAndVelocitiesAndDeactivationType(MotionBase* p);
     float FUN_00c86430();
     __forceinline static void* operator new(unsigned int nbytes)
     {
@@ -4490,10 +4490,10 @@ template <typename T> __forceinline T* __cdecl S00cb4230_AddByteOffset(T* base, 
 {
     return reinterpret_cast<T*>(reinterpret_cast<char*>(base) + offset);
 }
-void __cdecl FUN_00ca8240(int mode, const S00cb4230_Vec4* p40, const S00cb4230_Quat* p80, float fret,
+void __cdecl hkpRigidBody_createDynamicRigidMotion(int mode, const S00cb4230_Vec4* p40, const S00cb4230_Quat* p80, float fret,
                           const hkMatrix3* out, const S00cb4230_Vec4* p90, float f0, float f1, MotionBase* motion);
 void __cdecl UpdateRotationInterpolation(float f, S00cb4230_MotionStateData* p);
-void __cdecl FUN_00cb4230(ThisObj* self, hkpMotion::MotionType mode, MotionFlag31 flagA, MotionFlag31 flagB,
+void __cdecl hkpWorldOperationUtil_replaceMotionObject(ThisObj* self, hkpMotion::MotionType mode, MotionFlag31 flagA, MotionFlag31 flagB,
                           Node4* node);
 struct MergeWorld
 {
@@ -4736,7 +4736,7 @@ static __forceinline void tallyAll(Cb4890_RemapTable* remap_, Cb4890_ElemArray* 
         cnt[idx] += w;
     }
 }
-void FUN_00cb49e0(MergeWorld* owner, int remap_, MergeListArg listArg, Cb4890_IntArray* src, Cb4890_CharArray* out);
+void mergeSmallSubgroups(MergeWorld* owner, int remap_, MergeListArg listArg, Cb4890_IntArray* src, Cb4890_CharArray* out);
 struct S00cb3ee0_Entry
 {
     int item;
@@ -4753,8 +4753,8 @@ struct S00cb3ee0_Sub
 };
 int PickIslandByValue(int a, int b, int c);
 void CloneRecord(int a, int b);
-void FUN_00cfe020(int a, int b);
-void FUN_00cb3ee0(void* m, MotionObj* motion, void* w, int mode);
+void _hkAgentNnMachine_InternalDeallocateEntry(int a, int b);
+void hkpWorldOperationUtil_removeAttachedAgentsConnectingTheEntityAndAFixedPartnerEntityPlus(void* m, MotionObj* motion, void* w, int mode);
 template <typename T>
 
 struct S55Array
@@ -4789,7 +4789,7 @@ struct S55Array
         m_iElementCount = n;
     }
 };
-void __cdecl FUN_00c908c0(S_00c6aca0_Heap& a, void* array, int reqCapacity, int sizeElem);
+void __cdecl hkArrayUtil__reserve(S_00c6aca0_Heap& a, void* array, int reqCapacity, int sizeElem);
 template <typename T>
 
 __forceinline void S55Array<T>::GrowArrayCapacity(S_00c6aca0_Heap& a, int n)
@@ -4805,7 +4805,7 @@ __forceinline void S55Array<T>::GrowArrayCapacity(S_00c6aca0_Heap& a, int n)
 
         int newSize = (n < cap2) ? cap2 : n;
 
-        FUN_00c908c0(a, this, newSize, sizeof(T));
+        hkArrayUtil__reserve(a, this, newSize, sizeof(T));
     }
 }
 struct S55Bool
@@ -4915,10 +4915,10 @@ struct S55Owner
 
     void __thiscall FUN_00c910b0();
 };
-void __cdecl FUN_00cb5100(S55Owner* owner, hkpSimulationIsland* item, S55Bool b);
-void __cdecl FUN_00cb5310(S55Owner* owner, hkpSimulationIsland* item);
-extern "C" void __cdecl FUN_00cb5570(S55Owner* owner, ObjB* first, ObjB* second);
-void __cdecl FUN_00cb55d0(S55Owner* owner);
+void __cdecl hkpWorldOperationUtil_internalActivateIsland(S55Owner* owner, hkpSimulationIsland* item, S55Bool b);
+void __cdecl hkpWorldOperationUtil_internalDeactivateIsland(S55Owner* owner, hkpSimulationIsland* item);
+extern "C" void __cdecl hkpWorldOperationUtil_mergeIslands(S55Owner* owner, ObjB* first, ObjB* second);
+void __cdecl hkpWorldOperationUtil_cleanupDirtyIslands(S55Owner* owner);
 
 struct SplitIsland_Target;
 struct SplitIsland_Target;
@@ -4946,9 +4946,9 @@ __forceinline int* SplitIsland_cursor()
     return &FUN_00c85750()->unk00;
 }
 void FUN_00cb1280(void* p, int a, int b);
-void FUN_00c908c0(void* alloc, void* vec, int cap, int elemsz);
+void hkArrayUtil__reserve(void* alloc, void* vec, int cap, int elemsz);
 void ResizeAudioStream(void* alloc, void* vec, int elemsz);
-void FUN_00c909d0(void* alloc, void* vec, int elemsz, void* p, int n);
+void hkArrayUtil__reduce(void* alloc, void* vec, int elemsz, void* p, int n);
 struct SplitIsland_AllocB
 {
     virtual void V00();
@@ -4973,7 +4973,7 @@ struct SplitIsland_Vec48
     {
         SplitIsland_CursorObj* router = (SplitIsland_CursorObj*)SplitIsland_cursor();
         if ((cap & 0x3fffffff) < n)
-            FUN_00c908c0(router->alloc, this, n, 4);
+            hkArrayUtil__reserve(router->alloc, this, n, 4);
     }
     __forceinline void SplitIsland_append(int value)
     {
@@ -5003,11 +5003,11 @@ struct SplitIsland_Vec48
             int wanted = (v | (v >> 1)) + 1;
             if (wanted < 1)
             {
-                FUN_00c909d0(((SplitIsland_CursorObj*)SplitIsland_cursor())->alloc, this, 4, this + 1, 1);
+                hkArrayUtil__reduce(((SplitIsland_CursorObj*)SplitIsland_cursor())->alloc, this, 4, this + 1, 1);
             }
             else if (wanted < (capacity & 0x3fffffff))
             {
-                FUN_00c909d0(((SplitIsland_CursorObj*)SplitIsland_cursor())->alloc, this, 4, 0, wanted);
+                hkArrayUtil__reduce(((SplitIsland_CursorObj*)SplitIsland_cursor())->alloc, this, 4, 0, wanted);
             }
         }
     }
@@ -5178,8 +5178,8 @@ struct SplitIsland_Elem2
     int f0c;
 };
 void CloneRecord(int* p, void* q);
-void FUN_00cfe020(void* p, void* q);
-void FUN_00c909d0(void* alloc, void* vec, int elemsz, void* p, int n);
+void _hkAgentNnMachine_InternalDeallocateEntry(void* p, void* q);
+void hkArrayUtil__reduce(void* alloc, void* vec, int elemsz, void* p, int n);
 struct SplitIsland_Head58
 {
     int hdr;
@@ -5703,7 +5703,8 @@ __forceinline void SplitIsland_Vec48::SplitIsland_appendNodeUnchecked(SplitIslan
     ++cnt;
 }
 // @fnv 0x00cb6060
-void FUN_00cb6060(hkpSimulationIsland* a0, SplitIsland_Arg1* a1, SplitIsland_Arg2Vec* a2, void* a3)
+// src: HAVOK_LIB 0x00cb6060
+void hkpWorldOperationUtil_splitSimulationIsland(hkpSimulationIsland* a0, SplitIsland_Arg1* a1, SplitIsland_Arg2Vec* a2, void* a3)
 {
     SplitIsland_L60 groups;
     SplitIsland_Obj38 sel;
@@ -5913,7 +5914,7 @@ void FUN_00cb6060(hkpSimulationIsland* a0, SplitIsland_Arg1* a1, SplitIsland_Arg
                     {
                         char* elem = (char*)ox->vec.data[saved38B];
                         char* len;
-                        len = elem + ((FUN_00cb7460_class*)ox)->FUN_00cb7460(saved38B);
+                        len = elem + ((FUN_00cb7460_class*)ox)->hkpAgentNnTrack_getSectorSize(saved38B);
                         char* s = elem;
                         while (s < len)
                         {
@@ -5930,13 +5931,13 @@ void FUN_00cb6060(hkpSimulationIsland* a0, SplitIsland_Arg1* a1, SplitIsland_Arg
                             {
                                 int b = s - elem;
                                 CloneRecord(&((hkpSimulationIsland*)buf18)->unk58, s);
-                                FUN_00cfe020(ox, s);
+                                _hkAgentNnMachine_InternalDeallocateEntry(ox, s);
                                 if (saved38B >= ox->vec.cnt)
                                     break;
                                 elem = (char*)ox->vec.data[saved38B];
                                 s = elem + b;
                             }
-                            len = elem + ((FUN_00cb7460_class*)ox)->FUN_00cb7460(saved38B);
+                            len = elem + ((FUN_00cb7460_class*)ox)->hkpAgentNnTrack_getSectorSize(saved38B);
                         }
                     }
                 }

@@ -62,7 +62,7 @@ struct __declspec(align(16)) S_00e00cd0_Obj
     unsigned int m_5c;
     S_00e00cd0_Obj(FinishingFlag flag);
 };
-const char* __cdecl FUN_00e00cd0();
+const char* __cdecl getVtablehkpFastMeshShape();
 // Havok vtable getter: finish-construct a throwaway instance in an aligned scratch buffer (the
 // FinishingFlag constructor only re-installs the vtable and runs the members'
 // finish constructors) and return its vtable pointer.
@@ -188,7 +188,7 @@ struct __declspec(align(16)) FUN_00e00290_obj
     int unk48;
     int unk4C;
 };
-int* __cdecl FUN_00e00290();
+int* __cdecl getVtablehkpConstraintChainInstance();
 class __declspec(align(16)) S00e003b0_Object
 {
   public:
@@ -436,7 +436,7 @@ class __declspec(align(16)) S00e00b80_Object
     int unkF8;
     int unkFC;
 };
-const void* __cdecl FUN_00e00b80();
+const void* __cdecl getVtablehkpGroupFilter();
 class __declspec(align(16)) S00e00f90_Object
 {
   public:
@@ -637,7 +637,7 @@ struct __declspec(align(16)) S00e00d70_Object
     int unk54;
     int unk58;
     int unk5c;
-    void FUN_00d57b20(FinishingFlag arg);
+    void hkpCylinderShape_hkpCylinderShape_00d57b20(FinishingFlag arg);
 };
 int __cdecl FUN_00e00d70();
 namespace N {
@@ -823,7 +823,7 @@ struct EdgeMemory
     EdgeAllocator* allocator;
 };
 EdgeMemory* FUN_00c85750();
-void FUN_00c908c0(void*, void*, int, int);
+void hkArrayUtil__reserve(void*, void*, int, int);
 void FUN_00c90940(void*, void*, int);
 float FUN_00e13870(EdgeNode*, int);
 float ClampedAcos(float);
@@ -835,7 +835,7 @@ template <class T> inline void EdgeAllocator::reserve(EdgeArray<T>& array, int n
         int next = available * 2;
         if (needed >= next)
             next = needed;
-        FUN_00c908c0(this, &array, next, elementSize);
+        hkArrayUtil__reserve(this, &array, next, elementSize);
     }
 }
 template <class T> inline void EdgeArray<T>::grow(int elementSize)

@@ -835,7 +835,7 @@ class B8182D0Target
 class B8182D0Object
 {
   public:
-    void FUN_00c9c1d0();
+    void activate_00c9c1d0();
     B8182D0Target* FUN_009d9f40();
     void ApplyToTarget(void* pvArg);
 };
@@ -844,7 +844,7 @@ class B8182D0Object
 // @fnv 0x008182d0
 void B8182D0Object::ApplyToTarget(void* pvArg)
 {
-    FUN_00c9c1d0();
+    activate_00c9c1d0();
     FUN_009d9f40()->Apply(pvArg);
 }
 

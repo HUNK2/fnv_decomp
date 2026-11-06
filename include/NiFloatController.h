@@ -27,7 +27,7 @@ public:
     void CopyInterpTo(NiFloatController* destination, void* process);
     void AppendString(StrArr* strings);
     void FUN_00a6cfe0(NiFloatController* destination, void* process);
-    bool FUN_00a6cc80(NiFloatController* other);
+    bool NiTimeController_IsEqual(NiFloatController* other);
     void FUN_00a6d830(StrArr* strings);
 
     unsigned int unk34;

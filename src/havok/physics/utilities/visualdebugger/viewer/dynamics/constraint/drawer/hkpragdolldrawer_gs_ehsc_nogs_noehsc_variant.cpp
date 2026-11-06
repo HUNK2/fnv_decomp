@@ -192,7 +192,7 @@ struct Singleton
     PoolObj* pool;
 };
 Singleton* __cdecl FUN_00c85750();
-void __cdecl FUN_00c908c0(PoolObj* pool, PtrVec* vec, int count, int elemSize);
+void __cdecl hkArrayUtil__reserve(PoolObj* pool, PtrVec* vec, int count, int elemSize);
 int __cdecl FUN_00cabb00(int a, int b, int c, int d);
 extern int DAT_01267e30;
 extern float DAT_01011d78;
@@ -265,7 +265,7 @@ struct DrawerBase
     SubC0 mC0;
 
     void __thiscall FUN_00de47e0(P1*, Buf40*, Buf40*);
-    void __thiscall FUN_00de44c0(int, int);
+    void __thiscall hkpConstraintDrawer_drawPivots(int, int);
     __forceinline float arrowSize() const
     {
         return f1c * f0c;
@@ -298,7 +298,7 @@ void __thiscall This::FUN_00de59f0(P1* p1, P2Vtbl* p2, int p3, int p4)
         receivers.m50.FUN_00c7f640(&bufferA, &DAT_01267e30);
         m40.FUN_00c7f640(&bufferB, &DAT_01267e30);
     }
-    FUN_00de44c0(p3, p4);
+    hkpConstraintDrawer_drawPivots(p3, p4);
     const RotationColumns& localA = mat->rotationA;
     const RotationColumns& localB = mat->rotationB;
     Vec4::Aligned t80(Vec4::Uninitialized);
@@ -363,7 +363,7 @@ void __thiscall This::FUN_00de59f0(P1* p1, P2Vtbl* p2, int p3, int p4)
             int nc = (vec1.cap & 0x3fffffff) * 2;
             if (nc <= 1)
                 nc = 1;
-            FUN_00c908c0(pool, &vec1, nc, 4);
+            hkArrayUtil__reserve(pool, &vec1, nc, 4);
         }
         vec1.len = 1;
         sing = FUN_00c85750();
@@ -373,7 +373,7 @@ void __thiscall This::FUN_00de59f0(P1* p1, P2Vtbl* p2, int p3, int p4)
             int nc = (vec2.cap & 0x3fffffff) * 2;
             if (nc <= 1)
                 nc = 1;
-            FUN_00c908c0(pool, &vec2, nc, 4);
+            hkArrayUtil__reserve(pool, &vec2, nc, 4);
         }
         vec2.len = 1;
         sing = FUN_00c85750();
@@ -383,7 +383,7 @@ void __thiscall This::FUN_00de59f0(P1* p1, P2Vtbl* p2, int p3, int p4)
             int nc = (vec3.cap & 0x3fffffff) * 2;
             if (nc <= 2)
                 nc = 2;
-            FUN_00c908c0(pool, &vec3, nc, 4);
+            hkArrayUtil__reserve(pool, &vec3, nc, 4);
         }
         vec3.len = 2;
         vec1.buf[0] = subD0;

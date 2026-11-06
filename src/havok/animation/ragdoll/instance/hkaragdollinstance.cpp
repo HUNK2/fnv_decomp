@@ -139,11 +139,12 @@ struct RagdollInstance : hkReferencedObject
     ObjectArrayLocalForm<ReferenceObject*> m_ppConstraints;
     ObjectArrayLocalForm<int> m_kBoneMap;
     ReferenceObject* m_pSkeleton;
-    void FUN_00ce22c0(const ObjectArrayLocalForm<ReferenceObject*>& bodies, const ObjectArrayLocalForm<ReferenceObject*>& constraints,
+    void hkaRagdollInstance_commonInit(const ObjectArrayLocalForm<ReferenceObject*>& bodies, const ObjectArrayLocalForm<ReferenceObject*>& constraints,
                       ReferenceObject* skeleton);
 };
 // @fnv 0x00ce22c0
-void RagdollInstance::FUN_00ce22c0(const ObjectArrayLocalForm<ReferenceObject*>& bodies,
+// src: HAVOK_LIB 0x00ce22c0
+void RagdollInstance::hkaRagdollInstance_commonInit(const ObjectArrayLocalForm<ReferenceObject*>& bodies,
                                    const ObjectArrayLocalForm<ReferenceObject*>& constraints, ReferenceObject* skeleton)
 {
     if (skeleton)
@@ -242,12 +243,13 @@ struct FUN_00ce26f0_Class
 
     void FUN_00ce18d0(FUN_00ce2430_Transform* a);
     void ApplyValueToTransforms(float a, FUN_00ce2430_Transform* b);
-    void FUN_00ce26f0(FUN_00ce2430_Transform* a);
+    void hkaRagdollInstance_getApproxCurrentPoseWorldSpace(FUN_00ce2430_Transform* a);
 };
 
 // Calls FUN_00c91020 and passes its result to ApplyValueToTransforms when the nested pointer exists; otherwise calls FUN_00ce18d0.
 // @fnv 0x00ce26f0
-void FUN_00ce26f0_Class::FUN_00ce26f0(FUN_00ce2430_Transform* apTransform)
+// src: HAVOK_LIB 0x00ce26f0
+void FUN_00ce26f0_Class::hkaRagdollInstance_getApproxCurrentPoseWorldSpace(FUN_00ce2430_Transform* apTransform)
 {
     FUN_00ce26f0_ObjectB* object = this->unk08->unk00;
     FUN_00ce26f0_ObjectC* target = object != 0 ? object->unk08 : 0;
@@ -389,7 +391,7 @@ class hkaRagdollInstanceR : public hkReferencedObjectR
     hkaRagdollInstanceR(const hkArrayRLocalForm<hkpRigidBody*>& kRigidBodies,
                         const hkArrayRLocalForm<hkpConstraintInstanceR*>& kConstraints, const hkaSkeleton* pkSkeleton,
                         const hkArrayRLocalForm<int>& kBoneToRigidBodyMap) throw();
-    hkaRagdollInstanceR* FUN_00ce2730(int eMode) const throw();
+    hkaRagdollInstanceR* hkaRagdollInstance_clone(int eMode) const throw();
     const hkaSkeleton* getSkeleton() const
     {
         return m_pSkeleton;
@@ -402,7 +404,8 @@ class hkaRagdollInstanceR : public hkReferencedObjectR
 
 // Clones the ragdoll's rigid bodies and constraints, builds a new hkaRagdollInstanceR from them, and returns it.
 // @fnv 0x00ce2730
-hkaRagdollInstanceR* hkaRagdollInstanceR::FUN_00ce2730(int aeCloneMode) const throw()
+// src: HAVOK_LIB 0x00ce2730
+hkaRagdollInstanceR* hkaRagdollInstanceR::hkaRagdollInstance_clone(int aeCloneMode) const throw()
 {
     const int iNumRigidBodies = m_ppRigidBodies.GetLogicalSize();
     const int iNumConstraints = m_ppConstraints.GetLogicalSize();
@@ -466,17 +469,17 @@ void FUN_00ce14b0_standin::FUN_00ce14b0(unsigned short auwFirst, unsigned short 
 
 struct FUN_00c94bd0_Obj
 {
-    void FUN_00c94bd0(void* objects, int count, int flag);
+    void hkpWorld_addEntityBatch(void* objects, int count, int flag);
 };
 
 struct FUN_00c97d30_Obj
 {
-    void FUN_00c97d30(void* object);
+    void hkpWorld_addConstraint(void* object);
 };
 
 struct CallRet
 {
-    void FUN_00c946e0(void* object, int a, int b);
+    void hkpWorld_updateCollisionFilterOnEntity(void* object, int a, int b);
 };
 
 
@@ -485,18 +488,19 @@ struct CallRet
 
 // Passes rigid bodies and constraints to world methods; when flag is nonzero, calls another world method for each body.
 // @fnv 0x00ce1680
-int hkaRagdollInstance::FUN_00ce1680(void* world, unsigned char flag)
+// src: HAVOK_LIB 0x00ce1680
+int hkaRagdollInstance::addToWorld(void* world, unsigned char flag)
 {
     hkpRigidBody* firstBody = (hkpRigidBody*)m_ppRigidBodies.m_data[0];
 
     if (firstBody && firstBody->m_pOwningWorld)
         return 1;
 
-    ((FUN_00c94bd0_Obj*)world)->FUN_00c94bd0(m_ppRigidBodies.m_data, m_ppRigidBodies.m_iElementCount, 1);
+    ((FUN_00c94bd0_Obj*)world)->hkpWorld_addEntityBatch(m_ppRigidBodies.m_data, m_ppRigidBodies.m_iElementCount, 1);
 
     for (int iConstraintIndex = 0; iConstraintIndex < m_ppConstraints.m_iElementCount; ++iConstraintIndex)
     {
-        ((FUN_00c97d30_Obj*)world)->FUN_00c97d30(m_ppConstraints.m_data[iConstraintIndex]);
+        ((FUN_00c97d30_Obj*)world)->hkpWorld_addConstraint(m_ppConstraints.m_data[iConstraintIndex]);
     }
 
     if (flag)
@@ -508,7 +512,7 @@ int hkaRagdollInstance::FUN_00ce1680(void* world, unsigned char flag)
         {
             do
             {
-                ((CallRet*)world)->FUN_00c946e0(m_ppRigidBodies.m_data[bodyIndex], 1, 0);
+                ((CallRet*)world)->hkpWorld_updateCollisionFilterOnEntity(m_ppRigidBodies.m_data[bodyIndex], 1, 0);
             } while (++bodyIndex < bodyCount);
         }
     }
@@ -545,15 +549,16 @@ struct RagdollInstance_ce24
     hkArray<ReferenceObject*> m_ppConstraints;
     hkArray<int> m_kBoneMap;
     hkaSkeleton* m_pSkeleton;
-    void FUN_00ce22c0(const hkArray<ReferenceObject*>& bodies, const hkArray<ReferenceObject*>& constraints,
+    void hkaRagdollInstance_commonInit(const hkArray<ReferenceObject*>& bodies, const hkArray<ReferenceObject*>& constraints,
                       hkaSkeleton* skeleton);
-    RagdollInstance_ce24* FUN_00ce2470(const hkArray<ReferenceObject*>& bodies,
+    RagdollInstance_ce24* hkaRagdollInstance_hkaRagdollInstance(const hkArray<ReferenceObject*>& bodies,
                                        const hkArray<ReferenceObject*>& constraints, hkaSkeleton* skeleton);
 };
 
 // Initializes the ragdoll's shared arrays, references, and identity bone map.
 // @fnv 0x00ce2470
-RagdollInstance_ce24* RagdollInstance_ce24::FUN_00ce2470(const hkArray<ReferenceObject*>& bodies,
+// src: HAVOK_LIB 0x00ce2470
+RagdollInstance_ce24* RagdollInstance_ce24::hkaRagdollInstance_hkaRagdollInstance(const hkArray<ReferenceObject*>& bodies,
                                                          const hkArray<ReferenceObject*>& constraints,
                                                          hkaSkeleton* skeleton)
 {
@@ -563,7 +568,7 @@ RagdollInstance_ce24* RagdollInstance_ce24::FUN_00ce2470(const hkArray<Reference
     m_ppConstraints.setOwnedData(0, 0, 0x80000000);
     m_kBoneMap.setOwnedData(0, 0, 0x80000000);
     m_pSkeleton = 0;
-    FUN_00ce22c0(bodies, constraints, skeleton);
+    hkaRagdollInstance_commonInit(bodies, constraints, skeleton);
     SetRagdollArraySize(m_kBoneMap, skeleton->m_kBones.m_iElementCount);
     for (int i = 0; i < skeleton->m_kBones.m_iElementCount; i++)
         m_kBoneMap[i] = i;
@@ -653,13 +658,13 @@ extern float DAT_01017d10;
 
 inline void hkpRigidBody::SetTranslationalVelocity(const hkVector4& vel)
 {
-    FUN_00c9c1d0();
+    activate_00c9c1d0();
     m_pMotionState.SetTranslationalVelocity(vel);
 }
 
 inline void hkpRigidBody::SetRotationalVelocity(const hkVector4& vel)
 {
-    FUN_00c9c1d0();
+    activate_00c9c1d0();
     m_pMotionState.SetRotationalVelocity(vel);
 }
 
@@ -744,7 +749,7 @@ struct FUN_00ce2510
     InitArray<int> m_kBoneMap;
     int m_2c;
 
-    void FUN_00ce22c0(int a, int b, int c);
+    void hkaRagdollInstance_commonInit(int a, int b, int c);
     FUN_00ce2510(int a, int b, int c, ObjectArrayLocalForm<int>* d);
 };
 
@@ -754,6 +759,6 @@ FUN_00ce2510::FUN_00ce2510(int a, int b, int c, ObjectArrayLocalForm<int>* apBon
 {
     m_2c = 0;
 
-    FUN_00ce22c0(a, b, c);
+    hkaRagdollInstance_commonInit(a, b, c);
     m_kBoneMap.assign(*apBoneMap);
 }

@@ -7,7 +7,7 @@
 
 void __cdecl ReadFileData();
 void __cdecl FUN_00aa19c0();
-void __cdecl FUN_00aa19e0();
+void __cdecl NiFile_ReadAndSwap();
 void __cdecl FUN_00aa1ad0();
 
 struct FileTransferCallbacks
@@ -24,7 +24,7 @@ void FileTransferCallbacks::FUN_00aa1b30(bool enableSwap)
 {
     if (enableSwap)
     {
-        readFunction = FUN_00aa19e0;
+        readFunction = NiFile_ReadAndSwap;
         writeFunction = FUN_00aa1ad0;
     }
     else
@@ -138,11 +138,12 @@ namespace RelativeFileSeekDetail {
 class RelativeSeekFile : public NiFile
 {
   public:
-    void FUN_00aa1a90(int distance);
+    void NiFile_Seek_00aa1a90(int distance);
 };
 
 // @fnv 0x00aa1a90
-void RelativeSeekFile::FUN_00aa1a90(int distance)
+// src: GAMEBRYO_LIB 0x00aa1a90
+void RelativeSeekFile::NiFile_Seek_00aa1a90(int distance)
 {
     Seek(distance, DAT_010a2484);  // NiFile::Seek(int, int), vtable slot 5 (+0x14)
 }

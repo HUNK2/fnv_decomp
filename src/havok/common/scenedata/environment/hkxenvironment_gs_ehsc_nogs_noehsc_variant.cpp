@@ -16,7 +16,7 @@ hkMemoryRouter* getMemoryRouter();
 
 
 // 0x00cb10d0 is the free C-string length routine declared by hkstring.cpp; no string object is passed.
-int __cdecl FUN_00cb10d0(const char* str);
+int __cdecl hkString_strLen(const char* str);
 
 class InlineStorageString
 {
@@ -72,7 +72,7 @@ int hkxEnvironmentParser::FUN_00e3f520(const char* str)
     int pos = 0;
     InlineStorageString name;
     InlineStorageString value;
-    const int length = FUN_00cb10d0(str);
+    const int length = hkString_strLen(str);
 
     do
     {

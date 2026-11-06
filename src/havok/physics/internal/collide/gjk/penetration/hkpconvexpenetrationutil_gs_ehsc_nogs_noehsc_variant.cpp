@@ -269,7 +269,7 @@ struct Shape
     int unk08;
     int m_iThirdValue;
     int m_10;
-    int FUN_00dfb040(const Tri* tri, const hkVector4* pos, int* outA, int* outB);
+    int hkWingedEdge_findVisibilityBoundaryEdges(const Tri* tri, const hkVector4* pos, int* outA, int* outB);
     int FUN_00e2d1b0(int a, int b, const hkVector4* pos);
 };
 
@@ -312,7 +312,7 @@ int Tester::FUN_00df9c90(Shape* shape, const Tri* tri, const hkVector4* pos, int
     }
     int a = 0;
     int b;
-    if (shape->FUN_00dfb040(tri, pos, &a, &b))
+    if (shape->hkWingedEdge_findVisibilityBoundaryEdges(tri, pos, &a, &b))
     {
         *result = 3;
         return 1;

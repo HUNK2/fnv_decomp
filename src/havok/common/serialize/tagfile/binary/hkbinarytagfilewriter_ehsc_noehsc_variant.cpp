@@ -280,9 +280,9 @@ struct FUN_00dbec60_cls
     unsigned int m_04;
     int m_08;
 
-    void FUN_00dbec60(AllocOwner* alloc, int count);
+    void hkMapBase_struct_hkCppTypeInfoHash_struct_hkRttiParser_Node_const_struct_hkCppTypeInfoHash_resizeTable(AllocOwner* alloc, int count);
 };
-extern "C" int __cdecl FUN_00cb10d0(const char* s);
+extern "C" int __cdecl hkString_strLen(const char* s);
 struct DBED30StringMap
 {
     void* m_kPrimitiveElement;
@@ -523,7 +523,7 @@ class hkPairMapDBE8
     int m_iCapacityFlags;
     int m_iPairCount;
 
-    void FUN_00dbec60(hkMemoryAllocatorDBE8& alloc, int iNewCap);
+    void hkMapBase_struct_hkCppTypeInfoHash_struct_hkRttiParser_Node_const_struct_hkCppTypeInfoHash_resizeTable(hkMemoryAllocatorDBE8& alloc, int iNewCap);
     int InsertOrUpdate(hkMemoryAllocatorDBE8& alloc, hkPairKeyDBE8 key, unsigned int uiValue);
 };
 struct ObjC;
@@ -617,7 +617,7 @@ __forceinline void initializeRecords(hkArrayBase<Rec>& out,int n)
     for (int k = 0; k < capacity; ++k)
         new (data + k) Rec;
 }
-extern "C" void __cdecl FUN_00c908c0(void* owner, hkArrayBase<Rec>* arr, int newCap, int stride);
+extern "C" void __cdecl hkArrayUtil__reserve(void* owner, hkArrayBase<Rec>* arr, int newCap, int stride);
 struct Host
 {
     __declspec(nothrow) void WriteArray(const Wrap& arg0, int count);

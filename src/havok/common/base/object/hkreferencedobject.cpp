@@ -29,7 +29,8 @@ __declspec(noinline) void __fastcall AddUnserializedReference(hkReferencedObject
 
 extern int DAT_012681d4;
 // @fnv 0x00c90410
-void __cdecl FUN_00c90410(int v)
+// src: HAVOK_LIB 0x00c90410
+void __cdecl hkReferencedObject_setLockMode(int v)
 {
     *(int*)(*(int**)(void*)&DAT_012681d4 + 2) = v;
 }
@@ -52,10 +53,11 @@ struct RefObj
 };
 struct FUN_00cd29c0_class
 {
-    void FUN_00cd29c0(RefObj*);
+    void hkpWorldObject_setAiObjectData(RefObj*);
 };
 // @fnv 0x00cd29c0
-void FUN_00cd29c0_class::FUN_00cd29c0(RefObj* object)
+// src: HAVOK_LIB 0x00cd29c0
+void FUN_00cd29c0_class::hkpWorldObject_setAiObjectData(RefObj* object)
 {
     object->RetainReference();
     DDCC60World* pOldWorld = *reinterpret_cast<DDCC60World**>(reinterpret_cast<unsigned char*>(this) + 0x84);
@@ -928,7 +930,8 @@ static inline void replaceInstanceC904(hkReferencedObjectLock* p)
 
 // Sets the singleton lock mode, creating the lock first if DAT_012681d4 is null.
 // @fnv 0x00c90420
-void __cdecl FUN_00c90420(int value)
+// src: HAVOK_LIB 0x00c90420
+void __cdecl hkReferencedObject_lockInit(int value)
 {
     if (!hkSingletonC904::DAT_012681d4)
     {
@@ -1359,7 +1362,8 @@ void S00e3eba0_class::ReplaceObject(hkReferencedObject* oldObject, hkReferencedO
 
 // Calls FUN_00c903b0 for each strided item, acquiring the critical section when multi-threaded mode is enabled and TLS lacks the marker.
 // @fnv 0x00c90740
-void __cdecl FUN_00c90740(void* items, int count, int stride)
+// src: HAVOK_LIB 0x00c90740
+void __cdecl hkReferencedObject_removeReferences(void* items, int count, int stride)
 {
     hkReferencedObjectLock* guard = (hkReferencedObjectLock*)DAT_012681d4;
     if (guard->m_multiThreaded != 0 && TlsGetValue(DAT_012681d8) != (void*)0x23df4554)
@@ -1405,7 +1409,8 @@ void __cdecl FUN_00c90740(void* items, int count, int stride)
 
 // Calls FUN_00c903a0 on each object, acquiring the critical section when multi-threaded mode is enabled and TLS lacks the marker.
 // @fnv 0x00c90670
-void __cdecl FUN_00c90670(const void* objects, int numObjects, int stride)
+// src: HAVOK_LIB 0x00c90670
+void __cdecl hkReferencedObject_addReferences(const void* objects, int numObjects, int stride)
 {
     hkReferencedObjectLock* lock = (hkReferencedObjectLock*)DAT_012681d4;
     if (lock->m_multiThreaded && (unsigned int)TlsGetValue(DAT_012681d8) != 0x23df4554)
@@ -1444,7 +1449,8 @@ void __cdecl FUN_00c90670(const void* objects, int numObjects, int stride)
 
 // Decrements the lock count and, when it is nonpositive, clears the TLS slot and leaves the critical section.
 // @fnv 0x00c904e0
-void __cdecl FUN_00c904e0()
+// src: HAVOK_LIB 0x00c904e0
+void __cdecl hkReferencedObject_unlockAll()
 {
     hkReferencedObjectLock* lock = reinterpret_cast<hkReferencedObjectLock*>(DAT_012681d4);
     lock->m_lLockCount = lock->m_lLockCount - 1;

@@ -103,7 +103,8 @@ int* __cdecl CopyGlobalsToBuffer(int, int, int, int* pDest)
 
 
 // @fnv 0x00a6cc80
-bool __fastcall FUN_00a6cc80(NiTimeController* pThis, int edx, NiObject* pkObject)
+// src: GAMEBRYO_LIB 0x00a6cc80
+bool __fastcall NiTimeController_IsEqual(NiTimeController* pThis, int edx, NiObject* pkObject)
 {
     NiTimeController* pkControl = (NiTimeController*)pkObject;
     if (pThis->IsSameAs(pkObject) && pThis->m_uiObjectFlags == pkControl->m_uiObjectFlags &&

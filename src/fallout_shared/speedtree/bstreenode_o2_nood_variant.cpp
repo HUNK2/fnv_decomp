@@ -696,7 +696,7 @@ struct HeapContextScope
 
 struct hkMemAllocator;
 hkMemoryRouter* FUN_00c85750();
-void __cdecl FUN_00c908c0(hkMemAllocator& alloc, void* array, int numElem, int sizeElem);
+void __cdecl hkArrayUtil__reserve(hkMemAllocator& alloc, void* array, int numElem, int sizeElem);
 
 struct VecArrayLocalForm
 { // local form of hkArray: 0x00cb7c60 needs the original inline/out-of-line helper split; shared replacement changes bytes.
@@ -717,7 +717,7 @@ struct VecArrayLocalForm
         {
             int cap2 = 2 * getCapacity();
             int newSize = (n < cap2) ? cap2 : n;
-            FUN_00c908c0(a, this, newSize, sizeof(hkVector4));
+            hkArrayUtil__reserve(a, this, newSize, sizeof(hkVector4));
         }
     }
     void _setSize(hkMemAllocator& a, int n)

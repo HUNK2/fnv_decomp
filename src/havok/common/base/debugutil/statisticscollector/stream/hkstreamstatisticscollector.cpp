@@ -38,7 +38,7 @@ inline hkMemoryRouter* audio()
     return (hkMemoryRouter*)FUN_00c85750();
 }
 
-extern "C" void __cdecl FUN_00c908c0(hkMemoryAllocator* alloc, void* arr, int capacity, int elemSize);
+extern "C" void __cdecl hkArrayUtil__reserve(hkMemoryAllocator* alloc, void* arr, int capacity, int elemSize);
 extern "C" void __cdecl FUN_00cb1260(void* dst, const void* src, int n);
 
 struct hkArrayCharLocalForm
@@ -57,7 +57,7 @@ struct hkArrayCharLocalForm
         if (getCapacity() < n)
         {
             int cap = 2 * getCapacity();
-            FUN_00c908c0(&alloc, this, n < cap ? cap : n, 1);
+            hkArrayUtil__reserve(&alloc, this, n < cap ? cap : n, 1);
         }
         m_iElementCount = n;
     }
@@ -142,7 +142,8 @@ void* StreamStatisticsCollector::FreeIfFlagged(unsigned int flags)
 void __cdecl ResizeAudioStream(void* heap, void* arr, int elemSize);
 
 // @fnv 0x00ddf370
-static __declspec(noinline) int* FUN_00ddf370(hkArrayCharLocalForm* apArray, int n)
+// src: HAVOK_LIB 0x00ddf370
+static __declspec(noinline) int* _newCommand(hkArrayCharLocalForm* apArray, int n)
 {
     int* pSlot;
     if (apArray->m_iElementCount > 0)
@@ -164,7 +165,7 @@ static __declspec(noinline) int* FUN_00ddf370(hkArrayCharLocalForm* apArray, int
 
 int* __cdecl fnv_caller(hkArrayCharLocalForm* a, int n)
 {
-    return FUN_00ddf370(a, n);
+    return _newCommand(a, n);
 }
 
 inline void* operator new(size_t, void* p)
@@ -221,8 +222,9 @@ struct NodeAllocator
     virtual ~NodeAllocator();
     virtual void* allocate(int bytes);
 };
-extern "C" int __cdecl FUN_00cb0fa0(const char* a, const char* b);
-static __declspec(noinline) MonitorNode* FUN_00ddf070(const char* name, MonitorStrings* strings, MonitorNode* parent,
+extern "C" int __cdecl hkString_strCmp(const char* a, const char* b);
+// src: HAVOK_LIB 0x00ddf070
+static __declspec(noinline) MonitorNode* _newNode(const char* name, MonitorStrings* strings, MonitorNode* parent,
                                                       int first, int second)
 {
     if (!name)
@@ -232,7 +234,7 @@ static __declspec(noinline) MonitorNode* FUN_00ddf070(const char* name, MonitorS
     MonitorNode* node = 0;
     for (int i = 0; parent && i < parent->children.size; ++i)
     {
-        if (!FUN_00cb0fa0(parent->children.data[i]->name, name))
+        if (!hkString_strCmp(parent->children.data[i]->name, name))
         {
             node = parent->children.data[i];
             break;
@@ -272,7 +274,7 @@ void __cdecl AggregateChildValues(MonitorNode* node, MonitorStrings* strings)
         AggregateChildValues(node->children.data[i], strings);
     if (node->value0 != 0.0f)
     {
-        MonitorNode* child = FUN_00ddf070("self", strings, node, (int)node->value0, (int)node->value1);
+        MonitorNode* child = _newNode("self", strings, node, (int)node->value0, (int)node->value1);
         if (node->children.back() == child)
         {
             node->children.popBack();
@@ -334,13 +336,13 @@ class ObjDDF9
     int unk30, unk34, unk38, unk3C, unk40, unk44, unk48, unk4C, unk50, unk54;
 };
 
-void __stdcall FUN_00ddf740(hkArray<ObjDDF9*>& kArray, int iParam) throw();
+void __stdcall hkStreamStatisticsCollector_makeTree(hkArray<ObjDDF9*>& kArray, int iParam) throw();
 
 // @fnv 0x00ddf970
 void __stdcall ClearAllItems(int iUnused0, int iUnused1)
 {
     hkArray<ObjDDF9*> kArray;
-    FUN_00ddf740(kArray, 0);
+    hkStreamStatisticsCollector_makeTree(kArray, 0);
     while (kArray.m_iElementCount)
     {
         delete kArray.m_data[kArray.m_iElementCount - 1];
@@ -380,7 +382,7 @@ struct SpawnedHandle
         if (getCap() < n)
         {
             int cap = 2 * getCap();
-            FUN_00c908c0((hkMemoryAllocator*)&alloc, this, n < cap ? cap : n, 1);
+            hkArrayUtil__reserve((hkMemoryAllocator*)&alloc, this, n < cap ? cap : n, 1);
         }
         m_uiFilterValue = n;
     }
@@ -396,12 +398,13 @@ struct FUN_00ddf170_cls
     SpawnedHandle m_14;
     SpawnedHandle m_20;
 
-    FUN_00ddf170_cls* FUN_00ddf170(int a1, int a2);
+    FUN_00ddf170_cls* hkStreamStatisticsCollector_hkStreamStatisticsCollector(int a1, int a2);
 };
 
 // Calls a base method, sets the vtable, initializes two SpawnedHandle members, and optionally allocates a buffer.
 // @fnv 0x00ddf170
-FUN_00ddf170_cls* FUN_00ddf170_cls::FUN_00ddf170(int a1, int aiBufferSize)
+// src: HAVOK_LIB 0x00ddf170
+FUN_00ddf170_cls* FUN_00ddf170_cls::hkStreamStatisticsCollector_hkStreamStatisticsCollector(int a1, int aiBufferSize)
 {
     ((SubBase*)this)->FUN_00d06f50(a1);
     int value = aiBufferSize;
@@ -439,18 +442,19 @@ FUN_00ddf170_cls* FUN_00ddf170_cls::FUN_00ddf170(int a1, int aiBufferSize)
     return this;
 }
 
-int FUN_00cb10d0(const char* s);
+int hkString_strLen(const char* s);
 
 struct StrPacker
 {
     int unk00, unk04, unk08, unk0c, unk10;
     hkArrayCharLocalForm m14;
-    void FUN_00ddf5a0(const char* str);
+    void hkStreamStatisticsCollector_pushDir(const char* str);
 };
 
 // Packs a string into m14 with a 0x50 header, length, and padding when capacity allows.
 // @fnv 0x00ddf5a0
-void StrPacker::FUN_00ddf5a0(const char* str)
+// src: HAVOK_LIB 0x00ddf5a0
+void StrPacker::hkStreamStatisticsCollector_pushDir(const char* str)
 {
     if (m14.getCapacity() > m14.m_iElementCount + 0x46)
     {
@@ -458,10 +462,10 @@ void StrPacker::FUN_00ddf5a0(const char* str)
         int pad = 0;
         if (str != 0)
         {
-            count = FUN_00cb10d0(str) + 1;
+            count = hkString_strLen(str) + 1;
             pad = count % 2;
         }
-        unsigned char* out = (unsigned char*)FUN_00ddf370(&m14, pad + count);
+        unsigned char* out = (unsigned char*)_newCommand(&m14, pad + count);
         out[0] = 0x50;
         out[1] = (unsigned char)count + (unsigned char)pad;
         *(unsigned short*)(out + 2) = 0;
@@ -514,15 +518,16 @@ FUN_00ddeff0::FUN_00ddeff0()
 
 struct FUN_00ddf640_Cls : Obj
 {
-    unsigned char* FUN_00ddf640();
+    unsigned char* hkStreamStatisticsCollector_popDir();
 };
 // @fnv 0x00ddf640
-unsigned char* FUN_00ddf640_Cls::FUN_00ddf640()
+// src: HAVOK_LIB 0x00ddf640
+unsigned char* FUN_00ddf640_Cls::hkStreamStatisticsCollector_popDir()
 {
     unsigned char* out = (unsigned char*)m14.getCapacity();
     if ((int)out > m14.m_iElementCount + 0x46)
     {
-        out = (unsigned char*)FUN_00ddf370(&m14, 0);
+        out = (unsigned char*)_newCommand(&m14, 0);
         out[0] = 0x70;
         out[1] = 0;
         *(unsigned short*)(out + 2) = 0;
@@ -606,12 +611,13 @@ struct FUN_00ddfa10_cls
     void DDF420(int a, int b, int c);
     int D06D50(int a);
     void DDF020();
-    void FUN_00ddfa10(int a1, int a2, unsigned char flag);
+    void hkStreamStatisticsCollector_addReferencedObject(int a1, int a2, unsigned char flag);
 };
 
 // After capacity and a2 checks, updates m_20 and calls a virtual function from a2; when flag bit 0 is clear, it also calls DDF420 and DDF020.
 // @fnv 0x00ddfa10
-void FUN_00ddfa10_cls::FUN_00ddfa10(int a1, int a2, unsigned char aiFlags)
+// src: HAVOK_LIB 0x00ddfa10
+void FUN_00ddfa10_cls::hkStreamStatisticsCollector_addReferencedObject(int a1, int a2, unsigned char aiFlags)
 {
     int count = (int)(m_1c & 0x3fffffffu);
     if (count <= m_18 + 0x46)
@@ -653,7 +659,7 @@ struct Sub20
 };
 
 hkMemoryRouter* __cdecl FUN_00c85750() throw();
-void __cdecl FUN_00cf6920(int a, void* b, void* c);
+void __cdecl hkStatisticsCollectorUtil_addClassContentsAll(int a, void* b, void* c);
 
 struct FUN_00ddfab0_cls
 {
@@ -667,14 +673,15 @@ struct FUN_00ddfab0_cls
     unsigned int m_1c;
     Sub20 m_20;
 
-    void FUN_00ddf420(int a, int b, int c);
+    void hkStreamStatisticsCollector__startObject(int a, int b, int c);
     void FUN_00ddf020();
-    void FUN_00ddfab0(Param1* a1, int a2, int a3, int a4);
+    void hkStreamStatisticsCollector_addObject(Param1* a1, int a2, int a3, int a4);
 };
 
 // Checks m_1c, m_18, and a3; updates m_20, then calls FUN_00cf6920 and conditionally calls FUN_00ddf420 and FUN_00ddf020.
 // @fnv 0x00ddfab0
-void FUN_00ddfab0_cls::FUN_00ddfab0(Param1* a1, int a2, int a3, int aiFlags)
+// src: HAVOK_LIB 0x00ddfab0
+void FUN_00ddfab0_cls::hkStreamStatisticsCollector_addObject(Param1* a1, int a2, int a3, int aiFlags)
 {
     int iMasked = (int)(m_1c & 0x3fffffff);
     int iLimit = m_18 + 0x46;
@@ -695,13 +702,13 @@ void FUN_00ddfab0_cls::FUN_00ddfab0(Param1* a1, int a2, int a3, int aiFlags)
     if ((aiFlags & 1) == 0)
     {
         int r = a1->FUN_00d470d0();
-        FUN_00ddf420(a2, a3, r);
-        FUN_00cf6920(a3, a1, this);
+        hkStreamStatisticsCollector__startObject(a2, a3, r);
+        hkStatisticsCollectorUtil_addClassContentsAll(a3, a1, this);
         FUN_00ddf020();
     }
     else
     {
-        FUN_00cf6920(a3, a1, this);
+        hkStatisticsCollectorUtil_addClassContentsAll(a3, a1, this);
     }
 }
 }  // namespace fnv_00ddfab0
@@ -726,10 +733,11 @@ struct AllocIface
 // stand-in before.
 struct StreamStatisticsCollector_ddf4d0
 {
-    void FUN_00ddf4d0(int unused, const char* name, int size, int id, int tag);
+    void hkStreamStatisticsCollector_addChunk(int unused, const char* name, int size, int id, int tag);
 };
 // @fnv 0x00ddf4d0
-void StreamStatisticsCollector_ddf4d0::FUN_00ddf4d0(int unused, const char* name, int size, int id, int tag)
+// src: HAVOK_LIB 0x00ddf4d0
+void StreamStatisticsCollector_ddf4d0::hkStreamStatisticsCollector_addChunk(int unused, const char* name, int size, int id, int tag)
 {
     if (((hkArrayCharLocalForm*)((char*)this + 0x14))->getCapacity() <= ((hkArrayCharLocalForm*)((char*)this + 0x14))->m_iElementCount + 0x46)
         return;
@@ -739,10 +747,10 @@ void StreamStatisticsCollector_ddf4d0::FUN_00ddf4d0(int unused, const char* name
     int odd = 0;
     if (name)
     {
-        len = FUN_00cb10d0(name) + 1;
+        len = hkString_strLen(name) + 1;
         odd = len % 2;
     }
-    unsigned char* p = (unsigned char*)FUN_00ddf370((hkArrayCharLocalForm*)((char*)this + 0x14), odd + len);
+    unsigned char* p = (unsigned char*)_newCommand((hkArrayCharLocalForm*)((char*)this + 0x14), odd + len);
     p[0] = 0x43;
     p[1] = (unsigned char)(len + odd);
     *(unsigned short*)(p + 2) = (unsigned short)id;
@@ -762,20 +770,21 @@ void StreamStatisticsCollector_ddf4d0::FUN_00ddf4d0(int unused, const char* name
 
 struct Pkt : Obj
 {
-    void FUN_00ddf420(const char* str, const void* a2, int a3);
+    void hkStreamStatisticsCollector__startObject(const char* str, const void* a2, int a3);
 };
 // Writes a six-byte header and an optional null-terminated string padded to an even length; stores an allocator result in the header.
 // @fnv 0x00ddf420
-void Pkt::FUN_00ddf420(const char* str, const void* a2, int a3)
+// src: HAVOK_LIB 0x00ddf420
+void Pkt::hkStreamStatisticsCollector__startObject(const char* str, const void* a2, int a3)
 {
     int len = 0;
     int pad = 0;
     if (str != 0)
     {
-        len = FUN_00cb10d0(str) + 1;
+        len = hkString_strLen(str) + 1;
         pad = len % 2;
     }
-    unsigned char* out = (unsigned char*)FUN_00ddf370(&m14, len + pad);
+    unsigned char* out = (unsigned char*)_newCommand(&m14, len + pad);
     Record* rec = (Record*)out;
     rec->type = 0x50;
     rec->len = (unsigned char)(len + pad);

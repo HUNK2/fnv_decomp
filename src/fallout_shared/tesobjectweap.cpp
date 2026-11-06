@@ -2696,7 +2696,7 @@ struct FireNode {
  void FUN_0043fa80(void*);
  void FUN_00a5a040();
  void Update(struct FireUpdate&);
- void FUN_00a59400(float*,float*,float*);
+ void NiMatrix3_ToEulerAnglesZXY(float*,float*,float*);
 };
 struct FireExtra {
  bool HasEffect(int);
@@ -3592,7 +3592,7 @@ void FireWeapon::FUN_00523150(FireRef* reference) {
      pitch37 = _g_thePlayer->GetLooking();
     } else {
      float roll4;
-     ((FireNode*)muzzle11->FUN_00461130())->FUN_00a59400(&yaw21,&pitch37,&roll4);
+     ((FireNode*)muzzle11->FUN_00461130())->NiMatrix3_ToEulerAnglesZXY(&yaw21,&pitch37,&roll4);
     }
     if (*g_011c94a0.Bool()) {
      FireNode* root = muzzle11->node();

@@ -36,7 +36,7 @@ struct StrBufD32
     void InitBuffer();
     void FUN_00cbbd40();
 };
-void __cdecl FUN_00d61d00(StrBufD32* pBuf, const char* pcFmt, ...);
+void __cdecl hkStringBuf_printf(StrBufD32* pBuf, const char* pcFmt, ...);
 
 struct OstreamD32
 {
@@ -61,7 +61,8 @@ extern ErrorD32* DAT_01268360;
 }  // namespace fnv_00da3230
 
 // @fnv 0x00da3230
-void* hkBsdSocket::FUN_00da3230()
+// src: HAVOK_LIB 0x00da3230
+void* hkBsdSocket::pollForNewClient()
 {
     using namespace fnv_00da3230;
     if (m_pSocket != -1)
@@ -121,7 +122,7 @@ void* hkBsdSocket::FUN_00da3230()
             unsigned int s = FUN_00ee6db0(m_pSocket, &from, &iFromLen);
             StrBufD32 kMsg;
             kMsg.InitBuffer();
-            FUN_00d61d00(&kMsg, "Socket got connection from [%s:%d]\n", FUN_00ee6da4(from.sin_addr.S_un.S_addr),
+            hkStringBuf_printf(&kMsg, "Socket got connection from [%s:%d]\n", FUN_00ee6da4(from.sin_addr.S_un.S_addr),
                          FUN_00ee6daa(from.sin_port));
             {
                 char acBuf[512];

@@ -200,7 +200,7 @@ struct SpringMotion
 };
 inline void hkpEntity::ApplyForceAtPoint(float dt, const hkVector4& force, const SpringVector& point)
 {
-    FUN_00c9c1d0();
+    activate_00c9c1d0();
     reinterpret_cast<SpringMotion*>(&m_pMotionState)->apply(dt, &force, &point);
 }
 struct SpringStep
@@ -209,7 +209,7 @@ struct SpringStep
 };
 struct SpringAction : hkpSpringAction
 {
-    void __thiscall FUN_00d4d530(const SpringStep& step);
+    void __thiscall hkpSpringAction_applyAction(const SpringStep& step);
 };
 static LocalM128 dot3(LocalM128 a, LocalM128 b)
 {
@@ -255,7 +255,8 @@ static LocalM128 broadcast(float v)
     return _mm_load_ps1(&v);
 }
 // @fnv 0x00d4d530
-void SpringAction::FUN_00d4d530(const SpringStep& step)
+// src: HAVOK_SRC 0x00d4d530
+void SpringAction::hkpSpringAction_applyAction(const SpringStep& step)
 {
     hkpEntity* a = m_pEntityA;
     hkpEntity* b = m_pEntityB;

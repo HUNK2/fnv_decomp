@@ -15,7 +15,7 @@ struct B
     int f2;
     int f3;
 
-    void* FUN_00d74d40();
+    void* hkgpConvexHull_BuildConfig_BuildConfig();
 };
 
 struct A
@@ -48,7 +48,7 @@ int __cdecl ProcessArg(Arg* a, int second)
     int count = a->count;
     void* data = a->data;
 
-    void* q = objB.FUN_00d74d40();
+    void* q = objB.hkgpConvexHull_BuildConfig_BuildConfig();
     int iResult = objA.FUN_00d774a0(data, count, q);
 
     if (iResult != -1)

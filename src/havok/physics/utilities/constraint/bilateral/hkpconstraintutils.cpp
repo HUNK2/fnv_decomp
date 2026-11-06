@@ -40,7 +40,7 @@ struct CloneDataA : CloneDataBase
     Block5b unk94;
     Block5 unka8;
     CloneDataA* FUN_00d4f2a0();
-    void FUN_00d4f270(hkBool flag);
+    void hkpRagdollLimitsData_setConeLimitStabilization(hkBool flag);
 };
 
 struct CloneDataB : CloneDataBase
@@ -127,7 +127,7 @@ Instance* __cdecl CloneInstanceFromSource(Instance* apSource)
         pCloneTyped->unka8 = s->unk124;
         pCloneTyped->unk94 = s->unk110;
         hkBool flag(s->unk110.unk06 != 0);
-        pCloneTyped->FUN_00d4f270(flag);
+        pCloneTyped->hkpRagdollLimitsData_setConeLimitStabilization(flag);
         break;
     }
     case 2: {

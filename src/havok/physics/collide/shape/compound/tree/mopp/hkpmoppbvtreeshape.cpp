@@ -592,7 +592,7 @@ struct hkMoppObbVirtualMachineD543
 
 {
 
-    __declspec(noalias) void FUN_00dd1da0(const hkpMoppCode* pkCode, const hkAabb& kAabb,
+    __declspec(noalias) void hkpMoppObbVirtualMachine_queryAabb(const hkpMoppCode* pkCode, const hkAabb& kAabb,
 
                                           hkArray<unsigned int>* pkHits);
 
@@ -624,7 +624,7 @@ void hkpMoppBvTreeShape::FUN_00d54380(const hkAabb& kAabbIn, hkArray<unsigned in
 
     fnv_00d54380::hkMoppObbVirtualMachineD543 kQuery;
 
-    kQuery.FUN_00dd1da0(m_pMoppCode, kAabb, &kHits);
+    kQuery.hkpMoppObbVirtualMachine_queryAabb(m_pMoppCode, kAabb, &kHits);
 
 }
 

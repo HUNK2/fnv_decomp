@@ -1946,7 +1946,7 @@ struct EvalOutput
     FieldValue<float> f00, f04, f08, f0c, f10, f14;
 };
 extern "C" void __cdecl FUN_00cd5530(Basis*, const Basis*, const Basis*);
-extern "C" void __cdecl FUN_00dcfff0(void*, const EvalInput*, EvalOutput*);
+extern "C" void __cdecl _hkCalcMotorData(void*, const EvalInput*, EvalOutput*);
 
 static __forceinline __m128 rotate(FnvSubObject* o, __m128 v)
 {
@@ -2018,7 +2018,7 @@ static __declspec(noinline) void FUN_00d6dd60(FnvPacket* context, AxisRecord* re
                 input.deltaNew = newAngle - previous[i];
                 input.deltaOld = previous[i] - oldAngle;
                 EvalOutput result;
-                FUN_00dcfff0(current, &input, &result);
+                _hkCalcMotorData(current, &input, &result);
                 reinterpret_cast<PacketCallLocal_00d6d450&>(out->second.vec).w = context->scale2 * result.f00;
                 StreamRecord* __restrict emit = *cursor;
                 emit->stamp += 1.1920928955078125e-7;
@@ -2434,7 +2434,7 @@ static __declspec(noinline) void FUN_00d6da00(WriterContext* apContext, AngularR
         input.error = record->limit - *previous;
         input.delta = ScalarValue(*previous) - angle;
         AngularOutput output;
-        FUN_00dcfff0(solver, (const EvalInput*)&input, (EvalOutput*)&output);
+        _hkCalcMotorData(solver, (const EvalInput*)&input, (EvalOutput*)&output);
         AngularRow** cursor = CursorValue((&cur.row));
         row->angularB.m128_f32[3] = ((float&)apContext->unk08) * output.p0;
         AngularRow* current = *cursor + 1;
@@ -3317,13 +3317,13 @@ void __cdecl FUN_00dcee80(AngInfo* info, const QueryIn* in, QueryOut* out);
 void __cdecl FUN_00dcefb0(AngFrictionInfo* info, const QueryIn* in, QueryOut* out);
 void __cdecl ComputeJacobian(const hkVec4* axis, const hkVec4* pivot, const QueryIn* in, char* schemas,
                              MotorInput* min);
-void __cdecl FUN_00dcfff0(Motor* motor, MotorInput* min, MotorOutput* mout);
-void __cdecl FUN_00dd03c0(MotorOutput* mout, const QueryIn* in, char* schemas, QueryOut* out);
+void __cdecl _hkCalcMotorData(Motor* motor, MotorInput* min, MotorOutput* mout);
+void __cdecl _hk1dLinearVelocityMotorCommitJacobian(MotorOutput* mout, const QueryIn* in, char* schemas, QueryOut* out);
 void __cdecl WriteVector(const hkRot* a, const hkRot* b, QueryOut* out);
 void __cdecl FUN_00dced90(const hkVec4* a, const hkVec4* b, QueryOut* out);
 void __cdecl FUN_00dcedd0(const hkVec4* v, int which, QueryOut* out);
 void __cdecl FUN_00d72190(const Atom* atom, const QueryIn* in, hkBool writeHeader, QueryOut* out);
-void __cdecl FUN_00d72090(void* p);
+void __cdecl _hkSimpleContactConstraintDataAddALittleSurfaceViscosity(void* p);
 void __cdecl FUN_00d6f460(const Atom* atoms, int sizeOfAllAtoms, const QueryIn* queryIn, QueryOut* out);
 
 extern "C" int __stdcall bs_index(int handle, int flag);
@@ -3759,8 +3759,8 @@ static __forceinline void case11(const Atom*& atoms, QueryIn& in, hkTrans& baseA
         min.m_fMaxImpulse = *previousTargetPosition -
                             toFloat(dot3(_mm_sub_ps(baseA.col(3).q, baseB.col(3).q), baseB.col(a->m_ucMotorAxis).q));
         MotorOutput mout;
-        FUN_00dcfff0(motor, &min, &mout);
-        FUN_00dd03c0(&mout, &in, schemas, out);
+        _hkCalcMotorData(motor, &min, &mout);
+        _hk1dLinearVelocityMotorCommitJacobian(&mout, &in, schemas, out);
         if (*previousTargetPosition != a->m_vVector || !*initialized)
         {
             *previousTargetPosition = a->m_vVector;
@@ -4038,7 +4038,7 @@ static __forceinline void case18(const Atom*& atoms, QueryIn& in, hkTrans& baseA
         min.m_fTargetVelocity = a->m_fTargetAngle - *previousTargetAngle;
         min.m_fMaxImpulse = *previousTargetAngle - angle;
         MotorOutput mout;
-        FUN_00dcfff0(motor, &min, &mout);
+        _hkCalcMotorData(motor, &min, &mout);
         s->m_angB.w = mout.m_f00.value * in.m_fFirstQueryValue;
         SchemaMotor* t = (SchemaMotor*)out->m_pQueryResultSchema;
         t->m_angA.x = t->m_angA.x + 1.192092896e-07f;
@@ -4171,7 +4171,7 @@ static __forceinline void case19(const Atom*& atoms, QueryIn& input, hkTrans& ba
                 min.m_fTargetVelocity = targetData[0] - previousTargetAngles[i];
                 min.m_fMaxImpulse = previousTargetAngles[i] - angleData[0];
                 MotorOutput mout;
-                FUN_00dcfff0(motor, &min, &mout);
+                _hkCalcMotorData(motor, &min, &mout);
                 s->m_angB.w = mout.m_f00 * in.m_fFirstQueryValue;
                 SchemaMotor* t = (SchemaMotor*)out->m_pQueryResultSchema;
                 t->m_angA.x = t->m_angA.x + 1.192092896e-07f;
@@ -4498,7 +4498,7 @@ static __forceinline void case25(const Atom*& atoms, QueryIn& in, hkTrans& baseA
     {
         c = ((const ModifierAtom*)c)->m_pChildAtom;
     } while (c->m_type >= 0x17);
-    FUN_00d72090((void*)&((const ContactAtom*)c)->unk10);
+    _hkSimpleContactConstraintDataAddALittleSurfaceViscosity((void*)&((const ContactAtom*)c)->unk10);
     const Atom* child = a->m_pChildAtom;
     if (child->m_type == 0x16)
     {

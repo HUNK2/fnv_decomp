@@ -47,14 +47,16 @@ FUN_00d04300::FUN_00d04300(bool del)
 }
 
 // @fnv 0x00d021e0
-int __fastcall FUN_00d021e0(int self, int, int* out)
+// src: HAVOK_LIB 0x00d021e0
+int __fastcall hkpMultiThreadedSimulation_getMultithreadConfig(int self, int, int* out)
 {
     *out = *(int*)(self + 0xb4);
     return *out;
 }
 
 // @fnv 0x00d021f0
-void __fastcall FUN_00d021f0(void* this_, int, int* arg, int)
+// src: HAVOK_LIB 0x00d021f0
+void __fastcall hkpMultiThreadedSimulation_setMultithreadConfig(void* this_, int, int* arg, int)
 {
     *(int*)((char*)this_ + 0xb4) = *arg;
 }
@@ -204,7 +206,7 @@ struct World
 };
 struct Reserve
 {
-    void FUN_00d97070(int);
+    void hkpBroadPhase_enableMultiThreading(int);
 };
 struct Owner
 {
@@ -347,7 +349,7 @@ FUN_00d02c80::FUN_00d02c80(World* world)
 
     active = 0;
     enabled = false;
-    owner->reserve->FUN_00d97070(10000);
+    owner->reserve->hkpBroadPhase_enableMultiThreading(10000);
     a.context = this;
     b.context = &workLock;
     world->registry->unk24 = &a;
@@ -445,7 +447,8 @@ void __stdcall FUN_00d01fc0(HandlePair* pHandlePair)
 }
 
 // @fnv 0x00d02160
-bool FUN_00d02160(int* apPairA, int* apPairB)
+// src: HAVOK_LIB 0x00d02160
+bool pairLessThan(int* apPairA, int* apPairB)
 {
     char* p1 = (char*)*apPairA;
     char* b1 = p1 + p1[5];
@@ -483,7 +486,7 @@ struct PairArray
 
 char* __cdecl FUN_00c85750();
 void __cdecl ResizeAudioStream(void* alloc, PairArray* arr, int elemSize);
-void __cdecl FUN_00cc0f40(char* a, char* b, char* c);
+void __cdecl hkpWorldAgentUtil_addAgent(char* a, char* b, char* c);
 
 struct FUN_00d026e0_cls
 {
@@ -534,7 +537,7 @@ void FUN_00d026e0_cls::ProcessPair(int* aiPair)
     {
         int v = *(int*)(base + ((int)t << 6) + 0x1c30);
         *(int*)(sub + 0x14) = v;
-        FUN_00cc0f40((char*)x, (char*)y, sub);
+        hkpWorldAgentUtil_addAgent((char*)x, (char*)y, sub);
     }
 }
 
@@ -555,7 +558,7 @@ struct PairList
 hkMemoryRouter* FUN_00c85750();
 void ResizeAudioStream(void* allocator, PairList* list, unsigned int elemSize);
 char* FindEntryValue(char* a, char* b);
-void FUN_00cc10b0(char* p);
+void hkpWorldAgentUtil_removeAgent(char* p);
 
 struct FUN_00d027c0_cls
 {
@@ -599,7 +602,7 @@ void FUN_00d027c0_cls::ProcessPairEntry(PairEntry* entry)
     char* r = FindEntryValue(pFirstRec, pSecondRec);
     if (r != 0)
     {
-        FUN_00cc10b0(r);
+        hkpWorldAgentUtil_removeAgent(r);
     }
 }
 }  // namespace fnv_00d027c0
@@ -897,7 +900,7 @@ void __cdecl AccumulateShapes(HkCollector* c, int flags, HkInput2* in);
 struct HkDispatcher
 {
     void AddObjectCopy(HkInput* in, int n);
-    void FUN_00d051b0();
+    void hkJobQueue_processAllJobs();
 };
 
 struct HkProcessor
@@ -952,7 +955,7 @@ struct HkProcessor
     int unkbc;
     HkDispatcher* dispatcher;
 
-    void FUN_00d0c9c0(int* data, int n, HkSource* src, HkParam* param, char flag);
+    void hkpContinuousSimulation_processAgentNnEntries(int* data, int n, HkSource* src, HkParam* param, char flag);
     void FUN_00d03030(int* data, int n, HkSource* src, HkParam* param, char flag);
 };
 
@@ -961,7 +964,7 @@ void HkProcessor::FUN_00d03030(int* paiData, int aiCount, HkSource* pSource, HkP
 {
     if (dispatcher == 0 || aiCount <= world->unkec)
     {
-        FUN_00d0c9c0(paiData, aiCount, pSource, param, flag);
+        hkpContinuousSimulation_processAgentNnEntries(paiData, aiCount, pSource, param, flag);
         return;
     }
 
@@ -993,7 +996,7 @@ void HkProcessor::FUN_00d03030(int* paiData, int aiCount, HkSource* pSource, HkP
         in.unk02 = 2;
         dispatcher->AddObjectCopy(&in, 1);
     }
-    dispatcher->FUN_00d051b0();
+    dispatcher->hkJobQueue_processAllJobs();
 
     if (aiCount > 0)
     {
@@ -1363,7 +1366,7 @@ struct __declspec(align(16)) ResultJob : JobHeader
 struct JobQueue
 {
     void AddObjectCopy(BuildJob*, int);
-    void FUN_00d051b0();
+    void hkJobQueue_processAllJobs();
 };
 struct Allocator
 {
@@ -1409,7 +1412,7 @@ struct Processor
     JobQueue* active;
 
     void ProcessGroups(int**, int, struct Group*, int, TaskInput*, hkBool);
-    void FUN_00d0c9c0(int**, int, TaskInput*, GroupIdentity*, hkBool);
+    void hkpContinuousSimulation_processAgentNnEntries(int**, int, TaskInput*, GroupIdentity*, hkBool);
 };
 struct Group
 {
@@ -1450,7 +1453,7 @@ void Processor::ProcessGroups(int** items, int total, Group* groups, int count, 
                 group->job = job;
             }
         }
-        ((JobQueue*)active)->FUN_00d051b0();
+        ((JobQueue*)active)->hkJobQueue_processAllJobs();
         for (int i = 0; i < count; ++i)
         {
             Group* group = groups + i;
@@ -1477,13 +1480,13 @@ void Processor::ProcessGroups(int** items, int total, Group* groups, int count, 
             }
         }
         if (pSpecialGroup)
-            FUN_00d0c9c0(items + pSpecialGroup->start, pSpecialGroup->count, input, pSpecialGroup->id, false);
+            hkpContinuousSimulation_processAgentNnEntries(items + pSpecialGroup->start, pSpecialGroup->count, input, pSpecialGroup->id, false);
         ((ThreadState*)FUN_00c85750())->top = (char*)jobs;
     }
     else
     {
         for (int i = 0; i < count; ++i)
-            FUN_00d0c9c0(items + groups[i].start, groups[i].count, input, groups[i].id, flag);
+            hkpContinuousSimulation_processAgentNnEntries(items + groups[i].start, groups[i].count, input, groups[i].id, flag);
     }
 }
 
@@ -1659,7 +1662,7 @@ struct CollideSimQ
     int m_3c;
     int unk40[0x20];
     int m_c0;
-    void FUN_00d0db40(EntityQ** entities, int numEntities, void* input, int* out);
+    void hkpContinuousSimulation_collideEntitiesOfOneIslandNarrowPhaseContinuous_toiOnly(EntityQ** entities, int numEntities, void* input, int* out);
     void FUN_00d03030(AgentEntryQ** entries, int numEntries, void* input, SimulationIslandQ* island, hkBool flag);
     void ProcessCollisionEntries(EntityQ** entities, int numEntities, void* input, InputQ* collInput) throw();
 };
@@ -1720,7 +1723,7 @@ void CollideSimQ::ProcessCollisionEntries(EntityQ** entities, int numEntities, v
     }
     else
     {
-        FUN_00d0db40(entities, numEntities, input, &m_3c);
+        hkpContinuousSimulation_collideEntitiesOfOneIslandNarrowPhaseContinuous_toiOnly(entities, numEntities, input, &m_3c);
     }
 }
 
@@ -1770,7 +1773,8 @@ struct S00d02880_Key
 };
 // Linearly searches m_data for a matching key, otherwise grows the array if full and appends a new element with that key.
 // @fnv 0x00d02880
-static __declspec(noinline) S00d02880_Elem* FUN_00d02880(S00d02880_Arr* apArray, S00d02880_Key aKey)
+// src: HAVOK_LIB 0x00d02880
+static __declspec(noinline) S00d02880_Elem* getIslandEntriesInfo(S00d02880_Arr* apArray, S00d02880_Key aKey)
 {
     int key = aKey.v;
     long i = 0;
@@ -1800,7 +1804,7 @@ static __declspec(noinline) S00d02880_Elem* FUN_00d02880(S00d02880_Arr* apArray,
 
 S00d02880_Elem* S00d02880_Call(S00d02880_Arr* a, S00d02880_Key key)
 {
-    return FUN_00d02880(a, key);
+    return getIslandEntriesInfo(a, key);
 }
 
 #include <windows.h>
@@ -2236,7 +2240,8 @@ template <class T, class L> inline void sortPairs(T* data, int count, L less)
 
 // Swaps each pair's handles so the left key is not greater than the right key, then sorts the pair list using FUN_00d02160.
 // @fnv 0x00d02250
-void __cdecl FUN_00d02250(PairList<TypedPair>& list)
+// src: HAVOK_LIB 0x00d02250
+void __cdecl sortPairList(PairList<TypedPair>& list)
 {
     TypedPair* item = list.begin();
     TypedPair* end = item + list.size();
@@ -2250,7 +2255,7 @@ void __cdecl FUN_00d02250(PairList<TypedPair>& list)
         }
         ++item;
     }
-    sortPairs(list.begin(), list.size(), FUN_00d02160);
+    sortPairs(list.begin(), list.size(), pairLessThan);
 }
 
 extern int DAT_01269200;
@@ -3331,23 +3336,23 @@ struct StepPair
 
 void __cdecl FUN_00dd7d00(Island**, int, int, void(__cdecl*)(bool*, CompareObject*, CompareObject*));
 
-void __cdecl FUN_00cf7130(PairArray*, PairArray*);
+void __cdecl hkpTypedBroadPhaseDispatcher_removeDuplicates(PairArray*, PairArray*);
 
-void __cdecl FUN_00d02250(PairArray*);
+void __cdecl sortPairList(PairArray*);
 
-void __cdecl FUN_00cb4c60(StepWorld*, Island*, Island*);
+void __cdecl hkpWorldOperationUtil_internalMergeTwoIslands(StepWorld*, Island*, Island*);
 
-Agent* __cdecl FUN_00cc0f40(Body*, Body*, Dispatcher*);
+Agent* __cdecl hkpWorldAgentUtil_addAgent(Body*, Body*, Dispatcher*);
 
 Agent* __cdecl FindEntryValue(Body*, Body*);
 
-void __cdecl FUN_00cc1160(Agent*);
+void __cdecl hkpWorldAgentUtil_removeAgentAndItsToiEvents(Agent*);
 
 void __cdecl FUN_00cfedd0(Agent*, Dispatcher*, Output*, Manager*);
 
-void __cdecl FUN_00d00aa0(StepWorld*, Constraint*);
+void __cdecl hkpWorldCallbackUtil_fireConstraintViolated(StepWorld*, Constraint*);
 
-void __cdecl FUN_00d014f0(StepWorld*, TimeInfo*);
+void __cdecl hkpWorldCallbackUtil_firePostCollideCallback(StepWorld*, TimeInfo*);
 
 void __cdecl ProcessChildLoop(StepWorld*);
 
@@ -3537,12 +3542,13 @@ struct Stepper
 
     void AddToiEvent(Output*, Agent*, void*);
 
-    int FUN_00d03290(Job*, Jobs*);
+    int hkpMultiThreadedSimulation_finishMtStep(Job*, Jobs*);
 };
 
 // Advances the physics world by one step, processing added/removed contact pairs, dispatching collision agents, and invoking post-collision callbacks.
 // @fnv 0x00d03290
-int Stepper::FUN_00d03290(Job* job, Jobs* jobs)
+// src: HAVOK_LIB 0x00d03290
+int Stepper::hkpMultiThreadedSimulation_finishMtStep(Job* job, Jobs* jobs)
 {
 
     volatile unsigned pairStamp;
@@ -3620,7 +3626,7 @@ int Stepper::FUN_00d03290(Job* job, Jobs* jobs)
             }
         }
 
-        FUN_00cf7130((PairArray*)&added, (PairArray*)&removed);
+        hkpTypedBroadPhaseDispatcher_removeDuplicates((PairArray*)&added, (PairArray*)&removed);
 
         {
             TraceBuffer* p = (TraceBuffer*)TlsGetValue(DAT_0126835c);
@@ -3635,8 +3641,8 @@ int Stepper::FUN_00d03290(Job* job, Jobs* jobs)
             }
         }
 
-        FUN_00d02250((PairArray*)&added);
-        FUN_00d02250((PairArray*)&removed);
+        sortPairList((PairArray*)&added);
+        sortPairList((PairArray*)&removed);
 
         {
             TraceBuffer* p = (TraceBuffer*)TlsGetValue(DAT_0126835c);
@@ -3673,7 +3679,7 @@ int Stepper::FUN_00d03290(Job* job, Jobs* jobs)
 
             if (island != islandB)
             {
-                FUN_00cb4c60(f00c, island, islandB);
+                hkpWorldOperationUtil_internalMergeTwoIslands(f00c, island, islandB);
                 island = scratch.entity->f0cc;
             }
 
@@ -3688,7 +3694,7 @@ int Stepper::FUN_00d03290(Job* job, Jobs* jobs)
 
                 scratch.input->f014 = scratch.input->f000->qualities[code].f10;
 
-                Agent* agent = FUN_00cc0f40(a, b, scratch.input);
+                Agent* agent = hkpWorldAgentUtil_addAgent(a, b, scratch.input);
 
                 if (agent)
                 {
@@ -3738,7 +3744,7 @@ int Stepper::FUN_00d03290(Job* job, Jobs* jobs)
             Body* b = bodyOf(pair->second);
             Agent* agent = FindEntryValue(a, b);
             if (agent)
-                FUN_00cc1160(agent);
+                hkpWorldAgentUtil_removeAgentAndItsToiEvents(agent);
         }
         removed.clear();
         removed.clear();
@@ -3763,7 +3769,7 @@ int Stepper::FUN_00d03290(Job* job, Jobs* jobs)
     const int n = count < 128 ? count : 128;
 
     for (int k = 0; k < n; ++k)
-        FUN_00d00aa0(f00c, f00c->f1b8->entries[k]);
+        hkpWorldCallbackUtil_fireConstraintViolated(f00c, f00c->f1b8->entries[k]);
 
     f018 += f01c;
 
@@ -3828,7 +3834,7 @@ int Stepper::FUN_00d03290(Job* job, Jobs* jobs)
             t.delta = scratch.end - start;
             t.inverse = t.delta == 0 ? 0 : 1 / t.delta;
 
-            FUN_00d014f0(f00c, &t);
+            hkpWorldCallbackUtil_firePostCollideCallback(f00c, &t);
             {
                 TraceBuffer* p = (TraceBuffer*)TlsGetValue(DAT_0126835c);
                 TraceRecord* r = p->next;
@@ -6354,13 +6360,14 @@ struct ThisCls
     int m_04;
     int m_08;
     SubObj* m_0c;
-    void FUN_00d03c20(ParamObj* p0, ParamObj* p1);
+    void hkpMultiThreadedSimulation_collideEntitiesNeedingPsiCollisionDetectionNarrowPhase_toiOnly(ParamObj* p0, ParamObj* p1);
     void ProcessGroups(int* a, int b, Group* c, int d, void* e, CollisionFlag f);
 };
 
 // Collects contact pairs from p1 elements, groups them by identity, and calls ProcessGroups with the results.
 // @fnv 0x00d03c20
-void ThisCls::FUN_00d03c20(ParamObj* apUnused, ParamObj* p1)
+// src: HAVOK_LIB 0x00d03c20
+void ThisCls::hkpMultiThreadedSimulation_collideEntitiesNeedingPsiCollisionDetectionNarrowPhase_toiOnly(ParamObj* apUnused, ParamObj* p1)
 {
     TraceBuffer* pTraceBuf = (TraceBuffer*)TlsGetValue(DAT_0126835c);
     if (pTraceBuf->next < pTraceBuf->end)

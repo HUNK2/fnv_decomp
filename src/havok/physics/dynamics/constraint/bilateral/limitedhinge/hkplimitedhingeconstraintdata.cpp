@@ -19,12 +19,12 @@ void __thiscall hkpLimitedHingeConstraintData::SetConstraintFlag(int aiBitIndex)
     ((char*)this)[0xd6] = (char)(1 << aiBitIndex);
 }
 
-extern "C" void* __cdecl FUN_00d21a60(void* self, int a, int b);
+extern "C" void* __cdecl hkpConstraintData_getConstraintInfoUtil(void* self, int a, int b);
 
 // @fnv 0x00cb8af0
 void* __thiscall hkpLimitedHingeConstraintData::vf15(int arg)
 {
-    return FUN_00d21a60((char*)this + 0x10, 0xcc, arg);
+    return hkpConstraintData_getConstraintInfoUtil((char*)this + 0x10, 0xcc, arg);
 }
 
 // @fnv 0x00cb8b10
@@ -67,7 +67,8 @@ void __fastcall DestroyLimitedHingeMotor(hkpLimitedHingeConstraintData* self, vo
 
 // Stores b at self+0xa2 and its negation at self+0xb6; if a is non-null, zeroes four floats at a->0x30->0x1c.
 // @fnv 0x00cb8fe0
-void __fastcall FUN_00cb8fe0(char* self, int, int a, bool b)
+// src: HAVOK_LIB 0x00cb8fe0
+void __fastcall hkpLimitedHingeConstraintData_setMotorActive(char* self, int, int a, bool b)
 {
     self[0xa2] = b;
     self[0xb6] = !b;

@@ -56,11 +56,12 @@ struct Owner
     InterfaceB* second;
     int selectorA;
     int selectorB;
-    void FUN_00d426b0(int);
+    void hkpPhantomAgent_cleanup(int);
 };
 // If selectorA or selectorB equals 0x1D, dispatches argA/argB to first or second respectively, then calls First(1).
 // @fnv 0x00d426b0
-void Owner::FUN_00d426b0(int)
+// src: HAVOK_SRC 0x00d426b0
+void Owner::hkpPhantomAgent_cleanup(int)
 {
     if (selectorA == 0x1D)
         first->Dispatch(argA, argB);

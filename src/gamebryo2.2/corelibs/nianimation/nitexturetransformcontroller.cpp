@@ -81,7 +81,7 @@ class TextureMapTransform
     TextureMapTransform(const NiPoint2&, float, const NiPoint2&, const NiPoint2&, int) throw();
     void UpdateFromPair(const NiPoint2&);
     void SetValue(float);
-    void FUN_00a462b0(const NiPoint2&);
+    void NiTextureTransform_SetScale(const NiPoint2&);
 };
 extern const float DAT_01016248;
 class NiTexturingProperty__Map
@@ -228,13 +228,13 @@ void NiTextureTransformController::Update(NiUpdateData& data)
     case NiTextureTransformController__TransformMember_TT_SCALE_U: {
         NiPoint2 p = transform->scale;
         p.x = value;
-        transform->FUN_00a462b0(p);
+        transform->NiTextureTransform_SetScale(p);
         break;
     }
     case NiTextureTransformController__TransformMember_TT_SCALE_V: {
         NiPoint2 p = transform->scale;
         p.y = value;
-        transform->FUN_00a462b0(p);
+        transform->NiTextureTransform_SetScale(p);
         break;
     }
     }
@@ -271,11 +271,12 @@ unsigned int __thiscall FUN_00a46410_shell::FUN_00a46410()
 
 struct FUN_00a461a0_shell : public NiTimeController
 {
-    void __thiscall FUN_00a461a0(NiObjectNET* target);
+    void __thiscall NiTextureTransformController_SetTarget(NiObjectNET* target);
 };
 
 // @fnv 0x00a461a0
-void __thiscall FUN_00a461a0_shell::FUN_00a461a0(NiObjectNET* target)
+// src: GAMEBRYO_LIB 0x00a461a0
+void __thiscall FUN_00a461a0_shell::NiTextureTransformController_SetTarget(NiObjectNET* target)
 {
     if (*(NiObjectNET**)((char*)this + 0x2c) != target)
         *(int*)((char*)this + 0x3c) = 0;
@@ -285,11 +286,12 @@ void __thiscall FUN_00a461a0_shell::FUN_00a461a0(NiObjectNET* target)
 bool __stdcall FUN_00a57c10(NiObject*);
 struct FUN_00a461e0_shell : public NiTextureTransformController
 {
-    bool FUN_00a461e0(NiObject* pkObject);
+    bool NiTextureTransformController_IsEqual(NiObject* pkObject);
 };
 // Returns true if pkObject passes FUN_00a57c10 and its four fields match the expected values.
 // @fnv 0x00a461e0
-bool FUN_00a461e0_shell::FUN_00a461e0(NiObject* pkObject)
+// src: GAMEBRYO_LIB 0x00a461e0
+bool FUN_00a461e0_shell::NiTextureTransformController_IsEqual(NiObject* pkObject)
 {
     NiTextureTransformController* pkCtrl = (NiTextureTransformController*)pkObject;
     if (FUN_00a57c10(pkObject) && pkCtrl->m_uiLastKeyIndex == m_uiLastKeyIndex &&
@@ -322,11 +324,12 @@ struct C462b0
     NiPoint2 m_0c;
     char _14[8];
     bool m_1c;
-    void __thiscall FUN_00a462b0(NiPoint2* p);
+    void __thiscall NiTextureTransform_SetScale(NiPoint2* p);
 };
 // Sets m_1c if the stored m_0c differs from p, then copies p into m_0c.
 // @fnv 0x00a462b0
-void __thiscall C462b0::FUN_00a462b0(NiPoint2* p)
+// src: GAMEBRYO_LIB 0x00a462b0
+void __thiscall C462b0::NiTextureTransform_SetScale(NiPoint2* p)
 {
     m_1c = m_1c || m_0c.x != p->x || m_0c.y != p->y;
     m_0c = *p;
@@ -531,7 +534,7 @@ void __thiscall FUN_00a46a30_Cls::WriteToStream(NiStreamStandInW_nitexturetransf
     pkStream->m_pBackingStream->Write(&m_48);
 }
 
-void __cdecl FUN_00aa10f0(void* memory);
+void __cdecl _NiFree_00aa10f0(void* memory);
 void __cdecl FUN_00aa1460(void* memory, unsigned int size);
 
 struct InterpolationControllerBase
@@ -548,7 +551,7 @@ struct TextureTransformOwner : InterpolationControllerBase
     char* controllerID;
     virtual ~TextureTransformOwner() throw()
     {
-        FUN_00aa10f0(controllerID);
+        _NiFree_00aa10f0(controllerID);
         controllerID = 0;
     }
     void* FUN_00a46890(unsigned int flags);

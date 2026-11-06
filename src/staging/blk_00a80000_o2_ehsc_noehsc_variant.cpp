@@ -32,7 +32,7 @@ NiCollisionObject::NiCollisionObject()
 extern unsigned char* DAT_011f5b04;
 void __cdecl FUN_00714960(int);
 void __cdecl FUN_00a81a20();
-int __cdecl FUN_00a81b80(const unsigned short* a, const unsigned short* b);
+int __cdecl NiSkinData_BoneVertData_Compare(const unsigned short* a, const unsigned short* b);
 struct FUN_00a744a0 { void Init(); };
 extern const void* DAT_0109e984;
 BSFadeNode* NiScreenElements_CreateObject();
@@ -47,7 +47,7 @@ struct FUN_00a8a5f0_class {
     void* FUN_00a8a5f0();
 };
 struct FUN_00a8f060_class {
-    void FUN_00a8f060();
+    void NiPixelData_FreeData();
 };
 extern "C" void NiFreeAlias(void*);
 struct FUN_00a8f080_Class {
@@ -103,11 +103,11 @@ struct CloningProcess;
 struct NiBinaryExtraData;
 struct NiFloatsExtraData;
 struct FUN_00a99c40_shell : public NiExtraData {
-    void FUN_00a99c40(NiBinaryExtraData* dst, CloningProcess* cp);
+    void NiIntegerExtraData_CopyMembers(NiBinaryExtraData* dst, CloningProcess* cp);
 };
 extern const void* DAT_0109e47c;
 BSFadeNode* NiSkinPartition_CreateObject();
-unsigned int __cdecl FUN_00a88ac0(unsigned int a);
+unsigned int __cdecl NiString_GetBestBufferSize(unsigned int a);
 struct NiExtraDataHelper {
     void FUN_00a7b2e0();
 };
@@ -359,7 +359,7 @@ struct FUN_00a80fc0_class {
 extern float DAT_011ab3f8;
 static const float kPi = 3.1415927f;
 extern "C" double __cdecl fabs(double);
-float __cdecl FUN_00a811f0(float y, float x);
+float __cdecl NiFastATan2(float y, float x);
 void* __cdecl FUN_00aa13e0(unsigned int size);
 extern int DAT_0109e32c;
 struct FUN_00a81760_obj
@@ -612,7 +612,7 @@ struct FUN_00a88c60_Class {
 
     int __thiscall FUN_00a88c60(FUN_00a88c60_Class* other);
 };
-void FUN_00a89650(const short* psCompressed, unsigned int uiUnused, float fProjectionAlongAim, float fHalfRange, float* pfValues, unsigned int ItemUpdateArray);
+void NiCompUtility_DecompressFloatArray(const short* psCompressed, unsigned int uiUnused, float fProjectionAlongAim, float fHalfRange, float* pfValues, unsigned int ItemUpdateArray);
 struct FUN_00a89760_base {
     virtual ~FUN_00a89760_base();
 };
@@ -1482,9 +1482,9 @@ struct FUN_00a923a0_class {
 extern "C" float epsilon;
 struct FUN_00a88970_q { float w, x, y, z; void Set(float fW, float fX, float fY, float fZ); };
 struct FUN_00a88970_v { void* m_pvVtbl; float x, y, z; };
-FUN_00a88970_q FUN_00a88970(const FUN_00a88970_v& v);
+FUN_00a88970_q NiQuaternion_Exp(const FUN_00a88970_v& v);
 struct FUN_00a81a40_shell {
-    int __thiscall FUN_00a81a40(int ai);
+    int __thiscall NiTaskManager_GetNumTasks(int ai);
 };
 void* NiMalloc(unsigned int uiSize);
 struct FUN_00a8a620 {

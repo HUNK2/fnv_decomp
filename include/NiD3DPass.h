@@ -34,7 +34,7 @@ public:
 
     void DestroyPass();
     void FUN_00e80190();
-    void FUN_00b79950(NiD3DPixelShader* shader);
+    void NiD3DPass_SetVertexShader(NiD3DPixelShader* shader);
     void FUN_00b80600(NiD3DVertexShader* shader);
     void DeleteThis();
     void Release();

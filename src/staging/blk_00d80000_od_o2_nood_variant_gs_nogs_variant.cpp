@@ -304,7 +304,7 @@ void __cdecl FUN_00df37b0(const S00d9db60_WorkingSet&, S00d9db60_Node*, int, int
                           S00d9db60_ProjectedEntry&);
 int __cdecl FUN_00df56a0(const S00d9db60_BuildRecursiveInput&, S00d9db60_TreeStream*, S00d9db60_ProjectedEntry*, int*,
                          int*);
-void __cdecl FUN_00d9d950(S00d9db60_KdTree*, int, int*, int*);
+void __cdecl hkKdTreeBuildingUtils_completeDistributedBuild(S00d9db60_KdTree*, int, int*, int*);
 
 // @fnv 0x00d9db60
 void __cdecl FUN_00d9db60(S00d9db60_Mediator& mediator, S00d9db60_KdTree* tree)
@@ -384,7 +384,7 @@ void __cdecl FUN_00d9db60(S00d9db60_Mediator& mediator, S00d9db60_KdTree* tree)
         writer.FUN_00df3160();
     }
 
-    FUN_00d9d950(tree, mediator.GetNumEntries(), subTreeDepths, numPrimitivesPerSubTree);
+    hkKdTreeBuildingUtils_completeDistributedBuild(tree, mediator.GetNumEntries(), subTreeDepths, numPrimitivesPerSubTree);
     S00d9db60_Array_ClearAndRelease(entriesB);
     S00d9db60_Array_ClearAndRelease(entriesA);
 }

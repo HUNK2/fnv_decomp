@@ -126,7 +126,7 @@ struct SubFirst
     int m_i10;
     int m_i14;
 
-    void FUN_00dd50f0(InitArg* apArg);
+    void hkpMoppSplitter_hkpMoppSplitParams_hkpMoppSplitParams(InitArg* apArg);
 };
 struct SubSecond
 {
@@ -139,7 +139,7 @@ struct SubSecond
     int m_i18;
     int m_i1c;
 
-    void FUN_00dd5150(InitArg* apArg);
+    void hkpMoppCostFunction_hkpMoppSplitCostParams_hkpMoppSplitCostParams(InitArg* apArg);
 };
 struct FUN_00dd4bf0
 {
@@ -205,8 +205,8 @@ struct Allocator
     virtual void freeBlock(void*, int) throw();
 };
 void* __cdecl FUN_00c85690(Allocator*, int) throw();
-void __cdecl FUN_00c856c0(Allocator*, void*) throw();
-void __cdecl FUN_00c908c0(Allocator*, void*, int, int) throw();
+void __cdecl hkMemoryRouter_easyFree(Allocator*, void*) throw();
+void __cdecl hkArrayUtil__reserve(Allocator*, void*, int, int) throw();
 void __cdecl FUN_00cb1260(void*, const void*, int) throw();
 template <class T> struct MergeArray
 {
@@ -236,14 +236,14 @@ template <class T> struct MergeArray
         if (cap < n)
         {
             int cap2 = 2 * cap;
-            FUN_00c908c0(&a, this, n < cap2 ? cap2 : n, sizeof(T));
+            hkArrayUtil__reserve(&a, this, n < cap2 ? cap2 : n, sizeof(T));
         }
     }
     void reserveExactly(int n)
     {
         Allocator& a = reinterpret_cast<Allocator&>((&hkMemoryRouter::getInstance())->heap());
         if (getCapacity() < n)
-            FUN_00c908c0(&a, this, n, sizeof(T));
+            hkArrayUtil__reserve(&a, this, n, sizeof(T));
     }
     void SetSizeAndGrow(int n)
     {
@@ -396,7 +396,7 @@ struct hkpMoppDefaultSplitter
     {
         FUN_00e09bd0();
     }
-    int FUN_00e0a550(PrimitiveSource*, hkpMoppCostFunction*, hkpMoppDefaultAssembler*, int*, ScratchLayout*) throw();
+    int hkpMoppDefaultSplitter_buildTree(PrimitiveSource*, hkpMoppCostFunction*, hkpMoppDefaultAssembler*, int*, ScratchLayout*) throw();
 };
 struct EncodedReference
 {
@@ -449,12 +449,12 @@ hkpMoppCode* MoppBuilder::FUN_00dd4cb0(PrimitiveSource* source, void* buffer, in
     int status;
     {
         hkpMoppDefaultSplitter splitter;
-        status = splitter.FUN_00e0a550(source, &costFunction, &output, &options, &layout);
+        status = splitter.hkpMoppDefaultSplitter_buildTree(source, &costFunction, &output, &options, &layout);
     }
     if (scratch != buffer)
     {
         Allocator* heap = reinterpret_cast<Allocator*>(&(&hkMemoryRouter::getInstance())->heap());
-        FUN_00c856c0(heap, scratch);
+        hkMemoryRouter_easyFree(heap, scratch);
     }
     result = status;
     hkpMoppCode* code;

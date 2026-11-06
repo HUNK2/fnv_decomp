@@ -143,7 +143,8 @@ int __cdecl strcpy_s(char*, unsigned int, const char*);
 extern "C" unsigned int strlen(const char*);
 // Frees the stored string at offset 0x30 and replaces it with a newly allocated copy of pcEntryPoint, or null if empty.
 // @fnv 0x00e95cf0
-void NiD3DHLSLPixelShader::FUN_00e95cf0(const char* pcEntryPoint)
+// src: GAMEBRYO_SRC 0x00e95cf0
+void NiD3DHLSLPixelShader::SetEntryPoint_00e95cf0(const char* pcEntryPoint)
 {
     char* pcNewEntryPoint;
     unsigned int uiLen;
@@ -168,7 +169,8 @@ void* _NiMalloc(unsigned int);
 void _NiFreeAlias(void*);
 // Frees the stored shader target string and replaces it with a newly allocated copy of pcShaderTarget, unless it is null, empty, or already stored.
 // @fnv 0x00e95d60
-void __thiscall NiD3DHLSLPixelShader::FUN_00e95d60(const char* pcShaderTarget)
+// src: GAMEBRYO_SRC 0x00e95d60
+void __thiscall NiD3DHLSLPixelShader::SetShaderTarget(const char* pcShaderTarget)
 {
     char* pcNewShaderTarget;
     unsigned int uiLen;
@@ -458,7 +460,7 @@ struct S_00e58ea0_cls
 {
     int unk00;
     int FUN_00dbbc00();
-    void FUN_00e58a20(S_00e58ea0_Gen* a, S_00e58ea0_Gen* b, S_00e58ea0_Arr* pkOut);
+    void hkaSparseLSQMatrix_float_MultiplyAdd(S_00e58ea0_Gen* a, S_00e58ea0_Gen* b, S_00e58ea0_Arr* pkOut);
     S_00e58ea0_Gen* FUN_00e58ea0(S_00e58ea0_Gen* a1, S_00e58ea0_Gen* a2);
 };
 
@@ -468,7 +470,7 @@ S_00e58ea0_Gen* S_00e58ea0_cls::FUN_00e58ea0(S_00e58ea0_Gen* a1, S_00e58ea0_Gen*
     a1->InitFloatArray(a2->FUN_00cc0760(), a2->FUN_00e587a0(), 0.0f);
     S_00e58ea0_Arr tmpArr;
     tmpArr.InitFloatArray(FUN_00dbbc00(), a2->FUN_00e587a0(), 0.0f);
-    FUN_00e58a20(a1, a2, &tmpArr);
+    hkaSparseLSQMatrix_float_MultiplyAdd(a1, a2, &tmpArr);
     tmpArr.FUN_00c7b0f0();
     return a1;
 }
@@ -529,7 +531,7 @@ long __stdcall FUN_00ee6e40(void* pvCode, IUnk_e95** ppTable);
 
 struct FUN_00e95c40_cls
 {
-    void* FUN_00e988d0(void* pvCode);
+    void* NiD3DShaderProgramCreator_CreatePixelShader(void* pvCode);
     bool AttachShaderFromCode(Shader_e95* pkShader);
 };
 
@@ -539,7 +541,7 @@ bool FUN_00e95c40_cls::AttachShaderFromCode(Shader_e95* pkShader)
     void* pvCode = pkShader->GetCode();
     if (!pvCode)
         return false;
-    void* pvShader = FUN_00e988d0(pvCode);
+    void* pvShader = NiD3DShaderProgramCreator_CreatePixelShader(pvCode);
     if (!pvShader)
         return false;
     pkShader->SetShader(pvShader);
@@ -1083,7 +1085,7 @@ struct HLSLPixelShaderCtor96 : NiMemObject
 
 struct PixelShaderCreatorHLSL : NiD3DShaderProgramCreatorHLSL
 {
-    void* FUN_00e988d0(void* pvCode);
+    void* NiD3DShaderProgramCreator_CreatePixelShader(void* pvCode);
     HLSLPixelShader96* FUN_00e96b10(const void* pvBuffer, unsigned int uiBufferSize, const char* pcShaderName,
                                     const char* pcEntryPoint, const char* pcShaderTarget, bool bRecoverable);
 };
@@ -1112,7 +1114,7 @@ HLSLPixelShader96* PixelShaderCreatorHLSL::FUN_00e96b10(const void* pvSourceBuff
         return 0;
     }
 
-    void* hShader = FUN_00e988d0(pvCode);
+    void* hShader = NiD3DShaderProgramCreator_CreatePixelShader(pvCode);
     if (!hShader)
     {
         FUN_00aa0020(1, bRecoverable, "Failed CreatePixelShader call on %s\n", pcShaderName);
@@ -1150,14 +1152,14 @@ struct SolverMatrix
 {
     SolverVector* FUN_00e58ea0(SolverVector* out, SolverVector* other);
     int FUN_00dbbc00();
-    void FUN_00e58b10(SolverVector*, SolverVector*, SolverVector*);
-    void FUN_00e58a20(SolverVector*, SolverVector*, SolverVector*);
+    void hkaSparseLSQMatrix_float_Multiply(SolverVector*, SolverVector*, SolverVector*);
+    void hkaSparseLSQMatrix_float_MultiplyAdd(SolverVector*, SolverVector*, SolverVector*);
 };
 float DotProduct(SolverVector*, SolverVector*);
-__declspec(noalias) void FUN_00e58960(SolverVector*, float*, SolverVector*);
-void FUN_00e589a0(SolverVector*, SolverVector*);
+__declspec(noalias) void hkaCGSolver_float_ScaleAdd_00e58960(SolverVector*, float*, SolverVector*);
+void hkaCGSolver_float_CopyNegative(SolverVector*, SolverVector*);
 void NegateElements(SolverVector*);
-__declspec(noalias) void FUN_00e58900(SolverVector*, SolverVector*, float*, SolverVector*);
+__declspec(noalias) void hkaCGSolver_float_ScaleAdd(SolverVector*, SolverVector*, float*, SolverVector*);
 // Runs up to count iterations, returning true when the squared residual is below tolerance squared at an iteration check.
 // @fnv 0x00e58f10
 bool* ConjugateGradientSolve(bool* abConverged, SolverMatrix* matrix, SolverVector* apInitialGuess, SolverVector* apRhs,
@@ -1182,27 +1184,27 @@ bool* ConjugateGradientSolve(bool* abConverged, SolverMatrix* matrix, SolverVect
                 *abConverged = true;
                 goto done;
             }
-            matrix->FUN_00e58b10(&pMatVec, &p, &x);
+            matrix->hkaSparseLSQMatrix_float_Multiply(&pMatVec, &p, &x);
             {
                 float fStepSize = (float)((double)fResidualNormSq / DotProduct(&p, &pMatVec));
-                FUN_00e58960(apInitialGuess, &fStepSize, &p);
+                hkaCGSolver_float_ScaleAdd_00e58960(apInitialGuess, &fStepSize, &p);
                 ++i;
                 if (i % 50 == 0)
                 {
-                    FUN_00e589a0(&pResidual, apRhs);
-                    matrix->FUN_00e58a20(&pResidual, apInitialGuess, &x);
+                    hkaCGSolver_float_CopyNegative(&pResidual, apRhs);
+                    matrix->hkaSparseLSQMatrix_float_MultiplyAdd(&pResidual, apInitialGuess, &x);
                     NegateElements(&pResidual);
                 }
                 else
                 {
                     fStepSize = -fStepSize;
-                    FUN_00e58960(&pResidual, &fStepSize, &pMatVec);
+                    hkaCGSolver_float_ScaleAdd_00e58960(&pResidual, &fStepSize, &pMatVec);
                 }
             }
             float fPrevResidualNormSq = fResidualNormSq;
             fResidualNormSq = DotProduct(&pResidual, &pResidual);
             float beta = fResidualNormSq / fPrevResidualNormSq;
-            FUN_00e58900(&p, &pResidual, &beta, &p);
+            hkaCGSolver_float_ScaleAdd(&p, &pResidual, &beta, &p);
         } while (i < aiMaxIterations);
     *abConverged = false;
 done:
@@ -1576,7 +1578,7 @@ struct HLSLFileShaderCreator : NiD3DShaderProgramCreatorHLSL
     bool CompileShaderFromFile(const char* pcFileName, const char* pcEntryPoint, const char* pcShaderTarget,
                                void*& pvCode, unsigned int& uiCodeSize, ID3DXConstantTable*& pkConstantTable,
                                bool bRecoverable);
-    void* FUN_00e988d0(void* pvCode);
+    void* NiD3DShaderProgramCreator_CreatePixelShader(void* pvCode);
     LocalInlineHLSLPixelShader* FUN_00e96990(ShaderArgs args, const char* pcEntryPoint, const char* pcShaderTarget,
                                      bool bRecoverable);
 };
@@ -1605,7 +1607,7 @@ LocalInlineHLSLPixelShader* HLSLFileShaderCreator::FUN_00e96990(ShaderArgs args,
         delete pkPixelShader;
         return 0;
     }
-    void* hShader = FUN_00e988d0(pvCode);
+    void* hShader = NiD3DShaderProgramCreator_CreatePixelShader(pvCode);
     if (!hShader)
     {
         FUN_00aa0020(1, bRecoverable, "Failed CreatePixelShader call on %s\n", args.pcShaderName);
@@ -1662,7 +1664,7 @@ LocalInlineHLSLPixelShader* BufferPixelShaderCreator::FUN_00e96100(ID3DXBuffer* 
     if (!target)
         target = FUN_00ee6e28(DAT_0126fa28);
 
-    void* handle = FUN_00e988d0(code->GetBufferPointer());
+    void* handle = NiD3DShaderProgramCreator_CreatePixelShader(code->GetBufferPointer());
     if (!handle)
     {
         FUN_00aa0020(1, recoverable, "Failed CreatePixelShader call on %s\n", name);

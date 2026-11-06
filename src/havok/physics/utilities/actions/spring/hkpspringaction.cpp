@@ -272,7 +272,7 @@ struct S00d4d4a0_Obj
 
     S00d4d4a0_Obj* FUN_00d4d340(void* entityA, void* entityB, void* data);
 
-    S00d4d4a0_Obj* FUN_00d4d4a0(const hkpCloneArgD4A0& argA, const hkpCloneArgD4A0& argB) const;
+    S00d4d4a0_Obj* hkpSpringAction_clone(const hkpCloneArgD4A0& argA, const hkpCloneArgD4A0& argB) const;
 
     unsigned int unk00;
     unsigned short m_usMemSizeAndFlags;
@@ -296,7 +296,8 @@ struct S00d4d4a0_Obj
 
 // Returns null unless argA.m_type is 2 and argB.m_type is 0; else builds a copy on argA's entity pair and copies pivots, rest length, spring, damping and flags.
 // @fnv 0x00d4d4a0
-S00d4d4a0_Obj* S00d4d4a0_Obj::FUN_00d4d4a0(const hkpCloneArgD4A0& argA, const hkpCloneArgD4A0& argB) const
+// src: HAVOK_SRC 0x00d4d4a0
+S00d4d4a0_Obj* S00d4d4a0_Obj::hkpSpringAction_clone(const hkpCloneArgD4A0& argA, const hkpCloneArgD4A0& argB) const
 {
     if (argA.m_type != 2)
         return 0;

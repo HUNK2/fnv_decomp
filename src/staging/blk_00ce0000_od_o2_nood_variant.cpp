@@ -42,7 +42,8 @@ struct __declspec(align(16)) SortElem16
 typedef bool(__cdecl* SortElemLess)(const SortElem16& a, const SortElem16& b);
 
 // @fnv 0x00cf83c0
-void __cdecl FUN_00cf83c0(SortElem16* pArr, int d, int h, SortElemLess cmpLess)
+// src: HAVOK_LIB 0x00cf83c0
+void __cdecl hkAlgorithm_quickSortRecursive_struct_hkpBodyOperationEntry_bool(SortElem16* pArr, int d, int h, SortElemLess cmpLess)
 {
     int i, j;
     SortElem16 str;
@@ -72,7 +73,7 @@ begin:
     } while (i <= j);
     if (d < j)
     {
-        FUN_00cf83c0(pArr, d, j, cmpLess);
+        hkAlgorithm_quickSortRecursive_struct_hkpBodyOperationEntry_bool(pArr, d, j, cmpLess);
     }
     if (i < h)
     {
@@ -494,7 +495,7 @@ __forceinline hkMemoryAllocator& containerHeap()
     return static_cast<hkMemoryRouter*>(FUN_00c85750())->heap();
 }
 
-void __cdecl FUN_00c908c0(hkMemoryAllocator& alloc, void* array, int reqCapacity, int sizeElem);
+void __cdecl hkArrayUtil__reserve(hkMemoryAllocator& alloc, void* array, int reqCapacity, int sizeElem);
 
 template <typename T> __forceinline void hkConstructWithArray(T* t, int n, const T* tcopy)
 {
@@ -548,7 +549,7 @@ template <typename T> __forceinline void hkArrayBase<T>::GrowArrayCapacity(hkMem
     {
         int cap2 = 2 * capacity;
         int newSize = (n < cap2) ? cap2 : n;
-        FUN_00c908c0(alloc, this, newSize, sizeof(T));
+        hkArrayUtil__reserve(alloc, this, newSize, sizeof(T));
     }
 }
 template <typename T>

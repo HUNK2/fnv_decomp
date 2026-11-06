@@ -147,11 +147,12 @@ struct PresentFlag
 struct PhantomOverlapRemoval : hkpAabbPhantom
 {
     void NotifyAll(hkpCollidable* collidable, PresentFlag wasPresent);
-    void FUN_00cf2a60(hkpCollidable* collidable);
+    void hkpAabbPhantom_removeOverlappingCollidable(hkpCollidable* collidable);
 };
 // Searches the phantom's collidable list for the given collidable, notifies via NotifyAll whether it was present, and removes it by swapping in the last entry.
 // @fnv 0x00cf2a60
-void PhantomOverlapRemoval::FUN_00cf2a60(hkpCollidable* collidable)
+// src: HAVOK_LIB 0x00cf2a60
+void PhantomOverlapRemoval::hkpAabbPhantom_removeOverlappingCollidable(hkpCollidable* collidable)
 {
     int index;
     int count = m_ppOverlappingCollidables.m_iElementCount;
@@ -185,14 +186,14 @@ search_done:
 
 extern const hkClass DAT_0126902c;
 
-int __cdecl FUN_00d06f80(const void* pvChunk, int iNumBytes) throw();
+int __cdecl hkStatisticsCollector_getAllocatedSize(const void* pvChunk, int iNumBytes) throw();
 
 template <class T, class Allocator>
 void hkStatisticsCollector::addArray(const char* pcName, const hkArray<T, Allocator>& kArray)
 {
     if ((kArray.m_iCapacityState & 0x80000000) == 0 || m_reportInplaceAllocations)
     {
-        int iAllocated = FUN_00d06f80(kArray.m_data, kArray.getCapacity() * sizeof(T));
+        int iAllocated = hkStatisticsCollector_getAllocatedSize(kArray.m_data, kArray.getCapacity() * sizeof(T));
         AddMemoryChunk(3, pcName, kArray.m_data, kArray.GetLogicalSize() * sizeof(T), iAllocated);
     }
 }
@@ -217,14 +218,14 @@ void PhantomStatistics::CollectStatistics(hkStatisticsCollector* pkCollector,
 class PhantomOverlapInsertion : public hkpAabbPhantom
 {
   public:
-    int FUN_00ca94c0(void* p);
+    int hkpPhantom_fireCollidableAdded(void* p);
     void AddOverlap(void* p);
 };
 
 // @fnv 0x00cf2b50
 void PhantomOverlapInsertion::AddOverlap(void* pOverlap)
 {
-    if (FUN_00ca94c0(pOverlap) == 0)
+    if (hkpPhantom_fireCollidableAdded(pOverlap) == 0)
     {
         m_ppOverlappingCollidables.pushBack(pOverlap);
         m_bOrderDirty = true;
@@ -554,7 +555,7 @@ void PhantomBoundsReader::GetBounds(hkAabb* bounds)
 // The shared bounds setter takes hkAabbQ instead of hkAabb; its update helper is absent.
 struct PhantomBounds : public hkpAabbPhantom
 {
-    void __thiscall FUN_00d07ec0(hkAabb* bounds);
+    void __thiscall hkpPhantom_updateBroadPhase(hkAabb* bounds);
     void __thiscall FUN_00cf24a0(const hkAabb& source);
 };
 // Copies the minimum and maximum corners from source into the embedded hkAabb at offset 0xb0, then calls FUN_00d07ec0 on it.
@@ -564,7 +565,7 @@ void PhantomBounds::FUN_00cf24a0(const hkAabb& source)
     hkAabb* target = &m_kBounds;
     _mm_store_ps(&target->m_kMinimumCorner.x, _mm_load_ps(&source.m_kMinimumCorner.x));
     _mm_store_ps(&target->m_kMaximumCorner.x, _mm_load_ps(&source.m_kMaximumCorner.x));
-    FUN_00d07ec0(target);
+    hkpPhantom_updateBroadPhase(target);
 }
 
 __forceinline unsigned int hkpCollidable::GetFilterInfoForKey() const

@@ -154,7 +154,7 @@ __declspec(noinline) void __cdecl CountTail(const unsigned short* p, void* a1, u
     Analyze(p, count, s);
     Analyze((const unsigned short*)a1, a3, s);
 }
-void __cdecl FUN_00e4ebb0(const unsigned short* p, void* a1, unsigned int count, unsigned int a3, StatsB0* s);
+void __cdecl hkaTrackAnalysis_calcStats(const unsigned short* p, void* a1, unsigned int count, unsigned int a3, StatsB0* s);
 #include <xmmintrin.h>
 #include <math.h>
 struct PerTransformIn
@@ -196,8 +196,8 @@ struct PassBool
     {}
 };
 typedef void(__cdecl* QsAnalyzeFn)(TrackBuffers_e50650*, void*, void*, PassBool);
-void __cdecl FUN_00e4ead0(const unsigned short* mask, unsigned int count, TrackStatistics* result);
-void __cdecl FUN_00e4ebb0(const unsigned short* maskT, const unsigned short* maskF, unsigned int numT,
+void __cdecl hkaTrackAnalysis_calcStatsQsTransform(const unsigned short* mask, unsigned int count, TrackStatistics* result);
+void __cdecl hkaTrackAnalysis_calcStats(const unsigned short* maskT, const unsigned short* maskF, unsigned int numT,
                           unsigned int numF, TrackStatistics* result);
 struct FloatLocalArray
 {
@@ -237,7 +237,7 @@ struct FloatLocalArray
         freeStorage(hkContainerHeapAllocator().get(&values));
     }
 };
-void __cdecl FUN_00e50920(const PerTransformIn& input, const PerFloatIn& finput, unsigned short* staticMask,
+void __cdecl hkaTrackAnalysis_analyze(const PerTransformIn& input, const PerFloatIn& finput, unsigned short* staticMask,
                           float* staticDOFs, hkBool displayStatsReport);
 struct StatisticsResult
 {
@@ -259,7 +259,7 @@ __declspec(noinline) void AnalyzeTrackBits(const unsigned short* values, unsigne
         result->field9 += ((v >> 9) & 1) + ((v >> 8) & 1) + ((v >> 7) & 1);
     }
 }
-void __cdecl FUN_00e4ead0(const unsigned short* mask, unsigned int count, StatisticsResult* result);
+void __cdecl hkaTrackAnalysis_calcStatsQsTransform(const unsigned short* mask, unsigned int count, StatisticsResult* result);
 
 struct SplitVector
 {
@@ -297,7 +297,8 @@ struct SplitInput
 };
 
 // @fnv 0x00e4ecb0
-void FUN_00e4ecb0(const SplitInput& input, float* output)
+// src: HAVOK_LIB 0x00e4ecb0
+void hkaTrackAnalysis_channelSplit(const SplitInput& input, float* output)
 {
     const unsigned frames = input.frameCount;
     const unsigned width = frames > input.paddedCount ? frames : input.paddedCount;

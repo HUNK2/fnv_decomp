@@ -263,7 +263,7 @@ struct Body {
     int mode;
     HitArray* FUN_00cac900();
     S00c73170_Vec* FUN_00cac910();
-    void FUN_00cac920(S00c73170_Vec*);
+    void hkpCharacterProxy_setPosition(S00c73170_Vec*);
     void FUN_00cac960(S00c73170_Vec*);
 };
 struct Gravity {     unsigned int unk000;
@@ -1003,7 +1003,7 @@ extern "C" int __fastcall FUN_00c73170(MovementController* self, void*, Movement
             S00c73170_Vec position=*target->FUN_00cac910();
             float gravity=DAT_01267bb4->acceleration*self->time4e8;
             position(2)=self->value578+DAT_01267bb0+gravity;
-            target->FUN_00cac920(&position);
+            target->hkpCharacterProxy_setPosition(&position);
             position(2)=gravity+DAT_01267bb0;
             self->FUN_00cac110();
         }

@@ -47,7 +47,7 @@ public:
     virtual void* SelectPlatformFormat(int ePlatform, void* kFmtPrefs, void* kSrcFmt, void* kDesiredFmt);
     virtual NiPixelData* FUN_00a78570(int a1, int a2, const NiPixelData& kSrc, int a4);
     virtual void* FUN_00a7b0a0();
-    virtual const NiPixelFormat* FUN_00a786e0(const NiTexture::TextureFormatPreferences& prefs,
+    virtual const NiPixelFormat* FindClosestPixelFormatDX9(const NiTexture::TextureFormatPreferences& prefs,
         const NiPixelFormat& src, const NiPixelFormat& dest);
     virtual const NiPixelFormat* SelectFormat(const NiTexture::TextureFormatPreferences& kPrefs,
         const NiPixelFormat& kSrcFmt, const NiPixelFormat& kDestFmt);

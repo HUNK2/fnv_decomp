@@ -33,7 +33,7 @@ struct S00e39e90_Info
     int unk0C;
     hkArray<hkpTyremarksWheel*> m_kTyremarksWheels;
 
-    void __thiscall FUN_00e39e90(int arg1, int wheelIndex, hkpTyremark* out);
+    void __thiscall hkpTyremarksInfo_getWheelTyremarksStrips(int arg1, int wheelIndex, hkpTyremark* out);
 };
 
 struct Scalar4
@@ -395,7 +395,8 @@ __forceinline float toFloat(__m128 v)
 }
 
 // @fnv 0x00e39fd0
-void hkpTyremarksInfo::FUN_00e39fd0(float p1, void* vehicle)
+// src: HAVOK_SRC 0x00e39fd0
+void hkpTyremarksInfo::updateTyremarksInfo(float p1, void* vehicle)
 {
     P2* p2 = static_cast<P2*>(vehicle);
     V4 A;

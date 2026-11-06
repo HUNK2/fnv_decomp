@@ -970,7 +970,7 @@ struct Scene : NiMemObject
     void FUN_00450f90(bool);
     Scene* FUN_00a5d680();
     void FUN_00a59c60(const NiUpdateData&);
-    Controller* FUN_00a5c570(const NiRTTI*);
+    Controller* NiObjectNET_GetController(const NiRTTI*);
     Bound* FUN_0043d450();
     void FUN_00b5ca70(Scene*, float);
 };
@@ -1043,7 +1043,7 @@ void RouletteMenu::InitRouletteScene()
     FUN_007bf840();
     NiUpdateData found(0.0f, false, false);
     (*(SceneHolder*)&g_011da8a0).FUN_00559450()->FUN_00a59c60(found);
-    Controller* update = reinterpret_cast<Scene*&>(m_pRouletteWheel)->FUN_00a5c570(&DAT_011f36ac);
+    Controller* update = reinterpret_cast<Scene*&>(m_pRouletteWheel)->NiObjectNET_GetController(&DAT_011f36ac);
     if (update)
     {
         reinterpret_cast<Controller*&>(m_pAnimCtrl) = update;

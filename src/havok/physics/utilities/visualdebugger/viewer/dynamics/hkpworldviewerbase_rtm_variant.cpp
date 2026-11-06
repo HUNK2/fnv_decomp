@@ -2,7 +2,7 @@
 // with VC9 RTM (cl 15.00.21022.08, the compiler the game was built with). Declarations copied from that unit's skeleton.
 
 
-unsigned int FUN_00ddcdd0(unsigned int auiValue, unsigned int auiIndex, unsigned int auiFieldValue);
+unsigned int hkpMeshWeldingUtility_modifyCombinedEdgesBitcode(unsigned int auiValue, unsigned int auiIndex, unsigned int auiFieldValue);
 int __cdecl ExtractBitField(unsigned short ausValue, char acShiftIndex);
 struct DDCC60BaseObject
 {
@@ -66,7 +66,7 @@ struct CpuObject
 extern double DAT_010cd5a8;
 extern double DAT_0101ff40;
 int FindAngleIndex(float angle);
-int __cdecl FUN_00cb0fa0(const char* pcA, const char* pcB);
+int __cdecl hkString_strCmp(const char* pcA, const char* pcB);
 class __declspec(novtable) BDDCCB0ReferencedObject
 {
   public:

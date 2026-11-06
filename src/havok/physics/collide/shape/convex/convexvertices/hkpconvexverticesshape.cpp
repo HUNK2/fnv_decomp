@@ -630,8 +630,8 @@ void hkpConvexVerticesShape::GetVerticesFromIds(const hkpVertexId* ids, int numI
 
 class SpliceAllocator;
 struct AlignedSpliceVector {LocalM128 value;};
-void __cdecl FUN_00c908c0(SpliceAllocator& allocator,void* array,int capacity,int elementBytes);
-void __cdecl FUN_00d2cc70(void* destination,const void* source,unsigned bytes);
+void __cdecl hkArrayUtil__reserve(SpliceAllocator& allocator,void* array,int capacity,int elementBytes);
+void __cdecl hkMemUtil_memMove(void* destination,const void* source,unsigned bytes);
 struct VectorSpliceArray {
     AlignedSpliceVector* data;
     int size;
@@ -646,9 +646,9 @@ void VectorSpliceArray::FUN_00d5a410(SpliceAllocator& allocator,int first,int re
     if((capacityAndFlags&0x3fffffff)<newSize) {
         int requested=(capacityAndFlags&0x3fffffff)*2;
         if(newSize>=requested)requested=newSize;
-        FUN_00c908c0(allocator,this,requested,sizeof(AlignedSpliceVector));
+        hkArrayUtil__reserve(allocator,this,requested,sizeof(AlignedSpliceVector));
     }
-    FUN_00d2cc70(data+first+insertCount,data+first+removeCount,tailCount*sizeof(AlignedSpliceVector));
+    hkMemUtil_memMove(data+first+insertCount,data+first+removeCount,tailCount*sizeof(AlignedSpliceVector));
     AlignedSpliceVector* destination=data+first;
     for(int i=0;i<insertCount;++i) {
         LocalM128 value=source[i].value;
@@ -746,12 +746,13 @@ struct MatchShape : public hkpShape
     int m_rotatedSize;
     int m_rotatedCapacity;
     int m_iStridedVertexCount;
-    void FUN_00d58ee0(const MatchVector& direction, MatchVector& supportingVertexOut) const;
+    void hkpConvexVerticesShape_getSupportingVertexImpl(const MatchVector& direction, MatchVector& supportingVertexOut) const;
 };
 
 // Finds the vertex with the maximum dot product against direction and writes its position and index to supportingVertexOut.
 // @fnv 0x00d58ee0
-void MatchShape::FUN_00d58ee0(const MatchVector& direction, MatchVector& supportingVertexOut) const
+// src: HAVOK_SRC 0x00d58ee0
+void MatchShape::hkpConvexVerticesShape_getSupportingVertexImpl(const MatchVector& direction, MatchVector& supportingVertexOut) const
 {
     const hkFourTransposedPointsQ* fv = m_kRotatedVertices;
     static const MatchVector minusMax(-3.40282e+38f);
@@ -1021,11 +1022,12 @@ struct ConvexVertsShape {
     int m_iStridedVertexCount;
     ConvexPiece* m_piece;
     hkArrayBase<V4> m_kPlaneArray;
-    hkBoolRet FUN_00d592a0(const RayInput& input, RayOutput& results);
+    hkBoolRet hkpConvexVerticesShape_castRayImpl(const RayInput& input, RayOutput& results);
 };
 
 // @fnv 0x00d592a0
-hkBoolRet ConvexVertsShape::FUN_00d592a0(const RayInput& input, RayOutput& results)
+// src: HAVOK_SRC 0x00d592a0
+hkBoolRet ConvexVertsShape::hkpConvexVerticesShape_castRayImpl(const RayInput& input, RayOutput& results)
 {
     TimerMark("TtrcConvexVert", 0);
     if (m_kPlaneArray.m_iElementCount == 0) {
@@ -1143,7 +1145,7 @@ static __forceinline void VertArray96Q_SetSizeAndGrow(hkArrayBase<hkVector4q>& s
         {
             int cap2 = cap + cap;
             int newSize = (n < cap2) ? cap2 : n;
-            FUN_00c908c0(reinterpret_cast<SpliceAllocator&>(alloc), (&self), newSize, sizeof(hkVector4q));
+            hkArrayUtil__reserve(reinterpret_cast<SpliceAllocator&>(alloc), (&self), newSize, sizeof(hkVector4q));
         }
         self.m_iElementCount = n;
     }

@@ -3320,7 +3320,7 @@ extern void ReleaseAllEntries(void* a, void* b, void* c);
 extern unsigned char FindAndPromoteEntry(void* a, void* b);
 extern void FUN_00dae3a0(void* a, void* b, int c, void* d, void* e);
 extern int FUN_00daf1e0(void* a, void* b, void* c, void* d, void* e, void* f, void* g, void* h, void* i, int j);
-extern void FUN_00dae340(void* a, int b);
+extern void _hkGskManifold_removePoint(void* a, int b);
 static __forceinline int BuildContacts(void* a, void* b, void* c, void* d, void* e, void* f, void* g, void* h, void* i,
                                        int j)
 {
@@ -3511,7 +3511,7 @@ AfterV:
             *(char**)&p6->m_00 += 0x30;
             goto a;
         Dae340:
-            FUN_00dae340(p4, 0);
+            _hkGskManifold_removePoint(p4, 0);
             goto RestoreA;
         }
         if (rr == 5)

@@ -63,12 +63,12 @@ extern "C" LocalM128 _mm_setzero_ps(void);
 
 extern char const* const g_01268970_arg1;
 
-void __cdecl FUN_00c90360(char const*, char const* const*);
+void __cdecl hkReferencedObject_calcContentStatistics(char const*, char const* const*);
 
 // @fnv 0x00d1fee0
 void __cdecl FUN_00d1fee0(char const* arg1, char const* const* arg2)
 {
-    FUN_00c90360(arg1, &g_01268970_arg1);
+    hkReferencedObject_calcContentStatistics(arg1, &g_01268970_arg1);
 }
 
 // The triangle has three collision spheres, plus three for its extrusion.
@@ -81,14 +81,15 @@ int hkpTriangleShape::GetNumCollisionSpheres() const
 
 // edge is a triangle edge index (0, 1, or 2).
 // @fnv 0x00d1fef0
-static __declspec(noinline) int __cdecl FUN_00d1fef0(unsigned short weldingInfo, int edge)
+// src: HAVOK_LIB 0x00d1fef0
+static __declspec(noinline) int __cdecl getSingleEdgeBitcode(unsigned short weldingInfo, int edge)
 {
     char shift = edge * 5;
     return (weldingInfo >> shift) & 31;
 }
 int __cdecl ExtractEdge(unsigned short weldingInfo, int edge)
 {
-    return FUN_00d1fef0(weldingInfo, edge);
+    return getSingleEdgeBitcode(weldingInfo, edge);
 }
 
 extern float DAT_0106c2e0;
@@ -341,7 +342,7 @@ struct SupportShape {
     virtual void slot3c(); virtual void slot40();
     virtual void getSupport(VectorOperations*);
 };
-extern float __cdecl FUN_00c9e0f0(float, float);
+extern float __cdecl NiMin(float, float);
 
 // The shared reference-based welding signature changes code at 0x00d203f0; retain this pointer-based adapter.
 class TriangleWelding : public hkpTriangleShape {
@@ -419,7 +420,7 @@ int TriangleWelding::WeldContactPoint(unsigned short* indices, unsigned char* co
             faceTemporary.value = _mm_mul_ps(_mm_load_ps1(DAT_011b3b38 + weldingType), faceTemporary.value);
             VectorOperations localPosition;
             localPosition.FUN_00c7f690(transform, position);
-            separation = FUN_00c9e0f0(scalar(dot3(_mm_sub_ps(localPosition.value, *(const LocalM128*)&m_kVertexA), faceTemporary.value)), separation);
+            separation = NiMin(scalar(dot3(_mm_sub_ps(localPosition.value, *(const LocalM128*)&m_kVertexA), faceTemporary.value)), separation);
         } else {
             VectorOperations support;
             source->getSupport(&support);

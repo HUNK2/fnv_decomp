@@ -310,12 +310,13 @@ struct S_00eb8250_Edges
     void* m_e2;
 };
 
-int __cdecl FUN_00eb7dc0(void* a, void* b, S_00eb8250_Tri* tri, LocalVec3* n, float d, int p3, float p4, int p5,
+int __cdecl NiOBBLeaf_TestEdgeTri(void* a, void* b, S_00eb8250_Tri* tri, LocalVec3* n, float d, int p3, float p4, int p5,
                          int p6);
 
 // Computes the triangle's normal and plane offset, then tests it against all three edge pairs via FUN_00eb7dc0, OR-ing the results.
 // @fnv 0x00eb8250
-int __cdecl FUN_00eb8250(S_00eb8250_Edges* e, S_00eb8250_Tri* tri, int p3, float p4, int p5, int p6)
+// src: GAMEBRYO_LIB 0x00eb8250
+int __cdecl NiOBBLeaf_FindIntersection(S_00eb8250_Edges* e, S_00eb8250_Tri* tri, int p3, float p4, int p5, int p6)
 {
     LocalVec3 u, v, n;
     u.x = tri->m_kPointB->x - tri->m_kPointA->x;
@@ -329,9 +330,9 @@ int __cdecl FUN_00eb8250(S_00eb8250_Edges* e, S_00eb8250_Tri* tri, int p3, float
     n.z = u.x * v.y - u.y * v.x;
     const LocalVec3& a = *tri->m_kPointA;
     float d = a.x * n.x + a.y * n.y + a.z * n.z;
-    int r = FUN_00eb7dc0(e->m_e0, e->m_e1, tri, &n, d, p3, p4, p5, p6);
-    r |= FUN_00eb7dc0(e->m_e0, e->m_e2, tri, &n, d, p3, p4, p5, p6);
-    r |= FUN_00eb7dc0(e->m_e1, e->m_e2, tri, &n, d, p3, p4, p5, p6);
+    int r = NiOBBLeaf_TestEdgeTri(e->m_e0, e->m_e1, tri, &n, d, p3, p4, p5, p6);
+    r |= NiOBBLeaf_TestEdgeTri(e->m_e0, e->m_e2, tri, &n, d, p3, p4, p5, p6);
+    r |= NiOBBLeaf_TestEdgeTri(e->m_e1, e->m_e2, tri, &n, d, p3, p4, p5, p6);
     return r;
 }
 
@@ -414,13 +415,14 @@ struct FNV_PhysObj
     FNV_Shape m_8c;
 
     int RunSwapTests(FNV_Node* node);
-    int FUN_00eb85d0(FNV_PhysObj* pObj, FNV_Shape* a2, FNV_Shape* a3, FNV_Shape* a4, FNV_Shape* a5, unsigned char* a6);
+    int NiOBBLeaf_FaceFaceCollision(FNV_PhysObj* pObj, FNV_Shape* a2, FNV_Shape* a3, FNV_Shape* a4, FNV_Shape* a5, unsigned char* a6);
 };
 
 extern int ComputeContactTime(FNV_PhysObj* a, FNV_PhysObj* b, int* c, FNV_Vec3* d);
 
 // @fnv 0x00eb85d0
-int FNV_PhysObj::FUN_00eb85d0(FNV_PhysObj* pObj, FNV_Shape* pShape0, FNV_Shape* pShape1, FNV_Shape* pShape2,
+// src: GAMEBRYO_LIB 0x00eb85d0
+int FNV_PhysObj::NiOBBLeaf_FaceFaceCollision(FNV_PhysObj* pObj, FNV_Shape* pShape0, FNV_Shape* pShape1, FNV_Shape* pShape2,
                               FNV_Shape* pShape3, unsigned char* pbResult)
 {
     FNV_Node node;
@@ -476,7 +478,7 @@ struct S_00eb8680_Sub
     int unk70;
     int unk74;
     int unk78;
-    int FUN_00eba680(S_00eb8680_Sub* other);
+    int NiOBBox_TestIntersection(S_00eb8680_Sub* other);
     void UpdateWorldBounds(void* p);
 };
 
@@ -511,7 +513,7 @@ bool S_00eb8680_Obj::FUN_00eb8680(S_00eb8680_Obj* other, unsigned char* pDataA, 
         other->sub.UpdateWorldBounds(pDataB + 0x68);
         other->unk88 = k2;
     }
-    if (!sub.FUN_00eba680(&other->sub))
+    if (!sub.NiOBBox_TestIntersection(&other->sub))
         return false;
     if (other->vfn1() || count == 0 || (!other->unk80 && !other->unk84))
         return true;
@@ -587,7 +589,7 @@ struct S_00eb8790_Volume
     int unk74;
     int unk78;
     void UpdateWorldBounds(const S_00eb8790_Transform& transform);
-    int FUN_00eba680(const S_00eb8790_Volume& other);
+    int NiOBBox_TestIntersection(const S_00eb8790_Volume& other);
 };
 
 struct S_00eb8790_Node
@@ -598,8 +600,8 @@ struct S_00eb8790_Node
     virtual int FUN_00eb8790(S_00eb8790_Node* other, int a1, int a2, S_00eb8790_Body* bodyA, S_00eb8790_Body* bodyB,
                              int a5, int depth, int stampA, int stampB, int a9);
 
-    int FUN_00eb85d0(S_00eb8790_Node* other, int a1, int a2, S_00eb8790_Body* bodyA, S_00eb8790_Body* bodyB, int a9);
-    int FUN_00eb9b00(S_00eb8790_Node* other, int a1, int a2, S_00eb8790_Body* bodyA, S_00eb8790_Body* bodyB, int a9);
+    int NiOBBLeaf_FaceFaceCollision(S_00eb8790_Node* other, int a1, int a2, S_00eb8790_Body* bodyA, S_00eb8790_Body* bodyB, int a9);
+    int NiOBBNode_BoxBoxCollision(S_00eb8790_Node* other, int a1, int a2, S_00eb8790_Body* bodyA, S_00eb8790_Body* bodyB, int a9);
 
     S_00eb8790_Volume m_iBufferSize;  // 04
     S_00eb8790_Node* m_childA;        // 80
@@ -621,7 +623,7 @@ int S_00eb8790_Node::FUN_00eb8790(S_00eb8790_Node* other, int a1, int a2, S_00eb
         other->m_iBufferSize.UpdateWorldBounds(bodyB->m_kMotionTransform);
         other->m_stamp = stampB;
     }
-    if (!m_iBufferSize.FUN_00eba680(other->m_iBufferSize))
+    if (!m_iBufferSize.NiOBBox_TestIntersection(other->m_iBufferSize))
         return 0;
     if (!other->isLeaf())
     {
@@ -636,11 +638,11 @@ int S_00eb8790_Node::FUN_00eb8790(S_00eb8790_Node* other, int a1, int a2, S_00eb
                 return result;
             return 0;
         }
-        return FUN_00eb9b00(other, a1, a2, bodyA, bodyB, a9);
+        return NiOBBNode_BoxBoxCollision(other, a1, a2, bodyA, bodyB, a9);
     }
     if (a5 < 0 && depth < 0)
-        return FUN_00eb85d0(other, a1, a2, bodyA, bodyB, a9);
-    return FUN_00eb9b00(other, a1, a2, bodyA, bodyB, a9);
+        return NiOBBLeaf_FaceFaceCollision(other, a1, a2, bodyA, bodyB, a9);
+    return NiOBBNode_BoxBoxCollision(other, a1, a2, bodyA, bodyB, a9);
 }
 
 // ComputeBarycentric: barycentric-style solve over three edge vectors from a base point.
@@ -1259,7 +1261,8 @@ int __cdecl IntersectPlane(float, LocalVec3*, float, int, void*, void*, float*, 
                            LocalVec3*);
 // Clips barycentric coordinates to the positive octant and updates the bound and point when a nearer candidate is found.
 // @fnv 0x00eb7dc0
-int __cdecl FUN_00eb7dc0(void* a, void* b, S_00eb8250_Tri* apTriangle, LocalVec3* apNormal, float d, int p3,
+// src: GAMEBRYO_LIB 0x00eb7dc0
+int __cdecl NiOBBLeaf_TestEdgeTri(void* a, void* b, S_00eb8250_Tri* apTriangle, LocalVec3* apNormal, float d, int p3,
                          float p4, volatile int apNearestDistance, int apHitPoint)
 {
     float t;
@@ -1387,7 +1390,7 @@ inside:
     return 1;
 }
 
-extern "C" __declspec(noalias) int __cdecl FUN_00eb8250(S_00eb8250_Edges*, S_00eb8250_Tri*, const NiPoint3&, float,
+extern "C" __declspec(noalias) int __cdecl NiOBBLeaf_FindIntersection(S_00eb8250_Edges*, S_00eb8250_Tri*, const NiPoint3&, float,
                                                         float*, NiPoint3*);
 struct PhysObjInfo
 {
@@ -1434,11 +1437,11 @@ int ComputeContactTime(PhysObj_eb83b0* apObjA, PhysObj_eb83b0* apObjB, float* pf
     NiPoint3 vContactA, vContactB;
     NiPoint3 relativeVelocity;
     relativeVelocity = pInfoA->velocity - *velocityB;
-    int hitA = FUN_00eb8250((S_00eb8250_Edges*)&apObjA->m_8c, (S_00eb8250_Tri*)&apObjB->m_8c, relativeVelocity,
+    int hitA = NiOBBLeaf_FindIntersection((S_00eb8250_Edges*)&apObjA->m_8c, (S_00eb8250_Tri*)&apObjB->m_8c, relativeVelocity,
                             duration, &timeA, &vContactA);
     float timeB = 3.402823466e+38F;
     relativeVelocity = *velocityB - pInfoA->velocity;
-    int hitB = FUN_00eb8250((S_00eb8250_Edges*)&apObjB->m_8c, (S_00eb8250_Tri*)&apObjA->m_8c, relativeVelocity,
+    int hitB = NiOBBLeaf_FindIntersection((S_00eb8250_Edges*)&apObjB->m_8c, (S_00eb8250_Tri*)&apObjA->m_8c, relativeVelocity,
                             duration, &timeB, &vContactB);
     if (hitA)
     {

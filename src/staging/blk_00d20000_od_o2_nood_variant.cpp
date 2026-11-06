@@ -446,7 +446,7 @@ struct LinearCastState
 
 struct CastObj
 {
-    void __thiscall FUN_00d302d0(int a, int b, int c, LinearCastState& s);
+    void __thiscall hkpBvTreeAgent_processCollision(int a, int b, int c, LinearCastState& s);
     void __thiscall FUN_00d31610(int a1, int a2, int a3, LinearCastState& st);
 };
 
@@ -456,7 +456,7 @@ void __thiscall CastObj::FUN_00d31610(int a1, int a2, int a3, LinearCastState& s
     LinearCastState* s = &st;
     float oldDistance = s->m_fClosestPointDistanceSquared;
     LinearCastVertex* v = s->m_kRayEnd;
-    FUN_00d302d0(a2, a1, a3, st);
+    hkpBvTreeAgent_processCollision(a2, a1, a3, st);
     for (; v < s->m_kRayEnd; v++)
     {
         hkVector4 w;
@@ -727,7 +727,7 @@ struct Simplex
 
 struct AgentBase
 {
-    void FUN_00d324e0(int a, int b, int c, Simplex* s);
+    void hkpHeightFieldAgent_processCollision(int a, int b, int c, Simplex* s);
 };
 
 struct Agent : AgentBase
@@ -740,7 +740,7 @@ void Agent::FUN_00d32850(int a, int b, int c, Simplex* s)
 {
     SimplexVertex* v = s->m_kRayEnd;
     float oldDistance = s->m_fClosestPointDistanceSquared;
-    AgentBase::FUN_00d324e0(b, a, c, s);
+    AgentBase::hkpHeightFieldAgent_processCollision(b, a, c, s);
     for (; v < s->m_kRayEnd; v++)
     {
         const LocalM128* pb = &v->m_kPointB;
@@ -843,13 +843,14 @@ inline hkpCollisionDispatcher::Agent3FunctionTable::Agent3FunctionTable()
     m_pAgentFunction7 = 0;
 }
 
-void __cdecl FUN_00d367b0(hkpCollisionDispatcher::Agent3FunctionTable& kFuncs);
+void __cdecl hkpCollectionAgent3_initAgentFunc(hkpCollisionDispatcher::Agent3FunctionTable& kFuncs);
 
 // @fnv 0x00d367d0
-void __cdecl FUN_00d367d0(hkpCollisionDispatcher* pkDispatcher)
+// src: HAVOK_LIB 0x00d367d0
+void __cdecl hkpCollectionAgent3_registerAgent3(hkpCollisionDispatcher* pkDispatcher)
 {
     __declspec(align(16)) hkpCollisionDispatcher::Agent3FunctionTable kFuncs;
-    FUN_00d367b0(kFuncs);
+    hkpCollectionAgent3_initAgentFunc(kFuncs);
     pkDispatcher->AddEntry(&kFuncs, 0x12, 7);
 }
 
@@ -902,7 +903,7 @@ class hkpSymmetricAgentFlipCastCollector : public hkpCdPointCollector
 
 struct AgentBase
 {
-    void FUN_00d36960(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const ShapeSweepParameters& input,
+    void hkpListAgent_linearCast(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const ShapeSweepParameters& input,
                       hkpCdPointCollector& collector, hkpCdPointCollector* startCollector) throw();
 };
 
@@ -923,11 +924,11 @@ void Agent::FUN_00d36e80(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const S
     if (startCollector)
     {
         hkpSymmetricAgentFlipCastCollector flippedStartCollector(input.m_path, *startCollector);
-        AgentBase::FUN_00d36960(bodyB, bodyA, flippedInput, flippedCollector, &flippedStartCollector);
+        AgentBase::hkpListAgent_linearCast(bodyB, bodyA, flippedInput, flippedCollector, &flippedStartCollector);
     }
     else
     {
-        AgentBase::FUN_00d36960(bodyB, bodyA, flippedInput, flippedCollector, 0);
+        AgentBase::hkpListAgent_linearCast(bodyB, bodyA, flippedInput, flippedCollector, 0);
     }
 }
 }  // namespace fnv_00d36e80
@@ -987,7 +988,7 @@ struct Simplex
 
 struct AgentBase
 {
-    void FUN_00d378e0(int a, int b, int c, Simplex* s);
+    void hkpMultiRayConvexAgent_processCollision(int a, int b, int c, Simplex* s);
 };
 
 struct Agent : AgentBase
@@ -1000,7 +1001,7 @@ void Agent::FUN_00d37c10(int a, int b, int c, Simplex* s)
 {
     SimplexVertex* v = s->m_kRayEnd;
     float oldDistance = s->m_fClosestPointDistanceSquared;
-    AgentBase::FUN_00d378e0(b, a, c, s);
+    AgentBase::hkpMultiRayConvexAgent_processCollision(b, a, c, s);
     for (; v < s->m_kRayEnd; v++)
     {
         const LocalM128* pb = &v->m_kPointB;
@@ -1048,7 +1049,8 @@ hkpAgentData* __cdecl FUN_00d39390(const AgentSubtypeMarker&, FourByteState*, hk
                                  WorldOperationEntry&);
 
 // @fnv 0x00d39840
-void __cdecl FUN_00d39840(hkpCollisionDispatcher* pkDispatcher)
+// src: HAVOK_LIB 0x00d39840
+void __cdecl hkCapsuleTriangleAgent3_registerAgent3(hkpCollisionDispatcher* pkDispatcher)
 {
     __declspec(align(16)) hkpCollisionDispatcher::Agent3FunctionTable kFuncs;
     // This registration helper applies the defaults in its original store order.
@@ -1459,7 +1461,7 @@ struct __declspec(align(16)) D2fCollector : D2fRayHitCollector
 
 struct D2fWorld
 {
-    void FUN_00d315a0(int a, int b, D2fInput* in, D2fCollector* c1, D2fCollector* c2);
+    void hkpBvTreeAgent_linearCast(int a, int b, D2fInput* in, D2fCollector* c1, D2fCollector* c2);
     void FUN_00d2f460(int a1, int a2, const D2fInput* a3, int a4, void* a5);
 };
 
@@ -1473,11 +1475,11 @@ void D2fWorld::FUN_00d2f460(int a1, int a2, const D2fInput* a3, int a4, void* a5
     if (a5)
     {
         D2fCollector c2(a3->m_vec, a5);
-        FUN_00d315a0(a2, a1, &tmp, &c1, &c2);
+        hkpBvTreeAgent_linearCast(a2, a1, &tmp, &c1, &c2);
     }
     else
     {
-        FUN_00d315a0(a2, a1, &tmp, &c1, 0);
+        hkpBvTreeAgent_linearCast(a2, a1, &tmp, &c1, 0);
     }
 }
 

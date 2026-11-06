@@ -49,7 +49,7 @@ struct MemRouter
     }
 };
 void* __cdecl FUN_00c85750();
-void __cdecl FUN_00c908c0(MemAllocator* alloc, VecArray* arr, int newCap, int elemSize);
+void __cdecl hkArrayUtil__reserve(MemAllocator* alloc, VecArray* arr, int newCap, int elemSize);
 static __forceinline float distanceSquared(LocalM128 a, LocalM128 b)
 {
     LocalM128 v = _mm_sub_ps(a, b);

@@ -65,8 +65,8 @@ public:
     hkReal m_fMotorDamping;
     hkReal m_fMaxErrorDistance;
 
-    void FUN_00e3af80(bool bFlag, unsigned int* pOut);
-    void FUN_00e3af40(::ConstraintInfo& info);
+    void getRuntimeInfo_00e3af80(bool bFlag, unsigned int* pOut);
+    void getConstraintInfo_00e3af40(::ConstraintInfo& info);
     void FUN_00e3b0f0(const SixteenWordFloatRecord& inNonConst, QueryResultSchema& out) volatile;
     hkpStiffSpringChainData* DestroyAndFree(unsigned int uiFlags) throw();
 
@@ -78,7 +78,8 @@ public:
 };
 
 // @fnv 0x00e3af80
-void hkpStiffSpringChainData::FUN_00e3af80(bool bFlag, unsigned int* pOut)
+// src: HAVOK_LIB 0x00e3af80
+void hkpStiffSpringChainData::getRuntimeInfo_00e3af80(bool bFlag, unsigned int* pOut)
 {
     if (bFlag)
     {
@@ -100,7 +101,8 @@ int __cdecl FUN_00e3af30()
 }
 
 // @fnv 0x00e3af40
-void hkpStiffSpringChainData::FUN_00e3af40(::ConstraintInfo& info)
+// src: HAVOK_LIB 0x00e3af40
+void hkpStiffSpringChainData::getConstraintInfo_00e3af40(::ConstraintInfo& info)
 {
     info.m_kBridgeAtoms = &m_kBridgeAtoms;
     info.m_iSolverResultCount = 0;

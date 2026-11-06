@@ -184,7 +184,7 @@ void FUN_00dc8080_class::FUN_00dc8080()
 }
 }  // namespace fnv_00dc8080
 
-int __cdecl FUN_00cb0fa0(const char*, const char*);
+int __cdecl hkString_strCmp(const char*, const char*);
 
 static __forceinline int stringHash(const char* str)
 {
@@ -211,7 +211,7 @@ int FUN_00d87820_Class::FindStringKey(int key)
     while (table->m_kPrimitiveElement[slot] != 0xffffffffu)
     {
         if (table->m_kPrimitiveElement[slot] == (unsigned int)hash &&
-            FUN_00cb0fa0(str, (const char*)table->m_kPrimitiveElement[table->m_iPairCount + slot + 1]) == 0)
+            hkString_strCmp(str, (const char*)table->m_kPrimitiveElement[table->m_iPairCount + slot + 1]) == 0)
             return slot;
         slot = (slot + 1) & table->m_iPairCount;
     }
@@ -319,12 +319,13 @@ class FUN_00d874d0_s
     int m_iPairCount;
 
     void FUN_00d874d0(const char* pcKey, int iValue);
-    void FUN_00d87860(int iNewCap);
+    void hkCachedHashMap_struct_hkStringMapOperations_struct_hkContainerHeapAllocator_resizeTable(int iNewCap);
 };
 
 // Grows the primitive element array to iNewCap, re-inserts existing pairs via FUN_00d874d0, and releases the old block.
 // @fnv 0x00d87860
-void FUN_00d874d0_s::FUN_00d87860(int iNewCap)
+// src: HAVOK_LIB 0x00d87860
+void FUN_00d874d0_s::hkCachedHashMap_struct_hkStringMapOperations_struct_hkContainerHeapAllocator_resizeTable(int iNewCap)
 {
     int iOldCap = m_iPairCount + 1;
     unsigned int* puiOldElements = m_kPrimitiveElement;
@@ -398,7 +399,7 @@ void S00d876a0_Map::FUN_00d876a0(int aiIndex)
     }
 }
 
-int __cdecl FUN_00cb0fa0(const char* pcA, const char* pcB) throw();
+int __cdecl hkString_strCmp(const char* pcA, const char* pcB) throw();
 
 class hkStringMapD874
 {
@@ -416,7 +417,7 @@ class hkStringMapD874
     }
 
     void FUN_00d874d0(const char* pcKey, int iValue);
-    void FUN_00d87860(int iNewCap);
+    void hkCachedHashMap_struct_hkStringMapOperations_struct_hkContainerHeapAllocator_resizeTable(int iNewCap);
 };
 
 // Inserts a key-value pair into the hash map, growing the table if the load factor exceeds half capacity.
@@ -425,7 +426,7 @@ void hkStringMapD874::FUN_00d874d0(const char* pcKey, int iValue)
 {
     int uiHash = hash(pcKey);
     if (m_iCapacityFlags * 2 > m_iPairCount)
-        FUN_00d87860(m_iPairCount + m_iPairCount + 2);
+        hkCachedHashMap_struct_hkStringMapOperations_struct_hkContainerHeapAllocator_resizeTable(m_iPairCount + m_iPairCount + 2);
 
     int i = uiHash & m_iPairCount;
     while (m_kPrimitiveElement[i] != 0xffffffffu)
@@ -433,7 +434,7 @@ void hkStringMapD874::FUN_00d874d0(const char* pcKey, int iValue)
         if (m_kPrimitiveElement[i] == uiHash)
         {
             const char* pcStored = (const char*)m_kPrimitiveElement[m_iPairCount + i + 1];
-            if (FUN_00cb0fa0(pcKey, pcStored) == 0)
+            if (hkString_strCmp(pcKey, pcStored) == 0)
                 goto KEY_FOUND;
         }
         i = (i + 1) & m_iPairCount;
@@ -452,7 +453,7 @@ namespace hkRouterE028 {
 extern "C" hkMemoryRouter& __cdecl FUN_00c85750() throw();
 }
 
-char* __cdecl FUN_00cb1160(const char* pcString, hkMemoryAllocator& kAlloc);
+char* __cdecl hkString_strDup(const char* pcString, hkMemoryAllocator& kAlloc);
 
 class FUN_00d87790
 {
@@ -518,7 +519,7 @@ void NamedObjectsE028::FUN_00e02800(void* pkObject, const char* pcName)
     const char* pcPooled;
     if (!pkPool->isValid(iIt))
     {
-        pcPooled = FUN_00cb1160(pcName, reinterpret_cast<hkMemoryAllocator&>(hkRouterE028::FUN_00c85750().heap()));
+        pcPooled = hkString_strDup(pcName, reinterpret_cast<hkMemoryAllocator&>(hkRouterE028::FUN_00c85750().heap()));
         pkPool->FUN_00d874d0(pcPooled, 0);
     }
     else

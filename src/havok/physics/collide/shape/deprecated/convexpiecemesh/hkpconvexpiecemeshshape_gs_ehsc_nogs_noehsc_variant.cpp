@@ -79,9 +79,10 @@ struct FUN_00e49290_Class
     FUN_00e49290_Data* data;
     FUN_00e49290_Owner* owner;
 
-    int FUN_00e49290(unsigned int index);
+    int hkpConvexPieceMeshShape_getCollisionFilterInfo(unsigned int index);
 };
-int FUN_00e49290_Class::FUN_00e49290(unsigned int index)
+// src: HAVOK_LIB 0x00e49290
+int FUN_00e49290_Class::hkpConvexPieceMeshShape_getCollisionFilterInfo(unsigned int index)
 {
     int result;
 
@@ -231,7 +232,8 @@ class PieceAgentE49
 class PieceSourceE49 : public PieceBaseE49, public PieceAgentE49
 {
   public:
-    __declspec(noinline) hkBool FUN_00e49040(const int* piFace, int m_iEdgeNumber) const
+// src: HAVOK_LIB 0x00e49040
+    __declspec(noinline) hkBool hkpConvexPieceMeshShape_vertexIsSet(const int* piFace, int m_iEdgeNumber) const
     {
         int iWord = m_iEdgeNumber / 31;
         int iBit = m_iEdgeNumber % 31;
@@ -263,7 +265,7 @@ FUN_00e607c0* PieceAgentE49::FUN_00e49120(unsigned int uiIndex, void* pvMemory)
             int piFace = 0;
             do
             {
-                if (static_cast<PieceSourceE49*>(this)->FUN_00e49040(j, i * 3 + piFace))
+                if (static_cast<PieceSourceE49*>(this)->hkpConvexPieceMeshShape_vertexIsSet(j, i * 3 + piFace))
                 {
                     *pkOut = pkTriangle->m_kVertices[piFace];
                     pkOut++;

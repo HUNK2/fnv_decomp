@@ -87,28 +87,28 @@ public:
     virtual void CollectAabbCastResults(const hkAabb& aabb, hkpBroadPhaseCastCollector* collector) const;
 
     int FUN_00d11620();
-    int FUN_00d11630();
-    void FUN_00d119c0(UnkHandle* handle);
+    int getAabbCacheSize();
+    void getAabb_00d119c0(UnkHandle* handle);
     void FUN_00d11650(const Node& node, hkAabb& aabb) const;
     void FixNodeEdges(unsigned int index);
     void FixNodeEdges(int index);
     void BuildBroadPhasePairs(Node* nodesA, int numNodesA, Node* nodesB, int numNodesB, int mode, BroadPhasePairArray& pairs);
-    void FUN_00d14a60(unsigned int* bits, PairVec* out, char flag);
+    void queryBatchAabbSub(unsigned int* bits, PairVec* out, char flag);
     void FUN_00d10e10(__m128* out0, __m128* out1);
-    bool __thiscall FUN_00d11470(int* first, int* second);
-    void FUN_00d15fc0();
+    bool __thiscall areAabbsOverlapping(int* first, int* second);
+    void defragment();
     void GetValues(__m128* out0, __m128* out1);
     void FUN_00d112c0(int numRecords, unsigned short code, SweepRecord* rec, int index, void* buffer);
     void FUN_00d112c0(int count, int key, SweepNodeX* node, unsigned int index, unsigned int* bits);
     void FUN_00d112c0(int count, unsigned int key, Node16* node, int index, void* buffer);
     void FUN_00d10d10(SweepNodeX* base, int count, SweepNodeX* node);
-    void FUN_00d14100(int* index, EventList* events);
-    void FUN_00d14600(unsigned int* handle, SweepPairsX* pairs);
-    void FUN_00d15f10(ItemList* items, unsigned int out);
-    __declspec(noinline) void FUN_00d13950(Blk* array, unsigned int out);
+    void reQuerySingleObject(int* index, EventList* events);
+    void removeObject(unsigned int* handle, SweepPairsX* pairs);
+    void calcAabbCache(ItemList* items, unsigned int out);
+    __declspec(noinline) void calcAabbCacheInternal(Blk* array, unsigned int out);
     __declspec(noinline) void FUN_00d10b30(Node16* buf, int index, Node16* node);
     void FUN_00d142b0(int* handle, Input* input, PairArr* outPairs);
-    void FUN_00d193e0(RemovedHandleList* removed, int pairs);
+    void removeObjectBatch(RemovedHandleList* removed, int pairs);
 
     unsigned char unk10[0x10];
     int lowBound[4];

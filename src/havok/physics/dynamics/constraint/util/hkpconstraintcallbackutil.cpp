@@ -55,7 +55,8 @@ static __declspec(noinline) void FUN_00d85d40(ListenerArray* pArr)
 
 // Invokes v03 on each non-null listener in pOwner->m_kListeners with pOwner, logging start and end ticks, then compacts the array.
 // @fnv 0x00d85ef0
-void __cdecl FUN_00d85ef0(ListenerOwner* pOwner)
+// src: HAVOK_LIB 0x00d85ef0
+void __cdecl hkpConstraintCallbackUtil_fireConstraintDeleted(ListenerOwner* pOwner)
 {
     volatile DWORD ticks[2];
     ListenerArray* pArr = &pOwner->m_kListeners;

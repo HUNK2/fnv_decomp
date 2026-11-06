@@ -31,7 +31,8 @@ void __fastcall TransposeTo(hkMatrix4* matrix, void*, float* afOut)
 }
 
 // @fnv 0x00de8f10
-void __fastcall FUN_00de8f10(hkMatrix4* matrix, void*)
+// src: HAVOK_LIB 0x00de8f10
+void __fastcall hkMatrix4_resetFourthRow(hkMatrix4* matrix, void*)
 {
     float* m_data = reinterpret_cast<float*>(matrix);
     m_data[11] = 0.0f;
@@ -42,7 +43,8 @@ void __fastcall FUN_00de8f10(hkMatrix4* matrix, void*)
 
 // Copies 16 floats from src into m_data in transposed order (row/column swap).
 // @fnv 0x00de8fa0
-void __fastcall FUN_00de8fa0(hkMatrix4* matrix, void*, const float* src)
+// src: HAVOK_LIB 0x00de8fa0
+void __fastcall hkMatrix4_set4x4RowMajor(hkMatrix4* matrix, void*, const float* src)
 {
     float* m_data = reinterpret_cast<float*>(matrix);
     m_data[0] = src[0];
@@ -209,10 +211,11 @@ struct FUN_00cdf230_cls
     int unk5c;
     SourceBlockCDF m_kSource;
     TargetBlockCDF m_kRoomNode;
-    void FUN_00cdf230(int iArg);
+    void hkpRagdollConstraintData_setTarget(int iArg);
 };
 // @fnv 0x00cdf230
-void FUN_00cdf230_cls::FUN_00cdf230(int iArg)
+// src: HAVOK_LIB 0x00cdf230
+void FUN_00cdf230_cls::hkpRagdollConstraintData_setTarget(int iArg)
 {
     m_kRoomNode.FUN_00cd55b0(&m_kSource, iArg);
 }

@@ -13,7 +13,7 @@ typedef union __declspec(intrin_type) __declspec(align(16)) {
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 #include "havok/hkpCapsuleShape.h"
 extern char const* const g_01268970_arg1;
-void __cdecl FUN_00c90360(char const* const* arg1, char const* const* arg2);
+void __cdecl hkReferencedObject_calcContentStatistics(char const* const* arg1, char const* const* arg2);
 void __cdecl FUN_00d22360(char const* const* arg1, char const* const* arg2);
 int __cdecl FUN_00d22350();
 int __stdcall FUN_00d22d60(int a, int b);

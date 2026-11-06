@@ -45,22 +45,22 @@ typedef void(__cdecl* SnapshotFn)();
 
 struct ProfileRegistry
 {
-    int FUN_00dd9380(const char* apName, SnapshotFn apfnHandler);
+    int hkProcessFactory_registerProcess(const char* apName, SnapshotFn apfnHandler);
 };
 
 extern ProfileRegistry* DAT_01269cd0;
 extern int DAT_01268fc4;
 extern int DAT_01268fc0;
 
-void __cdecl FUN_00d62f20();
+void __cdecl hkpWorldSnapshotViewer_createNative();
 void __cdecl AllocateRecordWithData();
 
 // Registers the two world-snapshot commands with the profile registry, storing their returned handles in DAT_01268fc4 and DAT_01268fc0.
 // @fnv 0x00d63000
 void __cdecl RegisterSnapshotCommands()
 {
-    DAT_01268fc4 = DAT_01269cd0->FUN_00dd9380("* Grab World Snapshot Native", FUN_00d62f20);
-    DAT_01268fc0 = DAT_01269cd0->FUN_00dd9380("* Grab World Snapshot PC", AllocateRecordWithData);
+    DAT_01268fc4 = DAT_01269cd0->hkProcessFactory_registerProcess("* Grab World Snapshot Native", hkpWorldSnapshotViewer_createNative);
+    DAT_01268fc0 = DAT_01269cd0->hkProcessFactory_registerProcess("* Grab World Snapshot PC", AllocateRecordWithData);
 }
 
 struct FUN_00c7be20_cls;
@@ -81,7 +81,7 @@ struct FUN_00c7be20_arr
 };
 
 hkMemoryRouter* __cdecl FUN_00c85750() throw();
-void __cdecl FUN_00c908c0(void* allocator, FUN_00c7be20_arr* self, unsigned int newCap, int elemSize);
+void __cdecl hkArrayUtil__reserve(void* allocator, FUN_00c7be20_arr* self, unsigned int newCap, int elemSize);
 
 struct FUN_00c7be20_cls
 {
@@ -126,7 +126,7 @@ void FUN_00c7be20_cls::CopySourceArray(FUN_00c7be20_arr* out)
             {
                 newCap = iCount;
             }
-            FUN_00c908c0(allocator, out, (unsigned int)newCap, 4);
+            hkArrayUtil__reserve(allocator, out, (unsigned int)newCap, 4);
         }
         *(volatile int*)&out->m_uiItemCount = iCount;
         int iRemaining = m_48->m_0c;
@@ -230,11 +230,12 @@ struct FUN_00d63280_cls
     SubObject m_sub28;
 
     void Setup(int b);
-    FUN_00d63280_cls* FUN_00d63280(int a, int b);
+    FUN_00d63280_cls* hkpWorldMemoryViewer_hkpWorldMemoryViewer(int a, int b);
 };
 
 // @fnv 0x00d63280
-FUN_00d63280_cls* FUN_00d63280_cls::FUN_00d63280(int a, int b)
+// src: HAVOK_LIB 0x00d63280
+FUN_00d63280_cls* FUN_00d63280_cls::hkpWorldMemoryViewer_hkpWorldMemoryViewer(int a, int b)
 {
     Setup(b);
     m_vtbl0 = (void*)&DAT_010d1794;

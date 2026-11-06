@@ -24,7 +24,7 @@ inline void* hkThreadMemory::allocateChunk(int size) throw()
 void* __cdecl FUN_00d68e00();
 struct FUN_00dd9380_class
 {
-    void* __thiscall FUN_00dd9380(const char* name, void* func);
+    void* __thiscall hkProcessFactory_registerProcess(const char* name, void* func);
 };
 void* DAT_01269cd0;
 void* DAT_01269010;
@@ -32,7 +32,7 @@ void* DAT_01269010;
 // @fnv 0x00d68e40
 void* __cdecl RegisterConvexRadius()
 {
-    DAT_01269010 = ((FUN_00dd9380_class*)DAT_01269cd0)->FUN_00dd9380("Convex Radius", FUN_00d68e00);
+    DAT_01269010 = ((FUN_00dd9380_class*)DAT_01269cd0)->hkProcessFactory_registerProcess("Convex Radius", FUN_00d68e00);
     return DAT_01269010;
 }
 
@@ -467,8 +467,8 @@ struct Owner
     int unk24;
     ListHolder** m_28;
     int m_2C;
-    void FUN_00c93820(SubObj* p);
-    void FUN_00c93920(SubObj* p);
+    void hkpWorld_addEntityListener(SubObj* p);
+    void hkpWorld_addWorldPostSimulationListener(SubObj* p);
     int unk30;
     ListHolder** m_34;
     int m_38;
@@ -496,8 +496,8 @@ struct FUN_00d68e60_cls
 // @fnv 0x00d68e60
 void FUN_00d68e60_cls::FUN_00d68e60(Owner* owner)
 {
-    owner->FUN_00c93820(this != 0 ? &m_28 : 0);
-    owner->FUN_00c93920(this != 0 ? &m_2C : 0);
+    owner->hkpWorld_addEntityListener(this != 0 ? &m_28 : 0);
+    owner->hkpWorld_addWorldPostSimulationListener(this != 0 ? &m_2C : 0);
 
     hkThreadMemory* pAllocHolder = FUN_00c85750();
     Record* pRecord = 0;
@@ -662,7 +662,7 @@ struct Watch2_d65f
 
 struct Agent_d65f
 {
-    void FUN_00c917a0(Listener_d65f* listener);
+    void hkpWorld_removeEntityListener(Listener_d65f* listener);
     void ClearValue(Watch2_d65f* watch);
 };
 
@@ -703,7 +703,7 @@ struct Phantom_d65f : Base_d65f, Listener_d65f, Watch2_d65f
 // @fnv 0x00d69010
 void Phantom_d65f::FUN_00d69010(int index)
 {
-    m_kNodeCollection[index]->m_pCollisionAgent->FUN_00c917a0(this);
+    m_kNodeCollection[index]->m_pCollisionAgent->hkpWorld_removeEntityListener(this);
     m_kNodeCollection[index]->m_pCollisionAgent->ClearValue(this);
     FUN_00d68b20(index);
     delete m_kNodeCollection[index];
@@ -869,7 +869,7 @@ struct D68970_Primary
 struct D68970_Listener
 {
     int unk00;
-    void FUN_00d68970(D68970_Owner* owner);
+    void hkpConvexRadiusViewer_postSimulationCallback(D68970_Owner* owner);
 };
 struct D68970_Viewer : D68970_Primary, D68970_Listener
 {
@@ -877,7 +877,8 @@ struct D68970_Viewer : D68970_Primary, D68970_Listener
 
 // Sweeps each body's transform and pushes the result to the display, bracketing the work with two profile records.
 // @fnv 0x00d68970
-void D68970_Listener::FUN_00d68970(D68970_Owner* owner)
+// src: HAVOK_LIB 0x00d68970
+void D68970_Listener::hkpConvexRadiusViewer_postSimulationCallback(D68970_Owner* owner)
 {
     __assume(this != 0);
     volatile DWORD tick;
@@ -1245,7 +1246,7 @@ struct S_00d68c00_Main
 
 struct S_00d68c00_Listener
 {
-    virtual void FUN_00d68c00(S_00d68c00_Arg* a2) throw();
+    virtual void hkpConvexRadiusViewer_entityAddedCallback(S_00d68c00_Arg* a2) throw();
     int unk04;
     S_00d68c00_Item** unk08;
     int unk0c;
@@ -1256,12 +1257,13 @@ struct S_00d68c00_Listener
 
 struct S_00d68c00_Sub : S_00d68c00_Main, S_00d68c00_Listener
 {
-    virtual void FUN_00d68c00(S_00d68c00_Arg* a2) throw();
+    virtual void hkpConvexRadiusViewer_entityAddedCallback(S_00d68c00_Arg* a2) throw();
 };
 
 // Collects elements via FUN_00de4420, logs and drops those with unk50 == 6 and unk08 == 0, hands the rest to unk18's v1 and v3, then calls v0(1) on each.
 // @fnv 0x00d68c00
-void S_00d68c00_Sub::FUN_00d68c00(S_00d68c00_Arg* a2) throw()
+// src: HAVOK_LIB 0x00d68c00
+void S_00d68c00_Sub::hkpConvexRadiusViewer_entityAddedCallback(S_00d68c00_Arg* a2) throw()
 {
     if (a2->unk10 == 0)
         return;
@@ -1370,7 +1372,7 @@ struct SpawnItem
 
 
 
-void __cdecl FUN_00c908c0(void* alloc, void* arr, int n, int elemSize);
+void __cdecl hkArrayUtil__reserve(void* alloc, void* arr, int n, int elemSize);
 
 struct FUN_00d68b20_cls
 {
@@ -1406,7 +1408,7 @@ void FUN_00d68b20_cls::FUN_00d68b20(int idx)
     int cap = (int)(a->m_iCapacity & 0x3fffffff);
     if (cap < 0)
     {
-        FUN_00c908c0(alloc, a, (cap + cap > 0) ? cap + cap : 0, 4);
+        hkArrayUtil__reserve(alloc, a, (cap + cap > 0) ? cap + cap : 0, 4);
     }
     a->size = 0;
 }

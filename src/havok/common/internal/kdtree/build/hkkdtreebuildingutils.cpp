@@ -197,7 +197,8 @@ struct S9d950_Box
 
 // Relocates pair entries in apA->m_pairs when aiB >= 8, then stores the max of apC's four fields into apA->unk0c.
 // @fnv 0x00d9d950
-void __cdecl FUN_00d9d950(S9d950_Owner* apA, int aiB, const S9d950_Box* apC, const int* apD)
+// src: HAVOK_LIB 0x00d9d950
+void __cdecl hkKdTreeBuildingUtils_completeDistributedBuild(S9d950_Owner* apA, int aiB, const S9d950_Box* apC, const int* apD)
 {
 
     if (aiB >= 8)

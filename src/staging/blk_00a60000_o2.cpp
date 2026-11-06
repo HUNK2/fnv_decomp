@@ -266,7 +266,8 @@ extern NiUnionBV* DAT_011f4788;
 
 // Deletes the shader pointer map and the union BV object if each is non-null.
 // @fnv 0x00a632b0
-void FUN_00a632b0()
+// src: GAMEBRYO_LIB 0x00a632b0
+void NiStream__SDMShutdown()
 {
     if (DAT_011f4784)
         delete DAT_011f4784;
@@ -1596,12 +1597,13 @@ FUN_00a69b00::FUN_00a69b00()
 
 struct FUN_00a69b40_Class
 {
-    void __thiscall FUN_00a69b40(int param_2);
+    void __thiscall NiTexturingProperty_SetMultiTexture(int param_2);
 };
 
 // Sets or clears bit 0 of the flags at offset 0x18 depending on whether param_2 is nonzero or any entry after the first in the array at 0x20 is nonzero.
 // @fnv 0x00a69b40
-void FUN_00a69b40_Class::FUN_00a69b40(int param_2)
+// src: GAMEBRYO_LIB 0x00a69b40
+void FUN_00a69b40_Class::NiTexturingProperty_SetMultiTexture(int param_2)
 {
     bool found = param_2 != 0;
     if (!found)
@@ -2188,7 +2190,8 @@ struct FUN_00a77110_info
 };
 
 // @fnv 0x00a77110
-void __cdecl FUN_00a77110(unsigned int width, unsigned int rows, unsigned int unk0c, unsigned char* dst,
+// src: GAMEBRYO_LIB 0x00a77110
+void __cdecl NiDevImageConverter_ConvertRGBA32To24(unsigned int width, unsigned int rows, unsigned int unk0c, unsigned char* dst,
                           unsigned int unk14, FUN_00a77110_info* info, const unsigned char* src)
 {
     if (info->m_flags != 0xff00)
@@ -2431,7 +2434,8 @@ struct S_00a77800_Layout
 
 // For each pixel, reads two bytes from src and combines shifted/masked channel bits from layout into one packed value written to dst.
 // @fnv 0x00a77800
-void __cdecl FUN_00a77800(unsigned int count, unsigned int rows, unsigned int auiUnused3, unsigned int* dst,
+// src: GAMEBRYO_LIB 0x00a77800
+void __cdecl NiDevImageConverter_ConvertBUMP16To32(unsigned int count, unsigned int rows, unsigned int auiUnused3, unsigned int* dst,
                           unsigned int auiUnused5, const S_00a77800_Layout* layout, const unsigned char* src)
 {
     unsigned int* d = dst;
@@ -2451,7 +2455,8 @@ void __cdecl FUN_00a77800(unsigned int count, unsigned int rows, unsigned int au
 
 // Returns true when the argument is a power of two (zero is not).
 // @fnv 0x00a77920
-bool FUN_00a77920(int aiValue)
+// src: GAMEBRYO_LIB 0x00a77920
+bool NiIsPowerOf2(int aiValue)
 {
     if (aiValue == 0)
         return false;
@@ -2837,7 +2842,8 @@ struct NiPixelChannelsA773
 
 // Converts a 16-bit source image to 32-bit RGBA output, extracting each channel via the supplied masks and shifts and writing an opaque alpha byte.
 // @fnv 0x00a773d0
-void __cdecl FUN_00a773d0(unsigned int uiWidth, unsigned int uiHeight, unsigned int uiDestStride,
+// src: GAMEBRYO_LIB 0x00a773d0
+void __cdecl NiDevImageConverter_Convert16NoAlphaToRGBA32(unsigned int uiWidth, unsigned int uiHeight, unsigned int uiDestStride,
                           unsigned char* pucDest, unsigned int uiDestSize, unsigned int uiSrcStride,
                           const unsigned short* pusSrc, const NiPixelChannelsA773* pkChannels)
 {
@@ -2912,7 +2918,8 @@ struct NiPixelChannelsA776
 };
 
 // @fnv 0x00a776b0
-void __cdecl FUN_00a776b0(unsigned int uiWidth, unsigned int uiHeight, unsigned int uiDestStride, unsigned int* puiDest,
+// src: GAMEBRYO_LIB 0x00a776b0
+void __cdecl NiDevImageConverter_ConvertBUMPLUMA32To32(unsigned int uiWidth, unsigned int uiHeight, unsigned int uiDestStride, unsigned int* puiDest,
                           unsigned int uiDestSize, const NiPixelChannelsA776* pkDestChannels,
                           const unsigned char* pucSrc, const NiPixelChannelsA776* pkSrcChannels)
 {
@@ -3811,14 +3818,15 @@ struct FUN_00a7fb80_Class
     int m_2C;
     int m_30;
     void* __thiscall FUN_00a5c200();
-    void* __thiscall FUN_00a7fb80();
+    void* __thiscall NiRenderedTexture_NiRenderedTexture();
 };
 struct Z2Setup
 {
     void* __thiscall FUN_00a5f7b0();
 };
 // @fnv 0x00a7fb80
-void* FUN_00a7fb80_Class::FUN_00a7fb80()
+// src: GAMEBRYO_LIB 0x00a7fb80
+void* FUN_00a7fb80_Class::NiRenderedTexture_NiRenderedTexture()
 {
     FUN_00a5c200();
     m_ppVirtualMethodTable = &DAT_0109b944;
@@ -4186,7 +4194,8 @@ struct BitPackDesc
 
 // Packs rows x count pixels of 2 source bytes into 16-bit values via desc's shifts and masks, adding a constant third component.
 // @fnv 0x00a77880
-void __cdecl FUN_00a77880(unsigned int count, unsigned int rows, void* unusedA, unsigned short* dst, void* unusedB,
+// src: GAMEBRYO_LIB 0x00a77880
+void __cdecl NiDevImageConverter_ConvertBUMP16To16(unsigned int count, unsigned int rows, void* unusedA, unsigned short* dst, void* unusedB,
                           BitPackDesc* desc, const unsigned char* src, void* unusedC)
 {
     unsigned short* d = dst;

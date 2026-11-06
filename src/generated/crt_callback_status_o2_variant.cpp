@@ -6939,20 +6939,21 @@ extern void* DAT_011f39e0;
 extern void* DAT_011f3a70;
 extern void* DAT_011f3dd0;
 void __cdecl FUN_00a2a600();
-void __cdecl FUN_00a27b60();
+void __cdecl NiBezPosKey_Copy();
 void __cdecl AllocateElem64Array();
 void __cdecl LoadBezPosKeys();
 void __cdecl SaveKeyArray();
 void __cdecl FUN_00a28620(int, int);
 // @fnv 0x00a28680
-int __cdecl FUN_00a28680()
+// src: GAMEBRYO_LIB 0x00a28680
+int __cdecl NiBezPosKey_RegisterLoader()
 {
     if (DAT_011f3668)
         return 0;
     DAT_011f3668 = 1;
     DAT_011f3dd0 = (void*)LoadBezPosKeys;
     DAT_011f3a70 = (void*)SaveKeyArray;
-    DAT_011f39e0 = (void*)FUN_00a27b60;
+    DAT_011f39e0 = (void*)NiBezPosKey_Copy;
     DAT_011f3950 = (void*)AllocateElem64Array;
     DAT_011f38c0 = (void*)FUN_00a2a600;
     DAT_011f3760 = 0x40;
@@ -6975,7 +6976,8 @@ extern int DAT_011f3a6c;
 extern int DAT_011f3dcc;
 
 // @fnv 0x00a2aab0
-int __cdecl FUN_00a2aab0()
+// src: GAMEBRYO_LIB 0x00a2aab0
+int __cdecl NiLinPosKey_RegisterLoader()
 {
     if (DAT_011f3693)
         return 0;
@@ -6996,7 +6998,7 @@ extern "C" void __cdecl CopyFloatBlock();
 extern "C" void __cdecl AllocateBezierKeys();
 extern "C" void __cdecl FUN_00a2baa0(int, int);
 extern "C" void __cdecl AllocateElement76Array();
-extern "C" void __cdecl FUN_00a2bb60();
+extern "C" void __cdecl NiTCBPosKey_SaveToStream();
 extern unsigned char DAT_011f3695;
 extern unsigned char DAT_011f3761;
 extern int DAT_011f38c4;
@@ -7006,13 +7008,14 @@ extern int DAT_011f3a74;
 extern int DAT_011f3dd4;
 
 // @fnv 0x00a2bb90
-int __cdecl FUN_00a2bb90()
+// src: GAMEBRYO_LIB 0x00a2bb90
+int __cdecl NiTCBPosKey_RegisterLoader()
 {
     if (DAT_011f3695)
         return 0;
     DAT_011f3695 = 1;
     DAT_011f3dd4 = (int)&AllocateElement76Array;
-    DAT_011f3a74 = (int)&FUN_00a2bb60;
+    DAT_011f3a74 = (int)&NiTCBPosKey_SaveToStream;
     DAT_011f39e4 = (int)&CopyFloatBlock;
     DAT_011f3954 = (int)&AllocateBezierKeys;
     DAT_011f38c4 = (int)&FUN_00a2a600;
@@ -7080,7 +7083,7 @@ extern int DAT_011f3ba8;
 extern S_00a29110_Fn DAT_011f3de8;
 void __cdecl FUN_00a290a0();
 extern S_00a29110_Fn DAT_011f3a88;
-void __cdecl FUN_00a28ed0();
+void __cdecl NiBezRotKey_SaveToStream();
 extern S_00a29110_Fn DAT_011f39f8;
 void __cdecl CopyBlk36();
 extern S_00a29110_Fn DAT_011f3968;
@@ -7091,7 +7094,7 @@ void __cdecl CallSpawnTarget();
 extern S_00a29110_Fn DAT_011f3b18;
 void __cdecl CompareBounds();
 extern S_00a29110_Fn DAT_011f37b8;
-void __cdecl FUN_00a28dc0();
+void __cdecl NiBezRotKey_FillDerivedVals();
 extern S_00a29110_Fn DAT_011f3848;
 void __cdecl FUN_00a28f50();
 void __cdecl FUN_00a2a600();
@@ -7105,14 +7108,14 @@ int FUN_00a29110()
     DAT_011f3c38 = 0;
     DAT_011f3ba8 = 0;
     DAT_011f3de8 = FUN_00a290a0;
-    DAT_011f3a88 = FUN_00a28ed0;
+    DAT_011f3a88 = NiBezRotKey_SaveToStream;
     DAT_011f39f8 = CopyBlk36;
     DAT_011f3968 = FUN_00a28f00;
     DAT_011f38d8 = FUN_00a2a600;
     DAT_011f3766 = 0x24;
     DAT_011f3cc8 = CallSpawnTarget;
     DAT_011f3b18 = CompareBounds;
-    DAT_011f37b8 = FUN_00a28dc0;
+    DAT_011f37b8 = NiBezRotKey_FillDerivedVals;
     DAT_011f3848 = FUN_00a28f50;
     return 1;
 }
@@ -7134,11 +7137,11 @@ extern void* DAT_011f3818;
 
 void LoadFloatKeys();
 void SaveKeys();
-void FUN_00a26f80();
+void NiBezFloatKey_Copy();
 void AllocateTempArray();
 void FUN_00a2a600();
-void FUN_00a26fe0();
-void FUN_00a26f30();
+void NiBezFloatKey_Interpolate();
+void NiBezFloatKey_Equal();
 void FUN_00a29680();
 void FUN_00a27080();
 
@@ -7155,12 +7158,12 @@ int __cdecl FUN_00a273a0()
     DAT_011f3b78 = 0;
     DAT_011f3db8 = (void*)LoadFloatKeys;
     DAT_011f3a58 = (void*)SaveKeys;
-    DAT_011f39c8 = (void*)FUN_00a26f80;
+    DAT_011f39c8 = (void*)NiBezFloatKey_Copy;
     DAT_011f3938 = (void*)AllocateTempArray;
     DAT_011f38a8 = (void*)FUN_00a2a600;
     DAT_011f375a = 0x10;
-    DAT_011f3c98 = (void*)FUN_00a26fe0;
-    DAT_011f3ae8 = (void*)FUN_00a26f30;
+    DAT_011f3c98 = (void*)NiBezFloatKey_Interpolate;
+    DAT_011f3ae8 = (void*)NiBezFloatKey_Equal;
     DAT_011f3788 = (void*)FUN_00a29680;
     DAT_011f3818 = (void*)FUN_00a27080;
     return 1;
@@ -7183,7 +7186,8 @@ void Callback5();
 void __cdecl FUN_00a27aa0(int, int);
 
 // @fnv 0x00a27b00
-int FUN_00a27b00()
+// src: GAMEBRYO_LIB 0x00a27b00
+int NiPosKey_RegisterLoader()
 {
     if (DAT_011f3656)
         return 0;
@@ -7219,7 +7223,8 @@ void __cdecl FUN_00e7cd40_b();
 void __cdecl RegisterCurveOps(int, int);
 
 // @fnv 0x00a294f0
-int FUN_00a294f0()
+// src: GAMEBRYO_LIB 0x00a294f0
+int NiBoolKey_RegisterLoader()
 {
     if (DAT_011f367e)
         return 0;
@@ -7301,13 +7306,13 @@ extern RuntimeCallback DAT_011f37bc;
 extern RuntimeCallback DAT_011f384c;
 
 void __cdecl FUN_00a2c420();
-void __cdecl FUN_00a2c490();
-void __cdecl FUN_00a2bbf0();
+void __cdecl NiTCBRotKey_SaveToStream();
+void __cdecl NiTCBRotKey_Copy();
 void __cdecl FUN_00a2be60();
 void __cdecl FUN_00a2a600();
 void __cdecl InvokeSpawnTarget();
 void __cdecl BezRotKeyEqual();
-void __cdecl FUN_00a2c130();
+void __cdecl NiTCBRotKey_FillDerivedVals();
 void __cdecl FUN_00a2c1b0();
 
 // @fnv 0x00a2c4c0
@@ -7321,14 +7326,14 @@ int __cdecl FUN_00a2c4c0()
     DAT_011f3c3c = 0;
     DAT_011f3bac = 0;
     DAT_011f3dec = FUN_00a2c420;
-    DAT_011f3a8c = FUN_00a2c490;
-    DAT_011f39fc = FUN_00a2bbf0;
+    DAT_011f3a8c = NiTCBRotKey_SaveToStream;
+    DAT_011f39fc = NiTCBRotKey_Copy;
     DAT_011f396c = FUN_00a2be60;
     DAT_011f38dc = FUN_00a2a600;
     DAT_011f3767 = 0x40;
     DAT_011f3ccc = InvokeSpawnTarget;
     DAT_011f3b1c = BezRotKeyEqual;
-    DAT_011f37bc = FUN_00a2c130;
+    DAT_011f37bc = NiTCBRotKey_FillDerivedVals;
     DAT_011f384c = FUN_00a2c1b0;
     return 1;
 }
@@ -7348,13 +7353,13 @@ extern void* DAT_011f3aec;
 extern void* DAT_011f378c;
 extern void* DAT_011f381c;
 void __cdecl AllocateKeyframeElements();
-void __cdecl FUN_00a2cb50();
+void __cdecl NiTCBFloatKey_SaveToStream();
 void __cdecl CopyFloat7();
 void __cdecl AllocateElem28Array();
 void __cdecl FUN_00a2a600();
-void __cdecl FUN_00a2c610();
+void __cdecl NiTCBFloatKey_Interpolate();
 void __cdecl FUN_00a2c550();
-void __cdecl FUN_00a2c7a0();
+void __cdecl NiTCBFloatKey_FillDerivedVals();
 void __cdecl FUN_00a2c890();
 
 // @fnv 0x00a2cb80
@@ -7369,14 +7374,14 @@ int __cdecl FUN_00a2cb80()
     DAT_011f3c0c = 0;
     DAT_011f3b7c = 0;
     DAT_011f3dbc = (void*)AllocateKeyframeElements;
-    DAT_011f3a5c = (void*)FUN_00a2cb50;
+    DAT_011f3a5c = (void*)NiTCBFloatKey_SaveToStream;
     DAT_011f39cc = (void*)CopyFloat7;
     DAT_011f393c = (void*)AllocateElem28Array;
     DAT_011f38ac = (void*)FUN_00a2a600;
     DAT_011f375b = 0x1c;
-    DAT_011f3c9c = (void*)FUN_00a2c610;
+    DAT_011f3c9c = (void*)NiTCBFloatKey_Interpolate;
     DAT_011f3aec = (void*)FUN_00a2c550;
-    DAT_011f378c = (void*)FUN_00a2c7a0;
+    DAT_011f378c = (void*)NiTCBFloatKey_FillDerivedVals;
     DAT_011f381c = (void*)FUN_00a2c890;
     return 1;
 }
@@ -7397,7 +7402,7 @@ extern void* DAT_011f380c;
 extern void* DAT_011f389c;
 void __cdecl FUN_00a2cdc0();
 void __cdecl FUN_00a2cc60();
-void __cdecl FUN_00a2cc10();
+void __cdecl NiStepBoolKey_Copy();
 void __cdecl AllocateArr8Array();
 void __cdecl FUN_00a2a600();
 void __cdecl SelectByteByThreshold();
@@ -7418,7 +7423,7 @@ int __cdecl FUN_00a2ce20()
     DAT_011f3bfc = 0;
     DAT_011f3e3c = (void*)FUN_00a2cdc0;
     DAT_011f3adc = (void*)FUN_00a2cc60;
-    DAT_011f3a4c = (void*)FUN_00a2cc10;
+    DAT_011f3a4c = (void*)NiStepBoolKey_Copy;
     DAT_011f39bc = (void*)AllocateArr8Array;
     DAT_011f392c = (void*)FUN_00a2a600;
     DAT_011f377b = 8;
@@ -7547,7 +7552,7 @@ void __cdecl FUN_00a2d230();
 void __cdecl CopyFloat2();
 void __cdecl AllocateArr8Array();
 void __cdecl FUN_00a2a600();
-void __cdecl FUN_00a2d200();
+void __cdecl NiStepFloatKey_Interpolate();
 void __cdecl FUN_00a2d1d0();
 void __cdecl FUN_00a29680();
 void __cdecl InsertKeyPair();
@@ -7568,7 +7573,7 @@ int __cdecl FUN_00a2d360()
     DAT_011f3944 = AllocateArr8Array;
     DAT_011f38b4 = FUN_00a2a600;
     DAT_011f375d = 8;
-    DAT_011f3ca4 = FUN_00a2d200;
+    DAT_011f3ca4 = NiStepFloatKey_Interpolate;
     DAT_011f3af4 = FUN_00a2d1d0;
     DAT_011f3794 = FUN_00a29680;
     DAT_011f3824 = InsertKeyPair;
@@ -7631,12 +7636,12 @@ extern unsigned char DAT_011f3690;
 extern unsigned char DAT_011f3768;
 extern unsigned int DAT_011f3d60, DAT_011f3c40, DAT_011f3bb0;
 extern void FUN_00a2a070();
-extern void FUN_00a2a0e0();
+extern void NiEulerRotKey_SaveToStream();
 extern void CopyKeyData();
 extern void FUN_00a29db0();
 extern void FUN_00a2a600();
 extern void FUN_00a29b10();
-extern void FUN_00a29c20();
+extern void NiEulerRotKey_Equal();
 extern void DispatchEntryCallbacks();
 extern void UpdateArrayElements();
 extern void (*DAT_011f3df0)();
@@ -7658,13 +7663,13 @@ int __cdecl FUN_00a2a110()
     DAT_011f3bb0 = 0;
     memset(&DAT_011f3690, 1, 1);
     DAT_011f3df0 = &FUN_00a2a070;
-    DAT_011f3a90 = &FUN_00a2a0e0;
+    DAT_011f3a90 = &NiEulerRotKey_SaveToStream;
     DAT_011f3a00 = &CopyKeyData;
     DAT_011f3970 = &FUN_00a29db0;
     DAT_011f38e0 = &FUN_00a2a600;
     DAT_011f3768 = 0x48;
     DAT_011f3cd0 = &FUN_00a29b10;
-    DAT_011f3b20 = &FUN_00a29c20;
+    DAT_011f3b20 = &NiEulerRotKey_Equal;
     DAT_011f37c0 = &DispatchEntryCallbacks;
     DAT_011f3850 = &UpdateArrayElements;
     return 1;
@@ -7718,7 +7723,7 @@ void CreateInitializedElems();
 void FUN_00a2d230();
 void CopyFloat2();
 void AllocateArr8Array();
-void FUN_00a2a560();
+void NiLinFloatKey_Interpolate();
 void FUN_00a2d1d0();
 void FUN_00a29680();
 void FUN_00a2a620();
@@ -7746,7 +7751,7 @@ int FUN_00a2a720()
     DAT_011f3934 = AllocateArr8Array;
     DAT_011f38a4 = FUN_00a2a600;
     DAT_011f3759 = 8;
-    DAT_011f3c94 = FUN_00a2a560;
+    DAT_011f3c94 = NiLinFloatKey_Interpolate;
     DAT_011f3ae4 = FUN_00a2d1d0;
     DAT_011f3784 = FUN_00a29680;
     DAT_011f3814 = FUN_00a2a620;

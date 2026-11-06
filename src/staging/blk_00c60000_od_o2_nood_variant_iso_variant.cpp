@@ -1809,8 +1809,8 @@ struct World
     int field74;
     int field78;
     int field7c;
-    void FUN_00c91f70(Query*, void*);
-    void FUN_00c92040(Query*, Result*);
+    void hkpWorld_castRay(Query*, void*);
+    void hkpWorld_castRay_00c92040(Query*, Result*);
 };
 struct __declspec(align(16)) CastVector
 {

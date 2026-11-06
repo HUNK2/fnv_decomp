@@ -34,7 +34,7 @@ struct S_d2f5a0
     int unk4;
     int unk8;
     S_d2f5a0_Array m_aiIndexedValues;
-    void FUN_00d2f5a0(int a);
+    void hkpBvTreeAgent_invalidateTim(int a);
 };
 struct TargetObject
 {
@@ -81,18 +81,19 @@ struct Built
     void __thiscall FUN_00d2f980(int);
 };
 extern "C" Global* __cdecl FUN_00c85750();
-void __cdecl FUN_00d2f9d0(int arg1, int arg2, int arg3, int arg4);
+void __cdecl hkpBvTreeAgent_createShapeBvAgent(int arg1, int arg2, int arg3, int arg4);
 void __cdecl FUN_00d30f50(void* apFirst, void* apSecond, void* apThird, void* apFourth, void* apFifth);
-void __stdcall FUN_00d315a0(void* apFirst, void* apSecond, void* apThird, void* apFourth, void* apFifth);
-extern "C" void __cdecl FUN_00d31110(void* arg0, void* arg1, void* arg2, void* arg3);
+void __stdcall hkpBvTreeAgent_linearCast(void* apFirst, void* apSecond, void* apThird, void* apFourth, void* apFifth);
+extern "C" void __cdecl hkpBvTreeAgent_staticGetClosestPoints(void* arg0, void* arg1, void* arg2, void* arg3);
 // @fnv 0x00d315d0
-extern "C" void __stdcall FUN_00d315d0(void* arg0, void* arg1, void* arg2, void* arg3)
+// src: HAVOK_SRC 0x00d315d0
+extern "C" void __stdcall hkpBvTreeAgent_getClosestPoints(void* arg0, void* arg1, void* arg2, void* arg3)
 {
-    FUN_00d31110(arg0, arg1, arg2, arg3);
+    hkpBvTreeAgent_staticGetClosestPoints(arg0, arg1, arg2, arg3);
 }
 
-void __cdecl FUN_00d312f0(void* apA, void* apB, void* apC, void* apD);
-void __stdcall FUN_00d315f0(void* apA, void* apB, void* apC, void* apD);
+void __cdecl hkpBvTreeAgent_staticGetPenetrations(void* apA, void* apB, void* apC, void* apD);
+void __stdcall hkpBvTreeAgent_getPenetrations(void* apA, void* apB, void* apC, void* apD);
 struct D2FA00Allocator
 {
     virtual void unk00();
@@ -157,10 +158,10 @@ class D2FA00ShapeAgent : public D2FA00Agent
     {}
     virtual ~D2FA00ShapeAgent();
 };
-D2FA00Agent* __cdecl FUN_00d2fa00(const void* bodyA, const void* bodyB, const void* input, void* mgr);
+D2FA00Agent* __cdecl hkpBvTreeAgent_createBvTreeShapeAgent(const void* bodyA, const void* bodyB, const void* input, void* mgr);
 extern char str_010ce9a4[];
 extern char str_010ce9ac[];
-extern "C" void* __cdecl FUN_00d06f80(void* apBuffer, int aiCount);
+extern "C" void* __cdecl hkStatisticsCollector_getAllocatedSize(void* apBuffer, int aiCount);
 struct S_00d2f8f0_Elem
 {
     int unk00;
@@ -234,7 +235,7 @@ class OwnerD2F5
     int unk04[2];
     hkArray<EntryD2F5> m_entries;
 
-    void FUN_00d2f550(void* pArg);
+    void hkpBvTreeAgent_cleanup(void* pArg);
 };
 
 #include <windows.h>
@@ -396,7 +397,8 @@ inline void S312_dealloc(S312_Alloc* al, int* p, int n)
 }
 
 // @fnv 0x00d312f0
-void __cdecl FUN_00d312f0(void* apA, void* apB, void* apC, void* apD)
+// src: HAVOK_LIB 0x00d312f0
+void __cdecl hkpBvTreeAgent_staticGetPenetrations(void* apA, void* apB, void* apC, void* apD)
 {
     S312_Body& bodyA = *(S312_Body*)apA;
     S312_Body& bodyB = *(S312_Body*)apB;

@@ -226,7 +226,7 @@ struct CtrlObj
 };
 struct AVObj
 {
-    CtrlObj* FUN_00a5c570(const void*);
+    CtrlObj* NiObjectNET_GetController(const void*);
 };
 struct NiNodeW7
 {
@@ -348,7 +348,7 @@ void SlotMachineMenu::InitPayoutMenu()
     ((GObjW7*)(void*)&g_011da9fc)->FUN_00559450()->FUN_004bc1f0(DAT_0105478c, DAT_0107678c, 0.0f);
     NiUpdateData upd1(0.0f, false, 0);
     ((GObjW7*)(void*)&g_011da9fc)->FUN_00559450()->FUN_00a59c60(upd1);
-    CtrlObj* xPCtrl = m_104->FUN_00a5c570(&DAT_011f36ac);
+    CtrlObj* xPCtrl = m_104->NiObjectNET_GetController(&DAT_011f36ac);
     if (xPCtrl != 0)
     {
         m_134 = xPCtrl;
@@ -368,7 +368,7 @@ void SlotMachineMenu::InitPayoutMenu()
     int oI;
     for (oI = 0; oI < 3; oI++)
     {
-        arr12[oI] = m_108[oI]->FUN_00a5c570(&DAT_011f36ac);
+        arr12[oI] = m_108[oI]->NiObjectNET_GetController(&DAT_011f36ac);
     }
     int jX;
     for (jX = 0; jX < 3; jX++)

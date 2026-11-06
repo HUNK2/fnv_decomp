@@ -145,7 +145,7 @@ extern char DAT_010ceaa8[];
 
 hkMemoryRouter* FUN_00c85750();
 
-void __cdecl FUN_00c908c0(hkMemoryAllocator& alloc, void* arr, int numElem, int sizeElem);
+void __cdecl hkArrayUtil__reserve(hkMemoryAllocator& alloc, void* arr, int numElem, int sizeElem);
 
 struct SizeSource {
     virtual void v00(); virtual void v01(); virtual void v02(); virtual void v03();
@@ -170,7 +170,7 @@ __forceinline void hkArrayBase<T>::GrowArrayCapacity(hkMemoryAllocator& alloc, i
     int c = m_iCapacityState & 0x3fffffff;
     if (c < n) {
         c = c * 2;
-        FUN_00c908c0(alloc, this, n < c ? c : n, sizeof(T));
+        hkArrayUtil__reserve(alloc, this, n < c ? c : n, sizeof(T));
     }
 }
 
@@ -232,13 +232,14 @@ TargetObj* AllocateTargetObj(void* apArg1, void* apArg2, void* apArg3, void* apA
 
 extern void __cdecl FUN_00d319e0(void*, void*, void*, void*);
 // @fnv 0x00d32170
-void __stdcall FUN_00d32170(void* apArg1, void* apArg2, void* apArg3, void* apArg4) {
+// src: HAVOK_SRC 0x00d32170
+void __stdcall hkpHeightFieldAgent_getClosestPoints(void* apArg1, void* apArg2, void* apArg3, void* apArg4) {
     FUN_00d319e0(apArg1, apArg2, apArg3, apArg4);
 }
 
 typedef void (*S_00d321e0_Func)();
 
-void FUN_00d32190();
+void hkpHeightFieldAgent_createHeightFieldAAgent();
 void FUN_00d32370();
 void FUN_00d323b0();
 void FUN_00d323f0();
@@ -265,7 +266,7 @@ void FUN_00d321e0(S_00d321e0_Dispatcher* dispatcher)
 {
     {
         S_00d321e0_AgentFuncs af;
-        af.m_pCreateFunc = FUN_00d32190;
+        af.m_pCreateFunc = hkpHeightFieldAgent_createHeightFieldAAgent;
         af.m_pQueryPenetrationsFunc = FUN_00d32370;
         af.m_pGetPenetrationsFunc = FUN_00d323b0;
         af.m_pLinearCastFunc = FUN_00d323f0;
@@ -348,14 +349,16 @@ void Owner::NotifyAndClear(int value) {
 extern "C" void __cdecl FUN_00d31d30(void* arg0, void* arg1, void* arg2, void* arg3, void* arg4);
 // Forwards all five arguments unchanged to FUN_00d31d30.
 // @fnv 0x00d32030
-extern "C" void __stdcall FUN_00d32030(void* arg0, void* arg1, void* arg2, void* arg3, void* arg4)
+// src: HAVOK_SRC 0x00d32030
+extern "C" void __stdcall hkpHeightFieldAgent_linearCast(void* arg0, void* arg1, void* arg2, void* arg3, void* arg4)
 {
     FUN_00d31d30(arg0, arg1, arg2, arg3, arg4);
 }
 
 extern "C" void __cdecl FUN_00d317d0(void* arg0, void* arg1, void* arg2, void* arg3);
 // @fnv 0x00d32150
-extern "C" void __stdcall FUN_00d32150(void* arg0, void* arg1, void* arg2, void* arg3)
+// src: HAVOK_SRC 0x00d32150
+extern "C" void __stdcall hkpHeightFieldAgent_getPenetrations(void* arg0, void* arg1, void* arg2, void* arg3)
 {
     FUN_00d317d0(arg0, arg1, arg2, arg3);
 }
@@ -648,7 +651,8 @@ struct FUN_00d32190_cls {
 
 // Allocates a 0x18 byte object via m_pAllocator, sets m_w04 to 0x18, calls FUN_00d32060, and sets m_vptr to DAT_010ceaf4.
 // @fnv 0x00d32190
-FUN_00d32190_cls* __cdecl FUN_00d32190(int a1, int a2, int a3, int a4)
+// src: HAVOK_LIB 0x00d32190
+FUN_00d32190_cls* __cdecl hkpHeightFieldAgent_createHeightFieldAAgent(int a1, int a2, int a3, int a4)
 {
     hkMemoryRouter* holder = FUN_00c85750();
     FUN_00d32190_cls* obj = (FUN_00d32190_cls*)((hkMemoryAllocator*)holder->m_heap)->blockAlloc(0x18);

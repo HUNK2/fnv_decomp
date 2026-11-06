@@ -20,12 +20,12 @@ extern int DAT_011b7aec;
 extern void* DAT_010d65bc;
 struct FUN_00dbdf30_s
 {
-    void FUN_00dbdf30(GlobalObjectO2_00d472a0*, int);
+    void hkPackfileWriter_setSectionForClass(GlobalObjectO2_00d472a0*, int);
 };
 struct FUN_00dbc670
 {
     void* m_vft;
-    void FUN_00dbdef0(int);
+    void hkPackfileWriter_addSection(int);
     FUN_00dbc670();
 };
 extern void FUN_00dbe4d0();
@@ -35,11 +35,11 @@ FUN_00dbc670::FUN_00dbc670()
 {
     FUN_00dbe4d0();
     m_vft = &DAT_010d65bc;
-    FUN_00dbdef0(DAT_011b7a7c);
-    ((FUN_00dbdf30_s*)this)->FUN_00dbdf30(&g_0126cae8, DAT_011b7aec);
-    ((FUN_00dbdf30_s*)this)->FUN_00dbdf30(&g_0126ca58, DAT_011b7aec);
-    ((FUN_00dbdf30_s*)this)->FUN_00dbdf30(&g_0126cab8, DAT_011b7aec);
-    ((FUN_00dbdf30_s*)this)->FUN_00dbdf30(&g_0126ca88, DAT_011b7aec);
+    hkPackfileWriter_addSection(DAT_011b7a7c);
+    ((FUN_00dbdf30_s*)this)->hkPackfileWriter_setSectionForClass(&g_0126cae8, DAT_011b7aec);
+    ((FUN_00dbdf30_s*)this)->hkPackfileWriter_setSectionForClass(&g_0126ca58, DAT_011b7aec);
+    ((FUN_00dbdf30_s*)this)->hkPackfileWriter_setSectionForClass(&g_0126cab8, DAT_011b7aec);
+    ((FUN_00dbdf30_s*)this)->hkPackfileWriter_setSectionForClass(&g_0126ca88, DAT_011b7aec);
 }
 
 // @fnv 0x00dbd720
@@ -225,7 +225,7 @@ union FUN_00dbc6f0_cls_word
     FUN_00dbc6f0_cls_bytes bytes;
 };
 
-int __cdecl FUN_00cb10d0(void* apNode);
+int __cdecl hkString_strLen(void* apNode);
 
 typedef void(__thiscall* S_WriteFn)(FUN_00dbc6f0_cls_callee*, void*, int);
 
@@ -258,7 +258,7 @@ void __stdcall WriteNodeDiff(FUN_00dbc6f0_cls_owner* apOwner, FUN_00dbc6f0_cls_s
     int iDiff = apOwner->m_pCallee->Count() - aiDiff;
     apOwner->m_store.Store(pNode, iDiff);
     void** pVtable = *(void***)apOwner->m_pCallee;
-    ((S_WriteFn)pVtable[4])(apOwner->m_pCallee, pNode, FUN_00cb10d0(pNode) + 1);
+    ((S_WriteFn)pVtable[4])(apOwner->m_pCallee, pNode, hkString_strLen(pNode) + 1);
 }
 
 struct Target
@@ -655,7 +655,7 @@ __forceinline hkMemoryRouter& S_GetRouter() throw()
 {
     return *(hkMemoryRouter*)FUN_00c85750();
 }
-void __cdecl FUN_00c908c0(S_00db8670_Heap& alloc, void* array, int reqCapacity, int sizeElem) throw();
+void __cdecl hkArrayUtil__reserve(S_00db8670_Heap& alloc, void* array, int reqCapacity, int sizeElem) throw();
 
 template <typename T> __forceinline void S_ConstructWithCopy(T* p, int n, const T& fill) throw()
 {
@@ -710,7 +710,7 @@ template <typename T> struct S_00db8670_ArrayLocalForm
         {
             int cap2 = 2 * capacity;
             int newSize = (n < cap2) ? cap2 : n;
-            FUN_00c908c0(alloc, this, newSize, sizeof(T));
+            hkArrayUtil__reserve(alloc, this, newSize, sizeof(T));
         }
     }
     __forceinline void _setSize(S_00db8670_Heap& alloc, int n) throw()
@@ -750,9 +750,9 @@ struct S_00db8670_MapBase64
     void ResizeToFit(S_00db8670_Heap& alloc, int numElements) throw();
     void FUN_00cb1e40(S_00db8670_Heap& alloc) throw();
     void FUN_00cb1e00() throw();
-    int FUN_00cb1c60(S_00db8670_Uint64 key) const throw();
+    int hkMapBase_unsigned_int64_unsigned_int64_struct_hkMapOperations_unsigned_int64_findKey(S_00db8670_Uint64 key) const throw();
     void InsertKeyValue(S_00db8670_Heap& alloc, S_00db8670_Uint64 key, S_00db8670_Uint64 val) throw();
-    S_00db8670_Uint64 FUN_00cb1cb0(S_00db8670_Uint64 key, S_00db8670_Uint64 def) const throw();
+    S_00db8670_Uint64 hkMapBase_unsigned_int64_unsigned_int64_struct_hkMapOperations_unsigned_int64_getWithDefault(S_00db8670_Uint64 key, S_00db8670_Uint64 def) const throw();
 };
 
 struct S_00db8670_Map64 : S_00db8670_MapBase64
@@ -772,7 +772,7 @@ struct S_00db8670_Map64 : S_00db8670_MapBase64
     }
     int hasKey(S_00db8670_Uint64 key) const throw()
     {
-        return FUN_00cb1c60(key) <= m_iPairCount;
+        return hkMapBase_unsigned_int64_unsigned_int64_struct_hkMapOperations_unsigned_int64_findKey(key) <= m_iPairCount;
     }
     void insert(S_00db8670_Uint64 key, const int& val) throw()
     {
@@ -781,7 +781,7 @@ struct S_00db8670_Map64 : S_00db8670_MapBase64
     }
     S_00db8670_Uint64 FindValueForKey(S_00db8670_Uint64 key, S_00db8670_Uint64 def) const throw()
     {
-        return FUN_00cb1cb0(key, def);
+        return hkMapBase_unsigned_int64_unsigned_int64_struct_hkMapOperations_unsigned_int64_getWithDefault(key, def);
     }
 };
 
@@ -898,7 +898,7 @@ struct S_00db8670_MultiMapUlong
 
 __declspec(noinline) void S_00db8670_MultiMap64::Insert(S_00db8670_Uint64 key, const int& value) throw()
 {
-    int oldHead = (int)m_pHashFunction.FUN_00cb1cb0(key, S_00db8670_Uint64(-1));
+    int oldHead = (int)m_pHashFunction.hkMapBase_unsigned_int64_unsigned_int64_struct_hkMapOperations_unsigned_int64_getWithDefault(key, S_00db8670_Uint64(-1));
     int newHead = AllocateSlot();
     m_kChainValues[newHead].value = value;
     m_kChainValues[newHead].next = oldHead;
@@ -974,7 +974,7 @@ __declspec(noinline) int __cdecl FUN_00db7cb0(const S_00db8670_PatchInfo* p) thr
         return 0;
     return 1;
 }
-int __cdecl FUN_00cb0fa0(const char* a, const char* b) throw();
+int __cdecl hkString_strCmp(const char* a, const char* b) throw();
 int __cdecl FUN_00db7e70(int from, int to, const S_00db8670_MultiMapUlong& deps, S_00db8670_MapUlong& visited) throw();
 int __cdecl FUN_00db83c0(int index, S_00db8670_ArrayLocalForm<int>& order, const S_00db8670_MultiMapUlong& deps, int next,
                          S_00db8670_ArrayLocalForm<int>& stack,
@@ -1020,7 +1020,7 @@ int S_00db8670_PatchManager::FUN_00db8670() throw()
                     return 1;
                 }
                 patchIndexFromUid.insert(uid, i);
-                if (p->m_newVersion == -1 || (p->m_newName && FUN_00cb0fa0(p->m_oldName, p->m_newName)))
+                if (p->m_newVersion == -1 || (p->m_newName && hkString_strCmp(p->m_oldName, p->m_newName)))
                 {
                     patchesFromName.FUN_00dc9ec0((S_00db8670_Ulong)p->m_oldName, i);
                 }
@@ -1338,7 +1338,7 @@ struct S00dbcdd0_Arr
     int u7;
 };
 
-extern void FUN_00c908c0(void* alloc, void** pData, int newCap, int flag);
+extern void hkArrayUtil__reserve(void* alloc, void** pData, int newCap, int flag);
 extern void FUN_00ec61c0(void* dst, int value, int n);
 
 template <class T> __forceinline void S00dbcdd0_Construct(T* p, int n, const T& fill)
@@ -1367,7 +1367,7 @@ static __declspec(noinline) void FUN_00dbcdd0(S00dbcdd0_Obj* obj, unsigned int c
         {
             newCap = (int)count;
         }
-        FUN_00c908c0(&heap, &arr.m_data, newCap, 1);
+        hkArrayUtil__reserve(&heap, &arr.m_data, newCap, 1);
     }
     S00dbcdd0_Construct((char*)arr.m_data + arr.m_iElementCount, (int)count - arr.m_iElementCount, (char)-1);
     int r = ((int)count - 1) & value;
@@ -1624,7 +1624,7 @@ struct SourceData
     LocalArray<SectionFixups> fixups;
     WriterBool reverse;
 };
-extern void __cdecl FUN_00c908c0(void*, void*, int, int);
+extern void __cdecl hkArrayUtil__reserve(void*, void*, int, int);
 struct ReserveAllocator
 {
     virtual void v00();
@@ -1639,7 +1639,7 @@ template <class T> __forceinline void ArrayBase<T>::reserve(ReserveAllocator& al
     if (cap < wanted)
     {
         int newCapacity = wanted < cap * 2 ? cap * 2 : wanted;
-        FUN_00c908c0(&allocator, this, newCapacity, sizeof(T));
+        hkArrayUtil__reserve(&allocator, this, newCapacity, sizeof(T));
     }
 }
 template <class T> __forceinline void ArrayBase<T>::resize(int wanted, const int& value)
@@ -2015,8 +2015,8 @@ struct ThisCls
 extern int DAT_011b7aec;
 void* FUN_00c85750();
 extern void __cdecl ResizeAudioStream(void* allocator, void* vec, unsigned int elemSize);
-extern void __cdecl FUN_00c908c0(void* a, void* vec, int n, int elem);
-extern int __cdecl FUN_00cb10d0(void* p);
+extern void __cdecl hkArrayUtil__reserve(void* a, void* vec, int n, int elem);
+extern int __cdecl hkString_strLen(void* p);
 extern void* __cdecl memset(void*, int, unsigned int);
 extern "C" void _ReadWriteBarrier();
 
@@ -2038,7 +2038,7 @@ static __declspec(noinline) void FUN_00dbcdd0(ClockObj* obj0, unsigned int count
         {
             newCap = (int)count;
         }
-        FUN_00c908c0(&heap, &arr, newCap, 1);
+        hkArrayUtil__reserve(&heap, &arr, newCap, 1);
     }
     int end = (int)arr.m_data + arr.m_iElementCount;
     int fill = (int)count - arr.m_iElementCount;
@@ -2081,7 +2081,7 @@ template <class A> __forceinline void Reserve(A& array, BDBD910Allocator& alloc,
         cap *= 2;
         if (n >= cap)
             cap = n;
-        FUN_00c908c0(&alloc, &array, cap, size);
+        hkArrayUtil__reserve(&alloc, &array, cap, size);
     }
 }
 template <class T> __forceinline void Destroy(T* p, int count)
@@ -2307,7 +2307,7 @@ void ThisCls::FUN_00dbcea0(Src* apSrc)
                             int av = apSrc->arr10.m_data[foundIdx].p1;
                             flag = true;
                             ((FUN_00d60940_Class*)&ctx)->WriteInt((unsigned int)av);
-                            int r = FUN_00cb10d0((void*)second);
+                            int r = hkString_strLen((void*)second);
                             ((FUN_00d607b0_s*)&ctx)->writeVec(second, r + 1);
                             FUN_00dbcdd0(apSrc->clock1c, 4);
                         }
@@ -2328,7 +2328,7 @@ void ThisCls::FUN_00dbcea0(Src* apSrc)
         {
             Pair8* pr = work.a4.m_data + k;
             ((FUN_00d60940_Class*)&ctx)->WriteInt((unsigned int)pr->p0);
-            int r = FUN_00cb10d0((void*)pr->p1);
+            int r = hkString_strLen((void*)pr->p1);
             ((FUN_00d607b0_s*)&ctx)->writeVec(pr->p1, r + 1);
             FUN_00dbcdd0(apSrc->clock1c, 4);
         }
@@ -2409,7 +2409,7 @@ void Writer::FUN_00dbc7a0(Context* context)
     if (headers->getCapacity() < count)
     {
         int capacity = 2 * headers->getCapacity();
-        FUN_00c908c0(&allocator, headers, count < capacity ? capacity : count, 48);
+        hkArrayUtil__reserve(&allocator, headers, count < capacity ? capacity : count, 48);
     }
     ConstructHeaders(headers->data + headers->size, count - headers->size);
     headers->size = count;

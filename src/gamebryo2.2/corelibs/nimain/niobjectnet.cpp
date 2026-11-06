@@ -194,7 +194,8 @@ bhkSphereShape::bhkSphereShape(float radius, bool convert)
 #pragma optimize("", on)
 
 // @fnv 0x00a5c050
-void NiObjectNET::FUN_00a5c050()
+// src: GAMEBRYO_LIB 0x00a5c050
+void NiObjectNET::RemoveAllControllers()
 {
     if (m_spControllers)
     {
@@ -667,11 +668,12 @@ struct ControllerLinkProxy
 };
 struct ControllerOwner : NiObjectNET
 {
-    void FUN_00a5c480(NiTimeController* controller);
+    void NiObjectNET_RemoveController(NiTimeController* controller);
 };
 // Removes controller from the owner's controller list, unlinking it and releasing references, or does nothing if it is not present.
 // @fnv 0x00a5c480
-void ControllerOwner::FUN_00a5c480(NiTimeController* controller)
+// src: GAMEBRYO_LIB 0x00a5c480
+void ControllerOwner::NiObjectNET_RemoveController(NiTimeController* controller)
 {
     if (!controller || !m_spControllers)
         return;

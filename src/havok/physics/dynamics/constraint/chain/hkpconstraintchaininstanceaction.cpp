@@ -6,7 +6,8 @@
 #include "../../../../../../include/hkpConstraintChainInstanceAction.h"
 
 // @fnv 0x00e063e0
-void __fastcall FUN_00e063e0(hkpConstraintChainInstanceAction* self, void* unusedEdx, int arg0)
+// src: HAVOK_LIB 0x00e063e0
+void __fastcall hkpConstraintChainInstanceAction_entityRemovedCallback(hkpConstraintChainInstanceAction* self, void* unusedEdx, int arg0)
 {
     self->m_pConstraintChainInstance->vf04((void*)arg0);
 }

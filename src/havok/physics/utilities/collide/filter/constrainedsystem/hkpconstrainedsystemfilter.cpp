@@ -97,11 +97,11 @@ hkBool ConstrainedSystemCollidableFilterView::IsCollisionEnabled(const hkpCollid
     if (!pkBodyA || !pkBodyB)
         return true;
 
-    const bool bSwapBodies = pkBodyA->FUN_00c9c380() > pkBodyB->FUN_00c9c380();
+    const bool bSwapBodies = pkBodyA->getNumConstraints() > pkBodyB->getNumConstraints();
     hkpEntity* pkEntityA = bSwapBodies ? pkBodyB : pkBodyA;
     hkpEntity* pkEntityB = bSwapBodies ? pkBodyA : pkBodyB;
 
-    int numConstraints = pkEntityA->FUN_00c9c380();
+    int numConstraints = pkEntityA->getNumConstraints();
     for (int i = 0; i < numConstraints; i++)
     {
         const hkpConstraintInstance* pkConstraint =
@@ -197,13 +197,14 @@ class hkListE46C
     int unk00[10];
     hkFilterImplE46C* m_iFilter;
 
-    hkBool FUN_00e46d40(const void* a, const void* b, const void* c, const void* d, const void* e, const void* f,
+    hkBool hkpConstrainedSystemFilter_isCollisionEnabled(const void* a, const void* b, const void* c, const void* d, const void* e, const void* f,
                             const void* g) const;
 };
 
 // Returns true when m_iFilter is null or when m_iFilter->IsCollisionEnabled(a, b, c, d, e, f, g) is true.
 // @fnv 0x00e46d40
-hkBool hkListE46C::FUN_00e46d40(const void* a, const void* b, const void* c, const void* d, const void* e,
+// src: HAVOK_LIB 0x00e46d40
+hkBool hkListE46C::hkpConstrainedSystemFilter_isCollisionEnabled(const void* a, const void* b, const void* c, const void* d, const void* e,
                                     const void* f, const void* g) const
 {
     return !m_iFilter || m_iFilter->IsCollisionEnabled(a, b, c, d, e, f, g);
@@ -233,12 +234,13 @@ class hkListE46D
     int unk00[9];
     hkFilterImplE46D* m_iFilter;
 
-    hkBool FUN_00e46da0(const void* a, const void* b, const void* c, const void* d) const;
+    hkBool hkpConstrainedSystemFilter_isCollisionEnabled_00e46da0(const void* a, const void* b, const void* c, const void* d) const;
 };
 
 // Returns true when m_iFilter is null or when m_iFilter->IsCollisionEnabled(a, b, c, d) is true.
 // @fnv 0x00e46da0
-hkBool hkListE46D::FUN_00e46da0(const void* a, const void* b, const void* c, const void* d) const
+// src: HAVOK_LIB 0x00e46da0
+hkBool hkListE46D::hkpConstrainedSystemFilter_isCollisionEnabled_00e46da0(const void* a, const void* b, const void* c, const void* d) const
 {
     return !m_iFilter || m_iFilter->IsCollisionEnabled(a, b, c, d);
 }
@@ -248,7 +250,8 @@ int __cdecl CallA(void*, void*);
 void __cdecl CallB(void*);
 // If the owner at +0xc has type other than 11, calls CallA with the +0x10 offsets of the pointers at +0x14 and +0x18, and passes a nonzero result to CallB.
 // @fnv 0x00e46e30
-void __stdcall FUN_00e46e30(void* p)
+// src: HAVOK_LIB 0x00e46e30
+void __stdcall hkpConstrainedSystemFilter_constraintAddedCallback(void* p)
 {
     hkpConstraintData* owner = *reinterpret_cast<hkpConstraintData**>(reinterpret_cast<char*>(p) + 0xc);
     if (owner->getType() != 11)

@@ -29,7 +29,7 @@ int __cdecl FUN_00d67960()
 struct Item;
 struct Sink
 {
-    void FUN_00c9c670(Item*);
+    void removeEntityListener_00c9c670(Item*);
 };
 struct Link
 {
@@ -53,7 +53,7 @@ struct Derived : Prefix, Item
 // @fnv 0x00d67bc0
 void Item::FUN_00d67bc0(Sink* sink)
 {
-    sink->FUN_00c9c670(static_cast<Item*>(reinterpret_cast<Derived*>(reinterpret_cast<char*>(this) - sizeof(Prefix))));
+    sink->removeEntityListener_00c9c670(static_cast<Item*>(reinterpret_cast<Derived*>(reinterpret_cast<char*>(this) - sizeof(Prefix))));
     link.FUN_00cb1fb0(sink);
 }
 
@@ -301,7 +301,7 @@ struct Query
 };
 struct BaseHelper
 {
-    void FUN_00d68030(void* entry, int mode);
+    void hkpToiCountViewer_displayCountForBody(void* entry, int mode);
 };
 int __cdecl FUN_00d679c0(float* direction);
 struct Context
@@ -317,11 +317,11 @@ void Context::ProcessQuery(Query* query)
     {
         EntryListNode* list = &query->groups[groupIndex]->entries;
         for (int entryIndex = 0; entryIndex < list->count; ++entryIndex)
-            ((BaseHelper*)((char*)this - 0x2c))->FUN_00d68030(list->entries[entryIndex], mode);
+            ((BaseHelper*)((char*)this - 0x2c))->hkpToiCountViewer_displayCountForBody(list->entries[entryIndex], mode);
     }
     EntryListNode* list = &query->direct->entries;
     for (int entryIndex = 0; entryIndex < list->count; ++entryIndex)
-        ((BaseHelper*)((char*)this - 0x2c))->FUN_00d68030(list->entries[entryIndex], mode);
+        ((BaseHelper*)((char*)this - 0x2c))->hkpToiCountViewer_displayCountForBody(list->entries[entryIndex], mode);
 }
 
 struct FUN_00d67970_helper
@@ -337,12 +337,13 @@ struct FUN_00d67970_class
     void* unk08;
     void* unk0c;
 
-    void __thiscall FUN_00d67970(FUN_00d67970_helper* helper);
+    void __thiscall hkpToiCountViewer_worldAddedCallback(FUN_00d67970_helper* helper);
 };
 
 // Passes pointers to this object's unk0c and unk08 fields to the helper's c93920 and c93a20 methods, or null if the base pointer is null.
 // @fnv 0x00d67970
-void __thiscall FUN_00d67970_class::FUN_00d67970(FUN_00d67970_helper* helper)
+// src: HAVOK_LIB 0x00d67970
+void __thiscall FUN_00d67970_class::hkpToiCountViewer_worldAddedCallback(FUN_00d67970_helper* helper)
 {
     void* base = reinterpret_cast<char*>(this) - 0x20;
     void* value;
@@ -457,8 +458,8 @@ struct SpawnedObject
     unsigned int unk00;
     unsigned int unk04;
     SpawnedObject* m_08;
-    void FUN_00c9c670(void* listener) throw();
-    void FUN_00c91a20(void* listener) throw();
+    void removeEntityListener_00c9c670(void* listener) throw();
+    void hkpWorld_removeContactListener(void* listener) throw();
     void ClearValue(void* listener) throw();
 };
 
@@ -563,13 +564,13 @@ void FUN_00d67e30_cls::RemoveEntriesForObject(SpawnedObject* a1)
     for (int iMatch = 0; iMatch < size; iMatch++)
     {
         SpawnedObject** it = &out.m_data[iMatch];
-        (*it)->FUN_00c9c670((char*)this - 0x20 != 0 ? (void*)((char*)this + 0x10) : 0);
+        (*it)->removeEntityListener_00c9c670((char*)this - 0x20 != 0 ? (void*)((char*)this + 0x10) : 0);
         m_14.FUN_00cb1fb0(*it);
     }
 
     out.clear();
 
-    a1->FUN_00c91a20((char*)this - 0x20 != 0 ? (void*)((char*)this + 8) : 0);
+    a1->hkpWorld_removeContactListener((char*)this - 0x20 != 0 ? (void*)((char*)this + 8) : 0);
     a1->ClearValue((char*)this - 0x20 != 0 ? (void*)((char*)this + 0xc) : 0);
 }
 
@@ -608,7 +609,7 @@ int __cdecl FUN_00d679c0(const __m128* apVector)
 
 struct PtrMapEntryObj
 {
-    void FUN_00c9c670(void* arg);
+    void removeEntityListener_00c9c670(void* arg);
 };
 
 struct PtrMapEntry
@@ -643,12 +644,13 @@ struct FUN_00d67da0_cls
     int m_i30;
     PtrMapStorage m_kStorage;
 
-    void FUN_00d67da0();
+    void hkpToiCountViewer_reset();
 };
 
 // Walks m_kStorage entries with a key other than -1, calls FUN_00c9c670 on each key with the address of m_i30, then calls m_kStorage.clear().
 // @fnv 0x00d67da0
-void FUN_00d67da0_cls::FUN_00d67da0()
+// src: HAVOK_LIB 0x00d67da0
+void FUN_00d67da0_cls::hkpToiCountViewer_reset()
 {
     PtrMapStorage* st = &m_kStorage;
     int i = 0;
@@ -670,7 +672,7 @@ void FUN_00d67da0_cls::FUN_00d67da0()
     {
         do
         {
-            st->m_pEntries[i].m_pKey->FUN_00c9c670(&m_i30);
+            st->m_pEntries[i].m_pKey->removeEntityListener_00c9c670(&m_i30);
             int j = i + 1;
             int n = st->m_iArrayLength;
             if (j <= n)
@@ -766,14 +768,15 @@ struct ContactViewer
     int unk30;
     ContactTable m_table;
 
-    void FUN_00d68030(void* entry, int mode);
+    void hkpToiCountViewer_displayCountForBody(void* entry, int mode);
 };
 
 extern void __cdecl FUN_00d67a50(int owner, int id, void* entry, int mode, const char* name, unsigned int info,
                                  float value, BSAudioValue flags);
 
 // @fnv 0x00d68030
-void ContactViewer::FUN_00d68030(void* entry, int mode)
+// src: HAVOK_LIB 0x00d68030
+void ContactViewer::hkpToiCountViewer_displayCountForBody(void* entry, int mode)
 {
     unsigned int index = m_table.Find(entry);
     if ((int)index > m_table.m_pRayCursor)
@@ -923,12 +926,13 @@ struct FUN_00d67c30_cls
     Table m_0c;
     int m_14;
 
-    void FUN_00d67c30(ArgBlock* a1);
+    void hkpToiCountViewer_contactPointCallback(ArgBlock* a1);
 };
 
 // For each of two items in a1->m_items, increments the high/low counters in the table entry or attaches a new entry and applies the item.
 // @fnv 0x00d67c30
-void FUN_00d67c30_cls::FUN_00d67c30(ArgBlock* apBlock)
+// src: HAVOK_LIB 0x00d67c30
+void FUN_00d67c30_cls::hkpToiCountViewer_contactPointCallback(ArgBlock* apBlock)
 {
     if (apBlock->unk10 > 0)
     {

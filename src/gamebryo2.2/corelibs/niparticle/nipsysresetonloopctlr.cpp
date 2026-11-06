@@ -219,9 +219,9 @@ void SubNiPSysResetOnLoopCtlr::FUN_00c283e0(NiStream& stream)
     FUN_00a6d5e0(stream);
 }
 
-void __cdecl FUN_00a6cc80();
+void __cdecl NiTimeController_IsEqual();
 // @fnv 0x00c283f0
 void __cdecl FUN_00c283f0()
 {
-    FUN_00a6cc80();
+    NiTimeController_IsEqual();
 }

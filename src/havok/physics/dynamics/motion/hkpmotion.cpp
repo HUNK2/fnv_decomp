@@ -98,12 +98,12 @@ void hkpMotion::SetWorldPosition(const hkVector4& position)
     FUN_00cf20d0(&position, &m_kMotionState);
 }
 
-extern "C" void __cdecl FUN_00cf2160(const hkQuaternion*, hkMotionState*);
+extern "C" void __cdecl hkSweptTransformUtil_warpToRotation(const hkQuaternion*, hkMotionState*);
 
 // @fnv 0x00c863c0
 void hkpMotion::SetBodyOrientation(const hkQuaternion& rotation)
 {
-    FUN_00cf2160(&rotation, &m_kMotionState);
+    hkSweptTransformUtil_warpToRotation(&rotation, &m_kMotionState);
 }
 
 extern void __cdecl FUN_00cf1f80(const hkVector4*, const hkQuaternion*, hkMotionState*);
@@ -170,7 +170,8 @@ hkpMotion::hkpMotion(const hkVector4& position, const hkQuaternion& rotation, bo
 
 // Copies the motion state, velocities and deactivation integrate counter to the destination.
 // @fnv 0x00c86610
-void hkpMotion::FUN_00c86610(hkpMotion* destination)
+// src: HAVOK_SRC 0x00c86610
+void hkpMotion::getMotionStateAndVelocitiesAndDeactivationType(hkpMotion* destination)
 {
     reinterpret_cast<CopyMotionStateFn>(&CopyMotionState)(&destination->m_kMotionState, &m_kMotionState);
     destination->m_kTranslationalVelocity = m_kTranslationalVelocity;

@@ -198,7 +198,7 @@ struct S_00df7010_VirtualMachine
     int unk34;
     int unk38;
     int unk3C;
-    void FUN_00dd1da0(const S_00df7010_MoppCode* code, const S_00df7010_Aabb& aabb, hkArray<unsigned int, S_00df7010_HitArrayPolicy>* hits) throw();
+    void hkpMoppObbVirtualMachine_queryAabb(const S_00df7010_MoppCode* code, const S_00df7010_Aabb& aabb, hkArray<unsigned int, S_00df7010_HitArrayPolicy>* hits) throw();
 };
 
 struct S_00df7010_Output
@@ -224,7 +224,7 @@ void __cdecl ExecuteMoppAabbQuery(S_00df7010_Output* out, const S_00df7010_Input
         S_00df7010_Query& query = input->m_queries[i];
         hkArray<unsigned int, S_00df7010_HitArrayPolicy> hits(query.m_pResultBuffer, 0, 0x1000);
         S_00df7010_VirtualMachine vm;
-        vm.FUN_00dd1da0(code, query.m_kBounds, &hits);
+        vm.hkpMoppObbVirtualMachine_queryAabb(code, query.m_kBounds, &hits);
         S_00df7010_HitArray_AddBack(hits, 0xffffffff);
     }
 

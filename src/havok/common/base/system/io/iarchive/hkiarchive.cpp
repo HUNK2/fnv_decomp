@@ -124,7 +124,7 @@ struct DD8FE0_Stream
     int m_04;
     DD8FE0_Writer* m_pStreamWriter;
     unsigned char m_swapByteOrder;
-    void FUN_00dd8fe0(void* data, int itemSize, int itemCount);
+    void hkIArchive_readArrayGeneric(void* data, int itemSize, int itemCount);
 };
 static __forceinline void swapByte(unsigned char& low, unsigned char& high)
 {
@@ -134,7 +134,8 @@ static __forceinline void swapByte(unsigned char& low, unsigned char& high)
 }
 // Writes itemSize*itemCount bytes to the stream writer, then swaps byte order in-place for 2, 4, or 8-byte items when m_swapByteOrder is set.
 // @fnv 0x00dd8fe0
-void DD8FE0_Stream::FUN_00dd8fe0(void* data, int itemSize, int itemCount)
+// src: HAVOK_LIB 0x00dd8fe0
+void DD8FE0_Stream::hkIArchive_readArrayGeneric(void* data, int itemSize, int itemCount)
 {
     m_pStreamWriter->Write(data, itemSize * itemCount);
     if (m_swapByteOrder)

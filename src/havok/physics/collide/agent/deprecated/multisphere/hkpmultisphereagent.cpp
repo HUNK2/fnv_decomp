@@ -599,7 +599,7 @@ void S_00d45160_Owner::SpawnWithCollectors(unsigned int a1, unsigned int a2, con
 extern "C" LocalM128 _mm_load_ps(const float*);
 struct S00d44fd0_Base
 {
-    void FUN_00d443e0(int a, int b, int c, unsigned char* obj);
+    void hkpMultiSphereAgent_processCollision(int a, int b, int c, unsigned char* obj);
 };
 
 struct S00d44fd0_Agent : S00d44fd0_Base
@@ -661,7 +661,7 @@ void S00d44fd0_Agent::FUN_00d44fd0(int a1, int a2, int a3, unsigned char* obj)
 {
     float saved = *(float*)(obj + 0x3030);
     S00d44fd0_Vert* pVert = *(S00d44fd0_Vert**)obj;
-    S00d44fd0_Base::FUN_00d443e0(a2, a1, a3, obj);
+    S00d44fd0_Base::hkpMultiSphereAgent_processCollision(a2, a1, a3, obj);
     for (; pVert < *(S00d44fd0_Vert**)obj; pVert++)
     {
         pVert->pos.addMul4(BroadcastW(pVert->nrm), pVert->nrm);
@@ -707,13 +707,14 @@ class Q_MultiSphereAgent
     int unk08;
     Q_KeyAgentPair* m_pAgents;
     int m_iElementCount;
-    void FUN_00d446f0(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const CollisionAgentContext& input,
+    void hkpMultiSphereAgent_linearCast(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const CollisionAgentContext& input,
                       hkpCdPointCollector& collector, hkpCdPointCollector* startCollector);
 };
 
 // Iterates each sphere in the multi-sphere shape, transforms it into world space, and delegates a linear cast to the per-sphere collision agent.
 // @fnv 0x00d446f0
-void Q_MultiSphereAgent::FUN_00d446f0(const hkpCdBody& bodyA, const hkpCdBody& bodyB,
+// src: HAVOK_SRC 0x00d446f0
+void Q_MultiSphereAgent::hkpMultiSphereAgent_linearCast(const hkpCdBody& bodyA, const hkpCdBody& bodyB,
                                       const CollisionAgentContext& input, hkpCdPointCollector& collector,
                                       hkpCdPointCollector* startCollector)
 {
@@ -821,7 +822,7 @@ struct LocalHolder : hkMemoryRouter
     }
 };
 struct S_00d44b00_Arr;
-extern void FUN_00c908c0(hkMemoryAllocator* a, S_00d44b00_Arr* arr, int n, int elemSize);
+extern void hkArrayUtil__reserve(hkMemoryAllocator* a, S_00d44b00_Arr* arr, int n, int elemSize);
 struct S_00d44b00_Arr
 {
     S_00d44b00_Elem* m_data;
@@ -833,7 +834,7 @@ struct S_00d44b00_Arr
         if (cap < n)
         {
             int cap2 = cap * 2;
-            FUN_00c908c0(&a, this, (n < cap2) ? cap2 : n, 8);
+            hkArrayUtil__reserve(&a, this, (n < cap2) ? cap2 : n, 8);
         }
     }
     S_00d44b00_Elem* expandByUnchecked(int n)
@@ -933,12 +934,13 @@ struct S00d443e0_S_Owner
     int unk8;
     S00d443e0_S_Entry* arr;
     int count;
-    void FUN_00d443e0(hkpCdBody* in, int a, int b, int d);
+    void hkpMultiSphereAgent_processCollision(hkpCdBody* in, int a, int b, int d);
 };
 
 // Iterates entries in reverse, adds a rotation term to the input copy, and dispatches each child's v6 with a shared context.
 // @fnv 0x00d443e0
-void S00d443e0_S_Owner::FUN_00d443e0(hkpCdBody* in, int a, int b, int d)
+// src: HAVOK_SRC 0x00d443e0
+void S00d443e0_S_Owner::hkpMultiSphereAgent_processCollision(hkpCdBody* in, int a, int b, int d)
 {
     const hkpMultiSphereShape* base = static_cast<const hkpMultiSphereShape*>(in->getShape());
     LocalM128 copyStorage[sizeof(hkMotionState) / sizeof(LocalM128)];

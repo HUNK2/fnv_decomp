@@ -2876,7 +2876,7 @@ void Node144::FUN_00c39d50()
                     a2_3 = a1c8->provider;
                     aAa = a2_3;
                     aAa->GetBound(aA);
-                    bound->FUN_00a7f3f0(&aA);
+                    bound->NiBound_Merge(&aA);
                 }
             }
             first = false;
@@ -2913,7 +2913,7 @@ void Node144::FUN_00c39d50()
             if (a7 && ((a7->bound && ((aAcoustic = a7->bound->radius), (double)aAcoustic != 0.0)) ? 1 : 0))
             {
                 a0 = a7->bound ? a7->bound : &DAT_011f4288;
-                bound->FUN_00a7f3f0(a0);
+                bound->NiBound_Merge(a0);
             }
         }
     }

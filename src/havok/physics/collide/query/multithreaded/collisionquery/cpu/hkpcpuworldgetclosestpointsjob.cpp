@@ -69,11 +69,12 @@ class FUN_00df6a40_cls
     int m_04;
     FUN_00df6a40_inner* m_08;
 
-    bool* FUN_00df6a40(bool* out);
+    bool* hkCpuWorldGetClosestPointsCollector_hasHit(bool* out);
 };
 
 // @fnv 0x00df6a40
-bool* FUN_00df6a40_cls::FUN_00df6a40(bool* pbResult)
+// src: HAVOK_LIB 0x00df6a40
+bool* FUN_00df6a40_cls::hkCpuWorldGetClosestPointsCollector_hasHit(bool* pbResult)
 {
     *pbResult = m_08->m_14 > 0;
     return pbResult;
@@ -317,11 +318,12 @@ struct SiblingCls_df6a60
 
 struct FUN_00df6b30_cls
 {
-    unsigned char* FUN_00df6b30(unsigned char* out, int a);
+    unsigned char* hkCpuWorldGetClosestPointsCollector_addMidPhaseHit(unsigned char* out, int a);
 };
 
 // @fnv 0x00df6b30
-unsigned char* FUN_00df6b30_cls::FUN_00df6b30(unsigned char* out, int a)
+// src: HAVOK_LIB 0x00df6b30
+unsigned char* FUN_00df6b30_cls::hkCpuWorldGetClosestPointsCollector_addMidPhaseHit(unsigned char* out, int a)
 {
     ((SiblingCls_df6a60*)((char*)this - 8))->Call(a);
     *out = 0;

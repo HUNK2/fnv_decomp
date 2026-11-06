@@ -112,7 +112,8 @@ struct FUN_00d1e030_t
     float fC, fD, fE, fF;
 };
 // @fnv 0x00d1e030
-void __stdcall FUN_00d1e030(FUN_00d1e030_t* p)
+// src: HAVOK_SRC 0x00d1e030
+void __stdcall hkpKeyframedRigidMotion_getInertiaWorld(FUN_00d1e030_t* p)
 {
     LocalM128 z = _mm_setzero_ps();
     *(LocalM128*)&p->f0 = z;
@@ -191,7 +192,8 @@ void __fastcall ComputeVelocityAlongDirection(const hkpKeyframedRigidMotion* mot
 extern "C" void _mm_store_ps(float*, LocalM128);
 
 // @fnv 0x00d1e010
-void __stdcall FUN_00d1e010(hkVector4* inertia)
+// src: HAVOK_SRC 0x00d1e010
+void __stdcall hkpKeyframedRigidMotion_getInertiaLocal(hkVector4* inertia)
 {
     LocalM128 zero = _mm_setzero_ps();
     _mm_store_ps(reinterpret_cast<float*>(inertia), zero);

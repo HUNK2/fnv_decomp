@@ -11,7 +11,7 @@ int __cdecl FUN_00d68260() {
     return currentState;
 }
 
-struct Built { int field00; short field04; int field08; int __thiscall FUN_00d682d0(int); };
+struct Built { int field00; short field04; int field08; int __thiscall hkpToiContactPointViewer_hkpToiContactPointViewer(int); };
 extern "C" hkMemoryRouter* __cdecl FUN_00c85750();
 // Allocates a 0x2c-byte Built via the global allocator, sets its field04 to 0x2c, calls FUN_00d682d0(arg), and returns result+8 or 0.
 // @fnv 0x00d686b0
@@ -22,7 +22,7 @@ int __cdecl FUN_00d686b0(int arg)
     typedef void* (__thiscall* AllocateFunction)(hkMemoryAllocator*, int);
     Built* pBuilt = (Built*)(*reinterpret_cast<AllocateFunction**>(allocator))[1](allocator, 0x2c);
     pBuilt->field04 = 0x2c;
-    int result = pBuilt->FUN_00d682d0(arg);
+    int result = pBuilt->hkpToiContactPointViewer_hkpToiContactPointViewer(arg);
     if (result) return result + 8;
     return 0;
 }
@@ -61,7 +61,7 @@ void FUN_00d66bf0_cls::DispatchToChild(int arg)
 }
 
 struct Target {
-    void FUN_00c91a20(void* apArg);
+    void hkpWorld_removeContactListener(void* apArg);
 };
 
 struct FUN_00d682a0_cls {
@@ -81,7 +81,7 @@ struct FUN_00d682a0_cls {
 // @fnv 0x00d682a0
 void FUN_00d682a0_cls::InvokeTargetWithSelfOffset(Target* apTarget)
 {
-    apTarget->FUN_00c91a20(((char*)this - 0x20) != 0 ? (char*)this + 8 : 0);
+    apTarget->hkpWorld_removeContactListener(((char*)this - 0x20) != 0 ? (char*)this + 8 : 0);
 }
 
 extern char DAT_0104dd7c[];
@@ -105,12 +105,13 @@ struct FUN_00d682d0_cls {
     int unk24;
     void* m_vtbl28;
 
-    void* FUN_00d682d0(int a1);
+    void* hkpToiContactPointViewer_hkpToiContactPointViewer(int a1);
 };
 
 // Calls FUN_00ddccb0 with a1, then stores five DAT_ pointers into this at offsets 0x28, 0x00, 0x08, 0x20 and 0x28, and returns this.
 // @fnv 0x00d682d0
-void* FUN_00d682d0_cls::FUN_00d682d0(int aiArg)
+// src: HAVOK_LIB 0x00d682d0
+void* FUN_00d682d0_cls::hkpToiContactPointViewer_hkpToiContactPointViewer(int aiArg)
 {
     FUN_00ddccb0(aiArg);
     *(void* volatile*)((char*)this + 0x28) = (void*)&DAT_0104dd7c;
@@ -295,13 +296,13 @@ struct FUN_00d68270_Base2 {
 struct FUN_00d68270_Derived : public FUN_00d68270_Base0, public FUN_00d68270_Base1, public FUN_00d68270_Base2 {
 };
 struct FUN_00d68270_Arg {
-    void FUN_00c93a20(FUN_00d68270_Base2* obj);
+    void hkpWorld_addContactListener(FUN_00d68270_Base2* obj);
 };
 // Calls arg->FUN_00c93a20 with the address 8 bytes past this, treated as the Base2 part of the enclosing Derived object.
 // @fnv 0x00d68270
 void FUN_00d68270_Base1::FUN_00d68270(FUN_00d68270_Arg* arg)
 {
-    arg->FUN_00c93a20(reinterpret_cast<FUN_00d68270_Derived*>(reinterpret_cast<char*>(this) - sizeof(FUN_00d68270_Base0)));
+    arg->hkpWorld_addContactListener(reinterpret_cast<FUN_00d68270_Derived*>(reinterpret_cast<char*>(this) - sizeof(FUN_00d68270_Base0)));
 }
 
 // sub ecx,0x20; jmp target  ==  MSVC adjustor thunk: Derived overrides a virtual that both of its bases

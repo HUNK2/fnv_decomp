@@ -26,7 +26,7 @@ struct ThisClass
     char pad2[0x90];
     Entry entries2[3];
 
-    void FUN_00da9790(Dest* out);
+    void hkpGsk_exitAndExportCacheImpl(Dest* out);
 };
 
 // local form of hkVector4: 0x00daa7e0 needs its original trivial packet calls (shared extent 1117 vs 1109).

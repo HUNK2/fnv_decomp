@@ -46,14 +46,14 @@ struct FUN_00e3f900_class
     int __thiscall FUN_00cb0a70(int a);
     int __thiscall FUN_00e3f900(int a);
 };
-int __cdecl FUN_00e30f40(int a, int b);
+int __cdecl hkaSplineCompressedAnimation_packMaskAndQuantizationType(int a, int b);
 struct S_00df8990_Obj;
 extern void(__cdecl* DAT_0126ec04)(void*, void*, S_00df8990_Obj*);
 void __cdecl FUN_00e2b9b0(void*, void*, S_00df8990_Obj*);
 void __cdecl FUN_00e2ba90();
 extern int DAT_010eb3b8[];
 extern int DAT_010eb3d0[];
-int __cdecl FUN_00e30ff0(int a, int b);
+int __cdecl hkaSplineCompressedAnimation_handleEndianQuaternion(int a, int b);
 void __cdecl AlignAndAdvance(char flags, int aiCount, int aiIndex, int* p);
 extern int DAT_010eb770;
 struct FUN_00e34800
@@ -170,7 +170,7 @@ struct E2baaDst
     int unk50;
     int unk54;
 };
-E2baaDst* __cdecl FUN_00e2baa0(E2baaDst* out, E2baaSrc* src, int flag);
+E2baaDst* __cdecl setCollector(E2baaDst* out, E2baaSrc* src, int flag);
 struct FUN_00e2d0d0_cls;
 struct E2d0Ref;
 struct E2d0Node;
@@ -1142,10 +1142,10 @@ class FUN_00e30f10
 unsigned short NormalizeToUShort(float fMin, float fScaledValue, float fValue);
 void __cdecl SwapBytesAndAdvance(int iByteCount, unsigned char** ppBuffer);
 void __cdecl FillInterpolatedValues(int count, float** array, float first, float last);
-unsigned int __cdecl FUN_00e31570(unsigned char a1, unsigned int* a2);
-int __cdecl FUN_00e315a0(unsigned char a1, unsigned int a2, unsigned int a3, unsigned int* a4);
+unsigned int __cdecl hkaSplineCompressedAnimation_handleEndianKnots(unsigned char a1, unsigned int* a2);
+int __cdecl hkaSplineCompressedAnimation_handleEndianScalarControlPoints(unsigned char a1, unsigned int a2, unsigned int a3, unsigned int* a4);
 void __cdecl FUN_00e31740(unsigned char flag, unsigned int uiValue, unsigned int* puiOut);
-int __cdecl FUN_00e31570(int a, int* c);
+int __cdecl hkaSplineCompressedAnimation_handleEndianKnots(int a, int* c);
 void __cdecl AlignAndAdvance(int a, int result, int b, int* c);
 void __cdecl FUN_00e31780(int a, int b, int* c);
 int __cdecl FindKeyInterval(int aiLowIndex, int aiHighIndex, unsigned char key, unsigned char* aucTable);
@@ -1678,7 +1678,7 @@ struct S00e311f0_T
         return value;
     }
 };
-unsigned char __cdecl FUN_00e311f0(S00e311f0_PA a, S00e311f0_PB b, const S00e311f0_V* c, S00e311f0_T eps,
+unsigned char __cdecl hkaSplineCompressedAnimation_isStatic(S00e311f0_PA a, S00e311f0_PB b, const S00e311f0_V* c, S00e311f0_T eps,
                                    const S00e311f0_V* d);
 namespace se34af0 {
 
@@ -1772,7 +1772,7 @@ struct S3b010Obj
     float unk28;
     float unk2c;
 
-    void* FUN_00e3b010();
+    void* hkpStiffSpringChainData_hkpStiffSpringChainData();
 };
 extern int DAT_010e11ec;
 struct M3
@@ -1915,7 +1915,7 @@ template <class T> struct hkRefPtr_e3e8
         if (m_pRetainedObject)
             m_pRetainedObject->FUN_00c905b0();
     }
-    T* FUN_00d477a0() throw();
+    T* hkRefVariant_getClass() throw();
     T* val() const
     {
         return m_pRetainedObject;
@@ -2036,7 +2036,7 @@ struct __declspec(align(16)) CastCollector
 };
 extern int DAT_010dbaf8, DAT_010dbae4, DAT_010dbad8, DAT_010dbacc, DAT_010dbb04;
 void __cdecl FUN_00d98ca0(void*, void*, S_00df8990_Obj*, void*, void*);
-void __cdecl FUN_00e2abf0(void* caster, S_00df8990_Obj* source, int value, CastOutput* output);
+void __cdecl hkTreeRayCastJobUtil_castRayKdTree(void* caster, S_00df8990_Obj* source, int value, CastOutput* output);
 void __cdecl FUN_00e2cfc0();
 void FUN_00e2cfd0();
 #include <xmmintrin.h>
@@ -2046,7 +2046,7 @@ float __cdecl FUN_00e52f60();
 float __cdecl FUN_00e52f70();
 float __cdecl FUN_00e52f80();
 float __cdecl FUN_00e52f90();
-float __cdecl FUN_00e32e50(int type);
+float __cdecl hkaSplineCompressedAnimation_TrackCompressionParams_approximateQuantizationAccuracy(int type);
 float __cdecl FUN_00e32ea0(int type);
 extern "C" void _ReadWriteBarrier(void);
 struct Chain
@@ -2183,7 +2183,7 @@ struct WorkArray : hkArrayBase<WorkItem>   // hkLocalArray<WorkItem> (fields set
         return m_data + old;
     }
 };
-void FUN_00e2cc30(SplitInput* input, int a2, int a3, int a4, int a5, int a6, int count);
+void hkAabbTreeRayCastUtil_struct_hkAabbTreeData_hkAabbTreeAabb16_unsigned_short_castRayFiltering(SplitInput* input, int a2, int a3, int a4, int a5, int a6, int count);
 #include <xmmintrin.h>
 namespace FanSpace {
 // Exe 0x00e2d1b0 FanBuilder::FUN_00e2d1b0: retain this LocalM128 view; the CRT type does not preserve this unit.
@@ -2413,7 +2413,7 @@ extern int DAT_010e00dc;
 struct TyremarkWheelView : FUN_00e3a270
 {
     TyremarkWheelView* FUN_00e3a270();
-    void FUN_00e3a1e0(int pointCount);
+    void hkpTyremarksWheel_setNumPoints(int pointCount);
 };
 inline TyremarkWheelView* allocateTyremarkWheel();
 struct TyremarkVehicleView

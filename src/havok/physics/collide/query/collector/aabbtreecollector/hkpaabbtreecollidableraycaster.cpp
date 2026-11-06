@@ -5,10 +5,11 @@
 struct hkpAabbTreeCollidableRaycaster
 {
     void CollectRayHit(int);
-    float FUN_00d9a220(int);
+    float addLeaf(int);
 };
 // @fnv 0x00d9a220
-float hkpAabbTreeCollidableRaycaster::FUN_00d9a220(int a)
+// src: HAVOK_LIB 0x00d9a220
+float hkpAabbTreeCollidableRaycaster::addLeaf(int a)
 {
     CollectRayHit(*(int*)(a + 0x20));
     return *(float*)((char*)this + 0x1c);
@@ -18,10 +19,11 @@ namespace fnv_00d9a240 {
 struct hkpAabbTreeCollidableRaycaster
 {
     void __thiscall CollectRayHit(void*);
-    float __thiscall FUN_00d9a240(void* arg);
+    float __thiscall addLeaf_00d9a240(void* arg);
 };
 // @fnv 0x00d9a240
-float __thiscall hkpAabbTreeCollidableRaycaster::FUN_00d9a240(void* arg)
+// src: HAVOK_LIB 0x00d9a240
+float __thiscall hkpAabbTreeCollidableRaycaster::addLeaf_00d9a240(void* arg)
 {
     ((hkpAabbTreeCollidableRaycaster*)((char*)this - 4))->CollectRayHit(*(void**)((char*)arg + 12));
     return *(float*)((char*)this + 0x18);

@@ -50,7 +50,8 @@ extern int DAT_010c749c;
 
 // If a is non-null, sets *a to DAT_010305a8, clears a[3] when b is set, then sets *a to DAT_010c749c and a[3] to 3.
 // @fnv 0x00e00570
-void __cdecl FUN_00e00570(int* pObject, int b)
+// src: HAVOK_LIB 0x00e00570
+void __cdecl finishLoadedObjecthkpTriangleShape(int* pObject, int b)
 {
     if (pObject)
     {
@@ -66,7 +67,8 @@ extern int DAT_010305a8;
 extern int DAT_010cb5ac;
 
 // @fnv 0x00e007b0
-void FUN_00e007b0(int* pObject, int flag)
+// src: HAVOK_LIB 0x00e007b0
+void finishLoadedObjecthkpSphereShape(int* pObject, int flag)
 {
     if (pObject)
     {
@@ -123,7 +125,8 @@ extern int DAT_010305a8;
 extern int DAT_010ce25c;
 // If a is non-null, sets *a to &DAT_010305a8, optionally clears a[3] when b is set, then sets *a to &DAT_010ce25c and a[3] to 5.
 // @fnv 0x00e01340
-void FUN_00e01340(int* pObject, int b)
+// src: HAVOK_LIB 0x00e01340
+void finishLoadedObjecthkpCapsuleShape(int* pObject, int b)
 {
     if (pObject)
     {
@@ -140,7 +143,8 @@ extern int DAT_010c70b4;
 
 // If p is non-null, sets p[0] to DAT_010305a8, clears p[3] when a is set, then sets p[0] to DAT_010c70b4 and p[3] to 4.
 // @fnv 0x00e01410
-void __cdecl FUN_00e01410(int* pObject, int a)
+// src: HAVOK_LIB 0x00e01410
+void __cdecl finishLoadedObjecthkpBoxShape(int* pObject, int a)
 {
     if (pObject)
     {
@@ -209,7 +213,8 @@ struct FUN_00e10740_b
 
 // Returns 1 if the float field of p is less than the float field of q, otherwise 0.
 // @fnv 0x00e10740
-int __cdecl FUN_00e10740(const FUN_00e10740_a* pLeft, const FUN_00e10740_b* pRight)
+// src: HAVOK_LIB 0x00e10740
+int __cdecl hkCompareInfosBySize(const FUN_00e10740_a* pLeft, const FUN_00e10740_b* pRight)
 {
     if (pLeft->b < pRight->d)
         return 1;
@@ -219,11 +224,12 @@ int __cdecl FUN_00e10740(const FUN_00e10740_a* pLeft, const FUN_00e10740_b* pRig
 struct FUN_00e11960_cls
 {
     int m_2c;
-    int FUN_00e11960();
+    int hkgpMesh_countParts();
 };
 // Walks the linked list at offset 0x2c, tracks the largest value at offset 0x30, and returns that maximum plus one.
 // @fnv 0x00e11960
-int FUN_00e11960_cls::FUN_00e11960()
+// src: HAVOK_LIB 0x00e11960
+int FUN_00e11960_cls::hkgpMesh_countParts()
 {
     int iMaxValue = -1;
     int* p = *reinterpret_cast<int**>(reinterpret_cast<char*>(this) + 0x2c);
@@ -258,11 +264,12 @@ void FUN_00e11d80_class::SetValueForAllNodes(int aiIndex, float afValue)
 
 struct FUN_00e11da0_class
 {
-    void FUN_00e11da0(int value);
+    void hkgpMesh_setVerticesTag(int value);
 };
 
 // @fnv 0x00e11da0
-void FUN_00e11da0_class::FUN_00e11da0(int value)
+// src: HAVOK_LIB 0x00e11da0
+void FUN_00e11da0_class::hkgpMesh_setVerticesTag(int value)
 {
     int* pNode = *(int**)((char*)this + 0x14);
     if (pNode)
@@ -357,7 +364,8 @@ extern int DAT_010c6fd0;
 extern int DAT_010cc41c;
 
 // @fnv 0x00e00740
-void __cdecl FUN_00e00740(int* pObject, int bClear)
+// src: HAVOK_LIB 0x00e00740
+void __cdecl finishLoadedObjecthkpTransformShape(int* pObject, int bClear)
 {
     if (pObject)
     {
@@ -433,7 +441,8 @@ extern int DAT_010c6fd0;
 extern int DAT_010d0e5c;
 
 // @fnv 0x00e00e90
-void __cdecl FUN_00e00e90(int* pObject, int bClear)
+// src: HAVOK_LIB 0x00e00e90
+void __cdecl finishLoadedObjecthkpConvexTranslateShape(int* pObject, int bClear)
 {
     if (pObject)
     {
@@ -452,7 +461,8 @@ extern int DAT_010d102c;
 
 // If a is non-null, stores pointers to three globals into a and sets a[3] to 12 (or 0 first when b is set).
 // @fnv 0x00e00f00
-void __cdecl FUN_00e00f00(int** a, int abReset)
+// src: HAVOK_LIB 0x00e00f00
+void __cdecl finishLoadedObjecthkpConvexTransformShape(int** a, int abReset)
 {
     if (a)
     {
@@ -795,11 +805,12 @@ struct FUN_00e11dc0_class
     int m_24;
     int m_28;
     int m_2c;
-    void __thiscall FUN_00e11dc0();
+    void __thiscall hkgpMesh_copyPartIdToVerticesW();
 };
 
 // @fnv 0x00e11dc0
-void __thiscall FUN_00e11dc0_class::FUN_00e11dc0()
+// src: HAVOK_LIB 0x00e11dc0
+void __thiscall FUN_00e11dc0_class::hkgpMesh_copyPartIdToVerticesW()
 {
     int node = m_2c;
     if (!node)
@@ -1154,7 +1165,8 @@ void __cdecl FUN_00e01cd0(FUN_00e01cd0_vt* p)
 extern int DAT_010e9a34;
 
 // @fnv 0x00e01cf0
-void FUN_00e01cf0(void* pObject, void* b)
+// src: HAVOK_LIB 0x00e01cf0
+void finishLoadedObjecthkpSerializedAgentNnEntry_00e01cf0(void* pObject, void* b)
 {
     if (pObject)
     {
@@ -1270,10 +1282,11 @@ struct FUN_00e0bf30_s
     int a;
     int b;
     FUN_00cb0a70 c;
-    FUN_00e0bf30_s* __thiscall FUN_00e0bf30(int v);
+    FUN_00e0bf30_s* __thiscall hkMonitorStreamStringMap_StringMap_StringMap(int v);
 };
 // @fnv 0x00e0bf30
-FUN_00e0bf30_s* __thiscall FUN_00e0bf30_s::FUN_00e0bf30(int aiValue)
+// src: HAVOK_LIB 0x00e0bf30
+FUN_00e0bf30_s* __thiscall FUN_00e0bf30_s::hkMonitorStreamStringMap_StringMap_StringMap(int aiValue)
 {
     c.m(aiValue);
     return this;
@@ -1282,13 +1295,13 @@ FUN_00e0bf30_s* __thiscall FUN_00e0bf30_s::FUN_00e0bf30(int aiValue)
 void* __cdecl FUN_00e114a0();
 struct FUN_00d752e0_cls
 {
-    void __thiscall FUN_00d752e0();
+    void __thiscall hkgpConvexHull_getVolume();
 };
 
 // @fnv 0x00e114b0
 void __cdecl FUN_00e114b0()
 {
-    ((FUN_00d752e0_cls*)FUN_00e114a0())->FUN_00d752e0();
+    ((FUN_00d752e0_cls*)FUN_00e114a0())->hkgpConvexHull_getVolume();
 }
 
 struct FUN_00e11d60_class
@@ -1306,11 +1319,12 @@ struct FUN_00e11d60_class
     int m_28;
     int* m_2c;
     int m_30;
-    void __thiscall FUN_00e11d60(int val);
+    void __thiscall hkgpMesh_setPartId(int val);
 };
 
 // @fnv 0x00e11d60
-void __thiscall FUN_00e11d60_class::FUN_00e11d60(int val)
+// src: HAVOK_LIB 0x00e11d60
+void __thiscall FUN_00e11d60_class::hkgpMesh_setPartId(int val)
 {
     int* p = m_2c;
     if (p)
@@ -2284,14 +2298,14 @@ int* __cdecl FUN_00e00d40()
 
 struct FUN_00d57b20_class
 {
-    void __thiscall FUN_00d57b20(int value);
+    void __thiscall hkpCylinderShape_hkpCylinderShape_00d57b20(int value);
 };
 
 // @fnv 0x00e00d50
 void __cdecl FUN_00e00d50(FUN_00d57b20_class* pObject, int value)
 {
     if (pObject)
-        pObject->FUN_00d57b20(value);
+        pObject->hkpCylinderShape_hkpCylinderShape_00d57b20(value);
 }
 
 extern int DAT_0126e060;
@@ -3832,7 +3846,8 @@ void __cdecl SwapQuadBytes(unsigned char* pData)
 
 // Swaps byte pairs at offsets 4/7, 5/6, 8/11 and 9/10 of the buffer through a volatile pointer.
 // @fnv 0x00e05eb0
-void __cdecl FUN_00e05eb0(unsigned char* pBuffer)
+// src: HAVOK_LIB 0x00e05eb0
+void __cdecl hkpSaveContactPointsEndianUtil_swapEndianType(unsigned char* pBuffer)
 {
     volatile unsigned char* v = (volatile unsigned char*)pBuffer;
     unsigned int a;
@@ -3894,7 +3909,8 @@ void __cdecl SwapHeaderEndianness(E05F60Header* pkHeader)
 }
 
 // @fnv 0x00e05fe0
-void __cdecl FUN_00e05fe0(unsigned char* pBuffer)
+// src: HAVOK_LIB 0x00e05fe0
+void __cdecl hkpSaveContactPointsEndianUtil_swapEndianType_00e05fe0(unsigned char* pBuffer)
 {
     for (int i = 0; i < 4; i++)
     {
@@ -3906,7 +3922,8 @@ void __cdecl FUN_00e05fe0(unsigned char* pBuffer)
 }
 
 // @fnv 0x00e06010
-void __cdecl FUN_00e06010(unsigned char* pucBuffer)
+// src: HAVOK_LIB 0x00e06010
+void __cdecl hkpSaveContactPointsEndianUtil_swapEndianType_00e06010(unsigned char* pucBuffer)
 {
     int i;
     unsigned char* e;
@@ -3973,7 +3990,8 @@ struct SearchContainer
 };
 
 // @fnv 0x00e10820
-SearchItem* FUN_00e10820(SearchContainer* c, double key, int aiFieldIndex)
+// src: HAVOK_LIB 0x00e10820
+SearchItem* findChildNode(SearchContainer* c, double key, int aiFieldIndex)
 {
     int lo = 0;
     int hi = c->m_uiItemCount;
@@ -5885,12 +5903,12 @@ struct Context
 };
 void SwapHeaderBytesAndAdvance(Input*);
 void SwapQuadBytes(Input*);
-void FUN_00e05eb0(Input*);
+void hkpSaveContactPointsEndianUtil_swapEndianType(Input*);
 int FUN_00dcd4d0(unsigned int);
 void SwapHkHeaderE05E(Payload*);
 void SwapHeaderEndianness(Payload*);
-void FUN_00e05fe0(Payload*);
-void FUN_00e06010(void*);
+void hkpSaveContactPointsEndianUtil_swapEndianType_00e05fe0(Payload*);
+void hkpSaveContactPointsEndianUtil_swapEndianType_00e06010(void*);
 void ProcessListBlocks(Context**, void*);
 // Dispatches input handling by input->type and reverse, selects a payload, then applies the operation from the context entry key to that payload.
 // @fnv 0x00e06070
@@ -5926,7 +5944,7 @@ void ProcessInput(Context** context, Input* input, void* argument, bool reverse,
         else
         {
             payload = &input->a;
-            FUN_00e05eb0(input);
+            hkpSaveContactPointsEndianUtil_swapEndianType(input);
         }
         break;
     case 0:
@@ -5948,14 +5966,14 @@ void ProcessInput(Context** context, Input* input, void* argument, bool reverse,
         break;
     case 3:
     case 4:
-        FUN_00e05fe0(payload);
-        FUN_00e06010(&payload->flags);
+        hkpSaveContactPointsEndianUtil_swapEndianType_00e05fe0(payload);
+        hkpSaveContactPointsEndianUtil_swapEndianType_00e06010(&payload->flags);
         break;
     case 5:
         if (payload->z3 & 0x20)
         {
-            FUN_00e05fe0(payload);
-            FUN_00e06010(&payload->flags);
+            hkpSaveContactPointsEndianUtil_swapEndianType_00e05fe0(payload);
+            hkpSaveContactPointsEndianUtil_swapEndianType_00e06010(&payload->flags);
         }
         else
         {
@@ -6774,7 +6792,7 @@ struct Array
     Array() : data(0), size(0), capacity(0x80000000)
     {}
 };
-void __cdecl FUN_00c908c0(Alloc*, Array*, int, int);
+void __cdecl hkArrayUtil__reserve(Alloc*, Array*, int, int);
 struct Entry
 {
     Node* key;
@@ -6822,13 +6840,13 @@ struct Target
     Pool pool;
     int u1C, u20, u24, u28;
     Link* links;
-    int FUN_00e11960();
+    int hkgpMesh_countParts();
     int ResolveLinkNodes();
 };
 // @fnv 0x00e18b70
 int Target::ResolveLinkNodes()
 {
-    int total = FUN_00e11960();
+    int total = hkgpMesh_countParts();
     int copies = 0;
     BlkMapView nodeMap;
     nodeMap.EnsureCapacity(&reinterpret_cast<Alloc&>(hkMemoryRouter::getInstance().heap()), 0);
@@ -6849,7 +6867,7 @@ int Target::ResolveLinkNodes()
                     int grown = cap * 2;
                     if (total >= grown)
                         grown = total;
-                    FUN_00c908c0(allocator, a, grown, 4);
+                    hkArrayUtil__reserve(allocator, a, grown, 4);
                 }
                 int remaining = total - a->size;
                 Node** end = a->data + a->size;
@@ -7049,7 +7067,7 @@ void ReverseBytesInGroupsOfFour(unsigned char* pucData)
 
 struct S_e05_res
 {
-    char* __thiscall FUN_00d46d80(char* a, S_e05_res* b);
+    char* __thiscall hkClass_isSuperClass(char* a, S_e05_res* b);
 };
 
 struct S_e05_obj
@@ -7072,7 +7090,7 @@ static __declspec(noinline) bool FUN_00e050c0(S_e05_obj* obj, int arg, int value
     int slot;
     S_e05_res* first = obj->m4(arg);
     S_e05_res* second = obj->m4(value);
-    char* s = second->FUN_00d46d80((char*)&slot + 3, first);
+    char* s = second->hkClass_isSuperClass((char*)&slot + 3, first);
     return *s != 0;
 }
 
@@ -7174,7 +7192,8 @@ struct S00e0bf50_Acc
 };
 // Adds each float and unsigned short field of src to the corresponding field of dst, accumulating values in place.
 // @fnv 0x00e0bf50
-static __declspec(noinline) void FUN_00e0bf50(S00e0bf50_Acc* dst, S00e0bf50_Acc* src)
+// src: HAVOK_LIB 0x00e0bf50
+static __declspec(noinline) void hkMakeSum(S00e0bf50_Acc* dst, S00e0bf50_Acc* src)
 {
     {
         float t = src->m_00;
@@ -7244,7 +7263,7 @@ static __declspec(noinline) void FUN_00e0bf50(S00e0bf50_Acc* dst, S00e0bf50_Acc*
 
 void S00e0bf50_Call(S00e0bf50_Acc* dst, S00e0bf50_Acc* src)
 {
-    FUN_00e0bf50(dst, src);
+    hkMakeSum(dst, src);
 }
 
 template <int SIZE> __forceinline void memCpyOneAlignedE030(void* dst, const void* src)
@@ -7327,7 +7346,7 @@ struct Slot00e04e10
 };
 struct Mgr00e04e10
 {
-    unsigned char* FUN_00d46d80(unsigned char* out, void* key);
+    unsigned char* hkClass_isSuperClass(unsigned char* out, void* key);
 };
 
 // Calls obj->v10 with a and b, then FUN_00d46d80 on the b result with the a result as key; returns whether the byte it returns is non-zero.
@@ -7337,7 +7356,7 @@ static __declspec(noinline) bool __cdecl FUN_00e04e10(Slot00e04e10* obj, int a, 
     void* pKey = obj->v10(a);
     Mgr00e04e10* m = (Mgr00e04e10*)obj->v10(b);
     unsigned char flag;
-    return *m->FUN_00d46d80(&flag, pKey) != 0;
+    return *m->hkClass_isSuperClass(&flag, pKey) != 0;
 }
 
 bool keep_alive_b11536(Slot00e04e10* obj, int a, int b)
@@ -7387,7 +7406,7 @@ extern const char DAT_010ea878[];
 
 struct ColorRegistry
 {
-    void FUN_00e0d980(const char* name, unsigned int color);
+    void hkMonitorStreamColorTable_addColor(const char* name, unsigned int color);
     void RegisterDefaultColors();
 };
 
@@ -7395,45 +7414,45 @@ struct ColorRegistry
 // @fnv 0x00e0f340
 void ColorRegistry::RegisterDefaultColors()
 {
-    FUN_00e0d980(DAT_010cb2c0, 0xff404040u);
-    FUN_00e0d980(DAT_010eaa4c, 0xff6495edu);
-    FUN_00e0d980(DAT_010c65b0, 0xff0000ffu);
-    FUN_00e0d980(DAT_010eaa40, 0xff191970u);
-    FUN_00e0d980(DAT_010eaa30, 0xff483d8bu);
-    FUN_00e0d980(DAT_010eaa24, 0xffa52a2au);
-    FUN_00e0d980(DAT_010eaa18, 0xfff5f5dcu);
-    FUN_00e0d980(DAT_010eaa0c, 0xffffff00u);
-    FUN_00e0d980(DAT_010eaa00, 0xffffff00u);
-    FUN_00e0d980(DAT_010ea9f4, 0xffffff00u);
-    FUN_00e0d980(DAT_010ea9e0, 0xffffff00u);
-    FUN_00e0d980(DAT_010ea9d4, 0xffd2b48cu);
-    FUN_00e0d980(DAT_010ea9cc, 0xffffd700u);
-    FUN_00e0d980(DAT_010ea9c0, 0xfff5deb3u);
-    FUN_00e0d980(DAT_010ea9b4, 0xff008000u);
-    FUN_00e0d980(DAT_010c41dc, 0xff00ff7fu);
-    FUN_00e0d980(DAT_010ea9a8, 0xff32cd32u);
-    FUN_00e0d980(DAT_010ea998, 0xff2e8b57u);
-    FUN_00e0d980(DAT_010ea984, 0xff808000u);
-    FUN_00e0d980(DAT_010ea974, 0xff228b22u);
-    FUN_00e0d980(DAT_010c90a4, 0xff98fb98u);
-    FUN_00e0d980(DAT_010ea96c, 0xff98fb98u);
-    FUN_00e0d980(DAT_010ea958, 0xff90ee90u);
-    FUN_00e0d980(DAT_010ea948, 0xff8fbc8fu);
-    FUN_00e0d980(DAT_010ea93c, 0xff8b0000u);
-    FUN_00e0d980(DAT_010ea92c, 0xff800000u);
-    FUN_00e0d980(DAT_010ea920, 0xffff0000u);
-    FUN_00e0d980(DAT_010ea910, 0xffdc143cu);
-    FUN_00e0d980(DAT_010ea900, 0xff800080u);
-    FUN_00e0d980(DAT_010ea8f4, 0xffda70d6u);
-    FUN_00e0d980(DAT_010ea8ec, 0xff48d1ccu);
-    FUN_00e0d980(DAT_010ea8e4, 0xffc71585u);
-    FUN_00e0d980(DAT_010ea8d4, 0xff00008bu);
-    FUN_00e0d980(DAT_010ea8c4, 0xff00008bu);
-    FUN_00e0d980(DAT_010c65bc, 0xff006400u);
-    FUN_00e0d980(DAT_010ea8ac, 0xff9370dbu);
-    FUN_00e0d980(DAT_010ea89c, 0xff00008bu);
-    FUN_00e0d980(DAT_010ea88c, 0xff191970u);
-    FUN_00e0d980(DAT_010ea878, 0xff6495edu);
+    hkMonitorStreamColorTable_addColor(DAT_010cb2c0, 0xff404040u);
+    hkMonitorStreamColorTable_addColor(DAT_010eaa4c, 0xff6495edu);
+    hkMonitorStreamColorTable_addColor(DAT_010c65b0, 0xff0000ffu);
+    hkMonitorStreamColorTable_addColor(DAT_010eaa40, 0xff191970u);
+    hkMonitorStreamColorTable_addColor(DAT_010eaa30, 0xff483d8bu);
+    hkMonitorStreamColorTable_addColor(DAT_010eaa24, 0xffa52a2au);
+    hkMonitorStreamColorTable_addColor(DAT_010eaa18, 0xfff5f5dcu);
+    hkMonitorStreamColorTable_addColor(DAT_010eaa0c, 0xffffff00u);
+    hkMonitorStreamColorTable_addColor(DAT_010eaa00, 0xffffff00u);
+    hkMonitorStreamColorTable_addColor(DAT_010ea9f4, 0xffffff00u);
+    hkMonitorStreamColorTable_addColor(DAT_010ea9e0, 0xffffff00u);
+    hkMonitorStreamColorTable_addColor(DAT_010ea9d4, 0xffd2b48cu);
+    hkMonitorStreamColorTable_addColor(DAT_010ea9cc, 0xffffd700u);
+    hkMonitorStreamColorTable_addColor(DAT_010ea9c0, 0xfff5deb3u);
+    hkMonitorStreamColorTable_addColor(DAT_010ea9b4, 0xff008000u);
+    hkMonitorStreamColorTable_addColor(DAT_010c41dc, 0xff00ff7fu);
+    hkMonitorStreamColorTable_addColor(DAT_010ea9a8, 0xff32cd32u);
+    hkMonitorStreamColorTable_addColor(DAT_010ea998, 0xff2e8b57u);
+    hkMonitorStreamColorTable_addColor(DAT_010ea984, 0xff808000u);
+    hkMonitorStreamColorTable_addColor(DAT_010ea974, 0xff228b22u);
+    hkMonitorStreamColorTable_addColor(DAT_010c90a4, 0xff98fb98u);
+    hkMonitorStreamColorTable_addColor(DAT_010ea96c, 0xff98fb98u);
+    hkMonitorStreamColorTable_addColor(DAT_010ea958, 0xff90ee90u);
+    hkMonitorStreamColorTable_addColor(DAT_010ea948, 0xff8fbc8fu);
+    hkMonitorStreamColorTable_addColor(DAT_010ea93c, 0xff8b0000u);
+    hkMonitorStreamColorTable_addColor(DAT_010ea92c, 0xff800000u);
+    hkMonitorStreamColorTable_addColor(DAT_010ea920, 0xffff0000u);
+    hkMonitorStreamColorTable_addColor(DAT_010ea910, 0xffdc143cu);
+    hkMonitorStreamColorTable_addColor(DAT_010ea900, 0xff800080u);
+    hkMonitorStreamColorTable_addColor(DAT_010ea8f4, 0xffda70d6u);
+    hkMonitorStreamColorTable_addColor(DAT_010ea8ec, 0xff48d1ccu);
+    hkMonitorStreamColorTable_addColor(DAT_010ea8e4, 0xffc71585u);
+    hkMonitorStreamColorTable_addColor(DAT_010ea8d4, 0xff00008bu);
+    hkMonitorStreamColorTable_addColor(DAT_010ea8c4, 0xff00008bu);
+    hkMonitorStreamColorTable_addColor(DAT_010c65bc, 0xff006400u);
+    hkMonitorStreamColorTable_addColor(DAT_010ea8ac, 0xff9370dbu);
+    hkMonitorStreamColorTable_addColor(DAT_010ea89c, 0xff00008bu);
+    hkMonitorStreamColorTable_addColor(DAT_010ea88c, 0xff191970u);
+    hkMonitorStreamColorTable_addColor(DAT_010ea878, 0xff6495edu);
 }
 
 struct FUN_00e004f0 : S_00e003d0_Base, S_00e003d0_Arrs
@@ -7837,12 +7856,13 @@ struct Mesh
     PoolList<Vertex> m_kVertices;
     PoolList<Triangle> m_uiTriangleCount;
     void ReleaseSubobject();
-    void FUN_00e192c0(Mesh* mesh);
+    void hkgpMesh_append(Mesh* mesh);
 };
 
 // Copies vertices and triangles from mesh into this mesh, remapping vertex pointers and edge links, then calls FUN_00e114c0.
 // @fnv 0x00e192c0
-void Mesh::FUN_00e192c0(Mesh* apSrcMesh)
+// src: HAVOK_LIB 0x00e192c0
+void Mesh::hkgpMesh_append(Mesh* apSrcMesh)
 {
     PtrMap mapVertexToNew;
     mapVertexToNew.init();

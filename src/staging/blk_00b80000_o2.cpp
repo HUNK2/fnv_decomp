@@ -15622,7 +15622,7 @@ struct W82197
 void __cdecl UpdateInputFlags(W82197, int);
 
 extern "C" void __stdcall FUN_00ec5fce(void* apBase, unsigned int aiSize, unsigned int aiCount, void* apDtor);
-void __cdecl FUN_00aa10f0(void* apMemory);
+void __cdecl _NiFree_00aa10f0(void* apMemory);
 extern "C" void FUN_0045cec0();
 
 struct AllocFree_b9960 : AllocSvc
@@ -15658,7 +15658,7 @@ struct Sub68_b9960
 {
     virtual ~Sub68_b9960()
     {
-        FUN_00aa10f0(m_04);
+        _NiFree_00aa10f0(m_04);
     }
     void* m_04;
     int unk08;

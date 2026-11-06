@@ -27,7 +27,7 @@ struct S_Router
     }
 };
 S_Router* FUN_00c85750();
-int FUN_00cb10d0(const char* s);
+int hkString_strLen(const char* s);
 
 struct S_Arr
 {
@@ -102,7 +102,7 @@ struct S_Str : S_Arr
     int unk84;
     int unk88;
 };
-int FUN_00d61d00(S_Str* s, const char* fmt, ...);
+int hkStringBuf_printf(S_Str* s, const char* fmt, ...);
 extern int DAT_011b5dc0;
 extern int DAT_011b5dbc;
 
@@ -119,14 +119,14 @@ int WriteCompilerInfo(const char* name)
     outStream.FUN_00d605d0(0x90);
     outStream.WriteInt(DAT_011b5dc0);
     outStream.WriteInt(DAT_011b5dbc);
-    int n = FUN_00cb10d0("PC_32");
+    int n = hkString_strLen("PC_32");
     if (n > 0xffff)
         n = 0xffff;
     outStream.WriteUInt16(n);
     outStream.FUN_00d607b0("PC_32", n);
     S_Str versionStr;
     versionStr.InitBuffer();
-    FUN_00d61d00(&versionStr, "%s:%i", "MSVC", 1500);
+    hkStringBuf_printf(&versionStr, "%s:%i", "MSVC", 1500);
     int iVersionLen = versionStr.size - 1;
     if (iVersionLen > 0xffff)
         iVersionLen = 0xffff;

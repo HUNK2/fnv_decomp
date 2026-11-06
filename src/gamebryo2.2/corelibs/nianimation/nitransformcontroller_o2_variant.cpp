@@ -165,11 +165,12 @@ struct FUN_00a2f8a0_Holder
 struct FUN_00a38ef0_Class : NiInterpController
 {
     NiInterpolator* m_spControllerInterpolator;
-    void FUN_00a38ef0(FUN_00a38ef0_Class* pkDest, CloningProcess& kCloning);
+    void NiSingleInterpController_CopyMembers(FUN_00a38ef0_Class* pkDest, CloningProcess& kCloning);
 };
 
 // @fnv 0x00a38ef0
-void FUN_00a38ef0_Class::FUN_00a38ef0(FUN_00a38ef0_Class* pkDest, CloningProcess& kCloning)
+// src: GAMEBRYO_LIB 0x00a38ef0
+void FUN_00a38ef0_Class::NiSingleInterpController_CopyMembers(FUN_00a38ef0_Class* pkDest, CloningProcess& kCloning)
 {
     ((FUN_00a2f8a0_Holder*)this)->FUN_00a2f8a0(pkDest, kCloning);
 

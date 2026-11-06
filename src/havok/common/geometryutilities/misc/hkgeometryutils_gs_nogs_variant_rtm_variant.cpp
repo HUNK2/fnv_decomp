@@ -29,7 +29,7 @@ __forceinline hkThreadMemory* getThreadMemory() throw()
     return (hkThreadMemory*)FUN_00c85750();
 }
 void __cdecl FUN_00c90940(void* mem, void* array, int elemSize) throw();
-void __cdecl FUN_00c908c0(void* mem, void* array, int reqCapacity, int elemSize) throw();
+void __cdecl hkArrayUtil__reserve(void* mem, void* array, int reqCapacity, int elemSize) throw();
 extern const float DAT_01016248;
 extern const float DAT_01017718;
 extern const float DAT_01011d78;
@@ -204,7 +204,7 @@ template <typename T> static __forceinline void reserveArray(CapsuleArrayView<T>
 {
     hkThreadMemory* memory = getThreadMemory();
     if ((array.m_iCapacityState & 0x3fffffff) < n)
-        FUN_00c908c0(memory->m_pMemoryAllocator, &array, n, sizeof(T));
+        hkArrayUtil__reserve(memory->m_pMemoryAllocator, &array, n, sizeof(T));
 }
 template <typename T> static __forceinline void fillOne(T* dst, int n, const T& val)
 {

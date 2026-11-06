@@ -46,7 +46,8 @@ __declspec(noinline) void* FUN_00c85750()
 
 // Clones the dashpot action when exactly two entities are added and none removed, copying points, spring strength, damping, and contact impulse.
 // @fnv 0x00d4d9d0
-hkpAction* hkpDashpotAction::FUN_00d4d9d0(const hkArray<hkpEntity*>& newEntities,
+// src: HAVOK_SRC 0x00d4d9d0
+hkpAction* hkpDashpotAction::clone_00d4d9d0(const hkArray<hkpEntity*>& newEntities,
                                            const hkArray<hkpEntity*>& removedEntities)
 {
     if (newEntities.m_iElementCount != 2)

@@ -8,7 +8,8 @@
 
 // Compares byte 0xc of two entries and returns 1 if equal and byte 0xd also matches or byte 0xc is 0x18, otherwise 0.
 // @fnv 0x00e032d0
-int __stdcall FUN_00e032d0(const void* a, const void* b)
+// src: HAVOK_SRC 0x00e032d0
+int __stdcall hkObjectCopier_areMembersCompatible(const void* a, const void* b)
 {
     const unsigned char* pa = static_cast<const unsigned char*>(a);
     const unsigned char* pb = static_cast<const unsigned char*>(b);
@@ -222,7 +223,7 @@ struct List
     unsigned int m_iCapacityState;
 };
 
-int __cdecl FUN_00cb10d0(int);
+int __cdecl hkString_strLen(int);
 int __cdecl FUN_00e03360_ext1(int);
 int __cdecl FUN_00e03360_ext2(VObj* p);
 
@@ -252,7 +253,7 @@ static int AppendListEntry(Ctx* ctx, List* list, int a, int b)
     entry.m_key = b;
     entry.m_uiFilterValue = value;
     list->m_uiItemCount++;
-    ctx->FUN_00d607b0(a, FUN_00cb10d0(a) + 1);
+    ctx->FUN_00d607b0(a, hkString_strLen(a) + 1);
     return 0;
 }
 
@@ -282,13 +283,14 @@ struct FUN_00e04920_cls {
     unsigned int FUN_00e036b0(unsigned int a, unsigned int b, Scratch16* scratch, unsigned int c);
     unsigned int FUN_00e03ea0(unsigned int a, unsigned int b, Scratch16* scratch,
                                 unsigned int c, unsigned int d, unsigned int e, unsigned int f);
-    int FUN_00e04920(unsigned int a1, unsigned int a2, unsigned int a3,
+    int hkObjectCopier_copyObject(unsigned int a1, unsigned int a2, unsigned int a3,
                      unsigned int a4, unsigned int a5);
 };
 
 // Calls FUN_00e036b0 and FUN_00e03ea0 with a scratch object, then returns whether the byte from ForwardValueToObject is zero.
 // @fnv 0x00e04920
-int FUN_00e04920_cls::FUN_00e04920(unsigned int a1, unsigned int a2,
+// src: HAVOK_SRC 0x00e04920
+int FUN_00e04920_cls::hkObjectCopier_copyObject(unsigned int a1, unsigned int a2,
                                    unsigned int a3, unsigned int a4, unsigned int a5)
 {
     Scratch16 scratch;
@@ -326,7 +328,7 @@ struct MemRouter
 };
 
 inline MemRouter& Router() { return reinterpret_cast<MemRouter&>(FUN_00c85750()); }
-void __cdecl FUN_00c908c0(HeapAlloc* alloc, void* arr, int cap, int elemSize);
+void __cdecl hkArrayUtil__reserve(HeapAlloc* alloc, void* arr, int cap, int elemSize);
 extern "C" void* __cdecl FUN_00ec61c0(void* dst, int val, int n);
 
 static __forceinline void Construct(char* p, int c)
@@ -371,7 +373,7 @@ struct CharArrayLocalForm
         if (cap < n)
         {
             int c2 = cap + cap;
-            FUN_00c908c0(h, this, n < c2 ? c2 : n, 1);
+            hkArrayUtil__reserve(h, this, n < c2 ? c2 : n, 1);
         }
     }
     __forceinline void SetSizeAndGrow(int n)
@@ -520,7 +522,7 @@ struct ExitObj {
 };
 struct HObj {
     int Lookup(int a, void* b);
-    int FUN_00db75b0(int a, void* b);
+    int hkClassEnum_getValueOfName(int a, void* b);
     int CollectMatchingEntries(int a, void* b, void* c);
 };
 struct Inner {
@@ -553,7 +555,7 @@ struct StreamObj {
 struct DescriptorList {
     int unk00; int unk04; int unk08;
     int FUN_00d46f00();
-    Item* FUN_00d46f20(int i);
+    Item* getMember(int i);
     int FUN_00d470d0();
 };
 struct Host {
@@ -672,7 +674,7 @@ int Host::FUN_00e036b0(StreamObj* apSourceStream, StreamObj* apLookupStream, Str
     state1.ebp = apOutputStream->FUN_00d60800();
     state0.base = state1.ebp->v20();
     for (state0.index = 0; state0.index < apDescriptorList->FUN_00d46f00(); state0.index++) {
-        Item* pItem = apDescriptorList->FUN_00d46f20(state0.index);
+        Item* pItem = apDescriptorList->getMember(state0.index);
         state1.ebp->v1c((int)pItem->f12 + state0.base, 0);
         if (pItem->f10 & 0x400) {
             int fl = this->f10;
@@ -725,7 +727,7 @@ int Host::FUN_00e036b0(StreamObj* apSourceStream, StreamObj* apLookupStream, Str
                     LookupResult* __restrict pLookupResult = &state1.lookup;
                     int iResult = ((HObj*)h1)->Lookup(r86, pLookupResult);
                     if (iResult == 0) {
-                        ((HObj*)h2)->FUN_00db75b0(pLookupResult->value, &work.local20);
+                        ((HObj*)h2)->hkClassEnum_getValueOfName(pLookupResult->value, &work.local20);
                     }
                     switch (iStep) {
                     case 1: apOutputStream->FUN_00d605b0(work.local20); break;
@@ -837,7 +839,7 @@ int Host::FUN_00e036b0(StreamObj* apSourceStream, StreamObj* apLookupStream, Str
                     while (iValueIndex < work.values.size) {
                         
                         int* __restrict outputValue = &state0.out40;
-                        int iLookupResult = ((HObj*)state0.flagh2)->FUN_00db75b0(work.values.data[iValueIndex], outputValue);
+                        int iLookupResult = ((HObj*)state0.flagh2)->hkClassEnum_getValueOfName(work.values.data[iValueIndex], outputValue);
                         if (iLookupResult == 0) iOrValue |= *outputValue;
                         else work.acc |= *outputValue;
                         iValueIndex++;

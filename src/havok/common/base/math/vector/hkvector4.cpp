@@ -26,7 +26,8 @@ struct Cls_c7f4e0
     void CheckFloatsFinite(void* out);
 };
 
-static __declspec(noinline) void* FUN_00c7f4a0(void* out, void* self, int count)
+// src: HAVOK_LIB 0x00c7f4a0
+static __declspec(noinline) void* hkVector4isOk(void* out, void* self, int count)
 {
     for (int i = 0; i < count; i++)
     {
@@ -45,7 +46,7 @@ static __declspec(noinline) void* FUN_00c7f4a0(void* out, void* self, int count)
 // @fnv 0x00c7f4e0
 void Cls_c7f4e0::CheckFloatsFinite(void* pResult)
 {
-    FUN_00c7f4a0(pResult, this, 3);
+    hkVector4isOk(pResult, this, 3);
 }
 
 #include <xmmintrin.h>

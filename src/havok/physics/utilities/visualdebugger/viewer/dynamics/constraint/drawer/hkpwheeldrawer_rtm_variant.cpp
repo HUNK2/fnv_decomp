@@ -49,7 +49,7 @@ struct Ex
 {
     void FUN_00de47e0(void* a, Matrix* b, Matrix* c);
     void FUN_00de4530(int a, int b);
-    void FUN_00de44c0(int a, int b);
+    void hkpConstraintDrawer_drawPivots(int a, int b);
 };
 
 struct Body
@@ -106,7 +106,7 @@ void DrawObject::FUN_00de71d0(Input* a, Dbg* dbg, int p3, int p4)
     ((Ops*)&m50)->FUN_00c7f640(&t0, &b->v90);
     ((Ops*)&m40)->FUN_00c7f640(&t1, &b->v50);
     ((Ex*)this)->FUN_00de4530(p3, p4);
-    ((Ex*)this)->FUN_00de44c0(p3, p4);
+    ((Ex*)this)->hkpConstraintDrawer_drawPivots(p3, p4);
     dbg->Line(&m40, &m50, 0xffff0000, p3, p4);
 
     ((Ops*)&q1)->FUN_00c7f700(&m90, &b->v60);

@@ -30,30 +30,30 @@ template <class T> __forceinline T* hkMemoryAllocator::_bufAlloc(int& count)
 typedef unsigned __int64 Wide;
 struct InputArchive
 {
-    void FUN_00dd8fe0(void* data, int width, int count);
+    void hkIArchive_readArrayGeneric(void* data, int width, int count);
     int FUN_00dd90d0(void* data, int bytes);
     __forceinline Wide readWide()
     {
         Wide value;
-        FUN_00dd8fe0(&value, 8, 1);
+        hkIArchive_readArrayGeneric(&value, 8, 1);
         return value;
     }
     __forceinline unsigned short readWord()
     {
         unsigned short value;
-        FUN_00dd8fe0(&value, 2, 1);
+        hkIArchive_readArrayGeneric(&value, 2, 1);
         return value;
     }
     __forceinline unsigned int ReadTag()
     {
         unsigned int value;
-        FUN_00dd8fe0(&value, 4, 1);
+        hkIArchive_readArrayGeneric(&value, 4, 1);
         return value;
     }
     __forceinline unsigned char readByte()
     {
         unsigned char value;
-        FUN_00dd8fe0(&value, 1, 1);
+        hkIArchive_readArrayGeneric(&value, 1, 1);
         return value;
     }
 };
@@ -68,7 +68,7 @@ static __forceinline hkMemoryAllocator& getHeap()
 {
     return static_cast<ThreadHeapAccess*>(FUN_00c85750())->heap();
 }
-void __cdecl FUN_00c908c0(hkMemoryAllocator&, void*, int, int);
+void __cdecl hkArrayUtil__reserve(hkMemoryAllocator&, void*, int, int);
 void __cdecl ResizeAudioStream(hkMemoryAllocator&, void*, int);
 // Allocator-dependent array operations stay inline in the unit, as required by hkArray.h.
 inline hkMemoryAllocator& hkContainerHeapAllocator::get(const void*)
@@ -80,7 +80,7 @@ template <class T> __forceinline void hkArrayBase<T>::GrowArrayCapacity(hkMemory
     if (getCapacity() < n)
     {
         int twice = 2 * getCapacity();
-        FUN_00c908c0(heap, this, n < twice ? twice : n, sizeof(T));
+        hkArrayUtil__reserve(heap, this, n < twice ? twice : n, sizeof(T));
     }
 }
 template <class T> __forceinline void hkArrayBase<T>::_setSize(hkMemoryAllocator& heap, int n)
@@ -136,7 +136,8 @@ class InspectionClassAccess : public hkClass
 static __forceinline int memberOffset(const hkClassMember& field) { return field.m_offset; }
 static __forceinline int memberKind(const hkClassMember& field) { return field.m_type; }
 static __forceinline int memberSubtype(const hkClassMember& field) { return field.m_eSubtype; }
-static __declspec(noinline) void* FUN_00ddb450(void* address, const hkArray<unsigned short>& path, int depth, int kind,
+// src: HAVOK_LIB 0x00ddb450
+static __declspec(noinline) void* _FindMemberItem(void* address, const hkArray<unsigned short>& path, int depth, int kind,
                                                int subtype, const hkClassMember* field)
 {
     switch (kind)
@@ -165,7 +166,7 @@ static __declspec(noinline) void* FUN_00ddb450(void* address, const hkArray<unsi
     case 18: {
         int childIndex = path[depth + 1];
         void* child = static_cast<char*>(address) + childIndex * 16;
-        return FUN_00ddb450(child, path, depth + 1, 12, 0, field);
+        return _FindMemberItem(child, path, depth + 1, 12, 0, field);
     }
     case 20:
         return 0;
@@ -174,15 +175,15 @@ static __declspec(noinline) void* FUN_00ddb450(void* address, const hkArray<unsi
         int childIndex = path[depth + 1];
         hkArray<char>* array = static_cast<hkArray<char>*>(address);
         void* child = array->begin() + childIndex * field->GetTagValue();
-        return FUN_00ddb450(child, path, depth + 1, field->m_eSubtype, 0, field);
+        return _FindMemberItem(child, path, depth + 1, field->m_eSubtype, 0, field);
     }
     case 25: {
         const hkClass* type = field && field->m_class ? field->GetClass() : 0;
         if (type)
         {
             int childIndex = path[depth + 1];
-            const hkClassMember& child = type->FUN_00d46f20(childIndex);
-            return FUN_00ddb450(static_cast<char*>(address) + child.m_offset, path, depth + 1, child.m_type, child.m_eSubtype,
+            const hkClassMember& child = type->getMember(childIndex);
+            return _FindMemberItem(static_cast<char*>(address) + child.m_offset, path, depth + 1, child.m_type, child.m_eSubtype,
                                 &child);
         }
         break;
@@ -225,7 +226,7 @@ void InspectionCommandHandler::ExecuteCommand(unsigned char command)
             void* object = reinterpret_cast<void*>(unsigned int(objectID));
             InspectionClassAccess* type = reinterpret_cast<InspectionClassAccess*>(unsigned int(classID));
             const hkClassMember& field = type->FUN_00d46f60(path[0]);
-            void* destination = FUN_00ddb450(static_cast<char*>(object) + memberOffset(field), path, 0, memberKind(field),
+            void* destination = _FindMemberItem(static_cast<char*>(object) + memberOffset(field), path, 0, memberKind(field),
                                              memberSubtype(field), &field);
             if (destination)
                 FUN_00cb1260(destination, payload.begin(), bytes);
@@ -242,7 +243,7 @@ void InspectionCommandHandler::ExecuteCommand(unsigned char command)
             hkClass* type = reinterpret_cast<hkClass*>(unsigned int(classID));
             hkArray<hkWrittenObjectQ> visited;
             bool recurse = static_cast<const void*>(type) == &g_0126cae8 || (flags & 2);
-            FUN_00ddb770(
+            writeObject(
                 object, type, recurse, reinterpret_cast<hkArrQLocalForm<hkWrittenObjectQ>*>(&visited));
             int count = trackedObjects().GetLogicalSize();
             int i = 0;

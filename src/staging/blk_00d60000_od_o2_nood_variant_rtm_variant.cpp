@@ -51,7 +51,8 @@ struct __declspec(align(16)) LoadedObject
 };
 
 // @fnv 0x00d6ae50
-const char* FUN_00d6ae50()
+// src: HAVOK_LIB 0x00d6ae50
+const char* getVtablehkpConstraintInstance()
 {
     FinishLoadedObjectFlag kFlag;
     kFlag.m_iFinishing = 0;

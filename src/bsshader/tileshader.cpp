@@ -1237,7 +1237,7 @@ struct ShaderState
     ShaderProgram* m_pPixelProgram;
 
     Renderer* FUN_00e7f7c0();
-    void FUN_00b79950(void* pValue);
+    void NiD3DPass_SetVertexShader(void* pValue);
     void FUN_00b80600(void* pValue);
 };
 
@@ -1364,9 +1364,9 @@ void PassShader::ApplyToRenderer(RenderPassArg* pArg)
     if (!bSecond)
     {
         if (bAlt)
-            state->FUN_00b79950(m_pVertexB);
+            state->NiD3DPass_SetVertexShader(m_pVertexB);
         else
-            state->FUN_00b79950(m_pVertexA);
+            state->NiD3DPass_SetVertexShader(m_pVertexA);
         pRenderer->SetPixelShader(DAT_0126f74c->m_pPixelProgram->GetHandle(0));
         state = DAT_0126f74c;
         if (bNext)
@@ -1386,7 +1386,7 @@ void PassShader::ApplyToRenderer(RenderPassArg* pArg)
     }
     else
     {
-        state->FUN_00b79950(m_pVertexC);
+        state->NiD3DPass_SetVertexShader(m_pVertexC);
         void* pPixelC = m_pPixelC;
         DAT_0126f74c->FUN_00b80600(pPixelC);
         pRenderer->SetPixelShader(DAT_0126f74c->m_pPixelProgram->GetHandle(0));

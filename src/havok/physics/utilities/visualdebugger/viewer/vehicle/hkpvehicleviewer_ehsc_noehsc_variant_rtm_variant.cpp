@@ -105,7 +105,7 @@ typedef std::size_t hk_size_t;
 
 // src/havok/physics/utilities/visualdebugger/viewer/vehicle/hkpvehicleviewer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/vehicle/hkpvehicleviewer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
-void __cdecl FUN_00c908c0(hkMemoryAllocator* alloc, void* array, int numElements, int sizeElem);
+void __cdecl hkArrayUtil__reserve(hkMemoryAllocator* alloc, void* array, int numElements, int sizeElem);
 void __cdecl D625A0MemMove(void* dst, const void* src, unsigned int nbytes);
 
 extern char d_010d17d0;
@@ -203,12 +203,12 @@ struct ItemList {
     void FUN_00c905b0();
 };
 struct Registry {
-    void FUN_00c937a0(NotifyTarget* apTarget);
-    void FUN_00c93920(SecondTarget* apTarget);
-    ItemList* FUN_00c929e0();
+    void hkpWorld_addActionListener(NotifyTarget* apTarget);
+    void hkpWorld_addWorldPostSimulationListener(SecondTarget* apTarget);
+    ItemList* hkpWorld_getWorldAsOneSystem();
 };
 struct Factory {
-    void* FUN_00dd9380(const char*, void*);
+    void* hkProcessFactory_registerProcess(const char*, void*);
 };
 extern void* DAT_01268fcc;
 extern Factory* DAT_01269cd0;
@@ -223,7 +223,7 @@ int __cdecl FUN_00d63dc0();
 // the code recovers the owner pointer (this - 0x20) and passes it on to the
 // two Target methods, which are called with the owner as their `this`.
 struct Target {
-    void FUN_00c91700(void* apArg);
+    void hkpWorld_removeActionListener(void* apArg);
     void ClearValue(void* apArg);
 };
 struct FUN_00d63480_cls {

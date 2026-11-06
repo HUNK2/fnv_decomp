@@ -56,7 +56,7 @@ struct SpawnedArray
     unsigned int m_08;
 };
 void __cdecl FUN_00ec44d0(int a, int b, int c);
-void __cdecl FUN_00c908c0(SpawnedObject* obj, SpawnedArray* arr, int a, int stride);
+void __cdecl hkArrayUtil__reserve(SpawnedObject* obj, SpawnedArray* arr, int a, int stride);
 // ---------------------------------------------------------------------------
 // ResizeAudioStream - reserve/grow the element buffer of an audio stream.
 //
@@ -73,7 +73,7 @@ struct AudioStream
 extern "C" void* __cdecl FNV_block_copy(void* dst, const void* src, unsigned int size);
 void ResizeAudioStream(hkMemoryAllocator* pAlloc, AudioStream* pStream, int elemSize);
 typedef unsigned int hkUlong;
-extern void __cdecl FUN_00c908c0(void* alloc, void* arr, int n, int sizeElem);
+extern void __cdecl hkArrayUtil__reserve(void* alloc, void* arr, int n, int sizeElem);
 extern void __cdecl ResizeAudioStream(void* alloc, void* arr, int sizeElem);
 inline void* operator new(unsigned int, void* p)
 {
@@ -104,7 +104,7 @@ struct S_00da2bd0_CallTree
         if (cap < n)
         {
             int cap2 = cap * 2;
-            FUN_00c908c0(alloc, this, n < cap2 ? cap2 : n, sizeof(S_00da2bd0_Node));
+            hkArrayUtil__reserve(alloc, this, n < cap2 ? cap2 : n, sizeof(S_00da2bd0_Node));
         }
         int numNew = n - m_iElementCount;
         S_00da2bd0_Node* p = m_data + m_iElementCount;
@@ -137,7 +137,7 @@ struct Holder
     void* m_pAllocator;
 };
 Holder* __cdecl FUN_00c85750();
-void __cdecl FUN_00c908c0(void* pAllocator, void* pBuf, int newCap, int bFlag);
+void __cdecl hkArrayUtil__reserve(void* pAllocator, void* pBuf, int newCap, int bFlag);
 void __cdecl ResizeAudioStream(void* pAllocator, void* pBuf, int bFlag);
 extern "C" void _ReadWriteBarrier(void);
 struct FUN_00e108b0_cls
@@ -225,7 +225,7 @@ struct __declspec(align(16)) FNVRec_0f10
     unsigned int maxY;
     unsigned int maxZ;
     unsigned int maxExtra;
-    void FUN_00db0060(FNVBounds_0f10* box, int i);
+    void hk1AxisSweep_AabbInt_set(FNVBounds_0f10* box, int i);
     __forceinline void operator=(const FNVRec_0f10& other)
     {
         copy16_0f10(this, &other, sizeof(FNVRec_0f10));
@@ -243,7 +243,7 @@ void __cdecl FUN_00da0f10(FNVCloud_0f10* cloud, AudioStream* out, AudioStream* i
     if (cap < n)
     {
         int cap2 = cap * 2;
-        FUN_00c908c0(alloc, idx, n < cap2 ? cap2 : n, 4);
+        hkArrayUtil__reserve(alloc, idx, n < cap2 ? cap2 : n, 4);
     }
     idx->m_iArrayLength = n;
 
@@ -281,7 +281,7 @@ void __cdecl FUN_00da0f10(FNVCloud_0f10* cloud, AudioStream* out, AudioStream* i
             __m128 halfQuad = h.quad;
             box.min.quad = _mm_sub_ps(((FNVVector_0f10*)((char*)cloud->m_pPts + offset))->quad, halfQuad);
             box.max.quad = _mm_add_ps(halfQuad, ((FNVVector_0f10*)((char*)cloud->m_pPts + offset))->quad);
-            sp->FUN_00db0060(&box, i);
+            sp->hk1AxisSweep_AabbInt_set(&box, i);
             ++i;
             offset += 16;
             ++sp;

@@ -50,10 +50,11 @@ struct FUN_00dbdf30_s
 {
     int m_kPointA;
     int m_kPointB;
-    void __thiscall FUN_00dbdf30(int a, int b);
+    void __thiscall hkPackfileWriter_setSectionForClass(int a, int b);
 };
 // @fnv 0x00dbdf30
-void __thiscall FUN_00dbdf30_s::FUN_00dbdf30(int pNameSource, int a)
+// src: HAVOK_SRC 0x00dbdf30
+void __thiscall FUN_00dbdf30_s::hkPackfileWriter_setSectionForClass(int pNameSource, int a)
 {
     int idx = ((FUN_00dbdd40_s*)this)->GetOrAddString(a);
     const char* name = ((const hkClass*)(void*)pNameSource)->getName();
@@ -86,12 +87,13 @@ struct DepthLimit
 
 struct FUN_00dbdf00_s
 {
-    void __thiscall FUN_00dbdf00(void*, int);
+    void __thiscall hkPackfileWriter_setSectionForPointer(void*, int);
 };
 
 // Calls GetOrAddString with b, then passes the result and a to FUN_00cb1870 on the DepthLimit at this+0x9c using the memory router's stream allocator.
 // @fnv 0x00dbdf00
-void FUN_00dbdf00_s::FUN_00dbdf00(void* a, int b)
+// src: HAVOK_SRC 0x00dbdf00
+void FUN_00dbdf00_s::hkPackfileWriter_setSectionForPointer(void* a, int b)
 {
     int result = reinterpret_cast<FUN_00dbdd40_s*>(this)->GetOrAddString(b);
     hkMemoryRouter* router = (&hkMemoryRouter::getInstance());
@@ -152,10 +154,11 @@ struct FUN_00dbda80_s
     unsigned int unk18;
     unsigned int unk1c;
     DepthLimit firstDepth;
-    void FUN_00dbda80(void* key, int value);
+    void hkPackfileWriter_addImport(void* key, int value);
 };
 // @fnv 0x00dbda80
-void FUN_00dbda80_s::FUN_00dbda80(void* key, int value)
+// src: HAVOK_SRC 0x00dbda80
+void FUN_00dbda80_s::hkPackfileWriter_addImport(void* key, int value)
 {
     int index = entryIndex.LookupHashEntry(key, -1);
     if (index >= 0)
@@ -200,7 +203,7 @@ struct FUN_00e02ef0_Obj
 
 struct FUN_00e02a80_Obj
 {
-    void FUN_00e02a80(void* a, void* b, void* c, void* d);
+    void hkPlatformObjectWriter_writeObject(void* a, void* b, void* c, void* d);
 };
 
 struct FUN_00e02c70_Obj
@@ -216,7 +219,7 @@ void __cdecl FUN_00dbdb10(void* apArg1, void* apArg2, void* apArg3)
     reinterpret_cast<FUN_00dc1670_Obj*>(&buf.unk00)->FUN_00dc1670();
     reinterpret_cast<FUN_00e02bb0_Obj*>(&buf.unk14)->FUN_00e02bb0(&buf);
     reinterpret_cast<FUN_00e02ef0_Obj*>(&buf.unk04)->FUN_00e02ef0();
-    reinterpret_cast<FUN_00e02a80_Obj*>(&buf.unk14)->FUN_00e02a80(&buf.unk04, apArg1, apArg2, apArg3);
+    reinterpret_cast<FUN_00e02a80_Obj*>(&buf.unk14)->hkPlatformObjectWriter_writeObject(&buf.unk04, apArg1, apArg2, apArg3);
     buf.unk04 = (int)&DAT_0102e388;
     reinterpret_cast<FUN_00e02c70_Obj*>(&buf.unk14)->FUN_00e02c70();
 }
@@ -224,7 +227,8 @@ void __cdecl FUN_00dbdb10(void* apArg1, void* apArg2, void* apArg3)
 extern "C" void __cdecl GetOrAddString(void);
 
 // @fnv 0x00dbdef0
-void __cdecl FUN_00dbdef0()
+// src: HAVOK_SRC 0x00dbdef0
+void __cdecl hkPackfileWriter_addSection()
 {
     GetOrAddString();
 }
@@ -379,7 +383,7 @@ __forceinline void hkArrayBase<T>::_pushBack(hkMemoryAllocator& alloc, const T& 
     m_iElementCount++;
 }
 
-extern "C" char* __cdecl FUN_00cb1410(const char* str);
+extern "C" char* __cdecl hkString_strDup_00cb1410(const char* str);
 
 class hkStringMapXdbdd40
 {
@@ -405,7 +409,7 @@ int hkStringPoolXdbdd40::GetOrAddString(const char* apString)
     int index;
     if (m_map.FUN_00d87650(apString, &index) == 0)
         return index;
-    char* copy = FUN_00cb1410(apString);
+    char* copy = hkString_strDup_00cb1410(apString);
     int newIndex = m_pStringFunctions.m_iElementCount;
     m_map.FUN_00d874d0(copy, newIndex);
     m_pStringFunctions.pushBack(copy);
@@ -675,11 +679,12 @@ struct Cls
     virtual void v1();
     virtual void v2();
     virtual void vf3(void* a, void* b, void* r, void* c);
-    void FUN_00dbda50(void* a, void* b, void* c);
+    void hkPackfileWriter_setContents(void* a, void* b, void* c);
 };
 // Invokes vf3 on the object, passing a, b, the result of DAT_01268b08->vf5(), and c.
 // @fnv 0x00dbda50
-void Cls::FUN_00dbda50(void* apArg1, void* apArg2, void* apArg3)
+// src: HAVOK_SRC 0x00dbda50
+void Cls::hkPackfileWriter_setContents(void* apArg1, void* apArg2, void* apArg3)
 {
     vf3(apArg1, apArg2, DAT_01268b08->vf5(), apArg3);
 }
@@ -864,7 +869,7 @@ struct Class_00dbe680
     int m_90;
 
     void FUN_00dbe150(int a1, void* a2, S00dbe680_A3* a3, int a4, void* a5);
-    void FUN_00dbe680(int a1, S00dbe680_A2* a2, S00dbe680_A3* a3, int a4);
+    void hkPackfileWriter_setContentsWithRegistry(int a1, S00dbe680_A2* a2, S00dbe680_A3* a3, int a4);
 };
 
 __declspec(noinline) void Class_00dbe680::FUN_00dbe150(int a1, void* a2, S00dbe680_A3* a3, int a4, void* a5)
@@ -875,7 +880,8 @@ __declspec(noinline) void Class_00dbe680::FUN_00dbe150(int a1, void* a2, S00dbe6
 
 // Resolves a target pointer from a3 or a global, adjusts it via v4 or a2, calls FUN_00dbe150, and stores hash lookups in m_8c and m_90.
 // @fnv 0x00dbe680
-void Class_00dbe680::FUN_00dbe680(int a1, S00dbe680_A2* a2, S00dbe680_A3* a3, int a4)
+// src: HAVOK_SRC 0x00dbe680
+void Class_00dbe680::hkPackfileWriter_setContentsWithRegistry(int a1, S00dbe680_A2* a2, S00dbe680_A3* a3, int a4)
 {
     void* target = a3 ? (void*)a3 : (void*)DAT_01268b08->v5();
     if (a2->GetLastNodeFlag().b)

@@ -85,7 +85,8 @@ struct Lst
     Nd* head;
 };
 // @fnv 0x00e92fe0
-int __fastcall FUN_00e92fe0(Lst* l, int, Nd** apNext)
+// src: GAMEBRYO_LIB 0x00e92fe0
+int __fastcall NiD3D10ShaderProgramFactory_GetFirstProgramDirectory(Lst* l, int, Nd** apNext)
 {
     Nd* n = l->head;
     *apNext = n;
@@ -568,7 +569,8 @@ NiD3DShaderProgramCreator* __cdecl FUN_00e932f0(const char* pcLibName);
 
 // Returns the cached entry for pcName, or creates a shader with pkLibrary, registers it, and returns it.
 // @fnv 0x00e938e0
-void* __cdecl FUN_00e938e0(void* pkDesc, void* pkRenderer, const char* pcLibName, const char* pcName, void* pvArg4,
+// src: GAMEBRYO_LIB 0x00e938e0
+void* __cdecl NiD3DShaderProgramFactory_CreatePixelShaderFromBuffer(void* pkDesc, void* pkRenderer, const char* pcLibName, const char* pcName, void* pvArg4,
                            void* pvArg5, void* pvArg6)
 {
     if (!DAT_0126fa10)
@@ -713,7 +715,7 @@ struct ShaderEntryNodePool
 extern ShaderEntryNodePool DAT_011c5f80;
 extern ShaderEntryNode* DAT_011c5f58;
 extern unsigned int DAT_011c5f84;
-extern "C" void __cdecl FUN_00aa10f0(void*);
+extern "C" void __cdecl _NiFree_00aa10f0(void*);
 struct ShaderEntryOwner
 {
     int unknown00;
@@ -773,7 +775,7 @@ void ShaderEntryOwner::FUN_00e93cc0()
                 }
             }
         release:
-            FUN_00aa10f0(element);
+            _NiFree_00aa10f0(element);
         } while (pNode);
     }
 }

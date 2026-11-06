@@ -19,17 +19,18 @@ void __stdcall FUN_00d4f090(char a, int* pData)
     }
 }
 
-extern "C" void* __cdecl FUN_00d21a60(void* a, int b, int c);
+extern "C" void* __cdecl hkpConstraintData_getConstraintInfoUtil(void* a, int b, int c);
 
 struct FUN_00d4f070_t
 {
-    void* FUN_00d4f070(int a);
+    void* hkpStiffSpringConstraintData_getConstraintInfo(int a);
 };
 
 // @fnv 0x00d4f070
-void* FUN_00d4f070_t::FUN_00d4f070(int aiIndex)
+// src: HAVOK_LIB 0x00d4f070
+void* FUN_00d4f070_t::hkpStiffSpringConstraintData_getConstraintInfo(int aiIndex)
 {
-    return FUN_00d21a60((char*)this + 0x10, 0x38, aiIndex);
+    return hkpConstraintData_getConstraintInfoUtil((char*)this + 0x10, 0x38, aiIndex);
 }
 
 // @fnv 0x00d4f0e0

@@ -59,12 +59,13 @@ struct HandlerCF7080
 struct DispatcherCF7080
 {
     HandlerCF7080* m_handlers[8][8];
-    void FUN_00cf7080(Pair* pairs, int numPairs, const FilterCF7080* filter);
+    void hkpTypedBroadPhaseDispatcher_addPairs(Pair* pairs, int numPairs, const FilterCF7080* filter);
 };
 
 // Iterates over collision pairs, filters them with filter->IsCollisionEnabled, and forwards accepted pairs to the handler for each type combination.
 // @fnv 0x00cf7080
-void DispatcherCF7080::FUN_00cf7080(Pair* pairs, int numPairs, const FilterCF7080* filter)
+// src: HAVOK_LIB 0x00cf7080
+void DispatcherCF7080::hkpTypedBroadPhaseDispatcher_addPairs(Pair* pairs, int numPairs, const FilterCF7080* filter)
 {
     while (--numPairs >= 0)
     {
@@ -102,8 +103,8 @@ struct HashTableBase
     HashEntry* entries;
     int count;
     int capacity;
-    void FUN_00cb1b80(void* handle, int length);
-    int FUN_00cb1c60(unsigned int first, unsigned int second);
+    void hkMultiMap_unsigned_int64_unsigned_int64_struct_hkMultiMapOperations_unsigned_int64_struct_hkContainerHeapAllocator_hkMultiMap_unsigned_int64_unsigned_int64_struct_hkMultiMapOperations_unsigned_int64_struct_hkContainerHeapAllocator(void* handle, int length);
+    int hkMapBase_unsigned_int64_unsigned_int64_struct_hkMapOperations_unsigned_int64_findKey(unsigned int first, unsigned int second);
     void InsertKeyValue(void* allocator, unsigned int first, unsigned int second, __int64 value);
     void FUN_00cb1d20(int index);
     void FUN_00cb1e40(void* allocator);
@@ -142,7 +143,7 @@ struct GlobalPool
 };
 extern "C" void* __cdecl FUN_00c85750();
 unsigned int __cdecl FUN_00cb1810(int);
-void __cdecl FUN_00c908c0(void* allocator, EdgeArray* array, int length, int elementSize);
+void __cdecl hkArrayUtil__reserve(void* allocator, EdgeArray* array, int length, int elementSize);
 
 template <typename T> static __forceinline void Swap(T& x, T& y)
 {
@@ -168,7 +169,7 @@ static void ShrinkEdges(EdgeArray* array, int size, void* allocator)
         int newCap = cap * 2;
         if (size >= newCap)
             newCap = size;
-        FUN_00c908c0(allocator, array, newCap, 8);
+        hkArrayUtil__reserve(allocator, array, newCap, 8);
     }
     array->count = size;
 }
@@ -205,7 +206,8 @@ static __forceinline int FindEdge(EdgeArray* a, const Edge& v)
 
 // Removes edges that appear in both arrays from each, treating an edge as equal in either vertex order.
 // @fnv 0x00cf7130
-void __cdecl FUN_00cf7130(EdgeArray* apEdgesA, EdgeArray* apEdgesB)
+// src: HAVOK_LIB 0x00cf7130
+void __cdecl hkpTypedBroadPhaseDispatcher_removeDuplicates(EdgeArray* apEdgesA, EdgeArray* apEdgesB)
 {
     int iCountA = apEdgesA->count;
     int nb = apEdgesB->count;
@@ -251,13 +253,13 @@ void __cdecl FUN_00cf7130(EdgeArray* apEdgesA, EdgeArray* apEdgesB)
     if (!descriptor)
         descriptor = (int)0x80000000;
     HashTableBase table;
-    table.FUN_00cb1b80(pBuffer, val);
+    table.hkMultiMap_unsigned_int64_unsigned_int64_struct_hkMultiMapOperations_unsigned_int64_struct_hkContainerHeapAllocator_hkMultiMap_unsigned_int64_unsigned_int64_struct_hkMultiMapOperations_unsigned_int64_struct_hkContainerHeapAllocator(pBuffer, val);
     for (int i = 0; i < apEdgesA->count; ++i)
     {
         Edge e = apEdgesA->data[i];
         if (e.first > e.second)
             Swap(e.first, e.second);
-        int found = table.FUN_00cb1c60(e.first, e.second);
+        int found = table.hkMapBase_unsigned_int64_unsigned_int64_struct_hkMapOperations_unsigned_int64_findKey(e.first, e.second);
         if (found <= table.capacity)
         {
             ++table.entries[found].value;
@@ -274,7 +276,7 @@ void __cdecl FUN_00cf7130(EdgeArray* apEdgesA, EdgeArray* apEdgesB)
         Edge e = apEdgesB->data[j];
         if (e.first > e.second)
             Swap(e.first, e.second);
-        int found = table.FUN_00cb1c60(e.first, e.second);
+        int found = table.hkMapBase_unsigned_int64_unsigned_int64_struct_hkMapOperations_unsigned_int64_findKey(e.first, e.second);
         if (found <= table.capacity)
         {
             unsigned __int64 countA = table.entries[found].value;

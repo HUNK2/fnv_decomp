@@ -23,16 +23,16 @@ extern int DAT_01268364;
 extern unsigned char DAT_01268a44;
 extern unsigned char DAT_01268414;
 extern int DAT_011b3dec;
-extern "C" void __cdecl FUN_00c90410(int);
-extern "C" void __cdecl FUN_00cbb990();
-extern "C" void __cdecl FUN_00cbbbd0();
+extern "C" void __cdecl hkReferencedObject_setLockMode(int);
+extern "C" void __cdecl hkBaseSystem_quitThread();
+extern "C" void __cdecl hkBaseSystem_quitSingletons();
 // @fnv 0x00cbbcb0
 int __cdecl ShutdownIfInitialized()
 {
     if (DAT_01268414)
     {
-        FUN_00c90410(0);
-        FUN_00cbbbd0();
+        hkReferencedObject_setLockMode(0);
+        hkBaseSystem_quitSingletons();
         if (DAT_01268a44 && DAT_011b3dec)
         {
             ((void(__cdecl*)())DAT_011b3dec)();
@@ -44,36 +44,37 @@ int __cdecl ShutdownIfInitialized()
         if (DAT_01268364)
             ((FUN_00c903b0_Class*)DAT_01268364)->ReleaseReference();
         DAT_01268364 = 0;
-        FUN_00cbb990();
+        hkBaseSystem_quitThread();
         DAT_01268414 = 0;
     }
     return 0;
 }
 
 extern "C" void __cdecl SetThreadLocalValue(void* value);
-extern "C" void __cdecl FUN_00cb0db0();
+extern "C" void __cdecl hkMonitorStream_init();
 
 // @fnv 0x00cbb930
 int __cdecl FUN_00cbb930(void* value)
 {
     SetThreadLocalValue(value);
-    FUN_00cb0db0();
+    hkMonitorStream_init();
     return 0;
 }
 
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 extern unsigned long DAT_0126835c;
-void __cdecl FUN_00cb0df0(void*);
+void __cdecl hkMonitorStream_quit(void*);
 int __cdecl FUN_00c85760();
 void __cdecl SetThreadLocalValue(int);
 
 namespace impl {
 // @fnv 0x00cbb990
-extern "C" int __cdecl FUN_00cbb990()
+// src: HAVOK_LIB 0x00cbb990
+extern "C" int __cdecl hkBaseSystem_quitThread()
 {
     void* p = TlsGetValue(DAT_0126835c);
     if (p)
-        FUN_00cb0df0(p);
+        hkMonitorStream_quit(p);
     if (FUN_00c85760())
         SetThreadLocalValue(0);
     return 0;
@@ -133,7 +134,8 @@ inline void* hkAlloc(int n)
 }
 
 // @fnv 0x00cbbee0
-ObjB* __stdcall FUN_00cbbee0(int a)
+// src: HAVOK_LIB 0x00cbbee0
+ObjB* __stdcall hkNativeFileSystem_openWriter(int a)
 {
     LocalBuf localBuf;
     localBuf.InitBuffer();
@@ -234,7 +236,8 @@ struct PendingArray
 };
 
 // @fnv 0x00cbbbd0
-extern "C" void __cdecl FUN_00cbbbd0()
+// src: HAVOK_LIB 0x00cbbbd0
+extern "C" void __cdecl hkBaseSystem_quitSingletons()
 {
     SoundNode* node = (SoundNode*)DAT_01268790;
     PendingArray pendingList;
@@ -303,7 +306,8 @@ template <typename T> __forceinline void hkArrayBase<T>::_clearAndDeallocate(hkM
 
 // Walks the chain, calls m_04 for nodes with zero m_0c, and retries deferred nodes until their calls return nonzero.
 // @fnv 0x00cbb9f0
-void __cdecl FUN_00cbb9f0()
+// src: HAVOK_LIB 0x00cbb9f0
+void __cdecl hkBaseSystem_initSingletons()
 {
     SpawnedListNode** link = (SpawnedListNode**)&DAT_01268790;
     SpawnedListNode* node = *link;
@@ -410,7 +414,7 @@ void __cdecl FUN_00cbb9c0()
 
 namespace fnv_00cbbb10 {
 extern "C" void __cdecl FUN_00cbb930(int value);
-extern "C" void __cdecl FUN_00cbb9f0();
+extern "C" void __cdecl hkBaseSystem_initSingletons();
 extern "C" unsigned char DAT_010c8eb8;
 extern int DAT_01268410;
 
@@ -440,7 +444,8 @@ hkMemoryRouter* __cdecl FUN_00c85750();
 
 // Allocates and initializes two spawned objects, stores them in global pointers, and sets the initialization flag.
 // @fnv 0x00cbbb10
-int __cdecl FUN_00cbbb10(int a1, unsigned int auParam1, unsigned int auParam2)
+// src: HAVOK_LIB 0x00cbbb10
+int __cdecl hkBaseSystem_init(int a1, unsigned int auParam1, unsigned int auParam2)
 {
     if (DAT_01268414 != 0)
     {
@@ -467,7 +472,7 @@ int __cdecl FUN_00cbbb10(int a1, unsigned int auParam1, unsigned int auParam2)
         ((FUN_00c903b0_Class*)DAT_01268360)->ReleaseReference();
     }
     DAT_01268360 = (int)obj28;
-    FUN_00cbb9f0();
+    hkBaseSystem_initSingletons();
     ((VirtualIface*)DAT_01268410)->v3();
     DAT_01268414 = 1;
     return 0;
@@ -557,7 +562,8 @@ extern const char*(__cdecl* DAT_011b3dc0)(const char* name, S_00cbbde0_StringBuf
 
 // Creates a StdioReader from the resolved path, wraps it in a 4096-byte BufferedReader when vfn18() is false, and returns the resulting reader.
 // @fnv 0x00cbbde0
-S_00cbbde0_Reader* __stdcall FUN_00cbbde0(const char* name) throw()
+// src: HAVOK_LIB 0x00cbbde0
+S_00cbbde0_Reader* __stdcall hkNativeFileSystem_openReader(const char* name) throw()
 {
     S_00cbbde0_StringBuf buf;
     S_00cbbde0_Reader* reader = new S_00cbbde0_StdioReader(DAT_011b3dc0(name, buf));

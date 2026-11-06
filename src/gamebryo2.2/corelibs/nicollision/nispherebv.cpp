@@ -431,7 +431,7 @@ inline bool SpherePointsDiffer(const NiPoint3& a, const NiPoint3& b)
     return !SpherePointsEqual(a, b);
 }
 
-float FUN_00eb1d20(const Segment3&, const Triangle3&, float*, float*, float*);
+float NiSqrDistance_Compute_00eb1d20(const Segment3&, const Triangle3&, float*, float*, float*);
 float GetSquaredDistanceToTriangle(const NiPoint3&, const Triangle3&, float*, float*);
 
 // Builds a triangle from three points and tests whether the sphere's center swept along kV0-kV1 over fTime comes within the sphere radius of the triangle.
@@ -457,7 +457,7 @@ bool SphereTriangleSweepTest(float fTime, const NiSphereBV& kBV0, const NiPoint3
         seg.m_kLightVector = kDelta * fTime;
 
         float fSegP;
-        fSqrDistance = FUN_00eb1d20(seg, kTriangle, &fSegP, &fTriP0, &fTriP1);
+        fSqrDistance = NiSqrDistance_Compute_00eb1d20(seg, kTriangle, &fSegP, &fTriP0, &fTriP1);
     }
     else
     {

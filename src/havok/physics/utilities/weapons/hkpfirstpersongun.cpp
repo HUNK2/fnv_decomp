@@ -59,11 +59,12 @@ struct FUN_00e463b0_cls
     int unk08;
     unsigned int m_0C;
 
-    unsigned int FUN_00e463b0();
+    unsigned int hkpFirstPersonGun_getName();
 };
 
 // @fnv 0x00e463b0
-unsigned int FUN_00e463b0_cls::FUN_00e463b0()
+// src: HAVOK_SRC 0x00e463b0
+unsigned int FUN_00e463b0_cls::hkpFirstPersonGun_getName()
 {
     return m_0C & 0xfffffffeu;
 }
@@ -79,11 +80,12 @@ struct FUN_00e463c0_cls
     virtual void v18();
     virtual void v1c();
     virtual void Tail(int a);
-    void FUN_00e463c0(int a);
+    void hkpFirstPersonGun_quitGun(int a);
 };
 
 // @fnv 0x00e463c0
-void FUN_00e463c0_cls::FUN_00e463c0(int a)
+// src: HAVOK_SRC 0x00e463c0
+void FUN_00e463c0_cls::hkpFirstPersonGun_quitGun(int a)
 {
     this->Tail(a);
 }

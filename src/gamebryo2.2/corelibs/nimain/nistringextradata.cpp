@@ -9,7 +9,8 @@
 
 
 // @fnv 0x00a74200
-void NiStringExtraData::FUN_00a74200(NiStream& stream)
+// src: GAMEBRYO_LIB 0x00a74200
+void NiStringExtraData::SaveBinary_00a74200(NiStream& stream)
 {
     NiExtraData::SaveBinary(stream);
     stream.SerializeString(m_kStringBuffer);

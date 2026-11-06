@@ -22,7 +22,7 @@ struct FUN_00cd06a0
 {
     void* m_p00;
     FUN_00cd06a0(int aiArg);
-    void FUN_00d2c7a0();
+    void hkThreadMemory_releaseCachedMemory();
     void FUN_00cbf1a0();
 };
 
@@ -30,7 +30,7 @@ struct FUN_00cd06a0
 FUN_00cd06a0::FUN_00cd06a0(int aiArg)
 {
     m_p00 = &DAT_010cacd0;
-    FUN_00d2c7a0();
+    hkThreadMemory_releaseCachedMemory();
     FUN_00cbf1a0();
 }
 
@@ -58,10 +58,11 @@ struct Outer
 {
     char pad[0x1c];
     Inner inner;
-    void FUN_00cd06e0();
+    void hkFreeListMemorySystem_garbageCollect();
 };
 // @fnv 0x00cd06e0
-void Outer::FUN_00cd06e0()
+// src: HAVOK_LIB 0x00cd06e0
+void Outer::hkFreeListMemorySystem_garbageCollect()
 {
     inner.v16();
 }
@@ -326,12 +327,13 @@ struct Owner
     int unk0b08;
     Sub0b0c sub0b0c;
     FUN_00d5e960_t cnt0b30;
-    Sub0b0c* FUN_00cd0740(const Pair* p, Flags flags);
+    Sub0b0c* hkFreeListMemorySystem_mainInit(const Pair* p, Flags flags);
 };
 
 // Stores p->a and p->b into f0b00/f0b04, optionally calls v3 on sub0b0c and svc->s1 then cnt0b30, and returns &sub0b0c.
 // @fnv 0x00cd0740
-Sub0b0c* Owner::FUN_00cd0740(const Pair* apPair, Flags flags)
+// src: HAVOK_LIB 0x00cd0740
+Sub0b0c* Owner::hkFreeListMemorySystem_mainInit(const Pair* apPair, Flags flags)
 {
     f0b00 = apPair->a;
     f0b04 = apPair->b;
@@ -1048,10 +1050,10 @@ struct S_00cd0a60_sub1c
     int unka90;
     int unka94;
     int unka98;
-    void FUN_00d60270(S_00cd0a60_sub8* a1);
+    void hkFreeListAllocator_00d60270(S_00cd0a60_sub8* a1);
     __forceinline S_00cd0a60_sub1c(S_00cd0a60_sub8* a1)
     {
-        FUN_00d60270(a1);
+        hkFreeListAllocator_00d60270(a1);
     }
 };
 
@@ -1299,7 +1301,7 @@ struct S_00cd0a60_elem
     char unk12c;
     int unk130;
     int unk134;
-    void FUN_00d2c720();
+    void hkThreadMemory_hkThreadMemory();
 };
 
 struct S_00cd0a60_arr
@@ -1310,7 +1312,7 @@ struct S_00cd0a60_arr
         S_00cd0a60_elem* p = e;
         for (int i = 31; i >= 0; --i)
         {
-            p->FUN_00d2c720();
+            p->hkThreadMemory_hkThreadMemory();
             p->unk128 = 0;
             p->unk12c = 0;
             p->unk130 = 0;
@@ -1467,7 +1469,7 @@ int FUN_00cd07b0_cls::Cleanup(Flags akFlags)
 #include <windows.h>
 struct FUN_00d2c3a0_t
 {
-    void __thiscall FUN_00d2c3a0(unsigned int a, unsigned int b);
+    void __thiscall hkThreadMemory_setMemory(unsigned int a, unsigned int b);
 };
 
 struct Slot_1c_t
@@ -1510,7 +1512,7 @@ void FUN_00cd0830_cls::AcquireSlot(unsigned int* out, unsigned int a2, unsigned 
         char* slot = self + iSlotIndex * 0x138 + 0xc6c;
         *(unsigned int*)(slot + 0x128) = a2;
         unsigned int uiValue = *(unsigned int*)(self + 0xb08);
-        ((FUN_00d2c3a0_t*)slot)->FUN_00d2c3a0(uiValue, 8);
+        ((FUN_00d2c3a0_t*)slot)->hkThreadMemory_setMemory(uiValue, 8);
 
         uiZero = 0;
         out[3] = uiZero;
@@ -1626,13 +1628,14 @@ struct CtorLocal
 
 struct FUN_00cd0b30_cls
 {
-    void FUN_00cbc220(int a1, CtorLocal* pLocal);
-    void FUN_00cd0b30(int a1);
+    void hkMemorySystem__printStatistics(int a1, CtorLocal* pLocal);
+    void hkFreeListMemorySystem_printStatistics(int a1);
 };
 
 // Calls FUN_00cc01c0 twice, collects slot pointers and values, passes the local to FUN_00cbc220, then calls its FUN_00cd0c80 method.
 // @fnv 0x00cd0b30
-void FUN_00cd0b30_cls::FUN_00cd0b30(int apTarget)
+// src: HAVOK_LIB 0x00cd0b30
+void FUN_00cd0b30_cls::hkFreeListMemorySystem_printStatistics(int apTarget)
 {
     char* self = (char*)this;
     ((Target_cc01*)apTarget)->FUN_00cc01c0(&str_010cade0);
@@ -1676,7 +1679,7 @@ void FUN_00cd0b30_cls::FUN_00cd0b30(int apTarget)
         p += 0x138;
     }
 
-    this->FUN_00cbc220(apTarget, &localData);
+    this->hkMemorySystem__printStatistics(apTarget, &localData);
     localData.FUN_00cd0c80();
 }
 }  // namespace fnv_00cd0b30

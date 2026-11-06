@@ -501,7 +501,7 @@ class FUN_00d4aa70 : public FUN_00d569c0
 
     FUN_00d4aa70(const FUN_00d569c0* pkMesh) throw();
     void FUN_00d4a2b0(const hkpTrianglesSubpartD4AA& kPart) throw();
-    void FUN_00d49dc0(const hkpShapesSubpartD4AA& kPart) throw();
+    void addShapesSubpart(const hkpShapesSubpartD4AA& kPart) throw();
 };
 
 typedef char fnv_check_d4aa70_a[(sizeof(FUN_00d4aa70) == 0x110) ? 1 : -1];
@@ -518,7 +518,7 @@ FUN_00d4aa70::FUN_00d4aa70(const FUN_00d569c0* pkMesh) throw()
     for (int i = 0; i < pkMesh->m_kTrianglesSubparts.GetLogicalSize(); i++)
         FUN_00d4a2b0(pkMesh->m_kTrianglesSubparts[i]);
     for (int i = 0; i < pkMesh->m_kShapesSubparts.GetLogicalSize(); i++)
-        FUN_00d49dc0(pkMesh->m_kShapesSubparts[i]);
+        addShapesSubpart(pkMesh->m_kShapesSubparts[i]);
 
     m_kWeldingInfo = pkMesh->m_kWeldingInfo;
     m_eWeldingType = pkMesh->m_eWeldingType;
@@ -791,7 +791,8 @@ struct TrianglesSubpart
 
 // Copies partIn into a new TrianglesSubpart, copies its vertex and material index data into MeshSubpartStorage, and returns the new subpart index.
 // @fnv 0x00d49dc0
-int hkpStorageExtendedMeshShape::FUN_00d49dc0(const TrianglesSubpart& partIn)
+// src: HAVOK_LIB 0x00d49dc0
+int hkpStorageExtendedMeshShape::addShapesSubpart(const TrianglesSubpart& partIn)
 {
     TrianglesSubpart& part = *AppendElement();
     reinterpret_cast<hkArray<::MeshSubpartStorage*>&>(m_kShapeSubparts).pushBack(new ::MeshSubpartStorage());

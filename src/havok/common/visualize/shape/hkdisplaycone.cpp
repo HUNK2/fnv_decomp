@@ -37,7 +37,7 @@ struct GlobalContext
 };
 extern "C" GlobalContext* __cdecl FUN_00c85750();
 extern "C" void __cdecl ResizeAudioStream(Allocator*, hkArray<Vertex>*, int);
-extern "C" void __cdecl FUN_00c908c0(Allocator*, hkArray<Edge>*, int, int);
+extern "C" void __cdecl hkArrayUtil__reserve(Allocator*, hkArray<Edge>*, int, int);
 struct ForwardArg
 {
     GeometryBuffers* value;
@@ -106,7 +106,7 @@ void __thiscall MeshBuilder::InitializeGeometry()
         int newCapacity = capacity * 2;
         if (required >= newCapacity)
             newCapacity = required;
-        FUN_00c908c0(edgeAllocator, &edges, newCapacity, sizeof(Edge));
+        hkArrayUtil__reserve(edgeAllocator, &edges, newCapacity, sizeof(Edge));
     }
     edges.m_iElementCount = required;
     int index = 0;
@@ -178,7 +178,7 @@ struct S_00de58c0_Local
 
 struct S_00de58c0_Alloc;
 S_00de58c0_Router* __cdecl FUN_00c85750();
-void __cdecl FUN_00c908c0(S_00de58c0_Alloc* a, S_00de58c0_Arr* arr, int n, int elemSize);
+void __cdecl hkArrayUtil__reserve(S_00de58c0_Alloc* a, S_00de58c0_Arr* arr, int n, int elemSize);
 
 struct S_00de58c0_Obj
 {
@@ -213,7 +213,7 @@ struct S_00de58c0_Obj
     int unk7c;
     int m_80;
     void FUN_00de54b0(struct S_00de58c0_Local* out);
-    void FUN_00de58c0(struct S_00de58c0_Arr* out, struct S_00de58c0_Alloc* alloc);
+    void hkDisplayCone_getWireframeGeometry(struct S_00de58c0_Arr* out, struct S_00de58c0_Alloc* alloc);
 };
 
 static inline __m128& Q(S_00de58c0_V4& v)
@@ -223,7 +223,8 @@ static inline __m128& Q(S_00de58c0_V4& v)
 
 // Fills a local array via FUN_00de54b0, then writes four vectors per entry to out (m_60, entry i twice, entry i+1 mod m_80), growing out as needed.
 // @fnv 0x00de58c0
-void S_00de58c0_Obj::FUN_00de58c0(S_00de58c0_Arr* out, S_00de58c0_Alloc* alloc)
+// src: HAVOK_SRC 0x00de58c0
+void S_00de58c0_Obj::hkDisplayCone_getWireframeGeometry(S_00de58c0_Arr* out, S_00de58c0_Alloc* alloc)
 {
     S_00de58c0_Local tmp;
     tmp.m_data = (S_00de58c0_V4*)tmp.m_buf;
@@ -235,7 +236,7 @@ void S_00de58c0_Obj::FUN_00de58c0(S_00de58c0_Arr* out, S_00de58c0_Alloc* alloc)
     if ((out->m_cap & 0x3fffffff) < newSize)
     {
         int iDoubledCap = (out->m_cap & 0x3fffffff) * 2;
-        FUN_00c908c0(alloc, out, newSize < iDoubledCap ? iDoubledCap : newSize, 16);
+        hkArrayUtil__reserve(alloc, out, newSize < iDoubledCap ? iDoubledCap : newSize, 16);
     }
     out->m_iElementCount = newSize;
     int iWrite = 0;

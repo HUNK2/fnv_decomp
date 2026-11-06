@@ -31,7 +31,7 @@ struct CE5F90QsTransform
 };
 void __cdecl FUN_00ce5a70(CE5F90QsTransform* out, const CE5F90QsTransform* a, const CE5F90QsTransform* b, int mode,
                           float weightA, float weightB);
-void __cdecl FUN_00ce5f90(CE5F90QsTransform* out, const CE5F90QsTransform* poseA, short boneA,
+void __cdecl hkaSkeletonMapperUtils_computeMappingTransform_00ce5f90(CE5F90QsTransform* out, const CE5F90QsTransform* poseA, short boneA,
                           const CE5F90QsTransform* poseB, short boneB, int mode, float weightA, float weightB);
 extern "C" void _ReadBarrier();
 #include <xmmintrin.h>
@@ -578,7 +578,7 @@ class HkArrUtil
     template <typename T> static __forceinline void destruct(T* t, int n, HkClassTag);
     template <typename T> static __forceinline void constructWithArray(T* t, int n, const T* tcopy, HkPodTag);
     template <typename T> static __forceinline void constructWithArray(T* t, int n, const T* tcopy, HkClassTag);
-    __declspec(nothrow) static void __cdecl FUN_00c908c0(HkHeap& a, void* array, int reqElem, int sizeElem) throw();
+    __declspec(nothrow) static void __cdecl hkArrayUtil__reserve(HkHeap& a, void* array, int reqElem, int sizeElem) throw();
     __declspec(nothrow) static void __cdecl FUN_00c90940(HkHeap& a, void* array, int sizeElem) throw();
 };
 
@@ -689,7 +689,7 @@ template <typename T> class HkArrBaseLocalForm
         {
             int cap2 = 2 * capacity;
             int newSize = (n < cap2) ? cap2 : n;
-            HkArrUtil::FUN_00c908c0(alloc, this, newSize, sizeof(T));
+            HkArrUtil::hkArrayUtil__reserve(alloc, this, newSize, sizeof(T));
         }
     }
     __forceinline void _setSize(HkHeap& alloc, int n, const T& fill)
@@ -1007,7 +1007,7 @@ __declspec(nothrow) hkBool
 __declspec(nothrow) void __cdecl FUN_00cddcf0(int numTransforms, const short* parentIndices, const HkQs* poseLocal,
                                               HkQs* poseModelOut) throw();
 __declspec(nothrow) int __cdecl FUN_00cb0fe0(const char* s1, const char* s2) throw();
-__declspec(nothrow) void __cdecl FUN_00ce5f90(HkMappingType type, const HkQs* poseA, short boneA, const HkQs* poseB,
+__declspec(nothrow) void __cdecl hkaSkeletonMapperUtils_computeMappingTransform_00ce5f90(HkMappingType type, const HkQs* poseA, short boneA, const HkQs* poseB,
                                               short boneB, HkQs& mapOut, float tolerance = 1.0e-5f,
                                               float defaultScale = 1.0f) throw();
 __declspec(nothrow) void __cdecl FUN_00ce5fe0(HkMappingType type, const HkSkeleton* skeletonA, const HkQs* poseA,
@@ -1094,7 +1094,7 @@ __declspec(nothrow) void __cdecl FUN_00ce61c0(const HkMapperParams& originalPara
                 simpleMapping.m_sBoneA = boneIn;
                 simpleMapping.m_sBoneB = boneOut;
 
-                FUN_00ce5f90(params.m_eMappingType, poseA, boneIn, poseB, boneOut, simpleMapping.m_kAFromBTransform,
+                hkaSkeletonMapperUtils_computeMappingTransform_00ce5f90(params.m_eMappingType, poseA, boneIn, poseB, boneOut, simpleMapping.m_kAFromBTransform,
                              params.m_fFirstMappingTolerance, params.m_fSecondMappingTolerance);
 
                 reinterpret_cast<HkArr<HkSimpleMapping>&>(aToB.m_kSimpleMappings).AddBack(simpleMapping);
@@ -1135,7 +1135,7 @@ __declspec(nothrow) void __cdecl FUN_00ce61c0(const HkMapperParams& originalPara
                 simpleMapping.m_sBoneA = boneIn;
                 simpleMapping.m_sBoneB = boneOut;
 
-                FUN_00ce5f90(params.m_eMappingType, poseB, boneIn, poseA, boneOut, simpleMapping.m_kAFromBTransform);
+                hkaSkeletonMapperUtils_computeMappingTransform_00ce5f90(params.m_eMappingType, poseB, boneIn, poseA, boneOut, simpleMapping.m_kAFromBTransform);
 
                 reinterpret_cast<HkArr<HkSimpleMapping>&>(bToA.m_kSimpleMappings).AddBack(simpleMapping);
 
@@ -1668,7 +1668,7 @@ __declspec(nothrow) void __cdecl FUN_00ce61c0(const HkMapperParams& originalPara
                 const char* boneAName = params.m_pSkeletonA->m_kBones[boneA].m_name.cString();
                 const char* boneBName = params.m_pSkeletonB->m_kBones[boneB].m_name.cString();
 
-                FUN_00ce5f90(params.m_eMappingType, poseA, boneA, poseB, boneB, simpleMappingAtoB.m_kAFromBTransform,
+                hkaSkeletonMapperUtils_computeMappingTransform_00ce5f90(params.m_eMappingType, poseA, boneA, poseB, boneB, simpleMappingAtoB.m_kAFromBTransform,
                              params.m_fFirstMappingTolerance, 1.0f);
 
                 reinterpret_cast<HkArr<HkSimpleMapping>&>(aToB.m_kSimpleMappings).AddBack(simpleMappingAtoB);
@@ -1682,7 +1682,7 @@ __declspec(nothrow) void __cdecl FUN_00ce61c0(const HkMapperParams& originalPara
                 const char* boneAName = params.m_pSkeletonA->m_kBones[boneA].m_name.cString();
                 const char* boneBName = params.m_pSkeletonB->m_kBones[boneB].m_name.cString();
 
-                FUN_00ce5f90(params.m_eMappingType, poseB, boneB, poseA, boneA, simpleMappingBtoA.m_kAFromBTransform,
+                hkaSkeletonMapperUtils_computeMappingTransform_00ce5f90(params.m_eMappingType, poseB, boneB, poseA, boneA, simpleMappingBtoA.m_kAFromBTransform,
                              params.m_fFirstMappingTolerance, 1.0f);
 
                 reinterpret_cast<HkArr<HkSimpleMapping>&>(bToA.m_kSimpleMappings).AddBack(simpleMappingBtoA);

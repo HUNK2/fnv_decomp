@@ -21,7 +21,7 @@ void __stdcall FUN_00d84780(unsigned char a, int* pData)
     }
 }
 
-extern "C" void* __cdecl FUN_00d21a60(void*, int, int);
+extern "C" void* __cdecl hkpConstraintData_getConstraintInfoUtil(void*, int, int);
 
 struct FUN_00d84760
 {
@@ -31,7 +31,7 @@ struct FUN_00d84760
 // @fnv 0x00d84760
 void* FUN_00d84760::PopulateInfo(int a)
 {
-    return FUN_00d21a60((char*)this + 0x10, 0x94, a);
+    return hkpConstraintData_getConstraintInfoUtil((char*)this + 0x10, 0x94, a);
 }
 
 // @fnv 0x00d847b0

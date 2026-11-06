@@ -56,7 +56,7 @@ struct RigidBodyConstruction : hkpRigidBody
 {
     void FUN_00c9cce0(const hkpShape* shape) throw();
     void FUN_00ca8150(const hkpShape* shape, hkVector4* result) throw();
-    void FUN_00ca8630(bool enabled) throw();
+    void hkpRigidBody_enableDeactivation(bool enabled) throw();
     void FUN_00561800(const hkVector4& velocity) throw();
     RigidBodyConstruction* FUN_00ca8c90(const hkpRigidBodyCinfo& info);
 };
@@ -178,7 +178,7 @@ RigidBodyConstruction* RigidBodyConstruction::FUN_00ca8c90(const hkpRigidBodyCin
         m_kCollidable.m_pMotionState = &m_pMotionState.m_kMotionState.m_kMotionTransform;
         m_kCollidable.m_fAllowedPenetrationDepth = info.penetrationDepth;
     }
-    FUN_00ca8630(info.enableDeactivation != 0);
+    hkpRigidBody_enableDeactivation(info.enableDeactivation != 0);
     m_pMotionState.m_kMotionState.m_fLinearDamping = info.linearDamping;
     m_pMotionState.m_kMotionState.m_fAngularDamping = info.angularDamping;
     if (m_kCollidable.m_pCollisionShape)

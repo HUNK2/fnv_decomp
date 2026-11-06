@@ -60,11 +60,12 @@ struct S_00eaee50
     float m_fParamA;
     float m_fParamB;
 
-    float FUN_00eaee50(const NiPoint3& kOffsetA, const NiPoint3& kOffsetB, float fTime);
+    float NiCapsuleCapsuleIntersector_Pseudodistance(const NiPoint3& kOffsetA, const NiPoint3& kOffsetB, float fTime);
 };
 
 // @fnv 0x00eaee50
-float S_00eaee50::FUN_00eaee50(const NiPoint3& kOffsetA, const NiPoint3& kOffsetB, float fTime)
+// src: GAMEBRYO_LIB 0x00eaee50
+float S_00eaee50::NiCapsuleCapsuleIntersector_Pseudodistance(const NiPoint3& kOffsetA, const NiPoint3& kOffsetB, float fTime)
 {
     S_00eaee50_Line kA = m_pkShapeA->m_kLine;
     S_00eaee50_Line kB = m_pkShapeB->m_kLine;
@@ -92,7 +93,7 @@ extern const NiPoint3 DAT_011a9484;
 
 struct S_Line : S_00eaee50_Line
 {
-    void FUN_00eb6090(NiPoint3& out, float t);
+    void NiSegment_GetPoint(NiPoint3& out, float t);
 };
 
 struct S_Shape
@@ -136,10 +137,10 @@ inline NiPoint3 CopyPoint(const NiPoint3& p) { return NiPoint3(p.x, p.y, p.z); }
 void S_00eaef80::UpdatePoints(const NiPoint3& kOffsetA, const NiPoint3& kOffsetB)
 {
     NiPoint3 kPointA;
-    m_pkShapeA->m_kLine.FUN_00eb6090(kPointA, m_fParamA);
+    m_pkShapeA->m_kLine.NiSegment_GetPoint(kPointA, m_fParamA);
 
     NiPoint3 kPointB;
-    m_pkShapeB->m_kLine.FUN_00eb6090(kPointB, m_fParamB);
+    m_pkShapeB->m_kLine.NiSegment_GetPoint(kPointB, m_fParamB);
 
     if (unk18 == 2)
     {

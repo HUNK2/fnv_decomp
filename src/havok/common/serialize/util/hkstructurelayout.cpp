@@ -64,7 +64,7 @@ struct SizeNode;
 struct SizeNodeList
 {
     int FUN_00d46f00();
-    SizeNode* FUN_00d46f20(int index);
+    SizeNode* getMember(int index);
 };
 
 struct SizeNode
@@ -133,7 +133,7 @@ extern "C" int __cdecl GetNodeValue(SizeNode* node, int type, int fallback)
         SizeNodeList* list = node->FUN_00d86910();
         for (int iIndex = 0; iIndex < list->FUN_00d46f00(); iIndex++)
         {
-            SizeNode* child = list->FUN_00d46f20(iIndex);
+            SizeNode* child = list->getMember(iIndex);
             int t = child->unk0C;
             int r = GetNodeValue(child, t, fallback);
             if (r > best)

@@ -56,19 +56,20 @@ void __stdcall GetPunctuationChars(char** apOutString, int* apiLength)
 
 extern hkProcess* DAT_01269cd0;
 extern hkInspectProcess* DAT_01269cd4;
-void __cdecl FUN_00ddb710(hkProcess*);
-extern hkProcessFactory* FUN_00dd9380;
+void __cdecl hkInspectProcess_create(hkProcess*);
+extern hkProcessFactory* hkProcessFactory_registerProcess;
 // @fnv 0x00ddb750
 void __cdecl RegisterObjectInspectionProcess()
 {
-    DAT_01269cd4 = FUN_00dd9380->RegisterProcess("ObjectInspection", FUN_00ddb710);
+    DAT_01269cd4 = hkProcessFactory_registerProcess->RegisterProcess("ObjectInspection", hkInspectProcess_create);
 }
 
 
 
 // If addObject is set, calls WriteObjectHeader with object, type and flags; otherwise calls RemovePair with object.
 // @fnv 0x00ddb5d0
-void __cdecl FUN_00ddb5d0(void* object, int type, char addObject, int flags, hkInspectProcess* inspectProcess)
+// src: HAVOK_LIB 0x00ddb5d0
+void __cdecl myTrackedObjectCallback(void* object, int type, char addObject, int flags, hkInspectProcess* inspectProcess)
 {
     if (addObject)
     {
@@ -124,7 +125,7 @@ struct hkInspectArray
     }
 };
 
-void __cdecl FUN_00ddb5d0(void* userData);
+void __cdecl myTrackedObjectCallback(void* userData);
 
 // These callbacks are not yet declared by ProcessContext's shared layout.
 extern "C" void FUN_00cd13c0();
@@ -142,7 +143,7 @@ hkInspectProcess::hkInspectProcess(const hkSourceListDDB6& sources) throw()
     if (context)
     {
         reinterpret_cast<hkReferencedObject*>(context)->addReference();
-        reinterpret_cast<AddInspectCallback>(FUN_00cd13c0)(context, FUN_00ddb5d0, this);
+        reinterpret_cast<AddInspectCallback>(FUN_00cd13c0)(context, myTrackedObjectCallback, this);
     }
 }
 
@@ -212,7 +213,7 @@ hkInspectProcess::~hkInspectProcess() throw()
     {
         for (int i = 0; i < pkContext->unk2c; i++)
             RemovePair(reinterpret_cast<hkProcessObjectDDB6*>(pkContext->unk28)[i].m_object);
-        reinterpret_cast<RemoveInspectCallback>(FUN_00cd1140)(context, FUN_00ddb5d0);
+        reinterpret_cast<RemoveInspectCallback>(FUN_00cd1140)(context, myTrackedObjectCallback);
         reinterpret_cast<hkReferencedObject*>(context)->removeReference();
     }
     reinterpret_cast<hkArray<hkInspectEntryDDB6>*>(&unk20)->_clearAndDeallocate(fnv_00ddb670::FUN_00c85750().heap());
@@ -220,7 +221,8 @@ hkInspectProcess::~hkInspectProcess() throw()
 
 void* __cdecl FUN_00c85750();
 // @fnv 0x00ddb710
-void* __cdecl FUN_00ddb710(unsigned int value)
+// src: HAVOK_LIB 0x00ddb710
+void* __cdecl hkInspectProcess_create(unsigned int value)
 {
     hkMemoryRouterQ_hkinspectprocess* pCpuHolder = static_cast<hkMemoryRouterQ_hkinspectprocess*>(FUN_00c85750());
     hkInspectProcess* pCpuBlock =
@@ -418,17 +420,18 @@ struct hkWrittenObjectQ
     const hkClass* m_class;
 };
 
-int __cdecl FUN_00e0bd40(hkArrayStreamWriter* writer, hkStructureLayout* layout, const void* object, int flags,
+int __cdecl hkObjectSerialize_writeObject(hkArrayStreamWriter* writer, hkStructureLayout* layout, const void* object, int flags,
                          const void* original, const hkClass* pClassInfo, hkArrQLocalForm<hkObjectPatchQ>* patches) throw();
 
 __forceinline int hkInspectProcess::sendRecursiveQ(const void* object, const hkClass* pClassInfo,
                                                    hkArrQLocalForm<hkWrittenObjectQ>* written) throw()
 {
-    return FUN_00ddb770(object, pClassInfo, true, written);
+    return writeObject(object, pClassInfo, true, written);
 }
 
 // @fnv 0x00ddb770
-int hkInspectProcess::FUN_00ddb770(const void* object, const hkClass* pClassInfo, hkBool recurse,
+// src: HAVOK_LIB 0x00ddb770
+int hkInspectProcess::writeObject(const void* object, const hkClass* pClassInfo, hkBool recurse,
                                     hkArrQLocalForm<hkWrittenObjectQ>* written) throw()
 {
     hkStructureLayout layout(DAT_010d6ae8);
@@ -466,7 +469,7 @@ int hkInspectProcess::FUN_00ddb770(const void* object, const hkClass* pClassInfo
 
     hkArrQLocalForm<char> buffer;
     hkArrayStreamWriter writer(reinterpret_cast<hkCharArray*>(&buffer), 1);
-    int size = FUN_00e0bd40(&writer, &layout, object, 0, object, realClass, &patches);
+    int size = hkObjectSerialize_writeObject(&writer, &layout, object, 0, object, realClass, &patches);
     if (size != buffer.GetLogicalSize() || size < 1)
     {
         return -1;
@@ -499,7 +502,8 @@ static __forceinline int nextIndex(const hkPathArray* path, int i)
 }
 // Walks a hkPathArray through hkClassMember types to compute and return the pointer to a nested member within data.
 // @fnv 0x00ddb450
-static __declspec(noinline) void* __cdecl FUN_00ddb450(const hkClassMember* member, char* data, const hkPathArray* path,
+// src: HAVOK_LIB 0x00ddb450
+static __declspec(noinline) void* __cdecl _FindMemberItem(const hkClassMember* member, char* data, const hkPathArray* path,
                                                        int type, int aiIndex)
 {
     char* p = data;
@@ -555,7 +559,7 @@ static __declspec(noinline) void* __cdecl FUN_00ddb450(const hkClassMember* memb
             const hkClass* k = member->GetClass();
             if (!k)
                 return 0;
-            member = &k->FUN_00d46f20(nextIndex(path, aiIndex));
+            member = &k->getMember(nextIndex(path, aiIndex));
             {
                 char* next = p + member->m_offset;
                 type = member->m_type;
@@ -574,6 +578,6 @@ static __declspec(noinline) void* __cdecl FUN_00ddb450(const hkClassMember* memb
 
 void* S00ddb450_Call(int type, char* data, const hkPathArray* path, int i, const hkClassMember* member)
 {
-    return FUN_00ddb450(member, data, path, type, i);
+    return _FindMemberItem(member, data, path, type, i);
 }
 }  // namespace fnv_00ddb450

@@ -4,10 +4,11 @@
 
 struct FUN_00d97a10_Class
 {
-    void FUN_00d97a10(float* p) const;
+    void hkKdTreeCollidableRayBundleCaster_getHitFractions(float* p) const;
 };
 // @fnv 0x00d97a10
-void FUN_00d97a10_Class::FUN_00d97a10(float* afOut) const
+// src: HAVOK_LIB 0x00d97a10
+void FUN_00d97a10_Class::hkKdTreeCollidableRayBundleCaster_getHitFractions(float* afOut) const
 {
     const float* m = *(const float**)((const char*)this + 0x10);
     afOut[0] = m[0x10 / 4];
@@ -32,12 +33,13 @@ struct S_00d979e0
     int unk8;
     int unkC;
     S_00d979e0_Inner* unk10;
-    float FUN_00d979e0() const;
+    float hkpKdTreeCollidableRaycaster_getHitFraction() const;
 };
 
 // Returns the float at offset 0x10 of the inner struct pointed to by unk10.
 // @fnv 0x00d979e0
-float S_00d979e0::FUN_00d979e0() const
+// src: HAVOK_SRC 0x00d979e0
+float S_00d979e0::hkpKdTreeCollidableRaycaster_getHitFraction() const
 {
     return unk10->unk10;
 }
@@ -224,12 +226,13 @@ struct S00d97bf0_Obj
     int m0C;
     int m10;
 
-    int __thiscall FUN_00d97bf0(int a0, int a1, int a2, int a3);
+    int __thiscall hkpKdTreeCollidableRaycaster_castRayIterative(int a0, int a1, int a2, int a3);
 };
 
 // Records TtKdTreeCastRayIter and Et timing markers, stores a2 and a3, calls FUN_00d98ca0 and v2, then returns a0.
 // @fnv 0x00d97bf0
-int __thiscall S00d97bf0_Obj::FUN_00d97bf0(int a0, int a1, int a2, int a3)
+// src: HAVOK_LIB 0x00d97bf0
+int __thiscall S00d97bf0_Obj::hkpKdTreeCollidableRaycaster_castRayIterative(int a0, int a1, int a2, int a3)
 {
     extern void* DAT_00fdf044;
     extern unsigned long DAT_0126835c;

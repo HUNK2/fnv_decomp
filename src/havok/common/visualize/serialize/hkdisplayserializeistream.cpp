@@ -37,9 +37,10 @@ hkDisplaySerializeIStream* __fastcall ConstructDisplaySerializeIStream(
 }
 
 // @fnv 0x00ddac60
-__declspec(noinline) void hkDisplaySerializeIStream::FUN_00ddac60(hkVector4& obj)
+// src: HAVOK_LIB 0x00ddac60
+__declspec(noinline) void hkDisplaySerializeIStream::readQuadVector4(hkVector4& obj)
 {
-    FUN_00dd8fe0(&obj, 4, 3);
+    hkIArchive_readArrayGeneric(&obj, 4, 3);
     obj.w = 0.0f;
 }
 
@@ -55,19 +56,20 @@ struct ArrayPair
     ArrayRecord second;
 };
 BSAudio* __cdecl FUN_00c85750();
-extern "C" void __cdecl FUN_00c908c0(void*, void*, int, int);
+extern "C" void __cdecl hkArrayUtil__reserve(void*, void*, int, int);
 // The triangle reader is absent from the shared stream declaration. The unused
 // fastcall register argument leaves its original thiscall entry ABI intact.
 __declspec(noinline) void __fastcall ReadDisplayTriangle(hkDisplaySerializeIStream*, void*, void*);
 typedef void (__thiscall* DisplayTriangleReader)(hkDisplaySerializeIStream*, void*);
 
 // @fnv 0x00ddacd0
-void hkDisplaySerializeIStream::FUN_00ddacd0(hkGeometry* geometry)
+// src: HAVOK_LIB 0x00ddacd0
+void hkDisplaySerializeIStream::readGeometry(hkGeometry* geometry)
 {
     ArrayPair* arrays = reinterpret_cast<ArrayPair*>(geometry);
     {
         int firstCount;
-        FUN_00dd8fe0(&firstCount, 4, 1);
+        hkIArchive_readArrayGeneric(&firstCount, 4, 1);
         if (firstCount > 0)
         {
             for (int remaining = firstCount; remaining != 0; --remaining)
@@ -83,17 +85,17 @@ void hkDisplaySerializeIStream::FUN_00ddacd0(hkGeometry* geometry)
                     int grown = capacity * 2;
                     if (needed < grown)
                         needed = grown;
-                    FUN_00c908c0(growFunction, array, needed, 16);
+                    hkArrayUtil__reserve(growFunction, array, needed, 16);
                 }
                 ++array->size;
                 void* output = (char*)array->data + size * 16;
-                FUN_00ddac60(*reinterpret_cast<hkVector4*>(output));
+                readQuadVector4(*reinterpret_cast<hkVector4*>(output));
             }
         }
     }
     {
         int secondCount;
-        FUN_00dd8fe0(&secondCount, 4, 1);
+        hkIArchive_readArrayGeneric(&secondCount, 4, 1);
         if (secondCount > 0)
         {
             ArrayRecord* array = &arrays->second;
@@ -109,7 +111,7 @@ void hkDisplaySerializeIStream::FUN_00ddacd0(hkGeometry* geometry)
                     int grown = capacity * 2;
                     if (needed < grown)
                         needed = grown;
-                    FUN_00c908c0(growFunction, array, needed, 16);
+                    hkArrayUtil__reserve(growFunction, array, needed, 16);
                 }
                 ++array->size;
                 void* output = (char*)array->data + size * 16;
@@ -141,9 +143,9 @@ void hkDisplaySerializeIStream::FUN_00ddac80(hkTransform* target)
 {
     Vec4 source;
     Vec4 destination;
-    FUN_00dd8fe0(&source, 4, 3);
+    hkIArchive_readArrayGeneric(&source, 4, 3);
     source.w = 1.0f;
-    FUN_00dd8fe0(&destination, 4, 4);
+    hkIArchive_readArrayGeneric(&destination, 4, 4);
     target->m_vTranslation = *(__m128*)&source;
     target->m_rotation.FUN_00cb2d90(reinterpret_cast<const hkQuaternion&>(destination));
 }
@@ -155,17 +157,17 @@ __declspec(noinline) void __fastcall ReadDisplayTriangle(hkDisplaySerializeIStre
     int* dst = (int*)output;
     {
         int val1;
-        stream->FUN_00dd8fe0(&val1, 4, 1);
+        stream->hkIArchive_readArrayGeneric(&val1, 4, 1);
         dst[0] = val1;
     }
     {
         int val2;
-        stream->FUN_00dd8fe0(&val2, 4, 1);
+        stream->hkIArchive_readArrayGeneric(&val2, 4, 1);
         dst[1] = val2;
     }
     {
         int val3;
-        stream->FUN_00dd8fe0(&val3, 4, 1);
+        stream->hkIArchive_readArrayGeneric(&val3, 4, 1);
         dst[2] = val3;
     }
 }

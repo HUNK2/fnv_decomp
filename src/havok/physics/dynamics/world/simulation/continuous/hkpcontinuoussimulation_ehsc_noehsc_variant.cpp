@@ -208,11 +208,11 @@ struct S_00d0c6d0_ByteArray {
     unsigned char* m_data;
     int m_iElementCount;
 };
-void FUN_00d0c6d0(S_00d0c6d0_EntryArray* aEntries, int* aIndex, S_00d0c6d0_ByteArray* table);
-struct Base { void FUN_00cfa430(int*, int, int, unsigned int); };
+void hkLs_toiActivateConstraintsLinkingActivatedEntities(S_00d0c6d0_EntryArray* aEntries, int* aIndex, S_00d0c6d0_ByteArray* table);
+struct Base { void hkpSimulation_resetCollisionInformationForEntities(int*, int, int, unsigned int); };
 struct Object : Base {
-    void FUN_00d0c290(int*, int);
-    void FUN_00d0c3e0(int);
+    void hkpContinuousSimulation_removeToiEventsOfEntities(int*, int);
+    void hkpContinuousSimulation_removeToiEventsOfEntity(int);
     void ProcessEntries(int*, int, int, unsigned int);
 };
 extern int DAT_010cd45c;
@@ -246,7 +246,7 @@ void __cdecl InitAndDispatch();
 struct S_00d0f2e0
 {
     void* FUN_00cf9480(void* a, void* b, void* c, void (__cdecl *pfnCallback)(), int iFlags);
-    void* FUN_00d0f2e0(void* a, void* b, void* c);
+    void* hkpContinuousSimulation_collideEntitiesNarrowPhaseContinuous(void* a, void* b, void* c);
 };
 struct World {
  hkStepInfo& time(){return *reinterpret_cast<hkStepInfo*>(reinterpret_cast<char*>(this)+80);}
@@ -260,7 +260,7 @@ struct Controller {
  virtual void slot0();virtual void slot1();virtual void slot2();virtual void slot3();virtual void slot4();virtual void slot5();virtual void slot6();virtual void slot7();virtual void process(Body**,int,hkpWorld*,int);
  int flags,kind,capacity,mode;float start,end;
  void FUN_00d0d3f0(Body**,int,hkpWorld*,int);
- void FUN_00d0f2e0(Body**,int,World*);
+ void hkpContinuousSimulation_collideEntitiesNarrowPhaseContinuous(Body**,int,World*);
  void ProcessBodies(Body**,int,hkpWorld*,int);
 };
 struct SpawnedObject
@@ -359,7 +359,7 @@ struct FUN_00d0bd30_p {
     int unk04;
     float m_08;
 };
-int __cdecl FUN_00d0bd30(float scale, FUN_00d0bd30_p* pParams, float* pafValues, int aiCount, char** ppTable);
+int __cdecl hkLs_areVelocitiesOk(float scale, FUN_00d0bd30_p* pParams, float* pafValues, int aiCount, char** ppTable);
 // ---------------------------------------------------------------------------
 // Stand-in types for the simulation object that owns the scope table.
 //
@@ -516,10 +516,10 @@ struct FUN_00d0c8d0_cls {
     FilePool m_3C;
     unsigned int m_48;
 
-    void FUN_00c90360(ReportSink* sink, void* data);
+    void hkReferencedObject_calcContentStatistics(ReportSink* sink, void* data);
     void ReportMemoryUsage(ReportSink* a1, int a2);
 };
-unsigned int FUN_00d06f80(void* base, unsigned int bytes);
+unsigned int hkStatisticsCollector_getAllocatedSize(void* base, unsigned int bytes);
 extern char DAT_01269514;
 struct InfoBlock {
     unsigned int unk00;
@@ -585,7 +585,7 @@ struct HolderBase {
 };
 void __cdecl ResizeAudioStream(void* alloc, NiPoint3* vec, unsigned int elemSize);
 int __cdecl FUN_00d9f6f0(int a, int b, int c, int d, void* e);
-int __cdecl FUN_00d0bd30(float f, Entry* entry, void* out, int a, int b);
+int __cdecl hkLs_areVelocitiesOk(float f, Entry* entry, void* out, int a, int b);
 unsigned char* __cdecl CollectMatchingEntries(unsigned char* pResult, SrcA* pSrc, NiPoint3* pVec, int a4, NiPoint3* dst);
 struct S_00d0d150_Vector4 {
     LocalM128 m_vComponents;
@@ -1106,7 +1106,7 @@ struct CollisionBody {
     int unkd8;
     int unkdc;
     CollisionMotion motion;
-    hkBool FUN_00c761f0();
+    hkBool hkpEntity_isFixedOrKeyframed();
 };
 struct CollisionManager {
     int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c;
@@ -1157,7 +1157,7 @@ struct CollisionQueue {
     }
 };
 void __cdecl FUN_00d9f250(hkVector4*, float, CollisionParameters*, CollisionMotion*, CollisionMotion*, CollisionManager*, CollisionOutput*);
-void __cdecl FUN_00d01700(void*, CollisionStateData*, int);
+void __cdecl hkpWorldCallbackUtil_fireContactImpulseLimitBreached(void*, CollisionStateData*, int);
 void __cdecl ProcessCollisionEvent(void* context, CollisionEvent* event, float deltaTime, CollisionQueue* queue);
 // expanded integer AABB into thread-stack local arrays, add them to the 3-axis sweep, then remove duplicate pairs.
 extern "C" unsigned __int64 __rdtsc(void);
@@ -1245,7 +1245,7 @@ static inline void UncompressExpandedAabbD0(const BoundingVolumeDataD0& in, Aabb
     out.m_kMaximumCorner[2] = x2;
 }
 void __cdecl FUN_00d1a330(CollisionInputD0* input, CollidableD0** collidables, int numCollidables);
-void __cdecl FUN_00cf7130(PairArrayD0& newPairs, PairArrayD0& delPairs);
+void __cdecl hkpTypedBroadPhaseDispatcher_removeDuplicates(PairArrayD0& newPairs, PairArrayD0& delPairs);
 static inline void TimerBeginListD0(const char* name, const char* firstSub)
 {
     hkMonitorStream* s = (hkMonitorStream*)TlsGetValue(DAT_0126835c);
@@ -1654,7 +1654,7 @@ struct Sub1E0 {
     void setTimes(float scale, const hkStepInfo& step) { m_10c = scale * step.m_fTimeStep; m_110 = (float)m_114 * step.m_fInverseDeltaTime; }
 };
 
-void __cdecl FUN_00d01650(hkpWorld*, BodyL*, hkStepInfo*);
+void __cdecl hkpWorldCallbackUtil_fireIslandPostCollideCallback(hkpWorld*, BodyL*, hkStepInfo*);
 template<int Mode> static inline void TickWrite(const char* name, volatile unsigned int& t)
 {
     hkMonitorStream* s = (hkMonitorStream*)TlsGetValue(DAT_0126835c);
@@ -1693,7 +1693,7 @@ struct ThisFull {
     void FUN_00d0d8b0(BodyL*, void*);
 };
 union StepArg { hkStepInfo* step; volatile unsigned int tick; };
-void __fastcall FUN_00d0ef40(ThisFull* th, void* edx_unused, StepArg arg);
+void __fastcall hkpContinuousSimulation_collideInternal(ThisFull* th, void* edx_unused, StepArg arg);
 struct Tmp {
     int unk00;
     int unk04;
@@ -1822,7 +1822,7 @@ public:
     int unk2C;
     D0C290Entry* m_30;
     int m_34;
-    void FUN_00d0c290(int* ids, int n);
+    void hkpContinuousSimulation_removeToiEventsOfEntities(int* ids, int n);
 };
 struct D0C290Pair { unsigned int lo, hi; };
 template <int N>
@@ -1875,7 +1875,7 @@ struct __declspec(align(16)) S00d0c9c0_Ctx {
     int unk3088;
     int unk308c;
 };
-void __stdcall FUN_00d0c9c0(ThingX** apEntries, int aiCount, ThingP* apP, int aiValue, bool abAlt);
+void __stdcall hkpContinuousSimulation_processAgentNnEntries(ThingX** apEntries, int aiCount, ThingP* apP, int aiValue, bool abAlt);
 typedef unsigned long DWORD;
 extern "C" unsigned __int64 __rdtsc(void);
 extern "C" void _ReadWriteBarrier(void);
@@ -2098,7 +2098,7 @@ struct S_00d0e210_StepInfo {
     int unk78;
 };
 void __cdecl UpdateRotationInterpolation(float time, S_00d0e210_Motion* motion) throw();
-void __cdecl FUN_00cc0ea0(S_00d0e210_Entity* entity, int arg) throw();
+void __cdecl hkpWorldAgentUtil_invalidateTim(S_00d0e210_Entity* entity, int arg) throw();
 struct S_00d0e210_Sim {
     virtual void v00();
     virtual void v04();
@@ -2129,7 +2129,7 @@ struct S_00d0e210_Sim {
     int unk2C;
     S_00d0e210_ToiArray m_kToiEventQueue;
     int unk3C;
-    void FUN_00d0e210(S_00d0e210_StepInfo* info, S_00d0e210_ToiEvent& event, int unused, float dt) throw();
+    void hkpContinuousSimulation_handleSimpleToi(S_00d0e210_StepInfo* info, S_00d0e210_ToiEvent& event, int unused, float dt) throw();
 };
 
 
@@ -2155,7 +2155,7 @@ __forceinline void D0FE00TimerBegin(const char* name)
     }
 }
 
-void __cdecl FUN_00d01380(hkpWorld* world);
+void __cdecl hkpWorldCallbackUtil_firePostSimulationCallback(hkpWorld* world);
 extern int g_D0FE00SimulationState;
 extern const char g_D0FE00TimerPostSimCb[];
 extern const char g_D0FE00TimerEnd[];
@@ -2194,8 +2194,8 @@ struct D0FE00Simulation {
     int m_entitiesToActivate;
     int m_iActorEntryCount;
 
-    int FUN_00d0ed10();
-    int FUN_00d0fe00();
+    int hkpContinuousSimulation_advanceTimeInternal();
+    int hkpContinuousSimulation_advanceTime();
 };
 
 
@@ -2360,7 +2360,7 @@ __forceinline void Se4b0_visit(Se4b0_Body* body, Se4b0_Constraint* c, int level,
         }
     }
 }
-void FUN_00d0e4b0(World* world, int level, float time, hkArrayBase<Se4b0_Body*>* bodies, Se4b0_States* states, hkArrayBase<Se4b0_Body*>* outBodies, hkArrayBase<ItemObj*>* outItems);
+void hkLs_toiActivateEntitiesAndCheckConstraints(World* world, int level, float time, hkArrayBase<Se4b0_Body*>* bodies, Se4b0_States* states, hkArrayBase<Se4b0_Body*>* outBodies, hkArrayBase<ItemObj*>* outItems);
 // Baseline from the attributed contributor draft dated 2026-10-28.
 // Current-claim official checking is required; no padding instructions are inserted.
 struct S_00d0d150_Entity {
@@ -2448,9 +2448,9 @@ struct S_00d0e9c0 {
     int unk48;
     int m_iToiEventCount;
 
-    int FUN_00d0e9c0(float arg1);
-    hkBool FUN_00d0bc20(S_00d0d150_ToiEvent* ev, float* fSubStepTime);
-    void FUN_00d0e210(hkpWorld* ctx, S_00d0d150_ToiEvent* ev, float fStepTime, float fSubStepTime);
+    int hkpContinuousSimulation_handleAllToisTill(float arg1);
+    hkBool hkpContinuousSimulation_fireEarliestToiCallbacksAndCheckEnabled(S_00d0d150_ToiEvent* ev, float* fSubStepTime);
+    void hkpContinuousSimulation_handleSimpleToi(hkpWorld* ctx, S_00d0d150_ToiEvent* ev, float fStepTime, float fSubStepTime);
 };
 extern "C" unsigned __int64 __rdtsc();
 extern "C" void _mm_prefetch(const char*, int);
@@ -2463,10 +2463,10 @@ struct ScratchSpan {
     unsigned capacity;
     unsigned* original;
 };
-void __cdecl FUN_00cf7130(ScratchSpan*, ScratchSpan*);
+void __cdecl hkpTypedBroadPhaseDispatcher_removeDuplicates(ScratchSpan*, ScratchSpan*);
 struct RenderSink {
     void __thiscall DispatchPairs(unsigned*, int);
-    void __thiscall FUN_00cf7080(unsigned*, int, void*);
+    void __thiscall hkpTypedBroadPhaseDispatcher_addPairs(unsigned*, int, void*);
 };
 struct Dispatcher {
     virtual void slot00(); virtual void slot04();
@@ -2667,7 +2667,7 @@ struct Heap {
     template<class T> inline void release(void* p,int n) {freeBuffer(p,n*sizeof(T));}
 };
 struct ArrayOps {
-    static __declspec(nothrow) void __cdecl FUN_00c908c0(Heap&,void*,int,int) throw();
+    static __declspec(nothrow) void __cdecl hkArrayUtil__reserve(Heap&,void*,int,int) throw();
     static __declspec(nothrow) void __cdecl ResizeAudioStream(Heap&,void*,int) throw();
     __forceinline static void GrowArray(Heap& a,void* p,int n) {ResizeAudioStream(a,p,n);}
 };
@@ -2712,7 +2712,7 @@ public:
         data=0;flags=Borrowed;
     }
     __forceinline void reserveWith(Heap& a,int n) {
-        const int capacity=getCapacity();if(capacity<n) {int doubled=2*capacity;int requested=(n<doubled)?doubled:n;ArrayOps::FUN_00c908c0(a,this,requested,sizeof(T));}
+        const int capacity=getCapacity();if(capacity<n) {int doubled=2*capacity;int requested=(n<doubled)?doubled:n;ArrayOps::hkArrayUtil__reserve(a,this,requested,sizeof(T));}
     }
     __forceinline void pushBackUnchecked(const T& value) {
         copyElements(data+size,1,value);++size;
@@ -2892,21 +2892,21 @@ struct TraceStream {
 __declspec(nothrow) void FUN_00cf1b10(float,hkMotionState&) throw();
 __declspec(nothrow) void FUN_00d892d0() throw();
 __declspec(nothrow) void FUN_00d88670(Resources&,DynamicNode* const*,int) throw();
-__declspec(nothrow) BoolFlag FUN_00d88310(Resources&,DynamicNode**,int) throw();
+__declspec(nothrow) BoolFlag hkpConstraintSolverSetup_internalIsMemoryOkForNewAccumulators(Resources&,DynamicNode**,int) throw();
 __declspec(nothrow) BoolFlag CheckTotalsWithinLimits(Resources&,Constraint**,int) throw();
-__declspec(nothrow) void FUN_00d88340(Resources&,int) throw();
+__declspec(nothrow) void hkpConstraintSolverSetup_subSolve(Resources&,int) throw();
 __declspec(nothrow) void FUN_00d88760(Resources&,Constraint**,int,List<SchemaRecord>&) throw();
 __declspec(nothrow) void FUN_00d0cb00(Resources&,ProcessInput&,List<SchemaRecord>&,int&,Constraint::ConstraintPriority,StateTable&,const List<DynamicNode*>&,List<DynamicNode*>&) throw();
-__declspec(nothrow) void FUN_00d0e4b0(ProcessInput&,Constraint::ConstraintPriority,float,const List<DynamicNode*>&,StateTable&,List<DynamicNode*>&,List<Constraint*>&) throw();
+__declspec(nothrow) void hkLs_toiActivateEntitiesAndCheckConstraints(ProcessInput&,Constraint::ConstraintPriority,float,const List<DynamicNode*>&,StateTable&,List<DynamicNode*>&,List<Constraint*>&) throw();
 __declspec(nothrow) void FUN_00d0cde0(float,SolverIsland*,StateTable&,List<DynamicNode*>&) throw();
-__declspec(nothrow) void FUN_00cc0ea0(DynamicNode*,const CollisionInput&) throw();
+__declspec(nothrow) void hkpWorldAgentUtil_invalidateTim(DynamicNode*,const CollisionInput&) throw();
 __declspec(nothrow) void FUN_00d0bf30(Resources&,const List<DynamicNode*>&) throw();
 __declspec(nothrow) BoolFlag CollectMatchingEntries(Resources&,const List<SchemaRecord>&,ProcessInput&,List<Violation>*) throw();
 __declspec(nothrow) void FUN_00d8aac0(const ResourceInfo&,Schema*,Accumulator*,SolverElement*) throw();
 __declspec(nothrow) void FUN_00d88580(const ResourceInfo&,const hkStepInfo&,const Accumulator*,DynamicNode* const*,int) throw();
 __declspec(nothrow) void UpdateIslandMotionStates(SolverIsland*,StateTable&,Resources&) throw();
 __declspec(nothrow) void PartitionMotionPairs(List<SchemaRecord>&,int&,int) throw();
-__declspec(nothrow) void FUN_00d0c6d0(List<SchemaRecord>&,int&,StateTable&) throw();
+__declspec(nothrow) void hkLs_toiActivateConstraintsLinkingActivatedEntities(List<SchemaRecord>&,int&,StateTable&) throw();
 struct SweepView {hkVector4 center0,center1,rotation0,rotation1,localCenter;};
 
 // 0x00cf1510 consumes the 64-byte Havok rotation/translation pose (hkTransform).
@@ -2932,7 +2932,8 @@ __declspec(noinline) __declspec(nothrow) void PartitionMotionPairs(List<SchemaRe
         }
     }
 }
-__declspec(noinline) __declspec(nothrow) void FUN_00d0c6d0(List<SchemaRecord>& a,int& cursor,StateTable& state) throw() {
+// src: HAVOK_LIB 0x00d0c6d0
+__declspec(noinline) __declspec(nothrow) void hkLs_toiActivateConstraintsLinkingActivatedEntities(List<SchemaRecord>& a,int& cursor,StateTable& state) throw() {
     for(int i=cursor;i<a.GetLogicalSize();++i) {
         Constraint* c=a[i].m_pHavokConstraint;
         if(state[c->getEntityA()->m_usStorageIndex]==16 && state[c->getEntityB()->m_usStorageIndex]==16) {
@@ -2967,7 +2968,7 @@ struct SolveConstraint {
 struct SolveRecord { SolveConstraint* constraint; void* schema; float depth; };
 struct SolveViolation { SolveConstraint* constraint; const SolvePoint* point; const void* properties; };
 extern "C" __declspec(nothrow) int __cdecl FUN_00d9f6f0(void*,void*,void*,int,float*) throw();
-extern "C" __declspec(nothrow) int __cdecl FUN_00d0bd30(float,SolveRecord*,float*,int,void*) throw();
+extern "C" __declspec(nothrow) int __cdecl hkLs_areVelocitiesOk(float,SolveRecord*,float*,int,void*) throw();
 __declspec(noinline) __declspec(nothrow) BoolFlag CollectMatchingEntries(Resources& originalResources,const List<SchemaRecord>& originalRecords,ProcessInput& scene,List<Violation>* originalViolations)
 {
     void* world=&originalResources;
@@ -2982,7 +2983,7 @@ __declspec(noinline) __declspec(nothrow) BoolFlag CollectMatchingEntries(Resourc
         SolveRecord& record=records->begin()[i];
         if(record.constraint->priority!=5) continue;
         int n=FUN_00d9f6f0(resources->solver,record.schema,resources->accumulators,256,velocities);
-        int violated=FUN_00d0bd30(resources->step->m_fTimeStep,&record,velocities,n,&scene);
+        int violated=hkLs_areVelocitiesOk(resources->step->m_fTimeStep,&record,velocities,n,&scene);
         if(violated<0) continue;
         if(!rejected) return BoolFlag(false);
         satisfied=false;
@@ -3164,11 +3165,12 @@ struct S00d0db40_Dyn {
     hkpWorld* m_pOwningWorld;
     void QueueToiEvent(const S00d0db40_Output&, const S_00d0d150_AgentNnEntry&);
 
-    void FUN_00d0db40(S00d0db40_Entity** entities, int numEntities, const S00d0db40_Input& input, S00d0db40_Pending& pending);
+    void hkpContinuousSimulation_collideEntitiesOfOneIslandNarrowPhaseContinuous_toiOnly(S00d0db40_Entity** entities, int numEntities, const S00d0db40_Input& input, S00d0db40_Pending& pending);
 };
 extern "C" void __cdecl FUN_00cfedd0(S_00d0d150_AgentNnEntry*, const S00d0db40_Input&, S00d0db40_Output&, hkpContactMgr*);
 // @fnv 0x00d0db40
-void S00d0db40_Dyn::FUN_00d0db40(S00d0db40_Entity** entities, int numEntities, const S00d0db40_Input& input, S00d0db40_Pending& pending)
+// src: HAVOK_LIB 0x00d0db40
+void S00d0db40_Dyn::hkpContinuousSimulation_collideEntitiesOfOneIslandNarrowPhaseContinuous_toiOnly(S00d0db40_Entity** entities, int numEntities, const S00d0db40_Input& input, S00d0db40_Pending& pending)
 {
     S00d0db40_Island* island = entities[0]->getIsland();
     int numBytes = island->m_iActorEntryCount;
@@ -3830,10 +3832,11 @@ hkpSimulationIsland*m_pCurrentSimulationIsland;
 class hkpContinuousSimulation:public hkpSimulation
 {
 public:
-void FUN_00d0de70(const GskAgentInput&input,PointerKeyIntegerMap<hkUint32,hkpEntity*>&entitiesNeedingPsiCollisionDetection);
+void collideEntitiesNeedingPsiCollisionDetectionNarrowPhase_toiOnly(const GskAgentInput&input,PointerKeyIntegerMap<hkUint32,hkpEntity*>&entitiesNeedingPsiCollisionDetection);
 };
 // @fnv 0x00d0de70
-void hkpContinuousSimulation::FUN_00d0de70(const GskAgentInput&input,PointerKeyIntegerMap<hkUint32,hkpEntity*>&entitiesNeedingPsiCollisionDetection)
+// src: HAVOK_LIB 0x00d0de70
+void hkpContinuousSimulation::collideEntitiesNeedingPsiCollisionDetectionNarrowPhase_toiOnly(const GskAgentInput&input,PointerKeyIntegerMap<hkUint32,hkpEntity*>&entitiesNeedingPsiCollisionDetection)
 {
 {hkMonitorStream&mStream=hkMonitorStream::getInstance();if(mStream.getEnd()<mStream.getCapacityMinus16()){hkMonitorStream::TimerCommand*h=reinterpret_cast<hkMonitorStream::TimerCommand*>(mStream.getEnd());h->m_commandAndMonitor="T" "t" "Recollide PSI";h->setTime();mStream.setEnd((char*)(h+1));}};
 m_pOwningWorld->lockCriticalOperations();

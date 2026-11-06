@@ -2102,7 +2102,7 @@ struct FUN_00600d90_node
     void* value;
 };
 
-void __cdecl FUN_00aa10f0(void* value);
+void __cdecl _NiFree_00aa10f0(void* value);
 
 struct FUN_00600e50
 {
@@ -2131,7 +2131,7 @@ FUN_00600d90::~FUN_00600d90()
             {
                 FUN_00600d90_node* current = node;
                 node = node->next;
-                FUN_00aa10f0(current->value);
+                _NiFree_00aa10f0(current->value);
             }
         }
     }

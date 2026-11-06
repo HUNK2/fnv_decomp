@@ -1986,7 +1986,7 @@ FUN_00a69dd0_cls::FUN_00a69dd0_cls() : m_usFlags(0)
 
 struct TexturingMapUpdate
 {
-    void FUN_00a69b40(NiTexturingProperty::Map* value);
+    void NiTexturingProperty_SetMultiTexture(NiTexturingProperty::Map* value);
 };
 
 // @fnv 0x00a6a150
@@ -2045,7 +2045,7 @@ void __fastcall SetTexturingDecalMap(NiTexturingProperty* self, int, unsigned in
         }
     }
 
-    reinterpret_cast<TexturingMapUpdate*>(self)->FUN_00a69b40(newMap);
+    reinterpret_cast<TexturingMapUpdate*>(self)->NiTexturingProperty_SetMultiTexture(newMap);
 }
 
 // The original map allocations have no constructor-failure cleanup.

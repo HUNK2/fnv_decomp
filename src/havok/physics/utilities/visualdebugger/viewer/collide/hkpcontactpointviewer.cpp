@@ -12,7 +12,7 @@
 
 struct Context
 {
-    void FUN_00c93920(void* value);
+    void hkpWorld_addWorldPostSimulationListener(void* value);
 };
 
 // @fnv 0x00de2950
@@ -24,7 +24,7 @@ void hkpPhysicsContextWorldListener::WorldAddedCallback(hkpWorld* world)
         value = reinterpret_cast<char*>(this) + sizeof(hkpPhysicsContextWorldListener) + sizeof(ContactArray*);
     else
         value = 0;
-    reinterpret_cast<Context*>(world)->FUN_00c93920(value);
+    reinterpret_cast<Context*>(world)->hkpWorld_addWorldPostSimulationListener(value);
 }
 
 struct S_00de2980_World

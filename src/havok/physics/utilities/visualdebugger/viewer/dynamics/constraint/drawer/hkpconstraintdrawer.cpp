@@ -120,11 +120,12 @@ struct DE44C0Object
     {
         return m_fSphereRadius * m_vScale;
     }
-    void FUN_00de44c0(int id, int tag);
+    void hkpConstraintDrawer_drawPivots(int id, int tag);
 };
 
 // @fnv 0x00de44c0
-void DE44C0Object::FUN_00de44c0(int id, int tag)
+// src: HAVOK_LIB 0x00de44c0
+void DE44C0Object::hkpConstraintDrawer_drawPivots(int id, int tag)
 {
     m_display.FUN_00e10bf0(&m_vFirstVector, &m_dirA, getScaledRadius(), 0xffff0000, id, tag);
     m_display.FUN_00e10bf0(&m_vSecondVector, &m_dirB, getScaledRadius(), 0xffffffff, id, tag);

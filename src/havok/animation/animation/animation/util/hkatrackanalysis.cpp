@@ -294,7 +294,8 @@ __declspec(noinline) void __cdecl CountTail(const unsigned short* p, void* a1, u
 }
 // Initializes selected StatsB0 fields, counts mask values from both inputs, and computes derived fields and a ratio in m_34.
 // @fnv 0x00e4ebb0
-void __cdecl FUN_00e4ebb0(const unsigned short* apFirst, void* apSecond, unsigned int aiFirstCount,
+// src: HAVOK_LIB 0x00e4ebb0
+void __cdecl hkaTrackAnalysis_calcStats(const unsigned short* apFirst, void* apSecond, unsigned int aiFirstCount,
                           unsigned int aiSecondCount, StatsB0* psStats)
 {
     psStats->m_34 = 0.0f;
@@ -466,8 +467,8 @@ static __forceinline void ClearStatistics(TrackStatistics& s)
     s.rate = 0.0f;
 }
 
-void __cdecl FUN_00e4ead0(const unsigned short* mask, unsigned int count, TrackStatistics* result);
-void __cdecl FUN_00e4ebb0(const unsigned short* maskT, const unsigned short* maskF, unsigned int numT,
+void __cdecl hkaTrackAnalysis_calcStatsQsTransform(const unsigned short* mask, unsigned int count, TrackStatistics* result);
+void __cdecl hkaTrackAnalysis_calcStats(const unsigned short* maskT, const unsigned short* maskF, unsigned int numT,
                           unsigned int numF, TrackStatistics* result);
 
 // Own the array storage explicitly: release() restores the stack router before freeing heap spillover.
@@ -522,13 +523,14 @@ struct FloatLocalArray
 
 // Computes per-track min/max over poses, marks float tracks static when range is below tolerance, and optionally logs statistics.
 // @fnv 0x00e50920
-void __cdecl FUN_00e50920(const PerTransformIn& input, const PerFloatIn& apFloatIn, unsigned short* staticMask,
+// src: HAVOK_LIB 0x00e50920
+void __cdecl hkaTrackAnalysis_analyze(const PerTransformIn& input, const PerFloatIn& apFloatIn, unsigned short* staticMask,
                           float* staticDOFs, hkBool displayStatsReport)
 {
     FUN_00e4f910((TrackBuffers_e50650*)&input, staticMask, staticDOFs, false);
     TrackStatistics statistics;
     ClearStatistics(statistics);
-    FUN_00e4ead0(staticMask, input.numberOfTransformTracks, &statistics);
+    hkaTrackAnalysis_calcStatsQsTransform(staticMask, input.numberOfTransformTracks, &statistics);
     float* pStaticDOF = staticDOFs + statistics.field0 + statistics.field1 + statistics.field2;
     FloatLocalArray minimum;
     minimum.allocate(apFloatIn.numberOfFloatTracks);
@@ -566,7 +568,7 @@ void __cdecl FUN_00e50920(const PerTransformIn& input, const PerFloatIn& apFloat
     {
         const PerTransformIn* __restrict src = &input;
         ClearStatistics(statistics);
-        FUN_00e4ebb0(staticMask, staticMask + src->numberOfTransformTracks, src->numberOfTransformTracks,
+        hkaTrackAnalysis_calcStats(staticMask, staticMask + src->numberOfTransformTracks, src->numberOfTransformTracks,
                      apFloatIn.numberOfFloatTracks, &statistics);
         statistics.LogStatistics();
     }
@@ -596,7 +598,8 @@ __declspec(noinline) void AnalyzeTrackBits(const unsigned short* values, unsigne
 }
 // Accumulates bit-field counts from mask values, calls FUN_00e4e570 for remaining fields, and computes a rate from total0 and the summed counts.
 // @fnv 0x00e4ead0
-void __cdecl FUN_00e4ead0(const unsigned short* mask, unsigned int count, StatisticsResult* result)
+// src: HAVOK_LIB 0x00e4ead0
+void __cdecl hkaTrackAnalysis_calcStatsQsTransform(const unsigned short* mask, unsigned int count, StatisticsResult* result)
 {
     result->rate = 0.0f;
     StatisticsResult* pResult = result;

@@ -488,7 +488,7 @@ struct __declspec(align(16)) BufB
 };
 extern void __cdecl ResetJacobianRows(int a, int b, void* c, void* d);
 extern void __cdecl FUN_00df07c0(int a, void* b);
-extern void __cdecl FUN_00e29250(void* a, void* b);
+extern void __cdecl _hkMatrix6SetTranspose(void* a, void* b);
 extern void __cdecl FUN_00e29470(void* a, void* b, int c);
 extern void __cdecl FUN_00e29380(void* a, void* b);
 extern void __cdecl FUN_00e298f0(void* a, void* b);

@@ -62,7 +62,8 @@ struct FUN_00c9ce00_cls
 extern int DAT_010c7888;
 
 // @fnv 0x00d49530
-void __cdecl FUN_00d49530(FUN_00c9ce00_cls* pObject, int aiValue)
+// src: HAVOK_LIB 0x00d49530
+void __cdecl finishLoadedObjecthkpRigidBody(FUN_00c9ce00_cls* pObject, int aiValue)
 {
     if (pObject)
     {
@@ -74,7 +75,8 @@ void __cdecl FUN_00d49530(FUN_00c9ce00_cls* pObject, int aiValue)
 extern "C" void __cdecl AppendEventRecord(int, int, int, int);
 
 // @fnv 0x00d4de30
-void __stdcall FUN_00d4de30(int a, int b)
+// src: HAVOK_LIB 0x00d4de30
+void __stdcall hkpBreakableConstraintData_buildNopJacobian(int a, int b)
 {
     AppendEventRecord(a, b, 0, 8);
 }
@@ -103,7 +105,8 @@ void __cdecl FUN_00d3fe90(void);
 
 // Fills the object's function-pointer slots with the given handlers, zeroes slots 6 and 10, and clears the byte at offset 0x30.
 // @fnv 0x00d400f0
-void __cdecl FUN_00d400f0(void* apObject)
+// src: HAVOK_LIB 0x00d400f0
+void __cdecl hkBoxBoxAgent3_initAgentFunc(void* apObject)
 {
     void** f = (void**)apObject;
     f[0] = (void*)&InitAndGetOffset;
@@ -129,7 +132,8 @@ void __cdecl ForwardToTarget();
 
 // Fills the object's vtable slots with function pointers and sets the byte at p+48 to 1.
 // @fnv 0x00d41ec0
-void __cdecl FUN_00d41ec0(int* pObject)
+// src: HAVOK_LIB 0x00d41ec0
+void __cdecl hkPredGskAgent3_initAgentFunc(int* pObject)
 {
     *pObject = (int)&DispatchInputRecord;
     pObject[0x2c / 4] = (int)&FUN_00d41a30;
@@ -231,11 +235,12 @@ void __cdecl FUN_00d34790();
 void __cdecl QueryClosestPoints();
 void __cdecl FUN_00d34810();
 void __cdecl AllocateAndInitBlock();
-void __cdecl FUN_00d43dc0();
+void __cdecl hkpShapeCollectionAgent_staticGetPenetrations();
 void __cdecl GetClosestPointsShapeCollection();
-void __cdecl FUN_00d43b90();
+void __cdecl hkpShapeCollectionAgent_staticLinearCast();
 // @fnv 0x00d44310
-void __cdecl FUN_00d44310(Agent* a)
+// src: HAVOK_LIB 0x00d44310
+void __cdecl hkpShapeCollectionAgent_registerAgent(Agent* a)
 {
     CollisionAgentFunctionTable af;
     af.f0 = (void*)&FUN_00d442c0;
@@ -246,9 +251,9 @@ void __cdecl FUN_00d44310(Agent* a)
     af.b1 = true;
     a->FUN_00cfbbe0(&af, -1, 7);
     af.f0 = (void*)&AllocateAndInitBlock;
-    af.f1 = (void*)&FUN_00d43dc0;
+    af.f1 = (void*)&hkpShapeCollectionAgent_staticGetPenetrations;
     af.f2 = (void*)&GetClosestPointsShapeCollection;
-    af.f3 = (void*)&FUN_00d43b90;
+    af.f3 = (void*)&hkpShapeCollectionAgent_staticLinearCast;
     af.b0 = false;
     af.b1 = true;
     a->FUN_00cfbbe0(&af, 7, -1);
@@ -320,11 +325,12 @@ struct FUN_00d4fe40_cls
     bool b0;
     char pad2[0xb2 - 0xa3];
     bool b1;
-    void __thiscall FUN_00d4fe40(void* a, bool b);
+    void __thiscall hkpPrismaticConstraintData_setMotorActive(void* a, bool b);
 };
 // Stores the flag and its inverse, then zeroes four floats at a nested pointer when the argument and its sub-pointers are non-null.
 // @fnv 0x00d4fe40
-void FUN_00d4fe40_cls::FUN_00d4fe40(void* apObject, bool abFlag)
+// src: HAVOK_LIB 0x00d4fe40
+void FUN_00d4fe40_cls::hkpPrismaticConstraintData_setMotorActive(void* apObject, bool abFlag)
 {
     b0 = abFlag;
     b1 = !abFlag;
@@ -898,12 +904,13 @@ struct FUN_00d49c50_cls
     volatile int m_i100;
     volatile int m_i104;
     void FUN_00d569c0(float f, int i);
-    void* FUN_00d49c50(float f, int i);
+    void* hkpStorageExtendedMeshShape_hkpStorageExtendedMeshShape(float f, int i);
 };
 
 // Calls FUN_00d569c0, sets both vtables, and initializes the six fields at offsets 0xF0-0x104, returning this.
 // @fnv 0x00d49c50
-void* FUN_00d49c50_cls::FUN_00d49c50(float afValue, int i)
+// src: HAVOK_LIB 0x00d49c50
+void* FUN_00d49c50_cls::hkpStorageExtendedMeshShape_hkpStorageExtendedMeshShape(float afValue, int i)
 {
     FUN_00d569c0(afValue, i);
     m_pVtbl = (void*)&DAT_010cfd44;
@@ -1115,11 +1122,12 @@ struct FUN_00d4b3c0_cls
     volatile int m_i64;
     volatile int m_i68;
     void FUN_00dcd310(float f, int i);
-    void* FUN_00d4b3c0(float f, int i);
+    void* hkpStorageMeshShape_hkpStorageMeshShape(float f, int i);
 };
 
 // @fnv 0x00d4b3c0
-void* FUN_00d4b3c0_cls::FUN_00d4b3c0(float afValue, int aiValue)
+// src: HAVOK_LIB 0x00d4b3c0
+void* FUN_00d4b3c0_cls::hkpStorageMeshShape_hkpStorageMeshShape(float afValue, int aiValue)
 {
     FUN_00dcd310(afValue, aiValue);
     m_pVtbl = (void*)&DAT_010d055c;
@@ -1599,7 +1607,8 @@ struct D51760Stats
 };
 
 // @fnv 0x00d51760
-void __cdecl FUN_00d51760(D51760Buffer* buf, D51760Stats* stats)
+// src: HAVOK_LIB 0x00d51760
+void __cdecl hkpConstraintConstructionKit_computeConstraintInfo(D51760Buffer* buf, D51760Stats* stats)
 {
     unsigned int* p = buf->data;
     unsigned int* end = p + buf->count;
@@ -1789,11 +1798,12 @@ class FUN_00d51e50_cls
     unsigned short unk14;
     unsigned char unk16;
 
-    void FUN_00d51e50();
+    void hkpConstraintConstructionKit_setAngularBasisABodyFrame();
 };
 
 // @fnv 0x00d51e50
-void FUN_00d51e50_cls::FUN_00d51e50()
+// src: HAVOK_LIB 0x00d51e50
+void FUN_00d51e50_cls::hkpConstraintConstructionKit_setAngularBasisABodyFrame()
 {
     FUN_00d51e50_vec* pVec = &m_04->m_1c;
     hkMemoryRouter* pHolder = FUN_00c85750();
@@ -1943,12 +1953,13 @@ class D52BA0Builder
     D52BA0Commands* m_pkCommands;
     int m_iDepth;
 
-    void FUN_00d52ba0();
+    void hkpConstraintConstructionKit_restoreStrength();
 };
 
 // Decrements m_iDepth and appends command 0x17 to m_pkCommands->m_commands.
 // @fnv 0x00d52ba0
-void D52BA0Builder::FUN_00d52ba0()
+// src: HAVOK_LIB 0x00d52ba0
+void D52BA0Builder::hkpConstraintConstructionKit_restoreStrength()
 {
     m_iDepth--;
     D52BA0IntArray_AddBack(m_pkCommands->m_commands, 0x17);
@@ -1986,12 +1997,13 @@ struct FUN_00d52be0_cls
     int unk00;
     FUN_00d52be0_S* m_pS;
 
-    void FUN_00d52be0(int a1, int a2);
+    void hkpConstraintConstructionKit_addConstraintModifierCallback(int a1, int a2);
 };
 
 // Appends 0x18, a1 and a2 to the two arrays in m_pS, growing each array via ResizeAudioStream when it is full.
 // @fnv 0x00d52be0
-void FUN_00d52be0_cls::FUN_00d52be0(int aiFirstValue, int aiSecondValue)
+// src: HAVOK_LIB 0x00d52be0
+void FUN_00d52be0_cls::hkpConstraintConstructionKit_addConstraintModifierCallback(int aiFirstValue, int aiSecondValue)
 {
     FUN_00d52be0_arr* arr = &m_pS->m_arr1c;
     hkMemoryRouter* holder = FUN_00c85750();
@@ -2521,12 +2533,13 @@ struct FUN_00d51ea0_Cls
     char unk16;
     bool m_b17;
 
-    bool FUN_00d51ea0();
+    bool hkpConstraintConstructionKit_setAngularBasisBBodyFrame();
 };
 
 // Appends a zeroed entry to the inner vector (growing it if full), sets it to 0xb, increments the count, sets m_b17 and returns true.
 // @fnv 0x00d51ea0
-bool FUN_00d51ea0_Cls::FUN_00d51ea0()
+// src: HAVOK_LIB 0x00d51ea0
+bool FUN_00d51ea0_Cls::hkpConstraintConstructionKit_setAngularBasisBBodyFrame()
 {
     FUN_00d51ea0_Vec* vec = &m_pInner->m_vec1c;
     hkMemoryRouter* holder = FUN_00c85750();
@@ -2869,7 +2882,7 @@ struct D53970HeapAlloc
 };
 static __forceinline int D53970Array_GetCapacity(hkArrayBase<int>& self);
 
-void __cdecl FUN_00c908c0(D53970Alloc* alloc, hkArrayBase<int>* arr, int n, int elemSize);
+void __cdecl hkArrayUtil__reserve(D53970Alloc* alloc, hkArrayBase<int>* arr, int n, int elemSize);
 static __forceinline void D53970Array_Reserve(hkArrayBase<int>& self, D53970Alloc& alloc, int n);
 
 static __forceinline void D53970Array_SetSizeA(hkArrayBase<int>& self, D53970Alloc& alloc, int n);
@@ -2887,7 +2900,7 @@ static __forceinline void D53970Array_Reserve(hkArrayBase<int>& self, D53970Allo
     {
         int cap2 = 2 * D53970Array_GetCapacity(self);
         int newSize = (n < cap2) ? cap2 : n;
-        FUN_00c908c0(&alloc, (&self), newSize, 4);
+        hkArrayUtil__reserve(&alloc, (&self), newSize, 4);
     }
 }
 
@@ -2902,7 +2915,7 @@ static __forceinline void D53970Array_SetSize(hkArrayBase<int>& self, int n)
         D53970Array_SetSizeA(self, D53970HeapAlloc().Get(), n);
     }
 
-void __cdecl FUN_00c908c0(D53970Alloc* alloc, hkArrayBase<int>* arr, int n, int elemSize);
+void __cdecl hkArrayUtil__reserve(D53970Alloc* alloc, hkArrayBase<int>* arr, int n, int elemSize);
 
 struct D53970BaseA
 {
@@ -2986,7 +2999,8 @@ void D53970Obj::ReadDataArray(D53970Stream* stream)
 
 // Copies 16 consecutive ints from s to d, four at a time, in a loop of four iterations.
 // @fnv 0x00d570d0
-void __cdecl FUN_00d570d0(int* aiDest, const int* aiSrc)
+// src: HAVOK_LIB 0x00d570d0
+void __cdecl hkString_memCpy16_64(int* aiDest, const int* aiSrc)
 {
     int n = 4;
     const int* piSrc = aiSrc;
@@ -3158,7 +3172,7 @@ int hkListNodeD46E::SumListValues() const
     return iTotal;
 }
 
-int __cdecl FUN_00cb0fa0(int, int);
+int __cdecl hkString_strCmp(int, int);
 
 struct hkNamedEntryD46E
 {
@@ -3169,7 +3183,7 @@ class hkEntryListD46E
 {
   public:
     int SumListValues() const;
-    hkNamedEntryD46E* FUN_00d46e50(int i);
+    hkNamedEntryD46E* hkClass_getEnum(int i);
 
     hkNamedEntryD46E* FindByName(int iName);
 };
@@ -3180,8 +3194,8 @@ hkNamedEntryD46E* hkEntryListD46E::FindByName(int iName)
 {
     for (int i = 0; i < SumListValues(); i++)
     {
-        hkNamedEntryD46E* pkEntry = FUN_00d46e50(i);
-        if (FUN_00cb0fa0(pkEntry->m_name, iName) == 0)
+        hkNamedEntryD46E* pkEntry = hkClass_getEnum(i);
+        if (hkString_strCmp(pkEntry->m_name, iName) == 0)
             return pkEntry;
     }
     return 0;
@@ -3290,7 +3304,8 @@ struct FUN_00d47fe0_cls
 };
 
 // @fnv 0x00d47fd0
-void __cdecl FUN_00d47fd0(FUN_00d47fe0_cls* object)
+// src: HAVOK_LIB 0x00d47fd0
+void __cdecl cleanupLoadedObjecthkRootLevelContainer(FUN_00d47fe0_cls* object)
 {
     object->Destroy(0);
 }
@@ -3376,7 +3391,7 @@ void __thiscall FUN_00d53290_cls::FUN_00d53290(int a)
 namespace hkRouterD539 {
 extern "C" hkMemoryRouter& __cdecl FUN_00c85750() throw();
 }
-void __cdecl FUN_00c908c0(hkMemoryAllocator& kAlloc, void* apvArray, int aiNumElements, int iSizeElem) throw();
+void __cdecl hkArrayUtil__reserve(hkMemoryAllocator& kAlloc, void* apvArray, int aiNumElements, int iSizeElem) throw();
 
 struct hkInfoD539
 {
@@ -3435,11 +3450,12 @@ class FUN_00d54180_cls
     hkVector4 m_kPointA;
     hkVector4 m_kPointB;
 
-    void FUN_00d54180(const hkTransform& kA, const hkTransform& kB, const hkVector4& fT);
+    void hkpBallAndSocketConstraintData_setInWorldSpace(const hkTransform& kA, const hkTransform& kB, const hkVector4& fT);
 };
 
 // @fnv 0x00d54180
-void FUN_00d54180_cls::FUN_00d54180(const hkTransform& kA, const hkTransform& kB, const hkVector4& fT)
+// src: HAVOK_LIB 0x00d54180
+void FUN_00d54180_cls::hkpBallAndSocketConstraintData_setInWorldSpace(const hkTransform& kA, const hkTransform& kB, const hkVector4& fT)
 {
     m_kPointA.FUN_00c7f690(kA, fT);
     m_kPointB.FUN_00c7f690(kB, fT);
@@ -3697,7 +3713,7 @@ struct D46E50Node
     int unk10;
     int unk14;
 
-    int FUN_00d46e50(int param);
+    int hkClass_getEnum(int param);
 };
 
 struct D46E50Helper
@@ -3722,7 +3738,8 @@ int D46E50Helper::SumListValues()
 
 // Walks nodes adding unk14 to param minus SumListValues() until it is non-negative, returning that node's unk10 + value * 20; otherwise this->unk10.
 // @fnv 0x00d46e50
-int D46E50Node::FUN_00d46e50(int param)
+// src: HAVOK_LIB 0x00d46e50
+int D46E50Node::hkClass_getEnum(int param)
 {
     D46E50Node* node = this;
     int d = param - ((D46E50Helper*)this)->SumListValues();
@@ -3858,13 +3875,13 @@ struct Hk48fc0_Data
 void __cdecl FUN_00d48af0(void* pStream, Hk48fc0_Format* pFormat);
 void* __cdecl FUN_00dc32c0(void* pData, void* pAllocator, void* pLoader);
 int __cdecl FUN_00d48950(void* pObj, void* pArg1, void* pArg2, void* pArg3);
-void __cdecl FUN_00dc5d50(void* pArg1, void* pArg2, void* pArg3);
+void __cdecl hkBinaryTagfileReader_load(void* pArg1, void* pArg2, void* pArg3);
 
 // module-local helper: object in ESI, error in EDI, stream on the stack
 __declspec(noinline) static int Hk48fc0_ReadTagfile(Hk48fc0_Data* pObj, void* pError, void* pStream, void* pAllocator)
 {
     Hk48fc0_Contents kBuf;
-    FUN_00dc5d50(&kBuf, &pStream, pObj);
+    hkBinaryTagfileReader_load(&kBuf, &pStream, pObj);
     if (pError)
     {
         if (FUN_00d48950(pObj, pError, DAT_01269b70, pAllocator) == 0)
@@ -3884,7 +3901,7 @@ __declspec(noinline) static void* Hk48fc0_LoadPackfile(void* pAllocator, void* p
     {
         return 0;
     }
-    FUN_00dc5d50(pAllocator, &pStream, &pFormat);
+    hkBinaryTagfileReader_load(pAllocator, &pStream, &pFormat);
     return FUN_00dc32c0(&pError, &pLoader, 0);
 }
 
@@ -3973,7 +3990,8 @@ d20base* volatile g_d20_self;
 extern "C" int d20_sel(void);
 
 // @fnv 0x00d49c20
-static __declspec(noinline) int FUN_00d49c20(d20base* self, int sel)
+// src: HAVOK_LIB 0x00d49c20
+static __declspec(noinline) int numIndices_00d49c20(d20base* self, int sel)
 {
     switch (sel)
     {
@@ -3988,7 +4006,7 @@ static __declspec(noinline) int FUN_00d49c20(d20base* self, int sel)
 
 int d20_probe(void)
 {
-    return FUN_00d49c20((d20base*)g_d20_self, d20_sel());
+    return numIndices_00d49c20((d20base*)g_d20_self, d20_sel());
 }
 
 // FUN_00d4b390: element-size helper of the BGS load-form buffer code.
@@ -4005,7 +4023,8 @@ volatile int g_code_d4b390;
 volatile int g_sink_d4b390;
 
 // @fnv 0x00d4b390
-static __declspec(noinline) int FUN_00d4b390(int base, int code)
+// src: HAVOK_LIB 0x00d4b390
+static __declspec(noinline) int storageMeshShape_numIndices(int base, int code)
 {
     switch (code)
     {
@@ -4022,7 +4041,7 @@ static __declspec(noinline) int FUN_00d4b390(int base, int code)
 // stores the result, so the helper call and its register convention stay.
 void elem_size_case_d4b390(void)
 {
-    g_sink_d4b390 = FUN_00d4b390(g_base_d4b390, g_code_d4b390);
+    g_sink_d4b390 = storageMeshShape_numIndices(g_base_d4b390, g_code_d4b390);
 }
 
 struct hkpD500Stream;
@@ -4059,7 +4078,7 @@ class FUN_00d21ce0_cls
 class FUN_00dd0420_Class
 {
   public:
-    FUN_00dd0420_Class* FUN_00dd0420(int flag);
+    FUN_00dd0420_Class* hkpGenericConstraintDataScheme_hkpGenericConstraintDataScheme(int flag);
 
     int unk00;
 };
@@ -4079,7 +4098,7 @@ class FUN_00d50c00
 // @fnv 0x00d50c00
 FUN_00d50c00::FUN_00d50c00(FinishingFlag flag) : m_kListeners(flag)
 {
-    m_data.FUN_00dd0420(flag.m_bFinishing);
+    m_data.hkpGenericConstraintDataScheme_hkpGenericConstraintDataScheme(flag.m_bFinishing);
     if (flag.m_bFinishing)
         m_kListeners.FUN_00d21ce0(this);
 }
@@ -5245,7 +5264,7 @@ struct LoadResult
     }
     ~LoadResult();
 };
-void FUN_00d5a630(InputBuffer*, LoadResult*, unsigned int);
+void hkGeometryUtility_createConvexGeometry(InputBuffer*, LoadResult*, unsigned int);
 // Copies src into a temporary InputBuffer, calls FUN_00d5a630 to fill a LoadResult, then swaps result.primary into dst.
 // @fnv 0x00d5a510
 void LoadIntoArray(const InputBuffer* src, unsigned int flags, ArrayData* dst)
@@ -5255,7 +5274,7 @@ void LoadIntoArray(const InputBuffer* src, unsigned int flags, ArrayData* dst)
     input.size = src->size;
     input.flags = 0x10;
     LoadResult result;
-    FUN_00d5a630(&input, &result, flags);
+    hkGeometryUtility_createConvexGeometry(&input, &result, flags);
     unsigned int old = dst->data;
     dst->data = result.primary.data;
     result.primary.data = old;
@@ -5447,7 +5466,8 @@ struct S
 extern "C" void __cdecl ReleaseAllEntries(S* a, int b, int c);
 
 // @fnv 0x00d409b0
-static __declspec(noinline) void FUN_00d409b0(S* dst, S* src, int b, int c)
+// src: HAVOK_LIB 0x00d409b0
+static __declspec(noinline) void resetGskManifold(S* dst, S* src, int b, int c)
 {
     ReleaseAllEntries(src, b, c);
     dst->val = src->val;
@@ -5460,7 +5480,7 @@ volatile int g_c;
 
 void caller()
 {
-    FUN_00d409b0((S*)g_dst, (S*)g_src, g_b, g_c);
+    resetGskManifold((S*)g_dst, (S*)g_src, g_b, g_c);
 }
 
 struct FUN_00d46d40_s
@@ -5494,7 +5514,7 @@ class RefPtrD482
             m_pRetainedObject = pkNew;
         }
     }
-    FUN_00d46d40_s* FUN_00d477a0() const throw();
+    FUN_00d46d40_s* hkRefVariant_getClass() const throw();
     void AssignObject(int iParam) throw();
 };
 
@@ -5518,7 +5538,7 @@ FUN_00d48250::FUN_00d48250(const char* pcName, int iParam) throw() : m_object(0)
         spTemp.AssignObject(iParam);
         m_object = spTemp;
     }
-    m_pClassName = m_object.FUN_00d477a0() ? m_object.FUN_00d477a0()->FUN_00d46d40() : 0;
+    m_pClassName = m_object.hkRefVariant_getClass() ? m_object.hkRefVariant_getClass()->FUN_00d46d40() : 0;
 }
 
 namespace SpringSimd {

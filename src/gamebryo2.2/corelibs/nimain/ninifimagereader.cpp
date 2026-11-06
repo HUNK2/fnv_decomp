@@ -223,7 +223,7 @@ class FUN_00a8add0_cls
     virtual void v1();
     virtual FUN_00a8add0_cls* v2(const char* pcFileExtension, int iFlag);
 
-    bool FUN_00a8add0(const char* pcFileExtension, unsigned int* pOut0, unsigned int* pOut1, FUN_00a8add0_blob* pBlob,
+    bool NiNIFImageReader_ReadHeader(const char* pcFileExtension, unsigned int* pOut0, unsigned int* pOut1, FUN_00a8add0_blob* pBlob,
                       bool* pFlag, unsigned int* pOut2);
 
     long m_04;
@@ -241,7 +241,8 @@ class FUN_00a8add0_cls
 
 // Calls v2 with pcFileExtension, then copies fields from the returned object to the output parameters.
 // @fnv 0x00a8add0
-bool FUN_00a8add0_cls::FUN_00a8add0(const char* pcFileExtension, unsigned int* pOut0, unsigned int* pOut1,
+// src: GAMEBRYO_LIB 0x00a8add0
+bool FUN_00a8add0_cls::NiNIFImageReader_ReadHeader(const char* pcFileExtension, unsigned int* pOut0, unsigned int* pOut1,
                                     FUN_00a8add0_blob* pBlob, bool* pFlag, unsigned int* pOut2)
 {
     FUN_00a8add0_cls* obj = this->v2(pcFileExtension, 0);
@@ -385,12 +386,13 @@ struct SubObj
 
 struct FnvMgr
 {
-    Obj* FUN_00a8aec0(const char* name, int unused);
+    Obj* NiNIFImageReader_ReadFile(const char* name, int unused);
 };
 
 // Calls sub->v04 with name, then returns the object if its node list contains DAT_011f4a90.
 // @fnv 0x00a8aec0
-Obj* FnvMgr::FUN_00a8aec0(const char* name, int unused)
+// src: GAMEBRYO_SRC 0x00a8aec0
+Obj* FnvMgr::NiNIFImageReader_ReadFile(const char* name, int unused)
 {
     CRITICAL_SECTION* cs = (CRITICAL_SECTION*)((char*)this + 0x80);
     EnterCriticalSection(cs);

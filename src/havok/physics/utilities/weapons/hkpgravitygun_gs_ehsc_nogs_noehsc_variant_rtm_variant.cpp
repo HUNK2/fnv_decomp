@@ -109,7 +109,7 @@ void hkpGravityGun::FUN_00e45ee0(int dirSlot, int viewSlot, int p3Slot)
             __m128 dir = *(const __m128*)dirSlot;
             v.q = dir;
             v.q = _mm_mul_ps(bcastE45(m_fPickAngle), v.q);
-            body->FUN_00c9c1d0();
+            body->activate_00c9c1d0();
             body->m_pMotionState.SetCollisionShape(*(const hkVector4*)&v);
         }
     }
@@ -136,7 +136,7 @@ __declspec(noinline) void hkpGravityGun::FUN_00e45c90(float dTime, const hkTrans
         *(__m128*)&newLinearVelocity = _mm_add_ps(_mm_mul_ps(deltaPos, invDTimeVec), *(__m128*)&newLinearVelocity);
         if (!newLinearVelocity.equals4(rb->m_pMotionState.m_kTranslationalVelocity, 0.001f))
         {
-            rb->FUN_00c9c1d0();
+            rb->activate_00c9c1d0();
             rb->m_pMotionState.SetTranslationalVelocity(newLinearVelocity);
         }
         const float minSq = 1.0f;
@@ -147,7 +147,7 @@ __declspec(noinline) void hkpGravityGun::FUN_00e45c90(float dTime, const hkTrans
         {
             if (!newAngularVelocity.equals4(rb->m_pMotionState.m_kAngularVelocity, 0.001f))
             {
-                rb->FUN_00c9c1d0();
+                rb->activate_00c9c1d0();
                 rb->m_pMotionState.SetRotationalVelocity(newAngularVelocity);
             }
         }

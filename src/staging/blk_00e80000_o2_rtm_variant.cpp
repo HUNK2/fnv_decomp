@@ -42,7 +42,7 @@ struct FUN_00e8aa40_Class {
     int __thiscall FUN_00e8aa40(bool flag);
 };
 void __stdcall FUN_00e8b490(int* paiValues, int iFirst, int iSecond);
-void FUN_00e933d0();
+void NiD3DShaderProgramFactory__SDMShutdown();
 extern "C" void __cdecl FUN_00e93400();
 extern MemoryManager g_memoryManager;
 extern bool DAT_0126f0d0;
@@ -171,7 +171,7 @@ struct FUN_00e8a1f0_Class {
 extern int DAT_010f0ac0;
 extern NiD3DShaderProgramCreator* DAT_0126fa50;
 void __cdecl FUN_00e91b40();
-unsigned int __fastcall FUN_00e8a240(char* self, int);
+unsigned int __fastcall NiPixelFormat_GetNumComponents(char* self, int);
 void __cdecl _NiFree(void* p);
 extern int DAT_010efdd8;
 extern int DAT_010efdf8;
@@ -655,7 +655,7 @@ struct ScalarDeletingObject {
     void FUN_00e89560();
     void* DestroyScalarObject(unsigned char flags);
 };
-extern "C" void __cdecl FUN_00aa10f0(void*);
+extern "C" void __cdecl _NiFree_00aa10f0(void*);
 extern int DAT_010ef73c;
 extern int DAT_0101dce4;
 extern volatile long DAT_011f4400;
@@ -2830,7 +2830,7 @@ float f64;
 int f68;
 bool UpdateFromSource(LightSource* source);
 };
-extern "C" void __cdecl FUN_00aa10f0(void* p);
+extern "C" void __cdecl _NiFree_00aa10f0(void* p);
 extern int DAT_010f0ef0;
 struct FUN_00e89740_Obj {
     int unk00;
@@ -2985,7 +2985,7 @@ struct Seq9ea
     int m_10;
     unsigned int m_uiLast;
 };
-bool FUN_00e9ea70(float fTime, Seq9ea* pkSeq, void* p2, void* p3, void* p4, void* p5, void* p6);
+bool NiUnionBV_UnionTriTestIntersect(float fTime, Seq9ea* pkSeq, void* p2, void* p3, void* p4, void* p5, void* p6);
 #include "fnv_asm_helpers.h"   // project x87 helpers (fnv_SinCos, fnv_FloatToInt), kept last so earlier code is unchanged
 struct ColorWithAlpha { float r,g,b,a; ColorWithAlpha(float red,float green,float blue):r(red),g(green),b(blue) {} void addScaled(const ColorWithAlpha& source,float factor) { r+=source.r*factor;g+=source.g*factor;b+=source.b*factor; } };
 struct ActiveLight;
@@ -3685,7 +3685,7 @@ typedef void (__cdecl *FUN_00e9ca50_Entry)(
     int,
     int);
 extern void **DAT_0126faa0;
-void __cdecl FUN_00e9ca50( float value, FUN_00e9ca50_Object *object, int arg1, int arg2, int arg3, int arg4, int arg5, int arg6, int arg7, int arg8, int arg9, int arg10);
+void __cdecl NiBoundingVolume_FindTriIntersect( float value, FUN_00e9ca50_Object *object, int arg1, int arg2, int arg3, int arg4, int arg5, int arg6, int arg7, int arg8, int arg9, int arg10);
 struct FUN_00e9ec90 {
     void* m_pData;
     virtual ~FUN_00e9ec90();
@@ -4879,7 +4879,7 @@ struct ShaderComponent093 {
     short unk0a;
 };
 struct ShaderRequest093 {
-    unsigned int FUN_00e8a240();
+    unsigned int NiPixelFormat_GetNumComponents();
     int unknown00;
     unsigned int kind;
     int disabled;
@@ -5118,7 +5118,7 @@ template <class TAlloc, class TKEY, class TVAL>
 __forceinline NiTMapBase<TAlloc, TKEY, TVAL>::~NiTMapBase()
 {
     RemoveAll();
-    FUN_00aa10f0(m_ppkHashTable);
+    _NiFree_00aa10f0(m_ppkHashTable);
 }
 
 template <class TKEY, class TVAL>
@@ -5176,7 +5176,7 @@ void NiDX9VertexBufferManager::FUN_00e8ceb0() {
     self->third.RemoveAll();
     self->device->Release();
     self->device = 0;
-    FUN_00aa10f0(self->allocation);
+    _NiFree_00aa10f0(self->allocation);
     DeleteCriticalSection(&self->lock);
     self->third.VertexBufferMap::~NiTPointerMap();
     self->second.VertexBufferMap::~NiTPointerMap();
@@ -5229,7 +5229,7 @@ void __cdecl FUN_00e91c80()
         }
         DAT_0126fa50 = 0;
         FUN_00e93f50(0);
-        FUN_00e933d0();
+        NiD3DShaderProgramFactory__SDMShutdown();
         FUN_00e92080();
         DestroyBucketTable();
         FUN_00e80630();

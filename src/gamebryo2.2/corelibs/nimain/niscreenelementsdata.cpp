@@ -219,7 +219,7 @@ inline NiColorA::NiColorA(float fR, float fG, float fB, float fA)
 }
 
 extern void* __cdecl FUN_00aa1070(unsigned int);
-extern void __cdecl FUN_00aa10f0(void*);
+extern void __cdecl _NiFree_00aa10f0(void*);
 extern void* __cdecl FUN_00ec44d0(void*, const void*, unsigned int);
 extern void* __cdecl FUN_00ec61c0(void*, int, unsigned int);
 
@@ -277,14 +277,14 @@ unsigned int ScreenPolygonInsertion::InsertPolygon(unsigned short usVertexCount,
         NiScreenElementsData__Polygon* pkNewPolygons =
             (NiScreenElementsData__Polygon*)FUN_00aa1070(usNewMaxPolygons * sizeof(NiScreenElementsData__Polygon));
         FUN_00ec44d0(pkNewPolygons, m_akPolygon, m_usMaxPQuantity * sizeof(NiScreenElementsData__Polygon));
-        FUN_00aa10f0(m_akPolygon);
+        _NiFree_00aa10f0(m_akPolygon);
         m_akPolygon = pkNewPolygons;
 
         unsigned short* pusNewIndexer = (unsigned short*)FUN_00aa1070(usNewMaxPolygons * sizeof(unsigned short));
         FUN_00ec44d0(pusNewIndexer, m_ausPIndexer, m_usMaxPQuantity * sizeof(unsigned short));
         FUN_00ec61c0(pusNewIndexer + m_usMaxPQuantity, 0xff,
                      (usNewMaxPolygons - m_usMaxPQuantity) * sizeof(unsigned short));
-        FUN_00aa10f0(m_ausPIndexer);
+        _NiFree_00aa10f0(m_ausPIndexer);
         m_ausPIndexer = pusNewIndexer;
         m_usMaxPQuantity = usNewMaxPolygons;
     }
@@ -373,7 +373,7 @@ unsigned int ScreenPolygonInsertion::InsertPolygon(unsigned short usVertexCount,
 
         unsigned short* pusNewTriList = (unsigned short*)FUN_00aa1070(usNewMaxIndices * sizeof(unsigned short));
         FUN_00ec44d0(pusNewTriList, m_pusTriList, m_usMaxIQuantity * sizeof(unsigned short));
-        FUN_00aa10f0(m_pusTriList);
+        _NiFree_00aa10f0(m_pusTriList);
         m_pusTriList = pusNewTriList;
         m_usMaxIQuantity = usNewMaxIndices;
     }

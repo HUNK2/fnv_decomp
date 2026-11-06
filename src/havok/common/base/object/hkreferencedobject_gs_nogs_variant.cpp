@@ -31,7 +31,8 @@ static inline void replaceInstance(hkReferencedObjectLock* p)
 }
 
 // @fnv 0x00c90420
-void __cdecl FUN_00c90420(int value)
+// src: HAVOK_LIB 0x00c90420
+void __cdecl hkReferencedObject_lockInit(int value)
 {
     if (!hkReferencedObjectLock::s_instance)
     {

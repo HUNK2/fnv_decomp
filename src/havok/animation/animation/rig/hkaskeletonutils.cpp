@@ -22,7 +22,8 @@ typedef union __declspec(intrin_type) __declspec(align(16)) {
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 // @fnv 0x00cdd3f0
-void FUN_00cdd3f0(hkaSkeleton* pEntries)
+// src: HAVOK_LIB 0x00cdd3f0
+void hkaSkeletonUtils_unlockTranslations(hkaSkeleton* pEntries)
 {
     int n = pEntries->m_kBones.m_iElementCount;
     for (int i = 0; i < n; ++i)
@@ -308,7 +309,7 @@ S_00cde450_Router* __cdecl FUN_00c85750();
 struct S_00cde450_ByteArr;
 struct S_00cde450_UShortArr;
 void __cdecl FUN_00ec61c0(void* dst, int value, int size);
-void __cdecl FUN_00c908c0(S_00cde450_Heap& h, S_00cde450_ByteArr* a, int n, int elemSize);
+void __cdecl hkArrayUtil__reserve(S_00cde450_Heap& h, S_00cde450_ByteArr* a, int n, int elemSize);
 void __cdecl ResizeAudioStream(S_00cde450_Heap& h, S_00cde450_UShortArr* a, int elemSize);
 
 struct S_00cde450_UShortArr
@@ -372,7 +373,7 @@ void __cdecl CollectReachableNodes(hkaSkeleton* g, short asStartIndex, S_00cde45
         S_00cde450_Heap& h = FUN_00c85750()->heap();
         int c = bits.m_cap & 0x3fffffff;
         if (c < n)
-            FUN_00c908c0(h, &bits, (n < c * 2) ? c * 2 : n, 1);
+            hkArrayUtil__reserve(h, &bits, (n < c * 2) ? c * 2 : n, 1);
     }
     S_00cde450_SetSize(bits, n);
 
@@ -632,7 +633,7 @@ struct Property
     }
 };
 extern "C" Property* __cdecl FindModifierConstraintAtom(HkEntity*, int);
-extern "C" void __cdecl FUN_00d27960(HkEntity*, HkObj*, Property*);
+extern "C" void __cdecl hkpWorldConstraintUtil_addModifier(HkEntity*, HkObj*, Property*);
 
 // Stores a Vec4 into a Property's vector field on an HkEntity, XORing it with DAT_010c44d0 when the entity's owner matches the given owner.
 // @fnv 0x00cdfcd0
@@ -658,7 +659,7 @@ void SetModifierConstraint(HkWorld* apWorld, int owner, HkObj* apObj, Vec4* apVe
         {
             p = new Property;
             p->vector = t.quad;
-            FUN_00d27960(e, apObj, p);
+            hkpWorldConstraintUtil_addModifier(e, apObj, p);
         }
         timer(DAT_010c41f8);
     }

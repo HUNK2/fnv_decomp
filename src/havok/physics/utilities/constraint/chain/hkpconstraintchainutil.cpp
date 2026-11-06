@@ -72,12 +72,13 @@ struct FUN_00e5c460_cls
     int unk34;
     DispatchTarget m_38;
 
-    void FUN_00e5c460(OutObject* a1);
+    void hkpConstraintChainInstance_insertEntityAtFront(OutObject* a1);
 };
 
 // Gets an hkMemoryRouter, passes its allocator to m_38.CallWithFlag, then calls FUN_00c90510 on a1.
 // @fnv 0x00e5c460
-void FUN_00e5c460_cls::FUN_00e5c460(OutObject* pOutObject)
+// src: HAVOK_LIB 0x00e5c460
+void FUN_00e5c460_cls::hkpConstraintChainInstance_insertEntityAtFront(OutObject* pOutObject)
 {
     hkMemoryRouter* pHolder = FUN_00c85750();
     void* pValue = pHolder->m_heap;
@@ -135,7 +136,8 @@ static char* XfSelectRec(char* rec)
 }
 
 // @fnv 0x00e5b3a0
-void FUN_00e5b3a0(XfScene_cls* a1, XfScene_cls* a2, const __m128* a3)
+// src: HAVOK_LIB 0x00e5b3a0
+void hkpConstraintChainUtil_addConstraintToBallSocketChain(XfScene_cls* a1, XfScene_cls* a2, const __m128* a3)
 {
     XfSub_cls* sub = a1->m_0c;
     char* p1 = XfSelectRec(a1->m_38[a1->m_3c - 1] + 0x10);
@@ -304,7 +306,7 @@ struct ListB
     unsigned int* m_38;
     unsigned int m_3c;
     void AddReferencedObject(unsigned int key);
-    void FUN_00e5c460(unsigned int key);
+    void hkpConstraintChainInstance_insertEntityAtFront(unsigned int key);
 };
 
 int FUN_00e5ad40(KeyOwnerA* a, Tmp16* p, Tmp16* q);
@@ -343,7 +345,7 @@ int FUN_00e5b8f0(KeyOwnerA* a1, ListB* a2, OwnerC* a3, ...)
         CopyTmp16(&p.hi, &keyPair.lo);
         hkMemoryRouter* h = FUN_00c85750();
         a3->m_18.FUN_00e5c440(reinterpret_cast<hkMemoryAllocator*>(h->m_heap), 0, &p);
-        a2->FUN_00e5c460(a1->m_18);
+        a2->hkpConstraintChainInstance_insertEntityAtFront(a1->m_18);
         return 0;
     }
     if (a2->m_38[0] == a1->m_18)
@@ -353,7 +355,7 @@ int FUN_00e5b8f0(KeyOwnerA* a1, ListB* a2, OwnerC* a3, ...)
         CopyTmp16(&p.hi, &keyPair.hi);
         hkMemoryRouter* h = FUN_00c85750();
         a3->m_18.FUN_00e5c440(reinterpret_cast<hkMemoryAllocator*>(h->m_heap), 0, &p);
-        a2->FUN_00e5c460(a1->m_14);
+        a2->hkpConstraintChainInstance_insertEntityAtFront(a1->m_14);
         return 0;
     }
     return 1;
@@ -381,8 +383,8 @@ struct S_00e5c370_Elem
         reinterpret_cast<__m128&>(b) = reinterpret_cast<const __m128&>(o.b);
     }
 };
-void __cdecl FUN_00c908c0(S_00e5c370_Alloc& alloc, void* arr, int numElem, int sizeElem);
-void __cdecl FUN_00d2cc70(void* dst, const void* src, int nbytes);
+void __cdecl hkArrayUtil__reserve(S_00e5c370_Alloc& alloc, void* arr, int numElem, int sizeElem);
+void __cdecl hkMemUtil_memMove(void* dst, const void* src, int nbytes);
 
 template <class T>
 static __forceinline void S_00e5c370_ArrayBase_GrowArrayCapacity(hkArrayBase<T>& self, S_00e5c370_Alloc& a, int n);
@@ -395,7 +397,7 @@ static __forceinline void S_00e5c370_ArrayBase_GrowArrayCapacity(hkArrayBase<T>&
         {
             int cap2 = 2 * cap;
             int newSize = (n < cap2) ? cap2 : n;
-            FUN_00c908c0(a, (&self), newSize, sizeof(T));
+            hkArrayUtil__reserve(a, (&self), newSize, sizeof(T));
         }
     }
 
@@ -408,7 +410,7 @@ void hkArrayBase<S_00e5c370_Elem>::_spliceInto(hkMemoryAllocator& alloc, int ind
         int numtomove = m_iElementCount - index - numdel;
         if (newsize > getCapacity())
             S_00e5c370_ArrayBase_GrowArrayCapacity(*this, reinterpret_cast<S_00e5c370_Alloc&>(alloc), newsize);
-        FUN_00d2cc70(m_data + index + numtoinsert, m_data + index + numdel, numtomove * sizeof(S_00e5c370_Elem));
+        hkMemUtil_memMove(m_data + index + numtoinsert, m_data + index + numdel, numtomove * sizeof(S_00e5c370_Elem));
         S_00e5c370_Elem* dst = m_data + index;
         for (int i = 0; i < numtoinsert; i++)
             new (dst + i) S_00e5c370_Elem(apElements[i]);

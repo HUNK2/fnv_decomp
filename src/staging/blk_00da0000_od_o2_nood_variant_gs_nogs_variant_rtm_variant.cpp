@@ -40,7 +40,7 @@ class ScratchOwner
   public:
     void AddEntry(ScratchBlock* block, int a, int b);
 };
-void __cdecl FUN_00da7020(ScratchOwner* owner);
+void __cdecl hkListAgent3_registerAgent3(ScratchOwner* owner);
 struct S00da0780_Member
 {
     S00da0780_Member(FinishingFlag flag);  // FUN_00cb0a70
@@ -56,7 +56,7 @@ class __declspec(align(16)) S00da0780_Object
     S00da0780_Member m_kMember;
     int unk0C;
 };
-const void* __cdecl FUN_00da0780();
+const void* __cdecl getVtablehkLocalFrameGroup();
 #include <xmmintrin.h>
 __declspec(align(16)) struct FUN_00da7180_cls
 {

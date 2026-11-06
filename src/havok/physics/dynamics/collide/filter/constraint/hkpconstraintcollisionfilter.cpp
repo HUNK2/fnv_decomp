@@ -36,11 +36,12 @@ struct Owner
     int unk34;
     int unk38;
     int unk3c;
-    void FUN_00d87c20(int value, bool mode);
+    void hkpConstraintCollisionFilter__constraintBreakingCallbackImmediate(int value, bool mode);
 };
 // Calls v2(value) on the VtableObject at this+0x40 when mode is true, otherwise calls v1(value).
 // @fnv 0x00d87c20
-void Owner::FUN_00d87c20(int value, bool mode)
+// src: HAVOK_LIB 0x00d87c20
+void Owner::hkpConstraintCollisionFilter__constraintBreakingCallbackImmediate(int value, bool mode)
 {
     VtableObject* p = (VtableObject*)((char*)this + 0x40);
     if (mode)
@@ -209,12 +210,13 @@ void __cdecl CallB(void* p);
 class FUN_00d87d70_cls
 {
   public:
-    void FUN_00d87d70(A* p);
+    void hkpConstraintCollisionFilter_constraintAddedCallback(A* p);
 };
 
 // Validates the two entities, calls CallA on their collidables, then runs CallB and processes pending world operations when the lock count drops to zero.
 // @fnv 0x00d87d70
-void FUN_00d87d70_cls::FUN_00d87d70(A* p)
+// src: HAVOK_LIB 0x00d87d70
+void FUN_00d87d70_cls::hkpConstraintCollisionFilter_constraintAddedCallback(A* p)
 {
     if (p == 0)
     {
@@ -301,7 +303,7 @@ struct S_00d87f60_Data
 };
 struct S_00d87f60_Base
 {
-    void FUN_00d87c20(int, S_00d87f60_Flag);
+    void hkpConstraintCollisionFilter__constraintBreakingCallbackImmediate(int, S_00d87f60_Flag);
 };
 // hkpWorld's pending-operation entry point is not declared in the shared header yet.
 struct PendingWorldOperationReceiver
@@ -311,10 +313,11 @@ struct PendingWorldOperationReceiver
 struct S_00d87f60
 {
     int unk00;
-    void FUN_00d87f60(S_00d87f60_Arg*);
+    void hkpConstraintCollisionFilter_constraintRepairedCallback(S_00d87f60_Arg*);
 };
 // @fnv 0x00d87f60
-void S_00d87f60::FUN_00d87f60(S_00d87f60_Arg* arg)
+// src: HAVOK_LIB 0x00d87f60
+void S_00d87f60::hkpConstraintCollisionFilter_constraintRepairedCallback(S_00d87f60_Arg* arg)
 {
     hkpWorld* obj = arg->unk00;
     if (obj->m_iCriticalOperationsLockCount != 0)
@@ -328,7 +331,7 @@ void S_00d87f60::FUN_00d87f60(S_00d87f60_Arg* arg)
     }
     else
     {
-        ((S_00d87f60_Base*)((char*)this - 0x40))->FUN_00d87c20(arg->unk04, S_00d87f60_Flag(0));
+        ((S_00d87f60_Base*)((char*)this - 0x40))->hkpConstraintCollisionFilter__constraintBreakingCallbackImmediate(arg->unk04, S_00d87f60_Flag(0));
     }
 }
 
@@ -417,12 +420,13 @@ struct WorldOpTask
     int unk38;
     int unk3C;
     Sec_b1297 m_40;
-    void FUN_00d87ca0(Arg_b1297* a1);
+    void hkpConstraintCollisionFilter_updateFromWorld(Arg_b1297* a1);
 };
 
 // Initializes m_30, then iterates both lists in a1 and calls m_40.v1 on every item of each Sub_b1297 found in each Elem_b1297.
 // @fnv 0x00d87ca0
-void WorldOpTask::FUN_00d87ca0(Arg_b1297* a1)
+// src: HAVOK_LIB 0x00d87ca0
+void WorldOpTask::hkpConstraintCollisionFilter_updateFromWorld(Arg_b1297* a1)
 {
     this->m_30.Init();
     ListE_b1297* pList = &a1->m_28;
@@ -614,18 +618,19 @@ struct Flag_d87f00
 
 struct Owner_d87f00
 {
-    void FUN_00d87c20(unsigned int aValue, Flag_d87f00 aFlag);
+    void hkpConstraintCollisionFilter__constraintBreakingCallbackImmediate(unsigned int aValue, Flag_d87f00 aFlag);
 };
 
 struct S_00d87f00
 {
     int unk00;
-    void FUN_00d87f00(ConstraintFilterWorldCallbackContext* apPair);
+    void hkpConstraintCollisionFilter_constraintBreakingCallback(ConstraintFilterWorldCallbackContext* apPair);
 };
 
 // Dispatches a pair event to the head node when m_94 is set, otherwise forwards the second integer and a flag to the owner.
 // @fnv 0x00d87f00
-void S_00d87f00::FUN_00d87f00(ConstraintFilterWorldCallbackContext* apPair)
+// src: HAVOK_LIB 0x00d87f00
+void S_00d87f00::hkpConstraintCollisionFilter_constraintBreakingCallback(ConstraintFilterWorldCallbackContext* apPair)
 {
     hkpWorld* obj = apPair->m_pHeadNode;
     if (obj->m_iCriticalOperationsLockCount != 0)
@@ -640,7 +645,7 @@ void S_00d87f00::FUN_00d87f00(ConstraintFilterWorldCallbackContext* apPair)
     else
     {
         Flag_d87f00 f(1);
-        reinterpret_cast<Owner_d87f00*>((char*)this - 0x40)->FUN_00d87c20(apPair->m_iSecondInteger, f);
+        reinterpret_cast<Owner_d87f00*>((char*)this - 0x40)->hkpConstraintCollisionFilter__constraintBreakingCallbackImmediate(apPair->m_iSecondInteger, f);
     }
 }
 

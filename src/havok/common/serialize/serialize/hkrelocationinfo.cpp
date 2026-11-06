@@ -25,10 +25,10 @@ struct S_00e028e0_Base
 };
 struct S_00e028e0_Obj : S_00e028e0_Base
 {
-    void FUN_00e029d0() throw();
+    void hkStorageStringMap_int_struct_hkContainerHeapAllocator_clear() throw();
     ~S_00e028e0_Obj() throw()
     {
-        FUN_00e029d0();
+        hkStorageStringMap_int_struct_hkContainerHeapAllocator_clear();
     }
     void operator delete(void* p, unsigned int n)
     {
@@ -86,14 +86,15 @@ struct FUN_00e029d0_cls
     void SetBoolFromThreshold(unsigned char* apFlag, unsigned int a1);
     unsigned int ClearEntries();
 
-    unsigned int FUN_00e029d0();
+    unsigned int hkStorageStringMap_int_struct_hkContainerHeapAllocator_clear();
 };
 
 void CallSwappedArgs(unsigned int a1, int a2);
 
 // Iterates handles from FUN_00d87410, passing each item with the holder's allocator to CallSwappedArgs, then returns ClearEntries().
 // @fnv 0x00e029d0
-unsigned int FUN_00e029d0_cls::FUN_00e029d0()
+// src: HAVOK_LIB 0x00e029d0
+unsigned int FUN_00e029d0_cls::hkStorageStringMap_int_struct_hkContainerHeapAllocator_clear()
 {
     unsigned int handle = FUN_00d87410();
     {

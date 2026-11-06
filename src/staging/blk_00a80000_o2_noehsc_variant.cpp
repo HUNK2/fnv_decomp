@@ -26,7 +26,7 @@ extern const void* NiCollisionObject_vftable;
 extern unsigned char* DAT_011f5b04;
 void __cdecl FUN_00714960(int);
 void __cdecl FUN_00a81a20();
-int __cdecl FUN_00a81b80(const unsigned short* a, const unsigned short* b);
+int __cdecl NiSkinData_BoneVertData_Compare(const unsigned short* a, const unsigned short* b);
 struct FUN_00a744a0
 {
     void Init();
@@ -47,7 +47,7 @@ struct FUN_00a8a5f0_class
 };
 struct FUN_00a8f060_class
 {
-    void FUN_00a8f060();
+    void NiPixelData_FreeData();
 };
 extern "C" void NiFreeAlias(void*);
 struct FUN_00a8f080_Class
@@ -110,11 +110,11 @@ struct NiBinaryExtraData;
 struct NiFloatsExtraData;
 struct FUN_00a99c40_shell : public NiExtraData
 {
-    void FUN_00a99c40(NiBinaryExtraData* dst, CloningProcess* cp);
+    void NiIntegerExtraData_CopyMembers(NiBinaryExtraData* dst, CloningProcess* cp);
 };
 extern const void* DAT_0109e47c;
 BSFadeNode* NiSkinPartition_CreateObject();
-unsigned int __cdecl FUN_00a88ac0(unsigned int a);
+unsigned int __cdecl NiString_GetBestBufferSize(unsigned int a);
 extern int DAT_0109fb94;
 void* __cdecl NiVectorExtraData_CreateObject();
 extern int DAT_010a02e4;
@@ -373,7 +373,7 @@ struct FUN_00a80fc0_class
 extern float DAT_011ab3f8;
 static const float kPi = 3.1415927f;
 extern "C" double __cdecl fabs(double);
-float __cdecl FUN_00a811f0(float y, float x);
+float __cdecl NiFastATan2(float y, float x);
 void* __cdecl FUN_00aa13e0(unsigned int size);
 extern int DAT_0109e32c;
 struct FUN_00a81760_obj
@@ -634,7 +634,7 @@ struct FUN_00a88c60_Class
 
     int __thiscall FUN_00a88c60(FUN_00a88c60_Class* other);
 };
-void FUN_00a89650(const short* psCompressed, unsigned int uiUnused, float fProjectionAlongAim, float fHalfRange,
+void NiCompUtility_DecompressFloatArray(const short* psCompressed, unsigned int uiUnused, float fProjectionAlongAim, float fHalfRange,
                   float* pfValues, unsigned int ItemUpdateArray);
 struct FUN_00a89760_base
 {
@@ -1091,7 +1091,7 @@ WeightArray* __stdcall FUN_00a84810(unsigned int vertexCount, SkinData* skin)
     return arrays;
 }
 
-void __cdecl FUN_00aa10f0(void* p);  // NiFree
+void __cdecl _NiFree_00aa10f0(void* p);  // NiFree
 
 struct S911d0_Entry
 {
@@ -1111,7 +1111,7 @@ extern S911d0_EntryPool* DAT_011f5e50;
 
 
 
-template <class T, class A> inline NiTArray<T,A>::~NiTArray() { FUN_00aa10f0(m_pBase); }
+template <class T, class A> inline NiTArray<T,A>::~NiTArray() { _NiFree_00aa10f0(m_pBase); }
 template <class T, class A> inline unsigned int NiTArray<T,A>::GetSize() const { return m_usSize; }
 template <class T, class A> inline const T& NiTArray<T,A>::GetAt(unsigned int i) const { return m_pBase[i]; }
 template <class T, class A> inline T& NiTArray<T,A>::GetAt(unsigned int i) { return m_pBase[i]; }

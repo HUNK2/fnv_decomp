@@ -799,7 +799,7 @@ struct HolderB3718
     SomeObjectB3718* m_pEntryObject;
 };
 extern HolderB3718* DAT_011f6080;
-void __cdecl FUN_00aa10f0(void* pv);
+void __cdecl _NiFree_00aa10f0(void* pv);
 struct FUN_00a30750_shell
 {
     char* m_kPointA[5];

@@ -210,7 +210,8 @@ struct FNV_ALIGN(16) FUN_00dd1bf0
 };
 
 // @fnv 0x00e5cfe0
-void FUN_00e5cfe0(int a1, int a2, int a3, float a4, int a5)
+// src: HAVOK_LIB 0x00e5cfe0
+void _hkMoppObbVirtualMachine_queryObb(int a1, int a2, int a3, float a4, int a5)
 {
     FUN_00dd1bf0 obj;
     obj.Query(a1, a2, a3, a4, a5);

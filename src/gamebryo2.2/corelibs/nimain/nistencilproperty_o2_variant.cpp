@@ -16,7 +16,8 @@ struct EqBase
     bool FUN_00a62140(NiObject*);
 };
 // @fnv 0x00a6f070
-bool NiStencilProperty::FUN_00a6f070(NiObject* pkObject)
+// src: GAMEBRYO_LIB 0x00a6f070
+bool NiStencilProperty::IsEqual_00a6f070(NiObject* pkObject)
 {
     NiStencilProperty* pkStencil = (NiStencilProperty*)pkObject;
     if (((EqBase*)this)->FUN_00a62140(pkObject) &&

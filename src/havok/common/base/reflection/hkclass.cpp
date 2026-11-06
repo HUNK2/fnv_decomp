@@ -77,7 +77,7 @@ __declspec(noinline) unsigned int __fastcall GetNumMembers(const hkClass* cls)
     return total;
 }
 
-int __cdecl FUN_00cb0fa0(const char*, const char*);
+int __cdecl hkString_strCmp(const char*, const char*);
 
 // Scans the container's members by index and returns the first whose name matches the given string, or 0 if none match.
 // @fnv 0x00d46f90
@@ -90,7 +90,7 @@ const hkClassMember* __fastcall FindDeclaredMemberByName(const hkClass* self, vo
         {
             const hkClassMember* member = &self->GetDeclaredMember(i);
             const char* pcMemberName = member->m_name;
-            if (!FUN_00cb0fa0(pcMemberName, name))
+            if (!hkString_strCmp(pcMemberName, name))
                 return member;
             ++i;
         } while (i < self->GetNumDeclaredMembers());
@@ -104,8 +104,8 @@ __declspec(noinline) const hkClassMember* __fastcall FindMemberByName(const hkCl
 {
     for (int i = 0; i < (int)GetNumMembers(cls); i++)
     {
-        const hkClassMember* m = &cls->FUN_00d46f20(i);
-        if (FUN_00cb0fa0(m->m_name, name) == 0)
+        const hkClassMember* m = &cls->getMember(i);
+        if (hkString_strCmp(m->m_name, name) == 0)
             return m;
     }
     return 0;
@@ -120,7 +120,7 @@ int __fastcall FindDeclaredMemberIndexByName(const hkClass* cls, void*, const ch
     {
         do
         {
-            if (FUN_00cb0fa0(cls->GetDeclaredMember(i).m_name, name) == 0)
+            if (hkString_strCmp(cls->GetDeclaredMember(i).m_name, name) == 0)
                 return i;
             ++i;
         } while (i < cls->GetNumDeclaredMembers());
@@ -180,7 +180,7 @@ __declspec(noinline) const hkClass* __fastcall GetParent(const hkClass* cls)
 // @fnv 0x00d46f60
 const hkClassMember* __fastcall GetInheritedMember(const hkClass* cls, void*, int a1)
 {
-    return &cls->FUN_00d46f20(a1);
+    return &cls->getMember(a1);
 }
 
 // @fnv 0x00d46f70
@@ -243,7 +243,7 @@ const hkClassEnum* __fastcall FindDeclaredEnumByName(const hkClass* cls, void*, 
     {
         typedef const hkClassEnum* (__thiscall *EnumAt)(const hkClass*, int);
         const hkClassEnum* entry = reinterpret_cast<EnumAt>(GetDeclaredEnum)(cls, i);
-        if (FUN_00cb0fa0(entry->m_name, name) == 0)
+        if (hkString_strCmp(entry->m_name, name) == 0)
             return entry;
     }
     return 0;
@@ -277,7 +277,7 @@ struct NativeTypeProperties
     short m_alignment;
 };
 NativeTypeProperties* __cdecl FUN_00d868a0(unsigned int which);
-int __cdecl FUN_00cb10d0(const char* str);
+int __cdecl hkString_strLen(const char* str);
 // @fnv 0x00d47490
 __declspec(noinline) void __fastcall SerializeClass(const hkClass* cls, void*, void* stream)
 {
@@ -319,7 +319,7 @@ __declspec(noinline) void __fastcall SerializeClass(const hkClass* cls, void*, v
         }
         if (info.m_pClassEnum)
             reinterpret_cast<EnumSerializer>(SerializeEnum)(GetMemberEnum(&member), stream);
-        out.FUN_00d607b0(info.m_name, FUN_00cb10d0(info.m_name));
+        out.FUN_00d607b0(info.m_name, hkString_strLen(info.m_name));
         out.FUN_00d60900(info.m_type);
         out.FUN_00d60900(info.m_eSubtype);
         if (altType != 0)
@@ -415,7 +415,7 @@ const hkVariant* hkCustomAttributes::FindEntry(const char* pcName) const
 {
     for (int i = 0; i < m_iElementCount; i++)
     {
-        if (FUN_00cb0fa0(m_data[i].m_name, pcName) == 0)
+        if (hkString_strCmp(m_data[i].m_name, pcName) == 0)
             return &m_data[i].m_value;
     }
     return 0;
@@ -423,7 +423,8 @@ const hkVariant* hkCustomAttributes::FindEntry(const char* pcName) const
 
 // Resolves a member index across the hkClass parent chain.
 // @fnv 0x00d46f20
-__declspec(noinline) const hkClassMember& hkClass::FUN_00d46f20(int aiIndex) const
+// src: HAVOK_LIB 0x00d46f20
+__declspec(noinline) const hkClassMember& hkClass::getMember(int aiIndex) const
 {
     const hkClass* pNode = this;
     int iOffset = aiIndex - GetNumMembers(this);
@@ -447,7 +448,7 @@ int __fastcall FindMemberIndexByName(const hkClass* cls, void*, const char* name
 {
     for (int i = 0; i < (int)GetNumMembers(cls); i++)
     {
-        if (FUN_00cb0fa0(cls->FUN_00d46f20(i).m_name, name) == 0)
+        if (hkString_strCmp(cls->getMember(i).m_name, name) == 0)
             return i;
     }
     return -1;
@@ -554,7 +555,8 @@ S00d47350_Res __fastcall FUN_00d47130(const hkClass* self, DefaultValueAddress o
 
 // Uses the member returned by FUN_00d47130 to populate output according to the member's type.
 // @fnv 0x00d47350
-S00d47350_Res __fastcall FUN_00d47350(const hkClass* self, int, void* data, ReflectionValueStorage* output)
+// src: HAVOK_LIB 0x00d47350
+S00d47350_Res __fastcall hkClass_getDefault(const hkClass* self, int, void* data, ReflectionValueStorage* output)
 {
     const hkClassMember* holder;
     Outs r;
@@ -595,7 +597,8 @@ S00d47350_Res __fastcall FUN_00d47350(const hkClass* self, int, void* data, Refl
 namespace fnv_00cb0fa0 {
 // Returns the result of comparing two null-terminated strings using strcmp.
 // @fnv 0x00cb0fa0
-int __cdecl FUN_00cb0fa0(const char* pcA, const char* pcB)
+// src: HAVOK_LIB 0x00cb0fa0
+int __cdecl hkString_strCmp(const char* pcA, const char* pcB)
 {
     return strcmp(pcA, pcB);
 }
@@ -705,7 +708,7 @@ int __cdecl FUN_00e03240(const hkClass* holder, const hkClassMember* node, int v
     {
         for (int index = 0; index < (int)GetNumMembers(childHolder); ++index)
         {
-            const hkClassMember* child = &childHolder->FUN_00d46f20(index);
+            const hkClassMember* child = &childHolder->getMember(index);
 
             if (!FUN_00e03240(childHolder, child, index, flags))
                 result = 0;

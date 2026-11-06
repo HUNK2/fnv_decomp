@@ -822,8 +822,8 @@ struct Segment3
 {
     LocalVec3 origin, direction;
 };
-extern float __cdecl FUN_00eaff20(const Segment3*, const Triangle3*, float*, float*, float*);
-extern float __cdecl FUN_00eb1d20(const Segment3*, const Triangle3*, float*, float*, float*);
+extern float __cdecl NiSqrDistance_Compute_00eaff20(const Segment3*, const Triangle3*, float*, float*, float*);
+extern float __cdecl NiSqrDistance_Compute_00eb1d20(const Segment3*, const Triangle3*, float*, float*, float*);
 // @fnv 0x00eb3230
 float __cdecl TriangleTriangleDistance(const Triangle3* aTriA, const Triangle3* aTriB, float* aU, float* aV, float* bU,
                                        float* bV)
@@ -831,14 +831,14 @@ float __cdecl TriangleTriangleDistance(const Triangle3* aTriA, const Triangle3* 
     Segment3 segEdge;
     assignVec(segEdge.origin, aTriA->origin);
     assignVec(segEdge.direction, aTriA->edge0);
-    float fBestDist = FUN_00eaff20(&segEdge, aTriB, aU, bU, bV);
+    float fBestDist = NiSqrDistance_Compute_00eaff20(&segEdge, aTriB, aU, bU, bV);
     *aV = 0.0f;
 
     float av, au;
     // Barycentric coordinates use the two Pair slots as float storage.
     Pair baryB;
     assignVec(segEdge.direction, aTriA->edge1);
-    float candidate = FUN_00eaff20(&segEdge, aTriB, &av, &reinterpret_cast<float&>(baryB.b), &reinterpret_cast<float&>(baryB.a));
+    float candidate = NiSqrDistance_Compute_00eaff20(&segEdge, aTriB, &av, &reinterpret_cast<float&>(baryB.b), &reinterpret_cast<float&>(baryB.a));
     au = 0.0f;
     if (candidate < fBestDist)
     {
@@ -850,7 +850,7 @@ float __cdecl TriangleTriangleDistance(const Triangle3* aTriA, const Triangle3* 
     }
     assignVec(segEdge.origin, sumVec(aTriA->edge0, segEdge.origin));
     assignVec(segEdge.direction, diffVec(segEdge.direction, aTriA->edge0));
-    candidate = FUN_00eaff20(&segEdge, aTriB, &av, &reinterpret_cast<float&>(baryB.b), &reinterpret_cast<float&>(baryB.a));
+    candidate = NiSqrDistance_Compute_00eaff20(&segEdge, aTriB, &av, &reinterpret_cast<float&>(baryB.b), &reinterpret_cast<float&>(baryB.a));
     au = 1.0f - av;
     if (candidate < fBestDist)
     {
@@ -863,7 +863,7 @@ float __cdecl TriangleTriangleDistance(const Triangle3* aTriA, const Triangle3* 
 
     assignVec(segEdge.origin, aTriB->origin);
     assignVec(segEdge.direction, aTriB->edge0);
-    candidate = FUN_00eb1d20(&segEdge, aTriA, &reinterpret_cast<float&>(baryB.b), &au, &av);
+    candidate = NiSqrDistance_Compute_00eb1d20(&segEdge, aTriA, &reinterpret_cast<float&>(baryB.b), &au, &av);
     reinterpret_cast<float&>(baryB.a) = 0.0f;
     if (candidate < fBestDist)
     {
@@ -874,7 +874,7 @@ float __cdecl TriangleTriangleDistance(const Triangle3* aTriA, const Triangle3* 
         *bV = reinterpret_cast<float&>(baryB.a);
     }
     assignVec(segEdge.direction, aTriB->edge1);
-    candidate = FUN_00eb1d20(&segEdge, aTriA, &reinterpret_cast<float&>(baryB.a), &au, &av);
+    candidate = NiSqrDistance_Compute_00eb1d20(&segEdge, aTriA, &reinterpret_cast<float&>(baryB.a), &au, &av);
     reinterpret_cast<float&>(baryB.b) = 0.0f;
     if (candidate < fBestDist)
     {
@@ -886,7 +886,7 @@ float __cdecl TriangleTriangleDistance(const Triangle3* aTriA, const Triangle3* 
     }
     assignVec(segEdge.origin, sumVecB(aTriB->edge1, aTriB->origin));
     assignVec(segEdge.direction, aTriB->edge0);
-    candidate = FUN_00eb1d20(&segEdge, aTriA, &reinterpret_cast<float&>(baryB.b), &au, &av);
+    candidate = NiSqrDistance_Compute_00eb1d20(&segEdge, aTriA, &reinterpret_cast<float&>(baryB.b), &au, &av);
     reinterpret_cast<float&>(baryB.a) = 1.0f;
     if (candidate < fBestDist)
     {
@@ -898,7 +898,7 @@ float __cdecl TriangleTriangleDistance(const Triangle3* aTriA, const Triangle3* 
     }
     assignVec(segEdge.origin, sumVec(aTriB->origin, aTriB->edge0));
     assignVec(segEdge.direction, aTriB->edge1);
-    candidate = FUN_00eb1d20(&segEdge, aTriA, &reinterpret_cast<float&>(baryB.a), &au, &av);
+    candidate = NiSqrDistance_Compute_00eb1d20(&segEdge, aTriA, &reinterpret_cast<float&>(baryB.a), &au, &av);
     if (candidate < fBestDist)
     {
         fBestDist = candidate;
@@ -1124,9 +1124,10 @@ struct TrianglePointSet
 };
 float __cdecl FUN_00eaf310(const OriginDirectionPair& kSeg0, const OriginDirectionPair& kSeg1, float& fSeg0Param,
                            float& fSeg1Param);
-float __cdecl FUN_00eb6150(const NiPoint3& kPnt, const TrianglePointSet& kPgm, float& fPgmParam0, float& fPgmParam1);
+float __cdecl NiSqrDistance_Compute_00eb6150(const NiPoint3& kPnt, const TrianglePointSet& kPgm, float& fPgmParam0, float& fPgmParam1);
 // @fnv 0x00eaff20
-float __cdecl FUN_00eaff20(const OriginDirectionPair& kSeg, const TrianglePointSet& kPgm, float& fR, float& fS,
+// src: GAMEBRYO_LIB 0x00eaff20
+float __cdecl NiSqrDistance_Compute_00eaff20(const OriginDirectionPair& kSeg, const TrianglePointSet& kPgm, float& fR, float& fS,
                            float& fT)
 {
     NiPoint3 kNormal = kPgm.m_kPoint1.Cross(kPgm.m_kPoint2);
@@ -1188,7 +1189,7 @@ float __cdecl FUN_00eaff20(const OriginDirectionPair& kSeg, const TrianglePointS
                             fS = fS0;
                             fT = fT0;
                         }
-                        fSqrDist0 = FUN_00eb6150(kSeg.m_kStartPoint, kPgm, fS0, fT0);
+                        fSqrDist0 = NiSqrDistance_Compute_00eb6150(kSeg.m_kStartPoint, kPgm, fS0, fT0);
                         fR0 = 0.0f;
                         if (fSqrDist0 < fSqrDist)
                         {
@@ -1204,7 +1205,7 @@ float __cdecl FUN_00eaff20(const OriginDirectionPair& kSeg, const TrianglePointS
                         kSegPgm.m_kLightVector = kPgm.m_kPoint2;
                         fSqrDist = FUN_00eaf310(kSeg, kSegPgm, fR, fT);
                         fS = 0.0f;
-                        fSqrDist0 = FUN_00eb6150(kSeg.m_kStartPoint, kPgm, fS0, fT0);
+                        fSqrDist0 = NiSqrDistance_Compute_00eb6150(kSeg.m_kStartPoint, kPgm, fS0, fT0);
                         fR0 = 0.0f;
                         if (fSqrDist0 < fSqrDist)
                         {
@@ -1231,7 +1232,7 @@ float __cdecl FUN_00eaff20(const OriginDirectionPair& kSeg, const TrianglePointS
                             fS = fS0;
                             fT = fT0;
                         }
-                        fSqrDist0 = FUN_00eb6150(kSeg.m_kStartPoint, kPgm, fS0, fT0);
+                        fSqrDist0 = NiSqrDistance_Compute_00eb6150(kSeg.m_kStartPoint, kPgm, fS0, fT0);
                         fR0 = 0.0f;
                         if (fSqrDist0 < fSqrDist)
                         {
@@ -1250,7 +1251,7 @@ float __cdecl FUN_00eaff20(const OriginDirectionPair& kSeg, const TrianglePointS
                         kSegPgm.m_kLightVector = kPgm.m_kPoint1;
                         fSqrDist = FUN_00eaf310(kSeg, kSegPgm, fR, fS);
                         fT = 0.0f;
-                        fSqrDist0 = FUN_00eb6150(kSeg.m_kStartPoint, kPgm, fS0, fT0);
+                        fSqrDist0 = NiSqrDistance_Compute_00eb6150(kSeg.m_kStartPoint, kPgm, fS0, fT0);
                         fR0 = 0.0f;
                         if (fSqrDist0 < fSqrDist)
                         {
@@ -1262,7 +1263,7 @@ float __cdecl FUN_00eaff20(const OriginDirectionPair& kSeg, const TrianglePointS
                     }
                     else if (fT <= 1.0f)
                     {
-                        fSqrDist = FUN_00eb6150(kSeg.m_kStartPoint, kPgm, fS, fT);
+                        fSqrDist = NiSqrDistance_Compute_00eb6150(kSeg.m_kStartPoint, kPgm, fS, fT);
                         fR = 0.0f;
                     }
                     else
@@ -1271,7 +1272,7 @@ float __cdecl FUN_00eaff20(const OriginDirectionPair& kSeg, const TrianglePointS
                         kSegPgm.m_kLightVector = kPgm.m_kPoint1;
                         fSqrDist = FUN_00eaf310(kSeg, kSegPgm, fR, fS);
                         fT = 1.0f;
-                        fSqrDist0 = FUN_00eb6150(kSeg.m_kStartPoint, kPgm, fS0, fT0);
+                        fSqrDist0 = NiSqrDistance_Compute_00eb6150(kSeg.m_kStartPoint, kPgm, fS0, fT0);
                         fR0 = 0.0f;
                         if (fSqrDist0 < fSqrDist)
                         {
@@ -1301,7 +1302,7 @@ float __cdecl FUN_00eaff20(const OriginDirectionPair& kSeg, const TrianglePointS
                             fS = fS0;
                             fT = fT0;
                         }
-                        fSqrDist0 = FUN_00eb6150(kSeg.m_kStartPoint, kPgm, fS0, fT0);
+                        fSqrDist0 = NiSqrDistance_Compute_00eb6150(kSeg.m_kStartPoint, kPgm, fS0, fT0);
                         fR0 = 0.0f;
                         if (fSqrDist0 < fSqrDist)
                         {
@@ -1317,7 +1318,7 @@ float __cdecl FUN_00eaff20(const OriginDirectionPair& kSeg, const TrianglePointS
                         kSegPgm.m_kLightVector = kPgm.m_kPoint2;
                         fSqrDist = FUN_00eaf310(kSeg, kSegPgm, fR, fT);
                         fS = 1.0f;
-                        fSqrDist0 = FUN_00eb6150(kSeg.m_kStartPoint, kPgm, fS0, fT0);
+                        fSqrDist0 = NiSqrDistance_Compute_00eb6150(kSeg.m_kStartPoint, kPgm, fS0, fT0);
                         fR0 = 0.0f;
                         if (fSqrDist0 < fSqrDist)
                         {
@@ -1344,7 +1345,7 @@ float __cdecl FUN_00eaff20(const OriginDirectionPair& kSeg, const TrianglePointS
                             fS = fS0;
                             fT = fT0;
                         }
-                        fSqrDist0 = FUN_00eb6150(kSeg.m_kStartPoint, kPgm, fS0, fT0);
+                        fSqrDist0 = NiSqrDistance_Compute_00eb6150(kSeg.m_kStartPoint, kPgm, fS0, fT0);
                         fR0 = 0.0f;
                         if (fSqrDist0 < fSqrDist)
                         {
@@ -1498,7 +1499,7 @@ float __cdecl FUN_00eaff20(const OriginDirectionPair& kSeg, const TrianglePointS
                             fT = fT0;
                         }
                         kPnt = kSeg.m_kStartPoint + kSeg.m_kLightVector;
-                        fSqrDist0 = FUN_00eb6150(kPnt, kPgm, fS0, fT0);
+                        fSqrDist0 = NiSqrDistance_Compute_00eb6150(kPnt, kPgm, fS0, fT0);
                         fR0 = 1.0f;
                         if (fSqrDist0 < fSqrDist)
                         {
@@ -1514,9 +1515,9 @@ float __cdecl FUN_00eaff20(const OriginDirectionPair& kSeg, const TrianglePointS
                         kSegPgm.m_kLightVector = kPgm.m_kPoint2;
                         fSqrDist = FUN_00eaf310(kSeg, kSegPgm, fR, fT);
                         fS = 0.0f;
-                        fSqrDist0 = FUN_00eb6150(kSeg.m_kStartPoint, kPgm, fS0, fT0);
+                        fSqrDist0 = NiSqrDistance_Compute_00eb6150(kSeg.m_kStartPoint, kPgm, fS0, fT0);
                         kPnt = kSeg.m_kStartPoint + kSeg.m_kLightVector;
-                        fSqrDist0 = FUN_00eb6150(kPnt, kPgm, fS0, fT0);
+                        fSqrDist0 = NiSqrDistance_Compute_00eb6150(kPnt, kPgm, fS0, fT0);
                         fR0 = 1.0f;
                         if (fSqrDist0 < fSqrDist)
                         {
@@ -1544,7 +1545,7 @@ float __cdecl FUN_00eaff20(const OriginDirectionPair& kSeg, const TrianglePointS
                             fT = fT0;
                         }
                         kPnt = kSeg.m_kStartPoint + kSeg.m_kLightVector;
-                        fSqrDist0 = FUN_00eb6150(kPnt, kPgm, fS0, fT0);
+                        fSqrDist0 = NiSqrDistance_Compute_00eb6150(kPnt, kPgm, fS0, fT0);
                         fR0 = 1.0f;
                         if (fSqrDist0 < fSqrDist)
                         {
@@ -1564,7 +1565,7 @@ float __cdecl FUN_00eaff20(const OriginDirectionPair& kSeg, const TrianglePointS
                         fSqrDist = FUN_00eaf310(kSeg, kSegPgm, fR, fS);
                         fT = 0.0f;
                         kPnt = kSeg.m_kStartPoint + kSeg.m_kLightVector;
-                        fSqrDist0 = FUN_00eb6150(kPnt, kPgm, fS0, fT0);
+                        fSqrDist0 = NiSqrDistance_Compute_00eb6150(kPnt, kPgm, fS0, fT0);
                         fR0 = 1.0f;
                         if (fSqrDist0 < fSqrDist)
                         {
@@ -1577,7 +1578,7 @@ float __cdecl FUN_00eaff20(const OriginDirectionPair& kSeg, const TrianglePointS
                     else if (fT <= 1.0f)
                     {
                         kPnt = kSeg.m_kStartPoint + kSeg.m_kLightVector;
-                        fSqrDist = FUN_00eb6150(kPnt, kPgm, fS, fT);
+                        fSqrDist = NiSqrDistance_Compute_00eb6150(kPnt, kPgm, fS, fT);
                         fR = 1.0f;
                     }
                     else
@@ -1587,7 +1588,7 @@ float __cdecl FUN_00eaff20(const OriginDirectionPair& kSeg, const TrianglePointS
                         fSqrDist = FUN_00eaf310(kSeg, kSegPgm, fR, fS);
                         fT = 1.0f;
                         kPnt = kSeg.m_kStartPoint + kSeg.m_kLightVector;
-                        fSqrDist0 = FUN_00eb6150(kPnt, kPgm, fS0, fT0);
+                        fSqrDist0 = NiSqrDistance_Compute_00eb6150(kPnt, kPgm, fS0, fT0);
                         fR0 = 1.0f;
                         if (fSqrDist0 < fSqrDist)
                         {
@@ -1618,7 +1619,7 @@ float __cdecl FUN_00eaff20(const OriginDirectionPair& kSeg, const TrianglePointS
                             fT = fT0;
                         }
                         kPnt = kSeg.m_kStartPoint + kSeg.m_kLightVector;
-                        fSqrDist0 = FUN_00eb6150(kPnt, kPgm, fS0, fT0);
+                        fSqrDist0 = NiSqrDistance_Compute_00eb6150(kPnt, kPgm, fS0, fT0);
                         fR0 = 1.0f;
                         if (fSqrDist0 < fSqrDist)
                         {
@@ -1635,7 +1636,7 @@ float __cdecl FUN_00eaff20(const OriginDirectionPair& kSeg, const TrianglePointS
                         fSqrDist = FUN_00eaf310(kSeg, kSegPgm, fR, fT);
                         fS = 1.0f;
                         kPnt = kSeg.m_kStartPoint + kSeg.m_kLightVector;
-                        fSqrDist0 = FUN_00eb6150(kPnt, kPgm, fS0, fT0);
+                        fSqrDist0 = NiSqrDistance_Compute_00eb6150(kPnt, kPgm, fS0, fT0);
                         fR0 = 1.0f;
                         if (fSqrDist0 < fSqrDist)
                         {
@@ -1663,7 +1664,7 @@ float __cdecl FUN_00eaff20(const OriginDirectionPair& kSeg, const TrianglePointS
                             fT = fT0;
                         }
                         kPnt = kSeg.m_kStartPoint + kSeg.m_kLightVector;
-                        fSqrDist0 = FUN_00eb6150(kPnt, kPgm, fS0, fT0);
+                        fSqrDist0 = NiSqrDistance_Compute_00eb6150(kPnt, kPgm, fS0, fT0);
                         fR0 = 1.0f;
                         if (fSqrDist0 < fSqrDist)
                         {
@@ -1715,7 +1716,7 @@ float __cdecl FUN_00eaff20(const OriginDirectionPair& kSeg, const TrianglePointS
         fS = fS0;
         fT = fT0;
     }
-    fSqrDist0 = FUN_00eb6150(kSeg.m_kStartPoint, kPgm, fS0, fT0);
+    fSqrDist0 = NiSqrDistance_Compute_00eb6150(kSeg.m_kStartPoint, kPgm, fS0, fT0);
     fR0 = 0.0f;
     if (fSqrDist0 < fSqrDist)
     {
@@ -1725,7 +1726,7 @@ float __cdecl FUN_00eaff20(const OriginDirectionPair& kSeg, const TrianglePointS
         fT = fT0;
     }
     kPnt = AddPointCoordinates(kSeg.m_kStartPoint, kSeg.m_kLightVector);
-    fSqrDist0 = FUN_00eb6150(kPnt, kPgm, fS0, fT0);
+    fSqrDist0 = NiSqrDistance_Compute_00eb6150(kPnt, kPgm, fS0, fT0);
     fR0 = 1.0f;
     if (fSqrDist0 < fSqrDist)
     {
@@ -1761,7 +1762,8 @@ float GetSquaredDistanceToTriangle(const NiPoint3& kPnt, const Triangle3D& kTri,
 
 // Returns the squared distance between segment kSeg and triangle kTri, writing segment parameter fR and triangle parameters fS and fT at the closest points.
 // @fnv 0x00eb1d20
-float FUN_00eb1d20(const OriginDirectionPair& kSeg, const Triangle3D& kTri, float& fR, float& fS, float& fT)
+// src: GAMEBRYO_LIB 0x00eb1d20
+float NiSqrDistance_Compute_00eb1d20(const OriginDirectionPair& kSeg, const Triangle3D& kTri, float& fR, float& fS, float& fT)
 {
     NiPoint3 kDiff = kTri.m_kStartPoint.Sub(kSeg.m_kStartPoint);
     float fA00 = kSeg.m_kLightVector * kSeg.m_kLightVector;
@@ -2349,7 +2351,8 @@ struct S00eb4de0_Box
 
 // Clamps a point into a box along a direction, accumulating squared distance and computing the line parameter.
 // @fnv 0x00eb4de0
-static __declspec(noinline) void FUN_00eb4de0(const S00eb4de0_Box& rkBox, int aiAxis0, int aiAxis1, int aiAxis2,
+// src: GAMEBRYO_LIB 0x00eb4de0
+static __declspec(noinline) void Case0(const S00eb4de0_Box& rkBox, int aiAxis0, int aiAxis1, int aiAxis2,
                                               NiPoint3& rkPnt, const NiPoint3& rkDir, float* pfLParam,
                                               float& rfSqrDistance)
 {
@@ -2462,12 +2465,12 @@ float S00eb4de0_Caller(const S00eb4de0_Line& rkLine, const S00eb4de0_Box& rkBox,
             if (kWorldPosition[2] > 0.0f)
                 fSqrDistance = 1.0f;
             else
-                FUN_00eb4de0(rkBox, 0, 1, 2, kPnt, kWorldPosition, pfLParam, fSqrDistance);
+                Case0(rkBox, 0, 1, 2, kPnt, kWorldPosition, pfLParam, fSqrDistance);
         }
         else
         {
             if (kWorldPosition[2] > 0.0f)
-                FUN_00eb4de0(rkBox, 0, 2, 1, kPnt, kWorldPosition, pfLParam, fSqrDistance);
+                Case0(rkBox, 0, 2, 1, kPnt, kWorldPosition, pfLParam, fSqrDistance);
             else
                 fSqrDistance = 2.0f;
         }
@@ -2477,7 +2480,7 @@ float S00eb4de0_Caller(const S00eb4de0_Line& rkLine, const S00eb4de0_Box& rkBox,
         if (kWorldPosition[1] > 0.0f)
         {
             if (kWorldPosition[2] > 0.0f)
-                FUN_00eb4de0(rkBox, 1, 2, 0, kPnt, kWorldPosition, pfLParam, fSqrDistance);
+                Case0(rkBox, 1, 2, 0, kPnt, kWorldPosition, pfLParam, fSqrDistance);
             else
                 fSqrDistance = 3.0f;
         }
@@ -2512,7 +2515,8 @@ union AxisIndex
 };
 // Clamps a point to an oriented box on two axes, accumulating squared distance, and stores the parameter along the first axis.
 // @fnv 0x00eb5010
-static __declspec(noinline) void FUN_00eb5010(AxisValues* point, int axis1, int axis2, float* pfSqrDistance,
+// src: GAMEBRYO_LIB 0x00eb5010
+static __declspec(noinline) void Case00(AxisValues* point, int axis1, int axis2, float* pfSqrDistance,
                                               BoxInput boxArg, AxisIndex axisArg, const AxisValues* direction,
                                               float* pfParam)
 {
@@ -2555,7 +2559,7 @@ void probeCaller()
 {
     BoxInput b = {probeBox};
     AxisIndex a = {probeAxis0};
-    FUN_00eb5010(probePoint, probeAxis1, probeAxis2, probeSquared, b, a, probeDirection, probeParameter);
+    Case00(probePoint, probeAxis1, probeAxis2, probeSquared, b, a, probeDirection, probeParameter);
 }
 
 struct Alloc139
@@ -2672,7 +2676,8 @@ struct LBBox
     float m_afExtents[3];
 };
 
-static void FUN_00eb4590(const LBBox& rkBox, int i0, int i1, int i2, LBPoint3& rkPnt, const LBPoint3& rkDir,
+// src: GAMEBRYO_LIB 0x00eb4590
+static void Face_00eb4590(const LBBox& rkBox, int i0, int i1, int i2, LBPoint3& rkPnt, const LBPoint3& rkDir,
                          const LBPoint3& rkPmE, float* pfLParam, float& rfSqrDistance)
 {
     LBPoint3 kPpE;
@@ -2841,7 +2846,8 @@ static void FUN_00eb4590(const LBBox& rkBox, int i0, int i1, int i2, LBPoint3& r
 
 // Compares products of rkDir and rkPnt minus box extents to choose an axis order, then calls FUN_00eb4590 with it.
 // @fnv 0x00eb4cd0
-static void FUN_00eb4cd0(LBPoint3& rkPnt, const LBPoint3& rkDir, const LBBox& rkBox, float* pfLParam,
+// src: GAMEBRYO_LIB 0x00eb4cd0
+static void CaseNoZeros(LBPoint3& rkPnt, const LBPoint3& rkDir, const LBBox& rkBox, float* pfLParam,
                          float& rfSqrDistance)
 {
     LBPoint3 kPmE;
@@ -2858,18 +2864,18 @@ static void FUN_00eb4cd0(LBPoint3& rkPnt, const LBPoint3& rkDir, const LBBox& rk
         fProdDzPx = rkDir.z * kPmE.x;
         fProdDxPz = rkDir.x * kPmE.z;
         if (fProdDzPx >= fProdDxPz)
-            FUN_00eb4590(rkBox, 0, 1, 2, rkPnt, rkDir, kPmE, pfLParam, rfSqrDistance);
+            Face_00eb4590(rkBox, 0, 1, 2, rkPnt, rkDir, kPmE, pfLParam, rfSqrDistance);
         else
-            FUN_00eb4590(rkBox, 2, 0, 1, rkPnt, rkDir, kPmE, pfLParam, rfSqrDistance);
+            Face_00eb4590(rkBox, 2, 0, 1, rkPnt, rkDir, kPmE, pfLParam, rfSqrDistance);
     }
     else
     {
         fProdDzPy = rkDir.z * kPmE.y;
         fProdDyPz = rkDir.y * kPmE.z;
         if (fProdDzPy >= fProdDyPz)
-            FUN_00eb4590(rkBox, 1, 2, 0, rkPnt, rkDir, kPmE, pfLParam, rfSqrDistance);
+            Face_00eb4590(rkBox, 1, 2, 0, rkPnt, rkDir, kPmE, pfLParam, rfSqrDistance);
         else
-            FUN_00eb4590(rkBox, 2, 0, 1, rkPnt, rkDir, kPmE, pfLParam, rfSqrDistance);
+            Face_00eb4590(rkBox, 2, 0, 1, rkPnt, rkDir, kPmE, pfLParam, rfSqrDistance);
     }
 }
 
@@ -2928,7 +2934,7 @@ float LBSqrDistance(const LBLine3& rkLine, const LBBox& rkBox, float* pfLParam, 
         if (kWorldPosition.y > 0.0f)
         {
             if (kWorldPosition.z > 0.0f)
-                FUN_00eb4cd0(kPnt, kWorldPosition, rkBox, pfLParam, fSqrDistance);
+                CaseNoZeros(kPnt, kWorldPosition, rkBox, pfLParam, fSqrDistance);
             else
                 LBCase0(0, 1, 2, kPnt, kWorldPosition, rkBox, pfLParam, fSqrDistance);
         }
@@ -2981,7 +2987,8 @@ float __cdecl DistanceSquaredToSegment(const NiPoint3&, const OriginDirectionPai
 
 // Returns the squared distance from kPnt to the region spanned from m_kStartPoint by m_kPoint1 and m_kPoint2, writing the clamped parameters to fS and fT.
 // @fnv 0x00eb6150
-float __cdecl FUN_00eb6150(const NiPoint3& kPnt, const TrianglePointSet& kPgm, float& fS, float& fT)
+// src: GAMEBRYO_LIB 0x00eb6150
+float __cdecl NiSqrDistance_Compute_00eb6150(const NiPoint3& kPnt, const TrianglePointSet& kPgm, float& fS, float& fT)
 {
     NiPoint3 kDiff = kPgm.m_kStartPoint - kPnt;
     float fA00 = kPgm.m_kPoint1.DotProduct(kPgm.m_kPoint1);
@@ -3327,7 +3334,8 @@ static inline SArg1 MakeSArg1(int x)
     SArg1 r = {x};
     return r;
 }
-static void FUN_00eb4590(const OrientedBox& rkBox, SArg1 arg1, int i1, int i2, BoxVec3& rkPnt, const BoxVec3& rkDir,
+// src: GAMEBRYO_LIB 0x00eb4590
+static void Face_00eb4590(const OrientedBox& rkBox, SArg1 arg1, int i1, int i2, BoxVec3& rkPnt, const BoxVec3& rkDir,
                          const BoxVec3& rkPmE, float& rfLParam, float& rfSqrDistance)
 {
     int i0 = arg1.value;
@@ -3535,7 +3543,8 @@ struct DirArg
 {
     const BoxVec3* p;
 };
-static void FUN_00eb4cd0(const OrientedBox& rkBox, PointArg pArg, DirArg dArg, float& rfLParam, float& rfSqrDistance)
+// src: GAMEBRYO_LIB 0x00eb4cd0
+static void CaseNoZeros(const OrientedBox& rkBox, PointArg pArg, DirArg dArg, float& rfLParam, float& rfSqrDistance)
 {
     BoxVec3& rkPnt = *pArg.p;
     const BoxVec3& rkDir = *dArg.p;
@@ -3553,22 +3562,23 @@ static void FUN_00eb4cd0(const OrientedBox& rkBox, PointArg pArg, DirArg dArg, f
         fProdDzPx = rkDir.z * kPmE.x;
         fProdDxPz = rkDir.x * kPmE.z;
         if (fProdDzPx >= fProdDxPz)
-            FUN_00eb4590(rkBox, MakeSArg1(0), 1, 2, rkPnt, rkDir, kPmE, rfLParam, rfSqrDistance);
+            Face_00eb4590(rkBox, MakeSArg1(0), 1, 2, rkPnt, rkDir, kPmE, rfLParam, rfSqrDistance);
         else
-            FUN_00eb4590(rkBox, MakeSArg1(2), 0, 1, rkPnt, rkDir, kPmE, rfLParam, rfSqrDistance);
+            Face_00eb4590(rkBox, MakeSArg1(2), 0, 1, rkPnt, rkDir, kPmE, rfLParam, rfSqrDistance);
     }
     else
     {
         fProdDzPy = rkDir.z * kPmE.y;
         fProdDyPz = rkDir.y * kPmE.z;
         if (fProdDzPy >= fProdDyPz)
-            FUN_00eb4590(rkBox, MakeSArg1(1), 2, 0, rkPnt, rkDir, kPmE, rfLParam, rfSqrDistance);
+            Face_00eb4590(rkBox, MakeSArg1(1), 2, 0, rkPnt, rkDir, kPmE, rfLParam, rfSqrDistance);
         else
-            FUN_00eb4590(rkBox, MakeSArg1(2), 0, 1, rkPnt, rkDir, kPmE, rfLParam, rfSqrDistance);
+            Face_00eb4590(rkBox, MakeSArg1(2), 0, 1, rkPnt, rkDir, kPmE, rfLParam, rfSqrDistance);
     }
 }
 
-static void FUN_00eb4de0(const OrientedBox& rkBox, int i0, int i1, int i2, BoxVec3& rkPnt, const BoxVec3& rkDir,
+// src: GAMEBRYO_LIB 0x00eb4de0
+static void Case0(const OrientedBox& rkBox, int i0, int i1, int i2, BoxVec3& rkPnt, const BoxVec3& rkDir,
                          float& rfLParam, float& rfSqrDistance)
 {
     float fPmE0 = S00eb50f0_At(rkPnt, i0) - S00eb50f0_Ext(rkBox, i0);
@@ -3640,7 +3650,8 @@ static void FUN_00eb4de0(const OrientedBox& rkBox, int i0, int i1, int i2, BoxVe
     }
 }
 
-static void FUN_00eb5010(const OrientedBox& rkBox, int i0, int i1, int i2, BoxVec3& rkPnt, const BoxVec3& rkDir,
+// src: GAMEBRYO_LIB 0x00eb5010
+static void Case00(const OrientedBox& rkBox, int i0, int i1, int i2, BoxVec3& rkPnt, const BoxVec3& rkDir,
                          float& rfLParam, float& rfSqrDistance)
 {
     float fTimeSinceScaleStart;
@@ -3722,7 +3733,8 @@ static void ClampPointToBox(const OrientedBox& rkBox, BoxVec3& rkPnt, float& rfS
 
 // Moves the segment into the box frame, finds the squared distance from it to the box, writes segment and box parameters through the pointers, and returns it.
 // @fnv 0x00eb50f0
-float __cdecl FUN_00eb50f0(const S00eb50f0_Seg* apSegment, const OrientedBox* box, float* pfLParam, float* pfBParam0,
+// src: GAMEBRYO_LIB 0x00eb50f0
+float __cdecl NiSqrDistance_Compute_00eb50f0(const S00eb50f0_Seg* apSegment, const OrientedBox* box, float* pfLParam, float* pfBParam0,
                            float* pfBParam1, float* pfBParam2)
 {
     BoxVec3 kDiff = S00eb50f0_Sub(apSegment->origin, box->center);
@@ -3764,17 +3776,17 @@ float __cdecl FUN_00eb50f0(const S00eb50f0_Seg* apSegment, const OrientedBox* bo
                 {
                     PointArg pa = {&kPnt};
                     DirArg da = {&kWorldPosition};
-                    FUN_00eb4cd0(*box, pa, da, *pfLParam, fSqrDistance);
+                    CaseNoZeros(*box, pa, da, *pfLParam, fSqrDistance);
                 }
                 else
-                    FUN_00eb4de0(*box, 0, 1, 2, kPnt, kWorldPosition, *pfLParam, fSqrDistance);
+                    Case0(*box, 0, 1, 2, kPnt, kWorldPosition, *pfLParam, fSqrDistance);
             }
             else
             {
                 if (kWorldPosition.z > 0.0f)
-                    FUN_00eb4de0(*box, 0, 2, 1, kPnt, kWorldPosition, *pfLParam, fSqrDistance);
+                    Case0(*box, 0, 2, 1, kPnt, kWorldPosition, *pfLParam, fSqrDistance);
                 else
-                    FUN_00eb5010(*box, 0, 1, 2, kPnt, kWorldPosition, *pfLParam, fSqrDistance);
+                    Case00(*box, 0, 1, 2, kPnt, kWorldPosition, *pfLParam, fSqrDistance);
             }
         }
         else
@@ -3782,14 +3794,14 @@ float __cdecl FUN_00eb50f0(const S00eb50f0_Seg* apSegment, const OrientedBox* bo
             if (kWorldPosition.y > 0.0f)
             {
                 if (kWorldPosition.z > 0.0f)
-                    FUN_00eb4de0(*box, 1, 2, 0, kPnt, kWorldPosition, *pfLParam, fSqrDistance);
+                    Case0(*box, 1, 2, 0, kPnt, kWorldPosition, *pfLParam, fSqrDistance);
                 else
-                    FUN_00eb5010(*box, 1, 0, 2, kPnt, kWorldPosition, *pfLParam, fSqrDistance);
+                    Case00(*box, 1, 0, 2, kPnt, kWorldPosition, *pfLParam, fSqrDistance);
             }
             else
             {
                 if (kWorldPosition.z > 0.0f)
-                    FUN_00eb5010(*box, 2, 0, 1, kPnt, kWorldPosition, *pfLParam, fSqrDistance);
+                    Case00(*box, 2, 0, 1, kPnt, kWorldPosition, *pfLParam, fSqrDistance);
                 else
                     ClampPointToBox(*box, kPnt, fSqrDistance);
             }
@@ -3855,7 +3867,8 @@ class PortBox
 
 // For axis order i0,i1,i2, moves origin to a box point and updates lineParam and sqrDistance from direction, PmE and the box extents.
 // @fnv 0x00eb4590
-static __declspec(noinline) void FUN_00eb4590(const PortBox& box, int aiAxis0, int aiAxis1, int aiAxis2,
+// src: GAMEBRYO_LIB 0x00eb4590
+static __declspec(noinline) void Face_00eb4590(const PortBox& box, int aiAxis0, int aiAxis1, int aiAxis2,
                                               PortPoint& origin, const PortPoint& direction, const PortPoint& PmE,
                                               float& lineParam, float& sqrDistance)
 {
@@ -4034,7 +4047,7 @@ extern "C" __declspec(noinline) void face_public_entry(const PortBox* box, int a
                                                        PortPoint* origin, const PortPoint* direction,
                                                        const PortPoint* difference, float* line, float* distance)
 {
-    FUN_00eb4590(*box, axis0, axis1, axis2, *origin, *(const PortPoint*)direction, *difference, *line, *distance);
+    Face_00eb4590(*box, axis0, axis1, axis2, *origin, *(const PortPoint*)direction, *difference, *line, *distance);
 }
 
 namespace fltmax_eb3750 {

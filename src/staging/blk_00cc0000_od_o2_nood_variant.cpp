@@ -417,11 +417,11 @@ class Cc6830Motion
 
     Cc6830Motion();
 
-    void FUN_00cde9f0(float f);
+    void hkpRagdollConstraintData_setMaxFrictionTorque(float f);
     CloneableMotionReference* FUN_00cdea20();
     void FUN_00cdea70(CloneableMotionReference* r);
-    void FUN_00cdeab0(CloneableMotionReference* r);
-    void FUN_00cdea90(CloneableMotionReference* r);
+    void hkpRagdollConstraintData_setPlaneMotor(CloneableMotionReference* r);
+    void hkpRagdollConstraintData_setConeMotor(CloneableMotionReference* r);
 };
 
 struct Cc6830Src
@@ -466,7 +466,7 @@ void Cc6830Self::FUN_00cc6830(Cc6830Motion* dst, const Cc6830Src* src)
     dst->m_f130 = m->m_f130;
     dst->m_f104 = m->m_f104;
     dst->m_f108 = m->m_f108;
-    dst->FUN_00cde9f0(m->m_fF8);
+    dst->hkpRagdollConstraintData_setMaxFrictionTorque(m->m_fF8);
     float scale = src->m_vScale;
     if (scale != 1.0f)
     {
@@ -477,8 +477,8 @@ void Cc6830Self::FUN_00cc6830(Cc6830Motion* dst, const Cc6830Src* src)
     {
         CloneableMotionReference* x = r->Clone();
         dst->FUN_00cdea70(x);
-        dst->FUN_00cdeab0(x);
-        dst->FUN_00cdea90(x);
+        dst->hkpRagdollConstraintData_setPlaneMotor(x);
+        dst->hkpRagdollConstraintData_setConeMotor(x);
         x->removeReference();
         dst->m_flagA2 = m->m_flagA2;
     }
@@ -501,7 +501,7 @@ __forceinline hkMemoryAllocator& containerHeap()
     return static_cast<hkMemoryRouter*>(FUN_00c85750())->heap();
 }
 
-void __cdecl FUN_00c908c0(hkMemoryAllocator& alloc, void* array, int reqCapacity, int sizeElem);
+void __cdecl hkArrayUtil__reserve(hkMemoryAllocator& alloc, void* array, int reqCapacity, int sizeElem);
 
 }  // namespace fnv_00cc91c0
 
@@ -521,7 +521,7 @@ template <typename T> __forceinline void hkArrayBase<T>::GrowArrayCapacity(hkMem
     {
         int iTwice = 2 * iHave;
         int iGrowTo = (iWanted < iTwice) ? iTwice : iWanted;
-        fnv_00cc91c0::FUN_00c908c0(kHeap, this, iGrowTo, sizeof(T));
+        fnv_00cc91c0::hkArrayUtil__reserve(kHeap, this, iGrowTo, sizeof(T));
     }
 }
 template <typename T> __forceinline void hkArrayBase<T>::_setSize(hkMemoryAllocator& alloc, int n)
@@ -1872,7 +1872,7 @@ struct Cc7Local
     void AddBridgeAtoms();
     void AppendEntryAndAdvance();
     void FUN_00d52ae0(float value);
-    void FUN_00d52ba0();
+    void hkpConstraintConstructionKit_restoreStrength();
     void AppendZeroItem();
 };
 
@@ -1922,7 +1922,7 @@ void Cc7Owner::FUN_00cc7fe0(void* arg)
     kit.AddBridgeAtoms();
     kit.AppendEntryAndAdvance();
     kit.FUN_00d52ae0(g_011c5c70_arg1);
-    kit.FUN_00d52ba0();
+    kit.hkpConstraintConstructionKit_restoreStrength();
     kit.AppendZeroItem();
 }
 
@@ -1970,7 +1970,7 @@ struct LunaTarget
 {
     unsigned int FUN_00cca360(LunaArgument* argument);
 };
-extern void* __cdecl FUN_00d54cd0(const void*, ScratchGeometry*, unsigned int);
+extern void* __cdecl hkpMoppUtility_buildCode(const void*, ScratchGeometry*, unsigned int);
 // @fnv 0x00cca360
 unsigned int LunaTarget::FUN_00cca360(LunaArgument* argument)
 {
@@ -1989,7 +1989,7 @@ unsigned int LunaTarget::FUN_00cca360(LunaArgument* argument)
         attrs = &static_cast<const ObjectType*>(attrs)->attributes;
     else
         attrs = 0;
-    void* result = FUN_00d54cd0(attrs, &action.scratch, 0);
+    void* result = hkpMoppUtility_buildCode(attrs, &action.scratch, 0);
     typedef void(__thiscall * ActionHandler)(LunaTarget*, LunaAction*);
     ActionHandler handler = reinterpret_cast<ActionHandler>((*reinterpret_cast<void***>(this))[44]);
     action.result = result;
@@ -3033,7 +3033,7 @@ struct RefCountedObject
 };
 
 namespace fnvc_adapt {
-extern SourceGeometry* __cdecl FUN_00d54cd0(const void* attributes, ScratchGeometry* scratch, unsigned int options);
+extern SourceGeometry* __cdecl hkpMoppUtility_buildCode(const void* attributes, ScratchGeometry* scratch, unsigned int options);
 }
 extern int DAT_0102e368;
 
@@ -3107,7 +3107,7 @@ void OutputHandler::FUN_00cca6f0(InitializePathingRequestFromPosition* request)
         if (request->type->typeCode == 14)
             scratch.specialShape = 1;
         const void* attrs = request->type ? &request->type->attributes : 0;
-        temporary = fnvc_adapt::FUN_00d54cd0(attrs, &scratch, 0);
+        temporary = fnvc_adapt::hkpMoppUtility_buildCode(attrs, &scratch, 0);
     }
     SourceGeometry* geometry = request->cachedGeometry ? request->cachedGeometry : temporary;
 
@@ -4853,7 +4853,7 @@ struct FNVEffectRec
 };
 
 void* __cdecl FindModifierConstraintAtom(void* p, int type);
-void __cdecl FUN_00d27960(void* p, FNVSoftContactTarget* target, FNVEffectRec* rec);
+void __cdecl hkpWorldConstraintUtil_addModifier(void* p, FNVSoftContactTarget* target, FNVEffectRec* rec);
 
 // @fnv 0x00cdf850
 void __cdecl FUN_00cdf850(FNVSoftContactSource* a1, int a2, int a3, FNVSoftContactTarget* a4, LocalM128* a5, LocalM128* a6)
@@ -4893,7 +4893,7 @@ void __cdecl FUN_00cdf850(FNVSoftContactSource* a1, int a2, int a3, FNVSoftConta
         {
             rec = 0;
         }
-        FUN_00d27960(p, a4, rec);
+        hkpWorldConstraintUtil_addModifier(p, a4, rec);
     }
 
     if (a2 == ((FNVOwner*)p)->m_i14)
@@ -4926,7 +4926,7 @@ extern DWORD DAT_0126835c;
 unsigned __int64 __cdecl __rdtsc(void);
 
 void* __cdecl FindModifierConstraintAtom(void* p, int type);
-void __cdecl FUN_00d27960(void* p, FNVSoftContactTarget* target, FNVEffectRec* rec);
+void __cdecl hkpWorldConstraintUtil_addModifier(void* p, FNVSoftContactTarget* target, FNVEffectRec* rec);
 
 // @fnv 0x00cdfac0
 void __cdecl FUN_00cdfac0(FNVSoftContactSource* a1, int a2, int a3, FNVSoftContactTarget* a4, LocalM128* a5, LocalM128* a6)
@@ -4966,7 +4966,7 @@ void __cdecl FUN_00cdfac0(FNVSoftContactSource* a1, int a2, int a3, FNVSoftConta
         {
             rec = 0;
         }
-        FUN_00d27960(p, a4, rec);
+        hkpWorldConstraintUtil_addModifier(p, a4, rec);
     }
 
     if (a2 == ((FNVOwner*)p)->m_i14)

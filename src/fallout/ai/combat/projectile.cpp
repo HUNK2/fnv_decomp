@@ -647,7 +647,7 @@ void S5870_Holder::FUN_009c5870(S5870_Buf* pBuffer)
 
 struct ST_00a59400
 {
-    void FUN_00a59400(float*, float*, float*);
+    void NiMatrix3_ToEulerAnglesZXY(float*, float*, float*);
 };
 struct ST_00931e50
 {
@@ -838,7 +838,7 @@ void ST_00931e50::FUN_009c6330(ST_00a59400* p)
     float c;
     float b;
     float a;
-    p->FUN_00a59400(&b, &a, &c);
+    p->NiMatrix3_ToEulerAnglesZXY(&b, &a, &c);
     vm(b);
     ClampLookAngle(a);
 }
@@ -7171,7 +7171,7 @@ class B006815c0
 };
 struct ST_00a59400
 {
-    void FUN_00a59400(float*, float*, float*);
+    void NiMatrix3_ToEulerAnglesZXY(float*, float*, float*);
 };
 struct FUN_00444d00_Class
 {
@@ -7336,7 +7336,7 @@ void Ref9bf::UpdateNodeTransform(bool bRotate, bool bAlign)
         {
             B006815c0 kAlign_ = *(B006815c0*)FUN_006a9540((char*)pkNodeX);
             float fX, fNewY, fZ;
-            ((ST_00a59400*)&kAlign_)->FUN_00a59400(&fX, &fNewY, &fZ);
+            ((ST_00a59400*)&kAlign_)->NiMatrix3_ToEulerAnglesZXY(&fX, &fNewY, &fZ);
             float kNewPos[3];
             fNewY = -FUN_004b54c0(((Pt9bf&)((FUN_009b7010_shell*)this)->FUN_009b7010(*reinterpret_cast<NiPoint3*>(kNewPos))).z);
             kAlign_.FUN_00a59660(fX, fNewY, fZ);
@@ -7378,7 +7378,7 @@ PVCamera* FUN_00524c90();
 class PVAimNode
 {
   public:
-    void FUN_00a59400(float* pfYaw, float* pfPitch, float* pfRoll);
+    void NiMatrix3_ToEulerAnglesZXY(float* pfYaw, float* pfPitch, float* pfRoll);
 };
 class PVNode
 {
@@ -8224,7 +8224,7 @@ void PVProjectile::FUN_009ab390(float fTimeSinceScaleStart)
         else
         {
             float fRoll;
-            pkAimNode->FUN_00461130()->FUN_00a59400(&fYaw, &fCurrentSpeed, &fRoll);
+            pkAimNode->FUN_00461130()->NiMatrix3_ToEulerAnglesZXY(&fYaw, &fCurrentSpeed, &fRoll);
         }
         {
             bool bNoSpread = false;

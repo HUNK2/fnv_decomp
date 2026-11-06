@@ -183,7 +183,8 @@ S_00cc10b0_Island* __cdecl PickIslandByValue(S_00cc10b0_Agent* agent, S_00cc10b0
 void __cdecl FUN_00cfea30(int* p, S_00cc10b0_Agent* agent, int w, S_00cc10b0_Island* island);
 
 // @fnv 0x00cc10b0
-void __cdecl FUN_00cc10b0(S_00cc10b0_Agent* agent)
+// src: HAVOK_LIB 0x00cc10b0
+void __cdecl hkpWorldAgentUtil_removeAgent(S_00cc10b0_Agent* agent)
 {
     S_00cc10b0_Entity* entityA = agent->m_pCollidableA->getOwner();
     S_00cc10b0_Island* islandA = entityA->m_pCurrentSimulationIsland;
@@ -310,10 +311,11 @@ struct Owner
     int unk0c;
     Root* root;
 };
-void __cdecl FUN_00cc10b0(Owner* owner);
+void __cdecl hkpWorldAgentUtil_removeAgent(Owner* owner);
 // Calls Invoke on the interface object reached through root's displacement-indexed entry, then calls FUN_00cc10b0.
 // @fnv 0x00cc1160
-void __cdecl FUN_00cc1160(Owner* owner)
+// src: HAVOK_LIB 0x00cc1160
+void __cdecl hkpWorldAgentUtil_removeAgentAndItsToiEvents(Owner* owner)
 {
     Owner* pOwner = owner;
     char* pRootBase = (char*)pOwner->root;
@@ -322,7 +324,7 @@ void __cdecl FUN_00cc1160(Owner* owner)
     Holder* holder = entry->holder;
     HkpworldagentutilInterfaceView* pInterface = holder->interfaceObject;
     pInterface->Invoke(pOwner);
-    FUN_00cc10b0(pOwner);
+    hkpWorldAgentUtil_removeAgent(pOwner);
 }
 
 struct EventRecord
@@ -461,7 +463,8 @@ struct ItemOwner
 void __cdecl FUN_00cfdbe0(void* pItem, void* pContext);
 
 // @fnv 0x00cc0ea0
-void __cdecl FUN_00cc0ea0(ItemOwner* pOwner, void* pContext)
+// src: HAVOK_LIB 0x00cc0ea0
+void __cdecl hkpWorldAgentUtil_invalidateTim(ItemOwner* pOwner, void* pContext)
 {
     for (int i = 0; i < pOwner->m_iArrayLength; ++i)
     {
@@ -647,19 +650,20 @@ struct S_00cc0f40_In
 {
     S_00cc0f40_Tbl* table;
 };
-void __cdecl FUN_00cb5570(int a, S_00cc0f40_Body* b, S_00cc0f40_Body* c);
+void __cdecl hkpWorldOperationUtil_mergeIslands(int a, S_00cc0f40_Body* b, S_00cc0f40_Body* c);
 S_00cc0f40_Coll* __cdecl FUN_00cfe1d0(S_00cc0f40_Coll* c, void* o1, void* o2, int n, char* flag);
 void __cdecl GetNodePairValue(S_00cc0f40_Coll* a, S_00cc0f40_Coll* b, S_00cc0f40_In* in, int* o1, int* o2);
 void __cdecl FUN_00cfe8a0(S_00cc0f40_Body* z, S_00cc0f40_Coll* a, S_00cc0f40_Coll* b, S_00cc0f40_Coll* c,
                           S_00cc0f40_Coll* d, S_00cc0f40_Flag flag, int v, S_00cc0f40_In* in, int r);
 // Resolves the bodies behind two collision objects, swaps them if needed, calls the table's v3 handler and passes the result to FUN_00cfe8a0.
 // @fnv 0x00cc0f40
-void __cdecl FUN_00cc0f40(S_00cc0f40_Coll* pCollA, S_00cc0f40_Coll* pCollB, S_00cc0f40_In* in)
+// src: HAVOK_LIB 0x00cc0f40
+void __cdecl hkpWorldAgentUtil_addAgent(S_00cc0f40_Coll* pCollA, S_00cc0f40_Coll* pCollB, S_00cc0f40_In* in)
 {
     S_00cc0f40_Body* a = (S_00cc0f40_Body*)((char*)pCollA + pCollA->off);
     S_00cc0f40_Body* b = (S_00cc0f40_Body*)((char*)pCollB + pCollB->off);
     if (a->kind != 5 && b->kind != 5 && a->prop != b->prop)
-        FUN_00cb5570((int)a->unk08, a, b);
+        hkpWorldOperationUtil_mergeIslands((int)a->unk08, a, b);
     S_00cc0f40_Prop* pPropA = a->prop;
     S_00cc0f40_Prop* pPropB = b->prop;
     S_00cc0f40_Prop* z = pPropA->w20 == 0xffff ? (pPropB->w20 == 0xffff ? pPropA : pPropB) : pPropA;
@@ -723,7 +727,8 @@ struct SelectorTarget
 };
 
 // @fnv 0x00cc0e90
-static unsigned int FUN_00cc0e90(SelectorTarget* p)
+// src: HAVOK_LIB 0x00cc0e90
+static unsigned int getAgentData(SelectorTarget* p)
 {
     if (p->m_00 == 4)
     {
@@ -734,7 +739,7 @@ static unsigned int FUN_00cc0e90(SelectorTarget* p)
 
 unsigned int probe_caller(SelectorTarget* p)
 {
-    return FUN_00cc0e90(p);
+    return getAgentData(p);
 }
 
 unsigned int probe_sink;

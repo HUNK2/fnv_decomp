@@ -28,7 +28,8 @@ struct FUN_00da07b0_class
 };
 
 // @fnv 0x00da07b0
-void __cdecl FUN_00da07b0(void* apObject, void* b)
+// src: HAVOK_LIB 0x00da07b0
+void __cdecl finishLoadedObjecthkSimpleLocalFrame(void* apObject, void* b)
 {
     if (apObject)
     {
@@ -172,7 +173,8 @@ void __cdecl FUN_00da6fd0(void* apObject)
 }
 
 // @fnv 0x00da0680
-void __cdecl FUN_00da0680(char* pObject, int bReset)
+// src: HAVOK_LIB 0x00da0680
+void __cdecl finishLoadedObjecthkpLinkedCollidable(char* pObject, int bReset)
 {
     if (pObject != 0)
     {
@@ -219,10 +221,11 @@ void __cdecl FUN_00da0760(void* pObject, void* b)
 
 struct FUN_00db7cf0_class
 {
-    int __thiscall FUN_00db7cf0(int a, int b);
+    int __thiscall hkVersionPatchManager_UidFromClassVersion_getName(int a, int b);
 };
 // @fnv 0x00db7cf0
-int __thiscall FUN_00db7cf0_class::FUN_00db7cf0(int a, int b)
+// src: HAVOK_LIB 0x00db7cf0
+int __thiscall FUN_00db7cf0_class::hkVersionPatchManager_UidFromClassVersion_getName(int a, int b)
 {
     return ((int*)(*(int**)(this + 0x10)))[a];
 }
@@ -685,11 +688,12 @@ struct FUN_00db0060_class
     int unk14;
     int unk18;
 
-    void __thiscall FUN_00db0060(int* param_2, int param_3);
+    void __thiscall hk1AxisSweep_AabbInt_set(int* param_2, int param_3);
 };
 
 // @fnv 0x00db0060
-void __thiscall FUN_00db0060_class::FUN_00db0060(int* aiValues, int param_3)
+// src: HAVOK_LIB 0x00db0060
+void __thiscall FUN_00db0060_class::hk1AxisSweep_AabbInt_set(int* aiValues, int param_3)
 {
     int value;
 
@@ -760,11 +764,12 @@ struct FUN_00db75b0_class
     FUN_00db75b0_entry* unk04;
     int unk08;
 
-    unsigned int __thiscall FUN_00db75b0(int a1, unsigned int* a2);
+    unsigned int __thiscall hkClassEnum_getValueOfName(int a1, unsigned int* a2);
 };
 
 // @fnv 0x00db75b0
-unsigned int __thiscall FUN_00db75b0_class::FUN_00db75b0(int a1, unsigned int* a2)
+// src: HAVOK_LIB 0x00db75b0
+unsigned int __thiscall FUN_00db75b0_class::hkClassEnum_getValueOfName(int a1, unsigned int* a2)
 {
     for (int index = 0; index < unk08; ++index)
     {
@@ -794,11 +799,12 @@ class FUN_00db78a0_cls
     virtual void vSlot04();
     virtual void vSlot08();
     virtual void vSlot0c(void* field, void* item);
-    void FUN_00db78a0(FUN_00db78a0_item** a, void** b);
+    void hkVtableClassRegistry_registerList(FUN_00db78a0_item** a, void** b);
 };
 
 // @fnv 0x00db78a0
-void FUN_00db78a0_cls::FUN_00db78a0(FUN_00db78a0_item** apItems, void** apValues)
+// src: HAVOK_LIB 0x00db78a0
+void FUN_00db78a0_cls::hkVtableClassRegistry_registerList(FUN_00db78a0_item** apItems, void** apValues)
 {
     FUN_00db78a0_item** p = apItems;
     if (*p == 0)
@@ -1175,7 +1181,8 @@ struct Buffer
     int m_pRayCursor;
 };
 // @fnv 0x00da06d0
-void __cdecl FUN_00da06d0(Buffer* self)
+// src: HAVOK_LIB 0x00da06d0
+void __cdecl cleanupLoadedObjecthkpLinkedCollidable(Buffer* self)
 {
     int* pSize = &self->m_iElementCount;
     int* piCapacity = &self->m_pRayCursor;
@@ -1493,7 +1500,7 @@ extern int DAT_01269a9c;
 
 struct FUN_00da2840_Obj
 {
-    void __thiscall FUN_00da2840();
+    void __thiscall hkStackTracerWin32Data_init();
 };
 
 struct FUN_00da2b90_Obj
@@ -1514,7 +1521,7 @@ unsigned int* __thiscall FUN_00da2b90_Obj::Initialize()
     unk00 = reinterpret_cast<int>(&DAT_010d4de4);
     unk08 = &DAT_01269a9c;
 
-    reinterpret_cast<FUN_00da2840_Obj*>(&DAT_01269a9c)->FUN_00da2840();
+    reinterpret_cast<FUN_00da2840_Obj*>(&DAT_01269a9c)->hkStackTracerWin32Data_init();
 
     return reinterpret_cast<unsigned int*>(this);
 }
@@ -1547,13 +1554,13 @@ void* DA2D70Object::NotifyAudioListener(int flags)
 void __cdecl FUN_00da2da0()
 {}
 
-void __cdecl FUN_00da44d0(int a, int b, void* pvCallback);
+void __cdecl hkAgent1nMachine_VisitAllAgents(int a, int b, void* pvCallback);
 void __cdecl ProcessCollisionEntry();
 
 // @fnv 0x00da4900
 void __cdecl FUN_00da4900(int a, int b)
 {
-    FUN_00da44d0(a, b, reinterpret_cast<void*>(&ProcessCollisionEntry));
+    hkAgent1nMachine_VisitAllAgents(a, b, reinterpret_cast<void*>(&ProcessCollisionEntry));
 }
 
 void* __cdecl FUN_00da3510(void*, void*);
@@ -1606,7 +1613,8 @@ struct CreatedObject
 
 // Allocates a 0x20-byte object from the manager's heap, initializes it, and returns it.
 // @fnv 0x00db79c0
-void* __cdecl FUN_00db79c0()
+// src: HAVOK_LIB 0x00db79c0
+void* __cdecl hkDefaultClassNameRegistrycreate()
 {
     hkMemoryRouter* manager = (hkMemoryRouter*)FUN_00c85750();
     CreatedObject* object = (CreatedObject*)manager->heap().blockAlloc(0x20);
@@ -1673,7 +1681,8 @@ extern void* DAT_01269b78;
 extern void* FUN_00fde2a0;
 extern unsigned short DAT_01269b7e;
 // @fnv 0x00dba610
-void* __cdecl FUN_00dba610()
+// src: HAVOK_LIB 0x00dba610
+void* __cdecl hkLogger_nullLogger()
 {
     int iInitFlag = 1;
     if (!(DAT_01269b80 & iInitFlag))
@@ -1689,14 +1698,14 @@ void* __cdecl FUN_00dba610()
 typedef void(__cdecl* FuncDA34)();
 
 void __cdecl ExecuteMoppAabbQuery();
-void __cdecl FUN_00df6f80();
+void __cdecl hkCpuPairGetClosestPointsJob();
 void __cdecl FUN_00df6b50();
-void __cdecl FUN_00df79d0();
+void __cdecl hkCpuPairLinearCastJob();
 void __cdecl FUN_00df7340();
 void __cdecl ProcessWorkQueue();
 void __cdecl ProcessAabbTree();
 void __cdecl SplitJob();
-void __cdecl FUN_00df7a90();
+void __cdecl hkpCollisionQueryJobQueueUtils_finishCollisionJob();
 
 struct FuncTableDA34
 {
@@ -1727,18 +1736,19 @@ class DispatcherDA34
 
 // Populates the DAT_01269af0 function table with seven handlers and registers it with dispatcher type 2 via SetEntry.
 // @fnv 0x00da3400
-void __cdecl FUN_00da3400(DispatcherDA34* dispatcher)
+// src: HAVOK_LIB 0x00da3400
+void __cdecl hkpCollisionQueryJobQueueUtils_registerWithJobQueue(DispatcherDA34* dispatcher)
 {
-    DAT_01269af0.m_func3 = FUN_00df79d0;
+    DAT_01269af0.m_func3 = hkCpuPairLinearCastJob;
     DAT_01269af0.m_func4 = FUN_00df7340;
     DAT_01269af0.m_func0 = ExecuteMoppAabbQuery;
-    DAT_01269af0.m_func1 = FUN_00df6f80;
+    DAT_01269af0.m_func1 = hkCpuPairGetClosestPointsJob;
     DAT_01269af0.m_func2 = FUN_00df6b50;
     DAT_01269af0.m_func5 = ProcessWorkQueue;
     DAT_01269af0.m_func6 = ProcessAabbTree;
     RegisterInfoDA34 info;
     info.m_funcA = SplitJob;
-    info.m_funcB = FUN_00df7a90;
+    info.m_funcB = hkpCollisionQueryJobQueueUtils_finishCollisionJob;
     info.m_table = &DAT_01269af0;
     info.m_numFuncs = 7;
     dispatcher->SetEntry(2, info);
@@ -1750,11 +1760,11 @@ void __cdecl FUN_00df8df0();
 void __cdecl FinishJobWithPair();
 void __cdecl BuildKdTreeDistributed();
 void __cdecl FUN_00df8440();
-void __cdecl FUN_00df8800();
-void __cdecl FUN_00df8570();
+void __cdecl hkCpuKdTreeBuildSetupJob();
+void __cdecl hkCpuKdTreeBuildCoordinatorJob();
 void __cdecl ExecuteJob();
 void __cdecl CopyAndAdvance();
-void __cdecl FUN_00df9920();
+void __cdecl hkpRayCastQueryJobQueueUtils_finishRayCastQueryJob();
 
 typedef void(__cdecl* AgentFuncDA34)();
 
@@ -1780,11 +1790,12 @@ struct DispatcherDA34
 
 // Populates DAT_01269ad0 with eight agent functions, builds kInfo, and registers it with pkDispatcher->SetEntry(3, kInfo).
 // @fnv 0x00da3480
-void __cdecl FUN_00da3480(DispatcherDA34* pkDispatcher)
+// src: HAVOK_LIB 0x00da3480
+void __cdecl hkpRayCastQueryJobQueueUtils_registerWithJobQueue(DispatcherDA34* pkDispatcher)
 {
     AgentInfoDA34 kInfo;
     kInfo.m_pfnCreate = CopyAndAdvance;
-    kInfo.m_pfnDestroy = FUN_00df9920;
+    kInfo.m_pfnDestroy = hkpRayCastQueryJobQueueUtils_finishRayCastQueryJob;
     kInfo.m_pkTable = &DAT_01269ad0;
     kInfo.m_iNumFuncs = 8;
     DAT_01269ad0.m_apfnFuncs[0] = FUN_00df94b0;
@@ -1792,8 +1803,8 @@ void __cdecl FUN_00da3480(DispatcherDA34* pkDispatcher)
     DAT_01269ad0.m_apfnFuncs[2] = FinishJobWithPair;
     DAT_01269ad0.m_apfnFuncs[3] = BuildKdTreeDistributed;
     DAT_01269ad0.m_apfnFuncs[4] = FUN_00df8440;
-    DAT_01269ad0.m_apfnFuncs[5] = FUN_00df8800;
-    DAT_01269ad0.m_apfnFuncs[6] = FUN_00df8570;
+    DAT_01269ad0.m_apfnFuncs[5] = hkCpuKdTreeBuildSetupJob;
+    DAT_01269ad0.m_apfnFuncs[6] = hkCpuKdTreeBuildCoordinatorJob;
     DAT_01269ad0.m_apfnFuncs[7] = ExecuteJob;
     pkDispatcher->SetEntry(3, kInfo);
 }
@@ -1933,7 +1944,8 @@ int __cdecl CollideSweepBounds(const SweepBounds* apBoundsA, int aiCountA, const
 }
 
 // @fnv 0x00db09f0
-static __declspec(noinline) float FUN_00db09f0(unsigned short arg)
+// src: HAVOK_LIB 0x00db09f0
+static __declspec(noinline) float getNormalSignFromFeatureBitSet(unsigned short arg)
 {
     union
     {
@@ -1950,7 +1962,7 @@ float volatile g_out_db09f0;
 
 void drive_db09f0(void)
 {
-    g_out_db09f0 = FUN_00db09f0(g_in_db09f0);
+    g_out_db09f0 = getNormalSignFromFeatureBitSet(g_in_db09f0);
 }
 
 extern int DAT_010d52d0;
@@ -2254,7 +2266,7 @@ struct ArgObj
 struct Holder
 {
     int FindOrAddCallTrace(int* buffer, int count);
-    int FUN_00da2d20(ArgObj* param);
+    int hkStackTracer_CallTree_insertCallStack(ArgObj* param);
 };
 
 __declspec(noinline) int ArgObj::FUN_00da2b20(int* buffer, int size)
@@ -2269,7 +2281,8 @@ __declspec(noinline) int Holder::FindOrAddCallTrace(int* buffer, int count)
 
 // Fills a 0x40-word buffer via param->FUN_00da2b20 and, if it returned a positive count, forwards buffer+1 and count-1 to FindOrAddCallTrace.
 // @fnv 0x00da2d20
-int Holder::FUN_00da2d20(ArgObj* param)
+// src: HAVOK_LIB 0x00da2d20
+int Holder::hkStackTracer_CallTree_insertCallStack(ArgObj* param)
 {
     int buffer[0x40];
     int count = param->FUN_00da2b20(buffer, 0x40);
@@ -2699,11 +2712,12 @@ struct DA2840Object
     DA2840_SymGetLineFromAddr64 m_symGetLineFromAddr64;
     DA2840_SymCleanup m_symCleanup;
 
-    void FUN_00da2840();
+    void hkStackTracerWin32Data_init();
 };
 
 // @fnv 0x00da2840
-void DA2840Object::FUN_00da2840()
+// src: HAVOK_LIB 0x00da2840
+void DA2840Object::hkStackTracerWin32Data_init()
 {
     HMODULE module = (HMODULE)DAT_00fdf0b0(DAT_011b76d0);
     DA2840_OutputDebugString outputDebugString = DAT_00fdf16c;

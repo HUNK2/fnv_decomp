@@ -3229,11 +3229,11 @@ A0C0C0_Entry::A0C0C0_Entry(const char* name, int value) : m_name(DAT_0109b220)
 }
 }  // namespace fnv_00a0c0c0
 
-void __cdecl FUN_00aa10f0(void* p);
+void __cdecl _NiFree_00aa10f0(void* p);
 
 struct A0D2A0_MapBase
 {
-    virtual ~A0D2A0_MapBase() { int unused[4]; (void)unused; ClearAll(); FUN_00aa10f0(m_ppkHashTable); }
+    virtual ~A0D2A0_MapBase() { int unused[4]; (void)unused; ClearAll(); _NiFree_00aa10f0(m_ppkHashTable); }
     virtual void ClearAll();
     unsigned int m_uiHashSize;
     NiTMapItem<const char*, void*>** m_ppkHashTable;
@@ -3257,7 +3257,7 @@ A0D2A0_StringMap::~A0D2A0_StringMap()
             while (item) {
                 NiTMapItem<const char*, void*>* save = item;
                 item = item->m_pkNext;
-                FUN_00aa10f0((void*)save->m_key);
+                _NiFree_00aa10f0((void*)save->m_key);
             }
         }
     }

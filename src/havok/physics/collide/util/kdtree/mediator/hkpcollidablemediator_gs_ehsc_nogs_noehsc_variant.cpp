@@ -98,7 +98,7 @@ struct FUN_00d9e010_cls {
     unsigned int unk00;
     unsigned int unk04;
     Child* child;
-    unsigned int FUN_00d9e010(unsigned int index);
+    unsigned int hkpCollidableMediator_getPrimitiveId(unsigned int index);
 };
 #include "fnv_asm_helpers.h"   // project x87 helpers (fnv_SinCos, fnv_FloatToInt), kept last so earlier code is unchanged
 

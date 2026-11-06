@@ -17,11 +17,11 @@ void hkpSweptTransformDisplayViewer::FUN_00d64950(int a)
         p->RemoveWorldData(r);
 }
 
-extern "C" void FUN_00d64650();
+extern "C" void hkpSweptTransformDisplayViewer_addWorld();
 // @fnv 0x00d647f0
 void __fastcall FUN_00d647f0(void* self)
 {
-    ((void(__thiscall*)(void*))FUN_00d64650)((char*)self - 0x20);
+    ((void(__thiscall*)(void*))hkpSweptTransformDisplayViewer_addWorld)((char*)self - 0x20);
 }
 
 extern "C" int g_ptr_0x1268fd0;
@@ -82,7 +82,8 @@ extern "C" int g_ptr_0x1268fd0;
 
 // @fnv 0x00d64120
 // This callback receives the entity-listener subobject.
-void __fastcall FUN_00d64120(hkpEntityListener* self, void*, SweptArg* a1)
+// src: HAVOK_LIB 0x00d64120
+void __fastcall hkpSweptTransformDisplayViewer_entityRemovedCallback(hkpEntityListener* self, void*, SweptArg* a1)
 {
     if (*(int*)&a1->m_10 == 0)
     {
@@ -202,7 +203,7 @@ void hkpSweptTransformDisplayViewer::NotifyItems()
             hkpSweptTransformDisplayViewer* listener = (hkpSweptTransformDisplayViewer*)((char*)this - 8);
             do
             {
-                ((FUN_00d647b0_Handler)FUN_00d64650)(listener, (*(FUN_00d647b0_Pool**)((char*)this + 0x1c))->m_items[i]);
+                ((FUN_00d647b0_Handler)hkpSweptTransformDisplayViewer_addWorld)(listener, (*(FUN_00d647b0_Pool**)((char*)this + 0x1c))->m_items[i]);
                 i++;
             } while (i < (*(FUN_00d647b0_Pool**)((char*)this + 0x1c))->m_uiItemCount);
         }

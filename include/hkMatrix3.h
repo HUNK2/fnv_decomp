@@ -48,11 +48,11 @@ public:
 
     int FUN_00cd4f10(float epsilon);
     void __thiscall FUN_00cd4bf0(char* a, char* b);
-    hkBool FUN_00cd4af0() const;
+    hkBool isOk_00cd4af0() const;
     unsigned char* FUN_00cd4e00(unsigned char* result, const hkMatrix3* other, float epsilon);
-    bool FUN_00cd4e90(float epsilon);
+    bool hkMatrix3_isSymmetric(float epsilon);
     void FUN_00cd5050();
-    float FUN_00cd53a0();
+    float _offDiagNorm();
     void FUN_00cd5680(const hkMatrix3& other);
 
     static void* __cdecl operator new(size_t nbytes);

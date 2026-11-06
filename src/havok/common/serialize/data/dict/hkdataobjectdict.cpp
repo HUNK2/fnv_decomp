@@ -272,7 +272,8 @@ int __thiscall FUN_00dcb490_Class::FUN_00dcb490(int a)
 }
 
 // @fnv 0x00dc72f0
-void __stdcall FUN_00dc72f0(int* p)
+// src: HAVOK_LIB 0x00dc72f0
+void __stdcall hkDataWorldDict_getType(int* p)
 {
     *p = 1;
 }
@@ -285,10 +286,11 @@ struct FUN_00dc9530_StandIn
     int m_0c;
     int m_10;
     int m_14;
-    char FUN_00dc9530(int a);
+    char hkDataObjectDict_isValid(int a);
 };
 // @fnv 0x00dc9530
-char FUN_00dc9530_StandIn::FUN_00dc9530(int a)
+// src: HAVOK_LIB 0x00dc9530
+char FUN_00dc9530_StandIn::hkDataObjectDict_isValid(int a)
 {
     return a < m_14 ? 1 : 0;
 }
@@ -299,11 +301,12 @@ struct FUN_00dca5c0_Class
     float* m_p4;
     float* m_p8;
     float* m_pc;
-    float FUN_00dca5c0(int index);
+    float RealArrayImplementation_asReal(int index);
 };
 
 // @fnv 0x00dca5c0
-float FUN_00dca5c0_Class::FUN_00dca5c0(int index)
+// src: HAVOK_LIB 0x00dca5c0
+float FUN_00dca5c0_Class::RealArrayImplementation_asReal(int index)
 {
     return m_pc[index];
 }
@@ -1395,10 +1398,11 @@ struct FUN_00dca280_Class
     int m_iWordAt04;
     int m_8;
     __int64* m_iThirdValue;
-    int __thiscall FUN_00dca280(int index);
+    int __thiscall IntArrayImplementation_asInt(int index);
 };
 // @fnv 0x00dca280
-int __thiscall FUN_00dca280_Class::FUN_00dca280(int index)
+// src: HAVOK_LIB 0x00dca280
+int __thiscall FUN_00dca280_Class::IntArrayImplementation_asInt(int index)
 {
     return (int)m_iThirdValue[index];
 }
@@ -2157,10 +2161,11 @@ struct FnvCpu_FUN_00dc7390_CpuOwner
     unsigned int unk00;
     unsigned int unk04;
     FnvCpu_FUN_00dc7390_CpuTarget* target;
-    void FUN_00dc7390();
+    void hkDataWorldDict_findAllClasses();
 };
 // @fnv 0x00dc7390
-void FnvCpu_FUN_00dc7390_CpuOwner::FUN_00dc7390()
+// src: HAVOK_SRC 0x00dc7390
+void FnvCpu_FUN_00dc7390_CpuOwner::hkDataWorldDict_findAllClasses()
 {
     target->FUN_00dc9240();
 }
@@ -2594,11 +2599,12 @@ class DC7300Owner
     int unk04;
     DC7300Callee* m_callee;
 
-    void* FUN_00dc7300(void* p);
+    void* hkDataWorldDict_findClass(void* p);
 };
 
 // @fnv 0x00dc7300
-void* DC7300Owner::FUN_00dc7300(void* p)
+// src: HAVOK_SRC 0x00dc7300
+void* DC7300Owner::hkDataWorldDict_findClass(void* p)
 {
     DC7300Callee* callee = m_callee;
     if (p)
@@ -2671,7 +2677,7 @@ struct hkMemoryRouterDC76
     }
 };
 extern "C" hkMemoryRouterDC76* __cdecl FUN_00c85750() throw();
-extern "C" char* __cdecl FUN_00cb1410(const char* pcStr) throw();
+extern "C" char* __cdecl hkString_strDup_00cb1410(const char* pcStr) throw();
 
 template <typename T>
 __forceinline void hkArrayUtil::destruct(T* t, int n, hkTypeIsClass)
@@ -2799,7 +2805,7 @@ class DictionaryMemberRemovalTracker
             const char* pcPooled = (const char*)m_stringPool.GetValue(pcStr, 0);
             if (pcPooled == 0)
             {
-                pcPooled = FUN_00cb1410(pcStr);
+                pcPooled = hkString_strDup_00cb1410(pcStr);
                 m_stringPool.FUN_00d874d0(pcPooled, pcPooled);
             }
             return pcPooled;
@@ -2925,7 +2931,7 @@ struct SkRefPtr
 };
 
 BSAudio* FUN_00c85750();
-extern "C" char* FUN_00cb1410(const char* str) throw();
+extern "C" char* hkString_strDup_00cb1410(const char* str) throw();
 
 struct FUN_00d47a80_class
 {
@@ -2987,7 +2993,7 @@ struct SkStore
         char* name = (char*)m_ppNames.GetValue(str, 0);
         if (!name)
         {
-            name = FUN_00cb1410(str);
+            name = hkString_strDup_00cb1410(str);
             m_ppNames.FUN_00d874d0(name, (int)name);
         }
         return name;
@@ -3121,7 +3127,7 @@ struct hkMemoryRouterDC88
 };
 extern "C" hkMemoryRouterDC88* __cdecl FUN_00c85750();
 
-void FUN_00cb13c0(int iString);
+void hkString_strFree(int iString);
 
 union hkDataValueDC88
 {
@@ -3170,7 +3176,7 @@ void __cdecl ReleaseDataValues(int iType, hkDataValueDC88* pkValues, int iCount)
     case 10:
         for (int i = 0; i < iCount; i++)
         {
-            FUN_00cb13c0(pkValues[i].m_iString);
+            hkString_strFree(pkValues[i].m_iString);
             pkValues[i].m_iString = 0;
         }
         break;
@@ -3179,7 +3185,7 @@ void __cdecl ReleaseDataValues(int iType, hkDataValueDC88* pkValues, int iCount)
 }  // namespace fnv_00dc88c0
 
 namespace fnv_00dc8d20 {
-extern "C" char* __cdecl FUN_00cb1410(const char* s) throw();
+extern "C" char* __cdecl hkString_strDup_00cb1410(const char* s) throw();
 
 struct FUN_00d47a80_class
 {
@@ -3234,7 +3240,7 @@ hkPooledStringDC8D hkObjDC8D::GetPooledString(const char* name)
         char* s = (char*)m_kNodePool.GetValue((void*)name, 0);
         if (!s)
         {
-            s = FUN_00cb1410(name);
+            s = hkString_strDup_00cb1410(name);
             m_kNodePool.FUN_00d874d0(s, (int)s);
         }
         result.m_kStringBuffer = s;
@@ -3476,7 +3482,7 @@ void __thiscall FUN_00dc9830_Class::AddObjectToSlot(int value, FUN_00dc9830_Obje
     *(int*)((char*)m_10 + (local.unk04 << 4) + 8) = (int)pObject;
 }
 
-extern "C" char* __cdecl FUN_00cb1410(const char* pcString);
+extern "C" char* __cdecl hkString_strDup_00cb1410(const char* pcString);
 
 struct hkResultDC98
 {
@@ -3512,7 +3518,7 @@ class hkObjDC98
 void hkObjDC98::SetStringEntry(int iKey, const char* pcValue) throw()
 {
     hkResultDC98 kRes = FUN_00dc9710(iKey, 10);
-    m_entries[kRes.m_uiEdgeIndex].m_uiFilterValue = pcValue ? FUN_00cb1410(pcValue) : 0;
+    m_entries[kRes.m_uiEdgeIndex].m_uiFilterValue = pcValue ? hkString_strDup_00cb1410(pcValue) : 0;
 }
 
 struct FUN_00dc98d0_Local
@@ -3831,7 +3837,7 @@ struct hkMemoryRouterDC9D
 namespace hkRouterDC9D {
 extern "C" hkMemoryRouterDC9D& __cdecl FUN_00c85750() throw();
 }
-void __cdecl FUN_00c908c0(hkMemoryAllocatorDC9D& kAlloc, void* apvArray, int aiNumElements, int iSizeElem) throw();
+void __cdecl hkArrayUtil__reserve(hkMemoryAllocatorDC9D& kAlloc, void* apvArray, int aiNumElements, int iSizeElem) throw();
 
 inline void memCpy4DC9D(void* pvDst, const void* pvSrc, unsigned int iNumWords)
 {
@@ -4079,10 +4085,11 @@ struct FUN_00dca1e0_class
     int unk04;
     int unk08;
     unsigned char* unk0C;
-    unsigned int FUN_00dca1e0(int index);
+    unsigned int ByteArrayImplementation_asInt(int index);
 };
 // @fnv 0x00dca1e0
-unsigned int FUN_00dca1e0_class::FUN_00dca1e0(int index)
+// src: HAVOK_LIB 0x00dca1e0
+unsigned int FUN_00dca1e0_class::ByteArrayImplementation_asInt(int index)
 {
     return unk0C[index];
 }
@@ -4104,7 +4111,7 @@ struct hkMemoryRouterDCA2
 };
 
 extern "C" hkMemoryRouterDCA2& __cdecl FUN_00c85750() throw();
-void __cdecl FUN_00c908c0(hkMemoryAllocatorDCA2& kAlloc, void* apvArray, int aiNumElements, int iSizeElem) throw();
+void __cdecl hkArrayUtil__reserve(hkMemoryAllocatorDCA2& kAlloc, void* apvArray, int aiNumElements, int iSizeElem) throw();
 void __cdecl FUN_00cb1260(void* pvDst, const void* pvSrc, int iNumBytes) throw();
 
 class hkObjDCA2
@@ -4169,7 +4176,7 @@ struct hkMemoryRouterDCA3
 namespace hkRouterDCA3 {
 extern "C" hkMemoryRouterDCA3& __cdecl FUN_00c85750() throw();
 }
-void __cdecl FUN_00c908c0(hkMemoryAllocatorDCA3& kAlloc, void* apvArray, int aiNumElements, int iSizeElem) throw();
+void __cdecl hkArrayUtil__reserve(hkMemoryAllocatorDCA3& kAlloc, void* apvArray, int aiNumElements, int iSizeElem) throw();
 
 class hkObjDCA3
 {
@@ -4206,7 +4213,7 @@ struct hkMemoryRouterDCA3
     }
 };
 extern "C" hkMemoryRouterDCA3& __cdecl FUN_00c85750();
-void __cdecl FUN_00c908c0(hkMemoryAllocatorDCA3& kAlloc, void* apvArray, int aiNumElements, int iSizeElem) throw();
+void __cdecl hkArrayUtil__reserve(hkMemoryAllocatorDCA3& kAlloc, void* apvArray, int aiNumElements, int iSizeElem) throw();
 
 class hkInt64ArrayDCA3
 {
@@ -4245,7 +4252,7 @@ struct hkMemoryRouterDCA4
     }
 };
 extern "C" hkMemoryRouterDCA4& __cdecl FUN_00c85750();
-void __cdecl FUN_00c908c0(hkMemoryAllocatorDCA4& kAlloc, void* apvArray, int aiNumElements, int iSizeElem) throw();
+void __cdecl hkArrayUtil__reserve(hkMemoryAllocatorDCA4& kAlloc, void* apvArray, int aiNumElements, int iSizeElem) throw();
 
 class hkInt64ArrayDCA4
 {
@@ -4286,7 +4293,7 @@ struct hkMemoryRouterDCA4
 namespace hkRouterDCA4 {
 extern "C" hkMemoryRouterDCA4& __cdecl FUN_00c85750() throw();
 }
-void __cdecl FUN_00c908c0(hkMemoryAllocatorDCA4& kAlloc, void* apvArray, int aiNumElements, int iSizeElem) throw();
+void __cdecl hkArrayUtil__reserve(hkMemoryAllocatorDCA4& kAlloc, void* apvArray, int aiNumElements, int iSizeElem) throw();
 
 class hkObjDCA4
 {
@@ -4318,7 +4325,7 @@ struct C85750Router
     void* allocator;
 };
 C85750Router* FUN_00c85750();
-void __cdecl FUN_00c908c0(void* allocator, void* array, int newCapacity, int itemSize);
+void __cdecl hkArrayUtil__reserve(void* allocator, void* array, int newCapacity, int itemSize);
 void __cdecl FUN_00cb1260(void* dst, const void* src, unsigned int bytes);
 struct DCA5F0Array
 {
@@ -4347,15 +4354,15 @@ void DCA5F0Owner::AssignElements(const void* source, int count)
         int grown = capacity * 2;
         if (count >= grown)
             grown = count;
-        FUN_00c908c0(allocator, array, grown, 4);
+        hkArrayUtil__reserve(allocator, array, grown, 4);
     }
     array->count = count;
     FUN_00cb1260(array->data, source, count * 4);
 }
 }  // namespace fnv_00dca5f0
 
-void __cdecl FUN_00cb13c0(int iString);
-extern "C" char* __cdecl FUN_00cb1410(const char* pcString);
+void __cdecl hkString_strFree(int iString);
+extern "C" char* __cdecl hkString_strDup_00cb1410(const char* pcString);
 
 class hkObjDCA6
 {
@@ -4371,8 +4378,8 @@ class hkObjDCA6
 // @fnv 0x00dca670
 void hkObjDCA6::SetStringAt(int i, const char* pcValue)
 {
-    FUN_00cb13c0(reinterpret_cast<int>(m_pStringFunctions[i]));
-    m_pStringFunctions[i] = pcValue ? FUN_00cb1410(pcValue) : 0;
+    hkString_strFree(reinterpret_cast<int>(m_pStringFunctions[i]));
+    m_pStringFunctions[i] = pcValue ? hkString_strDup_00cb1410(pcValue) : 0;
 }
 
 class hkMemoryAllocatorDCA6
@@ -4410,7 +4417,7 @@ class hkRefObjDCA6
     short m_sReferenceCount;
 };
 
-void __cdecl FUN_00cb13c0(int p) throw();
+void __cdecl hkString_strFree(int p) throw();
 
 class FUN_00dca6b0 : public hkRefObjDCA6
 {
@@ -4425,7 +4432,7 @@ class FUN_00dca6b0 : public hkRefObjDCA6
 FUN_00dca6b0::~FUN_00dca6b0() throw()
 {
     for (int i = 0; i < m_pStringFunctions.m_iElementCount; i++)
-        FUN_00cb13c0(m_pStringFunctions.m_data[i]);
+        hkString_strFree(m_pStringFunctions.m_data[i]);
     m_pStringFunctions._clearAndDeallocate(reinterpret_cast<hkMemoryAllocator&>(hkRouterDCA6::FUN_00c85750().heap()));
 }
 
@@ -4648,7 +4655,7 @@ void hkDataClassDict::getDeclaredMemberInfo(int iIndex, hkDataClassMemberInfo& k
 }
 
 namespace fnv_00dcad10 {
-extern "C" void* FUN_00cb1410(const char* str);
+extern "C" void* hkString_strDup_00cb1410(const char* str);
 
 struct MapTarget
 {
@@ -4686,7 +4693,7 @@ struct InnerContext
             void* key = map.GetValue(name, 0);
             if (!key)
             {
-                key = FUN_00cb1410(name);
+                key = hkString_strDup_00cb1410(name);
                 map.FUN_00d874d0(key, key);
             }
             return key;
@@ -6331,7 +6338,7 @@ hkObjDC8C* hkObjDC8C::FUN_00dc8cd0(unsigned int flags)
     return this;
 }
 
-char* __cdecl FUN_00cb1410(const char* pcString);
+char* __cdecl hkString_strDup_00cb1410(const char* pcString);
 
 struct StringMapDC8F20
 {
@@ -6378,7 +6385,7 @@ struct NameRegistryDC8F20
         const char* pcPooled = (const char*)m_kNodePool.FindValueForKey(pcName, 0);
         if (!pcPooled)
         {
-            pcPooled = FUN_00cb1410(pcName);
+            pcPooled = hkString_strDup_00cb1410(pcName);
             m_kNodePool.insert(pcPooled, (void*)pcPooled);
         }
         return pcPooled;
@@ -6856,7 +6863,7 @@ struct hkMemoryRouterDCA5
 namespace fnvc_adapt {
 extern "C" hkMemoryRouterDCA5& __cdecl FUN_00c85750() throw();
 }
-void __cdecl FUN_00c908c0(hkMemoryAllocatorDCA5& kAlloc, void* apvArray, int aiNumElements, int iSizeElem) throw();
+void __cdecl hkArrayUtil__reserve(hkMemoryAllocatorDCA5& kAlloc, void* apvArray, int aiNumElements, int iSizeElem) throw();
 
 class hkObjDCA5
 {
@@ -7389,7 +7396,7 @@ struct RegistryDC7
         const char* pcPooled = (const char*)m_kNodePool.GetValue(pcName, 0);
         if (!pcPooled)
         {
-            pcPooled = FUN_00cb1410(pcName);
+            pcPooled = hkString_strDup_00cb1410(pcName);
             m_kNodePool.FUN_00d874d0(pcPooled, (void*)pcPooled);
         }
         return pcPooled;
@@ -7570,12 +7577,13 @@ struct Builder_dc7c
 {
     int unk00, unk04;
     Registry_dc7c* m_registry;
-    Node_dc7c* FUN_00dc7c40(RefCounted_dc7c* const& parent);
+    Node_dc7c* hkDataWorldDict_newObject(RefCounted_dc7c* const& parent);
 };
 
 // Allocates a Node_dc7c under parent, registers it in the registry's NameMap by name, and sets it as the head node if the registry is empty.
 // @fnv 0x00dc7c40
-Node_dc7c* Builder_dc7c::FUN_00dc7c40(RefCounted_dc7c* const& parent)
+// src: HAVOK_SRC 0x00dc7c40
+Node_dc7c* Builder_dc7c::hkDataWorldDict_newObject(RefCounted_dc7c* const& parent)
 {
     Node_dc7c* node = new Node_dc7c(parent);
     node->RetainReference();
@@ -8014,7 +8022,7 @@ void __fastcall AddClassMember(hkDataClassDict* pkClass, void*, KeyX key, int ai
 }
 }  // namespace fnv_00dc9f20
 
-void __cdecl FUN_00c908c0(hkMemoryAllocator* mem, void* array, int numElements, int sizeOfElement);
+void __cdecl hkArrayUtil__reserve(hkMemoryAllocator* mem, void* array, int numElements, int sizeOfElement);
 
 struct Table_dca4
 {
@@ -8390,7 +8398,7 @@ Format_dcca __cdecl FUN_00dcca60(Stream_dcca* stream)
     return Format_dcca(1);
 }
 
-char* __cdecl FUN_00cb1410(const char*);
+char* __cdecl hkString_strDup_00cb1410(const char*);
 struct Crux53_StringMap
 {
     void* GetValue(const char*, int);
@@ -8407,7 +8415,7 @@ struct Crux53_MapBody
             void* value = map4c.GetValue(key, 0);
             if (!value)
             {
-                value = FUN_00cb1410(key);
+                value = hkString_strDup_00cb1410(key);
                 map4c.FUN_00d874d0(value, value);
             }
             return value;
@@ -8962,7 +8970,7 @@ struct Ctx_dc95d0
     int FUN_00dc95d0(void const* key);
 };
 
-extern "C" void* FUN_00cb1410(void const* key);
+extern "C" void* hkString_strDup_00cb1410(void const* key);
 
 inline void* Intern_dc95d0(Holder_dc95d0* holder, const void* key)
 {
@@ -8973,7 +8981,7 @@ inline void* Intern_dc95d0(Holder_dc95d0* holder, const void* key)
         value = t->GetValue(key, 0);
         if (!value)
         {
-            value = FUN_00cb1410(key);
+            value = hkString_strDup_00cb1410(key);
             t->FUN_00d874d0((const char*)value, (int)value);
         }
         return value;
@@ -9003,7 +9011,7 @@ struct FUN_00d47a80_class
     void FUN_00d874d0(const char* key, int value);
 };
 
-extern "C" char* __cdecl FUN_00cb1410(const char* s);
+extern "C" char* __cdecl hkString_strDup_00cb1410(const char* s);
 
 struct hkWorldDC96
 {
@@ -9059,7 +9067,7 @@ inline char* internDC96(hkWorldDC96* world, const char* name)
         char* s = static_cast<char*>(world->m_pStringFunctions.GetValue(const_cast<char*>(name), 0));
         if (!s)
         {
-            s = FUN_00cb1410(name);
+            s = hkString_strDup_00cb1410(name);
             world->m_pStringFunctions.FUN_00d874d0(s, reinterpret_cast<int>(s));
         }
         return s;
@@ -9109,7 +9117,7 @@ struct hkMemoryRouterDC9D
     }
 };
 extern "C" hkMemoryRouterDC9D& __cdecl FUN_00c85750();
-void __cdecl FUN_00c908c0(hkMemoryAllocatorDC9D& kAlloc, void* apvArray, int aiNumElements, int iSizeElem) throw();
+void __cdecl hkArrayUtil__reserve(hkMemoryAllocatorDC9D& kAlloc, void* apvArray, int aiNumElements, int iSizeElem) throw();
 
 __forceinline void SetByteBufferSize(hkArray<char>& array, int n, const char& fill)
 {
@@ -9390,7 +9398,7 @@ struct ErrorReporter
     virtual void report(int severity, int id, const char* text, const char* file, int line);
 };
 extern ErrorReporter* DAT_01268360;
-void FUN_00cb13c0(ReferencedObject* object);
+void hkString_strFree(ReferencedObject* object);
 struct WorldData
 {
     ObjectMap objects;
@@ -9470,7 +9478,7 @@ void WorldData::FUN_00dc7750()
         strings.SetBoolFromThreshold(&valid, iterator);
         while (valid)
         {
-            FUN_00cb13c0(strings.FUN_00d87440(iterator));
+            hkString_strFree(strings.FUN_00d87440(iterator));
             iterator = strings.FindNextUsedSlot(iterator);
             strings.SetBoolFromThreshold(&valid, iterator);
         }

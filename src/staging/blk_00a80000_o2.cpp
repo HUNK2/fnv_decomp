@@ -76,7 +76,8 @@ void __cdecl FUN_00a81a20()
 }
 
 // @fnv 0x00a81b80
-int __cdecl FUN_00a81b80(const unsigned short* ausLeft, const unsigned short* ausRight)
+// src: GAMEBRYO_LIB 0x00a81b80
+int __cdecl NiSkinData_BoneVertData_Compare(const unsigned short* ausLeft, const unsigned short* ausRight)
 {
     if (*ausLeft < *ausRight)
         return -1;
@@ -129,13 +130,14 @@ void* FUN_00a8a5f0_class::FUN_00a8a5f0()
 }
 
 struct FUN_00a8f060_class {
-    void FUN_00a8f060();
+    void NiPixelData_FreeData();
 };
 
 extern "C" void NiFreeAlias(void*);
 
 // @fnv 0x00a8f060
-void FUN_00a8f060_class::FUN_00a8f060()
+// src: GAMEBRYO_LIB 0x00a8f060
+void FUN_00a8f060_class::NiPixelData_FreeData()
 {
     NiFreeAlias(*(void**)((char*)this + 0x50));
     *(int*)((char*)this + 0x5C) = 0;
@@ -279,10 +281,11 @@ struct CloningProcess;
 struct NiBinaryExtraData;
 struct NiFloatsExtraData;
 struct FUN_00a99c40_shell : public NiExtraData {
-    void FUN_00a99c40(NiBinaryExtraData* dst, CloningProcess* cp);
+    void NiIntegerExtraData_CopyMembers(NiBinaryExtraData* dst, CloningProcess* cp);
 };
 // @fnv 0x00a99c40
-void FUN_00a99c40_shell::FUN_00a99c40(NiBinaryExtraData* dst, CloningProcess* cp)
+// src: GAMEBRYO_LIB 0x00a99c40
+void FUN_00a99c40_shell::NiIntegerExtraData_CopyMembers(NiBinaryExtraData* dst, CloningProcess* cp)
 {
     FUN_00a7b330(dst, cp);
     *(void**)((char*)dst + 0xc) = *(void**)((char*)this + 0xc);
@@ -305,7 +308,8 @@ BSFadeNode* NiSkinPartition_CreateObject()
 }
 
 // @fnv 0x00a88ac0
-unsigned int __cdecl FUN_00a88ac0(unsigned int auiValue)
+// src: GAMEBRYO_LIB 0x00a88ac0
+unsigned int __cdecl NiString_GetBestBufferSize(unsigned int auiValue)
 {
     if (auiValue < 32)
         return 32;
@@ -812,7 +816,8 @@ struct NiCullingData {
 
 // Copies this NiCullingProperty's m_18, m_1c and m_20 into the destination after calling FUN_00a5d7a0.
 // @fnv 0x00a99e00
-void NiCullingProperty::FUN_00a99e00(
+// src: GAMEBRYO_LIB 0x00a99e00
+void NiCullingProperty::NiFogProperty_CopyMembers(
     void* destination, CloningProcess& cloningProcess)
 {
     NiCullingProperty* dest = static_cast<NiCullingProperty*>(destination);
@@ -904,7 +909,8 @@ extern "C" double __cdecl fabs(double);
 
 // Computes the angle of the vector (x, y) using a polynomial approximation of atan, handling zero and quadrant cases.
 // @fnv 0x00a811f0
-float __cdecl FUN_00a811f0(float y, float x)
+// src: GAMEBRYO_LIB 0x00a811f0
+float __cdecl NiFastATan2(float y, float x)
 {
     if (x == 0.0f && y == 0.0f)
         return 0.0f;
@@ -1344,7 +1350,8 @@ int __thiscall FUN_00a88c60_Class::FUN_00a88c60(FUN_00a88c60_Class* other) {
 }
 
 // @fnv 0x00a89650
-void FUN_00a89650(const short* psCompressed, unsigned int uiUnused, float afBase, float fHalfRange, float* pfValues,
+// src: GAMEBRYO_LIB 0x00a89650
+void NiCompUtility_DecompressFloatArray(const short* psCompressed, unsigned int uiUnused, float afBase, float fHalfRange, float* pfValues,
                   unsigned int ItemUpdateArray)
 {
     for (unsigned int i = 0; i < ItemUpdateArray; i++)
@@ -3032,7 +3039,8 @@ extern "C" float epsilon;
 struct FUN_00a88970_q { float w, x, y, z; void Set(float fW, float fX, float fY, float fZ); };
 struct FUN_00a88970_v { void* m_pvVtbl; float x, y, z; };
 // @fnv 0x00a88970
-FUN_00a88970_q FUN_00a88970(const FUN_00a88970_v& v)
+// src: GAMEBRYO_LIB 0x00a88970
+FUN_00a88970_q NiQuaternion_Exp(const FUN_00a88970_v& v)
 {
     float fScaleMultiplier = v.x * v.x + v.y * v.y + v.z * v.z;
     fScaleMultiplier = sqrt(fScaleMultiplier);
@@ -3047,12 +3055,13 @@ FUN_00a88970_q FUN_00a88970(const FUN_00a88970_v& v)
 }
 
 struct FUN_00a81a40_shell {
-    int __thiscall FUN_00a81a40(int ai);
+    int __thiscall NiTaskManager_GetNumTasks(int ai);
 };
 
 // Reads the 16-byte slot at this+8+ai*16; returns 0 if its +8 value is -1, otherwise a difference built from its +4, +8 and +12 values.
 // @fnv 0x00a81a40
-int __thiscall FUN_00a81a40_shell::FUN_00a81a40(int ai)
+// src: GAMEBRYO_LIB 0x00a81a40
+int __thiscall FUN_00a81a40_shell::NiTaskManager_GetNumTasks(int ai)
 {
     char* pSlot = (char*)this + 8 + ai * 16;
     int value = *(int*)(pSlot + 8);

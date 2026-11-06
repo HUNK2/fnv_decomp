@@ -64,8 +64,8 @@ struct SweptArrayPolicy
 void __cdecl ResizeAudioStream(void *,void *,int);
 struct FUN_008cd6a0_Class { void FUN_00cb2d90(void *); };
 struct ErrBuf { void FUN_00cb1600(char* b, int n); void FUN_00cc01c0(const char* s); void FUN_00cc00e0(); int unk00; int unk04; int unk08; };
-struct TmpA { void FUN_00ddfb70(); int unk00; int unk04; };
-struct TmpB { void FUN_00ddfb80(TmpA* a); void FUN_00de0f90(int a, void* b); int unk00; int unk04; int unk08; int unk0c; int unk10; };
+struct TmpA { void hkpShapeDisplayBuilder_hkpShapeDisplayBuilderEnvironment_hkpShapeDisplayBuilderEnvironment(); int unk00; int unk04; };
+struct TmpB { void hkpShapeDisplayBuilder_hkpShapeDisplayBuilder(TmpA* a); void FUN_00de0f90(int a, void* b); int unk00; int unk04; int unk08; int unk0c; int unk10; };
 struct Reporter { virtual void v0(); virtual void v1(); virtual void v2(); virtual void report(int a, int b, const char* msg, const char* file, int line); };
 extern Reporter* DAT_01268360;
 extern int DAT_01268fd0; extern int DAT_01268fd4; extern int DAT_01268fd8;
@@ -164,8 +164,8 @@ void __fastcall FUN_00d642c0(hkpEntityListener* listener, void*, Arg* a)
     if (idx < 0) return;
     hkArray<Shape*, SweptArrayPolicy> list(FinishingFlag(0));
     Entry* e; e = (*(Entry***)((char*)listener + 8))[idx];
-    list.m_data = 0; list.m_iElementCount = 0; list.m_iCapacityState = 0x80000000; TmpA ta; ta.FUN_00ddfb70();
-    TmpB tb; tb.FUN_00ddfb80(&ta);
+    list.m_data = 0; list.m_iElementCount = 0; list.m_iCapacityState = 0x80000000; TmpA ta; ta.hkpShapeDisplayBuilder_hkpShapeDisplayBuilderEnvironment_hkpShapeDisplayBuilderEnvironment();
+    TmpB tb; tb.hkpShapeDisplayBuilder_hkpShapeDisplayBuilder(&ta);
     tb.FUN_00de0f90(a->unk10, &list);
     for (int j = list.m_iElementCount - 1; j >= 0; j--) { Shape* s = (Shape*)list.m_data[j];
         if (s->unk50 == 6 && 0 == s->unk08) {

@@ -138,7 +138,7 @@ void NiScreenTexture::SaveBinary(NiStream& kStream)
 }
 
 void* __cdecl FUN_00aa1070(unsigned int bytes);
-void __cdecl FUN_00aa10f0(void* memory);
+void __cdecl _NiFree_00aa10f0(void* memory);
 
 struct ScreenRectArray
 {
@@ -166,7 +166,7 @@ void ScreenRectArray::Resize(unsigned int uiNewCapacity)
         {
             pNew = 0;
         }
-        FUN_00aa10f0(m_pBase);
+        _NiFree_00aa10f0(m_pBase);
         m_pBase = pNew;
         m_uiElementCount = uiNewCapacity;
     }

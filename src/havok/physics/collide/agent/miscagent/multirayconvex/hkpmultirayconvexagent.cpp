@@ -17,7 +17,7 @@ void __thiscall FUN_00d37690_Class::ForwardToFunction(int aiArg1, int aiArg2, in
     FUN_00d374f0(aiArg1, aiArg2, aiArg3, aiArg4);
 }
 
-void FUN_00d37740(int a, int b, int c, int d);
+void hkpMultiRayConvexAgent_createMultiRayConvexAgent(int a, int b, int c, int d);
 void FUN_00d37780(int a, int b, int c, int d);
 void FUN_00d37860(int a, int b, int c, int d);
 void FUN_00d378a0(int a, int b, int c, int d);
@@ -53,7 +53,7 @@ void FUN_00d377d0(int pClass)
     arg.f4 = 1;
     arg.f5 = 1;
     p->FUN_00cfbbe0(&arg, 0x12, 0x18);
-    arg.f0 = (void*)&FUN_00d37740;
+    arg.f0 = (void*)&hkpMultiRayConvexAgent_createMultiRayConvexAgent;
     arg.f1 = (void*)&FUN_00d374f0;
     arg.f2 = (void*)&FUN_00d37280;
     arg.f3 = (void*)&FUN_00daf8e0;
@@ -145,7 +145,7 @@ void FUN_00d378a0(int aiArg1, int aiArg2, int aiArg3, int aiId)
 struct D376B0Allocator;
 
 extern "C" hkMemoryRouter& __cdecl FUN_00c85750();
-void __cdecl FUN_00c908c0(D376B0Allocator* alloc, void* array, int numElements, int sizeElem);
+void __cdecl hkArrayUtil__reserve(D376B0Allocator* alloc, void* array, int numElements, int sizeElem);
 
 class D376B0ReferencedObject
 {
@@ -182,7 +182,7 @@ struct D376B0IndexArray
         {
             int cap2 = 2 * cap;
             int newSize = (n < cap2) ? cap2 : n;
-            FUN_00c908c0(&alloc, this, newSize, sizeof(unsigned short));
+            hkArrayUtil__reserve(&alloc, this, newSize, sizeof(unsigned short));
         }
         m_iElementCount = n;
     }
@@ -249,7 +249,8 @@ struct S_00d37740_Interface
 hkMemoryRouter* FUN_00c85750();
 
 // @fnv 0x00d37740
-void FUN_00d37740(int aiArg1, int aiArg2, int aiArg3, int aiArg4)
+// src: HAVOK_LIB 0x00d37740
+void hkpMultiRayConvexAgent_createMultiRayConvexAgent(int aiArg1, int aiArg2, int aiArg3, int aiArg4)
 {
     hkMemoryRouter* obj = FUN_00c85750();
     S_00d376b0_Class* result = ((S_00d37740_Interface*)(&obj->heap()))->FUN_00d37740_Method(0x20);

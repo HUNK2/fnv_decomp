@@ -331,7 +331,7 @@ class UnkCall
     int unk04;
     int m_pOwningWorld;
 
-    void FUN_00c9c1d0();
+    void activate_00c9c1d0();
 };
 class hkpPositionTrackerCBB1
 {
@@ -534,7 +534,7 @@ struct RigidBodyExt : FUN_00ca86c0_class
     void __thiscall OnTrigger(const hkVector4* linVel);
     void __thiscall FUN_00561800(const hkVector4* velDiff);
     void __thiscall FUN_00ca0c40(const hkVector4* point, hkVector4* outVel);
-    void __thiscall FUN_00c9c1d0();
+    void __thiscall activate_00c9c1d0();
 };
 
 extern "C" double __cdecl sqrt(double);
@@ -543,11 +543,12 @@ typedef void(__cdecl* MouseSpringCallback)(hkpMouseSpringAction*, const hkStepIn
 
 struct MouseSpringActionExt : hkpMouseSpringAction
 {
-    void __thiscall FUN_00cbb1e0(const hkStepInfo& stepInfo);
+    void __thiscall hkpMouseSpringAction_applyAction(const hkStepInfo& stepInfo);
 };
 
 // @fnv 0x00cbb1e0
-void __thiscall MouseSpringActionExt::FUN_00cbb1e0(const hkStepInfo& stepInfo)
+// src: HAVOK_SRC 0x00cbb1e0
+void __thiscall MouseSpringActionExt::hkpMouseSpringAction_applyAction(const hkStepInfo& stepInfo)
 {
     Vector4Ext impulse;
     Vector4Ext worldPos;
@@ -648,7 +649,7 @@ void __thiscall MouseSpringActionExt::FUN_00cbb1e0(const hkStepInfo& stepInfo)
                 _mm_mul_ps(_mm_shuffle_ps(_mm_load_ss(&scale), _mm_load_ss(&scale), 0), *(LocalM128*)&impulse);
         }
 
-        rb->FUN_00c9c1d0();
+        rb->activate_00c9c1d0();
         rb->m_pMotionState.ApplyImpulseAtPoint(&impulse, &worldPos);
 
         for (int i = 0; i < m_kAppliedCallbacks.m_iElementCount; ++i)

@@ -584,7 +584,7 @@ struct TileExtra
 int __cdecl FUN_00a305b0(char*, unsigned, const char*, ...);
 const char* __cdecl FUN_00ec7750(const char*, const char*);
 void* __cdecl FUN_00aa1070(unsigned);
-void __cdecl FUN_00aa10f0(void*);
+void __cdecl _NiFree_00aa10f0(void*);
 char* __cdecl CopyFilePath(char*, unsigned, const char*, unsigned);
 int __cdecl FUN_00ec6bd2(char*, unsigned, const char*);
 inline bool TextNode::SetExtraDataName(TileExtra* extra)
@@ -609,7 +609,7 @@ inline bool TextNode::SetExtraDataName(TileExtra* extra)
                 NameString assignedName(newName);
                 extra->AssignFixedString(assignedName);
             }
-            FUN_00aa10f0(newName);
+            _NiFree_00aa10f0(newName);
         }
     }
     return FUN_00a5ba40(extra);

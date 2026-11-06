@@ -81,7 +81,7 @@ void S00a88bc0::ReleaseHandle()
     }
 }
 
-unsigned int __cdecl FUN_00a88ac0(unsigned int);
+unsigned int __cdecl NiString_GetBestBufferSize(unsigned int);
 void* __cdecl _NiMalloc(unsigned int);
 void* __cdecl _memmove(void*, const void*, unsigned int);
 
@@ -97,7 +97,7 @@ char* __cdecl AllocStringHandle(const char* pcSource)
     if (!uiSize)
         uiSize = 1;
     unsigned int uiAlloc = uiSize + 0xd;
-    unsigned int uiRet = FUN_00a88ac0(uiAlloc);
+    unsigned int uiRet = NiString_GetBestBufferSize(uiAlloc);
     unsigned int* pkMem = (unsigned int*)_NiMalloc(uiRet);
     *pkMem = uiRet;
     char* pcHandle = (char*)(pkMem + 3);

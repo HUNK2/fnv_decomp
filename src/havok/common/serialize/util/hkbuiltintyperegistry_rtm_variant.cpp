@@ -37,7 +37,7 @@ struct RuntimeTypeInfoRegistry
 };
 struct NameRegistryTable
 {
-    void FUN_00db78a0(void** entries, void* info);
+    void hkVtableClassRegistry_registerList(void** entries, void* info);
 };
 extern int DAT_01268b0c;
 extern void* DAT_010d5430[];
@@ -53,7 +53,7 @@ void __cdecl FUN_00d47860()
         types->registerType(*curr);
         ++curr;
     }
-    ((NameRegistryTable*)DAT_01269b10)->FUN_00db78a0(DAT_010d5430, &DAT_010d59b8);
+    ((NameRegistryTable*)DAT_01269b10)->hkVtableClassRegistry_registerList(DAT_010d5430, &DAT_010d59b8);
 }
 
 extern hkMemoryRouter* _D1A0E0GetMemoryRouter();

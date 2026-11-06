@@ -2019,7 +2019,7 @@ struct NManifold
     int unk28, unk2c;
     NV normal;
     void RemoveValueAt(int);
-    int FUN_00db0960(const NBody&, const NBody&, NFeature&);
+    int hkpBoxBoxManifold_addPoint(const NBody&, const NBody&, NFeature&);
     NBool ContainsKey(const NFeature&);
     __forceinline int size()
     {
@@ -2351,7 +2351,7 @@ __forceinline int NDetector::AddContactPoint(NManifold& m, const NCache& c, NFea
     }
     if (m.full())
         return 1;
-    int index = m.FUN_00db0960(bodyA, bodyB, f);
+    int index = m.hkpBoxBoxManifold_addPoint(bodyA, bodyB, f);
     if (index >= 0)
     {
         NRecord* out = output->reserve();
@@ -2404,7 +2404,7 @@ __forceinline int NDetector::addScan(NManifold& m, const NCache& c, NFeature& f)
     }
     if (m.full())
         return 1;
-    int index = m.FUN_00db0960(bodyA, bodyB, f);
+    int index = m.hkpBoxBoxManifold_addPoint(bodyA, bodyB, f);
     if (index >= 0)
     {
         NRecord* out = output->reserve();

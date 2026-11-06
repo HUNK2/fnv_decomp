@@ -37,7 +37,8 @@ void FUN_00d3cc00();
 void FUN_00daf8e0();
 // Fills a Conversion with function pointers and flags and registers it twice with the registry, once for 4->1 and once for 1->4.
 // @fnv 0x00d3cef0
-void __cdecl FUN_00d3cef0(Registry* registry)
+// src: HAVOK_LIB 0x00d3cef0
+void __cdecl hkpSphereBoxAgent_registerAgent(Registry* registry)
 {
     Conversion conversion;
     conversion.convert = FUN_00d3c400;
@@ -87,11 +88,12 @@ struct S_00d3c3c0_Obj
     int unk04;
     S_00d3c3c0_Holder* unk08;
     unsigned short unk0c;
-    void FUN_00d3c3c0(int arg);
+    void hkpSphereBoxAgent_cleanup(int arg);
 };
 // If unk0c is not 0xffff, calls v14 on unk08 with unk0c and arg, then calls v00 with 1.
 // @fnv 0x00d3c3c0
-void S_00d3c3c0_Obj::FUN_00d3c3c0(int arg)
+// src: HAVOK_SRC 0x00d3c3c0
+void S_00d3c3c0_Obj::hkpSphereBoxAgent_cleanup(int arg)
 {
     int idx = unk0c;
     if ((unsigned short)idx != 0xffff)
@@ -190,7 +192,7 @@ extern float DAT_0104da48;
 extern unsigned char DAT_010ce7fc;
 struct CpuObject
 {
-    void FUN_00d3c910(void*, void*, unsigned int, hkpSymmetricAgentFlipCollector*);
+    void hkpSphereBoxAgent_getClosestPoints(void*, void*, unsigned int, hkpSymmetricAgentFlipCollector*);
     void FUN_00d3d000(void*, void*, unsigned int, unsigned int);
 };
 // Builds a hkpSymmetricAgentFlipCollector from fourth, DAT_0104da48 and DAT_010ce7fc, then forwards second, first, third and the collector to FUN_00d3c910.
@@ -202,7 +204,7 @@ void CpuObject::FUN_00d3d000(void* first, void* second, unsigned int third, unsi
     callData.unk08 = (void*)fourth;
     callData.m_fEarlyOutDistance = DAT_0104da48;
     *(void**)&callData = &DAT_010ce7fc;
-    FUN_00d3c910(second, first, third, &callData);
+    hkpSphereBoxAgent_getClosestPoints(second, first, third, &callData);
 }
 
 typedef ::__m128 LocalM128;
@@ -256,7 +258,7 @@ struct Simplex
 
 struct AgentBase
 {
-    void FUN_00d3c5b0(int a, int b, int c, Simplex* s);
+    void hkpSphereBoxAgent_processCollision(int a, int b, int c, Simplex* s);
 };
 
 struct Agent : AgentBase
@@ -269,7 +271,7 @@ void Agent::FUN_00d3d080(int a, int b, int c, Simplex* s)
 {
     SimplexVertex* v = s->m_kRayEnd;
     float oldDistance = s->m_fClosestPointDistanceSquared;
-    AgentBase::FUN_00d3c5b0(b, a, c, s);
+    AgentBase::hkpSphereBoxAgent_processCollision(b, a, c, s);
     for (; v < s->m_kRayEnd; v++)
     {
         const LocalM128* pb = &v->m_kPointB;

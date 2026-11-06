@@ -3248,7 +3248,7 @@ class ObjOwner
     NiStream* m_24c;
 };
 
-void __cdecl FUN_00aa10f0(void* apMemory);
+void __cdecl _NiFree_00aa10f0(void* apMemory);
 
 static unsigned int ReadRaw(NiStream* stream, void* buf, unsigned int size)
 {
@@ -3308,7 +3308,7 @@ void FUN_00b6fb20_cls::LoadFromStream(ObjOwner* p)
     void* v = 0;
     p->FUN_00a64ce0(&v);
     m_64.FUN_004037f0(v, 0);
-    FUN_00aa10f0(v);
+    _NiFree_00aa10f0(v);
     if (p->m_04 >= 0x1f)
     {
         ReadRaw(p->m_24c, &m_70, 4);
@@ -3435,7 +3435,8 @@ BlobObj_cls* CreateBlobObj()
 }
 
 // @fnv 0x00b719c0
-double FUN_00b719c0(double dA, double dB)
+// src: HAVOK_LIB 0x00b719c0
+double __hkMinD(double dA, double dB)
 {
     return dA < dB ? dA : dB;
 }
@@ -10391,7 +10392,7 @@ struct SweepBucketNode
     SweepBucketNode* next;
     void* value;
 };
-void __cdecl FUN_00aa10f0(void*);
+void __cdecl _NiFree_00aa10f0(void*);
 struct FUN_00b580a0_base
 {
     virtual ~FUN_00b580a0_base();
@@ -10417,7 +10418,7 @@ FUN_00b60420::~FUN_00b60420()
             {
                 SweepBucketNode* current = node;
                 node = node->next;
-                FUN_00aa10f0(current->value);
+                _NiFree_00aa10f0(current->value);
             }
         }
     }
@@ -12480,7 +12481,7 @@ extern float DAT_011fd95c;
 extern float DAT_011fa27c;
 extern unsigned int DAT_011f91e4;
 double __cdecl FUN_0068b050(double minimum, float value);
-double __cdecl FUN_00b719c0(double maximum, double value);
+double __cdecl __hkMinD(double maximum, double value);
 struct SceneVectorData
 {
     int unk00, unk04, unk08, unk0C;
@@ -12612,7 +12613,7 @@ void S00b7ba70_Updater::FUN_00b7ba70(RenderProperty* property, ShaderType* shade
             SceneVectorData* colourScene = light->scene;
             colourScene->color.ScaleTo(&scaled, colourScene->factor);
             float distance = relative.FUN_00457990() / scene->radius;
-            float color = static_cast<float>(FUN_00b719c0(1.0, FUN_0068b050(0.0, distance)));
+            float color = static_cast<float>(__hkMinD(1.0, FUN_0068b050(0.0, distance)));
             volatile float inverse = static_cast<float>(S00b7ba70_Inv(color));
             x = inverse;
             x *= scaled.ComputeWeightedSum();

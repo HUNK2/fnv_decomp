@@ -12,7 +12,7 @@ class FUN_005611c0_t
 {
   public:
     void FUN_005611c0();
-    void FUN_00cb2830(float* pts);
+    void hkQuaternion_setAndNormalize(float* pts);
 };
 static float g_sink2550;
 extern "C" double cb2550_clobber(double x);
@@ -30,7 +30,7 @@ static __declspec(noinline) void FUN_00cb2550(FUN_005611c0_t* obj, float* pts)
 struct FUN_00cb24c0_cls
 {
     __m128 m_00;
-    void FUN_00c7f500(unsigned char* flag);
+    void hkVector4_isOk4(unsigned char* flag);
     unsigned char* IsNormalized(unsigned char* flag);
 };
 struct Block64

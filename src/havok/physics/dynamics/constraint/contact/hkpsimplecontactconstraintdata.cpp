@@ -27,20 +27,22 @@ extern "C" void _mm_store_ss(float* p, LocalM128 a);
 // src/havok/physics/dynamics/constraint/contact/hkpsimplecontactconstraintdata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/constraint/contact/hkpsimplecontactconstraintdata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern "C" void __cdecl FUN_00d21a60(void* atom, unsigned short index, unsigned int arg);
+extern "C" void __cdecl hkpConstraintData_getConstraintInfoUtil(void* atom, unsigned short index, unsigned int arg);
 struct FUN_00d927b0_class
 {
-    void FUN_00d927b0(unsigned int arg);
+    void hkpSimpleContactConstraintData_getConstraintInfo(unsigned int arg);
 };
 // @fnv 0x00d927b0
-void FUN_00d927b0_class::FUN_00d927b0(unsigned int arg)
+// src: HAVOK_LIB 0x00d927b0
+void FUN_00d927b0_class::hkpSimpleContactConstraintData_getConstraintInfo(unsigned int arg)
 {
     void* atom = *(void**)((char*)this + 0x28);
-    FUN_00d21a60(atom, *(unsigned short*)((char*)atom + 2), arg);
+    hkpConstraintData_getConstraintInfoUtil(atom, *(unsigned short*)((char*)atom + 2), arg);
 }
 
 // @fnv 0x00d927d0
-void __stdcall FUN_00d927d0(int, int* paiValues)
+// src: HAVOK_LIB 0x00d927d0
+void __stdcall hkpSimpleContactConstraintData_getRuntimeInfo(int, int* paiValues)
 {
     paiValues[0] = 0;
     paiValues[1] = 0;
@@ -71,7 +73,8 @@ int RoundUpToBucketSize(int size);
 S_00d92690_Mgr* FUN_00c85750();
 
 // @fnv 0x00d92690
-hkpSimpleContactConstraintAtom* FUN_00d92690(hkpSimpleContactConstraintAtom* apContainer, bool* grew)
+// src: HAVOK_LIB 0x00d92690
+hkpSimpleContactConstraintAtom* hkpSimpleContactConstraintAtomUtil_expandOne(hkpSimpleContactConstraintAtom* apContainer, bool* grew)
 {
     hkpSimpleContactConstraintAtom* result = apContainer;
     hkpSimpleContactConstraintAtom* pContainer = apContainer;
@@ -440,7 +443,7 @@ inline int hkpSimpleContactConstraintAtom::getContactPointPropertiesStriding() c
     return m_ucContactPointPropertiesStriding;
 }
 
-hkpSimpleContactConstraintAtom* FUN_00d92690(hkpSimpleContactConstraintAtom* atom, hkBool* atomReallocated);
+hkpSimpleContactConstraintAtom* hkpSimpleContactConstraintAtomUtil_expandOne(hkpSimpleContactConstraintAtom* atom, hkBool* atomReallocated);
 void __cdecl ReplaceEntry(void* constraint, hkpSimpleContactConstraintAtom* oldAtom,
                           hkpSimpleContactConstraintAtom* newAtom, int newSize);
 
@@ -471,7 +474,8 @@ struct ContactAtomIdsCallView { int ReplaceOrAppendByte(int index); };
 
 // Adds a contact point at index size, initializes its properties, updates constraint stats, and reallocates the atom if needed.
 // @fnv 0x00d92df0
-int hkpSimpleContactConstraintData::FUN_00d92df0(hkpConstraintOwner& constraintOwner, hkContactPoint** cpOut,
+// src: HAVOK_LIB 0x00d92df0
+int hkpSimpleContactConstraintData::allocateContactPoint(hkpConstraintOwner& constraintOwner, hkContactPoint** cpOut,
                                                  PhysicsMaterial** cpPropsOut)
 {
     hkpSimpleContactConstraintAtom* atom = m_pAtom;
@@ -480,7 +484,7 @@ int hkpSimpleContactConstraintData::FUN_00d92df0(hkpConstraintOwner& constraintO
 
     hkpSimpleContactConstraintAtom* oldAtom = m_pAtom;
     hkBool atomReallocated = false;
-    m_pAtom = FUN_00d92690(m_pAtom, &atomReallocated);
+    m_pAtom = hkpSimpleContactConstraintAtomUtil_expandOne(m_pAtom, &atomReallocated);
     hkpSimpleContactConstraintAtom* localAtom = m_pAtom;
 
     hkContactPoint* cp = &localAtom->getContactPoints()[size];
@@ -1000,18 +1004,18 @@ struct __declspec(align(16)) S00d92900_BreachInfo
 
 extern float FUN_00df2510(const S00d92900_Body* a, const S00d92900_Body* b, const float* comA, const float* comB,
                           const hkContactPoint* cp);
-extern void FUN_00d00ca0(S00d92900_World* world, S00d92900_Event& event);
-extern void FUN_00cfff00(S00d92900_Body* entity, S00d92900_Event& event);
+extern void hkpWorldCallbackUtil_fireContactPointCallback(S00d92900_World* world, S00d92900_Event& event);
+extern void hkpEntityCallbackUtil_fireContactPointCallbackInternal(S00d92900_Body* entity, S00d92900_Event& event);
 extern void FUN_00d9ee50(S00d92900_Data* data, const hkContactPoint& cp, S00d92900_CollideParams& params,
                          S00d92900_Body* rbA, S00d92900_Body* rbB, S00d92900_Accum* accA, S00d92900_Accum* accB,
                          S00d92900_Output& output);
-extern void FUN_00d01700(S00d92900_World* world, const S00d92900_BreachInfo* info, int num);
+extern void hkpWorldCallbackUtil_fireContactImpulseLimitBreached(S00d92900_World* world, const S00d92900_BreachInfo* info, int num);
 
 static __forceinline void S00d92900_fireEntity(S00d92900_Body* entity, S00d92900_Event& event)
 {
     if (entity->m_contactListenersSize)
     {
-        FUN_00cfff00(entity, event);
+        hkpEntityCallbackUtil_fireContactPointCallbackInternal(entity, event);
     }
 }
 
@@ -1056,7 +1060,7 @@ static __forceinline void dispatchContacts(S00d92900_Data* constraintData, const
                 S00d92900_Event event(2, rbA, rbB, constraintData->FUN_00d92820(), type, cp, cpp->asProperties(),
                                       &projectedVel, 0, fireCallbacksForNewPoints, i == bound, i == 0, extendedUserData,
                                       accA, accB);
-                FUN_00d00ca0(world, event);
+                hkpWorldCallbackUtil_fireContactPointCallback(world, event);
                 event.m_pObservedSource = 0;
                 S00d92900_fireEntity(rbA, event);
                 event.m_pObservedSource = 1;
@@ -1102,7 +1106,7 @@ static __forceinline void dispatchContacts(S00d92900_Data* constraintData, const
                     {
                         S00d92900_BreachInfo bi;
                         bi.set(in->m_pConstraintChainInstance, props, cp, false);
-                        FUN_00d01700(world, &bi, 1);
+                        hkpWorldCallbackUtil_fireContactImpulseLimitBreached(world, &bi, 1);
                     }
                     cpp->asProperties()->m_fAccumulatedImpulse = 0.0f;
                     cpp->asProperties()->m_uiUserData = 0.0f;
@@ -1127,7 +1131,7 @@ static __forceinline void dispatchContacts(S00d92900_Data* constraintData, const
             unsigned int* extendedUserData = cpp->asProperties()->getStartOfExtendedUserData(atom);
             S00d92900_Event event(2, rbA, rbB, constraintData->FUN_00d92820(), type, cp, cpp->asProperties(), 0, 0,
                                   true, i == bound, i == 0, extendedUserData, accA, accB);
-            FUN_00d00ca0(world, event);
+            hkpWorldCallbackUtil_fireContactPointCallback(world, event);
             event.m_pObservedSource = 0;
             S00d92900_fireEntity(rbA, event);
             event.m_pObservedSource = 1;

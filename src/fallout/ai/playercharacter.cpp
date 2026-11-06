@@ -53454,7 +53454,7 @@ struct Query
     int unk114;
     Query();
     ~Query();
-    void FUN_0062d310();
+    void reset_0062d310();
     void* FUN_00413f40();
 };
 struct FUN_00413f40
@@ -54172,7 +54172,7 @@ bool Player::FUN_009614b0(Bound* object, V3* output, bool search, bool rotate)
             Body body(&info);
             body.FUN_00c85810(FUN_008d6f30()->FUN_004543c0());
             Query query;
-            query.FUN_0062d310();
+            query.reset_0062d310();
             body.FUN_00623150(&query);
             body.FUN_00c9f420();
             sphere = 0;

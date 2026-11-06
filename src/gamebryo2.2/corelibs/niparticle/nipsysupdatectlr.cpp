@@ -133,13 +133,14 @@ struct FnvNode
     FnvNode* f30;   // +0x30
     virtual void v0();
     virtual void v1();
-    void __thiscall FUN_00c27290(FnvNode* arg);
+    void __thiscall NiPSysUpdateCtlr_SetTarget(FnvNode* arg);
 };
 
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* addend);
 
 // @fnv 0x00c27290
-void FnvNode::FUN_00c27290(FnvNode* pTarget)
+// src: GAMEBRYO_LIB 0x00c27290
+void FnvNode::NiPSysUpdateCtlr_SetTarget(FnvNode* pTarget)
 {
     ((FnvTarget*)this)->SetTarget(pTarget);
 

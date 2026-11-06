@@ -18,11 +18,12 @@ void __thiscall FUN_00d93330::UpdateConstraint(int v)
 }
 
 struct FUN_00d93340_StandIn {
-    void FUN_00d93340(int);
+    void hkpDeferredConstraintOwner_removeConstraintFromCriticalLockedIsland(int);
 };
 
 // @fnv 0x00d93340
-void __thiscall FUN_00d93340_StandIn::FUN_00d93340(int a)
+// src: HAVOK_LIB 0x00d93340
+void __thiscall FUN_00d93340_StandIn::hkpDeferredConstraintOwner_removeConstraintFromCriticalLockedIsland(int a)
 {
     *(int*)((char*)this + 0x18) = *(int*)((char*)this + 0x18) - 1;
     *(int*)((char*)this + 0x1c) = a;
@@ -107,7 +108,7 @@ struct PhysicsCommand { union { int type; char code; }; int object, value, extra
 struct CommandBuffer {
     int offset, size, capacity, field0c;
     PhysicsCommand commands[16];
-    void FUN_00d93310();
+    void hkpFixedSizePhysicsCommandQueue_256_hkpFixedSizePhysicsCommandQueue_256();
     PhysicsCommand *end() { return (PhysicsCommand *)((char *)this + offset + size); }
 };
 extern int DAT_010d3df8, DAT_0102e388;
@@ -239,7 +240,7 @@ __forceinline void profile(const char *name, unsigned long tlsIndex) {
     }
 }
 void FUN_00cfedd0(Entry *, Context *, Output *, CollisionManager *);
-void FUN_00df25f0(World *, void *, int);
+void hkPhysicsCommandMachineProcess(World *, void *, int);
 struct Allocator { virtual void v0(); virtual void v1(); virtual void release(void *, int); };
 struct Memory { int field00, field04, field08, field0c; Allocator *allocator; };
 Memory *FUN_00c85750();
@@ -267,7 +268,7 @@ int FUN_00d93380(Globals *globals, Queue *queue, Job *job) {
     Owner owner;
     owner.references = 1;
     owner.dispatch = &DAT_010d3df8;
-    owner.commands.FUN_00d93310();
+    owner.commands.hkpFixedSizePhysicsCommandQueue_256_hkpFixedSizePhysicsCommandQueue_256();
     Output output;
     output.toi.time = 3.402820018375656e38f;
     output.toi.rotation = output.toi.velocity = 0.0f;
@@ -323,7 +324,7 @@ int FUN_00d93380(Globals *globals, Queue *queue, Job *job) {
                 globals->world->EnterLock(island);
                 island->maximum = island->maximum > owner.maximum ? island->maximum : owner.maximum;
                 island->added += owner.added; island->removed += owner.removed; island->changed += owner.changed;
-                if (owner.commands.size) FUN_00df25f0(globals->world, (char *)&owner.commands + owner.commands.offset, owner.commands.size);
+                if (owner.commands.size) hkPhysicsCommandMachineProcess(globals->world, (char *)&owner.commands + owner.commands.offset, owner.commands.size);
                 globals->world->FUN_00c91210(island);
             }
         } else storeResults(job->batch->results[job->index], owner);

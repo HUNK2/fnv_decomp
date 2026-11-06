@@ -316,7 +316,7 @@ TreadEntry* FUN_00a35900_cls::FUN_00a35900(unsigned short usIndex, int aParam1, 
 extern char DAT_01096694;
 void* __cdecl FUN_00aa13e0(unsigned int size) throw();
 
-void* __fastcall FUN_00a2f8c0(void* controller) throw();
+void* __fastcall NiInterpController_NiInterpController(void* controller) throw();
 
 struct TreadInterpolator : NiInterpController
 {
@@ -342,7 +342,7 @@ TreadInterpolator* TreadController::CreateInterpolator(unsigned int index)
     if (storage)
     {
         // The shared base has no declaration for the original constructor yet.
-        FUN_00a2f8c0(storage);
+        NiInterpController_NiInterpController(storage);
         *reinterpret_cast<void**>(storage) = &DAT_01096694;
         storage->unk34 = 0;
         storage->unk38 = 0;
@@ -731,7 +731,7 @@ void Controller112::FUN_00a35c00(float* time)
 
 extern char DAT_01096694;
 extern char DAT_011f6238;
-void __cdecl FUN_00aa10f0(void* p);
+void __cdecl _NiFree_00aa10f0(void* p);
 
 struct S00a35960_Heap
 {
@@ -777,7 +777,7 @@ void S00a35960_Cls::FUN_00a35960()
     {
         ((S00a35960_Heap*)&DAT_011f6238)->FUN_00aa4060(m3c[i]);
     }
-    FUN_00aa10f0(m3c);
+    _NiFree_00aa10f0(m3c);
     FUN_00a6d290();
 }
 

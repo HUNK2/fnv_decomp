@@ -1195,7 +1195,7 @@ struct ProcessingState
 void* __cdecl FUN_00aa1070(unsigned int size);
 void __cdecl FUN_00ec44d0(void* destination, const void* source, unsigned int size);
 void __cdecl SwapBufferBySizes(void* buffer, unsigned int size, void* optionA, void* optionB);
-void __cdecl FUN_00aa10f0(void* buffer);
+void __cdecl _NiFree_00aa10f0(void* buffer);
 
 // If size is non-zero, copies data to a temporary buffer, calls SwapBufferBySizes on it, returns state->FUN_00aa1810(buffer, size) and frees the buffer; else 0.
 // @fnv 0x00aa1ad0
@@ -1208,7 +1208,7 @@ unsigned int __cdecl FUN_00aa1ad0(ProcessingState* state, const void* data, unsi
     FUN_00ec44d0(buffer, data, size);
     SwapBufferBySizes(buffer, size, optionA, optionB);
     unsigned int result = state->FUN_00aa1810(buffer, size);
-    FUN_00aa10f0(buffer);
+    _NiFree_00aa10f0(buffer);
     return result;
 }
 

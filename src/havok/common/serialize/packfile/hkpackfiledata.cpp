@@ -230,11 +230,11 @@ struct ByteSink
 };
 struct E06C20Writer
 {
-    void FUN_00e069a0(int a, void* b);
+    void hkpMoppCodeGenerator_addCommand32(int a, void* b);
 };
 struct FUN_00e06800_Class
 {
-    void FUN_00e06800(int a, void* b);
+    void hkpMoppCodeGenerator_addCommand16(int a, void* b);
 };
 
 struct FUN_00e06d70_Class
@@ -251,9 +251,9 @@ void FUN_00e06d70_Class::WriteSize(unsigned int size)
     if (size < 0x100)
         ((ByteSink*)p)->PutBytePair(9, (char)size);
     else if (size < 0x10000)
-        ((FUN_00e06800_Class*)p)->FUN_00e06800(0xa, (void*)size);
+        ((FUN_00e06800_Class*)p)->hkpMoppCodeGenerator_addCommand16(0xa, (void*)size);
     else
-        ((E06C20Writer*)p)->FUN_00e069a0(0xb, (void*)size);
+        ((E06C20Writer*)p)->hkpMoppCodeGenerator_addCommand32(0xb, (void*)size);
 }
 
 struct FUN_00e05100_cls
@@ -290,7 +290,7 @@ bool FUN_00e05240_cls::FUN_00e05240()
     return m_20 != 0;
 }
 
-void __cdecl FUN_00c908c0(hkMemoryAllocator& kAlloc, void* apvArray, int aiNumElements, int iSizeElem) throw();
+void __cdecl hkArrayUtil__reserve(hkMemoryAllocator& kAlloc, void* apvArray, int aiNumElements, int iSizeElem) throw();
 
 inline void* __cdecl operator new(unsigned int, void* p) throw()
 {
@@ -323,7 +323,7 @@ template <typename T> __forceinline void hkArrayBase<T>::GrowArrayCapacity(hkMem
     {
         int iCap2 = 2 * iCapacity;
         int iNewSize = (n < iCap2) ? iCap2 : n;
-        FUN_00c908c0(kAlloc, this, iNewSize, sizeof(T));
+        hkArrayUtil__reserve(kAlloc, this, iNewSize, sizeof(T));
     }
 }
 
@@ -464,7 +464,7 @@ void* hkPackfileData::FUN_00e055f0(const char* pcExpectedClassName, const hkFini
             const hkClassRegistryE055* pkRegistry = m_pkClassRegistry;
             const hkClass* pkTopClass = pkRegistry->GetClassByName(pcTopClassName);
             const hkClass* pkExpected = pkRegistry->GetClassByName(pcExpectedClassName);
-            if (!pkExpected->FUN_00d46d80(*pkTopClass).m_cBooleanValue)
+            if (!pkExpected->hkClass_isSuperClass(*pkTopClass).m_cBooleanValue)
                 goto fail;
         }
         if (FUN_00e05240() == 0 && pkFinish)
@@ -494,7 +494,7 @@ extern "C" const void* DAT_010ea51c;
 extern int DAT_0102e388;
 
 void* FUN_00c85750();
-void __cdecl FUN_00c856c0(void* heap, void* ptr);
+void __cdecl hkMemoryRouter_easyFree(void* heap, void* ptr);
 
 template <typename T> __forceinline void hkArrayBase<T>::_clearAndDeallocate(hkMemoryAllocator& alloc)
 {
@@ -570,7 +570,7 @@ void FUN_00e057c0_Class::FUN_00e057c0()
     {
         void* item = this->m_pMemoryAllocator.m_data[i];
         hkMemoryRouter* router = (hkMemoryRouter*)FUN_00c85750();
-        FUN_00c856c0(router->m_heap, item);
+        hkMemoryRouter_easyFree(router->m_heap, item);
     }
 
     for (i = 0; i < this->m_kChunks.m_iElementCount; ++i)
@@ -583,7 +583,7 @@ void FUN_00e057c0_Class::FUN_00e057c0()
 
     void* unk0c = this->unk0c;
     hkMemoryRouter* router = (hkMemoryRouter*)FUN_00c85750();
-    FUN_00c856c0(router->m_heap, unk0c);
+    hkMemoryRouter_easyFree(router->m_heap, unk0c);
 
     hkMemoryRouter* r1 = (hkMemoryRouter*)FUN_00c85750();
     this->m_kImports._clearAndDeallocate(*r1->m_heap);
@@ -644,12 +644,12 @@ hkObje05970* hkObje05970::FUN_00e05970(unsigned int uiFlags) throw()
 }
 
 void* FUN_00c85750();
-void __cdecl FUN_00c856c0(void* heap, void* ptr);
-char* __cdecl FUN_00cb1410(const char* src);
+void __cdecl hkMemoryRouter_easyFree(void* heap, void* ptr);
+char* __cdecl hkString_strDup_00cb1410(const char* src);
 inline void Crux53_FreeName(char* existing)
 {
     hkMemoryRouter* router = (hkMemoryRouter*)FUN_00c85750();
-    FUN_00c856c0(router->m_heap, existing);
+    hkMemoryRouter_easyFree(router->m_heap, existing);
 }
 struct Crux53_Named
 {
@@ -662,7 +662,7 @@ struct Crux53_Named
 void Crux53_Named::SetName(const char* newName)
 {
     Crux53_FreeName(name);
-    name = FUN_00cb1410(newName);
+    name = hkString_strDup_00cb1410(newName);
 }
 
 template <int SIZE> __forceinline void memCpyOneAlignedE051(void* dst, const void* src)

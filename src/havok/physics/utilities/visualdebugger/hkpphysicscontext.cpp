@@ -63,10 +63,11 @@ struct Owner
 };
 struct FUN_00cd1f60_cls
 {
-    void FUN_00cd1f60(int);
+    void hkpPhysicsContext_entityRemovedCallback(int);
 };
 // @fnv 0x00cd1f60
-void FUN_00cd1f60_cls::FUN_00cd1f60(int value)
+// src: HAVOK_LIB 0x00cd1f60
+void FUN_00cd1f60_cls::hkpPhysicsContext_entityRemovedCallback(int value)
 {
     Owner* owner = *(Owner**)((char*)this - 0x50);
     if (owner)
@@ -107,16 +108,17 @@ struct CD1FA0Primary
 
 struct CD1FA0Listener
 {
-    virtual void FUN_00cd1fa0(int value);
+    virtual void hkpPhysicsContext_phantomRemovedCallback(int value);
 };
 
 struct CD1FA0Object : CD1FA0Primary, CD1FA0Listener
 {
-    virtual void FUN_00cd1fa0(int value);
+    virtual void hkpPhysicsContext_phantomRemovedCallback(int value);
 };
 
 // @fnv 0x00cd1fa0
-void CD1FA0Object::FUN_00cd1fa0(int value)
+// src: HAVOK_LIB 0x00cd1fa0
+void CD1FA0Object::hkpPhysicsContext_phantomRemovedCallback(int value)
 {
     if (m_target)
         m_target->UntrackObject(value);
@@ -202,14 +204,15 @@ struct Prefix
 struct Context
 {
     int contextState;
-    void FUN_00cd2020(int value);
+    void hkpPhysicsContext_actionAddedCallback(int value);
 };
 struct Owner : Prefix, Context
 {
 };
 // Forwards value to the owner object's AddElementAndNotify with the Actions category and zero flags, if an owner exists.
 // @fnv 0x00cd2020
-void Context::FUN_00cd2020(int value)
+// src: HAVOK_LIB 0x00cd2020
+void Context::hkpPhysicsContext_actionAddedCallback(int value)
 {
     Owner* object = reinterpret_cast<Owner*>(reinterpret_cast<char*>(this) - sizeof(Prefix));
     FUN_00cd12b0_cls* target = object->owner;
@@ -259,7 +262,7 @@ struct Prefix
     unsigned int f4c;
     unsigned int f50;
     unsigned int f54;
-    int __thiscall FUN_00cd2260(int value);
+    int __thiscall hkpPhysicsContext_removeWorld(int value);
 };
 struct FUN_00cd2460_class;
 struct Secondary
@@ -272,7 +275,7 @@ struct FUN_00cd2460_class : Prefix, Secondary
 // @fnv 0x00cd2460
 int __thiscall Secondary::FUN_00cd2460(int value)
 {
-    return reinterpret_cast<Prefix*>(reinterpret_cast<char*>(this) - sizeof(Prefix))->FUN_00cd2260(value);
+    return reinterpret_cast<Prefix*>(reinterpret_cast<char*>(this) - sizeof(Prefix))->hkpPhysicsContext_removeWorld(value);
 }
 
 struct AllocatorState
@@ -715,11 +718,11 @@ struct S_00cd2080_Lists
 
 struct S_00cd2080_Param
 {
-    void FUN_00c917a0(void* listener) throw();
-    void FUN_00c917f0(void* listener) throw();
-    void FUN_00c91700(void* listener) throw();
-    void FUN_00c91750(void* listener) throw();
-    S_00cd2080_Lists* FUN_00c929e0() throw();
+    void hkpWorld_removeEntityListener(void* listener) throw();
+    void hkpWorld_removePhantomListener(void* listener) throw();
+    void hkpWorld_removeActionListener(void* listener) throw();
+    void hkpWorld_removeConstraintListener(void* listener) throw();
+    S_00cd2080_Lists* hkpWorld_getWorldAsOneSystem() throw();
 };
 
 struct S_00cd2080_Class
@@ -758,11 +761,12 @@ struct S_00cd2080_Class
     int m_elementCount;
     int m_elementCapacity;
 
-    void FUN_00cd2080(S_00cd2080_Param* param) throw();
+    void hkpPhysicsContext_removeFromInspection(S_00cd2080_Param* param) throw();
 };
 
 // @fnv 0x00cd2080
-void S_00cd2080_Class::FUN_00cd2080(S_00cd2080_Param* param) throw()
+// src: HAVOK_LIB 0x00cd2080
+void S_00cd2080_Class::hkpPhysicsContext_removeFromInspection(S_00cd2080_Param* param) throw()
 {
     if (!this->m_target)
         return;
@@ -773,10 +777,10 @@ void S_00cd2080_Class::FUN_00cd2080(S_00cd2080_Param* param) throw()
     S_00cd2080_Listener* pListener1;
     S_00cd2080_Listener* pListener3;
     S_00cd2080_Listener* pListener2;
-    param->FUN_00c917a0(pListener0 = &this->m_listener0);
-    param->FUN_00c917f0(pListener1 = &this->m_listener1);
-    param->FUN_00c91700(pListener3 = &this->m_listener3);
-    param->FUN_00c91750(pListener2 = &this->m_listener2);
+    param->hkpWorld_removeEntityListener(pListener0 = &this->m_listener0);
+    param->hkpWorld_removePhantomListener(pListener1 = &this->m_listener1);
+    param->hkpWorld_removeActionListener(pListener3 = &this->m_listener3);
+    param->hkpWorld_removeConstraintListener(pListener2 = &this->m_listener2);
 
     int idx;
     int count = this->m_paramCount;
@@ -807,7 +811,7 @@ done_search:
         }
     }
 
-    S_00cd2080_Lists* lists = param->FUN_00c929e0();
+    S_00cd2080_Lists* lists = param->hkpWorld_getWorldAsOneSystem();
     for (int iItem = 0; iItem < lists->m_0c; iItem++)
     {
         pListener0->onEvent((void*)lists->m_08[iItem]);
@@ -943,12 +947,13 @@ class CD2260World : public CD2260Primary, public CD2260Interface
     hkArrayBase<CD2260Listener*> m_kListeners;
 
     void removeInternal(CD2260Object* object);
-    void FUN_00cd2260(CD2260Object* object);
+    void hkpPhysicsContext_removeWorld(CD2260Object* object);
 };
 
 // If object is in the array, removes this as its owner, notifies listeners via objectRemovedCallback, calls removeInternal and removes it from the array.
 // @fnv 0x00cd2260
-void CD2260World::FUN_00cd2260(CD2260Object* object)
+// src: HAVOK_LIB 0x00cd2260
+void CD2260World::hkpPhysicsContext_removeWorld(CD2260Object* object)
 {
     int index = m_kTrackedObjects.indexOf(object);
     if (index >= 0)
@@ -1000,11 +1005,11 @@ struct CD22Table
 struct CD22Registry
 {
     void IncrementCounter();
-    void FUN_00c93820(void* p);
-    void FUN_00c93860(void* p);
-    void FUN_00c937a0(void* p);
-    void FUN_00c937e0(void* p);
-    CD22Table* FUN_00c929e0();
+    void hkpWorld_addEntityListener(void* p);
+    void hkpWorld_addPhantomListener(void* p);
+    void hkpWorld_addActionListener(void* p);
+    void hkpWorld_addConstraintListener(void* p);
+    CD22Table* hkpWorld_getWorldAsOneSystem();
     void FUN_00c91c50(CD22Elem* e);
     void FUN_00c91190();
 };
@@ -1065,10 +1070,10 @@ void CD22Object::RegisterWithRegistry(CD22Registry* reg)
         return;
 
     reg->IncrementCounter();
-    reg->FUN_00c93820(&m_5c);
-    reg->FUN_00c93860(&m_60);
-    reg->FUN_00c937a0(&m_68);
-    reg->FUN_00c937e0(&m_64);
+    reg->hkpWorld_addEntityListener(&m_5c);
+    reg->hkpWorld_addPhantomListener(&m_60);
+    reg->hkpWorld_addActionListener(&m_68);
+    reg->hkpWorld_addConstraintListener(&m_64);
 
     CD22Array* pArray = &m_78;
     AllocatorState* holder = FUN_00c85750();
@@ -1092,7 +1097,7 @@ void CD22Object::RegisterWithRegistry(CD22Registry* reg)
         m_0c->AddElementAndNotify(e, DAT_01269104, str_010cb20c, 0);
     }
 
-    CD22Table* tbl = reg->FUN_00c929e0();
+    CD22Table* tbl = reg->hkpWorld_getWorldAsOneSystem();
     for (int i = 0; i < tbl->count0C; ++i)
     {
         ((CD22Listener*)&m_5c)->Notify(tbl->items08[i]);
@@ -1115,7 +1120,7 @@ void CD22Object::RegisterWithRegistry(CD22Registry* reg)
 
 struct SpawnedCallee
 {
-    void FUN_00cd2080(void* item);
+    void hkpPhysicsContext_removeFromInspection(void* item);
     void RegisterWithRegistry(void* item);
 };
 
@@ -1149,18 +1154,19 @@ struct FUN_00cd24d0_cls
     void** m_64;
     int m_68;
 
-    void FUN_00cd24d0(int value);
+    void hkpPhysicsContext_setOwner(int value);
 };
 
 // If m_04 was set, calls FUN_00cd2080 on each of m_68 entries in m_64, stores value in m_04, then calls RegisterWithRegistry on each entry when value is nonzero.
 // @fnv 0x00cd24d0
-void FUN_00cd24d0_cls::FUN_00cd24d0(int value)
+// src: HAVOK_LIB 0x00cd24d0
+void FUN_00cd24d0_cls::hkpPhysicsContext_setOwner(int value)
 {
     if (m_04 != 0)
     {
         for (int i = 0; i < m_68; ++i)
         {
-            ((SpawnedCallee*)((char*)this - 8))->FUN_00cd2080(m_64[i]);
+            ((SpawnedCallee*)((char*)this - 8))->hkpPhysicsContext_removeFromInspection(m_64[i]);
         }
     }
 
@@ -1177,7 +1183,7 @@ void FUN_00cd24d0_cls::FUN_00cd24d0(int value)
 
 struct FUN_00c93a60_cls
 {
-    void FUN_00c93a60(void* param);
+    void hkpWorld_addWorldDeletionListener(void* param);
 };
 
 struct Sink
@@ -1258,7 +1264,7 @@ notFound:
     FUN_00c93a60_cls* obj = (FUN_00c93a60_cls*)pItem;
     FUN_00cd2530_cls* self = this;
     void* param = self != 0 ? (char*)self + 0x58 : 0;
-    obj->FUN_00c93a60(param);
+    obj->hkpWorld_addWorldDeletionListener(param);
 
     AllocatorState* holder = FUN_00c85750();
     if (items->count == (items->capacity & 0x3fffffff))
@@ -1419,7 +1425,7 @@ class FUN_00cd2690 : public hkReferencedObject,
   public:
     virtual ~FUN_00cd2690() throw();
 
-    void FUN_00cd2260(void* pkObject);
+    void hkpPhysicsContext_removeWorld(void* pkObject);
 
     hkArray<void*> m_kTrackedObjects;
     hkArray<ElementD269> m_elements;
@@ -1431,7 +1437,7 @@ class FUN_00cd2690 : public hkReferencedObject,
 FUN_00cd2690::~FUN_00cd2690() throw()
 {
     for (int i = m_kTrackedObjects.GetLogicalSize() - 1; i >= 0; i--)
-        FUN_00cd2260(m_kTrackedObjects[i]);
+        hkpPhysicsContext_removeWorld(m_kTrackedObjects[i]);
 }
 
 struct Block8CD2A
@@ -1478,11 +1484,12 @@ class OwnerCD2A
     int unk00[0x78 / 4];
     hkArray<EntryCD2A> m_entries;
 
-    ValueCD2A FUN_00cd2a50(int iKey);
+    ValueCD2A hkpWorldObject_removeProperty(int iKey);
 };
 
 // @fnv 0x00cd2a50
-ValueCD2A OwnerCD2A::FUN_00cd2a50(int iKey)
+// src: HAVOK_LIB 0x00cd2a50
+ValueCD2A OwnerCD2A::hkpWorldObject_removeProperty(int iKey)
 {
     for (int i = 0; i < m_entries.GetLogicalSize(); i++)
     {

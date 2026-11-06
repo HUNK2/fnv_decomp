@@ -39,7 +39,7 @@ struct FUN_00d21ce0_cls
     void* m_pConstraintData;
     void FUN_00d21ce0(void* data);
 };
-int __cdecl FUN_00d22120(void* pNode, void* a, void* b);
+int __cdecl hkpModifierConstraintAtom_addAllModifierDataToConstraintInfo(void* pNode, void* a, void* b);
 void __stdcall FUN_00d21d00(int, int, int, int, int, int);
 struct FUN_00d21de0_cls
 {
@@ -48,7 +48,7 @@ struct FUN_00d21de0_cls
     unsigned char unk08;
     unsigned char unk09;
     unsigned char unk0A;
-    FUN_00d21de0_cls* __thiscall FUN_00d21de0(int a);
+    FUN_00d21de0_cls* __thiscall hkpSimpleContactConstraintAtom_hkpSimpleContactConstraintAtom(int a);
 };
 #include "../../../../../../include/hkMatrix3.h"
 

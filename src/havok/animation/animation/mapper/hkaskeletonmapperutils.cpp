@@ -43,7 +43,8 @@ void __cdecl FUN_00ce5a70(hkQsTransform* out, const hkQsTransform* a, const hkQs
                           float weightA, float weightB);
 
 // @fnv 0x00ce5f90
-void __cdecl FUN_00ce5f90(hkQsTransform* out, const hkQsTransform* poseA, short boneA,
+// src: HAVOK_LIB 0x00ce5f90
+void __cdecl hkaSkeletonMapperUtils_computeMappingTransform_00ce5f90(hkQsTransform* out, const hkQsTransform* poseA, short boneA,
                           const hkQsTransform* poseB, short boneB, int mode, float weightA, float weightB)
 {
     FUN_00ce5a70(out, &poseA[boneA], &poseB[boneB], mode, weightA, weightB);
@@ -230,7 +231,8 @@ typedef float(__thiscall* ReadValue)(void*);
 
 // Returns 1 if state->mode is not 1, otherwise returns whether the larger absolute angle of first or second is at most state->threshold.
 // @fnv 0x00ce57c0
-unsigned char __cdecl FUN_00ce57c0(ThresholdState* state, void* unused1, void* unused2, ValueSource* first,
+// src: HAVOK_LIB 0x00ce57c0
+unsigned char __cdecl hkaSkeletonMapperUtils_checkRotation(ThresholdState* state, void* unused1, void* unused2, ValueSource* first,
                                    ValueSource* second)
 {
     if (state->mode != 1)
@@ -337,7 +339,7 @@ struct BonePairInfo
     hkVector4 m_vScale;
 };
 
-void FUN_00ce5f90(const void* data, const hkQsTransform* poseA, hkInt16 boneA, const hkQsTransform* poseB,
+void hkaSkeletonMapperUtils_computeMappingTransform_00ce5f90(const void* data, const hkQsTransform* poseA, hkInt16 boneA, const hkQsTransform* poseB,
                   hkInt16 boneB, hkVector4* out, hkReal eps, hkReal weight);
 void FUN_00ce5e60(const hkaSkeleton* skel, const hkQsTransform* poses, hkInt16 ancestor, hkInt16 bone,
                   hkReal* lengthOut, hkVector4* posOut);
@@ -352,7 +354,7 @@ void FUN_00ce5fe0(const void* data, const hkaSkeleton* skelA, const hkQsTransfor
     out->m_boneA1 = boneA1;
     out->m_boneB0 = boneB0;
     out->m_boneB1 = boneB1;
-    FUN_00ce5f90(data, poseA, boneA0, poseB, boneB0, &out->m_offset, 1e-5f, 1.0f);
+    hkaSkeletonMapperUtils_computeMappingTransform_00ce5f90(data, poseA, boneA0, poseB, boneB0, &out->m_offset, 1e-5f, 1.0f);
 
     hkReal lenA;
     hkReal lenB;
@@ -381,7 +383,7 @@ inline void* operator new(size_t, void* p)
 }
 
 // hkMemoryRouter is the shared router: GetMonitorStream binds to 0x00c85750, with the heap at +0x10.
-extern "C" void __cdecl FUN_00c908c0(hkMemoryAllocator* mem, void* array, int numElems, int elemSize);
+extern "C" void __cdecl hkArrayUtil__reserve(hkMemoryAllocator* mem, void* array, int numElems, int elemSize);
 
 struct HkElem8
 {
@@ -426,7 +428,7 @@ template <typename T> struct HkArrayLocalForm
         {
             int cap2 = 2 * capacity;
             int newCap = n < cap2 ? cap2 : n;
-            FUN_00c908c0(&alloc, this, newCap, sizeof(T));
+            hkArrayUtil__reserve(&alloc, this, newCap, sizeof(T));
         }
     }
 

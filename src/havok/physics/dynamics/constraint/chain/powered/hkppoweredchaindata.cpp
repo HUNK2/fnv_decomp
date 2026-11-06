@@ -17,7 +17,8 @@
 
 
 // @fnv 0x00e3b720
-void hkpPoweredChainData::FUN_00e3b720(int* info) const
+// src: HAVOK_LIB 0x00e3b720
+void hkpPoweredChainData::getConstraintInfo_00e3b720(int* info) const
 {
     info[4] = (int)&m_kBridgeAtoms;
     int zero = 0;
@@ -52,7 +53,8 @@ struct FUN_00e3b7d0_object
 
 // Clears a two-bit field at the given bit position in the byte at index within a 48-byte-strided block and sets it to 2.
 // @fnv 0x00e3b7d0
-void FUN_00e3b7d0(FUN_00e3b7d0_object* object, int index, int bit)
+// src: HAVOK_LIB 0x00e3b7d0
+void hkpPoweredChainData_disableMotor(FUN_00e3b7d0_object* object, int index, int bit)
 {
     int count = object->first->m_pConstraintInfo.m_iElementCount;
     FUN_00e3b7d0_second* second = object->second;
@@ -176,7 +178,8 @@ inline hkpConstraintData::~hkpConstraintData() throw()
 {}
 
 // @fnv 0x00e3b770
-void hkpPoweredChainData::FUN_00e3b770(int unused, RuntimeInfo* result)
+// src: HAVOK_LIB 0x00e3b770
+void hkpPoweredChainData::getRuntimeInfo_00e3b770(int unused, RuntimeInfo* result)
 {
     int size = m_pConstraintInfo.m_iElementCount;
     int stride = size * 6;
@@ -268,7 +271,8 @@ struct S00e3b810_Dst
 };
 
 // @fnv 0x00e3b810
-static __declspec(noinline) void FUN_00e3b810(const S00e3b810_Src* src, S00e3b810_Dst* d, S00e3b810_Out* out,
+// src: HAVOK_LIB 0x00e3b810
+static __declspec(noinline) void hk1dAngularVelocityMotorCommitJacobianInMotorInfo(const S00e3b810_Src* src, S00e3b810_Dst* d, S00e3b810_Out* out,
                                               const float* s)
 {
     out->m_uiX = src->m_uiZ * s[1];
@@ -286,7 +290,7 @@ S00e3b810_Dst* volatile g_S00e3b810_d;
 
 void S00e3b810_Caller()
 {
-    FUN_00e3b810(g_S00e3b810_src, g_S00e3b810_d, g_S00e3b810_out, g_S00e3b810_s);
+    hk1dAngularVelocityMotorCommitJacobianInMotorInfo(g_S00e3b810_src, g_S00e3b810_d, g_S00e3b810_out, g_S00e3b810_s);
 }
 
 // hkArray<T>::~hkArray() = clearAndDeallocate() on the heap allocator (slot 4 frees).

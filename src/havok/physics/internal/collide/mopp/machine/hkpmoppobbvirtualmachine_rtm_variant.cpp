@@ -88,7 +88,7 @@ struct GridCell {
     void* m30;
     int m34;
 
-    void FUN_00dd1da0(GridSource* a1, GridBounds* a2, int a3);
+    void hkpMoppObbVirtualMachine_queryAabb(GridSource* a1, GridBounds* a2, int a3);
     void Execute(GridScratch* s, unsigned char* p, int z);
 };
 extern "C" void _ReadWriteBarrier();

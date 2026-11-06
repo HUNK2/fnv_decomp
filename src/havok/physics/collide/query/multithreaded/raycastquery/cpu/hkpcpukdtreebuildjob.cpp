@@ -560,7 +560,7 @@ struct S00d947e0_Cmd : S00d947e0_DynJob
 
 struct S00d947e0_Queue
 {
-    void FUN_00d04b50(const S00d947e0_Job& job, int a);
+    void hkJobQueue_addJob(const S00d947e0_Job& job, int a);
     void ProcessCallback(S00d947e0_Data* a, S00d947e0_Data* b, int c);
 };
 
@@ -581,7 +581,8 @@ void __cdecl FUN_00df0680(void* a, int b, int c, int d);
 
 // Writes profiler records, clears a buffer, calls FUN_00d8d030, queues an S00d947e0_Cmd via a2->FUN_00d04b50, calls FUN_00df0680, then calls a2->ProcessCallback.
 // @fnv 0x00d947e0
-void __cdecl FUN_00d947e0(S00d947e0_Obj** a1, S00d947e0_Queue* apQueue, S00d947e0_Data* apData)
+// src: HAVOK_LIB 0x00d947e0
+void __cdecl hkCpuSolveConstraintsJob(S00d947e0_Obj** a1, S00d947e0_Queue* apQueue, S00d947e0_Data* apData)
 {
     volatile unsigned int tb;
 
@@ -606,7 +607,7 @@ void __cdecl FUN_00d947e0(S00d947e0_Obj** a1, S00d947e0_Queue* apQueue, S00d947e
     FUN_00d8d030(&(*a1)->unk000 + 0x1e0, p2c, p28, p30);
 
     S00d947e0_Info* info = apData->unk18;
-    apQueue->FUN_00d04b50(S00d947e0_Cmd(*apData, info), 0);
+    apQueue->hkJobQueue_addJob(S00d947e0_Cmd(*apData, info), 0);
 
     tls = (S00d947e0_Tls*)TlsGetValue(DAT_0126835c);
     cur = tls->unk04;

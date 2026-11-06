@@ -111,7 +111,7 @@ void FUN_00c9d4c0_holder::FUN_00c9d4c0()
 
 struct CallRet
 {
-    void FUN_00c946e0(void* a, int b, int c);
+    void hkpWorld_updateCollisionFilterOnEntity(void* a, int b, int c);
 };
 struct Holder00c9d5d0
 {
@@ -163,7 +163,7 @@ void Holder00c9d5d0::FUN_00c9d5d0()
 {
     CallRet* p = GetRet();
     if (p)
-        p->FUN_00c946e0(unk8, 0, 1);
+        p->hkpWorld_updateCollisionFilterOnEntity(unk8, 0, 1);
 }
 
 extern int DAT_01268238;
@@ -2764,7 +2764,7 @@ struct HkFlags_c6b
 };
 struct HkWorld_c6b
 {
-    HkResult_c6b FUN_00cd2a50(const void* apKey);
+    HkResult_c6b hkpWorldObject_removeProperty(const void* apKey);
     void AddEntry(const void* apKey, void* apListener, HkFlags_c6b kFlags);
 };
 extern char DAT_01267b70[];
@@ -2795,7 +2795,7 @@ void FUN_00c6b980_cls::FUN_00c6b980(World_c6b* apWorld)
         if (pkHk)
         {
             pkOld->Lock();
-            pkHk->FUN_00cd2a50(DAT_01267b70);
+            pkHk->hkpWorldObject_removeProperty(DAT_01267b70);
             pkOld->Unlock();
         }
     }
@@ -2883,7 +2883,7 @@ struct S_00c85c10_data
     S_00c85c10_entry* entries;
     int count;
 
-    void FUN_00cd2a50(int* result, int* value);
+    void hkpWorldObject_removeProperty(int* result, int* value);
     void AddEntry(int* value, int* result, S_00c85c10_flag flag);
 };
 
@@ -2921,7 +2921,7 @@ void S_00c85c10::FUN_00c85c10(int* result, int* value)
                 {
                     if (unk08 != 0)
                     {
-                        unk08->FUN_00cd2a50(&local.unk00, value);
+                        unk08->hkpWorldObject_removeProperty(&local.unk00, value);
                     }
                     break;
                 }
@@ -5639,7 +5639,7 @@ struct Body
     int unke0;
     int unke4;
     unsigned char motionType;
-    bool* FUN_00c9bff0(bool*);
+    bool* isActive_00c9bff0(bool*);
 };
 struct Object
 {
@@ -5652,7 +5652,7 @@ struct Object
         bool active;
         if (!this || !body)
             return false;
-        return *body->FUN_00c9bff0(&active) != 0;
+        return *body->isActive_00c9bff0(&active) != 0;
     }
     bool IsFixed()
     {
@@ -5673,7 +5673,7 @@ void Object::FUN_00c9d6b0(StringArray* strings)
     bool active;
     FUN_00c86190(strings);
     strings->Add(FUN_00a7d330(DAT_01268200));
-    strings->Add(FUN_00a7d370("Active", (this && body) ? (*body->FUN_00c9bff0(&active) ? true : false) : false));
+    strings->Add(FUN_00a7d370("Active", (this && body) ? (*body->isActive_00c9bff0(&active) ? true : false) : false));
     strings->Add(FUN_00a7d370("Fixed", (this && body) ? (body->motionType == 5 ? true : false) : false));
     char buffer[64];
     _snprintf(buffer, 64, "0x%08X", GetIsland());

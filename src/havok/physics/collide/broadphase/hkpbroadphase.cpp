@@ -17,11 +17,12 @@ struct InitObject
     unsigned short m_w06;
     SpawnedObject m_sub;
     unsigned int m_i10;
-    InitObject* FUN_00d97010();
+    InitObject* hkpBroadPhase_hkpBroadPhase();
 };
 
 // @fnv 0x00d97010
-InitObject* InitObject::FUN_00d97010()
+// src: HAVOK_LIB 0x00d97010
+InitObject* InitObject::hkpBroadPhase_hkpBroadPhase()
 {
     m_w06 = 1;
     m_pGlobal = DAT_010d3f7c;
@@ -93,11 +94,12 @@ class Owner
     unsigned int unk04;
     SubObj m_08;
     Spawned* m_10;
-    void FUN_00d97070(void* a1);
+    void hkpBroadPhase_enableMultiThreading(void* a1);
 };
 
 // @fnv 0x00d97070
-void Owner::FUN_00d97070(void* apArg)
+// src: HAVOK_LIB 0x00d97070
+void Owner::hkpBroadPhase_enableMultiThreading(void* apArg)
 {
     if (m_10 == 0)
     {

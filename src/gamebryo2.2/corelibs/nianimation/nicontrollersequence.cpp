@@ -1248,7 +1248,8 @@ struct HolderB3718
 extern HolderB3718* DAT_011f6080;
 
 // @fnv 0x00aa10f0
-void __cdecl FUN_00aa10f0(void* pv)
+// src: GAMEBRYO_LIB 0x00aa10f0
+void __cdecl _NiFree_00aa10f0(void* pv)
 {
     if (pv != 0)
     {
@@ -2015,8 +2016,8 @@ struct Node31910
     int unk2c;
     unsigned int flags30;
 
-    Node31910* FUN_00a5c570(const void*);
-    void FUN_00a5c480(Node31910*);
+    Node31910* NiObjectNET_GetController(const void*);
+    void NiObjectNET_RemoveController(Node31910*);
     unsigned int FUN_00dbbc10();
 };
 struct NiSingleInterpControllerBase : Node31910
@@ -2089,11 +2090,11 @@ extern "C" int __cdecl atexit(void(__cdecl*)());
 void* __cdecl FUN_00aa13e0(unsigned int);
 // The shared NiInterpController has no explicit constructor declaration.
 // Initialize that base through the original constructor before the shared fields.
-void* __fastcall FUN_00a2f8c0(void*);
+void* __fastcall NiInterpController_NiInterpController(void*);
 static inline NiMultiTargetTransformController* ConstructMultiTargetController(
     NiMultiTargetTransformController* controller, unsigned short count)
 {
-    FUN_00a2f8c0(controller);
+    NiInterpController_NiInterpController(controller);
     *reinterpret_cast<void**>(controller) = &DAT_01096444;
     controller->m_usNumInterps = 0;
     controller->m_pkBlendInterpolators = 0;
@@ -2196,9 +2197,9 @@ bool NiControllerSequence::FUN_00a31910(NiAVObject* targetObject, NiAVObject* ro
     Node31910* root = (Node31910*)rootObject;
     bool spMorphController;
     spMorphController = false;
-    NiMultiTargetTransformController* ctrl = (NiMultiTargetTransformController*)target->FUN_00a5c570(&DAT_011f36bc);
+    NiMultiTargetTransformController* ctrl = (NiMultiTargetTransformController*)target->NiObjectNET_GetController(&DAT_011f36bc);
     Retain31910((Node31910*)ctrl);
-    MorphController31910* pMorphCtrl = (MorphController31910*)target->FUN_00a5c570(&DAT_011f36e4);
+    MorphController31910* pMorphCtrl = (MorphController31910*)target->NiObjectNET_GetController(&DAT_011f36e4);
     Retain31910(pMorphCtrl);
     unsigned short uiMorphEntries = 0, usMorphTargetCount = 0;
     for (unsigned int i = 0; i < m_uiNumControlledBlocks; i++)
@@ -2248,7 +2249,7 @@ bool NiControllerSequence::FUN_00a31910(NiAVObject* targetObject, NiAVObject* ro
             spMorphController = true;
             if (target == ((Owner31910*)m_pkOwnerManager)->root)
             {
-                target->FUN_00a5c480((Node31910*)ctrl);
+                target->NiObjectNET_RemoveController((Node31910*)ctrl);
                 Assign31910((Node31910*&)ctrl->m_spNextController.m_pObject, ((Owner31910*)m_pkOwnerManager)->controller);
                 Assign31910(((Owner31910*)m_pkOwnerManager)->controller, (Node31910*)ctrl);
             }
@@ -2270,7 +2271,7 @@ bool NiControllerSequence::FUN_00a31910(NiAVObject* targetObject, NiAVObject* ro
             spMorphController = true;
             if (target == ((Owner31910*)m_pkOwnerManager)->root)
             {
-                target->FUN_00a5c480(pMorphCtrl);
+                target->NiObjectNET_RemoveController(pMorphCtrl);
                 Assign31910((Node31910*&)pMorphCtrl->flags30, ((Owner31910*)m_pkOwnerManager)->controller);
                 Assign31910(((Owner31910*)m_pkOwnerManager)->controller, pMorphCtrl);
             }
@@ -2292,7 +2293,7 @@ bool NiControllerSequence::FUN_00a31910(NiAVObject* targetObject, NiAVObject* ro
             Node31910* spTransformController = root->FindObject(&v);
             if (!spTransformController || ((*(Node31910**)&m_pkAccumulationRoot) == spTransformController && ((Owner31910*)m_pkOwnerManager)->skipAccum))
                 continue;
-            Node31910* z = spTransformController->FUN_00a5c570(&g_011f36ec);
+            Node31910* z = spTransformController->NiObjectNET_GetController(&g_011f36ec);
             unsigned short s = FindTarget31910(ctrl, spTransformController);
             if (s == DAT_01096320)
             {
@@ -2306,7 +2307,7 @@ bool NiControllerSequence::FUN_00a31910(NiAVObject* targetObject, NiAVObject* ro
                 spTransformController->flags30 |= 0x80;
             }
             if (spTransformController->name != DAT_011f36cc)
-                spTransformController->FUN_00a5c480(z);
+                spTransformController->NiObjectNET_RemoveController(z);
             Assign31910(entry.controller, (Node31910*)ctrl);
             entry.blend = (Blend31910*)&ctrl->m_pkBlendInterpolators[s];
             entry.blend->flags |= 1;
@@ -3056,7 +3057,7 @@ struct BindObj
     virtual void V53();
     virtual void V54();
     virtual Blend* MakeBlend(unsigned short, bool, bool, float, int);
-    void FUN_00a5c480(BindCtrl*);
+    void NiObjectNET_RemoveController(BindCtrl*);
     int refs;
     unsigned short flags;
     unsigned short unk0a;
@@ -3195,7 +3196,7 @@ bool NiControllerSequence::FUN_00a32c70(bool abUpdate)
             abUpdate = true;
             if (object == ((BindOwner*)m_pkOwnerManager)->target)
             {
-                object->FUN_00a5c480(controller);
+                object->NiObjectNET_RemoveController(controller);
                 controller->FUN_00a67260(((BindOwner*)m_pkOwnerManager)->program);
                 ((BindCtrl*)((BindOwner*)m_pkOwnerManager))->FUN_00a67260(controller);
             }

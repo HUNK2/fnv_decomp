@@ -680,7 +680,7 @@ struct Pt3Arr
 extern double DAT_01030f28;
 extern double DAT_01011588;
 extern double DAT_010231d8;
-void __cdecl FUN_00a582f0(void* a, void* b, int c, void* d, void* e);
+void __cdecl NiMatrix3_TransformVertices(void* a, void* b, int c, void* d, void* e);
 float __cdecl FUN_00404010(float a, float b);
 float __cdecl FUN_00408840(float a);
 struct Calc685
@@ -1157,8 +1157,8 @@ void BSTempEffectGeometryDecal::BuildSkinPartitions()
                 arr10LocalCD[kValueBC].w = 0.0f;
             pt50LocalAN.FUN_00439180(*(float*)&thirteenLocalAI.m_30);
             (*reinterpret_cast<NiPoint3*>(gPtBValueBI)) = DAT_011f426c;
-            FUN_00a582f0(&thirteenLocalAI, &thirteenLocalAI.m_24, 1, &pt50LocalAN, &(*reinterpret_cast<NiPoint3*>(gPtBValueBI)));
-            FUN_00a582f0(&sph1LocalAC, &DAT_011f426c, 1, &(*reinterpret_cast<NiPoint3*>(gPtBValueBI)), &(*reinterpret_cast<NiPoint3*>(gPtAValueAG)));
+            NiMatrix3_TransformVertices(&thirteenLocalAI, &thirteenLocalAI.m_24, 1, &pt50LocalAN, &(*reinterpret_cast<NiPoint3*>(gPtBValueBI)));
+            NiMatrix3_TransformVertices(&sph1LocalAC, &DAT_011f426c, 1, &(*reinterpret_cast<NiPoint3*>(gPtBValueBI)), &(*reinterpret_cast<NiPoint3*>(gPtAValueAG)));
             arr34LocalCA[kValueBC].x = (*reinterpret_cast<NiPoint3*>(gPtAValueAG)).x / m_50 + 0.5f;
             arr34LocalCA[kValueBC].y = (*reinterpret_cast<NiPoint3*>(gPtAValueAG)).y / m_50 + 0.5f;
             tmp1e4ValueAC = 1.0f - FUN_00404010(0.0f, (*reinterpret_cast<NiPoint3*>(ptE4LocalAB)).DotProduct((NiPoint3*)&ptCCLocalAD));
@@ -1571,7 +1571,7 @@ extern GlobalObjectO2_00a7b610 g_011f49d8;
 extern DPoint NiPoint3_ZERO;
 bool __cdecl FUN_0045bad0(GlobalObjectO2_00a7b610*, DSkin*);
 DMatrix __cdecl FUN_00c4b600(DPoint);
-void __cdecl FUN_00a582f0(DMatrix*, DPoint*, int, DPoint*, DPoint*);
+void __cdecl NiMatrix3_TransformVertices(DMatrix*, DPoint*, int, DPoint*, DPoint*);
 float __cdecl FUN_00404010(float, float);
 float __cdecl DecalPower(float, int);
 float __cdecl FloatAbs(float);
@@ -1716,8 +1716,8 @@ void BSTempEffectGeometryDecal::BuildDecalGeometry()
         normal_35 = normals_17[projectionVertex];
         DPoint world_20 = NiPoint3_ZERO;
         vertex_3.FUN_00439180(transform_40.scale);
-        FUN_00a582f0(&transform_40.rotation, &transform_40.position, 1, &vertex_3, &world_20);
-        FUN_00a582f0(&basis_6, &NiPoint3_ZERO, 1, &world_20, &projected_8);
+        NiMatrix3_TransformVertices(&transform_40.rotation, &transform_40.position, 1, &vertex_3, &world_20);
+        NiMatrix3_TransformVertices(&basis_6, &NiPoint3_ZERO, 1, &world_20, &projected_8);
         texcoords_0[projectionVertex].x = projected_8.x / m_50 + 0.5f;
         texcoords_0[projectionVertex].y = projected_8.y / m_50 + 0.5f;
         float opacity_6 = 1.0f - FUN_00404010(0.0f, normalDirection_1.DotProduct(normal_35));

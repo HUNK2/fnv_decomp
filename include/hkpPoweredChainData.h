@@ -42,9 +42,9 @@ public:
     virtual void vf16();
 
     int FUN_00e3b670();
-    void FUN_00e3b770(int unused, RuntimeInfo* result);
+    void getRuntimeInfo_00e3b770(int unused, RuntimeInfo* result);
     void FUN_00e3ba40(const QueryInput& input, QueryOutput& output);
-    void FUN_00e3b720(int* info) const;
+    void getConstraintInfo_00e3b720(int* info) const;
 
     hkMemoryRouter* FUN_00c85750();
     void FUN_00e3b850(const __m128* frameA, const __m128* frameB,

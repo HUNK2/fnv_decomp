@@ -108,13 +108,13 @@ FUN_00d698b0::FUN_00d698b0(void* info) : D698B0Base(info)
 }
 
 
-extern hkProcessFactory* FUN_00dd9380;
+extern hkProcessFactory* hkProcessFactory_registerProcess;
 extern void* DAT_0126901c;
 void FUN_00d699c0();
 // @fnv 0x00d69a00
 void RegisterConstraintsProcessFactory()
 {
-    DAT_0126901c = FUN_00dd9380->RegisterProcess("Constraints", (void*)&FUN_00d699c0);
+    DAT_0126901c = hkProcessFactory_registerProcess->RegisterProcess("Constraints", (void*)&FUN_00d699c0);
 }
 
 struct S_00d69a20_Base
@@ -189,7 +189,7 @@ FUN_00d69a20::FUN_00d69a20()
 
 struct SpawnedTarget
 {
-    void FUN_00c93920(void* p);
+    void hkpWorld_addWorldPostSimulationListener(void* p);
 };
 
 struct FUN_00d69200_cls
@@ -210,7 +210,7 @@ struct FUN_00d69200_cls
 // @fnv 0x00d69200
 void FUN_00d69200_cls::FUN_00d69200(SpawnedTarget* target)
 {
-    target->FUN_00c93920(((char*)this - 0x20) != 0 ? (char*)this + 8 : 0);
+    target->hkpWorld_addWorldPostSimulationListener(((char*)this - 0x20) != 0 ? (char*)this + 8 : 0);
 }
 
 struct Target
@@ -738,7 +738,7 @@ struct World
 
 struct ConstraintListener
 {
-    virtual void FUN_00d69730(World* world);
+    virtual void hkpConstraintViewer_postSimulationCallback(World* world);
 };
 
 struct ViewerBase
@@ -757,13 +757,14 @@ struct ViewerBase
 
 struct ConstraintViewer : public ViewerBase, public ConstraintListener
 {
-    void FUN_00d69260(int constraint, Entity* e, int tag);
-    virtual void FUN_00d69730(World* world);
+    void hkpConstraintViewer_draw(int constraint, Entity* e, int tag);
+    virtual void hkpConstraintViewer_postSimulationCallback(World* world);
 };
 
 // Iterates active and inactive simulation islands, calling FUN_00d69260 for each entity's constraint masters, with timing entries.
 // @fnv 0x00d69730
-void ConstraintViewer::FUN_00d69730(World* world)
+// src: HAVOK_LIB 0x00d69730
+void ConstraintViewer::hkpConstraintViewer_postSimulationCallback(World* world)
 {
     int second_i;
     {
@@ -789,7 +790,7 @@ void ConstraintViewer::FUN_00d69730(World* world)
                 for (int c = 0; c < masters.GetLogicalSize(); c++)
                 {
                     const ConstraintInternal& ci = masters[c];
-                    FUN_00d69260(ci.m_pHavokConstraint, entity, m_ucOperationType);
+                    hkpConstraintViewer_draw(ci.m_pHavokConstraint, entity, m_ucOperationType);
                 }
             }
         }
@@ -805,7 +806,7 @@ void ConstraintViewer::FUN_00d69730(World* world)
                 for (int c = 0; c < masters.GetLogicalSize(); c++)
                 {
                     const ConstraintInternal& ci = masters[c];
-                    FUN_00d69260(ci.m_pHavokConstraint, entity, m_ucOperationType);
+                    hkpConstraintViewer_draw(ci.m_pHavokConstraint, entity, m_ucOperationType);
                 }
             }
         }
@@ -824,7 +825,7 @@ void ConstraintViewer::FUN_00d69730(World* world)
 
 extern float DAT_011b6168;
 void EnterTlsGuard();
-void FUN_00c904e0();
+void hkReferencedObject_unlockAll();
 namespace ConstraintDrawDetail {
 
 
@@ -1147,12 +1148,13 @@ struct __declspec(align(16)) Complex : Renderer
 };
 struct Viewer : ConstraintViewer
 {
-    void FUN_00d69260(int constraint, Entity* entity, int tag);
+    void hkpConstraintViewer_draw(int constraint, Entity* entity, int tag);
 };
 }
 // Records a Ttdraw trace, dispatches on the Collidable shape type to render via renderer or Complex, recurses for compound shapes, then records an Et trace.
 // @fnv 0x00d69260
-void ConstraintDrawDetail::Viewer::FUN_00d69260(int aiCollidable, Entity* entity, int tag)
+// src: HAVOK_LIB 0x00d69260
+void ConstraintDrawDetail::Viewer::hkpConstraintViewer_draw(int aiCollidable, Entity* entity, int tag)
 {
     using namespace ConstraintDrawDetail;
     Collidable* object = reinterpret_cast<Collidable*>(aiCollidable);
@@ -1236,7 +1238,7 @@ void ConstraintDrawDetail::Viewer::FUN_00d69260(int aiCollidable, Entity* entity
     }
     case 12: {
         child.FUN_00cf3ea0(object->first, object->second, object->shape->child, true);
-        owner->FUN_00d69260(reinterpret_cast<int>(&child), entity, tag);
+        owner->hkpConstraintViewer_draw(reinterpret_cast<int>(&child), entity, tag);
         child.FUN_00cf40b0();
         break;
     }
@@ -1245,7 +1247,7 @@ void ConstraintDrawDetail::Viewer::FUN_00d69260(int aiCollidable, Entity* entity
         void* second = object->second;
         void* first = object->first;
         child.FUN_00cf3ea0(first, second, pParentShape->FUN_00cdf6c0(), true);
-        owner->FUN_00d69260(reinterpret_cast<int>(&child), entity, tag);
+        owner->hkpConstraintViewer_draw(reinterpret_cast<int>(&child), entity, tag);
         child.FUN_00cf40b0();
         break;
     }
@@ -1278,7 +1280,7 @@ void ConstraintDrawDetail::Viewer::FUN_00d69260(int aiCollidable, Entity* entity
         break;
     }
     }
-    FUN_00c904e0();
+    hkReferencedObject_unlockAll();
     trace = (hkMonitorStream*)TlsGetValue(DAT_0126835c);
     if (trace->m_end.m_storage < trace->m_capacityMinus16.m_storage)
     {

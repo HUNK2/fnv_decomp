@@ -38,7 +38,8 @@ void FUN_00daf8e0(const S_00d3ef70_CdBody&, const S_00d3ef70_CdBody&, const S_00
 
 // Registers two collision agent function tables with the dispatcher for the type pairs (5,1) and (1,5).
 // @fnv 0x00d3ef70
-void FUN_00d3ef70(S_00d3ef70_Dispatcher* dispatcher)
+// src: HAVOK_LIB 0x00d3ef70
+void hkpSphereCapsuleAgent_registerAgent(S_00d3ef70_Dispatcher* dispatcher)
 {
     {
         S_00d3ef70_AgentFuncs agentFuncs;
@@ -85,13 +86,14 @@ public:
     int m_i04;
     InnerCls *m_pInner;
     unsigned short m_w0c;
-    void FUN_00d3e2b0(int a1);
+    void hkpSphereCapsuleAgent_cleanup(int a1);
 };
 
 // @fnv 0x00d3e2b0
 inline void FUN_00d3e2b0_cls::v0(int aiValue) { aiValue; }
 
-void FUN_00d3e2b0_cls::FUN_00d3e2b0(int a1)
+// src: HAVOK_SRC 0x00d3e2b0
+void FUN_00d3e2b0_cls::hkpSphereCapsuleAgent_cleanup(int a1)
 {
     if (m_w0c != 0xffff) {
         m_pInner->v5(m_w0c, a1);
@@ -131,7 +133,8 @@ void __cdecl FUN_00d3e2f0(int aiUnused1, int aiUnused2, int aiUnused3, int aiVal
 void __cdecl FUN_00d3e330(int a, int b, int c, int d);
 
 // @fnv 0x00d3e510
-void __stdcall FUN_00d3e510(int a, int b, int c, int d)
+// src: HAVOK_SRC 0x00d3e510
+void __stdcall hkpSphereCapsuleAgent_getPenetrations(int a, int b, int c, int d)
 {
     FUN_00d3e330(a, b, c, d);
 }
@@ -164,7 +167,7 @@ struct AgentDispatchDescriptor {
     volatile unsigned int tag;
 };
 struct CollisionDispatcher {
-    void FUN_00d3e510(void* bodyB, void* bodyA, void* input, AgentDispatchDescriptor* descriptor);
+    void hkpSphereCapsuleAgent_getPenetrations(void* bodyB, void* bodyA, void* input, AgentDispatchDescriptor* descriptor);
     void FUN_00d3f000(void* bodyA, void* bodyB, void* volatile input, unsigned int tag);
 };
 // Builds an AgentDispatchDescriptor with the given tag and a fixed dispatch table, then calls FUN_00d3e510 with the bodies swapped.
@@ -175,7 +178,7 @@ void CollisionDispatcher::FUN_00d3f000(void* bodyA, void* bodyB, void* volatile 
     descriptor.tag = tag;
     descriptor.isFlipped = false;
     descriptor.dispatchTable = &DAT_010ce81c;
-    FUN_00d3e510(bodyB, bodyA, input, &descriptor);
+    hkpSphereCapsuleAgent_getPenetrations(bodyB, bodyA, input, &descriptor);
 }
 
 // Exe 0x00d3e330 FUN_00d3e330: retain this LocalM128 view; the CRT type does not preserve this unit.

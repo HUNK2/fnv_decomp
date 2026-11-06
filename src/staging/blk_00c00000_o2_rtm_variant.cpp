@@ -146,13 +146,13 @@ struct FUN_00c06ee0_class
     char pad00[0x34];
     RefObject* m_sp34;
 
-    void __thiscall FUN_00c06ee0(RefObject* p);
+    void __thiscall NiPSEmitParticlesCtlr_SetBirthRateInterpolator(RefObject* p);
 };
 struct FUN_00c06f30_class
 {
     char pad[0x48];
     RefObject* m_sp48;
-    void __thiscall FUN_00c06f30(RefObject* p);
+    void __thiscall NiD3DPass_SetPixelShader_00c06f30(RefObject* p);
 };
 struct FUN_00c0d1b0_class
 {

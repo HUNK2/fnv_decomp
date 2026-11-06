@@ -618,7 +618,7 @@ struct ShaderLoader8e
     virtual void v20();
     virtual const NiFixedString& GetLoaderName();
 
-    void FUN_00ee92d0(ShaderStream8e* pkStream, char* pcBuffer, unsigned int uiMaxLen);
+    void NiGPUProgramCache_LoadStringA(ShaderStream8e* pkStream, char* pcBuffer, unsigned int uiMaxLen);
     bool LoadShaderProgram(ShaderStream8e* pkStream, const NiFixedString& kName, ShaderProgram8e** ppkProgram,
                            bool bSkip);
 };
@@ -630,7 +630,7 @@ bool ShaderLoader8e::LoadShaderProgram(ShaderStream8e* pkStream, const NiFixedSt
     *ppkProgram = 0;
     unsigned int uiCodeSize = 0;
     char acType[256];
-    FUN_00ee92d0(pkStream, acType, 0x100);
+    NiGPUProgramCache_LoadStringA(pkStream, acType, 0x100);
 
     bool bVertex;
     if (FUN_00aa1360(acType, DAT_0126fa48) == 0)
@@ -714,13 +714,13 @@ bool __stdcall WriteTextToFile(const char* pcFileName, const char* pcText)
 }
 
 void* __cdecl FUN_00aa1070(unsigned int size);
-void __cdecl FUN_00aa10f0(void* p);
+void __cdecl _NiFree_00aa10f0(void* p);
 void* __cdecl FUN_00aa13e0(unsigned int size);
 __declspec(nothrow) void FUN_00a305b0(char*, unsigned int, const char*, ...);
 char* __cdecl FUN_00a5b690(const char* name);
 void* __cdecl FUN_00e93850(char* text, unsigned int len, char* path, char* path2, const char* entry, int target, int a,
                            int b, int c, int d);
-void* __cdecl FUN_00e938e0(char* text, unsigned int len, char* path, char* path2, const char* entry, int target, int d);
+void* __cdecl NiD3DShaderProgramFactory_CreatePixelShaderFromBuffer(char* text, unsigned int len, char* path, char* path2, const char* entry, int target, int d);
 
 struct RefCountedBase
 {
@@ -900,7 +900,7 @@ RefCountedBase* S00e8eb80_Obj::FUN_00e8eb80(const char* name, const char* apSour
             FUN_00a305b0(text, srcLen + 0x208, "#line 2 \"%s\"\n%s", path, apSource);
             unsigned int len = strlen(text);
             int tgt = m_24;
-            RefCountedBase* r = (RefCountedBase*)FUN_00e938e0(text, len, path, path, "Main", tgt, 1);
+            RefCountedBase* r = (RefCountedBase*)NiD3DShaderProgramFactory_CreatePixelShaderFromBuffer(text, len, path, path, "Main", tgt, 1);
             pObj.FUN_00a5f860(r);
         }
 
@@ -936,7 +936,7 @@ RefCountedBase* S00e8eb80_Obj::FUN_00e8eb80(const char* name, const char* apSour
             obj = pObj.m_p;
         }
 
-        FUN_00aa10f0(text);
+        _NiFree_00aa10f0(text);
 
         if (obj != 0)
         {

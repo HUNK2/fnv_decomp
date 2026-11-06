@@ -29,12 +29,13 @@ struct E02E70Stats
     int m_pTileTemplate;
     int m_peak;
 
-    int FUN_00e02e70(void* p, int numBytes);
+    int hkOffsetOnlyStreamWriter_write(void* p, int numBytes);
 };
 
 // Adds numBytes to the running total, updates the peak if the total exceeds it, and returns numBytes.
 // @fnv 0x00e02e70
-int E02E70Stats::FUN_00e02e70(void* p, int numBytes)
+// src: HAVOK_LIB 0x00e02e70
+int E02E70Stats::hkOffsetOnlyStreamWriter_write(void* p, int numBytes)
 {
     m_pTileTemplate += numBytes;
     m_peak = (m_pTileTemplate > m_peak) ? m_pTileTemplate : m_peak;

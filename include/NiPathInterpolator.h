@@ -38,13 +38,13 @@ class NiPathInterpolator : public NiKeyBasedInterpolator
     virtual void vf61(unsigned short usChannel);
 
     void FUN_00a3dc50(float m_fStartTime, float m_fMaximumDistance);
-    void* FUN_00a3dae0(short idx);
+    void* GetKeyCount(short idx);
     int GetValueByIndex(short arg);
-    int FUN_00a3db40(short arg);
-    char FUN_00a3db70(unsigned short arg);
+    int GetKeyArray(short arg);
+    char GetKeyStride(unsigned short arg);
     int GetChannelIndex(unsigned short usChannel);
-    void* FUN_00a3ddf0(void* pData, int i1, int i2, float fTime);
-    NiPoint3 FUN_00a3ddf0(int i1, int i2, float fTime);
+    void* GenPathInterp(void* pData, int i1, int i2, float fTime);
+    NiPoint3 GenPathInterp(int i1, int i2, float fTime);
     void FUN_00a3dc80(CloningProcess& kCloning);
     bool FUN_00a3dcc0(void* pkStream);
     void GetRange(float* pfMin, float* pfMax);
@@ -53,7 +53,7 @@ class NiPathInterpolator : public NiKeyBasedInterpolator
     void AppendString(StrArr* pkStrings);
     void CopyMemberData(NiPathInterpolator* pDest, CloningProcess& kCloning);
     void FUN_00a3f2f0(NiPathInterpolator* pDest, CloningProcess& kCloning);
-    void FUN_00a3ee80(NiStream& stream);
+    void LinkObject_00a3ee80(NiStream& stream);
     bool FUN_00a3e7b0(NiObject* pkObject);
     bool BaseIsEqual(NiObject* pkObject);
     bool PartialLengthsEqual(NiPathInterpolator* pkPath);
@@ -64,7 +64,7 @@ class NiPathInterpolator : public NiKeyBasedInterpolator
     float GetAccumulatedValue();
     float FUN_00a3e680(int i1, int i2, float t);
     float SampleLength(int i1, int i2, float t);
-    void FUN_00a3ea60(float fTime, unsigned int& i1, unsigned int& i2, float& fNormTime);
+    void GetPercentLoc(float fTime, unsigned int& i1, unsigned int& i2, float& fNormTime);
     void FindKeyPair(float fTime, unsigned int& i1, unsigned int& i2, float& fNormTime);
     void FindKeyPair(float fTime, int& i1, int& i2, float& fNormTime);
     void EvaluateBasis(int i1, int i2, float fTime, NiMatrix3& kRot);

@@ -72,7 +72,7 @@ struct Simulation
     hkVector4 unk040, unk050, unk060, unk070, unk080, unk090, unk0a0, unk0b0;
     Member unk0c0;
     void FUN_00de47e0(Input*, Matrix*, Matrix*);
-    void FUN_00de44c0(int, int);
+    void hkpConstraintDrawer_drawPivots(int, int);
     void FUN_00de4530(int, int);
     void FUN_00de7730(Input*, Draw*, int, int);
 };
@@ -88,7 +88,7 @@ void Simulation::FUN_00de7730(Input* input, Draw* draw, int a, int b)
     // Matrix has the hkTransform layout (rotation columns + translation); 0x00c7f640 = hkVector4::_setTransformedPos.
     unk050.FUN_00c7f640(reinterpret_cast<const hkTransform&>(transform0), shape->unk090);
     unk040.FUN_00c7f640(reinterpret_cast<const hkTransform&>(transform1), shape->unk050);
-    FUN_00de44c0(a, b);
+    hkpConstraintDrawer_drawPivots(a, b);
     FUN_00de4530(a, b);
     hkVector4 dir0, dir1;
     dir0.FUN_00c7f700(reinterpret_cast<const hkRotation*>(&unk090), &shape->unk060);   // _setRotatedDir

@@ -25,11 +25,11 @@ struct Item : hkReferencedObject
     int unk20;
     int unk24;
     int unk28;
-    void FUN_00d07c80(void* owner);
+    void removePhantomOverlapListener_00d07c80(void* owner);
 };
 struct Manager
 {
-    void FUN_00c95800(Item** entries, int count);
+    void hkpWorld_removePhantomBatch(Item** entries, int count);
 };
 struct Collection
 {
@@ -52,13 +52,13 @@ void AllocatorOwner::ReleaseEntries()
 {
     if (manager == 0)
         return;
-    manager->FUN_00c95800(entries, 6);
+    manager->hkpWorld_removePhantomBatch(entries, 6);
     Item** pEntry = entries;
     void* owner = &unk0C;
     int count = 6;
     do
     {
-        (*pEntry)->FUN_00d07c80(owner);
+        (*pEntry)->removePhantomOverlapListener_00d07c80(owner);
         (*pEntry)->removeReference();
         *pEntry = 0;
         ++pEntry;
@@ -78,7 +78,7 @@ struct DispatchItem
     unsigned int unknown00;
     unsigned int unknown04;
     DispatchOwner* owner;
-    void FUN_00ca8420(unsigned char, unsigned char, unsigned char);
+    void hkpRigidBody_setMotionType(unsigned char, unsigned char, unsigned char);
 };
 struct Dispatcher
 {
@@ -104,10 +104,10 @@ void Dispatcher::DispatchItemByMode(DispatchItem* item)
     switch (mode)
     {
     case 0:
-        item->FUN_00ca8420(5, 1, 0);
+        item->hkpRigidBody_setMotionType(5, 1, 0);
         break;
     case 1:
-        item->FUN_00ca8420(5, 1, 0);
+        item->hkpRigidBody_setMotionType(5, 1, 0);
         break;
     case 2:
         if (item->owner == owner)
@@ -171,7 +171,7 @@ begin:
 
 struct OwnerDest
 {
-    void FUN_00c91a70(void* p);
+    void hkpWorld_removeWorldDeletionListener(void* p);
     void ClearValue(void* p);
 };
 
@@ -182,13 +182,14 @@ struct FUN_00d0b530_cls
     int unk08;
     OwnerDest* m_0C;
 
-    void FUN_00d0b530(int unused);
+    void hkpBroadPhaseBorder_worldDeletedCallback(int unused);
 };
 
 // @fnv 0x00d0b530
-void FUN_00d0b530_cls::FUN_00d0b530(int unused)
+// src: HAVOK_LIB 0x00d0b530
+void FUN_00d0b530_cls::hkpBroadPhaseBorder_worldDeletedCallback(int unused)
 {
-    m_0C->FUN_00c91a70(((char*)this - 8) ? (void*)this : 0);
+    m_0C->hkpWorld_removeWorldDeletionListener(((char*)this - 8) ? (void*)this : 0);
     m_0C->ClearValue(((char*)this - 8) ? (void*)((char*)this + 8) : 0);
     ((hkReferencedObject*)((char*)this - 8))->removeReference();
 }
@@ -197,7 +198,7 @@ struct D0B630Entity;
 
 int __cdecl CompareByOffsetD4(const void* a, const void* b);
 void __cdecl FUN_00e10760(D0B630Entity** data, int lo, int hi, int(__cdecl* cmp)(const void*, const void*));
-void __cdecl FUN_00c90740(D0B630Entity** objects, int numObjects, int strideInBytes);
+void __cdecl hkReferencedObject_removeReferences(D0B630Entity** objects, int numObjects, int strideInBytes);
 
 class D0B630Primary
 {
@@ -245,7 +246,7 @@ void D0B630Collector::FlushDeferredEntities(const void* event)
             FUN_00e10760(m_deferred, 0, m_numDeferred - 1, CompareByOffsetD4);
         for (int i = 0; i < m_numDeferred; i++)
             entityAdded(m_deferred[i]);
-        FUN_00c90740(m_deferred, m_numDeferred, sizeof(D0B630Entity*));
+        hkReferencedObject_removeReferences(m_deferred, m_numDeferred, sizeof(D0B630Entity*));
         m_numDeferred = 0;
     }
 }

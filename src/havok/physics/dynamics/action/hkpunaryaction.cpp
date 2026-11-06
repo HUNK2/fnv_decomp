@@ -114,7 +114,7 @@ void UnaryActionHelper::SetEntity(hkpEntity* entity)
     m_pEntity->RetainReference();
     if (hkpWorld* world = m_pOwningWorld)
     {
-        world->FUN_00c92bd0(this, m_pEntity);
+        world->hkpWorld_attachActionToEntity(this, m_pEntity);
     }
 }
 

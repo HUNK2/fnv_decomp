@@ -974,8 +974,8 @@ struct Context
     int unk30;
     Record** list34;
     int count38;
-    void FUN_00c93820(Callback* ptr);
-    void FUN_00c93920(int* ptr);
+    void hkpWorld_addEntityListener(Callback* ptr);
+    void hkpWorld_addWorldPostSimulationListener(int* ptr);
 };
 struct CenterOfMassRemovalDispatcher
 {
@@ -997,8 +997,8 @@ struct CenterOfMassRemovalDispatcher
 // @fnv 0x00d69c10
 void CenterOfMassRemovalDispatcher::FUN_00d69c10(Context* context)
 {
-    context->FUN_00c93820(this ? &callback28 : 0);
-    context->FUN_00c93920(this ? &data2c : 0);
+    context->hkpWorld_addEntityListener(this ? &callback28 : 0);
+    context->hkpWorld_addWorldPostSimulationListener(this ? &data2c : 0);
     for (int i = 0; i < context->count2c; ++i)
     {
         RemovalEntityList* pRemovalList = &context->list28[i]->data48;

@@ -9,7 +9,7 @@
 // src/havok/common/serialize/version/hkversionpatchmanager.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/serialize/version/hkversionpatchmanager.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern "C" void* __cdecl FUN_00cb1410(unsigned int);
+extern "C" void* __cdecl hkString_strDup_00cb1410(unsigned int);
 struct FUN_00d479e0_class
 {
     void* GetValue(const void* a, const void* b);
@@ -30,7 +30,7 @@ void* __thiscall FUN_00db7d00_class::FUN_00db7d00(unsigned int a)
         void* p = ((FUN_00d479e0_class*)((char*)this + 0x1c))->GetValue((const void*)a, 0);
         if (!p)
         {
-            p = FUN_00cb1410(a);
+            p = hkString_strDup_00cb1410(a);
             ((FUN_00d874d0_s*)((char*)this + 0x1c))->FUN_00d874d0((const char*)p, (int)p);
         }
         return p;
@@ -324,7 +324,7 @@ struct Entry_t
 struct Index_t
 {
     unsigned int unk00;
-    int __thiscall FUN_00cb1cb0(int a, int b, int c, int d);
+    int __thiscall hkMapBase_unsigned_int64_unsigned_int64_struct_hkMapOperations_unsigned_int64_getWithDefault(int a, int b, int c, int d);
 };
 
 struct Owner_t
@@ -341,7 +341,7 @@ __declspec(noinline) int __thiscall Owner_t::FUN_00db7d60(unsigned int a, unsign
     return (int)a;
 }
 
-extern "C" int __cdecl FUN_00cb0fa0(unsigned int a, unsigned int b);
+extern "C" int __cdecl hkString_strCmp(unsigned int a, unsigned int b);
 
 struct Cls_t
 {
@@ -361,7 +361,7 @@ struct Cls_t
 int Cls_t::FindEntry(int a, int b, int aiFlag)
 {
     Index_t* pIndex = &m18;
-    int idx = pIndex->FUN_00cb1cb0(a, b, -1, -1);
+    int idx = pIndex->hkMapBase_unsigned_int64_unsigned_int64_struct_hkMapOperations_unsigned_int64_getWithDefault(a, b, -1, -1);
     while (idx != -1)
     {
         Entry_t* e = m0C[idx];
@@ -371,21 +371,21 @@ int Cls_t::FindEntry(int a, int b, int aiFlag)
         }
         if (aiFlag == 0 && e->unk04 != 0)
         {
-            if (FUN_00cb0fa0(e->unk00, e->unk04) != 0)
+            if (hkString_strCmp(e->unk00, e->unk04) != 0)
             {
                 return idx;
             }
         }
         unsigned int key = e->unk04;
         unsigned int r = (unsigned int)m08->FUN_00db7d60(key, e->unk0C);
-        idx = pIndex->FUN_00cb1cb0((int)r, (int)key, -1, -1);
+        idx = pIndex->hkMapBase_unsigned_int64_unsigned_int64_struct_hkMapOperations_unsigned_int64_getWithDefault((int)r, (int)key, -1, -1);
     }
     return -1;
 }
 
 struct HelperClass
 {
-    int FUN_00cb1cb0(int a, int b, int c, int d);
+    int hkMapBase_unsigned_int64_unsigned_int64_struct_hkMapOperations_unsigned_int64_getWithDefault(int a, int b, int c, int d);
 };
 struct OwnerClass
 {
@@ -396,11 +396,11 @@ struct OwnerClass
 // @fnv 0x00dba210
 int OwnerClass::CallHelperWithDefaults(int first, int second)
 {
-    return helper.FUN_00cb1cb0(first, second, -1, -1);
+    return helper.hkMapBase_unsigned_int64_unsigned_int64_struct_hkMapOperations_unsigned_int64_getWithDefault(first, second, -1, -1);
 }
 
-void __cdecl FUN_00c908c0(hkMemoryAllocator& kAlloc, void* apvArray, int iReqCapacity, int iElementSize);
-void __cdecl FUN_00d2cc70(void* pvDst, const void* pvSrc, int iNumBytes);
+void __cdecl hkArrayUtil__reserve(hkMemoryAllocator& kAlloc, void* apvArray, int iReqCapacity, int iElementSize);
+void __cdecl hkMemUtil_memMove(void* pvDst, const void* pvSrc, int iNumBytes);
 
 inline void* __cdecl operator new(unsigned int, void* pvWhere)
 {
@@ -426,9 +426,9 @@ void BDBA270Array::_spliceInto(hkMemoryAllocator& kAlloc, int iIndex, int iNumTo
     if (getCapacity() < iNewSize)
     {
         int iNewCapacity = 2 * getCapacity();
-        FUN_00c908c0(kAlloc, this, iNewSize < iNewCapacity ? iNewCapacity : iNewSize, sizeof(BDBA270Element));
+        hkArrayUtil__reserve(kAlloc, this, iNewSize < iNewCapacity ? iNewCapacity : iNewSize, sizeof(BDBA270Element));
     }
-    FUN_00d2cc70(m_data + iIndex + iNumToInsert, m_data + iIndex + iNumToDel, iNumToMove * sizeof(BDBA270Element));
+    hkMemUtil_memMove(m_data + iIndex + iNumToInsert, m_data + iIndex + iNumToDel, iNumToMove * sizeof(BDBA270Element));
     BDBA270Element* pkDst = m_data + iIndex;
     for (int i = 0; i < iNumToInsert; i++)
         new (pkDst + i) BDBA270Element(pkItems[i]);
@@ -494,7 +494,7 @@ FUN_00dc7fd0_cls* FUN_00dc7fd0_cls::Initialize()
 namespace fnvc_adapt {
 extern "C" hkMemoryRouter& __cdecl FUN_00c85750() throw();
 }
-void __cdecl FUN_00c856c0(hkMemoryAllocator* pkAllocator, void* pvMem) throw();
+void __cdecl hkMemoryRouter_easyFree(hkMemoryAllocator* pkAllocator, void* pvMem) throw();
 
 template <class T, class A> __forceinline hkArray<T, A>::~hkArray()
 {
@@ -544,7 +544,7 @@ FUN_00db7f50::~FUN_00db7f50() throw()
         do
         {
             void* pvValue = pkValues->getValue(it);
-            FUN_00c856c0(&fnvc_adapt::FUN_00c85750().heap(), pvValue);
+            hkMemoryRouter_easyFree(&fnvc_adapt::FUN_00c85750().heap(), pvValue);
             it = pkValues->getNext(it);
             pkValues->isValid(&bValid, it);
         } while (bValid);
@@ -772,8 +772,8 @@ DBA1E0Object* __cdecl CreateDBA1E0Object()
 
 namespace fnv_00db95c0 {
 // Reordered source-vector loop and allocator acquisition; official check pending.
-extern "C" void* __cdecl FUN_00cb1410(unsigned int);
-void __cdecl FUN_00c908c0(hkMemoryAllocator* a, void* arr, int sz, int elem) throw();
+extern "C" void* __cdecl hkString_strDup_00cb1410(unsigned int);
+void __cdecl hkArrayUtil__reserve(hkMemoryAllocator* a, void* arr, int sz, int elem) throw();
 void __cdecl ResizeAudioStream(hkMemoryAllocator* a, void* arr, int elem) throw();
 struct VecP
 {
@@ -873,7 +873,7 @@ struct ObjCB
     int m_iArrayLength;
     int m_iCapacity;
     void ResizeToFit(hkMemoryAllocator* a, int b) throw();
-    int FUN_00cb1c60(unsigned __int64 key) throw();
+    int hkMapBase_unsigned_int64_unsigned_int64_struct_hkMapOperations_unsigned_int64_findKey(unsigned __int64 key) throw();
     void InsertKeyValue(hkMemoryAllocator* a, unsigned __int64 key, __int64 value) throw();
     void FUN_00cb1e40(hkMemoryAllocator* a) throw();
     void FUN_00a29680() throw();
@@ -892,10 +892,10 @@ struct HelperX
     int m_08;
     void FUN_00dc8030() throw();
     void FUN_00dc8080() throw();
-    void* FUN_00dc7300(int a) throw();
+    void* hkDataWorldDict_findClass(int a) throw();
     void FUN_00dc8270(void* a) throw();
     void* CreateItem(void* a) throw();
-    void FUN_00dc7390(void* a) throw();
+    void hkDataWorldDict_findAllClasses(void* a) throw();
     void FUN_00dc73f0(StrX* a, int b, int c) throw();
     void FUN_00dc7d20(StrX* a, int b, int c, int d, int e) throw();
     void FUN_00dc7600(StrX* a, int b) throw();
@@ -1072,7 +1072,7 @@ int This::ProcessVersionPatches(ArgA* apSource, ArgA* argB, VecP* apOutput)
     int initialCount = pSource.m_iArrayLength;
     hkMemoryRouter* initialHolder = ((hkMemoryRouter*)&fnvc_adapt::FUN_00c85750());
     if ((pairs.m_iCapacity & 0x3fffffff) < initialCount)
-        FUN_00c908c0(((hkMemoryAllocator*)initialHolder->m_heap), &pairs, initialCount, 8);
+        hkArrayUtil__reserve(((hkMemoryAllocator*)initialHolder->m_heap), &pairs, initialCount, 8);
     int i;
     for (i = 0; i < pSource.m_iArrayLength; i++)
     {
@@ -1101,7 +1101,7 @@ int This::ProcessVersionPatches(ArgA* apSource, ArgA* argB, VecP* apOutput)
         if (elem->m_08 != -1)
             continue;
         unsigned __int64 id = m_08->FUN_00db7d60(elem->m_04, elem->m_0c);
-        int idx = oPending.FUN_00cb1c60(id);
+        int idx = oPending.hkMapBase_unsigned_int64_unsigned_int64_struct_hkMapOperations_unsigned_int64_findKey(id);
         if (idx <= oPending.m_iCapacity)
             return 1;
         hkMemoryRouter* mapHolder = ((hkMemoryRouter*)&fnvc_adapt::FUN_00c85750());
@@ -1196,7 +1196,7 @@ int This::ProcessVersionPatches(ArgA* apSource, ArgA* argB, VecP* apOutput)
                         return 1;
                     }
                     int hv = pVerObj->FUN_00d46d40();
-                    if (!world.FUN_00dc7300(hv))
+                    if (!world.hkDataWorldDict_findClass(hv))
                         world.FUN_00dc8270(pVerObj);
                 }
             }
@@ -1212,7 +1212,7 @@ int This::ProcessVersionPatches(ArgA* apSource, ArgA* argB, VecP* apOutput)
                 int saved = ce->m_00;
                 int key = ce->m_04 ? ce->m_04 : saved;
                 StrX oStr;
-                oStr.FUN_00dba650(world.FUN_00dc7300(key));
+                oStr.FUN_00dba650(world.hkDataWorldDict_findClass(key));
                 if (oStr.FUN_00dba670())
                 {
                     ClassCinfo oCinfo;
@@ -1249,7 +1249,7 @@ int This::ProcessVersionPatches(ArgA* apSource, ArgA* argB, VecP* apOutput)
                         case 5: {
                             int* data5 = pr->m_04;
                             StrX removed;
-                            removed.FUN_00dba650(world.FUN_00dc7300(data5[0]));
+                            removed.FUN_00dba650(world.hkDataWorldDict_findClass(data5[0]));
                             removed.FUN_00dba660();
                             break;
                         }
@@ -1258,7 +1258,7 @@ int This::ProcessVersionPatches(ArgA* apSource, ArgA* argB, VecP* apOutput)
                             if (data6[0])
                             {
                                 StrX oTmpStr;
-                                oTmpStr.FUN_00dba650(world.FUN_00dc7300(data6[0]));
+                                oTmpStr.FUN_00dba650(world.hkDataWorldDict_findClass(data6[0]));
                                 world.AssignRefCountedSlot(&oStr, &oTmpStr);
                                 oTmpStr.FUN_00dba660();
                             }
@@ -1295,7 +1295,7 @@ int This::ProcessVersionPatches(ArgA* apSource, ArgA* argB, VecP* apOutput)
         drain.m_pData = 0;
         drain.m_iArrayLength = 0;
         drain.m_iCapacity = (int)0x80000000;
-        world.FUN_00dc7390(&drain);
+        world.hkDataWorldDict_findAllClasses(&drain);
         MgrB mga;
         MgrB mgb;
         mga.FUN_00d87790(MapTag());
@@ -1335,7 +1335,7 @@ int This::ProcessVersionPatches(ArgA* apSource, ArgA* argB, VecP* apOutput)
 }
 }  // namespace fnv_00db95c0
 
-extern "C" void* __cdecl FUN_00cb1410(unsigned int);
+extern "C" void* __cdecl hkString_strDup_00cb1410(unsigned int);
 
 struct PatchFactory
 {
@@ -1484,7 +1484,7 @@ int __thiscall DBA1A0Class::FUN_00dba1a0(int aiKey)
 // @fnv 0x00db7d40
 struct C
 {
-    void __thiscall FUN_00db7cf0(int, int);
+    void __thiscall hkVersionPatchManager_UidFromClassVersion_getName(int, int);
 };
 struct W
 {
@@ -1494,7 +1494,7 @@ struct W
 };
 void W::FUN_00db7d40(Pair pair)
 {
-    inner->FUN_00db7cf0(pair.a, pair.b);
+    inner->hkVersionPatchManager_UidFromClassVersion_getName(pair.a, pair.b);
 }
 
 namespace fnv_00dba4d0 {
@@ -1666,7 +1666,7 @@ struct S00db94b0_Node_s
 
 struct S00db94b0_Sub_s
 {
-    int FUN_00cb1cb0(unsigned __int64 key, __int64 val);
+    int hkMapBase_unsigned_int64_unsigned_int64_struct_hkMapOperations_unsigned_int64_getWithDefault(unsigned __int64 key, __int64 val);
 };
 
 struct S00db94b0_Owner_s
@@ -1699,13 +1699,13 @@ extern "C" void __cdecl FUN_00db94b0(S00db94b0_Array_s* apArray, int a2, int a3,
     int idx = -1;
     if (node == 0 || node->v3() != a3)
     {
-        idx = apSubA->FUN_00cb1cb0(key, -1LL);
+        idx = apSubA->hkMapBase_unsigned_int64_unsigned_int64_struct_hkMapOperations_unsigned_int64_getWithDefault(key, -1LL);
     }
 
-    int t = apSubB->FUN_00cb1cb0(key, 0LL);
+    int t = apSubB->hkMapBase_unsigned_int64_unsigned_int64_struct_hkMapOperations_unsigned_int64_getWithDefault(key, 0LL);
     if (idx == -1 || t == 1)
     {
-        idx = apOwner->sub.FUN_00cb1cb0(key, -1LL);
+        idx = apOwner->sub.hkMapBase_unsigned_int64_unsigned_int64_struct_hkMapOperations_unsigned_int64_getWithDefault(key, -1LL);
     }
 
     DBA230Entry s;

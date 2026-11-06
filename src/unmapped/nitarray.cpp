@@ -26,7 +26,7 @@
 void NiD3DRenderState::FUN_00e87980(void* apData)
 {
     ((NiD3DShaderFactory*)((char*)this + 0xf8))->UpdateShaderMaterialCache(apData);
-    ((NiD3DShaderFactory*)((char*)this + 0xf8))->FUN_00e94050(*(void**)((char*)this + 0x10f8));
+    ((NiD3DShaderFactory*)((char*)this + 0xf8))->NiDX9MaterialManager_UpdateToDevice(*(void**)((char*)this + 0x10f8));
 }
 
 struct FUN_009ba5f0_shell
@@ -122,7 +122,7 @@ void __cdecl DeleteNiNodePointerArray(NiPointer<NiNode>* pNodePointerArray)
 }
 
 void* __cdecl FUN_00aa1070(unsigned int auiSize);
-void __cdecl FUN_00aa10f0(void* apMemory);
+void __cdecl _NiFree_00aa10f0(void* apMemory);
 
 template <> inline KeyPair** NiTMallocInterface<KeyPair*>::Allocate(unsigned int auiCount)
 {
@@ -167,7 +167,7 @@ template <> void NiTArray<KeyPair*, NiTMallocInterface<KeyPair*> >::SetSize(unsi
         this->m_pBase = 0;
     }
 
-    FUN_00aa10f0(oldEntries);
+    _NiFree_00aa10f0(oldEntries);
 }
 
 // Stores the entry pointer at the given index, growing the count and adjusting the non-null entry counter when the slot's nullness changes.
@@ -501,12 +501,13 @@ struct FUN_00e87920_cls
     int unk30;
     int m_34;
 
-    int FUN_00e87920(NiShaderConstantMapEntry* apObj);
+    int NiD3DShaderConstantMap_InsertEntry_00e87920(NiShaderConstantMapEntry* apObj);
 };
 
 // Holds a reference on apObj while calling FUN_00e87800 on the sub-object at unk1c; sets m_34 to 0x30 if it returns -1, and returns m_34.
 // @fnv 0x00e87920
-int FUN_00e87920_cls::FUN_00e87920(NiShaderConstantMapEntry* apObj)
+// src: GAMEBRYO_LIB 0x00e87920
+int FUN_00e87920_cls::NiD3DShaderConstantMap_InsertEntry_00e87920(NiShaderConstantMapEntry* apObj)
 {
     NiShaderConstantMapEntry* pObj = apObj;
     *(NiShaderConstantMapEntry* volatile*)&apObj = pObj;
@@ -989,7 +990,8 @@ struct MaterialDeviceView
 };
 
 // @fnv 0x00e94050
-__declspec(noinline) void NiD3DShaderFactory::FUN_00e94050(void* apDevice)
+// src: GAMEBRYO_LIB 0x00e94050
+__declspec(noinline) void NiD3DShaderFactory::NiDX9MaterialManager_UpdateToDevice(void* apDevice)
 {
     MaterialDeviceView* device = (MaterialDeviceView*)apDevice;
     if (*(bool*)((char*)this + 4))

@@ -21,7 +21,7 @@ inline void hkVector4::sub4(const hkVector4& v)
 // src/havok/common/base/math/swepttransform/hkswepttransformutil_gs_nogs_variant.cpp - flag-variant unit created 2026-10-29 by flag_proofs.py: contributor code for these functions matched byte for
 // byte only under /MT /O2 /GS- /EHsc /Gy (unit src/havok/common/base/math/swepttransform/hkswepttransformutil.cpp lists /MT /O2 /GS /EHsc /Gy). Declarations copied from that unit's skeleton; move the functions
 // to their real unit once identified.
-void FUN_00cf1480(float a, float b, int* c);
+void hkSweptTransformUtil_setTimeInformation(float a, float b, int* c);
 struct S_00cf10f0_BinaryStream;
 typedef unsigned int(__cdecl* S_00cf10f0_ReadFn)(S_00cf10f0_BinaryStream* pkThis, void* pvBuffer, unsigned int uiBytes,
                                                  unsigned int* puiComponentSizes, unsigned int uiNumComponents);
@@ -413,7 +413,7 @@ struct S_00cf10f0_Router
 };
 S_00cf10f0_Router* FUN_00c85750() throw();
 struct S_00cf10f0_Arr4;
-void __cdecl FUN_00c908c0(S_00cf10f0_Heap* heap, S_00cf10f0_Arr4* arr, int n, int elemSize);
+void __cdecl hkArrayUtil__reserve(S_00cf10f0_Heap* heap, S_00cf10f0_Arr4* arr, int n, int elemSize);
 struct S_00cf10f0_Arr4
 {
     int* m_data;
@@ -424,7 +424,7 @@ struct S_00cf10f0_Arr4
         S_00cf10f0_Heap& h = FUN_00c85750()->heap();
         int cap = m_cap & 0x3fffffff;
         if (cap < n)
-            FUN_00c908c0(&h, this, (n < cap * 2) ? cap * 2 : n, 4);
+            hkArrayUtil__reserve(&h, this, (n < cap * 2) ? cap * 2 : n, 4);
     }
     __forceinline void SetSizeAndGrow(int n) throw()
     {
@@ -443,7 +443,7 @@ struct S_00cf10f0_Arr4
 };
 int __cdecl LoadIntArray(S_00cf10f0_Stream* kStream, S_00cf10f0_Arr4* arr);
 int __cdecl FUN_00cf1f80(int, int, int);
-int __cdecl FUN_00cf2160(unsigned int arg0, unsigned int arg1);
+int __cdecl hkSweptTransformUtil_warpToRotation(unsigned int arg0, unsigned int arg1);
 #include <xmmintrin.h>
 struct Obj
 {
@@ -515,7 +515,7 @@ __forceinline void interpolate(__m128& dst, __m128 a, __m128 b, float w)
     dst = _mm_add_ps(_mm_mul_ps(other, a), _mm_mul_ps(wb, b));
 }
 void __cdecl UpdateRotationInterpolation(float time, FUN_008cd6a0_Class* self);
-void FUN_00cf1480(float a, float b, int* c);
+void hkSweptTransformUtil_setTimeInformation(float a, float b, int* c);
 struct __declspec(align(16)) MotionMat4
 {
     hkVector4 c0;

@@ -60,11 +60,11 @@ class GlobalObjectO2_00d472a0 : public FUN_00d46d40_s
     int m_00;
 };
 extern GlobalObjectO2_00d472a0 g_01268748;
-int __cdecl FUN_00cb0fa0(const char* pcA, const char* pcB) throw();
+int __cdecl hkString_strCmp(const char* pcA, const char* pcB) throw();
 class hkVersionCheckDC11
 {
   public:
-    int FUN_00e032d0(const hkClassMember* pkOld, const hkClassMember* pkNew) throw();
+    int hkObjectCopier_areMembersCompatible(const hkClassMember* pkOld, const hkClassMember* pkNew) throw();
     int IsMemberCompatible(const hkClassMember* pkOld, const hkClassMember* pkNew) throw();
 };
 class hkMemoryAllocatorDC12;
@@ -128,7 +128,7 @@ class FUN_00d274c0 : public FUN_00d27520
 {
   public:
     FUN_00d274c0(void* pvMem, int m_uiSizeAndFlags, hkBool bMemoryIsString) throw();
-    int FUN_00d27380(int offset, int whence) throw();
+    int hkBufferedStreamWriter_seek(int offset, int whence) throw();
 };
 struct EntryDC10
 {
@@ -149,7 +149,7 @@ class SectionsDC10
   public:
     int FUN_00d470d0() throw();
     int FUN_00d46f00() throw();
-    EntryDC10* FUN_00d46f20(int i) throw();
+    EntryDC10* getMember(int i) throw();
     void InvokeTarget(int i, FUN_00d27520* pkWriter) throw();
 };
 void __cdecl FUN_00dc1070(void* pvBuf, SetDC10* pkSet, SectionsDC10* pkSections);
@@ -172,7 +172,7 @@ struct S00dc15a0_Array
     int m_iElementCount;
     int m_capFlags;
 };
-extern "C" void __cdecl FUN_00c908c0(S00dc15a0_Buffer* buffer, int** indices, int size, int elementSize);
+extern "C" void __cdecl hkArrayUtil__reserve(S00dc15a0_Buffer* buffer, int** indices, int size, int elementSize);
 static __declspec(noinline) int FUN_00dc12c0(S00dc15a0_Params* params, int value, int flags, S00dc15a0_Array* arr)
 {
     arr->m_iElementCount = (int)&params + (int)&value + (int)&flags;
@@ -305,7 +305,7 @@ struct CopyWriter : Object
     int position;
     int options;
     void FUN_00dc1040(CopyOption*, CopyOption*);
-    int FUN_00e04920(void*, int, int, int, Relocations*);
+    int hkObjectCopier_copyObject(void*, int, int, int, Relocations*);
     ~CopyWriter()
     {
         FUN_00e03160();
@@ -388,7 +388,7 @@ static __declspec(noinline) char* FUN_00dc12c0(IndexArray* indices, ObjectInput 
         hkMemoryRouter* entryRouter = (&hkMemoryRouter::getInstance());
         _ReadWriteBarrier();
         map.FUN_00cb1870(reinterpret_cast<CopyAllocator*>(entryRouter->m_heap), entryObject, entryOffset);
-        writer.FUN_00e04920(object->object, object->type, (int)stream.writer, type, &fixups);
+        writer.hkObjectCopier_copyObject(object->object, object->type, (int)stream.writer, type, &fixups);
     }
     int size = buffer.size;
     if (size)

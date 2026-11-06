@@ -165,7 +165,7 @@ struct Allocator
     virtual void freeChunk(void*, int);
 };
 extern void FUN_00c90940(void*, void*, int);
-extern void FUN_00c908c0(void*, void*, int, int);
+extern void hkArrayUtil__reserve(void*, void*, int, int);
 struct OutputShape
 {
     int field00;
@@ -232,7 +232,7 @@ static __forceinline void PlaneArray_reserve(hkArrayBase<PlaneVector>& self, int
             int wanted = 2 * old;
             if (wanted <= count)
                 wanted = count;
-            FUN_00c908c0(a, (&self), wanted, 16);
+            hkArrayUtil__reserve(a, (&self), wanted, 16);
         }
     }
 
@@ -403,7 +403,8 @@ struct ConvexOutput
     unsigned short memorySize, references;
     OutputShape* FUN_00de1d20(Geometry*);
 };
-static __declspec(noinline) OutputShape* FUN_00de3360(hkArrayBase<PlaneVector>* planes, const Transform* transform)
+// src: HAVOK_LIB 0x00de3360
+static __declspec(noinline) OutputShape* _createConvexDisplayFromPlanes(hkArrayBase<PlaneVector>* planes, const Transform* transform)
 {
     hkArrayBase<PlaneVector> vertices(FinishingFlag(0));
     vertices.m_data = 0;
@@ -627,7 +628,7 @@ void Processor::FUN_00de3520(Shape* shape, const Transform* transform, OutputArr
         planes.m_data[7] = _mm_add_ps(planes.m_data[4], planes.m_data[2]);
         planes.m_data[7] = normalizedUsing(planes.m_data[7], normZero, normThree, normHalf);
         planeDistance(planes, 7, *a, radius);
-        OutputShape* result = FUN_00de3360(&planes, transform);
+        OutputShape* result = _createConvexDisplayFromPlanes(&planes, transform);
         if (result)
             output->append(result);
         PlaneArray_release(planes);
@@ -672,7 +673,7 @@ void Processor::FUN_00de3520(Shape* shape, const Transform* transform, OutputArr
             }
         }
         FUN_00de3200(shape, &planes, radius);
-        OutputShape* result = FUN_00de3360(&planes, transform);
+        OutputShape* result = _createConvexDisplayFromPlanes(&planes, transform);
         if (result)
             output->append(result);
         PlaneArray_release(planes);

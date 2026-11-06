@@ -8,7 +8,7 @@
 
 struct FUN_00dd9380_class
 {
-    void* FUN_00dd9380(const char* name, void* factory);
+    void* hkProcessFactory_registerProcess(const char* name, void* factory);
 };
 extern int DAT_01269cd0;
 extern int DAT_01268fbc;
@@ -16,7 +16,7 @@ void* __cdecl FUN_00d62e20();
 // @fnv 0x00d62e60
 void __cdecl RegisterWeldingViewer()
 {
-    void* result = ((FUN_00dd9380_class*)DAT_01269cd0)->FUN_00dd9380("WeldingViewer", (void*)&FUN_00d62e20);
+    void* result = ((FUN_00dd9380_class*)DAT_01269cd0)->hkProcessFactory_registerProcess("WeldingViewer", (void*)&FUN_00d62e20);
     DAT_01268fbc = (int)result;
 }
 
@@ -31,7 +31,7 @@ struct S_00d62650_B3
 };
 struct S_00d62650_Arg
 {
-    void __thiscall FUN_00c93920(S_00d62650_B3* p);
+    void __thiscall hkpWorld_addWorldPostSimulationListener(S_00d62650_B3* p);
 };
 struct S_00d62650_B2
 {
@@ -47,7 +47,7 @@ struct S_00d62650_D : S_00d62650_B1, S_00d62650_B2, S_00d62650_B3
 // @fnv 0x00d62650
 void S_00d62650_D::DispatchToArg(S_00d62650_Arg* arg)
 {
-    arg->FUN_00c93920(this);
+    arg->hkpWorld_addWorldPostSimulationListener(this);
 }
 
 // hkpWeldingViewer - virtual slot 2 of the base subobject at +0x20.
@@ -78,7 +78,7 @@ void HKConstraint::FUN_00d62680(HKWorldList* pWorldList)
 
 struct S_00d626b0_Item
 {
-    void FUN_00c93920(void* apSub);
+    void hkpWorld_addWorldPostSimulationListener(void* apSub);
 };
 
 struct S_00d626b0_Owner
@@ -160,7 +160,7 @@ FUN_00d626b0::FUN_00d626b0(int aiArg) throw() : S_00d626b0_R(aiArg)
     if (m_24)
     {
         for (int i = 0; i < m_24->m_70; i++)
-            m_24->m_6c[i]->FUN_00c93920((S_00d626b0_S*)this);
+            m_24->m_6c[i]->hkpWorld_addWorldPostSimulationListener((S_00d626b0_S*)this);
     }
 }
 

@@ -91,12 +91,13 @@ struct GridCell {
     void* m30;
     int m34;
 
-    void FUN_00dd1da0(GridSource* a1, GridBounds* a2, int a3);
+    void hkpMoppObbVirtualMachine_queryAabb(GridSource* a1, GridBounds* a2, int a3);
     void Execute(GridScratch* s, unsigned char* p, int z);
 };
 
 // @fnv 0x00dd1da0
-void GridCell::FUN_00dd1da0(GridSource* a1, GridBounds* a2, int a3) {
+// src: HAVOK_LIB 0x00dd1da0
+void GridCell::hkpMoppObbVirtualMachine_queryAabb(GridSource* a1, GridBounds* a2, int a3) {
     m30 = a1;
     m00 = a3;
     float s = a1->f1c;

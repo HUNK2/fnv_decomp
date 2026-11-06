@@ -42,17 +42,17 @@ struct FUN_00cf4ca0_class {
     int m_auiShapeKeys[6];
     hkReferencedObject* m_kPointA;
     hkReferencedObject* m_kPointB;
-    void FUN_00cf4ca0();
+    void hkpBinaryAction__referenceBodies();
 };
 struct FUN_00d06d50_cls {
     int __thiscall FindClass(int);
 };
-extern "C" void __cdecl FUN_00cf6920(int, int, int);
-void __cdecl FUN_00cf6950(int a, int b);
+extern "C" void __cdecl hkStatisticsCollectorUtil_addClassContentsAll(int, int, int);
+void __cdecl hkStatisticsCollectorUtil_addClassContentsAll_00cf6950(int a, int b);
 struct FUN_00cf86f0_class {
     int IsFieldEqual();
 };
-unsigned short FUN_00cfcb80(unsigned short a, unsigned short b);
+unsigned short hkMath_min2_unsigned_short(unsigned short a, unsigned short b);
 extern int DAT_010cb864;
 struct FUN_00ce4ae0_cls {
     int __thiscall FUN_00ce4ae0(int);
@@ -71,9 +71,9 @@ struct FUN_00cf69c0_class {
     int m_kPointA;
     int m_auiShapeKeys;
     int m_kPointB;
-    int __thiscall FUN_00cf69c0(int a);
+    int __thiscall hkSingletonInitNode_findByName(int a);
 };
-int __cdecl FUN_00cb0fa0(int a, int b);
+int __cdecl hkString_strCmp(int a, int b);
 struct FUN_00cf86e0_class {
     void FUN_00cf86e0(float f);
 };
@@ -126,11 +126,11 @@ struct FnvSpawnedObject {
     FnvProbe m_20;
     unsigned char* Check(FnvSpawnedObject** ref);
 };
-bool __cdecl FUN_00ce2a00(int unused, FnvSpawnedObject* obj);
+bool __cdecl hkaSkeletonMapper_checkTransform(int unused, FnvSpawnedObject* obj);
 void __cdecl FUN_00ce2ca0(int a1, int a2, int* a3, int a4);
-void __cdecl FUN_00ce2cf0(int param_1, int param_2, int param_3);
+void __cdecl hkaSkeletonMapper_mapExtractedMotion(int param_1, int param_2, int param_3);
 void __cdecl FUN_00ce3090(int a1, int a2, int a3, int a4, int a5, int a6);
-void __cdecl FUN_00ce4330(int a1, int a2, int a3, int a4);
+void __cdecl hkaSkeletonMapper_mapPoseLocalSpace_00ce4330(int a1, int a2, int a3, int a4);
 struct FnvKeyRec {
     unsigned short m_iOwnerObjectOffset;
     int unk04;
@@ -353,7 +353,7 @@ struct FUN_00cf8710_cls
     float m_14;
     float m_18;
 
-    bool FUN_00cf8710();
+    bool hkpSimulation_isSimulationAtPsi();
 };
 extern MemoryManager _g_memoryManager;
 class CF4840Saver {
@@ -554,7 +554,7 @@ struct hkOwnerCF74 {
     int unk9C, unkA0, unkA4, unkA8, unkAC, unkB0, unkB4, unkB8, unkBC, unkC0, unkC4, unkC8, unkCC, unkD0;
     unsigned int m_d4;
 };
-int __cdecl FUN_00cf74b0(const OwnerSubindexEntry& a, const OwnerSubindexEntry& b);
+int __cdecl hkpWorldBodyOperationQueueSortCmp(const OwnerSubindexEntry& a, const OwnerSubindexEntry& b);
 struct hkQualityCF74 {
     int unk00;
     int unk04;
@@ -776,7 +776,7 @@ public:
     virtual void Unk05();
     virtual void EnableConstraints();
 };
-void __cdecl FUN_00d27690(CE0020Target* pTarget, CE0020Subject* pSubject, int iType);
+void __cdecl hkpWorldConstraintUtil_removeAndDeleteModifier(CE0020Target* pTarget, CE0020Subject* pSubject, int iType);
 void __cdecl EnableConstraintsAndZeroArrays(CE0020Target* pTarget, CE0020Subject* pSubject);
 void __cdecl FUN_00ce2d10();
 void __cdecl FUN_00ce2f30();

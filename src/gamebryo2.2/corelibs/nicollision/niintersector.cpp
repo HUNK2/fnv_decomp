@@ -11,7 +11,8 @@ struct VTableObject
     virtual void __fastcall Release(int value);
 };
 // @fnv 0x00eae6e0
-void __fastcall FUN_00eae6e0(VTableObject* object, int value)
+// src: GAMEBRYO_SRC 0x00eae6e0
+void __fastcall NiIntersector_Test(VTableObject* object, int value)
 {
     object->Release(value);
 }

@@ -1326,7 +1326,7 @@ IdentifierState FUN_00ae5870_t::FUN_00ae5870(const char* pName, unsigned int uiF
 
 extern int DAT_010a3368, DAT_010a3308, DAT_010a33b0;
 extern int DAT_010a3328, DAT_010a3390, DAT_010a3348, DAT_010a3370;
-extern "C" void __cdecl FUN_00aa10f0(void*);
+extern "C" void __cdecl _NiFree_00aa10f0(void*);
 extern "C" void __cdecl FUN_00a1bbd0();
 void __stdcall FUN_0065ee50_Helper(void*, unsigned int, int, void(__cdecl*)());
 struct StackView
@@ -1391,7 +1391,7 @@ template <int* V, int Pad> struct ContainerBase
     {
         ReserveFrame<Pad>();
         ClearAll();
-        FUN_00aa10f0(offset_08);
+        _NiFree_00aa10f0(offset_08);
     }
 };
 template <int* V, int* B, int Pad = 1> struct ContainerView : ContainerBase<B, Pad>
@@ -7730,7 +7730,7 @@ namespace fnv_00ae9150 {
 extern char DAT_010a3308;
 extern char DAT_010a33b0;
 
-void __cdecl FUN_00aa10f0(int value);
+void __cdecl _NiFree_00aa10f0(int value);
 
 struct S00ae9150_Pool
 {
@@ -7770,7 +7770,7 @@ S00ae9150_Obj* S00ae9150_Obj::FUN_00ae9150(unsigned int aFlags)
     }
     m_vptr = &DAT_010a33b0;
     ClearAll();
-    FUN_00aa10f0(m_08);
+    _NiFree_00aa10f0(m_08);
     if (aFlags & 1)
     {
         DAT_011f6238.FUN_00aa4060(this);

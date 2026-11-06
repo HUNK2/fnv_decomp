@@ -230,7 +230,7 @@ class ConstraintDrawer
     }
 
   protected:
-    void FUN_00de44c0(int id, int tag);
+    void hkpConstraintDrawer_drawPivots(int id, int tag);
     void FUN_00de4530(int id, int tag);
     void FUN_00de47e0(const hkpConstraintInstance* constraint, hkTransform& refLocalToWorld,
                       hkTransform& attLocalToWorld);
@@ -325,7 +325,7 @@ __forceinline void HingeConstraintDrawer::drawHinge(hkpConstraintInstance* const
     m_vVectorAtOffset50.FUN_00c7f640(refLocalToWorld, hkVector4::getZero());
     m_vVectorAtOffset40.FUN_00c7f640(attLocalToWorld, hkVector4::getZero());
     FUN_00de4530(id, tag);
-    FUN_00de44c0(id, tag);
+    hkpConstraintDrawer_drawPivots(id, tag);
     const hkVector4* baseA = &lhinge->m_kBridgeAtoms.m_kLocalRotations.m_kRotationA.getColumn(0);
     const hkVector4* baseB = &lhinge->m_kBridgeAtoms.m_kLocalRotations.m_kRotationB.getColumn(0);
     hkVector4 axisInWorld;

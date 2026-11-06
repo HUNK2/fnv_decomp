@@ -303,7 +303,7 @@ extern int DAT_0109f4b0;
 extern int DAT_0109f3d0;
 extern void(__stdcall* DAT_00fdf058)(void*);
 
-void __cdecl FUN_00aa10f0(void* apMemory);
+void __cdecl _NiFree_00aa10f0(void* apMemory);
 
 extern MemoryManager DAT_011f6238;
 
@@ -328,7 +328,7 @@ FUN_00a8d850_cls* FUN_00a8d850_cls::DestroyImageReader(unsigned char acFlags)
 {
     void* pFirst = m_p164;
     *(int*)this = (int)&DAT_0109f4b0;
-    FUN_00aa10f0(pFirst);
+    _NiFree_00aa10f0(pFirst);
     void* pSecond = m_p16c;
     DAT_011f6238.Deallocate(pSecond);
     *(int*)this = (int)&DAT_0109f3d0;
@@ -345,7 +345,7 @@ struct ClsSub
     ClsSub* NiPalette_NiPalette_00a8b110(int b, int w, int d);
 };
 extern void* __cdecl FUN_00aa13e0(unsigned int size);
-extern void __cdecl FUN_00aa10f0(void* p);
+extern void __cdecl _NiFree_00aa10f0(void* p);
 extern void* __cdecl FUN_00aa1070(unsigned int size);
 extern void(__stdcall* DAT_00fdf05c)(void*);
 extern void(__stdcall* DAT_00fdf100)(void*);
@@ -469,7 +469,7 @@ NiPixelData* ClsReader::ReadImage(NiBinaryStream* stream, NiPixelData* image)
     if (m_pRayCursor < (unsigned int)count)
     {
         m_pRayCursor = count;
-        FUN_00aa10f0(m_buffer);
+        _NiFree_00aa10f0(m_buffer);
         m_buffer = (unsigned char*)FUN_00aa1070(m_pRayCursor);
     }
     int iOffset = (int)*image->m_puiOffsetInBytes + (int)image->m_pucPixels;
@@ -1005,11 +1005,12 @@ struct DDSReader : NiImageReader
     void(__fastcall* m_pfnPixelConverter)(char*, int, unsigned char*, unsigned char*);
     unsigned int d174;
     unsigned char b178, b179, b17a, b17b;
-    bool FUN_00a8dce0(NiBinaryStream* stream, int* pA, int* pB, NiPixelFormat* pFmt, unsigned char* pByte, int* pFlag);
+    bool NiTGAReader_ReadHeader(NiBinaryStream* stream, int* pA, int* pB, NiPixelFormat* pFmt, unsigned char* pByte, int* pFlag);
 };
 // Seeks to the start, reads fields, selects m_eFormat and a converter, and writes values to pFlag, pA, pB, pFmt, and pByte.
 // @fnv 0x00a8dce0
-bool DDSReader::FUN_00a8dce0(NiBinaryStream* stream, int* apWidth, int* apHeight, NiPixelFormat* apFormat,
+// src: GAMEBRYO_SRC 0x00a8dce0
+bool DDSReader::NiTGAReader_ReadHeader(NiBinaryStream* stream, int* apWidth, int* apHeight, NiPixelFormat* apFormat,
                              unsigned char* pByte, int* pFlag)
 {
     NiBinaryStream& kReadStream = *stream;

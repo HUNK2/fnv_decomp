@@ -109,11 +109,11 @@ struct BlendRagdoll {
 };
 struct BlendState { int unk00,unk04,unk08,unk0c; int source,dest; BlendRagdoll* ragdoll; };
 struct BlendAccess {
-    int* __thiscall FUN_00cda8d0();
+    int* __thiscall hkaPose_getSyncedPoseModelSpace();
     int* __thiscall FUN_00cda4b0();
     int* __thiscall FUN_00cdb290();
     void __thiscall FUN_00cd9fe0();
-    int sourceValue() {return *FUN_00cda8d0();}
+    int sourceValue() {return *hkaPose_getSyncedPoseModelSpace();}
     int valueA() {return *FUN_00cda4b0();}
     int valueB() {return *FUN_00cdb290();}
 };
@@ -522,11 +522,11 @@ struct FUN_00cdb400 {
 };
 typedef FUN_00cdb400 SkinState;
 int __cdecl ApplyToCollisionBodies(BoneTransformData*, ArrayStorage*, ArrayStorage*);
-int __cdecl FUN_00cea030(ArrayStorage*, ArrayStorage*);
+int __cdecl hkaRagdollUtils_reorderForRagdoll(ArrayStorage*, ArrayStorage*);
 BoneTransformData* __cdecl FUN_00ceb2c0(ArrayStorage*, ArrayStorage*);
 void __cdecl FUN_00c74dd0(void*, const MatrixTransform*);
 void __cdecl FUN_00624ad0(MatrixTransform*, const void*);
-void* __cdecl FUN_00cea810(BoneTransformData*, ArrayStorage*, ArrayStorage*);
+void* __cdecl hkaRagdollUtils_createRagdollInstanceFromSkeleton(BoneTransformData*, ArrayStorage*, ArrayStorage*);
 int __cdecl FUN_00ec7750(const char*, const char*);
 void __cdecl FUN_00ce61c0(PoseState*, PoseBuffer*, PoseBuffer*);
 InputScene* __cdecl FUN_00c802d0(Argument*);
@@ -1009,7 +1009,7 @@ struct EntityView : WorldView {
     unsigned int unk214;
     unsigned int unk218;
     unsigned int unk21c;
-    void FUN_00c9c1d0();
+    void activate_00c9c1d0();
     MotionView* getMotion() { return &m_pMotionState; }
 };
 struct BodyView : EntityView {
@@ -1018,8 +1018,8 @@ struct BodyView : EntityView {
     void setQualityType(hkpCollidableQualityType value) { getCollidableRw()->getBroadPhaseHandle()->m_ucObjectQualityType=(char)value; }
     const VectorValue& getLinearVelocity() const { return m_pMotionState.getLinearVelocity(); }
     const VectorValue& getAngularVelocity() const { return m_pMotionState.getAngularVelocity(); }
-    void FUN_00ca8420(MotionKind,hkpEntityActivation,hkpUpdateCollisionFilterOnEntityMode);
-    void FUN_00ca8630(bool);
+    void hkpRigidBody_setMotionType(MotionKind,hkpEntityActivation,hkpUpdateCollisionFilterOnEntityMode);
+    void hkpRigidBody_enableDeactivation(bool);
 };
 template<class T> __forceinline T* AddBytes(T* p,int bytes) { return (T*)((char*)p+bytes); }
 __forceinline int ByteDistance(const void* from,const void* to) { return (int)((const char*)to-(const char*)from); }
@@ -1247,13 +1247,13 @@ struct Controller {
 };
 __forceinline void UpdateLinear(BodyView* body,const VectorValue& value) {
     if(!value.equal(body->getLinearVelocity())) {
-        body->FUN_00c9c1d0();
+        body->activate_00c9c1d0();
         body->getMotion()->SetTranslationalVelocity(value);
     }
 }
 __forceinline void UpdateAngular(BodyView* body,const VectorValue& value) {
     if(!value.equal(body->getAngularVelocity())) {
-        body->FUN_00c9c1d0();
+        body->activate_00c9c1d0();
         body->getMotion()->SetRotationalVelocity(value);
     }
 }
@@ -1270,7 +1270,7 @@ static __forceinline void* AllocateBuffer(unsigned n) { Context* context=(Contex
 static __forceinline int Maximum(int first,int second) { return first >= second ? first : second; }
 struct SmallMember { unsigned data; __forceinline SmallMember() { FUN_00cb0a60(); } __forceinline ~SmallMember() { FUN_00cb0c00(); } void FUN_00cb0a60(); void FUN_00cb0c00(); };
 struct Entry { SmallMember member; unsigned char enabled; __forceinline Entry():enabled(0) {} };
-extern void __cdecl FUN_00c908c0(Heap&, void*, int, unsigned);
+extern void __cdecl hkArrayUtil__reserve(Heap&, void*, int, unsigned);
 // Mesh data arrays use 0x30-byte records of three SIMD packets; these are not the shared 0x40-byte Transform.
 struct __declspec(align(16)) MeshPacketRecord48 { LocalM128 x,y,z; };
 struct S7de60_IsPod {};
@@ -1291,30 +1291,30 @@ struct S7de60_HeapAlloc { __forceinline Heap& get(const void*) { return ((S7de60
 // Exe 0x00c7de60: Havok arrays retain their original heap growth and element construction inlines.
 template <> __forceinline void hkArray<MeshPacketRecord48,hkContainerHeapAllocator>::setSize(int n) {
  ::Heap& alloc=::S7de60_HeapAlloc().get(this);
- const int cap=getCapacity(); if(cap<n) { int cap2=2*cap; int newSize=(n<cap2)?cap2:n; FUN_00c908c0(alloc,this,newSize,sizeof(MeshPacketRecord48)); }
+ const int cap=getCapacity(); if(cap<n) { int cap2=2*cap; int newSize=(n<cap2)?cap2:n; hkArrayUtil__reserve(alloc,this,newSize,sizeof(MeshPacketRecord48)); }
  S7de60_ArrayUtil::destruct(m_data+n,m_iElementCount-n,S7de60_PodTrait<MeshPacketRecord48>::type());
  S7de60_ArrayUtil::construct(m_data+m_iElementCount,n-m_iElementCount,S7de60_PodTrait<MeshPacketRecord48>::type()); m_iElementCount=n;
 }
 template <> __forceinline void hkArray<int,hkContainerHeapAllocator>::setSize(int n) {
  ::Heap& alloc=::S7de60_HeapAlloc().get(this);
- const int cap=getCapacity(); if(cap<n) { int cap2=2*cap; int newSize=(n<cap2)?cap2:n; FUN_00c908c0(alloc,this,newSize,sizeof(int)); }
+ const int cap=getCapacity(); if(cap<n) { int cap2=2*cap; int newSize=(n<cap2)?cap2:n; hkArrayUtil__reserve(alloc,this,newSize,sizeof(int)); }
  S7de60_ArrayUtil::destruct(m_data+n,m_iElementCount-n,S7de60_PodTrait<int>::type());
  S7de60_ArrayUtil::construct(m_data+m_iElementCount,n-m_iElementCount,S7de60_PodTrait<int>::type()); m_iElementCount=n;
 }
 template <> __forceinline void hkArray<Entry,hkContainerHeapAllocator>::setSize(int n) {
  ::Heap& alloc=::S7de60_HeapAlloc().get(this);
- const int cap=getCapacity(); if(cap<n) { int cap2=2*cap; int newSize=(n<cap2)?cap2:n; FUN_00c908c0(alloc,this,newSize,sizeof(Entry)); }
+ const int cap=getCapacity(); if(cap<n) { int cap2=2*cap; int newSize=(n<cap2)?cap2:n; hkArrayUtil__reserve(alloc,this,newSize,sizeof(Entry)); }
  S7de60_ArrayUtil::destruct(m_data+n,m_iElementCount-n,S7de60_PodTrait<Entry>::type());
  S7de60_ArrayUtil::construct(m_data+m_iElementCount,n-m_iElementCount,S7de60_PodTrait<Entry>::type()); m_iElementCount=n;
 }
 template <> __forceinline void hkArray<short,hkContainerHeapAllocator>::setSize(int n) {
  ::Heap& alloc=::S7de60_HeapAlloc().get(this);
- const int cap=getCapacity(); if(cap<n) { int cap2=2*cap; int newSize=(n<cap2)?cap2:n; FUN_00c908c0(alloc,this,newSize,sizeof(short)); }
+ const int cap=getCapacity(); if(cap<n) { int cap2=2*cap; int newSize=(n<cap2)?cap2:n; hkArrayUtil__reserve(alloc,this,newSize,sizeof(short)); }
  S7de60_ArrayUtil::destruct(m_data+n,m_iElementCount-n,S7de60_PodTrait<short>::type());
  S7de60_ArrayUtil::construct(m_data+m_iElementCount,n-m_iElementCount,S7de60_PodTrait<short>::type()); m_iElementCount=n;
 }
-template <> __forceinline void hkArray<float,hkContainerHeapAllocator>::reserveExactly(int n) { ::Heap& alloc=::S7de60_HeapAlloc().get(this); if(getCapacity()<n) FUN_00c908c0(alloc,this,n,sizeof(float)); }
-template <> __forceinline void hkArray<float,hkContainerHeapAllocator>::setSize(int n,const float& fill) { ::Heap& alloc=::S7de60_HeapAlloc().get(this); const int cap=getCapacity(); if(cap<n) { int cap2=2*cap; int newSize=(n<cap2)?cap2:n; FUN_00c908c0(alloc,this,newSize,sizeof(float)); } S7de60_ArrayUtil::destruct(m_data+n,m_iElementCount-n,S7de60_PodTrait<float>::type()); S7de60_ArrayUtil::constructWithCopy(m_data+m_iElementCount,n-m_iElementCount,fill,S7de60_PodTrait<float>::type()); m_iElementCount=n; }
+template <> __forceinline void hkArray<float,hkContainerHeapAllocator>::reserveExactly(int n) { ::Heap& alloc=::S7de60_HeapAlloc().get(this); if(getCapacity()<n) hkArrayUtil__reserve(alloc,this,n,sizeof(float)); }
+template <> __forceinline void hkArray<float,hkContainerHeapAllocator>::setSize(int n,const float& fill) { ::Heap& alloc=::S7de60_HeapAlloc().get(this); const int cap=getCapacity(); if(cap<n) { int cap2=2*cap; int newSize=(n<cap2)?cap2:n; hkArrayUtil__reserve(alloc,this,newSize,sizeof(float)); } S7de60_ArrayUtil::destruct(m_data+n,m_iElementCount-n,S7de60_PodTrait<float>::type()); S7de60_ArrayUtil::constructWithCopy(m_data+m_iElementCount,n-m_iElementCount,fill,S7de60_PodTrait<float>::type()); m_iElementCount=n; }
 struct SourceBase {
     unsigned short size,version;
     __forceinline SourceBase():version(1) {}
@@ -1349,7 +1349,7 @@ struct CloneBuffer {
         remap.reserveExactly(sizeRoundedUp);
         remap.setSize(original->transforms.m_iElementCount,0.0f);
     }
-    void FUN_00cda110(); void FUN_00cda340();
+    void hkaPose_setToReferencePose(); void FUN_00cda340();
 };
 struct Root {
     SourceBuffer* src; __forceinline void SetSource(SourceBuffer* p) { src=p; } int unk04,unk08,unk0c;
@@ -1567,7 +1567,7 @@ struct __declspec(align(16)) Scratch {
     EntryHardware::LocalM128 axisA, axisB, axisC, axisD;
     float strength, f54, f58, f5c, f60, f64, f68, threshold, radius;
     bool flag;
-    void __thiscall FUN_00cd8920();
+    void __thiscall hkaFootPlacementIkSolver_Setup_Setup();
 };
 struct GameForm {
     GameForm* getLinked();
@@ -1922,7 +1922,7 @@ struct ParticleTable {
 };
 extern GameForm* __cdecl FUN_00c4b470(void*, ResourceName const&, int);
 static __forceinline Runtime* GetEntryRuntime() { return reinterpret_cast<Runtime*>((&hkMemoryRouter::getInstance())); }
-extern "C" void __cdecl FUN_00c908c0(Allocator*, EntryArray*, int, unsigned);
+extern "C" void __cdecl hkArrayUtil__reserve(Allocator*, EntryArray*, int, unsigned);
 extern "C" Resource* __cdecl FUN_00c802d0(GameForm*);
 extern "C" short __cdecl FindIndexByKey(int,int,int);
 __forceinline void* FUN_00cd8820::operator new(size_t bytes) {
@@ -1943,7 +1943,7 @@ __forceinline void EntryArray::resize(int size) {
     if (cap<size) {
         cap*=2;
         if (size>=cap) cap=size;
-        FUN_00c908c0(&allocator,this,cap,sizeof(RagdollEntry));
+        hkArrayUtil__reserve(&allocator,this,cap,sizeof(RagdollEntry));
     }
     int extra=size-count;
     RagdollEntry* dest=data+count;
@@ -2184,10 +2184,10 @@ struct Skeleton {
  void FUN_00ce1ad0(Transform48*,void*);
 };
 struct Processor {
- void FUN_00cdb3e0();
+ void hkaRagdollRigidBodyController_reinitialize();
  void FUN_00cdb7c0(float delta, Transform48* transforms, void* settings, int* results);
 };
-struct PoseLookup { void** FUN_00cda8d0(); };
+struct PoseLookup { void** hkaPose_getSyncedPoseModelSpace(); };
 struct BlendData { int unk00,unk04,unk08,unk0c; void* data; };
 extern float DAT_011afe64;
 extern float DAT_010c7948[];
@@ -2834,8 +2834,8 @@ __forceinline void hkaBone::operator delete(void*, void*) {}
 namespace SkeletonBuild {
 
 // ---- Havok memory ----
-int __cdecl FUN_00c908c0(hkMemoryAllocator* alloc, void* array, int capacity, int elemSize);
-const char* __cdecl FUN_00cb1410(int name);
+int __cdecl hkArrayUtil__reserve(hkMemoryAllocator* alloc, void* array, int capacity, int elemSize);
+const char* __cdecl hkString_strDup_00cb1410(int name);
 
 inline hkMemoryAllocator* HeapAllocator()
 {
@@ -2888,7 +2888,7 @@ struct SkeletonPoseData {
         m_kPoseData.reserveExactly((View<hkStringPtr>(m_pSkeleton->m_kFloatSlots).GetLogicalSize() + 3) & ~3);
         m_kPoseData.setSize(View<hkStringPtr>(m_pSkeleton->m_kFloatSlots).GetLogicalSize(), 0);
     }
-    void FUN_00cda110();
+    void hkaPose_setToReferencePose();
 };
 
 // ---- gathered bone records ----
@@ -3140,7 +3140,7 @@ void AnimationOwner::FUN_00c7e3b0()
         View<hkQsTransform>(skeletonHolder->m_pSkeleton->m_kReferencePose).setSize(numBones);
         for (unsigned int i = 0; i < records.m_uiSize; ++i) {
             hkaBone& bone = View<hkaBone>(skeletonHolder->m_pSkeleton->m_kBones)[i];
-            bone.m_name.Assign(FUN_00cb1410(records.m_pBase[i]->name));
+            bone.m_name.Assign(hkString_strDup_00cb1410(records.m_pBase[i]->name));
             View<hkaBone>(skeletonHolder->m_pSkeleton->m_kBones)[i].m_bLockTranslation = true;
             View<hkQsTransform>(skeletonHolder->m_pSkeleton->m_kReferencePose)[i] = records.m_pBase[i]->transform;
             View<short>(skeletonHolder->m_pSkeleton->m_kParentIndices)[i] = records.m_pBase[i]->parent;
@@ -3155,7 +3155,7 @@ void AnimationOwner::FUN_00c7e3b0()
     records.RemoveAll();
 
     pose = new SkeletonPoseData(skeletonHolder->m_pSkeleton);
-    pose->FUN_00cda110();
+    pose->hkaPose_setToReferencePose();
     transforms.setSize(View<hkaBone>(skeletonHolder->m_pSkeleton->m_kBones).GetLogicalSize());
 }
 
@@ -3905,8 +3905,8 @@ extern const FNVVec3 DAT_011f426c;
 extern unsigned int DAT_011a9c10, DAT_011a9c14, DAT_011a9c18, DAT_011a9c1c;
 extern float DAT_01016264;
 extern __declspec(noalias) void __cdecl FUN_00458620(void*,const void*);
-extern char* __stdcall FUN_00c76220(unsigned int,char*);
-struct FNVString { char* FUN_00c761f0(); };
+extern char* __stdcall hkaRagdollInstance_getRigidBodyOfBone(unsigned int,char*);
+struct FNVString { char* hkpEntity_isFixedOrKeyframed(); };
 struct FNVSource {
     unsigned int unk00;
     unsigned int unk04;
@@ -3917,7 +3917,7 @@ struct FNVSource {
     unsigned int unk18;
     unsigned int unk1C;
     int* indices;
-    FNVString* FUN_00c76220(unsigned int,char*);
+    FNVString* hkaRagdollInstance_getRigidBodyOfBone(unsigned int,char*);
     int* FUN_00cda4b0();
     void FUN_00ce18f0(void*,void*);
 };
@@ -4190,8 +4190,8 @@ void FNVAnimationController::FUN_00c7cb50(int side) {
             int descriptor = controller->indices[i];
             if (descriptor >= 0 && controller->entries[descriptor]) {
                 char buf;
-                FNVString* stringValue = controller->FUN_00c76220(i, &buf);
-                if (*stringValue->FUN_00c761f0()) {
+                FNVString* stringValue = controller->hkaRagdollInstance_getRigidBodyOfBone(i, &buf);
+                if (*stringValue->hkpEntity_isFixedOrKeyframed()) {
                     *(unsigned int*)&tints[0] = DAT_011a9c10;
                     *(unsigned int*)&tints[1] = DAT_011a9c14;
                     *(unsigned int*)&tints[2] = DAT_011a9c18;

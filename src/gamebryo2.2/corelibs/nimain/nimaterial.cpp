@@ -217,7 +217,8 @@ extern "C" CRITICAL_SECTION DAT_011f600c;
 
 // Locks DAT_011f600c, nulls every element of DAT_011ac040, resets its size to zero, and unlocks.
 // @fnv 0x00a9bb60
-void __cdecl FUN_00a9bb60()
+// src: GAMEBRYO_LIB 0x00a9bb60
+void __cdecl NiMetricsLayer__SDMShutdown()
 {
     EnterCriticalSection(&DAT_011f600c);
     unsigned int uiIndex = 0;

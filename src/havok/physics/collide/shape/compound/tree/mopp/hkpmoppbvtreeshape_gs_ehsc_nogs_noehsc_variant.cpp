@@ -56,7 +56,7 @@ struct MoppAabbQueryMachine
     int unk38;
     int unk3C;
 
-    void FUN_00dd1da0(const hkpMoppCode* code, const hkAabb* aabb, hkArray<unsigned int>* hits) throw();
+    void hkpMoppObbVirtualMachine_queryAabb(const hkpMoppCode* code, const hkAabb* aabb, hkArray<unsigned int>* hits) throw();
 };
 
 extern double DAT_01091c00;
@@ -77,7 +77,7 @@ int hkMoppBvTreeShapeBase::FUN_00d54810(const hkAabb& aabbIn, unsigned int* hits
         _mm_min_ps(_mm_add_ps(_mm_set_ps1(extent), offset.m_vComponents), aabbIn.m_kMaximumCorner.m_vComponents);
     hkArray<unsigned int> hitsArray(hits, 0, maxNumKeys);
     MoppAabbQueryMachine machine;
-    machine.FUN_00dd1da0(code, &aabb, &hitsArray);
+    machine.hkpMoppObbVirtualMachine_queryAabb(code, &aabb, &hitsArray);
     int numHits = machine.m_kHits->m_iElementCount;
     return numHits;
 }

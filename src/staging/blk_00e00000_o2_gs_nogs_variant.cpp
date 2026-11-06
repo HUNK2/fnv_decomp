@@ -8,19 +8,19 @@
 #include "../../include/layout_support.h"
 extern int DAT_010305a8;
 extern int DAT_010c749c;
-void __cdecl FUN_00e00570(int* a, int b);
+void __cdecl finishLoadedObjecthkpTriangleShape(int* a, int b);
 extern int DAT_010305a8;
 extern int DAT_010cb5ac;
-void FUN_00e007b0(int* p, int flag);
+void finishLoadedObjecthkpSphereShape(int* p, int flag);
 extern int DAT_010305a8;
 extern int DAT_010ce4bc;
 void FUN_00e00b00(int* p, int flag);
 extern int DAT_010305a8;
 extern int DAT_010ce25c;
-void FUN_00e01340(int* a, int b);
+void finishLoadedObjecthkpCapsuleShape(int* a, int b);
 extern int DAT_010305a8;
 extern int DAT_010c70b4;
-void __cdecl FUN_00e01410(int* p, int a);
+void __cdecl finishLoadedObjecthkpBoxShape(int* p, int a);
 extern int DAT_010e99d8;
 struct FUN_00cb0a70
 {
@@ -41,11 +41,11 @@ struct FUN_00e10740_b
     int c;
     float d;
 };
-int __cdecl FUN_00e10740(const FUN_00e10740_a* p, const FUN_00e10740_b* q);
+int __cdecl hkCompareInfosBySize(const FUN_00e10740_a* p, const FUN_00e10740_b* q);
 struct FUN_00e11960_cls
 {
     int m_2c;
-    int FUN_00e11960();
+    int hkgpMesh_countParts();
 };
 struct FUN_00e11d80_class
 {
@@ -53,7 +53,7 @@ struct FUN_00e11d80_class
 };
 struct FUN_00e11da0_class
 {
-    void FUN_00e11da0(int value);
+    void hkgpMesh_setVerticesTag(int value);
 };
 struct FUN_00e000a0_vt
 {
@@ -79,7 +79,7 @@ void __cdecl FUN_00e00720(void* p);
 extern int DAT_010305a8;
 extern int DAT_010c6fd0;
 extern int DAT_010cc41c;
-void __cdecl FUN_00e00740(int* a, int b);
+void __cdecl finishLoadedObjecthkpTransformShape(int* a, int b);
 extern int DAT_010e8824;
 void __cdecl FUN_00e00810(int* p);
 struct FUN_00e00930_vt
@@ -101,11 +101,11 @@ void __cdecl FUN_00e00db0(int* a);
 extern int DAT_010305a8;
 extern int DAT_010c6fd0;
 extern int DAT_010d0e5c;
-void __cdecl FUN_00e00e90(int* a, int b);
+void __cdecl finishLoadedObjecthkpConvexTranslateShape(int* a, int b);
 extern int DAT_010305a8;
 extern int DAT_010c6fd0;
 extern int DAT_010d102c;
-void __cdecl FUN_00e00f00(int** a, int b);
+void __cdecl finishLoadedObjecthkpConvexTransformShape(int** a, int b);
 extern int DAT_010305a8;
 extern int DAT_010ce31c;
 extern int DAT_010e901c;
@@ -207,7 +207,7 @@ struct FUN_00e11dc0_class
     int m_24;
     int m_28;
     int m_2c;
-    void __thiscall FUN_00e11dc0();
+    void __thiscall hkgpMesh_copyPartIdToVerticesW();
 };
 int __cdecl FUN_00e00100(void* p);
 void FUN_00e00160(FUN_00e000a0_vt* p);
@@ -344,7 +344,7 @@ struct FUN_00e01cd0_vt
 };
 void __cdecl FUN_00e01cd0(FUN_00e01cd0_vt* p);
 extern int DAT_010e9a34;
-void FUN_00e01cf0(void* a, void* b);
+void finishLoadedObjecthkpSerializedAgentNnEntry_00e01cf0(void* a, void* b);
 struct FUN_00e01e40_vt
 {
     virtual void m0(int);
@@ -385,12 +385,12 @@ struct FUN_00e0bf30_s
     int a;
     int b;
     FUN_00cb0a70 c;
-    FUN_00e0bf30_s* __thiscall FUN_00e0bf30(int v);
+    FUN_00e0bf30_s* __thiscall hkMonitorStreamStringMap_StringMap_StringMap(int v);
 };
 void* __cdecl FUN_00e114a0();
 struct FUN_00d752e0_cls
 {
-    void __thiscall FUN_00d752e0();
+    void __thiscall hkgpConvexHull_getVolume();
 };
 void __cdecl FUN_00e114b0();
 struct FUN_00e11d60_class
@@ -408,7 +408,7 @@ struct FUN_00e11d60_class
     int m_28;
     int* m_2c;
     int m_30;
-    void __thiscall FUN_00e11d60(int val);
+    void __thiscall hkgpMesh_setPartId(int val);
 };
 #include "../../include/hkMemoryAllocator.h"
 #include "../../include/hkMemoryRouter.h"
@@ -965,7 +965,7 @@ extern int DAT_0126e018;
 int* __cdecl FUN_00e00d40();
 struct FUN_00d57b20_class
 {
-    void __thiscall FUN_00d57b20(int value);
+    void __thiscall hkpCylinderShape_hkpCylinderShape_00d57b20(int value);
 };
 void __cdecl FUN_00e00d50(FUN_00d57b20_class* p, int value);
 extern int DAT_0126e060;
@@ -1304,7 +1304,7 @@ template <class T> inline void swap(T& a, T& b)
 }
 void __cdecl ReverseBytesInGroupsOfFour(unsigned char* p);
 void __cdecl SwapQuadBytes(unsigned char* p);
-void __cdecl FUN_00e05eb0(unsigned char* p);
+void __cdecl hkpSaveContactPointsEndianUtil_swapEndianType(unsigned char* p);
 inline void E05F60Swap(char& a, char& b)
 {
     char t = a;
@@ -1327,8 +1327,8 @@ struct E05F60Header
     unsigned int m_value1;
 };
 void __cdecl SwapHeaderEndianness(E05F60Header* pkHeader);
-void __cdecl FUN_00e05fe0(unsigned char* buf);
-void __cdecl FUN_00e06010(unsigned char* p);
+void __cdecl hkpSaveContactPointsEndianUtil_swapEndianType_00e05fe0(unsigned char* buf);
+void __cdecl hkpSaveContactPointsEndianUtil_swapEndianType_00e06010(unsigned char* p);
 int __cdecl FUN_00e09620();
 struct SearchItem
 {
@@ -1348,7 +1348,7 @@ struct SearchContainer
     SearchItem** m_items;
     int m_uiItemCount;
 };
-SearchItem* FUN_00e10820(SearchContainer* c, double key, int index);
+SearchItem* findChildNode(SearchContainer* c, double key, int index);
 struct FUN_00e10a00_cls
 {
     int m_00;
@@ -3149,12 +3149,12 @@ struct Context
 };
 void SwapHeaderBytesAndAdvance(Input*);
 void SwapQuadBytes(Input*);
-void FUN_00e05eb0(Input*);
+void hkpSaveContactPointsEndianUtil_swapEndianType(Input*);
 int FUN_00dcd4d0(unsigned int);
 void SwapHkHeaderE05E(Payload*);
 void SwapHeaderEndianness(Payload*);
-void FUN_00e05fe0(Payload*);
-void FUN_00e06010(void*);
+void hkpSaveContactPointsEndianUtil_swapEndianType_00e05fe0(Payload*);
+void hkpSaveContactPointsEndianUtil_swapEndianType_00e06010(void*);
 void ProcessListBlocks(Context**, void*);
 void ProcessInput(Context** context, Input* input, void* argument, bool reverse, int* type, bool* changed);
 struct ListEntryE061
@@ -3218,7 +3218,7 @@ struct FUN_00e00dd0_cls
 void ReverseBytesInGroupsOfFour(unsigned char* pucData);
 struct S_e05_res
 {
-    char* __thiscall FUN_00d46d80(char* a, S_e05_res* b);
+    char* __thiscall hkClass_isSuperClass(char* a, S_e05_res* b);
 };
 struct S_e05_obj
 {
@@ -3298,5 +3298,5 @@ struct S00e0bf50_Acc
     unsigned short m_2c;
     unsigned short m_2e;
 };
-static void FUN_00e0bf50(S00e0bf50_Acc* dst, S00e0bf50_Acc* src);
+static void hkMakeSum(S00e0bf50_Acc* dst, S00e0bf50_Acc* src);
 void S00e0bf50_Call(S00e0bf50_Acc* dst, S00e0bf50_Acc* src);

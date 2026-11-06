@@ -227,7 +227,7 @@ extern float DAT_011f4754;
 void __cdecl BuildWorldToSkinTransform(NiWorldToSkin_niconsolerenderer_rtm_variant* out, const NiTransform* kWorldToRootParent, const NiPoint3* apTranslation, float fScale);
 extern int DAT_0126efc0;
 bool __stdcall FUN_00e6c760(int value);
-void __cdecl FUN_00aa1110(void*);
+void __cdecl _NiAlignedFree(void*);
 void __stdcall FUN_00e6d740(void* apObject);
 extern RecursiveSpinLock g_011c5f80;
 extern unsigned int DAT_011c5f84;
@@ -264,10 +264,10 @@ struct FUN_00e758f0_shell {
     void PackColorToUInt(float* floats);
 };
 extern int DAT_0126f580[];
-void __cdecl FUN_00e7cc50(int* pObject, int iIndex);
+void __cdecl NiDX92DBufferData_ClearRenderTarget(int* pObject, int iIndex);
 extern "C" void __cdecl ReleaseShaderNodes(void*);
 struct FUN_00e69650_shell {
-    bool __thiscall FUN_00e69650(int);
+    bool __thiscall NiDX9Renderer_PurgeAllTextures(int);
 };
 struct IDev
 {
@@ -11878,8 +11878,8 @@ struct E6F310Rect {
     int y2;
 };
 struct FUN_00e7cdf0_shell {
-    unsigned char FUN_00e7cdf0();
-    unsigned char FUN_00e7ce10();
+    unsigned char NiDX9DepthStencilBufferData_HasValidDepthBuffer();
+    unsigned char NiDX9DepthStencilBufferData_HasValidStencilBuffer();
 };
 struct E6F310Info {
     FUN_00e7cdf0_shell* ContainsNode(const NiRTTI* pkList);
@@ -15073,7 +15073,7 @@ struct FUN_00e69610_Obj {
     FUN_00e69610_Packet* m_pAssociatedPacket;
     void FUN_00e69610();
 };
-unsigned int FUN_00e69e50(int format);
+unsigned int NiDX9Renderer_GetPresentInterval(int format);
 struct StripRecord {
     int unk00, unk04, unk08, unk0c;
     int count;
@@ -17512,7 +17512,7 @@ struct E7Descriptor { unsigned int unk00, unk04; int semantic; unsigned int form
 struct E7Skin { unsigned int unk00, unk04; void* weights; void* indices; void* packed; unsigned int unk14, unk18, unk1c, unk20; unsigned short components; };
 
 unsigned int __stdcall ConvertGeometryData(unsigned short count, NiGeometryData* geometry, unsigned int unused, E7Skin* skin, E7Descriptor* desc, unsigned int destStride, void* dest, bool flag, unsigned int extra);
-void FUN_00e7a8b0(int key, int* outA, int* outB);
+void NiDX9DeviceDesc_DisplayFormatInfo_GetDepthStencilBPPFromFormat(int key, int* outA, int* outB);
 extern MemoryManager g_memoryManager;
 struct FUN_00e6eaf0 {
     virtual ~FUN_00e6eaf0();
@@ -23564,7 +23564,7 @@ struct PresentationCaps { unsigned unk00, unk04, unk08, unk0c, unk10, unk14, int
 struct PresentationFormats {
     unsigned __thiscall FindFormatValue(bool windowed, unsigned previousRefreshRate);
     unsigned __thiscall FUN_00e7b0f0(unsigned format, unsigned backFormat, unsigned previousRefreshRate, unsigned stencil);
-    unsigned __thiscall FUN_00e7b190(unsigned format, unsigned width, unsigned height, unsigned* rate);
+    unsigned __thiscall NiDX9AdapterDesc_ValidateFullscreenMode(unsigned format, unsigned width, unsigned height, unsigned* rate);
 };
 struct PresentationDevice {
     virtual void __stdcall method00();
@@ -23582,7 +23582,7 @@ struct PresentationDevice {
 };
 unsigned __cdecl MapIndexToValue(unsigned);
 unsigned __cdecl FUN_00b6c200(unsigned);
-unsigned __cdecl FUN_00e69e50(unsigned);
+unsigned __cdecl NiDX9Renderer_GetPresentInterval(unsigned);
 unsigned __cdecl MapCodeToIndex(unsigned);
 extern const char DAT_010ed800[];
 extern const char DAT_010ed7b8[];
@@ -24029,7 +24029,7 @@ bool PresentationRenderer::FUN_00e6bf50(void* window, unsigned width, unsigned h
     out->flags = backCount == 1 ? 1UL : 0UL;
     out->window = window;
     out->refreshRate = PresentRefresh(refresh);
-    out->interval = FUN_00e69e50(interval);
+    out->interval = NiDX9Renderer_GetPresentInterval(interval);
     PresentationDevice* device;
     device = (PresentationDevice*)DAT_0126f0d8;
     if (device->CheckMultisample(unk5c4, unk5c8, d3dFormat, windowed, samples, &quality) < 0) {
@@ -24044,7 +24044,7 @@ bool PresentationRenderer::FUN_00e6bf50(void* window, unsigned width, unsigned h
     previousRefreshRate = out->refreshRate;
     if (out->windowed) out->refreshRate = 0;
     else {
-        if (!displayFormats->FUN_00e7b190(GetValueForIndex(MapCodeToIndex(out->format)), out->width, out->height, &out->refreshRate)) {
+        if (!displayFormats->NiDX9AdapterDesc_ValidateFullscreenMode(GetValueForIndex(MapCodeToIndex(out->format)), out->width, out->height, &out->refreshRate)) {
             FUN_00e69ad0(DAT_010ed69c);
             FUN_00a29680(DAT_010ed650);
             return false;
@@ -25010,7 +25010,7 @@ struct ResetRenderer {
 // @fnv 0x00e736b0
 bool ResetRenderer::FUN_00e736b0() {
  manager3->FUN_00e8be20(); manager2->FUN_00e8f6d0(); manager1->FUN_00e8cd60();
- FUN_00e7cc50((int*)device,1); FUN_00e7cc50((int*)device,2); FUN_00e7cc50((int*)device,3);
+ NiDX92DBufferData_ClearRenderTarget((int*)device,1); NiDX92DBufferData_ClearRenderTarget((int*)device,2); NiDX92DBufferData_ClearRenderTarget((int*)device,3);
  long (__stdcall *decrement)(long volatile*)=InterlockedDecrement;
  void* pos=geometry.GetFirstPos();
  while(pos) { HWND__* key; ResetObject* obj=0; geometry.GetNext(pos,key,reinterpret_cast<NiPointer<NiRenderTargetGroup>&>(obj)); ResetObject* object=obj;

@@ -492,13 +492,13 @@ unsigned int __cdecl FUN_00e6c770()
 }
 }  // namespace fnv_00e6c770
 
-void __cdecl FUN_00aa1110(void*);
+void __cdecl _NiAlignedFree(void*);
 
 // @fnv 0x00e6d740
 void __stdcall FUN_00e6d740(void* apObject)
 {
     void* p = *(void**)((char*)apObject + 0x28);
-    FUN_00aa1110(p);
+    _NiAlignedFree(p);
     *(void**)((char*)apObject + 0x28) = 0;
     *(void**)((char*)apObject + 0x24) = 0;
 }
@@ -688,7 +688,8 @@ extern int DAT_0126f580[];
 
 // If param2 is non-zero and its entry in DAT_0126f580 is set, calls the object's vtable slot 0x25 with (param1, param2, 0) and clears the entry.
 // @fnv 0x00e7cc50
-void __cdecl FUN_00e7cc50(int* pObject, int iIndex)
+// src: GAMEBRYO_LIB 0x00e7cc50
+void __cdecl NiDX92DBufferData_ClearRenderTarget(int* pObject, int iIndex)
 {
     if (iIndex != 0 && DAT_0126f580[iIndex] != 0)
     {
@@ -702,10 +703,11 @@ void __cdecl FUN_00e7cc50(int* pObject, int iIndex)
 
 extern "C" void __cdecl ReleaseShaderNodes(void*);
 struct FUN_00e69650_shell {
-    bool __thiscall FUN_00e69650(int);
+    bool __thiscall NiDX9Renderer_PurgeAllTextures(int);
 };
 // @fnv 0x00e69650
-bool __thiscall FUN_00e69650_shell::FUN_00e69650(int)
+// src: GAMEBRYO_LIB 0x00e69650
+bool __thiscall FUN_00e69650_shell::NiDX9Renderer_PurgeAllTextures(int)
 {
     ReleaseShaderNodes(this);
     return true;
@@ -1971,7 +1973,8 @@ extern AA1110MemManager* g_pkAA1110MemManager;
 
 // NiFree
 // @fnv 0x00aa1110
-void FUN_00aa1110(void* pvMem)
+// src: GAMEBRYO_LIB 0x00aa1110
+void _NiAlignedFree(void* pvMem)
 {
     if (pvMem)
         g_pkAA1110MemManager->m_pHeapAllocator->Deallocate(pvMem, 10, (unsigned int)-1);
@@ -17092,8 +17095,8 @@ struct E6F310Rect {
     int y2;
 };
 struct FUN_00e7cdf0_shell {
-    unsigned char FUN_00e7cdf0();
-    unsigned char FUN_00e7ce10();
+    unsigned char NiDX9DepthStencilBufferData_HasValidDepthBuffer();
+    unsigned char NiDX9DepthStencilBufferData_HasValidStencilBuffer();
 };
 struct E6F310Info {
     FUN_00e7cdf0_shell* ContainsNode(const NiRTTI* pkList);
@@ -17781,8 +17784,8 @@ void E6F310Renderer::FUN_00e6f310(NiRectF_niconsolerenderer* pkRect, unsigned in
     if (pkInfo) {
         FUN_00e7cdf0_shell* pkCaps = pkInfo->ContainsNode(&g_0126f5ac);
         if (pkCaps) {
-            ulClearFlags |= ((uiFlags & 4) && pkCaps->FUN_00e7cdf0()) ? 2 : 0;
-            ulClearFlags |= ((uiFlags & 2) && pkCaps->FUN_00e7ce10()) ? 4 : 0;
+            ulClearFlags |= ((uiFlags & 4) && pkCaps->NiDX9DepthStencilBufferData_HasValidDepthBuffer()) ? 2 : 0;
+            ulClearFlags |= ((uiFlags & 2) && pkCaps->NiDX9DepthStencilBufferData_HasValidStencilBuffer()) ? 4 : 0;
         }
     }
     m_uiVpWidth = m_pkTarget->GetWidth(0);
@@ -18837,7 +18840,7 @@ bool __stdcall IsAlwaysTrue(void* a1, void* a2, void* a3)
 
 namespace fnv_00e6eea0 {
 extern char DAT_0126f59c, DAT_0126f5ac, DAT_0126f5d8;
-void __cdecl FUN_00e7cc50(int* param1, int param2);
+void __cdecl NiDX92DBufferData_ClearRenderTarget(int* param1, int param2);
 void __cdecl FUN_00a29680(const char* fmt, const char* text);
 struct RTTIX { const char* name; const RTTIX* parent; };
 struct DevX;
@@ -18862,7 +18865,7 @@ public:
     virtual ObjX* GetRenderTargetBuffer(unsigned int ui) const;
     virtual ObjX* GetDepthAttachment() const;
 };
-bool __cdecl FUN_00e7cca0(DevX* pkDev);
+bool __cdecl NiDX9DepthStencilBufferData_SetNULLDepthStencilTarget(DevX* pkDev);
 inline bool IsKindOfX2(const ObjX* p, const void* r) {
     for (const RTTIX* t = p->GetRTTI(); t; t = t->parent)
         if (t == r) return true;
@@ -18895,9 +18898,9 @@ public:
 bool RendX::NiDX9Renderer_BeginUsingRenderTargetGroup(TargetX* pkTarget, unsigned int uiClearMode)
 {
     if (!m_bDeviceLost) {
-    FUN_00e7cc50((int*)m_pDirect3DDevice, 1);
-    FUN_00e7cc50((int*)m_pDirect3DDevice, 2);
-    FUN_00e7cc50((int*)m_pDirect3DDevice, 3);
+    NiDX92DBufferData_ClearRenderTarget((int*)m_pDirect3DDevice, 1);
+    NiDX92DBufferData_ClearRenderTarget((int*)m_pDirect3DDevice, 2);
+    NiDX92DBufferData_ClearRenderTarget((int*)m_pDirect3DDevice, 3);
     for (unsigned int ui = 0; ui < pkTarget->GetBufferCount(); ui++) {
         ObjX* pkObj = pkTarget->GetRenderTargetBuffer(ui);
         BufDataX* pkBuffData = DynCastX(pkObj, &DAT_0126f59c);
@@ -18917,7 +18920,7 @@ bool RendX::NiDX9Renderer_BeginUsingRenderTargetGroup(TargetX* pkTarget, unsigne
                 "Setting the depth/stencil buffer failed. Resetting to default target.");
             return false;
         }
-    } else if (!FUN_00e7cca0(m_pDirect3DDevice)) {
+    } else if (!NiDX9DepthStencilBufferData_SetNULLDepthStencilTarget(m_pDirect3DDevice)) {
         BeginUsingRenderTargetGroup(m_pDefaultRenderTargetGroup, uiClearMode);
         FUN_00a29680("NiDX9Renderer::BeginUsingRenderTargetGroup> Failed - %s",
             "Setting the depth/stencil buffer to NULL failed. Resetting to default target.");
@@ -21830,7 +21833,8 @@ void FUN_00e69610_Obj::FUN_00e69610()
 }
 
 // @fnv 0x00e69e50
-unsigned int FUN_00e69e50(int format)
+// src: GAMEBRYO_LIB 0x00e69e50
+unsigned int NiDX9Renderer_GetPresentInterval(int format)
 {
     switch (format)
     {
@@ -25007,7 +25011,8 @@ convert:
 
 // Maps key to two output values, writing each through its pointer and setting both to zero for unrecognized keys.
 // @fnv 0x00e7a8b0
-void FUN_00e7a8b0(int key, int* outA, int* outB)
+// src: GAMEBRYO_LIB 0x00e7a8b0
+void NiDX9DeviceDesc_DisplayFormatInfo_GetDepthStencilBPPFromFormat(int key, int* outA, int* outB)
 {
     switch (key)
     {
@@ -33219,7 +33224,7 @@ void __fastcall FUN_00e6fe30(NiDX9Renderer* self, void*, SkinMatrixBlock* block,
 
     unsigned int need = (boneCount * rows) << 4;
     if (need > uiCapacity) {
-        FUN_00aa1110(buffer);
+        _NiAlignedFree(buffer);
         buffer = NiAlignedAlloc(need, 0x10);
         block->buffer = buffer;
         block->capacity = need;

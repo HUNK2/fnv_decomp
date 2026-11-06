@@ -8,7 +8,7 @@ typedef ::__m128 LocalM128;
 // src/havok/physics/dynamics/constraint/bilateral/ragdoll/hkpragdollconstraintdata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/constraint/bilateral/ragdoll/hkpragdollconstraintdata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 #include "havok/hkpRagdollConstraintData_decl_hkpragdollconstraintdata.h"
-void __stdcall FUN_00cde9d0(int* a, int* b);
+void __stdcall hkpRagdollConstraintData_getRuntimeInfo(int* a, int* b);
 struct FUN_00cde980_cls
 {
     void __thiscall FUN_00cde980(int a);
@@ -17,7 +17,7 @@ struct FUN_00cde960_cls
 {
     void __thiscall FUN_00cde960(float a);
 };
-void* __cdecl FUN_00d21a60(void* a, int b, int c);
+void* __cdecl hkpConstraintData_getConstraintInfoUtil(void* a, int b, int c);
 struct FUN_00cde9b0_cls
 {
     char* FUN_00cde9b0(int a);
@@ -186,7 +186,8 @@ struct FnvCpu_FUN_00cdf530_CpuObject
 };
 
 // @fnv 0x00cdf090
-hkBool hkpRagdollConstraintData::FUN_00cdf090() const
+// src: HAVOK_LIB 0x00cdf090
+hkBool hkpRagdollConstraintData::isValid_00cdf090() const
 {
     hkBool valid = true;
     valid = valid && m_kBridgeAtoms.m_kTransforms.m_kBodyALocalFrame.m_rotation.IsOrthonormal(0.001f);

@@ -44,18 +44,19 @@ int __stdcall S00e340e0_read(const unsigned char* p, float t, unsigned char qt, 
 // The shared header supplies the complete animation layout but not these sampling entry points.
 // This fieldless adapter adds their declarations without duplicating animation storage.
 struct SplineAnimationSampler : hkaSplineCompressedAnimation {
-    __declspec(noinline) void FUN_00e2f7c0(float time, unsigned int& frame, float& delta) const;
+    __declspec(noinline) void hkaAnimation_getFrameAndDelta(float time, unsigned int& frame, float& delta) const;
     __declspec(noinline) void GetBlockAndTime(unsigned int frame, float delta, int& blockOut, float& blockTimeOut, unsigned char& quantizedTimeOut) const;
     __declspec(noinline) void EvaluateSpline(float t, unsigned char qt, unsigned char q, int type, const unsigned char*& data, hkVector4& out) const;
     __declspec(noinline) void ExtractFrame(float t, unsigned char qt, unsigned char q, int type, const unsigned char*& data, hkQuaternion& out) const;
     __declspec(noinline) void FUN_00e33e90(float t, unsigned char qt, unsigned char q, int type, const unsigned char*& data, hkVector4& out) const;
     __declspec(noinline) void FUN_00e33f10(float t, unsigned char qt, unsigned char q, int type, const unsigned char*& data, float& out) const;
     void sampleAtFrame(unsigned int frame, float delta, unsigned int maxNumTransformTracks, hkQsTransform* transformTracksOut, unsigned int maxNumFloatTracks, float* floatTracksOut) const;
-    void FUN_00e340e0(float time, unsigned int maxNumTransformTracks, hkQsTransform* transformTracksOut, unsigned int maxNumFloatTracks, float* floatTracksOut, void* cache) const;
+    void hkaSplineCompressedAnimation_samplePartialTracks(float time, unsigned int maxNumTransformTracks, hkQsTransform* transformTracksOut, unsigned int maxNumFloatTracks, float* floatTracksOut, void* cache) const;
 };
 
 
-void SplineAnimationSampler::FUN_00e2f7c0(float time, unsigned int& frameOut, float& deltaOut) const
+// src: HAVOK_LIB 0x00e2f7c0
+void SplineAnimationSampler::hkaAnimation_getFrameAndDelta(float time, unsigned int& frameOut, float& deltaOut) const
 {
     const unsigned int maxFrameIndex = S00e340e0_vnum(this) - 1;
     const float frameFloat = (time / m_fAnimationDuration) * maxFrameIndex;
@@ -83,12 +84,13 @@ void SplineAnimationSampler::FUN_00e33f10(float t, unsigned char qt, unsigned ch
 { data += S00e340e0_read(data, t, qt, q, type, &out); }
 
 // @fnv 0x00e340e0
-void SplineAnimationSampler::FUN_00e340e0(float time, unsigned int maxNumTransformTracks, hkQsTransform* transformTracksOut, unsigned int maxNumFloatTracks, float* floatTracksOut, void* cache) const
+// src: HAVOK_LIB 0x00e340e0
+void SplineAnimationSampler::hkaSplineCompressedAnimation_samplePartialTracks(float time, unsigned int maxNumTransformTracks, hkQsTransform* transformTracksOut, unsigned int maxNumFloatTracks, float* floatTracksOut, void* cache) const
 {
     S00e340e0_timer("TtSampleSpline");
     unsigned int frame;
     float delta;
-    FUN_00e2f7c0(time, frame, delta);
+    hkaAnimation_getFrameAndDelta(time, frame, delta);
     int block;
     float blockTime;
     unsigned char quantizedTime;

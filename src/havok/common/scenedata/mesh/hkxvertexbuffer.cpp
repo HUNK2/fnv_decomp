@@ -14,7 +14,7 @@ typedef unsigned int hkUint32;
 typedef float hkReal;
 
 extern "C" hkMemoryRouter* __cdecl FUN_00c85750() throw();
-void __cdecl FUN_00c908c0(hkMemoryAllocator& alloc, void* array, int count, int size) throw();
+void __cdecl hkArrayUtil__reserve(hkMemoryAllocator& alloc, void* array, int count, int size) throw();
 extern "C" void __cdecl ResizeAudioStream(hkMemoryAllocator*, void*, int) throw();
 
 
@@ -25,7 +25,7 @@ template <typename T> __forceinline void hkArrayBase<T>::GrowArrayCapacity(hkMem
     {
         int doubled = 2 * capacity;
         int requested = n < doubled ? doubled : n;
-        FUN_00c908c0(alloc, this, requested, sizeof(T));
+        hkArrayUtil__reserve(alloc, this, requested, sizeof(T));
     }
 }
 template <typename T> __forceinline void hkArrayBase<T>::_setSize(hkMemoryAllocator& alloc, int n)

@@ -153,7 +153,7 @@ extern const unsigned vtable_010ce81c[];
 
 struct Operation
 {
-    void FUN_00d37ed0(unsigned second, unsigned first, unsigned third, CallbackState* callback);
+    void getPenetrations_00d37ed0(unsigned second, unsigned first, unsigned third, CallbackState* callback);
     void FUN_00d38a80(unsigned first, unsigned second, unsigned third, unsigned context);
 };
 
@@ -165,7 +165,7 @@ void Operation::FUN_00d38a80(unsigned first, unsigned second, unsigned third, un
     callback.context = context;
     callback.completed = false;
     callback.type = vtable_010ce81c;
-    FUN_00d37ed0(second, first, third, &callback);
+    getPenetrations_00d37ed0(second, first, third, &callback);
 }
 
 // Stand-in for the 12-byte record the callee receives by pointer.
@@ -250,7 +250,7 @@ struct Simplex
 
 struct AgentBase
 {
-    void FUN_00d38b00(int a, int b, int c, Simplex* s);
+    void hkpMultiSphereTriangleAgent_processCollision(int a, int b, int c, Simplex* s);
 };
 
 struct Agent : AgentBase
@@ -263,7 +263,7 @@ void Agent::FUN_00d38f10(int a, int b, int c, Simplex* s)
 {
     SimplexVertex* v = s->m_kRayEnd;
     float oldDistance = s->m_fClosestPointDistanceSquared;
-    AgentBase::FUN_00d38b00(b, a, c, s);
+    AgentBase::hkpMultiSphereTriangleAgent_processCollision(b, a, c, s);
     for (; v < s->m_kRayEnd; v++)
     {
         const LocalM128* pb = &v->m_kPointB;
@@ -366,7 +366,8 @@ static __forceinline void TransformPointArray(const hkTransformf& t, const hkVec
 }
 
 // @fnv 0x00d37ed0
-void hkpMultiSphereTriangleAgent::FUN_00d37ed0(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const void* input,
+// src: HAVOK_SRC 0x00d37ed0
+void hkpMultiSphereTriangleAgent::getPenetrations_00d37ed0(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const void* input,
                                                hkpCdBodyPairCollector& collector)
 {
     const hkpMultiSphereShape* msA = reinterpret_cast<const hkpMultiSphereShape*>(bodyA.m_pCollisionShape);

@@ -192,7 +192,8 @@ NiBSplineTransformInterpolator* NiBSplineTransformInterpolator_CreateObject()
 
 // Returns true if the object passes FUN_00a57e90, its quaternion matches, and the trans, rot and scale CP handles all match the other object's.
 // @fnv 0x00a501b0
-bool __fastcall FUN_00a501b0(NiBSplineTransformInterpolator* self, int, NiBSplineTransformInterpolator* pkObject)
+// src: GAMEBRYO_LIB 0x00a501b0
+bool __fastcall NiBSplineTransformInterpolator_IsEqual(NiBSplineTransformInterpolator* self, int, NiBSplineTransformInterpolator* pkObject)
 {
     if (reinterpret_cast<BSplineInterpolatorCalls*>(self)->EqualBSplineFields(pkObject) && static_cast<QuatTransformCalls&>(self->m_kDefaultTransform).EqualQuatTransform(&pkObject->m_kDefaultTransform) &&
         pkObject->m_kTransCPHandle == self->m_kTransCPHandle && pkObject->m_kRotCPHandle == self->m_kRotCPHandle &&

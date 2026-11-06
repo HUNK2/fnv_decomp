@@ -56,7 +56,7 @@ inline void SwapRecords(Record& first, Record& second)
     second = first;
     first = temp;
 }
-void FUN_00ddeb70(Record* records, int left, int right, int comparator);
+void hkAlgorithm_quickSortRecursive_struct_hkEntry_class_hkAlgorithm_less_struct_hkEntry(Record* records, int left, int right, int comparator);
 // Exe 0x00dde4c0: unit-local DynamicArray view; declarations and layout are preserved.
 struct HkpmeshweldingutilityDynamicArrayView
 {
@@ -258,8 +258,8 @@ __declspec(align(16)) struct QueryBuffer
 };
 int FUN_00dde4c0(Iface* self, void* a, void* b, int idx, int zero, int* out);
 bool* CheckSubQueries(bool* result, void* key, Iface* self);
-void* FUN_00c908c0(void* alloc, void* arr, int numElems, int elemSize);
-void FUN_00d2cc70(void* dst, const void* src, int numBytes);
+void* hkArrayUtil__reserve(void* alloc, void* arr, int numElems, int elemSize);
+void hkMemUtil_memMove(void* dst, const void* src, int numBytes);
 inline void* operator new(unsigned int, void* p)
 {
     return p;
@@ -279,7 +279,7 @@ static __forceinline void S_00ddeab0_GrowArrayCapacity(hkArrayBase<S_00ddeab0_El
         {
             int cap2 = cap + cap;
             int newcap = (numElems < cap2) ? cap2 : numElems;
-            FUN_00c908c0(alloc, (&self), newcap, 12);
+            hkArrayUtil__reserve(alloc, (&self), newcap, 12);
         }
     }
 struct S_00ddecd0
@@ -466,11 +466,11 @@ void __cdecl ResizeAudioStream(void* heap, void* arr, int elemSize) throw();
 struct KeyLess
 {
 };
-void __cdecl FUN_00ddeb70(S_00ddecf0_Key* keys, int left, int right, KeyLess cmp) throw();
+void __cdecl hkAlgorithm_quickSortRecursive_struct_hkEntry_class_hkAlgorithm_less_struct_hkEntry(S_00ddecf0_Key* keys, int left, int right, KeyLess cmp) throw();
 template <typename T, typename L> inline void quickSort(T* pArr, int size, L cmpLess)
 {
     if (size > 1)
-        FUN_00ddeb70(pArr, 0, size - 1, cmpLess);
+        hkAlgorithm_quickSortRecursive_struct_hkEntry_class_hkAlgorithm_less_struct_hkEntry(pArr, 0, size - 1, cmpLess);
 }
 extern "C" double __cdecl fabs(double);
 __declspec(noinline) ComparisonResult __cdecl AreZDiffering(const S_00ddecf0_Key& a, const S_00ddecf0_Key& b) throw()
@@ -515,7 +515,7 @@ static inline float clamp(float x, float lo, float hi)
 }
 struct Track : public S_00ddecf0
 {
-    float FUN_00dded60();
+    float hkHistogram_evaluate();
 };
 // FUN_00ddcf60 - "point A is close to one of the three points of the shape
 // AND point B is close to one of them as well" test.
@@ -718,7 +718,7 @@ struct S00dde4c0_Err
 };
 
 int __cdecl FUN_00ddd6f0(const Vec4* tri, const void* shape, int idx, S00dde4c0_Out* out, int* winding);
-unsigned int __cdecl FUN_00ddcdd0(unsigned int f, unsigned int idx, unsigned int v);
+unsigned int __cdecl hkpMeshWeldingUtility_modifyCombinedEdgesBitcode(unsigned int f, unsigned int idx, unsigned int v);
 
 // @fnv 0x00dde4c0
 int __cdecl FUN_00dde4c0(S00dde4c0_Mesh* mesh, S00dde4c0_Tri* tri, int skip, int idx, int checkWinding,
@@ -773,7 +773,7 @@ int __cdecl FUN_00dde4c0(S00dde4c0_Mesh* mesh, S00dde4c0_Tri* tri, int skip, int
             }
             first = false;
         }
-        *flags = (unsigned short)FUN_00ddcdd0(*flags, idx, ::GetIndexForValue((int)&out));
+        *flags = (unsigned short)hkpMeshWeldingUtility_modifyCombinedEdgesBitcode(*flags, idx, ::GetIndexForValue((int)&out));
     }
     int result = !first;
     hits.finish();

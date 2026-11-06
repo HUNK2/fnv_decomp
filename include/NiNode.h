@@ -99,7 +99,7 @@ class NiNode : public NiAVObject
     using NiAVObject::FUN_00461130;
     void FUN_00635fe0(bool enabled);
     void FUN_006404b0(float angle, float x, float y, float z);
-    NiTimeController* FUN_00a5c570(NiRTTI* rtti);
+    NiTimeController* NiObjectNET_GetController(NiRTTI* rtti);
     void FUN_00a7dae0(NiUpdateData& data, unsigned int flags);
     void FUN_00c46ca0(NiStream& stream);
 

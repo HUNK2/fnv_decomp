@@ -53,7 +53,7 @@ struct FUN_00d68770_cls
     void BaseConstruct(int aParam, int aFlags);
     FUN_00d68770_cls* Construct(int aParam);
 };
-void* __stdcall FUN_00d687b0(char* a1);
+void* __stdcall hkpInactiveContactPointViewer_getIslands(char* a1);
 struct FnvCpu_FUN_00d687c0_CpuBlock;
 void* __cdecl FUN_00c85750();
 struct FnvCpu_FUN_00d687c0_CpuBlock
@@ -84,7 +84,7 @@ struct FUN_00d68840_cls
 
     void* Init(int a);
 };
-void* __stdcall FUN_00d68880(void* pObject);
+void* __stdcall hkpActiveContactPointViewer_getIslands(void* pObject);
 // FUN_00d688f0 : tiny global getter.
 // Reads the 4-byte global at DAT_0126900c and returns it in eax.
 extern int DAT_0126900c;
@@ -276,9 +276,9 @@ struct Base2_d632c0
 };
 struct Obj_d632c0 : Base1_d632c0, Base2_d632c0
 {
-    Obj_d632c0* FUN_00d63280(int a, int b);
+    Obj_d632c0* hkpWorldMemoryViewer_hkpWorldMemoryViewer(int a, int b);
 };
-Base2_d632c0* FUN_00d632c0(int a1);
+Base2_d632c0* hkpWorldMemoryViewer_create(int a1);
 struct hkContainerD633
 {
     int unk00;
@@ -691,7 +691,7 @@ struct FUN_00d608a0
     unsigned char mode;
     FUN_00d608a0(int first, int second, unsigned char mode);
 };
-int __cdecl FUN_00cb0fa0(int, int);
+int __cdecl hkString_strCmp(int, int);
 struct R
 {
     volatile char value;
@@ -719,7 +719,7 @@ class FUN_00d62ef0 : public hkReferencedObject, public SnapshotViewerProcessInte
 
     int unk0C, unk10, unk14, unk18, unk1C, unk20, unk24, unk28;
 };
-SnapshotViewerProcessInterface* __cdecl FUN_00d62f20(void* contactMgr);
+SnapshotViewerProcessInterface* __cdecl hkpWorldSnapshotViewer_createNative(void* contactMgr);
 static void FUN_00d6c1a0(int* piValue);
 void E6C1A0Adjust(int* piValue);
 // FUN_00d73400's body must be in-TU so VC9 knows it clobbers only eax:
@@ -761,7 +761,7 @@ struct Node
 void __cdecl AssignNodeFlags(Node** nodes, int count, unsigned seed);
 struct FUN_00d7e740_cls
 {
-    int FUN_00d7e740(int iArg0, int iArg1, bool iFlag, int iArg2);
+    int hkgpConvexHullImpl_generateIndexedFaces_unsigned_char_unsigned_short(int iArg0, int iArg1, bool iFlag, int iArg2);
 };
 struct FUN_00d76c20_cls
 {
@@ -771,7 +771,7 @@ struct FUN_00d76c20_cls
 
     int ForwardToTarget(int iSelector, int iArg0, int iArg1, int iArg2);
 };
-int __cdecl FUN_00cb10d0(const char* s) throw();
+int __cdecl hkString_strLen(const char* s) throw();
 #include <xmmintrin.h>
 extern "C"
 {

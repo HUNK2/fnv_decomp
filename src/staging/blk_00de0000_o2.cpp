@@ -60,7 +60,8 @@ __forceinline Vec4::Vec4(const Vec4& vector)
 
 // If p is non-null and b is set, zeroes the fields at offsets 0x20, 0x22, 0x24, 0x28, 0x10 and sets the int at offset 0 to 1.
 // @fnv 0x00df64d0
-void __cdecl FUN_00df64d0(void* p, int b)
+// src: HAVOK_LIB 0x00df64d0
+void __cdecl finishLoadedObjecthkpCollidableBoundingVolumeData(void* p, int b)
 {
     if (p && b)
     {
@@ -86,7 +87,8 @@ void FUN_00dfb490(FUN_00cb0c00_class* self)
 }
 
 // @fnv 0x00dfb9d0
-void FUN_00dfb9d0(hkReferencedObject** p)
+// src: HAVOK_LIB 0x00dfb9d0
+void cleanupLoadedObjecthkaSkeletonLocalFrameOnBone(hkReferencedObject** p)
 {
     if (*p)
         (*p)->removeReference();
@@ -116,16 +118,17 @@ extern void* DAT_010d77d8;
 
 struct FUN_00d21de0_Class
 {
-    void __thiscall FUN_00d21de0(void*);
+    void __thiscall hkpSimpleContactConstraintAtom_hkpSimpleContactConstraintAtom(void*);
 };
 
 // @fnv 0x00dfc3e0
-void __cdecl FUN_00dfc3e0(void** ppObject, void* a2)
+// src: HAVOK_LIB 0x00dfc3e0
+void __cdecl finishLoadedObjecthkpSerializedAgentNnEntry(void** ppObject, void* a2)
 {
     if (ppObject)
     {
         *ppObject = &DAT_010d77d8;
-        ((FUN_00d21de0_Class*)(ppObject + 8))->FUN_00d21de0(a2);
+        ((FUN_00d21de0_Class*)(ppObject + 8))->hkpSimpleContactConstraintAtom_hkpSimpleContactConstraintAtom(a2);
     }
 }
 
@@ -160,7 +163,8 @@ void __cdecl FUN_00dfd770(void* pObject, void* arg2)
 namespace fnv_00dfd970 {
 
 // @fnv 0x00dfd970
-void __cdecl FUN_00dfd970(hkReferencedObject** p)
+// src: HAVOK_LIB 0x00dfd970
+void __cdecl cleanupLoadedObjecthkaSkeletonLocalFrameOnBone_00dfd970(hkReferencedObject** p)
 {
     if (*p)
         (*p)->removeReference();
@@ -251,7 +255,8 @@ struct FUN_00cb0a70
 };
 
 // @fnv 0x00dff1f0
-void __cdecl FUN_00dff1f0(int* pObject, int iValue)
+// src: HAVOK_LIB 0x00dff1f0
+void __cdecl finishLoadedObjecthkpPhysicsSystemWithContacts(int* pObject, int iValue)
 {
     if (pObject)
     {
@@ -792,7 +797,8 @@ struct FUN_00cb0a70_m_helper
     void __thiscall m(int);
 };
 // @fnv 0x00dff270
-void __cdecl FUN_00dff270(void* pObject, void* b)
+// src: HAVOK_LIB 0x00dff270
+void __cdecl finishLoadedObjecthkpMouseSpringAction(void* pObject, void* b)
 {
     if (pObject)
     {
@@ -969,7 +975,7 @@ void FUN_00de87c0_class::SwapFields()
 void __cdecl FUN_00de81a0(void* pObject, void* arg)
 {
     if (pObject)
-        ((FUN_00d21de0_Class*)pObject)->FUN_00d21de0(arg);
+        ((FUN_00d21de0_Class*)pObject)->hkpSimpleContactConstraintAtom_hkpSimpleContactConstraintAtom(arg);
 }
 
 struct FUN_00d21ce0_cls
@@ -1018,7 +1024,8 @@ void FUN_00de8830_Class::CopyTransposedMatrix(float* afMatrix)
 }
 
 // @fnv 0x00df3250
-int __cdecl FUN_00df3250(int arg)
+// src: HAVOK_LIB 0x00df3250
+int __cdecl _nlz(int arg)
 {
     unsigned int edx = (unsigned int)arg;
     int eax;
@@ -1237,13 +1244,13 @@ void __cdecl FUN_00dfcc30(FUN_00dfcc30_vt* p)
 
 struct FUN_00dd0420_Class
 {
-    FUN_00dd0420_Class* __thiscall FUN_00dd0420(int);
+    FUN_00dd0420_Class* __thiscall hkpGenericConstraintDataScheme_hkpGenericConstraintDataScheme(int);
 };
 // @fnv 0x00dfcd80
 void __cdecl FUN_00dfcd80(FUN_00dd0420_Class* self, int a)
 {
     if (self)
-        self->FUN_00dd0420(a);
+        self->hkpGenericConstraintDataScheme_hkpGenericConstraintDataScheme(a);
 }
 
 struct FUN_00dfce00_vt
@@ -1418,7 +1425,8 @@ struct FUN_00ce5360_class
     int FUN_00ce5360(int a);
 };
 // @fnv 0x00dfe2d0
-void __cdecl FUN_00dfe2d0(FUN_00ce5360_class* pObject, int iValue)
+// src: HAVOK_LIB 0x00dfe2d0
+void __cdecl finishLoadedObjecthkaSkeletonMapper(FUN_00ce5360_class* pObject, int iValue)
 {
     if (pObject)
     {
@@ -1467,7 +1475,8 @@ extern int DAT_010e587c;
 
 // If a is non-null, stores &DAT_010e587c at its start and calls m(b) on the helper objects at offsets 8 and 0x54.
 // @fnv 0x00dfe5b0
-void __cdecl FUN_00dfe5b0(void* pObject, int iValue)
+// src: HAVOK_LIB 0x00dfe5b0
+void __cdecl finishLoadedObjecthkaBoneAttachment(void* pObject, int iValue)
 {
     if (pObject)
     {
@@ -2761,12 +2770,12 @@ struct DF25D0Owner
     DF25D0State* m_pkState;
 };
 
-void __cdecl FUN_00cb3c80(void* pkItem, DF25D0Owner* pkOwner);
+void __cdecl hkpWorldOperationUtil_addConstraintToCriticalLockedIsland(void* pkItem, DF25D0Owner* pkOwner);
 
 // @fnv 0x00df25d0
 static __declspec(noinline) void SetOwnerStateFlags(void* pkItem, DF25D0Owner* pkOwner, unsigned char m_ucEntryType)
 {
-    FUN_00cb3c80(pkItem, pkOwner);
+    hkpWorldOperationUtil_addConstraintToCriticalLockedIsland(pkItem, pkOwner);
     pkOwner->m_pkState->m_ucFlags |= m_ucEntryType;
 }
 
@@ -2914,7 +2923,7 @@ struct FUN_00df7a60_class
     int unk18;
     void* m_p1c;
 
-    void __thiscall FUN_00df7a60();
+    void __thiscall hkpCollisionQueryJob_atomicIncrementAndReleaseSemaphore();
 };
 
 extern "C" __declspec(dllimport) long __stdcall InterlockedExchangeAdd(volatile long* value, long increment);
@@ -2922,7 +2931,8 @@ extern "C" __declspec(dllimport) long __stdcall InterlockedExchangeAdd(volatile 
 void __cdecl FUN_00d043c0(void* object, int value);
 
 // @fnv 0x00df7a60
-void FUN_00df7a60_class::FUN_00df7a60()
+// src: HAVOK_LIB 0x00df7a60
+void FUN_00df7a60_class::hkpCollisionQueryJob_atomicIncrementAndReleaseSemaphore()
 {
     if (m_p1c != 0)
     {
@@ -2947,11 +2957,12 @@ struct FloatPair
 {
     float first, second;
     int __thiscall TraverseNode(ParserContext*, int, int*, ParserContext**);
-    int __thiscall FUN_00dfb040(ParserContext*, int, int*, ParserContext**);
+    int __thiscall hkWingedEdge_findVisibilityBoundaryEdges(ParserContext*, int, int*, ParserContext**);
 };
 // Initialises first/second from constants, calls ctx->FUN_00e63af0 and, if it returns 1, delegates to TraverseNode; otherwise returns 2.
 // @fnv 0x00dfb040
-int __thiscall FloatPair::FUN_00dfb040(ParserContext* ctx, int input, int* outA, ParserContext** outB)
+// src: HAVOK_LIB 0x00dfb040
+int __thiscall FloatPair::hkWingedEdge_findVisibilityBoundaryEdges(ParserContext* ctx, int input, int* outA, ParserContext** outB)
 {
     double initial = DAT_010dbb3c;
     *outB = 0;
@@ -3021,7 +3032,7 @@ int* __cdecl FUN_00dfb3c0(void)
 // object (ecx = object, one stack argument).
 struct FUN_00dfb3d0_cls
 {
-    void __thiscall FUN_00e2ea20(int a1);
+    void __thiscall hkaMeshBinding_hkaMeshBinding(int a1);
 };
 
 // @fnv 0x00dfb3d0
@@ -3029,7 +3040,7 @@ void __cdecl FUN_00dfb3d0(FUN_00dfb3d0_cls* pObject, int a1)
 {
     if (pObject != 0)
     {
-        pObject->FUN_00e2ea20(a1);
+        pObject->hkaMeshBinding_hkaMeshBinding(a1);
     }
 }
 
@@ -3357,7 +3368,8 @@ struct FUN_00dfbac0_cls
 };
 
 // @fnv 0x00dfbac0
-void __cdecl FUN_00dfbac0(FUN_00dfbac0_cls* apBuffer)
+// src: HAVOK_LIB 0x00dfbac0
+void __cdecl cleanupLoadedObjecthkaMeshBindingMapping(FUN_00dfbac0_cls* apBuffer)
 {
     FreeHolder* holder = FUN_00c85750();
     FreeAllocator* alloc = holder->m_pAllocator;
@@ -3397,7 +3409,7 @@ extern int DAT_010de90c;
 struct FUN_00dfbb50_cls
 {
     void* m_vtbl;
-    void __thiscall FUN_00e35050();
+    void __thiscall hkaDeltaCompressedAnimation_handleEndian();
 };
 
 // @fnv 0x00dfbb50
@@ -3408,7 +3420,7 @@ void __cdecl FUN_00dfbb50(FUN_00dfbb50_cls* apObject, int a)
         apObject->m_vtbl = (void*)&DAT_010de90c;
         if (a)
         {
-            apObject->FUN_00e35050();
+            apObject->hkaDeltaCompressedAnimation_handleEndian();
         }
     }
 }
@@ -4334,19 +4346,20 @@ struct S_00dfc970_Obj
     int unk94;
     short unk98;
     char unk9a;
-    void FUN_00d4f270(S_00dfc970_Flag f);
+    void hkpRagdollLimitsData_setConeLimitStabilization(S_00dfc970_Flag f);
 };
 
 // Sets the object's vtable pointer and, when flag and unk9a are set, calls FUN_00d4f270 with a flag value of 1.
 // @fnv 0x00dfc970
-void __cdecl FUN_00dfc970(S_00dfc970_Obj* pObj, int flag)
+// src: HAVOK_LIB 0x00dfc970
+void __cdecl finishLoadedObjecthkpRagdollLimitsData(S_00dfc970_Obj* pObj, int flag)
 {
     if (pObj)
     {
         pObj->vptr = &DAT_010d0af4;
         if (flag && pObj->unk9a)
         {
-            pObj->FUN_00d4f270(S_00dfc970_Flag(1));
+            pObj->hkpRagdollLimitsData_setConeLimitStabilization(S_00dfc970_Flag(1));
         }
     }
 }
@@ -5355,7 +5368,7 @@ CpuOpaque* __cdecl FUN_00dfdeb0()
 class FUN_00dfdec0_cls
 {
   public:
-    void FUN_00e0bf30(int a1);
+    void hkMonitorStreamStringMap_StringMap_StringMap(int a1);
 };
 
 // @fnv 0x00dfdec0
@@ -5363,7 +5376,7 @@ void __cdecl FUN_00dfdec0(FUN_00dfdec0_cls* pObject, int aiValue)
 {
     if (pObject != 0)
     {
-        pObject->FUN_00e0bf30(aiValue);
+        pObject->hkMonitorStreamStringMap_StringMap_StringMap(aiValue);
     }
 }
 
@@ -7444,7 +7457,8 @@ struct DF6500Object
 };
 
 // @fnv 0x00df6500
-void FUN_00df6500(void* p, int finishing)
+// src: HAVOK_LIB 0x00df6500
+void finishLoadedObjecthkpCollidable(void* p, int finishing)
 {
     DF6500FinishFlag flag;
     flag.m_bFinishing = finishing;
@@ -7551,7 +7565,8 @@ class BDFCA00Object
 };
 // Placement-constructs a BDFCA00Object at pvObject, passing iFinishing as the finish flag.
 // @fnv 0x00dfca00
-void __cdecl FUN_00dfca00(void* pvObject, int iFinishing)
+// src: HAVOK_LIB 0x00dfca00
+void __cdecl finishLoadedObjecthkpRagdollConstraintData(void* pvObject, int iFinishing)
 {
     if (pvObject)
     {
@@ -7904,10 +7919,11 @@ struct FUN_00df7210_Class
     int unk08;
     int unk0c;
     FUN_00df7210_Inner* m10;
-    char* __thiscall FUN_00df7210(char* out);
+    char* __thiscall hkCpuWorldLinearCastCollector_hasHit(char* out);
 };
 // @fnv 0x00df7210
-char* FUN_00df7210_Class::FUN_00df7210(char* out)
+// src: HAVOK_LIB 0x00df7210
+char* FUN_00df7210_Class::hkCpuWorldLinearCastCollector_hasHit(char* out)
 {
     *out = m10->m14 > 0;
     return out;
@@ -8453,7 +8469,7 @@ struct S00de0fe0_Arr
     S00de0fe0_Element** data;
     int count;
     int cap;
-    void __thiscall FUN_00ddfb70();
+    void __thiscall hkpShapeDisplayBuilder_hkpShapeDisplayBuilderEnvironment_hkpShapeDisplayBuilderEnvironment();
 };
 
 struct S00de0fe0_Obj10
@@ -8463,7 +8479,7 @@ struct S00de0fe0_Obj10
     int unk08;
     int unk0c;
     int unk10;
-    void __thiscall FUN_00ddfb80(int* value);
+    void __thiscall hkpShapeDisplayBuilder_hkpShapeDisplayBuilder(int* value);
     void __thiscall FUN_00de0f90(int count, S00de0fe0_Element*** array);
 };
 
@@ -8480,19 +8496,21 @@ struct S00de0fe0_C983Obj
 
 extern void* DAT_012681e0;
 
-__declspec(noinline) void S00de0fe0_Arr::FUN_00ddfb70()
+// src: HAVOK_LIB 0x00ddfb70
+__declspec(noinline) void S00de0fe0_Arr::hkpShapeDisplayBuilder_hkpShapeDisplayBuilderEnvironment_hkpShapeDisplayBuilderEnvironment()
 {
     count = 0;
 }
 
 // Fills a local pointer array, calls ForEachCall on DAT_012681e0 with it, calls vf00(1) on each element, then frees the array buffer.
 // @fnv 0x00de0fe0
-void __cdecl FUN_00de0fe0(int arg1, int arg2, int arg3, int arg4)
+// src: HAVOK_LIB 0x00de0fe0
+void __cdecl hkpShapeDisplayBuilder_addObjectToDebugDisplay(int arg1, int arg2, int arg3, int arg4)
 {
     S00de0fe0_Local local;
 
-    local.arr.FUN_00ddfb70();
-    local.o.FUN_00ddfb80((int*)&local.arr);
+    local.arr.hkpShapeDisplayBuilder_hkpShapeDisplayBuilderEnvironment_hkpShapeDisplayBuilderEnvironment();
+    local.o.hkpShapeDisplayBuilder_hkpShapeDisplayBuilder((int*)&local.arr);
 
     local.arr.data = 0;
     local.arr.count = 0;
@@ -8748,7 +8766,8 @@ struct Scheduler
 
 // Records a timer mark, calls FUN_00df6e00 with job's m_18, m_28 and m_2c, records a second mark, then calls self->ProcessCallback with the job.
 // @fnv 0x00df6f80
-void __cdecl FUN_00df6f80(Scheduler* self, Job* job)
+// src: HAVOK_LIB 0x00df6f80
+void __cdecl hkCpuPairGetClosestPointsJob(Scheduler* self, Job* job)
 {
     TimerMark("TtCollQueryPairGetClosestPoints");
     FUN_00df6e00(job, job->m_18, job->m_28, job->m_2c);
@@ -8786,7 +8805,8 @@ extern double DAT_010229b8;
 extern "C" unsigned int df9ae0_val(void);
 
 // @fnv 0x00df9ae0
-static __declspec(noinline) float FUN_00df9ae0(unsigned int state)
+// src: HAVOK_LIB 0x00df9ae0
+static __declspec(noinline) float rand01(unsigned int state)
 {
     unsigned int t = 0x3039u - state * 0x3e39b193u;
     t &= 0x7fffffffu;
@@ -8796,7 +8816,7 @@ static __declspec(noinline) float FUN_00df9ae0(unsigned int state)
 volatile float df9ae0_sink;
 void q_call_df9ae0(void)
 {
-    df9ae0_sink = FUN_00df9ae0(df9ae0_val());
+    df9ae0_sink = rand01(df9ae0_val());
 }
 
 static int g_w1 = 1;
@@ -8805,7 +8825,8 @@ static float g_wv = 1.0f;
 
 // in-file stand-in for the random-float helper: must kill eax+ecx and
 // preserve edx so the out pointer's private-convention home is edx
-static __declspec(noinline) float FUN_00df9ae0(void)
+// src: HAVOK_LIB 0x00df9ae0
+static __declspec(noinline) float rand01(void)
 {
     g_w1 = (g_w1 * 3) << (g_ws & 31);
     return g_wv;
@@ -8815,7 +8836,7 @@ static __declspec(noinline) float FUN_00df9ae0(void)
 // @fnv 0x00df9b20
 static __declspec(noinline) void WriteFloatToVector(float a, float b, float* out)
 {
-    float t = FUN_00df9ae0();
+    float t = rand01();
     a = (t + a) * (b - a);
     out[0] = a;
     out[1] = a;
@@ -9027,12 +9048,13 @@ struct S00df2640_cls
     int unk1C;
     unsigned short m_20;
 
-    int FUN_00df2640(S00df2640_a1* a1, S00df2640_a2* a2);
+    int hkpBroadPhaseJob_popJobTask(S00df2640_a1* a1, S00df2640_a2* a2);
 };
 
 // If m_18 has pending entries, appends them to a2's list and frees its array; otherwise decrements m_20 when above 1; returns 1 on either, else 0.
 // @fnv 0x00df2640
-int S00df2640_cls::FUN_00df2640(S00df2640_a1* a1, S00df2640_a2* a2)
+// src: HAVOK_LIB 0x00df2640
+int S00df2640_cls::hkpBroadPhaseJob_popJobTask(S00df2640_a1* a1, S00df2640_a2* a2)
 {
     S00df2640_P* p = m_18;
     if (p != 0)
@@ -9244,39 +9266,40 @@ struct Obj_df7a90
     int unk0C;
     int unk10;
     int* m_piRefCount;
-    void FUN_00df7a60();
+    void hkpCollisionQueryJob_atomicIncrementAndReleaseSemaphore();
 };
 
 // Decrements the object's reference count and calls FUN_00df7a60 when it reaches zero, then returns 1.
 // @fnv 0x00df7a90
-int __cdecl FUN_00df7a90(int iArg0, int iArg1, Obj_df7a90* pkObj)
+// src: HAVOK_LIB 0x00df7a90
+int __cdecl hkpCollisionQueryJobQueueUtils_finishCollisionJob(int iArg0, int iArg1, Obj_df7a90* pkObj)
 {
     int* piRefCount = pkObj->m_piRefCount;
     switch (pkObj->m_ucType)
     {
     case 0:
         if (--*piRefCount == 0)
-            pkObj->FUN_00df7a60();
+            pkObj->hkpCollisionQueryJob_atomicIncrementAndReleaseSemaphore();
         break;
     case 1:
         if (--*piRefCount == 0)
-            pkObj->FUN_00df7a60();
+            pkObj->hkpCollisionQueryJob_atomicIncrementAndReleaseSemaphore();
         break;
     case 2:
         if (--*piRefCount == 0)
-            pkObj->FUN_00df7a60();
+            pkObj->hkpCollisionQueryJob_atomicIncrementAndReleaseSemaphore();
         break;
     case 3:
         if (--*piRefCount == 0)
-            pkObj->FUN_00df7a60();
+            pkObj->hkpCollisionQueryJob_atomicIncrementAndReleaseSemaphore();
         break;
     case 4:
         if (--*piRefCount == 0)
-            pkObj->FUN_00df7a60();
+            pkObj->hkpCollisionQueryJob_atomicIncrementAndReleaseSemaphore();
         break;
     case 5:
         if (--*piRefCount == 0)
-            pkObj->FUN_00df7a60();
+            pkObj->hkpCollisionQueryJob_atomicIncrementAndReleaseSemaphore();
         break;
     }
     return 1;
@@ -9527,7 +9550,8 @@ struct WorldDF8800
 
 // Logs a TtCpuKdTreeBuildSetup timer entry, runs FillAabbArray and pkWorld->ProcessCallback, logs an Et entry, and returns the ProcessCallback result.
 // @fnv 0x00df8800
-void* FUN_00df8800(WorldDF8800* pkWorld, InDF8800* pkInput)
+// src: HAVOK_LIB 0x00df8800
+void* hkCpuKdTreeBuildSetupJob(WorldDF8800* pkWorld, InDF8800* pkInput)
 {
     {
         MonitorStreamKd* pkStream = (MonitorStreamKd*)TlsGetValue(DAT_0126835c);
@@ -11409,7 +11433,8 @@ void CopyFields(void*, void*);
 
 // Switches on src->m_type: decrements the counter or calls FUN_00df9840, and for types 5 and 7 builds a JobA or JobB in out and returns 0, else returns 1.
 // @fnv 0x00df9920
-int __cdecl FUN_00df9920(void* a1, void* a2, JobSrc* src, JobOut* out)
+// src: HAVOK_LIB 0x00df9920
+int __cdecl hkpRayCastQueryJobQueueUtils_finishRayCastQueryJob(void* a1, void* a2, JobSrc* src, JobOut* out)
 {
     int* counter = src->m_pCounter;
     switch (src->m_type)
@@ -11652,7 +11677,8 @@ typedef void*(__stdcall* PFN_TlsGetValue)(unsigned long dwTlsIndex);
 
 // Records a TtCollQueryPairLinearCast profiler tick, calls FUN_00df7760 on a2's fields, records an Et tick, then calls ProcessCallback on a1.
 // @fnv 0x00df79d0
-void __cdecl FUN_00df79d0(void* a1, TaskTarget* a2)
+// src: HAVOK_LIB 0x00df79d0
+void __cdecl hkCpuPairLinearCastJob(void* a1, TaskTarget* a2)
 {
     PFN_TlsGetValue pfnTls = TlsGetValue;
     hkMonitorStream* pBuf = (hkMonitorStream*)pfnTls(DAT_0126835c);

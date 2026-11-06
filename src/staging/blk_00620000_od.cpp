@@ -1642,7 +1642,7 @@ struct H_A100
 {
     void* GetSizeMasked();
 };
-void __cdecl FUN_00c908c0(int a, int b, int c, int d);
+void __cdecl hkArrayUtil__reserve(int a, int b, int c, int d);
 struct FUN_00629f70_Class
 {
     void __thiscall FUN_00629f70(int a, int c);
@@ -1655,7 +1655,7 @@ void __thiscall FUN_00629f70_Class::FUN_00629f70(int a, int c)
     {
         int e = d << 1;
         int f = c < e ? e : c;
-        FUN_00c908c0(a, (int)this, f, 4);
+        hkArrayUtil__reserve(a, (int)this, f, 4);
     }
 }
 }  // namespace fnv_00629f70
@@ -4916,7 +4916,7 @@ extern void* __cdecl FUN_0056d280(unsigned int);
 extern void __cdecl FUN_006263c0(int);
 extern void __cdecl FUN_006263f0(int);
 extern void __cdecl InitHavokPhysics();
-extern void __cdecl FUN_00cb0db0();
+extern void __cdecl hkMonitorStream_init();
 extern void __cdecl FUN_00c661d0(int);
 extern "C" __declspec(dllimport) unsigned int __stdcall GetCurrentDirectoryA(unsigned int, char*);
 struct Allocator622
@@ -5019,7 +5019,7 @@ void __cdecl FUN_00624bf0()
     AutoMemContext context(static_cast<MEM_CONTEXT>(16), true, (const char*)&DAT_0104de50, 0xac);
     char path[260];
     InitHavokPhysics();
-    FUN_00cb0db0();
+    hkMonitorStream_init();
     {
         FUN_00624f90* created = new FUN_00624f90;
         FUN_006263c0((int)created);
@@ -6909,7 +6909,7 @@ struct ShapeWrapper628
 };
 struct BodyCollection628
 {
-    int FUN_00c9c380();
+    int getNumConstraints();
     ShapeWrapper628* GetEntry(int);
 };
 struct Smart628
@@ -7121,7 +7121,7 @@ void Mover628::MoveToDestination(Body628* body, Group628* moved)
         bool grouped = false;
         NiPoint3 delta = destination - transform.m_Translate;
         BodyCollection628* bodies = body->GetReferenceFlags();
-        for (int scan = 0; scan < bodies->FUN_00c9c380() && !grouped; ++scan)
+        for (int scan = 0; scan < bodies->getNumConstraints() && !grouped; ++scan)
         {
             Shape628* shape = bodies->GetEntry(scan)->FUN_0084e3a0();
             grouped = shape->type() != 11;

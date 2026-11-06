@@ -73,9 +73,10 @@ struct MeshMaterial : public hkpMeshMaterial
     };
     int userData;
 };
-void FUN_00c908c0(void*, void*, int, int);
+void hkArrayUtil__reserve(void*, void*, int, int);
 void ResizeAudioStream(void*, void*, int);
-static __declspec(noinline) int FUN_00d49c20(int stride, int triangles)
+// src: HAVOK_LIB 0x00d49c20
+static __declspec(noinline) int numIndices_00d49c20(int stride, int triangles)
 {
     switch (stride)
     {
@@ -104,7 +105,7 @@ static __forceinline void Buffer_reserveUsing(hkArrayBase<T>& self, hkMemoryAllo
         if (available < requested)
         {
             int next = requested < available * 2 ? available * 2 : requested;
-            FUN_00c908c0(&allocator, (&self), next, sizeof(T));
+            hkArrayUtil__reserve(&allocator, (&self), next, sizeof(T));
         }
     }
 
@@ -215,7 +216,7 @@ void hkpStorageExtendedMeshShape::FUN_00d4a2b0(SourceArg sourceArg)
         const int inputStride = source.indexStride;
         const int stride = inputStride <= 2 ? inputStride : 4;
         destination->indexStride = stride * sizeof(unsigned char);
-        int count = FUN_00d49c20(inputStride, source.numTriangles);
+        int count = numIndices_00d49c20(inputStride, source.numTriangles);
         unsigned char* data = Buffer_grow(storage->indices8, count);
         FUN_00cb1280(data, 0, count * sizeof(unsigned char));
         const char* input = source.indexBase;
@@ -236,7 +237,7 @@ void hkpStorageExtendedMeshShape::FUN_00d4a2b0(SourceArg sourceArg)
         const unsigned int inputStride = source.indexStride >> 1;
         const int stride = static_cast<int>(inputStride) <= 2 ? inputStride : 4;
         destination->indexStride = stride * sizeof(unsigned short);
-        int count = FUN_00d49c20(inputStride, source.numTriangles);
+        int count = numIndices_00d49c20(inputStride, source.numTriangles);
         unsigned short* data = Buffer_grow(storage->indices16, count);
         FUN_00cb1280(data, 0, count * sizeof(unsigned short));
         const char* input = source.indexBase;
@@ -257,7 +258,7 @@ void hkpStorageExtendedMeshShape::FUN_00d4a2b0(SourceArg sourceArg)
         const unsigned int inputStride = source.indexStride >> 2;
         const int stride = static_cast<int>(inputStride) <= 2 ? inputStride : 4;
         destination->indexStride = stride * sizeof(unsigned int);
-        int count = FUN_00d49c20(inputStride, source.numTriangles);
+        int count = numIndices_00d49c20(inputStride, source.numTriangles);
         unsigned int* data = Buffer_grow(storage->indices32, count);
         FUN_00cb1280(data, 0, count * sizeof(unsigned int));
         const char* input = source.indexBase;

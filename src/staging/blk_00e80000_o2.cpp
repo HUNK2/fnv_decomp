@@ -416,7 +416,8 @@ void __stdcall FUN_00e8b490(int* paiValues, int iFirst, int iSecond)
 extern NiTStringTemplateMap<NiTPointerMap<const char*, NiD3DShaderProgramCreator*>, NiD3DShaderProgramCreator*>* DAT_0126fa14;
 // Calls RemoveAll on DAT_0126fa14, invokes its first virtual method with 1, then clears the pointer.
 // @fnv 0x00e933d0
-void FUN_00e933d0()
+// src: GAMEBRYO_LIB 0x00e933d0
+void NiD3DShaderProgramFactory__SDMShutdown()
 {
     DAT_0126fa14->RemoveAll();
     delete DAT_0126fa14;
@@ -1149,7 +1150,8 @@ int FUN_00e88b00_Class::DestroyIfFlagged(bool abDelete)
 }
 
 // @fnv 0x00e8a240
-unsigned int __fastcall FUN_00e8a240(char* self, int)
+// src: GAMEBRYO_LIB 0x00e8a240
+unsigned int __fastcall NiPixelFormat_GetNumComponents(char* self, int)
 {
     unsigned int count = 0;
     char* p = self + 0x14;
@@ -6613,7 +6615,7 @@ void* ScalarDeletingObject::DestroyScalarObject(unsigned char flags) {
     return this;
 }
 
-extern "C" void __cdecl FUN_00aa10f0(void*);
+extern "C" void __cdecl _NiFree_00aa10f0(void*);
 extern int DAT_010ef73c;
 extern int DAT_0101dce4;
 extern volatile long DAT_011f4400;
@@ -6641,9 +6643,9 @@ struct FUN_00e89840_Class {
 void FUN_00e89840_Class::FUN_00e89840()
 {
     m_ppVirtualMethodTable = &DAT_010ef73c;
-    FUN_00aa10f0(m_0c);
-    FUN_00aa10f0(m_10);
-    FUN_00aa10f0(m_18);
+    _NiFree_00aa10f0(m_0c);
+    _NiFree_00aa10f0(m_10);
+    _NiFree_00aa10f0(m_18);
     m_24 = 0;
     m_28 = 0;
     if (m_20 != 0) m_20->Release();
@@ -8963,7 +8965,7 @@ struct FUN_00aa4060_Class {
 extern FUN_00aa4060_Class DAT_011f6238;
 
 void __cdecl FUN_00b601a0();
-void __cdecl FUN_00aa10f0(void* data);
+void __cdecl _NiFree_00aa10f0(void* data);
 
 struct FUN_00e8f7c0_Class {
     void* m_vptr;
@@ -8978,7 +8980,7 @@ void* FUN_00e8f7c0_Class::FUN_00e8f7c0(unsigned char deleting)
 {
     m_vptr = (void*)&DAT_010f02b0;
     FUN_00b601a0();
-    FUN_00aa10f0(m_data);
+    _NiFree_00aa10f0(m_data);
     if (deleting & 1) {
         DAT_011f6238.FUN_00aa4060(this);
     }
@@ -9155,7 +9157,7 @@ void __thiscall FUN_00e94150_Class::RemoveNode(FUN_00e94150_Node* node)
 
 namespace fnv_00e94810 {
 extern int DAT_010c4cf8;
-void __cdecl FUN_00aa10f0(int aValue);
+void __cdecl _NiFree_00aa10f0(int aValue);
 
 struct FUN_00e94810_pool {
     void FUN_00aa4060(void* apMemory);
@@ -9177,7 +9179,7 @@ FUN_00e94810_cls* FUN_00e94810_cls::FUN_00e94810(unsigned int acFlags)
 {
     m_vptr = (int)&DAT_010c4cf8;
     BaseCleanup();
-    FUN_00aa10f0(m_08);
+    _NiFree_00aa10f0(m_08);
     if (acFlags & 1) {
         DAT_011f6238.FUN_00aa4060(this);
     }
@@ -9989,7 +9991,7 @@ f20=1.0f; return true;
 } return false;
 }
 
-extern "C" void __cdecl FUN_00aa10f0(void* p);
+extern "C" void __cdecl _NiFree_00aa10f0(void* p);
 extern int DAT_010f0ef0;
 
 
@@ -10491,7 +10493,8 @@ struct Seq9ea
 
 // Iterates the sequence's items, calls DispatchByVirtualIndex on each, and on success stores the index in m_uiLast and returns true.
 // @fnv 0x00e9ea70
-bool FUN_00e9ea70(float fTime, Seq9ea* pkSeq, void* p2, void* p3, void* p4, void* p5, void* p6)
+// src: GAMEBRYO_LIB 0x00e9ea70
+bool NiUnionBV_UnionTriTestIntersect(float fTime, Seq9ea* pkSeq, void* p2, void* p3, void* p4, void* p5, void* p6)
 {
     for (unsigned int i = 0; i < pkSeq->m_usElementCount; i++)
     {
@@ -11774,18 +11777,18 @@ struct ShaderDataE989 : NiRefObject {
 // @fnv 0x00e989c0
 ShaderDataE989::~ShaderDataE989() throw()
 {
-    FUN_00aa10f0(m_08);
-    FUN_00aa10f0(m_0c);
-    FUN_00aa10f0(m_10);
-    FUN_00aa10f0(m_14);
-    FUN_00aa10f0(m_30);
-    FUN_00aa10f0(m_34);
-    FUN_00aa10f0(m_38);
-    FUN_00aa10f0(m_3c);
-    FUN_00aa10f0(m_58);
-    FUN_00aa10f0(m_5c);
-    FUN_00aa10f0(m_60);
-    FUN_00aa10f0(m_64);
+    _NiFree_00aa10f0(m_08);
+    _NiFree_00aa10f0(m_0c);
+    _NiFree_00aa10f0(m_10);
+    _NiFree_00aa10f0(m_14);
+    _NiFree_00aa10f0(m_30);
+    _NiFree_00aa10f0(m_34);
+    _NiFree_00aa10f0(m_38);
+    _NiFree_00aa10f0(m_3c);
+    _NiFree_00aa10f0(m_58);
+    _NiFree_00aa10f0(m_5c);
+    _NiFree_00aa10f0(m_60);
+    _NiFree_00aa10f0(m_64);
     if (m_80)
     {
         m_80->Release();
@@ -11818,7 +11821,8 @@ extern void **DAT_0126faa0;
 
 // Looks up a function pointer in DAT_0126faa0 using the object's index and calls it with the forwarded value and arguments.
 // @fnv 0x00e9ca50
-void __cdecl FUN_00e9ca50(
+// src: GAMEBRYO_LIB 0x00e9ca50
+void __cdecl NiBoundingVolume_FindTriIntersect(
     float value,
     FUN_00e9ca50_Object *object,
     int arg1,
@@ -13994,7 +13998,7 @@ struct ShaderComponent093 {
     short unk0a;
 };
 struct ShaderRequest093 {
-    unsigned int FUN_00e8a240();
+    unsigned int NiPixelFormat_GetNumComponents();
     int unknown00;
     unsigned int kind;
     int disabled;
@@ -14162,7 +14166,7 @@ void* __stdcall FUN_00e8a300(ShaderRequest093* request, ShaderTraits093* traits,
     format = 5;
     width = 0;
     if (((PixelComponentReader093*)request)->GetEntryData(0, &type, &format, (char*)&width, (char*)&flag) && (format == 2 || format == 1)) {
-        unsigned int count = request->FUN_00e8a240();
+        unsigned int count = request->NiPixelFormat_GetNumComponents();
         if (width == 16) {
             if (count < 2) {
                 candidate = choices->choice40;

@@ -97,10 +97,10 @@ void AngularDashpotApplyAction::applyAction(const hkStepInfo& input)
     sum = AngularDashpotApplyD4DCB0::_mm_add_ps(AngularDashpotApplyD4DCB0::_mm_mul_ps(AngularDashpotApplyD4DCB0::_mm_shuffle_ps(damping, damping, 0), v.tmp),
                      AngularDashpotApplyD4DCB0::_mm_mul_ps(AngularDashpotApplyD4DCB0::_mm_shuffle_ps(strength, strength, 0), corr));
 
-    bEnt->FUN_00c9c1d0();
+    bEnt->activate_00c9c1d0();
     bEnt->m_pMotionState.ApplyAngularImpulseToBodies(reinterpret_cast<const hkVector4&>(sum));
     sum = AngularDashpotApplyD4DCB0::_mm_xor_ps(sum, DashpotNegAll);
-    aEnt->FUN_00c9c1d0();
+    aEnt->activate_00c9c1d0();
     aEnt->m_pMotionState.ApplyAngularImpulseToBodies(reinterpret_cast<const hkVector4&>(sum));
 }
 

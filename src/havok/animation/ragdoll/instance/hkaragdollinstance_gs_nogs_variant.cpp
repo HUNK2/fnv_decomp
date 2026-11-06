@@ -103,7 +103,7 @@ struct RagdollInstance : hkReferencedObject
     ObjectArray<ReferenceObject*> m_ppConstraints;
     ObjectArray<int> m_kBoneMap;
     ReferenceObject* m_pSkeleton;
-    void FUN_00ce22c0(const ObjectArray<ReferenceObject*>& bodies, const ObjectArray<ReferenceObject*>& constraints,
+    void hkaRagdollInstance_commonInit(const ObjectArray<ReferenceObject*>& bodies, const ObjectArray<ReferenceObject*>& constraints,
                       ReferenceObject* skeleton);
 };
 struct FUN_00ce26f0_ObjectC
@@ -128,7 +128,7 @@ struct FUN_00ce26f0_Class
 
     void FUN_00ce18d0(FUN_00ce2430_Transform* a);
     void ApplyValueToTransforms(float a, FUN_00ce2430_Transform* b);
-    void FUN_00ce26f0(FUN_00ce2430_Transform* a);
+    void hkaRagdollInstance_getApproxCurrentPoseWorldSpace(FUN_00ce2430_Transform* a);
 };
 typedef unsigned int hk_size_tR;
 class hkMemoryAllocatorR
@@ -274,7 +274,7 @@ class hkaRagdollInstanceR : public hkReferencedObjectR
     hkaRagdollInstanceR(const hkArrayR<hkpRigidBodyR*>& kRigidBodies,
                         const hkArrayR<hkpConstraintInstanceR*>& kConstraints, const hkaSkeletonR* pkSkeleton,
                         const hkArrayR<int>& kBoneToRigidBodyMap) throw();
-    hkaRagdollInstanceR* FUN_00ce2730(int eMode) const throw();
+    hkaRagdollInstanceR* hkaRagdollInstance_clone(int eMode) const throw();
     const hkaSkeletonR* getSkeleton() const
     {
         return m_pSkeleton;
@@ -306,15 +306,15 @@ struct FUN_00ce1680_Body
 };
 struct FUN_00c94bd0_Obj
 {
-    void FUN_00c94bd0(void* objects, int count, int flag);
+    void hkpWorld_addEntityBatch(void* objects, int count, int flag);
 };
 struct FUN_00c97d30_Obj
 {
-    void FUN_00c97d30(void* object);
+    void hkpWorld_addConstraint(void* object);
 };
 struct CallRet
 {
-    void FUN_00c946e0(void* object, int a, int b);
+    void hkpWorld_updateCollisionFilterOnEntity(void* object, int a, int b);
 };
 class FUN_00ce1680_Ragdoll : public hkReferencedObject
 {
@@ -324,10 +324,10 @@ class FUN_00ce1680_Ragdoll : public hkReferencedObject
     hkArray<hkInt32> m_kBoneMap;
     hkaSkeleton* m_pSkeleton;
 
-    int FUN_00ce1680(void* world, unsigned char flag);
+    int addToWorld(void* world, unsigned char flag);
 };
 extern int DAT_010cb830;
-void __cdecl FUN_00c908c0(ArrayAllocator* heap, void* array, int numElements, int sizeOfElement);
+void __cdecl hkArrayUtil__reserve(ArrayAllocator* heap, void* array, int numElements, int sizeOfElement);
 struct RouterRef_ce24
 {
     void* unk00;
@@ -363,7 +363,7 @@ template <class T> struct hkArray_ce24
         if (cap < n)
         {
             int cap2 = 2 * cap;
-            FUN_00c908c0(&heap, this, n < cap2 ? cap2 : n, sizeof(T));
+            hkArrayUtil__reserve(&heap, this, n < cap2 ? cap2 : n, sizeof(T));
         }
         m_iElementCount = n;
     }
@@ -382,9 +382,9 @@ struct RagdollInstance_ce24
     hkArray_ce24<ReferenceObject*> m_ppConstraints;
     hkArray_ce24<int> m_kBoneMap;
     Skeleton_ce24* m_pSkeleton;
-    void FUN_00ce22c0(const hkArray_ce24<ReferenceObject*>& bodies, const hkArray_ce24<ReferenceObject*>& constraints,
+    void hkaRagdollInstance_commonInit(const hkArray_ce24<ReferenceObject*>& bodies, const hkArray_ce24<ReferenceObject*>& constraints,
                       Skeleton_ce24* skeleton);
-    RagdollInstance_ce24* FUN_00ce2470(const hkArray_ce24<ReferenceObject*>& bodies,
+    RagdollInstance_ce24* hkaRagdollInstance_hkaRagdollInstance(const hkArray_ce24<ReferenceObject*>& bodies,
                                        const hkArray_ce24<ReferenceObject*>& constraints, Skeleton_ce24* skeleton);
 };
 extern "C"
@@ -408,8 +408,8 @@ extern float DAT_01017d00;
 extern float DAT_01017d10;
 struct UnkCall
 {
-    void FUN_00c9c1d0();
-    void FUN_00ca8860(const hkVector4& pos, const hkQuaternion& rot);
+    void activate_00c9c1d0();
+    void hkpRigidBody_setPositionAndRotation(const hkVector4& pos, const hkQuaternion& rot);
 };
 struct hkpMotion
 {
@@ -467,12 +467,12 @@ struct hkpRigidBody : public UnkCall
 
     void SetTranslationalVelocity(const hkVector4& vel)
     {
-        FUN_00c9c1d0();
+        activate_00c9c1d0();
         m_pMotionState.SetTranslationalVelocity(vel);
     }
     void SetRotationalVelocity(const hkVector4& vel)
     {
-        FUN_00c9c1d0();
+        activate_00c9c1d0();
         m_pMotionState.SetRotationalVelocity(vel);
     }
 };
@@ -518,6 +518,6 @@ struct FUN_00ce2510
     InitArray<int> m_kBoneMap;
     int m_2c;
 
-    void FUN_00ce22c0(int a, int b, int c);
+    void hkaRagdollInstance_commonInit(int a, int b, int c);
     FUN_00ce2510(int a, int b, int c, ObjectArray<int>* d);
 };

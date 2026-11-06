@@ -109,7 +109,7 @@ struct S_00d417b0_Obj
     int unk08;
     S_00d417b0_Sub m_sub;
 };
-void __cdecl FUN_00dae340(S_00d417b0_Sub* sub, int index);
+void __cdecl _hkGskManifold_removePoint(S_00d417b0_Sub* sub, int index);
 void __cdecl RemoveEntryById(int a, S_00d417b0_Obj* obj, short id);
 struct Slot
 {

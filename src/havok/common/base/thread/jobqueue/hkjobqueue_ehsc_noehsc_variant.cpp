@@ -90,7 +90,7 @@ struct Bucket
     int unk08;
     int unk0C;
     int unk10;
-    void FUN_00d056d0(int);
+    void hkQueue_struct_hkJobQueue_JobQueueEntry_setCapacity(int);
 };
 struct Registry
 {
@@ -223,7 +223,7 @@ struct Owner
     int count;
     Registry* FUN_00d04400(RequestContext*);
     void FUN_00d04420(Registry*);
-    void FUN_00d04a80(int, int);
+    void hkJobQueue_setQueueCapacityForJobType(int, int);
 };
 struct Item
 {
@@ -313,7 +313,7 @@ struct D057A0Queue
     int m_iNodeCount;
 
     void SetNodeCount(int n);
-    void FUN_00d057a0(const D057A0Element& element);
+    void hkQueue_struct_hkJobQueue_JobQueueEntry_enqueue(const D057A0Element& element);
 };
 struct CallTarget
 {
@@ -711,8 +711,8 @@ extern void __cdecl hookB_00d969e0(void*, void*);
 extern void __cdecl hookC_00d967a0(void*, void*);
 extern void __cdecl hookD_00d968e0(void*, void*);
 // Two more registration helpers, both cdecl with one pointer argument.
-void __cdecl FUN_00da3400(TargetObj* p);
-void __cdecl FUN_00da3480(TargetObj* p);
+void __cdecl hkpCollisionQueryJobQueueUtils_registerWithJobQueue(TargetObj* p);
+void __cdecl hkpRayCastQueryJobQueueUtils_registerWithJobQueue(TargetObj* p);
 void __cdecl InitHookTable(TargetObj* apTarget);
 void __cdecl ResizeAudioStream(void* alloc, void* array, int sizeElem);
 struct D04A20Operation
@@ -916,7 +916,7 @@ struct D05490Array
 };
 void FUN_00d043d0();
 void FUN_00d043e0();
-void FUN_00d04550();
+void defaultPopDispatchFunc();
 void FUN_00d04570();
 struct FUN_00d05490 : D05490Base
 {
@@ -980,7 +980,7 @@ struct FUN_00d05490 : D05490Base
     FUN_00d05490(SrcCfg* a1) throw();
 };
 typedef int(__cdecl* DispatchHandler)(void*, void*, void*);
-int __cdecl FUN_00d04550(void* context, void* argument, void* item);
+int __cdecl defaultPopDispatchFunc(void* context, void* argument, void* item);
 template <typename T> inline T* hkAllocateChunk(int n)
 {
     return static_cast<T*>(hkMemoryRouter::getInstance().heap().AllocateMemoryBlock(n * sizeof(T)));
@@ -997,7 +997,7 @@ struct hkQueue128
     int m_pTail;
     int m_iNodeCount;
 
-    void FUN_00d056d0(int n);
+    void hkQueue_struct_hkJobQueue_JobQueueEntry_setCapacity(int n);
 };
 extern "C" void _ReadWriteBarrier(void);
 extern "C" unsigned __int64 __rdtsc(void);
@@ -1012,7 +1012,7 @@ static __forceinline short& Ref212(Registry* r, unsigned char sub)
 struct LunaOwner : Owner
 {
     int LookupSpawnedEntry(Item* item);
-    int FUN_00d05840(int index, Registry* registry, int param_4, int param_3);
+    int hkJobQueue_findJobInternal(int index, Registry* registry, int param_4, int param_3);
     int ProcessCallback(int param_2, int param_3, int param_4);
 };
 struct LunaTrace
@@ -1095,14 +1095,14 @@ struct S_00d05020_Queue
     int m_pTail;
     int m_iNodeCount;
 
-    void FUN_00d056d0(int capacity);
+    void hkQueue_struct_hkJobQueue_JobQueueEntry_setCapacity(int capacity);
 
     void increaseCapacity()
     {
         if (m_pRayCursor == 0)
-            FUN_00d056d0(8);
+            hkQueue_struct_hkJobQueue_JobQueueEntry_setCapacity(8);
         else
-            FUN_00d056d0(m_pRayCursor * 2);
+            hkQueue_struct_hkJobQueue_JobQueueEntry_setCapacity(m_pRayCursor * 2);
     }
 
     void enqueueInFront(const S_00d05020_Job& element)
@@ -1142,8 +1142,8 @@ struct S_00d05020_JobQueue
 {
     S_00d05020_DynamicData* FUN_00d04400(char* dynamicDataStorage);
     int LookupSpawnedEntry(const S_00d05020_Job& job);
-    int FUN_00d05840(int queueIndexOfNewJob, S_00d05020_DynamicData* data, int waitStatus, S_00d05020_Job& jobOut);
-    int FUN_00d05020(int originalJobType, int priority, S_00d05020_Job& jobInOut, int waitStatus);
+    int hkJobQueue_findJobInternal(int queueIndexOfNewJob, S_00d05020_DynamicData* data, int waitStatus, S_00d05020_Job& jobOut);
+    int hkJobQueue_finishAddAndGetNextJob(int originalJobType, int priority, S_00d05020_Job& jobInOut, int waitStatus);
 };
 
 // hkBase.lib debug info; byte-exact with the game under the Havok release flags.
@@ -1230,7 +1230,7 @@ class JobDispatcher
         hkUint16 m_auiThreadIds[MAX_NUM_THREAD_TYPES];
     };
 
-    void FUN_00d04590();
+    void hkJobQueue_updateJobQueryRules();
 
     RTL_CRITICAL_SECTION_ m_pWorldLock;
     JobQueueWaitState* m_data;
@@ -1281,7 +1281,8 @@ class JobDispatcher
 };
 
 // @fnv 0x00d04590
-void JobDispatcher::FUN_00d04590()
+// src: HAVOK_LIB 0x00d04590
+void JobDispatcher::hkJobQueue_updateJobQueryRules()
 {
     int numSharedCaches = kThreadState.m_kNestedIntegerLists.GetLogicalSize() == 0
                               ? 1

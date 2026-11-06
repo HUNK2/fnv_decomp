@@ -28,7 +28,7 @@ struct FUN_00d3b3d0_Class
     void InvokeCallbacksAndRelease(int);
 };
 typedef void(__cdecl* HandlerFn)();
-void __cdecl FUN_00d3b380();
+void __cdecl hkpCapsuleCapsuleAgent_createCapsuleCapsuleAgent();
 void __cdecl FUN_00d3b420();
 void __cdecl FUN_00d3bd80();
 void __cdecl FUN_00daf8e0();
@@ -481,11 +481,12 @@ extern "C" void __cdecl FUN_00cd58b0(const Vec4* verticesA, float radiusA, const
 
 struct Agent : FUN_00d3b3d0_Class
 {
-    void FUN_00d3c060(const CdBody* bodyA, const CdBody* bodyB, const CollisionInput* input, Collector* collector);
+    void hkpCapsuleCapsuleAgent_processCollision(const CdBody* bodyA, const CdBody* bodyB, const CollisionInput* input, Collector* collector);
 };
 
 // @fnv 0x00d3c060
-void Agent::FUN_00d3c060(const CdBody* bodyA, const CdBody* bodyB, const CollisionInput* input, Collector* collector)
+// src: HAVOK_SRC 0x00d3c060
+void Agent::hkpCapsuleCapsuleAgent_processCollision(const CdBody* bodyA, const CdBody* bodyB, const CollisionInput* input, Collector* collector)
 {
     ProfilerTls* ms = (ProfilerTls*)TlsGetValue(DAT_0126835c);
     {

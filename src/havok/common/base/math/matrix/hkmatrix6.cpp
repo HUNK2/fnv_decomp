@@ -50,7 +50,8 @@ struct E29250Matrix6
 };
 
 // @fnv 0x00e29250
-void __cdecl FUN_00e29250(E29250Matrix6& out, const E29250Matrix6& in)
+// src: HAVOK_LIB 0x00e29250
+void __cdecl _hkMatrix6SetTranspose(E29250Matrix6& out, const E29250Matrix6& in)
 {
     out.m_iUnknownValue2[0][0]._setTranspose(in.m_iUnknownValue2[0][0]);
     out.m_iUnknownValue2[0][1]._setTranspose(in.m_iUnknownValue2[1][0]);

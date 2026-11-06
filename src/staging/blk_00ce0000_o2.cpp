@@ -92,11 +92,12 @@ struct FUN_00cf4ca0_class
     int m_auiShapeKeys[6];
     hkReferencedObject* m_kPointA;
     hkReferencedObject* m_kPointB;
-    void FUN_00cf4ca0();
+    void hkpBinaryAction__referenceBodies();
 };
 
 // @fnv 0x00cf4ca0
-void FUN_00cf4ca0_class::FUN_00cf4ca0()
+// src: HAVOK_LIB 0x00cf4ca0
+void FUN_00cf4ca0_class::hkpBinaryAction__referenceBodies()
 {
     if (m_kPointA)
         m_kPointA->addReference();
@@ -108,15 +109,16 @@ struct FUN_00d06d50_cls
 {
     int __thiscall FindClass(int);
 };
-extern "C" void __cdecl FUN_00cf6920(int, int, int);
+extern "C" void __cdecl hkStatisticsCollectorUtil_addClassContentsAll(int, int, int);
 
 // Calls FindClass on b with a; if it returns nonzero, passes a, the result and b to FUN_00cf6920.
 // @fnv 0x00cf6950
-void __cdecl FUN_00cf6950(int a, int apObject)
+// src: HAVOK_LIB 0x00cf6950
+void __cdecl hkStatisticsCollectorUtil_addClassContentsAll_00cf6950(int a, int apObject)
 {
     int c = ((FUN_00d06d50_cls*)apObject)->FindClass(a);
     if (c)
-        FUN_00cf6920(a, c, apObject);
+        hkStatisticsCollectorUtil_addClassContentsAll(a, c, apObject);
 }
 
 struct FUN_00cf86f0_class
@@ -133,7 +135,8 @@ int FUN_00cf86f0_class::IsFieldEqual()
 }
 
 // @fnv 0x00cfcb80
-unsigned short FUN_00cfcb80(unsigned short a, unsigned short b)
+// src: HAVOK_LIB 0x00cfcb80
+unsigned short hkMath_min2_unsigned_short(unsigned short a, unsigned short b)
 {
     unsigned short r = a;
     if (a < b)
@@ -180,18 +183,19 @@ struct FUN_00cf69c0_class
     int m_kPointA;
     int m_auiShapeKeys;
     int m_kPointB;
-    int __thiscall FUN_00cf69c0(int a);
+    int __thiscall hkSingletonInitNode_findByName(int a);
 };
 
-int __cdecl FUN_00cb0fa0(int a, int b);
+int __cdecl hkString_strCmp(int a, int b);
 
 // @fnv 0x00cf69c0
-int __thiscall FUN_00cf69c0_class::FUN_00cf69c0(int a)
+// src: HAVOK_LIB 0x00cf69c0
+int __thiscall FUN_00cf69c0_class::hkSingletonInitNode_findByName(int a)
 {
     FUN_00cf69c0_class* self = this;
     for (;;)
     {
-        if (self->m_kPointA && !FUN_00cb0fa0(a, self->m_kPointA))
+        if (self->m_kPointA && !hkString_strCmp(a, self->m_kPointA))
             return (int)self;
         if (!self->m_kPointB)
             return 0;
@@ -300,7 +304,8 @@ struct FnvSpawnedObject
 
 // Returns false if the first probe's Match or the object's Check fails, otherwise returns the result of the second probe's Check.
 // @fnv 0x00ce2a00
-bool __cdecl FUN_00ce2a00(int unused, FnvSpawnedObject* obj)
+// src: HAVOK_LIB 0x00ce2a00
+bool __cdecl hkaSkeletonMapper_checkTransform(int unused, FnvSpawnedObject* obj)
 {
     FnvSpawnedObject* self = obj;
     if (*self->m_10.Match(&obj) == 0)
@@ -317,7 +322,8 @@ bool __cdecl FUN_00ce2a00(int unused, FnvSpawnedObject* obj)
 void __cdecl FUN_00ce2ca0(int a1, int a2, int* a3, int a4);
 
 // @fnv 0x00ce2cf0
-void __cdecl FUN_00ce2cf0(int pObject, int param_2, int param_3)
+// src: HAVOK_LIB 0x00ce2cf0
+void __cdecl hkaSkeletonMapper_mapExtractedMotion(int pObject, int param_2, int param_3)
 {
     FUN_00ce2ca0(*reinterpret_cast<int*>(reinterpret_cast<char*>(pObject) + 0x74), param_3,
                  reinterpret_cast<int*>(reinterpret_cast<char*>(pObject) + 0x40), param_2);
@@ -327,7 +333,8 @@ void __cdecl FUN_00ce3090(int a1, int a2, int a3, int a4, int a5, int a6);
 
 // Calls FUN_00ce3090 with a1, a2, a3, two zero arguments, and a4.
 // @fnv 0x00ce4330
-void __cdecl FUN_00ce4330(int a1, int a2, int a3, int a4)
+// src: HAVOK_LIB 0x00ce4330
+void __cdecl hkaSkeletonMapper_mapPoseLocalSpace_00ce4330(int a1, int a2, int a3, int a4)
 {
     FUN_00ce3090(a1, a2, a3, 0, 0, a4);
 }
@@ -795,7 +802,8 @@ struct SpawnedObject
 
 // Allocates a 0x18-byte SpawnedObject via the holder's allocator, initializes it with count 0x3e8, and stores the result in DAT_01268794.
 // @fnv 0x00cf6b10
-void __cdecl FUN_00cf6b10()
+// src: HAVOK_LIB 0x00cf6b10
+void __cdecl hkMultiThreadCheck_staticInit()
 {
     hkMemoryRouter* pAllocHolder = FUN_00c85750();
     Allocator* alloc = reinterpret_cast<Allocator*>(pAllocHolder->m_heap);
@@ -905,11 +913,12 @@ struct FUN_00cf8710_cls
     float m_14;
     float m_18;
 
-    bool FUN_00cf8710();
+    bool hkpSimulation_isSimulationAtPsi();
 };
 
 // @fnv 0x00cf8710
-bool FUN_00cf8710_cls::FUN_00cf8710()
+// src: HAVOK_LIB 0x00cf8710
+bool FUN_00cf8710_cls::hkpSimulation_isSimulationAtPsi()
 {
     return m_18 == m_14;
 }
@@ -1399,7 +1408,8 @@ struct hkOwnerCF74
 };
 
 // @fnv 0x00cf74b0
-int __cdecl FUN_00cf74b0(const OwnerSubindexEntry& aEntryA, const OwnerSubindexEntry& aEntryB)
+// src: HAVOK_LIB 0x00cf74b0
+int __cdecl hkpWorldBodyOperationQueueSortCmp(const OwnerSubindexEntry& aEntryA, const OwnerSubindexEntry& aEntryB)
 {
     if (aEntryA.m_pOwnerObject == aEntryB.m_pOwnerObject)
         return aEntryA.m_08 > aEntryB.m_08;
@@ -1703,14 +1713,14 @@ class CE0020Subject
     virtual void EnableConstraints();
 };
 
-void __cdecl FUN_00d27690(CE0020Target* pTarget, CE0020Subject* pSubject, int iType);
+void __cdecl hkpWorldConstraintUtil_removeAndDeleteModifier(CE0020Target* pTarget, CE0020Subject* pSubject, int iType);
 
 // @fnv 0x00ce0020
 void __cdecl EnableConstraintsAndZeroArrays(CE0020Target* pTarget, CE0020Subject* pSubject)
 {
     pSubject->EnableConstraints();
     CE0020TimerMark(DAT_010cb81c);
-    FUN_00d27690(pTarget, pSubject, 0x1b);
+    hkpWorldConstraintUtil_removeAndDeleteModifier(pTarget, pSubject, 0x1b);
     float* pFloats = pTarget->m_pArrayData->m_pFloats;
     if (pFloats)
     {
@@ -2339,7 +2349,8 @@ struct Cfd50Range
 };
 
 // @fnv 0x00cfdb50
-static __declspec(noinline) int FUN_00cfdb50(Cfd50Range* apRange)
+// src: HAVOK_LIB 0x00cfdb50
+static __declspec(noinline) int hkAgentNnMachine_getLastEntry(Cfd50Range* apRange)
 {
     return apRange->m_00 + apRange->m_04[apRange->m_08 - 1] - 0x80;
 }
@@ -2349,13 +2360,13 @@ extern "C" int Cfd50Sink(int);
 
 void Cfd50Caller(void)
 {
-    volatile int r = FUN_00cfdb50(Cfd50Get());
+    volatile int r = hkAgentNnMachine_getLastEntry(Cfd50Get());
     Cfd50Sink(r);
 }
 
 struct CE1700World
 {
-    void FUN_00c97e80(char* result, void* object);
+    void hkpWorld_removeConstraint(char* result, void* object);
     void RemoveEntities(void* owner, int flags);
 };
 struct CE1700Node
@@ -2388,7 +2399,7 @@ int CE1700Owner::FUN_00ce1700()
     for (int i = 0; i < count; ++i)
     {
         char result;
-        world->FUN_00c97e80(&result, objects[i]);
+        world->hkpWorld_removeConstraint(&result, objects[i]);
     }
     world->RemoveEntities(owner, flags);
     return 0;
@@ -2471,7 +2482,7 @@ inline hkMemoryAllocator& heap_cfde()
 {
     return *reinterpret_cast<hkMemoryAllocator*>(FUN_00c85750()->m_heap);
 }
-extern "C" void __cdecl FUN_00c909d0(hkMemoryAllocator* alloc, void* array, int elemSize, void* storage, int capacity);
+extern "C" void __cdecl hkArrayUtil__reduce(hkMemoryAllocator* alloc, void* array, int elemSize, void* storage, int capacity);
 
 struct BlockArr_cfde
 {
@@ -2506,12 +2517,12 @@ struct BlockArr_cfde
             if (newCap < 1)
             {
                 hkMemoryRouter* h = FUN_00c85750();
-                FUN_00c909d0(reinterpret_cast<hkMemoryAllocator*>(h->m_heap), this, sizeof(char*), m_kStorage, 1);
+                hkArrayUtil__reduce(reinterpret_cast<hkMemoryAllocator*>(h->m_heap), this, sizeof(char*), m_kStorage, 1);
             }
             else if (newCap < getCapacity())
             {
                 hkMemoryAllocator& a = heap_cfde();
-                FUN_00c909d0(&a, this, sizeof(char*), 0, newCap);
+                hkArrayUtil__reduce(&a, this, sizeof(char*), 0, newCap);
             }
         }
     }
@@ -2882,7 +2893,8 @@ hkMemoryRouter* __cdecl FUN_00c85750() throw();
 extern CRITICAL_SECTION* DAT_01268794;
 // Deletes the global critical section and frees its memory through the audio holder's allocator.
 // @fnv 0x00cf6d60
-void FUN_00cf6d60()
+// src: HAVOK_LIB 0x00cf6d60
+void hkMultiThreadCheck_staticQuit()
 {
     if (DAT_01268794 != 0)
     {
@@ -2895,7 +2907,7 @@ void FUN_00cf6d60()
 }
 }  // namespace fnv_00cf6d60
 
-extern "C" bool __cdecl FUN_00ce2a00(int mappingType, const FnvSpawnedObject* transform);
+extern "C" bool __cdecl hkaSkeletonMapper_checkTransform(int mappingType, const FnvSpawnedObject* transform);
 
 struct FUN_00cb1600
 {
@@ -2970,7 +2982,8 @@ struct CECountArray
 
 // Validates a CEMap by checking single and range bone mappings, counting target bone usage, and reporting errors via CEError.
 // @fnv 0x00ce43e0
-void __cdecl FUN_00ce43e0(CEMap* map)
+// src: HAVOK_LIB 0x00ce43e0
+void __cdecl hkaSkeletonMapper_checkMappingLocalSpace(CEMap* map)
 {
     int count = map->b->count;
     hkMemoryRouter* scratch = FUN_00c85750();
@@ -2988,7 +3001,7 @@ void __cdecl FUN_00ce43e0(CEMap* map)
     {
         CESingle* single = &map->singles[i];
         int checkerS = map->checker;
-        if (!FUN_00ce2a00(checkerS, static_cast<const FnvSpawnedObject*>(&single->transform)))
+        if (!hkaSkeletonMapper_checkTransform(checkerS, static_cast<const FnvSpawnedObject*>(&single->transform)))
         {
             char* bufPtr = (char*)buffer;
             FUN_00cb1600 s1(bufPtr, 512);
@@ -3023,7 +3036,7 @@ void __cdecl FUN_00ce43e0(CEMap* map)
     {
         CERange* range = &map->ranges[j];
         int checkerA = map->checker;
-        if (!FUN_00ce2a00(checkerA, static_cast<const FnvSpawnedObject*>(&range->transformA)))
+        if (!hkaSkeletonMapper_checkTransform(checkerA, static_cast<const FnvSpawnedObject*>(&range->transformA)))
         {
             FUN_00cb1600 s5((char*)buffer, 512);
             s5.FUN_00cc01c0(&DAT_010cba14);
@@ -3031,7 +3044,7 @@ void __cdecl FUN_00ce43e0(CEMap* map)
             s5.FUN_00cc00e0();
         }
         int checkerB = map->checker;
-        if (!FUN_00ce2a00(checkerB, static_cast<const FnvSpawnedObject*>(&range->transformB)))
+        if (!hkaSkeletonMapper_checkTransform(checkerB, static_cast<const FnvSpawnedObject*>(&range->transformB)))
         {
             FUN_00cb1600 s6((char*)buffer, 512);
             s6.FUN_00cc01c0(&DAT_010cba14);

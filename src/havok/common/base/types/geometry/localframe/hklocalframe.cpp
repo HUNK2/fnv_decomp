@@ -81,11 +81,12 @@ struct FUN_00df6690_StandIn
     char pad[0x50];
     int** m_table;
 
-    int* FUN_00df6690(int index);
+    int* hkSimpleLocalFrame_getChildFrame(int index);
 };
 
 // @fnv 0x00df6690
-int* FUN_00df6690_StandIn::FUN_00df6690(int index)
+// src: HAVOK_LIB 0x00df6690
+int* FUN_00df6690_StandIn::hkSimpleLocalFrame_getChildFrame(int index)
 {
     return m_table[index];
 }
@@ -180,7 +181,7 @@ class hkpDF65Child
 class hkpDF65Node : public hkReferencedObject
 {
   public:
-    void FUN_00df65d0(const hkVector4& kPos, float fRadius, hkpDF65Collector* pkCollector);
+    void hkSimpleLocalFrame_getNearbyFrames(const hkVector4& kPos, float fRadius, hkpDF65Collector* pkCollector);
 
     unsigned int unk08, unk0C;
     hkTransform m_kMotionTransform;
@@ -188,7 +189,8 @@ class hkpDF65Node : public hkReferencedObject
 };
 
 // @fnv 0x00df65d0
-void hkpDF65Node::FUN_00df65d0(const hkVector4& kPos, float afRadius, hkpDF65Collector* pkCollector)
+// src: HAVOK_SRC 0x00df65d0
+void hkpDF65Node::hkSimpleLocalFrame_getNearbyFrames(const hkVector4& kPos, float afRadius, hkpDF65Collector* pkCollector)
 {
     hkVector4 kDiff;
     kDiff.setSub4(kPos, m_kMotionTransform.position);
@@ -234,12 +236,13 @@ struct df6710_self
     virtual void unk06();
     virtual void unk07();
     virtual df6710_frame* unk08();
-    void FUN_00df6710(hkVector4* m);
+    void hkLocalFrame_getPositionInRoot(hkVector4* m);
 };
 
 // Calls unk05 with m, then walks the unk08 chain and passes each unk03 output and m to FUN_00c7f640.
 // @fnv 0x00df6710
-void df6710_self::FUN_00df6710(hkVector4* apMatrix)
+// src: HAVOK_LIB 0x00df6710
+void df6710_self::hkLocalFrame_getPositionInRoot(hkVector4* apMatrix)
 {
     hkTransform buf;
     unk05(apMatrix);
@@ -381,11 +384,12 @@ class FUN_00df65b0_cls
     int unk3C;
     hkVector4 m_vector;
 
-    hkVector4 FUN_00df65b0() const;
+    hkVector4 hkSimpleLocalFrame_getLocalPosition() const;
 };
 
 // @fnv 0x00df65b0
-hkVector4 FUN_00df65b0_cls::FUN_00df65b0() const
+// src: HAVOK_SRC 0x00df65b0
+hkVector4 FUN_00df65b0_cls::hkSimpleLocalFrame_getLocalPosition() const
 {
     return m_vector;
 }

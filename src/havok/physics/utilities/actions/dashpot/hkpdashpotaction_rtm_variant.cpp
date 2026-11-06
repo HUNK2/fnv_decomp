@@ -25,7 +25,8 @@ typedef void* (__stdcall *DashpotApplyTlsGetter)(unsigned long dwTlsIndex);
 static inline __m128 dashpotApplyBroadcast(float f) { __m128 t = _mm_load_ss(&f); return _mm_shuffle_ps(t,t,0); }
 
 // @fnv 0x00d4da60
-void hkpDashpotAction::FUN_00d4da60(hkPadSpu<const hkStepInfo*> stepInfo)
+// src: HAVOK_SRC 0x00d4da60
+void hkpDashpotAction::applyAction_00d4da60(hkPadSpu<const hkStepInfo*> stepInfo)
 {
     DashpotApplyTlsGetter pfnTls = TlsGetValue;
 
@@ -68,9 +69,9 @@ void hkpDashpotAction::FUN_00d4da60(hkPadSpu<const hkStepInfo*> stepInfo)
     _mm_store_ps(&impulse->x, _mm_add_ps(_mm_mul_ps(dampingVec, relVel), impulse->m_vComponents));
     _ReadWriteBarrier();
     _mm_store_ps(&scratch.opposite.x, _mm_mul_ps(dashpotApplyBroadcast(DAT_01012054), impulse->m_vComponents));
-    entityA->FUN_00c9c1d0();
+    entityA->activate_00c9c1d0();
     entityA->m_pMotionState.ApplyImpulseAtPoint(scratch.opposite, scratch.points[1]);
-    entityB->FUN_00c9c1d0();
+    entityB->activate_00c9c1d0();
     entityB->m_pMotionState.ApplyImpulseAtPoint(*impulse, scratch.points[0]);
 
     {

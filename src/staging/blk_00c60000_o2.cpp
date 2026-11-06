@@ -693,11 +693,12 @@ void __fastcall Init(ObjectMapBase* self, void*)
 
 struct FUN_00c76220_Class
 {
-    int FUN_00c76220(int idx);
+    int hkaRagdollInstance_getRigidBodyOfBone(int idx);
 };
 
 // @fnv 0x00c76220
-int FUN_00c76220_Class::FUN_00c76220(int aiIndex)
+// src: HAVOK_LIB 0x00c76220
+int FUN_00c76220_Class::hkaRagdollInstance_getRigidBodyOfBone(int aiIndex)
 {
     int* p = *(int**)((char*)this + 0x20);
     int v = p[aiIndex];
@@ -1276,7 +1277,7 @@ struct FUN_00c67850_Class
 
 struct FUN_00c97d30_Class
 {
-    void __thiscall FUN_00c97d30(hkReferencedObject* a);
+    void __thiscall hkpWorld_addConstraint(hkReferencedObject* a);
 };
 
 struct FUN_00c6b320_Base
@@ -1415,7 +1416,7 @@ void __thiscall FUN_00c6b320_Class::FUN_00c6b320(hkReferencedObject* a)
         if (p != 0 && *(int*)((char*)p + 0xcc) == 0)
             return;
 
-        ((FUN_00c97d30_Class*)world)->FUN_00c97d30(a);
+        ((FUN_00c97d30_Class*)world)->hkpWorld_addConstraint(a);
     }
 }
 
@@ -2954,7 +2955,7 @@ struct C67260Bool
 
 struct C67260Entity
 {
-    C67260Bool FUN_00c9bff0() const;
+    C67260Bool isActive_00c9bff0() const;
 };
 
 struct C67260Shape
@@ -3014,7 +3015,7 @@ void CountEntityAndClearRecurse(C67260CollisionObject* pkObject, C67260Context* 
     if (!pkShape)
         return;
     C67260Entity* pkEntity = pkShape->m_pkEntity;
-    if (pkEntity ? (bool)pkEntity->FUN_00c9bff0() : false)
+    if (pkEntity ? (bool)pkEntity->isActive_00c9bff0() : false)
         pkContext->iCount++;
     pkContext->bRecurse = false;
 }
@@ -3324,7 +3325,7 @@ struct PendingItem
 };
 struct PendingQuery
 {
-    void __thiscall FUN_00c97e80(char*, PendingItem*);
+    void __thiscall hkpWorld_removeConstraint(char*, PendingItem*);
 };
 struct PendingWorld : FUN_00c6b320_Base
 {
@@ -3364,7 +3365,7 @@ void PendingWorld::ProcessPendingItems()
                 if (items[index] && items[index]->owner)
                 {
                     char status;
-                    query->FUN_00c97e80(&status, items[index]);
+                    query->hkpWorld_removeConstraint(&status, items[index]);
                 }
                 if (items[index])
                     ((hkReferencedObject*)items[index])->removeReference();
@@ -3503,7 +3504,7 @@ struct FNVEntryKey
 class FNVEntryTarget
 {
   public:
-    void FUN_00c984a0(unsigned int a, unsigned int b, int c);
+    void hkDebugDisplay_setGeometryColor(unsigned int a, unsigned int b, int c);
 };
 
 class FUN_00c688b0_cls
@@ -3533,7 +3534,7 @@ void FUN_00c688b0_cls::FUN_00c688b0()
                 --n;
                 FNVEntryKey* item = &m_0x7c[n];
                 FNVEntryTarget* target = *reinterpret_cast<FNVEntryTarget**>(&DAT_012681e0);
-                target->FUN_00c984a0(item->hi, item->lo, 0);
+                target->hkDebugDisplay_setGeometryColor(item->hi, item->lo, 0);
             } while (n != 0);
         }
     }
@@ -10447,11 +10448,12 @@ class C761F0Character
     int unkE4;
     unsigned char m_uiContentCount;
 
-    C761F0Bool FUN_00c761f0() const;
+    C761F0Bool hkpEntity_isFixedOrKeyframed() const;
 };
 
 // @fnv 0x00c761f0
-C761F0Bool C761F0Character::FUN_00c761f0() const
+// src: HAVOK_LIB 0x00c761f0
+C761F0Bool C761F0Character::hkpEntity_isFixedOrKeyframed() const
 {
     return m_uiContentCount == 5 || m_uiContentCount == 4;
 }
@@ -11651,9 +11653,9 @@ struct Behavior
     unsigned int unka8;
     float valueAC;
     Behavior* FUN_00cdf6c0();
-    void FUN_00cb8fe0(Record*, StateFlag);
+    void hkpLimitedHingeConstraintData_setMotorActive(Record*, StateFlag);
     void SetFlagAndClearFloats(Record*, StateFlag);
-    void FUN_00cdf230(int*);
+    void hkpRagdollConstraintData_setTarget(int*);
 };
 // @fnv 0x00c7a2d0
 void __cdecl EnableBehaviorsByKind(InputMap* input)
@@ -11675,12 +11677,12 @@ void __cdecl EnableBehaviorsByKind(InputMap* input)
         switch (behavior->GetKind())
         {
         case 2:
-            behavior->FUN_00cb8fe0(item, true);
+            behavior->hkpLimitedHingeConstraintData_setMotorActive(item, true);
             behavior->valueAC = 0.0f;
             break;
         case 7:
             behavior->SetFlagAndClearFloats(item, true);
-            behavior->FUN_00cdf230(&DAT_01268370);
+            behavior->hkpRagdollConstraintData_setTarget(&DAT_01268370);
             break;
         }
     }
@@ -11707,7 +11709,7 @@ struct ObjectView
 
     ObjectView* FUN_00cdf6c0();
     void SetFlagAndClearFloats(struct ComponentEntry* entry, UpdateOptions options);
-    void FUN_00cb8fe0(struct ComponentEntry* entry, UpdateOptions options);
+    void hkpLimitedHingeConstraintData_setMotorActive(struct ComponentEntry* entry, UpdateOptions options);
 };
 
 struct ComponentEntry
@@ -11767,7 +11769,7 @@ void __cdecl UpdateEntriesByKind(ObjectContext* context)
                     switch (kind)
                     {
                     case 2:
-                        view->FUN_00cb8fe0(entry, false);
+                        view->hkpLimitedHingeConstraintData_setMotorActive(entry, false);
                         break;
                     case 7:
                         view->SetFlagAndClearFloats(entry, false);
@@ -12991,7 +12993,7 @@ void FUN_00c67850_Class::ProcessConstraints()
                     if (item->m_08 == 0 && (!item->m_14 || item->m_14->m_cc != 0) &&
                         (!item->m_18 || item->m_18->m_cc != 0))
                     {
-                        pWorld->FUN_00c97d30(item);
+                        pWorld->hkpWorld_addConstraint(item);
                     }
                 }
                 if (self->GetAt(i))
@@ -19013,7 +19015,7 @@ struct Result
     bool ok;
     Result(const Result& o);
 };
-Result FUN_00cc0d60(Pair pc, Tag t, int x, int y);
+Result hkpHavokSnapshot_save_00cc0d60(Pair pc, Tag t, int x, int y);
 
 struct Owner67430
 {
@@ -19063,7 +19065,7 @@ struct Owner67430
 bool Owner67430::FUN_00c67430(int aiKey)
 {
     Key key(aiKey);
-    Result r = FUN_00cc0d60(Pair(reinterpret_cast<int>(GetTarget()), key.c), Tag(), 0, 0);
+    Result r = hkpHavokSnapshot_save_00cc0d60(Pair(reinterpret_cast<int>(GetTarget()), key.c), Tag(), 0, 0);
     return r.ok != 0;
 }
 
@@ -20328,7 +20330,7 @@ inline float ceilf_(float _X)
 {
     return ((float)FUN_00ec9e10((double)_X));
 }
-int FUN_00cbfef0(float);
+int hkMath_hkFloatToInt(float);
 struct C66A00Res
 {
     int f000;
@@ -20642,7 +20644,7 @@ void C66A00This::FUN_00c66a00()
         float adjustedSecond = (float)(second + (DAT_011afe68 / (interval * steps) - 1.0));
         world->f1e4 = adjustedFirst;
         world->f1e8 = adjustedSecond;
-        int count = FUN_00cbfef0(steps);
+        int count = hkMath_hkFloatToInt(steps);
         world->f2f4 = count;
         world->f300 = 1.0f / count;
     }
@@ -20874,7 +20876,7 @@ struct FUN_00cbc460 : EntryBase
     int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c;
     int unk20, unk24, unk28, unk2c, unk30;
     FUN_00cbc460();
-    void FUN_00cbc4e0(hkReferencedObject* obj, int id);
+    void registerState(hkReferencedObject* obj, int id);
 };
 struct FUN_00cd47e0 : EntryBase
 {
@@ -21035,29 +21037,29 @@ FUN_00c6da50::FUN_00c6da50(bool a1)
             FUN_00cbc460* sm = new FUN_00cbc460();
             DAT_01267bb8 = (CallbackTarget*)sm;
             FUN_00cd47e0* pEntry0 = new FUN_00cd47e0();
-            ((FUN_00cbc460*)DAT_01267bb8)->FUN_00cbc4e0((hkReferencedObject*)pEntry0, 0);
+            ((FUN_00cbc460*)DAT_01267bb8)->registerState((hkReferencedObject*)pEntry0, 0);
             ((CallbackTarget*)pEntry0)->FUN_00c905b0();
             FUN_00cd44c0* pEntry5 = new FUN_00cd44c0();
-            ((FUN_00cbc460*)DAT_01267bb8)->FUN_00cbc4e0((hkReferencedObject*)pEntry5, 5);
+            ((FUN_00cbc460*)DAT_01267bb8)->registerState((hkReferencedObject*)pEntry5, 5);
             ((CallbackTarget*)pEntry5)->FUN_00c905b0();
             FUN_00cd4260* pEntry1 = new FUN_00cd4260();
-            ((FUN_00cbc460*)DAT_01267bb8)->FUN_00cbc4e0((hkReferencedObject*)pEntry1, 1);
+            ((FUN_00cbc460*)DAT_01267bb8)->registerState((hkReferencedObject*)pEntry1, 1);
             ((CallbackTarget*)pEntry1)->FUN_00c905b0();
             FUN_00cd3f90* pEntry2 = new FUN_00cd3f90();
-            ((FUN_00cbc460*)DAT_01267bb8)->FUN_00cbc4e0((hkReferencedObject*)pEntry2, 2);
+            ((FUN_00cbc460*)DAT_01267bb8)->registerState((hkReferencedObject*)pEntry2, 2);
             ((CallbackTarget*)pEntry2)->FUN_00c905b0();
             char* pEntry3 = (char*)AllocEntry(8);
             ((AllocHeader*)pEntry3)->m_refs = 1;
             ((AllocHeader*)pEntry3)->m_ppVirtualMethodTable = &DAT_010c4944;
-            ((FUN_00cbc460*)DAT_01267bb8)->FUN_00cbc4e0((hkReferencedObject*)pEntry3, 3);
+            ((FUN_00cbc460*)DAT_01267bb8)->registerState((hkReferencedObject*)pEntry3, 3);
             ((CallbackTarget*)pEntry3)->FUN_00c905b0();
             char* pEntry4 = (char*)AllocEntry(8);
             ((AllocHeader*)pEntry4)->m_refs = 1;
             ((AllocHeader*)pEntry4)->m_ppVirtualMethodTable = &DAT_010c496c;
-            ((FUN_00cbc460*)DAT_01267bb8)->FUN_00cbc4e0((hkReferencedObject*)pEntry4, 4);
+            ((FUN_00cbc460*)DAT_01267bb8)->registerState((hkReferencedObject*)pEntry4, 4);
             ((CallbackTarget*)pEntry4)->FUN_00c905b0();
             FUN_00cd3c90* pEntry6 = new FUN_00cd3c90();
-            ((FUN_00cbc460*)DAT_01267bb8)->FUN_00cbc4e0((hkReferencedObject*)pEntry6, 6);
+            ((FUN_00cbc460*)DAT_01267bb8)->registerState((hkReferencedObject*)pEntry6, 6);
             ((CallbackTarget*)pEntry6)->FUN_00c905b0();
         }
         m_a4 = DAT_01267bb8;
@@ -26046,7 +26048,7 @@ struct P103Pose
     bool modelSynced;
     P103Transform* FUN_00cdad80(int bone, int mode);
     P103Transform* FUN_00cda180(int bone);
-    void FUN_00cda110();
+    void hkaPose_setToReferencePose();
     __forceinline void storeModel(int selected, const P103Transform& target);
     __forceinline const P103Transform& localAt(int index);
     P103Transform* modelAt(int bone)
@@ -26323,7 +26325,7 @@ void P103Controller::FUN_00c7aa60(P103Transform* transform)
             changed = true;
         if (fabs(pitchValue) > pitchLimit)
             changed = true;
-        referencePose->FUN_00cda110();
+        referencePose->hkaPose_setToReferencePose();
     }
 }
 
@@ -26348,7 +26350,7 @@ class NiAVObjV : public NiRefObject
     NiTransform m_kLocal;
     NiTransform m_kWorld;
 
-    NiAVObjV* FUN_00a59e20(const NiFixedString& kName);
+    NiAVObjV* GetObjectByName_00a59e20(const NiFixedString& kName);
     void AssignFixedString(const NiFixedString& kName);
     void FUN_00a5a040();
     void FUN_00a59c60(NiUpdateData& updateData);
@@ -26490,7 +26492,7 @@ void bhkCollisionProxy::FUN_00c6bd60(bool bEnable)
             {
                 NiAVObjV* b = reinterpret_cast<NiAVObjV*>(a->m_kChildren.m_pBase[i].m_pObject);
                 NiAVObjV* pkColDisp =
-                    b ? b->FUN_00a59e20(NiFixedString("bhkColDisp")) : 0;
+                    b ? b->GetObjectByName_00a59e20(NiFixedString("bhkColDisp")) : 0;
                 if (pkColDisp)
                 {
                     NiPointer<NiAVObjV> spOld;

@@ -430,7 +430,7 @@ struct F9_Mat
     __m128 c1;
     __m128 c2;
     __m128 c3;
-    void FUN_00cb2fc0();
+    void hkRotation_renormalize();
 };
 struct F9_Arg
 {
@@ -641,7 +641,7 @@ struct Obj08
     int unk18;
     int unk1C;
     __m128 m_20;
-    void FUN_00cac920(__m128* v);
+    void hkpCharacterProxy_setPosition(__m128* v);
     void FUN_00cac110();
 };
 struct Obj570

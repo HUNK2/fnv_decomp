@@ -961,7 +961,8 @@ void FUN_0062cb90_shell::CompactEntries()
 }
 
 // @fnv 0x0062d310
-void hkpAllCdBodyPairCollector::FUN_0062d310()
+// src: HAVOK_SRC 0x0062d310
+void hkpAllCdBodyPairCollector::reset_0062d310()
 {
     FUN_00626870(&m8);
     hkpCdBodyPairCollector::FUN_0062d330();
@@ -1196,7 +1197,7 @@ bool CollisionRegistry::RegisterCollision(void* object)
 // @fnv 0x0062d350
 hkpAllCdBodyPairCollector::hkpAllCdBodyPairCollector() : m8(0)
 {
-    FUN_0062d310();
+    reset_0062d310();
 }
 
 class FUN_0062e040_base
@@ -1385,7 +1386,7 @@ bool Subject62::ProcessCollisionPairs(int arg)
         if (!shape->GetOffset160()->FUN_0062e120().FUN_005609f0())
         {
             hkpAllCdBodyPairCollector collector;
-            collector.FUN_0062d310();
+            collector.reset_0062d310();
             if (broad)
                 broad->FUN_00483710();
             shape->Collect(&collector, 0);

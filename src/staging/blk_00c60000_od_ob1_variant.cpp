@@ -1652,7 +1652,7 @@ struct FUN_00c64640
 };
 struct BaseX
 {
-    void FUN_00a99c40(BaseX* p, int a);
+    void NiIntegerExtraData_CopyMembers(BaseX* p, int a);
 };
 struct ObjX : BaseX
 {
@@ -1672,7 +1672,7 @@ inline void DbgX()
 // @fnv 0x00c640f0
 void ObjX::FUN_00c640f0(ObjX* p, int a)
 {
-    FUN_00a99c40(p, a);
+    NiIntegerExtraData_CopyMembers(p, a);
     p->m10 = m10;
     for (int i = 0; i < m10; i++)
     {
@@ -2399,7 +2399,7 @@ void EmitterSampler::FUN_00c625f0(EmitterObject* object, NiPoint3& position, NiP
 }
 }  // namespace fnv_00c625f0
 
-void __cdecl FUN_00aa10f0(void* p);
+void __cdecl _NiFree_00aa10f0(void* p);
 
 struct S00c62800_Arr
 {
@@ -2414,7 +2414,7 @@ __forceinline S00c62800_Arr::~S00c62800_Arr()
 {
     *(int*)this = (int)&DAT_010c377c;
     void* data = m_data;
-    FUN_00aa10f0(data);
+    _NiFree_00aa10f0(data);
 }
 
 struct S00c62800_Base
@@ -3169,7 +3169,7 @@ void FUN_00c655d0()
 }
 }  // namespace fnv_00c655d0
 
-void __cdecl FUN_00aa10f0(void* p);
+void __cdecl _NiFree_00aa10f0(void* p);
 // NiExtraData's virtual destructor changes the original staged destructor at 0x00c613a0.
 struct FUN_00a7b300
 {
@@ -3184,7 +3184,7 @@ struct C613A0_StringsData : FUN_00a7b300
     void* m_pData;
     ~C613A0_StringsData()
     {
-        FUN_00aa10f0(m_pData);
+        _NiFree_00aa10f0(m_pData);
         m_pData = 0;
     }
 };

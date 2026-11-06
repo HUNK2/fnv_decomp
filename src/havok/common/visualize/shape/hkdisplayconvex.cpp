@@ -119,12 +119,13 @@ struct EdgeBuilder
     int unk00;
     int unk04;
     hkGeometry* m_pSourceGeometry;
-    void FUN_00de1d70(hkArray<hkVector4>& lines, hkMemoryAllocator& alloc);
+    void hkDisplayConvex_getWireframeGeometry(hkArray<hkVector4>& lines, hkMemoryAllocator& alloc);
 };
 
 // For each triangle in the source geometry, appends three vertex pairs (a-b, a-c, b-c) to lines.
 // @fnv 0x00de1d70
-void EdgeBuilder::FUN_00de1d70(hkArray<hkVector4>& lines, hkMemoryAllocator& alloc)
+// src: HAVOK_SRC 0x00de1d70
+void EdgeBuilder::hkDisplayConvex_getWireframeGeometry(hkArray<hkVector4>& lines, hkMemoryAllocator& alloc)
 {
     if (m_pSourceGeometry)
     {

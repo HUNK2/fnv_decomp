@@ -308,7 +308,7 @@ struct FUN_00c430a0_class
 };
 struct FUN_00c430b0_class
 {
-    void __thiscall FUN_00a99c40(int a1, int a2);
+    void __thiscall NiIntegerExtraData_CopyMembers(int a1, int a2);
     void __thiscall FUN_00c430b0(int a1, int a2);
 };
 
@@ -2704,7 +2704,7 @@ class FUN_00c4b470_owner
     unsigned int unk44, unk48, unk4C, unk50, unk54, unk58, unk5C, unk60;
     unsigned int unk64, unk68, unk6C, unk70, unk74;
     FUN_00c4b470_owner* unk78;
-    FUN_00c4b470_owner* FUN_00a5c570(void* p);
+    FUN_00c4b470_owner* NiObjectNET_GetController(void* p);
 };
 extern char DAT_011f36ac;
 int __cdecl FUN_00c4b470(FUN_00c4b470_owner* a1, void** a2, unsigned char a3);
@@ -5578,10 +5578,10 @@ struct HeapAB
 {
     void FUN_00aa4060(void* pObject);
 };
-void __cdecl FUN_00aa10f0(void* p);
+void __cdecl _NiFree_00aa10f0(void* p);
 inline void FreeAB(void* p)
 {
-    FUN_00aa10f0(p);
+    _NiFree_00aa10f0(p);
 }
 
 struct ItemAB
@@ -12843,7 +12843,7 @@ bool Q52Obj::FUN_00c52960(unsigned idx)
 }
 
 void* __cdecl FUN_00aa1070(unsigned int);
-void __cdecl FUN_00aa10f0(void*);
+void __cdecl _NiFree_00aa10f0(void*);
 void* __cdecl FUN_00aa13e0(unsigned int);
 struct Q5Item;
 struct Q5Hold
@@ -12863,7 +12863,7 @@ struct Q5Hold
     inline ~Q5Hold()
     {
         void* p = m_data;
-        FUN_00aa10f0(p);
+        _NiFree_00aa10f0(p);
     }
     inline unsigned Count()
     {
@@ -12888,7 +12888,7 @@ struct Q5Obj
 };
 struct Q5Item
 {
-    void FUN_00a5c480(Q5Obj* o);
+    void NiObjectNET_RemoveController(Q5Obj* o);
 };
 void __cdecl FUN_00c52c30(void* p, Q5Hold* h);
 // @fnv 0x00c52a80
@@ -12908,7 +12908,7 @@ bool __cdecl FUN_00c52a80(void* param)
             obj->FUN_00c52960(0);
         if (!ok)
         {
-            it2->FUN_00a5c480(obj);
+            it2->NiObjectNET_RemoveController(obj);
             return false;
         }
     }
@@ -16160,7 +16160,7 @@ struct LinkSet
 };
 namespace fnv_00c52d80 {
 void* __cdecl FUN_00aa1070(unsigned int);
-void __cdecl FUN_00aa10f0(void*);
+void __cdecl _NiFree_00aa10f0(void*);
 }  // namespace fnv_00c52d80
 inline void NiBSBoneLODController::SubObj::FUN_00a90180(unsigned int n)
 {
@@ -16191,7 +16191,7 @@ inline void NiBSBoneLODController::SubObj::FUN_00a90180(unsigned int n)
     }
     else
         data = 0;
-    FUN_00aa10f0(oldData);
+    _NiFree_00aa10f0(oldData);
 }
 // @fnv 0x00c52d80
 bool NiBSBoneLODController::FUN_00c52d80(Node_cls* arg)

@@ -26,7 +26,8 @@ extern "C" BSAudio* __cdecl FUN_00c85750();
 extern "C" void __cdecl CallSwappedArgs(BSAudio*, int);
 
 // @fnv 0x00cb13c0
-void __cdecl FUN_00cb13c0(int aiAudio)
+// src: HAVOK_LIB 0x00cb13c0
+void __cdecl hkString_strFree(int aiAudio)
 {
     CallSwappedArgs((BSAudio*)aiAudio, (int)FUN_00c85750()->pListener);
 }
@@ -52,14 +53,14 @@ hkBool StartsWith(const char* acString, const char* prefix)
     return true;
 }
 
-int __cdecl FUN_00cb10d0(const char* text);
+int __cdecl hkString_strLen(const char* text);
 
 // Compares the tail of text against suffix and stores whether text ends with suffix into result.
 // @fnv 0x00cb1340
 bool* __cdecl EndsWith(bool* result, const char* text, const char* suffix)
 {
-    int textLength = FUN_00cb10d0(text);
-    int suffixLength = FUN_00cb10d0(suffix);
+    int textLength = hkString_strLen(text);
+    int suffixLength = hkString_strLen(suffix);
     if (textLength < suffixLength)
     {
         *result = false;
@@ -83,19 +84,21 @@ bool* __cdecl EndsWith(bool* result, const char* text, const char* suffix)
 // m_stack (3 words) and the temp/heap/debug/solver/global allocators, not m_userData. (The shared hkMemoryRouter.h
 // stand-in models only its first 0x14 bytes.)
 #include "../../../../../../include/hkMemoryRouter.h"
-void __cdecl FUN_00cb11b0(int a, int b, int c);
+void __cdecl hkString_strNdup(int a, int b, int c);
 
 // Reads pListener from the BSAudio returned by FUN_00c85750 and passes it with a and b to FUN_00cb11b0.
 // @fnv 0x00cb13e0
-void __cdecl FUN_00cb13e0(int aiArg1, int aiArg2)
+// src: HAVOK_LIB 0x00cb13e0
+void __cdecl hkString_strNdup_00cb13e0(int aiArg1, int aiArg2)
 {
     hkMemoryRouter router;
     int c = (int)FUN_00c85750()->pListener;
-    FUN_00cb11b0(aiArg1, aiArg2, c);
+    hkString_strNdup(aiArg1, aiArg2, c);
 }
 
 // @fnv 0x00cb1090
-void __cdecl FUN_00cb1090(char* pcDest, const char* pcSrc)
+// src: HAVOK_LIB 0x00cb1090
+void __cdecl hkString_strCpy(char* pcDest, const char* pcSrc)
 {
     const char* s = pcSrc;
     char c;
@@ -111,7 +114,8 @@ void __cdecl FUN_00cb1090(char* pcDest, const char* pcSrc)
 
 // Compares two byte buffers over n bytes, four at a time, returning -1, 1 or 0 based on the first differing byte.
 // @fnv 0x00cb1290
-int __cdecl FUN_00cb1290(const unsigned char* pLeft, const unsigned char* pRight, unsigned int uiLength)
+// src: HAVOK_LIB 0x00cb1290
+int __cdecl hkString_memCmp(const unsigned char* pLeft, const unsigned char* pRight, unsigned int uiLength)
 {
     int d = 0;
     while (uiLength >= 4)
@@ -152,30 +156,32 @@ int __cdecl FUN_00cb1290(const unsigned char* pLeft, const unsigned char* pRight
 const char* __cdecl FUN_00cb1150(const char* str, int c);
 
 // @fnv 0x00cb1390
-int __cdecl FUN_00cb1390(const char* str, char acChar)
+// src: HAVOK_LIB 0x00cb1390
+int __cdecl hkString_lastIndexOf(const char* str, char acChar)
 {
     const char* p = FUN_00cb1150(str, acChar);
     return p ? (int)(p - str) : -1;
 }
 
-int __cdecl FUN_00cb1160(int a, int b);
+int __cdecl hkString_strDup(int a, int b);
 
 // Constructs a local hkMemoryRouter, reads pListener from FUN_00c85750()'s result, and passes it with a to FUN_00cb1160.
 // @fnv 0x00cb1410
-void __cdecl FUN_00cb1410(int aiValue)
+// src: HAVOK_LIB 0x00cb1410
+void __cdecl hkString_strDup_00cb1410(int aiValue)
 {
     hkMemoryRouter buf;
     int r = (int)FUN_00c85750()->pListener;
-    FUN_00cb1160(aiValue, r);
+    hkString_strDup(aiValue, r);
 }
 
 struct Sink
 {
-    void FUN_00cb0c50(const char* p, int n);
+    void hkStringPtr_set(const char* p, int n);
 };
 
 const char* __cdecl FUN_00cb1130(const char* a, const char* b);
-int __cdecl FUN_00cb10d0(const char* text);
+int __cdecl hkString_strLen(const char* text);
 char* __cdecl FUN_00cb1140(const char* s, int c);
 
 static __declspec(noinline) char* skip(char* p)
@@ -192,7 +198,7 @@ static __declspec(noinline) int ParseQuotedValue(const char* pText, const char* 
     const char* p = FUN_00cb1130(pText, pKey);
     if (!p)
         return 0;
-    p += FUN_00cb10d0(pKey);
+    p += hkString_strLen(pKey);
     p = skip((char*)p);
     if (*p != '=')
         return 0;
@@ -203,7 +209,7 @@ static __declspec(noinline) int ParseQuotedValue(const char* pText, const char* 
     char* pQuoteEnd = FUN_00cb1140(p, '"');
     if (!pQuoteEnd)
         return 0;
-    sink->FUN_00cb0c50(p, (int)(pQuoteEnd - p));
+    sink->hkStringPtr_set(p, (int)(pQuoteEnd - p));
     return 1;
 }
 
@@ -279,7 +285,8 @@ int __cdecl Vsnprintf(char* buf, int n, const char* fmt, ...)
 #include <string.h>
 namespace fnv_00cb10d0 {
 // @fnv 0x00cb10d0
-int __cdecl FUN_00cb10d0(const char* apString)
+// src: HAVOK_LIB 0x00cb10d0
+int __cdecl hkString_strLen(const char* apString)
 {
     return (int)strlen(apString);
 }

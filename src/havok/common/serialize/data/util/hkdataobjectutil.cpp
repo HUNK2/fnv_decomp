@@ -960,7 +960,7 @@ struct DC1C50Shape
 struct DC1C50Collection
 {
     int FUN_00d46f00();
-    DC1C50Shape* FUN_00d46f20(int i);
+    DC1C50Shape* getMember(int i);
 };
 
 // Maps a type/subtype pair to a flag value from DAT_010d6b98, resolving subtype 0x19 against the collection's child types and optionally OR-ing 0x20.
@@ -1018,7 +1018,7 @@ int __cdecl GetShapeTypeFlags(int iType, int iSubType, DC1C50Collection* pkColle
             int bValid = 1;
             for (int i = 0; i < pkCollection->FUN_00d46f00(); i++)
             {
-                int iChildType = pkCollection->FUN_00d46f20(i)->m_type;
+                int iChildType = pkCollection->getMember(i)->m_type;
                 if (iChildType == 0x16 || (iChildType > 0x19 && iChildType <= 0x1b))
                 {
                     bValid = 0;
@@ -1772,7 +1772,7 @@ struct StringHolder
     StringArray m_pStringFunctions;
 };
 
-extern "C" char* __cdecl FUN_00cb1410(const char*) throw();
+extern "C" char* __cdecl hkString_strDup_00cb1410(const char*) throw();
 
 struct S_00dc4a80
 {
@@ -1888,7 +1888,7 @@ int __thiscall S_00dc4a80::ReadValue(void* out, int type, S_00dc4a80_Reader* rea
         char* copy;
         if (reader->FUN_00dbac70())
         {
-            copy = FUN_00cb1410(reader->FUN_00dbac70());
+            copy = hkString_strDup_00cb1410(reader->FUN_00dbac70());
             unk04->m_pStringFunctions.pushBack(copy);
         }
         else
@@ -1902,7 +1902,7 @@ int __thiscall S_00dc4a80::ReadValue(void* out, int type, S_00dc4a80_Reader* rea
         int val;
         if (reader->FUN_00dbac70())
         {
-            char* copy = FUN_00cb1410(reader->FUN_00dbac70());
+            char* copy = hkString_strDup_00cb1410(reader->FUN_00dbac70());
             unk04->m_pStringFunctions.pushBack(copy);
             val = (int)copy;
         }
@@ -2000,7 +2000,7 @@ struct StringHolder
     StringArray m_pStringFunctions;
 };
 
-extern "C" char* __cdecl FUN_00cb1410(const char*) throw();
+extern "C" char* __cdecl hkString_strDup_00cb1410(const char*) throw();
 
 struct S_00dc4fa0
 {
@@ -2116,7 +2116,7 @@ int __thiscall S_00dc4fa0::FUN_00dc4fa0(void* out, int type, S_00dc4fa0_Reader* 
         char* copy;
         if (reader->FUN_00dba9c0())
         {
-            copy = FUN_00cb1410(reader->FUN_00dba9c0());
+            copy = hkString_strDup_00cb1410(reader->FUN_00dba9c0());
             unk04->m_pStringFunctions.pushBack(copy);
         }
         else
@@ -2130,7 +2130,7 @@ int __thiscall S_00dc4fa0::FUN_00dc4fa0(void* out, int type, S_00dc4fa0_Reader* 
         int val;
         if (reader->FUN_00dba9c0())
         {
-            char* copy = FUN_00cb1410(reader->FUN_00dba9c0());
+            char* copy = hkString_strDup_00cb1410(reader->FUN_00dba9c0());
             unk04->m_pStringFunctions.pushBack(copy);
             val = (int)copy;
         }
@@ -2224,7 +2224,7 @@ struct DCArray
     int cap;
     void reserve(void*, int);
 };
-void __cdecl FUN_00c908c0(void*, DCArray*, int, int);
+void __cdecl hkArrayUtil__reserve(void*, DCArray*, int, int);
 void __cdecl ResizeAudioStream(void*, DCArray*, int);
 inline void DCArray::reserve(void* heap, int min)
 {
@@ -2234,7 +2234,7 @@ inline void DCArray::reserve(void* heap, int min)
         int n = old * 2;
         if (n <= min)
             n = min;
-        FUN_00c908c0(heap, this, n, 24);
+        hkArrayUtil__reserve(heap, this, n, 24);
     }
 }
 struct DCAlloc
@@ -2333,7 +2333,7 @@ struct DWC_Allocator
     virtual void vf3() throw();
     virtual void ReturnMemory(void* p, int numBytes) throw();
 };
-void FUN_00c908c0(DWC_Allocator& alloc, void* array, int numElem, int sizeElem) throw();
+void hkArrayUtil__reserve(DWC_Allocator& alloc, void* array, int numElem, int sizeElem) throw();
 
 struct DWC_ClassImpl;
 struct DWC_ClassSource
@@ -2400,7 +2400,7 @@ struct DWC_MemberArray
         {
             int cap2 = 2 * cap;
             int newSize = (n < cap2) ? cap2 : n;
-            FUN_00c908c0(alloc, this, newSize, sizeof(DWC_MemberInfo));
+            hkArrayUtil__reserve(alloc, this, newSize, sizeof(DWC_MemberInfo));
         }
     }
     __forceinline void _setSize(DWC_Allocator& alloc, int n) throw()
@@ -3765,7 +3765,7 @@ struct Map0C
 class GlobalObjectO2_00d472a0
 {
   public:
-    FlagBool FUN_00d46d80(ObjB* obj) throw();
+    FlagBool hkClass_isSuperClass(ObjB* obj) throw();
 };
 extern GlobalObjectO2_00d472a0 g_01268748;
 
@@ -3874,7 +3874,7 @@ RetDC4430 DC4430_Class::FUN_00dc4430(Arg1* apArg, int aiFlag) throw()
             if (ret)
             {
 
-                if (pClassInfo->GetLastNodeFlag() && g_01268748.FUN_00d46d80(pClassInfo))
+                if (pClassInfo->GetLastNodeFlag() && g_01268748.hkClass_isSuperClass(pClassInfo))
                 {
                     int b = m_map0c.FUN_00cb1f40(GetMapAllocator(*(hkMemoryRouter*)FUN_00c85750()), result.first, 0);
                     m_map0c.m_kPrimitiveElement[b].val++;
@@ -3903,7 +3903,7 @@ struct DBool_dc3a80
 struct DKlass_dc3a80
 {
     const char* FUN_00d46d40() throw();
-    DBool_dc3a80 FUN_00d46d80(const DKlass_dc3a80* other) throw();
+    DBool_dc3a80 hkClass_isSuperClass(const DKlass_dc3a80* other) throw();
 };
 struct DClass_dc3a80
 {
@@ -3935,7 +3935,7 @@ struct DMember_dc3a80
     unsigned short unk0E;
     unsigned short unk10;
     DKlass_dc3a80* FUN_00d86920() const throw();
-    DAttribute_dc3a80* FUN_00d86960(const char* name) const throw();
+    DAttribute_dc3a80* getAttribute_00d86960(const char* name) const throw();
 };
 struct DWorld_dc3a80
 {
@@ -3945,7 +3945,7 @@ struct DWorld_dc3a80
     virtual void v0c() throw();
     virtual DKlass_dc3a80* GetClassFromName(const char* name) throw();
 };
-extern "C" int __cdecl FUN_00cb0fa0(const char* a, const char* b) throw();
+extern "C" int __cdecl hkString_strCmp(const char* a, const char* b) throw();
 struct DReader_dc3a80
 {
     DWorld_dc3a80* unk00;
@@ -3966,16 +3966,16 @@ DKlass_dc3a80* DReader_dc3a80::FUN_00dc3a80(const DMember_dc3a80* member, const 
         return pActualClass;
     if (!pActualClass)
         return 0;
-    if (!FUN_00cb0fa0(pExpectedClass->FUN_00d46d40(), name))
+    if (!hkString_strCmp(pExpectedClass->FUN_00d46d40(), name))
         return pExpectedClass;
-    if (pExpectedClass->FUN_00d46d80(pActualClass))
+    if (pExpectedClass->hkClass_isSuperClass(pActualClass))
         return pActualClass;
-    DAttribute_dc3a80* pAttribute = member->FUN_00d86960("hk.DataObjectType");
+    DAttribute_dc3a80* pAttribute = member->getAttribute_00d86960("hk.DataObjectType");
     if (pAttribute)
     {
         const char* pcTypeName = (const char*)*pAttribute->unk00;
         pExpectedClass = unk00->GetClassFromName(pcTypeName);
-        if (pExpectedClass->FUN_00d46d80(pActualClass))
+        if (pExpectedClass->hkClass_isSuperClass(pActualClass))
             return pActualClass;
     }
     return pExpectedClass;

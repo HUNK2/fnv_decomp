@@ -176,7 +176,8 @@ inline float dot3(__m128 a, __m128 b)
 }
 
 // @fnv 0x00e36510
-void __stdcall FUN_00e36510(VehicleInstanceStandIn* vehicle, unsigned char wheelIndex, HitStandIn* hit,
+// src: HAVOK_SRC 0x00e36510
+void __stdcall hkpVehicleLinearCastWheelCollide_getCollisionOutputFromCastResult(VehicleInstanceStandIn* vehicle, unsigned char wheelIndex, HitStandIn* hit,
                             WheelCollideOutputStandIn* out)
 {
     float velChassis = vehicle->m_pSuspension->m_wheelData[wheelIndex].m_fRestLength;

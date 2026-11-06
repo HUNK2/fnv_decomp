@@ -115,7 +115,7 @@ struct Bucket
     int unk08;
     int unk0C;
     int unk10;
-    void FUN_00d056d0(int);
+    void hkQueue_struct_hkJobQueue_JobQueueEntry_setCapacity(int);
 };
 struct Registry
 {
@@ -248,16 +248,17 @@ struct Owner
     int count;
     Registry* FUN_00d04400(RequestContext*);
     void FUN_00d04420(Registry*);
-    void FUN_00d04a80(int, int);
+    void hkJobQueue_setQueueCapacityForJobType(int, int);
 };
 // @fnv 0x00d04a80
-void Owner::FUN_00d04a80(int first, int second)
+// src: HAVOK_LIB 0x00d04a80
+void Owner::hkJobQueue_setQueueCapacityForJobType(int first, int second)
 {
     RequestContext context;
     Registry* data = FUN_00d04400(&context);
-    ((Bucket*)((char*)data + 0x2c))[unk30 + first].FUN_00d056d0(second);
+    ((Bucket*)((char*)data + 0x2c))[unk30 + first].hkQueue_struct_hkJobQueue_JobQueueEntry_setCapacity(second);
     for (int i = 0; i < count; ++i)
-        ((Bucket*)((char*)data + 0x2c))[*((unsigned char*)this + 0x3d + i * 8)].FUN_00d056d0(second);
+        ((Bucket*)((char*)data + 0x2c))[*((unsigned char*)this + 0x3d + i * 8)].hkQueue_struct_hkJobQueue_JobQueueEntry_setCapacity(second);
     FUN_00d04420(data);
 }
 
@@ -396,11 +397,12 @@ struct D057A0Queue
     int m_iNodeCount;
 
     void SetNodeCount(int n);
-    void FUN_00d057a0(const D057A0Element& element);
+    void hkQueue_struct_hkJobQueue_JobQueueEntry_enqueue(const D057A0Element& element);
 };
 
 // @fnv 0x00d057a0
-void D057A0Queue::FUN_00d057a0(const D057A0Element& element)
+// src: HAVOK_LIB 0x00d057a0
+void D057A0Queue::hkQueue_struct_hkJobQueue_JobQueueEntry_enqueue(const D057A0Element& element)
 {
     if (m_iNodeCount >= m_pRayCursor)
     {
@@ -430,12 +432,13 @@ struct ItemPool
     int m_uiItemCount;
 
     void Grow(int newCapacity);
-    void FUN_00d057f0(const Item& item);
+    void hkQueue_struct_hkJobQueue_JobQueueEntry_enqueueInFront(const Item& item);
 };
 
 // Grows the pool if full, then stores item at the next free slot and increments the count.
 // @fnv 0x00d057f0
-void ItemPool::FUN_00d057f0(const Item& item)
+// src: HAVOK_LIB 0x00d057f0
+void ItemPool::hkQueue_struct_hkJobQueue_JobQueueEntry_enqueueInFront(const Item& item)
 {
     if (m_uiItemCount >= m_pRayCursor)
     {
@@ -1021,8 +1024,8 @@ extern void __cdecl hookC_00d967a0(void*, void*);
 extern void __cdecl hookD_00d968e0(void*, void*);
 
 // Two more registration helpers, both cdecl with one pointer argument.
-void __cdecl FUN_00da3400(TargetObj* p);
-void __cdecl FUN_00da3480(TargetObj* p);
+void __cdecl hkpCollisionQueryJobQueueUtils_registerWithJobQueue(TargetObj* p);
+void __cdecl hkpRayCastQueryJobQueueUtils_registerWithJobQueue(TargetObj* p);
 
 // Fills g_hookTable with hookDefault_00d01e50, raises p->unk60 to at least 2, registers two hook pairs via SetEntry, then calls FUN_00da3400 and FUN_00da3480.
 // @fnv 0x00d2cca0
@@ -1067,8 +1070,8 @@ void __cdecl InitHookTable(TargetObj* apTarget)
     info.m_f2 = hookD_00d968e0;
     apTarget->SetEntry(1, info);
 
-    FUN_00da3400(apTarget);
-    FUN_00da3480(apTarget);
+    hkpCollisionQueryJobQueueUtils_registerWithJobQueue(apTarget);
+    hkpRayCastQueryJobQueueUtils_registerWithJobQueue(apTarget);
 }
 
 namespace fnvc_adapt {
@@ -1317,7 +1320,7 @@ struct D05490Array
 
 void FUN_00d043d0();
 void FUN_00d043e0();
-void FUN_00d04550();
+void defaultPopDispatchFunc();
 void FUN_00d04570();
 
 struct FUN_00d05490 : D05490Base
@@ -1408,7 +1411,7 @@ FUN_00d05490::FUN_00d05490(SrcCfg* pConfig) throw() : D05490Base(0)
         m_pTable->m_counts[k] = 0;
         m_pTable->m_i18 |= 1 << k;
     }
-    m_pFn1 = (void*)FUN_00d04550;
+    m_pFn1 = (void*)defaultPopDispatchFunc;
     m_pFn2 = (void*)FUN_00d04570;
     m_i8c = 0;
     FinishInit();
@@ -1418,7 +1421,8 @@ typedef int(__cdecl* DispatchHandler)(void*, void*, void*);
 
 // Reads a byte index from item, scales it by 16, and calls the handler at that offset in context's dispatch table.
 // @fnv 0x00d04550
-int __cdecl FUN_00d04550(void* context, void* argument, void* item)
+// src: HAVOK_LIB 0x00d04550
+int __cdecl defaultPopDispatchFunc(void* context, void* argument, void* item)
 {
     unsigned int index = ((unsigned char*)item)[1];
     index *= 16;
@@ -1443,12 +1447,13 @@ struct hkQueue128
     int m_pTail;
     int m_iNodeCount;
 
-    void FUN_00d056d0(int n);
+    void hkQueue_struct_hkJobQueue_JobQueueEntry_setCapacity(int n);
 };
 
 // Grows the underlying element array to at least n slots, copying existing nodes and resetting the ring indices.
 // @fnv 0x00d056d0
-void hkQueue128::FUN_00d056d0(int aiMinCapacity)
+// src: HAVOK_LIB 0x00d056d0
+void hkQueue128::hkQueue_struct_hkJobQueue_JobQueueEntry_setCapacity(int aiMinCapacity)
 {
     if (m_pRayCursor < aiMinCapacity)
     {
@@ -1503,7 +1508,7 @@ static __forceinline short& Ref212(Registry* r, unsigned char sub)
 struct LunaOwner : Owner
 {
     int LookupSpawnedEntry(Item* item);
-    int FUN_00d05840(int index, Registry* registry, int param_4, int param_3);
+    int hkJobQueue_findJobInternal(int index, Registry* registry, int param_4, int param_3);
     int ProcessCallback(int param_2, int param_3, int param_4);
 };
 
@@ -1561,9 +1566,9 @@ int LunaOwner::ProcessCallback(int param_2, int param_3, int param_4)
                     if (bucket->unk10 >= capacity)
                     {
                         if (capacity == 0)
-                            bucket->FUN_00d056d0(8);
+                            bucket->hkQueue_struct_hkJobQueue_JobQueueEntry_setCapacity(8);
                         else
-                            bucket->FUN_00d056d0(capacity * 2);
+                            bucket->hkQueue_struct_hkJobQueue_JobQueueEntry_setCapacity(capacity * 2);
                     }
                     if (bucket->unk08 == 0)
                         bucket->unk08 = bucket->unk04;
@@ -1577,9 +1582,9 @@ int LunaOwner::ProcessCallback(int param_2, int param_3, int param_4)
                     if (bucket->unk10 >= capacity)
                     {
                         if (capacity == 0)
-                            bucket->FUN_00d056d0(8);
+                            bucket->hkQueue_struct_hkJobQueue_JobQueueEntry_setCapacity(8);
                         else
-                            bucket->FUN_00d056d0(capacity * 2);
+                            bucket->hkQueue_struct_hkJobQueue_JobQueueEntry_setCapacity(capacity * 2);
                     }
                     if (bucket->unk0C == bucket->unk04)
                         bucket->unk0C = 0;
@@ -1595,7 +1600,7 @@ int LunaOwner::ProcessCallback(int param_2, int param_3, int param_4)
             param_2 = 0;
         }
 
-        result = FUN_00d05840(index, phase.registry, param_4, param_3);
+        result = hkJobQueue_findJobInternal(index, phase.registry, param_4, param_3);
         if (result != -1)
             break;
     }
@@ -1669,11 +1674,11 @@ void FUN_00d04bd0_cls::AddJobBatch(ArrayOfJobs* jobs, int priority)
             {
                 if (queue->unk04 == 0)
                 {
-                    queue->FUN_00d056d0(8);
+                    queue->hkQueue_struct_hkJobQueue_JobQueueEntry_setCapacity(8);
                 }
                 else
                 {
-                    queue->FUN_00d056d0(queue->unk04 + queue->unk04);
+                    queue->hkQueue_struct_hkJobQueue_JobQueueEntry_setCapacity(queue->unk04 + queue->unk04);
                 }
             }
             if (queue->unk08 == 0)
@@ -1691,11 +1696,11 @@ void FUN_00d04bd0_cls::AddJobBatch(ArrayOfJobs* jobs, int priority)
             {
                 if (queue->unk04 == 0)
                 {
-                    queue->FUN_00d056d0(8);
+                    queue->hkQueue_struct_hkJobQueue_JobQueueEntry_setCapacity(8);
                 }
                 else
                 {
-                    queue->FUN_00d056d0(queue->unk04 + queue->unk04);
+                    queue->hkQueue_struct_hkJobQueue_JobQueueEntry_setCapacity(queue->unk04 + queue->unk04);
                 }
             }
             if (queue->unk0C == queue->unk04)
@@ -1772,14 +1777,14 @@ struct S_00d05020_Queue
     int m_pTail;
     int m_iNodeCount;
 
-    void FUN_00d056d0(int capacity);
+    void hkQueue_struct_hkJobQueue_JobQueueEntry_setCapacity(int capacity);
 
     void increaseCapacity()
     {
         if (m_pRayCursor == 0)
-            FUN_00d056d0(8);
+            hkQueue_struct_hkJobQueue_JobQueueEntry_setCapacity(8);
         else
-            FUN_00d056d0(m_pRayCursor * 2);
+            hkQueue_struct_hkJobQueue_JobQueueEntry_setCapacity(m_pRayCursor * 2);
     }
 
     void enqueueInFront(const S_00d05020_Job& element)
@@ -1821,13 +1826,14 @@ struct S_00d05020_JobQueue
 {
     S_00d05020_DynamicData* FUN_00d04400(char* dynamicDataStorage);
     int LookupSpawnedEntry(const S_00d05020_Job& job);
-    int FUN_00d05840(int queueIndexOfNewJob, S_00d05020_DynamicData* data, int waitStatus, S_00d05020_Job& jobOut);
-    int FUN_00d05020(int originalJobType, int priority, S_00d05020_Job& jobInOut, int waitStatus);
+    int hkJobQueue_findJobInternal(int queueIndexOfNewJob, S_00d05020_DynamicData* data, int waitStatus, S_00d05020_Job& jobOut);
+    int hkJobQueue_finishAddAndGetNextJob(int originalJobType, int priority, S_00d05020_Job& jobInOut, int waitStatus);
 };
 
 // Enqueues a job at the front or tail of a queue, then repeats FUN_00d05840 until it returns a value other than -1.
 // @fnv 0x00d05020
-int S_00d05020_JobQueue::FUN_00d05020(int aiJobType, int priority, S_00d05020_Job& jobInOut, int waitStatus)
+// src: HAVOK_LIB 0x00d05020
+int S_00d05020_JobQueue::hkJobQueue_finishAddAndGetNextJob(int aiJobType, int priority, S_00d05020_Job& jobInOut, int waitStatus)
 {
     volatile unsigned int tick;
     {
@@ -1860,7 +1866,7 @@ int S_00d05020_JobQueue::FUN_00d05020(int aiJobType, int priority, S_00d05020_Jo
                 queue.enqueue(jobInOut);
             jobToAdd = false;
         }
-        result = FUN_00d05840(queueIndex, data, waitStatus, jobInOut);
+        result = hkJobQueue_findJobInternal(queueIndex, data, waitStatus, jobInOut);
     } while (result == -1);
     {
         hkMonitorStream* s = (hkMonitorStream*)TlsGetValue(hkMonitorStreamTls);
@@ -1970,7 +1976,8 @@ extern "C" void __cdecl InitSplitChunks(int resource, int total, int options, in
                                         S00df8570_Rec* records);
 // Writes trace markers, copies input fields into records, calls InitSplitChunks, encodes and inserts items, then calls ProcessCallback and returns its result.
 // @fnv 0x00df8570
-int __cdecl FUN_00df8570(S00df8570_Enc* encoder, S00df8570_Input* input)
+// src: HAVOK_LIB 0x00df8570
+int __cdecl hkCpuKdTreeBuildCoordinatorJob(S00df8570_Enc* encoder, S00df8570_Input* input)
 {
     volatile unsigned int stamp;
     int output;
@@ -2048,11 +2055,12 @@ struct Owner
     Buffer* FUN_00d04400(Buffer* scratch);
     void InsertItemAndNotify(Buffer* work, void* first, unsigned int second);
     void FUN_00d04420(Buffer* work);
-    void FUN_00d04b50(void* first, unsigned int second);
+    void hkJobQueue_addJob(void* first, unsigned int second);
 };
 // Passes a stack Buffer to FUN_00d04400, calls FUN_00d04b00 with its result and the arguments, then passes that result to FUN_00d04420.
 // @fnv 0x00d04b50
-void Owner::FUN_00d04b50(void* first, unsigned int second)
+// src: HAVOK_LIB 0x00d04b50
+void Owner::hkJobQueue_addJob(void* first, unsigned int second)
 {
     Buffer scratch;
     Buffer* work = FUN_00d04400(&scratch);
@@ -2391,12 +2399,13 @@ class Worker
     void Sync(int index, PoolSet* set);
     void Release(PoolSet* set);
 
-    void FUN_00d04d80(TraceArg* p, int flag);
+    void hkJobQueue_finishJob(TraceArg* p, int flag);
 };
 
 // Records trace markers, runs the job callback on a pool node, inserts the result item, syncs, and releases the node.
 // @fnv 0x00d04d80
-void Worker::FUN_00d04d80(TraceArg* apTraceArg, int flag)
+// src: HAVOK_LIB 0x00d04d80
+void Worker::hkJobQueue_finishJob(TraceArg* apTraceArg, int flag)
 {
     volatile unsigned long tick;
     JobOut out;
@@ -2509,12 +2518,13 @@ struct JobFetchView
 
 struct Dispatcher : FUN_00d05490
 {
-    int FUN_00d051b0();
+    int hkJobQueue_processAllJobs();
 };
 
 // Fetches and executes a loop of DispatchJob entries, recording start and end ticks into the TLS hkMonitorStream for each job type.
 // @fnv 0x00d051b0
-int Dispatcher::FUN_00d051b0()
+// src: HAVOK_LIB 0x00d051b0
+int Dispatcher::hkJobQueue_processAllJobs()
 {
     TimerSamples samples;
     DispatchJob job;

@@ -1123,7 +1123,7 @@ struct Cc7Local {
     void AddBridgeAtoms();
     void AppendEntryAndAdvance();
     void FUN_00d52ae0(float value);
-    void FUN_00d52ba0();
+    void hkpConstraintConstructionKit_restoreStrength();
     void AppendZeroItem();
 };
 struct __declspec(align(16)) Cc7Vector { unsigned char lanes[16]; };
@@ -1171,7 +1171,7 @@ struct LunaArgument {
     int unk0c;
 };
 struct LunaTarget { unsigned int FUN_00cca360(LunaArgument* argument); };
-extern void* __cdecl FUN_00d54cd0(const void*, ScratchGeometry*, unsigned int);
+extern void* __cdecl hkpMoppUtility_buildCode(const void*, ScratchGeometry*, unsigned int);
 union Quaternion525 {
     LocalM128 value;
     char bytes[16]; // the real xmmintrin __m128 also overlays __int8 m128_i8[16]
@@ -1818,7 +1818,7 @@ struct InitializePathingRequestFromPosition {
 struct RefCountedObject {
     void FUN_00c905b0();
 };
-namespace fnvc_adapt { extern SourceGeometry* __cdecl FUN_00d54cd0(const void* attributes,
+namespace fnvc_adapt { extern SourceGeometry* __cdecl hkpMoppUtility_buildCode(const void* attributes,
                                               ScratchGeometry* scratch,
                                               unsigned int options); }
 extern int DAT_0102e368;

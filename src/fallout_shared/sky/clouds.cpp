@@ -97,14 +97,14 @@ void Clouds::Update(Sky* sky, float time)
         {
             if (property)
             {
-                property->FUN_00bae930(m_pCloudLayerTexture[i]);
+                property->NiPhysXProp_SetSnapshot(m_pCloudLayerTexture[i]);
                 property->FUN_0051b8c0(sky->FUN_006447d0());
             }
             if (!m_pPreviousWeather)
             {
                 property->SetTexture(m_pCloudLayerTexture[i]);
                 m_pCloudLayerTexture[i] = 0;
-                property->FUN_00bae930(0);
+                property->NiPhysXProp_SetSnapshot(0);
                 property->FUN_0051b8c0(0.0f);
             }
         }

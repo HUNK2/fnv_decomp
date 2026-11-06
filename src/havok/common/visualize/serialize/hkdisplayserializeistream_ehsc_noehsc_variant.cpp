@@ -135,27 +135,27 @@ struct hkDisplayCylinder : hkDisplayGeometry
 __forceinline hkInt8 hkDisplaySerializeIStream::readInt8()
 {
     hkInt8 c;
-    FUN_00dd8fe0(&c, 1, 1);
+    hkIArchive_readArrayGeneric(&c, 1, 1);
     return c;
 }
 
 __forceinline int hkDisplaySerializeIStream::readInt32()
 {
     int i;
-    FUN_00dd8fe0(&i, 4, 1);
+    hkIArchive_readArrayGeneric(&i, 4, 1);
     return i;
 }
 
 __forceinline hkReal hkDisplaySerializeIStream::readFloat32()
 {
     hkReal f;
-    FUN_00dd8fe0(&f, 4, 1);
+    hkIArchive_readArrayGeneric(&f, 4, 1);
     return f;
 }
 
 __forceinline void hkDisplaySerializeIStream::ReadVector4(hkVector4& v)
 {
-    FUN_00ddac60(v);
+    readQuadVector4(v);
 }
 
 __forceinline void hkDisplaySerializeIStream::ReadTransform(hkTransform& t)
@@ -165,7 +165,7 @@ __forceinline void hkDisplaySerializeIStream::ReadTransform(hkTransform& t)
 
 __forceinline void hkDisplaySerializeIStream::ReadGeometry(hkGeometry* g)
 {
-    FUN_00ddacd0(g);
+    readGeometry(g);
 }
 
 // @fnv 0x00ddada0

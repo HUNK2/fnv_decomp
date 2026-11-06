@@ -188,13 +188,13 @@ class NiAVObject : public NiObjectNET
     const char* FUN_009ee040();
     void FUN_00a59c60(NiUpdateData& data);
     void FUN_00a59c60(const GridEuler& rotation);
-    int FUN_00a59e20(int value);
+    int GetObjectByName_00a59e20(int value);
     void FUN_00a5a040();
     void FUN_00a5abe0(NiAVObject* object, void* data, CloningProcess& process);
     void FUN_00a5ac90(NiAVObject* object, CloningProcess& process);
     NiExtraData* FUN_00a5bdd0(const NiFixedString& name);
     bool SetExtraDataName(NiExtraData* extra);
-    void FUN_00a5c050();
+    void RemoveAllControllers();
     NiAVObjectPalette* FUN_00a64620();
     void FUN_00a64670();
     void FUN_00a67050(unsigned int flags);

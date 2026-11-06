@@ -662,7 +662,7 @@ struct F9_Scope
 // hkTransform does not declare this viewer operation; its storage remains shared.
 struct ViewerTransform : public hkTransform
 {
-    void FUN_00cb2fc0();
+    void hkRotation_renormalize();
 };
 
 struct F9_Arg
@@ -848,7 +848,7 @@ void F9_Owner::FUN_00c9f050(F9_Arg* arg)
     mat.m_row1 = _mm_setr_ps(arg->m[4], arg->m[5], arg->m[6], arg->m[7]);
     mat.m_row2 = _mm_setr_ps(arg->m[8], arg->m[9], arg->m[10], arg->m[11]);
     mat.m_row3 = _mm_setr_ps(arg->m[12], arg->m[13], arg->m[14], arg->m[15]);
-    mat.FUN_00cb2fc0();
+    mat.hkRotation_renormalize();
     F9_Obj* o = new F9_Obj(arg->unk04, &mat, arg->unk00);
     add(o);
     o->FUN_00c905b0();
@@ -917,7 +917,7 @@ struct Obj08
     int unk18;
     int unk1C;
     __m128 m_20;
-    void FUN_00cac920(__m128* v);
+    void hkpCharacterProxy_setPosition(__m128* v);
     void FUN_00cac110();
 };
 
@@ -1310,7 +1310,7 @@ void MotionObject::FUN_00c6e390(__m128* v)
     if (object != 0)
     {
         FUN_00cac110();
-        object->FUN_00cac920(&s);
+        object->hkpCharacterProxy_setPosition(&s);
         object->m_20 = _mm_setzero_ps();
         FUN_00cac110();
     }

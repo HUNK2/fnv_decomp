@@ -44,7 +44,7 @@ struct FUN_00d24b50_Obj {
 };
 class hkShapeD260 : public FUN_00d24b50_Obj {
 public:
-    hkBool __thiscall FUN_00d26080(void* object, hkInfoD260* info);
+    hkBool __thiscall hkpSampledHeightFieldShape_castRayImpl(void* object, hkInfoD260* info);
 };
 struct S00d261b0_Elem {
     LocalM128 v00;

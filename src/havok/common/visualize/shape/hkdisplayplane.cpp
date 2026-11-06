@@ -153,16 +153,17 @@ __declspec(align(16)) struct VecTemp4
     unsigned int m_30, m_34, m_38, m_3c;
 };
 
-extern "C" void __cdecl FUN_00c908c0(unsigned int a1, VecBuf* v, int cap, int elem);
+extern "C" void __cdecl hkArrayUtil__reserve(unsigned int a1, VecBuf* v, int cap, int elem);
 
 struct FUN_00de5050_cls
 {
     void Fill(VecTemp4* out);
-    void FUN_00de5050(VecBuf* s, unsigned int a2);
+    void hkDisplayPlane_getWireframeGeometry(VecBuf* s, unsigned int a2);
 };
 
 // @fnv 0x00de5050
-void FUN_00de5050_cls::FUN_00de5050(VecBuf* s, unsigned int a2)
+// src: HAVOK_SRC 0x00de5050
+void FUN_00de5050_cls::hkDisplayPlane_getWireframeGeometry(VecBuf* s, unsigned int a2)
 {
     int n = (int)(s->m_iElementCount & 0x3fffffff);
     if (n < 12)
@@ -172,7 +173,7 @@ void FUN_00de5050_cls::FUN_00de5050(VecBuf* s, unsigned int a2)
         {
             cap = 12;
         }
-        FUN_00c908c0(a2, s, cap, 0x10);
+        hkArrayUtil__reserve(a2, s, cap, 0x10);
     }
     VecTemp4 tmp;
     s->m_uiItemCount = 12;
@@ -216,7 +217,7 @@ struct S_00de5110_Router
 };
 
 S_00de5110_Router& FUN_00c85750() throw();
-void FUN_00c908c0(S_00de5110_Heap& alloc, void* array, int numElements, int sizeElem) throw();
+void hkArrayUtil__reserve(S_00de5110_Heap& alloc, void* array, int numElements, int sizeElem) throw();
 
 template <typename T> struct S_00de5110_ArrayLocalForm
 { // local form of hkArray: 0x00de5110 needs the original inline/out-of-line helper split; shared replacement changes bytes.
@@ -247,7 +248,7 @@ template <typename T> struct S_00de5110_ArrayLocalForm
         {
             int cap2 = 2 * capacity;
             int newSize = (n < cap2) ? cap2 : n;
-            FUN_00c908c0(a, this, newSize, sizeof(T));
+            hkArrayUtil__reserve(a, this, newSize, sizeof(T));
         }
     }
     __forceinline void _setSize(S_00de5110_Heap& a, int n) throw()

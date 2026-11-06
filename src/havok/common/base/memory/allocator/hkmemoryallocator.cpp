@@ -8,11 +8,12 @@ struct TargetClass
     virtual void f1();
     virtual void __fastcall f2(void* a2);
 
-    void __fastcall FUN_00cbf1d0(void* a2);
+    void __fastcall hkMemoryAllocator_bufFree(void* a2);
 };
 
 // @fnv 0x00cbf1d0
-void __fastcall TargetClass::FUN_00cbf1d0(void* a2)
+// src: HAVOK_SRC 0x00cbf1d0
+void __fastcall TargetClass::hkMemoryAllocator_bufFree(void* a2)
 {
     f2(a2);
 }
@@ -80,7 +81,7 @@ class CFun00cbf280Owner
     virtual void Commit(void* src, int size);
 
     /* The unit itself. Non-virtual: it is entered directly, not through a slot. */
-    void* FUN_00cbf280(void* src, int size, SFun00cbf280Args* args);
+    void* hkMemoryAllocator_bufRealloc(void* src, int size, SFun00cbf280Args* args);
 };
 
 /*
@@ -105,7 +106,8 @@ class CFun00cbf280Owner
  * established by this unit.
  */
 // @fnv 0x00cbf280
-void* CFun00cbf280Owner::FUN_00cbf280(void* src, int size, SFun00cbf280Args* args)
+// src: HAVOK_LIB 0x00cbf280
+void* CFun00cbf280Owner::hkMemoryAllocator_bufRealloc(void* src, int size, SFun00cbf280Args* args)
 {
     void* dest = this->Reserve(args);
 
@@ -156,12 +158,13 @@ class FUN_00cbf1e0_cls
     virtual void f0();
     virtual void* f1(void* a);
 
-    void FUN_00cbf1e0(void** dest, int count, void* arg);
+    void hkMemoryAllocator_blockAllocBatch(void** dest, int count, void* arg);
 };
 
 // Calls f1(arg) count times and stores each returned pointer into dest[i].
 // @fnv 0x00cbf1e0
-void FUN_00cbf1e0_cls::FUN_00cbf1e0(void** dest, int count, void* arg)
+// src: HAVOK_LIB 0x00cbf1e0
+void FUN_00cbf1e0_cls::hkMemoryAllocator_blockAllocBatch(void** dest, int count, void* arg)
 {
     for (int i = 0; i < count; ++i)
     {
@@ -208,10 +211,11 @@ struct CBF260
     virtual void f7();
     virtual void f8();
     virtual void __fastcall f9(void* arg);
-    void __fastcall FUN_00cbf260(void* arg);
+    void __fastcall hkMemoryAllocator_canAllocSingleBlock(void* arg);
 };
 // @fnv 0x00cbf260
-void __fastcall CBF260::FUN_00cbf260(void* arg)
+// src: HAVOK_SRC 0x00cbf260
+void __fastcall CBF260::hkMemoryAllocator_canAllocSingleBlock(void* arg)
 {
     f9(arg);
 }

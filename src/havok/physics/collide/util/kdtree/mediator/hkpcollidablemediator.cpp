@@ -136,11 +136,12 @@ struct FUN_00d9e010_cls {
     unsigned int unk00;
     unsigned int unk04;
     Child* child;
-    unsigned int FUN_00d9e010(unsigned int index);
+    unsigned int hkpCollidableMediator_getPrimitiveId(unsigned int index);
 };
 
 // @fnv 0x00d9e010
-unsigned int FUN_00d9e010_cls::FUN_00d9e010(unsigned int index)
+// src: HAVOK_LIB 0x00d9e010
+unsigned int FUN_00d9e010_cls::hkpCollidableMediator_getPrimitiveId(unsigned int index)
 {
     unsigned int* table = (unsigned int*)child->unk00;
     return table[index];

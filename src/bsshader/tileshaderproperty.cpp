@@ -156,7 +156,7 @@ struct BSShaderPropertyStreamIO
     void FUN_00ba92c0(NiStream* stream);
     void FUN_00ba9380(NiStream* stream);
 };
-void __cdecl FUN_00aa10f0(unsigned int v);
+void __cdecl _NiFree_00aa10f0(unsigned int v);
 template <class T> inline void LoadBin(NiBinaryStream& kStream, T& val)
 {
     unsigned int uiSize = sizeof(T);
@@ -172,7 +172,7 @@ void TileShaderProperty::FUN_00bb7b60(NiStream* a1)
     char* v = 0;
     a1->ReadStreamString(v);
     m_kName.Set(v, 0);
-    FUN_00aa10f0(reinterpret_cast<unsigned int>(v));
+    _NiFree_00aa10f0(reinterpret_cast<unsigned int>(v));
 }
 
 template <class T> inline void SaveBin(NiBinaryStream& kStream, const T& val)

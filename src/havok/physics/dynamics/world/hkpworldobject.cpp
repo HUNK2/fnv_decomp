@@ -76,7 +76,7 @@ extern char DAT_0105c390;
 extern char DAT_010cb2d8;
 extern char DAT_01020e44;
 extern char DAT_010cb2c8;
-void* __cdecl FUN_00d06f80(void* data, int bytes);
+void* __cdecl hkStatisticsCollector_getAllocatedSize(void* data, int bytes);
 
 // The serialization mode byte is not declared by the shared writer interface.
 static inline unsigned char includesOwnedAllocations(const hkStreamWriter* writer)
@@ -95,7 +95,7 @@ void FNVWorldObject::WriteToStream(hkStreamWriter* writer, int unused)
     if ((entryCap & 0x80000000) == 0 || includesOwnedAllocations(writer))
     {
         void* entryData = collisionEntries.m_data;
-        void* copy = FUN_00d06f80(entryData, (entryCap & 0x3fffffff) * 8);
+        void* copy = hkStatisticsCollector_getAllocatedSize(entryData, (entryCap & 0x3fffffff) * 8);
         writer->WriteArray(3, &DAT_010cb2d8, collisionEntries.m_data, collisionEntries.m_iElementCount * 8, copy);
     }
 
@@ -103,7 +103,7 @@ void FNVWorldObject::WriteToStream(hkStreamWriter* writer, int unused)
     if ((propCap & 0x80000000) == 0 || includesOwnedAllocations(writer))
     {
         void* propData = m_kProperties.m_data;
-        void* copy = FUN_00d06f80(propData, (propCap & 0x3fffffff) * 16);
+        void* copy = hkStatisticsCollector_getAllocatedSize(propData, (propCap & 0x3fffffff) * 16);
         writer->WriteArray(3, &DAT_01020e44, m_kProperties.m_data, m_kProperties.m_iElementCount * 16, copy);
     }
 

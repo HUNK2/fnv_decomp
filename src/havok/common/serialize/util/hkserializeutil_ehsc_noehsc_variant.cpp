@@ -81,7 +81,7 @@ struct FUN_00dbc670_storage
 struct FUN_00dbc670_shell
 {
     void FUN_00dbc670();
-    void FUN_00dbda50(int, int, int);
+    void hkPackfileWriter_setContents(int, int, int);
     int ProcessPoly(int, int);
     void FUN_00dbc6e0();
 };
@@ -120,13 +120,13 @@ struct S_00d49310_Result
 };
 void FUN_00d48af0(void* stream, int* out) throw();
 S_00d49310_Result FUN_00d49310(void* stream);
-int FUN_00cb0fa0(const char* a, const char* b);
+int hkString_strCmp(const char* a, const char* b);
 static inline int S_00d49350_Compare(const char* a, const char* b)
 {
     if (a)
     {
         if (b)
-            return FUN_00cb0fa0(a, b);
+            return hkString_strCmp(a, b);
         return 1;
     }
     return b ? -1 : 0;
@@ -228,7 +228,7 @@ struct Pending_cls
     int unk00;
     int unk04;
     void FUN_00dc5d30();
-    void FUN_00dc5d50(Holder_cls* h, int a, int b);
+    void hkBinaryTagfileReader_load(Holder_cls* h, int a, int b);
 };
 struct Owner_cls
 {
@@ -357,7 +357,7 @@ struct S00d48680_Sys
     }
 };
 extern "C" S00d48680_Sys* __cdecl FUN_00c85750();
-extern "C" void __cdecl FUN_00c908c0(S00d48680_Alloc* h, S00d48680_Arr* a, int cap, int flag);
+extern "C" void __cdecl hkArrayUtil__reserve(S00d48680_Alloc* h, S00d48680_Arr* a, int cap, int flag);
 struct S00d48680_Obj
 {
     virtual void v0();
@@ -377,7 +377,7 @@ static void FUN_00d48680(S00d48680_Obj* obj, S00d48680_Arr* arr);
 void __cdecl S00d48680_Entry(S00d48680_Obj* obj, S00d48680_Arr* arr);
 
 extern int DAT_011b7b88;
-extern "C" int __cdecl FUN_00cb1290(const void*, const void*, int);
+extern "C" int __cdecl hkString_memCmp(const void*, const void*, int);
 extern "C" const char* __cdecl FUN_00dc0fb0();
 extern "C" void* __cdecl CreateResourceFromArray(const void*, int, const void*);
 
@@ -482,7 +482,7 @@ struct BufferBase : S00d48680_Arr
         if (required > capacity())
         {
             int grown = 2 * capacity();
-            FUN_00c908c0((S00d48680_Alloc*)&allocator, this, required > grown ? required : grown, 1);
+            hkArrayUtil__reserve((S00d48680_Alloc*)&allocator, this, required > grown ? required : grown, 1);
         }
     }
     __forceinline void resize(BufferAllocator& allocator, int count)
@@ -563,7 +563,7 @@ static __declspec(noinline) void* FUN_00d48760(VersionedDataBlock& input, const 
 {
     if (format.kind == 2)
     {
-        if (FUN_00cb1290(&format.pointerSize, &DAT_011b7b88, 4) == 0)
+        if (hkString_memCmp(&format.pointerSize, &DAT_011b7b88, 4) == 0)
         {
             if (format.version.Equals(FUN_00dc0fb0()))
             {

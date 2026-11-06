@@ -343,7 +343,8 @@ static inline unsigned short Chan(unsigned int p, const Fmt* s, const Fmt* d, in
 }
 // Converts each 16-bit source pixel to the destination format by remapping its four channels through Chan and OR-ing them together.
 // @fnv 0x00a76d70
-void FUN_00a76d70(unsigned int uiWidth, unsigned int uiHeight, unsigned int, unsigned char* pucDst, unsigned int,
+// src: GAMEBRYO_LIB 0x00a76d70
+void NiDevImageConverter_ConvertRGBA16ToBGRA16(unsigned int uiWidth, unsigned int uiHeight, unsigned int, unsigned char* pucDst, unsigned int,
                   const Fmt* pDstFmt, const unsigned char* pucSrc, const Fmt* pSrcFmt)
 {
     const unsigned short* pSrcPixels = (const unsigned short*)pucSrc;
@@ -360,14 +361,14 @@ void FUN_00a76d70(unsigned int uiWidth, unsigned int uiHeight, unsigned int, uns
 }
 
 struct PixelFormatBitLayout;
-void __cdecl FUN_00a76d70(unsigned int, unsigned int, unsigned int, unsigned char*, NiPalette const*,
+void __cdecl NiDevImageConverter_ConvertRGBA16ToBGRA16(unsigned int, unsigned int, unsigned int, unsigned char*, NiPalette const*,
                           PixelFormatBitLayout const&, unsigned char const*, PixelFormatBitLayout const&);
 
 // @fnv 0x00a76e90
 void __cdecl FUN_00a76e90(unsigned int a, unsigned int b, unsigned int c, unsigned char* d, NiPalette const* e,
                           PixelFormatBitLayout const& f, unsigned char const* g, PixelFormatBitLayout const& h)
 {
-    FUN_00a76d70(a, b, c, d, e, f, g, h);
+    NiDevImageConverter_ConvertRGBA16ToBGRA16(a, b, c, d, e, f, g, h);
 }
 
 void __cdecl BuildFullPath(void);

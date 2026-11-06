@@ -15,7 +15,7 @@ extern int DAT_0126fa6c;
 extern int DAT_0126fa70;
 extern int DAT_0126fa74;
 extern float DAT_0126fa78;
-int* __cdecl FUN_00e9c7d0(float f, int* p);
+int* __cdecl NiCollisionConvert_ConvertToSphereBV_Fast(float f, int* p);
 
 __forceinline Vec4::Vec4(float a, float b, float c, float d) : x(a), y(b), z(c), w(d)
 {}

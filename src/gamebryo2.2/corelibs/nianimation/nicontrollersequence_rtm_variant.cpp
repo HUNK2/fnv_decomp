@@ -11,7 +11,7 @@ extern "C" unsigned int __cdecl strlen(const char*);
 extern float DAT_01015f5c;
 extern double DAT_010241b0;
 void __cdecl FUN_00ec65a6(char*, unsigned int, const char*);
-void __cdecl FUN_00aa10f0(void*);
+void __cdecl _NiFree_00aa10f0(void*);
 
 struct RefObj
 {
@@ -277,8 +277,8 @@ void NiControllerSequence::LinkObject(NiStream& stream)
             AssignControllers(names.data[i], (NiInterpController*)controller);
         }
         for (unsigned int i = 0; i < names.length; ++i)
-            FUN_00aa10f0(names.data[i]);
+            _NiFree_00aa10f0(names.data[i]);
         ReleaseObjectArray(controllers.data);
-        FUN_00aa10f0(names.data);
+        _NiFree_00aa10f0(names.data);
     }
 }

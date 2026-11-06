@@ -276,13 +276,13 @@ struct RagdollCallView
 };
 struct FUN_009b0d30_shell
 {
-    void __thiscall FUN_00c9c1d0();
+    void __thiscall activate_00c9c1d0();
     void __thiscall FUN_009b0d30(int);
 };
 // @fnv 0x009b0d30
 void __thiscall FUN_009b0d30_shell::FUN_009b0d30(int a1)
 {
-    this->FUN_00c9c1d0();
+    this->activate_00c9c1d0();
     reinterpret_cast<RagdollCallView*>(reinterpret_cast<TESDataHandler*>(this)->GetBGSRagdollList())->F21(a1);
 }
 

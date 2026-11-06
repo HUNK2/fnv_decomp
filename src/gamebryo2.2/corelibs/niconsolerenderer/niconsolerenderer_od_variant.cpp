@@ -195,7 +195,7 @@ void __cdecl BuildWorldToSkinTransform(NiWorldToSkin* out, const NiTransform* kW
                                        const NiPoint3* kIntersectionOffset, float fScale);
 extern int DAT_0126efc0;
 bool __stdcall FUN_00e6c760(int value);
-void __cdecl FUN_00aa1110(void*);
+void __cdecl _NiAlignedFree(void*);
 void __stdcall FUN_00e6d740(void* a1);
 extern RecursiveSpinLock g_011c5f80;
 extern unsigned int DAT_011c5f84;
@@ -256,4 +256,4 @@ struct FUN_00e758f0_shell
     void PackColorToUInt(float* floats);
 };
 extern int DAT_0126f580[];
-void __cdecl FUN_00e7cc50(int* param1, int param2);
+void __cdecl NiDX92DBufferData_ClearRenderTarget(int* param1, int param2);

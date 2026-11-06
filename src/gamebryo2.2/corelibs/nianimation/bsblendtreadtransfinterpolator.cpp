@@ -32,7 +32,7 @@ GlobalObjectO2_00a7b610* __cdecl FUN_00a42fe0()
 }
 
 extern int DAT_01097904;
-NiBlendInterpolator* __fastcall FUN_00a36890(NiBlendInterpolator*);
+NiBlendInterpolator* __fastcall NiBlendInterpolator_NiBlendInterpolator(NiBlendInterpolator*);
 // @fnv 0x00a42ff0
 NiObject* BSBlendTreadTransfInterpolator::MakeClone(CloningProcess& kCloning)
 {
@@ -40,7 +40,7 @@ NiObject* BSBlendTreadTransfInterpolator::MakeClone(CloningProcess& kCloning)
     pkObject = (BSBlendTreadTransfInterpolator*)BSFadeNode::operator new(0x34);
     if (pkObject)
     {
-        FUN_00a36890(pkObject);
+        NiBlendInterpolator_NiBlendInterpolator(pkObject);
         pkObject->m_fPhase = 0.0f;
         *(void**)pkObject = (void*)&DAT_01097904;
     }
@@ -207,7 +207,8 @@ extern int DAT_0109697c;
 void __fastcall InitializeInterpolator(NiInterpolator* interpolator);
 
 // @fnv 0x00a36890
-NiBlendInterpolator* __fastcall FUN_00a36890(NiBlendInterpolator* interpolator)
+// src: GAMEBRYO_LIB 0x00a36890
+NiBlendInterpolator* __fastcall NiBlendInterpolator_NiBlendInterpolator(NiBlendInterpolator* interpolator)
 {
     InitializeInterpolator(interpolator);
     *reinterpret_cast<void**>(interpolator) = &DAT_0109697c;

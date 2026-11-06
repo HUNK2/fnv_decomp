@@ -77,9 +77,9 @@ struct hkpBroadPhaseBorder : hkReferencedObject,
         hkpAabbPhantom* phantom =
             static_cast<hkpAabbPhantom*>(hkReferencedObject::operator new(0xe0))->FUN_00cf2cb0(aabb, 0);
         phantom->m_kCollidable.m_kBroadPhaseHandle.setType(3);
-        phantom->FUN_00d07de0(this);
+        phantom->addPhantomOverlapListener_00d07de0(this);
         m_kPhantoms[i] = phantom;
-        world->FUN_00c936a0(phantom);
+        world->hkpWorld_addPhantom(phantom);
     }
     hkpWorld* m_pOwningWorld;
     hkpPhantom* m_kPhantoms[6];
@@ -97,8 +97,8 @@ bpb::hkpBroadPhaseBorder::hkpBroadPhaseBorder(hkpWorld* world, int type, bool po
     m_pOwningWorld = world;
     m_bPostponeAndSortCallbacks = postponeAndSortCallbacks;
     addReference();
-    m_pOwningWorld->FUN_00c93a60(static_cast<hkpWorldDeletionListener*>(this));
-    m_pOwningWorld->FUN_00c93920(static_cast<hkpWorldPostSimulationListener*>(this));
+    m_pOwningWorld->hkpWorld_addWorldDeletionListener(static_cast<hkpWorldDeletionListener*>(this));
+    m_pOwningWorld->hkpWorld_addWorldPostSimulationListener(static_cast<hkpWorldPostSimulationListener*>(this));
 
     // These temporary bounds require uninitialized, aligned storage, as in the original unit.
     struct __declspec(align(16)) BorderBounds

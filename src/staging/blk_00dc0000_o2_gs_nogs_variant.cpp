@@ -59,7 +59,7 @@ struct FUN_00ddf050_cls
 {
     void ClearContainer();
 };
-extern "C" void __cdecl FUN_00d51760(int* p1, int* p2);
+extern "C" void __cdecl hkpConstraintConstructionKit_computeConstraintInfo(int* p1, int* p2);
 struct FUN_00dd0420_Class
 {
     int m_00;
@@ -70,11 +70,11 @@ struct FUN_00dd0420_Class
     int m_14;
     int m_18;
     int m_1c;
-    FUN_00dd0420_Class* __thiscall FUN_00dd0420(int arg);
+    FUN_00dd0420_Class* __thiscall hkpGenericConstraintDataScheme_hkpGenericConstraintDataScheme(int arg);
 };
 struct FUN_00dd4b70_class
 {
-    void __thiscall FUN_00dd4b70(unsigned char value);
+    void __thiscall hkpMoppCompiler_enableInterleavedBuilding(unsigned char value);
 };
 extern int DAT_0102e388;
 struct FUN_00dd51d0_class
@@ -88,7 +88,7 @@ struct FUN_00ddfb70_cls
 {
     int m_00;
     int m_04;
-    FUN_00ddfb70_cls* FUN_00ddfb70();
+    FUN_00ddfb70_cls* hkpShapeDisplayBuilder_hkpShapeDisplayBuilderEnvironment_hkpShapeDisplayBuilderEnvironment();
 };
 struct FUN_00dccb70_Class
 {
@@ -172,7 +172,7 @@ struct FUN_00ddfb80_s
     void* m_0c;
     void* m_10;
 };
-FUN_00ddfb80_s* __fastcall FUN_00ddfb80(FUN_00ddfb80_s* self, int, const void* src);
+FUN_00ddfb80_s* __fastcall hkpShapeDisplayBuilder_hkpShapeDisplayBuilder(FUN_00ddfb80_s* self, int, const void* src);
 int __stdcall FUN_00dc1660(int a1);
 extern int DAT_011b7b88;
 struct FUN_00dc1670_cls
@@ -180,8 +180,8 @@ struct FUN_00dc1670_cls
     int m_00;
     FUN_00dc1670_cls* FUN_00dc1670();
 };
-void __stdcall FUN_00dd8fe0(float* out, int a, int b);
-float FUN_00dc5bb0();
+void __stdcall hkIArchive_readArrayGeneric(float* out, int a, int b);
+float hkIArchive_readFloat32();
 struct ArrayBlock
 {
     unsigned int* values;
@@ -198,7 +198,7 @@ struct AllocatorState
     }
 };
 extern "C" AllocatorState* __cdecl FUN_00c85750();
-extern "C" void __cdecl FUN_00c908c0(void*, ArrayBlock*, int, int);
+extern "C" void __cdecl hkArrayUtil__reserve(void*, ArrayBlock*, int, int);
 struct ArrayHost
 {
     int unk00, unk04, unk08;
@@ -218,7 +218,7 @@ struct FUN_00dcc180_Class
     int unk04;
     FUN_00dcc180_Interface* unk08;
 
-    unsigned char* __thiscall FUN_00dcc180(unsigned char* value);
+    unsigned char* __thiscall hkIstream_isOk(unsigned char* value);
 };
 struct Target
 {
@@ -289,7 +289,7 @@ struct FUN_00dd50f0_cls
     int m_0c;
     int m_10;
     unsigned char m_14;
-    FUN_00dd50f0_cls* FUN_00dd50f0(int mode);
+    FUN_00dd50f0_cls* hkpMoppSplitter_hkpMoppSplitParams_hkpMoppSplitParams(int mode);
 };
 // FUN_00dd5150: initialises six float members of the object: five of them to
 // 1.0 and the last one to the global float constant DAT_01016248; returns the
@@ -303,12 +303,12 @@ struct FUN_00dd5150_cls
     float m_f0c;
     float m_f10;
     float m_f14;
-    void* FUN_00dd5150(int arg);
+    void* hkpMoppCostFunction_hkpMoppSplitCostParams_hkpMoppSplitCostParams(int arg);
 };
 extern void* DAT_010d7ba8;
 struct FUN_00dd5150_component
 {
-    void FUN_00dd5150(int value);
+    void hkpMoppCostFunction_hkpMoppSplitCostParams_hkpMoppSplitCostParams(int value);
 };
 struct FUN_00dd51a0
 {
@@ -399,7 +399,7 @@ struct FUN_00dd8bc0_cls
     int unk9C;
     int unkA0;
     FUN_00dd8bc0_Node m_kNode;
-    void FUN_00dd83a0();
+    void _makeTopValid();
     unsigned int GetUsedMemory();
 };
 struct S_00dd8cf0_Ret
@@ -467,10 +467,11 @@ struct SpawnedObject
     int m_b8;
     int m_bc;
     int m_c0;
-    void FUN_00dd7f10();
+    void _init_00dd7f10();
     SpawnedObject* Construct(int value);
 };
-void SpawnedObject::FUN_00dd7f10()
+// src: HAVOK_LIB 0x00dd7f10
+void SpawnedObject::_init_00dd7f10()
 {
     m_c0 = 0;
     m_bc = 0;
@@ -531,7 +532,7 @@ struct FUN_00dcc130_Class
     unsigned short unk04;
     unsigned short enabled06;
     int unk08;
-    int* __thiscall FUN_00dcc130(int* value);
+    int* __thiscall hkIstream_hkIstream(int* value);
 };
 struct S_00dcc740_Cls
 {
@@ -545,7 +546,8 @@ struct IniTokenStream
     void* m_vt;
 };
 extern "C" void ReadIniLine(void);
-static __declspec(noinline) unsigned short FUN_00dcc240(IniTokenStream* stream, unsigned char* negative)
+// src: HAVOK_LIB 0x00dcc240
+static __declspec(noinline) unsigned short readInteger64(IniTokenStream* stream, unsigned char* negative)
 {
     *negative = 0;
     ReadIniLine();
@@ -564,7 +566,7 @@ struct Lock_dd9
     int* m_pkCriticalSection;
     int FindEntry(int iKey);
     int InvokeRecord(int iIndex, int iArg);
-    int FUN_00dd9330(int iKey, int iArg);
+    int hkProcessFactory_createProcess(int iKey, int iArg);
 };
 extern int DAT_010d7db8;
 struct Bool1
@@ -597,7 +599,8 @@ struct S_00dcc790_Class
     S_00dcc790_Class* __thiscall ReadSignedValue(unsigned short* result);
 };
 extern "C" void __cdecl SkipWhitespace(void);
-static __declspec(noinline) unsigned short FUN_00dcc240(unsigned char* ok, S_00dcc240_Reader* reader)
+// src: HAVOK_LIB 0x00dcc240
+static __declspec(noinline) unsigned short readInteger64(unsigned char* ok, S_00dcc240_Reader* reader)
 {
     *ok = 0;
     SkipWhitespace();

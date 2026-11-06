@@ -87,7 +87,7 @@ void FUN_00d3b3d0_Class::InvokeCallbacksAndRelease(int value)
 
 typedef void (__cdecl* HandlerFn)();
 
-void __cdecl FUN_00d3b380();
+void __cdecl hkpCapsuleCapsuleAgent_createCapsuleCapsuleAgent();
 void __cdecl FUN_00d3b420();
 void __cdecl FUN_00d3bd80();
 void __cdecl FUN_00daf8e0();
@@ -112,7 +112,7 @@ void __cdecl RegisterHandlers(Registry* apRegistry)
     HandlerSet kHandlers;
     kHandlers.m_cFlagA = 0;
     kHandlers.m_cFlagB = 0;
-    kHandlers.m_pfnFirst = FUN_00d3b380;
+    kHandlers.m_pfnFirst = hkpCapsuleCapsuleAgent_createCapsuleCapsuleAgent;
     kHandlers.m_pfnSecond = FUN_00d3b420;
     kHandlers.m_pfnThird = FUN_00d3bd80;
     kHandlers.m_pfnFourth = FUN_00daf8e0;
@@ -470,7 +470,8 @@ extern "C" hkResult __cdecl FUN_00cd6260(const CapsulePointVector* capsA, float 
 
 // Transforms two capsule endpoint pairs into world space, queries their contact point, and adds it to the collector on success.
 // @fnv 0x00d3baf0
-void __stdcall FUN_00d3baf0(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const CollisionAgentContext& input, hkpCdPointCollector& collector)
+// src: HAVOK_SRC 0x00d3baf0
+void __stdcall hkpCapsuleCapsuleAgent_getClosestPoints(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const CollisionAgentContext& input, hkpCdPointCollector& collector)
 {
     volatile unsigned int ticks;
     {

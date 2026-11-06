@@ -105,11 +105,12 @@ struct FUN_00d46b20_cls
     int unk00;
     int unk04;
     FUN_00d46b20_inner* m_08;
-    void FUN_00d46b20();
+    void hkMemoryTrackStreamWriter_clear();
 };
 
 // @fnv 0x00d46b20
-void FUN_00d46b20_cls::FUN_00d46b20()
+// src: HAVOK_SRC 0x00d46b20
+void FUN_00d46b20_cls::hkMemoryTrackStreamWriter_clear()
 {
     m_08->Run();
 }
@@ -121,11 +122,12 @@ struct FUN_00d46c80_cls
     int unk08;
     int m_0c;
 
-    void FUN_00d46c80(int aiDelta);
+    void hkMemoryTrackStreamReader_skip(int aiDelta);
 };
 
 // @fnv 0x00d46c80
-void FUN_00d46c80_cls::FUN_00d46c80(int aiDelta)
+// src: HAVOK_LIB 0x00d46c80
+void FUN_00d46c80_cls::hkMemoryTrackStreamReader_skip(int aiDelta)
 {
     m_0c += aiDelta;
 }
@@ -166,7 +168,7 @@ struct FNVWriter
     unsigned char allowRestricted;
 };
 extern int DAT_010cc460;
-extern unsigned int __cdecl FUN_00d06f80(void*, unsigned int);
+extern unsigned int __cdecl hkStatisticsCollector_getAllocatedSize(void*, unsigned int);
 struct FUN_00d46770_cls
 {
     int unk00;
@@ -185,7 +187,7 @@ void FUN_00d46770_cls::WriteBufferToWriter(FNVWriter* writer, int unused)
         if ((flags & 0x80000000u) == 0 || writer->allowRestricted)
         {
             void* data = b->m_data;
-            unsigned int limit = FUN_00d06f80(data, flags & 0x3fffffff);
+            unsigned int limit = hkStatisticsCollector_getAllocatedSize(data, flags & 0x3fffffff);
             writer->method14(3, &DAT_010cc460, b->m_data, b->m_iElementCount, limit);
         }
     }
@@ -300,10 +302,11 @@ struct FUN_00d46ca0_Class
     int unk00, unk04;
     Counters* counters;
     int position;
-    State FUN_00d46ca0();
+    State hkMemoryTrackStreamReader_isOk();
 };
 // @fnv 0x00d46ca0
-State FUN_00d46ca0_Class::FUN_00d46ca0()
+// src: HAVOK_LIB 0x00d46ca0
+State FUN_00d46ca0_Class::hkMemoryTrackStreamReader_isOk()
 {
     State result;
     result.status = position <= (counters->length - 1) * counters->step + counters->base;
@@ -391,12 +394,13 @@ class hkStreamD467
     hkBufferD467* m_buffer;
     int m_offset;
 
-    int FUN_00d46710(void* dst, int n);
+    int hkMemoryTrackStreamReader_read(void* dst, int n);
 };
 
 // Reads up to n bytes from the stream buffer into dst, advancing m_offset, and returns the number of bytes actually read.
 // @fnv 0x00d46710
-int hkStreamD467::FUN_00d46710(void* apBuffer, int aiCount)
+// src: HAVOK_LIB 0x00d46710
+int hkStreamD467::hkMemoryTrackStreamReader_read(void* apBuffer, int aiCount)
 {
     if (IsStreamValid())
     {
@@ -542,7 +546,7 @@ struct V46a50Elem
 struct V46a50Owner
 {
     void doElem(V46a50Elem* e, int n);
-    void FUN_00d46a50(struct V46a50List* l);
+    void hkMemoryTrack_appendByMove(struct V46a50List* l);
 };
 struct V46a50List
 {
@@ -556,7 +560,8 @@ struct V46a50List
 
 // Processes each stored element with doElem and heap v08, then releases the array buffer and resets the list.
 // @fnv 0x00d46a50
-void V46a50Owner::FUN_00d46a50(V46a50List* apList)
+// src: HAVOK_LIB 0x00d46a50
+void V46a50Owner::hkMemoryTrack_appendByMove(V46a50List* apList)
 {
     int n = apList->m_iElementCount;
     for (int i = 0; i < n - 1; i++)

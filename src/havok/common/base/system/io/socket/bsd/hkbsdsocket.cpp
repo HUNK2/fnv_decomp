@@ -46,12 +46,13 @@ void* __thiscall hkBsdSocket::InitWithParam(int param)
     *(void**)this = &DAT_010d5030;
     m_pSocket = param;
     if (param == -1)
-        FUN_00da2de0();
+        createSocket();
     return this;
 }
 
 // @fnv 0x00da2db0
-bool* hkBsdSocket::FUN_00da2db0(bool* pOut)
+// src: HAVOK_LIB 0x00da2db0
+bool* hkBsdSocket::isOk_00da2db0(bool* pOut)
 {
     *pOut = (m_pSocket != -1);
     return pOut;
@@ -61,7 +62,8 @@ extern "C" int __stdcall FUN_00ee6d5c(int, int, int, int);
 extern "C" int __cdecl FUN_00ee6d50(void);
 
 // @fnv 0x00da2e60
-int hkBsdSocket::FUN_00da2e60(int a, int b)
+// src: HAVOK_SRC 0x00da2e60
+int hkBsdSocket::write_00da2e60(int a, int b)
 {
     int r;
     if (m_pSocket != -1)
@@ -80,7 +82,8 @@ int hkBsdSocket::FUN_00da2e60(int a, int b)
 int __stdcall FUN_00ee6d4a(int, int, int);
 
 // @fnv 0x00da2de0
-__declspec(noinline) int hkBsdSocket::FUN_00da2de0()
+// src: HAVOK_LIB 0x00da2de0
+__declspec(noinline) int hkBsdSocket::createSocket()
 {
     this->CloseSocket();
 
@@ -92,7 +95,8 @@ __declspec(noinline) int hkBsdSocket::FUN_00da2de0()
 
 extern "C" int __stdcall FUN_00ee6d7a(int, int, int, int);
 // @fnv 0x00da2f90
-bool hkBsdSocket::FUN_00da2f90(int aiArg1, int aiArg2, int c)
+// src: HAVOK_LIB 0x00da2f90
+bool hkBsdSocket::asyncSelect(int aiArg1, int aiArg2, int c)
 {
     return FUN_00ee6d7a(m_pSocket, aiArg1, aiArg2, ((c & 3) | ((c & 0xc) << 2))) != 0;
 }
@@ -219,7 +223,8 @@ extern "C" int __stdcall FUN_00ee6d68(const char*);
 extern "C" int __stdcall FUN_00ee6d62(int, void*, int);
 extern "C" int __cdecl FUN_00ee6d50(void);
 
-static __declspec(noinline) bool* FUN_00da2eb0(int c, bool* out)
+// src: HAVOK_LIB 0x00da2eb0
+static __declspec(noinline) bool* hkIsDigit(int c, bool* out)
 {
     *out = false;
     if (c >= '0' && c <= '9')
@@ -238,7 +243,8 @@ struct HostEntry
 
 // Resolves the host to an IPv4 address, ensures a socket exists, and calls the connection routine with the address and port.
 // @fnv 0x00da2ec0
-int hkBsdSocket::FUN_00da2ec0(const char* host, int port)
+// src: HAVOK_LIB 0x00da2ec0
+int hkBsdSocket::connect(const char* host, int port)
 {
     // Word storage preserves the original stack protection with the shared sin_zero character array.
     unsigned int targetStorage[sizeof(sockaddr_in) / sizeof(unsigned int)];
@@ -247,7 +253,7 @@ int hkBsdSocket::FUN_00da2ec0(const char* host, int port)
     target.sin_family = 2;
     target.sin_port = (unsigned short)FUN_00ee6d74(port);
 
-    if (*FUN_00da2eb0(host[0], (bool*)&port))
+    if (*hkIsDigit(host[0], (bool*)&port))
     {
         target.sin_addr.S_un.S_addr = FUN_00ee6d6e(host);
     }
@@ -259,7 +265,7 @@ int hkBsdSocket::FUN_00da2ec0(const char* host, int port)
         FUN_00cb1260(&target.sin_addr.S_un.S_addr, pHostEntry->addresses[0], pHostEntry->address_length);
     }
 
-    if (m_pSocket == -1 && FUN_00da2de0())
+    if (m_pSocket == -1 && createSocket())
         return 1;
     int iResult = FUN_00ee6d62(m_pSocket, &target, sizeof(target));
     if (iResult != -1)
@@ -287,9 +293,10 @@ typedef hkOstream& (__thiscall *AppendSocketHostMethod)(hkOstream*, const hkStri
 
 // Binds the socket to the given port, sets it to listen with backlog 2, and logs the host name and port.
 // @fnv 0x00da30d0
-int hkBsdSocket::FUN_00da30d0(int iPort) throw()
+// src: HAVOK_LIB 0x00da30d0
+int hkBsdSocket::listen_00da30d0(int iPort) throw()
 {
-    if (FUN_00da2de0() != 0)
+    if (createSocket() != 0)
         return 1;
 
     // Word storage preserves the original stack protection with the shared sin_zero character array.

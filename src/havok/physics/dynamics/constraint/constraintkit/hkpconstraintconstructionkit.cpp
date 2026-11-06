@@ -108,11 +108,12 @@ struct FUN_00d52140_cls
     unsigned char m_19;
     int FUN_00d52000(hkVector4* t);
     void FUN_00d520a0(hkVector4* t);
-    int FUN_00d52140(char* a1, char* a2, const LocalM128* a3);
+    int hkpConstraintConstructionKit_setPivotsHelper(char* a1, char* a2, const LocalM128* a3);
 };
 
 // @fnv 0x00d52140
-int FUN_00d52140_cls::FUN_00d52140(char* a1, char* a2, const LocalM128* a3)
+// src: HAVOK_LIB 0x00d52140
+int FUN_00d52140_cls::hkpConstraintConstructionKit_setPivotsHelper(char* a1, char* a2, const LocalM128* a3)
 {
     hkVector4 t1;
     hkVector4 t2;

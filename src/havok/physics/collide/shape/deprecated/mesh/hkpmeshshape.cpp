@@ -151,14 +151,14 @@ hkUint32 MeshTriangleKeyCursor::GetNextNonDegenerateTriangleKey(hkUint32 auiKey)
 
 extern const hkClass DAT_01269198;
 
-int __cdecl FUN_00d06f80(const void* pvChunk, int iNumBytes) throw();
+int __cdecl hkStatisticsCollector_getAllocatedSize(const void* pvChunk, int iNumBytes) throw();
 
 template <class T> __forceinline void addArray(hkStatisticsCollector* collector, const char* name, const hkArray<T>& array)
 {
     if ((array.m_iCapacityState & 0x80000000) == 0 || collector->m_reportInplaceAllocations)
     {
         const T* data = array.m_data;
-        int allocated = FUN_00d06f80(data, array.getCapacity() * sizeof(T));
+        int allocated = hkStatisticsCollector_getAllocatedSize(data, array.getCapacity() * sizeof(T));
         collector->AddMemoryChunk(3, name, array.m_data, array.GetLogicalSize() * sizeof(T), allocated);
     }
 }

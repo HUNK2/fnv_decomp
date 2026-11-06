@@ -223,7 +223,7 @@ void* BSSimpleList_Ragdoll::FUN_006310e0()
 
 struct UnkCall
 {
-    void __thiscall FUN_00c9c1d0();
+    void __thiscall activate_00c9c1d0();
 };
 struct VList
 {
@@ -260,13 +260,13 @@ struct FUN_00631100_shell
 // @fnv 0x00631100
 void __thiscall FUN_00631100_shell::FUN_00631100(float afValue, int aiValue)
 {
-    ((UnkCall*)this)->FUN_00c9c1d0();
+    ((UnkCall*)this)->activate_00c9c1d0();
     ((VList*)((TESDataHandler*)this)->GetBGSRagdollList())->Target(afValue, aiValue);
 }
 
 struct FUN_00c9c1d0_shell
 {
-    void __thiscall FUN_00c9c1d0();
+    void __thiscall activate_00c9c1d0();
 };
 struct ListCall00631140
 {
@@ -302,7 +302,7 @@ struct FUN_00631140_shell
 // @fnv 0x00631140
 void __thiscall FUN_00631140_shell::FUN_00631140(float afValue, int aiArg1, int aiArg2)
 {
-    ((FUN_00c9c1d0_shell*)this)->FUN_00c9c1d0();
+    ((FUN_00c9c1d0_shell*)this)->activate_00c9c1d0();
     ((ListCall00631140*)((TESDataHandler*)this)->GetBGSRagdollList())->Target(afValue, aiArg1, aiArg2);
 }
 

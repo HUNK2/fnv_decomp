@@ -91,7 +91,7 @@ struct CharacterBufferState
     void* owner;
 };
 extern CharacterBufferState* FUN_00c85750();
-extern void FUN_00c908c0(void* owner, hkArrayBase<void*>* arr, int newCap, int stride);
+extern void hkArrayUtil__reserve(void* owner, hkArrayBase<void*>* arr, int newCap, int stride);
 extern int PackBytesBigEndian(int a, int b, int c, int d);
 struct Renderer
 {
@@ -276,7 +276,7 @@ struct Cls
     int unk280;
     void FUN_00de6730(Input* a0, Renderer* a1, int a2, int a3);
     void FUN_00de47e0(void* a0, void* b, void* c);
-    void FUN_00de44c0(int a2, int a3);
+    void hkpConstraintDrawer_drawPivots(int a2, int a3);
     void FUN_00de5370(float angle, float scale, int flags, void* point, void* source);
     void SetFromVectors(void* a, void* b, void* c, void* d);
 };
@@ -373,7 +373,7 @@ __forceinline void drawGroups(Cls* self, Renderer* a1, int a2, int a3, Cls* obje
             nc = cap * 2;
             if (nc <= 1)
                 nc = 1;
-            FUN_00c908c0(owner, &zeroArray, nc, 4);
+            hkArrayUtil__reserve(owner, &zeroArray, nc, 4);
         }
         zeroArray.m_iElementCount = 1;
     }
@@ -390,7 +390,7 @@ __forceinline void drawGroups(Cls* self, Renderer* a1, int a2, int a3, Cls* obje
             nc = cap * 2;
             if (nc <= 1)
                 nc = 1;
-            FUN_00c908c0(owner, &threeArray, nc, 4);
+            hkArrayUtil__reserve(owner, &threeArray, nc, 4);
         }
         threeArray.m_iElementCount = 1;
     }
@@ -407,7 +407,7 @@ __forceinline void drawGroups(Cls* self, Renderer* a1, int a2, int a3, Cls* obje
             nc = cap * 2;
             if (nc <= 2)
                 nc = 2;
-            FUN_00c908c0(owner, &halfArray, nc, 4);
+            hkArrayUtil__reserve(owner, &halfArray, nc, 4);
         }
         halfArray.m_iElementCount = 2;
     }
@@ -472,7 +472,7 @@ void Cls::FUN_00de6730(Input* a0, Renderer* a1, int a2, int a3)
     Vec4* object50 = (Vec4*)(&unk50);
     object50->FUN_00c7f640((const Buf40*)&geometry.tD0, &srcHome->body.rows50[3]);
     ((Vec4*)(&unk40))->FUN_00c7f640((const Buf40*)&geometry.t110, &srcHome->body.rows10[3]);
-    FUN_00de44c0(a2, a3);
+    hkpConstraintDrawer_drawPivots(a2, a3);
 
     SourceView* src = &srcHome->body;
     prepareAxes(this, src, geometry);

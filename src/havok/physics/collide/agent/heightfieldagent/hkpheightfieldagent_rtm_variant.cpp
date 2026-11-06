@@ -41,9 +41,9 @@ struct FUN_00d32060_Class {
     FUN_00d32060_Class* Init(const SourceRef& src, int b, int c, int flag);
 };
 extern void __cdecl FUN_00d319e0(void*, void*, void*, void*);
-void __stdcall FUN_00d32170(void* apArg1, void* apArg2, void* apArg3, void* apArg4);
+void __stdcall hkpHeightFieldAgent_getClosestPoints(void* apArg1, void* apArg2, void* apArg3, void* apArg4);
 typedef void (*S_00d321e0_Func)();
-void FUN_00d32190();
+void hkpHeightFieldAgent_createHeightFieldAAgent();
 void FUN_00d32370();
 void FUN_00d323b0();
 void FUN_00d323f0();
@@ -102,13 +102,15 @@ struct Owner {
 extern "C" void __cdecl FUN_00d31d30(void* arg0, void* arg1, void* arg2, void* arg3, void* arg4);
 // Forwards all five arguments unchanged to FUN_00d31d30.
 // @fnv 0x00d32030
-extern "C" void __stdcall FUN_00d32030(void* arg0, void* arg1, void* arg2, void* arg3, void* arg4)
+// src: HAVOK_SRC 0x00d32030
+extern "C" void __stdcall hkpHeightFieldAgent_linearCast(void* arg0, void* arg1, void* arg2, void* arg3, void* arg4)
 {
     FUN_00d31d30(arg0, arg1, arg2, arg3, arg4);
 }
 extern "C" void __cdecl FUN_00d317d0(void* arg0, void* arg1, void* arg2, void* arg3);
 // @fnv 0x00d32150
-extern "C" void __stdcall FUN_00d32150(void* arg0, void* arg1, void* arg2, void* arg3)
+// src: HAVOK_SRC 0x00d32150
+extern "C" void __stdcall hkpHeightFieldAgent_getPenetrations(void* arg0, void* arg1, void* arg2, void* arg3)
 {
     FUN_00d317d0(arg0, arg1, arg2, arg3);
 }

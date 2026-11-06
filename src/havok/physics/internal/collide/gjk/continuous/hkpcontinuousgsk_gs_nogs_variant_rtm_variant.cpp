@@ -708,10 +708,10 @@ class ConvexShapePairCache
     {
         return FUN_00daad40(shapeA, shapeB, aTb, separatingNormal);
     }
-    void FUN_00da9790(ConvexFeaturePairCache& cache) const;
+    void hkpGsk_exitAndExportCacheImpl(ConvexFeaturePairCache& cache) const;
     __forceinline void WriteContactFeatureCache(ConvexFeaturePairCache& cache) const
     {
-        FUN_00da9790(cache);
+        hkpGsk_exitAndExportCacheImpl(cache);
     }
     __forceinline void checkForChangesAndUpdateCache(ConvexFeaturePairCache& cache) const
     {

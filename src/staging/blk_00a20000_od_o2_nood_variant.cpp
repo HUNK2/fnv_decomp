@@ -6010,11 +6010,12 @@ struct Spl_a28060_Key
 };
 extern int DAT_011a7ed4;
 extern float DAT_011f3658;
-void __cdecl FUN_00a27d60(float t, Spl_a28060_Key* a, Spl_a28060_Key* b, Spl_a28060_Pt* out);
-void __cdecl FUN_00a27e40(float t, Spl_a28060_Key* a, Spl_a28060_Key* b, Spl_a28060_Pt* out);
+void __cdecl NiBezPosKey_InterpolateD1(float t, Spl_a28060_Key* a, Spl_a28060_Key* b, Spl_a28060_Pt* out);
+void __cdecl NiBezPosKey_InterpolateD2(float t, Spl_a28060_Key* a, Spl_a28060_Key* b, Spl_a28060_Pt* out);
 
 // @fnv 0x00a28060
-float __cdecl FUN_00a28060(Spl_a28060_Key* keys, int count)
+// src: GAMEBRYO_LIB 0x00a28060
+float __cdecl NiBezPosKey_ComputeMaxCurvature(Spl_a28060_Key* keys, int count)
 {
     float fScaledValue = 0.0f;
     for (unsigned int i = 0; i < (unsigned int)(count - 1); i++)
@@ -6025,8 +6026,8 @@ float __cdecl FUN_00a28060(Spl_a28060_Key* keys, int count)
         {
             float t = j * DAT_011f3658;
             Spl_a28060_Pt d1, d2;
-            FUN_00a27d60(t, a, b, &d1);
-            FUN_00a27e40(t, a, b, &d2);
+            NiBezPosKey_InterpolateD1(t, a, b, &d1);
+            NiBezPosKey_InterpolateD2(t, a, b, &d2);
             float v = d1.Cross(d2).Length() / d1.SqrLength();
             if (v > fScaledValue)
                 fScaledValue = v;
@@ -6080,10 +6081,11 @@ struct Spl_a2b6d0_Key
 extern int DAT_011a7ed4;
 extern float DAT_011f3658;
 void __cdecl ComputeInterpolatedPosition(float t, Spl_a2b6d0_Key* a, Spl_a2b6d0_Key* b, Spl_a2b6d0_Pt* out);
-void __cdecl FUN_00a2b130(float t, Spl_a2b6d0_Key* a, Spl_a2b6d0_Key* b, Spl_a2b6d0_Pt* out);
+void __cdecl NiTCBPosKey_InterpolateD2(float t, Spl_a2b6d0_Key* a, Spl_a2b6d0_Key* b, Spl_a2b6d0_Pt* out);
 
 // @fnv 0x00a2b6d0
-float __cdecl FUN_00a2b6d0(Spl_a2b6d0_Key* keys, int count)
+// src: GAMEBRYO_LIB 0x00a2b6d0
+float __cdecl NiTCBPosKey_ComputeMaxCurvature(Spl_a2b6d0_Key* keys, int count)
 {
     float fScaledValue = 0.0f;
     for (unsigned int i = 0; i < (unsigned int)(count - 1); i++)
@@ -6095,7 +6097,7 @@ float __cdecl FUN_00a2b6d0(Spl_a2b6d0_Key* keys, int count)
             float t = j * DAT_011f3658;
             Spl_a2b6d0_Pt d1, d2;
             ComputeInterpolatedPosition(t, a, b, &d1);
-            FUN_00a2b130(t, a, b, &d2);
+            NiTCBPosKey_InterpolateD2(t, a, b, &d2);
             float v = d1.Cross(d2).Length() / d1.SqrLength();
             if (v > fScaledValue)
                 fScaledValue = v;

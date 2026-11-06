@@ -36,10 +36,10 @@ struct CommandRecord
 };
 
 void FUN_00cb3da0(int, CommandObject*);
-void FUN_00cb3c80(int, CommandObject*);
+void hkpWorldOperationUtil_addConstraintToCriticalLockedIsland(int, CommandObject*);
 static __declspec(noinline) void SetOwnerStateFlags(int a, CommandObject* x, int b)
 {
-    FUN_00cb3c80(a, x);
+    hkpWorldOperationUtil_addConstraintToCriticalLockedIsland(a, x);
     x->state30->flags12 |= (unsigned char)b;
 }
 
@@ -49,7 +49,8 @@ static __forceinline void AddFwd(int a, const volatile int& y, CommandObject* x)
 }
 // Iterates a range of CommandRecord entries and dispatches each by tag to AddFwd or FUN_00cb3da0, stopping on an unknown tag.
 // @fnv 0x00df25f0
-void FUN_00df25f0(int aiContext, CommandRecord* apRecords, int c)
+// src: HAVOK_LIB 0x00df25f0
+void hkPhysicsCommandMachineProcess(int aiContext, CommandRecord* apRecords, int c)
 {
     CommandRecord* pEnd = (CommandRecord*)((char*)apRecords + c);
     if (apRecords < pEnd)

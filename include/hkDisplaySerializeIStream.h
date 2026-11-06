@@ -12,11 +12,11 @@ class hkDisplaySerializeIStream : public hkIArchive
 public:
     virtual ~hkDisplaySerializeIStream();
 
-    void FUN_00dd8fe0(void* buf, int elemSize, int numElems);
+    void hkIArchive_readArrayGeneric(void* buf, int elemSize, int numElems);
     void FUN_00ddac80(hkTransform* target);
     void FUN_00ddac80(hkTransform& t);
-    void FUN_00ddac60(hkVector4& v);
-    void FUN_00ddacd0(hkGeometry* geom);
+    void readQuadVector4(hkVector4& v);
+    void readGeometry(hkGeometry* geom);
     void FUN_00ddada0(hkDisplayGeometry*& geometry);
 
     signed char readInt8();

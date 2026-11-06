@@ -212,7 +212,8 @@ struct FUN_00e91ea0_cls
     NiConsoleRendererStub* renderer;
 };
 // @fnv 0x00e91ea0
-void __fastcall FUN_00e91ea0(FUN_00e91ea0_cls* self, int)
+// src: GAMEBRYO_LIB 0x00e91ea0
+void __fastcall NiD3DShaderFactory_PurgeAllShaderRendererData(FUN_00e91ea0_cls* self, int)
 {
     if (self->renderer)
         self->renderer->FUN_00e75380();
@@ -249,7 +250,7 @@ void* __cdecl FUN_00e91f10()
 }
 
 namespace fnv_00e91f20 {
-extern char* FUN_00e92fe0();
+extern char* NiD3D10ShaderProgramFactory_GetFirstProgramDirectory();
 struct FUN_00e91f20_shell : public NiD3DShaderFactory
 {
     char* FUN_00e91f20(void**);
@@ -265,7 +266,7 @@ char* FUN_00e91f20_shell::FUN_00e91f20(void** kIter)
         return 0;
     // The shared factory does not yet declare the first-name lookup.
     typedef char* (__thiscall* GetFirstName)(NiD3DShaderProgramFactory*, void**);
-    return reinterpret_cast<GetFirstName>(&FUN_00e92fe0)(pkSPFactory, kIter);
+    return reinterpret_cast<GetFirstName>(&NiD3D10ShaderProgramFactory_GetFirstProgramDirectory)(pkSPFactory, kIter);
 }
 }  // namespace fnv_00e91f20
 
@@ -328,7 +329,8 @@ struct FUN_00e92460_cls
     ShaderMapBase* map;
 };
 // @fnv 0x00e92460
-void __fastcall FUN_00e92460(FUN_00e92460_cls* self, int)
+// src: GAMEBRYO_LIB 0x00e92460
+void __fastcall NiD3DShaderFactory_RemoveAllShaders(FUN_00e92460_cls* self, int)
 {
     if (self->map)
         self->map->RemoveAll();
@@ -501,7 +503,7 @@ void* __thiscall FUN_00e92e30_shell::DestroyShaderFactory(unsigned int flags)
 struct GraphicsRenderer;
 struct FUN_00e91e60_shell : public NiD3DShaderFactory
 {
-    void FUN_00e91e60(GraphicsRenderer*);
+    void NiD3DShaderFactory_SetRenderer(GraphicsRenderer*);
 };
 
 struct ShaderConstantInterface
@@ -535,7 +537,8 @@ struct FakeFactory374
     virtual ShaderConstantInterface* GetPixelShaderConstantInterface();
 };
 // @fnv 0x00e91e60
-void FUN_00e91e60_shell::FUN_00e91e60(GraphicsRenderer* pkRenderer)
+// src: GAMEBRYO_SRC 0x00e91e60
+void FUN_00e91e60_shell::NiD3DShaderFactory_SetRenderer(GraphicsRenderer* pkRenderer)
 {
     ShaderConstantInterface* pkLibrary;
     if (*(GraphicsRenderer**)((char*)this + 0x24) != pkRenderer)
@@ -857,11 +860,12 @@ struct ShaderRenderer
 };
 struct ShaderFactoryShell : NiD3DShaderFactory
 {
-    void FUN_00e92470();
+    void NiD3DShaderFactory_RestoreAllShaderRendererData();
 };
 // Iterates the shader library map and, for each non-default shader, releases its resources and notifies the renderer.
 // @fnv 0x00e92470
-void ShaderFactoryShell::FUN_00e92470()
+// src: GAMEBRYO_SRC 0x00e92470
+void ShaderFactoryShell::NiD3DShaderFactory_RestoreAllShaderRendererData()
 {
     if (m_pOwnerShader && m_pShaderMapStorage)
     {
@@ -926,7 +930,7 @@ struct ReferenceObject_92c40
 };
 struct FUN_00e92c40_shell : NiD3DShaderFactory
 {
-    ShaderLibrary_92c40* FUN_00e92b50();
+    ShaderLibrary_92c40* NiD3DShaderFactory_GetFirstLibrary();
     void FUN_00e92c40();
 };
 // @fnv 0x00e92c40
@@ -934,7 +938,7 @@ void FUN_00e92c40_shell::FUN_00e92c40()
 {
     if (!m_pShaderLibraryStorage)
         return;
-    ShaderLibrary_92c40* current = FUN_00e92b50();
+    ShaderLibrary_92c40* current = NiD3DShaderFactory_GetFirstLibrary();
     if (current)
     {
         do
@@ -1006,10 +1010,11 @@ struct RetainedShaderLibraryArgument
 
 struct ShaderFactory_e92a40 : NiD3DShaderFactory
 {
-    void FUN_00e92a40(FUN_00d47a30_class* p);
+    void NiD3DShaderFactory_InsertLibrary(FUN_00d47a30_class* p);
 };
 // @fnv 0x00e92a40
-void ShaderFactory_e92a40::FUN_00e92a40(FUN_00d47a30_class* p)
+// src: GAMEBRYO_LIB 0x00e92a40
+void ShaderFactory_e92a40::NiD3DShaderFactory_InsertLibrary(FUN_00d47a30_class* p)
 {
     if (p)
     {
@@ -1021,13 +1026,13 @@ void ShaderFactory_e92a40::FUN_00e92a40(FUN_00d47a30_class* p)
     }
 }
 
-extern "C" void __cdecl FUN_00aa10f0(void*);
+extern "C" void __cdecl _NiFree_00aa10f0(void*);
 
 template <>
 __forceinline NiTMapBase<NiTPointerAllocator<unsigned int>, const char*, NiPointer<NiShaderLibrary> >::~NiTMapBase() throw()
 {
     RemoveAll();
-    FUN_00aa10f0(m_ppkHashTable);
+    _NiFree_00aa10f0(m_ppkHashTable);
 }
 
 template <>
@@ -1050,7 +1055,7 @@ NiTStringTemplateMap<NiTPointerMap<const char*, NiPointer<NiShaderLibrary> >,
             {
                 EntryType* current = item;
                 item = item->m_pkNext;
-                FUN_00aa10f0(const_cast<char*>(current->m_key));
+                _NiFree_00aa10f0(const_cast<char*>(current->m_key));
             }
         }
     }
@@ -1191,11 +1196,12 @@ class ShaderFactoryView
     unsigned int unk28;
     void* m_pShaderLibraryIterator;
     ShaderLibraryMapBase* m_pShaderLibraryStorage;
-    ShaderRefObject* FUN_00e92b50();
+    ShaderRefObject* NiD3DShaderFactory_GetFirstLibrary();
 };
 // Resets the iterator to the first map position, advances it once, releases the returned object's reference, and returns that pointer.
 // @fnv 0x00e92b50
-ShaderRefObject* ShaderFactoryView::FUN_00e92b50()
+// src: GAMEBRYO_LIB 0x00e92b50
+ShaderRefObject* ShaderFactoryView::NiD3DShaderFactory_GetFirstLibrary()
 {
     ShaderLibraryMapBase* map = m_pShaderLibraryStorage;
     if (!map)
@@ -1243,7 +1249,7 @@ struct S_00e92be0_Factory
     int unk2c;
     ShaderLibraryMapBase* unk30;
 
-    S_00e92be0_Ref* FUN_00e92be0();
+    S_00e92be0_Ref* NiD3DShaderFactory_GetNextLibrary();
 };
 
 void S_00e92be0_Ref::f0()
@@ -1254,7 +1260,8 @@ void S_00e92be0_Ref::f1()
 
 // Calls unk30->AdvanceIterator to fetch the next S_00e92be0_Ref, decrements its reference count, and returns the object or null.
 // @fnv 0x00e92be0
-S_00e92be0_Ref* S_00e92be0_Factory::FUN_00e92be0()
+// src: GAMEBRYO_LIB 0x00e92be0
+S_00e92be0_Ref* S_00e92be0_Factory::NiD3DShaderFactory_GetNextLibrary()
 {
     ShaderLibraryMapBase* callee = unk30;
     if (callee != 0 && unk2c != 0)

@@ -35,7 +35,7 @@ bool __fastcall SupportsBoolInterpolator(NiBlendBoolInterpolator* self, int, NiI
     return interpolator->IsBoolValueSupported();
 }
 
-void __fastcall FUN_00a36890(void* pThis);
+void __fastcall NiBlendInterpolator_NiBlendInterpolator(void* pThis);
 extern int DAT_0109a67c;
 
 // @fnv 0x00a565c0
@@ -45,7 +45,7 @@ void* __cdecl NiBlendBoolInterpolator_CreateObject()
     void* p = BSFadeNode::operator new(0x34);
     if (p)
     {
-        FUN_00a36890(p);
+        NiBlendInterpolator_NiBlendInterpolator(p);
         *reinterpret_cast<void**>(p) = &DAT_0109a67c;
         reinterpret_cast<unsigned char*>(p)[0x30] = DAT_0109a914;
         return p;
@@ -111,7 +111,7 @@ NiBlendBoolInterpolator* __fastcall CloneBoolInterpolator(NiBlendBoolInterpolato
         BSFadeNode::operator new(sizeof(NiBlendBoolInterpolator)));
     if (object)
     {
-        FUN_00a36890(object);
+        NiBlendInterpolator_NiBlendInterpolator(object);
         *reinterpret_cast<void**>(object) = &DAT_0109a67c;
         object->m_bBoolValue = DAT_0109a914;
     }

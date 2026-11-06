@@ -16022,7 +16022,7 @@ struct Query93
 
     Query93();
     ~Query93();
-    void FUN_0062d310();
+    void reset_0062d310();
     Results93* FUN_00413f40();
 };
 struct Base93
@@ -16363,7 +16363,7 @@ void Owner93::UpdateSelectionTimer(Actor* actor)
         Transform93 result33 = base7.FUN_0062c250(transform82);
         node.FUN_00559450()->FUN_0056df20(*(const NiTransform*)&result33);
         Query93 query20;
-        query20.FUN_0062d310();
+        query20.reset_0062d310();
         node.FUN_00559450()->FUN_00623150(&query20);
         int count100 = query20.FUN_00413f40()->FUN_00726070();
         for (int i = 0; i < count100; i++)

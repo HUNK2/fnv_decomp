@@ -9,7 +9,7 @@
 #include "../../../../../include/hkTransform.h"
 
 struct hkMemoryAllocator;
-__declspec(nothrow) void __cdecl FUN_00c908c0(hkMemoryAllocator& alloc, void* arr, int numElem, int sizeElem);
+__declspec(nothrow) void __cdecl hkArrayUtil__reserve(hkMemoryAllocator& alloc, void* arr, int numElem, int sizeElem);
 typedef hkArray<hkVector4> hkVector4Array;
 struct hkBoxGeometry
 {
@@ -124,7 +124,7 @@ template <class T> struct BoxBuild2190MatchArrayLocalForm
         {
             int doubled = cap * 2;
             int desired = n < doubled ? doubled : n;
-            FUN_00c908c0(alloc, this, desired, sizeof(T));
+            hkArrayUtil__reserve(alloc, this, desired, sizeof(T));
         }
     }
     __forceinline T* append(hkMemoryAllocator& alloc)
@@ -153,11 +153,12 @@ struct BoxBuild2190BoxShell
     int unk58;
     int unk5c;
     hkVector4 m_vHalfExtents;
-    void FUN_00de2190();
+    void hkDisplayBox_buildGeometry();
 };
 
 // @fnv 0x00de2190
-void BoxBuild2190BoxShell::FUN_00de2190()
+// src: HAVOK_SRC 0x00de2190
+void BoxBuild2190BoxShell::hkDisplayBox_buildGeometry()
 {
     BoxBuild2190Router* router = FUN_00c85750();
     BoxBuild2190Geom* mem = (BoxBuild2190Geom*)router->m_10->alloc(sizeof(BoxBuild2190Geom));

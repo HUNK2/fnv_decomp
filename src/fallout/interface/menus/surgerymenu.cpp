@@ -2472,7 +2472,7 @@ class DirectionManager
 class DirectionRoot
 {
   public:
-    DirectionManager* FUN_00a5c570(const NiRTTI* pkRTTI);  // GetController
+    DirectionManager* NiObjectNET_GetController(const NiRTTI* pkRTTI);  // GetController
 };
 
 struct DirectionSceneOwner
@@ -2500,7 +2500,7 @@ void DirectionAnimator::SetDirection(int iDirection)
     m_iDirection = iDirection;
     m_fDirectionBlend = 0.0f;
     DirectionManager* pkController =
-        static_cast<DirectionSceneOwner*>(DAT_011dada4)->m_pkTreeNode->FUN_00a5c570(&DAT_011f36ac);
+        static_cast<DirectionSceneOwner*>(DAT_011dada4)->m_pkTreeNode->NiObjectNET_GetController(&DAT_011f36ac);
     if (pkController)
     {
         DirectionManager* pkManager = pkController;
@@ -3313,7 +3313,7 @@ struct BoneManager
 };
 struct BoneHost
 {
-    BoneManager* FUN_00a5c570(const NiRTTI*);
+    BoneManager* NiObjectNET_GetController(const NiRTTI*);
     void FUN_00a59c60(NiUpdateData&);
 };
 struct BoneEntry;
@@ -3466,7 +3466,7 @@ void __cdecl UpdateBoneWounds(BoneHost* host)
 {
     if (!host)
         return;
-    BoneManager* managerLocal3 = host->FUN_00a5c570(&DAT_011f36ac);
+    BoneManager* managerLocal3 = host->NiObjectNET_GetController(&DAT_011f36ac);
     bool cachedX = true;
     if (managerLocal3)
     {

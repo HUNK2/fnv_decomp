@@ -20,13 +20,13 @@ extern int DAT_01268ffc;
 extern int DAT_01269cd0;
 
 struct FUN_00dd9380_StandIn {
-    int __thiscall FUN_00dd9380(const char* name, void* factory);
+    int __thiscall hkProcessFactory_registerProcess(const char* name, void* factory);
 };
 
 // @fnv 0x00d678c0
 void __cdecl RegisterInertiaTensors()
 {
-    DAT_01268ffc = ((FUN_00dd9380_StandIn*)DAT_01269cd0)->FUN_00dd9380("Inertia Tensors", &FUN_00d67880);
+    DAT_01268ffc = ((FUN_00dd9380_StandIn*)DAT_01269cd0)->hkProcessFactory_registerProcess("Inertia Tensors", &FUN_00d67880);
 }
 
 struct SubObject {
@@ -44,8 +44,8 @@ struct Arg {
     SubObject** m_34;
     int m_38;
 
-    void FUN_00c93820(void* p);
-    void FUN_00c93920(void* p);
+    void hkpWorld_addEntityListener(void* p);
+    void hkpWorld_addWorldPostSimulationListener(void* p);
 };
 
 struct Field28 {
@@ -63,8 +63,8 @@ struct FUN_00d67020_class {
 
 // @fnv 0x00d67020
 void FUN_00d67020_class::VisitSubObjects(Arg* arg) {
-    arg->FUN_00c93820(this ? &field28 : 0);
-    arg->FUN_00c93920(this ? &field2c : 0);
+    arg->hkpWorld_addEntityListener(this ? &field28 : 0);
+    arg->hkpWorld_addWorldPostSimulationListener(this ? &field2c : 0);
 
     for (int i = 0; i < arg->m_2c; ++i) {
         hkArrayBase<void*>* arr = &arg->m_28[i]->arr;
@@ -216,7 +216,7 @@ struct FUN_00d66f30_params {
     int unk48;
     int unk4c;
 
-    void FUN_00c917a0(void* apTarget);
+    void hkpWorld_removeEntityListener(void* apTarget);
     void ClearValue(void* apTarget);
 };
 
@@ -240,7 +240,7 @@ struct FUN_00d66f30_cls {
 // @fnv 0x00d66f30
 void FUN_00d66f30_cls::FUN_00d66f30(FUN_00d66f30_params* apParams)
 {
-    apParams->FUN_00c917a0(this != 0 ? &m_kInner : 0);
+    apParams->hkpWorld_removeEntityListener(this != 0 ? &m_kInner : 0);
     apParams->ClearValue(this != 0 ? &m_iN : 0);
 
     for (int i = 0; i < apParams->m_iItemCount; i++) {
@@ -859,7 +859,7 @@ struct Shape {
     void FUN_00de1fc0();
     void FUN_00de2010(const Vec* dimensions, const Transform* transform);
 };
-void __cdecl FUN_00c908c0(void* allocator, void* array, int capacity, int elementSize);
+void __cdecl hkArrayUtil__reserve(void* allocator, void* array, int capacity, int elementSize);
 template <typename T>
 __forceinline void hkArrayBase<T>::GrowArrayCapacity(hkMemoryAllocator& allocator, int n)
 {
@@ -867,7 +867,7 @@ __forceinline void hkArrayBase<T>::GrowArrayCapacity(hkMemoryAllocator& allocato
     if (capacity < n) {
         int twice = capacity * 2;
         int next = n < twice ? twice : n;
-        FUN_00c908c0(&allocator, this, next, sizeof(T));
+        hkArrayUtil__reserve(&allocator, this, next, sizeof(T));
     }
 }
 inline void destroyShapes(Shape* begin, int count) {

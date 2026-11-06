@@ -6,7 +6,7 @@
 #include "../../../../../include/hkStatisticsCollector.h"
 #include "../../../../../include/hkVector4.h"
 
-int __cdecl FUN_00d06f80(const void* pvChunk, int iNumBytes) throw();
+int __cdecl hkStatisticsCollector_getAllocatedSize(const void* pvChunk, int iNumBytes) throw();
 
 // The shared collector has no addArray template; keep its array reporting helper here.
 template <class T>
@@ -15,7 +15,7 @@ __forceinline void addArray(hkStatisticsCollector* collector, const char* pcName
     if ((kArray.m_iCapacityState & 0x80000000) == 0 || collector->m_reportInplaceAllocations)
     {
         const T* pData = kArray.m_data;
-        int iAllocated = FUN_00d06f80(pData, kArray.getCapacity() * sizeof(T));
+        int iAllocated = hkStatisticsCollector_getAllocatedSize(pData, kArray.getCapacity() * sizeof(T));
         collector->AddMemoryChunk(3, pcName, kArray.m_data, kArray.GetLogicalSize() * sizeof(T), iAllocated);
     }
 }
@@ -45,12 +45,13 @@ class hkObjE39E
     int unk0C;
     hkArray<hkPointSetE39E*> m_kPointSets;
 
-    void FUN_00e39ee0(hkStatisticsCollector* pkCollector, const hkClass* pkClass) const throw();
+    void hkpTyremarksInfo_calcContentStatistics(hkStatisticsCollector* pkCollector, const hkClass* pkClass) const throw();
 };
 
 // For each point set in the array, adds its ray array to the statistics collector under the name "Points".
 // @fnv 0x00e39ee0
-void hkObjE39E::FUN_00e39ee0(hkStatisticsCollector* pkCollector, const hkClass* pkClass) const throw()
+// src: HAVOK_LIB 0x00e39ee0
+void hkObjE39E::hkpTyremarksInfo_calcContentStatistics(hkStatisticsCollector* pkCollector, const hkClass* pkClass) const throw()
 {
     for (int i = 0; i < m_kPointSets.GetLogicalSize(); i++)
         addArray(pkCollector, "Points", m_kPointSets.m_data[i]->m_kPoints);

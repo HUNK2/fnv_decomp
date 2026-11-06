@@ -80,11 +80,12 @@ struct FUN_00e059d0_cls
     int m_0c;
     int unk10;
     int m_14;
-    unsigned char* FUN_00e059d0(unsigned char* supported);
+    unsigned char* hkMemoryStreamReader_setMark(unsigned char* supported);
 };
 
 // @fnv 0x00e059d0
-unsigned char* FUN_00e059d0_cls::FUN_00e059d0(unsigned char* supported)
+// src: HAVOK_LIB 0x00e059d0
+unsigned char* FUN_00e059d0_cls::hkMemoryStreamReader_setMark(unsigned char* supported)
 {
     m_14 = m_0c;
     return 0;
@@ -92,7 +93,8 @@ unsigned char* FUN_00e059d0_cls::FUN_00e059d0(unsigned char* supported)
 
 // FUN_00e05a00: sets the flag byte pointed to by the argument to 1 and returns the argument.
 // @fnv 0x00e05a00
-unsigned char* __stdcall FUN_00e05a00(unsigned char* supported)
+// src: HAVOK_SRC 0x00e05a00
+unsigned char* __stdcall hkMemoryStreamReader_seekTellSupported(unsigned char* supported)
 {
     *supported = 1;
     return supported;
@@ -119,11 +121,12 @@ hkBool MemoryStreamEndState::IsNotAtEnd() const
 
 struct FUN_00e05a10_cls : hkMemoryStreamReader
 {
-    int __thiscall FUN_00e05a10(int arg4, int mode);
+    int __thiscall hkMemoryStreamReader_seek(int arg4, int mode);
 };
 // Computes a new stream position from arg4 and mode, clamps it to [0, m_10], stores it in m_0c and returns whether clamping occurred.
 // @fnv 0x00e05a10
-int __thiscall FUN_00e05a10_cls::FUN_00e05a10(int aiOffset, int mode)
+// src: HAVOK_LIB 0x00e05a10
+int __thiscall FUN_00e05a10_cls::hkMemoryStreamReader_seek(int aiOffset, int mode)
 {
     int edx = -1;
     switch (mode)
@@ -278,12 +281,12 @@ FUN_00e05b40::FUN_00e05b40(void* data, int size, int external) throw()
 
 namespace fnv_00e05bb0 {
 extern "C" hkMemoryRouter* __cdecl FUN_00c85750() throw();
-void __cdecl FUN_00c856c0(hkMemoryAllocator* pAllocator, void* p) throw();
+void __cdecl hkMemoryRouter_easyFree(hkMemoryAllocator* pAllocator, void* p) throw();
 
 inline void hkDeallocateE05B(void* p)
 {
     hkMemoryRouter* r = FUN_00c85750();
-    FUN_00c856c0(r->m_heap, p);
+    hkMemoryRouter_easyFree(r->m_heap, p);
 }
 
 // The data pointer at +0x08 and ownership flag at +0x18 belong to the memory stream.

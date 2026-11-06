@@ -1511,7 +1511,7 @@ void TESObjectCELL::FUN_00552900(bool abAltered)
 
 struct FUN_00c93820_stub
 {
-    void FUN_00c93820(unsigned int);
+    void hkpWorld_addEntityListener(unsigned int);
 };
 struct FUN_006299c0_stub
 {
@@ -1530,7 +1530,7 @@ void FUN_005533f0_cls::FUN_005533f0(unsigned int uiValue)
     if (p)
     {
         ((Script*)this)->GetLocalData();
-        ((FUN_00c93820_stub*)p)->FUN_00c93820(uiValue);
+        ((FUN_00c93820_stub*)p)->hkpWorld_addEntityListener(uiValue);
         ((Script*)this)->GetLocalData();
     }
     sub.FUN_006299c0(&uiValue);
@@ -1539,7 +1539,7 @@ void FUN_005533f0_cls::FUN_005533f0(unsigned int uiValue)
 namespace fnv_00553440 {
 struct ObjX
 {
-    void FUN_00c93a20(int);
+    void hkpWorld_addContactListener(int);
 };
 struct S
 {
@@ -1552,7 +1552,7 @@ void S::FUN_00553440(int aiArg)
     if (o)
     {
         ((Script*)this)->GetLocalData();
-        ((ObjX*)o)->FUN_00c93a20(aiArg);
+        ((ObjX*)o)->hkpWorld_addContactListener(aiArg);
         ((Script*)this)->GetLocalData();
     }
 }
@@ -1568,7 +1568,7 @@ struct FUN_005533f0_stub
 };
 struct FUN_00c93860_stub
 {
-    void FUN_00c93860(char*);
+    void hkpWorld_addPhantomListener(char*);
 };
 struct FUN_00553480_cls
 {
@@ -1584,7 +1584,7 @@ void FUN_00553480_cls::FUN_00553480(char* a)
     if (p)
     {
         ((Script*)this)->GetLocalData();
-        ((FUN_00c93860_stub*)p)->FUN_00c93860(a ? a + 0x14 : 0);
+        ((FUN_00c93860_stub*)p)->hkpWorld_addPhantomListener(a ? a + 0x14 : 0);
         ((Script*)this)->GetLocalData();
     }
     field20 = a;

@@ -88,11 +88,12 @@ template <typename T, typename A> __forceinline hkArray<T, A>::~hkArray()
 
 struct FUN_00e2df60_class
 {
-    int __thiscall FUN_00e2df60(int);
+    int __thiscall hkMemoryResourceContainer_getName(int);
 };
 
 // @fnv 0x00e2df60
-int __thiscall FUN_00e2df60_class::FUN_00e2df60(int)
+// src: HAVOK_SRC 0x00e2df60
+int __thiscall FUN_00e2df60_class::hkMemoryResourceContainer_getName(int)
 {
     return *(int*)((char*)this + 8) & 0xfffffffe;
 }
@@ -115,11 +116,12 @@ int __thiscall FUN_00e2def0_class::InitAndMaybeFree(int flags)
 
 struct FUN_00e2df40_class
 {
-    const char* __thiscall FUN_00e2df40(int);
+    const char* __thiscall hkMemoryResourceHandle_getName(int);
 };
 
 // @fnv 0x00e2df40
-const char* __thiscall FUN_00e2df40_class::FUN_00e2df40(int)
+// src: HAVOK_SRC 0x00e2df40
+const char* __thiscall FUN_00e2df40_class::hkMemoryResourceHandle_getName(int)
 {
     int v = *(const int*)(this + 0xc) & 0xfffffffe;
     return v ? reinterpret_cast<const char*>(v) : "null";
@@ -130,7 +132,8 @@ struct D481D0RefVariant
     const void* GetVariantValue() const;
 };
 // @fnv 0x00e2df20
-const void* __fastcall FUN_00e2df20(char* self, int)
+// src: HAVOK_SRC 0x00e2df20
+const void* __fastcall hkMemoryResourceHandle_getClass(char* self, int)
 {
     return reinterpret_cast<D481D0RefVariant*>(self + 8)->GetVariantValue();
 }
@@ -144,11 +147,12 @@ struct D481D0RefVariant
 
 struct FUN_00e2df30_class
 {
-    void FUN_00e2df30(hkReferencedObject* obj, D481D0Class const* cls);
+    void hkMemoryResourceHandle_setObject(hkReferencedObject* obj, D481D0Class const* cls);
 };
 
 // @fnv 0x00e2df30
-void FUN_00e2df30_class::FUN_00e2df30(hkReferencedObject* obj, D481D0Class const* cls)
+// src: HAVOK_SRC 0x00e2df30
+void FUN_00e2df30_class::hkMemoryResourceHandle_setObject(hkReferencedObject* obj, D481D0Class const* cls)
 {
     ((D481D0RefVariant*)((char*)this + 8))->set(obj, cls);
 }
@@ -197,10 +201,11 @@ struct FUN_00e2ea20_class
     int m_kPointA;
     int m_kPointB;
     hkStringPtr m_h;
-    FUN_00e2ea20_class* FUN_00e2ea20(int a);
+    FUN_00e2ea20_class* hkaMeshBinding_hkaMeshBinding(int a);
 };
 // @fnv 0x00e2ea20
-FUN_00e2ea20_class* FUN_00e2ea20_class::FUN_00e2ea20(int aiValue)
+// src: HAVOK_LIB 0x00e2ea20
+FUN_00e2ea20_class* FUN_00e2ea20_class::hkaMeshBinding_hkaMeshBinding(int aiValue)
 {
     m_p = (int)&DAT_010eb288;
     m_h.hkStringPtr::hkStringPtr(FinishingFlag(aiValue));
@@ -342,7 +347,7 @@ struct FNVEntry
     int unk04;
     unsigned int taggedType;
 };
-int __cdecl FUN_00cb0fa0(const void* filter, const void* tagged);
+int __cdecl hkString_strCmp(const void* filter, const void* tagged);
 struct FNVEntryCollection
 {
     int unk00;
@@ -355,10 +360,11 @@ struct FNVEntryCollection
     FNVEntry** items;
     int count;
 
-    FNVEntry* __thiscall FUN_00e2dfd0(const void* filter, FNVEntry* previous);
+    FNVEntry* __thiscall hkMemoryResourceContainer_findContainerByName(const void* filter, FNVEntry* previous);
 };
 // @fnv 0x00e2dfd0
-FNVEntry* __thiscall FNVEntryCollection::FUN_00e2dfd0(const void* filter, FNVEntry* previous)
+// src: HAVOK_SRC 0x00e2dfd0
+FNVEntry* __thiscall FNVEntryCollection::hkMemoryResourceContainer_findContainerByName(const void* filter, FNVEntry* previous)
 {
     int index = 0;
     FNVEntry** ppSlot = 0;
@@ -369,7 +375,7 @@ FNVEntry* __thiscall FNVEntryCollection::FUN_00e2dfd0(const void* filter, FNVEnt
     for (int next = index; next < count; ++next)
     {
         FNVEntry* item = items[next];
-        if (!filter || !FUN_00cb0fa0(filter, reinterpret_cast<const void*>(item->taggedType & ~1u)))
+        if (!filter || !hkString_strCmp(filter, reinterpret_cast<const void*>(item->taggedType & ~1u)))
         {
             return item;
         }
@@ -397,7 +403,8 @@ struct Entry
 void __stdcall FUN_00e2e2e0(hkArrayBase<Entry*>*);
 hkMemoryRouter* __cdecl FUN_00c85750();
 // @fnv 0x00e2e960
-void __stdcall FUN_00e2e960(int aiValue)
+// src: HAVOK_SRC 0x00e2e960
+void __stdcall hkMemoryResourceContainer_tryToResolveLinks(int aiValue)
 {
     hkArrayBase<Entry*> a;
     a.m_data = 0;
@@ -694,11 +701,12 @@ struct S00e2e3f0_Obj
     int unk0c;
     S00e2e3f0_Pair* m_aiIndexedValues;
     int m_uiItemCount;
-    void FUN_00e2e3f0();
+    void hkMemoryResourceHandle_clearExternalLinks();
 };
 
 // @fnv 0x00e2e3f0
-void S00e2e3f0_Obj::FUN_00e2e3f0()
+// src: HAVOK_SRC 0x00e2e3f0
+void S00e2e3f0_Obj::hkMemoryResourceHandle_clearExternalLinks()
 {
     S00e2e3f0_Pair* p = m_aiIndexedValues;
     int n = m_uiItemCount;
@@ -711,7 +719,7 @@ void S00e2e3f0_Obj::FUN_00e2e3f0()
 }
 
 extern "C" void* __cdecl memcpy(void*, const void*, unsigned int);
-extern "C" int __cdecl FUN_00cb0fa0(const char*, const char*);
+extern "C" int __cdecl hkString_strCmp(const char*, const char*);
 inline const char* hkStringPtr::cString() const
 {
     return reinterpret_cast<const char*>(reinterpret_cast<unsigned int>(m_pcText) & ~1u);
@@ -738,15 +746,16 @@ struct Container839
     int unk00, unk04, unk08, unk0C;
     ResourceStringPair* pairs;
     int size, capacity;
-    void FUN_00e2e430(const char*);
+    void hkMemoryResourceHandle_removeExternalLink(const char*);
 };
 // Finds the pair whose name matches name, destroys its strings, decrements size, and copies the last pair into its slot when needed.
 // @fnv 0x00e2e430
-void Container839::FUN_00e2e430(const char* name)
+// src: HAVOK_SRC 0x00e2e430
+void Container839::hkMemoryResourceHandle_removeExternalLink(const char* name)
 {
     for (int i = 0; i < size; ++i)
     {
-        if (FUN_00cb0fa0(pairs[i].name.cString(), name) == 0)
+        if (hkString_strCmp(pairs[i].name.cString(), name) == 0)
         {
             ResourceStringPair* found = &pairs[i];
             found->value.~hkStringPtr();
@@ -1034,12 +1043,13 @@ struct Container_e2ef
     virtual Resource_e2ef* findResource(const char* name, int flags);
     int unk04, unk08, unk0C, unk10, unk14, unk18;
     hkArray<hkRefPtr_e2ef<Resource_e2ef> > m_kResources;
-    Resource_e2ef* FUN_00e2efe0(const char* name);
+    Resource_e2ef* hkMemoryResourceContainer_createContainer(const char* name);
 };
 
 // Looks up a resource by name, and if missing, allocates one via FUN_00e2eb70, adds it to m_kResources, sets m_parent, and returns it.
 // @fnv 0x00e2efe0
-Resource_e2ef* Container_e2ef::FUN_00e2efe0(const char* name)
+// src: HAVOK_SRC 0x00e2efe0
+Resource_e2ef* Container_e2ef::hkMemoryResourceContainer_createContainer(const char* name)
 {
     Resource_e2ef* found = findResource(name, 0);
     if (found)
@@ -1174,12 +1184,13 @@ struct ExternalLinkHandle : hkResourceHandle
     void* object;
     hkStringPtr name;
     hkArray<ExternalLinkPair> references;
-    void FUN_00e2e040(const char* memberName, const char* externalId);
+    void hkMemoryResourceHandle_addExternalLink(const char* memberName, const char* externalId);
 };
 
 // Appends a new ExternalLinkPair with the given memberName and externalId to the references array, growing capacity if needed.
 // @fnv 0x00e2e040
-void ExternalLinkHandle::FUN_00e2e040(const char* memberName, const char* externalId)
+// src: HAVOK_SRC 0x00e2e040
+void ExternalLinkHandle::hkMemoryResourceHandle_addExternalLink(const char* memberName, const char* externalId)
 {
     hkArray<ExternalLinkPair>* links = &references;
     hkMemoryRouter* router = FUN_00c85750();
@@ -1216,11 +1227,12 @@ struct FUN_00e2ed00_class
     int unk08;
     int unk0c;
     hkArray<ObjQ_e2e9e0*> unk10;
-    ObjQ_e2e9e0* FUN_00e2ed00(void* p0, void* p1, void* p2);
+    ObjQ_e2e9e0* hkMemoryResourceContainer_createResource(void* p0, void* p1, void* p2);
 };
 // Allocates an ObjQ_e2e9e0, initializes it with p0, p1, p2, and appends it to the hkArray<ObjQ_e2e9e0*> array at unk10.
 // @fnv 0x00e2ed00
-ObjQ_e2e9e0* FUN_00e2ed00_class::FUN_00e2ed00(void* p0, void* apArg1, void* apArg2)
+// src: HAVOK_SRC 0x00e2ed00
+ObjQ_e2e9e0* FUN_00e2ed00_class::hkMemoryResourceContainer_createResource(void* p0, void* apArg1, void* apArg2)
 {
     ObjQ_e2e9e0* obj = (ObjQ_e2e9e0*)ResourceHeap(*FUN_00c85750()).AllocateMemoryBlock(0x1c);
     obj->m_usMemSizeAndFlags = 0x1c;

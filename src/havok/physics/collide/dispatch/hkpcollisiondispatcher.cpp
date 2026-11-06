@@ -409,7 +409,7 @@ int FUN_00cfbd60_cls::AddEntry(SrcRec* pSrc, int a2, int a3)
     return idx;
 }
 
-int __cdecl FUN_00d06f80(const void* p, int numBytes);
+int __cdecl hkStatisticsCollector_getAllocatedSize(const void* p, int numBytes);
 
 struct CFBED0ShapeInheritance
 {
@@ -439,7 +439,7 @@ struct CFBED0StatisticsCollector
     {
         if ((array.m_iCapacityState & 0x80000000) == 0 || m_countDontDeallocate)
         {
-            int allocated = FUN_00d06f80(array.m_data, array.getCapacity() * sizeof(CFBED0ShapeInheritance));
+            int allocated = hkStatisticsCollector_getAllocatedSize(array.m_data, array.getCapacity() * sizeof(CFBED0ShapeInheritance));
             AddMemoryChunk(3, fieldName, array.m_data, array.m_iElementCount * sizeof(CFBED0ShapeInheritance), allocated);
         }
     }
@@ -2380,7 +2380,8 @@ static __forceinline CFBF60ShapeInheritance& CFBF60InheritanceArray_AllocatePair
 
 // Removes all entries matching primaryType/alternateType from the inheritance array, then updates inheritance and appends a new entry for the pair.
 // @fnv 0x00cfbf60
-void hkpCollisionDispatcher::FUN_00cfbf60(int primaryType, int alternateType)
+// src: HAVOK_LIB 0x00cfbf60
+void hkpCollisionDispatcher::registerAlternateShapeType(int primaryType, int alternateType)
 {
     for (int i = 0; i < reinterpret_cast<hkArrayBase<CFBF60ShapeInheritance>*>(&m_pShapeInheritance)->m_iElementCount; i++)
     {
@@ -2467,12 +2468,13 @@ struct FUN_00cfc030_cls
     unsigned short unk06;
     unsigned int unk08;
     void Reset_cfb080();
-    FUN_00cfc030_cls* FUN_00cfc030(unsigned int a1, unsigned int v);
+    FUN_00cfc030_cls* hkpCollisionDispatcher_hkpCollisionDispatcher(unsigned int a1, unsigned int v);
 };
 
 // Initializes the object by zeroing arrays, setting up a reference-counted pointer array from v, and initializing a bit rotation sequence.
 // @fnv 0x00cfc030
-FUN_00cfc030_cls* FUN_00cfc030_cls::FUN_00cfc030(unsigned int a1, unsigned int v)
+// src: HAVOK_LIB 0x00cfc030
+FUN_00cfc030_cls* FUN_00cfc030_cls::hkpCollisionDispatcher_hkpCollisionDispatcher(unsigned int a1, unsigned int v)
 {
     *(volatile unsigned short*)&unk06 = 1;
 
@@ -3491,14 +3493,15 @@ struct S00cfb080_State
     int unk1E2C;
     unsigned char* m_apucColor[4];  // 0x1E30
 
-    void FUN_00cfb080();
+    void hkpCollisionDispatcher_resetCreationFunctions();
 };
 
-void __cdecl FUN_00d923b0(S00cfb080_State* pkState);
+void __cdecl hkAgent3Bridge_registerAgent3(S00cfb080_State* pkState);
 
 // Initializes the state by zeroing map arrays, setting color buffers to 100, assigning allocation and notification callbacks, and calling FUN_00d923b0.
 // @fnv 0x00cfb080
-void S00cfb080_State::FUN_00cfb080()
+// src: HAVOK_LIB 0x00cfb080
+void S00cfb080_State::hkpCollisionDispatcher_resetCreationFunctions()
 {
     m_iDirtyA = 1;
     m_iDirtyB = 1;
@@ -3536,7 +3539,7 @@ void S00cfb080_State::FUN_00cfb080()
     m_i16D4 = 0;
     m_pfnNotify = FUN_00cfb070;
     m_i16F0 = 0;
-    FUN_00d923b0(this);
+    hkAgent3Bridge_registerAgent3(this);
     m_bPending = false;
 
     if (m_apucColor[2])
@@ -3803,12 +3806,13 @@ struct Big
     Block blk[7];
     int unk1E20, unk1E24, unk1E28, unk1E2C, unk1E30, unk1E34, unk1E38, unk1E3C;
     float f1e40, f1e44;
-    void FUN_00cfb570(Src* src);
+    void hkpCollisionDispatcher_initCollisionQualityInfo(Src* src);
 };
 
 // Fills the 7 Block entries in blk from src with conditional overrides based on src flags, and fills the 100-byte table with fixed values.
 // @fnv 0x00cfb570
-void Big::FUN_00cfb570(Src* src)
+// src: HAVOK_LIB 0x00cfb570
+void Big::hkpCollisionDispatcher_initCollisionQualityInfo(Src* src)
 {
     Block* b0 = &blk[0];
     f1e44 = src->f08;
@@ -4070,12 +4074,13 @@ struct Cls_cfcba0
     int unk2c;
     unsigned short unk30;
     unsigned short unk32;
-    Cls_cfcba0* FUN_00cfcba0(unsigned short a0, Src_cfcba0* a1, int a2, int a3, int a4, int a5, int a6, int a7, int a8,
+    Cls_cfcba0* hkpManifoldPointAddedEvent_hkpManifoldPointAddedEvent(unsigned short a0, Src_cfcba0* a1, int a2, int a3, int a4, int a5, int a6, int a7, int a8,
                              float a9);
 };
 // Sets fields from parameters, stores a1 in unk24, sets unk32 from a1->unk12 when a1->unk08 is zero, and returns this.
 // @fnv 0x00cfcba0
-Cls_cfcba0* Cls_cfcba0::FUN_00cfcba0(unsigned short a0, Src_cfcba0* a1, int a2, int a3, int a4, int a5, int a6, int a7,
+// src: HAVOK_LIB 0x00cfcba0
+Cls_cfcba0* Cls_cfcba0::hkpManifoldPointAddedEvent_hkpManifoldPointAddedEvent(unsigned short a0, Src_cfcba0* a1, int a2, int a3, int a4, int a5, int a6, int a7,
                                      int a8, float a9)
 {
     unk00 = a4;

@@ -251,8 +251,8 @@ struct StateGroup
     unsigned int countB;
     StateNode* tailB;
     StateNode* FindNodeByKey(unsigned int, bool&);
-    void FUN_00e7efc0(StateNode*);
-    void FUN_00e7ef80(StateNode*);
+    void NiD3DRenderStateGroup_RemoveRSEntryFromSavedList(StateNode*);
+    void NiD3DRenderStateGroup_RemoveRSEntryFromNoSaveList(StateNode*);
     void AddA(StateNode* node)
     {
         if (tailA)
@@ -290,12 +290,12 @@ void StateGroup::SetNodeValue(unsigned int key, unsigned int value, bool target)
         {
             if (currentType)
             {
-                FUN_00e7efc0(node);
+                NiD3DRenderStateGroup_RemoveRSEntryFromSavedList(node);
                 AddA(node);
             }
             else
             {
-                FUN_00e7ef80(node);
+                NiD3DRenderStateGroup_RemoveRSEntryFromNoSaveList(node);
                 AddB(node);
             }
         }

@@ -817,7 +817,7 @@ int __cdecl FUN_0040df90()
 }
 
 extern int DAT_01012238;
-void __cdecl FUN_00aa10f0(void* p);
+void __cdecl _NiFree_00aa10f0(void* p);
 
 struct C405250Node
 {
@@ -848,7 +848,7 @@ FUN_00405250::~FUN_00405250()
             {
                 C405250Node* current = node;
                 node = node->next;
-                FUN_00aa10f0(current->payload);
+                _NiFree_00aa10f0(current->payload);
             }
         }
     }
@@ -1133,7 +1133,7 @@ void __thiscall FUN_00405370_Class::FUN_00405370()
 {
     *reinterpret_cast<void**>(this) = &DAT_01012278;  // the vftable pointer
     reinterpret_cast<NiTPointerMap<const char*, Setting*>*>(this)->RemoveAll();
-    FUN_00aa10f0(reinterpret_cast<NiTPointerMap<const char*, Setting*>*>(this)->m_ppkHashTable);
+    _NiFree_00aa10f0(reinterpret_cast<NiTPointerMap<const char*, Setting*>*>(this)->m_ppkHashTable);
 }
 
 struct StringMapDeletingEntry : FUN_00405230_Class

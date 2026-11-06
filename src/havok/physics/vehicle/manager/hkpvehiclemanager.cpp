@@ -182,7 +182,7 @@ struct E426F0Allocator
     virtual void Free(void* p, unsigned int size);
 };
 
-void __cdecl FUN_00c908c0(E426F0Allocator* alloc, void* list, unsigned int newCap, unsigned int elemSize);
+void __cdecl hkArrayUtil__reserve(E426F0Allocator* alloc, void* list, unsigned int newCap, unsigned int elemSize);
 
 struct ParamObj
 {
@@ -233,7 +233,7 @@ struct ItemRec
     ObjBase* m_3c;
 
     void sub_e37940();
-    void sub_e39030(ParamObj* p, void* buf);
+    void hkpVehicleInstance_stepVehicleUsingWheelCollideOutput(ParamObj* p, void* buf);
 };
 
 struct LocalArray
@@ -287,13 +287,13 @@ void FUN_00e427b0_cls::ProcessItems(ParamObj* p)
                 {
                     iNewCapacity = flag;
                 }
-                FUN_00c908c0(pAllocator, &buffer, iNewCapacity, 0x60);
+                hkArrayUtil__reserve(pAllocator, &buffer, iNewCapacity, 0x60);
             }
             buffer.m_iElementCount = flag;
             item->sub_e37940();
             ObjBase* pObj = item->m_3c;
             pObj->v10(p->m_08, item, buffer.m_data);
-            item->sub_e39030(p, buffer.m_data);
+            item->hkpVehicleInstance_stepVehicleUsingWheelCollideOutput(p, buffer.m_data);
             i++;
         } while (i < count);
     }

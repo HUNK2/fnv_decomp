@@ -9,7 +9,7 @@
 
 struct FUN_00e4dd90_shell
 {
-    void __thiscall FUN_00e4dd90(float* output);
+    void __thiscall hkKdTreeCpuBroadphaseBundleCastCollector_getHitFractions(float* output);
 };
 struct FUN_00e4dde0
 {
@@ -479,11 +479,12 @@ struct Cls
 
     int flags80[4];
 
-    void __thiscall FUN_00e4de10(Param* p1, const Mask& p2);
+    void __thiscall hkKdTreeCpuBroadphaseBundleCastCollector_addMidPhaseHit(Param* p1, const Mask& p2);
 };
 
 // @fnv 0x00e4de10
-void __thiscall Cls::FUN_00e4de10(Param* p1, const Mask& p2)
+// src: HAVOK_SRC 0x00e4de10
+void __thiscall Cls::hkKdTreeCpuBroadphaseBundleCastCollector_addMidPhaseHit(Param* p1, const Mask& p2)
 {
     HeadObj* head = p1->head;
     if (head)

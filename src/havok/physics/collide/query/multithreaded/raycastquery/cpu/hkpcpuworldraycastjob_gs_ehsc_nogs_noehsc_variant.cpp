@@ -48,7 +48,7 @@ struct S_00df8d60
     int unk10;
     float unk14;
     S_00df8d60_Bool FUN_00df8aa0(const void* data);
-    float FUN_00df8d60(const S_00df8d60_Data* data, int unused);
+    float hkCpuWorldRayCastCollector_addBroadPhaseHandle(const S_00df8d60_Data* data, int unused);
 };
 struct ParamBlock
 {
@@ -89,7 +89,7 @@ struct AdjustedBase
 };
 struct AdjustOwner
 {
-    void* FUN_00df8d90(void* apFirst, int aiSecond);
+    void* hkCpuWorldRayCastCollector_addMidPhaseHit(void* apFirst, int aiSecond);
 };
 struct FUN_00df8dd0_Param
 {
@@ -108,7 +108,7 @@ struct FUN_00df8dd0_cls
     int unk04;
     float m_f08;
 
-    float FUN_00df8dd0(FUN_00df8dd0_Param* p);
+    float hkCpuWorldRayCastCollector_addLeaf(FUN_00df8dd0_Param* p);
 };
 struct DF8930Primary
 {
@@ -320,10 +320,10 @@ static __forceinline hkMemoryRouter* pool()
 {
     return FUN_00c85750();
 }
-void __cdecl FUN_00c908c0(Allocator*, void*, int, int) throw();
+void __cdecl hkArrayUtil__reserve(Allocator*, void*, int, int) throw();
 void __cdecl FUN_00e2c8a0(void*, void*, void*, int, void*, void*, int) throw();
-void __cdecl FUN_00e2cc30(void*, void*, void*, int, void*, void*, int) throw();
-void __cdecl FUN_00e2abf0(void*, void*, int, void*, int, int, int, int) throw();
+void __cdecl hkAabbTreeRayCastUtil_struct_hkAabbTreeData_hkAabbTreeAabb16_unsigned_short_castRayFiltering(void*, void*, void*, int, void*, void*, int) throw();
+void __cdecl hkTreeRayCastJobUtil_castRayKdTree(void*, void*, int, void*, int, int, int, int) throw();
 void __cdecl FUN_00e2b070(void*, void*, int, void*, int, int, int, int, int) throw();
 void __cdecl FUN_00e2b510(void*, void*, int, void*, int, int, int, int, int) throw();
 void __cdecl FUN_00e2acf0(void*, void*, int, void*, int, int, int, int, int) throw();
@@ -421,7 +421,7 @@ struct VertexBuffer
             int next = old * 2;
             if (n >= next)
                 next = n;
-            FUN_00c908c0(a, &data, next, 32);
+            hkArrayUtil__reserve(a, &data, next, 32);
         }
     }
     __forceinline void Clear() throw()
@@ -630,7 +630,7 @@ void __cdecl FUN_00df8df0(void* result, MeshRequest* request)
             ++at;
         } while (queryRemaining-- != 1);
         FUN_00e2c8a0(request->passA, vertices.data, querySource, queryType, fields, iteration.destination, count);
-        FUN_00e2cc30(request->passB, vertices.data, querySource, queryType, fields, iteration.destination, count);
+        hkAabbTreeRayCastUtil_struct_hkAabbTreeData_hkAabbTreeAabb16_unsigned_short_castRayFiltering(request->passB, vertices.data, querySource, queryType, fields, iteration.destination, count);
         pool()->m_stack.m_next.m_storage = (void*)((int)iteration.destination);
         Field* end = fields + 4;
         int remaining = 3;
@@ -649,7 +649,7 @@ void __cdecl FUN_00df8df0(void* result, MeshRequest* request)
             iteration.count = remainingVertices;
             do
             {
-                FUN_00e2abf0(queryFinal, source, queryType, &finalState, 0, 0, 0, 0);
+                hkTreeRayCastJobUtil_castRayKdTree(queryFinal, source, queryType, &finalState, 0, 0, 0, 0);
                 ++source;
             } while (--iteration.count != 0);
         }

@@ -75,7 +75,7 @@ int hkMemoryMeshShape::GetNumSections() const
     return m_sections.m_iElementCount;
 }
 
-int FUN_00d06f80(const void* pvData, int iSize) throw();
+int hkStatisticsCollector_getAllocatedSize(const void* pvData, int iSize) throw();
 
 template <typename T> inline void CollectArray(hkStatisticsCollector* pkCollector, const char* pcFieldName,
                                                const hkArray<T>& kArray)
@@ -83,7 +83,7 @@ template <typename T> inline void CollectArray(hkStatisticsCollector* pkCollecto
     if (!(kArray.m_iCapacityState & 0x80000000) || pkCollector->m_reportInplaceAllocations)
     {
         const T* pData = kArray.m_data;
-        int iAllocatedSize = FUN_00d06f80(pData, kArray.getCapacity() * sizeof(T));
+        int iAllocatedSize = hkStatisticsCollector_getAllocatedSize(pData, kArray.getCapacity() * sizeof(T));
         pkCollector->AddMemoryChunk(3, pcFieldName, kArray.m_data, kArray.m_iElementCount * sizeof(T), iAllocatedSize);
     }
 }
@@ -126,7 +126,7 @@ void hkMemoryMeshShape::GetSection(int sectionIndex, unsigned char accessFlags, 
 }
 
 void __cdecl EnterTlsGuard() throw();
-void __cdecl FUN_00c904e0() throw();
+void __cdecl hkReferencedObject_unlockAll() throw();
 
 class hkBoolC
 {
@@ -250,5 +250,5 @@ FUN_00cf3ea0::FUN_00cf3ea0(ConstraintEntity* entityA, ConstraintEntity* entityB,
         m_kActorEntries[1]->FUN_00c90510();
     }
     m_data->FUN_00c90510();
-    FUN_00c904e0();
+    hkReferencedObject_unlockAll();
 }

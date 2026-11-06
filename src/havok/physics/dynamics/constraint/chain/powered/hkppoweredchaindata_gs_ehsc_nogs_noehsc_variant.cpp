@@ -24,7 +24,7 @@ struct FUN_00e3b720_s
     int m_iElementCount;  // +0xc
     int pad1[3];
     int m_uiItemCount;  // +0x1c
-    void FUN_00e3b720(int* info) const;
+    void getConstraintInfo_00e3b720(int* info) const;
 };
 struct FUN_00e3b7d0_first
 {
@@ -43,7 +43,7 @@ struct FUN_00e3b7d0_object
     int pad1[8];
     FUN_00e3b7d0_second* second;
 };
-void FUN_00e3b7d0(FUN_00e3b7d0_object* object, int index, int bit);
+void hkpPoweredChainData_disableMotor(FUN_00e3b7d0_object* object, int index, int bit);
 int __cdecl FUN_00e3b670();
 class hkRefObjE3B8
 {
@@ -257,7 +257,7 @@ struct MemoryAllocator
     virtual void f3();
     virtual void freeBlock(void*, int);
 };
-void __cdecl FUN_00c908c0(MemoryAllocator*, void*, int, int);
+void __cdecl hkArrayUtil__reserve(MemoryAllocator*, void*, int, int);
 void __cdecl ResizeAudioStream(void*, void*, int);
 extern "C" void __cdecl AppendEventRecord(const QueryInput*, QueryOutput*, char*, int);
 char* __cdecl FUN_00dd13d0(char*);
@@ -265,7 +265,7 @@ char* __cdecl FUN_00dd13e0(char*, int);
 void __cdecl FUN_00dcee70(QueryInput*);
 void __cdecl FUN_00dcfc00(hkVector4*, hkVector4*, float, QueryInput*, char*);
 void __cdecl FUN_00d6cd70(hkVector4*, QueryInput*, char*, float*);
-void __cdecl FUN_00dcfff0(void*, MotorInput*, MotorOutput*);
+void __cdecl _hkCalcMotorData(void*, MotorInput*, MotorOutput*);
 void __cdecl WriteInputHeader(BuildInfo*, const QueryInput*, QueryOutput*);
 struct Entity
 {
@@ -360,7 +360,7 @@ template <class T, int N> struct InplaceArray
             int next = c * 2;
             if (n >= next)
                 next = n;
-            FUN_00c908c0(heap, this, next, sizeof(T));
+            hkArrayUtil__reserve(heap, this, next, sizeof(T));
         }
         for (int j = n; j < size; ++j)
             data[j].~T();
@@ -512,7 +512,7 @@ void hkpPoweredChainData::FUN_00e3ba40(const QueryInput& input, QueryOutput& out
             motorInput.step = &query;
             motorInput.state = motorStates[i * 6 + axis + 3];
             MotorOutput motorOutput;
-            FUN_00dcfff0(getInfo(*this, i).motors[axis], &motorInput, &motorOutput);
+            _hkCalcMotorData(getInfo(*this, i).motors[axis], &motorInput, &motorOutput);
             float* dst = matrices.data[i].values + axis * 5;
             dst[0] = motorOutput.c * query.unk04;
             dst[1] = motorOutput.d * query.unk04;

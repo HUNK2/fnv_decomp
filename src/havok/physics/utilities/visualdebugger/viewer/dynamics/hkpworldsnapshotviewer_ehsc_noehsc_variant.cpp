@@ -29,12 +29,12 @@ struct FUN_00d63210_class
 typedef void(__cdecl* SnapshotFn)();
 struct ProfileRegistry
 {
-    int FUN_00dd9380(const char* apName, SnapshotFn apfnHandler);
+    int hkProcessFactory_registerProcess(const char* apName, SnapshotFn apfnHandler);
 };
 extern ProfileRegistry* DAT_01269cd0;
 extern int DAT_01268fc4;
 extern int DAT_01268fc0;
-void __cdecl FUN_00d62f20();
+void __cdecl hkpWorldSnapshotViewer_createNative();
 void __cdecl AllocateRecordWithData();
 void __cdecl RegisterSnapshotCommands();
 struct FUN_00c7be20_cls;
@@ -111,7 +111,7 @@ struct FUN_00d63280_cls
     SubObject m_sub28;
 
     void Setup(int b);
-    FUN_00d63280_cls* FUN_00d63280(int a, int b);
+    FUN_00d63280_cls* hkpWorldMemoryViewer_hkpWorldMemoryViewer(int a, int b);
 };
 
 
@@ -142,7 +142,7 @@ inline void hkCharArray::reserve(int n)
     {
         int cap2 = 2 * capacity;
         int newSize = (n < cap2) ? cap2 : n;
-        FUN_00c908c0(alloc, this, newSize, 1);
+        hkArrayUtil__reserve(alloc, this, newSize, 1);
     }
 }
 
@@ -166,7 +166,7 @@ extern StructureLayoutRules DAT_011b7b88;
 extern int DAT_01268fc0;
 extern int DAT_01268fc4;
 
-hkBool __cdecl FUN_00cc0d60(hkpWorld* world, hkArrayStreamWriter* writer, hkBool binary,
+hkBool __cdecl hkpHavokSnapshot_save_00cc0d60(hkpWorld* world, hkArrayStreamWriter* writer, hkBool binary,
                             const StructureLayoutRules* rules, int aiFlags);
 
 struct hkDisplaySerializeOStream
@@ -199,11 +199,12 @@ struct FUN_00d63040_cls
     hkpPhysicsContext* m_iValueAtOffset0C;
     hkBool m_convertToPC;
 
-    void FUN_00d63040(float frameTimeInMs);
+    void hkpWorldSnapshotViewer_step(float frameTimeInMs);
 };
 
 // @fnv 0x00d63040
-void FUN_00d63040_cls::FUN_00d63040(float frameTimeInMs)
+// src: HAVOK_LIB 0x00d63040
+void FUN_00d63040_cls::hkpWorldSnapshotViewer_step(float frameTimeInMs)
 {
     if (m_pDisplayStream)
     {
@@ -215,7 +216,7 @@ void FUN_00d63040_cls::FUN_00d63040(float frameTimeInMs)
         for (int wi = 0; wi < m_iValueAtOffset0C->getNumWorlds(); ++wi)
         {
             storage.SetSizeAndGrow(0);
-            FUN_00cc0d60(m_iValueAtOffset0C->getWorld(wi), &sw, true, &rules, 0);
+            hkpHavokSnapshot_save_00cc0d60(m_iValueAtOffset0C->getWorld(wi), &sw, true, &rules, 0);
             int length = storage.GetLogicalSize();
             if (length >= 1)
             {

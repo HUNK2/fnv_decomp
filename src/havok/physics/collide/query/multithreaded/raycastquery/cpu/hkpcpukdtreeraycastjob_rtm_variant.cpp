@@ -10,7 +10,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 struct FUN_00e4dd90_shell
 {
-    void __thiscall FUN_00e4dd90(float* output);
+    void __thiscall hkKdTreeCpuBroadphaseBundleCastCollector_getHitFractions(float* output);
 };
 struct FUN_00e4dde0
 {
@@ -270,5 +270,5 @@ void FUN_00e2acf0(void* a1, InputStruct* a2, void* a3, float* a4)
         a2->saved[k] = local.saved[k];
     }
 
-    ((FUN_00e4dd90_shell*)&obj)->FUN_00e4dd90(a4);
+    ((FUN_00e4dd90_shell*)&obj)->hkKdTreeCpuBroadphaseBundleCastCollector_getHitFractions(a4);
 }

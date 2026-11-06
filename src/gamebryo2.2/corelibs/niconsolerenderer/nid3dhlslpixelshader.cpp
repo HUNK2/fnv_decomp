@@ -45,7 +45,8 @@ struct FakeConstantTable00e96d10
     virtual long __stdcall GetDesc(_D3DXCONSTANTTABLE_DESC* pDesc);
 };
 // @fnv 0x00e96d10
-unsigned int NiD3DHLSLPixelShader::FUN_00e96d10()
+// src: GAMEBRYO_LIB 0x00e96d10
+unsigned int NiD3DHLSLPixelShader::GetVariableCount()
 {
     _D3DXCONSTANTTABLE_DESC kDesc;
     if (!m_pShaderConstantTable)

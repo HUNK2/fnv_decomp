@@ -18,7 +18,7 @@ struct Object
 {
 };
 void __cdecl FUN_00cebdf0(float* source, float value, Object* destination);
-void __cdecl FUN_00cebe50(float* source, float scale, Object* destination);
+void __cdecl hkpInertiaTensorComputer_setAndScaleToDensity(float* source, float scale, Object* destination);
 struct Receiver
 {
     void FUN_00cecc90(float value);
@@ -37,7 +37,7 @@ struct FUN_00cebe80_Struct
     float unk04;
     float unk08;
 };
-void __cdecl FUN_00cebe80(FUN_00cebe80_Struct* pThis, float fParam2, float* pOut);
+void __cdecl hkpInertiaTensorComputer_shiftInertiaToCom(FUN_00cebe80_Struct* pThis, float fParam2, float* pOut);
 void __cdecl AddInertiaTensor(float* param_1, float param_2, float* param_3);
 struct FUN_00cec6b0_cls
 {
@@ -77,7 +77,7 @@ struct FUN_00cec6b0_cls
     float m_84;
     float m_88;
 
-    void FUN_00cec6b0(float a1, float b, float* p, float* M);
+    void InternalInertiaTensorComputer_computeInertialTensorInternal(float a1, float b, float* p, float* M);
 };
 struct CECCD0Value
 {
@@ -128,7 +128,7 @@ static inline float S_MaxLT(float x, float y)
 {
     return (x < y) ? y : x;
 }
-void __cdecl FUN_00ced230(float d, S_00ced230_T* p);
+void __cdecl hkpInertiaTensorComputer_clipInertia(float d, S_00ced230_T* p);
 struct S_00cee1c0_Heap
 {
     virtual void v00();
@@ -153,7 +153,7 @@ struct S_00cee1c0_Arr
     unsigned int* m_pTrailingData;
 };
 S_00cee1c0_Router* FUN_00c85750();
-float __cdecl FUN_00cedec0(S_00cee1c0_Arr* arr, int unk, float value);
+float __cdecl hkInertiaTensorComputer_optimizeInertiasOfConstraintTreeInt(S_00cee1c0_Arr* arr, int unk, float value);
 void __cdecl ProcessArrayWithValue(unsigned int* source, int count, int unk, float value);
 namespace fnv_anon_00cec3d0 {}
 using namespace fnv_anon_00cec3d0;
@@ -174,7 +174,7 @@ struct S00cec3d0_Base
     float m_fComponent5;
     float m_fComponent6;
 
-    __declspec(noinline) void FUN_00cec000(const float* v);
+    __declspec(noinline) void InternalInertiaTensorComputer_compProjectionIntegrals(const float* v);
 };
 }
 
@@ -192,7 +192,7 @@ struct S00cec3d0_Face : S00cec3d0_Base
     float m_fVertex2X;
     float m_fVertex2Y;
     float m_fVertex2Z;
-    void FUN_00cec3d0(const float* verts, const float* n);
+    void InternalInertiaTensorComputer_compFaceIntegrals(const float* verts, const float* n);
 };
 static inline float S00cec3d0_Sqr(float x)
 {
@@ -202,7 +202,8 @@ static inline float S00cec3d0_Cube(float x)
 {
     return x * x * x;
 }
-void S00cec3d0_Base::FUN_00cec000(const float* v)
+// src: HAVOK_LIB 0x00cec000
+void S00cec3d0_Base::InternalInertiaTensorComputer_compProjectionIntegrals(const float* v)
 {
     P1 = v[A] * v[B];
     Pa = v[A];
@@ -383,7 +384,7 @@ __declspec(align(16)) struct Solver
     float unk64;
     float unk68, unk6c, unk70, unk74, unk78, unk7c, unk80, unk84, unk88;
     void __thiscall FUN_00ced390(State* self, float* a);
-    void __thiscall FUN_00cec6b0(float value, float ratio, float* vec, float* mat);
+    void __thiscall InternalInertiaTensorComputer_computeInertialTensorInternal(float value, float ratio, float* vec, float* mat);
 };
 
 __declspec(align(16)) struct Work
@@ -425,7 +426,8 @@ __declspec(noinline) __int64 __cdecl FUN_00cebaf0(float* source, float value, vo
     return 0;
 }
 
-__declspec(noinline) void Solver::FUN_00cec6b0(float value, float ratio, float* vec, float* mat)
+// src: HAVOK_LIB 0x00cec6b0
+__declspec(noinline) void Solver::InternalInertiaTensorComputer_computeInertialTensorInternal(float value, float ratio, float* vec, float* mat)
 {
     vec[0] = unk68 / unk64;
     vec[1] = unk6c / unk64;
@@ -533,7 +535,7 @@ int __cdecl FUN_00ced8e0(State* self, float value, OutBlock* out)
     }
     out->unk00 = r;
     out->unk04 = value;
-    w.solver.FUN_00cec6b0(value, value / r, (float*)&out->vec10, &out->m00);
+    w.solver.InternalInertiaTensorComputer_computeInertialTensorInternal(value, value / r, (float*)&out->vec10, &out->m00);
     out->vec10 = _mm_add_ps(out->vec10, bv);
     float* bf = (float*)&b;
     float* u = &w.mat.row0_0;

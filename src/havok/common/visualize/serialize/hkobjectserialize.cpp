@@ -123,7 +123,7 @@ void C68E30Owner::FUN_00c68e30(C68E30Holder* holder, int value)
 namespace fnvc_adapt {
 hkMemoryRouter* __cdecl FUN_00c85750() throw();
 }
-void __cdecl FUN_00c908c0(void* apOwner, void* apArray, int aiSize, int aiAlign);
+void __cdecl hkArrayUtil__reserve(void* apOwner, void* apArray, int aiSize, int aiAlign);
 
 extern int DAT_01268fd0;
 
@@ -191,7 +191,7 @@ void FUN_00d641f0_cls::ClearSweptEntry(int aiIndex)
     int iCapacity = (int)(pArray->m_08 & 0x3fffffffu);
     if (iCapacity < 0)
     {
-        FUN_00c908c0(pAllocator, pArray, (iCapacity * 2) > 0 ? iCapacity * 2 : 0, 4);
+        hkArrayUtil__reserve(pAllocator, pArray, (iCapacity * 2) > 0 ? iCapacity * 2 : 0, 4);
     }
     pArray->m_04 = 0;
 }
@@ -243,7 +243,8 @@ struct Buffer
 
 // Serializes a1-a4, data pairs/triples, and payload into sink via buffer, returning total bytes written or -1 on failure.
 // @fnv 0x00e0b850
-static __declspec(noinline) int FUN_00e0b850(unsigned int a1, unsigned int a2, unsigned int a3, unsigned int a4,
+// src: HAVOK_LIB 0x00e0b850
+static __declspec(noinline) int _writeData(unsigned int a1, unsigned int a2, unsigned int a3, unsigned int a4,
                                              const void* payload, unsigned int payloadBytes, ByteSwap byteSwap,
                                              FixupLists* data, Sink* sink)
 {
@@ -312,12 +313,12 @@ static __declspec(noinline) int FUN_00e0b850(unsigned int a1, unsigned int a2, u
 int SerializeData(unsigned int a1, unsigned int a2, unsigned int a3, unsigned int a4, const void* payload,
                   unsigned int payloadBytes, ByteSwap byteSwap, FixupLists* data, Sink* sink)
 {
-    return FUN_00e0b850(a1, a2, a3, a4, payload, payloadBytes, byteSwap, data, sink);
+    return _writeData(a1, a2, a3, a4, payload, payloadBytes, byteSwap, data, sink);
 }
 
-void __cdecl FUN_00c908c0(void* alloc, void* array, int numElements, int sizeElem);
+void __cdecl hkArrayUtil__reserve(void* alloc, void* array, int numElements, int sizeElem);
 void* __cdecl AllocateWithHeader(void* alloc, int size);
-void __cdecl FUN_00c856c0(void* alloc, void* p);
+void __cdecl hkMemoryRouter_easyFree(void* alloc, void* p);
 
 struct hkStreamReader
 {
@@ -362,7 +363,7 @@ template <typename T> static __forceinline void SetSizeAndGrow(hkArrayBase<T>& a
         int newCap = cap + cap;
         if (size >= newCap)
             newCap = size;
-        FUN_00c908c0(&alloc, &a, newCap, sizeof(T));
+        hkArrayUtil__reserve(&alloc, &a, newCap, sizeof(T));
     }
     a.m_iElementCount = size;
 }
@@ -441,7 +442,7 @@ unsigned __int64 __cdecl ReadRelocatedData(hkStreamReader* stream, char** outBuf
     stream->read(buffer, *outAllocSize);
     if (!stream->IsStreamValid())
     {
-        FUN_00c856c0(&GetAudioAllocator(FUN_00c85750()), buffer);
+        hkMemoryRouter_easyFree(&GetAudioAllocator(FUN_00c85750()), buffer);
         ClearAndRelease(relocs, GetAudioAllocator(FUN_00c85750()));
         return 0;
     }
@@ -474,7 +475,8 @@ struct ObjectWriteFlag
     }
 };
 
-static __declspec(noinline) int FUN_00e0b850(FixupLists* fixups, Sink* output, unsigned int idLow, unsigned int idHigh,
+// src: HAVOK_LIB 0x00e0b850
+static __declspec(noinline) int _writeData(FixupLists* fixups, Sink* output, unsigned int idLow, unsigned int idHigh,
                                              unsigned int classLow, unsigned int classHigh, const void* payload,
                                              unsigned int payloadSize, ObjectWriteFlag swap)
 {
@@ -622,7 +624,7 @@ struct ObjectWriteX
     int unk08;
     int unk0c;
     void FUN_00e02bb0(ObjectWriteInfo* info);
-    void FUN_00e02a80(ObjectWriteZ* z, int a, int b, ObjectWriteW* w);
+    void hkPlatformObjectWriter_writeObject(ObjectWriteZ* z, int a, int b, ObjectWriteW* w);
     void FUN_00e02c70();
 };
 
@@ -630,7 +632,8 @@ extern char DAT_011b7b89;
 
 // Writes an object record to a sink by serializing its fixups and payload via FUN_00e0b850, returning the total bytes written.
 // @fnv 0x00e0bd40
-int __cdecl FUN_00e0bd40(Sink* p1, ObjectWriteInfo* p2, unsigned int aiIdLow, unsigned int aiIdHigh, int p5,
+// src: HAVOK_LIB 0x00e0bd40
+int __cdecl hkObjectSerialize_writeObject(Sink* p1, ObjectWriteInfo* p2, unsigned int aiIdLow, unsigned int aiIdHigh, int p5,
                          unsigned int p6, ObjectWriteArrItem* out)
 {
     ObjectWriteX x;
@@ -655,14 +658,14 @@ int __cdecl FUN_00e0bd40(Sink* p1, ObjectWriteInfo* p2, unsigned int aiIdLow, un
     w.m_a3.m_iElementCount = 0;
     w.m_a3.m_cap = 0x80000000;
     w.m_30 = 0;
-    x.FUN_00e02a80(&z, p5, p6, &w);
+    x.hkPlatformObjectWriter_writeObject(&z, p5, p6, &w);
 
     int need = out->m_iElementCount + w.m_a1.m_iElementCount;
     hkMemoryAllocator& alloc = GetAudioAllocator(FUN_00c85750());
     if ((out->m_cap & 0x3fffffff) < need)
     {
         int iDoubled = (out->m_cap & 0x3fffffff) * 2;
-        FUN_00c908c0(&alloc, out, need < iDoubled ? iDoubled : need, 0x18);
+        hkArrayUtil__reserve(&alloc, out, need < iDoubled ? iDoubled : need, 0x18);
     }
     for (int i = 0; i < w.m_a1.m_iElementCount; i++)
     {
@@ -677,7 +680,7 @@ int __cdecl FUN_00e0bd40(Sink* p1, ObjectWriteInfo* p2, unsigned int aiIdLow, un
         p->m_10 = w.m_a1.m_data[i].c;
         p->m_14 = 0;
     }
-    int r = FUN_00e0b850((FixupLists*)&w, p1, aiIdLow, aiIdHigh, p6, 0, y.m_data, y.m_iElementCount,
+    int r = _writeData((FixupLists*)&w, p1, aiIdLow, aiIdHigh, p6, 0, y.m_data, y.m_iElementCount,
                          ObjectWriteFlag(p2->m_01 != DAT_011b7b89));
     w.FUN_00e028e0();
     z.FUN_00cc0780();

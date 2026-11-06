@@ -49,11 +49,12 @@ unsigned int __thiscall FUN_00ca86c0_class::FUN_00ca86c0()
 
 struct FUN_00ca88c0_Class
 {
-    void FUN_00ca88c0(float f);
+    void hkpRigidBody_setMass(float f);
 };
 
 // @fnv 0x00ca88c0
-void FUN_00ca88c0_Class::FUN_00ca88c0(float afValue)
+// src: HAVOK_LIB 0x00ca88c0
+void FUN_00ca88c0_Class::hkpRigidBody_setMass(float afValue)
 {
     ((void(__thiscall*)(void*, float))(*(void**)(*(int*)((char*)this + 0xe0) + 12)))((char*)this + 0xe0, afValue);
 }
@@ -70,21 +71,23 @@ int __fastcall FUN_00ca80c0_Class::FUN_00ca80c0()
 
 struct FUN_00ca8900_Class
 {
-    void FUN_00ca8900(float f, int i);
+    void hkpRigidBody_setFriction(float f, int i);
 };
 
 // @fnv 0x00ca8900
-void FUN_00ca8900_Class::FUN_00ca8900(float f, int i)
+// src: HAVOK_LIB 0x00ca8900
+void FUN_00ca8900_Class::hkpRigidBody_setFriction(float f, int i)
 {
     *(float*)((char*)this + 0x90) = f;
 }
 
 struct FUN_00ca8910_class
 {
-    void FUN_00ca8910(float v);
+    void hkpRigidBody_setRestitution(float v);
 };
 // @fnv 0x00ca8910
-void FUN_00ca8910_class::FUN_00ca8910(float v)
+// src: HAVOK_LIB 0x00ca8910
+void FUN_00ca8910_class::hkpRigidBody_setRestitution(float v)
 {
     *(float*)((char*)this + 0x94) = v;
 }
@@ -177,10 +180,11 @@ struct Owner
     unsigned int unkdc;
     hkpMotion subobjectE0;
     void FUN_00ca8150(unsigned int value, hkVector4* result);
-    void FUN_00ca85f0(unsigned int value);
+    void hkpRigidBody_setCenterOfMassLocal(unsigned int value);
 };
 // @fnv 0x00ca85f0
-void Owner::FUN_00ca85f0(unsigned int value)
+// src: HAVOK_LIB 0x00ca85f0
+void Owner::hkpRigidBody_setCenterOfMassLocal(unsigned int value)
 {
     motionVirtual<void(__thiscall*)(hkpMotion*, unsigned int)>(subobjectE0, 11)(&subobjectE0, value);
     unsigned int source = unk10;
@@ -391,38 +395,40 @@ struct FUN_00ca8800_Class
     int unkD8;
     int unkDC;
     hkpMotion interfaceE0;
-    void FUN_00ca8800(int value);
+    void hkpRigidBody_setPosition(int value);
 };
-extern "C" void __cdecl FUN_00ca8700(FUN_00ca8800_Class* self);
+extern "C" void __cdecl hkpRigidBody_updateBroadphaseAndResetCollisionInformationOfWarpedBody(FUN_00ca8800_Class* self);
 // Calls the interface's dispatch with value, then invokes FUN_00ca8700 on this object.
 // @fnv 0x00ca8800
-void FUN_00ca8800_Class::FUN_00ca8800(int value)
+// src: HAVOK_LIB 0x00ca8800
+void FUN_00ca8800_Class::hkpRigidBody_setPosition(int value)
 {
     motionVirtual<void(__thiscall*)(hkpMotion*, int)>(interfaceE0, 12)(&interfaceE0, value);
-    FUN_00ca8700(this);
+    hkpRigidBody_updateBroadphaseAndResetCollisionInformationOfWarpedBody(this);
 }
 
 struct CA8830Object;
 
-void __cdecl FUN_00ca8700(CA8830Object* obj);
+void __cdecl hkpRigidBody_updateBroadphaseAndResetCollisionInformationOfWarpedBody(CA8830Object* obj);
 
 struct CA8830Object
 {
     char unk000[0xe0];
     hkpMotion m_kMemberDescriptor;
 
-    void FUN_00ca8830(int value);
+    void hkpRigidBody_setRotation(int value);
 };
 
 // Calls setValue on the member with value, then passes this to FUN_00ca8700.
 // @fnv 0x00ca8830
-void CA8830Object::FUN_00ca8830(int value)
+// src: HAVOK_LIB 0x00ca8830
+void CA8830Object::hkpRigidBody_setRotation(int value)
 {
     motionVirtual<void(__thiscall*)(hkpMotion*, int)>(m_kMemberDescriptor, 13)(&m_kMemberDescriptor, value);
-    FUN_00ca8700(this);
+    hkpRigidBody_updateBroadphaseAndResetCollisionInformationOfWarpedBody(this);
 }
 
-void __cdecl FUN_00ca8700(void* apOwner);
+void __cdecl hkpRigidBody_updateBroadphaseAndResetCollisionInformationOfWarpedBody(void* apOwner);
 
 struct FUN_00ca8860_cls
 {
@@ -483,15 +489,16 @@ struct FUN_00ca8860_cls
     int unkd8;
     int unkdc;
     hkpMotion m_sub;
-    void FUN_00ca8860(int aiFirst, int aiSecond);
+    void hkpRigidBody_setPositionAndRotation(int aiFirst, int aiSecond);
 };
 
 // Calls the sub-object's Do virtual with aiFirst and aiSecond, then invokes FUN_00ca8700 on this.
 // @fnv 0x00ca8860
-void FUN_00ca8860_cls::FUN_00ca8860(int aiFirst, int aiSecond)
+// src: HAVOK_LIB 0x00ca8860
+void FUN_00ca8860_cls::hkpRigidBody_setPositionAndRotation(int aiFirst, int aiSecond)
 {
     motionVirtual<void(__thiscall*)(hkpMotion*, int, int)>(m_sub, 14)(&m_sub, aiFirst, aiSecond);
-    FUN_00ca8700(this);
+    hkpRigidBody_updateBroadphaseAndResetCollisionInformationOfWarpedBody(this);
 }
 
 struct CA8B80Command
@@ -609,11 +616,12 @@ struct CA8B80Object
     hkpMotion m_handler;
 
     void Update();
-    void FUN_00ca8b80(const hkVector4& kPos);
+    void hkpRigidBody_applyAngularImpulseAsCriticalOperation(const hkVector4& kPos);
 };
 
 // @fnv 0x00ca8b80
-void CA8B80Object::FUN_00ca8b80(const hkVector4& kPos)
+// src: HAVOK_LIB 0x00ca8b80
+void CA8B80Object::hkpRigidBody_applyAngularImpulseAsCriticalOperation(const hkVector4& kPos)
 {
     if (m_queue && m_queue->m_bSlotEnabled)
     {
@@ -766,10 +774,11 @@ struct S_00ca8630_Class
     unsigned int unkd8;
     unsigned int unkdc;
     S_00ca8630_Sub unke0;
-    void FUN_00ca8630(bool f);
+    void hkpRigidBody_enableDeactivation(bool f);
 };
 // @fnv 0x00ca8630
-void S_00ca8630_Class::FUN_00ca8630(bool f)
+// src: HAVOK_LIB 0x00ca8630
+void S_00ca8630_Class::hkpRigidBody_enableDeactivation(bool f)
 {
     if (f)
     {
@@ -797,7 +806,7 @@ void S_00ca8630_Class::FUN_00ca8630(bool f)
 
 struct CA8890Object;
 
-void __cdecl FUN_00ca8700(CA8890Object* obj);
+void __cdecl hkpRigidBody_updateBroadphaseAndResetCollisionInformationOfWarpedBody(CA8890Object* obj);
 
 struct CA8890Object
 {
@@ -859,15 +868,16 @@ struct CA8890Object
     int unkDC;
     hkpMotion m_kMemberDescriptor;
 
-    void FUN_00ca8890(int value);
+    void hkpRigidBody_setTransform(int value);
 };
 
 // Calls setValue on the member with value, then calls FUN_00ca8700 on this object.
 // @fnv 0x00ca8890
-void CA8890Object::FUN_00ca8890(int value)
+// src: HAVOK_LIB 0x00ca8890
+void CA8890Object::hkpRigidBody_setTransform(int value)
 {
     motionVirtual<void(__thiscall*)(hkpMotion*, int)>(m_kMemberDescriptor, 15)(&m_kMemberDescriptor, value);
-    FUN_00ca8700(this);
+    hkpRigidBody_updateBroadphaseAndResetCollisionInformationOfWarpedBody(this);
 }
 
 struct FUN_00ca88e0_cls
@@ -930,17 +940,18 @@ struct FUN_00ca88e0_cls
     int unkDC;
     hkpMotion m_sub;
 
-    void FUN_00ca88e0(float f);
+    void hkpRigidBody_setMassInv(float f);
 };
 
 // @fnv 0x00ca88e0
-void FUN_00ca88e0_cls::FUN_00ca88e0(float afValue)
+// src: HAVOK_LIB 0x00ca88e0
+void FUN_00ca88e0_cls::hkpRigidBody_setMassInv(float afValue)
 {
     motionVirtual<void(__thiscall*)(hkpMotion*, float)>(m_sub, 4)(&m_sub, afValue);
 }
 
 extern "C" hkMemoryRouter& __cdecl FUN_00c85750();
-void __cdecl FUN_00c908c0(hkMemoryAllocator* alloc, void* array, int numElements, int sizeElem);
+void __cdecl hkArrayUtil__reserve(hkMemoryAllocator* alloc, void* array, int numElements, int sizeElem);
 
 struct CA92A0Element
 {
@@ -966,7 +977,7 @@ static __forceinline void CA92A0Array_reserve(hkArrayBase<CA92A0Element>& self, 
         {
             int cap2 = 2 * cap;
             int newSize = (n < cap2) ? cap2 : n;
-            FUN_00c908c0(&alloc, (&self), newSize, sizeof(CA92A0Element));
+            hkArrayUtil__reserve(&alloc, (&self), newSize, sizeof(CA92A0Element));
         }
     }
 
@@ -1301,10 +1312,10 @@ struct S_00ca84b0_Vector4
     float x, y, z, w;
 };
 
-void FUN_00cb5c10(S_00ca84b0_World* world, S_00ca84b0_Entity* entity);
-void FUN_00cb59f0(S_00ca84b0_World* world, S_00ca84b0_Entity* entity);
+void hkpWorldOperationUtil_removeEntityBP(S_00ca84b0_World* world, S_00ca84b0_Entity* entity);
+void hkpWorldOperationUtil_addEntityBP(S_00ca84b0_World* world, S_00ca84b0_Entity* entity);
 void NotifyShapeSet(S_00ca84b0_World* world, S_00ca84b0_Entity* entity);
-void FUN_00cffcf0(S_00ca84b0_Entity* entity);
+void hkpEntityCallbackUtil_fireEntityShapeSet(S_00ca84b0_Entity* entity);
 // Same-unit static helper (0x00ca80d0): the allowed penetration depth is a fifth of the
 // smallest extent, or 0.1 once that extent reaches 0.5.
 static __declspec(noinline) void ComputeScaledMinimum(void* pvCollidable, const S_00ca84b0_Vector4& kExtent)
@@ -1351,12 +1362,13 @@ struct S_00ca84b0_Entity
 
     void FUN_00ca8150(hkpShape* shape, S_00ca84b0_Vector4* extentOut);
     void UpdateBoundingVolume(S_00ca84b0_World* world, hkpShape* shape);
-    int FUN_00ca84b0(hkpShape* shape);
+    int hkpRigidBody_setShape(hkpShape* shape);
 };
 
 // Sets the entity's collision shape, updating penetration depth and notifying the owning world of the change.
 // @fnv 0x00ca84b0
-int S_00ca84b0_Entity::FUN_00ca84b0(hkpShape* shape)
+// src: HAVOK_LIB 0x00ca84b0
+int S_00ca84b0_Entity::hkpRigidBody_setShape(hkpShape* shape)
 {
     if (m_pOwningWorld && m_pOwningWorld->unk94)
     {
@@ -1371,7 +1383,7 @@ int S_00ca84b0_Entity::FUN_00ca84b0(hkpShape* shape)
     if (m_pOwningWorld)
     {
         m_pOwningWorld->lockCriticalOperations();
-        FUN_00cb5c10(m_pOwningWorld, this);
+        hkpWorldOperationUtil_removeEntityBP(m_pOwningWorld, this);
     }
 
     hkpShape* oldShape = m_pCollisionShape;
@@ -1394,10 +1406,10 @@ int S_00ca84b0_Entity::FUN_00ca84b0(hkpShape* shape)
         UpdateBoundingVolume(m_pOwningWorld, shape);
     if (m_pOwningWorld)
         NotifyShapeSet(m_pOwningWorld, this);
-    FUN_00cffcf0(this);
+    hkpEntityCallbackUtil_fireEntityShapeSet(this);
     if (m_pOwningWorld)
     {
-        FUN_00cb59f0(m_pOwningWorld, this);
+        hkpWorldOperationUtil_addEntityBP(m_pOwningWorld, this);
         m_pOwningWorld->unlockAndAttemptToExecutePendingOperations();
     }
     return 1;
@@ -1520,7 +1532,7 @@ struct FUN_00ca8af0_cls
     hkpMotion m_e0;
 
     void DispatchEvent(void* a1, void* a2);
-    void FUN_00c9c1d0();
+    void activate_00c9c1d0();
 };
 
 // @fnv 0x00ca8af0
@@ -1541,7 +1553,7 @@ void FUN_00ca8af0_cls::DispatchEvent(void* a1, void* a2)
             return;
         }
     }
-    FUN_00c9c1d0();
+    activate_00c9c1d0();
     motionVirtual<void(__thiscall*)(hkpMotion*, void*, void*)>(m_e0, 20)(&m_e0, a1, a2);
 }
 }  // namespace fnv_00ca8af0
@@ -1870,8 +1882,8 @@ struct Entity
     int unke0;
     int unke4;
     unsigned char m_e8;
-    unsigned char* __thiscall FUN_00c9bff0(unsigned char* out);
-    void __thiscall FUN_00c9c1d0();
+    unsigned char* __thiscall isActive_00c9bff0(unsigned char* out);
+    void __thiscall activate_00c9c1d0();
 };
 
 struct Op
@@ -1880,12 +1892,13 @@ struct Op
     void* entity;
 };
 
-extern void __cdecl FUN_00cf9c60(void* ents, int count, World* world);
+extern void __cdecl hkpSimulation_collideEntitiesBroadPhaseDiscrete(void* ents, int count, World* world);
 extern void __cdecl NotifyEntityRemoved(World* world, Entity* entity);
 
 // Processes an entity by dispatching an operation, updating the world manager, and handling post-processing callbacks based on world state.
 // @fnv 0x00ca8700
-void __cdecl FUN_00ca8700(Entity* apEntity)
+// src: HAVOK_LIB 0x00ca8700
+void __cdecl hkpRigidBody_updateBroadphaseAndResetCollisionInformationOfWarpedBody(Entity* apEntity)
 {
     Op op;
     World* world = apEntity->m_8;
@@ -1909,14 +1922,14 @@ void __cdecl FUN_00ca8700(Entity* apEntity)
         pManager->v8(ents, 1, world, 7);
 
         if (apEntity->m_10 != 0)
-            FUN_00cf9c60(ents, 1, world);
+            hkpSimulation_collideEntitiesBroadPhaseDiscrete(ents, 1, world);
     }
 
     unsigned char flag;
-    if (!*apEntity->FUN_00c9bff0(&flag))
+    if (!*apEntity->isActive_00c9bff0(&flag))
     {
         if (world->m_d6 != 0 && apEntity->m_e8 != 5)
-            apEntity->FUN_00c9c1d0();
+            apEntity->activate_00c9c1d0();
         NotifyEntityRemoved(world, apEntity);
     }
 
@@ -1934,7 +1947,8 @@ void __cdecl FUN_00ca8700(Entity* apEntity)
 }
 
 // @fnv 0x00ca8920
-void __fastcall FUN_00ca8920(FUN_00ca8860_cls* body, void*, int inertia)
+// src: HAVOK_LIB 0x00ca8920
+void __fastcall hkpRigidBody_setInertiaLocal(FUN_00ca8860_cls* body, void*, int inertia)
 {
     hkpMotion* motion = &body->m_sub;
     typedef void(__thiscall * SetInertia)(hkpMotion*, int);

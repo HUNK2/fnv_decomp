@@ -86854,7 +86854,7 @@ struct FaceController
 struct FaceRoot
 {
     FaceNode* FUN_009611e0();
-    FaceController* FUN_00a5c570(void*);
+    FaceController* NiObjectNET_GetController(void*);
 };
 struct FaceProcess
 {
@@ -87546,7 +87546,7 @@ void FaceActor::UpdateFaceAnimation(float delta)
         kTeeth->GetFaceMorph()->FUN_0064cc90(disabled);
         if (disabled)
             return;
-        FaceController* controller = rootTmp->FUN_00a5c570(&DAT_011f3728);
+        FaceController* controller = rootTmp->NiObjectNET_GetController(&DAT_011f3728);
         unsigned int kCount = controller->FUN_008d3ed0();
         for (unsigned int i = 0; i < kCount; i++)
         {
@@ -97032,7 +97032,7 @@ struct W20Point
 struct W20Matrix
 {
     float xx, xy, xz, yx, yy, yz, zx, zy, zz;
-    void FUN_00a59400(float*, float*, float*);
+    void NiMatrix3_ToEulerAnglesZXY(float*, float*, float*);
 };
 struct W20Node
 {
@@ -97817,7 +97817,7 @@ bool W20Actor::FUN_00891360(W20Item* item, float amount, int unused)
             {
                 W20Point angles;
                 angles._ref_006815c0();
-                f.FUN_00a59400(&angles.z, &angles.x, &angles.y);
+                f.NiMatrix3_ToEulerAnglesZXY(&angles.z, &angles.x, &angles.y);
                 int dropped = v3cc(item->FUN_0044ddc0(), *item->FUN_00559450()->_ref_006815c0(), 1, &i, &angles);
                 FUN_0056acb0(this, dropped);
                 W20Combat* combat = v428();
@@ -100999,7 +100999,7 @@ struct EquipView;
 struct ObjectView
 {
     ObjectView* FUN_004ab230();
-    EquipView* FUN_00a5c570(void*);
+    EquipView* NiObjectNET_GetController(void*);
 };
 struct ProcessView
 {
@@ -102072,7 +102072,7 @@ void ActorUpdateShell::FUN_008a3100(float elapsed)
                 follow = FUN_004ade00(((NodeView*)this)->GetNode(), FUN_008a30f0());
             if (follow)
             {
-                EquipView* equip = follow->FUN_00a5c570(&DAT_011f3e6c);
+                EquipView* equip = follow->NiObjectNET_GetController(&DAT_011f3e6c);
                 if (equip)
                 {
                     EquipView* controls5 = equip;
@@ -102759,7 +102759,7 @@ class ObjectView
 {
   public:
     ObjectView* FUN_004ab230(int);
-    ControllerView* FUN_00a5c570(void*);
+    ControllerView* NiObjectNET_GetController(void*);
 };
 class RefView
 {
@@ -102864,7 +102864,7 @@ bool MatchActor::FUN_008a40e0(RefView* target)
                 base = FUN_004ade00(((RefVirtual*)this)->Node(), FUN_008a30f0());
             if (base)
             {
-                ControllerView* q = base->FUN_00a5c570(&g_011f3e6c);
+                ControllerView* q = base->NiObjectNET_GetController(&g_011f3e6c);
                 if (q)
                 {
                     ::NiControllerSequence* pSequence;
@@ -107036,7 +107036,7 @@ struct FUN_00622570
 };
 struct FUN_00cb8fe0_Class
 {
-    void __thiscall FUN_00cb8fe0(void* context, FUN_00622570 state);
+    void __thiscall hkpLimitedHingeConstraintData_setMotorActive(void* context, FUN_00622570 state);
 };
 struct FUN_00887a80_Class
 {
@@ -107050,7 +107050,7 @@ void FUN_00887a80_Class::FUN_00887a80(unsigned char flag)
     FUN_00cb8fe0_Class* receiver = FUN_00887a10();
     if (receiver)
     {
-        receiver->FUN_00cb8fe0(FUN_004ae750(), flag);
+        receiver->hkpLimitedHingeConstraintData_setMotorActive(FUN_004ae750(), flag);
     }
 }
 

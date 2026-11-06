@@ -103,7 +103,7 @@ struct FUN_00dbc670_storage
 struct FUN_00dbc670_shell
 {
     void FUN_00dbc670();
-    void FUN_00dbda50(int, int, int);
+    void hkPackfileWriter_setContents(int, int, int);
     int ProcessPoly(int, int);
     void FUN_00dbc6e0();
 };
@@ -125,7 +125,7 @@ int __cdecl FUN_00d484a0(int a1, int a2, int a3, int a4, int useLocal, int a6)
             FUN_00dbc670_storage msgStorage;
             FUN_00dbc670_shell* shell = (FUN_00dbc670_shell*)&msgStorage;
             shell->FUN_00dbc670();
-            shell->FUN_00dbda50(a1, a2, a6);
+            shell->hkPackfileWriter_setContents(a1, a2, a6);
             int result = shell->ProcessPoly(a3, a4);
             shell->FUN_00dbc6e0();
             return result;
@@ -160,8 +160,8 @@ void* __cdecl FUN_00d48ec0(void* a1, int a2, int a3)
 
 namespace fnv_00d48f00 {
 void* __cdecl FUN_00cb1280(void* destination, int value, int size);
-int __cdecl FUN_00cb1290(const void* left, const void* right, int size);
-int __cdecl FUN_00cb0fa0(const char* left, const char* right);
+int __cdecl hkString_memCmp(const void* left, const void* right, int size);
+int __cdecl hkString_strCmp(const char* left, const char* right);
 const char* __cdecl FUN_00dc0fb0();
 int __cdecl CreateResourceFromArray(void* input, int arg2, int flags);
 int __cdecl FUN_00d48d30(void* input, int arg2, int arg3);
@@ -197,7 +197,7 @@ struct Object180
     void* unk00;
     int unk04;
     void* unk08;
-    Object180* __thiscall FUN_00dcc6a0(void* input, int arg2);
+    Object180* __thiscall hkIstream_hkIstream_00dcc6a0(void* input, int arg2);
     void __thiscall FUN_00dcc160();
 };
 // @fnv 0x00d48f00
@@ -205,10 +205,10 @@ int __cdecl FUN_00d48f00(Header180* pHeader, int arg2, int arg3, int arg4)
 {
     Header180 defaultHeader;
     if (pHeader->unk00 == defaultHeader.unk00 && pHeader->unk04 == defaultHeader.unk04 &&
-        FUN_00cb1290(&pHeader->unk10, &DAT_011b7b88, 4) == 0 && FUN_00cb0fa0(&pHeader->unk28, FUN_00dc0fb0()) == 0)
+        hkString_memCmp(&pHeader->unk10, &DAT_011b7b88, 4) == 0 && hkString_strCmp(&pHeader->unk28, FUN_00dc0fb0()) == 0)
         return CreateResourceFromArray(pHeader, arg2, 0);
     Object180 wrapper;
-    Object180* result = wrapper.FUN_00dcc6a0(pHeader, arg2);
+    Object180* result = wrapper.hkIstream_hkIstream_00dcc6a0(pHeader, arg2);
     void* payload = result->unk08;
     int value = FUN_00d48d30(payload, arg3, arg4);
     wrapper.FUN_00dcc160();
@@ -239,14 +239,14 @@ S_00d49310_Result FUN_00d49310(void* stream)
     return S_00d49310_Result(res);
 }
 
-int FUN_00cb0fa0(const char* a, const char* b);
+int hkString_strCmp(const char* a, const char* b);
 
 static inline int StringCompare(const char* a, const char* b)
 {
     if (a)
     {
         if (b)
-            return FUN_00cb0fa0(a, b);
+            return hkString_strCmp(a, b);
         return 1;
     }
     return b ? -1 : 0;
@@ -437,7 +437,7 @@ struct Pending_cls
     int unk00;
     int unk04;
     void FUN_00dc5d30();
-    void FUN_00dc5d50(Holder_cls* h, int a, int b);
+    void hkBinaryTagfileReader_load(Holder_cls* h, int a, int b);
 };
 
 struct Owner_cls
@@ -453,7 +453,7 @@ static __declspec(noinline) int FUN_00d48a90(int a1, int esi_in, int edi_in, int
     Holder_cls h;
 
     p.FUN_00dc5d30();
-    p.FUN_00dc5d50(&h, a1, esi_in);
+    p.hkBinaryTagfileReader_load(&h, a1, esi_in);
     h.FUN_00dba7f0();
 
     if (edi_in != 0)
@@ -658,7 +658,7 @@ struct S00d48680_Sys
 };
 
 extern "C" S00d48680_Sys* __cdecl FUN_00c85750();
-extern "C" void __cdecl FUN_00c908c0(S00d48680_Alloc* h, S00d48680_Arr* a, int cap, int flag);
+extern "C" void __cdecl hkArrayUtil__reserve(S00d48680_Alloc* h, S00d48680_Arr* a, int cap, int flag);
 
 struct S00d48680_Obj
 {
@@ -694,7 +694,7 @@ static __declspec(noinline) void FUN_00d48680(S00d48680_Obj* apReader, S00d48680
             {
                 grow = iNeeded;
             }
-            FUN_00c908c0(&heap, apBuffer, grow, 1);
+            hkArrayUtil__reserve(&heap, apBuffer, grow, 1);
         }
         apBuffer->m_iElementCount = iNeeded;
         apReader->v10(0, 0);
@@ -715,7 +715,7 @@ static __declspec(noinline) void FUN_00d48680(S00d48680_Obj* apReader, S00d48680
             {
                 iNeeded = grow;
             }
-            FUN_00c908c0(&heap, apBuffer, iNeeded, 1);
+            hkArrayUtil__reserve(&heap, apBuffer, iNeeded, 1);
         }
         char* d = apBuffer->m_data;
         int iSize = apBuffer->m_iElementCount;
@@ -770,7 +770,7 @@ struct TypeRegistry : RegistryBase
     {
         types.clear();
     }
-    void FUN_00d47970(const TypeRegistry&) throw();
+    void hkTypeInfoRegistry_merge(const TypeRegistry&) throw();
 };
 struct RuntimeClass;
 struct ClassRegistry
@@ -902,7 +902,7 @@ struct LoadMemory
     int unk08;
     LoadAllocator* heap;
 };
-extern "C" int __cdecl FUN_00cb1290(const void*, const void*, int) throw();
+extern "C" int __cdecl hkString_memCmp(const void*, const void*, int) throw();
 extern "C" const char* __cdecl FUN_00dc0fb0() throw();
 extern "C" Resource* __cdecl CreateResourceFromArray(const void*, int, const TypeRegistry*) throw();
 extern unsigned int DAT_011b7b88;
@@ -923,7 +923,7 @@ static __declspec(noinline) __declspec(nothrow) Resource* FUN_00d48760(LoadStrea
 {
     if (format.type == 2)
     {
-        if (FUN_00cb1290(&format.layout, &DAT_011b7b88, 4) == 0)
+        if (hkString_memCmp(&format.layout, &DAT_011b7b88, 4) == 0)
         {
             if (StringEquals(&format.version, 0, FUN_00dc0fb0()))
             {
@@ -959,7 +959,7 @@ static __declspec(noinline) ObjectResource* FUN_00d48840(LoadStream* input, Load
                                                          const ClassRegistry* classes, const TypeRegistry* types)
 {
     TypeRegistry unfinished(0);
-    unfinished.FUN_00d47970(*types);
+    unfinished.hkTypeInfoRegistry_merge(*types);
     ResourceRef resource;
     resource.take((Resource*)FUN_00d48760((S00d48d30_Stream*)input, (S00d48d30_Format*)&format,
                                           (S00d48d30_Result*)error, (int)&unfinished));
@@ -1028,7 +1028,7 @@ struct S00d48950_Lookup
 };
 struct S00d48950_Set
 {
-    int FUN_00cb1cb0(__int64 id, int a, int b);
+    int hkMapBase_unsigned_int64_unsigned_int64_struct_hkMapOperations_unsigned_int64_getWithDefault(__int64 id, int a, int b);
 };
 struct S00d48950_Target
 {
@@ -1080,10 +1080,10 @@ static __declspec(noinline) int FUN_00d48950(S00d48950_Result* result, S00d48950
         if (entry && iCurrentVersion == version)
             continue;
         __int64 id = target->FUN_00db7dd0(key, version);
-        if (target->m_set.FUN_00cb1cb0(id, -1, -1) == -1)
+        if (target->m_set.hkMapBase_unsigned_int64_unsigned_int64_struct_hkMapOperations_unsigned_int64_getWithDefault(id, -1, -1) == -1)
         {
             result->m_pMoppCode = 4;
-            result->m_message.FUN_00cb0c70(str_010cf9f4, key, version);
+            result->m_message.printf_00cb0c70(str_010cf9f4, key, version);
             S00d48950_Heap& heap = *((S00d48950_Sys*)FUN_00c85750())->m_pStreamAllocator;
             items.m_iElementCount = 0;
             if ((items.m_iCapacityState & 0x80000000) == 0)

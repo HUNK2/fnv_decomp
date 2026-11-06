@@ -18,7 +18,7 @@ struct B
     int f2;
     int f3;
 
-    void* FUN_00d74d40();
+    void* hkgpConvexHull_BuildConfig_BuildConfig();
 };
 struct A
 {

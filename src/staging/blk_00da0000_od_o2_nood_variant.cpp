@@ -40,7 +40,8 @@ class ScratchOwner
 };
 
 // @fnv 0x00da7020
-void __cdecl FUN_00da7020(ScratchOwner* owner)
+// src: HAVOK_LIB 0x00da7020
+void __cdecl hkListAgent3_registerAgent3(ScratchOwner* owner)
 {
     __declspec(align(16)) ScratchBlock s;
     s.unk30 = 0;
@@ -73,7 +74,8 @@ class __declspec(align(16)) S00da0780_Object
 };
 
 // @fnv 0x00da0780
-const void* __cdecl FUN_00da0780()
+// src: HAVOK_LIB 0x00da0780
+const void* __cdecl getVtablehkLocalFrameGroup()
 {
     FinishingFlag flag;
     flag.m_bFinishing = 0;
@@ -124,7 +126,8 @@ class __declspec(align(16)) S00da07d0_Object
 };
 
 // @fnv 0x00da07d0
-const void* __cdecl FUN_00da07d0()
+// src: HAVOK_LIB 0x00da07d0
+const void* __cdecl getVtablehkSimpleLocalFrame()
 {
     FinishingFlag flag;
     flag.m_bFinishing = 0;
@@ -195,7 +198,8 @@ class __declspec(align(16)) S00db7c40_Object
 };
 
 // @fnv 0x00db7c40
-const void* __cdecl FUN_00db7c40()
+// src: HAVOK_LIB 0x00db7c40
+const void* __cdecl getVtablehkpPhysicsSystem()
 {
     FinishingFlag flag;
     flag.m_bFinishing = 0;

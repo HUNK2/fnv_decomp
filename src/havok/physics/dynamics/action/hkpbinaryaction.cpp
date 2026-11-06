@@ -51,11 +51,12 @@ struct FUN_00c97510
 
 struct FUN_00cf4cc0_class
 {
-    void FUN_00cf4cc0(void* arg);
+    void hkpBinaryAction_entityRemovedCallback(void* arg);
 };
 
 // @fnv 0x00cf4cc0
-void FUN_00cf4cc0_class::FUN_00cf4cc0(void* arg)
+// src: HAVOK_SRC 0x00cf4cc0
+void FUN_00cf4cc0_class::hkpBinaryAction_entityRemovedCallback(void* arg)
 {
     void* p = *(void**)((char*)this + 8);
     if (p)
@@ -126,7 +127,7 @@ struct FUN_00cf4ce0_class
     int unk10;
     int unk14;
     void* unk18;
-    void FUN_00cf4ce0(void* newAction);
+    void hkpBinaryAction_setEntityA(void* newAction);
 };
 
 struct FUN_00c90510_class
@@ -146,11 +147,12 @@ struct FUN_00c976a0_class
 
 struct FUN_00c92bd0_class
 {
-    void FUN_00c92bd0(void*, void*);
+    void hkpWorld_attachActionToEntity(void*, void*);
 };
 
 // @fnv 0x00cf4ce0
-void FUN_00cf4ce0_class::FUN_00cf4ce0(void* newAction)
+// src: HAVOK_LIB 0x00cf4ce0
+void FUN_00cf4ce0_class::hkpBinaryAction_setEntityA(void* newAction)
 {
     ((FUN_00c90510_class*)newAction)->FUN_00c90510();
     if (unk18)
@@ -165,7 +167,7 @@ void FUN_00cf4ce0_class::FUN_00cf4ce0(void* newAction)
     unk18 = newAction;
     if (unk08)
     {
-        ((FUN_00c92bd0_class*)unk08)->FUN_00c92bd0(this, newAction);
+        ((FUN_00c92bd0_class*)unk08)->hkpWorld_attachActionToEntity(this, newAction);
     }
 }
 

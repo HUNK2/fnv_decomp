@@ -143,7 +143,7 @@ __forceinline hkMemoryAllocator& heapOf(hkMemoryRouter* record)
     return *record->m_heap;
 }
 hkMemoryRouter* FUN_00c85750();
-void __cdecl FUN_00c908c0(hkMemoryAllocator& alloc, void* array, int numElements, int sizeElem);
+void __cdecl hkArrayUtil__reserve(hkMemoryAllocator& alloc, void* array, int numElements, int sizeElem);
 
 class SimdReal
 {
@@ -225,7 +225,7 @@ static __forceinline void Array_GrowArrayCapacity(hkArrayBase<T>& self, hkMemory
         {
             int cap2 = 2 * capacity;
             int newSize = (n < cap2) ? cap2 : n;
-            FUN_00c908c0(alloc, (&self), newSize, sizeof(T));
+            hkArrayUtil__reserve(alloc, (&self), newSize, sizeof(T));
         }
     }
 
@@ -523,7 +523,8 @@ __forceinline void initVehicleComponents(hkpVehicleData& self,
 }
 
 // @fnv 0x00e39ab0
-void __fastcall FUN_00e39ab0(hkpVehicleData* self, int, const hkArrayBase<SuspensionWheelParameters>& suspensionWheelParams,
+// src: HAVOK_SRC 0x00e39ab0
+void __fastcall hkpVehicleData_init(hkpVehicleData* self, int, const hkArrayBase<SuspensionWheelParameters>& suspensionWheelParams,
                              const RigidBody* chassis)
 {
     initVehicleComponents(*self, suspensionWheelParams, chassis);

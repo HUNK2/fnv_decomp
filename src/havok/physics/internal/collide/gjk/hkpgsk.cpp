@@ -287,11 +287,12 @@ struct ThisClass
     char pad2[0x90];
     Entry entries2[3];
 
-    void FUN_00da9790(Dest* out);
+    void hkpGsk_exitAndExportCacheImpl(Dest* out);
 };
 
 // @fnv 0x00da9790
-void ThisClass::FUN_00da9790(Dest* pDest)
+// src: HAVOK_LIB 0x00da9790
+void ThisClass::hkpGsk_exitAndExportCacheImpl(Dest* pDest)
 {
     pDest->count1 = (unsigned char)this->count1;
     pDest->count2 = (unsigned char)this->count2;

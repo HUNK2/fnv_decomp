@@ -16,7 +16,7 @@
 #include "../../../../../../../include/hkpShape.h"
 
 hkMemoryRouter* __cdecl FUN_00c85750();
-void __cdecl FUN_00c908c0(hkMemoryAllocator* alloc, void* array, int newCapacity, int elemSize);
+void __cdecl hkArrayUtil__reserve(hkMemoryAllocator* alloc, void* array, int newCapacity, int elemSize);
 
 
 template <class T>
@@ -46,7 +46,7 @@ static __forceinline void VertexArray_reserve(hkArrayBase<T>& self, int n)
         {
             int cap2 = 2 * capacity;
             int newSize = (n < cap2) ? cap2 : n;
-            FUN_00c908c0(&alloc, (&self), newSize, sizeof(T));
+            hkArrayUtil__reserve(&alloc, (&self), newSize, sizeof(T));
         }
     }
 
@@ -119,7 +119,8 @@ void __cdecl FUN_00d5a6a0(const VertexSource* src, hkArray<hkVector4>* verticesO
 void __cdecl InitAndSetB(const FloatArrayDescriptor& vertices, hkGeometry& geometryOut);
 
 // @fnv 0x00de3360
-static __declspec(noinline) hkpShape* FUN_00de3360(const VertexSource* src, const hkTransform& transform)
+// src: HAVOK_LIB 0x00de3360
+static __declspec(noinline) hkpShape* _createConvexDisplayFromPlanes(const VertexSource* src, const hkTransform& transform)
 {
     hkArray<hkVector4, VertexArrayPolicy> localVertices;
     FUN_00d5a6a0(src, reinterpret_cast<hkArray<hkVector4>*>(&localVertices));
@@ -150,7 +151,7 @@ static __declspec(noinline) hkpShape* FUN_00de3360(const VertexSource* src, cons
 
 hkpShape* BuildConvexShapeEntry(const VertexSource* src, const hkTransform& transform)
 {
-    return FUN_00de3360(src, transform);
+    return _createConvexDisplayFromPlanes(src, transform);
 }
 
 

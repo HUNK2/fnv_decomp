@@ -26,7 +26,8 @@ inline void hkVector4::setZero4()
 void __cdecl FUN_00d8aac0(void* owner, void* current, int eventCode, int flags);
 // Optionally resets currentA/currentB to their reset values, zeroes the float range up to end, and notifies callbacks when current differs from desired.
 // @fnv 0x00d88340
-void __cdecl FUN_00d88340(hkpConstraintSolverResources* state, int reset)
+// src: HAVOK_LIB 0x00d88340
+void __cdecl hkpConstraintSolverSetup_subSolve(hkpConstraintSolverResources* state, int reset)
 {
     if (reset == 0)
     {
@@ -59,7 +60,8 @@ struct D88310Bool
 };
 
 // @fnv 0x00d88310
-D88310Bool __cdecl FUN_00d88310(const hkpConstraintSolverResources* stream, const void* unused, int numBlocks)
+// src: HAVOK_LIB 0x00d88310
+D88310Bool __cdecl hkpConstraintSolverSetup_internalIsMemoryOkForNewAccumulators(const hkpConstraintSolverResources* stream, const void* unused, int numBlocks)
 {
     int available = (int)(reinterpret_cast<char*>(stream->m_pVelocityAccumulatorB) - reinterpret_cast<char*>(stream->m_pVelocityAccumulatorC));
     if (stream->m_pVelocityAccumulatorC == stream->m_pVelocityAccumulatorA)
@@ -940,7 +942,7 @@ int __cdecl FUN_00d29bf0(const void* solverInfo, const hkStepInfo* stepInfo,
                          const hkpVelocityAccumulator* accums, hkpEntity* const* bodies, int numBodies,
                          int offset);
 void __cdecl FUN_00d1a330(const void* input, hkpEntity* const* bodies, int numBodies);
-void __cdecl FUN_00d01700(void* world, void* elems, int n);
+void __cdecl hkpWorldCallbackUtil_fireContactImpulseLimitBreached(void* world, void* elems, int n);
 
 // hkMatrix3
 struct S88b50_Matrix3
@@ -1197,7 +1199,7 @@ redoElemTemp:
             S88b50_BreachedHeader* h = (S88b50_BreachedHeader*)schemas;
             if (h->m_iBreachCount != 0)
             {
-                FUN_00d01700(island.m_pOwningWorld, h->getElem(0), h->m_iBreachCount);
+                hkpWorldCallbackUtil_fireContactImpulseLimitBreached(island.m_pOwningWorld, h->getElem(0), h->m_iBreachCount);
             }
         }
         if (scratch2 != 0)

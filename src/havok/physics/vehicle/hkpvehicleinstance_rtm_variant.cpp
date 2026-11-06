@@ -69,7 +69,7 @@ void WheelImpulseVehicle::FUN_00e371d0(float deltaTime, int wheelNum, float forc
 
     if (force > 0.0f) {
         hkpEntity* entity = this->m_pEntity;
-        entity->FUN_00c9c1d0();
+        entity->activate_00c9c1d0();
         entity->m_pMotionState.ApplyImpulseAtPoint(reinterpret_cast<const hkVector4&>(impulse), reinterpret_cast<const hkVector4&>(wheelInfo.unk50));
     }
 

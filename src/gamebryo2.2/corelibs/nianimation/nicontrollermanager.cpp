@@ -104,7 +104,8 @@ void __cdecl FUN_00a2d5b0(int, int);
 
 // If not already initialized, marks it initialized, stores five function pointers into globals, sets a byte to 0x10, calls FUN_00a2d5b0(1, 5), and returns 1.
 // @fnv 0x00a2d610
-int __cdecl FUN_00a2d610()
+// src: GAMEBRYO_LIB 0x00a2d610
+int __cdecl NiStepPosKey_RegisterLoader()
 {
     if (DAT_011f369b)
         return 0;
@@ -474,7 +475,8 @@ struct Stub
 typedef NiTFixedStringMapBase<DFALL<NiTMapItem<NiFixedString, const char*> >, const char*> Map;
 
 // @fnv 0x00a2ee40
-void __fastcall FUN_00a2ee40(char* self, int edx, NiFixedString& name, const char* obj)
+// src: GAMEBRYO_LIB 0x00a2ee40
+void __fastcall NiDefaultAVObjectPalette_SetAVObject(char* self, int edx, NiFixedString& name, const char* obj)
 {
     if (!obj)
     {
@@ -776,7 +778,7 @@ extern int DAT_01096164;
 extern int DAT_01096144;
 extern int DAT_01096124;
 
-void __cdecl FUN_00aa10f0(void* p);
+void __cdecl _NiFree_00aa10f0(void* p);
 void __fastcall FUN_00b601a0(void* self);
 
 struct ItemBinding
@@ -1064,11 +1066,11 @@ struct FNV_Comparable
     virtual void v20();
     virtual void v21();
     virtual void v22();
-    virtual bool FUN_00a6cc80(FNV_Comparable* rhs);
+    virtual bool NiTimeController_IsEqual(FNV_Comparable* rhs);
 };
 struct FNV_EqualBase
 {
-    bool FUN_00a6cc80(FNV_EqualBase* rhs);
+    bool NiTimeController_IsEqual(FNV_EqualBase* rhs);
 };
 
 // Compares this controller manager with rhs: base equality, map entries by key, then each object pointer pair, returning false on any mismatch.
@@ -1076,7 +1078,7 @@ struct FNV_EqualBase
 bool __fastcall FUN_00a2e320(NiControllerManager* self, int, NiControllerManager* apOther)
 {
     NiControllerManager* other = apOther;
-    if (!reinterpret_cast<FNV_EqualBase*>(self)->FUN_00a6cc80(reinterpret_cast<FNV_EqualBase*>(other)))
+    if (!reinterpret_cast<FNV_EqualBase*>(self)->NiTimeController_IsEqual(reinterpret_cast<FNV_EqualBase*>(other)))
         return false;
     if (self->m_kSequences.m_usSize != other->m_kSequences.m_usSize)
         return false;
@@ -1092,7 +1094,7 @@ bool __fastcall FUN_00a2e320(NiControllerManager* self, int, NiControllerManager
         map->GetNext(position, key, reinterpret_cast<NiControllerSequence*&>(item));
         if (!otherMap->GetAt(key, reinterpret_cast<NiControllerSequence*&>(matchedItem)))
             return false;
-        if (!item->FUN_00a6cc80(matchedItem))
+        if (!item->NiTimeController_IsEqual(matchedItem))
             return false;
     }
 
@@ -1102,7 +1104,7 @@ bool __fastcall FUN_00a2e320(NiControllerManager* self, int, NiControllerManager
         FNV_Comparable* right = reinterpret_cast<FNV_Comparable*>(other->m_kSequences.m_pBase[j].m_pObject);
         if (left != 0 && right != 0)
         {
-            if (!left->FUN_00a6cc80(right))
+            if (!left->NiTimeController_IsEqual(right))
                 return false;
         }
         else if (left != right)

@@ -69,7 +69,7 @@ struct FUN_00e8aa40_Class {
 };
 void __stdcall FUN_00e8b490(int* a, int b, int c);
 extern NiTStringPointerMap<NiD3DShaderProgramCreator*>* DAT_0126fa14;
-void FUN_00e933d0();
+void NiD3DShaderProgramFactory__SDMShutdown();
 extern "C" void __cdecl FUN_00e93400();
 extern MemoryManager g_memoryManager;
 extern bool DAT_0126f0d0;
@@ -246,7 +246,7 @@ struct FUN_00e88b00_Class {
     int __thiscall FUN_00e88b00();
     int __thiscall DestroyIfFlagged(bool flag);
 };
-unsigned int __fastcall FUN_00e8a240(char* self, int);
+unsigned int __fastcall NiPixelFormat_GetNumComponents(char* self, int);
 void __cdecl _NiFree(void* p);
 extern int DAT_010efdd8;
 extern int DAT_010efdf8;
@@ -4623,7 +4623,7 @@ struct ScalarDeletingObject {
     void FUN_00e89560();
     void* DestroyScalarObject(unsigned char flags);
 };
-extern "C" void __cdecl FUN_00aa10f0(void*);
+extern "C" void __cdecl _NiFree_00aa10f0(void*);
 extern int DAT_010ef73c;
 extern int DAT_0101dce4;
 extern volatile long DAT_011f4400;
@@ -6894,7 +6894,7 @@ float f64;
 int f68;
 bool UpdateFromSource(LightSource* source);
 };
-extern "C" void __cdecl FUN_00aa10f0(void* p);
+extern "C" void __cdecl _NiFree_00aa10f0(void* p);
 extern int DAT_010f0ef0;
 struct FUN_00e89740_Obj {
     int unk00;
@@ -7124,7 +7124,7 @@ struct Seq9ea
     int m_10;
     unsigned int m_uiLast;
 };
-bool FUN_00e9ea70(float fTime, Seq9ea* pkSeq, void* p2, void* p3, void* p4, void* p5, void* p6);
+bool NiUnionBV_UnionTriTestIntersect(float fTime, Seq9ea* pkSeq, void* p2, void* p3, void* p4, void* p5, void* p6);
 #include "fnv_asm_helpers.h"   // project x87 helpers (fnv_SinCos, fnv_FloatToInt), kept last so earlier code is unchanged
 struct ColorWithAlpha { float r,g,b,a; ColorWithAlpha(float red,float green,float blue):r(red),g(green),b(blue) {} void addScaled(const ColorWithAlpha& source,float factor) { r+=source.r*factor;g+=source.g*factor;b+=source.b*factor; } };
 struct ActiveLight;

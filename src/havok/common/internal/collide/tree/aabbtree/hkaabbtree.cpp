@@ -197,7 +197,7 @@ struct FUN_00d9ce00_Class
     int unk08;
     int* items;
     int count;
-    int FUN_00d9c450(int start, int first, int second);
+    int hkAabbTree_struct_hkAabbTreeData_hkAabbTreeAabb_unsigned_int_NodeManager_reserve(int start, int first, int second);
     int* PopItem(int first, int second, int* output);
 };
 
@@ -205,7 +205,7 @@ struct FUN_00d9ce00_Class
 int* FUN_00d9ce00_Class::PopItem(int first, int second, int* output)
 {
     if (count == 0)
-        FUN_00d9c450(value + 0x80, first, second);
+        hkAabbTree_struct_hkAabbTreeData_hkAabbTreeAabb_unsigned_int_NodeManager_reserve(value + 0x80, first, second);
     *output = items[count - 1];
     --count;
     return (int*)(((*output * 3) << 4) + base);
@@ -622,7 +622,7 @@ struct S_00d9d650_Node
 
 struct S_00d9d650_Pool
 {
-    void FUN_00d9c450(int numNodes, S_00d9d650_Node** root, int* a);
+    void hkAabbTree_struct_hkAabbTreeData_hkAabbTreeAabb_unsigned_int_NodeManager_reserve(int numNodes, S_00d9d650_Node** root, int* a);
     S_00d9d650_Node* PopItem(S_00d9d650_Node** root, int* a, int* b);
 };
 
@@ -650,7 +650,7 @@ void S_00d9d650_Tree::BuildTree(const S_00d9d650_Aabb* aabbs, const int* keys, i
     if (n)
     {
         out.setSize(n);
-        m_kNodePool.FUN_00d9c450(2 * n - 1, &m_pTreeNode, &m_14);
+        m_kNodePool.hkAabbTree_struct_hkAabbTreeData_hkAabbTreeAabb_unsigned_int_NodeManager_reserve(2 * n - 1, &m_pTreeNode, &m_14);
         m_pTreeNode = m_kNodePool.PopItem(&m_pTreeNode, &m_14, &m_14);
         m_pTreeNode->m_28 |= 0x7fffffff;
 
@@ -780,16 +780,17 @@ public:
     int m_iArrayLength;
     FreeListD9C7 m_kFreeList;
 
-    void FUN_00d9bb50(NodeD9C7* pkNode, NodeD9C7** ppkOut);
-    void FUN_00d9c7d0(NodeD9C7* pkNode);
+    void hkAabbTree_struct_hkAabbTreeData_hkAabbTreeAabb16_unsigned_short_removeLeafInternal(NodeD9C7* pkNode, NodeD9C7** ppkOut);
+    void hkAabbTree_struct_hkAabbTreeData_hkAabbTreeAabb16_unsigned_short_remove(NodeD9C7* pkNode);
 };
 
 // @fnv 0x00d9c7d0
-void FUN_00d9c7d0_C::FUN_00d9c7d0(NodeD9C7* pkNode)
+// src: HAVOK_LIB 0x00d9c7d0
+void FUN_00d9c7d0_C::hkAabbTree_struct_hkAabbTreeData_hkAabbTreeAabb16_unsigned_short_remove(NodeD9C7* pkNode)
 {
     if (!(m_pkTreeNode->m_usFlags & 0x8000)) {
         NodeD9C7* pkOther;
-        FUN_00d9bb50(pkNode, &pkOther);
+        hkAabbTree_struct_hkAabbTreeData_hkAabbTreeAabb16_unsigned_short_removeLeafInternal(pkNode, &pkOther);
         m_kFreeList.FUN_00d9c2d0(pkOther);
     } else {
         m_sValue = 0x7fff;
@@ -854,11 +855,12 @@ struct Handle_d9c4 {
 struct HandlePool_d9c4 {
     hkArray<Handle_d9c4> m_handles;
     hkArray<int> m_kFreeListEntries;
-    void FUN_00d9c450(int newSize, Handle_d9c4** ppHandle, const int* pIndex);
+    void hkAabbTree_struct_hkAabbTreeData_hkAabbTreeAabb_unsigned_int_NodeManager_reserve(int newSize, Handle_d9c4** ppHandle, const int* pIndex);
 };
 
 // @fnv 0x00d9c450
-void HandlePool_d9c4::FUN_00d9c450(int newSize, Handle_d9c4** ppHandle, const int* pIndex)
+// src: HAVOK_LIB 0x00d9c450
+void HandlePool_d9c4::hkAabbTree_struct_hkAabbTreeData_hkAabbTreeAabb_unsigned_int_NodeManager_reserve(int newSize, Handle_d9c4** ppHandle, const int* pIndex)
 {
     int oldSize = m_handles.m_iElementCount;
     m_handles.setSize(newSize);

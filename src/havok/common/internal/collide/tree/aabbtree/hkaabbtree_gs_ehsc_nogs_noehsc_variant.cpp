@@ -78,7 +78,7 @@ struct FUN_00d9ce00_Class
     int unk08;
     int* items;
     int count;
-    int FUN_00d9c450(int start, int first, int second);
+    int hkAabbTree_struct_hkAabbTreeData_hkAabbTreeAabb_unsigned_int_NodeManager_reserve(int start, int first, int second);
     int* PopItem(int first, int second, int* output);
 };
 struct UnsignedShortArray { unsigned short* elements; unsigned int count; unsigned int capacity; };
@@ -92,7 +92,7 @@ struct Allocator {
     virtual void Free(void* p, unsigned int bytes);
 };
 hkMemoryRouter* __cdecl FUN_00c85750();
-void __cdecl FUN_00c908c0(Allocator* allocator, void** data, unsigned int capacity, unsigned int elemSize);
+void __cdecl hkArrayUtil__reserve(Allocator* allocator, void** data, unsigned int capacity, unsigned int elemSize);
 struct S_d9bf30_Rec {
     int unk0; int unk4; int unk8; int unkc;
     unsigned short unk10; unsigned short unk12;
@@ -116,7 +116,7 @@ struct S_d9bf30_Words {
             if ((int)newSize >= (int)nc) {
                 nc = newSize;
             }
-            FUN_00c908c0(alloc, (void**)&m_data, nc, 2);
+            hkArrayUtil__reserve(alloc, (void**)&m_data, nc, 2);
         }
 
         for (int i = (int)newSize - 1; i >= oldCount; --i) {
@@ -154,7 +154,7 @@ struct S_00d9d650_Heap
     virtual void unkVfn3();
     virtual void ReturnMemory(void* p, int numBytes);
 };
-void __cdecl FUN_00c908c0(S_00d9d650_Heap& alloc, void* array, int reqCapacity, int sizeElem);
+void __cdecl hkArrayUtil__reserve(S_00d9d650_Heap& alloc, void* array, int reqCapacity, int sizeElem);
 template <typename T>
 struct S_00d9d650_Array
 {
@@ -185,7 +185,7 @@ struct S_00d9d650_Array
         {
             int cap2 = 2 * capacity;
             int newSize = (n < cap2) ? cap2 : n;
-            FUN_00c908c0(alloc, this, newSize, sizeof(T));
+            hkArrayUtil__reserve(alloc, this, newSize, sizeof(T));
         }
     }
     __forceinline void _setSize(S_00d9d650_Heap& alloc, int n)
@@ -215,7 +215,7 @@ struct S_00d9d650_Node
 };
 struct S_00d9d650_Pool
 {
-    void FUN_00d9c450(int numNodes, S_00d9d650_Node** root, int* a);
+    void hkAabbTree_struct_hkAabbTreeData_hkAabbTreeAabb_unsigned_int_NodeManager_reserve(int numNodes, S_00d9d650_Node** root, int* a);
     S_00d9d650_Node* PopItem(S_00d9d650_Node** root, int* a, int* b);
 };
 struct S_00d9d650_Tree
@@ -288,8 +288,8 @@ public:
     int m_iArrayLength;
     FreeListD9C7 m_kFreeList;
 
-    void FUN_00d9bb50(NodeD9C7* pkNode, NodeD9C7** ppkOut);
-    void FUN_00d9c7d0(NodeD9C7* pkNode);
+    void hkAabbTree_struct_hkAabbTreeData_hkAabbTreeAabb16_unsigned_short_removeLeafInternal(NodeD9C7* pkNode, NodeD9C7** ppkOut);
+    void hkAabbTree_struct_hkAabbTreeData_hkAabbTreeAabb16_unsigned_short_remove(NodeD9C7* pkNode);
 };
 
 extern "C" __m128 _mm_min_ps(__m128 a, __m128 b);
@@ -616,13 +616,14 @@ template<class B, class I> struct CurrentTree {
         return (n->parent & Node::mask) != Node::mask ? const_cast<Node*>(((const Pool*)&m_kNodePool)->GetEntryOffset(n->parent & Node::mask)) : 0;
     }
     __forceinline Node* childOf(const Node* n, int i) const { return const_cast<Node*>(((const Pool*)&m_kNodePool)->GetEntryOffset(n->child[i])); }
-    Node* FUN_00d9bb50(I leafIdx, I* outParent);
+    Node* hkAabbTree_struct_hkAabbTreeData_hkAabbTreeAabb16_unsigned_short_removeLeafInternal(I leafIdx, I* outParent);
 };
 template<class B,class I> typename CurrentTree<B,I>::Node* CurrentTree<B,I>::Pool::GetEntryOffset(I i) { return &nodes[i]; }
 template<class B,class I> const typename CurrentTree<B,I>::Node* CurrentTree<B,I>::Pool::GetEntryOffset(I i) const { return &nodes[i]; }
 
 // @fnv 0x00d9bb50
-template<class B,class I> typename CurrentTree<B,I>::Node* CurrentTree<B,I>::FUN_00d9bb50(I leafIdx,I* outParent)
+// src: HAVOK_LIB 0x00d9bb50
+template<class B,class I> typename CurrentTree<B,I>::Node* CurrentTree<B,I>::hkAabbTree_struct_hkAabbTreeData_hkAabbTreeAabb16_unsigned_short_removeLeafInternal(I leafIdx,I* outParent)
 {
     Pool* pool = &m_kNodePool;
     Node* leaf = pool->GetEntryOffset(leafIdx);
@@ -681,7 +682,7 @@ done:
     return root;
 }
 
-template CurrentTree<S00d9bb50_Aabb,unsigned short>::Node* CurrentTree<S00d9bb50_Aabb,unsigned short>::FUN_00d9bb50(unsigned short,unsigned short*);
+template CurrentTree<S00d9bb50_Aabb,unsigned short>::Node* CurrentTree<S00d9bb50_Aabb,unsigned short>::hkAabbTree_struct_hkAabbTreeData_hkAabbTreeAabb16_unsigned_short_removeLeafInternal(unsigned short,unsigned short*);
 
 extern "C" {
 __m128 _mm_add_ps(__m128, __m128);
@@ -701,7 +702,7 @@ struct TreeHeap {
     virtual void ReturnMemory(void* p, int numBytes) throw();
 };
 
-void __cdecl FUN_00c908c0(TreeHeap& alloc, void* array, int reqCapacity, int sizeElem) throw();
+void __cdecl hkArrayUtil__reserve(TreeHeap& alloc, void* array, int reqCapacity, int sizeElem) throw();
 
 template <typename T>
 struct TreeArrayLocalForm { // local form of hkArray: 0x00d9ce50 needs the original inline/out-of-line helper split; shared replacement changes bytes.
@@ -731,7 +732,7 @@ struct TreeArrayLocalForm { // local form of hkArray: 0x00d9ce50 needs the origi
         {
             int cap2 = 2 * capacity;
             int newSize = (n < cap2) ? cap2 : n;
-            FUN_00c908c0(alloc, this, newSize, sizeof(T));
+            hkArrayUtil__reserve(alloc, this, newSize, sizeof(T));
         }
     }
     __forceinline void SetSizeAndGrow(int n)
@@ -925,7 +926,7 @@ void Tree840::FUN_00d9c840(const Source840* source,const int* keys,int count,Nod
     if(capacity<count) {
         int newSize=capacity*2;
         if(count>=newSize) newSize=count;
-        FUN_00c908c0(heap,(void**)&indices.data,newSize,2);
+        hkArrayUtil__reserve(heap,(void**)&indices.data,newSize,2);
     }
     indices.count=count;
     for(int i=0;i<count;++i) indices.data[i]=(unsigned short)i;

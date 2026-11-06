@@ -51,7 +51,7 @@ struct FUN_00a41520_cls
     bool FUN_00a41520(void* apFirst, void* apSecond);
 };
 void* __cdecl FUN_00aa1070(unsigned int auiSize);
-void __cdecl FUN_00aa10f0(void* apMemory);
+void __cdecl _NiFree_00aa10f0(void* apMemory);
 struct S_Interface
 {
     static KeyPair** Allocate(unsigned int auiCount)

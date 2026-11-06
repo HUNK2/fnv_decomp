@@ -290,10 +290,11 @@ struct ProcessManager {
 };
 extern "C" int __cdecl FUN_00cd7850(const ProcessVector&, const ProcessVector*, const hkpMultiSphereTriangleAgent::TriangleNormal&, ProcessClosest&, void* = 0);
 struct SphereTriangleProcessReceiver : hkpMultiSphereTriangleAgent {
-    void FUN_00d38b00(const ProcessBody&, const ProcessBody&, const ProcessInput&, ProcessOutput&);
+    void hkpMultiSphereTriangleAgent_processCollision(const ProcessBody&, const ProcessBody&, const ProcessInput&, ProcessOutput&);
 };
 // @fnv 0x00d38b00
-void SphereTriangleProcessReceiver::FUN_00d38b00(const ProcessBody& a, const ProcessBody& b, const ProcessInput& input, ProcessOutput& output) {
+// src: HAVOK_SRC 0x00d38b00
+void SphereTriangleProcessReceiver::hkpMultiSphereTriangleAgent_processCollision(const ProcessBody& a, const ProcessBody& b, const ProcessInput& input, ProcessOutput& output) {
     {
         ProcessMonitor& monitor = ProcessMonitor::instance();
         if (monitor.available()) {

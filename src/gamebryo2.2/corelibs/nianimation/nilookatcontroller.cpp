@@ -595,14 +595,14 @@ void* __cdecl CreateMorphData()
 
 struct BaseEqual
 {
-    bool FUN_00a6cc80(NiLookAtController* other);
+    bool NiTimeController_IsEqual(NiLookAtController* other);
 };
 
 // Compares the base controller and the optional look-at object.
 // @fnv 0x00a4c890
 bool NiLookAtController::FUN_00a4c890(NiLookAtController* other)
 {
-    if (!reinterpret_cast<BaseEqual*>(this)->FUN_00a6cc80(other))
+    if (!reinterpret_cast<BaseEqual*>(this)->NiTimeController_IsEqual(other))
         return false;
     if ((m_pkLookAt && !other->m_pkLookAt) || (!m_pkLookAt && other->m_pkLookAt))
         return false;

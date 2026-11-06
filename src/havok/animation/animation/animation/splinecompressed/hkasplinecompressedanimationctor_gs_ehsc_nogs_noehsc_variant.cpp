@@ -56,7 +56,7 @@ template <typename TYPE> __forceinline void hkMemoryAllocator::_bufFree(void* p,
     bufFree(p, numElem * SIZE_ELEM);
 }
 void ResizeAudioStream(hkMemoryAllocator& a, void* array, int sizeElem);
-void FUN_00c908c0(hkMemoryAllocator& a, void* array, int reqElem, int sizeElem);
+void hkArrayUtil__reserve(hkMemoryAllocator& a, void* array, int reqElem, int sizeElem);
 
 struct Se31d50_ContainerHeap
 {
@@ -143,7 +143,7 @@ template <typename T> struct Se31d50_ArrayBase
         {
             int cap2 = 2 * capacity;
             int newSize = (n < cap2) ? cap2 : n;
-            FUN_00c908c0(alloc, this, newSize, sizeof(T));
+            hkArrayUtil__reserve(alloc, this, newSize, sizeof(T));
         }
     }
     __forceinline void _setSize(hkMemoryAllocator& alloc, int n)
@@ -374,7 +374,7 @@ struct Se31d50_ErrStream
 typedef Se31d50_Array<hkVector4> Se31d50_VecArr;
 typedef Se31d50_Array<float> Se31d50_FltArr;
 typedef Se31d50_Array<unsigned char> Se31d50_ByteArr;
-void FUN_00e58740(int numPoints, const float* U, const hkVector4* P, int degree, float tolerance, int* numKnots,
+void _ApproximateNURBSCurve(int numPoints, const float* U, const hkVector4* P, int degree, float tolerance, int* numKnots,
                   float* knots, int* numCP, hkVector4* cp);
 
 // The shared spline animation header lacks the builder methods and parameter types.
@@ -414,7 +414,7 @@ struct Se31d50_Anim
     Se31d50_Array<unsigned int> m_kFloatOffsets;
     Se31d50_ByteArr m_kCompressedData;
     int m_iEndian;
-    int FUN_00e33330() const;
+    int getSizeInBytes() const;
     void AppendScaledValues(int n, int p, const Se31d50_FltArr& U);
     void FUN_00e319e0(unsigned char mask, Se31d50_RotQ q, const hkVector4& s, int n, const Se31d50_VecArr& p);
     void WriteCompressedAnimation(unsigned char mask, Se31d50_ScalQ q, const hkVector4& s,
@@ -424,12 +424,12 @@ struct Se31d50_Anim
     static hkVector4 FUN_00e31410(const Se31d50_VecArr& d);
     static hkVector4 FUN_00e31470(const Se31d50_VecArr& d);
     static hkVector4 FUN_00e314c0(const Se31d50_VecArr& d);
-    static unsigned char FUN_00e311f0(const hkVector4& mean, const hkVector4& mn, const hkVector4& mx,
+    static unsigned char hkaSplineCompressedAnimation_isStatic(const hkVector4& mean, const hkVector4& mn, const hkVector4& mx,
                                       float tol, const hkVector4& id);
     static unsigned char PackBitFields(Se31d50_ScalQ t, Se31d50_RotQ r, Se31d50_ScalQ s);
-    static unsigned char FUN_00e30f40(unsigned char mask, Se31d50_ScalQ f);
-    static void FUN_00e31800(int n, Se31d50_ByteArr& out);
-    static void FUN_00e31850(int align, Se31d50_ByteArr& out);
+    static unsigned char hkaSplineCompressedAnimation_packMaskAndQuantizationType(unsigned char mask, Se31d50_ScalQ f);
+    static void hkaSplineCompressedAnimation_writeZeros(int n, Se31d50_ByteArr& out);
+    static void hkaSplineCompressedAnimation_writeAlign(int align, Se31d50_ByteArr& out);
     static void FillInterpolatedValues(int n, Se31d50_FltArr& U, float a, float b);
     static void FUN_00e310c0(const hkQsTransform* t, int numTracks, int numFrames, int first, int track, Se31d50_VecArr& a,
                              Se31d50_VecArr& b, Se31d50_VecArr& c);
@@ -469,7 +469,8 @@ __declspec(noinline) hkVector4 Se31d50_Anim::FUN_00e314c0(const Se31d50_VecArr& 
     }
     return m;
 }
-__declspec(noinline) unsigned char Se31d50_Anim::FUN_00e311f0(const hkVector4& mean, const hkVector4& mn,
+// src: HAVOK_LIB 0x00e311f0
+__declspec(noinline) unsigned char Se31d50_Anim::hkaSplineCompressedAnimation_isStatic(const hkVector4& mean, const hkVector4& mn,
                                                               const hkVector4& mx, float tol,
                                                               const hkVector4& id)
 {
@@ -491,7 +492,8 @@ __declspec(noinline) unsigned char Se31d50_Anim::PackBitFields(Se31d50_ScalQ t, 
 {
     return (unsigned char)(t | (r << 2) | (s << 6));
 }
-__declspec(noinline) unsigned char Se31d50_Anim::FUN_00e30f40(unsigned char mask, Se31d50_ScalQ f)
+// src: HAVOK_LIB 0x00e30f40
+__declspec(noinline) unsigned char Se31d50_Anim::hkaSplineCompressedAnimation_packMaskAndQuantizationType(unsigned char mask, Se31d50_ScalQ f)
 {
     return (unsigned char)(mask | (f << 1));
 }
@@ -553,7 +555,7 @@ void Se31d50_Anim::FUN_00e31d50(const Se31d50_Raw& raw, const Se31d50_PerTrack& 
         const int nf = Se31d50_min2(m_iMaxFramesPerBlock, m_iFrameCount - f);
         const float blockDuration = m_fAnimationDuration / (m_iFrameCount - 1) * (nf - 1);
         int maskPos = m_kCompressedData.GetLogicalSize();
-        FUN_00e31800(m_iMaskAndQuantizationSize, m_kCompressedData);
+        hkaSplineCompressedAnimation_writeZeros(m_iMaskAndQuantizationSize, m_kCompressedData);
         for (int isFloat = 0; isFloat < 2; isFloat++)
         {
             const int numTracks = (isFloat == 0) ? m_iNumTransformTracks : m_iNumberOfFloatTracks;
@@ -637,7 +639,7 @@ void Se31d50_Anim::FUN_00e31d50(const Se31d50_Raw& raw, const Se31d50_PerTrack& 
                     identity[0].set(0.0f, 0.0f, 0.0f, 0.0f);
                     identity[1].set(0.0f, 0.0f, 0.0f, 1.0f);
                     identity[2].set(1.0f, 1.0f, 1.0f, 0.0f);
-                    unsigned char mask = FUN_00e311f0(mean, minV, maxV, tolerance[c], identity[c]);
+                    unsigned char mask = hkaSplineCompressedAnimation_isStatic(mean, minV, maxV, tolerance[c], identity[c]);
                     if (isFloat == 1 && mask == 0)
                     {
                         mask = 1;
@@ -656,7 +658,7 @@ void Se31d50_Anim::FUN_00e31d50(const Se31d50_Raw& raw, const Se31d50_PerTrack& 
                     }
                     else
                     {
-                        m_kCompressedData[maskPos] = FUN_00e30f40(mask, params.m_eFloatQuantizationType);
+                        m_kCompressedData[maskPos] = hkaSplineCompressedAnimation_packMaskAndQuantizationType(mask, params.m_eFloatQuantizationType);
                         maskPos++;
                     }
                     Se31d50_VecArr controlPoints(nf * 3);
@@ -665,14 +667,14 @@ void Se31d50_Anim::FUN_00e31d50(const Se31d50_Raw& raw, const Se31d50_PerTrack& 
                     {
                         int numKnots;
                         int numControlPoints;
-                        FUN_00e58740(nf, U[c].begin(), data[c].begin(), degree[c], tolerance[c], &numKnots,
+                        _ApproximateNURBSCurve(nf, U[c].begin(), data[c].begin(), degree[c], tolerance[c], &numKnots,
                                      knots.begin(), &numControlPoints, controlPoints.begin());
                         knots.SetSizeAndGrow(numKnots);
                         controlPoints.SetSizeAndGrow(numControlPoints);
                         if (controlPoints.GetLogicalSize() > nf)
                         {
                             degree[c] = 1;
-                            FUN_00e58740(nf, U[c].begin(), data[c].begin(), degree[c], tolerance[c], &numKnots,
+                            _ApproximateNURBSCurve(nf, U[c].begin(), data[c].begin(), degree[c], tolerance[c], &numKnots,
                                          knots.begin(), &numControlPoints, controlPoints.begin());
                             knots.SetSizeAndGrow(numKnots);
                             controlPoints.SetSizeAndGrow(numControlPoints);
@@ -699,12 +701,12 @@ void Se31d50_Anim::FUN_00e31d50(const Se31d50_Raw& raw, const Se31d50_PerTrack& 
                                                      : (Se31d50_ScalQ)params.m_eFloatQuantizationType,
                                                  mean, minV, maxV, controlPoints.GetLogicalSize() - 1, controlPoints);
                     }
-                    FUN_00e31850(4, m_kCompressedData);
+                    hkaSplineCompressedAnimation_writeAlign(4, m_kCompressedData);
                 }
             }
         }
         f += nf - 1;
-        FUN_00e31850(16, m_kCompressedData);
+        hkaSplineCompressedAnimation_writeAlign(16, m_kCompressedData);
     }
     DAT_01268360->beginSection(0x36118e94, str_010eb4c8);
     {
@@ -727,14 +729,14 @@ void Se31d50_Anim::FUN_00e31d50(const Se31d50_Raw& raw, const Se31d50_PerTrack& 
         ostr.FUN_00cc01c0(str_010eb418)
             .FUN_00cc02d0(originalSize)
             .FUN_00cc01c0(str_010eb428)
-            .WriteInt(FUN_00e33330())
+            .WriteInt(getSizeInBytes())
             .FUN_00cc01c0(str_010eb468);
         DAT_01268360->message(0, -1, reportBuf, str_010eb470, 372);
     }
     {
         char reportBuf[512];
         Se31d50_ErrStream ostr(reportBuf, sizeof(reportBuf));
-        ostr.FUN_00cc01c0(str_010eb400).WriteFloat((float)originalSize / FUN_00e33330()).FUN_00cc01c0(str_010eb414);
+        ostr.FUN_00cc01c0(str_010eb400).WriteFloat((float)originalSize / getSizeInBytes()).FUN_00cc01c0(str_010eb414);
         DAT_01268360->message(0, -1, reportBuf, str_010eb470, 373);
     }
     DAT_01268360->endSection();

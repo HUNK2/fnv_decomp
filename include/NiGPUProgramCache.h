@@ -88,9 +88,9 @@ public:
     void onStringChanged();
     void vfn20() throw();
     void v22(NiFile* s, NiRefObject* val, NiFixedString* key);
-    bool FUN_00ee92d0(NiFile* pkFile, char* pcBuffer, unsigned int uiBufferSize);
-    void FUN_00ee9230(NiFile* s, unsigned int v);
-    void FUN_00ee9230(NiFile* s, int v);
+    bool NiGPUProgramCache_LoadStringA(NiFile* pkFile, char* pcBuffer, unsigned int uiBufferSize);
+    void NiGPUProgramCache_SaveString(NiFile* s, unsigned int v);
+    void NiGPUProgramCache_SaveString(NiFile* s, int v);
 
     union
     {

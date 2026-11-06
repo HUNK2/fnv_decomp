@@ -60,7 +60,7 @@ void __stdcall FUN_00e0af40(int a, int b);
 
 extern "C" void _ReadBarrier();
 void* FUN_00c85750(void);
-void __cdecl FUN_00c908c0(void* allocator, void* self, unsigned int newCap, int elemSize);
+void __cdecl hkArrayUtil__reserve(void* allocator, void* self, unsigned int newCap, int elemSize);
 
 struct AllocatorHolder
 {
@@ -150,7 +150,7 @@ template <class Array> static __forceinline void SubdivExpand(Array* array, int 
         int newCap = cap + cap;
         if (need < newCap)
             need = newCap;
-        FUN_00c908c0(alloc, array, need, 16);
+        hkArrayUtil__reserve(alloc, array, need, 16);
     }
     array->m_uiItemCount += amount;
 }

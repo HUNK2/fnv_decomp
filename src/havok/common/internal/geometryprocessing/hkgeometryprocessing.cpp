@@ -29,7 +29,8 @@ __thiscall FUN_00dee620::FUN_00dee620(int aiFlags)
 extern "C" void __cdecl FUN_00dedf10(void*, void*, void*, void*, int, int);
 // Forwards the four pointers to FUN_00dedf10 with two trailing int arguments set to 0.
 // @fnv 0x00dee5f0
-void __cdecl FUN_00dee5f0(void* first, void* second, void* third, void* fourth)
+// src: HAVOK_LIB 0x00dee5f0
+void __cdecl hkGeometryProcessing_generateRandomDistribution(void* first, void* second, void* third, void* fourth)
 {
     FUN_00dedf10(first, second, third, fourth, 0, 0);
 }

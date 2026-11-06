@@ -38,14 +38,14 @@ struct FUN_00e3f900_class
     int __thiscall FUN_00cb0a70(int a);
     int __thiscall FUN_00e3f900(int a);
 };
-int __cdecl FUN_00e30f40(int a, int b);
+int __cdecl hkaSplineCompressedAnimation_packMaskAndQuantizationType(int a, int b);
 struct S_00df8990_Obj;
 extern void(__cdecl* DAT_0126ec04)(void*, void*, S_00df8990_Obj*);
 void __cdecl FUN_00e2b9b0(void*, void*, S_00df8990_Obj*);
 void __cdecl FUN_00e2ba90();
 extern int DAT_010eb3b8[];
 extern int DAT_010eb3d0[];
-int __cdecl FUN_00e30ff0(int a, int b);
+int __cdecl hkaSplineCompressedAnimation_handleEndianQuaternion(int a, int b);
 void __cdecl AlignAndAdvance(char flags, int a, int b, int* p);
 extern int DAT_010eb770;
 struct FUN_00e34800
@@ -162,7 +162,7 @@ struct E2baaDst
     int unk50;
     int unk54;
 };
-E2baaDst* __cdecl FUN_00e2baa0(E2baaDst* out, E2baaSrc* src, int flag);
+E2baaDst* __cdecl setCollector(E2baaDst* out, E2baaSrc* src, int flag);
 struct FUN_00e2d0d0_cls;
 struct E2d0Ref;
 struct E2d0Node;
@@ -1130,10 +1130,10 @@ class FUN_00e30f10
 unsigned short NormalizeToUShort(float fMin, float fScaledValue, float fValue);
 void __cdecl SwapBytesAndAdvance(int n, unsigned char** pp);
 void __cdecl FillInterpolatedValues(int count, float** array, float first, float last);
-unsigned int __cdecl FUN_00e31570(unsigned char a1, unsigned int* a2);
-void __cdecl FUN_00e315a0(unsigned char a1, unsigned int a2, unsigned int a3, unsigned int* a4);
+unsigned int __cdecl hkaSplineCompressedAnimation_handleEndianKnots(unsigned char a1, unsigned int* a2);
+void __cdecl hkaSplineCompressedAnimation_handleEndianScalarControlPoints(unsigned char a1, unsigned int a2, unsigned int a3, unsigned int* a4);
 void __cdecl FUN_00e31740(unsigned char flag, unsigned int a2, unsigned int* out);
-int __cdecl FUN_00e31570(int a, int* c);
+int __cdecl hkaSplineCompressedAnimation_handleEndianKnots(int a, int* c);
 void __cdecl AlignAndAdvance(int a, int result, int b, int* c);
 void __cdecl FUN_00e31780(int a, int b, int* c);
 int __cdecl FindKeyInterval(int a, int b, unsigned char key, unsigned char* t);
@@ -1616,7 +1616,8 @@ struct FUN_00e3f370_cls
 
 extern "C" unsigned int __cdecl _rotl(unsigned int, int);
 // @fnv 0x00e315a0
-void __cdecl FUN_00e315a0(unsigned char flags, unsigned int count, unsigned int wide, unsigned int* cursor)
+// src: HAVOK_LIB 0x00e315a0
+void __cdecl hkaSplineCompressedAnimation_handleEndianScalarControlPoints(unsigned char flags, unsigned int count, unsigned int wide, unsigned int* cursor)
 {
     if (!flags)
         return;

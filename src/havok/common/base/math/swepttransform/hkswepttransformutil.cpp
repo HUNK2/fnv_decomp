@@ -14,7 +14,8 @@
 #include "../../../../../../include/hkVector4.h"
 
 // @fnv 0x00cf1480
-void FUN_00cf1480(float afValue1, float afValue2, int* piTarget)
+// src: HAVOK_LIB 0x00cf1480
+void hkSweptTransformUtil_setTimeInformation(float afValue1, float afValue2, int* piTarget)
 {
     *reinterpret_cast<float*>(piTarget + 19) = afValue1;
     *reinterpret_cast<float*>(piTarget + 23) = afValue2;
@@ -383,7 +384,7 @@ struct S_00cf10f0_Ctx
 hkMemoryRouter* FUN_00c85750() throw();
 
 struct S_00cf10f0_Arr4;
-void __cdecl FUN_00c908c0(hkMemoryAllocator* heap, S_00cf10f0_Arr4* arr, int n, int elemSize);
+void __cdecl hkArrayUtil__reserve(hkMemoryAllocator* heap, S_00cf10f0_Arr4* arr, int n, int elemSize);
 
 struct S_00cf10f0_Arr4
 {
@@ -395,7 +396,7 @@ struct S_00cf10f0_Arr4
         hkMemoryAllocator& h = FUN_00c85750()->heap();
         int cap = m_cap & 0x3fffffff;
         if (cap < n)
-            FUN_00c908c0(&h, this, (n < cap * 2) ? cap * 2 : n, 4);
+            hkArrayUtil__reserve(&h, this, (n < cap * 2) ? cap * 2 : n, 4);
     }
     __forceinline void SetSizeAndGrow(int n) throw()
     {
@@ -453,7 +454,7 @@ inline hkMemoryRouter* audio()
     return FUN_00c85750();
 }
 
-__declspec(nothrow) void __cdecl FUN_00c908c0(hkMemoryAllocator& alloc, void* arr, int numElem, int sizeElem);
+__declspec(nothrow) void __cdecl hkArrayUtil__reserve(hkMemoryAllocator& alloc, void* arr, int numElem, int sizeElem);
 
 struct BlobStream
 {
@@ -495,7 +496,7 @@ struct ByteArrayLocalForm
         if (getCapacity() < n)
         {
             int cap = 2 * getCapacity();
-            FUN_00c908c0(alloc, this, n < cap ? cap : n, sizeof(char));
+            hkArrayUtil__reserve(alloc, this, n < cap ? cap : n, sizeof(char));
         }
         m_iElementCount = n;
     }
@@ -562,7 +563,8 @@ int __cdecl ReadBlobObject(BlobStream* stream, BlobObject** ppOut)
 
 int __cdecl FUN_00cf1f80(int, int, int);
 // @fnv 0x00cf2160
-int __cdecl FUN_00cf2160(unsigned int uiValue, unsigned int arg1)
+// src: HAVOK_LIB 0x00cf2160
+int __cdecl hkSweptTransformUtil_warpToRotation(unsigned int uiValue, unsigned int arg1)
 {
     unsigned int callResult0 = (unsigned int)FUN_00cf1f80((int)(arg1 + 48u), (int)uiValue, (int)arg1);
     return (int)callResult0;
@@ -725,7 +727,7 @@ void __cdecl UpdateRotationInterpolation(float time, FUN_008cd6a0_Class* apTrans
     apTransform->translation.q = _mm_sub_ps(apTransform->com1.q, rot);
 }
 
-void FUN_00cf1480(float a, float b, int* c);
+void hkSweptTransformUtil_setTimeInformation(float a, float b, int* c);
 
 struct __declspec(align(16)) MotionVec4
 {

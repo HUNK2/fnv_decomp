@@ -17,7 +17,7 @@ class NiSourceCubeMap : public NiSourceTexture
 
 
     bool FUN_00a5fae0(NiObject*);
-    bool FUN_00a60880(NiObject*);
+    bool IsEqual_00a60880(NiObject*);
     bool CreateCubeOrRelease();
     void GetFileStrings(StrArr*);
     void AppendGlobalString(StrArr*);

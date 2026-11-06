@@ -28,7 +28,8 @@ __forceinline hkTransform::hkTransform() {}
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 extern "C" void __cdecl FUN_00d40470(void* a, void* b, void* c, void* d);
 // @fnv 0x00d406a0
-extern "C" void __stdcall FUN_00d406a0(void* a, void* b, void* c, void* d)
+// src: HAVOK_SRC 0x00d406a0
+extern "C" void __stdcall hkpBoxBoxAgent_getClosestPoints(void* a, void* b, void* c, void* d)
 {
     FUN_00d40470(a, b, c, d);
 }
@@ -116,7 +117,7 @@ class Manager
     void* data08;
     void* unk0C;
     hkpCdBodyPairCollector callback10;
-    void FUN_00d40280(hkpCdBody* a, hkpCdBody* b, Parameters* parameters, void* p4);
+    void hkpBoxBoxAgent_processCollision(hkpCdBody* a, hkpCdBody* b, Parameters* parameters, void* p4);
 };
 inline void timer(const char* tag)
 {
@@ -136,7 +137,8 @@ inline __m128 splat(float v)
     return _mm_set1_ps(v);
 }
 // @fnv 0x00d40280
-void Manager::FUN_00d40280(hkpCdBody* a, hkpCdBody* b, Parameters* parameters, void* p4)
+// src: HAVOK_SRC 0x00d40280
+void Manager::hkpBoxBoxAgent_processCollision(hkpCdBody* a, hkpCdBody* b, Parameters* parameters, void* p4)
 {
     timer("TtBoxBox");
     const hkpBoxShape* kIter;

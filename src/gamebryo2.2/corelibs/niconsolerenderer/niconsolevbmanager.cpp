@@ -159,7 +159,7 @@ struct Holder_e8bff0 {
     virtual int __stdcall read(unsigned int type, unsigned int length, unsigned int* out, unsigned int flags) = 0;
 };
 extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void*);
-void __cdecl FUN_00aa10f0(void* p);
+void __cdecl _NiFree_00aa10f0(void* p);
 void* __cdecl FUN_00aa1070(unsigned int n);
 void __cdecl FUN_00ec44d0(void* p, unsigned int out, unsigned int n);
 struct Owner_e8bff0 {
@@ -179,7 +179,7 @@ void* Owner_e8bff0::FUN_00e8bff0(Holder_e8bff0* source, unsigned int type, unsig
     Offset() = out;
     Size() = length;
     if (Capacity() < length) {
-        FUN_00aa10f0(Data());
+        _NiFree_00aa10f0(Data());
         Data() = FUN_00aa1070(length);
         Capacity() = length;
     }

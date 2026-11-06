@@ -84,7 +84,7 @@ public:
     int m_04;
     FUN_00df6a40_inner* m_08;
 
-    bool* FUN_00df6a40(bool* out);
+    bool* hkCpuWorldGetClosestPointsCollector_hasHit(bool* out);
 };
 
 
@@ -245,7 +245,7 @@ struct SiblingCls_df6a60 {
     float Call(int a);
 };
 struct FUN_00df6b30_cls {
-    unsigned char* FUN_00df6b30(unsigned char* out, int a);
+    unsigned char* hkCpuWorldGetClosestPointsCollector_addMidPhaseHit(unsigned char* out, int a);
 };
 extern float DAT_0104da48;
 extern int DAT_0108f288;

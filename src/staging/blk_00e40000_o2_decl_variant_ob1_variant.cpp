@@ -18,13 +18,13 @@
 struct FUN_00e428f0_class
 {
     void Remove(void*);
-    void FUN_00e428f0(void* p);
+    void hkpVehicleCastBatchingManager_removeVehicle(void* p);
 };
-int __cdecl FUN_00e42940(int p);
+int __cdecl hkpVehicleCastBatchingManager_getStandardFilterSize(int p);
 extern "C" void __cdecl FUN_00cb0a60();
 struct FUN_00e4e400_class
 {
-    FUN_00e4e400_class* __thiscall FUN_00e4e400();
+    FUN_00e4e400_class* __thiscall hkaAnnotationTrack_hkaAnnotationTrack();
 };
 void FUN_00e52860(const float* src, float* dst);
 void FUN_00e52ef0(const float* src, float* dst);
@@ -138,8 +138,8 @@ struct FUN_00e4af80
 struct FUN_00e58b10_class
 {
     void FillWithValue(float* out);
-    void FUN_00e58a20(int a, int b, int c);
-    void FUN_00e58b10(int a, int b, int c);
+    void hkaSparseLSQMatrix_float_MultiplyAdd(int a, int b, int c);
+    void hkaSparseLSQMatrix_float_Multiply(int a, int b, int c);
 };
 extern const char* const g_0126c5f0_arg1;
 void __stdcall FUN_00e5c540(int, int);
@@ -248,7 +248,7 @@ struct FUN_00e42650_cls
     EventListener** m_08;
     int m_0c;
 
-    void FUN_00e42650(int a);
+    void hkpVehicleManager_addToWorld(int a);
 };
 struct FUN_00e42680_Item
 {
@@ -430,8 +430,8 @@ struct FUN_00e49fe0 : FUN_00cbfba0
     virtual void d14();
 };
 struct E4AAA0Allocator;
-void __cdecl FUN_00c908c0(E4AAA0Allocator* alloc, void* array, int numElements, int sizeElem);
-void __cdecl FUN_00d2cc70(void* dst, const void* src, unsigned int nbytes);
+void __cdecl hkArrayUtil__reserve(E4AAA0Allocator* alloc, void* array, int numElements, int sizeElem);
+void __cdecl hkMemUtil_memMove(void* dst, const void* src, unsigned int nbytes);
 struct E4AAA0Element
 {
     int m_kPointA;
@@ -448,7 +448,7 @@ static __forceinline void E4AAA0Array_reserve(hkArrayBase<E4AAA0Element>& self, 
         {
             int cap2 = 2 * cap;
             int newSize = (n < cap2) ? cap2 : n;
-            FUN_00c908c0(&alloc, (&self), newSize, sizeof(E4AAA0Element));
+            hkArrayUtil__reserve(&alloc, (&self), newSize, sizeof(E4AAA0Element));
         }
     }
 class E4AE50ReferencedObject
@@ -547,8 +547,8 @@ extern float DAT_0102295c;
 extern float DAT_0101622c;
 void __cdecl DeinterleaveFloats(float* a, float* b, unsigned int n);
 void __cdecl AccumulateNeighborSum(float c, float* a, float* b, unsigned int n);
-void __cdecl FUN_00e50e50(float c, float* a, float* b, unsigned int n);
-void __cdecl FUN_00e51330(float* base, unsigned int n);
+void __cdecl hkUpdateReflect(float c, float* a, float* b, unsigned int n);
+void __cdecl _hkWaveletTransform(float* base, unsigned int n);
 struct PackedFormat
 {
     unsigned char bits;
@@ -557,7 +557,7 @@ struct PackedFormat
     float range;
     float minimum;
 };
-void FUN_00e51f60(const float* src, unsigned int count, const PackedFormat* format, unsigned char* dst);
+void _hkQuantizeReal(const float* src, unsigned int count, const PackedFormat* format, unsigned char* dst);
 void __cdecl PackFourFloatsToNibbles(const float* src, unsigned char* dst);
 extern const float g_x;
 float __cdecl FUN_00e52f40();
@@ -578,9 +578,9 @@ inline void SwapByte(unsigned char& left, unsigned char& right)
     left = right;
     right = temporary;
 }
-void __cdecl FUN_00e53000(unsigned char* bytes);
+void __cdecl _handleEndianSignedQuaternion48(unsigned char* bytes);
 extern "C" void _ReadWriteBarrier(void);
-void __cdecl FUN_00e53030(unsigned char* p);
+void __cdecl _handleEndianSignedQuaternion128(unsigned char* p);
 class FUN_00e53160
 {
   public:
@@ -676,7 +676,7 @@ struct FourComponentVector
 {
     float x, y, z, w;
     __declspec(noinline) FourComponentVector(float a, float b, float c, float d);
-    FourComponentVector FUN_00e53440() const;
+    FourComponentVector hkaNURBS_Point_floor() const;
 };
 FourComponentVector::FourComponentVector(float a, float b, float c, float d) : x(a), y(b), z(c), w(d)
 {}
@@ -713,14 +713,14 @@ __declspec(noinline) float& Vec4f::operator[](int i)
 {
     return (&x)[i];
 }
-Vec4f FUN_00e53720(const Vec4f& a, const Vec4f& b);
+Vec4f hkaNURBS_Point_Min(const Vec4f& a, const Vec4f& b);
 int __cdecl FindFloatInterval(int a, int b, float value, float** pp);
 void __cdecl ComputeBasisFunctions(int span, float u, int degree, float** knots, float* basis);
 int __cdecl FindInsertIndex(float value, float** table, int count);
 int __cdecl CountRuns(float** param_1, int param_2);
 bool* __cdecl IsSampleBoundary(bool* result, int index, float** samples, int endIndex);
-int __cdecl FUN_00e54930(float** array, int count);
-float __cdecl FUN_00e535a0(const void* a, const void* b);
+int __cdecl hkaNURBS_MinIndex(float** array, int count);
+float __cdecl hkaNURBS_Point_Dot(const void* a, const void* b);
 struct FUN_00e54ad0_cls
 {
     int unk00;
@@ -735,7 +735,7 @@ class FUN_00e54b00_cls
   public:
     float GetHelperValueAsFloat();
     void EvalCopy(int a, float b);
-    int FUN_00e54b00(int p);
+    int hkaNURBS_Point_normalize(int p);
 };
 struct FUN_00e54b20_out
 {
@@ -773,7 +773,7 @@ struct FUN_00e532b0_class
 {
     FUN_00e54ae0_class* __thiscall FUN_00e532b0(void* buffer, void* value);
 };
-void __cdecl FUN_00e54ba0(void* value, FUN_00e532b0_class* object);
+void __cdecl hkaNURBS_Distance3D(void* value, FUN_00e532b0_class* object);
 char* __cdecl IsSampleBoundary(int* base, int idx, int b, int c);
 int __cdecl FindFirstNonZero(int a, int b, int c);
 struct E54C50IntArray
@@ -794,12 +794,12 @@ struct Float4
     float x, y, z, w;
 };
 extern const double DAT_01016978;
-void __cdecl FUN_00e54630(Float4* out, int a, int b, int c, int d, float input);
+void __cdecl hkaNURBS_CurvePoint(Float4* out, int a, int b, int c, int d, float input);
 float __cdecl LookupAndConsume(const Float4* left, const Float4* right);
 unsigned char* __cdecl CheckVerticesAboveThresholds(unsigned char* result, int a, int b, int c, int d, int last,
                                                     Float4** verticesPtr, float** valuesPtr, float** thresholdsPtr);
-extern void __cdecl FUN_00e58440(int, int, int, int, float, int, int, int, int);
-void __cdecl FUN_00e58740(int i1, int i2, int i3, int i4, float f5, int i6, int i7, int i8, int i9);
+extern void __cdecl hkaNURBS_ApproximateCurve(int, int, int, int, float, int, int, int, int);
+void __cdecl _ApproximateNURBSCurve(int i1, int i2, int i3, int i4, float f5, int i6, int i7, int i8, int i9);
 struct FUN_00e58820_cls
 {
     float* m_data;
@@ -1178,9 +1178,9 @@ struct S_00e65ee0_Class
     int unk08;
     int unk0c;
 
-    void __thiscall FUN_00e65ee0(int* buffer, int value);
+    void __thiscall queryOnTree(int* buffer, int value);
 };
-void __cdecl FUN_00e5cfb0(S_00e5cfb0_Object* object, int value);
+void __cdecl _hkMoppFindAllVirtualMachine_getAllKeys(S_00e5cfb0_Object* object, int value);
 extern float DAT_0104e148;
 struct FloatArray_e404b0
 {
@@ -1191,7 +1191,7 @@ template <class T> inline T MaxOf(T a, T b)
 {
     return a > b ? a : b;
 }
-float __cdecl FUN_00e404b0(FloatArray_e404b0* arr);
+float __cdecl hkaFootstepAnalysisInfo_getMax(FloatArray_e404b0* arr);
 extern float _DAT_0104da48;
 float __cdecl FindMinFloat(int* param_1);
 extern int DAT_010e60c4;
@@ -1499,7 +1499,7 @@ struct ActorEntry
         return m_pExtendedListeners;
     }
 
-    void __thiscall FUN_00c9c670(CListener* el);
+    void __thiscall removeEntityListener_00c9c670(CListener* el);
 };
 template <typename T> struct HkArray
 {
@@ -1594,7 +1594,7 @@ struct Allocator
 };
 hkMemoryRouter* getRouter();
 int FUN_00e60cb0(unsigned char type, int count);
-extern "C" void FUN_00c908c0(Allocator*, void*, int, int);
+extern "C" void hkArrayUtil__reserve(Allocator*, void*, int, int);
 void FUN_00cb1260(void*, const void*, int);
 struct String
 {
@@ -1617,7 +1617,7 @@ struct ArrayBase
     {
         int cap = a->getCapacity();
         if (cap < n)
-            FUN_00c908c0(&heap, a, n < 2 * cap ? 2 * cap : n, stride);
+            hkArrayUtil__reserve(&heap, a, n < 2 * cap ? 2 * cap : n, stride);
     }
     void reserve(Allocator& heap, int n, int stride)
     {
@@ -1719,7 +1719,7 @@ struct L
     int* m_00;
     int m_04;
 };
-void __cdecl FUN_00e54c10(int idx, L* list);
+void __cdecl hkaNURBS_Remove(int idx, L* list);
 struct HolderView
 {
     int unk00;
@@ -1734,10 +1734,10 @@ struct FloatArrayRef
     int size;
     unsigned int capacity;
 };
-int __cdecl FUN_00e57210(FloatArrayRef* array, int count);
+int __cdecl hkaNURBS_DegreeElevateKnotVector(FloatArrayRef* array, int count);
 struct ArrayAllocator;
 
-void FUN_00c908c0(ArrayAllocator* alloc, hkArrayBase<float>* arr, int newCap, int elemSize);
+void hkArrayUtil__reserve(ArrayAllocator* alloc, hkArrayBase<float>* arr, int newCap, int elemSize);
 static __forceinline void FloatArray_reserve(hkArrayBase<float>& self, ArrayAllocator& alloc, int n);
 
 static __forceinline void FloatArray_reserve(hkArrayBase<float>& self, ArrayAllocator& alloc, int n)
@@ -1746,7 +1746,7 @@ static __forceinline void FloatArray_reserve(hkArrayBase<float>& self, ArrayAllo
         if (cap < n)
         {
             int c = 2 * cap;
-            FUN_00c908c0(&alloc, (&self), n < c ? c : n, 4);
+            hkArrayUtil__reserve(&alloc, (&self), n < c ? c : n, 4);
         }
     }
 hkMemoryRouter* GetMemoryRouter();
@@ -1837,7 +1837,8 @@ SampleVec& SampleVec::FUN_00e531d0(const SampleVec& b)
     w -= b.w;
     return *this;
 }
-float FUN_00e535a0(const void* va, const void* vb)
+// src: HAVOK_LIB 0x00e535a0
+float hkaNURBS_Point_Dot(const void* va, const void* vb)
 {
 
     const SampleVec* a = static_cast<const SampleVec*>(va);
@@ -1849,7 +1850,7 @@ float FUN_00e535a0(const void* va, const void* vb)
 
 float SampleVec::FUN_00e54ad0() const
 {
-    return FUN_00e535a0(this, this);
+    return hkaNURBS_Point_Dot(this, this);
 }
 
 float SampleVec::GetHelperValueAsFloat() const
@@ -1857,16 +1858,17 @@ float SampleVec::GetHelperValueAsFloat() const
     return (float)sqrt(FUN_00e54ad0());
 }
 
-void FUN_00e54630(SampleVec*, int, int, float**, void*, float);
+void hkaNURBS_CurvePoint(SampleVec*, int, int, float**, void*, float);
 
 float LookupAndConsume(const SampleVec*, const SampleVec*);
 
-void FUN_00e544c0(int, int, float**, void*, float, int, SampleVec*);
+void hkaNURBS_CurveDerivs(int, int, float**, void*, float, int, SampleVec*);
 
 float Vector4NormalizedDot(const SampleVec&, const SampleVec&);
 
 // @fnv 0x00e54cb0
-float FUN_00e54cb0(int leftIndex, int degree, float** knots, void* context, const SampleVec* target, int scanSteps,
+// src: HAVOK_LIB 0x00e54cb0
+float hkaNURBS_ClosestPoint(int leftIndex, int degree, float** knots, void* context, const SampleVec* target, int scanSteps,
                    int refineSteps, float tolerance, float angleTolerance)
 {
 
@@ -1903,7 +1905,7 @@ float FUN_00e54cb0(int leftIndex, int degree, float** knots, void* context, cons
 
             SampleVec value(0);
 
-            FUN_00e54630(&value, leftIndex, degree, knots, context, c);
+            hkaNURBS_CurvePoint(&value, leftIndex, degree, knots, context, c);
 
             float sampleCost = LookupAndConsume(&value, target);
 
@@ -1920,7 +1922,7 @@ float FUN_00e54cb0(int leftIndex, int degree, float** knots, void* context, cons
 
         SampleVec cost[3];
 
-        FUN_00e544c0(leftIndex, degree, knots, context, param, 2, cost);
+        hkaNURBS_CurveDerivs(leftIndex, degree, knots, context, param, 2, cost);
 
         cost[0].FUN_00e531d0(*target);
 
@@ -1936,7 +1938,7 @@ float FUN_00e54cb0(int leftIndex, int degree, float** knots, void* context, cons
         float previous = param;
 
         param = param -
-                FUN_00e535a0(&cost[1], &cost[0]) / (float)(FUN_00e535a0(&cost[2], &cost[0]) + cost[1].FUN_00e54ad0());
+                hkaNURBS_Point_Dot(&cost[1], &cost[0]) / (float)(hkaNURBS_Point_Dot(&cost[2], &cost[0]) + cost[1].FUN_00e54ad0());
 
         float lower = knotValues[0];
         param = (param > lower) ? param : lower;

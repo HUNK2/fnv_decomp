@@ -9,7 +9,7 @@ int __cdecl FUN_00d67960();
 struct Item;
 struct Sink
 {
-    void FUN_00c9c670(Item*);
+    void removeEntityListener_00c9c670(Item*);
 };
 struct Link
 {
@@ -260,7 +260,7 @@ struct Query
 };
 struct BaseHelper
 {
-    void FUN_00d68030(void* entry, int mode);
+    void hkpToiCountViewer_displayCountForBody(void* entry, int mode);
 };
 int __cdecl FUN_00d679c0(float* direction);
 struct Context
@@ -279,7 +279,7 @@ struct FUN_00d67970_class
     void* unk08;
     void* unk0c;
 
-    void __thiscall FUN_00d67970(FUN_00d67970_helper* helper);
+    void __thiscall hkpToiCountViewer_worldAddedCallback(FUN_00d67970_helper* helper);
 };
 struct OwnerBinding
 {
@@ -339,8 +339,8 @@ struct SpawnedObject
     unsigned int unk00;
     unsigned int unk04;
     SpawnedObject* m_08;
-    void FUN_00c9c670(void* listener) throw();
-    void FUN_00c91a20(void* listener) throw();
+    void removeEntityListener_00c9c670(void* listener) throw();
+    void hkpWorld_removeContactListener(void* listener) throw();
     void ClearValue(void* listener) throw();
 };
 struct Alloc
@@ -431,7 +431,7 @@ __declspec(align(16)) struct SquaredLanes
 int __cdecl FUN_00d679c0(const __m128* v);
 struct PtrMapEntryObj
 {
-    void FUN_00c9c670(void* arg);
+    void removeEntityListener_00c9c670(void* arg);
 };
 struct PtrMapEntry
 {
@@ -463,7 +463,7 @@ struct FUN_00d67da0_cls
     int m_i30;
     PtrMapStorage m_kStorage;
 
-    void FUN_00d67da0();
+    void hkpToiCountViewer_reset();
 };
 #include "../../../../../../../include/hkMemoryAllocator.h"
 struct AudioCoreView
@@ -540,7 +540,7 @@ struct ContactViewer
     int unk30;
     ContactTable m_table;
 
-    void FUN_00d68030(void* entry, int mode);
+    void hkpToiCountViewer_displayCountForBody(void* entry, int mode);
 };
 extern void __cdecl FUN_00d67a50(int owner, int id, void* entry, int mode, const char* name, unsigned int info,
                                  float value, BSAudioValue flags);

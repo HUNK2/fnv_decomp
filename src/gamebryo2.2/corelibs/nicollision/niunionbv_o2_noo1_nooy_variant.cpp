@@ -34,7 +34,7 @@ struct P03MM
 };
 typedef P03MM MemoryManager;
 extern MemoryManager g_memoryManager;
-NiUnionBV* __fastcall FUN_00e9efb0(void* self);
+NiUnionBV* __fastcall NiUnionBV_Clone(void* self);
 // FUN_00e9ecc0 - 6-byte leaf stub of the retail binary.
 //
 // The original code is "mov eax, 4 ; ret": the function simply hands the
@@ -112,7 +112,8 @@ struct UnionLoadBase
 unsigned int FUN_00e9cab0(void*);
 // @fnv 0x00e9f020
 // This loading helper is not declared by the shared class.
-void __fastcall FUN_00e9f020(NiUnionBV* self, void*, char* stream)
+// src: GAMEBRYO_SRC 0x00e9f020
+void __fastcall NiUnionBV_LoadBinary(NiUnionBV* self, void*, char* stream)
 {
     unsigned int num;
     ((UnionLoadBase*)self)->FUN_00a89af0(stream);
@@ -244,7 +245,8 @@ inline NiBoundingVolume* GetBoundingVolume(const NiTPrimitiveArray<NiBoundingVol
 }
 
 // @fnv 0x00e9f0b0
-void NiUnionBV::FUN_00e9f0b0(char* pcPrefix, NiTPrimitiveArray<char*>* pkStrings)
+// src: GAMEBRYO_SRC 0x00e9f0b0
+void NiUnionBV::AddViewerStrings_00e9f0b0(char* pcPrefix, NiTPrimitiveArray<char*>* pkStrings)
 {
     u32 uiLen = strlen(pcPrefix) + 12;
     char* pcString = (char*)FUN_00aa1070(uiLen);

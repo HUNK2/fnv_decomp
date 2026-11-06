@@ -70,7 +70,7 @@ inline S_00e3e950_Heap& heap(hkMemoryRouter& holder)
     return *reinterpret_cast<S_00e3e950_Heap*>(holder.m_heap);
 }
 }
-int __cdecl FUN_00c908c0(S_00e3e950_Heap& alloc, void* array, int n, int elemSize);
+int __cdecl hkArrayUtil__reserve(S_00e3e950_Heap& alloc, void* array, int n, int elemSize);
 
 struct S_00e3e950_Str
 {
@@ -145,7 +145,7 @@ template <typename T> struct S_00e3e950_ArrayLocalForm
         {
             int cap2 = 2 * getCapacity();
             int newSize = (n < cap2) ? cap2 : n;
-            FUN_00c908c0(alloc, this, newSize, sizeof(T));
+            hkArrayUtil__reserve(alloc, this, newSize, sizeof(T));
         }
     }
 

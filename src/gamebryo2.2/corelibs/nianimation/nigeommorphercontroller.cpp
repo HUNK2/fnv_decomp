@@ -225,14 +225,16 @@ char* __fastcall GetMorphTargetName(NiGeomMorpherController* self, int, unsigned
 }
 
 // @fnv 0x00a3a8a0
-void* __fastcall FUN_00a3a8a0(NiGeomMorpherController* self, int unused, unsigned short idx)
+// src: GAMEBRYO_LIB 0x00a3a8a0
+void* __fastcall NiGeomMorpherController_GetInterpolator(NiGeomMorpherController* self, int unused, unsigned short idx)
 {
     return self->m_pInterpolatorItems[idx].m_spControllerInterpolator.m_pObject;
 }
 
 // Stores pkInterpolator into the morph controller's interpolator slot at usIndex, releasing the old interpolator and incrementing the new one's ref count.
 // @fnv 0x00a3a8b0
-void __fastcall FUN_00a3a8b0(NiGeomMorpherController* self, int, NiInterpolator* pkInterpolator, unsigned short usIndex)
+// src: GAMEBRYO_LIB 0x00a3a8b0
+void __fastcall NiGeomMorpherController_SetInterpolator(NiGeomMorpherController* self, int, NiInterpolator* pkInterpolator, unsigned short usIndex)
 {
     NiInterpolator** slot = reinterpret_cast<NiInterpolator**>(&self->m_pInterpolatorItems[usIndex]);
     NiInterpolator* pOldInterpolator = *slot;
@@ -930,7 +932,7 @@ void __fastcall UpdateGeometryBound(NiGeomMorpherController* self, int)
             NiBound targetBound;
             data = self->m_spMorphTargetData.m_pObject;
             targetBound.ComputeBoundingSphere(data->m_uiNumVertsPerTarget, data->GetTarget(i)->m_pkVertexPositions);
-            morphBound.FUN_00a7f3f0(&targetBound);
+            morphBound.NiBound_Merge(&targetBound);
         }
     }
     else

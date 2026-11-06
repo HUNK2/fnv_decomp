@@ -163,12 +163,13 @@ extern const volatile float DAT_0109a918;
 
 struct NiFloatInterpolatorShell_00a3c3f0 : NiFloatInterpolator
 {
-    unsigned char FUN_00a3c3f0(unsigned int unused) const;
+    unsigned char NiFloatInterpolator_GetChannelPosed(unsigned int unused) const;
 };
 
 // Returns 0 if m_spFloatData.m_pObject is set or m_fFloatValue equals DAT_0109a918, otherwise returns 1.
 // @fnv 0x00a3c3f0
-unsigned char NiFloatInterpolatorShell_00a3c3f0::FUN_00a3c3f0(unsigned int unused) const
+// src: GAMEBRYO_LIB 0x00a3c3f0
+unsigned char NiFloatInterpolatorShell_00a3c3f0::NiFloatInterpolator_GetChannelPosed(unsigned int unused) const
 {
     if (data.m_pObject)
         return 0;
@@ -313,11 +314,12 @@ bool BA3C6D0Interpolator::EvaluateFloatAtTime(float fTime, void* pkInterpTarget,
 struct FUN_00a3c780_cls : NiFloatInterpolator
 {
     void CopyBase(NiFloatInterpolator* dst, unsigned int uiArg);
-    void FUN_00a3c780(NiFloatInterpolator* dst, unsigned int uiArg);
+    void NiFloatInterpolator_CopyMembers(NiFloatInterpolator* dst, unsigned int uiArg);
 };
 
 // @fnv 0x00a3c780
-void FUN_00a3c780_cls::FUN_00a3c780(NiFloatInterpolator* dst, unsigned int uiArg)
+// src: GAMEBRYO_LIB 0x00a3c780
+void FUN_00a3c780_cls::NiFloatInterpolator_CopyMembers(NiFloatInterpolator* dst, unsigned int uiArg)
 {
     CopyBase(dst, uiArg);
     *(volatile float*)&dst->value = value;
@@ -540,7 +542,7 @@ class A3C8D0_Object : public NiKeyBasedInterpolator
 };
 struct A3C8D0_Owner
 {
-    void FUN_00a3c780(A3C8D0_Object* object, int arg);
+    void NiFloatInterpolator_CopyMembers(A3C8D0_Object* object, int arg);
     A3C8D0_Object* CreateObject(int arg);
 };
 // Allocates an A3C8D0_Object, calls FUN_00a3c780 with the object and arg, and returns the object.
@@ -548,6 +550,6 @@ struct A3C8D0_Owner
 A3C8D0_Object* A3C8D0_Owner::CreateObject(int arg)
 {
     A3C8D0_Object* object = new A3C8D0_Object;
-    FUN_00a3c780(object, arg);
+    NiFloatInterpolator_CopyMembers(object, arg);
     return object;
 }

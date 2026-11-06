@@ -15,6 +15,6 @@ public:
     void FUN_00634900(const NiFixedString&);
     void FUN_00634900(int*);
     void FUN_0051b8c0(float);
-    void FUN_00bae930(NiTexture*);
+    void NiPhysXProp_SetSnapshot(NiTexture*);
     NiTexture* FUN_009c8680();
 };

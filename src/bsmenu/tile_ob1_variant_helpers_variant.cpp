@@ -1224,11 +1224,11 @@ TileBaseA0BBF0* CreateTileA0BBF0()
 {
     return new FUN_00a0bbf0;
 }
-void __cdecl FUN_00aa10f0(void* p);
+void __cdecl _NiFree_00aa10f0(void* p);
 
 struct A0D2A0_MapBase
 {
-    virtual ~A0D2A0_MapBase() { int unused[4]; (void)unused; ClearAll(); FUN_00aa10f0(m_ppkHashTable); }
+    virtual ~A0D2A0_MapBase() { int unused[4]; (void)unused; ClearAll(); _NiFree_00aa10f0(m_ppkHashTable); }
     virtual void ClearAll();
     unsigned int m_uiHashSize;
     NiTMapItem<const char*, void*>** m_ppkHashTable;

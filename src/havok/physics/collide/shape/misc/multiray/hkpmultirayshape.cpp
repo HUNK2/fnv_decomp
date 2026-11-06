@@ -55,7 +55,7 @@ void __stdcall FUN_00e3c600(int a1, int a2, int a3)
 
 extern const hkClass DAT_01268910;
 
-int __cdecl FUN_00d06f80(const void* pvChunk, int iNumBytes) throw();
+int __cdecl hkStatisticsCollector_getAllocatedSize(const void* pvChunk, int iNumBytes) throw();
 
 // The shared shape header has no multi-ray overrides; this adapter adds declarations, with no data of its own.
 class MultiRayShapeOperations : public hkpMultiRayShape
@@ -70,7 +70,7 @@ template <class T> static __forceinline void addArray(hkStatisticsCollector* col
     if ((array.m_iCapacityState & 0x80000000) == 0 || collector->m_reportInplaceAllocations)
     {
         const T* pData = array.m_data;
-        int iAllocated = FUN_00d06f80(pData, array.getCapacity() * sizeof(T));
+        int iAllocated = hkStatisticsCollector_getAllocatedSize(pData, array.getCapacity() * sizeof(T));
         collector->AddMemoryChunk(3, name, array.m_data, array.GetLogicalSize() * sizeof(T), iAllocated);
     }
 }
@@ -89,7 +89,7 @@ extern float DAT_0104e148;
 
 
 extern "C" hkMemoryRouter* FUN_00c85750() throw();
-void __cdecl FUN_00c908c0(hkMemoryAllocator* alloc, void* array, int reqCapacity, int elemSize) throw();
+void __cdecl hkArrayUtil__reserve(hkMemoryAllocator* alloc, void* array, int reqCapacity, int elemSize) throw();
 
 __forceinline hkMemoryAllocator& hkContainerHeapAllocator::get(const void*)
 {
@@ -103,7 +103,7 @@ template <class T> __forceinline void hkArrayBase<T>::GrowArrayCapacity(hkMemory
     {
         int cap2 = 2 * cap;
         int newSize = (n < cap2) ? cap2 : n;
-        FUN_00c908c0(&alloc, this, newSize, sizeof(T));
+        hkArrayUtil__reserve(&alloc, this, newSize, sizeof(T));
     }
 }
 

@@ -1738,7 +1738,7 @@ struct Sing
 };
 
 bool __cdecl FUN_0043b300(const char*, Param*);
-void __cdecl FUN_00a582f0(M3*, const char*, int, NiPoint3*, NiPoint3*);
+void __cdecl NiMatrix3_TransformVertices(M3*, const char*, int, NiPoint3*, NiPoint3*);
 void __cdecl FUN_00c4b600(M3*, NiPoint3);
 int __cdecl CreateB68CA10Object(int);
 void __cdecl FUN_005b5e40(const char*, const char*);
@@ -1808,7 +1808,7 @@ bool BSTempEffectSimpleDecal::FUN_0068b4c0(Param* apParam)
             reinterpret_cast<NiPoint3&>(eValue2) = reinterpret_cast<NiPoint3&>(c34Value43).FUN_00439ef0(*apParam->FUN_0045bb80());
             reinterpret_cast<NiPoint3&>(eValue2) = reinterpret_cast<NiPoint3&>(eValue2).ApplyScaled(1.0f / apParam->FUN_008d01e0());
         }
-        FUN_00a582f0(&mecValue16, (const char*)&DAT_011f426c, 1, &reinterpret_cast<NiPoint3&>(eValue2), &reinterpret_cast<NiPoint3&>(gValue23));
+        NiMatrix3_TransformVertices(&mecValue16, (const char*)&DAT_011f426c, 1, &reinterpret_cast<NiPoint3&>(eValue2), &reinterpret_cast<NiPoint3&>(gValue23));
         m_fGlyphWidthInPixels *= 1.0f / apParam->FUN_008d01e0();
         m_fGlyphExtent *= 1.0f / apParam->FUN_008d01e0();
         m_fProjectionDepth *= 1.0f / apParam->FUN_008d01e0();

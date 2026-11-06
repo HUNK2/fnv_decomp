@@ -291,9 +291,9 @@ inline S_00e40800_Allocator& heap(hkMemoryRouter* holder) throw()
 }
 
 hkMemoryRouter* FUN_00c85750() throw();
-int FUN_00cb10d0(const char* s) throw();
-char* FUN_00cb1090(char* dst, const char* src) throw();
-void FUN_00c908c0(S_00e40800_Allocator& alloc, void* array, int numElem, int sizeElem) throw();
+int hkString_strLen(const char* s) throw();
+char* hkString_strCpy(char* dst, const char* src) throw();
+void hkArrayUtil__reserve(S_00e40800_Allocator& alloc, void* array, int numElem, int sizeElem) throw();
 
 template <typename T> struct S_00e40800_ArrayLocalForm
 { // local form of hkArray: 0x00e40800 needs the original inline/out-of-line helper split; shared replacement changes bytes.
@@ -330,7 +330,7 @@ template <typename T> struct S_00e40800_ArrayLocalForm
         {
             int cap2 = 2 * capacity;
             int newSize = (n < cap2) ? cap2 : n;
-            FUN_00c908c0(alloc, this, newSize, sizeof(T));
+            hkArrayUtil__reserve(alloc, this, newSize, sizeof(T));
         }
     }
 
@@ -353,8 +353,8 @@ struct S_00e40800_String
 
     __forceinline void set(const char* s) throw()
     {
-        m_kStringBuffer.SetSizeAndGrow(FUN_00cb10d0(s) + 1);
-        FUN_00cb1090(m_kStringBuffer.m_data, s);
+        m_kStringBuffer.SetSizeAndGrow(hkString_strLen(s) + 1);
+        hkString_strCpy(m_kStringBuffer.m_data, s);
     }
 };
 

@@ -2666,8 +2666,8 @@ struct World
     int field74;
     int field78;
     int field7c;
-    void FUN_00c91f70(Query*, void*);
-    void FUN_00c92040(Query*, Result*);
+    void hkpWorld_castRay(Query*, void*);
+    void hkpWorld_castRay_00c92040(Query*, Result*);
 };
 struct __declspec(align(16)) CastVector
 {
@@ -2785,7 +2785,7 @@ bool RayCaster::FUN_00c696d0(Query* query)
                 ((FilterCast*)storage)->FilterCast::FilterCast(world, query, cache, hits);
             }
             else
-                world->FUN_00c91f70(query, hits);
+                world->hkpWorld_castRay(query, hits);
             if (hits->count)
             {
                 hits->FUN_00c855f0();
@@ -2809,7 +2809,7 @@ bool RayCaster::FUN_00c696d0(Query* query)
                     ((FilterCast*)storage)->FilterCast::FilterCast(world, query, cache, collector);
                 }
                 else
-                    world->FUN_00c91f70(query, collector);
+                    world->hkpWorld_castRay(query, collector);
                 if (collector->result.field50)
                 {
                     scratch.result->FUN_009c1a70(collected);
@@ -2818,7 +2818,7 @@ bool RayCaster::FUN_00c696d0(Query* query)
             }
             else
             {
-                world->FUN_00c92040(query, scratch.result);
+                world->hkpWorld_castRay_00c92040(query, scratch.result);
                 found = query->result.field50 != 0;
             }
         }

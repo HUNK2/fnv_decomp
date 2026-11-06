@@ -17,7 +17,7 @@ struct FUN_00da07b0_class
 {
     void __thiscall FUN_00cb0a70(void*);
 };
-void __cdecl FUN_00da07b0(void* a, void* b);
+void __cdecl finishLoadedObjecthkSimpleLocalFrame(void* a, void* b);
 void __cdecl InitBlockPool(void*);
 void* __cdecl InitAndReturnTail(void* a, void* b, void* c);
 void __cdecl FUN_00da08c0(void** a);
@@ -40,7 +40,7 @@ void __cdecl BuildEventIndex(void);
 void* __cdecl InitAndReturnTail(void* a, void* b, void* c);
 void* __cdecl FUN_00da6e10(void* a, void* b, void* c);
 void __cdecl FUN_00da6fd0(void* p);
-void __cdecl FUN_00da0680(char* a, int b);
+void __cdecl finishLoadedObjecthkpLinkedCollidable(char* a, int b);
 struct FUN_00da0740_vt
 {
     virtual void v0(int);
@@ -53,7 +53,7 @@ struct FUN_00cb0a70_class
 void __cdecl FUN_00da0760(void* a, void* b);
 struct FUN_00db7cf0_class
 {
-    int __thiscall FUN_00db7cf0(int a, int b);
+    int __thiscall hkVersionPatchManager_UidFromClassVersion_getName(int a, int b);
 };
 extern int g_unk0126958c;
 void* __cdecl FUN_00da0610();
@@ -324,7 +324,7 @@ struct FUN_00db0060_class
     int unk14;
     int unk18;
 
-    void __thiscall FUN_00db0060(int* param_2, int param_3);
+    void __thiscall hk1AxisSweep_AabbInt_set(int* param_2, int param_3);
 };
 struct DB7570Pair
 {
@@ -352,7 +352,7 @@ struct FUN_00db75b0_class
     FUN_00db75b0_entry* unk04;
     int unk08;
 
-    unsigned int __thiscall FUN_00db75b0(int a1, unsigned int* a2);
+    unsigned int __thiscall hkClassEnum_getValueOfName(int a1, unsigned int* a2);
 };
 struct FUN_00db78a0_item
 {
@@ -368,7 +368,7 @@ class FUN_00db78a0_cls
     virtual void vSlot04();
     virtual void vSlot08();
     virtual void vSlot0c(void* field, void* item);
-    void FUN_00db78a0(FUN_00db78a0_item** a, void** b);
+    void hkVtableClassRegistry_registerList(FUN_00db78a0_item** a, void** b);
 };
 BSAudio* __cdecl FUN_00c85750();
 inline hkMemoryRouter* audio()
@@ -517,7 +517,7 @@ struct Buffer
     int m_iElementCount;
     int m_pRayCursor;
 };
-void __cdecl FUN_00da06d0(Buffer* self);
+void __cdecl cleanupLoadedObjecthkpLinkedCollidable(Buffer* self);
 struct SweepBounds
 {
     unsigned int minX, minY, minZ, key;
@@ -695,7 +695,7 @@ extern int DAT_010d4de4;
 extern int DAT_01269a9c;
 struct FUN_00da2840_Obj
 {
-    void __thiscall FUN_00da2840();
+    void __thiscall hkStackTracerWin32Data_init();
 };
 struct FUN_00da2b90_Obj
 {
@@ -730,7 +730,7 @@ struct DA2D70Object
 };
 extern BSAudio* __cdecl FUN_00c85750();
 void __cdecl FUN_00da2da0();
-void __cdecl FUN_00da44d0(int a, int b, void* pvCallback);
+void __cdecl hkAgent1nMachine_VisitAllAgents(int a, int b, void* pvCallback);
 void __cdecl ProcessCollisionEntry();
 void __cdecl FUN_00da4900(int a, int b);
 void* __cdecl FUN_00da3510(void*, void*);
@@ -786,7 +786,7 @@ struct CreatedObject
         vtable = &DAT_010cf804;
     }
 };
-void* __cdecl FUN_00db79c0();
+void* __cdecl hkDefaultClassNameRegistrycreate();
 struct FUN_00db7c00_obj
 {
     virtual void vslot00(int value);
@@ -821,7 +821,7 @@ extern void* DAT_010d6260;
 extern void* DAT_01269b78;
 extern void* FUN_00fde2a0;
 extern unsigned short DAT_01269b7e;
-void* __cdecl FUN_00dba610();
+void* __cdecl hkLogger_nullLogger();
 
 #include <xmmintrin.h>
 #include "../../include/hkMemoryAllocator.h"
@@ -898,10 +898,11 @@ struct StackTracer
 {
     int unk00, unk04;
     DebugFunctions* functions;
-    void FUN_00da2990(unsigned int* addresses, int count, void(__cdecl* output)(const char*, void*), void* context);
+    void hkStackTracer_dumpStackTrace(unsigned int* addresses, int count, void(__cdecl* output)(const char*, void*), void* context);
 };
 // @fnv 0x00da2990
-void StackTracer::FUN_00da2990(unsigned int* addresses, int count, void(__cdecl* output)(const char*, void*),
+// src: HAVOK_LIB 0x00da2990
+void StackTracer::hkStackTracer_dumpStackTrace(unsigned int* addresses, int count, void(__cdecl* output)(const char*, void*),
                                void* context)
 {
     void* process = GetCurrentProcess();

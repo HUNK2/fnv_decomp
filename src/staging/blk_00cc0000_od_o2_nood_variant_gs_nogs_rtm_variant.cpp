@@ -1179,7 +1179,7 @@ struct Cc7Local
     void AddBridgeAtoms();
     void AppendEntryAndAdvance();
     void FUN_00d52ae0(float value);
-    void FUN_00d52ba0();
+    void hkpConstraintConstructionKit_restoreStrength();
     void AppendZeroItem();
 };
 struct __declspec(align(16)) Cc7Vector
@@ -1251,7 +1251,7 @@ struct LunaTarget
 {
     unsigned int FUN_00cca360(LunaArgument* argument);
 };
-extern void* __cdecl FUN_00d54cd0(const void*, ScratchGeometry*, unsigned int);
+extern void* __cdecl hkpMoppUtility_buildCode(const void*, ScratchGeometry*, unsigned int);
 union Quaternion525
 {
     __m128 value;
@@ -2145,7 +2145,7 @@ struct RefCountedObject
     void FUN_00c905b0();
 };
 namespace fnvc_adapt {
-extern SourceGeometry* __cdecl FUN_00d54cd0(const void* attributes, ScratchGeometry* scratch, unsigned int options);
+extern SourceGeometry* __cdecl hkpMoppUtility_buildCode(const void* attributes, ScratchGeometry* scratch, unsigned int options);
 }
 extern int DAT_0102e368;
 struct Shape : RefCountedObject

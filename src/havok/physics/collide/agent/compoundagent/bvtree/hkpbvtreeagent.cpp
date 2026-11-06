@@ -32,11 +32,12 @@ struct S_d2f5a0
     int unk4;
     int unk8;
     S_d2f5a0_Array m_aiIndexedValues;
-    void FUN_00d2f5a0(int a);
+    void hkpBvTreeAgent_invalidateTim(int a);
 };
 // Iterates the entry array and calls v9(a) on each entry whose m_obj is non-null.
 // @fnv 0x00d2f5a0
-void S_d2f5a0::FUN_00d2f5a0(int a)
+// src: HAVOK_LIB 0x00d2f5a0
+void S_d2f5a0::hkpBvTreeAgent_invalidateTim(int a)
 {
     for (S_d2f5a0_Entry *it = m_aiIndexedValues.begin(), *pEnd = m_aiIndexedValues.end(); it != pEnd; ++it)
         if (it->m_obj)
@@ -93,7 +94,8 @@ struct Built
 extern "C" hkMemoryRouter* __cdecl FUN_00c85750();
 // Allocates a 0x40-byte Built from the global allocator, sets its field04 to 0x40, and calls FUN_00d2f980 with arg4.
 // @fnv 0x00d2f9d0
-void __cdecl FUN_00d2f9d0(int aiUnused1, int aiUnused2, int aiUnused3, int arg4)
+// src: HAVOK_LIB 0x00d2f9d0
+void __cdecl hkpBvTreeAgent_createShapeBvAgent(int aiUnused1, int aiUnused2, int aiUnused3, int arg4)
 {
     hkMemoryRouter* global = FUN_00c85750();
     Built* pBuilt = (Built*)global->m_heap->blockAlloc(0x40);
@@ -105,24 +107,27 @@ void __cdecl FUN_00d30f50(void* apFirst, void* apSecond, void* apThird, void* ap
 
 // Calls FUN_00d30f50, passing along all five arguments unchanged.
 // @fnv 0x00d315a0
-void __stdcall FUN_00d315a0(void* apFirst, void* apSecond, void* apThird, void* apFourth, void* apFifth)
+// src: HAVOK_SRC 0x00d315a0
+void __stdcall hkpBvTreeAgent_linearCast(void* apFirst, void* apSecond, void* apThird, void* apFourth, void* apFifth)
 {
     FUN_00d30f50(apFirst, apSecond, apThird, apFourth, apFifth);
 }
 
-extern "C" void __cdecl FUN_00d31110(void* arg0, void* arg1, void* arg2, void* arg3);
+extern "C" void __cdecl hkpBvTreeAgent_staticGetClosestPoints(void* arg0, void* arg1, void* arg2, void* arg3);
 // @fnv 0x00d315d0
-extern "C" void __stdcall FUN_00d315d0(void* arg0, void* arg1, void* arg2, void* arg3)
+// src: HAVOK_SRC 0x00d315d0
+extern "C" void __stdcall hkpBvTreeAgent_getClosestPoints(void* arg0, void* arg1, void* arg2, void* arg3)
 {
-    FUN_00d31110(arg0, arg1, arg2, arg3);
+    hkpBvTreeAgent_staticGetClosestPoints(arg0, arg1, arg2, arg3);
 }
 
-void __cdecl FUN_00d312f0(void* apA, void* apB, void* apC, void* apD);
+void __cdecl hkpBvTreeAgent_staticGetPenetrations(void* apA, void* apB, void* apC, void* apD);
 
 // @fnv 0x00d315f0
-void __stdcall FUN_00d315f0(void* apA, void* apB, void* apC, void* apD)
+// src: HAVOK_SRC 0x00d315f0
+void __stdcall hkpBvTreeAgent_getPenetrations(void* apA, void* apB, void* apC, void* apD)
 {
-    FUN_00d312f0(apA, apB, apC, apD);
+    hkpBvTreeAgent_staticGetPenetrations(apA, apB, apC, apD);
 }
 
 struct D2FA00Allocator
@@ -184,7 +189,8 @@ class D2FA00ShapeAgent : public D2FA00Agent
 
 // Allocates and constructs a D2FA00ShapeAgent from mgr and returns it; bodyA, bodyB and input are unused.
 // @fnv 0x00d2fa00
-D2FA00Agent* __cdecl FUN_00d2fa00(const void* bodyA, const void* bodyB, const void* input, void* mgr)
+// src: HAVOK_LIB 0x00d2fa00
+D2FA00Agent* __cdecl hkpBvTreeAgent_createBvTreeShapeAgent(const void* bodyA, const void* bodyB, const void* input, void* mgr)
 {
     return new D2FA00ShapeAgent(mgr);
 }
@@ -192,7 +198,7 @@ D2FA00Agent* __cdecl FUN_00d2fa00(const void* bodyA, const void* bodyB, const vo
 extern char str_010ce9a4[];
 extern char str_010ce9ac[];
 
-extern "C" void* __cdecl FUN_00d06f80(void* apBuffer, int aiCount);
+extern "C" void* __cdecl hkStatisticsCollector_getAllocatedSize(void* apBuffer, int aiCount);
 
 struct S_00d2f8f0_Elem
 {
@@ -255,7 +261,7 @@ void S_00d2f8f0::WriteToStream(S_00d2f8f0_Arg* apStream, int aiUnused)
         unsigned int uiByteCount = (unsigned int)m_iFlags & 0x3fffffffu;
         uiByteCount *= sizeof(S_00d2f8f0_Elem);
 
-        void* pResult = FUN_00d06f80(pEntries, (int)uiByteCount);
+        void* pResult = hkStatisticsCollector_getAllocatedSize(pEntries, (int)uiByteCount);
 
         unsigned int uiArrayBytes = (unsigned int)m_aiIndexedValues.m_iArrayLength;
         uiArrayBytes *= sizeof(S_00d2f8f0_Elem);
@@ -303,12 +309,13 @@ class OwnerD2F5
     int unk04[2];
     hkArray<EntryD2F5> m_entries;
 
-    void FUN_00d2f550(void* pArg);
+    void hkpBvTreeAgent_cleanup(void* pArg);
 };
 
 // Invokes vf1C on each non-null listener in m_entries with pArg, then deletes this object.
 // @fnv 0x00d2f550
-void OwnerD2F5::FUN_00d2f550(void* pArg)
+// src: HAVOK_LIB 0x00d2f550
+void OwnerD2F5::hkpBvTreeAgent_cleanup(void* pArg)
 {
     for (EntryD2F5 *it = m_entries.begin(), *itEnd = m_entries.end(); it != itEnd; ++it)
     {
@@ -339,12 +346,13 @@ struct CUpdateList
     int unk08;
     SElement* unk0c;
     int unk10;
-    void FUN_00d2f5e0(float a, float b, int c);
+    void hkpBvTreeAgent_warpTime(float a, float b, int c);
 };
 
 // Iterates the SElement array and calls the vtable slot 10 on each non-null SUpdated pointer with the given float and int arguments.
 // @fnv 0x00d2f5e0
-void CUpdateList::FUN_00d2f5e0(float a, float b, int c)
+// src: HAVOK_LIB 0x00d2f5e0
+void CUpdateList::hkpBvTreeAgent_warpTime(float a, float b, int c)
 {
     int count = unk10;
     SElement* p = unk0c;
@@ -639,13 +647,14 @@ class ShapeCollectionAgent
     ContactMgr* m_pContactManager;
     AgentArray m_pAgents;
 
-    void FUN_00d2f760(const CdBody& bodyA, const CdBody& bodyB, const CollisionInput& input,
+    void hkpBvTreeAgent_updateShapeCollectionFilter(const CdBody& bodyA, const CdBody& bodyB, const CollisionInput& input,
                       ConstraintOwner& constraintOwner);
 };
 
 // Iterates m_pAgents, creating or cleaning up collision agents per shape key based on filter results, and processes contact points when enabled.
 // @fnv 0x00d2f760
-void ShapeCollectionAgent::FUN_00d2f760(const CdBody& bodyA, const CdBody& bodyB, const CollisionInput& input,
+// src: HAVOK_LIB 0x00d2f760
+void ShapeCollectionAgent::hkpBvTreeAgent_updateShapeCollectionFilter(const CdBody& bodyA, const CdBody& bodyB, const CollisionInput& input,
                                         ConstraintOwner& constraintOwner)
 {
     const ShapeCollection* collection = static_cast<const ShapeCollection*>(bodyB.getShape());
@@ -1201,7 +1210,8 @@ hkMemoryRouter* FUN_00c85750();
 
 // Allocates a 0x40-byte object and calls FUN_00d2f980 with a4; unless the first m_a0 is less than the second, it then calls the destructor; returns the object.
 // @fnv 0x00d2fa40
-SpawnedObject* FUN_00d2fa40(FloatOwner* apFirstOwner, FloatOwner* apSecondOwner, int aiUnused, int a4)
+// src: HAVOK_LIB 0x00d2fa40
+SpawnedObject* hkpBvTreeAgent_createBvBvAgent(FloatOwner* apFirstOwner, FloatOwner* apSecondOwner, int aiUnused, int a4)
 {
     FloatSub* pFirstSub = apFirstOwner->m_08;
     FloatSub* pSecondSub = apSecondOwner->m_08;
@@ -1241,22 +1251,23 @@ struct SpawnedObject
     void FUN_00cfbbe0(DescRecord* rec, int a, int b);
 };
 
-extern "C" void FUN_00d2fa00();
+extern "C" void hkpBvTreeAgent_createBvTreeShapeAgent();
 extern "C" void FUN_00d2e970();
 extern "C" void FUN_00d2e9b0();
 extern "C" void FUN_00d2e9f0();
-extern "C" void FUN_00d2f9d0();
-extern "C" void FUN_00d312f0();
-extern "C" void FUN_00d31110();
+extern "C" void hkpBvTreeAgent_createShapeBvAgent();
+extern "C" void hkpBvTreeAgent_staticGetPenetrations();
+extern "C" void hkpBvTreeAgent_staticGetClosestPoints();
 extern "C" void FUN_00d30f50();
-extern "C" void FUN_00d2fa40();
+extern "C" void hkpBvTreeAgent_createBvBvAgent();
 
 // Sets up three DescRecord entries with function pointers and flags, then passes each to self->FUN_00cfbbe0 with different index pairs.
 // @fnv 0x00d314e0
-void FUN_00d314e0(SpawnedObject* self)
+// src: HAVOK_LIB 0x00d314e0
+void hkpBvTreeAgent_registerAgent(SpawnedObject* self)
 {
     DescRecord desc;
-    desc.fn0 = FUN_00d2fa00;
+    desc.fn0 = hkpBvTreeAgent_createBvTreeShapeAgent;
     desc.fn1 = FUN_00d2e970;
     desc.fn2 = FUN_00d2e9b0;
     desc.fn3 = FUN_00d2e9f0;
@@ -1264,17 +1275,17 @@ void FUN_00d314e0(SpawnedObject* self)
     desc.flagB = 1;
     self->FUN_00cfbbe0(&desc, 8, -1);
 
-    desc.fn0 = FUN_00d2f9d0;
-    desc.fn1 = FUN_00d312f0;
-    desc.fn2 = FUN_00d31110;
+    desc.fn0 = hkpBvTreeAgent_createShapeBvAgent;
+    desc.fn1 = hkpBvTreeAgent_staticGetPenetrations;
+    desc.fn2 = hkpBvTreeAgent_staticGetClosestPoints;
     desc.fn3 = FUN_00d30f50;
     desc.flagA = 0;
     desc.flagB = 1;
     self->FUN_00cfbbe0(&desc, -1, 8);
 
-    desc.fn0 = FUN_00d2fa40;
-    desc.fn1 = FUN_00d312f0;
-    desc.fn2 = FUN_00d31110;
+    desc.fn0 = hkpBvTreeAgent_createBvBvAgent;
+    desc.fn1 = hkpBvTreeAgent_staticGetPenetrations;
+    desc.fn2 = hkpBvTreeAgent_staticGetClosestPoints;
     desc.fn3 = FUN_00d30f50;
     desc.flagA = 0;
     desc.flagB = 1;
@@ -1404,7 +1415,8 @@ struct S00d31110_Free
 
 // Computes the AABB of bodyB, collects shape hits, and dispatches collision callbacks for each enabled child shape via the dispatcher.
 // @fnv 0x00d31110
-extern "C" void __cdecl FUN_00d31110(void* apBodyA, void* apBodyB, void* apInput, void* apCollector)
+// src: HAVOK_LIB 0x00d31110
+extern "C" void __cdecl hkpBvTreeAgent_staticGetClosestPoints(void* apBodyA, void* apBodyB, void* apInput, void* apCollector)
 {
     S00d31110_Input* input = (S00d31110_Input*)apInput;
     volatile unsigned int tick;

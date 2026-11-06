@@ -25,7 +25,7 @@ void* __cdecl FUN_00a56060()
     return &g_011f4074;
 }
 
-void __fastcall FUN_00a36890(void*);
+void __fastcall NiBlendInterpolator_NiBlendInterpolator(void*);
 extern NiColorA const DAT_011a9430;
 extern int DAT_011a9434;
 extern int DAT_011a9438;
@@ -38,7 +38,7 @@ NiBlendColorInterpolator* __cdecl CreateBlendColorInterpolator()
     NiBlendColorInterpolator* pInterpolator = (NiBlendColorInterpolator*)BSFadeNode::operator new(0x44);
     if (pInterpolator)
     {
-        FUN_00a36890(pInterpolator);
+        NiBlendInterpolator_NiBlendInterpolator(pInterpolator);
         *(int*)pInterpolator = (int)&DAT_0109a58c;
         *(int*)((char*)pInterpolator + 0x30) = *(int*)&DAT_011a9430;
         *(int*)((char*)pInterpolator + 0x34) = DAT_011a9434;
@@ -73,7 +73,8 @@ void* NiBlendColorInterpolator::FUN_00a56070(unsigned int flags)
 }
 
 // @fnv 0x00a56460
-void NiBlendColorInterpolator::FUN_00a56460(NiStream& kStream)
+// src: GAMEBRYO_LIB 0x00a56460
+void NiBlendColorInterpolator::LoadBinary_00a56460(NiStream& kStream)
 {
     NiBlendInterpolator::LoadBinary(kStream);
     m_kColorValue.LoadBinary(kStream);
@@ -103,7 +104,7 @@ void* NiBlendColorInterpolator::FUN_00a56090(CloningProcess& kCloning)
     NiBlendColorInterpolator* pkObject = (NiBlendColorInterpolator*)BSFadeNode::operator new(0x44);
     if (pkObject)
     {
-        FUN_00a36890(pkObject);
+        NiBlendInterpolator_NiBlendInterpolator(pkObject);
         *(void**)pkObject = &DAT_0109a58c;
         *(int*)((char*)pkObject + 0x30) = *(int*)&DAT_011a9430;
         *(int*)((char*)pkObject + 0x34) = DAT_011a9434;

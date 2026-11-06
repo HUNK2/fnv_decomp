@@ -413,7 +413,7 @@ class FUN_00cb2000_cls
     int m_04;
     int m_pFreeList;
 
-    int FUN_00cb1c60(int iArg0, int iArg1);
+    int hkMapBase_unsigned_int64_unsigned_int64_struct_hkMapOperations_unsigned_int64_findKey(int iArg0, int iArg1);
     void FUN_00cb1d20(int iCount);
     int FUN_00cb2000(int iArg0, int iArg1);
 };
@@ -421,7 +421,7 @@ class FUN_00cb2000_cls
 // @fnv 0x00cb2000
 int FUN_00cb2000_cls::FUN_00cb2000(int iArg0, int iArg1)
 {
-    int iCount = FUN_00cb1c60(iArg0, iArg1);
+    int iCount = hkMapBase_unsigned_int64_unsigned_int64_struct_hkMapOperations_unsigned_int64_findKey(iArg0, iArg1);
     if (iCount <= m_pFreeList)
     {
         FUN_00cb1d20(iCount);
@@ -556,11 +556,12 @@ struct Target
     int unk0c, unk10;
     unsigned char* unk14;
     int unk18;
-    bool* FUN_00e48e80(bool* out);
+    bool* hkpConvexVerticesConnectivity_isClosed(bool* out);
 };
 // Checks that every edge in the vertex list appears exactly twice with opposite orientation, returning true only when all edge keys have value 3.
 // @fnv 0x00e48e80
-bool* Target::FUN_00e48e80(bool* apResult)
+// src: HAVOK_LIB 0x00e48e80
+bool* Target::hkpConvexVerticesConnectivity_isClosed(bool* apResult)
 {
     EdgeMap edgeMap = {0, 0, -1};
     Allocator& allocator = FUN_00c85750()->heap();
@@ -648,12 +649,13 @@ struct MapCB1C
     KeyValue* m_kPrimitiveElement;
     int m_iCapacityFlags;
     int m_iPairCount;
-    hkUint64CB1C FUN_00cb1cb0(hkUint64CB1C key, hkUint64CB1C def) const;
+    hkUint64CB1C hkMapBase_unsigned_int64_unsigned_int64_struct_hkMapOperations_unsigned_int64_getWithDefault(hkUint64CB1C key, hkUint64CB1C def) const;
 };
 
 // Looks up a key in the primitive element array and returns its value, or def when the key is not present.
 // @fnv 0x00cb1cb0
-hkUint64CB1C MapCB1C::FUN_00cb1cb0(hkUint64CB1C key, hkUint64CB1C def) const
+// src: HAVOK_LIB 0x00cb1cb0
+hkUint64CB1C MapCB1C::hkMapBase_unsigned_int64_unsigned_int64_struct_hkMapOperations_unsigned_int64_getWithDefault(hkUint64CB1C key, hkUint64CB1C def) const
 {
     typedef MapOpsCB1C OPS;
     if (m_iPairCount > 0)
@@ -764,12 +766,13 @@ class MapBase_cb1e
     int m_iPairCount;
 
     void InsertKeyValue(Allocator_cb1e& alloc, unsigned __int64 key, unsigned __int64 val);
-    void FUN_00cb1e70(Allocator_cb1e& alloc, int newcap);
+    void hkMapBase_unsigned_int64_unsigned_int64_struct_hkMapOperations_unsigned_int64_resizeTable(Allocator_cb1e& alloc, int newcap);
 };
 
 // Reallocates the pair array to newcap (min 8), reinserts old pairs, and frees the old block unless the high bit of m_iCapacityFlags was set.
 // @fnv 0x00cb1e70
-void MapBase_cb1e::FUN_00cb1e70(Allocator_cb1e& alloc, int aiNewCapacity)
+// src: HAVOK_LIB 0x00cb1e70
+void MapBase_cb1e::hkMapBase_unsigned_int64_unsigned_int64_struct_hkMapOperations_unsigned_int64_resizeTable(Allocator_cb1e& alloc, int aiNewCapacity)
 {
     if (aiNewCapacity <= 8)
         aiNewCapacity = 8;

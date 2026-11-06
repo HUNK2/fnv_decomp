@@ -872,7 +872,7 @@ void BEC16D0MoviePlayerThread::FUN_00ec16d0(void* pvParam, bool bFlag22, int iPr
 }
 
 extern int DAT_010f1ca4;
-void __cdecl FUN_00aa10f0(int aValue);
+void __cdecl _NiFree_00aa10f0(int aValue);
 
 struct FUN_00ec1df0_pool
 {
@@ -898,7 +898,7 @@ FUN_00ec1df0_cls* FUN_00ec1df0_cls::FUN_00ec1df0(unsigned int acFlags)
     int unk04;
     m_vptr = (int)&DAT_010f1ca4;
     BaseCleanup();
-    FUN_00aa10f0(m_08);
+    _NiFree_00aa10f0(m_08);
     if (acFlags & 1)
     {
         DAT_011f6238.FUN_00aa4060(this);

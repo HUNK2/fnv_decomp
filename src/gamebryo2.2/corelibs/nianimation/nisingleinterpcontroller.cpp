@@ -47,7 +47,8 @@ extern int DAT_0109632c;
 void __fastcall FUN_00a6d220(void*);
 
 // @fnv 0x00a2f8c0
-void* __fastcall FUN_00a2f8c0(void* pThis)
+// src: GAMEBRYO_LIB 0x00a2f8c0
+void* __fastcall NiInterpController_NiInterpController(void* pThis)
 {
     FUN_00a6d220(pThis);
     *((unsigned short*)pThis + 4) &= 0xffdf;

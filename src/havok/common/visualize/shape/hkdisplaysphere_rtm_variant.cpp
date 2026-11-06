@@ -123,7 +123,7 @@ struct SphereBuildGeometry
     SphereBuildFaces faces;
 };
 
-extern "C" void __cdecl FUN_00c908c0(SphereBuildAllocator* ctx, void* arr, int newCap, int stride);
+extern "C" void __cdecl hkArrayUtil__reserve(SphereBuildAllocator* ctx, void* arr, int newCap, int stride);
 void __cdecl FUN_00e0afe0(void* obj, int idx, float v, float f2);
 
 struct SphereMeshBuilder
@@ -156,11 +156,12 @@ struct SphereMeshBuilder
     int m_64;
     int m_68;
     float m_6c;
-    void FUN_00e0b360();
+    void hkDisplaySphere_buildGeometry();
 };
 
 // @fnv 0x00e0b360
-__declspec(noinline) void SphereMeshBuilder::FUN_00e0b360()
+// src: HAVOK_SRC 0x00e0b360
+__declspec(noinline) void SphereMeshBuilder::hkDisplaySphere_buildGeometry()
 {
     SphereBuildMemory* holder = FUN_00c85750();
     SphereBuildGeometry* raw = (SphereBuildGeometry*)holder->m_10->Alloc(0x18);
@@ -196,7 +197,7 @@ __declspec(noinline) void SphereMeshBuilder::FUN_00e0b360()
         int nc = (geo->verts.m_iCap & 0x3fffffff) + (geo->verts.m_iCap & 0x3fffffff);
         if (nc <= 12)
             nc = 12;
-        FUN_00c908c0(va, &geo->verts, nc, 0x10);
+        hkArrayUtil__reserve(va, &geo->verts, nc, 0x10);
     }
     geo->verts.m_iArrayLength = 12;
     ((SphereBuildVertex* const&)geo->verts.m_pData)[0].set(-s, 0.0f, t, 0.0f);
@@ -224,7 +225,7 @@ __declspec(noinline) void SphereMeshBuilder::FUN_00e0b360()
         int nc2 = (fv->m_iCap & 0x3fffffff) + (fv->m_iCap & 0x3fffffff);
         if (nc2 <= 20)
             nc2 = 20;
-        FUN_00c908c0(fa, fv, nc2, 0x10);
+        hkArrayUtil__reserve(fa, fv, nc2, 0x10);
     }
     fv->m_iArrayLength = 20;
     SphereBuildSetFace(fv->m_pData + 0, 1, 4, (int)zero);

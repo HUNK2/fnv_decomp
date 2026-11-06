@@ -252,7 +252,8 @@ namespace fnv_00a59e20 { extern int EmptyFS; }
 using fnv_00a59e20::EmptyFS;
 
 // @fnv 0x00a59e20
-int NiAVObject::FUN_00a59e20(int param)
+// src: GAMEBRYO_LIB 0x00a59e20
+int NiAVObject::GetObjectByName_00a59e20(int param)
 {
     int handle = *reinterpret_cast<int*>(param);
     if (handle == EmptyFS)

@@ -173,7 +173,7 @@ struct Shape
     int unk08;
     int m_iThirdValue;
     int m_10;
-    int FUN_00dfb040(const Tri* tri, const hkVector4* pos, int* outA, int* outB);
+    int hkWingedEdge_findVisibilityBoundaryEdges(const Tri* tri, const hkVector4* pos, int* outA, int* outB);
     int FUN_00e2d1b0(int a, int b, const hkVector4* pos);
 };
 struct Tester

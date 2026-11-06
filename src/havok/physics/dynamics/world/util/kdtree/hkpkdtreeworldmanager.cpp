@@ -31,18 +31,20 @@ struct hkpKdTreeWorldManager
     char m_f;
     char m_g;
     char m_h;
-    void __thiscall FUN_00d0a2b0(void* p);
+    void __thiscall phantomAddedCallback(void* p);
 };
 
 // @fnv 0x00d0a2b0
-void __thiscall hkpKdTreeWorldManager::FUN_00d0a2b0(void* p)
+// src: HAVOK_LIB 0x00d0a2b0
+void __thiscall hkpKdTreeWorldManager::phantomAddedCallback(void* p)
 {
     if (*reinterpret_cast<int*>(reinterpret_cast<char*>(p) + 0x10))
         m_iThirdValue = 1;
 }
 
 // @fnv 0x00d0ad90
-void __fastcall FUN_00d0ad90(char* self, int unused, char flag)
+// src: HAVOK_LIB 0x00d0ad90
+void __fastcall hkpKdTreeWorldManager_setUpToDate(char* self, int unused, char flag)
 {
     self[0x20] = flag == 0;
 }
@@ -80,12 +82,12 @@ void __thiscall FUN_00d0a340_StandIn::SetFlagOrForward(int arg)
 
 struct FUN_00c917a0_shell
 {
-    void FUN_00c917a0(void*);
+    void hkpWorld_removeEntityListener(void*);
 };
 
 struct FUN_00c917f0_shell
 {
-    void FUN_00c917f0(void*);
+    void hkpWorld_removePhantomListener(void*);
 };
 
 struct FUN_00d97850_shell
@@ -120,8 +122,8 @@ FUN_00d0a4f0::~FUN_00d0a4f0()
     *(int*)((char*)this + 0x14) = (int)&DAT_010cd25c;
     *(int*)((char*)this + 0x18) = (int)&DAT_010cd244;
 
-    ((FUN_00c917a0_shell*)*(void**)((char*)this + 0x1c))->FUN_00c917a0((char*)this + 0x14);
-    ((FUN_00c917f0_shell*)*(void**)((char*)this + 0x1c))->FUN_00c917f0((char*)this + 0x18);
+    ((FUN_00c917a0_shell*)*(void**)((char*)this + 0x1c))->hkpWorld_removeEntityListener((char*)this + 0x14);
+    ((FUN_00c917f0_shell*)*(void**)((char*)this + 0x1c))->hkpWorld_removePhantomListener((char*)this + 0x18);
 
     void* p = *(void**)((char*)this + 0x10);
     if (p)
@@ -365,7 +367,7 @@ struct D0A6A0_World
     D0A6A0_EntityArray m_kPhantoms;
 };
 
-void FUN_00c908c0(hkMemoryAllocator& alloc, void* arr, int numElem, int sizeElem);
+void hkArrayUtil__reserve(hkMemoryAllocator& alloc, void* arr, int numElem, int sizeElem);
 
 static __forceinline void D0A6A0_CollidableArray_reserve(hkArrayBase<D0A6A0_Collidable*>& self, hkMemoryAllocator& alloc, int n)
 {
@@ -374,7 +376,7 @@ static __forceinline void D0A6A0_CollidableArray_reserve(hkArrayBase<D0A6A0_Coll
         {
             int cap2 = 2 * capacity;
             int newSize = (n < cap2) ? cap2 : n;
-            FUN_00c908c0(alloc, (&self), newSize, 4);
+            hkArrayUtil__reserve(alloc, (&self), newSize, 4);
         }
     }
 
@@ -454,21 +456,22 @@ void D0A6A0_Manager::CollectCollidables(hkArrayBase<D0A6A0_Collidable*>& aCollid
 
 struct FUN_00d0ac40_Owner
 {
-    void FUN_00d0a810(int a, int b, int c, int d);
-    void FUN_00d0a560(int a, int b);
-    void FUN_00d0ac40(int a, int b, int c, int d);
+    void hkpKdTreeWorldManager_buildTreeDistributed(int a, int b, int c, int d);
+    void hkpKdTreeWorldManager_buildTreeSingleThreaded(int a, int b);
+    void hkpKdTreeWorldManager_buildTree(int a, int b, int c, int d);
 };
 // Calls FUN_00d0a810 with all four arguments when c and d are both nonzero, otherwise calls FUN_00d0a560 with a and b.
 // @fnv 0x00d0ac40
-void FUN_00d0ac40_Owner::FUN_00d0ac40(int aiArg1, int aiArg2, int aiArg3, int aiArg4)
+// src: HAVOK_LIB 0x00d0ac40
+void FUN_00d0ac40_Owner::hkpKdTreeWorldManager_buildTree(int aiArg1, int aiArg2, int aiArg3, int aiArg4)
 {
     if (aiArg3 && aiArg4)
     {
-        FUN_00d0a810(aiArg1, aiArg2, aiArg3, aiArg4);
+        hkpKdTreeWorldManager_buildTreeDistributed(aiArg1, aiArg2, aiArg3, aiArg4);
     }
     else
     {
-        FUN_00d0a560(aiArg1, aiArg2);
+        hkpKdTreeWorldManager_buildTreeSingleThreaded(aiArg1, aiArg2);
     }
 }
 
@@ -721,7 +724,7 @@ struct D0AObj
     int unk1c;
     char m_flag;
     void CollectCollidables(D0ARange*);
-    void FUN_00d0ac40(D0ASub*, D0ARange*, int, int);
+    void hkpKdTreeWorldManager_buildTree(D0ASub*, D0ARange*, int, int);
     void CollectAndProcessCollidables(int a, int b);
 };
 // Records timing markers, collects collidables into a range, processes them via FUN_00d0ac40, and frees the result buffer if it was heap-allocated.
@@ -762,7 +765,7 @@ void D0AObj::CollectAndProcessCollidables(int a, int b)
             mon->m_kRayEnd = pos + sizeof(D0ATimer12);
         }
     }
-    FUN_00d0ac40(&m_sub, &r, a, b);
+    hkpKdTreeWorldManager_buildTree(&m_sub, &r, a, b);
     m_flag = 0;
     {
         D0AMon* mon = (D0AMon*)TlsGetValue(DAT_0126835c);
@@ -817,8 +820,8 @@ class WorldHolderD0A
 class WorldD0A
 {
   public:
-    void FUN_00c93820(hkpEntityListener* pkListener);
-    void FUN_00c93860(hkpPhantomListener* pkListener);
+    void hkpWorld_addEntityListener(hkpEntityListener* pkListener);
+    void hkpWorld_addPhantomListener(hkpPhantomListener* pkListener);
 };
 
 class FUN_00d0a2d0 : public WorldD0A
@@ -841,8 +844,8 @@ ListenerMgrD0A::ListenerMgrD0A(FUN_00d0a2d0* pkWorld, bool bFlag) throw()
     : m_pkWorld(pkWorld), m_bModifierActive(true), m_bFlag(bFlag)
 {
     *(FUN_00d0a2d0* volatile*)&m_pOwningWorld = 0;
-    m_pkWorld->FUN_00c93820(this);
-    m_pkWorld->FUN_00c93860(this);
+    m_pkWorld->hkpWorld_addEntityListener(this);
+    m_pkWorld->hkpWorld_addPhantomListener(this);
 }
 
 namespace fnv_00d0a560 {
@@ -1004,12 +1007,13 @@ struct S00d0a560_Owner
     int unk18;
     S00d0a560_Holder* unk1C;
 
-    void __thiscall FUN_00d0a560(int* out, int ch);
+    void __thiscall hkpKdTreeWorldManager_buildTreeSingleThreaded(int* out, int ch);
 };
 
 // Frees the object at *out, builds a new one via Init, then calls GetAudioPair, FillAabbArray, DrawIfCountPositive and FreeBufferPair between two timer records.
 // @fnv 0x00d0a560
-void S00d0a560_Owner::FUN_00d0a560(int* out, int ch)
+// src: HAVOK_LIB 0x00d0a560
+void S00d0a560_Owner::hkpKdTreeWorldManager_buildTreeSingleThreaded(int* out, int ch)
 {
     S00d0a560_Frame f;
     ((FUN_00d9df50_Obj*)&f.s24)->InitWalker(ch, unk1C);
@@ -1188,7 +1192,7 @@ struct Scratch
 };
 void __cdecl GetAudioPair(Scratch*, int);
 void __cdecl FreeBufferPair(Scratch*, int);
-void __cdecl FUN_00d9d950(Tree*, int, int*, int*);
+void __cdecl hkKdTreeBuildingUtils_completeDistributedBuild(Tree*, int, int*, int*);
 struct Counter
 {
     int value;
@@ -1224,8 +1228,8 @@ struct BuildJob
 };
 struct Queue
 {
-    void FUN_00d04b50(BuildJob*, int);
-    void FUN_00d051b0();
+    void hkJobQueue_addJob(BuildJob*, int);
+    void hkJobQueue_processAllJobs();
 };
 struct Workers
 {
@@ -1305,10 +1309,11 @@ struct Manager
 {
     int field00, field04, field08, field0c, field10, field14, field18;
     World* world;
-    void FUN_00d0a810(Tree**, Input*, Queue*, Workers*);
+    void hkpKdTreeWorldManager_buildTreeDistributed(Tree**, Input*, Queue*, Workers*);
 };
 // @fnv 0x00d0a810
-void Manager::FUN_00d0a810(Tree** tree, Input* input, Queue* queue, Workers* workers)
+// src: HAVOK_LIB 0x00d0a810
+void Manager::hkpKdTreeWorldManager_buildTreeDistributed(Tree** tree, Input* input, Queue* queue, Workers* workers)
 {
     Tree* oldTree = *tree;
     if (oldTree)
@@ -1399,10 +1404,10 @@ void Manager::FUN_00d0a810(Tree** tree, Input* input, Queue* queue, Workers* wor
             stream->current = reinterpret_cast<char*>(record) + 16;
         }
     }
-    queue->FUN_00d04b50(&info, 0);
+    queue->hkJobQueue_addJob(&info, 0);
     timerEvent(str_010cd0f4);
     workers->start(queue, 3);
-    queue->FUN_00d051b0();
+    queue->hkJobQueue_processAllJobs();
     {
         TimerStream* stream = static_cast<TimerStream*>(TlsGetValue(DAT_0126835c));
         char* cur = stream->current;
@@ -1422,7 +1427,7 @@ void Manager::FUN_00d0a810(Tree** tree, Input* input, Queue* queue, Workers* wor
     semaphore->FUN_00d04380();
     timerEvent(str_010cd0c4);
     int count2;
-    FUN_00d9d950(*tree, count2 = const_cast<const int&>(tail.count), info.first, info.second);
+    hkKdTreeBuildingUtils_completeDistributedBuild(*tree, count2 = const_cast<const int&>(tail.count), info.first, info.second);
     timerEvent(str_01076f38);
     FreeBufferPair(&scratch, count2);
     reinterpret_cast<hkMemoryAllocator*>(getRouter()->m_heap)->blockFree(const_cast<Counter* const&>(tail.counter), 16);

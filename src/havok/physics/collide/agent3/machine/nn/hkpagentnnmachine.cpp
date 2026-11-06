@@ -52,7 +52,8 @@ void* __cdecl FindEntryValue(hkpLinkedCollidable* apFirst, hkpLinkedCollidable* 
 }
 
 // @fnv 0x00cfddc0
-void FUN_00cfddc0(hkpAgentNnTrack* pArg)
+// src: HAVOK_LIB 0x00cfddc0
+void _hkAgentNnMachine_AssertTrackValidity(hkpAgentNnTrack* pArg)
 {
     int i = 0;
     if (pArg->m_kSectors.m_iElementCount > i)
@@ -263,7 +264,8 @@ struct __declspec(align(16)) FUN_00cfeba0_Node
 void* __cdecl FUN_00cfe1d0(void* h, void* a, void* b, unsigned int n, void* c);
 
 // @fnv 0x00cfeba0
-void __cdecl FUN_00cfeba0(FUN_00cfeba0_Obj* self, void** apCallbackTable, void* a3)
+// src: HAVOK_LIB 0x00cfeba0
+void __cdecl _hkAgentNnMachine_UpdateShapeCollectionFilter(FUN_00cfeba0_Obj* self, void** apCallbackTable, void* a3)
 {
     unsigned char flag;
     void* p = 0;
@@ -442,7 +444,8 @@ struct ItemStack
 void __cdecl FUN_00cfea30(ItemStack* s, int value, int a, int b);
 
 // @fnv 0x00cfed90
-void __cdecl FUN_00cfed90(ItemStack* s, int a, int b)
+// src: HAVOK_LIB 0x00cfed90
+void __cdecl hkAgentNnMachine_DestroyTrack(ItemStack* s, int a, int b)
 {
     if (s->m_uiItemCount != 0)
     {
@@ -544,7 +547,7 @@ static __forceinline int hkNextPowerOf2CFEA(unsigned int in)
     return in + 1;
 }
 
-void __cdecl FUN_00c909d0(void* alloc, void* array, int sizeElem, void* pad, int newCapacity);
+void __cdecl hkArrayUtil__reduce(void* alloc, void* array, int sizeElem, void* pad, int newCapacity);
 
 template <> __forceinline void hkArrayBase<hkpLinkedCollidable::CollisionKeyEntry>::removeAt(int index)
 {
@@ -557,10 +560,10 @@ template <> __forceinline void hkArrayBase<hkpLinkedCollidable::CollisionKeyEntr
 {
     int totalSize = hkNextPowerOf2CFEA(m_iElementCount + numFreeElemsLeft);
     if (totalSize < getCapacity())
-        FUN_00c909d0(&alloc, this, sizeof(hkpLinkedCollidable::CollisionKeyEntry), 0, totalSize);
+        hkArrayUtil__reduce(&alloc, this, sizeof(hkpLinkedCollidable::CollisionKeyEntry), 0, totalSize);
 }
 
-void __cdecl FUN_00cfe020(void* track, hkpAgentNnEntry* entry);
+void __cdecl _hkAgentNnMachine_InternalDeallocateEntry(void* track, hkpAgentNnEntry* entry);
 
 // @fnv 0x00cfea30
 void __cdecl FUN_00cfea30(void* track, hkpAgentNnEntry* entry, hkpCollisionDispatcher* dispatch,
@@ -603,7 +606,7 @@ void __cdecl FUN_00cfea30(void* track, hkpAgentNnEntry* entry, hkpCollisionDispa
         entries._optimizeCapacity(FUN_00c85750().heap(), 4);
     }
 
-    FUN_00cfe020(track, entry);
+    _hkAgentNnMachine_InternalDeallocateEntry(track, entry);
 }
 
 static __forceinline int hkNextPowerOf2CFF2(unsigned int in)
@@ -617,7 +620,7 @@ static __forceinline int hkNextPowerOf2CFF2(unsigned int in)
     return in + 1;
 }
 
-void __cdecl FUN_00c909d0(void* alloc, void* array, int sizeElem, void* storage, int newCapacity);
+void __cdecl hkArrayUtil__reduce(void* alloc, void* array, int sizeElem, void* storage, int newCapacity);
 
 template <> __forceinline void hkArrayBase<hkpAgentNnSector*>::popBack(int iNumElemsToRemove)
 {
@@ -631,11 +634,11 @@ template <> __forceinline void hkInplaceArray<hkpAgentNnSector*, 1>::optimizeCap
         int newCapacity = hkNextPowerOf2CFF2(m_iElementCount + numFreeElemsLeft);
         if (newCapacity < 1)
         {
-            FUN_00c909d0(&FUN_00c85750().heap(), this, sizeof(hkpAgentNnSector*), m_storage, 1);
+            hkArrayUtil__reduce(&FUN_00c85750().heap(), this, sizeof(hkpAgentNnSector*), m_storage, 1);
         }
         else if (newCapacity < getCapacity())
         {
-            FUN_00c909d0(&FUN_00c85750().heap(), this, sizeof(hkpAgentNnSector*), 0, newCapacity);
+            hkArrayUtil__reduce(&FUN_00c85750().heap(), this, sizeof(hkpAgentNnSector*), 0, newCapacity);
         }
     }
 }
@@ -644,7 +647,8 @@ void __cdecl CloneRecord(hkpAgentNnTrack* track, hkpAgentNnEntry* entry);
 
 // Clones records from the end of appendee into track while track's last sector is not full, then inserts appendee's remaining sectors into track's sector array.
 // @fnv 0x00cff290
-void __cdecl FUN_00cff290(hkpAgentNnTrack* track, hkpAgentNnTrack* appendee)
+// src: HAVOK_LIB 0x00cff290
+void __cdecl _hkAgentNnMachine_AppendTrack(hkpAgentNnTrack* track, hkpAgentNnTrack* appendee)
 {
     while (track->m_iBytesUsedInLastSector != 0x200)
     {
@@ -758,11 +762,12 @@ struct S_cfe020_Entry
     }
 };
 
-void __cdecl FUN_00c909d0(hkMemoryAllocator* heap, void* arr, int elemSize, void* mem, int n);
+void __cdecl hkArrayUtil__reduce(hkMemoryAllocator* heap, void* arr, int elemSize, void* mem, int n);
 
 // Pops an S_cfe020_Entry from the pool's stack, copies it to dest, updates the owner slot pointers, and releases the block when the pool empties.
 // @fnv 0x00cfe020
-void FUN_00cfe020(hkpAgentNnTrack* pool, S_cfe020_Entry* dest)
+// src: HAVOK_LIB 0x00cfe020
+void _hkAgentNnMachine_InternalDeallocateEntry(hkpAgentNnTrack* pool, S_cfe020_Entry* dest)
 {
     S_cfe020_Entry* src = (S_cfe020_Entry*)((char*)pool->m_kSectors.back() + pool->m_iBytesUsedInLastSector - 0x80);
     if (dest != src)
@@ -1038,7 +1043,8 @@ void __cdecl FUN_00cf1510(const SweptPose&, float, Transform&);
 
 // Computes swept transforms for both bodies, copies shapes and keys into temp bodies, and sets out fields from in and temp.
 // @fnv 0x00cfde10
-static __declspec(noinline) void FUN_00cfde10(PairInput& out, PairInput& in, PairTemporary& temp)
+// src: HAVOK_LIB 0x00cfde10
+static __declspec(noinline) void hkAgentNnMachine_initInputAtTime(PairInput& out, PairInput& in, PairTemporary& temp)
 {
     FUN_00cf1510(in.bodyA->GetMotionState()->getSweptTransform(), in.context->step.start, temp.ta);
     FUN_00cf1510(in.bodyB->GetMotionState()->getSweptTransform(), in.context->step.start, temp.tb);
@@ -1057,5 +1063,5 @@ PairTemporary* volatile pairTemp;
 PairInput* volatile pairOut;
 void pairCaller()
 {
-    FUN_00cfde10(*pairOut, *pairIn, *pairTemp);
+    hkAgentNnMachine_initInputAtTime(*pairOut, *pairIn, *pairTemp);
 }

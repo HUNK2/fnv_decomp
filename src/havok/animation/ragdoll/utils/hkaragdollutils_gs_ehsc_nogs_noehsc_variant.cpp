@@ -10,15 +10,16 @@
 
 extern "C"
 {
-    int __cdecl FUN_00cea030(void*, void*);
+    int __cdecl hkaRagdollUtils_reorderForRagdoll(void*, void*);
     int __cdecl FUN_00ce9db0(void*, void*);
     int __cdecl FUN_00ce9e90(void*);
 }
 
 // @fnv 0x00cea7c0
-int __cdecl FUN_00cea7c0(void* p1, void* p2, void* p3)
+// src: HAVOK_LIB 0x00cea7c0
+int __cdecl hkaRagdollUtils_reorderAndAlignForRagdoll(void* p1, void* p2, void* p3)
 {
-    if (FUN_00cea030(p1, p2))
+    if (hkaRagdollUtils_reorderForRagdoll(p1, p2))
         return 1;
     if (FUN_00ce9db0(p2, p3))
         return 1;
@@ -47,7 +48,7 @@ struct Counter
     int unk30;
 };
 extern "C" void __cdecl AssignNodeFlags(int, int, int);
-void __cdecl FUN_00ce9fa0(Container* c, int value, Counter* counter);
+void __cdecl hkaRagdollUtils_setCollisionLayer(Container* c, int value, Counter* counter);
 struct Inner
 {
     virtual void unk0();
@@ -172,7 +173,7 @@ extern const __m128 DAT_010c7170;
 extern const __m128 DAT_010c44d0;
 extern const __m128 DAT_010c4c00;
 extern const __m128 DAT_010c4c10;
-void __cdecl FUN_00c908c0(SpawnedAllocator*, void*, int, int) throw();
+void __cdecl hkArrayUtil__reserve(SpawnedAllocator*, void*, int, int) throw();
 struct SimdVector
 {
     __m128 quad;
@@ -219,7 +220,7 @@ template <class T> struct ArrayLocalForm
             int grown = available * 2;
             if (count >= grown)
                 grown = count;
-            FUN_00c908c0(allocator, this, grown, sizeof(T));
+            hkArrayUtil__reserve(allocator, this, grown, sizeof(T));
         }
     }
     void reserve(int count) throw()

@@ -33,7 +33,7 @@ struct FUN_00a77980_shell
 };
 struct FUN_00e7cdf0_shell
 {
-    unsigned char FUN_00e7cdf0();
+    unsigned char NiDX9DepthStencilBufferData_HasValidDepthBuffer();
     int _p1;
     int _p2;
     int _p3;
@@ -120,7 +120,7 @@ struct FUN_00e7efc0_List
     int _z;
     int count;
     FUN_00e7efc0_Node* head;
-    FUN_00e7efc0_Node* __thiscall FUN_00e7efc0(FUN_00e7efc0_Node* node);
+    FUN_00e7efc0_Node* __thiscall NiD3DRenderStateGroup_RemoveRSEntryFromSavedList(FUN_00e7efc0_Node* node);
 };
 struct DX9SurfaceDesc_00e68530
 {
@@ -257,7 +257,7 @@ struct FUN_00e7b230_Class
 extern void* const DAT_010eecac[];
 void NiFree(void*);
 extern int DAT_0126f590;
-unsigned char __cdecl FUN_00e7cca0(int* p);
+unsigned char __cdecl NiDX9DepthStencilBufferData_SetNULLDepthStencilTarget(int* p);
 extern NiRefObject vftable_NiRefObject;
 extern int DAT_010eeed4;
 extern int DAT_010eefbc;
@@ -294,7 +294,7 @@ struct FUN_00e7ef80_List
     int _x;
     int count;
     FUN_00e7ef80_Node* head;
-    FUN_00e7ef80_Node* __thiscall FUN_00e7ef80(FUN_00e7ef80_Node* node);
+    FUN_00e7ef80_Node* __thiscall NiD3DRenderStateGroup_RemoveRSEntryFromNoSaveList(FUN_00e7ef80_Node* node);
 };
 class D3DRenderStateGroup
 {
@@ -357,7 +357,7 @@ struct E65000Entry
     float m_fValue;
     int m_iData;
 };
-static float FUN_00e65000(E65000Entry* pkEntries, int iIndex, float fValue);
+static float shiftDopLow(E65000Entry* pkEntries, int iIndex, float fValue);
 float E65000Swap(E65000Entry* pkEntries, int iIndex, float fValue);
 class E673F0Geometry
 {
@@ -1336,7 +1336,7 @@ class FUN_00e67660_cls
     int unkdd8;
     int unkddc;
     FnvNode67* m_de0[100];
-    int FUN_00e67660(FnvNode67* a1, int a2, int* a3, FnvEnt67** a4);
+    int hkWingedEdge_findVisibleTriangles(FnvNode67* a1, int a2, int* a3, FnvEnt67** a4);
 };
 extern float DAT_0104da48;
 void* __cdecl _memmove(void*, const void*, unsigned);
@@ -2045,7 +2045,7 @@ struct Owner
     {
         return *reinterpret_cast<EntryArray*>(reinterpret_cast<char*>(this) + 0x450);
     }
-    Entry* FUN_00e7b190(unsigned int group, unsigned int identifier, unsigned int subIdentifier,
+    Entry* NiDX9AdapterDesc_ValidateFullscreenMode(unsigned int group, unsigned int identifier, unsigned int subIdentifier,
                         unsigned int* accumulated);
 };
 struct FUN_00e7b550_cls
@@ -2514,7 +2514,7 @@ struct FUN_00e7bcd0_Item
     void FUN_00e7bb50();
 };
 void __cdecl FUN_00aa1460(void* p, int size);
-void __cdecl FUN_00aa10f0(void* p);
+void __cdecl _NiFree_00aa10f0(void* p);
 struct FUN_00e7bcd0_cls
 {
     int unk00;
@@ -2796,7 +2796,7 @@ class BE7F610Heap
     void Deallocate(void* pvMem);
 };
 extern BE7F610Heap g_kE7F610Heap;
-void __cdecl FUN_00aa10f0(void* pvMem);
+void __cdecl _NiFree_00aa10f0(void* pvMem);
 void __cdecl FUN_00aa1490(void* pvMem, unsigned int uiAlignment);
 class BE7F610Object
 {
@@ -2837,7 +2837,7 @@ template <class T> class BE7F610Queue : public BE7F610Object
     {
         m_iArrayLength = 0;
         delete m_pkOwned;
-        FUN_00aa10f0(m_pvItems);
+        _NiFree_00aa10f0(m_pvItems);
     }
 
     void* m_pvItems;
@@ -3769,7 +3769,8 @@ struct Node
     int m_unk04;
     Item* m_item;
 };
-__declspec(noinline) int __cdecl FUN_00e7acb0(int key)
+// src: GAMEBRYO_LIB 0x00e7acb0
+__declspec(noinline) int __cdecl NiDX9SystemDesc_GetBPPFromFormat(int key)
 {
     switch (key)
     {
@@ -4013,7 +4014,7 @@ struct IndexAllocator
     int unk00;
 };
 struct IndexArray;
-void __cdecl FUN_00c908c0(IndexAllocator* alloc, IndexArray* arr, int newCap, int elemSize);
+void __cdecl hkArrayUtil__reserve(IndexAllocator* alloc, IndexArray* arr, int newCap, int elemSize);
 void* __cdecl FUN_00cb1260(void* dst, const void* src, unsigned int n);
 struct IndexArray
 {
@@ -4196,12 +4197,12 @@ struct FUN_00e76620_cls
     unsigned char unk34;
     unsigned char __thiscall FUN_00e76620();
 };
-void __cdecl FUN_00c908c0(void*, IndexArray*, int, int);
+void __cdecl hkArrayUtil__reserve(void*, IndexArray*, int, int);
 void __cdecl AppendIndexSequence(int type, int count, int start, IndexArray* output, void* allocator);
 void* __cdecl FUN_00cb1260(void* pDst, const void* pSrc, int iNumBytes);
 void __cdecl FUN_00e60f50(int iType, const int* piIndices, int iNumIndices, int iOffset, hkArray<int>& kOut);
 extern "C" double DAT_010229b8;
-static float FUN_00e62ac0(unsigned seed);
+static float rand01_00e62ac0(unsigned seed);
 volatile unsigned g_e62ac0_seed = 12345u;
 volatile float g_e62ac0_sink;
 void e62ac0_probe_caller(void);
@@ -4240,7 +4241,7 @@ struct E65020Entry
     int unk00;
     float m_fValue;
 };
-static float FUN_00e65020(E65020Entry* pkEntries, int iIndex, float fValue);
+static float shiftDopHigh(E65020Entry* pkEntries, int iIndex, float fValue);
 float E65020Swap(E65020Entry* pkEntries, int iIndex, float fValue);
 void __cdecl FUN_00e67560();
 struct FUN_00e68820_cls
@@ -5082,7 +5083,7 @@ struct FUN_00e7ce10_cls
     int unk10;
     int m_14;
 
-    unsigned char FUN_00e7ce10();
+    unsigned char NiDX9DepthStencilBufferData_HasValidStencilBuffer();
 };
 extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void*);
 extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void*);
@@ -5761,7 +5762,7 @@ struct SearchIndex
 };
 extern "C" int __cdecl abs(int v);
 extern unsigned int DAT_011bf140[];
-int __cdecl FUN_00e7a8b0(unsigned int tbl, int* a, unsigned int* b);
+int __cdecl NiDX9DeviceDesc_DisplayFormatInfo_GetDepthStencilBPPFromFormat(unsigned int tbl, int* a, unsigned int* b);
 class DepthStencilSearch
 {
   public:
@@ -5858,11 +5859,12 @@ struct MoppFindAllVirtualMachine
 
     hkArray<unsigned int>* results;
 
-    void FUN_00e66600(const MoppState* state, const unsigned char* code);
+    void hkpMoppFindAllVirtualMachine_queryOnTreeLeft(const MoppState* state, const unsigned char* code);
 };
 
 // @fnv 0x00e66600
-void MoppFindAllVirtualMachine::FUN_00e66600(const MoppState* state, const unsigned char* code)
+// src: HAVOK_LIB 0x00e66600
+void MoppFindAllVirtualMachine::hkpMoppFindAllVirtualMachine_queryOnTreeLeft(const MoppState* state, const unsigned char* code)
 
 {
 

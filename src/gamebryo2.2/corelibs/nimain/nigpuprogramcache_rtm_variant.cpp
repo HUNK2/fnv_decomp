@@ -90,7 +90,7 @@ class FUN_00ee8fe0_cls
 extern void* DAT_11ac230;
 void __cdecl FUN_00aa1ab0();
 void __cdecl AdvancePosition(S_00a8d8b0* a, void* b, unsigned int c);
-bool __stdcall FUN_00ee92d0(S_00a8d8b0* self, unsigned int pBuffer, unsigned int a3);
+bool __stdcall NiGPUProgramCache_LoadStringA(S_00a8d8b0* self, unsigned int pBuffer, unsigned int a3);
 struct S_00ee97e0_Stream
 {
     int unk00;
@@ -267,7 +267,7 @@ inline void S_00ee9230_WriteBinary(S_00ee9230_Stream* pkStream, const void* pvBu
 {
     pkStream->m_uiPos += pkStream->m_pfnWrite(pkStream, pvBuffer, uiBytes, &uiComponentSize, 1);
 }
-bool __stdcall FUN_00ee9230(S_00ee9230_Stream* pkStream, const char* pcString);
+bool __stdcall NiGPUProgramCache_SaveString(S_00ee9230_Stream* pkStream, const char* pcString);
 extern bool DAT_011c2fdd;
 bool __cdecl FUN_00aa1ab0(const char* pcName);
 bool __cdecl FUN_00aa1bb0(const char* pcName);

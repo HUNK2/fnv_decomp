@@ -88,7 +88,7 @@ void FUN_00c20a00_shell::FUN_00c20a00(NiStream* kStream)
 
 struct FUN_00c20a60_shell : public NiPSysRotationModifier
 {
-    bool FUN_00c20a60(NiObject*);
+    bool NiPSysRotationModifier_IsEqual(NiObject*);
 };
 
 struct Call_439090_tgt
@@ -97,7 +97,8 @@ struct Call_439090_tgt
 };
 
 // @fnv 0x00c20a60
-bool FUN_00c20a60_shell::FUN_00c20a60(NiObject* object)
+// src: GAMEBRYO_LIB 0x00c20a60
+bool FUN_00c20a60_shell::NiPSysRotationModifier_IsEqual(NiObject* object)
 {
     NiPSysRotationModifier* pkDest = static_cast<NiPSysRotationModifier*>(object);
     if (NiPSysModifier::IsEqual(pkDest) && pkDest->m_fInitialRotationSpeed == m_fInitialRotationSpeed &&

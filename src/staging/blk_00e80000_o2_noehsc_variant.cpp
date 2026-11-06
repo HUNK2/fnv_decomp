@@ -79,7 +79,7 @@ struct FUN_00e8aa40_Class
 void __stdcall FUN_00e8b490(int* a, int b, int c);
 // Registry initializer 0x00e93d80 stores vftable 0x010f0f50 (RTTI).
 extern NiTStringPointerMap<NiD3DShaderProgramCreator*>* DAT_0126fa14;
-void FUN_00e933d0();
+void NiD3DShaderProgramFactory__SDMShutdown();
 extern "C" void __cdecl FUN_00e93400();
 extern MemoryManager g_memoryManager;
 extern bool DAT_0126f0d0;
@@ -295,7 +295,7 @@ struct FUN_00e88b00_Class
     int __thiscall FUN_00e88b00();
     int __thiscall DestroyIfFlagged(bool flag);
 };
-unsigned int __fastcall FUN_00e8a240(char* self, int);
+unsigned int __fastcall NiPixelFormat_GetNumComponents(char* self, int);
 void __cdecl _NiFree(void* p);
 extern int DAT_010efdd8;
 extern int DAT_010efdf8;
@@ -4743,7 +4743,7 @@ struct ScalarDeletingObject
     void FUN_00e89560();
     void* DestroyScalarObject(unsigned char flags);
 };
-extern "C" void __cdecl FUN_00aa10f0(void*);
+extern "C" void __cdecl _NiFree_00aa10f0(void*);
 extern int DAT_010ef73c;
 extern int DAT_0101dce4;
 extern volatile long DAT_011f4400;
@@ -8116,7 +8116,7 @@ struct LightState
     int f68;
     bool UpdateFromSource(LightSource* source);
 };
-extern "C" void __cdecl FUN_00aa10f0(void* p);
+extern "C" void __cdecl _NiFree_00aa10f0(void* p);
 extern int DAT_010f0ef0;
 struct FUN_00e89740_Obj
 {

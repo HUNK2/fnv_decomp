@@ -40,7 +40,7 @@ struct StateD72090
     float unk18;
     float unk1C;
 };
-void FUN_00d72090(StateD72090* out);
+void _hkSimpleContactConstraintDataAddALittleSurfaceViscosity(StateD72090* out);
 #include <string.h>
 struct __declspec(align(16)) Buffer
 {
@@ -77,7 +77,7 @@ struct __declspec(align(16)) Buffer
     int unk78;
     int unk7c;
 };
-extern "C" void __cdecl FUN_00d72090(void*);
+extern "C" void __cdecl _hkSimpleContactConstraintDataAddALittleSurfaceViscosity(void*);
 extern "C" void __cdecl FUN_00d72190(hkpSimpleContactConstraintAtom*, Buffer*, int, int*);
 extern "C" void __cdecl FUN_00d6f460(hkpSimpleContactConstraintAtom*, unsigned short, Buffer*, int*);
 extern "C" Buffer* __cdecl GetSharedBuffer();

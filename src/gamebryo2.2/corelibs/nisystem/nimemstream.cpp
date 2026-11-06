@@ -5,7 +5,8 @@
 #include "../../../../include/NiMemStream.h"
 
 // @fnv 0x00aa2d70
-void __thiscall NiMemStream::FUN_00aa2d70(int iNumBytes)
+// src: GAMEBRYO_LIB 0x00aa2d70
+void __thiscall NiMemStream::Seek_00aa2d70(int iNumBytes)
 {
     int iValue = m_pos + iNumBytes;
     if (iValue >= 0 && iValue < m_uiSize)
@@ -136,7 +137,7 @@ struct NiAlloc
     void __thiscall FUN_00aa4060(void* ptr);
 };
 extern NiAlloc DAT_011f6238;
-void __cdecl FUN_00aa10f0(void* ptr);
+void __cdecl _NiFree_00aa10f0(void* ptr);
 
 extern void* NiMemStream_vftable[];
 
@@ -147,7 +148,7 @@ void* __fastcall DestroyNiMemStream(NiMemStream* stream, void*, unsigned int fla
     *(void***)stream = NiMemStream_vftable;
     if (!stream->m_bFlag20 && !stream->m_bFlag21)
     {
-        FUN_00aa10f0(stream->m_kRayStart);
+        _NiFree_00aa10f0(stream->m_kRayStart);
     }
     stream->NiBinaryStream::~NiBinaryStream();
     if (flags & 1)

@@ -952,7 +952,7 @@ struct Obj
     Obj* FUN_006fa820();
     Obj* FUN_004ae750();
     int FUN_004b4f00();
-    void FUN_00cb2fc0();
+    void hkRotation_renormalize();
     void FUN_00c8ef80(PathRef* p);
     void UpdateMatchingNodes(Obj* a);
     HandleSrc* FUN_0070c440(int* out);
@@ -1181,8 +1181,8 @@ void MissileProjectile::FUN_009b90b0()
                                     path.FUN_009ba320(p63c, p630);
                                     Name n690(p63c->FUN_004ae750()->FUN_004b4f00());
                                     Name n6d0(p630->FUN_004ae750()->FUN_004b4f00());
-                                    n690.FUN_006815c0()->FUN_00cb2fc0();
-                                    n6d0.FUN_006815c0()->FUN_00cb2fc0();
+                                    n690.FUN_006815c0()->hkRotation_renormalize();
+                                    n6d0.FUN_006815c0()->hkRotation_renormalize();
                                     V v6dc;
                                     v6dc.FUN_006815c0();
                                     ((Obj*)GetNiNode())->FUN_00461130()->rot.FUN_00439f50(1, &v6dc);

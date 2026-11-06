@@ -437,7 +437,7 @@ bool NiTriShapeData::FUN_00a7b7e0(const NiTriShapeData* pkOther)
 namespace fnv_00ba3d30 {
 extern "C" char DAT_010b7fe4;
 
-void __cdecl FUN_00aa10f0(void*);
+void __cdecl _NiFree_00aa10f0(void*);
 
 extern "C" MemoryManager DAT_011f6238;
 
@@ -456,7 +456,7 @@ class HolderA
 HolderA::~HolderA()
 {
     void* memory = m_pData;
-    FUN_00aa10f0(memory);
+    _NiFree_00aa10f0(memory);
 }
 
 class HolderB
@@ -474,7 +474,7 @@ class HolderB
 HolderB::~HolderB()
 {
     void* memory = m_pData;
-    FUN_00aa10f0(memory);
+    _NiFree_00aa10f0(memory);
 }
 
 class HolderC
@@ -492,7 +492,7 @@ class HolderC
 HolderC::~HolderC()
 {
     void* memory = m_pData;
-    FUN_00aa10f0(memory);
+    _NiFree_00aa10f0(memory);
 }
 
 class HolderArray
@@ -512,7 +512,7 @@ class HolderArray
 HolderArray::~HolderArray()
 {
     void* memory = m_pData;
-    FUN_00aa10f0(memory);
+    _NiFree_00aa10f0(memory);
 }
 
 extern int DAT_010b9d24;
@@ -525,7 +525,7 @@ struct PlainHolder
     {
         void* memory = m_pData;
         vtable = &DAT_010b9d24;
-        FUN_00aa10f0(memory);
+        _NiFree_00aa10f0(memory);
     }
 };
 

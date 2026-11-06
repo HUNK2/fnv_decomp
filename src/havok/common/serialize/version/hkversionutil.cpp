@@ -104,12 +104,12 @@ void __cdecl FUN_00dc0fc0(void* a1, int a2, void* a3, int a4)
 
 extern hkClass g_01268748;
 
-int __cdecl FUN_00cb0fa0(const char* pcA, const char* pcB) throw();
+int __cdecl hkString_strCmp(const char* pcA, const char* pcB) throw();
 
 class hkVersionCheckDC11
 {
   public:
-    int FUN_00e032d0(const hkClassMember* pkOld, const hkClassMember* pkNew) throw();
+    int hkObjectCopier_areMembersCompatible(const hkClassMember* pkOld, const hkClassMember* pkNew) throw();
     int IsMemberCompatible(const hkClassMember* pkOld, const hkClassMember* pkNew) throw();
 };
 
@@ -124,15 +124,15 @@ int hkVersionCheckDC11::IsMemberCompatible(const hkClassMember* pkOld, const hkC
     bool bVariantToPtr =
         (pkOld->m_type == hkClassMember::TYPE_VARIANT && pkNew->m_type == hkClassMember::TYPE_POINTER &&
          pkNew->m_eSubtype == hkClassMember::TYPE_STRUCT && GetMemberClass(pkNew) &&
-         FUN_00cb0fa0(GetClassName(&g_01268748), GetClassName(pkNew->GetClass())) == 0);
+         hkString_strCmp(GetClassName(&g_01268748), GetClassName(pkNew->GetClass())) == 0);
     bool bSubTypeCompatible =
         (pkOld->m_eSubtype == pkNew->m_eSubtype) || (pkOld->m_eSubtype == hkClassMember::TYPE_CSTRING &&
                                                      pkNew->m_eSubtype == hkClassMember::TYPE_STRINGPTR);
     bool bSubVariantToPtr =
         (pkOld->m_eSubtype == hkClassMember::TYPE_VARIANT && pkNew->m_eSubtype == hkClassMember::TYPE_POINTER &&
-         GetMemberClass(pkNew) && FUN_00cb0fa0(GetClassName(&g_01268748), GetClassName(pkNew->GetClass())) == 0);
+         GetMemberClass(pkNew) && hkString_strCmp(GetClassName(&g_01268748), GetClassName(pkNew->GetClass())) == 0);
 
-    if (FUN_00e032d0(pkOld, pkNew) || bCStringToStringPtr || bVariantToPtr ||
+    if (hkObjectCopier_areMembersCompatible(pkOld, pkNew) || bCStringToStringPtr || bVariantToPtr ||
         (bTypeCompatible && (bSubTypeCompatible || bSubVariantToPtr)))
         return 1;
     return 0;
@@ -207,7 +207,7 @@ class FUN_00d274c0 : public FUN_00d27520
 {
   public:
     FUN_00d274c0(void* pvMem, int m_uiSizeAndFlags, hkBool bMemoryIsString) throw();
-    int FUN_00d27380(int offset, int whence) throw();
+    int hkBufferedStreamWriter_seek(int offset, int whence) throw();
 };
 
 class SetDC10
@@ -221,7 +221,7 @@ class SectionsDC10
   public:
     int FUN_00d470d0() throw();
     int FUN_00d46f00() throw();
-    hkClassMember* FUN_00d46f20(int i) throw();
+    hkClassMember* getMember(int i) throw();
     void InvokeTarget(int i, FUN_00d27520* pkWriter) throw();
 };
 
@@ -232,12 +232,12 @@ void __cdecl FUN_00dc1070(void* apvBuffer, SetDC10* pkSet, SectionsDC10* pkSecti
     FUN_00d274c0 kWriter(apvBuffer, pkSections->FUN_00d470d0(), false);
     for (int i = 0; i < pkSections->FUN_00d46f00(); i++)
     {
-        hkClassMember* pkEntry = pkSections->FUN_00d46f20(i);
+        hkClassMember* pkEntry = pkSections->getMember(i);
         int key = reinterpret_cast<int>(pkEntry->m_name);
         if (!pkSet->FUN_00d46fe0(key))
         {
             int iOffset = pkEntry->m_offset;
-            kWriter.FUN_00d27380(iOffset, 0);
+            kWriter.hkBufferedStreamWriter_seek(iOffset, 0);
             pkSections->InvokeTarget(i, &kWriter);
         }
     }
@@ -269,7 +269,7 @@ struct S00dc15a0_Array
 namespace fnvc_adapt {
 extern "C" hkMemoryRouter* __cdecl FUN_00c85750();
 }
-extern "C" void __cdecl FUN_00c908c0(S00dc15a0_Buffer* buffer, int** indices, int size, int elementSize);
+extern "C" void __cdecl hkArrayUtil__reserve(S00dc15a0_Buffer* buffer, int** indices, int size, int elementSize);
 
 static __declspec(noinline) int FUN_00dc12c0(S00dc15a0_Params* params, int value, int flags, S00dc15a0_Array* arr)
 {
@@ -295,7 +295,7 @@ int __cdecl FUN_00dc15a0(S00dc15a0_Params* params, int value, int flags)
         int newCap = iCurrentCap + iCurrentCap;
         if (count >= newCap)
             newCap = count;
-        FUN_00c908c0(heap, &arr.m_data, newCap, 4);
+        hkArrayUtil__reserve(heap, &arr.m_data, newCap, 4);
     }
 
     int index = 0;

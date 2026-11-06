@@ -25,7 +25,7 @@ struct Lst
     int b;
     Nd* head;
 };
-int __fastcall FUN_00e92fe0(Lst* l, int, Nd** pos);
+int __fastcall NiD3D10ShaderProgramFactory_GetFirstProgramDirectory(Lst* l, int, Nd** pos);
 void FUN_00e93df0();
 extern "C" void __cdecl __Dummy_00b6fef0(void*, unsigned int);
 void __cdecl FUN_00e93e00();

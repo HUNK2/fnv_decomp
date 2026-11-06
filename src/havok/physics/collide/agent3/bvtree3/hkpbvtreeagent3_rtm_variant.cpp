@@ -49,12 +49,12 @@ extern "C" LocalM128 _mm_shuffle_ps(LocalM128, LocalM128, int);
 // src/havok/physics/collide/agent3/bvtree3/hkpbvtreeagent3.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent3/bvtree3/hkpbvtreeagent3.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 void* __cdecl InitAndReturnTail(void*, void*, void*);
-void __fastcall FUN_00d2d890(void* self, int, void*, int);
+void __fastcall hkBvTreeAgent3_process(void* self, int, void*, int);
 void __fastcall CallWithValueSource(void* self, int, int, int);
 void __fastcall FUN_00d2d430(void* self, int, int, int);
 void __fastcall FUN_00d2d480(void* self, int, int, int);
 void FUN_00d2d9d0(void* pObject);
-extern "C" void __cdecl FUN_00da35f0(void*, float, float, int);
+extern "C" void __cdecl _hkAgent1nMachine_WarpTime(void*, float, float, int);
 void __cdecl FUN_00d2d480(void*, void* target, float first, float second, int flags);
 // Exe 0x00d2da70: unit-local Interface view; declarations and layout are preserved.
 struct Hkpbvtreeagent3InterfaceView
@@ -162,7 +162,7 @@ struct Agent
     virtual void f6(const char* typeName);
     virtual void f7();
 };
-extern "C" void __cdecl FUN_00d97250(int, int, void*);
+extern "C" void __cdecl hkpAgentMachineUtil_calc1nStatistics(int, int, void*);
 extern "C" void __cdecl FUN_00da3510(int, int);
 void __cdecl FUN_00d2d430(int a1, int a2, int a3, Agent* p);
 void __cdecl FUN_00d2d460(int a, int b, int c)
@@ -339,9 +339,9 @@ char** FUN_00c85750();
 int FUN_00d2d4f0(int a, int b, hkTransform* l, void* c, int d, int e, char* f, int g);
 int FUN_00d2d4b0(int a, S00d2d890_Hits* h);
 int FUN_00da4aa0(int a, void* b, int c, char* d, int e);
-char* __cdecl FUN_00d2d890(char* self, int a1, char* child, int a3, int a4);
+char* __cdecl hkBvTreeAgent3_process(char* self, int a1, char* child, int a3, int a4);
 __declspec(noinline) void FUN_00d2d9d0(void* pObject);
-void FUN_00d2da20(hkpCollisionDispatcher* target);
+void hkBvTreeAgent3_registerAgent3(hkpCollisionDispatcher* target);
 
 typedef float hkReal;
 typedef unsigned char hkUchar;

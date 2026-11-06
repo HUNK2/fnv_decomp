@@ -13,7 +13,7 @@ class NiCullingProperty : public NiProperty
     NiCullingProperty* FUN_00a8f530(CloningProcess& kCloning);
     NiCullingProperty* FUN_00a9a5f0(CloningProcess& kCloning);
     void FUN_00a8f650(NiStream& stream);
-    void FUN_00a99e00(void* destination, CloningProcess& kCloning);
+    void NiFogProperty_CopyMembers(void* destination, CloningProcess& kCloning);
     void FUN_00a81430(void* destination, CloningProcess& kCloning);
 
     unsigned short m_usFlags;

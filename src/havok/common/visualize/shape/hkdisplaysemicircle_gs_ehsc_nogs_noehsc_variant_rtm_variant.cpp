@@ -94,7 +94,7 @@ struct VecArr_de4af0
     unsigned int m_uCap;  // +0x08
 };
 Holder_de4af0* FUN_00c85750();
-extern "C" void FUN_00c908c0(void* alloc, VecArr_de4af0* arr, unsigned int newCap, unsigned int stride);
+extern "C" void hkArrayUtil__reserve(void* alloc, VecArr_de4af0* arr, unsigned int newCap, unsigned int stride);
 struct ArcSamples_de4af0
 {
     int unk00;         // +0x00
@@ -155,7 +155,7 @@ void ArcSamples_de4af0::FUN_00de4af0(VecArr_de4af0* arr)
         {
             newCap = n;
         }
-        FUN_00c908c0(alloc, arr, newCap, 0x10);
+        hkArrayUtil__reserve(alloc, arr, newCap, 0x10);
     }
     LocalM128 initial = x.v;
     arr->m_iArrayLength = n;

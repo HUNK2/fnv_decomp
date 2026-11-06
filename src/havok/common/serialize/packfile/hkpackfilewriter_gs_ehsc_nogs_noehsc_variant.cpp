@@ -52,7 +52,7 @@ inline hkMemoryRouter* router()
     return (&hkMemoryRouter::getInstance());
 }
 
-int __cdecl FUN_00cb0fa0(const char*, const char*) throw();
+int __cdecl hkString_strCmp(const char*, const char*) throw();
 template <typename T> __forceinline void hkArrayBase<T>::_clearAndDeallocate(hkMemoryAllocator& alloc)
 {
     m_iElementCount = 0;
@@ -112,7 +112,8 @@ struct Ragdoll
     Ragdoll* __thiscall FUN_00ce2510(hkArray<RigidBody*>*, hkArray<Constraint*>*, Skeleton*, hkArray<int>*) throw();
 };
 // @fnv 0x00cea810
-Ragdoll* __cdecl FUN_00cea810(Skeleton* skeleton, const hkArray<RigidBody*>& bodies,
+// src: HAVOK_LIB 0x00cea810
+Ragdoll* __cdecl hkaRagdollUtils_createRagdollInstanceFromSkeleton(Skeleton* skeleton, const hkArray<RigidBody*>& bodies,
                               const hkArray<Constraint*>& constraints)
 {
     int count = skeleton->boneCount;
@@ -135,7 +136,7 @@ Ragdoll* __cdecl FUN_00cea810(Skeleton* skeleton, const hkArray<RigidBody*>& bod
         {
             RigidBody* candidate = bodies.m_data[j];
             const char* name = candidate->name.text();
-            if (name && FUN_00cb0fa0(name, bone.name.text()) == 0)
+            if (name && hkString_strCmp(name, bone.name.text()) == 0)
             {
                 if (!body)
                     body = candidate;

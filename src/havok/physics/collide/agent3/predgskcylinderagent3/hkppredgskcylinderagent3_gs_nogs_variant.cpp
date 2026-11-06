@@ -137,10 +137,10 @@ struct D40AF0Mask
     int m_pHeadNode;
     int m_iSecondInteger;
 };
-static void FUN_00d40af0(D40AF0State* s, D40AF0Mask* m);
+static void convertCylinderCacheToCapsuleCache(D40AF0State* s, D40AF0Mask* m);
 void D40AF0Caller(D40AF0State* s, D40AF0Mask* m);
 void __fastcall FUN_00c905b0(void* selfVal);
-static void FUN_00d409d0(void** vals, void** slots);
+static void restoreOriginalShapesInCdBodies(void** vals, void** slots);
 void** volatile g_d409d0_vals;
 void** volatile g_d409d0_slots;
 void d409d0_probe_caller(void);
@@ -202,7 +202,7 @@ struct D40A10Entry
         m_data = data;
     }
 };
-static void FUN_00d40a10(int* a, FNVTypeRecord** b, FNVObject** objs, D40A10Entry* out);
+static void replaceCylindersWithCapsulesInCdBodies(int* a, FNVTypeRecord** b, FNVObject** objs, D40A10Entry* out);
 void D40A10Caller(int* a, FNVTypeRecord** b, FNVObject** objs, D40A10Entry* out);
 
 extern "C" unsigned __int64 __rdtsc(void);

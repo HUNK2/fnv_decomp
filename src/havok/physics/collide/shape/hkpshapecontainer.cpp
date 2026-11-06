@@ -19,10 +19,11 @@ struct FUN_00d1f1e0_class
         return -1;
     }
 
-    int FUN_00d1f1e0();
+    int hkpShapeContainer_getNumChildShapes();
 };
 
-int FUN_00d1f1e0_class::FUN_00d1f1e0()
+// src: HAVOK_LIB 0x00d1f1e0
+int FUN_00d1f1e0_class::hkpShapeContainer_getNumChildShapes()
 {
     int count = 0;
     int child = FUN_00d1f1e0_2();

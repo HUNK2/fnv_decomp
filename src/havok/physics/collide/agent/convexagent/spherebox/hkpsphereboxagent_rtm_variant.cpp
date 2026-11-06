@@ -59,7 +59,7 @@ void CreateD3C380Obj();
 void FUN_00d3c440();
 void FUN_00d3cc00();
 void FUN_00daf8e0();
-void __cdecl FUN_00d3cef0(Registry* registry);
+void __cdecl hkpSphereBoxAgent_registerAgent(Registry* registry);
 extern float DAT_0104da48;
 extern void __cdecl FUN_00d3cc00(void*, void*, int, void*);
 void __cdecl FlipAndDispatchCollector(void* arg1, void* arg2, int arg3, int arg4);
@@ -72,7 +72,7 @@ struct S_00d3c3c0_Obj {
     int unk04;
     S_00d3c3c0_Holder* unk08;
     unsigned short unk0c;
-    void FUN_00d3c3c0(int arg);
+    void hkpSphereBoxAgent_cleanup(int arg);
 };
 
 struct ObjAllocator {
@@ -120,7 +120,7 @@ struct CpuCallData { void* descriptor; float bound; unsigned int value; };
 extern float DAT_0104da48;
 extern unsigned char DAT_010ce7fc;
 struct CpuObject {
-    void FUN_00d3c910(void*, void*, unsigned int, CpuCallData*);
+    void hkpSphereBoxAgent_getClosestPoints(void*, void*, unsigned int, CpuCallData*);
     void FUN_00d3d000(void*, void*, unsigned int, unsigned int);
 };
 extern "C" {
@@ -167,7 +167,7 @@ struct Simplex
 };
 struct AgentBase
 {
-    void FUN_00d3c5b0(int a, int b, int c, Simplex* s);
+    void hkpSphereBoxAgent_processCollision(int a, int b, int c, Simplex* s);
 };
 struct Agent : AgentBase
 {
@@ -682,7 +682,8 @@ __forceinline void S3c5_SphereBoxAgent::processContact(const hkpCdBody& bodyA, c
 }
 
 // @fnv 0x00d3c5b0
-void AgentBase::FUN_00d3c5b0(int a, int b, int c, Simplex* s)
+// src: HAVOK_SRC 0x00d3c5b0
+void AgentBase::hkpSphereBoxAgent_processCollision(int a, int b, int c, Simplex* s)
 {
     ((S3c5_SphereBoxAgent*)this)->processContact(*(const hkpCdBody*)a, *(const hkpCdBody*)b, *(const S3c5_CollisionInput*)c, *(S3c5_ProcessCollisionOutput*)s);
 }
@@ -777,7 +778,7 @@ struct S00d3c910_SphereBoxAgent
 {
     static bool ComputeClosestPoints(const hkpCdBody& bodyA, const hkpCdBody& bodyB,
         const S00d3c910_CollisionInput& input, hkContactPoint& contact);
-    void FUN_00d3c910(const hkpCdBody& bodyA, const hkpCdBody& bodyB,
+    void hkpSphereBoxAgent_getClosestPoints(const hkpCdBody& bodyA, const hkpCdBody& bodyB,
         const S00d3c910_CollisionInput& input, S00d3c910_CdPointCollector& collector);
 };
 
@@ -857,7 +858,8 @@ __forceinline bool S00d3c910_SphereBoxAgent::ComputeClosestPoints(const hkpCdBod
 }
 
 // @fnv 0x00d3c910
-void S00d3c910_SphereBoxAgent::FUN_00d3c910(const hkpCdBody& bodyA, const hkpCdBody& bodyB,
+// src: HAVOK_SRC 0x00d3c910
+void S00d3c910_SphereBoxAgent::hkpSphereBoxAgent_getClosestPoints(const hkpCdBody& bodyA, const hkpCdBody& bodyB,
     const S00d3c910_CollisionInput& input, S00d3c910_CdPointCollector& collector)
 {
     S00d3c910_timerBegin(str_010cf050);

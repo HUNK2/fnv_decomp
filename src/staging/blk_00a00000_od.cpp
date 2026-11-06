@@ -693,7 +693,7 @@ struct FUN_00a1ebf0_Class : S00a0d390
     void* __thiscall FUN_00a1ebf0(int flags);
 };
 
-void FUN_00aa10f0(void* arg);
+void _NiFree_00aa10f0(void* arg);
 
 // @fnv 0x00a1ebf0
 void* __thiscall FUN_00a1ebf0_Class::FUN_00a1ebf0(int flags)
@@ -702,7 +702,7 @@ void* __thiscall FUN_00a1ebf0_Class::FUN_00a1ebf0(int flags)
     int _temp2;
     m_vtbl = &DAT_01095664;
     ClearAll();
-    FUN_00aa10f0(m_data);
+    _NiFree_00aa10f0(m_data);
     if ((flags & 1) != 0)
     {
         g_memoryManager.Deallocate(this);
@@ -787,7 +787,7 @@ void FUN_00a0d790_class::FUN_00a0d790()
 }
 
 extern int DAT_01094e9c;
-extern void* __cdecl FUN_00aa10f0(void*);
+extern void* __cdecl _NiFree_00aa10f0(void*);
 
 struct FUN_00a0d990_cls : S00a0d390
 {
@@ -804,7 +804,7 @@ int __thiscall FUN_00a0d990_cls::FUN_00a0d990(int aiFlags)
     (void)b;
     this->m_vtbl = reinterpret_cast<int*>(&DAT_01094e9c);
     this->ClearAll();
-    FUN_00aa10f0(this->m_data);
+    _NiFree_00aa10f0(this->m_data);
     if ((aiFlags & 1) != 0)
     {
         g_memoryManager.Deallocate(this);

@@ -108,12 +108,13 @@ class FUN_00d3d200_cls
     SpawnedInner* m_pInner;   // +0x08
     unsigned short m_wFlags;  // +0x0C
 
-    void FUN_00d3d200(void* param);
+    void hkpSphereTriangleAgent_cleanup(void* param);
 };
 
 // If m_wFlags is not 0xFFFF, forwards m_wFlags and param to m_pInner->unk14, then calls unk00(1) on this object.
 // @fnv 0x00d3d200
-void FUN_00d3d200_cls::FUN_00d3d200(void* param)
+// src: HAVOK_SRC 0x00d3d200
+void FUN_00d3d200_cls::hkpSphereTriangleAgent_cleanup(void* param)
 {
     if (m_wFlags != 0xFFFF)
     {
@@ -176,7 +177,7 @@ struct D3DD10Data
 
 struct D3DD10Object
 {
-    void __thiscall FUN_00d3d2a0(unsigned int a1, unsigned int a2, unsigned int a3, D3DD10Data* data);
+    void __thiscall hkpSphereTriangleAgent_getPenetrations(unsigned int a1, unsigned int a2, unsigned int a3, D3DD10Data* data);
 
     void __thiscall FUN_00d3dd10(unsigned int p0, unsigned int p1, unsigned int p2, unsigned int p3);
 };
@@ -191,7 +192,7 @@ void __thiscall D3DD10Object::FUN_00d3dd10(unsigned int p0, unsigned int p1, uns
     data.flag = 0;
     data.vt = &DAT_010ce81c[0];
 
-    this->FUN_00d3d2a0(p1, p0, p2, &data);
+    this->hkpSphereTriangleAgent_getPenetrations(p1, p0, p2, &data);
 }
 
 __forceinline void hkVector4q::setBroadcast3(const hkVector4q& v)
@@ -268,7 +269,7 @@ extern hkVector4q DAT_010c4c00;
 class ParticleSystemOps
 {
   public:
-    void FUN_00d3dd90(int a, int b, int c, ParticleSystemState* state);
+    void hkpSphereTriangleAgent_processCollision(int a, int b, int c, ParticleSystemState* state);
     void FUN_00d3e150(int a1, int a2, int a3, ParticleSystemState* s);
 };
 
@@ -280,7 +281,7 @@ void ParticleSystemOps::FUN_00d3e150(int a1, int a2, int a3, ParticleSystemState
     x = s->m_3030;
     SpawnedParticle* t;
     t = s->m_kRayEnd;
-    this->FUN_00d3dd90(a2, a1, a3, s);
+    this->hkpSphereTriangleAgent_processCollision(a2, a1, a3, s);
     for (; t < s->m_kRayEnd; t++)
     {
         hkVector4q pObj;
@@ -415,12 +416,13 @@ class SphereTriAgent
   public:
     int unk00, unk04, unk08, unk0C;
     float unk10;
-    void FUN_00d3d2a0(BodyHolderB* a, BodyHolderB* b, int c_, Sink* sink);
+    void hkpSphereTriangleAgent_getPenetrations(BodyHolderB* a, BodyHolderB* b, int c_, Sink* sink);
 };
 
 // Tests sphere-triangle collision between two bodies and calls the sink if the distance is within the combined radii.
 // @fnv 0x00d3d2a0
-void SphereTriAgent::FUN_00d3d2a0(BodyHolderB* apBodyA, BodyHolderB* apBodyB, int aiUnused, Sink* sink)
+// src: HAVOK_SRC 0x00d3d2a0
+void SphereTriAgent::hkpSphereTriangleAgent_getPenetrations(BodyHolderB* apBodyA, BodyHolderB* apBodyB, int aiUnused, Sink* sink)
 {
     volatile unsigned int lo;
     {
@@ -614,7 +616,7 @@ extern float DAT_0104da48;
 extern unsigned char DAT_010ce7fc;
 struct CpuObject
 {
-    void FUN_00d3d6b0(void*, void*, unsigned int, CpuCallData*);
+    void hkpSphereTriangleAgent_getClosestPoints(void*, void*, unsigned int, CpuCallData*);
     void FUN_00d3e0d0(void*, void*, unsigned int, unsigned int);
 };
 // Fills a CpuCallData with fourth, DAT_0104da48 and &DAT_010ce7fc, then calls FUN_00d3d6b0 with second, first, third and the data pointer.
@@ -625,6 +627,6 @@ void CpuObject::FUN_00d3e0d0(void* first, void* second, unsigned int third, unsi
     data.value = uiValue;
     data.bound = DAT_0104da48;
     data.descriptor = &DAT_010ce7fc;
-    FUN_00d3d6b0(second, first, third, &data);
+    hkpSphereTriangleAgent_getClosestPoints(second, first, third, &data);
 }
 }  // namespace fnv_00d3e0d0

@@ -64,10 +64,11 @@ struct Param
 struct This
 {
     int CastAgainstCollidable(Param*);
-    int FUN_00df72e0(Param*);
+    int hkCpuWorldLinearCastCollector_addLeaf(Param*);
 };
 // @fnv 0x00df72e0
-int This::FUN_00df72e0(Param* pParam)
+// src: HAVOK_LIB 0x00df72e0
+int This::hkCpuWorldLinearCastCollector_addLeaf(Param* pParam)
 {
     Param* pNext = pParam;
     pNext = pNext->next0c;

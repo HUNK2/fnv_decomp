@@ -112,7 +112,7 @@ struct ConstraintVisualizer
     DebugDisplayHandlerHolder m_kDisplayGeometry;
 
     void FUN_00de47e0(hkpConstraintInstance* constraint, hkTransform& refLocalToWorld, hkTransform& attLocalToWorld);
-    void FUN_00de44c0(int id, int tag);
+    void hkpConstraintDrawer_drawPivots(int id, int tag);
     void FUN_00de4530(int id, int tag);
     void FUN_00de6550(hkpConstraintInstance* constraint, hkDebugDisplayHandler* displayHandler, int id, int tag);
 };
@@ -130,7 +130,7 @@ void ConstraintVisualizer::FUN_00de6550(hkpConstraintInstance* constraint, hkDeb
         m_vVectorAtOffset50.FUN_00c7f640(refLocalToWorld, pulley->m_kTranslationB);
         m_vVectorAtOffset40.FUN_00c7f640(attLocalToWorld, pulley->m_kTranslationA);
     }
-    FUN_00de44c0(id, tag);
+    hkpConstraintDrawer_drawPivots(id, tag);
     FUN_00de4530(id, tag);
 
     displayLine(displayHandler, pulley->m_kFixedPivotA, VecAddress(&pulley->m_kFixedPivotB), 0xffc0c0c0, id, tag);

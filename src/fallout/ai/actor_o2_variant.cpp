@@ -92,11 +92,12 @@ void __thiscall FUN_00cda4b0_cls::FUN_00cda4b0()
 struct FUN_00cda8d0_class
 {
     void FUN_00cda340();
-    void* FUN_00cda8d0();
+    void* hkaPose_getSyncedPoseModelSpace();
 };
 
 // @fnv 0x00cda8d0
-void* FUN_00cda8d0_class::FUN_00cda8d0()
+// src: HAVOK_LIB 0x00cda8d0
+void* FUN_00cda8d0_class::hkaPose_getSyncedPoseModelSpace()
 {
     FUN_00cda340();
     return (char*)this + 0x10;
@@ -539,7 +540,7 @@ void __cdecl FUN_00c74dd0(void*, void*);
 
 struct XObj
 {
-    void FUN_00cdb3e0();
+    void hkaRagdollRigidBodyController_reinitialize();
 };
 
 struct FUN_00c7d810_Cls
@@ -564,7 +565,7 @@ void FUN_00c7d810_Cls::FUN_00c7d810()
     *(int*)((char*)this + 0xc) = etype;
     XObj* p = *(XObj**)((char*)this + 0x4c);
     if (p)
-        p->FUN_00cdb3e0();
+        p->hkaRagdollRigidBodyController_reinitialize();
 }
 }  // namespace fnv_00c7d810
 
@@ -628,11 +629,12 @@ void __cdecl FUN_00d6b4b0(void*, unsigned int);
 struct FUN_00cdb3e0_cls
 {
     char pad[0x2c];
-    void FUN_00cdb3e0();
+    void hkaRagdollRigidBodyController_reinitialize();
 };
 
 // @fnv 0x00cdb3e0
-void FUN_00cdb3e0_cls::FUN_00cdb3e0()
+// src: HAVOK_LIB 0x00cdb3e0
+void FUN_00cdb3e0_cls::hkaRagdollRigidBodyController_reinitialize()
 {
     FUN_00d6b4b0((char*)this + 0x18, *(unsigned int*)((char*)this + 0x2c));
 }
@@ -1065,10 +1067,11 @@ struct CE4360Context
 };
 
 void __cdecl FUN_00ce3a00(CE4360Context* pkContext, int a, int b, int c, int d);
-void __cdecl FUN_00ce4330(CE4360Context* pkContext, int a, int b, int c);
+void __cdecl hkaSkeletonMapper_mapPoseLocalSpace_00ce4330(CE4360Context* pkContext, int a, int b, int c);
 
 // @fnv 0x00ce4360
-void __cdecl FUN_00ce4360(CE4360Context* pkContext, CE4360Iter* pkFrom, CE4360Iter* pkTo, int iValue)
+// src: HAVOK_LIB 0x00ce4360
+void __cdecl hkaSkeletonMapper_mapPose(CE4360Context* pkContext, CE4360Iter* pkFrom, CE4360Iter* pkTo, int iValue)
 {
     if (pkContext->m_iMode == 0)
     {
@@ -1080,7 +1083,7 @@ void __cdecl FUN_00ce4360(CE4360Context* pkContext, CE4360Iter* pkFrom, CE4360It
     {
         int a = *pkFrom->GetSecond();
         int b = *pkTo->GetFourth();
-        FUN_00ce4330(pkContext, a, b, 0);
+        hkaSkeletonMapper_mapPoseLocalSpace_00ce4330(pkContext, a, b, 0);
     }
 }
 
@@ -1307,8 +1310,8 @@ struct FUN_00cb9650_Object
     virtual void vf08();
     virtual NiNode* vf0C();
 
-    void* FUN_00a5c570(const void* typeInfo);
-    void FUN_00a5c480(int value);
+    void* NiObjectNET_GetController(const void* typeInfo);
+    void NiObjectNET_RemoveController(int value);
 };
 
 extern const char DAT_012683f4[];
@@ -1318,10 +1321,10 @@ void __cdecl FUN_00cb9650(FUN_00cb9650_Object* object)
 {
     if (object != 0)
     {
-        void* controller = object->FUN_00a5c570(DAT_012683f4);
+        void* controller = object->NiObjectNET_GetController(DAT_012683f4);
         if (controller != 0)
         {
-            object->FUN_00a5c480((int)controller);
+            object->NiObjectNET_RemoveController((int)controller);
         }
 
         NiNode* node = object->vf0C();
@@ -2271,7 +2274,8 @@ void RagdollCtl::FUN_00c7c150(bool b)
 }
 
 // @fnv 0x00c7f4a0
-static __declspec(noinline) unsigned char* FUN_00c7f4a0(unsigned char* out, const float* src, int count)
+// src: HAVOK_LIB 0x00c7f4a0
+static __declspec(noinline) unsigned char* hkVector4isOk(unsigned char* out, const float* src, int count)
 {
     int i = 0;
     if (count > 0)
@@ -2293,12 +2297,12 @@ static __declspec(noinline) unsigned char* FUN_00c7f4a0(unsigned char* out, cons
 }
 unsigned char* S00c7f4a0_Call(unsigned char* out, const float* src, int count)
 {
-    return FUN_00c7f4a0(out, src, count);
+    return hkVector4isOk(out, src, count);
 }
 
 struct HkFloatCheck
 {
-    void FUN_00c7f500(bool* pOut);
+    void hkVector4_isOk4(bool* pOut);
 };
 static inline bool IsFiniteFloat(float r)
 {
@@ -2317,7 +2321,8 @@ static __declspec(noinline) bool* CheckFloatsValid(const float* pData, int iCoun
     return pOut;
 }
 // @fnv 0x00c7f500
-void HkFloatCheck::FUN_00c7f500(bool* pOut)
+// src: HAVOK_LIB 0x00c7f500
+void HkFloatCheck::hkVector4_isOk4(bool* pOut)
 {
     CheckFloatsValid((const float*)this, 4, pOut);
 }
@@ -2748,7 +2753,8 @@ struct S
     float* arr2c;  // 0x2c
 };
 // @fnv 0x00cda110
-void __fastcall FUN_00cda110(S* s)
+// src: HAVOK_LIB 0x00cda110
+void __fastcall hkaPose_setToReferencePose(S* s)
 {
     int i;
     sub_00cb1260(s->p04, s->a->p24, s->a->count * 0x30);
@@ -3140,7 +3146,7 @@ typedef unsigned char u8;
 
 struct RagdollAnimationResetView
 {
-    __declspec(noinline) void FUN_00cdb3e0();
+    __declspec(noinline) void hkaRagdollRigidBodyController_reinitialize();
 };
 
 struct RagdollAnimBodyView
@@ -3581,7 +3587,7 @@ int RagdollAnimControllerView::FUN_00c7a8d0()
 {
     if (b41 == 0 && p4C != 0)
     {
-        p4C->FUN_00cdb3e0();
+        p4C->hkaRagdollRigidBodyController_reinitialize();
     }
     u8 old = b222;
     u8 flag = b42;

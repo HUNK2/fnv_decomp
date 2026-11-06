@@ -4318,7 +4318,7 @@ struct MyCtrl
 };
 struct AVNode : public NiAVObject
 {
-    MyCtrl* FUN_00a5c570(NiRTTI*);
+    MyCtrl* NiObjectNET_GetController(NiRTTI*);
 };
 struct AVObj
 {
@@ -4964,7 +4964,7 @@ void Host::FUN_00936b20(int aiUnused)
         AVObj* pSceneObject = m6c;
         if (pSceneObject->v116())
         {
-            MyCtrl* pkCtrl = pSceneObject->v116()->FUN_00a5c570(&DAT_011f36ac);
+            MyCtrl* pkCtrl = pSceneObject->v116()->NiObjectNET_GetController(&DAT_011f36ac);
             if (pkCtrl)
             {
                 Sub* pkSeq = pkCtrl->FUN_0047a520(FUN_00935ef0());
@@ -5989,7 +5989,7 @@ namespace fnv_008cb3c0 {
 struct FloatMatrix3
 {
     float m00, m01, m02, m10, m11, m12, m20, m21, m22;
-    void FUN_00a59400(float*, float*, float*);
+    void NiMatrix3_ToEulerAnglesZXY(float*, float*, float*);
     void FUN_00a59660(float, float, float);
 };
 struct RefObject
@@ -6314,7 +6314,7 @@ void Controller::FUN_008cb3c0(float afDelta)
                 actor->FUN_00440460(reinterpret_cast<NiPoint3*>(&vPos));
                 FloatMatrix3 rot = *actor->FUN_006a9540();
                 float roll, pitchNew, yawVal;
-                rot.FUN_00a59400(&roll, &pitchNew, &yawVal);
+                rot.NiMatrix3_ToEulerAnglesZXY(&roll, &pitchNew, &yawVal);
                 reinterpret_cast<NiPoint3&>(lastDirection) =
                     reinterpret_cast<NiPoint3&>(vPos) - reinterpret_cast<NiPoint3&>(oldPosition);
                 float dirZ_ = lastDirection.z;

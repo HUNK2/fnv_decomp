@@ -80,26 +80,28 @@ int __thiscall FUN_00d2f220_class::InitializeWithGlobal(int aiValue)
     return (int)this;
 }
 
-void __cdecl FUN_00d365d0();
+void __cdecl hkpCollectionAgent3_process();
 void __cdecl FUN_00da6fd0(int);
 
 // @fnv 0x00d367b0
-void __cdecl FUN_00d367b0(int pObject)
+// src: HAVOK_LIB 0x00d367b0
+void __cdecl hkpCollectionAgent3_initAgentFunc(int pObject)
 {
     FUN_00da6fd0(pObject);
-    *(void (**)(void))(pObject + 0x2c) = &FUN_00d365d0;
+    *(void (**)(void))(pObject + 0x2c) = &hkpCollectionAgent3_process;
 }
 
-extern "C" void __cdecl FUN_00d36b70();
+extern "C" void __cdecl hkpListAgent_createListBAgent();
 extern "C" void __cdecl FUN_00d34790();
 extern "C" void __cdecl QueryClosestPoints();
 extern "C" void __cdecl FUN_00d34810();
 
 // Fills the four function pointers at p[0..3] and sets the bytes at offsets 0x10 and 0x11 to 0 and 1.
 // @fnv 0x00d36bb0
-void __cdecl FUN_00d36bb0(void** p)
+// src: HAVOK_LIB 0x00d36bb0
+void __cdecl hkpListAgent_initAgentFuncInverse(void** p)
 {
-    p[0] = (void*)&FUN_00d36b70;
+    p[0] = (void*)&hkpListAgent_createListBAgent;
     p[1] = (void*)&FUN_00d34790;
     p[2] = (void*)&QueryClosestPoints;
     p[3] = (void*)&FUN_00d34810;
@@ -107,19 +109,20 @@ void __cdecl FUN_00d36bb0(void** p)
     ((char*)p)[0x11] = 1;
 }
 
-extern "C" void __cdecl FUN_00d36be0();
-extern "C" void __cdecl FUN_00d43dc0();
+extern "C" void __cdecl hkpListAgent_createListAAgent();
+extern "C" void __cdecl hkpShapeCollectionAgent_staticGetPenetrations();
 extern "C" void __cdecl GetClosestPointsShapeCollection();
-extern "C" void __cdecl FUN_00d43b90();
+extern "C" void __cdecl hkpShapeCollectionAgent_staticLinearCast();
 
 // Writes four function pointers into the object at offsets 0, 4, 8 and 12, then sets the bytes at offsets 16 and 17 to 1.
 // @fnv 0x00d36c30
-void __cdecl FUN_00d36c30(void* apObject)
+// src: HAVOK_LIB 0x00d36c30
+void __cdecl hkpListAgent_initAgentFunc(void* apObject)
 {
-    *(void**)apObject = &FUN_00d36be0;
-    *(void**)((char*)apObject + 4) = &FUN_00d43dc0;
+    *(void**)apObject = &hkpListAgent_createListAAgent;
+    *(void**)((char*)apObject + 4) = &hkpShapeCollectionAgent_staticGetPenetrations;
     *(void**)((char*)apObject + 8) = &GetClosestPointsShapeCollection;
-    *(void**)((char*)apObject + 12) = &FUN_00d43b90;
+    *(void**)((char*)apObject + 12) = &hkpShapeCollectionAgent_staticLinearCast;
     *(unsigned char*)((char*)apObject + 16) = 1;
     *(unsigned char*)((char*)apObject + 17) = 1;
 }
@@ -166,7 +169,8 @@ extern "C" void __cdecl FUN_00daf8e0();
 
 // Stores four function pointers (FUN_00d3f620, FUN_00d3f6a0, FUN_00d3fb20, FUN_00daf8e0) into the first four slots of the object at p.
 // @fnv 0x00d3fce0
-void __cdecl FUN_00d3fce0(void* apObject)
+// src: HAVOK_LIB 0x00d3fce0
+void __cdecl hkpSphereSphereAgent_initAgentFunc(void* apObject)
 {
     void** a = (void**)apObject;
     a[0] = (void*)FUN_00d3f620;
@@ -199,36 +203,37 @@ struct CollisionAgentFunctionTable {
 struct Agent {
     void FUN_00cfbbe0(CollisionAgentFunctionTable*, int, int);
 };
-void __cdecl FUN_00d2e680();
+void __cdecl hkpBvTreeStreamAgent_createBvTreeShapeAgent();
 void __cdecl FUN_00d2e970();
 void __cdecl FUN_00d2e9b0();
 void __cdecl FUN_00d2daf0();
-void __cdecl FUN_00d2df50();
-void __cdecl FUN_00d312f0();
-void __cdecl FUN_00d31110();
+void __cdecl hkpBvTreeStreamAgent_createShapeBvAgent();
+void __cdecl hkpBvTreeAgent_staticGetPenetrations();
+void __cdecl hkpBvTreeAgent_staticGetClosestPoints();
 void __cdecl FUN_00d2f0d0();
 void __cdecl CreateAgentForBodyPair();
 // @fnv 0x00d2dc70
-void __cdecl FUN_00d2dc70(Agent* pAgent)
+// src: HAVOK_LIB 0x00d2dc70
+void __cdecl hkpMoppBvTreeStreamAgent_registerAgent(Agent* pAgent)
 {
     CollisionAgentFunctionTable f;
-    f.a = (void*)&FUN_00d2e680;
+    f.a = (void*)&hkpBvTreeStreamAgent_createBvTreeShapeAgent;
     f.b = (void*)&FUN_00d2e970;
     f.c = (void*)&FUN_00d2e9b0;
     f.d = (void*)&FUN_00d2daf0;
     f.e = 1;
     f.f = 1;
     pAgent->FUN_00cfbbe0(&f, 10, 18);
-    f.a = (void*)&FUN_00d2df50;
-    f.b = (void*)&FUN_00d312f0;
-    f.c = (void*)&FUN_00d31110;
+    f.a = (void*)&hkpBvTreeStreamAgent_createShapeBvAgent;
+    f.b = (void*)&hkpBvTreeAgent_staticGetPenetrations;
+    f.c = (void*)&hkpBvTreeAgent_staticGetClosestPoints;
     f.d = (void*)&FUN_00d2f0d0;
     f.e = 0;
     f.f = 1;
     pAgent->FUN_00cfbbe0(&f, 18, 10);
     f.a = (void*)&CreateAgentForBodyPair;
-    f.b = (void*)&FUN_00d312f0;
-    f.c = (void*)&FUN_00d31110;
+    f.b = (void*)&hkpBvTreeAgent_staticGetPenetrations;
+    f.c = (void*)&hkpBvTreeAgent_staticGetClosestPoints;
     f.d = (void*)&FUN_00d2f0d0;
     f.e = 0;
     f.f = 1;
@@ -354,10 +359,11 @@ void D28030UnionFind::Union(int aiNodeA, int aiNodeB)
     }
 }
 
-struct LinkedIndexArray { int** entries; int count; void FUN_00d280e0(); };
+struct LinkedIndexArray { int** entries; int count; void hkUnionFind_collapseTree(); };
 // For each non-negative entry, follows the chain of indices in entries until a negative value is reached, then advances to the next entry.
 // @fnv 0x00d280e0
-void LinkedIndexArray::FUN_00d280e0(){
+// src: HAVOK_LIB 0x00d280e0
+void LinkedIndexArray::hkUnionFind_collapseTree(){
 int* values=*entries; int* current=*entries; int* end=current+count;while(current!=end){if(*current>=0){while(values[*current]>=0){*current=values[*current];values=*entries;}}++current;}
 }
 
@@ -366,10 +372,10 @@ struct IndexBuffer { int* data; int size; unsigned capacityFlags; };
 struct IndexStorage { int* data; };
 hkMemoryRouter* __cdecl FUN_00c85750();
 void __cdecl ResizeAudioStream(void*, IndexBuffer*, int);
-struct IndexRemapper { IndexStorage* entries; int length; void FUN_00d280e0(); void RemapIndices(IndexBuffer*); };
+struct IndexRemapper { IndexStorage* entries; int length; void hkUnionFind_collapseTree(); void RemapIndices(IndexBuffer*); };
 // @fnv 0x00d28120
 void IndexRemapper::RemapIndices(IndexBuffer* output) {
- FUN_00d280e0(); int nextIndex=0;
+ hkUnionFind_collapseTree(); int nextIndex=0;
  for(int i=0;i<length;++i) {
   int* values=entries->data; int value=values[i];
   if(value<0) {
@@ -568,23 +574,24 @@ public:
     void registerCollisionAgent(D2F2C0AgentFuncs& f, int typeA, int typeB);
 };
 
-void __cdecl FUN_00d2fa00();
+void __cdecl hkpBvTreeAgent_createBvTreeShapeAgent();
 void __cdecl FUN_00d2e970();
 void __cdecl FUN_00d2e9b0();
 void __cdecl FUN_00d2daf0();
-void __cdecl FUN_00d2f9d0();
-void __cdecl FUN_00d312f0();
-void __cdecl FUN_00d31110();
+void __cdecl hkpBvTreeAgent_createShapeBvAgent();
+void __cdecl hkpBvTreeAgent_staticGetPenetrations();
+void __cdecl hkpBvTreeAgent_staticGetClosestPoints();
 void __cdecl FUN_00d2f0d0();
 void __cdecl CreateAgentForBodyPair();
 
 // Registers three collision agent function tables with the dispatcher for type pairs (10,-1), (-1,10) and (10,10).
 // @fnv 0x00d2f2c0
-void __cdecl FUN_00d2f2c0(D2F2C0Dispatcher* dispatcher)
+// src: HAVOK_LIB 0x00d2f2c0
+void __cdecl hkpMoppAgent_registerAgent(D2F2C0Dispatcher* dispatcher)
 {
     {
         D2F2C0AgentFuncs f;
-        f.m_pCreateFunc = FUN_00d2fa00;
+        f.m_pCreateFunc = hkpBvTreeAgent_createBvTreeShapeAgent;
         f.m_pQueryPenetrationsFunc = FUN_00d2e970;
         f.m_getClosestPointsFunc = FUN_00d2e9b0;
         f.m_pLinearCastFunc = FUN_00d2daf0;
@@ -594,9 +601,9 @@ void __cdecl FUN_00d2f2c0(D2F2C0Dispatcher* dispatcher)
     }
     {
         D2F2C0AgentFuncs f;
-        f.m_pCreateFunc = FUN_00d2f9d0;
-        f.m_pQueryPenetrationsFunc = FUN_00d312f0;
-        f.m_getClosestPointsFunc = FUN_00d31110;
+        f.m_pCreateFunc = hkpBvTreeAgent_createShapeBvAgent;
+        f.m_pQueryPenetrationsFunc = hkpBvTreeAgent_staticGetPenetrations;
+        f.m_getClosestPointsFunc = hkpBvTreeAgent_staticGetClosestPoints;
         f.m_pLinearCastFunc = FUN_00d2f0d0;
         f.m_bIsFlipped = false;
         f.m_bIsPredictive = false;
@@ -605,8 +612,8 @@ void __cdecl FUN_00d2f2c0(D2F2C0Dispatcher* dispatcher)
     {
         D2F2C0AgentFuncs f;
         f.m_pCreateFunc = CreateAgentForBodyPair;
-        f.m_pQueryPenetrationsFunc = FUN_00d312f0;
-        f.m_getClosestPointsFunc = FUN_00d31110;
+        f.m_pQueryPenetrationsFunc = hkpBvTreeAgent_staticGetPenetrations;
+        f.m_getClosestPointsFunc = hkpBvTreeAgent_staticGetClosestPoints;
         f.m_pLinearCastFunc = FUN_00d2f0d0;
         f.m_bIsFlipped = false;
         f.m_bIsPredictive = true;
@@ -614,14 +621,14 @@ void __cdecl FUN_00d2f2c0(D2F2C0Dispatcher* dispatcher)
     }
 }
 
-struct CallTarget_00d2f760 { int FUN_00d2f760(int, int, int, int); };
+struct CallTarget_00d2f760 { int hkpBvTreeAgent_updateShapeCollectionFilter(int, int, int, int); };
 struct SearchObject {
     int FUN_00d2f3d0(unsigned int arg0, unsigned int arg1, unsigned int arg2, unsigned int arg3);
 };
 // @fnv 0x00d2f3d0
 int SearchObject::FUN_00d2f3d0(unsigned int arg0, unsigned int arg1, unsigned int arg2, unsigned int arg3)
 {
-    unsigned int uiResult = (unsigned int)((CallTarget_00d2f760*)this)->FUN_00d2f760((int)arg1, (int)arg0, (int)arg2, (int)arg3);
+    unsigned int uiResult = (unsigned int)((CallTarget_00d2f760*)this)->hkpBvTreeAgent_updateShapeCollectionFilter((int)arg1, (int)arg0, (int)arg2, (int)arg3);
     return (int)uiResult;
 }
 
@@ -649,7 +656,7 @@ struct FnvCpu_FUN_00d31730_CpuCallData { void* descriptor; float bound; unsigned
 extern float DAT_0104da48;
 extern unsigned char DAT_010ce7fc;
 struct FnvCpu_FUN_00d31730_CpuObject {
-    void FUN_00d315d0(void*, void*, unsigned int, FnvCpu_FUN_00d31730_CpuCallData*);
+    void hkpBvTreeAgent_getClosestPoints(void*, void*, unsigned int, FnvCpu_FUN_00d31730_CpuCallData*);
     void FUN_00d31730(void*, void*, unsigned int, unsigned int);
 };
 // Builds a call data struct from the arguments and DAT globals, then forwards it to FUN_00d315d0 with second and first swapped.
@@ -660,7 +667,7 @@ void FnvCpu_FUN_00d31730_CpuObject::FUN_00d31730(void* first, void* second, unsi
     data.value = fourth;
     data.bound = DAT_0104da48;
     data.descriptor = &DAT_010ce7fc;
-    FUN_00d315d0(second, first, third, &data);
+    hkpBvTreeAgent_getClosestPoints(second, first, third, &data);
 }
 
 namespace fnv_00d327e0 {
@@ -758,7 +765,8 @@ struct FUN_00d36be0_cls
 extern "C" hkMemoryRouter* __cdecl FUN_00c85750();
 
 // @fnv 0x00d36be0
-void* __cdecl FUN_00d36be0(int a1, int a2, int a3, int a4)
+// src: HAVOK_LIB 0x00d36be0
+void* __cdecl hkpListAgent_createListAAgent(int a1, int a2, int a3, int a4)
 {
     hkMemoryRouter* pHolder = FUN_00c85750();
     hkMemoryAllocator* pAlloc = reinterpret_cast<hkMemoryAllocator*>(pHolder->m_heap);
@@ -784,7 +792,7 @@ struct FnvCpu_FUN_00d36ce0_CpuCallData { void* descriptor; float bound; unsigned
 extern float DAT_0104da48;
 extern unsigned char DAT_010ce7fc;
 struct FnvCpu_FUN_00d36ce0_CpuObject {
-    void FUN_00d36940(void*, void*, unsigned int, FnvCpu_FUN_00d36ce0_CpuCallData*);
+    void hkpListAgent_getClosestPoints(void*, void*, unsigned int, FnvCpu_FUN_00d36ce0_CpuCallData*);
     void FUN_00d36ce0(void*, void*, unsigned int, unsigned int);
 };
 // Builds a call-data struct from fourth, DAT_0104da48 and DAT_010ce7fc, then forwards second, first and third to FUN_00d36940.
@@ -795,7 +803,7 @@ void FnvCpu_FUN_00d36ce0_CpuObject::FUN_00d36ce0(void* first, void* second, unsi
     data.value = fourth;
     data.bound = DAT_0104da48;
     data.descriptor = &DAT_010ce7fc;
-    FUN_00d36940(second, first, third, &data);
+    hkpListAgent_getClosestPoints(second, first, third, &data);
 }
 
 namespace fnv_00d36f50 {
@@ -856,7 +864,7 @@ public:
 
 class D37B90Agent {
 public:
-    void FUN_00d37010(void* pkA, void* pkB, void* pkInput, D37B90Collector* pkCollector);
+    void hkpMultiRayConvexAgent_getClosestPoints(void* pkA, void* pkB, void* pkInput, D37B90Collector* pkCollector);
     void FUN_00d37b90(void* pkA, void* pkB, void* pkInput, int iFilter);
 };
 
@@ -865,7 +873,7 @@ public:
 void D37B90Agent::FUN_00d37b90(void* pkA, void* pkB, void* pkInput, int iFilter)
 {
     D37B90Collector kCollector(iFilter);
-    FUN_00d37010(pkB, pkA, pkInput, &kCollector);
+    hkpMultiRayConvexAgent_getClosestPoints(pkB, pkA, pkInput, &kCollector);
 }
 
 namespace fnv_00d37da0 {
@@ -1024,7 +1032,8 @@ extern "C" hkMemoryRouter* __cdecl FUN_00c85750();
 
 // Allocates a 0x14-byte object from the singleton's allocator and initializes its fields, storing param_4 and a global pointer.
 // @fnv 0x00d3b380
-void __cdecl FUN_00d3b380(int aiUnused1, int aiUnused2, int aiUnused3,
+// src: HAVOK_LIB 0x00d3b380
+void __cdecl hkpCapsuleCapsuleAgent_createCapsuleCapsuleAgent(int aiUnused1, int aiUnused2, int aiUnused3,
                          unsigned int auiValue)
 {
     hkMemoryRouter* singleton = FUN_00c85750();
@@ -1044,7 +1053,7 @@ struct FnvCpu_FUN_00d3f480_CpuCallData { void* descriptor; float bound; unsigned
 extern float DAT_0104da48;
 extern unsigned char DAT_010ce7fc;
 struct FnvCpu_FUN_00d3f480_CpuObject {
-    void FUN_00d3e850(void*, void*, unsigned int, FnvCpu_FUN_00d3f480_CpuCallData*);
+    void hkpSphereCapsuleAgent_getClosestPoints(void*, void*, unsigned int, FnvCpu_FUN_00d3f480_CpuCallData*);
     void FUN_00d3f480(void*, void*, unsigned int, unsigned int);
 };
 // Builds a call-data record from the fourth argument, a global float and a global byte, then forwards it with the other arguments to FUN_00d3e850.
@@ -1055,7 +1064,7 @@ void FnvCpu_FUN_00d3f480_CpuObject::FUN_00d3f480(void* first, void* second, unsi
     data.value = fourth;
     data.bound = DAT_0104da48;
     data.descriptor = &DAT_010ce7fc;
-    FUN_00d3e850(second, first, third, &data);
+    hkpSphereCapsuleAgent_getClosestPoints(second, first, third, &data);
 }
 
 extern float DAT_0104da48;
@@ -1101,13 +1110,13 @@ S_00d3f620_Obj* __cdecl FUN_00d3f620(int a1, int a2, int a3, int aiValue) {
 }
 }  // namespace fnv_00d3f620
 
-void __cdecl FUN_00d3fce0(CollisionAgentFunctionTable*);
+void __cdecl hkpSphereSphereAgent_initAgentFunc(CollisionAgentFunctionTable*);
 // @fnv 0x00d3fd00
 void __cdecl FUN_00d3fd00(Agent* agent) {
     CollisionAgentFunctionTable funcs;
     funcs.e = 0;
     funcs.f = 0;
-    FUN_00d3fce0(&funcs);
+    hkpSphereSphereAgent_initAgentFunc(&funcs);
     agent->FUN_00cfbbe0(&funcs, 1, 1);
 }
 
@@ -1359,7 +1368,7 @@ struct D27690_Modifier {
     unsigned short m_childResult;
     D27690_Atom* m_pChildAtom;
 
-    void FUN_00d22090(D27690_ConstraintInfo* info, unsigned char* flags);
+    void addModifierDataToConstraintInfo(D27690_ConstraintInfo* info, unsigned char* flags);
 };
 
 struct D27690_Entity {
@@ -1419,7 +1428,7 @@ struct D27690_Owner {
     int unk08;
     int m_iElementCount;
 
-    void FUN_00cb7480(void* unk, D27690_ConstraintInfo* info);
+    void hkpConstraintOwner_subConstraintInfo(void* unk, D27690_ConstraintInfo* info);
 };
 
 
@@ -1427,7 +1436,8 @@ extern unsigned short DAT_010cb7a8;
 
 // Removes the modifier of the given type from the instance's chain, updates internal child result and stats, then frees the modifier.
 // @fnv 0x00d27690
-void __cdecl FUN_00d27690(D27690_Instance* instance, D27690_Owner* owner, unsigned int modifierType)
+// src: HAVOK_LIB 0x00d27690
+void __cdecl hkpWorldConstraintUtil_removeAndDeleteModifier(D27690_Instance* instance, D27690_Owner* owner, unsigned int modifierType)
 {
     owner->checkReadOnly();
 
@@ -1474,14 +1484,14 @@ FOUND:
         info.unk0C = 0;
         unsigned char flags = 0;
 
-        curr->FUN_00d22090(&info, &flags);
+        curr->addModifierDataToConstraintInfo(&info, &flags);
 
         flags &= (instance->m_pEntityA->unkD2 | instance->m_pEntityB->unkD2);
         unsigned short delta = (&DAT_010cb7a8)[flags & 7];
         owner->m_iElementCount += delta;
         instance->m_pConstraintInternal->m_stats += delta;
 
-        owner->FUN_00cb7480(internal->m_pHavokConstraint, &info);
+        owner->hkpConstraintOwner_subConstraintInfo(internal->m_pHavokConstraint, &info);
     }
 
     int size = curr->m_usModifierAtomSize;
@@ -1617,7 +1627,8 @@ struct FUN_00d277f0_arg
 };
 // Walks the linked list from a->unk10 while node unk00 is at least 0x17 and returns the last node visited.
 // @fnv 0x00d277f0
-FUN_00d277f0_node* __cdecl FUN_00d277f0(FUN_00d277f0_arg* a)
+// src: HAVOK_LIB 0x00d277f0
+FUN_00d277f0_node* __cdecl hkpWorldConstraintUtil_findLastModifier(FUN_00d277f0_arg* a)
 {
     FUN_00d277f0_node* p = a->unk10;
     if (!p) {
@@ -1652,17 +1663,18 @@ struct PathHelper {
 
     void __thiscall FUN_00d61c10(const char* s);
     void __thiscall ReplaceChar(char from, char to, int all);
-    void __thiscall FUN_00d62190(const char* from, const char* to, int all);
+    void __thiscall hkStringBuf_replace(const char* from, const char* to, int all);
     int __thiscall FUN_00d61560(const char* s);
     void __thiscall RemoveFront(int count);
 };
 
 // @fnv 0x00d2b360
-const char* __cdecl FUN_00d2b360(const char* path, PathHelper* aPathHelper)
+// src: HAVOK_LIB 0x00d2b360
+const char* __cdecl hkNativeFileSystem_nativePlatformToHavokConvertPath(const char* path, PathHelper* aPathHelper)
 {
     aPathHelper->FUN_00d61c10(path);
     aPathHelper->ReplaceChar('\\', '/', 1);
-    aPathHelper->FUN_00d62190("/./", "/", 1);
+    aPathHelper->hkStringBuf_replace("/./", "/", 1);
     if (aPathHelper->FUN_00d61560("./"))
         aPathHelper->RemoveFront(2);
     return aPathHelper->m_data;
@@ -1748,7 +1760,7 @@ struct FnvCpu_FUN_00d329b0_CpuCallData { void* descriptor; float bound; unsigned
 extern float DAT_0104da48;
 extern unsigned char DAT_010ce7fc;
 struct FnvCpu_FUN_00d329b0_CpuObject {
-    void FUN_00d32170(void*, void*, unsigned int, FnvCpu_FUN_00d329b0_CpuCallData*);
+    void hkpHeightFieldAgent_getClosestPoints(void*, void*, unsigned int, FnvCpu_FUN_00d329b0_CpuCallData*);
     void DispatchWithBound(void*, void*, unsigned int, unsigned int);
 };
 // Builds a call-data record from the fourth argument, DAT_0104da48 and DAT_010ce7fc, then forwards it to FUN_00d32170 with the first two arguments swapped.
@@ -1759,7 +1771,7 @@ void FnvCpu_FUN_00d329b0_CpuObject::DispatchWithBound(void* first, void* second,
     data.value = fourth;
     data.bound = DAT_0104da48;
     data.descriptor = &DAT_010ce7fc;
-    FUN_00d32170(second, first, third, &data);
+    hkpHeightFieldAgent_getClosestPoints(second, first, third, &data);
 }
 
 // @fnv 0x00d32ac0
@@ -1774,7 +1786,7 @@ void* __cdecl FUN_00d32ad0(int unused, char* p) {
 }
 
 extern int DAT_010ce81c;
-void __cdecl FUN_00d33b90(int b, int a, int c, SpawnedBuf* buffer);
+void __cdecl hkpConvexListAgent_staticGetPenetrations(int b, int a, int c, SpawnedBuf* buffer);
 // Initializes a SpawnedBuf with zero, a global pointer and d, then calls FUN_00d33b90 with b, a, c and the buffer.
 // @fnv 0x00d34930
 void __cdecl InitSpawnedBuffer(int a, int b, int c, int d)
@@ -1783,7 +1795,7 @@ void __cdecl InitSpawnedBuffer(int a, int b, int c, int d)
     buffer.m_iWordAt04 = 0;
     buffer.m_iWordAt00 = &DAT_010ce81c;
     buffer.m_8 = d;
-    FUN_00d33b90(b, a, c, &buffer);
+    hkpConvexListAgent_staticGetPenetrations(b, a, c, &buffer);
 }
 
 struct FUN_00d34aa0_Obj {
@@ -1796,20 +1808,20 @@ struct FUN_00d34aa0_Obj {
     virtual void vf18();
     virtual void vf1C();
 
-    void __thiscall FUN_00d338e0(int a, int b, int c, int d);
+    void __thiscall hkpConvexListAgent_updateShapeCollectionFilter(int a, int b, int c, int d);
     virtual void __thiscall FUN_00d34aa0(int a, int b, int c, int d);
 };
 // @fnv 0x00d34aa0
 void __thiscall FUN_00d34aa0_Obj::FUN_00d34aa0(int param_1, int param_2, int param_3, int param_4)
 {
-    FUN_00d338e0(param_2, param_1, param_3, param_4);
+    hkpConvexListAgent_updateShapeCollectionFilter(param_2, param_1, param_3, param_4);
 }
 
 struct FnvCpu_FUN_00d34b00_CpuCallData { void* descriptor; float bound; unsigned int value; };
 extern float DAT_0104da48;
 extern unsigned char DAT_010ce7fc;
 struct FnvCpu_FUN_00d34b00_CpuObject {
-    void FUN_00d33b70(void*, void*, unsigned int, FnvCpu_FUN_00d34b00_CpuCallData*);
+    void hkpConvexListAgent_getClosestPoints(void*, void*, unsigned int, FnvCpu_FUN_00d34b00_CpuCallData*);
     void DispatchCpuCall(void*, void*, unsigned int, unsigned int);
 };
 // @fnv 0x00d34b00
@@ -1819,7 +1831,7 @@ void FnvCpu_FUN_00d34b00_CpuObject::DispatchCpuCall(void* first, void* second, u
     data.value = fourth;
     data.bound = DAT_0104da48;
     data.descriptor = &DAT_010ce7fc;
-    FUN_00d33b70(second, first, third, &data);
+    hkpConvexListAgent_getClosestPoints(second, first, third, &data);
 }
 
 // Scans the first three entries of table for key and, if found, replaces it with 0xffff and returns.
@@ -1948,7 +1960,7 @@ struct D3FD30Funcs {
     bool m_bA;
     bool m_bB;
 };
-void __cdecl FUN_00d3fce0(D3FD30Funcs* pkFuncs);
+void __cdecl hkpSphereSphereAgent_initAgentFunc(D3FD30Funcs* pkFuncs);
 class D3FD30Dispatcher {
 public:
     void AddSpawnEntry(D3FD30Funcs* pkFuncs, int iA, int iB);
@@ -1959,7 +1971,7 @@ public:
 void __cdecl DispatchFuncs(D3FD30Dispatcher* pkDispatcher)
 {
     D3FD30Funcs kFuncs;
-    FUN_00d3fce0(&kFuncs);
+    hkpSphereSphereAgent_initAgentFunc(&kFuncs);
     pkDispatcher->AddSpawnEntry(&kFuncs, 1, 1);
 }
 
@@ -2084,7 +2096,7 @@ struct D34ac0Struct {
 };
 
 struct FUN_00d33c80_class {
-    void FUN_00d33c80(void* a, void* b, void* c, void* d);
+    void hkpConvexListAgent_getPenetrations(void* a, void* b, void* c, void* d);
     void FUN_00d34ac0(void* a, void* b, void* c, void* d);
 };
 
@@ -2096,7 +2108,7 @@ void FUN_00d33c80_class::FUN_00d34ac0(void* a, void* b, void* c, void* d)
     s.g = d;
     s.f = 0;
     s.e = &DAT_010ce81c;
-    FUN_00d33c80(b, a, c, &s);
+    hkpConvexListAgent_getPenetrations(b, a, c, &s);
 }
 
 
@@ -2356,7 +2368,7 @@ FUN_00d22dc0::FUN_00d22dc0(const hkVector4& kA, const hkVector4& kB, float afBou
 }
 
 struct E48 { int a[12]; };
-extern "C" void __cdecl FUN_00d06c30(void* self, int newCap, int elemSize);
+extern "C" void __cdecl hkSmallArrayUtil__reserve(void* self, int newCap, int elemSize);
 extern "C" void __cdecl CopyMemoryBackward(void* dst, const void* src, int size);
 
 struct hkSmallArrayE {
@@ -2370,7 +2382,7 @@ struct hkSmallArrayE {
         if (cap < n) {
             int cap2 = 2 * cap;
             int newSize = (n < cap2) ? cap2 : n;
-            FUN_00d06c30(this, newSize, sizeof(E48));
+            hkSmallArrayUtil__reserve(this, newSize, sizeof(E48));
         }
     }
     void Insert(int i, const E48* a, int numtoinsert);
@@ -2720,7 +2732,7 @@ struct CallbackState {
     int m_iValue;
 };
 struct Holder {
-    void FUN_00d315f0(int a, int b, int c, CallbackState* s);
+    void hkpBvTreeAgent_getPenetrations(int a, int b, int c, CallbackState* s);
     void FUN_00d2f3f0(int a, int b, int c, int d);
 };
 // Fills a CallbackState with d, a zero flag, and a pointer to DAT_010ce81c, then calls FUN_00d315f0 with b, a, c, and the state.
@@ -2731,7 +2743,7 @@ void Holder::FUN_00d2f3f0(int a, int b, int c, int aiValue)
     s.m_iValue = aiValue;
     s.m_cFlag = 0;
     s.m_pIntegerValue = (const int*)&DAT_010ce81c;
-    FUN_00d315f0(b, a, c, &s);
+    hkpBvTreeAgent_getPenetrations(b, a, c, &s);
 }
 
 extern "C" void _ReadWriteBarrier();
@@ -2874,7 +2886,8 @@ struct InputD2F630 {
 
 // Looks up the agent type pair in the dispatcher's type matrix and calls the corresponding penetration query function with the given bodies and input.
 // @fnv 0x00d2f630
-void __cdecl FUN_00d2f630(const CdBodyD2F630& kA, const CdBodyD2F630& kB, const InputD2F630& kInput, CollectorD2F630& kCollector)
+// src: HAVOK_LIB 0x00d2f630
+void __cdecl hkpBvTreeAgent_defaultAgentCreate(const CdBodyD2F630& kA, const CdBodyD2F630& kB, const InputD2F630& kInput, CollectorD2F630& kCollector)
 {
     DispatcherD2F630* pkDispatcher = kInput.m_pCollisionDispatcher;
     int iTypeA = kA.m_pCollisionShape->m_type;
@@ -2893,7 +2906,7 @@ struct FUN_00d32970_Collector {
 };
 
 struct FUN_00d32970_Agent {
-    void FUN_00d32150(void* a, void* b, void* c, FUN_00d32970_Collector* collector);
+    void hkpHeightFieldAgent_getPenetrations(void* a, void* b, void* c, FUN_00d32970_Collector* collector);
     void FUN_00d32970(void* a1, void* a2, void* a3, unsigned int a4);
 };
 
@@ -2905,7 +2918,7 @@ void FUN_00d32970_Agent::FUN_00d32970(void* a1, void* a2, void* a3, unsigned int
     collector.value = uiValue;
     collector.flag = 0;
     collector.vtable = &DAT_010ce81c;
-    FUN_00d32150(a2, a1, a3, &collector);
+    hkpHeightFieldAgent_getPenetrations(a2, a1, a3, &collector);
 }
 
 namespace fnv_00d329f0 {
@@ -2938,7 +2951,7 @@ struct Record_d329 {
 };
 
 struct Agent_d329 {
-    void FUN_00d32030(int a1, int a2, Input_d329* input, Record_d329* rec, Record_d329* optRec);
+    void hkpHeightFieldAgent_linearCast(int a1, int a2, Input_d329* input, Record_d329* rec, Record_d329* optRec);
     void FUN_00d329f0(int a1, int a2, const Input_d329* input, int a4, int a5);
 };
 // Copies input, XORs its vector with DAT_010c44d0, builds a Record_d329 with a4, and calls FUN_00d32030 with an optional second record when a5 is non-zero.
@@ -2960,9 +2973,9 @@ void Agent_d329::FUN_00d329f0(int a1, int a2, const Input_d329* input, int a4, i
         rec2.m_fScalar = DAT_0104da48;
         rec2.m_key = input->m_key;
         rec2.m_uiFilterValue = a5;
-        FUN_00d32030(a2, a1, &local, &rec, &rec2);
+        hkpHeightFieldAgent_linearCast(a2, a1, &local, &rec, &rec2);
     } else {
-        FUN_00d32030(a2, a1, &local, &rec, 0);
+        hkpHeightFieldAgent_linearCast(a2, a1, &local, &rec, 0);
     }
 }
 }  // namespace fnv_00d329f0
@@ -2996,7 +3009,7 @@ struct Record_d2e9 {
     int m_uiFilterValue;
 };
 
-void __cdecl FUN_00d43b90(int a1, int a2, Input_d2e9* input, Record_d2e9* rec, Record_d2e9* optRec);
+void __cdecl hkpShapeCollectionAgent_staticLinearCast(int a1, int a2, Input_d2e9* input, Record_d2e9* rec, Record_d2e9* optRec);
 
 // XORs the input vector with DAT_010c44d0, builds a Record_d2e9 with the key and a4, and calls FUN_00d43b90 with an optional second record for a5.
 // @fnv 0x00d34810
@@ -3017,9 +3030,9 @@ void __cdecl FUN_00d34810(int a2, int a1, const Input_d2e9* input, int aiValue, 
         rec2.m_fScalar = DAT_0104da48;
         rec2.m_key = input->m_key;
         rec2.m_uiFilterValue = aiOptionalValue;
-        FUN_00d43b90(a1, a2, &local, &rec, &rec2);
+        hkpShapeCollectionAgent_staticLinearCast(a1, a2, &local, &rec, &rec2);
     } else {
-        FUN_00d43b90(a1, a2, &local, &rec, 0);
+        hkpShapeCollectionAgent_staticLinearCast(a1, a2, &local, &rec, 0);
     }
 }
 }  // namespace fnv_00d34810
@@ -3053,7 +3066,7 @@ struct Record_d2e9 {
     int m_uiFilterValue;
 };
 
-void __cdecl FUN_00d33ca0(int a1, int a2, Input_d2e9* input, Record_d2e9* rec, Record_d2e9* optRec);
+void __cdecl hkpConvexListAgent_staticLinearCast(int a1, int a2, Input_d2e9* input, Record_d2e9* rec, Record_d2e9* optRec);
 
 // XORs input vector with DAT_010c44d0, builds a Record_d2e9 with a4, and calls FUN_00d33ca0 with an optional second record when a5 is non-zero.
 // @fnv 0x00d349b0
@@ -3074,9 +3087,9 @@ void __cdecl FUN_00d349b0(int a2, int a1, const Input_d2e9* input, int aiValue, 
         rec2.m_fScalar = DAT_0104da48;
         rec2.m_key = input->m_key;
         rec2.m_uiFilterValue = aiOptionalValue;
-        FUN_00d33ca0(a1, a2, &local, &rec, &rec2);
+        hkpConvexListAgent_staticLinearCast(a1, a2, &local, &rec, &rec2);
     } else {
-        FUN_00d33ca0(a1, a2, &local, &rec, 0);
+        hkpConvexListAgent_staticLinearCast(a1, a2, &local, &rec, 0);
     }
 }
 }  // namespace fnv_00d349b0
@@ -3111,7 +3124,7 @@ struct Record_d34b {
 };
 
 struct Agent_d34b {
-    void FUN_00d33da0(int a1, int a2, Input_d34b* input, Record_d34b* rec, Record_d34b* optRec);
+    void hkpConvexListAgent_linearCast(int a1, int a2, Input_d34b* input, Record_d34b* rec, Record_d34b* optRec);
     void FUN_00d34b40(int a1, int a2, const Input_d34b* input, int a4, int a5);
 };
 // XORs the input key with a constant, builds a Record_d34b with the key and a4, and calls FUN_00d33da0 with an optional second record for a5.
@@ -3133,9 +3146,9 @@ void Agent_d34b::FUN_00d34b40(int a1, int a2, const Input_d34b* input, int aiVal
         rec2.m_fScalar = DAT_0104da48;
         rec2.m_key = input->m_key;
         rec2.m_uiFilterValue = aiOptionalValue;
-        FUN_00d33da0(a2, a1, &local, &rec, &rec2);
+        hkpConvexListAgent_linearCast(a2, a1, &local, &rec, &rec2);
     } else {
-        FUN_00d33da0(a2, a1, &local, &rec, 0);
+        hkpConvexListAgent_linearCast(a2, a1, &local, &rec, 0);
     }
 }
 }  // namespace fnv_00d34b40
@@ -3251,7 +3264,7 @@ struct CastCollector {
 
 class LinearCastAgent {
 public:
-    void FUN_00d33f40(int bodyB, int bodyA, int input, int collector);
+    void hkpConvexListAgent_processCollision(int bodyB, int bodyA, int input, int collector);
     void FUN_00d34c10(int bodyA, int bodyB, int input, int collector);
 };
 
@@ -3262,7 +3275,7 @@ void LinearCastAgent::FUN_00d34c10(int bodyA, int bodyB, int input, int collecto
     float saved_dist = collector.m_dist3030;
     RootCdPoint* y = collector.m_currentPoint;
 
-    FUN_00d33f40(bodyB, bodyA, input, collectorRaw);
+    hkpConvexListAgent_processCollision(bodyB, bodyA, input, collectorRaw);
 
     for (; y < collector.m_currentPoint; ++y) {
         y->flip();
@@ -3329,7 +3342,8 @@ struct FUN_00d36b20
 };
 // Allocates a FUN_00d36b20 object via the custom heap operator new and forwards the four constructor arguments to it.
 // @fnv 0x00d36b70
-FUN_00d36b20* FUN_00d36b70(int param1, int param2, int* param3, int param4)
+// src: HAVOK_LIB 0x00d36b70
+FUN_00d36b20* hkpListAgent_createListBAgent(int param1, int param2, int* param3, int param4)
 {
     return new FUN_00d36b20(param1, param2, param3, param4);
 }
@@ -3745,7 +3759,7 @@ struct C85Ret
     int unk10;
 };
 
-void FUN_00c908c0(void* a, void* b, int c, int d);
+void hkArrayUtil__reserve(void* a, void* b, int c, int d);
 int FUN_00d35770(O1T* o1, int a2, int a3, int a4, int a5);
 
 static __forceinline int maxSize(int minimum, int value) {
@@ -3753,7 +3767,8 @@ static __forceinline int maxSize(int minimum, int value) {
     return value <= minimum ? minimum : value;
 }
 // @fnv 0x00d365d0
-int FUN_00d365d0(A1Rec* a1, int a2, int a3, int a4, int a5)
+// src: HAVOK_LIB 0x00d365d0
+int hkpCollectionAgent3_process(A1Rec* a1, int a2, int a3, int a4, int a5)
 {
     int nameid;
     unsigned int stamped;
@@ -3803,7 +3818,7 @@ int FUN_00d365d0(A1Rec* a1, int a2, int a3, int a4, int a5)
     if (masked < 0)
     {
         int sz = masked * 2;
-        FUN_00c908c0(mgr, r18, maxSize(0, sz), 0x10);
+        hkArrayUtil__reserve(mgr, r18, maxSize(0, sz), 0x10);
     }
     r18[1] = 0;
     shape->~FUN_00cf5640();
@@ -3824,11 +3839,12 @@ int FUN_00d365d0(A1Rec* a1, int a2, int a3, int a4, int a5)
     return result;
 }
 
-__declspec(noinline) void __cdecl FUN_00d36c30(void* apObject);
+__declspec(noinline) void __cdecl hkpListAgent_initAgentFunc(void* apObject);
 
-__declspec(noinline) void __cdecl FUN_00d36bb0(CollisionAgentFunctionTable* f)
+// src: HAVOK_LIB 0x00d36bb0
+__declspec(noinline) void __cdecl hkpListAgent_initAgentFuncInverse(CollisionAgentFunctionTable* f)
 {
-    f->a = (void*)(void (__cdecl*)())&FUN_00d36b70;
+    f->a = (void*)(void (__cdecl*)())&hkpListAgent_createListBAgent;
     f->b = (void*)&FUN_00d34790;
     f->c = (void*)(void (__cdecl*)())&QueryClosestPoints;
     f->d = (void*)&FUN_00d34810;
@@ -3838,16 +3854,17 @@ __declspec(noinline) void __cdecl FUN_00d36bb0(CollisionAgentFunctionTable* f)
 
 // Fills a function table via FUN_00d36c30 and passes it to agent->FUN_00cfbbe0 with (9, -1), then refills via FUN_00d36bb0 and passes it with (-1, 9).
 // @fnv 0x00d36c60
-void __cdecl FUN_00d36c60(void* apAgent)
+// src: HAVOK_LIB 0x00d36c60
+void __cdecl hkpListAgent_registerAgent(void* apAgent)
 {
     CollisionAgentFunctionTable funcs;
     funcs.e = 0;
     funcs.f = 0;
-    FUN_00d36c30(&funcs);
+    hkpListAgent_initAgentFunc(&funcs);
     Agent* agent = (Agent*)apAgent;
     agent->FUN_00cfbbe0(&funcs, 9, -1);
     funcs.e = 0;
     funcs.f = 0;
-    FUN_00d36bb0(&funcs);
+    hkpListAgent_initAgentFuncInverse(&funcs);
     agent->FUN_00cfbbe0(&funcs, -1, 9);
 }

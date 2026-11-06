@@ -39,7 +39,7 @@ void hkpGskfAgent::cleanup(hkpConstraintOwner& arg)
     delete this;
 }
 
-void __cdecl FUN_00dae340(void*, int);
+void __cdecl _hkGskManifold_removePoint(void*, int);
 
 // @fnv 0x00dacb20
 void hkpGskfAgent::removePoint(hkContactPointId id)
@@ -53,7 +53,7 @@ void hkpGskfAgent::removePoint(hkContactPointId id)
         {
             if (*(unsigned short*)p == id)
             {
-                FUN_00dae340(&m_kContactManifold, i);
+                _hkGskManifold_removePoint(&m_kContactManifold, i);
                 return;
             }
             ++i;

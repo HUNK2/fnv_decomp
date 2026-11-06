@@ -281,7 +281,7 @@ class hkMap64DBA
     int m_iCapacityFlags;
     int m_iPairCount;
 
-    unsigned __int64 FUN_00cb1cb0(unsigned __int64 key, unsigned __int64 def) const;
+    unsigned __int64 hkMapBase_unsigned_int64_unsigned_int64_struct_hkMapOperations_unsigned_int64_getWithDefault(unsigned __int64 key, unsigned __int64 def) const;
     void InsertKeyValue(hkMemoryAllocator& alloc, unsigned __int64 key, unsigned __int64 val);
 };
 
@@ -307,7 +307,7 @@ class ListMapDBA
 // @fnv 0x00dba360
 void ListMapDBA::Insert(unsigned __int64 key, const int& value)
 {
-    int next = (int)m_map.FUN_00cb1cb0(key, (unsigned __int64)-1);
+    int next = (int)m_map.hkMapBase_unsigned_int64_unsigned_int64_struct_hkMapOperations_unsigned_int64_getWithDefault(key, (unsigned __int64)-1);
     int iSlot = AllocateSlot();
     EntryDBA& e = m_entries[iSlot];
     e.m_uiFilterValue = value;

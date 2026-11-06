@@ -81,13 +81,14 @@ struct S_00a53280_Foo
     int unk14;
 
     void FUN_00a3ca10();
-    void* FUN_00a53280(void* arg);
+    void* NiBoolInterpolator_NiBoolInterpolator(void* arg);
 };
 
 extern void(__stdcall* FUN_00fdf1c0)(void*);
 
 // @fnv 0x00a53280
-void* S_00a53280_Foo::FUN_00a53280(void* arg)
+// src: GAMEBRYO_LIB 0x00a53280
+void* S_00a53280_Foo::NiBoolInterpolator_NiBoolInterpolator(void* arg)
 {
     FUN_00a3ca10();
 

@@ -453,12 +453,13 @@ struct FUN_00c06ee0_class
     char pad00[0x34];
     RefObject* m_sp34;
 
-    void __thiscall FUN_00c06ee0(RefObject* p);
+    void __thiscall NiPSEmitParticlesCtlr_SetBirthRateInterpolator(RefObject* p);
 };
 
 // Sets m_sp34 to p, releasing the previous RefObject and incrementing the new one's reference count when it changes.
 // @fnv 0x00c06ee0
-void __thiscall FUN_00c06ee0_class::FUN_00c06ee0(RefObject* apObject)
+// src: GAMEBRYO_LIB 0x00c06ee0
+void __thiscall FUN_00c06ee0_class::NiPSEmitParticlesCtlr_SetBirthRateInterpolator(RefObject* apObject)
 {
     if (m_sp34 != apObject)
     {
@@ -474,12 +475,13 @@ struct FUN_00c06f30_class
 {
     char pad[0x48];
     RefObject* m_sp48;
-    void __thiscall FUN_00c06f30(RefObject* p);
+    void __thiscall NiD3DPass_SetPixelShader_00c06f30(RefObject* p);
 };
 
 // Assigns p to m_sp48, releasing the previous reference and incrementing the new one's ref count when it differs.
 // @fnv 0x00c06f30
-void __thiscall FUN_00c06f30_class::FUN_00c06f30(RefObject* apRefObject)
+// src: GAMEBRYO_LIB 0x00c06f30
+void __thiscall FUN_00c06f30_class::NiD3DPass_SetPixelShader_00c06f30(RefObject* apRefObject)
 {
     if (m_sp48 != apRefObject)
     {
@@ -6644,7 +6646,7 @@ void __cdecl AssignStageFromPool(InitTexStagePtr*);
 void __cdecl ConfigureBeamStage(TexStage*, unsigned int, int, int, int);
 struct InitPassView
 {
-    void FUN_00b79950(RefTex*);
+    void NiD3DPass_SetVertexShader(RefTex*);
     void FUN_00b80600(RefTex*);
     void FUN_00b80040(int, int, bool);
 };
@@ -7320,7 +7322,7 @@ void ShaderInitialization::FUN_00c124c0()
         ConfigureBeamStage(stage.m_p, 7, 3, 0, 1);
         pass->FUN_00e802b0(7, stage.m_p);
     }
-    ((InitPassView*)pass.m_p)->FUN_00b79950(GetTexture094());
+    ((InitPassView*)pass.m_p)->NiD3DPass_SetVertexShader(GetTexture094());
     ((InitPassView*)pass.m_p)->FUN_00b80600(GetTexture0f8());
     pass->GetRSG()->SetNodeValue(168, 15, true);
     pass->GetRSG()->SetNodeValue(27, 0, true);
@@ -7360,7 +7362,7 @@ void ShaderInitialization::FUN_00c124c0()
         ConfigureBeamStage(stage.m_p, 7, 3, 0, 1);
         pass->FUN_00e802b0(7, stage.m_p);
     }
-    ((InitPassView*)pass.m_p)->FUN_00b79950(GetTexture098());
+    ((InitPassView*)pass.m_p)->NiD3DPass_SetVertexShader(GetTexture098());
     ((InitPassView*)pass.m_p)->FUN_00b80600(GetTexture0f8());
     pass->GetRSG()->SetNodeValue(168, 15, true);
     pass->GetRSG()->SetNodeValue(27, 0, true);
@@ -7400,7 +7402,7 @@ void ShaderInitialization::FUN_00c124c0()
         ConfigureBeamStage(stage.m_p, 7, 3, 0, 1);
         pass->FUN_00e802b0(7, stage.m_p);
     }
-    ((InitPassView*)pass.m_p)->FUN_00b79950(GetTexture09c());
+    ((InitPassView*)pass.m_p)->NiD3DPass_SetVertexShader(GetTexture09c());
     ((InitPassView*)pass.m_p)->FUN_00b80600(GetTexture0fc());
     pass->GetRSG()->SetNodeValue(168, 15, true);
     pass->GetRSG()->SetNodeValue(27, 0, true);
@@ -7440,7 +7442,7 @@ void ShaderInitialization::FUN_00c124c0()
         ConfigureBeamStage(stage.m_p, 7, 3, 0, 1);
         pass->FUN_00e802b0(7, stage.m_p);
     }
-    ((InitPassView*)pass.m_p)->FUN_00b79950(GetTexture0a0());
+    ((InitPassView*)pass.m_p)->NiD3DPass_SetVertexShader(GetTexture0a0());
     ((InitPassView*)pass.m_p)->FUN_00b80600(GetTexture0fc());
     pass->GetRSG()->SetNodeValue(168, 15, true);
     pass->GetRSG()->SetNodeValue(27, 0, true);
@@ -7480,7 +7482,7 @@ void ShaderInitialization::FUN_00c124c0()
         ConfigureBeamStage(stage.m_p, 7, 3, 0, 1);
         pass->FUN_00e802b0(7, stage.m_p);
     }
-    ((InitPassView*)pass.m_p)->FUN_00b79950(GetTexture0a4());
+    ((InitPassView*)pass.m_p)->NiD3DPass_SetVertexShader(GetTexture0a4());
     ((InitPassView*)pass.m_p)->FUN_00b80600(GetTexture100());
     pass->GetRSG()->SetNodeValue(168, 15, true);
     pass->GetRSG()->SetNodeValue(27, 0, true);
@@ -7520,7 +7522,7 @@ void ShaderInitialization::FUN_00c124c0()
         ConfigureBeamStage(stage.m_p, 7, 3, 0, 1);
         pass->FUN_00e802b0(7, stage.m_p);
     }
-    ((InitPassView*)pass.m_p)->FUN_00b79950(GetTexture0a8());
+    ((InitPassView*)pass.m_p)->NiD3DPass_SetVertexShader(GetTexture0a8());
     ((InitPassView*)pass.m_p)->FUN_00b80600(GetTexture100());
     pass->GetRSG()->SetNodeValue(168, 15, true);
     pass->GetRSG()->SetNodeValue(27, 0, true);
@@ -7551,7 +7553,7 @@ void ShaderInitialization::FUN_00c124c0()
         ConfigureBeamStage(stage.m_p, 4, 1, 2, 1);
         pass->FUN_00e802b0(4, stage.m_p);
     }
-    ((InitPassView*)pass.m_p)->FUN_00b79950(GetTexture0cc());
+    ((InitPassView*)pass.m_p)->NiD3DPass_SetVertexShader(GetTexture0cc());
     ((InitPassView*)pass.m_p)->FUN_00b80600(GetTexture114());
     pass->GetRSG()->SetNodeValue(168, 15, true);
     ((InitPassView*)pass.m_p)->FUN_00b80040(2, 2, false);
@@ -7578,7 +7580,7 @@ void ShaderInitialization::FUN_00c124c0()
         ConfigureBeamStage(stage.m_p, 4, 1, 2, 1);
         pass->FUN_00e802b0(4, stage.m_p);
     }
-    ((InitPassView*)pass.m_p)->FUN_00b79950(GetTexture0d0());
+    ((InitPassView*)pass.m_p)->NiD3DPass_SetVertexShader(GetTexture0d0());
     ((InitPassView*)pass.m_p)->FUN_00b80600(GetTexture114());
     pass->GetRSG()->SetNodeValue(168, 15, true);
     ((InitPassView*)pass.m_p)->FUN_00b80040(2, 2, false);
@@ -7605,7 +7607,7 @@ void ShaderInitialization::FUN_00c124c0()
         ConfigureBeamStage(stage.m_p, 4, 1, 2, 1);
         pass->FUN_00e802b0(4, stage.m_p);
     }
-    ((InitPassView*)pass.m_p)->FUN_00b79950(GetTexture0d4());
+    ((InitPassView*)pass.m_p)->NiD3DPass_SetVertexShader(GetTexture0d4());
     ((InitPassView*)pass.m_p)->FUN_00b80600(GetTexture118());
     pass->GetRSG()->SetNodeValue(168, 15, true);
     ((InitPassView*)pass.m_p)->FUN_00b80040(2, 2, false);
@@ -7632,7 +7634,7 @@ void ShaderInitialization::FUN_00c124c0()
         ConfigureBeamStage(stage.m_p, 4, 1, 2, 1);
         pass->FUN_00e802b0(4, stage.m_p);
     }
-    ((InitPassView*)pass.m_p)->FUN_00b79950(GetTexture0d8());
+    ((InitPassView*)pass.m_p)->NiD3DPass_SetVertexShader(GetTexture0d8());
     ((InitPassView*)pass.m_p)->FUN_00b80600(GetTexture118());
     pass->GetRSG()->SetNodeValue(168, 15, true);
     ((InitPassView*)pass.m_p)->FUN_00b80040(2, 2, false);
@@ -7666,7 +7668,7 @@ void ShaderInitialization::FUN_00c124c0()
         ConfigureBeamStage(stage.m_p, 7, 3, 0, 1);
         pass->FUN_00e802b0(7, stage.m_p);
     }
-    ((InitPassView*)pass.m_p)->FUN_00b79950(GetTexture0dc());
+    ((InitPassView*)pass.m_p)->NiD3DPass_SetVertexShader(GetTexture0dc());
     ((InitPassView*)pass.m_p)->FUN_00b80600(GetTexture11c());
     pass->GetRSG()->SetNodeValue(168, 15, true);
     pass->GetRSG()->SetNodeValue(27, 0, true);
@@ -7705,7 +7707,7 @@ void ShaderInitialization::FUN_00c124c0()
         ConfigureBeamStage(stage.m_p, 7, 3, 0, 1);
         pass->FUN_00e802b0(7, stage.m_p);
     }
-    ((InitPassView*)pass.m_p)->FUN_00b79950(GetTexture0e0());
+    ((InitPassView*)pass.m_p)->NiD3DPass_SetVertexShader(GetTexture0e0());
     ((InitPassView*)pass.m_p)->FUN_00b80600(GetTexture11c());
     pass->GetRSG()->SetNodeValue(168, 15, true);
     pass->GetRSG()->SetNodeValue(27, 0, true);
@@ -7744,7 +7746,7 @@ void ShaderInitialization::FUN_00c124c0()
         ConfigureBeamStage(stage.m_p, 7, 3, 0, 1);
         pass->FUN_00e802b0(7, stage.m_p);
     }
-    ((InitPassView*)pass.m_p)->FUN_00b79950(GetTexture0e4());
+    ((InitPassView*)pass.m_p)->NiD3DPass_SetVertexShader(GetTexture0e4());
     ((InitPassView*)pass.m_p)->FUN_00b80600(GetTexture120());
     pass->GetRSG()->SetNodeValue(168, 15, true);
     pass->GetRSG()->SetNodeValue(27, 0, true);
@@ -7783,7 +7785,7 @@ void ShaderInitialization::FUN_00c124c0()
         ConfigureBeamStage(stage.m_p, 7, 3, 0, 1);
         pass->FUN_00e802b0(7, stage.m_p);
     }
-    ((InitPassView*)pass.m_p)->FUN_00b79950(GetTexture0e8());
+    ((InitPassView*)pass.m_p)->NiD3DPass_SetVertexShader(GetTexture0e8());
     ((InitPassView*)pass.m_p)->FUN_00b80600(GetTexture120());
     pass->GetRSG()->SetNodeValue(168, 15, true);
     pass->GetRSG()->SetNodeValue(27, 0, true);
@@ -7822,7 +7824,7 @@ void ShaderInitialization::FUN_00c124c0()
         ConfigureBeamStage(stage.m_p, 7, 3, 0, 1);
         pass->FUN_00e802b0(7, stage.m_p);
     }
-    ((InitPassView*)pass.m_p)->FUN_00b79950(GetTexture0ec());
+    ((InitPassView*)pass.m_p)->NiD3DPass_SetVertexShader(GetTexture0ec());
     ((InitPassView*)pass.m_p)->FUN_00b80600(GetTexture124());
     pass->GetRSG()->SetNodeValue(168, 15, true);
     pass->GetRSG()->SetNodeValue(27, 0, true);
@@ -7861,7 +7863,7 @@ void ShaderInitialization::FUN_00c124c0()
         ConfigureBeamStage(stage.m_p, 7, 3, 0, 1);
         pass->FUN_00e802b0(7, stage.m_p);
     }
-    ((InitPassView*)pass.m_p)->FUN_00b79950(GetTexture0f0());
+    ((InitPassView*)pass.m_p)->NiD3DPass_SetVertexShader(GetTexture0f0());
     ((InitPassView*)pass.m_p)->FUN_00b80600(GetTexture124());
     pass->GetRSG()->SetNodeValue(168, 15, true);
     pass->GetRSG()->SetNodeValue(27, 0, true);

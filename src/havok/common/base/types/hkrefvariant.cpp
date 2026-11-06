@@ -26,11 +26,12 @@ extern hkVtableClassRegistry* DAT_01269b10;
 struct ReferencedObjectHolder
 {
     hkReferencedObject* m_pObject;
-    void* __thiscall FUN_00d477a0();
+    void* __thiscall hkRefVariant_getClass();
 };
 
 // @fnv 0x00d477a0
-void* ReferencedObjectHolder::FUN_00d477a0()
+// src: HAVOK_LIB 0x00d477a0
+void* ReferencedObjectHolder::hkRefVariant_getClass()
 {
     hkReferencedObject* object = m_pObject;
     if (object)

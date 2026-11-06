@@ -250,7 +250,7 @@ __forceinline hkMemoryRouter* GetSingleton()
     return reinterpret_cast<hkMemoryRouter*>(FUN_00c85750());
 }
 void __cdecl ResizeAudioStream(Allocator* ctx, void* pVec, int elem);
-void __cdecl FUN_00c908c0(Allocator* ctx, void* pVec, int sz, int elem);
+void __cdecl hkArrayUtil__reserve(Allocator* ctx, void* pVec, int sz, int elem);
 struct IntVec
 {
     int* m_pData;
@@ -348,7 +348,7 @@ __forceinline void ReserveChars(Allocator& allocator, CharVec* array, int count)
     if (cap < count)
     {
         int grown = cap + cap;
-        FUN_00c908c0(&allocator, array, count < grown ? grown : count, 1);
+        hkArrayUtil__reserve(&allocator, array, count < grown ? grown : count, 1);
     }
 }
 struct Elem12
@@ -374,7 +374,7 @@ struct SObj
     int m_0c;
     int m_10;
 };
-void __cdecl FUN_00e0bd40(SObj* s, MiniStr* ms, int a, int b, LocalVec3* v3, void* g, Vec4* v4);
+void __cdecl hkObjectSerialize_writeObject(SObj* s, MiniStr* ms, int a, int b, LocalVec3* v3, void* g, Vec4* v4);
 struct Stream
 {
     void FUN_00d60960(int total);
@@ -529,7 +529,7 @@ void ThisCls::WriteToStream(int aiUnused)
     objStr.m_08->m_pData[objStr.m_08->m_iArrayLength] = 0;
     MiniStr ms;
     ms.FUN_00dc1680(&DAT_010d6ae8);
-    FUN_00e0bd40(&objStr, &ms, 1, 0, &vecProcessed, &DAT_0126c830, &vec4);
+    hkObjectSerialize_writeObject(&objStr, &ms, 1, 0, &vecProcessed, &DAT_0126c830, &vec4);
     objStr.m_00 = &DAT_010c9368;
     if (objStr.m_10 == 0)
     {
@@ -739,7 +739,7 @@ extern int DAT_010d7e28;
 extern int DAT_0126c860;
 extern double DAT_01017b70;
 unsigned __int64 __cdecl FUN_00d60580();
-void __cdecl FUN_00e0bd40(Sbf00_Ctx* a1, Sbf00_Name* a2, int a3, int a4, Sbf00_Sub* a5, void* a6, Sbf00_Arr24* a7);
+void __cdecl hkObjectSerialize_writeObject(Sbf00_Ctx* a1, Sbf00_Name* a2, int a3, int a4, Sbf00_Sub* a5, void* a6, Sbf00_Arr24* a7);
 struct SbfRef
 {
     void* m_pVtbl;
@@ -814,7 +814,7 @@ FUN_00ddbf00::FUN_00ddbf00(PtrArrayMember* pSource)
     {
         Sbf00_Name kName;
         kName.FUN_00dc1680(&DAT_010d6ae8);
-        FUN_00e0bd40(&kCtx, &kName, 1, 0, &kCtx.m_kSub, &DAT_0126c860, &kArr);
+        hkObjectSerialize_writeObject(&kCtx, &kName, 1, 0, &kCtx.m_kSub, &DAT_0126c860, &kArr);
     }
     kCtx.FUN_00cc0780();
     kArr.Free();

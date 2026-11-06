@@ -213,7 +213,8 @@ int __cdecl FUN_00cc0770()
 }
 
 // @fnv 0x00e3b490
-void __stdcall FUN_00e3b490(bool* p)
+// src: HAVOK_SRC 0x00e3b490
+void __stdcall hkArrayStreamWriter_isOk(bool* p)
 {
     *p = true;
 }

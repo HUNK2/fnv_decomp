@@ -54,21 +54,22 @@ struct ShapeData
     int m_kPointB;
     int m_iThirdValue;
     int m_iFourthElementInteger;
-    void FUN_00d738f0(int);
-    void FUN_00d74a20();
-    ShapeData* FUN_00d74b20(ShapeRefArray* refs);
+    void _SharedShapeData_recursivelyParseShapeReferences(int);
+    void _SharedShapeData_removeSingleReferencedShapeData();
+    ShapeData* _SharedShapeData__SharedShapeData(ShapeRefArray* refs);
 };
 
 // Resets the three fields, forwards each ref's value at offset 0x10 to FUN_00d738f0, then calls FUN_00d74a20 and returns this.
 // @fnv 0x00d74b20
-ShapeData* ShapeData::FUN_00d74b20(ShapeRefArray* refs)
+// src: HAVOK_LIB 0x00d74b20
+ShapeData* ShapeData::_SharedShapeData__SharedShapeData(ShapeRefArray* refs)
 {
     m_kPointA = 0;
     m_kPointB = 0;
     m_iThirdValue = 0x80000000;
     for (int i = 0; i < refs->count; ++i)
-        FUN_00d738f0(*(int*)(refs->refs[i] + 0x10));
-    FUN_00d74a20();
+        _SharedShapeData_recursivelyParseShapeReferences(*(int*)(refs->refs[i] + 0x10));
+    _SharedShapeData_removeSingleReferencedShapeData();
     return this;
 }
 
@@ -104,8 +105,8 @@ struct FUN_00d74420_Context
     int m_kPointA;  // +0x00
     int m_kPointB;  // +0x04
     int m_iThirdValue;  // +0x08, initialized to 0x80000000
-    void FUN_00d738f0(int value);
-    void FUN_00d74a20();
+    void _SharedShapeData_recursivelyParseShapeReferences(int value);
+    void _SharedShapeData_removeSingleReferencedShapeData();
     void FUN_00d74aa0();
 };
 
@@ -118,8 +119,8 @@ int RunContextOperation(int aiArg1, int aiArg2, int aiArg3, int* piOut)
     ctx.m_kPointA = 0;
     ctx.m_kPointB = 0;
     ctx.m_iThirdValue = 0x80000000;
-    ctx.FUN_00d738f0(aiArg1);
-    ctx.FUN_00d74a20();
+    ctx._SharedShapeData_recursivelyParseShapeReferences(aiArg1);
+    ctx._SharedShapeData_removeSingleReferencedShapeData();
     *piOut = FUN_00d739f0(aiArg1, aiArg2, &ctx, aiArg3);
     ctx.FUN_00d74aa0();
     return 0;
@@ -463,7 +464,7 @@ struct hkShapeMapD748
     void* m_data;
     int m_iElementCount;
     int m_iCapacityState;
-    hkShapeMapD748* FUN_00d74b20(hkShapeEntryArrayD748* refs) throw();
+    hkShapeMapD748* _SharedShapeData__SharedShapeData(hkShapeEntryArrayD748* refs) throw();
     void FUN_00d74aa0() throw();
 };
 
@@ -476,7 +477,7 @@ int __cdecl RemapCollisionShapes(hkShapeEntryArrayD748* refs, void* context, hkS
 {
     out->FUN_00d73400();
     hkShapeMapD748 map;
-    map.FUN_00d74b20(refs);
+    map._SharedShapeData__SharedShapeData(refs);
     for (int i = 0; i < refs->m_iElementCount; i++)
     {
         hkShapeEntryD748* entry = refs->m_data[i];
@@ -556,7 +557,8 @@ struct D74A20Array
 };
 
 // @fnv 0x00d74a20
-void ShapeData::FUN_00d74a20()
+// src: HAVOK_LIB 0x00d74a20
+void ShapeData::_SharedShapeData_removeSingleReferencedShapeData()
 {
     D74A20Array* array = reinterpret_cast<D74A20Array*>(this);
 

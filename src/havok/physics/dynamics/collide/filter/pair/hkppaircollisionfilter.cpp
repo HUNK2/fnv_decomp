@@ -42,7 +42,7 @@ extern hkMemoryRouter* FUN_00c85750();
 
 struct HashCls
 {
-    __int64 FUN_00cb1cb0(unsigned __int64 key, int a2, int a3);
+    __int64 hkMapBase_unsigned_int64_unsigned_int64_struct_hkMapOperations_unsigned_int64_getWithDefault(unsigned __int64 key, int a2, int a3);
     void InsertKeyValue(hkMemoryAllocator& f0, __int64 m, __int64 n);
 
     int InsertPair(int p1, int p2);
@@ -59,7 +59,7 @@ int HashCls::InsertPair(int aiFirst, int aiSecond)
         m = (__int64)aiSecond * 4294967296LL + (__int64)aiFirst;
 
     HashCls* pHash = (HashCls*)((char*)this + 0x30);
-    __int64 n = pHash->FUN_00cb1cb0(m, 0, 0) + 1;
+    __int64 n = pHash->hkMapBase_unsigned_int64_unsigned_int64_struct_hkMapOperations_unsigned_int64_getWithDefault(m, 0, 0) + 1;
     hkMemoryAllocator& f0 = *FUN_00c85750()->m_heap;
     pHash->InsertKeyValue(f0, m, n);
     return (int)n;
@@ -147,7 +147,7 @@ struct Inner
 {
     unsigned char unk00[8];
     int threshold;
-    int FUN_00cb1c60(unsigned __int64 value);
+    int hkMapBase_unsigned_int64_unsigned_int64_struct_hkMapOperations_unsigned_int64_findKey(unsigned __int64 value);
 };
 
 struct Owner
@@ -176,7 +176,7 @@ volatile unsigned char* Owner::CheckPairAgainstThreshold(volatile unsigned char*
         value = ullSecond * 0x100000000LL + ullFirst;
 
     Inner* pInner = &inner;
-    int actual = pInner->FUN_00cb1c60(value);
+    int actual = pInner->hkMapBase_unsigned_int64_unsigned_int64_struct_hkMapOperations_unsigned_int64_findKey(value);
     if (actual > pInner->threshold)
     {
         *result = 1;
@@ -303,12 +303,13 @@ struct FUN_00def070_cls
     int unk2c;
     CheckHolder070* m_pHolder;
 
-    HolderCheckResult FUN_00def070(int a2, int a3, int a4, int a5, int a6, int a7, int a8);
+    HolderCheckResult hkpPairCollisionFilter_isCollisionEnabled_00def070(int a2, int a3, int a4, int a5, int a6, int a7, int a8);
 };
 
 // Returns true if m_pHolder is null or its sub-object's Check returns a nonzero value.
 // @fnv 0x00def070
-HolderCheckResult FUN_00def070_cls::FUN_00def070(int aiArg2, int aiArg3, int aiArg4, int aiArg5, int aiArg6, int aiArg7,
+// src: HAVOK_LIB 0x00def070
+HolderCheckResult FUN_00def070_cls::hkpPairCollisionFilter_isCollisionEnabled_00def070(int aiArg2, int aiArg3, int aiArg4, int aiArg5, int aiArg6, int aiArg7,
                                                  int aiArg8)
 {
     return HolderCheckResult(!m_pHolder ||
@@ -409,11 +410,12 @@ class DEF120Wrapper
     int unk24;
     DEF120Owner* m_pkOwnerManager;
 
-    DEF120Bool FUN_00def120(const void* pvA, const void* pvB) const;
+    DEF120Bool hkpPairCollisionFilter_isCollisionEnabled_00def120(const void* pvA, const void* pvB) const;
 };
 
 // @fnv 0x00def120
-DEF120Bool DEF120Wrapper::FUN_00def120(const void* pvA, const void* pvB) const
+// src: HAVOK_LIB 0x00def120
+DEF120Bool DEF120Wrapper::hkpPairCollisionFilter_isCollisionEnabled_00def120(const void* pvA, const void* pvB) const
 {
     return !m_pkOwnerManager || m_pkOwnerManager->m_kFilter.IsCollisionEnabled(pvA, pvB);
 }
@@ -499,12 +501,13 @@ class hkListDEF0
     int unk00[12];
     hkFilterImplDEF0* m_iFilter;
 
-    hkBool FUN_00def020(const void* a, const void* b, const void* c, const void* d, const void* e) const;
+    hkBool hkpPairCollisionFilter_isCollisionEnabled(const void* a, const void* b, const void* c, const void* d, const void* e) const;
 };
 
 // Returns true if m_iFilter is null or if m_iFilter->IsCollisionEnabled returns true for the given arguments.
 // @fnv 0x00def020
-hkBool hkListDEF0::FUN_00def020(const void* a, const void* b, const void* c, const void* d, const void* e) const
+// src: HAVOK_LIB 0x00def020
+hkBool hkListDEF0::hkpPairCollisionFilter_isCollisionEnabled(const void* a, const void* b, const void* c, const void* d, const void* e) const
 {
     return !m_iFilter || m_iFilter->IsCollisionEnabled(a, b, c, d, e);
 }

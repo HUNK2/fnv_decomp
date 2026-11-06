@@ -15,7 +15,8 @@ struct StateD72090
 };
 
 // @fnv 0x00d72090
-void FUN_00d72090(StateD72090* out)
+// src: HAVOK_LIB 0x00d72090
+void _hkSimpleContactConstraintDataAddALittleSurfaceViscosity(StateD72090* out)
 {
     out->unk0C = 0.0f;
     out->unk14 = 0.0f;
@@ -71,7 +72,7 @@ struct __declspec(align(16)) Buffer
     int unk7c;
 };
 
-extern "C" void __cdecl FUN_00d72090(void*);
+extern "C" void __cdecl _hkSimpleContactConstraintDataAddALittleSurfaceViscosity(void*);
 extern "C" void __cdecl FUN_00d72190(Node*, Buffer*, int, int*);
 extern "C" void __cdecl FUN_00d6f460(Node*, unsigned short, Buffer*, int*);
 extern "C" Buffer* __cdecl GetSharedBuffer();
@@ -98,7 +99,7 @@ static void __cdecl FUN_00d6c5a0(Node* self, int* counter, Buffer* source)
         node = node->unk14;
     } while (node->unk00 >= 0x17);
 
-    FUN_00d72090(&node->unk10);
+    _hkSimpleContactConstraintDataAddALittleSurfaceViscosity(&node->unk10);
 
     node = self->unk14;
     if (node->unk00 == 0x16)

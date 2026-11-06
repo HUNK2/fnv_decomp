@@ -63,7 +63,7 @@ struct S_00dad4d0_Set
 };
 bool FindAndPromoteEntry(S_00dad4d0_Set* set, S_00dad4d0_Key* key);
 void __fastcall FUN_00dae220(int unused, S_00dad640_Set* set);
-void __cdecl FUN_00dae340(S_00dad640_Set* set, unsigned int index);
+void __cdecl _hkGskManifold_removePoint(S_00dad640_Set* set, unsigned int index);
 
 #include <xmmintrin.h>
 struct S_00dad6a0_Vec

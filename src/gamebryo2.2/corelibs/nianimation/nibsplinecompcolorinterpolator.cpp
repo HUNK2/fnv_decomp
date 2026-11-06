@@ -76,14 +76,14 @@ void NiBSplineCompColorInterpolator::SaveToStream(NiStream& aStream)
 
 struct FUN_00a51cf0_obj
 {
-    bool FUN_00a51cf0(NiObject*);
+    bool NiBSplineColorInterpolator_IsEqual(NiObject*);
 };
 // @fnv 0x00a51730
 bool NiBSplineCompColorInterpolator::IsEqual(NiObject* pkObject) const
 {
     NiBSplineCompColorInterpolator* pkDest;
     unsigned int uiIndex;
-    if (!((FUN_00a51cf0_obj*)this)->FUN_00a51cf0(pkObject))
+    if (!((FUN_00a51cf0_obj*)this)->NiBSplineColorInterpolator_IsEqual(pkObject))
         return false;
     pkDest = (NiBSplineCompColorInterpolator*)pkObject;
     for (uiIndex = 0; uiIndex < 2; uiIndex++)

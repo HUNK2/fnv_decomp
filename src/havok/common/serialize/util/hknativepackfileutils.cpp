@@ -230,7 +230,7 @@ int FUN_00dc0ec0_cls::FUN_00dc0ec0(int first, int second)
 }
 
 extern "C" int __cdecl FUN_00dc07d0(void*, void*) throw();
-extern "C" void __cdecl FUN_00c908c0(void*, void*, int, int) throw();
+extern "C" void __cdecl hkArrayUtil__reserve(void*, void*, int, int) throw();
 extern "C" void* __cdecl UnpackPackfile(void*, void*, void*, int, void*) throw();
 extern "C" void* DAT_010d6a94;
 
@@ -286,7 +286,7 @@ struct S_00dc0cd0_ArrayLocalForm
             int newCap = 2 * cap;
             if (n >= newCap)
                 newCap = n;
-            FUN_00c908c0(&alloc, this, newCap, 1);
+            hkArrayUtil__reserve(&alloc, this, newCap, 1);
         }
     }
 
@@ -409,7 +409,7 @@ extern StructureLayoutRules DAT_011b7b88;
 
 void __cdecl FUN_00cb1280(void* p, int a, int b);
 void* __cdecl FUN_00dc0fb0();
-int __cdecl FUN_00cb0fa0(const void* a, const void* b);
+int __cdecl hkString_strCmp(const void* a, const void* b);
 
 struct hkPackfileHeader
 {
@@ -504,7 +504,7 @@ int __cdecl ValidatePackfileHeader(const hkPackfileHeader* header, const char** 
             *outError = "Packfile file format is too old";
         return 1;
     }
-    if (FUN_00cb0fa0(&header->m_contentsVersion_0, FUN_00dc0fb0()) != 0)
+    if (hkString_strCmp(&header->m_contentsVersion_0, FUN_00dc0fb0()) != 0)
     {
         if (outError)
             *outError = "Packfile contents are not up to date";

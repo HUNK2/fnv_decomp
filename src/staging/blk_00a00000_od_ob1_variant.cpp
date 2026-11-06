@@ -269,7 +269,7 @@ struct FUN_00a0d790_class : S00a0d390
     void FUN_00a0d790();
 };
 extern int DAT_01094e9c;
-extern void* __cdecl FUN_00aa10f0(void*);
+extern void* __cdecl _NiFree_00aa10f0(void*);
 struct FUN_00a0d990_cls : S00a0d390
 {
     void* m_data;
@@ -762,7 +762,7 @@ struct PointerArrayBase
     virtual ~PointerArrayBase()
     {
         ClearAll();
-        FUN_00aa10f0(buckets);
+        _NiFree_00aa10f0(buckets);
     }
     virtual void Reserved1();
     virtual void Reserved2();
@@ -812,7 +812,7 @@ FUN_00a1ec70::~FUN_00a1ec70()
             {
                 BucketNode* saved = node;
                 node = node->next;
-                FUN_00aa10f0(saved->key);
+                _NiFree_00aa10f0(saved->key);
             }
         }
     }
@@ -832,7 +832,7 @@ struct PointerArrayBase
     virtual ~PointerArrayBase()
     {
         ClearAll();
-        FUN_00aa10f0(buckets);
+        _NiFree_00aa10f0(buckets);
     }
     virtual void Reserved1();
     virtual void Reserved2();
@@ -1263,9 +1263,9 @@ struct Base670
         while (m_field)
         {
             void* p1 = m_data;
-            FUN_00aa10f0(p1);
+            _NiFree_00aa10f0(p1);
             void* p2 = m_data;
-            FUN_00aa10f0(p2);
+            _NiFree_00aa10f0(p2);
             m_field--;
         }
     }
@@ -1276,7 +1276,7 @@ struct Base670
     virtual ~Base670()
     {
         ClearAll();
-        FUN_00aa10f0(m_data);
+        _NiFree_00aa10f0(m_data);
     }
 };
 struct FUN_00a0d670 : Base670

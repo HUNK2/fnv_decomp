@@ -11,7 +11,7 @@
 
 extern char DAT_010ceaa8[];
 BSAudio* FUN_00c85750();
-void __cdecl FUN_00c908c0(hkMemoryAllocator& alloc, void* arr, int numElem, int sizeElem);
+void __cdecl hkArrayUtil__reserve(hkMemoryAllocator& alloc, void* arr, int numElem, int sizeElem);
 struct SizeSource {
     virtual void v00(); virtual void v01(); virtual void v02(); virtual void v03();
     virtual void v04(); virtual void v05(); virtual void v06(); virtual void v07();
@@ -31,9 +31,9 @@ struct FUN_00d32060_Class {
     FUN_00d32060_Class* Init(const SourceRef& src, int b, int c, int flag);
 };
 extern void __cdecl FUN_00d319e0(void*, void*, void*, void*);
-void __stdcall FUN_00d32170(void* a, void* b, void* c, void* d);
+void __stdcall hkpHeightFieldAgent_getClosestPoints(void* a, void* b, void* c, void* d);
 typedef void (*S_00d321e0_Func)();
-void FUN_00d32190();
+void hkpHeightFieldAgent_createHeightFieldAAgent();
 void FUN_00d32370();
 void FUN_00d323b0();
 void FUN_00d323f0();
@@ -91,13 +91,15 @@ struct Owner {
 };
 extern "C" void __cdecl FUN_00d31d30(void* arg0, void* arg1, void* arg2, void* arg3, void* arg4);
 // @fnv 0x00d32030
-extern "C" void __stdcall FUN_00d32030(void* arg0, void* arg1, void* arg2, void* arg3, void* arg4)
+// src: HAVOK_SRC 0x00d32030
+extern "C" void __stdcall hkpHeightFieldAgent_linearCast(void* arg0, void* arg1, void* arg2, void* arg3, void* arg4)
 {
     FUN_00d31d30(arg0, arg1, arg2, arg3, arg4);
 }
 extern "C" void __cdecl FUN_00d317d0(void* arg0, void* arg1, void* arg2, void* arg3);
 // @fnv 0x00d32150
-extern "C" void __stdcall FUN_00d32150(void* arg0, void* arg1, void* arg2, void* arg3)
+// src: HAVOK_SRC 0x00d32150
+extern "C" void __stdcall hkpHeightFieldAgent_getPenetrations(void* arg0, void* arg1, void* arg2, void* arg3)
 {
     FUN_00d317d0(arg0, arg1, arg2, arg3);
 }
@@ -356,10 +358,11 @@ static __forceinline __m128 direction(const Matrix& m, __m128 v) {
 }
 struct AgentD {
     void* vtable; int unk04; ManagerD* manager; unsigned short* ids; int count; int capacity;
-    void FUN_00d324e0(const BodyD& a, const BodyD& b, const InputD& input, OutputD& output);
+    void hkpHeightFieldAgent_processCollision(const BodyD& a, const BodyD& b, const InputD& input, OutputD& output);
 };
 // @fnv 0x00d324e0
-void AgentD::FUN_00d324e0(const BodyD& a, const BodyD& b, const InputD& input, OutputD& output) {
+// src: HAVOK_SRC 0x00d324e0
+void AgentD::hkpHeightFieldAgent_processCollision(const BodyD& a, const BodyD& b, const InputD& input, OutputD& output) {
     timer(DAT_010ceae0);
     ShapeD* shapeA = a.shape;
     ShapeD* shapeB = b.shape;

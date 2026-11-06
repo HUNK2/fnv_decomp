@@ -93,7 +93,7 @@ struct FUN_00db7b70_Class
 };
 
 void* FUN_00c85750();
-void __cdecl FUN_00c908c0(void* mm, FUN_00db7b70_Array* arr, int count, int size);
+void __cdecl hkArrayUtil__reserve(void* mm, FUN_00db7b70_Array* arr, int count, int size);
 
 // Appends the null-terminated pointer list in unk0c to the array p, growing its capacity via the memory manager when needed.
 // @fnv 0x00db7b70
@@ -114,7 +114,7 @@ void FUN_00db7b70_Class::AppendToArray(FUN_00db7b70_Array* apArray)
     if (iCapacity < iNeeded)
     {
         int iNewCapacity = (iNeeded >= iCapacity * 2) ? iNeeded : iCapacity * 2;
-        FUN_00c908c0(memmgr, apArray, iNewCapacity, 4);
+        hkArrayUtil__reserve(memmgr, apArray, iNewCapacity, 4);
     }
     apArray->count += count;
 

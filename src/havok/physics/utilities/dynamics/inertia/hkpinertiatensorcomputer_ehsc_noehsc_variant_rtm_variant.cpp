@@ -30,7 +30,7 @@ struct Object
 {
 };
 void __cdecl FUN_00cebdf0(float* source, float value, Object* destination);
-void __cdecl FUN_00cebe50(float* source, float scale, Object* destination);
+void __cdecl hkpInertiaTensorComputer_setAndScaleToDensity(float* source, float scale, Object* destination);
 struct Receiver
 {
     void FUN_00cecc90(float value);
@@ -44,7 +44,7 @@ struct State
 void FUN_00cebbb0(void* state, float zero, void* receiver);
 int __cdecl ApplyLimitToReceiver(int owner, int context, int count, float limit, Receiver* receiver, float value);
 
-void __cdecl FUN_00cebe80(const hkVector4& shift, float mass, hkMatrix3& inertia);
+void __cdecl hkpInertiaTensorComputer_shiftInertiaToCom(const hkVector4& shift, float mass, hkMatrix3& inertia);
 void __cdecl AddInertiaTensor(float* param_1, float fScale, float* pMatrix);
 struct FUN_00cec6b0_cls
 {
@@ -84,7 +84,7 @@ struct FUN_00cec6b0_cls
     float m_84;
     float m_88;
 
-    void FUN_00cec6b0(float a1, float b, float* p, float* M);
+    void InternalInertiaTensorComputer_computeInertialTensorInternal(float a1, float b, float* p, float* M);
 };
 struct CECCD0Value
 {
@@ -135,7 +135,7 @@ static inline float S_MaxLT(float x, float y)
 {
     return (x < y) ? y : x;
 }
-void __cdecl FUN_00ced230(float afDivisor, S_00ced230_T* pData);
+void __cdecl hkpInertiaTensorComputer_clipInertia(float afDivisor, S_00ced230_T* pData);
 
 
 struct S_00cee1c0_Arr
@@ -146,7 +146,7 @@ struct S_00cee1c0_Arr
     unsigned int* m_pTrailingData;
 };
 hkMemoryRouter* FUN_00c85750();
-float __cdecl FUN_00cedec0(S_00cee1c0_Arr* arr, int unk, float value);
+float __cdecl hkInertiaTensorComputer_optimizeInertiasOfConstraintTreeInt(S_00cee1c0_Arr* arr, int unk, float value);
 void __cdecl ProcessArrayWithValue(unsigned int* source, int count, int unk, float value);
 namespace fnv_anon_00cec3d0 {}
 using namespace fnv_anon_00cec3d0;
@@ -167,7 +167,7 @@ struct S00cec3d0_Base
     float m_fComponent5;
     float m_fComponent6;
 
-    __declspec(noinline) void FUN_00cec000(const float* v);
+    __declspec(noinline) void InternalInertiaTensorComputer_compProjectionIntegrals(const float* v);
 };
 }
 struct S00cec3d0_Face : S00cec3d0_Base
@@ -185,7 +185,7 @@ struct S00cec3d0_Face : S00cec3d0_Base
     float m_fVertex2Y;
     float m_fVertex2Z;
 
-    void FUN_00cec3d0(const float* verts, const float* n);
+    void InternalInertiaTensorComputer_compFaceIntegrals(const float* verts, const float* n);
 };
 static inline float S00cec3d0_Sqr(float x)
 {
@@ -195,7 +195,8 @@ static inline float S00cec3d0_Cube(float x)
 {
     return x * x * x;
 }
-void S00cec3d0_Base::FUN_00cec000(const float* v)
+// src: HAVOK_LIB 0x00cec000
+void S00cec3d0_Base::InternalInertiaTensorComputer_compProjectionIntegrals(const float* v)
 {
     P1 = v[A] * v[B];
     Pa = v[A];
@@ -326,7 +327,7 @@ struct Node
     {
         return &shape;
     }
-    void FUN_00ca8920(InertiaMatrixPodLocal_00ce* m);
+    void hkpRigidBody_setInertiaLocal(InertiaMatrixPodLocal_00ce* m);
 };
 struct LocalArr
 {
@@ -353,7 +354,7 @@ __forceinline float fTargetUpperBound(float a, float b)
 {
     return a < b ? a : b;
 }
-float __cdecl FUN_00cedec0(S_00cee1c0_Arr* arr, int unk, float value);
+float __cdecl hkInertiaTensorComputer_optimizeInertiasOfConstraintTreeInt(S_00cee1c0_Arr* arr, int unk, float value);
 
 extern "C" void _mm_store_ps(float*, __m128);
 struct Probe
@@ -378,9 +379,9 @@ struct Track
     int FUN_00d74e10();
     void FUN_00d762f0();
     float GetMass();
-    double FUN_00d752e0();
-    __m128* FUN_00d75600();
-    __m128* FUN_00d75560();
+    double hkgpConvexHull_getVolume();
+    __m128* hkgpConvexHull_getCenterOfMass();
+    __m128* hkgpConvexHull_getWorldInertia();
     void FUN_00d77be0(float scale);
     void FUN_00d76940();
 };
@@ -400,7 +401,7 @@ struct Receiver2
 };
 struct Status
 {
-    void FUN_00d74d40();
+    void hkgpConvexHull_BuildConfig_BuildConfig();
 };
 extern float DAT_011b153c;
 extern double DAT_01020998;
@@ -680,7 +681,7 @@ inline hkMemoryAllocator& S00cf0f40_heap(hkMemoryRouter* r)
 {
     return *r->m_heap;
 }
-void __cdecl FUN_00c908c0(hkMemoryAllocator* heap, void* arr, int cap, int elemSize);
+void __cdecl hkArrayUtil__reserve(hkMemoryAllocator* heap, void* arr, int cap, int elemSize);
 struct S00cf0f40_Arr
 {
     S00cf0f40_Vec* m_data;
@@ -707,7 +708,7 @@ struct S00cf0f40_Arr
         if (cap < n)
         {
             int nc = cap * 2;
-            FUN_00c908c0(&heap, this, n < nc ? nc : n, sizeof(S00cf0f40_Vec));
+            hkArrayUtil__reserve(&heap, this, n < nc ? nc : n, sizeof(S00cf0f40_Vec));
         }
     }
     void SetSizeAndGrow(int n)
@@ -902,7 +903,7 @@ template <typename T> __forceinline void hkArrayBase<T>::GrowArrayCapacity(hkMem
     {
         int cap2 = 2 * capacity;
         int newSize = (n < cap2) ? cap2 : n;
-        FUN_00c908c0(&alloc, this, newSize, sizeof(T));
+        hkArrayUtil__reserve(&alloc, this, newSize, sizeof(T));
     }
 }
 template <typename T> __forceinline void hkArrayBase<T>::_setSize(hkMemoryAllocator& alloc, int n)
@@ -942,7 +943,7 @@ template <typename T> static __forceinline T* inertiaExpand(hkArray<T>& a, int n
     if (capacity < count)
     {
         int cap2 = 2 * capacity;
-        FUN_00c908c0(&alloc, &a, count < cap2 ? cap2 : count, sizeof(T));
+        hkArrayUtil__reserve(&alloc, &a, count < cap2 ? cap2 : count, sizeof(T));
     }
     a.m_iElementCount += n;
     return a.m_data + oldsize;
@@ -962,7 +963,8 @@ template <typename T> static __forceinline void inertiaCopy(hkArray<T>& dst, con
     hkArrayBase<T>::copy(dst.m_data, src.m_data, dst.m_iElementCount);
 }
 
-__declspec(noinline) void __cdecl FUN_00cebe80(const hkVector4& shift, hkReal mass, hkMatrix3& inertia)
+// src: HAVOK_LIB 0x00cebe80
+__declspec(noinline) void __cdecl hkpInertiaTensorComputer_shiftInertiaToCom(const hkVector4& shift, hkReal mass, hkMatrix3& inertia)
 {
     inertia(0, 0) -= mass * (shift(1) * shift(1) + shift(2) * shift(2));
     inertia(1, 1) -= mass * (shift(2) * shift(2) + shift(0) * shift(0));
@@ -1026,7 +1028,7 @@ int __cdecl FUN_00cee290(const hkVector4& v0, const hkVector4& v1, const hkVecto
         inertia(0, 1) = inertia(1, 0) = -xy;
         inertia(0, 2) = inertia(2, 0) = -xz;
         inertia(2, 1) = inertia(1, 2) = -yz;
-        FUN_00cebe80(com, mass, inertia);
+        hkpInertiaTensorComputer_shiftInertiaToCom(com, mass, inertia);
     }
     else if (area < tolerance)
     {
@@ -1447,7 +1449,7 @@ __declspec(noinline) int __cdecl FUN_00ceeca0(const CapsuleMassVector* source, c
         CapsuleMassVector half;
         half.m = CapsuleMassSimd::_mm_load_ss(&DAT_01016248);
         cap.properties.inertia.Multiply(&half);
-        FUN_00cebe80(*reinterpret_cast<const hkVector4*>(&cap.properties.center), (float)(sphereMass * 0.5),
+        hkpInertiaTensorComputer_shiftInertiaToCom(*reinterpret_cast<const hkVector4*>(&cap.properties.center), (float)(sphereMass * 0.5),
                      *reinterpret_cast<hkMatrix3*>(&cap.properties.inertia));
         cap.properties.volume = (float)(sphereVolume * 0.5);
         cap.properties.mass = (float)(sphereMass * 0.5);
@@ -1468,7 +1470,7 @@ __declspec(noinline) int __cdecl FUN_00ceeca0(const CapsuleMassVector* source, c
         CapsuleMassVector half;
         half.m = CapsuleMassSimd::_mm_load_ss(&DAT_01016248);
         cap.properties.inertia.Multiply(&half);
-        FUN_00cebe80(*reinterpret_cast<const hkVector4*>(&cap.properties.center), (float)(sphereMass * 0.5),
+        hkpInertiaTensorComputer_shiftInertiaToCom(*reinterpret_cast<const hkVector4*>(&cap.properties.center), (float)(sphereMass * 0.5),
                      *reinterpret_cast<hkMatrix3*>(&cap.properties.inertia));
         cap.properties.volume = (float)(sphereVolume * 0.5);
         cap.properties.mass = (float)(sphereMass * 0.5);

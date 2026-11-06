@@ -109,11 +109,12 @@ struct S_C
     int unk04;
     int unk08;
     S_Item* arr[8];
-    void FUN_00d965b0();
+    void hkpAgentSectorHeader_deallocate();
 };
 // Calls S_Call on each of the count items in arr with unk08, then calls S_Call on this with count*4+0xc.
 // @fnv 0x00d965b0
-void S_C::FUN_00d965b0()
+// src: HAVOK_LIB 0x00d965b0
+void S_C::hkpAgentSectorHeader_deallocate()
 {
     S_Item* const* p = arr;
     for (int i = 0; i < count; i++)

@@ -949,17 +949,17 @@ struct UnkCall
     int unkdc;
     hkpMotion m_pMotionState;
 
-    void FUN_00c9c1d0();
-    void FUN_00ca8860(const hkVector4* pos, const hkQuaternion* rot);
+    void activate_00c9c1d0();
+    void hkpRigidBody_setPositionAndRotation(const hkVector4* pos, const hkQuaternion* rot);
 
     void SetTranslationalVelocity(const float* v)
     {
-        FUN_00c9c1d0();
+        activate_00c9c1d0();
         m_pMotionState.SetTranslationalVelocity(*reinterpret_cast<const hkVector4*>(v));
     }
     void SetRotationalVelocity(const float* v)
     {
-        FUN_00c9c1d0();
+        activate_00c9c1d0();
         m_pMotionState.SetRotationalVelocity(*reinterpret_cast<const hkVector4*>(v));
     }
 };
@@ -1010,7 +1010,7 @@ void RagInstance::FUN_00ce1ad0(const hkQsTransform* pose, const hkQsTransform& w
             hkQsTransform rbWorld;
             rbWorld.SetProduct(worldFromModel, *pose);
             rbWorld.m_rotation.FUN_005611c0();
-            rb->FUN_00ca8860(&rbWorld.m_vTranslation, &rbWorld.m_rotation);
+            rb->hkpRigidBody_setPositionAndRotation(&rbWorld.m_vTranslation, &rbWorld.m_rotation);
 
             const float* zero = &DAT_01267e30;
             if (!equals4(rb->m_pMotionState.m_kTranslationalVelocity.m_vComponents, zero))

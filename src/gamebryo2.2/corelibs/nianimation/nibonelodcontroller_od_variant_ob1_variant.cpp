@@ -436,14 +436,14 @@ struct FUN_00c53af0
         unsigned int n = m_usElementCount;
         return n;
     }
-    bool FUN_00a6cc80(FUN_00c53af0* pkObj);
+    bool NiTimeController_IsEqual(FUN_00c53af0* pkObj);
     bool IsEqual(FUN_00c53af0* pkObj);
 };
 // @fnv 0x00c53af0
 bool FUN_00c53af0::IsEqual(FUN_00c53af0* pkObj)
 {
     unsigned int i;
-    if (!FUN_00a6cc80(pkObj))
+    if (!NiTimeController_IsEqual(pkObj))
         return false;
     FUN_00c53af0* pkOther = pkObj;
     if (m_i34 != pkOther->m_i34 || m_i38 != pkOther->m_i38 || GetCount() != pkOther->m_usElementCount)

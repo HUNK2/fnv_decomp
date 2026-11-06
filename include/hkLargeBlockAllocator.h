@@ -80,7 +80,7 @@ public:
 
     ~hkLargeBlockAllocator();
     void FUN_00dd7ec0();
-    void FUN_00dd7f10();
+    void _init_00dd7f10();
     void ProcessAllItems();
     void _unlinkChunk(Chunk* chunk);
     void _insertChunk(Chunk* chunk, unsigned int size);
@@ -90,8 +90,8 @@ public:
     void RemoveNode(Chunk* chunk);
     void RemoveNode(TreeChunk* chunk);
     unsigned int GetMaxChunkSize(void* tree, unsigned int size);
-    unsigned int FUN_00dd8350();
-    void FUN_00dd83a0();
+    unsigned int findLargestBlockSize();
+    void _makeTopValid();
     void* AllocateBlock(int size);
     void* AllocateBlock(unsigned int size);
     int AllocSlow(int size);
@@ -102,11 +102,11 @@ public:
     void ResizeSegment(unsigned char* result, unsigned int size);
     void PurgeAndSelectBlock();
     void ForEachAllocatedBlock(BlockCallback callback, void* param);
-    PageRange FUN_00dd8b20();
-    void* FUN_00dd8180(unsigned int size);
-    void* FUN_00dd84c0(unsigned int size);
-    void* FUN_00dd8700(unsigned int size);
-    void FUN_00dd8750(void* block, unsigned int size);
+    PageRange getIterator();
+    void* _allocLarge(unsigned int size);
+    void* alloc_00dd84c0(unsigned int size);
+    void* criticalAlloc(unsigned int size);
+    void criticalFree(void* block, unsigned int size);
     hkLargeBlockAllocator* FUN_00dd8df0(int arg);
 
     // Havok 7.1 hkLargeBlockAllocator.h: m_limitedListener 0x04, m_treemap 0x08,

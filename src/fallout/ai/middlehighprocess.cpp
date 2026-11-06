@@ -27283,7 +27283,7 @@ struct P124Model
 };
 P124Model* FUN_00c54400(::NiNode*);
 void FUN_00806b50(P124Input*, Animation*);
-void FUN_00a582f0(const NiMatrix3*, P124Point*, bool, P124Point*, P124Point*);
+void NiMatrix3_TransformVertices(const NiMatrix3*, P124Point*, bool, P124Point*, P124Point*);
 struct P124Package
 {
     void FUN_008c6b20(P124Input*);
@@ -27347,7 +27347,7 @@ void P124Process::UpdateFurnitureAnimation(P124Input* input)
             P124Marker rotation = model->FUN_005094d0(m_ucFurnitureMarkerIndex);
             P124Point delta = rotation.FUN_006815c0();
             P124Point position;
-            FUN_00a582f0(&((P124Furniture*)m_pFurnitureReference)->FUN_0056fa00(),
+            NiMatrix3_TransformVertices(&((P124Furniture*)m_pFurnitureReference)->FUN_0056fa00(),
                          ((P124Furniture*)m_pFurnitureReference)->GetPosition(), true, &delta, &position);
             ((P124Marker*)&FurnitureMarker)->FUN_00568ab0(rotation.FUN_005094b0());
             ((P124Marker*)&FurnitureMarker)->FUN_0098ddd0(&position);
@@ -36981,7 +36981,7 @@ class FurnitureNodeStandIn : public ::NiAVObject
 namespace FinishLoadCalls {
 ::NiAVObject* FUN_00c54400(::NiNode*);
 }
-void FUN_00a582f0(const NiMatrix3&, NiPoint3*, int, const NiPoint3*, const NiPoint3*);
+void NiMatrix3_TransformVertices(const NiMatrix3&, NiPoint3*, int, const NiPoint3*, const NiPoint3*);
 void FUN_00c69fc0(::NiAVObject*, bool, bool, bool);
 void FUN_00c6a350(::NiAVObject*, bool, bool, bool, bool);
 void FUN_00806130(void*, Actor*);
@@ -37286,7 +37286,7 @@ void FinishInitLoadProcessView::FUN_00925700(unsigned int a1, unsigned int a2, M
                         NiPoint3 j = *(NiPoint3*)((S_006815c0*)&l)->_ref_006815c0();
                         NiPoint3 b;
 
-                        FUN_00a582f0(((TESObjectREFRExt*)this->m_pFurnitureReference)->FUN_0056fa00(),
+                        NiMatrix3_TransformVertices(((TESObjectREFRExt*)this->m_pFurnitureReference)->FUN_0056fa00(),
                                      ((TESObjectREFRExt*)this->m_pFurnitureReference)->GetPos(), 1, &j, &b);
                         ((LocalMarker*)&this->FurnitureMarker)->FUN_00568ab0(l.FUN_005094b0());
                         ((LocalMarker*)&this->FurnitureMarker)->FUN_0098ddd0(b);

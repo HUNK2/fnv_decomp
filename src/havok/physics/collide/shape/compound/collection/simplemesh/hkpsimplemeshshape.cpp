@@ -158,7 +158,7 @@ hkpShapeKey hkpSimpleMeshShape::GetFirstKey() const
     return -1;
 }
 
-int __cdecl FUN_00d06f80(const void* p, int bytes);
+int __cdecl hkStatisticsCollector_getAllocatedSize(const void* p, int bytes);
 extern char DAT_01269198;
 
 template <class T> inline void CollectArray(hkStatisticsCollector* collector, const char* name, int type, const hkArray<T>& a)
@@ -166,7 +166,7 @@ template <class T> inline void CollectArray(hkStatisticsCollector* collector, co
     if ((a.m_iCapacityState & 0x80000000) == 0 || collector->m_reportInplaceAllocations)
     {
         const T* data = a.m_data;
-        int allocated = FUN_00d06f80(data, a.getCapacity() * (int)sizeof(T));
+        int allocated = hkStatisticsCollector_getAllocatedSize(data, a.getCapacity() * (int)sizeof(T));
         collector->AddMemoryChunk(type, name, a.m_data, a.m_iElementCount * (int)sizeof(T), allocated);
     }
 }

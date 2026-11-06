@@ -87,16 +87,17 @@ public:
     // The deleting wrapper at 0x00cc48b0 calls this destructor body out of line.
     __declspec(noinline) void FUN_00d4e000();
     hkpBreakableConstraintData* Destroy(unsigned int flags);
-    void FUN_00d4de80(int, void* out);
+    void getRuntimeInfo(int, void* out);
     void PopulateInfo(hkpConstraintDataInfo& info) const;
-    void* FUN_00d4dea0(void* value);
+    void* isValid_00d4dea0(void* value);
     void FUN_00d4e0f0(const hkpConstraintQueryIn& in, int out);
     void FUN_00d4e1e0(const hkpConstraintQueryIn* in);
-    void FUN_00d4e020(hkpConstraintInstance* instance, hkBool broken, hkReal currentForce);
+    void setBroken(hkpConstraintInstance* instance, hkBool broken, hkReal currentForce);
 };
 
 // @fnv 0x00d4de80
-void hkpBreakableConstraintData::FUN_00d4de80(int, void* out)
+// src: HAVOK_LIB 0x00d4de80
+void hkpBreakableConstraintData::getRuntimeInfo(int, void* out)
 {
     ((int*)out)[1] = m_usNumSolverResults;
     ((int*)out)[0] = m_usRuntimeOffset + 0x34;
@@ -111,7 +112,8 @@ void hkpBreakableConstraintData::PopulateInfo(hkpConstraintDataInfo& info) const
 }
 
 // @fnv 0x00d4dea0
-void* hkpBreakableConstraintData::FUN_00d4dea0(void* value)
+// src: HAVOK_LIB 0x00d4dea0
+void* hkpBreakableConstraintData::isValid_00d4dea0(void* value)
 {
     // The shared v07 declaration omits this slot's output parameter.
     reinterpret_cast<void (__thiscall*)(hkpConstraintData*, void*)>(
@@ -221,7 +223,7 @@ struct hkpConstraintQueryIn
 // Shared hkpWorld lacks removeConstraint (0x00c97e80); keep its call declaration here.
 extern void removeWorldConstraint();
 
-void __stdcall FUN_00d4de30(const hkpConstraintQueryIn& in, int out);
+void __stdcall hkpBreakableConstraintData_buildNopJacobian(const hkpConstraintQueryIn& in, int out);
 void __cdecl FUN_00d72190(hkpConstraintAtom* atoms, const hkpConstraintQueryIn& in, hkBool flag,
                           int out);
 void __cdecl FUN_00d6f460(hkpConstraintAtom* atoms, int sizeOfAllAtoms, const hkpConstraintQueryIn& in, int out);
@@ -273,7 +275,7 @@ void hkpBreakableConstraintData::FUN_00d4e0f0(const hkpConstraintQueryIn& in, in
     }
     else
     {
-        FUN_00d4de30(in, out);
+        hkpBreakableConstraintData_buildNopJacobian(in, out);
 
         if (m_bRemoveWhenBroken)
         {
@@ -344,7 +346,7 @@ void hkpBreakableConstraintData::FUN_00d4e1e0(const hkpConstraintQueryIn* in)
         if (sumImpulse > m_fBreakingStrength * m_fBreakingStrength)
         {
 
-            FUN_00d4e020(static_cast<hkpConstraintInstance*>(in->m_pConstraintChainInstance.val()), true, hkMath_sqrt(sumImpulse));
+            setBroken(static_cast<hkpConstraintInstance*>(in->m_pConstraintChainInstance.val()), true, hkMath_sqrt(sumImpulse));
 
             if (m_bRevertBackVelocityOnBreak)
             {
@@ -458,16 +460,17 @@ struct BrkInfo
     {}
 };
 
-void __cdecl FUN_00d85fa0(BrkInfo* pkInfo);
-void __cdecl FUN_00d86050(BrkInfo* pkInfo);
-void __cdecl FUN_00d00b40(hkpSimulationIsland* pkIsland, BrkInfo* pkInfo);
-void __cdecl FUN_00d00bf0(hkpSimulationIsland* pkIsland, BrkInfo* pkInfo);
+void __cdecl hkpConstraintCallbackUtil_fireConstraintBroken(BrkInfo* pkInfo);
+void __cdecl hkpConstraintCallbackUtil_fireConstraintRepaired(BrkInfo* pkInfo);
+void __cdecl hkpWorldCallbackUtil_fireConstraintBroken(hkpSimulationIsland* pkIsland, BrkInfo* pkInfo);
+void __cdecl hkpWorldCallbackUtil_fireConstraintRepaired(hkpSimulationIsland* pkIsland, BrkInfo* pkInfo);
 
 extern char DAT_01269c44;
 
 // Sets the broken flag on the breakable runtime, updates the constraint flags, and dispatches a BrkInfo event to listeners and the simulation island.
 // @fnv 0x00d4e020
-void hkpBreakableConstraintData::FUN_00d4e020(hkpConstraintInstance* apInstance, hkBool broken, float currentForce)
+// src: HAVOK_LIB 0x00d4e020
+void hkpBreakableConstraintData::setBroken(hkpConstraintInstance* apInstance, hkBool broken, float currentForce)
 {
     hkpConstraintInstance* instance = reinterpret_cast<hkpConstraintInstance*>(*(volatile int*)&apInstance);
     hkpBreakableRuntime* runtime =
@@ -496,17 +499,17 @@ void hkpBreakableConstraintData::FUN_00d4e020(hkpConstraintInstance* apInstance,
         event.m_threshold = m_fBreakingStrength;
         if (event.m_pHavokConstraint->m_kListeners.m_iElementCount)
         {
-            FUN_00d85fa0(&event);
+            hkpConstraintCallbackUtil_fireConstraintBroken(&event);
         }
-        FUN_00d00b40(world, &event);
+        hkpWorldCallbackUtil_fireConstraintBroken(world, &event);
     }
     else
     {
         event.m_0c = 0;
         if (event.m_pHavokConstraint->m_kListeners.m_iElementCount)
         {
-            FUN_00d86050(&event);
+            hkpConstraintCallbackUtil_fireConstraintRepaired(&event);
         }
-        FUN_00d00bf0(world, &event);
+        hkpWorldCallbackUtil_fireConstraintRepaired(world, &event);
     }
 }

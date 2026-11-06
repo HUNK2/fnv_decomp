@@ -84,7 +84,7 @@ struct BoneTransformData
     int unk68;
     int unk6c;
     hkTransform m_kMotionTransform;
-    void FUN_00dee820(const hkVector4* in, hkVector4* out);
+    void hkpPointToPathConstraintData_calcPivot(const hkVector4* in, hkVector4* out);
 };
 
 struct ExtraData
@@ -232,7 +232,7 @@ struct Viewer
 
     void FUN_00de47e0(Input* input, hkTransform* transform, hkTransform* extra);
     void FUN_00de4530(int id, int tag);
-    void FUN_00de44c0(int id, int tag);
+    void hkpConstraintDrawer_drawPivots(int id, int tag);
     void FUN_00de7020(Input* input, LineDrawer* drawer, int id, int tag);
 };
 
@@ -252,9 +252,9 @@ void Viewer::FUN_00de7020(Input* input, LineDrawer* drawer, int id, int tag)
     m_processor.FUN_00e10a10(drawer);
     FUN_00de47e0(input, &localTransform, &extraTransform);
     m_vContactPosition.m_vComponents = localTransform.m_vTranslation;
-    scene->FUN_00dee820(&input->m_extra->m_endPoint, &m_endPoint);
+    scene->hkpPointToPathConstraintData_calcPivot(&input->m_extra->m_endPoint, &m_endPoint);
     FUN_00de4530(id, tag);
-    FUN_00de44c0(id, tag);
+    hkpConstraintDrawer_drawPivots(id, tag);
 
     if (scene->m_kPoints)
     {

@@ -120,7 +120,8 @@ void __fastcall GetLightColor(NiLightColorController* self, void*, NiPoint3& kVa
 bool __stdcall FUN_00a57c10(void*);
 // Checks pkObject via FUN_00a57c10, then compares bit 0 of the inverted byte at offset 0x38 with the byte at this+0x38 and returns the result.
 // @fnv 0x00a4d1d0
-bool __fastcall FUN_00a4d1d0(NiLightColorController* self, void*, NiObject* pkObject)
+// src: GAMEBRYO_LIB 0x00a4d1d0
+bool __fastcall NiLightColorController_IsEqual(NiLightColorController* self, void*, NiObject* pkObject)
 {
     NiLightColorController* pkControl = (NiLightColorController*)pkObject;
     if (!FUN_00a57c10(pkControl))

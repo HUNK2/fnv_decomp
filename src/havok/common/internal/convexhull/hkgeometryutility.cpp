@@ -87,7 +87,8 @@ extern float DAT_0106ea1c;
 
 // Initialises two context objects, sets a flag, looks up a1 in the first context and, if found, applies a2 and a3 and a float constant before finishing.
 // @fnv 0x00d5a630
-void __cdecl FUN_00d5a630(void* a1, int a2, int a3)
+// src: HAVOK_LIB 0x00d5a630
+void __cdecl hkGeometryUtility_createConvexGeometry(void* a1, int a2, int a3)
 {
     FUN_00d5a630_ctxB b;
     FUN_00d5a630_ctxA a;
@@ -220,7 +221,8 @@ struct S00d5ad60_cls
 
 // Returns whether the absolute difference between m_f00 and *other is less than threshold.
 // @fnv 0x00d5ad60
-static __declspec(noinline) unsigned char FUN_00d5ad60(S00d5ad60_cls* self, float* other, float threshold)
+// src: HAVOK_LIB 0x00d5ad60
+static __declspec(noinline) unsigned char approxEquals(S00d5ad60_cls* self, float* other, float threshold)
 {
     float d = *other - self->m_f00;
     d = fabs(d);
@@ -229,7 +231,7 @@ static __declspec(noinline) unsigned char FUN_00d5ad60(S00d5ad60_cls* self, floa
 
 unsigned char S00d5ad60_cls::S00d5ad60_call(float* other, float threshold)
 {
-    return FUN_00d5ad60(this, other, threshold);
+    return approxEquals(this, other, threshold);
 }
 
 #ifndef _INCLUDED_MM2
@@ -280,12 +282,13 @@ struct __declspec(align(16)) S00d5c060_Result
 };
 
 char* __cdecl AllocateWithHeader(D5C110Allocator* alloc, int size);
-char* __cdecl FUN_00c856c0(D5C110Allocator* owner, char* data);
+char* __cdecl hkMemoryRouter_easyFree(D5C110Allocator* owner, char* data);
 void __cdecl FUN_00d5beb0(S00d5c060_Result* self, char* data, int count, int flags, float scale);
 
 // Allocates a buffer, copies vertex coordinates from src->m_pData into it, and passes it to FUN_00d5beb0 to produce a result.
 // @fnv 0x00d5c060
-S00d5c060_Result FUN_00d5c060(const S00d5c060_Src* src, float scale)
+// src: HAVOK_LIB 0x00d5c060
+S00d5c060_Result hkGeometryUtility_createMinBoundingSphere(const S00d5c060_Src* src, float scale)
 {
     S00d5c060_Result result;
     int count = src->m_uiItemCount;
@@ -299,7 +302,7 @@ S00d5c060_Result FUN_00d5c060(const S00d5c060_Src* src, float scale)
         d[i].z = ((const float*)src->m_pData)[i * quad + 2];
     }
     FUN_00d5beb0(&result, data, src->m_uiItemCount, 0, scale);
-    FUN_00c856c0(&FUN_00c85750().heap(), data);
+    hkMemoryRouter_easyFree(&FUN_00c85750().heap(), data);
     return result;
 }
 
@@ -410,7 +413,7 @@ struct ObbFlag
     char c;
 };
 
-void __cdecl FUN_00c908c0(void*, void*, int, int);
+void __cdecl hkArrayUtil__reserve(void*, void*, int, int);
 bool __cdecl FUN_00d5c6d0(void* geom, void* halfExtents, void* transform, float tolerance);
 void __cdecl FUN_00d5c1a0(void*, int, int, void*, void*, ObbFlag);
 void __cdecl FUN_00d5ac50(void*, void*, void*, void*, void*);
@@ -462,7 +465,7 @@ void FUN_00d5d270(const void* shape, ObbVec* outExt, ObbXf* outXf, int mode)
         int cap = (arr.m_cap & 0x3fffffff) * 2;
         if (total >= cap)
             cap = total;
-        FUN_00c908c0(&heap, &arr.m_data, cap, 16);
+        hkArrayUtil__reserve(&heap, &arr.m_data, cap, 16);
     }
     arr.m_iElementCount = total;
 

@@ -18,7 +18,8 @@ struct TimedAnimationKey : FloatKeyPrefixView
 bool __cdecl AreRecordsEqual(const FloatKeyPrefixView&, const FloatKeyPrefixView&);
 // Returns false if AreRecordsEqual rejects the keys, otherwise compares the two float fields of the keys for equality.
 // @fnv 0x00a26f30
-bool FUN_00a26f30(const FloatKeyPrefixView& key0, const FloatKeyPrefixView& key1)
+// src: GAMEBRYO_LIB 0x00a26f30
+bool NiBezFloatKey_Equal(const FloatKeyPrefixView& key0, const FloatKeyPrefixView& key1)
 {
     const TimedAnimationKey* pKey1Floats = (const TimedAnimationKey*)&key1;
     const TimedAnimationKey* pKey0Floats = (const TimedAnimationKey*)&key0;

@@ -223,7 +223,8 @@ __forceinline void TimerEvent833(const char* name, volatile unsigned int& ticks)
 }
 // Invokes HandleContactPointEvent on each non-null contact point listener in world->contactPointListeners, then removes null entries via FUN_00cff9b0.
 // @fnv 0x00cfff00
-void __cdecl FUN_00cfff00(World833* world, ContactPointEvent* event)
+// src: HAVOK_LIB 0x00cfff00
+void __cdecl hkpEntityCallbackUtil_fireContactPointCallbackInternal(World833* world, ContactPointEvent* event)
 {
     volatile unsigned beginTicks;
     volatile unsigned endTicks;
@@ -429,7 +430,8 @@ __forceinline void TimerEvent833(const char* name, volatile unsigned int& ticks)
 }
 // Iterates world->contactPointListeners, calls finishedCollisionCallback on each non-null listener, then removes null entries via FUN_00cff9b0.
 // @fnv 0x00d00060
-void __cdecl FUN_00d00060(World833* world, ContactPointEvent* event)
+// src: HAVOK_LIB 0x00d00060
+void __cdecl hkpEntityCallbackUtil_fireContactConstraintRemovedCallback(World833* world, ContactPointEvent* event)
 {
     volatile unsigned beginTicks;
     volatile unsigned endTicks;
@@ -656,7 +658,8 @@ struct Class_00cffab0
 
 // Calls vfn2 on the container's listeners, then vfn4 / vfn6 on the other listener arrays until each is empty, with UpdateNodeSlotIndices in between.
 // @fnv 0x00cffab0
-void __cdecl FUN_00cffab0(Class_00cffab0* obj)
+// src: HAVOK_LIB 0x00cffab0
+void __cdecl hkpEntityCallbackUtil_fireEntityRemoved(Class_00cffab0* obj)
 {
     Container_00cffab0* container = obj->m_container214;
     volatile unsigned int tb;
@@ -768,7 +771,8 @@ extern const char g_CFFCF0TimerEnd[];
 
 // Iterates the owner's listener list in reverse and invokes each non-null listener's callback, bracketing each call with timer begin/end markers.
 // @fnv 0x00cffcf0
-void __cdecl FUN_00cffcf0(CFFCF0Owner* owner)
+// src: HAVOK_LIB 0x00cffcf0
+void __cdecl hkpEntityCallbackUtil_fireEntityShapeSet(CFFCF0Owner* owner)
 {
     volatile CFFCF0TimerTicks ticks;
     CFFCF0ListenerList* list = owner->m_listenerList;
@@ -1035,7 +1039,8 @@ struct ListenerOwner
 };
 // Sets event->m_pObservedSource to owner, calls callback on each non-null listener in reverse with timers, then calls FUN_00cff9b0 to remove null entries.
 // @fnv 0x00d00110
-void __cdecl FUN_00d00110(ListenerOwner* owner, ListenerEvent* event)
+// src: HAVOK_LIB 0x00d00110
+void __cdecl hkpEntityCallbackUtil_fireContactPointAddedInternal(ListenerOwner* owner, ListenerEvent* event)
 {
     CFF9B0SmallArray& kListeners = owner->m_kListeners;
     event->m_pObservedSource = owner;
@@ -1214,7 +1219,8 @@ struct CManager
 };
 // Sets ev->m_pOwnerObject to mgr, iterates mgr->m_kListeners in reverse calling m05 on each CListener with ev, then calls FUN_00cff9b0 on the listener array.
 // @fnv 0x00d001c0
-void FUN_00d001c0(CManager* mgr, CEvent* ev)
+// src: HAVOK_LIB 0x00d001c0
+void hkpEntityCallbackUtil_fireContactPointRemovedInternal(CManager* mgr, CEvent* ev)
 {
     CFF9B0SmallArray* list = &mgr->m_kListeners;
     ev->m_pOwnerObject = mgr;
@@ -1304,7 +1310,8 @@ struct ProfOwner_cffa00
 
 // Iterates pOwner->m_pItems in reverse, writing TtentAddCb/Et rdtsc ticks to the TLS hkMonitorStream and calling vtbl04 on each item.
 // @fnv 0x00cffa00
-void __cdecl FUN_00cffa00(ProfOwner_cffa00* pOwner)
+// src: HAVOK_LIB 0x00cffa00
+void __cdecl hkpEntityCallbackUtil_fireEntityAdded(ProfOwner_cffa00* pOwner)
 {
     LPVOID(WINAPI * pfnTlsGetValue)(DWORD) = TlsGetValue;
     ItemList_cffa00* pList = pOwner->m_pItems;
@@ -1373,7 +1380,8 @@ struct ItemTable
 };
 // Iterates the owner's item table in reverse, calling each item's v04 with apParam and recording TtNewCollCb and Et profiler ticks.
 // @fnv 0x00cfffb0
-void __cdecl FUN_00cfffb0(void* apOwner, void* apParam)
+// src: HAVOK_LIB 0x00cfffb0
+void __cdecl hkpEntityCallbackUtil_fireContactConstraintAddedCallback(void* apOwner, void* apParam)
 {
     ItemTable* pItemTable = (ItemTable*)((char*)apOwner + 0x200);
     int i = (int)pItemTable->m_wCount - 1;
@@ -1443,7 +1451,8 @@ extern const char str_010c41f8[];
 typedef CFF9B0SmallArray TaskArray;
 // Stores pOwner in pContext, calls v06(pContext) on each non-null entry of the array at pOwner+0x200 in reverse with profiler records, then calls FUN_00cff9b0.
 // @fnv 0x00d00270
-void __cdecl FUN_00d00270(void* pOwner, TaskContext* pContext)
+// src: HAVOK_LIB 0x00d00270
+void __cdecl hkpEntityCallbackUtil_fireContactProcessInternal(void* pOwner, TaskContext* pContext)
 {
     volatile DWORD t1;
     volatile DWORD* pEndTick = &t1;

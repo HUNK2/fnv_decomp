@@ -15,7 +15,7 @@ struct S_00d01bc0_Node
     int unk20;
     unsigned char unk24;
     unsigned char m_flags;
-    bool FUN_00d077d0();
+    bool hkpSimulationIsland_isFullyConnected();
 };
 
 struct S_00d01bc0_Iter
@@ -121,7 +121,8 @@ S_00d01bc0_Global* __cdecl FUN_00c85750();
 void __cdecl PropagateStateToChildren(S_00d01bc0_Owner* owner, S_00d01bc0_Node* node);
 
 // @fnv 0x00d01bc0
-void __cdecl FUN_00d01bc0(S_00d01bc0_Owner* pOwner)
+// src: HAVOK_LIB 0x00d01bc0
+void __cdecl hkpWorldMemoryUtil_checkMemoryForIntegration(S_00d01bc0_Owner* pOwner)
 {
     pOwner->IncrementCounter();
     unsigned int saved = pOwner->m_uiItemCount;
@@ -152,7 +153,7 @@ void __cdecl FUN_00d01bc0(S_00d01bc0_Owner* pOwner)
             if (!FUN_00c85750()->sink()->v8(iter.m_key))
             {
                 S_00d01bc0_Node* node = iter.m_node;
-                if (!node->FUN_00d077d0())
+                if (!node->hkpSimulationIsland_isFullyConnected())
                 {
                     node->m_flags = (node->m_flags & 0xf7) | 4;
                 }
@@ -318,7 +319,8 @@ struct D01D20Holder
 
 // If GetA is non-null and vtbl24 returns false, records profiler ticks around a vtbl10 call, then calls FUN_00d88040(0) if DAT_01269200 is set.
 // @fnv 0x00d01d20
-void __cdecl FUN_00d01d20(Src* pSrc)
+// src: HAVOK_LIB 0x00d01d20
+void __cdecl hkpWorldMemoryUtil_watchHeapMemory(Src* pSrc)
 {
     volatile DWORD tick;
     if (pSrc->GetA() == 0)

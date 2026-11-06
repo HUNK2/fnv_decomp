@@ -114,8 +114,8 @@ extern "C" void FUN_00d36520(SortPair* arr, int lo, int hi, unsigned int extra)
         lo = i;
     }
 }
-void __cdecl FUN_00d367b0(hkpCollisionDispatcher::Agent3FunctionTable& kFuncs);
-void __cdecl FUN_00d367d0(hkpCollisionDispatcher* pkDispatcher);
+void __cdecl hkpCollectionAgent3_initAgentFunc(hkpCollisionDispatcher::Agent3FunctionTable& kFuncs);
+void __cdecl hkpCollectionAgent3_registerAgent3(hkpCollisionDispatcher* pkDispatcher);
 void InitOutputDefaults();
 void FUN_00d39130();
 void ReleaseHandles();
@@ -124,7 +124,7 @@ void InsertIntoSlotArray();
 void FUN_00d39090();
 void FUN_00d39150();
 void FUN_00d39390();
-void __cdecl FUN_00d39840(hkpCollisionDispatcher* pkDispatcher);
+void __cdecl hkCapsuleTriangleAgent3_registerAgent3(hkpCollisionDispatcher* pkDispatcher);
 extern "C"
 {
     __m128 _mm_set_ps1(float a);

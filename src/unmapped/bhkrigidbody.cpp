@@ -2235,7 +2235,7 @@ struct FUN_00ca8c90
     unsigned int unk218;
     unsigned int unk21C;
     FUN_00ca8c90(void* settings);
-    void FUN_00ca8420(int motion, int activate, int extra);
+    void hkpRigidBody_setMotionType(int motion, int activate, int extra);
     void FUN_00c905b0();
     static void* operator new(unsigned int size)
     {
@@ -2366,7 +2366,7 @@ void BodyBuild::ConfigureBody(BuildSettings* settings)
     if (savedMotion != 8)
     {
         settings->motionType = (signed char)savedMotion;
-        body->FUN_00ca8420(savedMotion, 1, 0);
+        body->hkpRigidBody_setMotionType(savedMotion, 1, 0);
     }
     SetBody(body);
     body->FUN_00c905b0();

@@ -1443,7 +1443,7 @@ extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volati
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 void* __cdecl FUN_00aa13e0(unsigned int);
 char* __cdecl FUN_00a5b690(const char*);
-void __cdecl FUN_00aa10f0(void*);
+void __cdecl _NiFree_00aa10f0(void*);
 void* __cdecl FUN_00aa1070(unsigned int);
 void* __cdecl FUN_00ec44d0(void*, const void*, unsigned int);
 extern unsigned int DAT_011f5fc4[];
@@ -1583,7 +1583,7 @@ unsigned int ShaderConstantMap_83650::FUN_00e83650(const char* shader, unsigned 
     if (copied)
     {
         entry->m_bFlag0 = true;
-        FUN_00aa10f0(entry->m_pConstantData);
+        _NiFree_00aa10f0(entry->m_pConstantData);
         entry->m_pConstantData = FUN_00aa1070(elementSize);
         FUN_00ec44d0(entry->m_pConstantData, data, elementSize);
     }

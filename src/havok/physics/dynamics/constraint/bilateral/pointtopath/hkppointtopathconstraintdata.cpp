@@ -109,7 +109,8 @@ inline void hkTransform::setTranslation(const hkVector4& translation)
 }
 
 // @fnv 0x00dee720
-void __stdcall FUN_00dee720(int aiUnused, void* apData)
+// src: HAVOK_LIB 0x00dee720
+void __stdcall hkpPointToPathConstraintData_getRuntimeInfo(int aiUnused, void* apData)
 {
     *(int*)((char*)apData + 4) = 7;
     *(int*)apData = 0x3c;
@@ -117,12 +118,13 @@ void __stdcall FUN_00dee720(int aiUnused, void* apData)
 
 struct FUN_00dee7f0_class
 {
-    void __thiscall FUN_00dee7f0(void* a);
+    void __thiscall hkpPointToPathConstraintData_getConstraintInfo(void* a);
 };
 
 // Fills the struct at a with a pointer to this+0xc and constant fields 0, 0x180, 7, 8, 0xc.
 // @fnv 0x00dee7f0
-void __thiscall FUN_00dee7f0_class::FUN_00dee7f0(void* a)
+// src: HAVOK_LIB 0x00dee7f0
+void __thiscall FUN_00dee7f0_class::hkpPointToPathConstraintData_getConstraintInfo(void* a)
 {
     *(int*)((char*)a + 0x10) = (int)((char*)this + 0xc);
     *(int*)((char*)a + 0x14) = 0xc;
@@ -193,10 +195,11 @@ class FUN_00dee820_Class
     unsigned int unk58;
     unsigned int unk5c;
     unsigned int m_60;
-    void FUN_00dee820(unsigned int a, FUN_00c7f640_Class* owner);
+    void hkpPointToPathConstraintData_calcPivot(unsigned int a, FUN_00c7f640_Class* owner);
 };
 // @fnv 0x00dee820
-void FUN_00dee820_Class::FUN_00dee820(unsigned int uiValue, FUN_00c7f640_Class* owner)
+// src: HAVOK_LIB 0x00dee820
+void FUN_00dee820_Class::hkpPointToPathConstraintData_calcPivot(unsigned int uiValue, FUN_00c7f640_Class* owner)
 {
     owner->FUN_00c7f640(uiValue, &m_60);
 }
@@ -214,12 +217,13 @@ class hkObjectDEE8
     int unk1c;
     char m_20;
 
-    hkBool FUN_00dee840() const;
+    hkBool hkpPointToPathConstraintData_isValid() const;
 };
 
 // Returns true when m_18 is non-null and m_20 is set.
 // @fnv 0x00dee840
-hkBool hkObjectDEE8::FUN_00dee840() const
+// src: HAVOK_LIB 0x00dee840
+hkBool hkObjectDEE8::hkpPointToPathConstraintData_isValid() const
 {
     return m_18 != 0 && m_20;
 }

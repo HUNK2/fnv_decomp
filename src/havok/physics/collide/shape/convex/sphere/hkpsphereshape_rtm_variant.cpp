@@ -13,8 +13,8 @@ typedef union __declspec(intrin_type) __declspec(align(16)) {
 #include "../../../../../../../include/hkMonitorStream.h"
 #include "../../../../../../../include/hkMonitorStream.h"
 extern char const* const g_01268970_arg1;
-void __cdecl FUN_00c90360(char const* const*, char const* const*);
-void __cdecl FUN_00cd8040(char const* const* a1, char const* const* a2);
+void __cdecl hkReferencedObject_calcContentStatistics(char const* const*, char const* const*);
+void __cdecl hkpSphereShape_calcContentStatistics(char const* const* a1, char const* const* a2);
 extern int DAT_010cb5ac;
 struct FUN_00cd8160
 {
@@ -280,13 +280,13 @@ extern "C" unsigned __int64 __rdtsc();
 extern "C" void _ReadWriteBarrier();
 struct ProbeSphere : hkpSphereShape
 {
-    RayMask FUN_00cd8220(const RayQuerySet&, RayHits&, const RayMask&) const;
+    RayMask hkpSphereShape_castRayBundleImpl(const RayQuerySet&, RayHits&, const RayMask&) const;
 };
 extern "C" LocalM128 _mm_setzero_ps(void);
 extern "C" void _mm_store_ps(float*, LocalM128);
-void __stdcall FUN_00cd8060(int direction, float* vertexOut);
+void __stdcall hkpSphereShape_getSupportingVertexImpl(int direction, float* vertexOut);
 extern "C" void __movsd(unsigned long*, const unsigned long*, unsigned long);
-void __stdcall FUN_00cd8080(int a0, __int64 packed);
+void __stdcall hkpSphereShape_convertVertexIdsToVerticesImpl(int a0, __int64 packed);
 extern "C" LocalM128 _mm_setzero_ps(void);
 struct __declspec(align(16)) CentreVectorCD80
 {
@@ -297,7 +297,7 @@ struct __declspec(align(16)) CentreVectorCD80
         m_vComponents = _mm_setzero_ps();
     }
 };
-CentreVectorCD80 __stdcall FUN_00cd80c0();
+CentreVectorCD80 __stdcall hkpSphereShape_getCentreImpl();
 struct FUN_00cd8140_Result
 {
     int unk00;
@@ -313,9 +313,9 @@ struct FUN_00cd8140_Obj
     int unk0C;
     float unk10;
 
-    void FUN_00cd8140(FUN_00cd8140_Result* result);
+    void hkpSphereShape_getCollisionSpheresImpl(FUN_00cd8140_Result* result);
 };
-void __stdcall FUN_00cd80e0(float* output);
+void __stdcall hkpSphereShape_getFirstVertex(float* output);
 
 extern "C" LocalM128 _mm_mul_ps(LocalM128, LocalM128);
 extern "C" LocalM128 _mm_add_ss(LocalM128, LocalM128);

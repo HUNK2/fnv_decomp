@@ -1167,7 +1167,7 @@ void FUN_006c1e40_shell::FUN_006c1e40(void* arg1)
     void* result = ((bhkWorldObject*)this)->FUN_004ae750();
     if (result)
     {
-        ((hkpEntity*)result)->FUN_00c9c670(arg1);
+        ((hkpEntity*)result)->removeEntityListener_00c9c670(arg1);
     }
 }
 }  // namespace fnv_006c1e40
@@ -1444,14 +1444,14 @@ struct HavokBodyListenerAccess
 };
 struct S_00c9c5b0
 {
-    void FUN_00c9c5b0(int);
+    void hkpEntity_addEntityListener(int);
 };
 // @fnv 0x006c1da0
 void HavokBodyListenerAccess::FUN_006c1da0(int a)
 {
     void* p = GetLocalData();
     if (p)
-        ((S_00c9c5b0*)p)->FUN_00c9c5b0(a);
+        ((S_00c9c5b0*)p)->hkpEntity_addEntityListener(a);
 }
 }  // namespace fnv_006c1da0
 

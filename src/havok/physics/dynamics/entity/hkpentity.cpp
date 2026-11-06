@@ -95,7 +95,8 @@ inline hkpMotion::hkpMotion(FinishingFlag flag) : hkReferencedObject(flag)
 }
 
 // @fnv 0x00c9c380
-__declspec(noinline) int hkpEntity::FUN_00c9c380() throw()
+// src: HAVOK_LIB 0x00c9c380
+__declspec(noinline) int hkpEntity::getNumConstraints() throw()
 {
     return m_kSlaveConstraints.m_iElementCount + m_eSmallArraySerializeOverrideType.m_iElementCount;
 }
@@ -241,7 +242,7 @@ void __fastcall activateEntity(hkpEntity* self, int)
         static_cast<hkpWorld*>(self->m_pOwningWorld)->FUN_00c91160(&kOp);
         return;
     }
-    self->FUN_00c9c1d0();
+    self->activate_00c9c1d0();
 }
 
 struct WorldOp
@@ -324,7 +325,7 @@ void hkpEntityStats::CollectStats(hkStreamWriter* collector, const hkClass* cls)
     WriteToStream(collector, &g_01268808);
 }
 
-void __cdecl FUN_00d06cb0(void* array, int elemSize);
+void __cdecl hkSmallArrayUtil__reserveMore(void* array, int elemSize);
 
 inline int findEmptyContactSlot(const hkpEntitySmallArraySerializeOverrideType& slots)
 {
@@ -338,7 +339,7 @@ inline void appendContactSlot(hkpEntitySmallArraySerializeOverrideType& slots, v
 {
     unsigned short capacity = static_cast<unsigned short>(slots.m_iCapacityState & 0x3fff);
     if (slots.m_iElementCount == capacity)
-        FUN_00d06cb0(&slots, sizeof(void*));
+        hkSmallArrayUtil__reserveMore(&slots, sizeof(void*));
     static_cast<void**>(slots.m_data)[slots.m_iElementCount++] = value;
 }
 
@@ -770,12 +771,13 @@ struct S00c92a80_cls
     int unk00;
     int unk04;
     S00c92a80_Obj* obj;
-    void FUN_00c92a80(int a0, int a1);
+    void hkpWorld_findInitialContactPoints(int a0, int a1);
 };
 
 // Reads a float from obj, builds a S00c92a80_Range, and calls obj->v1c with a0, a1, this, the range, and 1.
 // @fnv 0x00c92a80
-void S00c92a80_cls::FUN_00c92a80(int a0, int a1)
+// src: HAVOK_LIB 0x00c92a80
+void S00c92a80_cls::hkpWorld_findInitialContactPoints(int a0, int a1)
 {
     float b = *(float*)((char*)obj + 0x18);
     float a = *(float*)((char*)obj + 0x18);
@@ -784,7 +786,8 @@ void S00c92a80_cls::FUN_00c92a80(int a0, int a1)
 }
 
 // @fnv 0x00c9bfd0
-static __declspec(noinline) unsigned char* FUN_00c9bfd0(hkpEntity* self, unsigned char* out)
+// src: HAVOK_LIB 0x00c9bfd0
+static __declspec(noinline) unsigned char* hkEntity_isActive(hkpEntity* self, unsigned char* out)
 {
     hkpSimulationIsland* p = self->m_pSimulationIsland;
     if (!p)
@@ -797,12 +800,13 @@ static __declspec(noinline) unsigned char* FUN_00c9bfd0(hkpEntity* self, unsigne
 extern "C" unsigned char* c9bfd0_out_val(void);
 void c9bfd0_caller(hkpEntity* self)
 {
-    (void)FUN_00c9bfd0(self, c9bfd0_out_val());
+    (void)hkEntity_isActive(self, c9bfd0_out_val());
 }
 
 // Writes a 2-bit value extracted from byte 0x26 of m_cc into out, or 0 if m_cc is null.
 // @fnv 0x00c9bff0
-unsigned char* hkpEntity::FUN_00c9bff0(unsigned char* out)
+// src: HAVOK_LIB 0x00c9bff0
+unsigned char* hkpEntity::isActive_00c9bff0(unsigned char* out)
 {
     if (m_pSimulationIsland == 0)
     {
@@ -890,7 +894,8 @@ void __cdecl AddEntryToList(hkpWorld* world, hkpSimulationIsland* island);
 // Deactivation flag setup is not declared by the shared motion interface.
 
 // @fnv 0x00c9c1d0
-void hkpEntity::FUN_00c9c1d0()
+// src: HAVOK_LIB 0x00c9c1d0
+void hkpEntity::activate_00c9c1d0()
 {
     hkBool active(char(0));
     if (m_pSimulationIsland)
@@ -909,7 +914,8 @@ void hkpEntity::FUN_00c9c1d0()
 
 // Ensures m_pExtendedListeners is allocated, then nulls the entry for pvListener in m_pExtendedListeners->m_entityListeners.
 // @fnv 0x00c9c670
-void hkpEntity::FUN_00c9c670(void* pvListener)
+// src: HAVOK_LIB 0x00c9c670
+void hkpEntity::removeEntityListener_00c9c670(void* pvListener)
 {
     if (!m_pExtendedListeners)
         m_pExtendedListeners = new hkpEntityExtendedListeners;
@@ -921,7 +927,7 @@ void hkpEntity::FUN_00c9c670(void* pvListener)
 // @fnv 0x00c9c7c0
 void __fastcall collectEntityConstraints(hkpEntity* self, int, hkArray<hkpConstraintInstance*>& constraints)
 {
-    constraints.setSize(self->FUN_00c9c380());
+    constraints.setSize(self->getNumConstraints());
     int k = 0;
     for (int i = 0; i < self->m_eSmallArraySerializeOverrideType.m_iElementCount; i++)
         // The approved headers expose this array as void storage; hkConstraintInternal is 0x30 bytes.
@@ -1175,7 +1181,7 @@ void __fastcall addActivationListener(hkpEntity* self, int, hkpEntityActivationL
     }
 
     if (array->m_activationListeners.m_size == (array->m_activationListeners.m_capacityAndFlags & 0x3fff))
-        FUN_00d06cb0(array, 4);
+        hkSmallArrayUtil__reserveMore(array, 4);
 
     array->m_activationListeners.m_data[array->m_activationListeners.m_size] = value;
     ++array->m_activationListeners.m_size;

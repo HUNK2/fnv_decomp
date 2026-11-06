@@ -11063,7 +11063,7 @@ struct P124Model
 };
 P124Model* FUN_00c54400(NiNode*);
 void FUN_00806b50(P124Input*, Animation*);
-void FUN_00a582f0(const NiMatrix3*, P124Point*, bool, P124Point*, P124Point*);
+void NiMatrix3_TransformVertices(const NiMatrix3*, P124Point*, bool, P124Point*, P124Point*);
 struct P124Package
 {
     void FUN_008c6b20(P124Input*);
@@ -14786,7 +14786,7 @@ class FurnitureNodeStandIn : public NiAVObject
 namespace FinishLoadCalls {
 NiAVObject* FUN_00c54400(::NiNode*);
 }
-void FUN_00a582f0(const NiMatrix3&, NiPoint3*, int, const NiPoint3*, const NiPoint3*);
+void NiMatrix3_TransformVertices(const NiMatrix3&, NiPoint3*, int, const NiPoint3*, const NiPoint3*);
 void FUN_00c69fc0(NiAVObject*, bool, bool, bool);
 void FUN_00c6a350(NiAVObject*, bool, bool, bool, bool);
 void FUN_00806130(void*, Actor*);

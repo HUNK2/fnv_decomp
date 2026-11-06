@@ -33,17 +33,17 @@
 
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
-extern "C" void __fastcall FUN_00a36890(void*);
+extern "C" void __fastcall NiBlendInterpolator_NiBlendInterpolator(void*);
 extern int DAT_0109750c;
 struct FUN_00a409b0_class
 {
     void* vtbl;
     FUN_00a409b0_class();
 };
-void __fastcall FUN_00a36890(void*);
+void __fastcall NiBlendInterpolator_NiBlendInterpolator(void*);
 void* __cdecl NiBlendTransformInterpolator_CreateObject();
-float FUN_00a42050(float a, float b, float c);
-void __fastcall FUN_00a36890(void*);
+float NiInterpScalar_Linear(float a, float b, float c);
+void __fastcall NiBlendInterpolator_NiBlendInterpolator(void*);
 extern int DAT_01097904;
 struct FUN_00a42f60
 {
@@ -485,7 +485,7 @@ struct ParentData
     unsigned int unk3c;
     void FUN_00a6d290();
 };
-void __cdecl FUN_00aa10f0(void*);
+void __cdecl _NiFree_00aa10f0(void*);
 struct FUN_00a49d60 : public ParentData
 {
     RefPointer first;
@@ -670,7 +670,7 @@ struct SingletonTarget
 };
 extern SingletonTarget* g_011f42c0;
 void __cdecl FUN_00a5b460();
-extern void __cdecl FUN_00aa10f0(char* psz);
+extern void __cdecl _NiFree_00aa10f0(char* psz);
 extern int DAT_0102102c;
 struct Ent
 {
@@ -924,9 +924,9 @@ struct ConvertedController;
 struct ControllerInterpolator;
 struct ControllerHost
 {
-    ConvertedController* FUN_00a5c570(const NiRTTI*);
+    ConvertedController* NiObjectNET_GetController(const NiRTTI*);
     void FUN_00a5c000(ConvertedController*);
-    void FUN_00a5c480(StubController*);
+    void NiObjectNET_RemoveController(StubController*);
 };
 struct ControllerFields
 {
@@ -1205,7 +1205,7 @@ void GetGPUProgram(NiStream* stream, unsigned int index, NiPointer<NiGPUProgram>
 void __cdecl NiFreeA4D(void* pvMem) throw();
 void __cdecl FUN_00a57130(int a1);
 void __cdecl FUN_00a41220(int a1);
-void __cdecl FUN_00a420e0(float a0, float a1, float* p2, float a3, float a4, float* p5, float a6, float a7, float* p8,
+void __cdecl NiInterpScalar_AdjustBezier(float a0, float a1, float* p2, float a3, float a4, float* p5, float a6, float a7, float* p8,
                           float* p9);
 struct FUN_00a44840_stub
 {

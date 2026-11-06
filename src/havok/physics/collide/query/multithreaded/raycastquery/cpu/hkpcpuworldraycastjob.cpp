@@ -68,10 +68,11 @@ struct S_00df8d60
     int unk10;
     float unk14;
     hkBool FUN_00df8aa0(const void* data);
-    float FUN_00df8d60(const S_00df8d60_Data* data, int unused);
+    float hkCpuWorldRayCastCollector_addBroadPhaseHandle(const S_00df8d60_Data* data, int unused);
 };
 // @fnv 0x00df8d60
-float S_00df8d60::FUN_00df8d60(const S_00df8d60_Data* data, int unused)
+// src: HAVOK_LIB 0x00df8d60
+float S_00df8d60::hkCpuWorldRayCastCollector_addBroadPhaseHandle(const S_00df8d60_Data* data, int unused)
 {
     FUN_00df8aa0((const char*)data + data->unk5);
     return unk14;
@@ -146,11 +147,12 @@ struct AdjustedBase
 
 struct AdjustOwner
 {
-    void* FUN_00df8d90(void* apFirst, int aiSecond);
+    void* hkCpuWorldRayCastCollector_addMidPhaseHit(void* apFirst, int aiSecond);
 };
 
 // @fnv 0x00df8d90
-void* AdjustOwner::FUN_00df8d90(void* apFirst, int aiSecond)
+// src: HAVOK_LIB 0x00df8d90
+void* AdjustOwner::hkCpuWorldRayCastCollector_addMidPhaseHit(void* apFirst, int aiSecond)
 {
     ((AdjustedBase*)((char*)this - 4))->FUN_00df8aa0(apFirst, aiSecond);
     return apFirst;
@@ -175,11 +177,12 @@ struct FUN_00df8dd0_cls
     int unk04;
     float m_f08;
 
-    float FUN_00df8dd0(FUN_00df8dd0_Param* p);
+    float hkCpuWorldRayCastCollector_addLeaf(FUN_00df8dd0_Param* p);
 };
 
 // @fnv 0x00df8dd0
-float FUN_00df8dd0_cls::FUN_00df8dd0(FUN_00df8dd0_Param* pParam)
+// src: HAVOK_LIB 0x00df8dd0
+float FUN_00df8dd0_cls::hkCpuWorldRayCastCollector_addLeaf(FUN_00df8dd0_Param* pParam)
 {
     ((FUN_00df8dd0_helper*)((char*)this - 12))->FUN_00df8aa0(&pParam, pParam->m_i0c);
     return m_f08;

@@ -18,9 +18,9 @@ void __cdecl FUN_00d41a30(void);
 void __cdecl FUN_00d40d80(void);
 void __cdecl FUN_00d32cd0(void);
 void __cdecl BuildEventIndex(void);
-void __fastcall FUN_00d2d890(void*, int, void*, int);
+void __fastcall hkBvTreeAgent3_process(void*, int, void*, int);
 void __cdecl FUN_00d35770(void);
-void __cdecl FUN_00d365d0(void);
+void __cdecl hkpCollectionAgent3_process(void);
 int __cdecl FUN_00dcd4d0(void* p);
 struct D10710Object
 {
@@ -1789,22 +1789,22 @@ struct S_00dcdd80_Listener
 {
     void AddObject(FUN_00dce930* obj);
 };
-int __cdecl FUN_00dcd720(void* a, S_00dcdd80_Item* item, int c, FUN_00dce930* obj);
+int __cdecl hkpSaveContactPointsUtil_serializeCollisionEntry(void* a, S_00dcdd80_Item* item, int c, FUN_00dce930* obj);
 static inline S_00dcdd80_WorldObj* S_00dcdd80_getRigidBody(S_00dcdd80_Collidable* c)
 {
     if (c->m_type == 1)
         return (S_00dcdd80_WorldObj*)c->getOwner();
     return 0;
 }
-void FUN_00dcdd80(void* a, S_00dcdd80_Item** items, int count, S_00dcdd80_Listener* listener);
+void hkpSaveContactPointsUtil_saveContactPoints_00dcdd80(void* a, S_00dcdd80_Item** items, int count, S_00dcdd80_Listener* listener);
 struct LocalContext
 {
     void* vtable;
 };
 extern int DAT_010d77c0;
-extern "C" void __cdecl FUN_00dcea10(int, int, int, LocalContext*);
+extern "C" void __cdecl hkpSaveContactPointsUtil_loadContactPointsInternal(int, int, int, LocalContext*);
 void __cdecl RunWithLocalContext(int first, int second, int third);
-void __cdecl FUN_00dcea10(int, int, int, void*);
+void __cdecl hkpSaveContactPointsUtil_loadContactPointsInternal(int, int, int, void*);
 int __cdecl FUN_00c85750();
 struct FUN_00dce7e0_local
 {
@@ -1816,12 +1816,12 @@ struct FUN_00dce7e0_local
     void __thiscall ProcessArgument(int);
     void __thiscall FUN_00a29680();
 };
-void __cdecl FUN_00dce7e0(int a, int b, int* p, int d);
+void __cdecl hkpSaveContactPointsUtil_loadContactPoints(int a, int b, int* p, int d);
 struct BSAudio;
 namespace fnvc_adapt {
 BSAudio* __cdecl FUN_00c85750();
 }
-void __cdecl FUN_00c908c0(void* apAllocator, void* apArray, unsigned int auiNewCap, int aiElemSize);
+void __cdecl hkArrayUtil__reserve(void* apAllocator, void* apArray, unsigned int auiNewCap, int aiElemSize);
 struct SrcNode
 {
     unsigned int** m_ppBuffers;
@@ -2165,11 +2165,12 @@ struct PointerMap
 
 __forceinline int AddAgentHelper(void* a, const CollisionKeyEntry& e, int c, FUN_00dce930* agent)
 {
-    return FUN_00dcd720(a, e.m_pAgentEntry, c, agent);
+    return hkpSaveContactPointsUtil_serializeCollisionEntry(a, e.m_pAgentEntry, c, agent);
 }
 
 // @fnv 0x00dcdc00
-void __cdecl FUN_00dcdc00(void* a, BodyEntity** entities, int numEntities, S_00dcdd80_Listener* listener)
+// src: HAVOK_LIB 0x00dcdc00
+void __cdecl hkpSaveContactPointsUtil_saveContactPoints(void* a, BodyEntity** entities, int numEntities, S_00dcdd80_Listener* listener)
 {
     S_00dcdd80_World2* world = entities[0]->m_pOwningWorld;
     PointerMap map;

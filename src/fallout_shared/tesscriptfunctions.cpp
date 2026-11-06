@@ -4398,7 +4398,7 @@ struct RigidBodyTimeScaleAccess : public bhkRigidBody {
 struct FUN_00ca88c0_T {
     void Method(float f);
 };
-extern "C" void __cdecl FUN_00ca88c0(void*, float);
+extern "C" void __cdecl hkpRigidBody_setMass(void*, float);
 
 // @fnv 0x005d3ce0
 void RigidBodyTimeScaleAccess::SetTimeScale(float f) {

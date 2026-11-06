@@ -77,7 +77,8 @@ struct SpawnedArray
 void __cdecl FUN_00ec44d0(int a, int b, int c);
 
 // @fnv 0x00c908c0
-void __cdecl FUN_00c908c0(hkMemoryAllocator* apObject, SpawnedArray* apArray, int aiSize, int stride)
+// src: HAVOK_LIB 0x00c908c0
+void __cdecl hkArrayUtil__reserve(hkMemoryAllocator* apObject, SpawnedArray* apArray, int aiSize, int stride)
 {
     int iNewSize = aiSize * stride;
     if ((apArray->m_08 & 0x80000000u) == 0)
@@ -132,7 +133,7 @@ void ResizeAudioStream(hkMemoryAllocator* pAlloc, AudioStream* pStream, int elem
 
 typedef unsigned int hkUlong;
 
-extern void __cdecl FUN_00c908c0(void* alloc, void* arr, int n, int sizeElem);
+extern void __cdecl hkArrayUtil__reserve(void* alloc, void* arr, int n, int sizeElem);
 extern void __cdecl ResizeAudioStream(void* alloc, void* arr, int sizeElem);
 
 inline void* operator new(unsigned int, void* p)
@@ -166,7 +167,7 @@ struct S_00da2bd0_CallTree
         if (cap < n)
         {
             int cap2 = cap * 2;
-            FUN_00c908c0(alloc, this, n < cap2 ? cap2 : n, sizeof(S_00da2bd0_Node));
+            hkArrayUtil__reserve(alloc, this, n < cap2 ? cap2 : n, sizeof(S_00da2bd0_Node));
         }
         int numNew = n - m_iElementCount;
         S_00da2bd0_Node* p = m_data + m_iElementCount;
@@ -237,7 +238,7 @@ struct Holder
 };
 
 Holder* __cdecl FUN_00c85750();
-void __cdecl FUN_00c908c0(void* pAllocator, void* pBuf, int newCap, int bFlag);
+void __cdecl hkArrayUtil__reserve(void* pAllocator, void* pBuf, int newCap, int bFlag);
 void __cdecl ResizeAudioStream(void* pAllocator, void* pBuf, int bFlag);
 extern "C" void _ReadWriteBarrier(void);
 
@@ -268,7 +269,7 @@ FUN_00e108b0_cls* FUN_00e108b0_cls::FUN_00e108b0()
         {
             newCap = 0x40;
         }
-        FUN_00c908c0(alloc, this, newCap, 1);
+        hkArrayUtil__reserve(alloc, this, newCap, 1);
     }
 
     h = FUN_00c85750();
@@ -363,7 +364,7 @@ struct S00c70de0_ArrayLocalForm
         {
             int cap2 = cap * 2;
             int newSize = (n < cap2) ? cap2 : n;
-            FUN_00c908c0(&a, this, newSize, sizeof(ArrayVectorLocal_00c70de0));
+            hkArrayUtil__reserve(&a, this, newSize, sizeof(ArrayVectorLocal_00c70de0));
         }
     }
     __forceinline void reserve(int n)
@@ -467,7 +468,8 @@ extern "C" void* __cdecl memcpy(void*, const void*, size_t);
 
 // Reallocates an hkArrayVoid buffer to requestedCapacity, reusing inplaceMem when provided, otherwise calling BufRealloc on the allocator.
 // @fnv 0x00c909d0
-void __cdecl FUN_00c909d0(hkMemoryAllocator& alloc, void* array, int aiElementSize, void* apInPlaceMemory,
+// src: HAVOK_LIB 0x00c909d0
+void __cdecl hkArrayUtil__reduce(hkMemoryAllocator& alloc, void* array, int aiElementSize, void* apInPlaceMemory,
                           int requestedCapacity)
 {
     hkArrayVoid& arr = *static_cast<hkArrayVoid*>(array);
@@ -541,7 +543,7 @@ template <class T> struct MeshArray
         int old = cap & 0x3fffffff;
 
         if (old < n)
-            FUN_00c908c0(a, this, n < old * 2 ? old * 2 : n, sizeof(T));
+            hkArrayUtil__reserve(a, this, n < old * 2 ? old * 2 : n, sizeof(T));
     }
 
     __forceinline void SetSizeAndGrow(int n)

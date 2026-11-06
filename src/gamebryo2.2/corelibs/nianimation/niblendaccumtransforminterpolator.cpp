@@ -92,12 +92,12 @@ bool __fastcall EqualQuatTransforms(const NiQuatTransform* self, int, const NiQu
 
 extern int DAT_01096784;
 extern int DAT_011a8404, DAT_011a8408, DAT_011f3708, DAT_011f370c, DAT_011f3710;
-void __fastcall FUN_00a36890(void*);
+void __fastcall NiBlendInterpolator_NiBlendInterpolator(void*);
 // Initialize the base, vtable, accumulated transform and accumulation array.
 // @fnv 0x00a39230
 __declspec(noinline) NiBlendAccumTransformInterpolator* __fastcall ConstructAccumulatedTransform(NiBlendAccumTransformInterpolator* pObj)
 {
-    FUN_00a36890(pObj);
+    NiBlendInterpolator_NiBlendInterpolator(pObj);
     *reinterpret_cast<void**>(pObj) = &DAT_01096784;
     *reinterpret_cast<int*>(&pObj->m_kAccumulatedTransform.x) = *(int*)&DAT_011a8400;
     *reinterpret_cast<int*>(&pObj->m_kAccumulatedTransform.y) = DAT_011a8404;

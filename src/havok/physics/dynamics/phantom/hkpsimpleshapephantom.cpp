@@ -255,11 +255,12 @@ class PhantomOverlapRemoval : public hkpSimpleShapePhantom
   public:
     // Shared hkpSimpleShapePhantom lacks the 0x00ca9520 overlap notification helper.
     void NotifyAll(hkpCollidable* collidable, hkBool wasAdded) throw();
-    void FUN_00d1f5a0(hkpCollidable* pkCollidable) throw();
+    void hkpSimpleShapePhantom_removeOverlappingCollidable(hkpCollidable* pkCollidable) throw();
 };
 
 // @fnv 0x00d1f5a0
-void PhantomOverlapRemoval::FUN_00d1f5a0(hkpCollidable* pkCollidable) throw()
+// src: HAVOK_LIB 0x00d1f5a0
+void PhantomOverlapRemoval::hkpSimpleShapePhantom_removeOverlappingCollidable(hkpCollidable* pkCollidable) throw()
 {
     if (pkCollidable->getShape() != 0)
     {
@@ -281,14 +282,14 @@ class hkClassD1F6;
 
 extern const hkClassD1F6 DAT_0126902c;
 
-int __cdecl FUN_00d06f80(const void* pvChunk, int iNumBytes) throw();
+int __cdecl hkStatisticsCollector_getAllocatedSize(const void* pvChunk, int iNumBytes) throw();
 
 template <class T> inline void AddArrayStatistics(hkStatisticsCollector* collector, const char* name, const hkArray<T>& array)
 {
     if ((array.m_iCapacityState & 0x80000000) == 0 || collector->m_reportInplaceAllocations)
     {
         const T* data = array.m_data;
-        int allocated = FUN_00d06f80(data, array.getCapacity() * sizeof(T));
+        int allocated = hkStatisticsCollector_getAllocatedSize(data, array.getCapacity() * sizeof(T));
         collector->AddMemoryChunk(3, name, array.m_data, array.GetLogicalSize() * sizeof(T), allocated);
     }
 }
@@ -310,7 +311,7 @@ void hkObjD1F6::CollectStatistics(hkStatisticsCollector* pkCollector, const hkCl
     AddArrayStatistics(pkCollector, "OverlapPtr", m_kCollisionDetails);
 }
 
-extern "C" int __stdcall FUN_00ca94c0(void* object);
+extern "C" int __stdcall hkpPhantom_fireCollidableAdded(void* object);
 extern "C" hkMemoryRouter* __cdecl FUN_00c85750();
 void __cdecl ResizeAudioStream(void* allocator, void* array, int elementSize);
 
@@ -325,7 +326,7 @@ void FUN_00d1f690_Member::AddCollisionDetail(void* object)
 {
     if (*reinterpret_cast<void**>(object) != 0)
     {
-        if (FUN_00ca94c0(object) == 0)
+        if (hkpPhantom_fireCollidableAdded(object) == 0)
         {
             hkArray<hkpSimpleShapePhantomCollisionDetail>* details = &m_kCollisionDetails;
             hkMemoryRouter* router = FUN_00c85750();
@@ -746,13 +747,14 @@ void FUN_00d1f520_Phantom::QueryPenetrations(FUN_00d1f520_Collector& collector, 
 #include <xmmintrin.h>
 struct FUN_00d1f450_Obj
 {
-    void FUN_00d1f270(int* a, int b, int c, int d);
-    void FUN_00d1f450(int* source, int a, int b, int c);
+    void hkpSimpleShapePhantom_setPositionAndLinearCast(int* a, int b, int c, int d);
+    void hkpSimpleShapePhantom_setTransformAndLinearCast(int* source, int a, int b, int c);
 };
 
 // Copies 12 floats from source to this at float index 0x2C using SSE, then calls FUN_00d1f270 with source plus 0x30 bytes and a, b, c.
 // @fnv 0x00d1f450
-void FUN_00d1f450_Obj::FUN_00d1f450(int* source, int a, int b, int c)
+// src: HAVOK_SRC 0x00d1f450
+void FUN_00d1f450_Obj::hkpSimpleShapePhantom_setTransformAndLinearCast(int* source, int a, int b, int c)
 {
     float* destination = reinterpret_cast<float*>(this) + 0x2C;
     float* vectors = reinterpret_cast<float*>(source);
@@ -761,7 +763,7 @@ void FUN_00d1f450_Obj::FUN_00d1f450(int* source, int a, int b, int c)
     _mm_store_ps(destination + 4, _mm_load_ps(vectors + 4));
     _mm_store_ps(destination + 8, _mm_load_ps(vectors + 8));
 
-    this->FUN_00d1f270(reinterpret_cast<int*>(reinterpret_cast<char*>(source) + 0x30), a, b, c);
+    this->hkpSimpleShapePhantom_setPositionAndLinearCast(reinterpret_cast<int*>(reinterpret_cast<char*>(source) + 0x30), a, b, c);
 }
 
 namespace fnv_00d1f960 {
@@ -769,10 +771,11 @@ namespace fnv_00d1f960 {
 hkMemoryRouter* FUN_00c85750();
 struct C : hkpSimpleShapePhantom
 {
-    void FUN_00d1f960();
-    void FUN_00c9e820();
+    void hkpSimpleShapePhantom_deallocateInternalArrays();
+    void hkpShapePhantom_deallocateInternalArrays();
 };
-void C::FUN_00d1f960()
+// src: HAVOK_LIB 0x00d1f960
+void C::hkpSimpleShapePhantom_deallocateInternalArrays()
 {
     if (m_kCollisionDetails.m_iElementCount == 0)
     {
@@ -786,6 +789,6 @@ void C::FUN_00d1f960()
         m_kCollisionDetails.m_data = 0;
         m_kCollisionDetails.m_iCapacityState = 0x80000000;
     }
-    FUN_00c9e820();
+    hkpShapePhantom_deallocateInternalArrays();
 }
 }  // namespace fnv_00d1f960

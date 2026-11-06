@@ -91,18 +91,19 @@ struct Motion
 // until it declares GetInertiaLocal and StepMotion with their arguments.
 inline void StepMotion(hkpRigidBody* rb, float dt, const hkVector4& t)
 {
-    rb->FUN_00c9c1d0();
+    rb->activate_00c9c1d0();
     reinterpret_cast<Motion*>(&rb->m_pMotionState)->StepMotion(dt, t);
 }
 
 // The shared hkpMotorAction does not yet declare this entry point.
 struct MotorAction : hkpMotorAction
 {
-    void FUN_00d4d860(const TimeInterval& stepInfo);
+    void hkpMotorAction_applyAction(const TimeInterval& stepInfo);
 };
 
 // @fnv 0x00d4d860
-void MotorAction::FUN_00d4d860(const TimeInterval& stepInfo)
+// src: HAVOK_SRC 0x00d4d860
+void MotorAction::hkpMotorAction_applyAction(const TimeInterval& stepInfo)
 {
     if (!m_bSlotEnabled)
         return;

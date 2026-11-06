@@ -77,13 +77,14 @@ void __cdecl FUN_00d32bd0(int, int, int);
 void __cdecl FUN_00d32be0(int, int, int);
 void __cdecl FUN_00d32c00(int, int, int);
 void __cdecl FUN_00d32c20(int, int, int);
-void __cdecl FUN_00d32c40(int, int, int);
-void __cdecl FUN_00d32ae0(int, int, int);
-void __cdecl FUN_00d32b40(int, int, int);
-void __cdecl FUN_00d32ba0(int, int, int);
+void __cdecl hkConvexListAgent3_updateFilter(int, int, int);
+void __cdecl hkConvexListAgent3_calcStatistics(int, int, int);
+void __cdecl hkConvexListAgent3_warpTime(int, int, int);
+void __cdecl hkConvexListAgent3_destroy(int, int, int);
 // Installs the convex-list callbacks and marks the agent as predictive.
 // @fnv 0x00d33140
-void __cdecl FUN_00d33140(hkpCollisionDispatcher::Agent3FunctionTable& kFuncs)
+// src: HAVOK_LIB 0x00d33140
+void __cdecl hkConvexListAgent3_initAgentFunc(hkpCollisionDispatcher::Agent3FunctionTable& kFuncs)
 {
     hkpCollisionDispatcher::Agent3FunctionTable* p = &kFuncs;
     p->m_pCreateFunc = reinterpret_cast<hkAgent3::CreateFunc>(&SetFlagAndCall);
@@ -93,11 +94,11 @@ void __cdecl FUN_00d33140(hkpCollisionDispatcher::Agent3FunctionTable& kFuncs)
     p->m_pAgentFunction4 = reinterpret_cast<hkAgent3::RemovePointFunc>(&FUN_00d32be0);
     p->m_pAgentFunction5 = reinterpret_cast<hkAgent3::CommitPotentialFunc>(&FUN_00d32c00);
     p->m_pCreateZombieFunc = reinterpret_cast<hkAgent3::CreateZombieFunc>(&FUN_00d32c20);
-    p->m_pUpdateFilterFunc = reinterpret_cast<hkAgent3::UpdateFilterFunc>(&FUN_00d32c40);
-    p->m_pCalcStats = reinterpret_cast<hkAgent3::CalcStatisticsFunc>(&FUN_00d32ae0);
+    p->m_pUpdateFilterFunc = reinterpret_cast<hkAgent3::UpdateFilterFunc>(&hkConvexListAgent3_updateFilter);
+    p->m_pCalcStats = reinterpret_cast<hkAgent3::CalcStatisticsFunc>(&hkConvexListAgent3_calcStatistics);
     p->m_pAgentFunction10 = reinterpret_cast<hkAgent3::InvalidateTimFunc>(&CallIfNotFlagged);
-    p->m_pAgentFunction11 = reinterpret_cast<hkAgent3::WarpTimeFunc>(&FUN_00d32b40);
-    p->m_pAgent3DestroyFuncs = reinterpret_cast<hkAgent3::DestroyFunc>(&FUN_00d32ba0);
+    p->m_pAgentFunction11 = reinterpret_cast<hkAgent3::WarpTimeFunc>(&hkConvexListAgent3_warpTime);
+    p->m_pAgent3DestroyFuncs = reinterpret_cast<hkAgent3::DestroyFunc>(&hkConvexListAgent3_destroy);
     p->m_bIsPredictive = true;
 }
 
@@ -113,11 +114,12 @@ struct FUN_00d32ae0_agent
     virtual void f7();
 };
 
-void __cdecl FUN_00d97250(void*, void*, void*);
+void __cdecl hkpAgentMachineUtil_calc1nStatistics(void*, void*, void*);
 
 // If the flag at offset 0x0b of b is clear, calls f6 with "hkConvexListAgent3", FUN_00d97250 on b+0x10, then f7 on the agent.
 // @fnv 0x00d32ae0
-void __cdecl FUN_00d32ae0(int aiUnused, int b, int c)
+// src: HAVOK_LIB 0x00d32ae0
+void __cdecl hkConvexListAgent3_calcStatistics(int aiUnused, int b, int c)
 {
     if (reinterpret_cast<unsigned char*>(b)[0x0b] & 0x20)
         return;
@@ -125,7 +127,7 @@ void __cdecl FUN_00d32ae0(int aiUnused, int b, int c)
     FUN_00d32ae0_agent* agent = *reinterpret_cast<FUN_00d32ae0_agent**>(reinterpret_cast<char*>(&c) + 4);
 
     agent->f6("hkConvexListAgent3");
-    FUN_00d97250(reinterpret_cast<char*>(b) + 0x10, reinterpret_cast<void*>(c), agent);
+    hkpAgentMachineUtil_calc1nStatistics(reinterpret_cast<char*>(b) + 0x10, reinterpret_cast<void*>(c), agent);
     agent->f7();
 }
 
@@ -133,7 +135,8 @@ void __cdecl _FUN_00da35f0(void*, float, float, int);
 
 // If the object's byte at offset 0xb lacks flag 0x20, forwards its fields at +0x10 plus three stack arguments to _FUN_00da35f0.
 // @fnv 0x00d32b40
-void __cdecl FUN_00d32b40(int aiUnused, int aiArg1, int aiArg2)
+// src: HAVOK_LIB 0x00d32b40
+void __cdecl hkConvexListAgent3_warpTime(int aiUnused, int aiArg1, int aiArg2)
 {
     struct StackArguments
     {
@@ -215,11 +218,12 @@ struct FUN_00d33210_cls
     int unk04;
     int unk08;
     PackTarget* m_0c;
-    void FUN_00d33210();
+    void hkpMapPointsToSubShapeContactMgr_cleanup();
 };
 
 // @fnv 0x00d33210
-void FUN_00d33210_cls::FUN_00d33210()
+// src: HAVOK_LIB 0x00d33210
+void FUN_00d33210_cls::hkpMapPointsToSubShapeContactMgr_cleanup()
 {
     m_0c->v24();
 }
@@ -252,11 +256,12 @@ struct Own_d33220
     int unk04;
     int unk08;
     Sub_d33220* unk0c;
-    void FUN_00d33220(int);
+    void hkpMapPointsToSubShapeContactMgr_reserveContactPointsImpl(int);
 };
 
 // @fnv 0x00d33220
-void Own_d33220::FUN_00d33220(int a)
+// src: HAVOK_LIB 0x00d33220
+void Own_d33220::hkpMapPointsToSubShapeContactMgr_reserveContactPointsImpl(int a)
 {
     unk0c->v4(a);
 }
@@ -276,10 +281,11 @@ struct FnvCpu_FUN_00d33230_CpuOwner
     unsigned int unk04;
     unsigned int unk08;
     FnvCpu_FUN_00d33230_CpuInterface* target;
-    void FUN_00d33230(int arg0);
+    void hkpMapPointsToSubShapeContactMgr_removeContactPointImpl(int arg0);
 };
 // @fnv 0x00d33230
-void FnvCpu_FUN_00d33230_CpuOwner::FUN_00d33230(int arg0)
+// src: HAVOK_LIB 0x00d33230
+void FnvCpu_FUN_00d33230_CpuOwner::hkpMapPointsToSubShapeContactMgr_removeContactPointImpl(int arg0)
 {
     target->Invoke(arg0);
 }
@@ -304,7 +310,8 @@ struct Self
 };
 
 // @fnv 0x00d33240
-void __fastcall FUN_00d33240(Self* self, int unused, int arg)
+// src: HAVOK_LIB 0x00d33240
+void __fastcall hkpMapPointsToSubShapeContactMgr_processContactImpl(Self* self, int unused, int arg)
 {
     self->unk0c->vfn18(arg);
 }
@@ -327,10 +334,11 @@ struct FnvCpu_FUN_00d33250_CpuOwner
     unsigned int unk04;
     unsigned int unk08;
     FnvCpu_FUN_00d33250_CpuInterface* target;
-    void FUN_00d33250(int arg0);
+    void hkpMapPointsToSubShapeContactMgr_removeToiImpl(int arg0);
 };
 // @fnv 0x00d33250
-void FnvCpu_FUN_00d33250_CpuOwner::FUN_00d33250(int arg0)
+// src: HAVOK_LIB 0x00d33250
+void FnvCpu_FUN_00d33250_CpuOwner::hkpMapPointsToSubShapeContactMgr_removeToiImpl(int arg0)
 {
     target->Invoke(arg0);
 }
@@ -375,7 +383,8 @@ struct EventData
 void __cdecl FUN_00da48e0(void*, void*);
 
 // @fnv 0x00d32c40
-void __cdecl FUN_00d32c40(int aiUnused, Arg1* a1, int a2, Arg3* a3, int aiArg4, int aiArg5, int aiArg6)
+// src: HAVOK_LIB 0x00d32c40
+void __cdecl hkConvexListAgent3_updateFilter(int aiUnused, Arg1* a1, int a2, Arg3* a3, int aiArg4, int aiArg5, int aiArg6)
 {
     if (a1->flags & 0x20)
     {
@@ -505,12 +514,13 @@ void __cdecl FUN_00ec44d0(void* target, const void* input, unsigned int byteCoun
 struct Container
 {
     unsigned int tag;
-    void FUN_00d33600(void* unusedA, void* unusedB, char* source, Callback* callback);
+    void hkpProcessCollisionOutputBackup_rollbackOutput(void* unusedA, void* unusedB, char* source, Callback* callback);
 };
 
 // Compares the source's time field with this object's, notifies the callback and copies the value block on change, then copies the tag and payload.
 // @fnv 0x00d33600
-void Container::FUN_00d33600(void* unusedA, void* unusedB, char* source, Callback* callback)
+// src: HAVOK_LIB 0x00d33600
+void Container::hkpProcessCollisionOutputBackup_rollbackOutput(void* unusedA, void* unusedB, char* source, Callback* callback)
 {
     float sourceTime = *reinterpret_cast<float*>(source + 0x3030);
     char* destination = reinterpret_cast<char*>(this);
@@ -548,7 +558,8 @@ void __cdecl FUN_00da42b0(int* data, void* collector, void* input, void* output)
 
 // If the ConvexListAgentRecord flag 0x20 is set, forward the call to ForwardToTarget; otherwise call FUN_00da42b0 with the shape data.
 // @fnv 0x00d32ba0
-void __cdecl FUN_00d32ba0(void* agent, ConvexListAgentRecord* shape, void* input, void* output, void* collector)
+// src: HAVOK_LIB 0x00d32ba0
+void __cdecl hkConvexListAgent3_destroy(void* agent, ConvexListAgentRecord* shape, void* input, void* output, void* collector)
 {
     if (shape->m_flags & 0x20)
     {
@@ -570,7 +581,7 @@ void __cdecl FUN_00d32bd0(int a, int b, int c)
 void __cdecl RegisterAgent3Entries(hkpCollisionDispatcher* pkDispatcher)
 {
     __declspec(align(16)) hkpCollisionDispatcher::Agent3FunctionTable kFuncs;
-    FUN_00d33140(kFuncs);
+    hkConvexListAgent3_initAgentFunc(kFuncs);
     pkDispatcher->AddEntry(&kFuncs, 0x12, 0x16);
     pkDispatcher->AddEntry(&kFuncs, 0x16, 0x16);
 }
@@ -870,7 +881,7 @@ struct FUN_00d33670
     hkContactPoint contacts[128];
     CacheState cache;
     FUN_00d33670(Output*);
-    void FUN_00d33600(hkpCdBody*, hkpCdBody*, Output*, Manager*);
+    void hkpProcessCollisionOutputBackup_rollbackOutput(hkpCdBody*, hkpCdBody*, Output*, Manager*);
 };
 
 struct CollisionResult
@@ -1002,7 +1013,7 @@ void* __cdecl FUN_00d32cd0(Context* context, int stream, Agent* agent, Collision
             FUN_00da42b0(&agent->state.cache, context->input->unk00, context->manager, output->owner);
             agent->flags |= 0x20;
             agent->state.packed = 0;
-            temporary.FUN_00d33600(context->bodyA, context->bodyB, output, context->manager);
+            temporary.hkpProcessCollisionOutputBackup_rollbackOutput(context->bodyA, context->bodyB, output, context->manager);
         }
     processStream: {
 
@@ -1111,13 +1122,14 @@ class hkpLinearCastProcessorD334
 class hkpConvexListLinearCastD334 : public hkpConvexListProcessorD333
 {
   public:
-    int FUN_00d334c0(const hkpCdBody* a1, const hkpCdBody* a2, int a3, int a4, float a5, int a6,
+    int hkpMapPointsToSubShapeContactMgr_addToiImpl(const hkpCdBody* a1, const hkpCdBody* a2, int a3, int a4, float a5, int a6,
                      hkpGskCache* a7, int a8, int a9);
 };
 
 // Resolves shape collection sub-shapes for both bodies if needed, then delegates to the linear cast processor's process method.
 // @fnv 0x00d334c0
-int hkpConvexListLinearCastD334::FUN_00d334c0(const hkpCdBody* apBodyA, const hkpCdBody* apBodyB, int a3,
+// src: HAVOK_SRC 0x00d334c0
+int hkpConvexListLinearCastD334::hkpMapPointsToSubShapeContactMgr_addToiImpl(const hkpCdBody* apBodyA, const hkpCdBody* apBodyB, int a3,
                                               int a4, float a5, int a6, hkpGskCache* apCache, int a8, int a9)
 {
     hkpCdBody wrapper2;

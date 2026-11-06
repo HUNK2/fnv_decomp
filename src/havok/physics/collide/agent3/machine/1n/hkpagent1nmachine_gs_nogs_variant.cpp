@@ -38,7 +38,7 @@
 // src/havok/physics/collide/agent3/machine/1n/hkpagent1nmachine.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent3/machine/1n/hkpagent1nmachine.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 void ProcessEntryPair();
-void FUN_00da44d0(int, int, void*);
+void hkAgent1nMachine_VisitAllAgents(int, int, void*);
 void FUN_00da48e0(int b, int a);
 typedef unsigned int BlockPoolsize_t;
 struct BlockPoolAllocator {
@@ -55,7 +55,7 @@ struct BlockPoolMemoryRouter {
     BlockPoolAllocator& heap() { return *m_pStreamAllocator; }
 };
 extern "C" BlockPoolMemoryRouter& __cdecl FUN_00c85750();
-void __cdecl FUN_00c908c0(BlockPoolAllocator* alloc, void* array, int numElements, int sizeElem);
+void __cdecl hkArrayUtil__reserve(BlockPoolAllocator* alloc, void* array, int numElements, int sizeElem);
 void __cdecl ResizeAudioStream(void* alloc, void* array, int sizeElem);
 struct BlockPoolBlock {
     int unk00;
@@ -213,7 +213,7 @@ struct CollisionAgentContext
 };
 void FUN_00da3510(AgentSectorPointerArray& agentTrack, CollisionAgentContext& input);
 typedef void (__cdecl *Da35FuncPtr)(void* entry, void* payload, float fa, float fb, void* holder);
-void __cdecl FUN_00da35f0(hkpAgent1nSector*** container, float fa, float fb, void** holder);
+void __cdecl _hkAgent1nMachine_WarpTime(hkpAgent1nSector*** container, float fa, float fb, void** holder);
 static void* __cdecl Da35Search(hkpAgent1nSector*** container, int key1, int key2, void** out)
 {
     hkpAgent1nSector** streams = *container;
@@ -289,9 +289,9 @@ __forceinline static void streamCopy(void* dst, const void* src, int count) {
         s += 4;
     } while (--count > 0);
 }
-void __cdecl FUN_00d2cc70(void*, const void*, unsigned int);
+void __cdecl hkMemUtil_memMove(void*, const void*, unsigned int);
 typedef unsigned char* (__cdecl *StreamTransform)(void*, unsigned char*, unsigned char*);
-void FUN_00da44d0(int array_arg, int header_arg, void* callback);
+void hkAgent1nMachine_VisitAllAgents(int array_arg, int header_arg, void* callback);
 
 typedef float hkReal;
 typedef unsigned char hkUchar;

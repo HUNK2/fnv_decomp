@@ -113,12 +113,13 @@ struct FUN_00ddfc30_cls
     int unk0C;
     HkDisplayConvexObj* m_pConvex;
 
-    HkDisplayConvexObj* FUN_00ddfc30(HkArrayRaw* a1);
+    HkDisplayConvexObj* hkpShapeDisplayBuilder_getCurrentRawGeometry(HkArrayRaw* a1);
 };
 
 // If m_pConvex is null, allocates a pair block and a 0x60-byte object, stores it in m_pConvex and appends it to a1's array; returns m_pConvex.
 // @fnv 0x00ddfc30
-HkDisplayConvexObj* FUN_00ddfc30_cls::FUN_00ddfc30(HkArrayRaw* apArray)
+// src: HAVOK_LIB 0x00ddfc30
+HkDisplayConvexObj* FUN_00ddfc30_cls::hkpShapeDisplayBuilder_getCurrentRawGeometry(HkArrayRaw* apArray)
 {
     int zero = 0;
     if (m_pConvex == (HkDisplayConvexObj*)zero)

@@ -88,7 +88,8 @@ __forceinline void hkTransform::setIdentity()
 }
 
 // @fnv 0x00cde9d0
-void __stdcall FUN_00cde9d0(int* apUnused, int* apiOut)
+// src: HAVOK_LIB 0x00cde9d0
+void __stdcall hkpRagdollConstraintData_getRuntimeInfo(int* apUnused, int* apiOut)
 {
     apiOut[1] = 0xc;
     apiOut[0] = 0x80;
@@ -106,12 +107,12 @@ void __thiscall hkpRagdollConstraintData::vf03(float a)
     m_kBridgeAtoms.m_kBallSocket.m_usFlags = a;
 }
 
-void* __cdecl FUN_00d21a60(void* a, int b, int c);
+void* __cdecl hkpConstraintData_getConstraintInfoUtil(void* a, int b, int c);
 
 // @fnv 0x00cde9b0
 char* hkpRagdollConstraintData::vf15(int aiIndex)
 {
-    return (char*)FUN_00d21a60(&m_kBridgeAtoms, sizeof(m_kBridgeAtoms), aiIndex);
+    return (char*)hkpConstraintData_getConstraintInfoUtil(&m_kBridgeAtoms, sizeof(m_kBridgeAtoms), aiIndex);
 }
 
 // @fnv 0x00cdf1f0

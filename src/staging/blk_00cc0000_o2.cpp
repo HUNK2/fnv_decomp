@@ -819,22 +819,24 @@ FUN_00cd7f30_class* __thiscall FUN_00cd7f30_class::FUN_00cd7f30(unsigned char fl
 }  // namespace fnv_00cd7f30
 
 struct FUN_00cdea00_cls {
-    void __thiscall FUN_00cdea00(char param_2);
+    void __thiscall hkpRagdollConstraintData_setConeLimitStabilization(char param_2);
 };
 
 // @fnv 0x00cdea00
-void __thiscall FUN_00cdea00_cls::FUN_00cdea00(char param_2)
+// src: HAVOK_LIB 0x00cdea00
+void __thiscall FUN_00cdea00_cls::hkpRagdollConstraintData_setConeLimitStabilization(char param_2)
 {
     ((char*)this)[0x116] = (param_2 != 0) * 0x38;
 }
 
 struct FUN_00cdf250_class {
     void __thiscall FUN_00cd55b0(int* a, int b);
-    void __thiscall FUN_00cdf250(int a);
+    void __thiscall hkpRagdollConstraintData_setTargetRelativeOrientationOfBodies(int a);
 };
 
 // @fnv 0x00cdf250
-void __thiscall FUN_00cdf250_class::FUN_00cdf250(int a)
+// src: HAVOK_LIB 0x00cdf250
+void __thiscall FUN_00cdf250_class::hkpRagdollConstraintData_setTargetRelativeOrientationOfBodies(int a)
 {
     ((FUN_00cdf250_class*)((char*)this + 0xb0))->FUN_00cd55b0((int*)a, (int)((char*)this + 0x20));
 }
@@ -1143,7 +1145,8 @@ void __thiscall FUN_00ccfe20_class::FUN_00ccfe20(bool a)
 }
 
 // @fnv 0x00cde9f0
-void __fastcall FUN_00cde9f0(void* self, int, float v)
+// src: HAVOK_LIB 0x00cde9f0
+void __fastcall hkpRagdollConstraintData_setMaxFrictionTorque(void* self, int, float v)
 {
     *(float*)((char*)self + 0xf8) = v;
 }
@@ -1157,7 +1160,8 @@ void __stdcall FUN_00cdea70(int param_1)
 
 void __stdcall SetContactNormal(int a, int b);
 // @fnv 0x00cdea90
-void __stdcall FUN_00cdea90(int param_1)
+// src: HAVOK_LIB 0x00cdea90
+void __stdcall hkpRagdollConstraintData_setConeMotor(int param_1)
 {
     SetContactNormal(2, param_1);
 }
@@ -2120,13 +2124,15 @@ bool* __fastcall CheckPoseTransforms(hkaPose* pose, int, bool* result)
 }
 
 // @fnv 0x00cdeab0
-void __stdcall FUN_00cdeab0(int a)
+// src: HAVOK_LIB 0x00cdeab0
+void __stdcall hkpRagdollConstraintData_setPlaneMotor(int a)
 {
     SetContactNormal(1, a);
 }
 
 // @fnv 0x00cdf270
-void __fastcall FUN_00cdf270(char* self, int, char* apMatrix)
+// src: HAVOK_LIB 0x00cdf270
+void __fastcall hkpRagdollConstraintData_getTarget(char* self, int, char* apMatrix)
 {
     ((hkMatrix3*)apMatrix)->FUN_00cd4bf0(self + 0x60, self + 0xb0);
 }
@@ -2177,7 +2183,7 @@ struct ArrayRefObject {
     void IncRefCount() { InterlockedIncrement(&refs); }
 };
 void* __cdecl FUN_00aa1070(unsigned);
-void __cdecl FUN_00aa10f0(void*);
+void __cdecl _NiFree_00aa10f0(void*);
 // 0x00cc1b40 materializes the one-byte comparison result before converting it to bool.
 struct ReferenceComparison {
     bool value;
@@ -2211,7 +2217,7 @@ void ReferenceArray::Resize(unsigned uiCapacity) {
             for (unsigned i = 0; i < used; ++i) data[i] = old[i];
             for (unsigned i = used; i < capacity; ++i) data[i] = NiPointer<ArrayRefObject>();
         } else data = 0;
-        FUN_00aa10f0(old);
+        _NiFree_00aa10f0(old);
     }
 }
 
@@ -2400,7 +2406,7 @@ struct FUN_00cc1e40_tls {
 };
 extern __declspec(thread) FUN_00cc1e40_tls g_tls_00cc1e40;
 
-void __cdecl FUN_00aa10f0(void* apMemory);
+void __cdecl _NiFree_00aa10f0(void* apMemory);
 
 struct Base_00cc1e40 {
     virtual void unk00();
@@ -2415,7 +2421,7 @@ struct Member_00cc1e40 {
     void Destroy();
     ~Member_00cc1e40() {
         void* p = m_04;
-        FUN_00aa10f0(p);
+        _NiFree_00aa10f0(p);
     }
 };
 
@@ -7491,10 +7497,11 @@ struct CpuObject {
     unsigned int unk2c;
     unsigned int unk30;
     CpuInterface* target;
-    void FUN_00cc9d70();
+    void hkpMoppBvTreeShape_getContainer();
 };
 // @fnv 0x00cc9d70
-void CpuObject::FUN_00cc9d70()
+// src: HAVOK_LIB 0x00cc9d70
+void CpuObject::hkpMoppBvTreeShape_getContainer()
 {
     target->Invoke();
 }
@@ -13128,8 +13135,8 @@ struct FNVArray {
     unsigned int m_capacityFlags;
     void __thiscall FUN_00cd1d80(void* allocator, int index, int removeCount, const int* source, int insertCount);
 };
-extern void __cdecl FUN_00c908c0(void* allocator, void* array, int newCapacity, int elementSize);
-extern void __cdecl FUN_00d2cc70(void* dest, const void* src, unsigned int byteCount);
+extern void __cdecl hkArrayUtil__reserve(void* allocator, void* array, int newCapacity, int elementSize);
+extern void __cdecl hkMemUtil_memMove(void* dest, const void* src, unsigned int byteCount);
 // @fnv 0x00cd1d80
 void FNVArray::FUN_00cd1d80(void* allocator, int index, int removeCount, const int* source, int insertCount) {
     int iNewCount = (m_iElementCount - removeCount) + insertCount;
@@ -13138,9 +13145,9 @@ void FNVArray::FUN_00cd1d80(void* allocator, int index, int removeCount, const i
     if (cnt < iNewCount) {
         cnt += cnt;
         if (iNewCount >= cnt) cnt = iNewCount;
-        FUN_00c908c0(allocator, this, cnt, 4);
+        hkArrayUtil__reserve(allocator, this, cnt, 4);
     }
-    FUN_00d2cc70(m_data + (index + insertCount), m_data + (index + removeCount), p * 4);
+    hkMemUtil_memMove(m_data + (index + insertCount), m_data + (index + removeCount), p * 4);
     int* pInsertPos = m_data + index;
     for (int i = 0; i < insertCount; ++i) pInsertPos[i] = source[i];
     m_iElementCount = iNewCount;
@@ -13664,7 +13671,7 @@ fail:
     return result;
 }
 
-void __cdecl FUN_00c908c0(void* allocator, void* array, int newCapacity, int elementSize) throw();
+void __cdecl hkArrayUtil__reserve(void* allocator, void* array, int newCapacity, int elementSize) throw();
 
 __forceinline hkMemoryRouter& __cdecl GetMemoryRouter()
 {
@@ -13682,7 +13689,7 @@ template <class T> __forceinline void hkArrayBase<T>::GrowArrayCapacity(hkMemory
     if (cap < n) {
         int cap2 = cap * 2;
         int newSize = n < cap2 ? cap2 : n;
-        FUN_00c908c0(&alloc, this, newSize, sizeof(T));
+        hkArrayUtil__reserve(&alloc, this, newSize, sizeof(T));
     }
 }
 template <class T> __forceinline void hkArrayBase<T>::_setSize(hkMemoryAllocator& alloc, int n)
@@ -13703,7 +13710,7 @@ template <class T> __forceinline void hkArrayBase<T>::_setSize(hkMemoryAllocator
 template <class T> __forceinline void hkArrayBase<T>::_reserveExactly(hkMemoryAllocator& alloc, int n)
 {
     if (getCapacity() < n) {
-        FUN_00c908c0(&alloc, this, n, sizeof(T));
+        hkArrayUtil__reserve(&alloc, this, n, sizeof(T));
     }
 }
 
@@ -13767,11 +13774,12 @@ struct FUN_00cdb2a0_cls {
     volatile unsigned int m_i34;
 
     void InitBuffers(unsigned int a1, unsigned int a2, unsigned int a3);
-    FUN_00cdb2a0_cls* FUN_00cdb2a0(unsigned int a1, unsigned int a2, unsigned int a3);
+    FUN_00cdb2a0_cls* hkaPose_hkaPose(unsigned int a1, unsigned int a2, unsigned int a3);
 };
 
 // @fnv 0x00cdb2a0
-FUN_00cdb2a0_cls* FUN_00cdb2a0_cls::FUN_00cdb2a0(unsigned int a1, unsigned int a2, unsigned int a3)
+// src: HAVOK_LIB 0x00cdb2a0
+FUN_00cdb2a0_cls* FUN_00cdb2a0_cls::hkaPose_hkaPose(unsigned int a1, unsigned int a2, unsigned int a3)
 {
     m_i00 = a2;
     m_i04 = 0;
@@ -13931,8 +13939,8 @@ struct FUN_00cde880_cls {
     void ReplaceRange(void* owner, int pos, int nRemove, const unsigned short* src, int nInsert);
 };
 
-extern "C" void __cdecl FUN_00c908c0(void* owner, FUN_00cde880_cls* buf, int newCap, int stride);
-extern "C" void __cdecl FUN_00d2cc70(void* dst, const void* src, unsigned int bytes);
+extern "C" void __cdecl hkArrayUtil__reserve(void* owner, FUN_00cde880_cls* buf, int newCap, int stride);
+extern "C" void __cdecl hkMemUtil_memMove(void* dst, const void* src, unsigned int bytes);
 
 // Grows the buffer if needed, shifts the tail right by nInsert-nRemove elements, copies nInsert elements from src at pos, and updates m_len.
 // @fnv 0x00cde880
@@ -13948,9 +13956,9 @@ void FUN_00cde880_cls::ReplaceRange(void* owner, int pos, int nRemove, const uns
         if (iNewLength >= g) {
             g = iNewLength;
         }
-        FUN_00c908c0(owner, this, g, 2);
+        hkArrayUtil__reserve(owner, this, g, 2);
     }
-    FUN_00d2cc70(m_data + pos + nInsert, m_data + pos + nRemove, (unsigned int)iTailCount * 2);
+    hkMemUtil_memMove(m_data + pos + nInsert, m_data + pos + nRemove, (unsigned int)iTailCount * 2);
     unsigned short* dst = m_data + pos;
     for (int i = 0; i < nInsert; i++) {
         dst[i] = src[i];
@@ -17355,7 +17363,7 @@ struct Defaults {
  float strength, damping, gain, recovery, maxVelocity, u14,u18,u1c,u20,u24,u28,u2c;
  Defaults() : strength(.17f),damping(0),gain(1),recovery(.6f),maxVelocity(.05f),u14(runtimeFloatSettingDefault92),u18(runtimeFloatSettingDefault506),u1c(.1f),u20(.3f),u24(.3f),u28(g_011db1d4_arg1),u2c(.1f) {}
  Defaults(int) {}
- Defaults* FUN_00cdb360();
+ Defaults* hkaKeyFrameHierarchyUtility_ControlData_ControlData();
 };
 template <class T>
 static __forceinline void Array_reserve(hkArrayBase<T>& self, S_00cc4b90_Alloc& alloc,int n);
@@ -17371,7 +17379,7 @@ static __forceinline void Array_resize(hkArrayBase<T>& self, int n,const T& valu
 
 template <class T>
 static __forceinline void Array_reserve(hkArrayBase<T>& self, S_00cc4b90_Alloc& alloc,int n)
-{ int c=self.m_iCapacityState&0x3fffffff; if(c<n) { int doubled=c*2; FUN_00c908c0(&alloc,(&self),n<doubled?doubled:n,sizeof(T)); } }
+{ int c=self.m_iCapacityState&0x3fffffff; if(c<n) { int doubled=c*2; hkArrayUtil__reserve(&alloc,(&self),n<doubled?doubled:n,sizeof(T)); } }
 
 template <class T>
 static __forceinline void Array_resizeUninitialized(hkArrayBase<T>& self, int n)
@@ -17403,7 +17411,7 @@ FUN_00cdb400::FUN_00cdb400(Binding* pBinding):u24(0),u28(0),binding(pBinding) {
  pBinding->FUN_00c90510();
  Array_resize(defaults, 1);
  Defaults temp(0);
- defaults.m_data[0]=*temp.FUN_00cdb360();
+ defaults.m_data[0]=*temp.hkaKeyFrameHierarchyUtility_ControlData_ControlData();
  int n=pBinding->boneCount;
  if(n!=pBinding->skeleton->count) {
   Array_resize(parents, n,(short)-1);
@@ -17452,11 +17460,12 @@ void* hkObjCC01::DispatchToTarget(void* pv)
 }
 
 extern "C" int __cdecl Vsnprintf(char* dst, int maxlen, const char* fmt, ...);
-extern "C" int __cdecl FUN_00cb10d0(const char* s);
+extern "C" int __cdecl hkString_strLen(const char* s);
 
-static __declspec(noinline) void FUN_00cc0080(hkStreamWriter* writer, const char* str) {
+// src: HAVOK_LIB 0x00cc0080
+static __declspec(noinline) void writeString(hkStreamWriter* writer, const char* str) {
     if (str) {
-        writer->write(str, FUN_00cb10d0(str));
+        writer->write(str, hkString_strLen(str));
     } else {
         writer->write("(null)", 6);
     }
@@ -17468,7 +17477,7 @@ hkOstream* __fastcall WriteOstreamInt64(hkOstream* self, void*, __int64 val)
 {
     int buf[0x2728 / sizeof(int)];
     Vsnprintf((char*)buf, sizeof(buf), "%I64i", val);
-    FUN_00cc0080(self->m_pStreamWriter, (char*)buf);
+    writeString(self->m_pStreamWriter, (char*)buf);
     return self;
 }
 
@@ -17562,12 +17571,13 @@ struct hkObjCC08 {
     virtual void v14();
     virtual void v18(const char* name, int value);
 
-    void FUN_00cc0820();
+    void hkResource_getContents_class_hkRootLevelContainer();
 };
 
 // Reads an int from DAT_01268b08 and passes it with the string from FUN_00d47f90()->FUN_00d46d40() to v18.
 // @fnv 0x00cc0820
-void hkObjCC08::FUN_00cc0820()
+// src: HAVOK_LIB 0x00cc0820
+void hkObjCC08::hkResource_getContents_class_hkRootLevelContainer()
 {
     int value = DAT_01268b08->v0C();
     v18(FUN_00d47f90()->FUN_00d46d40(), value);
@@ -17962,7 +17972,7 @@ void Cls00ccf5a0::FUN_00ccf5a0(int a) {
     FUN_00c84cc0(a);
 }
 
-void __cdecl FUN_00c908c0(void* alloc, void* arr, int cap, int elemSize);
+void __cdecl hkArrayUtil__reserve(void* alloc, void* arr, int cap, int elemSize);
 struct FE50Router { int m0, m4, m8, mc; void* m10; };
 struct FE50Iter {
     virtual void v00();
@@ -18190,11 +18200,12 @@ struct FUN_00cd29f0_cls {
     int unk80;
     int unk84;
     unsigned int unk88;
-    void __thiscall FUN_00cd29f0(unsigned int v);
+    void __thiscall hkpWorldObject_setTreeData(unsigned int v);
 };
 
 // @fnv 0x00cd29f0
-void __thiscall FUN_00cd29f0_cls::FUN_00cd29f0(unsigned int v)
+// src: HAVOK_LIB 0x00cd29f0
+void __thiscall FUN_00cd29f0_cls::hkpWorldObject_setTreeData(unsigned int v)
 {
     unk88 = v;
 }
@@ -18318,7 +18329,7 @@ void* FUN_00cdb3c0_class::FUN_00cdb3c0()
 extern "C" void* __cdecl fnv_zlib_memset(void* dest, int val, unsigned int count) throw();
 
 void __cdecl ResizeAudioStream(void* allocator, void* array, int elementSize) throw();
-void __cdecl FUN_00c908c0(void* allocator, void* array, int newCapacity, int elementSize) throw();
+void __cdecl hkArrayUtil__reserve(void* allocator, void* array, int newCapacity, int elementSize) throw();
 template <typename T> inline void ConstructWithCopy(T* p, int n, const T& t) { for (int i = 0; i < n; i++) p[i] = t; }
 
 template <class T>
@@ -18340,7 +18351,7 @@ static __forceinline void MyArray_GrowArrayCapacity(hkArrayBase<T>& self, hkMemo
         if (cap < n) {
             int cap2 = cap * 2;
             int newCap = n < cap2 ? cap2 : n;
-            FUN_00c908c0(alloc, (&self), newCap, sizeof(T));
+            hkArrayUtil__reserve(alloc, (&self), newCap, sizeof(T));
         }
     }
 
@@ -18514,26 +18525,27 @@ struct CC0280Stream {
     virtual void Write(const char* str, int len);
 };
 
-int FUN_00cb10d0(int);
+int hkString_strLen(int);
 
-static void __declspec(noinline) FUN_00cc0080(CC0280Stream* s, const char* str)
+// src: HAVOK_LIB 0x00cc0080
+static void __declspec(noinline) writeString(CC0280Stream* s, const char* str)
 {
     if (str == 0) {
         s->Write("(null)", 6);
         return;
     }
-    s->Write(str, FUN_00cb10d0((int)str));
+    s->Write(str, hkString_strLen((int)str));
 }
 
 // Writes the string "true" or "false" to the underlying stream based on the input boolean value and returns this.
 // @fnv 0x00cc0170
 hkOstream* __fastcall WriteOstreamBool(hkOstream* self, void*, bool abValue)
 {
-    FUN_00cc0080((CC0280Stream*)self->m_pStreamWriter, abValue ? "true" : "false");
+    writeString((CC0280Stream*)self->m_pStreamWriter, abValue ? "true" : "false");
     return self;
 }
 
-int __cdecl FUN_00cb10d0(int);
+int __cdecl hkString_strLen(int);
 int __cdecl Vsnprintf(char*, unsigned int, const char*, ...);
 
 struct WriterObj {
@@ -18544,12 +18556,13 @@ struct WriterObj {
     virtual void Write(const char* s, int len);
 };
 
-static __declspec(noinline) void FUN_00cc0080(WriterObj* obj, const char* str)
+// src: HAVOK_LIB 0x00cc0080
+static __declspec(noinline) void writeString(WriterObj* obj, const char* str)
 {
     if (!str)
         obj->Write("(null)", 6);
     else
-        obj->Write(str, FUN_00cb10d0((int)str));
+        obj->Write(str, hkString_strLen((int)str));
 }
 
 // Formats the short parameter v as a decimal integer into a local buffer and writes it to m_obj via FUN_00cc0080, returning this.
@@ -18558,7 +18571,7 @@ hkOstream* __fastcall WriteOstreamShort(hkOstream* self, void*, short asValue)
 {
     int buf[2506];
     Vsnprintf((char*)buf, 0x2728, "%i", asValue);
-    FUN_00cc0080(reinterpret_cast<WriterObj*>(self->m_pStreamWriter), (char*)buf);
+    writeString(reinterpret_cast<WriterObj*>(self->m_pStreamWriter), (char*)buf);
     return self;
 }
 
@@ -18580,7 +18593,7 @@ return self;
 }
 
 struct S00cc0850_Entry {
-    void* __thiscall FUN_00cc0820();
+    void* __thiscall hkResource_getContents_class_hkRootLevelContainer();
 };
 
 struct S00cc0850_Registry {
@@ -18599,7 +18612,8 @@ extern const char str_010c93c0[];
 
 // Looks up a key, then two named entries, on an object obtained from owner; on success stores that object in result and returns the found item, else 0.
 // @fnv 0x00cc0850
-int __cdecl FUN_00cc0850(int owner, int* apEntry)
+// src: HAVOK_LIB 0x00cc0850
+int __cdecl hkpHavokSnapshot_load(int owner, int* apEntry)
 {
     if (owner == 0 || apEntry == 0)
         return 0;
@@ -18607,7 +18621,7 @@ int __cdecl FUN_00cc0850(int owner, int* apEntry)
     void* entry = FUN_00d48d30(owner, 0, 0);
     if (entry != 0) {
         S00cc0850_Slot* slot = reinterpret_cast<S00cc0850_Slot*>(
-            reinterpret_cast<S00cc0850_Entry*>(entry)->FUN_00cc0820());
+            reinterpret_cast<S00cc0850_Entry*>(entry)->hkResource_getContents_class_hkRootLevelContainer());
         if (slot != 0) {
             void* key = reinterpret_cast<S00cc0850_Registry*>(&DAT_01268b9c)->FUN_00d46d40(0);
             void* found = slot->FindByName(key);
@@ -19018,12 +19032,13 @@ public:
     float m_24;
     float m_28;
     float m_2c;
-    FUN_00cdb360_cls* FUN_00cdb360();
+    FUN_00cdb360_cls* hkaKeyFrameHierarchyUtility_ControlData_ControlData();
 };
 
 // Sets the twelve float fields to fixed constants and returns this.
 // @fnv 0x00cdb360
-FUN_00cdb360_cls* FUN_00cdb360_cls::FUN_00cdb360()
+// src: HAVOK_LIB 0x00cdb360
+FUN_00cdb360_cls* FUN_00cdb360_cls::hkaKeyFrameHierarchyUtility_ControlData_ControlData()
 {
     m_00 = 0.17f;
     m_04 = 0.0f;
@@ -19056,7 +19071,7 @@ hkOstream* __fastcall WriteOstreamUInt16(hkOstream* self, void*, unsigned short 
 {
 	CcScratchBuf buffer;
 	Vsnprintf((char*)&buffer, 10024, "%u", w);
-	FUN_00cc0080(self->m_pStreamWriter, (const char*)&buffer);
+	writeString(self->m_pStreamWriter, (const char*)&buffer);
 	return self;
 }
 
@@ -19066,7 +19081,7 @@ extern const char str_01094cf0[];
 hkOstream& hkOstream::WriteFloat(float value) throw() {
     int buf[2506];
     Vsnprintf((char*)buf, 0x2728, str_01094cf0, value);
-    FUN_00cc0080(m_pStreamWriter, (const char*)buf);
+    writeString(m_pStreamWriter, (const char*)buf);
     return *this;
 }
 
@@ -19078,13 +19093,14 @@ hkOstream* __fastcall WriteOstreamUInt64(hkOstream* self, void*, unsigned __int6
 {
     int buf[0x9ca];
     Vsnprintf((char*)buf, 0x2728, str_010c9328, v);
-    FUN_00cc0080(self->m_pStreamWriter, (const char*)buf);
+    writeString(self->m_pStreamWriter, (const char*)buf);
     return self;
 }
 
 struct T { char pad[0x20]; unsigned short m_20; };
 // @fnv 0x00cc0e00
-static __declspec(noinline) T* FUN_00cc0e00(T* a, T* b)
+// src: HAVOK_LIB 0x00cc0e00
+static __declspec(noinline) T* getAnyNonFixedIsland(T* a, T* b)
 {
     T* r = a;
     if (a->m_20 == 0xffff && b->m_20 != 0xffff)
@@ -19092,7 +19108,7 @@ static __declspec(noinline) T* FUN_00cc0e00(T* a, T* b)
     return r;
 }
 T* volatile g_a; T* volatile g_b; T* volatile g_sink;
-void caller() { g_sink = FUN_00cc0e00(g_a, g_b); }
+void caller() { g_sink = getAnyNonFixedIsland(g_a, g_b); }
 
 extern int DAT_010c93fc;
 
@@ -21408,12 +21424,13 @@ public:
     CdfSubObject m_12b; // +0x12b
     float m_12c; // +0x12c
 
-    CdfObject* FUN_00cdf460();
+    CdfObject* hkpRagdollConstraintData_Atoms_Atoms();
 };
 
 // Sets fixed initial values in several fields, initializes m_12b via FUN_00ca9360 with 1.0f, and returns this.
 // @fnv 0x00cdf460
-CdfObject* CdfObject::FUN_00cdf460()
+// src: HAVOK_LIB 0x00cdf460
+CdfObject* CdfObject::hkpRagdollConstraintData_Atoms_Atoms()
 {
     float one = 1.0f;
     m_00 = 2;
@@ -21974,13 +21991,14 @@ struct FUN_00cdfe00_Object {
     virtual int* vf40();
 };
 
-void __cdecl FUN_00d27690(int* a, FUN_00cdfe00_Object* b, int c);
+void __cdecl hkpWorldConstraintUtil_removeAndDeleteModifier(int* a, FUN_00cdfe00_Object* b, int c);
 
 typedef void* (__stdcall *TlsGetValueFunc)(int);
 
 // If vf40 returns non-null, calls vf18 on param2, logs a TtClrSurfVel TLS entry, calls FUN_00d27690(result, param2, 0x1a), then logs an Et entry.
 // @fnv 0x00cdfe00
-void FUN_00cdfe00(FUN_00cdfe00_Object* param1, FUN_00cdfe00_Object* param2) {
+// src: HAVOK_LIB 0x00cdfe00
+void hkpResponseModifier_clearSurfaceVelocity(FUN_00cdfe00_Object* param1, FUN_00cdfe00_Object* param2) {
     int* result = param1->vf40();
     if (result != 0) {
         param2->vf18();
@@ -21997,7 +22015,7 @@ void FUN_00cdfe00(FUN_00cdfe00_Object* param1, FUN_00cdfe00_Object* param2) {
             *reinterpret_cast<char**>(pTlsBuffer + 4) = entry + 12;
         }
 
-        FUN_00d27690(result, param2, 0x1a);
+        hkpWorldConstraintUtil_removeAndDeleteModifier(result, param2, 0x1a);
 
         pTlsBuffer = reinterpret_cast<char*>(getTls(DAT_0126835c));
         entry = *reinterpret_cast<char**>(pTlsBuffer + 4);
@@ -22068,8 +22086,8 @@ struct RagdollConstraintData {
     float planeMin;
     float planeMax;
     void FUN_00cdea70(hkReferencedObject*);
-    void FUN_00cdeab0(hkReferencedObject*);
-    void FUN_00cdea90(hkReferencedObject*);
+    void hkpRagdollConstraintData_setPlaneMotor(hkReferencedObject*);
+    void hkpRagdollConstraintData_setConeMotor(hkReferencedObject*);
 };
 
 struct FUN_00d53200_class {
@@ -22129,8 +22147,8 @@ void FUN_00d53200_class::FUN_00cc6b80(NiStream& stream)
     if (StreamField<unsigned int>(stream, 4) > 29) {
         hkReferencedObject* object = FUN_00c8a330(stream);
         constraint->FUN_00cdea70(object);
-        constraint->FUN_00cdeab0(object);
-        constraint->FUN_00cdea90(object);
+        constraint->hkpRagdollConstraintData_setPlaneMotor(object);
+        constraint->hkpRagdollConstraintData_setConeMotor(object);
         if (object) {
             InputStream(stream)->BinaryRead(static_cast<void*>(&constraint->enabled),1);
             object->removeReference();
@@ -24192,12 +24210,13 @@ struct S00cd8920_Obj {
     float unk70;
     bool unk74;
 
-    S00cd8920_Obj* FUN_00cd8920();
+    S00cd8920_Obj* hkaFootPlacementIkSolver_Setup_Setup();
 };
 
 // Initializes the object: null pointer, shorts set to -1, four vectors copied from one global, floats set to fixed defaults, flag cleared; returns this.
 // @fnv 0x00cd8920
-S00cd8920_Obj* S00cd8920_Obj::FUN_00cd8920()
+// src: HAVOK_LIB 0x00cd8920
+S00cd8920_Obj* S00cd8920_Obj::hkaFootPlacementIkSolver_Setup_Setup()
 {
     unk00 = 0;
     unk04a = -1;
@@ -24386,16 +24405,17 @@ struct ConstraintRecord {
     }
 };
 void* __cdecl FindModifierConstraintAtom(void*, int);
-void __cdecl FUN_00d27960(void*, ConstraintInput*, ConstraintRecord*);
+void __cdecl hkpWorldConstraintUtil_addModifier(void*, ConstraintInput*, ConstraintRecord*);
 
 // Disables the input, records a timer event, and if no ConstraintRecord exists on owner, allocates one and links it via FUN_00d27960.
 // @fnv 0x00cdff60
-void __cdecl FUN_00cdff60(void* owner, ConstraintInput* input) {
+// src: HAVOK_LIB 0x00cdff60
+void __cdecl hkpResponseModifier_disableConstraint(void* owner, ConstraintInput* input) {
     input->disable();
     static_cast<TimerBuffer*>(TlsGetValue(DAT_0126835c))->emit("TtDsblConstr");
     if (!FindModifierConstraintAtom(owner, 27)) {
         ConstraintRecord* record = new ConstraintRecord;
-        FUN_00d27960(owner, input, record);
+        hkpWorldConstraintUtil_addModifier(owner, input, record);
     }
     static_cast<TimerBuffer*>(TlsGetValue(DAT_0126835c))->emit("Et");
 }
@@ -24577,7 +24597,8 @@ void* __cdecl FindModifierConstraintAtom(void* p, int type);
 
 // Disables a4, then sets two floats on p's type 0x17 record, creating and registering one via FUN_00d27960 if absent; brackets work with profiler marks.
 // @fnv 0x00cdfbd0
-void __cdecl FUN_00cdfbd0(FUN_00cdfe00_Object* a1, int aiUnk2, int aiUnk3, ConstraintInput* apConstraintInput, float afValue20, float afValue24)
+// src: HAVOK_LIB 0x00cdfbd0
+void __cdecl hkpResponseModifier_setImpulseScalingForContact(FUN_00cdfe00_Object* a1, int aiUnk2, int aiUnk3, ConstraintInput* apConstraintInput, float afValue20, float afValue24)
 {
     volatile unsigned long tick;
     void* p = a1->vf40();
@@ -24623,7 +24644,7 @@ void __cdecl FUN_00cdfbd0(FUN_00cdfe00_Object* a1, int aiUnk2, int aiUnk3, Const
         }
         rec->m_fValue20 = afValue20;
         rec->m_fValue24 = afValue24;
-        FUN_00d27960(p, apConstraintInput, (ConstraintRecord*)rec);
+        hkpWorldConstraintUtil_addModifier(p, apConstraintInput, (ConstraintRecord*)rec);
     }
 
     pBuf = (hkMonitorStream*)pfnTls(DAT_0126835c);
@@ -24640,7 +24661,8 @@ void __cdecl FUN_00cdfbd0(FUN_00cdfe00_Object* a1, int aiUnk2, int aiUnk3, Const
 
 // If vf40 returns a handle, disables pObj and, when h has no atom of type 0x19, allocates one and passes it to FUN_00d27960.
 // @fnv 0x00cdfe90
-void __cdecl FUN_00cdfe90(FUN_00cdfe00_Object* pNode, ConstraintInput* pObj)
+// src: HAVOK_LIB 0x00cdfe90
+void __cdecl hkpResponseModifier_setLowSurfaceViscosity(FUN_00cdfe00_Object* pNode, ConstraintInput* pObj)
 {
     volatile unsigned long ticks;
     void* h = pNode->vf40();
@@ -24668,7 +24690,7 @@ void __cdecl FUN_00cdfe90(FUN_00cdfe00_Object* pNode, ConstraintInput* pObj)
             }
             else
                 m = 0;
-            FUN_00d27960(h, pObj, m);
+            hkpWorldConstraintUtil_addModifier(h, pObj, m);
         }
         pBuf = (hkMonitorStream*)pfnTls(DAT_0126835c);
         if (pBuf->m_end.m_storage < pBuf->m_capacityMinus16.m_storage)
@@ -24686,7 +24708,7 @@ void __cdecl FUN_00cdfe90(FUN_00cdfe00_Object* pNode, ConstraintInput* pObj)
 #include <xmmintrin.h>
 namespace CE6Memory {
 S_00cc4b90_Router* FUN_00c85750();
-void __cdecl FUN_00c908c0(void*, void*, int, int);
+void __cdecl hkArrayUtil__reserve(void*, void*, int, int);
 }
 
 struct CE6Heap {
@@ -24699,7 +24721,7 @@ struct CE6Array {
  CE6Array():data(0),size(0),capacity(0x80000000) {}
  ~CE6Array() { clear(CE6Memory::FUN_00c85750()->heap()); }
  void clear(S_00cc4b90_Alloc& alloc) { size=0; if(!(capacity&0x80000000)) reinterpret_cast<CE6Heap&>(alloc).Free(data,(capacity&0x3fffffff)*sizeof(hkVector4)); data=0;capacity=0x80000000; }
- void reserve(S_00cc4b90_Alloc& heap,int n) { int cap=capacity&0x3fffffff; if(cap<n) { int doubled=cap*2; CE6Memory::FUN_00c908c0(&heap,this,n<doubled?doubled:n,sizeof(hkVector4)); } }
+ void reserve(S_00cc4b90_Alloc& heap,int n) { int cap=capacity&0x3fffffff; if(cap<n) { int doubled=cap*2; CE6Memory::hkArrayUtil__reserve(&heap,this,n<doubled?doubled:n,sizeof(hkVector4)); } }
  void resize(int n) { reserve(CE6Memory::FUN_00c85750()->heap(),n); size=n; }
 };
 struct CE6Hull { CE6Array a,b; ~CE6Hull(); };

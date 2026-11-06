@@ -20,7 +20,7 @@ struct FloatLess
 {
 	bool operator()(const float& a, const float& b) const { return a < b; }
 };
-void __cdecl FUN_00e50f10(float* pArr, int d, int h, FloatLess cmpLess);
+void __cdecl hkAlgorithm_quickSortRecursive_float_class_hkAlgorithm_less_float(float* pArr, int d, int h, FloatLess cmpLess);
 extern "C" LocalM128 _mm_sub_ps(LocalM128, LocalM128);
 extern "C" LocalM128 _mm_mul_ps(LocalM128, LocalM128);
 extern "C" LocalM128 _mm_add_ss(LocalM128, LocalM128);
@@ -62,20 +62,21 @@ struct LocalObj {
     int m_unk19;
     char* SetupAndProcessShape(char* buf, void* a1, int a2, int a3, int a4);
 };
-int __cdecl FUN_00e5cf00(void* a1, int a2, int a3, int a4);
+int __cdecl _hkMoppEarlyExitObbVirtualMachine_queryObb(void* a1, int a2, int a3, int a4);
 struct __declspec(align(16)) Vec4E5 { float x, y, z, w; };
-struct TmpE5CF40 { Vec4E5 a, b; void FUN_00e64f00(int a, int b, int c); };
-void __cdecl FUN_00e5cf40(int a, int b, int c);
+struct TmpE5CF40 { Vec4E5 a, b; void hkpMoppSphereVirtualMachine_querySphere(int a, int b, int c); };
+void __cdecl _hkMoppSphereVirtualMachine_querySphere(int a, int b, int c);
 struct __declspec(align(16)) FUN_00e5d010_Block {
     unsigned int unk00,unk04,unk08,unk0c,unk10,unk14,unk18,unk1c;
     unsigned int unk20,unk24,unk28,unk2c,unk30,unk34,unk38,unk3c;
-    void __thiscall FUN_00dd1da0(int first,int second,int third);
+    void __thiscall hkpMoppObbVirtualMachine_queryAabb(int first,int second,int third);
 };
 // @fnv 0x00e5d010
-extern "C" void __cdecl FUN_00e5d010(int first,int second,int third)
+// src: HAVOK_LIB 0x00e5d010
+extern "C" void __cdecl _hkMoppObbVirtualMachine_queryAabb(int first,int second,int third)
 {
     FUN_00e5d010_Block instance;
-    instance.FUN_00dd1da0(first,second,third);
+    instance.hkpMoppObbVirtualMachine_queryAabb(first,second,third);
 }
 #include <math.h>
 extern "C" LocalM128 _mm_xor_ps(LocalM128,LocalM128);
@@ -146,7 +147,7 @@ struct ErrorReporter {
 };
 extern int DAT_01268360;
 struct Query {
-  void FUN_00e65ee0(P1*, unsigned char*);
+  void queryOnTree(P1*, unsigned char*);
   __forceinline int classify(P1* state, unsigned char* stream, int offset, F8* bounds) {
     float r2 = center[3] * center[3];
     V4 sum, extent, outside;
@@ -160,7 +161,7 @@ struct Query {
     if(near2>r2) return 0;
     extent.add(sum);
     float far2=extent.lengthSquared3();
-    if(far2<r2){FUN_00e65ee0(state,stream+offset);return 1;}
+    if(far2<r2){queryOnTree(state,stream+offset);return 1;}
     return 2;
   }
   __forceinline int classifyLocal(P1* state, unsigned char* stream, int offset, F8* bounds) {
@@ -176,7 +177,7 @@ struct Query {
     if(near2>r2) return 0;
     extent.add(sum);
     float far2=extent.lengthSquared3();
-    if(far2<r2){FUN_00e65ee0(state,stream+offset);return 1;}
+    if(far2<r2){queryOnTree(state,stream+offset);return 1;}
     return 2;
   }
   hkArray<int>* results; int unk24; int unk28; int unk2c;
@@ -265,8 +266,8 @@ struct CullMachine {
     int unk00; int unk04; int unk08; int unk0C; int count; int unk14; int unk18; int unk1C;
     PlanePacket planes[8];
     PlanePacket absolutePlanes[8];
-    void FUN_00e66600(DecodeState*, const unsigned char*);
-    void FUN_00e66290(DecodeState*, const unsigned char*);
+    void hkpMoppFindAllVirtualMachine_queryOnTreeLeft(DecodeState*, const unsigned char*);
+    void hkpMoppFindAllVirtualMachine_queryOnTreeRight(DecodeState*, const unsigned char*);
     __forceinline int classify(DecodeState* state, const unsigned char* code, const BoundsPair& bounds) {
         int allInside = 15;
         const PlanePacket* p=planes;
@@ -286,8 +287,8 @@ struct CullMachine {
             allInside &= _mm_movemask_ps(_mm_cmplt_ps(_mm_add_ps(distance,radius),_mm_setzero_ps()));
         }
         if (allInside == 15) {
-            FUN_00e66600(state,code);
-            FUN_00e66290(state,code);
+            hkpMoppFindAllVirtualMachine_queryOnTreeLeft(state,code);
+            hkpMoppFindAllVirtualMachine_queryOnTreeRight(state,code);
             return 1;
         }
         return 2;
@@ -314,8 +315,8 @@ struct CullMachine {
             allInside &= _mm_movemask_ps(_mm_cmplt_ps(_mm_add_ps(distance,radius),_mm_setzero_ps()));
         }
         if (allInside == 15) {
-            FUN_00e66600(state,code);
-            FUN_00e66290(state,code);
+            hkpMoppFindAllVirtualMachine_queryOnTreeLeft(state,code);
+            hkpMoppFindAllVirtualMachine_queryOnTreeRight(state,code);
             return 1;
         }
         return 2;

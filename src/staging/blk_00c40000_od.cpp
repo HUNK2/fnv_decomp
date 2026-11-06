@@ -94,14 +94,14 @@ int __thiscall FUN_00c430a0_class::FUN_00c430a0(int)
 }
 
 struct FUN_00c430b0_class {
-    void __thiscall FUN_00a99c40(int a1, int a2);
+    void __thiscall NiIntegerExtraData_CopyMembers(int a1, int a2);
     void __thiscall FUN_00c430b0(int a1, int a2);
 };
 
 // @fnv 0x00c430b0
 void __thiscall FUN_00c430b0_class::FUN_00c430b0(int a1, int a2)
 {
-    FUN_00a99c40(a1, a2);
+    NiIntegerExtraData_CopyMembers(a1, a2);
 }
 
 struct NiStream;
@@ -5271,7 +5271,7 @@ public:
     unsigned int unk44, unk48, unk4C, unk50, unk54, unk58, unk5C, unk60;
     unsigned int unk64, unk68, unk6C, unk70, unk74;
     FUN_00c4b470_owner* unk78;
-    FUN_00c4b470_owner* FUN_00a5c570(void* p);
+    FUN_00c4b470_owner* NiObjectNET_GetController(void* p);
 };
 
 extern char DAT_011f36ac;
@@ -5288,7 +5288,7 @@ int __cdecl FUN_00c4b470(FUN_00c4b470_owner* pOwner, void** a2, unsigned char bF
     if (pOwner == 0 || (cur = *a2) == 0) {
         return 0;
     }
-    node7 = pOwner->FUN_00a5c570(&DAT_011f36ac);
+    node7 = pOwner->NiObjectNET_GetController(&DAT_011f36ac);
     if (node7 != 0) {
         m78 = node7->unk78;
         obj = m78;
@@ -9462,7 +9462,7 @@ void Node47250::FUN_00c47250() {
             if (local167) {
                 if (local167->m_20 && (local35 = local167->m_20->m_fRadius) != 0.0 ? 1 : 0) {
                     local14 = local167->m_20 ? local167->m_20 : &DAT_011f4288;
-                    m_20->FUN_00a7f3f0(local14);
+                    m_20->NiBound_Merge(local14);
                 }
             }
         }

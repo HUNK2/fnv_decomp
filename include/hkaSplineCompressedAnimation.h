@@ -76,7 +76,7 @@ public:
                          hkUint8& quantizedTimeOut) const throw();
     __declspec(noalias) void GetBlockAndTime(hkUint32 frame, hkReal delta, hkUint32& blockOut,
                                              hkReal& blockTimeOut, hkUint8& quantizedTimeOut) const;
-    __declspec(noalias) void FUN_00e2f7c0(hkReal time, hkUint32& frameOut, hkReal& deltaOut) const;
+    __declspec(noalias) void hkaAnimation_getFrameAndDelta(hkReal time, hkUint32& frameOut, hkReal& deltaOut) const;
     void EvaluateSpline(hkReal blockTime, hkUint8 quantizedTime, hkUint8 mask, int quantization,
                         const hkUint8*& dataInOut, hkVector4& out) const;
     void ExtractFrame(hkReal blockTime, hkUint8 quantizedTime, hkUint8 mask, int quantization,
@@ -87,12 +87,12 @@ public:
                       const hkUint8*& dataInOut, hkVector4& out) const;
     void FUN_00e33f10(hkReal blockTime, hkUint8 quantizedTime, hkUint8 mask, int quantization,
                       const hkUint8*& dataInOut, hkReal& out) const;
-    void FUN_00e34310(hkReal time, const hkInt16* tracks, hkUint32 numTracks,
+    void sampleIndividualTransformTracks(hkReal time, const hkInt16* tracks, hkUint32 numTracks,
                       hkQsTransform* transformTracksOut) const;
-    void FUN_00e34490(hkReal time, const hkInt16* tracks, hkUint32 numTracks,
+    void sampleIndividualFloatTracks(hkReal time, const hkInt16* tracks, hkUint32 numTracks,
                       hkReal* floatTracksOut) const;
 
-    int FUN_00e33330() const;
+    int getSizeInBytes() const;
     void AppendScaledValues(int n, int degree, const hkArray<hkReal>& knots);
     void AppendScaledValues(int n, int degree, hkArray<hkReal>& knots);
     void FUN_00e319e0(hkUint8 mask, RotationQuantization quantization,
@@ -107,13 +107,13 @@ public:
     static hkVector4 FUN_00e31410(const hkArray<hkVector4>& data);
     static hkVector4 FUN_00e31470(const hkArray<hkVector4>& data);
     static hkVector4 FUN_00e314c0(const hkArray<hkVector4>& data);
-    static hkUint8 FUN_00e311f0(const hkVector4& mean, const hkVector4& minValue,
+    static hkUint8 hkaSplineCompressedAnimation_isStatic(const hkVector4& mean, const hkVector4& minValue,
                                const hkVector4& maxValue, hkReal tolerance, const hkVector4& identity);
     static hkUint8 PackBitFields(ScalarQuantization translation, RotationQuantization rotation,
                                 ScalarQuantization scale);
-    static hkUint8 FUN_00e30f40(hkUint8 mask, ScalarQuantization quantization);
-    static void FUN_00e31800(int n, hkArray<hkUint8>& out);
-    static void FUN_00e31850(int alignment, hkArray<hkUint8>& out);
+    static hkUint8 hkaSplineCompressedAnimation_packMaskAndQuantizationType(hkUint8 mask, ScalarQuantization quantization);
+    static void hkaSplineCompressedAnimation_writeZeros(int n, hkArray<hkUint8>& out);
+    static void hkaSplineCompressedAnimation_writeAlign(int alignment, hkArray<hkUint8>& out);
     static void FillInterpolatedValues(int n, hkArray<hkReal>& values, hkReal first, hkReal last);
     static void FUN_00e310c0(const hkQsTransform* transforms, int numTracks, int numFrames,
                              int first, int track, hkArray<hkVector4>& translation,

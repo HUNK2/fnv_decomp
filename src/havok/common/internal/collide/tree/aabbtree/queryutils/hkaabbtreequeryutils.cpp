@@ -331,7 +331,7 @@ extern "C" void* __cdecl FUN_00d1d240(void* apOwner, int apQueryBox, int apVisit
 }
 
 namespace fnv_00d1d5a0 {
-void __cdecl FUN_00c908c0(hkMemoryAllocator* alloc, void* array, int reqCapacity, int elemSize);
+void __cdecl hkArrayUtil__reserve(hkMemoryAllocator* alloc, void* array, int reqCapacity, int elemSize);
 
 static __forceinline bool treeBoundsOverlap(const hkAabb& bounds, const hkAabb& other)
 {
@@ -397,7 +397,7 @@ struct TreePairStack
         {
             int cap2 = 2 * cap;
             int newSize = (n < cap2) ? cap2 : n;
-            FUN_00c908c0(&alloc, this, newSize, sizeof(TreePair));
+            hkArrayUtil__reserve(&alloc, this, newSize, sizeof(TreePair));
         }
     }
     __forceinline void SetSizeAndGrow(int n)
@@ -1808,7 +1808,7 @@ struct RayCastRequest
 extern int DAT_011b3830[5];
 extern void* DAT_0126ec04;
 void FUN_00e2b9b0();
-void __cdecl FUN_00e2baa0(hkCpuWorldRayCastCollector* collector, const RayCastRequest* command,
+void __cdecl setCollector(hkCpuWorldRayCastCollector* collector, const RayCastRequest* command,
                           const void* filter);
 RayQuerySet __cdecl FUN_00e2baf0(const hkVector4& s0, const hkVector4& e0, const hkVector4& s1, const hkVector4& e1,
                                  const hkVector4& s2, const hkVector4& e2, const hkVector4& s3, const hkVector4& e3,
@@ -1850,7 +1850,7 @@ void __cdecl FUN_00e2bbd0(const FilterRays_Tree* tree, const FilterRays_Node* no
             FilterRays_filterSetAll(earlyOut, 1.0f);
             if (aabb.overlapsLeaf(rays[idx], earlyOut))
             {
-                FUN_00e2baa0(collector, commandArray + idx, filter);
+                setCollector(collector, commandArray + idx, filter);
                 collector->GetHitDistance(reinterpret_cast<const hkAabbTree<hkAabbTreeData::hkAabbTreeAabb, unsigned short>::Node*>(node));
             }
         }
@@ -1899,7 +1899,7 @@ void __cdecl FUN_00e2bbd0(const FilterRays_Tree* tree, const FilterRays_Node* no
             {
                 rayIdx[j] = raysIdx[j + b * 4];
                 const RayCastRequest* command = commandArray + rayIdx[j];
-                FUN_00e2baa0(&collectors[j], command, filter);
+                setCollector(&collectors[j], command, filter);
                 FilterRays_filterSetAll(collectors[j].m_fEarlyOutHitFraction, earlyHitFractionArray[rayIdx[j]]);
                 fractions[j] = earlyHitFractionArray[rayIdx[j]];
                 if (command->m_useFilterCollector)

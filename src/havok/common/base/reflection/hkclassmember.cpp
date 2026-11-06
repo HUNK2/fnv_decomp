@@ -8,7 +8,8 @@
 
 
 // @fnv 0x00d86960
-const hkVariant* hkClassMember::FUN_00d86960(const char* name) const throw()
+// src: HAVOK_LIB 0x00d86960
+const hkVariant* hkClassMember::getAttribute_00d86960(const char* name) const throw()
 {
     if (m_pCustomAttributes)
         return m_pCustomAttributes->getAttribute(name);
@@ -27,7 +28,8 @@ int __cdecl FUN_00d86980();
 
 // Stores v into p as a char, short or int depending on the size returned by FUN_00d86980.
 // @fnv 0x00d86bc0
-void __stdcall FUN_00d86bc0(int apTarget, int aiValue)
+// src: HAVOK_LIB 0x00d86bc0
+void __stdcall hkClassMember_setEnumValue(int apTarget, int aiValue)
 {
     switch (FUN_00d86980())
     {
@@ -46,7 +48,8 @@ void __stdcall FUN_00d86bc0(int apTarget, int aiValue)
 }
 
 // @fnv 0x00d868b0
-static bool FUN_00d868b0(hkClassMember::Type aeType)
+// src: HAVOK_LIB 0x00d868b0
+static bool isSimpleType(hkClassMember::Type aeType)
 {
     return aeType >= 0 && (aeType < hkClassMember::TYPE_POINTER || aeType == hkClassMember::TYPE_VARIANT ||
                            aeType == hkClassMember::TYPE_ULONG || aeType == hkClassMember::TYPE_CSTRING ||
@@ -55,7 +58,7 @@ static bool FUN_00d868b0(hkClassMember::Type aeType)
 
 void dummy(hkClassMember::Type x)
 {
-    FUN_00d868b0(x);
+    isSimpleType(x);
 }
 
 // @fnv 0x00d86910
@@ -97,13 +100,13 @@ unsigned int __stdcall FUN_00dc1bf0(int aiArg, int pMember, int pSource, int aiU
         if (member->m_pClassEnum != 0)
         {
             int result = ((FUN_00dba990_Obj*)pSource)->FUN_00dba990();
-            ((MemberValueSetter)&FUN_00d86bc0)(member, aiArg, result);
+            ((MemberValueSetter)&hkClassMember_setEnumValue)(member, aiArg, result);
         }
         return 0;
     case 0x1f:
         if (member->m_pClassEnum != 0)
         {
-            ((MemberValueSetter)&FUN_00d86bc0)(member, aiArg, ((FUN_00dba990_Obj*)pSource)->FUN_00dba990());
+            ((MemberValueSetter)&hkClassMember_setEnumValue)(member, aiArg, ((FUN_00dba990_Obj*)pSource)->FUN_00dba990());
         }
         return 0;
     }
@@ -134,8 +137,8 @@ int __fastcall GetMemberAlignment(const hkClassMember* member)
         int structAlign = 1;
         for (int i = 0; i < GetNumMembers(member->m_class); i++)
         {
-            if (GetMemberAlignment(&member->m_class->FUN_00d46f20(i)) > structAlign)
-                structAlign = GetMemberAlignment(&member->m_class->FUN_00d46f20(i));
+            if (GetMemberAlignment(&member->m_class->getMember(i)) > structAlign)
+                structAlign = GetMemberAlignment(&member->m_class->getMember(i));
         }
         align = structAlign;
     }
@@ -165,19 +168,20 @@ struct TypeNameOutput
 {
     void FUN_00d61c10(const char*);
 };
-extern void __cdecl FUN_00d61d00(TypeNameOutput*, const char*, const char*, const char*);
+extern void __cdecl hkStringBuf_printf(TypeNameOutput*, const char*, const char*, const char*);
 // Writes the selected type name to output, calling FUN_00d61d00 with that name and detail when detail is non-null.
 // @fnv 0x00d868e0
-static __declspec(noinline) void FUN_00d868e0(TypeNameOutput* output, const char* detail, int type)
+// src: HAVOK_LIB 0x00d868e0
+static __declspec(noinline) void getSimpleTypeName(TypeNameOutput* output, const char* detail, int type)
 {
     if (!detail)
         output->FUN_00d61c10(DAT_011b6ab4[type].name);
     else
-        FUN_00d61d00(output, str_010d3a74, DAT_011b6ab4[type].name, detail);
+        hkStringBuf_printf(output, str_010d3a74, DAT_011b6ab4[type].name, detail);
 }
 void formatTypeName(TypeNameOutput* output, const char* detail, int type)
 {
-    FUN_00d868e0(output, detail, type);
+    getSimpleTypeName(output, detail, type);
 }
 
 // @fnv 0x00d86940

@@ -32,14 +32,15 @@ int __cdecl FUN_00d571b0();
 // which is hkpCylinderShape::m_fCylinderRadius in the pack's layout
 //  m_type 0xC, m_fSphereRadius 0x10, m_fCylinderRadius 0x14).
 extern char DAT_01268940[];
-void __cdecl FUN_00c90360(void* item, const char* type);
+void __cdecl hkReferencedObject_calcContentStatistics(void* item, const char* type);
 void __cdecl FUN_00d571c0(void* item, const char*);
 
 #include "fnv_asm_helpers.h"   // project x87 helpers (fnv_SinCos, fnv_FloatToInt), kept last so earlier code is unchanged
 extern char DAT_010305a8;
 extern char DAT_010d0f1c;
 extern float DAT_011b5be8;
-static __declspec(noinline) float FUN_00d571d0()
+// src: HAVOK_LIB 0x00d571d0
+static __declspec(noinline) float minValueRoundedUpTo1()
 {
     return 0.0f;
 }

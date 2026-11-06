@@ -131,15 +131,15 @@ struct FUN_00d655e0_class
 void* __cdecl FUN_00c85750();
 struct FUN_00d657d0_class
 {
-    FUN_00d657d0_class* FUN_00d657d0(int);
+    FUN_00d657d0_class* hkpShapeDisplayViewer_hkpShapeDisplayViewer(int);
 };
-void* __cdecl FUN_00d65910(void* context);
+void* __cdecl hkpShapeDisplayViewer_create(void* context);
 struct GlobalObjectO2_00d472a0
 {
 };
-extern hkProcessFactory* FUN_00dd9380;
+extern hkProcessFactory* hkProcessFactory_registerProcess;
 extern GlobalObjectO2_00d472a0 g_01268f2c;
-extern void* __cdecl FUN_00d65910(void*);
+extern void* __cdecl hkpShapeDisplayViewer_create(void*);
 void RegisterShapesProcess();
 struct Target
 {
@@ -164,7 +164,7 @@ struct FUN_00d652a0_cls
     int m_10;
     int m_14;
     int m_18;
-    void FUN_00d652a0(int arg);
+    void hkpShapeDisplayViewer_synchronizeTransforms(int arg);
 };
 extern int vftbl_010d1b04;
 extern int vftbl_010d1ae4;
@@ -307,8 +307,8 @@ struct SpawnOwner
     char** m_34;
     int m_38;
 
-    void FUN_00c93820(void* p);
-    void FUN_00c93920(void* p);
+    void hkpWorld_addEntityListener(void* p);
+    void hkpWorld_addWorldPostSimulationListener(void* p);
 };
 struct SpawnSublist
 {
@@ -357,7 +357,7 @@ struct FUN_00d64650_cls
     int m_2c;
     SpawnList m_30;
 
-    void FUN_00d64650(SpawnOwner* a1);
+    void hkpSweptTransformDisplayViewer_addWorld(SpawnOwner* a1);
 };
 extern int DAT_01268fe0;
 struct D65610Obj
@@ -376,11 +376,11 @@ struct D65610Prim
 };
 struct D65610Sec
 {
-    virtual void FUN_00d65610(D66180Entity* e);
+    virtual void hkpShapeDisplayViewer_inactiveEntityMovedCallback(D66180Entity* e);
 };
 struct D65610Self : D65610Prim, D65610Sec
 {
-    void FUN_00d65610(D66180Entity* e);
+    void hkpShapeDisplayViewer_inactiveEntityMovedCallback(D66180Entity* e);
 };
 static inline bool HasProperty(const S_00c6d840* props, int key)
 {
@@ -391,7 +391,7 @@ static inline bool HasProperty(const S_00c6d840* props, int key)
     }
     return false;
 }
-static int FUN_00d652c0(S_00c6d840* props, bool checkOverride, bool* usedDefault);
+static int _getProxyShape(S_00c6d840* props, bool checkOverride, bool* usedDefault);
 int PropertyQueryCaller(S_00c6d840* props, bool checkOverride, bool* usedDefault);
 struct ShapeList
 {
@@ -425,7 +425,7 @@ extern float DAT_01012054;
 extern int DAT_01268fe8;
 extern int DAT_01268fe4;
 void* __cdecl FUN_00c85750();
-int __cdecl FUN_00cb0fa0(const char* name, void* obj);
+int __cdecl hkString_strCmp(const char* name, void* obj);
 struct FUN_00d657d0_cls
 {
     void* m_vptr00;
@@ -458,7 +458,7 @@ struct FUN_00d657d0_cls
     int m_70;
 
     void FUN_00ddccb0(ShapeList* a1);
-    FUN_00d657d0_cls* FUN_00d657d0(ShapeList* a1);
+    FUN_00d657d0_cls* hkpShapeDisplayViewer_hkpShapeDisplayViewer(ShapeList* a1);
 };
 inline hkMemoryAllocator& getMemory_d65f()
 {
@@ -471,7 +471,7 @@ struct Watch2_d65f
 };
 struct Agent_d65f
 {
-    void FUN_00c917a0(Listener_d65f* listener);
+    void hkpWorld_removeEntityListener(Listener_d65f* listener);
     void ClearValue(Watch2_d65f* watch);
 };
 struct Node_d65f
@@ -499,7 +499,7 @@ struct Watch_d65f
 struct Phantom_d65f : Base_d65f, Listener_d65f, Watch2_d65f
 {
     hkArray<Node_d65f*> m_kNodeCollection;
-    void FUN_00d65750(int index);
+    void hkpShapeDisplayViewer_removeAllGeometries(int index);
     void FUN_00d65fc0(int index);
 };
 extern "C" void _ReadWriteBarrier(void);
@@ -545,7 +545,7 @@ struct TtShapeDisplayInner
     bool m_flag34;
 
     TtShapeDisplayOuter* GetOuter();
-    void FUN_00d65520(int arg);
+    void hkpShapeDisplayViewer_postSimulationCallback(int arg);
 };
 struct TtShapeDisplayOuter : TtShapeDisplayBase, TtShapeDisplayInner
 {
@@ -862,7 +862,7 @@ class S00d653f0_Obj
     int unk60;
     int unk64;
     float m_68;
-    void FUN_00d653f0(Visitor* a1, Node* a2);
+    void hkpShapeDisplayViewer_synchronizeTransforms_00d653f0(Visitor* a1, Node* a2);
 };
 
 #include <xmmintrin.h>
@@ -936,7 +936,7 @@ struct S65_Param : S_00c6d840
     {
         return FindEntry(key, 0).integer();
     }
-    S65_Pair FUN_00cd2a50(int key);
+    S65_Pair hkpWorldObject_removeProperty(int key);
     bool has(int key) const
     {
         for (int i = 0; i < m_uiItemCount; ++i)
@@ -966,7 +966,7 @@ struct S65_Val
 {
     int phi;
     int theta;
-    void FUN_00ddfb70();
+    void hkpShapeDisplayBuilder_hkpShapeDisplayBuilderEnvironment_hkpShapeDisplayBuilderEnvironment();
 };
 struct S65_Str
 {
@@ -1015,7 +1015,7 @@ struct S65_Work
     int w08;
     int w0c;
     int w10;
-    void FUN_00ddfb80(S65_Val* p);
+    void hkpShapeDisplayBuilder_hkpShapeDisplayBuilder(S65_Val* p);
     void FUN_00de0f90(void* v, S65_Vec* vec);
 };
 union S65_V4
@@ -1070,7 +1070,8 @@ extern S65_Err* DAT_01268360;
 extern const char str_010d196c[];
 extern const char str_010d1b18[];
 
-static __declspec(noinline) void* FUN_00d652c0(S65_Param* p, bool flag, unsigned char* out)
+// src: HAVOK_LIB 0x00d652c0
+static __declspec(noinline) void* _getProxyShape(S65_Param* p, bool flag, unsigned char* out)
 {
     void* base = p->pointerProperty(0x1135);
     void* alt = p->pointerProperty(0x1235);
@@ -1148,7 +1149,7 @@ void S65_Self::FUN_00d65ad0(S65_Param* param)
 {
     unsigned char done;
     bool flag = (f10 == 0 && f14 == 0) ? true : false;
-    void* ret = FUN_00d652c0(param, flag, &done);
+    void* ret = _getProxyShape(param, flag, &done);
     if (done)
         return;
     int idx = FindItemIndex(param->unk08);
@@ -1183,9 +1184,9 @@ void S65_Self::FUN_00d65ad0(S65_Param* param)
         if (!a && !alt)
         {
             S65_Val val;
-            val.FUN_00ddfb70();
+            val.hkpShapeDisplayBuilder_hkpShapeDisplayBuilderEnvironment_hkpShapeDisplayBuilderEnvironment();
             S65_Work work;
-            work.FUN_00ddfb80(&val);
+            work.hkpShapeDisplayBuilder_hkpShapeDisplayBuilder(&val);
             work.FUN_00de0f90(key, &vec);
             for (int i = vec.count - 1; i >= 0; i--)
             {
@@ -1207,14 +1208,14 @@ void S65_Self::FUN_00d65ad0(S65_Param* param)
             if (v && (void*)v == ret)
             {
                 ((S65_Ref*)v)->FUN_00c905b0();
-                param->FUN_00cd2a50(0x1135);
+                param->hkpWorldObject_removeProperty(0x1135);
             }
         }
         else
         {
             keep = a == 0;
             if (alt)
-                param->FUN_00cd2a50(0x1131);
+                param->hkpWorldObject_removeProperty(0x1131);
             S65_NewObj* mem = (S65_NewObj*)s65Heap().blockAlloc(0x60);
             mem->s04 = (short)0x60;
             S65_NewObj* obj = mem->FUN_00de1d20(a ? a : alt);

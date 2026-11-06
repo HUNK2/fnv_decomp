@@ -20,7 +20,7 @@ struct FUN_00dee620
     __thiscall FUN_00dee620(int testFlag);
 };
 extern "C" void __cdecl FUN_00dedf10(void*, void*, void*, void*, int, int);
-void __cdecl FUN_00dee5f0(void* first, void* second, void* third, void* fourth);
+void __cdecl hkGeometryProcessing_generateRandomDistribution(void* first, void* second, void* third, void* fourth);
 struct FUN_00dee6b0_Class
 {
     int unk00;
@@ -375,7 +375,7 @@ struct FourPointArray
     int size;
     int capacity;
 };
-void __cdecl FUN_00c908c0(hkMemoryAllocator*, void*, int, int);
+void __cdecl hkArrayUtil__reserve(hkMemoryAllocator*, void*, int, int);
 // @fnv 0x00dedcf0
 void __cdecl FUN_00dedcf0(const VertexArray& vertices, FourPointArray& output)
 {
@@ -390,7 +390,7 @@ void __cdecl FUN_00dedcf0(const VertexArray& vertices, FourPointArray& output)
     if (capacity < required)
     {
         int grown = required >= capacity * 2 ? required : capacity * 2;
-        FUN_00c908c0(allocator, &output, grown, sizeof(FourPoints));
+        hkArrayUtil__reserve(allocator, &output, grown, sizeof(FourPoints));
     }
     output.size += count;
     FourPoints* destination = output.data + start;

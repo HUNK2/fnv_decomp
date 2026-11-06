@@ -218,8 +218,8 @@ class S5fb50_SphereQueryObject : public S5fb50_MoppVm
 {
   public:
     hkSphere m_pSphere;
-    void FUN_00e66600(const S5fb50_Query* query, const unsigned char* PC);
-    void FUN_00e66290(const S5fb50_Query* query, const unsigned char* PC);
+    void hkpMoppFindAllVirtualMachine_queryOnTreeLeft(const S5fb50_Query* query, const unsigned char* PC);
+    void hkpMoppFindAllVirtualMachine_queryOnTreeRight(const S5fb50_Query* query, const unsigned char* PC);
     __forceinline int checkCollision(const hkAabb& aabb, const S5fb50_Query* query, const unsigned char* PC)
     {
         hkVector4 center;
@@ -242,8 +242,8 @@ class S5fb50_SphereQueryObject : public S5fb50_MoppVm
         farthest.setAdd4(center, extent);
         if (farthest.lengthSquared3() < radius2)
         {
-            FUN_00e66600(query, PC);
-            FUN_00e66290(query, PC);
+            hkpMoppFindAllVirtualMachine_queryOnTreeLeft(query, PC);
+            hkpMoppFindAllVirtualMachine_queryOnTreeRight(query, PC);
             return 1;
         }
         return 2;

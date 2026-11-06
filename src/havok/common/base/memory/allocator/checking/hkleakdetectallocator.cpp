@@ -4,26 +4,28 @@
 
 struct FUN_00d5f270_class
 {
-    void __thiscall FUN_00d5f150(int c, void* a, unsigned int b);
-    void __thiscall FUN_00d5f270(void* a, unsigned int b);
+    void __thiscall hkLeakDetectAllocator_checkedFree(int c, void* a, unsigned int b);
+    void __thiscall hkLeakDetectAllocator_blockFree(void* a, unsigned int b);
 };
 
 // @fnv 0x00d5f270
-void __thiscall FUN_00d5f270_class::FUN_00d5f270(void* a, unsigned int b)
+// src: HAVOK_SRC 0x00d5f270
+void __thiscall FUN_00d5f270_class::hkLeakDetectAllocator_blockFree(void* a, unsigned int b)
 {
-    FUN_00d5f150(0, a, b);
+    hkLeakDetectAllocator_checkedFree(0, a, b);
 }
 
 struct FUN_00d5f2b0_class
 {
-    void FUN_00d5f150(int, int, int);
-    void FUN_00d5f2b0(int a, int b);
+    void hkLeakDetectAllocator_checkedFree(int, int, int);
+    void hkLeakDetectAllocator_bufFree(int a, int b);
 };
 
 // @fnv 0x00d5f2b0
-void FUN_00d5f2b0_class::FUN_00d5f2b0(int a, int b)
+// src: HAVOK_LIB 0x00d5f2b0
+void FUN_00d5f2b0_class::hkLeakDetectAllocator_bufFree(int a, int b)
 {
-    FUN_00d5f150(1, a, b);
+    hkLeakDetectAllocator_checkedFree(1, a, b);
 }
 
 struct Inner
@@ -45,11 +47,12 @@ struct Outer
 {
     int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c, unk20, unk24, unk28, unk2c;
     Inner* unk30;
-    int FUN_00d5ee60(int a);
+    int hkLeakDetectAllocator_getMemoryStatistics(int a);
 };
 
 // @fnv 0x00d5ee60
-int Outer::FUN_00d5ee60(int a)
+// src: HAVOK_LIB 0x00d5ee60
+int Outer::hkLeakDetectAllocator_getMemoryStatistics(int a)
 {
     return unk30->v28(a);
 }
@@ -84,12 +87,13 @@ struct S_00d5ee70
     int unk28;
     int unk2C;
     S_00d5ee70_Inner* unk30;
-    void FUN_00d5ee70(int a0);
+    void hkLeakDetectAllocator_getAllocatedSize(int a0);
 };
 
 // Forwards a0 to the virtual function vfn2C of the inner object at unk30.
 // @fnv 0x00d5ee70
-void S_00d5ee70::FUN_00d5ee70(int a0)
+// src: HAVOK_LIB 0x00d5ee70
+void S_00d5ee70::hkLeakDetectAllocator_getAllocatedSize(int a0)
 {
     unk30->vfn2C(a0);
 }
@@ -195,7 +199,7 @@ struct ParamStruct
 };
 struct Sub40
 {
-    void FUN_00d5f480(void* u34, int edi, ParamStruct p);
+    void hkMapBase_unsigned_long_struct_hkLeakDetectAllocator_AllocInfo_struct_hkMapOperations_unsigned_long_insert(void* u34, int edi, ParamStruct p);
 };
 
 struct FUN_00d5f0a0_class
@@ -233,7 +237,7 @@ int FUN_00d5f0a0_class::ProcessAndDispatch(int aiFlag, void* apArg)
     {
         p.p0 = 0;
     }
-    sub40->FUN_00d5f480(unk34, res, p);
+    sub40->hkMapBase_unsigned_long_struct_hkLeakDetectAllocator_AllocInfo_struct_hkMapOperations_unsigned_long_insert(unk34, res, p);
     LeaveCriticalSection(&cs);
     return res;
 }
@@ -241,7 +245,8 @@ int FUN_00d5f0a0_class::ProcessAndDispatch(int aiFlag, void* apArg)
 void __stdcall ProcessAndDispatch(int aiFlag, void* apObject);
 
 // @fnv 0x00d5f260
-void __stdcall FUN_00d5f260(void* apObject)
+// src: HAVOK_SRC 0x00d5f260
+void __stdcall hkLeakDetectAllocator_blockAlloc(void* apObject)
 {
     ProcessAndDispatch(0, apObject);
 }
@@ -267,12 +272,13 @@ struct FUN_00d5f480_class
     int mask;
 
     void Resize(void* u34, int new_cap);
-    int FUN_00d5f480(void* u34, int key, ParamStruct val);
+    int hkMapBase_unsigned_long_struct_hkLeakDetectAllocator_AllocInfo_struct_hkMapOperations_unsigned_long_insert(void* u34, int key, ParamStruct val);
 };
 
 // Grows the table when load exceeds half the mask, probes for the key, stores the key/value pair, and returns 1 if the key was new.
 // @fnv 0x00d5f480
-int FUN_00d5f480_class::FUN_00d5f480(void* u34, int key, ParamStruct val)
+// src: HAVOK_LIB 0x00d5f480
+int FUN_00d5f480_class::hkMapBase_unsigned_long_struct_hkLeakDetectAllocator_AllocInfo_struct_hkMapOperations_unsigned_long_insert(void* u34, int key, ParamStruct val)
 {
     if ((count & 0x7fffffff) * 2 > mask)
     {
@@ -343,11 +349,11 @@ void FUN_00da2bc0()
 
 struct FUN_00da2b50_cls
 {
-    int FUN_00da2b50(int a, int b, int c);
+    int hkStackTracer_CallTree_getCallStack(int a, int b, int c);
 };
 struct FUN_00da2990_cls
 {
-    int FUN_00da2990(int a, int b, int c, int d);
+    int hkStackTracer_dumpStackTrace(int a, int b, int c, int d);
 };
 
 extern "C" int __cdecl Vsnprintf(char* buf, unsigned int n, const char* fmt, ...);
@@ -382,8 +388,8 @@ void FUN_00d5edc0_cls::LogAddressAndSize(int p1, int aAddress, int* pInfo)
     Vsnprintf((char*)buf, 0x100, "\nAddress=0x%p size=%i\n", aAddress, pInfo[1]);
     reinterpret_cast<int(__cdecl*)(...)>(m_38)(p1, m_3c);
     reinterpret_cast<int(__cdecl*)(...)>(m_38)(buf, m_3c);
-    int r = reinterpret_cast<FUN_00da2b50_cls*>(&m_08)->FUN_00da2b50(pInfo[0], (int)buf2, 0x20);
-    reinterpret_cast<FUN_00da2990_cls*>(m_04)->FUN_00da2990((int)buf2, r, m_38, m_3c);
+    int r = reinterpret_cast<FUN_00da2b50_cls*>(&m_08)->hkStackTracer_CallTree_getCallStack(pInfo[0], (int)buf2, 0x20);
+    reinterpret_cast<FUN_00da2990_cls*>(m_04)->hkStackTracer_dumpStackTrace((int)buf2, r, m_38, m_3c);
     reinterpret_cast<int(__cdecl*)(...)>(m_38)(
         "-------------------------------------------------------------------\n\n", m_3c);
 }
@@ -403,13 +409,14 @@ void FUN_00d5f290_class::CallWithFirstArg(int* piValue)
 struct FUN_00d5f2d0_cls
 {
     int ProcessAndDispatch(int a, int b);
-    int FUN_00d5f2d0(int a1, int a2, int* a3);
+    int hkLeakDetectAllocator_bufRealloc(int a1, int a2, int* a3);
 };
 
 void __cdecl FUN_00d2caa0(int a, int b, int c);
 
 // @fnv 0x00d5f2d0
-int FUN_00d5f2d0_cls::FUN_00d5f2d0(int a1, int a2, int* piValue)
+// src: HAVOK_LIB 0x00d5f2d0
+int FUN_00d5f2d0_cls::hkLeakDetectAllocator_bufRealloc(int a1, int a2, int* piValue)
 {
     int r = this->ProcessAndDispatch(1, *piValue);
     int m = *piValue;
@@ -418,7 +425,7 @@ int FUN_00d5f2d0_cls::FUN_00d5f2d0(int a1, int a2, int* piValue)
         m = a2;
     }
     FUN_00d2caa0(r, a1, m);
-    reinterpret_cast<FUN_00d5f2b0_class*>(this)->FUN_00d5f150(1, a1, a2);
+    reinterpret_cast<FUN_00d5f2b0_class*>(this)->hkLeakDetectAllocator_checkedFree(1, a1, a2);
     return r;
 }
 
@@ -684,10 +691,11 @@ struct Node2b50
 struct List2b50
 {
     Node2b50* m_kNodeCollection;
-    int FUN_00da2b50(int node, unsigned int* out, int count);
+    int hkStackTracer_CallTree_getCallStack(int node, unsigned int* out, int count);
 };
 // @fnv 0x00da2b50
-int List2b50::FUN_00da2b50(int iStartIndex, unsigned int* out, int count)
+// src: HAVOK_LIB 0x00da2b50
+int List2b50::hkStackTracer_CallTree_getCallStack(int iStartIndex, unsigned int* out, int count)
 {
     int iIndex = iStartIndex;
     int i;
@@ -829,7 +837,7 @@ struct SnapshotD5
 
 struct SourceD5
 {
-    int FUN_00da2b50(int key, unsigned int* out, int capacity);
+    int hkStackTracer_CallTree_getCallStack(int key, unsigned int* out, int capacity);
 };
 
 struct FUN_00d5ef20_Class
@@ -876,7 +884,7 @@ int FUN_00d5ef20_Class::Snapshot(SnapshotD5* out)
         PointerInfoD5 info = map->getValue(it);
         *keys = map->GetIteratorKey(it);
         unsigned int data[16];
-        int n = m_pObservedSource.FUN_00da2b50(info.a, data, 16);
+        int n = m_pObservedSource.hkStackTracer_CallTree_getCallStack(info.a, data, 16);
         entry->m_uiItemCount = n;
         FUN_00cb1260(entry->m_data, data, n * sizeof(unsigned int));
         entry->m_uiFilterValue = info.b;
@@ -922,12 +930,13 @@ struct MapD5F5
     KeyValue* m_kPrimitiveElement;
     int m_iCapacityFlags;
     int m_iPairCount;
-    void FUN_00d5f570(void* it);
+    void hkMapBase_unsigned_long_struct_hkLeakDetectAllocator_AllocInfo_struct_hkMapOperations_unsigned_long_remove(void* it);
 };
 
 // Removes the entry at index it by invalidating its key and compacting the remaining valid pairs in the open-addressing table.
 // @fnv 0x00d5f570
-void MapD5F5::FUN_00d5f570(void* aiIndex)
+// src: HAVOK_LIB 0x00d5f570
+void MapD5F5::hkMapBase_unsigned_long_struct_hkLeakDetectAllocator_AllocInfo_struct_hkMapOperations_unsigned_long_remove(void* aiIndex)
 {
     typedef MapOpsD5F5 OPS;
     unsigned i = (unsigned)aiIndex;
@@ -989,7 +998,7 @@ struct LeakMapBase
     int m_iCapacityFlags;
     int m_iPairCount;
     int FindSlot(unsigned long key);
-    void FUN_00d5f570(int it);
+    void hkMapBase_unsigned_long_struct_hkLeakDetectAllocator_AllocInfo_struct_hkMapOperations_unsigned_long_remove(int it);
     bool isValid(int it) const
     {
         return it <= m_iPairCount;
@@ -1016,7 +1025,7 @@ struct LeakMap
     }
     void remove(int it)
     {
-        m_map.FUN_00d5f570(it);
+        m_map.hkMapBase_unsigned_long_struct_hkLeakDetectAllocator_AllocInfo_struct_hkMapOperations_unsigned_long_remove(it);
     }
 };
 
@@ -1061,7 +1070,7 @@ struct LeakDetectAllocator
             __debugbreak();
         }
     }
-    void FUN_00d5f150(unsigned int unused, void* p, int numBytes);
+    void hkLeakDetectAllocator_checkedFree(unsigned int unused, void* p, int numBytes);
 };
 
 struct LeakCsLock
@@ -1078,7 +1087,8 @@ struct LeakCsLock
 };
 // Validates and removes a freed allocation from the leak map, subtracts its usable size from m_inUseBytes, and releases the block via m_pReferenceObject.
 // @fnv 0x00d5f150
-void LeakDetectAllocator::FUN_00d5f150(unsigned int unused, void* apBlock, int numBytes)
+// src: HAVOK_LIB 0x00d5f150
+void LeakDetectAllocator::hkLeakDetectAllocator_checkedFree(unsigned int unused, void* apBlock, int numBytes)
 {
     void* cs = &m_pWorldLock;
     EnterCriticalSection(cs);

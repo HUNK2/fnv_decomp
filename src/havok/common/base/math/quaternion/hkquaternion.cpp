@@ -11,7 +11,7 @@ class FUN_005611c0_t
 {
   public:
     void FUN_005611c0();
-    void FUN_00cb2830(float* pts);
+    void hkQuaternion_setAndNormalize(float* pts);
 };
 
 static float g_sink2550;
@@ -33,7 +33,8 @@ static __declspec(noinline) void FUN_00cb2550(FUN_005611c0_t* obj, float* pts)
 }
 
 // @fnv 0x00cb2830
-void FUN_005611c0_t::FUN_00cb2830(float* apPoints)
+// src: HAVOK_LIB 0x00cb2830
+void FUN_005611c0_t::hkQuaternion_setAndNormalize(float* apPoints)
 {
     FUN_00cb2550(this, apPoints);
     FUN_005611c0();
@@ -44,7 +45,7 @@ void FUN_005611c0_t::FUN_00cb2830(float* apPoints)
 struct FUN_00cb24c0_cls
 {
     __m128 m_00;
-    void FUN_00c7f500(unsigned char* flag);
+    void hkVector4_isOk4(unsigned char* flag);
     unsigned char* IsNormalized(unsigned char* flag);
 };
 
@@ -52,7 +53,7 @@ struct FUN_00cb24c0_cls
 // @fnv 0x00cb24c0
 unsigned char* FUN_00cb24c0_cls::IsNormalized(unsigned char* apResult)
 {
-    FUN_00c7f500(apResult);
+    hkVector4_isOk4(apResult);
     __m128 t = _mm_mul_ps(m_00, m_00);
     __m128 a = _mm_add_ps(_mm_shuffle_ps(t, t, 0x4e), t);
     __m128 vSumAll = _mm_add_ps(_mm_shuffle_ps(a, a, 0xb1), a);

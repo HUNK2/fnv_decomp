@@ -293,7 +293,7 @@ struct HkAllocator
     virtual void ReturnMemory(void* p, int n);
 };
 
-void FUN_00c908c0(S_00d1bcb0_Allocator* alloc, void* arr, int cap, int elemSize);
+void hkArrayUtil__reserve(S_00d1bcb0_Allocator* alloc, void* arr, int cap, int elemSize);
 
 // src: XBOX_PDB (hkInplaceArray<...::NodePair,64,hkContainerHeapAllocator> family).
 // Exe 0x00d1d890: 64 inline node pairs, grown and released with the heap allocator.
@@ -306,7 +306,7 @@ template <> __forceinline void hkArray<Pair,hkContainerHeapAllocator>::setSize(i
             int newCap = cap * 2;
             if (n >= newCap)
                 newCap = n;
-            FUN_00c908c0(alloc, this, newCap, (int)sizeof(Pair));
+            hkArrayUtil__reserve(alloc, this, newCap, (int)sizeof(Pair));
         }
         m_iElementCount = n;
     }

@@ -76,13 +76,13 @@ void hkpVehicleRayCastWheelCollide::SetUserInfo(int aiValue)
 
 struct FUN_00c936a0_host
 {
-    void* FUN_00c936a0(void* phantom);
+    void* hkpWorld_addPhantom(void* phantom);
 };
 
 // @fnv 0x00e41ef0
 void* hkpVehicleRayCastWheelCollide::AddToWorld(void* world)
 {
-    return ((FUN_00c936a0_host*)world)->FUN_00c936a0(m_pPhantom);
+    return ((FUN_00c936a0_host*)world)->hkpWorld_addPhantom(m_pPhantom);
 }
 
 // @fnv 0x00e41e70
@@ -95,13 +95,13 @@ void hkpVehicleRayCastWheelCollide::UpdatePhantom(const hkpVehicleInstance* vehi
 
 struct FUN_00c92c70_host
 {
-    void FUN_00c92c70(void* phantom);
+    void hkpWorld_removePhantom(void* phantom);
 };
 // @fnv 0x00e41f00
 void hkpVehicleRayCastWheelCollide::RemoveFromWorld()
 {
     void* p = m_pPhantom;
-    ((FUN_00c92c70_host*)*(void**)((char*)p + 8))->FUN_00c92c70(p);
+    ((FUN_00c92c70_host*)*(void**)((char*)p + 8))->hkpWorld_removePhantom(p);
 }
 
 extern int DAT_010e5ae4;
@@ -123,7 +123,7 @@ void hkpVehicleRayCastWheelCollide::Destroy()
     {
         if (this->m_kChassisRejectionListener.m_pChassisCollidable)
         {
-            phantom->FUN_00d07c80(&m_kChassisRejectionListener);
+            phantom->removePhantomOverlapListener_00d07c80(&m_kChassisRejectionListener);
         }
 
         this->m_pPhantom->removeReference();
@@ -172,7 +172,7 @@ void hkpVehicleRayCastWheelCollide::CreateWheelPhantom(const hkpVehicleInstance*
 
     this->m_kChassisRejectionListener.m_pChassisCollidable = &reinterpret_cast<hkpWorldObject*>(vehicle->m_pEntity)->m_kCollidable;
 
-    pPhantom->FUN_00d07de0(&this->m_kChassisRejectionListener);
+    pPhantom->addPhantomOverlapListener_00d07de0(&this->m_kChassisRejectionListener);
 }
 
 extern "C" LocalM128 _mm_xor_ps(LocalM128 a, LocalM128 b);
@@ -230,8 +230,8 @@ hkpVehicleRayCastWheelCollide* hkpVehicleRayCastWheelCollide::Clone(hkpWorldObje
     hkpVehicleRayCastWheelCollide* clone = new hkpVehicleRayCastWheelCollide();
     clone->m_pPhantom = phantoms.m_data[0];
     clone->m_pPhantom->addReference();
-    clone->m_pPhantom->FUN_00d07c80(&m_kChassisRejectionListener);
-    clone->m_pPhantom->FUN_00d07de0(&clone->m_kChassisRejectionListener);
+    clone->m_pPhantom->removePhantomOverlapListener_00d07c80(&m_kChassisRejectionListener);
+    clone->m_pPhantom->addPhantomOverlapListener_00d07de0(&clone->m_kChassisRejectionListener);
     clone->m_kChassisRejectionListener.m_pChassisCollidable = &chassis->m_kCollidable;
     clone->m_uiWheelCount = m_uiWheelCount;
     return clone;

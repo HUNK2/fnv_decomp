@@ -43,5 +43,5 @@ public:
     void FUN_00e46000(hkpRigidBody*);
     void FUN_00e46080(hkTransform*, hkpRigidBody*, hkpWorld*);
     void FUN_00e46080(GunTransform*, GunArg3*, hkpWorld*);
-    void FUN_00e46140(hkReal, hkpWorld*, GunArg3*, GunTransform*, bool, bool);
+    void stepGun(hkReal, hkpWorld*, GunArg3*, GunTransform*, bool, bool);
 };

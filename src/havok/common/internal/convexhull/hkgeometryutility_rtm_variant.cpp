@@ -68,7 +68,7 @@ struct FUN_00d5a630_ctxB
     void InitB();
 };
 extern float DAT_0106ea1c;
-void __cdecl FUN_00d5a630(void* a1, int a2, int a3);
+void __cdecl hkGeometryUtility_createConvexGeometry(void* a1, int a2, int a3);
 struct S_00d5a6b0_Array
 {
     Vec4* m_data;
@@ -128,7 +128,7 @@ struct S00d5ad60_cls
     float m_f00;
     unsigned char S00d5ad60_call(float* other, float threshold);
 };
-static unsigned char FUN_00d5ad60(S00d5ad60_cls* self, float* other, float threshold);
+static unsigned char approxEquals(S00d5ad60_cls* self, float* other, float threshold);
 #ifndef _INCLUDED_MM2
 extern "C" LocalM128 _mm_setr_ps(float, float, float, float);
 #endif
@@ -156,9 +156,9 @@ struct __declspec(align(16)) S00d5c060_Result
     unsigned int unk0C;
 };
 char* __cdecl AllocateWithHeader(D5C110Allocator* alloc, int size);
-char* __cdecl FUN_00c856c0(D5C110Allocator* owner, char* data);
+char* __cdecl hkMemoryRouter_easyFree(D5C110Allocator* owner, char* data);
 void __cdecl FUN_00d5beb0(S00d5c060_Result* self, char* data, int count, int flags, float scale);
-S00d5c060_Result FUN_00d5c060(const S00d5c060_Src* src, float scale);
+S00d5c060_Result hkGeometryUtility_createMinBoundingSphere(const S00d5c060_Src* src, float scale);
 extern "C" LocalM128 _mm_add_ss(LocalM128, LocalM128);
 extern "C" float _mm_cvtss_f32(LocalM128);
 extern "C" void _mm_store_ss(float*, LocalM128);
@@ -916,7 +916,8 @@ static LocalM128 normalizeScale(LocalM128 v)
     return _mm_andnot_ps(mask, _mm_mul_ss(_mm_mul_ss(half, r), _mm_sub_ss(three, _mm_mul_ss(_mm_mul_ss(s, r), r))));
 }
 
-static __declspec(noinline) unsigned char FUN_00d5ad60(S00d5ad60_cls* self, float* other, float threshold)
+// src: HAVOK_LIB 0x00d5ad60
+static __declspec(noinline) unsigned char approxEquals(S00d5ad60_cls* self, float* other, float threshold)
 {
 
     float d = *(float*)self - *other;
@@ -928,7 +929,7 @@ static __declspec(noinline) unsigned char FUN_00d5ad60(S00d5ad60_cls* self, floa
 
 static __forceinline unsigned char hlpA(const float* a, const float* b, float eps)
 {
-    return (FUN_00d5ad60)((S00d5ad60_cls*)a, (float*)b, eps);
+    return (approxEquals)((S00d5ad60_cls*)a, (float*)b, eps);
 }
 
 static __declspec(noinline) bool hlpB(const ObbVec* v, float eps) throw()

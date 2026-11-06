@@ -1559,7 +1559,7 @@ bhkCollisionObject* __cdecl FUN_004b5260(NiAVObject* pkNode);
 WorldObject9BE* __cdecl FUN_004b5a80(Entity9BE* pkEntity);
 bool __cdecl FUN_00525420();
 float __cdecl FUN_00716440();
-void __cdecl FUN_00a582f0(const Matrix9BE& kRot, const NiPoint3& kIn, int iFlag, NiPoint3& kA, NiPoint3& kB);
+void __cdecl NiMatrix3_TransformVertices(const Matrix9BE& kRot, const NiPoint3& kIn, int iFlag, NiPoint3& kA, NiPoint3& kB);
 void __cdecl CopyBlock48(NiAVObject* pkNode, int iFlag);
 void __cdecl FUN_00c6a0b0(NiAVObject* pkNode, int iA, int iB, int iC);
 void __cdecl SetSelectionValue(NiAVObject* pkNode, float fValue, int iA, int iB);
@@ -1646,7 +1646,7 @@ void ProjectilePhysicsReference::FUN_009be0a0()
                 NiPoint3 kMotionVelocity;
                 hkVector4 kHkVelocity;
                 Matrix9BE kRot = reinterpret_cast<const Matrix9BE&>(Get3D()->FUN_00461130());
-                FUN_00a582f0(kRot, NiPoint3(0.0f, 0.0f, 0.0f), 1, kIntersectionOffset, kMotionVelocity);
+                NiMatrix3_TransformVertices(kRot, NiPoint3(0.0f, 0.0f, 0.0f), 1, kIntersectionOffset, kMotionVelocity);
                 kHkVelocity.set(kMotionVelocity.x, kMotionVelocity.y, kMotionVelocity.z, 0.0f);
                 pkEntity->SetLinearVelocity(kHkVelocity);
             }

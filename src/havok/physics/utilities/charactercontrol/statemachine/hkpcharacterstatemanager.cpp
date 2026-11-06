@@ -8,11 +8,12 @@ struct hkpCharacterStateManager
 {
     int m_auiShapeKeys[2];
     hkReferencedObject* m_states[32];
-    void FUN_00cbc4e0(hkReferencedObject* object, int index);
+    void registerState(hkReferencedObject* object, int index);
 };
 
 // @fnv 0x00cbc4e0
-void hkpCharacterStateManager::FUN_00cbc4e0(hkReferencedObject* object, int index)
+// src: HAVOK_LIB 0x00cbc4e0
+void hkpCharacterStateManager::registerState(hkReferencedObject* object, int index)
 {
     object->addReference();
     if (m_states[index])

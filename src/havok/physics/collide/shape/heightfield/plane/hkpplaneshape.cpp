@@ -42,12 +42,13 @@ void __cdecl FUN_00d26230(void*, void*, void*, float, int);
 
 struct FUN_00d552c0_StandIn
 {
-    void FUN_00d552c0(void*, float, int);
+    void hkpPlaneShape_getAabbImpl(void*, float, int);
 };
 
 // Forwards param1, the objects at offsets 0x30 and 0x20 of this, param2 and param3 to FUN_00d26230.
 // @fnv 0x00d552c0
-void FUN_00d552c0_StandIn::FUN_00d552c0(void* param1, float param2, int param3)
+// src: HAVOK_LIB 0x00d552c0
+void FUN_00d552c0_StandIn::hkpPlaneShape_getAabbImpl(void* param1, float param2, int param3)
 {
     FUN_00d26230(param1, (void*)((char*)this + 0x30), (void*)((char*)this + 0x20), param2, param3);
 }
@@ -115,12 +116,13 @@ struct ShapeD54F90
     virtual void v18();
     virtual void v1C();
     virtual BoolD54F90 RayCast(const RayCastInputD54F90& kInput, RayCastOutputD54F90& kOutput) const;
-    void FUN_00d54f90(const RayCastInputD54F90& kInput, const CdBodyD54F90& kBody, CollectorD54F90& kCollector) const;
+    void hkpPlaneShape_castRayWithCollectorImpl(const RayCastInputD54F90& kInput, const CdBodyD54F90& kBody, CollectorD54F90& kCollector) const;
 };
 
 // Performs a ray cast against the shape, and if a hit is found, transforms the hit normal and forwards the result to the collector.
 // @fnv 0x00d54f90
-void ShapeD54F90::FUN_00d54f90(const RayCastInputD54F90& kInput, const CdBodyD54F90& kBody,
+// src: HAVOK_LIB 0x00d54f90
+void ShapeD54F90::hkpPlaneShape_castRayWithCollectorImpl(const RayCastInputD54F90& kInput, const CdBodyD54F90& kBody,
                                CollectorD54F90& kCollector) const
 {
     RayCastOutputD54F90 kOutput;

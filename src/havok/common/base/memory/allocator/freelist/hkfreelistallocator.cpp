@@ -4,21 +4,22 @@
 
 #include "../../../../../../../include/hkFreeListAllocator.h"
 
-void __cdecl FUN_00cc0410(int, const char*);
+void __cdecl hkOstream_printf(int, const char*);
 
 // @fnv 0x00d5f950
 void __thiscall hkFreeListAllocator::PrintStatistics(int aiUnused)
 {
-    FUN_00cc0410(aiUnused,
+    hkOstream_printf(aiUnused,
                  "printStatistics is not supported on hkFreeListAllocator - use hkDebugMemory or hkPoolMemory\n");
 }
 
 // Calls FUN_00dd7200 on p, then if p+0x34 is the pointer stored at this+0x238, subtracts 0x34 from that pointer.
 // @fnv 0x00d5fc70
 // Keep the original out-of-line calls from cleanup and free-list creation.
-__declspec(noinline) void hkFreeListAllocator::FUN_00d5fc70(FreeList* p)
+// src: HAVOK_LIB 0x00d5fc70
+__declspec(noinline) void hkFreeListAllocator::_deleteFreeList(FreeList* p)
 {
-    p->FUN_00dd7200();
+    p->freeAllMemory();
     if (p + 1 == m_238)
         --m_238;
 }
@@ -141,7 +142,8 @@ void FUN_00d61f30_shell::FUN_00d61f30(int a, int b, int c, int d, int e, int f)
 
 // Zeroes a six-int buffer, fills it with memory statistics, then stores the second element into unk20.
 // @fnv 0x00d5f850
-void hkFreeListAllocator::FUN_00d5f850()
+// src: HAVOK_LIB 0x00d5f850
+void hkFreeListAllocator::resetPeakMemoryStatistics_00d5f850()
 {
     int buf[6];
     buf[0] = 0;
@@ -155,7 +157,8 @@ void hkFreeListAllocator::FUN_00d5f850()
 }
 
 // @fnv 0x00d5f970
-void hkFreeListAllocator::FUN_00d5f970(int a)
+// src: HAVOK_LIB 0x00d5f970
+void hkFreeListAllocator::blockAlloc_00d5f970(int a)
 {
     bufAlloc(a);
 }
@@ -167,9 +170,10 @@ int hkFreeListAllocator::FUN_00d5fba0()
 }
 
 // @fnv 0x00d5fc30
-void hkFreeListAllocator::FUN_00d5fc30()
+// src: HAVOK_SRC 0x00d5fc30
+void hkFreeListAllocator::releaseUnusedPagesToSystemMemory()
 {
-    this->FUN_00d5fac0();
+    this->garbageCollect();
 }
 
 // Updates the peak of used minus base bytes and returns whether used is below the limit subtracted from the value at offset 0xa94.
@@ -206,7 +210,8 @@ extern char g_vtbl60270[];
 
 // Initializes the object: sets the vtable, initializes sub-objects and item array, resets state, and allocates the size-class table slots.
 // @fnv 0x00d60270
-hkFreeListAllocator* hkFreeListAllocator::FUN_00d60270(int a1)
+// src: HAVOK_LIB 0x00d60270
+hkFreeListAllocator* hkFreeListAllocator::hkFreeListAllocator_00d60270(int a1)
 {
     *reinterpret_cast<void**>(this) = g_vtbl60270;
     reinterpret_cast<Sub4*>(&m_cs)->Init(0xfa0);
@@ -285,8 +290,8 @@ struct Block
     int m_iWordAt04;
     char pad[0x28 - 8];
     int m_28;
-    Res FUN_00dd7c40(int n, int* got);
-    void FUN_00dd7360();
+    Res incrementalFindGarbage(int n, int* got);
+    void freeAllFreeBlocks();
 };
 
 }
@@ -306,13 +311,13 @@ void hkFreeListAllocator::AllocateBlocks(int aiCount)
         d5f::Block* b = reinterpret_cast<d5f::Block*>(m_apBlocks[iIndex]);
         int before = b->m_28;
         int got;
-        if (b->FUN_00dd7c40(aiCount, &got).m_kPointB)
+        if (b->incrementalFindGarbage(aiCount, &got).m_kPointB)
         {
             iIndex++;
             if (iIndex >= m_iArrayLength)
                 iIndex = 0;
         }
-        b->FUN_00dd7360();
+        b->freeAllFreeBlocks();
         aiCount -= got;
         m_1c += (b->m_28 - before) * b->m_iWordAt04;
     } while (aiCount > 0 && iIndex != start);
@@ -331,7 +336,7 @@ class MemoryPoolW
 {
   public:
     int Compact();
-    void FUN_00dd7380(unsigned int uiTarget);
+    void freeSmallFreeBlocks(unsigned int uiTarget);
 
     int m_iUnk00;
     int m_iBlockSize;
@@ -351,7 +356,7 @@ void hkFreeListAllocator::UpdateTotalSize()
         MemoryPoolW* pkPool = reinterpret_cast<MemoryPoolW*>(m_apkPools[i]);
         int iOldCount = pkPool->m_iBlockCount;
         if (pkPool->Compact() > 0)
-            pkPool->FUN_00dd7380(pkPool->m_uiFreeCount - pkPool->m_uiFreeCount / 10);
+            pkPool->freeSmallFreeBlocks(pkPool->m_uiFreeCount - pkPool->m_uiFreeCount / 10);
         m_iTotalSize += (pkPool->m_iBlockCount - iOldCount) * pkPool->m_iBlockSize;
     }
     DAT_00fdf100(pkCriticalSection);
@@ -389,7 +394,8 @@ struct ScopedCs
 };
 
 // @fnv 0x00d5fd70
-void hkFreeListAllocator::FUN_00d5fd70(void** apOut, int aCount, int aSize)
+// src: HAVOK_LIB 0x00d5fd70
+void hkFreeListAllocator::blockAllocBatch_00d5fd70(void** apOut, int aCount, int aSize)
 {
     ScopedCs guard;
     guard.owner = this;
@@ -492,7 +498,7 @@ struct hkFreeListW
         return _getNumBlocks(m_pFreeBlocks) + _getNumBlocks(m_activeBlocks);
     }
     void CollectFreeNodes(hkFreeListBlock** blocks, int numBlocks);
-    void FUN_00dd78f0(hkMemoryWalkCallback callback, int pool, void* param);
+    void walkMemory_00dd78f0(hkMemoryWalkCallback callback, int pool, void* param);
 };
 
 struct hkMemoryAllocatorW
@@ -541,7 +547,7 @@ struct hkLargeBlockIteratorW
 
 struct hkLargeBlockAllocatorW
 {
-    hkLargeBlockIteratorW FUN_00dd8b20();
+    hkLargeBlockIteratorW getIterator();
     hkBool AdvanceState(hkLargeBlockIteratorW& iter);
 };
 
@@ -558,7 +564,8 @@ inline void quickSortPointers(void** arr, int numElem)
 
 // Collects free-list nodes, calls callback for other large-block chunks, then asks each free list to invoke its callback.
 // @fnv 0x00d600c0
-int hkFreeListAllocator::FUN_00d600c0(hkMemoryWalkCallback callback, void* apContext)
+// src: HAVOK_LIB 0x00d600c0
+int hkFreeListAllocator::walkMemory(hkMemoryWalkCallback callback, void* apContext)
 {
     int numBlocks = 0;
     for (int i = 0; i < m_iFreeListCount; i++)
@@ -588,7 +595,7 @@ int hkFreeListAllocator::FUN_00d600c0(hkMemoryWalkCallback callback, void* apCon
 
     {
         hkFreeListBlock** curBlock = blocks;
-        hkLargeBlockIteratorW iter = reinterpret_cast<hkLargeBlockAllocatorW*>(unk28)->FUN_00dd8b20();
+        hkLargeBlockIteratorW iter = reinterpret_cast<hkLargeBlockAllocatorW*>(unk28)->getIterator();
         for (; iter.isValid(); reinterpret_cast<hkLargeBlockAllocatorW*>(unk28)->AdvanceState(iter))
         {
             void* block = iter.GetChunkPayload();
@@ -605,7 +612,7 @@ int hkFreeListAllocator::FUN_00d600c0(hkMemoryWalkCallback callback, void* apCon
 
     for (int i = 0; i < m_iFreeListCount; i++)
     {
-        m_pFreeLists[i]->FUN_00dd78f0(callback, i + 1, apContext);
+        m_pFreeLists[i]->walkMemory_00dd78f0(callback, i + 1, apContext);
     }
     return 0;
 }
@@ -639,7 +646,8 @@ struct PoolFallbackAlloc
 
 // Returns apBlock to the pool free list for sizes up to 0x280 bytes, or to the embedded large allocator for larger sizes, updating m_iTotal.
 // @fnv 0x00d5f980
-void hkFreeListAllocator::FUN_00d5f980(void* apBlock, int aiNumBytes)
+// src: HAVOK_LIB 0x00d5f980
+void hkFreeListAllocator::blockFree_00d5f980(void* apBlock, int aiNumBytes)
 {
     if (apBlock == 0)
         return;
@@ -666,7 +674,8 @@ void hkFreeListAllocator::FUN_00d5f980(void* apBlock, int aiNumBytes)
 
 // Sets unkA94 to value while holding m_kCriticalSection.
 // @fnv 0x00d5fb70
-void hkFreeListAllocator::FUN_00d5fb70(int value)
+// src: HAVOK_LIB 0x00d5fb70
+void hkFreeListAllocator::setMemorySoftLimit(int value)
 {
     EnterCriticalSection(&m_kCriticalSection);
     unkA94 = value;
@@ -697,7 +706,7 @@ struct HkFLA_Elem
     unsigned int f24;
     unsigned int f28;
     unsigned int f2c;
-    void FUN_00dd7430(HkFLA_Out* out);
+    void calculateStatistics(HkFLA_Out* out);
 };
 
 struct HkFLA_Poly
@@ -723,7 +732,7 @@ struct HkFLA_Stats
 
 struct HkFLA_Sub
 {                                         // the sub object at +0x28 (its size is only
-    void FUN_00dd8d70(HkFLA_Stats* out);  // known from the layout below)
+    void hkLargeBlockAllocator_calculateStatistics(HkFLA_Stats* out);  // known from the layout below)
     int unk04, unk08, unk0c, unk10, unk14, unk18, unk1c, unk20, unk24;
     int unk28, unk2c, unk30, unk34, unk38, unk3c, unk40, unk44, unk48, unk4c;
     int unk50, unk54, unk58, unk5c, unk60, unk64, unk68, unk6c, unk70, unk74;
@@ -738,11 +747,12 @@ struct HkFLA_Sub
 
 // Gathers aggregate statistics from all elements into out while holding the critical section.
 // @fnv 0x00d5f750
-void hkFreeListAllocator::FUN_00d5f750(HkFLA_Stats* apStats)
+// src: HAVOK_LIB 0x00d5f750
+void hkFreeListAllocator::getMemoryStatistics_00d5f750(HkFLA_Stats* apStats)
 {
     CriticalSection* cs = &m_cs;
     EnterCriticalSection((void*)cs);
-    reinterpret_cast<HkFLA_Sub*>(unk28)->FUN_00dd8d70(apStats);
+    reinterpret_cast<HkFLA_Sub*>(unk28)->hkLargeBlockAllocator_calculateStatistics(apStats);
     // The original keeps a 24 byte block on the stack here and accumulates
     // into its first dword only; the dead members lose their stores but the
     // frame slot (and with it the frame size) stays.
@@ -753,7 +763,7 @@ void hkFreeListAllocator::FUN_00d5f750(HkFLA_Stats* apStats)
     {
         HkFLA_Elem* e = reinterpret_cast<HkFLA_Elem*>(m_pElems[i]);
         HkFLA_Out s = {0, 0, 0, 0, 0, 0};
-        e->FUN_00dd7430(&s);
+        e->calculateStatistics(&s);
         if (e->f00 != 0 || e->f20 < e->f24)
         {
             unsigned int uiValue = e->f04;
@@ -782,7 +792,8 @@ struct ItemObj
 
 // Locks m_cs, sets *p to 1, calls each item's method until its output byte is zero, then returns p.
 // @fnv 0x00d5f890
-bool* __thiscall hkFreeListAllocator::FUN_00d5f890(bool* __restrict pbSuccess)
+// src: HAVOK_LIB 0x00d5f890
+bool* __thiscall hkFreeListAllocator::isOk_00d5f890(bool* __restrict pbSuccess)
 {
     EnterCriticalSection(&m_cs);
     *pbSuccess = 1;
@@ -814,7 +825,7 @@ struct FUN_00d5fac0_item
     int unk24;
     int m_28;
     int Compact();
-    void FUN_00dd7360();
+    void freeAllFreeBlocks();
 };
 
 struct FUN_00d5fac0_sub
@@ -825,7 +836,8 @@ struct FUN_00d5fac0_sub
 
 // Locks m_lock, compacts the free lists and updates m_1c, then purges the embedded large allocator.
 // @fnv 0x00d5fac0
-void hkFreeListAllocator::FUN_00d5fac0()
+// src: HAVOK_LIB 0x00d5fac0
+void hkFreeListAllocator::garbageCollect()
 {
     void* cs = &m_lock;
     EnterCriticalSection(cs);
@@ -846,7 +858,7 @@ void hkFreeListAllocator::FUN_00d5fac0()
             {
                 flag = true;
             }
-            p->FUN_00dd7360();
+            p->freeAllFreeBlocks();
             m_1c += (p->m_28 - saved) * p->m_04;
         }
     } while (flag && retry);
@@ -895,7 +907,8 @@ struct hkPoolLarge
 
 // Allocates a block of the requested size from the pool's free list, bump allocator, or large allocator, and updates the high-water mark for free memory.
 // @fnv 0x00d5fca0
-void* hkFreeListAllocator::FUN_00d5fca0(int* apSize)
+// src: HAVOK_LIB 0x00d5fca0
+void* hkFreeListAllocator::bufAlloc_00d5fca0(int* apSize)
 {
     int size = *apSize;
     EnterCriticalSection(&this->m_lock);
@@ -946,7 +959,8 @@ struct QuitLargeBlockView
 
 // Frees each non-null free list, nulls later matching pointers, then calls the large-block allocator's cleanup.
 // @fnv 0x00d5ff50
-void hkFreeListAllocator::FUN_00d5ff50()
+// src: HAVOK_LIB 0x00d5ff50
+void hkFreeListAllocator::quit_00d5ff50()
 {
     if (m_iFreeListCount > 0)
     {
@@ -957,7 +971,7 @@ void hkFreeListAllocator::FUN_00d5ff50()
             hkFreeListW* entry = *slot;
             if (entry)
             {
-                FUN_00d5fc70(reinterpret_cast<FreeList*>(entry));
+                _deleteFreeList(reinterpret_cast<FreeList*>(entry));
                 int later = index;
                 if (later < m_iFreeListCount)
                 {
@@ -993,11 +1007,11 @@ struct EmbeddedMember
 void hkFreeListAllocator::FUN_00d5ffd0()
 {
     *reinterpret_cast<void**>(this) = &DAT_010d1464;
-    hkFreeListAllocator::FUN_00d5ff50();
+    hkFreeListAllocator::quit_00d5ff50();
     FreeList* end = m_items + 41;
     for (int i = 40; i >= 0; --i)
     {
-        (--end)->FUN_00dd7200();
+        (--end)->freeAllMemory();
     }
     reinterpret_cast<EmbeddedMember*>(unk28)->FUN_00dd7ec0();
     DeleteCriticalSection(&m_cs);
@@ -1008,7 +1022,8 @@ extern "C" void __debugbreak();
 
 // Advances cur238, initializes s when nonnull, then returns a matching slot or registers and returns s.
 // @fnv 0x00d60020
-hkFreeListAllocator::FreeList* hkFreeListAllocator::FUN_00d60020(int aiParam1, int aiParam2, int aiParam3)
+// src: HAVOK_LIB 0x00d60020
+hkFreeListAllocator::FreeList* hkFreeListAllocator::_newFreeList(int aiParam1, int aiParam2, int aiParam3)
 {
     if (cur238 >= end23c)
     {
@@ -1018,13 +1033,13 @@ hkFreeListAllocator::FreeList* hkFreeListAllocator::FUN_00d60020(int aiParam1, i
     cur238 = s + 1;
     if (s != 0)
     {
-        s->FUN_00dd7650(aiParam1, aiParam2, aiParam3, &unk28);
+        s->hkFreeList_hkFreeList(aiParam1, aiParam2, aiParam3, &unk28);
     }
     for (int i = 0; i < count234; i++)
     {
         if (m_apBlocks[i]->m_iFirstIndex == s->m_iFirstIndex)
         {
-            FUN_00d5fc70(s);
+            _deleteFreeList(s);
             return m_apBlocks[i];
         }
     }

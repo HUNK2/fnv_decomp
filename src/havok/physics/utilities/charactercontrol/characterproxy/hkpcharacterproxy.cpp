@@ -91,12 +91,13 @@ static __forceinline int VectorEquals3(const hkVector4& a,const hkVector4& b,flo
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 struct FUN_00cad480_Class {
-    void __thiscall FUN_00cad480(void* arg);
+    void __thiscall hkpCharacterProxy_fireContactAdded(void* arg);
 };
 
 // Iterates the proxy list at this+0x80 in reverse and calls each proxy's third virtual method with this and arg.
 // @fnv 0x00cad480
-void __thiscall FUN_00cad480_Class::FUN_00cad480(void* arg)
+// src: HAVOK_LIB 0x00cad480
+void __thiscall FUN_00cad480_Class::hkpCharacterProxy_fireContactAdded(void* arg)
 {
     int count = *(int*)((char*)this + 0x84);
     for (--count; count >= 0; --count) {
@@ -147,12 +148,13 @@ struct S_00cad440 {
     int unk7C;
     S_00cad440_Listener** unk80;
     int unk84;
-    void FUN_00cad440(void* a, void* b);
+    void hkpCharacterProxy_fireConstraintsProcessed(void* a, void* b);
 };
 
 // Iterates the listener array backwards from unk84 and calls Notify(this, a, b) on each listener.
 // @fnv 0x00cad440
-void S_00cad440::FUN_00cad440(void* a, void* b)
+// src: HAVOK_LIB 0x00cad440
+void S_00cad440::hkpCharacterProxy_fireConstraintsProcessed(void* a, void* b)
 {
     for (int i = unk84 - 1; i >= 0; i--)
         unk80[i]->Notify(this, a, b);
@@ -203,12 +205,13 @@ struct CAD4C0Owner {
     CAD4C0Listener** m_kListeners;
     int m_numListeners;
 
-    void FUN_00cad4c0(void* data);
+    void hkpCharacterProxy_fireContactRemoved(void* data);
 };
 
 // Calls notify(this, data) on each listener in reverse order, from the last index down to zero.
 // @fnv 0x00cad4c0
-void CAD4C0Owner::FUN_00cad4c0(void* data)
+// src: HAVOK_LIB 0x00cad4c0
+void CAD4C0Owner::hkpCharacterProxy_fireContactRemoved(void* data)
 {
     for (int i = m_numListeners - 1; i >= 0; i--)
         m_kListeners[i]->notify(this, data);
@@ -259,12 +262,13 @@ struct FUN_00cade20_Class
 
 struct FUN_00cafbd0_Class
 {
-    void __thiscall FUN_00cafbd0(int first, int second, int third, int fourth);
+    void __thiscall hkpCharacterProxy_integrateWithCollectors(int first, int second, int third, int fourth);
 };
 
 // Forwards the four arguments to FUN_00cade20 with two trailing zero arguments.
 // @fnv 0x00cafbd0
-void __thiscall FUN_00cafbd0_Class::FUN_00cafbd0(int first, int second, int third, int fourth)
+// src: HAVOK_LIB 0x00cafbd0
+void __thiscall FUN_00cafbd0_Class::hkpCharacterProxy_integrateWithCollectors(int first, int second, int third, int fourth)
 {
     ((FUN_00cade20_Class*)this)->FUN_00cade20(first, second, third, fourth, 0, 0);
 }
@@ -293,16 +297,17 @@ struct FNVBuffers {
         return FUN_00c85750()->GetAllocator()->Allocate(bytes);
     }
 };
-void __cdecl FUN_00d06cb0(FNVArray*, unsigned int);
+void __cdecl hkSmallArrayUtil__reserveMore(FNVArray*, unsigned int);
 struct FNVOwner {
     FNVBuffers*& Buffers() {
         return *reinterpret_cast<FNVBuffers**>(reinterpret_cast<char*>(this) + 0x214);
     }
-    void FUN_00c9c5b0(int value);
+    void hkpEntity_addEntityListener(int value);
 };
 // Ensures the buffers exist, stores value into the first empty element slot or appends it, growing the array when full.
 // @fnv 0x00c9c5b0
-void FNVOwner::FUN_00c9c5b0(int value) {
+// src: HAVOK_LIB 0x00c9c5b0
+void FNVOwner::hkpEntity_addEntityListener(int value) {
     if (Buffers() == 0) {
         Buffers() = new FNVBuffers;
     }
@@ -317,7 +322,7 @@ void FNVOwner::FUN_00c9c5b0(int value) {
         }
     }
     if (array.size == (array.flags & 0x3fff)) {
-        FUN_00d06cb0(&array, sizeof(int));
+        hkSmallArrayUtil__reserveMore(&array, sizeof(int));
     }
     array.values[array.size] = value;
     ++array.size;
@@ -365,7 +370,7 @@ struct S_00cac150_Scope {
 };
 
 struct S_00cac150_Item1 {
-    void FUN_00c9c670(void* arg);
+    void removeEntityListener_00c9c670(void* arg);
 };
 
 struct S_00cac150_Item2 {
@@ -422,7 +427,7 @@ struct S_00cac150 {
 void S_00cac150::ClearItems() {
     S_00cac150_Scope scope(16);
     for (int i = 0; i < m_count1; ++i) {
-        m_items1[i]->FUN_00c9c670(&m_arg1);
+        m_items1[i]->removeEntityListener_00c9c670(&m_arg1);
     }
     m_count1 = 0;
 
@@ -543,7 +548,7 @@ struct BhkElem {
 };
 
 struct BhkTarget {
-    void FUN_00c9c670(void* v);
+    void removeEntityListener_00c9c670(void* v);
 };
 
 struct BhkProxy {
@@ -595,7 +600,7 @@ void BhkProxy::RemoveTarget(BhkTarget* pTarget)
         pProxy = (void*)this;
     else
         pProxy = (void*)0;
-    pTarget->FUN_00c9c670(pProxy);
+    pTarget->removeEntityListener_00c9c670(pProxy);
 
     for (int i = m_uiItemCount - 1; i >= 0; i--) {
         BhkShape* p = m_elements[i].p;
@@ -645,7 +650,7 @@ struct FUN_00cad900_arg {
     unsigned char flag10;
 };
 
-extern "C" int __cdecl FUN_00d06f80(int ptr, int size);
+extern "C" int __cdecl hkStatisticsCollector_getAllocatedSize(int ptr, int size);
 extern "C" char str_010c8444[];
 extern "C" char str_010c8450[];
 extern "C" char str_010c8460[];
@@ -700,22 +705,22 @@ struct FUN_00cad900_cls {
 void FUN_00cad900_cls::FUN_00cad900(FUN_00cad900_arg* apReporter, int aiUnused) {
     if ((m7c & 0x80000000u) == 0 || apReporter->flag10 != 0) {
         int p = m74;
-        int r = FUN_00d06f80(p, (m7c & 0x3fffffff) * 0x70);
+        int r = hkStatisticsCollector_getAllocatedSize(p, (m7c & 0x3fffffff) * 0x70);
         apReporter->v05(3, (const char*)str_010c8460, m74, m78 * 0x70, r);
     }
     if ((m94 & 0x80000000u) == 0 || apReporter->flag10 != 0) {
         int p = m8c;
-        int r = FUN_00d06f80(p, (m94 & 0x3fffffff) * 4);
+        int r = hkStatisticsCollector_getAllocatedSize(p, (m94 & 0x3fffffff) * 4);
         apReporter->v05(3, (const char*)str_010c8450, m8c, m90 * 4, r);
     }
     if ((ma0 & 0x80000000u) == 0 || apReporter->flag10 != 0) {
         int p = m98;
-        int r = FUN_00d06f80(p, (ma0 & 0x3fffffff) * 4);
+        int r = hkStatisticsCollector_getAllocatedSize(p, (ma0 & 0x3fffffff) * 4);
         apReporter->v05(3, (const char*)str_010c8460, m98, m9c * 4, r);
     }
     if ((m88 & 0x80000000u) == 0 || apReporter->flag10 != 0) {
         int p = m80;
-        int r = FUN_00d06f80(p, (m88 & 0x3fffffff) * 4);
+        int r = hkStatisticsCollector_getAllocatedSize(p, (m88 & 0x3fffffff) * 4);
         apReporter->v05(3, (const char*)str_010c8444, m80, m84 * 4, r);
     }
 }
@@ -1176,7 +1181,7 @@ struct ShapeData {
         for (int i=0;i<attrCount;++i) if(attrs[i].kind==k) return attrs[i].value;
         PropertyValue z={0};return z;
     }
-    void FUN_00c9c1d0();
+    void activate_00c9c1d0();
 };
 struct ContactBlock {
     hkVector4 position,normalAndDepth;
@@ -1333,7 +1338,7 @@ void ContactSolver::FUN_00cacf80(const float* step,const hkVector4* acceleration
             destination->impulse.set(sharedQuad(contactQuad(response.impulse)));
             ++destination;
         }else {
-            body->FUN_00c9c1d0();
+            body->activate_00c9c1d0();
             ((void (__thiscall*)(Motion*,const hkVector4*,const hkVector4*))motion->vtable[20])(motion,&response.impulse,&response.location);
         }
     }
@@ -1342,7 +1347,7 @@ void ContactSolver::FUN_00cacf80(const float* step,const hkVector4* acceleration
 }  // namespace fnv_00cacf80
 
 struct HkEntity289 {
-    void FUN_00c9c670(void* listener) throw();
+    void removeEntityListener_00c9c670(void* listener) throw();
 };
 struct HkPhantom289 {
     void RemoveListener(void* listener) throw();
@@ -1352,7 +1357,7 @@ struct HkWorldLock289 {
     int unk04;
 };
 struct HkWorld289 {
-    void FUN_00cd2a50(HkWorldLock289* apOut, unsigned int auiFlags) throw();
+    void hkpWorldObject_removeProperty(HkWorldLock289* apOut, unsigned int auiFlags) throw();
     void FUN_00c905b0() throw();
 };
 
@@ -1425,7 +1430,7 @@ struct FUN_00cadb00 : HkReferencedObject289, HkEntityListener289, HkPhantomListe
 FUN_00cadb00::~FUN_00cadb00()
 {
     for (int i = 0; i < m_kActorEntries.m_iElementCount; i++) {
-        m_kActorEntries.m_data[i]->FUN_00c9c670(static_cast<HkEntityListener289*>(this));
+        m_kActorEntries.m_data[i]->removeEntityListener_00c9c670(static_cast<HkEntityListener289*>(this));
     }
     m_kActorEntries.clear();
 
@@ -1435,7 +1440,7 @@ FUN_00cadb00::~FUN_00cadb00()
     m_kPhantoms.clear();
 
     HkWorldLock289 lock;
-    m_pOwningWorld->FUN_00cd2a50(&lock, 0x1300);
+    m_pOwningWorld->hkpWorldObject_removeProperty(&lock, 0x1300);
     m_pOwningWorld->FUN_00c905b0();
 }
 
@@ -1650,8 +1655,8 @@ struct S_00caf4d0_PhantomListener { virtual void plUnk00(); };
 struct S_00caf4d0_TrackerBase { virtual void tbUnk00(); int unk04; };
 
 struct S_00caf4d0_Entity {
-    void FUN_00c9c5b0(S_00caf4d0_EntityListener* l) throw();
-    void FUN_00c9c670(S_00caf4d0_EntityListener* l) throw();
+    void hkpEntity_addEntityListener(S_00caf4d0_EntityListener* l) throw();
+    void removeEntityListener_00c9c670(S_00caf4d0_EntityListener* l) throw();
 };
 struct S_00caf4d0_Phantom {
     void AddItem(S_00caf4d0_PhantomListener* l) throw();
@@ -1706,8 +1711,8 @@ struct S_00caf4d0_Tracker : S_00caf4d0_TrackerBase, S_00caf4d0_EntityListener, S
     S_00caf4d0_Array<S_00caf4d0_Phantom*> m_kPhantoms; // 0x98
 
     float FUN_00cafd90(const S_00caf4d0_Point* a, const S_00caf4d0_Point* b) throw();
-    void FUN_00cad4c0(const S_00caf4d0_Point* p) throw();
-    void FUN_00cad480(const S_00caf4d0_Point* p) throw();
+    void hkpCharacterProxy_fireContactRemoved(const S_00caf4d0_Point* p) throw();
+    void hkpCharacterProxy_fireContactAdded(const S_00caf4d0_Point* p) throw();
     int FUN_00cacf10(const S_00caf4d0_Point* p) throw();
 
     void FUN_00caf4d0(const S_00caf4d0_Collector* input, const S_00caf4d0_Collector* extra, bool keepListeners) throw();
@@ -1720,7 +1725,7 @@ void S_00caf4d0_Tracker::FUN_00caf4d0(const S_00caf4d0_Collector* input, const S
     if (!keepListeners)
     {
         for (int i = 0; i < m_kActorEntries.GetLogicalSize(); i++)
-            m_kActorEntries[i]->FUN_00c9c670(this);
+            m_kActorEntries[i]->removeEntityListener_00c9c670(this);
         for (int i = 0; i < m_kPhantoms.GetLogicalSize(); i++)
             m_kPhantoms[i]->RemoveListener(this);
     }
@@ -1758,15 +1763,15 @@ void S_00caf4d0_Tracker::FUN_00caf4d0(const S_00caf4d0_Collector* input, const S
             S_00caf4d0_Point& hit = hits[bestIndex];
             if (hit.m_pCollidableB != old.m_pCollidableB)
             {
-                FUN_00cad4c0(&old);
-                FUN_00cad480(&hit);
+                hkpCharacterProxy_fireContactRemoved(&old);
+                hkpCharacterProxy_fireContactAdded(&hit);
             }
             old = hit;
             hits.removeAt(bestIndex);
         }
         else
         {
-            FUN_00cad4c0(&m_kPoints[j]);
+            hkpCharacterProxy_fireContactRemoved(&m_kPoints[j]);
             m_kPoints.removeAt(j);
         }
     }
@@ -1782,14 +1787,14 @@ void S_00caf4d0_Tracker::FUN_00caf4d0(const S_00caf4d0_Collector* input, const S
                 S_00caf4d0_Point& old = m_kPoints[index];
                 if (hit.m_pCollidableB != old.m_pCollidableB)
                 {
-                    FUN_00cad4c0(&old);
-                    FUN_00cad480(&hit);
+                    hkpCharacterProxy_fireContactRemoved(&old);
+                    hkpCharacterProxy_fireContactAdded(&hit);
                 }
                 old = hit;
             }
             else
             {
-                FUN_00cad480(&hit);
+                hkpCharacterProxy_fireContactAdded(&hit);
                 m_kPoints.AddBack(hit);
             }
         }
@@ -1800,7 +1805,7 @@ void S_00caf4d0_Tracker::FUN_00caf4d0(const S_00caf4d0_Collector* input, const S
         const S_00caf4d0_Point& hit = extra->m_kHits[0];
         if (FUN_00cacf10(&hit) == -1)
         {
-            FUN_00cad480(&hit);
+            hkpCharacterProxy_fireContactAdded(&hit);
             m_kPoints.AddBack(hit);
         }
     }
@@ -1812,7 +1817,7 @@ void S_00caf4d0_Tracker::FUN_00caf4d0(const S_00caf4d0_Collector* input, const S
             S_00caf4d0_Array<S_00caf4d0_Point>& pts = m_kPoints;
             if (FUN_00cafd90(&pts[i], &pts[j]) < 0.1f)
             {
-                FUN_00cad4c0(&m_kPoints[i]);
+                hkpCharacterProxy_fireContactRemoved(&m_kPoints[i]);
                 m_kPoints.m_iElementCount--;
                 if (m_kPoints.m_iElementCount != i)
                     memCpy8(&m_kPoints[i], &m_kPoints[m_kPoints.m_iElementCount], sizeof(S_00caf4d0_Point) / 8);
@@ -1829,7 +1834,7 @@ void S_00caf4d0_Tracker::FUN_00caf4d0(const S_00caf4d0_Collector* input, const S
             if (entity && m_kActorEntries.indexOf(entity) == -1)
             {
                 if (!keepListeners)
-                    entity->FUN_00c9c5b0(this);
+                    entity->hkpEntity_addEntityListener(this);
                 m_kActorEntries.AddBack(entity);
             }
         }
@@ -2511,7 +2516,7 @@ struct S_00cad500_Ref {
 };
 
 struct S_00cad500_E1 {
-    void FUN_00c9c670(void* p);
+    void removeEntityListener_00c9c670(void* p);
 };
 struct S_00cad500_E2 {
     void RemoveListener(void* p);
@@ -2584,7 +2589,7 @@ struct S_00cad500_This {
     char m_b0;
     int unkB1;
     void FUN_00cad500(S_00cad500_Src* a);
-    void FUN_00cac920(S_00cad500_Src* a);
+    void hkpCharacterProxy_setPosition(S_00cad500_Src* a);
 };
 
 __forceinline void S_00cad500_Normalize3(hkVector4& v, float zero, float three, float half)
@@ -2631,11 +2636,11 @@ void S_00cad500_This::FUN_00cad500(S_00cad500_Src* apSrc)
     reinterpret_cast<LocalM128&>(m_40) = reinterpret_cast<LocalM128&>(apSrc->m_30);
     S_00cad500_Normalize3(m_40, 0.0f, 3.0f, DAT_01016248);
     if (m_30->m_08 != 0) {
-        FUN_00cac920(apSrc);
+        hkpCharacterProxy_setPosition(apSrc);
     }
     reinterpret_cast<LocalM128&>(m_20) = _mm_setzero_ps();
     for (int i = 0; i < m_90; i++) {
-        m_8c[i]->FUN_00c9c670(&unk08);
+        m_8c[i]->removeEntityListener_00c9c670(&unk08);
     }
     m_90 = 0;
     for (int j = 0; j < m_9c; j++) {
@@ -2813,7 +2818,7 @@ sse_ca0c40::LocalM128* CharProxy_ca0c40::FUN_00ca0c40(const sse_ca0c40::LocalM12
     return out;
 }
 
-struct S00cae900_Listeners { void FUN_00cad440(void*, void*); };
+struct S00cae900_Listeners { void hkpCharacterProxy_fireConstraintsProcessed(void*, void*); };
 static const float DAT_010c851c = -0.08f;
 extern const LocalM128 DAT_01017d10;
 typedef unsigned long DWORD;
@@ -2936,7 +2941,7 @@ template <typename T> __forceinline void S00cae900_destruct(T* t, int n, S00cae9
 
 struct S00cae900_ArrRaw;
 extern "C" void __cdecl ResizeAudioStream(S00cae900_Alloc& alloc, S00cae900_ArrRaw* arr, int elemSize);
-extern "C" void __cdecl FUN_00c908c0(S00cae900_Alloc& alloc, S00cae900_ArrRaw* arr, int newCap, int elemSize);
+extern "C" void __cdecl hkArrayUtil__reserve(S00cae900_Alloc& alloc, S00cae900_ArrRaw* arr, int newCap, int elemSize);
 
 template <typename T>
 // local form of hkArrayBase: 0x00cae900 needs local construction and helper inlining; the shared form changes extent from 1738 to 1768 bytes.
@@ -2972,7 +2977,7 @@ public:
         if (capacity < n) {
             int cap2 = 2 * capacity;
             int newSize = (n < cap2) ? cap2 : n;
-            FUN_00c908c0(alloc, reinterpret_cast<S00cae900_ArrRaw*>(this), newSize, sizeof(T));
+            hkArrayUtil__reserve(alloc, reinterpret_cast<S00cae900_ArrRaw*>(this), newSize, sizeof(T));
         }
     }
     __forceinline void _setSize(S00cae900_Alloc& alloc, int n) {
@@ -3214,7 +3219,7 @@ void S00cae900_Proxy::FUN_00cae900(const hkVector4& direction, S00cae900_Surface
     input.m_vFourthInputVector = m_vStart;
     input.m_vThirdInputVector.SetAllComponents(m_fMaxCharacterSpeedForSolver);
     output.m_pPlaneStatuses = surfaceConstraintInteractions.begin();
-    reinterpret_cast<S00cae900_Listeners*>(this)->FUN_00cad440(&m_kContactManifold, &input);
+    reinterpret_cast<S00cae900_Listeners*>(this)->hkpCharacterProxy_fireConstraintsProcessed(&m_kContactManifold, &input);
 
     actualSurfaceVelocities.SetSizeAndGrow(input.m_iConstraintCount);
     surfaceConstraintInteractions.SetSizeAndGrow(input.m_iConstraintCount);
@@ -3371,7 +3376,7 @@ __forceinline void S00caefd0_destruct(void*, int, S00caefd0_PodTag) {}
 
 struct S00caefd0_ArrRaw;
 void __cdecl ResizeAudioStream(S00caefd0_Alloc& alloc, S00caefd0_ArrRaw* arr, int elemSize);
-void __cdecl FUN_00c908c0(S00caefd0_Alloc& alloc, S00caefd0_ArrRaw* arr, int newCap, int elemSize);
+void __cdecl hkArrayUtil__reserve(S00caefd0_Alloc& alloc, S00caefd0_ArrRaw* arr, int newCap, int elemSize);
 
 template <typename T>
 // local form of hkArrayBase: 0x00caefd0 needs local construction and helper inlining; the shared form changes extent from 1266 to 1286 bytes.
@@ -3407,7 +3412,7 @@ public:
         if (capacity < n) {
             int cap2 = 2 * capacity;
             int newSize = (n < cap2) ? cap2 : n;
-            FUN_00c908c0(alloc, reinterpret_cast<S00caefd0_ArrRaw*>(this), newSize, sizeof(T));
+            hkArrayUtil__reserve(alloc, reinterpret_cast<S00caefd0_ArrRaw*>(this), newSize, sizeof(T));
         }
     }
     __forceinline void _setSize(S00caefd0_Alloc& alloc, int n) {
@@ -3595,7 +3600,7 @@ public:
     int unk9c;
     int unka0;
     float m_fMaximumSlopeAngle;
-    void FUN_00cad440(void* manifold, void* input);
+    void hkpCharacterProxy_fireConstraintsProcessed(void* manifold, void* input);
     void FUN_00caefd0(const hkVector4& direction, S00caefd0_SurfaceInfo& ground) const;
 };
 
@@ -3628,7 +3633,7 @@ void S00caefd0_Proxy::FUN_00caefd0(const hkVector4& direction, S00caefd0_Surface
     input.m_vFourthInputVector = m_vStart;
     input.m_vThirdInputVector.SetAllComponents(m_fMaxCharacterSpeedForSolver);
     output.m_pPlaneStatuses = surfaceConstraintInteractions.begin();
-    const_cast<S00caefd0_Proxy*>(this)->FUN_00cad440(const_cast<S00caefd0_Array<S00caefd0_RootPoint>*>(&m_kContactManifold), &input);
+    const_cast<S00caefd0_Proxy*>(this)->hkpCharacterProxy_fireConstraintsProcessed(const_cast<S00caefd0_Array<S00caefd0_RootPoint>*>(&m_kContactManifold), &input);
     FUN_00d24360(input, output);
 
     output.m_fVelocity.sub4(m_fVelocity);

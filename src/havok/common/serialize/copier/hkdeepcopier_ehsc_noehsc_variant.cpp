@@ -236,7 +236,7 @@ struct ObjCopier
     bool m_bStreamResult;
     ObjCopier(const StructLayout& layoutIn, const StructLayout& layoutOut, int flags);
     ~ObjCopier();
-    int FUN_00e04920(const void* dataIn, const ClassInfo& klassIn, void* dataOut, const ClassInfo& klassOut,
+    int hkObjectCopier_copyObject(const void* dataIn, const ClassInfo& klassIn, void* dataOut, const ClassInfo& klassOut,
                      RelocInfo& reloc);
 };
 
@@ -287,7 +287,7 @@ void* FUN_00e4afe0(const void* dataIn, const ClassInfo& klassIn, PtrMap* previou
         const char* name = pClassInfo->FUN_00d46d40();
         pushBackConstruct(records, CopyRecord(offset, obj, name));
 
-        copier.FUN_00e04920(obj, *pClassInfo, dataOut.GetStreamWriter(), *pClassInfo, reloc);
+        copier.hkObjectCopier_copyObject(obj, *pClassInfo, dataOut.GetStreamWriter(), *pClassInfo, reloc);
 
         for (int j = globalStart; j < reloc.m_pGlobal.getSize(); ++j)
         {

@@ -129,11 +129,12 @@ struct DA0850Object
     int unk58;
     int m_uiFilterValue;
 
-    void FUN_00da0850(int value);
+    void hkSimpleLocalFrame_setParentFrame(int value);
 };
 
 // @fnv 0x00da0850
-void DA0850Object::FUN_00da0850(int value)
+// src: HAVOK_LIB 0x00da0850
+void DA0850Object::hkSimpleLocalFrame_setParentFrame(int value)
 {
     m_uiFilterValue = value;
 }

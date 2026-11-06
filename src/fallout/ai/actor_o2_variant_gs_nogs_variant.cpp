@@ -335,7 +335,7 @@ void __cdecl FUN_00d6b4b0(void*, unsigned int);
 struct FUN_00cdb3e0_cls
 {
     char pad[0x2c];
-    void FUN_00cdb3e0();
+    void hkaRagdollRigidBodyController_reinitialize();
 };
 struct S_c6a200_Info
 {
@@ -591,8 +591,8 @@ struct CE4360Context
     int m_iMode;
 };
 void __cdecl FUN_00ce3a00(CE4360Context* pkContext, int a, int b, int c, int d);
-void __cdecl FUN_00ce4330(CE4360Context* pkContext, int a, int b, int c);
-void __cdecl FUN_00ce4360(CE4360Context* pkContext, CE4360Iter* pkFrom, CE4360Iter* pkTo, int iValue);
+void __cdecl hkaSkeletonMapper_mapPoseLocalSpace_00ce4330(CE4360Context* pkContext, int a, int b, int c);
+void __cdecl hkaSkeletonMapper_mapPose(CE4360Context* pkContext, CE4360Iter* pkFrom, CE4360Iter* pkTo, int iValue);
 struct RTTI_c9b
 {
     const char* m_pcName;
@@ -744,8 +744,8 @@ struct FUN_00cb9650_Object
     virtual void vf08();
     virtual NiNode* vf0C();
 
-    void* FUN_00a5c570(const void* typeInfo);
-    void FUN_00a5c480(int value);
+    void* NiObjectNET_GetController(const void* typeInfo);
+    void NiObjectNET_RemoveController(int value);
 };
 extern const char DAT_012683f4[];
 void __cdecl FUN_00cb9650(FUN_00cb9650_Object* object);
@@ -1546,11 +1546,11 @@ struct RagdollCtl
     void FUN_00c7b6a0(bool);
     void FUN_00c7c150(bool);
 };
-static unsigned char* FUN_00c7f4a0(unsigned char* out, const float* src, int count);
+static unsigned char* hkVector4isOk(unsigned char* out, const float* src, int count);
 unsigned char* S00c7f4a0_Call(unsigned char* out, const float* src, int count);
 struct HkFloatCheck
 {
-    void FUN_00c7f500(bool* pOut);
+    void hkVector4_isOk4(bool* pOut);
 };
 static inline bool IsFiniteFloat(float r)
 {

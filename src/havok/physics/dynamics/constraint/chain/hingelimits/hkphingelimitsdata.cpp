@@ -5,15 +5,16 @@
 #include "../../../../../../../include/hkBool.h"
 #include "../../../../../../../include/hkRotation.h"
 
-extern "C" void __cdecl FUN_00d21a60(void* a, int b, int c);
+extern "C" void __cdecl hkpConstraintData_getConstraintInfoUtil(void* a, int b, int c);
 struct hkPhingeLimitsData
 {
-    void __thiscall FUN_00d52f10(int arg);
+    void __thiscall hkpHingeLimitsData_getConstraintInfo(int arg);
 };
 // @fnv 0x00d52f10
-void __thiscall hkPhingeLimitsData::FUN_00d52f10(int arg)
+// src: HAVOK_LIB 0x00d52f10
+void __thiscall hkPhingeLimitsData::hkpHingeLimitsData_getConstraintInfo(int arg)
 {
-    FUN_00d21a60((char*)this + 0x10, 0x84, arg);
+    hkpConstraintData_getConstraintInfoUtil((char*)this + 0x10, 0x84, arg);
 }
 
 struct hkHingeLimitsData

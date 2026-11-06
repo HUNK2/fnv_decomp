@@ -23,11 +23,12 @@ FUN_00e360f0::~FUN_00e360f0()
 struct FUN_00e36100_StandIn
 {
     int m_unk0;
-    void FUN_00e36100(int* pArg);
+    void hkpRejectChassisListener_collidableAddedCallback(int* pArg);
 };
 
 // @fnv 0x00e36100
-void FUN_00e36100_StandIn::FUN_00e36100(int* pArg)
+// src: HAVOK_LIB 0x00e36100
+void FUN_00e36100_StandIn::hkpRejectChassisListener_collidableAddedCallback(int* pArg)
 {
     if (*(int*)(pArg + 1) == *(int*)(this + 1) || *((unsigned char*)*(int*)(pArg + 1) + 0x18) != 1)
         *(int*)(pArg + 2) = 1;

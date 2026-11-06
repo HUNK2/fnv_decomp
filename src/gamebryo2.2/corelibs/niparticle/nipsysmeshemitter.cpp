@@ -57,7 +57,8 @@ bool __thiscall NiPSysCylinderEmitter::FUN_00c1f9e0(NiAVObject* pkObject)
 extern double DAT_01011588;
 extern double DAT_01016ff0;
 // @fnv 0x00c1ced0
-float FUN_00c1ced0(float number)
+// src: GAMEBRYO_LIB 0x00c1ced0
+float NiFastSqrt(float number)
 {
     float y = number;
     float fHalfX = number * DAT_01011588;
@@ -2028,7 +2029,7 @@ bool MeshEmitterCandidate::EmitFromMesh(NiGeometry* geometry, MeshPoint& positio
             {
                 MeshPoint edgeA = v1 - v0;
                 MeshPoint edgeB = v2 - v0;
-                float scaleA = FUN_00c1ced0(static_cast<float>(GetRandomNumber()) / DAT_01029790);
+                float scaleA = NiFastSqrt(static_cast<float>(GetRandomNumber()) / DAT_01029790);
                 float scaleB = static_cast<float>(GetRandomNumber()) / DAT_01029790;
                 position = edgeA + (scaleA * (edgeB * scaleB - edgeA) + v0);
             }
@@ -2442,7 +2443,7 @@ bool MeshReconstruction::FUN_00c1e080(NiSkinInstance* apSkinInstance, NiGeometry
         triangle.accumulator.x = triangle.p2.x - triangle.p0.x;
         triangle.accumulator.y = triangle.p2.y - triangle.p0.y;
         triangle.accumulator.z = triangle.p2.z - triangle.p0.z;
-        float parameter = FUN_00c1ced0(func_0x00639780());
+        float parameter = NiFastSqrt(func_0x00639780());
         NiPoint3* firstResult = FUN_004a3760(&triangle.v1, func_0x00639780(), &triangle.accumulator);
         triangle.accumulator.x = firstResult->x - scratch.x;
         triangle.accumulator.y = firstResult->y - scratch.y;

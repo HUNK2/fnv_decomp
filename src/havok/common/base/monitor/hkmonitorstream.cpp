@@ -44,7 +44,7 @@ struct SpawnedBuffer
 };
 
 hkMemoryRouter* FUN_00c85750();  // hkMemoryRouter::getInstancePtr (TLS slot read)
-void FUN_00cb0df0(SpawnedBuffer* buf);
+void hkMonitorStream_quit(SpawnedBuffer* buf);
 
 // @fnv 0x00cb0e50
 void ResizeBuffer(SpawnedBuffer* pBuffer, int iSize)
@@ -76,7 +76,7 @@ void ResizeBuffer(SpawnedBuffer* pBuffer, int iSize)
     }
     else
     {
-        FUN_00cb0df0(pBuffer);
+        hkMonitorStream_quit(pBuffer);
     }
 }
 
@@ -99,7 +99,8 @@ struct SpawnedObject
 
 // Allocates a SpawnedObject from the router's debug allocator (blockAlloc), stores it in TLS, and zeroes its fields.
 // @fnv 0x00cb0db0
-void __cdecl FUN_00cb0db0()
+// src: HAVOK_LIB 0x00cb0db0
+void __cdecl hkMonitorStream_init()
 {
     hkMemoryRouter* holder = FUN_00c85750();
     hkMemoryAllocator* alloc = holder->m_debug;
@@ -131,7 +132,8 @@ struct GrowBuffer
 
 // Frees the owned record buffer (bufFree) and the TLS block (blockFree) through the debug allocator, then clears the TLS slot.
 // @fnv 0x00cb0df0
-void __cdecl FUN_00cb0df0(GrowBuffer* apBuffer)
+// src: HAVOK_LIB 0x00cb0df0
+void __cdecl hkMonitorStream_quit(GrowBuffer* apBuffer)
 {
     void* pThreadData = TlsGetValue(DAT_0126835c);
 

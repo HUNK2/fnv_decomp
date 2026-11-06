@@ -24,7 +24,7 @@
 
 
 
-void __cdecl FUN_00c908c0(hkMemoryAllocator* alloc, void* array, int numElements, int sizeElem);
+void __cdecl hkArrayUtil__reserve(hkMemoryAllocator* alloc, void* array, int numElements, int sizeElem);
 void __cdecl D625A0MemMove(void* dst, const void* src, unsigned int nbytes);
 
 
@@ -104,19 +104,19 @@ struct Container : hkReferencedObject, hkProcess, OurPart, NotifyTarget, SecondT
 };
 
 // Listener registration is not declared in hkpWorld's shared header yet.
-extern void FUN_00c937a0();
+extern void hkpWorld_addActionListener();
 
 __forceinline void RegisterNotifyTarget(hkpWorld* world, NotifyTarget* target)
 {
     typedef void (__thiscall* RegisterFn)(hkpWorld*, NotifyTarget*);
-    reinterpret_cast<RegisterFn>(FUN_00c937a0)(world, target);
+    reinterpret_cast<RegisterFn>(hkpWorld_addActionListener)(world, target);
 }
 
 // @fnv 0x00d63520
 void OurPart::RegisterAndNotify(hkpWorld* apRegistry)
 {
     RegisterNotifyTarget(apRegistry, (Container*)((char*)this - 0x20));
-    apRegistry->FUN_00c93920(static_cast<SecondTarget*>((Container*)((char*)this - 0x20)));
+    apRegistry->hkpWorld_addWorldPostSimulationListener(static_cast<SecondTarget*>((Container*)((char*)this - 0x20)));
 
     hkpPhysicsSystem* pItemList = apRegistry->getWorldAsOneSystem();
     for (int i = 0; i < pItemList->m_ppActions.m_iElementCount; i++)
@@ -149,7 +149,7 @@ int __cdecl FUN_00d63dc0()
 // the code recovers the owner pointer (this - 0x20) and passes it on to the
 // two Target methods, which are called with the owner as their `this`.
 // These two listener-removal methods are absent from the shared hkpWorld declaration.
-extern void FUN_00c91700();
+extern void hkpWorld_removeActionListener();
 extern void FUN_00c918e0();
 
 struct FUN_00d63480_cls
@@ -172,7 +172,7 @@ void FUN_00d63480_cls::PassMembersToTarget(hkpWorld* apTarget)
 {
     char* pOwner = (char*)this - 0x20;
     typedef void (__thiscall* RemoveListenerFn)(hkpWorld*, void*);
-    reinterpret_cast<RemoveListenerFn>(FUN_00c91700)(apTarget, pOwner ? (void*)((char*)this + 8) : (void*)0);
+    reinterpret_cast<RemoveListenerFn>(hkpWorld_removeActionListener)(apTarget, pOwner ? (void*)((char*)this + 8) : (void*)0);
     reinterpret_cast<RemoveListenerFn>(FUN_00c918e0)(apTarget, pOwner ? (void*)((char*)this + 0xc) : (void*)0);
 }
 
@@ -382,7 +382,7 @@ __forceinline hkVtableClassRegistry* GetVtableClassRegistry(hkBuiltinTypeRegistr
 }
 
 // hkClass's superclass test is external to this unit.
-extern void FUN_00d46d80();
+extern void hkClass_isSuperClass();
 
 namespace hkD635 {
 extern hkBuiltinTypeRegistry* DAT_01268b08;
@@ -435,7 +435,7 @@ void VehicleViewerD635::AddVehicle(hkReferencedObject* pkObj)
         void (*address)();
         IsSuperClassFn method;
     } isSuperClass;
-    isSuperClass.address = FUN_00d46d80;
+    isSuperClass.address = hkClass_isSuperClass;
     if (pkVehicleClass && pkObjClass && (pkVehicleClass->*isSuperClass.method)(*pkObjClass))
     {
         pkObj->addReference();
@@ -569,12 +569,13 @@ class D63590List
     int unk04;
     hkArray<unsigned int> m_items;
 
-    void FUN_00d63590(unsigned int value);
+    void hkpVehicleViewer_actionRemovedCallback(unsigned int value);
 };
 
 // Finds value in m_items, removes it at that index, and releases its reference.
 // @fnv 0x00d63590
-void D63590List::FUN_00d63590(unsigned int value)
+// src: HAVOK_LIB 0x00d63590
+void D63590List::hkpVehicleViewer_actionRemovedCallback(unsigned int value)
 {
     int index = indexOf(m_items, value);
     if (index != -1)
@@ -597,7 +598,7 @@ void hkArrayBase<char>::_spliceInto(hkMemoryAllocator& kSharedAlloc, int index, 
     {
         int iDoubledCapacity = 2 * iCapacity;
         int iNewCapacity = (iNewLength < iDoubledCapacity) ? iDoubledCapacity : iNewLength;
-        FUN_00c908c0(&alloc, this, iNewCapacity, sizeof(char));
+        hkArrayUtil__reserve(&alloc, this, iNewCapacity, sizeof(char));
     }
     D625A0MemMove(m_data + index + aiNumInsert, m_data + index + aiNumDelete, numtomove * sizeof(char));
     char* dst = m_data + index;

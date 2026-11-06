@@ -199,7 +199,7 @@ struct FUN_00a77980_shell
 };
 struct FUN_00e7cdf0_shell
 {
-    unsigned char FUN_00e7cdf0();
+    unsigned char NiDX9DepthStencilBufferData_HasValidDepthBuffer();
     int _p1;
     int _p2;
     int _p3;
@@ -208,7 +208,8 @@ struct FUN_00e7cdf0_shell
     int _p6;
 };
 // @fnv 0x00e7cdf0
-unsigned char FUN_00e7cdf0_shell::FUN_00e7cdf0()
+// src: GAMEBRYO_LIB 0x00e7cdf0
+unsigned char FUN_00e7cdf0_shell::NiDX9DepthStencilBufferData_HasValidDepthBuffer()
 {
     if (_p4 && _p6)
         return ((FUN_00a77980_shell*)_p4)->FUN_00a77980(0x11) > 0;
@@ -428,11 +429,12 @@ struct FUN_00e7efc0_List
     int _z;
     int count;
     FUN_00e7efc0_Node* head;
-    FUN_00e7efc0_Node* __thiscall FUN_00e7efc0(FUN_00e7efc0_Node* node);
+    FUN_00e7efc0_Node* __thiscall NiD3DRenderStateGroup_RemoveRSEntryFromSavedList(FUN_00e7efc0_Node* node);
 };
 // Unlinks node from the doubly linked list, fixes neighbours and head, decrements count, clears node's links and returns it.
 // @fnv 0x00e7efc0
-FUN_00e7efc0_Node* __thiscall FUN_00e7efc0_List::FUN_00e7efc0(FUN_00e7efc0_Node* node)
+// src: GAMEBRYO_LIB 0x00e7efc0
+FUN_00e7efc0_Node* __thiscall FUN_00e7efc0_List::NiD3DRenderStateGroup_RemoveRSEntryFromSavedList(FUN_00e7efc0_Node* node)
 {
     FUN_00e7efc0_Node* prev = node->prev;
     FUN_00e7efc0_Node* next = node->next;
@@ -886,7 +888,8 @@ extern int DAT_0126f590;
 
 // If DAT_0126f590 is set, calls the virtual function at offset 0x9c on p with 0 and clears DAT_0126f590 on success; returns 1 or 0.
 // @fnv 0x00e7cca0
-unsigned char __cdecl FUN_00e7cca0(int* pObject)
+// src: GAMEBRYO_LIB 0x00e7cca0
+unsigned char __cdecl NiDX9DepthStencilBufferData_SetNULLDepthStencilTarget(int* pObject)
 {
     if (DAT_0126f590)
     {
@@ -1022,11 +1025,12 @@ struct FUN_00e7ef80_List
     int _x;
     int count;
     FUN_00e7ef80_Node* head;
-    FUN_00e7ef80_Node* __thiscall FUN_00e7ef80(FUN_00e7ef80_Node* node);
+    FUN_00e7ef80_Node* __thiscall NiD3DRenderStateGroup_RemoveRSEntryFromNoSaveList(FUN_00e7ef80_Node* node);
 };
 // Unlinks node from the doubly linked list, fixing neighbours and head, decrements count, clears the node's links and returns it.
 // @fnv 0x00e7ef80
-FUN_00e7ef80_Node* FUN_00e7ef80_List::FUN_00e7ef80(FUN_00e7ef80_Node* node)
+// src: GAMEBRYO_LIB 0x00e7ef80
+FUN_00e7ef80_Node* FUN_00e7ef80_List::NiD3DRenderStateGroup_RemoveRSEntryFromNoSaveList(FUN_00e7ef80_Node* node)
 {
     FUN_00e7ef80_Node* prev = node->next;
     FUN_00e7ef80_Node* next = node->prev;
@@ -1164,7 +1168,8 @@ struct E65000Entry
 
 // File-static helper with a compiler-chosen register convention.
 // @fnv 0x00e65000
-static __declspec(noinline) float FUN_00e65000(E65000Entry* pkEntries, int iIndex, float fValue)
+// src: HAVOK_LIB 0x00e65000
+static __declspec(noinline) float shiftDopLow(E65000Entry* pkEntries, int iIndex, float fValue)
 {
     float fOld = pkEntries[iIndex].m_fValue;
     pkEntries[iIndex].m_fValue = fValue;
@@ -1173,7 +1178,7 @@ static __declspec(noinline) float FUN_00e65000(E65000Entry* pkEntries, int iInde
 
 float E65000Swap(E65000Entry* pkEntries, int iIndex, float fValue)
 {
-    return FUN_00e65000(pkEntries, iIndex, fValue);
+    return shiftDopLow(pkEntries, iIndex, fValue);
 }
 
 class E673F0Geometry
@@ -2214,13 +2219,14 @@ class FUN_00e67660_cls
     int unkdd8;
     int unkddc;
     FnvNode67* m_de0[100];
-    int FUN_00e67660(FnvNode67* a1, int a2, int* a3, FnvEnt67** a4);
+    int hkWingedEdge_findVisibleTriangles(FnvNode67* a1, int a2, int* a3, FnvEnt67** a4);
 };
 
 extern float DAT_0104da48;
 
 // @fnv 0x00e67660
-int FUN_00e67660_cls::FUN_00e67660(FnvNode67* apNode, int aiArg, int* apiCount, FnvEnt67** apOutEntry)
+// src: HAVOK_LIB 0x00e67660
+int FUN_00e67660_cls::hkWingedEdge_findVisibleTriangles(FnvNode67* apNode, int aiArg, int* apiCount, FnvEnt67** apOutEntry)
 {
     int iResult = 0;
     int i = 0;
@@ -2236,7 +2242,7 @@ int FUN_00e67660_cls::FUN_00e67660(FnvNode67* apNode, int aiArg, int* apiCount, 
             n->m_44 = st;
             if (st == 1)
             {
-                iResult = FUN_00e67660(n, aiArg, apiCount, apOutEntry);
+                iResult = hkWingedEdge_findVisibleTriangles(n, aiArg, apiCount, apOutEntry);
                 if (iResult == 2)
                 {
                     break;
@@ -3431,12 +3437,13 @@ struct Owner
     {
         return *reinterpret_cast<EntryArray*>(reinterpret_cast<char*>(this) + 0x450);
     }
-    Entry* FUN_00e7b190(unsigned int group, unsigned int identifier, unsigned int subIdentifier,
+    Entry* NiDX9AdapterDesc_ValidateFullscreenMode(unsigned int group, unsigned int identifier, unsigned int subIdentifier,
                         unsigned int* accumulated);
 };
 // Scans the entry array for an item matching group, identifier and subIdentifier, accumulates its value and returns the last match.
 // @fnv 0x00e7b190
-Entry* Owner::FUN_00e7b190(unsigned int group, unsigned int identifier, unsigned int subIdentifier,
+// src: GAMEBRYO_LIB 0x00e7b190
+Entry* Owner::NiDX9AdapterDesc_ValidateFullscreenMode(unsigned int group, unsigned int identifier, unsigned int subIdentifier,
                            unsigned int* puiAccumulated)
 {
     Entry* match = 0;
@@ -3971,7 +3978,7 @@ struct FUN_00e7bcd0_Item
 };
 
 void __cdecl FUN_00aa1460(void* p, int size);
-void __cdecl FUN_00aa10f0(void* p);
+void __cdecl _NiFree_00aa10f0(void* p);
 
 struct FUN_00e7bcd0_cls
 {
@@ -3996,7 +4003,7 @@ void FUN_00e7bcd0_cls::DestroyItems()
         }
     }
     unk04 = (int)&DAT_010eec4c;
-    FUN_00aa10f0(m_items);
+    _NiFree_00aa10f0(m_items);
 }
 
 struct S_00e88fc0_Callee
@@ -4719,7 +4726,7 @@ struct GlobalHolder
 
 extern GlobalHolder DAT_011f6238;
 
-void __cdecl FUN_00aa10f0(int p);
+void __cdecl _NiFree_00aa10f0(int p);
 
 // Clears the global stage pool: releases its inner objects, frees the inner and pool memory, and nulls the global pointer.
 // @fnv 0x00e7ed80
@@ -4742,7 +4749,7 @@ void __cdecl DestroyStagePool()
             }
             DAT_011f6238.FUN_00aa4060(inner);
         }
-        FUN_00aa10f0(p->v1);
+        _NiFree_00aa10f0(p->v1);
         DAT_011f6238.FUN_00aa4060(p);
     }
     DAT_0126f6cc = 0;
@@ -4865,7 +4872,7 @@ class BE7F610Heap
 
 extern BE7F610Heap g_kE7F610Heap;
 
-void __cdecl FUN_00aa10f0(void* pvMem);
+void __cdecl _NiFree_00aa10f0(void* pvMem);
 void __cdecl FUN_00aa1490(void* pvMem, unsigned int uiAlignment);
 
 class BE7F610Object
@@ -4911,7 +4918,7 @@ template <class T> class BE7F610Queue : public BE7F610Object
     {
         m_iArrayLength = 0;
         delete m_pkOwned;
-        FUN_00aa10f0(m_pvItems);
+        _NiFree_00aa10f0(m_pvItems);
     }
 
     void* m_pvItems;
@@ -5951,7 +5958,8 @@ struct Node
     Item* m_item;
 };
 
-__declspec(noinline) int __cdecl FUN_00e7acb0(int key)
+// src: GAMEBRYO_LIB 0x00e7acb0
+__declspec(noinline) int __cdecl NiDX9SystemDesc_GetBPPFromFormat(int key)
 {
     switch (key)
     {
@@ -6082,7 +6090,7 @@ int __thiscall TexFormatList::FindFormatValue(unsigned char abUseFlag4, int key)
             Item*& pItemRef = node->m_item;
             node = node->m_next;
             Item* item = pItemRef;
-            if (item && item->m_flag4 && FUN_00e7acb0(item->m_key) == key)
+            if (item && item->m_flag4 && NiDX9SystemDesc_GetBPPFromFormat(item->m_key) == key)
             {
                 result = MapCodeToIndex(item->m_key);
                 break;
@@ -6096,7 +6104,7 @@ int __thiscall TexFormatList::FindFormatValue(unsigned char abUseFlag4, int key)
             Item*& pItemRef = node->m_item;
             node = node->m_next;
             Item* item = pItemRef;
-            if (item && item->m_flag5 && FUN_00e7acb0(item->m_key) == key)
+            if (item && item->m_flag5 && NiDX9SystemDesc_GetBPPFromFormat(item->m_key) == key)
             {
                 result = MapCodeToIndex(item->m_key);
                 break;
@@ -6428,7 +6436,7 @@ struct IndexAllocator
     int unk00;
 };
 struct IndexArray;
-void __cdecl FUN_00c908c0(IndexAllocator* alloc, IndexArray* arr, int newCap, int elemSize);
+void __cdecl hkArrayUtil__reserve(IndexAllocator* alloc, IndexArray* arr, int newCap, int elemSize);
 void* __cdecl FUN_00cb1260(void* dst, const void* src, unsigned int n);
 
 struct IndexArray
@@ -6453,7 +6461,7 @@ void __cdecl AppendIndices(int primType, const unsigned short* src, int count, i
         {
             if (newSize < cap * 2)
                 newSize = cap * 2;
-            FUN_00c908c0(alloc, out, newSize, 2);
+            hkArrayUtil__reserve(alloc, out, newSize, 2);
         }
         out->size += count;
         unsigned short* dst = out->data + oldSize;
@@ -6484,7 +6492,7 @@ void __cdecl AppendIndices(int primType, const unsigned short* src, int count, i
         {
             if (newSize < cap * 2)
                 newSize = cap * 2;
-            FUN_00c908c0(alloc, out, newSize, 2);
+            hkArrayUtil__reserve(alloc, out, newSize, 2);
         }
         out->size += n;
         unsigned short* dst = out->data + oldSize;
@@ -6762,7 +6770,7 @@ unsigned char FUN_00e76620_cls::FUN_00e76620()
     return unk34;
 }
 
-void __cdecl FUN_00c908c0(void*, IndexArray*, int, int);
+void __cdecl hkArrayUtil__reserve(void*, IndexArray*, int, int);
 // Appends a sequence of unsigned short indices to an IndexArray, growing its capacity via FUN_00c908c0 when needed.
 // @fnv 0x00e60d40
 void __cdecl AppendIndexSequence(int aiSequenceType, int count, int start, IndexArray* output, void* allocator)
@@ -6777,7 +6785,7 @@ void __cdecl AppendIndexSequence(int aiSequenceType, int count, int start, Index
         if (capacity < required)
         {
             int grown = 2 * capacity;
-            FUN_00c908c0(allocator, output, required >= grown ? required : grown, 2);
+            hkArrayUtil__reserve(allocator, output, required >= grown ? required : grown, 2);
         }
         output->size += added;
         unsigned short* destination = output->data + oldCount;
@@ -6804,7 +6812,7 @@ void __cdecl AppendIndexSequence(int aiSequenceType, int count, int start, Index
         if (capacity < required)
         {
             int grown = 2 * capacity;
-            FUN_00c908c0(allocator, output, required >= grown ? required : grown, 2);
+            hkArrayUtil__reserve(allocator, output, required >= grown ? required : grown, 2);
         }
         output->size += count;
         unsigned short* destination = output->data + size;
@@ -6885,7 +6893,8 @@ void __cdecl FUN_00e60f50(int iType, const int* piIndices, int iNumIndices, int 
 extern "C" double DAT_010229b8;
 
 // @fnv 0x00e62ac0
-static __declspec(noinline) float FUN_00e62ac0(unsigned seed)
+// src: HAVOK_LIB 0x00e62ac0
+static __declspec(noinline) float rand01_00e62ac0(unsigned seed)
 {
     int result = 0x3039 - (int)(seed * 0x3e39b193u);
     result &= 0x7fffffff;
@@ -6898,7 +6907,7 @@ volatile float g_e62ac0_sink;
 
 void e62ac0_probe_caller(void)
 {
-    g_e62ac0_sink = FUN_00e62ac0(g_e62ac0_seed);
+    g_e62ac0_sink = rand01_00e62ac0(g_e62ac0_seed);
 }
 
 // SetVec3FromHelper - 36 bytes at 0x00e62af0 (/MT /O2 /GS /EHsc /Gy)
@@ -6975,7 +6984,8 @@ struct E65020Entry
 };
 
 // @fnv 0x00e65020
-__declspec(noinline) static float FUN_00e65020(E65020Entry* pkEntries, int iIndex, float fValue)
+// src: HAVOK_LIB 0x00e65020
+__declspec(noinline) static float shiftDopHigh(E65020Entry* pkEntries, int iIndex, float fValue)
 {
     float f = pkEntries[iIndex].m_fValue;
     pkEntries[iIndex].m_fValue = fValue;
@@ -6984,7 +6994,7 @@ __declspec(noinline) static float FUN_00e65020(E65020Entry* pkEntries, int iInde
 
 float E65020Swap(E65020Entry* pkEntries, int iIndex, float fValue)
 {
-    return FUN_00e65020(pkEntries, iIndex, fValue);
+    return shiftDopHigh(pkEntries, iIndex, fValue);
 }
 
 // @fnv 0x00e67560
@@ -8001,11 +8011,12 @@ struct FUN_00e7ce10_cls
     int unk10;
     int m_14;
 
-    unsigned char FUN_00e7ce10();
+    unsigned char NiDX9DepthStencilBufferData_HasValidStencilBuffer();
 };
 
 // @fnv 0x00e7ce10
-unsigned char FUN_00e7ce10_cls::FUN_00e7ce10()
+// src: GAMEBRYO_LIB 0x00e7ce10
+unsigned char FUN_00e7ce10_cls::NiDX9DepthStencilBufferData_HasValidStencilBuffer()
 {
     if (!m_0c || !m_14)
     {
@@ -8256,7 +8267,7 @@ static __forceinline void IntArrayX_GrowArrayCapacity(hkArrayBase<int>& self, He
         {
             int cap2 = 2 * cap;
             int newSize = (n < cap2) ? cap2 : n;
-            FUN_00c908c0((IndexAllocator*)&alloc, (IndexArray*)(&self), newSize, sizeof(int));
+            hkArrayUtil__reserve((IndexAllocator*)&alloc, (IndexArray*)(&self), newSize, sizeof(int));
         }
     }
 
@@ -9027,7 +9038,7 @@ struct SearchIndex
 
 extern "C" int __cdecl abs(int v);
 extern unsigned int DAT_011bf140[];
-int __cdecl FUN_00e7a8b0(unsigned int tbl, int* a, unsigned int* b);
+int __cdecl NiDX9DeviceDesc_DisplayFormatInfo_GetDepthStencilBPPFromFormat(unsigned int tbl, int* a, unsigned int* b);
 
 class DepthStencilSearch
 {
@@ -9057,7 +9068,7 @@ int DepthStencilSearch::FindBestFullscreenFormat(unsigned int p1, int aiDepth, i
                 unsigned int tbl = DAT_011bf140[uiIndex];
                 int a = 0;
                 unsigned int stencil = 0;
-                FUN_00e7a8b0(tbl, &a, &stencil);
+                NiDX9DeviceDesc_DisplayFormatInfo_GetDepthStencilBPPFromFormat(tbl, &a, &stencil);
                 if (abs(iMinDepth - aiDepth) < abs(a - aiDepth))
                     continue;
                 if (abs(iMinStencil - aiStencil) < abs((int)stencil - aiStencil))
@@ -9168,13 +9179,14 @@ FUN_00e7a5e0_Object* FUN_00e7a5e0_Object::FUN_00e7a5e0(unsigned int uiFlags)
 namespace fnv_00e7acb0 {
 // The served context contains an unrelated noinline helper under this tag.
 // Keep that helper inline-only, and isolate the reconstructed entry by namespace.
-inline int __cdecl FUN_00e7acb0(int);
+inline int __cdecl NiDX9SystemDesc_GetBPPFromFormat(int);
 namespace texture_format_entry {
 // Texture format size lookup: returns the number of bits per pixel for a
 // format code, or -1 for an unknown format.
 // Maps a format code to 0, 8, 16, 24, 32, 64 or 128, or to -1 when the code is not listed.
 // @fnv 0x00e7acb0
-int __cdecl FUN_00e7acb0(int aiFormat)
+// src: GAMEBRYO_LIB 0x00e7acb0
+int __cdecl NiDX9SystemDesc_GetBPPFromFormat(int aiFormat)
 {
     switch (aiFormat)
     {
@@ -9313,10 +9325,10 @@ __forceinline bool IsBumpFormatQ(int eFormat)
 }
 
 int __cdecl FUN_00ec65a6(char* pcDest, unsigned int uiDestSize, const char* pcSrc);
-void __cdecl FUN_00aa2a00(char* pcPath);
+void __cdecl NiPath_Standardize(char* pcPath);
 int __cdecl FUN_00aa1360(const char* s1, const char* s2);
 void* __cdecl FUN_00aa1070(unsigned int uiSize);
-void __cdecl FUN_00aa10f0(void* pvMem);
+void __cdecl _NiFree_00aa10f0(void* pvMem);
 void* __cdecl FUN_00ec44d0(void* pvDest, const void* pvSrc, unsigned int uiSize);
 long __stdcall FUN_00ee6e22(const void* pvSrc, unsigned int uiSize, D3DXImageInfoQ* pkInfo);
 __declspec(noalias) long __stdcall FUN_00ee6e1c(void* pkDevice, const void* pvSrc, unsigned int uiSize,
@@ -9421,7 +9433,7 @@ bool NiDX9SourceTextureDataQ::LoadFromFilename(const char* pcFilename, NiDX9Rend
     {
         char acStandardFilename[260];
         FUN_00ec65a6(acStandardFilename, 260, pcFilename);
-        FUN_00aa2a00(acStandardFilename);
+        NiPath_Standardize(acStandardFilename);
 
         NiFilename kFilename;
         kFilename.FUN_00aa27d0(acStandardFilename);
@@ -9452,7 +9464,7 @@ bool NiDX9SourceTextureDataQ::LoadFromFilename(const char* pcFilename, NiDX9Rend
 
         if (FUN_00ee6e22(pucBuffer, uiSize, &info) < 0)
         {
-            FUN_00aa10f0(pucBuffer);
+            _NiFree_00aa10f0(pucBuffer);
             return false;
         }
 
@@ -9462,7 +9474,7 @@ bool NiDX9SourceTextureDataQ::LoadFromFilename(const char* pcFilename, NiDX9Rend
             if (eFormat != 0x3c && eFormat != 0x3f && eFormat != 0x40 && eFormat != 0x6e && eFormat != 0x75 &&
                 eFormat != 0x3d && eFormat != 0x3e && eFormat != 0x43)
             {
-                FUN_00aa10f0(pucBuffer);
+                _NiFree_00aa10f0(pucBuffer);
                 return false;
             }
         }
@@ -9555,7 +9567,7 @@ bool NiDX9SourceTextureDataQ::LoadFromFilename(const char* pcFilename, NiDX9Rend
             hr = (long)0x8876086c;
         }
 
-        FUN_00aa10f0(pucBuffer);
+        _NiFree_00aa10f0(pucBuffer);
 
         if (hr < 0 || !pkD3DTexture)
             return false;
@@ -9686,7 +9698,7 @@ struct PtrList
     }
 };
 
-int __cdecl FUN_00e7acb0(int name) throw();
+int __cdecl NiDX9SystemDesc_GetBPPFromFormat(int name) throw();
 
 struct DisplayModeInfo
 {
@@ -9698,7 +9710,7 @@ struct DisplayModeInfo
     DisplayModeInfo(const DisplayMode& d) throw() : width(d.width), height(d.height), format(d.format)
     {
         list.AddHead(d.refresh);
-        unk08 = FUN_00e7acb0(d.format);
+        unk08 = NiDX9SystemDesc_GetBPPFromFormat(d.format);
     }
     void* operator new(unsigned int size) throw()
     {

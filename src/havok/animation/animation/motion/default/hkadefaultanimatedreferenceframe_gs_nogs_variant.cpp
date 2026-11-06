@@ -111,7 +111,7 @@ __declspec(noinline) void hkQuaternion::FUN_00c74ac0(const void* pa, const void*
 }
 
 
-extern "C" void __cdecl FUN_00c908c0(hkMemoryAllocator* mem, void* arr, int newCap, int elemSize) throw();
+extern "C" void __cdecl hkArrayUtil__reserve(hkMemoryAllocator* mem, void* arr, int newCap, int elemSize) throw();
 #include "../../../../../../include/hkArray.h"
 struct Config
 {
@@ -139,7 +139,7 @@ extern "C" void __cdecl FUN_00e41bf0(void* outTransform, float time, const hkQsT
                                      float duration) throw();
 
 extern "C" hkMemoryRouter* __cdecl FUN_00c85750() throw();
-extern "C" void __cdecl FUN_00c908c0(hkMemoryAllocator* mem, void* arr, int newCap, int elemSize) throw();
+extern "C" void __cdecl hkArrayUtil__reserve(hkMemoryAllocator* mem, void* arr, int newCap, int elemSize) throw();
 
 class FUN_00e41830
 {
@@ -285,7 +285,7 @@ FUN_00e41830::FUN_00e41830(const Config& config) throw() : m_ppVirtualMethodTabl
         {
             newCap = numSamples;
         }
-        FUN_00c908c0(&mem, &samples, newCap, sizeof(hkVector4));
+        hkArrayUtil__reserve(&mem, &samples, newCap, sizeof(hkVector4));
     }
     samples.m_iElementCount = numSamples;
     for (int i = 0; i < numSamples; ++i)

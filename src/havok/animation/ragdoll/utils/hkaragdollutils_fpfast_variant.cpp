@@ -10,11 +10,11 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 extern "C"
 {
-    int __cdecl FUN_00cea030(void*, void*);
+    int __cdecl hkaRagdollUtils_reorderForRagdoll(void*, void*);
     int __cdecl FUN_00ce9db0(void*, void*);
     int __cdecl FUN_00ce9e90(void*);
 }
-int __cdecl FUN_00cea7c0(void* p1, void* p2, void* p3);
+int __cdecl hkaRagdollUtils_reorderAndAlignForRagdoll(void* p1, void* p2, void* p3);
 struct Item
 {
     int unk00[11];
@@ -35,7 +35,7 @@ struct Counter
     int unk30;
 };
 extern "C" void __cdecl AssignNodeFlags(int, int, int);
-void __cdecl FUN_00ce9fa0(Container* c, int value, Counter* counter);
+void __cdecl hkaRagdollUtils_setCollisionLayer(Container* c, int value, Counter* counter);
 struct Inner
 {
     virtual void unk0();
@@ -139,7 +139,7 @@ static __forceinline hkOstream& writeInt(hkOstream& stream, int value) throw()
     typedef hkOstream& (__thiscall *WriteInt)(hkOstream*, int);
     return reinterpret_cast<WriteInt>(&FUN_00cc0280)(&stream, value);
 }
-extern "C" void __cdecl FUN_00c908c0(HeapAllocator* allocator, ScratchArray* array, int capacity, int itemSize);
+extern "C" void __cdecl hkArrayUtil__reserve(HeapAllocator* allocator, ScratchArray* array, int capacity, int itemSize);
 extern "C" const char DAT_010cbde0[];
 extern "C" const char DAT_010cbdec[];
 extern "C" const char DAT_010cbe00[];
@@ -164,7 +164,7 @@ static __forceinline void reserveArray(HeapAllocator* allocator, ScratchArray* a
     {
         int doubled = capacity * 2;
         int newCapacity = size < doubled ? doubled : size;
-        FUN_00c908c0(allocator, array, newCapacity, 4);
+        hkArrayUtil__reserve(allocator, array, newCapacity, 4);
     }
 }
 static __forceinline void fillWords(int* destination, int value, int count) throw()
@@ -280,7 +280,8 @@ static int findNode(const IntArray* nodes, void* value)
     return -1;
 }
 // @fnv 0x00cea030
-extern "C" int __cdecl FUN_00cea030(void* first, void* second)
+// src: HAVOK_LIB 0x00cea030
+extern "C" int __cdecl hkaRagdollUtils_reorderForRagdoll(void* first, void* second)
 {
     IntArray* nodes = static_cast<IntArray*>(first);
     NodeArray* links = static_cast<NodeArray*>(second);
@@ -405,7 +406,8 @@ static __declspec(noinline) bool IsSupportedRagdollConstraint(Obj* obj, bool rep
     return obj->inner != 0 && reportError;
 }
 
-static __declspec(noinline) Vec4* FUN_00ce9c40(Obj* obj) throw()
+// src: HAVOK_LIB 0x00ce9c40
+static __declspec(noinline) Vec4* _accessConstraintPivotA(Obj* obj) throw()
 {
     Inner* inner = obj->inner;
     int t = inner->getSomething();
@@ -477,7 +479,7 @@ int __cdecl FUN_00ce9db0(A1W constraints, void* warnOnAlignment)
             result = 1;
             continue;
         }
-        PivotVec pivotInA = *(const PivotVec*)FUN_00ce9c40(constraint);
+        PivotVec pivotInA = *(const PivotVec*)_accessConstraintPivotA(constraint);
         Shape* shape = constraint->shape;
         PivotXform childFromConstraint;
         childFromConstraint.m_rotation = *(const PivotVec*)&DAT_010c71b0;

@@ -31,12 +31,13 @@ struct FUN_00d263f0_t
     char pad20[0x20];
     char m_buf40[0x40];  // +0x40
 
-    int FUN_00d263f0(int a, int b);
+    int hkpTriSampledHeightFieldCollection_calcSizeForSpu(int a, int b);
 };
 
 // Calls a virtual function on m_obj with a and b-0x40, then maps the result to an offset in m_buf40 or stores it in m_field1c, returning -1 when out of range.
 // @fnv 0x00d263f0
-int FUN_00d263f0_t::FUN_00d263f0(int a, int aiLimit)
+// src: HAVOK_LIB 0x00d263f0
+int FUN_00d263f0_t::hkpTriSampledHeightFieldCollection_calcSizeForSpu(int a, int aiLimit)
 {
     int iAdjusted = aiLimit - 0x40;
     void* obj = m_obj;
@@ -155,7 +156,7 @@ void* FUN_00d26450_Obj::FUN_00d26450()
 struct S_d264d0_Coll : public hkpTriSampledHeightFieldCollection
 {
     hkpSampledHeightFieldShape* FUN_00d26450();
-    void FUN_00d264d0(unsigned int key, unsigned short value);
+    void hkpTriSampledHeightFieldCollection_setWeldingInfo(unsigned int key, unsigned short value);
 };
 
 __declspec(noinline) hkpSampledHeightFieldShape* S_d264d0_Coll::FUN_00d26450()
@@ -165,7 +166,8 @@ __declspec(noinline) hkpSampledHeightFieldShape* S_d264d0_Coll::FUN_00d26450()
 
 // Computes an index from key and count, then stores value in m_kWeldingInfo.m_data at that index.
 // @fnv 0x00d264d0
-void S_d264d0_Coll::FUN_00d264d0(unsigned int key, unsigned short value)
+// src: HAVOK_LIB 0x00d264d0
+void S_d264d0_Coll::hkpTriSampledHeightFieldCollection_setWeldingInfo(unsigned int key, unsigned short value)
 {
     unsigned int count = FUN_00d26450()->m_iXResolution;
     unsigned int idx = ((count - 1) * (key >> 16) + ((key >> 1) & 0x7fff)) * 2 | (key & 1);
@@ -293,16 +295,17 @@ struct FUN_00d267c0_Alloc
 };
 
 void* FUN_00c85750(void);
-void FUN_00c908c0(int a1, int a2, int a3, int a4);
+void hkArrayUtil__reserve(int a1, int a2, int a3, int a4);
 
 struct FUN_00d267c0_t : FUN_00d26450_S
 {
-    void FUN_00d267c0(int mode);
+    void hkpTriSampledHeightFieldCollection_initWeldingInfo(int mode);
 };
 
 // Resizes the internal buffer to the computed index when mode is not 6, otherwise frees the buffer and resets its state fields.
 // @fnv 0x00d267c0
-void FUN_00d267c0_t::FUN_00d267c0(int mode)
+// src: HAVOK_LIB 0x00d267c0
+void FUN_00d267c0_t::hkpTriSampledHeightFieldCollection_initWeldingInfo(int mode)
 {
     if (mode != 6)
     {
@@ -312,7 +315,7 @@ void FUN_00d267c0_t::FUN_00d267c0(int mode)
         char* cur = (char*)FUN_00c85750();
         if ((*(int*)(arr + 8) & 0x3fffffff) < idx)
         {
-            FUN_00c908c0(*(int*)(cur + 0x10), (int)arr, idx, 2);
+            hkArrayUtil__reserve(*(int*)(cur + 0x10), (int)arr, idx, 2);
         }
         cur = (char*)FUN_00c85750();
         int alloc = *(int*)(cur + 0x10);
@@ -320,7 +323,7 @@ void FUN_00d267c0_t::FUN_00d267c0(int mode)
         if (a < idx)
         {
             int m = a * 2;
-            FUN_00c908c0(alloc, (int)arr, idx < m ? m : idx, 2);
+            hkArrayUtil__reserve(alloc, (int)arr, idx < m ? m : idx, 2);
         }
         *(int*)(arr + 4) = idx;
     }

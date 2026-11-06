@@ -80,7 +80,8 @@ inline void* Group::operator new(unsigned int) throw() { return ((AllocationCont
 struct SizePointer { unsigned int* value; SizePointer(unsigned int* p):value(p) {} unsigned int& operator*() const { return *value; } };
 // Allocates a Block, links it into the block list, copies entries into records, and optionally creates a Group tracking size ranges.
 // @fnv 0x00d94ec0
-static __declspec(noinline) void __cdecl FUN_00d94ec0(BlockList* blocks, Owner* owner, Group** groupHead, Block** blockTail,
+// src: HAVOK_LIB 0x00d94ec0
+static __declspec(noinline) void __cdecl createAndAppendNewTask(BlockList* blocks, Owner* owner, Group** groupHead, Block** blockTail,
     Group** groupTail, Group** rangeBegin, Group** rangeEnd,
     SizePointer firstSizeArg, unsigned int* secondSize, EntryListNode* entries,
     void** currentState, void* state, unsigned short** count,
@@ -172,7 +173,7 @@ void call_target(BlockList* blocks, Owner* owner, Group** groupHead, Block** blo
     unsigned int* firstSize, unsigned int* secondSize, EntryListNode* entries,
     void** currentState, void* state, unsigned short** count,
     bool suppressHead, bool makeGroup, SpecialList* specials) {
-    FUN_00d94ec0(blocks, owner, groupHead, blockTail, groupTail, rangeBegin, rangeEnd,
+    createAndAppendNewTask(blocks, owner, groupHead, blockTail, groupTail, rangeBegin, rangeEnd,
         firstSize, secondSize, entries, currentState, state, count, suppressHead, makeGroup, specials);
 }
 
@@ -181,7 +182,7 @@ void call_target(BlockList* blocks, Owner* owner, Group** groupHead, Block** blo
 extern "C" void _ReadWriteBarrier();
 inline void* operator new(unsigned int, void* ptr) { return ptr; }
 __declspec(nothrow) void* FUN_00c85750();
-__declspec(nothrow) void FUN_00c908c0(void*,void*,int,int);
+__declspec(nothrow) void hkArrayUtil__reserve(void*,void*,int,int);
 extern DWORD DAT_0126835c;
 struct FlagByte {
     char value;
@@ -252,7 +253,7 @@ public:
     void setSizeUnchecked(int n) { destroyRange(data+n,count-n); defaultRange(data+count,n-count); count=n; }
     void reserveWith(TaskAllocator& alloc,int n) {
         int old=capacity&0x3fffffff;
-        if (old<n) { int grown=old+old; if(n>=grown) grown=n; FUN_00c908c0(&alloc,this,grown,sizeof(T)); }
+        if (old<n) { int grown=old+old; if(n>=grown) grown=n; hkArrayUtil__reserve(&alloc,this,grown,sizeof(T)); }
     }
     void pushBackUnchecked(const T& entry) {
         copyRange(data+count,1,entry);
@@ -612,7 +613,8 @@ static __forceinline void finalizeCounts(JobHeader* state) {
 }
 
 // @fnv 0x00d95130
-void FUN_00d95130(SceneInput island, FlagByte coherent, JobHeader* header,
+// src: HAVOK_LIB 0x00d95130
+void createBuildJacobianAndSolveJacobianTaskCollection(SceneInput island, FlagByte coherent, JobHeader* header,
     BuildCollection* builds, SolveCollection* solves)
 {
     TaskArray<ProbeEntry,TempPolicy> normal((DelayInit())); TaskArray<ProbeEntry,TempPolicy> high((DelayInit()));
@@ -959,12 +961,12 @@ struct __declspec(align(16)) QueueStorage : JobQueueEntry {
 
 struct Queue {
     int __thiscall FUN_00d05190(JobQueueEntry& cmd, int waitMode);
-    void __thiscall FUN_00d04b50(JobQueueEntry& cmd, int priority);
-    void __thiscall FUN_00d04d80(const JobQueueEntry* cmd, int flag);
+    void __thiscall hkJobQueue_addJob(JobQueueEntry& cmd, int priority);
+    void __thiscall hkJobQueue_finishJob(const JobQueueEntry* cmd, int flag);
     void* __thiscall FUN_00d04400(void* storage);
     void __thiscall FUN_00d04b00(void* token, const PacketBase& cmd, int priority);
     void __thiscall FUN_00d04420(void* token);
-    int __thiscall FUN_00d05020(int kind, int priority, JobQueueEntry& next, int waitMode);
+    int __thiscall hkJobQueue_finishAddAndGetNextJob(int kind, int priority, JobQueueEntry& next, int waitMode);
     int __thiscall ProcessCallback(const PacketBase* prev, JobQueueEntry& next, int waitMode);
 };
 
@@ -1193,7 +1195,8 @@ extern int __cdecl FUN_00d88b50(const StepTiming& timing, const SolverParams& so
 extern void __cdecl FUN_00d942f0(SceneIsland* island, TaskArray<void*>& splitIslands);
 extern int __cdecl FUN_00d883c0(const SceneIsland& island, char* buffer, int bufferSize, JobHeader& header);
 
-__declspec(noinline) void __cdecl FUN_00d95130(SceneIsland* island, FlagByte onSpu, JobHeader* header, BuildCollection* builds, SolveCollection* solves)
+// src: HAVOK_LIB 0x00d95130
+__declspec(noinline) void __cdecl createBuildJacobianAndSolveJacobianTaskCollection(SceneIsland* island, FlagByte onSpu, JobHeader* header, BuildCollection* builds, SolveCollection* solves)
 {
     builds->numBuildTasks = island->numConstraints;
     builds->buildTasks = header->buffer;
@@ -1226,11 +1229,11 @@ int __cdecl FUN_00d95cf0(TaskOwner& owner, Queue& queue, JobQueueEntry& nextJobO
             DAT_012687c8.set(prevThread);
             if (status == 0)
             {
-                queue.FUN_00d04b50(nextJobOut, 1);
+                queue.hkJobQueue_addJob(nextJobOut, 1);
                 JobQueueEntry stopJob;
                 stopJob.kind = PACKET_DYNAMICS;
                 stopJob.subType = 16;
-                queue.FUN_00d04d80(&stopJob, 0);
+                queue.hkJobQueue_finishJob(&stopJob, 0);
                 nextJobOut = retryJob;
                 return 0;
             }
@@ -1408,7 +1411,7 @@ int __cdecl FUN_00d95cf0(TaskOwner& owner, Queue& queue, JobQueueEntry& nextJobO
                 queue.FUN_00d04b00(token, splitJob, 0);
             }
             queue.FUN_00d04420(token);
-            return queue.FUN_00d05020(0, 0, nextJobOut, 0);
+            return queue.hkJobQueue_finishAddAndGetNextJob(0, 0, nextJobOut, 0);
         }
 
         {
@@ -1472,7 +1475,7 @@ FINISH_BROAD_PHASE:
         header->exportFinished = true;
         new (&nextJobOut) BroadPacket(currentJob, header);
         {
-            int status = queue.FUN_00d05020(0, 0, nextJobOut, 0);
+            int status = queue.hkJobQueue_finishAddAndGetNextJob(0, 0, nextJobOut, 0);
         }
         return 0;
     }
@@ -1507,12 +1510,12 @@ FINISH_BROAD_PHASE:
             accJob.firstEntityIdx = 0;
             accJob.numEntities = (unsigned short)numEntities;
             accJob.mode = MODE_ENABLED;
-            queue.FUN_00d04b50(nextJobOut, 0);
+            queue.hkJobQueue_addJob(nextJobOut, 0);
         }
 
         BuildCollection outBuilds;
         SolveCollection outSolves;
-        FUN_00d95130(island, stepCtx.buildOnSpu, header, &outBuilds, &outSolves);
+        createBuildJacobianAndSolveJacobianTaskCollection(island, stepCtx.buildOnSpu, header, &outBuilds, &outSolves);
         {
             hkMonitorStream& stream = hkMonitorStream::getInstance();
             if (static_cast<hkMonitorStream_hkpcpuintegratejob&>(stream).memoryAvailable())

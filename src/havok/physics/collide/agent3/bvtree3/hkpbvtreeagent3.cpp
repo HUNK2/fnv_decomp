@@ -3,7 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 void* __cdecl InitAndReturnTail(void*, void*, void*);
-void __fastcall FUN_00d2d890(void* self, int, void*, int);
+void __fastcall hkBvTreeAgent3_process(void* self, int, void*, int);
 void __fastcall CallWithValueSource(void* self, int, int, int);
 void __fastcall FUN_00d2d430(void* self, int, int, int);
 void __fastcall FUN_00d2d480(void* self, int, int, int);
@@ -11,7 +11,7 @@ void __fastcall FUN_00d2d480(void* self, int, int, int);
 void FUN_00d2d9d0(void* pObject)
 {
     *(void**)pObject = (void*)&InitAndReturnTail;
-    *(void**)((char*)pObject + 0x2c) = (void*)&FUN_00d2d890;
+    *(void**)((char*)pObject + 0x2c) = (void*)&hkBvTreeAgent3_process;
     *(int*)((char*)pObject + 0x28) = 0;
     *(int*)((char*)pObject + 8) = 0;
     *(int*)((char*)pObject + 0xc) = 0;
@@ -25,11 +25,11 @@ void FUN_00d2d9d0(void* pObject)
     *(char*)((char*)pObject + 0x30) = 1;
 }
 
-extern "C" void __cdecl FUN_00da35f0(void*, float, float, int);
+extern "C" void __cdecl _hkAgent1nMachine_WarpTime(void*, float, float, int);
 // @fnv 0x00d2d480
 void __cdecl FUN_00d2d480(void*, void* target, float first, float second, int flags)
 {
-    FUN_00da35f0(target, first, second, flags);
+    _hkAgent1nMachine_WarpTime(target, first, second, flags);
 }
 
 // Exe 0x00d2d4b0: unit-local Interface view; declarations and layout are preserved.
@@ -184,7 +184,7 @@ struct Agent
     virtual void f7();
 };
 
-extern "C" void __cdecl FUN_00d97250(int, int, void*);
+extern "C" void __cdecl hkpAgentMachineUtil_calc1nStatistics(int, int, void*);
 extern "C" void __cdecl FUN_00da3510(int, int);
 
 // Calls p->f6 with the type name hkBvTreeAgent3, then FUN_00d97250 with a2, a3 and p, then p->f7().
@@ -192,7 +192,7 @@ extern "C" void __cdecl FUN_00da3510(int, int);
 void __cdecl FUN_00d2d430(int a1, int a2, int a3, Agent* pAgent)
 {
     pAgent->f6("hkBvTreeAgent3");
-    FUN_00d97250(a2, a3, pAgent);
+    hkpAgentMachineUtil_calc1nStatistics(a2, a3, pAgent);
     pAgent->f7();
 }
 
@@ -397,7 +397,8 @@ int FUN_00da4aa0(int a, void* b, int c, char* d, int e);
 
 // Takes 0x4000 bytes from an arena, calls FUN_00d2d4f0, FUN_00d2d4b0 and FUN_00da4aa0 between timing markers, restores the arena and returns child + 0x10.
 // @fnv 0x00d2d890
-char* __cdecl FUN_00d2d890(char* self, int a1, char* child, int a3, int a4)
+// src: HAVOK_LIB 0x00d2d890
+char* __cdecl hkBvTreeAgent3_process(char* self, int a1, char* child, int a3, int a4)
 {
     volatile unsigned int tb;
     S00d2d890_Buf* t = (S00d2d890_Buf*)TlsGetValue(DAT_0126835c);
@@ -488,7 +489,8 @@ struct __declspec(align(16)) S_00d2da20_AgentFuncs
 
 // Builds an S_00d2da20_AgentFuncs with FUN_00d2d9d0, then passes it to target->FUN_00cfbd60 with -1 and 8.
 // @fnv 0x00d2da20
-void FUN_00d2da20(FUN_00cfbd60_Obj* target)
+// src: HAVOK_LIB 0x00d2da20
+void hkBvTreeAgent3_registerAgent3(FUN_00cfbd60_Obj* target)
 {
     S_00d2da20_AgentFuncs agentFuncs;
     FUN_00d2d9d0(&agentFuncs);

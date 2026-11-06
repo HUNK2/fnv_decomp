@@ -66,7 +66,7 @@ inline void SwapRecords(Record& first, Record& second)
     second = first;
     first = temp;
 }
-void FUN_00ddeb70(Record* records, int left, int right, int comparator);
+void hkAlgorithm_quickSortRecursive_struct_hkEntry_class_hkAlgorithm_less_struct_hkEntry(Record* records, int left, int right, int comparator);
 // Exe 0x00dddcd0: unit-local DynamicArray view; declarations and layout are preserved.
 struct HkpmeshweldingutilityDynamicArrayView
 {
@@ -268,8 +268,8 @@ __declspec(align(16)) struct QueryBuffer
 };
 int FUN_00dde4c0(Iface* self, void* a, void* b, int idx, int zero, int* out);
 bool* CheckSubQueries(bool* result, void* key, Iface* self);
-void* FUN_00c908c0(void* alloc, void* arr, int numElems, int elemSize);
-void FUN_00d2cc70(void* dst, const void* src, int numBytes);
+void* hkArrayUtil__reserve(void* alloc, void* arr, int numElems, int elemSize);
+void hkMemUtil_memMove(void* dst, const void* src, int numBytes);
 inline void* operator new(unsigned int, void* p)
 {
     return p;
@@ -289,7 +289,7 @@ static __forceinline void S_00ddeab0_GrowArrayCapacity(hkArrayBase<S_00ddeab0_El
         {
             int cap2 = cap + cap;
             int newcap = (numElems < cap2) ? cap2 : numElems;
-            FUN_00c908c0(alloc, (&self), newcap, 12);
+            hkArrayUtil__reserve(alloc, (&self), newcap, 12);
         }
     }
 struct S_00ddecd0
@@ -452,11 +452,11 @@ void __cdecl ResizeAudioStream(void* heap, void* arr, int elemSize) throw();
 struct KeyLess
 {
 };
-void __cdecl FUN_00ddeb70(S_00ddecf0_Key* keys, int left, int right, KeyLess cmp) throw();
+void __cdecl hkAlgorithm_quickSortRecursive_struct_hkEntry_class_hkAlgorithm_less_struct_hkEntry(S_00ddecf0_Key* keys, int left, int right, KeyLess cmp) throw();
 template <typename T, typename L> inline void quickSort(T* pArr, int size, L cmpLess)
 {
     if (size > 1)
-        FUN_00ddeb70(pArr, 0, size - 1, cmpLess);
+        hkAlgorithm_quickSortRecursive_struct_hkEntry_class_hkAlgorithm_less_struct_hkEntry(pArr, 0, size - 1, cmpLess);
 }
 extern "C" double __cdecl fabs(double);
 __declspec(noinline) ComparisonResult __cdecl AreZDiffering(const S_00ddecf0_Key& a, const S_00ddecf0_Key& b) throw()
@@ -501,7 +501,7 @@ static inline float clamp(float x, float lo, float hi)
 }
 struct Track : public S_00ddecf0
 {
-    float FUN_00dded60();
+    float hkHistogram_evaluate();
 };
 
 extern "C"
@@ -746,7 +746,7 @@ struct hkHistogramW
         m_data = 0;
         m_iCapacityState = 0x80000000;
     }
-    float FUN_00dded60();
+    float hkHistogram_evaluate();
     void InsertKey(float t0, float t1, float angle);
 };
 
@@ -865,7 +865,7 @@ void __cdecl GenerateTrianglePlanes(hkVector4* planes, const hkpTriangleShapeW* 
 hkBool __cdecl FUN_00ddd0b0(const hkVector4& a, const hkVector4& b, int numPlanes, const hkVector4* planes,
                              float& tmin, float& tmax);
 int __cdecl FindAngleIndex(float angle);
-unsigned int __cdecl FUN_00ddcdd0(unsigned int combined, int edgeIndex, unsigned int code);
+unsigned int __cdecl hkpMeshWeldingUtility_modifyCombinedEdgesBitcode(unsigned int combined, int edgeIndex, unsigned int code);
 
 // hkIsEdgeInTrianglePlane
 __declspec(noinline) hkBool __cdecl IsDotProductBelowThreshold(const hkVector4& edge, const hkVector4& normal)
@@ -976,7 +976,7 @@ void __cdecl FUN_00dddcd0(const Transform& transform, hkpShapeCollectionW* colle
                         histogram.InsertKey(tmin, tmax, angle);
                 }
             }
-            weldingInfo = (unsigned short)FUN_00ddcdd0(weldingInfo, edgeIndex, FindAngleIndex(histogram.FUN_00dded60()));
+            weldingInfo = (unsigned short)hkpMeshWeldingUtility_modifyCombinedEdgesBitcode(weldingInfo, edgeIndex, FindAngleIndex(histogram.hkHistogram_evaluate()));
         }
         collection->SetWeldingInfo(key, weldingInfo);
     }

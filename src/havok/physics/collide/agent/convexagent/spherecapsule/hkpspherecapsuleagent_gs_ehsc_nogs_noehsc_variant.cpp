@@ -40,7 +40,7 @@ void FUN_00d3e330(const S_00d3ef70_CdBody&, const S_00d3ef70_CdBody&, const S_00
 void FUN_00d3ebe0(const S_00d3ef70_CdBody&, const S_00d3ef70_CdBody&, const S_00d3ef70_Input&, S_00d3ef70_Collector&);
 void FUN_00daf8e0(const S_00d3ef70_CdBody&, const S_00d3ef70_CdBody&, const S_00d3ef70_Input&, S_00d3ef70_Collector&,
                   S_00d3ef70_Collector*);
-void FUN_00d3ef70(S_00d3ef70_Dispatcher* dispatcher);
+void hkpSphereCapsuleAgent_registerAgent(S_00d3ef70_Dispatcher* dispatcher);
 class InnerCls
 {
   public:
@@ -73,7 +73,7 @@ class FUN_00d3e2b0_cls
     int m_i04;
     InnerCls* m_pInner;
     unsigned short m_w0c;
-    void FUN_00d3e2b0(int a1);
+    void hkpSphereCapsuleAgent_cleanup(int a1);
 };
 #include "../../../../../../../include/hkMemoryRouter.h"
 struct ObjAllocator
@@ -93,7 +93,7 @@ extern char DAT_010cf018[];
 hkMemoryRouter* FUN_00c85750();
 void __cdecl FUN_00d3e2f0(int a, int b, int c, int d);
 void __cdecl FUN_00d3e330(int a, int b, int c, int d);
-void __stdcall FUN_00d3e510(int a, int b, int c, int d);
+void __stdcall hkpSphereCapsuleAgent_getPenetrations(int a, int b, int c, int d);
 extern char DAT_010ce81c;
 struct FUN_00d3f040_tmp
 {
@@ -112,6 +112,6 @@ struct AgentDispatchDescriptor
 };
 struct CollisionDispatcher
 {
-    void FUN_00d3e510(void* bodyB, void* bodyA, void* input, AgentDispatchDescriptor* descriptor);
+    void hkpSphereCapsuleAgent_getPenetrations(void* bodyB, void* bodyA, void* input, AgentDispatchDescriptor* descriptor);
     void FUN_00d3f000(void* bodyA, void* bodyB, void* volatile input, unsigned int tag);
 };

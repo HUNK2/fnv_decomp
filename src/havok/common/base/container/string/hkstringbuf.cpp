@@ -7,7 +7,7 @@
 #include <stdarg.h>
 
 BSAudio* __cdecl FUN_00c85750();
-extern "C" void __cdecl FUN_00c908c0(void*, void*, int, int);
+extern "C" void __cdecl hkArrayUtil__reserve(void*, void*, int, int);
 
 class BufferOwner
 {
@@ -35,7 +35,7 @@ BufferOwner* BufferOwner::InitBuffer()
         {
             iCapacity = 1;
         }
-        FUN_00c908c0(pAllocator, this, iCapacity, 1);
+        hkArrayUtil__reserve(pAllocator, this, iCapacity, 1);
     }
     m_iReferenceCount = 1;
     *m_pData = 0;
@@ -65,7 +65,7 @@ struct StringBuf : public BufferOwner
         {
             int cap2 = 2 * capacity;
             int newSize = (n < cap2) ? cap2 : n;
-            FUN_00c908c0(&alloc, this, newSize, 1);
+            hkArrayUtil__reserve(&alloc, this, newSize, 1);
         }
     }
     void SetSize(int n)
@@ -78,11 +78,12 @@ struct StringBuf : public BufferOwner
         SetSize(n + 1);
         m_pData[n] = 0;
     }
-    void FUN_00d61d00(const char* fmt, ...);
+    void hkStringBuf_printf(const char* fmt, ...);
 };
 // Formats fmt into the buffer with va_list args, growing capacity until the write fits, then null-terminates.
 // @fnv 0x00d61d00
-void StringBuf::FUN_00d61d00(const char* fmt, ...)
+// src: HAVOK_LIB 0x00d61d00
+void StringBuf::hkStringBuf_printf(const char* fmt, ...)
 {
     va_list args;
     va_start(args, fmt);

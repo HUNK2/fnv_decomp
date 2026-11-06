@@ -71,7 +71,7 @@ struct FUN_00d5a630_ctxB
     void InitB();
 };
 extern float DAT_0106ea1c;
-void __cdecl FUN_00d5a630(void* a1, int a2, int a3);
+void __cdecl hkGeometryUtility_createConvexGeometry(void* a1, int a2, int a3);
 struct S_00d5a6b0_Array
 {
     Vec4* m_data;
@@ -144,7 +144,7 @@ struct S00d5ad60_cls
     float m_f00;
     unsigned char S00d5ad60_call(float* other, float threshold);
 };
-static unsigned char FUN_00d5ad60(S00d5ad60_cls* self, float* other, float threshold);
+static unsigned char approxEquals(S00d5ad60_cls* self, float* other, float threshold);
 #ifndef _INCLUDED_MM2
 extern "C" LocalM128 _mm_setr_ps(float, float, float, float);
 #endif
@@ -158,9 +158,9 @@ struct S00d5c060_Src
     int m_iElementIndex;
 };
 char* __cdecl AllocateWithHeader(D5C110Allocator* alloc, int size);
-char* __cdecl FUN_00c856c0(D5C110Allocator* owner, char* data);
+char* __cdecl hkMemoryRouter_easyFree(D5C110Allocator* owner, char* data);
 void __cdecl FUN_00d5beb0(Vec4* self, char* data, int count, int flags, float scale);
-Vec4 FUN_00d5c060(const S00d5c060_Src* src, float scale);
+Vec4 hkGeometryUtility_createMinBoundingSphere(const S00d5c060_Src* src, float scale);
 extern "C" LocalM128 _mm_add_ss(LocalM128, LocalM128);
 extern "C" float _mm_cvtss_f32(LocalM128);
 extern "C" void _mm_store_ss(float*, LocalM128);
@@ -241,7 +241,7 @@ struct MeanCovObbStride
 {
     int v;
 };
-void __cdecl FUN_00c908c0(void*, void*, int, int);
+void __cdecl hkArrayUtil__reserve(void*, void*, int, int);
 struct MeanCovTrivialElements
 {
 };
@@ -280,7 +280,7 @@ template <class T> class MeanCovArrayBase
         {
             int doubled = oldCapacity * 2;
             int chosen = count < doubled ? doubled : count;
-            FUN_00c908c0(&heap, this, chosen, sizeof(T));
+            hkArrayUtil__reserve(&heap, this, chosen, sizeof(T));
         }
     }
     __forceinline T* expand(D5C110Allocator& heap, int count)
@@ -329,7 +329,7 @@ struct MeanCovObbRandom
     int seed0, seed1;
     void NextFloat4(Vec4& out);
 };
-void __cdecl FUN_00c908c0(void*, void*, int, int);
+void __cdecl hkArrayUtil__reserve(void*, void*, int, int);
 static __forceinline LocalM128 MeanCovsplat(float x)
 {
     LocalM128 r = MeanCovIntrinsics::_mm_load_ss(&x);

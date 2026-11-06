@@ -48,7 +48,7 @@ class NiObjectNET : public NiObject
     void FUN_0049ee10(unsigned short);
     void FUN_0049ee30(unsigned short);
     void FUN_00533fb0(unsigned short);
-    void FUN_00a5c050();
+    void RemoveAllControllers();
     bool FUN_00a5bf50(unsigned short);
 
     NiFixedString m_kName;

@@ -8,7 +8,7 @@
 extern "C"
 {
     void* __cdecl FUN_00c85750(void);
-    void __cdecl FUN_00c856c0(void*, void*);
+    void __cdecl hkMemoryRouter_easyFree(void*, void*);
 }
 extern int DAT_0102e388;
 extern void* DAT_010ea5b4;
@@ -52,7 +52,7 @@ void SomeClass::Destroy()
     if (p)
     {
         void* q = FUN_00c85750();
-        FUN_00c856c0(*(void**)((char*)q + 0x10), p);
+        hkMemoryRouter_easyFree(*(void**)((char*)q + 0x10), p);
     }
     void* s = FUN_00c85750();
     void* t = *(void**)((char*)s + 0x10);
@@ -61,7 +61,7 @@ void SomeClass::Destroy()
 }
 
 char* __cdecl AllocateWithHeader(hkMemoryAllocator* alloc, int numBytes);
-void __cdecl FUN_00c856c0(hkMemoryAllocator* alloc, void* p);
+void __cdecl hkMemoryRouter_easyFree(hkMemoryAllocator* alloc, void* p);
 extern "C" void __cdecl FUN_00cb1280(void* dst, int c, int n);
 extern "C" void __cdecl FUN_00cb1260(void* dst, const void* src, int nbytes);
 
@@ -85,7 +85,7 @@ void E06490Stack::GrowBuffer()
     FUN_00cb1260(newBuffer + m_pRayCursor, m_buffer, m_pRayCursor);
     char* oldBuffer = m_buffer;
     m_pRayCursor *= 2;
-    FUN_00c856c0(&GetMoppMemoryRouter().heap(), oldBuffer);
+    hkMemoryRouter_easyFree(&GetMoppMemoryRouter().heap(), oldBuffer);
     m_buffer = newBuffer;
 }
 
@@ -118,7 +118,7 @@ extern "C" void __cdecl FUN_00e06480()
 {}
 
 #include <xmmintrin.h>
-extern "C" void __cdecl FUN_00c908c0(void* heap, void* arr, int n, int elemSize);
+extern "C" void __cdecl hkArrayUtil__reserve(void* heap, void* arr, int n, int elemSize);
 extern "C" void __cdecl FUN_00cb1260(void* dst, const void* src, int n);
 
 __forceinline hkMemoryAllocator& hkContainerHeapAllocator::get(const void*)
@@ -130,7 +130,7 @@ template <typename T>
 __forceinline void hkArrayBase<T>::_reserveExactly(hkMemoryAllocator& a, int n)
 {
     if ((m_iCapacityState & 0x3fffffff) < n)
-        FUN_00c908c0(&a, this, n, sizeof(T));
+        hkArrayUtil__reserve(&a, this, n, sizeof(T));
 }
 
 template <typename T>
@@ -140,7 +140,7 @@ __forceinline void hkArrayBase<T>::GrowArrayCapacity(hkMemoryAllocator& a, int n
     if (c < n)
     {
         int dbl = c * 2;
-        FUN_00c908c0(&a, this, (n < dbl) ? dbl : n, sizeof(T));
+        hkArrayUtil__reserve(&a, this, (n < dbl) ? dbl : n, sizeof(T));
     }
 }
 
@@ -190,7 +190,7 @@ S_00e064f0_Obj* FUN_00e064f0_class::FUN_00e064f0()
     pNewObj->m_aiIndexedValues.setSize(n);
     FUN_00cb1260(pNewObj->m_aiIndexedValues.m_data, (char*)unk08 + (unk10 - unk0C), n);
     void* pOldBuffer = (void*)unk10;
-    FUN_00c856c0(GetMoppMemoryRouter().m_pMemoryAllocator, pOldBuffer);
+    hkMemoryRouter_easyFree(GetMoppMemoryRouter().m_pMemoryAllocator, pOldBuffer);
     unk10 = 0;
     unk0C = 0;
     unk08 = n;

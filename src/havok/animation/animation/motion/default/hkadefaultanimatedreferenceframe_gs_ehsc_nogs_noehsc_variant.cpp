@@ -383,10 +383,11 @@ struct AnimatedFrame
     int unk04, unk08, unk0c;
     int unk10, unk14, unk18, unk1c, unk20, unk24, unk28, unk2c;
     float m_fAnimationDuration;
-    void FUN_00e413d0(float time, float nextTime, int loops, hkQsTransform& output) const;
+    void hkaDefaultAnimatedReferenceFrame_getDeltaReferenceFrame(float time, float nextTime, int loops, hkQsTransform& output) const;
 };
 // @fnv 0x00e413d0
-void AnimatedFrame::FUN_00e413d0(float time, float nextTime, int loops, hkQsTransform& output) const
+// src: HAVOK_SRC 0x00e413d0
+void AnimatedFrame::hkaDefaultAnimatedReferenceFrame_getDeltaReferenceFrame(float time, float nextTime, int loops, hkQsTransform& output) const
 {
     hkQsTransform start;
     EvaluateTransform(time, start);

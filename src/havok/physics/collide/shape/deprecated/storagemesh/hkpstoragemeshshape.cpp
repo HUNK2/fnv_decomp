@@ -101,7 +101,7 @@ class FUN_00dcd310 : public hkpShapeCollection
     int unk58;
     int unk5C;
 
-    void FUN_00d4b480(const hkpMeshShapeSubpartD4B& kSubpart) throw();
+    void hkpStorageMeshShape_addSubpart(const hkpMeshShapeSubpartD4B& kSubpart) throw();
 };
 
 class FUN_00d4bab0 : public FUN_00dcd310
@@ -121,7 +121,7 @@ FUN_00d4bab0::FUN_00d4bab0(const FUN_00dcd310& kOther) throw()
     m_ulUserData = kOther.m_ulUserData;
     m_bDisableWelding.m_cBooleanValue = kOther.m_bDisableWelding.m_cBooleanValue;
     for (int i = 0; i < kOther.m_kSubparts.GetLogicalSize(); i++)
-        FUN_00d4b480(kOther.m_kSubparts[i]);
+        hkpStorageMeshShape_addSubpart(kOther.m_kSubparts[i]);
     m_kWeldingInfo = kOther.m_kWeldingInfo;
     m_eWeldingType = kOther.m_eWeldingType;
 }
@@ -259,7 +259,7 @@ Derived::Derived() : hkpShape(HK_SHAPE_INVALID)
 {}
 
 void __cdecl ResizeAudioStream(void* heap, void* arr, int elemSize);
-void __cdecl FUN_00c908c0(void* heap, void* arr, int newCap, int elemSize);
+void __cdecl hkArrayUtil__reserve(void* heap, void* arr, int newCap, int elemSize);
 extern float DAT_01267e30;
 struct SubpartFlags480
 {
@@ -268,7 +268,8 @@ struct SubpartFlags480
     unsigned short flags;
 };
 
-static __declspec(noinline) int __cdecl FUN_00d4b390(int a, int n)
+// src: HAVOK_LIB 0x00d4b390
+static __declspec(noinline) int __cdecl storageMeshShape_numIndices(int a, int n)
 {
     switch (a)
     {
@@ -297,7 +298,7 @@ template <class T> __forceinline void hkArrayBase<T>::GrowArrayCapacity(hkMemory
     {
         int doubled = 2 * capacity;
         int result = needed < doubled ? doubled : needed;
-        FUN_00c908c0(&heap, this, result, sizeof(T));
+        hkArrayUtil__reserve(&heap, this, result, sizeof(T));
     }
 }
 
@@ -355,7 +356,8 @@ struct Storage480 : hkReferencedObject
 
 // Copies a mesh subpart's vertex, index, material, and extra data into owned storage arrays and updates the subpart's pointers and strides.
 // @fnv 0x00d4b480
-void FUN_00dcd310::FUN_00d4b480(const hkpMeshShapeSubpartD4B& kSubpart) throw()
+// src: HAVOK_LIB 0x00d4b480
+void FUN_00dcd310::hkpStorageMeshShape_addSubpart(const hkpMeshShapeSubpartD4B& kSubpart) throw()
 {
     hkpMeshShapeSubpartD4B* pSubpart = ExpandInit480(m_kSubparts);
 
@@ -393,7 +395,7 @@ void FUN_00dcd310::FUN_00d4b480(const hkpMeshShapeSubpartD4B& kSubpart) throw()
         if (iClamped > 2)
             iClamped = 3;
         pSubpart->unk14 = iClamped + iClamped;
-        int numIndices = FUN_00d4b390(a, kSubpart.unk1C);
+        int numIndices = storageMeshShape_numIndices(a, kSubpart.unk1C);
         hkArray<unsigned short>& arr = storage->idx16;
         unsigned short* dst = arr.expandBy(numIndices);
         idxDst = (int)dst;
@@ -414,7 +416,7 @@ void FUN_00dcd310::FUN_00d4b480(const hkpMeshShapeSubpartD4B& kSubpart) throw()
         if (iClamped > 2)
             iClamped = 3;
         pSubpart->unk14 = (iClamped << 2);
-        int numIndices = FUN_00d4b390(a, kSubpart.unk1C);
+        int numIndices = storageMeshShape_numIndices(a, kSubpart.unk1C);
         hkArray<int>& arr = storage->idx32;
         int* dst = arr.expandBy(numIndices);
         idxDst = (int)dst;
@@ -685,11 +687,12 @@ struct FUN_00dcebd0_Class : hkpShapeCollection
     int m_iCapacityState;
 
     void FUN_00d06290(const FUN_00dcebd0_Class& source);
-    void FUN_00dcebd0(const FUN_00dcebd0_Class& source);
+    void hkpPhysicsSystemWithContacts_copy(const FUN_00dcebd0_Class& source);
 };
 // Calls FUN_00d06290(source), then copies source's int array into this, reallocating through the thread allocator when capacity is smaller.
 // @fnv 0x00dcebd0
-void FUN_00dcebd0_Class::FUN_00dcebd0(const FUN_00dcebd0_Class& source)
+// src: HAVOK_LIB 0x00dcebd0
+void FUN_00dcebd0_Class::hkpPhysicsSystemWithContacts_copy(const FUN_00dcebd0_Class& source)
 {
     FUN_00d06290(source);
     hkMemoryAllocator* allocator = FUN_00c85750().m_heap;

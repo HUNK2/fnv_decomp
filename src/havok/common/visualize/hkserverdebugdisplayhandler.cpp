@@ -27,7 +27,7 @@ struct FUN_00d605d0_Class
 {
     void FUN_00d60960(unsigned int value);
     void FUN_00d605d0(unsigned int value);
-    void FUN_00dda730(unsigned int value);
+    void hkDisplaySerializeOStream_writeQuadVector4(unsigned int value);
     void FUN_00d609a0(__int64 value);
     void WriteInt(unsigned int value);
     const char* ForwardValueToObject(unsigned int* value);
@@ -49,8 +49,8 @@ bool Record::SetConfigValues(unsigned int uiValueA, unsigned int uiValueB, unsig
     {
         config->FUN_00d60960(0x29);
         config->FUN_00d605d0(8);
-        config->FUN_00dda730(uiValueA);
-        config->FUN_00dda730(uiValueB);
+        config->hkDisplaySerializeOStream_writeQuadVector4(uiValueA);
+        config->hkDisplaySerializeOStream_writeQuadVector4(uiValueB);
         config->FUN_00d60960(uiValueC);
         config->FUN_00d609a0(iValueD);
         config->WriteInt(uiValueE);
@@ -78,11 +78,12 @@ struct FUN_00dd9ab0_cls
     int unk00;
     FUN_00d605d0_Class* m_pConfiguration;
     void* m_pWorldLock;
-    bool FUN_00dd9ab0(unsigned int a1, unsigned int a2, int a3, unsigned int a4);
+    bool hkServerDebugDisplayHandler_displayPoint(unsigned int a1, unsigned int a2, int a3, unsigned int a4);
 };
 
 // @fnv 0x00dd9ab0
-bool FUN_00dd9ab0_cls::FUN_00dd9ab0(unsigned int a1, unsigned int a2, int a3, unsigned int a4)
+// src: HAVOK_LIB 0x00dd9ab0
+bool FUN_00dd9ab0_cls::hkServerDebugDisplayHandler_displayPoint(unsigned int a1, unsigned int a2, int a3, unsigned int a4)
 {
     bool ok;
     _fnv_EnterCriticalSection(m_pWorldLock);
@@ -90,7 +91,7 @@ bool FUN_00dd9ab0_cls::FUN_00dd9ab0(unsigned int a1, unsigned int a2, int a3, un
     {
         m_pConfiguration->FUN_00d60960(0x1d);
         m_pConfiguration->FUN_00d605d0(7);
-        m_pConfiguration->FUN_00dda730(a1);
+        m_pConfiguration->hkDisplaySerializeOStream_writeQuadVector4(a1);
         m_pConfiguration->FUN_00d60960(a2);
         m_pConfiguration->FUN_00d609a0(a3);
         m_pConfiguration->WriteInt(a4);
@@ -124,11 +125,12 @@ struct FUN_00dd9be0_cls
     int unk00;
     FUN_00d605d0_Class* m_pConfiguration;
     void* m_cs;
-    bool FUN_00dd9be0(unsigned int a, unsigned int b);
+    bool hkServerDebugDisplayHandler_sendMemStatsDump(unsigned int a, unsigned int b);
 };
 
 // @fnv 0x00dd9be0
-bool FUN_00dd9be0_cls::FUN_00dd9be0(unsigned int auiValue, unsigned int auiParam)
+// src: HAVOK_LIB 0x00dd9be0
+bool FUN_00dd9be0_cls::hkServerDebugDisplayHandler_sendMemStatsDump(unsigned int auiValue, unsigned int auiParam)
 {
     _fnv_EnterCriticalSection(m_cs);
     if (m_pConfiguration != 0)
@@ -162,10 +164,11 @@ struct S_00dd9c60
     int unk00;
     FUN_00d605d0_Class* unk04;
     void* unk08;
-    bool FUN_00dd9c60();
+    bool hkServerDebugDisplayHandler_holdImmediate();
 };
 // @fnv 0x00dd9c60
-bool S_00dd9c60::FUN_00dd9c60()
+// src: HAVOK_LIB 0x00dd9c60
+bool S_00dd9c60::hkServerDebugDisplayHandler_holdImmediate()
 {
     _fnv_EnterCriticalSection(unk08);
     if (unk04)
@@ -183,18 +186,19 @@ bool S_00dd9c60::FUN_00dd9c60()
     return !r;
 }
 
-int __cdecl FUN_00dda850(const char* str);
+int __cdecl hkDisplaySerializeOStream_computeBytesRequired_00dda850(const char* str);
 
 typedef hkArray<const char*> DD9D70StringArray;
 
 // @fnv 0x00dd9d70
-static __declspec(noinline) int FUN_00dd9d70(const DD9D70StringArray& strings)
+// src: HAVOK_LIB 0x00dd9d70
+static __declspec(noinline) int _getGeometryByteSize(const DD9D70StringArray& strings)
 {
     int size = 4;
     for (int i = 0; i < strings.m_iElementCount; i++)
     {
         const char* const& s = strings.m_data[i];
-        size += FUN_00dda850(s);
+        size += hkDisplaySerializeOStream_computeBytesRequired_00dda850(s);
     }
     return size;
 }
@@ -202,7 +206,7 @@ static __declspec(noinline) int FUN_00dd9d70(const DD9D70StringArray& strings)
 // Caller so the file-static helper is emitted with its register calling convention.
 int DD9D70ComputeSize(const DD9D70StringArray* a, const DD9D70StringArray* b)
 {
-    return FUN_00dd9d70(*a) + FUN_00dd9d70(*b);
+    return _getGeometryByteSize(*a) + _getGeometryByteSize(*b);
 }
 
 extern "C" __declspec(dllimport) void __stdcall _fnv_EnterCriticalSection(void* section);
@@ -262,25 +266,26 @@ struct ConfigAux
     void WriteTransform(unsigned int value);
 };
 
-unsigned int FUN_00dd9d70();
+unsigned int _getGeometryByteSize();
 
 struct FUN_00dd9df0_cls
 {
     int unk00;
     FUN_00d605d0_Class* config;
     void* criticalSection;
-    bool FUN_00dd9df0(unsigned int a1, unsigned int a2, unsigned int a3, unsigned int a4, unsigned int a5);
+    bool hkServerDebugDisplayHandler_addGeometry(unsigned int a1, unsigned int a2, unsigned int a3, unsigned int a4, unsigned int a5);
 };
 
 // Locks the critical section, applies the given values to config and parent, then returns whether the config's check fails.
 // @fnv 0x00dd9df0
-bool FUN_00dd9df0_cls::FUN_00dd9df0(unsigned int a1, unsigned int a2, unsigned int a3, unsigned int a4, unsigned int a5)
+// src: HAVOK_LIB 0x00dd9df0
+bool FUN_00dd9df0_cls::hkServerDebugDisplayHandler_addGeometry(unsigned int a1, unsigned int a2, unsigned int a3, unsigned int a4, unsigned int a5)
 {
     _fnv_EnterCriticalSection(this->criticalSection);
     if (this->config != 0)
     {
         unsigned int uiValue1Copy = a1;
-        unsigned int v = FUN_00dd9d70();
+        unsigned int v = _getGeometryByteSize();
         this->config->WriteInt(v + 0x29);
         this->config->FUN_00d605d0(1);
         ((ParentRec*)((char*)this - 8))->ApplyItemList(uiValue1Copy);
@@ -305,7 +310,7 @@ done:
     return !ok;
 }
 
-unsigned int FUN_00dd9d70();
+unsigned int _getGeometryByteSize();
 
 struct FUN_00dd9da0_ext
 {
@@ -328,7 +333,7 @@ bool FUN_00dd9f40_cls::SetAndCheck(unsigned int uiValue, unsigned int a2, int a3
     if (m_pConfiguration != 0)
     {
         unsigned int v = uiValue;
-        m_pConfiguration->WriteInt(FUN_00dd9d70() + 0x11);
+        m_pConfiguration->WriteInt(_getGeometryByteSize() + 0x11);
         m_pConfiguration->FUN_00d605d0(6);
         reinterpret_cast<FUN_00dd9da0_ext*>((char*)this - 8)->ApplyItemList(v);
         m_pConfiguration->FUN_00d60960(a2);
@@ -360,24 +365,25 @@ struct FUN_00d605d0_ext
     void WriteUInt16(unsigned int len);
 };
 
-int FUN_00cb10d0(unsigned int value);
+int hkString_strLen(unsigned int value);
 
 struct FUN_00dda0e0_cls
 {
     int unk00;
     FUN_00d605d0_Class* config;
     void* criticalSection;
-    int FUN_00dda0e0(unsigned int a, unsigned int b, int c, unsigned int d);
+    int hkServerDebugDisplayHandler_displayText(unsigned int a, unsigned int b, int c, unsigned int d);
 };
 
 // @fnv 0x00dda0e0
-int FUN_00dda0e0_cls::FUN_00dda0e0(volatile unsigned int auiValue, unsigned int b, int c, unsigned int d)
+// src: HAVOK_LIB 0x00dda0e0
+int FUN_00dda0e0_cls::hkServerDebugDisplayHandler_displayText(volatile unsigned int auiValue, unsigned int b, int c, unsigned int d)
 {
     _fnv_EnterCriticalSection(criticalSection);
     if (config != 0)
     {
         unsigned int v = auiValue;
-        int len = FUN_00cb10d0(v);
+        int len = hkString_strLen(v);
         int n = (len < 0xffff) ? len : 0xffff;
         config->FUN_00d60960(n + 0x13);
         config->FUN_00d605d0(9);
@@ -392,7 +398,7 @@ int FUN_00dda0e0_cls::FUN_00dda0e0(volatile unsigned int auiValue, unsigned int 
     return !ok;
 }
 
-int __cdecl FUN_00cb10d0(const char* text);
+int __cdecl hkString_strLen(const char* text);
 
 struct FUN_00d605d0_ext_cls
 {
@@ -417,7 +423,7 @@ bool FUN_00dda1a0_cls::WriteConfigEntry(const char* name, const float* vec, unsi
     _fnv_EnterCriticalSection(criticalSection);
     if (config != 0)
     {
-        int n = FUN_00cb10d0(name);
+        int n = hkString_strLen(name);
         int length = (n < 0xffff) ? n : 0xffff;
         config->FUN_00d60960(length + 0x1f);
         config->FUN_00d605d0(0x11);
@@ -457,7 +463,7 @@ struct FUN_00dda290_ext
     void WriteUInt16(unsigned int len);
 };
 
-int FUN_00cb10d0(unsigned int value);
+int hkString_strLen(unsigned int value);
 
 struct FUN_00dda290_cls
 {
@@ -474,7 +480,7 @@ int FUN_00dda290_cls::WriteConfigValue(volatile unsigned int a, int aiValue, uns
     if (config != 0)
     {
         unsigned int v = a;
-        int len = FUN_00cb10d0(v);
+        int len = hkString_strLen(v);
         int n = (len < 0xffff) ? len : 0xffff;
         config->FUN_00d60960(n + 0xf);
         config->FUN_00d605d0(0x14);
@@ -543,12 +549,13 @@ struct DD97E0DisplayHandler
     DD97E0OStream* m_pDisplayStream;
     DD97E0CriticalSection* m_pSynchronizationLock;
 
-    int FUN_00dd97e0(int a, int b, int c, int d, int e);
+    int hkServerDebugDisplayHandler_addGeometryInstance(int a, int b, int c, int d, int e);
 };
 
 // Locks m_pSynchronizationLock, checks m_pDisplayStream and its IsStreamValid, then returns 0 if valid or 1 otherwise.
 // @fnv 0x00dd97e0
-int DD97E0DisplayHandler::FUN_00dd97e0(int aUnused, int bUnused, int c, int dUnused, int eUnused)
+// src: HAVOK_LIB 0x00dd97e0
+int DD97E0DisplayHandler::hkServerDebugDisplayHandler_addGeometryInstance(int aUnused, int bUnused, int c, int dUnused, int eUnused)
 {
     m_pSynchronizationLock->enter();
     bool ok = m_pDisplayStream && m_pDisplayStream->IsStreamValid();
@@ -685,11 +692,12 @@ struct DD9950DisplayServer
     DD9950OArchive* m_pDisplayStream;
     DD9950CriticalSection* m_outStreamLock;
 
-    DD9950Result FUN_00dd9950(unsigned long id, int tag, unsigned long shapeIdHint);
+    DD9950Result hkServerDebugDisplayHandler_removeGeometry(unsigned long id, int tag, unsigned long shapeIdHint);
 };
 
 // @fnv 0x00dd9950
-DD9950Result DD9950DisplayServer::FUN_00dd9950(unsigned long id, int tag, unsigned long shapeIdHint)
+// src: HAVOK_LIB 0x00dd9950
+DD9950Result DD9950DisplayServer::hkServerDebugDisplayHandler_removeGeometry(unsigned long id, int tag, unsigned long shapeIdHint)
 {
     m_outStreamLock->enter();
     if (m_pDisplayStream)
@@ -740,7 +748,7 @@ struct DD99D0CriticalSection
     }
 };
 
-extern "C" int __cdecl FUN_00cb10d0(const char* str);
+extern "C" int __cdecl hkString_strLen(const char* str);
 
 struct DD99D0DisplayHandler
 {
@@ -759,7 +767,7 @@ int DD99D0DisplayHandler::WriteDisplayCommand(const void* apVector1, const void*
     m_pSynchronizationLock->enter();
     if (m_pDisplayStream)
     {
-        int length = FUN_00cb10d0(text);
+        int length = hkString_strLen(text);
         m_pDisplayStream->writeUint32(length + 0x33);
         m_pDisplayStream->writeCommand(0xd);
         m_pDisplayStream->writeVector(apVector1);
@@ -976,7 +984,7 @@ bool BehaviorGraphDisplaySerializer::Write(const hkArrayBase<unsigned int>& a1, 
             if (a5.m_data[i] != 0)
             {
                 totalSize += 2;
-                int len = FUN_00cb10d0(a5.m_data[i]);
+                int len = hkString_strLen(a5.m_data[i]);
                 stringLengths.AddBack(len);
                 totalSize += len;
             }
@@ -1001,7 +1009,7 @@ bool BehaviorGraphDisplaySerializer::Write(const hkArrayBase<unsigned int>& a1, 
         for (int i = 0; i < a4.m_iElementCount; ++i)
         {
             this->config->FUN_00d60960(a3.m_data[i]);
-            this->config->FUN_00dda730((unsigned int)&a4.m_data[i]);
+            this->config->hkDisplaySerializeOStream_writeQuadVector4((unsigned int)&a4.m_data[i]);
         }
 
         this->config->FUN_00d60960((unsigned short)a5.m_iElementCount);
@@ -1123,7 +1131,7 @@ FUN_00dda660::FUN_00dda660()
 {}
 }  // namespace fnv_00dda660
 
-unsigned int FUN_00dd9d70();
+unsigned int _getGeometryByteSize();
 
 struct FUN_00dd9da0_owner
 {
@@ -1143,18 +1151,19 @@ struct SecondaryDisplay
     ConfigQ* config;
     void* criticalSection;
 
-    bool FUN_00dd9e90(unsigned int a, unsigned int b, unsigned int c, int d, unsigned int e);
+    bool hkServerDebugDisplayHandler_displayGeometry(unsigned int a, unsigned int b, unsigned int c, int d, unsigned int e);
 };
 
 // Locks criticalSection, writes values through config when present, and returns true if config is absent or the returned first character is zero.
 // @fnv 0x00dd9e90
-bool SecondaryDisplay::FUN_00dd9e90(unsigned int a, unsigned int b, unsigned int c, int d, unsigned int e)
+// src: HAVOK_LIB 0x00dd9e90
+bool SecondaryDisplay::hkServerDebugDisplayHandler_displayGeometry(unsigned int a, unsigned int b, unsigned int c, int d, unsigned int e)
 {
     _fnv_EnterCriticalSection(criticalSection);
     if (config)
     {
         unsigned int a2 = a;
-        config->WriteInt(FUN_00dd9d70() + 0x2d);
+        config->WriteInt(_getGeometryByteSize() + 0x2d);
         config->FUN_00d605d0(5);
         reinterpret_cast<FUN_00dd9da0_owner*>((char*)this - 8)->ApplyItemList(a2);
         config->WriteTransform(b);

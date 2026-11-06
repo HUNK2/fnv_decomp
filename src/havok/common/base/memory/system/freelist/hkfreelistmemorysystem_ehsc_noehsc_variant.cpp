@@ -17,7 +17,7 @@ struct FUN_00cd06a0
 {
     void* m_p00;
     FUN_00cd06a0(int aiArg);
-    void FUN_00d2c7a0();
+    void hkThreadMemory_releaseCachedMemory();
     void FUN_00cbf1a0();
 };
 struct Inner
@@ -44,7 +44,7 @@ struct Outer
 {
     char pad[0x1c];
     Inner inner;
-    void FUN_00cd06e0();
+    void hkFreeListMemorySystem_garbageCollect();
 };
 void __cdecl FUN_00d2cab0(void*, int, unsigned int);
 struct FUN_00cd0940_record
@@ -220,7 +220,7 @@ struct Owner
     int unk0b08;
     Sub0b0c sub0b0c;
     FUN_00d5e960_t cnt0b30;
-    Sub0b0c* FUN_00cd0740(const Pair* p, Flags flags);
+    Sub0b0c* hkFreeListMemorySystem_mainInit(const Pair* p, Flags flags);
 };
 extern "C" unsigned int DAT_012686cc;
 struct S_00cd0a60_sub8
@@ -917,10 +917,10 @@ struct S_00cd0a60_sub1c
     int unka90;
     int unka94;
     int unka98;
-    void FUN_00d60270(S_00cd0a60_sub8* a1);
+    void hkFreeListAllocator_00d60270(S_00cd0a60_sub8* a1);
     __forceinline S_00cd0a60_sub1c(S_00cd0a60_sub8* a1)
     {
-        FUN_00d60270(a1);
+        hkFreeListAllocator_00d60270(a1);
     }
 };
 struct S_00cd0a60_VtBase
@@ -1160,7 +1160,7 @@ struct S_00cd0a60_elem
     char unk12c;
     int unk130;
     int unk134;
-    void FUN_00d2c720();
+    void hkThreadMemory_hkThreadMemory();
 };
 struct S_00cd0a60_arr
 {
@@ -1170,7 +1170,7 @@ struct S_00cd0a60_arr
         S_00cd0a60_elem* p = e;
         for (int i = 31; i >= 0; --i)
         {
-            p->FUN_00d2c720();
+            p->hkThreadMemory_hkThreadMemory();
             p->unk128 = 0;
             p->unk12c = 0;
             p->unk130 = 0;
@@ -1288,7 +1288,7 @@ extern int DAT_010cad74;
 extern int DAT_010cad0c;
 extern int DAT_010cacd0;
 
-void __fastcall FUN_00d2c7a0(void* self);
+void __fastcall hkThreadMemory_releaseCachedMemory(void* self);
 void __fastcall FUN_00cbf1a0(void* self);
 void __fastcall ResetVftableAndDeleteCriticalSection(void* self);
 void __fastcall FUN_00d5ffd0(void* self);
@@ -1444,7 +1444,7 @@ struct Block_cd09d0
     ~Block_cd09d0()
     {
         m_vptr = &DAT_010cacd0;
-        FUN_00d2c7a0(this);
+        hkThreadMemory_releaseCachedMemory(this);
         FUN_00cbf1a0(this);
     }
 };

@@ -6159,7 +6159,7 @@ struct S00bbe9c0_Obj
     S00bbe9c0_Node* FUN_00b70600(int* selected);
 };
 double FUN_0068b050(double, float);
-double FUN_00b719c0(double, double);
+double __hkMinD(double, double);
 extern double DAT_010ae8b8, DAT_010ae8c0, DAT_010ae8b0;
 __declspec(noinline) float SolColor::ComputeWeightedSum() const
 {
@@ -6212,7 +6212,7 @@ void __stdcall FUN_00bbe9c0(const SolPosition* original, S00bbe9c0_Obj* lighting
                 SolColor scaledColor = node->target->posD4.ScaleTo(node->target->radC4);
                 float distance = relative.FUN_00457990() / t->fE0;
                 double d = FUN_0068b050(0.0, distance);
-                float vfade = 1.0f - (float)FUN_00b719c0(1.0, d);
+                float vfade = 1.0f - (float)__hkMinD(1.0, d);
                 float fade = (float)((double)vfade * 1.0);
                 illumination = scaledColor.ComputeWeightedSum() * fade;
             }

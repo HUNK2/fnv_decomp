@@ -14,25 +14,25 @@
 struct FUN_00d554a0_class
 {
     int m_d0;
-    int __thiscall FUN_00d1f1e0();
+    int __thiscall hkpShapeContainer_getNumChildShapes();
     int __thiscall GetOrInitValue();
 };
 void __cdecl FUN_00d26230(void* first, void* second, void* third, float value, int last);
 struct FUN_00d56040_shell
 {
-    void __thiscall FUN_00d56040(void* first, float value, int last);
+    void __thiscall hkpExtendedMeshShape_getAabbImpl(void* first, float value, int last);
 };
 __declspec(nothrow) BSAudio* __cdecl FUN_00c85750();
 inline hkMemoryRouter* audio()
 {
     return (hkMemoryRouter*)FUN_00c85750();
 }
-__declspec(nothrow) void __cdecl FUN_00c908c0(hkMemoryAllocator& alloc, void* arr, int numElem, int sizeElem);
+__declspec(nothrow) void __cdecl hkArrayUtil__reserve(hkMemoryAllocator& alloc, void* arr, int numElem, int sizeElem);
 static __forceinline void hkShortArray_reserveExactly(hkArrayBase<short>& self, int n)
 {
         hkMemoryRouter* m = audio();
         if (self.getCapacity() < n)
-            FUN_00c908c0(m->heap(), (&self), n, sizeof(short));
+            hkArrayUtil__reserve(m->heap(), (&self), n, sizeof(short));
     }
 
 static __forceinline void hkShortArray_reserve(hkArrayBase<short>& self, int n)
@@ -41,7 +41,7 @@ static __forceinline void hkShortArray_reserve(hkArrayBase<short>& self, int n)
         if (self.getCapacity() < n)
         {
             int cap = 2 * self.getCapacity();
-            FUN_00c908c0(alloc, (&self), n < cap ? cap : n, sizeof(short));
+            hkArrayUtil__reserve(alloc, (&self), n < cap ? cap : n, sizeof(short));
         }
     }
 
@@ -123,7 +123,7 @@ struct S_00d56880_Array
         {
             int cap2 = 2 * getCapacity();
             int newSize = (n < cap2) ? cap2 : n;
-            FUN_00c908c0(a, this, newSize, sizeof(S_00d56880_Elem));
+            hkArrayUtil__reserve(a, this, newSize, sizeof(S_00d56880_Elem));
         }
     }
     __forceinline S_00d56880_Elem* expandBy(int n)
@@ -350,7 +350,7 @@ struct FUN_00d55a90_cls
     Group* m_0c0;
     int m_0c4;
 
-    int __thiscall FUN_00d55a90(int a1, int a2);
+    int __thiscall hkpExtendedMeshShape_calcSizeForSpu(int a1, int a2);
 };
 struct S_00d55bd0_Bool
 {
@@ -623,7 +623,7 @@ static __forceinline void ArrayD562_reserve(hkArrayBase<ElemD562>& self, hkMemor
         if (self.getCapacity() < n)
         {
             int cap = 2 * self.getCapacity();
-            FUN_00c908c0(alloc, (&self), n < cap ? cap : n, sizeof(ElemD562));
+            hkArrayUtil__reserve(alloc, (&self), n < cap ? cap : n, sizeof(ElemD562));
         }
     }
 

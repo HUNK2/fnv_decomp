@@ -151,7 +151,7 @@ struct FUN_00c91840_shell
 };
 struct FUN_00c917a0_shell
 {
-    void FUN_00c917a0(void*);
+    void hkpWorld_removeEntityListener(void*);
 };
 struct FUN_006242f0_shell
 {
@@ -164,7 +164,7 @@ void FUN_006242f0_shell::NotifyListener(void* listener)
     if (listener)
     {
         ((FUN_00c91840_shell*)listener)->RemovePointer(this);
-        ((FUN_00c917a0_shell*)listener)->FUN_00c917a0(this ? (char*)this + 4 : 0);
+        ((FUN_00c917a0_shell*)listener)->hkpWorld_removeEntityListener(this ? (char*)this + 4 : 0);
     }
 }
 
@@ -226,8 +226,8 @@ struct ActivationBaseB
 };
 struct ActivationListener
 {
-    void FUN_00c938a0(void* owner);
-    void FUN_00c93820(ActivationBaseB* owner);
+    void hkpWorld_addIslandActivationListener(void* owner);
+    void hkpWorld_addEntityListener(ActivationBaseB* owner);
 };
 struct FUN_006242a0_cls : ActivationBaseA, ActivationBaseB
 {
@@ -239,8 +239,8 @@ void FUN_006242a0_cls::NotifyActivation(ActivationListener* listener)
 {
     if (listener)
     {
-        listener->FUN_00c938a0(this);
-        listener->FUN_00c93820(static_cast<ActivationBaseB*>(this));
+        listener->hkpWorld_addIslandActivationListener(this);
+        listener->hkpWorld_addEntityListener(static_cast<ActivationBaseB*>(this));
     }
 }
 
@@ -258,7 +258,7 @@ struct Type8
 
 struct ArgType
 {
-    FUN_005609f0_shell FUN_00c9bff0();
+    FUN_005609f0_shell isActive_00c9bff0();
     Type8* FUN_00460140();
 };
 
@@ -558,7 +558,7 @@ void FUN_00624340_shell::ProcessArgType(ArgType* apArg)
         void* varVal;
         Type7* var3;
 
-        if (apArg->FUN_00c9bff0().FUN_005609f0())
+        if (apArg->isActive_00c9bff0().FUN_005609f0())
         {
             varC6 = FUN_004b5a50(apArg);
             _var8 = varC6 ? varC6->FUN_0044ddc0() : 0;

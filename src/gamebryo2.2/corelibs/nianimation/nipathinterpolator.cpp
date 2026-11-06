@@ -24,7 +24,8 @@ void* __cdecl FUN_00a3dab0()
 
 // Returns the pointer stored at offset 8 of the object at this+0x18 for idx 0 or this+0x1c for idx 1, or null if absent.
 // @fnv 0x00a3dae0
-void* __thiscall NiPathInterpolator::FUN_00a3dae0(short idx)
+// src: GAMEBRYO_LIB 0x00a3dae0
+void* __thiscall NiPathInterpolator::GetKeyCount(short idx)
 {
     if (idx == 0)
     {
@@ -62,7 +63,8 @@ int __thiscall NiPathInterpolator::GetValueByIndex(short aiIndex)
 
 // Returns the int at offset 0xC of the object stored at this+0x18 when arg is 0, or at this+0x1C when arg is 1; otherwise returns 0.
 // @fnv 0x00a3db40
-int __thiscall NiPathInterpolator::FUN_00a3db40(short aiSlot)
+// src: GAMEBRYO_LIB 0x00a3db40
+int __thiscall NiPathInterpolator::GetKeyArray(short aiSlot)
 {
     if (aiSlot == 0)
     {
@@ -81,7 +83,8 @@ int __thiscall NiPathInterpolator::FUN_00a3db40(short aiSlot)
 
 // Returns byte at offset 0x14 of the object stored at this+0x18 for arg 0 or this+0x1c for arg 1, otherwise 0.
 // @fnv 0x00a3db70
-char __thiscall NiPathInterpolator::FUN_00a3db70(unsigned short ausIndex)
+// src: GAMEBRYO_LIB 0x00a3db70
+char __thiscall NiPathInterpolator::GetKeyStride(unsigned short ausIndex)
 {
     if (ausIndex == 0)
     {
@@ -153,7 +156,8 @@ void* __thiscall FUN_00a3dac0_shell::DestroyIfOdd(short idx)
 extern void* DAT_011f3ca8[];
 // Reads a type index, element size and base pointer from this+0x18, then calls the DAT_011f3ca8 entry for that type with two element pointers and pData.
 // @fnv 0x00a3ddf0
-void* NiPathInterpolator::FUN_00a3ddf0(void* pData, int aiIndexA, int aiIndexB, float fTime)
+// src: GAMEBRYO_LIB 0x00a3ddf0
+void* NiPathInterpolator::GenPathInterp(void* pData, int aiIndexA, int aiIndexB, float fTime)
 {
     char* pcElementBase = 0;
     int iType;
@@ -503,7 +507,7 @@ void NiPathInterpolator::FindKeyPair(float fTime, unsigned int& ruiKey0, unsigne
 {
     if (GetBit(0x10))
     {
-        FUN_00a3ea60(fTime, ruiKey0, ruiKey1, rfNormTime);
+        GetPercentLoc(fTime, ruiKey0, ruiKey1, rfNormTime);
         unk10 = ruiKey0;
         return;
     }
@@ -609,7 +613,8 @@ extern double DAT_01032980;
 
 // Normalizes fTime to [0,1], locates the path key segment containing the target distance, and refines the local parameter via Newton iteration.
 // @fnv 0x00a3ea60
-void NiPathInterpolator::FUN_00a3ea60(float fTime, unsigned int& ri1, unsigned int& ri2, float& rfLocalTime)
+// src: GAMEBRYO_LIB 0x00a3ea60
+void NiPathInterpolator::GetPercentLoc(float fTime, unsigned int& ri1, unsigned int& ri2, float& rfLocalTime)
 {
     unsigned int uiNumKeys = m_pPathObject ? m_pPathObject->m_uiNumKeys : 0;
     if (fTime == 0.0f)
@@ -675,7 +680,8 @@ extern CurvatureFunction DAT_011f3d38[];
 
 // Reads path data from a stream, updates constant-velocity state, and computes curvature from the path object's position keys.
 // @fnv 0x00a3ee80
-void NiPathInterpolator::FUN_00a3ee80(NiStream& stream)
+// src: GAMEBRYO_LIB 0x00a3ee80
+void NiPathInterpolator::LinkObject_00a3ee80(NiStream& stream)
 {
     ((StreamBase*)this)->FUN_00a95ca0(stream);
     AssignPathPointer(m_pPathObject, (NiPosData*)stream.GetLoadedObject());
@@ -779,7 +785,7 @@ bool NiPathInterpolator::UpdateTransform(float fTime, NiObjectNET* pkTarget, NiQ
         m_kRotationMatrix.FromRotationMatrix(kRot);
     }
 
-    m_kPathOffset = FUN_00a3ddf0(iI1, iI2, fPct);
+    m_kPathOffset = GenPathInterp(iI1, iI2, fPct);
 
     kValue.GetTransformScale(&m_kPathOffset);
     if (GetFollow())

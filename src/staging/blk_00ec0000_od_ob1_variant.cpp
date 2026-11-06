@@ -427,7 +427,7 @@ class BEC16D0MoviePlayerThread
     void FUN_00ec16d0(void* pvParam, bool bFlag22, int iPriority, bool bFlag23, bool bFlag24, float fValue28);
 };
 extern int DAT_010f1ca4;
-void __cdecl FUN_00aa10f0(int aValue);
+void __cdecl _NiFree_00aa10f0(int aValue);
 extern MemoryManager DAT_011f6238;
 struct FUN_00ec1df0_cls
 {
@@ -1635,7 +1635,7 @@ struct BaseE40
     virtual ~BaseE40()
     {
         FUN_00438af0();
-        FUN_00aa10f0((int)m_ppkHashTable);
+        _NiFree_00aa10f0((int)m_ppkHashTable);
     }
     virtual unsigned int KeyToHashIndex(int key) const;
     virtual bool IsKeysEqual(int a, int b) const;

@@ -48,11 +48,12 @@ class hkpMotorActionMA : public hkpMotorAction
 
     hkpMotorActionMA(hkpRigidBody* body, const hkVector4& axis, hkReal spinRate, hkReal gain);
 
-    hkpAction* FUN_00d4d7f0(const hkArrayBase<hkpEntity*>& newEntities, const hkArrayBase<hkpPhantom*>& newPhantoms) const;
+    hkpAction* hkpMotorAction_clone(const hkArrayBase<hkpEntity*>& newEntities, const hkArrayBase<hkpPhantom*>& newPhantoms) const;
 };
 
 // @fnv 0x00d4d7f0
-hkpAction* hkpMotorActionMA::FUN_00d4d7f0(const hkArrayBase<hkpEntity*>& newEntities,
+// src: HAVOK_LIB 0x00d4d7f0
+hkpAction* hkpMotorActionMA::hkpMotorAction_clone(const hkArrayBase<hkpEntity*>& newEntities,
                                           const hkArrayBase<hkpPhantom*>& newPhantoms) const
 {
     if (newEntities.GetLogicalSize() != 1)

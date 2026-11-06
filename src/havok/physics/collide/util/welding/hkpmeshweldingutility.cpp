@@ -75,7 +75,8 @@ inline void SwapRecords(Record& first, Record& second)
 }
 // Sorts a range of records in place by key using a pivot and recursive quicksort, comparing with FUN_00ddcda0 and swapping with SwapRecords.
 // @fnv 0x00ddeb70
-void FUN_00ddeb70(Record* records, int left, int right, int comparator)
+// src: HAVOK_LIB 0x00ddeb70
+void hkAlgorithm_quickSortRecursive_struct_hkEntry_class_hkAlgorithm_less_struct_hkEntry(Record* records, int left, int right, int comparator)
 {
     int i = left;
     int j = right;
@@ -97,9 +98,9 @@ void FUN_00ddeb70(Record* records, int left, int right, int comparator)
         }
     } while (i <= j);
     if (left < j)
-        FUN_00ddeb70(records, left, j, comparator);
+        hkAlgorithm_quickSortRecursive_struct_hkEntry_class_hkAlgorithm_less_struct_hkEntry(records, left, j, comparator);
     if (i < right)
-        FUN_00ddeb70(records, i, right, comparator);
+        hkAlgorithm_quickSortRecursive_struct_hkEntry_class_hkAlgorithm_less_struct_hkEntry(records, i, right, comparator);
 }
 
 // Exe 0x00ddecb0: unit-local DynamicArray view; declarations and layout are preserved.
@@ -379,8 +380,8 @@ bool* CheckSubQueries(bool* result, void* key, hkpShape* self)
     return result;
 }
 
-void* FUN_00c908c0(void* alloc, void* arr, int numElems, int elemSize);
-void FUN_00d2cc70(void* dst, const void* src, int numBytes);
+void* hkArrayUtil__reserve(void* alloc, void* arr, int numElems, int elemSize);
+void hkMemUtil_memMove(void* dst, const void* src, int numBytes);
 
 inline void* operator new(unsigned int, void* p)
 {
@@ -403,7 +404,7 @@ static __forceinline void S_00ddeab0_GrowArrayCapacity(hkArrayBase<S_00ddeab0_El
         {
             int cap2 = cap + cap;
             int newcap = (numElems < cap2) ? cap2 : numElems;
-            FUN_00c908c0(alloc, (&self), newcap, 12);
+            hkArrayUtil__reserve(alloc, (&self), newcap, 12);
         }
     }
 
@@ -774,11 +775,11 @@ void __cdecl ResizeAudioStream(void* heap, void* arr, int elemSize) throw();
 struct KeyLess
 {
 };
-void __cdecl FUN_00ddeb70(S_00ddecf0_Key* keys, int left, int right, KeyLess cmp) throw();
+void __cdecl hkAlgorithm_quickSortRecursive_struct_hkEntry_class_hkAlgorithm_less_struct_hkEntry(S_00ddecf0_Key* keys, int left, int right, KeyLess cmp) throw();
 template <typename T, typename L> inline void quickSort(T* pArr, int size, L cmpLess)
 {
     if (size > 1)
-        FUN_00ddeb70(pArr, 0, size - 1, cmpLess);
+        hkAlgorithm_quickSortRecursive_struct_hkEntry_class_hkAlgorithm_less_struct_hkEntry(pArr, 0, size - 1, cmpLess);
 }
 extern "C" double __cdecl fabs(double);
 __declspec(noinline) ComparisonResult __cdecl AreZDiffering(const S_00ddecf0_Key& a, const S_00ddecf0_Key& b) throw()
@@ -826,12 +827,13 @@ static inline float clamp(float x, float lo, float hi)
 
 struct Track : public S_00ddecf0
 {
-    float FUN_00dded60();
+    float hkHistogram_evaluate();
 };
 
 // If m_keys is empty returns unk0; else sorts it, groups near-equal-b keys, and returns the smallest b of a group with summed a-t >= DAT_010290b8, or 0.
 // @fnv 0x00dded60
-float Track::FUN_00dded60()
+// src: HAVOK_LIB 0x00dded60
+float Track::hkHistogram_evaluate()
 {
     if (m_keys.m_iElementCount == 0)
         return *(float*)&unk0;
@@ -1057,7 +1059,7 @@ void hkArrayBase<S_00ddeab0_Elem>::_spliceInto(hkMemoryAllocator& kSharedAlloc, 
     int newsize = m_iElementCount - numdel + aiNumInsert;
     unsigned int numtomove = m_iElementCount - index - numdel;
     S_00ddeab0_GrowArrayCapacity(*this, alloc, newsize);
-    FUN_00d2cc70(&m_data[index + aiNumInsert], &m_data[index + numdel], numtomove * 12);
+    hkMemUtil_memMove(&m_data[index + aiNumInsert], &m_data[index + numdel], numtomove * 12);
     S_00ddeab0_Elem* dst = m_data + index;
     for (int i = 0; i < aiNumInsert; ++i)
     {

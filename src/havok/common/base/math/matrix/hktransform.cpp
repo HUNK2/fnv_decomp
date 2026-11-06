@@ -22,10 +22,11 @@ struct __declspec(align(16)) Matrix43
     float m20, m21, m22, m23;
     float m30, m31, m32, m33;
     void FUN_00cb2240(Matrix43* a, Matrix43* b);
-    void FUN_00cb22c0(Transform* a, Matrix43* b);
+    void hkTransform_setMul_00cb22c0(Transform* a, Matrix43* b);
 };
 // @fnv 0x00cb22c0
-void Matrix43::FUN_00cb22c0(Transform* apTransform, Matrix43* apMatrix)
+// src: HAVOK_LIB 0x00cb22c0
+void Matrix43::hkTransform_setMul_00cb22c0(Transform* apTransform, Matrix43* apMatrix)
 {
     Matrix43 temp;
     apTransform->FUN_00ce5300(&temp);
@@ -47,10 +48,11 @@ __declspec(align(16)) struct Matrix44
     hkVector4 row1;
     hkVector4 row2;
     hkVector4 row3;
-    void FUN_00cb2420(const Matrix44* left, const Matrix44* right);
+    void hkTransform_setMulMulInverse(const Matrix44* left, const Matrix44* right);
 };
 // @fnv 0x00cb2420
-void Matrix44::FUN_00cb2420(const Matrix44* left, const Matrix44* right)
+// src: HAVOK_LIB 0x00cb2420
+void Matrix44::hkTransform_setMulMulInverse(const Matrix44* left, const Matrix44* right)
 {
     __m128 tempStorage[4];
     Matrix44& tempMatrix = *reinterpret_cast<Matrix44*>(tempStorage);
@@ -82,11 +84,12 @@ struct S_cb2110_Foo
     hkVector4 unk30;
 
     bool* __thiscall FUN_00cb2d70(bool* value);
-    bool* __thiscall FUN_00cb2110(bool* result);
+    bool* __thiscall hkTransform_isOk(bool* result);
 };
 
 // @fnv 0x00cb2110
-bool* __thiscall S_cb2110_Foo::FUN_00cb2110(bool* result)
+// src: HAVOK_LIB 0x00cb2110
+bool* __thiscall S_cb2110_Foo::hkTransform_isOk(bool* result)
 {
     bool value1;
     bool value2;

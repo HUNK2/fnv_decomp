@@ -76,7 +76,7 @@ public:
     Type getType() const;
     const hkClass* __thiscall FUN_00d86920() const throw();
     int __thiscall FUN_00d86940() const throw();
-    const hkVariant* __thiscall FUN_00d86960(const char* pcName) const throw();
+    const hkVariant* __thiscall getAttribute_00d86960(const char* pcName) const throw();
 
     bool flagsAllAreSet(unsigned short usMask) const
     {

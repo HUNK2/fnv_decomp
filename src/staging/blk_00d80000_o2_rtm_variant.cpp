@@ -319,7 +319,7 @@ public:
     int m_iData098;
     int m_iData09C;
 };
-D85660Object* __cdecl FUN_00d85660(const D85660Object* pkSource);
+D85660Object* __cdecl copyConstraintAtoms_class_hkpHingeLimitsData(const D85660Object* pkSource);
 extern int DAT_010d3838;
 struct FUN_00d86260_Class {
     unsigned int m_vptr;
@@ -653,7 +653,7 @@ struct FUN_00d873b0_Obj {
 struct FUN_00d873f0_Holder {
     int unk00;
     FUN_00d86910_Obj* unk04;
-    FUN_00d873b0_Obj* __thiscall FUN_00d873f0(FUN_00d873b0_Obj* a);
+    FUN_00d873b0_Obj* __thiscall hkClassMemberAccessor_object(FUN_00d873b0_Obj* a);
 };
 class hkSetD874 {
 public:
@@ -670,7 +670,7 @@ struct FUN_00d87910_cls {
 };
 extern "C" unsigned int (__stdcall *DAT_00fdf1d0)();
 unsigned __int64 __cdecl FUN_00d87a40();
-void __cdecl FUN_00d87920();
+void __cdecl hkThread_stopThread();
 void __cdecl FUN_00d87a70();
 struct FUN_00d87a80_Stub {
     void* FUN_00d87a80(int);
@@ -729,7 +729,7 @@ public:
     virtual void V7();
     virtual void process(void* a, void* b, void* c, void* d);
 };
-void __cdecl FUN_00d92200(void* pvContext, hkTargetD922B** ppkTarget, void* a, void* b, void* c, void* pvUnused, void* d);
+void __cdecl hkAgent3Bridge_updateFilter(void* pvContext, hkTargetD922B** ppkTarget, void* a, void* b, void* c, void* pvUnused, void* d);
 // 0x00d92230 reads an agent pointer at +0; the agent entry header consists of four byte fields.
 struct Agent2PointerPayload {
     void* m_pCollisionAgent;
@@ -782,7 +782,7 @@ public:
     virtual void V10();
     virtual void process(void* pvData);
 };
-void __cdecl FUN_00d922a0(void* pvContext, hkTargetD92A** ppkTarget, void* pvData);
+void __cdecl hkAgent3Bridge_removePoint(void* pvContext, hkTargetD92A** ppkTarget, void* pvData);
 class hkTargetD922 {
 public:
     virtual void V0();
@@ -799,7 +799,7 @@ public:
     virtual void V11();
     virtual void process(void* pvData);
 };
-void __cdecl FUN_00d922c0(void* pvContext, hkTargetD922** ppkTarget, void* pvData);
+void __cdecl hkAgent3Bridge_commitPotential(void* pvContext, hkTargetD922** ppkTarget, void* pvData);
 struct FUN_00d922e0_Iface {
     virtual void unk00();
     virtual void unk04();
@@ -845,7 +845,7 @@ struct FUN_00d93310_cls {
     int m_04;
     int m_08;
 
-    FUN_00d93310_cls* FUN_00d93310();
+    FUN_00d93310_cls* hkpFixedSizePhysicsCommandQueue_256_hkpFixedSizePhysicsCommandQueue_256();
 };
 extern "C" {
     unsigned __int64 __rdtsc(void);
@@ -891,10 +891,10 @@ struct Arg1 {
 };
 void LogIntegrateVelocity(Arg0* a1, Arg1* a2, Arg2* a3);
 extern "C" char str_010d4030[];
-void __cdecl FUN_00d61d00(unsigned int* result, char* text, double d0,
+void __cdecl hkStringBuf_printf(unsigned int* result, char* text, double d0,
                           int value0, double d1, int value1, double d2);
-unsigned int __cdecl FUN_00d97640(float* values, unsigned int* result, signed char value);
-void __cdecl FUN_00d61d00(...);
+unsigned int __cdecl hkVector4Util_toString3(float* values, unsigned int* result, signed char value);
+void __cdecl hkStringBuf_printf(...);
 struct FUN_00d97680_Vec {
     float x;
     float y;
@@ -942,7 +942,7 @@ struct FUN_00d98390 {
     FUN_00d98390();
 };
 void __cdecl FUN_00d98630(void*, void*, void*, void*);
-void* __cdecl FUN_00d99540(void* a1, void* a2, void* a3, void* a4);
+void* __cdecl hkKdTreeUtils_isValidRayBundle(void* a1, void* a2, void* a3, void* a4);
 struct FNV_00d99f50_Entry { void* value; void* payload; };
 struct FNV_00d99f50_Result {
     unsigned char flag;
@@ -950,7 +950,7 @@ struct FNV_00d99f50_Result {
     ~FNV_00d99f50_Result() {}
 };
 extern "C" void __cdecl FUN_00d98ca0(unsigned char* scratch, const FNV_00d99f50_Entry* entry, void* context, void* left, void* right);
-FNV_00d99f50_Result __cdecl FUN_00d99f50(int count, const FNV_00d99f50_Entry* const* entries, void* context, void* left, void* right);
+FNV_00d99f50_Result __cdecl hkKdTreeUtils_castRayMultiTree(int count, const FNV_00d99f50_Entry* const* entries, void* context, void* left, void* right);
 struct FUN_00d9a4a0_Param {
     int unk00;
     int unk04;
@@ -1045,7 +1045,7 @@ static __declspec(noinline) D85Ctn* FUN_00d85d40(D85Ctn* c) {
     }
     return c;
 }
-void __cdecl FUN_00d85fa0(D85Msg a);
+void __cdecl hkpConstraintCallbackUtil_fireConstraintBroken(D85Msg a);
 template <class T>
 inline void NiStreamSaveBinaryD861(NiBinaryStream& kStream, const T& value)
 {
@@ -1167,7 +1167,7 @@ public:
     bool m_bEnableState;
     bool m_abFlags[3];
 
-    bool FUN_00d88100(int iIndex);
+    bool hkMemoryExceptionTestingUtil_isMemoryAvailableImpl(int iIndex);
 };
 struct S00d881a0_Leaf {
     int unk00;
@@ -1212,10 +1212,10 @@ struct S00d881a0_Obj {
 };
 int __cdecl FUN_00d29bf0(void* a0, void* a1, void* a2, void* a3, void* a4, int a5);
 void __cdecl FUN_00d1a330(int a0, void* a1, void* a2);
-static int FUN_00d881a0(void* p, void* ecxv, char* eaxv, S00d881a0_Obj* esi, void* edi);
+static int hkConstraintSolverSetup_integrate2(void* p, void* ecxv, char* eaxv, S00d881a0_Obj* esi, void* edi);
 int S00d881a0_Wrap(void* p);
 static unsigned char* S00d96870_outp;
-static void FUN_00d96870(unsigned char* self, int* src, unsigned char* out);
+static void spawnBuildJacobiansJobs(unsigned char* self, int* src, unsigned char* out);
 void __fastcall S00d96870_Entry(unsigned char* self, int* src);
 // Exe 0x00d84c50 SIMD helper: retain this LocalM128 view; the CRT type does not preserve this unit.
 // VC9 requires the __m128 compatibility typedef for its native SIMD ABI (renamed tags fail C2719).
@@ -1327,7 +1327,8 @@ struct BoolResult {
 };
 
 // @fnv 0x00d84c50
-BoolResult FUN_00d84c50(const Shape* pkShape)
+// src: HAVOK_LIB 0x00d84c50
+BoolResult hkpConstraintPivotsUtil_constraintSupportsPivotGetSet(const Shape* pkShape)
 {
     switch (pkShape->GetType())
     {
@@ -1473,7 +1474,7 @@ static __declspec(noinline) D90Ctn* FUN_00d85d40(D90Ctn* c) {
     }
     return c;
 }
-D90Ctn* __cdecl FUN_00d85d90(D90Owner* pOwner);
+D90Ctn* __cdecl hkpConstraintCallbackUtil_fireConstraintAdded(D90Owner* pOwner);
 static __forceinline void hkTimer(const char* name, volatile unsigned int& t)
 {
     hkMonitorStream* s = (hkMonitorStream*)TlsGetValue(DAT_0126835c);
@@ -1512,11 +1513,11 @@ static void FUN_00d85d40(ResizableArray<hkpConstraintListener*>& cleanupArray)
     }
 }
 void __cdecl NotifyConstraintRemoved(hkpConstraintInstance* constraint);
-void __cdecl FUN_00c908c0(AllocIface& kAlloc, void* apvArray, int aiNumElements, int iSizeElem) throw();
+void __cdecl hkArrayUtil__reserve(AllocIface& kAlloc, void* apvArray, int aiNumElements, int iSizeElem) throw();
 extern const char DAT_010d3aa0[];
 extern const char DAT_010d3a90[];
 int __cdecl FUN_00cb0fd0(const char*, const char*, int) throw();
-int __cdecl FUN_00cb10d0(const char*) throw();
+int __cdecl hkString_strLen(const char*) throw();
 const char* __cdecl FUN_00cb1140(const char*, int) throw();
 int __cdecl CallWithZeroMiddleArg(const char*, int) throw();
 int __cdecl GetTypeCode(const char*) throw();
@@ -1566,7 +1567,7 @@ struct FUN_00d61b10 {
 };
 int __cdecl GetTypeCodeFromString(const char* name) throw();
 struct FUN_00d87180_cls : S {
-    FUN_00d87180_cls* FUN_00d87180(unsigned int a, B* b);
+    FUN_00d87180_cls* hkClassMemberAccessor_hkClassMemberAccessor(unsigned int a, B* b);
 };
 class OwnerD87A {
 public:
@@ -1587,7 +1588,7 @@ struct MonitorBuffer {
     int m_uiItemCount;
     char m_bSlotEnabled;
     char m_buffer[50];
-    void FUN_00d880b0();
+    void hkMemoryExceptionTestingUtil_startNewDemoImpl();
 };
 void __cdecl FUN_00d892e0();
 struct hkpAgent3Input;
@@ -1646,7 +1647,7 @@ struct CleanupObject {
     void* unk78;
 
 };
-static void FUN_00d93ab0(CleanupObject* self);
+static void deleteTaskHeaderResources(CleanupObject* self);
 CleanupObject* volatile cleanupInput;
 void CleanupEntry();
 extern "C" void _ReadWriteBarrier(void);
@@ -1691,7 +1692,7 @@ struct S00d944d0_Arg2 {
 struct S00d944d0_Arg1 {
     void ProcessCallback(S00d944d0_Arg2* a1, S00d944d0_Arg2* a2, int a3);
 };
-void __cdecl FUN_00d944d0(S00d944d0_Obj* a1, S00d944d0_Arg1* a2, S00d944d0_Arg2* a3);
+void __cdecl hkCpuSolveApplyGravityJob(S00d944d0_Obj* a1, S00d944d0_Arg1* a2, S00d944d0_Arg2* a3);
 extern char DAT_010cc5c4[];
 extern char DAT_010d3eb8[];
 extern char DAT_01076f38[];
@@ -1715,7 +1716,7 @@ struct SolverObject {
     SolverTarget* target;
 };
 void __cdecl FUN_00df0680(TargetObj*, int, int, int);
-void __cdecl FUN_00d94730(Arg0* world, Arg1* context, SolverObject* object);
+void __cdecl hkCpuSolveExportResultsJob(Arg0* world, Arg1* context, SolverObject* object);
 struct StructItem {
     short* unk00;
     int unk04;
@@ -1839,7 +1840,7 @@ struct S00d96970_Obj {
     unsigned char unk20;
     unsigned char unk21;
 };
-static void FUN_00d96970(S00d96970_Obj* self, const S00d96970_Local* src, S00d96970_Target* target, int value);
+static void spawnSplitSimulationIslandJob(S00d96970_Obj* self, const S00d96970_Local* src, S00d96970_Target* target, int value);
 void S00d96970_Entry(S00d96970_Obj* self, const S00d96970_Local* src, S00d96970_Target* target, int value);
 extern float DAT_01017b78;
 extern float DAT_01012068;
@@ -2167,7 +2168,7 @@ struct D96600Blob {
     int unk78;
     int unk7c;
 
-    int FUN_00df2640(int** slot, D96600Blob* dst);
+    int hkpBroadPhaseJob_popJobTask(int** slot, D96600Blob* dst);
 };
 static __forceinline int popPart(D96600Blob* src, D96600Blob* dst)
 {
@@ -2201,7 +2202,7 @@ static __forceinline int popPart(D96600Blob* src, D96600Blob* dst)
         src->node20 = src->node20->next;
         return 1;
     case 12:
-        return src->FUN_00df2640(slot, dst);
+        return src->hkpBroadPhaseJob_popJobTask(slot, dst);
     case 11: {
         unsigned short step = 0x80;
         if (src->word34 > step) {
@@ -2305,8 +2306,8 @@ extern LocalM128 DAT_010c7170;
 extern const float DAT_010cd644 = 1.0000000272564224e16f;
 extern const float DAT_0104e148 = -3.402820018375656e38f;
 extern const float DAT_0104da48 = 3.402820018375656e38f;
-float __cdecl FUN_00c98210(float a, float b);
-float __cdecl FUN_00c9e0f0(float a, float b);
+float __cdecl NiMax(float a, float b);
+float __cdecl NiMin(float a, float b);
 template<class T> struct TreeRef { T* p; TreeRef(T* q):p(q){} operator T*()const{return p;} T* operator->()const{return p;} };
 __forceinline const QuantizedBounds* projectAt(const TreeNode& node, const QuantizedBounds* leaves, unsigned int index) { return leaves + (node.flags & 0x7fffffff) + index; }
 struct BoundPair { LocalM128 minimum, maximum; void set(float a, float b) { minimum = _mm_set_ps1(a); maximum = _mm_set_ps1(b); } };
@@ -2511,7 +2512,7 @@ struct TextD86 : StringBuf {
     void InitBuffer() throw();
     void FUN_00d61c10(const char*) throw();
 };
-extern "C" void __cdecl FUN_00d61d00(TextD86*, const char*, ...);
+extern "C" void __cdecl hkStringBuf_printf(TextD86*, const char*, ...);
 extern "C" void __cdecl CopyIfNonEmpty(char*, const char*, int);
 struct FreeD86 {
     virtual void v00();
@@ -2525,12 +2526,14 @@ struct BufferReleaseContext {
     int unk00, unk04, unk08;
     FreeD86* heap;
 };
-static __declspec(noinline) unsigned char FUN_00d868b0(int t) {
+// src: HAVOK_LIB 0x00d868b0
+static __declspec(noinline) unsigned char isSimpleType(int t) {
     return (t >= 0 && (t < 20 || t == 28 || t == 30 || t == 29 || t == 32 || t == 33)) ? 1 : 0;
 }
-static __declspec(noinline) void FUN_00d868e0(int t, TextD86* text, int extent) {
+// src: HAVOK_LIB 0x00d868e0
+static __declspec(noinline) void getSimpleTypeName(int t, TextD86* text, int extent) {
     if (!extent) text->FUN_00d61c10(DAT_011b6ab4[t].name);
-    else FUN_00d61d00(text, str_010d3a74, DAT_011b6ab4[t].name, extent);
+    else hkStringBuf_printf(text, str_010d3a74, DAT_011b6ab4[t].name, extent);
 }
 struct MemberD86 {
     int unk00;
@@ -2551,25 +2554,25 @@ extern "C" int __fastcall FUN_00d86ec0(MemberD86* self, void*, char* output, int
     text.InitBuffer();
     if (!((t >= 0 && (t < 20 || t == 28 || t == 30 || t == 29 || t == 32 || t == 33)) || t == 27)) {
     if (t == 20) {
-        if (self->classType) FUN_00d61d00(&text, str_010d3b50, self->classType->FUN_00d46d40());
+        if (self->classType) hkStringBuf_printf(&text, str_010d3b50, self->classType->FUN_00d46d40());
         else if (self->subType == 2) text.FUN_00d61c10(str_010d3a88);
         else text.FUN_00d61c10(str_010d3b48);
     } else if (t == 22 || t == 26) {
         int st = self->FUN_00d86b30();
         const char* container = t == 22 ? str_010d3b10 : str_010d3b00;
-        if (FUN_00d868b0(st)) FUN_00d61d00(&text, str_010d3af0, container, DAT_011b6ab4[st].name);
+        if (isSimpleType(st)) hkStringBuf_printf(&text, str_010d3af0, container, DAT_011b6ab4[st].name);
         else if (st == 20) {
-            if (self->classType) FUN_00d61d00(&text, str_010d3ae0, container, className);
-            else FUN_00d61d00(&text, str_010d3ad0, container);
-        } else if (st == 25) FUN_00d61d00(&text, str_010d3abc, container, className);
-    } else if (t == 24) FUN_00d61d00(&text, str_010d3b40, enumName);
-    else if (t == 31) FUN_00d61d00(&text, str_010d3b34, enumName);
+            if (self->classType) hkStringBuf_printf(&text, str_010d3ae0, container, className);
+            else hkStringBuf_printf(&text, str_010d3ad0, container);
+        } else if (st == 25) hkStringBuf_printf(&text, str_010d3abc, container, className);
+    } else if (t == 24) hkStringBuf_printf(&text, str_010d3b40, enumName);
+    else if (t == 31) hkStringBuf_printf(&text, str_010d3b34, enumName);
     else if (t == 25) {
-        if (!self->extent) FUN_00d61d00(&text, str_010d3b28, className);
-        else FUN_00d61d00(&text, str_010d3b18, className, self->extent);
+        if (!self->extent) hkStringBuf_printf(&text, str_010d3b28, className);
+        else hkStringBuf_printf(&text, str_010d3b18, className, self->extent);
     }
     } else {
-    FUN_00d868e0(t, &text, self->extent);
+    getSimpleTypeName(t, &text, self->extent);
     }
     CopyIfNonEmpty(output, text.m_kStringBuffer, capacity);
     int result = text.m_fRestLength - 1;
@@ -2584,5 +2587,5 @@ volatile int d86_type;
 TextD86* volatile d86_text;
 volatile int d86_extent;
 void D86HelperUse() {
-    FUN_00d868e0(d86_type, d86_text, d86_extent);
+    getSimpleTypeName(d86_type, d86_text, d86_extent);
 }

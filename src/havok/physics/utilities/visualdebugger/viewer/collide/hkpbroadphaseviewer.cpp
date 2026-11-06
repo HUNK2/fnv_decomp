@@ -28,7 +28,7 @@ int Owner::FUN_00d6a910(Container* container)
 
 struct FUN_00dd9380_StandIn
 {
-    int FUN_00dd9380(const char* name, void* constructor);
+    int hkProcessFactory_registerProcess(const char* name, void* constructor);
 };
 extern FUN_00dd9380_StandIn* DAT_01269cd0;
 extern int DAT_01269028;
@@ -37,7 +37,7 @@ void FUN_00d6ad00();
 // @fnv 0x00d6ad40
 void __cdecl FUN_00d6ad40()
 {
-    DAT_01269028 = DAT_01269cd0->FUN_00dd9380(&DAT_010c65b0, (void*)&FUN_00d6ad00);
+    DAT_01269028 = DAT_01269cd0->hkProcessFactory_registerProcess(&DAT_010c65b0, (void*)&FUN_00d6ad00);
 }
 
 extern int DAT_01269028;
@@ -49,7 +49,7 @@ int FUN_00d6ad60()
 
 struct Target
 {
-    void FUN_00c93920(void* apArg);
+    void hkpWorld_addWorldPostSimulationListener(void* apArg);
 };
 
 struct FUN_00d6a8e0_cls
@@ -70,7 +70,7 @@ struct FUN_00d6a8e0_cls
 // @fnv 0x00d6a8e0
 void FUN_00d6a8e0_cls::CallTargetWithSelfOffset(Target* apTarget)
 {
-    apTarget->FUN_00c93920(((char*)this - 0x20) != 0 ? (char*)this + 8 : 0);
+    apTarget->hkpWorld_addWorldPostSimulationListener(((char*)this - 0x20) != 0 ? (char*)this + 8 : 0);
 }
 
 // ---------------------------------------------------------------------------
@@ -152,7 +152,7 @@ struct PostSimListener
 // one shape of the world; 0xc93920 appends a listener to its list at +0x164
 struct BroadElem
 {
-    void FUN_00c93920(PostSimListener* p);
+    void hkpWorld_addWorldPostSimulationListener(PostSimListener* p);
 };
 
 // the primary base at 0x00 (its vptr is the one at 0x00)
@@ -229,7 +229,7 @@ FUN_00d6a940::FUN_00d6a940(void* a) : WorldViewerBase(a)
         for (int i = 0; i < m_ctx->count; i++)
         {
             BroadElem* e = (BroadElem*)m_ctx->arr[i];
-            e->FUN_00c93920(this);  // this+0x28: the listener subobject
+            e->hkpWorld_addWorldPostSimulationListener(this);  // this+0x28: the listener subobject
         }
     }
 }

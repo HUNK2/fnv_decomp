@@ -34,9 +34,10 @@ __forceinline void reportCorruption() {
         __debugbreak();
     stream.FUN_00cc00e0();
 }
-struct MoppMachine { HitArray* hits; int unk04,unk08,unk0c; int axis[3]; int radius; void FUN_00e64870(MoppState*, const unsigned char*); };
+struct MoppMachine { HitArray* hits; int unk04,unk08,unk0c; int axis[3]; int radius; void hkpMoppSphereVirtualMachine_querySphereOnTree(MoppState*, const unsigned char*); };
 // @fnv 0x00e64870
-void MoppMachine::FUN_00e64870(MoppState* state, const unsigned char* code) {
+// src: HAVOK_LIB 0x00e64870
+void MoppMachine::hkpMoppSphereVirtualMachine_querySphereOnTree(MoppState* state, const unsigned char* code) {
     MoppState local;
     if (!DAT_0126efbb) { ValidateHavokKeyCode(&DAT_0126efbb); if (!DAT_0126efbb) return; }
     int hit = 0;
@@ -109,7 +110,7 @@ void MoppMachine::FUN_00e64870(MoppState* state, const unsigned char* code) {
         case 16: case 17: case 18: low=code[1];high=code[2];position=state->axis[command-16];r=state->radius;
         test_interval: {
             code+=4; if(position+r<high) break; int skip=code[-1]; code+=skip; if(position>r+low) break;
-            FUN_00e64870(state,code-skip); break;
+            hkpMoppSphereVirtualMachine_querySphereOnTree(state,code-skip); break;
         }
         case 32: case 33: case 34: {
             int low = code[1];
@@ -120,7 +121,7 @@ void MoppMachine::FUN_00e64870(MoppState* state, const unsigned char* code) {
             int skip = code[-1];
             code += skip;
             if (position > r + low + 1) break;
-            FUN_00e64870(state, code - skip);
+            hkpMoppSphereVirtualMachine_querySphereOnTree(state, code - skip);
             break;
         }
         case 35: case 36: case 37: {
@@ -138,7 +139,7 @@ void MoppMachine::FUN_00e64870(MoppState* state, const unsigned char* code) {
             code += skip2;
             if (position > r + low)
                 break;
-            FUN_00e64870(state, code + (skip1 - skip2));
+            hkpMoppSphereVirtualMachine_querySphereOnTree(state, code + (skip1 - skip2));
             break;
         }
         case 38: case 39: case 40: {
@@ -256,11 +257,12 @@ struct xMoppCode { int unk00, unk04, unk08, unk0c; float offset[3]; float scale;
 struct xSphere { float pos[3]; float radius; };
 
 struct xSphereMachine : MoppMachine {
-    void FUN_00e64f00(const xMoppCode* code, const xSphere& sphere, HitArray* out);
+    void hkpMoppSphereVirtualMachine_querySphere(const xMoppCode* code, const xSphere& sphere, HitArray* out);
 };
 
 // @fnv 0x00e64f00
-void xSphereMachine::FUN_00e64f00(const xMoppCode* code, const xSphere& sphere, HitArray* out)
+// src: HAVOK_LIB 0x00e64f00
+void xSphereMachine::hkpMoppSphereVirtualMachine_querySphere(const xMoppCode* code, const xSphere& sphere, HitArray* out)
 {
     const unsigned char* program = code->data;
     hits = out;
@@ -280,5 +282,5 @@ void xSphereMachine::FUN_00e64f00(const xMoppCode* code, const xSphere& sphere, 
     state.offset = 0;
     state.shift = 16;
     state.properties[0] = 0;
-    FUN_00e64870(&state, program);
+    hkpMoppSphereVirtualMachine_querySphereOnTree(&state, program);
 }

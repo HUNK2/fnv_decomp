@@ -886,7 +886,7 @@ void LockPickMenu::InitLockInterface()
     NiUpdateData i(0.0f, false, false);
     ((NiNode*)((Glob*)&DAT_011da24c)->FUN_00559450())->FUN_00a59c60(i);
     void* s;
-    s = ((NiNode*)pin)->FUN_00a5c570(reinterpret_cast<NiRTTI*>(&DAT_011f36ac));
+    s = ((NiNode*)pin)->NiObjectNET_GetController(reinterpret_cast<NiRTTI*>(&DAT_011f36ac));
     CtrlNode* r;
     if (!!s)
     {
@@ -905,7 +905,7 @@ void LockPickMenu::InitLockInterface()
         FUN_00a6d2d0(pin);
     }
     void* cnt;
-    cnt = ((NiNode*)idx)->FUN_00a5c570(reinterpret_cast<NiRTTI*>(&DAT_011f36ac));
+    cnt = ((NiNode*)idx)->NiObjectNET_GetController(reinterpret_cast<NiRTTI*>(&DAT_011f36ac));
     if (!!cnt)
     {
         m_a4 = (NiControllerManager*)cnt;
@@ -1652,7 +1652,7 @@ void LockPickMenu::FUN_0078eb50()
             if (reinterpret_cast<xSeq*>(m_9c)->FUN_00508100() <= xg_fElapsed_11da2ac)
             {
                 xCtrlMgr* qArxcFu =
-                    (xCtrlMgr*)((NiNode*)xg_spNode_11da24c.FUN_00559450()->FUN_0043b4a0(0u))->FUN_00a5c570(reinterpret_cast<NiRTTI*>(&xg_rtti_11f36ac));
+                    (xCtrlMgr*)((NiNode*)xg_spNode_11da24c.FUN_00559450()->FUN_0043b4a0(0u))->NiObjectNET_GetController(reinterpret_cast<NiRTTI*>(&xg_rtti_11f36ac));
                 NiAVObject* qAhbO = ((NiNode*)((NiNode*)xg_spNode_11da24c.FUN_00559450()->FUN_0043b4a0(0u))->FUN_0043b4a0(0u))->FUN_0043b4a0(2u);
                 NiPoint3 qxQHW = qAhbO->FUN_0043c490();
                 m_28 = 2;

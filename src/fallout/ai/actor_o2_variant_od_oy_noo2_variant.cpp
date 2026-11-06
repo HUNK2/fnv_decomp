@@ -43,7 +43,7 @@ struct FUN_00cda4b0_cls
 struct FUN_00cda8d0_class
 {
     void FUN_00cda340();
-    void* FUN_00cda8d0();
+    void* hkaPose_getSyncedPoseModelSpace();
 };
 struct FUN_00cdb290
 {
@@ -340,7 +340,7 @@ void __cdecl FUN_00d6b4b0(void*, unsigned int);
 struct FUN_00cdb3e0_cls
 {
     char pad[0x2c];
-    void FUN_00cdb3e0();
+    void hkaRagdollRigidBodyController_reinitialize();
 };
 struct S_c6a200_Info
 {
@@ -596,8 +596,8 @@ struct CE4360Context
     int m_iMode;
 };
 void __cdecl FUN_00ce3a00(CE4360Context* pkContext, int a, int b, int c, int d);
-void __cdecl FUN_00ce4330(CE4360Context* pkContext, int a, int b, int c);
-void __cdecl FUN_00ce4360(CE4360Context* pkContext, CE4360Iter* pkFrom, CE4360Iter* pkTo, int iValue);
+void __cdecl hkaSkeletonMapper_mapPoseLocalSpace_00ce4330(CE4360Context* pkContext, int a, int b, int c);
+void __cdecl hkaSkeletonMapper_mapPose(CE4360Context* pkContext, CE4360Iter* pkFrom, CE4360Iter* pkTo, int iValue);
 struct RTTI_c9b
 {
     const char* m_pcName;

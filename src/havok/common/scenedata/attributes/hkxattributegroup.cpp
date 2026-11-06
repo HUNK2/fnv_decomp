@@ -12,7 +12,7 @@ __forceinline void* __cdecl operator new(unsigned int, void* pvWhere) throw()
     return pvWhere;
 }
 
-void FUN_00d2cc70(void* pvDst, void* pvSrc, unsigned int uiNumBytes) throw();
+void hkMemUtil_memMove(void* pvDst, void* pvSrc, unsigned int uiNumBytes) throw();
 
 inline hkStringPtr::~hkStringPtr() throw()
 {
@@ -86,7 +86,7 @@ void hkArrayBase<hkxAttribute>::_spliceInto(hkMemoryAllocator& kAlloc, int iInde
     if (iNewSize > getCapacity())
         GrowArrayCapacity(kAlloc, iNewSize);
     hkDestructE5CD(m_data + iIndex, iNumDel);
-    FUN_00d2cc70(m_data + iIndex + iNumToInsert, m_data + iIndex + iNumDel, iNumToMove * sizeof(hkxAttribute));
+    hkMemUtil_memMove(m_data + iIndex + iNumToInsert, m_data + iIndex + iNumDel, iNumToMove * sizeof(hkxAttribute));
     hkConstructWithArrayE5CD(m_data + iIndex, iNumToInsert, pkInsert);
     m_iElementCount = iNewSize;
 }
@@ -228,7 +228,7 @@ struct S00e5cce0_Class
     S00e5cce0_Class& __thiscall FUN_00e5cce0(const S00e5cce0_Class& o);
 };
 
-void __cdecl FUN_00c908c0(int alloc, ElemArray* a, int bytes, int elemSize);
+void __cdecl hkArrayUtil__reserve(int alloc, ElemArray* a, int bytes, int elemSize);
 Allocator* __cdecl FUN_00c85750(void);
 
 static __forceinline void destructElems(hkxAttribute* data, int n)
@@ -269,7 +269,7 @@ S00e5cce0_Class& __thiscall S00e5cce0_Class::FUN_00e5cce0(const S00e5cce0_Class&
     if (iCapacity < n)
     {
         int iNewCapacity = iCapacity + iCapacity;
-        FUN_00c908c0(alloc, &s, n < iNewCapacity ? iNewCapacity : n, 8);
+        hkArrayUtil__reserve(alloc, &s, n < iNewCapacity ? iNewCapacity : n, 8);
     }
 
     destructElems(s.data, s.size);

@@ -56,11 +56,12 @@ struct S00ddf070_Heap
     virtual void* AllocateMemoryBlock(int numBytes) throw();
 };
 
-int __cdecl FUN_00cb0fa0(const char* a, const char* b) throw();
+int __cdecl hkString_strCmp(const char* a, const char* b) throw();
 
 // Finds or creates a child node by name, appends the name to the string pool if new, and accumulates value, count, and two counters on the node.
 // @fnv 0x00ddf070
-static __declspec(noinline) S00ddf070_Node* FUN_00ddf070(S00ddf070_Node* parent, const char* name, int value, int count,
+// src: HAVOK_LIB 0x00ddf070
+static __declspec(noinline) S00ddf070_Node* _newNode(S00ddf070_Node* parent, const char* name, int value, int count,
                                                          hkArrayBase<S00ddf070_StringPtr>* strings)
 {
     if (count == 0)
@@ -71,7 +72,7 @@ static __declspec(noinline) S00ddf070_Node* FUN_00ddf070(S00ddf070_Node* parent,
     S00ddf070_Node* child = 0;
     for (int i = 0; parent && i < parent->m_children.GetLogicalSize(); i++)
     {
-        if (FUN_00cb0fa0(parent->m_children[i]->m_name, name) == 0)
+        if (hkString_strCmp(parent->m_children[i]->m_name, name) == 0)
         {
             child = parent->m_children[i];
             break;
@@ -112,5 +113,5 @@ volatile int g00ddf070_v;
 S00ddf070_Node* volatile g00ddf070_out;
 void S00ddf070_Caller()
 {
-    g00ddf070_out = FUN_00ddf070(g00ddf070_parent, g00ddf070_name, g00ddf070_v, g00ddf070_v, g00ddf070_strings);
+    g00ddf070_out = _newNode(g00ddf070_parent, g00ddf070_name, g00ddf070_v, g00ddf070_v, g00ddf070_strings);
 }

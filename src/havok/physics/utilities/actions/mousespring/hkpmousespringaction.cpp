@@ -518,7 +518,7 @@ class UnkCall
     int unk04;
     int m_pOwningWorld;
 
-    void FUN_00c9c1d0();
+    void activate_00c9c1d0();
 };
 
 class hkpPositionTrackerCBB1
@@ -551,7 +551,7 @@ void hkpPositionTrackerCBB1::FUN_00cbb150(const hkVector4& kPosition)
     if ((iMask & 7) != 7)
     {
         if (m_pOwnerObject && m_pOwnerObject->m_pOwningWorld)
-            m_pOwnerObject->FUN_00c9c1d0();
+            m_pOwnerObject->activate_00c9c1d0();
     }
     m_vContactPosition = kPosition;
 }

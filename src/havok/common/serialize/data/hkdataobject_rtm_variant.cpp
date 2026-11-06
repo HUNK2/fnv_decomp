@@ -1046,7 +1046,7 @@ struct FUN_00dbade0_obj
 struct FUN_00dbade0_cls
 {
     FUN_00dbade0_obj* m_00;
-    void __thiscall FUN_00dbade0(int a);
+    void __thiscall hkDataArray_setAll(int a);
 };
 struct FnvCpu_FUN_00dbadf0_CpuInterface
 {
@@ -1089,7 +1089,7 @@ struct FnvCpu_FUN_00dbadf0_CpuInterface
 struct FnvCpu_FUN_00dbadf0_CpuOwner
 {
     FnvCpu_FUN_00dbadf0_CpuInterface* target;
-    void FUN_00dbadf0(int arg0);
+    void hkDataArray_setAll_00dbadf0(int arg0);
 };
 struct FnvCpu_FUN_00dbae00_CpuInterface
 {
@@ -1131,7 +1131,7 @@ struct FnvCpu_FUN_00dbae00_CpuInterface
 struct FnvCpu_FUN_00dbae00_CpuOwner
 {
     FnvCpu_FUN_00dbae00_CpuInterface* target;
-    void FUN_00dbae00(int arg0);
+    void hkDataArray_setAll_00dbae00(int arg0);
 };
 struct FnvCpu_FUN_00dbae30_CpuInterface
 {
@@ -1329,7 +1329,7 @@ struct S_Router
     }
 };
 S_Router* FUN_00c85750();
-void FUN_00c908c0(S_Alloc& a, void* arr, int n, int esz);
+void hkArrayUtil__reserve(S_Alloc& a, void* arr, int n, int esz);
 struct S_Obj
 {
     virtual void v0();
@@ -1395,7 +1395,7 @@ struct S_Arr
         if (c < n)
         {
             int c2 = c + c;
-            FUN_00c908c0(a, this, (n < c2) ? c2 : n, 16);
+            hkArrayUtil__reserve(a, this, (n < c2) ? c2 : n, 16);
         }
     }
     void SetSizeAndGrow(int n)
@@ -1556,7 +1556,7 @@ struct DB8000_Item
     int m_numOps;
 };
 typedef hkArrayBase<DB8000_Item*> DB8000_ItemArray;
-extern int __cdecl FUN_00cb0fa0(const char* a, const char* b);
+extern int __cdecl hkString_strCmp(const char* a, const char* b);
 struct DB8000_Self
 {
     virtual void v0();

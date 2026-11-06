@@ -3143,7 +3143,7 @@ struct Node
     virtual void slot36();
     virtual void Attach(Node*, bool);
     void FUN_00a59c60(const UpdateData&);
-    Node* FUN_00a5c570(void*);
+    Node* NiObjectNET_GetController(void*);
     Node* FUN_0047a520(const FixedString&);
     void FUN_0048fef0(float);
     Property* FUN_00a59d30(int);
@@ -3227,7 +3227,7 @@ void CaravanMenu::InitMenu()
     (*(Array*)((char*)this + 0x174)).FUN_008454f0(true);
     DAT_011d91e4.FUN_00559450()->FUN_00a59c60(UpdateData(0, 0, 0));
     (*(int*)((char*)this + 0xae8)) = CaravanSetup::MinInt((*(int*)((char*)this + 0xadc)), (*(int*)((char*)this + 0xae0)));
-    Node* pNode = (*(Node**)((char*)this + 0x18c))->FUN_00a5c570(&DAT_011f36ac);
+    Node* pNode = (*(Node**)((char*)this + 0x18c))->NiObjectNET_GetController(&DAT_011f36ac);
     if (pNode)
     {
         (*(Node**)((char*)this + 0x270)) = pNode;
@@ -3240,7 +3240,7 @@ void CaravanMenu::InitMenu()
         (*(Node**)((char*)this + 0x270))->FUN_0048fef0(0);
         FUN_00a6d2d0((*(Node**)((char*)this + 0x18c)));
     }
-    pNode = (*(Node**)((char*)this + 0x188))->FUN_00a5c570(&DAT_011f36ac);
+    pNode = (*(Node**)((char*)this + 0x188))->NiObjectNET_GetController(&DAT_011f36ac);
     if (pNode)
     {
         (*(Node**)((char*)this + 0x254)) = pNode;
@@ -13054,7 +13054,7 @@ struct Ctrl
 struct Elem
 {
     Elem* FUN_00a5d680();
-    Ctrl* FUN_00a5c570(RTTIObj* rtti);
+    Ctrl* NiObjectNET_GetController(RTTIObj* rtti);
 };
 int __cdecl MinInt(int a, int b);
 unsigned int __cdecl GetRandomNumberInRange(int a, int b);
@@ -13229,7 +13229,7 @@ void Owner::PlaceRandomItem(int aiIndex)
     aiIndex = MinInt(aiIndex, 2);
     cloned6 = m_items[aiIndex]->FUN_00a5d680();
     v6 = GetRandomNumberInRange(0, 3);
-    ctrl4 = cloned6->FUN_00a5c570(&DAT_011f36ac);
+    ctrl4 = cloned6->NiObjectNET_GetController(&DAT_011f36ac);
     switch (v6)
     {
     case 0:
@@ -18634,7 +18634,7 @@ struct SceneNode
     void FUN_00450f90(int visible);
     void FUN_00a59c60(const NiUpdateData& pos);
     void FUN_004bc1f0(float x, float y, float z);
-    AnimCtrl* FUN_00a5c570(void* rtti);
+    AnimCtrl* NiObjectNET_GetController(void* rtti);
     int FUN_00453470();
 };
 struct SceneRoot
@@ -18859,7 +18859,7 @@ void CaravanMenu::FUN_0073ea90()
     AnimCtrl* pCtrl;
     for (int iDeck = 0; iDeck < 2; iDeck++)
     {
-        pCtrl = (*reinterpret_cast<SceneNode* (*)[2]>((reinterpret_cast<char*>(this) + 0x190)))[iDeck]->FUN_00a5c570(&DAT_011f36ac);
+        pCtrl = (*reinterpret_cast<SceneNode* (*)[2]>((reinterpret_cast<char*>(this) + 0x190)))[iDeck]->NiObjectNET_GetController(&DAT_011f36ac);
         if (pCtrl != 0)
         {
             (*reinterpret_cast<AnimCtrl* (*)[2]>((reinterpret_cast<char*>(this) + 0x28c)))[iDeck] = pCtrl;
@@ -18886,7 +18886,7 @@ void CaravanMenu::FUN_0073ea90()
     {
         for (int iCol = 0; iCol < 7; iCol++)
         {
-            pCtrl = (*reinterpret_cast<SceneNode* (*)[6][7]>((reinterpret_cast<char*>(this) + 0x198)))[iRow][iCol]->FUN_00a5c570(&DAT_011f36ac);
+            pCtrl = (*reinterpret_cast<SceneNode* (*)[6][7]>((reinterpret_cast<char*>(this) + 0x198)))[iRow][iCol]->NiObjectNET_GetController(&DAT_011f36ac);
             if (pCtrl != 0)
             {
                 (*reinterpret_cast<AnimCtrl* (*)[6][7]>((reinterpret_cast<char*>(this) + 0x304)))[iRow][iCol] = pCtrl;

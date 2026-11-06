@@ -124,10 +124,11 @@ struct S_00d5e8f0
     int unkC;
     int unk10;
     int unk14;
-    void FUN_00d5e8f0();
+    void hkSolverAllocator_resetPeakMemoryStatistics();
 };
 // @fnv 0x00d5e8f0
-void S_00d5e8f0::FUN_00d5e8f0()
+// src: HAVOK_LIB 0x00d5e8f0
+void S_00d5e8f0::hkSolverAllocator_resetPeakMemoryStatistics()
 {
     unk14 = unkC - unk4;
 }
@@ -398,7 +399,7 @@ inline void* operator new(unsigned int, void* ptr)
     return ptr;
 }
 
-void __cdecl FUN_00d2cc70(void* dst, const void* src, unsigned int numBytes);
+void __cdecl hkMemUtil_memMove(void* dst, const void* src, unsigned int numBytes);
 
 struct Element
 {
@@ -423,7 +424,7 @@ void hkArrayBase<Element>::_spliceInto(hkMemoryAllocator& allocator, int index, 
         hkArrayUtil::_reserve(allocator, this, iCapacity, 8);
     }
 
-    FUN_00d2cc70(&m_data[index + numToInsert], &m_data[index + numToRemove], numToMove * 8);
+    hkMemUtil_memMove(&m_data[index + numToInsert], &m_data[index + numToRemove], numToMove * 8);
 
     Element* dst = &m_data[index];
     for (int i = 0; i < numToInsert; ++i)
@@ -504,12 +505,13 @@ struct S00d5eb10_Alloc : public FUN_00c66560_class
     hkInplaceArray<S00d5eb10_Block, 32> m_kBlocks;
     S00d5eb10_CS m_pWorldLock;
 
-    void FUN_00d5eb10(void* p, int size);
+    void hkSolverAllocator_bufFree(void* p, int size);
 };
 
 // Updates allocation bookkeeping; moves m_pTileTemplate backward for an adjacent block, otherwise merges with or inserts into m_kBlocks.
 // @fnv 0x00d5eb10
-void S00d5eb10_Alloc::FUN_00d5eb10(void* apBlock, int size)
+// src: HAVOK_LIB 0x00d5eb10
+void S00d5eb10_Alloc::hkSolverAllocator_bufFree(void* apBlock, int size)
 {
     void* cs = &m_pWorldLock;
     EnterCriticalSection(cs);

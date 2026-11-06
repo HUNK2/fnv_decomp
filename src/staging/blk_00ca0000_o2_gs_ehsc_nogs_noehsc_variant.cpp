@@ -90,7 +90,7 @@ struct FUN_00ca9a80
     int a, b, c, d, e;
     FUN_00ca9a80();
 };
-extern "C" int __cdecl FUN_00cb10d0(int);
+extern "C" int __cdecl hkString_strLen(int);
 struct FUN_00cb0a80_class
 {
     int __thiscall FUN_00cb0a80();
@@ -105,7 +105,7 @@ struct FUN_00cb9b60_class
 };
 struct FUN_00cbc8f0_cls
 {
-    void FUN_00cbc8f0(int arg);
+    void hkpSimpleContactConstraintData_getContactPointIdAt(int arg);
 };
 struct GlobalObject_0045cfe0
 {
@@ -142,21 +142,21 @@ extern int DAT_01268250;
 extern int DAT_01268274;
 extern int DAT_01268324;
 void __cdecl RegisterStaticCollisionAgent(void*);
-void __cdecl FUN_00d41f00(void*, int, int);
+void __cdecl hkPredGskAgent3_registerAgent3(void*, int, int);
 void __cdecl RegisterScriptHandlers(void*);
-void __cdecl FUN_00d40910(void*);
-void __cdecl FUN_00d40130(void*);
+void __cdecl hkpBoxBoxAgent_registerAgent(void*);
+void __cdecl hkBoxBoxAgent3_registerAgent3(void*);
 void __cdecl FUN_00d3fd00(void*);
-void __cdecl FUN_00d3ef70(void*);
+void __cdecl hkpSphereCapsuleAgent_registerAgent(void*);
 void __cdecl FUN_00d3dca0(void*);
-void __cdecl FUN_00d3cef0(void*);
+void __cdecl hkpSphereBoxAgent_registerAgent(void*);
 void __cdecl RegisterHandlers(void*);
 void __cdecl FUN_00d3abc0(void*);
-void __cdecl FUN_00d39840(void*);
+void __cdecl hkCapsuleTriangleAgent3_registerAgent3(void*);
 void __cdecl FUN_00d389f0(void*);
 void __cdecl FUN_00d377d0(void*);
 void __cdecl FUN_00d2e760(void*);
-void __cdecl FUN_00cbfcb0(void* a);
+void __cdecl hkpAgentRegisterUtil__registerTerminalAgents(void* a);
 struct FUN_00cbbfa0_class
 {
     int m_iWordAt00;
@@ -277,7 +277,7 @@ struct FUN_00cac920_Class
     char pad2[0x24];
     float m_58;
     float m_5c;
-    void __thiscall FUN_00cac920(void* body);
+    void __thiscall hkpCharacterProxy_setPosition(void* body);
 };
 extern int DAT_010c8b0c;
 extern int DAT_01268648;
@@ -782,7 +782,7 @@ struct FUN_00ca3b10_cls
 
     bool FUN_00ca3b10();
 };
-void __cdecl FUN_00aa10f0(void*);
+void __cdecl _NiFree_00aa10f0(void*);
 struct PrimaryPart
 {
     virtual ~PrimaryPart()
@@ -835,7 +835,7 @@ struct ResourceMember
 {
     virtual ~ResourceMember()
     {
-        FUN_00aa10f0(data);
+        _NiFree_00aa10f0(data);
     }
     void* data;
 };
@@ -2140,9 +2140,9 @@ struct MotionStorage
     MotionInstance* FUN_00ca9240(const void*, const void*);
     MotionInstance* InitFixedRigidMotion(const void*, const void*);
 };
-float FUN_00c9e0f0(float, float);
-float FUN_00c98210(float, float);
-void FUN_00ca8240(int type, const void* position, const void* rotation, float mass, const float* inertia,
+float NiMin(float, float);
+float NiMax(float, float);
+void hkpRigidBody_createDynamicRigidMotion(int type, const void* position, const void* rotation, float mass, const float* inertia,
                   const void* center, float linearDamping, float angularDamping, MotionStorage* storage);
 struct Ctx
 {
@@ -3305,7 +3305,7 @@ struct FUN_00cbe820_cls
     FUN_00cbe820_sub m_97;
     float m_98;
 
-    FUN_00cbe820_cls* FUN_00cbe820();
+    FUN_00cbe820_cls* hkpHingeConstraintData_Atoms_Atoms();
 };
 struct FUN_00cbe880_Class
 {
@@ -3404,13 +3404,13 @@ class CBFC60Dispatcher
   public:
     void SetEnableChecks(hkBool bEnable);
 };
-void __cdecl FUN_00d36c60(CBFC60Dispatcher* pkDispatcher);
-void __cdecl FUN_00d367d0(CBFC60Dispatcher* pkDispatcher);
-void __cdecl FUN_00d362c0(CBFC60Dispatcher* pkDispatcher);
+void __cdecl hkpListAgent_registerAgent(CBFC60Dispatcher* pkDispatcher);
+void __cdecl hkpCollectionAgent3_registerAgent3(CBFC60Dispatcher* pkDispatcher);
+void __cdecl hkpCollectionCollectionAgent3_registerAgent3(CBFC60Dispatcher* pkDispatcher);
 void __cdecl RegisterConvexListAgentCollisionFuncs(CBFC60Dispatcher* pkDispatcher);
 void __cdecl RegisterAgent3Entries(CBFC60Dispatcher* pkDispatcher);
 void __cdecl FUN_00d321e0(CBFC60Dispatcher* pkDispatcher);
-void __cdecl FUN_00cbfc60(CBFC60Dispatcher* pkDispatcher);
+void __cdecl hkpAgentRegisterUtil__registerListAgents(CBFC60Dispatcher* pkDispatcher);
 struct TypedObj
 {
     virtual void v00();
@@ -4831,7 +4831,7 @@ struct RNG_cabbd0
         return m_uiState;
     }
 };
-unsigned int __cdecl FUN_00cabbd0(RNG_cabbd0* rng);
+unsigned int __cdecl hkColor_getRandomColor(RNG_cabbd0* rng);
 extern int DAT_011b1a58[8];
 extern char DAT_00ffffff;
 int __cdecl CombineIndexedMaskAndShift(int a, int b);
@@ -4925,10 +4925,10 @@ struct FUN_00cb0a70_Class
     void* FUN_00cb0a70(int a);
 };
 int __cdecl FUN_00ec6cc4(char*, const char*, char*);
-void __cdecl FUN_00cb0f80(char* a, const char* b, char* c);
+void __cdecl hkString_sprintf(char* a, const char* b, char* c);
 extern "C" int __cdecl FUN_00ec8a19(const char*, const char*, unsigned int);
 int __cdecl FUN_00cb0fd0(const char* s1, const char* s2, unsigned int count);
-void __stdcall FUN_00cd4af0(int a1);
+void __stdcall isOk_00cd4af0(int a1);
 unsigned int __stdcall FUN_00cb2d70(unsigned int param_1);
 void __cdecl FUN_00c87f60(void);
 void __cdecl FUN_00cb75f0(void);
@@ -5417,7 +5417,7 @@ struct FNV_OwnerObject
     int unkd8;
     int unkdc;
     FNV_InnerObject inner;
-    void __fastcall FUN_00ca8940(int);
+    void __fastcall hkpRigidBody_setInertiaInvLocal(int);
 };
 struct CA8B80Command;
 struct CA8B80Queue
@@ -5481,8 +5481,8 @@ void __cdecl FUN_00caa1b0();
 extern int DAT_01268334;
 extern int DAT_01268338;
 extern int DAT_0126833c;
-unsigned int __cdecl FUN_00cabbd0(int*);
-unsigned int __cdecl FUN_00cabe90();
+unsigned int __cdecl hkColor_getRandomColor(int*);
+unsigned int __cdecl hkColor_getRandomColor_00cabe90();
 struct CA0F0Result
 {
     int unk00;
@@ -5599,10 +5599,10 @@ struct FUN_00caff80 : CAFBase
 // length via FUN_00cb10d0 (+1 for the NUL), block allocated through the task
 // memory router's allocator, contents filled by FUN_00cb1090.
 struct FNVTaskMemoryRouter;
-extern "C" int __cdecl FUN_00cb10d0(int);
+extern "C" int __cdecl hkString_strLen(int);
 extern "C" FNVTaskMemoryRouter* __cdecl FUN_00c85750();
 extern "C" void* __cdecl AllocateWithHeader(void* allocator, unsigned int count);
-extern "C" void __cdecl FUN_00cb1090(void* block, int value);
+extern "C" void __cdecl hkString_strCpy(void* block, int value);
 struct CbobRouter
 {
     void* unk00;
@@ -5611,14 +5611,14 @@ struct CbobRouter
     void* unk0c;
     void* allocator;
 };
-static void* FUN_00cb0aa0(char* s);
+static void* strDup(char* s);
 void zz_probe_call(char* s);
 struct Cb1b80Arr
 {
     int* m_data;
     int m_flags;
     int m_uiItemCount;
-    Cb1b80Arr* FUN_00cb1b80(void* data, unsigned int size);
+    Cb1b80Arr* hkMultiMap_unsigned_int64_unsigned_int64_struct_hkMultiMapOperations_unsigned_int64_struct_hkContainerHeapAllocator_hkMultiMap_unsigned_int64_unsigned_int64_struct_hkMultiMapOperations_unsigned_int64_struct_hkContainerHeapAllocator(void* data, unsigned int size);
 };
 void __cdecl FUN_00c65820(void);
 void __cdecl FUN_00cb7620(void);

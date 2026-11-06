@@ -411,7 +411,7 @@ struct S00a9b570_Bound
     float m_fBoundRadius;
 };
 extern S00a9b570_Bound DAT_011f4288;
-void __cdecl FUN_00aa10f0(void* p);
+void __cdecl _NiFree_00aa10f0(void* p);
 void* __cdecl FUN_00aa1070(unsigned int n);
 
 inline float S00a9b570_Dot(const S00a9b570_Pt& a, const S00a9b570_Pt& b)
@@ -513,10 +513,10 @@ void NiAlphaAccumulator::Sort()
         return;
     if (m_iNumItems > m_iMaxItems)
     {
-        FUN_00aa10f0(m_ppkItems);
+        _NiFree_00aa10f0(m_ppkItems);
         m_iMaxItems = m_iNumItems;
         m_ppkItems = (NiGeometry**)FUN_00aa1070(m_iMaxItems * sizeof(NiGeometry*));
-        FUN_00aa10f0(m_pfDepths);
+        _NiFree_00aa10f0(m_pfDepths);
         m_pfDepths = (float*)FUN_00aa1070(m_iMaxItems * sizeof(float));
     }
     ItemListNode* kPos = m_kItemsToSortAndRender->m_pkHead;

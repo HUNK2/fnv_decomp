@@ -4,7 +4,8 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 // @fnv 0x00dba5f0
-int __stdcall FUN_00dba5f0(int aiUnused1, int aiUnused2, int c)
+// src: HAVOK_SRC 0x00dba5f0
+int __stdcall hkSerializeDeprecated_loadOldPackfileOnHeap(int aiUnused1, int aiUnused2, int c)
 {
     hkStringPtr* p = (hkStringPtr*)c;
     if (p)

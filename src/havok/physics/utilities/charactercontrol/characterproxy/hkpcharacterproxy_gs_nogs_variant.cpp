@@ -11,7 +11,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 struct FUN_00cad480_Class
 {
-    void __thiscall FUN_00cad480(void* arg);
+    void __thiscall hkpCharacterProxy_fireContactAdded(void* arg);
 };
 struct S_00cad440;
 struct S_00cad440_Listener
@@ -55,7 +55,7 @@ struct S_00cad440
     int unk7C;
     S_00cad440_Listener** unk80;
     int unk84;
-    void FUN_00cad440(void* a, void* b);
+    void hkpCharacterProxy_fireConstraintsProcessed(void* a, void* b);
 };
 struct CAD4C0Owner;
 struct CAD4C0Listener
@@ -102,7 +102,7 @@ struct CAD4C0Owner
     CAD4C0Listener** m_kListeners;
     int m_numListeners;
 
-    void FUN_00cad4c0(void* data);
+    void hkpCharacterProxy_fireContactRemoved(void* data);
 };
 struct FUN_00cad6f0_class
 {
@@ -148,7 +148,7 @@ struct FUN_00cade20_Class
 };
 struct FUN_00cafbd0_Class
 {
-    void __thiscall FUN_00cafbd0(int first, int second, int third, int fourth);
+    void __thiscall hkpCharacterProxy_integrateWithCollectors(int first, int second, int third, int fourth);
 };
 struct FNVAllocator
 {
@@ -180,14 +180,14 @@ struct FNVBuffers
         return FUN_00c85750()->GetAllocator()->Allocate(bytes);
     }
 };
-void __cdecl FUN_00d06cb0(FNVArray*, unsigned int);
+void __cdecl hkSmallArrayUtil__reserveMore(FNVArray*, unsigned int);
 struct FNVOwner
 {
     FNVBuffers*& Buffers()
     {
         return *reinterpret_cast<FNVBuffers**>(reinterpret_cast<char*>(this) + 0x214);
     }
-    void FUN_00c9c5b0(int value);
+    void hkpEntity_addEntityListener(int value);
 };
 extern __declspec(thread) int g_tlsMemContext;
 struct S_00cac150_Scope
@@ -205,7 +205,7 @@ struct S_00cac150_Scope
 };
 struct S_00cac150_Item1
 {
-    void FUN_00c9c670(void* arg);
+    void removeEntityListener_00c9c670(void* arg);
 };
 struct S_00cac150_Item2
 {
@@ -364,7 +364,7 @@ struct BhkElem
 };
 struct BhkTarget
 {
-    void FUN_00c9c670(void* v);
+    void removeEntityListener_00c9c670(void* v);
 };
 struct BhkProxy
 {
@@ -419,7 +419,7 @@ struct FUN_00cad900_arg
     unsigned int unk0c;
     unsigned char flag10;
 };
-extern "C" int __cdecl FUN_00d06f80(int ptr, int size);
+extern "C" int __cdecl hkStatisticsCollector_getAllocatedSize(int ptr, int size);
 extern "C" char str_010c8444[];
 extern "C" char str_010c8450[];
 extern "C" char str_010c8460[];

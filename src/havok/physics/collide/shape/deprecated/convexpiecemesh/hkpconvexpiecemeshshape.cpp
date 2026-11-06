@@ -117,10 +117,11 @@ struct FUN_00e49290_Class
     FUN_00e49290_Data* data;
     FUN_00e49290_Owner* owner;
 
-    int FUN_00e49290(unsigned int index);
+    int hkpConvexPieceMeshShape_getCollisionFilterInfo(unsigned int index);
 };
 
-int FUN_00e49290_Class::FUN_00e49290(unsigned int index)
+// src: HAVOK_LIB 0x00e49290
+int FUN_00e49290_Class::hkpConvexPieceMeshShape_getCollisionFilterInfo(unsigned int index)
 {
     int result;
 
@@ -180,7 +181,7 @@ void D::FUN_00e490d0()
 
 extern hkClass g_01269198;
 
-int __cdecl FUN_00d06f80(const void* pvChunk, int iNumBytes) throw();
+int __cdecl hkStatisticsCollector_getAllocatedSize(const void* pvChunk, int iNumBytes) throw();
 
 template <class T> inline void CollectArray(hkStatisticsCollector* pkCollector, const char* pcName,
                                           const hkArray<T>& kArray)
@@ -188,7 +189,7 @@ template <class T> inline void CollectArray(hkStatisticsCollector* pkCollector, 
     if ((kArray.m_iCapacityState & 0x80000000) == 0 || pkCollector->m_reportInplaceAllocations)
     {
         const T* pData = kArray.m_data;
-        int iAllocated = FUN_00d06f80(pData, kArray.getCapacity() * sizeof(T));
+        int iAllocated = hkStatisticsCollector_getAllocatedSize(pData, kArray.getCapacity() * sizeof(T));
         pkCollector->AddMemoryChunk(3, pcName, kArray.m_data, kArray.GetLogicalSize() * sizeof(T), iAllocated);
     }
 }
@@ -219,7 +220,8 @@ void hkpConvexPieceMeshShape::calcContentStatistics(hkStatisticsCollector* pkCol
 
 // Stores whether bit bitIndex % 31 of word bitIndex / 31, at bits[bits[0] + 1 + word], is set into *found, and returns found.
 // @fnv 0x00e49040
-unsigned char* __stdcall FUN_00e49040(unsigned char* pbResult, const int* bits, unsigned int bitIndex)
+// src: HAVOK_LIB 0x00e49040
+unsigned char* __stdcall hkpConvexPieceMeshShape_vertexIsSet(unsigned char* pbResult, const int* bits, unsigned int bitIndex)
 {
     unsigned int wordIndex = bitIndex / 31;
     unsigned int bitWithinWord = bitIndex % 31;

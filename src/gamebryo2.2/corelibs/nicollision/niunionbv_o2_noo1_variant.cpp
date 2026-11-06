@@ -16,7 +16,7 @@ struct S
 {
     S* FUN_00e9ee60(void*);
 };
-S* __fastcall FUN_00e9efb0(void* self);
+S* __fastcall NiUnionBV_Clone(void* self);
 // FUN_00e9ecc0 - 6-byte leaf stub of the retail binary.
 //
 // The original code is "mov eax, 4 ; ret": the function simply hands the

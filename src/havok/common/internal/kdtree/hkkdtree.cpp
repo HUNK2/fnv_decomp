@@ -103,7 +103,7 @@ struct D97770MemoryRouter
 };
 
 extern "C" D97770MemoryRouter& __cdecl FUN_00c85750();
-void __cdecl FUN_00c908c0(D97770Allocator* alloc, void* array, int numElements, int sizeElem);
+void __cdecl hkArrayUtil__reserve(D97770Allocator* alloc, void* array, int numElements, int sizeElem);
 
 struct D97770Interval
 {
@@ -133,7 +133,7 @@ struct D97770IntervalArrayLocalForm : hkArrayBase<D97770Interval>
         {
             int cap2 = 2 * cap;
             int newSize = (n < cap2) ? cap2 : n;
-            FUN_00c908c0(&alloc, this, newSize, sizeof(D97770Interval));
+            hkArrayUtil__reserve(&alloc, this, newSize, sizeof(D97770Interval));
         }
     }
 
@@ -150,11 +150,12 @@ struct D97770IntervalArrayLocalForm : hkArrayBase<D97770Interval>
         m_iElementCount = n;
     }
 
-    void FUN_00d97770(int minSize);
+    void hkKdTree_initNodeArray(int minSize);
 };
 
 // @fnv 0x00d97770
-void D97770IntervalArrayLocalForm::FUN_00d97770(int minSize)
+// src: HAVOK_LIB 0x00d97770
+void D97770IntervalArrayLocalForm::hkKdTree_initNodeArray(int minSize)
 {
     int n = (minSize > 2) ? minSize : 2;
     if (m_iElementCount < n)
@@ -166,7 +167,7 @@ void D97770IntervalArrayLocalForm::FUN_00d97770(int minSize)
 
 struct FUN_00d97770_base
 {
-    void FUN_00d97770(unsigned int aValue);
+    void hkKdTree_initNodeArray(unsigned int aValue);
 };
 
 struct FUN_00d97810_cls
@@ -195,7 +196,7 @@ FUN_00d97810_cls* FUN_00d97810_cls::Initialize(unsigned int aValue)
     m_1c = 0;
     m_20 = 0;
     m_24 = 0x80000000u;
-    reinterpret_cast<FUN_00d97770_base*>(this)->FUN_00d97770(aValue);
+    reinterpret_cast<FUN_00d97770_base*>(this)->hkKdTree_initNodeArray(aValue);
     return this;
 }
 
@@ -342,7 +343,7 @@ struct Tree_d978
     int unk28, unk2C;
     __m128 m_kMinimumCorner;
     __m128 m_kMaximumCorner;
-    void FUN_00d97770(int minSize);
+    void hkKdTree_initNodeArray(int minSize);
     void FUN_00d978d0(const Cinfo_d978& cinfo);
 };
 
@@ -357,7 +358,7 @@ void Tree_d978::FUN_00d978d0(const Cinfo_d978& cinfo)
     int numSplits = cinfo.m_numSplits;
     int perSplit = (numSplits == 0) ? 0 : cinfo.m_numObjects / numSplits;
     m_numSplits = perSplit;
-    FUN_00d97770(m_iNodeCount + perSplit);
+    hkKdTree_initNodeArray(m_iNodeCount + perSplit);
     m_numObjects = cinfo.m_numObjects;
     m_kNodeCollection.setSize(m_numObjects);
 }

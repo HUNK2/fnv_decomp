@@ -721,7 +721,7 @@ Tile* FUN_0076bfe0()
         fShadowRadiusXB = DAT_011d9770->FUN_0043d450()->FUN_0084d030() * 3.0;
         FUN_00450b80(1)->FUN_00b5ca70(static_cast<NiNode*>(DAT_011d9770), fShadowRadiusXB);
         pBreathNodeYA = HUDMainMenu_pme->m_pTiles[72]->FUN_0056c7f0();
-        pController27 = static_cast<NiNode*>(pBreathNodeYA->FUN_0043b4a0(0))->FUN_00a5c570(&DAT_011f36ac);
+        pController27 = static_cast<NiNode*>(pBreathNodeYA->FUN_0043b4a0(0))->NiObjectNET_GetController(&DAT_011f36ac);
         pBreathNodeYA->FUN_006404b0(-1.5707964f, 1.0f, 0.0f, 0.0f);
         NiUpdateData kUpdateBreath2(0.0f, true, false);
         pBreathNodeYA->FUN_0043b4a0(0)->FUN_00a59c60(kUpdateBreath2);

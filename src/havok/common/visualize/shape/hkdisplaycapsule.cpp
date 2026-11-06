@@ -26,7 +26,8 @@ struct StaticHelper
 };
 
 // @fnv 0x00d22d70
-void hkDisplayCapsule::FUN_00d22d70()
+// src: HAVOK_LIB 0x00d22d70
+void hkDisplayCapsule::buildGeometry()
 {
     StaticHelper::HandleObjectEvent((char*)this + 0x60, (char*)this + 0x70, *(float*)((char*)this + 0x80),
                                     *(void**)((char*)this + 0x88), *(void**)((char*)this + 0x84), (char*)this + 0x10,

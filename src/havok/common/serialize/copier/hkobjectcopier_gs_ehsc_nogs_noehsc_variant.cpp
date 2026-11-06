@@ -6,7 +6,7 @@
 
 #include "fnv_asm_helpers.h"
 #include "../../../../../include/Pair.h"
-int __stdcall FUN_00e032d0(const void* a, const void* b);
+int __stdcall hkObjectCopier_areMembersCompatible(const void* a, const void* b);
 int __cdecl FUN_00e049c0(int a, int b);
 extern int DAT_0102e388;
 struct Object {
@@ -112,7 +112,7 @@ struct List
     int m_uiItemCount;
     unsigned int m_iCapacityState;
 };
-int __cdecl FUN_00cb10d0(int);
+int __cdecl hkString_strLen(int);
 int __cdecl FUN_00e03360_ext1(int);
 int __cdecl FUN_00e03360_ext2(VObj* p);
 __declspec(noinline) static void FUN_00e03360(VObj* p, int n)
@@ -144,7 +144,7 @@ struct FUN_00e04920_cls {
     unsigned int FUN_00e036b0(unsigned int a, unsigned int b, Scratch16* scratch, unsigned int c);
     unsigned int FUN_00e03ea0(unsigned int a, unsigned int b, Scratch16* scratch,
                                 unsigned int c, unsigned int d, unsigned int e, unsigned int f);
-    int FUN_00e04920(unsigned int a1, unsigned int a2, unsigned int a3,
+    int hkObjectCopier_copyObject(unsigned int a1, unsigned int a2, unsigned int a3,
                      unsigned int a4, unsigned int a5);
 };
 // FUN_00e03360: module-local helper (custom register convention: n in EAX, obj in EDI).
@@ -166,7 +166,7 @@ struct MemRouter
     HeapAlloc* m_pStreamAllocator;
 };
 inline MemRouter& Router() { return reinterpret_cast<MemRouter&>(FUN_00c85750()); }
-void __cdecl FUN_00c908c0(HeapAlloc* alloc, void* arr, int cap, int elemSize);
+void __cdecl hkArrayUtil__reserve(HeapAlloc* alloc, void* arr, int cap, int elemSize);
 extern "C" void* __cdecl FUN_00ec61c0(void* dst, int val, int n);
 static __forceinline void Construct(char* p, int c)
 {
@@ -208,7 +208,7 @@ struct CharArrayLocalForm
         if (cap < n)
         {
             int c2 = cap + cap;
-            FUN_00c908c0(h, this, n < c2 ? c2 : n, 1);
+            hkArrayUtil__reserve(h, this, n < c2 ? c2 : n, 1);
         }
     }
     __forceinline void SetSizeAndGrow(int n)
@@ -287,7 +287,7 @@ struct S00e03ea0_Member {
 struct S00e03ea0_Schema {
     const char* FUN_00d46d40();
     int FUN_00d46f00();
-    S00e03ea0_Member* FUN_00d46f20(int i);
+    S00e03ea0_Member* getMember(int i);
     S00e03ea0_Member* FUN_00d46fe0(void* name);
     int FUN_00d470d0();
 };
@@ -423,7 +423,7 @@ __declspec(noinline) static int AppendListEntry(Ctx* ctx, List* list, int a, int
     entry->m_key = b;
     entry->m_uiFilterValue = target;
     ++list->m_uiItemCount;
-    ctx->FUN_00d607b0(a, FUN_00cb10d0(a) + 1);
+    ctx->FUN_00d607b0(a, hkString_strLen(a) + 1);
     return 0;
 }
 
@@ -499,7 +499,7 @@ void S00e03ea0_Ser::FUN_00e03ea0(char* src, S00e03ea0_Schema* srcClass, S00e03ea
     depth++;
 
     for (int i = 0; i < dstClass->FUN_00d46f00(); i++) {
-        S00e03ea0_Member* member = dstClass->FUN_00d46f20(i);
+        S00e03ea0_Member* member = dstClass->getMember(i);
         void* memberName = member->m_name;
         S00e03ea0_Member* type = srcClass->FUN_00d46fe0(memberName);
         if (!type)

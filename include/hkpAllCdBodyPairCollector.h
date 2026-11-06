@@ -33,5 +33,5 @@ public:
     virtual void FUN_0062d330();
 
     void* FUN_0062d440(unsigned int flags);
-    void FUN_0062d310();
+    void reset_0062d310();
 };

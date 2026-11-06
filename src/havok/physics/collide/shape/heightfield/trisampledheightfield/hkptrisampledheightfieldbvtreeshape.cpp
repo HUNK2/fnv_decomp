@@ -92,22 +92,24 @@ class hkpTriSampledHeightFieldBvTreeShape
 // ---------------------------------------------------------------------------
 struct TriSampledHeightFieldBvTreeShape : public hkpTriSampledHeightFieldBvTreeShape
 {
-    void FUN_00d27200();
+    void hkpTriSampledHeightFieldBvTreeShape_getContainer();
 };
 
 // @fnv 0x00d27200
-void TriSampledHeightFieldBvTreeShape::FUN_00d27200()
+// src: HAVOK_LIB 0x00d27200
+void TriSampledHeightFieldBvTreeShape::hkpTriSampledHeightFieldBvTreeShape_getContainer()
 {
     m_kChildContainer.m_pContainedShape->GetShapeContainer();
 }
 
 struct FUN_00d268b0_Obj : public hkpTriSampledHeightFieldBvTreeShape
 {
-    int __thiscall FUN_00d268b0(int a, int b);
+    int __thiscall hkpTriSampledHeightFieldBvTreeShape_calcSizeForSpu(int a, int b);
 };
 
 // @fnv 0x00d268b0
-int __thiscall FUN_00d268b0_Obj::FUN_00d268b0(int a, int aiUnused)
+// src: HAVOK_LIB 0x00d268b0
+int __thiscall FUN_00d268b0_Obj::hkpTriSampledHeightFieldBvTreeShape_calcSizeForSpu(int a, int aiUnused)
 {
     const hkpShape* childShape = m_kChildContainer.m_pContainedShape;
     unsigned int result = (unsigned int)childShape->CalcSizeForSpu(
@@ -225,7 +227,7 @@ FUN_00d26b50::FUN_00d26b50(hkpShape* pShape, unsigned char bE)
 
 extern "C" hkThreadMemory* FUN_00c85750();
 extern "C" void ResizeAudioStream(hkMemory* memory, void* array, int elemSize);
-extern "C" void FUN_00c908c0(hkMemory* memory, void* array, int numElements, int elemSize);
+extern "C" void hkArrayUtil__reserve(hkMemory* memory, void* array, int numElements, int elemSize);
 
 template <typename T> __forceinline void hkConstructWithCopy(T* p, int n, const T& t)
 {
@@ -255,7 +257,7 @@ static __forceinline void hkShapeKeyArray_SetSizeAndGrow(hkArrayBase<hkUint32>& 
         {
             int cap2 = cap + cap;
             int newSize = (n < cap2) ? cap2 : n;
-            FUN_00c908c0(memory, (&self), newSize, sizeof(hkUint32));
+            hkArrayUtil__reserve(memory, (&self), newSize, sizeof(hkUint32));
         }
         self.m_iElementCount = n;
     }
@@ -382,11 +384,12 @@ struct FUN_00d26b30_cls
     int unk14;
     const hkpTriSampledHeightFieldCollection* m_holder;
 
-    void FUN_00d26b30(int a, int b, int c, int d);
+    void hkpTriSampledHeightFieldBvTreeShape_castRayWithCollectorImpl(int a, int b, int c, int d);
 };
 
 // @fnv 0x00d26b30
-void FUN_00d26b30_cls::FUN_00d26b30(int a, int b, int c, int d)
+// src: HAVOK_LIB 0x00d26b30
+void FUN_00d26b30_cls::hkpTriSampledHeightFieldBvTreeShape_castRayWithCollectorImpl(int a, int b, int c, int d)
 {
     const hkpSampledHeightFieldShape* shape = m_holder->getHeightFieldShape();
     // Preserve this forwarding entry point's four-word argument ABI.
@@ -623,12 +626,13 @@ ExtentsQueryFn S00d26ba0_extentsFp = &FUN_00d26940;
 
 struct BvTreeShape : public hkpTriSampledHeightFieldBvTreeShape
 {
-    hkUint32 FUN_00d26ba0(const hkAabb& aabbIn, hkpShapeKey* hits, int maxNumKeys) const;
+    hkUint32 hkpTriSampledHeightFieldBvTreeShape_queryAabbImpl(const hkAabb& aabbIn, hkpShapeKey* hits, int maxNumKeys) const;
 };
 
 // Fills hits with shape keys for grid cells overlapping aabbIn and returns the count, or 0 if bounds checking finds every sampled height above or below it.
 // @fnv 0x00d26ba0
-hkUint32 BvTreeShape::FUN_00d26ba0(const hkAabb& aabbIn, hkpShapeKey* hits, int maxNumKeys) const
+// src: HAVOK_SRC 0x00d26ba0
+hkUint32 BvTreeShape::hkpTriSampledHeightFieldBvTreeShape_queryAabbImpl(const hkAabb& aabbIn, hkpShapeKey* hits, int maxNumKeys) const
 {
     hkAabb aabb(aabbIn);
     const hkpTriSampledHeightFieldCollection* collection =

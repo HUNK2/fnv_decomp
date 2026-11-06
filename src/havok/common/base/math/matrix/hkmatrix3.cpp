@@ -69,7 +69,8 @@ struct CD4AF0Vector4
 
 
 // @fnv 0x00cd4af0
-hkBool hkMatrix3::FUN_00cd4af0() const
+// src: HAVOK_LIB 0x00cd4af0
+hkBool hkMatrix3::isOk_00cd4af0() const
 {
     return reinterpret_cast<const CD4AF0Vector4&>(m_kColumn0).IsStreamValid() && reinterpret_cast<const CD4AF0Vector4&>(m_kColumn1).IsStreamValid() && reinterpret_cast<const CD4AF0Vector4&>(m_kColumn2).IsStreamValid();
 }
@@ -127,14 +128,15 @@ struct Matrix3x4
 class CMatrixOps
 {
   public:
-    bool FUN_00cd4e90(float epsilon);
+    bool hkMatrix3_isSymmetric(float epsilon);
 
   private:
     Matrix3x4 m_mat;
     unsigned char* FUN_00cd4e00(unsigned char* out, const Matrix3x4* temp, float epsilon);
 };
 // @fnv 0x00cd4e90
-bool CMatrixOps::FUN_00cd4e90(float epsilon)
+// src: HAVOK_LIB 0x00cd4e90
+bool CMatrixOps::hkMatrix3_isSymmetric(float epsilon)
 {
     __declspec(align(16)) Matrix3x4 temp;
     temp.m[0][0] = m_mat.m[0][0];
@@ -236,7 +238,8 @@ struct Mat34
 
 // Computes the c, s, p, q of a Jacobi rotation that zeroes a.m[p][q] of a 3x4 matrix, storing the result in outp.
 // @fnv 0x00cd5270
-static __declspec(noinline) void FUN_00cd5270(const Mat34& apMatrix, int q, int p, JacobiRot* apOut)
+// src: HAVOK_LIB 0x00cd5270
+static __declspec(noinline) void _constructSchurMatrix(const Mat34& apMatrix, int q, int p, JacobiRot* apOut)
 {
     JacobiRot* out = apOut;
     JacobiRot** ppOut = &apOut;
@@ -264,7 +267,7 @@ Mat34 g_m5270;
 JacobiRot g_r5270;
 void caller_cd5270()
 {
-    FUN_00cd5270(g_m5270, g_q5270, g_p5270, &g_r5270);
+    _constructSchurMatrix(g_m5270, g_q5270, g_p5270, &g_r5270);
 }
 
 struct Mat
@@ -285,7 +288,8 @@ struct Mat
 
 // Computes the Euclidean norm of the 3x3 block formed by the first three entries of each row.
 // @fnv 0x00cd5340
-static __declspec(noinline) float FUN_00cd5340(const Mat* apMatrix)
+// src: HAVOK_LIB 0x00cd5340
+static __declspec(noinline) float _frobeniusNorm(const Mat* apMatrix)
 {
     float sum = 0.0f;
     const float* q = &apMatrix->f00 + 8;
@@ -301,18 +305,19 @@ static __declspec(noinline) float FUN_00cd5340(const Mat* apMatrix)
 
 float MatNorm(const Mat* m)
 {
-    return FUN_00cd5340(m) * 2.0f;
+    return _frobeniusNorm(m) * 2.0f;
 }
 
 struct S_00cd53a0_Matrix3
 {
     float m_col[3][4];
-    float FUN_00cd53a0();
+    float _offDiagNorm();
 };
 
 // Computes the Frobenius norm of the 3x3 matrix by summing the squares of the off-diagonal elements and returning the square root.
 // @fnv 0x00cd53a0
-float S_00cd53a0_Matrix3::FUN_00cd53a0()
+// src: HAVOK_LIB 0x00cd53a0
+float S_00cd53a0_Matrix3::_offDiagNorm()
 {
     float sum = 0.0f;
     for (int i = 0; i < 3; i++)
@@ -335,7 +340,8 @@ __forceinline float& hkMatrix3::operator()(int row, int col)
 
 // Finds the element with the largest absolute value in the upper triangle of m and stores its row and column indices.
 // @fnv 0x00cd5400
-static void FUN_00cd5400(hkMatrix3& m, int& rowOut, int& colOut)
+// src: HAVOK_LIB 0x00cd5400
+static void _findLargestOffDiagEntry(hkMatrix3& m, int& rowOut, int& colOut)
 {
     float maxVal = 0.0f;
     for (int i = 0; i < 3; i++)
@@ -358,7 +364,7 @@ static void FUN_00cd5400(hkMatrix3& m, int& rowOut, int& colOut)
 
 void cd5400_caller(hkMatrix3& m, int* r, int* c)
 {
-    FUN_00cd5400(m, *r, *c);
+    _findLargestOffDiagEntry(m, *r, *c);
 }
 
 struct VProduct
@@ -663,7 +669,7 @@ class DiagMat
     void FUN_00cd4b60();
     float offnorm()
     {
-        return ((S_00cd53a0_Matrix3*)this)->FUN_00cd53a0();
+        return ((S_00cd53a0_Matrix3*)this)->_offDiagNorm();
     }
     float& at(int row, int col)
     {
@@ -683,19 +689,19 @@ class DiagMat
 // @fnv 0x00cd56c0
 int DiagMat::FUN_00cd56c0(DiagMat& apEigenvectors, DiagVec& apEigenvalues, int aiMaxIterations, float epsilon) const
 {
-    if (!((CMatrixOps*)this)->FUN_00cd4e90(epsilon))
+    if (!((CMatrixOps*)this)->hkMatrix3_isSymmetric(epsilon))
         return 1;
     DiagMat current(*this);
     apEigenvectors.identity();
-    float tolerance = FUN_00cd5340((const Mat*)this) * epsilon;
+    float tolerance = _frobeniusNorm((const Mat*)this) * epsilon;
     int iteration = 0;
     float norm = current.offnorm();
     while (!(norm < tolerance) && iteration < aiMaxIterations)
     {
         int p = 0, q = 0;
-        FUN_00cd5400((hkMatrix3&)current, p, q);
+        _findLargestOffDiagEntry((hkMatrix3&)current, p, q);
         JacobiRot rotation;
-        FUN_00cd5270((const Mat34&)current, p, q, &rotation);
+        _constructSchurMatrix((const Mat34&)current, p, q, &rotation);
         DiagMat jacobi;
         FUN_00cd54d0((Matrix34*)&jacobi, (const SrcRec*)&rotation);
         DiagMat transposed(jacobi);

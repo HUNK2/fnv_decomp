@@ -204,7 +204,7 @@ NiFloatController::~NiFloatController()
 // @fnv 0x00a57b20
 bool NiFloatController::FUN_00a57b20(NiFloatController* other)
 {
-    if (!FUN_00a6cc80(other))
+    if (!NiTimeController_IsEqual(other))
     {
         return false;
     }

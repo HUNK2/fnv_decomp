@@ -1924,7 +1924,7 @@ struct FUN_0081f1e0_Virtual
 
 struct FUN_0081f1e0_Class
 {
-    void __thiscall FUN_00c9c1d0();
+    void __thiscall activate_00c9c1d0();
     FUN_0081f1e0_Virtual* __thiscall FUN_009d9f40();
     void __thiscall ApplyVirtualCall(int, int);
 };
@@ -1933,7 +1933,7 @@ struct FUN_0081f1e0_Class
 // @fnv 0x0081f1e0
 void FUN_0081f1e0_Class::ApplyVirtualCall(int arg1, int arg2)
 {
-    this->FUN_00c9c1d0();
+    this->activate_00c9c1d0();
     this->FUN_009d9f40()->vf50(arg1, arg2);
 }
 

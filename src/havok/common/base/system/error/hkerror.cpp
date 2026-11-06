@@ -186,7 +186,8 @@ struct DiagLogger
 extern const char str_010c85ac[];
 
 // @fnv 0x00cb1750
-void FUN_00cb1750(const char* apMsg)
+// src: HAVOK_LIB 0x00cb1750
+void _hkErrorMessage(const char* apMsg)
 {
     DiagBuffer buf;
     buf.FUN_00cb1600(buf.m_buf, 0x200);

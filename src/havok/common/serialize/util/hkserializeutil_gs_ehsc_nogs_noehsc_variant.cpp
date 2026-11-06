@@ -81,7 +81,7 @@ struct FUN_00dbc670_storage
 struct FUN_00dbc670_shell
 {
     void FUN_00dbc670();
-    void FUN_00dbda50(int, int, int);
+    void hkPackfileWriter_setContents(int, int, int);
     int ProcessPoly(int, int);
     void FUN_00dbc6e0();
 };
@@ -120,13 +120,13 @@ struct S_00d49310_Result
 };
 void FUN_00d48af0(void* stream, int* out) throw();
 S_00d49310_Result FUN_00d49310(void* stream);
-int FUN_00cb0fa0(const char* a, const char* b);
+int hkString_strCmp(const char* a, const char* b);
 static inline int S_00d49350_Compare(const char* a, const char* b)
 {
     if (a)
     {
         if (b)
-            return FUN_00cb0fa0(a, b);
+            return hkString_strCmp(a, b);
         return 1;
     }
     return b ? -1 : 0;
@@ -228,7 +228,7 @@ struct Pending_cls
     int unk00;
     int unk04;
     void FUN_00dc5d30();
-    void FUN_00dc5d50(Holder_cls* h, int a, int b);
+    void hkBinaryTagfileReader_load(Holder_cls* h, int a, int b);
 };
 struct Owner_cls
 {
@@ -357,7 +357,7 @@ struct S00d48680_Sys
     }
 };
 extern "C" S00d48680_Sys* __cdecl FUN_00c85750();
-extern "C" void __cdecl FUN_00c908c0(S00d48680_Alloc* h, S00d48680_Arr* a, int cap, int flag);
+extern "C" void __cdecl hkArrayUtil__reserve(S00d48680_Alloc* h, S00d48680_Arr* a, int cap, int flag);
 struct S00d48680_Obj
 {
     virtual void v0();
@@ -395,7 +395,7 @@ struct FormatInfo
     unsigned char layout[4];
 };
 // The shared class does not yet declare the original substring-copy method.
-extern "C" void __cdecl FUN_00cb0c50();
+extern "C" void __cdecl hkStringPtr_set();
 struct HeapApi
 {
     virtual void v0();
@@ -541,7 +541,7 @@ inline SmallBool __cdecl CheckMagicPair(unsigned int a, unsigned int b)
     return ((a == 0xcab00d1e && b == 0xd011face) || (reverseWord(a) == 0xcab00d1e && reverseWord(b) == 0xd011face));
 }
 const char* __cdecl FUN_00cb1130(const char*, const char*);
-int __cdecl FUN_00cb10d0(const char*);
+int __cdecl hkString_strLen(const char*);
 const char* __cdecl FUN_00cb1140(const char*, int);
 int __cdecl CallWithZeroMiddleArg(const char*, int);
 
@@ -556,7 +556,7 @@ static __declspec(noinline) int ParseQuotedValue(const char* text, const char* k
     const char* first = FUN_00cb1130(text, key);
     if (!first)
         return 0;
-    first += FUN_00cb10d0(key);
+    first += hkString_strLen(key);
     first = FUN_00d48420(first);
     if (*first != '=')
         return 0;
@@ -569,7 +569,7 @@ static __declspec(noinline) int ParseQuotedValue(const char* text, const char* k
     if (!last)
         return 0;
     typedef void (__thiscall* CopySubstring)(hkStringPtr*, const char*, int);
-    reinterpret_cast<CopySubstring>(&FUN_00cb0c50)(&out, first, int(last - first));
+    reinterpret_cast<CopySubstring>(&hkStringPtr_set)(&out, first, int(last - first));
     return 1;
 }
 

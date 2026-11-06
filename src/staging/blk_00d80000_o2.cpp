@@ -265,7 +265,8 @@ struct FUN_00d853a0_cls {
 
 // Allocates a 0xb0-byte object via the global allocator, initializes it, copies 0x9c bytes from a1+0x10 into obj+0x10, and returns obj.
 // @fnv 0x00d853a0
-FUN_00d853a0_cls* __cdecl FUN_00d853a0(int a1)
+// src: HAVOK_LIB 0x00d853a0
+FUN_00d853a0_cls* __cdecl copyConstraintAtoms_class_hkpHingeConstraintData(int a1)
 {
     hkMemoryRouter* holder = FUN_00c85750();
     FUN_00d853a0_cls* obj = (FUN_00d853a0_cls*)reinterpret_cast<AllocIface*>(holder->m_heap)->Alloc(0xb0);
@@ -291,7 +292,8 @@ extern "C" hkMemoryRouter* __cdecl FUN_00c85750();
 extern "C" void* __cdecl FUN_00cb1260(void* pDst, const void* pSrc, unsigned int ItemUpdateArray);
 
 // @fnv 0x00d853f0
-ObjD853* __cdecl FUN_00d853f0(char* pSource)
+// src: HAVOK_LIB 0x00d853f0
+ObjD853* __cdecl copyConstraintAtoms_class_hkpLimitedHingeConstraintData(char* pSource)
 {
     hkMemoryRouter* pSingleton = FUN_00c85750();
     MemAllocD853* pAllocator = reinterpret_cast<MemAllocD853*>(pSingleton->m_heap);
@@ -957,7 +959,8 @@ public:
 
 // Allocates a new D85660Object and copies 0x84 bytes of data starting at m_iData010 from pkSource into it, returning the clone.
 // @fnv 0x00d85660
-D85660Object* __cdecl FUN_00d85660(const D85660Object* pkSource)
+// src: HAVOK_LIB 0x00d85660
+D85660Object* __cdecl copyConstraintAtoms_class_hkpHingeLimitsData(const D85660Object* pkSource)
 {
     D85660Object* pkClone = new D85660Object;
     D85660MemCpy(&pkClone->m_iData010, &pkSource->m_iData010, 0x84);
@@ -1301,12 +1304,13 @@ struct FUN_00d873b0_Obj {
 struct FUN_00d873f0_Holder {
     int unk00;
     FUN_00d86910_Obj* unk04;
-    FUN_00d873b0_Obj* __thiscall FUN_00d873f0(FUN_00d873b0_Obj* a);
+    FUN_00d873b0_Obj* __thiscall hkClassMemberAccessor_object(FUN_00d873b0_Obj* a);
 };
 
 // Calls unk04's method to get a value, passes unk00 and that value to a's method, and returns a.
 // @fnv 0x00d873f0
-FUN_00d873b0_Obj* FUN_00d873f0_Holder::FUN_00d873f0(FUN_00d873b0_Obj* pTarget) {
+// src: HAVOK_LIB 0x00d873f0
+FUN_00d873b0_Obj* FUN_00d873f0_Holder::hkClassMemberAccessor_object(FUN_00d873b0_Obj* pTarget) {
     int r = unk04->FUN_00d86910();
     pTarget->FUN_00d873b0(unk00, r);
     return pTarget;
@@ -1354,12 +1358,12 @@ unsigned __int64 __cdecl FUN_00d87a40()
     return DAT_00fdf1d0();
 }
 
-void __cdecl FUN_00d87920();
+void __cdecl hkThread_stopThread();
 
 // @fnv 0x00d87a70
 void __cdecl FUN_00d87a70()
 {
-    FUN_00d87920();
+    hkThread_stopThread();
 }
 
 struct FUN_00d87a80_Stub {
@@ -1495,7 +1499,8 @@ public:
 
 // Calls process on the target object pointed to by ppkTarget, forwarding a, b, c and d.
 // @fnv 0x00d92200
-void __cdecl FUN_00d92200(void* pvContext, hkTargetD922B** ppkTarget, void* a, void* b, void* c, void* pvUnused, void* d)
+// src: HAVOK_LIB 0x00d92200
+void __cdecl hkAgent3Bridge_updateFilter(void* pvContext, hkTargetD922B** ppkTarget, void* a, void* b, void* c, void* pvUnused, void* d)
 {
     (*ppkTarget)->process(a, b, c, d);
 }
@@ -1575,7 +1580,8 @@ public:
 };
 
 // @fnv 0x00d922a0
-void __cdecl FUN_00d922a0(void* pvContext, hkTargetD92A** ppkTarget, void* pvData)
+// src: HAVOK_LIB 0x00d922a0
+void __cdecl hkAgent3Bridge_removePoint(void* pvContext, hkTargetD92A** ppkTarget, void* pvData)
 {
     (*ppkTarget)->process(pvData);
 }
@@ -1598,7 +1604,8 @@ public:
 };
 
 // @fnv 0x00d922c0
-void __cdecl FUN_00d922c0(void* pvContext, hkTargetD922** ppkTarget, void* pvData)
+// src: HAVOK_LIB 0x00d922c0
+void __cdecl hkAgent3Bridge_commitPotential(void* pvContext, hkTargetD922** ppkTarget, void* pvData)
 {
     (*ppkTarget)->process(pvData);
 }
@@ -1660,11 +1667,12 @@ struct FUN_00d93310_cls {
     int m_04;
     int m_08;
 
-    FUN_00d93310_cls* FUN_00d93310();
+    FUN_00d93310_cls* hkpFixedSizePhysicsCommandQueue_256_hkpFixedSizePhysicsCommandQueue_256();
 };
 
 // @fnv 0x00d93310
-FUN_00d93310_cls* FUN_00d93310_cls::FUN_00d93310()
+// src: HAVOK_LIB 0x00d93310
+FUN_00d93310_cls* FUN_00d93310_cls::hkpFixedSizePhysicsCommandQueue_256_hkpFixedSizePhysicsCommandQueue_256()
 {
     m_00 = 0x10;
     m_04 = 0;
@@ -1755,23 +1763,24 @@ void LogIntegrateVelocity(Arg0* a1, Arg1* a2, Arg2* a3) {
 
 extern "C" char str_010d4030[];
 
-void __cdecl FUN_00d61d00(unsigned int* result, char* text, double d0,
+void __cdecl hkStringBuf_printf(unsigned int* result, char* text, double d0,
                           int value0, double d1, int value1, double d2);
 
 // @fnv 0x00d97640
-unsigned int __cdecl FUN_00d97640(float* values, unsigned int* result,
+// src: HAVOK_LIB 0x00d97640
+unsigned int __cdecl hkVector4Util_toString3(float* values, unsigned int* result,
                                   signed char value) {
-    FUN_00d61d00(result, str_010d4030, (double)values[0], value,
+    hkStringBuf_printf(result, str_010d4030, (double)values[0], value,
                  (double)values[1], value, (double)values[2]);
     return *result;
 }
 
-void __cdecl FUN_00d61d00(...);
+void __cdecl hkStringBuf_printf(...);
 
 // @fnv 0x00d97680
 int __cdecl FormatVec4(hkVector4* v, int* dst, char acSeparator)
 {
-    FUN_00d61d00(dst, "%f%c%f%c%f%c%f", v->x, (int)acSeparator, v->y, (int)acSeparator, v->z, (int)acSeparator, v->w);
+    hkStringBuf_printf(dst, "%f%c%f%c%f%c%f", v->x, (int)acSeparator, v->y, (int)acSeparator, v->z, (int)acSeparator, v->w);
     return *dst;
 }
 
@@ -1826,7 +1835,8 @@ void __cdecl FUN_00d98630(void*, void*, void*, void*);
 
 // Calls FUN_00d98630 with the four arguments and returns a1.
 // @fnv 0x00d99540
-void* __cdecl FUN_00d99540(void* a1, void* a2, void* a3, void* a4)
+// src: HAVOK_LIB 0x00d99540
+void* __cdecl hkKdTreeUtils_isValidRayBundle(void* a1, void* a2, void* a3, void* a4)
 {
     FUN_00d98630(a1, a2, a3, a4);
     return a1;
@@ -1841,7 +1851,8 @@ struct FNV_00d99f50_Result {
 extern "C" void __cdecl FUN_00d98ca0(unsigned char* scratch, const FNV_00d99f50_Entry* entry, void* context, void* left, void* right);
 // Calls FUN_00d98ca0 for each entry with a payload and returns a result whose flag is set if any call reported a nonzero value.
 // @fnv 0x00d99f50
-FNV_00d99f50_Result __cdecl FUN_00d99f50(int count, const FNV_00d99f50_Entry* const* entries, void* context, void* left, void* right)
+// src: HAVOK_LIB 0x00d99f50
+FNV_00d99f50_Result __cdecl hkKdTreeUtils_castRayMultiTree(int count, const FNV_00d99f50_Entry* const* entries, void* context, void* left, void* right)
 {
     FNV_00d99f50_Result result;
     result.flag = 0;
@@ -1997,7 +2008,8 @@ static __declspec(noinline) D85Ctn* FUN_00d85d40(D85Ctn* c) {
 }
 
 // @fnv 0x00d85fa0
-void __cdecl FUN_00d85fa0(D85Msg a) {
+// src: HAVOK_LIB 0x00d85fa0
+void __cdecl hkpConstraintCallbackUtil_fireConstraintBroken(D85Msg a) {
     volatile unsigned int stamps[2];
     D85Ctn* ctn = (D85Ctn*)(a.p->unk04 + 0x20);
     int i = ctn->count - 1;
@@ -2245,12 +2257,13 @@ public:
     bool m_bEnableState;
     bool m_abFlags[3];
 
-    bool FUN_00d88100(int iIndex);
+    bool hkMemoryExceptionTestingUtil_isMemoryAvailableImpl(int iIndex);
 };
 
 // Returns false if triggered while enabled, or after setting m_abFlags[iIndex] and m_bTriggered (enabled, flag unset, count >50, multiple of 3); else true.
 // @fnv 0x00d88100
-bool FUN_00d88100_Class::FUN_00d88100(int iIndex)
+// src: HAVOK_LIB 0x00d88100
+bool FUN_00d88100_Class::hkMemoryExceptionTestingUtil_isMemoryAvailableImpl(int iIndex)
 {
     if (m_bTriggered && m_bEnableState)
         return false;
@@ -2291,7 +2304,8 @@ using hkGlobalsD881::DAT_012691fc;
 
 // Deletes the global FUN_00d88050 instance and replaces it with a newly allocated one.
 // @fnv 0x00d88150
-void __cdecl FUN_00d88150()
+// src: HAVOK_LIB 0x00d88150
+void __cdecl hkMemoryExceptionTestingUtil_create()
 {
     delete DAT_012691fc;
     DAT_012691fc = new FUN_00d88050;
@@ -2344,7 +2358,8 @@ void __cdecl FUN_00d1a330(int a0, void* a1, void* a2);
 
 // Calls FUN_00d29bf0 with eaxv + 0x80 and 0xe0, then FUN_00d1a330 with esi->m00->m08->m78, esi and edi, and returns the first call's result.
 // @fnv 0x00d881a0
-static __declspec(noinline) int FUN_00d881a0(void* p, void* ecxv, char* eaxv, S00d881a0_Obj* esi, void* edi)
+// src: HAVOK_LIB 0x00d881a0
+static __declspec(noinline) int hkConstraintSolverSetup_integrate2(void* p, void* ecxv, char* eaxv, S00d881a0_Obj* esi, void* edi)
 {
     int r = FUN_00d29bf0(p, ecxv, eaxv + 0x80, esi, edi, 0xe0);
     FUN_00d1a330(esi->m00->m08->m78, esi, edi);
@@ -2353,14 +2368,15 @@ static __declspec(noinline) int FUN_00d881a0(void* p, void* ecxv, char* eaxv, S0
 
 int S00d881a0_Wrap(void* p)
 {
-    return FUN_00d881a0(p, 0, 0, 0, 0);
+    return hkConstraintSolverSetup_integrate2(p, 0, 0, 0, 0);
 }
 
 static unsigned char* S00d96870_outp;
 
 // Fills the block at out+0x10 from src and self fields, then sets *self from self+0x6c, clears *out, and sets out[0x12] to 1.
 // @fnv 0x00d96870
-static __declspec(noinline) void FUN_00d96870(unsigned char* self, int* src, unsigned char* out)
+// src: HAVOK_LIB 0x00d96870
+static __declspec(noinline) void spawnBuildJacobiansJobs(unsigned char* self, int* src, unsigned char* out)
 {
     unsigned char* dst = out + 0x10;
     if (dst) {
@@ -2389,7 +2405,7 @@ static __declspec(noinline) void FUN_00d96870(unsigned char* self, int* src, uns
 
 void __fastcall S00d96870_Entry(unsigned char* self, int* src)
 {
-    FUN_00d96870(self, src, S00d96870_outp);
+    spawnBuildJacobiansJobs(self, src, S00d96870_outp);
 }
 
 extern "C" LocalM128 _mm_sub_ps(LocalM128, LocalM128);
@@ -2580,7 +2596,8 @@ struct BoolResult {
 
 // Returns true if the shape's GetType() is one of 0, 1, 2, 6, 7, 8, 9, 12, 13, 14 or 15, otherwise false.
 // @fnv 0x00d84c50
-BoolResult FUN_00d84c50(const Shape* pkShape)
+// src: HAVOK_LIB 0x00d84c50
+BoolResult hkpConstraintPivotsUtil_constraintSupportsPivotGetSet(const Shape* pkShape)
 {
     switch (pkShape->GetType())
     {
@@ -2804,7 +2821,8 @@ static __declspec(noinline) D90Ctn* FUN_00d85d40(D90Ctn* c) {
 
 // Iterates the owner's listener array in reverse, records a TtconAddCb/Et profiling event around each v01 call, then compacts the array.
 // @fnv 0x00d85d90
-D90Ctn* __cdecl FUN_00d85d90(hkpConstraintInstance* pOwner) {
+// src: HAVOK_LIB 0x00d85d90
+D90Ctn* __cdecl hkpConstraintCallbackUtil_fireConstraintAdded(hkpConstraintInstance* pOwner) {
     volatile unsigned int ticks[2];
     D90Ctn* ctn = reinterpret_cast<D90Ctn*>(&pOwner->m_kListeners);
     int i = ctn->count - 1;
@@ -2906,7 +2924,7 @@ extern const char DAT_010d3aa0[];
 extern const char DAT_010d3a90[];
 
 int __cdecl FUN_00cb0fd0(const char*, const char*, int) throw();
-int __cdecl FUN_00cb10d0(const char*) throw();
+int __cdecl hkString_strLen(const char*) throw();
 const char* __cdecl FUN_00cb1140(const char*, int) throw();
 int __cdecl CallWithZeroMiddleArg(const char*, int) throw();
 int __cdecl GetTypeCode(const char*) throw();
@@ -2964,12 +2982,12 @@ int __cdecl GetTypeCodeFromString(const char* name) throw()
 {
     if (FUN_00cb0fd0(name, DAT_010d3aa0, 8) == 0) {
         name += 8;
-        FUN_00d61b10 inner(name, FUN_00cb10d0(name) - 1);
+        FUN_00d61b10 inner(name, hkString_strLen(name) - 1);
         return GetTypeCode(inner.m_kStringBuffer.m_data);
     }
     if (FUN_00cb0fd0(name, DAT_010d3a90, 14) == 0) {
         name += 14;
-        FUN_00d61b10 inner(name, FUN_00cb10d0(name) - 1);
+        FUN_00d61b10 inner(name, hkString_strLen(name) - 1);
         return GetTypeCode(inner.m_kStringBuffer.m_data);
     }
     const char* openBracket = FUN_00cb1140(name, '[');
@@ -2982,11 +3000,12 @@ int __cdecl GetTypeCodeFromString(const char* name) throw()
 }
 
 struct FUN_00d87180_cls : S {
-    FUN_00d87180_cls* FUN_00d87180(unsigned int a, B* b);
+    FUN_00d87180_cls* hkClassMemberAccessor_hkClassMemberAccessor(unsigned int a, B* b);
 };
 
 // @fnv 0x00d87180
-FUN_00d87180_cls* FUN_00d87180_cls::FUN_00d87180(unsigned int auiValue, B* apPtr)
+// src: HAVOK_LIB 0x00d87180
+FUN_00d87180_cls* FUN_00d87180_cls::hkClassMemberAccessor_hkClassMemberAccessor(unsigned int auiValue, B* apPtr)
 {
     void (S::*call)(unsigned int, B*) = &S::SetValueAndPtr;
     (static_cast<S*>(this)->*call)(auiValue, apPtr);
@@ -3019,10 +3038,11 @@ struct MonitorBuffer {
     int m_uiItemCount;
     char m_bSlotEnabled;
     char m_buffer[50];
-    void FUN_00d880b0();
+    void hkMemoryExceptionTestingUtil_startNewDemoImpl();
 };
 // @fnv 0x00d880b0
-void MonitorBuffer::FUN_00d880b0()
+// src: HAVOK_LIB 0x00d880b0
+void MonitorBuffer::hkMemoryExceptionTestingUtil_startNewDemoImpl()
 {
     m_uiItemCount = 0;
     FUN_00ec61c0(m_buffer, 0, sizeof(m_buffer));
@@ -3168,7 +3188,8 @@ struct CleanupObject {
 
 // Frees the two linked block lists, the unk14 and unk50 buffers and the unk5C array through the allocators, then frees the object itself (0x80 bytes).
 // @fnv 0x00d93ab0
-static __declspec(noinline) void FUN_00d93ab0(CleanupObject* self) {
+// src: HAVOK_LIB 0x00d93ab0
+static __declspec(noinline) void deleteTaskHeaderResources(CleanupObject* self) {
     while (self->unk68 != 0) {
         void* block = self->unk68;
         self->unk68 = *reinterpret_cast<void**>(block);
@@ -3232,7 +3253,7 @@ static __declspec(noinline) void FUN_00d93ab0(CleanupObject* self) {
 }
 
 CleanupObject* volatile cleanupInput;
-void CleanupEntry() { FUN_00d93ab0(cleanupInput); }
+void CleanupEntry() { deleteTaskHeaderResources(cleanupInput); }
 
 extern "C" void _ReadWriteBarrier(void);
 extern "C" {
@@ -3281,7 +3302,8 @@ struct S00d944d0_Arg1 {
 
 // Records two timing entries (LtIntegrate, lt) in the TLS stream, calls FUN_00d89ed0, then invokes a2->ProcessCallback(a3, a3, 0).
 // @fnv 0x00d944d0
-void __cdecl FUN_00d944d0(S00d944d0_Obj* apObj, S00d944d0_Arg1* a2,
+// src: HAVOK_LIB 0x00d944d0
+void __cdecl hkCpuSolveApplyGravityJob(S00d944d0_Obj* apObj, S00d944d0_Arg1* a2,
                          S00d944d0_Arg2* a3)
 {
     hkMonitorStream* stream =
@@ -3568,7 +3590,8 @@ void __cdecl FUN_00d8fb70(
 
 // Writes timestamped entries to a per-thread buffer, zeroes the d10 block if a3->unk20 is 0, calls FUN_00d8fb70, then a2->ProcessCallback(a3, a3, 0).
 // @fnv 0x00d94570
-void __cdecl FUN_00d94570(Fnv94570_Obj** a1, int a2, Fnv94570_Ctx* apCtx)
+// src: HAVOK_LIB 0x00d94570
+void __cdecl hkCpuSolveConstraintBatchJob(Fnv94570_Obj** a1, int a2, Fnv94570_Ctx* apCtx)
 {
     hkMonitorStream* tls;
     char* cursor;
@@ -3663,7 +3686,8 @@ void __cdecl FUN_00df0680(TargetObj*, int, int, int);
 
 // Records a profiler timestamp, calls FUN_00df0680 with the object's target fields, records a second timestamp, then calls ProcessCallback on context.
 // @fnv 0x00d94730
-void __cdecl FUN_00d94730(Arg0* world, Arg1* context, SolverObject* object)
+// src: HAVOK_LIB 0x00d94730
+void __cdecl hkCpuSolveExportResultsJob(Arg0* world, Arg1* context, SolverObject* object)
 {
     hkMonitorStream* stream = static_cast<hkMonitorStream*>(TlsGetValue(DAT_0126835c));
     if (stream->m_end.m_storage < stream->m_capacityMinus16.val()) {
@@ -3900,7 +3924,8 @@ struct S00d96970_Obj {
 };
 
 // @fnv 0x00d96970
-static __declspec(noinline) void FUN_00d96970(S00d96970_Obj* self, const S00d96970_Local* src, S00d96970_Target* target, int value)
+// src: HAVOK_LIB 0x00d96970
+static __declspec(noinline) void spawnSplitSimulationIslandJob(S00d96970_Obj* self, const S00d96970_Local* src, S00d96970_Target* target, int value)
 {
     if (self->unk21 != 0) {
         S00d96970_Local local;
@@ -3919,7 +3944,7 @@ static __declspec(noinline) void FUN_00d96970(S00d96970_Obj* self, const S00d969
 
 void S00d96970_Entry(S00d96970_Obj* self, const S00d96970_Local* src, S00d96970_Target* target, int value)
 {
-    FUN_00d96970(self, src, target, value);
+    spawnSplitSimulationIslandJob(self, src, target, value);
 }
 
 namespace fnv_00d969e0 {
@@ -4109,7 +4134,8 @@ struct Stage1 : Ev { __forceinline Stage1(Ev* ev, State* s){
 } };
 // Dispatches on ev->type, decrements the State reference count, and constructs the next event in out->m_kEvent when the count reaches zero.
 // @fnv 0x00d969e0
-int __cdecl FUN_00d969e0(A0Cls* a0, int a1, Ev* apEvent, Out* out)
+// src: HAVOK_LIB 0x00d969e0
+int __cdecl hkpJobQueueUtils_finishIntegrateJob(A0Cls* a0, int a1, Ev* apEvent, Out* out)
 {
     int result = 1;
     State* s = apEvent->m_18;
@@ -4123,13 +4149,13 @@ int __cdecl FUN_00d969e0(A0Cls* a0, int a1, Ev* apEvent, Out* out)
                 out->m_00 = 0;
                 return 0;
             } else {
-                FUN_00d96870((unsigned char*)s, (int*)apEvent, (unsigned char*)out);
+                spawnBuildJacobiansJobs((unsigned char*)s, (int*)apEvent, (unsigned char*)out);
                 return 0;
             }
         }
         goto Fail;
     case 3: { EmptyScope scope;
-        FUN_00d96870((unsigned char*)s, (int*)apEvent, (unsigned char*)out);
+        spawnBuildJacobiansJobs((unsigned char*)s, (int*)apEvent, (unsigned char*)out);
         return 0;
         goto Fail;
     }
@@ -4405,9 +4431,9 @@ void CallCompact(ListenerOwner* o)
 #include <stdarg.h>
 namespace fnv_00d87aa0 {
 extern const char DAT_010d3cb4[];
-int __cdecl FUN_00cb0fa0(int a, int b);
-extern "C" int __cdecl FUN_00cb10d0(const char* s);
-int __cdecl FUN_00cb0f80(char* buf, const char* fmt, ...);
+int __cdecl hkString_strCmp(int a, int b);
+extern "C" int __cdecl hkString_strLen(const char* s);
+int __cdecl hkString_sprintf(char* buf, const char* fmt, ...);
 int __cdecl FUN_00cb0f50(char* buf, int size, const char* fmt, va_list args);
 struct FUN_00cc0470_Stream { void FUN_00cc0470(const char* s, int n); };
 struct D87aa0Name { char m_name[32]; };
@@ -4421,11 +4447,12 @@ struct D87aa0Reporter {
 };
 
 // @fnv 0x00d87aa0
-void __cdecl FUN_00d87aa0(D87aa0Reporter* apReporter, const char* id, const char* fmt, ...)
+// src: HAVOK_LIB 0x00d87aa0
+void __cdecl hkTraceStream_printf(D87aa0Reporter* apReporter, const char* id, const char* fmt, ...)
 {
     for (int i = 0; i < apReporter->m_numFilters; i++) {
         D87aa0Name& e = apReporter->m_filters[i];
-        if (FUN_00cb0fa0((int)e.m_name, (int)id) == 0)
+        if (hkString_strCmp((int)e.m_name, (int)id) == 0)
             return;
     }
     int n = ++apReporter->m_uiItemCount;
@@ -4436,13 +4463,13 @@ void __cdecl FUN_00d87aa0(D87aa0Reporter* apReporter, const char* id, const char
         va_list args;
         va_start(args, fmt);
         if (*fmt == '#') {
-            FUN_00cb0f80((char*)buf, DAT_010d3cb4, n);
-            apReporter->m_stream->FUN_00cc0470((char*)buf, FUN_00cb10d0((char*)buf));
+            hkString_sprintf((char*)buf, DAT_010d3cb4, n);
+            apReporter->m_stream->FUN_00cc0470((char*)buf, hkString_strLen((char*)buf));
             FUN_00cb0f50((char*)buf, 0x400, fmt + 1, args);
         } else {
             FUN_00cb0f50((char*)buf, 0x400, fmt, args);
         }
-        apReporter->m_stream->FUN_00cc0470((char*)buf, FUN_00cb10d0((char*)buf));
+        apReporter->m_stream->FUN_00cc0470((char*)buf, hkString_strLen((char*)buf));
     }
 }
 }  // namespace fnv_00d87aa0
@@ -4807,7 +4834,7 @@ struct D96600Blob {
     int unk78;
     int unk7c;
 
-    int FUN_00df2640(int** slot, D96600Blob* dst);
+    int hkpBroadPhaseJob_popJobTask(int** slot, D96600Blob* dst);
 };
 static __forceinline int popPart(D96600Blob* src, D96600Blob* dst)
 {
@@ -4841,7 +4868,7 @@ static __forceinline int popPart(D96600Blob* src, D96600Blob* dst)
         src->node20 = src->node20->next;
         return 1;
     case 12:
-        return src->FUN_00df2640(slot, dst);
+        return src->hkpBroadPhaseJob_popJobTask(slot, dst);
     case 11: {
         unsigned short step = 0x80;
         if (src->word34 > step) {
@@ -4953,8 +4980,8 @@ extern LocalM128 DAT_010c7170;
 extern const float DAT_010cd644 = 1.0000000272564224e16f;
 extern const float DAT_0104e148 = -3.402820018375656e38f;
 extern const float DAT_0104da48 = 3.402820018375656e38f;
-float __cdecl FUN_00c98210(float a, float b);
-float __cdecl FUN_00c9e0f0(float a, float b);
+float __cdecl NiMax(float a, float b);
+float __cdecl NiMin(float a, float b);
 
 template<class T> struct TreeRef { T* p; TreeRef(T* q):p(q){} operator T*()const{return p;} T* operator->()const{return p;} };
 
@@ -5079,10 +5106,10 @@ overlap:
     {
                 unsigned char state;
                 collector->begin(&state);
-                enter = FUN_00c98210(enter, intervalMin);
+                enter = NiMax(enter, intervalMin);
                 IntersectTree(tree, pNodeFirstChild, leaves, scale, offset, origin, direction,
-                            intervalMin, FUN_00c9e0f0(intervalMax, leave), fractionScale, collector);
-                if (FUN_00c9e0f0(collector->earlyOut() * fractionScale, intervalMax) > enter)
+                            intervalMin, NiMin(intervalMax, leave), fractionScale, collector);
+                if (NiMin(collector->earlyOut() * fractionScale, intervalMax) > enter)
                     IntersectTree(tree, pNodeSecondChild, leaves, scale, offset, origin, direction,
                                 enter, intervalMax, fractionScale, collector);
                 return;
@@ -5287,7 +5314,8 @@ static __declspec(noinline) void FUN_00d85d40(D86050Arr* arr) {
 
 // Invokes the v06 callback on each non-null element of the indexed array, bracketing each call with TtconRepairedCb/Et profiler stamps, then compacts the array.
 // @fnv 0x00d86050
-void __cdecl FUN_00d86050(D86050Self* self) {
+// src: HAVOK_LIB 0x00d86050
+void __cdecl hkpConstraintCallbackUtil_fireConstraintRepaired(D86050Self* self) {
     D86050Arr* arr = reinterpret_cast<D86050Arr*>(&self->unk04->m_kListeners);
     for (int i = (int)arr->m_uiItemCount - 1; i >= 0; --i) {
         if (arr->m_pElements[i] != 0) {
@@ -5328,12 +5356,13 @@ namespace fnv_00d87a10 {
 class FUN_00d87a10_Obj {
 public:
     int unk00;
-    int FUN_00d87a10();
+    int hkThread_getStatus();
 };
 
 // Returns 2 if the thread handle is null, otherwise queries the thread exit code and returns 1 if it equals 0x103, else 0.
 // @fnv 0x00d87a10
-int FUN_00d87a10_Obj::FUN_00d87a10() {
+// src: HAVOK_LIB 0x00d87a10
+int FUN_00d87a10_Obj::hkThread_getStatus() {
     if (unk00 == 0)
         return 2;
 
@@ -5365,7 +5394,8 @@ public:
 
 // Records TtSplitIsle and Et timing markers via TLS stream, then calls pkTarget->ProcessCallback with pkArg twice and 0.
 // @fnv 0x00d94340
-void FUN_00d94340(int unusedA, Target_00d94340* pkTarget, Arg_00d94340* pkArg)
+// src: HAVOK_LIB 0x00d94340
+void hkCpuSplitSimulationIslandJob(int unusedA, Target_00d94340* pkTarget, Arg_00d94340* pkArg)
 {
     hkMonitorStream* s = (hkMonitorStream*)TlsGetValue(DAT_0126835c);
     hkTimerCommand_blk_00d80000_o2* c = reinterpret_cast<hkTimerCommand_blk_00d80000_o2*>(s->m_end.val());

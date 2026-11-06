@@ -39,15 +39,16 @@ extern "C"
 
 extern "C"
 {
-    int __cdecl FUN_00cea030(void*, void*);
+    int __cdecl hkaRagdollUtils_reorderForRagdoll(void*, void*);
     int __cdecl FUN_00ce9db0(void*, void*);
     int __cdecl FUN_00ce9e90(void*);
 }
 
 // @fnv 0x00cea7c0
-int __cdecl FUN_00cea7c0(void* apFirst, void* apSecond, void* apThird)
+// src: HAVOK_LIB 0x00cea7c0
+int __cdecl hkaRagdollUtils_reorderAndAlignForRagdoll(void* apFirst, void* apSecond, void* apThird)
 {
-    if (FUN_00cea030(apFirst, apSecond))
+    if (hkaRagdollUtils_reorderForRagdoll(apFirst, apSecond))
         return 1;
     if (FUN_00ce9db0(apSecond, apThird))
         return 1;
@@ -78,7 +79,8 @@ struct Counter
 extern "C" void __cdecl AssignNodeFlags(int, int, int);
 // Sets unk2c of every item in the container to value, increments counter->unk30 and passes the new count to AssignNodeFlags with c->unk14 and c->unk18.
 // @fnv 0x00ce9fa0
-void __cdecl FUN_00ce9fa0(Container* pContainer, int value, Counter* counter)
+// src: HAVOK_LIB 0x00ce9fa0
+void __cdecl hkaRagdollUtils_setCollisionLayer(Container* pContainer, int value, Counter* counter)
 {
     for (int i = 0; i < pContainer->unk0c; ++i)
         pContainer->items[i]->unk2c = value;
@@ -238,7 +240,7 @@ struct LogText
     LogText* WriteInt(int value) throw();
     void FUN_00cc00e0() throw();
 };
-extern "C" void __cdecl FUN_00c908c0(HeapAllocator* allocator, ScratchArray* array, int capacity, int itemSize);
+extern "C" void __cdecl hkArrayUtil__reserve(HeapAllocator* allocator, ScratchArray* array, int capacity, int itemSize);
 extern "C" const char DAT_010cbde0[];
 extern "C" const char DAT_010cbdec[];
 extern "C" const char DAT_010cbe00[];
@@ -263,7 +265,7 @@ static __forceinline void reserveArray(HeapAllocator* allocator, ScratchArray* a
     {
         int doubled = capacity * 2;
         int newCapacity = size < doubled ? doubled : size;
-        FUN_00c908c0(allocator, array, newCapacity, 4);
+        hkArrayUtil__reserve(allocator, array, newCapacity, 4);
     }
 }
 static __forceinline void fillWords(int* destination, int value, int count) throw()
@@ -381,7 +383,8 @@ static int findNode(const IntArray* nodes, void* value)
 }
 // Checks link count and endpoint membership, then orders nodes by successor-chain length and reorders links accordingly.
 // @fnv 0x00cea030
-extern "C" int __cdecl FUN_00cea030(void* apNodes, void* apLinks)
+// src: HAVOK_LIB 0x00cea030
+extern "C" int __cdecl hkaRagdollUtils_reorderForRagdoll(void* apNodes, void* apLinks)
 {
     IntArray* nodes = static_cast<IntArray*>(apNodes);
     NodeArray* links = static_cast<NodeArray*>(apLinks);
@@ -598,7 +601,8 @@ struct Ragdoll
 extern "C" void __cdecl MarkHierarchyDescendants(Skeleton*, int, char*, int) throw();
 // Splits a Ragdoll into two output Ragdolls by partitioning bones into hierarchy descendants of source and the rest.
 // @fnv 0x00ceaf60
-void __cdecl FUN_00ceaf60(Ragdoll* original, int aiSourceBone, Ragdoll** first, Ragdoll** second)
+// src: HAVOK_LIB 0x00ceaf60
+void __cdecl hkaRagdollUtils_splitRagdollInstanceShallow(Ragdoll* original, int aiSourceBone, Ragdoll** first, Ragdoll** second)
 {
     Ragdoll** outputs[2];
     outputs[0] = first;
@@ -994,8 +998,8 @@ struct Body
     hkXform m_kMotionTransform;
     hkVector4 m_vCenterOfMass0;
     hkVector4 m_vCenterOfMass1;
-    void FUN_00ca8890(const hkXform& t);
-    void FUN_00ca85f0(const hkVector4& com);
+    void hkpRigidBody_setTransform(const hkXform& t);
+    void hkpRigidBody_setCenterOfMassLocal(const hkVector4& com);
 };
 void __cdecl FUN_00d748d0(Body* body, MassA* a, MassB* b);
 
@@ -1046,12 +1050,12 @@ static __declspec(noinline) int FUN_00ce9880(const hkQsXform& t, Body* body)
         }
         GetError()->SetErrorCodeEnabled(0x2ff8c16f, bErrorEnabled);
         combined.FUN_00ce50b0(&kXform);
-        body->FUN_00ca8890(kXform);
+        body->hkpRigidBody_setTransform(kXform);
         if (body->m_bFlag != 5)
         {
             hkVector4 lc;
             lc.FUN_00c7f690(reinterpret_cast<const hkTransform&>(kXform), com);
-            body->FUN_00ca85f0(lc);
+            body->hkpRigidBody_setCenterOfMassLocal(lc);
         }
     }
     return 0;

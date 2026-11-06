@@ -137,7 +137,7 @@ struct FUN_00d74dd0_Class {
     void* m_08;
     void* m_0c;
     void* m_10;
-    void FUN_00d74dd0();
+    void hkgpConvexHull_deleteUserObject();
 };
 struct FUN_00d7ac40_class {
     void FUN_00d7ac40(int);
@@ -148,14 +148,14 @@ struct FUN_00d75850_class {
     FUN_00d7ac40_class* m2;
     int m3;
     int m4;
-    void FUN_00d75850();
+    void hkgpConvexHull_reset();
 };
-int __stdcall FUN_00d76300(const int* p, int i);
+int __stdcall hkgpConvexHull_getNeighbour(const int* p, int i);
 struct FUN_00d7c200_cls { void __thiscall FreeAll(); };
 struct FUN_00d7c950_cls {
     void __thiscall FUN_00d7c950();
 };
-int __stdcall FUN_00d752c0(int* arr, int idx);
+int __stdcall hkgpConvexHull_getVertex(int* arr, int idx);
 struct CpuScalar {
     unsigned int unk00;
     unsigned int unk04;
@@ -541,7 +541,7 @@ struct Owner {
     int unk2c;
     int unk30;
     int unk34;
-    int FUN_00d75070(Request* request);
+    int hkgpConvexHull_getIndex(Request* request);
 };
 int __stdcall FUN_00d75120(int* p);
 struct D75130Inner {
@@ -721,7 +721,7 @@ struct S_00d75210_Self {
     int unk00;
     int unk04;
     S_00d75210_Config* m_pConfiguration;
-    int FUN_00d75210(const S_00d75210_Data* v) const throw();
+    int hkgpConvexHull_getPlaneIndex(const S_00d75210_Data* v) const throw();
 };
 struct D762F0Target {
     void update();
@@ -761,7 +761,7 @@ struct Shape {
     float FUN_00d769c0(const NiPoint3& p);
 };
 struct AudioSink {
-    void FUN_00d7df60(void* apFirst, void* apSecond, bool abIsNull, void* apThird);
+    void hkgpConvexHullImpl_generateIndexedFaces_int_int(void* apFirst, void* apSecond, bool abIsNull, void* apThird);
 };
 struct FUN_00d76c50_cls {
     int unk00;
@@ -781,7 +781,7 @@ struct FUN_00d771c0_Owner {
     int unk00;
     int unk04;
     FUN_00d81510_Class* unk08;
-    void FUN_00d771c0(int a, int b, const Vec4i& v);
+    void hkgpConvexHull_build(int a, int b, const Vec4i& v);
 };
 struct FUN_00d83430_class {
     void FUN_00d83430(int, int, int, float);
@@ -790,7 +790,7 @@ struct FUN_00d790a0_class {
     int unk00;
     int unk04;
     FUN_00d83430_class* unk08;
-    void FUN_00d790a0(int a, int b, int c, float d);
+    void hkgpConvexHull_splitByPlane(int a, int b, int c, float d);
 };
 struct S_00d79f90_Opts
 {
@@ -805,11 +805,11 @@ struct S_00d79f90_Result
 };
 struct S_00d79f90_World
 {
-    S_00d79f90_Result* FUN_00d76cf0();
+    S_00d79f90_Result* hkgpConvexHull_clone();
 };
 void __cdecl FUN_00d79ab0(S_00d79f90_World* world, int a, void* b, float c);
-void __cdecl FUN_00d79580(S_00d79f90_Result* res, void* b, int n, float eps);
-void __cdecl FUN_00d79f90(S_00d79f90_World* world, int a, void* b, int n, float d);
+void __cdecl hkgpConvexHull_booleanSubtraction_00d79580(S_00d79f90_Result* res, void* b, int n, float eps);
+void __cdecl hkgpConvexHull_createVoronoiFeatures(S_00d79f90_World* world, int a, void* b, int n, float d);
 struct S_00d7a010_Alloc {
     virtual void unk0();
     virtual void unk4();
@@ -843,7 +843,7 @@ struct S_00d7a010_Obj {
     virtual ~S_00d7a010_Obj() throw();
     void operator delete(void* p) throw();
 };
-void __cdecl FUN_00d79f90(int a, int b, S_00d7a010_Array<S_00d7a010_Obj*>& out, int c, float f) throw();
+void __cdecl hkgpConvexHull_createVoronoiFeatures(int a, int b, S_00d7a010_Array<S_00d7a010_Obj*>& out, int c, float f) throw();
 void __cdecl DeleteCollectedObjects(int a, int b, int c, float f);
 struct S_00d7c200_Heap {
     virtual void v0();
@@ -925,7 +925,7 @@ struct PoolList {
     void *unk08;
     Node *head;
     int activeCount;
-    NodeBank *FUN_00d7c2a0();
+    NodeBank *hkGeometryProcessing_PoolAllocator_struct_hkgpConvexHullImpl_Vertex_32_struct_hkContainerHeapAllocator_allocateNewPool();
     Node *CloneNode(Node *source);
 };
 extern float DAT_0106ea1c;
@@ -941,7 +941,7 @@ public:
     volatile unsigned char m_0c;
     volatile unsigned char m_0d;
 
-    FUN_00d74d40_cls* FUN_00d74d40();
+    FUN_00d74d40_cls* hkgpConvexHull_BuildConfig_BuildConfig();
 };
 struct FUN_00d74d70_cls {
     int m_00;
@@ -950,7 +950,7 @@ struct FUN_00d74d70_cls {
     float m_0c;
     unsigned char m_10;
     unsigned char m_11;
-    FUN_00d74d70_cls* FUN_00d74d70();
+    FUN_00d74d70_cls* hkgpConvexHull_SimplifyConfig_SimplifyConfig();
 };
 extern float DAT_0104da4c;
 struct FUN_00d74d90_cls {
@@ -1248,7 +1248,7 @@ extern "C" double __cdecl pow(double base, double exponent);
 extern const double DAT_010d35e8;
 extern const double DAT_010d35e0;
 struct FUN_00d75440_cls {
-    float FUN_00d752e0();
+    float hkgpConvexHull_getVolume();
     double GetMass();
     float ComputeScaledPowerRatio();
 };
@@ -1273,7 +1273,7 @@ struct FUN_00d76100_cls {
     void* unk00;
     void* unk04;
     FUN_00d7b330_cls* m_08;
-    void FUN_00d76100(int a1, int a2, float a3);
+    void hkgpConvexHull_isPointInside(int a1, int a2, float a3);
 };
 struct FUN_00d7caa0_class {
     void __thiscall FUN_00d7caa0(float, int);
@@ -1282,7 +1282,7 @@ struct FUN_00d76920_class {
     void* m_00;
     void* m_04;
     FUN_00d7caa0_class* m_08;
-    void FUN_00d76920(float, int);
+    void hkgpConvexHull_fetchBevelPlanes(float, int);
 };
 struct SpawnedObject {
     void* m_00;
@@ -1301,7 +1301,7 @@ struct ArgPair
     int m_kPointA;
     int m_kPointB;
 };
-void __cdecl FUN_00d78ea0(int first, ArgPair* apPairs, int count);
+void __cdecl hkgpConvexHull_createCompound(int first, ArgPair* apPairs, int count);
 void __cdecl CallWithPair(int a0, int a1, int a2);
 struct D79090Target {
     void update();
@@ -1342,7 +1342,7 @@ struct FUN_00d79510_A;
 struct FUN_00d79510_B;
 void __cdecl FUN_00d79250_helper(FUN_00d79510_A* a, FUN_00d79510_B* b,
                                  FUN_00d79510_Object** out, void* p, float f);
-bool __cdecl FUN_00d79510(FUN_00d79510_A* a, FUN_00d79510_B* b, FUN_00d79510_Object* c, float f);
+bool __cdecl hkgpConvexHull_booleanSubtraction(FUN_00d79510_A* a, FUN_00d79510_B* b, FUN_00d79510_Object* c, float f);
 static int SortKeyOf(void* p)
 {
     return ((int*)p)[0xe];
@@ -1351,7 +1351,7 @@ void __cdecl QuickSortByKey(void** arr, int lo, int hi, int ctx);
 struct RandomGenerator {
     unsigned int stateFlags;
     unsigned int seed;
-    void FUN_00d7a4b0(float* components);
+    void hkPseudoRandomGenerator_getRandomVector11(float* components);
 };
 struct Record {
     unsigned int payload;
@@ -1359,7 +1359,8 @@ struct Record {
 };
 static __forceinline bool Greater(const Record &a,const Record &b) { return a.key-b.key>0.0f; }
 // @fnv 0x00d7b270
-extern "C" void FUN_00d7b270(Record* records, int left, int right, int context)
+// src: HAVOK_LIB 0x00d7b270
+extern "C" void hkAlgorithm_quickSortRecursive_struct_hkgpConvexHullImpl_SortedTriangle_class_hkAlgorithm_less_struct_hkgpConvexHullImpl_SortedTriangle(Record* records, int left, int right, int context)
 {
     int i;
     int j;
@@ -1389,7 +1390,7 @@ extern "C" void FUN_00d7b270(Record* records, int left, int right, int context)
         } while (i <= j);
 
         if (left < j) {
-            FUN_00d7b270(records, left, j, context);
+            hkAlgorithm_quickSortRecursive_struct_hkgpConvexHullImpl_SortedTriangle_class_hkAlgorithm_less_struct_hkgpConvexHullImpl_SortedTriangle(records, left, j, context);
         }
         if (i >= right) {
             return;
@@ -1445,7 +1446,7 @@ struct FUN_00d7c2a0_cls {
     void** m_00;
     int m_04;
     int m_08;
-    void* FUN_00d7c2a0();
+    void* hkGeometryProcessing_PoolAllocator_struct_hkgpConvexHullImpl_Vertex_32_struct_hkContainerHeapAllocator_allocateNewPool();
 };
 // Candidate for ClearAndFlush (115 bytes).
 //
@@ -1557,7 +1558,7 @@ struct D76250MemoryRouter {
     D76250Allocator& heap() { return *m_pStreamAllocator; }
 };
 namespace fnvc_adapt { extern "C" D76250MemoryRouter& __cdecl FUN_00c85750(); }
-void __cdecl FUN_00c908c0(D76250Allocator* alloc, void* array, int numElements, int sizeElem);
+void __cdecl hkArrayUtil__reserve(D76250Allocator* alloc, void* array, int numElements, int sizeElem);
 
 struct D76250VectorArrayLocalForm { // local form of hkArray: 0x00d774a0 needs the original inline/out-of-line helper split; shared replacement changes bytes.
     hkVector4* m_data;
@@ -1572,7 +1573,7 @@ struct D76250VectorArrayLocalForm { // local form of hkArray: 0x00d774a0 needs t
         if (cap < n) {
             int cap2 = 2 * cap;
             int newSize = (n < cap2) ? cap2 : n;
-            FUN_00c908c0(&alloc, this, newSize, sizeof(hkVector4));
+            hkArrayUtil__reserve(&alloc, this, newSize, sizeof(hkVector4));
         }
     }
 
@@ -1728,7 +1729,7 @@ struct S_00d752e0_Class {
     int unk00;
     int unk04;
     S_00d752e0_Entity* unk08;
-    float FUN_00d752e0();
+    float hkgpConvexHull_getVolume();
 };
 extern const char str_010d3540[];
 extern const char str_010d358c[];
@@ -1876,7 +1877,7 @@ struct SortRec12 {
     unsigned int m4;
     float key;
 };
-void __cdecl FUN_00d7b160(SortRec12* base, int lo, int hi, int unkArg);
+void __cdecl hkAlgorithm_quickSortRecursive_struct_hkgpConvexHullImpl_SortedEdge_class_hkAlgorithm_less_struct_hkgpConvexHullImpl_SortedEdge(SortRec12* base, int lo, int hi, int unkArg);
 extern "C" {
 using ::_mm_sub_ps;
 using ::_mm_mul_ps;
@@ -2157,7 +2158,7 @@ void S_00d75cb0::FUN_00d75cb0(int mode, const hkVector4& point, hkVector4& close
 }
 
 int __cdecl Vsnprintf(void* buf, int size, const char* fmt, unsigned int arg);
-int __cdecl FUN_00cb10d0(int x);
+int __cdecl hkString_strLen(int x);
 extern const char str_010c1a98[];
 
 struct Cc0080Stream {
@@ -2166,11 +2167,12 @@ struct Cc0080Stream {
 
 // Private-convention callee: str arrives in esi (entry null-check), out in edi
 // (used second, both live across FUN_00cb10d0).
-static __declspec(noinline) void FUN_00cc0080(Cc0080Stream* out, const char* str) {
+// src: HAVOK_LIB 0x00cc0080
+static __declspec(noinline) void writeString(Cc0080Stream* out, const char* str) {
     if (!str)
         out->Write("(null)", 6);
     else
-        out->Write(str, FUN_00cb10d0((int)str));
+        out->Write(str, hkString_strLen((int)str));
 }
 
 struct FUN_00cc02d0_cls {
@@ -2185,7 +2187,7 @@ struct FUN_00cc02d0_cls {
 FUN_00cc02d0_cls* FUN_00cc02d0_cls::FUN_00cc02d0(int arg) {
     char buf[0x2728];
     Vsnprintf(buf, 0x2728, str_010c1a98, arg);
-    FUN_00cc0080(m_08, buf);
+    writeString(m_08, buf);
     return this;
 }
 
@@ -2586,7 +2588,7 @@ struct S00d76120_ArrLocalForm { // local form of hkArray: 0x00d76120 needs the o
         if (cap < n) {
             int cap2 = 2 * cap;
             int newSize = (n < cap2) ? cap2 : n;
-            FUN_00c908c0(&alloc, this, newSize, sizeof(hkVector4));
+            hkArrayUtil__reserve(&alloc, this, newSize, sizeof(hkVector4));
         }
     }
 
@@ -2607,7 +2609,7 @@ struct S00d76120_ArrLocalForm { // local form of hkArray: 0x00d76120 needs the o
         int cap = getCapacity();
         if (cap < want) {
             if (want < cap * 2) want = cap * 2;
-            FUN_00c908c0(&alloc, this, want, sizeof(hkVector4));
+            hkArrayUtil__reserve(&alloc, this, want, sizeof(hkVector4));
         }
         m_iElementCount += n;
         return &m_data[oldSize];
@@ -2669,7 +2671,7 @@ struct S_00d76410_Router {
     S_00d76410_Alloc* m_pStreamAllocator;
     S_00d76410_Alloc& heap() { return *m_pStreamAllocator; }
 };
-void __cdecl FUN_00c908c0(S_00d76410_Alloc* alloc, void* array, int numElements, int elemSize);
+void __cdecl hkArrayUtil__reserve(S_00d76410_Alloc* alloc, void* array, int numElements, int elemSize);
 static __forceinline S_00d76410_Router& getRouter() { return *reinterpret_cast<S_00d76410_Router*>(FUN_00c85750()); }
 template <typename T>
 struct S_00d76410_ArrayLocalForm { // local form of hkArray: 0x00d76410 needs the original inline/out-of-line helper split; shared replacement changes bytes.
@@ -2683,7 +2685,7 @@ struct S_00d76410_ArrayLocalForm { // local form of hkArray: 0x00d76410 needs th
         if (getCapacity() < n) {
             int cap2 = 2 * getCapacity();
             int newSize = (n < cap2) ? cap2 : n;
-            FUN_00c908c0(&alloc, this, newSize, sizeof(T));
+            hkArrayUtil__reserve(&alloc, this, newSize, sizeof(T));
         }
     }
     __forceinline void reserve(int n) { GrowArrayCapacity(getRouter().heap(), n); }
@@ -2967,7 +2969,7 @@ struct S_00d77380_Router {
     S_00d77380_Allocator& heap() { return *m_pStreamAllocator; }
 };
 namespace fnvc_adapt2 { extern "C" S_00d77380_Router& __cdecl FUN_00c85750(); }
-void __cdecl FUN_00c908c0(S_00d77380_Allocator* alloc, void* array, int numElements, int sizeElem);
+void __cdecl hkArrayUtil__reserve(S_00d77380_Allocator* alloc, void* array, int numElements, int sizeElem);
 
 __forceinline void hkVector4::set(float x, float y, float z, float w) { m_vComponents = _mm_setr_ps(x, y, z, w); }
 
@@ -2992,7 +2994,7 @@ struct S_00d77380_ArrayLocalForm { // local form of hkArray: 0x00d77380 needs th
         if (cap < n) {
             int cap2 = 2 * cap;
             int newSize = (n < cap2) ? cap2 : n;
-            FUN_00c908c0(&alloc, this, newSize, sizeof(hkVector4));
+            hkArrayUtil__reserve(&alloc, this, newSize, sizeof(hkVector4));
         }
     }
     void SetSizeAndGrow(int n) { reserve(n); m_iElementCount = n; }
@@ -3023,7 +3025,7 @@ int S_00d77380::FUN_00d77380(S_00d77380_Strided* s, int a, int b)
 
 extern const char str_010d3574[];
 extern const float s_faderClearedAlpha;
-void __cdecl FUN_00c908c0(void*,void*,int,int);
+void __cdecl hkArrayUtil__reserve(void*,void*,int,int);
 using ::_mm_mul_ps;
 using ::_mm_sub_ps;
 using ::_mm_add_ps;
@@ -3050,7 +3052,7 @@ struct OffsetArray {
     __forceinline void init() { data=0; size=0; capacity=0x80000000; }
     __forceinline void reserve(int n) {
         S_00d7a010_Router& router=S_00d7a010_Router::FUN_00c85750();
-        if((capacity&0x3fffffff)<n) FUN_00c908c0(router.m_pStreamAllocator,this,n,16);
+        if((capacity&0x3fffffff)<n) hkArrayUtil__reserve(router.m_pStreamAllocator,this,n,16);
     }
     __forceinline void AddBack(const LocalM128& value) {
         S_00d7a010_Router& router=S_00d7a010_Router::FUN_00c85750();
@@ -3069,10 +3071,10 @@ union OffsetWorkspace { ExportStream stream; OffsetArray array; };
 struct OffsetOwner {
     int unk00,unk04;
     ChildData* state;
-    OffsetVector* FUN_00d75600();
+    OffsetVector* hkgpConvexHull_getCenterOfMass();
     OffsetVector* FUN_00d752d0();
-    int FUN_00d74f10();
-    OffsetVector* FUN_00d74fb0(int);
+    int hkgpConvexHull_getNumPlanes();
+    OffsetVector* hkgpConvexHull_getPlane(int);
     __declspec(noinline) int FUN_00d74e10();
     __declspec(noinline) void* FUN_00d74e00();
     ValueBlock GetValueBlock();
@@ -3106,15 +3108,15 @@ void S_00d79f90_Result::FUN_00d78720(float f,const S_00d79f90_Opts& opts)
         if(DAT_01268360->message(3,0x79f9d886,buffer,str_010d3540,0x148)) __debugbreak();
         stream.FUN_00cc00e0();
     }
-    OffsetVector centerCopy=*(owner->state->unk1b4?owner->FUN_00d75600():owner->FUN_00d752d0());
+    OffsetVector centerCopy=*(owner->state->unk1b4?owner->hkgpConvexHull_getCenterOfMass():owner->FUN_00d752d0());
     LocalM128 center=(LocalM128&)centerCopy;
     OffsetArray& array=work.array;
     switch(opts.mode) {
     case 1: {
         array.init();
-        array.reserve(owner->FUN_00d74f10());
-        for(int i=0;i<owner->FUN_00d74f10();++i) {
-            OffsetVector plane=*owner->FUN_00d74fb0(i);
+        array.reserve(owner->hkgpConvexHull_getNumPlanes());
+        for(int i=0;i<owner->hkgpConvexHull_getNumPlanes();++i) {
+            OffsetVector plane=*owner->hkgpConvexHull_getPlane(i);
             LocalM128 v=(LocalM128&)plane;
             LocalM128 m=_mm_mul_ps(v,center);
             LocalM128 z=_mm_add_ss(_mm_shuffle_ps(m,m,0xaa),_mm_shuffle_ps(v,v,0xff));
@@ -3184,7 +3186,7 @@ struct BlendOptions {
     unsigned char m_00;
     float m_04;
     unsigned char m_08,m_09,m_0a,m_0b,m_0c,m_0d;
-    void FUN_00d74d40();
+    void hkgpConvexHull_BuildConfig_BuildConfig();
 };
 struct BlendObject {
     virtual ~BlendObject();
@@ -3241,7 +3243,7 @@ BlendObject* __cdecl FUN_00d78ca0(const BlendInput* a,const BlendInput* b,const 
     out.count=0;
     out.capacity=0x80000000;
     BlendRouter* h=router();
-    if((out.capacity&0x3fffffff)<total) FUN_00c908c0((D76250Allocator*)h->heap,&out,total,16);
+    if((out.capacity&0x3fffffff)<total) hkArrayUtil__reserve((D76250Allocator*)h->heap,&out,total,16);
     for(int i=0;i<a->count;++i) {
         LocalM128 va=loadVector(a,i);
         for(int j=0;j<b->count;++j) {
@@ -3253,7 +3255,7 @@ BlendObject* __cdecl FUN_00d78ca0(const BlendInput* a,const BlendInput* b,const 
     BlendObject* result;
     {
     BlendOptions options;
-    options.FUN_00d74d40();
+    options.hkgpConvexHull_BuildConfig_BuildConfig();
     options.m_00=1;
     h=router();
     BlendObject* obj=(BlendObject*)h->factory->alloc(20);
@@ -3453,11 +3455,12 @@ struct PoolAllocator40
 {
     ArrAB<PoolBlock40*> m_pools;
 
-    void FUN_00d7adb0(PoolItem40* item);
+    void hkGeometryProcessing_PoolAllocator_struct_hkgpConvexHullImpl_Vertex_32_struct_hkContainerHeapAllocator_release(PoolItem40* item);
 };
 
 // @fnv 0x00d7adb0
-void PoolAllocator40::FUN_00d7adb0(PoolItem40* item)
+// src: HAVOK_LIB 0x00d7adb0
+void PoolAllocator40::hkGeometryProcessing_PoolAllocator_struct_hkgpConvexHullImpl_Vertex_32_struct_hkContainerHeapAllocator_release(PoolItem40* item)
 {
     if (item)
     {
@@ -3548,11 +3551,12 @@ struct PoolAllocator48
 {
     ArrAB<PoolBlock48*> m_pools;
 
-    void FUN_00d7aea0(PoolItem48* item);
+    void hkGeometryProcessing_PoolAllocator_struct_hkgpConvexHullImpl_Triangle_32_struct_hkContainerHeapAllocator_release(PoolItem48* item);
 };
 
 // @fnv 0x00d7aea0
-void PoolAllocator48::FUN_00d7aea0(PoolItem48* item)
+// src: HAVOK_LIB 0x00d7aea0
+void PoolAllocator48::hkGeometryProcessing_PoolAllocator_struct_hkgpConvexHullImpl_Triangle_32_struct_hkContainerHeapAllocator_release(PoolItem48* item)
 {
     if (item)
     {
@@ -3682,7 +3686,7 @@ template<class T> struct ExportArray {
         if(getCapacity()<n) {
             int cap2=getCapacity()*2;
             int newcap=n<cap2?cap2:n;
-            FUN_00c908c0(&a,this,newcap,sizeof(T));
+            hkArrayUtil__reserve(&a,this,newcap,sizeof(T));
         }
     }
     __forceinline void AddBack(const T& v) {
@@ -3762,11 +3766,12 @@ struct ExportShape {
     int dimension,unk1ac,index;
     unsigned char unk1b4;
     bool indexed;
-    int FUN_00d7e740(ExportArray<unsigned char>& sizes,ExportArray<unsigned short>& indices,bool useIndex,bool rotate);
+    int hkgpConvexHullImpl_generateIndexedFaces_unsigned_char_unsigned_short(ExportArray<unsigned char>& sizes,ExportArray<unsigned short>& indices,bool useIndex,bool rotate);
 };
 
 // @fnv 0x00d7e740
-int ExportShape::FUN_00d7e740(ExportArray<unsigned char>& sizes,ExportArray<unsigned short>& indices,bool useIndex,bool rotate)
+// src: HAVOK_LIB 0x00d7e740
+int ExportShape::hkgpConvexHullImpl_generateIndexedFaces_unsigned_char_unsigned_short(ExportArray<unsigned char>& sizes,ExportArray<unsigned short>& indices,bool useIndex,bool rotate)
 {
     int count=0;
     ExportWorkspace workspace;
@@ -4018,7 +4023,7 @@ template<class T> struct PolygonArray {
         if (capacity() < n) {
             int cap2 = 2 * capacity();
             int newSize = n < cap2 ? cap2 : n;
-            FUN_00c908c0(&a, this, newSize, sizeof(T));
+            hkArrayUtil__reserve(&a, this, newSize, sizeof(T));
         }
     }
     __forceinline void reserve(int n) {
@@ -4157,11 +4162,12 @@ struct PolygonMesh {
     int errorValue;
     char unk1b4;
     bool hasIndices;
-    int FUN_00d7df60(PolygonArray<int>& counts, PolygonArray<int>& indices, bool ids, bool rotate);
+    int hkgpConvexHullImpl_generateIndexedFaces_int_int(PolygonArray<int>& counts, PolygonArray<int>& indices, bool ids, bool rotate);
 };
 
 // @fnv 0x00d7df60
-int PolygonMesh::FUN_00d7df60(PolygonArray<int>& counts, PolygonArray<int>& indices, bool ids, bool rotate)
+// src: HAVOK_LIB 0x00d7df60
+int PolygonMesh::hkgpConvexHullImpl_generateIndexedFaces_int_int(PolygonArray<int>& counts, PolygonArray<int>& indices, bool ids, bool rotate)
 {
     int numPolygons = 0;
     PolygonArray<void*> scratch((PolygonArray<void*>::NoInit()));
@@ -4517,8 +4523,8 @@ struct PlaneArgument {
     PlaneArgument(const PlaneVector* v):p(v) {}
 };
 struct PlaneHull {
-    int FUN_00d74f10();
-    const PlaneVector& FUN_00d74fb0(int i);
+    int hkgpConvexHull_getNumPlanes();
+    const PlaneVector& hkgpConvexHull_getPlane(int i);
     float FUN_00d75880(PlaneArgument point);
 };
 static __forceinline float greaterValue(float a,float b) { return a>b?a:b; }
@@ -4526,12 +4532,12 @@ static __forceinline float greaterValue(float a,float b) { return a>b?a:b; }
 float PlaneHull::FUN_00d75880(PlaneArgument point) {
     float best=DAT_0104e148;
     int i=0;
-    if(i<FUN_00d74f10()) {
+    if(i<hkgpConvexHull_getNumPlanes()) {
       const PlaneVector* query=point.p;
       do {
-        const PlaneVector& plane=FUN_00d74fb0(i);
+        const PlaneVector& plane=hkgpConvexHull_getPlane(i);
         best=greaterValue(best,plane.dot(*query)+plane.offset(3));
-      } while(++i<FUN_00d74f10());
+      } while(++i<hkgpConvexHull_getNumPlanes());
     }
     return best;
 }
@@ -4799,7 +4805,7 @@ struct S00d79ab0_ArrayUtil {
             t[i] = tcopy;
         }
     }
-    static __forceinline void GrowArrayCapacity(S_00d7a010_Alloc& a, void* array, int reqElem, int sizeElem) { FUN_00c908c0(&a, array, reqElem, sizeElem); }
+    static __forceinline void GrowArrayCapacity(S_00d7a010_Alloc& a, void* array, int reqElem, int sizeElem) { hkArrayUtil__reserve(&a, array, reqElem, sizeElem); }
     static __forceinline void GrowArray(S_00d7a010_Alloc& a, void* array, int sizeElem) { ResizeAudioStream(&a, array, sizeElem); }
 };
 
@@ -4907,8 +4913,8 @@ class S00d79ab0_Hull {
 public:
     virtual ~S00d79ab0_Hull();
     void operator delete(void* p);
-    S00d79ab0_Hull* FUN_00d76cf0() const;
-    int FUN_00d790a0(const S00d79ab0_Vector4& plane, S00d79ab0_Hull** posOut, S00d79ab0_Hull** negOut, float thickness) const;
+    S00d79ab0_Hull* hkgpConvexHull_clone() const;
+    int hkgpConvexHull_splitByPlane(const S00d79ab0_Vector4& plane, S00d79ab0_Hull** posOut, S00d79ab0_Hull** negOut, float thickness) const;
     void SetValue(float minCosAngle, bool keepPlanes);
     int FUN_00d762f0();
     int unk04;
@@ -4917,7 +4923,8 @@ public:
     __forceinline bool hasMassProperties() const { return reinterpret_cast<const S00d79ab0_ImplFlags*>(reinterpret_cast<const char*>(m_data) + 0x1b0)->m_bFirstImplementationFlag; }
 };
 
-__declspec(noinline) int S00d79ab0_Hull::FUN_00d790a0(const S00d79ab0_Vector4& plane, S00d79ab0_Hull** posOut, S00d79ab0_Hull** negOut, float thickness) const
+// src: HAVOK_LIB 0x00d790a0
+__declspec(noinline) int S00d79ab0_Hull::hkgpConvexHull_splitByPlane(const S00d79ab0_Vector4& plane, S00d79ab0_Hull** posOut, S00d79ab0_Hull** negOut, float thickness) const
 {
     return m_data->FUN_00d83430(plane.m_vComponents.m128_f32[3], posOut, negOut, thickness);
 }
@@ -4952,7 +4959,7 @@ void __cdecl FUN_00d79ab0(const S00d79ab0_Hull* domain, const S00d79ab0_Array<S0
     }
     float maxDistance = -1.0f;
     for (int i = 0; i < unique.GetLogicalSize(); ++i) {
-        S00d79ab0_Hull* cell = domain->FUN_00d76cf0();
+        S00d79ab0_Hull* cell = domain->hkgpConvexHull_clone();
         S00d79ab0_Vector4 center = unique[i];
         S00d79ab0_quickSort(&sorted[0], sorted.GetLogicalSize(), S00d79ab0_RadialSort(center));
         cell->m_data->m_flag09 = false;
@@ -4966,7 +4973,7 @@ void __cdecl FUN_00d79ab0(const S00d79ab0_Hull* domain, const S00d79ab0_Array<S0
                 plane.normalize3();
                 plane(3) = -half * (plane.dot3(p) + plane.dot3(center) + planeOffset);
                 S00d79ab0_Hull* parts[2] = { 0, 0 };
-                switch (cell->FUN_00d790a0(plane, 0, &parts[1], eps)) {
+                switch (cell->hkgpConvexHull_splitByPlane(plane, 0, &parts[1], eps)) {
                 case 3:
                     delete cell;
                     cell = parts[1];
@@ -5118,7 +5125,7 @@ public:
         if (capacity < n) {
             int cap2 = 2 * capacity;
             int newSize = (n < cap2) ? cap2 : n;
-            FUN_00c908c0(&a, this, newSize, sizeof(hkVector4));
+            hkArrayUtil__reserve(&a, this, newSize, sizeof(hkVector4));
         }
     }
     __forceinline hkVector4* _expandBy(D76250Allocator& a, int n)
@@ -5522,7 +5529,7 @@ void S_00d827b0_Owner::FUN_00d827b0(S_00d827b0_Param* param)
             if (cap < need) {
                 int cap2 = cap + cap;
                 int newSize = (need < cap2) ? cap2 : need;
-                FUN_00c908c0(&alloc, &arr, newSize, (int)sizeof(hkVector4));
+                hkArrayUtil__reserve(&alloc, &arr, newSize, (int)sizeof(hkVector4));
             }
             arr.m_iElementCount = arr.m_iElementCount + extra;
             hkVector4* dst = arr.m_data + oldSize;
@@ -5634,8 +5641,8 @@ struct S00d82ad0_Edge {
 struct S00d82ad0_Less {
 };
 
-void __cdecl FUN_00c908c0(void* alloc, void* arr, int n, int elemSize);
-void __cdecl FUN_00d7b160(S00d82ad0_Edge* data, int lo, int hi, S00d82ad0_Less cmp);
+void __cdecl hkArrayUtil__reserve(void* alloc, void* arr, int n, int elemSize);
+void __cdecl hkAlgorithm_quickSortRecursive_struct_hkgpConvexHullImpl_SortedEdge_class_hkAlgorithm_less_struct_hkgpConvexHullImpl_SortedEdge(S00d82ad0_Edge* data, int lo, int hi, S00d82ad0_Less cmp);
 
 struct S00d82ad0_Alloc {
     virtual void v00();
@@ -5680,7 +5687,7 @@ struct S00d82ad0_VecArr {
         int cap = m_capFlags & 0x3fffffff;
         if (cap < newSize) {
             int c2 = cap + cap;
-            FUN_00c908c0(&a, this, newSize < c2 ? c2 : newSize, sizeof(hkVector4));
+            hkArrayUtil__reserve(&a, this, newSize < c2 ? c2 : newSize, sizeof(hkVector4));
         }
         m_iElementCount += n;
         return m_data + oldSize;
@@ -5703,7 +5710,7 @@ struct S00d82ad0_EdgeArr {
     void reserve(int n)
     {
         S00d82ad0_Router* r = S00d82ad0_router();
-        if ((m_capFlags & 0x3fffffff) < n) FUN_00c908c0(r->m_pStreamAllocator, this, n, sizeof(S00d82ad0_Edge));
+        if ((m_capFlags & 0x3fffffff) < n) hkArrayUtil__reserve(r->m_pStreamAllocator, this, n, sizeof(S00d82ad0_Edge));
     }
     S00d82ad0_Edge& AllocatePair()
     {
@@ -5750,7 +5757,7 @@ struct S00d82ad0_VtxList {
     int unk08;
     S00d82ad0_Vtx* m_pHeadNode;
     int m_iElementCount;
-    void FUN_00d7adb0(S00d82ad0_Vtx* v);
+    void hkGeometryProcessing_PoolAllocator_struct_hkgpConvexHullImpl_Vertex_32_struct_hkContainerHeapAllocator_release(S00d82ad0_Vtx* v);
     void remove(S00d82ad0_Vtx* v)
     {
         S00d82ad0_Vtx* n = v->next;
@@ -5759,7 +5766,7 @@ struct S00d82ad0_VtxList {
         if (p) p->next = n;
         else m_pHeadNode = n;
         --m_iElementCount;
-        FUN_00d7adb0(v);
+        hkGeometryProcessing_PoolAllocator_struct_hkgpConvexHullImpl_Vertex_32_struct_hkContainerHeapAllocator_release(v);
     }
 };
 
@@ -5949,7 +5956,7 @@ struct S00d82ad0_CountFn {
 template <class T, class L>
 static __forceinline void S00d82ad0_sort(T* p, int size, L cmp = L())
 {
-    if (size > 1) FUN_00d7b160(p, 0, size - 1, cmp);
+    if (size > 1) hkAlgorithm_quickSortRecursive_struct_hkgpConvexHullImpl_SortedEdge_class_hkAlgorithm_less_struct_hkgpConvexHullImpl_SortedEdge(p, 0, size - 1, cmp);
 }
 
 // @fnv 0x00d82ad0
@@ -6058,7 +6065,7 @@ struct HullMemory {
     int unk0c;
     HullAllocator* m_pAllocator;
 };
-void __cdecl FUN_00c908c0(HullAllocator* pAlloc, void* pArray, int iNewCap, int iElemSize) throw();
+void __cdecl hkArrayUtil__reserve(HullAllocator* pAlloc, void* pArray, int iNewCap, int iElemSize) throw();
 void __cdecl ResizeAudioStream(HullAllocator* pAlloc, void* pArray, int iElemSize) throw();
 struct ErrReporter {
     virtual void v00();
@@ -6146,7 +6153,7 @@ struct VecArrayBase {
         int iCap = m_iCapAndFlags & 0x3fffffff;
         if (iCap < n) {
             int iCap2 = iCap * 2;
-            FUN_00c908c0((D76250Allocator*)pAlloc, this, n < iCap2 ? iCap2 : n, 16);
+            hkArrayUtil__reserve((D76250Allocator*)pAlloc, this, n < iCap2 ? iCap2 : n, 16);
         }
     }
     __forceinline void PushBack(const HullVec& v) throw()
@@ -6635,7 +6642,7 @@ struct SampleBuilder {
     int unk00,unk04;
     ChildData* hull;
     void FUN_00d76d80(hkVector4&,SampleTransform&);
-    bool FUN_00d76100(const hkVector4&,unsigned char,float);
+    bool hkgpConvexHull_isPointInside(const hkVector4&,unsigned char,float);
 };
 struct SampleStream {
     int unk00,unk04,unk08;
@@ -6668,11 +6675,11 @@ void __cdecl FUN_00d76fa0(SampleBuilderRef builder,SampleRandomRef random,int co
         int trial=0;
         do {
             hkVector4 r;
-            random.value->FUN_00d7a4b0((float*)&r);
+            random.value->hkPseudoRandomGenerator_getRandomVector11((float*)&r);
             const hkVector4& e=(const hkVector4&)workspace.extents;
             point.m_vComponents=_mm_mul_ps(sampleRead(e),sampleRead(r));
             point.FUN_00c7f640(transform,point);
-            if(builder.value->FUN_00d76100(point,builder.value->hull->flag1b5,0.0f)) {
+            if(builder.value->hkgpConvexHull_isPointInside(point,builder.value->hull->flag1b5,0.0f)) {
                 goto accepted;
             }
         } while(++trial<1024);
@@ -6805,7 +6812,7 @@ struct PlanePointArray: D76250VectorArrayLocalForm {
     }
 };
 struct PlaneHull: ::PlaneHull {
-    int FUN_00d771c0(const PlaneVector*,int,int);
+    int hkgpConvexHull_build(const PlaneVector*,int,int);
     int FUN_00d774a0(const PlaneVector*,int,int);
 };
 // @fnv 0x00d774a0
@@ -6838,7 +6845,7 @@ int PlaneHull::FUN_00d774a0(const PlaneVector* planes,int count,int config)
         }
     }
     markEnumeration("Et");
-    if(points.m_iElementCount>3) return FUN_00d771c0((PlaneVector*)points.m_data,points.m_iElementCount,config);
+    if(points.m_iElementCount>3) return hkgpConvexHull_build((PlaneVector*)points.m_data,points.m_iElementCount,config);
     return -1;
 }
 
@@ -6873,7 +6880,7 @@ extern float DAT_01012054;
 
 inline hkMemoryRouter* Holder() { return (hkMemoryRouter*)FUN_00c85750(); }
 
-void __cdecl FUN_00c909d0(HullAllocator* alloc, void* arr, int elemSize, int unused, int n);
+void __cdecl hkArrayUtil__reduce(HullAllocator* alloc, void* arr, int elemSize, int unused, int n);
 struct IndexVertex {
     IndexVertex* m_pNext;
     int unk04;
@@ -6926,7 +6933,7 @@ struct FaceArea {
     float m_area;
 };
 struct FaceLess { unsigned char context; FaceLess() : context(0) {} };
-void __cdecl FUN_00d7b270(FaceArea* arr, int lo, int hi, FaceLess cmp);
+void __cdecl hkAlgorithm_quickSortRecursive_struct_hkgpConvexHullImpl_SortedTriangle_class_hkAlgorithm_less_struct_hkgpConvexHullImpl_SortedTriangle(FaceArea* arr, int lo, int hi, FaceLess cmp);
 struct HullBool {
     unsigned char m_cBooleanValue;
 };
@@ -7168,7 +7175,7 @@ void HullBuilder::FUN_00d7d2a0()
     if (numFaces != 0) {
         hkMemoryRouter* h = Holder();
         if ((areas.m_capAndFlags & 0x3fffffff) < numFaces) {
-            FUN_00c908c0(((HullAllocator*)h->m_temp), &areas, numFaces, 8);
+            hkArrayUtil__reserve(((HullAllocator*)h->m_temp), &areas, numFaces, 8);
         }
         for (HullFace* f = m_faces; f != 0; f = f->m_pNext) {
             int k = areas.m_iElementCount++;
@@ -7184,7 +7191,7 @@ void HullBuilder::FUN_00d7d2a0()
         }
         FaceLess cmp;
         if (areas.m_iElementCount > 1) {
-            FUN_00d7b270(areas.m_data, 0, areas.m_iElementCount - 1, cmp);
+            hkAlgorithm_quickSortRecursive_struct_hkgpConvexHullImpl_SortedTriangle_class_hkAlgorithm_less_struct_hkgpConvexHullImpl_SortedTriangle(areas.m_data, 0, areas.m_iElementCount - 1, cmp);
         }
         int idx = 0;
         map.Reserve(m_numFaces);
@@ -7197,7 +7204,7 @@ void HullBuilder::FUN_00d7d2a0()
             if (n >= newCap) {
                 newCap = n;
             }
-            FUN_00c908c0(heap, &facePlanes, newCap, 0x10);
+            hkArrayUtil__reserve(heap, &facePlanes, newCap, 0x10);
         }
         facePlanes.m_iElementCount = n;
         for (HullFace* f = m_faces; f != 0; f = f->m_pNext) {
@@ -7346,7 +7353,7 @@ void HullBuilder::FUN_00d7d2a0()
         HullArray<LocalM128>* pl = &m_kPlaneArray;
         hkMemoryRouter* h = Holder();
         if (pl->m_iElementCount < (pl->m_capAndFlags & 0x3fffffff)) {
-            FUN_00c909d0(((HullAllocator*)h->m_heap), pl, 0x10, 0, pl->m_iElementCount);
+            hkArrayUtil__reduce(((HullAllocator*)h->m_heap), pl, 0x10, 0, pl->m_iElementCount);
         }
     }
     m_bPlanesBuilt = 1;
@@ -8016,7 +8023,7 @@ struct BoxIterator {
     BoxFace* m_tri;
     int m_uiEdgeIndex;
     void FUN_00d7d220(BoxEdge e);
-    void FUN_00d7c970();
+    void hkgpAbstractMesh_struct_hkgpConvexHullImpl_Edge_struct_hkgpConvexHullImpl_Vertex_struct_hkgpConvexHullImpl_Triangle_struct_hkContainerHeapAllocator_EdgeIterator_next();
     operator const void*() const { return m_tri ? this : 0; }
 };
 
@@ -8163,7 +8170,7 @@ int result=DAT_01268360->message(3, 0x79f9d886, (const char*)buf, str_010d3540, 
         BoxIterator it;
         BoxVector e;
         BoxVector n;
-        for (it.FUN_00d7d220(BoxEdge(m_firstTri, 0)); it; it.FUN_00d7c970()) {
+        for (it.FUN_00d7d220(BoxEdge(m_firstTri, 0)); it; it.hkgpAbstractMesh_struct_hkgpConvexHullImpl_Edge_struct_hkgpConvexHullImpl_Vertex_struct_hkgpConvexHullImpl_Triangle_struct_hkContainerHeapAllocator_EdgeIterator_next()) {
             BoxFace* o = (BoxFace*)(it.m_tri->m_ppLinks[it.m_uiEdgeIndex] & ~3);
             int pb = o->m_kTriangleNormal;
             int pa = it.m_tri->m_kTriangleNormal;
@@ -8359,7 +8366,7 @@ struct S00d81510_Router {
     S00d81510_Allocator* m_pStreamAllocator;
     __forceinline S00d81510_Allocator& heap() { return *m_pStreamAllocator; }
 };
-extern "C" void __cdecl FUN_00c908c0(S00d81510_Allocator* alloc, void* array, int numElements, int sizeElem);
+extern "C" void __cdecl hkArrayUtil__reserve(S00d81510_Allocator* alloc, void* array, int numElements, int sizeElem);
 
 template <typename T> __forceinline void S00d81510_construct(T* t, int n, S00d81510_TypeIsPod) {}
 template <typename T> __forceinline void S00d81510_destruct(T* t, int n, S00d81510_TypeIsPod) {}
@@ -8400,7 +8407,7 @@ public:
         if (capacity < n) {
             int cap2 = 2 * capacity;
             int newSize = (n < cap2) ? cap2 : n;
-            FUN_00c908c0(&alloc, this, newSize, sizeof(T));
+            hkArrayUtil__reserve(&alloc, this, newSize, sizeof(T));
         }
     }
     __forceinline void _setSize(S00d81510_Allocator& alloc, int n)
@@ -8742,7 +8749,8 @@ int S00d81510_Hull::FUN_00d81510(const hkVector4* points, int numPoints, bool pl
     return m_eVertexFloatDimensions;
 }
 
-__declspec(noinline) int __stdcall FUN_00d752c0(int* arr, int idx) { return arr[idx + 2]; }
+// src: HAVOK_LIB 0x00d752c0
+__declspec(noinline) int __stdcall hkgpConvexHull_getVertex(int* arr, int idx) { return arr[idx + 2]; }
 struct HullPlaneOwner {
     void FUN_00d75b80(LocalM128& out, const int* triangle);
 };
@@ -8750,10 +8758,10 @@ struct HullPlaneOwner {
 void __thiscall HullPlaneOwner::FUN_00d75b80(LocalM128& out, const int* triangle)
 {
     OffsetOwner* owner = (OffsetOwner*)this;
-    LocalM128 p0 = *owner->FUN_00d74ed0((PayloadOwner*)FUN_00d752c0((int*)triangle, 0));
-    LocalM128 p1 = *owner->FUN_00d74ed0((PayloadOwner*)FUN_00d752c0((int*)triangle, 1));
+    LocalM128 p0 = *owner->FUN_00d74ed0((PayloadOwner*)hkgpConvexHull_getVertex((int*)triangle, 0));
+    LocalM128 p1 = *owner->FUN_00d74ed0((PayloadOwner*)hkgpConvexHull_getVertex((int*)triangle, 1));
     LocalM128 e1 = _mm_sub_ps(p1, p0);
-    LocalM128 p2 = *owner->FUN_00d74ed0((PayloadOwner*)FUN_00d752c0((int*)triangle, 2));
+    LocalM128 p2 = *owner->FUN_00d74ed0((PayloadOwner*)hkgpConvexHull_getVertex((int*)triangle, 2));
     LocalM128 e2 = _mm_sub_ps(p2, p0);
 
     LocalM128 a = _mm_mul_ps(_mm_shuffle_ps(e2, e2, 0xc9), _mm_shuffle_ps(e1, e1, 0xd2));
@@ -8938,7 +8946,7 @@ struct S83_ElementOps {
 struct S83_HeapAccess {
     __forceinline S83_Alloc& get(const void*) { return S83_heap(); }
 };
-extern void __cdecl FUN_00c908c0(S83_Alloc&,void*,int,int);
+extern void __cdecl hkArrayUtil__reserve(S83_Alloc&,void*,int,int);
 extern void __cdecl ResizeAudioStream(S83_Alloc&,void*,int);
 template <class T> struct S83_ArrayBaseLocalForm { // local form of hkArrayBase: 0x00d83f30 needs the original constructor stores; shared base construction changes bytes.
     T* m_data;
@@ -8950,7 +8958,7 @@ template <class T> struct S83_ArrayBaseLocalForm { // local form of hkArrayBase:
         int oldCapacity=getCapacity();
         if(oldCapacity<required) {
             int doubled=oldCapacity*2;
-            FUN_00c908c0(heap,this,required<doubled?doubled:required,sizeof(T));
+            hkArrayUtil__reserve(heap,this,required<doubled?doubled:required,sizeof(T));
         }
     }
     __forceinline void resize(S83_Alloc& heap,int n) {
@@ -9146,7 +9154,7 @@ struct S83_Mesh {
     int FUN_00d81510(const S83_Vec4* points, int numPoints, int a, int b);
     void FUN_00d7d2a0();
     void FUN_00d7b600();
-    void FUN_00d7df60(S83_Array<int>* a, S83_Array<int>* b, int c, int d);
+    void hkgpConvexHullImpl_generateIndexedFaces_int_int(S83_Array<int>* a, S83_Array<int>* b, int c, int d);
 };
 // @fnv 0x00d83f30
 void S83_Mesh::FUN_00d83f30(S83_Options* options)
@@ -9235,7 +9243,7 @@ void S83_Mesh::FUN_00d83f30(S83_Options* options)
             a.m_iElementCount = 0;
             b.m_iElementCount = 0;
             used.m_iElementCount = 0;
-            FUN_00d7df60(&a, &b, 0, 0);
+            hkgpConvexHullImpl_generateIndexedFaces_int_int(&a, &b, 0, 0);
             for (int k = 0; k < b.m_iElementCount; k++) {
                 if (used.indexOf(b.m_data[k]) == -1)
                     used.AddBack(b.m_data[k]);
@@ -9553,8 +9561,8 @@ struct S00d7fb80_TriangleList {
     S00d7fb80_Triangle* m_uiBufferCapacity;
     int m_iAllocatedCount; int unk14;
     S00d7fb80_Triangle* allocateItem();
-    S00d7fb80_Triangle* FUN_00d7efc0(const S00d7fb80_Triangle& t);
-    __forceinline S00d7fb80_Triangle* allocate(const S00d7fb80_Triangle& t = S00d7fb80_Triangle()) { return FUN_00d7efc0(t); }
+    S00d7fb80_Triangle* hkgpAbstractMeshDefinitions_List_struct_hkgpConvexHullImpl_Triangle_struct_hkgpAbstractMeshDefinitions_List_struct_hkgpConvexHullImpl_Vertex_struct_hkgpConvexHull_Vertex_struct_hkGeometryProcessing_PoolAllocator_struct_hkgpConvexHullImpl_Vertex_32_struct_hkContainerHeapAllocator_Item_struct_hkGeometryProcessing_PoolAllocator_struct_hkgpConvexHullImpl_Triangle_32_struct_hkContainerHeapAllocator_allocate(const S00d7fb80_Triangle& t);
+    __forceinline S00d7fb80_Triangle* allocate(const S00d7fb80_Triangle& t = S00d7fb80_Triangle()) { return hkgpAbstractMeshDefinitions_List_struct_hkgpConvexHullImpl_Triangle_struct_hkgpAbstractMeshDefinitions_List_struct_hkgpConvexHullImpl_Vertex_struct_hkgpConvexHull_Vertex_struct_hkGeometryProcessing_PoolAllocator_struct_hkgpConvexHullImpl_Vertex_32_struct_hkContainerHeapAllocator_Item_struct_hkGeometryProcessing_PoolAllocator_struct_hkgpConvexHullImpl_Triangle_32_struct_hkContainerHeapAllocator_allocate(t); }
     __forceinline S00d7fb80_Triangle* getFirst() const { return m_uiBufferCapacity; }
 };
 __forceinline void* operator new(unsigned int, S00d7fb80_Vertex* p) throw() { return p; }
@@ -9570,7 +9578,8 @@ __declspec(noinline) S00d7fb80_Vertex* S00d7fb80_VertexList::CloneNode(const S00
     m_iAllocatedCount++;
     return item;
 }
-__declspec(noinline) S00d7fb80_Triangle* S00d7fb80_TriangleList::FUN_00d7efc0(const S00d7fb80_Triangle& t)
+// src: HAVOK_LIB 0x00d7efc0
+__declspec(noinline) S00d7fb80_Triangle* S00d7fb80_TriangleList::hkgpAbstractMeshDefinitions_List_struct_hkgpConvexHullImpl_Triangle_struct_hkgpAbstractMeshDefinitions_List_struct_hkgpConvexHullImpl_Vertex_struct_hkgpConvexHull_Vertex_struct_hkGeometryProcessing_PoolAllocator_struct_hkgpConvexHullImpl_Vertex_32_struct_hkContainerHeapAllocator_Item_struct_hkGeometryProcessing_PoolAllocator_struct_hkgpConvexHullImpl_Triangle_32_struct_hkContainerHeapAllocator_allocate(const S00d7fb80_Triangle& t)
 {
     S00d7fb80_Triangle* item = new (allocateItem()) S00d7fb80_Triangle(t);
     item->m_pSecondNode = 0;
@@ -9612,7 +9621,7 @@ public:
     int m_uiUniqueId;
 
     bool FUN_00d7fb80();
-    void FUN_00d7c3e0(const S00d7fb80_Vertex& v, const S00d7fb80_Edge& edge, S00d7fb80_Edge& out);
+    void hkgpConvexHullImpl_clearHorizon(const S00d7fb80_Vertex& v, const S00d7fb80_Edge& edge, S00d7fb80_Edge& out);
 
     template <typename T> static __forceinline T mul_32x32(int a, int b) { return (T)a * (T)b; }
     static __forceinline __int64 distanceToPlane(const S00d7fb80_Vertex& v, const S00d7fb80_Plane& p)
@@ -9684,7 +9693,7 @@ public:
             S00d7fb80_Edge edge(0, 0);
             makeVertex(x, newVertex);
             m_uiUniqueId++;
-            FUN_00d7c3e0(*newVertex, S00d7fb80_Edge(root, 0), edge);
+            hkgpConvexHullImpl_clearHorizon(*newVertex, S00d7fb80_Edge(root, 0), edge);
             while (!edge.isNaked()) {
                 edge = edge.next();
             }
@@ -9902,7 +9911,7 @@ struct ExpandArray {
         if (cap<n) {
             int twice=cap*2;
             int newSize=n<twice?twice:n;
-            FUN_00c908c0(&heap,this,newSize,sizeof(ExpandVector));
+            hkArrayUtil__reserve(&heap,this,newSize,sizeof(ExpandVector));
         }
     }
     __forceinline void SetSizeAndGrow(int n,const ExpandVector& value) {
@@ -10061,9 +10070,9 @@ struct ExpandShape {
     int FUN_00d75140() const;
     int FUN_00d75200(int) const;
     void FUN_00d75b80(ExpandVector*,int) const;
-    int FUN_00d752c0(int,int) const;
+    int hkgpConvexHull_getVertex(int,int) const;
     void FUN_00d76120(int,ExpandArray&) const;
-    __declspec(noinline) int FUN_00d771c0(const ExpandVector*,int,const ExpandHeader&);
+    __declspec(noinline) int hkgpConvexHull_build(const ExpandVector*,int,const ExpandHeader&);
     __declspec(noinline) int FUN_00d77200(const ExpandView&,const ExpandHeader&);
     void SetValue(float,bool);
     void FUN_00d762f0();
@@ -10073,12 +10082,13 @@ __declspec(noinline) int ExpandShape::FUN_00d74e10() { return state->dimension; 
 __declspec(noinline) void ExpandShape::GetValueBlock(ExpandVector* out) const {
     memcpy(out,&state->normal,sizeof(*out));
 }
-__declspec(noinline) int ExpandShape::FUN_00d771c0(const ExpandVector* vertices,int count,const ExpandHeader& header) {
+// src: HAVOK_LIB 0x00d771c0
+__declspec(noinline) int ExpandShape::hkgpConvexHull_build(const ExpandVector* vertices,int count,const ExpandHeader& header) {
     state->header=header;
     return state->FUN_00d81510(vertices,count,0,0);
 }
 __declspec(noinline) int ExpandShape::FUN_00d77200(const ExpandView& view,const ExpandHeader& header) {
-    if (view.stride==16) return FUN_00d771c0(view.data,view.size,header);
+    if (view.stride==16) return hkgpConvexHull_build(view.data,view.size,header);
     ExpandArray vertices; vertices.init();
     vertices.reserve(view.size);
     vertices.size=view.size;
@@ -10089,7 +10099,7 @@ __declspec(noinline) int ExpandShape::FUN_00d77200(const ExpandView& view,const 
         dst.q=_mm_setr_ps(v[0],v[1],v[2],0.0f);
         src+=view.stride;
     }
-    int result=FUN_00d771c0(vertices.data,vertices.size,header); vertices.clearAndFree(); return result;
+    int result=hkgpConvexHull_build(vertices.data,vertices.size,header); vertices.clearAndFree(); return result;
 }
 __declspec(noinline) int ExpandShape::FUN_00d75120(int v) const { return *(const int*)v; }
 // @fnv 0x00d77be0
@@ -10186,7 +10196,7 @@ seed.bits.w=source->first->point.bits.w;
             
             if (*(unsigned char*)plane.FUN_00c7f520(&av.validity.valid,DAT_010141cc)) {
                 for (int i=0;i<3;++i) {
-                    const ExpandVector& pos=FUN_00d74ed0(FUN_00d752c0(f,i));
+                    const ExpandVector& pos=FUN_00d74ed0(hkgpConvexHull_getVertex(f,i));
                     points.AllocatePair().setAddMul(pos,plane,ExpandScalar(radius));
                 }
             }

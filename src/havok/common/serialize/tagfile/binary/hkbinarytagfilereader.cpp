@@ -151,7 +151,7 @@ char* hkBinaryTagfileReader::ReadString()
     return m_pStringFunctions.m_data[-iLen];
 }
 
-void __cdecl FUN_00c908c0(hkMemoryAllocator& kAlloc, void* apvArray, int aiNumElements, int iSizeElem) throw();
+void __cdecl hkArrayUtil__reserve(hkMemoryAllocator& kAlloc, void* apvArray, int aiNumElements, int iSizeElem) throw();
 
 template <typename T> __forceinline void hkArrayBase<T>::GrowArrayCapacity(hkMemoryAllocator& kAlloc, int n)
 {
@@ -160,7 +160,7 @@ template <typename T> __forceinline void hkArrayBase<T>::GrowArrayCapacity(hkMem
     {
         int iCap2 = 2 * iCapacity;
         int iNewSize = (n < iCap2) ? iCap2 : n;
-        FUN_00c908c0(kAlloc, this, iNewSize, sizeof(T));
+        hkArrayUtil__reserve(kAlloc, this, iNewSize, sizeof(T));
     }
 }
 
@@ -178,7 +178,7 @@ void hkBinaryTagfileReader::ReadBits(int iNumBits, hkArray<char>& kBitsOut) thro
     int iNumBytes = iNumBitsRounded / 8;
     unsigned int auiBuf[16];
     kBitsOut.setSize(iNumBitsRounded);
-    FUN_00dd8fe0(auiBuf, 1, iNumBytes);
+    hkIArchive_readArrayGeneric(auiBuf, 1, iNumBytes);
     for (int i = 0; i < iNumBytes; i++)
     {
         unsigned int uiByte = ((unsigned char*)auiBuf)[i];
@@ -193,7 +193,7 @@ void hkBinaryTagfileReader::ReadBits(int iNumBits, hkArray<char>& kBitsOut) thro
 
 extern "C" char* __fastcall ReadString(void* p);
 extern "C" int __fastcall FUN_00dc5bd0(void* p);
-void __cdecl FUN_00c908c0(void*, void*, int, int);
+void __cdecl hkArrayUtil__reserve(void*, void*, int, int);
 void __cdecl ResizeAudioStream(void*, void*, int);
 
 struct Struct3;
@@ -321,7 +321,7 @@ int TagFileReader::ReadTagFileEntry()
             iNewCapacity += iNewCapacity;
             if (iItemCount >= iNewCapacity)
                 iNewCapacity = iItemCount;
-            FUN_00c908c0(ctx, &entry.s.m_items, iNewCapacity, 16);
+            hkArrayUtil__reserve(ctx, &entry.s.m_items, iNewCapacity, 16);
         }
     }
 
@@ -362,14 +362,14 @@ int TagFileReader::ReadTagFileEntry()
 __forceinline void ReadTagfileVarInt(hkBinaryTagfileReader& kReader, __int64& kValue)
 {
     unsigned char ucByte;
-    kReader.FUN_00dd8fe0(&ucByte, 1, 1);
+    kReader.hkIArchive_readArrayGeneric(&ucByte, 1, 1);
     unsigned __int64 uiByte = (int)ucByte;
     unsigned __int64 uiValue = (uiByte & ~0x81) >> 1;
     int bNegative = (int)(uiByte & 1);
     int iShift = 6;
     while (uiByte & 0x80)
     {
-        kReader.FUN_00dd8fe0(&ucByte, 1, 1);
+        kReader.hkIArchive_readArrayGeneric(&ucByte, 1, 1);
         uiByte = (int)ucByte;
         uiValue |= (uiByte & ~0x80) << iShift;
         iShift += 7;
@@ -396,14 +396,14 @@ int hkBinaryTagfileReader::FUN_00dc5bd0() throw()
 __int64 hkBinaryTagfileReader::ReadVarInt()
 {
     unsigned char ucByte;
-    FUN_00dd8fe0(&ucByte, 1, 1);
+    hkIArchive_readArrayGeneric(&ucByte, 1, 1);
     unsigned __int64 uiByte = (int)ucByte;
     unsigned __int64 uiValue = (uiByte & ~0x81) >> 1;
     int bNegative = (int)(uiByte & 1);
     int iShift = 6;
     while (uiByte & 0x80)
     {
-        FUN_00dd8fe0(&ucByte, 1, 1);
+        hkIArchive_readArrayGeneric(&ucByte, 1, 1);
         uiByte = (int)ucByte;
         uiValue |= (uiByte & ~0x80) << iShift;
         iShift += 7;
@@ -437,7 +437,8 @@ struct FUN_00dc5d50_Local
 };
 
 // @fnv 0x00dc5d50
-unsigned int __stdcall FUN_00dc5d50(unsigned int a, unsigned int b, unsigned int c)
+// src: HAVOK_SRC 0x00dc5d50
+unsigned int __stdcall hkBinaryTagfileReader_load(unsigned int a, unsigned int b, unsigned int c)
 {
     FUN_00dc5d50_Local local;
     local.FUN_00dc5f30(b, c);
@@ -847,7 +848,7 @@ template <class T> struct TagArray
         if (current < count)
         {
             int grown = current * 2;
-            FUN_00c908c0(a, this, count >= grown ? count : grown, sizeof(T));
+            hkArrayUtil__reserve(a, this, count >= grown ? count : grown, sizeof(T));
         }
     }
     __forceinline void release(hkMemoryAllocator* a)
@@ -896,7 +897,7 @@ struct TagArrayRef
     void* object;
     int FUN_00dbac10();
     TagArrayValue FUN_00dbab90(int) throw();
-    void FUN_00dbae10(const char*, int);
+    void hkDataArray_setAll_00dbae10(const char*, int);
     void FUN_00dbae80(const float*, int);
     void FUN_00dbabe0(int);
     TagClass FUN_00dbac20();
@@ -933,7 +934,7 @@ struct TagClass
 struct TagReader
 {
     int FUN_00dc5bd0();
-    void FUN_00dd8fe0(void*, int, int);
+    void hkIArchive_readArrayGeneric(void*, int, int);
     TagString FUN_00dc6970(int) throw();
     const char* ReadString();
     void ReadBits(int, TagArray<char>&);
@@ -948,8 +949,8 @@ void TagReader::FUN_00dc6100(TagArrayRef* array, int count)
     case 1: {
         TagArray<char> values(count);
         values.reserve(reinterpret_cast<hkMemoryAllocator*>(getTagRouter()->m_temp), count);
-        FUN_00dd8fe0(values.data, 1, count);
-        array->FUN_00dbae10(values.data, count);
+        hkIArchive_readArrayGeneric(values.data, 1, count);
+        array->hkDataArray_setAll_00dbae10(values.data, count);
         values.release(reinterpret_cast<hkMemoryAllocator*>(getTagRouter()->m_temp));
         break;
     }
@@ -961,7 +962,7 @@ void TagReader::FUN_00dc6100(TagArrayRef* array, int count)
         TagArray<float> values(count);
         values.reserve(reinterpret_cast<hkMemoryAllocator*>(getTagRouter()->m_temp), count);
         values.size = count;
-        FUN_00dd8fe0(values.data, 4, count);
+        hkIArchive_readArrayGeneric(values.data, 4, count);
         array->FUN_00dbae80(values.data, values.size);
         values.release(reinterpret_cast<hkMemoryAllocator*>(getTagRouter()->m_temp));
         break;
@@ -971,7 +972,7 @@ void TagReader::FUN_00dc6100(TagArrayRef* array, int count)
         float values[4] = {0, 0, 0, 0};
         for (int i = 0; i < count; ++i)
         {
-            FUN_00dd8fe0(values, 4, width);
+            hkIArchive_readArrayGeneric(values, 4, width);
             array->FUN_00dbab90(i).FUN_00dbad60(values, 4);
         }
         break;
@@ -985,7 +986,7 @@ void TagReader::FUN_00dc6100(TagArrayRef* array, int count)
             for (int j = 0; j < width; ++j)
             {
                 float value;
-                FUN_00dd8fe0(&value, 4, 1);
+                hkIArchive_readArrayGeneric(&value, 4, 1);
                 values[j] = value;
             }
             array->FUN_00dbab90(i).FUN_00dbad60(values, width);
@@ -1088,7 +1089,7 @@ struct ParamP
     void FUN_00dbab30(const char*);
 };
 extern "C" unsigned __int64 __fastcall ReadVarInt(void*);
-extern "C" float __fastcall FUN_00dc5bb0(void*);
+extern "C" float __fastcall hkIArchive_readFloat32(void*);
 extern "C" void* __cdecl memcpy(void*, const void*, unsigned int);
 struct ValueWorld
 {
@@ -1106,7 +1107,7 @@ struct ValueWorld
 struct ValueReader : TagFileReader
 {
     void FUN_00dc6100(RefB*, int);
-    void FUN_00dd8fe0(void*, int, int);
+    void hkIArchive_readArrayGeneric(void*, int, int);
     void FUN_00dc6970(RefA*, int);
     void FUN_00dc6720(ParamP, const Item20*);
 };
@@ -1150,7 +1151,7 @@ void ValueReader::FUN_00dc6720(ParamP value, const Item20* item)
     {
     case 1: {
         unsigned char scalar;
-        FUN_00dd8fe0(&scalar, 1, 1);
+        hkIArchive_readArrayGeneric(&scalar, 1, 1);
         value.FUN_00dbaa30(scalar);
         break;
     }
@@ -1160,7 +1161,7 @@ void ValueReader::FUN_00dc6720(ParamP value, const Item20* item)
         break;
     }
     case 3: {
-        float scalar = FUN_00dc5bb0(this);
+        float scalar = hkIArchive_readFloat32(this);
         value.DispatchFloatToVtbl(scalar);
         break;
     }
@@ -1172,7 +1173,7 @@ void ValueReader::FUN_00dc6720(ParamP value, const Item20* item)
         int count = item->flags * 4 - 12;
         for (int i = 0; i < count; ++i)
         {
-            FUN_00dd8fe0(&scalar, 4, 1);
+            hkIArchive_readArrayGeneric(&scalar, 4, 1);
             values[i] = scalar;
         }
         value.FUN_00dbab10(values, count);

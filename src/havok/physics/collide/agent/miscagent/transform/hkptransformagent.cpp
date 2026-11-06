@@ -60,7 +60,7 @@ void __cdecl RunSymmetricAgentFlipCollector();
 void __cdecl FUN_00d43370();
 void __cdecl BuildHeaderAndDispatchHandler();
 void __cdecl ProcessTransformShapeCollision();
-void __cdecl FUN_00d42e50();
+void __cdecl hkpTransformAgent_staticGetClosestPoints();
 void __cdecl DispatchClosestPoints();
 
 // Fills a callback struct with two sets of function pointers and flags and registers each set on self via FUN_00cfbbe0 with ranges (-1,15) and (15,-1).
@@ -78,7 +78,7 @@ void RegisterCallbacks(Agent* pAgent)
 
     af.f0 = (void*)&BuildHeaderAndDispatchHandler;
     af.f4 = (void*)&ProcessTransformShapeCollision;
-    af.f8 = (void*)&FUN_00d42e50;
+    af.f8 = (void*)&hkpTransformAgent_staticGetClosestPoints;
     af.fc = (void*)&DispatchClosestPoints;
     af.f10 = 0;
     af.f11 = 1;
@@ -137,10 +137,11 @@ struct FUN_00d42a60_class {
     void* unk04;
     void* unk08;
     FUN_00d42a60_interface* unk0c;
-    int __thiscall FUN_00d42a60();
+    int __thiscall hkpTransformAgent_createZombie();
 };
 // @fnv 0x00d42a60
-int FUN_00d42a60_class::FUN_00d42a60() {
+// src: HAVOK_LIB 0x00d42a60
+int FUN_00d42a60_class::hkpTransformAgent_createZombie() {
     FUN_00d42a60_method method = unk0c->vtable->slot34;
     return method(unk0c);
 }
@@ -271,9 +272,10 @@ struct Object { int unk00,unk04,unk08,unk0c,unk10,unk14,unk18,unk1c,unk20,unk24,
 struct Input { Object* object; int unk04; hkTransform* transform; };
 struct DispatchData { int unk00; int unk04; hkTransform* unk08; Input* unk0c; };
 struct Handler { virtual int V0(); virtual int V1(); virtual int V2(); virtual int Dispatch(DispatchData*,int,int,int); };
-struct Owner { int a,b,c; Handler* handler; void FUN_00d42ed0(Input*,int,int,int); };
+struct Owner { int a,b,c; Handler* handler; void hkpTransformAgent_getPenetrations(Input*,int,int,int); };
 // @fnv 0x00d42ed0
-void Owner::FUN_00d42ed0(Input* input,int aiArg1,int aiArg2,int aiArg3)
+// src: HAVOK_LIB 0x00d42ed0
+void Owner::hkpTransformAgent_getPenetrations(Input* input,int aiArg1,int aiArg2,int aiArg3)
 {
     Object* object=input->object;
     hkTransform temp;
@@ -296,9 +298,10 @@ struct Handler {
     virtual int V4(); virtual int V5(); virtual int V6(); virtual int V7();
     virtual int Dispatch(DispatchData*, int, int, int);
 };
-struct Owner { int unk00; int unk04; int unk08; Handler* handler; int FUN_00d42fc0(Input*, int, int, int); };
+struct Owner { int unk00; int unk04; int unk08; Handler* handler; int hkpTransformAgent_updateShapeCollectionFilter(Input*, int, int, int); };
 // @fnv 0x00d42fc0
-int Owner::FUN_00d42fc0(Input* input, int aiArg1, int aiArg2, int aiArg3)
+// src: HAVOK_LIB 0x00d42fc0
+int Owner::hkpTransformAgent_updateShapeCollectionFilter(Input* input, int aiArg1, int aiArg2, int aiArg3)
 {
     Object* object = input->object;
     hkTransform temp;
@@ -342,7 +345,7 @@ void __cdecl RunCollector(int aiArgA, int aiArgB, int aiArgC, int aiData)
 }
 
 extern float DAT_0104da48;
-extern void __cdecl FUN_00d42e50(void*, void*, int, void*);
+extern void __cdecl hkpTransformAgent_staticGetClosestPoints(void*, void*, int, void*);
 
 // Builds a local hkpSymmetricAgentFlipCollector from DAT_0104da48 and arg4, then calls FUN_00d42e50 with arg2, arg1, arg3 and the collector.
 // @fnv 0x00d43330
@@ -352,14 +355,14 @@ void __cdecl RunSymmetricAgentFlipCollector(void* arg1, void* arg2, int arg3, in
     hkpSymmetricAgentFlipCollector& local = *::new (storage) hkpSymmetricAgentFlipCollector;
     local.m_fEarlyOutDistance = DAT_0104da48;
     local.unk08 = reinterpret_cast<void*>(arg4);
-    FUN_00d42e50(arg2, arg1, arg3, &local);
+    hkpTransformAgent_staticGetClosestPoints(arg2, arg1, arg3, &local);
 }
 
 struct CallData { void* descriptor; float bound; unsigned int value; };
 extern unsigned char DAT_010ce7fc;
 extern float DAT_0104da48;
 struct Wrapper {
-    void FUN_00d42de0(void*, void*, unsigned int, CallData*);
+    void hkpTransformAgent_getClosestPoints(void*, void*, unsigned int, CallData*);
     void FUN_00d434a0(void*, void*, unsigned int, unsigned int);
 };
 // Builds a CallData from fourth and DAT_0104da48 with descriptor DAT_010ce7fc, then calls FUN_00d42de0 with second, first and third.
@@ -369,7 +372,7 @@ void Wrapper::FUN_00d434a0(void* first, void* second, unsigned int third, unsign
     data.value = fourth;
     data.bound = DAT_0104da48;
     data.descriptor = &DAT_010ce7fc;
-    FUN_00d42de0(second, first, third, &data);
+    hkpTransformAgent_getClosestPoints(second, first, third, &data);
 }
 
 extern "C" __m128 _mm_xor_ps(__m128 a, __m128 b);
@@ -437,7 +440,7 @@ public:
 class ForwardOwner {
 public:
     virtual void vDtor(unsigned int flags);
-    void FUN_00d429c0(unsigned int arg);
+    void hkpTransformAgent_cleanup(unsigned int arg);
     unsigned int unk04;
     unsigned int unk08;
     ForwardTarget* m_0c;
@@ -445,7 +448,8 @@ public:
 
 // Forwards arg to the target's v1c and then calls the virtual destructor with flags 1.
 // @fnv 0x00d429c0
-void ForwardOwner::FUN_00d429c0(unsigned int arg)
+// src: HAVOK_LIB 0x00d429c0
+void ForwardOwner::hkpTransformAgent_cleanup(unsigned int arg)
 {
     m_0c->v1c(arg);
     vDtor(1);
@@ -464,11 +468,12 @@ struct DecompOwner {
     int unk08;
     void* m_0c;
 
-    int FUN_00d429e0(DecompTarget* target, int unusedArg);
+    int hkpTransformAgent_calcContentStatistics(DecompTarget* target, int unusedArg);
 };
 
 // @fnv 0x00d429e0
-int DecompOwner::FUN_00d429e0(DecompTarget* target, int unusedArg) {
+// src: HAVOK_LIB 0x00d429e0
+int DecompOwner::hkpTransformAgent_calcContentStatistics(DecompTarget* target, int unusedArg) {
     return target->v0c("ChildAgent", m_0c, 0);
 }
 
@@ -492,11 +497,12 @@ struct S_00d42a40_H {
     int unk04;
     int unk08;
     S_00d42a40_T* m_0C;
-    void FUN_00d42a40(int a);
+    void hkpTransformAgent_removePoint(int a);
 };
 
 // @fnv 0x00d42a40
-void S_00d42a40_H::FUN_00d42a40(int a) {
+// src: HAVOK_LIB 0x00d42a40
+void S_00d42a40_H::hkpTransformAgent_removePoint(int a) {
     m_0C->v2C(a);
 }
 
@@ -520,10 +526,11 @@ struct FnvCpu_FUN_00d42a50_CpuOwner {
     unsigned int unk04;
     unsigned int unk08;
     FnvCpu_FUN_00d42a50_CpuInterface* target;
-    void FUN_00d42a50(int arg0);
+    void hkpTransformAgent_commitPotential(int arg0);
 };
 // @fnv 0x00d42a50
-void FnvCpu_FUN_00d42a50_CpuOwner::FUN_00d42a50(int arg0)
+// src: HAVOK_LIB 0x00d42a50
+void FnvCpu_FUN_00d42a50_CpuOwner::hkpTransformAgent_commitPotential(int arg0)
 {
     target->Invoke(arg0);
 }
@@ -689,14 +696,14 @@ void __cdecl ProcessTransformShapeCollision(
         &childBody, second, input, output);
 }
 
-struct CallTarget_00d42fc0 { int FUN_00d42fc0(int, int, int, int); };
+struct CallTarget_00d42fc0 { int hkpTransformAgent_updateShapeCollectionFilter(int, int, int, int); };
 struct SearchObject {
     int FUN_00d43600(unsigned int arg0, unsigned int arg1, unsigned int arg2, unsigned int arg3);
 };
 // @fnv 0x00d43600
 int SearchObject::FUN_00d43600(unsigned int arg0, unsigned int arg1, unsigned int arg2, unsigned int arg3)
 {
-    unsigned int uiResult = (unsigned int)((CallTarget_00d42fc0*)this)->FUN_00d42fc0((int)arg1, (int)arg0, (int)arg2, (int)arg3);
+    unsigned int uiResult = (unsigned int)((CallTarget_00d42fc0*)this)->hkpTransformAgent_updateShapeCollectionFilter((int)arg1, (int)arg0, (int)arg2, (int)arg3);
     return (int)uiResult;
 }
 
@@ -1200,7 +1207,7 @@ struct Output {
 };
 
 struct hkpGskAgent {
-    void FUN_00d42b50(const hkpCdBody& bodyB, const hkpCdBody& bodyA, const GskAgentInput& input, Output& output);
+    void hkpTransformAgent_processCollision(const hkpCdBody& bodyB, const hkpCdBody& bodyA, const GskAgentInput& input, Output& output);
 };
 
 // @fnv 0x00d434e0
@@ -1210,7 +1217,7 @@ void hkpSymmetricAgent<hkpGskAgent>::FUN_00d434e0(const hkpCdBody& bodyA, const 
     float oldTime = output.m_fTimeOfImpact.m_uiCommandId;
     AlignedPairData* cp = output.m_pAlignedPairData;
 
-    reinterpret_cast<hkpGskAgent*>(this)->FUN_00d42b50(bodyB, bodyA, input, output);
+    reinterpret_cast<hkpGskAgent*>(this)->hkpTransformAgent_processCollision(bodyB, bodyA, input, output);
 
     while (cp < output.m_pAlignedPairData) {
         addMul4(cp->m_vContactPosition, getDistanceSimdReal(cp->m_vSeparatingNormal), cp->m_vSeparatingNormal);
@@ -1508,11 +1515,12 @@ struct S_00d42b50_Cls {
     int unk04;
     int unk08;
     S_00d42b50_Agent* m_pAgent;
-    void FUN_00d42b50(const S_00d42b50_CdBody& bodyA, const S_00d42b50_CdBody& bodyB, const S_00d42b50_Input& input, S_00d42b50_Output& output);
+    void hkpTransformAgent_processCollision(const S_00d42b50_CdBody& bodyA, const S_00d42b50_CdBody& bodyB, const S_00d42b50_Input& input, S_00d42b50_Output& output);
 };
 
 // @fnv 0x00d42b50
-void S_00d42b50_Cls::FUN_00d42b50(const S_00d42b50_CdBody& bodyA, const S_00d42b50_CdBody& bodyB, const S_00d42b50_Input& input, S_00d42b50_Output& output)
+// src: HAVOK_SRC 0x00d42b50
+void S_00d42b50_Cls::hkpTransformAgent_processCollision(const S_00d42b50_CdBody& bodyA, const S_00d42b50_CdBody& bodyB, const S_00d42b50_Input& input, S_00d42b50_Output& output)
 {
     union Scratch {
         unsigned int tick;
@@ -1598,7 +1606,7 @@ struct SectorDesc {
 };
 
 struct TtTransform {
-    void FUN_00d42ed0(int, int, int, SectorDesc*);
+    void hkpTransformAgent_getPenetrations(int, int, int, SectorDesc*);
 };
 
 struct TtShapeCollection : TtTransform {
@@ -1612,7 +1620,7 @@ void TtShapeCollection::FUN_00d43460(int a, int b, int c, int d) {
     s.unk04 = false;
     s.sectorPtrs = (void*)0x10ce81c;
     s.unk08 = d;
-    TtTransform::FUN_00d42ed0(b, a, c, &s);
+    TtTransform::hkpTransformAgent_getPenetrations(b, a, c, &s);
 }
 
 struct CollisionAgentContext;
@@ -1637,11 +1645,12 @@ struct TransformTimForwarder
     int unk04;
     int unk08;
     TimInvalidationTarget* m_pAgent;
-    void FUN_00d42a00(const CollisionAgentContext& input);
+    void hkpTransformAgent_invalidateTim(const CollisionAgentContext& input);
 };
 
 // @fnv 0x00d42a00
-void TransformTimForwarder::FUN_00d42a00(const CollisionAgentContext& input)
+// src: HAVOK_LIB 0x00d42a00
+void TransformTimForwarder::hkpTransformAgent_invalidateTim(const CollisionAgentContext& input)
 {
     m_pAgent->RemovePoint(input);
 }
@@ -1663,14 +1672,15 @@ struct TransformClosestAgent {
     int unk04;
     int unk08;
     TransformClosestChildAgent* m_pAgent;
-    void FUN_00d42de0(const hkpCdBody& bodyA,
+    void hkpTransformAgent_getClosestPoints(const hkpCdBody& bodyA,
         const hkpCdBody& bodyB, const S_00d42d60_Input& input,
         TransformClosestPointCollector& collector);
 };
 
 // Builds a temporary child body from bodyA's contained shape and motion transform, then delegates to m_pAgent to collect closest points with bodyB.
 // @fnv 0x00d42de0
-void TransformClosestAgent::FUN_00d42de0(const hkpCdBody& bodyA,
+// src: HAVOK_LIB 0x00d42de0
+void TransformClosestAgent::hkpTransformAgent_getClosestPoints(const hkpCdBody& bodyA,
     const hkpCdBody& bodyB, const S_00d42d60_Input& input,
     TransformClosestPointCollector& collector)
 {
@@ -1732,7 +1742,8 @@ struct __declspec(align(16)) TransformClosestFrame
 };
 
 // @fnv 0x00d42e50
-void __cdecl FUN_00d42e50(const CollisionBody_00d42f40* bodyA,
+// src: HAVOK_LIB 0x00d42e50
+void __cdecl hkpTransformAgent_staticGetClosestPoints(const CollisionBody_00d42f40* bodyA,
                          const CollisionBody_00d42f40* bodyB,
                          const CollisionInput_00d42f40* input, void* collector)
 {

@@ -451,11 +451,12 @@ struct Ea07Owner
     int m_00;
     Ea07Sub m_04;
     void __thiscall FUN_00a89af0(int a);
-    void __thiscall FUN_00ea07e0(int a);
+    void __thiscall NiBoxBV_LoadBinary(int a);
 };
 
 // @fnv 0x00ea07e0
-void Ea07Owner::FUN_00ea07e0(int a)
+// src: GAMEBRYO_SRC 0x00ea07e0
+void Ea07Owner::NiBoxBV_LoadBinary(int a)
 {
     this->FUN_00a89af0(a);
     m_04.WriteToStream(a);
@@ -1341,7 +1342,8 @@ class OBoxBV
 };
 
 // @fnv 0x00ea0ad0
-bool __cdecl FUN_00ea0ad0(float fTime, const OBoxBV& kBV0, const PodPoint3& kV0, const OBoxBV& kBV1, const PodPoint3& kV1)
+// src: GAMEBRYO_LIB 0x00ea0ad0
+bool __cdecl NiBoxBV_BoxBoxTestIntersect(float fTime, const OBoxBV& kBV0, const PodPoint3& kV0, const OBoxBV& kBV1, const PodPoint3& kV1)
 {
     const OBox& kBox0 = kBV0.m_kBoundsBox;
     const OBox& kBox1 = kBV1.m_kBoundsBox;

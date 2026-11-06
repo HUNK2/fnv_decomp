@@ -180,16 +180,17 @@ struct Allocator
 void* __cdecl FUN_00c85750();
 struct FUN_00d657d0_class
 {
-    FUN_00d657d0_class* FUN_00d657d0(int);
+    FUN_00d657d0_class* hkpShapeDisplayViewer_hkpShapeDisplayViewer(int);
 };
 // Allocates a 0x74-byte object from the audio allocator, initializes it with context, and returns a pointer 8 bytes into it, or null on failure.
 // @fnv 0x00d65910
-void* __cdecl FUN_00d65910(void* context)
+// src: HAVOK_LIB 0x00d65910
+void* __cdecl hkpShapeDisplayViewer_create(void* context)
 {
     hkMemoryRouter* audio = (hkMemoryRouter*)FUN_00c85750();
     FUN_00d657d0_class* result = (FUN_00d657d0_class*)audio->m_heap->blockAlloc(0x74);
     *(unsigned short*)((char*)result + 4) = 0x74;
-    result = result->FUN_00d657d0((int)context);
+    result = result->hkpShapeDisplayViewer_hkpShapeDisplayViewer((int)context);
     if (result)
         return (char*)result + 8;
     return 0;
@@ -198,14 +199,14 @@ void* __cdecl FUN_00d65910(void* context)
 struct GlobalObjectO2_00d472a0
 {
 };
-extern hkProcessFactory* FUN_00dd9380;
+extern hkProcessFactory* hkProcessFactory_registerProcess;
 extern GlobalObjectO2_00d472a0 g_01268f2c;
-extern void* __cdecl FUN_00d65910(void*);
+extern void* __cdecl hkpShapeDisplayViewer_create(void*);
 
 // @fnv 0x00d65950
 void RegisterShapesProcess()
 {
-    void* process = FUN_00dd9380->RegisterProcess("Shapes", (void*)&FUN_00d65910);
+    void* process = hkProcessFactory_registerProcess->RegisterProcess("Shapes", (void*)&hkpShapeDisplayViewer_create);
     *(void**)((char*)&g_01268f2c + 0xB4) = process;
 }
 
@@ -244,11 +245,12 @@ struct FUN_00d652a0_cls
     int m_10;
     int m_14;
     int m_18;
-    void FUN_00d652a0(int arg);
+    void hkpShapeDisplayViewer_synchronizeTransforms(int arg);
 };
 
 // @fnv 0x00d652a0
-void FUN_00d652a0_cls::FUN_00d652a0(int arg)
+// src: HAVOK_LIB 0x00d652a0
+void FUN_00d652a0_cls::hkpShapeDisplayViewer_synchronizeTransforms(int arg)
 {
     v10(m_18, arg);
 }
@@ -484,8 +486,8 @@ struct SpawnOwner
     char** m_34;
     int m_38;
 
-    void FUN_00c93820(void* p);
-    void FUN_00c93920(void* p);
+    void hkpWorld_addEntityListener(void* p);
+    void hkpWorld_addWorldPostSimulationListener(void* p);
 };
 
 struct SpawnSublist
@@ -539,11 +541,12 @@ struct FUN_00d64650_cls
     int m_2c;
     SpawnList m_30;
 
-    void FUN_00d64650(SpawnOwner* a1);
+    void hkpSweptTransformDisplayViewer_addWorld(SpawnOwner* a1);
 };
 
 // @fnv 0x00d64650
-void FUN_00d64650_cls::FUN_00d64650(SpawnOwner* apOwner)
+// src: HAVOK_LIB 0x00d64650
+void FUN_00d64650_cls::hkpSweptTransformDisplayViewer_addWorld(SpawnOwner* apOwner)
 {
     void* pSubA;
     if (this != 0)
@@ -554,7 +557,7 @@ void FUN_00d64650_cls::FUN_00d64650(SpawnOwner* apOwner)
     {
         pSubA = 0;
     }
-    apOwner->FUN_00c93820(pSubA);
+    apOwner->hkpWorld_addEntityListener(pSubA);
     void* pSubB;
     if (this != 0)
     {
@@ -564,7 +567,7 @@ void FUN_00d64650_cls::FUN_00d64650(SpawnOwner* apOwner)
     {
         pSubB = 0;
     }
-    apOwner->FUN_00c93920(pSubB);
+    apOwner->hkpWorld_addWorldPostSimulationListener(pSubB);
 
     PendingNode* node = new PendingNode();
     node->m_pSharedOwner = apOwner;
@@ -622,16 +625,17 @@ struct D65610Prim
 };
 struct D65610Sec
 {
-    virtual void FUN_00d65610(D66180Entity* e);
+    virtual void hkpShapeDisplayViewer_inactiveEntityMovedCallback(D66180Entity* e);
 };
 struct D65610Self : D65610Prim, D65610Sec
 {
-    void FUN_00d65610(D66180Entity* e);
+    void hkpShapeDisplayViewer_inactiveEntityMovedCallback(D66180Entity* e);
 };
 
 // Calls v10 on the stored object with the entity's offset 0xf0 pointer, the result of GetProperty1134(e), and DAT_01268fe0.
 // @fnv 0x00d65610
-void D65610Self::FUN_00d65610(D66180Entity* pEntity)
+// src: HAVOK_LIB 0x00d65610
+void D65610Self::hkpShapeDisplayViewer_inactiveEntityMovedCallback(D66180Entity* pEntity)
 {
     D65610Obj* obj = m_pEntryObject;
     char* p = (char*)pEntity;
@@ -650,7 +654,8 @@ static inline bool HasProperty(const S_00c6d840* props, int key)
 
 // Returns the value of the first present entry among 0x1234 (if checkOverride), 0x1235 and 0x1135; sets *usedDefault and returns 0 if that value is 0.
 // @fnv 0x00d652c0
-static int FUN_00d652c0(S_00c6d840* props, bool checkOverride, bool* usedDefault)
+// src: HAVOK_LIB 0x00d652c0
+static int _getProxyShape(S_00c6d840* props, bool checkOverride, bool* usedDefault)
 {
     int base = props->FindEntry(0x1135, 0).m_kPointA;
     int level = props->FindEntry(0x1235, 0).m_kPointA;
@@ -689,7 +694,7 @@ static int FUN_00d652c0(S_00c6d840* props, bool checkOverride, bool* usedDefault
 
 int PropertyQueryCaller(S_00c6d840* props, bool checkOverride, bool* usedDefault)
 {
-    return FUN_00d652c0(props, checkOverride, usedDefault);
+    return _getProxyShape(props, checkOverride, usedDefault);
 }
 
 struct ShapeList
@@ -728,7 +733,7 @@ extern int DAT_01268fe8;
 extern int DAT_01268fe4;
 
 void* __cdecl FUN_00c85750();
-int __cdecl FUN_00cb0fa0(const char* name, void* obj);
+int __cdecl hkString_strCmp(const char* name, void* obj);
 
 struct FUN_00d657d0_cls
 {
@@ -762,12 +767,13 @@ struct FUN_00d657d0_cls
     int m_70;
 
     void FUN_00ddccb0(ShapeList* a1);
-    FUN_00d657d0_cls* FUN_00d657d0(ShapeList* a1);
+    FUN_00d657d0_cls* hkpShapeDisplayViewer_hkpShapeDisplayViewer(ShapeList* a1);
 };
 
 // Initializes vtables, ShapeSub members, and flags, then searches a1 for a ShapeDisplayViewerOptions item to set m_60.
 // @fnv 0x00d657d0
-FUN_00d657d0_cls* FUN_00d657d0_cls::FUN_00d657d0(ShapeList* apShapes)
+// src: HAVOK_LIB 0x00d657d0
+FUN_00d657d0_cls* FUN_00d657d0_cls::hkpShapeDisplayViewer_hkpShapeDisplayViewer(ShapeList* apShapes)
 {
     int i;
     FUN_00ddccb0(apShapes);
@@ -825,7 +831,7 @@ FUN_00d657d0_cls* FUN_00d657d0_cls::FUN_00d657d0(ShapeList* apShapes)
     {
         ShapeItem* item = apShapes->data[i];
         void* desc = item->GetDesc();
-        if (FUN_00cb0fa0("ShapeDisplayViewerOptions", desc) == 0)
+        if (hkString_strCmp("ShapeDisplayViewerOptions", desc) == 0)
             goto found;
     }
     return this;
@@ -868,7 +874,7 @@ struct Watch2_d65f
 
 struct Agent_d65f
 {
-    void FUN_00c917a0(Listener_d65f* listener);
+    void hkpWorld_removeEntityListener(Listener_d65f* listener);
     void ClearValue(Watch2_d65f* watch);
 };
 
@@ -901,7 +907,7 @@ struct Watch_d65f
 struct Phantom_d65f : Base_d65f, Listener_d65f, Watch2_d65f
 {
     hkArray<Node_d65f*> m_kNodeCollection;
-    void FUN_00d65750(int index);
+    void hkpShapeDisplayViewer_removeAllGeometries(int index);
     void FUN_00d65fc0(int index);
 };
 
@@ -909,9 +915,9 @@ struct Phantom_d65f : Base_d65f, Listener_d65f, Watch2_d65f
 // @fnv 0x00d65fc0
 void Phantom_d65f::FUN_00d65fc0(int index)
 {
-    m_kNodeCollection[index]->m_pCollisionAgent->FUN_00c917a0(this);
+    m_kNodeCollection[index]->m_pCollisionAgent->hkpWorld_removeEntityListener(this);
     m_kNodeCollection[index]->m_pCollisionAgent->ClearValue(this);
-    FUN_00d65750(index);
+    hkpShapeDisplayViewer_removeAllGeometries(index);
     delete m_kNodeCollection[index];
     m_kNodeCollection.removeAt(index);
 }
@@ -964,7 +970,7 @@ struct TtShapeDisplayInner
     bool m_flag34;
 
     TtShapeDisplayOuter* GetOuter();
-    void FUN_00d65520(int arg);
+    void hkpShapeDisplayViewer_postSimulationCallback(int arg);
 };
 
 struct TtShapeDisplayOuter : TtShapeDisplayBase, TtShapeDisplayInner
@@ -992,7 +998,8 @@ static void __forceinline TtPushEvent(const char* name)
 
 // Pushes a TthkpShapeDisplayViewer event, returns early if m_flag34 is false, otherwise calls GetOuter()->v10 with m_18 and arg, then pushes an Et event.
 // @fnv 0x00d65520
-void TtShapeDisplayInner::FUN_00d65520(int arg)
+// src: HAVOK_LIB 0x00d65520
+void TtShapeDisplayInner::hkpShapeDisplayViewer_postSimulationCallback(int arg)
 {
     TtPushEvent("TthkpShapeDisplayViewer");
     if (!m_flag34)
@@ -1380,12 +1387,13 @@ class S00d653f0_Obj
     int unk60;
     int unk64;
     float m_68;
-    void FUN_00d653f0(Visitor* a1, Node* a2);
+    void hkpShapeDisplayViewer_synchronizeTransforms_00d653f0(Visitor* a1, Node* a2);
 };
 
 // Calls a1->v04 with each item's SweepTransform result and property pointer, using m_68 (or a2->FUN_00c91020() if m_68 is not positive), between v18 and v19.
 // @fnv 0x00d653f0
-void S00d653f0_Obj::FUN_00d653f0(Visitor* apVisitor, Node* apNode)
+// src: HAVOK_LIB 0x00d653f0
+void S00d653f0_Obj::hkpShapeDisplayViewer_synchronizeTransforms_00d653f0(Visitor* apVisitor, Node* apNode)
 {
     float f = (m_68 > 0.0f) ? m_68 : apNode->FUN_00c91020();
     apVisitor->v18();
@@ -1451,7 +1459,7 @@ struct Singleton
 
 extern void* g_01268fe0;
 Singleton* __cdecl FUN_00c85750();
-void __cdecl FUN_00c908c0(void* a, ArrayStruct* arr, int sz, int elem);
+void __cdecl hkArrayUtil__reserve(void* a, ArrayStruct* arr, int sz, int elem);
 
 struct Shell
 {
@@ -1468,12 +1476,13 @@ struct Shell
     int m_28;
     int m_2c;
     Entry** m_pTable;
-    void FUN_00d65750(int index);
+    void hkpShapeDisplayViewer_removeAllGeometries(int index);
 };
 
 // Invokes m_pListener->FUN_v5 for each item in m_pTable[index]->m_aiIndexedValues, then resets the array count to 0.
 // @fnv 0x00d65750
-void Shell::FUN_00d65750(int index)
+// src: HAVOK_LIB 0x00d65750
+void Shell::hkpShapeDisplayViewer_removeAllGeometries(int index)
 {
     Entry* entry = m_pTable[index];
     for (int i = 0; i < entry->m_aiIndexedValues.m_iArrayLength; i++)
@@ -1487,7 +1496,7 @@ void Shell::FUN_00d65750(int index)
     int iCapacity = arr->m_iCapacity & 0x3fffffff;
     if (iCapacity < 0)
     {
-        FUN_00c908c0(pContext, arr, (iCapacity * 2) > 0 ? iCapacity * 2 : 0, 4);
+        hkArrayUtil__reserve(pContext, arr, (iCapacity * 2) > 0 ? iCapacity * 2 : 0, 4);
     }
     arr->m_iArrayLength = 0;
 }
@@ -1582,7 +1591,7 @@ struct AudioNodeSub
     unsigned char unk38;
     unsigned char m_bPlayed;
 
-    void FUN_00d65640(AudioParam* pParam);
+    void hkpShapeDisplayViewer_entityRemovedCallback(AudioParam* pParam);
 };
 struct DisplayPrimary
 {
@@ -1618,13 +1627,14 @@ void* __cdecl GetProperty1134(D66180Entity* e);
 // hands it the sound in EAX and keeps the two other arguments on the stack.
 // Resolves a display result for pParam, notifies the voice host, adjusts the audio buffer, and removes the matching item from the item list.
 // @fnv 0x00d65640
-void AudioNodeSub::FUN_00d65640(AudioParam* pParam)
+// src: HAVOK_LIB 0x00d65640
+void AudioNodeSub::hkpShapeDisplayViewer_entityRemovedCallback(AudioParam* pParam)
 {
     AudioNodeSub* self = this;
     int iResult;
     bool checkOverride = GetDisplayOuter(self)->m_override10 == 0 && GetDisplayOuter(self)->m_override14 == 0;
     bool usedDefault;
-    iResult = FUN_00d652c0((S_00c6d840*)pParam, checkOverride, &usedDefault);
+    iResult = _getProxyShape((S_00c6d840*)pParam, checkOverride, &usedDefault);
 
     FUN_00d655e0_Q* pList = (FUN_00d655e0_Q*)((char*)self - 0x28);
     int iIndex = pList->FindItemIndex(pParam->m_i08);
@@ -1719,8 +1729,8 @@ struct S_00d65970_Arg
     int unk30;
     S_00d65970_Elem** unk34;
     int unk38;
-    void FUN_00c93820(S_00d65970_B28* l);
-    void FUN_00c93920(S_00d65970_B2c* l);
+    void hkpWorld_addEntityListener(S_00d65970_B28* l);
+    void hkpWorld_addWorldPostSimulationListener(S_00d65970_B2c* l);
 };
 
 struct S_00d65970_Node
@@ -1770,8 +1780,8 @@ struct S_00d65970_Obj : S_00d65970_Base0, S_00d65970_B28, S_00d65970_B2c
 // @fnv 0x00d65970
 void S_00d65970_Obj::FUN_00d65970(S_00d65970_Arg* arg)
 {
-    arg->FUN_00c93820(this);
-    arg->FUN_00c93920(this);
+    arg->hkpWorld_addEntityListener(this);
+    arg->hkpWorld_addWorldPostSimulationListener(this);
     hkMemoryAllocator& heap = reinterpret_cast<hkMemoryAllocator&>(hkMemoryRouter::getInstance().heap());
     void* mem = heap.blockAlloc(0x10);
     S_00d65970_Node* node = new (mem) S_00d65970_Node;

@@ -44,7 +44,7 @@ struct FUN_00a61590_class
 extern NiTStringTemplateMap<NiTPointerMap<char const*, NiShader*>, NiShader*>* DAT_011f4784;
 class NiUnionBV;
 extern NiUnionBV* DAT_011f4788;
-void FUN_00a632b0();
+void NiStream__SDMShutdown();
 extern "C" void NiFreeAlias(void*);
 extern void* DAT_011f4aa8;
 void FreeGlobalAlias();
@@ -482,7 +482,7 @@ struct FUN_00a69b00
 };
 struct FUN_00a69b40_Class
 {
-    void __thiscall FUN_00a69b40(int param_2);
+    void __thiscall NiTexturingProperty_SetMultiTexture(int param_2);
 };
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long* value);
 extern NiRefObject* DAT_011f49ac;
@@ -700,7 +700,7 @@ struct FUN_00a77110_info
     unsigned int m_eVertexFormat;
     unsigned int m_flags;
 };
-void __cdecl FUN_00a77110(unsigned int width, unsigned int rows, unsigned int unk0c, unsigned char* dst,
+void __cdecl NiDevImageConverter_ConvertRGBA32To24(unsigned int width, unsigned int rows, unsigned int unk0c, unsigned char* dst,
                           unsigned int unk14, FUN_00a77110_info* info, const unsigned char* src);
 struct BitPackLayout
 {
@@ -767,9 +767,9 @@ struct S_00a77800_Layout
     unsigned char unk16;
     unsigned char shr2;
 };
-void __cdecl FUN_00a77800(unsigned int count, unsigned int rows, unsigned int unkArg3, unsigned int* dst,
+void __cdecl NiDevImageConverter_ConvertBUMP16To32(unsigned int count, unsigned int rows, unsigned int unkArg3, unsigned int* dst,
                           unsigned int unkArg5, const S_00a77800_Layout* layout, const unsigned char* src);
-bool FUN_00a77920(int a);
+bool NiIsPowerOf2(int a);
 struct NiBinaryStream;
 typedef unsigned int (*NiBinaryStreamWriteFn)(NiBinaryStream* pThis, const void* pvBuffer, unsigned int uiBytes,
                                               unsigned int* puiComponentSizes, unsigned int uiNumComponents);
@@ -1154,7 +1154,7 @@ struct NiPixelChannelsA773
     unsigned char m_ucBlueBits;
     unsigned char m_ucAlphaBits;
 };
-void __cdecl FUN_00a773d0(unsigned int uiWidth, unsigned int uiHeight, unsigned int uiDestStride,
+void __cdecl NiDevImageConverter_Convert16NoAlphaToRGBA32(unsigned int uiWidth, unsigned int uiHeight, unsigned int uiDestStride,
                           unsigned char* pucDest, unsigned int uiDestSize, unsigned int uiSrcStride,
                           const unsigned short* pusSrc, const NiPixelChannelsA773* pkChannels);
 struct NiPixelChannelsA77
@@ -1190,7 +1190,7 @@ struct NiPixelChannelsA776
     unsigned char m_ucBlueBits;
     unsigned char m_ucAlphaBits;
 };
-void __cdecl FUN_00a776b0(unsigned int uiWidth, unsigned int uiHeight, unsigned int uiDestStride, unsigned int* puiDest,
+void __cdecl NiDevImageConverter_ConvertBUMPLUMA32To32(unsigned int uiWidth, unsigned int uiHeight, unsigned int uiDestStride, unsigned int* puiDest,
                           unsigned int uiDestSize, const NiPixelChannelsA776* pkDestChannels,
                           const unsigned char* pucSrc, const NiPixelChannelsA776* pkSrcChannels);
 extern "C" int __cdecl tolower(int);
@@ -1627,7 +1627,7 @@ struct FUN_00a7fb80_Class
     int m_2C;
     int m_30;
     void* __thiscall FUN_00a5c200();
-    void* __thiscall FUN_00a7fb80();
+    void* __thiscall NiRenderedTexture_NiRenderedTexture();
 };
 struct Z2Setup
 {

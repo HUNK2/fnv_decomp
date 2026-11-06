@@ -1193,7 +1193,7 @@ struct PhysicsAccessNotification
 };
 struct ObjX
 {
-    void FUN_00c93a20(int);
+    void hkpWorld_addContactListener(int);
 };
 struct S
 {
@@ -1206,7 +1206,7 @@ void S::FUN_00561690(int aiArg)
     if (o)
     {
         ((PhysicsAccessNotification*)this)->CheckAccess();
-        ((ObjX*)o)->FUN_00c93a20(aiArg);
+        ((ObjX*)o)->hkpWorld_addContactListener(aiArg);
         ((PhysicsAccessNotification*)this)->CheckAccess();
     }
 }
@@ -12063,7 +12063,7 @@ struct FUN_0056fa00_shell
 
 void __fastcall FUN_00c54550(FurnitureMark*, float);
 void* __fastcall _ref_006815c0(FurnitureMark*);
-void __cdecl FUN_00a582f0(const M3&, const NiPoint3*, unsigned int, NiPoint3*, FurnitureMark*);
+void __cdecl NiMatrix3_TransformVertices(const M3&, const NiPoint3*, unsigned int, NiPoint3*, FurnitureMark*);
 void* __fastcall _FNV_GetObjectReference(void*);
 int __fastcall _FNV_GetFormType(void*);
 NiAVObject* __cdecl FUN_00c54400(NiNode*);
@@ -12216,7 +12216,7 @@ bool FUN_00568500_shell::FUN_00568500(int aiIndex, FurnitureMark* aOutMarker)
                     bretval = true;
                     *aOutMarker = *FUN_005094d0((DummyThis*)pmarkdata, *(StackArg*)&aiIndex);
                     NiPoint3 loc = *(NiPoint3*)(_ref_006815c0)(aOutMarker);
-                    FUN_00a582f0(((FUN_0056fa00_shell*)this)->FUN_0056fa00(), (NiPoint3*)((VRef*)this)->V125(), 1, &loc,
+                    NiMatrix3_TransformVertices(((FUN_0056fa00_shell*)this)->FUN_0056fa00(), (NiPoint3*)((VRef*)this)->V125(), 1, &loc,
                                  aOutMarker);
                     FUN_00c54550(aOutMarker,
                                  ((FurnitureMark*)aOutMarker)->GetCurrentTargetDistance() + ((TESRecipe*)this)->GetData()->field08);
@@ -24667,7 +24667,7 @@ struct Node79
     virtual void Update(const Update79&, int);
     Controller79* FUN_0043b230();
     void FUN_00a59c60(const Update79&);
-    Node79* FUN_00a5c570(void*);
+    Node79* NiObjectNET_GetController(void*);
     void FUN_00566930(int);
 };
 struct ModelList79
@@ -25644,7 +25644,7 @@ void Actor79::FUN_005659f0()
         }
         if (IsDead() && actor19 && actor19->FUN_00566950() && DAT_011ddf38->IsLoading())
             actor19->FUN_008d8520()->Equip(actor19->FUN_008a16d0(), biped5, actor19->FUN_008b70d0(), actor19);
-        Node79* extra36 = root1->FUN_00a5c570(&DAT_011f36bc);
+        Node79* extra36 = root1->NiObjectNET_GetController(&DAT_011f36bc);
         if (extra36)
         {
             Node79* collision = extra36;
@@ -35526,7 +35526,7 @@ struct VirtualDispatcher
 struct FUN_005616d0_Owner
 {
     void* __thiscall FUN_00560dc0(float amount);
-    void __thiscall FUN_00c9c1d0();
+    void __thiscall activate_00c9c1d0();
     VirtualDispatcher* __thiscall FUN_009d9f40();
     void __thiscall OnTrigger(TriggerContext* context);
 };
@@ -35536,7 +35536,7 @@ void FUN_005616d0_Owner::OnTrigger(TriggerContext* context)
 {
     if (!context->FUN_00561730(FUN_00560dc0(DAT_01017d00)))
     {
-        FUN_00c9c1d0();
+        activate_00c9c1d0();
         FUN_009d9f40()->Dispatch(context);
     }
 }
@@ -35571,7 +35571,7 @@ struct FUN_009d9f40_Virtual
 struct FUN_00561800_Class
 {
     int __thiscall FUN_00560e50(float value);
-    void __thiscall FUN_00c9c1d0();
+    void __thiscall activate_00c9c1d0();
     FUN_009d9f40_Virtual* __thiscall FUN_009d9f40();
     void __thiscall FUN_00561800(FUN_00561730_Obj* object);
 };
@@ -35583,7 +35583,7 @@ void __thiscall FUN_00561800_Class::FUN_00561800(FUN_00561730_Obj* object)
 {
     if (object->FUN_00561730(this->FUN_00560e50(DAT_01017d00)) == 0)
     {
-        this->FUN_00c9c1d0();
+        this->activate_00c9c1d0();
         ((FUN_009d9f40_Virtual*)this->FUN_009d9f40())->vf44(object);
     }
 }

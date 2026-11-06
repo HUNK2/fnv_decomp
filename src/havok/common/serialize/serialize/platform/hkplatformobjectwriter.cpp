@@ -240,7 +240,7 @@ struct E02Allocator
     virtual void FreeArray(void* apMemory, unsigned int auiSize) throw();
 };
 
-void __cdecl FUN_00c856c0(void* allocator, void* element);
+void __cdecl hkMemoryRouter_easyFree(void* allocator, void* element);
 
 struct E02Sub
 {
@@ -277,7 +277,7 @@ void FUN_00e02d40_cls::ClearAndFreeData()
         {
             void* pElement = m_pData[i];
             hkMemoryRouter* pHolder = (hkMemoryRouter*)FUN_00c85750();
-            FUN_00c856c0(pHolder->m_heap, pElement);
+            hkMemoryRouter_easyFree(pHolder->m_heap, pElement);
             ++i;
         } while (i < m_iArrayLength);
     }
@@ -375,7 +375,7 @@ __declspec(noinline) char* E02A80LayoutView::FUN_00e02a70()
 
 extern const char str_010d66fc[];
 
-int __cdecl FUN_00cb0fa0(const char* name, const char* s);
+int __cdecl hkString_strCmp(const char* name, const char* s);
 
 struct E02A80Helper
 {
@@ -439,12 +439,13 @@ struct E02A80_cls
     E02A80Iface* unk08;
     E02A80Helper* unk0c;
 
-    int FUN_00e02a80(E02A80Arg* arg1, int arg2, E02A80Helper* arg3, int arg4);
+    int hkPlatformObjectWriter_writeObject(E02A80Arg* arg1, int arg2, E02A80Helper* arg3, int arg4);
 };
 
 // Resolves a helper, optionally seeks and builds a box via the iface, then calls unk0C and returns whether the result string is empty.
 // @fnv 0x00e02a80
-int E02A80_cls::FUN_00e02a80(E02A80Arg* apArg, int aiValue, E02A80Helper* apHelper, int arg4)
+// src: HAVOK_SRC 0x00e02a80
+int E02A80_cls::hkPlatformObjectWriter_writeObject(E02A80Arg* apArg, int aiValue, E02A80Helper* apHelper, int arg4)
 {
     E02A80Helper* pResolvedHelper;
     E02A80Helper* pHelper = unk0c;
@@ -459,7 +460,7 @@ int E02A80_cls::FUN_00e02a80(E02A80Arg* apArg, int aiValue, E02A80Helper* apHelp
     E02A80Local a;
     void* b;
     E02A80Arg* e;
-    if (unk0c != 0 && FUN_00cb0fa0(pResolvedHelper->Name(), str_010d66fc) == 0)
+    if (unk0c != 0 && hkString_strCmp(pResolvedHelper->Name(), str_010d66fc) == 0)
     {
         b = unk0c->Resolve(reinterpret_cast<void*>(aiValue), reinterpret_cast<E02A80LayoutView*>(this)->FUN_00e02a70());
         e = apArg;

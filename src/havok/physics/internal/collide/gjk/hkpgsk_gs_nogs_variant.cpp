@@ -25,7 +25,7 @@ struct ThisClass
     char pad2[0x90];
     Entry entries2[3];
 
-    void FUN_00da9790(Dest* out);
+    void hkpGsk_exitAndExportCacheImpl(Dest* out);
 };
 
 #include <xmmintrin.h>
@@ -242,7 +242,7 @@ int FUN_00dabca0(Collision_ctx* self, Collision_in* in, Collision_vector* out, C
     scratch.FUN_00daad40(self->m_08, self->m_0c, (void*)self->m_vptr, &normal);
     if (scratch.changed != 0)
     {
-        ((ThisClass*)&scratch)->FUN_00da9790((Dest*)in);
+        ((ThisClass*)&scratch)->hkpGsk_exitAndExportCacheImpl((Dest*)in);
     }
 
     Collision_mat* M = self->m_04;

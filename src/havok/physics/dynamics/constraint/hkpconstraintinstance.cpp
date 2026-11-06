@@ -39,21 +39,21 @@ void __fastcall SetActive(hkpConstraintInstance* self, int, bool active)
         *(char*)((char*)p + 0x13) = active;
 }
 
-void __cdecl FUN_00cb3dd0(void* a, void* b, int c);
+void __cdecl hkpWorldOperationUtil_removeConstraintImmediately(void* a, void* b, int c);
 
 // If the owner is set, calls FUN_00cb3dd0 with the pointer at arg+8, this, and 1.
 // @fnv 0x00cf3090
 void hkpConstraintInstance::vf04(void* arg)
 {
     if (m_pOwnerObject)
-        FUN_00cb3dd0(*(void**)((char*)arg + 8), this, 1);
+        hkpWorldOperationUtil_removeConstraintImmediately(*(void**)((char*)arg + 8), this, 1);
 }
 
-void __cdecl FUN_00cdff60(void*, void*);
+void __cdecl hkpResponseModifier_disableConstraint(void*, void*);
 // @fnv 0x00cf3da0
 __declspec(noinline) void __fastcall FUN_00cf3da0(hkpConstraintInstance* self)
 {
-    FUN_00cdff60(self, self->m_pOwnerObject);
+    hkpResponseModifier_disableConstraint(self, self->m_pOwnerObject);
 }
 
 // @fnv 0x00cf3000
@@ -87,7 +87,8 @@ void __fastcall RemoveReferenceFromSlots(hkpConstraintInstance* self, int, void*
 namespace fnv_00cf3e60 {
 
 // @fnv 0x00cf3e60
-void __fastcall FUN_00cf3e60(hkpConstraintInstance* self)
+// src: HAVOK_LIB 0x00cf3e60
+void __fastcall hkpConstraintInstance_pointNullsToFixedRigidBody(hkpConstraintInstance* self)
 {
     for (int i = 0; i < 2; ++i)
     {
@@ -123,7 +124,8 @@ void __stdcall FUN_00cf2fa0(int)
 {}
 
 // @fnv 0x00cf2fb0
-__declspec(noinline) hkBool hkpConstraintInstance::FUN_00cf2fb0() const throw()
+// src: HAVOK_LIB 0x00cf2fb0
+__declspec(noinline) hkBool hkpConstraintInstance::isConstrainedToWorld() const throw()
 {
     return m_kActorEntries[1] == 0 ||
            (m_kActorEntries[0]->m_pOwningWorld &&
@@ -135,7 +137,8 @@ namespace fnv_00cf2fe0 {
 int __cdecl FindModifierConstraintAtom(const void* pvObject, int iType);
 
 // @fnv 0x00cf2fe0
-hkBool* __fastcall FUN_00cf2fe0(const hkpConstraintInstance* self, int, hkBool* result)
+// src: HAVOK_LIB 0x00cf2fe0
+hkBool* __fastcall hkpConstraintInstance_isEnabled(const hkpConstraintInstance* self, int, hkBool* result)
 {
     result->m_cBooleanValue = FindModifierConstraintAtom(self, 0x1b) == 0;
     return result;
@@ -154,13 +157,15 @@ static inline int FindListenerIndex(const hkpConstraintInstance* self, void* ite
 
 // Clears the matching listener slot.
 // @fnv 0x00cf30b0
-void __fastcall FUN_00cf30b0(hkpConstraintInstance* self, int, void* apItem)
+// src: HAVOK_LIB 0x00cf30b0
+void __fastcall hkpConstraintInstance_removeConstraintListener(hkpConstraintInstance* self, int, void* apItem)
 {
     static_cast<void**>(self->m_kListeners.m_data)[FindListenerIndex(self, apItem)] = 0;
 }
 
 // @fnv 0x00cf3dd0
-int __fastcall FUN_00cf3dd0(const hkpConstraintInstance* self)
+// src: HAVOK_LIB 0x00cf3dd0
+int __fastcall hkpConstraintInstance_getSimulationIsland(const hkpConstraintInstance* self)
 {
     const hkpEntity* pkEntity = self->m_kActorEntries[0];
     if (*reinterpret_cast<const unsigned char*>(&pkEntity->m_pMotionState.m_type) != 5)
@@ -170,8 +175,8 @@ int __fastcall FUN_00cf3dd0(const hkpConstraintInstance* self)
 
 // The per-thread router at 0x00c85750 is shared as hkMemoryRouter; its heap is at +0x10.
 
-hkpConstraintData* __cdecl FUN_00d85700(const hkpConstraintData* pkData) throw();
-hkpConstraintData* __cdecl FUN_00d858f0(const hkpConstraintData* pkData) throw();
+hkpConstraintData* __cdecl hkpConstraintDataCloningUtil_deepClone(const hkpConstraintData* pkData) throw();
+hkpConstraintData* __cdecl hkpConstraintDataCloningUtil_cloneIfCanHaveMotors(const hkpConstraintData* pkData) throw();
 
 class FUN_00cf3ea0 : public hkpConstraintInstance
 {
@@ -195,15 +200,16 @@ static inline hkpConstraintData* getCloneData(const hkpConstraintInstance* insta
 
 // Creates a new constraint instance from this one according to eMode, copying the name and returning the new instance.
 // @fnv 0x00cf3fa0
-hkpConstraintInstance* hkpConstraintInstance::FUN_00cf3fa0(hkpEntity* pkEntityA, hkpEntity* pkEntityB,
+// src: HAVOK_LIB 0x00cf3fa0
+hkpConstraintInstance* hkpConstraintInstance::clone_00cf3fa0(hkpEntity* pkEntityA, hkpEntity* pkEntityB,
                                                                int eCloneMode) const throw()
 {
     hkpConstraintInstance* pkInstance;
     if (eCloneMode == CLONE_INSTANCES_ONLY)
     {
-        if (FUN_00cf2fb0().m_cBooleanValue)
+        if (isConstrainedToWorld().m_cBooleanValue)
         {
-            hkpConstraintData* pkData = FUN_00d85700(getCloneData(this));
+            hkpConstraintData* pkData = hkpConstraintDataCloningUtil_deepClone(getCloneData(this));
             pkInstance = new FUN_00cf3ea0(pkEntityA, 0, pkData, getPriority());
             pkData->removeReference();
         }
@@ -212,7 +218,7 @@ hkpConstraintInstance* hkpConstraintInstance::FUN_00cf3fa0(hkpEntity* pkEntityA,
     }
     else if (eCloneMode == CLONE_DATAS_WITH_MOTORS)
     {
-        hkpConstraintData* pkData = FUN_00d858f0(getCloneData(this));
+        hkpConstraintData* pkData = hkpConstraintDataCloningUtil_cloneIfCanHaveMotors(getCloneData(this));
         if (!pkData)
         {
             pkData = getCloneData(this);
@@ -231,7 +237,7 @@ namespace fnv_00cf40b0 {
 extern void* DAT_010cc040;
 extern void* DAT_0102e388;
 
-void __cdecl FUN_00d85ef0(void*) throw();
+void __cdecl hkpConstraintCallbackUtil_fireConstraintDeleted(void*) throw();
 static inline void hkDeallocate(void* p, int size) throw()
 {
     hkMemoryRouter::getInstance().heap().blockFree(p, size);
@@ -241,7 +247,7 @@ static inline void hkDeallocate(void* p, int size) throw()
 __declspec(noinline) void __fastcall FUN_00cf40b0(hkpConstraintInstance* self)
 {
     *(void**)self = &DAT_010cc040;
-    FUN_00d85ef0(self);
+    hkpConstraintCallbackUtil_fireConstraintDeleted(self);
     if (self->m_kActorEntries[0])
         reinterpret_cast<hkReferencedObject*>(self->m_kActorEntries[0])->removeReference();
     if (self->m_kActorEntries[1])
@@ -299,7 +305,7 @@ hkpModifierConstraintAtom* __cdecl FindModifierConstraintAtom(hkpConstraintInsta
     return atom;
 }
 
-extern "C" void __cdecl FUN_00d06cb0(void* apvArray, int iSizeElem);
+extern "C" void __cdecl hkSmallArrayUtil__reserveMore(void* apvArray, int iSizeElem);
 extern "C" void _ReadWriteBarrier();
 
 static __forceinline void PutListener(hkpConstraintInstanceSmallArraySerializeOverrideType* array, void* a)
@@ -328,7 +334,7 @@ static __forceinline void PutListener(hkpConstraintInstanceSmallArraySerializeOv
             } while (i < array->m_iElementCount);
         }
         if (n == (array->m_iCapacityState & 0x3fff))
-            FUN_00d06cb0(array, 4);
+            hkSmallArrayUtil__reserveMore(array, 4);
         static_cast<void**>(array->m_data)[array->m_iElementCount++] = a;
     }
 
@@ -402,7 +408,7 @@ struct CInstance
 {
     unsigned unk00, unk04, unk08;
     ConstraintReference* data;
-    hkBool FUN_00cf2fb0();
+    hkBool isConstrainedToWorld();
     void FUN_00cf30f0(Matrix4f*);
 };
 static __forceinline void point(CVector& v, Matrix4f* t)
@@ -430,7 +436,7 @@ static __forceinline void copyTransform(Matrix4f& d, const Matrix4f& s)
 // @fnv 0x00cf30f0
 void CInstance::FUN_00cf30f0(Matrix4f* apTransform)
 {
-    if (!FUN_00cf2fb0())
+    if (!isConstrainedToWorld())
         return;
     ConstraintReference* p = data;
     for (;;)
@@ -607,7 +613,7 @@ struct FUN_00cf3d00_Buf
 };
 
 void* __cdecl FindModifierConstraintAtom(void* self, int size);
-void __cdecl FUN_00d27960(void* a, void* b, void* c);
+void __cdecl hkpWorldConstraintUtil_addModifier(void* a, void* b, void* c);
 
 // Stores a and b in unk20 and unk30 of the atom found by FindModifierConstraintAtom(static_cast<void*>(self), 0x18), or of a new 0x40-byte buffer passed to FUN_00d27960.
 // @fnv 0x00cf3d00
@@ -638,14 +644,15 @@ void __fastcall SetVec4Pair(hkpConstraintInstance* self, int, FUN_00cf3d00_Vec4*
     buf->unk20.m = a->m;
     buf->unk30.m = b->m;
 
-    FUN_00d27960(self, self->m_pOwnerObject, buf);
+    hkpWorldConstraintUtil_addModifier(self, self->m_pOwnerObject, buf);
 }
 
 extern char DAT_010cc040;
 
 // Sets the vtable pointer, zeroes most fields, sets m_6 to 1, m_1c to flag, m_1d to 1, m_26 to 0x8000, m_34 to -16, and calls m_28.Init().
 // @fnv 0x00cf3f40
-hkpConstraintInstance* __fastcall FUN_00cf3f40(hkpConstraintInstance* self, int, bool flag)
+// src: HAVOK_LIB 0x00cf3f40
+hkpConstraintInstance* __fastcall hkpConstraintInstance_hkpConstraintInstance(hkpConstraintInstance* self, int, bool flag)
 {
     int z = 0;
     *(void* volatile*)&*reinterpret_cast<void**>(self) = (void*)&DAT_010cc040;
@@ -667,7 +674,8 @@ hkpConstraintInstance* __fastcall FUN_00cf3f40(hkpConstraintInstance* self, int,
 }
 
 // @fnv 0x00cf3db0
-void __fastcall FUN_00cf3db0(hkpConstraintInstance* self, int, hkBool enabled)
+// src: HAVOK_LIB 0x00cf3db0
+void __fastcall hkpConstraintInstance_setEnabled(hkpConstraintInstance* self, int, hkBool enabled)
 {
     if (enabled)
     {

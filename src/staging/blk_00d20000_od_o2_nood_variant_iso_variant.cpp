@@ -116,8 +116,8 @@ extern "C" void FUN_00d36520(SortPair* arr, int lo, int hi, unsigned int extra)
         lo = i;
     }
 }
-void __cdecl FUN_00d367b0(hkpCollisionDispatcher::Agent3FunctionTable& kFuncs);
-void __cdecl FUN_00d367d0(hkpCollisionDispatcher* pkDispatcher);
+void __cdecl hkpCollectionAgent3_initAgentFunc(hkpCollisionDispatcher::Agent3FunctionTable& kFuncs);
+void __cdecl hkpCollectionAgent3_registerAgent3(hkpCollisionDispatcher* pkDispatcher);
 void InitOutputDefaults();
 void FUN_00d39130();
 void ReleaseHandles();
@@ -126,7 +126,7 @@ void InsertIntoSlotArray();
 void FUN_00d39090();
 void FUN_00d39150();
 void FUN_00d39390();
-void __cdecl FUN_00d39840(hkpCollisionDispatcher* pkDispatcher);
+void __cdecl hkCapsuleTriangleAgent3_registerAgent3(hkpCollisionDispatcher* pkDispatcher);
 extern "C"
 {
 using ::_mm_set_ps1;
@@ -203,7 +203,7 @@ struct __declspec(align(16)) D2fCollector : D2fRayHitCollector
 };
 struct D2fWorld
 {
-    void FUN_00d315a0(int a, int b, D2fInput* in, D2fCollector* c1, D2fCollector* c2);
+    void hkpBvTreeAgent_linearCast(int a, int b, D2fInput* in, D2fCollector* c1, D2fCollector* c2);
     void FUN_00d2f460(int a1, int a2, const D2fInput* a3, int a4, void* a5);
 };
 
@@ -252,7 +252,7 @@ class S00d2c960_Motion
 class S00d2c960_Body
 {
   public:
-    void FUN_00c9c1d0();
+    void activate_00c9c1d0();
     unsigned int unk00;
     unsigned int unk04;
     unsigned int unk08;
@@ -350,6 +350,6 @@ void FUN_00d2c960_cls::FUN_00d2c960(const S00d2c960_Info* pkInfo)
     float fTime = pkInfo->m_fTime;
     S00d2c960_Body* pkBody = m_pkBody;
     N::LocalM128 kPosition = pkBody->m_kPathOffset;
-    pkBody->FUN_00c9c1d0();
+    pkBody->activate_00c9c1d0();
     pkBody->m_kMotion.vf58(fTime, &m_kRoomNode, &kPosition);
 }

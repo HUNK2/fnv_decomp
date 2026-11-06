@@ -249,7 +249,7 @@ hkpWorld* PhysicsDataExt::CreateWorld(char bRegisterWithMemoryManager) throw()
 
     for (int i = 0; i < this->m_kPhysicsSystems.m_iElementCount; ++i)
     {
-        world->FUN_00c97f80(this->m_kPhysicsSystems.m_data[i]);
+        world->hkpWorld_addPhysicsSystem(this->m_kPhysicsSystems.m_data[i]);
         if (this->m_kPhysicsSystems.m_data[i]->vfunc4().val)
         {
             ContactOptions opts;
@@ -265,7 +265,7 @@ hkpWorld* PhysicsDataExt::CreateWorld(char bRegisterWithMemoryManager) throw()
 
     if (this->m_pWorldCinfo && ((FUN_00553540*)this->m_pWorldCinfo)->m_pCollisionFilter.m_pRetainedObject)
     {
-        world->FUN_00c96ff0(0, 1);
+        world->hkpWorld_updateCollisionFilterOnWorld(0, 1);
     }
 
     return world;
@@ -360,12 +360,13 @@ struct HostType
     int m_04;
     void* m_08;
     hkArray<SmallType*> m_0c;
-    void FUN_00d4c2d0(ClientType*, unsigned char);
+    void hkpPhysicsData_populateFromWorld(ClientType*, unsigned char);
 };
 
 // Ensures m_08 is allocated, registers client and m_0c, and when value is set allocates a SmallType, calls ProcessCollisionRecords, and appends it to m_0c.
 // @fnv 0x00d4c2d0
-void HostType::FUN_00d4c2d0(ClientType* client, unsigned char ubFlag)
+// src: HAVOK_LIB 0x00d4c2d0
+void HostType::hkpPhysicsData_populateFromWorld(ClientType* client, unsigned char ubFlag)
 {
     if (m_08 == 0)
     {
@@ -417,7 +418,7 @@ extern "C" void* __cdecl memcpy(void*, const void*, unsigned int);
 
 struct Value
 {
-    BoolResult FUN_00c9bff0();
+    BoolResult isActive_00c9bff0();
 };
 struct Owner
 {
@@ -425,7 +426,7 @@ struct Owner
     int unk04;
     int** m_08;
     int m_0c;
-    void FUN_00d06130(int index);
+    void hkpPhysicsSystem_removeRigidBody(int index);
 };
 struct Entity
 {
@@ -469,7 +470,8 @@ template <class T> __forceinline int findValue(T* self, Value* value)
 typedef int Owner::*MemberPtr;
 // If value is in owner's list but not entity's, sets entity->m_40, calls entity->AddShape(value) and owner->FUN_00d06130 with the owner index.
 // @fnv 0x00d4bf70
-static __declspec(noinline) void FUN_00d4bf70(Owner* owner, Entity* volatile apEntity, MemberPtr valueArg)
+// src: HAVOK_LIB 0x00d4bf70
+static __declspec(noinline) void tryMoveEntity(Owner* owner, Entity* volatile apEntity, MemberPtr valueArg)
 {
     Entity* entity = apEntity;
     Value* pValue;
@@ -479,9 +481,9 @@ static __declspec(noinline) void FUN_00d4bf70(Owner* owner, Entity* volatile apE
     int entityIndex = findValue(entity, value);
     if (entityIndex == -1 && ownerIndex != -1)
     {
-        entity->m_40 = entity->m_40 || value->FUN_00c9bff0().val;
+        entity->m_40 = entity->m_40 || value->isActive_00c9bff0().val;
         entity->AddShape((int)value);
-        owner->FUN_00d06130(ownerIndex);
+        owner->hkpPhysicsSystem_removeRigidBody(ownerIndex);
     }
 }
 Owner* volatile probeOwner;
@@ -491,7 +493,7 @@ void probeCaller()
 {
     OwnerArg o = {probeOwner};
     ValueArg v = {probeValue};
-    FUN_00d4bf70(o.p, probeEntity, *(MemberPtr*)&v.p);
+    tryMoveEntity(o.p, probeEntity, *(MemberPtr*)&v.p);
 }
 
 

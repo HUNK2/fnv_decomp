@@ -9,12 +9,12 @@ void __stdcall FUN_00c9e390(int, int, int)
 {}
 
 extern char DAT_01268910[];
-void __cdecl FUN_00c90360(void*, void*);
+void __cdecl hkReferencedObject_calcContentStatistics(void*, void*);
 
 // @fnv 0x00c9e3a0
 void __cdecl FUN_00c9e3a0(void* object, void* callback)
 {
-    FUN_00c90360(object, DAT_01268910);
+    hkReferencedObject_calcContentStatistics(object, DAT_01268910);
 }
 
 #include <xmmintrin.h>

@@ -164,7 +164,8 @@ bool FindAndPromoteEntry(S_00dad4d0_Set* set, S_00dad4d0_Key* key)
 void __fastcall FUN_00dae220(int unused, S_00dad640_Set* set);
 
 // @fnv 0x00dae340
-void __cdecl FUN_00dae340(S_00dad640_Set* set, unsigned int index)
+// src: HAVOK_LIB 0x00dae340
+void __cdecl _hkGskManifold_removePoint(S_00dad640_Set* set, unsigned int index)
 {
     unsigned int n = set->count;
     unsigned int last = n - 1;

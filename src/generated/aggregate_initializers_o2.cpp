@@ -5,13 +5,13 @@
 // @fnv 0x00fbe7a0
 Agg6 g_01268778(&d_010cc4b8, &d_00cf69a0, &d_00cf6980, FUN_00cf69b0(), &d_0118acbc, (const void*)8);
 // @fnv 0x00fbe990
-Agg6 g_012688f8(&d_010cdfac, &d_00d1f180, &d_00d1f150, FUN_00d1f1a0(), &d_011b144c, (const void*)544);
+Agg6 g_012688f8(&d_010cdfac, &d_00d1f180, &d_00d1f150, getVtablehkpEntity(), &d_011b144c, (const void*)544);
 // @fnv 0x00fbeb00
 Agg6 g_01268a78(&d_010ce760, &d_00d2c840, &d_00d2c7d0, FUN_00d2c8a0(), &d_011b3ef4, (const void*)48);
 // @fnv 0x00fbec50
 Agg6 g_01268b84(&d_010c93c0, &d_00d48350, &d_00d48330, FUN_00d48360(), &d_011b4e8c, (const void*)24);
 // @fnv 0x00fbecc0
-Agg6 g_01268bfc(&d_010c5ae8, &d_00d49530, &d_00d49510, FUN_00d49550(), &d_011b18a0, (const void*)544);
+Agg6 g_01268bfc(&d_010c5ae8, &d_00d49530, &d_00d49510, getVtablehkpRigidBody(), &d_011b18a0, (const void*)544);
 // @fnv 0x00fbed40
 Agg6 g_01268c44(&d_010cfb70, &d_00d495a0, &d_00d49580, FUN_00d495f0(), &d_011b4f70, (const void*)128);
 // @fnv 0x00fbee30
@@ -19,7 +19,7 @@ Agg6 g_01268cec(&d_010cffdc, &d_00d4b170, &d_00d4b190, FUN_00d4b1a0(), &d_011b51
 // @fnv 0x00fbeea0
 Agg6 g_01268d34(&d_010d000c, &d_00d4b1d0, &d_00d4b1f0, FUN_00d4b200(), &d_011b50a0, (const void*)44);
 // @fnv 0x00fbef20
-Agg6 g_01268d7c(&d_010d003c, &d_00d4b230, &d_00d4b250, FUN_00d4b260(), &d_011b50e0, (const void*)272);
+Agg6 g_01268d7c(&d_010d003c, &d_00d4b230, &d_00d4b250, getVtablehkpStorageExtendedMeshShape(), &d_011b50e0, (const void*)272);
 // @fnv 0x00fbf080
 Agg6 g_01268e54(&d_010d0510, &d_00d4b300, &d_00d4b320, FUN_00d4b330(), &d_011b510c, (const void*)240);
 // @fnv 0x00fbf0f0
@@ -29,15 +29,15 @@ Agg6 g_01268ee4(&d_010d0664, &d_00d4be90, &d_00d4beb0, FUN_00d4bec0(), &d_011b56
 // @fnv 0x00fbf240
 Agg6 g_01268f5c(&d_010d07b8, &d_00d4bf10, &d_00d4bf30, FUN_00d4bf40(), &d_011b563c, (const void*)96);
 // @fnv 0x00fbf500
-Agg6 g_012690bc(&d_010d27bc, &d_00d6ae10, &d_00d6adf0, FUN_00d6ae50(), &d_011b2ec0, (const void*)56);
+Agg6 g_012690bc(&d_010d27bc, &d_00d6ae10, &d_00d6adf0, getVtablehkpConstraintInstance(), &d_011b2ec0, (const void*)56);
 // @fnv 0x00fbf5f0
 Agg6 g_01269134(&d_010cb20c, &d_00d6ae90, &d_00d6aeb0, FUN_00d6aec0(), &d_0118b6f8, (const void*)240);
 // @fnv 0x00fbf770
 Agg6 g_01269544(&d_010d42b4, &d_00d9f6d0, &d_00d9f6b0, FUN_00d9f6e0(), &d_011b30b0, (const void*)44);
 // @fnv 0x00fbf900
-Agg6 g_012696ac(&d_010d4664, &d_00da0760, &d_00da0720, FUN_00da0780(), &d_011b71d0, (const void*)12);
+Agg6 g_012696ac(&d_010d4664, &d_00da0760, &d_00da0720, getVtablehkLocalFrameGroup(), &d_011b71d0, (const void*)12);
 // @fnv 0x00fbf970
-Agg6 g_012696f4(&d_010d4678, &d_00da07b0, &d_00da0740, FUN_00da07d0(), &d_011b71f0, (const void*)112);
+Agg6 g_012696f4(&d_010d4678, &d_00da07b0, &d_00da0740, getVtablehkSimpleLocalFrame(), &d_011b71f0, (const void*)112);
 // @fnv 0x00fbf9e0
 Agg6 g_0126973c(&d_010d468c, &d_00da08e0, &d_00da08a0, FUN_00da0910(), &d_011b1340, (const void*)288);
 // @fnv 0x00fbfa50
@@ -45,11 +45,11 @@ Agg6 g_01269784(&d_010d46a4, &d_00da0920, &d_00da08c0, FUN_00da0950(), &d_011b13
 // @fnv 0x00fbfda0
 Agg6 g_01269a3c(&d_010d4c28, &d_00da0b10, &d_00da0af0, FUN_00da0b20(), &d_011b1484, (const void*)8);
 // @fnv 0x00fbff40
-Agg6 g_01269b58(&d_010d6120, &d_00db7c20, &d_00db7c00, FUN_00db7c40(), &d_011b3360, (const void*)68);
+Agg6 g_01269b58(&d_010d6120, &d_00db7c20, &d_00db7c00, getVtablehkpPhysicsSystem(), &d_011b3360, (const void*)68);
 // @fnv 0x00fc00d0
 Agg6 g_01269c74(&d_010d7940, &d_00dced50, &d_00dced30, FUN_00dced70(), &d_011b24c4, (const void*)40);
 // @fnv 0x00fc0a20
-Agg6 g_0126a460(&d_010db400, &d_00df6440, &d_00df6460, FUN_00df6470(), &d_011b0074, (const void*)848);
+Agg6 g_0126a460(&d_010db400, &d_00df6440, &d_00df6460, getVtablehkpWorld(), &d_011b0074, (const void*)848);
 // @fnv 0x00fc10c0
 Agg6 g_0126aa48(&d_010dc340, &d_00dfb290, &d_00dfb270, FUN_00dfb2b0(), &d_011b27f0, (const void*)64);
 // @fnv 0x00fc1320
@@ -61,7 +61,7 @@ Agg6 g_0126adc0(&d_010ddd00, &d_00dfb570, &d_00dfb550, FUN_00dfb590(), &d_011b9d
 // @fnv 0x00fc15f0
 Agg6 g_0126ae68(&d_010de1e4, &d_00dfb8b0, &d_00dfb890, FUN_00dfb8d0(), &d_011b9fd0, (const void*)132);
 // @fnv 0x00fc1730
-Agg6 g_0126af70(&d_010de5c4, &d_00dfb9f0, &d_00dfb9a0, FUN_00dfba10(), &d_011b061c, (const void*)72);
+Agg6 g_0126af70(&d_010de5c4, &d_00dfb9f0, &d_00dfb9a0, getVtablehkaSkeleton(), &d_011b061c, (const void*)72);
 // @fnv 0x00fc17d0
 Agg6 g_0126afe8(&d_010de6d8, &d_00dfba50, &d_00dfba70, FUN_00dfba80(), &d_011ba2b0, (const void*)44);
 // @fnv 0x00fc1870
@@ -69,7 +69,7 @@ Agg6 g_0126b060(&d_010de980, &d_00dfbb50, &d_00dfbb30, FUN_00dfbb70(), &d_011ba2
 // @fnv 0x00fc19a0
 Agg6 g_0126b168(&d_010decb4, &d_00dfbcf0, &d_00dfbcd0, FUN_00dfbd30(), &d_011ba454, (const void*)52);
 // @fnv 0x00fc1a50
-Agg6 g_0126b1e0(&d_010d17d0, &d_00dfbdf0, &d_00dfbdd0, FUN_00dfbe20(), &d_011ba4d8, (const void*)212);
+Agg6 g_0126b1e0(&d_010d17d0, &d_00dfbdf0, &d_00dfbdd0, getVtablehkpVehicleInstance(), &d_011ba4d8, (const void*)212);
 // @fnv 0x00fc1bb0
 Agg6 g_0126b318(&d_010df8e8, &d_00dfbf50, &d_00dfbf30, FUN_00dfbf60(), &d_011ba688, (const void*)32);
 // @fnv 0x00fc1c50
@@ -81,7 +81,7 @@ Agg6 g_0126b480(&d_010e0104, &d_00dfc280, &d_00dfc230, FUN_00dfc290(), &d_011ba8
 // @fnv 0x00fc1e10
 Agg6 g_0126b4c8(&d_010e0118, &d_00dfc2a0, &d_00dfc250, FUN_00dfc2b0(), &d_011ba844, (const void*)28);
 // @fnv 0x00fc1f00
-Agg6 g_0126b510(&d_010e0404, &d_00dfc3e0, &d_00dfc380, FUN_00dfc400(), &d_011b80c4, (const void*)320);
+Agg6 g_0126b510(&d_010e0404, &d_00dfc3e0, &d_00dfc380, getVtablehkpSerializedAgentNnEntry(), &d_011b80c4, (const void*)320);
 // @fnv 0x00fc1fa0
 Agg6 g_0126b5b8(&d_010e04f0, &d_00dfc470, &d_00dfc450, FUN_00dfc480(), &d_011baa98, (const void*)20);
 // @fnv 0x00fc2070
@@ -149,23 +149,23 @@ Agg6 g_0126c8f0(&d_010e3f2c, &d_00dfdfb0, &d_00dfdf50, FUN_00dfdfc0(), &d_011bbf
 // @fnv 0x00fc3c90
 Agg6 g_0126cb78(&d_010e5388, &d_00dfe250, &d_00dfe270, FUN_00dfe280(), &d_011b2e08, (const void*)48);
 // @fnv 0x00fc3d10
-Agg6 g_0126cbc0(&d_010e5424, &d_00dfe2d0, &d_00dfe2b0, FUN_00dfe2f0(), &d_011b2e2c, (const void*)128);
+Agg6 g_0126cbc0(&d_010e5424, &d_00dfe2d0, &d_00dfe2b0, getVtablehkaSkeletonMapper(), &d_011b2e2c, (const void*)128);
 // @fnv 0x00fc3d80
 Agg6 g_0126cc08(&d_010e54b4, &d_00dfe340, &d_00dfe320, FUN_00dfe350(), &d_011bc550, (const void*)64);
 // @fnv 0x00fc3e00
-Agg6 g_0126cc50(&d_010e56e0, &d_00dfe410, &d_00dfe430, FUN_00dfe440(), &d_011bc5b4, (const void*)152);
+Agg6 g_0126cc50(&d_010e56e0, &d_00dfe410, &d_00dfe430, getVtablehkaFootstepAnalysisInfo(), &d_011bc5b4, (const void*)152);
 // @fnv 0x00fc3e70
 Agg6 g_0126cc98(&d_010e56f8, &d_00dfe490, &d_00dfe470, FUN_00dfe4a0(), &d_011bc584, (const void*)20);
 // @fnv 0x00fc3ee0
 Agg6 g_0126cce0(&d_010e57bc, &d_00dfe500, &d_00dfe4e0, FUN_00dfe510(), &d_011bc604, (const void*)64);
 // @fnv 0x00fc3f50
-Agg6 g_0126cd28(&d_010e5888, &d_00dfe5b0, &d_00dfe590, FUN_00dfe5e0(), &d_011bc634, (const void*)96);
+Agg6 g_0126cd28(&d_010e5888, &d_00dfe5b0, &d_00dfe590, getVtablehkaBoneAttachment(), &d_011bc634, (const void*)96);
 // @fnv 0x00fc3fc0
 Agg6 g_0126cd70(&d_010e58d4, &d_00dfe690, &d_00dfe670, FUN_00dfe6a0(), &d_011bc654, (const void*)20);
 // @fnv 0x00fc4030
 Agg6 g_0126cdb8(&d_010e59b8, &d_00dfe700, &d_00dfe6e0, FUN_00dfe710(), &d_011bc684, (const void*)68);
 // @fnv 0x00fc40c0
-Agg6 g_0126ce00(&d_010e5a64, &d_00dfe990, &d_00dfe970, FUN_00dfe9b0(), &d_011bc728, (const void*)44);
+Agg6 g_0126ce00(&d_010e5a64, &d_00dfe990, &d_00dfe970, getVtablehkaAnimationBinding(), &d_011bc728, (const void*)44);
 // @fnv 0x00fc4130
 Agg6 g_0126ce48(&d_010e5b28, &d_00dfeac0, &d_00dfeaa0, FUN_00dfeb00(), &d_011bc74c, (const void*)36);
 // @fnv 0x00fc41a0
@@ -197,11 +197,11 @@ Agg6 g_0126d1c0(&d_010e6708, &d_00dfeff0, &d_00dfefd0, FUN_00dff000(), &d_011bcb
 // @fnv 0x00fc4760
 Agg6 g_0126d208(&d_010e6778, &d_00dff0d0, &d_00dff0b0, FUN_00dff0e0(), &d_011bcbc0, (const void*)80);
 // @fnv 0x00fc47d0
-Agg6 g_0126d250(&d_010e6854, &d_00dff0f0, &d_00dff120, FUN_00dff130(), &d_011bcbf0, (const void*)80);
+Agg6 g_0126d250(&d_010e6854, &d_00dff0f0, &d_00dff120, getVtablehkpReorientAction(), &d_011bcbf0, (const void*)80);
 // @fnv 0x00fc4850
 Agg6 g_0126d2c8(&d_010e69ec, &d_00dff170, &d_00dff190, FUN_00dff1a0(), &d_011bcc5c, (const void*)64);
 // @fnv 0x00fc48c0
-Agg6 g_0126d2e0(&d_010e6a48, &d_00dff1f0, &d_00dff1d0, FUN_00dff220(), &d_011b58b0, (const void*)80);
+Agg6 g_0126d2e0(&d_010e6a48, &d_00dff1f0, &d_00dff1d0, getVtablehkpPhysicsSystemWithContacts(), &d_011b58b0, (const void*)80);
 // @fnv 0x00fc4930
 Agg6 g_0126d358(&d_010e6bd0, &d_00dff270, &d_00dff250, FUN_00dff2b0(), &d_011b1f54, (const void*)96);
 // @fnv 0x00fc49b0
@@ -255,9 +255,9 @@ Agg6 g_0126da18(&d_010e815c, &d_00e00120, &d_00e00100, FUN_00e00150(), &d_011b13
 // @fnv 0x00fc54a0
 Agg6 g_0126da60(&d_010e81bc, &d_00e00180, &d_00e00160, FUN_00e00190(), &d_011bd1fc, (const void*)12);
 // @fnv 0x00fc5510
-Agg6 g_0126daa8(&d_010e8208, &d_00e001c0, &d_00e001a0, FUN_00e001f0(), &d_011b8140, (const void*)28);
+Agg6 g_0126daa8(&d_010e8208, &d_00e001c0, &d_00e001a0, getVtablehkpConstraintChainInstanceAction(), &d_011b8140, (const void*)28);
 // @fnv 0x00fc5580
-Agg6 g_0126daf0(&d_010e8274, &d_00e00240, &d_00e00220, FUN_00e00290(), &d_011b8170, (const void*)72);
+Agg6 g_0126daf0(&d_010e8274, &d_00e00240, &d_00e00220, getVtablehkpConstraintChainInstance(), &d_011b8170, (const void*)72);
 // @fnv 0x00fc55f0
 Agg6 g_0126db38(&d_010e8290, &d_00e002f0, &d_00e002d0, FUN_00e00320(), &d_011b1408, (const void*)288);
 // @fnv 0x00fc5680
@@ -289,9 +289,9 @@ Agg6 g_0126dee0(&d_010e8940, &d_00e00a40, &d_00e00a20, FUN_00e00a60(), &d_011b0e
 // @fnv 0x00fc5c80
 Agg6 g_0126df28(&d_010e899c, &d_00e00b00, &d_00e00ae0, FUN_00e00b30(), &d_011b3d70, (const void*)160);
 // @fnv 0x00fc5d00
-Agg6 g_0126df70(&d_010e8a7c, &d_00e00b60, &d_00e00b40, FUN_00e00b80(), &d_011bd40c, (const void*)256);
+Agg6 g_0126df70(&d_010e8a7c, &d_00e00b60, &d_00e00b40, getVtablehkpGroupFilter(), &d_011bd40c, (const void*)256);
 // @fnv 0x00fc5d70
-Agg6 g_0126dfb8(&d_010e8ae8, &d_00e00c90, &d_00e00c70, FUN_00e00cd0(), &d_011bd42c, (const void*)96);
+Agg6 g_0126dfb8(&d_010e8ae8, &d_00e00c90, &d_00e00c70, getVtablehkpFastMeshShape(), &d_011bd42c, (const void*)96);
 // @fnv 0x00fc5de0
 Agg6 g_0126e000(&d_010e8afc, &d_00e00d10, &d_00e00cf0, FUN_00e00d20(), &d_011b0dc8, (const void*)8);
 // @fnv 0x00fc5e60

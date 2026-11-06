@@ -382,7 +382,7 @@ class Vec4Tmp
 {
   public:
     __m128 v;
-    void FUN_00cb2fc0();
+    void hkRotation_renormalize();
 };
 
 class bhkLimitedHingeVectorSet
@@ -405,7 +405,7 @@ void bhkLimitedHingeVectorSet::FUN_00c8bf50()
     b.v = _mm_setr_ps(v1.x, v1.y, v1.z, v1.w);
     Vec4Tmp c;
     c.v = _mm_setr_ps(v2.x, v2.y, v2.z, v2.w);
-    a.FUN_00cb2fc0();
+    a.hkRotation_renormalize();
     m_v0.FUN_004b4db0((const float*)&a);
     v1.FUN_004b4db0((const float*)&b);
     v2.FUN_004b4db0((const float*)&c);
@@ -1551,7 +1551,7 @@ struct SceneNode
 
     NiTransform transform;
 
-    Controller* FUN_00a5c570(TypeInfo*);
+    Controller* NiObjectNET_GetController(TypeInfo*);
 };
 
 struct World
@@ -1875,7 +1875,7 @@ void __cdecl FUN_00c88a40(bool create, Filter filter, SceneNode* first, SceneNod
 
                         long motionType;
 
-                        Controller* controller = resolvedSecond->host->FUN_00a5c570(&DAT_012681f0);
+                        Controller* controller = resolvedSecond->host->NiObjectNET_GetController(&DAT_012681f0);
 
                         if (controller && controller->count)
                         {
@@ -1927,9 +1927,9 @@ void __cdecl FUN_00c88a40(bool create, Filter filter, SceneNode* first, SceneNod
 
                 FUN_0056df80(&convertedTransform, &first->transform);
 
-                sourceTransform.FUN_00cb2fc0();
+                sourceTransform.hkRotation_renormalize();
 
-                targetTransform.FUN_00cb2fc0();
+                targetTransform.hkRotation_renormalize();
 
                 info.data->tau = DAT_01050de4;
 

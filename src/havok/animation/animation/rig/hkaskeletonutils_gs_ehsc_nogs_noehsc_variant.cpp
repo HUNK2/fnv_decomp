@@ -55,7 +55,7 @@ struct FUN_00cdd3f0_s
     int* field_0x18;
     int field_0x1c;
 };
-void FUN_00cdd3f0(struct FUN_00cdd3f0_s* p);
+void hkaSkeletonUtils_unlockTranslations(struct FUN_00cdd3f0_s* p);
 extern "C" void __cdecl FUN_00cddad0(int, int, int*, int, int);
 extern int DAT_01268700;
 void __cdecl CallWithGlobal(int a, int b, int c, int d);

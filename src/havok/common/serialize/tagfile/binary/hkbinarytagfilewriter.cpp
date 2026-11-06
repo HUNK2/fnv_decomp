@@ -187,7 +187,7 @@ inline hkMemoryRouter* audio()
     return (hkMemoryRouter*)FUN_00c85750();
 }
 
-void __cdecl FUN_00c908c0(hkMemoryAllocator& alloc, void* arr, int numElem, int sizeElem);
+void __cdecl hkArrayUtil__reserve(hkMemoryAllocator& alloc, void* arr, int numElem, int sizeElem);
 void* __cdecl _fnv_zlib_memset(void* dst, int val, int n);
 
 // LocalhkCharArray: include/hkCharArray.h gives an inline constructor and an out-of-line destructor and declares
@@ -208,7 +208,7 @@ struct LocalhkCharArray
         if (getCapacity() < n)
         {
             int cap = 2 * getCapacity();
-            FUN_00c908c0(alloc, this, n < cap ? cap : n, 1);
+            hkArrayUtil__reserve(alloc, this, n < cap ? cap : n, 1);
         }
     }
     __forceinline void SetSizeAndGrow(int n)
@@ -623,11 +623,12 @@ struct FUN_00dbec60_cls
     unsigned int m_04;
     int m_08;
 
-    void FUN_00dbec60(AllocOwner* alloc, int count);
+    void hkMapBase_struct_hkCppTypeInfoHash_struct_hkRttiParser_Node_const_struct_hkCppTypeInfoHash_resizeTable(AllocOwner* alloc, int count);
 };
 
 // @fnv 0x00dbec60
-void FUN_00dbec60_cls::FUN_00dbec60(AllocOwner* alloc, int count)
+// src: HAVOK_LIB 0x00dbec60
+void FUN_00dbec60_cls::hkMapBase_struct_hkCppTypeInfoHash_struct_hkRttiParser_Node_const_struct_hkCppTypeInfoHash_resizeTable(AllocOwner* alloc, int count)
 {
     int newCap = count;
     if (newCap <= 8)
@@ -656,7 +657,7 @@ void FUN_00dbec60_cls::FUN_00dbec60(AllocOwner* alloc, int count)
         alloc->Free(pOldEntries, oldCount * 12);
 }
 
-extern "C" int __cdecl FUN_00cb10d0(const char* s);
+extern "C" int __cdecl hkString_strLen(const char* s);
 
 struct DBED30StringMap
 {
@@ -690,7 +691,7 @@ void DBED30Writer::WriteString(const char* pcString)
         int index = m_pStringFunctions.FindValueForKey(pcString, -1);
         if (index == -1)
         {
-            int len = FUN_00cb10d0(pcString);
+            int len = hkString_strLen(pcString);
             WriteSigned64BitInteger(len);
             WriteByteArray(pcString, len);
             m_pStringFunctions.insert(pcString, m_pStringFunctions.m_iCapacityFlags + 1);
@@ -721,7 +722,7 @@ struct S_dbefc0_Router
         return *unk0c;
     }
 };
-void __cdecl FUN_00c908c0(S_dbefc0_Heap* heap, void* arr, int n, int elemSize);
+void __cdecl hkArrayUtil__reserve(S_dbefc0_Heap* heap, void* arr, int n, int elemSize);
 void* __cdecl FUN_00ec61c0(void* dst, int value, unsigned int count);
 
 static __forceinline S_dbefc0_Heap& S_dbefc0_GetHeap()
@@ -741,7 +742,7 @@ struct S_dbefc0_Bytes
         if (c < n)
         {
             int c2 = c + c;
-            FUN_00c908c0(&heap, this, (n < c2) ? c2 : n, 1);
+            hkArrayUtil__reserve(&heap, this, (n < c2) ? c2 : n, 1);
         }
     }
     __forceinline void _setSize(S_dbefc0_Heap& heap, int n)
@@ -1178,7 +1179,7 @@ class hkPairMapDBE8
     int m_iCapacityFlags;
     int m_iPairCount;
 
-    void FUN_00dbec60(hkMemoryAllocatorDBE8& alloc, int iNewCap);
+    void hkMapBase_struct_hkCppTypeInfoHash_struct_hkRttiParser_Node_const_struct_hkCppTypeInfoHash_resizeTable(hkMemoryAllocatorDBE8& alloc, int iNewCap);
     int InsertOrUpdate(hkMemoryAllocatorDBE8& alloc, hkPairKeyDBE8 key, unsigned int uiValue);
 };
 
@@ -1187,7 +1188,7 @@ class hkPairMapDBE8
 int hkPairMapDBE8::InsertOrUpdate(hkMemoryAllocatorDBE8& alloc, hkPairKeyDBE8 key, unsigned int uiValue)
 {
     if ((m_iCapacityFlags & 0x7fffffff) * 2 > m_iPairCount)
-        FUN_00dbec60(alloc, m_iPairCount * 2 + 2);
+        hkMapBase_struct_hkCppTypeInfoHash_struct_hkRttiParser_Node_const_struct_hkCppTypeInfoHash_resizeTable(alloc, m_iPairCount * 2 + 2);
 
     unsigned int i = ((key.m_k1 >> 4) * 0x9e3779b1) & m_iPairCount;
     int isNewKey = 1;
@@ -1297,7 +1298,7 @@ __forceinline void initializeRecords(hkArrayBase<Rec>& out,int n)
     for (int k = 0; k < capacity; ++k)
         new (data + k) Rec;
 }
-extern "C" void __cdecl FUN_00c908c0(void* owner, hkArrayBase<Rec>* arr, int newCap, int stride);
+extern "C" void __cdecl hkArrayUtil__reserve(void* owner, hkArrayBase<Rec>* arr, int newCap, int stride);
 struct Host
 {
     __declspec(nothrow) void WriteArray(const Wrap& arg0, int count);
@@ -2133,7 +2134,7 @@ void ScanWriter::FUN_00dbf450(const ScanObject& source, int supplemental)
             if (capacity < newSize)
             {
                 int doubled = capacity * 2;
-                FUN_00c908c0(heap, &destination, newSize < doubled ? doubled : newSize, 1);
+                hkArrayUtil__reserve(heap, &destination, newSize < doubled ? doubled : newSize, 1);
             }
             destination.m_iElementCount += bytes;
             mask.PackBitsToBytes(destination.m_data + oldSize);
@@ -2143,7 +2144,7 @@ void ScanWriter::FUN_00dbf450(const ScanObject& source, int supplemental)
 
 struct S00dbedb0_Callee : UnkHolder
 {
-    void __thiscall FUN_00dbec60(UnkRet*, int);
+    void __thiscall hkMapBase_struct_hkCppTypeInfoHash_struct_hkRttiParser_Node_const_struct_hkCppTypeInfoHash_resizeTable(UnkRet*, int);
 };
 // @fnv 0x00dbedb0
 __declspec(noinline) void __thiscall UnkHolder::FUN_00dbedb0(UnkRet* value, int count)
@@ -2152,5 +2153,5 @@ __declspec(noinline) void __thiscall UnkHolder::FUN_00dbedb0(UnkRet* value, int 
     int capacity = 8;
     while (capacity < needed)
         capacity += capacity;
-    ((S00dbedb0_Callee*)this)->FUN_00dbec60(value, capacity);
+    ((S00dbedb0_Callee*)this)->hkMapBase_struct_hkCppTypeInfoHash_struct_hkRttiParser_Node_const_struct_hkCppTypeInfoHash_resizeTable(value, capacity);
 }

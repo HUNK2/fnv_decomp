@@ -42,7 +42,7 @@ struct ShapeList
     int unk04;
     int unk08;
     Shape* shapes[1];
-    void FUN_00d965b0();
+    void hkpAgentSectorHeader_deallocate();
 };
 
 struct Caller;
@@ -81,7 +81,7 @@ struct Worker
     void __thiscall FUN_00c91210(Accum* a);
 };
 
-extern "C" int __cdecl FUN_00df25f0(Worker* a, char* b, int c);
+extern "C" int __cdecl hkPhysicsCommandMachineProcess(Worker* a, char* b, int c);
 
 struct TlsObject
 {
@@ -140,11 +140,11 @@ int __cdecl AccumulateShapes(Worker** a1, TargetClass* apTarget, Caller* apCalle
                 *(float*)(rec8 + 4) = (float)val;
                 tls2->records = rec8 + 8;
             }
-            FUN_00df25f0(*a1, shape->m_10.get(), shape->m_10.m_iElementCount);
+            hkPhysicsCommandMachineProcess(*a1, shape->m_10.get(), shape->m_10.m_iElementCount);
         }
     }
 
-    apCaller->m_20->FUN_00d965b0();
+    apCaller->m_20->hkpAgentSectorHeader_deallocate();
     (*a1)->FUN_00c91210(acc);
 
     {

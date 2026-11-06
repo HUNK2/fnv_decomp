@@ -69,7 +69,7 @@ struct FUN_00c430a0_class
     int __thiscall FUN_00c430a0(int);
 };
 struct FUN_00c430b0_class {
-    void __thiscall FUN_00a99c40(int a1, int a2);
+    void __thiscall NiIntegerExtraData_CopyMembers(int a1, int a2);
     void __thiscall FUN_00c430b0(int a1, int a2);
 };
 struct FUN_00c430d0 : public NiIntegerExtraData { void LoadBinary(NiStream&); };
@@ -2138,7 +2138,7 @@ public:
     unsigned int unk44, unk48, unk4C, unk50, unk54, unk58, unk5C, unk60;
     unsigned int unk64, unk68, unk6C, unk70, unk74;
     FUN_00c4b470_owner* unk78;
-    FUN_00c4b470_owner* FUN_00a5c570(void* p);
+    FUN_00c4b470_owner* NiObjectNET_GetController(void* p);
 };
 extern char DAT_011f36ac;
 int __cdecl FUN_00c4b470(FUN_00c4b470_owner* a1, void** a2, unsigned char a3);

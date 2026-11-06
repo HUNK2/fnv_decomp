@@ -52,7 +52,7 @@ struct S_c7a410_Node
     virtual void v7();
     virtual int GetType();
     S_c7a410_Node* FUN_00cdf6c0();
-    void FUN_00cdf230(S_c7a410_B* t);
+    void hkpRagdollConstraintData_setTarget(S_c7a410_B* t);
 };
 struct S_c7a410_Item
 {
@@ -109,7 +109,7 @@ void FUN_00c7a410(S_c7a410_Obj* obj, char* apBuffer)
         case 7: {
             S_c7a410_B tTransform;
             tTransform.FUN_00cb2d90(apBuffer + 0x10 + iIndex * 0x30);
-            p->FUN_00cdf230(&tTransform);
+            p->hkpRagdollConstraintData_setTarget(&tTransform);
             break;
         }
         case 2: {

@@ -16,7 +16,7 @@ struct Base0
 struct Base2;
 struct Target
 {
-    void FUN_00c93920(Base2* p);
+    void hkpWorld_addWorldPostSimulationListener(Base2* p);
 };
 struct Base1
 {
@@ -248,7 +248,7 @@ class hkListenerD64A
 class hkEntityD64A
 {
   public:
-    void FUN_00c93920(hkListenerD64A* pkListener) throw();
+    void hkpWorld_addWorldPostSimulationListener(hkListenerD64A* pkListener) throw();
 };
 class hkWorldD64A
 {
@@ -421,7 +421,7 @@ struct DeallocCtx
     virtual void v2();
     virtual void v3();
     virtual void v4(void* pData, int iSize);
-    void __cdecl FUN_00c908c0(void*, int, int);
+    void __cdecl hkArrayUtil__reserve(void*, int, int);
     __forceinline void Grow(hkArrayHeader* v, int need, int elemSize);
 };
 
@@ -452,7 +452,7 @@ __forceinline void DeallocCtx::Grow(hkArrayHeader* v, int need, int elemSize)
         int g = cap + cap;
         if (need >= g)
             g = need;
-        FUN_00c908c0(v, g, elemSize);
+        hkArrayUtil__reserve(v, g, elemSize);
     }
 }
 inline void GrowVec10(hkArrayHeader* v, int need, int elemSize)

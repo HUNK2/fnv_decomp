@@ -143,7 +143,7 @@ struct S00dfa940_Simplex
     void SetEntries(const hkVector4* a, const hkVector4* b, const hkVector4* c);
     int GetNearestEntry();
 };
-double FUN_00df9ae0();
+double rand01();
 struct S00dfa940_Solver
 {
     int unk00;

@@ -336,7 +336,7 @@ NiVBBlock* VBSetX::FUN_00e94580(unsigned int uiSize)
     return p;
 }
 
-extern "C" void __cdecl FUN_00aa10f0(void*);
+extern "C" void __cdecl _NiFree_00aa10f0(void*);
 struct VBReleaseInterface
 {
     virtual long __stdcall QueryInterface(const void*, void**) = 0;
@@ -349,7 +349,7 @@ struct VBReleaseInterface
 // Gamebryo NiTArray.inl / NiTCollection.h bodies the original inlines (FUN_00aa10f0 = NiFree)
 template <class T> inline void NiTMallocInterface<T>::Deallocate(T* pArray)
 {
-    FUN_00aa10f0(pArray);
+    _NiFree_00aa10f0(pArray);
 }
 template <class T, class TAlloc> inline NiTArray<T, TAlloc>::~NiTArray()
 {

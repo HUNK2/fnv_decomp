@@ -70,9 +70,9 @@ struct CC0D30Registry
     int unk00;
 };
 extern CC0D30Registry g_CC0D30DefaultRegistry;
-CC0D30Result __cdecl FUN_00cc0bc0(const void* data, const CC0D30Registry& registry, const void* pClassInfo, void* out,
+CC0D30Result __cdecl hkpHavokSnapshot_saveUnderRootLevel(const void* data, const CC0D30Registry& registry, const void* pClassInfo, void* out,
                                   int flags);
-CC0D30Result __cdecl FUN_00cc0d30(const void* data, const void* pClassInfo, void* out, int flags);
+CC0D30Result __cdecl hkpHavokSnapshot_save_00cc0d30(const void* data, const void* pClassInfo, void* out, int flags);
 struct S_00cc0d60_A
 {
     int unk0;
@@ -82,11 +82,11 @@ struct S_00cc0d60_A
     int unk10;
     int unk14;
     void FUN_00d4c220();
-    void FUN_00d4c2d0(void* a, int b);
+    void hkpPhysicsData_populateFromWorld(void* a, int b);
     void FUN_00d4c250();
 };
-hkBool* FUN_00cc0d30(void** pa, S_00cc0d60_A* a, void* b, int c, int d);
-hkBool FUN_00cc0d60(void* a2, void* a3, int a4, int a5, int a6);
+hkBool* hkpHavokSnapshot_save_00cc0d30(void** pa, S_00cc0d60_A* a, void* b, int c, int d);
+hkBool hkpHavokSnapshot_save_00cc0d60(void* a2, void* a3, int a4, int a5, int a6);
 struct Allocator
 {
     virtual void* unk0();
@@ -133,7 +133,7 @@ struct Obj80
 };
 struct TypeMatcher
 {
-    hkBool FUN_00d46d80(void* v);
+    hkBool hkClass_isSuperClass(void* v);
 };
 struct GlobalObjectO2_00d472a0 : TypeMatcher
 {
@@ -304,8 +304,8 @@ struct DirectoryItem
     DirectoryFlags flags;
 };
 void __cdecl ResizeAudioStream(DirAllocator&, void*, int);
-int __cdecl FUN_00cb0fa0(const char*, const char*);
-char* __cdecl FUN_00cb1160(const char*, DirAllocator&);
+int __cdecl hkString_strCmp(const char*, const char*);
+char* __cdecl hkString_strDup(const char*, DirAllocator&);
 struct DirectoryArray
 {
     DirectoryItem* data;
@@ -324,7 +324,7 @@ struct DirectoryOutput
     __forceinline void add(const char* name, DirectoryFlags flags, unsigned modified = 0)
     {
         DirectoryItem& item = entries.expand(*allocator);
-        item.name = FUN_00cb1160(name, *allocator);
+        item.name = hkString_strDup(name, *allocator);
         item.flags = flags;
         item.modified = modified;
     }
@@ -347,7 +347,8 @@ enum DirectoryResult
 };
 
 // @fnv 0x00da25a0
-DirectoryResult __cdecl FUN_00da25a0(const char* input, DirectoryOutput& listing)
+// src: HAVOK_LIB 0x00da25a0
+DirectoryResult __cdecl hkWin32ListDirectory(const char* input, DirectoryOutput& listing)
 {
     InitBuffer path;
     {
@@ -373,7 +374,7 @@ DirectoryResult __cdecl FUN_00da25a0(const char* input, DirectoryOutput& listing
     hkBool more = handle != INVALID_HANDLE_VALUE;
     while (more)
     {
-        if (FUN_00cb0fa0(found.cFileName, DAT_01044c28) && FUN_00cb0fa0(found.cFileName, DAT_010a2560))
+        if (hkString_strCmp(found.cFileName, DAT_01044c28) && hkString_strCmp(found.cFileName, DAT_010a2560))
         {
             bool directory = (found.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) != 0;
             if (directory)

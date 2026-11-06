@@ -166,7 +166,7 @@ public:
     SpawnedInner* m_pInner;      // +0x08
     unsigned short m_wFlags;     // +0x0C
 
-    void FUN_00d3d200(void* param);
+    void hkpSphereTriangleAgent_cleanup(void* param);
 };
 struct hkMemory {
     virtual void unk0();
@@ -207,7 +207,7 @@ struct D3DD10Data
 };
 struct D3DD10Object
 {
-    void __thiscall FUN_00d3d2a0(unsigned int a1, unsigned int a2,
+    void __thiscall hkpSphereTriangleAgent_getPenetrations(unsigned int a1, unsigned int a2,
                                  unsigned int a3, D3DD10Data* data);
 
     void __thiscall FUN_00d3dd10(unsigned int p0, unsigned int p1,
@@ -269,7 +269,7 @@ extern PacketCallLocal_00d3dd90 DAT_010c4c00;
 class ParticleSystemOps
 {
 public:
-    void FUN_00d3dd90(int a, int b, int c, ParticleSystemState* state);
+    void hkpSphereTriangleAgent_processCollision(int a, int b, int c, ParticleSystemState* state);
     void FUN_00d3e150(int a1, int a2, int a3, ParticleSystemState* s);
 };
 typedef unsigned long DWORD;
@@ -331,7 +331,7 @@ class SphereTriAgent {
 public:
     int unk00, unk04, unk08, unk0C;
     float unk10;
-    void FUN_00d3d2a0(BodyHolderB* a, BodyHolderB* b, int c_, Sink* sink);
+    void hkpSphereTriangleAgent_getPenetrations(BodyHolderB* a, BodyHolderB* b, int c_, Sink* sink);
 };
 // rotate the translation difference by the inverse of B's rotation (HK_TRANSPOSE3), compute the
 // closest point, and report a contact when the distance is below the summed radii.
@@ -405,7 +405,7 @@ class S00d3d6b0_SphereTriAgent {
 public:
     int unk00,unk04,unk08,unk0C;
     float unk10;
-    void FUN_00d3d6b0(S00d3d6b0_BodyHolderB* a, S00d3d6b0_BodyHolderB* b, S00d3d6b0_Input* input, S00d3d6b0_Sink* sink);
+    void hkpSphereTriangleAgent_getClosestPoints(S00d3d6b0_BodyHolderB* a, S00d3d6b0_BodyHolderB* b, S00d3d6b0_Input* input, S00d3d6b0_Sink* sink);
 };
 extern "C" void* __cdecl memcpy(void* dst, const void* src, unsigned int size);
 #pragma intrinsic(memcpy)
@@ -415,7 +415,8 @@ static __forceinline void copyVector(PacketCallLocal_00d3dd90& out, const Packet
 }
 
 // @fnv 0x00d3d6b0
-void S00d3d6b0_SphereTriAgent::FUN_00d3d6b0(S00d3d6b0_BodyHolderB* a, S00d3d6b0_BodyHolderB* b, S00d3d6b0_Input* input, S00d3d6b0_Sink* sink) {
+// src: HAVOK_SRC 0x00d3d6b0
+void S00d3d6b0_SphereTriAgent::hkpSphereTriangleAgent_getClosestPoints(S00d3d6b0_BodyHolderB* a, S00d3d6b0_BodyHolderB* b, S00d3d6b0_Input* input, S00d3d6b0_Sink* sink) {
     volatile unsigned int lo;
     {
         hkMonitorStream* buf = (hkMonitorStream*)TlsGetValue(DAT_0126835c);
@@ -639,11 +640,12 @@ static __forceinline int queryContact(const CdBody* bodyA, const CdBody* bodyB, 
 }
 
 struct TargetAgent_Cand : TargetAgent {
-    void FUN_00d3dd90(const CdBody* bodyA, const CdBody* bodyB, const ProcessCollisionInput* input, ProcessCollisionOutput* result);
+    void hkpSphereTriangleAgent_processCollision(const CdBody* bodyA, const CdBody* bodyB, const ProcessCollisionInput* input, ProcessCollisionOutput* result);
 };
 
 // @fnv 0x00d3dd90
-void TargetAgent_Cand::FUN_00d3dd90(const CdBody* bodyA, const CdBody* bodyB, const ProcessCollisionInput* input, ProcessCollisionOutput* result) {
+// src: HAVOK_SRC 0x00d3dd90
+void TargetAgent_Cand::hkpSphereTriangleAgent_processCollision(const CdBody* bodyA, const CdBody* bodyB, const ProcessCollisionInput* input, ProcessCollisionOutput* result) {
     hkMonitorStream* stream = (hkMonitorStream*)TlsGetValue(DAT_0126835c);
     MonitorRecord* cur = (MonitorRecord*)stream->m_end.m_storage;
     if (cur < (MonitorRecord*)stream->m_capacityMinus16.m_storage) {

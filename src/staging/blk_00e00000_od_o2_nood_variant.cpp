@@ -69,7 +69,8 @@ struct __declspec(align(16)) S_00e00cd0_Obj
 };
 
 // @fnv 0x00e00cd0
-const char* __cdecl FUN_00e00cd0()
+// src: HAVOK_LIB 0x00e00cd0
+const char* __cdecl getVtablehkpFastMeshShape()
 {
     FinishingFlag flag;
     flag.m_bFinishing = 0;
@@ -266,7 +267,8 @@ struct __declspec(align(16)) FUN_00e00290_obj
     int unk4C;
 };
 // @fnv 0x00e00290
-int* __cdecl FUN_00e00290()
+// src: HAVOK_LIB 0x00e00290
+int* __cdecl getVtablehkpConstraintChainInstance()
 {
     FinishingFlag kHandle(0);
     FUN_00e00290_obj kObj;
@@ -555,7 +557,8 @@ class __declspec(align(16)) S00e00b80_Object
 };
 
 // @fnv 0x00e00b80
-const void* __cdecl FUN_00e00b80()
+// src: HAVOK_LIB 0x00e00b80
+const void* __cdecl getVtablehkpGroupFilter()
 {
     FinishingFlag flag;
     flag.m_bFinishing = 0;
@@ -888,14 +891,14 @@ struct __declspec(align(16)) S00e00d70_Object
     int unk54;
     int unk58;
     int unk5c;
-    void FUN_00d57b20(S00e00d70_Arg arg);
+    void hkpCylinderShape_hkpCylinderShape_00d57b20(S00e00d70_Arg arg);
 };
 
 // @fnv 0x00e00d70
 int __cdecl FUN_00e00d70()
 {
     S00e00d70_Object object;
-    object.FUN_00d57b20(S00e00d70_Arg(0));
+    object.hkpCylinderShape_hkpCylinderShape_00d57b20(S00e00d70_Arg(0));
     return (int)object.first;
 }
 
@@ -1087,7 +1090,7 @@ struct EdgeMemory
     EdgeAllocator* allocator;
 };
 EdgeMemory* FUN_00c85750();
-void FUN_00c908c0(void*, void*, int, int);
+void hkArrayUtil__reserve(void*, void*, int, int);
 void FUN_00c90940(void*, void*, int);
 float FUN_00e13870(EdgeNode*, int);
 float ClampedAcos(float);
@@ -1099,7 +1102,7 @@ template <class T> inline void EdgeAllocator::reserve(EdgeArray<T>& array, int n
         int next = available * 2;
         if (needed >= next)
             next = needed;
-        FUN_00c908c0(this, &array, next, elementSize);
+        hkArrayUtil__reserve(this, &array, next, elementSize);
     }
 }
 template <class T> inline void EdgeArray<T>::grow(int elementSize)
@@ -1307,7 +1310,8 @@ class __declspec(align(16)) ChainAction_E001F0 : public ChainActionBase_E001F0
 };
 
 // @fnv 0x00e001f0
-const void* __cdecl FUN_00e001f0()
+// src: HAVOK_LIB 0x00e001f0
+const void* __cdecl getVtablehkpConstraintChainInstanceAction()
 {
     FinishingFlag flag;
     flag.m_bFinishing = 0;

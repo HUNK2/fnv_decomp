@@ -354,7 +354,7 @@ struct HeapView
     virtual void fc();
     virtual void ReleaseBlock(void*, int);
 };
-void FUN_00c908c0(S_00ddfcd0_Allocator*, void*, int, int);
+void hkArrayUtil__reserve(S_00ddfcd0_Allocator*, void*, int, int);
 void FUN_00c90940(S_00ddfcd0_Allocator*, void*, int);
 template <class T> __forceinline void copyRange(T* p, int n, const T& v)
 {
@@ -403,7 +403,7 @@ template <class T> class ArrayBase
         {
             int twice = 2 * cap;
             int next = n < twice ? twice : n;
-            FUN_00c908c0(&heap, this, next, sizeof(T));
+            hkArrayUtil__reserve(&heap, this, next, sizeof(T));
         }
     }
     __forceinline T* expandBy(S_00ddfcd0_Allocator& heap, int n)
@@ -814,10 +814,10 @@ struct Node
         int m_iFirstValue, m_iSecondValue;
     } m_kEnvironment;
     Display* current;
-    Display* FUN_00ddfc30(Array<Display*>&);
+    Display* hkpShapeDisplayBuilder_getCurrentRawGeometry(Array<Display*>&);
     __forceinline Display* GetCurrentDisplay(Array<Display*>& a)
     {
-        return FUN_00ddfc30(a);
+        return hkpShapeDisplayBuilder_getCurrentRawGeometry(a);
     }
     void FUN_00ddfd10(const BaseShape*, const Transform&, Array<Display*>&);
 };

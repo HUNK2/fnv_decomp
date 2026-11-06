@@ -31,7 +31,7 @@ public:
     void FUN_00a56040(NiStream& stream);
     void* FUN_00a56070(unsigned int flags);
     void* FUN_00a56090(CloningProcess& cloning);
-    void FUN_00a56460(NiStream& stream);
+    void LoadBinary_00a56460(NiStream& stream);
     bool FUN_00a564a0(void* other);
 
     NiColorA m_kColorValue;

@@ -21,12 +21,13 @@ struct __declspec(align(16)) CB2FC0Snapshot
 struct CB2FC0Object
 {
     void FUN_00cb2d90(void* snapshot);
-    void FUN_00cb2fc0();
+    void hkRotation_renormalize();
 };
 
 // Builds a CB2FC0Snapshot from this object and passes it to FUN_00cb2d90.
 // @fnv 0x00cb2fc0
-void CB2FC0Object::FUN_00cb2fc0()
+// src: HAVOK_LIB 0x00cb2fc0
+void CB2FC0Object::hkRotation_renormalize()
 {
     CB2FC0Snapshot snapshot(this);
     FUN_00cb2d90(&snapshot);

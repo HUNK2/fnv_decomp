@@ -1776,8 +1776,8 @@ struct World
     int field74;
     int field78;
     int field7c;
-    void FUN_00c91f70(Query*, void*);
-    void FUN_00c92040(Query*, Result*);
+    void hkpWorld_castRay(Query*, void*);
+    void hkpWorld_castRay_00c92040(Query*, Result*);
 };
 struct __declspec(align(16)) CastVector
 {
@@ -4982,8 +4982,8 @@ struct IntegerMapEntry
 };
 struct QueueReceiver
 {
-    void FUN_00c914d0(IntegerMapEntry*, int);
-    void FUN_00c936a0(IntegerMapEntry*);
+    void hkpWorld_addEntity(IntegerMapEntry*, int);
+    void hkpWorld_addPhantom(IntegerMapEntry*);
 };
 struct QueueManager
 {
@@ -5104,7 +5104,7 @@ void QueueManager::FUN_00c6b0a0(IntegerMapEntry* entry)
                     }
                 }
             }
-            destination->FUN_00c914d0(entry, active);
+            destination->hkpWorld_addEntity(entry, active);
         }
     }
     else
@@ -5154,7 +5154,7 @@ void QueueManager::FUN_00c6b0a0(IntegerMapEntry* entry)
             QueuedShape* shape = owner->shape;
             if (!shape || (shape->flags & 0x30))
                 return;
-            destination->FUN_00c936a0(entry);
+            destination->hkpWorld_addPhantom(entry);
         }
     }
 }
@@ -6719,7 +6719,7 @@ struct PointerArrayC
         capacity = 0x80000000;
     }
 };
-void FUN_00c908c0(HeapAllocator*, PointerArrayC*, int, int);
+void hkArrayUtil__reserve(HeapAllocator*, PointerArrayC*, int, int);
 void FUN_00c6d620(ShapeC*, const void*, SimdC::LocalM128*);
 bool FUN_00c6def0(BodyC*);
 extern float DAT_011c3d18;
@@ -7090,7 +7090,7 @@ void ParentC::FUN_00c711d0(void*, ContactListC* contacts, ResultC* results)
                     int next = capacity * 2;
                     if (px >= next)
                         next = px;
-                    FUN_00c908c0(memoryAllocator, &array, next, 4);
+                    hkArrayUtil__reserve(memoryAllocator, &array, next, 4);
                 }
                 CollidableC** sourceData = sourceBody->collidables;
                 CollidableC** copyData;

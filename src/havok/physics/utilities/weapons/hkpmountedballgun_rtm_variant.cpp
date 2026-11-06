@@ -189,7 +189,7 @@ struct S00e451b0_ZWorld
 {
     int unk00, unk04, unk08, unk0c;
     hkVector4 unk10;
-    void FUN_00c914d0(S00e451b0_ZBody*, int);
+    void hkpWorld_addEntity(S00e451b0_ZBody*, int);
     void ProcessTarget(bool*, S00e451b0_ZBody*);
 };
 namespace ZMem {
@@ -239,10 +239,11 @@ struct S00e451b0_ZQueue
 };
 struct S00e451b0_ZGun : hkpMountedBallGun
 {
-    void FUN_00e451b0(S00e451b0_ZWorld*, const hkTransform*);
+    void hkpMountedBallGun_fireGun(S00e451b0_ZWorld*, const hkTransform*);
 };
 // @fnv 0x00e451b0
-void S00e451b0_ZGun::FUN_00e451b0(S00e451b0_ZWorld* world, const hkTransform* transform)
+// src: HAVOK_SRC 0x00e451b0
+void S00e451b0_ZGun::hkpMountedBallGun_fireGun(S00e451b0_ZWorld* world, const hkTransform* transform)
 {
     S00e451b0_SIMD::LocalM128 direction = *(const S00e451b0_SIMD::LocalM128*)&transform->m_rotation.m_kColumn0;
     S00e451b0_SIMD::LocalM128 start =
@@ -289,7 +290,7 @@ void S00e451b0_ZGun::FUN_00e451b0(S00e451b0_ZWorld* world, const hkTransform* tr
     body->unk9c = m_fBulletSpread;
     for (int i = 0; i < m_kListeners.m_iElementCount; ++i)
         ((S00e451b0_ZListener**)m_kListeners.m_data)[i]->vC(body);
-    world->FUN_00c914d0(body, 1);
+    world->hkpWorld_addEntity(body, 1);
     ((S00e451b0_ZQueue*)m_pBulletQueue)->push(body);
     if (((S00e451b0_ZQueue*)m_pBulletQueue)->unk10 > m_iBulletBatchCount)
     {

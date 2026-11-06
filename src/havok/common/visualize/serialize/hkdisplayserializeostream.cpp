@@ -11,14 +11,16 @@
 __declspec(nothrow) hkMemoryRouter* __cdecl FUN_00c85750();
 
 // @fnv 0x00dda830
-unsigned int FUN_00dda830(const unsigned int* puiValues)
+// src: HAVOK_LIB 0x00dda830
+unsigned int hkDisplaySerializeOStream_computeBytesRequired(const unsigned int* puiValues)
 {
     return 4 * (3 * (puiValues[4] + puiValues[1])) + 8;
 }
 
 void __stdcall WriteFloatArray(unsigned int, unsigned int);
 // @fnv 0x00dda730
-void __stdcall FUN_00dda730(unsigned int p)
+// src: HAVOK_LIB 0x00dda730
+void __stdcall hkDisplaySerializeOStream_writeQuadVector4(unsigned int p)
 {
     WriteFloatArray(p, 3);
 }
@@ -195,17 +197,18 @@ void S_00dda740::WriteTransform(const S_00dda740_Transform& t)
     WriteFloatArray(&q.m_vec.x, 4);
 }
 
-int FUN_00dda830(int value);
+int hkDisplaySerializeOStream_computeBytesRequired(int value);
 
 // Returns a constant chosen by the int at param+0x50 (0x1d plus FUN_00dda830(param+8) for 6), or 1 for other values.
 // @fnv 0x00dda850
-int FUN_00dda850(int param)
+// src: HAVOK_LIB 0x00dda850
+int hkDisplaySerializeOStream_computeBytesRequired_00dda850(int param)
 {
     int result = 1;
     switch (*(int*)(param + 0x50))
     {
     case 6:
-        result = FUN_00dda830(*(int*)(param + 8));
+        result = hkDisplaySerializeOStream_computeBytesRequired(*(int*)(param + 8));
         return result + 0x1d;
     case 1:
     case 5:
@@ -274,7 +277,7 @@ struct DDA8C0Writer
 {
     void FUN_00d605b0(int v);
     void WriteTransform(const void* p);
-    void FUN_00dda730(const void* p);
+    void hkDisplaySerializeOStream_writeQuadVector4(const void* p);
     void HashUInt(float f);
     void WriteInt(int v);
     void WriteGeometry(const DDA7C0Geometry& geometry);
@@ -298,7 +301,7 @@ void DDA8C0Writer::WriteShape(Shape* p)
         WriteTransform(&p->unk10);
         t[0] = p->vec60;
         HashUInt(t[0].f[3]);
-        FUN_00dda730(&t[0]);
+        hkDisplaySerializeOStream_writeQuadVector4(&t[0]);
         WriteInt(p->i70);
         WriteInt(p->i74);
         break;
@@ -306,8 +309,8 @@ void DDA8C0Writer::WriteShape(Shape* p)
     case 8: {
         WriteTransform(&p->unk10);
         HashUInt(p->f80);
-        FUN_00dda730(&p->vec60);
-        FUN_00dda730(&p->i70);
+        hkDisplaySerializeOStream_writeQuadVector4(&p->vec60);
+        hkDisplaySerializeOStream_writeQuadVector4(&p->i70);
         WriteInt(p->i84);
         WriteInt(p->i88);
         break;
@@ -315,34 +318,34 @@ void DDA8C0Writer::WriteShape(Shape* p)
     case 9: {
         WriteTransform(&p->unk10);
         HashUInt(p->f80);
-        FUN_00dda730(&p->vec60);
-        FUN_00dda730(&p->i70);
+        hkDisplaySerializeOStream_writeQuadVector4(&p->vec60);
+        hkDisplaySerializeOStream_writeQuadVector4(&p->i70);
         WriteInt(p->i84);
         WriteInt(p->i88);
         break;
     }
     case 2: {
         WriteTransform(&p->unk10);
-        FUN_00dda730(&p->vec60);
+        hkDisplaySerializeOStream_writeQuadVector4(&p->vec60);
         break;
     }
     case 3: {
-        FUN_00dda730(p->FUN_00de1150());
-        FUN_00dda730(p->FUN_00de1160());
+        hkDisplaySerializeOStream_writeQuadVector4(p->FUN_00de1150());
+        hkDisplaySerializeOStream_writeQuadVector4(p->FUN_00de1160());
         break;
     }
     case 4: {
-        FUN_00dda730(p->GetValue(&t[1]));
-        FUN_00dda730(p->GetVec4At70(&t[2]));
+        hkDisplaySerializeOStream_writeQuadVector4(p->GetValue(&t[1]));
+        hkDisplaySerializeOStream_writeQuadVector4(p->GetVec4At70(&t[2]));
         HashUInt(p->FUN_00de5350());
         HashUInt(p->FUN_00de5340());
         WriteInt(p->FUN_00de5360());
         break;
     }
     case 5: {
-        FUN_00dda730(p->CopyVec4ToBuffer(&t[3]));
-        FUN_00dda730(p->GetQuad16(&t[4]));
-        FUN_00dda730(p->CopyStatsTo(&t[5]));
+        hkDisplaySerializeOStream_writeQuadVector4(p->CopyVec4ToBuffer(&t[3]));
+        hkDisplaySerializeOStream_writeQuadVector4(p->GetQuad16(&t[4]));
+        hkDisplaySerializeOStream_writeQuadVector4(p->CopyStatsTo(&t[5]));
         HashUInt(p->FUN_00de4900());
         HashUInt(p->FUN_00de48e0());
         HashUInt(p->FUN_00de48f0());
@@ -350,9 +353,9 @@ void DDA8C0Writer::WriteShape(Shape* p)
         break;
     }
     case 7: {
-        FUN_00dda730(p->FUN_00de4df0());
-        FUN_00dda730(p->FUN_00de4de0());
-        FUN_00dda730(p->FUN_00de4e00());
+        hkDisplaySerializeOStream_writeQuadVector4(p->FUN_00de4df0());
+        hkDisplaySerializeOStream_writeQuadVector4(p->FUN_00de4de0());
+        hkDisplaySerializeOStream_writeQuadVector4(p->FUN_00de4e00());
         HashUInt(*p->FUN_00de4e10());
         break;
     }

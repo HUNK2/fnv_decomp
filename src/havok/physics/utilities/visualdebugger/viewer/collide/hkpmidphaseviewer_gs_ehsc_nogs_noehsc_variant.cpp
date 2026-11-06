@@ -64,7 +64,7 @@ static __forceinline void TimerMark(char* marker)
     }
 }
 
-void __cdecl FUN_00c908c0(hkMemoryAllocator* alloc, void* arr, int newSize, int elemSize);
+void __cdecl hkArrayUtil__reserve(hkMemoryAllocator* alloc, void* arr, int newSize, int elemSize);
 struct __declspec(align(16)) UInt4 {
     unsigned x, y, z, w;
 };
@@ -250,7 +250,7 @@ void Self::FUN_00d6a2f0(Param* apParam)
                                     if ((output->m_iCapacityState & 0x3fffffff) < newSize) {
                                         int dbl = (output->m_iCapacityState & 0x3fffffff) * 2;
                                         if (newSize < dbl) newSize = dbl;
-                                        FUN_00c908c0(&alloc, output, newSize, 0x80);
+                                        hkArrayUtil__reserve(&alloc, output, newSize, 0x80);
                                     }
                                     Elem80* elem = &output->m_data[output->m_iElementCount];
                                     if (elem) elem->FUN_00de1210();
@@ -288,7 +288,7 @@ void Self::FUN_00d6a2f0(Param* apParam)
     if ((indices.m_iCapacityState & 0x3fffffff) < count) {
         int ns = (indices.m_iCapacityState & 0x3fffffff) * 2;
         if (count >= ns) ns = count;
-        FUN_00c908c0(&alloc2, &indices, ns, 4);
+        hkArrayUtil__reserve(&alloc2, &indices, ns, 4);
     }
     indices.m_iElementCount = count;
     for (int i = 0; i < count; i++) {

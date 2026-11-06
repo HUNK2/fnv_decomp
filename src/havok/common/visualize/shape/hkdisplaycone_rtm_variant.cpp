@@ -39,7 +39,7 @@ struct GlobalContext
 };
 extern "C" GlobalContext* __cdecl FUN_00c85750();
 extern "C" void __cdecl ResizeAudioStream(Allocator*, hkArray<Vertex>*, int);
-extern "C" void __cdecl FUN_00c908c0(Allocator*, hkArray<Edge>*, int, int);
+extern "C" void __cdecl hkArrayUtil__reserve(Allocator*, hkArray<Edge>*, int, int);
 struct ForwardArg
 {
     GeometryBuffers* value;
@@ -214,7 +214,7 @@ void __thiscall Cls::FUN_00de54b0(ArrayRef output)
         int grow = capacity * 2;
         if (count >= grow)
             grow = count;
-        ::FUN_00c908c0(ctx, (::hkArray< ::Edge>*)arr, grow, 16);
+        ::hkArrayUtil__reserve(ctx, (::hkArray< ::Edge>*)arr, grow, 16);
     }
     arr->m_iElementCount = count;
 

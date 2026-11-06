@@ -323,12 +323,13 @@ hkBool CollectionPairCollisionFilter::IsCollisionEnabled(const CollisionAgentCon
 class CollisionGroupMaskEnabler : public hkpGroupFilter
 {
   public:
-    void FUN_00e488e0(hkUint32 infoA, hkUint32 infoB);
+    void hkpGroupFilter_enableCollisionsUsingBitfield(hkUint32 infoA, hkUint32 infoB);
 };
 
 // For each of 32 collision groups, if infoA has the bit set, OR infoB into the group mask, and if infoB has the bit set, OR infoA into it.
 // @fnv 0x00e488e0
-void CollisionGroupMaskEnabler::FUN_00e488e0(hkUint32 infoA, hkUint32 infoB)
+// src: HAVOK_LIB 0x00e488e0
+void CollisionGroupMaskEnabler::hkpGroupFilter_enableCollisionsUsingBitfield(hkUint32 infoA, hkUint32 infoB)
 {
     hkUint32 mask = 1;
     hkUint32* pGroupMask = m_uiCollisionGroupMasks;

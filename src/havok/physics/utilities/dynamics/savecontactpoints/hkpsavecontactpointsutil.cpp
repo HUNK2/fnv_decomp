@@ -36,9 +36,9 @@ void __cdecl FUN_00d41a30(void);
 void __cdecl FUN_00d40d80(void);
 void __cdecl FUN_00d32cd0(void);
 void __cdecl BuildEventIndex(void);
-void __fastcall FUN_00d2d890(void*, int, void*, int);
+void __fastcall hkBvTreeAgent3_process(void*, int, void*, int);
 void __cdecl FUN_00d35770(void);
-void __cdecl FUN_00d365d0(void);
+void __cdecl hkpCollectionAgent3_process(void);
 
 // @fnv 0x00dcd4d0
 int __cdecl FUN_00dcd4d0(void* p)
@@ -55,11 +55,11 @@ int __cdecl FUN_00dcd4d0(void* p)
         return 5;
     if (p == (void*)&BuildEventIndex)
         return 6;
-    if (p == (void*)&FUN_00d2d890)
+    if (p == (void*)&hkBvTreeAgent3_process)
         return 7;
     if (p == (void*)&FUN_00d35770)
         return 8;
-    return (p != (void*)&FUN_00d365d0) ? 0 : 9;
+    return (p != (void*)&hkpCollectionAgent3_process) ? 0 : 9;
 }
 
 struct D10710Object
@@ -1882,7 +1882,7 @@ struct S_00dcdd80_Listener
 {
     void AddObject(FUN_00dce930* obj);
 };
-int __cdecl FUN_00dcd720(void* a, S_00dcdd80_Item* item, int c, FUN_00dce930* obj);
+int __cdecl hkpSaveContactPointsUtil_serializeCollisionEntry(void* a, S_00dcdd80_Item* item, int c, FUN_00dce930* obj);
 
 static inline S_00dcdd80_WorldObj* S_00dcdd80_getRigidBody(S_00dcdd80_Collidable* c)
 {
@@ -1893,14 +1893,15 @@ static inline S_00dcdd80_WorldObj* S_00dcdd80_getRigidBody(S_00dcdd80_Collidable
 
 // For each item, allocates a FUN_00dce930, tests it against world->unk78 via FUN_00dcd720, notifies the listener on failure, then calls FUN_00c905b0.
 // @fnv 0x00dcdd80
-void FUN_00dcdd80(void* a, S_00dcdd80_Item** items, int count, S_00dcdd80_Listener* listener)
+// src: HAVOK_LIB 0x00dcdd80
+void hkpSaveContactPointsUtil_saveContactPoints_00dcdd80(void* a, S_00dcdd80_Item** items, int count, S_00dcdd80_Listener* listener)
 {
     S_00dcdd80_World2* world = S_00dcdd80_getRigidBody(items[0]->unk10)->m_pOwningWorld;
     for (int i = 0; i < count; i++)
     {
         FUN_00dce930* obj = new FUN_00dce930();
         int iWorldValue = world->unk78;
-        if (!FUN_00dcd720(a, items[i], iWorldValue, obj))
+        if (!hkpSaveContactPointsUtil_serializeCollisionEntry(a, items[i], iWorldValue, obj))
             listener->AddObject(obj);
         obj->FUN_00c905b0();
     }
@@ -1924,11 +1925,11 @@ int FUN_00dcd4d0(void* p)
         return 5;
     if (p == reinterpret_cast<void*>(&BuildEventIndex))
         return 6;
-    if (p == reinterpret_cast<void*>(&FUN_00d2d890))
+    if (p == reinterpret_cast<void*>(&hkBvTreeAgent3_process))
         return 7;
     if (p == reinterpret_cast<void*>(&FUN_00d35770))
         return 8;
-    if (p == reinterpret_cast<void*>(&FUN_00d365d0))
+    if (p == reinterpret_cast<void*>(&hkpCollectionAgent3_process))
         return 9;
     return 0;
 }
@@ -2000,17 +2001,17 @@ struct LocalContext
     void* vtable;
 };
 extern int DAT_010d77c0;
-extern "C" void __cdecl FUN_00dcea10(int, int, int, LocalContext*);
+extern "C" void __cdecl hkpSaveContactPointsUtil_loadContactPointsInternal(int, int, int, LocalContext*);
 // Sets up a LocalContext with DAT_010d77c0 as its vtable and forwards first, second and third to FUN_00dcea10.
 // @fnv 0x00dce7b0
 void __cdecl RunWithLocalContext(int first, int second, int third)
 {
     LocalContext local;
     local.vtable = &DAT_010d77c0;
-    FUN_00dcea10(first, second, third, &local);
+    hkpSaveContactPointsUtil_loadContactPointsInternal(first, second, third, &local);
 }
 
-void __cdecl FUN_00dcea10(int, int, int, void*);
+void __cdecl hkpSaveContactPointsUtil_loadContactPointsInternal(int, int, int, void*);
 int __cdecl FUN_00c85750();
 struct FUN_00dce7e0_local
 {
@@ -2024,12 +2025,13 @@ struct FUN_00dce7e0_local
 };
 // Reads a value from *p, initializes a local via FUN_00dce840, calls FUN_00dcea10, then invokes two methods on the local using a value from FUN_00c85750.
 // @fnv 0x00dce7e0
-void __cdecl FUN_00dce7e0(int aiArg1, int aiArg2, int* p, int d)
+// src: HAVOK_LIB 0x00dce7e0
+void __cdecl hkpSaveContactPointsUtil_loadContactPoints(int aiArg1, int aiArg2, int* p, int d)
 {
     FUN_00dce7e0_local local;
     int value = *(int*)(*p + 8);
     local.FUN_00dce840(p, (void*)d);
-    FUN_00dcea10(aiArg1, aiArg2, value, &local);
+    hkpSaveContactPointsUtil_loadContactPointsInternal(aiArg1, aiArg2, value, &local);
     int object = FUN_00c85750();
     ((FUN_00dce7e0_local*)((char*)&local + 4))->ProcessArgument(*(int*)(object + 0x10));
     ((FUN_00dce7e0_local*)((char*)&local + 4))->FUN_00a29680();
@@ -2078,7 +2080,7 @@ FUN_00dce840::FUN_00dce840(void* const* keys, int numKeys)
 }
 }  // namespace fnv_00dce840
 
-void __cdecl FUN_00c908c0(void* apAllocator, void* apArray, unsigned int auiNewCap, int aiElemSize);
+void __cdecl hkArrayUtil__reserve(void* apAllocator, void* apArray, unsigned int auiNewCap, int aiElemSize);
 
 struct SrcNode
 {
@@ -2248,7 +2250,7 @@ int __cdecl CopyAudioNodeTree(SrcNode* apSrc, int aiCount, DstBlock* apDst)
         {
             newCap = count;
         }
-        FUN_00c908c0(alloc, apDst, (unsigned int)newCap, 4);
+        hkArrayUtil__reserve(alloc, apDst, (unsigned int)newCap, 4);
     }
     apDst->m_iArrayLength = count;
     for (int i = 0; i < apSrc->m_iArrayLength; ++i)
@@ -2408,7 +2410,7 @@ void __cdecl ProcessCollisionRecords(void* arg1, S_00dcda40_World* world, S_00dc
                 FUN_00dce930* r = new FUN_00dce930;
                 void* callbackArg = arg1;
                 int state = world->unk78;
-                if (!FUN_00dcd720(callbackArg, (S_00dcdd80_Item*)p, state, r))
+                if (!hkpSaveContactPointsUtil_serializeCollisionEntry(callbackArg, (S_00dcdd80_Item*)p, state, r))
                     sink->AddObject(r);
                 r->FUN_00c905b0();
                 p += ((CollisionRecordHeader*)p)->size;
@@ -2558,7 +2560,7 @@ template <class T> struct S00dcd720_Arr
         {
             int cap2 = cap * 2;
             int newSize = (n < cap2) ? cap2 : n;
-            FUN_00c908c0(&a, (S00dcd720_Arr<char>*)this, newSize, sz);
+            hkArrayUtil__reserve(&a, (S00dcd720_Arr<char>*)this, newSize, sz);
         }
     }
     __forceinline void SetSizeAndGrow(int n)
@@ -2651,7 +2653,7 @@ BSAudio* __cdecl _FUN_00c85750();
 
 extern "C"
 {
-    void __cdecl FUN_00c908c0(void* allocator, void* array, int numElements, int elementSize);
+    void __cdecl hkArrayUtil__reserve(void* allocator, void* array, int numElements, int elementSize);
 }
 void __cdecl ResizeAudioStream(void* allocator, void* array, int elementSize);
 
@@ -2664,7 +2666,7 @@ template <typename T> static __forceinline void reserve(hkArray<T>& a, hkMemoryA
     {
         int cap2 = 2 * cap;
         int newCap = (numElements < cap2) ? cap2 : numElements;
-        FUN_00c908c0(&alloc, &a, newCap, sizeof(T));
+        hkArrayUtil__reserve(&alloc, &a, newCap, sizeof(T));
     }
 }
 template <typename T> static __forceinline void AddBack(hkArray<T>& a, const T& val)
@@ -2857,12 +2859,13 @@ struct Struct0x20
     }
 };
 
-int __cdecl FUN_00dcd550(const void* cur, hkBool flag, void* context, int* pItemSize, int* pField18, void** pSubPtr,
+int __cdecl hkpSaveContactPointsUtil_serializeEntry(const void* cur, hkBool flag, void* context, int* pItemSize, int* pField18, void** pSubPtr,
                          Struct0x20* child);
 
 // Iterates over chunks, calls FUN_00dcd550 to parse sub-structures, and populates out->arr1 with Block512 copies and out->arr2 with child nodes.
 // @fnv 0x00dcdf70
-int __cdecl FUN_00dcdf70(const hkArray<Block512*>& chunks, void* context, Struct0x20* out)
+// src: HAVOK_LIB 0x00dcdf70
+int __cdecl hkpSaveContactPointsUtil_serialize1nTrack(const hkArray<Block512*>& chunks, void* context, Struct0x20* out)
 {
     const char* cur;
     int iNumChunks = chunks.m_iElementCount;
@@ -2878,7 +2881,7 @@ int __cdecl FUN_00dcdf70(const hkArray<Block512*>& chunks, void* context, Struct
             int itemSize = 0;
             int dummy;
             Struct0x20* __restrict child = new Struct0x20();
-            if (FUN_00dcd550(cur, hkBool(false), context, &itemSize, &dummy, &subPtr, child) == 0)
+            if (hkpSaveContactPointsUtil_serializeEntry(cur, hkBool(false), context, &itemSize, &dummy, &subPtr, child) == 0)
             {
                 if (child->arr1.m_iElementCount != 0)
                 {
@@ -3095,11 +3098,12 @@ struct Ctx
 
 void* __cdecl FindEntryValue(unsigned int a, unsigned int b);
 void __cdecl SwapMeshRecords(unsigned int a, SpawnedItem* b);
-int __cdecl FUN_00dce180(Resolver* a1, SpawnedItem* item, unsigned int edi, unsigned int ebx, unsigned int ctx78,
+int __cdecl hkpSaveContactPointsUtil_deserializeCollisionEntry(Resolver* a1, SpawnedItem* item, unsigned int edi, unsigned int ebx, unsigned int ctx78,
                          void* p);
 
 // @fnv 0x00dcea10
-void __cdecl FUN_00dcea10(Resolver* apResolver, ListOwner* apListOwner, Ctx* apCtx, Visitor* apVisitor)
+// src: HAVOK_LIB 0x00dcea10
+void __cdecl hkpSaveContactPointsUtil_loadContactPointsInternal(Resolver* apResolver, ListOwner* apListOwner, Ctx* apCtx, Visitor* apVisitor)
 {
     apCtx->m_94++;
     for (int i = apListOwner->m_48 - 1; i >= 0; --i)
@@ -3126,7 +3130,7 @@ void __cdecl FUN_00dcea10(Resolver* apResolver, ListOwner* apListOwner, Ctx* apC
             continue;
         if (item->m_12C != 0x103)
             SwapMeshRecords(apCtx->m_78, item);
-        int ok = FUN_00dce180(apResolver, item, edi, ebx, apCtx->m_78, p);
+        int ok = hkpSaveContactPointsUtil_deserializeCollisionEntry(apResolver, item, edi, ebx, apCtx->m_78, p);
         if (apResolver->m_00 == 0 || ok == 0)
             continue;
         SpawnedItem** d = apListOwner->m_44;
@@ -3196,17 +3200,18 @@ __declspec(noinline) int __cdecl FUN_00dcd4d0(AgentKey key)
         return 5;
     if (key.value == (void*)BuildEventIndex)
         return 6;
-    if (key.value == (void*)FUN_00d2d890)
+    if (key.value == (void*)hkBvTreeAgent3_process)
         return 7;
     if (key.value == (void*)FUN_00d35770)
         return 8;
-    return key.value == (void*)FUN_00d365d0 ? 9 : 0;
+    return key.value == (void*)hkpCollectionAgent3_process ? 9 : 0;
 }
 extern "C" void* __cdecl FUN_00d32ad0(void*, void*);
-extern "C" int __cdecl FUN_00dcdf70(void*, DCD6A0Context**, int);
+extern "C" int __cdecl hkpSaveContactPointsUtil_serialize1nTrack(void*, DCD6A0Context**, int);
 // Resolves the collision data pointer and type for a CollisionRecordHeader entry, writing results to output, size, and type out-parameters.
 // @fnv 0x00dcd550
-int __cdecl FUN_00dcd550(CollisionRecordHeader* apRecord, char abOffset, DCD6A0Context** context, int* size, int* type,
+// src: HAVOK_LIB 0x00dcd550
+int __cdecl hkpSaveContactPointsUtil_serializeEntry(CollisionRecordHeader* apRecord, char abOffset, DCD6A0Context** context, int* size, int* type,
                          void** output, int arg)
 {
     *output = 0;
@@ -3246,7 +3251,7 @@ int __cdecl FUN_00dcd550(CollisionRecordHeader* apRecord, char abOffset, DCD6A0C
             if (data[11] & 32)
                 return 0;
             *output = FUN_00d32ad0(apRecord, data);
-            return FUN_00dcdf70(*output, context, arg);
+            return hkpSaveContactPointsUtil_serialize1nTrack(*output, context, arg);
         case 6:
         case 7:
         case 8:
@@ -3254,7 +3259,7 @@ int __cdecl FUN_00dcd550(CollisionRecordHeader* apRecord, char abOffset, DCD6A0C
             *size = apRecord->size;
             *type = t;
             *output = data;
-            return FUN_00dcdf70(data, context, arg);
+            return hkpSaveContactPointsUtil_serialize1nTrack(data, context, arg);
         default:
             return 1;
         }
@@ -3270,7 +3275,7 @@ int __cdecl FUN_00dcd550(CollisionRecordHeader* apRecord, char abOffset, DCD6A0C
 
 BSAudio* __cdecl _FUN_00c85750();
 
-int FUN_00dcd550(S00dcd720_Src*, S00dcd720_Bool, int, int*, int*, void**, void*);
+int hkpSaveContactPointsUtil_serializeEntry(S00dcd720_Src*, S00dcd720_Bool, int, int*, int*, void**, void*);
 extern "C" void FUN_00cb1260(void*, const void*, int);
 
 static inline S00dcd720_Part* S00dcd720_get(S00dcd720_Part* p)
@@ -3280,7 +3285,8 @@ static inline S00dcd720_Part* S00dcd720_get(S00dcd720_Part* p)
 
 // Calls FUN_00dcd550 on src, then copies shape header and arrays into out and sets the part fields via cb->m_fn or by storing them and calling FUN_00c90510.
 // @fnv 0x00dcd720
-int __cdecl FUN_00dcd720(S00dcd720_Cb* cb, S00dcd720_Src* src, int c, S00dcd720_Out* out)
+// src: HAVOK_LIB 0x00dcd720
+int __cdecl hkpSaveContactPointsUtil_serializeCollisionEntry(S00dcd720_Cb* cb, S00dcd720_Src* src, int c, S00dcd720_Out* out)
 {
     if (src->m_pCollisionShape->v34() != 0 || src->m_pCollisionShape->m_hdr->m_numA <= 0)
         return 1;
@@ -3291,7 +3297,7 @@ int __cdecl FUN_00dcd720(S00dcd720_Cb* cb, S00dcd720_Src* src, int c, S00dcd720_
         void* decoded;
         S00dcd720_Bool flag;
         flag.m_cBooleanValue = 1;
-        r = FUN_00dcd550(src, flag, c, &size, &b, &decoded, &out->m_context114);
+        r = hkpSaveContactPointsUtil_serializeEntry(src, flag, c, &size, &b, &decoded, &out->m_context114);
     }
     if (r == 0)
     {
@@ -6986,16 +6992,16 @@ struct LocalStateDce
 extern "C" int PickIslandByValue(void* p5, int a, int b);
 extern "C" int DispatchItemToAgent(int a, void* p4, WorkObj* wb, int cc, void* p5);
 extern "C" int DispatchInstruction(NodeDce* p1, int sb, void* inner, void* p4, void* p5);
-extern "C" void FUN_00c908c0(void* old, void* bufptr, int nsize, int one);
-extern "C" void FUN_00cb3ca0(void* obj, void* work, int one);
+extern "C" void hkArrayUtil__reserve(void* old, void* bufptr, int nsize, int one);
+extern "C" void hkpWorldOperationUtil_addConstraintImmediately(void* obj, void* work, int one);
 extern "C" int RoundUpToBucketSize(int w);
 extern "C" NodeG* AllocateBlock(int a, int b, int c, int d);
 extern "C" void __fastcall AccumulateStats(void* cc, void* elem, void* a, int* b);
 extern "C" void FUN_00cfdbe0(void* p5, void* p4);
-extern "C" void FUN_00d01850(void* a, void* item);
-extern "C" void FUN_00d00110(NodeDce* p, void* item);
-extern "C" void FUN_00d00ca0(void* a, void* item);
-extern "C" void FUN_00cfff00(NodeDce* p, void* item);
+extern "C" void hkpWorldCallbackUtil_fireContactPointAdded(void* a, void* item);
+extern "C" void hkpEntityCallbackUtil_fireContactPointAddedInternal(NodeDce* p, void* item);
+extern "C" void hkpWorldCallbackUtil_fireContactPointCallback(void* a, void* item);
+extern "C" void hkpEntityCallbackUtil_fireContactPointCallbackInternal(NodeDce* p, void* item);
 extern "C" float DAT_0104da48;
 typedef int(__thiscall* FnThiscallInt)(void* self, int a);
 typedef int(__thiscall* FnThiscallInt2)(void* self, int a, int b);
@@ -7007,7 +7013,7 @@ __forceinline void BytesDce::reserve(hkMemoryAllocator& alloc, int count)
     if (cap < count)
     {
         int newcap = (count < cap + cap) ? cap + cap : count;
-        FUN_00c908c0(&alloc, this, newcap, 1);
+        hkArrayUtil__reserve(&alloc, this, newcap, 1);
     }
 }
 __forceinline void BytesDce::resize(int count)
@@ -7065,7 +7071,8 @@ inline void CountDce::AccumulateStats(S00dce180_Instance* constraint, CountInfoD
 
 // Swaps constraint ends if needed, copies state from p1 into p5's work object, calls per-contact handlers for each contact id, returns 0 on success else 1.
 // @fnv 0x00dce180
-int __cdecl FUN_00dce180(Arg0* apFlags, NodeDce* apNode, NodeDce* apNodeA, NodeDce* apNodeB, void* apContext, P5* p5)
+// src: HAVOK_LIB 0x00dce180
+int __cdecl hkpSaveContactPointsUtil_deserializeCollisionEntry(Arg0* apFlags, NodeDce* apNode, NodeDce* apNodeA, NodeDce* apNodeB, void* apContext, P5* p5)
 {
     void* idx = 0;
     LocalStateDce i;
@@ -7114,7 +7121,7 @@ int __cdecl FUN_00dce180(Arg0* apFlags, NodeDce* apNode, NodeDce* apNodeA, NodeD
                 ResourceDce* pResource = p->m_08;
                 pResource->m_94 -= 1;
                 pResource->m_9c = 1;
-                FUN_00cb3ca0(pResource, &c->m_pHavokConstraint, 1);
+                hkpWorldOperationUtil_addConstraintImmediately(pResource, &c->m_pHavokConstraint, 1);
                 pResource->m_94 += 1;
                 pResource->m_9c = 0;
             }
@@ -7178,11 +7185,11 @@ int __cdecl FUN_00dce180(Arg0* apFlags, NodeDce* apNode, NodeDce* apNodeA, NodeD
                         idx = &apNodeB->u010;
                     }
                     InputDce z(i.transform, idx, c, j, apContext, &output, val.current);
-                    FUN_00d01850(apNodeA->m_008, &z);
+                    hkpWorldCallbackUtil_fireContactPointAdded(apNodeA->m_008, &z);
                     if ((bool)apNodeA->m_204)
-                        FUN_00d00110(apNodeA, &z);
+                        hkpEntityCallbackUtil_fireContactPointAddedInternal(apNodeA, &z);
                     if (apNodeB->m_204 != 0)
-                        FUN_00d00110(apNodeB, &z);
+                        hkpEntityCallbackUtil_fireContactPointAddedInternal(apNodeB, &z);
                 }
             }
             if ((bool)apFlags->m_09)
@@ -7212,13 +7219,13 @@ int __cdecl FUN_00dce180(Arg0* apFlags, NodeDce* apNode, NodeDce* apNodeA, NodeD
                     z.m_24 = 0;
                     z.m_2c = 0;
                     z.m_30 = 0;
-                    FUN_00d00ca0(apNodeA->m_008, &z);
+                    hkpWorldCallbackUtil_fireContactPointCallback(apNodeA->m_008, &z);
                     z.m_00 = 0;
                     if ((bool)apNodeA->m_204)
-                        FUN_00cfff00(apNodeA, &z);
+                        hkpEntityCallbackUtil_fireContactPointCallbackInternal(apNodeA, &z);
                     z.m_00 = (void*)1;
                     if (!!apNodeB->m_204)
-                        FUN_00cfff00(apNodeB, &z);
+                        hkpEntityCallbackUtil_fireContactPointCallbackInternal(apNodeB, &z);
                 }
             }
             FUN_00cfdbe0(p5, apContext);

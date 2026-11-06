@@ -752,7 +752,7 @@ public:
     float GetFieldB4Float();
     float FUN_006d6d90();
     void FUN_006d30b0(const NiPoint3&);
-    void FUN_00c9c5b0(CListener* listener);
+    void hkpEntity_addEntityListener(CListener* listener);
 
     bool IsValidTarget64();
     void* GetSlot116();

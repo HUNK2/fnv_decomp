@@ -300,7 +300,8 @@ void __cdecl FUN_00d1a330(int a, int* ints, int n);
 
 // Picks FUN_00d28a30 or FUN_00d29bf0 by item->m_flag to set item->m_result, calls FUN_00d1a330, then obj->ProcessCallback.
 // @fnv 0x00d943d0
-void __cdecl FUN_00d943d0(S_00d943d0_Ctx* ctx, S_00d943d0_Obj* obj, S_00d943d0_Item* item)
+// src: HAVOK_LIB 0x00d943d0
+void __cdecl hkCpuIntegrateMotionJob(S_00d943d0_Ctx* ctx, S_00d943d0_Obj* obj, S_00d943d0_Item* item)
 {
     S_00d943d0_TimerBeginList("LtIntegrate", "StIntegrateMotions");
 

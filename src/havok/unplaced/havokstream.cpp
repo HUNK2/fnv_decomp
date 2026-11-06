@@ -148,12 +148,12 @@ void FUN_00626320::Method(const void* data, unsigned int size)
 }
 
 extern "C" BSAudio* __cdecl FUN_00c85750();
-void __cdecl FUN_00c856c0(void* a, void* b);
+void __cdecl hkMemoryRouter_easyFree(void* a, void* b);
 // @fnv 0x00626760
 void __cdecl FUN_00626760(void* a)
 {
     BSAudio* p = FUN_00c85750();
-    FUN_00c856c0(p->GetAudioBackendData(), a);
+    hkMemoryRouter_easyFree(p->GetAudioBackendData(), a);
 }
 
 struct FUN_006264b0_Class
@@ -245,7 +245,7 @@ int FUN_00626390_class::FUN_00626390()
 
 int __cdecl strcat_s(char*, unsigned int, const char*);
 int __cdecl FUN_00462d40(const char*, int, int, int, int, char*, int, char*, int);
-char* __cdecl FUN_00cb1410(const char*);
+char* __cdecl hkString_strDup_00cb1410(const char*);
 struct FUN_00626420_shell
 {
     char* p;
@@ -263,7 +263,7 @@ void HavokError::FUN_00625e70(const char* apFile, int aiLine)
     FUN_00626420_shell ap;
     FUN_00462d40(apFile, 0, 0, 0, 0, pfile, 128, pext, 32);
     strcat_s(pfile, 128, pext);
-    ap.p = FUN_00cb1410(pfile);
+    ap.p = hkString_strDup_00cb1410(pfile);
     ap.aiLine = aiLine;
     ((ErrorFileList*)((char*)this + 8))->FUN_00626420(&ap);
 }

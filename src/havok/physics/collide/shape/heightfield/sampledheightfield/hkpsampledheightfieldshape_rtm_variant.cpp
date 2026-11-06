@@ -58,7 +58,7 @@ struct FUN_00d24b50_Obj {
 };
 class hkShapeD260 : public FUN_00d24b50_Obj {
 public:
-    hkBool __thiscall FUN_00d26080(void* object, hkInfoD260* info);
+    hkBool __thiscall hkpSampledHeightFieldShape_castRayImpl(void* object, hkInfoD260* info);
 };
 struct S00d261b0_Elem {
     LocalM128 v00;
@@ -93,7 +93,7 @@ struct Val1 {
 };
 struct Host {
     void FUN_00d24b50(int a1, int a2, Val1 v, float f, Local12* pLocal);
-    void FUN_00d260d0(int a1, int a2, const Arg3* a3);
+    void hkpSampledHeightFieldShape_castRayWithCollectorImpl(int a1, int a2, const Arg3* a3);
 };
 struct __declspec(align(16)) RayData {
     float x; float y; float z; float w;
@@ -118,7 +118,7 @@ struct Obj {
     float unk24;
 
     void FUN_00d24b50(RayData* data, void* arg2, hkBool arg3, float arg4, void* arg5);
-    void FUN_00d26120(Input* input, void* arg2, void* arg3);
+    void hkpSampledHeightFieldShape_castSphere(Input* input, void* arg2, void* arg3);
 };
 extern "C" LocalM128 _mm_mul_ps(LocalM128, LocalM128);
 struct SampledHeightField : hkpSampledHeightFieldShape {
@@ -135,7 +135,7 @@ struct SampledHeightField : hkpSampledHeightFieldShape {
     virtual void slot11();
     virtual void slot12();
     virtual float getHeightAt(int x, int z);
-    void FUN_00d249f0(hkUlong transform, float tolerance, hkUlong aabb);
+    void hkpSampledHeightFieldShape_getAabbImpl(hkUlong transform, float tolerance, hkUlong aabb);
 };
 void __cdecl FUN_00d26230(hkUlong, const hkVector4&, const hkVector4&, float, hkUlong);
 

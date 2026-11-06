@@ -51,7 +51,7 @@ class MemHeap
     virtual void unk04();
     virtual void Free(char* block, unsigned int size);
 };
-void __cdecl FUN_00c85660(MemHeap* heap, char* p);
+void __cdecl hkMemoryRouter_alignedFree(MemHeap* heap, char* p);
 struct FNV_Dispatch
 {
     virtual void unk00();
@@ -63,7 +63,7 @@ struct FNV_BlockHeader
     unsigned int m_iObjectReferenceCount;
     unsigned int m_iElementCount;
 };
-void FUN_00c856c0(FNV_Dispatch* owner, char* data);
+void hkMemoryRouter_easyFree(FNV_Dispatch* owner, char* data);
 struct TargetClass
 {
     int m_f00;

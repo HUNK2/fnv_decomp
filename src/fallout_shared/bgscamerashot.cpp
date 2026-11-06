@@ -348,7 +348,7 @@ void __cdecl FUN_004b70f0(void*, float);
 
 struct CamNodeX
 {
-    void* FUN_00a5c570(void*);
+    void* NiObjectNET_GetController(void*);
     void FUN_00a59c60(void*);
     NiPoint3* FUN_0043c490();
     int FUN_0045bc00(int);
@@ -504,7 +504,7 @@ void BGSCameraShot::SetupCamera(void* param1, int iMode)
         ((NodePtrObj*)&m_spPositionNode)->FUN_00559450()->FUN_00a59c60(&auxPtr);
         if ((signed char)m_bUpdateNodePosition == -1 && !m_bFlag75)
         {
-            void* queriedVal = ((NodePtrObj*)&m_spPositionNode)->FUN_00559450()->FUN_00a5c570(&DAT_011f3714);
+            void* queriedVal = ((NodePtrObj*)&m_spPositionNode)->FUN_00559450()->NiObjectNET_GetController(&DAT_011f3714);
             if (queriedVal)
             {
                 void* clonePtr = queriedVal;
@@ -810,8 +810,8 @@ struct GObj
     void FUN_0094a0c0(NiPoint3*, NiPoint3*, int);
 };
 float* __fastcall FUN_00403e20(void*);
-void __cdecl FUN_00a582f0(const M3&, void*, int, NiPoint3&, NiPoint3&);
-void __cdecl FUN_00a582f0(Host56*, void*, int, NiPoint3&, NiPoint3&);
+void __cdecl NiMatrix3_TransformVertices(const M3&, void*, int, NiPoint3&, NiPoint3&);
+void __cdecl NiMatrix3_TransformVertices(Host56*, void*, int, NiPoint3&, NiPoint3&);
 extern NiPoint3 DAT_011ca77c;
 extern NiPoint3 DAT_011ca75c;
 extern NiPoint3 DAT_011e0808;
@@ -844,18 +844,18 @@ void BGSCameraShot::UpdateCamera(float afTime)
             if (!IsNotFlag4Set() || ((Host56*)m_pReference) == 0 || Data.pInputFile != 2)
             {
                 NiPoint3 tmpA = pt;
-                FUN_00a582f0(DAT_011f21f0->FUN_0056fa00(), &DAT_011f426c, 1, tmpA, pt);
+                NiMatrix3_TransformVertices(DAT_011f21f0->FUN_0056fa00(), &DAT_011f426c, 1, tmpA, pt);
             }
             else
             {
                 NiPoint3 tmpB = pt;
-                FUN_00a582f0(((Host56*)m_pReference)->FUN_0056fa00(), &DAT_011f426c, 1, tmpB, pt);
+                NiMatrix3_TransformVertices(((Host56*)m_pReference)->FUN_0056fa00(), &DAT_011f426c, 1, tmpB, pt);
             }
         }
         else if (((NiPtr60*)&m_pLocationNode)->FUN_00559450())
         {
             NiPoint3 tmpC = pt;
-            FUN_00a582f0(((NiPtr60*)&m_pLocationNode)->FUN_00559450()->FUN_006a9540(), &DAT_011f426c, 1, tmpC, pt);
+            NiMatrix3_TransformVertices(((NiPtr60*)&m_pLocationNode)->FUN_00559450()->FUN_006a9540(), &DAT_011f426c, 1, tmpC, pt);
         }
         if (((NiPtr60*)&m_pLocationNode)->FUN_00559450())
         {

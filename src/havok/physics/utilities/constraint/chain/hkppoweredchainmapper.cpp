@@ -85,7 +85,7 @@ inline void* operator new(unsigned int, FnPlacement* p)
 {
     return p;
 }
-extern "C" void __cdecl FUN_00c908c0(hkMemoryAllocator*, void*, int, int);
+extern "C" void __cdecl hkArrayUtil__reserve(hkMemoryAllocator*, void*, int, int);
 extern "C" void __cdecl ResizeAudioStream(hkMemoryAllocator*, void*, int);
 extern "C" void* __cdecl FUN_00cb1280(void*, int, unsigned int);
 extern "C" int DAT_010e0654;
@@ -124,7 +124,7 @@ template <class T> struct FnArray
             cap *= 2;
             if (n >= cap)
                 cap = n;
-            FUN_00c908c0(&heap, this, cap, sizeof(T));
+            hkArrayUtil__reserve(&heap, this, cap, sizeof(T));
         }
     }
     __forceinline void SetSizeAndGrow(hkMemoryAllocator& allocator, int count)

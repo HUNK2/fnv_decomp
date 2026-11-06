@@ -38,7 +38,7 @@ inline hkMemoryRouter* audio()
     return FUN_00c85750();
 }
 
-__declspec(nothrow) void __cdecl FUN_00c908c0(hkMemoryAllocator& alloc, void* arr, int numElem, int sizeElem);
+__declspec(nothrow) void __cdecl hkArrayUtil__reserve(hkMemoryAllocator& alloc, void* arr, int numElem, int sizeElem);
 
 inline void* operator new(unsigned int, void* p)
 {
@@ -67,7 +67,7 @@ struct hkIntArrayLocalForm
         if (getCapacity() < n)
         {
             int cap = 2 * getCapacity();
-            FUN_00c908c0(alloc, this, n < cap ? cap : n, sizeof(int));
+            hkArrayUtil__reserve(alloc, this, n < cap ? cap : n, sizeof(int));
         }
     }
     __forceinline void SetSizeAndGrow(int n, const int& fill)

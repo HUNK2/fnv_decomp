@@ -7,7 +7,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 struct hkpGskBaseAgent
 {
-    virtual void FUN_00dabe90(bool);
+    virtual void hkpGskBaseAgent_cleanup(bool);
 };
 typedef union __declspec(intrin_type) __declspec(align(16)) __m128
 {
@@ -321,7 +321,7 @@ struct GskStatus
     __m128 m_vertsB[10];
 
     void FUN_00daad40(const void* shapeA, const void* shapeB, const hkTransform* bTa, void* out10);
-    void FUN_00da9790(void* cache);
+    void hkpGsk_exitAndExportCacheImpl(void* cache);
     void FUN_00da9880(void* out10, hkContactPoint* pointOut);
 };
 extern "C"
@@ -619,7 +619,7 @@ struct S_00dac0b0_Gsk
     S_00dac0b0_Vertex b09;
     S_00dac0b0_Transform aTb;
     int FUN_00daad40(S_00dac0b0_Shape* a, S_00dac0b0_Shape* b, const S_00dac0b0_Transform& aTb, S_00dac0b0_Vertex* out);
-    void FUN_00da9790(S_00dac0b0_PackedCache* dst);
+    void hkpGsk_exitAndExportCacheImpl(S_00dac0b0_PackedCache* dst);
 };
 template <class T> struct S_00dac0b0_Pad
 {

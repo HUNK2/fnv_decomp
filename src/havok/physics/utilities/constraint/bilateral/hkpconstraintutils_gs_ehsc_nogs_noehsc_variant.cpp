@@ -43,7 +43,7 @@ struct CloneDataA : CloneDataBase
     Block5b unk94;
     Block5 unka8;
     CloneDataA* FUN_00d4f2a0();
-    void FUN_00d4f270(hkBool flag);
+    void hkpRagdollLimitsData_setConeLimitStabilization(hkBool flag);
 };
 struct CloneDataB : CloneDataBase
 {
@@ -168,7 +168,7 @@ struct Ent
     int unk190, unk194, unk198, unk19c, unk1a0, unk1a4, unk1a8, unk1ac;
     LocalM128 unk1b0;
     LocalM128 unk1c0;
-    void FUN_00ca8800(LocalM128* v);
+    void hkpRigidBody_setPosition(LocalM128* v);
     void OnTrigger(int arg);
     void FUN_00561800(void* p);
 };
@@ -257,7 +257,7 @@ bool* FUN_00e5af80(bool* out, FnvHolder2* h, float t, float t2)
                 LocalM128 t2v = _mm_set_ps1(t2);
                 LocalM128 r = _mm_add_ps(_mm_mul_ps(_mm_sub_ps(DAT_010ec7f0, t2v), v.cb.m),
                                       _mm_mul_ps(_mm_load_ps(b->unk120.m128_f32), t2v));
-                a->FUN_00ca8800(&r);
+                a->hkpRigidBody_setPosition(&r);
             }
             a->OnTrigger((int)&b->unk1b0);
             a->FUN_00561800(&b->unk1c0);

@@ -91,7 +91,8 @@ inline void* NiFlipController::GetSrc(unsigned int i)
 
 // Calls the base copy, copies the int at offset 0x4c to dst, then copies each source entry via GetSrc and FUN_00a4f8a0.
 // @fnv 0x00a4f920
-void __thiscall NiFlipController::FUN_00a4f920(NiAlphaController* dst, CloningProcess& proc)
+// src: GAMEBRYO_LIB 0x00a4f920
+void __thiscall NiFlipController::CopyMembers_00a4f920(NiAlphaController* dst, CloningProcess& proc)
 {
     NiFloatInterpController::CopyMemberData(dst, &proc);
     ((NiFlipController*)dst)->m_eAffectedMap = m_eAffectedMap;
@@ -148,7 +149,7 @@ void* NiFlipController::CreateFlipController(CloningProcess& kCloning)
         pkObject = (NiFlipController*)pkObject->FUN_00a4f820();
     else
         pkObject = 0;
-    FUN_00a4f920((NiAlphaController*)pkObject, kCloning);
+    CopyMembers_00a4f920((NiAlphaController*)pkObject, kCloning);
     return (NiObject*)pkObject;
 }
 
@@ -160,7 +161,8 @@ void NiFlipController::GetFloatValue(float* pfOut)
 
 // Compares the base controller and affected map.
 // @fnv 0x00a4f290
-unsigned char NiFlipController::FUN_00a4f290(NiFlipController* param)
+// src: GAMEBRYO_LIB 0x00a4f290
+unsigned char NiFlipController::IsEqual_00a4f290(NiFlipController* param)
 {
     if (!NiFloatInterpController::IsEqual(param))
     {
@@ -499,7 +501,8 @@ void __thiscall NiFlipController::FUN_00a4f8a0(void* apRef, unsigned int aiIndex
 
 // Links the base controller, then loads the texture swap list when a target is present.
 // @fnv 0x00a4f990
-void NiFlipController::FUN_00a4f990(NiStream& kStream) throw()
+// src: GAMEBRYO_LIB 0x00a4f990
+void NiFlipController::LinkObject_00a4f990(NiStream& kStream) throw()
 {
     NiFloatInterpController::LinkObject(kStream);
     if (m_pkTarget)

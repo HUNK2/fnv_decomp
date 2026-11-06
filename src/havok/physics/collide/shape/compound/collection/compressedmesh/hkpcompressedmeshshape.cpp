@@ -239,12 +239,13 @@ struct FUN_00e3ca10_Class
     unsigned short* unk28;
     int unk2c;
 
-    int FUN_00e3ca10(int aiIndex, int* apOut);
+    int hkpCompressedMeshShape_Chunk_getNextIndex(int aiIndex, int* apOut);
 };
 
 // Locates aiIndex+1 among cumulative section sizes in unk28, adjusts it, sets *apOut to a parity bit in the strip part, and returns -1 once past unk20.
 // @fnv 0x00e3ca10
-int FUN_00e3ca10_Class::FUN_00e3ca10(int aiIndex, int* apOut)
+// src: HAVOK_LIB 0x00e3ca10
+int FUN_00e3ca10_Class::hkpCompressedMeshShape_Chunk_getNextIndex(int aiIndex, int* apOut)
 {
     *apOut = 0;
     if (aiIndex < 0)
@@ -599,16 +600,17 @@ class hkpCompressedMeshShapeChunk
     unsigned materialInfo;
     unsigned short reference, unk46;
     unsigned unk48, unk4c;
-    unsigned FUN_00e3ca10(unsigned triangle, unsigned* welding);
+    unsigned hkpCompressedMeshShape_Chunk_getNextIndex(unsigned triangle, unsigned* welding);
 };
 }
 struct CompressedMeshKeyValidation : ::hkpCompressedMeshShape
 {
-    unsigned FUN_00e3cfe0(unsigned key);
+    unsigned hkpCompressedMeshShape_isValidShapeKey(unsigned key);
 };
 // Validates a packed triangle key against the compressed mesh chunks, returning 0 on success or an error code 1-4 on mismatch.
 // @fnv 0x00e3cfe0
-unsigned CompressedMeshKeyValidation::FUN_00e3cfe0(unsigned key)
+// src: HAVOK_LIB 0x00e3cfe0
+unsigned CompressedMeshKeyValidation::hkpCompressedMeshShape_isValidShapeKey(unsigned key)
 {
     int index = (int)(key >> m_iBitsPerWIndex);
     unsigned triangle = key & m_iNumBitsForIndex;
@@ -625,7 +627,7 @@ unsigned CompressedMeshKeyValidation::FUN_00e3cfe0(unsigned key)
         --index;
         if (index >= m_kChunks.m_iElementCount)
             return 2;
-        unsigned uiNextTriangle = reinterpret_cast<reflected_havok::hkpCompressedMeshShapeChunk*>(m_kChunks.m_data)[index].FUN_00e3ca10(triangle - 1, &key);
+        unsigned uiNextTriangle = reinterpret_cast<reflected_havok::hkpCompressedMeshShapeChunk*>(m_kChunks.m_data)[index].hkpCompressedMeshShape_Chunk_getNextIndex(triangle - 1, &key);
         if (uiNextTriangle != triangle)
             return 3;
         if (key != (unsigned)other)
@@ -771,7 +773,7 @@ class CompressedChunkTriangleIterator
     unsigned short unk46;
     unsigned int unk48, unk4c;
 
-    int FUN_00e3ca10(int iIndex, int& iWinding) throw();
+    int hkpCompressedMeshShape_Chunk_getNextIndex(int iIndex, int& iWinding) throw();
 };
 
 // The shared header does not redeclare the container's key iterator.
@@ -781,7 +783,8 @@ class CompressedMeshKeyIterator : public hkpCompressedMeshShape
     unsigned int GetNextShapeKey(unsigned int uiOldKey) const;
 };
 
-__declspec(noinline) int CompressedChunkTriangleIterator::FUN_00e3ca10(int index, int& winding) throw()
+// src: HAVOK_LIB 0x00e3ca10
+__declspec(noinline) int CompressedChunkTriangleIterator::hkpCompressedMeshShape_Chunk_getNextIndex(int index, int& winding) throw()
 {
     winding = 0;
     if (index < 0)
@@ -843,9 +846,9 @@ unsigned int CompressedMeshKeyIterator::GetNextShapeKey(unsigned int uiOldKey) c
                 CompressedChunkTriangleIterator* pkChunk = &pkChunks[i];
                 int iWinding = 0;
                 if (pkChunk->m_kSmartReference != 0xffff)
-                    iIndex = chunks.m_data[pkChunk->m_kSmartReference].FUN_00e3ca10(iIndex, iWinding);
+                    iIndex = chunks.m_data[pkChunk->m_kSmartReference].hkpCompressedMeshShape_Chunk_getNextIndex(iIndex, iWinding);
                 else
-                    iIndex = pkChunk->FUN_00e3ca10(iIndex, iWinding);
+                    iIndex = pkChunk->hkpCompressedMeshShape_Chunk_getNextIndex(iIndex, iWinding);
                 if (iIndex != -1 && iIndex <= m_iNumBitsForWIndex)
                     return ((iWinding & 1) << m_iBitsPerIndex) | ((i + 1) << iBitsPerWIndex) |
                            (iIndex & m_iNumBitsForIndex);
@@ -1171,7 +1174,7 @@ Triangle* CompressedMeshChildQuery::FUN_00e3d3f0(unsigned int key, BufferRef buf
     }
 }
 
-void __cdecl FUN_00c908c0(::hkMemoryAllocator& alloc, void* array, int numElem, int sizeElem);
+void __cdecl hkArrayUtil__reserve(::hkMemoryAllocator& alloc, void* array, int numElem, int sizeElem);
 
 // hkArray::setSize through this unit's heap allocator view (hkArrayUtil::_reserve is FUN_00c908c0).
 template <class T> static __forceinline void SetSizeAndGrow(::hkArrayBase<T>& a, int n)
@@ -1182,7 +1185,7 @@ template <class T> static __forceinline void SetSizeAndGrow(::hkArrayBase<T>& a,
     {
         int cap2 = 2 * cap;
         int newSize = (n < cap2) ? cap2 : n;
-        FUN_00c908c0(alloc, &a, newSize, sizeof(T));
+        hkArrayUtil__reserve(alloc, &a, newSize, sizeof(T));
     }
     a.m_iElementCount = n;
 }
@@ -1278,11 +1281,12 @@ class hkpCompressedMeshShapeBigTriangle
 }
 struct CompressedMeshMaterialQuery : ::hkpCompressedMeshShape
 {
-    void* FUN_00e3d0e0(unsigned key);
+    void* hkpCompressedMeshShape_getMaterial(unsigned key);
 };
 // Resolves a material index from a compressed mesh key and returns a pointer into the material data buffer.
 // @fnv 0x00e3d0e0
-void* CompressedMeshMaterialQuery::FUN_00e3d0e0(unsigned key)
+// src: HAVOK_LIB 0x00e3d0e0
+void* CompressedMeshMaterialQuery::hkpCompressedMeshShape_getMaterial(unsigned key)
 {
     char* materials = (char*)m_pUserData;
     if (!materials)

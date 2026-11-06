@@ -46,7 +46,7 @@ class NiBound
     void ComputeFromPoints(int count, void* points);
     void ComputeFromPoints(int count, const NiPoint3* points);
     void ComputeBoundingSphere(unsigned int vertexCount, const NiPoint3* vertices);
-    void FUN_00a7f3f0(const NiBound* other);
+    void NiBound_Merge(const NiBound* other);
     void Update(void* data);
     void Update(void* data, void* transform);
     void Update(const NiBound& bound, const NiTransform& transform);

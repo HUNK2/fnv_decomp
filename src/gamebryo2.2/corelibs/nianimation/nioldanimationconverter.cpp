@@ -259,8 +259,8 @@ struct LcInterp : LcCtlr
 
 struct LcTarget
 {
-    LcCtlr* FUN_00a5c570(const LcRTTI* pkRTTI) const;
-    void FUN_00a5c480(void* pkCtlr);
+    LcCtlr* NiObjectNET_GetController(const LcRTTI* pkRTTI) const;
+    void NiObjectNET_RemoveController(void* pkCtlr);
 };
 
 struct LcOld
@@ -280,7 +280,7 @@ extern "C" void __cdecl CreateInterpolator(LcOld* pkOld)
 {
     LcTarget* pkTarget = pkOld->m_pkTarget;
     bool bControllerCreated = false;
-    LcCtlr* pkCtlr = pkTarget->FUN_00a5c570(&DAT_011f36ec);
+    LcCtlr* pkCtlr = pkTarget->NiObjectNET_GetController(&DAT_011f36ec);
     LcSourceInterp* pkSrc;
     if (!pkCtlr || !(pkSrc = pkCtlr->GetInterpolator(0)) || !pkSrc->IsKindOfType(&DAT_011f3e50))
     {
@@ -334,7 +334,7 @@ extern "C" void __cdecl CreateInterpolator(LcOld* pkOld)
     if (bControllerCreated)
         pkCtlr->SetTarget(pkTarget);
     if (pkTarget)
-        pkTarget->FUN_00a5c480(pkOld);
+        pkTarget->NiObjectNET_RemoveController(pkOld);
     if (pkData)
         pkData->DecRefCount();
 }

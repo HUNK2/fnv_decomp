@@ -987,11 +987,12 @@ struct FUN_00bae930_Class
 {
     char m0[0x80];
     RefCounted* m_0x80;
-    void __thiscall FUN_00bae930(RefCounted* apTexture);
+    void __thiscall NiPhysXProp_SetSnapshot(RefCounted* apTexture);
 };
 // Releases the previous texture reference, stores apTexture in m_0x80 and increments its reference count if non-null.
 // @fnv 0x00bae930
-void __thiscall FUN_00bae930_Class::FUN_00bae930(RefCounted* apTexture)
+// src: GAMEBRYO_LIB 0x00bae930
+void __thiscall FUN_00bae930_Class::NiPhysXProp_SetSnapshot(RefCounted* apTexture)
 {
     RefCounted* pOld = m_0x80;
     if (pOld != apTexture)
@@ -7054,11 +7055,12 @@ class FUN_00bb3740_cls
     int unk78;
     NiPointer<NiRefObject> m_pReferencedObject;
 
-    void FUN_00bb3740(NiRefObject* obj);
+    void NiPhysXFluidEmitterDesc_SetFrameShape(NiRefObject* obj);
 };
 
 // @fnv 0x00bb3740
-void FUN_00bb3740_cls::FUN_00bb3740(NiRefObject* obj)
+// src: GAMEBRYO_LIB 0x00bb3740
+void FUN_00bb3740_cls::NiPhysXFluidEmitterDesc_SetFrameShape(NiRefObject* obj)
 {
     m_pReferencedObject = obj;
 }
@@ -14060,7 +14062,7 @@ struct FUN_00baea50_cls
 };
 
 static unsigned short DAT_012005b4;
-void __cdecl FUN_00aa10f0(int a);
+void __cdecl _NiFree_00aa10f0(int a);
 
 // Calls FUN_00ba92c0, reads m_7C and m_8C from a1's stream, updates m_74 from a1's value, and takes m_88 from a global counter when m_8C is 3.
 // @fnv 0x00baea50
@@ -14071,7 +14073,7 @@ void FUN_00baea50_cls::FUN_00baea50(FUN_00baea50_arg* a1)
     int out = 0;
     a1->FUN_00a64ce0(&out);
     m_74.FUN_004037f0(out, 0);
-    FUN_00aa10f0(out);
+    _NiFree_00aa10f0(out);
     a1->m_24C->Read(&m_8C, 4);
     if (m_8C == 3)
     {
@@ -15783,7 +15785,7 @@ struct Pass
     RefPointer pixel;
     int unk48, unk4c, unk50, unk54, unk58;
     RefPointer vertex;
-    void FUN_00b79950(RefObject*);
+    void NiD3DPass_SetVertexShader(RefObject*);
     void FUN_00b80600(RefObject*);
     __forceinline void SetState(unsigned int key, unsigned int value, bool save)
     {
@@ -15955,23 +15957,23 @@ void Shader::FUN_00bb1f60(Geometry* geometry, int unused1, int unused2, PassInfo
         {
             if (useFog)
             {
-                active->FUN_00b79950(Get_fogVertex());
+                active->NiD3DPass_SetVertexShader(Get_fogVertex());
                 pass->FUN_00b80600(Get_fogPixel());
             }
             else
             {
-                active->FUN_00b79950(Get_normalVertex());
+                active->NiD3DPass_SetVertexShader(Get_normalVertex());
                 pass->FUN_00b80600(Get_normalPixel());
             }
         }
         else if (useFog)
         {
-            active->FUN_00b79950(Get_alternateFogVertex());
+            active->NiD3DPass_SetVertexShader(Get_alternateFogVertex());
             pass->FUN_00b80600(Get_fogPixel());
         }
         else
         {
-            active->FUN_00b79950(Get_alternateVertex());
+            active->NiD3DPass_SetVertexShader(Get_alternateVertex());
             pass->FUN_00b80600(Get_normalPixel());
         }
     }

@@ -46,7 +46,7 @@ public:
     {
         m_name = name;
         m_pReferencedResource.FUN_00d47770(object, pClassInfo);
-        m_pClassName = m_pReferencedResource.FUN_00d477a0() ? m_pReferencedResource.FUN_00d477a0()->getName() : 0;
+        m_pClassName = m_pReferencedResource.hkRefVariant_getClass() ? m_pReferencedResource.hkRefVariant_getClass()->getName() : 0;
     }
 };
 inline void* operator new(unsigned int, void* p)
@@ -85,13 +85,14 @@ __forceinline T& hkArrayBase<T>::_expandOne(hkMemoryAllocator& a)
 }
 extern int DAT_01268b54;
 // The game ABI passes aggregate result storage as the first stack argument.
-void __cdecl FUN_00cc0b50(hkResult* result, const void* object, const void* pClassInfo, int a3, int a4, int a5, int a6);
+void __cdecl hkpHavokSnapshot_save(hkResult* result, const void* object, const void* pClassInfo, int a3, int a4, int a5, int a6);
 
 // @fnv 0x00cc0bc0
-hkResult* __cdecl FUN_00cc0bc0(hkResult* result, const void* object, const hkClass& pClassInfo, int a3, int a4, int a5)
+// src: HAVOK_LIB 0x00cc0bc0
+hkResult* __cdecl hkpHavokSnapshot_saveUnderRootLevel(hkResult* result, const void* object, const hkClass& pClassInfo, int a3, int a4, int a5)
 {
     hkRootLevelContainer container;
     container.m_kNamedVariants.expandOne().set(pClassInfo.getName(), object, &pClassInfo);
-    FUN_00cc0b50(result, &container, &DAT_01268b54, a3, a4, a5, 0);
+    hkpHavokSnapshot_save(result, &container, &DAT_01268b54, a3, a4, a5, 0);
     return result;
 }

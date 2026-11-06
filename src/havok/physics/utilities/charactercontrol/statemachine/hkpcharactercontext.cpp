@@ -29,7 +29,8 @@ __declspec(noinline) void __fastcall FUN_00ca95e0(hkpCharacterContext* context)
 }
 
 // @fnv 0x00ca9670
-void __fastcall FUN_00ca9670(hkpCharacterContext* context, void*, float a, float b, float c)
+// src: HAVOK_LIB 0x00ca9670
+void __fastcall hkpCharacterContext_setFilterParameters(hkpCharacterContext* context, void*, float a, float b, float c)
 {
     context->unk24 = a;
     context->unk20 = b;

@@ -84,7 +84,7 @@ struct MatchList
     unsigned short unk12;
     unsigned int foundIndex;
 };
-bool __cdecl FUN_00e9ca50(float value, void* item, unsigned int arg3, unsigned int arg4, unsigned int arg5,
+bool __cdecl NiBoundingVolume_FindTriIntersect(float value, void* item, unsigned int arg3, unsigned int arg4, unsigned int arg5,
                           unsigned int arg6, unsigned int arg7, unsigned int arg8, unsigned int arg9,
                           unsigned int arg10, unsigned int arg11, unsigned int arg12);
 // Scans list->entries for the first item accepted by FUN_00e9ca50, stores its index in list->foundIndex and returns true, otherwise returns false.
@@ -96,7 +96,7 @@ bool __cdecl FUN_00e9ec10(float value, MatchList* pMatchList, unsigned int arg3,
     for (unsigned int i = 0; i < pMatchList->count; ++i)
     {
         void* item = pMatchList->entries[i];
-        if (FUN_00e9ca50(value, item, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12))
+        if (NiBoundingVolume_FindTriIntersect(value, item, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12))
         {
             pMatchList->foundIndex = i;
             return true;
@@ -409,7 +409,8 @@ extern int DAT_011a9474;
 
 // Allocates a 0x3c-byte object, initializes its vtable, center and axis vectors and two floats to 1.0, calls FUN_00e9f1b0, and returns it.
 // @fnv 0x00ea0690
-NiCapsuleBV* __cdecl FUN_00ea0690()
+// src: GAMEBRYO_SRC 0x00ea0690
+NiCapsuleBV* __cdecl NiCapsuleBV_Create()
 {
     NiCapsuleBV* p = (NiCapsuleBV*)g_memoryManager.Allocate(0x3c);
     if (p)
@@ -496,7 +497,7 @@ struct TrianglePointSet
 
 extern const S_Vec3 NiPoint3_ZERO;
 
-float __cdecl FUN_00eaff20(const S_Seg* pkSeg, const TrianglePointSet* pkPgm, float* pfSegParam, float* pfPgmParam0,
+float __cdecl NiSqrDistance_Compute_00eaff20(const S_Seg* pkSeg, const TrianglePointSet* pkPgm, float* pfSegParam, float* pfPgmParam0,
                            float* pfPgmParam1);
 
 inline S_Vec3 operator-(const S_Vec3& kA, const S_Vec3& kB)
@@ -536,7 +537,7 @@ bool __cdecl IsCapsuleSweptHit(float fTime, NiCapsuleBV* pkCapsule0, const S_Vec
         kSwept.m_kStartPoint = reinterpret_cast<const S_Seg*>(pkCapsule1->_pad)->p;
         kSwept.m_kPoint1 = reinterpret_cast<const S_Seg*>(pkCapsule1->_pad)->d;
         kSwept.m_kPoint2 = kRelVelocity * fTime;
-        fSqrDist = FUN_00eaff20(reinterpret_cast<const S_Seg*>(pkCapsule0->_pad), &kSwept, &fSqrDist, &fParam0, &fParam1);
+        fSqrDist = NiSqrDistance_Compute_00eaff20(reinterpret_cast<const S_Seg*>(pkCapsule0->_pad), &kSwept, &fSqrDist, &fParam0, &fParam1);
     }
     else
     {
@@ -680,7 +681,7 @@ struct BigStruct
     NiPoint3 c2c;
     NiPoint3 prod;
 };
-float __cdecl FUN_00eb1d20(NiPoint3* c20, Query* q, float* pf3c, float* p30, float* pftmp);
+float __cdecl NiSqrDistance_Compute_00eb1d20(NiPoint3* c20, Query* q, float* pf3c, float* p30, float* pftmp);
 float __cdecl TriangleTriangleDistance(Query* q, BigStruct* bs, float* p30, float* pftmp, float* pR, float* pf3c);
 // Tests capsule proximity to the triangle formed by pOrg, pA, and pB, then compares the computed squared distance with the squared radius.
 // @fnv 0x00e9f8c0
@@ -737,7 +738,7 @@ bool __cdecl CapsuleTriangleIntersect(float afScale, NiCapsuleBV* apCapsule, NiP
         goto ftmp;
     if (vDir.z != DAT_011f4274)
         goto ftmp;
-    fResult = FUN_00eb1d20(reinterpret_cast<NiPoint3*>(apCapsule->_pad), &s, &i, &fResult, &tr);
+    fResult = NiSqrDistance_Compute_00eb1d20(reinterpret_cast<NiPoint3*>(apCapsule->_pad), &s, &i, &fResult, &tr);
     goto done;
 ftmp: {
     BigStruct bigStruct;
@@ -1105,7 +1106,7 @@ struct CapsuleTriangleQuery
     const NiPoint3* FUN_00eae710();
     void FUN_00eae6d0();
 };
-__declspec(noalias) float __cdecl FUN_00eb1d20(const CapsuleSegment*, const CollisionTriangle*, float*, float*, float*);
+__declspec(noalias) float __cdecl NiSqrDistance_Compute_00eb1d20(const CapsuleSegment*, const CollisionTriangle*, float*, float*, float*);
 __declspec(noinline) NiPoint3 __cdecl FUN_004a3760(float s, const NiPoint3& v)
 {
     return NiPoint3(s * v.x, s * v.y, s * v.z);
@@ -1132,7 +1133,7 @@ bool __cdecl FUN_00e9fdc0(float afTime, NiCapsuleBV* apCapsule, NiPoint3* a2, co
     CopyVector(collisionData.triangle.p, *apTriA);
     CopyVector(collisionData.triangle.u, *apTriB - *apTriA);
     CopyVector(collisionData.triangle.v, *apTriC - *apTriA);
-    float separation = FUN_00eb1d20(&collisionData.segment, &collisionData.triangle, &collisionData.segmentParameter,
+    float separation = NiSqrDistance_Compute_00eb1d20(&collisionData.segment, &collisionData.triangle, &collisionData.segmentParameter,
                                     &collisionData.triangleU, &collisionData.triangleV) -
                        collisionData.radiusSquared;
     if (separation <= 0.0f)

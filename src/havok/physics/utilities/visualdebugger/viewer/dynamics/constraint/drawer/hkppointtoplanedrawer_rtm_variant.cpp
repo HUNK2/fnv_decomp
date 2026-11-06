@@ -75,7 +75,7 @@ struct FUN_00de7580_cls
     FUN_00e10a10_Obj unkC0;
 
     void FUN_00de47e0(Arg_00de7580* a1, hkTransform* a2, hkTransform* a3);
-    void FUN_00de44c0(int a1, int a2);
+    void hkpConstraintDrawer_drawPivots(int a1, int a2);
     void FUN_00de4530(int a1, int a2);
     void FUN_00de7580(ArgHolder_00de7580 a1, Render_00de7580* a2, int a3, int a4);
 };
@@ -95,7 +95,7 @@ void FUN_00de7580_cls::FUN_00de7580(ArgHolder_00de7580 a1, Render_00de7580* a2, 
     FUN_00de47e0(a1.value, &v44, &v80);
     unk50.FUN_00c7f640(v44, reinterpret_cast<const hkVector4&>(b->unk30));
     unk40.FUN_00c7f640(v80, reinterpret_cast<const hkVector4&>(b->unk20));
-    FUN_00de44c0(a3, a4);
+    hkpConstraintDrawer_drawPivots(a3, a4);
     FUN_00de4530(a3, a4);
 
     float t = b->unk44;

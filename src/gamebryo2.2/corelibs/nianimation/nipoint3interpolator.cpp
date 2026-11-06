@@ -224,7 +224,8 @@ NiPoint3Interpolator* __fastcall FUN_00a49ae0(NiPoint3Interpolator* pThis, int, 
 }
 
 // @fnv 0x00a49410
-void* __fastcall FUN_00a49410(char* self, int, int)
+// src: GAMEBRYO_LIB 0x00a49410
+void* __fastcall NiPoint3Interpolator_GetKeyCount(char* self, int, int)
 {
     void* d = *(void**)(self + 0x18);
     if (!d)
@@ -233,7 +234,8 @@ void* __fastcall FUN_00a49410(char* self, int, int)
 }
 
 // @fnv 0x00a49420
-void* __fastcall FUN_00a49420(char* self, int, int)
+// src: GAMEBRYO_LIB 0x00a49420
+void* __fastcall NiPoint3Interpolator_GetKeyType(char* self, int, int)
 {
     void* d = *(void**)(self + 0x18);
     if (!d)
@@ -242,7 +244,8 @@ void* __fastcall FUN_00a49420(char* self, int, int)
 }
 
 // @fnv 0x00a49430
-void* __fastcall FUN_00a49430(char* self, int, int)
+// src: GAMEBRYO_LIB 0x00a49430
+void* __fastcall NiPoint3Interpolator_GetKeyArray(char* self, int, int)
 {
     void* d = *(void**)(self + 0x18);
     if (!d)
@@ -251,7 +254,8 @@ void* __fastcall FUN_00a49430(char* self, int, int)
 }
 
 // @fnv 0x00a49440
-unsigned char __fastcall FUN_00a49440(char* self, int, int)
+// src: GAMEBRYO_LIB 0x00a49440
+unsigned char __fastcall NiPoint3Interpolator_GetKeyStride(char* self, int, int)
 {
     void* d = *(void**)(self + 0x18);
     if (!d)
@@ -328,7 +332,8 @@ extern float DAT_011a9428;
 extern float DAT_011a942c;
 
 // @fnv 0x00a49460
-bool __fastcall FUN_00a49460(NiPoint3Interpolator* self, int, unsigned short channel)
+// src: GAMEBRYO_LIB 0x00a49460
+bool __fastcall NiPoint3Interpolator_GetChannelPosed(NiPoint3Interpolator* self, int, unsigned short channel)
 {
     if (*(int*)((char*)self + 0x18))
         return false;

@@ -134,13 +134,13 @@ void FUN_00a361c0_cls::FUN_00a361c0(NiStream& kStream)
 
 struct FUN_00a367c0_helper
 {
-    void FUN_00a38ef0(ObjectA36810* pkClone, CloningProcess& cloning);
+    void NiSingleInterpController_CopyMembers(ObjectA36810* pkClone, CloningProcess& cloning);
 };
 
 // @fnv 0x00a367c0
 ObjectA36810* __fastcall FUN_00a367c0(ObjectA36810* pThis, void*, CloningProcess& cloning)
 {
     ObjectA36810* pNewInstance = new ObjectA36810;
-    ((FUN_00a367c0_helper*)pThis)->FUN_00a38ef0(pNewInstance, cloning);
+    ((FUN_00a367c0_helper*)pThis)->NiSingleInterpController_CopyMembers(pNewInstance, cloning);
     return pNewInstance;
 }

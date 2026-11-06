@@ -190,12 +190,12 @@ struct FUN_00cd3290_class
 };
 struct FUN_00cdea00_cls
 {
-    void __thiscall FUN_00cdea00(char param_2);
+    void __thiscall hkpRagdollConstraintData_setConeLimitStabilization(char param_2);
 };
 struct FUN_00cdf250_class
 {
     void __thiscall FUN_00cd55b0(int* a, int b);
-    void __thiscall FUN_00cdf250(int a);
+    void __thiscall hkpRagdollConstraintData_setTargetRelativeOrientationOfBodies(int a);
 };
 void __cdecl NiFreeAlias(void* p);
 extern MM g_memoryManager;
@@ -249,11 +249,11 @@ struct FUN_00ccfe20_class
 {
     void __thiscall FUN_00ccfe20(bool a);
 };
-void __fastcall FUN_00cde9f0(void* self, int, float v);
+void __fastcall hkpRagdollConstraintData_setMaxFrictionTorque(void* self, int, float v);
 void __stdcall SetContactNormal(int a, int b);
 void __stdcall FUN_00cdea70(int param_1);
 void __stdcall SetContactNormal(int a, int b);
-void __stdcall FUN_00cdea90(int param_1);
+void __stdcall hkpRagdollConstraintData_setConeMotor(int param_1);
 struct FUN_00cdf290_cls
 {
     void __thiscall SetFlagAndClearFloats(int a, char b);
@@ -518,8 +518,8 @@ struct FUN_00cda090_class
 
     bool* __thiscall FUN_00cda090(bool* result);
 };
-void __stdcall FUN_00cdeab0(int a);
-void __fastcall FUN_00cdf270(char* self, int, char* arg);
+void __stdcall hkpRagdollConstraintData_setPlaneMotor(int a);
+void __fastcall hkpRagdollConstraintData_getTarget(char* self, int, char* arg);
 class CC1AD0BinaryStream
 {
   public:
@@ -787,7 +787,7 @@ struct ArrayRefPtr
     }
 };
 void* __cdecl FUN_00aa1070(unsigned);
-void __cdecl FUN_00aa10f0(void*);
+void __cdecl _NiFree_00aa10f0(void*);
 struct ReferenceArray
 {
     void* vtable;
@@ -988,7 +988,7 @@ struct TlsFlagGuard_00cc1e40
         g_tls_00cc1e40.m_2b4 = m_saved;
     }
 };
-void __cdecl FUN_00aa10f0(void* apMemory);
+void __cdecl _NiFree_00aa10f0(void* apMemory);
 struct Base_00cc1e40
 {
     virtual void unk00();
@@ -1004,7 +1004,7 @@ struct Member_00cc1e40
     ~Member_00cc1e40()
     {
         void* p = m_04;
-        FUN_00aa10f0(p);
+        _NiFree_00aa10f0(p);
     }
 };
 class FUN_00cc1e40_cls : public Base_00cc1e40
@@ -4690,7 +4690,7 @@ struct CpuObject
     unsigned int unk2c;
     unsigned int unk30;
     CpuInterface* target;
-    void FUN_00cc9d70();
+    void hkpMoppBvTreeShape_getContainer();
 };
 extern int DAT_01268658;
 void* __cdecl FUN_00cc9db0();
@@ -8206,8 +8206,8 @@ struct FNVArray
     unsigned int m_capacityFlags;
     void __thiscall FUN_00cd1d80(void* allocator, int index, int removeCount, const int* source, int insertCount);
 };
-extern void __cdecl FUN_00c908c0(void* allocator, void* array, int newCapacity, int elementSize);
-extern void __cdecl FUN_00d2cc70(void* dest, const void* src, unsigned int byteCount);
+extern void __cdecl hkArrayUtil__reserve(void* allocator, void* array, int newCapacity, int elementSize);
+extern void __cdecl hkMemUtil_memMove(void* dest, const void* src, unsigned int byteCount);
 void __stdcall FUN_00cd3b00(int a, int b, int c, int d);
 int __cdecl FUN_00cd3c80();
 extern int DAT_010cb344;
@@ -8484,7 +8484,7 @@ struct FUN_00cdb2a0_cls
     volatile unsigned int m_i34;
 
     void InitBuffers(unsigned int a1, unsigned int a2, unsigned int a3);
-    FUN_00cdb2a0_cls* FUN_00cdb2a0(unsigned int a1, unsigned int a2, unsigned int a3);
+    FUN_00cdb2a0_cls* hkaPose_hkaPose(unsigned int a1, unsigned int a2, unsigned int a3);
 };
 struct S_00cdb2f0_Arr
 {
@@ -12669,7 +12669,7 @@ struct Defaults
     {}
     Defaults(int)
     {}
-    Defaults* FUN_00cdb360();
+    Defaults* hkaKeyFrameHierarchyUtility_ControlData_ControlData();
 };
 template <class T> struct Array
 {
@@ -12684,7 +12684,7 @@ template <class T> struct Array
         if (c < n)
         {
             int doubled = c * 2;
-            FUN_00c908c0(&alloc, this, n < doubled ? doubled : n, sizeof(T));
+            hkArrayUtil__reserve(&alloc, this, n < doubled ? doubled : n, sizeof(T));
         }
     }
     __forceinline void resizeUninitialized(int n)
@@ -12765,12 +12765,13 @@ class hkObjCC01
     void* DispatchToTarget(void* pv);
 };
 extern "C" int __cdecl Vsnprintf(char* dst, int maxlen, const char* fmt, ...);
-extern "C" int __cdecl FUN_00cb10d0(const char* s);
-static __declspec(noinline) void FUN_00cc0080(hkStreamWriter* writer, const char* str)
+extern "C" int __cdecl hkString_strLen(const char* s);
+// src: HAVOK_LIB 0x00cc0080
+static __declspec(noinline) void writeString(hkStreamWriter* writer, const char* str)
 {
     if (str)
     {
-        writer->write(str, FUN_00cb10d0(str));
+        writer->write(str, hkString_strLen(str));
     }
     else
     {
@@ -12854,7 +12855,7 @@ struct hkObjCC08
     virtual void v14();
     virtual void v18(const char* name, int value);
 
-    void FUN_00cc0820();
+    void hkResource_getContents_class_hkRootLevelContainer();
 };
 struct CpuOpaque;
 extern CpuOpaque DAT_01268590;
@@ -13139,7 +13140,7 @@ struct Cls00ccf5a0
     void FUN_00c84cc0(int a);
     void FUN_00ccf5a0(int a);
 };
-void __cdecl FUN_00c908c0(void* alloc, void* arr, int cap, int elemSize);
+void __cdecl hkArrayUtil__reserve(void* alloc, void* arr, int cap, int elemSize);
 struct FE50Router
 {
     int m0, m4, m8, mc;
@@ -13380,7 +13381,7 @@ struct FUN_00cd29f0_cls
     int unk80;
     int unk84;
     unsigned int unk88;
-    void __thiscall FUN_00cd29f0(unsigned int v);
+    void __thiscall hkpWorldObject_setTreeData(unsigned int v);
 };
 struct FnvCpu_FUN_00cd2a00_CpuObject
 {
@@ -13468,7 +13469,7 @@ struct FUN_00cdb3c0_class
 };
 extern "C" void* __cdecl fnv_zlib_memset(void* dest, int val, unsigned int count) throw();
 void __cdecl ResizeAudioStream(void* allocator, void* array, int elementSize) throw();
-void __cdecl FUN_00c908c0(void* allocator, void* array, int newCapacity, int elementSize) throw();
+void __cdecl hkArrayUtil__reserve(void* allocator, void* array, int newCapacity, int elementSize) throw();
 template <typename T> inline void ConstructWithCopy(T* p, int n, const T& t)
 {
     for (int i = 0; i < n; i++)
@@ -13500,7 +13501,7 @@ template <typename T> struct MyArray
         {
             int cap2 = cap * 2;
             int newCap = n < cap2 ? cap2 : n;
-            FUN_00c908c0(alloc, this, newCap, sizeof(T));
+            hkArrayUtil__reserve(alloc, this, newCap, sizeof(T));
         }
     }
 

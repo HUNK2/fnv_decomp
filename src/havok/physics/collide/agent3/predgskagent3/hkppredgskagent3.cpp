@@ -162,7 +162,7 @@ struct S_00d417b0_Obj
     S_00d417b0_Sub m_sub;
 };
 
-void __cdecl FUN_00dae340(S_00d417b0_Sub* sub, int index);
+void __cdecl _hkGskManifold_removePoint(S_00d417b0_Sub* sub, int index);
 
 // @fnv 0x00d417b0
 void __cdecl RemoveEntryById(int aiUnused, S_00d417b0_Obj* obj, short sId)
@@ -172,7 +172,7 @@ void __cdecl RemoveEntryById(int aiUnused, S_00d417b0_Obj* obj, short sId)
     {
         if (sub->m_entries[i].m_iOwnerObjectOffset == sId)
         {
-            FUN_00dae340(sub, i);
+            _hkGskManifold_removePoint(sub, i);
             return;
         }
     }

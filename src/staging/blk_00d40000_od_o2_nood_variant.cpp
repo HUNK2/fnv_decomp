@@ -221,13 +221,14 @@ inline hkpCollisionDispatcher::Agent3FunctionTable::Agent3FunctionTable()
     m_pAgentFunction7 = 0;
 }
 
-void __cdecl FUN_00d400f0(void* buf);
+void __cdecl hkBoxBoxAgent3_initAgentFunc(void* buf);
 
 // @fnv 0x00d40130
-void __cdecl FUN_00d40130(hkpCollisionDispatcher* self)
+// src: HAVOK_LIB 0x00d40130
+void __cdecl hkBoxBoxAgent3_registerAgent3(hkpCollisionDispatcher* self)
 {
     hkpCollisionDispatcher::Agent3FunctionTable kFuncs;
-    FUN_00d400f0(&kFuncs);
+    hkBoxBoxAgent3_initAgentFunc(&kFuncs);
     self->AddEntry(&kFuncs, 4, 4);
 }
 
@@ -377,7 +378,8 @@ struct __declspec(align(16)) FUN_00c9ce00
 };
 extern int DAT_010c7888;
 // @fnv 0x00d49550
-int* __cdecl FUN_00d49550()
+// src: HAVOK_LIB 0x00d49550
+int* __cdecl getVtablehkpRigidBody()
 {
     Handle_d49550 kHandle = {0};
     FUN_00c9ce00 kObject(kHandle);
@@ -479,7 +481,8 @@ struct __declspec(align(16)) SpawnedObject
 };
 
 // @fnv 0x00d4b260
-int FUN_00d4b260()
+// src: HAVOK_LIB 0x00d4b260
+int getVtablehkpStorageExtendedMeshShape()
 {
     SpawnedObject obj;
     obj.FUN_00d4a180(W_d4a180());

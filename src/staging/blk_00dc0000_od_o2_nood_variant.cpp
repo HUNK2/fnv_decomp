@@ -54,7 +54,7 @@ struct MemRouter
 };
 
 void* __cdecl FUN_00c85750();
-void __cdecl FUN_00c908c0(MemAllocator* alloc, VecArray* arr, int newCap, int elemSize);
+void __cdecl hkArrayUtil__reserve(MemAllocator* alloc, VecArray* arr, int newCap, int elemSize);
 
 static __forceinline float distanceSquared(LocalM128 a, LocalM128 b)
 {
@@ -118,7 +118,7 @@ void __cdecl FUN_00dd68d0(float tol, VecArray* arr, int* outCount)
     {
         int cap2 = cap * 2;
         int newCap = (count < cap2) ? cap2 : count;
-        FUN_00c908c0(&alloc, arr, newCap, 16);
+        hkArrayUtil__reserve(&alloc, arr, newCap, 16);
     }
     arr->m_iElementCount = count;
 }

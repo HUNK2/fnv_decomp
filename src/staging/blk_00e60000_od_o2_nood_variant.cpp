@@ -502,7 +502,7 @@ struct MoppFormatter
 struct MoppFindAllVM
 {
     MoppResults* results;
-    void FUN_00e66290(const MoppQueryState* current, const unsigned char* program);
+    void hkpMoppFindAllVirtualMachine_queryOnTreeRight(const MoppQueryState* current, const unsigned char* program);
 };
 static __forceinline void decodeWord(const unsigned char* __restrict p, unsigned int* __restrict out,
                                      unsigned int index)
@@ -525,7 +525,8 @@ static unsigned int readBig32(const unsigned char* p)
     return (readBig24(p) << 8) + p[3];
 }
 // @fnv 0x00e66290
-void MoppFindAllVM::FUN_00e66290(const MoppQueryState* current, const unsigned char* program)
+// src: HAVOK_LIB 0x00e66290
+void MoppFindAllVM::hkpMoppFindAllVirtualMachine_queryOnTreeRight(const MoppQueryState* current, const unsigned char* program)
 {
     MoppQueryState local;
     unsigned int primitive;

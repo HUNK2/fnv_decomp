@@ -8,17 +8,18 @@
 typedef unsigned short hkUint16;
 typedef unsigned int hkUint32;
 
-extern "C" void __cdecl FUN_00d21a60(void* p, unsigned int x, unsigned int y);
+extern "C" void __cdecl hkpConstraintData_getConstraintInfoUtil(void* p, unsigned int x, unsigned int y);
 
 struct FUN_00d4f130_StandIn
 {
-    void FUN_00d4f130(unsigned int a);
+    void hkpRagdollLimitsData_getConstraintInfo(unsigned int a);
 };
 
 // @fnv 0x00d4f130
-void FUN_00d4f130_StandIn::FUN_00d4f130(unsigned int auiValue)
+// src: HAVOK_LIB 0x00d4f130
+void FUN_00d4f130_StandIn::hkpRagdollLimitsData_getConstraintInfo(unsigned int auiValue)
 {
-    FUN_00d21a60((char*)this + 0x10, 0xac, auiValue);
+    hkpConstraintData_getConstraintInfoUtil((char*)this + 0x10, 0xac, auiValue);
 }
 
 // @fnv 0x00d4f150
@@ -30,11 +31,12 @@ void __stdcall FUN_00d4f150(int aiUnused, int* b)
 
 struct hkPragdollLimitsData
 {
-    void __thiscall FUN_00d4f270(bool value);
+    void __thiscall hkpRagdollLimitsData_setConeLimitStabilization(bool value);
 };
 
 // @fnv 0x00d4f270
-void __thiscall hkPragdollLimitsData::FUN_00d4f270(bool value)
+// src: HAVOK_LIB 0x00d4f270
+void __thiscall hkPragdollLimitsData::hkpRagdollLimitsData_setConeLimitStabilization(bool value)
 {
     ((char*)this)[0x9a] = (unsigned char)((value ? 1 : 0) << 4);
 }
@@ -71,11 +73,12 @@ struct S00d4f170_StandIn : public hkpConstraintData
     hkpConeLimitConstraintAtom m_kConeLimit;
     hkpConeLimitConstraintAtom m_kPlaneLimit;
 
-    virtual char* __thiscall FUN_00d4f170(char* result);
+    virtual char* __thiscall hkpRagdollLimitsData_isValid(char* result);
 };
 // Sets *result to whether both rotations pass IsOrthonormal and the cone, plane and twist limit angles satisfy the checked comparisons; returns result.
 // @fnv 0x00d4f170
-char* __thiscall S00d4f170_StandIn::FUN_00d4f170(char* result)
+// src: HAVOK_LIB 0x00d4f170
+char* __thiscall S00d4f170_StandIn::hkpRagdollLimitsData_isValid(char* result)
 {
     char* __restrict out = result;
     char* p;

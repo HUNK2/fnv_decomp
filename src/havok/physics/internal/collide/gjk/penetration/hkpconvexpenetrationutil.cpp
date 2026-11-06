@@ -263,7 +263,7 @@ struct S00dfa940_Simplex
     int GetNearestEntry();
 };
 
-double FUN_00df9ae0();
+double rand01();
 
 struct S00dfa940_Solver
 {
@@ -358,7 +358,7 @@ int S00dfa940_Solver::FUN_00dfa940(int a1)
         if (m_5c >= 0x14)
             goto out;
         m_6c = 0;
-        float f = (float)((FUN_00df9ae0() - DAT_01032980) * DAT_010dbb40);
+        float f = (float)((rand01() - DAT_01032980) * DAT_010dbb40);
         tmp.x = f;
         tmp.y = f;
         tmp.z = f;

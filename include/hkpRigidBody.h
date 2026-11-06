@@ -40,7 +40,7 @@ public:
     void SetBodyOrientation(const NiQuaternion&);
     void SetPositionAndRotation(const NiPoint3&, const NiQuaternion&);
     void SetCollisionShape(void* p);
-    void FUN_00ca88e0(float f);
+    void hkpRigidBody_setMassInv(float f);
 
     static void __cdecl createDynamicRigidMotion(
         hkpMotion::MotionType motionType,

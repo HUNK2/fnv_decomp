@@ -123,7 +123,8 @@ int __thiscall FUN_00e3f900_class::FUN_00e3f900(int a)
 }
 
 // @fnv 0x00e30f40
-int __cdecl FUN_00e30f40(int a, int b)
+// src: HAVOK_LIB 0x00e30f40
+int __cdecl hkaSplineCompressedAnimation_packMaskAndQuantizationType(int a, int b)
 {
     return ((unsigned char)b << 1) | (unsigned char)a;
 }
@@ -139,7 +140,7 @@ void __cdecl FUN_00e2ba90()
 
 extern int DAT_010eb3b8[];
 extern int DAT_010eb3d0[];
-int __cdecl FUN_00e30ff0(int a, int b);
+int __cdecl hkaSplineCompressedAnimation_handleEndianQuaternion(int a, int b);
 
 // @fnv 0x00e31010
 void __cdecl AlignAndAdvance(char flags, int aiCount, int aiIndex, int* p)
@@ -157,14 +158,14 @@ void __cdecl AlignAndAdvance(char flags, int aiCount, int aiIndex, int* p)
         int count = aiCount + 1;
         do
         {
-            FUN_00e30ff0(aiIndex, *p);
+            hkaSplineCompressedAnimation_handleEndianQuaternion(aiIndex, *p);
             *p += DAT_010eb3d0[aiIndex];
             count--;
         } while (count);
     }
     else
     {
-        FUN_00e30ff0(aiIndex, *p);
+        hkaSplineCompressedAnimation_handleEndianQuaternion(aiIndex, *p);
         *p += DAT_010eb3d0[aiIndex];
     }
 }
@@ -370,7 +371,8 @@ struct E2baaDst
 
 // Initializes an output record from a source record: sets a float, copies several source fields, and derives unk54 from src->unk20 and flag.
 // @fnv 0x00e2baa0
-E2baaDst* __cdecl FUN_00e2baa0(E2baaDst* out, E2baaSrc* src, int flag)
+// src: HAVOK_LIB 0x00e2baa0
+E2baaDst* __cdecl setCollector(E2baaDst* out, E2baaSrc* src, int flag)
 {
     out->unk14 = 1.0f;
     out->unk18 = 0;
@@ -1539,21 +1541,21 @@ void __cdecl FillInterpolatedValues(int count, float** array, float first, float
     }
 }
 
-unsigned int __cdecl FUN_00e31570(unsigned char a1, unsigned int* a2);
-int __cdecl FUN_00e315a0(unsigned char a1, unsigned int a2, unsigned int a3, unsigned int* a4);
+unsigned int __cdecl hkaSplineCompressedAnimation_handleEndianKnots(unsigned char a1, unsigned int* a2);
+int __cdecl hkaSplineCompressedAnimation_handleEndianScalarControlPoints(unsigned char a1, unsigned int a2, unsigned int a3, unsigned int* a4);
 
 // @fnv 0x00e31740
 void __cdecl FUN_00e31740(unsigned char flag, unsigned int uiValue, unsigned int* puiOut)
 {
     if (flag != 0)
     {
-        unsigned int r = FUN_00e31570(flag, puiOut);
-        FUN_00e315a0(flag, r, uiValue, puiOut);
+        unsigned int r = hkaSplineCompressedAnimation_handleEndianKnots(flag, puiOut);
+        hkaSplineCompressedAnimation_handleEndianScalarControlPoints(flag, r, uiValue, puiOut);
         *puiOut = (*puiOut + 3) & 0xfffffffcu;
     }
 }
 
-int __cdecl FUN_00e31570(int a, int* c);
+int __cdecl hkaSplineCompressedAnimation_handleEndianKnots(int a, int* c);
 void __cdecl AlignAndAdvance(int a, int result, int b, int* c);
 
 // @fnv 0x00e31780
@@ -1561,7 +1563,7 @@ void __cdecl FUN_00e31780(int a, int b, int* c)
 {
     if ((a & 0xff) != 0)
     {
-        int result = FUN_00e31570(a, c);
+        int result = hkaSplineCompressedAnimation_handleEndianKnots(a, c);
         AlignAndAdvance(a, result, b, c);
         *c = (*c + 3) & 0xfffffffc;
     }
@@ -2470,7 +2472,8 @@ namespace fnv_00e30ff0 {
 extern int(__cdecl* DAT_011be4a0[])(int);
 
 // @fnv 0x00e30ff0
-void __cdecl FUN_00e30ff0(int index, int arg)
+// src: HAVOK_LIB 0x00e30ff0
+void __cdecl hkaSplineCompressedAnimation_handleEndianQuaternion(int index, int arg)
 {
     DAT_011be4a0[index](arg);
 }
@@ -2835,7 +2838,8 @@ struct S00e311f0_T
 };
 // Compares each component of a against b, c and d within eps, setting bit 16<<i if it differs from b or c, else bit 1<<i if it differs from d.
 // @fnv 0x00e311f0
-unsigned char __cdecl FUN_00e311f0(S00e311f0_PA apVecA, S00e311f0_PB apVecB, const V4* apVecC, S00e311f0_T eps,
+// src: HAVOK_LIB 0x00e311f0
+unsigned char __cdecl hkaSplineCompressedAnimation_isStatic(S00e311f0_PA apVecA, S00e311f0_PB apVecB, const V4* apVecC, S00e311f0_T eps,
                                    const V4* apVecD)
 {
     unsigned char result = 0;
@@ -3014,12 +3018,13 @@ struct S3b010Obj
     float unk28;
     float unk2c;
 
-    void* FUN_00e3b010();
+    void* hkpStiffSpringChainData_hkpStiffSpringChainData();
 };
 
 // Initializes S3b010Obj fields to default values and calls m_0c.FUN_00d21ce0(this) before returning this.
 // @fnv 0x00e3b010
-void* S3b010Obj::FUN_00e3b010()
+// src: HAVOK_LIB 0x00e3b010
+void* S3b010Obj::hkpStiffSpringChainData_hkpStiffSpringChainData()
 {
     unk06 = 1;
     unk08 = 0;
@@ -3199,7 +3204,7 @@ template <class T> struct hkRefPtr_e3e8
         if (m_pRetainedObject)
             m_pRetainedObject->FUN_00c905b0();
     }
-    T* FUN_00d477a0() throw();
+    T* hkRefVariant_getClass() throw();
     T* val() const
     {
         return m_pRetainedObject;
@@ -3218,7 +3223,7 @@ Resource_e3e8* __stdcall FUN_00e3e8e0(const char* name, Resource_e3e8* expected)
     if (found.m_pRetainedObject)
     {
         if (!expected ||
-            ns_e3e8::CompareStringsCaseInsensitive(expected->FUN_00d46d40(), found.FUN_00d477a0()->FUN_00d46d40()) == 0)
+            ns_e3e8::CompareStringsCaseInsensitive(expected->FUN_00d46d40(), found.hkRefVariant_getClass()->FUN_00d46d40()) == 0)
             return found.m_pRetainedObject;
     }
     return 0;
@@ -3355,7 +3360,8 @@ extern int DAT_010dbaf8, DAT_010dbae4, DAT_010dbad8, DAT_010dbacc, DAT_010dbb04;
 void __cdecl FUN_00d98ca0(void*, void*, S_00df8990_Obj*, void*, void*);
 // Initializes a CastCollector from source and value, optionally fills a CastOutput, then calls FUN_00d98ca0 with the caster and source.
 // @fnv 0x00e2abf0
-void __cdecl FUN_00e2abf0(void* caster, S_00df8990_Obj* source, int value, CastOutput* output)
+// src: HAVOK_LIB 0x00e2abf0
+void __cdecl hkTreeRayCastJobUtil_castRayKdTree(void* caster, S_00df8990_Obj* source, int value, CastOutput* output)
 {
     if (caster)
     {
@@ -3542,7 +3548,8 @@ float __cdecl FUN_00e52f90();
 
 // Returns a float value from one of six type-specific getters selected by the type argument, or 0.0f for unknown types.
 // @fnv 0x00e32e50
-float __cdecl FUN_00e32e50(int type)
+// src: HAVOK_LIB 0x00e32e50
+float __cdecl hkaSplineCompressedAnimation_TrackCompressionParams_approximateQuantizationAccuracy(int type)
 {
     switch (type)
     {
@@ -3797,7 +3804,8 @@ struct WorkArray : FUN_00e2cc30_LocalArray<WorkItem>
 };
 // Splits indices 0..count-1 using a work stack of plane nodes, calling FUN_00e2c100 on each popped item and pushing non-empty left and right results.
 // @fnv 0x00e2cc30
-void FUN_00e2cc30(SplitInput* input, int a2, int a3, int a4, int a5, int a6, int count)
+// src: HAVOK_LIB 0x00e2cc30
+void hkAabbTreeRayCastUtil_struct_hkAabbTreeData_hkAabbTreeAabb16_unsigned_short_castRayFiltering(SplitInput* input, int a2, int a3, int a4, int a5, int a6, int count)
 {
     if (!input)
         return;
@@ -4437,7 +4445,8 @@ namespace fnv_00e31570 {
 extern void __cdecl SwapBytesAndAdvance(int, unsigned char**);
 // If flags & 0xf0, calls FUN_00e31510(2, pp), advances *pp by the byte at *pp plus the short at *pp-2 plus 3 and returns that short; otherwise returns -1.
 // @fnv 0x00e31570
-unsigned int __cdecl FUN_00e31570(unsigned char flags, unsigned int* pp)
+// src: HAVOK_LIB 0x00e31570
+unsigned int __cdecl hkaSplineCompressedAnimation_handleEndianKnots(unsigned char flags, unsigned int* pp)
 {
     if (flags & 0xf0)
     {
@@ -4454,7 +4463,7 @@ unsigned int __cdecl FUN_00e31570(unsigned char flags, unsigned int* pp)
 
 extern int DAT_010e00dc;
 
-void __cdecl FUN_00c908c0(hkMemoryAllocator* allocator, void* array, int capacity, int elementSize);
+void __cdecl hkArrayUtil__reserve(hkMemoryAllocator* allocator, void* array, int capacity, int elementSize);
 
 template <class T>
 static __forceinline void TyremarkArray_initialize(hkArrayBase<T>& self);
@@ -4478,7 +4487,7 @@ static __forceinline void TyremarkArray_SetSizeAndGrow(hkArrayBase<T>& self, int
         if (capacity < count)
         {
             int doubled = capacity * 2;
-            FUN_00c908c0(&allocator, (&self), count < doubled ? doubled : count, sizeof(T));
+            hkArrayUtil__reserve(&allocator, (&self), count < doubled ? doubled : count, sizeof(T));
         }
         self.m_iElementCount = count;
     }
@@ -4486,7 +4495,7 @@ static __forceinline void TyremarkArray_SetSizeAndGrow(hkArrayBase<T>& self, int
 struct TyremarkWheelView : FUN_00e3a270
 {
     TyremarkWheelView* FUN_00e3a270();
-    void FUN_00e3a1e0(int pointCount);
+    void hkpTyremarksWheel_setNumPoints(int pointCount);
 };
 
 inline TyremarkWheelView* allocateTyremarkWheel()
@@ -4513,12 +4522,13 @@ struct TyremarkInfoView
     float m_fMaxTyremarkPointDistance;
     hkArrayBase<TyremarkWheelView*> m_wheels;
 
-    TyremarkInfoView* FUN_00e3a2a0(const TyremarkVehicleView* vehicle, int pointCount);
+    TyremarkInfoView* hkpTyremarksInfo_hkpTyremarksInfo(const TyremarkVehicleView* vehicle, int pointCount);
 };
 
 // Initializes the TyremarkInfoView from a TyremarkVehicleView, allocating and storing wheel views for each wheel in the vehicle.
 // @fnv 0x00e3a2a0
-TyremarkInfoView* TyremarkInfoView::FUN_00e3a2a0(const TyremarkVehicleView* vehicle, int pointCount)
+// src: HAVOK_LIB 0x00e3a2a0
+TyremarkInfoView* TyremarkInfoView::hkpTyremarksInfo_hkpTyremarksInfo(const TyremarkVehicleView* vehicle, int pointCount)
 {
     m_ppVirtualMethodTable = &DAT_010e00dc;
     m_sReferenceCount = 1;
@@ -4529,7 +4539,7 @@ TyremarkInfoView* TyremarkInfoView::FUN_00e3a2a0(const TyremarkVehicleView* vehi
     for (int index = 0; index < m_wheels.m_iElementCount; ++index)
     {
         TyremarkWheelView* wheel = allocateTyremarkWheel();
-        wheel->FUN_00e3a1e0(pointCount);
+        wheel->hkpTyremarksWheel_setNumPoints(pointCount);
         m_wheels.m_data[index] = wheel;
     }
     return this;

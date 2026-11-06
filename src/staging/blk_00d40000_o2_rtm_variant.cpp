@@ -42,9 +42,9 @@ struct FUN_00c9ce00_cls
     void __thiscall FUN_00c9ce00(int);
 };
 extern int DAT_010c7888;
-void __cdecl FUN_00d49530(FUN_00c9ce00_cls* pObject, int aiValue);
+void __cdecl finishLoadedObjecthkpRigidBody(FUN_00c9ce00_cls* pObject, int aiValue);
 extern "C" void __cdecl AppendEventRecord(int, int, int, int);
-void __stdcall FUN_00d4de30(int a, int b);
+void __stdcall hkpBreakableConstraintData_buildNopJacobian(int a, int b);
 struct FUN_00d53200_class
 {
     void FUN_00c8a230(NiStream& stream);
@@ -57,7 +57,7 @@ void __cdecl FUN_00d3fde0(void);
 void __cdecl ResetEntryAgents(void);
 void __cdecl FUN_00d3fe70(void);
 void __cdecl FUN_00d3fe90(void);
-void __cdecl FUN_00d400f0(void* apObject);
+void __cdecl hkBoxBoxAgent3_initAgentFunc(void* apObject);
 void __cdecl DispatchInputRecord();
 void __cdecl FUN_00d41a30();
 void __cdecl FUN_00d41930();
@@ -66,7 +66,7 @@ void __cdecl RemoveEntryById();
 void __cdecl InsertSlotId();
 void __cdecl FindEntryByKey();
 void __cdecl ForwardToTarget();
-void __cdecl FUN_00d41ec0(int* pObject);
+void __cdecl hkPredGskAgent3_initAgentFunc(int* pObject);
 extern int DAT_010cf9a4;
 void __cdecl FUN_00d48350(int* p);
 struct FUN_00d49580_vtbl
@@ -111,10 +111,10 @@ void __cdecl FUN_00d34790();
 void __cdecl QueryClosestPoints();
 void __cdecl FUN_00d34810();
 void __cdecl AllocateAndInitBlock();
-void __cdecl FUN_00d43dc0();
+void __cdecl hkpShapeCollectionAgent_staticGetPenetrations();
 void __cdecl GetClosestPointsShapeCollection();
-void __cdecl FUN_00d43b90();
-void __cdecl FUN_00d44310(Agent* a);
+void __cdecl hkpShapeCollectionAgent_staticLinearCast();
+void __cdecl hkpShapeCollectionAgent_registerAgent(Agent* a);
 struct FUN_00d48330_vt
 {
     virtual void v0(int);
@@ -145,7 +145,7 @@ struct FUN_00d4fe40_cls
     bool b0;
     char pad2[0xb2 - 0xa3];
     bool b1;
-    void __thiscall FUN_00d4fe40(void* a, bool b);
+    void __thiscall hkpPrismaticConstraintData_setMotorActive(void* a, bool b);
 };
 struct FUN_00d532a0_cls
 {
@@ -358,7 +358,7 @@ struct FUN_00d49c50_cls
     volatile int m_i100;
     volatile int m_i104;
     void FUN_00d569c0(float f, int i);
-    void* FUN_00d49c50(float f, int i);
+    void* hkpStorageExtendedMeshShape_hkpStorageExtendedMeshShape(float f, int i);
 };
 extern "C" int DAT_01268c8c;
 // @fnv 0x00d4b160
@@ -455,7 +455,7 @@ struct FUN_00d4b3c0_cls
     volatile int m_i64;
     volatile int m_i68;
     void FUN_00dcd310(float f, int i);
-    void* FUN_00d4b3c0(float f, int i);
+    void* hkpStorageMeshShape_hkpStorageMeshShape(float f, int i);
 };
 class D4BE30World
 {
@@ -590,7 +590,7 @@ struct D51760Stats
     int unk08;
     int unk0C;
 };
-void __cdecl FUN_00d51760(D51760Buffer* buf, D51760Stats* stats);
+void __cdecl hkpConstraintConstructionKit_computeConstraintInfo(D51760Buffer* buf, D51760Stats* stats);
 // FUN_00d53220 — destructor of a polymorphic class.
 //
 // Shape deduced from the target disassembly:
@@ -919,7 +919,7 @@ struct FUN_00d51ea0_Cls
     char unk16;
     bool m_b17;
 
-    bool FUN_00d51ea0();
+    bool hkpConstraintConstructionKit_setAngularBasisBBodyFrame();
 };
 extern __declspec(thread) int g_tlsMemContext;
 struct ScopedMemoryContextD53
@@ -1194,7 +1194,7 @@ struct D53970HeapAlloc
 };
 static __forceinline int D53970Array_GetCapacity(hkArrayBase<int>& self);
 
-void __cdecl FUN_00c908c0(D53970Alloc* alloc, hkArrayBase<int>* arr, int n, int elemSize);
+void __cdecl hkArrayUtil__reserve(D53970Alloc* alloc, hkArrayBase<int>* arr, int n, int elemSize);
 static __forceinline void D53970Array_Reserve(hkArrayBase<int>& self, D53970Alloc& alloc, int n);
 
 static __forceinline void D53970Array_SetSizeA(hkArrayBase<int>& self, D53970Alloc& alloc, int n);
@@ -1212,7 +1212,7 @@ static __forceinline void D53970Array_Reserve(hkArrayBase<int>& self, D53970Allo
     {
         int cap2 = 2 * D53970Array_GetCapacity(self);
         int newSize = (n < cap2) ? cap2 : n;
-        FUN_00c908c0(&alloc, (&self), newSize, 4);
+        hkArrayUtil__reserve(&alloc, (&self), newSize, 4);
     }
 }
 
@@ -1241,7 +1241,7 @@ struct D53970Scope
         *m_pVar = m_saved;
     }
 };
-void __cdecl FUN_00c908c0(D53970Alloc* alloc, hkArrayBase<int>* arr, int n, int elemSize);
+void __cdecl hkArrayUtil__reserve(D53970Alloc* alloc, hkArrayBase<int>* arr, int n, int elemSize);
 
 struct D53970BaseA
 {
@@ -1309,7 +1309,7 @@ struct D53970Obj
     void FUN_00c89860(D53970Stream* stream);
     void ReadDataArray(D53970Stream* stream);
 };
-void __cdecl FUN_00d570d0(int* aiDest, const int* aiSrc);
+void __cdecl hkString_memCpy16_64(int* aiDest, const int* aiSrc);
 struct PlaceTag
 {
 };
@@ -1408,7 +1408,7 @@ struct hkListNodeD46E
 
     int SumListValues() const;
 };
-int __cdecl FUN_00cb0fa0(int, int);
+int __cdecl hkString_strCmp(int, int);
 struct hkNamedEntryD46E
 {
     int m_name;
@@ -1417,7 +1417,7 @@ class hkEntryListD46E
 {
   public:
     int SumListValues() const;
-    hkNamedEntryD46E* FUN_00d46e50(int i);
+    hkNamedEntryD46E* hkClass_getEnum(int i);
 
     hkNamedEntryD46E* FindByName(int iName);
 };
@@ -1470,7 +1470,7 @@ struct FUN_00d47fe0_cls
 {
     void __thiscall Destroy(int value);
 };
-void __cdecl FUN_00d47fd0(FUN_00d47fe0_cls* object);
+void __cdecl cleanupLoadedObjecthkRootLevelContainer(FUN_00d47fe0_cls* object);
 class FUN_00d48320
 {
   public:
@@ -1506,7 +1506,7 @@ struct FUN_00d53290_cls
 namespace hkRouterD539 {
 extern "C" hkMemoryRouter& __cdecl FUN_00c85750() throw();
 }
-void __cdecl FUN_00c908c0(hkMemoryAllocator& kAlloc, void* apvArray, int aiNumElements, int iSizeElem) throw();
+void __cdecl hkArrayUtil__reserve(hkMemoryAllocator& kAlloc, void* apvArray, int aiNumElements, int iSizeElem) throw();
 struct hkInfoD539
 {
     int unk00[5];
@@ -1555,7 +1555,7 @@ class FUN_00d54180_cls
     hkVectorD541 m_kPointA;
     hkVectorD541 m_kPointB;
 
-    void FUN_00d54180(const hkVectorD541& kA, const hkVectorD541& kB, const float& fT);
+    void hkpBallAndSocketConstraintData_setInWorldSpace(const hkVectorD541& kA, const hkVectorD541& kB, const float& fT);
 };
 struct FnvCpu_FUN_00d54d60_CpuObject
 {
@@ -1689,7 +1689,7 @@ struct D46E50Node
     int unk10;
     int unk14;
 
-    int FUN_00d46e50(int param);
+    int hkClass_getEnum(int param);
 };
 struct D46E50Helper
 {
@@ -1817,11 +1817,11 @@ struct Hk48fc0_Data
 void __cdecl FUN_00d48af0(void* pStream, Hk48fc0_Format* pFormat);
 void* __cdecl FUN_00dc32c0(void* pData, void* pAllocator, void* pLoader);
 int __cdecl FUN_00d48950(void* pObj, void* pArg1, void* pArg2, void* pArg3);
-void __cdecl FUN_00dc5d50(void* pArg1, void* pArg2, void* pArg3);
+void __cdecl hkBinaryTagfileReader_load(void* pArg1, void* pArg2, void* pArg3);
 __declspec(noinline) static int Hk48fc0_ReadTagfile(Hk48fc0_Data* pObj, void* pError, void* pStream, void* pAllocator)
 {
     Hk48fc0_Contents kBuf;
-    FUN_00dc5d50(&kBuf, &pStream, pObj);
+    hkBinaryTagfileReader_load(&kBuf, &pStream, pObj);
     if (pError)
     {
         if (FUN_00d48950(pObj, pError, DAT_01269b70, pAllocator) == 0)
@@ -1839,7 +1839,7 @@ __declspec(noinline) static void* Hk48fc0_LoadPackfile(void* pAllocator, void* p
     {
         return 0;
     }
-    FUN_00dc5d50(pAllocator, &pStream, &pFormat);
+    hkBinaryTagfileReader_load(pAllocator, &pStream, &pFormat);
     return FUN_00dc32c0(&pError, &pLoader, 0);
 }
 void* __cdecl FUN_00d48fc0(void* pStream, void* pError, void* pAllocator, void* pLoader);
@@ -1849,7 +1849,7 @@ struct d20base
 };
 d20base* volatile g_d20_self;
 extern "C" int d20_sel(void);
-static int FUN_00d49c20(d20base* self, int sel);
+static int numIndices_00d49c20(d20base* self, int sel);
 int d20_probe(void);
 // FUN_00d4b390: element-size helper of the BGS load-form buffer code.
 // Takes the base element size and a small type code, and returns the
@@ -1863,7 +1863,7 @@ int d20_probe(void);
 volatile int g_base_d4b390;
 volatile int g_code_d4b390;
 volatile int g_sink_d4b390;
-static int FUN_00d4b390(int base, int code);
+static int storageMeshShape_numIndices(int base, int code);
 void elem_size_case_d4b390(void);
 struct hkpD500Stream;
 class hkpD500Object
@@ -1889,7 +1889,7 @@ class FUN_00d21ce0_cls
 class FUN_00dd0420_Class
 {
   public:
-    FUN_00dd0420_Class* FUN_00dd0420(int flag);
+    FUN_00dd0420_Class* hkpGenericConstraintDataScheme_hkpGenericConstraintDataScheme(int flag);
 
     int unk00;
 };
@@ -2888,7 +2888,7 @@ struct LoadResult
     }
     ~LoadResult();
 };
-void FUN_00d5a630(InputBuffer*, LoadResult*, unsigned int);
+void hkGeometryUtility_createConvexGeometry(InputBuffer*, LoadResult*, unsigned int);
 void LoadIntoArray(const InputBuffer* src, unsigned int flags, ArrayData* dst);
 namespace hkRouterD47F {
 extern "C" hkMemoryRouter& __cdecl FUN_00c85750() throw();
@@ -3046,7 +3046,7 @@ struct S
     char val;
 };
 extern "C" void __cdecl ReleaseAllEntries(S* a, int b, int c);
-static void FUN_00d409b0(S* dst, S* src, int b, int c);
+static void resetGskManifold(S* dst, S* src, int b, int c);
 volatile S* g_dst;
 volatile S* g_src;
 volatile int g_b;
@@ -3088,7 +3088,7 @@ class RefPtrD482
             m_pRetainedObject = pkNew;
         }
     }
-    FUN_00d46d40_s* FUN_00d477a0() const throw();
+    FUN_00d46d40_s* hkRefVariant_getClass() const throw();
     void AssignObject(int iParam) throw();
 };
 class FUN_00d48250

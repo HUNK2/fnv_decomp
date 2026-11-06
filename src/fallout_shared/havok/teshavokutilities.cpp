@@ -764,7 +764,7 @@ class VtObj
 };
 
 void __cdecl CollectTreeResultValues(Inner62c* a, SeqArray* b);
-void __cdecl FUN_00cb5570(Inner62c* a, NiSeq* b, NiSeq* c);
+void __cdecl hkpWorldOperationUtil_mergeIslands(Inner62c* a, NiSeq* b, NiSeq* c);
 
 // Copies or collects entries into a local array, then compares each later entry’s owner and value with the first entry.
 // @fnv 0x0062c430
@@ -794,7 +794,7 @@ void __cdecl FUN_0062c430(VtObj* apVtObj)
                     a2 = arr5.FUN_00629ab0(0)->FUN_009ad610();
                     b = arr5.FUN_00629ab0(i)->FUN_009ad610();
                     if (owner3 == arr5.FUN_00629ab0(i)->FUN_0044ddc0() && a2 != b)
-                        FUN_00cb5570(owner3, arr5.FUN_00629ab0(0), arr5.FUN_00629ab0(i));
+                        hkpWorldOperationUtil_mergeIslands(owner3, arr5.FUN_00629ab0(0), arr5.FUN_00629ab0(i));
                 }
 
                 owner3->FUN_00483710();

@@ -101,7 +101,8 @@ NiSourceCubeMap* __cdecl CreateNiSourceCubeMap()
 
 // Calls FUN_00a5fae0 on pkObject, then compares four fields of this and pkObject and returns true only if all match.
 // @fnv 0x00a60880
-bool __thiscall NiSourceCubeMap::FUN_00a60880(NiObject* pkObject)
+// src: GAMEBRYO_LIB 0x00a60880
+bool __thiscall NiSourceCubeMap::IsEqual_00a60880(NiObject* pkObject)
 {
     if (FUN_00a5fae0(pkObject))
     {
@@ -498,7 +499,7 @@ struct CubeMapLoader
 
 void* __cdecl FUN_00aa1070(unsigned int size);
 int __cdecl FUN_00ec65a6(char* dst, unsigned int n, const char* src);
-void __cdecl FUN_00aa2a00(char* p);
+void __cdecl NiPath_Standardize(char* p);
 void* __cdecl GetPathWithExtension(char* p);
 bool __cdecl FUN_00aa1a30(const char* p, int a);
 
@@ -533,7 +534,7 @@ void NiSourceCubeMap::LoadResources(char* apName0, char* apName1, char* apName2,
         unsigned int len = strlen(src) + 1;
         char* copy = (char*)FUN_00aa1070(len);
         FUN_00ec65a6(copy, len, src);
-        FUN_00aa2a00(copy);
+        NiPath_Standardize(copy);
         void* tmp = GetPathWithExtension(copy);
         apLoader->SetPath(tmp);
         apLoader->v01();

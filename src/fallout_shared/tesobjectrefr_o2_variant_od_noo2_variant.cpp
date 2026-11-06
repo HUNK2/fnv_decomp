@@ -58,7 +58,7 @@ struct FUN_00c9d4c0_holder
 };
 struct CallRet
 {
-    void FUN_00c946e0(void* a, int b, int c);
+    void hkpWorld_updateCollisionFilterOnEntity(void* a, int b, int c);
 };
 struct Holder00c9d5d0
 {
@@ -1894,7 +1894,7 @@ struct HkFlags_c6b
 };
 struct HkWorld_c6b
 {
-    HkResult_c6b FUN_00cd2a50(const void* apKey);
+    HkResult_c6b hkpWorldObject_removeProperty(const void* apKey);
     void AddEntry(const void* apKey, void* apListener, HkFlags_c6b kFlags);
 };
 extern char DAT_01267b70[];
@@ -1967,7 +1967,7 @@ struct S_00c85c10_data
     S_00c85c10_entry* entries;
     int count;
 
-    void FUN_00cd2a50(int* result, int* value);
+    void hkpWorldObject_removeProperty(int* result, int* value);
     void AddEntry(int* value, int* result, S_00c85c10_flag flag);
 };
 struct S_00c85c10

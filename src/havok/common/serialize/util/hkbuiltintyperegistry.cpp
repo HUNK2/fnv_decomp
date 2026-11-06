@@ -22,11 +22,12 @@ hkDefaultBuiltinTypeRegistry* hkDefaultBuiltinTypeRegistry::Initialize()
 struct FUN_00d479e0_class
 {
     void* __thiscall GetValue(const void* key, const void* def);
-    void* __thiscall FUN_00d479e0(const void* key);
+    void* __thiscall hkTypeInfoRegistry_getTypeInfo(const void* key);
 };
 
 // @fnv 0x00d479e0
-void* __thiscall FUN_00d479e0_class::FUN_00d479e0(const void* key)
+// src: HAVOK_SRC 0x00d479e0
+void* __thiscall FUN_00d479e0_class::hkTypeInfoRegistry_getTypeInfo(const void* key)
 {
     return ((FUN_00d479e0_class*)((char*)this + 8))->GetValue(key, 0);
 }
@@ -67,11 +68,12 @@ struct FUN_00d47aa0_s
     int a;
     int b;
     int c;
-    void FUN_00d47aa0(int a, const char* name);
+    void hkDynamicClassNameRegistry_registerClass(int a, const char* name);
 };
 // Calls FUN_00d874d0 on the object at this+0xc with the given name (or the name from a) and a.
 // @fnv 0x00d47aa0
-void FUN_00d47aa0_s::FUN_00d47aa0(int a, const char* name)
+// src: HAVOK_LIB 0x00d47aa0
+void FUN_00d47aa0_s::hkDynamicClassNameRegistry_registerClass(int a, const char* name)
 {
     ((FUN_00d874d0_s*)((char*)this + 0xc))->FUN_00d874d0(name ? name : ((D481D0Class*)a)->getName(), a);
 }
@@ -122,11 +124,12 @@ struct FUN_00d47c60_class
 {
     int x, y;
     DepthLimit z;
-    void FUN_00d47c60(void* key, int def);
+    void hkVtableClassRegistry_registerVtable(void* key, int def);
 };
 // Gets the memory router, takes its manager's first field as a pointer, and passes it with key and def to FUN_00cb1870.
 // @fnv 0x00d47c60
-void FUN_00d47c60_class::FUN_00d47c60(void* key, int aiDefault)
+// src: HAVOK_LIB 0x00d47c60
+void FUN_00d47c60_class::hkVtableClassRegistry_registerVtable(void* key, int aiDefault)
 {
     hkMemoryRouter* r = D1A0E0GetMemoryRouter();
     void* p = r->m_heap;
@@ -284,12 +287,13 @@ struct FUN_00d47940_Obj
     int unk00;
     int unk04;
     FUN_00d47940_Registry unk08;
-    void* __thiscall FUN_00d47940(int param1, int param2);
+    void* __thiscall hkTypeInfoRegistry_cleanupLoadedObject(int param1, int param2);
 };
 
 // Looks up a result by key in the registry, and if found and it has a callback, invokes that callback with param1; returns the result.
 // @fnv 0x00d47940
-void* __thiscall FUN_00d47940_Obj::FUN_00d47940(int param1, int aKey)
+// src: HAVOK_LIB 0x00d47940
+void* __thiscall FUN_00d47940_Obj::hkTypeInfoRegistry_cleanupLoadedObject(int param1, int aKey)
 {
     FUN_00d47940_Result* result = (FUN_00d47940_Result*)this->unk08.GetValue((const void*)aKey, 0);
 
@@ -311,11 +315,12 @@ struct FUN_00d47970_Class
     int unk04;
     FUN_00d874d0_s m_map08;
 
-    void FUN_00d47970(void* iterator);
+    void hkTypeInfoRegistry_merge(void* iterator);
 };
 
 // @fnv 0x00d47970
-void FUN_00d47970_Class::FUN_00d47970(void* iterator)
+// src: HAVOK_LIB 0x00d47970
+void FUN_00d47970_Class::hkTypeInfoRegistry_merge(void* iterator)
 {
     FUN_00d87410_Class* registry = (FUN_00d87410_Class*)((char*)iterator + 8);
     int index = registry->FUN_00d87410();
@@ -794,7 +799,7 @@ struct RuntimeTypeInfoRegistry
 };
 struct NameRegistryTable
 {
-    void FUN_00db78a0(void** entries, void* info);
+    void hkVtableClassRegistry_registerList(void** entries, void* info);
 };
 extern int DAT_01268b0c;
 extern void* DAT_010d5430[];
@@ -810,5 +815,5 @@ void hkDefaultBuiltinTypeRegistry::RegisterBuiltinTypes()
         types->registerType(*curr);
         ++curr;
     }
-    ((NameRegistryTable*)DAT_01269b10)->FUN_00db78a0(DAT_010d5430, &DAT_010d59b8);
+    ((NameRegistryTable*)DAT_01269b10)->hkVtableClassRegistry_registerList(DAT_010d5430, &DAT_010d59b8);
 }

@@ -668,7 +668,7 @@ extern int DAT_0109ca18;
 extern NiFixedString EmptyFS;
 
 void* __cdecl NiMalloc(unsigned int);
-void __cdecl FUN_00aa10f0(void*);
+void __cdecl _NiFree_00aa10f0(void*);
 extern "C" void* __cdecl fnv_zlib_memset(void*, int, unsigned int);
 struct Key
 {
@@ -719,7 +719,7 @@ struct NidefaultavobjectpaletteMapView
         FUN_00aa01f0();
         vtable = &DAT_0109ca08;
         FUN_00aa01f0();
-        FUN_00aa10f0(buckets);
+        _NiFree_00aa10f0(buckets);
     }
     __forceinline void* First() const
     {

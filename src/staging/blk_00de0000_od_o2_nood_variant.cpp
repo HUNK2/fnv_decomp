@@ -16,7 +16,8 @@ struct __declspec(align(8)) Entry8
     int m_uiFilterValue;
 };
 // @fnv 0x00df32a0
-void FUN_00df32a0(Entry8* table, int index, int n)
+// src: HAVOK_LIB 0x00df32a0
+void hkKdTreeBuilder_struct_hkKdTreeProjectedEntry_const_struct_hkKdTreeProjectedEntry_restrict_0_writeEmptyLeaf(Entry8* table, int index, int n)
 {
     Entry8 e;
     e.m_uiFilterValue = 0;
@@ -759,7 +760,8 @@ struct __declspec(align(16)) Holder
 };
 
 // @fnv 0x00df6470
-void* FUN_00df6470()
+// src: HAVOK_LIB 0x00df6470
+void* getVtablehkpWorld()
 {
     Holder holder;
     FinishingFlag arg(0);
@@ -1475,7 +1477,8 @@ struct __declspec(align(16)) ZHolderDFE2F0
 };
 
 // @fnv 0x00dfe2f0
-int* FUN_00dfe2f0()
+// src: HAVOK_LIB 0x00dfe2f0
+int* getVtablehkaSkeletonMapper()
 {
     ZHolderDFE2F0 holder;
     FinishingFlag arg(0);
@@ -1530,7 +1533,8 @@ struct __declspec(align(16)) FUN_00dfe440_obj
 };
 
 // @fnv 0x00dfe440
-int FUN_00dfe440()
+// src: HAVOK_LIB 0x00dfe440
+int getVtablehkaFootstepAnalysisInfo()
 {
     FUN_00dfe440_obj obj;
     obj.FUN_00e40ca0(FinishingFlag());
@@ -1568,7 +1572,8 @@ struct __declspec(align(16)) FUN_00dff130_obj
     int unk4C;
 };
 // @fnv 0x00dff130
-int* __cdecl FUN_00dff130()
+// src: HAVOK_LIB 0x00dff130
+int* __cdecl getVtablehkpReorientAction()
 {
     FinishingFlag kHandle(0);
     FUN_00dff130_obj kObj;
@@ -1912,7 +1917,7 @@ struct Output56
     }
 };
 
-int FUN_00df32a0(Output56* a, int b, int c);
+int hkKdTreeBuilder_struct_hkKdTreeProjectedEntry_const_struct_hkKdTreeProjectedEntry_restrict_0_writeEmptyLeaf(Output56* a, int b, int c);
 int FUN_00df32d0(Output56* a, int b, int c, int d, int e, int f);
 int FUN_00df3330(Output56* a, int b, int c, int d, int e, int f, int g);
 __declspec(noalias) int FUN_00df4ec0(SplitB* a, int b, int c, SplitA* sa, int* p5, SplitB* sb, SIMD56::LocalM128* v20,
@@ -1925,7 +1930,7 @@ int FUN_00df56a0(Node56* p, Output56** p2, int p3, int* p4, int* p5)
     i = p->m10 - p->m0c;
     if (0 == i)
     {
-        FUN_00df32a0(*p2, p->m4, p->m30);
+        hkKdTreeBuilder_struct_hkKdTreeProjectedEntry_const_struct_hkKdTreeProjectedEntry_restrict_0_writeEmptyLeaf(*p2, p->m4, p->m30);
         return 1 + i;
     }
     if (1 == i)
@@ -2042,7 +2047,8 @@ class __declspec(align(16)) S00dfbe20_Object : public S00dfbe20_Mid
 };
 
 // @fnv 0x00dfbe20
-const void* __cdecl FUN_00dfbe20()
+// src: HAVOK_LIB 0x00dfbe20
+const void* __cdecl getVtablehkpVehicleInstance()
 {
     FinishingFlag flag;
     flag.m_bFinishing = 0;
@@ -2087,7 +2093,8 @@ class __declspec(align(16)) S00dfe5e0_Object
 };
 
 // @fnv 0x00dfe5e0
-const void* __cdecl FUN_00dfe5e0()
+// src: HAVOK_LIB 0x00dfe5e0
+const void* __cdecl getVtablehkaBoneAttachment()
 {
     FinishingFlag flag;
     flag.m_bFinishing = 0;
@@ -2129,7 +2136,8 @@ class __declspec(align(16)) S00dfba10_Object
 };
 
 // @fnv 0x00dfba10
-const void* __cdecl FUN_00dfba10()
+// src: HAVOK_LIB 0x00dfba10
+const void* __cdecl getVtablehkaSkeleton()
 {
     FinishingFlag flag;
     flag.m_bFinishing = 0;
@@ -2231,7 +2239,8 @@ class __declspec(align(16)) S00dfc400_Object
 };
 
 // @fnv 0x00dfc400
-const void* __cdecl FUN_00dfc400()
+// src: HAVOK_LIB 0x00dfc400
+const void* __cdecl getVtablehkpSerializedAgentNnEntry()
 {
     FinishingFlag flag;
     flag.m_bFinishing = 0;
@@ -2262,7 +2271,8 @@ class __declspec(align(16)) AnimationBindingVtableProbe
 };
 
 // @fnv 0x00dfe9b0
-const void* __cdecl FUN_00dfe9b0()
+// src: HAVOK_LIB 0x00dfe9b0
+const void* __cdecl getVtablehkaAnimationBinding()
 {
     FinishingFlag flag;
     flag.m_bFinishing = 0;
@@ -2339,7 +2349,8 @@ struct __declspec(align(16)) ContactSystemView
 };
 
 // @fnv 0x00dff220
-const void* __cdecl FUN_00dff220()
+// src: HAVOK_LIB 0x00dff220
+const void* __cdecl getVtablehkpPhysicsSystemWithContacts()
 {
     FinishingFlag flag(0);
     ContactSystemView object;

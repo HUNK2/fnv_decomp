@@ -1613,7 +1613,7 @@ struct DispatchQueue
     virtual void AdvanceFade();
     virtual void Queue(ContextBlock* context, TaskToken token);
 };
-void FUN_00cbb990();
+void hkBaseSystem_quitThread();
 DispatchQueue* FUN_00cbbfc0();
 struct TaskOwner
 {
@@ -1632,7 +1632,7 @@ struct TaskOwner
 void TaskOwner::DispatchTask()
 {
     context.FUN_0044edb0()->Dispatch(payload, 0x16800);
-    FUN_00cbb990();
+    hkBaseSystem_quitThread();
     FUN_00cbbfc0()->Queue(&context, TaskToken(1));
     context.FUN_006815c0(0, 0)->FUN_008c70c0();
 }

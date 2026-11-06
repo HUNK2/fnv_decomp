@@ -28,12 +28,12 @@ extern "C" LocalM128 _mm_setzero_ps(void);
 #include "../../../../../../../include/hkVector4.h"
 
 void ProcessEntryPair();
-void FUN_00da44d0(int, int, void*);
+void hkAgent1nMachine_VisitAllAgents(int, int, void*);
 
 // @fnv 0x00da48e0
 void FUN_00da48e0(int b, int a)
 {
-    FUN_00da44d0(b, a, (void*)&ProcessEntryPair);
+    hkAgent1nMachine_VisitAllAgents(b, a, (void*)&ProcessEntryPair);
 }
 
 typedef unsigned int BlockPoolsize_t;
@@ -59,7 +59,7 @@ struct BlockPoolMemoryRouter
 };
 
 extern "C" BlockPoolMemoryRouter& __cdecl FUN_00c85750();
-void __cdecl FUN_00c908c0(BlockPoolAllocator* alloc, void* array, int numElements, int sizeElem);
+void __cdecl hkArrayUtil__reserve(BlockPoolAllocator* alloc, void* array, int numElements, int sizeElem);
 void __cdecl ResizeAudioStream(void* alloc, void* array, int sizeElem);
 
 struct BlockPoolBlock
@@ -103,7 +103,7 @@ struct BlockPoolArrayLocalForm
         {
             int cap2 = 2 * cap;
             int newSize = (n < cap2) ? cap2 : n;
-            FUN_00c908c0(&alloc, this, newSize, sizeof(BlockPoolBlock*));
+            hkArrayUtil__reserve(&alloc, this, newSize, sizeof(BlockPoolBlock*));
         }
     }
 
@@ -2026,7 +2026,8 @@ typedef void(__cdecl* Da35FuncPtr)(void* entry, void* payload, float fa, float f
 
 // Iterates through hkpAgent1nSector chunks, dispatching commands via function pointers and updating float fields based on fa and fb.
 // @fnv 0x00da35f0
-void __cdecl FUN_00da35f0(hkpAgent1nSector*** container, float fa, float fb, void** holder)
+// src: HAVOK_LIB 0x00da35f0
+void __cdecl _hkAgent1nMachine_WarpTime(hkpAgent1nSector*** container, float fa, float fb, void** holder)
 {
     hkpAgent1nSector* stream = **container;
     unsigned char* p = (unsigned char*)stream + 0x10;
@@ -2272,11 +2273,12 @@ __forceinline static void streamCopy(void* dst, const void* src, int count)
         s += 4;
     } while (--count > 0);
 }
-void __cdecl FUN_00d2cc70(void*, const void*, unsigned int);
+void __cdecl hkMemUtil_memMove(void*, const void*, unsigned int);
 typedef unsigned char*(__cdecl* StreamTransform)(void*, unsigned char*, unsigned char*);
 // Walks records in the BlockPoolArrayLocalForm blocks, copies them into new 512-byte blocks, applies the callback to some record types, and replaces the array contents.
 // @fnv 0x00da44d0
-void FUN_00da44d0(int apBlocks, int apHeader, void* apTransform)
+// src: HAVOK_LIB 0x00da44d0
+void hkAgent1nMachine_VisitAllAgents(int apBlocks, int apHeader, void* apTransform)
 {
     BlockPoolArrayLocalForm* blocks = (BlockPoolArrayLocalForm*)apBlocks;
     int outIndex = 0;
@@ -2355,7 +2357,7 @@ process:
         inIndex = blocks->m_iElementCount + 1;
         int tail = -(count - blocks->m_iElementCount);
         blocks->GrowArrayCapacity(alloc, inIndex);
-        FUN_00d2cc70(&blocks->m_data[count + 1], &blocks->m_data[count], tail * sizeof(BlockPoolBlock*));
+        hkMemUtil_memMove(&blocks->m_data[count + 1], &blocks->m_data[count], tail * sizeof(BlockPoolBlock*));
         blocks->m_iElementCount = inIndex;
         inIndex = count + 1;
     }

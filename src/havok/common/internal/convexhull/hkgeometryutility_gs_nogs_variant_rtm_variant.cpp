@@ -61,7 +61,7 @@ struct FUN_00d5a630_ctxB
     void InitB();
 };
 extern float DAT_0106ea1c;
-void __cdecl FUN_00d5a630(void* a1, int a2, int a3);
+void __cdecl hkGeometryUtility_createConvexGeometry(void* a1, int a2, int a3);
 struct S_00d5a6b0_Elem
 {
     float x;
@@ -148,7 +148,7 @@ struct S00d5ad60_cls
     float m_f00;
     unsigned char S00d5ad60_call(float* other, float threshold);
 };
-static unsigned char FUN_00d5ad60(S00d5ad60_cls* self, float* other, float threshold);
+static unsigned char approxEquals(S00d5ad60_cls* self, float* other, float threshold);
 typedef ::__m128 LocalM128;
 extern "C" LocalM128 _mm_setr_ps(float, float, float, float);
 extern float DAT_01011d78;
@@ -175,9 +175,9 @@ struct __declspec(align(16)) S00d5c060_Result
     unsigned int unk0C;
 };
 char* __cdecl AllocateWithHeader(D5C110Allocator* alloc, int size);
-char* __cdecl FUN_00c856c0(D5C110Allocator* owner, char* data);
+char* __cdecl hkMemoryRouter_easyFree(D5C110Allocator* owner, char* data);
 void __cdecl FUN_00d5beb0(S00d5c060_Result* self, char* data, int count, int flags, float scale);
-S00d5c060_Result FUN_00d5c060(const S00d5c060_Src* src, float scale);
+S00d5c060_Result hkGeometryUtility_createMinBoundingSphere(const S00d5c060_Src* src, float scale);
 
 extern "C" LocalM128 _mm_load_ps(const float*);
 extern "C" LocalM128 _mm_mul_ps(LocalM128, LocalM128);

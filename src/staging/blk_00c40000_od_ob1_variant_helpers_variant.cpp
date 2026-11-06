@@ -212,7 +212,7 @@ struct FUN_00c430a0_class
     int __thiscall FUN_00c430a0(int);
 };
 struct FUN_00c430b0_class {
-    void __thiscall FUN_00a99c40(int a1, int a2);
+    void __thiscall NiIntegerExtraData_CopyMembers(int a1, int a2);
     void __thiscall FUN_00c430b0(int a1, int a2);
 };
 struct FUN_00c430d0 : public NiIntegerExtraData { void LoadBinary(NiStream&); };
@@ -2202,7 +2202,7 @@ public:
     unsigned int unk44, unk48, unk4C, unk50, unk54, unk58, unk5C, unk60;
     unsigned int unk64, unk68, unk6C, unk70, unk74;
     FUN_00c4b470_owner* unk78;
-    FUN_00c4b470_owner* FUN_00a5c570(void* p);
+    FUN_00c4b470_owner* NiObjectNET_GetController(void* p);
 };
 extern char DAT_011f36ac;
 int __cdecl FUN_00c4b470(FUN_00c4b470_owner* a1, void** a2, unsigned char a3);
@@ -4481,8 +4481,8 @@ struct Owner {
 };
 extern "C" char DAT_011f6238;
 struct HeapAB { void FUN_00aa4060(void* pObject); };
-void __cdecl FUN_00aa10f0(void* p);
-inline void FreeAB(void* p) { FUN_00aa10f0(p); }
+void __cdecl _NiFree_00aa10f0(void* p);
+inline void FreeAB(void* p) { _NiFree_00aa10f0(p); }
 struct ItemAB {
     void* m_pData;
     ~ItemAB() { FreeAB(m_pData); }
@@ -7318,19 +7318,19 @@ struct Q52Arr { Q52Ent** m_data; unsigned pad4; unsigned m_uiItemCount; inline u
 struct Q52Obj { char pad[0x34]; unsigned m_cur; unsigned m_num; char pad3c[4]; Q52Arr** m_arrs; char pad44[2]; unsigned short m_arrCount;
   bool FUN_00c52960(unsigned idx); };
 void* __cdecl FUN_00aa1070(unsigned int);
-void __cdecl FUN_00aa10f0(void*);
+void __cdecl _NiFree_00aa10f0(void*);
 void* __cdecl FUN_00aa13e0(unsigned int);
 struct Q5Item;
 struct Q5Hold { Q5Item** m_data; unsigned m_alloc; unsigned m_uiItemCount;
   inline Q5Hold(unsigned n = 0) { if (n > 0) m_data = (Q5Item**)FUN_00aa1070(n * 4); else m_data = 0; m_alloc = 0; m_uiItemCount = 0; }
-  inline ~Q5Hold() { void* p = m_data; FUN_00aa10f0(p); }
+  inline ~Q5Hold() { void* p = m_data; _NiFree_00aa10f0(p); }
   inline unsigned Count() { return m_uiItemCount; } };
 struct Q5Obj { virtual void v00(),v04(),v08(),v0c(),v10(),v14(),v18(),v1c(),v20(),v24(),v28(),v2c(),v30(),v34(),v38(),v3c(),v40(),v44(),v48(),v4c(),v50(),v54(),v58(),v5c(),v60(),v64(),v68(),v6c(),v70(),v74(),v78(),v7c(),v80(),v84(),v88(),v8c(),v90(),v94(); virtual void v98(Q5Item*);
  char pad[0x48];
   static __forceinline void* operator new(unsigned int amount) { int dq[2]; return FUN_00aa13e0(amount); }
   Q5Obj();
   bool FUN_00c52d80(Q5Item* it); bool FUN_00c52960(unsigned idx); };
-struct Q5Item { void FUN_00a5c480(Q5Obj* o); };
+struct Q5Item { void NiObjectNET_RemoveController(Q5Obj* o); };
 void __cdecl FUN_00c52c30(void* p, Q5Hold* h);
 bool __cdecl FUN_00c52a80(void* param);
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);

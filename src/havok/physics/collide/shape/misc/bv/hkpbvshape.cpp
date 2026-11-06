@@ -24,7 +24,7 @@ public:
     hkBool IntersectRayWithShape(const ShapeRayCastQuery& input, ShapeRayCastOutput& output) const;
     void CastRayWithCollector(const ShapeRayCastQuery& input, const hkpCdBody& parent, hkpRayHitCollector& collector) const;
     hkpSingleShapeContainer* GetContainer();
-    void FUN_00c90360(C9D8F0Callback* callback, void* typeInfo);
+    void hkReferencedObject_calcContentStatistics(C9D8F0Callback* callback, void* typeInfo);
     void NotifyCallback(C9D8F0Callback* callback, int flags);
 };
 
@@ -66,7 +66,8 @@ hkpBvShape* hkpBvShape::Destroy(int flags)
 }
 
 // @fnv 0x00c9d8b0
-int __stdcall FUN_00c9d8b0(int a1)
+// src: HAVOK_SRC 0x00c9d8b0
+int __stdcall hkpSingleShapeContainer_getNextKey(int a1)
 {
     return -1;
 }
@@ -86,7 +87,7 @@ struct C9D8F0Callback
 void hkpBvShape::NotifyCallback(C9D8F0Callback* callback, int flags)
 {
     callback->method3(&DAT_010c6fec, (void*)m_pContainedShape.m_pContainedShape, 0);
-    FUN_00c90360(callback, &DAT_01268910);
+    hkReferencedObject_calcContentStatistics(callback, &DAT_01268910);
 }
 
 // @fnv 0x00c9d920

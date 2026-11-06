@@ -91,7 +91,7 @@ struct Mgr
     AllocObj* m_10;
 };
 Mgr* FUN_00c85750();
-int FUN_00c908c0(void*, void*, int, int);
+int hkArrayUtil__reserve(void*, void*, int, int);
 struct Quaternion;
 class LaneScalar
 {
@@ -290,7 +290,7 @@ template <class T> struct List
         {
             int twice = cap + cap;
             int next = need < twice ? twice : need;
-            FUN_00c908c0(allocator, this, next, sizeof(T));
+            hkArrayUtil__reserve(allocator, this, next, sizeof(T));
         }
         size += amount;
         return data + old;
@@ -336,7 +336,8 @@ struct CachePair
     Quaternion delta;
 };
 // @fnv 0x00d58590
-__declspec(noinline) void __fastcall FUN_00d58590(CylinderMeshBuilder* self)
+// src: HAVOK_SRC 0x00d58590
+__declspec(noinline) void __fastcall hkDisplayCylinder_buildGeometry(CylinderMeshBuilder* self)
 {
     const int& heights = self->m_88;
     const int& sectors = self->m_84;

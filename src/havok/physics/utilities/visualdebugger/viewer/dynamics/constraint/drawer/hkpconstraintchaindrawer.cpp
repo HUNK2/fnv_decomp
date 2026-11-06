@@ -354,7 +354,7 @@ struct Obj
     hkRotation m_kFirstRotation;
     hkRotation m_kSecondRotation;
     Sub mC0;
-    void FUN_00de44c0(int a, int b);
+    void hkpConstraintDrawer_drawPivots(int a, int b);
     void FUN_00de4530(int a, int b);
     void FireChainConstraints(ChainInstance* c, Listener* l, int a, int b);
 };
@@ -403,7 +403,7 @@ void Obj::FireChainConstraints(ChainInstance* apChain, Listener* apListener, int
         }
         m50.FUN_00c7f640(&transformB, pivotB);
         m40.FUN_00c7f640(&transformA, pivotA);
-        FUN_00de44c0(aiArg1, aiArg2);
+        hkpConstraintDrawer_drawPivots(aiArg1, aiArg2);
         FUN_00de4530(aiArg1, aiArg2);
         apListener->Fire(&m40, &m50, 0xffff0000, aiArg1, aiArg2);
     }

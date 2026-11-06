@@ -152,7 +152,8 @@ char* FUN_00d87360_class::FUN_00d87360(int index)
 }
 
 // @fnv 0x00d873d0
-Pair& Pair::FUN_00d873d0(const Pair& other)
+// src: GAMEBRYO_LIB 0x00d873d0
+Pair& Pair::Imath_Vec2_int_Vec2_int(const Pair& other)
 {
     a = other.a;
     b = other.b;

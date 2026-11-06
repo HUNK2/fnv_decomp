@@ -127,7 +127,7 @@ struct Buffer_d3b260 {
     unsigned char m_ucHighNibble : 4;
 };
 struct Agent_d3b260 {
-    void FUN_00d3ad70(int b, int a, int c, Buffer_d3b260* buf);
+    void hkpCapsuleTriangleAgent_processCollision(int b, int a, int c, Buffer_d3b260* buf);
     void FUN_00d3b260(int a, int b, int c, Buffer_d3b260* buf);
 };
 struct __declspec(align(16)) FourWord {
@@ -176,7 +176,7 @@ void __cdecl FUN_00d3ac80(unsigned int first, unsigned int second, const MotionP
 extern char DAT_010ce81c;
 struct FUN_00d3b160_tmp { const void* vt; unsigned char flag; unsigned int a4; };
 struct CallbackHost_d3b160 {
-    void FUN_00d3a620(void*, void*, void*, void*);
+    void hkpCapsuleTriangleAgent_getPenetrations(void*, void*, void*, void*);
     void FUN_00d3b160(void*, void*, void*, unsigned int);
 };
 struct Mat4 {
@@ -330,7 +330,7 @@ struct CapsuleTriangleAgent {
     int unk0c;
     int unk10;
     int unk14;
-    void FUN_00d3a620(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const CollisionInput* input, VirtObj* collector);
+    void hkpCapsuleTriangleAgent_getPenetrations(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const CollisionInput* input, VirtObj* collector);
 };
 
 typedef float hkReal;
@@ -693,10 +693,11 @@ static __forceinline void capsuleTriClosest(const hkpCdBody& a,const hkpCdBody& 
     CollideCapsuleWithTriangle(ends,capsule->getRadius(),vertices,triangle->hkpConvexShape::getRadius(),cache,input.getTolerance(),manifold,points,features);
 }
 struct CapsuleTriProcess : hkpCapsuleTriangleAgent {
-    void FUN_00d3ad70(const hkpCdBody&,const hkpCdBody&,const GskAgentInput&,WorldOperationEntry&);
+    void hkpCapsuleTriangleAgent_processCollision(const hkpCdBody&,const hkpCdBody&,const GskAgentInput&,WorldOperationEntry&);
 };
 // @fnv 0x00d3ad70
-void CapsuleTriProcess::FUN_00d3ad70(const hkpCdBody&bodyA,const hkpCdBody&bodyB,const GskAgentInput&input,WorldOperationEntry&result)
+// src: HAVOK_SRC 0x00d3ad70
+void CapsuleTriProcess::hkpCapsuleTriangleAgent_processCollision(const hkpCdBody&bodyA,const hkpCdBody&bodyB,const GskAgentInput&input,WorldOperationEntry&result)
 {
 ;
 {hkMonitorStream&mStream=hkMonitorStream::getInstance();if(mStream.memoryAvailable()){hkMonitorStream::TimerCommand*h=reinterpret_cast<hkMonitorStream::TimerCommand*>(mStream.getEnd());h->m_commandAndMonitor="T" "t" "CapsuleTri";h->setTime();mStream.setEnd((char*)(h+1));}};

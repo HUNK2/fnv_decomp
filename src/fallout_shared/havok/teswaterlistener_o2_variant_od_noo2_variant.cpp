@@ -157,7 +157,7 @@ struct PhysicsReference
     const PhysicsVector* FUN_00460140();
     const PhysicsVector* FUN_00560dc0();
     float FUN_004b4ea0();
-    int FUN_00c9c380();
+    int getNumConstraints();
     const PhysicsVector* FUN_006310c0();
     void FUN_00631140(float, const PhysicsVector*, const PhysicsVector*);
     void FUN_00631100(float, const PhysicsVector*);
@@ -241,7 +241,7 @@ int PhysicsController::FUN_00630170(PhysicsReference* reference, float height, f
                 force.FUN_00630ae0(&multiplier, &direction);
                 PhysicsVector torque;
                 torque.FUN_006815c0();
-                if (!reference->FUN_00c9c380())
+                if (!reference->getNumConstraints())
                 {
                     PhysicsBounds inertiaBounds;
                     inertiaBounds.FUN_00437c10();

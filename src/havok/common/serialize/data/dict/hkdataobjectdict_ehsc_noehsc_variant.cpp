@@ -66,7 +66,7 @@ static __forceinline hkRouterX& getRouterX()
     return *reinterpret_cast<hkRouterX*>(FUN_00c85750());
 }
 
-void __cdecl FUN_00c908c0(hkAllocX& alloc, void* array, int numElem, int sizeElem) throw();
+void __cdecl hkArrayUtil__reserve(hkAllocX& alloc, void* array, int numElem, int sizeElem) throw();
 
 template <typename T> struct hkHeapArrXLocalForm
 { // local form of hkArray: 0x00dc85a0 needs the original inline/out-of-line helper split; shared replacement changes bytes.
@@ -99,7 +99,7 @@ template <typename T> struct hkHeapArrXLocalForm
         {
             int cap2 = 2 * cap;
             int newSize = (n < cap2) ? cap2 : n;
-            FUN_00c908c0(alloc, this, newSize, sizeof(T));
+            hkArrayUtil__reserve(alloc, this, newSize, sizeof(T));
         }
     }
     __forceinline void reserve(int n)
@@ -314,7 +314,7 @@ struct hkStringMapDC82
     void FUN_00d874d0(const char* key, const char* val);
 };
 
-extern "C" char* FUN_00cb1410(const char* s);
+extern "C" char* hkString_strDup_00cb1410(const char* s);
 struct hkTrackerDC82
 {
     hkStringMapDC82 m_kLookupMap;
@@ -345,7 +345,7 @@ struct hkTrackerDC82
             const char* r = (const char*)m_pStringFunctions.GetValue(s, 0);
             if (r == 0)
             {
-                r = FUN_00cb1410(s);
+                r = hkString_strDup_00cb1410(s);
                 m_pStringFunctions.FUN_00d874d0(r, r);
             }
             return r;
@@ -357,7 +357,7 @@ struct hkTrackerDC82
 };
 
 extern const char* DAT_011b7bfc;
-extern "C" char* FUN_00cb1410(const char* s);
+extern "C" char* hkString_strDup_00cb1410(const char* s);
 int GetShapeTypeFlags(int type, int subtype, const hkClass* pClassInfo, int count);
 
 // Shared hkDataWorldDict.h is absent; both dictionary-world functions use this tracker at +0x08.
@@ -420,7 +420,7 @@ hkDataClassDict* hkDataWorldDict::FUN_00dc8270(const hkClass& pClassInfo)
             type = GetShapeTypeFlags(GetDataDictMemberType(m), GetDataDictMemberSubtype(m), m.FUN_00d86920(), m.FUN_00d86940());
             if (m.FUN_00d86920())
             {
-                if (const hkVariant* attr = m.FUN_00d86960(DAT_011b7bfc))
+                if (const hkVariant* attr = m.getAttribute_00d86960(DAT_011b7bfc))
                 {
                     hkMemberAccessorDC82 acc(attr, "typeName");
                     typeName = m_pTracker->FUN_00dc8d70(*acc.GetStringPointerAt(0));

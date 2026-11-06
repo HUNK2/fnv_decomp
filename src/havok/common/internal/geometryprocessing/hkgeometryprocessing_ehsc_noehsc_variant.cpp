@@ -13,7 +13,7 @@ struct FUN_00dee620
     __thiscall FUN_00dee620(int testFlag);
 };
 extern "C" void __cdecl FUN_00dedf10(void*, void*, void*, void*, int, int);
-void __cdecl FUN_00dee5f0(void* first, void* second, void* third, void* fourth);
+void __cdecl hkGeometryProcessing_generateRandomDistribution(void* first, void* second, void* third, void* fourth);
 struct FUN_00dee6b0_Class
 {
     int unk00;

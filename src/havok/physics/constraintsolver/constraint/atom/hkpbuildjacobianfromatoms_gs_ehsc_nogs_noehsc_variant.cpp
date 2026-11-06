@@ -658,8 +658,8 @@ struct __declspec(align(16)) S00d6f300_Info
     float out[4];
 };
 void ComputeJacobian(const __m128* n, const __m128* pos, S00d6f300_O* o, S00d6f300_Cmd* cur, S00d6f300_Info* info);
-void FUN_00dcfff0(void* h, S00d6f300_Info* info, hkVector4* out);
-void FUN_00dd03c0(hkVector4* out, S00d6f300_O* o, S00d6f300_Cmd* cur, S00d6f300_Cmd** p);
+void _hkCalcMotorData(void* h, S00d6f300_Info* info, hkVector4* out);
+void _hk1dLinearVelocityMotorCommitJacobian(hkVector4* out, S00d6f300_O* o, S00d6f300_Cmd* cur, S00d6f300_Cmd** p);
 extern const double DAT_010c9300;
 
 // @fnv 0x00d6f300
@@ -689,8 +689,8 @@ static __declspec(noinline) void FUN_00d6f300(S00d6f300_A* s, S00d6f300_O* o, S0
             float dot;
             _mm_store_ss(&dot, _mm_add_ss(_mm_shuffle_ps(m, m, 0xaa), _mm_add_ss(_mm_shuffle_ps(m, m, 0x55), m)));
             info.d = *b - dot;
-            FUN_00dcfff0(h, &info, reinterpret_cast<hkVector4*>(info.out));
-            FUN_00dd03c0(reinterpret_cast<hkVector4*>(info.out), o, cur, p);
+            _hkCalcMotorData(h, &info, reinterpret_cast<hkVector4*>(info.out));
+            _hk1dLinearVelocityMotorCommitJacobian(reinterpret_cast<hkVector4*>(info.out), o, cur, p);
             if (*b != s->m_08 || *a == 0)
             {
                 *b = s->m_08;

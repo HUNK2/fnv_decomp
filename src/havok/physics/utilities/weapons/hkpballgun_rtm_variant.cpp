@@ -254,7 +254,7 @@ void __fastcall fireBallGun(hkpBallGun* gun, void*, hkpWorld* world, const hkQua
         static_cast<hkpBallGunListener*>(gun->m_kListeners.m_data[i])->bulletCreatedCallback(bullet);
     }
 
-    world->FUN_00c914d0(bullet, 1);
+    world->hkpWorld_addEntity(bullet, 1);
 
     CapacityGrowingArray<hkpRigidBody*>* addedBodies =
         static_cast<CapacityGrowingArray<hkpRigidBody*>*>(gun->m_pBulletQueue);

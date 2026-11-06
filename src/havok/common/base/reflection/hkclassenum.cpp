@@ -55,16 +55,17 @@ struct FUN_00db7870 : public FUN_00db7860
 
 struct hkObjDB76
 {
-    void FUN_00db7600(FUN_00db7860* p) throw();
-    void FUN_00db76c0();
+    void writeSignature(FUN_00db7860* p) throw();
+    void hkClassEnum_getSignature();
 };
 
 // Constructs a temporary FUN_00db7870 with 0 and passes it to FUN_00db7600.
 // @fnv 0x00db76c0
-void hkObjDB76::FUN_00db76c0()
+// src: HAVOK_LIB 0x00db76c0
+void hkObjDB76::hkClassEnum_getSignature()
 {
     FUN_00db7870 tmp(0);
-    FUN_00db7600(&tmp);
+    writeSignature(&tmp);
 }
 
 template <int SIZE> __forceinline void memCpyOneAlignedXdb76f0(void* dst, const void* src)

@@ -40,11 +40,12 @@ struct Owner
 {
     unsigned char unk00[8];
     Reader* reader;
-    int FUN_00d2b7b0(int start, int length);
+    int hkSocket_WriterAdapter_write(int start, int length);
 };
 
 // @fnv 0x00d2b7b0
-int Owner::FUN_00d2b7b0(int start, int length)
+// src: HAVOK_LIB 0x00d2b7b0
+int Owner::hkSocket_WriterAdapter_write(int start, int length)
 {
     int done = 0;
     if (length > 0)
@@ -157,11 +158,12 @@ class FUN_00d2b740_cls
     unsigned int unk04;
     StreamIface* m_pBinaryStream;
 
-    int FUN_00d2b740(char* buf, int size);
+    int hkSocket_ReaderAdapter_read(char* buf, int size);
 };
 
 // @fnv 0x00d2b740
-int FUN_00d2b740_cls::FUN_00d2b740(char* apBuffer, int size)
+// src: HAVOK_LIB 0x00d2b740
+int FUN_00d2b740_cls::hkSocket_ReaderAdapter_read(char* apBuffer, int size)
 {
     int total = 0;
     if (size > 0)

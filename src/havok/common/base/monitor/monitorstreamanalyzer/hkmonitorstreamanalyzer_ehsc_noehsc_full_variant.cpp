@@ -46,7 +46,8 @@ inline hkMemoryAllocator& monitorDebugHeap(hkMemoryRouter* manager)
 
 // Returns the smaller of the two float arguments.
 // @fnv 0x00e0c260
-float __cdecl FUN_00e0c260(float a, float b)
+// src: GAMEBRYO_LIB 0x00e0c260
+float __cdecl NiMin_00e0c260(float a, float b)
 {
     return (a < b) ? a : b;
 }
@@ -59,7 +60,8 @@ float MaxFloat(float a, float b)
 }
 
 // @fnv 0x00e0c2c0
-int FUN_00e0c2c0(int aiDividend, int aiDivisor, int c, int aiSubtrahend, int aiOffset, int aiUnused)
+// src: HAVOK_LIB 0x00e0c2c0
+int hkMonitorStreamAnalyzer_ThreadDrawInput_computePerThreadHeightToFit(int aiDividend, int aiDivisor, int c, int aiSubtrahend, int aiOffset, int aiUnused)
 {
     return (aiDividend / aiDivisor - aiSubtrahend) / c - aiOffset;
 }
@@ -94,11 +96,12 @@ FUN_00e0f6e0::FUN_00e0f6e0()
 
 struct FUN_00e0c310_s
 {
-    int FUN_00e0c310();
+    int hkMonitorStreamAnalyzer_getStreamBegin();
 };
 
 // @fnv 0x00e0c310
-int FUN_00e0c310_s::FUN_00e0c310()
+// src: HAVOK_LIB 0x00e0c310
+int FUN_00e0c310_s::hkMonitorStreamAnalyzer_getStreamBegin()
 {
     if (*(int*)((char*)this + 0x10) == 0)
         return 0;
@@ -193,15 +196,16 @@ struct Node
 };
 // Multiplies the value at index by factor, clears the matching flag, and recurses into all children.
 // @fnv 0x00e0c700
-void __cdecl FUN_00e0c700(Node* node, int index, float factor)
+// src: HAVOK_LIB 0x00e0c700
+void __cdecl reduceMainTree(Node* node, int index, float factor)
 {
     (&node->value0)[index] *= factor;
     (&node->flag0)[index] = 0;
     for (int i = 0; i < node->childCount; ++i)
-        FUN_00e0c700(node->children[i], index, factor);
+        reduceMainTree(node->children[i], index, factor);
 }
 
-extern "C" int __cdecl FUN_00cb10d0(const char* str);
+extern "C" int __cdecl hkString_strLen(const char* str);
 
 struct E0C860Node;
 
@@ -247,7 +251,7 @@ struct E0C860Node
 // @fnv 0x00e0c860
 int __cdecl GetTreeWidth(E0C860Node* node, int depth, int indent, bool onlyExpanded)
 {
-    int width = FUN_00cb10d0(node->m_name) + depth * indent + 8;
+    int width = hkString_strLen(node->m_name) + depth * indent + 8;
     if (!onlyExpanded || (node->m_flags & 1))
     {
         for (int i = 0; i < node->m_children.GetLogicalSize(); i++)
@@ -385,14 +389,15 @@ void Owner::ClearItems()
 }
 }  // namespace fnv_00e0d0a0
 
-extern "C" void __cdecl FUN_00e0c700(void* object, int index, float amount);
-extern "C" void __cdecl FUN_00e0d180(void* first, void* second, int index, int limit, float amount);
+extern "C" void __cdecl reduceMainTree(void* object, int index, float amount);
+extern "C" void __cdecl mergeSubTree(void* first, void* second, int index, int limit, float amount);
 // Calls FUN_00e0c700 on first, then FUN_00e0d180 on first and second with index, limit and amount.
 // @fnv 0x00e0d280
-void __cdecl FUN_00e0d280(void* first, void* second, int index, int limit, float amount)
+// src: HAVOK_LIB 0x00e0d280
+void __cdecl hkMonitorStreamAnalyzer_mergeTreesForCombinedThreadSummary(void* first, void* second, int index, int limit, float amount)
 {
-    FUN_00e0c700(first, index, amount);
-    FUN_00e0d180(first, second, index, limit, amount);
+    reduceMainTree(first, index, amount);
+    mergeSubTree(first, second, index, limit, amount);
 }
 
 namespace fnv_00e0f800 {
@@ -404,7 +409,7 @@ inline hkMemoryRouter* audio()
     return (hkMemoryRouter*)FUN_00c85750();
 }
 
-extern "C" void __cdecl FUN_00c908c0(hkMemoryAllocator* alloc, void* arr, int capacity, int elemSize);
+extern "C" void __cdecl hkArrayUtil__reserve(hkMemoryAllocator* alloc, void* arr, int capacity, int elemSize);
 
 extern float DAT_010eaa58;
 extern float DAT_011bdd84;
@@ -420,7 +425,7 @@ struct FUN_00e0f800
     int m1c;
     void* m20;
     FUN_00e0f800(int n, int a, int b);
-    void FUN_00e0f710(int a, int b);
+    void hkMonitorStreamAnalyzer_resetNumThreads(int a, int b);
 };
 
 // Sets DAT_011bdd84 to 16666.6f, reserves n elements in m0c, points m20 at DAT_010cb2c0, then calls FUN_00e0f710(a, b).
@@ -430,12 +435,12 @@ FUN_00e0f800::FUN_00e0f800(int aiCapacity, int a, int b)
     DAT_011bdd84 = 16666.6f;
     m0c.reserve(aiCapacity);
     m20 = DAT_010cb2c0;
-    FUN_00e0f710(a, b);
+    hkMonitorStreamAnalyzer_resetNumThreads(a, b);
 }
 }  // namespace fnv_00e0f800
 
 int __cdecl Vsnprintf(char* buffer, unsigned int size, const char* format, ...);
-void __cdecl FUN_00cc0410(void* stream, const char* format, ...);
+void __cdecl hkOstream_printf(void* stream, const char* format, ...);
 
 struct S_00e0bfe0_Item
 {
@@ -475,17 +480,17 @@ void __cdecl WriteItemStats(void* stream, float totalTime, const S_00e0bfe0_Item
         Vsnprintf((char*)buf, 200, "%s (%i)", item->name, maxCount);
     }
 
-    FUN_00cc0410(stream, "%-34s%s", (char*)buf, "\t\t\t");
+    hkOstream_printf(stream, "%-34s%s", (char*)buf, "\t\t\t");
 
     for (int i = 0; i < 8; ++i)
     {
         if (item->counts[i] != 0)
         {
-            FUN_00cc0410(stream, "% 12.3f: ", item->values[i]);
+            hkOstream_printf(stream, "% 12.3f: ", item->values[i]);
         }
     }
 
-    FUN_00cc0410(stream, "\n");
+    hkOstream_printf(stream, "\n");
 }
 
 extern "C" void __cdecl FUN_00cb1280(void* dst, int c, int n);
@@ -693,7 +698,7 @@ struct E0CC40Node
     double m_base;
 };
 
-E0CC40Node* __cdecl FUN_00e10820(E0CC40Node* node, double time, int axis);
+E0CC40Node* __cdecl findChildNode(E0CC40Node* node, double time, int axis);
 
 // Walks down from hint (or root if hint is null or its axis value plus base is below time) via FUN_00e10820 until no child is returned, then returns the node.
 // @fnv 0x00e0cc40
@@ -704,7 +709,7 @@ E0CC40Node* __cdecl FindNodeAtTime(E0CC40Node* root, E0CC40Node* hint, double ti
         node = root;
     while (node)
     {
-        E0CC40Node* child = FUN_00e10820(node, time, axis);
+        E0CC40Node* child = findChildNode(node, time, axis);
         if (!child)
             break;
         node = child;
@@ -728,7 +733,7 @@ struct FUN_00e0ccf0_cls
     int unk08;
     int unk0C;
     int m_unk10;
-    void FUN_00e0ccf0();
+    void hkMonitorStreamAnalyzer_reset();
 };
 
 // Proxy used to force MSVC 2008 to materialise the element address in a register
@@ -750,7 +755,8 @@ static __forceinline EntryRef MakeRef(SpawnedEntry* e)
 }
 
 // @fnv 0x00e0ccf0
-void FUN_00e0ccf0_cls::FUN_00e0ccf0()
+// src: HAVOK_LIB 0x00e0ccf0
+void FUN_00e0ccf0_cls::hkMonitorStreamAnalyzer_reset()
 {
     m_unk10 = 0;
     int i = 0;
@@ -851,8 +857,8 @@ struct S_Flag
     }
 };
 
-void* __cdecl FUN_00e0ee00(void* apSelf, int aIndex, S_Flag aFlag);
-void __cdecl FUN_00e0fec0(int a0, void* pArray, int a2, int a3, int a4, int a5, int a6);
+void* __cdecl hkMonitorStreamAnalyzer_makeStatisticsTreeForMultipleFrames(void* apSelf, int aIndex, S_Flag aFlag);
+void __cdecl hkMonitorStreamAnalyzer_writeStatisticsDetails(int a0, void* pArray, int a2, int a3, int a4, int a5, int a6);
 
 struct FUN_00e0d0a0_s
 {
@@ -891,7 +897,7 @@ void FUN_00e10630_cls::ProcessItems(int a1, int a2)
 
     for (int i = 0; i < this->m_count04; ++i)
     {
-        void* item = FUN_00e0ee00(this, i, S_Flag());
+        void* item = hkMonitorStreamAnalyzer_makeStatisticsTreeForMultipleFrames(this, i, S_Flag());
         hkMemoryRouter* holder = FUN_00c85750();
         if (arr.m_iElementCount == (int)(arr.m_iCapacityState & 0x3fffffffu))
         {
@@ -900,7 +906,7 @@ void FUN_00e10630_cls::ProcessItems(int a1, int a2)
         arr.m_data[arr.m_iElementCount++] = item;
     }
 
-    FUN_00e0fec0(a1, &arr, this->m_18, this->m_1c, a2, this->m_20, 1);
+    hkMonitorStreamAnalyzer_writeStatisticsDetails(a1, &arr, this->m_18, this->m_1c, a2, this->m_20, 1);
 
     for (int j = 0; j < arr.m_iElementCount; ++j)
     {
@@ -977,17 +983,18 @@ struct FUN_00e0c690_owner
 
 extern FUN_00e0c690_owner* g_00e0c690_owner;
 
-extern "C" int __cdecl FUN_00cb0fa0(int a, unsigned int b);
+extern "C" int __cdecl hkString_strCmp(int a, unsigned int b);
 
 // @fnv 0x00e0c690
-static __declspec(noinline) unsigned char FUN_00e0c690(unsigned int a1, int* a2, FUN_00e0c690_owner* o)
+// src: HAVOK_LIB 0x00e0c690
+static __declspec(noinline) unsigned char findChildWithHint(unsigned int a1, int* a2, FUN_00e0c690_owner* o)
 {
     unsigned int* pa = &a1;
     int idx = *a2;
     if (o->m_34 > idx)
     {
         S00e0c690_entry*& e = o->m_30[idx];
-        if (FUN_00cb0fa0(e->m_4c, *pa) == 0)
+        if (hkString_strCmp(e->m_4c, *pa) == 0)
         {
             return 1;
         }
@@ -995,7 +1002,7 @@ static __declspec(noinline) unsigned char FUN_00e0c690(unsigned int a1, int* a2,
     for (int i = 0; i < o->m_34; ++i)
     {
         S00e0c690_entry*& e = o->m_30[i];
-        if (FUN_00cb0fa0(e->m_4c, *pa) == 0)
+        if (hkString_strCmp(e->m_4c, *pa) == 0)
         {
             *a2 = i;
             return 1;
@@ -1006,7 +1013,7 @@ static __declspec(noinline) unsigned char FUN_00e0c690(unsigned int a1, int* a2,
 
 unsigned char __cdecl S00e0c690_Wrap(unsigned int a1, int* a2)
 {
-    return FUN_00e0c690(a1, a2, g_00e0c690_owner);
+    return findChildWithHint(a1, a2, g_00e0c690_owner);
 }
 
 struct Node_e0c8e0
@@ -1078,7 +1085,8 @@ struct __declspec(align(64)) LineBuf_e0c8e0
 };
 
 // @fnv 0x00e0c8e0
-void __cdecl FUN_00e0c8e0(void* stream, Node_e0c8e0* item, int depth, float scale)
+// src: HAVOK_LIB 0x00e0c8e0
+void __cdecl hkWriteRec(void* stream, Node_e0c8e0* item, int depth, float scale)
 {
     if (depth != 0)
     {
@@ -1087,7 +1095,7 @@ void __cdecl FUN_00e0c8e0(void* stream, Node_e0c8e0* item, int depth, float scal
             int n = depth - 1;
             do
             {
-                FUN_00cc0410(stream, "\t");
+                hkOstream_printf(stream, "\t");
                 --n;
             } while (n != 0);
         }
@@ -1153,12 +1161,12 @@ void __cdecl FUN_00e0c8e0(void* stream, Node_e0c8e0* item, int depth, float scal
         else
             Vsnprintf((char*)&buf, 200, "%s (%4.1f)", item->name, scale * maxv);
 
-        FUN_00cc0410(stream, "%-32s", &buf);
+        hkOstream_printf(stream, "%-32s", &buf);
 
         int tabs = 3;
         do
         {
-            FUN_00cc0410(stream, "\t");
+            hkOstream_printf(stream, "\t");
             --tabs;
         } while (tabs != 0);
 
@@ -1176,20 +1184,20 @@ void __cdecl FUN_00e0c8e0(void* stream, Node_e0c8e0* item, int depth, float scal
                         v *= (float)maxv / (float)c;
                     --left;
                     if (left != 0)
-                        FUN_00cc0410(stream, "% 12.3f: ", v);
+                        hkOstream_printf(stream, "% 12.3f: ", v);
                     else
-                        FUN_00cc0410(stream, "% 12.3f\n", v);
+                        hkOstream_printf(stream, "% 12.3f\n", v);
                 }
             }
         }
         else
         {
-            FUN_00cc0410(stream, "% 12.3f\n", 0.0);
+            hkOstream_printf(stream, "% 12.3f\n", 0.0);
         }
     }
 
     for (int i = 0; i < item->childCount; ++i)
-        FUN_00e0c8e0(stream, item->children[i], depth + 1, scale);
+        hkWriteRec(stream, item->children[i], depth + 1, scale);
 }
 
 struct S_00e0cbe0_Entry
@@ -1234,10 +1242,11 @@ struct S_00e0cbe0_Owner
     int unk34;
 };
 
-int __cdecl FUN_00cb0fa0(int a, int b);
+int __cdecl hkString_strCmp(int a, int b);
 
 // @fnv 0x00e0cbe0
-static __declspec(noinline) int __cdecl FUN_00e0cbe0(S_00e0cbe0_Owner* owner, S_00e0cbe0_Entry* key, int value)
+// src: HAVOK_LIB 0x00e0cbe0
+static __declspec(noinline) int __cdecl hkFindNextChildByName(S_00e0cbe0_Owner* owner, S_00e0cbe0_Entry* key, int value)
 {
     int index;
     int* pvalue = &value;
@@ -1257,7 +1266,7 @@ static __declspec(noinline) int __cdecl FUN_00e0cbe0(S_00e0cbe0_Owner* owner, S_
     do
     {
         S_00e0cbe0_Entry** slot = &owner->unk30[index];
-        if (!FUN_00cb0fa0(*pvalue, (*slot)->unk4c))
+        if (!hkString_strCmp(*pvalue, (*slot)->unk4c))
             return reinterpret_cast<int>(owner->unk30[index]);
         ++index;
     } while (index < owner->unk34);
@@ -1267,11 +1276,11 @@ static __declspec(noinline) int __cdecl FUN_00e0cbe0(S_00e0cbe0_Owner* owner, S_
 
 int __cdecl S00e0cbe0_Call(S_00e0cbe0_Owner* owner, S_00e0cbe0_Entry* key, int value)
 {
-    return FUN_00e0cbe0(owner, key, value);
+    return hkFindNextChildByName(owner, key, value);
 }
 
-void __cdecl FUN_00e0e470(void* array, void* name, void* owner, int argument, int flags);
-void __cdecl FUN_00c908c0(hkMemoryAllocator* alloc, void* array, int count, int size);
+void __cdecl hkMonitorStreamAnalyzer_writeStatisticsDetailsToTga(void* array, void* name, void* owner, int argument, int flags);
+void __cdecl hkArrayUtil__reserve(hkMemoryAllocator* alloc, void* array, int count, int size);
 struct TempArray830
 {
     void** data;
@@ -1289,7 +1298,7 @@ struct TempArray830
             int newCap = cap * 2;
             if (count >= newCap)
                 newCap = count;
-            FUN_00c908c0(&heap, this, newCap, 4);
+            hkArrayUtil__reserve(&heap, this, newCap, 4);
         }
     }
     void release()
@@ -1300,23 +1309,24 @@ struct TempArray830
             heap.bufFree(data, (capacity & 0x3fffffff) * 4);
     }
 };
-void __cdecl FUN_00c908c0(hkMemoryAllocator* alloc, void* array, int count, int size);
+void __cdecl hkArrayUtil__reserve(hkMemoryAllocator* alloc, void* array, int count, int size);
 struct Owner830
 {
     void* data;
     int count;
-    void FUN_00e0f5e0(void* name, int argument);
+    void hkMonitorStreamAnalyzer_drawThreadsToTga(void* name, int argument);
 };
 // @fnv 0x00e0f5e0
-void Owner830::FUN_00e0f5e0(void* name, int argument)
+// src: HAVOK_LIB 0x00e0f5e0
+void Owner830::hkMonitorStreamAnalyzer_drawThreadsToTga(void* name, int argument)
 {
     TempArray830 temp;
     int num = count;
     temp.reserve(num);
     temp.size = num;
     for (int i = 0; i < num; i++)
-        temp.data[i] = FUN_00e0ee00(this, i, S_Flag());
-    FUN_00e0e470(&temp, name, this, argument, 0);
+        temp.data[i] = hkMonitorStreamAnalyzer_makeStatisticsTreeForMultipleFrames(this, i, S_Flag());
+    hkMonitorStreamAnalyzer_writeStatisticsDetailsToTga(&temp, name, this, argument, 0);
     for (int j = 0; j < num; j++)
     {
         FUN_00e0d0a0_s* p = (FUN_00e0d0a0_s*)temp.data[j];
@@ -1378,8 +1388,8 @@ struct FUN_00e0d000Map
     FUN_00e0d000Total* GetValue(const char*, int);
     void FUN_00d874d0(const char*, FUN_00e0d000Total*);
 };
-int __cdecl FUN_00cb0fa0(const char*, const char*);
-void __cdecl FUN_00c908c0(hkMemoryAllocator*, FUN_00e0d000Array*, int, int);
+int __cdecl hkString_strCmp(const char*, const char*);
+void __cdecl hkArrayUtil__reserve(hkMemoryAllocator*, FUN_00e0d000Array*, int, int);
 __forceinline FUN_00e0d000& FUN_00e0d000Array::AllocatePair()
 {
     hkMemoryAllocator& heap = monitorDebugHeap(FUN_00c85750());
@@ -1391,7 +1401,7 @@ __forceinline FUN_00e0d000& FUN_00e0d000Array::AllocatePair()
         int newCap = cap * 2;
         if (count < newCap)
             count = newCap;
-        FUN_00c908c0(&heap, this, count, sizeof(FUN_00e0d000));
+        hkArrayUtil__reserve(&heap, this, count, sizeof(FUN_00e0d000));
     }
     new (data + size) FUN_00e0d000;
     ++size;
@@ -1404,7 +1414,7 @@ __forceinline FUN_00e0d000* findOrAdd(FUN_00e0d000Array& array, const char* name
     for (i = array.size - 1; i >= 0; --i)
     {
         found = &array.data[i];
-        if (FUN_00cb0fa0(name, found->name) == 0)
+        if (hkString_strCmp(name, found->name) == 0)
             break;
     }
     if (i < 0)
@@ -1414,7 +1424,8 @@ __forceinline FUN_00e0d000* findOrAdd(FUN_00e0d000Array& array, const char* name
     return found;
 }
 // @fnv 0x00e0f880
-void __cdecl FUN_00e0f880(FUN_00e0d000* node, FUN_00e0d000Map* map)
+// src: HAVOK_LIB 0x00e0f880
+void __cdecl hkBuildSizePerName(FUN_00e0d000* node, FUN_00e0d000Map* map)
 {
     const char* name = node->name;
     FUN_00e0d000Total* total = map->GetValue(name, 0);
@@ -1430,7 +1441,7 @@ void __cdecl FUN_00e0f880(FUN_00e0d000* node, FUN_00e0d000Map* map)
     for (int i = 0; i < node->childCount; ++i)
     {
         FUN_00e0d000* child = node->children[i];
-        FUN_00e0f880(child, map);
+        hkBuildSizePerName(child, map);
         FUN_00e0d000* childTotal = findOrAdd(total->childFUN_00e0d000, child->name);
         childTotal->accumulate(*child);
     }
@@ -1442,7 +1453,7 @@ void __cdecl FUN_00e0f880(FUN_00e0d000* node, FUN_00e0d000Map* map)
         for (index = total->linkedFUN_00e0d000.size - 1; index >= 0; --index)
         {
             linkedTotal = &total->linkedFUN_00e0d000.data[index];
-            if (FUN_00cb0fa0(linkedName, linkedTotal->name) == 0)
+            if (hkString_strCmp(linkedName, linkedTotal->name) == 0)
                 break;
         }
         if (index < 0)
@@ -1458,7 +1469,8 @@ extern volatile int g_e0c1c0_stride;
 extern unsigned int* volatile g_e0c1c0_out;
 
 // @fnv 0x00e0c1c0
-static __declspec(noinline) void FUN_00e0c1c0(unsigned int idx, int stride, unsigned int* out)
+// src: HAVOK_LIB 0x00e0c1c0
+static __declspec(noinline) void drawDigit(unsigned int idx, int stride, unsigned int* out)
 {
     unsigned int* entry = (unsigned int*)((unsigned int* volatile*)DAT_011bdea0)[idx];
     int stride4 = stride * 4;
@@ -1489,7 +1501,7 @@ static __declspec(noinline) void FUN_00e0c1c0(unsigned int idx, int stride, unsi
 
 void e0c1c0_caller(void)
 {
-    FUN_00e0c1c0(e0c1c0_tblidx(), g_e0c1c0_stride, g_e0c1c0_out);
+    drawDigit(e0c1c0_tblidx(), g_e0c1c0_stride, g_e0c1c0_out);
 }
 
 struct S00e0c210_Obj
@@ -1497,7 +1509,8 @@ struct S00e0c210_Obj
     int unk00;
 };
 
-static __declspec(noinline) void FUN_00e0c1c0(S00e0c210_Obj* self, int digit, int* out)
+// src: HAVOK_LIB 0x00e0c1c0
+static __declspec(noinline) void drawDigit(S00e0c210_Obj* self, int digit, int* out)
 {
     int** pout = &out;
     self->unk00 = digit;
@@ -1506,7 +1519,8 @@ static __declspec(noinline) void FUN_00e0c1c0(S00e0c210_Obj* self, int digit, in
 }
 
 // @fnv 0x00e0c210
-static __declspec(noinline) void __cdecl FUN_00e0c210(int value, S00e0c210_Obj* self, int* out)
+// src: HAVOK_LIB 0x00e0c210
+static __declspec(noinline) void __cdecl drawNumber(int value, S00e0c210_Obj* self, int* out)
 {
     int place = 1000;
     int* cur = out;
@@ -1516,7 +1530,7 @@ static __declspec(noinline) void __cdecl FUN_00e0c210(int value, S00e0c210_Obj* 
     {
         int quotient = value / place;
         int digit = quotient % ten;
-        FUN_00e0c1c0(*pself, digit, cur);
+        drawDigit(*pself, digit, cur);
         place /= 10;
         cur += 7;
     } while (place >= 1);
@@ -1524,7 +1538,7 @@ static __declspec(noinline) void __cdecl FUN_00e0c210(int value, S00e0c210_Obj* 
 
 void __cdecl S00e0c210_Entry(int value, S00e0c210_Obj* self)
 {
-    FUN_00e0c210(value, self, 0);
+    drawNumber(value, self, 0);
 }
 
 union CommandWord
@@ -1602,7 +1616,8 @@ __forceinline bool isSmallTag(CommandWord* c, unsigned int tag, hkBool swap)
     return false;
 }
 // @fnv 0x00e0c350
-void __cdecl FUN_00e0c350(char* p, const char* end, SomeMap* map, hkBool swapBytes)
+// src: HAVOK_LIB 0x00e0c350
+void __cdecl hkMonitorStreamAnalyzer_applyStringMap(char* p, const char* end, SomeMap* map, hkBool swapBytes)
 {
     if (p >= end)
         return;
@@ -1691,7 +1706,7 @@ do_command:
     }
 }
 
-extern int __cdecl FUN_00cb0fa0(const char* a, const char* b);
+extern int __cdecl hkString_strCmp(const char* a, const char* b);
 struct RecEntry
 {
     int unk00;
@@ -1737,13 +1752,14 @@ struct NameArg
     const char* unk00;
 };
 // @fnv 0x00e0cb80
-static __declspec(noinline) RecEntry* FUN_00e0cb80(RecBox* box, NameArg name, bool flag)
+// src: HAVOK_LIB 0x00e0cb80
+static __declspec(noinline) RecEntry* hkFindChildByName(RecBox* box, NameArg name, bool flag)
 {
     const char* n = name.unk00;
     for (int i = 0; i < box->unk34; ++i)
     {
         RecEntry*& e = box->unk30[i];
-        if (FUN_00cb0fa0(n, e->unk4c) == 0)
+        if (hkString_strCmp(n, e->unk4c) == 0)
             return box->unk30[i];
     }
     if (flag && box->unk34 > 0)
@@ -1759,9 +1775,9 @@ void CallTarget_e0cb80()
     RecBox* box = g_in_box;
     NameArg a;
     a.unk00 = (const char*)g_in_name;
-    g_out = FUN_00e0cb80(box, a, true);
+    g_out = hkFindChildByName(box, a, true);
     a.unk00 = (const char*)g_in_name;
-    g_out2 = FUN_00e0cb80(box, a, false);
+    g_out2 = hkFindChildByName(box, a, false);
 }
 
 namespace fnv_00e0d100 {
@@ -1782,7 +1798,8 @@ __forceinline FUN_00e0d000*& childAt(FUN_00e0d000* parent, int i)
     return parent->children[i];
 }
 // @fnv 0x00e0d100
-static __declspec(noinline) FUN_00e0d000* FUN_00e0d100(FUN_00e0d000* parent, NameArg name, IntArg extra,
+// src: HAVOK_LIB 0x00e0d100
+static __declspec(noinline) FUN_00e0d000* createNewNode(FUN_00e0d000* parent, NameArg name, IntArg extra,
                                                        BoolArg findExisting)
 {
     const char* key = name.value;
@@ -1792,7 +1809,7 @@ static __declspec(noinline) FUN_00e0d000* FUN_00e0d100(FUN_00e0d000* parent, Nam
         {
             while (parent && key && i < parent->childCount)
             {
-                if (childAt(parent, i)->name && FUN_00cb0fa0(childAt(parent, i)->name, key) == 0)
+                if (childAt(parent, i)->name && hkString_strCmp(childAt(parent, i)->name, key) == 0)
                     return childAt(parent, i);
                 ++i;
             }
@@ -1805,12 +1822,12 @@ static __declspec(noinline) FUN_00e0d000* FUN_00e0d100(FUN_00e0d000* parent, Nam
 }
 FUN_00e0d000* CallCreate(FUN_00e0d000* parent, NameArg name, IntArg extra, BoolArg findExisting)
 {
-    return FUN_00e0d100(parent, name, extra, findExisting);
+    return createNewNode(parent, name, extra, findExisting);
 }
 }  // namespace fnv_00e0d100
 
-void __cdecl FUN_00c908c0(hkMemoryAllocator*, void*, int, int);
-void __cdecl FUN_00cc0410(void*, const char*, ...);
+void __cdecl hkArrayUtil__reserve(hkMemoryAllocator*, void*, int, int);
+void __cdecl hkOstream_printf(void*, const char*, ...);
 struct FUN_00e108b0
 {
     char* data;
@@ -1824,7 +1841,7 @@ struct FUN_00e108b0
             int c = (capacity & 0x3fffffff) * 2;
             if (c <= n)
                 c = n;
-            FUN_00c908c0(&a, this, c, 1);
+            hkArrayUtil__reserve(&a, this, c, 1);
         }
     }
     void reserve(int n)
@@ -1884,14 +1901,15 @@ struct DumpState
     char* commands;
     int size, cap;
     int threads, spus;
-    void FUN_00e0eef0(void* stream);
+    void hkMonitorStreamAnalyzer_writeRawStatistics(void* stream);
 };
 // @fnv 0x00e0eef0
-void DumpState::FUN_00e0eef0(void* stream)
+// src: HAVOK_LIB 0x00e0eef0
+void DumpState::hkMonitorStreamAnalyzer_writeRawStatistics(void* stream)
 {
     hkMemoryAllocator* cleanupAllocator;
     FUN_00e108b0 indent;
-    FUN_00cc0410(stream, "StatisticsDumpInfo(num_threads=%i, num_spus=%i, num_frames=%i)\n", threads, spus,
+    hkOstream_printf(stream, "StatisticsDumpInfo(num_threads=%i, num_spus=%i, num_frames=%i)\n", threads, spus,
                  frames->size);
     for (int i = 0; i < count; i++)
     {
@@ -1899,7 +1917,7 @@ void DumpState::FUN_00e0eef0(void* stream)
         for (int j = 0; j < f.size; j++)
         {
             DumpFrame& frame = f.data[j];
-            FUN_00cc0410(stream, "FrameInfo(heading='%s', frame=%i, thread_id=%i, time_counter=%i)\n", frame.heading, j,
+            hkOstream_printf(stream, "FrameInfo(heading='%s', frame=%i, thread_id=%i, time_counter=%i)\n", frame.heading, j,
                          frame.thread, frame.time);
             DumpCommand* p = (DumpCommand*)(commands + frame.begin);
             DumpCommand* end = (DumpCommand*)(commands + frame.end);
@@ -1910,7 +1928,7 @@ void DumpState::FUN_00e0eef0(void* stream)
                 switch (*p->name)
                 {
                 case 'T':
-                    FUN_00cc0410(stream, "%sTimerBegin('%s',%u,%u)\n", indent.data, p->name + 2, p->first.timer,
+                    hkOstream_printf(stream, "%sTimerBegin('%s',%u,%u)\n", indent.data, p->name + 2, p->first.timer,
                                  p->second);
                     indent.data[indent.size - 1] = ' ';
                     indent.append(' ');
@@ -1920,14 +1938,14 @@ void DumpState::FUN_00e0eef0(void* stream)
                 case 'E':
                     indent.size -= 2;
                     indent.data[indent.size - 1] = 0;
-                    FUN_00cc0410(stream, "%sTimerEnd('%s',%u,%u)\n", indent.data, p->name + 2, p->first.timer,
+                    hkOstream_printf(stream, "%sTimerEnd('%s',%u,%u)\n", indent.data, p->name + 2, p->first.timer,
                                  p->second);
                     p = (DumpCommand*)((char*)p + 12);
                     break;
                 case 'L':
-                    FUN_00cc0410(stream, "%sTimerBegin('%s', %u, %u)\n", indent.data, p->name + 2, p->first.timer,
+                    hkOstream_printf(stream, "%sTimerBegin('%s', %u, %u)\n", indent.data, p->name + 2, p->first.timer,
                                  p->second);
-                    FUN_00cc0410(stream, "%sTimerSplit('%s', %u, %u)\n", indent.data, p->split + 2, p->first.timer,
+                    hkOstream_printf(stream, "%sTimerSplit('%s', %u, %u)\n", indent.data, p->split + 2, p->first.timer,
                                  p->second);
                     indent.data[indent.size - 1] = ' ';
                     indent.append(' ');
@@ -1937,7 +1955,7 @@ void DumpState::FUN_00e0eef0(void* stream)
                 case 'S':
                     indent.size -= 2;
                     indent.data[indent.size - 1] = 0;
-                    FUN_00cc0410(stream, "%sTimerSplit('%s', %u, %u)\n", indent.data, p->name + 2, p->first.timer,
+                    hkOstream_printf(stream, "%sTimerSplit('%s', %u, %u)\n", indent.data, p->name + 2, p->first.timer,
                                  p->second);
                     indent.data[indent.size - 1] = ' ';
                     indent.append(' ');
@@ -1947,12 +1965,12 @@ void DumpState::FUN_00e0eef0(void* stream)
                 case 'l':
                     indent.size -= 2;
                     indent.data[indent.size - 1] = 0;
-                    FUN_00cc0410(stream, "%sTimerEnd('%s', %u, %u)\n", indent.data, p->name + 2, p->first.timer,
+                    hkOstream_printf(stream, "%sTimerEnd('%s', %u, %u)\n", indent.data, p->name + 2, p->first.timer,
                                  p->second);
                     p = (DumpCommand*)((char*)p + 12);
                     break;
                 case 'M':
-                    FUN_00cc0410(stream, "%sAddValue(%s,%f)\n", indent.data, p->name + 1, p->first.value);
+                    hkOstream_printf(stream, "%sAddValue(%s,%f)\n", indent.data, p->name + 1, p->first.value);
                     p = (DumpCommand*)((char*)p + 8);
                     break;
                 case 'N':
@@ -1961,7 +1979,7 @@ void DumpState::FUN_00e0eef0(void* stream)
                 case 'm': {
                     int bytes = p->second & 0x7fffffff;
                     const char* operation = (p->second & 0x80000000u) ? "Free" : "Alloc";
-                    FUN_00cc0410(stream, "%s%s%s(ptr=0x%p, nbytes=%i)\n", indent.data, operation, p->name + 1,
+                    hkOstream_printf(stream, "%s%s%s(ptr=0x%p, nbytes=%i)\n", indent.data, operation, p->name + 1,
                                  p->first.pointer, bytes);
                     p = (DumpCommand*)((char*)p + 12);
                     break;
@@ -2083,7 +2101,8 @@ struct CfgObj
     char unk1b;
 };
 void __cdecl ext_merge(int, int);
-__declspec(noinline) void __cdecl FUN_00e0d880(AggObj* agg, TimerObj* timer)
+// src: HAVOK_LIB 0x00e0d880
+__declspec(noinline) void __cdecl hkMakeSumRecursive(AggObj* agg, TimerObj* timer)
 {
     ext_merge(agg->unk04, (int)timer->m_name);
     agg->unk08 = 1;
@@ -2092,39 +2111,42 @@ struct SearchKey
 {
     int value;
 };
-int __cdecl FUN_00cb0fa0(const char*, const char*);
-static __declspec(noinline) TimerObj* FUN_00e0cb80(TimerObj* root, SearchKey key, S_Flag flag)
+int __cdecl hkString_strCmp(const char*, const char*);
+// src: HAVOK_LIB 0x00e0cb80
+static __declspec(noinline) TimerObj* hkFindChildByName(TimerObj* root, SearchKey key, S_Flag flag)
 {
     for (int i = 0; i < root->m_children.m_iElementCount; ++i)
     {
-        if (!FUN_00cb0fa0((const char*)key.value, root->m_children.m_data[i]->m_name))
+        if (!hkString_strCmp((const char*)key.value, root->m_children.m_data[i]->m_name))
             return root->m_children.m_data[i];
     }
     if (flag.b && root->m_children.m_iElementCount > 0)
         return root->m_children.m_data[0];
     return 0;
 }
-static __declspec(noinline) TimerObj* FUN_00e0cbe0(TimerObj* root, TimerObj* node, SearchKey key)
+// src: HAVOK_LIB 0x00e0cbe0
+static __declspec(noinline) TimerObj* hkFindNextChildByName(TimerObj* root, TimerObj* node, SearchKey key)
 {
     int i = 0;
     while (i < root->m_children.m_iElementCount && root->m_children.m_data[i] != node)
         ++i;
     for (++i; i < root->m_children.m_iElementCount; ++i)
     {
-        if (!FUN_00cb0fa0((const char*)key.value, root->m_children.m_data[i]->m_name))
+        if (!hkString_strCmp((const char*)key.value, root->m_children.m_data[i]->m_name))
             return root->m_children.m_data[i];
     }
     return 0;
 }
 void __cdecl ext_show(void*, int, int, float);
-__declspec(noinline) void __cdecl FUN_00e0c8e0(void* stream, void* agg, int a, float f)
+// src: HAVOK_LIB 0x00e0c8e0
+__declspec(noinline) void __cdecl hkWriteRec(void* stream, void* agg, int a, float f)
 {
     ext_show(stream, ((AggObj*)agg)->unk08, a, f);
 }
-void __cdecl FUN_00e0d280(void* first, void* second, int index, int limit, float amount);
-void __cdecl FUN_00e0d640(void* a, int a2, int a3, void* stream, CfgObj* cfg);
+void __cdecl hkMonitorStreamAnalyzer_mergeTreesForCombinedThreadSummary(void* first, void* second, int index, int limit, float amount);
+void __cdecl hkMonitorStreamAnalyzer_showCombinedThreadSummaryForSingleFrame(void* a, int a2, int a3, void* stream, CfgObj* cfg);
 
-void __cdecl FUN_00c908c0(hkMemoryAllocator* alloc, void* arr, int count, int elemSize);
+void __cdecl hkArrayUtil__reserve(hkMemoryAllocator* alloc, void* arr, int count, int elemSize);
 extern "C" void __cdecl FUN_00cb1280(void* dst, int c, int n);
 void* __cdecl fnv_zlib_memset(void* dst, int c, int n);
 
@@ -2172,10 +2194,11 @@ struct TypeArray
     int size;
     int capacity;
 };
-void __cdecl FUN_00e0f880(void* node, TypeMap* map);
-int __cdecl FUN_00e10740(const TypeItem*, const TypeItem*);
+void __cdecl hkBuildSizePerName(void* node, TypeMap* map);
+int __cdecl hkCompareInfosBySize(const TypeItem*, const TypeItem*);
 void __cdecl FUN_00e10760(TypeItem** data, int lo, int hi, int(__cdecl* compare)(const TypeItem*, const TypeItem*));
-static __declspec(noinline) void FUN_00e0fc50(void* stream, void* rootNode, float fraction)
+// src: HAVOK_LIB 0x00e0fc50
+static __declspec(noinline) void printStatisticsByType(void* stream, void* rootNode, float fraction)
 {
     TypeMap map;
     S_Flag flag;
@@ -2184,7 +2207,7 @@ static __declspec(noinline) void FUN_00e0fc50(void* stream, void* rootNode, floa
     arr.data = 0;
     arr.size = 0;
     arr.capacity = (int)0x80000000;
-    FUN_00e0f880(rootNode, &map);
+    hkBuildSizePerName(rootNode, &map);
     int count = map.m_iElementCount;
     hkMemoryAllocator* heap = FUN_00c85750()->m_temp;
     if ((arr.capacity & 0x3fffffff) < count)
@@ -2192,7 +2215,7 @@ static __declspec(noinline) void FUN_00e0fc50(void* stream, void* rootNode, floa
         int cap = (arr.capacity & 0x3fffffff) * 2;
         if (cap <= count)
             cap = count;
-        fnv_00e0fec0::FUN_00c908c0(heap, &arr, cap, 4);
+        fnv_00e0fec0::hkArrayUtil__reserve(heap, &arr, cap, 4);
     }
     int iterator = map.FUN_00d87410();
     char valid;
@@ -2204,29 +2227,29 @@ static __declspec(noinline) void FUN_00e0fc50(void* stream, void* rootNode, floa
         map.SetBoolFromThreshold(&valid, iterator);
     }
     if (arr.size > 1)
-        FUN_00e10760(arr.data, 0, arr.size - 1, FUN_00e10740);
+        FUN_00e10760(arr.data, 0, arr.size - 1, hkCompareInfosBySize);
     map.FreeBuffer();
     float maxTime = arr.data[arr.size - 1]->values[1];
-    FUN_00cc0410(stream, "\n\n");
-    FUN_00cc0410(stream, "************************************\n");
-    FUN_00cc0410(stream, "********** Per Type Times    *******\n");
-    FUN_00cc0410(stream, "************************************\n");
+    hkOstream_printf(stream, "\n\n");
+    hkOstream_printf(stream, "************************************\n");
+    hkOstream_printf(stream, "********** Per Type Times    *******\n");
+    hkOstream_printf(stream, "************************************\n");
     for (int i = arr.size - 1; i >= 0; --i)
     {
         TypeItem* item = arr.data[i];
         if (item->values[1] > maxTime * fraction)
         {
-            FUN_00cc0410(stream, "\n");
-            FUN_00cc0410(stream, "************************************\n\n");
+            hkOstream_printf(stream, "\n");
+            hkOstream_printf(stream, "************************************\n\n");
             for (int j = 0; j < item->size; ++j)
             {
-                FUN_00cc0410(stream, "\t\t");
+                hkOstream_printf(stream, "\t\t");
                 WriteItemStats(stream, 0.0f, (S_00e0bfe0_Item*)&item->entries[j]);
             }
             WriteItemStats(stream, maxTime, (S_00e0bfe0_Item*)item);
             for (int k = 0; k < item->otherSize; ++k)
             {
-                FUN_00cc0410(stream, "\t\t");
+                hkOstream_printf(stream, "\t\t");
                 WriteItemStats(stream, 0.0f, (S_00e0bfe0_Item*)&item->other[k]);
             }
         }
@@ -2257,11 +2280,12 @@ struct ReportMetrics
 };
 
 // @fnv 0x00e0fec0
-void __cdecl FUN_00e0fec0(int a0, void* pArray_, int a2, int a3, int a4, int a5, int a6)
+// src: HAVOK_LIB 0x00e0fec0
+void __cdecl hkMonitorStreamAnalyzer_writeStatisticsDetails(int a0, void* pArray_, int a2, int a3, int a4, int a5, int a6)
 {
     void* stream = (void*)a0;
     ArrayArg* pArray = (ArrayArg*)pArray_;
-    FUN_00cc0410(stream, "Havok version: %s\n", "Havok-7.1.0-r1");
+    hkOstream_printf(stream, "Havok version: %s\n", "Havok-7.1.0-r1");
     ReportMetrics metrics;
     metrics.total = 0.0f;
     float time;
@@ -2280,41 +2304,41 @@ void __cdecl FUN_00e0fec0(int a0, void* pArray_, int a2, int a3, int a4, int a5,
         {
             do
             {
-                FUN_00e0d880(&sum, metrics.first->m_data[i]);
+                hkMakeSumRecursive(&sum, metrics.first->m_data[i]);
                 i++;
             } while (i < metrics.first->m_iElementCount);
         }
         S_Flag flag;
         flag.b = 1;
-        TimerObj* node = FUN_00e0cb80((TimerObj*)&sum, key, flag);
+        TimerObj* node = hkFindChildByName((TimerObj*)&sum, key, flag);
         if (node)
         {
             do
             {
                 metrics.total += node->m_uiFilterValue * time;
-                node = FUN_00e0cbe0((TimerObj*)&sum, node, key);
+                node = hkFindNextChildByName((TimerObj*)&sum, node, key);
             } while (node);
         }
         if (metrics.total <= 0.0f)
             metrics.total = 1000.0f;
         if (flags & 1)
         {
-            FUN_00cc0410(stream, "\n\n");
-            FUN_00cc0410(stream, "*********************************\n");
-            FUN_00cc0410(stream, "********** Total Times    *******\n");
-            FUN_00cc0410(stream, "*********************************\n");
-            FUN_00cc0410(stream, "Timers are added together\n");
-            FUN_00e0c8e0(stream, &sum, 0, time);
+            hkOstream_printf(stream, "\n\n");
+            hkOstream_printf(stream, "*********************************\n");
+            hkOstream_printf(stream, "********** Total Times    *******\n");
+            hkOstream_printf(stream, "*********************************\n");
+            hkOstream_printf(stream, "Timers are added together\n");
+            hkWriteRec(stream, &sum, 0, time);
         }
         sum.ClearItems();
     }
     if (flags & 2)
     {
-        FUN_00cc0410(stream, "\n\n");
-        FUN_00cc0410(stream, "*********************************\n");
-        FUN_00cc0410(stream, "********** Per Frame Time *******\n");
-        FUN_00cc0410(stream, "*********************************\n");
-        FUN_00cc0410(stream, "Ascii Art all frames overview\n");
+        hkOstream_printf(stream, "\n\n");
+        hkOstream_printf(stream, "*********************************\n");
+        hkOstream_printf(stream, "********** Per Frame Time *******\n");
+        hkOstream_printf(stream, "*********************************\n");
+        hkOstream_printf(stream, "Ascii Art all frames overview\n");
         unsigned int barw[12];
         char* bar = (char*)barw;
         S_Flag flag;
@@ -2329,14 +2353,14 @@ void __cdecl FUN_00e0fec0(int a0, void* pArray_, int a2, int a3, int a4, int a5,
                 continue;
             time = 0.0f;
             metrics.name = "Unknown";
-            TimerObj* t = FUN_00e0cb80(th, key, flag);
+            TimerObj* t = hkFindChildByName(th, key, flag);
             if (t)
             {
                 do
                 {
                     time += t->m_uiFilterValue;
                     metrics.name = t->m_name;
-                    t = FUN_00e0cbe0(th, t, key);
+                    t = hkFindNextChildByName(th, t, key);
                 } while (t);
             }
             metrics.pct = time * 20.0 / metrics.total;
@@ -2383,8 +2407,8 @@ void __cdecl FUN_00e0fec0(int a0, void* pArray_, int a2, int a3, int a4, int a5,
                 p += n3;
             }
             *p = 0;
-            FUN_00cc0410(stream, bar);
-            FUN_00cc0410(stream, "%i %-12s %f\n", metrics.row, metrics.name, (double)time);
+            hkOstream_printf(stream, bar);
+            hkOstream_printf(stream, "%i %-12s %f\n", metrics.row, metrics.name, (double)time);
         }
     }
     if (flags & 4)
@@ -2399,10 +2423,10 @@ void __cdecl FUN_00e0fec0(int a0, void* pArray_, int a2, int a3, int a4, int a5,
                 metrics.flag8 = flags & 8;
                 do
                 {
-                    FUN_00cc0410(stream, "\n");
-                    FUN_00cc0410(stream, "****************************************\n");
-                    FUN_00cc0410(stream, "****** Summary Frame:%i ******\n", outer);
-                    FUN_00cc0410(stream, "****************************************\n");
+                    hkOstream_printf(stream, "\n");
+                    hkOstream_printf(stream, "****************************************\n");
+                    hkOstream_printf(stream, "****** Summary Frame:%i ******\n", outer);
+                    hkOstream_printf(stream, "****************************************\n");
                     AggArray arr;
                     arr.m_data = 0;
                     arr.m_iElementCount = 0;
@@ -2422,7 +2446,7 @@ void __cdecl FUN_00e0fec0(int a0, void* pArray_, int a2, int a3, int a4, int a5,
                         int cap2 = (arr.m_iCapacityState & 0x3fffffff) * 2;
                         if (cnt >= cap2)
                             cap2 = cnt;
-                        fnv_00e0fec0::FUN_00c908c0((hkMemoryAllocator*)heap, &arr, cap2, 4);
+                        fnv_00e0fec0::hkArrayUtil__reserve((hkMemoryAllocator*)heap, &arr, cap2, 4);
                     }
                     arr.m_iElementCount = cnt;
                     for (int k = 0; k < pa->m_iElementCount; k++)
@@ -2437,7 +2461,7 @@ void __cdecl FUN_00e0fec0(int a0, void* pArray_, int a2, int a3, int a4, int a5,
                         arr.m_data[k] = obj;
                         ThreadObj* th = pa->m_data[k];
                         if (th->m_children.m_iElementCount > outer)
-                            FUN_00e0d880(arr.m_data[k], th->m_children.m_data[outer]);
+                            hkMakeSumRecursive(arr.m_data[k], th->m_children.m_data[outer]);
                     }
                     int m = 1;
                     CfgObj cfg;
@@ -2448,11 +2472,11 @@ void __cdecl FUN_00e0fec0(int a0, void* pArray_, int a2, int a3, int a4, int a5,
                     cfgp->b10 = 0;
                     cfgp->b1a = 0;
                     for (; m < arr.m_iElementCount; m++)
-                        FUN_00e0d280(arr.m_data[0], arr.m_data[m], m, 0, 0.0f);
-                    FUN_00e0d640(arr.m_data[0], a2, a3, stream, cfgp);
+                        hkMonitorStreamAnalyzer_mergeTreesForCombinedThreadSummary(arr.m_data[0], arr.m_data[m], m, 0, 0.0f);
+                    hkMonitorStreamAnalyzer_showCombinedThreadSummaryForSingleFrame(arr.m_data[0], a2, a3, stream, cfgp);
                     if (metrics.flag8)
                     {
-                        FUN_00e0fc50(stream, arr.m_data[0], 0.01f);
+                        printStatisticsByType(stream, arr.m_data[0], 0.01f);
                     }
                     for (int k = 0; k < pa->m_iElementCount; k++)
                     {
@@ -2502,18 +2526,18 @@ void __cdecl FUN_00e0fec0(int a0, void* pArray_, int a2, int a3, int a4, int a5,
 
                                 AggObj sum2;
                                 sum2.FUN_00e0d000(0, "Sum", 1);
-                                FUN_00e0d880(&sum2, th->m_children.m_data[ebp]);
-                                FUN_00cc0410(stream, "\n");
-                                FUN_00cc0410(stream, "****************************************\n");
-                                FUN_00cc0410(stream, "****** Summary Frame:%i Thread:%i ******\n", ebp, ebx);
-                                FUN_00cc0410(stream, "****************************************\n");
+                                hkMakeSumRecursive(&sum2, th->m_children.m_data[ebp]);
+                                hkOstream_printf(stream, "\n");
+                                hkOstream_printf(stream, "****************************************\n");
+                                hkOstream_printf(stream, "****** Summary Frame:%i Thread:%i ******\n", ebp, ebx);
+                                hkOstream_printf(stream, "****************************************\n");
                                 TimerObj* tm = th->m_children.m_data[ebp];
-                                FUN_00cc0410(stream, "%s\n", tm->m_name);
+                                hkOstream_printf(stream, "%s\n", tm->m_name);
                                 float one = 1.0f;
-                                FUN_00e0c8e0(stream, &sum2, 0, one);
+                                hkWriteRec(stream, &sum2, 0, one);
                                 if (flags & 8)
                                 {
-                                    FUN_00e0fc50(stream, &sum2, 0.01f);
+                                    printStatisticsByType(stream, &sum2, 0.01f);
                                 }
                                 sum2.ClearItems();
                             }
@@ -2541,16 +2565,16 @@ void __cdecl FUN_00e0fec0(int a0, void* pArray_, int a2, int a3, int a4, int a5,
                         ThreadObj* th = pArray->m_data[ebx];
                         if (edi < th->m_children.m_iElementCount)
                         {
-                            FUN_00cc0410(stream, "\n\n");
-                            FUN_00cc0410(stream, "***************************************\n");
+                            hkOstream_printf(stream, "\n\n");
+                            hkOstream_printf(stream, "***************************************\n");
                             if (ebx < a2)
-                                FUN_00cc0410(stream, "***** Details Frame-%i Thread:%i ******\n", edi, ebx);
+                                hkOstream_printf(stream, "***** Details Frame-%i Thread:%i ******\n", edi, ebx);
                             else
-                                FUN_00cc0410(stream, "***** Details Frame-%i Spu:%i ******\n", edi, ebx - a2);
-                            FUN_00cc0410(stream, "***************************************\n");
-                            FUN_00cc0410(stream, "%s\n", th->m_children.m_data[edi]->m_name);
+                                hkOstream_printf(stream, "***** Details Frame-%i Spu:%i ******\n", edi, ebx - a2);
+                            hkOstream_printf(stream, "***************************************\n");
+                            hkOstream_printf(stream, "%s\n", th->m_children.m_data[edi]->m_name);
                             float one = 1.0f;
-                            FUN_00e0c8e0(stream, th->m_children.m_data[edi], 0, one);
+                            hkWriteRec(stream, th->m_children.m_data[edi], 0, one);
                         }
                         ebx++;
                     } while (ebx < pArray->m_iElementCount);
@@ -2589,11 +2613,12 @@ struct FUN_00e0cc90_cls
     int m_iArrayLength;       // +0x0c
     int unk10;
     int m_iFallback;  // +0x14
-    int FUN_00e0cc90(int arg);
+    int hkMonitorStreamColorTable_findColor(int arg);
 };
 
 // @fnv 0x00e0cc90
-int FUN_00e0cc90_cls::FUN_00e0cc90(int arg)
+// src: HAVOK_LIB 0x00e0cc90
+int FUN_00e0cc90_cls::hkMonitorStreamColorTable_findColor(int arg)
 {
     for (int i = 0; i < m_iArrayLength; ++i)
     {
@@ -2642,7 +2667,8 @@ struct S00e0d180_Node
 };
 
 // @fnv 0x00e0d180
-extern "C" void __cdecl FUN_00e0d180(void* first, void* second, int index, int limit, float amount)
+// src: HAVOK_LIB 0x00e0d180
+extern "C" void __cdecl mergeSubTree(void* first, void* second, int index, int limit, float amount)
 
 {
 
@@ -2672,7 +2698,7 @@ extern "C" void __cdecl FUN_00e0d180(void* first, void* second, int index, int l
 
             S00e0d180_Node* dst;
 
-            if (!FUN_00e0c690((unsigned int)((S00e0d180_Node*)second)->children[i]->name, &index,
+            if (!findChildWithHint((unsigned int)((S00e0d180_Node*)second)->children[i]->name, &index,
                               (FUN_00e0c690_owner*)first))
             {
 
@@ -2695,7 +2721,7 @@ extern "C" void __cdecl FUN_00e0d180(void* first, void* second, int index, int l
 
             dst->counts[lvl] = src->counts[limit];
 
-            FUN_00e0d180(dst, src, lvl, limit, amount);
+            mergeSubTree(dst, src, lvl, limit, amount);
 
             n = ((S00e0d180_Node*)second)->children.m_iElementCount;
 
@@ -2759,7 +2785,8 @@ struct PrintConfig
 };
 
 // @fnv 0x00e0d2c0
-void __cdecl FUN_00e0d2c0(PrintStream* stream, PrintNode* node, int depth, const int threads, const int spus,
+// src: HAVOK_LIB 0x00e0d2c0
+void __cdecl hkMonitorStreamAnalyzer_showCombinedThreadSummaryRec(PrintStream* stream, PrintNode* node, int depth, const int threads, const int spus,
                           PrintConfig* cfg)
 {
     PrintArray pad;
@@ -2792,7 +2819,7 @@ void __cdecl FUN_00e0d2c0(PrintStream* stream, PrintNode* node, int depth, const
         int sumThreads = 0;
         for (int i = 0; i < numFields; ++i)
             sumThreads += (*(node->counts + i));
-        FUN_00cc0410(&line, "%s (%i) ", node->name, sumThreads);
+        hkOstream_printf(&line, "%s (%i) ", node->name, sumThreads);
 
         float total = 0.0f;
         float idx = 0.0f;
@@ -2810,7 +2837,7 @@ void __cdecl FUN_00e0d2c0(PrintStream* stream, PrintNode* node, int depth, const
                 for (int k = 0; kIter > k; ++k)
                     line.InvokeSubObject(' ');
             }
-            FUN_00cc0410(&line, "%-6.3f (%i)", (double)node->values[i], (*(i + node->counts)));
+            hkOstream_printf(&line, "%-6.3f (%i)", (double)node->values[i], (*(i + node->counts)));
             if (i < threads)
             {
                 total += node->values[i];
@@ -2836,7 +2863,7 @@ void __cdecl FUN_00e0d2c0(PrintStream* stream, PrintNode* node, int depth, const
                     line.InvokeSubObject(' ');
             }
             col += 1;
-            FUN_00cc0410(&line, "%-6.3f (%i)", (double)(total / threads), j);
+            hkOstream_printf(&line, "%-6.3f (%i)", (double)(total / threads), j);
         }
         if (spus > 1)
         {
@@ -2850,7 +2877,7 @@ void __cdecl FUN_00e0d2c0(PrintStream* stream, PrintNode* node, int depth, const
                 for (int k = 0; k < kIter; ++k)
                     line.InvokeSubObject(' ');
             }
-            FUN_00cc0410(&line, "%-6.3f (%i)", (double)(idx / spus), countSpus);
+            hkOstream_printf(&line, "%-6.3f (%i)", (double)(idx / spus), countSpus);
         }
         stream->FUN_00cc01c0(pad.data);
         stream->InvokeSubObject('\n');
@@ -2858,7 +2885,7 @@ void __cdecl FUN_00e0d2c0(PrintStream* stream, PrintNode* node, int depth, const
     if (!cfg->unk10 || (node->flags & 1))
     {
         for (int i = 0; i < node->childCount; ++i)
-            FUN_00e0d2c0(stream, ((*(i + (node->children)))), depth + 1, threads, spus, cfg);
+            hkMonitorStreamAnalyzer_showCombinedThreadSummaryRec(stream, ((*(i + (node->children)))), depth + 1, threads, spus, cfg);
     }
     line.FUN_00cc00e0();
     hkMemoryAllocator& heap = FUN_00c85750()->heap();
@@ -2964,7 +2991,8 @@ static __forceinline float getOffset(const AnimationTimingInfo& i)
     return i.m_startTimeOffset;
 }
 // @fnv 0x00e0dd30
-void __cdecl FUN_00e0dd30(const MonNodeList& threadNodes, const AnimationTimingInfo& input,
+// src: HAVOK_LIB 0x00e0dd30
+void __cdecl hkMonitorStreamAnalyzer_getTimerLimits(const MonNodeList& threadNodes, const AnimationTimingInfo& input,
                           const FrameInfoArrays& frameInfos, float& maxFrameTime, FloatArray& startTimes)
 {
     int numThreads = threadNodes.GetLogicalSize();
@@ -2989,7 +3017,7 @@ void __cdecl FUN_00e0dd30(const MonNodeList& threadNodes, const AnimationTimingI
             int cap2 = cap * 2;
             if (n >= cap2)
                 cap2 = n;
-            FUN_00c908c0(heap, &startTimes, cap2, 4);
+            hkArrayUtil__reserve(heap, &startTimes, cap2, 4);
         }
         int numToFill = n - startTimes.m_iElementCount;
         float* p = startTimes.m_data + startTimes.m_iElementCount;
@@ -3089,20 +3117,21 @@ struct PixelSource
     int m_10;
     int m_14;
 };
-int __cdecl FUN_00e0e0c0(int a1, PixelSource* a2, int a3, void** out1, int* out2, int a6);
-void __cdecl FUN_00c856c0(hkMemoryAllocator* alloc, void* p);
+int __cdecl hkMonitorStreamAnalyzer_writeStatisticsDetailsToTexture(int a1, PixelSource* a2, int a3, void** out1, int* out2, int a6);
+void __cdecl hkMemoryRouter_easyFree(hkMemoryAllocator* alloc, void* p);
 // @fnv 0x00e0e470
-void __cdecl FUN_00e0e470(int a1, PixelSource* a2, int a3, E0C150Stream* a4, int a5)
+// src: HAVOK_LIB 0x00e0e470
+void __cdecl hkMonitorStreamAnalyzer_writeStatisticsDetailsToTga(int a1, PixelSource* a2, int a3, E0C150Stream* a4, int a5)
 {
     void* out1 = 0;
     int q = 0;
-    FUN_00e0e0c0(a1, a2, a3, &out1, &q, a5);
+    hkMonitorStreamAnalyzer_writeStatisticsDetailsToTexture(a1, a2, a3, &out1, &q, a5);
     void* p = *(void* volatile*)&out1;
     if (p != 0)
     {
         WriteTgaImage(p, a4, a2->m_14, q);
         hkMemoryRouter* h = FUN_00c85750();
-        FUN_00c856c0(h->m_heap, (void*)p);
+        hkMemoryRouter_easyFree(h->m_heap, (void*)p);
     }
 }
 
@@ -3139,7 +3168,7 @@ struct ReportMap
     }
     void FreeBuffer();
 };
-void __cdecl FUN_00c908c0(hkMemoryAllocator*, void*, int, int);
+void __cdecl hkArrayUtil__reserve(hkMemoryAllocator*, void*, int, int);
 struct ReportArray
 {
     ReportNode** data;
@@ -3156,7 +3185,7 @@ struct ReportArray
             int next = cap * 2;
             if (n >= next)
                 next = n;
-            FUN_00c908c0(&heap, this, next, 4);
+            hkArrayUtil__reserve(&heap, this, next, 4);
         }
     }
     void release()
@@ -3167,17 +3196,18 @@ struct ReportArray
             heap.bufFree(data, (capacity & 0x3fffffff) * 4);
     }
 };
-bool __cdecl FUN_00e10740(ReportNode*, ReportNode*);
+bool __cdecl hkCompareInfosBySize(ReportNode*, ReportNode*);
 void __cdecl FUN_00e10760(ReportNode**, int, int, bool(__cdecl*)(ReportNode*, ReportNode*));
-void __cdecl FUN_00e0f880(FUN_00e0d000*, ReportMap*);
+void __cdecl hkBuildSizePerName(FUN_00e0d000*, ReportMap*);
 // @fnv 0x00e0fc50
-static __declspec(noinline) void FUN_00e0fc50(FUN_00e0d000* root, float threshold, void* stream)
+// src: HAVOK_LIB 0x00e0fc50
+static __declspec(noinline) void printStatisticsByType(FUN_00e0d000* root, float threshold, void* stream)
 {
     ReportArray nodes;
     {
         ReportMap map;
         map.FUN_00d87790(ReportFlag());
-        FUN_00e0f880(root, &map);
+        hkBuildSizePerName(root, &map);
         nodes.reserve(map.size);
         int it = map.FUN_00d87410();
         while (map.valid(it))
@@ -3190,30 +3220,30 @@ static __declspec(noinline) void FUN_00e0fc50(FUN_00e0d000* root, float threshol
             it = map.FindNextUsedSlot(it);
         }
         if (nodes.size > 1)
-            FUN_00e10760(nodes.data, 0, nodes.size - 1, FUN_00e10740);
+            FUN_00e10760(nodes.data, 0, nodes.size - 1, hkCompareInfosBySize);
         map.FreeBuffer();
     }
     float totalTime = nodes.data[nodes.size - 1]->values[1];
-    FUN_00cc0410(stream, "\n\n");
-    FUN_00cc0410(stream, "************************************\n");
-    FUN_00cc0410(stream, "********** Per Type Times    *******\n");
-    FUN_00cc0410(stream, "************************************\n");
+    hkOstream_printf(stream, "\n\n");
+    hkOstream_printf(stream, "************************************\n");
+    hkOstream_printf(stream, "********** Per Type Times    *******\n");
+    hkOstream_printf(stream, "************************************\n");
     for (int i = nodes.size - 1; i >= 0; --i)
     {
         ReportNode* node = nodes.data[i];
         if (node->values[1] > totalTime * threshold)
         {
-            FUN_00cc0410(stream, "\n");
-            FUN_00cc0410(stream, "************************************\n\n");
+            hkOstream_printf(stream, "\n");
+            hkOstream_printf(stream, "************************************\n\n");
             for (int j = 0; j < node->linkedFUN_00e0d000.size; ++j)
             {
-                FUN_00cc0410(stream, "\t\t");
+                hkOstream_printf(stream, "\t\t");
                 WriteItemStats(stream, 0.0f, reinterpret_cast<S_00e0bfe0_Item*>(&node->linkedFUN_00e0d000.data[j]));
             }
             WriteItemStats(stream, totalTime, reinterpret_cast<S_00e0bfe0_Item*>(node));
             for (int j = 0; j < node->childFUN_00e0d000.size; ++j)
             {
-                FUN_00cc0410(stream, "\t\t");
+                hkOstream_printf(stream, "\t\t");
                 WriteItemStats(stream, 0.0f, reinterpret_cast<S_00e0bfe0_Item*>(&node->childFUN_00e0d000.data[j]));
             }
         }
@@ -3227,7 +3257,7 @@ void* volatile reportStream;
 volatile float reportThreshold;
 void reportCaller()
 {
-    FUN_00e0fc50((FUN_00e0d000*)reportRoot, reportThreshold, reportStream);
+    printStatisticsByType((FUN_00e0d000*)reportRoot, reportThreshold, reportStream);
 }
 
 namespace fnv_00e0d000 {
@@ -3338,12 +3368,13 @@ struct FUN_00e0d640_cfg
     char m_bTab;
 };
 int GetTreeWidth(int a, int b, int c, int d);
-void FUN_00cc0410(FUN_00e0d640_buf* b, const char* fmt, ...);
+void hkOstream_printf(FUN_00e0d640_buf* b, const char* fmt, ...);
 hkMemoryRouter* FUN_00c85750();
-void FUN_00e0d2c0(FUN_00e0d640_buf* a, int b, int c, int d, int e, FUN_00e0d640_cfg* f);
+void hkMonitorStreamAnalyzer_showCombinedThreadSummaryRec(FUN_00e0d640_buf* a, int b, int c, int d, int e, FUN_00e0d640_cfg* f);
 
 // @fnv 0x00e0d640
-void __cdecl FUN_00e0d640(int a1, int a2, int a3, FUN_00e0d640_buf* a4, FUN_00e0d640_cfg* s)
+// src: HAVOK_LIB 0x00e0d640
+void __cdecl hkMonitorStreamAnalyzer_showCombinedThreadSummaryForSingleFrame(int a1, int a2, int a3, FUN_00e0d640_buf* a4, FUN_00e0d640_cfg* s)
 {
     int i = 0;
     s->m_iBase = GetTreeWidth(a1, i, s->m_iVal, s->m_bFlag);
@@ -3352,7 +3383,7 @@ void __cdecl FUN_00e0d640(int a1, int a2, int a3, FUN_00e0d640_buf* a4, FUN_00e0
     buf.m_iLen = i;
     buf.m_uiObjectFlags = (int)0x80000000;
     buf.Init(&buf.m_pData);
-    FUN_00cc0410(&buf, "Timer Name");
+    hkOstream_printf(&buf, "Timer Name");
     if (a2 > 1 || a3 > 0)
     {
         for (i = 0; i < a2; i++)
@@ -3372,7 +3403,7 @@ void __cdecl FUN_00e0d640(int a1, int a2, int a3, FUN_00e0d640_buf* a4, FUN_00e0
                     } while (c != 0);
                 }
             }
-            FUN_00cc0410(&buf, "Thread %d", i);
+            hkOstream_printf(&buf, "Thread %d", i);
         }
         for (i = 0; i < a3; i++)
         {
@@ -3391,7 +3422,7 @@ void __cdecl FUN_00e0d640(int a1, int a2, int a3, FUN_00e0d640_buf* a4, FUN_00e0
                     } while (c != 0);
                 }
             }
-            FUN_00cc0410(&buf, "Spu %d", i);
+            hkOstream_printf(&buf, "Spu %d", i);
         }
         int k = a2 + a3;
         if (a2 > 1)
@@ -3412,7 +3443,7 @@ void __cdecl FUN_00e0d640(int a1, int a2, int a3, FUN_00e0d640_buf* a4, FUN_00e0
                 }
             }
             k++;
-            FUN_00cc0410(&buf, "Average Cpu");
+            hkOstream_printf(&buf, "Average Cpu");
         }
         if (a3 > 1)
         {
@@ -3431,12 +3462,12 @@ void __cdecl FUN_00e0d640(int a1, int a2, int a3, FUN_00e0d640_buf* a4, FUN_00e0
                     } while (c != 0);
                 }
             }
-            FUN_00cc0410(&buf, "Average Spu");
+            hkOstream_printf(&buf, "Average Spu");
         }
     }
     a4->Assign(buf.m_pData);
-    FUN_00cc0410(a4, "\n\n");
-    FUN_00e0d2c0(a4, a1, 0, a2, a3, s);
+    hkOstream_printf(a4, "\n\n");
+    hkMonitorStreamAnalyzer_showCombinedThreadSummaryRec(a4, a1, 0, a2, a3, s);
     buf.Destroy();
     hkMemoryRouter* h = FUN_00c85750();
     hkMemoryAllocator* al = h->m_heap;
@@ -3464,11 +3495,12 @@ struct NodeInitializer
     FUN_00e0d000* FUN_00e0d000(int parent, const char* name, StatsValue value);
 };
 
-static __declspec(noinline) FUN_00e0d000* FUN_00e0cb80(FUN_00e0d000* owner, const char* key, S_Flag fallback)
+// src: HAVOK_LIB 0x00e0cb80
+static __declspec(noinline) FUN_00e0d000* hkFindChildByName(FUN_00e0d000* owner, const char* key, S_Flag fallback)
 {
     for (int n = 0; n < owner->childCount; ++n)
     {
-        if (FUN_00cb0fa0(loadKey(key), owner->children[n]->name) == 0)
+        if (hkString_strCmp(loadKey(key), owner->children[n]->name) == 0)
             return owner->children[n];
     }
     if (fallback.b && owner->childCount > 0)
@@ -3482,12 +3514,13 @@ __forceinline int asLocal(const volatile int& v)
 }
 
 // @fnv 0x00e0d880
-void __cdecl FUN_00e0d880(int parentArg, FUN_00e0d000* source)
+// src: HAVOK_LIB 0x00e0d880
+void __cdecl hkMakeSumRecursive(int parentArg, FUN_00e0d000* source)
 {
     for (int i = 0; i < source->childCount; ++i)
     {
         FUN_00e0d000* item = source->children[i];
-        FUN_00e0d000* dst = FUN_00e0cb80((FUN_00e0d000*)parentArg, item->name, S_Flag());
+        FUN_00e0d000* dst = hkFindChildByName((FUN_00e0d000*)parentArg, item->name, S_Flag());
 
         if (!dst)
         {
@@ -3506,7 +3539,7 @@ void __cdecl FUN_00e0d880(int parentArg, FUN_00e0d000* source)
         }
 
         dst->accumulate(*item);
-        FUN_00e0d880((int)dst, item);
+        hkMakeSumRecursive((int)dst, item);
     }
 }
 
@@ -3557,10 +3590,11 @@ struct S_e0d980_Obj
     int unk0;
     int unk4;
     S_e0d980_Arr arr;
-    void FUN_00e0d980(int a, int b) throw();
+    void hkMonitorStreamColorTable_addColor(int a, int b) throw();
 };
 // @fnv 0x00e0d980
-void S_e0d980_Obj::FUN_00e0d980(int a, int b) throw()
+// src: HAVOK_LIB 0x00e0d980
+void S_e0d980_Obj::hkMonitorStreamColorTable_addColor(int a, int b) throw()
 {
     S_e0d980_Item t(a);
     t.value = b;
@@ -3624,9 +3658,9 @@ struct S00e0e4e0_Layout
     int m_height;
 };
 
-void __cdecl FUN_00e0dd30(S00e0e4e0_NodeArr& img, S00e0e4e0_Layout* lay, S00e0e4e0_EntryList* list, float* f,
+void __cdecl hkMonitorStreamAnalyzer_getTimerLimits(S00e0e4e0_NodeArr& img, S00e0e4e0_Layout* lay, S00e0e4e0_EntryList* list, float* f,
                           S00e0e4e0_FArr* out);
-void __cdecl FUN_00c908c0(hkMemoryAllocator* alloc, void* arr, int n, int elemSize);
+void __cdecl hkArrayUtil__reserve(hkMemoryAllocator* alloc, void* arr, int n, int elemSize);
 static __forceinline void S00e0e4e0_push(S00e0e4e0_PArr* out, void* v)
 {
     hkMemoryAllocator& a = FUN_00c85750()->heap();
@@ -3636,13 +3670,14 @@ static __forceinline void S00e0e4e0_push(S00e0e4e0_PArr* out, void* v)
     out->m_iElementCount++;
 }
 
-static void FUN_00e0cec0(float value, float step, int axis, S00e0e4e0_Node* node, int n, S00e0e4e0_PArr* out);
+static void outputStatsForFrame(float value, float step, int axis, S00e0e4e0_Node* node, int n, S00e0e4e0_PArr* out);
 
-static __declspec(noinline) int FUN_00e0da00(int row, int col, const S00e0e4e0_NodeArr& nodes, int height, float range,
+static __declspec(noinline) int getNodeSampledAtTick(int row, int col, const S00e0e4e0_NodeArr& nodes, int height, float range,
                                              float value, S00e0e4e0_Info* info);
 
 // @fnv 0x00e0e4e0
-int __cdecl FUN_00e0e4e0(int x, int y, S00e0e4e0_NodeArr& img, S00e0e4e0_Layout* lay, S00e0e4e0_EntryList* list)
+// src: HAVOK_LIB 0x00e0e4e0
+int __cdecl hkMonitorStreamAnalyzer_reverseLookupNodeAtTgaSample(int x, int y, S00e0e4e0_NodeArr& img, S00e0e4e0_Layout* lay, S00e0e4e0_EntryList* list)
 {
     int numLevels = img.GetLogicalSize();
     int numPages = lay->m_numPages;
@@ -3665,10 +3700,10 @@ int __cdecl FUN_00e0e4e0(int x, int y, S00e0e4e0_NodeArr& img, S00e0e4e0_Layout*
     arr.m_data = 0;
     arr.m_iElementCount = 0;
     arr.m_iCapacityState = 0x80000000;
-    FUN_00e0dd30(img, lay, list, &range, &arr);
+    hkMonitorStreamAnalyzer_getTimerLimits(img, lay, list, &range, &arr);
     S00e0e4e0_Node** slot = &img.m_data[lvl];
     S00e0e4e0_Info* info = list->m_data[lvl].m_info;
-    int res = FUN_00e0da00(row, x - border, (*slot)->m_children, h, range, arr.m_data[row], info);
+    int res = getNodeSampledAtTick(row, x - border, (*slot)->m_children, h, range, arr.m_data[row], info);
     hkMemoryAllocator& a = FUN_00c85750()->heap();
     arr.m_iElementCount = 0;
     if ((arr.m_iCapacityState & 0x80000000) == 0)
@@ -3678,8 +3713,8 @@ int __cdecl FUN_00e0e4e0(int x, int y, S00e0e4e0_NodeArr& img, S00e0e4e0_Layout*
 
 __declspec(nothrow) hkMemoryRouter* __cdecl FUN_00c85750();
 __declspec(nothrow) void __cdecl ResizeAudioStream(hkMemoryAllocator*, void*, int);
-__declspec(nothrow) void __cdecl FUN_00c908c0(hkMemoryAllocator*, void*, int, int);
-__declspec(nothrow) int __cdecl FUN_00cb0fa0(const char*, const char*);
+__declspec(nothrow) void __cdecl hkArrayUtil__reserve(hkMemoryAllocator*, void*, int, int);
+__declspec(nothrow) int __cdecl hkString_strCmp(const char*, const char*);
 struct AccumNode
 {
     __declspec(nothrow) void Accumulate(AxisData*, hkMonitorStream::TimerCommand*, hkMonitorStream::TimerCommand*);
@@ -3699,7 +3734,8 @@ struct BoolArg
         b = v;
     }
 };
-static __declspec(noinline) __declspec(nothrow) FUN_00e0d000* FUN_00e0d100(FUN_00e0d000* parent, const char* name,
+// src: HAVOK_LIB 0x00e0d100
+static __declspec(noinline) __declspec(nothrow) FUN_00e0d000* createNewNode(FUN_00e0d000* parent, const char* name,
                                                                            hkMonitorStreamAnalyzer::Node::NodeType type, BoolArg reuse)
 {
     const char* const* pn = &name;
@@ -3708,7 +3744,7 @@ static __declspec(noinline) __declspec(nothrow) FUN_00e0d000* FUN_00e0d100(FUN_0
     {
         for (int i = 0; parent && text && i < parent->childCount; ++i)
         {
-            if (parent->children[i]->name && FUN_00cb0fa0(parent->children[i]->name, text) == 0)
+            if (parent->children[i]->name && hkString_strCmp(parent->children[i]->name, text) == 0)
                 return parent->children[i];
         }
     }
@@ -3760,7 +3796,7 @@ struct RecordArray
             int newCap = cap * 2;
             if (count >= newCap)
                 newCap = count;
-            FUN_00c908c0(&heap, this, newCap, 12);
+            hkArrayUtil__reserve(&heap, this, newCap, 12);
         }
         size = count;
     }
@@ -3775,7 +3811,8 @@ struct RecordArray
     }
 };
 // @fnv 0x00e0e630
-FUN_00e0d000* __cdecl FUN_00e0e630(const char* begin, const char* end, AxisData* info, const char* name, S_Flag reuse)
+// src: HAVOK_LIB 0x00e0e630
+FUN_00e0d000* __cdecl hkMonitorStreamAnalyzer_makeStatisticsTreeForSingleFrame(const char* begin, const char* end, AxisData* info, const char* name, S_Flag reuse)
 {
     const char* cursor = begin;
     const char* tag;
@@ -3797,7 +3834,7 @@ FUN_00e0d000* __cdecl FUN_00e0e630(const char* begin, const char* end, AxisData*
         {
         case 'T': {
             BoolArg rb(reuse.b != 0);
-            node = FUN_00e0d100(node, tag += 2, hkMonitorStreamAnalyzer::Node::NODE_TYPE_TIMER, rb);
+            node = createNewNode(node, tag += 2, hkMonitorStreamAnalyzer::Node::NODE_TYPE_TIMER, rb);
             frames.push(*r);
             openFrames.push(*r);
             cursor += 12;
@@ -3807,7 +3844,7 @@ FUN_00e0d000* __cdecl FUN_00e0e630(const char* begin, const char* end, AxisData*
             if (!frames.size)
                 return root;
             const Record* start = &frames.data[frames.size - 1];
-            if (tag[2] && FUN_00cb0fa0(start->name + 2, tag + 2))
+            if (tag[2] && hkString_strCmp(start->name + 2, tag + 2))
             {
                 return root;
             }
@@ -3820,7 +3857,7 @@ FUN_00e0d000* __cdecl FUN_00e0e630(const char* begin, const char* end, AxisData*
         }
         case 'O':
             frames.push(*r);
-            node = FUN_00e0d100(node, ((const ExtendedRecord*)r)->extraName, hkMonitorStreamAnalyzer::Node::NODE_TYPE_TIMER, BoolArg(reuse.b != 0));
+            node = createNewNode(node, ((const ExtendedRecord*)r)->extraName, hkMonitorStreamAnalyzer::Node::NODE_TYPE_TIMER, BoolArg(reuse.b != 0));
             openFrames.push(*r);
             cursor += 16;
             break;
@@ -3828,13 +3865,13 @@ FUN_00e0d000* __cdecl FUN_00e0e630(const char* begin, const char* end, AxisData*
             frames.push(*r);
             openFrames.push(*r);
             BoolArg rb(reuse.b != 0);
-            node = FUN_00e0d100(node, tag += 2, hkMonitorStreamAnalyzer::Node::NODE_TYPE_TIMER, rb);
+            node = createNewNode(node, tag += 2, hkMonitorStreamAnalyzer::Node::NODE_TYPE_TIMER, rb);
             Record section = *r;
             section.name = ((const ExtendedRecord*)r)->extraName;
             frames.push(section);
             openFrames.push(section);
             BoolArg rb2(reuse.b != 0);
-            node = FUN_00e0d100(node, section.name += 2, hkMonitorStreamAnalyzer::Node::NODE_TYPE_TIMER, rb2);
+            node = createNewNode(node, section.name += 2, hkMonitorStreamAnalyzer::Node::NODE_TYPE_TIMER, rb2);
             cursor += 16;
             break;
         }
@@ -3845,7 +3882,7 @@ FUN_00e0d000* __cdecl FUN_00e0e630(const char* begin, const char* end, AxisData*
             ((AccumNode*)node)->Accumulate(*(AxisData* volatile*)&info, (hkMonitorStream::TimerCommand*)start, (hkMonitorStream::TimerCommand*)r);
             node = node->linked;
             BoolArg rb(reuse.b != 0);
-            node = FUN_00e0d100(node, tag += 2, hkMonitorStreamAnalyzer::Node::NODE_TYPE_TIMER, rb);
+            node = createNewNode(node, tag += 2, hkMonitorStreamAnalyzer::Node::NODE_TYPE_TIMER, rb);
             *start = *r;
             cursor += 12;
             break;
@@ -3865,7 +3902,7 @@ FUN_00e0d000* __cdecl FUN_00e0e630(const char* begin, const char* end, AxisData*
             break;
         case 'M': {
             BoolArg rb(reuse.b != 0);
-            FUN_00e0d000* metric = FUN_00e0d100(node, tag += 2, hkMonitorStreamAnalyzer::Node::NODE_TYPE_SINGLE, rb);
+            FUN_00e0d000* metric = createNewNode(node, tag += 2, hkMonitorStreamAnalyzer::Node::NODE_TYPE_SINGLE, rb);
             metric->values[0] += ((const MetricRecord*)r)->value;
             ++metric->counts[0];
             cursor += 8;
@@ -3873,7 +3910,7 @@ FUN_00e0d000* __cdecl FUN_00e0e630(const char* begin, const char* end, AxisData*
         }
         case 'P': {
             BoolArg rb(reuse.b != 0);
-            node = FUN_00e0d100(node, tag += 2, hkMonitorStreamAnalyzer::Node::NODE_TYPE_DIRECTORY, rb);
+            node = createNewNode(node, tag += 2, hkMonitorStreamAnalyzer::Node::NODE_TYPE_DIRECTORY, rb);
             cursor += 4;
             break;
         }
@@ -3917,14 +3954,15 @@ struct S00e0ee00_Root
     S00e0ee00_Root(int a, const char* name, int b);
 };
 extern const char DAT_01063cbc[];
-E0C860Node* __cdecl FUN_00e0e630(char* begin, char* end, S_e0ce00_Block* record, int unk0, hkBool flag);
+E0C860Node* __cdecl hkMonitorStreamAnalyzer_makeStatisticsTreeForSingleFrame(char* begin, char* end, S_e0ce00_Block* record, int unk0, hkBool flag);
 
 struct S00e0ee00_Analyzer : public S_e0ce00
 {
-    S00e0ee00_Root* __cdecl FUN_00e0ee00(int aIndex, hkBool aFlag);
+    S00e0ee00_Root* __cdecl hkMonitorStreamAnalyzer_makeStatisticsTreeForMultipleFrames(int aIndex, hkBool aFlag);
 };
 // @fnv 0x00e0ee00
-S00e0ee00_Root* __cdecl S00e0ee00_Analyzer::FUN_00e0ee00(int aIndex, hkBool aFlag)
+// src: HAVOK_LIB 0x00e0ee00
+S00e0ee00_Root* __cdecl S00e0ee00_Analyzer::hkMonitorStreamAnalyzer_makeStatisticsTreeForMultipleFrames(int aIndex, hkBool aFlag)
 {
     S00e0ee00_Root* root = new (FUN_00c85750()->heap().blockAlloc(0x58)) S00e0ee00_Root(0, DAT_01063cbc, 1);
     root->m_children.setSize(m_arrays[aIndex].m_iElementCount);
@@ -3934,7 +3972,7 @@ S00e0ee00_Root* __cdecl S00e0ee00_Analyzer::FUN_00e0ee00(int aIndex, hkBool aFla
         char* begin = m_buf + b.unk1C;
         char* end = m_buf + b.unk20;
         E0C860Node*& slot = root->m_children[i];
-        slot = FUN_00e0e630(begin, end, &b, b.unk0, aFlag);
+        slot = hkMonitorStreamAnalyzer_makeStatisticsTreeForSingleFrame(begin, end, &b, b.unk0, aFlag);
     }
     return root;
 }
@@ -3947,7 +3985,7 @@ inline void* __cdecl operator new(unsigned int, void* w) throw()
 
 
 hkMemoryRouter* __cdecl FUN_00c85750() throw();
-int __cdecl FUN_00c908c0(hkMemoryAllocator& heap, void* arr, int newCap, int elemSize);
+int __cdecl hkArrayUtil__reserve(hkMemoryAllocator& heap, void* arr, int newCap, int elemSize);
 
 struct S_00e0f710_Elem
 {
@@ -3981,12 +4019,13 @@ struct S_00e0f710_Cls
     int m_kPointA;
     int m_kPointB;
 
-    void FUN_00e0ccf0();
-    void FUN_00e0f710(int a, int b);
+    void hkMonitorStreamAnalyzer_reset();
+    void hkMonitorStreamAnalyzer_resetNumThreads(int a, int b);
 };
 
 // @fnv 0x00e0f710
-void S_00e0f710_Cls::FUN_00e0f710(int a, int b)
+// src: HAVOK_LIB 0x00e0f710
+void S_00e0f710_Cls::hkMonitorStreamAnalyzer_resetNumThreads(int a, int b)
 {
     hkMemoryAllocator& h = FUN_00c85750()->heap();
     int n = a + b;
@@ -3994,7 +4033,7 @@ void S_00e0f710_Cls::FUN_00e0f710(int a, int b)
     if (cap < n)
     {
         int c2 = cap * 2;
-        FUN_00c908c0(h, this, (n < c2) ? c2 : n, 12);
+        hkArrayUtil__reserve(h, this, (n < c2) ? c2 : n, 12);
     }
     int diff = m_iElementCount - n;
     S_00e0f710_Elem* p = m_data + n;
@@ -4017,7 +4056,7 @@ void S_00e0f710_Cls::FUN_00e0f710(int a, int b)
     m_iElementCount = n;
     m_kPointB = b;
     m_kPointA = a;
-    FUN_00e0ccf0();
+    hkMonitorStreamAnalyzer_reset();
 }
 }  // namespace fnv_00e0f710
 
@@ -4178,7 +4217,8 @@ template <class T> struct FrameTickArray : FrameTickArrayBase<T>
 };
 
 // @fnv 0x00e0cec0
-static __declspec(noinline) void FUN_00e0cec0(float start, float step, int axis, S00e0e4e0_Node* inputNode, int count,
+// src: HAVOK_LIB 0x00e0cec0
+static __declspec(noinline) void outputStatsForFrame(float start, float step, int axis, S00e0e4e0_Node* inputNode, int count,
                                               S00e0e4e0_PArr* output)
 
 {
@@ -4252,7 +4292,7 @@ template <class T> struct NodeTickArray : NodeTickArrayBase<T>
     {
         hkMemoryAllocator& alloc = FUN_00c85750()->heap();
         if (capacity() < count)
-            FUN_00c908c0(&alloc, this, count, sizeof(T));
+            hkArrayUtil__reserve(&alloc, this, count, sizeof(T));
     }
     __forceinline ~NodeTickArray()
     {
@@ -4268,7 +4308,8 @@ template <class T> struct NodeTickArray : NodeTickArrayBase<T>
 }
 
 // @fnv 0x00e0da00
-__declspec(noinline) int __cdecl FUN_00e0da00(int row, int col, const S00e0e4e0_NodeArr& nodes, int height, float range,
+// src: HAVOK_LIB 0x00e0da00
+__declspec(noinline) int __cdecl getNodeSampledAtTick(int row, int col, const S00e0e4e0_NodeArr& nodes, int height, float range,
                                               float value, S00e0e4e0_Info* info)
 {
     float step = range / height;
@@ -4280,7 +4321,7 @@ __declspec(noinline) int __cdecl FUN_00e0da00(int row, int col, const S00e0e4e0_
     {
         samples.clear();
         int axis = info->unk0c == 0 ? info->unk04 : info->unk08;
-        ::FUN_00e0cec0(value, step, axis, reinterpret_cast<S00e0e4e0_Node*>(roots[row]), height,
+        ::outputStatsForFrame(value, step, axis, reinterpret_cast<S00e0e4e0_Node*>(roots[row]), height,
                        reinterpret_cast<S00e0e4e0_PArr*>(&samples));
         int size = samples.GetLogicalSize();
         if (col < size)

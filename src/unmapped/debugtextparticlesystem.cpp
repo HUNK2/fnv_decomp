@@ -125,8 +125,8 @@ struct MemoryAllocator
     virtual void freeBuffer(void* buffer, int bytes);
 };
 extern "C" hkMemoryRouter& FUN_00c85750();
-extern "C" void __cdecl FUN_00c908c0(MemoryAllocator*, void*, int, int);
-const char* __cdecl FUN_00cb1410(const char*);
+extern "C" void __cdecl hkArrayUtil__reserve(MemoryAllocator*, void*, int, int);
+const char* __cdecl hkString_strDup_00cb1410(const char*);
 extern "C" void FUN_00ec8d5f(char*, unsigned int, const char*, unsigned int);
 inline hkStringPtr::~hkStringPtr() throw()
 {
@@ -409,7 +409,7 @@ template <class T> struct HavokArrayBase
     {
         int old = capacity & 0x3fffffff;
         if (old < count)
-            FUN_00c908c0(&heap, this, count < 2 * old ? 2 * old : count, sizeof(T));
+            hkArrayUtil__reserve(&heap, this, count < 2 * old ? 2 * old : count, sizeof(T));
     }
     __forceinline void SetSizeAndGrow(MemoryAllocator& heap, int count)
     {
@@ -658,7 +658,7 @@ Rig* __stdcall BuildRigFromNodes(NodeList* nodes, NodeList* sorted, AttachmentLi
             if (text)
             {
                 hkStringPtr& boneName = rig->getBones().data[i];
-                boneName = FUN_00cb1410(text);
+                boneName = hkString_strDup_00cb1410(text);
             }
             else
             {
@@ -709,7 +709,7 @@ Rig* __stdcall BuildRigFromNodes(NodeList* nodes, NodeList* sorted, AttachmentLi
             strcat_s(name, 45, DAT_010c732c);
             unsigned long index = i + baseCount;
             hkStringPtr& boneName = rig->getBones().data[index];
-            boneName = FUN_00cb1410(name);
+            boneName = hkString_strDup_00cb1410(name);
             rig->getBones().data[index].locked = true;
             rig->getParents().data[index] = (short)parentIndex;
             ((PoseArray&)rig->getPose()).data[index].setIdentity();
@@ -1210,8 +1210,8 @@ enum PreparationResult
     PreparationSucceeded,
     PreparationFailed
 };
-PreparationResult __cdecl FUN_00cea030(SmallVec* a, RightSmallVec* b);
-void* __cdecl FUN_00cea810(void* x, SmallVec* a, RightSmallVec* b);
+PreparationResult __cdecl hkaRagdollUtils_reorderForRagdoll(SmallVec* a, RightSmallVec* b);
+void* __cdecl hkaRagdollUtils_createRagdollInstanceFromSkeleton(void* x, SmallVec* a, RightSmallVec* b);
 uint64 __cdecl FUN_00aa4d80();
 struct Grower
 {
@@ -1581,12 +1581,12 @@ bool Manager::FUN_00ca2ad0(void* source, unsigned int flags)
         Builder temp;
         CollectMixedTypeNodes(&left, &temp);
         Item* entry = new Item;
-        if (FUN_00cea030(&left, &right) != PreparationFailed)
+        if (hkaRagdollUtils_reorderForRagdoll(&left, &right) != PreparationFailed)
         {
             entry->source = original.data[outer];
             entry->scene = BuildRigFromNodes(&left, &right, &temp);
             if (entry->scene)
-                entry->collection = FUN_00cea810(entry->scene, &left, &right);
+                entry->collection = hkaRagdollUtils_createRagdollInstanceFromSkeleton(entry->scene, &left, &right);
             if (entry->collection)
             {
                 Inner* obj = (Inner*)((Collection*)entry->collection)->nodes[0];

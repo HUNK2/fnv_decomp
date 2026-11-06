@@ -23,13 +23,14 @@ struct FUN_00d27260_standin
     int m_kRayEnd;
 
     int FlushToDestination();
-    int FUN_00d27260(const void* data, int size);
+    int hkBufferedStreamWriter_write(const void* data, int size);
 };
 
 void _FUN_00cb1260(void* destination, const void* source, unsigned int size);
 
 // @fnv 0x00d27260
-int __thiscall FUN_00d27260_standin::FUN_00d27260(const void* data, int size)
+// src: HAVOK_LIB 0x00d27260
+int __thiscall FUN_00d27260_standin::hkBufferedStreamWriter_write(const void* data, int size)
 {
     int remaining = size;
     const char* bytes = static_cast<const char*>(data);
@@ -77,9 +78,9 @@ void FUN_00d27420_class::WriteToStream(FUN_00d27420_class* stream, int)
     stream->m3("stream", *reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x08), 0);
 }
 
-void __cdecl FUN_00d272e0();
+void __cdecl hkBufferedStreamWriter_flush();
 hkMemoryRouter* __cdecl _D1A0E0GetMemoryRouter();
-void __cdecl FUN_00c85660(void*, void*);
+void __cdecl hkMemoryRouter_alignedFree(void*, void*);
 
 extern int DAT_010ce448;
 extern int _DAT_0102e388;
@@ -101,14 +102,14 @@ struct FUN_00d27520
 FUN_00d27520::~FUN_00d27520()
 {
     m_vtbl = &DAT_010ce448;
-    FUN_00d272e0();
+    hkBufferedStreamWriter_flush();
     if (m_pWorld)
         m_pWorld->removeReference();
     if (m_18)
     {
         void* pData = m_pData;
         hkMemoryRouter* router = _D1A0E0GetMemoryRouter();
-        FUN_00c85660(router->m_heap, pData);
+        hkMemoryRouter_alignedFree(router->m_heap, pData);
     }
     m_vtbl = &_DAT_0102e388;
 }
@@ -204,11 +205,12 @@ struct FUN_00d272e0_class
     int unk04;
     StreamWriterFlushView* unk08;
 
-    void FUN_00d272e0();
+    void hkBufferedStreamWriter_flush();
 };
 
 // @fnv 0x00d272e0
-void FUN_00d272e0_class::FUN_00d272e0()
+// src: HAVOK_LIB 0x00d272e0
+void FUN_00d272e0_class::hkBufferedStreamWriter_flush()
 {
     reinterpret_cast<FUN_00d27260_standin*>(this)->FlushToDestination();
 
@@ -278,11 +280,12 @@ class hkBufferedStreamD273
     int m_iElementCount;
 
     void FlushToDestination();
-    hkResultD273 FUN_00d27380(int offset, int whence);
+    hkResultD273 hkBufferedStreamWriter_seek(int offset, int whence);
 };
 
 // @fnv 0x00d27380
-hkResultD273 hkBufferedStreamD273::FUN_00d27380(int offset, int whence)
+// src: HAVOK_LIB 0x00d27380
+hkResultD273 hkBufferedStreamD273::hkBufferedStreamWriter_seek(int offset, int whence)
 {
     if (m_pChildAtom)
     {
@@ -396,12 +399,13 @@ class FUN_00d273f0_cls
     int unk0C;
     int m_base;
 
-    int FUN_00d273f0() const;
+    int hkBufferedStreamWriter_tell() const;
 };
 
 // Returns the wrapped stream position plus buffered bytes, or -1 for an invalid position.
 // @fnv 0x00d273f0
-int FUN_00d273f0_cls::FUN_00d273f0() const
+// src: HAVOK_LIB 0x00d273f0
+int FUN_00d273f0_cls::hkBufferedStreamWriter_tell() const
 {
     int n = m_inner ? m_inner->tell() : 0;
     if (n >= 0)
@@ -412,7 +416,7 @@ int FUN_00d273f0_cls::FUN_00d273f0() const
 namespace hkRouterD274 {
 extern "C" hkMemoryRouter& __cdecl FUN_00c85750() throw();
 }
-void* __cdecl FUN_00c85620(hkMemoryAllocator& alloc, int iSize, int iAlign) throw();
+void* __cdecl hkMemoryRouter_alignedAlloc(hkMemoryAllocator& alloc, int iSize, int iAlign) throw();
 class hkBufStreamWriterD274 : public hkStreamWriter
 {
   public:
@@ -431,7 +435,7 @@ hkBufStreamWriterD274::hkBufStreamWriterD274(hkStreamWriter* apStream, int aiBuf
 {
     if (m_stream)
         m_stream->addReference();
-    m_buf = (char*)FUN_00c85620(hkRouterD274::FUN_00c85750().heap(), aiBufferSize, 0x40);
+    m_buf = (char*)hkMemoryRouter_alignedAlloc(hkRouterD274::FUN_00c85750().heap(), aiBufferSize, 0x40);
     m_bufSize = aiBufferSize;
     m_iBufferPosition = 0;
 }

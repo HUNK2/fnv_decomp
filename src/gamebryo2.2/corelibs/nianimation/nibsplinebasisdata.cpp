@@ -106,12 +106,13 @@ struct FUN_00a51ab0_cls : FUN_00a51ab0_base
     float m_28;
     int m_2c;
 
-    FUN_00a51ab0_cls* FUN_00a51ab0(int a1, int a2, int a3);
+    FUN_00a51ab0_cls* NiBSplineColorInterpolator_NiBSplineColorInterpolator(int a1, int a2, int a3);
 };
 
 // Calls InitBase, sets the vtable pointer, zeroes four floats and stores a2 into m_2c, then returns this.
 // @fnv 0x00a51ab0
-FUN_00a51ab0_cls* FUN_00a51ab0_cls::FUN_00a51ab0(int a1, int a2, int a3)
+// src: GAMEBRYO_LIB 0x00a51ab0
+FUN_00a51ab0_cls* FUN_00a51ab0_cls::NiBSplineColorInterpolator_NiBSplineColorInterpolator(int a1, int a2, int a3)
 {
     InitBase(a1, a3);
     m_vptr00 = (int)&DAT_01099d3c;

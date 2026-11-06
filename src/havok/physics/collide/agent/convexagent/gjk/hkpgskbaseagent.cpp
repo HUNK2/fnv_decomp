@@ -38,7 +38,8 @@ inline hkpShapeType hkpShape::getType() const
 // This virtual deleting thunk is absent from the shared method declarations.
 // Keep its calling convention and dispatch without duplicating the agent class.
 // @fnv 0x00dabe90
-void __fastcall FUN_00dabe90(hkpGskBaseAgent* agent, void*, bool)
+// src: HAVOK_LIB 0x00dabe90
+void __fastcall hkpGskBaseAgent_cleanup(hkpGskBaseAgent* agent, void*, bool)
 {
     if (agent)
     {
@@ -343,7 +344,7 @@ struct GskStatus
     LocalM128 m_vertsB[10];
 
     void FUN_00daad40(const void* shapeA, const void* shapeB, const hkTransform* bTa, void* out10);
-    void FUN_00da9790(void* cache);
+    void hkpGsk_exitAndExportCacheImpl(void* cache);
     void FUN_00da9880(void* out10, hkContactPoint* pointOut);
 };
 
@@ -403,7 +404,7 @@ hkBool hkpGskBaseAgent::_getClosestPoint(const hkpCdBody& bodyA, const hkpCdBody
 
     if (gskStatus.unk14 != 0)
     {
-        gskStatus.FUN_00da9790(i);
+        gskStatus.hkpGsk_exitAndExportCacheImpl(i);
     }
 
     gskStatus.FUN_00da9880(&c1, &pointOut);
@@ -680,7 +681,7 @@ struct S_00dac0b0_Gsk
     hkVector4 b09;
     hkTransform aTb;
     int FUN_00daad40(const hkpConvexShape* a, const hkpConvexShape* b, const hkTransform& aTb, hkVector4* out);
-    void FUN_00da9790(S_00dac0b0_PackedCache* dst);
+    void hkpGsk_exitAndExportCacheImpl(S_00dac0b0_PackedCache* dst);
 };
 
 // @fnv 0x00dac0b0
@@ -709,7 +710,7 @@ void hkpGskBaseAgent::getPenetrations(const hkpCdBody& bodyA, const hkpCdBody& b
     hkVector4 normal;
     scratch.result = gsk.FUN_00daad40(shapeA, shapeB, gsk.aTb, &normal);
     if (gsk.m_changed)
-        gsk.FUN_00da9790(c);
+        gsk.hkpGsk_exitAndExportCacheImpl(c);
 
     if (scratch.result == 0)
     {

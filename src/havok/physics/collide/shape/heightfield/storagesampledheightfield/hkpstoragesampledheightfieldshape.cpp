@@ -10,7 +10,8 @@ typedef union __declspec(intrin_type) __declspec(align(16)) {
 #include "havok/hkpStorageSampledHeightFieldShape.h"
 
 // @fnv 0x00d496b0
-int __stdcall FUN_00d496b0(int unused, int aiValue)
+// src: HAVOK_LIB 0x00d496b0
+int __stdcall hkpCompressedSampledHeightFieldShape_calcSizeForSpu(int unused, int aiValue)
 {
     int r = (aiValue >= 0x80);
     --r;

@@ -33,7 +33,7 @@ inline void* operator new(unsigned int, void* p)
     return p;
 }
 class hkMemoryAllocatorE6;
-void __cdecl FUN_00c908c0(hkMemoryAllocatorE6& alloc, void* pArray, int iReqElem, int iElemSize);
+void __cdecl hkArrayUtil__reserve(hkMemoryAllocatorE6& alloc, void* pArray, int iReqElem, int iElemSize);
 class hkMemoryRouterE6
 {
   public:
@@ -119,7 +119,7 @@ template <class T> class hkArrayE6
         {
             int cap2 = 2 * getCapacity();
             int newCap = newSize < cap2 ? cap2 : newSize;
-            FUN_00c908c0(alloc, this, newCap, sizeof(T));
+            hkArrayUtil__reserve(alloc, this, newCap, sizeof(T));
         }
         T* pDestroy = m_data + newSize;
         for (int i = 0; i < oldSize - newSize; i++)

@@ -151,7 +151,7 @@ struct HkArr
     }
 };
 
-extern "C" int __cdecl FUN_00c908c0(AllocV& owner, void* arr, int newCap, int stride);
+extern "C" int __cdecl hkArrayUtil__reserve(AllocV& owner, void* arr, int newCap, int stride);
 
 inline void HkArr::reserve(AllocV& a, int n)
 {
@@ -159,7 +159,7 @@ inline void HkArr::reserve(AllocV& a, int n)
     {
         int cap2 = 2 * getCapacity();
         int newSize = (n < cap2) ? cap2 : n;
-        FUN_00c908c0(a, this, newSize, 0x60);
+        hkArrayUtil__reserve(a, this, newSize, 0x60);
     }
 }
 
@@ -210,7 +210,7 @@ struct Vehicle433
     int unk34;
     int unk38;
     Counted433* m_counted;
-    void FUN_00e39030(void*, void*);
+    void hkpVehicleInstance_stepVehicleUsingWheelCollideOutput(void*, void*);
 };
 
 static __forceinline void S00e43320_timerB(const char* name, volatile DWORD& tick)
@@ -262,12 +262,13 @@ struct S00e43320_Mgr
     Vehicle433** m_ppVehicles;
     int m_uiItemCount;
     void FUN_00e43060(void* a, void* b, Out433* out);
-    void FUN_00e43320(void* param1, void* param2, void* param3);
+    void hkpVehicleLinearCastBatchingManager_stepVehiclesUsingCastResults(void* param1, void* param2, void* param3);
 };
 
 // Iterates over m_ppVehicles, gathers per-wheel data via Counted433, and calls FUN_00e39030 on each vehicle with the collected array.
 // @fnv 0x00e43320
-void S00e43320_Mgr::FUN_00e43320(void* param1, void* param2, void* param3)
+// src: HAVOK_LIB 0x00e43320
+void S00e43320_Mgr::hkpVehicleLinearCastBatchingManager_stepVehiclesUsingCastResults(void* param1, void* param2, void* param3)
 {
     int i;
     {
@@ -319,7 +320,7 @@ void S00e43320_Mgr::FUN_00e43320(void* param1, void* param2, void* param3)
                     savedVal += counted->M13(j) * 64;
                 }
             }
-            self->m_ppVehicles[i]->FUN_00e39030(param1, arr.m_data);
+            self->m_ppVehicles[i]->hkpVehicleInstance_stepVehicleUsingWheelCollideOutput(param1, arr.m_data);
         }
     }
     S00e43320_timer("Et");

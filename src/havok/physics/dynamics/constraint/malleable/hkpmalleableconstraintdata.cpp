@@ -44,10 +44,11 @@ struct MalleableConstraintDataStandIn
 {
     int m_auiShapeKeys[3];
     ConstraintDataVTable* m_pConstraintData;
-    int FUN_00cdf690(int a);
+    int hkpMalleableConstraintData_isValid(int a);
 };
 // @fnv 0x00cdf690
-int MalleableConstraintDataStandIn::FUN_00cdf690(int aiValue)
+// src: HAVOK_LIB 0x00cdf690
+int MalleableConstraintDataStandIn::hkpMalleableConstraintData_isValid(int aiValue)
 {
     m_pConstraintData->v1c(aiValue);
     return aiValue;

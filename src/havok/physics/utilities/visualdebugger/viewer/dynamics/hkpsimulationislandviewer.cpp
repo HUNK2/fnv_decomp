@@ -11,7 +11,7 @@ struct Base0
 struct Base2;
 struct Target
 {
-    void FUN_00c93920(Base2* p);
+    void hkpWorld_addWorldPostSimulationListener(Base2* p);
 };
 struct Base1
 {
@@ -31,7 +31,7 @@ struct Derived : Base0, Base1, Base2
 void Base1::PassSelfAsBase2ToTarget(Target* apTarget)
 {
     Derived* d = (Derived*)((char*)this - 0x20);
-    apTarget->FUN_00c93920(d ? (Base2*)((char*)this + 8) : 0);
+    apTarget->hkpWorld_addWorldPostSimulationListener(d ? (Base2*)((char*)this + 8) : 0);
 }
 
 struct S_00d65180_Allocator
@@ -328,7 +328,7 @@ class hkListenerD64A
 class hkEntityD64A
 {
   public:
-    void FUN_00c93920(hkListenerD64A* pkListener) throw();
+    void hkpWorld_addWorldPostSimulationListener(hkListenerD64A* pkListener) throw();
 };
 class hkWorldD64A
 {
@@ -386,7 +386,7 @@ FUN_00d64a50::FUN_00d64a50(void* pkInfo) throw() : FUN_00ddccb0(pkInfo)
     if (m_pOwningWorld)
     {
         for (int i = 0; i < m_pOwningWorld->m_iActorEntryCount; i++)
-            m_pOwningWorld->m_kActorEntries[i]->FUN_00c93920(this);
+            m_pOwningWorld->m_kActorEntries[i]->hkpWorld_addWorldPostSimulationListener(this);
     }
 }
 

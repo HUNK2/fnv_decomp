@@ -18,7 +18,7 @@ struct FloatLess
         return a < b;
     }
 };
-void __cdecl FUN_00e50f10(float* pArr, int d, int h, FloatLess cmpLess);
+void __cdecl hkAlgorithm_quickSortRecursive_float_class_hkAlgorithm_less_float(float* pArr, int d, int h, FloatLess cmpLess);
 typedef ::__m128 LocalM128;
 using ::_mm_sub_ps;
 using ::_mm_mul_ps;

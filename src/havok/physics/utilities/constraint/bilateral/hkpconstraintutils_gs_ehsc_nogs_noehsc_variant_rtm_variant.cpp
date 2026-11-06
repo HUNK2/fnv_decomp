@@ -50,7 +50,7 @@ struct CloneDataA : CloneDataBase
     Block5b unk94;
     Block5 unka8;
     CloneDataA* FUN_00d4f2a0();
-    void FUN_00d4f270(hkBool flag);
+    void hkpRagdollLimitsData_setConeLimitStabilization(hkBool flag);
 };
 struct CloneDataB : CloneDataBase
 {
@@ -174,7 +174,7 @@ struct Ent
     int unk190, unk194, unk198, unk19c, unk1a0, unk1a4, unk1a8, unk1ac;
     __m128 unk1b0;
     __m128 unk1c0;
-    void FUN_00ca8800(__m128* v);
+    void hkpRigidBody_setPosition(__m128* v);
     void OnTrigger(int arg);
     void FUN_00561800(void* p);
 };

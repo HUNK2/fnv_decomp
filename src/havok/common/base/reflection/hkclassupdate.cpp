@@ -159,11 +159,11 @@ struct TypeDefinition
 };
 struct TypeRegistry
 {
-    TypeDefinition* FUN_00d46f20(int index);
+    TypeDefinition* getMember(int index);
 };
 extern TypeRegistry DAT_0126ca58;
 extern const char DAT_010d27bc[];
-int __cdecl FUN_00cb0fa0(const char*, const char*);
+int __cdecl hkString_strCmp(const char*, const char*);
 
 // Marks the node visited and, when its name matches DAT_010d27bc, writes 0x19 at the selected member offset.
 // @fnv 0x00e04cc0
@@ -174,10 +174,10 @@ static __declspec(noinline) void __cdecl FUN_00e04cc0(TraverseNode* node, VisitM
     {
         BSAudio* audio = FUN_00c85750();
         visited->FUN_00cb1870(reinterpret_cast<Allocator*>(audio->pListener), reinterpret_cast<TypeNode*>(node), flags | 4);
-        if (FUN_00cb0fa0(node->FUN_00d46d40(), DAT_010d27bc) == 0)
+        if (hkString_strCmp(node->FUN_00d46d40(), DAT_010d27bc) == 0)
         {
             char* member = node->FUN_00d46f80(2);
-            TypeDefinition* type = DAT_0126ca58.FUN_00d46f20(4);
+            TypeDefinition* type = DAT_0126ca58.getMember(4);
             member[type->fieldOffset] = 0x19;
         }
     }

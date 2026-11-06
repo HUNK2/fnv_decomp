@@ -61,7 +61,7 @@ struct Bucket {
     int unk08;
     int unk0C;
     int unk10;
-    void FUN_00d056d0(int);
+    void hkQueue_struct_hkJobQueue_JobQueueEntry_setCapacity(int);
 };
 struct Registry {
     int unk00; int unk04; int unk08; int unk0C; int unk10; int unk14;
@@ -90,7 +90,7 @@ struct Owner {
     int unk40; int unk44; int count;
     Registry* FUN_00d04400(RequestContext*);
     void FUN_00d04420(Registry*);
-    void FUN_00d04a80(int, int);
+    void hkJobQueue_setQueueCapacityForJobType(int, int);
 };
 struct Item {
     int data[32];
@@ -180,7 +180,7 @@ struct D057A0Queue {
     int m_iNodeCount;
 
     void SetNodeCount(int n);
-    void FUN_00d057a0(const D057A0Element& element);
+    void hkQueue_struct_hkJobQueue_JobQueueEntry_enqueue(const D057A0Element& element);
 };
 struct CallTarget {
     int FUN_00d04390(int aiValue);
@@ -546,8 +546,8 @@ extern void __cdecl hookB_00d969e0(void*, void*);
 extern void __cdecl hookC_00d967a0(void*, void*);
 extern void __cdecl hookD_00d968e0(void*, void*);
 // Two more registration helpers, both cdecl with one pointer argument.
-void __cdecl FUN_00da3400(TargetObj* p);
-void __cdecl FUN_00da3480(TargetObj* p);
+void __cdecl hkpCollisionQueryJobQueueUtils_registerWithJobQueue(TargetObj* p);
+void __cdecl hkpRayCastQueryJobQueueUtils_registerWithJobQueue(TargetObj* p);
 void __cdecl InitHookTable(TargetObj* apTarget);
 struct D04A20MemoryRouter {
     int unk00;
@@ -755,7 +755,7 @@ struct D05490Array
 };
 void FUN_00d043d0();
 void FUN_00d043e0();
-void FUN_00d04550();
+void defaultPopDispatchFunc();
 void FUN_00d04570();
 struct FUN_00d05490 : D05490Base
 {
@@ -819,7 +819,7 @@ struct FUN_00d05490 : D05490Base
     FUN_00d05490(SrcCfg* a1) throw();
 };
 typedef int (__cdecl *DispatchHandler)(void*, void*, void*);
-int __cdecl FUN_00d04550(void* context, void* argument, void* item);
+int __cdecl defaultPopDispatchFunc(void* context, void* argument, void* item);
 template <typename T>
 inline T* hkAllocateChunk(int n)
 {
@@ -838,7 +838,7 @@ struct hkQueue128
     int m_pTail;
     int m_iNodeCount;
 
-    void FUN_00d056d0(int n);
+    void hkQueue_struct_hkJobQueue_JobQueueEntry_setCapacity(int n);
 };
 extern "C" void _ReadWriteBarrier(void);
 extern "C" unsigned __int64 __rdtsc(void);
@@ -850,7 +850,7 @@ static __forceinline short& Ref212(Registry* r,unsigned char sub){return reinter
 struct LunaOwner : Owner
 {
     int LookupSpawnedEntry(Item* item);
-    int FUN_00d05840(int index, Registry* registry, int param_4, int param_3);
+    int hkJobQueue_findJobInternal(int index, Registry* registry, int param_4, int param_3);
     int ProcessCallback(int param_2, int param_3, int param_4);
 };
 struct LunaTrace
@@ -928,14 +928,14 @@ struct S_00d05020_Queue {
     int m_pTail;
     int m_iNodeCount;
 
-    void FUN_00d056d0(int capacity);
+    void hkQueue_struct_hkJobQueue_JobQueueEntry_setCapacity(int capacity);
 
     void increaseCapacity()
     {
         if (m_pRayCursor == 0)
-            FUN_00d056d0(8);
+            hkQueue_struct_hkJobQueue_JobQueueEntry_setCapacity(8);
         else
-            FUN_00d056d0(m_pRayCursor * 2);
+            hkQueue_struct_hkJobQueue_JobQueueEntry_setCapacity(m_pRayCursor * 2);
     }
 
     void enqueueInFront(const S_00d05020_Job& element)
@@ -973,8 +973,8 @@ struct S_00d05020_DynamicData {
 struct S_00d05020_JobQueue {
     S_00d05020_DynamicData* FUN_00d04400(char* dynamicDataStorage);
     int LookupSpawnedEntry(const S_00d05020_Job& job);
-    int FUN_00d05840(int queueIndexOfNewJob, S_00d05020_DynamicData* data, int waitStatus, S_00d05020_Job& jobOut);
-    int FUN_00d05020(int originalJobType, int priority, S_00d05020_Job& jobInOut, int waitStatus);
+    int hkJobQueue_findJobInternal(int queueIndexOfNewJob, S_00d05020_DynamicData* data, int waitStatus, S_00d05020_Job& jobOut);
+    int hkJobQueue_finishAddAndGetNextJob(int originalJobType, int priority, S_00d05020_Job& jobInOut, int waitStatus);
 };
 extern unsigned long DAT_0126835c;
 static const char kTraceFinishJob[] = "TtfinishJob";
@@ -1017,7 +1017,7 @@ public:
     void Sync(int index, PoolSet* set);
     void Release(PoolSet* set);
 
-    void FUN_00d04d80(TraceArg* p, int flag);
+    void hkJobQueue_finishJob(TraceArg* p, int flag);
 };
 struct __declspec(align(16)) DispatchJob {
     unsigned char m_eSubtype;
@@ -1078,7 +1078,7 @@ struct JobFetchView {
     int ForwardWithZero(int job, int flags);
 };
 struct Dispatcher : FUN_00d05490 {
-    int FUN_00d051b0();
+    int hkJobQueue_processAllJobs();
 };
 extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void* section);
 struct QueueLockView : Owner
@@ -1119,7 +1119,7 @@ struct Bucket20
     int m_pFirstNode;
     int unk0C;
     int m_uiItemCount;
-    void FUN_00d057f0(ItemBuf* item);
+    void hkQueue_struct_hkJobQueue_JobQueueEntry_enqueueInFront(ItemBuf* item);
 };
 struct Refs
 {
@@ -1180,7 +1180,7 @@ struct Host
         bucket->m_uiItemCount--;
         int r = m_fn1C(this, refs, &item, a4);
         if (r == 1) {
-            bucket->FUN_00d057f0(&item);
+            bucket->hkQueue_struct_hkJobQueue_JobQueueEntry_enqueueInFront(&item);
             RemoveItemReference(cur, refs);
         }
         ((unsigned short*)refs)[((unsigned char*)&item)[1]]++;
@@ -1190,10 +1190,11 @@ struct Host
     }
     return -1;
     }
-    int FUN_00d05840(int a1, Refs* refs, int a3, int a4);
+    int hkJobQueue_findJobInternal(int a1, Refs* refs, int a3, int a4);
 };
 // @fnv 0x00d05840
-int Host::FUN_00d05840(int a1, Refs* refs, int a3, int a4)
+// src: HAVOK_LIB 0x00d05840
+int Host::hkJobQueue_findJobInternal(int a1, Refs* refs, int a3, int a4)
 {
     int ediVal = tryPop(refs,a4);
     if (a1 != -1 && a1 != ediVal) RemoveItemReference(a1,refs);

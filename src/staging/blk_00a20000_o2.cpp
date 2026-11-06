@@ -132,7 +132,8 @@ inline float NiQuaternion::Dot(const NiQuaternion& p, const NiQuaternion& q)
 }
 
 // @fnv 0x00a26f80
-void FUN_00a26f80(float* afDest, const float* afSrc)
+// src: GAMEBRYO_LIB 0x00a26f80
+void NiBezFloatKey_Copy(float* afDest, const float* afSrc)
 {
     afDest[0] = afSrc[0];
     afDest[1] = afSrc[1];
@@ -156,7 +157,8 @@ extern "C" void __cdecl ReadBlockEntries(void*, void*);
 
 // Calls ReadBlockEntries for each of c elements, passing a and successive 0x48-byte records starting at b.
 // @fnv 0x00a2a0e0
-void __cdecl FUN_00a2a0e0(void* a, void* b, unsigned int c)
+// src: GAMEBRYO_LIB 0x00a2a0e0
+void __cdecl NiEulerRotKey_SaveToStream(void* a, void* b, unsigned int c)
 {
     for (unsigned int i = 0; i < c; ++i)
         ReadBlockEntries(a, (char*)b + i * 0x48);
@@ -175,7 +177,8 @@ extern "C" void __cdecl SaveKey(int, int);
 
 // Calls SaveKey(a, b) count times, advancing b by 0x4c each iteration.
 // @fnv 0x00a2bb60
-void __cdecl FUN_00a2bb60(int aiArg, int aiBase, unsigned int count)
+// src: GAMEBRYO_LIB 0x00a2bb60
+void __cdecl NiTCBPosKey_SaveToStream(int aiArg, int aiBase, unsigned int count)
 {
     if (count > 0)
     {
@@ -193,7 +196,8 @@ struct FUN_00a2cc10_T {
 };
 
 // @fnv 0x00a2cc10
-void __cdecl FUN_00a2cc10(FUN_00a2cc10_T* dst, const FUN_00a2cc10_T* src)
+// src: GAMEBRYO_LIB 0x00a2cc10
+void __cdecl NiStepBoolKey_Copy(FUN_00a2cc10_T* dst, const FUN_00a2cc10_T* src)
 {
     dst->f = src->f;
     dst->c = src->c;
@@ -246,7 +250,7 @@ struct TCBKeyS {
 };
 bool FindKeyIndex(float t, TCBKeyS* keys, unsigned int count, unsigned int* idx, unsigned int stride);
 NiPoint3 GetKeyPosAtTime(float t, TCBKeyS* keys, int type, unsigned int count, unsigned int stride);
-void FUN_00a420e0(float p0, float t0, float* tan0, float p1, float t1, float* tan1, float t, float p, float* a, float* b);
+void NiInterpScalar_AdjustBezier(float p0, float t0, float* tan0, float p1, float t1, float* tan1, float t, float p, float* a, float* b);
 void ComputeTCBKeyTangents(TCBKeyS* keys, unsigned int count, unsigned int stride);
 
 // @fnv 0x00a282a0
@@ -280,9 +284,9 @@ bool FUN_00a282a0(float afTime, TCBKeyS** pKeys, unsigned int* pCount)
         PointStorage p1 = next->pos;
         PointStorage tan1 = next->in;
         PointStorage a, b;
-        FUN_00a420e0(p0.x, t0, &tan0.x, p1.x, t1, &tan1.x, afTime, p.x, &a.x, &b.x);
-        FUN_00a420e0(p0.y, t0, &tan0.y, p1.y, t1, &tan1.y, afTime, p.y, &a.y, &b.y);
-        FUN_00a420e0(p0.z, t0, &tan0.z, p1.z, t1, &tan1.z, afTime, p.z, &a.z, &b.z);
+        NiInterpScalar_AdjustBezier(p0.x, t0, &tan0.x, p1.x, t1, &tan1.x, afTime, p.x, &a.x, &b.x);
+        NiInterpScalar_AdjustBezier(p0.y, t0, &tan0.y, p1.y, t1, &tan1.y, afTime, p.y, &a.y, &b.y);
+        NiInterpScalar_AdjustBezier(p0.z, t0, &tan0.z, p1.z, t1, &tan1.z, afTime, p.z, &a.z, &b.z);
         prev->out = tan0;
         cur->in = a;
         cur->out = b;
@@ -421,11 +425,11 @@ FUN_00a29a70::FUN_00a29a70()
 }
 
 void __cdecl IsLightEqual();
-void __cdecl FUN_00a2af70();
+void __cdecl NiTCBPosKey_Interpolate();
 void __cdecl ComputeInterpolatedPosition();
-void __cdecl FUN_00a2b130();
-void __cdecl FUN_00a2b410();
-void __cdecl FUN_00a2b6d0();
+void __cdecl NiTCBPosKey_InterpolateD2();
+void __cdecl NiTCBPosKey_FillDerivedVals();
+void __cdecl NiTCBPosKey_ComputeMaxCurvature();
 void __cdecl InsertBezPosKey();
 
 // Stores seven function pointers into seven global tables at the slot computed from a and b.
@@ -433,12 +437,12 @@ void __cdecl InsertBezPosKey();
 void __cdecl FUN_00a2baa0(int a, int b)
 {
     unsigned int idx = (b + a * 6) * 4;
-    *(void**)(0x011f3d20 + idx) = (void*)FUN_00a2b6d0;
-    *(void**)(0x011f3c90 + idx) = (void*)FUN_00a2af70;
+    *(void**)(0x011f3d20 + idx) = (void*)NiTCBPosKey_ComputeMaxCurvature;
+    *(void**)(0x011f3c90 + idx) = (void*)NiTCBPosKey_Interpolate;
     *(void**)(0x011f3c00 + idx) = (void*)ComputeInterpolatedPosition;
-    *(void**)(0x011f3b70 + idx) = (void*)FUN_00a2b130;
+    *(void**)(0x011f3b70 + idx) = (void*)NiTCBPosKey_InterpolateD2;
     *(void**)(0x011f3ae0 + idx) = (void*)IsLightEqual;
-    *(void**)(0x011f3780 + idx) = (void*)FUN_00a2b410;
+    *(void**)(0x011f3780 + idx) = (void*)NiTCBPosKey_FillDerivedVals;
     *(void**)(0x011f3810 + idx) = (void*)InsertBezPosKey;
 }
 
@@ -538,9 +542,9 @@ void FUN_00a27430_T::FUN_00a27430(NiStream& stream)
 
 void BezKeyEqual();
 void EvaluateCubicKey();
-void FUN_00a27d60();
-void FUN_00a27e40();
-void FUN_00a28060();
+void NiBezPosKey_InterpolateD1();
+void NiBezPosKey_InterpolateD2();
+void NiBezPosKey_ComputeMaxCurvature();
 
 extern int DAT_011f3d20;
 extern int DAT_011f3c90;
@@ -554,10 +558,10 @@ extern int DAT_011f3810;
 void FUN_00a28620(int param_1, int param_2)
 {
     int iVar1 = (param_2 + param_1 * 6) * 4;
-    *(void**)((char*)&DAT_011f3d20 + iVar1) = (void*)FUN_00a28060;
+    *(void**)((char*)&DAT_011f3d20 + iVar1) = (void*)NiBezPosKey_ComputeMaxCurvature;
     *(void**)((char*)&DAT_011f3c90 + iVar1) = (void*)EvaluateCubicKey;
-    *(void**)((char*)&DAT_011f3c00 + iVar1) = (void*)FUN_00a27d60;
-    *(void**)((char*)&DAT_011f3b70 + iVar1) = (void*)FUN_00a27e40;
+    *(void**)((char*)&DAT_011f3c00 + iVar1) = (void*)NiBezPosKey_InterpolateD1;
+    *(void**)((char*)&DAT_011f3b70 + iVar1) = (void*)NiBezPosKey_InterpolateD2;
     *(void**)((char*)&DAT_011f3ae0 + iVar1) = (void*)BezKeyEqual;
     *(void**)((char*)&DAT_011f3780 + iVar1) = (void*)ComputeTCBKeyTangents;
     *(void**)((char*)&DAT_011f3810 + iVar1) = (void*)FUN_00a282a0;
@@ -567,7 +571,8 @@ struct Helper { unsigned int a; char b; };
 bool AreFloatsEqual(const Helper* x, const Helper* y);
 // Returns false if AreFloatsEqual fails for the two Helpers, otherwise returns whether their b fields are equal.
 // @fnv 0x00a291a0
-bool FUN_00a291a0(const Helper* apFirst, const Helper* apSecond)
+// src: GAMEBRYO_LIB 0x00a291a0
+bool NiBoolKey_Equal(const Helper* apFirst, const Helper* apSecond)
 {
     if (!AreFloatsEqual(apFirst, apSecond)) return false;
     return apFirst->b == apSecond->b;
@@ -615,7 +620,7 @@ void __cdecl FUN_00a2d230(SStream* pStream, SObj* b, unsigned int c)
 namespace fnv_00a2d5b0 {
 void __cdecl FUN_00a291e0();
 void __cdecl SelectKeyVec();
-void __cdecl FUN_00a2d420();
+void __cdecl NiStepPosKey_InterpolateD1();
 void __cdecl FUN_00a2a7e0();
 void __cdecl FUN_00a2d4a0();
 void __cdecl FUN_00a29680();
@@ -634,7 +639,7 @@ void FUN_00a2d5b0(int param_1, int param_2)
     int iVar1 = (param_2 + param_1 * 6) * 4;
     *(void**)((char*)&DAT_011f3d20 + iVar1) = (void*)&FUN_00a291e0;
     *(void**)((char*)&DAT_011f3c90 + iVar1) = (void*)&SelectKeyVec;
-    *(void**)((char*)&DAT_011f3c00 + iVar1) = (void*)&FUN_00a2d420;
+    *(void**)((char*)&DAT_011f3c00 + iVar1) = (void*)&NiStepPosKey_InterpolateD1;
     *(void**)((char*)&DAT_011f3b70 + iVar1) = (void*)&FUN_00a27470;
     *(void**)((char*)&DAT_011f3ae0 + iVar1) = (void*)&FUN_00a2a7e0;
     *(void**)((char*)&DAT_011f3780 + iVar1) = (void*)&FUN_00a29680;
@@ -750,7 +755,7 @@ struct BezFloatKey {
 };
 
 float GenInterpFloat(float t, BezFloatKey* keys, int type, unsigned int count, unsigned int stride);
-void FUN_00a420e0(float p0, float t0, float* tan0, float p1, float t1, float* tan1, float t, float p, float* a, float* b);
+void NiInterpScalar_AdjustBezier(float p0, float t0, float* tan0, float p1, float t1, float* tan1, float t, float p, float* a, float* b);
 
 // Inserts a new BezFloatKey at fTime into the key array, reallocating it, interpolating the value, and recomputing tangents for neighbouring keys.
 // @fnv 0x00a27080
@@ -785,7 +790,7 @@ bool FUN_00a27080(float fTime, BezFloatKey*& pkKeys, unsigned int& uiNumKeys)
         float fNextTime = pkNext->time;
         float fNextInTan = pkNext->inTan;
         float fInTan, fOutTan;
-        FUN_00a420e0(fPrevValue, fPriorKeyTime, &fPrevOutTan, fNextValue, fNextTime, &fNextInTan,
+        NiInterpScalar_AdjustBezier(fPrevValue, fPriorKeyTime, &fPrevOutTan, fNextValue, fNextTime, &fNextInTan,
                      fTime, fValue, &fInTan, &fOutTan);
         pkPrev->outTan = fPrevOutTan;
         pkNew->inTan = fInTan;
@@ -919,7 +924,8 @@ struct FUN_00a27b60_rec {
 
 // Copies a 0x40-byte record from src to dst field by field, including a trailing three-word block.
 // @fnv 0x00a27b60
-void __cdecl FUN_00a27b60(FUN_00a27b60_rec* apDest, const FUN_00a27b60_rec* apSource)
+// src: GAMEBRYO_LIB 0x00a27b60
+void __cdecl NiBezPosKey_Copy(FUN_00a27b60_rec* apDest, const FUN_00a27b60_rec* apSource)
 {
     apDest->m_f00 = apSource->m_f00;
     apDest->unk04 = apSource->unk04;
@@ -1041,7 +1047,8 @@ extern double DAT_01021928;
 extern double DAT_01011590;
 // Scales the key's extra components by t and two constants, sums them into a direction, offsets it by t, adds key->out and stores the result.
 // @fnv 0x00a27d60
-void __cdecl FUN_00a27d60(float afTime, TCBKeyS* key, unsigned int type, PointStorage* result)
+// src: GAMEBRYO_LIB 0x00a27d60
+void __cdecl NiBezPosKey_InterpolateD1(float afTime, TCBKeyS* key, unsigned int type, PointStorage* result)
 {
     const float scaled = static_cast<float>(DAT_01021928 * afTime);
     PointStorage fromScaled = {key->extra[3] * scaled, key->extra[4] * scaled, key->extra[5] * scaled};
@@ -1059,7 +1066,8 @@ extern "C" const double DAT_01034208;
 extern "C" const double DAT_01011590;
 struct Vec3Output { float x,y,z; };
 // @fnv 0x00a27e40
-extern "C" void __cdecl FUN_00a27e40(float radians, const float* transform, unsigned int mode, Vec3Output* output) {
+// src: GAMEBRYO_LIB 0x00a27e40
+extern "C" void __cdecl NiBezPosKey_InterpolateD2(float radians, const float* transform, unsigned int mode, Vec3Output* output) {
     radians = (float)(radians * DAT_01034208);
     Vec3Output offset;
     offset.x = radians * transform[13];
@@ -1167,7 +1175,8 @@ void __cdecl SaveKeyArray(NiStream& kStream, A28260Key* pkKeys, unsigned int uiN
 typedef NiQuaternion* (NiQuaternion::*ReturningQuaternionSetter)(float, float, float, float);
 
 // @fnv 0x00a286e0
-void FUN_00a286e0(unsigned int auiUnused0, unsigned int auiUnused1, unsigned int auiUnused2, NiQuaternion* out)
+// src: GAMEBRYO_LIB 0x00a286e0
+void NiRotKey_Interpolate(unsigned int auiUnused0, unsigned int auiUnused1, unsigned int auiUnused2, NiQuaternion* out)
 {
     unsigned int storage[sizeof(NiQuaternion) / sizeof(unsigned int)];
     NiQuaternion* holder = reinterpret_cast<NiQuaternion*>(storage);
@@ -1304,18 +1313,19 @@ struct FNVAnim {
     FNVKey  keys[64];
 };
 
-extern void  __cdecl FUN_00a28ab0(FNVAnim* obj, unsigned int count, unsigned int flag);
+extern void  __cdecl NiRotKey_FillDerivedVals(FNVAnim* obj, unsigned int count, unsigned int flag);
 extern FNVQuat* __cdecl FUN_00a6dd50(FNVQuat* out, FNVQuat* a, FNVQuat* b, FNVQuat* c);
 
 // For count >= 2, calls FUN_00a28ab0 then fills each key's q1 with FUN_00a6dd50 results from neighbouring q0 values, clamping the ends.
 // @fnv 0x00a28dc0
-void __cdecl FUN_00a28dc0(FNVAnim* pAnim, unsigned int count, unsigned int flag)
+// src: GAMEBRYO_LIB 0x00a28dc0
+void __cdecl NiBezRotKey_FillDerivedVals(FNVAnim* pAnim, unsigned int count, unsigned int flag)
 {
     if (count < 2) {
         return;
     }
 
-    FUN_00a28ab0(pAnim, count, flag);
+    NiRotKey_FillDerivedVals(pAnim, count, flag);
 
     FNVQuat qTmp;
 
@@ -1371,7 +1381,8 @@ void __cdecl FUN_00a28720(void* base, void* elem);
 
 // Calls FUN_00a28720 on each 0x24-byte element in the array, iterating count times.
 // @fnv 0x00a28ed0
-void __cdecl FUN_00a28ed0(void* base, char* elems, unsigned int count)
+// src: GAMEBRYO_LIB 0x00a28ed0
+void __cdecl NiBezRotKey_SaveToStream(void* base, char* elems, unsigned int count)
 {
     unsigned int n = count;
     if (n > 0)
@@ -1393,7 +1404,7 @@ void __cdecl FUN_00a291e0();
 void __cdecl A291F0CurveA();
 void __cdecl A291F0CurveB();
 void __cdecl A291F0CurveC();
-void __cdecl FUN_00a291a0();
+void __cdecl NiBoolKey_Equal();
 void __cdecl FUN_00a29680();
 
 extern A291F0Func g_akA291F0FillDerived[6][6];
@@ -1412,7 +1423,7 @@ void __cdecl RegisterCurveOps(int eContent, int eType)
     g_akA291F0CurveA[eContent][eType] = A291F0CurveA;
     g_akA291F0CurveB[eContent][eType] = A291F0CurveB;
     g_akA291F0CurveC[eContent][eType] = A291F0CurveC;
-    g_akA291F0Insert[eContent][eType] = FUN_00a291a0;
+    g_akA291F0Insert[eContent][eType] = NiBoolKey_Equal;
     g_akA291F0Interp[eContent][eType] = FUN_00a29680;
     g_akA291F0Cubic[eContent][eType] = 0;
 }
@@ -2109,13 +2120,14 @@ void __cdecl InterpolateQuaternion(float interpolation, const QuaternionKey* fir
 }
 
 
-float __cdecl FUN_00a42050(float a, float b, float c);
+float __cdecl NiInterpScalar_Linear(float a, float b, float c);
 
 // @fnv 0x00a2a560
-void __cdecl FUN_00a2a560(float s, const NiPoint3* apPointA, const NiPoint3* apPointB, float* pfResult) {
+// src: GAMEBRYO_LIB 0x00a2a560
+void __cdecl NiLinFloatKey_Interpolate(float s, const NiPoint3* apPointA, const NiPoint3* apPointB, float* pfResult) {
     float by = apPointB->y;
     float ay = apPointA->y;
-    *pfResult = FUN_00a42050(s, ay, by);
+    *pfResult = NiInterpScalar_Linear(s, ay, by);
 }
 
 namespace fnv_00a2a5a0 {
@@ -2173,7 +2185,8 @@ struct A2A890Key {
 
 // Stores into kResult the difference of kKey1.m_kValue and kKey0.m_kValue; fTime is unused.
 // @fnv 0x00a2a890
-void FUN_00a2a890(float fTime, const A2A890Key& kKey0, const A2A890Key& kKey1, A2A890Point3& kResult) {
+// src: GAMEBRYO_LIB 0x00a2a890
+void NiLinPosKey_InterpolateD1(float fTime, const A2A890Key& kKey0, const A2A890Key& kKey1, A2A890Point3& kResult) {
     kResult = kKey1.m_kValue - kKey0.m_kValue;
 }
 
@@ -2336,7 +2349,8 @@ static __forceinline S_00a2af70_V Add(const S_00a2af70_V& a, const S_00a2af70_V&
 }
 
 // @fnv 0x00a2af70
-void __cdecl FUN_00a2af70(float t, S_00a2af70_P* p, int unused, S_00a2af70_V* out)
+// src: GAMEBRYO_LIB 0x00a2af70
+void __cdecl NiTCBPosKey_Interpolate(float t, S_00a2af70_P* p, int unused, S_00a2af70_V* out)
 {
     *out = Add(p->c1, Scale(Add(p->c2, Scale(Add(p->c3, Scale(p->c4, t)), t)), t));
 }
@@ -2400,7 +2414,8 @@ extern "C" double DAT_01011590;
 
 // Scales amount by DAT_01034208, then writes the sum of two Vector3s read from transform offsets 13 and 16, weighted by DAT_01011590 and amount, into result.
 // @fnv 0x00a2b130
-void __cdecl FUN_00a2b130(float amount, const float* transform, unsigned int unused, LocalVector3* result)
+// src: GAMEBRYO_LIB 0x00a2b130
+void __cdecl NiTCBPosKey_InterpolateD2(float amount, const float* transform, unsigned int unused, LocalVector3* result)
 {
     amount *= DAT_01034208;
     const LocalVector3* start = reinterpret_cast<const LocalVector3*>(transform + 13);
@@ -2544,7 +2559,8 @@ struct A2BBF0Record {
 };
 
 // @fnv 0x00a2bbf0
-void FUN_00a2bbf0(A2BBF0Record* pkDst, const A2BBF0Record* pkSrc) {
+// src: GAMEBRYO_LIB 0x00a2bbf0
+void NiTCBRotKey_Copy(A2BBF0Record* pkDst, const A2BBF0Record* pkSrc) {
     pkDst->m_fTime = pkSrc->m_fTime;
     pkDst->m_kControlPoint = pkSrc->m_kControlPoint;
     pkDst->m_fCoefficientA = pkSrc->m_fCoefficientA;
@@ -2665,14 +2681,15 @@ struct Quad64
     void ComputeTangents(void* a, void* b);
 };
 
-void __cdecl FUN_00a28ab0(void* a, unsigned int count, void* c);
+void __cdecl NiRotKey_FillDerivedVals(void* a, unsigned int count, void* c);
 
 // @fnv 0x00a2c130
-void __cdecl FUN_00a2c130(Quad64* apQuads, unsigned int count, void* c)
+// src: GAMEBRYO_LIB 0x00a2c130
+void __cdecl NiTCBRotKey_FillDerivedVals(Quad64* apQuads, unsigned int count, void* c)
 {
     if (count < 2)
         return;
-    FUN_00a28ab0(apQuads, count, c);
+    NiRotKey_FillDerivedVals(apQuads, count, c);
     apQuads[0].ComputeTangents(apQuads, &apQuads[1]);
     unsigned int n = count - 1;
     if (n > 1)
@@ -3072,7 +3089,8 @@ struct Entry64 {
 // Walk an array of 0x40-byte entries, passing each one to the helper.
 // Calls LoadObjFields with ctx and each entry in the array, advancing through count entries.
 // @fnv 0x00a2c490
-void __cdecl FUN_00a2c490(void* pContext, Entry64* entries, unsigned int count)
+// src: GAMEBRYO_LIB 0x00a2c490
+void __cdecl NiTCBRotKey_SaveToStream(void* pContext, Entry64* entries, unsigned int count)
 {
     for (unsigned int i = 0; i < count; i++) {
         LoadObjFields(pContext, entries);
@@ -3092,7 +3110,8 @@ struct ShapeValues {
 extern "C" float __cdecl func_0x00a42070(float input, float leftStart, float leftExtent, float rightStart, float rightEnd);
 
 // @fnv 0x00a2c610
-void __cdecl FUN_00a2c610(float input, const ShapeValues* left, const ShapeValues* right, float* apfResult) {
+// src: GAMEBRYO_LIB 0x00a2c610
+void __cdecl NiTCBFloatKey_Interpolate(float input, const ShapeValues* left, const ShapeValues* right, float* apfResult) {
     const float rightStart = right->start;
     const float leftStart = left->start;
     *apfResult = func_0x00a42070(input, leftStart, left->extent, rightStart, right->end);
@@ -3138,30 +3157,32 @@ struct Key {
     float e;
 };
 
-__declspec(noinline) void __cdecl FUN_00a2c6a0(Key* k, float a, float b, float c, float d) {
+// src: GAMEBRYO_LIB 0x00a2c6a0
+__declspec(noinline) void __cdecl NiTCBFloatKey_CalculateDVals(Key* k, float a, float b, float c, float d) {
     k->a = a * c;
     k->b = b * d;
 }
 
 // @fnv 0x00a2c7a0
-void __cdecl FUN_00a2c7a0(Key* keys, unsigned int count) {
+// src: GAMEBRYO_LIB 0x00a2c7a0
+void __cdecl NiTCBFloatKey_FillDerivedVals(Key* keys, unsigned int count) {
     if (count < 2) {
         return;
     }
-    FUN_00a2c6a0(keys, 2.0f * keys[0].v - keys[1].v, keys[1].v, 1.0f, 1.0f);
+    NiTCBFloatKey_CalculateDVals(keys, 2.0f * keys[0].v - keys[1].v, keys[1].v, 1.0f, 1.0f);
     unsigned int n = count - 1;
     if (n > 1) {
         Key* p = keys;
         unsigned int c = n - 1;
         do {
             Key* q = p + 1;
-            FUN_00a2c6a0(q, p->v, p[2].v, q->t - p->t, p[2].t - q->t);
+            NiTCBFloatKey_CalculateDVals(q, p->v, p[2].v, q->t - p->t, p[2].t - q->t);
             p = q;
         } while (--c != 0);
     }
     unsigned int i = count - 2;
     Key* last = keys + n;
-    FUN_00a2c6a0(last, keys[i].v, 2.0f * last->v - keys[i].v, 1.0f, 1.0f);
+    NiTCBFloatKey_CalculateDVals(last, keys[i].v, 2.0f * last->v - keys[i].v, 1.0f, 1.0f);
 }
 
 
@@ -3388,7 +3409,8 @@ extern "C" void __cdecl FUN_00a2ca60(void* a1, void* a2);
 
 // Calls FUN_00a2ca60 for each of count elements, advancing a2 by 0x1c bytes per iteration.
 // @fnv 0x00a2cb50
-void __cdecl FUN_00a2cb50(void* a1, void* a2, unsigned int count)
+// src: GAMEBRYO_LIB 0x00a2cb50
+void __cdecl NiTCBFloatKey_SaveToStream(void* a1, void* a2, unsigned int count)
 {
     unsigned int n = count;
     if (n <= 0)
@@ -3487,7 +3509,8 @@ struct FUN_00a2d200_arg
 
 // Writes a->m_04 to *out when t is below 1.0, otherwise writes b->m_04.
 // @fnv 0x00a2d200
-void FUN_00a2d200(float t, FUN_00a2d200_arg* a, FUN_00a2d200_arg* b, float* apResult)
+// src: GAMEBRYO_LIB 0x00a2d200
+void NiStepFloatKey_Interpolate(float t, FUN_00a2d200_arg* a, FUN_00a2d200_arg* b, float* apResult)
 {
     if (t < 1.0f)
     {
@@ -4258,7 +4281,7 @@ struct FUN_00a3ca30 {
     int unk14;
 };
 
-extern "C" void __cdecl FUN_00aa10f0(void*) throw();
+extern "C" void __cdecl _NiFree_00aa10f0(void*) throw();
 
 struct FUN_00a3dd40 : FUN_00a3ca30 {
     S_a3dd40_Ptr m_kPointA;
@@ -4272,13 +4295,14 @@ FUN_00a3dd40::~FUN_00a3dd40() throw()
 {
     m_kPointA = 0;
     m_kPointB = 0;
-    FUN_00aa10f0(m_p);
+    _NiFree_00aa10f0(m_p);
 }
 
 extern "C" float __cdecl func_0x00a42070(float input, float leftStart, float leftExtent, float rightStart, float rightEnd);
 
 // @fnv 0x00a26fe0
-void __cdecl FUN_00a26fe0(float a, const float* b, const float* c, float* pfResult)
+// src: GAMEBRYO_LIB 0x00a26fe0
+void __cdecl NiBezFloatKey_Interpolate(float a, const float* b, const float* c, float* pfResult)
 {
     float c2 = c[2];
     float c1 = c[1];
@@ -4655,16 +4679,17 @@ bool __cdecl FUN_00a2d1d0(FloatRecord_b5532* a, FloatRecord_b5532* b)
 struct Key415 { float time; NiPoint3 value; };
 // Subtracts the value of key b from key a and stores the resulting NiPoint3 in result.
 // @fnv 0x00a2d420
-void FUN_00a2d420(float unused,const Key415& a,const Key415& b,NiPoint3& result) {
+// src: GAMEBRYO_LIB 0x00a2d420
+void NiStepPosKey_InterpolateD1(float unused,const Key415& a,const Key415& b,NiPoint3& result) {
  result = a.value - b.value;
 }
 
 struct FNVAnim;
-void __cdecl FUN_00a28ab0(FNVAnim* object, unsigned int count, unsigned int flags);
+void __cdecl NiRotKey_FillDerivedVals(FNVAnim* object, unsigned int count, unsigned int flags);
 // @fnv 0x00a2d670
 void __cdecl FUN_00a2d670(FNVAnim* object, unsigned int count, unsigned int flags)
 {
-    FUN_00a28ab0(object, count, flags);
+    NiRotKey_FillDerivedVals(object, count, flags);
 }
 
 bool FUN_00a28a80(UHelper* a, UHelper* b);
@@ -4744,7 +4769,8 @@ public:
 };
 // Negates rotation quaternions whose dot product with the previous key is negative, then clamps each key's X component to [-1, 1].
 // @fnv 0x00a28ab0
-void __cdecl FUN_00a28ab0(TimedRotationKey* pkKeys, unsigned int uiNumKeys, unsigned char ucKeySize)
+// src: GAMEBRYO_LIB 0x00a28ab0
+void __cdecl NiRotKey_FillDerivedVals(TimedRotationKey* pkKeys, unsigned int uiNumKeys, unsigned char ucKeySize)
 {
     unsigned int ui;
     for (ui = 0; ui < uiNumKeys - 1; ui++)
@@ -4767,7 +4793,8 @@ extern "C" unsigned char __cdecl InterpolateBooleanKey(float, const void*, int, 
 
 // Returns the value at the first or last key when fTime is out of range, otherwise calls InterpolateBooleanKey to interpolate between keys.
 // @fnv 0x00a29470
-extern "C" unsigned char __cdecl FUN_00a29470(float fTime, const void* pkKeys, int uiType, unsigned int uiNumKeys, unsigned char ucSize) {
+// src: GAMEBRYO_LIB 0x00a29470
+extern "C" unsigned char __cdecl NiBoolKey_GenInterpDefault(float fTime, const void* pkKeys, int uiType, unsigned int uiNumKeys, unsigned char ucSize) {
     if (uiNumKeys) {
         if (fTime < *(const float*)pkKeys)
             return *((const unsigned char*)pkKeys + 4);
@@ -4864,7 +4891,8 @@ struct CompareBlock {
 
 // Returns true only when the three groups match in m_cnt, m_idx and the byte array, and each m_idx's g_compareTable function accepts all m_cnt value pairs.
 // @fnv 0x00a29c20
-bool FUN_00a29c20(const void* left, const CompareBlock* apRight)
+// src: GAMEBRYO_LIB 0x00a29c20
+bool NiEulerRotKey_Equal(const void* left, const CompareBlock* apRight)
 {
     const CompareBlock* a = static_cast<const CompareBlock*>(left);
     for (unsigned int i = 0; i < 3; i++) {
@@ -4905,7 +4933,8 @@ struct S_00a2a7f0_Key {
 
 // Computes a linear interpolation between two keyframe vectors using factor t and stores the result in out.
 // @fnv 0x00a2a7f0
-void __cdecl FUN_00a2a7f0(float t, const S_00a2a7f0_Key* apFrom, const S_00a2a7f0_Key* apTo, S_00a2a7f0_V3* out)
+// src: GAMEBRYO_LIB 0x00a2a7f0
+void __cdecl NiLinPosKey_Interpolate(float t, const S_00a2a7f0_Key* apFrom, const S_00a2a7f0_Key* apTo, S_00a2a7f0_V3* out)
 {
     const S_00a2a7f0_Key* pFrom = apFrom;
     float s = 1.0f - t;
@@ -4927,10 +4956,11 @@ struct A2B1D0Key {
     A2B1D0Vec value;
     float tension, continuity, bias;
     A2B1D0Vec inTangent, outTangent;
-    void FUN_00a2b1d0(const A2B1D0Vec& previous, const A2B1D0Vec& next, float before, float after);
+    void NiTCBPosKey_CalculateDVals(const A2B1D0Vec& previous, const A2B1D0Vec& next, float before, float after);
 };
 // @fnv 0x00a2b1d0
-void A2B1D0Key::FUN_00a2b1d0(const A2B1D0Vec& previous, const A2B1D0Vec& next, float before, float after) {
+// src: GAMEBRYO_LIB 0x00a2b1d0
+void A2B1D0Key::NiTCBPosKey_CalculateDVals(const A2B1D0Vec& previous, const A2B1D0Vec& next, float before, float after) {
     A2B1D0Vec vDeltaPrev = value - previous;
     A2B1D0Vec vDeltaNext = next - value;
     float plusBias = 1.0f + bias;
@@ -4964,25 +4994,26 @@ struct PositionSplineKey {
     NiPoint3 m_kBackwardTangent;
     NiPoint3 m_kOutgoingTangent;
     NiPoint3 m_kIncomingTangent;
-    void FUN_00a2b1d0(const NiPoint3& kPrev, const NiPoint3& kNext, float fDT0, float fDT1);
+    void NiTCBPosKey_CalculateDVals(const NiPoint3& kPrev, const NiPoint3& kNext, float fDT0, float fDT1);
 };
 
-inline void Calc(PositionSplineKey& p, PositionSplineKey& c, PositionSplineKey& n) { c.FUN_00a2b1d0(p.m_kPositionValue,n.m_kPositionValue,c.m_fTime-p.m_fTime,n.m_fTime-c.m_fTime); }
+inline void Calc(PositionSplineKey& p, PositionSplineKey& c, PositionSplineKey& n) { c.NiTCBPosKey_CalculateDVals(p.m_kPositionValue,n.m_kPositionValue,c.m_fTime-p.m_fTime,n.m_fTime-c.m_fTime); }
 
 // Computes forward, backward, outgoing, and incoming tangents for each PositionSplineKey in a TCB spline of uiNumKeys keys.
 // @fnv 0x00a2b410
-void __cdecl FUN_00a2b410(PositionSplineKey* pkTCB, unsigned int uiNumKeys)
+// src: GAMEBRYO_LIB 0x00a2b410
+void __cdecl NiTCBPosKey_FillDerivedVals(PositionSplineKey* pkTCB, unsigned int uiNumKeys)
 {
     unsigned int uiNumKeysM1 = uiNumKeys - 1;
     if (uiNumKeys >= 2)
     {
-        pkTCB[0].FUN_00a2b1d0(2.0f * pkTCB[0].m_kPositionValue - pkTCB[1].m_kPositionValue, pkTCB[1].m_kPositionValue, 1.0f, 1.0f);
+        pkTCB[0].NiTCBPosKey_CalculateDVals(2.0f * pkTCB[0].m_kPositionValue - pkTCB[1].m_kPositionValue, pkTCB[1].m_kPositionValue, 1.0f, 1.0f);
         for(unsigned ui=1; ui<uiNumKeysM1; ++ui) {
             Calc(pkTCB[ui-1],pkTCB[ui],pkTCB[ui+1]);
         }
         unsigned int lastIndex=uiNumKeysM1;
         unsigned int prevIndex=uiNumKeys-2;
-        pkTCB[lastIndex].FUN_00a2b1d0(pkTCB[prevIndex].m_kPositionValue, 2.0f*pkTCB[lastIndex].m_kPositionValue-pkTCB[prevIndex].m_kPositionValue,1.0f,1.0f);
+        pkTCB[lastIndex].NiTCBPosKey_CalculateDVals(pkTCB[prevIndex].m_kPositionValue, 2.0f*pkTCB[lastIndex].m_kPositionValue-pkTCB[prevIndex].m_kPositionValue,1.0f,1.0f);
     }
 
     PositionSplineKey* pkKey = pkTCB;
@@ -5137,7 +5168,8 @@ struct FUN_00a2c6a0_Key {
 
 // Computes the ds and dd tangent components for a keyframe from its bias, tension, continuity and neighbouring values.
 // @fnv 0x00a2c6a0
-void __cdecl FUN_00a2c6a0(FUN_00a2c6a0_Key* key, float prev, float next, float prevLen, float nextLen)
+// src: GAMEBRYO_LIB 0x00a2c6a0
+void __cdecl NiTCBFloatKey_CalculateDVals(FUN_00a2c6a0_Key* key, float prev, float next, float prevLen, float nextLen)
 {
     float fDeltaPrev = key->value - prev;
     float fDeltaNext = next - key->value;
@@ -5164,8 +5196,8 @@ void __cdecl InsertLinPosKey();
 void FUN_00a2aa50(int content, int type)
 {
     KeyTables::DAT_011f3d20[content][type] = (void*)&FUN_00a291e0;
-    KeyTables::DAT_011f3c90[content][type] = (void*)&FUN_00a2a7f0;
-    KeyTables::DAT_011f3c00[content][type] = (void*)&FUN_00a2a890;
+    KeyTables::DAT_011f3c90[content][type] = (void*)&NiLinPosKey_Interpolate;
+    KeyTables::DAT_011f3c00[content][type] = (void*)&NiLinPosKey_InterpolateD1;
     KeyTables::DAT_011f3b70[content][type] = (void*)&FUN_00a27470;
     KeyTables::DAT_011f3ae0[content][type] = (void*)&FUN_00a2a7e0;
     KeyTables::DAT_011f3780[content][type] = (void*)&FUN_00a29680;
@@ -5214,12 +5246,12 @@ NiColorKey_K* FUN_00a2a1b0(unsigned int count)
 }
 
 struct A2CC30_Shell {
-    static bool __cdecl FUN_00a291a0(const Helper* apFirst, const Helper* apSecond);
+    static bool __cdecl NiBoolKey_Equal(const Helper* apFirst, const Helper* apSecond);
 };
 
 // @fnv 0x00a2cc30
 bool __cdecl FUN_00a2cc30(int param_1, int param_2)
 {
-    return A2CC30_Shell::FUN_00a291a0(reinterpret_cast<const Helper*>(param_1),
+    return A2CC30_Shell::NiBoolKey_Equal(reinterpret_cast<const Helper*>(param_1),
                                       reinterpret_cast<const Helper*>(param_2));
 }

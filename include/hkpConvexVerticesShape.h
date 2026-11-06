@@ -45,8 +45,8 @@ public:
     void AssignReference(hkpConvexVerticesConnectivity* connectivity, bool update);
     void AssignReference(RefObj* connectivity, bool update);
 
-    void FUN_00d58ee0(const MatchVector& direction, MatchVector& supportingVertexOut) const;
-    hkBoolRet FUN_00d592a0(const RayInput& input, RayOutput& output);
+    void hkpConvexVerticesShape_getSupportingVertexImpl(const MatchVector& direction, MatchVector& supportingVertexOut) const;
+    hkBoolRet hkpConvexVerticesShape_castRayImpl(const RayInput& input, RayOutput& output);
     void FUN_00d59200(hkArray<hkVector4>& vertices) const;
     void FUN_00d59200(hkArrayq<hkVector4q>& vertices) const throw();
     void FUN_00d59870();

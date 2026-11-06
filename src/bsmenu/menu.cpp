@@ -1154,7 +1154,7 @@ void __cdecl FUN_00a02d40(CompressedEntry* apEntry);
 void __cdecl FUN_00406d00(char* apBuffer, unsigned int auiSize, const char* apFormat, const char* apName,
                           unsigned int auiLength);
 void __cdecl FUN_0040fbe0(const char* apText);
-void __cdecl FUN_00aa10f0(void* apMem);
+void __cdecl _NiFree_00aa10f0(void* apMem);
 void* __cdecl FUN_00ec61c0(void* apDst, int aiValue, unsigned int auiSize);
 int __cdecl FUN_00ec65a6(char* apDst, unsigned int auiSize, const char* apSrc);
 
@@ -1222,7 +1222,7 @@ struct EntryArray
     }
     static void Deallocate(void* apMem)
     {
-        FUN_00aa10f0(apMem);
+        _NiFree_00aa10f0(apMem);
     }
     EntryArray()
     {
@@ -1249,7 +1249,7 @@ struct NameArray
     }
     static void Deallocate(void* apMem)
     {
-        FUN_00aa10f0(apMem);
+        _NiFree_00aa10f0(apMem);
     }
     NameArray()
     {

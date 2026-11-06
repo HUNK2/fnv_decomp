@@ -34,12 +34,12 @@ extern "C" LocalM128 _mm_set_ps1(float);
 
 
 extern char const* const g_01268970_arg1;
-void __cdecl FUN_00c90360(char const* const* arg1, char const* const* arg2);
+void __cdecl hkReferencedObject_calcContentStatistics(char const* const* arg1, char const* const* arg2);
 
 // @fnv 0x00d22360
 void __cdecl FUN_00d22360(char const* const* arg1, char const* const* arg2)
 {
-    FUN_00c90360(arg1, &g_01268970_arg1);
+    hkReferencedObject_calcContentStatistics(arg1, &g_01268970_arg1);
 }
 
 // @fnv 0x00d22350

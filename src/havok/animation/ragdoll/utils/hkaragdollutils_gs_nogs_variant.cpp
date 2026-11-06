@@ -12,15 +12,16 @@
 
 extern "C"
 {
-    int __cdecl FUN_00cea030(void*, void*);
+    int __cdecl hkaRagdollUtils_reorderForRagdoll(void*, void*);
     int __cdecl FUN_00ce9db0(void*, void*);
     int __cdecl FUN_00ce9e90(void*);
 }
 
 // @fnv 0x00cea7c0
-int __cdecl FUN_00cea7c0(void* p1, void* p2, void* p3)
+// src: HAVOK_LIB 0x00cea7c0
+int __cdecl hkaRagdollUtils_reorderAndAlignForRagdoll(void* p1, void* p2, void* p3)
 {
-    if (FUN_00cea030(p1, p2))
+    if (hkaRagdollUtils_reorderForRagdoll(p1, p2))
         return 1;
     if (FUN_00ce9db0(p2, p3))
         return 1;
@@ -49,7 +50,7 @@ struct Counter
     int unk30;
 };
 extern "C" void __cdecl AssignNodeFlags(int, int, int);
-void __cdecl FUN_00ce9fa0(Container* c, int value, Counter* counter);
+void __cdecl hkaRagdollUtils_setCollisionLayer(Container* c, int value, Counter* counter);
 struct Inner
 {
     virtual void unk0();
@@ -160,7 +161,8 @@ struct Owner390
     Constraint390* data;
 };
 // @fnv 0x00ce9cf0
-static __declspec(noinline) void* FUN_00ce9cf0(Owner390* owner)
+// src: HAVOK_LIB 0x00ce9cf0
+static __declspec(noinline) void* _accessConstraintPivotB(Owner390* owner)
 {
     Constraint390* data = owner->data;
     switch (data->GetType())
@@ -199,7 +201,7 @@ static __declspec(noinline) void* FUN_00ce9cf0(Owner390* owner)
 }
 void* ConstraintData390(Owner390* owner)
 {
-    return FUN_00ce9cf0(owner);
+    return _accessConstraintPivotB(owner);
 }
 
 #include <xmmintrin.h>
@@ -243,7 +245,8 @@ static __declspec(noinline) bool IsSupportedRagdollConstraint(Obj* obj, bool rep
     return false;
 }
 
-static __declspec(noinline) RagdollVectorWords* FUN_00ce9c40(Obj* obj) throw()
+// src: HAVOK_LIB 0x00ce9c40
+static __declspec(noinline) RagdollVectorWords* _accessConstraintPivotA(Obj* obj) throw()
 {
     Inner* inner = obj->inner;
     int t = inner->getSomething();
@@ -252,7 +255,8 @@ static __declspec(noinline) RagdollVectorWords* FUN_00ce9c40(Obj* obj) throw()
     return 0;
 }
 
-static __declspec(noinline) Target* FUN_00ce9cf0(Obj* obj) throw()
+// src: HAVOK_LIB 0x00ce9cf0
+static __declspec(noinline) Target* _accessConstraintPivotB(Obj* obj) throw()
 {
     Inner* inner = obj->inner;
     int t = inner->getSomething();
@@ -274,9 +278,9 @@ extern "C" int __cdecl FUN_00ce9e90(void* p)
             char* shape = b->shape;
             char* owner = b->owner;
             RagdollVectorWords v = *(RagdollVectorWords*)(shape + 0x120);
-            RagdollVectorWords* vel = FUN_00ce9c40(b);
+            RagdollVectorWords* vel = _accessConstraintPivotA(b);
             *(__m128*)vel = _mm_setzero_ps();
-            Target* target = FUN_00ce9cf0(b);
+            Target* target = _accessConstraintPivotB(b);
             target->FUN_00c7f690(owner + 0xf0, &v);
         }
         if (b->inner->getSomething() == 8)

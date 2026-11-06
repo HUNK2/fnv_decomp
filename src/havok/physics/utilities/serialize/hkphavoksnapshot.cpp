@@ -98,13 +98,14 @@ struct CC0D30Registry
 
 extern CC0D30Registry g_CC0D30DefaultRegistry;
 
-CC0D30Result __cdecl FUN_00cc0bc0(const void* data, const CC0D30Registry& registry, const void* pClassInfo, void* out,
+CC0D30Result __cdecl hkpHavokSnapshot_saveUnderRootLevel(const void* data, const CC0D30Registry& registry, const void* pClassInfo, void* out,
                                   int flags);
 
 // @fnv 0x00cc0d30
-CC0D30Result __cdecl FUN_00cc0d30(const void* data, const void* pClassInfo, void* out, int flags)
+// src: HAVOK_LIB 0x00cc0d30
+CC0D30Result __cdecl hkpHavokSnapshot_save_00cc0d30(const void* data, const void* pClassInfo, void* out, int flags)
 {
-    return FUN_00cc0bc0(data, g_CC0D30DefaultRegistry, pClassInfo, out, flags);
+    return hkpHavokSnapshot_saveUnderRootLevel(data, g_CC0D30DefaultRegistry, pClassInfo, out, flags);
 }
 
 struct S_00cc0d60_R
@@ -122,12 +123,13 @@ struct S_00cc0d60_A
     int unk10;
     int unk14;
     void FUN_00d4c220();
-    void FUN_00d4c2d0(void* a, int b);
+    void hkpPhysicsData_populateFromWorld(void* a, int b);
     void FUN_00d4c250();
 };
-S_00cc0d60_R* FUN_00cc0d30(void** pa, S_00cc0d60_A* a, void* b, int c, int d);
+S_00cc0d60_R* hkpHavokSnapshot_save_00cc0d30(void** pa, S_00cc0d60_A* a, void* b, int c, int d);
 // @fnv 0x00cc0d60
-S_00cc0d60_R FUN_00cc0d60(void* a2, void* a3, int a4, int a5, int a6)
+// src: HAVOK_LIB 0x00cc0d60
+S_00cc0d60_R hkpHavokSnapshot_save_00cc0d60(void* a2, void* a3, int a4, int a5, int a6)
 {
     S_00cc0d60_R res;
     void* c;
@@ -136,8 +138,8 @@ S_00cc0d60_R FUN_00cc0d60(void* a2, void* a3, int a4, int a5, int a6)
     {
         S_00cc0d60_A obj;
         obj.FUN_00d4c220();
-        obj.FUN_00d4c2d0(c, a6);
-        char r = FUN_00cc0d30(&a2, &obj, a3, a4, a5)->v;
+        obj.hkpPhysicsData_populateFromWorld(c, a6);
+        char r = hkpHavokSnapshot_save_00cc0d30(&a2, &obj, a3, a4, a5)->v;
         obj.FUN_00d4c250();
         res.v = r;
     }
@@ -201,7 +203,7 @@ struct Obj80
 
 struct TypeMatcher
 {
-    hkBool FUN_00d46d80(void* v);
+    hkBool hkClass_isSuperClass(void* v);
 };
 
 struct GlobalObjectO2_00d472a0 : TypeMatcher
@@ -230,7 +232,7 @@ void FUN_00cc08f0_cls::FUN_00cc08f0(void** a1, void** a2)
 {
     void** cur = a2;
 
-    if (g_01268f2c.FUN_00d46d80(*cur))
+    if (g_01268f2c.hkClass_isSuperClass(*cur))
     {
         if (*cur != (void*)&g_01268eb4)
         {
@@ -251,7 +253,7 @@ void FUN_00cc08f0_cls::FUN_00cc08f0(void** a1, void** a2)
             cur = a2;
         }
     }
-    if (g_01268e24.FUN_00d46d80(*cur))
+    if (g_01268e24.hkClass_isSuperClass(*cur))
     {
         if (*cur != (void*)&g_01268d4c)
         {
@@ -272,7 +274,7 @@ void FUN_00cc08f0_cls::FUN_00cc08f0(void** a1, void** a2)
             return;
         }
     }
-    if (g_01268c5c.FUN_00d46d80(*cur))
+    if (g_01268c5c.hkClass_isSuperClass(*cur))
     {
         void* v = *a1;
         if (((unsigned char*)v)[0x1d] == 2)
@@ -293,7 +295,7 @@ void FUN_00cc08f0_cls::FUN_00cc08f0(void** a1, void** a2)
         }
         return;
     }
-    if (g_01268bcc.FUN_00d46d80(*cur))
+    if (g_01268bcc.hkClass_isSuperClass(*cur))
     {
         void* v = *a1;
         unsigned int* back = (unsigned int*)((unsigned int*)v)[2];
@@ -398,7 +400,8 @@ struct InputBool223
 };
 // Calls FUN_00d485a0 with a2, a3, a4, (bool)a5 and ctx (or a local object if null), stores whether it returned 0 into *out, and returns out.
 // @fnv 0x00cc0b50
-unsigned char* FUN_00cc0b50(unsigned char* apResult, unsigned int a2, unsigned int a3, unsigned int a4,
+// src: HAVOK_LIB 0x00cc0b50
+unsigned char* hkpHavokSnapshot_save(unsigned char* apResult, unsigned int a2, unsigned int a3, unsigned int a4,
                             InputBool223 abFlag, unsigned int unk2c, SpawnedObject* ctx)
 {
     SpawnedObject* pCtx = ctx;

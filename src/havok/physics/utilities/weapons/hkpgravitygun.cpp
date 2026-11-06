@@ -388,7 +388,8 @@ struct GunListener
 
 // Dispatches a gun action to listeners based on b1/b2 and picked-body capacity, then calls FUN_00e45c90 with dt, a4, a3.
 // @fnv 0x00e46140
-void hkpGravityGun::FUN_00e46140(hkReal dt, hkpWorld* world, GunArg3* a3, GunTransform* apGunTransform, bool b1,
+// src: HAVOK_SRC 0x00e46140
+void hkpGravityGun::stepGun(hkReal dt, hkpWorld* world, GunArg3* a3, GunTransform* apGunTransform, bool b1,
                                    bool b2)
 {
     hkVector4 v1;
@@ -453,7 +454,7 @@ void hkpGravityGun::FUN_00e46000(hkpRigidBody* apEntity)
     m_kPickedBodies.pushBack(apEntity);
     float w = apEntity->m_pMotionState.m_kInertiaAndMassInv.getW();
     float f = (float)(w * 100.0);
-    apEntity->FUN_00ca88e0(f);
+    apEntity->hkpRigidBody_setMassInv(f);
 }
 
 extern "C" __m128 _mm_setr_ps(float, float, float, float);

@@ -53,11 +53,12 @@ struct FUN_00e04ea0_class
 {
     char _pad[0xc];
     D481D0Class* p;
-    const char* FUN_00e04ea0();
+    const char* hkObjectResource_getContentsTypeName();
 };
 
 // @fnv 0x00e04ea0
-const char* FUN_00e04ea0_class::FUN_00e04ea0()
+// src: HAVOK_SRC 0x00e04ea0
+const char* FUN_00e04ea0_class::hkObjectResource_getContentsTypeName()
 {
     return p->getName();
 }
@@ -82,7 +83,7 @@ FUN_00e05090_class* FUN_00e05090_class::FUN_00e05090(int flags)
     return this;
 }
 
-int __cdecl FUN_00cb0fa0(int, int);
+int __cdecl hkString_strCmp(int, int);
 
 class FUN_00d46d40_s
 {
@@ -90,15 +91,16 @@ class FUN_00d46d40_s
     const char* FUN_00d46d40();
     FUN_00d46d40_s* FUN_00d46d50();
 
-    hkBool FUN_00d46d80(FUN_00d46d40_s* pkNode);
+    hkBool hkClass_isSuperClass(FUN_00d46d40_s* pkNode);
 };
 
 // @fnv 0x00d46d80
-hkBool FUN_00d46d40_s::FUN_00d46d80(FUN_00d46d40_s* pkNode)
+// src: HAVOK_LIB 0x00d46d80
+hkBool FUN_00d46d40_s::hkClass_isSuperClass(FUN_00d46d40_s* pkNode)
 {
     while (pkNode)
     {
-        if (FUN_00cb0fa0((int)pkNode->FUN_00d46d40(), (int)FUN_00d46d40()) == 0)
+        if (hkString_strCmp((int)pkNode->FUN_00d46d40(), (int)FUN_00d46d40()) == 0)
             return true;
         pkNode = pkNode->FUN_00d46d50();
     }
@@ -127,11 +129,12 @@ struct FUN_00e04e70_class
     int unknown04;
     void* value08;
     void* value0c;
-    int FUN_00e04e70(void* first, void* second);
+    int hkObjectResource_stealContentsPointer(void* first, void* second);
 };
 // Calls vf6 with the two arguments, clears value08 and value0c, and returns the result of vf6.
 // @fnv 0x00e04e70
-int FUN_00e04e70_class::FUN_00e04e70(void* first, void* second)
+// src: HAVOK_SRC 0x00e04e70
+int FUN_00e04e70_class::hkObjectResource_stealContentsPointer(void* first, void* second)
 {
     int result = vf6(first, second);
     value08 = 0;
@@ -205,7 +208,7 @@ struct ListenerVTable_00e04f80
 
 struct Registry_00e04f80
 {
-    char* FUN_00d46d80(char* status, Resource_00e04f80* resource);
+    char* hkClass_isSuperClass(char* status, Resource_00e04f80* resource);
 };
 
 extern Registry_00e04f80 DAT_01268748;
@@ -233,7 +236,7 @@ void FUN_00e04f80_class::ReleaseResource()
     if (oldResource)
     {
         char status;
-        if (*DAT_01268748.FUN_00d46d80(&status, oldResource))
+        if (*DAT_01268748.hkClass_isSuperClass(&status, oldResource))
         {
             owner->removeReference();
         }
@@ -271,7 +274,7 @@ namespace fnv_00e05030 {
 struct FUN_00d46d40_s
 {
     const char* FUN_00d46d40();
-    hkBool FUN_00d46d80(FUN_00d46d40_s* other);
+    hkBool hkClass_isSuperClass(FUN_00d46d40_s* other);
 };
 
 struct Registry
@@ -304,7 +307,7 @@ void* MyClass::LookupByName(const char* pcName, hkBool abMatch)
         const char* n = unk0C->getName();
         FUN_00d46d40_s* node1 = reg->GetClassByName(n);
         FUN_00d46d40_s* node2 = reg->GetClassByName(pcName);
-        abMatch = node2->FUN_00d46d80(node1);
+        abMatch = node2->hkClass_isSuperClass(node1);
         if (abMatch.m_cBooleanValue)
             return unk08;
         return 0;

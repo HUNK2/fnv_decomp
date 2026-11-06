@@ -166,7 +166,7 @@ void* __thiscall NiFragmentShaderInstanceDescriptor::FUN_00e8d540(unsigned int f
 }
 
 extern BSShaderBloodSplatter* DAT_0126f74c;
-int __fastcall FUN_00b79950(char*, int, NiRefObject*);
+int __fastcall NiD3DPass_SetVertexShader(char*, int, NiRefObject*);
 struct FUN_00e8d5f0_Param
 {
     char _0[8];
@@ -184,7 +184,7 @@ bool __stdcall ProcessShaderParam(unsigned int a1, FUN_00e8d5f0_Param* pParam, v
     switch (pParam->m8)
     {
     case 0:
-        FUN_00b79950((char*)p, (int)pParam, (NiRefObject*)pParam);
+        NiD3DPass_SetVertexShader((char*)p, (int)pParam, (NiRefObject*)pParam);
         break;
     case 2:
         p->FUN_00b80600((NiRefObject*)pParam);

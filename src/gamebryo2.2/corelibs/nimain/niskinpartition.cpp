@@ -320,7 +320,7 @@ struct FUN_00a81ff0_elem
     int m_20;
     int m_24;
     int m_28;
-    bool FUN_00a81c90(const FUN_00a81ff0_elem* other);
+    bool NiSkinPartition_Partition_IsEqual(const FUN_00a81ff0_elem* other);
 };
 
 struct FUN_00a81ff0_cls
@@ -348,7 +348,7 @@ bool FUN_00a81ff0_cls::Equals(const FUN_00a81ff0_cls* other)
         int iOffset = (int)other->m_pElements - (int)m_pElements;
         do
         {
-            if (!a->FUN_00a81c90((FUN_00a81ff0_elem*)((int)a + iOffset)))
+            if (!a->NiSkinPartition_Partition_IsEqual((FUN_00a81ff0_elem*)((int)a + iOffset)))
                 return false;
             i++;
             a++;
@@ -676,10 +676,11 @@ __forceinline bool EqualBuffers(const void* right, const void* left, unsigned in
 }
 struct PartitionCompare : NiSkinPartition::Partition
 {
-    bool FUN_00a81c90(const PartitionCompare* other);
+    bool NiSkinPartition_Partition_IsEqual(const PartitionCompare* other);
 };
 // @fnv 0x00a81c90
-bool PartitionCompare::FUN_00a81c90(const PartitionCompare* other)
+// src: GAMEBRYO_LIB 0x00a81c90
+bool PartitionCompare::NiSkinPartition_Partition_IsEqual(const PartitionCompare* other)
 {
     if (m_usVertices != other->m_usVertices)
         return false;
@@ -1622,7 +1623,7 @@ struct ScriptProgram
 __declspec(nothrow) void* __cdecl NiMalloc(unsigned int);
 __declspec(nothrow) void __cdecl NiFreeAlias(void*);
 extern MemoryManager _g_memoryManager;
-int __cdecl FUN_00a81b80(const unsigned short*, const unsigned short*);
+int __cdecl NiSkinData_BoneVertData_Compare(const unsigned short*, const unsigned short*);
 void __cdecl FUN_00ec6f20(void*, unsigned int, unsigned int,
                           int(__cdecl*)(const unsigned short*, const unsigned short*));
 template <class T> struct BoneArray
@@ -1746,7 +1747,7 @@ void __stdcall BuildBoneLODControllerSets(ScriptProgram* mesh, BoneWeights* weig
                                     set->Add(bone);
                             }
                         }
-                        FUN_00ec6f20(set->data, set->count, 2, FUN_00a81b80);
+                        FUN_00ec6f20(set->data, set->count, 2, NiSkinData_BoneVertData_Compare);
                     }
                 }
                 if (!found)
@@ -1762,7 +1763,7 @@ void __stdcall BuildBoneLODControllerSets(ScriptProgram* mesh, BoneWeights* weig
                                 set->Add(bone);
                         }
                     }
-                    FUN_00ec6f20(set->data, set->count, 2, FUN_00a81b80);
+                    FUN_00ec6f20(set->data, set->count, 2, NiSkinData_BoneVertData_Compare);
                     sets->Add(set);
                 }
             }
@@ -1791,7 +1792,7 @@ void __stdcall BuildBoneLODControllerSets(ScriptProgram* mesh, BoneWeights* weig
                         }
                     }
                 }
-                FUN_00ec6f20(set->data, set->count, 2, FUN_00a81b80);
+                FUN_00ec6f20(set->data, set->count, 2, NiSkinData_BoneVertData_Compare);
                 unsigned int index = 0;
                 while (index < sets->count)
                 {

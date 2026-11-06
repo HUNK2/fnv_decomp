@@ -132,19 +132,19 @@ struct FUN_00d2f220_class
     int* p;
     int __thiscall InitializeWithGlobal(int a);
 };
-void __cdecl FUN_00d365d0();
+void __cdecl hkpCollectionAgent3_process();
 void __cdecl FUN_00da6fd0(int);
-void __cdecl FUN_00d367b0(int param_1);
-extern "C" void __cdecl FUN_00d36b70();
+void __cdecl hkpCollectionAgent3_initAgentFunc(int param_1);
+extern "C" void __cdecl hkpListAgent_createListBAgent();
 extern "C" void __cdecl FUN_00d34790();
 extern "C" void __cdecl QueryClosestPoints();
 extern "C" void __cdecl FUN_00d34810();
-void __cdecl FUN_00d36bb0(void** p);
-extern "C" void __cdecl FUN_00d36be0();
-extern "C" void __cdecl FUN_00d43dc0();
+void __cdecl hkpListAgent_initAgentFuncInverse(void** p);
+extern "C" void __cdecl hkpListAgent_createListAAgent();
+extern "C" void __cdecl hkpShapeCollectionAgent_staticGetPenetrations();
 extern "C" void __cdecl GetClosestPointsShapeCollection();
-extern "C" void __cdecl FUN_00d43b90();
-void __cdecl FUN_00d36c30(void* p);
+extern "C" void __cdecl hkpShapeCollectionAgent_staticLinearCast();
+void __cdecl hkpListAgent_initAgentFunc(void* p);
 void CreateRetObj();
 void FUN_00d3d3e0();
 void FUN_00d3d8c0();
@@ -170,29 +170,29 @@ struct CollisionAgentFunctionTable {
 struct Agent {
     void FUN_00cfbbe0(CollisionAgentFunctionTable*, int, int);
 };
-void __cdecl FUN_00d2e680();
+void __cdecl hkpBvTreeStreamAgent_createBvTreeShapeAgent();
 void __cdecl FUN_00d2e970();
 void __cdecl FUN_00d2e9b0();
 void __cdecl FUN_00d2daf0();
-void __cdecl FUN_00d2df50();
-void __cdecl FUN_00d312f0();
-void __cdecl FUN_00d31110();
+void __cdecl hkpBvTreeStreamAgent_createShapeBvAgent();
+void __cdecl hkpBvTreeAgent_staticGetPenetrations();
+void __cdecl hkpBvTreeAgent_staticGetClosestPoints();
 void __cdecl FUN_00d2f0d0();
 void __cdecl CreateAgentForBodyPair();
-void __cdecl FUN_00d2dc70(Agent* a);
+void __cdecl hkpMoppBvTreeStreamAgent_registerAgent(Agent* a);
 void ReplaceEntry(int param_1, int param_2, int param_3, unsigned short param_4);
 struct FUN_00d27f50_Obj {
     void __thiscall Insert(int a, int b, int c);
     void __thiscall FUN_00d27f50(int param_1, int param_2);
 };
-struct LinkedIndexArray { int** entries; int count; void FUN_00d280e0(); };
+struct LinkedIndexArray { int** entries; int count; void hkUnionFind_collapseTree(); };
 inline void* __cdecl operator new(unsigned int, void* p) { return p; }
 struct IndexBuffer { int* data; int size; unsigned capacityFlags; };
 struct IndexStorage { int* data; };
 struct AllocationManager { int unk00; int unk04; int unk08; int unk0C; void* allocator; };
 AllocationManager* __cdecl FUN_00c85750();
 void __cdecl ResizeAudioStream(void*, IndexBuffer*, int);
-struct IndexRemapper { IndexStorage* entries; int length; void FUN_00d280e0(); void RemapIndices(IndexBuffer*); };
+struct IndexRemapper { IndexStorage* entries; int length; void hkUnionFind_collapseTree(); void RemapIndices(IndexBuffer*); };
 void ArrayReserveImpl(void* mem, void* arr, int numElem, int elemSize);
 static __forceinline void IntArrayStub_reserveWith(hkArrayBase<int>& self, void* mem, int n)
 {
@@ -229,17 +229,17 @@ class D2F2C0Dispatcher {
 public:
     void registerCollisionAgent(D2F2C0AgentFuncs& f, int typeA, int typeB);
 };
-void __cdecl FUN_00d2fa00();
+void __cdecl hkpBvTreeAgent_createBvTreeShapeAgent();
 void __cdecl FUN_00d2e970();
 void __cdecl FUN_00d2e9b0();
 void __cdecl FUN_00d2daf0();
-void __cdecl FUN_00d2f9d0();
-void __cdecl FUN_00d312f0();
-void __cdecl FUN_00d31110();
+void __cdecl hkpBvTreeAgent_createShapeBvAgent();
+void __cdecl hkpBvTreeAgent_staticGetPenetrations();
+void __cdecl hkpBvTreeAgent_staticGetClosestPoints();
 void __cdecl FUN_00d2f0d0();
 void __cdecl CreateAgentForBodyPair();
-void __cdecl FUN_00d2f2c0(D2F2C0Dispatcher* dispatcher);
-struct CallTarget_00d2f760 { int FUN_00d2f760(int, int, int, int); };
+void __cdecl hkpMoppAgent_registerAgent(D2F2C0Dispatcher* dispatcher);
+struct CallTarget_00d2f760 { int hkpBvTreeAgent_updateShapeCollectionFilter(int, int, int, int); };
 struct SearchObject {
     int FUN_00d2f3d0(unsigned int arg0, unsigned int arg1, unsigned int arg2, unsigned int arg3);
 };
@@ -247,7 +247,7 @@ struct FnvCpu_FUN_00d31730_CpuCallData { void* descriptor; float bound; unsigned
 extern float DAT_0104da48;
 extern unsigned char DAT_010ce7fc;
 struct FnvCpu_FUN_00d31730_CpuObject {
-    void FUN_00d315d0(void*, void*, unsigned int, FnvCpu_FUN_00d31730_CpuCallData*);
+    void hkpBvTreeAgent_getClosestPoints(void*, void*, unsigned int, FnvCpu_FUN_00d31730_CpuCallData*);
     void FUN_00d31730(void*, void*, unsigned int, unsigned int);
 };
 extern "C" void __cdecl InitBlockPool(void* p);
@@ -272,7 +272,7 @@ struct FnvCpu_FUN_00d36ce0_CpuCallData { void* descriptor; float bound; unsigned
 extern float DAT_0104da48;
 extern unsigned char DAT_010ce7fc;
 struct FnvCpu_FUN_00d36ce0_CpuObject {
-    void FUN_00d36940(void*, void*, unsigned int, FnvCpu_FUN_00d36ce0_CpuCallData*);
+    void hkpListAgent_getClosestPoints(void*, void*, unsigned int, FnvCpu_FUN_00d36ce0_CpuCallData*);
     void FUN_00d36ce0(void*, void*, unsigned int, unsigned int);
 };
 extern float DAT_0104da48;
@@ -286,7 +286,7 @@ public:
 };
 class D37B90Agent {
 public:
-    void FUN_00d37010(void* pkA, void* pkB, void* pkInput, D37B90Collector* pkCollector);
+    void hkpMultiRayConvexAgent_getClosestPoints(void* pkA, void* pkB, void* pkInput, D37B90Collector* pkCollector);
     void FUN_00d37b90(void* pkA, void* pkB, void* pkInput, int iFilter);
 };
 void __cdecl ReleaseHandles(int a1, int a2, int a3, int a4);
@@ -295,7 +295,7 @@ struct FnvCpu_FUN_00d3f480_CpuCallData { void* descriptor; float bound; unsigned
 extern float DAT_0104da48;
 extern unsigned char DAT_010ce7fc;
 struct FnvCpu_FUN_00d3f480_CpuObject {
-    void FUN_00d3e850(void*, void*, unsigned int, FnvCpu_FUN_00d3f480_CpuCallData*);
+    void hkpSphereCapsuleAgent_getClosestPoints(void*, void*, unsigned int, FnvCpu_FUN_00d3f480_CpuCallData*);
     void FUN_00d3f480(void*, void*, unsigned int, unsigned int);
 };
 extern float DAT_0104da48;
@@ -307,7 +307,7 @@ struct S_00d3f4c0_Obj {
 };
 void* __cdecl FUN_00d3ebe0(void* a, void* b, void* c, S_00d3f4c0_Obj* o);
 void* __cdecl FUN_00d3f4c0(void* a, void* b, void* c, int d);
-void __cdecl FUN_00d3fce0(CollisionAgentFunctionTable*);
+void __cdecl hkpSphereSphereAgent_initAgentFunc(CollisionAgentFunctionTable*);
 void __cdecl FUN_00d3fd00(Agent* agent);
 struct FUN_00d3fd60_cls_Entry { unsigned short m_key; unsigned short m_uiFilterValue; };
 struct FUN_00d3fd60_cls
@@ -439,7 +439,7 @@ struct D27690_Modifier {
     unsigned short m_childResult;
     D27690_Atom* m_pChildAtom;
 
-    void FUN_00d22090(D27690_ConstraintInfo* info, unsigned char* flags);
+    void addModifierDataToConstraintInfo(D27690_ConstraintInfo* info, unsigned char* flags);
 };
 struct D27690_Entity {
     int unk000; int unk004; int unk008; int unk00C;
@@ -495,7 +495,7 @@ struct D27690_Owner {
     int unk08;
     int m_iElementCount;
 
-    void FUN_00cb7480(void* unk, D27690_ConstraintInfo* info);
+    void hkpConstraintOwner_subConstraintInfo(void* unk, D27690_ConstraintInfo* info);
 };
 struct D27690_Allocator {
     virtual void v00();
@@ -503,7 +503,7 @@ struct D27690_Allocator {
     virtual void ReleaseBlock(void* p, int size);
 };
 extern unsigned short DAT_010cb7a8;
-void __cdecl FUN_00d27690(D27690_Instance* instance, D27690_Owner* owner, unsigned int modifierType);
+void __cdecl hkpWorldConstraintUtil_removeAndDeleteModifier(D27690_Instance* instance, D27690_Owner* owner, unsigned int modifierType);
 struct Base {
     int unk4;
     char m_8;
@@ -577,7 +577,7 @@ struct FUN_00d277f0_arg
     int unk0c;
     FUN_00d277f0_node* unk10;
 };
-FUN_00d277f0_node* __cdecl FUN_00d277f0(FUN_00d277f0_arg* a);
+FUN_00d277f0_node* __cdecl hkpWorldConstraintUtil_findLastModifier(FUN_00d277f0_arg* a);
 struct FUN_00d61840_class {
     int m_iWordAt00;
     int __thiscall FUN_00d61c10(int a);
@@ -589,11 +589,11 @@ struct PathHelper {
 
     void __thiscall FUN_00d61c10(const char* s);
     void __thiscall ReplaceChar(char from, char to, int all);
-    void __thiscall FUN_00d62190(const char* from, const char* to, int all);
+    void __thiscall hkStringBuf_replace(const char* from, const char* to, int all);
     int __thiscall FUN_00d61560(const char* s);
     void __thiscall RemoveFront(int count);
 };
-const char* __cdecl FUN_00d2b360(const char* path, PathHelper* str);
+const char* __cdecl hkNativeFileSystem_nativePlatformToHavokConvertPath(const char* path, PathHelper* str);
 struct FnvCpu_FUN_00d2c7d0_CpuInterface {
     virtual void Invoke(int value);
 };
@@ -642,13 +642,13 @@ struct FnvCpu_FUN_00d329b0_CpuCallData { void* descriptor; float bound; unsigned
 extern float DAT_0104da48;
 extern unsigned char DAT_010ce7fc;
 struct FnvCpu_FUN_00d329b0_CpuObject {
-    void FUN_00d32170(void*, void*, unsigned int, FnvCpu_FUN_00d329b0_CpuCallData*);
+    void hkpHeightFieldAgent_getClosestPoints(void*, void*, unsigned int, FnvCpu_FUN_00d329b0_CpuCallData*);
     void DispatchWithBound(void*, void*, unsigned int, unsigned int);
 };
 int __cdecl FUN_00d32ac0(int param_1, int param_2);
 void* __cdecl FUN_00d32ad0(int unused, char* p);
 extern int DAT_010ce81c;
-void __cdecl FUN_00d33b90(int b, int a, int c, SpawnedBuf* buffer);
+void __cdecl hkpConvexListAgent_staticGetPenetrations(int b, int a, int c, SpawnedBuf* buffer);
 void __cdecl InitSpawnedBuffer(int a, int b, int c, int d);
 struct FUN_00d34aa0_Obj {
     virtual void vf00();
@@ -660,14 +660,14 @@ struct FUN_00d34aa0_Obj {
     virtual void vf18();
     virtual void vf1C();
 
-    void __thiscall FUN_00d338e0(int a, int b, int c, int d);
+    void __thiscall hkpConvexListAgent_updateShapeCollectionFilter(int a, int b, int c, int d);
     virtual void __thiscall FUN_00d34aa0(int a, int b, int c, int d);
 };
 struct FnvCpu_FUN_00d34b00_CpuCallData { void* descriptor; float bound; unsigned int value; };
 extern float DAT_0104da48;
 extern unsigned char DAT_010ce7fc;
 struct FnvCpu_FUN_00d34b00_CpuObject {
-    void FUN_00d33b70(void*, void*, unsigned int, FnvCpu_FUN_00d34b00_CpuCallData*);
+    void hkpConvexListAgent_getClosestPoints(void*, void*, unsigned int, FnvCpu_FUN_00d34b00_CpuCallData*);
     void DispatchCpuCall(void*, void*, unsigned int, unsigned int);
 };
 void RemoveKeyFromTable(int, unsigned short* table, unsigned short key);
@@ -746,7 +746,7 @@ struct D3FD30Funcs {
     bool m_bA;
     bool m_bB;
 };
-void __cdecl FUN_00d3fce0(D3FD30Funcs* pkFuncs);
+void __cdecl hkpSphereSphereAgent_initAgentFunc(D3FD30Funcs* pkFuncs);
 class D3FD30Dispatcher {
 public:
     void AddSpawnEntry(D3FD30Funcs* pkFuncs, int iA, int iB);
@@ -804,7 +804,7 @@ struct D34ac0Struct {
     void* g;
 };
 struct FUN_00d33c80_class {
-    void FUN_00d33c80(void* a, void* b, void* c, void* d);
+    void hkpConvexListAgent_getPenetrations(void* a, void* b, void* c, void* d);
     void FUN_00d34ac0(void* a, void* b, void* c, void* d);
 };
 struct D3C380_Allocator {

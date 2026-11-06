@@ -2005,12 +2005,12 @@ struct VObj
     virtual void Mid1();
     virtual void Mid2();
     virtual int Call3();
-    void FUN_00a5c480(void*);
+    void NiObjectNET_RemoveController(void*);
 };
 struct AVObj
 {
-    void* FUN_00a5c570(void*);
-    void FUN_00a5c480(void*);
+    void* NiObjectNET_GetController(void*);
+    void NiObjectNET_RemoveController(void*);
     void FUN_0048fef0(float);
     void ClearEntries();
     VObj* FUN_0055b980();
@@ -2148,12 +2148,12 @@ FUN_0048fb50::~FUN_0048fb50()
     DAT_011c3b3c->FUN_00445430(this);
     if (mD8.FUN_00559450())
     {
-        ctrlA_b = m8.FUN_00559450() ? m8.FUN_00559450()->FUN_00a5c570((void*)&DAT_011f36bc) : 0;
-        ctlB0 = m8.FUN_00559450() ? m8.FUN_00559450()->FUN_00a5c570((void*)&DAT_011f36e4) : 0;
+        ctrlA_b = m8.FUN_00559450() ? m8.FUN_00559450()->NiObjectNET_GetController((void*)&DAT_011f36bc) : 0;
+        ctlB0 = m8.FUN_00559450() ? m8.FUN_00559450()->NiObjectNET_GetController((void*)&DAT_011f36e4) : 0;
         if (ctrlA_b)
-            m8.FUN_00559450()->FUN_00a5c480(ctrlA_b);
+            m8.FUN_00559450()->NiObjectNET_RemoveController(ctrlA_b);
         if (ctlB0)
-            m8.FUN_00559450()->FUN_00a5c480(ctlB0);
+            m8.FUN_00559450()->NiObjectNET_RemoveController(ctlB0);
         mD8.FUN_00559450()->FUN_0048fef0(0.0f);
         mD8.FUN_00559450()->ClearEntries();
         objP_c = mD8.FUN_00559450()->FUN_0055b980();
@@ -2162,7 +2162,7 @@ FUN_0048fb50::~FUN_0048fb50()
             if (objP_c->Call3())
             {
                 acopyP = objP_c;
-                acopyP->FUN_00a5c480(mD8.FUN_00559450());
+                acopyP->NiObjectNET_RemoveController(mD8.FUN_00559450());
             }
         }
         mD8.FUN_0066b0d0(0);

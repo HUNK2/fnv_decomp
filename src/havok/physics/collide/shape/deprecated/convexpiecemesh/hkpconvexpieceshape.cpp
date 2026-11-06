@@ -341,12 +341,13 @@ struct S_00e609c0_ConvexPieceShape : S_00e609c0_Shape {
     unsigned int* m_keys;
     int m_numKeys;
 
-    S_00e609c0_Bool FUN_00e609c0(const S_00e609c0_RayInput& input, S_00e609c0_RayOutput& results) const;
+    S_00e609c0_Bool hkpConvexPieceShape_castRayImpl(const S_00e609c0_RayInput& input, S_00e609c0_RayOutput& results) const;
 };
 
 // Ray-casts each child shape whose filter allows it and, if any hit, sets results' key to the last hit index; returns whether any child was hit.
 // @fnv 0x00e609c0
-S_00e609c0_Bool S_00e609c0_ConvexPieceShape::FUN_00e609c0(const S_00e609c0_RayInput& input, S_00e609c0_RayOutput& results) const
+// src: HAVOK_LIB 0x00e609c0
+S_00e609c0_Bool S_00e609c0_ConvexPieceShape::hkpConvexPieceShape_castRayImpl(const S_00e609c0_RayInput& input, S_00e609c0_RayOutput& results) const
 {
     int hitIndex;
     S_00e609c0_Timer("TtrcConvxPiece", hitIndex);

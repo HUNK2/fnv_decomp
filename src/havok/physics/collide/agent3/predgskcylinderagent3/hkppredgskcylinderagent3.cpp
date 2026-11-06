@@ -241,7 +241,8 @@ struct D40AF0Mask
 };
 
 // @fnv 0x00d40af0
-static void __declspec(noinline) FUN_00d40af0(D40AF0State* pState, D40AF0Mask* pMask)
+// src: HAVOK_LIB 0x00d40af0
+static void __declspec(noinline) convertCylinderCacheToCapsuleCache(D40AF0State* pState, D40AF0Mask* pMask)
 {
     if (pMask->m_pHeadNode)
     {
@@ -274,14 +275,15 @@ static void __declspec(noinline) FUN_00d40af0(D40AF0State* pState, D40AF0Mask* p
 
 void D40AF0Caller(D40AF0State* s, D40AF0Mask* m)
 {
-    FUN_00d40af0(s, m);
+    convertCylinderCacheToCapsuleCache(s, m);
 }
 
 void __fastcall FUN_00c905b0(void* selfVal);
 
 // For k in 0..1, if vals[k] is non-null, calls FUN_00c905b0 on **slots[k] and then stores vals[k] into *slots[k].
 // @fnv 0x00d409d0
-static __declspec(noinline) void FUN_00d409d0(void** apValues, void** slots)
+// src: HAVOK_LIB 0x00d409d0
+static __declspec(noinline) void restoreOriginalShapesInCdBodies(void** apValues, void** slots)
 {
     for (int k = 0; k < 2; k++)
     {
@@ -299,7 +301,7 @@ void** volatile g_d409d0_slots;
 
 void d409d0_probe_caller(void)
 {
-    FUN_00d409d0(g_d409d0_vals, g_d409d0_slots);
+    restoreOriginalShapesInCdBodies(g_d409d0_vals, g_d409d0_slots);
 }
 
 inline void* operator new(unsigned int, void* p) throw()
@@ -367,7 +369,8 @@ struct D40A10Entry
 
 // For i in 0..1: if a[i] is set, builds a node via FUN_00d22590 into out[i], saves the object's old record in b[i] and replaces it with out[i]; else b[i] = 0.
 // @fnv 0x00d40a10
-static __declspec(noinline) void FUN_00d40a10(int* a, FNVTypeRecord** apRecords, FNVObject** apObjects,
+// src: HAVOK_LIB 0x00d40a10
+static __declspec(noinline) void replaceCylindersWithCapsulesInCdBodies(int* a, FNVTypeRecord** apRecords, FNVObject** apObjects,
                                               D40A10Entry* out)
 {
     FNVObject**& list = apObjects;
@@ -397,5 +400,5 @@ static __declspec(noinline) void FUN_00d40a10(int* a, FNVTypeRecord** apRecords,
 
 void D40A10Caller(int* a, FNVTypeRecord** b, FNVObject** objs, D40A10Entry* out)
 {
-    FUN_00d40a10(a, b, objs, out);
+    replaceCylindersWithCapsulesInCdBodies(a, b, objs, out);
 }

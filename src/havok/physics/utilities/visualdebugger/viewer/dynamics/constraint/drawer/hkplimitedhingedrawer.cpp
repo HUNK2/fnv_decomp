@@ -66,7 +66,7 @@ struct Allocator
     virtual void v3();
     virtual void freeBuffer(void*, int);
 };
-void __cdecl FUN_00c908c0(Allocator*, Array*, int, int);
+void __cdecl hkArrayUtil__reserve(Allocator*, Array*, int, int);
 unsigned __cdecl PackColorBigEndian(float, float, float, float);
 struct Display
 {
@@ -115,7 +115,7 @@ struct Viewer
     Shape shape;
     void FUN_00de47e0(Input*, Matrix*, Matrix*);
     void FUN_00de4530(int, int);
-    void FUN_00de44c0(int, int);
+    void hkpConstraintDrawer_drawPivots(int, int);
     void FUN_00de7a70(Input*, Display*, int, int);
 };
 __forceinline __m128 broadcast(float value)
@@ -140,7 +140,7 @@ void Viewer::FUN_00de7a70(Input* input, Display* display, int id, int tag)
     origin.FUN_00c7f640(&first, &data->v90);
     pivot.FUN_00c7f640(&second, &data->v50);
     FUN_00de4530(id, tag);
-    FUN_00de44c0(id, tag);
+    hkpConstraintDrawer_drawPivots(id, tag);
     AxisPair axes;
     DrawWork scratch;
     axes.axis.FUN_00c7f700(&m90, &data->v60);
@@ -180,7 +180,7 @@ void Viewer::FUN_00de7a70(Input* input, Display* display, int id, int tag)
                 capacity *= 2;
                 if (capacity <= 1)
                     capacity = 1;
-                FUN_00c908c0(allocator, &scratch.shapes, capacity, 4);
+                hkArrayUtil__reserve(allocator, &scratch.shapes, capacity, 4);
             }
             scratch.shapes.size = 1;
             scratch.shapes.data[0] = &shape;

@@ -90,7 +90,7 @@ int* __cdecl FUN_00a55500()
     return &g_011f4064;
 }
 
-void __fastcall FUN_00a36890(void*);
+void __fastcall NiBlendInterpolator_NiBlendInterpolator(void*);
 extern int DAT_011f4208;
 extern int DAT_011f420c;
 extern int DAT_011f4210;
@@ -104,7 +104,7 @@ void* __cdecl NiBlendQuaternionInterpolator_CreateObject()
     void* p = BSFadeNode::operator new(0x40);
     if (p)
     {
-        FUN_00a36890(p);
+        NiBlendInterpolator_NiBlendInterpolator(p);
         *(int**)((char*)p + 0) = &DAT_0109a3ac;
         *(int*)((char*)p + 0x30) = DAT_011f4208;
         *(int*)((char*)p + 0x34) = DAT_011f420c;
@@ -128,7 +128,7 @@ void* NiBlendQuaternionInterpolator::CloneInterpolator(void* kCloning)
     void* pkObject = BSFadeNode::operator new(0x40);
     if (pkObject)
     {
-        FUN_00a36890(pkObject);
+        NiBlendInterpolator_NiBlendInterpolator(pkObject);
         *(int*)pkObject = (int)&DAT_0109a3ac;
         *(NiQuadWords*)((char*)pkObject + 0x30) = *(NiQuadWords*)&DAT_011f4208;
     }

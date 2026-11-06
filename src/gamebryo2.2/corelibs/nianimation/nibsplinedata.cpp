@@ -56,7 +56,7 @@ void NiBSplineData::CalculateSplineValue(float time, float* value, unsigned int 
     int iCount, max;
     basis.Compute(time, iCount, max);
     float points[16];
-    FUN_00a89650(m_psCompactControlPoints + dimension * iCount + handle, dimension * 4, offset, halfRange, points,
+    NiCompUtility_DecompressFloatArray(m_psCompactControlPoints + dimension * iCount + handle, dimension * 4, offset, halfRange, points,
                  dimension * 4);
     unsigned int index = 0;
     time = basis.weights[0];

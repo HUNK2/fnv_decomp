@@ -70,7 +70,7 @@ void AxisDisplayOwner::FUN_00e10bf0(const hkVector4& pos, const hkMatrix3& rot, 
 extern "C" void _ReadWriteBarrier();
 
 char* __cdecl FUN_00c85690(hkMemory* alloc, int size);
-void __cdecl FUN_00c856c0(hkMemory* owner, char* data);
+void __cdecl hkMemoryRouter_easyFree(hkMemory* owner, char* data);
 
 extern __declspec(align(16)) float DAT_010c71e0[4];
 extern double DAT_0101ff48;
@@ -161,7 +161,7 @@ void CircleDrawer::FUN_00e10f60(float angle, __m128* base, __m128* a10, VectorAr
         drawer->DisplayLine(*(hkVector4*)(buf + i * 16), *(hkVector4*)(buf + (((i + 1) % count) * 16)), a1c, a24, a28);
     }
     h = hkThreadMemory::GetMonitorStream();
-    FUN_00c856c0(h->m_pMemoryAllocator, buf);
+    hkMemoryRouter_easyFree(h->m_pMemoryAllocator, buf);
 }
 
 namespace fnv_00e11180 {

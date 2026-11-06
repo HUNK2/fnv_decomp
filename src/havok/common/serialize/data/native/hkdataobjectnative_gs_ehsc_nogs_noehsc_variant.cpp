@@ -126,7 +126,7 @@ static __declspec(noinline) S00dbb260_Result* FUN_00dbb260(Pair* args, S00dbb260
     rec->unk06 = 0;
     rec->unk08 = 0;
     rec->vt = (int)DAT_010d6334;
-    rec->sub.FUN_00d873d0(*args);
+    rec->sub.Imath_Vec2_int_Vec2_int(*args);
     rec->world = world;
     return rec;
 }
@@ -208,7 +208,7 @@ class NativeDBC : public hkReferencedObject
     WorldDBC* world;
     NativeDBC(const Pair& p, WorldDBC* w) : zero(0), world(w)
     {
-        value.FUN_00d873d0(p);
+        value.Imath_Vec2_int_Vec2_int(p);
     }
 };
 static __declspec(noinline) NativeDBC* FUN_00dbb260(WorldDBC* world, Pair* value)

@@ -636,11 +636,12 @@ struct FUN_00e90d20_shell
 {
     char _pad[12];
     Target* m_pk;
-    int FUN_00e90d20(NiObject*);
+    int NiDX9TextureManager_GetFormatFromTexture(NiObject*);
 };
 // Returns the value at offset 0x24 of the object at pkObj+0x24, or 0x16 if absent or the cast fails the Check.
 // @fnv 0x00e90d20
-int FUN_00e90d20_shell::FUN_00e90d20(NiObject* pkObj)
+// src: GAMEBRYO_SRC 0x00e90d20
+int FUN_00e90d20_shell::NiDX9TextureManager_GetFormatFromTexture(NiObject* pkObj)
 {
     int* pk = *(int**)((char*)pkObj + 0x24);
     if (pk)

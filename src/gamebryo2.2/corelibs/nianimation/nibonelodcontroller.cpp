@@ -176,7 +176,8 @@ void* NiBoneLODController::FUN_00a553f0(unsigned int flags)
 
 // Calls NiObject::LinkObject, saves m_iLOD, sets m_iLOD to -1, then passes the saved value to FUN_00a541f0.
 // @fnv 0x00a54340
-void NiBoneLODController::FUN_00a54340(NiStream& kStream)
+// src: GAMEBRYO_LIB 0x00a54340
+void NiBoneLODController::PostLinkObject_00a54340(NiStream& kStream)
 {
     NiObject::LinkObject(kStream);
     int iLOD = m_iLOD;
@@ -422,7 +423,7 @@ struct MemoryAllocator
     void FUN_00aa4060(void* object);
 };
 extern MemoryAllocator g_011f6238;
-extern "C" void __cdecl FUN_00aa10f0(void* object);
+extern "C" void __cdecl _NiFree_00aa10f0(void* object);
 extern "C" long __declspec(dllimport) __stdcall InterlockedDecrement(volatile long* addend);
 
 struct FirstEntry
@@ -451,7 +452,7 @@ void NiBoneLODController::ClearEntries()
         FirstEntry* entry = reinterpret_cast<FirstEntry**>(m_kBoneSetArray.m_pBase)[i];
         if (entry)
         {
-            FUN_00aa10f0(entry->allocation);
+            _NiFree_00aa10f0(entry->allocation);
             g_011f6238.FUN_00aa4060(entry);
         }
     }
@@ -476,7 +477,7 @@ void NiBoneLODController::ClearEntries()
                     g_011f6238.FUN_00aa4060(object);
                 }
             }
-            FUN_00aa10f0(group->objects);
+            _NiFree_00aa10f0(group->objects);
             g_011f6238.FUN_00aa4060(group);
         }
     }
@@ -621,7 +622,7 @@ bool NiBoneLODController::FUN_00a53ea0(NiObject* pkObject)
 }
 
 void* __cdecl FUN_00aa1070(unsigned int);
-void __cdecl FUN_00aa10f0(void*);
+void __cdecl _NiFree_00aa10f0(void*);
 
 inline unsigned int NiBinaryStream::Read(void* data, unsigned int size)
 {
@@ -664,7 +665,7 @@ template <class T> struct LinkGroup
             }
             else
                 replacement = 0;
-            FUN_00aa10f0(data);
+            _NiFree_00aa10f0(data);
             data = replacement;
             capacity = size;
         }
@@ -965,7 +966,7 @@ struct A54440GrowGroup
                 }
                 else
                     newData = 0;
-                FUN_00aa10f0(elements);
+                _NiFree_00aa10f0(elements);
                 elements = newData;
                 capacity = newCapacity;
             }
@@ -999,7 +1000,7 @@ struct A54440LinkGroup
                 }
                 else
                     newData = 0;
-                FUN_00aa10f0(entries);
+                _NiFree_00aa10f0(entries);
                 entries = newData;
                 capacity = newCapacity;
             }
@@ -1273,7 +1274,8 @@ template <class T> inline NiPointer<T>& NiPointer<T>::operator=(T* p)
 
 // Calls the base LinkObject, then loads objects into bone sets, skin pair fields, and shape groups.
 // @fnv 0x00a53d70
-void NiBoneLODController::FUN_00a53d70(NiStream& kStream)
+// src: GAMEBRYO_LIB 0x00a53d70
+void NiBoneLODController::LinkObject_00a53d70(NiStream& kStream)
 {
     NiTimeController::LinkObject(kStream);
 

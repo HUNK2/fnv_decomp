@@ -259,7 +259,7 @@ void* __thiscall FUN_00c88a20_cls::FUN_00c88a20(unsigned int flags)
 
 struct FUN_00cf4ce0_cls
 {
-    void FUN_00cf4ce0(int* arg);
+    void hkpBinaryAction_setEntityA(int* arg);
 };
 
 struct FUN_00c8aa40_cls
@@ -274,7 +274,7 @@ struct FUN_00c8aa40_cls
 void FUN_00c8aa40_cls::FUN_00c8aa40(int* pOther)
 {
     if (this && m_p8)
-        reinterpret_cast<FUN_00cf4ce0_cls*>(m_p8)->FUN_00cf4ce0(reinterpret_cast<FUN_00c8aa40_cls*>(pOther)->m_p8);
+        reinterpret_cast<FUN_00cf4ce0_cls*>(m_p8)->hkpBinaryAction_setEntityA(reinterpret_cast<FUN_00c8aa40_cls*>(pOther)->m_p8);
 }
 
 // @fnv 0x00c8cce0
@@ -6114,13 +6114,13 @@ struct FUN_00c9a840_cls
     int unk44;
     unsigned int m_uiItemCount;
 
-    bool FUN_00a6cc80(FUN_00c9a840_cls* other);
+    bool NiTimeController_IsEqual(FUN_00c9a840_cls* other);
     bool FUN_00c9a840(FUN_00c9a840_cls* other);
 };
 // @fnv 0x00c9a840
 bool FUN_00c9a840_cls::FUN_00c9a840(FUN_00c9a840_cls* other)
 {
-    bool eq = FUN_00a6cc80(other);
+    bool eq = NiTimeController_IsEqual(other);
     if (eq)
     {
         eq = (m_uiItemCount == other->m_uiItemCount);
@@ -6275,7 +6275,7 @@ void LargeArray_c9ac00::Resize(unsigned int uiNewMaxSize)
     NiFree(pOldElements);
 }
 
-void FUN_00aa10f0(int value);
+void _NiFree_00aa10f0(int value);
 
 
 
@@ -6309,7 +6309,7 @@ class FUN_00c9ad60_cls : public Base_c9ad60
 
 template <class T, class TAlloc> NiTLargeArray<T, TAlloc>::~NiTLargeArray()
 {
-    FUN_00aa10f0(reinterpret_cast<int>(m_pBase));
+    _NiFree_00aa10f0(reinterpret_cast<int>(m_pBase));
 }
 
 // The m_38 large-array destructor releases its element buffer through FUN_00aa10f0.
@@ -8405,7 +8405,7 @@ hkMemoryRouter* FUN_00c85750();
 
 struct C8B8A0Alloc;
 
-void FUN_00c908c0(C8B8A0Alloc* allocator, hkArrayBase<int>* arr, int capacity, int elemSize);
+void hkArrayUtil__reserve(C8B8A0Alloc* allocator, hkArrayBase<int>* arr, int capacity, int elemSize);
 static __forceinline void C8B8A0Array_GrowArrayCapacity(hkArrayBase<int>& self, C8B8A0Alloc& alloc, int n);
 
 static __forceinline void C8B8A0Array__setSize(hkArrayBase<int>& self, C8B8A0Alloc& alloc, int n);
@@ -8421,7 +8421,7 @@ static __forceinline void C8B8A0Array_GrowArrayCapacity(hkArrayBase<int>& self, 
         {
             int cap2 = 2 * capacity;
             int newSize = (n < cap2) ? cap2 : n;
-            FUN_00c908c0(&alloc, (&self), newSize, sizeof(int));
+            hkArrayUtil__reserve(&alloc, (&self), newSize, sizeof(int));
         }
     }
 
@@ -8931,7 +8931,7 @@ struct SceneObject
     virtual SceneNode* AsNode();
     int unk04, unk08, unk0c, unk10, unk14, unk18;
     ExtraList* extras;
-    TargetController* FUN_00a5c570(int* type);
+    TargetController* NiObjectNET_GetController(int* type);
 };
 struct SceneNode : SceneObject
 {
@@ -9010,7 +9010,7 @@ void FUN_00c9b250(SceneObject* object, float middle, bool alternate)
             }
             float start = Minimum(first, extra->GetStart());
             float end = Minimum(last, extra->GetEnd());
-            TargetController* controller = object->FUN_00a5c570(&DAT_012681f0);
+            TargetController* controller = object->NiObjectNET_GetController(&DAT_012681f0);
             if (controller && controller->mode <= 1)
             {
                 controller->Reset();
@@ -9264,7 +9264,7 @@ struct Scene
     unsigned int unk9C;
     Scene** children;
     unsigned short cap, count;
-    Controller* FUN_00a5c570(const LocalRTTI*);
+    Controller* NiObjectNET_GetController(const LocalRTTI*);
 };
 // Looks up collision/physics data on the object, configures a controller with scaled key points, and recurses into child scenes.
 // @fnv 0x00c9b470
@@ -9287,7 +9287,7 @@ void ApplyCollisionEffect(Scene* object, float time)
         }
         unsigned int layer = (filter >> 8) & 31;
         float scale = DAT_011b1190[layer];
-        Controller* controller = object->FUN_00a5c570(&g_012681f0);
+        Controller* controller = object->NiObjectNET_GetController(&g_012681f0);
         if (controller && scale >= 0.0f)
         {
             float hi = DAT_011b06d8[layer].hi;
@@ -10294,7 +10294,8 @@ struct FUN_00c85620_heap
 };
 
 // @fnv 0x00c85620
-void* __cdecl FUN_00c85620(FUN_00c85620_heap* pkHeap, unsigned int uiSize, unsigned int uiAlignment)
+// src: HAVOK_LIB 0x00c85620
+void* __cdecl hkMemoryRouter_alignedAlloc(FUN_00c85620_heap* pkHeap, unsigned int uiSize, unsigned int uiAlignment)
 {
     unsigned int uiEnd = uiSize + uiAlignment;
     void* pvRaw = pkHeap->Allocate(uiEnd + 0x10);
@@ -11326,22 +11327,23 @@ int __cdecl FUN_00c90350()
 }
 
 extern "C" int DAT_01268748;
-extern "C" const char* __cdecl FUN_00cf6170(void** value, void* object);
-extern "C" void __cdecl FUN_00cf6920(void* owner, void* object, void* context);
+extern "C" const char* __cdecl hkStatisticsCollectorUtil_hasContents(void** value, void* object);
+extern "C" void __cdecl hkStatisticsCollectorUtil_addClassContentsAll(void* owner, void* object, void* context);
 struct FunctionContext
 {
-    void __thiscall FUN_00c90360(void* context, void* object);
+    void __thiscall hkReferencedObject_calcContentStatistics(void* context, void* object);
 };
 // @fnv 0x00c90360
-void __thiscall FunctionContext::FUN_00c90360(void* context, void* object)
+// src: HAVOK_LIB 0x00c90360
+void __thiscall FunctionContext::hkReferencedObject_calcContentStatistics(void* context, void* object)
 {
     void* const cachedObject = object;
     if (cachedObject != 0 && cachedObject != &DAT_01268748)
     {
         void* pointer;
-        if (*FUN_00cf6170(&pointer, cachedObject))
+        if (*hkStatisticsCollectorUtil_hasContents(&pointer, cachedObject))
         {
-            FUN_00cf6920(this, cachedObject, context);
+            hkStatisticsCollectorUtil_addClassContentsAll(this, cachedObject, context);
         }
     }
 }
@@ -11406,7 +11408,7 @@ struct FUN_00c92b00_Class
     FUN_00c92b00_Entry** entries34;
     int count38;
 
-    void FUN_00c92a80(int first, int second);
+    void hkpWorld_findInitialContactPoints(int first, int second);
     void ApplyEntries();
 };
 
@@ -11417,12 +11419,12 @@ void FUN_00c92b00_Class::ApplyEntries()
     for (int i = 0; i < count2c; ++i)
     {
         FUN_00c92b00_Entry* entry = entries28[i];
-        FUN_00c92a80(entry->value48, entry->value4c);
+        hkpWorld_findInitialContactPoints(entry->value48, entry->value4c);
     }
     for (int i = 0; i < count38; ++i)
     {
         FUN_00c92b00_Entry* entry = entries34[i];
-        FUN_00c92a80(entry->value48, entry->value4c);
+        hkpWorld_findInitialContactPoints(entry->value48, entry->value4c);
     }
 }
 
@@ -11447,7 +11449,7 @@ int __thiscall FUN_00c9a620_Obj::FUN_00c9a620(float* other)
 }
 
 extern "C" __declspec(dllimport) unsigned long __stdcall GetCurrentThreadId();
-void FUN_00cbb990();
+void hkBaseSystem_quitThread();
 struct ArenaReleaseAllocator : ArenaAllocator
 {
     virtual void Deallocate(void* p, unsigned int bytes);
@@ -11478,7 +11480,7 @@ void FUN_00c80240(ArenaManagedOwner* owner)
         allocator->Deallocate(owner->buffer, 0x5000);
         owner->buffer = 0;
         if (GetCurrentThreadId() == owner->threadId)
-            FUN_00cbb990();
+            hkBaseSystem_quitThread();
         ArenaRegistryRelease* registry = (ArenaRegistryRelease*)FUN_00cbbfc0();
         registry->Release(arena, ArenaRegistrationFlag());
         arena->cursor = 0;
@@ -12454,7 +12456,7 @@ struct PackedPropertyByte
 class ProbeZ
 {
   public:
-    PackedPropertyByte FUN_00c9bff0() const;
+    PackedPropertyByte isActive_00c9bff0() const;
 };
 
 class ProbeX
@@ -12593,7 +12595,7 @@ static inline bool CheckBody(ProbeD* body, ProbeObj*& obj)
     {
         ProbeY* rigid = object->FUN_00653290(&DAT_012681c0);
         if (rigid && rigid->m_08)
-            return rigid->m_08->FUN_00c9bff0() != 0;
+            return rigid->m_08->isActive_00c9bff0() != 0;
     }
     return false;
 }
@@ -14860,7 +14862,7 @@ inline void DeallocateLocal(AllocLocal* a, void* p, int const& n)
 {
     a->Free(p, n * 4);
 }
-void FUN_00c908c0(void*, SpawnedPtrArray*, int, int);
+void hkArrayUtil__reserve(void*, SpawnedPtrArray*, int, int);
 template <class T> inline void ConstructLocal(T* dest, int n, const T& value)
 {
     for (int k = 0; k < n; ++k)
@@ -14884,7 +14886,7 @@ struct ArrayLocal : SpawnedPtrArray
             int desired = capacity * 2;
             if (count >= desired)
                 desired = count;
-            FUN_00c908c0(allocator, this, desired, 4);
+            hkArrayUtil__reserve(allocator, this, desired, 4);
         }
     }
     void Append(hkMemoryRouter* holder, ShapeLocal* raw)
@@ -15247,8 +15249,8 @@ void MotionSettings::SetPreset(int preset)
 
 hkMemoryRouter* __cdecl FUN_00c85750();
 
-extern "C" void __cdecl FUN_00c92950(void*);
-extern "C" void __cdecl FUN_00c928c0(void*, void*);
+extern "C" void __cdecl enumerateAllPhantomsInWorld(void*);
+extern "C" void __cdecl enumerateAllActionsInWorld(void*, void*);
 extern "C" double clobber_c929e0(double);
 
 struct FUN_00c929e0_Alloc
@@ -15262,7 +15264,8 @@ struct FUN_00d065e0_class
     void* FUN_00d065e0();
 };
 
-static __declspec(noinline) void FUN_00c927c0(void* p, void* q)
+// src: HAVOK_LIB 0x00c927c0
+static __declspec(noinline) void enumerateAllEntitiesInWorld(void* p, void* q)
 {
     volatile int sink = 0;
     char* s = (char*)FUN_00c85750();
@@ -15295,22 +15298,23 @@ static __declspec(noinline) void InvokeOnAllOwners(void* a, void* b)
 class FUN_00c929e0_ThisClass
 {
   public:
-    void* FUN_00c929e0();
+    void* hkpWorld_getWorldAsOneSystem();
 };
 
 // Allocates 0x44 bytes from the holder's allocator, sets its size field, constructs it via FUN_00d065e0, runs setup calls with this, and returns it.
 // @fnv 0x00c929e0
-void* FUN_00c929e0_ThisClass::FUN_00c929e0()
+// src: HAVOK_LIB 0x00c929e0
+void* FUN_00c929e0_ThisClass::hkpWorld_getWorldAsOneSystem()
 {
     hkMemoryRouter* holder = FUN_00c85750();
     FUN_00c929e0_Alloc* alloc = *(FUN_00c929e0_Alloc**)((char*)holder + 0x10);
     void* b = alloc->vf04(0x44);
     *(unsigned short*)((char*)b + 4) = 0x44;
     void* ret = ((FUN_00d065e0_class*)b)->FUN_00d065e0();
-    FUN_00c927c0(ret, ret);
-    FUN_00c92950(ret);
+    enumerateAllEntitiesInWorld(ret, ret);
+    enumerateAllPhantomsInWorld(ret);
     InvokeOnAllOwners(this, ret);
-    FUN_00c928c0(this, ret);
+    enumerateAllActionsInWorld(this, ret);
     return ret;
 }
 
@@ -15491,7 +15495,7 @@ void FNVVec3Range::SetElement(unsigned int index, FNVVec3Elem* apElem)
 }
 }  // namespace fnv_00c9a730
 
-float __cdecl FUN_00a42050(float t, float a, float b);
+float __cdecl NiInterpScalar_Linear(float t, float a, float b);
 struct KeyPair
 {
     float time;
@@ -15547,9 +15551,9 @@ bool KeyPairInterpolator::Interpolate(float time, float& first, float& second)
         {
             float ratio = (time - previousTime) / delta;
             float nextFirst = keys[next].first;
-            first = FUN_00a42050(ratio, firstValue, nextFirst);
+            first = NiInterpScalar_Linear(ratio, firstValue, nextFirst);
             float nextSecond = keys[next].second;
-            second = FUN_00a42050(ratio, secondValue, nextSecond);
+            second = NiInterpScalar_Linear(ratio, secondValue, nextSecond);
         }
         else
         {
@@ -15581,8 +15585,8 @@ struct TlsGuardS00c9_t
 
 struct HeldSub_t
 {
-    void* FUN_00a5c570(const void* key);
-    void FUN_00a5c480(void* entry);
+    void* NiObjectNET_GetController(const void* key);
+    void NiObjectNET_RemoveController(void* entry);
 };
 
 struct S00c9ade0_Obj
@@ -15619,10 +15623,10 @@ bool S00c9ade0_Obj::FUN_00c9ade0()
     if ((flag & keep & 1) != 0)
     {
         HeldSub_t* sub = m_2c;
-        void* entry = sub->FUN_00a5c570(&DAT_012683f4);
+        void* entry = sub->NiObjectNET_GetController(&DAT_012683f4);
         if (entry)
         {
-            sub->FUN_00a5c480(entry);
+            sub->NiObjectNET_RemoveController(entry);
             result = true;
         }
     }

@@ -169,12 +169,12 @@ hkpRemoveTerminalsMoppModifier::~hkpRemoveTerminalsMoppModifier() throw()
 struct __declspec(align(16)) FUN_00e67230_Obj
 {
     int storage[20];
-    void FUN_00e67230(int a1, int a2, int a3);
+    void hkpMoppModifyVirtualMachine_queryAabb(int a1, int a2, int a3);
 };
 
 // @fnv 0x00e5d040
 void __cdecl ConstructTemporaryObject(int a1, int a2, int a3)
 {
     FUN_00e67230_Obj tmp;
-    tmp.FUN_00e67230(a1, a2, a3);
+    tmp.hkpMoppModifyVirtualMachine_queryAabb(a1, a2, a3);
 }

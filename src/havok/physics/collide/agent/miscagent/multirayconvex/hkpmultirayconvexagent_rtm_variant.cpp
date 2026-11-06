@@ -128,7 +128,8 @@ struct RayLocals
 };
 
 // @fnv 0x00d37010
-void __stdcall FUN_00d37010(const hkpCdBody* a, const hkpCdBody* b, void* unused, hkpCdPointCollector* collector)
+// src: HAVOK_SRC 0x00d37010
+void __stdcall hkpMultiRayConvexAgent_getClosestPoints(const hkpCdBody* a, const hkpCdBody* b, void* unused, hkpCdPointCollector* collector)
 {
 
     union

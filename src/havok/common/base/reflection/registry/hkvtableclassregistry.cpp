@@ -40,7 +40,7 @@ extern Manager* DAT_01269b74;
 extern int DAT_011b7b88;
 IntResult FUN_00dcca60(Object*);
 void FUN_00d48af0(Object*, int*);
-int FUN_00cb1290(void*, const void*, int);
+int hkString_memCmp(void*, const void*, int);
 int FUN_00dc0fb0();
 struct ParseState
 {
@@ -61,7 +61,7 @@ int FUN_00d49240(Object* object)
     FUN_00d48af0(object, &parseState.status);
     if (parseState.status == 2)
     {
-        if (FUN_00cb1290(&parseState.bits, &DAT_011b7b88, 4) != 0)
+        if (hkString_memCmp(&parseState.bits, &DAT_011b7b88, 4) != 0)
             goto check3;
         if (parseState.buffer.Equals(FUN_00dc0fb0()) != 0)
         {

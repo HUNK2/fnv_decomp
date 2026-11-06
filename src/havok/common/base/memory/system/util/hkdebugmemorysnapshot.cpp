@@ -69,10 +69,11 @@ public:
 
     void FreeBuffers();
     void Sort();
-    void FUN_00dd7090(hkDebugMemorySnapshot& other);
+    void subtract_00dd7090(hkDebugMemorySnapshot& other);
 };
 // @fnv 0x00dd7090
-void hkDebugMemorySnapshot::FUN_00dd7090(hkDebugMemorySnapshot& other)
+// src: HAVOK_LIB 0x00dd7090
+void hkDebugMemorySnapshot::subtract_00dd7090(hkDebugMemorySnapshot& other)
 {
     Sort();
     other.Sort();

@@ -27,7 +27,8 @@ int __cdecl FUN_00c9db70()
 
 // Returns the smaller of the two float arguments.
 // @fnv 0x00c9e0f0
-float __cdecl FUN_00c9e0f0(float a, float b)
+// src: GAMEBRYO_LIB 0x00c9e0f0
+float __cdecl NiMin(float a, float b)
 {
     return a < b ? a : b;
 }
@@ -63,11 +64,12 @@ int __stdcall FUN_00c9e1a0(int a1, int a2)
 
 extern "C" int DAT_01268940;
 
-void __cdecl FUN_00c90360(int a, int* b);
+void __cdecl hkReferencedObject_calcContentStatistics(int a, int* b);
 
 // @fnv 0x00c9db60
-void __cdecl FUN_00c9db60(int a, int* b) {
-    return FUN_00c90360(a, &DAT_01268940);
+// src: HAVOK_SRC 0x00c9db60
+void __cdecl hkpBoxShape_calcContentStatistics(int a, int* b) {
+    return hkReferencedObject_calcContentStatistics(a, &DAT_01268940);
 }
 
 void __cdecl ComputeAabbFromTransform(const hkTransform& transform, const hkVector4& halfExtents, hkReal tolerance, hkAabb& out);
@@ -108,7 +110,8 @@ extern "C" int _mm_movemask_ps(LocalM128);
 extern float DAT_010c44d0[4];
 
 // @fnv 0x00c9dc40
-void __thiscall hkpBoxShape::FUN_00c9dc40(const float* src, float* dst)
+// src: HAVOK_SRC 0x00c9dc40
+void __thiscall hkpBoxShape::getSupportingVertexImpl(const float* src, float* dst)
 {
     hkVector4 e;
     memcpy(&e, &m_vHalfExtents, sizeof(e));
@@ -184,7 +187,8 @@ extern "C" const LocalM128 DAT_010c7030[8];
 
 // Multiplies the half-extents and sphere radius by DAT_010c7030 coefficients and writes the results into sphereBuffer.
 // @fnv 0x00c9dd30
-void* hkpBoxShape::FUN_00c9dd30(LocalM128* sphereBuffer) const
+// src: HAVOK_SRC 0x00c9dd30
+void* hkpBoxShape::getCollisionSpheresImpl(LocalM128* sphereBuffer) const
 {
     __declspec(align(16)) hkVector4 extents;
     memcpy(&extents, &m_vHalfExtents, sizeof(extents));
@@ -302,7 +306,8 @@ struct BRRayCastOutput
 };
 
 // @fnv 0x00c9de40
-hkBool hkpBoxShape::FUN_00c9de40(const BRRayCastInput& input, BRRayCastOutput& results) const
+// src: HAVOK_SRC 0x00c9de40
+hkBool hkpBoxShape::castRayImpl(const BRRayCastInput& input, BRRayCastOutput& results) const
 {
     BRMonitorStream::GetMonitorStream().timerCommand("TtrcBox");
 

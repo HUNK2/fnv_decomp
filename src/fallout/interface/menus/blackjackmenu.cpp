@@ -2642,7 +2642,7 @@ void Menu90::InitBlackjackScene()
     HideArrowNodes();
     const NiUpdateData update110(0.0f, false, false);
     ((Pointer90<NiNode>*)&DAT_011d9098)->FUN_00559450()->Update(update110);
-    Controller90* controller158 = reinterpret_cast<Controller90*>(rootdb4->FUN_00a5c570(reinterpret_cast<NiRTTI*>(&DAT_011f36ac)));
+    Controller90* controller158 = reinterpret_cast<Controller90*>(rootdb4->NiObjectNET_GetController(reinterpret_cast<NiRTTI*>(&DAT_011f36ac)));
     if (controller158)
     {
         ctrldf4 = controller158;
@@ -2651,7 +2651,7 @@ void Menu90::InitBlackjackScene()
         ctrldf4->FUN_0048fef0(0.0f);
         FUN_00a6d2d0(rootdb4);
     }
-    Controller90* controller217 = reinterpret_cast<Controller90*>(rootdb8->FUN_00a5c570(reinterpret_cast<NiRTTI*>(&DAT_011f36ac)));
+    Controller90* controller217 = reinterpret_cast<Controller90*>(rootdb8->NiObjectNET_GetController(reinterpret_cast<NiRTTI*>(&DAT_011f36ac)));
     if (controller217)
     {
         ctrldf8 = controller217;
@@ -2666,7 +2666,7 @@ void Menu90::InitBlackjackScene()
         ctrldf8->FUN_0048fef0(0.0f);
         FUN_00a6d2d0(rootdb8);
     }
-    Controller90* controller321 = reinterpret_cast<Controller90*>(rootdbc->FUN_00a5c570(reinterpret_cast<NiRTTI*>(&DAT_011f36ac)));
+    Controller90* controller321 = reinterpret_cast<Controller90*>(rootdbc->NiObjectNET_GetController(reinterpret_cast<NiRTTI*>(&DAT_011f36ac)));
     if (controller321)
     {
         ctrldfc = controller321;
@@ -2681,7 +2681,7 @@ void Menu90::InitBlackjackScene()
         ctrldfc->FUN_0048fef0(0.0f);
         FUN_00a6d2d0(rootdbc);
     }
-    Controller90* controller415 = reinterpret_cast<Controller90*>(rootdc0->FUN_00a5c570(reinterpret_cast<NiRTTI*>(&DAT_011f36ac)));
+    Controller90* controller415 = reinterpret_cast<Controller90*>(rootdc0->NiObjectNET_GetController(reinterpret_cast<NiRTTI*>(&DAT_011f36ac)));
     if (controller415)
     {
         ctrle00 = controller415;

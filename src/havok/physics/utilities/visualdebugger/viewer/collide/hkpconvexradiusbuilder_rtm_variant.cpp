@@ -36,7 +36,7 @@ struct Holder
     Allocator* allocator;
 };
 extern Holder* FUN_00c85750();
-extern void __cdecl FUN_00c908c0(Allocator*, void*, int, int);
+extern void __cdecl hkArrayUtil__reserve(Allocator*, void*, int, int);
 struct PlaneArray
 {
     __m128* data;
@@ -58,7 +58,7 @@ static __declspec(noinline) void FUN_00de3200(Shape* shape, PlaneArray* planes, 
         int doubled = capacity + capacity;
         if (wanted < doubled)
             wanted = doubled;
-        FUN_00c908c0(allocationHeap, planes, wanted, 16);
+        hkArrayUtil__reserve(allocationHeap, planes, wanted, 16);
     }
     planes->size += 6;
     int start = planes->size;

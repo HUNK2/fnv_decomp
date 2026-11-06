@@ -120,7 +120,7 @@ NiBlendFloatInterpolator::NiBlendFloatInterpolator(bool onlyUseHighestWeight, fl
     m_fFloatValue = DAT_0109a918;
 }
 
-void __fastcall FUN_00a36890(void*);
+void __fastcall NiBlendInterpolator_NiBlendInterpolator(void*);
 extern const void* vftable_NiBlendFloatInterpolator[];
 
 // @fnv 0x00a40580
@@ -129,7 +129,7 @@ void* __cdecl CreateNiBlendFloatInterpolator()
     void* pInterpolator = NiObject::operator new(0x34);
     if (pInterpolator)
     {
-        FUN_00a36890(pInterpolator);
+        NiBlendInterpolator_NiBlendInterpolator(pInterpolator);
         *(void**)pInterpolator = (void*)vftable_NiBlendFloatInterpolator;
         *(float*)((char*)pInterpolator + 0x30) = DAT_0109a918;
         return pInterpolator;
@@ -221,7 +221,7 @@ NiBlendFloatInterpolator* __fastcall CloneFloatInterpolator(NiBlendFloatInterpol
         static_cast<NiBlendFloatInterpolator*>(FUN_00aa13e0(sizeof(NiBlendFloatInterpolator)));
     if (copy)
     {
-        FUN_00a36890(copy);
+        NiBlendInterpolator_NiBlendInterpolator(copy);
         *reinterpret_cast<const void***>(copy) = vftable_NiBlendFloatInterpolator;
         copy->m_fFloatValue = DAT_0109a918;
     }

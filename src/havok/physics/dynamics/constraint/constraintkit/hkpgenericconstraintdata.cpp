@@ -79,11 +79,12 @@ struct FUN_00d503a0_class
     int m_uiValueCount;
     int m_o;
     int m_p;
-    void FUN_00d503a0(int, int* out);
+    void hkpGenericConstraintData_getRuntimeInfo(int, int* out);
 };
 
 // @fnv 0x00d503a0
-void FUN_00d503a0_class::FUN_00d503a0(int, int* paiOut)
+// src: HAVOK_LIB 0x00d503a0
+void FUN_00d503a0_class::hkpGenericConstraintData_getRuntimeInfo(int, int* paiOut)
 {
     int v = *(int*)((char*)this + 0x20);
     paiOut[1] = v;
@@ -794,10 +795,11 @@ struct FUN_00d50520_s
     int zx;
     int zy;
     int zz;
-    void FUN_00d50520(int* o);
+    void hkpGenericConstraintData_getConstraintInfo(int* o);
 };
 // @fnv 0x00d50520
-void FUN_00d50520_s::FUN_00d50520(int* aiOut)
+// src: HAVOK_LIB 0x00d50520
+void FUN_00d50520_s::hkpGenericConstraintData_getConstraintInfo(int* aiOut)
 {
     aiOut[4] = (int)((char*)this + 0xc);
     aiOut[0] = 0;
@@ -815,11 +817,12 @@ struct FUN_00d50560_class
 {
     char pad[0x28];
     int* m_items;
-    int* FUN_00d50560(unsigned int index);
+    int* hkpGenericConstraintData_getParameters(unsigned int index);
 };
 
 // @fnv 0x00d50560
-int* FUN_00d50560_class::FUN_00d50560(unsigned int index)
+// src: HAVOK_LIB 0x00d50560
+int* FUN_00d50560_class::hkpGenericConstraintData_getParameters(unsigned int index)
 {
     return m_items + index * 4;
 }
@@ -1211,7 +1214,8 @@ void __cdecl FUN_00d6cb30(const SolverInfoD510* pkInfo, void* pvA, void* pvB);
 
 // Reads two indices from ppSchema, computes a Jacobian via FUN_00dcfec0, stores it with two floats from ppData, and calls FUN_00d6cb30.
 // @fnv 0x00d51060
-void __stdcall FUN_00d51060(const char** ppSchema, const float** ppData, void* pvUnused, SolverStateD510* pkState,
+// src: HAVOK_LIB 0x00d51060
+void __stdcall hkpGenericConstraintData_setTwistLimitW(const char** ppSchema, const float** ppData, void* pvUnused, SolverStateD510* pkState,
                             void* pvA, void* pvB)
 {
     SolverInfoD510 kInfo;
@@ -1713,8 +1717,8 @@ struct SixIntegerData
 
 void __cdecl ComputeJacobian(const ::hkVector4* axis, const ::hkVector4* posB, SixteenWordFloatRecord* in,
                              void* currentSchema, SolverElementTemp* input);
-void __cdecl FUN_00dcfff0(const hkpConstraintMotor* motor, const SolverElementTemp* input, SixIntegerData* output);
-void __cdecl FUN_00dd03c0(SixIntegerData* output, SixteenWordFloatRecord* in, void* currentSchema, void** schemaPtr);
+void __cdecl _hkCalcMotorData(const hkpConstraintMotor* motor, const SolverElementTemp* input, SixIntegerData* output);
+void __cdecl _hk1dLinearVelocityMotorCommitJacobian(SixIntegerData* output, SixteenWordFloatRecord* in, void* currentSchema, void** schemaPtr);
 
 // Advances the command and data pointers, computes a dot product for a motor constraint, and updates the solver state if a motor is present.
 // @fnv 0x00d51270
@@ -1762,8 +1766,8 @@ void __stdcall FUN_00d51270(const int** commands, const ::hkVector4** data, hkpG
         input.m_deltaPosition = -dot;
         input.m_pStepInfo = apStepInfo;
 
-        FUN_00dcfff0(motor, &input, &output);
-        FUN_00dd03c0(&output, apStepInfo, currentSchema, schema);
+        _hkCalcMotorData(motor, &input, &output);
+        _hk1dLinearVelocityMotorCommitJacobian(&output, apStepInfo, currentSchema, schema);
     }
 
     runtime->m_solverResultIndex += 1;
@@ -1869,7 +1873,7 @@ extern double DAT_0101ff58;
 
 extern "C" void _ReadWriteBarrier(void);
 extern "C" void __cdecl FUN_00d6cd70(Vec* axis, QueryIn* in, void* schema, MotorStuff* packet);
-void __cdecl FUN_00dcfff0(Motor* motor, MotorStuff* input, float* output);
+void __cdecl _hkCalcMotorData(Motor* motor, MotorStuff* input, float* output);
 extern "C" void __cdecl FUN_00d6ce70(float* negAndOut, QueryIn* in, void* schema, void** out);
 
 static __forceinline LocalM128 dot3(LocalM128 p, LocalM128 q)
@@ -1951,7 +1955,7 @@ void __stdcall FUN_00d51410(int** cmdPtr, Vec** dataPtr, Scheme* scheme, Runtime
         packet.zero = 0.0f;
         v.sum = (float)(v.z * 6.2831854820251465 + v.ang);
         packet.negTarget = -v.sum;
-        FUN_00dcfff0(v.motor, &packet, &packet.out0);
+        _hkCalcMotorData(v.motor, &packet, &packet.out0);
         FUN_00d6ce70(&packet.out0, apQuery, schema, out);
     }
     runtime->m_iFirstInteger++;
@@ -2018,7 +2022,7 @@ struct InterpreterD506
     void FUN_00d51100(int**, hkVector4q**, hkpGenericConstraintDataScheme*, StateD506*, InputD506*, void*);
     void FUN_00d51170(int**, hkVector4q**, hkpGenericConstraintDataScheme*, StateD506*, InputD506*, void*);
     void FUN_00d50ec0(int**, hkVector4q**, hkpGenericConstraintDataScheme*, StateD506*, InputD506*, void*);
-    void FUN_00d51060(int**, hkVector4q**, hkpGenericConstraintDataScheme*, StateD506*, InputD506*, void*);
+    void hkpGenericConstraintData_setTwistLimitW(int**, hkVector4q**, hkpGenericConstraintDataScheme*, StateD506*, InputD506*, void*);
     void FUN_00d51410(int**, hkVector4q**, hkpGenericConstraintDataScheme*, StateD506*, InputD506*, void*);
     void FUN_00d51270(int**, hkVector4q**, hkpGenericConstraintDataScheme*, StateD506*, InputD506*, void*);
     void FUN_00d51390(int**, hkVector4q**, hkpGenericConstraintDataScheme*, StateD506*, InputD506*, void*);
@@ -2138,7 +2142,7 @@ void InterpreterD506::FUN_00d50640(hkpGenericConstraintDataScheme* scheme, const
             FUN_00d50ec0(&command, &data, scheme, &state, &localInput, output);
             break;
         case 19:
-            FUN_00d51060(&command, &data, scheme, &state, &localInput, output);
+            hkpGenericConstraintData_setTwistLimitW(&command, &data, scheme, &state, &localInput, output);
             break;
         case 14:
             FUN_00d51410(&command, &data, scheme, &state, &localInput, output);

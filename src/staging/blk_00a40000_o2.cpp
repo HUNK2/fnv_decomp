@@ -118,7 +118,7 @@ __forceinline NP::~NP()
     }
 }
 
-extern "C" void __fastcall FUN_00a36890(void*);
+extern "C" void __fastcall NiBlendInterpolator_NiBlendInterpolator(void*);
 extern int DAT_0109750c;
 struct FUN_00a409b0_class
 {
@@ -128,11 +128,11 @@ struct FUN_00a409b0_class
 // @fnv 0x00a409b0
 FUN_00a409b0_class::FUN_00a409b0_class()
 {
-    FUN_00a36890(this);
+    NiBlendInterpolator_NiBlendInterpolator(this);
     vtbl = (void*)&DAT_0109750c;
 }
 
-void __fastcall FUN_00a36890(void*);
+void __fastcall NiBlendInterpolator_NiBlendInterpolator(void*);
 
 // @fnv 0x00a409d0
 // src: EXE 0x00a409d0
@@ -141,7 +141,7 @@ void* __cdecl NiBlendTransformInterpolator_CreateObject()
     void* p = NiObject::operator new(0x30);
     if (p)
     {
-        FUN_00a36890(p);
+        NiBlendInterpolator_NiBlendInterpolator(p);
         *(void**)p = (void*)0x0109750c;
         return p;
     }
@@ -169,12 +169,13 @@ int* __cdecl NiFloatExtraDataController_CreateObject()
 }  // namespace fnv_00a411f0
 
 // @fnv 0x00a42050
-float FUN_00a42050(float afT, float afFrom, float afTo)
+// src: GAMEBRYO_LIB 0x00a42050
+float NiInterpScalar_Linear(float afT, float afFrom, float afTo)
 {
     return afFrom * (1.0f - afT) + afTo * afT;
 }
 
-void __fastcall FUN_00a36890(void*);
+void __fastcall NiBlendInterpolator_NiBlendInterpolator(void*);
 extern int DAT_01097904;
 
 struct FUN_00a42f60
@@ -188,7 +189,7 @@ struct FUN_00a42f60
 // @fnv 0x00a42f60
 FUN_00a42f60::FUN_00a42f60()
 {
-    FUN_00a36890(this);
+    NiBlendInterpolator_NiBlendInterpolator(this);
     m_f = 0.0f;
     m_pVTable = &DAT_01097904;
 }
@@ -302,7 +303,7 @@ void* __cdecl BSBlendTreadTransfInterpolator_CreateObject()
     void* p = NiObject::operator new(0x34);
     if (p)
     {
-        FUN_00a36890(p);
+        NiBlendInterpolator_NiBlendInterpolator(p);
         *(float*)((char*)p + 0x30) = 0.0f;
         *(int*)p = (int)&DAT_01097904;
         return p;
@@ -674,11 +675,12 @@ struct A51BF0Base
 };
 struct FUN_00a50aa0_class : A51BF0Base
 {
-    void FUN_00a50aa0(void* dst, void* proc);
+    void NiBSplineFloatInterpolator_CopyMembers(void* dst, void* proc);
 };
 // Copies the base part via FUN_00a57fd0, then copies the float at offset 0x1c and the int at offset 0x20 from this into dst.
 // @fnv 0x00a50aa0
-void FUN_00a50aa0_class::FUN_00a50aa0(void* apDest, void* proc)
+// src: GAMEBRYO_LIB 0x00a50aa0
+void FUN_00a50aa0_class::NiBSplineFloatInterpolator_CopyMembers(void* apDest, void* proc)
 {
     FUN_00a57fd0(apDest, proc);
     *(float*)((char*)apDest + 0x1c) = *(float*)((char*)this + 0x1c);
@@ -1249,7 +1251,7 @@ struct ParentData
     unsigned int unk3c;
     void FUN_00a6d290();
 };
-void __cdecl FUN_00aa10f0(void*);
+void __cdecl _NiFree_00aa10f0(void*);
 struct FUN_00a49d60 : public ParentData
 {
     RefPointer first;
@@ -1263,7 +1265,7 @@ FUN_00a49d60::~FUN_00a49d60()
     vtable = &DAT_0109893c;
     first.Clear();
     second.Clear();
-    FUN_00aa10f0(resource);
+    _NiFree_00aa10f0(resource);
     second.Release();
     first.Release();
     ParentData::FUN_00a6d290();
@@ -1557,7 +1559,7 @@ void __cdecl FUN_00a5b460()
     g_011f42c0->FUN_00a5b3c0();
 }
 
-extern void __cdecl FUN_00aa10f0(char* psz);
+extern void __cdecl _NiFree_00aa10f0(char* psz);
 extern int DAT_0102102c;
 
 struct Ent
@@ -1599,7 +1601,7 @@ void FUN_00a5b470_cls::ResetEntries()
     {
         p = p - 1;
         p->m_f0 = &DAT_0102102c;
-        FUN_00aa10f0(GetStr(p));
+        _NiFree_00aa10f0(GetStr(p));
     }
 }
 
@@ -2116,9 +2118,9 @@ struct ConvertedController;
 struct ControllerInterpolator;
 struct ControllerHost
 {
-    ConvertedController* FUN_00a5c570(const NiRTTI*);
+    ConvertedController* NiObjectNET_GetController(const NiRTTI*);
     void FUN_00a5c000(ConvertedController*);
-    void FUN_00a5c480(StubController*);
+    void NiObjectNET_RemoveController(StubController*);
 };
 struct ControllerFields
 {
@@ -2302,7 +2304,7 @@ void __cdecl ConvertLegacyController(StubController* p)
 {
     LegacyController* old = static_cast<LegacyController*>(p);
     ControllerHost* host = reinterpret_cast<ControllerHost*>(old->unk2C);
-    ConvertedController* controller = host->FUN_00a5c570(&DAT_011f36ec);
+    ConvertedController* controller = host->NiObjectNET_GetController(&DAT_011f36ec);
     if (controller)
         controller->IncRefCount();
     ControllerInterpolator* allocation = static_cast<ControllerInterpolator*>(NiObject::operator new(0x5c));
@@ -2358,7 +2360,7 @@ void __cdecl ConvertLegacyController(StubController* p)
     }
     interpolator->Update();
     if (host)
-        host->FUN_00a5c480(p);
+        host->NiObjectNET_RemoveController(p);
     controller->DecRefCount();
 }
 
@@ -2898,7 +2900,8 @@ void __cdecl FUN_00a41220(int a1)
 }
 
 // @fnv 0x00a420e0
-void __cdecl FUN_00a420e0(float a0, float a1, float* p2, float a3, float a4, float* p5, float a6, float a7, float* p8,
+// src: GAMEBRYO_LIB 0x00a420e0
+void __cdecl NiInterpScalar_AdjustBezier(float a0, float a1, float* p2, float a3, float a4, float* p5, float a6, float a7, float* p8,
                           float* p9)
 {
     float f = a3 - a0;
@@ -3512,7 +3515,7 @@ struct S00a427e0_Mgr
 {
     unsigned int unk00, unk04, unk08;
     S00a427e0_Ctrl* head;
-    void FUN_00a5c480(S00a427e0_Seq*);
+    void NiObjectNET_RemoveController(S00a427e0_Seq*);
 };
 struct S00a427e0_Seq
 {
@@ -3559,7 +3562,7 @@ void __cdecl FUN_00a427e0(StubController* p)
         }
         controller = controller->next;
     }
-    manager->FUN_00a5c480(sequence);
+    manager->NiObjectNET_RemoveController(sequence);
 }
 
 // Stores the key and referenced sequence in a map entry.
@@ -3571,7 +3574,7 @@ template <> void SequenceMapBase::SetValue(EntryType* apItem, const char* key,
     apItem->m_val = obj;
 }
 
-void __cdecl FUN_00aa10f0(void*);
+void __cdecl _NiFree_00aa10f0(void*);
 
 struct ArrayBuffer
 {
@@ -3582,7 +3585,7 @@ struct ArrayBuffer
 // @fnv 0x00a541e0
 void ArrayBuffer::FUN_00a541e0()
 {
-    FUN_00aa10f0(m_pBuffer);
+    _NiFree_00aa10f0(m_pBuffer);
 }
 
 struct FUN_00a5abe0_lock
@@ -3734,7 +3737,7 @@ struct FUN_00a5b790_cls
 };
 
 void* __cdecl FUN_00aa1070(unsigned int size);
-void __cdecl FUN_00aa10f0(void* p);
+void __cdecl _NiFree_00aa10f0(void* p);
 
 template <class T> struct Alloc
 {
@@ -3782,7 +3785,7 @@ void FUN_00a5b790_cls::FUN_00a5b790(unsigned int newSize)
     {
         m_04 = 0;
     }
-    FUN_00aa10f0(old);
+    _NiFree_00aa10f0(old);
 }
 
 // Invokes the virtual vf09 on pStream, passing this object as the owner argument.
@@ -5092,7 +5095,7 @@ void SingletonTarget::FUN_00a5b3c0()
                 StringRecord169* pkRecord = (StringRecord169*)(pcString - 8);
                 if (pkRecord->refs == 0)
                 {
-                    FUN_00aa10f0(pkRecord);
+                    _NiFree_00aa10f0(pkRecord);
                     if (ui >= pkBucket->count)
                     {
                         pkBucket->count = ui + 1;

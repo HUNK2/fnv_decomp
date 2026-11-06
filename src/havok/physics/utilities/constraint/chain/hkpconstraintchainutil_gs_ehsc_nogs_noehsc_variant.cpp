@@ -46,7 +46,7 @@ struct FUN_00e5c460_cls
     int unk34;
     DispatchTarget m_38;
 
-    void FUN_00e5c460(OutObject* a1);
+    void hkpConstraintChainInstance_insertEntityAtFront(OutObject* a1);
 };
 #include <xmmintrin.h>
 __declspec(align(16)) struct XfOut_cls
@@ -92,7 +92,7 @@ static char* XfSelectRec(char* rec)
     }
     return 0;
 }
-void FUN_00e5b3a0(XfScene_cls* a1, XfScene_cls* a2, const __m128* a3);
+void hkpConstraintChainUtil_addConstraintToBallSocketChain(XfScene_cls* a1, XfScene_cls* a2, const __m128* a3);
 // FUN_00e5b8f0: __cdecl, 317 bytes
 // Two 16-byte keys are filled by FUN_00e5ad40; the sorted-list tail is compared against
 // the owner's keys; the matching branch hands a 32-byte pair to a sub-object or holder.
@@ -156,7 +156,7 @@ struct ListB
     unsigned int* m_38;
     unsigned int m_3c;
     void AddReferencedObject(unsigned int key);
-    void FUN_00e5c460(unsigned int key);
+    void hkpConstraintChainInstance_insertEntityAtFront(unsigned int key);
 };
 int FUN_00e5ad40(KeyOwnerA* a, Tmp16* p, Tmp16* q);
 int FUN_00e5b8f0(KeyOwnerA* a1, ListB* a2, OwnerC* a3, ...);
@@ -176,8 +176,8 @@ struct S_00e5c370_Elem
         reinterpret_cast<__m128&>(b) = reinterpret_cast<const __m128&>(o.b);
     }
 };
-void __cdecl FUN_00c908c0(hkMemoryAllocator& alloc, void* arr, int numElem, int sizeElem);
-void __cdecl FUN_00d2cc70(void* dst, const void* src, int nbytes);
+void __cdecl hkArrayUtil__reserve(hkMemoryAllocator& alloc, void* arr, int numElem, int sizeElem);
+void __cdecl hkMemUtil_memMove(void* dst, const void* src, int nbytes);
 template <class T>
 static __forceinline void S_00e5c370_ArrayBase_GrowArrayCapacity(hkArrayBase<T>& self, hkMemoryAllocator& a, int n);
 
@@ -189,7 +189,7 @@ static __forceinline void S_00e5c370_ArrayBase_GrowArrayCapacity(hkArrayBase<T>&
         {
             int cap2 = 2 * cap;
             int newSize = (n < cap2) ? cap2 : n;
-            FUN_00c908c0(a, (&self), newSize, sizeof(T));
+            hkArrayUtil__reserve(a, (&self), newSize, sizeof(T));
         }
     }
 
@@ -569,7 +569,7 @@ struct S5ba30_ArrayOps
         {
             int cap2 = 2 * capacity;
             int newSize = (n < cap2) ? cap2 : n;
-            FUN_00c908c0(alloc, this, newSize, sizeof(T));
+            hkArrayUtil__reserve(alloc, this, newSize, sizeof(T));
         }
     }
     __forceinline void _setSize(hkMemoryAllocator& alloc, int n)
@@ -981,7 +981,7 @@ void hkArrayBase<S_00e5c370_Elem>::_spliceInto(hkMemoryAllocator& alloc, int ind
         int numtomove = m_iElementCount - index - numdel;
         if (newsize > getCapacity())
             S_00e5c370_ArrayBase_GrowArrayCapacity(*this, alloc, newsize);
-        FUN_00d2cc70(m_data + index + numtoinsert, m_data + index + numdel, numtomove * sizeof(S_00e5c370_Elem));
+        hkMemUtil_memMove(m_data + index + numtoinsert, m_data + index + numdel, numtomove * sizeof(S_00e5c370_Elem));
         S_00e5c370_Elem* dst = m_data + index;
         for (int i = 0; i < numtoinsert; i++)
             new (dst + i) S_00e5c370_Elem(p[i]);

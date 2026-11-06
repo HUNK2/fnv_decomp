@@ -230,7 +230,7 @@ struct S_d6a280_Owner
 
 struct S_d6a280_Elem
 {
-    void FUN_00c93920(hkpWorldPostSimulationListener* listener) throw();
+    void hkpWorld_addWorldPostSimulationListener(hkpWorldPostSimulationListener* listener) throw();
 };
 
 // Constructs the base with a, then calls FUN_00c93920 on each item of m_24's m_items array, passing this.
@@ -240,7 +240,7 @@ hkpMidphaseViewer::hkpMidphaseViewer(int a) : hkpWorldViewerBase((const void*)a)
     if (m_iValueAtOffset0C != 0)
     {
         for (int i = 0; i < ((S_d6a280_Owner*)m_iValueAtOffset0C)->m_uiItemCount; i++)
-            ((S_d6a280_Owner*)m_iValueAtOffset0C)->m_items[i]->FUN_00c93920((hkpWorldPostSimulationListener*)this);
+            ((S_d6a280_Owner*)m_iValueAtOffset0C)->m_items[i]->hkpWorld_addWorldPostSimulationListener((hkpWorldPostSimulationListener*)this);
     }
 }
 

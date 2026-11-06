@@ -79,7 +79,7 @@ struct FUN_00cdf230_cls
     int unk5c;
     SourceBlockCDF m_kSource;
     TargetBlockCDF m_kRoomNode;
-    void FUN_00cdf230(int iArg);
+    void hkpRagdollConstraintData_setTarget(int iArg);
 };
 struct Row
 {

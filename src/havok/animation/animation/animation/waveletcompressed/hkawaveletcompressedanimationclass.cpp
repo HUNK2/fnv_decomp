@@ -261,11 +261,12 @@ struct FloatOwner
     int unk10;
     int unk14;
     VirtualFloat* unk18;
-    float __thiscall FUN_00dfb6d0(float value, int mode);
+    float __thiscall hkaAnimation_getExtractedMotionReferenceFrame(float value, int mode);
 };
 // Forwards value and mode to the virtual Slot3 of the object at unk18 and returns its result.
 // @fnv 0x00dfb6d0
-float __thiscall FloatOwner::FUN_00dfb6d0(float value, int mode)
+// src: HAVOK_LIB 0x00dfb6d0
+float __thiscall FloatOwner::hkaAnimation_getExtractedMotionReferenceFrame(float value, int mode)
 {
     return unk18->Slot3(value, mode);
 }

@@ -73,7 +73,7 @@ void hkpGravityGun::FUN_00e46080(hkTransform* a4, hkpRigidBody* a3, hkpWorld* wo
         hkVector4 impulse;
         _mm_store_ps((float*)&impulse, _mm_load_ps((const float*)direction));
         impulse.mul4(-gun->m_fPickAngle);
-        target->FUN_00c9c1d0();
+        target->activate_00c9c1d0();
         target->m_pMotionState.SetCollisionShape(impulse);
     }
 }

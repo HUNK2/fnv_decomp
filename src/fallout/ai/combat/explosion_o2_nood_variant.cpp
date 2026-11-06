@@ -101,7 +101,7 @@ struct S009afc70
 class BGSRagdoll;
 struct FUN_009b0d30_shell
 {
-    void __thiscall FUN_00c9c1d0();
+    void __thiscall activate_00c9c1d0();
     void __thiscall FUN_009b0d30(int);
 };
 struct RetObj
@@ -1143,7 +1143,7 @@ struct LiquidConstraintData
     unsigned unk10, unk14, unk18, unk1c, unk20, unk24;
     LiquidContactArray* contactData;
 
-    unsigned short __thiscall FUN_00cbc8f0(int);
+    unsigned short __thiscall hkpSimpleContactConstraintData_getContactPointIdAt(int);
 };
 
 struct LiquidConstraint
@@ -1375,9 +1375,9 @@ struct LiquidRigid
 
     void __thiscall OnTrigger(const LiquidFour&);
 
-    void __thiscall FUN_00c9c1d0();
+    void __thiscall activate_00c9c1d0();
 
-    int __thiscall FUN_00c9c380();
+    int __thiscall getNumConstraints();
 
     LiquidConstraint* __thiscall GetEntry(int);
 };
@@ -1385,7 +1385,7 @@ struct LiquidRigid
 struct LiquidWorld
 {
     void __thiscall OnTrigger(const LiquidFour&);
-    void __thiscall FUN_00c9c1d0();
+    void __thiscall activate_00c9c1d0();
 };
 
 struct LiquidBody
@@ -1642,10 +1642,10 @@ void LiquidActionCandidate::FUN_00cbccb0(float delta)
 
             LiquidContact contact;
 
-            if (object && object->FUN_00c9c380() && position.FUN_004390c0(DAT_011f426c))
+            if (object && object->getNumConstraints() && position.FUN_004390c0(DAT_011f426c))
             {
 
-                for (int i = 0; position.FUN_004390c0(DAT_011f426c) && i < object->FUN_00c9c380(); ++i)
+                for (int i = 0; position.FUN_004390c0(DAT_011f426c) && i < object->getNumConstraints(); ++i)
                 {
 
                     LiquidConstraint* c = object->GetEntry(i);
@@ -1674,7 +1674,7 @@ void LiquidActionCandidate::FUN_00cbccb0(float delta)
                             if (contacts->count > 0)
                             {
 
-                                contact = contacts->contacts[d->indices[d->FUN_00cbc8f0(0)]];
+                                contact = contacts->contacts[d->indices[d->hkpSimpleContactConstraintData_getContactPointIdAt(0)]];
 
                                 if (contact.NormalZ() < 0.5f)
                                 {
@@ -1856,7 +1856,7 @@ void LiquidActionCandidate::FUN_00cbccb0(float delta)
 
                     body->FUN_00a29680();
 
-                    world->FUN_00c9c1d0();
+                    world->activate_00c9c1d0();
 
                     body->FUN_00a29680();
                 }

@@ -135,7 +135,8 @@ struct PixelShaderDevice : FakeDevice
 
 // Creates a pixel shader from pvCode via DAT_0126fa28, logging an error and returning 0 on failure.
 // @fnv 0x00e988d0
-GeometryRelatedType* __stdcall FUN_00e988d0(void* pvShaderCode)
+// src: GAMEBRYO_LIB 0x00e988d0
+GeometryRelatedType* __stdcall NiD3DShaderProgramCreator_CreatePixelShader(void* pvShaderCode)
 {
     GeometryRelatedType* hShader;
     long m_kResult =

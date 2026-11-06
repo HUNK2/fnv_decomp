@@ -35,7 +35,7 @@ void FUN_00d374f0(int a, int b, int c, int d);
 struct FUN_00d37690_Class {
     void __thiscall ForwardToFunction(int a, int b, int c, int d);
 };
-void FUN_00d37740(int a, int b, int c, int d);
+void hkpMultiRayConvexAgent_createMultiRayConvexAgent(int a, int b, int c, int d);
 void FUN_00d37780(int a, int b, int c, int d);
 void FUN_00d37860(int a, int b, int c, int d);
 void FUN_00d378a0(int a, int b, int c, int d);
@@ -100,7 +100,7 @@ struct D376B0MemoryRouter {
     D376B0Allocator& heap() { return *m_pStreamAllocator; }
 };
 extern "C" D376B0MemoryRouter& __cdecl FUN_00c85750();
-void __cdecl FUN_00c908c0(D376B0Allocator* alloc, void* array, int numElements, int sizeElem);
+void __cdecl hkArrayUtil__reserve(D376B0Allocator* alloc, void* array, int numElements, int sizeElem);
 class D376B0ReferencedObject {
 public:
     D376B0ReferencedObject() : m_sReferenceCount(1) {}
@@ -127,7 +127,7 @@ struct D376B0IndexArray {
         if (cap < n) {
             int cap2 = 2 * cap;
             int newSize = (n < cap2) ? cap2 : n;
-            FUN_00c908c0(&alloc, this, newSize, sizeof(unsigned short));
+            hkArrayUtil__reserve(&alloc, this, newSize, sizeof(unsigned short));
         }
         m_iElementCount = n;
     }

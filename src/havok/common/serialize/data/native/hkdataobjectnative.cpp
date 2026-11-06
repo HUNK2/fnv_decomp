@@ -33,7 +33,8 @@ inline AllocatorType& GetRouterHeap(hkMemoryRouter& router)
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 // @fnv 0x00dbb610
-void __stdcall FUN_00dbb610(int* p)
+// src: HAVOK_LIB 0x00dbb610
+void __stdcall hkDataWorldNative_getType(int* p)
 {
     *p = 0;
 }
@@ -98,7 +99,8 @@ int __thiscall FUN_00dbbb20_Class::FUN_00dbbb20(int a)
 }
 
 // @fnv 0x00dbbc50
-int __thiscall hkDataArrayNative::FUN_00dbbc50(int a)
+// src: HAVOK_LIB 0x00dbbc50
+int __thiscall hkDataArrayNative::asVec(int a)
 {
     return m_0C + a * m_14;
 }
@@ -324,13 +326,13 @@ void hkDataClassNative::getDeclaredMemberInfo(int a, hkDataClassMemberInfo& b) c
 
 struct FUN_00d46f20_Class
 {
-    const Shape* __thiscall FUN_00d46f20(int i) const;
+    const Shape* __thiscall getMember(int i) const;
 };
 
 // @fnv 0x00dbbfd0
 void hkDataClassNative::getMemberInfo(int aiArg1, hkDataClassMemberInfo& aiArg2) const
 {
-    GetMemberInfo(reinterpret_cast<FUN_00d46f20_Class*>(m_0c)->FUN_00d46f20(aiArg1), aiArg2);
+    GetMemberInfo(reinterpret_cast<FUN_00d46f20_Class*>(m_0c)->getMember(aiArg1), aiArg2);
 }
 
 hkMemoryRouter* _D1A0E0GetMemoryRouter();
@@ -643,7 +645,7 @@ void NativeWorldContents::SetContents(void* pvObject, hkClass& kClass)
     }
 }
 
-int __cdecl FUN_00cb0fa0(int, int);
+int __cdecl hkString_strCmp(int, int);
 
 
 // @fnv 0x00dbb970
@@ -651,7 +653,7 @@ hkBool hkDataClassNative::isSuperClass(const hkDataClassImpl* pkNode) const
 {
     while (pkNode)
     {
-        if (FUN_00cb0fa0((int)pkNode->getName(), (int)getName()) == 0)
+        if (hkString_strCmp((int)pkNode->getName(), (int)getName()) == 0)
             return true;
         pkNode = pkNode->getParent();
     }
@@ -781,7 +783,7 @@ hkDataArrayNative* hkDataArrayNative::GetElement(int iIndex)
 
 struct FUN_00d46f20_Map
 {
-    int* FUN_00d46f20(int iKey);
+    int* getMember(int iKey);
 };
 
 struct FUN_00dbbe30_cls
@@ -798,7 +800,7 @@ struct FUN_00dbbe30_cls
 // @fnv 0x00dbbe30
 int FUN_00dbbe30_cls::GetValueForKey(int iKey)
 {
-    return *m_map->FUN_00d46f20(iKey);
+    return *m_map->getMember(iKey);
 }
 
 namespace fnv_00dbbe50 {
@@ -897,7 +899,7 @@ void hkDataClassNative::GetMemberInfo(const hkClassMember& kMember, hkMemberInfo
     kInfo.m_type = GetShapeTypeFlags(iType, iSubType, kMember.FUN_00d86920(), kMember.FUN_00d86940());
     if (kMember.FUN_00d86920())
     {
-        void* pvAttr = const_cast<hkVariant*>(kMember.FUN_00d86960(DAT_011b7958));
+        void* pvAttr = const_cast<hkVariant*>(kMember.getAttribute_00d86960(DAT_011b7958));
         if (pvAttr)
         {
             FUN_00d871a0 kAccess(pvAttr, "typeName");
@@ -1112,15 +1114,16 @@ class hkLibDBB6
     int unk10[4];
     Pair m_name;
 
-    hkNodeRefDBB6 FUN_00dbb620();
+    hkNodeRefDBB6 hkDataWorldNative_getContents();
 };
 
 // Allocates a new hkNodeDBB6, copies m_name into it, sets m_pOwnerObject to this, and returns it wrapped in an hkNodeRefDBB6.
 // @fnv 0x00dbb620
-hkNodeRefDBB6 hkLibDBB6::FUN_00dbb620()
+// src: HAVOK_SRC 0x00dbb620
+hkNodeRefDBB6 hkLibDBB6::hkDataWorldNative_getContents()
 {
     hkNodeDBB6* node = new hkNodeDBB6();
-    node->m_name.FUN_00d873d0(m_name);
+    node->m_name.Imath_Vec2_int_Vec2_int(m_name);
     node->m_pOwnerObject = this;
     hkNodeRefDBB6 r;
     r.FUN_00dba760(node);
@@ -1239,25 +1242,26 @@ float VertexDataDBC5C0::GetFloat(int iIndex)
 
 extern "C" int __cdecl Vsnprintf(char* pcBuffer, unsigned int uSize, const char* pcFormat, ...);
 extern const char str_010a5824[];
-extern "C" int __cdecl FUN_00cb10d0(const char* s);
+extern "C" int __cdecl hkString_strLen(const char* s);
 // This helper dispatches slot 0; hkStreamWriter::write is at slot 4.
 struct TextWriteDispatch
 {
     virtual void write(const char* s, int len) throw();
 };
-static __declspec(noinline) void FUN_00cc0080(TextWriteDispatch* pkWriter, const char* pcString)
+// src: HAVOK_LIB 0x00cc0080
+static __declspec(noinline) void writeString(TextWriteDispatch* pkWriter, const char* pcString)
 {
     if (pcString == 0)
         pkWriter->write("(null)", 6);
     else
-        pkWriter->write(pcString, FUN_00cb10d0(pcString));
+        pkWriter->write(pcString, hkString_strLen(pcString));
 }
 // @fnv 0x00cc0120
 hkOstream& hkOstream::operator<<(const void* pvPointer)
 {
     int buffer[2506];
     Vsnprintf((char*)buffer, 0x2728u, str_010a5824, pvPointer);
-    FUN_00cc0080(reinterpret_cast<TextWriteDispatch*>(m_pStreamWriter), (const char*)buffer);
+    writeString(reinterpret_cast<TextWriteDispatch*>(m_pStreamWriter), (const char*)buffer);
     return *this;
 }
 
@@ -1375,7 +1379,7 @@ static __declspec(noinline) Node680* FUN_00dbb260(Pair* p, Dispatch680* o)
     e->unk08 = 0;
     e->size = 24;
     e->vtable = &DAT_010d6334;
-    e->name.FUN_00d873d0(*p);
+    e->name.Imath_Vec2_int_Vec2_int(*p);
     e->owner = o;
     return e;
 }
@@ -1384,7 +1388,7 @@ struct Owner680
     int unk00;
     int unk04;
     Dispatch680* dispatch;
-    void FUN_00dbb680(Input680* input);
+    void hkDataWorldNative_newObject(Input680* input);
 };
 struct RawDispatch680;
 typedef void*(__thiscall* DispatchFn680)(RawDispatch680*, void*);
@@ -1398,7 +1402,8 @@ struct RawDispatch680
 };
 // Allocates a block using the first dispatch result's size, invokes an available callback, then passes the block and second result to FUN_00dbb260.
 // @fnv 0x00dbb680
-void Owner680::FUN_00dbb680(Input680* input)
+// src: HAVOK_SRC 0x00dbb680
+void Owner680::hkDataWorldNative_newObject(Input680* input)
 {
     RawDispatch680* pRawDispatch = (RawDispatch680*)dispatch;
     Pair p;
@@ -1480,11 +1485,12 @@ struct FUN_00dbb840_class
     int unk04;
     TargetClass* m_class;
 
-    void FUN_00dbb840(hkArray<hkClass*>& out) throw();
+    void hkDataWorldNative_findAllClasses(hkArray<hkClass*>& out) throw();
 };
 
 // @fnv 0x00dbb840
-void FUN_00dbb840_class::FUN_00dbb840(hkArray<hkClass*>& out) throw()
+// src: HAVOK_SRC 0x00dbb840
+void FUN_00dbb840_class::hkDataWorldNative_findAllClasses(hkArray<hkClass*>& out) throw()
 {
     int i = 0;
     TargetClass* cls = this->m_class;
@@ -1910,11 +1916,12 @@ struct Object
     Source* source;
     int d;
     Index index;
-    Record* __thiscall FUN_00dbb520(void*);
+    Record* __thiscall hkDataWorldNative_findClass(void*);
 };
 // Looks up a record by key in the index, or allocates a new 20-byte record, stores the source reference, and inserts it into the index.
 // @fnv 0x00dbb520
-Record* Object::FUN_00dbb520(void* key)
+// src: HAVOK_SRC 0x00dbb520
+Record* Object::hkDataWorldNative_findClass(void* key)
 {
     void* reference;
     if (key)

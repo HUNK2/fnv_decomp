@@ -15,7 +15,7 @@
 #include "../../../../../../../include/hkpWorldViewerBase.h"
 #include "../../../../../../../include/hkpContactPointViewer.h"
 
-struct Context { void FUN_00c93920(void* value); };
+struct Context { void hkpWorld_addWorldPostSimulationListener(void* value); };
 // Registers the viewer's post-simulation listener with the world.
 // @fnv 0x00de2950
 void hkpPhysicsContextWorldListener::WorldAddedCallback(hkpWorld* world) {
@@ -25,7 +25,7 @@ void hkpPhysicsContextWorldListener::WorldAddedCallback(hkpWorld* world) {
   value = static_cast<hkpWorldPostSimulationListener*>(owner);
  else
   value = 0;
- reinterpret_cast<Context*>(world)->FUN_00c93920(value);
+ reinterpret_cast<Context*>(world)->hkpWorld_addWorldPostSimulationListener(value);
 }
 
 struct S_00de2980_World { int ClearValue(hkpWorldPostSimulationListener* p); };

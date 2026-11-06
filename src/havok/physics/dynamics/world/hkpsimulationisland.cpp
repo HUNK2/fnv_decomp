@@ -41,12 +41,13 @@ struct S_00d070c0
     S_00d070c0_Inner* unk14;
 };
 
-void __cdecl FUN_00cb3c80(void* a, S_00d070c0* obj);
+void __cdecl hkpWorldOperationUtil_addConstraintToCriticalLockedIsland(void* a, S_00d070c0* obj);
 
 // @fnv 0x00d070c0
-void __stdcall FUN_00d070c0(S_00d070c0* obj)
+// src: HAVOK_SRC 0x00d070c0
+void __stdcall hkpSimulationIsland_addConstraintToCriticalLockedIsland(S_00d070c0* obj)
 {
-    FUN_00cb3c80(obj->unk14->unk08, obj);
+    hkpWorldOperationUtil_addConstraintToCriticalLockedIsland(obj->unk14->unk08, obj);
 }
 
 struct Holder
@@ -69,7 +70,8 @@ struct Owner
 void __cdecl FUN_00cb3da0(void* apTarget, Owner* apOwner);
 
 // @fnv 0x00d070e0
-void __stdcall FUN_00d070e0(Owner* apOwner)
+// src: HAVOK_SRC 0x00d070e0
+void __stdcall hkpSimulationIsland_removeConstraintFromCriticalLockedIsland(Owner* apOwner)
 {
     FUN_00cb3da0(apOwner->m_pHolder->m_pFlagTarget, apOwner);
 }
@@ -323,11 +325,12 @@ struct D077D0Object
     int m_iCapacity;
 
     bool CheckConnectivity(D077D0BitField& bits);
-    bool FUN_00d077d0();
+    bool hkpSimulationIsland_isFullyConnected();
 };
 
 // @fnv 0x00d077d0
-bool D077D0Object::FUN_00d077d0()
+// src: HAVOK_LIB 0x00d077d0
+bool D077D0Object::hkpSimulationIsland_isFullyConnected()
 {
     D077D0LocalBuffer buffer;
     buffer.m_data = FUN_00c85750().stackAllocInts(m_iCapacity);
@@ -351,7 +354,8 @@ GlobalObjectO2_00d472a0* FUN_00d078d0()
 // Sub-object pointer lives at +0x30 of the owner; flags byte at +0x12 of it.
 
 // @fnv 0x00d07100
-void __stdcall FUN_00d07100(char* owner, unsigned char bits)
+// src: HAVOK_LIB 0x00d07100
+void __stdcall hkpSimulationIsland_addCallbackRequest(char* owner, unsigned char bits)
 {
     char* sub = *(char**)(owner + 0x30);
     *(unsigned char*)(sub + 0x12) |= bits;
@@ -891,9 +895,9 @@ struct FUN_00d07210_Island
     void SaveIsland(FUN_00d07210_Writer* save, int unkArg);
 };
 
-int __cdecl FUN_00d06f80(void* data, int bytes);
+int __cdecl hkStatisticsCollector_getAllocatedSize(void* data, int bytes);
 void __cdecl CollectSectors(void* agents, FUN_00d07210_Writer* save);
-void __cdecl FUN_00d97130(void* agents, void* world, FUN_00d07210_Writer* save);
+void __cdecl hkpAgentMachineUtil_calcNnStatistics(void* agents, void* world, FUN_00d07210_Writer* save);
 
 // Serializes the island's entity and action pointer arrays, per-entity constraints, agents and collision agents through the writer.
 // @fnv 0x00d07210
@@ -901,7 +905,7 @@ void FUN_00d07210_Island::SaveIsland(FUN_00d07210_Writer* save, int)
 {
     if ((m_kActorEntries.m_iCapacityState & 0x80000000) == 0 || save->m_force)
     {
-        int alloc = FUN_00d06f80(m_kActorEntries.m_data, m_kActorEntries.getCapacity() * 4);
+        int alloc = hkStatisticsCollector_getAllocatedSize(m_kActorEntries.m_data, m_kActorEntries.getCapacity() * 4);
         save->Array(3, "EntityPtrs", m_kActorEntries.m_data, m_kActorEntries.GetLogicalSize() * 4, alloc);
     }
 
@@ -936,7 +940,7 @@ void FUN_00d07210_Island::SaveIsland(FUN_00d07210_Writer* save, int)
         {
             int capacity = m_ppActions.getCapacity();
             void* data = m_ppActions.m_data;
-            alloc = FUN_00d06f80(data, capacity * 4);
+            alloc = hkStatisticsCollector_getAllocatedSize(data, capacity * 4);
         }
         save->Array(3, "ActionPtrs", m_ppActions.m_data, m_ppActions.GetLogicalSize() * 4, alloc);
     }
@@ -949,7 +953,7 @@ void FUN_00d07210_Island::SaveIsland(FUN_00d07210_Writer* save, int)
 
     CollectSectors(&m_pAgents, save);
     save->Block("CollAgents");
-    FUN_00d97130(&m_pAgents, unk18->unk78, save);
+    hkpAgentMachineUtil_calcNnStatistics(&m_pAgents, unk18->unk78, save);
     save->End();
 }
 
@@ -1087,12 +1091,13 @@ struct FUN_00d07420_cls
     int unkC8;
     FUN_00d07420_cls* m_cc;  // +0xcc
 
-    void FUN_00d07420(FUN_00d07420_cls* item);
+    void hkpSimulationIsland_internalAddEntity(FUN_00d07420_cls* item);
 };
 
 // Sets item's parent to this and its index to the current count, then appends item to this object's item list, growing it via FUN_00c90940 when full.
 // @fnv 0x00d07420
-void FUN_00d07420_cls::FUN_00d07420(FUN_00d07420_cls* item)
+// src: HAVOK_LIB 0x00d07420
+void FUN_00d07420_cls::hkpSimulationIsland_internalAddEntity(FUN_00d07420_cls* item)
 {
     item->m_cc = this;
     item->m_a8 = (unsigned short)m_kNode.m_uiItemCount;

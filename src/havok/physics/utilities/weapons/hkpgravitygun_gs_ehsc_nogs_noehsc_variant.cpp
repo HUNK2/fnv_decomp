@@ -15,7 +15,7 @@ struct Body_e45e
 {
     int unk[0x1a0 / 4];
     __m128 m_kInertiaAndMassInv;
-    void FUN_00ca88e0(float mass);
+    void hkpRigidBody_setMassInv(float mass);
     void FUN_00c905b0();
     float getMassInv() const
     {
@@ -45,7 +45,7 @@ Body_e45e* World_e45e::FUN_00e45e60(int index)
     const char* src = (const char*)&data[index + 1];
     for (int i = 0; i < n; i += 4)
         *(unsigned int*)(dst + i) = *(const unsigned int*)(src + i);
-    body->FUN_00ca88e0((float)(body->getMassInv() * DAT_01016408));
+    body->hkpRigidBody_setMassInv((float)(body->getMassInv() * DAT_01016408));
     body->FUN_00c905b0();
     return body;
 }

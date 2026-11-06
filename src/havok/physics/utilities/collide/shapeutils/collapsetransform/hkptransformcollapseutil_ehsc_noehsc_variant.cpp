@@ -58,9 +58,9 @@ struct ShapeData
     int m_kPointB;
     int m_iThirdValue;
     int m_iFourthElementInteger;
-    void FUN_00d738f0(int);
-    void FUN_00d74a20();
-    ShapeData* FUN_00d74b20(ShapeRefArray* refs);
+    void _SharedShapeData_recursivelyParseShapeReferences(int);
+    void _SharedShapeData_removeSingleReferencedShapeData();
+    ShapeData* _SharedShapeData__SharedShapeData(ShapeRefArray* refs);
 };
 struct FUN_00d74980_Class
 {
@@ -79,15 +79,15 @@ struct FUN_00d74420_Context
     int m_kPointA;  // +0x00
     int m_kPointB;  // +0x04
     int m_iThirdValue;  // +0x08, initialized to 0x80000000
-    void FUN_00d738f0(int value);
-    void FUN_00d74a20();
+    void _SharedShapeData_recursivelyParseShapeReferences(int value);
+    void _SharedShapeData_removeSingleReferencedShapeData();
     void FUN_00d74aa0();
 };
 int FUN_00d739f0(int a1, int a2, FUN_00d74420_Context* ctx, int a3);
 int RunContextOperation(int a1, int a2, int a3, int* out);
 // Other units bind GetMonitorStream to 0x00c85750; the allocator is at +0x10.
 void __cdecl ResizeAudioStream(void* pvAlloc, void* apvArray, int iElemSize);
-void FUN_00c908c0(void*, void*, int, int);
+void hkArrayUtil__reserve(void*, void*, int, int);
 // Allocator-dependent array bodies are supplied by each unit, as declared in hkArray.h.
 __forceinline hkMemoryAllocator& hkContainerHeapAllocator::get(const void*)
 {
@@ -120,7 +120,7 @@ template <class T> __forceinline void hkArrayBase<T>::GrowArrayCapacity(hkMemory
     {
         int cap2 = 2 * capacity;
         int newSize = (n < cap2) ? cap2 : n;
-        FUN_00c908c0(&alloc, this, newSize, sizeof(T));
+        hkArrayUtil__reserve(&alloc, this, newSize, sizeof(T));
     }
 }
 template <class T> __forceinline void hkArrayBase<T>::_setSize(hkMemoryAllocator& alloc, int n)
@@ -214,11 +214,12 @@ static __forceinline void addShapeD738(ShapeData* self, int value)
     hkArray<hkpShape*> children;
     FUN_00d737d0((hkpShape*)value, &children);
     for (int i = 0; i < children.m_iElementCount; i++)
-        self->FUN_00d738f0((int)children.m_data[i]);
+        self->_SharedShapeData_recursivelyParseShapeReferences((int)children.m_data[i]);
 }
 
 // @fnv 0x00d738f0
-void ShapeData::FUN_00d738f0(int value)
+// src: HAVOK_LIB 0x00d738f0
+void ShapeData::_SharedShapeData_recursivelyParseShapeReferences(int value)
 {
     int index = indexOfD738(this, value);
     if (index >= 0)

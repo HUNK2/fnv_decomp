@@ -186,7 +186,7 @@ FUN_00dd94c0::~FUN_00dd94c0() throw()
     m_entries._clearAndDeallocate(reinterpret_cast<hkMemoryAllocator&>(S_00dd94c0_GetHeap()));
 }
 
-int FUN_00cb0fa0(const char* a, const char* b);
+int hkString_strCmp(const char* a, const char* b);
 
 struct S_00dd9380_Allocator;
 
@@ -219,7 +219,7 @@ inline int S_00dd9380_strCmp(const char* a, const char* b)
     if (a)
     {
         if (b)
-            return FUN_00cb0fa0(a, b);
+            return hkString_strCmp(a, b);
         return 1;
     }
     return b ? -1 : 0;
@@ -232,7 +232,7 @@ struct S_00dd9380_Entry
     int m_iOwnerObjectOffset;
 };
 
-void FUN_00c908c0(S_00dd9380_Allocator& alloc, void* array, int numElem, int sizeElem);
+void hkArrayUtil__reserve(S_00dd9380_Allocator& alloc, void* array, int numElem, int sizeElem);
 
 struct S_00dd9380_ArrayLocalForm
 { // local form of hkArray: 0x00dd9380 needs the original inline/out-of-line helper split; shared replacement changes bytes.
@@ -249,7 +249,7 @@ struct S_00dd9380_ArrayLocalForm
         {
             int cap2 = 2 * getCapacity();
             int newSize = (n < cap2) ? cap2 : n;
-            FUN_00c908c0(alloc, this, newSize, sizeof(S_00dd9380_Entry));
+            hkArrayUtil__reserve(alloc, this, newSize, sizeof(S_00dd9380_Entry));
         }
     }
     S_00dd9380_Entry& _expandOne(S_00dd9380_Allocator& alloc)
@@ -275,12 +275,13 @@ struct S_00dd9380
     int m_nextId;
     S_00dd9380_ArrayLocalForm m_entries;
     CRITICAL_SECTION* m_lock;
-    int FUN_00dd9380(const char* name, int value);
+    int hkProcessFactory_registerProcess(const char* name, int value);
 };
 
 // Finds an entry by name or creates one with the supplied value and next owner offset, then returns its owner offset.
 // @fnv 0x00dd9380
-int S_00dd9380::FUN_00dd9380(const char* name, int value)
+// src: HAVOK_LIB 0x00dd9380
+int S_00dd9380::hkProcessFactory_registerProcess(const char* name, int value)
 {
     EnterCriticalSection(m_lock);
     S_00dd9380_Entry* e = 0;

@@ -17,7 +17,7 @@ struct S_00e647e0 {
     hkBool m_bHasHit; char unk41; char unk42; char unk43;
     S_00e647e0_Input* m_pRayCastInput;
     void FUN_00e645b0(const void* a, const void* b, const void* c, S_00e647e0_Local* out);
-    void FUN_00e63f10(S_00e647e0_Local* l, S_00e647e0_Shape* shape);
+    void queryOBBOnTree(S_00e647e0_Local* l, S_00e647e0_Shape* shape);
     hkBool SetupAndProcessShape(S_00e647e0_Input* input, const void* b, const void* c, const void* d);
 };
 #include "fnv_asm_helpers.h"   // project x87 helpers (fnv_SinCos, fnv_FloatToInt), kept last so earlier code is unchanged

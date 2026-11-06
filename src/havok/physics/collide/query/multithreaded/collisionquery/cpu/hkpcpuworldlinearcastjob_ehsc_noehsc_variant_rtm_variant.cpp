@@ -91,7 +91,7 @@ struct FUN_00df72c0_class {
     void ForwardToBase(volatile Data *value);
 };
 struct Param { unsigned int unk00; unsigned int unk04; unsigned int unk08; Param* next0c; };
-struct This { int CastAgainstCollidable(Param*); int FUN_00df72e0(Param*); };
+struct This { int CastAgainstCollidable(Param*); int hkCpuWorldLinearCastCollector_addLeaf(Param*); };
 
 struct DF7230CdPointCollector {
     int unk00;

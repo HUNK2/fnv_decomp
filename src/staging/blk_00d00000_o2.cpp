@@ -128,7 +128,8 @@ struct FUN_00d06c30_cls
 };
 
 // @fnv 0x00d06c30
-extern "C" void __cdecl FUN_00d06c30(FUN_00d06c30_cls* self, unsigned int newCap, unsigned int elemSize)
+// src: HAVOK_LIB 0x00d06c30
+extern "C" void __cdecl hkSmallArrayUtil__reserve(FUN_00d06c30_cls* self, unsigned int newCap, unsigned int elemSize)
 {
     hkMemoryRouter* holder = FUN_00c85750();
     Allocator* alloc = reinterpret_cast<Allocator*>(holder->m_heap);
@@ -435,16 +436,16 @@ int __cdecl FUN_00d95cf0(int, void*, D01E50Node*);
 int __cdecl FUN_00d94df0(int, void*, D01E50Node*);
 int __cdecl ExecuteConstraintCallbacks(int, void*, D01E50Node*);
 int __cdecl FUN_00d94a80(int, void*, D01E50Node*);
-int __cdecl FUN_00d947e0(int, void*, D01E50Node*);
-int __cdecl FUN_00d944d0(int, void*, D01E50Node*);
-int __cdecl FUN_00d94570(int, void*, D01E50Node*);
+int __cdecl hkCpuSolveConstraintsJob(int, void*, D01E50Node*);
+int __cdecl hkCpuSolveApplyGravityJob(int, void*, D01E50Node*);
+int __cdecl hkCpuSolveConstraintBatchJob(int, void*, D01E50Node*);
 int __cdecl LogIntegrateVelocity(int, void*, D01E50Node*);
-int __cdecl FUN_00d94730(int, void*, D01E50Node*);
-int __cdecl FUN_00d943d0(int, void*, D01E50Node*);
+int __cdecl hkCpuSolveExportResultsJob(int, void*, D01E50Node*);
+int __cdecl hkCpuIntegrateMotionJob(int, void*, D01E50Node*);
 int __cdecl FUN_00d93ba0(int, void*, D01E50Node*);
 int __cdecl FUN_00d93380(int, void*, D01E50Node*);
 int __cdecl AccumulateShapes(int, void*, D01E50Node*);
-int __cdecl FUN_00d94340(int, void*, D01E50Node*);
+int __cdecl hkCpuSplitSimulationIslandJob(int, void*, D01E50Node*);
 
 // Dispatches on node->kind to one of several handlers, passing node->payload, ctx and node; returns 1 for unknown kinds.
 // @fnv 0x00d01e50
@@ -461,19 +462,19 @@ int __cdecl DispatchNodeByKind(void* pContext, D01E50Node* node)
     case 4:
         return FUN_00d94a80(node->payload, pContext, node);
     case 6:
-        return FUN_00d947e0(node->payload, pContext, node);
+        return hkCpuSolveConstraintsJob(node->payload, pContext, node);
     case 7:
-        return FUN_00d944d0(node->payload, pContext, node);
+        return hkCpuSolveApplyGravityJob(node->payload, pContext, node);
     case 8:
-        return FUN_00d94570(node->payload, pContext, node);
+        return hkCpuSolveConstraintBatchJob(node->payload, pContext, node);
     case 9:
         return LogIntegrateVelocity(node->payload, pContext, node);
     case 10:
-        return FUN_00d94730(node->payload, pContext, node);
+        return hkCpuSolveExportResultsJob(node->payload, pContext, node);
     case 11:
-        return FUN_00d943d0(node->payload, pContext, node);
+        return hkCpuIntegrateMotionJob(node->payload, pContext, node);
     case 5:
-        return FUN_00d94340(node->payload, pContext, node);
+        return hkCpuSplitSimulationIslandJob(node->payload, pContext, node);
     case 12:
         return FUN_00d93ba0(node->payload, pContext, node);
     case 15:
@@ -717,7 +718,7 @@ struct Holder
     ArrayAllocator* allocator;
 };
 Holder* __cdecl _FUN_00c85750();
-void __cdecl FUN_00c908c0(ArrayAllocator* allocator, void* array, int capacity, int elementSize);
+void __cdecl hkArrayUtil__reserve(ArrayAllocator* allocator, void* array, int capacity, int elementSize);
 
 struct IntArray
 {
@@ -803,7 +804,7 @@ struct ArrayOfArrays
             int grown = reserved * 2;
             if (newSize >= grown)
                 grown = newSize;
-            FUN_00c908c0(allocator, this, grown, sizeof(IntArray));
+            hkArrayUtil__reserve(allocator, this, grown, sizeof(IntArray));
         }
         IntArray* end = data + newSize;
         for (int i = 0; i < oldSize - newSize; ++i)
@@ -845,28 +846,29 @@ ArrayRecord& ArrayRecord::FUN_00d05b50(const ArrayRecord& source)
 void FUN_00d05dd0()
 {}
 
-extern "C" int __cdecl FUN_00d61d00(void* dst, const char* format, ...);
+extern "C" int __cdecl hkStringBuf_printf(void* dst, const char* format, ...);
 
 // Writes a human-readable size string (Bytes, Kb, or Mb) into dst using FUN_00d61d00 based on the value of size.
 // @fnv 0x00d06eb0
-void __cdecl FUN_00d06eb0(int size, void* dst)
+// src: HAVOK_LIB 0x00d06eb0
+void __cdecl hkStatisticsCollector_memorySizeToText(int size, void* dst)
 {
     if (size < 0x400)
     {
-        FUN_00d61d00(dst, "%i Bytes", size);
+        hkStringBuf_printf(dst, "%i Bytes", size);
     }
     else if (size < 0x2800)
     {
-        FUN_00d61d00(dst, "%.1f Kb", (double)size * (1.0 / 1024.0));
+        hkStringBuf_printf(dst, "%.1f Kb", (double)size * (1.0 / 1024.0));
     }
     else if (size < 0x100000)
     {
-        FUN_00d61d00(dst, "%i Kb", size / 1024);
+        hkStringBuf_printf(dst, "%i Kb", size / 1024);
     }
     else
     {
         float mb = (float)((double)size * (1.0 / 1048576.0));
-        FUN_00d61d00(dst, "%.2f Mb", mb);
+        hkStringBuf_printf(dst, "%.2f Mb", mb);
     }
 }
 
@@ -913,7 +915,8 @@ struct FUN_00d0bc20_Outer
 
 // Sets bit 0 of object->unk27, calls the virtual Method on object->unk14, and stores the negation of bit 3 of unk27 into result.
 // @fnv 0x00d0bc20
-unsigned char* __stdcall FUN_00d0bc20(unsigned char* result, FUN_00d0bc20_Outer* object, unsigned int value)
+// src: HAVOK_LIB 0x00d0bc20
+unsigned char* __stdcall hkpContinuousSimulation_fireEarliestToiCallbacksAndCheckEnabled(unsigned char* result, FUN_00d0bc20_Outer* object, unsigned int value)
 {
     object->unk27 |= 1;
     object->unk14->Method(object, value);

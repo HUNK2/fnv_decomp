@@ -8,7 +8,8 @@
 #include "../../../../include/NiStream.h"
 
 // @fnv 0x00a51a20
-unsigned int NiBSplineColorInterpolator::FUN_00a51a20(unsigned short usChannel)
+// src: GAMEBRYO_LIB 0x00a51a20
+unsigned int NiBSplineColorInterpolator::GetControlHandle(unsigned short usChannel)
 {
     if (usChannel)
         return 0xffff;
@@ -211,7 +212,8 @@ bool __fastcall EvaluateColorAtTime(NiBSplineColorInterpolator* self, void* unus
 }
 
 // @fnv 0x00a51cf0
-bool __fastcall FUN_00a51cf0(NiBSplineColorInterpolator* self, void* unused, NiBSplineColorInterpolator* other)
+// src: GAMEBRYO_LIB 0x00a51cf0
+bool __fastcall NiBSplineColorInterpolator_IsEqual(NiBSplineColorInterpolator* self, void* unused, NiBSplineColorInterpolator* other)
 {
     if (!((SplineBaseOperations*)self)->IsEqual(other))
     {

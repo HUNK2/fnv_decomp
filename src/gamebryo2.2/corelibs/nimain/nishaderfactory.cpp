@@ -38,7 +38,8 @@ const NiRTTI* NiD3DShaderProgram::GetRTTI() const
 
 int __cdecl SwapBufferBySizes(void*, unsigned int, void*, void*);
 // @fnv 0x00aa19e0
-unsigned int __cdecl FUN_00aa19e0(NiFile* apFile, void* apBuffer, unsigned int auiSize, void* apArg4, void* apArg5)
+// src: GAMEBRYO_LIB 0x00aa19e0
+unsigned int __cdecl NiFile_ReadAndSwap(NiFile* apFile, void* apBuffer, unsigned int auiSize, void* apArg4, void* apArg5)
 {
     if (auiSize <= 0)
         return 0;
@@ -264,7 +265,7 @@ extern int DAT_011f4400;
 typedef int(__stdcall* FUN_00aa0190_Decrement)(void*);
 extern FUN_00aa0190_Decrement DAT_00fdf1c4;
 
-void __cdecl FUN_00aa10f0(void* p);
+void __cdecl _NiFree_00aa10f0(void* p);
 void __cdecl FUN_00aa1460(void* p, unsigned int size);
 
 // @fnv 0x00aa0190
@@ -272,7 +273,7 @@ void* __thiscall NiGlobalConstantEntry::Destroy(int aiFlags)
 {
     void* saved = m_pResource;
     *(int**)this = &DAT_010a2148;
-    FUN_00aa10f0(saved);
+    _NiFree_00aa10f0(saved);
 
     void* head = m_kName.m_kHandle;
     FUN_00aa0190_Decrement decrement = DAT_00fdf1c4;

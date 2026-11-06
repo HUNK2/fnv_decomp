@@ -19,13 +19,13 @@
 #include "../../include/hkVector4.h"
 #include "../../include/Vec4.h"
 #include <emmintrin.h>
-void __cdecl FUN_00df64d0(void* p, int b);
+void __cdecl finishLoadedObjecthkpCollidableBoundingVolumeData(void* p, int b);
 struct FUN_00cb0c00_class
 {
     void __thiscall FUN_00cb0c00();
 };
 void FUN_00dfb490(FUN_00cb0c00_class* self);
-void FUN_00dfb9d0(hkReferencedObject** p);
+void cleanupLoadedObjecthkaSkeletonLocalFrameOnBone(hkReferencedObject** p);
 extern int DAT_010cc2fc;
 extern int DAT_010df34c;
 struct FUN_00dfbdf0_class
@@ -36,9 +36,9 @@ void FUN_00dfbdf0(void* p, int a);
 extern void* DAT_010d77d8;
 struct FUN_00d21de0_Class
 {
-    void __thiscall FUN_00d21de0(void*);
+    void __thiscall hkpSimpleContactConstraintAtom_hkpSimpleContactConstraintAtom(void*);
 };
-void __cdecl FUN_00dfc3e0(void** p, void* a2);
+void __cdecl finishLoadedObjecthkpSerializedAgentNnEntry(void** p, void* a2);
 extern "C" void* DAT_010305a8;
 extern "C" void* DAT_010e222c;
 void FUN_00dfd0f0(void* a, int b);
@@ -81,7 +81,7 @@ struct FUN_00cb0a70
 {
     void __thiscall m_00cb0a70(int);
 };
-void __cdecl FUN_00dff1f0(int* a, int b);
+void __cdecl finishLoadedObjecthkpPhysicsSystemWithContacts(int* a, int b);
 struct FUN_00dff340_Class
 {
     void* m_p;
@@ -209,7 +209,7 @@ struct FUN_00cb0a70_m_helper
 {
     void __thiscall m(int);
 };
-void __cdecl FUN_00dff270(void* a, void* b);
+void __cdecl finishLoadedObjecthkpMouseSpringAction(void* a, void* b);
 typedef void(__thiscall* VTableFn)(void*, int);
 void __cdecl FUN_00dff3c0(void* p);
 extern int DAT_010e75cc;
@@ -281,7 +281,7 @@ struct FUN_00de8830_Class
 {
     void CopyTransposedMatrix(float* src);
 };
-int __cdecl FUN_00df3250(int arg);
+int __cdecl _nlz(int arg);
 typedef void(__thiscall* Vfn0)(void*, int);
 void __cdecl FUN_00df6460(void** p);
 typedef int(__thiscall* VFunc_00dfb270)(void*, int);
@@ -340,7 +340,7 @@ struct FUN_00dfcc30_vt
 void __cdecl FUN_00dfcc30(FUN_00dfcc30_vt* p);
 struct FUN_00dd0420_Class
 {
-    FUN_00dd0420_Class* __thiscall FUN_00dd0420(int);
+    FUN_00dd0420_Class* __thiscall hkpGenericConstraintDataScheme_hkpGenericConstraintDataScheme(int);
 };
 void __cdecl FUN_00dfcd80(FUN_00dd0420_Class* self, int a);
 struct FUN_00dfce00_vt
@@ -405,7 +405,7 @@ struct FUN_00ce5360_class
     int m_10;
     int FUN_00ce5360(int a);
 };
-void __cdecl FUN_00dfe2d0(FUN_00ce5360_class* a, int b);
+void __cdecl finishLoadedObjecthkaSkeletonMapper(FUN_00ce5360_class* a, int b);
 struct FUN_00dfe320_vt
 {
     virtual void m_iWordAt00(int);
@@ -420,7 +420,7 @@ struct FUN_00dfe4e0_vt
 void __cdecl FUN_00dfe4e0(FUN_00dfe4e0_vt* p);
 void __cdecl FUN_00dfe590(void* p);
 extern int DAT_010e587c;
-void __cdecl FUN_00dfe5b0(void* a, int b);
+void __cdecl finishLoadedObjecthkaBoneAttachment(void* a, int b);
 extern int DAT_010e5a58;
 void __cdecl FUN_00dfe990(void* a, int b);
 void __cdecl FUN_00dfeb40(void* p);
@@ -1071,7 +1071,7 @@ struct DF25D0Owner
     int unk2C;
     DF25D0State* m_pkState;
 };
-void __cdecl FUN_00cb3c80(void* pkItem, DF25D0Owner* pkOwner);
+void __cdecl hkpWorldOperationUtil_addConstraintToCriticalLockedIsland(void* pkItem, DF25D0Owner* pkOwner);
 static void SetOwnerStateFlags(void* pkItem, DF25D0Owner* pkOwner, unsigned char m_ucEntryType);
 void DF25D0Attach(void* pkItem, DF25D0Owner* pkOwner, unsigned char m_ucEntryType);
 class FUN_00df3110
@@ -1177,7 +1177,7 @@ struct FUN_00df7a60_class
     int unk18;
     void* m_p1c;
 
-    void __thiscall FUN_00df7a60();
+    void __thiscall hkpCollisionQueryJob_atomicIncrementAndReleaseSemaphore();
 };
 extern "C" __declspec(dllimport) long __stdcall InterlockedExchangeAdd(volatile long* value, long increment);
 void __cdecl FUN_00d043c0(void* object, int value);
@@ -1193,7 +1193,7 @@ struct FloatPair
 {
     float first, second;
     int __thiscall TraverseNode(ParserContext*, int, int*, ParserContext**);
-    int __thiscall FUN_00dfb040(ParserContext*, int, int*, ParserContext**);
+    int __thiscall hkWingedEdge_findVisibilityBoundaryEdges(ParserContext*, int, int*, ParserContext**);
 };
 struct CpuOpaque;
 extern CpuOpaque DAT_0126a5f8;
@@ -1216,7 +1216,7 @@ int* __cdecl FUN_00dfb3c0(void);
 // object (ecx = object, one stack argument).
 struct FUN_00dfb3d0_cls
 {
-    void __thiscall FUN_00e2ea20(int a1);
+    void __thiscall hkaMeshBinding_hkaMeshBinding(int a1);
 };
 void __cdecl FUN_00dfb3d0(FUN_00dfb3d0_cls* pObject, int a1);
 extern unsigned char DAT_0126ac10;
@@ -1349,7 +1349,7 @@ extern int DAT_010de90c;
 struct FUN_00dfbb50_cls
 {
     void* m_vtbl;
-    void __thiscall FUN_00e35050();
+    void __thiscall hkaDeltaCompressedAnimation_handleEndian();
 };
 void __cdecl FUN_00dfbb50(FUN_00dfbb50_cls* p, int a);
 extern int DAT_010de90c;
@@ -1725,9 +1725,9 @@ struct S_00dfc970_Obj
     int unk94;
     short unk98;
     char unk9a;
-    void FUN_00d4f270(S_00dfc970_Flag f);
+    void hkpRagdollLimitsData_setConeLimitStabilization(S_00dfc970_Flag f);
 };
-void __cdecl FUN_00dfc970(S_00dfc970_Obj* p, int flag);
+void __cdecl finishLoadedObjecthkpRagdollLimitsData(S_00dfc970_Obj* p, int flag);
 extern int DAT_010d0af4;
 int* __cdecl FUN_00dfc9a0();
 extern int DAT_0126bab0;
@@ -2039,7 +2039,7 @@ CpuOpaque* __cdecl FUN_00dfdeb0();
 class FUN_00dfdec0_cls
 {
   public:
-    void FUN_00e0bf30(int a1);
+    void hkMonitorStreamStringMap_StringMap_StringMap(int a1);
 };
 void __cdecl FUN_00dfdec0(FUN_00dfdec0_cls* pObject, int a1);
 extern unsigned char DAT_0126c800;
@@ -2757,7 +2757,7 @@ struct DF6500Object
         }
     }
 };
-void FUN_00df6500(void* p, int finishing);
+void finishLoadedObjecthkpCollidable(void* p, int finishing);
 struct BDFCA00FinishFlag
 {
     int m_bFinishing;
@@ -2856,7 +2856,7 @@ class BDFCA00Object
     short unk114;
     bool m_bModifierActive;
 };
-void __cdecl FUN_00dfca00(void* pvObject, int iFinishing);
+void __cdecl finishLoadedObjecthkpRagdollConstraintData(void* pvObject, int iFinishing);
 struct FnvCpu_FUN_00de1150_CpuObject
 {
     char* FUN_00de1150();
@@ -2964,7 +2964,7 @@ struct FUN_00df7210_Class
     int unk08;
     int unk0c;
     FUN_00df7210_Inner* m10;
-    char* __thiscall FUN_00df7210(char* out);
+    char* __thiscall hkCpuWorldLinearCastCollector_hasHit(char* out);
 };
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long dwTlsIndex);
 extern "C" unsigned __int64 __rdtsc(void);
@@ -3148,7 +3148,7 @@ struct S00de0fe0_Arr
     S00de0fe0_Element** data;
     int count;
     int cap;
-    void __thiscall FUN_00ddfb70();
+    void __thiscall hkpShapeDisplayBuilder_hkpShapeDisplayBuilderEnvironment_hkpShapeDisplayBuilderEnvironment();
 };
 struct S00de0fe0_Obj10
 {
@@ -3157,7 +3157,7 @@ struct S00de0fe0_Obj10
     int unk08;
     int unk0c;
     int unk10;
-    void __thiscall FUN_00ddfb80(int* value);
+    void __thiscall hkpShapeDisplayBuilder_hkpShapeDisplayBuilder(int* value);
     void __thiscall FUN_00de0f90(int count, S00de0fe0_Element*** array);
 };
 struct S00de0fe0_Local
@@ -3170,11 +3170,12 @@ struct S00de0fe0_C983Obj
     void __thiscall ForEachCall(int* a, int b, int c, int d, int e);
 };
 extern void* DAT_012681e0;
-__declspec(noinline) void S00de0fe0_Arr::FUN_00ddfb70()
+// src: HAVOK_LIB 0x00ddfb70
+__declspec(noinline) void S00de0fe0_Arr::hkpShapeDisplayBuilder_hkpShapeDisplayBuilderEnvironment_hkpShapeDisplayBuilderEnvironment()
 {
     count = 0;
 }
-void __cdecl FUN_00de0fe0(int arg1, int arg2, int arg3, int arg4);
+void __cdecl hkpShapeDisplayBuilder_addObjectToDebugDisplay(int arg1, int arg2, int arg3, int arg4);
 class GlobalObjectO2_00d472a0;
 extern GlobalObjectO2_00d472a0 g_01269fe8;
 GlobalObjectO2_00d472a0* __cdecl FUN_00de8370();
@@ -3280,7 +3281,7 @@ struct Scheduler
 {
     int ProcessCallback(Key* key, int b, int a);
 };
-void __cdecl FUN_00df6f80(Scheduler* self, Job* job);
+void __cdecl hkCpuPairGetClosestPointsJob(Scheduler* self, Job* job);
 struct FUN_00df9840_Class
 {
     int unk00;
@@ -3294,13 +3295,14 @@ struct FUN_00df9840_Class
 };
 extern double DAT_010229b8;
 extern "C" unsigned int df9ae0_val(void);
-static float FUN_00df9ae0(unsigned int state);
+static float rand01(unsigned int state);
 volatile float df9ae0_sink;
 void q_call_df9ae0(void);
 static int g_w1 = 1;
 static int g_ws = 3;
 static float g_wv = 1.0f;
-static __declspec(noinline) float FUN_00df9ae0(void)
+// src: HAVOK_LIB 0x00df9ae0
+static __declspec(noinline) float rand01(void)
 {
     g_w1 = (g_w1 * 3) << (g_ws & 31);
     return g_wv;
@@ -3481,7 +3483,8 @@ static __declspec(noinline) void FUN_00df3210(void* dst)
     p[6] = zero;
     p[7] = zero;
 }
-__declspec(noinline) int __cdecl FUN_00df3250(unsigned short x)
+// src: HAVOK_LIB 0x00df3250
+__declspec(noinline) int __cdecl _nlz(unsigned short x)
 {
     int y = x - 0x100;
     int n = (y >> 16) & 8;
@@ -3597,11 +3600,11 @@ int __cdecl KdTreeBuilder::FUN_00df4ec0(const KdWorkingSet& buffersIn, int start
     FUN_00df3210(maxBins);
     int binShift[4];
     binShift[0] =
-        KdMath::max2(13 - FUN_00df3250((unsigned short)(bounds.m_kMaximumCorner[0] - bounds.m_kMinimumCorner[0])), 0);
+        KdMath::max2(13 - _nlz((unsigned short)(bounds.m_kMaximumCorner[0] - bounds.m_kMinimumCorner[0])), 0);
     binShift[1] =
-        KdMath::max2(13 - FUN_00df3250((unsigned short)(bounds.m_kMaximumCorner[1] - bounds.m_kMinimumCorner[1])), 0);
+        KdMath::max2(13 - _nlz((unsigned short)(bounds.m_kMaximumCorner[1] - bounds.m_kMinimumCorner[1])), 0);
     binShift[2] =
-        KdMath::max2(13 - FUN_00df3250((unsigned short)(bounds.m_kMaximumCorner[2] - bounds.m_kMinimumCorner[2])), 0);
+        KdMath::max2(13 - _nlz((unsigned short)(bounds.m_kMaximumCorner[2] - bounds.m_kMinimumCorner[2])), 0);
 
     const KdProjectedEntry* readIt;
     initializeIterator(readIt, entriesIn + startPrimIdx);

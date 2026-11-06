@@ -18,7 +18,7 @@ public:
     virtual void vf05();
     virtual void vf06();
     virtual hkDataArrayNative* FUN_00dbc0c0(int index);
-    virtual int FUN_00dbbc50(int a);
+    virtual int asVec(int a);
     virtual void vf09();
     virtual int FUN_00dbbc60(int a);
     virtual void vf11();

@@ -1221,7 +1221,7 @@ bool LoveTesterMenu::StepPosition(bool increase)
     }
     if (changed)
     {
-        Controller170* object = (Controller170*)((NiNode*)scene170->root)->FUN_00a5c570((NiRTTI*)&rtti170);
+        Controller170* object = (Controller170*)((NiNode*)scene170->root)->NiObjectNET_GetController((NiRTTI*)&rtti170);
         if (object)
         {
             Controller170* manager = object;
@@ -1522,7 +1522,7 @@ struct Scene109
     void FUN_004bc1f0(float, float, float);
     void FUN_0043fa80(const fnv_007928e0::Matrix109&);
     void FUN_00a59c60(const fnv_007928e0::Update109&);
-    fnv_007928e0::Controller109* FUN_00a5c570(const void*);
+    fnv_007928e0::Controller109* NiObjectNET_GetController(const void*);
     Bound* FUN_0043d450();
     Scene109* FUN_00b5ca70(Scene109*, float);
     void FUN_00b5c940(Scene109*, int);
@@ -1694,7 +1694,7 @@ void LoveTesterMenu::Init()
     DAT_011da2c8->front->FUN_00a59c60(update13);
     DAT_011da2c8->cabinet->FUN_00a59c60(update259);
     DAT_011da2c8->time += DAT_011f6394.FUN_0084d030();
-    Controller109* controller7 = DAT_011da2c8->front->FUN_00a5c570(&DAT_011f36ac);
+    Controller109* controller7 = DAT_011da2c8->front->NiObjectNET_GetController(&DAT_011f36ac);
     if (controller7)
     {
         Controller109* animationController20 = controller7;

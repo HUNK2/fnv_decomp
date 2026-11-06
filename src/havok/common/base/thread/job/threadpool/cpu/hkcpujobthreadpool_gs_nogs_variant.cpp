@@ -14,13 +14,13 @@ struct FUN_00d2ced0
 struct FUN_00d2d330_shell
 {
     void InitializeWorkerThread();
-    void FUN_00d2ce50();
-    void FUN_00d2d330(int desired);
+    void hkCpuJobThreadPool_removeThread();
+    void hkCpuJobThreadPool_setNumThreads(int desired);
 };
 struct FUN_00d2ce30_shell
 {
     unsigned char m_ucValue;
-    bool FUN_00d2ce30();
+    bool hkCpuJobThreadPool_isProcessing();
 };
 struct FUN_00d2ce90_class
 {
@@ -30,7 +30,7 @@ struct FUN_00d2ce90_class
     unsigned char padding_134[0x08];
     bool m_running;
 
-    void FUN_00d2ce90();
+    void hkCpuJobThreadPool_waitForCompletion();
 };
 int __fastcall FUN_00d04380(void*);
 struct FUN_00d2d380
@@ -107,11 +107,11 @@ class OwnerD2CD
     int unk134[2];
     hkBool m_13C;
 
-    void FUN_00d2cde0(int value, int unused);
+    void hkCpuJobThreadPool_processAllJobs(int value, int unused);
 };
 extern char DAT_010ce774;
 extern char DAT_0102e388;
-void FUN_00c90410(int);
+void hkReferencedObject_setLockMode(int);
 struct EventObjD2C
 {
     void FUN_00d04370();
@@ -148,7 +148,7 @@ struct ArrBaseD2C
 struct ClsD2C : VBaseD2C, ArrBaseD2C
 {
     int m_uiItemCount;
-    void FUN_00d2ce90();
+    void hkCpuJobThreadPool_waitForCompletion();
     void FUN_00d2cf00();
 };
 
@@ -176,11 +176,12 @@ struct Thr_00d87940
     unsigned int m4;
     unsigned int m8;
     unsigned int mC;
-    int FUN_00d87940(unsigned long a0, unsigned long a1, const char* a2, unsigned long a3);
+    int hkThread_startThread(unsigned long a0, unsigned long a1, const char* a2, unsigned long a3);
 };
 
 // @fnv 0x00d87940
-int Thr_00d87940::FUN_00d87940(unsigned long a0, unsigned long a1, const char* a2, unsigned long a3)
+// src: HAVOK_LIB 0x00d87940
+int Thr_00d87940::hkThread_startThread(unsigned long a0, unsigned long a1, const char* a2, unsigned long a3)
 {
     m0 = (unsigned int)CreateThread(0, a3, (unsigned long(__stdcall*)(void*))a0, (void*)a1, 0, &a1);
     if (m0 == 0)

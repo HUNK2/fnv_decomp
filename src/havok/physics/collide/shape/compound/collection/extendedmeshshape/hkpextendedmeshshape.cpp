@@ -203,7 +203,7 @@ __forceinline hkpShapeType hkpShape::getType() const
 struct FUN_00d554a0_class
 {
     int m_d0;
-    int __thiscall FUN_00d1f1e0();
+    int __thiscall hkpShapeContainer_getNumChildShapes();
     int __thiscall GetOrInitValue();
 };
 
@@ -211,18 +211,19 @@ struct FUN_00d554a0_class
 int __thiscall FUN_00d554a0_class::GetOrInitValue()
 {
     if (*reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0xd0) < 0)
-        *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0xd0) = FUN_00d1f1e0();
+        *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0xd0) = hkpShapeContainer_getNumChildShapes();
     return *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0xd0);
 }
 
 void __cdecl FUN_00d26230(void* first, void* second, void* third, float value, int last);
 struct FUN_00d56040_shell
 {
-    void __thiscall FUN_00d56040(void* first, float value, int last);
+    void __thiscall hkpExtendedMeshShape_getAabbImpl(void* first, float value, int last);
 };
 // Calls FUN_00d26230 with first, the two buffers at offsets 0x90 and 0xa0 of this, value and last.
 // @fnv 0x00d56040
-void __thiscall FUN_00d56040_shell::FUN_00d56040(void* first, float value, int last)
+// src: HAVOK_LIB 0x00d56040
+void __thiscall FUN_00d56040_shell::hkpExtendedMeshShape_getAabbImpl(void* first, float value, int last)
 {
     FUN_00d26230(first, (unsigned char*)this + 0x90, (unsigned char*)this + 0xa0, value, last);
 }
@@ -234,7 +235,7 @@ inline hkMemoryRouter* audio()
     return (hkMemoryRouter*)FUN_00c85750();
 }
 
-__declspec(nothrow) void __cdecl FUN_00c908c0(hkMemoryAllocator& alloc, void* arr, int numElem, int sizeElem);
+__declspec(nothrow) void __cdecl hkArrayUtil__reserve(hkMemoryAllocator& alloc, void* arr, int numElem, int sizeElem);
 
 // hkArray bodies this unit uses (the allocator is the memory router's heap; FUN_00c908c0 is hkArrayUtil::_reserve).
 __forceinline hkMemoryAllocator& hkContainerHeapAllocator::get(const void*)
@@ -260,7 +261,7 @@ template <typename T> __forceinline void hkArrayBase<T>::GrowArrayCapacity(hkMem
     if (getCapacity() < n)
     {
         int cap = 2 * getCapacity();
-        FUN_00c908c0(alloc, this, n < cap ? cap : n, sizeof(T));
+        hkArrayUtil__reserve(alloc, this, n < cap ? cap : n, sizeof(T));
     }
 }
 
@@ -269,7 +270,7 @@ inline void* operator new(unsigned int, void*);
 template <typename T> __forceinline void hkArrayBase<T>::_reserveExactly(hkMemoryAllocator& alloc, int n)
 {
     if (getCapacity() < n)
-        FUN_00c908c0(alloc, this, n, sizeof(T));
+        hkArrayUtil__reserve(alloc, this, n, sizeof(T));
 }
 template <typename T> __forceinline void hkArrayBase<T>::_setSize(hkMemoryAllocator& alloc, int n)
 {
@@ -623,11 +624,12 @@ struct FUN_00d55a90_cls
     Group* m_0c0;
     int m_0c4;
 
-    int __thiscall FUN_00d55a90(int a1, int a2);
+    int __thiscall hkpExtendedMeshShape_calcSizeForSpu(int a1, int a2);
 };
 
 // @fnv 0x00d55a90
-int FUN_00d55a90_cls::FUN_00d55a90(int a1, int a2)
+// src: HAVOK_LIB 0x00d55a90
+int FUN_00d55a90_cls::hkpExtendedMeshShape_calcSizeForSpu(int a1, int a2)
 {
     int i = 0;
     if (m_0c4 > 0)
@@ -1660,7 +1662,7 @@ extern LocalM128 DAT_010c4c10;
 extern float DAT_011b153c;
 
 void __cdecl CopySixteenByteBlocks(void* dst, const void* src);
-void __cdecl FUN_00d570d0(void* dst, const void* src);
+void __cdecl hkString_memCpy16_64(void* dst, const void* src);
 
 struct HelperC9E340
 {
@@ -1897,7 +1899,7 @@ const hkpShape* ExtendedMeshShape::FUN_00d55ce0(unsigned int key, void* buffer) 
     else
     {
         void* subpartBuffer = (void*)(((unsigned int)subpartStorage + 0x3f) & ~0x3f);
-        FUN_00d570d0(subpartBuffer, (const char*)m_kShapesSubparts + (uiSubpartIndex << 6));
+        hkString_memCpy16_64(subpartBuffer, (const char*)m_kShapesSubparts + (uiSubpartIndex << 6));
         const MeshSubpartShape* pSubpartShape = (const MeshSubpartShape*)subpartBuffer;
 
         int mvA = *reinterpret_cast<const int*>(&pSubpartShape->m_vTranslation.w) & 0xc0ffffff;
@@ -2019,7 +2021,7 @@ struct SubBuf
 };
 
 hkMemoryRouter* __cdecl FUN_00c85750();
-void __cdecl FUN_00c908c0(void* a, void* b, int c, int d);
+void __cdecl hkArrayUtil__reserve(void* a, void* b, int c, int d);
 
 struct FUN_00d56200_cls
 {
@@ -2076,12 +2078,13 @@ struct FUN_00d56200_cls
     int unkc8;
     SubBuf m_cc;
     unsigned char m_d8;
-    void FUN_00d56200(int a1);
+    void hkpExtendedMeshShape_initWeldingInfo(int a1);
 };
 
 // Stores a1 in m_d8; if a1 is 6 frees and resets m_cc, else writes running totals into the 0x60-byte records of m_b4 and grows m_cc to the total.
 // @fnv 0x00d56200
-void FUN_00d56200_cls::FUN_00d56200(int a1)
+// src: HAVOK_LIB 0x00d56200
+void FUN_00d56200_cls::hkpExtendedMeshShape_initWeldingInfo(int a1)
 {
     m_d8 = (unsigned char)a1;
     if (a1 != 6)
@@ -2104,7 +2107,7 @@ void FUN_00d56200_cls::FUN_00d56200(int a1)
         SubBuf* sub = &m_cc;
         hkMemoryRouter* pHolder = FUN_00c85750();
         if ((sub->m_08 & 0x3fffffff) < total)
-            FUN_00c908c0(pHolder->m_heap, sub, total, 2);
+            hkArrayUtil__reserve(pHolder->m_heap, sub, total, 2);
         hkMemoryRouter* pHolder2 = FUN_00c85750();
         void* alloc2 = pHolder2->m_heap;
         int size = sub->m_08 & 0x3fffffff;
@@ -2113,7 +2116,7 @@ void FUN_00d56200_cls::FUN_00d56200(int a1)
             int cap = size * 2;
             if (total >= cap)
                 cap = total;
-            FUN_00c908c0(alloc2, sub, cap, 2);
+            hkArrayUtil__reserve(alloc2, sub, cap, 2);
         }
         sub->m_04 = total;
         return;
@@ -2696,5 +2699,5 @@ FUN_00d56ab0::FUN_00d56ab0(Src& input) throw() : FUN_00d21410(14, 1)
         arr.m_data[i].a49 = s->arr[i].f18;
     }
     FUN_00d55950();
-    m_ce0 = reinterpret_cast<FUN_00d554a0_class*>(static_cast<Base2*>(this))->FUN_00d1f1e0();
+    m_ce0 = reinterpret_cast<FUN_00d554a0_class*>(static_cast<Base2*>(this))->hkpShapeContainer_getNumChildShapes();
 }

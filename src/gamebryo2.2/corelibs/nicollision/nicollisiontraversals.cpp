@@ -144,7 +144,8 @@ extern float DAT_0126fa78;
 
 // Stores f and the three components of p into globals and returns a pointer to DAT_0126fa68.
 // @fnv 0x00e9c7d0
-int* __cdecl FUN_00e9c7d0(float afValue, int* apComponents)
+// src: GAMEBRYO_LIB 0x00e9c7d0
+int* __cdecl NiCollisionConvert_ConvertToSphereBV_Fast(float afValue, int* apComponents)
 {
     DAT_0126fa78 = afValue;
     DAT_0126fa6c = apComponents[0];

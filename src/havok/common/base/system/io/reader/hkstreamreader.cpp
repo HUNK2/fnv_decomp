@@ -64,7 +64,8 @@ int __cdecl FUN_00cb1580()
 }
 
 // @fnv 0x00cb15c0
-void __stdcall FUN_00cb15c0(char* p)
+// src: HAVOK_SRC 0x00cb15c0
+void __stdcall hkStreamReader_seekTellSupported(char* p)
 {
     *p = 0;
 }
@@ -92,17 +93,19 @@ struct CB15B0Bool
 
 struct CB15B0Object
 {
-    virtual CB15B0Bool FUN_00cb15b0() const;
+    virtual CB15B0Bool hkStreamReader_markSupported() const;
 };
 
 // @fnv 0x00cb15b0
-CB15B0Bool CB15B0Object::FUN_00cb15b0() const
+// src: HAVOK_SRC 0x00cb15b0
+CB15B0Bool CB15B0Object::hkStreamReader_markSupported() const
 {
     return false;
 }
 
 // @fnv 0x00cb15a0
-int FUN_00cb15a0()
+// src: HAVOK_SRC 0x00cb15a0
+int hkStreamReader_tell()
 {
     return -1;
 }

@@ -83,10 +83,11 @@ struct S00a72330
 {
     int pad;
     unsigned int type;
-    void FUN_00a72330(unsigned int* out, unsigned int* idx, unsigned int unused);
+    void NiAdditionalGeometryData_NiAGDDataStream_FillInByteSizeArray(unsigned int* out, unsigned int* idx, unsigned int unused);
 };
 // @fnv 0x00a72330
-void S00a72330::FUN_00a72330(unsigned int* out, unsigned int* idx, unsigned int)
+// src: GAMEBRYO_LIB 0x00a72330
+void S00a72330::NiAdditionalGeometryData_NiAGDDataStream_FillInByteSizeArray(unsigned int* out, unsigned int* idx, unsigned int)
 {
     switch (type)
     {
@@ -827,7 +828,7 @@ inline unsigned int ReadBinary517(NiBinaryStream* input, void* data, unsigned in
 struct Descriptor517
 {
     unsigned int unk00, type, unk08, unk0c, stride, block, offset;
-    void FUN_00a72330(unsigned int*, unsigned int*, unsigned int);
+    void NiAdditionalGeometryData_NiAGDDataStream_FillInByteSizeArray(unsigned int*, unsigned int*, unsigned int);
 };
 class Owner517
 {
@@ -917,7 +918,7 @@ void Owner517::FUN_00a728d0(NiStream& stream, unsigned int block, Descriptor517*
         {
             unsigned int componentCount = 0;
             for (unsigned int j = begin; j < starts[i + 1]; j++)
-                sorted[j]->FUN_00a72330(components, &componentCount, 32);
+                sorted[j]->NiAdditionalGeometryData_NiAGDDataStream_FillInByteSizeArray(components, &componentCount, 32);
             readCount = componentCount;
         }
         Load517(stream, readCount);

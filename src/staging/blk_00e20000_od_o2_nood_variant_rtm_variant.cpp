@@ -99,7 +99,7 @@ struct Track_e3a1 {
     int m_numKeys;
     int m_pRayCursor;
     hkArray<Key_e3a1> m_keys;
-    void FUN_00e3a1e0(int numKeys);
+    void hkpTyremarksWheel_setNumPoints(int numKeys);
 };
 extern "C" LocalM128 _mm_load_ss(const float*);
 extern "C" LocalM128 _mm_unpacklo_ps(LocalM128, LocalM128);

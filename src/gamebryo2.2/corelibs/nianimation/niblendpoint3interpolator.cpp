@@ -126,7 +126,7 @@ bool __stdcall FUN_00a55a60(NiBlendPoint3Interpolator* p)
         reinterpret_cast<const unsigned char*>(*reinterpret_cast<const unsigned int*>(p)) + 0xb0))(p);
 }
 
-void __fastcall FUN_00a36890(void*);
+void __fastcall NiBlendInterpolator_NiBlendInterpolator(void*);
 extern int DAT_0109a49c;
 extern int _DAT_011a9424;
 extern int _DAT_011a9428;
@@ -138,7 +138,7 @@ void* NiBlendPoint3Interpolator_CreateObject()
     void* p = BSFadeNode::operator new(64);
     if (p)
     {
-        FUN_00a36890(p);
+        NiBlendInterpolator_NiBlendInterpolator(p);
         *(void**)p = (void*)&DAT_0109a49c;
         *(int*)((char*)p + 0x30) = _DAT_011a9424;
         *(int*)((char*)p + 0x34) = _DAT_011a9428;
@@ -200,7 +200,7 @@ void* FUN_00a55b20_shell::FUN_00a55b20(CloningProcess* kCloning)
     NiBlendPoint3Interpolator* pkObject = static_cast<NiBlendPoint3Interpolator*>(BSFadeNode::operator new(0x40));
     if (pkObject)
     {
-        FUN_00a36890(pkObject);
+        NiBlendInterpolator_NiBlendInterpolator(pkObject);
         *reinterpret_cast<void**>(pkObject) = &DAT_0109a49c;
         *reinterpret_cast<int*>(reinterpret_cast<char*>(pkObject) + 0x30) = _DAT_011a9424;
         *reinterpret_cast<int*>(reinterpret_cast<char*>(pkObject) + 0x34) = _DAT_011a9428;
@@ -269,10 +269,11 @@ struct FUN_00a59be0_tgt
 };
 struct FUN_00a55e60_cls : public NiBlendPoint3Interpolator
 {
-    void FUN_00a55e60(NiObjectNET* p);
+    void NiBlendPoint3Interpolator_LoadBinary(NiObjectNET* p);
 };
 // @fnv 0x00a55e60
-void FUN_00a55e60_cls::FUN_00a55e60(NiObjectNET* apObject)
+// src: GAMEBRYO_LIB 0x00a55e60
+void FUN_00a55e60_cls::NiBlendPoint3Interpolator_LoadBinary(NiObjectNET* apObject)
 {
     ((FUN_00a37980_tgt*)this)->FUN_00a37980(apObject);
     NiPoint3* pt = &m_kPoint3Value;

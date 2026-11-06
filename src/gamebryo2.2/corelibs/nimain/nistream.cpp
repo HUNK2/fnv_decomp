@@ -1219,18 +1219,18 @@ FUN_00a63910::~FUN_00a63910() throw()
 
 #include <string.h>
 
-void FUN_00aa2a00(char* path);
+void NiPath_Standardize(char* path);
 
 // Copies name into m_acInputFilePath, calls FUN_00aa2a00, attempts to get a file, and calls LoadFile if it is good.
 // @fnv 0x00a63be0
 bool NiStream::Load(const char* apFilePath)
 {
     strcpy_s(m_acFileName, 0x104, apFilePath);
-    FUN_00aa2a00(m_acFileName);
+    NiPath_Standardize(m_acFileName);
     if (m_acFileName && m_acFileName[0])
     {
         strncpy_s(m_acStreamPath, 0x104, m_acFileName, 0x103);
-        FUN_00aa2a00(m_acStreamPath);
+        NiPath_Standardize(m_acStreamPath);
     }
     else
     {
@@ -2575,7 +2575,7 @@ static __forceinline void ReadStream(NiBinaryStream* s, char* buf, unsigned int 
 
 char* __cdecl FUN_00a5b690(char* p);
 char* __cdecl FUN_00aa1070(unsigned int size);
-void __cdecl FUN_00aa10f0(char* p);
+void __cdecl _NiFree_00aa10f0(char* p);
 __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* p);
 
 // NiStream.h lacks the char** string-table reader used at 0x00a64ea0.
@@ -2624,7 +2624,7 @@ void Cls_a64ea0::FUN_00a64ea0(char** apString)
             if (old != NiGlobalStringTable::ms_pcEmptyString)
                 InterlockedDecrement((long volatile*)(old - 8));
         }
-        FUN_00aa10f0(tmp);
+        _NiFree_00aa10f0(tmp);
     }
     else if ((int)len > 0)
     {
@@ -2920,7 +2920,7 @@ extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volati
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* plAddend);
 
 __declspec(nothrow) void* __cdecl FUN_00aa1070(unsigned int uiSize);
-__declspec(nothrow) void __cdecl FUN_00aa10f0(void* pvMem);
+__declspec(nothrow) void __cdecl _NiFree_00aa10f0(void* pvMem);
 
 typedef NiObject*(__cdecl* CreateFunction)();
 
@@ -2980,7 +2980,7 @@ bool NiStream::LoadRTTIAndObjects()
         {
             if (!bFailed)
             {
-                fnv_00a65800::FUN_00aa10f0(ppkCreate);
+                fnv_00a65800::_NiFree_00aa10f0(ppkCreate);
                 return false;
             }
             objects.SetAt(j, 0);
@@ -2991,13 +2991,13 @@ bool NiStream::LoadRTTIAndObjects()
             objects.SetAt(j, spRetainedObject);
         }
     }
-    fnv_00a65800::FUN_00aa10f0(ppkCreate);
+    fnv_00a65800::_NiFree_00aa10f0(ppkCreate);
     return true;
 }
 
 namespace fnv_00a65b00 {
 void* __cdecl FUN_00aa1070(unsigned int size) throw();
-void __cdecl FUN_00aa10f0(void* apMemory) throw();
+void __cdecl _NiFree_00aa10f0(void* apMemory) throw();
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*) throw();
 
 template <class T> __forceinline void NiStreamLoad(NiBinaryStream& kStream, T& value)
@@ -3185,7 +3185,7 @@ bool StreamEx::LoadFixedStrings()
         m_kFixedStringTable.SetAt(ui, kString);
     }
 
-    FUN_00aa10f0(pcBuffer);
+    _NiFree_00aa10f0(pcBuffer);
     return true;
 }
 }  // namespace fnv_00a65b00
@@ -3876,7 +3876,7 @@ bool NiStream::LoadObject()
 namespace fnv_00a665f0 {
 void* __cdecl FUN_00ec61c0(void* pvDest, int iValue, unsigned int uiSize);
 void* __cdecl FUN_00aa1070(unsigned int uiSize);
-void __cdecl FUN_00aa10f0(void* pvMem);
+void __cdecl _NiFree_00aa10f0(void* pvMem);
 
 struct RtNiRTTI
 {
@@ -4025,7 +4025,7 @@ void RtStream::WriteRTTIHeader()
     WriteStreamValues(m_pBackingStream, &usNumRTTI);
     for (i = 0; i < usNumRTTI; i++)
         FUN_00a64160(ppcRTTINames[i]);
-    FUN_00aa10f0(ppcRTTINames);
+    _NiFree_00aa10f0(ppcRTTINames);
 
     for (i = 0; i < m_uiNumObjects; i++)
     {
